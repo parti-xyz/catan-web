@@ -26,6 +26,7 @@ class OpenGraph
       agent = Mechanize.new
       agent.redirect_ok = :all
       agent.redirection_limit = 5
+      agent.gzip_enabled = false
       @doc = agent.get(@src)
       if @doc.encoding_error?
         @doc.encoding = @doc.encoding
