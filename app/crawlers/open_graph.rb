@@ -27,6 +27,10 @@ class OpenGraph
       agent.redirect_ok = :all
       agent.redirection_limit = 5
       @doc = agent.get(@src)
+      if @doc.encoding_error?
+        @doc.encoding = @doc.encoding
+        @doc.title
+      end
     rescue
       @title = @url = @src
       return
