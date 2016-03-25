@@ -17,7 +17,7 @@
           .media-right
             = link_to @article.link, target: '_blank' do
               = image_tag(@article.image.url, class: 'media-object', style: 'max-width: 200px;')
-    - if @article.link.present? and @article.link_source.blank?
+    - if @article.link.present? and @article.is_talk?
       .panel.panel-default{onclick: "window.open('#{@article.link}', '_blank')"}
         .panel-body
           = link_to @article.link, @article.link, target: '_blank', class: 'embed'

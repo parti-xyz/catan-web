@@ -70,4 +70,48 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assigns(:comment).reload
     assert_equal 'body x', assigns(:comment).body
   end
+
+  test '링크에 달린 댓글을 고쳐요' do
+    sign_in(users(:one))
+
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url')
+
+    article = assigns(:comment).post.specific.reload
+    assert_equal 'new_url', article.link
+  end
+
+  test '링크가 같으면 링크가 안 고쳐져요' do
+    sign_in(users(:one))
+
+    previsous_post = comments(:comment1).post
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: comments(:comment1).post.specific.link)
+
+    assert_equal previsous_post, comments(:comment1).reload.post
+  end
+
+  test '고친 후 원래 링크에 댓글이 있으면 남겨져요' do
+    sign_in(users(:one))
+    previsous_post = comments(:comment1).post
+
+    post post_comments_path(post_id: previsous_post.id, comment: { body: 'body' })
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url')
+
+    article = assigns(:comment).post.specific.reload
+    assert_equal 'new_url', article.link
+
+    assert Post.exists?(id: previsous_post.id)
+  end
+
+  test '고친 후 원래 링크에 댓글이 없으면 지워져요' do
+    sign_in(users(:one))
+    previsous_post = comments(:comment1).post
+    assert_equal 1, previsous_post.comments.count
+
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url')
+
+    article = assigns(:comment).post.specific.reload
+    assert_equal 'new_url', article.link
+
+    refute Post.exists?(id: previsous_post.id)
+  end
 end

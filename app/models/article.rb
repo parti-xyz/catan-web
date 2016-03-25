@@ -23,6 +23,10 @@ class Article < ActiveRecord::Base
     link_source.image.file.exists?
   end
 
+  def is_talk?
+    link_source.blank?
+  end
+
   def image
     link_source.try(:image)
   end

@@ -29,6 +29,7 @@ ko:
       user: 회원
       answer: 답변
       proposal: 제안하기
+      comment: 댓글
     attributes:
       issue:
         title: 이슈
@@ -60,6 +61,8 @@ ko:
         password_confirmation: 비밀번호 확인
         remember_me: 로그인 상태를 유지
         current_password: 현재 비밀번호
+      comment:
+        body: 내용
     errors:
       messages:
         record_invalid: "오류가 있습니다: %{errors}"

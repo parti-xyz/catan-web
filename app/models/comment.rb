@@ -7,6 +7,7 @@ class Comment < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :post, counter_cache: true
+  has_one :issue, through: :post
 
   validates :user, presence: true
   validates :post, presence: true
@@ -15,4 +16,8 @@ class Comment < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :persisted, -> { where "id IS NOT NULL" }
+
+  def linkable?
+    post.try(:linkable?)
+  end
 end

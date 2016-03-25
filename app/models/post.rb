@@ -104,6 +104,10 @@ class Post < ActiveRecord::Base
     specific.origin.post
   end
 
+  def linkable?
+    specific.is_a? Article
+  end
+
   def self.recommends_for_list(exclude)
     result = recent.for_list.limit(10)
     if result.length < 10

@@ -9,9 +9,12 @@ class Ability
       can :create, [Article, Opinion, Question,
         Answer, Discussion, Proposal, Comment,
         Vote, Like, Watch]
-      can :manage, [Article, Opinion, Question,
+      can :manage, [Opinion, Question,
         Answer, Discussion, Proposal, Comment,
         Like, Watch], user_id: user.id
+      can :manage, Article do |article|
+        article.user == user and article.is_talk?
+      end
     end
   end
 end

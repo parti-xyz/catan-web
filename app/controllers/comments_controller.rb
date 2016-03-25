@@ -12,16 +12,28 @@ class CommentsController < ApplicationController
   end
 
   def update
-    if @comment.update_attributes(comment_params)
-      redirect_to_origin
-    else
-      render 'edit'
+    ActiveRecord::Base.transaction do
+      if params[:article_link].present? and @comment.linkable? and params[:article_link] != @comment.post.specific.link
+        change_article
+      end
+      if @comment.update_attributes(comment_params)
+        redirect_to_origin
+      else
+        render 'edit'
+      end
     end
   end
 
   def destroy
-    @comment.destroy
-    redirect_to @comment.post.specific
+    ActiveRecord::Base.transaction do
+      @comment.destroy
+      unless @comment.post.reload.comments.exists?
+        @comment.post.destroy!
+        redirect_to @comment.post.issue
+      else
+        redirect_to @comment.post.specific
+      end
+    end
   end
 
   private
@@ -39,5 +51,22 @@ class CommentsController < ApplicationController
       @vote = @comment.post.specific.voted_by current_user
       @comment.choice = @vote.try(:choice)
     end
+  end
+
+  def change_article
+    @previous_article = @comment.post.specific
+    @article = @comment.issue.articles.find_or_initialize_by(link: params[:article_link]) do |new_article|
+      source = LinkSource.find_or_create_by! url: new_article.link
+      new_article.link_source = source
+      new_article.user ||= current_user
+    end
+    @article.save!
+
+    if @article.link_source.crawling_status.not_yet?
+      CrawlingJob.perform_async(@article.link_source.id)
+    end
+
+    @previous_article.destroy! if @previous_article.comments.empty?
+    @comment.post = @article.acting_as
   end
 end
