@@ -28,16 +28,19 @@ class Article < ActiveRecord::Base
   end
 
   def self.merge_by_link!(article)
-    ActiveRecord::Base.transaction do
-      post = article.acting_as
-      targets = post.issue.articles.where(link: article.link).order(created_at: :asc)
-      oldest = targets.first
-      targets.each do |target|
-        next if target == oldest or target.link_source.blank?
-        target.comments.update_all(post_id: oldest.acting_as.id)
-        target.likes.where.not(user: oldest.likes).update_all(post_id: oldest.acting_as.id)
-        target.destroy
+    post = article.acting_as
+    targets = post.issue.articles.where(link: article.link).order(created_at: :asc)
+    oldest = targets.first
+    targets.each do |target|
+      next if target == oldest or target.link_source.blank?
+      target.comments.update_all(post_id: oldest.acting_as.id)
+      target.likes.where.not(user: oldest.likes).find_each do |like|
+        like.update_columns(post_id: oldest.acting_as.id)
       end
+      target.likes.where(user: oldest.likes).find_each do |like|
+        like.destroy
+      end
+      target.destroy
     end
   end
 end
