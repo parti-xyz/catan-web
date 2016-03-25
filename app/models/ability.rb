@@ -8,10 +8,10 @@ class Ability
       can :manage, [Issue, Related] if user.admin?
       can :create, [Article, Opinion, Question,
         Answer, Discussion, Proposal, Comment,
-        Vote, Like, Watch]
+        Vote, Like, Upvote, Watch]
       can :manage, [Opinion, Question,
         Answer, Discussion, Proposal, Comment,
-        Like, Watch], user_id: user.id
+        Like, Upvote, Watch], user_id: user.id
       can :manage, Article do |article|
         article.user == user and article.is_talk?
       end

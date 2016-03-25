@@ -8,6 +8,7 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :post, counter_cache: true
   has_one :issue, through: :post
+  has_many :upvotes, dependent: :destroy
 
   validates :user, presence: true
   validates :post, presence: true
@@ -19,5 +20,9 @@ class Comment < ActiveRecord::Base
 
   def linkable?
     post.try(:linkable?)
+  end
+
+  def upvoted_by? someone
+    upvotes.exists? user: someone
   end
 end

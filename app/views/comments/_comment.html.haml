@@ -20,6 +20,9 @@
       .comment__body
         %p
           = smart_format(h(comment.body))
+      .comment__upvotes
+        = render 'upvotes/upvote', comment: comment
+
 - else
   .comment--inline[comment]
     .comment__body{ style: 'margin: 10px 0;' }
@@ -35,3 +38,4 @@
       - if can? :destroy, comment
         = link_to comment, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
           %i.fa.fa-trash-o>
+      = render 'upvotes/upvote', comment: comment

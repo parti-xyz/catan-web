@@ -31,7 +31,7 @@ class CommentsController < ApplicationController
         @comment.post.destroy!
         redirect_to @comment.post.issue
       else
-        redirect_to @comment.post.specific
+        redirect_to_origin
       end
     end
   end

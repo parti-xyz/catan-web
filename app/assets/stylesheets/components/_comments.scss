@@ -14,8 +14,23 @@
   }
 }
 
-.comment__body {
-  @include word_wrap
+.comments {
+  .comment__body {
+    @include word_wrap;
+  }
+  .opinion-card {
+    margin-top: 15px;
+  }
+}
+
+.upvote-button a {
+  font-weight: bold;
+  &.upvote-button--not-yet {
+    color: $gray-dark;
+  }
+  &.upvote-button--upvoted {
+    color: $brand-danger;
+  }
 }
 
 .newest_comment {

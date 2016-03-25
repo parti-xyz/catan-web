@@ -17,6 +17,8 @@
     .comment__body
       %p
         = smart_format(comment.body)
+    .comment__upvotes
+      = render 'upvotes/upvote', comment: comment
     - if local_assigns[:show_opinion]
       = render 'opinions/card', card: comment.post.specific
     - else

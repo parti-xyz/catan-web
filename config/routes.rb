@@ -23,7 +23,11 @@ Rails.application.routes.draw do
 
   resources :posts, only: [] do
     shallow do
-      resources :comments
+      resources :comments do
+        resources :upvotes do
+          delete :cancel, on: :collection
+        end
+      end
       resources :votes
       resources :likes do
         delete :cancel, on: :collection

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323125322) do
+ActiveRecord::Schema.define(version: 20160325140858) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -38,13 +38,14 @@ ActiveRecord::Schema.define(version: 20160323125322) do
   add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "user_id",    null: false
-    t.integer  "post_id",    null: false
+    t.integer  "user_id",                   null: false
+    t.integer  "post_id",                   null: false
     t.text     "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "choice"
     t.datetime "deleted_at"
+    t.integer  "upvotes_count", default: 0
   end
 
   add_index "comments", ["deleted_at"], name: "index_comments_on_deleted_at"
@@ -251,6 +252,17 @@ ActiveRecord::Schema.define(version: 20160323125322) do
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true
+
+  create_table "upvotes", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "comment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "upvotes", ["comment_id"], name: "index_upvotes_on_comment_id"
+  add_index "upvotes", ["user_id", "comment_id"], name: "index_upvotes_on_user_id_and_comment_id", unique: true
+  add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",      null: false
