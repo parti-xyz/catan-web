@@ -1,7 +1,7 @@
 class ArticlesController < ApplicationController
   include OriginPostable
-  before_filter :authenticate_user!, except: [:show, :matched]
-  load_and_authorize_resource except: :matched
+  before_filter :authenticate_user!, except: [:show]
+  load_and_authorize_resource
 
   def new
     if params[:issue_id].present?
@@ -37,11 +37,6 @@ class ArticlesController < ApplicationController
   def show
     prepare_meta_tags title: @article.title,
                       description: @article.body
-  end
-
-  def matched_link
-    @matched_articles = Article.where(link: params[:link]).recent.limit(3) unless params[:link].blank?
-    render layout: nil
   end
 
   helper_method :current_issue

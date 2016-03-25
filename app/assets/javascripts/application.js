@@ -331,29 +331,6 @@ $(function(){
     $control.trigger("blur");
   });
 
-  $('[data-action="parti-search-link"]').on('blur', function(e) {
-    var $elm = $(e.currentTarget);
-    var $group = $elm.closest('.form-group');
-    var $result_block = $group.find('.help-block__search-link');
-    if($.is_blank($elm.val())) {
-      $result_block.empty();
-    } else {
-      $.ajax({
-        url: "/articles/matched_link",
-        type: "get",
-        data:{ link: $elm.val() },
-        success: function(data) {
-          $result_block.html(data);
-        },
-        error: function(xhr) {
-          //ignore server error
-          $result_block.empty();
-        }
-      });
-    }
-
-  });
-
   // parti-smart-placeholder
   $('[data-action="parti-smart-placeholder"]').each(function(i, elm) {
     var $elm = $(elm);

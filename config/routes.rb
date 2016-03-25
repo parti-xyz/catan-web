@@ -35,9 +35,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :articles do
-    get 'matched_link', on: :collection
-  end
+  resources :articles
   resources :opinions do
     get 'social_card', on: :member
   end
