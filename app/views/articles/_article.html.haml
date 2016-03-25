@@ -8,7 +8,7 @@
       - if link_to article.link.present?
         = link_to article.link, target: '_blank', class: 'text-muted' do
           %i.fa.fa-link
-    = link_to article do
+    = link_to article, class: 'text-muted' do
       %small
         %i.fa.fa-comment-o
           %span.text-primary

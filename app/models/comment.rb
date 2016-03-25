@@ -15,6 +15,7 @@ class Comment < ActiveRecord::Base
   validates :body, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
+  scope :ancient, -> { order(created_at: :asc) }
   scope :latest, -> { after(1.day.ago) }
   scope :persisted, -> { where "id IS NOT NULL" }
 

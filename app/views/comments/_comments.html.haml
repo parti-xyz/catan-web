@@ -2,5 +2,7 @@
   = render 'comments/opinion_comments', local_assigns
 - elsif local_assigns[:style] == :media
   = render 'comments/media_comments', local_assigns
+- elsif local_assigns[:style] == :talk
+  = render 'comments/talk_comments', local_assigns
 - else
   = render 'comments/inline_comments', local_assigns

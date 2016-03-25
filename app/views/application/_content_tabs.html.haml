@@ -17,6 +17,12 @@
           - if counts_container.latest_posts_count > 0
             %span.text-primary<>
               +#{counts_container.latest_posts_count}
+  %li{role: 'presentation'}
+    = link_to '#' do
+      %h4
+        토크
+        %small.count
+          %span<> 0
   - if local_assigns[:campaign_tab_path]
     %li{role: 'presentation', class: ('active' if active_tab == :campaign)}
       = link_to campaign_tab_path do

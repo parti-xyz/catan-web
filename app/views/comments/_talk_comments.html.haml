@@ -1,0 +1,24 @@
+%div{id: "#{dom_id(postable)}-comments" }
+  %h4
+    토크
+    %small
+      (#{postable.comments.count})
+      - if user_signed_in?
+        = link_to '#comment-form' do
+          %i.fa.fa-edit
+          쓰기
+      - else
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '쓰기' } do
+          %i.fa.fa-edit
+          토크쓰기
+  %ul.media-list(style='padding: 20px 0;')
+    = render postable.comments.ancient, style: :media, mention_form_contorl: '#new_comment #comment_body'
+  - if user_signed_in?
+    %a.anchor#comment-form
+    .comment-form
+      = form_for [postable.acting_as, Comment.new], class: 'comment-form' do |f|
+        .form-group
+          .input-group
+            = f.text_area :body, class: 'form-control', style: 'height: 60px;'
+            .input-group-btn
+              = f.submit '게시', class: 'btn btn-default', style: 'height: 60px;'

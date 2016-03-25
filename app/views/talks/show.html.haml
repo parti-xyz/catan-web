@@ -4,15 +4,8 @@
 
     = render 'posts/post_header', post: @talk.acting_as, hide_post_user: true
 
-    .post__likes
-      .media
-        .media-left
-          = render 'likes/like', post: @talk.acting_as
-        .media-body
-          = render 'likes/like_detail', post: @talk.acting_as
-
 %section.post-comments-section
   .container
-    = render 'comments/comments', postable: @talk, style: :media
+    = render 'comments/comments', postable: @talk, style: :talk
 
 = render 'posts/recommends', issue: @talk.issue, exclude: @talk.acting_as
