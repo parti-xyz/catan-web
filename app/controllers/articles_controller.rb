@@ -30,7 +30,7 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article.destroy if @article.comments.any?
+    @article.destroy
     redirect_to issue_home_path(@article.issue)
   end
 

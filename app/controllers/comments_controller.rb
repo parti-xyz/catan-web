@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
   def destroy
     ActiveRecord::Base.transaction do
       @comment.destroy
-      unless @comment.post.reload.comments.exists?
+      if @comment.post.linkable? and !@comment.post.comments.exists?
         @comment.post.destroy!
         redirect_to @comment.post.issue
       else
