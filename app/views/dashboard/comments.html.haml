@@ -7,7 +7,7 @@
         %section#content-tab-section
           = render 'dashboard/content_tabs', active_tab: :comments, counts_container: current_user.watched_counts
 
-        = render 'articles/inline_form', issue: Issue::OF_ALL
+        = render 'application/inline_form', issue: Issue::OF_ALL
         = render 'comments/list', comments: @comments, show_issue: true
         .text-center
           = paginate @comments, theme: 'twitter-bootstrap-3'

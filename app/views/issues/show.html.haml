@@ -7,7 +7,7 @@
         %section#content-tab-section
           = render 'issues/content_tabs', active_tab: :posts, posts: @posts_for_filter, counts_container: @issue.counts_container
         .issue-posts
-          = render 'articles/inline_form', issue: @issue
+          = render 'application/inline_form', issue: @issue
           = render 'posts/list', postables: @postables, issue: @issue, show_issue: @issue.is_all?, past_day_postables: @past_day_postables
           .text-center
             = paginate @posts, theme: 'twitter-bootstrap-3'

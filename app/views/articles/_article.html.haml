@@ -4,17 +4,18 @@
     - if post.hot?
       %i.wi.wi-fire.text-danger
     = link_to article.title, article
-    - if link_to article.link.present?
-      %small
+    %small
+      - if link_to article.link.present?
         = link_to article.link, target: '_blank', class: 'text-muted' do
           %i.fa.fa-link
+    = link_to article do
+      %small
         %i.fa.fa-comment-o
-    %small
-      %span.text-primary
-        = post.comments_count
-      %i.wi.wi-fire
-      %span.text-primary
-        = post.likes.count
+          %span.text-primary
+            = post.comments_count
+          %i.wi.wi-fire
+          %span.text-primary
+            = post.likes.count
 
   .post-inline__footer
     = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]

@@ -23,6 +23,14 @@ post_article3:
   user: one
   issue: issue1
   postable: article3 (Article)
+post_talk1:
+  user: one
+  issue: issue1
+  postable: talk1 (Talk)
+post_talk3:
+  user: one
+  issue: issue1
+  postable: talk3 (Talk)
 
 # issue2
 post_article2:
@@ -45,3 +53,11 @@ post_article4:
   user: two
   issue: issue2
   postable: article4 (Article)
+post_talk2:
+  user: one
+  issue: issue2
+  postable: talk2 (Talk)
+post_talk4:
+  user: two
+  issue: issue2
+  postable: talk4 (Talk)

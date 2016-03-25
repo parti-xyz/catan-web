@@ -1,8 +1,9 @@
 - if user_signed_in?
   - article_button_data = {'switch-target': '#article-form-widget', 'switch-source': "#editors-tab", toggle: "parti-switch", type: "button", focus: ( local_assigns[:issue] and !issue.is_all? ? 'input#article_link' : 'input#issue_title')}
+  - talk_button_data = {'switch-target': '#talk-form-widget', 'switch-source': "#editors-tab", toggle: "parti-switch", type: "button", focus: ( local_assigns[:issue] and !issue.is_all? ? 'input#talk_title' : 'input#issue_title')}
   - opinion_button_data = {'switch-target': '#opinion-form-widget', 'switch-source': "#editors-tab", toggle: "parti-switch", type: "button", focus: ( local_assigns[:issue] and !issue.is_all? ? 'input#opinion_title' : 'input#issue_title')}
 - else
-  - article_button_data = opinion_button_data = {toggle: "parti-login-overlay"}
+  - article_button_data = opinion_button_data = talk_button_data = {toggle: "parti-login-overlay"}
 
 .media{ style: 'margin-bottom: 10px;' }
   .media-left
@@ -13,11 +14,15 @@
       = image_tag 'anonymous.png', class: 'media-object img-circle', style: 'width:50px;height:50px;'
   .media-body
     .row#editors-tab{style: 'margin-top: 8px;'}
-      .col-xs-6{ style: 'padding-right: 1px;' }
+      .col-xs-4{ style: 'padding-right: 0;' }
         = link_to '', data: article_button_data, class: 'btn btn-primary btn-ghost btn-block' do
           %i.fa.fa-link
           링크걸기
-      .col-xs-6{ style: 'padding-left: 1px;' }
+      .col-xs-4{ style: 'padding-right: 7.5px;padding-left: 7.5px;' }
+        = link_to '', data: talk_button_data, class: 'btn btn-primary btn-ghost btn-block' do
+          %i.fa.fa-wechat
+          토크열기
+      .col-xs-4{ style: 'padding-left: 0;' }
         = link_to '#', data: opinion_button_data, class: 'btn btn-primary btn-ghost btn-block' do
           %i.fa.fa-microphone
           발언하기
@@ -50,6 +55,35 @@
           .pull-right
             = f.submit '게시', class: 'btn btn-primary'
           %a.btn.btn-ghost{href: '#', data: {'switch-source': '#article-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", 'disabled-typeahead-validation': 'true'}} 닫기
+
+    #talk-form-widget.well.clearfix{ style: 'background: none; display: none;' }
+      = form_for Talk.new, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
+
+        - if local_assigns[:issue] and !issue.is_all?
+          = hidden_field_tag :issue_title, issue.title
+        - else
+          .form-group
+            .input-group
+              .input-group-addon 이슈
+              = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '이슈를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }, style: 'width: 200px'
+            %p.help-block.typeahead-warning
+            %p.help-block{ style: 'font-size: 12px;' }
+              추천하는 이슈
+              - Issue.featured_issues(current_user).each do |issue|
+                %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
+                  = issue.title
+                \/
+
+        .form-group
+          = f.text_field :title, placeholder: '주제를 넣어주세요.', class: 'form-control', style: 'border: none; box-shadow: none; padding: 0;', data: { 'rule-required': true}
+
+        .form-group
+          = text_area_tag :comment_body, '', placeholder: '한마디 해주세요.', class: 'form-control', style: 'border: none; box-shadow: none; padding: 0;', data: { ride: 'parti-autoresize', 'rule-required': true}
+
+        .form-group
+          .pull-right
+            = f.submit '게시', class: 'btn btn-primary'
+          %a.btn.btn-ghost{href: '#', data: {'switch-source': '#talk-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", 'disabled-typeahead-validation': 'true'}} 닫기
 
     #opinion-form-widget.well.clearfix{ style: 'background: none; display: none;' }
       = form_for Opinion.new, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|

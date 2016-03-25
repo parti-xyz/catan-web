@@ -1,7 +1,8 @@
 %div.post-section__header.clearfix
   = render 'posts/share', post: post
   .post-section__header__meta
-    = byline post.user
+    - unless local_assigns[:hide_post_user]
+      = byline post.user
     %span.post-section__header__meta__date
       = date_f post.created_at
       - if can? :update, post.specific

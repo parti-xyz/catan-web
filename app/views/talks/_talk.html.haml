@@ -1,0 +1,17 @@
+- post = talk.acting_as
+.post-inline.talk-inline[post]
+  .post-inline__title
+    - if post.hot?
+      %i.wi.wi-fire.text-danger
+    = link_to talk.title, talk
+    = link_to talk do
+      %small
+        %i.fa.fa-comment-o
+          %span.text-primary
+            = post.comments_count
+          %i.wi.wi-fire
+          %span.text-primary
+            = post.likes.count
+
+  .post-inline__footer
+    = render 'posts/post_inline_footer', obj: talk, show_issue: local_assigns[:show_issue]

@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   resources :discussions do
     resources :proposals, shallow: true
   end
+  resources :talks
   resources :relateds
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
