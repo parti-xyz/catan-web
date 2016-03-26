@@ -45,5 +45,5 @@
           %div
             - unless issue.is_all?
               %strong{ style: 'margin-right: 15px;' }
-                %span(id="#{dom_id(issue)}-watch")
+                %span(class="#{dom_id(issue)}-watch")
                   = render 'watches/watch', issue: issue

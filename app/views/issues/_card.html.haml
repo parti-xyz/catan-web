@@ -29,7 +29,7 @@
             %span(class="#{dom_id(issue)}-watch")
               = link_to '구독끊기', cancel_issue_watches_path(issue), method: :delete, remote: true
           - else
-            %span(id="#{dom_id(issue)}-watch")
+            %span(class="#{dom_id(issue)}-watch")
               = link_to '구독하기', issue_watches_path(issue), method: :post, remote: true, class: 'btn btn-primary btn-ghost btn-sm'
 
         - unless user_signed_in?

@@ -36,7 +36,7 @@
               #{issue.watches.count}명이 지켜 봅니다
 
               - if !issue.is_all? and can?(:create, Watch)
-                %span(id="#{dom_id(issue)}-watch")
+                %span(class="#{dom_id(issue)}-watch")
                   = render 'watches/watch', issue: issue
         - if user_signed_in?
           .text-center
