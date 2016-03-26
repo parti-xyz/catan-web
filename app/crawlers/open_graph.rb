@@ -24,6 +24,7 @@ class OpenGraph
   def parse_opengraph(options = {})
     begin
       agent = Mechanize.new
+      agent.user_agent_alias = 'Windows IE 10'
       agent.redirect_ok = :all
       agent.redirection_limit = 5
       agent.gzip_enabled = false
