@@ -23,14 +23,14 @@
         토크
         %small.count
           %span<> 0
-  - if local_assigns[:campaign_tab_path]
-    %li{role: 'presentation', class: ('active' if active_tab == :campaign)}
-      = link_to campaign_tab_path do
+  - if local_assigns[:opinions_tab_path]
+    %li{role: 'presentation', class: ('active' if active_tab == :opinions)}
+      = link_to opinions_tab_path do
         %h4
           = Opinion.model_name.human
           %small.count
-            %span<>= counts_container.campaign_count
-            - if counts_container.latest_campaign_count > 0
+            %span<>= counts_container.opinions_count
+            - if counts_container.latest_opinions_count > 0
               %span.text-primary<>
-                +#{counts_container.latest_campaign_count}
+                +#{counts_container.latest_opinions_count}
 

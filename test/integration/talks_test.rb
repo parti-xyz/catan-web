@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class TalksTest < ActionDispatch::IntegrationTest
-  focus
   test '만들어요' do
     sign_in(users(:one))
 
@@ -19,7 +18,6 @@ class TalksTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:talk).user
   end
 
-  focus
   test '고쳐요' do
     sign_in(users(:one))
 
@@ -32,7 +30,6 @@ class TalksTest < ActionDispatch::IntegrationTest
     assert_equal issues(:issue2).title, assigns(:talk).issue.title
   end
 
-  focus
   test '세상에 없었던 새로운 이슈를 넣으면 저장이 안되요' do
     sign_in(users(:one))
 

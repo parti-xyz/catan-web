@@ -16,8 +16,8 @@ module PartiUrlHelper
     slug_issue_comments_path(slug: issue.slug)
   end
 
-  def issue_campaign_path(issue)
-    slug_issue_campaign_path(slug: issue.slug)
+  def issue_opinions_path(issue)
+    slug_issue_opinions_path(slug: issue.slug)
   end
 
   def user_gallery_path(user)

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :issues do
     member do
       get :users
-      get :campaign
+      get :opinions
     end
     collection do
       get :exist
@@ -51,14 +51,14 @@ Rails.application.routes.draw do
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/posts', to: "dashboard#posts", as: 'dashboard_posts'
   get '/dashboard/comments', to: "dashboard#comments", as: 'dashboard_comments'
-  get '/dashboard/campaign', to: "dashboard#campaign", as: 'dashboard_campaign'
+  get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
   get '/i/:slug', to: "issues#slug", as: 'slug_issue'
   get '/i/:slug/posts', to: "issues#slug_posts", as: 'slug_issue_posts'
   get '/i/:slug/comments', to: "issues#slug_comments", as: 'slug_issue_comments'
-  get '/i/:slug/campaign', to: "issues#slug_campaign", as: 'slug_issue_campaign'
+  get '/i/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/u/:nickname', to: "users#gallery", as: 'nickname_user'
   get '/u/:nickname/posts', to: "users#posts", as: 'nickname_user_posts'
   get '/u/:nickname/comments', to: "users#comments", as: 'nickname_user_comments'

@@ -3,7 +3,7 @@
 %section#issue-posts
   .container
     %section#content-tab-section
-      = render 'dashboard/content_tabs', active_tab: :campaign, counts_container: current_user.watched_counts
+      = render 'dashboard/content_tabs', active_tab: :opinions, counts_container: current_user.watched_counts
     .issue-opinions
       = render 'opinions/cards', opinions: @opinions, issue: Issue::OF_ALL
 

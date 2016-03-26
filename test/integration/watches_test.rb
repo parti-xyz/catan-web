@@ -25,7 +25,7 @@ class WatchesTest < ActionDispatch::IntegrationTest
   test '구독한 글만 구경해요' do
     sign_in(users(:one))
 
-    assert_equal 6, Post.watched_by(users(:one)).count
+    assert_equal 8, Post.watched_by(users(:one)).count
 
     post issue_watches_path(issue_id: issues(:issue1).id)
     assert_equal issues(:issue1).posts.count, Post.watched_by(users(:one)).count

@@ -100,8 +100,8 @@ class User < ActiveRecord::Base
     counts.latest_posts_count = watched_posts.latest.count
     counts.comments_count = watched_posts.sum(:comments_count)
     counts.latest_comments_count = watched_comments.latest.count
-    counts.campaign_count = watched_posts.only_opinions.count
-    counts.latest_campaign_count = watched_posts.latest.only_opinions.count
+    counts.opinions_count = watched_posts.only_opinions.count
+    counts.latest_opinions_count = watched_posts.latest.only_opinions.count
     counts
   end
 
@@ -111,8 +111,8 @@ class User < ActiveRecord::Base
     counts.latest_posts_count = posts.latest.count
     counts.comments_count = comments.count
     counts.latest_comments_count = comments.latest.count
-    counts.campaign_count = posts.only_opinions.count
-    counts.latest_campaign_count = posts.latest.only_opinions.count
+    counts.opinions_count = posts.only_opinions.count
+    counts.latest_opinions_count = posts.latest.only_opinions.count
     counts
   end
 

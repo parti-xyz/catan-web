@@ -2,7 +2,7 @@ class IssuesController < ApplicationController
   respond_to :json, :html
   before_filter :authenticate_user!,
     only: [:create, :update, :destroy]
-  before_filter :fetch_issue_by_slug, only: [:slug, :slug_posts, :slug_comments, :slug_campaign]
+  before_filter :fetch_issue_by_slug, only: [:slug, :slug_posts, :slug_comments, :slug_opinions]
   load_and_authorize_resource
 
   def index
@@ -55,7 +55,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def slug_campaign
+  def slug_opinions
     @posts = @issue.posts.for_list.only_opinions.recent
 
     unless view_context.current_page?(root_url)

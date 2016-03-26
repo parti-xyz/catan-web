@@ -133,8 +133,8 @@ class Issue < ActiveRecord::Base
     counts.latest_posts_count = posts.latest.count
     counts.comments_count = posts.sum(:comments_count)
     counts.latest_comments_count = posts.latest.sum(:comments_count)
-    counts.campaign_count = posts.only_opinions.count
-    counts.latest_campaign_count = posts.latest.only_opinions.count
+    counts.opinions_count = posts.only_opinions.count
+    counts.latest_opinions_count = posts.latest.only_opinions.count
     counts
   end
 
