@@ -26,7 +26,7 @@
       %span.text-nowrap
         - if user_signed_in?
           - if issue.watched_by?(current_user)
-            %span(id="#{dom_id(issue)}-watch")
+            %span(class="#{dom_id(issue)}-watch")
               = link_to '구독끊기', cancel_issue_watches_path(issue), method: :delete, remote: true
           - else
             %span(id="#{dom_id(issue)}-watch")
