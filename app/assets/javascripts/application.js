@@ -249,8 +249,8 @@ $(function(){
       margin = 0;
     }
     $elm.owlCarousel({
-      loop:true,
-      nav:true,
+      loop: $elm.children().length > 1,
+      nav: $elm.children().length > 1,
       margin: margin,
       navText: [
         '<i class="fa fa-arrow-left">',
