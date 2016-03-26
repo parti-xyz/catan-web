@@ -6,7 +6,7 @@
   - article_button_data = opinion_button_data = talk_button_data = {toggle: "parti-login-overlay"}
 
 .media{ style: 'margin-bottom: 10px;' }
-  .media-left
+  .media-left.hidden-xs
     - if user_signed_in?
       = link_to user_gallery_path(current_user) do
         = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:50px;height:50px;'
@@ -16,15 +16,18 @@
     .row#editors-tab{style: 'margin-top: 8px;'}
       .col-xs-4{ style: 'padding-right: 0;' }
         = link_to '', data: article_button_data, class: 'btn btn-primary btn-ghost btn-block' do
-          %i.fa.fa-link
+          %span.hidden-xs
+            %i.fa.fa-link
           링크걸기
       .col-xs-4{ style: 'padding-right: 7.5px;padding-left: 7.5px;' }
         = link_to '', data: talk_button_data, class: 'btn btn-primary btn-ghost btn-block' do
-          %i.fa.fa-wechat
+          %span.hidden-xs
+            %i.fa.fa-wechat
           토크열기
       .col-xs-4{ style: 'padding-left: 0;' }
         = link_to '#', data: opinion_button_data, class: 'btn btn-primary btn-ghost btn-block' do
-          %i.fa.fa-microphone
+          %span.hidden-xs
+            %i.fa.fa-microphone
           발언하기
 
     #article-form-widget.well.clearfix{ style: 'background: none; display: none;' }
