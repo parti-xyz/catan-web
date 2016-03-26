@@ -6,6 +6,8 @@ class LinkSource < ActiveRecord::Base
   validates :url, uniqueness: {case_sensitive: false}
   enumerize :crawling_status, in: [:not_yet, :completed], predicates: true, scope: true
 
+  before_save :downcase_url
+
   ## uploaders
   # mount
   mount_uploader :image, ImageUploader
@@ -18,5 +20,15 @@ class LinkSource < ActiveRecord::Base
     self.body = data.description || self.body
     self.crawling_status = :completed
     self.crawled_at = DateTime.now
+  end
+
+  def url
+    read_attribute(:url).try(:downcase)
+  end
+
+  private
+
+  def downcase_url
+    self.url = url.downcase
   end
 end

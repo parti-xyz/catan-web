@@ -67,7 +67,8 @@ namespace :migrate do
         article.link_source = source
         article.save!
 
-        build_comment_from_article(article)
+        comment = build_comment_from_article(article)
+        comment.save! unless comment.blank?
         Article.merge_by_link!(article)
       end
     end
