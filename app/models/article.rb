@@ -5,6 +5,7 @@ class Article < ActiveRecord::Base
   belongs_to :link_source
 
   scope :recent, -> { order(created_at: :desc) }
+  scope :latest, -> { after(1.day.ago) }
 
   def origin
     self

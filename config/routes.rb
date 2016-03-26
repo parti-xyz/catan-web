@@ -49,23 +49,29 @@ Rails.application.routes.draw do
   resources :relateds
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
-  get '/dashboard/posts', to: "dashboard#posts", as: 'dashboard_posts'
+  get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
   get '/dashboard/comments', to: "dashboard#comments", as: 'dashboard_comments'
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
+  get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
   get '/i/:slug', to: "issues#slug", as: 'slug_issue'
-  get '/i/:slug/posts', to: "issues#slug_posts", as: 'slug_issue_posts'
+  get '/i/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
   get '/i/:slug/comments', to: "issues#slug_comments", as: 'slug_issue_comments'
   get '/i/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
+  get '/i/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
+
   get '/u/:nickname', to: "users#gallery", as: 'nickname_user'
   get '/u/:nickname/posts', to: "users#posts", as: 'nickname_user_posts'
   get '/u/:nickname/comments', to: "users#comments", as: 'nickname_user_comments'
+
   get '/tags/:name', to: "tags#show", as: 'show_tag'
+
   authenticate :user, lambda { |u| u.admin? } do
     get '/test/summary', to: "users#summary_test"
   end
+
   get "transfers/start", as: "start_transfers"
   post "transfers/confirm", as: "confirm_transfers"
   get "transfers/final", as: "final_transfers"

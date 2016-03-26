@@ -42,6 +42,9 @@ class User < ActiveRecord::Base
   has_many :watches
   has_many :watched_issues, through: :watches, source: :issue
   has_many :watched_posts, through: :watched_issues, source: :posts
+  has_many :watched_articles, through: :watched_issues, source: :articles
+  has_many :watched_opinions, through: :watched_issues, source: :opinions
+  has_many :watched_talks, through: :watched_issues, source: :talks
   has_many :watched_comments, through: :watched_posts, source: :comments
 
   ## uploaders
@@ -96,23 +99,21 @@ class User < ActiveRecord::Base
 
   def watched_counts
     counts = OpenStruct.new
-    counts.posts_count = watched_posts.count
-    counts.latest_posts_count = watched_posts.latest.count
+    counts.articles_count = watched_articles.count
+    counts.latest_articles_count = watched_articles.latest.count
     counts.comments_count = watched_posts.sum(:comments_count)
     counts.latest_comments_count = watched_comments.latest.count
-    counts.opinions_count = watched_posts.only_opinions.count
-    counts.latest_opinions_count = watched_posts.latest.only_opinions.count
+    counts.opinions_count = watched_opinions.count
+    counts.latest_opinions_count = watched_opinions.latest.count
+    counts.talks_count = watched_talks.count
+    counts.latest_talks_count = watched_talks.latest.count
     counts
   end
 
   def writing_counts
     counts = OpenStruct.new
-    counts.posts_count = posts.count
-    counts.latest_posts_count = posts.latest.count
     counts.comments_count = comments.count
     counts.latest_comments_count = comments.latest.count
-    counts.opinions_count = posts.only_opinions.count
-    counts.latest_opinions_count = posts.latest.only_opinions.count
     counts
   end
 

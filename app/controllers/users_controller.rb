@@ -8,12 +8,6 @@ class UsersController < ApplicationController
     render 'comments'
   end
 
-  def posts
-    fetch_user
-    @posts = @user.posts.for_list.recent.page params[:page]
-    @postables = @posts.map &:postable
-  end
-
   def comments
     fetch_user
     @comments = @user.comments.recent.page params[:page]

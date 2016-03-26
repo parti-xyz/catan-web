@@ -1,10 +1,9 @@
 = render 'issue_small_header', show_social_share: true
 
-%section#issue-posts
+%section#posts
   .container
     %section#content-tab-section
-      = render 'issues/content_tabs', active_tab: :opinions, posts: @posts_for_filter, counts_container: @issue.counts_container
-    .issue-opinions
-      = render 'opinions/cards', opinions: @postables, issue: @issue
+      = render 'issues/content_tabs', active_tab: :opinions, counts_container: @issue.counts_container
+    = render 'opinions/cards', opinions: @opinions, issue: @issue
 
 = render 'issues/recommends', issue: @issue

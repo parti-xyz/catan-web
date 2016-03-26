@@ -20,6 +20,12 @@ class Issue < ActiveRecord::Base
     def posts
       Post.all
     end
+    def articles
+      Article.all
+    end
+    def talks
+      Talk.all
+    end
     def opinions
       Opinion.all
     end
@@ -48,6 +54,7 @@ class Issue < ActiveRecord::Base
   has_many :comments, through: :posts
   has_many :articles, through: :posts, source: :postable, source_type: Article
   has_many :opinions, through: :posts, source: :postable, source_type: Opinion
+  has_many :talks, through: :posts, source: :postable, source_type: Talk
   has_many :questions, through: :posts, source: :postable, source_type: Question
   has_many :discussions, through: :posts, source: :postable, source_type: Discussion
   has_many :watches do
@@ -129,12 +136,14 @@ class Issue < ActiveRecord::Base
 
   def counts_container
     counts = OpenStruct.new
-    counts.posts_count = posts_count
-    counts.latest_posts_count = posts.latest.count
+    counts.articles_count = articles.count
+    counts.latest_articles_count = articles.latest.count
     counts.comments_count = posts.sum(:comments_count)
     counts.latest_comments_count = posts.latest.sum(:comments_count)
-    counts.opinions_count = posts.only_opinions.count
-    counts.latest_opinions_count = posts.latest.only_opinions.count
+    counts.opinions_count = opinions.count
+    counts.latest_opinions_count = opinions.latest.count
+    counts.talks_count = talks.count
+    counts.latest_talks_count = talks.latest.count
     counts
   end
 

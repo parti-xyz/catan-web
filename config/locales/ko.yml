@@ -26,6 +26,7 @@ ko:
       opinion: 발언
       question: 질문
       discussion: 제안
+      talk: 토크
       user: 회원
       answer: 답변
       proposal: 제안하기
@@ -53,6 +54,8 @@ ko:
         title: 제목
         body: 내용
         tag_list: 태그
+      talk:
+        title: 주제
       user:
         email: 이메일
         image: 프로필 사진

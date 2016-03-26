@@ -2,7 +2,7 @@ class IssuesController < ApplicationController
   respond_to :json, :html
   before_filter :authenticate_user!,
     only: [:create, :update, :destroy]
-  before_filter :fetch_issue_by_slug, only: [:slug, :slug_posts, :slug_comments, :slug_opinions]
+  before_filter :fetch_issue_by_slug, only: [:slug, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
   load_and_authorize_resource
 
   def index
@@ -30,24 +30,17 @@ class IssuesController < ApplicationController
     render template: 'issues/slug_comments'
   end
 
-  def slug_posts
-    @posts = @issue.posts.for_list
-
+  def slug_articles
+    @articles = @issue.articles.recent.page params[:page]
     unless view_context.current_page?(root_url)
       prepare_meta_tags title: @issue.title,
                         description: @issue.body,
                         image: @issue.cover_url
     end
-    @posts_for_filter = @posts
-    @past_day_postables = @posts.recent.past_day.map &:postable
-    @posts = filter_posts(@posts)
-    @postables = @posts.map &:postable
-    render template: 'issues/show'
   end
 
   def slug_comments
     @comments = @issue.comments.recent.page params[:page]
-    @posts = @issue.posts
     unless view_context.current_page?(root_url)
       prepare_meta_tags title: @issue.title,
                         description: @issue.body,
@@ -56,17 +49,21 @@ class IssuesController < ApplicationController
   end
 
   def slug_opinions
-    @posts = @issue.posts.for_list.only_opinions.recent
-
+    @opinions = @issue.opinions.recent.page params[:page]
     unless view_context.current_page?(root_url)
       prepare_meta_tags title: @issue.title,
                         description: @issue.body,
                         image: @issue.cover_url
     end
+  end
 
-    @posts_for_filter = @posts
-    @past_day_postables = @posts.past_day.map &:postable
-    @postables = @posts.map &:postable
+  def slug_talks
+    @talks = @issue.talks.recent.page params[:page]
+    unless view_context.current_page?(root_url)
+      prepare_meta_tags title: @issue.title,
+                        description: @issue.body,
+                        image: @issue.cover_url
+    end
   end
 
   def create

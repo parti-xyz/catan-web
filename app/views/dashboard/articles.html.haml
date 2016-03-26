@@ -1,0 +1,14 @@
+= render 'dashboard_header'
+
+%section#posts
+  .container
+    .row
+      .col-sm-8
+        %section#content-tab-section
+          = render 'dashboard/content_tabs', active_tab: :articles, counts_container: current_user.watched_counts
+        = render 'posts/list', postables: @articles, show_issue: true
+        .text-center
+          = paginate @articles, theme: 'twitter-bootstrap-3'
+
+= render 'issues/recommends', issue: Issue::OF_ALL, exclude_watched: true
+
