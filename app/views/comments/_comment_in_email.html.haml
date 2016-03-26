@@ -9,7 +9,7 @@
         = comment.user.nickname
     = static_date_f comment.created_at
   %p{ style: 'margin-bottom: 0' }= strip_tags(comment.body)
-  = link_to 'Parti에서 확인하기', url_for(post.specific), class: 'btn-email'
+  = link_to '빠띠에서 확인하기', url_for(post.specific), class: 'btn-email'
 
 - default_postable_type_image = 'fa-link.png'
 - postable_type_image_map = {'Article' => 'fa-link.png', 'Opinion' => 'fa-bar-chart.png', 'Question' => 'fa-question.png', 'Discussion' => 'fa-list-ul.png'}
