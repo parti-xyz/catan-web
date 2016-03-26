@@ -39,10 +39,10 @@ class Article < ActiveRecord::Base
     targets.each do |target|
       next if target == oldest or target.link_source.blank?
       target.comments.update_all(post_id: oldest.acting_as.id)
-      target.likes.where.not(user: oldest.likes).find_each do |like|
+      target.likes.where.not(user: oldest.like_users).find_each do |like|
         like.update_columns(post_id: oldest.acting_as.id)
       end
-      target.likes.where(user: oldest.likes).find_each do |like|
+      target.likes.where(user: oldest.like_users).find_each do |like|
         like.destroy
       end
       target.destroy
