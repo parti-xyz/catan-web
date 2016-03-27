@@ -14,7 +14,7 @@ class TalksController < ApplicationController
   def update
     redirect_to root_path and return if fetch_issue.blank?
     @talk.update_attributes(talk_params)
-    redirect_to issue_home_path(@issue)
+    redirect_to @talk
   end
 
   def destroy
