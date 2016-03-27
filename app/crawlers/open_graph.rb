@@ -29,9 +29,8 @@ class OpenGraph
       agent.redirection_limit = 5
       agent.gzip_enabled = false
       @doc = agent.get(@src)
-      if @doc.encoding_error?
-        @doc.encoding = @doc.encoding
-        @doc.title
+      if @doc.encoding_error? and @doc.encodings.include?('ks_c_5601-1987')
+        @doc.encoding = 'euc-kr'
       end
     rescue
       @title = @url = @src
