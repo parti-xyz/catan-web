@@ -2,10 +2,8 @@ require 'test_helper'
 
 class ArticlesTest < ActionDispatch::IntegrationTest
   def stub_crawl
+    OpenGraph.stubs(:new).returns(OpenStruct.new(title: 'page title', description: 'page body', url: 'http://stub'))
     Sidekiq::Testing.inline! do
-      CrawlingJob.any_instance
-        .stubs(:fetch_data)
-        .returns(OpenStruct.new(url: 'http://stub', title: 'page title', description: 'page body'))
       yield
     end
   end
@@ -18,6 +16,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
 
       assert assigns(:article).persisted?
       assigns(:article).reload
+
       assert_equal 'page title', assigns(:article).title
       assert_equal 'page body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user

@@ -1,20 +1,13 @@
 article1:
-  title: 'article1'
-  body: 'article1 body'
   link: 'article1 link'
   link_source: link2
 article2:
-  title: 'article2'
-  body: 'article2 body'
   link: 'article2 link'
+  link_source: link2
 article3:
-  title: 'article3'
-  body: 'article3 body'
   link: 'article3 link'
   link_source: link3
 article4:
-  title: 'article4'
-  body: 'article4 body'
   link: 'article4 link'
   link_source: link4
   created_at: <%= 5.day.ago.to_s(:db) %>

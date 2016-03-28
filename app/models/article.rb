@@ -14,11 +14,11 @@ class Article < ActiveRecord::Base
   end
 
   def title
-    link_source.present? ? (link_source.title || link_source.url)  : read_attribute(:title)
+    link_source.try(:title)
   end
 
   def body
-    link_source.present? ? link_source.body : read_attribute(:body)
+    link_source.try(:body)
   end
 
   def has_image?

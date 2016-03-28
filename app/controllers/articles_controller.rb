@@ -7,6 +7,7 @@ class ArticlesController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
     redirect_to issue_home_path(@issue) and return if fetch_source.blank?
     @comment = build_comment
+
     if @article.save and ( @comment.blank? or @comment.save)
       crawl
     end
