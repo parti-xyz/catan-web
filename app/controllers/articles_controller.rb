@@ -21,7 +21,7 @@ class ArticlesController < ApplicationController
     ActiveRecord::Base.transaction do
       if @article.save
         @article = Article.merge_by_link!(@article)
-        crawl
+        force_crawl
       end
     end
     redirect_to issue_home_path(@article.issue)
@@ -67,6 +67,10 @@ class ArticlesController < ApplicationController
     body = params[:comment_body]
     return if body.blank?
     @article.acting_as.comments.build(body: body, user: current_user)
+  end
+
+  def force_crawl
+    CrawlingJob.perform_async(@article.link_source.id)
   end
 
   def crawl
