@@ -429,7 +429,6 @@ $(function(){
       $.ajax({
         url: '/' + postable_type + '/' + postable_id + '/partial',
         type: "get",
-        data:{ title: $elm.val() },
         success: function(data) {
           $target.find('.modal-body__content').html(data);
           init_parti_share($target);

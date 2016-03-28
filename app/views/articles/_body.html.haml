@@ -1,6 +1,6 @@
 .post__body.article__body
   .media
-    - if @article.body.try(:length) > 500
+    - if (@article.body || '').length > 500
       .media-body
         = smart_format(@article.body)
         - if @article.link_source.present?
