@@ -33,7 +33,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
 
   test '고쳐요' do
     stub_crawl do
-      sign_in(users(:one))
+      sign_in(users(:admin))
 
       put article_path(articles(:article1), article: { link: 'link x' }, issue_title: issues(:issue2).title)
 

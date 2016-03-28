@@ -1,8 +1,0 @@
-- discussion = discussion_as_footnote
-- post = discussion.acting_as
-.post-inline.discussion-inline[post]
-  %h5.post-inline__title
-    = link_to discussion do
-      #{discussion.title}
-    %i.fa.fa-lightbulb-o.text-muted
-  = render 'posts/post_inline_footer', obj: discussion, show_issue: local_assigns[:show_issue]

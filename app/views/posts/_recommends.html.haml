@@ -7,12 +7,12 @@
           = issue.title
       빠띠의 다른 글도 읽어보세요.
     %div
-      - issue.posts.recommends_for_list(local_assigns[:exclude]).each do |post|
+      - issue.posts.recommends(local_assigns[:exclude]).each do |post|
         = render post.specific
     %div{ style: 'margin: 20px 0;' }
       = link_to issue_home_path(issue, f: :recent), class: 'btn btn-primary btn-block' do
         %i.fa.fa-hashtag>
-        #{issue.title} 빠띠의 모든 글 보기 (#{issue.posts.for_list.count})
+        #{issue.title} 빠띠의 모든 글 보기 (#{issue.posts.count})
         %i.fa.fa-arrow-right
 
 %section{id: "#{dom_id(issue)}-commiters", style: "padding: 50px 0;" }

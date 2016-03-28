@@ -39,12 +39,6 @@ Rails.application.routes.draw do
   resources :opinions do
     get 'social_card', on: :member
   end
-  resources :questions do
-    resources :answers, shallow: true
-  end
-  resources :discussions do
-    resources :proposals, shallow: true
-  end
   resources :talks
   resources :relateds
 

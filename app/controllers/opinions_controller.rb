@@ -3,23 +3,15 @@ class OpinionsController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :social_card]
   load_and_authorize_resource
 
-  def new
-    if params[:issue_id].present?
-      @issue = Issue.find params[:issue_id]
-      @opinion.issue = @issue
-    end
-  end
-
   def create
     set_issue
     @opinion.user = current_user
     if @opinion.save
       set_comment
       set_vote
-      redirect_to @opinion
-    else
-      render 'new'
     end
+
+    redirect_to @opinion
   end
 
   def update

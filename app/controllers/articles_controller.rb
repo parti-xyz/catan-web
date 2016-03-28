@@ -3,13 +3,6 @@ class ArticlesController < ApplicationController
   before_filter :authenticate_user!, except: [:show]
   load_and_authorize_resource
 
-  def new
-    if params[:issue_id].present?
-      @issue = Issue.find params[:issue_id]
-      @article.issue = @issue
-    end
-  end
-
   def create
     redirect_to root_path and return if fetch_issue.blank?
     redirect_to issue_home_path(@issue) and return if fetch_source.blank?

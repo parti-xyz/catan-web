@@ -11,8 +11,8 @@ class PartiMailer < ApplicationMailer
 
   def summary(user, delivery_method = nil, delivery_method_options = nil)
     @user = user
-    @hottest_posts = @user.watched_posts.for_list.yesterday_hottest.limit(10)
-    @created_posts = @user.watched_posts.for_list.yesterday.limit(10) - @hottest_posts
+    @hottest_posts = @user.watched_posts.yesterday_hottest.limit(10)
+    @created_posts = @user.watched_posts.yesterday.limit(10) - @hottest_posts
 
     if @created_posts.any? or @hottest_posts.any?
       mail(template_name: 'summary', to: @user.email,

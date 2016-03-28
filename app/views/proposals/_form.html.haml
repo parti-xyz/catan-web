@@ -1,9 +1,0 @@
-.well
-  = form_for @proposal do |f|
-    .form-group
-      = f.label :body
-      = f.text_area :body, class: 'form-control redactor'
-    .form-group
-      = f.submit '저장', class: 'btn btn-primary btn-lg'
-      = link_to @proposal.discussion, class: 'btn btn-default' do
-        취소

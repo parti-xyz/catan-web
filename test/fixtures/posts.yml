@@ -3,6 +3,10 @@ post_article1:
   user: one
   issue: issue1
   postable: article1 (Article)
+post_article3:
+  user: one
+  issue: issue1
+  postable: article3 (Article)
 post_opinion1:
   user: one
   issue: issue1
@@ -11,18 +15,6 @@ post_opinion2:
   user: one
   issue: issue1
   postable: opinion2 (Opinion)
-post_question1:
-  user: one
-  issue: issue1
-  postable: question1 (Question)
-post_answer1:
-  user: two
-  issue: issue1
-  postable: answer1 (Answer)
-post_article3:
-  user: one
-  issue: issue1
-  postable: article3 (Article)
 post_talk1:
   user: one
   issue: issue1
@@ -37,6 +29,10 @@ post_article2:
   user: one
   issue: issue2
   postable: article2 (Article)
+post_article4:
+  user: two
+  issue: issue2
+  postable: article4 (Article)
 post_opinion3:
   user: one
   issue: issue2
@@ -45,14 +41,6 @@ post_opinion4:
   user: one
   issue: issue2
   postable: opinion4 (Opinion)
-post_question2:
-  user: one
-  issue: issue2
-  postable: question2 (Question)
-post_article4:
-  user: two
-  issue: issue2
-  postable: article4 (Article)
 post_talk2:
   user: one
   issue: issue2

@@ -16,17 +16,11 @@
         text-decoration: none;
       }
     }
-    &--question a {
-      background-color: $brand-success;
-    }
     &--article a {
       background-color: $brand-info;
     }
     &--opinion a {
       background-color: $brand-danger;
-    }
-    &--discussion a {
-      background-color: $brand-primary;
     }
   }
 

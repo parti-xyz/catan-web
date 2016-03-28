@@ -24,12 +24,8 @@ ko:
       issue: 이슈
       article: 링크
       opinion: 발언
-      question: 질문
-      discussion: 제안
       talk: 토크
       user: 회원
-      answer: 답변
-      proposal: 제안하기
       comment: 댓글
     attributes:
       issue:
@@ -43,14 +39,6 @@ ko:
         link: 링크
         tag_list: 태그
       opinion:
-        title: 제목
-        body: 내용
-        tag_list: 태그
-      question:
-        title: 제목
-        body: 내용
-        tag_list: 태그
-      discussion:
         title: 제목
         body: 내용
         tag_list: 태그

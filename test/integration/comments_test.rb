@@ -42,26 +42,6 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert_nil assigns(:comment).choice
   end
 
-  test '질문에 만들어요' do
-    sign_in(users(:one))
-
-    post post_comments_path(post_id: questions(:question1).acting_as.id, comment: { body: 'body' })
-
-    assert assigns(:comment).persisted?
-    assert_equal 'body', assigns(:comment).body
-    assert_equal users(:one), assigns(:comment).user
-  end
-
-  test '답변에 만들어요' do
-    sign_in(users(:one))
-
-    post post_comments_path(post_id: answers(:answer1).acting_as.id, comment: { body: 'body' })
-
-    assert assigns(:comment).persisted?
-    assert_equal 'body', assigns(:comment).body
-    assert_equal users(:one), assigns(:comment).user
-  end
-
   test '고쳐요' do
     sign_in(users(:one))
 

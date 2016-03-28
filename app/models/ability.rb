@@ -6,15 +6,13 @@ class Ability
     can [:slug, :users, :exist, :slug_articles, :slug_comments, :slug_opinions, :slug_talks], Issue
     if user
       can :manage, [Issue, Related] if user.admin?
-      can :create, [Article, Talk, Opinion, Question,
-        Answer, Discussion, Proposal, Comment,
+      can :create, [Article, Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch]
-      can :manage, [Opinion, Talk, Question,
-        Answer, Discussion, Proposal, Comment,
-        Like, Upvote, Watch], user_id: user.id
-      can :manage, Article do |article|
-        article.user == user and article.is_talk?
-      end
+      can :manage, [Talk, Opinion, Comment,
+        Vote, Like, Upvote, Watch], user_id: user.id
+    end
+    if user.admin?
+      can :manage, Article
     end
   end
 end

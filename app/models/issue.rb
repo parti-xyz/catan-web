@@ -55,8 +55,6 @@ class Issue < ActiveRecord::Base
   has_many :articles, through: :posts, source: :postable, source_type: Article
   has_many :opinions, through: :posts, source: :postable, source_type: Opinion
   has_many :talks, through: :posts, source: :postable, source_type: Talk
-  has_many :questions, through: :posts, source: :postable, source_type: Question
-  has_many :discussions, through: :posts, source: :postable, source_type: Discussion
   has_many :watches do
     def latest
       after(1.day.ago)

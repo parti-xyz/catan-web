@@ -62,10 +62,8 @@ class Post < ActiveRecord::Base
   }
   scope :only_articles, -> { by_postable_type(Article.to_s) }
   scope :only_opinions, -> { by_postable_type(Opinion.to_s) }
-  scope :only_questions, -> { by_postable_type(Question.to_s) }
-  scope :only_discussions, -> { by_postable_type(Discussion.to_s) }
+  scope :only_talks, -> { by_postable_type(Talk.to_s) }
   scope :only_like_by, ->(someone) { joins(:likes).where('likes.user': someone) }
-  scope :for_list, -> { where.not(postable_type: [Answer.to_s, Proposal.to_s]) }
   scope :latest, -> { after(1.day.ago) }
 
   ## uploaders
@@ -108,10 +106,10 @@ class Post < ActiveRecord::Base
     specific.is_a? Article
   end
 
-  def self.recommends_for_list(exclude)
-    result = recent.for_list.limit(10)
+  def self.recommends(exclude)
+    result = recent.limit(10)
     if result.length < 10
-      result += recent.for_list.limit(10)
+      result += recent.limit(10)
       result = result.uniq
     end
     result - [exclude]
