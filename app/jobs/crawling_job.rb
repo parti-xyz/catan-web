@@ -18,7 +18,7 @@ class CrawlingJob
     source.set_crawling_data(data)
 
     ActiveRecord::Base.transaction do
-      if source.url != data.url.try(:downcase)
+      if source.url != data.url
         origin = LinkSource.where(url: data.url).oldest
         if origin.blank? or origin == source
           source.url = data.url

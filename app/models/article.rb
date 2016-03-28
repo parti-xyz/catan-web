@@ -7,8 +7,6 @@ class Article < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
 
-  before_save :downcase_link
-
   def origin
     self
   end
@@ -19,10 +17,6 @@ class Article < ActiveRecord::Base
 
   def body
     link_source.present? ? link_source.body : read_attribute(:body)
-  end
-
-  def link
-    read_attribute(:link).try(:downcase)
   end
 
   def has_image?
@@ -53,11 +47,5 @@ class Article < ActiveRecord::Base
       end
       target.destroy
     end
-  end
-
-  private
-
-  def downcase_link
-    self.link = link.downcase
   end
 end
