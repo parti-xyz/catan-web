@@ -12,4 +12,10 @@ class CrawlingTest < ActionDispatch::IntegrationTest
     doc = OpenGraph.new('http://policy.nec.go.kr/svc/policy/PolicyContent02.do')
     assert_equal "중앙선거관리위원회_팝업", doc.title
   end
+
+  test '천인의 소리, 천인의 노래' do
+    skip
+    doc = OpenGraph.new('http://1000voices.kr/')
+    assert_equal "천인의 소리, 천인의 노래", doc.title
+  end
 end
