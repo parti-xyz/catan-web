@@ -9,6 +9,9 @@
       = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_disagree, id: opinion.id}.to_json) } do
         반대
         %i.fa.fa-ban.fa-fw
+      .vote__buttons--unsure
+        = link_to opinion_path(opinion, anchor: 'anchor-comments') do
+          잘 모르겠습니다
 
   - elsif opinion.voted_by? current_user
     .vote__results.text-center
@@ -31,6 +34,9 @@
       = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true, class: 'btn btn-primary btn-ghost' do
         반대
         %i.fa.fa-ban.fa-fw
+      .vote__buttons--unsure
+        = link_to opinion_path(opinion, anchor: 'anchor-comments') do
+          잘 모르겠습니다
 
   .text-muted.text-center{ style: 'margin-top: 20px; color: #aaaaaf; font-size: 12px; ' }
     %div
@@ -43,7 +49,7 @@
 
     %div
       - if user_signed_in? && opinion.voted_by?(current_user)
-        투표를 
+        투표를
         - if opinion.agreed_by? current_user
           = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true do
             반대

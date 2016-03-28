@@ -3,51 +3,56 @@
 
   %h2.post__title.opinion__title “#{opinion.title}”
 
-  .row
-    - if !user_signed_in?
-      .col-xs-6.text-right
-        = link_to '#', class: 'btn btn-default btn-lg', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :opinion_vote_agree, id: opinion.id}.to_json) } do
-          찬성
-          %i.fa.fa-check-circle-o.fa-fw
-      .col-xs-6.text-left
-        = link_to '#', class: 'btn btn-default btn-lg', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_disagree, id: opinion.id}.to_json) } do
-          반대
-          %i.fa.fa-ban.fa-fw
-    - elsif opinion.voted_by? current_user
-      .vote__results
-        .row
-          .col-xs-6.text-right
-            %div{ style: 'padding-bottom: 20px;' }
-              = link_to '#', class: 'btn btn-lg ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-                찬성
-                %span.count= opinion.votes.with_choice(:agree).count
-                %i.fa.fa-check-circle-o{ style: 'margin-left: 10px' }
-            %div.voters
-              - opinion.votes.with_choice(:agree).partial_included_with(current_user).each do |vote|
-                - if vote.user == current_user
-                  %strong= byline vote.user
-                - else
-                  = byline vote.user
-          .col-xs-6.text-left
-            %div{ style: 'padding-bottom: 20px;' }
-              = link_to '#', class: 'btn btn-lg ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-                반대
-                %span.count= opinion.votes.with_choice(:disagree).count
-                %i.fa.fa-ban{ style: 'margin-left: 10px' }
-            %div.voters
-              - opinion.votes.with_choice(:disagree).partial_included_with(current_user).each do |vote|
-                - if vote.user == current_user
-                  %strong= byline vote.user
-                - else
-                  = byline vote.user
-    - else
-      %p.text-center
-        = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-lg' do
-          %i.fa.fa-thumbs-up
-          찬성
-        = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-default btn-lg' do
-          %i.fa.fa-thumbs-down
-          반대
+
+  - if !user_signed_in?
+    %p.text-center
+      = link_to '#', class: 'btn btn-default btn-lg', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :opinion_vote_agree, id: opinion.id}.to_json) } do
+        찬성
+        %i.fa.fa-check-circle-o.fa-fw
+      = link_to '#', class: 'btn btn-default btn-lg', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_disagree, id: opinion.id}.to_json) } do
+        반대
+        %i.fa.fa-ban.fa-fw
+      .vote__buttons--unsure.text-center
+        = link_to opinion_path(opinion, anchor: 'anchor-comments') do
+          잘 모르겠습니다
+  - elsif opinion.voted_by? current_user
+    .vote__results
+      .row
+        .col-xs-6.text-right
+          %div{ style: 'padding-bottom: 20px;' }
+            = link_to '#', class: 'btn btn-lg ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+              찬성
+              %span.count= opinion.votes.with_choice(:agree).count
+              %i.fa.fa-check-circle-o{ style: 'margin-left: 10px' }
+          %div.voters
+            - opinion.votes.with_choice(:agree).partial_included_with(current_user).each do |vote|
+              - if vote.user == current_user
+                %strong= byline vote.user
+              - else
+                = byline vote.user
+        .col-xs-6.text-left
+          %div{ style: 'padding-bottom: 20px;' }
+            = link_to '#', class: 'btn btn-lg ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+              반대
+              %span.count= opinion.votes.with_choice(:disagree).count
+              %i.fa.fa-ban{ style: 'margin-left: 10px' }
+          %div.voters
+            - opinion.votes.with_choice(:disagree).partial_included_with(current_user).each do |vote|
+              - if vote.user == current_user
+                %strong= byline vote.user
+              - else
+                = byline vote.user
+  - else
+    %p.text-center
+      = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-lg' do
+        %i.fa.fa-check-circle-o.fa-fw
+        찬성
+      = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-default btn-lg' do
+        %i.fa.fa-ban.fa-fw
+        반대
+      .vote__buttons--unsure.text-center
+        = link_to opinion_path(opinion, anchor: 'anchor-comments') do
+          잘 모르겠습니다
 
   %div.opinion__vote__info
     %p.text-center{ style: 'padding-top: 20px' }

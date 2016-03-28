@@ -25,6 +25,10 @@
     font-size: $font-size-small;
     color: $gray;
   }
+
+  .vote__buttons--unsure a {
+    color: $gray-dark
+  }
 }
 
 .vote__results {
@@ -87,9 +91,16 @@
       }
     }
   }
+
   .vote__buttons {
     padding: 10px;
     margin-bottom: 10px;
+    &--unsure {
+      a {
+        color: $gray-light;
+      }
+      margin-top: 10px;
+    }
   }
 }
 
