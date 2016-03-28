@@ -23,17 +23,13 @@
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav(style="width: 300px;")
         %li
-          = link_to new_article_path(issue_id: try(:current_issue)), class: 'btn btn-primary btn-ghost visible-xs' do
-            %i.fa.fa-edit
-            글쓰기
+          = link_to slug_issue_path(:all) do
+            모든 빠띠
+            %small (#{Post.for_list.count})
         %li
           = link_to issues_path do
-            모든 이슈
+            빠띠찾기
             %small (#{Issue.count})
-        %li
-          = link_to slug_issue_path(:all) do
-            모든 글
-            %small (#{Post.for_list.count})
         - Issue.featured_issues(current_user).each do |issue|
           %li
             = link_to issue_home_path(issue) do

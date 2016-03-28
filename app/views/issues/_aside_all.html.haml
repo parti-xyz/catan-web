@@ -5,7 +5,7 @@
         %h4
           %i.fa.fa-user
           = link_to users_path do
-            이슈 커미터
+            빠띠메이커
             %small (#{User.count})
       .panel-body
 
@@ -28,7 +28,7 @@
       .panel-heading
         %h4
           %i.fa.fa-exclamation
-          핫이슈
+          뜨거운 빠띠
           %small (#{Issue.count})
       .panel-body
         = render customize_partial_path(Issue.hottest, 'card')

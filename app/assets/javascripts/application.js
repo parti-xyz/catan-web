@@ -99,7 +99,7 @@ $(function(){
               $elm.closest('.form-group').addClass('has-error')
               var $help_block = $elm.closest('.form-group').find('.help-block.typeahead-warning')
 
-              $help_block.show().html('<span class="text-danger">자동 완성된 이슈나 추천하는 이슈를 선택해야 합니다.</span>');
+              $help_block.show().html('<span class="text-danger">자동 완성된 빠띠나 추천하는 빠디를 선택해야 합니다.</span>');
               // form validation
               $elm.data('rule-extern-value', false);
               $elm.trigger('parti-need-to-validate');

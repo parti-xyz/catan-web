@@ -6,7 +6,7 @@
           - if resource.provider == 'email'
             %h2.page-header 회원가입
           - else
-            %h2.page-header 거의 다 되었습니다.
+            %h2.page-header 빠띠에 처음 오셨군요!
           = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
             = devise_error_messages!
             = f.hidden_field :provider

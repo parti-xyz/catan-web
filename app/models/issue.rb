@@ -9,10 +9,10 @@ class Issue < ActiveRecord::Base
       true
     end
     def title
-      '모든 글'
+      '모든 빠띠'
     end
     def body
-      '유쾌한 민주주의 플랫폼입니다! 중요한 이슈, 이제 놓치지 마세요.'
+      '유쾌한 민주주의 플랫폼입니다! 중요한 이슈, 이제 빠띠로 지켜보세요.'
     end
     def slug
       'all'

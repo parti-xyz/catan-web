@@ -2,7 +2,7 @@
   = form_for @discussion do |f|
     .form-group
       = label_tag :issue_title, Issue.model_name.human, class: 'required'
-      = text_field_tag :issue_title, @discussion.issue.try(:title), class: 'form-control typeahead', placeholder: '이슈 제목', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => @discussion.issue.try(:title) }
+      = text_field_tag :issue_title, @discussion.issue.try(:title), class: 'form-control typeahead', placeholder: '빠띠 제목', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => @discussion.issue.try(:title) }
       %p.help-block
     .form-group
       = f.label :title, class: 'required'

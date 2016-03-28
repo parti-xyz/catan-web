@@ -5,14 +5,14 @@
         = link_to issue_path(issue) do
           %i.fa.fa-hashtag>
           = issue.title
-      이슈의 다른 글도 읽어보세요.
+      빠띠의 다른 글도 읽어보세요.
     %div
       - issue.posts.recommends_for_list(local_assigns[:exclude]).each do |post|
         = render post.specific
     %div{ style: 'margin: 20px 0;' }
       = link_to issue_home_path(issue, f: :recent), class: 'btn btn-primary btn-block' do
         %i.fa.fa-hashtag>
-        #{issue.title} 이슈의 모든 글 보기 (#{issue.posts.for_list.count})
+        #{issue.title} 빠띠의 모든 글 보기 (#{issue.posts.for_list.count})
         %i.fa.fa-arrow-right
 
 %section{id: "#{dom_id(issue)}-commiters", style: "padding: 50px 0;" }
@@ -22,7 +22,7 @@
         = link_to issue_path(issue) do
           %i.fa.fa-hashtag>
           = issue.title
-      이슈는
+      빠띠는
       %strong= issue.commiters.count
       명의 커미터가 만듭니다.
 
@@ -39,7 +39,7 @@
                   = link_to issue_path(issue) do
                     %i.fa.fa-hashtag>
                     = issue.title
-                이슈를 함께 만들어주세요
+                빠띠를 함께 만들어주세요
               %div{ style: 'margin: 10px 0;' }
                 - if user_signed_in?
                   = render 'watches/watch', issue: issue

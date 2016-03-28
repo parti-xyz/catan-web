@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    prepare_meta_tags title: "이슈", description: "모든 이슈들입니다."
+    prepare_meta_tags title: "빠띠", description: "모든 빠띠들입니다."
     @issues = Issue.all
     if request.format.json?
       @issues = @issues.limit(10)

@@ -7,7 +7,7 @@
         %span{ style: 'font-weight: 100'}
           님의 대시보드
       %p
-        구독 중인 이슈의 #{Article.model_name.human}, #{Opinion.model_name.human}을 모았습니다.
+        구독 중인 빠띠의 #{Article.model_name.human}, #{Talk.model_name.human}, #{Opinion.model_name.human}을 모았습니다.
 
       .issues
         - current_user.watched_issues.each do |issue|
