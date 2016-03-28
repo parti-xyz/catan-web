@@ -80,6 +80,15 @@ namespace :migrate do
     end
   end
 
+  desc "Remove questions, answers, discussions and proposals"
+  task :destroy_qnas_and_dnps => :environment do
+    ActiveRecord::Base.transaction do
+      Post.where(postable_type: [Question, Answer, Discussion, Proposal]).find_each do |post|
+        post.really_destroy!
+      end
+    end
+  end
+
   def build_comment(talk, source, post)
     body = ActionController::Base.helpers.strip_tags(source.body)
     return if body.blank?
