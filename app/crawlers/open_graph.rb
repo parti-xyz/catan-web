@@ -24,7 +24,7 @@ class OpenGraph
   def parse_opengraph(options = {})
     begin
       agent = Mechanize.new
-      agent.set_proxy '114.203.85.68', 5000 if Rails.env.production?
+      #agent.set_proxy '114.203.85.68', 5000 if Rails.env.production?
       agent.user_agent_alias = 'Windows IE 10'
       agent.follow_meta_refresh = true
       agent.redirect_ok = :all
