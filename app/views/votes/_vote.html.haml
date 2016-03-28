@@ -20,7 +20,7 @@
       .row
         .col-xs-6.text-right
           %div{ style: 'padding-bottom: 20px;' }
-            = link_to '#', class: 'btn btn-lg ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+            = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn btn-lg ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
               찬성
               %span.count= opinion.votes.with_choice(:agree).count
               %i.fa.fa-check-circle-o{ style: 'margin-left: 10px' }
@@ -32,7 +32,7 @@
                 = byline vote.user
         .col-xs-6.text-left
           %div{ style: 'padding-bottom: 20px;' }
-            = link_to '#', class: 'btn btn-lg ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+            = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-lg ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
               반대
               %span.count= opinion.votes.with_choice(:disagree).count
               %i.fa.fa-ban{ style: 'margin-left: 10px' }
@@ -64,16 +64,5 @@
         명이 투표에 참여했습니다.
 
     %p.text-center
-      - if user_signed_in? && opinion.voted_by?(current_user)
-        투표를
-        - if opinion.agreed_by? current_user
-          = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true do
-            반대
-          로
-        - if opinion.disagreed_by? current_user
-          = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true do
-            찬성
-          으로
-        변경합니다.
-      - else
+      - if !user_signed_in? or !opinion.voted_by?(current_user)
         투표를 하면 현재 결과를 볼 수 있습니다.
