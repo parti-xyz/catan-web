@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160325175004) do
+ActiveRecord::Schema.define(version: 20160328084724) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -27,11 +27,11 @@ ActiveRecord::Schema.define(version: 20160325175004) do
   create_table "articles", force: :cascade do |t|
     t.string   "title"
     t.text     "body"
-    t.string   "link"
+    t.string   "link",           null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.datetime "deleted_at"
-    t.integer  "link_source_id"
+    t.integer  "link_source_id", null: false
   end
 
   add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"

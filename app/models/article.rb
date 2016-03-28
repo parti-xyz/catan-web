@@ -4,6 +4,7 @@ class Article < ActiveRecord::Base
 
   belongs_to :link_source
   validates :link, presence: true
+  validates :link_source, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
