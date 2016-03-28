@@ -6,7 +6,7 @@
         - if @article.link_source.present?
           = link_to @article.link, target: '_blank' do
             %i.fa.fa-link
-            원문보기
+            링크 #{truncate @article.link, length: 50}
       - if @article.has_image?
         .media-right
           %div{style: 'max-height: 300px'}
@@ -15,7 +15,7 @@
     - else
       .media-body
         - if @article.has_image?
-          .text-center{style: 'max-height: 300px; overflow: hidden; margin-bottom: 20px;'}
+          .text-center{style: 'margin-bottom: 20px;'}
             = link_to @article.link, target: '_blank' do
               = image_tag(@article.image.url)
 
@@ -23,4 +23,4 @@
         - if @article.link_source.present?
           = link_to @article.link, target: '_blank' do
             %i.fa.fa-link
-            원문보기
+            링크 #{truncate @article.link, length: 50}
