@@ -10,9 +10,9 @@ class Ability
         Vote, Like, Upvote, Watch]
       can :manage, [Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch], user_id: user.id
-    end
-    if user.admin?
-      can :manage, Article
+      if user.admin?
+        can :manage, Article
+      end
     end
   end
 end
