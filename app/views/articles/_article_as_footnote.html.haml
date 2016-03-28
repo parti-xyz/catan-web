@@ -2,7 +2,7 @@
 - post = article.acting_as
 .post-inline.article-inline[post]
   %h5.post-inline__title
-    = link_to article.title, article
+    %a{href: '#', data: { toggle: "parti-post-modal", target: "#myModal", 'postable-type': 'articles', 'postable-id': article.id }}= article.title
     - if link_to article.link.present?
       %small
         = link_to article.link, target: '_blank', class: 'text-muted' do

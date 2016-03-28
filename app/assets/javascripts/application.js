@@ -183,63 +183,55 @@ $(function(){
 
   // share
   Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
-  $('[data-action="parti-share"]').each(function(i, elm){
-    var $elm = $(elm);
-    var url = $elm.data('share-url');
-    var text = $elm.data('share-text');
-    var share = $elm.data('share-provider');
-    if ($.is_blank(share)) return;
-    var image_url = $elm.data('share-image');
-    if ($.is_blank(image_url)) image_url = location.protocol + "//" + location.hostname + "/images/parti_seo.png";
-    var image_width = $elm.data('share-image-width');
-    if ($.is_blank(image_width)) image_width = '300';
-    var image_height = $elm.data('share-image-height');
-    if ($.is_blank(image_height)) image_height = '155';
+  var init_parti_share = function($base) {
+    $.each($base.find('[data-action="parti-share"]'), function(i, elm){
+      var $elm = $(elm);
+      var url = $elm.data('share-url');
+      var text = $elm.data('share-text');
+      var share = $elm.data('share-provider');
+      if ($.is_blank(share)) return;
+      var image_url = $elm.data('share-image');
+      if ($.is_blank(image_url)) image_url = location.protocol + "//" + location.hostname + "/images/parti_seo.png";
+      var image_width = $elm.data('share-image-width');
+      if ($.is_blank(image_width)) image_width = '300';
+      var image_height = $elm.data('share-image-height');
+      if ($.is_blank(image_height)) image_height = '155';
 
-    switch(share) {
-      case 'kakao-link':
-        Kakao.Link.createTalkLinkButton({
-          container: elm,
-          label: text,
-          image: {
-            src: image_url,
-            width: image_width,
-            height: image_height
-          },
-          webLink: {
-            text: '빠띠에서 보기',
+      switch(share) {
+        case 'kakao-link':
+          Kakao.Link.createTalkLinkButton({
+            container: elm,
+            label: text,
+            image: {
+              src: image_url,
+              width: image_width,
+              height: image_height
+            },
+            webLink: {
+              text: '빠띠에서 보기',
+              url: url
+            }
+          });
+        break
+        case 'kakao-story':
+          Kakao.Story.createShareButton({
+            container: elm,
+            url: url,
+            text: text
+          });
+        break
+        default:
+          $elm.jsSocials({
+            showCount: true,
+            showLabel: false,
+            shares: [share],
+            text: text,
             url: url
-          }
-        });
-      break
-      case 'kakao-story':
-        Kakao.Story.createShareButton({
-          container: elm,
-          url: url,
-          text: text
-        });
-      break
-      default:
-        $elm.jsSocials({
-          showCount: true,
-          showLabel: false,
-          shares: [share],
-          text: text,
-          url: url
-        });
-    }
-  });
-
-  // modal
-  $('.modal').on('show.bs.modal', function (e) {
-    var button = $(e.relatedTarget);
-    var message = button.data('message')
-
-    var modal = $(this)
-    if(message) {
-      modal.find('.modal-message').html(message);
-    }
-  });
+          });
+      }
+    });
+  }
+  init_parti_share($);
 
   // carousel
   $('[data-ride="parti-carousel"]').each(function(i, elm) {
@@ -425,5 +417,32 @@ $(function(){
     $control.val('@' + nickname + ' ' + value);
     $control.focus();
   });
+
+  //parti-post-modal
+  $('[data-toggle="parti-post-modal"]').each(function(i, elm) {
+    var $elm = $(elm);
+    var $target = $($elm.data("target"));
+    var postable_type = $elm.data("postable-type");
+    var postable_id = $elm.data("postable-id");
+    $elm.on('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: '/' + postable_type + '/' + postable_id + '/partial',
+        type: "get",
+        data:{ title: $elm.val() },
+        success: function(data) {
+          $target.find('.modal-body__content').html(data);
+          init_parti_share($target);
+          $target.modal('show');
+        },
+        error: function(xhr) {
+          $target.modal('close');
+        }
+      });
+      return false;
+    });
+
+  });
+
 });
 

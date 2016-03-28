@@ -1,6 +1,6 @@
 class ArticlesController < ApplicationController
   include OriginPostable
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!, except: [:show, :partial]
   load_and_authorize_resource
 
   def create
@@ -30,6 +30,10 @@ class ArticlesController < ApplicationController
   def show
     prepare_meta_tags title: @article.title,
                       description: @article.body
+  end
+
+  def partial
+    render layout: false
   end
 
   helper_method :current_issue

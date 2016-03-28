@@ -35,7 +35,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :articles
+  resources :articles do
+    get 'partial', on: :member
+  end
   resources :opinions do
     get 'social_card', on: :member
   end

@@ -1,5 +1,5 @@
-%section.post-section.article-section
-  .container
+.container{style: 'width: auto;'}
+  %section.post-section.article-section
     %h2.post__title.article__title= @article.title
 
     = render 'posts/post_header', post: @article.acting_as
@@ -14,8 +14,5 @@
         .media-body
           = render 'likes/like_detail', post: @article.acting_as
 
-%section.post-comments-section
-  .container
+  %section.post-comments-section
     = render 'comments/comments', postable: @article, style: :media
-
-= render 'posts/recommends', issue: @article.issue, exclude: @article.acting_as
