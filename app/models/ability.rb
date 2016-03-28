@@ -11,7 +11,7 @@ class Ability
       can :manage, [Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch], user_id: user.id
       if user.admin?
-        can :manage, Article
+        can :update, Article
       end
     end
   end

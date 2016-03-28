@@ -26,11 +26,6 @@ class ArticlesController < ApplicationController
     redirect_to issue_home_path(@article.issue)
   end
 
-  def destroy
-    @article.destroy
-    redirect_to issue_home_path(@article.issue)
-  end
-
   def show
     prepare_meta_tags title: @article.title,
                       description: @article.body
