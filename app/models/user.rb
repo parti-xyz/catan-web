@@ -59,7 +59,7 @@ class User < ActiveRecord::Base
 
   def admin?
     if Rails.env.staging? or Rails.env.production?
-      %w(pinkcrimson@gmail.com jennybe0117@gmail.com rest515@parti.xyz berry@parti.xyz royjung@parti.xyz mozo@parti.xyz dalikim@parti.xyz lulu@parti.xyz).include? email
+      %w(pinkcrimson@gmail.com jennybe0117@gmail.com rest515@parti.xyz berry@parti.xyz royjung@parti.xyz mozolady@gmail.com dalikim@parti.xyz lulu@parti.xyz).include? email
     else
       %w(admin@test.com).include? email
     end
