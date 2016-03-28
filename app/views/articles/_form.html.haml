@@ -1,37 +1,10 @@
 .well
   = form_for @article do |f|
     .form-group
-      = label_tag :issue_title, Issue.model_name.human, class: 'required'
-      = text_field_tag :issue_title, @article.issue.try(:title), class: 'form-control typeahead', placeholder: '빠띠 제목', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => @article.issue.try(:title) }
-      %p.help-block.typeahead-warning
-      %p.help-block
-        추천하는 빠띠
-        - Issue.featured_issues(current_user).each do |issue|
-          %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
-            = issue.title
-
-    .form-group
       = f.label :link
       = f.text_field :link, class: 'form-control'
       %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
 
-    .form-group
-      = f.label :title, class: 'required'
-      = f.text_field :title, class: 'form-control input-lg'
-
-    .form-group
-      = f.label :body, class: 'required'
-      = f.text_area :body, class: 'form-control redactor'
-
-    .form-group
-      = f.label :tag_list
-      = f.text_field :tag_list, value: f.object.tag_list.to_s, class: 'form-control', data: { toggle: 'tag-input-helper' }
-      - if ActsAsTaggableOn::Tag.most_used.any?
-        %p.help-block
-          많이 쓰이는 태그
-          - ActsAsTaggableOn::Tag.most_used.each do |tag|
-            %a(href='#' data-action="add-tag" data-form-control="#article_tag_list" data-tag-name="#{tag.name}")
-              = tag.name
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg'
       - if @article.new_record?

@@ -3,6 +3,7 @@ class Article < ActiveRecord::Base
   acts_as :post, as: :postable
 
   belongs_to :link_source
+  validates :link, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
@@ -36,6 +37,7 @@ class Article < ActiveRecord::Base
     post = article.acting_as
     targets = post.issue.articles.where(link: article.link).order(created_at: :asc)
     oldest = targets.first
+
     targets.each do |target|
       next if target == oldest or target.link_source.blank?
       target.comments.update_all(post_id: oldest.acting_as.id)
@@ -47,5 +49,6 @@ class Article < ActiveRecord::Base
       end
       target.destroy
     end
+    oldest
   end
 end

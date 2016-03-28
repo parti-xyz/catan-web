@@ -2,3 +2,15 @@ link1:
   title: 'link1'
   body: 'link1 body'
   url: 'http://link1'
+link2:
+  title: 'link2'
+  body: 'link2 body'
+  url: 'article1 link'
+link3:
+  title: 'link3'
+  body: 'link3 body'
+  url: 'article3 link'
+link4:
+  title: 'link4'
+  body: 'link4 body'
+  url: 'article4 link'

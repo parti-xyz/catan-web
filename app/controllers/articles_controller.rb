@@ -15,11 +15,15 @@ class ArticlesController < ApplicationController
 
   def update
     redirect_to root_path and return if fetch_issue.blank?
+    @article.assign_attributes(article_params)
     redirect_to issue_home_path(@issue) and return if fetch_source.blank?
-    if @article.update_attributes(article_params)
-      crawl
+    ActiveRecord::Base.transaction do
+      if @article.save
+        @article = Article.merge_by_link!(@article)
+        crawl
+      end
     end
-    redirect_to issue_home_path(@issue)
+    redirect_to issue_home_path(@article.issue)
   end
 
   def destroy
@@ -54,9 +58,6 @@ class ArticlesController < ApplicationController
 
   def fetch_source
     return if @article.link.blank?
-
-    @article = fetch_issue.articles.find_by(link: @article.link) || @article
-
     source = LinkSource.find_or_create_by! url: @article.link
     @article.link_source = source
     @article.user ||= current_user

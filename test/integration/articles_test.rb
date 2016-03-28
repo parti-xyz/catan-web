@@ -46,6 +46,33 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test '이미 있는 링크로 고쳐요' do
+    stub_crawl do
+      sign_in(users(:admin))
+
+      article3_link = articles(:article3).link
+      put article_path(articles(:article1), article: { link: article3_link })
+
+      refute assigns(:article).errors.any?
+      assert_equal articles(:article3), assigns(:article)
+      refute Article.exists?(id: articles(:article1).id)
+    end
+  end
+
+  test '최근 새로 걸린 링크의 주소로 고쳐요' do
+    stub_crawl do
+      sign_in(users(:admin))
+
+      article1_link = articles(:article1).link
+      put article_path(articles(:article3), article: { link: article1_link })
+
+      refute assigns(:article).errors.any?
+      assert_equal articles(:article3), assigns(:article)
+      assert_equal articles(:article1).link_source, articles(:article3).reload.link_source
+      refute Article.exists?(id: articles(:article1).id)
+    end
+  end
+
   test '세상에 없었던 새로운 이슈를 넣으면 저장이 안되요' do
     sign_in(users(:one))
 
