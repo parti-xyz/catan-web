@@ -14,7 +14,7 @@ class Article < ActiveRecord::Base
   end
 
   def title
-    link_source.try(:title)
+    link_source.try(:title) || link_source.url
   end
 
   def body
