@@ -1,7 +1,7 @@
 namespace :crawling do
   desc "Test"
-  task :test, [:url] => :environment do
-    data = OpenGraph.new(url)
+  task :test, [:url] => :environment do |task, args|
+    data = OpenGraph.new(args.url)
     puts data.inspect
   end
 
