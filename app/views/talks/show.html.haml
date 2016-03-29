@@ -2,7 +2,7 @@
   .container
     %h2.post__title.talk__title= @talk.title
 
-    = render 'posts/post_header', post: @talk.acting_as, hide_post_user: true
+    = render 'posts/post_header', post: @talk.acting_as, only_buttons: true
 
 %section.post-comments-section
   .container

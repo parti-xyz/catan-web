@@ -2,7 +2,7 @@
   .container
     %h2.post__title.article__title= @article.title
 
-    = render 'posts/post_header', post: @article.acting_as
+    = render 'posts/post_header', post: @article.acting_as, only_buttons: true
     = render 'body'
     .article__tags.post__tags
       = render 'tags/collection', tags: @article.tags
