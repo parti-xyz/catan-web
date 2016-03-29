@@ -408,15 +408,20 @@ $(function(){
   });
 
   // mention
-  $('[data-action="parti-mention"]').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
-    var $control = $($elm.data('mention-form-control'));
-    var nickname = $elm.data('mention-nickname');
-    var value = $control.val();
-    $control.val('@' + nickname + ' ' + value);
-    $control.focus();
-  });
+  var init_parti_mention = function($base) {
+    $.each($base.find('[data-action="parti-mention"]'), function(i, elm){
+      $(elm).on('click', function(e) {
+        e.preventDefault();
+        var $elm = $(e.currentTarget);
+        var $control = $($elm.data('mention-form-control'));
+        var nickname = $elm.data('mention-nickname');
+        var value = $control.val();
+        $control.val('@' + nickname + ' ' + value);
+        $control.focus();
+      });
+    });
+  }
+  init_parti_mention($);
 
   //parti-post-modal
   $('[data-toggle="parti-post-modal"]').each(function(i, elm) {
@@ -432,6 +437,7 @@ $(function(){
         success: function(data) {
           $target.find('.modal-body__content').html(data);
           init_parti_share($target);
+          init_parti_mention($target);
           $target.modal('show');
         },
         error: function(xhr) {
