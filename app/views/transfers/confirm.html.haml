@@ -20,7 +20,8 @@
   - comments = Comment.where(user: @email_user)
   - if comments.any?
     - has_item = true
-    %h4 복사할 이메일회원 @#{@email_user.nickname}의 수다가    %ul.list-group
+    %h4 복사할 이메일회원 @#{@email_user.nickname}의 댓글
+    %ul.list-group
       - comments.each do |comment|
         - post = comment.post
         - if post.present?
@@ -67,7 +68,7 @@
             = link_to "##{issue.title}", issue_home_path(issue), target: '_blank'
   - if has_item == false
     %i.fa.fa-info-circle
-    이메일회원 @#{@email_user.nickname}의 글이나 수다가 없습니다.
+    이메일회원 @#{@email_user.nickname}의 글이나 댓글이 없습니다.
 
   %hr
   .form{ style: 'margin-top:50px'}

@@ -1,6 +1,6 @@
 %div{id: "#{dom_id(postable)}-comments" }
   %h4
-    수다
+    댓글
     %small
       (#{postable.comments.count})
       - if user_signed_in?
@@ -8,7 +8,7 @@
           %i.fa.fa-edit
           쓰기
       - else
-        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' } do
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' } do
           %i.fa.fa-edit
           쓰기
   - if user_signed_in?
