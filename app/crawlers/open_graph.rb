@@ -6,22 +6,19 @@ require 'uri'
 class OpenGraph
   attr_accessor :src, :url, :type, :title, :description, :images, :metadata, :response, :original_images
 
-  def initialize(src, fallback = true, options = {})
-    if fallback.is_a? Hash
-      options = fallback
-      fallback = true
-    end
+  def initialize(src)
     @src = src
     @doc = nil
     @images = []
     @metadata = {}
-    parse_opengraph(options)
-    load_fallback if fallback
+    parse_opengraph
     check_images_path
   end
 
   private
-  def parse_opengraph(options = {})
+  TWITTER_PATTEN = /^http[s]?:\/\/twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/\d*\/?$/
+
+  def parse_opengraph
     begin
       agent = Mechanize.new
       agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if Rails.env.production?
@@ -38,7 +35,11 @@ class OpenGraph
       @title = @url = @src
       return
     end
+    load_from_opengraph
+    load_from_page(overwrite: (@url || @src)=~TWITTER_PATTEN)
+  end
 
+  def load_from_opengraph
     if @doc.present? and @doc.respond_to?(:css)
       attrs_list = %w(title url type description)
       @doc.css('meta').each do |m|
@@ -57,9 +58,9 @@ class OpenGraph
     end
   end
 
-  def load_fallback
+  def load_from_page(overwrite:)
     if @doc.present? and @doc.respond_to?(:xpath)
-      if @title.to_s.empty?
+      if @title.to_s.empty? or overwrite
         if @doc.title.present?
           @title = @doc.title
         elsif @doc.xpath("//head//title").size > 0
@@ -69,7 +70,7 @@ class OpenGraph
 
       @url = @src if @url.to_s.empty?
 
-      if @description.to_s.empty? && description_meta = @doc.xpath("//head//meta[@name='description']").first
+      if (@description.to_s.empty? or overwrite) && description_meta = @doc.xpath("//head//meta[@name='description']").first
         @description = description_meta.attribute("content").to_s.strip
       end
 

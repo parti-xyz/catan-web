@@ -9,6 +9,7 @@ namespace :crawling do
     run_test 'http://www.aladin.co.kr/events/wevent_book.aspx?pn=2016_keyyek_02', '[알라딘] "좋은 책을 고르는 방법, 알라딘!"'
     run_test 'http://policy.nec.go.kr/svc/policy/PolicyContent02.do', '중앙선거관리위원회_팝업'
     run_test 'http://1000voices.kr/', '천인의 소리, 천인의 노래'
+    run_test 'https://twitter.com/Elverojaguar/status/714748927631818753', 'The Cult Cat on Twitter: "https://t.co/owcku934Q6"'
   end
 
   task :fails => :environment do
