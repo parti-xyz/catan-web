@@ -44,7 +44,7 @@ class CrawlingJob
   end
 
   def fetch_data(source)
-    OpenGraph.new(source.url, {headers: {'Accept-Language' => 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4'}})
+    OpenGraph.new(source.url)
   end
 
   def valid_open_graph?(data)

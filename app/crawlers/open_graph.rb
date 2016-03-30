@@ -27,6 +27,7 @@ class OpenGraph
       agent.redirect_ok = :all
       agent.redirection_limit = 5
       agent.gzip_enabled = false
+      agent.request_headers = { 'accept-language' => 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4' }
       @doc = agent.get(@src)
       if @doc.encoding_error? and @doc.encodings.include?('ks_c_5601-1987')
         @doc.encoding = 'euc-kr'
