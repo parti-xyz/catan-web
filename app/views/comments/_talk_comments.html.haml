@@ -3,11 +3,11 @@
     - if user_signed_in?
       = link_to '#comment-form' do
         %i.fa.fa-edit
-        토크쓰기
+        수다작성
     - else
       = link_to '#', data: { toggle: 'parti-login-overlay', label: '쓰기' } do
         %i.fa.fa-edit
-        토크쓰기
+        수다작성
     (#{postable.comments.count})
   %ul.media-list(style='padding: 20px 0;')
     = render postable.comments.ancient, style: :media, mention_form_contorl: '#new_comment #comment_body'
