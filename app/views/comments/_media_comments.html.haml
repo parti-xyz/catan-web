@@ -1,6 +1,6 @@
 %div{id: "#{dom_id(postable)}-comments" }
   %h4
-    댓글
+    수다
     %small
       (#{postable.comments.count})
   - if user_signed_in?
@@ -12,6 +12,6 @@
             .input-group-btn
               = f.submit '등록', class: 'btn btn-default', style: 'height: 60px;'
   - else
-    = link_to '댓글쓰기', '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' }, class: 'btn btn-default btn-block'
+    = link_to '수다쓰기', '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-block'
   %ul.media-list(style='padding: 20px 0;')
     = render postable.comments.recent, style: :media, mention_form_contorl: '#new_comment #comment_body'

@@ -26,7 +26,7 @@ ko:
       opinion: 발언
       talk: 토크
       user: 회원
-      comment: 댓글
+      comment: 수다
     attributes:
       issue:
         title: 이슈

@@ -2,8 +2,8 @@
   %li{role: 'presentation', class: ('active' if active_tab == :comments)}
     = link_to comments_tab_path do
       %h4
-        타임라인
-        %small.count
+        수다
+        %small.count.hidden-xs
           %span<>= counts_container.comments_count
           - if counts_container.latest_comments_count > 0
             %span.text-primary<>
@@ -17,7 +17,7 @@
             = Article.model_name.human
           %span.visible-xs-inline
             %i.fa.fa-link
-          %small.count
+          %small.count.hidden-xs
             %span<>= counts_container.articles_count
             - if counts_container.latest_articles_count > 0
               %span.text-primary<>
@@ -30,7 +30,7 @@
             = Talk.model_name.human
           %span.visible-xs-inline
             %i.fa.fa-wechat
-          %small.count
+          %small.count.hidden-xs
             %span<>= counts_container.talks_count
             - if counts_container.latest_talks_count > 0
               %span.text-primary<>
@@ -43,7 +43,7 @@
             = Opinion.model_name.human
           %span.visible-xs-inline
             %i.fa.fa-microphone
-          %small.count
+          %small.count.hidden-xs
             %span<>= counts_container.opinions_count
             - if counts_container.latest_opinions_count > 0
               %span.text-primary<>

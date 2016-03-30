@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UpvoteTest < ActionDispatch::IntegrationTest
-  test '댓글을 업보트해요' do
+  test '수다를 업보트해요' do
     refute comments(:comment1).upvoted_by?(users(:one))
     sign_in(users(:one))
 
