@@ -5,10 +5,10 @@
         수다
         %small.count.hidden-xs
           %span<>= counts_container.comments_count
+        %small.count
           - if counts_container.latest_comments_count > 0
             %span.text-primary<>
               +#{counts_container.latest_comments_count}
-
   - if local_assigns[:articles_tab_path]
     %li{role: 'presentation', class: ('active' if active_tab == :articles)}
       = link_to articles_tab_path do
@@ -19,6 +19,7 @@
             %i.fa.fa-link
           %small.count.hidden-xs
             %span<>= counts_container.articles_count
+          %small.count
             - if counts_container.latest_articles_count > 0
               %span.text-primary<>
                 +#{counts_container.latest_articles_count}
@@ -32,6 +33,7 @@
             %i.fa.fa-wechat
           %small.count.hidden-xs
             %span<>= counts_container.talks_count
+          %small.count
             - if counts_container.latest_talks_count > 0
               %span.text-primary<>
                 +#{counts_container.latest_talks_count}
@@ -45,6 +47,7 @@
             %i.fa.fa-microphone
           %small.count.hidden-xs
             %span<>= counts_container.opinions_count
+          %small.count
             - if counts_container.latest_opinions_count > 0
               %span.text-primary<>
                 +#{counts_container.latest_opinions_count}
