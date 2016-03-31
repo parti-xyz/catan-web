@@ -1,0 +1,12 @@
+= render 'messages_header'
+
+%section#posts
+  .container
+    %section#content-tab-section
+      = render 'content_tabs'
+    .messages
+      = render @messages
+    .text-center
+      = paginate @messages, theme: 'twitter-bootstrap-3'
+
+

@@ -1,0 +1,6 @@
+.message[message]
+  .message__date
+    %i.fa.fa-clock-o
+    = date_f message.created_at
+  .message__messagable
+    = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" })

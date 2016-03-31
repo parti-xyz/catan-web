@@ -1,20 +1,8 @@
-- current_params = params.except(:page, :f, :action, :controller)
-
-- if local_assigns[:past_day_postables].present? and past_day_postables.any? and params[:f] == 'hottest' and (params[:page].blank? or params[:page] == 1)
-  .posts--past-day
-    .bg-default
-      하루동안 올라온 새 글입니다.
-    - past_day_postables.each do |postable|
-      = render postable, show_issue: local_assigns[:show_issue]
-
 .posts
   - if postables.empty?
     .bg-default
       %i.fa.fa-info-circle
       해당되는 글이 없습니다.
   - else
-    - if params[:f] == 'hottest' and params[:page].blank?
-      .bg-default
-        최근 추천을 많이 받은 글입니다.
     - postables.each do |postable|
       = render postable, show_issue: local_assigns[:show_issue]

@@ -114,6 +114,13 @@ label.required:after {
   content: " *";
 }
 
+.btn-link {
+  background:none!important;
+  border:none;
+  font: inherit;
+  cursor: pointer;
+}
+
 .btn-ghost {
   &.btn-primary {
     border: 1px solid $brand-primary;

@@ -20,6 +20,9 @@
         = link_to omniauth_authorize_path(User, :facebook), class: 'btn btn-danger navbar-btn pull-left hidden-xs' do
           %i.fa.fa-facebook
           페이스북아이디로 빠띠하기
+      - else
+        = link_to messages_path, class: 'btn btn-default btn-link navbar-btn pull-left hidden-xs', style: 'font-size: 120%' do
+          %i.fa.fa-bell-o
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav(style="width: 300px;")
         %li
@@ -60,6 +63,9 @@
           %li
             = link_to dashboard_path do
               대시보드
+          %li
+            = link_to messages_path do
+              알람
           %li
             = link_to edit_user_registration_path do
               프로필 수정

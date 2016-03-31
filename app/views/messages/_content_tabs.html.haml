@@ -1,0 +1,10 @@
+%ul.nav.nav-tabs{role: 'tablist', style: 'margin-bottom: 20px;'}
+  %li.active{role: 'presentation'}
+    %a(href='#')
+      %h4
+        %i.fa.fa-bell
+        %span= current_user.messages.count
+        %small.count
+          - if current_user.messages.latest.any?
+            %span.text-primary<>
+              +#{current_user.messages.latest.count}

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   end
   resources :talks
   resources :relateds
+  resources :messages
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
