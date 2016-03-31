@@ -10,15 +10,15 @@ class UsersController < ApplicationController
 
   def upvotes
     fetch_user
-    @upvotes = @user.upvotes.page params[:page]
+    @upvotes = @user.upvotes.recent.page params[:page]
     @comments = @upvotes.map(&:comment)
   end
 
   def votes
     fetch_user
-    @votes = @user.votes.page params[:page]
-    @posts = @votes.map(&:post)
-    @opinions = @posts.map(&:specific)
+    @votes = @user.votes.recent.page params[:page]
+    @posts = @votes.map(&:post).compact
+    @opinions = @posts.map(&:specific).compact
   end
 
   def summary_test

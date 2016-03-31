@@ -10,7 +10,9 @@ class MessageService
     when Mention.to_s
       send_message(@source.user)
     when Upvote.to_s
-      send_message(@source.comment.user)
+      unless @source.comment.upvotes.includes(:messages).where(messages: {user: @source.user}).exists?
+        send_message(@source.comment.user)
+      end
     when Comment.to_s
       @source.post.messablable_users.each do |user|
         next if user == @source.user

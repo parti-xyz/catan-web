@@ -1,2 +1,1 @@
-<%= byline upvote.user %>님이
-"<%= link_to("#{truncate(strip_tags(upvote.comment.body), length: 100)}", upvote.comment.post.specific) %>" 댓글을 좋아합니다.
+<strong><%= link_to upvote.comment.post.issue.title, issue_home_path(upvote.comment.post.issue) %></strong> 빠띠의 <strong>"<%= link_to("#{truncate(strip_tags(upvote.comment.body), length: 100)}", upvote.comment.post.specific) %>"</strong> 댓글을 좋아합니다.

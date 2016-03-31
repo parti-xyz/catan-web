@@ -1,0 +1,3 @@
+<strong><%= link_to comment.post.issue.title, issue_home_path(comment.post.issue) %></strong> 빠띠의 <%= comment.post.specific.class.model_name.human %>의
+<strong>"<%= link_to("#{truncate(strip_tags(comment.post.specific_desc), length: 100)}", comment.post.specific) %>"</strong> 글에
+<strong>"<%= link_to("#{truncate(strip_tags(comment.body), length: 100)}", comment.post.specific) %>"</strong> 댓글을 달았습니다.

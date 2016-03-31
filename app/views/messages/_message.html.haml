@@ -1,6 +1,10 @@
-.message[message]
-  .message__date
-    %i.fa.fa-clock-o
+.message.media[message]
+  .media-left
+    = link_to user_gallery_path(message.sender) do
+      = image_tag message.sender.image_url, class: 'media-object img-circle', style: 'width:50px;height:50px;'
+  .media-body
+    = link_to user_gallery_path(message.sender) do
+      %strong= message.sender.nickname
     = date_f message.created_at
-  .message__messagable
-    = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" })
+    .message__messagable
+      = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" })

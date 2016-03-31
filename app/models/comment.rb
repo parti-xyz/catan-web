@@ -29,6 +29,10 @@ class Comment < ActiveRecord::Base
     upvotes.exists? user: someone
   end
 
+  def sender_of_message
+    user
+  end
+
   private
 
   def send_messages

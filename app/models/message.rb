@@ -4,4 +4,9 @@ class Message < ActiveRecord::Base
 
   scope :recent, -> { order(updated_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
+  scope :only_upvote, -> { where(messagable_type: Upvote.to_s) }
+
+  def sender
+    messagable.sender_of_message
+  end
 end
