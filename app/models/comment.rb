@@ -19,11 +19,19 @@ class Comment < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :persisted, -> { where "id IS NOT NULL" }
 
+  after_create :send_messages
+
   def linkable?
     post.try(:linkable?)
   end
 
   def upvoted_by? someone
     upvotes.exists? user: someone
+  end
+
+  private
+
+  def send_messages
+    MessageService.new(self).call
   end
 end

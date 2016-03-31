@@ -5,9 +5,14 @@ class TalksController < ApplicationController
 
   def create
     redirect_to root_path and return if fetch_issue.blank?
-    @talk.user = current_user
-    @comment = build_comment
-    @talk.save and ( @comment.blank? or @comment.save)
+
+    ActiveRecord::Base.transaction do
+      @talk.user = current_user
+      if @talk.save
+        @comment = build_comment
+        @comment.save if @comment.present?
+      end
+    end
     redirect_to issue_home_path(@issue)
   end
 

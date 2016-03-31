@@ -8,8 +8,16 @@ class Post < ActiveRecord::Base
 
   belongs_to :issue, counter_cache: true
   belongs_to :user
-  has_many :comments, dependent: :destroy
+  has_many :comments, dependent: :destroy do
+    def users
+      self.map(&:user).uniq
+    end
+  end
   has_many :votes do
+    def users
+      self.map(&:user).uniq
+    end
+
     def partial_included_with(someone)
       partial = recent.limit(100)
       if !partial.map(&:user).include?(someone)
@@ -104,6 +112,10 @@ class Post < ActiveRecord::Base
 
   def linkable?
     specific.is_a? Article
+  end
+
+  def messablable_users
+    (comments.users + votes.users).uniq
   end
 
   def self.recommends(exclude)

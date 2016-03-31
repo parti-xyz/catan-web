@@ -6,10 +6,13 @@ class ArticlesController < ApplicationController
   def create
     redirect_to root_path and return if fetch_issue.blank?
     redirect_to issue_home_path(@issue) and return if fetch_source.blank?
-    @comment = build_comment
 
-    if @article.save and ( @comment.blank? or @comment.save)
-      crawl
+    ActiveRecord::Base.transaction do
+      if @article.save
+        @comment = build_comment
+        @comment.save if @comment.present?
+        crawl
+      end
     end
     redirect_to issue_home_path(@issue)
   end

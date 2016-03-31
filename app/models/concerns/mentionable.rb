@@ -19,9 +19,10 @@ module Mentionable
     pervious = self.mentions.destroy_all
     pervious_user = pervious.map &:user
     scan_users.each do |mentioned_user|
-      self.mentions.create(user: mentioned_user)
+      mention = self.mentions.create(user: mentioned_user)
       unless pervious_user.include? mentioned_user
         MentionMailer.send(self.class.to_s.underscore, self.user.id, mentioned_user.id, self.id).deliver_later
+        MessageService.new(mention).call
       end
     end
   end

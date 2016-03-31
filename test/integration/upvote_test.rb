@@ -20,4 +20,14 @@ class UpvoteTest < ActionDispatch::IntegrationTest
 
     refute comments(:comment1).reload.upvoted_by?(users(:two))
   end
+
+  test '댓글을 업보트하면 메시지가 보내져요' do
+    refute comments(:comment1).upvoted_by?(users(:one))
+    sign_in(users(:one))
+
+    post comment_upvotes_path(comment_id: comments(:comment1).id), format: :js
+
+    message = comments(:comment1).user.reload.messages.first
+    assert_equal assigns(:upvote), message.messagable
+  end
 end

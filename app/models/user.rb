@@ -37,6 +37,7 @@ class User < ActiveRecord::Base
   after_create :watch_default_issues
 
   # associations
+  has_many :messages
   has_many :posts
   has_many :comments
   has_many :watches

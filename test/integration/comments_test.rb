@@ -20,6 +20,17 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert_equal 'body x', assigns(:comment).body
   end
 
+  test '댓글을 달면 메시지가 보내져요' do
+    comment = comments(:comment1)
+    assert comment.post.comments.users.include?(users(:one))
+
+    sign_in(users(:two))
+    post post_comments_path(post_id: comment.post.id, comment: { body: 'body' })
+
+    refute assigns(:comment).errors.any?
+    assert_equal assigns(:comment), users(:one).messages.first.messagable
+  end
+
   test '찬성하는 주장에 만들어요' do
     assert opinions(:opinion1).agreed_by? users(:two)
 
@@ -29,6 +40,16 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     assert assigns(:comment).persisted?
     assert_equal 'agree', assigns(:comment).choice
+  end
+
+  test '업보트한 경우 댓글을 달면 메시지가 보내져요' do
+    assert opinions(:opinion1).agreed_by? users(:two)
+
+    sign_in(users(:one))
+    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' })
+
+    refute assigns(:comment).errors.any?
+    assert_equal assigns(:comment), users(:two).messages.first.messagable
   end
 
   test '투표 안한 주장에 만들어요' do
