@@ -13,7 +13,7 @@ class Post < ActiveRecord::Base
       self.map(&:user).uniq
     end
   end
-  has_many :votes do
+  has_many :votes, dependent: :destroy do
     def users
       self.map(&:user).uniq
     end
