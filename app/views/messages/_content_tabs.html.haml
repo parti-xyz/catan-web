@@ -3,8 +3,8 @@
     %a(href='#')
       %h4
         %i.fa.fa-bell
-        %span= current_user.messages.count
+        %span= @user.messages.count
         %small.count
-          - if current_user.messages.latest.any?
+          - if @user.messages.latest.any?
             %span.text-primary<>
-              +#{current_user.messages.latest.count}
+              +#{@user.messages.latest.count}
