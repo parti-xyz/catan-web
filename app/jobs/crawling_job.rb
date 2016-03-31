@@ -15,7 +15,6 @@ class CrawlingJob
   def crawl!(source)
     data = fetch_data(source)
     return false unless valid_open_graph?(data)
-    source.set_crawling_data(data)
 
     ActiveRecord::Base.transaction do
       if source.url != data.url
@@ -35,7 +34,6 @@ class CrawlingJob
           marge_targets.each { |article| Article.merge_by_link!(article.reload) }
           source.destroy!
         end
-
       else
         source.set_crawling_data(data)
         source.save!

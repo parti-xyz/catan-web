@@ -4,12 +4,22 @@ require 'addressable/uri'
 require 'uri'
 
 class OpenGraph
-  attr_accessor :src, :url, :type, :title, :description, :images, :metadata, :response, :original_images
+  attr_accessor :src, :url, :type, :title, :description, :images, :image_io, :metadata, :response, :original_images
 
   def initialize(src)
+    @agent = Mechanize.new
+    @agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if Rails.env.production?
+    @agent.user_agent_alias = 'Windows IE 10'
+    @agent.follow_meta_refresh = true
+    @agent.redirect_ok = :all
+    @agent.redirection_limit = 5
+    @agent.gzip_enabled = false
+    @agent.request_headers = { 'accept-language' => 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4' }
+
     @src = src
     @doc = nil
     @images = []
+    @image_io = nil
     @metadata = {}
     parse_opengraph
     check_images_path
@@ -20,24 +30,26 @@ class OpenGraph
 
   def parse_opengraph
     begin
-      agent = Mechanize.new
-      agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if Rails.env.production?
-      agent.user_agent_alias = 'Windows IE 10'
-      agent.follow_meta_refresh = true
-      agent.redirect_ok = :all
-      agent.redirection_limit = 5
-      agent.gzip_enabled = false
-      agent.request_headers = { 'accept-language' => 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4' }
-      @doc = agent.get(@src)
+      @doc = @agent.get(@src)
       if @doc.encoding_error? and @doc.encodings.to_set.intersect?(%w(ks_c_5601-1987 euc-kr).to_set)
         @doc.encoding = 'euc-kr'
       end
+      load_from_opengraph
+      load_from_page(overwrite: (@url || @src)=~TWITTER_PATTEN)
     rescue
       @title = @url = @src
       return
     end
-    load_from_opengraph
-    load_from_page(overwrite: (@url || @src)=~TWITTER_PATTEN)
+
+    @images.each do |image|
+      begin
+        bin = @agent.get(image)
+        @image_io = bin.body_io
+        @image_io.class.class_eval { attr_accessor :original_filename }
+        @image_io.original_filename = bin.filename
+      rescue
+      end
+    end
   end
 
   def load_from_opengraph
