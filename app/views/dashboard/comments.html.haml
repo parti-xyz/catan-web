@@ -9,7 +9,6 @@
 
         = render 'application/inline_form', issue: Issue::OF_ALL
         = render 'comments/list', comments: @comments, show_issue: true
-        .text-center
-          = paginate @comments, theme: 'twitter-bootstrap-3'
+        = link_to_next_page @comments, '더보기', remote: true, class: 'btn btn-default btn-block', id: 'btn-next-page'
 
 = render 'issues/recommends', issue: Issue::OF_ALL, exclude_watched: true

@@ -61,4 +61,5 @@ module ApplicationHelper
       return content, content_type
     end
   end
+
 end

@@ -1,5 +1,6 @@
 class DashboardController < ApplicationController
   before_filter :authenticate_user!
+  respond_to :js, :html
 
   def index
     if need_to_watch

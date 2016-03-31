@@ -1,11 +1,15 @@
 class UsersController < ApplicationController
+  respond_to :js, :html
   def index
     @users = User.order("id DESC")
   end
 
   def gallery
     comments
-    render 'comments'
+    respond_to do |format|
+      format.js { render 'comments' }
+      format.html { render 'comments' }
+    end
   end
 
   def comments

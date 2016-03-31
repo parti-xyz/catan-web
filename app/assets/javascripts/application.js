@@ -183,61 +183,6 @@ $(function(){
   });
 
   // share
-  Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
-  var init_parti_share = function($base) {
-    $.each($base.find('[data-action="parti-share"]'), function(i, elm){
-      var $elm = $(elm);
-
-      if($elm.data('parti-share-arel') == 'true') {
-        return;
-      }
-      var url = $elm.data('share-url');
-      var text = $elm.data('share-text');
-      var share = $elm.data('share-provider');
-      if ($.is_blank(share)) return;
-      var image_url = $elm.data('share-image');
-      if ($.is_blank(image_url)) image_url = location.protocol + "//" + location.hostname + "/images/parti_seo.png";
-      var image_width = $elm.data('share-image-width');
-      if ($.is_blank(image_width)) image_width = '300';
-      var image_height = $elm.data('share-image-height');
-      if ($.is_blank(image_height)) image_height = '155';
-
-      switch(share) {
-        case 'kakao-link':
-          Kakao.Link.createTalkLinkButton({
-            container: elm,
-            label: text,
-            image: {
-              src: image_url,
-              width: image_width,
-              height: image_height
-            },
-            webLink: {
-              text: '빠띠에서 보기',
-              url: url
-            }
-          });
-        break
-        case 'kakao-story':
-          Kakao.Story.createShareButton({
-            container: elm,
-            url: url,
-            text: text
-          });
-        break
-        default:
-          $elm.jsSocials({
-            showCount: true,
-            showLabel: false,
-            shares: [share],
-            text: text,
-            url: url
-          });
-      }
-
-      $elm.data('parti-share-arel', 'true');
-    });
-  }
   init_parti_share($);
 
   // carousel
@@ -415,27 +360,16 @@ $(function(){
   });
 
   // mention
-  var init_parti_mention = function($base) {
-    $.each($base.find('[data-action="parti-mention"]'), function(i, elm){
-      if($(elm).data('parti-mention-arel') == 'true') {
-        return;
-      }
-      $(elm).on('click', function(e) {
-        e.preventDefault();
-        var $elm = $(e.currentTarget);
-        var $control = $($elm.data('mention-form-control'));
-        var nickname = $elm.data('mention-nickname');
-        var value = $control.val();
-        $control.val('@' + nickname + ' ' + value);
-        $control.focus();
-      });
-      $(elm).data('parti-mention-arel', 'true');
-    });
-  }
   init_parti_mention($);
 
-  //parti-post-modal
-  $('[data-toggle="parti-post-modal"]').each(function(i, elm) {
+  // parti-post-modal
+  init_parti_post_modal($);
+
+});
+
+//parti-post-modal
+var init_parti_post_modal = function($base) {
+  $.each($base.find('[data-toggle="parti-post-modal"]'), function(i, elm) {
     var $elm = $(elm);
     var target = $elm.data("target");
     var $target = $(target);
@@ -466,5 +400,80 @@ $(function(){
       return false;
     });
   });
-});
+};
 
+//share
+Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
+var init_parti_share = function($base) {
+  $.each($base.find('[data-action="parti-share"]'), function(i, elm){
+    var $elm = $(elm);
+
+    if($elm.data('parti-share-arel') == 'true') {
+      return;
+    }
+    var url = $elm.data('share-url');
+    var text = $elm.data('share-text');
+    var share = $elm.data('share-provider');
+    if ($.is_blank(share)) return;
+    var image_url = $elm.data('share-image');
+    if ($.is_blank(image_url)) image_url = location.protocol + "//" + location.hostname + "/images/parti_seo.png";
+    var image_width = $elm.data('share-image-width');
+    if ($.is_blank(image_width)) image_width = '300';
+    var image_height = $elm.data('share-image-height');
+    if ($.is_blank(image_height)) image_height = '155';
+
+    switch(share) {
+      case 'kakao-link':
+        Kakao.Link.createTalkLinkButton({
+          container: elm,
+          label: text,
+          image: {
+            src: image_url,
+            width: image_width,
+            height: image_height
+          },
+          webLink: {
+            text: '빠띠에서 보기',
+            url: url
+          }
+        });
+      break
+      case 'kakao-story':
+        Kakao.Story.createShareButton({
+          container: elm,
+          url: url,
+          text: text
+        });
+      break
+      default:
+        $elm.jsSocials({
+          showCount: true,
+          showLabel: false,
+          shares: [share],
+          text: text,
+          url: url
+        });
+    }
+
+    $elm.data('parti-share-arel', 'true');
+  });
+};
+
+// mention
+var init_parti_mention = function($base) {
+  $.each($base.find('[data-action="parti-mention"]'), function(i, elm){
+    if($(elm).data('parti-mention-arel') == 'true') {
+      return;
+    }
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+      var $control = $($elm.data('mention-form-control'));
+      var nickname = $elm.data('mention-nickname');
+      var value = $control.val();
+      $control.val('@' + nickname + ' ' + value);
+      $control.focus();
+    });
+    $(elm).data('parti-mention-arel', 'true');
+  });
+}

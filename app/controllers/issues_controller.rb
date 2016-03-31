@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  respond_to :json, :html
+  respond_to :js, :json, :html
   before_filter :authenticate_user!,
     only: [:create, :update, :destroy]
   before_filter :fetch_issue_by_slug, only: [:slug, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
@@ -27,7 +27,10 @@ class IssuesController < ApplicationController
 
   def slug
     slug_comments
-    render template: 'issues/slug_comments'
+    respond_to do |format|
+      format.js { render 'slug_comments' }
+      format.html { render 'slug_comments' }
+    end
   end
 
   def slug_articles
