@@ -417,6 +417,9 @@ $(function(){
   // mention
   var init_parti_mention = function($base) {
     $.each($base.find('[data-action="parti-mention"]'), function(i, elm){
+      if($(elm).data('parti-mention-arel') == 'true') {
+        return;
+      }
       $(elm).on('click', function(e) {
         e.preventDefault();
         var $elm = $(e.currentTarget);
@@ -426,6 +429,7 @@ $(function(){
         $control.val('@' + nickname + ' ' + value);
         $control.focus();
       });
+      $(elm).data('parti-mention-arel', 'true');
     });
   }
   init_parti_mention($);
