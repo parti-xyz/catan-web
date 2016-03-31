@@ -21,6 +21,7 @@
 //= require jquery.validate
 //= require messages_ko
 //= require kakao
+//= require jquery.pjax
 
 $(function(){
   // blank
@@ -45,7 +46,7 @@ $(function(){
 
     $elm.bind('keydown', function(e) {
         if (e.keyCode == 13) {
-            e.preventDefault();
+          e.preventDefault();
         }
     });
     var clear_error = function() {
@@ -186,6 +187,10 @@ $(function(){
   var init_parti_share = function($base) {
     $.each($base.find('[data-action="parti-share"]'), function(i, elm){
       var $elm = $(elm);
+
+      if($elm.data('parti-share-arel') == 'true') {
+        return;
+      }
       var url = $elm.data('share-url');
       var text = $elm.data('share-text');
       var share = $elm.data('share-provider');
@@ -229,6 +234,8 @@ $(function(){
             url: url
           });
       }
+
+      $elm.data('parti-share-arel', 'true');
     });
   }
   init_parti_share($);
@@ -426,28 +433,34 @@ $(function(){
   //parti-post-modal
   $('[data-toggle="parti-post-modal"]').each(function(i, elm) {
     var $elm = $(elm);
-    var $target = $($elm.data("target"));
-    var postable_type = $elm.data("postable-type");
-    var postable_id = $elm.data("postable-id");
+    var target = $elm.data("target");
+    var $target = $(target);
+    var url = $elm.data("url");
+    var container = target + ' .modal-body__content';
+    $target.data('parti-pjax-back-trigger', 'off');
+
     $elm.on('click', function(e) {
-      e.preventDefault();
-      $.ajax({
-        url: '/' + postable_type + '/' + postable_id + '/partial',
-        type: "get",
-        success: function(data) {
-          $target.find('.modal-body__content').html(data);
-          init_parti_share($target);
-          init_parti_mention($target);
-          $target.modal('show');
-        },
-        error: function(xhr) {
-          $target.modal('close');
-        }
+      $.pjax({url: url, container: container, scrollTo: false});
+      $target.on('pjax:success', function(e, data, status, xhr, options) {
+        init_parti_share($target);
+        init_parti_mention($target);
+        $target.data('parti-pjax-back-trigger', 'on');
+        $target.on('hidden.bs.modal', function (e) {
+          if($target.data('parti-pjax-back-trigger') == 'on') {
+            $target.data('parti-pjax-back-trigger', 'off')
+            window.history.back();
+          }
+        });
+        $target.on('pjax:popstate', function(e) {
+          $target.data('parti-pjax-back-trigger', 'off');
+          if(e.direction == "back" && $target.is(":visible")) {
+            $target.modal('hide');
+          }
+        });
+        $target.modal('show');
       });
       return false;
     });
-
   });
-
 });
 

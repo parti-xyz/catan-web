@@ -28,6 +28,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    render(:partial, layout: false) and return if request.headers['X-PJAX']
     prepare_meta_tags title: @article.title,
                       description: @article.body
   end

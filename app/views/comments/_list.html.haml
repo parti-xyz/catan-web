@@ -12,7 +12,7 @@
         - opinions << comment.post.specific
       = render customize_partial_path(comment, 'comment_in_list'), show_issue: local_assigns[:show_issue], show_opinion: show_opinion
 
-#myModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+#post-modal.modal.fade{:role => "dialog", :tabindex => "-1"}
   .modal-dialog.modal-lg{:role => "document"}
     .modal-content
       .modal-body
