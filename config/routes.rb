@@ -49,10 +49,14 @@ Rails.application.routes.draw do
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
 
-  get '/i/:slug', to: "issues#slug_comments", as: 'slug_issue'
-  get '/i/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
-  get '/i/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
-  get '/i/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
+  get '/i/:slug', to: redirect('/p/%{slug}')
+  get '/i/:slug/articles', to: redirect('/p/%{slug}/articles')
+  get '/i/:slug/opinions', to: redirect('/p/%{slug}/opinions')
+  get '/i/:slug/talks', to: redirect('/p/%{slug}/talks')
+  get '/p/:slug', to: "issues#slug_comments", as: 'slug_issue'
+  get '/p/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
+  get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
+  get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
 
   get '/u/:nickname', to: "users#gallery", as: 'nickname_user'
   get '/u/:nickname/posts', to: "users#posts", as: 'nickname_user_posts'
