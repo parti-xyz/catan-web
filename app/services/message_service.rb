@@ -8,22 +8,20 @@ class MessageService
   def call
     case @source.class.to_s
     when Mention.to_s
-      send_message(@source.user)
+      send_message(@source.user, @source.mentionable)
     when Upvote.to_s
-      unless @source.comment.upvotes.includes(:messages).where(messages: {user: @source.user}).exists?
-        send_message(@source.comment.user)
-      end
+      send_message(@source.comment.user, @source)
     when Comment.to_s
       @source.post.messablable_users.each do |user|
         next if user == @source.user
-        send_message(user)
+        send_message(user, @source)
       end
     end
   end
 
   private
 
-  def send_message(user)
-    user.messages.create(messagable: @source)
+  def send_message(user, messagable)
+    user.messages.find_or_create_by(messagable: messagable, user: user)
   end
 end

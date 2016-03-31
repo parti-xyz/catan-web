@@ -1,7 +1,7 @@
 class Upvote < ActiveRecord::Base
   belongs_to :user
   belongs_to :comment, counter_cache: true
-  has_many :messages, as: :messagable
+  has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true
   validates :comment, presence: true
