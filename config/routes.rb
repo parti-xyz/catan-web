@@ -46,20 +46,20 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
-  get '/dashboard/comments', to: "dashboard#comments", as: 'dashboard_comments'
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
 
-  get '/welcome', to: "pages#welcome", as: 'welcome'
-  get '/about', to: "pages#about", as: 'about'
+  get '/i/:slug', to: "issues#slug_comments", as: 'slug_issue'
   get '/i/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
-  get '/i/:slug', to: "issues#slug_comments", as: 'slug_issue_comments'
   get '/i/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/i/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
 
   get '/u/:nickname', to: "users#gallery", as: 'nickname_user'
   get '/u/:nickname/posts', to: "users#posts", as: 'nickname_user_posts'
   get '/u/:nickname/comments', to: "users#comments", as: 'nickname_user_comments'
+
+  get '/welcome', to: "pages#welcome", as: 'welcome'
+  get '/about', to: "pages#about", as: 'about'
 
   get '/tags/:name', to: "tags#show", as: 'show_tag'
 
