@@ -9,6 +9,6 @@
 
         = render 'application/inline_form', issue: Issue::OF_ALL
         = render 'comments/list', comments: @comments, show_issue: true
-        = link_to_next_page @comments, '더보기', remote: true, class: 'btn btn-default btn-block', id: 'btn-next-page'
+        = link_to_next_page @comments, '더보기', remote: true, class: 'btn btn-default btn-block', id: 'btn-next-page', data: { disable_with: '<i class="fa fa-spinner fa-pulse"></i>' }
 
 = render 'issues/recommends', issue: Issue::OF_ALL, exclude_watched: true
