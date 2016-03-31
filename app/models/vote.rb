@@ -10,4 +10,5 @@ class Vote < ActiveRecord::Base
   validates :choice, presence: true
 
   scope :recent, -> { order(updated_at: :desc) }
+  scope :latest, -> { after(1.day.ago) }
 end

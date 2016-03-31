@@ -32,14 +32,6 @@ module PartiUrlHelper
     nickname_user_url(nickname: user.nickname)
   end
 
-  def user_posts_path(user)
-    nickname_user_posts_path(nickname: user.nickname)
-  end
-
-  def user_comments_path(user)
-    nickname_user_comments_path(nickname: user.nickname)
-  end
-
   def tag_home_path(tag)
     show_tag_path(name: tag.name)
   end

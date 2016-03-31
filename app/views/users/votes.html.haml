@@ -1,0 +1,7 @@
+= render 'user_header'
+%section#user-gallery
+  .container
+    %section#content-tab-section
+      = render 'users/content_tabs', active_tab: :votes, counts_container: @user.writing_counts
+    = render 'opinions/cards', opinions: @opinions, hide_writing_card: true
+

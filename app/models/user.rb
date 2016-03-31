@@ -40,6 +40,8 @@ class User < ActiveRecord::Base
   has_many :messages
   has_many :posts
   has_many :comments
+  has_many :upvotes
+  has_many :votes
   has_many :watches
   has_many :watched_issues, through: :watches, source: :issue
   has_many :watched_posts, through: :watched_issues, source: :posts
@@ -115,6 +117,10 @@ class User < ActiveRecord::Base
     counts = OpenStruct.new
     counts.comments_count = comments.count
     counts.latest_comments_count = comments.latest.count
+    counts.upvotes_count = upvotes.count
+    counts.latest_upvotes_count = upvotes.latest.count
+    counts.votes_count = votes.count
+    counts.latest_votes_count = votes.latest.count
     counts
   end
 

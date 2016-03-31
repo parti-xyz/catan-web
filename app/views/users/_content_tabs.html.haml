@@ -1,1 +1,35 @@
-= render 'application/content_tabs', local_assigns.merge(posts_tab_path: user_posts_path(@user), comments_tab_path: user_gallery_path(@user))
+%ul.nav.nav-tabs{role: 'tablist', style: 'margin-bottom: 20px;'}
+  %li{role: 'presentation', class: ('active' if active_tab == :comments)}
+    = link_to user_gallery_path(@user) do
+      %h4
+        댓글
+        %small.count.hidden-xs
+          %span<>= counts_container.comments_count
+        %small.count
+          - if counts_container.latest_comments_count > 0
+            %span.text-primary<>
+              +#{counts_container.latest_comments_count}
+  %li{role: 'presentation', class: ('active' if active_tab == :upvotes)}
+    = link_to nickname_user_upvotes_path(nickname: @user.nickname) do
+      %h4
+        %i.fa.fa-heart
+        %small.count.hidden-xs
+          %span<>= counts_container.upvotes_count
+        %small.count
+          - if counts_container.latest_upvotes_count > 0
+            %span.text-primary<>
+              +#{counts_container.latest_upvotes_count}
+  %li{role: 'presentation', class: ('active' if active_tab == :votes)}
+    = link_to nickname_user_votes_path(nickname: @user.nickname) do
+      %h4
+        투표
+        %span.visible-xs-inline
+          %i.fa.fa-microphone
+        %small.count.hidden-xs
+          %span<>= counts_container.votes_count
+        %small.count
+          - if counts_container.latest_votes_count > 0
+            %span.text-primary<>
+              +#{counts_container.latest_votes_count}
+
+

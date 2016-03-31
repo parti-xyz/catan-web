@@ -1,0 +1,9 @@
+<% if @upvotes.last_page? %>
+  $('#btn-next-page').hide();
+<% else %>
+  $('#btn-next-page').attr('href', '<%= url_for(page: @upvotes.next_page) %>');
+<% end %>
+
+var $comments_per_page = $($.parseHTML("<%= escape_javascript(render 'comments/comments_per_page', comments: @comments, show_issue: true) %>"));
+init_parti_post_modal($comments_per_page);
+$('#user-gallery .comments').append($comments_per_page);

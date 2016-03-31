@@ -58,9 +58,9 @@ Rails.application.routes.draw do
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
 
-  get '/u/:nickname', to: "users#gallery", as: 'nickname_user'
-  get '/u/:nickname/posts', to: "users#posts", as: 'nickname_user_posts'
-  get '/u/:nickname/comments', to: "users#comments", as: 'nickname_user_comments'
+  get '/u/:nickname', to: "users#comments", as: 'nickname_user'
+  get '/u/:nickname/upvotes', to: "users#upvotes", as: 'nickname_user_upvotes'
+  get '/u/:nickname/votes', to: "users#votes", as: 'nickname_user_votes'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'

@@ -1,20 +1,24 @@
 class UsersController < ApplicationController
-  respond_to :js, :html
   def index
     @users = User.order("id DESC")
-  end
-
-  def gallery
-    comments
-    respond_to do |format|
-      format.js { render 'comments' }
-      format.html { render 'comments' }
-    end
   end
 
   def comments
     fetch_user
     @comments = @user.comments.recent.page params[:page]
+  end
+
+  def upvotes
+    fetch_user
+    @upvotes = @user.upvotes.page params[:page]
+    @comments = @upvotes.map(&:comment)
+  end
+
+  def votes
+    fetch_user
+    @votes = @user.votes.page params[:page]
+    @posts = @votes.map(&:post)
+    @opinions = @posts.map(&:specific)
   end
 
   def summary_test

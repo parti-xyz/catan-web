@@ -1,0 +1,16 @@
+= render 'user_header'
+%section#user-gallery
+  .container
+    .row
+      .col-sm-8
+        %section#content-tab-section
+          = render 'users/content_tabs', active_tab: :upvotes, counts_container: @user.writing_counts
+        .issue-comments
+          = render 'comments/list', comments: @comments, show_issue: true
+          = link_to_next_page @upvotes, '더보기', remote: true, class: 'btn btn-default btn-block', id: 'btn-next-page'
+      .col-sm-4
+        %h4 활동하는 이슈 (#{@user.watched_issues.count})
+        = render customize_partial_path(@user.watched_issues, 'card')
+
+
+

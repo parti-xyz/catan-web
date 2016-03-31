@@ -1,22 +1,23 @@
 %section.opinion-list
   .row.masonry-container
-    .card.col-sm-6.col-xs-12
-      .panel.panel-default
-        .panel-body{ style: 'height: 250px; display: table; width: 100%;' }
-          %div{ style: ' display: table-cell; vertical-align: middle; text-align: center' }
-            %strong{ style: 'font-size: 130%;' }
-              더 나은 논의를 위해
-              %br
-              발언해 보세요
-            %p{ style: 'margin-top: 20px;' }
-              - if user_signed_in?
-                = link_to new_opinion_path(issue_id: issue.id), class: 'btn btn-primary btn-ghost' do
-                  %i.fa.fa-microphone
-                  #{Opinion.model_name.human}하기
-              - else
-                = link_to '#', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
-                  %i.fa.fa-microphone
+    - unless local_assigns[:hide_writing_card]
+      .card.col-sm-6.col-xs-12
+        .panel.panel-default
+          .panel-body{ style: 'height: 250px; display: table; width: 100%;' }
+            %div{ style: ' display: table-cell; vertical-align: middle; text-align: center' }
+              %strong{ style: 'font-size: 130%;' }
+                더 나은 논의를 위해
+                %br
+                발언해 보세요
+              %p{ style: 'margin-top: 20px;' }
+                - if user_signed_in?
+                  = link_to new_opinion_path(issue_id: issue.id), class: 'btn btn-primary btn-ghost' do
+                    %i.fa.fa-microphone
                     #{Opinion.model_name.human}하기
+                - else
+                  = link_to '#', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
+                    %i.fa.fa-microphone
+                      #{Opinion.model_name.human}하기
 
     - opinions.each do |opinion|
       .card.col-sm-6.col-xs-12

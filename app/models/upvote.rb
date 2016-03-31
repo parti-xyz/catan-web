@@ -7,6 +7,7 @@ class Upvote < ActiveRecord::Base
   validates :user, uniqueness: {scope: [:comment]}
 
   scope :recent, -> { order(created_at: :desc) }
+  scope :latest, -> { after(1.day.ago) }
 
   after_create :send_message
 
