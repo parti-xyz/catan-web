@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     path = super
-    return dashboard_path if path == slug_issue_path(:all)
+    return dashboard_path if path == slug_issue_path(slug: :all)
     path
   end
 

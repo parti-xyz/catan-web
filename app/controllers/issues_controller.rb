@@ -2,7 +2,7 @@ class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!,
     only: [:create, :update, :destroy]
-  before_filter :fetch_issue_by_slug, only: [:slug, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
+  before_filter :fetch_issue_by_slug, only: [:slug_articles, :slug_comments, :slug_opinions, :slug_talks]
   load_and_authorize_resource
 
   def index
@@ -22,15 +22,7 @@ class IssuesController < ApplicationController
 
   def show
     @issue = Issue.find params[:id]
-    redirect_to slug_issue_path(slug: @issue.slug)
-  end
-
-  def slug
-    slug_comments
-    respond_to do |format|
-      format.js { render 'slug_comments' }
-      format.html { render 'slug_comments' }
-    end
+    redirect_to view_context.issue_home_path(@issue)
   end
 
   def slug_articles

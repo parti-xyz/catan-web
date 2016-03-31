@@ -23,7 +23,7 @@
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav(style="width: 300px;")
         %li
-          = link_to slug_issue_path(:all) do
+          = link_to slug_issue_path(slug: :all) do
             모두보기
             %small (#{Post.count})
         %li

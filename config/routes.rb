@@ -52,9 +52,8 @@ Rails.application.routes.draw do
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
-  get '/i/:slug', to: "issues#slug", as: 'slug_issue'
   get '/i/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
-  get '/i/:slug/comments', to: "issues#slug_comments", as: 'slug_issue_comments'
+  get '/i/:slug', to: "issues#slug_comments", as: 'slug_issue_comments'
   get '/i/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/i/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
 

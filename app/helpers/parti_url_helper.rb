@@ -4,8 +4,12 @@ module PartiUrlHelper
     slug_issue_path(options)
   end
 
+  def slug_issue_path(options)
+    slug_issue_comments_path(options)
+  end
+
   def issue_home_url(issue)
-    slug_issue_url(slug: issue.slug)
+    slug_issue_comments_path(slug: issue.slug)
   end
 
   def issue_articles_path(issue)
