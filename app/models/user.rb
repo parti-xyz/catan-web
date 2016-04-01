@@ -113,14 +113,23 @@ class User < ActiveRecord::Base
     counts
   end
 
-  def writing_counts
+  def writing_counts(issue = Issue::OF_ALL)
     counts = OpenStruct.new
-    counts.comments_count = comments.count
-    counts.latest_comments_count = comments.latest.count
-    counts.upvotes_count = upvotes.count
-    counts.latest_upvotes_count = upvotes.latest.count
-    counts.votes_count = votes.count
-    counts.latest_votes_count = votes.latest.count
+    if issue.is_all?
+      counts.comments_count = comments.count
+      counts.latest_comments_count = comments.latest.count
+      counts.upvotes_count = upvotes.count
+      counts.latest_upvotes_count = upvotes.latest.count
+      counts.votes_count = votes.count
+      counts.latest_votes_count = votes.latest.count
+    else
+      counts.comments_count = comments.by_issue(issue).count
+      counts.latest_comments_count = comments.by_issue(issue).latest.count
+      counts.upvotes_count = upvotes.by_issue(issue).count
+      counts.latest_upvotes_count = upvotes.by_issue(issue).latest.count
+      counts.votes_count = votes.by_issue(issue).count
+      counts.latest_votes_count = votes.by_issue(issue).latest.count
+    end
     counts
   end
 

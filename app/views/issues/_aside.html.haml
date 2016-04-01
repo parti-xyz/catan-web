@@ -1,8 +1,8 @@
 %h4
-  = link_to users_issue_path(issue) do
+  = link_to issue_users_path(issue) do
     %i.fa.fa-user
-    활동하는 이
-    %small (#{issue.contributors.count})
+    구독회원
+    %small (#{issue.watches.count})
 
 %hr
 

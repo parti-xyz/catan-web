@@ -26,18 +26,11 @@
                 - if issue.posts.latest.any?
                   %small>= "+#{issue.posts.latest.count}"
             %span.user-count
-              - if issue.is_all?
-                = link_to users_path do
-                  구독자
-                  %span= User.count
-                - if issue.watches.latest.any?
-                  %small>= "+#{User.latest.count}"
-              - else
-                = link_to users_issue_path(issue) do
-                  구독자
-                  %span= issue.contributors.count
-                - if issue.watches.latest.any?
-                  %small>= "+#{issue.watches.latest.count}"
+              = link_to issue_users_path(issue) do
+                구독회원
+                %span= issue.watches.count
+              - if issue.watches.latest.any?
+                %small>= "+#{issue.watches.latest.count}"
 
           - if local_assigns[:show_social_share]
             = render 'issues/share'

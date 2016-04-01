@@ -10,7 +10,7 @@
       - issue.posts.recommends(local_assigns[:exclude]).each do |post|
         = render post.specific
     %div{ style: 'margin: 20px 0;' }
-      = link_to issue_home_path(issue, f: :recent), class: 'btn btn-primary btn-block' do
+      = link_to issue_home_path(issue), class: 'btn btn-primary btn-block' do
         %i.fa.fa-hashtag>
         #{issue.title} 빠띠의 모든 글 보기 (#{issue.posts.count})
         %i.fa.fa-arrow-right
@@ -23,13 +23,13 @@
           %i.fa.fa-hashtag>
           = issue.title
       빠띠는
-      %strong= issue.commiters.count
-      명의 커미터가 만듭니다.
+      %strong= issue.watches.count
+      명의 구독하고 있습니다.
 
     %div{ style: 'padding-top: 10px' }
       .row
-        - issue.commiters.each do |user|
-          .col-xs-6.col-sm-3
+        - issue.watched_users.each do |user|
+          .col-xs-12.col-sm-4
             = render user
         .col-xs-12.col-sm-12
           .panel.panel-default
@@ -39,11 +39,16 @@
                   = link_to issue_path(issue) do
                     %i.fa.fa-hashtag>
                     = issue.title
-                빠띠를 함께 만들어주세요
-              %div{ style: 'margin: 10px 0;' }
-                - if user_signed_in?
-                  = render 'watches/watch', issue: issue
+                빠띠를 #{"구독하고" if !user_signed_in? or !issue.watched_by?(current_user)} 함께 만들어주세요
+              %div{ style: 'margin-top: 10px' }
+                - if !user_signed_in? or !issue.watched_by?(current_user)
+                  - if user_signed_in?
+                    = render 'watches/watch', issue: issue
+                  - else
+                    = link_to omniauth_authorize_path(User, :facebook), class: 'btn btn-info', style: 'margin-top: 0.5em; max-width: 100%; word-wrap: break-word; white-space: pre-line; text-align:center;' do
+                      %i.fa.fa-facebook
+                      페이스북아이디로 빠띠에 로그인
                 - else
-                  = link_to omniauth_authorize_path(User, :facebook), class: 'btn btn-info', style: 'margin-top: 0.5em; max-width: 100%; word-wrap: break-word; white-space: pre-line; text-align:center;' do
-                    %i.fa.fa-facebook
-                    페이스북아이디로 빠띠에 로그인
+                  = link_to issue_home_path(issue) do
+                    글쓰기
+                    %i.fa.fa-arrow-right

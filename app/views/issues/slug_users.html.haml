@@ -3,13 +3,13 @@
   .container
     %h4(style='position: relative')
       %i.fa.fa-user
-      활동하는 이
-      %small (#{@issue.contributors.count})
+      구독회원
+      %small (#{@issue.watches.count})
       = link_to issue_home_path(@issue), class: 'btn btn-primary', style: 'position: absolute; bottom: -5px; right: 0;' do
-        글 목록으로 돌아가기
+        타임라인으로 돌아가기
         %i.fa.fa-arrow-right
     %hr
     .row
-      - @issue.contributors.each do |user|
-        .col-sm-4.col-xs-6
+      - @issue.watched_users.each do |user|
+        .col-sm-4.col-xs-12
           = render user, issue: @issue

@@ -38,6 +38,9 @@ class Issue < ActiveRecord::Base
     def watches
       User.all
     end
+    def watched_users
+      User.all
+    end
   end.instance
 
   def OF_ALL.logo_url
@@ -60,6 +63,7 @@ class Issue < ActiveRecord::Base
       after(1.day.ago)
     end
   end
+  has_many :watched_users, through: :watches, source: :user
 
   # validations
   validates :title, presence: true, uniqueness: { case_sensitive: false }
@@ -96,15 +100,6 @@ class Issue < ActiveRecord::Base
     self.slug = self.title.strip.downcase.gsub(/\s+/, "-")
   end
 
-  # deprecated
-  def contributors
-    commiters
-  end
-
-  def commiters
-    (posts.map(&:user) + watches.map(&:user)).compact.uniq
-  end
-
   def related_with? something
     relateds.exists?(target: something)
   end
@@ -118,7 +113,7 @@ class Issue < ActiveRecord::Base
   end
 
   def recommends_for_watch(someone)
-    Issue.hottest.where.not(id: someone.watched_issues).limit(10)
+    Issue.hottest.where.not(id: someone.watched_issues).limit(10).to_a
   end
 
   def self.featured_issues(someone)

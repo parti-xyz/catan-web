@@ -10,7 +10,6 @@ Rails.application.routes.draw do
 
   resources :issues do
     member do
-      get :users
       get :opinions
     end
     collection do
@@ -58,6 +57,7 @@ Rails.application.routes.draw do
   get '/p/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
+  get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'
 
   get '/u/:nickname', to: "users#comments", as: 'nickname_user'
   get '/u/:nickname/upvotes', to: "users#upvotes", as: 'nickname_user_upvotes'

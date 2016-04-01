@@ -2,7 +2,7 @@ class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!,
     only: [:create, :update, :destroy]
-  before_filter :fetch_issue_by_slug, only: [:slug_articles, :slug_comments, :slug_opinions, :slug_talks]
+  before_filter :fetch_issue_by_slug, only: [:slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
   load_and_authorize_resource
 
   def index
@@ -83,8 +83,7 @@ class IssuesController < ApplicationController
     redirect_to root_path
   end
 
-  def users
-
+  def slug_users
   end
 
   def exist

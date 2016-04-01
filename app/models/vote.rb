@@ -11,4 +11,5 @@ class Vote < ActiveRecord::Base
 
   scope :recent, -> { order(updated_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
+  scope :by_issue, ->(issue) { joins(:post).where(posts: {issue_id: issue})}
 end

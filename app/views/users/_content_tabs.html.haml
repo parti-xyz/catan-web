@@ -23,8 +23,6 @@
     = link_to nickname_user_votes_path(nickname: @user.nickname) do
       %h4
         투표
-        %span.visible-xs-inline
-          %i.fa.fa-microphone
         %small.count.hidden-xs
           %span<>= counts_container.votes_count
         %small.count

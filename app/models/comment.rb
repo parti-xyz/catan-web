@@ -20,6 +20,7 @@ class Comment < ActiveRecord::Base
   scope :ancient, -> { order(created_at: :asc) }
   scope :latest, -> { after(1.day.ago) }
   scope :persisted, -> { where "id IS NOT NULL" }
+  scope :by_issue, ->(issue) { joins(:post).where(posts: {issue_id: issue})}
 
   after_create :send_messages
 

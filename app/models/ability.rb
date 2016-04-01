@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user)
     can [:read, :social_card, :partial], :all
-    can [:slug, :users, :exist, :slug_articles, :slug_comments, :slug_opinions, :slug_talks], Issue
+    can [:slug, :users, :exist, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks], Issue
     if user
       can :manage, [Issue, Related] if user.admin?
       can :create, [Article, Talk, Opinion, Comment,

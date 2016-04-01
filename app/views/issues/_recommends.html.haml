@@ -1,10 +1,10 @@
-%section#recommend-issue-section{ style: 'padding: 40px 0; background-color: #fafafa;' }
-  .container
-    - if local_assigns[:exclude_watched]
-      - recommends = issue.recommends_for_watch(current_user)
-    - else
-      - recommends = issue.recommends
-    - if recommends.any?
+- if local_assigns[:exclude_watched]
+  - recommends = issue.recommends_for_watch(current_user)
+- else
+  - recommends = issue.recommends
+- if recommends.any?
+  %section#recommend-issue-section{ style: 'padding: 40px 0; background-color: #fafafa;' }
+    .container
       .post.issue-recommends
         %h4 아래 빠띠도 둘러 보세요
         .owl-wrapper
