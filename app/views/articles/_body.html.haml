@@ -4,7 +4,7 @@
       .media-body
         = smart_format(@article.body)
         - if @article.link_source.present? and !@article.hidden?
-          = link_to @article.link, @article.link, target: '_blank' do
+          = link_to @article.link, target: '_blank' do
             %i.fa.fa-link
             링크 #{truncate @article.link, length: 50}
       - if @article.has_image?
