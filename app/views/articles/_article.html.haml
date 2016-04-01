@@ -3,9 +3,9 @@
   .post-inline__title
     - if post.hot?
       %i.wi.wi-fire.text-danger
-    = link_to article.title, article
+    = link_to article_title(article), article
     %small
-      - if link_to article.link.present?
+      - if link_to article.link.present? and !article.hidden?
         = link_to article.link, target: '_blank', class: 'text-muted' do
           %i.fa.fa-link
     = link_to article, class: 'text-muted' do

@@ -14,23 +14,23 @@ class Article < ActiveRecord::Base
   end
 
   def title
+    return '' if self.hidden?
     link_source.try(:title) || link_source.url
   end
 
   def body
+    return '' if self.hidden?
     link_source.try(:body)
   end
 
   def has_image?
+    return false if self.hidden?
     return false if link_source.try(:image).blank?
     link_source.image.file.exists?
   end
 
-  def is_talk?
-    link_source.blank?
-  end
-
   def image
+    return nil if self.hidden?
     link_source.try(:image)
   end
 

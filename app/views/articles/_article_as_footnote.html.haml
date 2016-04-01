@@ -2,8 +2,9 @@
 - post = article.acting_as
 .post-inline.article-inline[post]
   %h5.post-inline__title
-    = link_to article.title, '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }
+    = link_to article_title(article), '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }
     %small
-      = link_to article.link, target: '_blank', class: 'text-muted' do
-        %i.fa.fa-link
+      - if !article.hidden?
+        = link_to article.link, target: '_blank', class: 'text-muted' do
+          %i.fa.fa-link
   = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]

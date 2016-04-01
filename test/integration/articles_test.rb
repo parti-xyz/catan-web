@@ -79,4 +79,10 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     post articles_path(article: { link: 'link' }, comment_body: 'body', issue_title: 'undefined')
     assert_equal previous_count, Article.count
   end
+
+  test '글을 숨겨요' do
+    sign_in(users(:admin))
+    put article_path(articles(:article3), article: { hidden: true })
+    assert articles(:article3).reload.hidden?
+  end
 end

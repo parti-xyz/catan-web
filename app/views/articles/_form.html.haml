@@ -7,12 +7,17 @@
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg'
-      - if @article.new_record?
-        - if @article.issue.present?
-          - back_to = issue_home_path(@article.issue)
-        - else
-          - back_to = root_path
-      - else
-        - back_to = @article
-      = link_to back_to, class: 'btn btn-default' do
+      = link_to @article, class: 'btn btn-default' do
         취소
+
+
+%hr
+
+%h5
+  %i.fa.fa-info-circle
+  해당 링크를 숨기거나 보이게 할 수 있습니다.
+
+- if @article.hidden?
+  = link_to '링크 보이기', article_path(@article, article: { hidden: false }), method: :put, data: { confirm: '정말 보이게 하겠습니까?' }, class: 'btn btn-default'
+- else
+  = link_to '링크 숨기기', article_path(@article, article: { hidden: true }), method: :put, data: { confirm: '정말 숨기겠습니까?' }, class: 'btn btn-default'

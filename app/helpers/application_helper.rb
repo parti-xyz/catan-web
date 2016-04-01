@@ -62,4 +62,7 @@ module ApplicationHelper
     end
   end
 
+  def article_title(article)
+    article.hidden? ? icon('fa fa-exclamation-triangle') + " 빠띠메이커가 숨긴 링크입니다" : article.title
+  end
 end
