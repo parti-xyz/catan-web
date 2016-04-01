@@ -3,9 +3,6 @@
     = render 'posts/post_header', post: @opinion.acting_as
     = render 'votes/vote', opinion: @opinion
 
-    .opinion__tags.post__tags
-      = render 'tags/collection', tags: @opinion.tags
-
 %section.post-comments-section
   .container
     = render 'comments/comments', postable: @opinion, style: :opinion

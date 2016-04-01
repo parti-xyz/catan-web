@@ -121,32 +121,6 @@ $(function(){
     itemSelector: '.card'
   });
 
-  // tags
-  $('input[data-toggle="tag-input-helper"]').selectize({
-    delimiter: ',',
-    persist: false,
-    create: function(tag_name) {
-      return {
-        value: tag_name,
-        text: tag_name
-      }
-    }
-  });
-  $('[data-action="add-tag"]').on('click', function(e) {
-    e.preventDefault();
-    var tag_name = $(e.currentTarget).data('tag-name');
-    var form_control = $(e.currentTarget).data('form-control');
-    var $form_control = $(form_control);
-    if($form_control) {
-      $form_control.each(function(i, elm) {
-        elm.selectize.addOption({value: tag_name, text: tag_name});
-        elm.selectize.addItem(tag_name);
-      });
-    }
-  });
-
-  $("a.embed").oembed(null, { 'maxWidth': '100%', 'maxHeight': '100%' });
-
   // toggle
   $('[data-toggle="parti-toggle"]').on('click', function(e) {
     e.preventDefault();

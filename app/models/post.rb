@@ -2,7 +2,6 @@ class Post < ActiveRecord::Base
   HOT_LIKES_COUNT = 3
 
   acts_as_paranoid
-  acts_as_taggable
   actable as: :postable
   paginates_per 20
 

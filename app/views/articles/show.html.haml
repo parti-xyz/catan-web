@@ -4,8 +4,6 @@
 
     = render 'posts/post_header', post: @article.acting_as, only_buttons: true
     = render 'body'
-    .article__tags.post__tags
-      = render 'tags/collection', tags: @article.tags
 
     .post__likes
       .media

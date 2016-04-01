@@ -66,7 +66,7 @@ Rails.application.routes.draw do
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
 
-  get '/tags/:name', to: "tags#show", as: 'show_tag'
+  get '/tags/:name', to: redirect('/')
 
   authenticate :user, lambda { |u| u.admin? } do
     get '/test/summary', to: "users#summary_test"

@@ -35,9 +35,4 @@ module PartiUrlHelper
   def user_gallery_url(user)
     nickname_user_url(nickname: user.nickname)
   end
-
-  def tag_home_path(tag)
-    show_tag_path(name: tag.name)
-  end
-
 end
