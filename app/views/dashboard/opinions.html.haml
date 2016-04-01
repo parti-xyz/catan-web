@@ -4,8 +4,8 @@
   .container
     %section#content-tab-section
       = render 'dashboard/content_tabs', active_tab: :opinions, counts_container: current_user.watched_counts
-    .issue-opinions
-      = render 'opinions/cards', opinions: @opinions, issue: Issue::OF_ALL
+    = render 'opinions/inline_form', issue: Issue::OF_ALL
+    = render 'opinions/cards', opinions: @opinions, issue: Issue::OF_ALL
 
 
 = render 'issues/recommends', issue: Issue::OF_ALL, exclude_watched: true

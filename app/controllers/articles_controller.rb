@@ -14,7 +14,7 @@ class ArticlesController < ApplicationController
         crawl
       end
     end
-    redirect_to issue_home_path(@issue)
+    redirect_to params[:back_url] || issue_home_path(@issue)
   end
 
   def update
@@ -25,20 +25,18 @@ class ArticlesController < ApplicationController
       if @article.save
         @article = Article.merge_by_link!(@article)
         force_crawl
+        redirect_to @article
+      else
+        render 'edit'
       end
     end
-    redirect_to issue_home_path(@article.issue)
+
   end
 
   def show
     render(:partial, layout: false) and return if request.headers['X-PJAX']
     prepare_meta_tags title: @article.title,
                       description: @article.body
-  end
-
-  def destroy
-    @article.destroy
-    redirect_to issue_home_path(@talk.issue)
   end
 
   helper_method :current_issue

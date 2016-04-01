@@ -156,6 +156,17 @@ $(function(){
     $focus.focus();
   });
 
+  // simple show
+  $('[data-action="parti-show"]').on('click', function(e) {
+    e.preventDefault();
+    var $elm = $(e.currentTarget);
+    var $target = $($elm.data('show-target'));
+    $target.show();
+    var focus_id = $elm.data('focus');
+    $focus = $(focus_id);
+    $focus.focus();
+  });
+
   // share
   init_parti_share($);
 

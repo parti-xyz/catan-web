@@ -13,13 +13,16 @@ class TalksController < ApplicationController
         @comment.save if @comment.present?
       end
     end
-    redirect_to issue_home_path(@issue)
+    redirect_to params[:back_url] || issue_home_path(@issue)
   end
 
   def update
     redirect_to root_path and return if fetch_issue.blank?
-    @talk.update_attributes(talk_params)
-    redirect_to @talk
+    if @talk.update_attributes(talk_params)
+      redirect_to @talk
+    else
+      render 'edit'
+    end
   end
 
   def destroy

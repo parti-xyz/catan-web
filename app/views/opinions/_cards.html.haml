@@ -11,7 +11,7 @@
                 발언해 보세요
               %p{ style: 'margin-top: 20px;' }
                 - if user_signed_in?
-                  = link_to new_opinion_path(issue_id: issue.id), class: 'btn btn-primary btn-ghost' do
+                  = link_to '#', class: 'btn btn-primary btn-ghost', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !issue.is_all? ? 'input#opinion_title' : 'input#issue_title')} do
                     %i.fa.fa-microphone
                     #{Opinion.model_name.human}하기
                 - else

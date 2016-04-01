@@ -11,7 +11,7 @@ class OpinionsController < ApplicationController
       set_vote
     end
 
-    redirect_to @opinion
+    redirect_to params[:back_url] || issue_home_path(@issue)
   end
 
   def update

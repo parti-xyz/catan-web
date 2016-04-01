@@ -1,0 +1,34 @@
+#opinion-form-widget.well.clearfix{ style: 'background: none; display: none;' }
+  = form_for Opinion.new, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|
+
+    = hidden_field_tag :back_url, request.original_url
+    - if !issue.is_all?
+      = hidden_field_tag :issue_title, issue.title
+    - else
+      .form-group
+        .input-group
+          .input-group-addon 빠띠
+          = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }, style: 'width: 200px'
+        %p.help-block.typeahead-warning
+        %p.help-block{ style: 'font-size: 12px;' }
+          추천하는 빠띠
+          - Issue.featured_issues(current_user).each do |issue|
+            %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
+              = issue.title
+            \/
+
+    .form-group.form-group-lg
+      = f.text_field :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
+      %p.help-block
+        라는 발언에 나는
+        %strong 찬성
+        합니다.
+
+    .form-group
+      %p.help-block 왜냐하면
+      = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이유를 적어주세요' }
+
+    .form-group
+      .pull-right
+        = f.submit '게시', class: 'btn btn-primary'
+      %a.btn.btn-ghost{href: '#', data: {'switch-source': '#opinion-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", focus: 'input#opinion_title', 'disabled-typeahead-validation': 'true'}} 닫기
