@@ -139,6 +139,7 @@ section#posts {
     color: #000;
     margin: 10px 0 30px;
     text-align: center;
+    @include word-wrap();
     word-break: keep-all;
   }
 
