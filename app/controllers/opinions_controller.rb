@@ -5,13 +5,15 @@ class OpinionsController < ApplicationController
 
   def create
     set_issue
+    redirect_to root_path and return if @issue.blank?
+
     @opinion.user = current_user
     if @opinion.save
       set_comment
       set_vote
     end
 
-    redirect_to params[:back_url] || issue_home_path(@issue)
+    redirect_to params[:back_url].presence || issue_home_path(@issue)
   end
 
   def update

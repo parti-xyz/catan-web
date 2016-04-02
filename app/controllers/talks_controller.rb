@@ -13,7 +13,7 @@ class TalksController < ApplicationController
         @comment.save if @comment.present?
       end
     end
-    redirect_to params[:back_url] || issue_home_path(@issue)
+    redirect_to params[:back_url].presence || issue_home_path(@issue)
   end
 
   def update

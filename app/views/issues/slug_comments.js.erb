@@ -5,5 +5,6 @@
 <% end %>
 
 var $comments_per_page = $($.parseHTML("<%= escape_javascript(render 'comments/comments_per_page', comments: @comments, show_issue: @issue.is_all?) %>"));
-init_parti_post_modal($comments_per_page);
+parti_prepare_post_modal($comments_per_page);
+parti_prepare($comments_per_page);
 $('#comments .comments').append($comments_per_page);

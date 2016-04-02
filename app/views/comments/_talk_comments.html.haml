@@ -1,20 +1,26 @@
 %div{id: "#{dom_id(postable)}-comments" }
   %h5
     - if user_signed_in?
-      = link_to '#comment-form' do
-        %i.fa.fa-edit
-        쓰기
+      = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" } do
+        %i.fa.fa-comment-o
+        댓글작성
     - else
-      = link_to '#', data: { toggle: 'parti-login-overlay', label: '쓰기' } do
-        %i.fa.fa-edit
-        쓰기
-    (#{postable.comments.count})
+      = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' } do
+        %i.fa.fa-comment-o
+        댓글작성
+    %span.text-muted
+      (
+      %span.comments--count<>= postable.comments.count
+      )
   %ul.media-list(style='padding: 20px 0;')
-    = render postable.comments.ancient, style: :media, mention_form_contorl: '#new_comment #comment_body'
+    = render postable.comments.sequential, mention_form_contorl: '#new_comment #comment_body'
   - if user_signed_in?
     %a.anchor#comment-form
     .comment-form
-      = form_for [postable.acting_as, Comment.new], class: 'comment-form' do |f|
+      = form_for [postable.acting_as, Comment.new], remote: true, class: 'comment-form' do |f|
+        = hidden_field_tag :container, "##{dom_id(postable)}-comments ul.media-list"
+        = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count"
+        = hidden_field_tag :body_control, "##{dom_id(postable)}-comments form #comment_body"
         .form-group
           .input-group
             = f.text_area :body, class: 'form-control', style: 'height: 60px;'

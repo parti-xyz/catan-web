@@ -23,21 +23,39 @@
 //= require kakao
 //= require jquery.pjax
 
-$(function(){
-  // blank
-  $.is_blank = function (obj) {
-    if (!obj || $.trim(obj) === "") return true;
-    if (obj.length && obj.length > 0) return false;
+// blank
+$.is_blank = function (obj) {
+  if (!obj || $.trim(obj) === "") return true;
+  if (obj.length && obj.length > 0) return false;
 
-    for (var prop in obj) if (obj[prop]) return false;
-    return true;
+  for (var prop in obj) if (obj[prop]) return false;
+  return true;
+}
+
+// unobtrusive_flash
+UnobtrusiveFlash.flashOptions['timeout'] = 3000;
+
+// Kakao Key
+Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
+
+// form validation by extern
+$.validator.addMethod("extern", function(value, element) {
+  return this.optional(element) || $(element).data('rule-extern-value');
+}, "");
+
+var parti_prepare = function($base) {
+  if($base.data('parti-prepare-arel') == 'completed') {
+    return;
   }
 
-  // unobtrusive_flash
-  UnobtrusiveFlash.flashOptions['timeout'] = 5000;
+  var parti_apply = function(query, callback) {
+    $.each($base.find(query), function(i, elm){
+      callback(elm);
+    });
+  }
 
   // typeahead
-  $('[data-provider="parti-issue-typeahead"]').each(function(i, elm) {
+  parti_apply('[data-provider="parti-issue-typeahead"]', function(elm) {
     var $elm = $(elm);
     var url = $elm.data('typeahead-url');
     var displayField = $elm.data('typeahead-display-field');
@@ -116,62 +134,112 @@ $(function(){
   });
 
   //masonry
-  var $container = $('.masonry-container');
-  $container.masonry({
-    itemSelector: '.card'
-  });
-
-  // toggle
-  $('[data-toggle="parti-toggle"]').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
-    var $target = $($elm.data('toggle-target'));
-
-    $target.toggle();
+  parti_apply('.masonry-container', function(elm) {
+    $(elm).masonry({
+      itemSelector: '.card'
+    });
   });
 
   //switch
-  $('[data-toggle="parti-switch"]').each(function(i, elm) {
+  parti_apply('[data-toggle="parti-switch"]', function(elm) {
     var $elm = $(elm);
-    if ($elm.is(":hidden")) {
-      return;
+    if (!$elm.is(":hidden")) {
+      var $target = $($elm.data('switch-target'));
+      $target.hide();
     }
-    var $target = $($elm.data('switch-target'));
-    $target.hide();
+    $elm.on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+      var $target = $($elm.data('switch-target'));
+      var $source = $($elm.data('switch-source'));
+      if($.is_blank($source)) {
+        $elm.hide();
+      } else {
+        $source.hide();
+      }
+      $target.show();
+
+      var focus_id = $elm.data('focus');
+      $focus = $(focus_id);
+      $focus.focus();
+    });
   });
-  $('[data-toggle="parti-switch"]').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
-    var $target = $($elm.data('switch-target'));
-    var $source = $($elm.data('switch-source'));
-    if($.is_blank($source)) {
-      $elm.hide();
-    } else {
-      $source.hide();
+
+  // show
+  parti_apply('[data-action="parti-show"]', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+      var $target = $($elm.data('show-target'));
+      $target.show();
+      var focus_id = $elm.data('focus');
+      $focus = $(focus_id);
+      $focus.focus();
+    });
+  });
+
+  // focus
+  parti_apply('[data-action="parti-focus"]', function(elm) {
+    $(elm).on('click', function(e) {
+      var $elm = $(e.currentTarget);
+      var $target = $($elm.data('focus-target'));
+      setTimeout(function(){
+        $target.focus();
+      },10);
+    });
+  });
+
+  //share
+  parti_apply('[data-action="parti-share"]', function(elm) {
+    var $elm = $(elm);
+
+    var url = $elm.data('share-url');
+    var text = $elm.data('share-text');
+    var share = $elm.data('share-provider');
+    if ($.is_blank(share)) return;
+    var image_url = $elm.data('share-image');
+    if ($.is_blank(image_url)) image_url = location.protocol + "//" + location.hostname + "/images/parti_seo.png";
+    var image_width = $elm.data('share-image-width');
+    if ($.is_blank(image_width)) image_width = '300';
+    var image_height = $elm.data('share-image-height');
+    if ($.is_blank(image_height)) image_height = '155';
+
+    switch(share) {
+    case 'kakao-link':
+      Kakao.Link.createTalkLinkButton({
+        container: elm,
+        label: text,
+        image: {
+          src: image_url,
+          width: image_width,
+          height: image_height
+        },
+        webLink: {
+          text: '빠띠에서 보기',
+          url: url
+        }
+      });
+    break
+    case 'kakao-story':
+      Kakao.Story.createShareButton({
+        container: elm,
+        url: url,
+        text: text
+      });
+    break
+    default:
+      $elm.jsSocials({
+        showCount: true,
+        showLabel: false,
+        shares: [share],
+        text: text,
+        url: url
+      });
     }
-    $target.show();
-
-    var focus_id = $elm.data('focus');
-    $focus = $(focus_id);
-    $focus.focus();
   });
-
-  // simple show
-  $('[data-action="parti-show"]').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
-    var $target = $($elm.data('show-target'));
-    $target.show();
-    var focus_id = $elm.data('focus');
-    $focus = $(focus_id);
-    $focus.focus();
-  });
-
-  // share
-  init_parti_share($);
 
   // carousel
-  $('[data-ride="parti-carousel"]').each(function(i, elm) {
+  parti_apply('[data-ride="parti-carousel"]', function(elm) {
     var $elm = $(elm);
     var margin = $elm.data('carousel-magin');
     if(!margin) {
@@ -205,117 +273,66 @@ $(function(){
     });
   });
 
-  // dropdown preselect
-  $('[data-ride="preselect"]').each(function(i, elm) {
-    var $elm = $(elm);
-    $elm.find(".dropdown-menu li a").click(function(){
-      var selText = $(this).html() + '<span class="caret pull-right" style="margin-top: 7px;"></span>';
-      $(this).parents('.dropdown').find('.dropdown-toggle').html(selText);
-    });
-    $elm.find('.dropdown-menu li.active a').trigger('click');
-  });
+  // login overlay
+  parti_apply('[data-toggle="parti-login-overlay"]', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
 
-  // overlay
-  $('[data-toggle="parti-login-overlay"]').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
-
-    var after_login = $elm.attr('data-after-login');
-    var $input = $('#login-overlay form input[name=after_login]');
-    $input.val(after_login);
-
-    var label_content = $elm.attr('data-label');
-    var $label = $('#login-overlay .login-overlay__label');
-    $label.html(label_content);
-
-    $("#login-overlay").fadeToggle();
-  });
-  $('[data-dismiss="parti-login-overlay"]').on('click', function(e) {
-    e.preventDefault();
-    $("#login-overlay").fadeOut(400, function() {
+      var after_login = $elm.attr('data-after-login');
       var $input = $('#login-overlay form input[name=after_login]');
-      $input.val('');
+      $input.val(after_login);
+
+      var label_content = $elm.attr('data-label');
       var $label = $('#login-overlay .login-overlay__label');
-      $label.html('');
+      $label.html(label_content);
+
+      $("#login-overlay").fadeToggle();
+    });
+  });
+  parti_apply('[data-dismiss="parti-login-overlay"]', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      $("#login-overlay").fadeOut(400, function() {
+        var $input = $('#login-overlay form input[name=after_login]');
+        $input.val('');
+        var $label = $('#login-overlay .login-overlay__label');
+        $label.html('');
+      });
     });
   });
 
-  // form submit link
-  $('[data-action="parti-form-submit"]').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
-    var $form = $($elm.data('form-target'));
-    var url = $elm.data('form-url');
-    $form.attr('action', url);
-    $form.submit();
+  // form submit by clicking link
+  parti_apply('[data-action="parti-form-submit"]', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+      var $form = $($elm.data('form-target'));
+      var url = $elm.data('form-url');
+      $form.attr('action', url);
+      $form.submit();
+    });
   });
 
   // form set value
-  $('[data-action="parti-form-set-vaule"]').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
-    var $control = $($elm.data('form-control'));
-    var value = $elm.data('form-vaule');
-    $control.val(value);
-    $control.trigger("blur");
-  });
-
-  // parti-smart-placeholder
-  $('[data-action="parti-smart-placeholder"]').each(function(i, elm) {
-    var $elm = $(elm);
-    var placeholder = $elm.attr("placeholder");
-    var $previous = $($elm.data("previous-form-control"));
-    $elm.attr("placeholder", '');
-    $previous.on('input', function(e) {
-      var val = $(e.currentTarget).val();
-      if(!$.is_blank(val)) {
-        $elm.attr("placeholder", placeholder);
-      } else {
-        $elm.attr("placeholder", '');
-      }
-    });
-  });
-
-  // parti-smart-link
-  $('[data-action="parti-smart-link"]').each(function(i, elm) {
-    var $elm = $(elm);
-    var $control = $($elm.data("source-form-control"));
-    $control.on('input', function(e) {
-      var val = $(e.currentTarget).val();
-      var results = linkify.find(val);
-      var parsed_url = '';
-      $.each(results, function(i, e) {
-        if(e.type !== 'url' || /^(http)s?/.test(e.value)){
-          parsed_url = e.value;
-          return false;
-        }
-      });
-      switch ($elm.get(0).tagName) {
-        case 'A':
-          if($.is_blank(parsed_url)) {
-            $elm.empty();
-            $elm.attr('href', '');
-          } else {
-            $elm.attr('href', parsed_url)
-                .oembed(null, { 'embedMethod': 'fill', 'maxWidth': '100%', 'maxHeight': '100%' });
-          }
-          break;
-        case 'INPUT':
-          $elm.val(parsed_url);
-          break;
-      }
+  parti_apply('[data-action="parti-form-set-vaule"]', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+      var $control = $($elm.data('form-control'));
+      var value = $elm.data('form-vaule');
+      $control.val(value);
+      $control.trigger("blur");
     });
   });
 
   // autoresize toggle
-  autosize($('[data-ride="parti-autoresize"]'));
+  parti_apply('[data-ride="parti-autoresize"]', function(elm) {
+    autosize($(elm));
+  });
 
-  // form validation
-  $.validator.addMethod("extern", function(value, element) {
-    return this.optional(element) || $(element).data('rule-extern-value');
-  }, "");
-
-  $('[data-action="parti-form-validation"]').each(function(i, elm) {
+  // form validator
+  parti_apply('[data-action="parti-form-validation"]', function(elm) {
     var $elm = $(elm);
     var $form = $(elm);
     var $submit = $($elm.data("submit-form-control"));
@@ -345,15 +362,28 @@ $(function(){
   });
 
   // mention
-  init_parti_mention($);
+  parti_apply('[data-action="parti-mention"]', function(elm) {
 
-  // parti-post-modal
-  init_parti_post_modal($);
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+      var $control = $($elm.data('mention-form-control'));
+      var nickname = $elm.data('mention-nickname');
+      var value = $control.val();
+      $control.val('@' + nickname + ' ' + value);
+      $control.focus();
+    });
+  });
 
-});
+  $base.data('parti-prepare-arel', 'completed');
+}
 
 //parti-post-modal
-var init_parti_post_modal = function($base) {
+var parti_prepare_post_modal = function($base) {
+  if($base.data('parti-prepare-post-modal-arel') == 'completed') {
+    return;
+  }
+
   $.each($base.find('[data-toggle="parti-post-modal"]'), function(i, elm) {
     var $elm = $(elm);
     var target = $elm.data("target");
@@ -363,10 +393,8 @@ var init_parti_post_modal = function($base) {
     $target.data('parti-pjax-back-trigger', 'off');
 
     $elm.on('click', function(e) {
-      $.pjax({url: url, container: container, scrollTo: false});
       $target.on('pjax:success', function(e, data, status, xhr, options) {
-        init_parti_share($target);
-        init_parti_mention($target);
+        parti_prepare($(container).children());
         $target.data('parti-pjax-back-trigger', 'on');
         $target.on('hidden.bs.modal', function (e) {
           if($target.data('parti-pjax-back-trigger') == 'on') {
@@ -382,83 +410,16 @@ var init_parti_post_modal = function($base) {
         });
         $target.modal('show');
       });
+      $.pjax({url: url, container: container, scrollTo: false});
       return false;
     });
   });
+
+  $base.data('parti-prepare-post-modal-arel', 'completed');
 };
 
-//share
-Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
-var init_parti_share = function($base) {
-  $.each($base.find('[data-action="parti-share"]'), function(i, elm){
-    var $elm = $(elm);
+$(function(){
+  parti_prepare($('body'));
+  parti_prepare_post_modal($('body'));
+});
 
-    if($elm.data('parti-share-arel') == 'true') {
-      return;
-    }
-    var url = $elm.data('share-url');
-    var text = $elm.data('share-text');
-    var share = $elm.data('share-provider');
-    if ($.is_blank(share)) return;
-    var image_url = $elm.data('share-image');
-    if ($.is_blank(image_url)) image_url = location.protocol + "//" + location.hostname + "/images/parti_seo.png";
-    var image_width = $elm.data('share-image-width');
-    if ($.is_blank(image_width)) image_width = '300';
-    var image_height = $elm.data('share-image-height');
-    if ($.is_blank(image_height)) image_height = '155';
-
-    switch(share) {
-      case 'kakao-link':
-        Kakao.Link.createTalkLinkButton({
-          container: elm,
-          label: text,
-          image: {
-            src: image_url,
-            width: image_width,
-            height: image_height
-          },
-          webLink: {
-            text: '빠띠에서 보기',
-            url: url
-          }
-        });
-      break
-      case 'kakao-story':
-        Kakao.Story.createShareButton({
-          container: elm,
-          url: url,
-          text: text
-        });
-      break
-      default:
-        $elm.jsSocials({
-          showCount: true,
-          showLabel: false,
-          shares: [share],
-          text: text,
-          url: url
-        });
-    }
-
-    $elm.data('parti-share-arel', 'true');
-  });
-};
-
-// mention
-var init_parti_mention = function($base) {
-  $.each($base.find('[data-action="parti-mention"]'), function(i, elm){
-    if($(elm).data('parti-mention-arel') == 'true') {
-      return;
-    }
-    $(elm).on('click', function(e) {
-      e.preventDefault();
-      var $elm = $(e.currentTarget);
-      var $control = $($elm.data('mention-form-control'));
-      var nickname = $elm.data('mention-nickname');
-      var value = $control.val();
-      $control.val('@' + nickname + ' ' + value);
-      $control.focus();
-    });
-    $(elm).data('parti-mention-arel', 'true');
-  });
-}

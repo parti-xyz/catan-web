@@ -7,8 +7,15 @@ class CommentsController < ApplicationController
     set_choice
     @comment.user = current_user
     @comment.save
-
-    redirect_to_origin
+    if @comment.choice.present?
+      @comments_count = @comment.post.comments.by_choice(@comment.choice).count
+    else
+      @comments_count = @comment.post.comments.count
+    end
+    respond_to do |format|
+      format.js
+      format.html { redirect_to_origin }
+    end
   end
 
   def update

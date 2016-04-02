@@ -14,7 +14,7 @@ class ArticlesController < ApplicationController
         crawl
       end
     end
-    redirect_to params[:back_url] || issue_home_path(@issue)
+    redirect_to params[:back_url].presence || issue_home_path(@issue)
   end
 
   def update
@@ -34,7 +34,9 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    render(:partial, layout: false) and return if request.headers['X-PJAX']
+    if request.headers['X-PJAX']
+      render(:partial, layout: false) and return
+    end
     prepare_meta_tags title: @article.title,
                       description: @article.body
   end
