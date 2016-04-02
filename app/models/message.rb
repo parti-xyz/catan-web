@@ -9,4 +9,8 @@ class Message < ActiveRecord::Base
   def sender
     messagable.sender_of_message
   end
+
+  def post
+    messagable.post
+  end
 end

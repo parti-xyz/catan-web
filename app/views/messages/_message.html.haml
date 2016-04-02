@@ -6,5 +6,9 @@
     = link_to user_gallery_path(message.sender) do
       %strong= message.sender.nickname
     = date_f message.created_at
+    %span.post-message__issue
+      = link_to issue_home_path(message.post.issue), class: 'text-muted' do
+        = image_tag message.post.issue.logo_url
+        = message.post.issue.title
     .message__messagable
       = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message

@@ -1,4 +1,0 @@
-<strong><%= link_to comment.post.issue.title, issue_home_path(comment.post.issue) %></strong> 빠띠
-<%= comment.post.specific.class.model_name.human %>
-<strong>"<%= link_to("#{truncate(strip_tags(comment.post.specific_desc), length: 100)}", comment.post.specific) %>"</strong>의
-<strong>"<%= link_to("#{truncate(strip_tags(comment.body), length: 100)}", comment.post.specific) %>"</strong> 댓글<%= ( comment.mentioned?(message.user) ? "에서 멘션했습니다." : "을 작성했습니다.") %>
