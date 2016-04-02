@@ -12,8 +12,6 @@
 //= require bootstrap-tabdrop
 //= require rails-timeago
 //= require locales/jquery.timeago.ko
-//= require linkfy
-//= require linkify-jquery
 //= require autoresize
 //= require jquery.validate
 //= require messages_ko
