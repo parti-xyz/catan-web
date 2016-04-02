@@ -27,16 +27,38 @@ class OpenGraph
 
   private
   TWITTER_PATTEN = /^http[s]?:\/\/twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/\d*\/?$/
+  NAVER_BLOG_PATTEN = /^http[s]?:\/\/blog\.naver\.com\/[a-zA-Z0-9_]{1,30}\/\d*\/?$/
+
+  def is_twitter?
+    (@url || @src)=~TWITTER_PATTEN
+  end
+
+  def is_naver_blog?
+    ((@url || @src)=~NAVER_BLOG_PATTEN) and naver_blog_main_frame.present?
+  end
+
+  def naver_blog_main_frame
+    @doc.frame_with(id: 'mainFrame')
+  end
 
   def parse_opengraph
     begin
       @doc = @agent.get(@src)
-      if @doc.encoding_error? and @doc.encodings.to_set.intersect?(%w(ks_c_5601-1987 euc-kr).to_set)
-        @doc.encoding = 'euc-kr'
+      fallback_encoding
+
+      if is_twitter?
+        load_from_opengraph
+        load_from_page(overwrite: true)
+      elsif is_naver_blog?
+        @doc = naver_blog_main_frame.content
+        fallback_encoding
+        load_from_opengraph
+        load_from_page(overwrite: false)
+      else
+        load_from_opengraph
+        load_from_page(overwrite: false)
       end
-      load_from_opengraph
-      load_from_page(overwrite: (@url || @src)=~TWITTER_PATTEN)
-    rescue
+    rescue Exception => msg
       @title = @url = @src
       return
     end
@@ -49,6 +71,12 @@ class OpenGraph
         @image_io.original_filename = bin.filename
       rescue
       end
+    end
+  end
+
+  def fallback_encoding
+    if @doc.encodings.compact.map(&:downcase).to_set.intersect?(%w(ks_c_5601-1987 euc-kr ms949).to_set)
+      @doc.encoding = 'euc-kr'
     end
   end
 
