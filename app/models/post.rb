@@ -113,7 +113,7 @@ class Post < ActiveRecord::Base
     specific.is_a? Article
   end
 
-  def messablable_users
+  def messagable_users
     (comments.users + votes.users).uniq
   end
 

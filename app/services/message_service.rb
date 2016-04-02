@@ -12,7 +12,7 @@ class MessageService
     when Upvote.to_s
       send_message(@source.comment.user, @source)
     when Comment.to_s
-      @source.post.messablable_users.each do |user|
+      @source.post.messagable_users.each do |user|
         next if user == @source.user
         send_message(user, @source)
       end
