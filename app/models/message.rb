@@ -6,11 +6,19 @@ class Message < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :only_upvote, -> { where(messagable_type: Upvote.to_s) }
 
+  before_save :mark_unread
+
   def sender
     messagable.sender_of_message
   end
 
   def post
     messagable.post
+  end
+
+  private
+
+  def mark_unread
+    user.increment!(:unread_messages_count)
   end
 end

@@ -158,6 +158,16 @@ label.required:after {
   vertical-align: middle;
 }
 
+.label-as-badge {
+    border-radius: 1em;
+}
+
+.badge-notify {
+   position:relative;
+   top: -20px;
+   left: -35px;
+}
+
 #content-tab-section {
   .nav-tabs > li {
     a {
@@ -168,22 +178,4 @@ label.required:after {
       color: #000;
     }
   }
-  .post-type-filter {
-    .nav-pills {
-      a {
-        color: $gray;
-      }
-      & > .active > a,
-      & > .active > a:hover,
-      & > li > a:hover {
-        text-decoration: none;
-        color: #000 !important;
-        background-color: transparent !important;
-      }
-      .count {
-        color: $brand-primary;
-      }
-    }
-  }
-
 }

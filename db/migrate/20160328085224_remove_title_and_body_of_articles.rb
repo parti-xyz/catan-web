@@ -1,5 +1,5 @@
 class RemoveTitleAndBodyOfArticles < ActiveRecord::Migration
-  def change
+  def up
     remove_column :articles, :title
     remove_column :articles, :body
   end
