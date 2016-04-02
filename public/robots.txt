@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-Disallow: /transfers/
 Sitemap: http://parti.xyz/sitemap.xml.gz

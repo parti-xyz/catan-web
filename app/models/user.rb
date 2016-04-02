@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :confirmable, :omniauthable, :omniauth_providers => [:facebook, :google_oauth2, :twitter, :facebook_transfer, :google_oauth2_transfer]
+         :confirmable, :omniauthable, :omniauth_providers => [:facebook, :google_oauth2, :twitter]
 
   # validations
   VALID_NICKNAME_REGEX = /\A[a-z0-9_]+\z/i

@@ -72,10 +72,6 @@ Rails.application.routes.draw do
     get '/test/summary', to: "users#summary_test"
   end
 
-  get "transfers/start", as: "start_transfers"
-  post "transfers/confirm", as: "confirm_transfers"
-  get "transfers/final", as: "final_transfers"
-
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/devel/emails"
   end

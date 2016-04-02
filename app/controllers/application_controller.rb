@@ -107,11 +107,4 @@ class ApplicationController < ActionController::Base
       description.truncate(limit)
     end
   end
-
-  def filter_posts(posts)
-    unless params[:f].present?
-      params[:f] = 'recent'
-    end
-    posts.by_filter(params[:f], current_user).page params[:page]
-  end
 end
