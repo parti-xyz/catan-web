@@ -5,8 +5,6 @@
 //= require masonry.pkgd
 //= require bootstrap.offcanvas
 //= require selectize
-//= require redactor
-//= require redactor2_rails/config
 //= require jquery.oembed
 //= require jssocials
 //= require owl.carousel

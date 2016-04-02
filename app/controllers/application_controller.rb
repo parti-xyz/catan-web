@@ -39,14 +39,6 @@ class ApplicationController < ActionController::Base
     path
   end
 
-  def redactor_authenticate_user!
-    authenticate_user!
-  end
-
-  def redactor_current_user
-    current_user
-  end
-
   private
 
   def build_meta_options(options)
