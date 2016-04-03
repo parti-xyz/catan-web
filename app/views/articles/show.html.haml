@@ -1,6 +1,6 @@
 %section.post-section.article-section
   .container
-    %h2.post__title.article__title= article_title(@article)
+    %h2.post__title.article__title= screenable_article_title(@article)
 
     = render 'posts/post_header', post: @article.acting_as, only_buttons: true
     = render 'body'
