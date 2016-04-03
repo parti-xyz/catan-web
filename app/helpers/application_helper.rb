@@ -65,4 +65,17 @@ module ApplicationHelper
   def article_title(article)
     article.hidden? ? icon('fa fa-exclamation-triangle') + " 빠띠메이커가 숨긴 링크입니다" : article.title
   end
+
+  def video?(article)
+    source = article.link_source
+
+    VideoInfo.usable?(source.url)
+  end
+
+  def video_embed_code(article)
+    return unless video?(article)
+
+    source = article.link_source
+    raw(VideoInfo.new(source.url).embed_code({iframe_attributes: { class: 'article__body__video-content'}}))
+  end
 end

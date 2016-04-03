@@ -52,6 +52,7 @@ gem 'unobtrusive_flash', '~> 3.1'
 
 # crawling
 gem 'mechanize', '~> 2.7', '>= 2.7.4'
+gem 'video_info', '~> 2.6'
 
 # SEO
 gem 'meta-tags', '~> 2.1.0'

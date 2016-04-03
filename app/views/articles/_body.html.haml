@@ -14,10 +14,15 @@
               = image_tag(@article.image.url, class: 'media-object', style: 'max-width: 200px;')
     - else
       .media-body
-        - if @article.has_image?
+        - if video?(@article)
+          .article__body__video-container
+            = video_embed_code(@article)
+        - elsif @article.has_image?
           .text-center{style: 'margin-bottom: 20px;'}
             = link_to @article.link, target: '_blank' do
               = image_tag(@article.image.url)
+
+
 
         = smart_format(@article.body)
         - if @article.link_source.present? and !@article.hidden?
