@@ -12,7 +12,7 @@ class Issue < ActiveRecord::Base
       '모두보기'
     end
     def body
-      '유쾌한 민주주의 플랫폼입니다! 중요한 이슈, 이제 빠띠로 지켜보세요.'
+      '수다로 정치하자, 빠띠에서 파티하자! 중요한 이슈, 이제 빠띠로 지켜보세요.'
     end
     def slug
       'all'

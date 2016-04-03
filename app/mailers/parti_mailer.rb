@@ -16,7 +16,7 @@ class PartiMailer < ApplicationMailer
 
     if @created_posts.any? or @hottest_posts.any?
       mail(template_name: 'summary', to: @user.email,
-        subject: "#{I18n.l Date.yesterday} Parti 유쾌한 민주주의 소식입니다!",
+        subject: "#{I18n.l Date.yesterday} 빠띠의 유쾌한 민주주의 소식입니다!",
         delivery_method: delivery_method,
         delivery_method_options: delivery_method_options)
     end

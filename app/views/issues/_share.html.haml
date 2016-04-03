@@ -1,5 +1,5 @@
 - if @issue.is_all?
-  - data = {action: 'parti-share', 'share-url': 'http://parti.xyz', 'share-text': '유쾌한 정치 플랫폼! 빠띠에서 파티하자!'}
+  - data = {action: 'parti-share', 'share-url': 'http://parti.xyz', 'share-text': '수다로 정치하자, 빠띠에서 파티하자'}
 - else
   - data = {action: 'parti-share', 'share-url': issue_home_url(@issue), 'share-text': "#{@issue.title} | 빠띠" }
 
