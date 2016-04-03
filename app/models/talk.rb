@@ -1,4 +1,6 @@
 class Talk < ActiveRecord::Base
+  include Searchable
+
   acts_as_paranoid
   acts_as :post, as: :postable
 
@@ -7,5 +9,9 @@ class Talk < ActiveRecord::Base
 
   def origin
     self
+  end
+
+  def searchable_content
+    self.title
   end
 end

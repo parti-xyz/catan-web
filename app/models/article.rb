@@ -8,6 +8,10 @@ class Article < ActiveRecord::Base
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
+  scope :visible, -> { where(hidden: false) }
+
+  after_destroy :search_index_after_destroy
+  after_save :search_index_after_save
 
   def origin
     self
@@ -21,6 +25,14 @@ class Article < ActiveRecord::Base
   def body
     return '' if self.hidden?
     link_source.try(:body)
+  end
+
+  def link=(val)
+    old_source = self.link_source
+    new_source = LinkSource.find_or_create_by! url: val
+    self.link_source = new_source
+    old_source.search_indexing if old_source.present? and old_source != new_source
+    write_attribute(:link, val)
   end
 
   def has_image?
@@ -51,5 +63,15 @@ class Article < ActiveRecord::Base
       target.destroy
     end
     oldest
+  end
+
+  private
+
+  def search_index_after_save
+    self.link_source.search_indexing
+  end
+
+  def search_index_after_destroy
+    self.link_source.search_indexing
   end
 end

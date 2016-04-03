@@ -35,6 +35,9 @@
           = link_to issues_path do
             빠띠찾기
             %small (#{Issue.count})
+        %li
+          = link_to search_path do
+            글찾기
         - Issue.featured_issues(current_user).each do |issue|
           %li
             = link_to issue_home_path(issue) do

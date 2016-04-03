@@ -1,0 +1,16 @@
+= render 'search_header', show_social_share: true
+%section#search
+  .container
+    .row
+      .col-sm-8
+        .results
+          - if params[:q].present?
+            .bg-default{style: 'margin-top: 20px;'}
+              %i.fa.fa-info-circle
+              - if @results.present?
+                총 #{@results.total_count}건이 검색되었습니다.
+              - else
+                해당되는 글이 없습니다.
+          = render @results.map(&:searchable)
+        .text-center
+          = paginate @results, theme: 'twitter-bootstrap-3'

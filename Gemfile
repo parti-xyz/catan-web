@@ -18,6 +18,9 @@ gem 'naught', '~> 1.1'
 gem 'paranoia', '~> 2.1', '>= 2.1.5'
 gem 'activerecord_any_of', '~> 1.3'
 
+# search
+gem 'scoped_search', '~> 3.2', '>= 3.2.2'
+
 # auth
 gem 'cancancan', '~> 1.10'
 gem 'devise', '~> 3.5', '>= 3.5.2'

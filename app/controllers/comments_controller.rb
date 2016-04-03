@@ -63,8 +63,6 @@ class CommentsController < ApplicationController
   def change_article
     @previous_article = @comment.post.specific
     @article = @comment.issue.articles.find_or_initialize_by(link: params[:article_link]) do |new_article|
-      source = LinkSource.find_or_create_by! url: new_article.link
-      new_article.link_source = source
       new_article.user ||= current_user
     end
     @article.save!

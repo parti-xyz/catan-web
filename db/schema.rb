@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160402151122) do
+ActiveRecord::Schema.define(version: 20160403072943) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -126,9 +126,6 @@ ActiveRecord::Schema.define(version: 20160402151122) do
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
-
-# Could not dump table "old_articles" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false
@@ -245,6 +242,16 @@ ActiveRecord::Schema.define(version: 20160402151122) do
   add_index "relateds", ["issue_id", "target_id"], name: "index_relateds_on_issue_id_and_target_id", unique: true
   add_index "relateds", ["issue_id"], name: "index_relateds_on_issue_id"
   add_index "relateds", ["target_id"], name: "index_relateds_on_target_id"
+
+  create_table "searches", force: :cascade do |t|
+    t.integer  "searchable_id",   null: false
+    t.string   "searchable_type", null: false
+    t.text     "content"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "searches", ["searchable_type", "searchable_id"], name: "index_searches_on_searchable_type_and_searchable_id"
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"

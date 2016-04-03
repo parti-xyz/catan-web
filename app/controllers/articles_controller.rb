@@ -5,8 +5,9 @@ class ArticlesController < ApplicationController
 
   def create
     redirect_to root_path and return if fetch_issue.blank?
-    redirect_to issue_home_path(@issue) and return if fetch_source.blank?
+    redirect_to issue_home_path(@issue) and return if @article.link.blank?
 
+    @article.user ||= current_user
     ActiveRecord::Base.transaction do
       if @article.save
         @comment = build_comment
@@ -20,7 +21,7 @@ class ArticlesController < ApplicationController
   def update
     redirect_to root_path and return if fetch_issue.blank?
     @article.assign_attributes(update_params)
-    redirect_to issue_home_path(@issue) and return if fetch_source.blank?
+    redirect_to issue_home_path(@issue) and return if @article.link.blank?
     ActiveRecord::Base.transaction do
       if @article.save
         @article = Article.merge_by_link!(@article)
@@ -63,13 +64,6 @@ class ArticlesController < ApplicationController
   def fetch_issue
     return @issue if @issue.present?
     @article.issue = @issue = (Issue.find_by(title: params[:issue_title]) || @article.issue)
-  end
-
-  def fetch_source
-    return if @article.link.blank?
-    source = LinkSource.find_or_create_by! url: @article.link
-    @article.link_source = source
-    @article.user ||= current_user
   end
 
   def build_comment

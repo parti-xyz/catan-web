@@ -1,0 +1,22 @@
+- if link_source.articles.count == 1
+  = render link_source.articles, show_issue: true
+- if link_source.articles.count > 1
+  .post-inline.article-inline[link_source]
+    .post-inline__title
+      = link_source.title
+      %small
+        = link_to link_source.url, target: '_blank', class: 'text-muted' do
+          %i.fa.fa-link
+    %i.fa.fa-info-circle 여러 빠띠에 링크되었습니다. 글을 선택하려면 해당 빠띠의 옆에 날짜를 클릭해 주세요.
+    - link_source.articles.each do |article|
+      - post = article.acting_as
+      .post-inline__footer
+        = render 'posts/post_inline_footer', obj: article, show_issue: true
+        = link_to article, class: 'text-muted' do
+          %small
+            %i.fa.fa-comment-o
+              %span.text-primary
+                = post.comments_count
+              %i.wi.wi-fire
+              %span.text-primary
+                = post.likes.count
