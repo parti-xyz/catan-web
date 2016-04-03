@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160403072943) do
+ActiveRecord::Schema.define(version: 20160403234429) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -126,6 +126,9 @@ ActiveRecord::Schema.define(version: 20160403072943) do
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+
+# Could not dump table "old_articles" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false
