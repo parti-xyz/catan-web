@@ -35,7 +35,8 @@ class IssuesController < ApplicationController
   end
 
   def slug_comments
-    @comments = @issue.comments.recent.page params[:page]
+    @comments = @issue.comments.recent.limit(25).previous_of params[:last_id]
+    @is_last_page = (@comments.empty? or @issue.comments.recent.previous_of(@comments.last.id).empty?)
     unless view_context.current_page?(root_url)
       prepare_meta_tags title: @issue.title,
                         description: @issue.body,

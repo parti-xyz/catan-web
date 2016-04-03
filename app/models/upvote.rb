@@ -9,6 +9,7 @@ class Upvote < ActiveRecord::Base
   validates :user, uniqueness: {scope: [:comment]}
 
   scope :recent, -> { order(created_at: :desc) }
+  scope :previous_of, ->(id) { where('id < ?', id) if id.present? }
   scope :latest, -> { after(1.day.ago) }
   scope :by_issue, ->(issue) { joins(:post).where(posts: {issue_id: issue})}
 
