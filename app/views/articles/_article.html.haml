@@ -21,11 +21,11 @@
 
       .post-inline__footer
         = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]
-        - if (article.has_image? and image_over_height(article.image.file.path, 400))
+        - if (article.has_image? and image_over_height(article.image.file, 400))
           .post-inline__body
             = article.body
 
-    - if (article.has_image? and image_over_height(article.image.file.path, 300))
+    - if (article.has_image? and image_over_height(article.image.file, 300))
       .media-right
         %div{style: 'max-height: 200px; overflow: hidden'}
           = link_to article.link, target: '_blank' do
