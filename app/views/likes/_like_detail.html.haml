@@ -1,4 +1,0 @@
-%span.recent_likes
-  - recent_likes = post.likes.recent.limit(5).reverse
-  - recent_likes.each do |like|
-    = byline(like.user, hide_nickname: true)

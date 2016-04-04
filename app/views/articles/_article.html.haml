@@ -3,8 +3,6 @@
   .media
     .media-body
       .post-inline__title
-        - if post.hot?
-          %i.wi.wi-fire.text-danger
         = link_to screenable_article_title(article), article
         %small
           - if link_to article.link.present? and !article.hidden?
@@ -15,9 +13,6 @@
             %i.fa.fa-comment-o
               %span.text-primary
                 = post.comments_count
-              %i.wi.wi-fire
-              %span.text-primary
-                = post.likes.count
 
       .post-inline__footer
         = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]

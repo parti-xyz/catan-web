@@ -4,12 +4,6 @@
 
     = render 'posts/post_header', post: @article.acting_as, only_buttons: true
     = render 'body'
-    .post__likes
-      .media
-        .media-left
-          = render 'likes/like', post: @article.acting_as
-        .media-body
-          = render 'likes/like_detail', post: @article.acting_as
 
 %section.post-comments-section
   .container

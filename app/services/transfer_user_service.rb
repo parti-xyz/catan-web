@@ -23,16 +23,6 @@ class TransferUserService
         entity.update_columns(user_id: target_user)
        end
     end
-    likes = Like.where(user: source_user)
-    migration_logger.info "Model : #{Like.to_s}"
-    migration_logger.info likes.as_json()
-    likes.each do |like|
-      if like.post.present? and !like.post.liked_by? target_user
-        like.update_columns(user_id: target_user)
-      else
-        like.destroy!
-      end
-    end
     votes = Vote.where(user: source_user)
     migration_logger.info "Model : #{Vote.to_s}"
     migration_logger.info votes.as_json()

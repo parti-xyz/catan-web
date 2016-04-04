@@ -1,3 +1,0 @@
-<% if %w(likes/like likes/like_inline).include? params[:partial] %>
-$('.<%= dom_id(@post) %>-like').html("<%= escape_javascript(render params[:partial], post: @post) %>");
-<% end %>

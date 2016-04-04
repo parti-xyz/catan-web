@@ -1,16 +1,11 @@
 - post = opinion.acting_as
 .post-inline.opinion-inline[post]
   .post-inline__title
-    - if post.hot?
-      %i.wi.wi-fire.text-danger
     = link_to opinion do
       “#{opinion.title}”
     %small
       %span.text-primary
         = post.comments_count
-      %i.wi.wi-fire
-      %span.text-primary
-        = post.likes.count
 
   %p.post-inline__body
     %i.fa.fa-bar-chart

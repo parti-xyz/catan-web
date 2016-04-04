@@ -26,9 +26,6 @@ Rails.application.routes.draw do
         end
       end
       resources :votes
-      resources :likes do
-        delete :cancel, on: :collection
-      end
     end
   end
 

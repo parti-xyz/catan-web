@@ -1,8 +1,6 @@
 - post = talk.acting_as
 .post-inline.talk-inline[post]
   .post-inline__title
-    - if post.hot?
-      %i.wi.wi-fire.text-danger
     = link_to talk.title, talk
     = link_to talk, class: 'text-muted' do
       %small
