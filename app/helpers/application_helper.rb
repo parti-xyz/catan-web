@@ -81,6 +81,7 @@ module ApplicationHelper
 
   def image_over_height(file, min_height)
     return false unless file.exists?
-    FastImage.new(file.path).size[1] > min_height
+    size = FastImage.new(file.path).size
+    size.present? and size[1] > min_height
   end
 end
