@@ -78,4 +78,9 @@ module ApplicationHelper
     source = article.link_source
     raw(VideoInfo.new(source.url).embed_code({iframe_attributes: { class: 'article__body__video-content'}}))
   end
+
+  def image_over_height(file, min_height)
+    logger.debug(FastImage.new(file).size.inspect)
+    FastImage.new(file).size[1] > min_height
+  end
 end

@@ -1,21 +1,32 @@
 - post = article.acting_as
 .post-inline.article-inline[post]
-  .post-inline__title
-    - if post.hot?
-      %i.wi.wi-fire.text-danger
-    = link_to screenable_article_title(article), article
-    %small
-      - if link_to article.link.present? and !article.hidden?
-        = link_to article.link, target: '_blank', class: 'text-muted' do
-          %i.fa.fa-link
-    = link_to article, class: 'text-muted' do
-      %small
-        %i.fa.fa-comment-o
-          %span.text-primary
-            = post.comments_count
-          %i.wi.wi-fire
-          %span.text-primary
-            = post.likes.count
+  .media
+    .media-body
+      .post-inline__title
+        - if post.hot?
+          %i.wi.wi-fire.text-danger
+        = link_to screenable_article_title(article), article
+        %small
+          - if link_to article.link.present? and !article.hidden?
+            = link_to article.link, target: '_blank', class: 'text-muted' do
+              %i.fa.fa-link
+        = link_to article, class: 'text-muted' do
+          %small
+            %i.fa.fa-comment-o
+              %span.text-primary
+                = post.comments_count
+              %i.wi.wi-fire
+              %span.text-primary
+                = post.likes.count
 
-  .post-inline__footer
-    = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]
+      .post-inline__footer
+        = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]
+        - if (article.has_image? and image_over_height(article.image.file.path, 400))
+          .post-inline__body
+            = article.body
+
+    - if (article.has_image? and image_over_height(article.image.file.path, 300))
+      .media-right
+        %div{style: 'max-height: 200px; overflow: hidden'}
+          = link_to article.link, target: '_blank' do
+            = image_tag(article.image.url, class: 'media-object', style: 'width: 200px;')
