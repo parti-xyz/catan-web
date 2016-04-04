@@ -384,7 +384,7 @@ var parti_prepare_post_modal = function($base) {
     var target = $elm.data("target");
     var $target = $(target);
     var url = $elm.data("url");
-    var container = target + ' .modal-body__content';
+    var container = target + ' .post__partial-content';
     $target.data('parti-pjax-back-trigger', 'off');
 
     $elm.on('click', function(e) {
