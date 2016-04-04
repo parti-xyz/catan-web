@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :users, except: :show
 
-  resources :issues do
+  resources :parties, as: :issues, controller: 'issues' do
     member do
       get :opinions
     end
@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get '/i/:slug/articles', to: redirect('/p/%{slug}/articles')
   get '/i/:slug/opinions', to: redirect('/p/%{slug}/opinions')
   get '/i/:slug/talks', to: redirect('/p/%{slug}/talks')
+
   get '/p/:slug', to: "issues#slug_comments", as: 'slug_issue'
   get '/p/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
