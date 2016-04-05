@@ -8,7 +8,13 @@
 
     .navbar-header.pull-left{ style: 'position: relative' }
       %a.navbar-brand{ href: root_path }
-        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png'), style: ('max-height: 24px;')}
+        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png'), style: ('max-height: 20px;')}
+      - unless try(:origin_postable_controlling?)
+        %a{ href: dashboard_path, class: 'btn btn-default btn-link navbar-btn pull-left', style: 'font-size: 120%; padding-left: 0' }
+          %span.hidden-xs
+            내 빠띠
+          %span.visible-xs-inline
+            %i.fa.fa-home
 
     .navbar-header.pull-right{ style: 'position: relative' }
       %button.navbar-toggle.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button", style: 'margin-left: 15px;'}
@@ -27,10 +33,6 @@
             %span.label.label-danger.label-as-badge= current_user.unread_messages_count
     #navbar.navbar-offcanvas.navbar-offcanvas-right
       %ul.nav.navbar-nav(style="width: 300px;")
-        %li
-          = link_to slug_issue_path(slug: :all) do
-            모두보기
-            %small (#{Post.count})
         %li
           = link_to issues_path do
             빠띠찾기
@@ -67,7 +69,7 @@
             = byline current_user
           %li
             = link_to dashboard_path do
-              대시보드
+              내 빠띠
           %li
             = link_to messages_path do
               알람
