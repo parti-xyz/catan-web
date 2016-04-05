@@ -96,7 +96,7 @@ class OpenGraph
   end
 
   def proxy_for_fast_image
-    return if ENV['CRAWLING_PROXY_HOST'].blank? or ENV['CRAWLING_PROXY_PORT'].blank?
+    return if ENV['CRAWLING_PROXY_HOST'].blank? or ENV['CRAWLING_PROXY_PORT'].blank? or !Rails.env.production?
     "http//:#{ENV['CRAWLING_PROXY_HOST']}:#{ENV['CRAWLING_PROXY_PORT']}"
   end
 

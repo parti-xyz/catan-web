@@ -1,5 +1,7 @@
 module Mentionable
   extend ActiveSupport::Concern
+  include ActionDispatch::Routing::PolymorphicRoutes
+  include Rails.application.routes.url_helpers
 
   included do
     after_save :set_mentions
@@ -25,17 +27,28 @@ module Mentionable
         MessageService.new(mention).call
       end
     end
+
+    if has_parti?
+      push_to_slack(self)
+    end
   end
 
   private
 
+  def has_parti?
+    scan_nicknames.include?('parti')
+  end
+
   def scan_users
-    (self.mentionable_fields || []).map do |field|
+    users = scan_nicknames.map { |nickname| User.find_by_nickname(nickname) }.compact
+    users.reject{ |u| u == try(:user) }
+  end
+
+  def scan_nicknames
+    @scan_nicknames ||= (self.mentionable_fields || []).map do |field|
       parse(field)
     end.flatten.compact.uniq
   end
-
-  private
 
   PATTERN = /(?:^|\s)@([\w]+)/
   PATTERN_WITH_AT = /(?:^|\s)(@[\w]+)/
@@ -46,8 +59,17 @@ module Mentionable
     result = begin
       send(field).scan(PATTERN).flatten
     end
+    result.uniq
+  end
 
-    users = result.uniq.map { |nickname| User.find_by_nickname(nickname) }.compact
-    users.reject{ |u| u == try(:user) }
+  def push_to_slack(comment)
+    @webhook_url ||= ENV['SLACK_WEBHOOK_URL']
+    return if @webhook_url.blank?
+
+    notifier = Slack::Notifier.new(@webhook_url, username: 'parti-catan')
+
+    if comment.body.present?
+      notifier.ping("@#{comment.user.nickname}님의 댓글 #{polymorphic_url(comment.post.specific)}", attachments: [{ text: comment.body, color: "#36a64f" }])
+    end
   end
 end
