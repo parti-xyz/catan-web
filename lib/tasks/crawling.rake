@@ -6,12 +6,13 @@ namespace :crawling do
   end
 
   task :auto_test => :environment do
-    run_test 'http://www.aladin.co.kr/events/wevent_book.aspx?pn=2016_keyyek_02', '[알라딘] "좋은 책을 고르는 방법, 알라딘!"'
-    run_test 'http://policy.nec.go.kr/svc/policy/PolicyContent02.do', '중앙선거관리위원회_팝업'
-    run_test 'http://1000voices.kr/', '천인의 소리, 천인의 노래'
-    run_test 'https://twitter.com/Elverojaguar/status/714748927631818753', '트위터의 The Cult Cat 님: "https://t.co/owcku934Q6"'
-    run_test 'http://news.khan.co.kr/kh_news/khan_art_view.html?artid=201603311518461&code=940100', '알바노조 “얼굴로 매표하냐, CGV는 ‘꼬질이 벌점’ 없애라”'
-    run_test 'http://blog.naver.com/hermes6954/220662731964', '바다를 만나고,, 프리다이빙을 시작하고,, 보홀에 샵을 차리기까지..^^'
+    run_test 'http://www.aladin.co.kr/events/wevent_book.aspx?pn=2016_keyyek_02', title: '[알라딘] "좋은 책을 고르는 방법, 알라딘!"'
+    run_test 'http://policy.nec.go.kr/svc/policy/PolicyContent02.do', title: '중앙선거관리위원회_팝업'
+    run_test 'http://1000voices.kr/', title: '천인의 소리, 천인의 노래'
+    run_test 'https://twitter.com/Elverojaguar/status/714748927631818753', title: '트위터의 The Cult Cat 님: "https://t.co/owcku934Q6"'
+    run_test 'http://news.khan.co.kr/kh_news/khan_art_view.html?artid=201603311518461&code=940100', title: '알바노조 “얼굴로 매표하냐, CGV는 ‘꼬질이 벌점’ 없애라”'
+    run_test 'http://blog.naver.com/hermes6954/220662731964', title: '바다를 만나고,, 프리다이빙을 시작하고,, 보홀에 샵을 차리기까지..^^'
+    run_test 'http://m.todayhumor.co.kr/view.php?table=sisa&no=699146', image_original_filename: '1458811502h1NCDLsuo.jpg'
   end
 
   task :fails => :environment do
@@ -41,12 +42,21 @@ namespace :crawling do
     LinkSource.where(title: nil)
   end
 
-  def run_test(url, expect_title)
+  def run_test(url, expects)
     doc = OpenGraph.new(url)
-    if expect_title == doc.title
-      puts "PASS: #{url}"
-    else
-      puts "FAIL: #{url}"
+
+    pass = true
+    puts "TEST: #{url}"
+    expects.each do |k,expect|
+      if expect == doc.send(k.to_sym)
+        puts "  PASS: #{k}"
+      else
+        pass = false
+        puts "  FAIL: #{k} - expect #{expect}, but #{doc.send(k.to_sym)}"
+      end
+    end
+
+    unless pass
       puts doc.inspect
     end
   end

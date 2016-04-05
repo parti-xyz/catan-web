@@ -4,7 +4,7 @@ require 'addressable/uri'
 require 'uri'
 
 class OpenGraph
-  attr_accessor :src, :url, :type, :title, :description, :images, :image_io, :metadata, :response, :original_images
+  attr_accessor :src, :url, :type, :title, :description, :images, :image_io, :image_original_filename, :metadata, :response, :original_images
 
   def initialize(src)
     @agent = Mechanize.new
@@ -20,6 +20,7 @@ class OpenGraph
     @doc = nil
     @images = []
     @image_io = nil
+    @image_original_filename = nil
     @metadata = {}
     parse_opengraph
     check_images_path
@@ -62,16 +63,47 @@ class OpenGraph
       @title = @url = @src
       return
     end
+    fetch_image_io
+  end
 
+  def fetch_image_io
+    bins_with_size = []
     @images.each do |image|
       begin
         bin = @agent.get(image)
-        @image_io = bin.body_io
-        @image_io.class.class_eval { attr_accessor :original_filename }
-        @image_io.original_filename = bin.filename
+        image_size = FastImage.new(bin.body_io, proxy: proxy_for_fast_image).size
+        bins_with_size << [bin, image_size]
+        next if image_size.nil?
+
+        if image_size[0] > 200 and image_size[1] > 200
+          set_image_io(bin)
+          break
+        end
       rescue
       end
     end
+    if @image_io.blank? and bins_with_size.present?
+      bins_with_size.each do |m|
+        bin = m[0]
+        image_size = m[1]
+        if image_size[0] > 100 and image_size[1] > 100
+          set_image_io(bin)
+          break
+        end
+      end
+    end
+    set_image_io(bins_with_size.first[0]) if @image_io.blank? and bins_with_size.present?
+  end
+
+  def proxy_for_fast_image
+    return if ENV['CRAWLING_PROXY_HOST'].blank? or ENV['CRAWLING_PROXY_PORT'].blank?
+    "http//:#{ENV['CRAWLING_PROXY_HOST']}:#{ENV['CRAWLING_PROXY_PORT']}"
+  end
+
+  def set_image_io(bin)
+    @image_io = bin.body_io
+    @image_io.class.class_eval { attr_accessor :original_filename }
+    @image_original_filename = @image_io.original_filename = bin.filename
   end
 
   def fallback_encoding
