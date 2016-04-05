@@ -4,7 +4,7 @@ class VotesController < ApplicationController
   def create
     @post = Post.find params[:post_id]
     @specific = @post.specific
-    service = VotePost.new(specific: @specific, current_user: current_user)
+    service = VotePostService.new(specific: @specific, current_user: current_user)
     @vote = service.send(params[:vote][:choice].to_sym)
     respond_to do |format|
       format.js

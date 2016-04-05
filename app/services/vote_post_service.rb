@@ -1,4 +1,4 @@
-class VotePost
+class VotePostService
 
   attr_accessor :specific
   attr_accessor :current_user

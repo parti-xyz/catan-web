@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  #if Rails.env.production?
+  if Rails.env.production?
     rescue_from ActiveRecord::RecordNotFound do |exception|
       render_404
     end
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     rescue_from ActionController::InvalidAuthenticityToken do |exception|
       redirect_to root_url, :alert => I18n.t('errors.messages.invalid_auth_token')
     end
-  #end
+  end
 
   def render_404
     render file: "#{Rails.root}/public/404.html", layout: false, status: 404
