@@ -29,7 +29,9 @@ class Article < ActiveRecord::Base
 
   def link=(val)
     old_source = self.link_source
-    new_source = LinkSource.find_or_create_by! url: val
+    new_source = LinkSource.find_or_create_by!(url: val) do |new_link_source|
+      new_link_source.crawling_status = 'not_yet'
+    end
     self.link_source = new_source
     old_source.search_indexing if old_source.present? and old_source != new_source
     write_attribute(:link, val)
