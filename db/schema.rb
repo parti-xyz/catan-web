@@ -127,9 +127,6 @@ ActiveRecord::Schema.define(version: 20160403234429) do
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
 
-# Could not dump table "old_articles" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
-
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false
     t.datetime "created_at", null: false

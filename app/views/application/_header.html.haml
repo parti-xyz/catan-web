@@ -1,5 +1,5 @@
 %nav.navbar.navbar-default.navbar-fixed-top
-  .container
+  .container.clearfix
     - if try(:origin_postable_controlling?)
       .navbar-brand.navbar-issue
         = link_to issue_home_path(current_issue) do
@@ -8,108 +8,119 @@
 
     .navbar-header.pull-left{ style: 'position: relative' }
       %a.navbar-brand{ href: root_path }
-        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png'), style: ('max-height: 20px;')}
+        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
       - unless try(:origin_postable_controlling?)
-        %a{ href: dashboard_path, class: 'btn btn-default btn-link navbar-btn pull-left', style: 'font-size: 120%; padding-left: 0' }
-          %span.hidden-xs
+        %a{ href: dashboard_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
+          %b.hidden-xs
             내 빠띠
           %span.visible-xs-inline
             %i.fa.fa-home
 
-    .navbar-header.pull-right{ style: 'position: relative' }
-      %button.navbar-toggle.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button", style: 'margin-left: 15px;'}
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      - unless user_signed_in?
-        = link_to omniauth_authorize_path(User, :facebook), class: 'btn btn-danger navbar-btn pull-left hidden-xs' do
-          %i.fa.fa-facebook
-          페이스북아이디로 빠띠하기
+    .navbar-sign
+      - if user_signed_in?
+        .navbar-sign__in
+          .user-profile= byline current_user
+          %a.user-notice{ href: root_path }
+            = image_tag 'icon_bell.png'
       - else
-        = link_to messages_path, class: 'btn btn-default btn-link navbar-btn pull-left hidden-xs', style: 'font-size: 120%' do
-          - if current_user.unread_messages_count > 0
-            %i.fa.fa-bell
-            %span.label.label-danger.label-as-badge= current_user.unread_messages_count
-    #navbar.navbar-offcanvas.navbar-offcanvas-right
-      %ul.nav.navbar-nav(style="width: 300px;")
-        %li
-          = link_to issues_path do
-            빠띠찾기
-            %small (#{Issue.count})
-        %li
-          = link_to search_path do
-            글찾기
-        - Issue.featured_issues(current_user).each do |issue|
-          %li
-            = link_to issue_home_path(issue) do
-              .clearfix
-                .pull-left(style='width: 40px; margin-right: 10px')
-                  .issue--related
-                    .issue__logo{style: "background-image: url(#{issue.logo_url});"}
-                      = issue.title
-                %div
-                  %strong
-                    = issue.title
-                  .issue__count.text-muted
-                    %span
-                      %i.fa.fa-user
-                      = issue.watches.count
-                      - if issue.watches.latest.any?
-                        %small= "+#{issue.watches.latest.count}"
-                    %span
-                      %i.fa.fa-file-text-o
-                      = issue.posts.count
-                      - if issue.posts.latest.any?
-                        %small= "+#{issue.posts.latest.count}"
+        .navbar-sign__up= link_to '로그인/회원가입', new_user_session_path
 
-        %li.divider{:role => "separator"}
-        - if user_signed_in?
-          %li
-            = byline current_user
-          %li
-            = link_to dashboard_path do
-              내 빠띠
-          %li
-            = link_to messages_path do
-              알람
-              - if current_user.unread_messages_count > 0
-                %i.fa.fa-bell
-                  %span.label.label-danger.label-as-badge= current_user.unread_messages_count
-          %li
-            = link_to edit_user_registration_path do
-              프로필 수정
-          %li
-            = link_to destroy_user_session_path, method: :delete do
-              로그아웃
-        - else
-          %li
-            = link_to '#', class: 'btn btn-primary btn-ghost', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :facebook) } do
-              %i.fa.fa-facebook
-              페이스북아이디로 빠띠하기
-            = link_to '#', class: 'btn btn-primary btn-ghost', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :twitter) } do
-              %i.fa.fa-twitter
-              트위터아이디로 빠띠하기
-            = link_to '#', class: 'btn btn-primary btn-ghost', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) } do
-              %i.fa.fa-google-plus
-              구글플러스아이디로 빠띠하기
-            = form_tag nil, method: :get, style: 'margin: 10px 15px;' do
-              = hidden_field_tag(:after_login)
-              %label{ style: 'font-weight: normal; color: #949494;'}
-                = check_box_tag(:remember_me, '1', true)
-                로그인 유지
-          %li.divider{:role => "separator"}
-          %li= link_to '이메일 로그인', new_user_session_path
 
-        %li.divider{:role => "separator"}
-        %li
-          = link_to slug_issue_path(slug: Issue::SLUG_OF_ASK_PARTI) do
-            %i.fa.fa-question
-            %strong Ask Parti
-            .text-muted 제안이나 의견이 있으세요?
 
-        %li
-          %a(href='mailto:help@parti.xyz')
-            %i.fa.fa-bug
-            오류와 버그 신고
+    / .navbar-header.pull-right{ style: 'position: relative' }
+    /   %button.navbar-toggle.offcanvas-toggle{"aria-controls" => "navbar", "aria-expanded" => "false", "data-target" => "#navbar", "data-toggle" => "offcanvas", :type => "button", style: 'margin-left: 15px;'}
+    /     %span.sr-only Toggle navigation
+    /     %span.icon-bar
+    /     %span.icon-bar
+    /     %span.icon-bar
+    /   - unless user_signed_in?
+    /     = link_to omniauth_authorize_path(User, :facebook), class: 'btn btn-danger navbar-btn pull-left hidden-xs' do
+    /       %i.fa.fa-facebook
+    /       페이스북아이디로 빠띠하기
+    /   - else
+    /     = link_to messages_path, class: 'btn btn-default btn-link navbar-btn pull-left hidden-xs', style: 'font-size: 120%' do
+    /       - if current_user.unread_messages_count > 0
+    /         %i.fa.fa-bell
+    /         %span.label.label-danger.label-as-badge= current_user.unread_messages_count
+    / #navbar.navbar-offcanvas.navbar-offcanvas-right
+    /   %ul.nav.navbar-nav(style="width: 300px;")
+    /     %li
+    /       = link_to issues_path do
+    /         빠띠찾기
+    /         %small (#{Issue.count})
+    /     %li
+    /       = link_to search_path do
+    /         글찾기
+    /     - Issue.featured_issues(current_user).each do |issue|
+    /       %li
+    /         = link_to issue_home_path(issue) do
+    /           .clearfix
+    /             .pull-left(style='width: 40px; margin-right: 10px')
+    /               .issue--related
+    /                 .issue__logo{style: "background-image: url(#{issue.logo_url});"}
+    /                   = issue.title
+    /             %div
+    /               %strong
+    /                 = issue.title
+    /               .issue__count.text-muted
+    /                 %span
+    /                   %i.fa.fa-user
+    /                   = issue.watches.count
+    /                   - if issue.watches.latest.any?
+    /                     %small= "+#{issue.watches.latest.count}"
+    /                 %span
+    /                   %i.fa.fa-file-text-o
+    /                   = issue.posts.count
+    /                   - if issue.posts.latest.any?
+    /                     %small= "+#{issue.posts.latest.count}"
+
+    /     %li.divider{:role => "separator"}
+    /     - if user_signed_in?
+    /       %li
+    /         = byline current_user
+    /       %li
+    /         = link_to dashboard_path do
+    /           내 빠띠
+    /       %li
+    /         = link_to messages_path do
+    /           알람
+    /           - if current_user.unread_messages_count > 0
+    /             %i.fa.fa-bell
+    /               %span.label.label-danger.label-as-badge= current_user.unread_messages_count
+    /       %li
+    /         = link_to edit_user_registration_path do
+    /           프로필 수정
+    /       %li
+    /         = link_to destroy_user_session_path, method: :delete do
+    /           로그아웃
+    /     - else
+    /       %li
+    /         = link_to '#', class: 'btn btn-primary btn-ghost', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :facebook) } do
+    /           %i.fa.fa-facebook
+    /           페이스북아이디로 빠띠하기
+    /         = link_to '#', class: 'btn btn-primary btn-ghost', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :twitter) } do
+    /           %i.fa.fa-twitter
+    /           트위터아이디로 빠띠하기
+    /         = link_to '#', class: 'btn btn-primary btn-ghost', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) } do
+    /           %i.fa.fa-google-plus
+    /           구글플러스아이디로 빠띠하기
+    /         = form_tag nil, method: :get, style: 'margin: 10px 15px;' do
+    /           = hidden_field_tag(:after_login)
+    /           %label{ style: 'font-weight: normal; color: #949494;'}
+    /             = check_box_tag(:remember_me, '1', true)
+    /             로그인 유지
+    /       %li.divider{:role => "separator"}
+    /       %li= link_to '이메일 로그인', new_user_session_path
+
+    /     %li.divider{:role => "separator"}
+    /     %li
+    /       = link_to slug_issue_path(slug: Issue::SLUG_OF_ASK_PARTI) do
+    /         %i.fa.fa-question
+    /         %strong Ask Parti
+    /         .text-muted 제안이나 의견이 있으세요?
+
+    /     %li
+    /       %a(href='mailto:help@parti.xyz')
+    /         %i.fa.fa-bug
+    /         오류와 버그 신고
 

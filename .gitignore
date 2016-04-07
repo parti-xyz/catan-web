@@ -17,3 +17,5 @@ db/*.sqlite3
 public/uploads/*
 public/sitemap.xml.gz
 dump.rdb
+
+app/assets/images/email/.DS_Store
