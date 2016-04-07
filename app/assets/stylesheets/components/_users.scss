@@ -51,12 +51,15 @@
 }
 
 #user-header-section {
-  margin-top: -10px;
   padding: 20px 0;
-  background-color: $brand-primary;
-
-  h4 {
+  background-color: #271e44;
+  .img-circle {
+    width: 90px;
+    height: 90px;
+  }
+  h2 {
     color: white;
+    margin-top: 20px;
   }
 }
 

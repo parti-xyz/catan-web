@@ -2,6 +2,6 @@
   .container{ style: 'position: reltiave;' }
     .jumbotron.jumbotron-transparent{ style: 'margin: 0' }
       %div.clearfix.text-center
-        = image_tag @user.image_url, style: 'width: 60px; height: 60px', class: 'img-circle'
-        %h4 @#{@user.nickname}
+        = image_tag @user.image_url, class: 'img-circle'
+        %h2 #{@user.nickname}
 

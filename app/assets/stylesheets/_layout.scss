@@ -1,20 +1,36 @@
-footer#site-footer {
-  position: absolute;
+footer {
   height: $footer-height;
   width: 100%;
-  background-color: $navbar-inverse-bg;
-  margin: 0;
-  padding: 50px 0;
-  bottom: 0;
-
-  .site-footer__links {
-    line-height: 1.5;
-    text-align: right;
-    ul {
-      padding: 20px 0;
+  height: auto;
+  padding: 25px;
+  background: $gray-light;
+  border: 1px solid #bababb;
+  .footer-logo {
+    color: #fff;
+    border-bottom: 1px solid #b1b0b1;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    &__img {
+      width: 85px;
+      height: auto;
+      margin-bottom: 10px;
     }
+  }
+  .footer-link {
+    line-height: 2;
+    border-bottom: 1px solid #b1b0b1;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
     a {
-      color: white;
+      color: #fff;
+    }
+  }
+  .footer-sns {
+    border-bottom: 1px solid #b1b0b1;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    a {
+      margin-right: 5px;
     }
   }
 }
