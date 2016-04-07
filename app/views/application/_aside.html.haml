@@ -1,6 +1,7 @@
 #aside.col-sm-3
-  %h4 구독하는 빠띠 (#{@user.watched_issues.count})
-  = render customize_partial_path(@user.watched_issues, 'card')
+  .aside_issue
+    %h4.aside_title 구독하는 빠띠 (#{@user.watched_issues.count})
+    = render customize_partial_path(@user.watched_issues, 'card')
   %footer.footer
     .footer-logo
       %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_white.png') }
