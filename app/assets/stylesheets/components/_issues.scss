@@ -116,7 +116,7 @@
   }
   &__title {
     width: 53%;
-    height: 40px;
+    height: 39px;
     overflow: hidden;
     color: $gray-dark;
     font-size: 16px;
@@ -125,7 +125,9 @@
     float: left;
   }
   &__meta {
+    min-width: 53%;
     color: #555;
+    float: left;
     b {
       vertical-align: top;
       line-height: 1.7;
