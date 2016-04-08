@@ -1,5 +1,5 @@
-* {
-  font-family: 'Apple SD Gothic Neo', 'Noto Sans CJK KR', 'Noto Sans KR', 'Source Sans Pro', 'Helvetica Neue', Helvetica, '돋움', dotum, Arial, sans-serif !important;
+* , body {
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans CJK KR', 'Noto Sans KR', 'Source Sans Pro', 'Helvetica Neue', Helvetica, '돋움', dotum, Arial, sans-serif;
 }
 
 @mixin word-wrap() {
@@ -169,13 +169,41 @@ label.required:after {
 }
 
 #content-tab-section {
-  .nav-tabs > li {
-    a {
-      color: $gray;
-      padding: 0px 15px;
+  .nav-tabs {
+    border-color: #d2d2d2;
+    padding-left: 60px;
+    li {
+      margin: 0 20px;
+      a {
+        color: $gray;
+        padding: 0px 15px;
+        border: none;
+        &:hover {
+          background-color: transparent;
+        }
+      }
+      &.active > a {
+        color: $brand-primary;
+        border-bottom: 2px solid $brand-primary;
+      }
     }
-    &.active > a {
-      color: #000;
+    &__count {
+      min-width: 23px;
+      background: #232326;
+      color: #fff;
+      position: absolute;
+      padding: 1px 8px 0px;
+      left: 50px;
+      top: -10px;
+      border-radius: 10px;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      white-space: nowrap;
     }
   }
 }
+
+.text-primary {
+  color: #be97ff;
+}
+

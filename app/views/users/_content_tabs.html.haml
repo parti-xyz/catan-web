@@ -1,33 +1,27 @@
-%ul.nav.nav-tabs{role: 'tablist', style: 'margin-bottom: 20px;'}
+%ul.nav.nav-tabs{role: 'tablist'}
   %li{role: 'presentation', class: ('active' if active_tab == :comments)}
     = link_to user_gallery_path(@user) do
-      %h4
-        댓글
-        %small.count.hidden-xs
-          %span<>= counts_container.comments_count
-        %small.count
-          - if counts_container.latest_comments_count > 0
-            %span.text-primary<>
-              +#{counts_container.latest_comments_count}
+      %h4 댓글
+      .nav-tabs__count.hidden-xs
+        %small<>= counts_container.comments_count
+        - if counts_container.latest_comments_count > 0
+          %small.text-primary<>
+            +#{counts_container.latest_comments_count}
   %li{role: 'presentation', class: ('active' if active_tab == :upvotes)}
     = link_to nickname_user_upvotes_path(nickname: @user.nickname) do
-      %h4
-        %i.fa.fa-heart
-        %small.count.hidden-xs
-          %span<>= counts_container.upvotes_count
-        %small.count
-          - if counts_container.latest_upvotes_count > 0
-            %span.text-primary<>
-              +#{counts_container.latest_upvotes_count}
+      %h4 하트한 목록
+      .nav-tabs__count.hidden-xs{style: 'left: 100px;'}
+        %small<>= counts_container.upvotes_count
+        - if counts_container.latest_upvotes_count > 0
+          %small.text-primary<>
+            +#{counts_container.latest_upvotes_count}
   %li{role: 'presentation', class: ('active' if active_tab == :votes)}
     = link_to nickname_user_votes_path(nickname: @user.nickname) do
-      %h4
-        투표
-        %small.count.hidden-xs
-          %span<>= counts_container.votes_count
-        %small.count
-          - if counts_container.latest_votes_count > 0
-            %span.text-primary<>
-              +#{counts_container.latest_votes_count}
+      %h4 투표
+      .nav-tabs__count.hidden-xs
+        %small<>= counts_container.votes_count
+        - if counts_container.latest_votes_count > 0
+          %small.text-primary<>
+            +#{counts_container.latest_votes_count}
 
 

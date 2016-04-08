@@ -2,7 +2,7 @@
   - if comments.empty?
     .bg-default
       %i.fa.fa-info-circle
-      해당되는 글이 없습니다.
+      아직 참여한 글이 없습니다.
   - else
     = render 'comments/comments_per_page', comments: comments, show_issue: local_assigns[:show_issue]
 
