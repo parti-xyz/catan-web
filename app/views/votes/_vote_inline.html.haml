@@ -2,51 +2,56 @@
 .opinion__vote-section[opinion]{class: "#{dom_id(opinion)}-vote" }
 
   - if !user_signed_in?
-    .vote__buttons.text-center
+    / 로그인 안함
+    .vote__buttons
       = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :opinion_vote_agree, id: opinion.id}.to_json) } do
+        .icon__vote
+          = image_tag 'icon_agreement.png'
         찬성
-        %i.fa.fa-check-circle-o.fa-fw
       = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_disagree, id: opinion.id}.to_json) } do
+        .icon__vote
+          = image_tag 'icon_disagreement.png'
         반대
-        %i.fa.fa-ban.fa-fw
       .vote__buttons--unsure
         = link_to opinion_path(opinion, anchor: 'anchor-comments') do
           잘 모르겠습니다
 
   - elsif opinion.voted_by? current_user
-    .vote__results.text-center
+    / 로그인 & 투표완료
+    .vote__results
       = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-        찬성
-        %i.fa.fa-check-circle-o
-        %br
-        %span.count= opinion.votes.with_choice(:agree).count
+        .icon__vote
+          = image_tag 'icon_agreement.png'
+        %span 찬성
+        %p.count= opinion.votes.with_choice(:agree).count
       = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-        반대
-        %i.fa.fa-ban
-        %br
-        %span.count= opinion.votes.with_choice(:disagree).count
+        .icon__vote
+          = image_tag 'icon_disagreement.png'
+        %span 반대
+        %p.count= opinion.votes.with_choice(:disagree).count
 
   - else
-    .vote__buttons.text-center
-      = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: 'inline'), method: :post, remote: true, class: 'btn btn-primary btn-ghost' do
+    .vote__buttons
+      / 로그인 & 투표 전
+      = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: 'inline'), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
+        .icon__vote
+          = image_tag 'icon_agreement.png'
         찬성
-        %i.fa.fa-check-circle-o.fa-fw
-      = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true, class: 'btn btn-primary btn-ghost' do
+      = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
+        .icon__vote
+          = image_tag 'icon_disagreement.png'
         반대
-        %i.fa.fa-ban.fa-fw
       .vote__buttons--unsure
         = link_to opinion_path(opinion, anchor: 'anchor-comments') do
           잘 모르겠습니다
 
-  .text-muted.text-center{ style: 'margin-top: 20px; color: #aaaaaf; font-size: 12px; ' }
-    %div
-      %i.fa.fa-info-circle
-      - if opinion.votes.any?
+  .text-muted
+    - if opinion.votes.any?
+      %p
         현재
         %strong.text-primary
           #{opinion.votes.count}
         명이 투표했습니다.
-
-    %div
-      - if !user_signed_in? or !opinion.voted_by?(current_user)
+    - if !user_signed_in? or !opinion.voted_by?(current_user)
+      %p
         투표를 하면 현재 결과를 볼 수 있습니다.

@@ -1,165 +1,112 @@
-.opinion-section {
-  .opinion__body {
-    display: none;
-    margin: 30px 0;
-    color: $gray-light;
-    font-size: 14px;
-  }
-  .opinion__title {
-    padding: 30px 0 50px;
-    @include word-wrap();
-  }
+.opinion-list {
+  padding-top: 20px;
 }
 
-.opinion__vote-section {
-  background: #fafafa;
-  padding: 40px 15px;
-  margin: 20px 0;
-
-  .opinion__title {
-    @include word-wrap();
-    word-break: keep-all;
-  }
-
-  .opinion__vote__info {
-    font-size: $font-size-small;
-    color: $gray;
-  }
-
-  .vote__buttons--unsure a {
-    color: $gray-dark
-  }
-}
-
-.vote__results {
-  h2, h3 {
-    text-align: center;
-    font-weight: 200;
-    .count {
-      font-weight: bold;
-    }
-  }
-  .voters {
-    padding: 10px 0;
-    img {
-      width: 15px;
-      height: 15px;
-    }
-    a {
-      color: $gray;
-      font-size: $font-size-small;
-    }
-  }
-}
-
-.opinion-inline,
 .opinion-card {
-  img.user-image {
-    height: 15px;
-    width: 15px;
-    display: inline;
+  background-color: #fff;
+  padding: 25px 20px;
+  margin-bottom: 15px;
+  text-align: center;
+  &--voted {
+    background-color: $brand-light;
+    border: 1px solid #e4dfeb;
+    h4 a {
+      color: $gray;
+    }
   }
-  &__byline a {
-    color: $gray-darker;
+  &__date {
+    color: #aaaaaf;
+    font-size: 12px;
+    span {
+      vertical-align: top;
+      line-height: 1.7em;
+      padding-left: 3px;
+    }
   }
   &__title {
     font-weight: bold;
-    @include word-wrap();
+    line-height: 1.4em;
+    margin: 30px 0;
     a {
-      color: $gray-darker;
-      line-height: 1.7;
-      &:hover {
-        text-decoration: none;
-        color: $brand-primary;
-      }
+      color: $gray-base;
     }
-  }
-  .opinion__vote-section {
-    padding: 10px;
-    margin: 15px 0;
-  }
-  .jssocials-shares {
-    margin: 0;
-  }
-  &__shares.jssocials {
-    .jssocials-share {
-      margin-top: 0;
-      margin-bottom: 0;
-      .jssocials-share-link {
-        background-color: #f5f5f5;
-        color: #777;
-      }
-    }
-  }
-
-  .vote__buttons {
-    padding: 10px;
-    margin-bottom: 10px;
-    &--unsure {
-      a {
-        color: $gray-light;
-      }
-      margin-top: 10px;
+    a:hover {
+      text-decoration: underline;
     }
   }
 }
 
-.opinion-card {
-  .panel-heading, .panel-footer, .opinion__vote-section {
-    background-color: #fff;
+
+.opinion__vote-section {
+  .btn {
+    min-width: 130px;
+    padding: 15px;
+    border-color: $brand-primary;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    font-size: 16px;
+    -webkit-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+    -moz-box-shadow:    0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+    box-shadow:         0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+    margin: 0 2px;
+    span {
+      vertical-align: top;
+      padding-left: 3px;
+      line-height: 1.4em;
+      font-weight: bold;
+    }
   }
-  &--voted {
-    .opinion-card__title {
-      a {
-        color: $gray-dark;
-      }
-    }
-    .panel-body, .opinion__vote-section {
-      background-color: $brand-light;
+  .btn-default {
+    color: $brand-primary;
+    &:hover {
+      background: whitesmoke;
     }
   }
-}
-
-.opinion-social-card-section {
-  background-size: cover;
-  width: 1200px;
-  height: 630px;
-  padding: 0;
-  margin: 0;
-  display: table;
-  position: relative;
-  color: white;
-  font-family: 'Noto Sans KR';
-
-  .card {
-    display: table-cell;
-    vertical-align: middle;
-    width: 1060px;
-
-    .info {
-      font-size: 30px;
-      font-weight: 300;
-      position: absolute;
-      left: 70px;
-      top: 55px;
-    }
-
-    .title {
-      letter-spacing: -1px;
-      word-break: keep-all;
-      font-weight: 300;
-      margin: 0 70px;
-      &.short {
-        text-align: center;
-        font-size: 80px;
-      }
-      &.medium {
-        font-size: 65px;
-      }
-      &.long {
-        font-size: 55px;
-      }
+  .count {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 3px 0 0;
+    line-height: 1;
+  }
+  .vote__buttons--unsure {
+    font-size: 12px;
+    text-decoration: underline;
+    margin-top: 20px;
+    a {
+      color: #aaaaaf;
     }
   }
 }
+.text-muted {
+  margin-top: 20px;
+  p {
+    margin-bottom: 0;
+  }
+}
 
+.vote__new {
+  padding: 20px 0;
+  text-align: center;
+  border: 1px solid #ebebec;
+  background: #fff;
+  margin-bottom: 20px;
+  color: #222222;
+  font-size: 18px;
+  .btn-primary {
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    margin-left: 10px;
+    padding-top: 10px;
+    &:hover img {
+     margin-top: -21px;
+    }
+    span {
+      vertical-align: top;
+    }
+  }
+  .icon-box {
+    margin-right: 5px;
+  }
+}

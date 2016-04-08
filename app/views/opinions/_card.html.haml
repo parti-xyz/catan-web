@@ -1,10 +1,12 @@
 - opinion = card
 - post = card.acting_as
 - voted = user_signed_in? && opinion.voted_by?(current_user)
-.post-card.opinion-card.panel.panel-default[post]{ class: voted ? 'opinion-card--voted' : '' }
-  .panel-body
-    %h4.opinion-card__title.text-center
-      = link_to opinion do
-        “#{opinion.title}”
+.opinion-card[post]{ class: voted ? 'opinion-card--voted' : '' }
+  .opinion-card__date.text-right
+    = image_tag 'icon_time.png'
+    %span= opinion.created_at.strftime("%Y.%m.%d")
+  %h4.opinion-card__title
+    = link_to opinion do
+      “#{opinion.title}”
 
-    = render 'votes/vote_inline', specific: opinion
+  = render 'votes/vote_inline', specific: opinion
