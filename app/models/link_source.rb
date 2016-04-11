@@ -5,8 +5,8 @@ class LinkSource < ActiveRecord::Base
   has_many :articles
 
   validates :url, uniqueness: {case_sensitive: true}
+  validates :crawling_status, presence: true
   enumerize :crawling_status, in: [:not_yet, :completed], predicates: true, scope: true
-
   ## uploaders
   # mount
   mount_uploader :image, ImageUploader
