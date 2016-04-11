@@ -1,5 +1,22 @@
 # parti 수다로 정치하자, 빠띠에서 파티하자
 
+## 실환경 구축
+
+mysql의 encoding은 utf8mb4를 사용합니다. mysql은 버전 5.6 이상을 사용합니다.
+
+mysql my.cnf
+```
+[mysqld]
+innodb_file_format=Barracuda
+innodb_large_prefix = ON
+```
+
+database.yml
+```
+  encoding:  utf8mb4
+  collation: utf8mb4_unicode_ci
+```
+
 ## 로컬 개발 환경 구축 방법
 
 기본적인 Rail 개발 환경에 rbenv를 이용합니다.
