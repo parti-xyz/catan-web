@@ -1,0 +1,14 @@
+#!/bin/sh
+option="${1}"
+case ${option} in
+  production)
+    ey deploy -e omurice -r production
+    ;;
+  staging)
+    ey deploy -e omelet -r dev
+    ;;
+  *)
+    echo "usage: `basename ${0}` [production|staging]"
+    exit 1
+    ;;
+esac

@@ -1,5 +1,14 @@
 # parti 수다로 정치하자, 빠띠에서 파티하자
 
+## 배포
+
+engineyard를 사용합니다.
+
+```
+$ bin/deploy production
+$ bin/deploy staging
+```
+
 ## 실환경 구축
 
 mysql의 encoding은 utf8mb4를 사용합니다. mysql은 버전 5.6 이상을 사용합니다.
