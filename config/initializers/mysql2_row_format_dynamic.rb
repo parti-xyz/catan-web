@@ -1,4 +1,4 @@
-if Rails.env.production?
+if Rails.env.production? or Rails.env.staging?
   ActiveSupport.on_load(:active_record) do
     ActiveRecord::ConnectionAdapters::AbstractMysqlAdapter.class_eval do
       def create_table(table_name, options = {}) #:nodoc:
