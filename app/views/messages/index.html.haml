@@ -2,11 +2,13 @@
 
 %section#posts
   .container
-    %section#content-tab-section
-      = render 'content_tabs'
-    .messages
-      = render @messages
-    .text-center
-      = paginate @messages, theme: 'twitter-bootstrap-3'
-
+    .row
+      .col-sm-9
+        %section#content-tab-section
+          = render 'content_tabs'
+        .message-list
+          = render @messages
+        .text-center
+          = paginate @messages, theme: 'twitter-bootstrap-3'
+      = render 'aside'
 

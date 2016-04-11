@@ -1,10 +1,7 @@
-%ul.nav.nav-tabs{role: 'tablist', style: 'margin-bottom: 20px;'}
-  %li.active{role: 'presentation'}
-    %a(href='#')
-      %h4
-        %i.fa.fa-bell
-        %span= @user.messages.count
-        %small.count
-          - if @user.messages.latest.any?
-            %span.text-primary<>
-              +#{@user.messages.latest.count}
+.nav-tabs.message-tab
+  %h4 알림
+  .nav-tabs__count.hidden-xs
+    %small= @user.messages.count
+    - if @user.messages.latest.any?
+      %small.text-primary<>
+        +#{@user.messages.latest.count}

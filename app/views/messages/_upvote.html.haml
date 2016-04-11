@@ -1,11 +1,9 @@
 - post = upvote.comment.post
 %span
-  #{post.specific.class.model_name.human}
-%span
   %strong>= link_to truncate(strip_tags(post.specific_desc), length: 100), post.specific
   의 내 댓글을
 %span
-  %i.fa.fa-heart.text-danger>
+  %i.fa.fa-heart.text-primary>
   합니다.
   \:
 %span

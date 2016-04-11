@@ -2,9 +2,9 @@
 - post = card.acting_as
 - voted = user_signed_in? && opinion.voted_by?(current_user)
 .opinion-card[post]{ class: voted ? 'opinion-card--voted' : '' }
-  .opinion-card__date.text-right
+  .opinion-card__date.date-wrapper
     = image_tag 'icon_time.png'
-    %span= opinion.created_at.strftime("%Y.%m.%d")
+    %span= date_f opinion.created_at
   %h4.opinion-card__title
     = link_to opinion do
       “#{opinion.title}”

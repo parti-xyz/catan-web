@@ -1,4 +1,4 @@
-#aside.col-sm-3
+#aside.col-sm-3.hidden-xs
   .aside_issue
     %h4.aside_title 구독하는 빠띠 (#{@user.watched_issues.count})
     = render customize_partial_path(@user.watched_issues, 'card')

@@ -1,14 +1,11 @@
-.message.media[message]
-  .media-left
-    = link_to user_gallery_path(message.sender) do
-      = image_tag message.sender.image_url, class: 'media-object img-circle', style: 'width:50px;height:50px;'
-  .media-body
-    = link_to user_gallery_path(message.sender) do
-      %strong= message.sender.nickname
-    = date_f message.created_at
-    %span.post-message__issue
-      = link_to issue_home_path(message.post.issue), class: 'text-muted' do
-        = image_tag message.post.issue.logo_url
-        = message.post.issue.title
-    .message__messagable
-      = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message
+.message.clearfix[message]
+  = link_to user_gallery_path(message.sender), class: 'message__link clearfix' do
+    = image_tag message.sender.image_url, class: 'img-circle profile'
+    .nickname
+      = message.sender.nickname
+  .message__date.date-wrapper
+    = image_tag 'icon_time.png'
+    %span= date_f message.created_at
+  .message__messagable
+    = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message
+

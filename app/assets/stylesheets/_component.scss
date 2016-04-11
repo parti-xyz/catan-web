@@ -43,6 +43,18 @@
       white-space: nowrap;
     }
   }
+  .message-tab {
+    padding: 0;
+    color: #777;
+    position: relative;
+    .nav-tabs__count {
+      left: 35px;
+    }
+  }
+}
+
+.fa-heart.text-primary {
+  margin-right: 3px;
 }
 
 /* vote icon */
@@ -63,4 +75,15 @@
   height: 17px;
   overflow: hidden;
   display: inline-block;
+}
+
+.date-wrapper {
+  text-align: right;
+  color: #aaaaaf;
+  font-size: 12px;
+  span {
+    vertical-align: top;
+    line-height: 1.7em;
+    padding-left: 3px;
+  }
 }
