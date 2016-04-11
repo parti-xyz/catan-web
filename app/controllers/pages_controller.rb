@@ -5,4 +5,9 @@ class PagesController < ApplicationController
 
   def about
   end
+
+  def robots
+    respond_to :text
+    expires_in 6.hours, public: true
+  end
 end

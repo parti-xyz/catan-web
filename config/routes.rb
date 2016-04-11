@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   #sso_devise
 
   root 'pages#home'
+  get '/robots.:format' => 'pages#robots'
 
   resources :users, except: :show
 

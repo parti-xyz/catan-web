@@ -1,0 +1,8 @@
+<% if Rails.env.production? %>
+User-agent: *
+Allow: /
+Sitemap: http://parti.xyz/sitemap.xml.gz
+<% else %>
+User-Agent: *
+Disallow: /
+<% end %>
