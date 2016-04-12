@@ -1,15 +1,16 @@
 # encoding: utf-8
 
 class ImageUploader < CarrierWave::Uploader::Base
-
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
   storage :file
 
   def store_dir
     "#{'../test/' if Rails.env.test?}uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+  end
+
+  def content_type_whitelist
+    /image\//
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -34,6 +35,21 @@ class ImageUploader < CarrierWave::Uploader::Base
   # version :thumb do
   #   process :resize_to_fit => [50, 50]
   # end
+  version :xs  do
+    process resize_to_fit: [80, nil]
+  end
+
+  version :sm do
+    process resize_to_fit: [200, nil ]
+  end
+
+  version :md do
+    process resize_to_fit: [400, nil]
+  end
+
+  version :lg do
+    process resize_to_fit: [700, nil]
+  end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
@@ -57,5 +73,4 @@ class ImageUploader < CarrierWave::Uploader::Base
     var = :"@#{mounted_as}_secure_token"
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end
-
 end

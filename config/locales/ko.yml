@@ -11,6 +11,9 @@ ko:
       blank: 값을 입력해 주세요
       taken: 이미 사용 중 입니다
       invalid_auth_token: 로그인한지 너무 오래 되셨네요. 다시 시도해 주세요.
+      carrierwave_processing_error: 처리할 수없는 파일입니다.
+      mini_magick_processing_error: 처리할 수없는 파일입니다.
+      carrierwave_integrity_error: 허용되지 않는 파일 형식입니다.
     models:
       user:
         attributes:
