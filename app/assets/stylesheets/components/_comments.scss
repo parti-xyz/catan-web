@@ -1,51 +1,49 @@
 section#comments {
   padding: 20px 0;
-  .comments {
-    padding-top: 20px
-  }
 }
 
-.post-comments-section {
-  padding: 10px 0 30px 0;
-}
-
-.comment--inline {
-  margin-top: 15px;
-  border-bottom: 1px solid #eee;
-  img.user-image {
-    width: 15px;
-    height: 15px;
+.comment {
+  position: relative;
+  background-color: #fff;
+  margin-bottom: 10px;
+  margin-left: 26px;
+  padding: 20px;
+  border: 1px solid #fff;
+  &:hover {
+    border-top: 1px solid #bfa5eb;
+    border-right: 1px solid #bfa5eb;
+    border-bottom: 1px solid #bfa5eb;
+    border-left: 1px solid #fff;
+    -webkit-box-shadow: 4px 4px 4px 0px rgba(222, 221, 218, 1);
+    -moz-box-shadow:    4px 4px 4px 0px rgba(222, 221, 218, 1);
+    box-shadow:         4px 4px 4px 0px rgba(222, 221, 218, 1);
   }
-  &:last-child {
-    border-bottom: none;
+  .img-circle {
+    position: absolute;
+    left: -15px;
+    top: 15px;
   }
-}
-
-.comments {
-  .comment__body {
-    @include word_wrap;
+  .nickname {
+    font-weight: bold;
+    color: $brand-primary;
   }
-  .opinion-card {
-    margin-top: 15px;
+  &__btn {
+    margin-top: -5px;
+    margin-left: 10px;
   }
-}
-
-.upvote-button a {
-  font-weight: bold;
-  &.upvote-button--not-yet {
-    color: $gray-dark;
+  &__body {
+    color: #777;
+    font-size: 15px;
   }
-  &.upvote-button--upvoted {
-    color: $brand-danger;
-  }
-}
-
-.newest_comment {
-  font-size: 12px;
-  .byline {
-    float: left;
-  }
-  p {
-    display: inline;
+  &__upvotes {
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 15px;
+    .fa-heart-o  {
+      color: #aaaaaf;
+    }
+    .fa-heart {
+      color: $brand-primary;
+    }
   }
 }

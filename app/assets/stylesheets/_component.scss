@@ -102,9 +102,16 @@
     width: 16px;
     height: 17px;
   }
+  &--big {
+    width: 25px;
+    height: 25px;
+  }
 }
 .btn-icon--small:hover img {
   margin-top: -17px;
+}
+.btn-icon--big:hover img {
+  margin-top: -25px;
 }
 
 
