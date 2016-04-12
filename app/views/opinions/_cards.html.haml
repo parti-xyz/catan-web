@@ -3,13 +3,13 @@
     .vote__new
       %span 더 나은 논의를 위해 발언해 보세요
       - if user_signed_in?
-        = link_to '#', class: 'btn btn-primary btn-ghost', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !issue.is_all? ? 'input#opinion_title' : 'input#issue_title')} do
-          .icon-box
+        = link_to '#', class: 'btn btn-primary btn-border btn-ghost', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !issue.is_all? ? 'input#opinion_title' : 'input#issue_title')} do
+          .btn-icon.btn-icon--small
             = image_tag 'icon_comment.png'
           %span #{Opinion.model_name.human}하기
       - else
         = link_to '#', class: 'btn btn-primary btn-ghost', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
-          .icon-box
+          .btn-icon.btn-icon--small
             = image_tag 'icon_comment.png'
           %span #{Opinion.model_name.human}하기
 

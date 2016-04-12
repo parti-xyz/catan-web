@@ -154,6 +154,7 @@ var parti_prepare = function($base) {
       }
       $target.show();
 
+
       var focus_id = $elm.data('focus');
       $focus = $(focus_id);
       $focus.focus();

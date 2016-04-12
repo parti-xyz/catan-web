@@ -1,9 +1,0 @@
-%h4
-  = link_to issue_users_path(issue) do
-    %i.fa.fa-user
-    구독회원
-    %small (#{issue.watches.count})
-
-%hr
-
-= render 'issues/issue_relateds', issue: issue

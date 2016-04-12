@@ -16,8 +16,8 @@
 }
 
 #dashboard-header-section {
-  margin-top: -10px;
-  background-color: $brand-primary;
+  padding: 20px 0;
+  background-color: #271e44;
   .jumbotron {
     padding: 20px 0 0;
     color: #fff;
@@ -38,7 +38,7 @@
   }
 }
 
-#messages-header-section {
+#messages-header-section{
   padding: 20px 0;
   background-color: #271e44;
   font-size: 24px;
@@ -66,6 +66,18 @@
     margin-top: 20px;
   }
 }
+.issue-header-section {
+  padding: 20px 0;
+  background-color: #271e44;
+  color: #fff;
+  .img-circle {
+    width: 90px;
+    height: 90px;
+  }
+  a {
+    color: #fff;
+  }
+}
 
 #login-overlay {
   display: none;
@@ -86,7 +98,7 @@
   padding: 50px 0;
 }
 
-/* message */
+/* message 알림 */
 .message {
   background-color: #fff;
   margin-bottom: 5px;
@@ -96,9 +108,6 @@
     display: inline-block;
     float: left;
     .profile {
-      width: 30px;
-      height: 30px;
-      border: 2px solid $brand-primary;
       margin-right: 5px;
       float: left;
     }
@@ -117,3 +126,80 @@
     margin-top: 10px;
   }
 }
+
+/* dashboard 상단 버튼 */
+.inline-form {
+  position: relative;
+  text-align: right;
+  padding-top: 20px;
+  &__thumb {
+    position: absolute;
+    left: 0;
+    top: 32px;
+  }
+}
+#editors-tab {
+  width: 620px;
+  background-color: #fff;
+  padding: 15px 0;
+  border: 1px solid #ebebec;
+  position: relative;
+  display: inline-block;
+  .btn {
+    width: 130px;
+    float: left;
+  }
+  .editors-tab__arrow {
+    position: absolute;
+    left: -19px;
+    margin-top: -10px;
+    top: 50%;
+  }
+}
+.form-widget {
+  background-color: #fff;
+  border: 1px solid $brand-primary;
+  padding: 15px;
+  margin-left: 79px;
+  position: relative;
+  &__arrow {
+    position: absolute;
+    left: -19px;
+    top: 25px;
+  }
+  .input-group {
+    width: 100%;
+  }
+  input[type=text] {
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border-bottom: 2px solid #777;
+    padding-left: 0;
+  }
+  a {
+    color: #777;
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+  .btn-primary {
+    min-width: 130px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

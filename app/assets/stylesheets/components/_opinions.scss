@@ -84,20 +84,13 @@
   margin-bottom: 20px;
   color: #222222;
   font-size: 18px;
-  .btn-primary {
-    border-radius: 50px;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    margin-left: 10px;
-    padding-top: 10px;
-    &:hover img {
-     margin-top: -21px;
-    }
-    span {
-      vertical-align: top;
-    }
-  }
   .icon-box {
     margin-right: 5px;
+  }
+}
+
+.vote__results .btn-primary {
+  .btn-icon img {
+    margin-top: -21px;
   }
 }

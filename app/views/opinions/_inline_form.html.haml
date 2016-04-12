@@ -1,21 +1,20 @@
-#opinion-form-widget.well.clearfix{ style: 'background: none; display: none;' }
-  = form_for Opinion.new, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|
-
+#opinion-form-widget.bg-line
+  = form_for Opinion.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|
+    = image_tag 'icon_tooltip_left2.png', class: 'form-widget__arrow'
     = hidden_field_tag :back_url, request.original_url
     - if !issue.is_all?
       = hidden_field_tag :issue_title, issue.title
     - else
       .form-group
-        .input-group
-          .input-group-addon 빠띠
-          = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }, style: 'width: 200px'
-        %p.help-block.typeahead-warning
-        %p.help-block{ style: 'font-size: 12px;' }
+        %p.help-block
           추천하는 빠띠
           - Issue.featured_issues(current_user).each do |issue|
             %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
               = issue.title
             \/
+        .input-group
+          = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }
+        %p.help-block.typeahead-warning
 
     .form-group.form-group-lg
       = f.text_field :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
@@ -30,5 +29,5 @@
 
     .form-group
       .pull-right
-        = f.submit '게시', class: 'btn btn-primary'
-      %a.btn.btn-ghost{href: '#', data: {'switch-source': '#opinion-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", focus: 'input#opinion_title', 'disabled-typeahead-validation': 'true'}} 닫기
+        = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border'
+      %a.btn.btn-default.btn-border{href: '#', data: {'switch-source': '#opinion-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", focus: 'input#opinion_title', 'disabled-typeahead-validation': 'true'}} 취소

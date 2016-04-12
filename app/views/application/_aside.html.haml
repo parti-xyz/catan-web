@@ -1,7 +1,7 @@
 #aside.col-sm-3.hidden-xs
   .aside_issue
-    %h4.aside_title 구독하는 빠띠 (#{@user.watched_issues.count})
-    = render customize_partial_path(@user.watched_issues, 'card')
+    / %h4.aside_title 구독하는 빠띠 (#{@user.watched_issues.count})
+    / = render customize_partial_path(@user.watched_issues, 'card')
   %footer.footer
     .footer-logo
       %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_white.png') }
@@ -24,3 +24,14 @@
       %a{:href => '#'}
         = image_tag 'icon_me.png', alt: 'btn-medium'
     = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
+
+/ issues / _aside
+/ %h4
+/   = link_to issue_users_path(issue) do
+/     %i.fa.fa-user
+/     구독회원
+/     %small (#{issue.watches.count})
+
+/ %hr
+
+/ = render 'issues/issue_relateds', issue: issue

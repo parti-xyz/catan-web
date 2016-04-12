@@ -6,89 +6,80 @@
 - else
   - article_button_data = opinion_button_data = talk_button_data = {toggle: "parti-login-overlay"}
 
-.media{ style: 'margin-bottom: 10px;' }
-  .media-left.hidden-xs
-    - if user_signed_in?
-      = link_to user_gallery_path(current_user) do
-        = image_tag current_user.image_url, class: 'media-object img-circle', style: 'width:50px;height:50px;'
+.inline-form.bg-line
+  - if user_signed_in?
+    = link_to user_gallery_path(current_user), class: 'inline-form__thumb' do
+      = image_tag current_user.image_url, class: 'img-circle circle-50 border-2-primary'
+  - else
+    = image_tag 'anonymous.png', class: 'img-circle circle-50 border-2-primary'
+  #editors-tab.clearfix
+    = image_tag 'icon_tooltip_left.png', class: 'editors-tab__arrow'
+    = link_to '', data: article_button_data, class: 'btn btn-border btn-primary btn-ghost' do
+      .btn-icon.btn-icon--small
+        = image_tag 'icon_link.png'
+      %span 링크걸기
+    = link_to '', data: talk_button_data, class: 'btn btn-border btn-primary btn-ghost' do
+      .btn-icon.btn-icon--small
+        = image_tag 'icon_talk.png'
+      %span 대화열기
+    = link_to '#', data: opinion_button_data, class: 'btn btn-border btn-primary btn-ghost' do
+      .btn-icon.btn-icon--small
+        = image_tag 'icon_opinion.png'
+      %span 발언하기
+
+#article-form-widget.bg-line
+  = form_for Article.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-form-widget form input[type=submit]' } } do |f|
+    = image_tag 'icon_tooltip_left2.png', class: 'form-widget__arrow'
+    = hidden_field_tag :back_url, request.original_url
+    - if !issue.is_all?
+      = hidden_field_tag :issue_title, issue.title
     - else
-      = image_tag 'anonymous.png', class: 'media-object img-circle', style: 'width:50px;height:50px;'
-  .media-body
-    .row#editors-tab{style: 'margin-top: 8px;'}
-      .col-xs-4{ style: 'padding-right: 0;' }
-        = link_to '', data: article_button_data, class: 'btn btn-primary btn-ghost btn-block' do
-          %span.hidden-xs
-            %i.fa.fa-link
-          링크걸기
-      .col-xs-4{ style: 'padding-right: 7.5px;padding-left: 7.5px;' }
-        = link_to '', data: talk_button_data, class: 'btn btn-primary btn-ghost btn-block' do
-          %span.hidden-xs
-            %i.fa.fa-wechat
-          대화열기
-      .col-xs-4{ style: 'padding-left: 0;' }
-        = link_to '#', data: opinion_button_data, class: 'btn btn-primary btn-ghost btn-block' do
-          %span.hidden-xs
-            %i.fa.fa-microphone
-          발언하기
+      .form-group
+        %p.help-block
+          추천하는 빠띠 :
+          %br
+          - Issue.featured_issues(current_user).each do |issue|
+            %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
+              = issue.title
+            \/
+        .input-group
+          = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요. (추천하는 빠띠에서 선택하셔도 됩니다.)', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }
+        %p.help-block.typeahead-warning
+    .form-group
+      = f.text_field :link, placeholder: '링크를 입력해주세요.', class: 'form-control', data: { 'rule-required': true}
+    .form-group
+      .pull-right
+        = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border'
+      %a.btn.btn-default.btn-border{href: '#', data: {'switch-source': '#article-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", 'disabled-typeahead-validation': 'true'}} 취소
 
-    #article-form-widget.well.clearfix{ style: 'background: none; display: none;' }
-      = form_for Article.new, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-form-widget form input[type=submit]' } } do |f|
+#talk-form-widget.bg-line
+  = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
+    = image_tag 'icon_tooltip_left2.png', class: 'form-widget__arrow'
+    = hidden_field_tag :back_url, request.original_url
+    - if !issue.is_all?
+      = hidden_field_tag :issue_title, issue.title
+    - else
+      .form-group
+        %p.help-block
+          추천하는 빠띠
+          - Issue.featured_issues(current_user).each do |issue|
+            %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
+              = issue.title
+            \/
+        .input-group
+          = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }
+        %p.help-block.typeahead-warning
 
-        = hidden_field_tag :back_url, request.original_url
-        - if !issue.is_all?
-          = hidden_field_tag :issue_title, issue.title
-        - else
-          .form-group
-            .input-group
-              .input-group-addon 빠띠
-              = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }, style: 'width: 200px'
-            %p.help-block.typeahead-warning
-            %p.help-block{ style: 'font-size: 12px;' }
-              추천하는 빠띠
-              - Issue.featured_issues(current_user).each do |issue|
-                %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
-                  = issue.title
-                \/
 
-        .form-group
-          = f.text_field :link, placeholder: '링크를 넣어주세요.', class: 'form-control', style: 'border: none; box-shadow: none; padding: 0;', data: { 'rule-required': true}
+    .form-group
+      = f.text_field :title, placeholder: '주제를 넣어주세요.', class: 'form-control', data: { 'rule-required': true}
 
-        .form-group
-          = text_area_tag :comment_body, '', placeholder: '이야기 해주세요.', class: 'form-control', style: 'border: none; box-shadow: none; padding: 0;', data: { ride: 'parti-autoresize', 'rule-required': true}
+    .form-group
+      = text_area_tag :comment_body, '', placeholder: '한마디 해주세요.', class: 'form-control', data: { ride: 'parti-autoresize', 'rule-required': true}
 
-        .form-group
-          .pull-right
-            = f.submit '게시', class: 'btn btn-primary'
-          %a.btn.btn-ghost{href: '#', data: {'switch-source': '#article-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", 'disabled-typeahead-validation': 'true'}} 닫기
+    .form-group
+      .pull-right
+        = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border'
+      %a.btn.btn-default.btn-border{href: '#', data: {'switch-source': '#talk-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", 'disabled-typeahead-validation': 'true'}} 취소
 
-    #talk-form-widget.well.clearfix{ style: 'background: none; display: none;' }
-      = form_for Talk.new, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
-
-        = hidden_field_tag :back_url, request.original_url
-        - if !issue.is_all?
-          = hidden_field_tag :issue_title, issue.title
-        - else
-          .form-group
-            .input-group
-              .input-group-addon 빠띠
-              = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }, style: 'width: 200px'
-            %p.help-block.typeahead-warning
-            %p.help-block{ style: 'font-size: 12px;' }
-              추천하는 빠띠
-              - Issue.featured_issues(current_user).each do |issue|
-                %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
-                  = issue.title
-                \/
-
-        .form-group
-          = f.text_field :title, placeholder: '주제를 넣어주세요.', class: 'form-control', style: 'border: none; box-shadow: none; padding: 0;', data: { 'rule-required': true}
-
-        .form-group
-          = text_area_tag :comment_body, '', placeholder: '한마디 해주세요.', class: 'form-control', style: 'border: none; box-shadow: none; padding: 0;', data: { ride: 'parti-autoresize', 'rule-required': true}
-
-        .form-group
-          .pull-right
-            = f.submit '게시', class: 'btn btn-primary'
-          %a.btn.btn-ghost{href: '#', data: {'switch-source': '#talk-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", 'disabled-typeahead-validation': 'true'}} 닫기
-
-    = render 'opinions/inline_form', local_assigns
+= render 'opinions/inline_form', local_assigns

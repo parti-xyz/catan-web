@@ -1,6 +1,6 @@
 .message.clearfix[message]
   = link_to user_gallery_path(message.sender), class: 'message__link clearfix' do
-    = image_tag message.sender.image_url, class: 'img-circle profile'
+    = image_tag message.sender.image_url, class: 'img-circle circle-30 profile border-2-primary'
     .nickname
       = message.sender.nickname
   .message__date.date-wrapper
