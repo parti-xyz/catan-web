@@ -8,13 +8,15 @@ class ArticlesController < ApplicationController
     redirect_to issue_home_path(@issue) and return if @article.link.blank?
 
     @article.user ||= current_user
+    need_to_crawl = false
     ActiveRecord::Base.transaction do
       if @article.save
         @comment = build_comment
         @comment.save if @comment.present?
-        crawl
+        need_to_crawl = true
       end
     end
+    crawl if need_to_crawl
     redirect_to params[:back_url].presence || issue_home_path(@issue)
   end
 
@@ -22,16 +24,18 @@ class ArticlesController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
     @article.assign_attributes(update_params)
     redirect_to issue_home_path(@issue) and return if @article.link.blank?
+
+    need_to_crawl = false
     ActiveRecord::Base.transaction do
       if @article.save
         @article = Article.merge_by_link!(@article)
-        force_crawl
+        need_to_crawl = true
         redirect_to @article
       else
         render 'edit'
       end
     end
-
+    force_crawl if need_to_crawl
   end
 
   def show

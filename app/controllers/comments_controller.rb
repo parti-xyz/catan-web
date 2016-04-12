@@ -19,9 +19,11 @@ class CommentsController < ApplicationController
   end
 
   def update
+    need_to_crawl = false
     ActiveRecord::Base.transaction do
       if params[:article_link].present? and @comment.linkable? and params[:article_link] != @comment.post.specific.link
         change_article
+        need_to_crawl = true
       end
       if @comment.update_attributes(comment_params)
         redirect_to_origin
@@ -29,6 +31,7 @@ class CommentsController < ApplicationController
         render 'edit'
       end
     end
+    crawl if need_to_crawl
   end
 
   def destroy
@@ -67,11 +70,13 @@ class CommentsController < ApplicationController
     end
     @article.save!
 
-    if @article.link_source.crawling_status.not_yet?
-      CrawlingJob.perform_async(@article.link_source.id)
-    end
-
     @previous_article.destroy! if @previous_article.comments.empty?
     @comment.post = @article.acting_as
+  end
+
+  def crawl
+    if @article.present? and @article.link_source.crawling_status.not_yet?
+      CrawlingJob.perform_async(@article.link_source.id)
+    end
   end
 end
