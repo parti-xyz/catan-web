@@ -5,6 +5,7 @@ module Mentionable
 
   included do
     after_save :set_mentions
+    after_commit :send_mention_emails
     has_many :mentions, as: :mentionable
     cattr_accessor(:mentionable_fields)
   end
@@ -18,18 +19,35 @@ module Mentionable
   end
 
   def set_mentions
+    @pervious_user = []
+
     pervious = self.mentions.destroy_all
-    pervious_user = pervious.map &:user
-    scan_users.each do |mentioned_user|
-      mention = self.mentions.create(user: mentioned_user)
-      unless pervious_user.include? mentioned_user
-        MentionMailer.send(self.class.to_s.underscore, self.user.id, mentioned_user.id, self.id).deliver_later
-        MessageService.new(mention).call
-      end
+    @pervious_user = pervious.map &:user
+    scan_users.map do |mentioned_user|
+      self.mentions.create(user: mentioned_user)
     end
+    send_mention_messages
 
     if has_parti?
       push_to_slack(self)
+    end
+  end
+
+  def send_mention_emails
+    self.mentions.each do |mention|
+      mentioned_user = mention.user
+      unless @pervious_user.include? mentioned_user
+        MentionMailer.send(self.class.to_s.underscore, self.user.id, mentioned_user.id, self.id).deliver_later
+      end
+    end
+  end
+
+  def send_mention_messages
+    self.mentions.each do |mention|
+      mentioned_user = mention.user
+      unless @pervious_user.include? mentioned_user
+        MessageService.new(mention).call
+      end
     end
   end
 
