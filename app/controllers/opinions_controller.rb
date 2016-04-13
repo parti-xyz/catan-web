@@ -53,7 +53,7 @@ class OpinionsController < ApplicationController
             @post.save
             file.unlink
           end
-          send_file(@post.social_card.path, :type => "image/png", :disposition => 'inline')
+          redirect_to @post.social_card.url
         end
       end
       format.html { render(layout: nil) }
