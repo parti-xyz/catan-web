@@ -19,7 +19,7 @@ gem 'activerecord_any_of', '~> 1.3'
 # file upload
 gem 'carrierwave', '~> 0.10.0'
 gem "mini_magick"
-gem 'fog', '~> 1.38'
+gem "fog"
 
 # search
 gem 'scoped_search', '~> 3.2', '>= 3.2.2'
