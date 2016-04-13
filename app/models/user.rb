@@ -53,9 +53,6 @@ class User < ActiveRecord::Base
   ## uploaders
   # mount
   mount_uploader :image, UserImageUploader
-  # validates for uploaders
-  validates_integrity_of  :image
-  validates_processing_of :image
 
   # scopes
   scope :latest, -> { after(1.day.ago) }

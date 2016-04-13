@@ -7,7 +7,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     post post_comments_path(post_id: articles(:article1).acting_as.id, comment: { body: '@nick2 mention' })
 
     assert assigns(:comment).persisted?
-    assert_equal users(:two), assigns(:comment).mentions.first.user
+    assert_equal users(:two), assigns(:comment).reload.mentions.first.user
   end
 
   test '멘션을 하면 메시지가 보내져요' do

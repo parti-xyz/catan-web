@@ -72,8 +72,8 @@ class OpenGraph
       begin
         bin = @agent.get(image)
         image_size = FastImage.new(bin.body_io, proxy: proxy_for_fast_image).size
-        bins_with_size << [bin, image_size]
         next if image_size.nil?
+        bins_with_size << [bin, image_size]
 
         if image_size[0] > 200 and image_size[1] > 200
           set_image_io(bin)
