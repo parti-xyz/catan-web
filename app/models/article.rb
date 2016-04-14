@@ -10,8 +10,9 @@ class Article < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :visible, -> { where(hidden: false) }
 
-  after_destroy :search_index_after_destroy
+  before_save :update_post_issue_id_before_save
   after_save :search_index_after_save
+  after_destroy :search_index_after_destroy
 
   def origin
     self
@@ -69,5 +70,9 @@ class Article < ActiveRecord::Base
 
   def search_index_after_destroy
     self.link_source.search_indexing
+  end
+
+  def update_post_issue_id_before_save
+    self.post_issue_id = self.issue_id
   end
 end
