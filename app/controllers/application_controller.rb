@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  if Rails.env.production?
+  if Rails.env.production? or Rails.env.staging?
     rescue_from ActiveRecord::RecordNotFound do |exception|
       render_404
     end

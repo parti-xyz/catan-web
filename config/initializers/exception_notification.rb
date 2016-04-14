@@ -7,6 +7,7 @@ ExceptionNotification.configure do |config|
   end
 
   config.add_notifier :slack, {
+    username: "Catan #{Rails.env}",
     webhook_url: "https://hooks.slack.com/services/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",
     additional_parameters: {
       mrkdwn: true
