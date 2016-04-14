@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414035010) do
+ActiveRecord::Schema.define(version: 20160414082638) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -63,21 +63,22 @@ ActiveRecord::Schema.define(version: 20160414035010) do
   add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at"
 
   create_table "issues", force: :cascade do |t|
-    t.string   "title",                     null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "title",                        null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.text     "body"
     t.string   "logo"
     t.string   "cover"
     t.integer  "watches_count", default: 0
-    t.string   "slug",                      null: false
+    t.string   "slug",                         null: false
     t.integer  "posts_count",   default: 0
     t.datetime "deleted_at"
+    t.string   "active",        default: "on"
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at"
-  add_index "issues", ["slug", "deleted_at"], name: "index_issues_on_slug_and_deleted_at", unique: true
-  add_index "issues", ["title", "deleted_at"], name: "index_issues_on_title_and_deleted_at", unique: true
+  add_index "issues", ["slug", "active"], name: "index_issues_on_slug_and_active", unique: true
+  add_index "issues", ["title", "active"], name: "index_issues_on_title_and_active", unique: true
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id",    null: false
@@ -127,9 +128,6 @@ ActiveRecord::Schema.define(version: 20160414035010) do
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
-
-# Could not dump table "old_articles" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false
@@ -318,13 +316,14 @@ ActiveRecord::Schema.define(version: 20160414035010) do
     t.string   "uid",                                      null: false
     t.datetime "deleted_at"
     t.integer  "unread_messages_count",  default: 0
+    t.string   "active",                 default: "on"
   end
 
-  add_index "users", ["confirmation_token", "deleted_at"], name: "index_users_on_confirmation_token_and_deleted_at", unique: true
+  add_index "users", ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true
   add_index "users", ["deleted_at"], name: "index_users_on_deleted_at"
-  add_index "users", ["nickname", "deleted_at"], name: "index_users_on_nickname_and_deleted_at", unique: true
-  add_index "users", ["provider", "uid", "deleted_at"], name: "index_users_on_provider_and_uid_and_deleted_at", unique: true
-  add_index "users", ["reset_password_token", "deleted_at"], name: "index_users_on_reset_password_token_and_deleted_at", unique: true
+  add_index "users", ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true
+  add_index "users", ["provider", "uid", "active"], name: "index_users_on_provider_and_uid_and_active", unique: true
+  add_index "users", ["reset_password_token", "active"], name: "index_users_on_reset_password_token_and_active", unique: true
 
   create_table "votes", force: :cascade do |t|
     t.integer  "user_id",    null: false

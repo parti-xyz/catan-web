@@ -6,7 +6,11 @@ class ChangeIndexLinkSourceOfArticle < ActiveRecord::Migration
     ActiveRecord::Base.connection.execute query
     say query
 
-    #remove_index :articles, name: "index_article_on_unique_link_source"
+    remove_index :articles, name: "index_article_on_unique_link_source"
     add_index :articles, [:post_issue_id, :link_source_id, :active], unique: true, name: "index_articles_on_unique_link_source"
+  end
+
+  def down
+    raise "unimplemented"
   end
 end

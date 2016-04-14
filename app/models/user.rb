@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  acts_as_paranoid
+  include UniqueSoftDeletable
+  acts_as_unique_paranoid
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
