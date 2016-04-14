@@ -75,10 +75,16 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '링크에 달린 댓글을 고쳐요' do
     sign_in(users(:one))
 
+    post = comments(:comment1).post
+    Post.reset_counters(comments(:comment1).post.id, :comments)
+    previous_comments_count = post.reload.comments_count
+    refute_equal 0, previous_comments_count
+
     put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url')
 
     article = assigns(:comment).post.specific.reload
     assert_equal 'new_url', article.link
+    assert_equal previous_comments_count - 1, post.reload.comments_count
   end
 
   test '링크가 같으면 링크가 안 고쳐져요' do

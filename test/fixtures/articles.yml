@@ -1,17 +1,18 @@
 article1:
   link: 'article1 link'
   link_source: link2
-  post_issue_id: issue1
+  post_issue: issue1
 article2:
   link: 'article2 link'
   link_source: link2
-  post_issue_id: issue2
+  post_issue: issue2
 article3:
   link: 'article3 link'
   link_source: link3
-  post_issue_id: issue1
+  post_issue: issue1
+  created_at: <%= 5.day.ago.to_s(:db) %>
 article4:
   link: 'article4 link'
   link_source: link4
   created_at: <%= 5.day.ago.to_s(:db) %>
-  post_issue_id: issue2
+  post_issue: issue2

@@ -25,7 +25,8 @@ class CommentsController < ApplicationController
         change_article
         need_to_crawl = true
       end
-      if @comment.update_attributes(comment_params)
+      @comment.assign_attributes(comment_params)
+      if @comment.save
         redirect_to_origin
       else
         render 'edit'
@@ -71,7 +72,9 @@ class CommentsController < ApplicationController
     @article.save!
 
     @previous_article.destroy! if @previous_article.comments.empty?
-    @comment.post = @article.acting_as
+    # 반드시 post가 아니라 post_id를 세팅합니다.
+    # 안그러면 해당 post의 comment count 숫자가 한 번 더 변경됩니다.
+    @comment.post_id = @article.acting_as.id
   end
 
   def crawl

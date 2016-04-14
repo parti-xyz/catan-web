@@ -1,8 +1,10 @@
 class Article < ActiveRecord::Base
-  acts_as_paranoid
+  include UniqueSoftDeletable
+  acts_as_unique_paranoid
   acts_as :post, as: :postable
 
   belongs_to :link_source
+  belongs_to :post_issue, class_name: Post
   validates :link, presence: true
   validates :link_source, presence: true
 
@@ -52,6 +54,8 @@ class Article < ActiveRecord::Base
   def self.merge_by_link!(article)
     post = article.acting_as
     targets = post.issue.articles.where(link: article.link).order(created_at: :asc)
+    targets << article unless targets.include?(article)
+    targets.to_a.sort_by!{ |a| (a.created_at || DateTime.now) }
     oldest = targets.first
 
     targets.each do |target|
@@ -59,7 +63,8 @@ class Article < ActiveRecord::Base
       target.comments.update_all(post_id: oldest.acting_as.id)
       target.destroy
     end
-    oldest
+    Post.reset_counters(oldest.acting_as.id, :comments) if oldest.persisted?
+    return (oldest.present? ? oldest : article)
   end
 
   private

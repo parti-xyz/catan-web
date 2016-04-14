@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414014611) do
+ActiveRecord::Schema.define(version: 20160414035010) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -32,11 +32,10 @@ ActiveRecord::Schema.define(version: 20160414014611) do
     t.integer  "link_source_id",                 null: false
     t.boolean  "hidden",         default: false
     t.integer  "post_issue_id",                  null: false
+    t.string   "active",         default: "on"
   end
 
-  add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"
-  add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
-  add_index "articles", ["post_issue_id", "link_source_id", "deleted_at"], name: "index_article_on_unique_link_source", unique: true
+  add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",                   null: false

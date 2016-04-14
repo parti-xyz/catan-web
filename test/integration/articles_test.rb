@@ -30,6 +30,29 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test '이미 있는 링크로 만들어요' do
+    stub_crawl do
+      sign_in(users(:one))
+
+      article3_link = articles(:article3).link
+      post articles_path(article: { link: article3_link }, comment_body: 'body', issue_title: issues(:issue1).title)
+
+      assert assigns(:article).persisted?
+      assigns(:article).reload
+
+      assert_equal 'page title', assigns(:article).title
+      assert_equal 'page body', assigns(:article).body
+      assert_equal users(:one), assigns(:article).user
+      assert_equal LinkSource.find_by(url: 'http://stub'), assigns(:article).link_source
+      assert_equal issues(:issue1).title, assigns(:article).issue.title
+
+      comment = assigns(:article).comments.first
+      assert comment.persisted?
+      assert_equal 'body', comment.body
+      assert_equal users(:one), assigns(:article).user
+    end
+  end
+
   test '고쳐요' do
     stub_crawl do
       sign_in(users(:admin))

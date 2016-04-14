@@ -23,15 +23,19 @@ class CrawlingJob
           source.url = data.url
           source.set_crawling_data(data)
           source.save!
-          marge_targets = source.articles.to_a
-          source.articles.update_all(link: source.url)
-          marge_targets.each { |article| Article.merge_by_link!(article.reload) }
+          source.articles.each do |article|
+            article.link = data.url
+            article = Article.merge_by_link!(article)
+            article.save!
+          end
         else
           origin.set_crawling_data(data)
           origin.save!
-          marge_targets = source.articles.to_a
-          source.articles.update_all(link_source_id: origin.id, link: origin.url)
-          marge_targets.each { |article| Article.merge_by_link!(article.reload) }
+          source.articles.each do |article|
+            article.link = data.url
+            article = Article.merge_by_link!(article)
+            article.save!
+          end
           source.destroy!
         end
       else
