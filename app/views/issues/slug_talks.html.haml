@@ -3,11 +3,10 @@
 %section#posts
   .container
     .row
-      .col-sm-8
+      .col-sm-9
         %section#content-tab-section
           = render 'issues/content_tabs', active_tab: :talks, counts_container: @issue.counts_container
         = render 'posts/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
         .text-center
           = paginate @talks, theme: 'twitter-bootstrap-3'
-
-= render 'issues/recommends', issue: @issue
+      = render 'aside'

@@ -1,8 +1,8 @@
 %ul.nav.nav-tabs{role: 'tablist'}
   %li{role: 'presentation', class: ('active' if active_tab == :comments)}
     = link_to comments_tab_path do
-      %h4 타임라인
-      .nav-tabs__count.hidden-xs{style: 'left: 80px;'}
+      %h4 실시간 댓글
+      .nav-tabs__count.hidden-xs{style: 'left: 100px;'}
         %small<>= counts_container.comments_count
         - if counts_container.latest_comments_count > 0
           %small.text-primary<>

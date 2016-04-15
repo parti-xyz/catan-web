@@ -26,8 +26,8 @@ ko:
     models:
       issue: 이슈
       article: 링크
-      opinion: 발언
-      talk: 대화
+      opinion: 투표
+      talk: 톡
       user: 회원
       comment: 댓글
     attributes:
