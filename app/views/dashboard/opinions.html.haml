@@ -2,11 +2,14 @@
 
 %section#posts
   .container
-    %section#content-tab-section
-      = render 'dashboard/content_tabs', active_tab: :opinions, counts_container: current_user.watched_counts
-    = render 'opinions/inline_form', issue: Issue::OF_ALL
-    = render 'opinions/cards', opinions: @opinions, issue: Issue::OF_ALL
-
+    .row
+      .col-sm-9
+        %section#content-tab-section
+          = render 'dashboard/content_tabs', active_tab: :opinions, counts_container: current_user.watched_counts
+        = render 'opinions/inline_form', issue: Issue::OF_ALL
+        = render 'opinions/cards', opinions: @opinions, issue: Issue::OF_ALL
+      = render 'aside'
 
 = render 'issues/recommends', issue: Issue::OF_ALL, exclude_watched: true
+
 
