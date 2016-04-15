@@ -1,27 +1,17 @@
 - post = article.acting_as
-.post-inline.article-inline[post]
-  .media
-    .media-body
-      .post-inline__title
-        = link_to screenable_article_title(article), article
-        %small
-          - if link_to article.link.present? and !article.hidden?
-            = link_to article.link, target: '_blank', class: 'text-muted' do
-              %i.fa.fa-link
-        = link_to article, class: 'text-muted' do
-          %small
-            %i.fa.fa-comment-o
-              %span.text-primary
-                = post.comments_count
+.article[post]
+  .article__info
+    = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]
+  %h4.article__title= link_to screenable_article_title(article), article
+  .article__comment
+    = link_to article do
+      = image_tag 'icon_comment_re.png'
+      %b
+        = post.comments_count
 
-      .post-inline__footer
-        = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]
-        - if (article.has_image? and image_over_height(article.image.file, 400))
-          .post-inline__body
-            = article.body
+  .article__footer
+    - if (article.has_image? and image_over_height(article.image.file, 400))
+      = link_to article.link, class: 'link-box clearfix', target: '_blank' do
+        = image_tag(article.image.url)
+        %p= article.body
 
-    - if (article.has_image? and image_over_height(article.image.file, 300))
-      .media-right
-        %div{style: 'max-height: 200px; overflow: hidden'}
-          = link_to article.link, target: '_blank' do
-            = image_tag(article.image.url, class: 'media-object', style: 'width: 200px;')
