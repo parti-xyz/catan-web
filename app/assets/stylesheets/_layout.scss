@@ -3,30 +3,33 @@ footer {
   width: 100%;
   height: auto;
   padding: 25px;
-  background: $gray-light;
-  border: 1px solid #bababb;
   .footer-logo {
-    color: #fff;
-    border-bottom: 1px solid #b1b0b1;
+    color: #757375;
+    border-bottom: 1px solid #d9d9dd;
     padding-bottom: 15px;
     margin-bottom: 15px;
     &__img {
-      width: 85px;
+      width: 68px;
       height: auto;
-      margin-bottom: 10px;
+      float: left;
+    }
+    &__txt {
+     float: right;
+     font-size: 12px;
+     font-weight: bold;
     }
   }
   .footer-link {
     line-height: 2;
-    border-bottom: 1px solid #b1b0b1;
+    border-bottom: 1px solid #d9d9dd;
     padding-bottom: 15px;
     margin-bottom: 15px;
     a {
-      color: #fff;
+      color: #b1b0b1;
     }
   }
   .footer-sns {
-    border-bottom: 1px solid #b1b0b1;
+    border-bottom: 1px solid #d9d9dd;
     padding-bottom: 15px;
     margin-bottom: 20px;
     a {

@@ -20,7 +20,9 @@
       - if user_signed_in?
         .navbar-sign__in
           .user-profile= byline current_user
-          = link_to messages_path, class: 'user-notice' do
+          = link_to destroy_user_session_path, class: 'user-link', method: :delete do
+            = image_tag 'icon_logout.png'
+          = link_to messages_path, class: 'user-link' do
             = image_tag 'icon_bell.png'
       - else
         .navbar-sign__up= link_to '로그인/회원가입', new_user_session_path

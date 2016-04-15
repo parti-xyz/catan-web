@@ -3,9 +3,12 @@
     / %h4.aside_title 구독하는 빠띠 (#{@user.watched_issues.count})
     / = render customize_partial_path(@user.watched_issues, 'card')
   %footer.footer
-    .footer-logo
-      %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_white.png') }
-      %p.footer-logo__txt 빠띠슬로건_빠띠
+    .footer-logo.clearfix
+      %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+      %span.footer-logo__txt
+        수다로 정치하자
+        %br
+        빠띠에서 파티하자
     %ul.footer-link.list-unstyled
       %li= link_to '빠띠 소개', '#'
       %li= link_to '이용약관', '#'
