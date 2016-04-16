@@ -19,30 +19,27 @@ class CommentsController < ApplicationController
   end
 
   def update
-    need_to_crawl = false
-    ActiveRecord::Base.transaction do
-      if params[:article_link].present? and @comment.linkable? and params[:article_link] != @comment.post.specific.link
-        change_article
-        need_to_crawl = true
+    unless params[:cancel]
+      need_to_crawl = false
+      ActiveRecord::Base.transaction do
+        if params[:article_link].present? and @comment.linkable? and params[:article_link] != @comment.post.specific.link
+          change_article
+          need_to_crawl = true
+        end
+        @comment.assign_attributes(comment_params)
+        unless @comment.save
+          return head(:internal_server_error)
+        end
       end
-      @comment.assign_attributes(comment_params)
-      if @comment.save
-        redirect_to_origin
-      else
-        render 'edit'
-      end
+      crawl if need_to_crawl
     end
-    crawl if need_to_crawl
   end
 
   def destroy
     ActiveRecord::Base.transaction do
-      @comment.destroy
+      @comment.destroy!
       if @comment.post.linkable? and !@comment.post.comments.exists?
         @comment.post.destroy!
-        redirect_to @comment.post.issue
-      else
-        redirect_to_origin
       end
     end
   end

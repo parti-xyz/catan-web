@@ -7,7 +7,7 @@
         %section#content-tab-section
           = render 'dashboard/content_tabs', active_tab: :comments, counts_container: current_user.watched_counts
 
-        = render 'application/inline_form', issue: Issue::OF_ALL
+        = render 'posts/new_form', issue: Issue::OF_ALL
         = render 'comments/list', comments: @comments, show_issue: true
         - unless @is_last_page
           = link_to '더보기', url_for(last_id: @comments.last.id), remote: true, class: 'btn btn-default btn-block', id: 'btn-next-page', data: { disable_with: '<i class="fa fa-spinner fa-pulse"></i>' }

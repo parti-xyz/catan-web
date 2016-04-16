@@ -1,0 +1,10 @@
+<%
+if params[:style] == 'in_list'
+  partial = 'form_in_list'
+elsif params[:style] == 'in_post'
+  partial = 'form'
+end
+%>
+var $form = $($.parseHTML("<%= escape_javascript(render 'form', style: params[:style]) %>"));
+parti_prepare($form);
+$('#<%= dom_id(@comment) %>').html($form);

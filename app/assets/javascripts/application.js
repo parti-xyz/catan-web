@@ -439,5 +439,13 @@ var parti_prepare_post_modal = function($base) {
 $(function(){
   parti_prepare($('body'));
   parti_prepare_post_modal($('body'));
+
+  $(document).ajaxError(function (e, xhr, settings) {
+    if(xhr.status == 500) {
+      UnobtrusiveFlash.showFlashMessage('뭔가 잘못되었습니다. 곧 고치겠습니다.', {type: 'error'})
+    } else if(xhr.status == 404) {
+      UnobtrusiveFlash.showFlashMessage('어머나! 누가 지웠네요. 페이지를 새로 고쳐보세요.', {type: 'notice'})
+    }
+  });
 });
 

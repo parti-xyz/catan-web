@@ -6,6 +6,6 @@
       .col-sm-9
         %section#content-tab-section
           = render 'issues/content_tabs', active_tab: :opinions, counts_container: @issue.counts_container
-        = render 'opinions/inline_form', issue: @issue
+        = render 'opinions/new_form', issue: @issue
         = render 'opinions/cards', opinions: @opinions, issue: @issue
       = render 'aside'

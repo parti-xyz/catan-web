@@ -19,11 +19,11 @@
     = csrf_meta_tags
 
   %body
-    %section
-      .container(style='position: relative;')
-        .unobtrusive-flash-container(style='position: absolute; left: 0; right: 0; z-index: 1000;')
+    %section(style='position: fixed; z-index: 1000; width: 100%')
+      .container
+        .unobtrusive-flash-container
     = render 'shall_we_login'
-    = render 'post_modal'
+    = render 'posts/modal'
     = render 'header'
     = yield
     / = render 'footer'

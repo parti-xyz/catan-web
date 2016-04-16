@@ -37,6 +37,7 @@ class TalksController < ApplicationController
       @issue = @talk.issue
       @talks = @issue.talks.recent.page 1
       @list_title = meta_issue_full_title(@issue)
+      @list_url = issue_talks_path(@issue)
     end
     prepare_meta_tags title: @talk.title
   end

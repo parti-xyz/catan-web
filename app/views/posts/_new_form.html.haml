@@ -6,9 +6,9 @@
 - else
   - article_button_data = opinion_button_data = talk_button_data = {toggle: "parti-login-overlay"}
 
-.inline-form.bg-line
+.post-form.bg-line
   - if user_signed_in?
-    = link_to user_gallery_path(current_user), class: 'inline-form__thumb' do
+    = link_to user_gallery_path(current_user), class: 'post-form__thumb' do
       = image_tag current_user.image_url, class: 'img-circle circle-50 border-2-primary'
   - else
     = image_tag 'anonymous.png', class: 'img-circle circle-50 border-2-primary'
@@ -31,7 +31,7 @@
   #article-form-widget.form-widget-container.bg-line
     = form_for Article.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-form-widget form input[type=submit]' } } do |f|
       = image_tag 'icon_tooltip_left2.png', class: 'form-widget__arrow'
-      = hidden_field_tag :back_url, request.original_url
+      = hidden_field_tag :back_url, @list_url || request.original_url
       - if !issue.is_all?
         = hidden_field_tag :issue_title, issue.title
       - else
@@ -59,7 +59,7 @@
   #talk-form-widget.form-widget-container.bg-lin
     = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
       = image_tag 'icon_tooltip_left2.png', class: 'form-widget__arrow'
-      = hidden_field_tag :back_url, request.original_url
+      = hidden_field_tag :back_url, @list_url || request.original_url
       - if !issue.is_all?
         = hidden_field_tag :issue_title, issue.title
       - else
@@ -86,4 +86,4 @@
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border'
         %a.btn.btn-default.btn-border{href: '#', data: {'switch-source': '#talk-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", 'disabled-typeahead-validation': 'true'}} 취소
 
-  = render 'opinions/inline_form', local_assigns
+  = render 'opinions/new_form', local_assigns

@@ -24,7 +24,7 @@ ko:
           current_password: 현재 비밀번호
   activerecord:
     models:
-      issue: 이슈
+      issue: 빠띠
       article: 링크
       opinion: 투표
       talk: 톡
@@ -32,7 +32,7 @@ ko:
       comment: 댓글
     attributes:
       issue:
-        title: 이슈
+        title: 빠띠
         body: 내용
         logo: 대표 이미지
         cover: 커버 이미지

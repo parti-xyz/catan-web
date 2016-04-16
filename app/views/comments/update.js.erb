@@ -1,0 +1,11 @@
+<%
+if params[:style] == 'in_list'
+  partial = 'comment_in_list'
+elsif params[:style] == 'in_post'
+  partial = 'comment'
+end
+%>
+var $comment = $($.parseHTML("<%= escape_javascript(render partial, comment: @comment) %>"));
+parti_prepare_post_modal($comment);
+parti_prepare($comment);
+$('#<%= dom_id(@comment) %>').replaceWith($comment);
