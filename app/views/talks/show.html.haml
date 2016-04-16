@@ -1,11 +1,6 @@
-%section.post-section.talk-section
-  .container
-    %h2.post__title.talk__title= @talk.title
-
-    = render 'posts/post_header', post: @talk.acting_as, only_buttons: true
-
-%section.post-comments-section
-  .container
-    = render 'comments/comments', postable: @talk, style: :talk
-
-= render 'posts/recommends', issue: @talk.issue, exclude: @talk.acting_as
+= render file: 'issues/slug_talks'
+#post-modal-permalink.modal.fade{role: "dialog", tabindex: "-1", data: {"list-title": @list_title, "list-url": issue_talks_path(@issue)}}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-body.post__partial-content
+        = render file: 'talks/partial'

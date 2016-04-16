@@ -1,8 +1,9 @@
 - post = talk.acting_as
 .post-inline.talk-inline[post]
   .post-inline__title
-    = link_to talk.title, talk
-    = link_to talk, class: 'text-muted' do
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
+      = talk.title
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }, class: 'text-muted' do
       %small
         %i.fa.fa-comment-o
           %span.text-primary

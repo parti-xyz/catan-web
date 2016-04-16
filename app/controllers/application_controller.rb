@@ -102,4 +102,12 @@ class ApplicationController < ActionController::Base
       description.truncate(limit)
     end
   end
+
+  def meta_issue_title(issue)
+    issue.title
+  end
+
+  def meta_issue_full_title(issue)
+    "#{meta_issue_title(issue)} | #{default_meta_options[:site_name]}"
+  end
 end

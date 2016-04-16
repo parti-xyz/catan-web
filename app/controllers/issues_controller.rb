@@ -27,39 +27,23 @@ class IssuesController < ApplicationController
 
   def slug_articles
     @articles = @issue.articles.recent.page params[:page]
-    unless view_context.current_page?(root_url)
-      prepare_meta_tags title: @issue.title,
-                        description: @issue.body,
-                        image: @issue.cover_url
-    end
+    prepare_issue_meta_tags
   end
 
   def slug_comments
     @comments = @issue.comments.recent.limit(25).previous_of params[:last_id]
     @is_last_page = (@comments.empty? or @issue.comments.recent.previous_of(@comments.last.id).empty?)
-    unless view_context.current_page?(root_url)
-      prepare_meta_tags title: @issue.title,
-                        description: @issue.body,
-                        image: @issue.cover_url
-    end
+    prepare_issue_meta_tags
   end
 
   def slug_opinions
     @opinions = @issue.opinions.recent.page params[:page]
-    unless view_context.current_page?(root_url)
-      prepare_meta_tags title: @issue.title,
-                        description: @issue.body,
-                        image: @issue.cover_url
-    end
+    prepare_issue_meta_tags
   end
 
   def slug_talks
     @talks = @issue.talks.recent.page params[:page]
-    unless view_context.current_page?(root_url)
-      prepare_meta_tags title: @issue.title,
-                        description: @issue.body,
-                        image: @issue.cover_url
-    end
+    prepare_issue_meta_tags
   end
 
   def create
@@ -115,5 +99,13 @@ class IssuesController < ApplicationController
 
   def issue_params
     params.require(:issue).permit(:title, :body, :logo, :cover, :slug)
+  end
+
+  def prepare_issue_meta_tags
+    unless view_context.current_page?(root_url)
+      prepare_meta_tags title: meta_issue_title(@issue),
+                        description: @issue.body,
+                        image: @issue.cover_url
+    end
   end
 end

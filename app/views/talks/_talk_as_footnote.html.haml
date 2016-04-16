@@ -3,8 +3,9 @@
 .post-inline.talk-inline[post]
   %h5.post-inline__title
     %i.fa.fa-wechat
-    = link_to talk.title, talk
-    = link_to talk do
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
+      = talk.title
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
       %small
         %i.fa.fa-comment-o
           %span.text-primary

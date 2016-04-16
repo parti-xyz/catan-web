@@ -31,6 +31,13 @@ class OpinionsController < ApplicationController
   end
 
   def show
+    if request.headers['X-PJAX']
+      render(:partial, layout: false) and return
+    else
+      @issue = @opinion.issue
+      @opinions = @issue.opinions.recent.page 1
+      @list_title = meta_issue_full_title(@issue)
+    end
     prepare_meta_tags title: @opinion.title,
       description: '어떻게 생각하시나요?',
       image: social_card_opinion_url(format: :png),

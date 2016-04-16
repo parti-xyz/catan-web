@@ -43,6 +43,10 @@ class ArticlesController < ApplicationController
   def show
     if request.headers['X-PJAX']
       render(:partial, layout: false) and return
+    else
+      @issue = @article.issue
+      @articles = @issue.articles.recent.page 1
+      @list_title = meta_issue_full_title(@issue)
     end
     prepare_meta_tags title: @article.title,
                       description: @article.body

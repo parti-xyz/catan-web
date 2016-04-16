@@ -17,6 +17,7 @@
 //= require messages_ko
 //= require kakao
 //= require jquery.pjax
+//= require jquery.history
 
 // blank
 $.is_blank = function (obj) {
@@ -359,7 +360,6 @@ var parti_prepare = function($base) {
 
   // mention
   parti_apply('[data-action="parti-mention"]', function(elm) {
-
     $(elm).on('click', function(e) {
       e.preventDefault();
       var $elm = $(e.currentTarget);
@@ -369,6 +369,28 @@ var parti_prepare = function($base) {
       $control.val('@' + nickname + ' ' + value);
       $control.focus();
     });
+  });
+
+  //permalink post
+  parti_apply('#post-modal-permalink', function(elm) {
+    var list_url = $(elm).data("list-url");
+    var list_title = $(elm).data("list-title");
+    $(elm).on('hidden.bs.modal', function (e) {
+      History.pushState(null, list_title, list_url);
+    });
+
+    var post_modal_url = History.getState().url;
+    var post_modal_index = History.getCurrentIndex;
+    window.onstatechange = function(){
+      var current_url = History.getState().url;
+      var current_index = History.getCurrentIndex;
+      if(post_modal_url == current_url && post_modal_index == current_index) {
+        $(elm).modal('show');
+      } else {
+        $(elm).modal('hide');
+      }
+    };
+    $(elm).modal('show');
   });
 
   $base.data('parti-prepare-arel', 'completed');

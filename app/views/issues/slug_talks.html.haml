@@ -1,4 +1,4 @@
-= render 'issue_small_header', show_social_share: true
+= render 'issues/issue_small_header', show_social_share: true
 
 %section#posts
   .container
@@ -6,7 +6,7 @@
       .col-sm-9
         %section#content-tab-section
           = render 'issues/content_tabs', active_tab: :talks, counts_container: @issue.counts_container
-        = render 'posts/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
+        = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
         .text-center
           = paginate @talks, theme: 'twitter-bootstrap-3'
       = render 'aside'

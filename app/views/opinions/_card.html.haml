@@ -6,7 +6,7 @@
     = image_tag 'icon_time.png'
     %span= date_f opinion.created_at
   %h4.opinion-card__title
-    = link_to opinion do
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) } do
       “#{opinion.title}”
 
   = render 'votes/vote_inline', specific: opinion

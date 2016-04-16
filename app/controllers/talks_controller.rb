@@ -31,6 +31,13 @@ class TalksController < ApplicationController
   end
 
   def show
+    if request.headers['X-PJAX']
+      render(:partial, layout: false) and return
+    else
+      @issue = @talk.issue
+      @talks = @issue.talks.recent.page 1
+      @list_title = meta_issue_full_title(@issue)
+    end
     prepare_meta_tags title: @talk.title
   end
 

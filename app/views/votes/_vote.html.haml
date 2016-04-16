@@ -22,7 +22,7 @@
       .row
         .col-xs-6.text-right
           %div{ style: 'padding-bottom: 20px;' }
-            = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+            = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
               .btn-icon
                 = image_tag 'icon_agreement.png'
               %span 찬성
@@ -35,7 +35,7 @@
                 = byline vote.user
         .col-xs-6.text-left
           %div{ style: 'padding-bottom: 20px;' }
-            = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+            = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
               .btn-icon
                 = image_tag 'icon_disagreement.png'
               %span 반대
