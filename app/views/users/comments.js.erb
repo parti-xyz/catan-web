@@ -4,7 +4,7 @@
   $('#btn-next-page').attr('href', '<%= url_for(last_id: @comments.last.id) %>');
 <% end %>
 
-var $comments_per_page = $($.parseHTML("<%= escape_javascript(render 'comments/comments_per_page', comments: @comments, show_issue: true) %>"));
+var $comments_per_page = $.parse$("<%= escape_javascript(render 'comments/comments_per_page', comments: @comments, show_issue: true) %>");
 parti_prepare_post_modal($comments_per_page);
 parti_prepare($comments_per_page);
 $('#user-gallery .comments').append($comments_per_page);

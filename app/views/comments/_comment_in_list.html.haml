@@ -1,5 +1,5 @@
 - comment ||= local_assigns[:comment_in_list]
-.comment{id: dom_id(comment) }
+.comment{class: dom_id(comment), data: { 'parti-comment-style': 'in-list' }}
   .clearfix
     = link_to user_gallery_path(comment.user), class: 'comment__link pull-left'  do
       = image_tag comment.user.image_url, class: 'circle-30 img-circle border-2-primary'

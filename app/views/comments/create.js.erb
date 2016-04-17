@@ -1,4 +1,4 @@
-var $comment = $($.parseHTML("<%= escape_javascript(render 'comments/comment', comment: @comment) %>"));
+var $comment = $.parse$("<%= escape_javascript(render 'comments/comment', comment: @comment) %>");
 parti_prepare($comment);
 $('<%= params[:body_control] %>').val('');
 $('<%= params[:count_label] %>').text('<%= @comments_count %>');

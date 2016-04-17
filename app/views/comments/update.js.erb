@@ -1,11 +1,9 @@
-<%
-if params[:style] == 'in_list'
-  partial = 'comment_in_list'
-elsif params[:style] == 'in_post'
-  partial = 'comment'
-end
-%>
-var $comment = $($.parseHTML("<%= escape_javascript(render partial, comment: @comment) %>"));
-parti_prepare_post_modal($comment);
-parti_prepare($comment);
-$('#<%= dom_id(@comment) %>').replaceWith($comment);
+var $comment_in_list = $.parse$("<%= escape_javascript(render 'comment_in_list', comment: @comment) %>");
+var $comment_in_post = $.parse$("<%= escape_javascript(render 'comment', comment: @comment) %>");
+parti_prepare_post_modal($comment_in_list);
+parti_prepare($comment_in_list);
+parti_prepare_post_modal($comment_in_post);
+parti_prepare($comment_in_post);
+
+$('.<%= dom_id(@comment) %>[data-parti-comment-style=in-list]').replaceWith($comment_in_list);
+$('.<%= dom_id(@comment) %>[data-parti-comment-style=in-post]').replaceWith($comment_in_post);

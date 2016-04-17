@@ -31,6 +31,15 @@ $.is_blank = function (obj) {
 $.is_present = function(obj) {
   return ! $.is_blank(obj);
 }
+
+$.parse$ = function(str) {
+  return $($.parseHTML('<div>' + $.trim(str) + '</div>'));
+}
+
+$.prevent_click_exclude_parti = function(e) {
+  e.preventDefault();
+  $(e.currentTarget).trigger('parti-click');
+}
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 3000;
 
@@ -147,7 +156,7 @@ var parti_prepare = function($base) {
       $target.hide();
     }
     $elm.on('click', function(e) {
-      e.preventDefault();
+      $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
       var $target = $($elm.data('switch-target'));
       var $source = $($elm.data('switch-source'));
@@ -168,7 +177,7 @@ var parti_prepare = function($base) {
   // show
   parti_apply('[data-action="parti-show"]', function(elm) {
     $(elm).on('click', function(e) {
-      e.preventDefault();
+      $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
       var $target = $($elm.data('show-target'));
       $target.show();
@@ -276,7 +285,7 @@ var parti_prepare = function($base) {
   // login overlay
   parti_apply('[data-toggle="parti-login-overlay"]', function(elm) {
     $(elm).on('click', function(e) {
-      e.preventDefault();
+      $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
 
       var after_login = $elm.attr('data-after-login');
@@ -292,7 +301,7 @@ var parti_prepare = function($base) {
   });
   parti_apply('[data-dismiss="parti-login-overlay"]', function(elm) {
     $(elm).on('click', function(e) {
-      e.preventDefault();
+      $.prevent_click_exclude_parti(e);
       $("#login-overlay").fadeOut(400, function() {
         var $input = $('#login-overlay form input[name=after_login]');
         $input.val('');
@@ -305,7 +314,7 @@ var parti_prepare = function($base) {
   // form submit by clicking link
   parti_apply('[data-action="parti-form-submit"]', function(elm) {
     $(elm).on('click', function(e) {
-      e.preventDefault();
+      $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
       var $form = $($elm.data('form-target'));
       var url = $elm.data('form-url');
@@ -317,7 +326,7 @@ var parti_prepare = function($base) {
   // form set value
   parti_apply('[data-action="parti-form-set-vaule"]', function(elm) {
     $(elm).on('click', function(e) {
-      e.preventDefault();
+      $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
       var $control = $($elm.data('form-control'));
       var value = $elm.data('form-vaule');
@@ -364,14 +373,33 @@ var parti_prepare = function($base) {
   // mention
   parti_apply('[data-action="parti-mention"]', function(elm) {
     $(elm).on('click', function(e) {
-      e.preventDefault();
-      var $elm = $(e.currentTarget);
-      var $control = $($elm.data('mention-form-control'));
-      var nickname = $elm.data('mention-nickname');
+      $.prevent_click_exclude_parti(e);
+      var $target = $(e.currentTarget);
+      var $control = $($target.data('mention-form-control'));
+      var nickname = $target.data('mention-nickname');
       var value = $control.val();
       $control.val('@' + nickname + ' ' + value);
       $control.focus();
     });
+  });
+
+  // cancel form on blur
+  parti_apply('[data-action="parti-cancel-form-on-blur"]', function(elm) {
+    var $elm = $(elm);
+
+    var close_form = function(e) {
+      if($elm.has(e.target).length == 0) {
+        var $control = $($elm.data('cancel-form-control'));
+        $(document).off('click', close_form);
+        $(document).off('parti-click', close_form);
+        $(document ).unbind('ajaxStart', close_form);
+        $control.click();
+      }
+    }
+
+    $(document).on('click', close_form);
+    $(document).on('parti-click', close_form);
+    $(document).ajaxStart(close_form);
   });
 
   //permalink post
