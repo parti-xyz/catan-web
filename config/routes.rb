@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
+  get '/dashboard/new_comments_count', to: "dashboard#new_comments_count", as: 'new_dashboard_comments_count'
 
   get '/i/:slug', to: redirect('/p/%{slug}')
   get '/i/:slug/articles', to: redirect('/p/%{slug}/articles')
@@ -55,6 +56,7 @@ Rails.application.routes.draw do
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
   get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'
+  get '/p/:slug/new_comments_count', to: "issues#new_comments_count", as: 'new_issue_comments_count'
 
   get '/u/:nickname', to: "users#comments", as: 'nickname_user'
   get '/u/:nickname/upvotes', to: "users#upvotes", as: 'nickname_user_upvotes'

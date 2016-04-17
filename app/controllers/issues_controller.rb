@@ -1,8 +1,7 @@
 class IssuesController < ApplicationController
   respond_to :js, :json, :html
-  before_filter :authenticate_user!,
-    only: [:create, :update, :destroy]
-  before_filter :fetch_issue_by_slug, only: [:slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
+  before_filter :authenticate_user!, only: [:create, :update, :destroy]
+  before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
   load_and_authorize_resource
 
   def index
@@ -28,6 +27,10 @@ class IssuesController < ApplicationController
   def slug_articles
     @articles = @issue.articles.recent.page params[:page]
     prepare_issue_meta_tags
+  end
+
+  def new_comments_count
+    @count = @issue.comments.recent.next_of(params[:first_id]).count
   end
 
   def slug_comments

@@ -116,7 +116,7 @@ var parti_prepare = function($base) {
         clear_error();
       } else {
         $.ajax({
-          url: "/issues/exist.json",
+          url: "/parties/exist.json",
           type: "get",
           data:{ title: $elm.val() },
           success: function(data) {
@@ -422,6 +422,24 @@ var parti_prepare = function($base) {
       }
     };
     $(elm).modal('show');
+  });
+
+  //new comments count
+  parti_apply('[data-action="parti-polling"]', function(elm) {
+    var $elm = $(elm);
+    var polling_url = $(elm).data("polling-url");
+    var polling_interval = $(elm).data("polling-interval");
+
+    var update_new_comments = function() {
+      $.getScript(polling_url);
+      setTimeout(update_new_comments, polling_interval);
+    }
+    setTimeout(update_new_comments, polling_interval);
+  });
+
+  //hide
+  parti_apply('[data-toggle="parti-hide"]', function(elm) {
+    $(elm).hide();
   });
 
   $base.data('parti-prepare-arel', 'completed');

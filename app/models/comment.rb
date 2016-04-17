@@ -19,6 +19,7 @@ class Comment < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :sequential, -> { order(created_at: :asc) }
   scope :previous_of, ->(id) { where('comments.created_at < ?', with_deleted.find(id).created_at) if id.present? }
+  scope :next_of, ->(id) { where('comments.created_at > ?', with_deleted.find(id).created_at) if id.present? }
   scope :latest, -> { after(1.day.ago) }
   scope :persisted, -> { where "id IS NOT NULL" }
   scope :by_issue, ->(issue) { joins(:post).where(posts: {issue_id: issue})}

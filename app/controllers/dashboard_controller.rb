@@ -28,6 +28,10 @@ class DashboardController < ApplicationController
     @talks = current_user.watched_talks.recent.page params[:page]
   end
 
+  def new_comments_count
+    @count = current_user.watched_comments.recent.next_of(params[:first_id]).count
+  end
+
   private
 
   def need_to_watch
