@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160417140937) do
+ActiveRecord::Schema.define(version: 20160417234615) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -25,14 +25,14 @@ ActiveRecord::Schema.define(version: 20160417140937) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id"
 
   create_table "articles", force: :cascade do |t|
-    t.string   "link",                           null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "link",           limit: 700,                 null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.datetime "deleted_at"
-    t.integer  "link_source_id",                 null: false
-    t.boolean  "hidden",         default: false
-    t.integer  "post_issue_id",                  null: false
-    t.string   "active",         default: "on"
+    t.integer  "link_source_id",                             null: false
+    t.boolean  "hidden",                     default: false
+    t.integer  "post_issue_id",                              null: false
+    t.string   "active",                     default: "on"
   end
 
   add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
@@ -97,11 +97,11 @@ ActiveRecord::Schema.define(version: 20160417140937) do
     t.text     "metadata"
     t.string   "image"
     t.string   "page_type"
-    t.string   "url"
-    t.string   "crawling_status", default: "not_yet", null: false
+    t.string   "url",             limit: 700
+    t.string   "crawling_status",             default: "not_yet", null: false
     t.datetime "crawled_at"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
   end
 
   add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true
@@ -128,9 +128,6 @@ ActiveRecord::Schema.define(version: 20160417140937) do
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
-
-# Could not dump table "old_articles" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false
