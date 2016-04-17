@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414082638) do
+ActiveRecord::Schema.define(version: 20160417140937) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -35,8 +35,6 @@ ActiveRecord::Schema.define(version: 20160414082638) do
     t.string   "active",         default: "on"
   end
 
-  add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"
-  add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
   add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
 
   create_table "comments", force: :cascade do |t|
@@ -131,6 +129,9 @@ ActiveRecord::Schema.define(version: 20160414082638) do
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
 
+# Could not dump table "old_articles" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
+
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false
     t.datetime "created_at", null: false
@@ -167,17 +168,18 @@ ActiveRecord::Schema.define(version: 20160414082638) do
   add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "issue_id",                   null: false
-    t.integer  "postable_id",                null: false
-    t.string   "postable_type",              null: false
-    t.integer  "user_id",                    null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "likes_count",    default: 0
-    t.integer  "comments_count", default: 0
-    t.integer  "votes_count",    default: 0
+    t.integer  "issue_id",                          null: false
+    t.integer  "postable_id",                       null: false
+    t.string   "postable_type",                     null: false
+    t.integer  "user_id",                           null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "likes_count",           default: 0
+    t.integer  "comments_count",        default: 0
+    t.integer  "votes_count",           default: 0
     t.datetime "deleted_at"
     t.string   "social_card"
+    t.integer  "latest_comments_count", default: 0
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at"

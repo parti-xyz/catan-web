@@ -139,6 +139,14 @@ class User < ActiveRecord::Base
     Issue.where.not(id: watched_issues)
   end
 
+  def watched_hottest_posts(count)
+    watched_posts.hottest.limit(count)
+  end
+
+  def hottest_posts(count)
+    posts.hottest.limit(count)
+  end
+
   private
 
   def downcase_nickname

@@ -1,0 +1,5 @@
+#aside.col-sm-3.hidden-xs
+  .aside_issue
+    %h4.aside_title 구독 중인 빠띠
+    = render customize_partial_path(@user.watched_issues, 'card')
+  = render 'application/footer'

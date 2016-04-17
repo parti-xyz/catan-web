@@ -31,7 +31,7 @@ class Issue < ActiveRecord::Base
       Opinion.all
     end
     def recommends
-      (Issue.past_week + Issue.hottest.limit(10)).uniq.shuffle
+      (Issue.past_week + Issue.hottest.limit(10)).uniq.shuffle.first(10)
     end
     def comments
       Comment.all
@@ -41,6 +41,9 @@ class Issue < ActiveRecord::Base
     end
     def watched_users
       User.all
+    end
+    def hottest_posts(count)
+      Post.hottest.limit(count)
     end
   end.instance
 
@@ -110,10 +113,10 @@ class Issue < ActiveRecord::Base
   end
 
   def recommends
-    (related_issues + OF_ALL.recommends - [self]).uniq.shuffle
+    (related_issues + OF_ALL.recommends - [self]).uniq.shuffle.first(10)
   end
 
-  def recommends_for_watch(someone)
+  def self.recommends_for_watch(someone)
     Issue.hottest.where.not(id: someone.watched_issues).limit(10).to_a
   end
 
@@ -139,6 +142,10 @@ class Issue < ActiveRecord::Base
     counts.talks_count = talks.count
     counts.latest_talks_count = talks.latest.count
     counts
+  end
+
+  def hottest_posts(count)
+    posts.hottest.limit(count)
   end
 
   private

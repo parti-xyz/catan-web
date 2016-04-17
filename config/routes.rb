@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
-  #sso_devise
 
   root 'pages#home'
   get '/robots.:format' => 'pages#robots'
@@ -66,6 +65,9 @@ Rails.application.routes.draw do
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
+  if Rails.env.development?
+    get '/stat', to: "pages#stat"
+  end
 
   get '/tags/:name', to: redirect('/')
 

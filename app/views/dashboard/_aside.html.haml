@@ -1,0 +1,9 @@
+#aside.col-sm-3.hidden-xs
+  .aside_hottest_posts
+    %h4.aside_title 인기글
+    - current_user.watched_hottest_posts(10).each do |post|
+      = render 'posts/card', card: post, show_issue: true
+  .aside_issue
+    %h4.aside_title 추천빠띠
+    = render customize_partial_path Issue.recommends_for_watch(current_user), 'card'
+  = render 'application/footer'

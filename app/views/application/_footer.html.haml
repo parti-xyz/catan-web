@@ -1,14 +1,25 @@
-%footer#site-footer
-  .container
-    .row
-      .col-sm-6
-        .fb-page{"data-adapt-container-width" => "true", "data-hide-cover" => "true", "data-href" => "https://www.facebook.com/parti-xyz/", "data-show-facepile" => "true", "data-small-header" => "true", "class" => "hidden-xs"}
-        .fb-page{"data-adapt-container-width" => "true", "data-hide-cover" => "true", "data-href" => "https://www.facebook.com/parti-xyz/", "data-show-facepile" => "false", "data-small-header" => "true", "class" => "visible-xs-12 hidden-sm hidden-md hidden-lg"}
-      .col-sm-6
-        .site-footer__links
-          %img{ alt: 'parti', src: asset_path('parti_logo_white.png'), style: ('max-height: 24px;'), class: 'hidden-xs'}
-          %ul.list-inline
-            %li= link_to '소개', '#'
-            %li= link_to '이용약관', '#'
-            %li= link_to '개인정보취급정책', '#'
-            %li= link_to '공지사항', '#'
+%footer.footer
+  .footer-logo.clearfix
+    %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+    %span.footer-logo__txt
+      수다로 정치하자
+      %br
+      빠띠에서 파티하자
+  %ul.footer-link.list-unstyled
+    %li= link_to '빠띠 소개', '#'
+    %li= link_to '이용약관', '#'
+    %li= link_to '개인정보취급정책', '#'
+    %li
+      %a(href='mailto:help@parti.xyz')
+        오류 및 버그 신고
+    %li
+      = link_to slug_issue_path(slug: Issue::SLUG_OF_ASK_PARTI) do
+        제안 및 의견
+  .footer-sns
+    %a{:href => '#'}
+      = image_tag 'icon_fb.png', alt: 'btn-facebook'
+    %a{:href => '#'}
+      = image_tag 'icon_tw.png', alt: 'btn-twitter'
+    %a{:href => '#'}
+      = image_tag 'icon_me.png', alt: 'btn-medium'
+  = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'

@@ -38,7 +38,7 @@ class Post < ActiveRecord::Base
   # scopes
   default_scope -> { joins(:issue) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :hottest, -> { order(comments_count: :desc) }
+  scope :hottest, -> { order(latest_comments_count: :desc) }
   scope :watched_by, ->(someone) { where(issue_id: someone.watched_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :only_articles, -> { by_postable_type(Article.to_s) }

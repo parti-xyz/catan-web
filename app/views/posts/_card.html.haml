@@ -1,0 +1,14 @@
+- post ||= local_assigns[:card]
+.post-card
+  - if local_assigns[:show_issue]
+    .post-card__issue-label
+      = link_to issue_home_path(post.issue) do
+        = image_tag post.issue.logo_url, class: 'circle-30 img-circle'
+        %span.text-primary= post.issue.title
+  .post-card__title
+    = link_to post.specific_desc, post.specific
+  .post-card__meta
+    %span
+      %b= post.comments.count
+    %span
+      %b= date_f post.created_at
