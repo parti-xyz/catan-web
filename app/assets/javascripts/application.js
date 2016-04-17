@@ -28,6 +28,9 @@ $.is_blank = function (obj) {
   return true;
 }
 
+$.is_present = function(obj) {
+  return ! $.is_blank(obj);
+}
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 3000;
 
@@ -407,6 +410,9 @@ var parti_prepare_post_modal = function($base) {
     var target = $elm.data("target");
     var $target = $(target);
     var url = $elm.data("url");
+    var mention_form_control = $elm.data('mention-form-control');
+    var nickname = $elm.data('mention-nickname');
+    var is_mention = $.is_present(mention_form_control) && $.is_present(nickname);
     var container = target + ' .post__partial-content';
     $target.data('parti-pjax-back-trigger', 'off');
 
@@ -426,9 +432,23 @@ var parti_prepare_post_modal = function($base) {
             $target.modal('hide');
           }
         });
+        if (is_mention) {
+          var $elm = $(e.currentTarget);
+          var control = $target.find(mention_form_control);
+          var value = $(control).val();
+          var at_nickname = '@' + nickname;
+          if ($.is_blank(value) || value.index_of(at_nickname) == -1) {
+            $(control).val(at_nickname + ' ' + value);
+          }
+        }
         $target.modal('show');
+        if (is_mention) {
+          $target.on('shown.bs.modal', function (e) {
+            $(control).focus();
+          });
+        }
       });
-      $.pjax({url: url, container: container, scrollTo: false});
+      $.pjax({url: url, container: container, scrollTo: false, timeout: 5000});
       return false;
     });
   });

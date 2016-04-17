@@ -52,18 +52,18 @@
           %i.fa.fa-info-circle
           찬성 댓글이 없습니다.
       %ul.media-list(style='padding: 20px 0;')
-        = render postable.comments.sequential.recent, style: :media
+        = render postable.comments.sequential.recent, style: :media, mention_form_contorl: '#new_comment #comment_body'
     .tab-pane#disagree{class: ('active' if user_signed_in? and postable.disagreed_by? current_user) }
       - if postable.comments.disagreed.empty?
         .well
           %i.fa.fa-info-circle
           반대 댓글이 없습니다.
       %ul.media-list(style='padding: 20px 0;')
-        = render postable.comments.disagreed.sequential
+        = render postable.comments.disagreed.sequential, mention_form_contorl: '#new_comment #comment_body'
   - if user_signed_in? and postable.voted_by? current_user
     %a.anchor#comment-form
     .comment-form
-      = form_for [postable.acting_as, Comment.new], remote: true do |f|
+      = form_for [postable.acting_as, Comment.new], remote: true, class: 'comment-form' do |f|
         = hidden_field_tag :container, "##{dom_id(postable)}-comments ##{postable.voted_by(current_user).choice} ul.media-list"
         = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count__#{postable.voted_by(current_user).choice}"
         = hidden_field_tag :body_control, "##{dom_id(postable)}-comments .comment-form textarea#comment_body"
