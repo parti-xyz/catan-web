@@ -7,9 +7,9 @@
       %span.user-count
         = image_tag 'icon_user.png'
         %b= issue.watches.count
-      %span.post-count
-        = image_tag 'icon_file.png'
-        %b= issue.posts.count
+      %span.comment-count
+        = image_tag 'icon_comment.png'
+        %b= issue.comments.count
   .issue-card__btn
     - if user_signed_in?
       - if issue.watched_by?(current_user)

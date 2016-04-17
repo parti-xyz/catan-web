@@ -19,11 +19,11 @@
                       = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
 
           %div.issue-count
-            %span.post-count
+            %span.comment-count
               = link_to issue_home_path(issue) do
-                글
-                %span= issue.posts.count
-                - if issue.posts.latest.any?
+                댓글
+                %span= issue.comments.count
+                - if issue.comments.latest.any?
                   %small>= "+#{issue.posts.latest.count}"
             %span.user-count
               = link_to issue_users_path(issue) do
