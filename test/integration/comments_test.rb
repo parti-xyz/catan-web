@@ -4,7 +4,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '글에 만들어요' do
     sign_in(users(:one))
 
-    post post_comments_path(post_id: articles(:article1).acting_as.id, comment: { body: 'body' })
+    post post_comments_path(post_id: articles(:article1).acting_as.id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_equal 'body', assigns(:comment).body
@@ -14,7 +14,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '내용을 수정해요' do
     sign_in(users(:one))
 
-    put comment_path(comments(:comment1), comment: { body: 'body x' })
+    put comment_path(comments(:comment1), comment: { body: 'body x' }), format: :js
 
     refute assigns(:comment).errors.any?
     assert_equal 'body x', assigns(:comment).body
@@ -25,7 +25,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert comment.post.comments.users.include?(users(:one))
 
     sign_in(users(:two))
-    post post_comments_path(post_id: comment.post.id, comment: { body: 'body' })
+    post post_comments_path(post_id: comment.post.id, comment: { body: 'body' }), format: :js
 
     refute assigns(:comment).errors.any?
     assert_equal assigns(:comment), users(:one).messages.first.messagable
@@ -36,7 +36,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:two))
 
-    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' })
+    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_equal 'agree', assigns(:comment).choice
@@ -46,7 +46,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert opinions(:opinion1).agreed_by? users(:two)
 
     sign_in(users(:one))
-    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' })
+    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' }), format: :js
 
     refute assigns(:comment).errors.any?
     assert_equal assigns(:comment), users(:two).messages.first.messagable
@@ -57,7 +57,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
 
-    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' })
+    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_nil assigns(:comment).choice
@@ -66,7 +66,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '고쳐요' do
     sign_in(users(:one))
 
-    put comment_path(comments(:comment1), comment: { body: 'body x' })
+    put comment_path(comments(:comment1), comment: { body: 'body x' }), format: :js
 
     assigns(:comment).reload
     assert_equal 'body x', assigns(:comment).body
@@ -80,7 +80,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     previous_comments_count = post.reload.comments_count
     refute_equal 0, previous_comments_count
 
-    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url')
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url'), format: :js
 
     article = assigns(:comment).post.specific.reload
     assert_equal 'new_url', article.link
@@ -91,7 +91,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previsous_post = comments(:comment1).post
-    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: comments(:comment1).post.specific.link)
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: comments(:comment1).post.specific.link), format: :js
 
     assert_equal previsous_post, comments(:comment1).reload.post
   end
@@ -100,8 +100,8 @@ class CommentsTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
     previsous_post = comments(:comment1).post
 
-    post post_comments_path(post_id: previsous_post.id, comment: { body: 'body' })
-    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url')
+    post post_comments_path(post_id: previsous_post.id, comment: { body: 'body' }), format: :js
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url'), format: :js
 
     article = assigns(:comment).post.specific.reload
     assert_equal 'new_url', article.link
@@ -114,7 +114,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     previsous_post = comments(:comment1).post
     assert_equal 1, previsous_post.comments.count
 
-    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url')
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, article_link: 'new_url'), format: :js
 
     article = assigns(:comment).post.specific.reload
     assert_equal 'new_url', article.link
