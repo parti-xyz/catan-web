@@ -1,0 +1,6 @@
+- issue ||= @issue
+- if issue.is_all?
+  = render 'issues/issue_all_header', local_assigns
+- else
+  = render 'issues/issue_parti_header', local_assigns
+
