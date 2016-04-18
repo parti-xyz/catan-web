@@ -33,20 +33,23 @@ namespace :crawling do
 
   desc "Reload fail"
   task :reload, [:id] => :environment do
-    puts CrawlingJob.perform_async(id).to_s
+    CrawlingJob.new.perform(id)
+    puts id
   end
 
   desc "Reload all fails"
   task :reload_fails => :environment do
     fails.each do |fail|
-      puts CrawlingJob.perform_async(fail.id).to_s
+      CrawlingJob.new.perform(fail.id)
+      puts fail.id
     end
   end
 
   desc "Reload all"
   task :reload_all => :environment do
     LinkSource.find_each do |source|
-      puts CrawlingJob.perform_async(source.id).to_s
+      CrawlingJob.new.perform(source.id)
+      puts source.id
     end
   end
 

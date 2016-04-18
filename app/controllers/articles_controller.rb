@@ -51,7 +51,7 @@ class ArticlesController < ApplicationController
     end
     prepare_meta_tags title: @article.title,
                       description: @article.body,
-                      og_title: [@article.title, @article.site_name.try(:upcase)].reject { |c| c.empty? }.map(&:strip).join(' | ')
+                      og_title: [@article.title, @article.site_name.try(:upcase)].reject { |c| c.blank? }.map(&:strip).join(' | ')
   end
 
   helper_method :current_issue
