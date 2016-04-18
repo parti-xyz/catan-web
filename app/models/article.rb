@@ -28,6 +28,11 @@ class Article < ActiveRecord::Base
     link_source.try(:body)
   end
 
+  def site_name
+    return '' if self.hidden?
+    link_source.try(:site_name)
+  end
+
   def link=(val)
     old_source = self.link_source
     new_source = LinkSource.find_or_create_by!(url: val) do |new_link_source|

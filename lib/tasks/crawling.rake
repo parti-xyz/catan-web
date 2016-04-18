@@ -15,26 +15,38 @@ namespace :crawling do
     run_test 'http://m.todayhumor.co.kr/view.php?table=sisa&no=699146', image_original_filename: '1458811502h1NCDLsuo.jpg'
   end
 
+  desc "Show fails"
   task :fails => :environment do
     puts fails.inspect
   end
 
+  desc "Show fail IDs"
   task :fails_id => :environment do
     puts fails.map(&:id).inspect
   end
 
+  desc "Show fail URLs"
   task :fails_url => :environment do
     data = LinkSource.where(title: nil)
     puts fails.map(&:url).inspect
   end
 
+  desc "Reload fail"
   task :reload, [:id] => :environment do
     puts CrawlingJob.perform_async(id).to_s
   end
 
+  desc "Reload all fails"
   task :reload_fails => :environment do
     fails.each do |fail|
       puts CrawlingJob.perform_async(fail.id).to_s
+    end
+  end
+
+  desc "Reload all"
+  task :reload_all => :environment do
+    LinkSource.find_each do |source|
+      puts CrawlingJob.perform_async(source.id).to_s
     end
   end
 

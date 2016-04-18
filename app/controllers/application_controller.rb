@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
       og: {
         url: current_url,
         site_name: options[:site_name],
-        title: "#{options[:title]} | #{options[:site_name]}",
+        title: options[:og_title] || "#{options[:title]} | #{options[:site_name]}",
         image: view_context.asset_url(options[:image]),
         description: og_description,
         type: 'website'

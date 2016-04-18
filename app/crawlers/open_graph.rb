@@ -4,7 +4,7 @@ require 'addressable/uri'
 require 'uri'
 
 class OpenGraph
-  attr_accessor :src, :url, :type, :title, :description, :images, :image_io, :image_original_filename, :metadata, :response, :original_images
+  attr_accessor :src, :url, :type, :title, :site_name, :description, :images, :image_io, :image_original_filename, :metadata, :response, :original_images
 
   def initialize(src)
     @agent = Mechanize.new
@@ -59,6 +59,7 @@ class OpenGraph
         load_from_opengraph
         load_from_page(overwrite: false)
       end
+      fallback_site_name
     rescue Exception => msg
       @title = @url = @src
       return
@@ -114,7 +115,7 @@ class OpenGraph
 
   def load_from_opengraph
     if @doc.present? and @doc.respond_to?(:css)
-      attrs_list = %w(title url type description)
+      attrs_list = %w(title url type description site_name)
       @doc.css('meta').each do |m|
         if m.attribute('property') && m.attribute('property').to_s.match(/^og:(.+)$/i)
           m_content = m.attribute('content').to_s.strip
@@ -154,6 +155,10 @@ class OpenGraph
       fetch_images(@doc, "//head//link[@rel='image_src']", "href") if @images.empty?
       fetch_images(@doc, "//img", "src") if @images.empty?
     end
+  end
+
+  def fallback_site_name
+    @site_name ||= Addressable::URI.parse(@url).host
   end
 
   def check_images_path

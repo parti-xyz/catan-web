@@ -50,7 +50,8 @@ class ArticlesController < ApplicationController
       @list_url = issue_articles_path(@issue)
     end
     prepare_meta_tags title: @article.title,
-                      description: @article.body
+                      description: @article.body,
+                      og_title: [@article.title, @article.site_name.try(:upcase)].reject { |c| c.empty? }.map(&:strip).join(' | ')
   end
 
   helper_method :current_issue

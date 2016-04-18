@@ -16,6 +16,7 @@ class LinkSource < ActiveRecord::Base
     self.image = (data.image_io if data.image_io) || self.image
     self.page_type = data.type || self.page_type
     self.body = data.description || self.body
+    self.site_name = data.site_name || self.site_name
     self.crawling_status = :completed
     self.crawled_at = DateTime.now
   end
