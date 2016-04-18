@@ -20,7 +20,7 @@
     %li{role: 'presentation', class: ('active' if active_tab == :talks)}
       = link_to talks_tab_path do
         %h4= Talk.model_name.human
-        .nav-tabs__count.hidden-xs
+        .nav-tabs__count.hidden-xs{style: 'left: 35px;'}
           %small<>= counts_container.talks_count
           - if counts_container.latest_talks_count > 0
             %small.text-primary<>
