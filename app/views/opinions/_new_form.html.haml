@@ -6,15 +6,7 @@
         = hidden_field_tag :issue_title, issue.title
       - else
         .form-group
-          %p.help-block
-            추천하는 빠띠
-            - Issue.featured_issues(current_user).each do |issue|
-              %a(href='#' data-action="parti-form-set-vaule" data-form-control="form input#issue_title" data-form-vaule="#{issue.title}")
-                = issue.title
-              \/
-          .input-group
-            = text_field_tag :issue_title, (issue.try(:title) unless issue.is_all?), class: 'form-control typeahead', placeholder: '빠띠를 입력하세요.', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => issue.try(:title), 'rule-required': true, 'rule-extern': true, 'rule-extern-value': false }
-          %p.help-block.typeahead-warning
+          = f.collection_select :issue_id, Issue.featured_issues(current_user), :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control'}
 
       .form-group.form-group-lg
         = f.text_field :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
