@@ -61,8 +61,6 @@ Rails.application.routes.draw do
   get '/u/:nickname/upvotes', to: "users#upvotes", as: 'nickname_user_upvotes'
   get '/u/:nickname/votes', to: "users#votes", as: 'nickname_user_votes'
 
-  get 'search', to: "search#index"
-
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
   if Rails.env.development?

@@ -1,6 +1,5 @@
 class LinkSource < ActiveRecord::Base
   extend Enumerize
-  include Searchable
 
   has_many :articles
 
@@ -19,13 +18,5 @@ class LinkSource < ActiveRecord::Base
     self.body = data.description || self.body
     self.crawling_status = :completed
     self.crawled_at = DateTime.now
-  end
-
-  def searchable_content
-    "#{self.title} #{self.body} #{self.url}"
-  end
-
-  def searchable?
-    articles.visible.any?
   end
 end

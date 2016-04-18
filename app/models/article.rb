@@ -13,8 +13,6 @@ class Article < ActiveRecord::Base
   scope :visible, -> { where(hidden: false) }
 
   before_save :update_post_issue_id_before_save
-  after_save :search_index_after_save
-  after_destroy :search_index_after_destroy
 
   def origin
     self
@@ -36,7 +34,6 @@ class Article < ActiveRecord::Base
       new_link_source.crawling_status = 'not_yet'
     end
     self.link_source = new_source
-    old_source.search_indexing if old_source.present? and old_source != new_source
     write_attribute(:link, val)
   end
 
@@ -68,14 +65,6 @@ class Article < ActiveRecord::Base
   end
 
   private
-
-  def search_index_after_save
-    self.link_source.search_indexing
-  end
-
-  def search_index_after_destroy
-    self.link_source.search_indexing
-  end
 
   def update_post_issue_id_before_save
     self.post_issue_id = self.issue_id

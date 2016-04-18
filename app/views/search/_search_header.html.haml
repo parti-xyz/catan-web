@@ -1,7 +1,0 @@
-%section#search-header-section
-  .container
-    = form_tag search_path, method: :get, class: 'form-inline' do
-      .form-group
-        = text_field_tag :q, params[:q], class: 'form-control', placeholder: '검색 키워드를 넣어주세요'
-      = submit_tag '글찾기', class: 'btn btn-default'
-
