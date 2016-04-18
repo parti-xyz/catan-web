@@ -246,6 +246,11 @@
     line-height: 2;
     margin-bottom: 60px;
   }
+  &__txt {
+    font-weight: bold;
+    margin-bottom: 60px;
+    color: #222;
+  }
   &__form {
     width: 300px;
     margin: 0 auto;
@@ -254,13 +259,53 @@
       margin-top: 40px;
       margin-bottom: 40px;
     }
+    .form-group {
+      margin-bottom: 10px;
+      input[type=email], input[type=text], input[type=password] {
+        height: auto;
+        border-color: #d2d2d2;
+        color: #d2d2d2;
+        font-size: 15px;
+        padding: 10px 15px;
+      }
+    }
     .help-block {
       margin: 0;
     }
+    .btn-primary {
+      margin-top: 20px;
+    }
+  }
+}
+.remember_me {
+  color: #777;
+  font-weight: normal;
+}
+
+.btn-sns {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #d2d2d2;
+  text-align: center;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  margin-bottom: 10px;
+  &:hover {
+    color: $brand-primary;
+  }
+  img {
+    margin-right: 5px;
   }
 }
 
-
+.shared_links {
+  margin-top: 20px;
+  a {
+    color: #777;
+    text-decoration: underline;
+  }
+}
 
 
 
