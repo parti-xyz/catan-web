@@ -77,7 +77,6 @@
 }
 
 .vote__new {
-  padding: 20px 0;
   text-align: center;
   border: 1px solid #ebebec;
   background: #fff;
@@ -86,6 +85,24 @@
   font-size: 18px;
   .icon-box {
     margin-right: 5px;
+  }
+  a {
+    display: block;
+    padding: 20px 0;
+    &:hover, &.active {
+      background: $brand-primary;
+      color: #fff;
+      b {
+        color: #fff;
+      }
+    }
+  }
+  img {
+   margin-left: 40px;
+   margin0right: 25px;
+  }
+  b {
+    color: $brand-primary;
   }
 }
 

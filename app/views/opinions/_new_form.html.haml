@@ -1,7 +1,6 @@
 - if user_signed_in?
   #opinion-form-widget.form-widget-container.bg-line
     = form_for Opinion.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|
-      = image_tag 'icon_tooltip_left2.png', class: 'form-widget__arrow'
       = hidden_field_tag :back_url, @list_url || request.original_url
       - if !issue.is_all?
         = hidden_field_tag :issue_title, issue.title

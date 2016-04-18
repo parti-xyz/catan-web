@@ -1,17 +1,19 @@
 %section.opinion-list
   - unless local_assigns[:hide_writing_card]
     .vote__new#editors-tab
-      %span 더 나은 논의를 위해 발언해 보세요
       - if user_signed_in?
-        = link_to '#', class: 'btn btn-primary btn-border btn-ghost', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !issue.is_all? ? 'input#opinion_title' : 'input#issue_title')} do
-          .btn-icon.btn-icon--small
-            = image_tag 'icon_comment.png'
-          %span #{Opinion.model_name.human}하기
+        = link_to '#', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !issue.is_all? ? 'input#opinion_title' : 'input#issue_title')} do
+          %span 더 나은 논의를 위해 투표해 보세요.
+          %span
+            = image_tag 'icon_opinion.png'
+            %b 투표 열기
       - else
-        = link_to '#', class: 'btn btn-primary btn-ghost', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
-          .btn-icon.btn-icon--small
-            = image_tag 'icon_comment.png'
-          %span #{Opinion.model_name.human}하기
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
+          %span 더 나은 논의를 위해 투표해 보세요.
+          %span
+            = image_tag 'icon_opinion.png'
+            %b 투표 열기
+
 
   .row.masonry-container
     - opinions.each do |opinion|

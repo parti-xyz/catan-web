@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20160418015045) do
     t.string   "active",                     default: "on"
   end
 
+  add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"
+  add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
   add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
 
   create_table "comments", force: :cascade do |t|
