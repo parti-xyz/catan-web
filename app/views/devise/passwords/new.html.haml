@@ -1,14 +1,16 @@
 .bs-component
   %section#sign-up
-    .container
-      .row
-        .col-md-offset-3.col-md-6
-          %h3.page-header 비밀번호 분실
-          %p 비밀번호 재설정하는 메일을 보내드립니다.
-          = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-            = devise_error_messages!
-            .form-group
-              = f.label :email
-              = f.email_field :email, autofocus: true, class: 'form-control'
-            = f.submit '발송', class: 'btn btn-danger'
-          = render "devise/shared/links"
+    %h3.sign-up__title 비밀번호 분실
+    %h1.text-center.sign-up__txt
+      비밀번호를 잊으셨어요?
+    %h4.text-center.sign-up__txt
+      빠띠 가입 시 등록한 이메일을 입력하시면
+      %br
+      비밀번호를 다시 설정할 수 있는 메일을 보내드릴게요.
+    .sign-up__form
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        = devise_error_messages!
+        .form-group
+          = f.email_field :email, placeholder: '이메일을 입력하세요', autofocus: true, class: 'form-control'
+          = f.submit '보내기', class: 'btn btn-primary btn-block'
+      = render "devise/shared/links"
