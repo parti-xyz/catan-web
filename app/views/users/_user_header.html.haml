@@ -1,7 +1,8 @@
-%section#user-header-section
-  .container{ style: 'position: reltiave;' }
-    .jumbotron.jumbotron-transparent{ style: 'margin: 0' }
-      %div.clearfix.text-center
-        = image_tag @user.image_url, class: 'img-circle'
-        %h2 #{@user.nickname}
-
+%section#user-header-section.text-center
+  .profile-box
+    = image_tag @user.image_url, class: 'img-circle'
+    %h2 #{@user.nickname}
+    - if user_signed_in? && (current_user.id == @user.id)
+      = link_to edit_user_registration_path, class: 'btn btn-profile' do
+        = image_tag 'icon_profile'
+        %span 프로필 수정

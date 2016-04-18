@@ -55,8 +55,11 @@
 }
 
 #user-header-section {
+  width: 100%;
+  height: 305px;
   padding: 20px 0;
   background-color: #271e44;
+  display: table;
   .img-circle {
     width: 90px;
     height: 90px;
@@ -66,6 +69,28 @@
     margin-top: 20px;
   }
 }
+
+.profile-box {
+  display: table-cell;
+  vertical-align: middle;
+}
+.btn-profile {
+  background: #171229;
+  color: #fff;
+  padding: 15px;
+  border-radius: 30px;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  &:hover {
+    color: #fff;
+    text-decoration: underline;
+  }
+  img {
+    margin-right: 5px;
+    margin-top: -3px;
+  }
+}
+
 .issue-header-section {
   padding: 20px 0;
   background-color: #271e44;
@@ -95,7 +120,7 @@
 }
 
 #user-gallery {
-  padding: 50px 0;
+  padding: 20px 0;
 }
 
 /* message 알림 */
@@ -209,8 +234,31 @@
   }
 }
 
-
-
+#sign-up {
+  width: 600px;
+  margin: 60px auto;
+}
+.sign-up {
+  &__title {
+    color: #333;
+    border-bottom: 2px solid #d2d2d2;
+    text-align: center;
+    line-height: 2;
+    margin-bottom: 60px;
+  }
+  &__form {
+    width: 300px;
+    margin: 0 auto;
+    hr {
+      border-top: 4px solid #d2d2d2;
+      margin-top: 40px;
+      margin-bottom: 40px;
+    }
+    .help-block {
+      margin: 0;
+    }
+  }
+}
 
 
 
