@@ -2,228 +2,30 @@ section#posts {
   padding: 20px 0;
 }
 
-@mixin issue-xs-image() {
-  width: 12px;
-  height: 12px;
-  vertical-align: middle;
-  margin-bottom: 3px;
-  background-color: #000;
-}
-
-.post-inline {
-  padding: 15px 0;
-  border-bottom: 1px solid $gray-lighter;
-  color: $gray;
-
-  .posts--past-day &:last-child {
-    border-bottom: none;
-  }
-
-  .posts &:last-child {
-    border-bottom: none;
-  }
-
-  &:hover {
-    background-color: #fafafa;
-  }
-  .media-left {
-    min-width: 30px;
-    padding: 0;
-  }
-  .post-like {
-    vertical-align: middle;
-    padding-right: 30px;
-    .like-button {
-      margin: 0;
-      width: 100%;
-      text-align: center;
-      a {
-        color: $gray;
-        &:hover {
-          color: #000;
-        }
-      }
-      i {
-        display: block;
-        color: $brand-primary;
-      }
+.post-card {
+  background-color: #fff;
+  margin-bottom: 0;
+  border-left: 1px solid #e6e6e7;
+  border-right: 1px solid #e6e6e7;
+  border-bottom: 1px solid #e6e6e7;
+  padding: 20px;
+  a {
+    color: #777;
+    font-size: 15px;
+    margin-bottom: 15px;
+    display: block;
+    &:hover {
+      color: $brand-primary;
     }
   }
-  .post-icon {
-    min-width: 50px;
-    padding-right: 10px;
-    i {
-      font-size: 20px;
-    }
-  }
-  &__issue {
-    display: inline-block;
-  }
-  &__issue-label {
-    font-size: $font-size-small;
-    margin-right: 5px;
-  }
-  .post-inline__title {
-    font-size: $font-size-h5;
-    font-weight: $headings-font-weight;
-    margin-top: 0;
+  &__count {
     margin-bottom: 5px;
   }
-  .post-inline__body {
-    font-size: $font-size-small;
-    margin: 0 0 5px 0;
-  }
-  .post-inline__activities {
-    display: inline-block;
-  }
-  .post-inline__info,
-  .post-inline__activities,
-  .post-inline__issue {
-    font-size: $font-size-small;
-    line-height: $line-height-base;
-    .post-inline__issue-label {
-      img {
-        @include issue-xs-image();
-      }
-    }
-    a {
-      color: $gray;
-      margin-right: 3px;
-      text-decoration: none;
-    }
-  }
-  .post-inline__buttons {
-    span {
-      margin-right: 4px;
-      a {
-        &:hover {
-          text-decoration: none;
-        }
-      }
-    }
-    .jssocials-shares {
-      margin: 0;
-    }
-    &__shares.jssocials {
-      .jssocials-share-link {
-        background-color: #fff;
-        color: #777;
-      }
-    }
+  &__date {
+    color: #aaaaaf;
+    font-size: 12px;
   }
 }
-
-.post-inline,
-.post-card {
-  .like-button {
-    a {
-      font-size: $font-size-small;
-      display: block;
-      &:hover {
-        text-decoration: none;
-      }
-      &.like-button--liked {
-        color: #000;
-      }
-      &.like-button--not-yet {
-        color: #999;
-      }
-    }
-    i {
-      font-size: $font-size-large;
-    }
-  }
-}
-
-.post-section {
-  padding-top: 50px;
-  padding-bottom: 10px;
-
-  .post__title {
-    color: #000;
-    margin: 10px 0 30px;
-    text-align: center;
-    @include word-wrap();
-    word-break: keep-all;
-  }
-
-  &__header {
-    text-align: justify;
-    &__meta,
-    &__share-box {
-      display: inline-block;
-      vertical-align: middle;
-    }
-    &__meta {
-      height: 100%;
-      .user-image {
-        width: 40px;
-        height: 40px;
-      }
-      a {
-        color: $gray-darker;
-      }
-    }
-    &__share-box {
-      &::before {
-        content: '';
-        display: inline-block;
-        vertical-align: middle;
-        height: 100%;
-      }
-    }
-    &::after {
-      content: '';
-      display: inline-block;
-      width: 100%;
-    }
-  }
-  .oembedall-container {
-    .oembedall-closehide, .embed, br {
-      display: none;
-    }
-    img {
-      width: 20%;
-      float: left;
-      margin-right: 20px;
-    }
-    b {
-      display: block;
-    }
-    p {
-      max-height: 150px;
-      overflow-y: scroll;
-    }
-  }
-}
-
-.post__body {
-  @include word-wrap;
-  img {
-    max-width: 100%;
-  }
-}
-
-.post__likes {
-  margin: 10px 0;
-
-  .recent_likes {
-    display: block;
-    margin-top: 10px;
-    padding-left: 10px;
-    span {
-      margin-left: -10px;
-    }
-  }
-}
-
-.post__meta {
-  margin-bottom: 10px;
-}
-
-.post-message__issue {
-  font-size: $font-size-small;
-  img {
-    @include issue-xs-image();
-  }
+.post-card:last-child {
+  margin-bottom: 20px;
 }
