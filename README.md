@@ -1,5 +1,21 @@
 # parti 수다로 정치하자, 빠띠에서 파티하자
 
+## 업그레이드
+
+### 0.x --> 1.0
+
+각 빠띠마다 같은 URL의 글이 올란 경우를 찾아 봅니다. 검색이 되면 조치를 취합니다.
+```
+Article.all.select { |a| Article.joins(:post).where('issue_id': a.issue_id, link_source_id: a.link_source_id).count > 1 }
+```
+
+크롤링을 다시 합니다.
+
+```
+$ bundle exec rake crawling:reload_all
+```
+
+
 ## 배포
 
 engineyard를 사용합니다.
@@ -74,3 +90,23 @@ Comment.all.each { |c| c.destroy if c.post.blank? }
 $ bundle exec rake transfer_user[{SOURCE_USER_NICKNAME},{TARGET_USER_NICKNAME}]
 $ vi log/{SOURCE_USER_NICKNAME}_{TARGET_USER_NICKNAME}_{DATETIME}.log
 ```
+
+### 크롤링
+
+실패한 크롤링
+
+```
+$ bundle exec rake crawling:fails
+```
+
+특정 크롤링 다시 수행
+```
+$ bundle exec rake crawling:reload[아이디값]
+```
+
+모든 크롤링 다시 수행
+
+```
+$ bundle exec rake crawling:reload_all
+```
+
