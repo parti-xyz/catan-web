@@ -64,3 +64,46 @@ section#posts {
 .post-card:last-child {
   margin-bottom: 20px;
 }
+
+.post-inline {
+  background-color: #fafafb;
+  border: 1px solid #f1f1f1;
+  padding: 15px;
+  position: relative;
+  .img-circle {
+    position: static;
+  }
+  a {
+    color: #333333;
+  }
+  &__title {
+    width: 93%;
+    margin: 0;
+  }
+  &__comment {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

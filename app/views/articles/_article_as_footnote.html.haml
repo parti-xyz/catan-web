@@ -1,16 +1,14 @@
 - article = article_as_footnote
 - post = article.acting_as
-.post-inline.article-inline[post]
+.post-inline[post]
   %h5.post-inline__title
+    = render 'posts/post_inline_footnote', obj: article, show_issue: local_assigns[:show_issue]
+    - if !article.hidden?
+      = link_to article.link, target: '_blank', class: 'text-muted' do
+        = image_tag 'icon_link.png'
     = link_to screenable_article_title(article), '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }
-    %small
-      - if !article.hidden?
-        = link_to article.link, target: '_blank', class: 'text-muted' do
-          %i.fa.fa-link
-      = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
-        %small
-          %i.fa.fa-comment-o
-            %span.text-primary
-              = post.comments_count
+  .post-inline__comment.pull-right
+    = image_tag 'icon_comment.png'
+    %b= post.comments_count
 
-  = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]
+

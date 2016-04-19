@@ -21,14 +21,16 @@ section#comments {
     -moz-box-shadow:    4px 4px 4px 0px rgba(222, 221, 218, 1);
     box-shadow:         4px 4px 4px 0px rgba(222, 221, 218, 1);
   }
-  .img-circle {
-    position: absolute;
-    left: -15px;
-    top: 15px;
-  }
-  .nickname {
-    font-weight: bold;
-    color: $brand-primary;
+  &__link {
+    .img-circle {
+      position: absolute;
+      left: -15px;
+      top: 15px;
+    }
+    .nickname {
+      font-weight: bold;
+      color: $brand-primary;
+    }
   }
   &__btn {
     margin-top: -5px;

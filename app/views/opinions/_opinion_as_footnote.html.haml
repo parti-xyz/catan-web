@@ -1,8 +1,8 @@
 - opinion = opinion_as_footnote
 - post = opinion.acting_as
-.post-inline.opinion-inline[post]
+.post-inline[post]
   %h5.post-inline__title
+    = render 'posts/post_inline_footnote', obj: opinion, show_issue: local_assigns[:show_issue]
     = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) } do
       “#{opinion.title}”
     %i.fa.fa-microphone.text-muted
-  = render 'posts/post_inline_footer', obj: opinion, show_issue: local_assigns[:show_issue]
