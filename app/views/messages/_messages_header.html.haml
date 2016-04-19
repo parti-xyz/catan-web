@@ -1,5 +1,5 @@
 %section#messages-header-section
   .container
-    = image_tag @user.image_url, class: 'img-circle'
+    = image_tag @user.image.sm.url, class: 'img-circle'
     %b= @user.nickname
     %span 님의 알람

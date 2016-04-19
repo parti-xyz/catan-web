@@ -6,7 +6,7 @@
         .clearfix
           = link_to issue_home_path(issue), style: 'text-decoration: none' do
             .pull-left
-              = image_tag issue.logo_url, class: 'issue-logo'
+              = image_tag issue.logo.sm.url, class: 'issue-logo'
           %h4.issue-title
             = link_to issue_home_path(issue), style: 'text-decoration: none' do
               %span= issue.title

@@ -14,6 +14,6 @@
   .article__footer
     - if (article.has_image? and image_over_height(article.image.file, 400))
       = link_to article.link, class: 'link-box clearfix', target: '_blank' do
-        = image_tag(article.image.url)
+        = image_tag(article.image.md.url)
         %p= article.body
 

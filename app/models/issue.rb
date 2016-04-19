@@ -45,14 +45,13 @@ class Issue < ActiveRecord::Base
     def hottest_posts(count)
       Post.hottest.limit(count)
     end
+    def logo_url
+      ActionController::Base.helpers.asset_path('all_issue_logo.png')
+    end
+    def cover_url
+      ActionController::Base.helpers.asset_path('default_issue_cover.png')
+    end
   end.instance
-
-  def OF_ALL.logo_url
-    ActionController::Base.helpers.asset_path('all_issue_logo.png')
-  end
-  def OF_ALL.cover_url
-    ActionController::Base.helpers.asset_path('default_issue_cover.png')
-  end
 
   # relations
   has_many :relateds

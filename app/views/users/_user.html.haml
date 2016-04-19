@@ -5,7 +5,7 @@
   .panel-body
     .clearfix
       .pull-left(style='width: 40px; margin-right: 10px')
-        = link_to user_gallery_path(user), class: 'user__image img-circle', style: "background-image: url(#{user.image_url});" do
+        = link_to user_gallery_path(user), class: 'user__image img-circle', style: "background-image: url(#{user.image.sm.url});" do
           = user.nickname
 
       %div

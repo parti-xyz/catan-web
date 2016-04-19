@@ -11,7 +11,7 @@
         .media-right
           %div{style: 'max-height: 300px'}
             = link_to @article.link, target: '_blank' do
-              = image_tag(@article.image.url, class: 'media-object', style: 'max-width: 200px;')
+              = image_tag(@article.image.lg.url, class: 'media-object', style: 'max-width: 200px;')
     - else
       .media-body
         - if video?(@article)
@@ -20,7 +20,7 @@
         - elsif @article.has_image?
           .text-center{style: 'margin-bottom: 20px;'}
             = link_to @article.link, target: '_blank' do
-              = image_tag(@article.image.url)
+              = image_tag(@article.image.lg.url)
 
 
 

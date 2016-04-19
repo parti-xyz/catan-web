@@ -2,7 +2,7 @@
 - if local_assigns[:show_issue]
   %span.post-inline__issue-label
     = link_to issue_home_path(post.issue) do
-      = image_tag post.issue.logo_url, class: 'circle-30 img-circle'
+      = image_tag post.issue.logo.xs.url, class: 'circle-30 img-circle'
       %span.text-primary= post.issue.title
   .date-wrapper.pull-right
     = image_tag 'icon_time.png'

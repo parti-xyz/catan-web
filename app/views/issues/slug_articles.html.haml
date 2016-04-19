@@ -9,5 +9,5 @@
         = render 'articles/list', postables: @articles, issue: @issue, show_issue: @issue.is_all?
         .text-center
           = paginate @articles, theme: 'twitter-bootstrap-3'
-      = render 'aside'
+      = render 'issues/aside'
 

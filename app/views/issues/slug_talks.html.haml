@@ -9,4 +9,4 @@
         = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
         .text-center
           = paginate @talks, theme: 'twitter-bootstrap-3'
-      = render 'aside'
+      = render 'issues/aside'

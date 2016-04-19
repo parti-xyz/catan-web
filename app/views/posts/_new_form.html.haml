@@ -9,7 +9,7 @@
 .post-form.bg-line
   / - if user_signed_in?
   /   = link_to user_gallery_path(current_user), class: 'post-form__thumb' do
-  /     = image_tag current_user.image_url, class: 'img-circle circle-50 border-2-primary'
+  /     = image_tag current_user.image.xs.url, class: 'img-circle circle-50 border-2-primary'
   / - else
   /   = image_tag 'anonymous.png', class: 'img-circle circle-50 border-2-primary'
   #editors-tab.editors-tab.clearfix

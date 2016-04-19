@@ -16,7 +16,7 @@
       - unless local_assigns[:only_buttons]
         .pull-left{style: 'margin-right: 10px'}
           = link_to user_gallery_path(post.user) do
-            = image_tag post.user.image_url, class: 'user-image img-circle'
+            = image_tag post.user.image.xs.url, class: 'user-image img-circle'
 
 
   .post-section__header__share-box

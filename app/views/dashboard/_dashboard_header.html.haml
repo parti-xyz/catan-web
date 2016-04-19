@@ -12,6 +12,6 @@
       .issues
         - current_user.watched_issues.each do |issue|
           = link_to issue_home_path(issue), class: 'btn btn-default btn-sm' do
-            = image_tag issue.logo_url
+            = image_tag issue.logo.sm.url
             = issue.title
 

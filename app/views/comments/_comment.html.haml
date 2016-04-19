@@ -1,7 +1,7 @@
 %li.media{class: dom_id(comment), data: { 'parti-comment-style': 'in-post' }}
   .media-left
     = link_to user_gallery_path(comment.user) do
-      = image_tag comment.user.image_url, class: 'media-object img-circle', style: 'width:50px;height:50px;'
+      = image_tag comment.user.image.xs.url, class: 'media-object img-circle', style: 'width:50px;height:50px;'
   .media-body
     = link_to user_gallery_path(comment.user) do
       %strong= comment.user.nickname
