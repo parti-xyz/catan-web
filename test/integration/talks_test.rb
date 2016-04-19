@@ -4,7 +4,7 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post talks_path(talk: { title: 'title' }, comment_body: 'body', issue_title: issues(:issue1).title)
+    post talks_path(talk: { title: 'title', issue_id: issues(:issue1).id }, comment_body: 'body')
 
     assert assigns(:talk).persisted?
     assigns(:talk).reload
@@ -21,7 +21,7 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '고쳐요' do
     sign_in(users(:one))
 
-    put talk_path(talks(:talk1), talk: { title: 'title x' }, issue_title: issues(:issue2).title)
+    put talk_path(talks(:talk1), talk: { title: 'title x', issue_id: issues(:issue2).id })
 
     refute assigns(:talk).errors.any?
     assigns(:talk).reload
@@ -34,7 +34,7 @@ class TalksTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Talk.count
-    post talks_path(talk: { link: 'link' }, comment_body: 'body', issue_title: 'undefined')
+    post talks_path(talk: { link: 'link', issue_id: -1 }, comment_body: 'body')
     assert_equal previous_count, Talk.count
   end
 end

@@ -79,7 +79,7 @@ class ArticlesController < ApplicationController
 
   def fetch_issue
     return @issue if @issue.present?
-    @article.issue = @issue = (Issue.find_by(title: params[:issue_title]) || @article.issue)
+    @article.issue = @issue = (Issue.find_by(id: params[:article][:issue_id]) || @article.issue)
   end
 
   def build_comment

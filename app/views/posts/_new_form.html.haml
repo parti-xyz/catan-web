@@ -32,7 +32,7 @@
     = form_for Article.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
       - if !issue.is_all?
-        = hidden_field_tag :issue_title, issue.title
+        = f.hidden_field :issue_id, value: issue.id
       - else
         .form-group
           = f.collection_select :issue_id, Issue.featured_issues(current_user), :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control'}
@@ -50,7 +50,7 @@
     = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
       - if !issue.is_all?
-        = hidden_field_tag :issue_title, issue.title
+        = f.hidden_field :issue_id, value: issue.id
       - else
         .form-group
           = f.collection_select :issue_id, Issue.featured_issues(current_user), :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control'}

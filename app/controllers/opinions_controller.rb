@@ -99,7 +99,7 @@ class OpinionsController < ApplicationController
   end
 
   def set_issue
-    @issue ||= Issue.find_by title: params[:issue_title]
+    @issue ||= Issue.find_by id: params[:opinion][:issue_id]
     @opinion.issue = @issue
   end
 end

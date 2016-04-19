@@ -12,7 +12,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path(article: { link: 'link' }, comment_body: 'body', issue_title: issues(:issue1).title)
+      post articles_path(article: { link: 'link', issue_id: issues(:issue1).id }, comment_body: 'body')
 
       assert assigns(:article).persisted?
       assigns(:article).reload
@@ -35,7 +35,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
       sign_in(users(:one))
 
       article3_link = articles(:article3).link
-      post articles_path(article: { link: article3_link }, comment_body: 'body', issue_title: issues(:issue1).title)
+      post articles_path(article: { link: article3_link, issue_id: issues(:issue1).id }, comment_body: 'body')
 
       assert assigns(:article).persisted?
       assigns(:article).reload
@@ -57,7 +57,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:admin))
 
-      put article_path(articles(:article1), article: { link: 'link x' }, issue_title: issues(:issue2).title)
+      put article_path(articles(:article1), article: { link: 'link x', issue_id: issues(:issue2).id })
 
       refute assigns(:article).errors.any?
       assigns(:article).reload
@@ -99,7 +99,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Article.count
-    post articles_path(article: { link: 'link' }, comment_body: 'body', issue_title: 'undefined')
+    post articles_path(article: { link: 'link', issue_id: -1}, comment_body: 'body')
     assert_equal previous_count, Article.count
   end
 

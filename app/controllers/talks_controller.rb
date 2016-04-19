@@ -58,7 +58,7 @@ class TalksController < ApplicationController
   end
 
   def fetch_issue
-    @issue ||= Issue.find_by title: params[:issue_title]
+    @issue ||= Issue.find_by id: params[:talk][:issue_id]
     @talk.issue = @issue.presence || @talk.issue
   end
 

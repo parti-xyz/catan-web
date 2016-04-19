@@ -4,7 +4,7 @@ class OpinionsTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post opinions_path(opinion: { title: 'title' }, issue_title: issues(:issue1).title, comment_body: 'body')
+    post opinions_path(opinion: { title: 'title', issue_id: issues(:issue1).id }, comment_body: 'body')
 
     assert assigns(:opinion).persisted?
 
@@ -24,7 +24,7 @@ class OpinionsTest < ActionDispatch::IntegrationTest
   test '고쳐요' do
     sign_in(users(:one))
 
-    put opinion_path(opinions(:opinion1), opinion: { title: 'title x' }, issue_title: issues(:issue2).title)
+    put opinion_path(opinions(:opinion1), opinion: { title: 'title x', issue_id: issues(:issue2).id })
 
     assigns(:opinion).reload
     assert_equal 'title x', assigns(:opinion).title
@@ -36,16 +36,7 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Opinion.count
-    post opinions_path(opinion: { title: 'title' }, issue_title: '세상에 없었던 이슈')
-    assert_equal previous_count, Opinion.count
-  end
-
-  test '제목없는 이슈는 싫어요' do
-    sign_in(users(:one))
-
-    previous_count = Opinion.count
-    post opinions_path(opinion: { title: 'title' }, issue_title: '')
-
+    post opinions_path(opinion: { title: 'title', issue_id: -1 })
     assert_equal previous_count, Opinion.count
   end
 end
