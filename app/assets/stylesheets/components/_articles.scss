@@ -1,38 +1,3 @@
-.articles {
-  padding-top: 25px;
-}
-
-.article {
-  width: 100%;
-  background-color: #fff;
-  padding: 25px;
-  margin-bottom: 10px;
-  border: 1px solid #fff;
-  &:hover {
-    border-color: #bfa5eb;
-    -webkit-box-shadow: 4px 4px 4px 0px rgba(222, 221, 218, 1);
-    -moz-box-shadow:    4px 4px 4px 0px rgba(222, 221, 218, 1);
-    box-shadow:         4px 4px 4px 0px rgba(222, 221, 218, 1);
-  }
-  &__title {
-    font-weight: bold;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  &__info {
-    .text-primary {
-      padding-left: 3px;
-    }
-  }
-  &__comment {
-    b {
-      color: #555;
-      font-size: 12px;
-    }
-  }
-}
-
 .link-box {
   height: 100px;
   background-color: #fafafb;

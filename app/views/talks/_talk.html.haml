@@ -1,13 +1,12 @@
 - post = talk.acting_as
-.post-inline.talk-inline[post]
-  .post-inline__title
+.post[post]
+  .post__info
+    = render 'posts/post_inline_footer', obj: talk, show_issue: local_assigns[:show_issue]
+  %h4.post__title
     = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
       = talk.title
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }, class: 'text-muted' do
-      %small
-        %i.fa.fa-comment-o
-          %span.text-primary
-            = post.comments_count
-
-  .post-inline__footer
-    = render 'posts/post_inline_footer', obj: talk, show_issue: local_assigns[:show_issue]
+  .post__comment
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
+      = image_tag 'icon_comment.png'
+      %b
+        = post.comments_count
