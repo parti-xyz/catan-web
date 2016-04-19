@@ -149,24 +149,20 @@ var parti_prepare = function($base) {
   });
 
   //switch
-  parti_apply('[data-toggle="parti-switch"]', function(elm) {
+  parti_apply('[data-action="parti-switch"]', function(elm) {
     var $elm = $(elm);
-    if (!$elm.is(":hidden")) {
-      var $target = $($elm.data('switch-target'));
-      $target.hide();
-    }
     $elm.on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
+
       var $target = $($elm.data('switch-target'));
-      var $source = $($elm.data('switch-source'));
-      if($.is_blank($source)) {
-        $elm.hide();
-      } else {
-        $source.hide();
-      }
+      var $target_base = $($elm.data('switch-target-base'));
+      $target_base.hide();
       $target.show();
 
+      var $source_base = $($elm.data('switch-source-base'));
+      $source_base.removeClass("active");
+      $elm.addClass("active");
 
       var focus_id = $elm.data('focus');
       $focus = $(focus_id);
@@ -184,6 +180,19 @@ var parti_prepare = function($base) {
       var focus_id = $elm.data('focus');
       $focus = $(focus_id);
       $focus.focus();
+    });
+  });
+
+  //hide
+  parti_apply('[data-action="parti-hide"]', function(elm) {
+    $(elm).on('click', function(e) {
+      $.prevent_click_exclude_parti(e);
+      var $elm = $(e.currentTarget);
+      var $target = $($elm.data('hide-target'));
+      $target.hide();
+
+      var $inactive = $($elm.data('inactive-target'));
+      $inactive.removeClass('active');
     });
   });
 
@@ -435,11 +444,6 @@ var parti_prepare = function($base) {
       setTimeout(update_new_comments, polling_interval);
     }
     setTimeout(update_new_comments, polling_interval);
-  });
-
-  //hide
-  parti_apply('[data-toggle="parti-hide"]', function(elm) {
-    $(elm).hide();
   });
 
   $base.data('parti-prepare-arel', 'completed');
