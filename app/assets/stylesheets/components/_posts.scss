@@ -75,15 +75,12 @@ section#posts {
   }
   a {
     color: #333333;
+    line-height: 1.4em;
   }
   &__title {
     width: 93%;
     margin: 0;
-  }
-  &__comment {
-    position: absolute;
-    right: 20px;
-    top: 20px;
+    display: inline-block;
   }
 }
 
