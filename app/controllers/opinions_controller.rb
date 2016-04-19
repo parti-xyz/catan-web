@@ -61,7 +61,12 @@ class OpinionsController < ApplicationController
             @post.save
             file.unlink
           end
-          redirect_to @post.social_card.url
+          if @post.social_card.file.respond_to?(:url)
+            data = open @post.social_card.url
+            send_data data.read, filename: "social_card.png", :type => "image/png", disposition: 'inline', stream: 'true', buffer_size: '4096'
+          else
+              send_file(@post.social_card.path, :type => "image/png", :disposition => 'inline')
+          end
         end
       end
       format.html { render(layout: nil) }
