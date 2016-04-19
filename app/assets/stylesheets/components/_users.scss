@@ -203,9 +203,14 @@
 }
 .form-widget {
   background-color: #fff;
-  border: 1px solid $brand-primary;
-  padding: 15px;
-  margin-left: 79px;
+  border-top: 1px solid #bfa5eb;
+  border-right: 1px solid #bfa5eb;
+  border-bottom: 1px solid #bfa5eb;
+  -webkit-box-shadow: 4px 4px 4px 0px rgba(222, 221, 218, 1);
+  -moz-box-shadow:    4px 4px 4px 0px rgba(222, 221, 218, 1);
+  box-shadow:         4px 4px 4px 0px rgba(222, 221, 218, 1);
+  padding: 30px 30px 15px;
+  margin-left: 26px;
   position: relative;
   &__arrow {
     position: absolute;
@@ -215,13 +220,12 @@
   .input-group {
     width: 100%;
   }
-  input[type=text] {
+  input[type=text], textarea {
     border: none;
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
-    border-bottom: 2px solid #777;
-    padding-left: 0;
+    border: 1px solid #d2d2d2;
   }
   a {
     color: #777;
@@ -231,6 +235,36 @@
   }
   .btn-primary {
     min-width: 130px;
+  }
+  .btn-default {
+    margin-left: 0;
+  }
+  hr {
+    border-top: 4px solid #d2d2d2;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+}
+
+.textarea-box {
+  position: relative;
+  .img-circle {
+    position: absolute;
+    top: 20px;
+    left: 0;
+  }
+  .icon-tooltip {
+    position: absolute;
+    left: 15%;
+    margin-left: -14px;
+    margin-top: 35px;
+  }
+  textarea {
+    width: 85%;
+    height: 100px !important;
+    margin-left: 15%;
+    background-color: #fafafb;
+    color: #777;
   }
 }
 

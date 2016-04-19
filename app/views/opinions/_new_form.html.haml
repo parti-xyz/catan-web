@@ -7,19 +7,19 @@
       - else
         .form-group
           = f.collection_select :issue_id, Issue.featured_issues(current_user), :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control'}
-
-      .form-group.form-group-lg
-        = f.text_field :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
+      .form-group
+        = f.text_field :title, maxlength: 50, class: 'form-control', placeholder: '투표 내용을 적어주세요.'
         %p.help-block
-          라는 발언에 나는
-          %strong 찬성
-          합니다.
+          라는 투표에 찬성 합니다.
 
-      .form-group
-        %p.help-block 왜냐하면
-        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이유를 적어주세요' }
+      %hr
+      .form-group.textarea-box
+        = image_tag current_user.image.xs.url, class: 'img-circle circle-50 border-2-primary'
+        = image_tag 'icon_tooltip_left.png', class: 'icon-tooltip'
+        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '왜 이 내용에 찬성하시나요?' }
 
-      .form-group
+      .form-group.clearfix
         .pull-right
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border'
-        %a.btn.btn-default.btn-border{href: '#', data: {'switch-source': '#opinion-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", focus: 'input#opinion_title', 'disabled-typeahead-validation': 'true'}} 취소
+        .pull-right
+          %a.btn.btn-default.btn-border{href: '#', data: {'switch-source': '#opinion-form-widget', 'switch-target': "#editors-tab", toggle: "parti-switch", type: "button", focus: 'input#opinion_title', 'disabled-typeahead-validation': 'true'}} 취소
