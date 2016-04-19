@@ -38,21 +38,64 @@ footer {
   }
 }
 
-@media(max-width:767px){
-  body {
-    margin-bottom: 125px;
+/* parti-intro */
+.parti-intro {
+  position: relative;
+  img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
   }
-  footer#site-footer {
-    height: $footer-height - 125;
-    padding: 15px 0;
-      .site-footer__links {
-        line-height: 1.2;
-        text-align: left;
-        ul {
-          padding: 10px 0;
-          display: inline-block;
-        }
-      }
+  &__txt {
+    position: absolute;
+    top: 42%;
+    left: 27%;
+    h3 , a {
+      font-weight: bold;
+    }
+    a {
+      border: 5px solid #966fd6;
+      padding: 10px 15px;
+      display: inline-block;
+    }
   }
-
 }
+
+/* calendar */
+.issue-calendar {
+  color: #fff;
+  padding: 40px 0;
+  background-color: #271e44;
+  h2 {
+    padding-bottom: 55px;
+    border-bottom: 1px solid #3d3557;
+    display: inline-block;
+  }
+  .btn-primary {
+    marign-top: 10px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+  }
+}
+.calendar-box {
+  width: 371px;
+  height: 187px;
+  background-image: asset_url('bg_calendar1.png');
+  padding: 20px;
+  span {
+    color: #ffc152;
+  }
+  h4 {
+    margin-bottom: 20px;
+    display: inline-block;
+    color: #fff;
+  }
+  &.last {
+    background-image: asset_url('bg_calendar2.png');
+    span {
+      color: #59baa3;
+    }
+  }
+}
+

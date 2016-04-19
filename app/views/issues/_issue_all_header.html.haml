@@ -1,42 +1,82 @@
-- issue ||= @issue
-%section.issue-header-section
-  %section#issue
-    .container{ style: 'position: relative;' }
-      .jumbotron.jumbotron-transparent{ style: 'margin: 0; padding-left: 0; padding-right: 0;' }
-        .clearfix
-          = link_to issue_home_path(issue), style: 'text-decoration: none' do
-            .pull-left
-              = image_tag issue.logo_url, class: 'issue-logo'
-          %h4.issue-title
-            = link_to issue_home_path(issue), style: 'text-decoration: none' do
-              %span= issue.title
-              %small
-                %span
-                  - unless issue.is_all?
-                    - if can? :update, issue
-                      = link_to '수정', [:edit, issue]
-                    - if can? :destroy, issue
-                      = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
+%section
+  .parti-intro
+    = image_tag 'thumb_main_intro.png'
+    .parti-intro__txt
+      %h3
+        빠띠는 파티,
+        %br
+        수다가 정치가 되는 곳이에요.
+      = link_to '더 알아보기', about_path
+  .issue-calendar
+    .container
+      .row
+        .col-sm-2
+          %h2
+            빠띠
+            %br
+            %b 캘린더
+          = link_to '전체 빠띠', root_path, class: 'btn btn-primary'
+        .col-sm-5
+          .calendar-box
+            = link_to root_path do
+              %h4
+                세월호 빠띠
+                %span >
+            %p
+              2주기를 맞은 세월호 이슈,
+              %br
+              어떻게 진행되고 있는지 빠띠에서 확인해 보세요.
+        .col-sm-5
+          .calendar-box.last
+            = link_to root_path do
+              %h4
+                기본 소득
+                %span >
+            %p
+              매월 40만원의 기본소득을 받는다면,
+              %br
+              무엇을 하고 싶나요?
 
-          %div.issue-count
-            %span.comment-count
-              = link_to issue_home_path(issue) do
-                댓글
-                %span= issue.comments.count
-                - if issue.comments.latest.any?
-                  %small>= "+#{issue.posts.latest.count}"
-            %span.user-count
-              = link_to issue_users_path(issue) do
-                구독회원
-                %span= issue.watches.count
-              - if issue.watches.latest.any?
-                %small>= "+#{issue.watches.latest.count}"
 
-          - if local_assigns[:show_social_share]
-            = render 'issues/share'
+/ - issue ||= @issue
+/ %section.issue-header-section
+/   %section#issue
+/     .container{ style: 'position: relative;' }
+/       .jumbotron.jumbotron-transparent{ style: 'margin: 0; padding-left: 0; padding-right: 0;' }
+/         .clearfix
+/           = link_to issue_home_path(issue), style: 'text-decoration: none' do
+/             .pull-left
+/               = image_tag issue.logo_url, class: 'issue-logo'
+/           %h4.issue-title
+/             = link_to issue_home_path(issue), style: 'text-decoration: none' do
+/               %span= issue.title
+/               %small
+/                 %span
+/                   - unless issue.is_all?
+/                     - if can? :update, issue
+/                       = link_to '수정', [:edit, issue]
+/                     - if can? :destroy, issue
+/                       = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
 
-          %div
-            - unless issue.is_all?
-              %strong{ style: 'margin-right: 15px;' }
-                %span(class="#{dom_id(issue)}-watch")
-                  = render 'watches/watch', issue: issue
+/           %div.issue-count
+/             %span.comment-count
+/               = link_to issue_home_path(issue) do
+/                 댓글
+/                 %span= issue.comments.count
+/                 - if issue.comments.latest.any?
+/                   %small>= "+#{issue.posts.latest.count}"
+/             %span.user-count
+/               = link_to issue_users_path(issue) do
+/                 구독회원
+/                 %span= issue.watches.count
+/               - if issue.watches.latest.any?
+/                 %small>= "+#{issue.watches.latest.count}"
+
+/           - if local_assigns[:show_social_share]
+/             = render 'issues/share'
+
+/           %div
+/             - unless issue.is_all?
+/               %strong{ style: 'margin-right: 15px;' }
+/                 %span(class="#{dom_id(issue)}-watch")
+/                   = render 'watches/watch', issue: issue
