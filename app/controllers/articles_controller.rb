@@ -51,6 +51,7 @@ class ArticlesController < ApplicationController
     end
     prepare_meta_tags title: @article.title,
                       description: @article.body,
+                      image: (@article.image if @article.has_image?),
                       og_title: [@article.title, @article.site_name.try(:upcase)].reject { |c| c.blank? }.map(&:strip).join(' | ')
   end
 
