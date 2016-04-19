@@ -121,13 +121,13 @@ class Issue < ActiveRecord::Base
 
   def self.featured_issues(someone)
     result = []
-    result << someone.watched_issues if someone.present?
-    result << parti_issues
-    result.flatten.compact.uniq.sort_by { |i| [i.title] }
+    result << someone.watched_issues.order(title: :asc) if someone.present?
+    result << basic_issues
+    result.flatten.compact.uniq { |i| [i.title] }
   end
 
-  def self.parti_issues
-    Issue.where slug: %w(basic-income sewolho 20th-general-election)
+  def self.basic_issues
+    Issue.where basic: true
   end
 
   def counts_container

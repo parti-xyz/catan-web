@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418015045) do
+ActiveRecord::Schema.define(version: 20160419022659) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -35,8 +35,6 @@ ActiveRecord::Schema.define(version: 20160418015045) do
     t.string   "active",                     default: "on"
   end
 
-  add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"
-  add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
   add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
 
   create_table "comments", force: :cascade do |t|
@@ -65,17 +63,18 @@ ActiveRecord::Schema.define(version: 20160418015045) do
   add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at"
 
   create_table "issues", force: :cascade do |t|
-    t.string   "title",                        null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.string   "title",                         null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.text     "body"
     t.string   "logo"
     t.string   "cover"
     t.integer  "watches_count", default: 0
-    t.string   "slug",                         null: false
+    t.string   "slug",                          null: false
     t.integer  "posts_count",   default: 0
     t.datetime "deleted_at"
     t.string   "active",        default: "on"
+    t.boolean  "basic",         default: false
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at"
@@ -131,6 +130,9 @@ ActiveRecord::Schema.define(version: 20160418015045) do
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+
+# Could not dump table "old_articles" because of following NoMethodError
+#   undefined method `[]' for nil:NilClass
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false

@@ -101,7 +101,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic)
   end
 
   def prepare_issue_meta_tags
