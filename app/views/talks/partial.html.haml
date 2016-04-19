@@ -1,16 +1,12 @@
-%nav.navbar.navbar-default.navbar-fixed-top
-  .navbar-brand.navbar-issue
+.modal__top
+  .modal__info
     = link_to issue_home_path(@talk.issue) do
-      %i.fa.fa-hashtag>
-      = @talk.issue.title
-  %button(type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding-top: 10px; padding-right: 20px;")
-    %span(aria-hidden="true" style="font-size: 130%;") &times;
-.container{style: 'width: auto;'}
-  %section.post-section.talk-section
-    .text-center
-    %h2.post__title.talk__title= @talk.title
-
-    = render 'posts/post_header', post: @talk.acting_as, only_buttons: true
-
-  %section.post-comments-section
-    = render 'comments/comments', postable: @talk, style: :talk
+      = image_tag @talk.issue.logo.xs.url, class: 'circle-30 img-circle'
+      %span.text-primary= @talk.issue.title
+  %button.modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
+    = image_tag 'icon_close.png'
+.modal__content
+  %h2.text-center= @talk.title
+  = render 'posts/post_header', post: @talk.acting_as, only_buttons: true
+.modal__comment
+  = render 'comments/comments', postable: @talk, style: :talk

@@ -1,18 +1,14 @@
 %div{id: "#{dom_id(postable)}-comments" }
-  %h5
-    - if user_signed_in?
-      = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" } do
-        %i.fa.fa-comment-o
-        댓글작성
-    - else
-      = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' } do
-        %i.fa.fa-comment-o
-        댓글작성
-    %span.text-muted
-      (
+  - if user_signed_in?
+    = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" }, class: 'btn btn-default' do
+      = image_tag 'icon_comment_black.png'
+      댓글작성
+  - else
+    = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' }, class: 'btn btn-default'  do
+      = image_tag 'icon_comment_black.png'
+      댓글작성
       %span.comments--count<>= postable.comments.count
-      )
-  %ul.media-list(style='padding: 20px 0;')
+  %ul.comment-list.list-unstyled
     = render postable.comments.sequential, mention_form_contorl: '#new_comment #comment_body'
   - if user_signed_in?
     %a.anchor#comment-form
