@@ -6,15 +6,21 @@
       %br
       빠띠에서 파티하자
     .sign-up__form
-      = link_to omniauth_authorize_path(resource_name, :facebook), class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :facebook) }, class: 'btn-sns btn-block' do
         = image_tag 'icon_fb_color.png'
         페이스북 아이디로 빠띠하기
-      = link_to omniauth_authorize_path(resource_name, :twitter), class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :twitter) }, class: 'btn-sns btn-block' do
         = image_tag 'icon_tw_color.png'
         트위터 아이디로 빠띠하기
-      = link_to omniauth_authorize_path(resource_name, :google_oauth2), class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) }, class: 'btn-sns btn-block' do
         = image_tag 'icon_gp_color.png'
         구글플러스 아이디로 빠띠하기
+      #login-form
+        = form_tag nil, method: :get, style: 'margin: 10px 15px;' do
+          = hidden_field_tag(:after_login)
+          %label.remember_me
+            = check_box_tag(:remember_me, '1', true)
+            로그인 상태를 유지
 
       .devider
         %span 또는
