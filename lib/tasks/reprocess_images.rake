@@ -14,7 +14,7 @@ namespace :images do
                 model.save!
               end
             end
-          rescue CarrierWave::ProcessingError
+          rescue
           end
         end
       end

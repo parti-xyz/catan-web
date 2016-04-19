@@ -15,6 +15,11 @@ Article.all.select { |a| Article.joins(:post).where('issue_id': a.issue_id, link
 $ bundle exec rake crawling:reload_all
 ```
 
+이미지 프로세싱을 다시 합니다
+
+```
+$ nohup bin/rake images:reprocess RAILS_ENV=staging > ~/nohup4.out 2>&1&
+```
 
 ## 배포
 
