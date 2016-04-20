@@ -21,6 +21,7 @@ class OpinionsController < ApplicationController
     if @opinion.update_attributes(update_params)
       redirect_to @opinion
     else
+      errors_to_flash @opinion
       render 'edit'
     end
   end
@@ -100,6 +101,6 @@ class OpinionsController < ApplicationController
 
   def set_issue
     @issue ||= Issue.find_by id: params[:opinion][:issue_id]
-    @opinion.issue = @issue
+    @opinion.issue = @issue.presence || @opinion.issue
   end
 end

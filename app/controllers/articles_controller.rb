@@ -34,6 +34,7 @@ class ArticlesController < ApplicationController
         need_to_crawl = true
         redirect_to @article
       else
+        errors_to_flash(@article)
         render 'edit'
       end
     end

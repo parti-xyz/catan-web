@@ -110,4 +110,8 @@ class ApplicationController < ActionController::Base
   def meta_issue_full_title(issue)
     "#{meta_issue_title(issue)} | #{default_meta_options[:site_name]}"
   end
+
+  def errors_to_flash(model)
+    flash[:notice] = model.errors.full_messages.join('<br>').html_safe
+  end
 end

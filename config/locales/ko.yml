@@ -37,15 +37,18 @@ ko:
         logo: 대표 이미지
         cover: 커버 이미지
       article:
+        issue: 빠띠
         title: 제목
         body: 내용
         link: 링크
         tag_list: 태그
       opinion:
+        issue: 빠띠
         title: 제목
         body: 내용
         tag_list: 태그
       talk:
+        issue: 빠띠
         title: 주제
       user:
         email: 이메일

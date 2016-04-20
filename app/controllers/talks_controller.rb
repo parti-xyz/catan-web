@@ -21,6 +21,7 @@ class TalksController < ApplicationController
     if @talk.update_attributes(talk_params)
       redirect_to @talk
     else
+      errors_to_flash @talk
       render 'edit'
     end
   end

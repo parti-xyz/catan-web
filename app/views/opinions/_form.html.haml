@@ -1,18 +1,9 @@
 .well
   = form_for @opinion do |f|
-    .form-group
-      .row
-        .col-xs-4
-          = text_field_tag :issue_title, @opinion.issue.try(:title), class: 'form-control typeahead', placeholder: '빠띠 제목', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title', 'title' => @opinion.issue.try(:title) }
-          %p.help-block
-        .col-xs-8
-          %p.form-control-static
-            빠띠 * 와 관련하여
-
     .form-group.form-group-lg
       = f.text_field :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
       %p.help-block
-        라는 발언 * 에 나는
+        라는 투표에 나는
         - if @opinion.new_record?
           %strong 찬성
         - else

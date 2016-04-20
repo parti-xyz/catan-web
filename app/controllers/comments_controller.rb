@@ -28,7 +28,12 @@ class CommentsController < ApplicationController
         end
         @comment.assign_attributes(comment_params)
         unless @comment.save
-          return head(:internal_server_error)
+          if @comment.errors.any?
+            errors_to_flash(@comment)
+            @comment.reload
+          else
+            return head(:internal_server_error)
+          end
         end
       end
       crawl if need_to_crawl
