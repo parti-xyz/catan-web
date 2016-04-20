@@ -6,7 +6,6 @@
       .col-sm-9
         %section#content-tab-section
           = render 'dashboard/content_tabs', active_tab: :opinions, counts_container: current_user.watched_counts
-        = render 'opinions/new_form', issue: Issue::OF_ALL
         = render 'opinions/cards', opinions: @opinions, issue: Issue::OF_ALL
       = render 'aside'
 

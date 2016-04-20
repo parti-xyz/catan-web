@@ -1,3 +1,4 @@
+- issue ||= Issue::OF_ALL
 - if user_signed_in?
   #opinion-form-widget.form-widget-container.bg-line
     = form_for Opinion.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|
