@@ -12,11 +12,10 @@
               %span= issue.title
               %small
                 %span
-                  - unless issue.is_all?
-                    - if can? :update, issue
-                      = link_to '수정', [:edit, issue]
-                    - if can? :destroy, issue
-                      = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
+                  - if can? :update, issue
+                    = link_to '수정', [:edit, issue]
+                  - if can? :destroy, issue
+                    = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
 
           %div.issue-count
             %span.comment-count
@@ -36,7 +35,6 @@
             = render 'issues/share'
 
           %div
-            - unless issue.is_all?
-              %strong{ style: 'margin-right: 15px;' }
-                %span(class="#{dom_id(issue)}-watch")
-                  = render 'watches/watch', issue: issue
+            %strong{ style: 'margin-right: 15px;' }
+              %span(class="#{dom_id(issue)}-watch")
+                = render 'watches/watch', issue: issue
