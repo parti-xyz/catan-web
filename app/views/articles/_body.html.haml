@@ -1,12 +1,12 @@
 .post__body.article__body
   .media
     - if (@article.body || '').length > 500
-      .media-body
+      .media-body{style: 'padding: 20px;'}
         = smart_format(@article.body)
         - if @article.link_source.present? and !@article.hidden?
-          = link_to @article.link, target: '_blank' do
-            %i.fa.fa-link
-            링크 #{truncate @article.link, length: 50}
+          = link_to @article.link, class: 'text-primary', target: '_blank' do
+            = image_tag 'icon_link.png'
+            #{truncate @article.link, length: 50}
       - if @article.has_image?
         .media-right
           %div{style: 'max-height: 300px'}
@@ -18,14 +18,15 @@
           .article__body__video-container
             = video_embed_code(@article)
         - elsif @article.has_image?
-          .text-center{style: 'margin-bottom: 20px;'}
+          .article__body__img-container
             = link_to @article.link, target: '_blank' do
               = image_tag(@article.image.lg.url)
 
 
-
-        = smart_format(@article.body)
-        - if @article.link_source.present? and !@article.hidden?
-          = link_to @article.link, target: '_blank' do
-            %i.fa.fa-link
-            링크 #{truncate @article.link, length: 50}
+        .article__body__text-container
+          = smart_format(@article.body)
+        .article__body__link-container
+          - if @article.link_source.present? and !@article.hidden?
+            = link_to @article.link, class: 'text-primary', target: '_blank' do
+              = image_tag 'icon_link.png'
+              #{truncate @article.link, length: 50}

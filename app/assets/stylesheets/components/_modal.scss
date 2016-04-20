@@ -29,6 +29,7 @@
     font-weight: bold;
     color: #222;
     line-height: 1.4em;
+    margin: 0;
   }
 }
 
@@ -66,10 +67,29 @@
     -moz-box-shadow: none;
     box-shadow: none;
   }
-  .post__body {
-    margin-top: 20px;
-    margin-bottom: 20px;
+}
+
+.post__body {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  .media {
+    border: 1px solid #bfa5eb;
+    margin-top: 40px;
   }
+}
+.article__body__img-container {
+  img {
+    width: 100%;
+  }
+}
+.article__body__text-container {
+  padding: 25px;
+  color: #777777;
+}
+.article__body__link-container {
+  background: #fafafb;
+  border: 1px solid #f1f1f1;
+  padding: 10px 20px;
 }
 
 .comment-form {
