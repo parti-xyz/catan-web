@@ -114,9 +114,47 @@
   left: 0;
   right: 0;
   margin: auto;
-  background: $gray-lighter;
+  background-color: rgba(83,83,86,0.8);
   z-index: 9999;
-  opacity: .95;
+}
+.login-box {
+  width: 700px;
+  height: 600px;
+  background-color: #fff;
+  margin: 12% auto;
+  &__title {
+    padding: 20px;
+    color: #333;
+    border-bottom: 1px solid #d2d2d2;
+    position: relative;
+    h3 {
+      margin: 0;
+    }
+  }
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    padding: 23px;
+    border-left: 1px solid #d2d2d2;
+  }
+  &__txt {
+    color: #222;
+    font-weight: bold;
+    text-align: center;
+    margin: 60px 0;
+  }
+  &__content {
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  &__link {
+    color: $brand-primary;
+    font-weight: bold;
+    font-size: 14px;
+  }
 }
 
 #user-gallery {

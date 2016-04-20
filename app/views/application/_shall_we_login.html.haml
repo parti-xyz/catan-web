@@ -1,37 +1,33 @@
-#login-overlay
-  .wrapper{style: 'height: 100%; width: 100%;'}
-    .pull-right{ style: "font-size: 300%; margin: 5px 20px;"}
-      %a.text-muted{href: "#", "data-dismiss": "parti-login-overlay", type: "button"}
-        %i.fa.fa-times
-    .content{style: 'text-align: center; margin: auto; width: 250px; height: 100%;'}
-      %div{style: 'position: absolute; top: 30%;'}
-        .clearfix
-          %p
-            = link_to '#', class: 'btn btn-primary btn-lg btn-block', style: 'margin-top: 0.5em;', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :facebook) } do
-              %i.fa.fa-facebook
-              페이스북아이디로&nbsp;
-              %span.login-overlay__label>
-              하기
-            = link_to '#', class: 'btn btn-primary btn-lg btn-block', style: 'margin-top: 0.5em', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :twitter) } do
-              %i.fa.fa-twitter
-              트위터아이디로&nbsp;
-              %span.login-overlay__label>
-              하기
-            = link_to '#', class: 'btn btn-primary btn-lg btn-block', style: 'margin-top: 0.5em', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) } do
-              %i.fa.fa-google-plus
-              구글플러스아이디로&nbsp;
-              %span.login-overlay__label>
-              하기
-          = form_tag nil, method: :get do
-            = hidden_field_tag(:after_login)
-            .pull-right
-              %label{ style: 'font-weight: normal'}
-                = check_box_tag(:remember_me, '1', true)
-                로그인 유지
-        %p.text-center{ style: 'margin-top: 20px;' }
-          혹은
-          = link_to new_user_session_path do
-            이메일로 로그인 후&nbsp;
-            %span.login-overlay__label>
-            합니다
+#login-overlay.login-overlay
+  .login-box
+    .login-box__title
+      %h3 로그인
+      %a.login-box__close{href: "#", "data-dismiss": "parti-login-overlay", type: "button"}
+        = image_tag 'icon_close.png'
+    %h1.login-box__txt
+      수다로 정치하자,
+      %br
+      빠띠에서 파티하자
+    .login-box__content
+      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :facebook) } do
+        = image_tag 'icon_fb_color.png'
+        페이스북 아이디로 빠띠하기
+      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :twitter) } do
+        = image_tag 'icon_tw_color.png'
+        트위터 아이디로 빠띠하기
+      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) } do
+        = image_tag 'icon_gp_color.png'
+        구글플러스 아이디로 빠띠하기
+      / .login-box__remember
+      /   = form_tag nil, method: :get do
+      /     = hidden_field_tag(:after_login)
+      /     %label.remember_me
+      /       = check_box_tag(:remember_me, '1', true)
+      /       로그인 상태를 유지
+
+      .devider
+        %span{style: 'background: #fff'} 또는
+
+      = link_to new_user_session_path, class: 'login-box__link' do
+        이메일로 로그인
 
