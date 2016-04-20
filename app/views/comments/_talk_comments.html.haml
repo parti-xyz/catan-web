@@ -14,7 +14,7 @@
     %a.anchor#comment-form
     .comment-form.clearfix
       = form_for [postable.acting_as, Comment.new], remote: true, class: 'comment-form' do |f|
-        = hidden_field_tag :container, "##{dom_id(postable)}-comments ul.media-list"
+        = hidden_field_tag :container, "##{dom_id(postable)}-comments ul.comment-list"
         = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count"
         = hidden_field_tag :body_control, "##{dom_id(postable)}-comments form #comment_body"
         = image_tag current_user.image.xs.url, class: 'circle-50 img-circle comment-form__img'
