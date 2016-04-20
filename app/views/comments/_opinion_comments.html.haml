@@ -3,73 +3,65 @@
   %h5
     - if user_signed_in?
       - if postable.voted_by? current_user
-        = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" } do
-          %i.fa.fa-comment-o
+        = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" }, class: 'btn btn-default' do
+          = image_tag 'icon_comment_black.png'
           댓글작성
       - else
         .well
           %i.fa.fa-info-circle
           투표 후에 댓글을 남길 수 있습니다.
     - else
-      = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' } do
-        %i.fa.fa-comment-o
+      = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' }, class: 'btn btn-default' do
+        = image_tag 'icon_comment_black.png'
         댓글작성
-  .tabs{style: 'margin-bottom: 20px;'}
-    %ul.nav.nav-tabs.nav-justified.hidden-xs
+  .tabs.vote__tab
+    %ul.nav.nav-tabs
       %li{class: ('active' unless disagree_active) }
         %a(href="#agree" role="tab" data-toggle="tab")
           %strong
-            찬성 댓글
-            (
-            %span.comments--count__agree<>= postable.comments.agreed.count
-            )
+            찬성댓글
+          %span.comments--count.comments--count__agree<>= postable.comments.agreed.count
       %li{class: ('active' if disagree_active) }
         %a(href="#disagree" role="tab" data-toggle="tab")
           %strong
-            반대 댓글
-            (
-            %span.comments--count__disagree<>= postable.comments.disagreed.count
-            )
+            반대댓글
+          %span.comments--count.comments--count__disagree<>= postable.comments.disagreed.count
     %ul.nav.nav-tabs.visible-xs
       %li{class: ('active' unless disagree_active) }
         %a(href="#agree" role="tab" data-toggle="tab")
           %strong
-            찬성 댓글
-            (
-            %span.comments--count__agree<>= postable.comments.agreed.count
-            )
+            찬성댓글
+          %span.comments--count.comments--count__agree<>= postable.comments.agreed.count
       %li{class: ('active' if disagree_active) }
         %a(href="#disagree" role="tab" data-toggle="tab")
           %strong
-            반대 댓글
-            (
-            %span.comments--count__disagree<>= postable.comments.disagreed.count
-            )
+            반대댓글
+          %span.comments--count.comments--count__disagree<>= postable.comments.disagreed.count
   .tab-content
     .tab-pane#agree{class: ('active' if !user_signed_in? or (postable.agreed_by? current_user and postable.voted_by current_user) or (user_signed_in? and !postable.voted_by current_user)) }
       - if postable.comments.agreed.empty?
         .well
           %i.fa.fa-info-circle
           찬성 댓글이 없습니다.
-      %ul.media-list(style='padding: 20px 0;')
+      %ul.media-list
         = render postable.comments.sequential.recent, style: :media, mention_form_contorl: '#new_comment #comment_body'
     .tab-pane#disagree{class: ('active' if user_signed_in? and postable.disagreed_by? current_user) }
       - if postable.comments.disagreed.empty?
-        .well
+        .well{style: 'background: #fff;'}
           %i.fa.fa-info-circle
           반대 댓글이 없습니다.
-      %ul.media-list(style='padding: 20px 0;')
+      %ul.media-list
         = render postable.comments.disagreed.sequential, mention_form_contorl: '#new_comment #comment_body'
   - if user_signed_in? and postable.voted_by? current_user
     %a.anchor#comment-form
-    .comment-form
+    .comment-form.clearfix
       = form_for [postable.acting_as, Comment.new], remote: true, class: 'comment-form' do |f|
         = hidden_field_tag :container, "##{dom_id(postable)}-comments ##{postable.voted_by(current_user).choice} ul.media-list"
-        = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count__#{postable.voted_by(current_user).choice}"
+        = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count.comments--count__#{postable.voted_by(current_user).choice}"
         = hidden_field_tag :body_control, "##{dom_id(postable)}-comments .comment-form textarea#comment_body"
-        .form-group
-          .input-group
-            = f.text_area :body, class: 'form-control', style: 'height: 60px;'
-            .input-group-btn
-              = f.submit '저장', class: 'btn btn-default', style: 'height: 60px;'
+        = image_tag current_user.image.xs.url, class: 'circle-50 img-circle comment-form__img'
+        .comment-form__area
+          = image_tag 'icon_tooltip_left2.png'
+          = f.text_area :body, class: 'form-control'
+        = f.submit '게시', class: 'btn btn-default btn-primary comment-form__btn'
 

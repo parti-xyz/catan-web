@@ -133,3 +133,45 @@
   }
 }
 
+.vote__tab {
+  margin-bottom: 20px;
+  .nav-tabs {
+    text-align: center;
+    border-color: #d2d2d2;
+    li {
+      float: none;
+      display: inline-block;
+      margin: 0 20px;
+      &.active a , &:hover a, &:focus a, &:visited a {
+        color: $brand-primary;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #966fd6;
+      }
+      a {
+        font-size: 18px;
+        border: none;
+        padding: 10px 5px;
+        color: #777;
+        position: relative;
+      .comments--count {
+        top: 0px;
+        left: 73px;
+        }
+      }
+    }
+  }
+}
+.opinion__body {
+  .opinion__title {
+    margin-bottom: 40px;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .vote__results {
+    .col-xs-6 {
+      padding: 0 3px;
+    }
+  }
+}

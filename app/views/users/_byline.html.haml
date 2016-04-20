@@ -1,7 +1,5 @@
 = link_to user_gallery_path(user), class: 'text-nowrap' do
   - unless local_assigns[:hide_image]
-    = image_tag user.image.sm.url, class: 'user-image img-circle'
-  - else
-    %i.fa.fa-at>
-  - unless local_assigns[:hide_nickname]
-    = user.nickname
+    = image_tag user.image.sm.url, { class: 'circle-30 img-circle', "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
+
+

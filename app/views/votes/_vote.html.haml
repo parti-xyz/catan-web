@@ -29,10 +29,7 @@
               %p.count= opinion.votes.with_choice(:agree).count
           %div.voters
             - opinion.votes.with_choice(:agree).partial_included_with(current_user).each do |vote|
-              - if vote.user == current_user
-                %strong= byline vote.user
-              - else
-                = byline vote.user
+              = byline vote.user
         .col-xs-6.text-left
           %div{ style: 'padding-bottom: 20px;' }
             = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
@@ -42,10 +39,7 @@
               %p.count= opinion.votes.with_choice(:disagree).count
           %div.voters
             - opinion.votes.with_choice(:disagree).partial_included_with(current_user).each do |vote|
-              - if vote.user == current_user
-                %strong= byline vote.user
-              - else
-                = byline vote.user
+              = byline vote.user
   - else
     .vote__buttons.text-center
       = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-ghost' do

@@ -519,3 +519,7 @@ $(function(){
   });
 });
 
+// modal tooltip
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+});
