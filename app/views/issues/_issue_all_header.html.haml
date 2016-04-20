@@ -16,27 +16,27 @@
             빠띠
             %br
             %b 캘린더
-          = link_to '전체 빠띠', root_path, class: 'btn btn-primary'
+          = link_to '전체 빠띠', issues_path, class: 'btn btn-primary'
         .col-sm-5
-          .calendar-box
-            = link_to root_path do
+          = link_to slug_issue_path('sewolho') do
+            .calendar-box
               %h4
                 세월호 빠띠
                 %span >
-            %p
-              2주기를 맞은 세월호 이슈,
-              %br
-              어떻게 진행되고 있는지 빠띠에서 확인해 보세요.
+              %p
+                2주기를 맞은 세월호 이슈,
+                %br
+                어떻게 진행되고 있는지 빠띠에서 확인해 보세요.
         .col-sm-5
-          .calendar-box.last
-            = link_to root_path do
+          = link_to slug_issue_path('basic-income') do
+            .calendar-box.last
               %h4
                 기본 소득
                 %span >
-            %p
-              매월 40만원의 기본소득을 받는다면,
-              %br
-              무엇을 하고 싶나요?
+              %p
+                매월 40만원의 기본소득을 받는다면,
+                %br
+                무엇을 하고 싶나요?
 
 
 / - issue ||= @issue

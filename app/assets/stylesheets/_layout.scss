@@ -91,6 +91,9 @@ footer {
     display: inline-block;
     color: #fff;
   }
+  p {
+    color: #fff;
+  }
   &.last {
     background-image: asset_url('bg_calendar2.png');
     span {
