@@ -1,12 +1,13 @@
 %section
-  .parti-intro
-    = image_tag 'thumb_main_intro.png'
-    .parti-intro__txt
-      %h3
-        빠띠는 파티,
-        %br
-        수다가 정치가 되는 곳이에요.
-      = link_to '더 알아보기', about_path
+  - if current_page?(controller: 'issues', action: 'slug_comments')
+    .parti-intro
+      = image_tag 'thumb_main_intro.png'
+      .parti-intro__txt
+        %h3
+          빠띠는 파티,
+          %br
+          수다가 정치가 되는 곳이에요.
+        = link_to '더 알아보기', about_path
   .issue-calendar
     .container
       .row
