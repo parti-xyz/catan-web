@@ -72,12 +72,13 @@ class OpenGraph
     @images.each do |image|
       begin
         bin = @agent.get(image)
-        image_size = FastImage.new(bin.body_io, proxy: proxy_for_fast_image).size
+        fast_image = FastImage.new(bin.body_io, proxy: proxy_for_fast_image)
+        image_size = fast_image.size
         next if image_size.nil?
-        bins_with_size << [bin, image_size]
+        bins_with_size << [bin, fast_image]
 
         if image_size[0] > 200 and image_size[1] > 200
-          set_image_io(bin)
+          set_image_io(bin, fast_image)
           break
         end
       rescue
@@ -86,14 +87,14 @@ class OpenGraph
     if @image_io.blank? and bins_with_size.present?
       bins_with_size.each do |m|
         bin = m[0]
-        image_size = m[1]
+        fast_image = m[1]
+        image_size = fast_image.size
         if image_size[0] > 100 and image_size[1] > 100
-          set_image_io(bin)
+          set_image_io(bin, fast_image)
           break
         end
       end
     end
-    set_image_io(bins_with_size.first[0]) if @image_io.blank? and bins_with_size.present?
   end
 
   def proxy_for_fast_image
@@ -101,10 +102,18 @@ class OpenGraph
     "http//:#{ENV['CRAWLING_PROXY_HOST']}:#{ENV['CRAWLING_PROXY_PORT']}"
   end
 
-  def set_image_io(bin)
+  def set_image_io(bin, fast_image)
     @image_io = bin.body_io
     @image_io.class.class_eval { attr_accessor :original_filename }
-    @image_original_filename = @image_io.original_filename = bin.filename
+    @image_original_filename = @image_io.original_filename = filename_from_bin(bin, fast_image)
+  end
+
+  def filename_from_bin(bin, fast_image)
+    if ".#{fast_image.type}" != File.extname(bin.filename)
+      "#{File.basename(bin.filename, File.extname(bin.filename))}.#{fast_image.type}"
+    else
+      bin.filename
+    end
   end
 
   def fallback_encoding
