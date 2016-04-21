@@ -5,7 +5,7 @@ module PartiUrlHelper
   end
 
   def issue_home_url(issue)
-    slug_issue_path(slug: issue.slug)
+    slug_issue_url(slug: issue.slug)
   end
 
   def issue_articles_path(issue)
