@@ -8,6 +8,10 @@ module ApplicationHelper
     content_tag(:i, nil, class: classes)
   end
 
+  def excerpt(text)
+    truncate((strip_tags(text).html_safe), length: 200)
+  end
+
   def date_f(date)
     if date.today?
       date.strftime("%H:%M")
