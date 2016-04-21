@@ -62,7 +62,7 @@ class IssuesController < ApplicationController
     if @issue.save
       redirect_to @issue
     else
-      errors_to_flash @article
+      errors_to_flash @issue
       render 'edit'
     end
   end
