@@ -41,6 +41,7 @@ footer {
 /* parti-intro */
 .parti-intro {
   position: relative;
+  min-width: 1140px;
   img {
     width: 100%;
     max-width: 100%;
@@ -48,15 +49,26 @@ footer {
   }
   &__txt {
     position: absolute;
-    top: 42%;
-    left: 27%;
-    h3 , a {
+    top: 120px;
+    left: 50%;
+    margin-left: -250px;
+    color: #000;
+    font-size: 18px;
+    text-align: center;
+    .title {
       font-weight: bold;
+      margin-bottom: 20px;
     }
-    a {
-      border: 5px solid #966fd6;
-      padding: 10px 15px;
-      display: inline-block;
+    p {
+     margin: 0;
+    }
+  }
+  .bg-black {
+    background: #000;
+    color: #fff;
+    span {
+      margin-right: -3px;
+      margin-left: 7px;
     }
   }
 }
