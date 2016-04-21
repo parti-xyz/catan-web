@@ -16,10 +16,10 @@
       = link_to slug_issue_path(slug: Issue::SLUG_OF_ASK_PARTI) do
         제안 및 의견
   .footer-sns
-    %a{:href => 'https://facebook.com/parti.xyz'}
+    %a{href: 'https://facebook.com/parti.xyz', target: '_blank'}
       = image_tag 'icon_fb.png', alt: 'btn-facebook'
-    %a{:href => 'https://twitter.com/parti_xyz'}
+    %a{href: 'https://twitter.com/parti_xyz', target: '_blank'}
       = image_tag 'icon_tw.png', alt: 'btn-twitter'
-    %a{:href => 'https://medium.com/parti-xyz-developers'}
+    %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
       = image_tag 'icon_me.png', alt: 'btn-medium'
   = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
