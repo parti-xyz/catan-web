@@ -11,15 +11,14 @@
           잊고 싶지 않은 이슈를 알리고 정치, 사회에 대한 내 의견을 쌓아가는 곳.
           %br
           누구나에게 열려있는 공론장, 빠띠에 와서 이야기를 나눠 보세요.
-          %br
-          잊혀지지 않도록 작은 노력을 이어 간다면,
+
         %p.text.bg-black
           %span= Issue.count
           개 빠띠에서
           %span= User.count
           명이 나누는
           %span= Comment.count
-          개의 수다는 정치가 될 수 있을 거에요
+          개의 수다가 모여 정치가 됩니다.
           &nbsp;
   .issue-calendar
     .container
@@ -31,7 +30,7 @@
             %b 빠띠
           = link_to '전체 빠띠', issues_path, class: 'btn btn-primary'
         .col-sm-5
-          = link_to slug_issue_path('sewolho') do
+          = link_to slug_issue_path('20th-assembly') do
             .calendar-box
         .col-sm-5
           = link_to slug_issue_path('basic-income') do
