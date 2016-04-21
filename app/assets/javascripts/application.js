@@ -408,7 +408,6 @@ var parti_prepare = function($base) {
 
     $(document).on('click', close_form);
     $(document).on('parti-click', close_form);
-    $(document).ajaxStart(close_form);
   });
 
   //permalink post
