@@ -15,18 +15,18 @@
         = image_tag 'icon_comment_black.png'
         댓글작성
   .tabs.vote__tab
+    / %ul.nav.nav-tabs
+    /   %li{class: ('active' unless disagree_active) }
+    /     %a(href="#agree" role="tab" data-toggle="tab")
+    /       %strong
+    /         찬성댓글
+    /       %span.comments--count.comments--count__agree<>= postable.comments.agreed.count
+    /   %li{class: ('active' if disagree_active) }
+    /     %a(href="#disagree" role="tab" data-toggle="tab")
+    /       %strong
+    /         반대댓글
+    /       %span.comments--count.comments--count__disagree<>= postable.comments.disagreed.count
     %ul.nav.nav-tabs
-      %li{class: ('active' unless disagree_active) }
-        %a(href="#agree" role="tab" data-toggle="tab")
-          %strong
-            찬성댓글
-          %span.comments--count.comments--count__agree<>= postable.comments.agreed.count
-      %li{class: ('active' if disagree_active) }
-        %a(href="#disagree" role="tab" data-toggle="tab")
-          %strong
-            반대댓글
-          %span.comments--count.comments--count__disagree<>= postable.comments.disagreed.count
-    %ul.nav.nav-tabs.visible-xs
       %li{class: ('active' unless disagree_active) }
         %a(href="#agree" role="tab" data-toggle="tab")
           %strong
