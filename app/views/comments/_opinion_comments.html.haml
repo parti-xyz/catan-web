@@ -44,7 +44,7 @@
           %i.fa.fa-info-circle
           찬성 댓글이 없습니다.
       %ul.media-list
-        = render postable.comments.sequential.recent, style: :media, mention_form_contorl: '#new_comment #comment_body'
+        = render postable.comments.agreed.sequential, style: :media, mention_form_contorl: '#new_comment #comment_body'
     .tab-pane#disagree{class: ('active' if user_signed_in? and postable.disagreed_by? current_user) }
       - if postable.comments.disagreed.empty?
         .well{style: 'background: #fff;'}
