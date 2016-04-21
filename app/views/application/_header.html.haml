@@ -4,10 +4,8 @@
       %a.navbar-brand{ href: root_path }
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
       %a{ href: dashboard_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
-        %b.hidden-xs
+        %b
           내 빠띠
-        %span.visible-xs-inline
-          %i.fa.fa-home
 
     .navbar-sign
       - if user_signed_in?

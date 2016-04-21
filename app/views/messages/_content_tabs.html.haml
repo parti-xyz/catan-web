@@ -1,6 +1,6 @@
 .nav-tabs.message-tab
   %h4 알림
-  .nav-tabs__count.hidden-xs
+  .nav-tabs__count
     %small= @user.messages.count
     - if @user.messages.latest.any?
       %small.text-primary<>
