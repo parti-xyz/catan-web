@@ -14,7 +14,10 @@
           = link_to destroy_user_session_path, class: 'user-link', method: :delete do
             = image_tag 'icon_logout.png'
           = link_to messages_path, class: 'user-link' do
-            = image_tag 'icon_bell.png'
+            - if current_user.unread_messages_count > 0
+              = image_tag 'icon_bell_dot.png'
+            - else
+              = image_tag 'icon_bell.png'
       - else
         .navbar-sign__up= link_to '로그인/회원가입', new_user_session_path
 
