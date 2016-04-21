@@ -1,44 +1,32 @@
 .bs-component
   %section#sign-up
-    .container
-      .row
-        .col-md-offset-3.col-md-6
-          - if resource.provider == 'email'
-            %h2.page-header 회원가입
-          - else
-            %h2.page-header 빠띠에 처음 오셨군요!
-          = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-            = devise_error_messages!
-            = f.hidden_field :provider
-            = f.hidden_field :remember_me
+    %h4.sign-up__title 아이디
+    %h2.text-center.sign-up__txt
+      빠띠에서 당신의 이름이 될
+      %br
+      멋진 아이디를 만들어주세요.
+    .sign-up__form
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = devise_error_messages!
+        = f.hidden_field :provider
+        = f.hidden_field :remember_me
+        .form-group
+          = f.label :nickname do
+            빠띠에서 사용할 아이디를 넣어 주세요.
+          = f.text_field :nickname, autofocus: true, class: 'form-control'
+          .text-primary
+            * 알파벳, 숫자, _ 만 가능합니다.
+        .form-group
+          = f.submit '계속하기', class: 'btn btn-primary btn-block'
 
-            .form-group
-              = f.label :nickname do
-                빠띠에서 사용할 아이디를 넣어 주세요.
-              = f.text_field :nickname, autofocus: true, class: 'form-control'
-            - if resource.provider == 'email'
-              .form-group
-                = f.label :email
-                - if resource.provider == 'email'
-                  = f.email_field :email, autofocus: true, class: 'form-control'
-                - else
-                  %div= f.object.email
-              .form-group
-                = f.label :image
-                - if resource.provider != 'email' && f.object.remote_image_url.present?
-                  %div
-                    = image_tag f.object.remote_image_url, class: 'thumbnail', style: 'max-width: 10em; height: auto'
-                = f.file_field :image, autofocus: true, class: 'form-control'
-                = f.hidden_field :image_cache
-              .form-group
-                = f.label :password
-                - if @minimum_password_length
-                  %em
-                    (#{@minimum_password_length} 글자 이상 넣어주세요)
-                = f.password_field :password, autocomplete: "off", class: 'form-control'
-              .form-group
-                = f.label :password_confirmation
-                = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'
-            = f.submit '계속하기', class: 'btn btn-danger'
-          - if resource.provider == 'email'
-            = render "devise/shared/links"
+        = form_tag nil, method: :get do
+          = hidden_field_tag(:after_login)
+          %label.remember_me
+            "계속하기"를 클릭하면
+            %a.text-primary{href: '/terms', target: '_blank'}
+              %b 이용약관
+            ,
+            %a.text-primary{href: '/privacy', target: '_blank'}
+              %b 개인정보처리
+            방침 내용을 이해하고
+            동의하게 됩니다.

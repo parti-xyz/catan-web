@@ -41,34 +41,4 @@
 
       = render "devise/shared/links"
 
-/ 아이디 입력
 
-/ .bs-component
-/   %section#sign-up
-/     %h4.sign-up__title 아이디
-/     %h2.text-center.sign-up__txt
-/       빠띠에서 당신의 이름이 될
-/       %br
-/       멋진 아이디를 만들어주세요.
-/     .sign-up__form
-/       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-/         = f.hidden_field :provider, value: 'email'
-/         .form-group
-/           = f.email_field :email, placeholder: '이메일을 입력하세요', autofocus: true, class: 'form-control'
-/           .text-primary
-/             * 알파벳, 숫자, _ 만 가능합니다.
-/         .form-group
-/           = f.submit '로그인', class: 'btn btn-primary btn-block'
-
-/         = form_tag nil, method: :get do
-/           = hidden_field_tag(:after_login)
-/           %label.remember_me
-/             = check_box_tag(:remember_me, '1', true)
-/             나는
-/             %a.text-primary{href: '/terms', target: '_blank'}
-/               %b 이용약관
-/             ,
-/             %a.text-primary{href: '/privacy', target: '_blank'}
-/               %b 개인정보처리
-/             방침 내용을 이해하고
-/             동의합니다.
