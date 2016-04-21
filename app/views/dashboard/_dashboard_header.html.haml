@@ -2,12 +2,11 @@
   .container
     .jumbotron.jumbotron-transparent
       %h4
-        %i.fa.fa-at>
-        = current_user.nickname
-        %span{ style: 'font-weight: 100'}
-          님의 빠띠
+        내 빠띠
       %p
-        구독 중인 빠띠의 #{Article.model_name.human}, #{Talk.model_name.human}, #{Opinion.model_name.human}을 모았습니다.
+        %i.fa.fa-at>
+          = current_user.nickname
+          님이 구독 중인 빠띠의 #{Article.model_name.human}, #{Talk.model_name.human}, #{Opinion.model_name.human}를 모았습니다.
 
       .issues
         - current_user.watched_issues.each do |issue|
