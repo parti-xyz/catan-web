@@ -81,11 +81,6 @@ class IssuesController < ApplicationController
     end
   end
 
-  helper_method :current_issue
-  def current_issue
-    @issue
-  end
-
   private
 
   def fetch_issue_by_slug

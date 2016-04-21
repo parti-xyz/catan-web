@@ -1,20 +1,13 @@
 %nav.navbar.navbar-default.navbar-fixed-top
   .container.clearfix
-    - if try(:origin_postable_controlling?)
-      .navbar-brand.navbar-issue
-        = link_to issue_home_path(current_issue) do
-          %i.fa.fa-hashtag>
-          = current_issue.title
-
     .navbar-header.pull-left{ style: 'position: relative' }
       %a.navbar-brand{ href: root_path }
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-      - unless try(:origin_postable_controlling?)
-        %a{ href: dashboard_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
-          %b.hidden-xs
-            내 빠띠
-          %span.visible-xs-inline
-            %i.fa.fa-home
+      %a{ href: dashboard_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
+        %b.hidden-xs
+          내 빠띠
+        %span.visible-xs-inline
+          %i.fa.fa-home
 
     .navbar-sign
       - if user_signed_in?

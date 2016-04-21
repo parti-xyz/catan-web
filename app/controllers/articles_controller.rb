@@ -1,5 +1,4 @@
 class ArticlesController < ApplicationController
-  include OriginPostable
   before_filter :authenticate_user!, except: [:show, :partial]
   load_and_authorize_resource
 
@@ -54,11 +53,6 @@ class ArticlesController < ApplicationController
                       description: @article.body,
                       image: (@article.image if @article.has_image?),
                       og_title: [@article.title, @article.site_name.try(:upcase)].reject { |c| c.blank? }.map(&:strip).join(' | ')
-  end
-
-  helper_method :current_issue
-  def current_issue
-    @issue ||= @article.try(:issue)
   end
 
   def postable_controller?

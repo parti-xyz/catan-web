@@ -1,5 +1,4 @@
 class TalksController < ApplicationController
-  include OriginPostable
   before_filter :authenticate_user!, except: [:show]
   load_and_authorize_resource
 
@@ -41,11 +40,6 @@ class TalksController < ApplicationController
       @list_url = issue_talks_path(@issue)
     end
     prepare_meta_tags title: @talk.title
-  end
-
-  helper_method :current_issue
-  def current_issue
-    @issue ||= @talk.try(:issue)
   end
 
   def postable_controller?
