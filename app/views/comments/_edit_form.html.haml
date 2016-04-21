@@ -1,8 +1,4 @@
 = form_for @comment, remote: true, data: { action: 'parti-cancel-form-on-blur', 'cancel-form-control': "#edit_#{dom_id(@comment)} button[name=cancel]"} do |f|
-  - if @comment.linkable?
-    .form-group
-      = label_tag Article.human_attribute_name(:link)
-      = text_field_tag :article_link, @comment.post.specific.link, class: 'form-control'
   .form-group
     = f.label :body
     = f.text_area :body, class: 'form-control'
