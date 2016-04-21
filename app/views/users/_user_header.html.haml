@@ -4,5 +4,5 @@
     %h2 #{@user.nickname}
     - if user_signed_in? && (current_user.id == @user.id)
       = link_to edit_user_registration_path, class: 'btn btn-profile' do
-        = image_tag 'icon_profile'
+        = image_tag 'icon_profile.png'
         %span 프로필 수정
