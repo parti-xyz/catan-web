@@ -1,4 +1,5 @@
 - issue ||= Issue::OF_ALL
+- suggest_issues = (params[:controller] == 'dashboard') ? current_user.watched_issues : Issue.featured_issues(current_user)
 - if user_signed_in?
   #opinion-form-widget.form-widget-container.bg-line
     = form_for Opinion.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|
@@ -7,7 +8,7 @@
         = f.hidden_field :issue_id, value: issue.id
       - else
         .form-group
-          = f.collection_select :issue_id, Issue.featured_issues(current_user), :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', data: {'rule-required': true}}
+          = f.collection_select :issue_id, suggest_issues, :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', data: {'rule-required': true}}
       .form-group
         = f.text_field :title, maxlength: 50, class: 'form-control', data: {'rule-required': true}, placeholder: '투표 내용을 적어주세요.'
         %p.help-block
