@@ -9,6 +9,12 @@
 Article.all.select { |a| Article.joins(:post).where('issue_id': a.issue_id, link_source_id: a.link_source_id).count > 1 }
 ```
 
+존재하지 않는 사용자가 투표한 데이터를 삭제합니다.
+
+```
+Vote.all.select {|v| v.user.nil? }.each {|v| v.destroy }
+```
+
 크롤링을 다시 합니다.
 
 ```
