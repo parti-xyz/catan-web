@@ -2,7 +2,7 @@
 option="${1}"
 case ${option} in
   production)
-    ey deploy -e omurice -r production
+    ey deploy -e omurice -r master
     ;;
   staging)
     ey deploy -e omelet -r dev
