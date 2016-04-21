@@ -3,7 +3,7 @@
 %section#posts
   .container
     .row
-      .col-sm-9
+      .col-xs-9
         %section#content-tab-section
           = render 'dashboard/content_tabs', active_tab: :articles, counts_container: current_user.watched_counts
         = render 'articles/list', postables: @articles, show_issue: true

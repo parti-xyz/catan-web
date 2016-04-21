@@ -23,16 +23,16 @@
   .issue-calendar
     .container
       .row
-        .col-sm-2
+        .col-xs-2
           %h2
             오늘의
             %br
             %b 빠띠
           = link_to '전체 빠띠', issues_path, class: 'btn btn-primary'
-        .col-sm-5
+        .col-xs-5
           = link_to slug_issue_path('20th-assembly') do
             .calendar-box
-        .col-sm-5
+        .col-xs-5
           = link_to slug_issue_path('basic-income') do
             .calendar-box.last
 

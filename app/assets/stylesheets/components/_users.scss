@@ -18,6 +18,8 @@
 #dashboard-header-section {
   padding: 20px 0;
   background-color: #271e44;
+  width: 100%;
+  display: table;
   .jumbotron {
     padding: 20px 0 0;
     color: #fff;
@@ -43,6 +45,8 @@
   background-color: #271e44;
   font-size: 24px;
   color: #fff;
+  width: 100%;
+  display: table;
   .img-circle {
     width: 60px;
     height: 60px;
@@ -95,6 +99,8 @@
   padding: 20px 0;
   background-color: #271e44;
   color: #fff;
+  width: 100%;
+  display: table;
   .img-circle {
     width: 90px;
     height: 90px;

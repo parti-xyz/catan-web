@@ -3,7 +3,7 @@
     .container{ style: 'position: relative;' }
       .jumbotron.jumbotron-transparent
         .row
-          .col-md-9
+          .col-xs-9
             %h2 우선, 눈길이 가는 빠띠를 구독해보세요.
             %p.text-muted 구독하시면 메일로 매일 아침 유쾌한 민주주의 소식이 배달됩니다.
           .col-md-3.text-center
@@ -14,5 +14,5 @@
   .container
     .row
       - @unwatched_issues.each do |issue|
-        .col-xs-12.col-sm-4
+        .col-xs-4
           = render 'issues/card', issue: issue

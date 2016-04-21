@@ -3,7 +3,7 @@
 %section#comments
   .container
     .row
-      .col-sm-9
+      .col-xs-9
         %section#content-tab-section
           = render 'issues/content_tabs', active_tab: :comments, counts_container: @issue.counts_container
         = render 'posts/new_form', issue: @issue

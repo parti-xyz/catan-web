@@ -21,6 +21,8 @@ html {
 body {
   padding-top: 80px;
   background-color: #f3f3f7;
+  width: 100%;
+  min-width: 970px;
 }
 
 h1 {
@@ -74,6 +76,7 @@ a {
 
 .container {
   max-width: 970px !important;
+  width: 970px !important;
 }
 
 .panel {

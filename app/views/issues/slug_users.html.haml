@@ -11,5 +11,5 @@
     %hr
     .row
       - @issue.watched_users.each do |user|
-        .col-sm-4.col-xs-12
+        .col-xs-4
           = render user, issue: @issue

@@ -2,7 +2,7 @@
 %section#user-gallery
   .container
     .row
-      .col-sm-9
+      .col-xs-9
         %section#content-tab-section
           = render 'users/content_tabs', active_tab: :votes, counts_container: @user.writing_counts
         = render 'opinions/cards', opinions: @opinions, hide_writing_card: true
