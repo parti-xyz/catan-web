@@ -6,8 +6,7 @@
       .nickname= comment.user.nickname
     - if user_signed_in? and comment.user != current_user
       %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
-        %i.fa.fa-at>
-        멘션
+      = image_tag 'icon_mention.png'
 
     .comment__btn.pull-left
       - if can? :update, comment
