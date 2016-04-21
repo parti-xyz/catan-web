@@ -18,12 +18,12 @@
       = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) } do
         = image_tag 'icon_gp_color.png'
         구글플러스 아이디로 빠띠하기
-      / .login-box__remember
-      /   = form_tag nil, method: :get do
-      /     = hidden_field_tag(:after_login)
-      /     %label.remember_me
-      /       = check_box_tag(:remember_me, '1', true)
-      /       로그인 상태를 유지
+      .login-box__remember
+        = form_tag nil, method: :get do
+          = hidden_field_tag(:after_login)
+          %label.remember_me
+            = check_box_tag(:remember_me, '1', true)
+            로그인 상태를 유지
 
       .devider
         %span{style: 'background: #fff'} 또는
