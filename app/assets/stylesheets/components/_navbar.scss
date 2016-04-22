@@ -81,6 +81,13 @@
       border-left: 1px solid #cfcfcf;
       padding: 11px 10px 12px;
     }
+    &.user-notice {
+      width: 45px;
+      height: 45px;
+      padding-top: 11px;
+      margin-right: 10px;
+      text-align: center;
+    }
   }
   &__up {
     float: right;
