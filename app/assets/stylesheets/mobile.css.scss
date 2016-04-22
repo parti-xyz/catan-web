@@ -1,0 +1,53 @@
+@media (max-width: 768px) {
+  body {
+    padding-top: 50px;
+  }
+  body, .container, #aside, .col-xs-9 {
+    width: 100% !important;
+    min-width: 100%;
+  }
+  .parti-intro {
+    width: 100% !important;
+    min-width: 100%;
+    display: none;
+  }
+  .issue-calendar, .aside_hottest_posts, .aside_issue, #aside hr {
+    display: none;
+  }
+  .fb_iframe_widget_fluid {
+    display: none !important;
+  }
+  /* header */
+  .navbar-default {
+    padding: 10px;
+  }
+  .navbar-header .navbar-brand img {
+    width: 65px;
+  }
+  /* footer */
+  footer {
+    padding: 0;
+    margin-top: 60px;
+    .footer-logo {
+      padding-top: 15px;
+      border-top: 1px solid #d9d9dd;
+      &__txt {
+        float: left;
+        padding-left: 7px;
+        font-size: 14px;
+        padding-top: 6px;
+        br {
+          display: none;
+        }
+      }
+    }
+  }
+  /* header */
+  .btn-mobile-menu {
+    margin-right: -15px;
+    margin-top: 5px;
+    img {
+      zoom: 0.5;
+    }
+  }
+}

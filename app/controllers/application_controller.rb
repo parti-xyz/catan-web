@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action :prepare_meta_tags, if: "request.get?"
+  before_action :set_devise_type
   after_filter :prepare_unobtrusive_flash
   after_filter :store_location
 
@@ -113,5 +114,9 @@ class ApplicationController < ActionController::Base
 
   def errors_to_flash(model)
     flash[:notice] = model.errors.full_messages.join('<br>').html_safe
+  end
+
+  def set_devise_type
+    request.variant = :mobile if browser.device.mobile?
   end
 end
