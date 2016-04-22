@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get '/robots.:format' => 'pages#robots'
 
   resources :users, except: :show
+  if Rails.env.development?
+    get 'kill_me', to: 'users#kill_me'
+  end
 
   resources :parties, as: :issues, controller: 'issues' do
     member do
