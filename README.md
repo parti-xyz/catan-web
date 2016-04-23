@@ -89,6 +89,12 @@ http://parti.dev/stat
 export POSTMARKER_API_KEY="키값"
 ```
 
+### 사용자 임시 삭제
+
+```
+http://parti.dev/kill_me
+```
+
 ## 데이터 관리
 
 ### 아래를 rails console에서 수행하면 지워진 글의 댓글을 삭제합니다

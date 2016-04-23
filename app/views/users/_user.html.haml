@@ -13,34 +13,19 @@
           = link_to user.nickname, user_gallery_path(user)
         .user-card.user-card__watch
           - if !issue.is_all? and issue.watched_by?(user)
-            구독 중 / #{user.watched_issues.count}
+            구독 중
           - else
             빠띠 #{user.watched_issues.count}개 구독 중
       %hr
       %ul.user__count.list-inline.text-muted.text-center
         %li
           댓글
-          - if !issue.is_all? and writing_counts.comments_count > 0
-            %strong= writing_counts.comments_count
-            \/
-            = all_writing_counts.comments_count
-          - else
-            %strong= writing_counts.comments_count
+          %strong= writing_counts.comments_count
         %li
           투표
-          - if !issue.is_all? and writing_counts.votes_count > 0
-            %strong= writing_counts.votes_count
-            \/
-            = all_writing_counts.votes_count
-          - else
-            %strong= writing_counts.votes_count
+          %strong= writing_counts.votes_count
       %ul.user__count.list-inline.text-muted.text-center
         %li
           %i.fa.fa-heart>
           한 댓글
-          - if !issue.is_all? and writing_counts.upvotes_count > 0
-            %strong= writing_counts.upvotes_count
-            \/
-            = all_writing_counts.upvotes_count
-          - else
-            %strong= writing_counts.upvotes_count
+          %strong= writing_counts.upvotes_count

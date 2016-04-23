@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :authenticate_user!, only: :kill_me
+
   def index
     @users = User.order("id DESC")
   end
@@ -28,6 +30,12 @@ class UsersController < ApplicationController
       PartiMailer.summary_by_mailtrap(user).deliver_later
     end
     render text: 'ok'
+  end
+
+  def kill_me
+    current_user.update_attributes(uid: SecureRandom.hex(10))
+    sign_out current_user
+    redirect_to root_path
   end
 
   private

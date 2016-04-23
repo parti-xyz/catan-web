@@ -85,6 +85,10 @@ gem 'slack-notifier', '~> 1.4'
 gem 'exception_notification', '~> 4.1', '>= 4.1.4'
 gem 'premailer-rails', '~> 1.9'
 
+# monitoring
+gem 'newrelic_rpm'
+gem 'ey_config'
+
 group :development, :test do
   gem 'letter_opener_web'
   gem 'byebug'

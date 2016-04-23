@@ -342,7 +342,7 @@
       input[type=email], input[type=text], input[type=password] {
         height: auto;
         border-color: #d2d2d2;
-        color: #d2d2d2;
+        color: $text-color;
         font-size: 15px;
         padding: 10px 15px;
       }

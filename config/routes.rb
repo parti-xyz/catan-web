@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  root 'pages#home'
+  root 'issues#slug_comments', slug: 'all'
   get '/robots.:format' => 'pages#robots'
 
   resources :users, except: :show
+  if Rails.env.development?
+    get 'kill_me', to: 'users#kill_me'
+  end
 
   resources :parties, as: :issues, controller: 'issues' do
     member do
