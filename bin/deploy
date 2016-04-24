@@ -1,11 +1,14 @@
 #!/bin/sh
 option="${1}"
 case ${option} in
-  production)
+  master)
     ey deploy -e omurice -r master
     ;;
-  staging)
+  dev)
     ey deploy -e omelet -r dev
+    ;;
+  hotfix)
+    ey deploy -e oden -r hotfix
     ;;
   *)
     echo "usage: `basename ${0}` [production|staging]"

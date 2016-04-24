@@ -51,7 +51,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
     result = ActiveRecord::Base.connection.execute "SELECT nickname, email, id, created_at, updated_at FROM old_users"
     result.each do |row|
-      if Rails.env.production?
+      if (Rails.env.production? or Rails.env.staging?)
         nickname = row[0]
         email = row[1]
         id = row[2]

@@ -131,3 +131,46 @@
     }
   }
 }
+
+.opinion-social-card-section {
+  background-size: cover;
+  width: 1200px;
+  height: 630px;
+  padding: 0;
+  margin: 0;
+  display: table;
+  position: relative;
+  color: white;
+  font-family: 'Noto Sans KR';
+
+  .card {
+    display: table-cell;
+    vertical-align: middle;
+    width: 1060px;
+
+    .info {
+      font-size: 30px;
+      font-weight: 300;
+      position: absolute;
+      left: 70px;
+      top: 55px;
+    }
+
+    .title {
+      letter-spacing: -1px;
+      word-break: keep-all;
+      font-weight: 300;
+      margin: 0 70px;
+      &.short {
+        text-align: center;
+        font-size: 80px;
+      }
+      &.medium {
+        font-size: 65px;
+      }
+      &.long {
+        font-size: 55px;
+      }
+    }
+  }
+}

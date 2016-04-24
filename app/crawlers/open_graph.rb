@@ -8,7 +8,7 @@ class OpenGraph
 
   def initialize(src)
     @agent = Mechanize.new
-    @agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if Rails.env.production?
+    @agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if (Rails.env.production? or Rails.env.staging?)
     @agent.user_agent_alias = 'Windows IE 10'
     @agent.follow_meta_refresh = true
     @agent.redirect_ok = :all
@@ -98,7 +98,7 @@ class OpenGraph
   end
 
   def proxy_for_fast_image
-    return if ENV['CRAWLING_PROXY_HOST'].blank? or ENV['CRAWLING_PROXY_PORT'].blank? or !Rails.env.production?
+    return if ENV['CRAWLING_PROXY_HOST'].blank? or ENV['CRAWLING_PROXY_PORT'].blank? or (!Rails.env.production? and !Rails.env.staging?)
     "http//:#{ENV['CRAWLING_PROXY_HOST']}:#{ENV['CRAWLING_PROXY_PORT']}"
   end
 
