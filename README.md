@@ -32,8 +32,9 @@ $ nohup bin/rake images:reprocess RAILS_ENV=staging > ~/nohup4.out 2>&1&
 engineyard를 사용합니다.
 
 ```
-$ bin/deploy production
-$ bin/deploy staging
+$ bin/deploy master
+$ bin/deploy dev
+$ bin/deploy hotfix
 ```
 
 ## 실환경 구축
