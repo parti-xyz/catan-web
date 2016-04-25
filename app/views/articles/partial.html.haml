@@ -9,7 +9,7 @@
 .modal__content
   %h2.text-center= screenable_article_title(@article)
   = render 'body'
-  = render 'posts/post_header', post: @article.acting_as, only_buttons: true
+  = render 'posts/post_header', post: @article.acting_as
 
 .modal__comment
   = render 'comments/comments', postable: @article, style: :media

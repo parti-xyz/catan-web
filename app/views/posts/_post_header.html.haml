@@ -1,20 +1,11 @@
 .post__meta
-  - unless local_assigns[:only_buttons]
-    = link_to user_gallery_path(post.user) do
-      = post.user.nickname
-    %br
   %span
-    - unless local_assigns[:only_buttons]
-      = date_f post.created_at
     - if can? :update, post.specific
       = link_to '수정', [:edit, post.specific]
     - if can? :destroy, post.specific
       = link_to '삭제', post.specific, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
-- unless local_assigns[:only_buttons]
-  .pull-left{style: 'margin-right: 10px'}
-    = link_to user_gallery_path(post.user) do
-      = image_tag post.user.image.xs.url, class: 'user-image img-circle'
-
+    - if local_assigns[:additional_buttons_partial].present?
+      = render additional_buttons_partial, local_assigns
 
 .post__share
   = render 'posts/share', post: post

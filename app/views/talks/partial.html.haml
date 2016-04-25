@@ -7,6 +7,6 @@
     = image_tag 'icon_close.png'
 .modal__content
   %h2.text-center= @talk.title
-  = render 'posts/post_header', post: @talk.acting_as, only_buttons: true
+  = render 'posts/post_header', post: @talk.acting_as
 .modal__comment
   = render 'comments/comments', postable: @talk, style: :talk
