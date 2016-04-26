@@ -166,3 +166,55 @@
   }
 }
 
+
+
+/* retina image */
+.user-notice, .user-link {
+  img {
+    width: 16px;
+    height: auto;
+  }
+}
+.vote__results, .vote__buttons {
+  img {
+    width: 20px;
+    height: auto;
+  }
+}
+.post-card__count, .post-inline__comment, .post__comment, .text-muted{
+  img
+  {
+    width: 14px;
+    height: auto;
+  }
+}
+.comment__mention, .comment__btn {
+  img {
+    width: 25px;
+    height: auto;
+  }
+}
+.post-card__date, .date-wrapper {
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}
+.btn-new-comment {
+  img {
+    width: 15px;
+    height: auto;
+  }
+}
+.editors-tab {
+  img {
+    width: 75px;
+    height: auto;
+  }
+}
+.footer-sns {
+  img {
+    width: 41px;
+    height: auto;
+  }
+}

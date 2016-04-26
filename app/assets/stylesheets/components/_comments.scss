@@ -37,6 +37,13 @@ section#comments {
     margin-left: 15px;
     color: $brand-primary;
     margin-top: -5px;
+    height: 25px;
+    overflow: hidden;
+    &:hover {
+      img {
+       margin-top: -25px;
+      }
+    }
   }
   &__btn {
     margin-left: 10px;
