@@ -88,9 +88,22 @@
     margin-top: 40px;
   }
 }
-.article__body__img-container {
+.article__body__img-container.article__body__img-container--lg {
+  text-align: center;
+  max-height: 450px;
+  overflow: hidden;
   img {
+    max-width: 100%;
     width: 100%;
+    margin-top: 0px;
+  }
+}
+
+.article__body__img-container {
+  text-align: center;
+  img {
+    width: auto;
+    margin-top: 20px;
   }
 }
 .article__body__text-container {

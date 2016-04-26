@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 20160426083214) do
     t.string   "active",                     default: "on"
   end
 
+  add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"
+  add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
   add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
 
   create_table "comments", force: :cascade do |t|
@@ -132,9 +134,6 @@ ActiveRecord::Schema.define(version: 20160426083214) do
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
-
-# Could not dump table "old_articles" because of following NoMethodError
-#   undefined method `[]' for nil:NilClass
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      null: false

@@ -19,13 +19,13 @@
             = video_embed_code(@article)
         - elsif @article.has_image?
           - if @article.image_height > 255
-            .article__body__img-container
+            .article__body__img-container.article__body__img-container--lg
               = link_to @article.link, target: '_blank' do
                 = image_tag(@article.image.lg.url)
           - else
             .article__body__img-container
               = link_to @article.link, target: '_blank' do
-                = image_tag(@article.image.lg.url)
+                = image_tag(@article.image.url)
 
         .article__body__text-container
           = smart_format(@article.body)
