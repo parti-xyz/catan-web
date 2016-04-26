@@ -5,27 +5,27 @@
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
     %a.btn-mobile-menu.pull-right{ href: '#'}
       = image_tag 'btn_mobile_menu.png'
-  .mobile-list
-    = image_tag 'icon_close_primary.png', class: 'mobile-list__close'
-    - if user_signed_in?
-      .mobile-list__profile
-        = byline current_user
-        = link_to messages_path do
-          - if current_user.unread_messages_count > 0
-            = image_tag 'icon_mobile_bell.png', class: 'mobile_bell'
-          - else
-            = image_tag 'icon_mobile_bell_dot.png', class: 'mobile_bell'
-      %ul.mobile-list__menu.list-unstyled
-        %li= link_to '홈', root_path
-        %li= link_to '내 빠띠', dashboard_path
-        %li= link_to '전체 빠띠', dashboard_path
-        %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
-    - else
-      .mobile-list__profile
-        = image_tag 'img_default_profile.png', class: 'default-profile'
-        = link_to new_user_session_path, class: 'btn-new-user' do
-          로그인/회원가입
-      %ul.mobile-list__menu.list-unstyled
-        %li= link_to '홈', root_path
-        %li= link_to '전체 빠띠', dashboard_path
+.mobile-list
+  = image_tag 'icon_close_primary.png', class: 'mobile-list__close'
+  - if user_signed_in?
+    .mobile-list__profile
+      = byline current_user
+      = link_to messages_path do
+        - if current_user.unread_messages_count > 0
+          = image_tag 'icon_mobile_bell.png', class: 'mobile_bell'
+        - else
+          = image_tag 'icon_mobile_bell_dot.png', class: 'mobile_bell'
+    %ul.mobile-list__menu.list-unstyled
+      %li= link_to '홈', root_path
+      %li= link_to '내 빠띠', dashboard_path
+      %li= link_to '전체 빠띠', dashboard_path
+      %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
+  - else
+    .mobile-list__profile
+      = image_tag 'img_default_profile.png', class: 'default-profile'
+      = link_to new_user_session_path, class: 'btn-new-user' do
+        로그인/회원가입
+    %ul.mobile-list__menu.list-unstyled
+      %li= link_to '홈', root_path
+      %li= link_to '전체 빠띠', dashboard_path
 

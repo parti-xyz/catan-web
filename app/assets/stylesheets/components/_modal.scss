@@ -30,6 +30,7 @@
     color: #222;
     line-height: 1.4em;
     margin: 0;
+    word-break: break-all;
   }
 }
 
@@ -187,5 +188,11 @@
     .col-xs-6 {
       padding: 0 3px;
     }
+  }
+}
+.edit_article, .edit_talk {
+ .form-group .btn-lg {
+    padding: 6px 12px;
+    font-size: 14px;
   }
 }
