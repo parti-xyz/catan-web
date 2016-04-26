@@ -3,7 +3,6 @@ require 'test_helper'
 class IssuesTest < ActionDispatch::IntegrationTest
   test '로그인 안해도 첫페이지가 잘보여요' do
     get root_path
-    follow_redirect!
     assert_response :success
   end
 

@@ -53,6 +53,16 @@ class Article < ActiveRecord::Base
     link_source.try(:image)
   end
 
+  def image_height
+    return 0 if self.hidden?
+    link_source.try(:image_height) || 0
+  end
+
+  def image_width
+    return 0 if self.hidden?
+    link_source.try(:image_width) || 0
+  end
+
   def self.merge_by_link!(article)
     post = article.acting_as
     targets = post.issue.articles.where(link: article.link).order(created_at: :asc)

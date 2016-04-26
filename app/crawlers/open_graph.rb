@@ -4,7 +4,7 @@ require 'addressable/uri'
 require 'uri'
 
 class OpenGraph
-  attr_accessor :src, :url, :type, :title, :site_name, :description, :images, :image_io, :image_original_filename, :metadata, :response, :original_images
+  attr_accessor :src, :url, :type, :title, :site_name, :description, :images, :image_io, :image_width, :image_height, :image_original_filename, :metadata, :response, :original_images
 
   def initialize(src)
     @agent = Mechanize.new
@@ -20,6 +20,8 @@ class OpenGraph
     @doc = nil
     @images = []
     @image_io = nil
+    @image_width = 0
+    @image_height = 0
     @image_original_filename = nil
     @metadata = {}
     parse_opengraph
@@ -106,6 +108,11 @@ class OpenGraph
     @image_io = bin.body_io
     @image_io.class.class_eval { attr_accessor :original_filename }
     @image_original_filename = @image_io.original_filename = filename_from_bin(bin, fast_image)
+    image_size = fast_image.size
+    if image_size.present?
+      @image_width = image_size[0]
+      @image_height = image_size[1]
+    end
   end
 
   def filename_from_bin(bin, fast_image)
