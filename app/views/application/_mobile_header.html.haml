@@ -5,3 +5,15 @@
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
     %a.btn-mobile-menu.pull-right{ href: '#'}
       = image_tag 'btn_mobile_menu.png'
+  / .mobile-list
+  /   .mobile-list__profile
+  /     = byline current_user
+  /     = link_to destroy_user_session_path, class: 'user-link', method: :delete do
+  /       = image_tag 'icon_logout.png'
+  /     = link_to messages_path, class: 'user-link' do
+  /       - if current_user.unread_messages_count > 0
+  /         = image_tag 'icon_bell_dot.png'
+  /       - else
+  /         = image_tag 'icon_bell.png'
+  /     = link_to '로그인/회원가입', new_user_session_path
+
