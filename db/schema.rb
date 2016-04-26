@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419022659) do
+ActiveRecord::Schema.define(version: 20160426083214) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -106,6 +106,8 @@ ActiveRecord::Schema.define(version: 20160419022659) do
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
     t.string   "site_name"
+    t.integer  "image_height",                default: 0
+    t.integer  "image_width",                 default: 0
   end
 
   add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true

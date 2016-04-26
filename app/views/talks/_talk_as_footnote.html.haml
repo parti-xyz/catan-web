@@ -6,5 +6,6 @@
     = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
       = talk.title
   .post-inline__comment.pull-right
-    = image_tag 'icon_comment.png'
-    %b= post.comments_count
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
+      = image_tag 'icon_comment.png'
+      %b= post.comments_count

@@ -9,7 +9,7 @@
 .modal__content
   .text-center
     = render 'body'
-  = render 'posts/post_header', post: @opinion.acting_as, only_buttons: true
+  = render 'posts/post_header', post: @opinion.acting_as, additional_buttons_partial: 'opinions/modal_buttons'
 
 .modal__comment
   = render 'comments/comments', postable: @opinion, style: :opinion

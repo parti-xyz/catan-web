@@ -53,7 +53,7 @@ class OpinionsController < ApplicationController
           send_data(png, :type => "image/png", :disposition => 'inline')
         else
           @post = @opinion.acting_as
-          if !@post.social_card.file.try(:exists?) or params[:update]
+          if !@post.social_card.file.try(:exists?) or (params[:update] and current_user.try(:admin?))
             file = Tempfile.new(["social_card_#{@post.id.to_s}", '.png'], 'tmp', :encoding => 'ascii-8bit')
             file.write IMGKit.new(render_to_string(layout: nil), width: 1200, height: 630, quality: 10).to_png
             file.flush
