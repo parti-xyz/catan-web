@@ -64,12 +64,16 @@
   text-align: right;
   .pagi-num {
     color: #aaaaaf;
+    font-size: 18px;
   }
   .pagination>li>a, .pagination>li>span {
     float: none;
     background: transparent;
     border: none;
     color: #777;
+    font-size: 23px;
+    vertical-align: top;
+    line-height: 1.2;
   }
   .pagination>li>a:hover, .pagination>li>a:focus, .pagination>li>span:hover, .pagination>li>span:focus {
     background: transparent;
@@ -99,8 +103,8 @@
   background-color: #fff;
 }
 .circle-30 {
-  width: 30px;
-  height: 30px;
+  width: 30px !important;
+  height: 30px !important;
   background-color: #fff;
 }
 .circle-50 {

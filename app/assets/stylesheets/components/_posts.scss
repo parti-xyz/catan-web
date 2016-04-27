@@ -32,6 +32,11 @@ section#posts {
       font-size: 12px;
     }
   }
+  &__btn {
+    .fa-trash-o {
+      margin-left: 7px;
+    }
+  }
 }
 
 .post-card {
