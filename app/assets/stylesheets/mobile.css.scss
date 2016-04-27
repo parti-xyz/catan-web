@@ -218,7 +218,7 @@
   background-position: top;
 }
 .link-box p {
-  height: 72px;
+  max-height: 72px;
   overflow: hidden;
   display: inline-block;
   margin-top: 16px;
@@ -245,12 +245,16 @@
     zoom: 0.7;
   }
 }
+.pagination>li>a, .pagination>li>span {
+  padding: 3px 9px;
+}
 
 /* login */
 .login-box {
   width: 100%;
-  height: auto;
+  height: 100%;
   padding-bottom: 40px;
+  margin: 0 auto;
   &__txt {
     margin: 30px 0;
     font-size: 24px;
@@ -331,6 +335,9 @@
 
 
 /* modal */
+.modal-dialog {
+  margin: 0 auto;
+}
 .modal__top {
   padding: 10px;
   font-size: 12px;
@@ -413,8 +420,14 @@
   font-size: 16px;
 }
 
-
-
+/* user */
+#issue-users .col-xs-4{
+  width: 100%;
+}
+#issues .col-xs-4{
+  width: 100%;
+  margin-bottom: 15px;
+}
 
 
 
