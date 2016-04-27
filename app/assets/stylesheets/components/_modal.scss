@@ -76,12 +76,17 @@
   }
 }
 
-.post-inline__issue-label .text-primary img {
- margin-top: -5px;
- margin-left: 15px;
- width: 25px;
- height: auto;
+.post-inline__issue-label {
+  .text-primary img {
+    margin-left: 15px;
+    margin-top: -5px;
+  }
+  .circle-25 {
+    width: 25px !important;
+    height: 25px !important;
+  }
 }
+
 
 .post__body {
   margin-top: 20px;
