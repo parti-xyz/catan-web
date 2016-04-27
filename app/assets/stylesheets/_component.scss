@@ -183,11 +183,17 @@ br.mobile {
     height: auto;
   }
 }
-.post-card__count, .post-inline__comment, .post__comment, .text-muted{
+.post-card__count, .post-inline__comment, .post__comment, .text-muted, .comment-count {
   img
   {
-    width: 14px;
-    height: auto;
+    width: 14px !important;
+    height: auto !important;
+  }
+}
+.user-count {
+  img {
+    width: 11px !important;
+    height: auto !important;
   }
 }
 .comment__mention, .comment__btn {
