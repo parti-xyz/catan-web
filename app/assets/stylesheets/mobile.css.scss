@@ -130,7 +130,7 @@
     }
   }
   li {
-    margin: 0 8px 0 0;
+    margin: 0 6px 0 0;
     text-align: center;
     a {
       h4 {
@@ -365,6 +365,10 @@
     padding: 2px 6px 0px;
   }
 }
+.article__body__img-container img {
+  width: 100%;
+  margin-top: 0;
+}
 
 .post__body {
   margin-top: 0;
@@ -382,7 +386,7 @@
   .text-primary {
     font-size: 12px;
     img {
-      zoom: 0.8;
+      zoom: 0.5;
       margin-right: 5px
     }
   }
