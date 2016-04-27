@@ -58,6 +58,25 @@
   }
 }
 
+/* pagination */
+
+.pagination-wrapper {
+  text-align: right;
+  .pagi-num {
+    color: #aaaaaf;
+  }
+  .pagination>li>a, .pagination>li>span {
+    float: none;
+    background: transparent;
+    border: none;
+    color: #777;
+  }
+  .pagination>li>a:hover, .pagination>li>a:focus, .pagination>li>span:hover, .pagination>li>span:focus {
+    background: transparent;
+    color: #966fd6;
+  }
+}
+
 /* text */
 .fa-heart.text-primary {
   margin-right: 3px;

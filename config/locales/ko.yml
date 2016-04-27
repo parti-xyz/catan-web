@@ -87,8 +87,8 @@ ko:
     pagination:
       first: "&laquo; 처음"
       last: "마지막 &raquo;"
-      next: "다음"
-      previous: "이전"
+      next: "&#62;"
+      previous: "&#60;"
       truncate: "&hellip;"
   unauthorized:
     default: "권한이 없습니다."

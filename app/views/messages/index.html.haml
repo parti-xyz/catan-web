@@ -8,7 +8,6 @@
           = render 'content_tabs'
         .message-list
           = render @messages
-        .text-center
-          = paginate @messages, theme: 'catan'
+        = paginate @messages, theme: 'catan'
       = render 'dashboard/aside'
 

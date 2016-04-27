@@ -7,7 +7,6 @@
         %section#content-tab-section
           = render 'issues/content_tabs', active_tab: :articles, counts_container: @issue.counts_container
         = render 'articles/list', postables: @articles, issue: @issue, show_issue: @issue.is_all?
-        .text-center
-          = paginate @articles, theme: 'catan'
+        = paginate @articles, theme: 'catan'
       = render 'issues/aside'
 

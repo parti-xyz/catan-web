@@ -26,9 +26,9 @@
 
 - pagination_class ||= ''
 = paginator.render do
-  %nav
+  %nav.pagination-wrapper
     %ul{:class => "pagination #{pagination_class}"}
       = prev_page_tag unless current_page.first?
-      #{current_page}/#{num_pages}
+      %li.pagi-num #{current_page}/#{num_pages}
       = next_page_tag unless current_page.last?
 
