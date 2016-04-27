@@ -10,13 +10,13 @@
       빠띠에서 파티하자
     .login-box__content
       = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :facebook) } do
-        = image_tag 'icon_fb_color.png'
+        %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
         페이스북 아이디로 빠띠하기
       = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :twitter) } do
-        = image_tag 'icon_tw_color.png'
+        %i.fa.fa-twitter{style: 'font-size: 22px; color: #55acee; vertical-align: top;'}
         트위터 아이디로 빠띠하기
       = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) } do
-        = image_tag 'icon_gp_color.png'
+        %i.fa.fa-google-plus{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
         구글플러스 아이디로 빠띠하기
       .login-box__remember
         = form_tag nil, method: :get do
