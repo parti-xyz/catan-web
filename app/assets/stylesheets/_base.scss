@@ -146,14 +146,17 @@ label.required:after {
 }
 
 .label-as-badge {
-    border-radius: 1em;
+  border-radius: 1em;
 }
 
 .badge-notify {
-   position:relative;
-   top: -20px;
-   left: -35px;
+  position:relative;
+  top: -20px;
+  left: -35px;
 }
 
+.checkbox {
+  margin-top: 0;
+}
 
 

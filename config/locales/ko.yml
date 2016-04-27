@@ -58,6 +58,7 @@ ko:
         password_confirmation: 비밀번호 확인
         remember_me: 로그인 상태를 유지
         current_password: 현재 비밀번호
+        enable_mailing: 메일수신 여부
       comment:
         body: 내용
     errors:

@@ -66,8 +66,8 @@ ko:
         signed_up_but_inactive: "성공적으로 가입했습니다만 아직 이메일이 확인되지 않아 로그인할 수 없습니다."
         signed_up_but_locked: "성공적으로 가입했습니다만 계정이 비활성화되어 로그인할 수 없습니다."
         signed_up_but_unconfirmed: "확인 링크가 담긴 이메일을 발송했습니다. 메일의 링크를 클릭하면 로그인할 수 있습니다."
-        update_needs_confirmation: "계정 정보를 정상적으로 저장했지만 새로 입력한 이메일을 인증해야 합니다. 이메일 내의 확인 링크를 클릭하면 새로운 이메일 주로를 인증할 수 있습니다."
-        updated: "계정 정보를 업데이트했습니다."
+        update_needs_confirmation: "프로필을 정상적으로 저장했지만 새로 입력한 이메일을 인증해야 합니다. 이메일 내의 확인 링크를 클릭하면 새로운 이메일 주로를 인증할 수 있습니다."
+        updated: "프로필을 업데이트했습니다."
     sessions:
       new:
         alpha_software: "이 소프트웨어는 실험중입니다."

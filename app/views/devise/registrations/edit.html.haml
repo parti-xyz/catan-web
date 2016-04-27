@@ -23,6 +23,14 @@
           = f.label :image
           = f.file_field :image, autofocus: true, class: 'form-control'
           = f.hidden_field :image_cache
+        .form-group
+          = f.label :enable_mailing
+          .checkbox
+            %label
+              = f.check_box :enable_mailing
+              나를 언급한 댓글이나 구독하는 빠띠의 소식을
+              %br
+              이메일로 받습니다.
         %hr
         - if resource.provider == 'email'
           .form-group

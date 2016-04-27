@@ -11,7 +11,7 @@ class PartiMailer < ApplicationMailer
 
   def summary(user, delivery_method = nil, delivery_method_options = nil)
     @user = user
-    return if blocked_nicknames.include? @user.nickname
+    return unless @user.enable_mailing?
 
     @hottest_posts = @user.watched_posts.yesterday.hottest.limit(10)
     @created_posts = @user.watched_posts.yesterday.recent.limit(10) - @hottest_posts

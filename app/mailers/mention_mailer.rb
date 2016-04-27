@@ -4,7 +4,7 @@ class MentionMailer < ApplicationMailer
     @recipient = User.find recipient_id
     @comment = Comment.find subject_id
 
-    return if blocked_nicknames.include? @recipient.nickname
+    return unless @recipient.enable_mailing?
 
     truncated_body = truncate_html(view_context.strip_tags(@comment.body), length: 20, word_boundary: false)
     mail(to: @recipient.email,

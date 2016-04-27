@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160426083214) do
+ActiveRecord::Schema.define(version: 20160427020911) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -324,6 +324,7 @@ ActiveRecord::Schema.define(version: 20160426083214) do
     t.datetime "deleted_at"
     t.integer  "unread_messages_count",  default: 0
     t.string   "active",                 default: "on"
+    t.boolean  "enable_mailing",         default: true
   end
 
   add_index "users", ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true

@@ -5,8 +5,4 @@ class ApplicationMailer < ActionMailer::Base
 
   default from: "feed@parti.xyz"
   layout 'email'
-
-  def blocked_nicknames
-    ['lunamoth']
-  end
 end
