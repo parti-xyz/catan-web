@@ -6,12 +6,7 @@
     width: 100% !important;
     min-width: 100%;
   }
-  .parti-intro {
-    width: 100% !important;
-    min-width: 100%;
-    display: none;
-  }
-  .issue-calendar, .aside_hottest_posts, .aside_issue, #aside hr {
+  .aside_hottest_posts, .aside_issue, #aside hr {
     display: none;
   }
   .fb_iframe_widget_fluid {
@@ -170,9 +165,39 @@
   }
 }
 
+/* dashboard */
 
-
-
+.parti-intro {
+  width: 100%;
+  min-width: 100%;
+  height: 250px;
+  background-image: asset_url('thumb_main_intro_mobile.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  img {
+    display: none;
+  }
+  &__txt {
+    position: static;
+    margin: 0 auto;
+    width: 90%;
+    .title {
+      font-size: 18px;
+      margin: 40px auto;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
+  .bg-black {
+    margin-top: 10px;
+    display: inline-block;
+    span {
+      margin-left: 3px;
+    }
+  }
+}
 
 
 /* comment */
@@ -247,6 +272,9 @@
 }
 .pagination>li>a, .pagination>li>span {
   padding: 3px 9px;
+}
+br.mobile {
+  display: block;
 }
 
 /* login */
@@ -428,7 +456,47 @@
   width: 100%;
   margin-bottom: 15px;
 }
-
+.issue-calendar {
+  display: block;
+  padding: 20px 15px;
+  .col-xs-2 {
+    width: 100%;
+    padding-left: 5px;
+    h2 {
+      font-size: 16px;
+      padding-bottom: 10px;
+      border-bottom: none;
+      margin-top: 0;
+      br {
+        display: none;
+      }
+    }
+    .btn-primary {
+      display: none;
+    }
+  }
+  .col-xs-5 {
+    width: 50%;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+.calendar-box {
+  width: 100%;
+  height: 120px;
+  background-size: 95px;
+  padding: 7px;
+  h1 {
+    font-size: 16px;
+  }
+  p {
+    font-size: 11px;
+    font-weight: bold;
+  }
+  &.last br {
+    display: none;
+  }
+}
 
 
 

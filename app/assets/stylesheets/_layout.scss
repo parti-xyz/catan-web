@@ -96,28 +96,21 @@ footer {
 .calendar-box {
   width: 371px;
   height: 187px;
-  background-image: asset_url('bg_calendar1.png');
-  padding: 20px;
-  span {
-    color: #ffc152;
-  }
-  h4 {
-    margin-bottom: 20px;
-    display: inline-block;
-    color: #fff;
-  }
+  background-image: asset_url('icon_assembly.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #66b7e1;
+  padding: 25px;
+  color: #fff;
+  text-align: center;
   p {
-    color: #fff;
+    font-size: 15px;
   }
   &.last {
-    background-image: asset_url('bg_calendar2.png');
+    background-image: asset_url('icon_income.png');
+    background-color: #59baa3;
     span {
       color: #59baa3;
     }
   }
 }
-
-
-
-
-

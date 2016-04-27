@@ -8,9 +8,13 @@
           %br
           수다가 정치가 되는 곳이에요.
         %p.text
-          잊고 싶지 않은 이슈를 알리고 정치, 사회에 대한 내 의견을 쌓아가는 곳.
+          잊고 싶지 않은 이슈를 알리고 정치,
+          %br.mobile
+          사회에 대한 내 의견을 쌓아가는 곳.
           %br
-          누구나에게 열려있는 공론장, 빠띠에 와서 이야기를 나눠 보세요.
+          누구나에게 열려있는 공론장,
+          %br.mobile
+          빠띠에 와서 이야기를 나눠 보세요.
 
         %p.text.bg-black
           %span= Issue.count
@@ -18,7 +22,9 @@
           %span= User.count
           명이 나누는
           %span= Comment.count
-          개의 수다가 모여 정치가 됩니다.
+          개의
+          %br.mobile
+          수다가 모여 정치가 됩니다.
           &nbsp;
   .issue-calendar
     .container
@@ -32,10 +38,21 @@
         .col-xs-5
           = link_to slug_issue_path('20th-assembly') do
             .calendar-box
+              %h1 20대 국회
+              %p
+                20대 국회가 꼭 해야할 일,
+                %br.mobile
+                앞으로의 일.
+                %br
+                빠띠에서 확인하세요.
         .col-xs-5
           = link_to slug_issue_path('basic-income') do
             .calendar-box.last
-
+              %h1 기본소득
+              %p
+                기본소득이 되면 무엇을 하고 싶은지,
+                %br
+                혹은 가능하려면 어떤 준비가 필요할까요?
 
 / - issue ||= @issue
 / %section.issue-header-section
