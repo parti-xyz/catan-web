@@ -8,7 +8,7 @@
           = render 'dashboard/content_tabs', active_tab: :talks, counts_container: current_user.watched_counts
         = render 'talks/list', postables: @talks, show_issue: true
         .text-center
-          = paginate @talks, theme: 'twitter-bootstrap-3'
+          = paginate @talks, theme: 'catan'
       = render 'aside'
 
 

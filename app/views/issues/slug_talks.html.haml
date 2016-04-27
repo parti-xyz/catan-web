@@ -8,5 +8,5 @@
           = render 'issues/content_tabs', active_tab: :talks, counts_container: @issue.counts_container
         = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
         .text-center
-          = paginate @talks, theme: 'twitter-bootstrap-3'
+          = paginate @talks, theme: 'catan'
       = render 'issues/aside'
