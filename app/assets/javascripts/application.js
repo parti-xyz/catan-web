@@ -484,12 +484,12 @@ var parti_prepare_post_modal = function($base) {
         $(control).val(at_nickname + ' ' + value);
       }
     }
-    $target.modal('show');
     if (is_mention) {
       $target.on('shown.bs.modal', function (e) {
         $(control).focus();
       });
     }
+    $target.modal('show');
   });
   $target.on('hidden.bs.modal', function (e) {
     if($target.data('parti-pjax-back-trigger') == 'on') {
