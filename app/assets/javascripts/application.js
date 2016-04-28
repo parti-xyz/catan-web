@@ -518,6 +518,15 @@ var parti_prepare_post_modal = function($base) {
   $base.data('parti-prepare-post-modal-arel', 'completed');
 };
 
+//parti-post-modal
+var parti_partial = function(partial) {
+  var $partial = $.parse$(partial)
+  parti_prepare_post_modal($partial);
+  parti_prepare($partial);
+
+  return $partial;
+}
+
 $(function(){
   parti_prepare($('body'));
   parti_prepare_post_modal($('body'));

@@ -1,1 +1,1 @@
-$('.<%= dom_id(@comment) %>-upvote').html("<%= escape_javascript(render 'upvotes/upvote', comment: @comment) %>");
+$('.<%= dom_id(@comment) %>-upvote').html(parti_partial("<%= escape_javascript(render 'upvotes/upvote', comment: @comment) %>"));

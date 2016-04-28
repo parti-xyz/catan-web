@@ -1,4 +1,4 @@
-$('.<%= dom_id(@issue) %>-watch').html("<%= escape_javascript(render 'watches/watch', issue: @issue) %>");
+$('.<%= dom_id(@issue) %>-watch').html(parti_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
 <% unless current_user.watched_non_default_issues? %>
 $('#btn-continue').addClass('disabled');
 <% end %>

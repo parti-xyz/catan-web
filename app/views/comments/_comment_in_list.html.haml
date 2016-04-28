@@ -4,7 +4,7 @@
     = link_to user_gallery_path(comment.user), class: 'comment__link pull-left'  do
       = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle border-2-primary'
       .nickname= comment.user.nickname
-    - if user_signed_in? and comment.user != current_user
+    - if comment.mentionable?(current_user)
       %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
         = image_tag 'icon_mention.png'
 

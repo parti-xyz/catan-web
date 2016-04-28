@@ -3,7 +3,7 @@
     = link_to user_gallery_path(comment.user) do
       = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle'
       %span.text-primary= comment.user.nickname
-    - if user_signed_in? and current_user != comment.user and local_assigns[:mention_form_contorl]
+    - if comment.mentionable?(current_user) and local_assigns[:mention_form_contorl]
       %a.text-primary{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_contorl } }
         = image_tag 'icon_mention.png'
   .date-wrapper.pull-right

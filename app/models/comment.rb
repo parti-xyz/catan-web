@@ -38,6 +38,13 @@ class Comment < ActiveRecord::Base
     mentions.exists? user: someone
   end
 
+  def mentionable? someone
+    return false if someone.blank?
+    return false if someone == self.user
+    return true if self.choice.blank?
+    self.choice == self.post.voted_by(someone).try(:choice)
+  end
+
   def sender_of_message
     user
   end
