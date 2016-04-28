@@ -48,6 +48,7 @@ class ArticlesController < ApplicationController
       @articles = @issue.articles.recent.page 1
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_articles_path(@issue)
+      @paginate_params = {controller: 'issues', action: 'slug_articles', slug: @issue.slug, id: nil}
     end
     prepare_meta_tags title: @article.title,
                       description: @article.body,

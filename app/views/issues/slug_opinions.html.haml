@@ -7,4 +7,5 @@
         %section#content-tab-section
           = render 'issues/content_tabs', active_tab: :opinions, counts_container: @issue.counts_container
         = render 'opinions/cards', opinions: @opinions, issue: @issue
+        = paginate @opinions, theme: 'catan', params: @paginate_params
       = render 'issues/aside'

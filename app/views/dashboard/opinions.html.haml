@@ -7,6 +7,8 @@
         %section#content-tab-section
           = render 'dashboard/content_tabs', active_tab: :opinions, counts_container: current_user.watched_counts
         = render 'opinions/cards', opinions: @opinions, issue: Issue::OF_ALL
+        .text-center
+          = paginate @opinions, theme: 'catan'
       = render 'aside'
 
 
