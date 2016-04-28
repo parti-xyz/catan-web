@@ -37,6 +37,13 @@ section#posts {
       margin-left: 7px;
     }
   }
+  &__share {
+    text-align: right;
+    .share-box {
+      float: none;
+      display: inline-block;
+    }
+  }
 }
 
 .post-card {
