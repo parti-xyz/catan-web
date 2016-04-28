@@ -445,6 +445,11 @@ var parti_prepare = function($base) {
     setTimeout(update_new_comments, polling_interval);
   });
 
+  // modal tooltip
+  parti_apply('[data-toggle="tooltip"]', function(elm) {
+    $(elm).tooltip();
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 
@@ -538,9 +543,4 @@ $(function(){
       UnobtrusiveFlash.showFlashMessage('어머나! 누가 지웠네요. 페이지를 새로 고쳐보세요.', {type: 'notice'})
     }
   });
-});
-
-// modal tooltip
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
 });
