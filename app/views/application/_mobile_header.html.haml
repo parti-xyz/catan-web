@@ -5,8 +5,8 @@
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
     %a.btn-mobile-menu.pull-right{ href: '#'}
       = image_tag 'btn_mobile_menu.png'
-.mobile-list
-  = image_tag 'icon_close_primary.png', class: 'mobile-list__close'
+.mobile-list#mobile-list
+  = image_tag 'icon_close_white.png', class: 'mobile-list__close'
   - if user_signed_in?
     .mobile-list__profile
       = byline current_user
