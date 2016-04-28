@@ -108,4 +108,14 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     put article_path(articles(:article3), article: { hidden: true })
     assert articles(:article3).reload.hidden?
   end
+
+  test '댓글이 없으면 안만들어요' do
+    stub_crawl do
+      sign_in(users(:one))
+
+      post articles_path(article: { link: 'link', issue_id: issues(:issue1).id })
+
+      refute assigns(:article).persisted?
+    end
+  end
 end

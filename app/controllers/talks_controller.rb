@@ -7,9 +7,15 @@ class TalksController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @talk.user = current_user
-      if @talk.save
-        @comment = build_comment
-        @comment.save if @comment.present?
+      if !@talk.save
+        errors_to_flash(@talk)
+        raise ActiveRecord::Rollback
+      end
+
+      @comment = build_comment
+      if @comment.blank? or !@comment.save
+        errors_to_flash(@comment) if @comment.present?
+        raise ActiveRecord::Rollback
       end
     end
     redirect_to params[:back_url].presence || issue_home_path(@issue)

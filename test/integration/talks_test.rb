@@ -37,4 +37,12 @@ class TalksTest < ActionDispatch::IntegrationTest
     post talks_path(talk: { link: 'link', issue_id: -1 }, comment_body: 'body')
     assert_equal previous_count, Talk.count
   end
+
+  test '댓글 없이는 못 만들어요' do
+    sign_in(users(:one))
+
+    post talks_path(talk: { title: 'title', issue_id: issues(:issue1).id })
+
+    refute assigns(:talk).persisted?
+  end
 end
