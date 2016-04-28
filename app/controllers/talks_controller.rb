@@ -18,6 +18,7 @@ class TalksController < ApplicationController
   def update
     redirect_to root_path and return if fetch_issue.blank?
     if @talk.update_attributes(talk_params)
+      update_comments
       redirect_to @talk
     else
       errors_to_flash @talk
@@ -48,6 +49,15 @@ class TalksController < ApplicationController
   end
 
   private
+
+  def update_comments
+    return if params[:comment_body].blank?
+
+    comment = Comment.find_by(id: params[:comment_id])
+    return if comment.blank? or comment.user != current_user
+
+    comment.update_attributes(body: params[:comment_body])
+  end
 
   def talk_params
     params.require(:talk).permit(:title)
