@@ -9,7 +9,7 @@
       댓글작성
       %span.comments--count<>= postable.comments.count
   %ul.comment-list.list-unstyled
-    = render postable.comments.sequential, mention_form_contorl: '#new_comment #comment_body'
+    = render postable.comments.sequential.offset(1), mention_form_contorl: '#new_comment #comment_body'
   - if user_signed_in?
     %a.anchor#comment-form
     .comment-form.clearfix
