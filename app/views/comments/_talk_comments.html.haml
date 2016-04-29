@@ -1,8 +1,9 @@
 %div{id: "#{dom_id(postable)}-comments" }
   - if user_signed_in?
-    = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" }, class: 'btn btn-default btn-new-comment' do
-      = image_tag 'icon_comment_black.png'
-      댓글작성
+    - unless is_mobile?
+      = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" }, class: 'btn btn-default btn-new-comment' do
+        = image_tag 'icon_comment_black.png'
+        댓글작성
   - else
     = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' }, class: 'btn btn-default btn-new-comment'  do
       = image_tag 'icon_comment_black.png'

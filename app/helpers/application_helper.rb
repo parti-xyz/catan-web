@@ -90,4 +90,8 @@ module ApplicationHelper
       capture &block
     end
   end
+
+  def is_mobile?
+    request.variant.try(:include?, :mobile)
+  end
 end
