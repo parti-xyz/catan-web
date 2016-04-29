@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  root 'issues#slug_comments', slug: 'all'
+  authenticated :user do
+    root to: 'dashboard#comments', as: 'authenticated_root'
+  end
+  root 'pages#home'
+
   get '/robots.:format' => 'pages#robots'
 
   resources :users, except: :show

@@ -1,0 +1,28 @@
+%section
+  .parti-intro
+    = image_tag 'thumb_main_intro.png'
+    .parti-intro__txt
+      %h2.title
+        빠띠는 파티,
+        %br
+        수다가 정치가 되는 곳이에요.
+      %p.text
+        잊고 싶지 않은 이슈를 알리고 정치,
+        %br.mobile
+        사회에 대한 내 의견을 쌓아가는 곳.
+        %br
+        누구나에게 열려있는 공론장,
+        %br.mobile
+        빠띠에 와서 이야기를 나눠 보세요.
+
+      %p.text.bg-black
+        %span= Issue.count
+        개 빠띠에서
+        %span= User.count
+        명이 나누는
+        %span= Comment.count
+        개의
+        %br.mobile
+        수다가 모여 정치가 됩니다.
+        &nbsp;
+  = render 'issues/calendar'
