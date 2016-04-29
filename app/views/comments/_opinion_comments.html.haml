@@ -2,11 +2,7 @@
 %section{id: "#{dom_id(postable)}-comments" }
   %h5
     - if user_signed_in?
-      - if postable.voted_by? current_user
-        = link_to '#comment-form', (data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" } unless is_mobile?), class: 'btn btn-default btn-new-comment' do
-          = image_tag 'icon_comment_black.png'
-          댓글작성
-      - else
+      -if !postable.voted_by?(current_user)
         .well
           %i.fa.fa-info-circle
           투표 후에 댓글을 남길 수 있습니다.
