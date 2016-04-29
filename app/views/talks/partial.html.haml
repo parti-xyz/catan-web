@@ -11,6 +11,6 @@
   - if @talk.has_presentation?
     .modal__content--first
       .profile= byline @talk.comments.first.user
-      %p= @talk.comments.first.body
+      %p= smart_format(h(@talk.comments.first.body))
 .modal__comment
   = render 'comments/comments', postable: @talk, style: :talk
