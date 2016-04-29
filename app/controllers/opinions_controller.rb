@@ -38,6 +38,7 @@ class OpinionsController < ApplicationController
       @opinions = @issue.opinions.recent.page 1
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_opinions_path(@issue)
+      @paginate_params = {controller: 'issues', :action => 'slug_opinions', slug: @issue.slug, id: nil}
     end
     prepare_meta_tags title: @opinion.title,
       description: '어떻게 생각하시나요?',

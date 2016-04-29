@@ -134,8 +134,8 @@ class Issue < ActiveRecord::Base
     counts = OpenStruct.new
     counts.articles_count = articles.count
     counts.latest_articles_count = articles.latest.count
-    counts.comments_count = posts.sum(:comments_count)
-    counts.latest_comments_count = posts.latest.sum(:comments_count)
+    counts.comments_count = comments.count
+    counts.latest_comments_count = comments.latest.count
     counts.opinions_count = opinions.count
     counts.latest_opinions_count = opinions.latest.count
     counts.talks_count = talks.count

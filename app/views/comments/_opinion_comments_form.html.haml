@@ -1,0 +1,11 @@
+%a.anchor#comment-form
+.comment-form.clearfix
+  = form_for [postable.acting_as, Comment.new], remote: true, class: 'comment-form' do |f|
+    = hidden_field_tag :container, "##{dom_id(postable)}-comments ##{postable.voted_by(current_user).choice} ul.media-list"
+    = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count.comments--count__#{postable.voted_by(current_user).choice}"
+    = hidden_field_tag :body_control, "##{dom_id(postable)}-comments .comment-form textarea#comment_body"
+    = image_tag current_user.image.xs.url, class: 'circle-50 img-circle comment-form__img'
+    .comment-form__area
+      = image_tag 'icon_tooltip_left2.png'
+      = f.text_area :body, class: 'form-control'
+    = f.submit '게시', class: 'btn btn-default btn-primary comment-form__btn'

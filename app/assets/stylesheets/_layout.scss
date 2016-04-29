@@ -4,7 +4,6 @@ footer {
   height: auto;
   padding: 25px;
   .footer-logo {
-    color: #757375;
     border-bottom: 1px solid #d9d9dd;
     padding-bottom: 15px;
     margin-bottom: 15px;
@@ -14,9 +13,10 @@ footer {
       float: left;
     }
     &__txt {
-     float: right;
-     font-size: 12px;
-     font-weight: bold;
+      color: #757375;
+      float: right;
+      font-size: 12px;
+      font-weight: bold;
     }
   }
   .footer-link {

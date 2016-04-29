@@ -445,6 +445,11 @@ var parti_prepare = function($base) {
     setTimeout(update_new_comments, polling_interval);
   });
 
+  // modal tooltip
+  parti_apply('[data-toggle="tooltip"]', function(elm) {
+    $(elm).tooltip();
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 
@@ -479,12 +484,12 @@ var parti_prepare_post_modal = function($base) {
         $(control).val(at_nickname + ' ' + value);
       }
     }
-    $target.modal('show');
     if (is_mention) {
       $target.on('shown.bs.modal', function (e) {
         $(control).focus();
       });
     }
+    $target.modal('show');
   });
   $target.on('hidden.bs.modal', function (e) {
     if($target.data('parti-pjax-back-trigger') == 'on') {
@@ -518,6 +523,15 @@ var parti_prepare_post_modal = function($base) {
   $base.data('parti-prepare-post-modal-arel', 'completed');
 };
 
+//parti-post-modal
+var parti_partial = function(partial) {
+  var $partial = $.parse$(partial)
+  parti_prepare_post_modal($partial);
+  parti_prepare($partial);
+
+  return $partial;
+}
+
 $(function(){
   parti_prepare($('body'));
   parti_prepare_post_modal($('body'));
@@ -529,9 +543,4 @@ $(function(){
       UnobtrusiveFlash.showFlashMessage('어머나! 누가 지웠네요. 페이지를 새로 고쳐보세요.', {type: 'notice'})
     }
   });
-});
-
-// modal tooltip
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
 });

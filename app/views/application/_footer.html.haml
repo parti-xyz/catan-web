@@ -1,10 +1,11 @@
 %footer.footer
   .footer-logo.clearfix
-    %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
-    %span.footer-logo__txt
-      수다로 정치하자
-      %br
-      빠띠에서 파티하자
+    = link_to root_path do
+      %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+      %span.footer-logo__txt
+        수다로 정치하자
+        %br
+        빠띠에서 파티하자
   %ul.footer-link.list-unstyled
     / %li= link_to '빠띠 소개', '#'
     %li= link_to '이용약관', '/terms'

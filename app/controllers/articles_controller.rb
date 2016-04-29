@@ -10,11 +10,18 @@ class ArticlesController < ApplicationController
     need_to_crawl = false
     ActiveRecord::Base.transaction do
       @article = Article.merge_by_link!(@article)
-      if @article.save
-        @comment = build_comment
-        @comment.save if @comment.present?
-        need_to_crawl = true
+      if !@article.save
+        errors_to_flash(@article)
+        raise ActiveRecord::Rollback
       end
+
+      @comment = build_comment
+      if @comment.blank? or !@comment.save
+        errors_to_flash(@comment) if @comment.present?
+        raise ActiveRecord::Rollback
+      end
+
+      need_to_crawl = true
     end
     crawl if need_to_crawl
     redirect_to params[:back_url].presence || issue_home_path(@issue)
@@ -48,6 +55,7 @@ class ArticlesController < ApplicationController
       @articles = @issue.articles.recent.page 1
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_articles_path(@issue)
+      @paginate_params = {controller: 'issues', action: 'slug_articles', slug: @issue.slug, id: nil}
     end
     prepare_meta_tags title: @article.title,
                       description: @article.body,

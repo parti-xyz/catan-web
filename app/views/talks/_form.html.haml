@@ -4,6 +4,13 @@
       = f.label :title, class: 'required'
       = f.text_field :title, class: 'form-control input-lg'
 
+    - if @talk.has_presentation?
+      - presentation_comment = @talk.comments.first
+      = hidden_field_tag :comment_id, presentation_comment.id
+      .form-group
+        = label_tag :comment_body, '이 톡 주제에 대해 어떻게 생각하시나요?'
+        = text_area_tag :comment_body, presentation_comment.body, class: 'form-control input-lg'
+
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg'
       = link_to @talk, class: 'btn btn-default' do

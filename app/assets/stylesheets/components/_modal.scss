@@ -32,6 +32,30 @@
     margin: 0;
     word-break: break-all;
   }
+  &--first {
+    border: 1px solid $brand-primary;
+    padding: 20px;
+    color: #777;
+    font-size: 15px;
+    .profile {
+      margin-bottom: 10px;
+      .user-image {
+        width: 30px;
+        height: 30px;
+        border: 2px solid $brand-primary;
+        margin-right: 5px;
+      }
+      .text-nowrap {
+        color: $brand-primary;
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+    p {
+      margin: 0;
+      word-break: break-all;
+    }
+  }
 }
 
 .modal__comment {

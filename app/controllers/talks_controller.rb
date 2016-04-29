@@ -7,9 +7,15 @@ class TalksController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @talk.user = current_user
-      if @talk.save
-        @comment = build_comment
-        @comment.save if @comment.present?
+      if !@talk.save
+        errors_to_flash(@talk)
+        raise ActiveRecord::Rollback
+      end
+
+      @comment = build_comment
+      if @comment.blank? or !@comment.save
+        errors_to_flash(@comment) if @comment.present?
+        raise ActiveRecord::Rollback
       end
     end
     redirect_to params[:back_url].presence || issue_home_path(@issue)
@@ -18,6 +24,7 @@ class TalksController < ApplicationController
   def update
     redirect_to root_path and return if fetch_issue.blank?
     if @talk.update_attributes(talk_params)
+      update_comments
       redirect_to @talk
     else
       errors_to_flash @talk
@@ -38,6 +45,7 @@ class TalksController < ApplicationController
       @talks = @issue.talks.recent.page 1
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_talks_path(@issue)
+      @paginate_params = {controller: 'issues', :action => 'slug_talks', slug: @issue.slug, id: nil}
     end
     prepare_meta_tags title: @talk.title
   end
@@ -47,6 +55,15 @@ class TalksController < ApplicationController
   end
 
   private
+
+  def update_comments
+    return if params[:comment_body].blank?
+
+    comment = Comment.find_by(id: params[:comment_id])
+    return if comment.blank? or comment.user != current_user
+
+    comment.update_attributes(body: params[:comment_body])
+  end
 
   def talk_params
     params.require(:talk).permit(:title)
