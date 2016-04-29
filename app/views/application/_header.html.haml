@@ -3,9 +3,9 @@
     .navbar-header.pull-left{ style: 'position: relative' }
       %a.navbar-brand{ href: root_path }
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-      %a{ href: issue_home_path(Issue::OF_ALL), class: 'btn btn-default btn-link navbar-btn pull-left'}
+      %a{ href: issues_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
         %b
-          모두보기
+          전체 빠띠
 
     .navbar-sign
       - if user_signed_in?
