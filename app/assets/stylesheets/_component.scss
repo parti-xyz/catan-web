@@ -248,6 +248,10 @@ br.mobile {
     width: 41px;
     height: auto;
   }
+  img#{&}--yellow {
+    width: 135px;
+    height: auto;
+  }
 }
 .article__body__link-container {
   .text-primary {
