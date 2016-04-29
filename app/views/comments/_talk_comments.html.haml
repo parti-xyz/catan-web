@@ -1,6 +1,6 @@
 %div{id: "#{dom_id(postable)}-comments" }
   - if user_signed_in?
-    = link_to '#comment-form', data: { action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" }, class: 'btn btn-default btn-new-comment' do
+    = link_to '#comment-form', data: ({ action: 'parti-focus', 'focus-target': "##{dom_id(postable)}-comments .comment-form textarea#comment_body" } unless is_mobile?), class: 'btn btn-default btn-new-comment' do
       = image_tag 'icon_comment_black.png'
       댓글작성
   - else
