@@ -1,12 +1,11 @@
 - article = article_as_footnote
 - post = article.acting_as
-.post-inline[post]
+.post-inline.post-inline--article[post]{data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }}
   %h5.post-inline__title
-    = render 'posts/post_inline_footnote', obj: article, show_issue: local_assigns[:show_issue]
-    = link_to screenable_article_title(article), '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }
+    = render 'posts/post_inline_footnote', obj: article, show_issue: local_assigns[:show_issue], linkable: false
+    = screenable_article_title(article)
   .post-inline__comment.pull-right
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
-      = image_tag 'icon_comment.png'
-      %b= post.comments_count
+    = image_tag 'icon_comment.png'
+    %b= post.comments_count
 
 

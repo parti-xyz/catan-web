@@ -91,6 +91,10 @@ section#posts {
     margin: 0;
     display: inline-block;
   }
+  &--article,
+  &--talk {
+    cursor: pointer;
+  }
 }
 
 
