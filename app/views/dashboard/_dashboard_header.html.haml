@@ -8,13 +8,14 @@
           %b
             빠띠
         .my-issue-count
-          %small total :
+          %small 총
           %span= current_user.watched_issues.count
           %span{style: 'margin-left: -2px;'} 개
-        =link_to '빠띠 찾기', issues_path, class: 'btn btn-primary btn-issue'
+        /=link_to '다른 빠띠 찾기', issues_path, class: 'btn btn-primary btn-issue'
       .col-xs-10
         %ul.issue-card-wrapper.list-unstyled.clearfix.owl-carousel
-          - current_user.watched_issues.each do |issue|
+          - watched_issues = current_user.watched_issues
+          - watched_issues.each_with_index do |issue, index|
             - issue ||= local_assigns[:card]
             %li.issue-card.item
               = link_to issue_home_path(issue) do
@@ -27,4 +28,15 @@
                   %span.comment-count
                     = image_tag 'icon_comment.png'
                     %b= issue.comments.count
+          %li.issue-card.issue-card--watch_more.item
+            = link_to issues_path do
+              %p
+                더욱 재미있는 빠띠를
+                %br
+                즐기고 싶으세요?
+
+              %button.btn.btn-primary.btn-issue<
+                다른 빠띠
+                %br>
+                구독하기
 

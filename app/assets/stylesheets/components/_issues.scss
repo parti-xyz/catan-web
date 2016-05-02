@@ -234,6 +234,27 @@
         padding-top: 110px;
       }
     }
+    &--watch_more {
+      background-color: #e5e5ea;
+      border: none;
+      text-align: center;
+      display: table;
+      a {
+        height: 190px;
+        display: block;
+        display: table-cell;
+        vertical-align: middle;
+        img {
+          width: initial;
+          height: initial;
+          margin: auto;
+        }
+        p {
+          color: #7e7e7e;
+          font-weight: 500;
+        }
+      }
+    }
   }
   .issue-card:nth-child(5n+1), .issue-card:first-child {
     margin-left: 0;
