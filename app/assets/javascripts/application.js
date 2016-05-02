@@ -543,16 +543,24 @@ $(function(){
       UnobtrusiveFlash.showFlashMessage('어머나! 누가 지웠네요. 페이지를 새로 고쳐보세요.', {type: 'notice'})
     }
   });
+
+  $('[data-ride="parti-dashboard-slider"]').owlCarousel({
+    margin: 25,
+    nav: $('.owl-carousel').data('owl-need-nav'),
+    navText: [
+      '<i class="fa fa-chevron-left">',
+      '<i class="fa fa-chevron-right">',
+    ],
+    dots: false,
+    responsive:{
+      0: {
+        items:2
+      },
+      1000:{
+        items:5
+      }
+    }
+  })
 });
 
-$('.owl-carousel').owlCarousel({
-  margin: 25,
-  responsive:{
-    0: {
-      items:2
-    },
-    1000:{
-      items:5
-    }
-  }
-})
+

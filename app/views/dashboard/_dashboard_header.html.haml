@@ -13,8 +13,8 @@
           %span{style: 'margin-left: -2px;'} 개
         /=link_to '다른 빠띠 찾기', issues_path, class: 'btn btn-primary btn-issue'
       .col-xs-10
-        %ul.issue-card-wrapper.list-unstyled.clearfix.owl-carousel
-          - watched_issues = current_user.watched_issues
+        - watched_issues = current_user.watched_issues
+        %ul.issue-card-wrapper.list-unstyled.clearfix.owl-carousel{data: {ride: 'parti-dashboard-slider', 'owl-need-nav': (is_mobile? ? watched_issues.count > 1: watched_issues.count > 4)}}
           - watched_issues.each_with_index do |issue, index|
             - issue ||= local_assigns[:card]
             %li.issue-card.item
