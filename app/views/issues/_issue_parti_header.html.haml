@@ -1,40 +1,37 @@
 - issue ||= @issue
 %section.issue-header-section
   %section#issue
-    .container{ style: 'position: relative;' }
-      .jumbotron.jumbotron-transparent{ style: 'margin: 0; padding-left: 0; padding-right: 0;' }
-        .clearfix
-          = link_to issue_home_path(issue), style: 'text-decoration: none' do
-            .pull-left
-              = image_tag issue.logo.sm.url, class: 'issue-logo'
-          %h4.issue-title
-            = link_to issue_home_path(issue), style: 'text-decoration: none' do
-              %span= issue.title
-              %small
-                %span
-                  - if can? :update, issue
-                    = link_to '수정', [:edit, issue]
-                  - if can? :destroy, issue
-                    = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
+    .container.issue-info-wrapper.clearfix
+      .issue-logo
+        = link_to issue_home_path(issue) do
+          .thumb{style: "background-image: url(#{issue.logo.md.url})"}
+      .issue-info.issue-info--mobile
+        = link_to issue_home_path(issue), class: 'issue-title' do
+          = issue.title
+        %span
+          - if can? :update, issue
+            = link_to '수정 /', [:edit, issue]
+          - if can? :destroy, issue
+            = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
+        %span(class="#{dom_id(issue)}-watch")
+          = render 'watches/watch', issue: issue
+      .issue-info
+        .issue-count
+          %span.comment-count
+            = link_to issue_home_path(issue) do
+              %span.label 댓글 :
+              %span= issue.comments.count
+              %span{style: 'margin-left: -2px;'} 개
+          %span.user-count
+            = link_to issue_users_path(issue) do
+              %span.label 구독회원
+              %span :
+              %span= issue.watches.count
+              %span{style: 'margin-left: -2px;'} 명
+        .issue-body
+          %p= issue.body
 
-          %div.issue-count
-            %span.comment-count
-              = link_to issue_home_path(issue) do
-                댓글
-                %span= issue.comments.count
-                - if issue.comments.latest.any?
-                  %small>= "+#{issue.posts.latest.count}"
-            %span.user-count
-              = link_to issue_users_path(issue) do
-                구독회원
-                %span= issue.watches.count
-              - if issue.watches.latest.any?
-                %small>= "+#{issue.watches.latest.count}"
 
-          - if local_assigns[:show_social_share]
-            = render 'issues/share'
+        - if local_assigns[:show_social_share]
+          = render 'issues/share'
 
-          %div
-            %strong{ style: 'margin-right: 15px;' }
-              %span(class="#{dom_id(issue)}-watch")
-                = render 'watches/watch', issue: issue

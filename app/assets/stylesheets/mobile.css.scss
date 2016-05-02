@@ -508,6 +508,58 @@ br.mobile {
 
 .issue-header-section {
   height: 205px;
+  .issue-title {
+    font-size: 18px;
+    font-weight: normal;
+    max-height: 73px;
+    overflow: hidden;
+  }
+  .issue-info-wrapper {
+    padding-top: 0;
+  }
+  .issue-info {
+    width: 100%;
+    padding: 0;
+    &--mobile {
+      width: 55%;
+      min-height: 130px;
+      float: left;
+      padding-left: 15px;
+      .btn {
+        padding: 6px 12px;
+        top: auto;
+        bottom: 0;
+        left: 15px;
+        right: auto;
+        font-size: 12px;
+      }
+    }
+  }
+  .issue-logo .thumb {
+    width: 130px;
+    height: 130px;
+  }
+  .issue-count {
+    padding: 10px 0;
+    .comment-count, .user-count {
+      a {
+        font-size: 14px;
+        .label {
+          font-size: 11px;
+          padding-top: 4px;
+        }
+      }
+    }
+    .user-count .label{
+      padding: 5px 10px !important;
+      margin-top: -3px;
+    }
+  }
+  .issue-body p {
+    height: 53px;
+    font-size: 12px;
+    overflow: hidden;
+  }
 }
 .issue-header-txt {
   text-align: center;
@@ -521,7 +573,7 @@ br.mobile {
   .issue-card {
     width: 48%;
     margin-left: 4%;
-    &:nth-child(6n) {
+    &:nth-child(5n+1) {
       margin-left: 4%;
     }
     &:nth-child(odd) {
@@ -534,6 +586,7 @@ br.mobile {
   padding-top: 35px;
   font-size: 15px;
 }
+
 
 
 #btn-continue {
