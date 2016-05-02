@@ -176,6 +176,23 @@
     vertical-align: top;
   }
 }
+#btn-next-page {
+  margin: -10px 0 160px 25px;
+  display: block;
+  background-position: 0;
+  padding-top: 40px;
+  padding-left: 25px;
+  text-decoration: underline;
+  color: $brand-primary;
+  position: relative;
+  img {
+    position: absolute;
+    width: 33px;
+    height: 33px;
+    left: -16px;
+    top: 33px;
+  }
+}
 
 /* inline editor form */
 .form-widget-container {
