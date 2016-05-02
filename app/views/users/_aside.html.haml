@@ -1,5 +1,6 @@
 #aside.col-xs-3
   .aside_issue
     %h4.aside_title 구독 하는 빠띠
-    = render customize_partial_path(@user.watched_issues, 'card')
+    %ul.clearfix.list-unstyled
+      = render customize_partial_path(@user.watched_issues, 'card')
   = render 'application/footer'

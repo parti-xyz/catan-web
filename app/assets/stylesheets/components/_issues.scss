@@ -37,7 +37,7 @@
 }
 
 .issue-header-section {
-  background-color: $gray-lighter;
+  height: 305px;
   .issue-logo {
     width: 90px;
     height: 90px;
@@ -55,6 +55,24 @@
       margin-right: 5px;
     }
   }
+}
+.issue-header-txt {
+  text-align: center;
+  padding-top: 40px;
+  h3 {
+    line-height: 1.4em;
+  }
+}
+#btn-continue {
+  background-color: #e0cdff;
+  padding: 13px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  margin-top: 40px;
+  display: inline-block;
 }
 
 .issue-recommends {
@@ -89,78 +107,106 @@
   }
 }
 
-
-
-.aside_issue > .issue-card {
-  border-top: none;
-}
-.issue-card {
-  border: 1px solid $gray-lighter;
-  background-color: #fff;
-  padding: 25px;
-  a {
-    overflow: auto;
-    display: block;
-    &:hover .issue-card__title {
-      color: $brand-primary;
-    }
-  }
-  &__thumb {
-    width: 60px;
-    height: 60px;
-    background-position: center;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    display: inline-block;
-    float: left;
-    margin-right: 15px;
-  }
-  &__title {
-    width: 53%;
-    height: 39px;
-    overflow: hidden;
-    color: $gray-dark;
-    font-size: 16px;
-    line-height: 1.2em;
-    font-weight: bold;
-    float: left;
-  }
-  &__meta {
-    min-width: 53%;
-    color: #555;
-    float: left;
-    b {
-      vertical-align: top;
-      line-height: 1.7;
-    }
-    .user-count {
-      margin-right: 10px;
-    }
-    .user-count, .comment-count {
-      img {
-        width: auto;
-        display: inline-block;
-      }
-    }
-  }
-  &__btn {
+.parties-all {
+  padding-top: 35px;
+  .parties-text {
     width: 100%;
-    height: 30px;
+    min-height: 245px;
     text-align: center;
-    font-size: 12px;
-    line-height: 30px;
-    margin-top: 15px;
-    display: block;
-    a {
-      color: #777;
-      border: 1px solid #d2d2d2;
+    color: #777;
+    font-size: 18px;
+    padding-top: 100px;
+  }
+}
+
+.issue-card-wrapper {
+  min-height: 245px;
+  margin-bottom: 75px;
+  .issue-card {
+    width: 19%;
+    margin-left: 1.25%;
+    float: left;
+    border-bottom: 1px solid #dddbdc;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-top: 1px solid #fff;
+    background-color: #fff;
+    margin-bottom: 10px;
+    position: relative;
+    &__thumb {
+      width: 100%;
+      height: 130px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 0;
+      -webkit-border-radius: 0;
+      -moz-border-radius: 0;
     }
-    &:hover, &:focus {
-      a {
-        color: #fff;
-        background: #555;
+    &__meta {
+      width: 100%;
+      position: absolute;
+      top: 100px;
+      padding: 5px 0;
+      background-color: rgba(0,0,0,0.9);
+      text-align: center;
+      color: #fff;
+      b {
+        font-size: 12px;
+      }
+      .comment-count {
+        margin-left: 5px;
       }
     }
+    &__title {
+      width: 90%;
+      height: 40px;
+      overflow: hidden;
+      color: $brand-primary;
+      font-weight: bold;
+      text-align: center;
+      margin: 10px auto;
+      display: block;
+    }
+    &__btn {
+      .btn {
+        width: 87%;
+        margin: 0 auto 15px auto;
+        display: block;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+      }
+      a {
+        width: 87%;
+        margin: 0 auto 15px auto;
+        display: block;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        padding: 5px 10px;
+        font-size: 12px;
+        text-align: center;
+        line-height: 1.5;
+        color: #777;
+        border: 1px solid #d2d2d2;
+        &:hover, &:focus {
+          color: #fff;
+          background: #555;
+        }
+      }
+    }
+    &--more {
+      background-color: #e5e5ea;
+      border: none;
+      text-align: center;
+      a {
+        height: 237px;
+        display: block;
+        padding-top: 110px;
+      }
+    }
+  }
+  .issue-card:nth-child(6n), .issue-card:first-child {
+    margin-left: 0;
   }
 }

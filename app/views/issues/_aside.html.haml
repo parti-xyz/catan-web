@@ -6,5 +6,6 @@
       = render 'posts/card', card: post, show_issue: issue.is_all?
   .aside_issue
     %h4.aside_title 추천빠띠
-    = render customize_partial_path((@issue || Issue::OF_ALL).recommends, 'card')
+    %ul.list-unstyled.clearfix
+      = render customize_partial_path((@issue || Issue::OF_ALL).recommends, 'card')
   = render 'application/footer'

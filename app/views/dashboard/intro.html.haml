@@ -1,14 +1,11 @@
 %section.issue-header-section
-  %section#issue
-    .container{ style: 'position: relative;' }
-      .jumbotron.jumbotron-transparent
-        .row
-          .col-xs-9
-            %h2 우선, 눈길이 가는 빠띠를 구독해보세요.
-            %p.text-muted 내 빠띠에서 쉽게 새 글을 확인하고, 매일 아침 메일로 받아보는 빠띠 소식!
-          .col-xs-3.text-center
-            %a#btn-continue.btn.btn-primary.btn-lg.btn-block-xs.disabled( style="margin-top: 30px;" href="/")
-              계속하기
+  %section#issue.issue-header-txt
+    %h3
+      우선, 눈길이 가는 빠띠를 구독해보세요.
+      %br
+      내 빠띠에서 쉽게 새 글을 확인하고, 매일 아침 메일로 받아보는 빠띠 소식!
+    %a#btn-continue{href: '/'}
+      계속하기
 
 %section#issues{ style: 'padding-top: 2em; min-height: 400px;' }
   .container

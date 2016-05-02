@@ -116,12 +116,12 @@ label.required:after {
 
 .btn-ghost {
   &.btn-primary {
-    border: 1px solid $brand-primary;
-    background-color: transparent;
-    color: $brand-primary;
+    border: 1px solid $brand-primary !important;
+    background-color: transparent !important;
+    color: $brand-primary !important;
     &:hover {
-      background-color: $brand-primary;
-      color: #fff;
+      background-color: $brand-primary !important;
+      color: #fff !important;
     }
   }
 

@@ -1,10 +1,23 @@
-%section#issues
+%section.parties-all#issues
   .container
-    .page-header
-      %h2
-        전체 빠띠
-        %small (#{Issue.count})
     .row
-      - @issues.each do |issue|
-        .col-xs-4
-          = render 'issues/card', issue: issue
+      .col-xs-9.parties-all
+        .nav-tabs.page-title
+          %h4 내가 구독 중인 빠띠
+        - if current_user.watched_issues.count == 0
+          %p.parties-text 아직 구독한 빠띠가 없네요, 아래에서 골라보세요!
+        - else
+          %ul.issue-card-wrapper.list-unstyled.clearfix
+            - current_user.watched_issues.each do |issue|
+              = render 'issues/card', issue: issue
+            %li.issue-card.issue-card--more
+              %a{href: '#issues-all'}
+                = image_tag 'icon_plus.png'
+        .nav-tabs.page-title#issues-all
+          %h4
+            전체빠띠
+        %ul.issue-card-wrapper.list-unstyled.clearfix
+          - @issues.each do |issue|
+            = render 'issues/card', issue: issue
+      .col-xs-3= render 'footer'
+
