@@ -3,14 +3,16 @@
     .vote__new#editors-tab
       - if user_signed_in?
         = link_to '#', class: 'btn-vote', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !issue.is_all? ? 'input#opinion_title' : 'select#opinion_issue_id')} do
-          %span 더 나은 논의를 위해 투표해 보세요.
+          %span
+            더 나은 논의를 위해 투표를 열어 보세요.
           %span.vote__new-img
             = image_tag 'img_opinion.png'
             %b 투표 열기
         = render 'opinions/new_form', issue: @issue
       - else
         = link_to '#', class: 'btn-vote', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
-          %span 더 나은 논의를 위해 투표해 보세요.
+          %span
+            더 나은 논의를 위해 투표를 열어 보세요.
           %span.vote__new-img
             = image_tag 'img_opinion.png'
             %b 투표 열기
