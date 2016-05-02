@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get '/robots.:format' => 'pages#robots'
 
   resources :users, except: :show
-  if Rails.env.development?
+  unless Rails.env.production?
     get 'kill_me', to: 'users#kill_me'
   end
 
