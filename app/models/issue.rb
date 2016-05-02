@@ -115,6 +115,15 @@ class Issue < ActiveRecord::Base
     (related_issues + OF_ALL.recommends - [self]).uniq.shuffle.first(10)
   end
 
+  def featured_posts(count)
+    result = []
+    posts.only_articles.hottest.find_each(batch_size: 10) do |post|
+      result << post if (post.specific.has_image? and !post.specific.hidden?)
+      return result if result.length > count
+    end
+    result
+  end
+
   def self.recommends_for_watch(someone)
     Issue.hottest.where.not(id: someone.watched_issues).limit(10).to_a
   end

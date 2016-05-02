@@ -26,3 +26,11 @@
         수다가 모여 정치가 됩니다.
         &nbsp;
   = render 'issues/calendar'
+
+- %w(20th-assembly basic-income).each do |slug|
+  - issue = Issue.find_by(slug: slug)
+  - next if issue.blank?
+  = issue.title
+  = issue.body
+  - issue.featured_posts(3).each do |post|
+    = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_featured" })
