@@ -1,16 +1,30 @@
 %section#dashboard-header-section
   .container
-    .jumbotron.jumbotron-transparent
-      %h4
-        내 빠띠
-      %p
-        %i.fa.fa-at>
-          = current_user.nickname
-          님이 구독 중인 빠띠의 #{Article.model_name.human}, #{Talk.model_name.human}, #{Opinion.model_name.human}를 모았습니다.
-
-      .issues
-        - current_user.watched_issues.each do |issue|
-          = link_to issue_home_path(issue), class: 'btn btn-default btn-sm' do
-            = image_tag issue.logo.sm.url
-            = issue.title
+    .row
+      .col-xs-2
+        .issue-card-txt
+          구독중인
+          %br
+          %b
+            빠띠
+        .my-issue-count
+          %small total :
+          %span= current_user.watched_issues.count
+          %span{style: 'margin-left: -2px;'} 개
+        =link_to '빠띠 찾기', issues_path, class: 'btn btn-primary btn-issue'
+      .col-xs-10
+        %ul.issue-card-wrapper.list-unstyled.clearfix.owl-carousel
+          - current_user.watched_issues.each do |issue|
+            - issue ||= local_assigns[:card]
+            %li.issue-card.item
+              = link_to issue_home_path(issue) do
+                .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
+                %span.issue-card__title= issue.title
+                .issue-card__meta
+                  %span.user-count
+                    = image_tag 'icon_user.png'
+                    %b= issue.watches.count
+                  %span.comment-count
+                    = image_tag 'icon_comment.png'
+                    %b= issue.comments.count
 

@@ -38,6 +38,32 @@
       }
     }
   }
+  .issue-card-txt {
+    color: #fff;
+    font-size: 24px;
+    padding-top: 20px;
+    line-height: 1.2em;
+  }
+  .my-issue-count {
+    min-width: 85px;
+    border-top: 1px solid #3d3557;
+    border-bottom: 1px solid #3d3557;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    padding: 10px 0;
+    margin: 20px 0;
+    display: inline-block;
+  }
+  .btn-issue {
+    width: 85px;
+    height: 47px;
+    line-height: 33px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-top: 1px solid #ab8cde;
+  }
 }
 
 #messages-header-section{

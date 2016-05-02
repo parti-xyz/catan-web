@@ -75,38 +75,6 @@
   display: inline-block;
 }
 
-.issue-recommends {
-  h4 {
-    font-weight: 200;
-  }
-  .owl-wrapper {
-    margin: 0 25px;
-  }
-  .owl-carousel {
-    .owl-item-wrapper {
-      margin: 0 10px;
-      .issue-card.panel {
-        margin-bottom: 0;
-      }
-    }
-    .owl-controls {
-      height: 0;
-      .owl-nav {
-        .owl-prev {
-          position: absolute;
-          top: 45px;
-          left: -35px;
-        }
-        .owl-next {
-          position: absolute;
-          top: 45px;
-          right: -35px;
-        }
-      }
-    }
-  }
-}
-
 .parties-all {
   padding-top: 35px;
   .parties-text {
@@ -156,6 +124,9 @@
       }
       .comment-count {
         margin-left: 5px;
+      }
+      img {
+        display: inline-block;
       }
     }
     &__title {
@@ -209,4 +180,24 @@
   .issue-card:nth-child(6n), .issue-card:first-child {
     margin-left: 0;
   }
+}
+
+
+
+.owl-carousel {
+  min-height: auto;
+  margin-top: 20px;
+  margin-bottom: 0;
+  .issue-card {
+    width: 100%;
+    border: none;
+    margin-bottom: 0;
+  }
+}
+.owl-theme .owl-dots .owl-dot span {
+  margin: 5px 3px;
+  background-color: #fff;
+}
+.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
+  background-color: $brand-primary;
 }

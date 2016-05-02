@@ -544,3 +544,15 @@ $(function(){
     }
   });
 });
+
+$('.owl-carousel').owlCarousel({
+  margin: 25,
+  responsive:{
+    0: {
+      items:2
+    },
+    1000:{
+      items:5
+    }
+  }
+})

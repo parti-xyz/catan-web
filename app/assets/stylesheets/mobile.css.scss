@@ -548,5 +548,33 @@ br.mobile {
   display: inline-block;
 }
 
-
+#dashboard-header-section {
+  .col-xs-2, .col-xs-10 {
+    width: 100%;
+  }
+  .issue-card-txt {
+    font-size: 18px;
+    padding-top: 10px;
+    br {
+      display: none;
+    }
+  }
+  .my-issue-count {
+    width: 100%;
+    text-align: right;
+  }
+  .btn-issue {
+    position: absolute;
+    right: 15px;
+    top: 0px;
+    padding: 2px;
+    height: auto;
+  }
+}
+.owl-carousel {
+  margin: 0;
+  .issue-card {
+    width: 100%;
+  }
+}
 
