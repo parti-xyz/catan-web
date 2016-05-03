@@ -14,7 +14,7 @@
         /=link_to '다른 빠띠 찾기', issues_path, class: 'btn btn-primary btn-issue'
       .col-xs-10
         - watched_issues = current_user.watched_issues
-        %ul.issue-card-wrapper.list-unstyled.clearfix.owl-carousel{data: {ride: 'parti-dashboard-slider', 'owl-need-nav': (is_mobile? ? watched_issues.count > 1: watched_issues.count > 4)}}
+        %ul.issue-card-wrapper.list-unstyled.clearfix.owl-carousel{data: {ride: 'parti-dashboard-slider', 'owl-need-nav': (is_mobile? ? watched_issues.count > 1: watched_issues.count > 4).to_s}}
           - watched_issues.each_with_index do |issue, index|
             - issue ||= local_assigns[:card]
             %li.issue-card.item

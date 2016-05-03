@@ -544,23 +544,27 @@ $(function(){
     }
   });
 
-  $('[data-ride="parti-dashboard-slider"]').owlCarousel({
-    margin: 25,
-    nav: $('.owl-carousel').data('owl-need-nav'),
-    navText: [
-      '<i class="fa fa-chevron-left">',
-      '<i class="fa fa-chevron-right">',
-    ],
-    dots: false,
-    responsive:{
-      0: {
-        items:2
-      },
-      1000:{
-        items:5
+  $('[data-ride="parti-dashboard-slider"]').each(function(i, elm) {
+    var need_nav = $(elm).data('owl-need-nav');
+    $(elm).owlCarousel({
+      margin: 25,
+      nav: $(elm).data('owl-need-nav'),
+      navText: [
+        '<i class="fa fa-chevron-left">',
+        '<i class="fa fa-chevron-right">',
+      ],
+      dots: false,
+      responsive:{
+        0: {
+          items:2
+        },
+        1000:{
+          items:5
+        }
       }
-    }
-  })
+    });
+  });
+
 });
 
 
