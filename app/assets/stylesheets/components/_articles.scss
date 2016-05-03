@@ -5,6 +5,9 @@
   border: 1px solid #f1f1f1;
   display: table;
   margin-top: 15px;
+  &:hover {
+    border-color: #bfa5eb;
+  }
   img {
     width: 150px;
     height: 100px;
