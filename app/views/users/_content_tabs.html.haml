@@ -1,7 +1,7 @@
 %ul.nav.nav-tabs{role: 'tablist'}
   %li{role: 'presentation', class: ('active' if active_tab == :comments)}
     = link_to user_gallery_path(@user) do
-      .nav-tabs__count
+      .nav-tabs__count{style: 'left: 105px;'}
         %small<>= counts_container.comments_count
         - if counts_container.latest_comments_count > 0
           %small.text-primary<>

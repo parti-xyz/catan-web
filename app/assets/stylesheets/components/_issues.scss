@@ -233,7 +233,11 @@
         }
       }
       .btn-primary {
+        background-color: $brand-primary;
         color: #fff;
+        &:hover {
+          background-color: #7947cb;
+        }
       }
     }
     &--more {
