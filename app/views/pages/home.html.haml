@@ -28,6 +28,7 @@
                   .issue-logo{ style: "background-image: url(#{issue.logo.sm.url});" }
                   %h2.issue-title= issue.title
                   %h4.issue-body= issue.body
+                  .icon= image_tag 'icon_accordion.png'
             .panel-collapse.collapse{class: ('in' if i == 0), "aria-labelledby" => "heading-#{i}", :role => "tabpanel", :id => "collapse-#{i}"}
               .panel-body.clearfix
                 %ul.recommend-parti-list.list-unstyled.row
