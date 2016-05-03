@@ -34,3 +34,106 @@
     }
   }
 }
+
+/* about */
+.about-wrapper {
+  background-color: #f2f2f2;
+}
+.about-parti {
+  position: relative;
+  min-width: 970px;
+  >img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+  &__txt {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -250px;
+    color: #000;
+    font-size: 18px;
+    text-align: center;
+    .title {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    p {
+     margin: 0;
+    }
+  }
+  .bg-black {
+    background: #000;
+    color: #fff;
+    span {
+      margin-right: -3px;
+      margin-left: 7px;
+    }
+  }
+  &--bottom {
+    .about-parti__txt {
+      top: 12%;
+      margin-left: -287px;
+      .last {
+        margin-top: 40px;
+      }
+    }
+    .mail-link {
+      color: $brand-primary;
+    }
+    .about-parti__footer {
+      margin-top: 160px;
+      .parti_logo_purple {
+        width: 65px;
+        height: auto;
+        margin-bottom: 25px;
+      }
+      .footer-sns {
+        border: none;
+        margin-bottom: 0;
+      }
+      .footer-link {
+        border: none;
+        a {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+.about-parti-box {
+  padding: 160px 0;
+  position: relative;
+  color: #000;
+  hr {
+    border-width: 3px;
+    border-color: $brand-primary;
+    width: 140px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin-left: -70px;
+  }
+  h2 {
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 40px;
+    margin-top: 0;
+    font-size: 28px;
+    line-height: 1.3;
+  }
+  p {
+    font-size: 18px;
+    line-height: 1.4;
+    b {
+      margin-right: -5px;
+    }
+  }
+  .col-xs-6 {
+    img {
+      width: 100%;
+    }
+  }
+}

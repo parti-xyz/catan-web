@@ -3,38 +3,38 @@ footer {
   width: 100%;
   height: auto;
   padding: 25px;
-  .footer-logo {
-    border-bottom: 1px solid #d9d9dd;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-    &__img {
-      width: 64px;
-      height: auto;
-      float: left;
-    }
-    &__txt {
-      color: #757375;
-      float: right;
-      font-size: 12px;
-      font-weight: bold;
-    }
+}
+.footer-logo {
+  border-bottom: 1px solid #d9d9dd;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  &__img {
+    width: 64px;
+    height: auto;
+    float: left;
   }
-  .footer-link {
-    line-height: 2;
-    border-bottom: 1px solid #d9d9dd;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-    a {
-      color: #b1b0b1;
-    }
+  &__txt {
+    color: #757375;
+    float: right;
+    font-size: 12px;
+    font-weight: bold;
   }
-  .footer-sns {
-    border-bottom: 1px solid #d9d9dd;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-    a {
-      margin-right: 5px;
-    }
+}
+.footer-link {
+  line-height: 2;
+  border-bottom: 1px solid #d9d9dd;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  a {
+    color: #b1b0b1;
+  }
+}
+.footer-sns {
+  border-bottom: 1px solid #d9d9dd;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+  a {
+    margin-right: 5px;
   }
 }
 

@@ -1,32 +1,166 @@
-%section#all-issues
-  .jumbotron
-    .container
-      %h2 꾸준히 기억하고픈 이슈들을
-      %p
-        우리가 잊지 않기록 다짐한 이슈들을
+%section.about-wrapper
+  .about-parti
+    = image_tag 'thumb_main_intro.png'
+    .about-parti__txt
+      %h2.title
+        빠띠는 파티,
         %br
-        작은 노력으로 꾸준히 다룰 수 있도록
-      %a.btn.btn-default{href: '/i/all'} 모든 빠띠
-
-%section#featured-issues
-  .jumbotron.jumbotron-transparent
-    .container
-      %h2 더 나은 논의와 토론으로 함께할
-      %p
-        이해를 위한 노력과 참여가 차곡 차곡 쌓여
+        수다가 정치가 되는 곳이에요.
+      %p.text
+        잊고 싶지 않은 이슈를 알리고 정치,
+        %br.mobile
+        사회에 대한 내 의견을 쌓아가는 곳.
         %br
-        더 나은 논의와 토른을 이을 수 있도록
-      %a.btn.btn-default 기본소득
-      %a.btn.btn-default 20대 총선
+        누구나에게 열려있는 공론장,
+        %br.mobile
+        빠띠에 와서 이야기를 나눠 보세요.
 
-
-%section#issue-commiters
-  .jumbotron
+      %p.text.bg-black
+        %span= Issue.count
+        개 빠띠에서
+        %span= User.count
+        명이 나누는
+        %span= Comment.count
+        개의
+        %br.mobile
+        수다가 모여 정치가 됩니다.
+        &nbsp;
+  .about-parti-box
+    %hr
     .container
-      %h2 사람과 공간이 필요하다면
-      %p
-        이런 노력을 기울이는 사람들이 연결되어
-        %br
-        서로의 의지와 판단으로 흐름을 만들어 낼 수 있도록
-      %a.btn.btn-default 시작해보세요.
-      %a.btn.btn-default 공유하기
+      .row
+        .col-xs-6
+          %h2
+            우선, 눈길이 가는 빠띠를 구독해 보세요.
+          %p
+            관심있는 이슈가 어떻게 진행되고 있는지
+            %br
+            %b 내 빠띠
+            에서 쉽게 새 글을 확인하고,
+            %br
+            매일 아침
+            %b 메일로 받아보는 빠띠 소식!
+        .col-xs-6.text-right
+          = image_tag 'img_about_1.png'
+  .about-parti-box
+    %hr
+    .container
+      .row
+        .col-xs-6
+          %h2
+            이슈와 관련된 새로운 소식이나
+            %br
+            토론하고픈 주제가 있나요?
+          %p
+            %b 링크
+            를 걸고 정보를 공유하거나,
+            %b 톡
+            을 열어 토론 테이블을 열어보세요.
+            %br
+            %b 실시간 댓글
+            로 수다를 떨면서,
+            %br
+            자료는 모두 빠띠에
+            %b 차곡차곡 저장된다는 사실.
+            %br
+            빠띠에서 어떤 내용이 오갔는지 천천히 다시 맥락을 짚어볼 수 있어요.
+        .col-xs-6.text-right
+          = image_tag 'img_about_2.png'
+  .about-parti-box
+    %hr
+    .container
+      .row
+        .col-xs-6
+          %h2
+            투표로 힘을 모아 주세요.
+          %p
+            %b
+              다른 사람들의 의견
+            을 들어보고 싶을 때,
+            %br
+            혹은 꼭 해결했으면 하는 이슈가 생겼을 때
+            %b 투표를 열거나 참여
+            해 보세요.
+            %br
+            %b 작은 힘들이 모여 필요한 곳에 도움
+            을 주거나,
+            %b 더 나은 논의
+            로 진행될 수 있도록.
+        .col-xs-6.text-right
+          = image_tag 'img_about_3.png'
+  .about-parti-box
+    %hr
+    .container
+      .row
+        .col-xs-6
+          %h2
+            빠띠메이커가 되어 보세요.
+          %p
+            %b 프로필 사진
+            을 클릭하면 사회의 어떤 이슈에 관심있는지,
+            %br
+            어떤 입장을 가진 사람인지 알 수 있어요.
+            %br
+            의견에 공감하거나 다른 생각을 가지고 있다면,
+            %br
+            %b 멘션댓글로 대화
+            를 해보거나 열정적으로
+            %b 하트
+            를 !
+            %br
+            이야기를 나누면서 저절로
+            %b 정치, 사회 이슈에 대한 내 의견
+            도 쌓아질 거에요.
+        .col-xs-6.text-right
+          = image_tag 'img_about_4.png'
+.about-parti.about-parti--bottom
+  = image_tag 'thumb_about_bottom.png'
+  .about-parti__txt
+    %h2.title
+      모든 사람이 자신이 해결하고픈
+      %br
+      한개 혹은 두개의 정치,
+      %br.mobile
+      사회이슈를 가질 때까지.
+    %p.text
+      아무리 잊지 않겠다 다짐한 이슈라도 피로해지고,
+      %br
+      무엇이 옳은지 가치 판단을 하기도, 지금은 어떻게 되었는지 알기 점점 힘들어지죠.
+      %br
+      그래서 우리는, 이 이슈는 꼭 해결하겠다고 다짐한 사람들이
+    %span.text.bg-black
+      그 이슈를 지키고, 사람들과 나눌 수 있는
+      %br.mobile
+      플랫폼을 만들기로 했습니다.
+    %p.text.last
+      빠띠와 함께 지키고 싶은 이슈가 있다면
+      %br
+      페이스북, 트위터, 미디엄, 옐로아이디
+      %a.mail-link(href='mailto:help@parti.xyz')
+        @parti_xyz
+      를 통해 언제든 연락해 주세요.
+    .about-parti__footer
+      = link_to root_path do
+        = image_tag 'parti_logo_purple.png', class: 'parti_logo_purple'
+      .footer-sns
+        %a{href: 'https://facebook.com/parti.xyz', target: '_blank'}
+          = image_tag 'icon_fb.png', alt: 'btn-facebook'
+        %a{href: 'https://twitter.com/parti_xyz', target: '_blank'}
+          = image_tag 'icon_tw.png', alt: 'btn-twitter'
+        %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
+          = image_tag 'icon_me.png', alt: 'btn-medium'
+        - if request.variant.try(:include?, :mobile)
+          %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
+            = image_tag 'icon_yellow.png', alt: 'btn-yellow', class: 'footer-sns--yellow'
+      %ul.footer-link.list-inline
+        %li= link_to '빠띠 소개', '#'
+        %li= link_to '이용약관', '/terms'
+        %li= link_to '개인정보취급정책', '/privacy'
+        %li
+          %a(href='mailto:help@parti.xyz')
+            오류 및 버그 신고
+        %li
+          = link_to slug_issue_path(slug: Issue::SLUG_OF_ASK_PARTI) do
+            제안 및 의견
+
+
