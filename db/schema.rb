@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160427020911) do
+ActiveRecord::Schema.define(version: 20160503144741) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -171,18 +171,19 @@ ActiveRecord::Schema.define(version: 20160427020911) do
   add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "issue_id",                          null: false
-    t.integer  "postable_id",                       null: false
-    t.string   "postable_type",                     null: false
-    t.integer  "user_id",                           null: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.integer  "likes_count",           default: 0
-    t.integer  "comments_count",        default: 0
-    t.integer  "votes_count",           default: 0
+    t.integer  "issue_id",                                      null: false
+    t.integer  "postable_id",                                   null: false
+    t.string   "postable_type",                                 null: false
+    t.integer  "user_id",                                       null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "likes_count",                       default: 0
+    t.integer  "comments_count",                    default: 0
+    t.integer  "votes_count",                       default: 0
     t.datetime "deleted_at"
     t.string   "social_card"
-    t.integer  "latest_comments_count", default: 0
+    t.integer  "latest_comments_count",             default: 0
+    t.string   "latest_comments_counted_datestamp"
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at"
