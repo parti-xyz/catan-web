@@ -86,13 +86,15 @@ footer {
   .panel {
     background: transparent;
     border: transparent;
+    &:first-child {
+      border-bottom: 1px solid #919193;
+    }
   }
   .panel-group .panel-heading + .panel-collapse > .panel-body, .panel-group .panel-heading + .panel-collapse > .list-group {
     border: none;
     padding-bottom: 0;
   }
   .panel-heading {
-    border-bottom: 1px solid #919193;
     padding-top: 0px;
     a {
       display: block;
