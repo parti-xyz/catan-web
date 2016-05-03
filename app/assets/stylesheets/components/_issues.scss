@@ -137,11 +137,7 @@
   display: inline-block;
   color: #fff;
   &.disabled {
-    background-color: #e0cdff;
-    opacity: 1;
-  }
-  &:hover {
-    color: inherit;
+    display: none;
   }
 }
 
