@@ -119,6 +119,7 @@
   padding-top: 40px;
   h3 {
     line-height: 1.4em;
+    color: #c6a3ff;
   }
 }
 #btn-continue {
@@ -131,8 +132,10 @@
   -moz-border-radius: 3px;
   margin-top: 40px;
   display: inline-block;
+  color: #fff;
   &.disabled {
     background-color: #e0cdff;
+    opacity: 1;
   }
   &:hover {
     color: inherit;
