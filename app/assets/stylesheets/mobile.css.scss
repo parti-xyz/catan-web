@@ -561,6 +561,7 @@ br.mobile {
   }
 }
 .recommend-parti-wrapper {
+  height: 450px;
   .panel-heading {
     padding: 0;
     a .icon  {
@@ -679,11 +680,15 @@ br.mobile {
     }
   }
 }
-.parties-all .parties-text {
-  min-height: 120px;
-  padding-top: 35px;
-  font-size: 15px;
+.parties-all {
+  padding-top: 0;
+  .parties-text {
+    min-height: 120px;
+    padding-top: 35px;
+    font-size: 15px;
+  }
 }
+
 
 
 
