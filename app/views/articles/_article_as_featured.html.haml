@@ -2,5 +2,5 @@
 - post = article.acting_as
 %li.col-xs-4{data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }}
   .thumb{style: "background-image: url(#{article.image.sm.url})"}
-  .body= article.title
+  .body= truncate(article.title, length: 45)
   .user= byline article.user
