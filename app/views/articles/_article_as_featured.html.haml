@@ -1,7 +1,6 @@
 - article = article_as_featured
 - post = article.acting_as
-%li.col-xs-4
-  = link_to '#' do
-    .thumb{style: "background-image: url(#{article.image.sm.url})"}
+%li.col-xs-4{data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }}
+  .thumb{style: "background-image: url(#{article.image.sm.url})"}
   .body= article.title
   .user= byline article.user
