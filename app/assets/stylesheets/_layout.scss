@@ -8,7 +8,7 @@ footer {
     padding-bottom: 15px;
     margin-bottom: 15px;
     &__img {
-      width: 68px;
+      width: 64px;
       height: auto;
       float: left;
     }
@@ -40,77 +40,162 @@ footer {
 
 /* parti-intro */
 .parti-intro {
-  position: relative;
-  min-width: 970px;
-  img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
+  width: 100%;
+  height: 650px;
+  background-image: asset_url('thumb_main_keyvisual.png');
+  background-size: cover;
+  background-position: center;
+  .container {
+    height: 100%;
+    display: table;
+  }
+  .parti-intro-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  &__count {
+    color: #fff;
+    font-size: 100px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    .count {
+      color: #ffde00;
+      margin-right: -17px;
+      font-weight: bold;
+    }
   }
   &__txt {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    margin-top: -100px;
-    margin-left: -250px;
-    color: #000;
-    font-size: 18px;
-    text-align: center;
-    .title {
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    p {
-     margin: 0;
+    border-bottom: 1px solid #fff;
+    display: inline-block;
+    margin-top: 40px;
+    color: #fff;
+    font-size: 22px;
+  }
+}
+.recommend-parti-wrapper {
+  width: 100%;
+  height: 480px;
+  background-image: asset_url('thumb_main_recommand.png');
+  background-size: cover;
+  background-position: center;
+  border-top: 4px solid $brand-primary;
+  border-bottom: 4px solid $brand-primary;
+  padding: 20px 0;
+  color: #fff;
+  .panel {
+    background: transparent;
+    border: transparent;
+  }
+  .panel-group .panel-heading + .panel-collapse > .panel-body, .panel-group .panel-heading + .panel-collapse > .list-group {
+    border: none;
+  }
+  .panel-heading {
+    border-bottom: 1px solid #919193;
+    padding-top: 0px;
+    a {
+      display: block;
     }
   }
-  .bg-black {
-    background: #000;
+  .title {
     color: #fff;
-    span {
-      margin-right: -3px;
-      margin-left: 7px;
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid #fff;
+    margin-bottom: 10px;
+  }
+  .issue-logo {
+    display: inline-block;
+    width: 33px;
+    height: 33px;
+    background-position: center;
+    background-size: cover;
+    margin-right: 10px;
+   vertical-align: top;
+   margin-top: 17px;
+  }
+  .issue-title {
+    display: inline-block;
+    font-weight: bold;
+  }
+  .issue-body {
+    display: inline-block;
+    padding-left: 10px;
+  }
+}
+.recommend-parti-list {
+  li {
+    height: 230px;
+    border-left: 1px solid #5d5c5f;
+    position: relative;
+    .thumb {
+      height: 130px;
+      background-position: center;
+      background-size: cover;
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      margin-bottom: 20px;
     }
+    &:first-child {
+      border-left: none;
+    }
+    .body {
+      font-size: 18px;
+      max-height: 50px;
+      overflow: hidden;
+      word-break: break-all;
+      line-height: 1.2;
+    }
+    .user {
+      position: absolute;
+      left: 15px;
+      bottom: 0;
+      a {
+        img {
+          margin-right: 5px;
+        }
+        color: $brand-primary;
+        font-weight: bold;
+      }
+    }
+  }
+}
+.join-parti-wrapper {
+  width: 100%;
+  height: 440px;
+  background-image: asset_url('thumb_main_bottom.png');
+  background-size: cover;
+  background-position: right;
+  .col-xs-9 {
+    img, .txt {
+      float: left;
+      display: inline-block;
+    }
+    .txt {
+      color: #3f3d42;
+      font-size: 15px;
+      line-height: 1.5em;
+      margin-top: 60px;
+      margin-left: 60px;
+    }
+  }
+  .btn {
+    background-color: #997ec6;
+    font-weight: bold;
+    color: #fff;
+    font-size: 18px;
+    padding: 15px 20px;
+    border-radius: 50px;
+    margin-top: 10px;
   }
 }
 
-/* calendar */
-.issue-calendar {
-  color: #fff;
-  padding: 40px 0;
-  background-color: #271e44;
-  width: 100%;
-  display: table;
-  h2 {
-    padding-bottom: 55px;
-    border-bottom: 1px solid #3d3557;
-    display: inline-block;
-  }
-  .btn-primary {
-    marign-top: 10px;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-  }
-}
-.calendar-box {
-  width: 371px;
-  height: 187px;
-  background-image: asset_url('icon_assembly.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #66b7e1;
-  padding: 25px;
-  color: #fff;
-  text-align: center;
-  p {
-    font-size: 15px;
-  }
-  &.last {
-    background-image: asset_url('icon_income.png');
-    background-color: #59baa3;
-    span {
-      color: #59baa3;
-    }
-  }
-}
+
+
+
+
+
+
+
+
+

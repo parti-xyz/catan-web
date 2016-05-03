@@ -1,7 +1,7 @@
 - article = article_as_featured
 - post = article.acting_as
-
-= article.title
-= article.body
-= article.image.url
-= article.image.sm.url
+%li.col-xs-4
+  = link_to '#' do
+    .thumb{style: "background-image: url(#{article.image.sm.url})"}
+  .body= article.title
+  .user= byline article.user
