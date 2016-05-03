@@ -15,7 +15,7 @@ class WatchesController < ApplicationController
 
   def cancel
     @watch = @issue.watches.find_by user: current_user
-    @watch.destroy
+    @watch.destroy if @watch.present?
 
     respond_to do |format|
       format.js

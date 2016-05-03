@@ -122,7 +122,7 @@
   }
 }
 #btn-continue {
-  background-color: #e0cdff;
+  background-color: #966fd6;
   padding: 13px 18px;
   font-size: 14px;
   font-weight: bold;
@@ -131,6 +131,12 @@
   -moz-border-radius: 3px;
   margin-top: 40px;
   display: inline-block;
+  &.disabled {
+    background-color: #e0cdff;
+  }
+  &:hover {
+    color: inherit;
+  }
 }
 
 .parties-all {
