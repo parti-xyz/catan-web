@@ -10,7 +10,7 @@
           %span 명이 나누는
         .parti-intro__count
           %span.count= Comment.count
-          %span 개의 수다파티
+          %span 개 수다파티
         = link_to about_path, class: 'btn parti-intro__btn_about' do
           빠띠란 무엇인가요?
 
@@ -26,7 +26,7 @@
               %h4.panel-title
                 %a{"aria-controls" => "collapse-#{i}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-action" => "parti-collapse", :role => "button", class: ('collapsed' if (i != 0))}
                   .issue-logo{ style: "background-image: url(#{issue.logo.sm.url});" }
-                  %h2.issue-title{data: {action: 'parti-link', url: issue_home_path(issue)}}= issue.title
+                  %h2.issue-title= issue.title
                   %h4.issue-body= issue.body
                   .icon= image_tag 'icon_accordion.png'
             .panel-collapse.collapse{class: ('in' if i == 0), "aria-labelledby" => "heading-#{i}", :role => "tabpanel", :id => "collapse-#{i}"}
