@@ -166,26 +166,31 @@ footer {
     height: 230px;
     border-left: 1px solid #5d5c5f;
     position: relative;
-    .thumb {
-      height: 130px;
-      background-position: center;
-      background-size: cover;
-      border-radius: 3px;
-      -webkit-border-radius: 3px;
-      -moz-border-radius: 3px;
-      margin-bottom: 20px;
+    .post--box {
       cursor: pointer;
+      .thumb {
+        height: 130px;
+        background-position: center;
+        background-size: cover;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        margin-bottom: 20px;
+        cursor: pointer;
+      }
+      .body {
+        font-size: 18px;
+        max-height: 42px;
+        overflow: hidden;
+        word-break: break-all;
+        line-height: 1.2;
+      }
     }
+
     &:first-child {
       border-left: none;
     }
-    .body {
-      font-size: 18px;
-      max-height: 42px;
-      overflow: hidden;
-      word-break: break-all;
-      line-height: 1.2;
-    }
+
     .user {
       position: absolute;
       left: 15px;
