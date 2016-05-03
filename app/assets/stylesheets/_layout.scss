@@ -88,6 +88,7 @@ footer {
   }
   .panel-group .panel-heading + .panel-collapse > .panel-body, .panel-group .panel-heading + .panel-collapse > .list-group {
     border: none;
+    padding-bottom: 0;
   }
   .panel-heading {
     border-bottom: 1px solid #919193;
@@ -166,7 +167,7 @@ footer {
     }
     .body {
       font-size: 18px;
-      max-height: 50px;
+      max-height: 42px;
       overflow: hidden;
       word-break: break-all;
       line-height: 1.2;

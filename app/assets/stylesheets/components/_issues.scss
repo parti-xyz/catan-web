@@ -218,20 +218,27 @@
         line-height: 1.5;
         color: #777;
         border: 1px solid #d2d2d2;
-        &:hover, &:focus {
+        &:hover, &:focus, &:active, &:visited {
           color: #fff;
           background: #555;
         }
       }
+      .btn-primary {
+        color: #fff;
+      }
     }
     &--more {
-      background-color: #e5e5ea;
-      border: none;
+      background-color: #ffffff;
       text-align: center;
       a {
-        height: 237px;
+        height: 235px;
         display: block;
-        padding-top: 110px;
+        padding-top: 80px;
+        color: #757375;
+        img {
+          width: 30px;
+          height: 30px;
+        }
       }
     }
     &--watch_more {
@@ -260,7 +267,18 @@
     margin-left: 0;
   }
 }
-
+.issue-list--6 {
+  .issue-card {
+    width: 15%;
+    margin-left: 2%;
+  }
+  .issue-card:nth-child(5n+1) {
+    margin-left: 2%;
+  }
+  .issue-card:nth-child(6n+1) {
+    margin-left: 0;
+  }
+}
 
 
 .owl-carousel {
