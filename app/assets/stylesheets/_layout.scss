@@ -103,13 +103,13 @@ footer {
         height: 13px;
         overflow: hidden;
         img {
-          margin-top: 0;
+          margin-top: -17px;
         }
       }
       &.collapsed {
         .icon {
           img {
-            margin-top: -17px;
+            margin-top: 0;
           }
         }
       }

@@ -24,9 +24,9 @@
           .panel
             .panel-heading{:role => "tab", :id => "heading-#{i}"}
               %h4.panel-title
-                %a{"aria-controls" => "collapse-#{i}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{i}", :role => "button"}
+                %a{"aria-controls" => "collapse-#{i}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-action" => "parti-collapse", :role => "button", class: ('collapsed' if (i != 0))}
                   .issue-logo{ style: "background-image: url(#{issue.logo.sm.url});" }
-                  %h2.issue-title= issue.title
+                  %h2.issue-title{data: {action: 'parti-link', url: issue_home_path(issue)}}= issue.title
                   %h4.issue-body= issue.body
                   .icon= image_tag 'icon_accordion.png'
             .panel-collapse.collapse{class: ('in' if i == 0), "aria-labelledby" => "heading-#{i}", :role => "tabpanel", :id => "collapse-#{i}"}

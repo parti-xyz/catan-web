@@ -565,6 +565,19 @@ $(function(){
     });
   });
 
+  $('[data-action="parti-collapse"]').each(function(i, elm) {
+    var parent = $(elm).data('parent');
+    $(elm).on('click', function(e) {
+      $(parent + ' .collapse').collapse('toggle');
+      $(parent + ' [data-action="parti-collapse"]').toggleClass('collapsed');
+    });
+  });
+
+  $('[data-action="parti-link"]').on('click', function(e) {
+    e.preventDefault();
+    var url = $(e.currentTarget).data("url");
+    window.location.href  = url;
+  });
 });
 
 
