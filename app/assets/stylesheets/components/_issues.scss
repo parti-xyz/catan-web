@@ -233,10 +233,10 @@
         }
       }
       .btn-primary {
-        background-color: $brand-primary;
-        color: #fff;
+        background-color: $brand-primary !important;
+        color: #fff !important;
         &:hover {
-          background-color: #7947cb;
+          background-color: #7947cb !important;
         }
       }
     }
