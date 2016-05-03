@@ -173,14 +173,18 @@
   min-width: 100%;
   height: 340px;
   &__count {
-    font-size: 45px;
+    font-size: 30px;
+    font-weight: 200;
+    line-height: 1.4em;
     .count {
       margin-right: -7px;
     }
   }
-  &__txt {
-    font-size: 12px;
-    margin-top: 20px;
+  a#{&}__btn_about {
+    font-weight: 300;
+    padding: 8px 10px;
+    margin-top: 1em;
+    font-size: 1em;
   }
 }
 .join-parti-wrapper {

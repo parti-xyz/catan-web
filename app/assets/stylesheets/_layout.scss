@@ -56,21 +56,30 @@ footer {
   &__count {
     color: #fff;
     font-size: 100px;
+    font-weight: 100;
     line-height: 1;
     letter-spacing: -0.02em;
     .count {
       color: #ffde00;
+      font-weight: 900;
       margin-right: -17px;
       font-weight: bold;
     }
   }
-  &__txt {
-    border-bottom: 1px solid #fff;
-    display: inline-block;
-    margin-top: 40px;
-    margin-left: 5px;
-    color: #fff;
-    font-size: 22px;
+  a#{&}__btn_about {
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    background: #ffde00;
+    color: #5729ad;
+    font-weight: 900;
+    font-size: 1.5em;
+    padding: 15px 30px;
+    margin-top: 1em;
+    &:hover {
+      color: #5729ad;
+      background: #fff000;
+    }
   }
 }
 .recommend-parti-wrapper {
