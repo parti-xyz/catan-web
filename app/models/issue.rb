@@ -117,7 +117,7 @@ class Issue < ActiveRecord::Base
 
   def featured_posts(count)
     result = []
-    posts.only_articles.hottest.find_each(batch_size: 10) do |post|
+    posts.only_articles.hottest.limit(50).each do |post|
       result << post if (post.specific.has_image? and !post.specific.hidden?)
       return result if result.length > count
     end
