@@ -18,7 +18,7 @@
     .container
       .title 이달의 추천 빠띠
       #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
-        - %w(20th-assembly basic-income).each_with_index do |slug, i|
+        - %w(minimalist basic-income).each_with_index do |slug, i|
           - issue = Issue.find_by(slug: slug)
           - next if issue.blank?
           .panel
