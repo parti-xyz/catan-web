@@ -1,31 +1,18 @@
 - issue ||= (@issue || Issue::OF_ALL)
 - all_writing_counts = user.writing_counts(Issue::OF_ALL)
 - writing_counts = user.writing_counts(issue)
-.user-card.panel.panel-default{ style: 'overflow: hidden' }
-  .panel-body
-    .clearfix
-      .pull-left(style='width: 40px; margin-right: 10px')
-        = link_to user_gallery_path(user), class: 'user__image img-circle', style: "background-image: url(#{user.image.sm.url});" do
-          = user.nickname
-
-      %div
-        %strong
-          = link_to user.nickname, user_gallery_path(user)
-        .user-card.user-card__watch
-          - if !issue.is_all? and issue.watched_by?(user)
-            구독 중
-          - else
-            빠띠 #{user.watched_issues.count}개 구독 중
-      %hr
-      %ul.user__count.list-inline.text-muted.text-center
-        %li
-          댓글
-          %strong= writing_counts.comments_count
-        %li
-          투표
-          %strong= writing_counts.votes_count
-      %ul.user__count.list-inline.text-muted.text-center
-        %li
-          %i.fa.fa-heart>
-          한 댓글
-          %strong= writing_counts.upvotes_count
+%li.user-card
+  .user-card__thumb
+    = link_to user_gallery_path(user) do
+      .thumb.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+      %p= user.nickname
+  .user-card__info
+    .col-xs-4.border-none
+      = image_tag 'icon_comment.png'
+      = writing_counts.comments_count
+    .col-xs-4
+      = image_tag 'icon_vote.png'
+      = writing_counts.votes_count
+    .col-xs-4
+      = image_tag 'icon_heart.png'
+      = writing_counts.upvotes_count

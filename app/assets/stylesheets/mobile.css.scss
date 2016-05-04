@@ -564,6 +564,26 @@ br.mobile {
     padding-right: 5px;
   }
 }
+
+.user-card {
+  width: 48%;
+  margin-left: 4%;
+  &__info {
+    .col-xs-4 {
+      font-size: 12px;
+      width: 33.333333% !important;
+    }
+  }
+  &:nth-child(3n+1) {
+    margin-left: 4%;
+  }
+  &:nth-child(odd) {
+    margin-left: 0%;
+  };
+}#issue-users #content-tab-section .message-tab .nav-tabs__count {
+  left: 90px;
+}
+
 .recommend-parti-wrapper {
   height: 450px;
   .panel-heading {
