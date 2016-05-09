@@ -1,41 +1,53 @@
-.jssocials {
-  .jssocials-shares {
-    margin: 5px 0;
-  }
-  .jssocials-share-link {
-    padding: 0.2em 0.3em;
-  }
-  .jssocials-share-count-box {
-    height: 1.5em;
-    padding: 0 .4em;
-    &:after {
-      top: 0.3em;
-    }
-    .jssocials-share-count {
-      line-height: 1.6em;
-    }
-  }
-}
-
 .share-box {
-  float: right;
-  margin-left: 5px;
-  span.share-item {
-    margin-right: .5em;
+  .share-item {
+    min-width: 35px;
+    height: 35px;
+    background-color: #fff;
+    padding: 5px 3px;
+    text-align: center;
+    margin-right: 10px;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    cursor: pointer;
+  }
+  .jssocials-share-logo {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .jssocials-share-facebook .fa {
+    color: #2a3ab0;
+  }
+  .jssocials-share-twitter {
+    .fa {
+      color: #56b1ff;
+    }
+    .jssocials-share-no-count {
+      display: none !important;
+    }
+  }
+  .jssocials-share-count {
+    color: #333333;
+    font-size: 14px;
+    padding: 0;
+    margin-left: 3px;
+  }
+  .jssocials-shares {
+    margin: 0;
+  }
+  .jssocials-share {
+    margin: 0.2em 0.3em;
+  }
+  .icon-kas {
+    width: 9px;
+    height: auto;
+    padding-top: 4px;
   }
   .share-kakao-link {
-    margin-top: 9px;
     display: inline-block;
-    width: 20px;
-    height: 21px;
-    background: url('/images/kakaotalk-button.png') no-repeat center;
-    background-size: 20px 21px;
-  }
-  .share-kakao-story {
-    margin-top: 9px;
-    img {
-      width: 20px;
-      height: 20px;
-    }
+    background-image: asset_url('icon_katalk.png');
+    background-repeat: no-repeat;
+    background-size: 18px;
+    background-position: center;
   }
 }

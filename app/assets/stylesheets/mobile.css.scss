@@ -679,7 +679,8 @@ br.mobile {
     }
   }
   .issue-body p {
-    height: 53px;
+    height: auto;
+    max-height: 53px;
     font-size: 12px;
     overflow: hidden;
   }
