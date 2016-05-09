@@ -761,3 +761,26 @@ br.mobile {
   }
 }
 
+
+
+/* editor */
+
+#talk-form, #opinion-form {
+  .container {
+    padding: 5px;
+  }
+  .page-wrapper {
+    width: 100%;
+    &__title {
+      margin-bottom: 30px;
+    }
+  }
+  .well {
+    padding: 15px;
+  }
+  .editor-btn {
+    .btn-primary {
+      width: 100px;
+    }
+  }
+}

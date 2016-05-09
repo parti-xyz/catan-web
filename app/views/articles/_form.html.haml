@@ -1,23 +1,17 @@
 .well
   = form_for @article do |f|
     .form-group
-      = f.label :link
       = f.text_field :link, class: 'form-control'
       %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
 
-    .form-group
-      = f.submit '저장', class: 'btn btn-primary btn-lg'
-      = link_to @article, class: 'btn btn-default' do
-        취소
+    .editor-btn.text-right
+      = link_to '취소', @article, class: 'btn btn-default'
+      = f.submit '저장', class: 'btn btn-primary btn-ghost'
 
-
-%hr
 
 %h5
-  %i.fa.fa-info-circle
-  해당 링크를 숨기거나 보이게 할 수 있습니다.
-
-- if @article.hidden?
-  = link_to '링크 보이기', article_path(@article, article: { hidden: false }), method: :put, data: { confirm: '정말 보이게 하겠습니까?' }, class: 'btn btn-default'
-- else
-  = link_to '링크 숨기기', article_path(@article, article: { hidden: true }), method: :put, data: { confirm: '정말 숨기겠습니까?' }, class: 'btn btn-default'
+  이 링크를 숨기고 싶습니다.
+  - if @article.hidden?
+    = link_to '링크 보이기', article_path(@article, article: { hidden: false }), method: :put, data: { confirm: '정말 보이게 하겠습니까?' }
+  - else
+    = link_to '링크 숨기기', article_path(@article, article: { hidden: true }), method: :put, data: { confirm: '정말 숨기겠습니까?' }

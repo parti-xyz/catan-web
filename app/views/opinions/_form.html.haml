@@ -1,32 +1,28 @@
 .well
   = form_for @opinion do |f|
-    .form-group.form-group-lg
-      = f.text_field :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
-      %p.help-block
-        라는 투표에 나는
+    .form-group
+      = f.text_area :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
+      %h5.help-block{style: 'margin-top: 10px;'}
+        라는 투표에
         - if @opinion.new_record?
           %strong 찬성
         - else
           %strong= @opinion.voted_by(@opinion.user).choice_text
         합니다
 
-    %hr
-
     - if @opinion.new_record?
       .form-group
         %p.help-block 왜냐하면
         = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이유를 적어주세요' }
 
-    .row
-      .col-md-12
-        = f.submit '저장', class: 'btn btn-primary'
-
-        - if @opinion.new_record?
-          - if @opinion.issue.present?
-            - back_to = issue_home_path(@opinion.issue)
-          - else
-            - back_to = root_path
+    .editor-btn.text-right
+      - if @opinion.new_record?
+        - if @opinion.issue.present?
+          - back_to = issue_home_path(@opinion.issue)
         - else
-          - back_to = @opinion
-        = link_to back_to, class: 'btn btn-default' do
-          취소
+          - back_to = root_path
+      - else
+        - back_to = @opinion
+      = link_to back_to, class: 'btn btn-default' do
+        취소
+      = f.submit '저장', class: 'btn btn-primary btn-ghost'

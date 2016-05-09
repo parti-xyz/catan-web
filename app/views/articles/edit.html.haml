@@ -1,5 +1,8 @@
-.bs-component
-  %section#article-form
+.bs-component.page-bg
+  %section#talk-form
     .container
-      %h2.page-header #{Article.model_name.human} 수정하기
-      = render 'form'
+      .page-wrapper
+        %h3.page-wrapper__title
+          #{Article.model_name.human} 수정하기
+        = render 'form'
+

@@ -137,3 +137,75 @@
     }
   }
 }
+
+/* editor */
+
+#talk-form, #opinion-form {
+  .page-wrapper {
+    width: 670px;
+  }
+  .well {
+    background-color: #fff;
+    border-color: $brand-primary;
+    padding: 40px 35px 25px;
+  }
+  h5 {
+    color: #777;
+    font-size: 16px;
+  }
+  a {
+    color: #777;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  .editor-btn {
+    margin-top: 25px;
+    .btn-primary {
+      padding: 10px 35px;
+      width: 160px;
+      text-align: center;
+      border-radius: 50px;
+      margin-left: 10px;
+    }
+    .btn-default {
+      padding: 10px 9px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: normal;
+      text-decoration: none;
+    }
+  }
+  textarea {
+    min-height: 150px;
+    color: #777;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
