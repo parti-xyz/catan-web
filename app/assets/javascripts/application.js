@@ -239,10 +239,11 @@ var parti_prepare = function($base) {
       });
     break
     case 'kakao-story':
-      Kakao.Story.createShareButton({
-        container: elm,
-        url: url,
-        text: text
+      $elm.on('click', function(e) {
+        Kakao.Story.share({
+          url: url,
+          text: text
+        });
       });
     break
     default:

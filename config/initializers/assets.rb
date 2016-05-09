@@ -9,4 +9,4 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.precompile += %w( email.css mobile.css mobile.js parti_seo.png kakaotalk-button.png )
+Rails.application.config.assets.precompile += %w( email.css mobile.css mobile.js parti_seo.png kakaotalk-button.png kakaostory-button.png)
