@@ -85,7 +85,6 @@ class IssuesController < ApplicationController
 
   def fetch_issue_by_slug
     @issue = Issue.find_by slug: params[:slug]
-    @issue = Issue::OF_ALL if params[:slug] == 'all'
     if @issue.blank?
       @issue_by_title = Issue.find_by(title: params[:slug].titleize)
       if @issue_by_title.present?
