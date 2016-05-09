@@ -1,10 +1,15 @@
 .well
   = form_for @talk do |f|
+    .form-group
+      = f.label :title
+      = f.text_field :title, class: 'form-control', maxlength: 50, placeholder: '톡 주제를 써주세요.'
+
     - if @talk.has_presentation?
       - presentation_comment = @talk.comments.first
       = hidden_field_tag :comment_id, presentation_comment.id
       .form-group
-        = text_area_tag :comment_body, presentation_comment.body, class: 'form-control input-lg'
+        %label 댓글
+        = text_area_tag :comment_body, presentation_comment.body, class: 'form-control'
 
     .editor-btn.text-right
       = link_to '취소', @talk, class: 'btn btn-default'

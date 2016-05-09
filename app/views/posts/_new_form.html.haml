@@ -55,7 +55,7 @@
         .form-group
           = f.collection_select :issue_id, suggest_issues, :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', data: {'rule-required': true}}
       .form-group
-        = f.text_field :title, placeholder: '톡 주제를 열어주세요.', class: 'form-control', data: {'rule-required': true}
+        = f.text_field :title, placeholder: '톡 주제를 써주세요.', class: 'form-control', data: {'rule-required': true}
       %hr
       .form-group.textarea-box
         = image_tag current_user.image.xs.url, class: 'img-circle circle-50 border-2-primary'
