@@ -34,6 +34,15 @@
                 %ul.recommend-parti-list.list-unstyled.row
                   - issue.featured_posts(2).each do |post|
                     = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_featured" })
+  .banner-parti-wrapper
+    .container
+      .col-xs-5.text-right
+        = image_tag 'img_main_banner.png'
+      .col-xs-7
+        %h3 재미있는 빠띠 내용을 찾고 있나요?
+        %h2 다양한 주제와 이야기를 구독해 보세요.
+        %a{ href: issues_path, class: 'btn btn-default btn-primary'}
+          전체 빠띠 바로가기
   .join-parti-wrapper
     .container
       .col-xs-9.clearfix

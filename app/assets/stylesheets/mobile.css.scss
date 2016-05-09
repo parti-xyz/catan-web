@@ -583,7 +583,31 @@ br.mobile {
 }#issue-users #content-tab-section .message-tab .nav-tabs__count {
   left: 90px;
 }
-
+.banner-parti-wrapper {
+  border-top: 4px solid #966fd6;
+  .col-xs-7, .col-xs-5 {
+    width: 100%;
+    padding: 0;
+  }
+  .col-xs-5 {
+    img {
+      width: 100%;
+    }
+  }
+  h3 {
+    font-size: 16px;
+    margin-top: 30px;
+  }
+  h2 {
+    font-size: 18px;
+    margin-top: 5px;
+  }
+  .btn-primary {
+    font-size: 12px;
+    padding: 12px 18px;
+    margin: 10px 0 30px;
+  }
+}
 .recommend-parti-wrapper {
   height: 450px;
   .panel-heading {
@@ -761,8 +785,6 @@ br.mobile {
     width: 100%;
   }
 }
-
-
 
 /* editor */
 
