@@ -1,5 +1,3 @@
-var $comment_in_list = parti_partial("<%= escape_javascript(render 'comment_in_list', comment: @comment) %>");
 var $comment_in_post = parti_partial("<%= escape_javascript(render 'comment', comment: @comment) %>");
 
-$('.<%= dom_id(@comment) %>[data-parti-comment-style=in-list]').replaceWith($comment_in_list);
 $('.<%= dom_id(@comment) %>[data-parti-comment-style=in-post]').replaceWith($comment_in_post);

@@ -7,13 +7,14 @@ class DashboardController < ApplicationController
       @unwatched_issues = current_user.unwatched_issues
       render 'intro' and return
     end
-    comments
-    render 'comments'
+    posts
+    render 'posts'
   end
 
-  def comments
-    @comments = current_user.watched_comments.recent.limit(25).previous_of params[:last_id]
-    @is_last_page = (@comments.empty? or current_user.watched_comments.recent.previous_of(@comments.last.id).empty?)
+  def posts
+    @last_comments = current_user.watched_comments.newest
+    @posts = current_user.watched_posts.order(last_commented_at: :desc).limit(25).previous_of(params[:last_id])
+    @is_last_page = (current_user.watched_posts.empty? or current_user.watched_posts.recent.previous_of(@posts.last.id).empty?)
   end
 
   def new_comments_count

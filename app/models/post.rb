@@ -45,6 +45,7 @@ class Post < ActiveRecord::Base
   scope :only_opinions, -> { by_postable_type(Opinion.to_s) }
   scope :only_talks, -> { by_postable_type(Talk.to_s) }
   scope :latest, -> { after(1.day.ago) }
+  scope :previous_of, ->(id) { where('posts.last_commented_at < ?', with_deleted.find(id).last_commented_at) if id.present? }
 
   ## uploaders
   # mount
@@ -80,6 +81,15 @@ class Post < ActiveRecord::Base
 
   def messagable_users
     (comments.users + votes.users).uniq
+  end
+
+  def latest_comments
+    result = comments.recent.limit(2).reverse
+    if specific.is_a?(Talk) and comments.count < 3 and specific.has_presentation?
+      result[1..-1]
+    else
+      result
+    end
   end
 
   def self.recommends(exclude)

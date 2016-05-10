@@ -1,6 +1,6 @@
 - talk = talk_as_footnote
 - post = talk.acting_as
-.post-inline.post-inline--talk[post]{data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }}
-  %h4.post-inline__title= talk.title
+.post-inline.post-inline--talk[post]
+  %h4.post-inline__title{data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }}= talk.title
   - if talk.has_presentation?
     = render 'comments/comment_line', comment: talk.comments.first

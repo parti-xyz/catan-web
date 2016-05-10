@@ -1,0 +1,22 @@
+.comment-panel-with-post{class: dom_id(post), data: { 'parti-comment-style': 'in-list' }}
+  .comment-panel-with-post__header
+    = link_to issue_home_path(post.issue), class: 'issue-logo' do
+      = image_tag post.issue.logo.xs.url
+      %span.title= post.issue.title
+
+    %span.date-wrapper= date_f post.created_at
+
+  .comment-panel-with-post__post
+    .comment__footer.text-muted
+      = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: local_assigns[:show_issue]
+
+  - if post.latest_comments.any?
+    .comment-panel-with-post__comments
+      - if post.comments_count > 2
+        .comment-panel-with-post__more{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific) }}
+          %b> 총 #{post.comments_count}개
+          의 수다
+          \|
+          %span.text-primary 이전 수다 더보기...
+      - post.latest_comments.each do |comment|
+        = render 'comments/comment_line', comment: comment

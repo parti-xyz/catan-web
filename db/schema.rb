@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160503144741) do
+ActiveRecord::Schema.define(version: 20160510075119) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -184,6 +184,7 @@ ActiveRecord::Schema.define(version: 20160503144741) do
     t.string   "social_card"
     t.integer  "latest_comments_count",             default: 0
     t.string   "latest_comments_counted_datestamp"
+    t.datetime "last_commented_at"
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at"

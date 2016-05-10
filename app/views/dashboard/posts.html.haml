@@ -1,0 +1,22 @@
+%section#comments
+  .container
+    .row
+      = render 'aside'
+      .col-xs-9
+        = render 'posts/new_form', issue: Issue::OF_ALL
+        - if @posts.first.present?
+          = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comments.id)
+        .comments.bg-line
+          - if @posts.empty?
+            .bg-default
+              %i.fa.fa-info-circle
+              아직 글이 없습니다.
+          - else
+            - opinions = []
+            - @posts.each do |post|
+              = render customize_partial_path(post, 'post_in_dashboard'), post: post
+        / - unless @is_last_page
+        /   = link_to url_for(lt_id: @comments.last.id), remote: true, class: 'bg-line', id: 'btn-next-page', data: { disable_with: '<i class="fa fa-spinner fa-pulse"></i>' } do
+        /     = image_tag 'icon_more.png'
+        /     더보기
+
