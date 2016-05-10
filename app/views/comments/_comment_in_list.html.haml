@@ -1,0 +1,33 @@
+- comment ||= local_assigns[:comment_in_list]
+.comment{class: dom_id(comment), data: { 'parti-comment-style': 'in-list' }}
+  .clearfix
+    = link_to user_gallery_path(comment.user), class: 'comment__link pull-left'  do
+      = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle border-2-primary'
+      .nickname= comment.user.nickname
+    - if comment.mentionable?(current_user)
+      %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+        = image_tag 'icon_mention.png'
+
+    .comment__btn.pull-left
+      - if can? :update, comment
+        = link_to edit_comment_path(comment, style: :in_list), remote: true do
+          .btn-icon.btn-icon--big
+            = image_tag 'icon_edit.png'
+      - if can? :destroy, comment
+        = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' } do
+          .btn-icon.btn-icon--big
+            = image_tag 'icon_delete.png'
+
+    .comment__date.pull-right.date-wrapper
+      = image_tag 'icon_time.png'
+      %span= date_f comment.created_at
+  .comment__body
+    %p
+      = smart_format(comment.body)
+  .comment__upvotes
+    = render 'upvotes/upvote', comment: comment
+  - if local_assigns[:show_opinion]
+    = render 'opinions/card', card: comment.post.specific
+  - else
+    .comment__footer.text-muted
+      = render customize_partial_path(comment.post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: local_assigns[:show_issue]
