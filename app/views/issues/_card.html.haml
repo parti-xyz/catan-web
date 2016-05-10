@@ -10,15 +10,16 @@
       %span.comment-count
         = image_tag 'icon_comment.png'
         %b= issue.comments.count
-  .issue-card__btn
-    - if user_signed_in?
-      - if issue.watched_by?(current_user)
-        %span(class="#{dom_id(issue)}-watch")
-          = link_to '구독끊기', cancel_issue_watches_path(issue), method: :delete, remote: true
-      - else
-        %span(class="#{dom_id(issue)}-watch")
-          = link_to '구독하기', issue_watches_path(issue), method: :post, remote: true, class: 'btn btn-primary btn-ghost btn-sm'
-    - unless user_signed_in?
-      %span
-        = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :issue_watch, id: issue.id}.to_json) }, class: 'btn btn-primary btn-ghost btn-sm'
+  - unless local_assigns[:hide_watch_button]
+    .issue-card__btn
+      - if user_signed_in?
+        - if issue.watched_by?(current_user)
+          %span(class="#{dom_id(issue)}-watch")
+            = link_to '구독끊기', cancel_issue_watches_path(issue), method: :delete, remote: true
+        - else
+          %span(class="#{dom_id(issue)}-watch")
+            = link_to '구독하기', issue_watches_path(issue), method: :post, remote: true, class: 'btn btn-primary btn-ghost btn-sm'
+      - unless user_signed_in?
+        %span
+          = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :issue_watch, id: issue.id}.to_json) }, class: 'btn btn-primary btn-ghost btn-sm'
 

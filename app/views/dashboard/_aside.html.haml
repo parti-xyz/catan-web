@@ -4,7 +4,7 @@
     %ul.list-unstyled.clearfix
       = render 'users/user_panel', user: current_user
   .aside_issue
-    %h4.aside_title 구독 빠띠
+    %h4.aside_title 구독 중인 빠띠
     %ul.list-unstyled.clearfix
-      = render customize_partial_path watched_issues, 'card'
+      = render customize_partial_path(watched_issues, 'card'), hide_watch_button: true
   = render 'application/footer'
