@@ -11,21 +11,9 @@ class DashboardController < ApplicationController
     render 'comments'
   end
 
-  def articles
-    @articles = current_user.watched_articles.recent.page params[:page]
-  end
-
   def comments
     @comments = current_user.watched_comments.recent.limit(25).previous_of params[:last_id]
     @is_last_page = (@comments.empty? or current_user.watched_comments.recent.previous_of(@comments.last.id).empty?)
-  end
-
-  def opinions
-    @opinions = current_user.watched_opinions.recent.page params[:page]
-  end
-
-  def talks
-    @talks = current_user.watched_talks.recent.page params[:page]
   end
 
   def new_comments_count

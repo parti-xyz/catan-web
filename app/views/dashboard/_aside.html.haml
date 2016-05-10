@@ -1,10 +1,10 @@
 #aside.col-xs-3
-  .aside_hottest_posts
-    %h4.aside_title 인기글
-    - current_user.watched_hottest_posts(10).each do |post|
-      = render 'posts/card', card: post, show_issue: true
-  .aside_issue
-    %h4.aside_title 추천빠띠
+  - watched_issues = current_user.watched_issues
+  .aside_user
     %ul.list-unstyled.clearfix
-      = render customize_partial_path Issue.recommends_for_watch(current_user), 'card'
+      = render 'users/user_panel', user: current_user
+  .aside_issue
+    %h4.aside_title 구독 빠띠
+    %ul.list-unstyled.clearfix
+      = render customize_partial_path watched_issues, 'card'
   = render 'application/footer'

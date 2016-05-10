@@ -1,0 +1,18 @@
+- issue ||= (@issue || Issue::OF_ALL)
+- all_writing_counts = user.writing_counts(Issue::OF_ALL)
+- writing_counts = user.writing_counts(issue)
+%li.user-panel
+  .user-panel__thumb
+    = link_to user_gallery_path(user) do
+      .thumb.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+      %p= user.nickname
+  .user-panel__info
+    .col-xs-4.border-none
+      = image_tag 'icon_comment.png'
+      = writing_counts.comments_count
+    .col-xs-4
+      = image_tag 'icon_vote.png'
+      = writing_counts.votes_count
+    .col-xs-4
+      = image_tag 'icon_heart.png'
+      = writing_counts.upvotes_count

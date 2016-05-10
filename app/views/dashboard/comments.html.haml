@@ -1,12 +1,8 @@
-= render 'dashboard_header'
-
 %section#comments
   .container
     .row
+      = render 'aside'
       .col-xs-9
-        %section#content-tab-section
-          = render 'dashboard/content_tabs', active_tab: :comments, counts_container: current_user.watched_counts
-
         = render 'posts/new_form', issue: Issue::OF_ALL
         - if @comments.first.present?
           = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @comments.first.id)
@@ -15,5 +11,4 @@
           = link_to url_for(last_id: @comments.last.id), remote: true, class: 'bg-line', id: 'btn-next-page', data: { disable_with: '<i class="fa fa-spinner fa-pulse"></i>' } do
             = image_tag 'icon_more.png'
             더보기
-      = render 'aside'
 
