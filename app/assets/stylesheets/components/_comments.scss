@@ -28,8 +28,10 @@ section#comments {
       position: absolute;
       left: -15px;
       top: 15px;
-      width: 33px;
-      height: 33px;
+      width: 30px;
+      height: 30px;
+      border-radius: $border-radius-base;
+      border: 2px solid $brand-primary;
     }
     .title {
       margin-left: 10px;
@@ -46,18 +48,22 @@ section#comments {
     padding-top: 20px;
     margin-bottom: 15px;
   }
-  &__comments {
-    .nickname {
-      font-weight: bold;
-      color: $brand-primary;
-    }
-    .body {
-      color: #777;
-    }
-    .comment__mention {
-      float: none;
-      margin-left: 0;
-    }
+}
+
+.comment-line {
+  h5 {
+    line-height: 33px;
+  }
+  .nickname {
+    font-weight: bold;
+    color: $brand-primary;
+  }
+  .body {
+    color: #777;
+  }
+  .comment__mention {
+    float: none;
+    margin-left: 0;
   }
   &__upvotes {
     float: right;

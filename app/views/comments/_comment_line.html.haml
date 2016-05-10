@@ -1,0 +1,18 @@
+.comment-line
+  .media
+    .media-left
+      = link_to user_gallery_path(comment.user) do
+        = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle border-2-primary'
+    .media-body
+      %h5.media-heading
+        %span.nickname= comment.user.nickname
+        %b &middot;
+        %span.date-wrapper= date_f comment.created_at
+        - if comment.mentionable?(current_user)
+          %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+            = image_tag 'icon_mention.png'
+
+      .body= smart_format(comment.body)
+
+    .media-right
+      = render 'upvotes/upvote', comment: comment
