@@ -5,6 +5,69 @@ section#comments {
 .comments {
   padding-top: 25px;
 }
+
+.comment-panel-with-post {
+  position: relative;
+  background-color: #fff;
+  margin-bottom: 10px;
+  margin-left: 26px;
+  padding: 20px;
+  border: 1px solid #fff;
+
+  &:hover {
+    border-top: 1px solid #bfa5eb;
+    border-right: 1px solid #bfa5eb;
+    border-bottom: 1px solid #bfa5eb;
+    border-left: 1px solid #fff;
+    -webkit-box-shadow: 4px 4px 4px 0px rgba(222, 221, 218, 1);
+    -moz-box-shadow:    4px 4px 4px 0px rgba(222, 221, 218, 1);
+    box-shadow:         4px 4px 4px 0px rgba(222, 221, 218, 1);
+  }
+  &__header {
+    .issue-logo img {
+      position: absolute;
+      left: -15px;
+      top: 15px;
+      width: 33px;
+      height: 33px;
+    }
+    .title {
+      margin-left: 10px;
+      font-weight: bold;
+      color: $brand-primary;
+    }
+  }
+  &__post {
+    color: #777;
+    font-size: 15px;
+    word-break: break-all;
+    border-bottom: 1px solid #d2d2d2;
+    padding: 20px 0;
+    margin-bottom: 15px;
+  }
+  &__comments {
+    .nickname {
+      font-weight: bold;
+      color: $brand-primary;
+    }
+    .body {
+      color: #777;
+    }
+  }
+  &__upvotes {
+    float: right;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 15px;
+    .fa-heart-o  {
+      color: #aaaaaf;
+    }
+    .fa-heart {
+      color: $brand-primary;
+    }
+  }
+}
+
 .comment {
   position: relative;
   background-color: #fff;

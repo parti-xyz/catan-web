@@ -1,0 +1,34 @@
+- comment ||= local_assigns[:comment_with_post]
+.comment-panel-with-post{class: dom_id(comment), data: { 'parti-comment-style': 'in-list' }}
+  .comment-panel-with-post__header
+    = link_to issue_home_path(comment.issue), class: 'issue-logo' do
+      = image_tag comment.issue.logo.xs.url
+      %span.title= comment.issue.title
+
+    %span.date-wrapper= date_f comment.post.created_at
+
+  .comment-panel-with-post__post
+    - if local_assigns[:show_opinion]
+      = render 'opinions/card', card: comment.post.specific
+    - else
+      .comment__footer.text-muted
+        = render customize_partial_path(comment.post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: local_assigns[:show_issue]
+
+  .comment-panel-with-post__comments
+    .comment-panel-with-post__comment
+      .media
+        .media-left
+          = link_to user_gallery_path(comment.user) do
+            = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle border-2-primary'
+        .media-body
+          %h5.media-heading.nickname
+            = comment.user.nickname
+            %span.date-wrapper= date_f comment.created_at
+            - if comment.mentionable?(current_user)
+              %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+                = image_tag 'icon_mention.png'
+
+          .body= smart_format(comment.body)
+
+        .media-right
+          = render 'upvotes/upvote', comment: comment
