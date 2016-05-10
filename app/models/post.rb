@@ -84,11 +84,10 @@ class Post < ActiveRecord::Base
   end
 
   def latest_comments
-    result = comments.recent.limit(2).reverse
-    if specific.is_a?(Talk) and comments.count < 3 and specific.has_presentation?
-      result[1..-1]
+    if specific.is_a?(Talk) and specific.has_presentation?
+      comments.recent.limit(3).reverse[1..-1]
     else
-      result
+      comments.recent.limit(2).reverse
     end
   end
 
