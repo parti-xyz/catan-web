@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def excerpt(text)
-    truncate((strip_tags(text).try(:html_safe)), length: 200)
+    truncate((strip_tags(text).try(:html_safe)), length: 130)
   end
 
   def date_f(date)

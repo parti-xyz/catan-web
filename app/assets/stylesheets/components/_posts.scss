@@ -81,10 +81,9 @@ section#posts {
 }
 
 .post-inline {
-  background-color: #fafafb;
-  border: 1px solid #f1f1f1;
-  padding: 15px;
+  padding: 0;
   position: relative;
+  border: none;
   .img-circle {
     position: static;
   }
@@ -93,13 +92,18 @@ section#posts {
     line-height: 1.4em;
   }
   &__title {
-    width: 93%;
-    margin: 0;
-    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: $gray-base;
+    font-weight: bold;
   }
   &--article,
   &--talk {
     cursor: pointer;
+  }
+  .thumb {
+    width: 150px;
+    height: 100px;
   }
 }
 

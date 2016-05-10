@@ -1,11 +1,11 @@
 - article = article_as_footnote
 - post = article.acting_as
-.post-inline.post-inline--article[post]{data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }}
-  %h5.post-inline__title
-    = render 'posts/post_inline_footnote', obj: article, show_issue: local_assigns[:show_issue], linkable: false
-    = screenable_article_title(article)
-  .post-inline__comment.pull-right
-    = image_tag 'icon_comment.png'
-    %b= post.comments_count
-
+.post-inline.post-inline--article.media[post]{data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }}
+  .media-body
+    %h4.media-heading.post-inline__title
+      = screenable_article_title(article)
+    %p= excerpt(article.body)
+  - if (article.has_image?)
+    .media-right
+      .thumb{style: "background-image: url(#{article.image.md.url})"}
 
