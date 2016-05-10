@@ -9,7 +9,7 @@
 
   .comment-panel-with-post__post
     - if local_assigns[:show_opinion]
-      = render 'opinions/card', card: comment.post.specific
+      = render 'opinions/card', card: comment.post.specific, hide_created_at: true
     - else
       .comment__footer.text-muted
         = render customize_partial_path(comment.post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: local_assigns[:show_issue]

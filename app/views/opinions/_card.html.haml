@@ -2,9 +2,9 @@
 - post = card.acting_as
 - voted = user_signed_in? && opinion.voted_by?(current_user)
 .opinion-card[post]{ class: voted ? 'opinion-card--voted' : '' }
-  .opinion-card__date.date-wrapper
-    = image_tag 'icon_time.png'
-    %span= date_f opinion.created_at
+  - unless local_assigns[:hide_created_at]
+    .opinion-card__date.date-wrapper
+      %span= date_f opinion.created_at
   %h4.opinion-card__title
     = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) } do
       “#{opinion.title}”

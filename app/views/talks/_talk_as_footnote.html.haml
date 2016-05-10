@@ -2,7 +2,6 @@
 - post = talk.acting_as
 .post-inline.post-inline--article[post]{data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }}
   %h5.post-inline__title
-    = render 'posts/post_inline_footnote', obj: talk, show_issue: local_assigns[:show_issue], linkable: false
     = talk.title
   .post-inline__comment.pull-right
     = image_tag 'icon_comment.png'
