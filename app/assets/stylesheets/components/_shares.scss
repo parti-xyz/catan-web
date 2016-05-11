@@ -6,9 +6,9 @@
     padding: 5px 3px;
     text-align: center;
     margin-right: 10px;
-    border-radius: 50px;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
+    border-radius: $btn-border-radius-large;
+    -webkit-border-radius: $btn-border-radius-large;
+    -moz-border-radius: $btn-border-radius-large;
     cursor: pointer;
   }
   .jssocials-share-logo {

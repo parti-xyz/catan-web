@@ -1,4 +1,4 @@
-= link_to user_gallery_path(user), class: 'text-nowrap' do
+= link_to user_gallery_path(user), class: 'text-nowrap user-byline' do
   - unless local_assigns[:hide_image]
     = image_tag user.image.sm.url, class: 'user-image img-circle'
   - else
