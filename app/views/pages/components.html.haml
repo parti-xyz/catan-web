@@ -75,7 +75,39 @@
   %section#panels
     .container
       %h2.page-header Modules
-      %h3 parti header
+      %h3 parti header section
+      - issue = Issue.first
+      - if issue.present?
+        %section.parti-header-section{ style: "background-image: url(#{issue.cover.md.url});" }
+          .clearfix
+            .issue-logo
+              = link_to issue_home_path(issue) do
+                .thumb{style: "background-image: url(#{issue.logo.md.url})"}
+            %h2.issue-title
+              = issue.title
+              = link_to '구독하기', '#', class: 'btn btn-primary'
+              - if can? :update, issue
+                = link_to '수정', [:edit, issue], class: 'btn btn-default btn-xs'
+              - if can? :destroy, issue
+                = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-default btn-xs'
+
+            %p.issue-body
+              = issue.body
+
+          .issue-info
+            .row
+              .col-sm-7
+
+              .col-sm-5
+                - if issue.is_all?
+                  - data = {action: 'parti-share', 'share-url': 'http://parti.xyz', 'share-text': '수다로 정치하자, 빠띠에서 파티하자'}
+                - else
+                  - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
+                - map = { facebook: data.merge({'share-url': ('https://www.facebook.com/parti.xyz/' if issue.is_all?)}.compact) }
+                - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+                = render 'application/share', map: map
+          .issue-menu
+
       %h3 parti panel
       %h3 user panel
       %h3 user item

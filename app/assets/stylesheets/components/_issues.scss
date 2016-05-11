@@ -36,6 +36,44 @@
   }
 }
 
+.parti-header-section {
+  position: relative;
+  background-color: $brand-primary-darker;
+  color: #fff;
+  height: 400px;
+  padding: 40px 0;
+
+  .issue-logo {
+    float: left;
+    margin-right: 30px;
+    .thumb {
+      width: 210px;
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 8px;
+    }
+  }
+  h2 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 1);
+  }
+  .issue-body {
+    text-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 1);
+  }
+  .issue-info {
+    position: absolute;
+    top: 280px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(15, 10, 20, 1);
+    padding: 20px 0;
+  }
+}
+
 .issue-header-section {
   height: 305px;
   .issue-info-wrapper {
@@ -43,13 +81,6 @@
   }
   .issue-logo {
     float: left;
-    .thumb {
-      width: 175px;
-      height: 175px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
   }
   .issue-info {
     width: 765px;
