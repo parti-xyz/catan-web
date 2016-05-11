@@ -82,6 +82,8 @@ Rails.application.routes.draw do
     get '/test/summary', to: "users#summary_test"
   end
 
+  get '/dev/components', to: 'pages#components'
+
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/devel/emails"
   end

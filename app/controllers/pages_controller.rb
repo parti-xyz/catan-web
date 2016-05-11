@@ -14,4 +14,7 @@ class PagesController < ApplicationController
     StatisticsJob.perform_async
     redirect_to root_path
   end
+
+  def components
+  end
 end

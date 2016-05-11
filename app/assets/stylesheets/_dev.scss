@@ -1,0 +1,58 @@
+section#components {
+  section#colors {
+    div.col-xs-1 {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      height: 60px;
+      text-align: center;
+    }
+    .color-brand-primary {
+      background-color: $brand-primary;
+    }
+    .color-brand-light {
+      background-color: $brand-light;
+    }
+    .color-brand-success {
+      background-color: $brand-success;
+    }
+    .color-brand-info {
+      background-color: $brand-info;
+    }
+    .color-brand-warning {
+      background-color: $brand-warning;
+    }
+    .color-brand-danger {
+      background-color: $brand-danger;
+    }
+    .color-gray-base {
+      background-color: $gray-base;
+    }
+    .color-gray-darker {
+      background-color: $gray-darker;
+    }
+    .color-gray-dark {
+      background-color: $gray-dark;
+    }
+    .color-gray {
+      background-color: $gray;
+    }
+    .color-gray-light {
+      background-color: $gray-light;
+    }
+    .color-gray-lighter {
+      background-color: $gray-lighter;
+    }
+  }
+
+  section#typo {
+    p.font-size-base {
+      font-size: $font-size-base;
+    }
+    p.font-size-large {
+      font-size: $font-size-large;
+    }
+    p.font-size-small {
+      font-size: $font-size-small;
+    }
+  }
+}
