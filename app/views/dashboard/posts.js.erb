@@ -1,8 +1,5 @@
-<% if @is_last_page %>
-  $('#btn-next-page').hide();
-<% else %>
-  $('#btn-next-page').attr('href', '<%= url_for(last_id: @comments.last.id) %>');
-<% end %>
+$('.posts.bg-line').data('last-id', '<%= @posts.last.id %>');
+$('.posts.bg-line').data('is-last', <%= @is_last_page %>);
+var $posts = parti_partial("<%= escape_javascript(render 'dashboard/posts_page') %>");
+$('#posts .posts').append($posts);
 
-var $comments_per_page = parti_partial("<%= escape_javascript(render 'comments/comments_per_page', comments: @comments, show_issue: true) %>");
-$('#comments .comments').append($comments_per_page);

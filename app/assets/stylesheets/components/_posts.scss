@@ -107,14 +107,13 @@ section#posts {
   }
 }
 
-
-
-
-
-
-
-
-
+.posts__waypoint {
+  height: 20px;
+  &__loading {
+    color: $gray;
+    display: none;
+  }
+}
 
 
 

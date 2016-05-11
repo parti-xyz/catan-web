@@ -18,6 +18,7 @@
 //= require kakao
 //= require jquery.pjax
 //= require jquery.history
+//= require jquery.waypoints
 
 // blank
 $.is_blank = function (obj) {
