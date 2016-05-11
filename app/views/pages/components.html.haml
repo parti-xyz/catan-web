@@ -1,7 +1,7 @@
 %section#components
   %section#colors
     .container
-      %h2 Colors
+      %h2.page-header Colors
       .row
         .col-xs-1.color-brand-primary
           $brand-primary
@@ -29,7 +29,7 @@
           $gray-lighter
   %section#typo
     .container
-      %h2 Typography
+      %h2.page-header Typography
       %h3 Headings
       .well
         %h1 이것은 h1입니다 36px
@@ -38,11 +38,48 @@
         %h4 이것은 h4입니다 18px
         %h5 이것은 h5입니다 14px
         %h6 이것은 h6입니다 12px
-      %h2 Text
+      %h3 Text
       .well
         %p.font-size-base 기본 폰트입니다 14px
         %p.font-size-large 큰 폰트입니다 18px
         %p.font-size-small 작은 폰트입니다 12px
+        %p.text-muted muted text
+      %h3 Line Height
+      .well
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum eaque hic sunt corrupti recusandae nesciunt mollitia temporibus officia aperiam reiciendis, repellendus explicabo sint porro eos, molestias at quos ipsam consequuntur.
   %section#buttons
     .container
-      %h2 buttons
+      %h2.page-header Buttons
+      %div
+        %a.btn.btn-default default
+        %a.btn.btn-primary primary
+        %a.btn.btn-success success
+        %a.btn.btn-info info
+        %a.btn.btn-warning warning
+        %a.btn.btn-danger danger
+
+        %a.btn.btn-default.btn-xs xs
+        %a.btn.btn-default.btn-sm sm
+        %a.btn.btn-default default
+        %a.btn.btn-default.btn-lg lg
+
+      %h3 Ghost Buttons
+      %div
+        %a.btn.btn-ghost.btn-default default
+        %a.btn.btn-ghost.btn-primary primary
+        %a.btn.btn-ghost.btn-success success
+        %a.btn.btn-ghost.btn-info info
+        %a.btn.btn-ghost.btn-warning warning
+        %a.btn.btn-ghost.btn-danger danger
+
+  %section#panels
+    .container
+      %h2.page-header Modules
+      %h3 parti header
+      %h3 parti panel
+      %h3 user panel
+      %h3 user item
+      %h3 post item with comments
+      %h3 link item
+      %h3 talk item
+      %h3 opinion item
