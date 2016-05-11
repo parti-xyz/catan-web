@@ -5,6 +5,6 @@ elsif params[:style] == 'in_post'
   partial = 'edit_form'
 end
 %>
-var $form = $.parse$("<%= escape_javascript(render partial) %>");
+var $form = $.parseDiv$("<%= escape_javascript(render partial) %>");
 parti_prepare($form);
 $('.<%= dom_id(@comment) %>[data-parti-comment-style=<%= params[:style].dasherize %>]').html($form);

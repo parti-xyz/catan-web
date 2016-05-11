@@ -1,28 +1,38 @@
-%section.issue-header-section
-  %section#issue.issue-header-txt
-    %h3.text-primary
-      아직 구독한 빠띠가 없네요, 지금 바로 아래에서 구독해 보세요!
-    %h4
-      관심가는 빠띠를 구독하면 빠띠가 더욱 즐거워집니다.
-      %br
-      @#{current_user.nickname}님의 빠띠를 키워보세요.
-    %a.btn#btn-continue.disabled{href: '/'}
-      빠띠 계속하기
-
-%section.parties-all#issues
+%section.parti-watch-recommend--header
   .container
-    / .nav-tabs.page-title
-    /   %h4 내가 구독 중인 빠띠
-    / - if current_user.watched_issues.count == 0
-    /   %p.parties-text 아직 구독한 빠띠가 없네요, 아래에서 골라보세요!
-    / - else
-    /   %ul.issue-card-wrapper.list-unstyled.clearfix
-    /     - current_user.watched_issues.each do |issue|
-    /       = render 'issues/card', issue: issue
-    /     %li.issue-card.issue-card--more
-    /       %a{href: '#issues-all'}
-    /         = image_tag 'icon_plus.png'
+    %a#btn-continue.disabled
+      빠띠 시작하기
+    %h2.text-primary
+      어떤 이슈의 빠띠를 키워 보시겠어요?
+    %p
+      평소에 관심을 가지던 이슈의 빠따를 3개 이상 골라 보세요.
 
+%section.parti-watch-recommend--issues
+  .container
     %ul.issue-card-wrapper.issue-list--6.list-unstyled.clearfix
-      - @unwatched_issues.each do |issue|
-        = render 'issues/card', issue: issue
+      - @issues.each do |issue|
+        = render 'issues/card_in_intro', issue: issue
+
+.modal.fade.in.parti-watch-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
+  .modal-dialog
+    .modal-content(style="background: transparent; border: none; box-shadow: none; -webkit-box-shadow: none;")
+      .modal-body.text-center
+        = image_tag 'icon_intro_check.png', data: {dismiss: "modal"}
+        %h2.text-primary
+          먼저 3개 이상 관심있는
+          %br
+          이슈의 빠띠를 골라 보세요.
+
+        %p
+          관심가는 빠띠를 구독하면 빠띠가 더욱 즐거워집니다.
+          %br
+          @#{current_user.nickname}님의 빠띠를 키워보세요.
+
+        %button.btn.btn-primary.btn-lg{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          시작하기
+
+- content_for :script do
+  :javascript
+    $(function(){
+      $('#parti-intro').modal();
+    });

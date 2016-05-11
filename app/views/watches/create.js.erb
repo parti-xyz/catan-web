@@ -1,7 +1,9 @@
-$('.<%= dom_id(@issue) %>-watch').html(parti_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
-<% if current_user.watched_non_default_issues? %>
-if($('#btn-continue').hasClass('disabled')) {
-  UnobtrusiveFlash.showFlashMessage('이제 빠띠를 즐길 수 있습니다. <a href="/" class="btn btn-default btn-primary">빠띠 계속하기 <i class="fa fa-arrow-right"></i></a>', {type: 'info'})
-}
-$('#btn-continue').removeClass('disabled');
+<% if params[:partial] == 'intro' %>
+  $('.<%= dom_id(@issue) %>-card').replaceWith(parti_origin_partial("<%= escape_javascript(render 'issues/card_in_intro', issue: @issue) %>"));
+  <% unless current_user.need_to_more_watch? %>
+    $('#btn-continue').removeClass( "disabled" );
+    $('#btn-continue').attr("href", "<% root_path %>");
+  <% end %>
+<% else %>
+  $('.<%= dom_id(@issue) %>-watch').html(parti_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
 <% end %>

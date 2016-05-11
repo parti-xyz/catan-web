@@ -3,8 +3,8 @@ class DashboardController < ApplicationController
   respond_to :js, :html
 
   def index
-    if need_to_watch
-      @unwatched_issues = current_user.unwatched_issues
+    if current_user.need_to_more_watch?
+      @issues = Issue.all
       render 'intro' and return
     end
     posts
@@ -19,11 +19,5 @@ class DashboardController < ApplicationController
 
   def new_comments_count
     @count = current_user.watched_comments.recent.next_of(params[:first_id]).count
-  end
-
-  private
-
-  def need_to_watch
-    ! current_user.watched_non_default_issues?
   end
 end

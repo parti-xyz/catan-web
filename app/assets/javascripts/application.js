@@ -32,8 +32,12 @@ $.is_present = function(obj) {
   return ! $.is_blank(obj);
 }
 
-$.parse$ = function(str) {
+$.parseDiv$ = function(str) {
   return $($.parseHTML('<div>' + $.trim(str) + '</div>'));
+}
+
+$.parse$ = function(str) {
+  return $($.parseHTML($.trim(str)));
 }
 
 $.prevent_click_exclude_parti = function(e) {
@@ -526,6 +530,14 @@ var parti_prepare_post_modal = function($base) {
 
 //parti-post-modal
 var parti_partial = function(partial) {
+  var $partial = $.parseDiv$(partial)
+  parti_prepare_post_modal($partial);
+  parti_prepare($partial);
+
+  return $partial;
+}
+
+var parti_origin_partial = function(partial) {
   var $partial = $.parse$(partial)
   parti_prepare_post_modal($partial);
   parti_prepare($partial);

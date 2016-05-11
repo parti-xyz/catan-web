@@ -131,8 +131,8 @@ class User < ActiveRecord::Base
     counts
   end
 
-  def watched_non_default_issues?
-    watched_issues.where.not(slug: Issue::SLUG_OF_ASK_PARTI).any?
+  def need_to_more_watch?
+    watched_issues.count < 3
   end
 
   def unwatched_issues

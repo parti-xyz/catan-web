@@ -1,4 +1,9 @@
-$('.<%= dom_id(@issue) %>-watch').html(parti_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
-<% unless current_user.watched_non_default_issues? %>
-$('#btn-continue').addClass('disabled');
+<% if params[:partial] == 'intro' %>
+  $('.<%= dom_id(@issue) %>-card').replaceWith(parti_origin_partial("<%= escape_javascript(render 'issues/card_in_intro', issue: @issue) %>"));
+  <% if current_user.need_to_more_watch? %>
+    $('#btn-continue').addClass( "disabled" );
+    $('#btn-continue').removeAttr("href");
+  <% end %>
+<% else %>
+  $('.<%= dom_id(@issue) %>-watch').html(parti_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
 <% end %>

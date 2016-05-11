@@ -8,8 +8,9 @@ module ApplicationHelper
     content_tag(:i, nil, class: classes)
   end
 
-  def excerpt(text)
-    truncate((strip_tags(text).try(:html_safe)), length: 130)
+  def excerpt(text, options = {})
+    options[:length] = 130 unless options.has_key?(:length)
+    truncate((strip_tags(text).try(:html_safe)), options)
   end
 
   def date_f(date)
