@@ -1,8 +1,8 @@
 = render 'issues/issue_header'
 
-%section#posts
+%section#articles
   .container
-    .row
+    .row.masonry-container
       - if @articles.empty?
         .bg-default
           %i.fa.fa-info-circle
