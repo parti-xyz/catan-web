@@ -3,10 +3,12 @@
 %section#posts
   .container
     .row
-      .col-xs-9
-        %section#content-tab-section
-          = render 'issues/content_tabs', active_tab: :articles, counts_container: @issue.counts_container
-        = render 'articles/list', postables: @articles, issue: @issue, show_issue: @issue.is_all?
-        = paginate @articles, theme: 'catan', params: @paginate_params
-      = render 'issues/aside'
+      - if @articles.empty?
+        .bg-default
+          %i.fa.fa-info-circle
+          해당되는 글이 없습니다.
+      - else
+        - @articles.each do |postable|
+          = render postable
+    = paginate @articles, theme: 'catan', params: @paginate_params
 

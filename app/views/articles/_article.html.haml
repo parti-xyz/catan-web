@@ -1,8 +1,17 @@
 - post = article.acting_as
-- if local_assigns[:template] && template == 'best'
+
+- if post.comments_count >= 20
+  - template_by_post = 'best'
+- elsif post.comments_count >= 10
+  - template_by_post = 'popular'
+- else
+  - template_by_post = 'default'
+
+- template ||= (local_assigns[:template] || template_by_post)
+- if template == 'best'
   - wrapper_class = 'col-xs-12 col-sm-6'
   - card_class = template
-- elsif local_assigns[:template] && template == 'popular'
+- elsif template == 'popular'
   - wrapper_class = 'col-xs-6 col-sm-3'
   - card_class = template
 - else
@@ -10,24 +19,20 @@
   - card_class = 'default'
 
 %div{ class: wrapper_class }
-  .article-card[post]{ class: card_class }
-    - if (article.has_image?)
-      = link_to article.link, target: '_blank' do
-        .thumb{ style: "background-image: url(#{article.image.md.url})" }
+  .article-card[post]{ class: card_class, data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } }
+    .thumb{ style: "background-image: url(#{article.image.md.url})" }
     .caption
       .date= date_f article.created_at
 
       %h4.title
-        = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
-          = truncate(screenable_article_title(article), length: 30)
+        = truncate(screenable_article_title(article), length: 30)
 
       .body
         %p= excerpt(article.body, length: 70)
 
       .more
         %div
-          = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
-            %b> #{post.comments_count}개
-            의 수다
-            \|
-            %span.text-primary 더보기...
+          %b> #{post.comments_count}개
+          의 수다
+          \|
+          %span.text-primary 더보기...

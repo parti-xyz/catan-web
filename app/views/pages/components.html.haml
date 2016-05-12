@@ -97,7 +97,7 @@
     .container
       %h3 link card
       .row
-        = render Article.last if Article.last.present?
+        = render Article.last, template: 'default' if Article.last.present?
         = render Article.last, template: 'popular' if Article.last.present?
         = render Article.last, template: 'best' if Article.last.present?
 

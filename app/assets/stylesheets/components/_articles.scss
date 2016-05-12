@@ -4,6 +4,7 @@
   height: 380px;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 
   .thumb {
     height: 150px;
@@ -26,6 +27,7 @@
       line-height: $line-height-base;
     }
     .more {
+      color: $text-muted;
       position: absolute;
       bottom: 0px;
       left: 0;
@@ -39,9 +41,6 @@
         border-top: 1px solid $gray-lighter;
         padding-top: 20px;
         padding-left: 25px;
-      }
-      a {
-        color: $text-muted;
       }
     }
   }
@@ -71,7 +70,7 @@
     .date {
       color: #fff;
     }
-    .title a {
+    .title {
       color: #fff;
       font-size: $font-size-h3;
       &:hover {
@@ -84,7 +83,7 @@
     .more div {
       background-image: image_url('icon_comment_white.png');
     }
-    .more a {
+    .more {
       color: #fff;
     }
   }
