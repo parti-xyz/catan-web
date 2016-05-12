@@ -607,7 +607,7 @@ $(function(){
       if (!parti.id) { return parti.text; }
       if ($(parti.element).data('url')) {
         return $(
-          '<span>' + parti.text + ' <i class="fa fa-arrow-right"></span>'
+          $(parti.element).data('label')
         );
       }
 

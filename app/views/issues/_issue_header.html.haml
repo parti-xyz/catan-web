@@ -11,9 +11,9 @@
 
 
         - if can? :update, issue
-          = link_to '수정', [:edit, issue], class: 'btn btn-default btn-xs'
+          = link_to '수정', [:edit, issue], class: 'btn btn-primary'
         - if can? :destroy, issue
-          = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-default btn-xs'
+          = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-primary'
 
       %p.parti-body
         = issue.body
@@ -44,15 +44,7 @@
     - counts_container = issue.counts_container
     .container
       .row
-        .col-sm-3.active
-          = link_to issue_home_path(issue) do
-            .count
-              %small<>= counts_container.comments_count
-              - if counts_container.latest_comments_count > 0
-                %small.text-primary<>
-                  +#{counts_container.latest_comments_count}
-            %h4 홈
-        .col-sm-3
+        .col-sm-2.col-sm-offset-3{class: ('active' if active_tab == :articles)}
           = link_to issue_articles_path(issue) do
             .count{style: 'margin-left: 20px;'}
               %small<>= counts_container.articles_count
@@ -60,7 +52,7 @@
                 %small.text-primary<>
                   +#{counts_container.latest_articles_count}
             %h4= Article.model_name.human
-        .col-sm-3
+        .col-sm-2{class: ('active' if active_tab == :talks)}
           = link_to issue_talks_path(issue) do
             .count
               %small<>= counts_container.talks_count
@@ -68,7 +60,7 @@
                 %small.text-primary<>
                   +#{counts_container.latest_talks_count}
             %h4= Talk.model_name.human
-        .col-sm-3
+        .col-sm-2{class: ('active' if active_tab == :opinions)}
           = link_to issue_opinions_path(issue) do
             .count{style: 'margin-left: 20px;'}
               %small<>= counts_container.opinions_count

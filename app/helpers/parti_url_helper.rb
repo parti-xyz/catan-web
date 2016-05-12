@@ -9,10 +9,6 @@ module PartiUrlHelper
   end
 
   def issue_articles_path(issue)
-    slug_issue_articles_path(slug: issue.slug)
-  end
-
-  def issue_comments_path(issue)
     slug_issue_path(slug: issue.slug)
   end
 

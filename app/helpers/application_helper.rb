@@ -103,6 +103,6 @@ module ApplicationHelper
     result = []
     result << ['구독 중인 빠띠', watched] if watched.any?
     result << ['기본 빠띠', featured] if featured.any?
-    result << ['마땅한 빠띠가 없으세요?', [['전체빠띠에서 찾아보기', 0, {'data-url': issues_path}]]]
+    result << ['마땅한 빠띠가 없으세요?', [['', 0, {'data-url': issues_path, 'data-label': '<div class="pull-right"><b>전체빠띠로 이동 <i class="fa fa-arrow-right"/></b></div><div><i class="fa fa-info-circle"/> 관심있는 빠띠를 구독해 보세요.</div>'}]]]
   end
 end

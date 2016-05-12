@@ -27,12 +27,13 @@
       = f.label :cover
       = f.file_field :cover, class: 'form-control'
 
-    .form-group
-      = f.label :basic
-      .checkbox
-        %label
-          = f.check_box :basic
-          댓글을 작성할 때 구독 여부와 관계없이 추천됩니다.
+    - if current_user.admin?
+      .form-group
+        = f.label :basic
+        .checkbox
+          %label
+            = f.check_box :basic
+            댓글을 작성할 때 구독 여부와 관계없이 추천됩니다.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg'

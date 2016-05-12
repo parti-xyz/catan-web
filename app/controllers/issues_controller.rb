@@ -29,16 +29,6 @@ class IssuesController < ApplicationController
     prepare_issue_meta_tags
   end
 
-  def new_comments_count
-    @count = @issue.comments.recent.next_of(params[:first_id]).count
-  end
-
-  def slug_comments
-    @comments = @issue.comments.recent.limit(25).previous_of params[:last_id]
-    @is_last_page = (@comments.empty? or @issue.comments.recent.previous_of(@comments.last.id).empty?)
-    prepare_issue_meta_tags
-  end
-
   def slug_opinions
     @opinions = @issue.opinions.recent.page params[:page]
     prepare_issue_meta_tags
