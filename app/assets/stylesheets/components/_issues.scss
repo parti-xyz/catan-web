@@ -105,20 +105,27 @@
     .row {
       border-color: #d2d2d2;
       text-align: center;
+      padding: 0;
+      margin: 0;
       .col-sm-3 {
         position: relative;
+        padding: 0;
         a {
           display: block;
           color: $gray-light;
           border: none;
+          border-right: 1px solid $gray;
           width: 100%;
           height: 55px;
           &:hover {
-            background-color: transparent;
+            background-color: $gray-darker;;
           }
           .text-primary {
             color: #be97ff;
           }
+        }
+        &:last-child > a {
+          border: none;
         }
         &.active > a {
           color: #fff;
