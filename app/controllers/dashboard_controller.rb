@@ -12,7 +12,7 @@ class DashboardController < ApplicationController
   end
 
   def posts
-    @last_comments = current_user.watched_comments.newest
+    @last_comment = current_user.watched_comments.newest
 
     watched_posts = current_user.watched_posts.order(last_commented_at: :desc)
     posts_commented = watched_posts.limit(25).previous_of(params[:last_id])
@@ -30,8 +30,8 @@ class DashboardController < ApplicationController
   end
 
   def new_comments_count
-    count = current_user.watched_comments.recent.next_of(params[:first_id]).count
+    @count = current_user.watched_comments.next_of(params[:first_id]).count
     posts_by_current_user = current_user.posts.where.not(issue: current_user.watched_issues)
-    count += Comment.where(post: posts_by_current_user).recent.next_of(params[:first_id]).count
+    @count += Comment.where(post: posts_by_current_user).where('comments.created_at > ?', Comment.with_deleted.find(params[:first_id]).created_at).count
   end
 end

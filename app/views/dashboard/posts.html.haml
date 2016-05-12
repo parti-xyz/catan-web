@@ -6,7 +6,7 @@
       .col-xs-9
         = render 'posts/new_form', issue: Issue::OF_ALL
         - if @posts.first.present?
-          = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comments.id)
+          = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comment.id)
         .posts.bg-line{data: {last_id: @posts.last.id, is_last: @is_last_page.to_s}}
           - if @posts.empty?
             .bg-default
