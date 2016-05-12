@@ -4,7 +4,6 @@
   - article_button_data = {'switch-target': '#article-form-widget', focus: ( !issue.is_all? ? 'input#article_link' : 'select#article_issue_id')}.update(base_button_data)
   - talk_button_data = {'switch-target': '#talk-form-widget', focus: ( !issue.is_all? ? 'input#talk_title' : 'select#talk_issue_id')}.update(base_button_data)
   - opinion_button_data = {'switch-target': '#opinion-form-widget', focus: ( !issue.is_all? ? 'input#opinion_title' : 'select#opinion_issue_id')}.update(base_button_data)
-  - suggest_issues = (params[:controller] == 'dashboard') ? current_user.watched_issues : Issue.featured_issues(current_user)
 - else
   - article_button_data = opinion_button_data = talk_button_data = {toggle: "parti-login-overlay"}
 
@@ -32,7 +31,7 @@
         = f.hidden_field :issue_id, value: issue.id
       - else
         .form-group
-          = f.collection_select :issue_id, suggest_issues, :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', data: { 'rule-required': true}}
+          = f.select :issue_id, current_user.editable_issues_continents, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', style: 'width: 99%', data: { 'rule-required': true, 'action': 'parti-select-parti'}}
       .form-group
         = f.text_field :link, placeholder: '링크를 입력해주세요.', class: 'form-control', data: {'rule-required': true}
       %hr
@@ -53,7 +52,7 @@
         = f.hidden_field :issue_id, value: issue.id
       - else
         .form-group
-          = f.collection_select :issue_id, suggest_issues, :id, :title, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', data: {'rule-required': true}}
+          = f.select :issue_id, current_user.editable_issues_continents, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', style: 'width: 99%', data: { 'rule-required': true, 'action': 'parti-select-parti'}}
       .form-group
         = f.text_field :title, placeholder: '톡 주제를 써주세요.', class: 'form-control', data: {'rule-required': true}
       %hr

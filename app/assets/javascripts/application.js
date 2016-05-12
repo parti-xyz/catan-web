@@ -19,6 +19,7 @@
 //= require jquery.pjax
 //= require jquery.history
 //= require jquery.waypoints
+//= require select2.full
 
 // blank
 $.is_blank = function (obj) {
@@ -376,6 +377,14 @@ var parti_prepare = function($base) {
       }
     });
 
+    $elm.find('select').on('change', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
     $elm.find(':input').on('parti-need-to-validate', function(e) {
       if($form.valid()) {
         $submit.prop('disabled', false);
@@ -592,6 +601,22 @@ $(function(){
     var url = $(e.currentTarget).data("url");
     window.location.href  = url;
   });
+
+  $('[data-action="parti-select-parti"]').each(function(i, elm) {
+    formatParti = function (parti) {
+      if (!parti.id) { return parti.text; }
+      var $parti = $(
+        '<span><img src="' + $(parti.element).data('logo') + '" style="width: 10px; height: 10px" /> ' + parti.text + '</span>'
+      );
+      return $parti;
+    };
+
+    $(elm).select2({
+      theme: "bootstrap",
+      templateResult: formatParti,
+      templateSelection: formatParti
+    });
+  })
 });
 
 

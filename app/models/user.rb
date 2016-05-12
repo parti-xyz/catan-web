@@ -131,6 +131,16 @@ class User < ActiveRecord::Base
     counts
   end
 
+  def editable_issues_continents
+    watched = self.watched_issues.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
+    featured = Issue.basic_issues.select { |issue| !self.watched_issues.include?(issue) }.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
+
+    result = []
+    result << ['구독 중인 빠띠', watched] if watched.any?
+    result << ['추천 빠띠', featured] if featured.any?
+    result
+  end
+
   def need_to_more_watch?
     watched_issues.count < 3
   end
