@@ -14,24 +14,23 @@ class DashboardController < ApplicationController
   def posts
     @last_comment = current_user.watched_comments.newest
 
-    watched_posts = current_user.watched_posts.order(last_commented_at: :desc)
-    posts_commented = watched_posts.limit(25).previous_of(params[:last_id])
-    @is_last_page = (watched_posts.empty? or watched_posts.previous_of(posts_commented.last.id).empty?)
-
     previous_last_post = Post.find_by(id: params[:last_id])
-    current_last_post = posts_commented.last
-    posts_by_current_user = current_user.posts
-    posts_by_current_user = posts_by_current_user.where('posts.last_commented_at < ?', previous_last_post) if previous_last_post.present?
-    posts_by_current_user = posts_by_current_user.where('posts.last_commented_at >= ?', current_last_post) unless @is_last_page
-    posts_by_current_user = posts_by_current_user.limit(20) if @is_last_page
-    posts_by_current_user = posts_by_current_user.where.not(issue: current_user.watched_issues)
 
-    @posts = [posts_commented, posts_by_current_user].flatten.compact.uniq.sort_by{ |a| (a.last_commented_at|| a.created_at) }.reverse
+    watched_posts = current_user.watched_posts.order(last_commented_at: :desc)
+    paged_watched_posts = watched_posts.limit(1).previous_of_post(previous_last_post)
+
+    @is_last_page = (watched_posts.empty? or watched_posts.previous_of(paged_watched_posts.last.id).empty?)
+
+    current_last_post = paged_watched_posts.last
+    paged_unwatched_posts = current_user.posts.where.not(issue: current_user.watched_issues)
+    paged_unwatched_posts = paged_unwatched_posts.previous_of_post(previous_last_post)
+    paged_unwatched_posts = paged_unwatched_posts.next_of_post(current_last_post) unless @is_last_page
+    paged_unwatched_posts = paged_unwatched_posts.limit(20) if @is_last_page
+
+    @posts = [paged_watched_posts, paged_unwatched_posts].flatten.compact.uniq.sort_by{ |a| (a.last_commented_at|| a.created_at) }.reverse
   end
 
   def new_comments_count
     @count = current_user.watched_comments.next_of(params[:first_id]).count
-    posts_by_current_user = current_user.posts.where.not(issue: current_user.watched_issues)
-    @count += Comment.where(post: posts_by_current_user).where('comments.created_at > ?', Comment.with_deleted.find(params[:first_id]).created_at).count
   end
 end

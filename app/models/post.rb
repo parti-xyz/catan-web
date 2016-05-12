@@ -46,6 +46,8 @@ class Post < ActiveRecord::Base
   scope :only_talks, -> { by_postable_type(Talk.to_s) }
   scope :latest, -> { after(1.day.ago) }
   scope :previous_of, ->(id) { where('posts.last_commented_at < ?', with_deleted.find(id).last_commented_at) if id.present? }
+  scope :previous_of_post, ->(post) { where('posts.last_commented_at < ?', post.last_commented_at) if post.present? }
+  scope :next_of_post, ->(post) { where('posts.last_commented_at >= ?', post.last_commented_at) if post.present? }
 
   ## uploaders
   # mount

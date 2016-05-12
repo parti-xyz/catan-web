@@ -1,10 +1,10 @@
 ko:
   date:
     formats:
-      default: '%Y-%m-%d'
+      default: '%Y.%m.%d'
   time:
     formats:
-      default: "%Y-%m-%d %H:%M"
+      default: "%Y.%m.%d %H:%M"
   errors:
     messages:
       not_saved: 저장되지 않았습니다
