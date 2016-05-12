@@ -177,6 +177,51 @@
     vertical-align: top;
   }
 }
+
+.btn-link {
+  background:none!important;
+  border:none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn-ghost {
+  &.btn-white {
+    border: 1px solid #fff;
+    color: #fff;
+    text-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 1);
+    &:hover {
+      background-color: #fff;
+      border: 1px solid $brand-primary;
+      color: $brand-primary;
+    }
+  }
+  &.btn-primary {
+    border: 1px solid $brand-primary !important;
+    background-color: transparent !important;
+    color: $brand-primary !important;
+    &:hover {
+      background-color: $brand-primary !important;
+      color: #fff !important;
+    }
+  }
+
+  border-color: $gray;
+  background-color: transparent;
+  color: $gray;
+  &:hover {
+    background-color: $gray;
+    color: #fff;
+  }
+}
+
+.btn-block-xs {
+  @media (max-width: $screen-xs-max) {
+    display: block;
+    width: 100%;
+  }
+}
+
 #btn-next-page {
   margin: -10px 0 160px 25px;
   display: block;
