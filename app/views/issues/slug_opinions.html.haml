@@ -1,11 +1,26 @@
 = render 'issues/issue_header'
 
-%section#posts
+%section#opinions
   .container
-    .row
-      .col-xs-9
-        %section#content-tab-section
-          = render 'issues/content_tabs', active_tab: :opinions, counts_container: @issue.counts_container
-        = render 'opinions/cards', opinions: @opinions, issue: @issue
-        = paginate @opinions, theme: 'catan', params: @paginate_params
-      = render 'issues/aside'
+    - unless local_assigns[:hide_writing_card]
+      .vote__new#editors-tab
+        - if user_signed_in?
+          = link_to '#', class: 'btn-vote', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !@issue.is_all? ? 'input#opinion_title' : 'select#opinion_issue_id')} do
+            %span
+              더 나은 논의를 위해 투표를 열어 보세요.
+            %span.vote__new-img
+              = image_tag 'img_opinion.png'
+              %b 투표 열기
+          = render 'opinions/new_form', issue: @issue
+        - else
+          = link_to '#', class: 'btn-vote', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
+            %span
+              더 나은 논의를 위해 투표를 열어 보세요.
+            %span.vote__new-img
+              = image_tag 'img_opinion.png'
+              %b 투표 열기
+    .row.masonry-container
+      - @opinions.each do |opinion|
+        .card.col-xs-6.col-sm-4
+          = render 'opinions/card', card: opinion
+      = paginate @opinions, theme: 'catan', params: @paginate_params

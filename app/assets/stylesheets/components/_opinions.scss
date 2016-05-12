@@ -1,5 +1,14 @@
-.opinion-list {
-  padding-top: 20px;
+section#opinions {
+  padding-top: 30px;
+  .row {
+    margin-left: -7px;
+    margin-right: -7px;
+  }
+  .col-xs-6,
+  .col-sm-4 {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
 }
 
 .opinion-card {
@@ -31,7 +40,7 @@
 
 .opinion__vote-section {
   .btn {
-    min-width: 130px;
+    min-width: 120px;
     padding: 15px;
     border-color: $brand-primary;
     border-radius: 3px;
