@@ -5,5 +5,5 @@
     $('#btn-continue').removeAttr("href");
   <% end %>
 <% else %>
-  $('.<%= dom_id(@issue) %>-watch').html(parti_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
+  $('.<%= dom_id(@issue) %>-watch').html(parti_origin_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
 <% end %>

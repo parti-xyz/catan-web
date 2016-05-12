@@ -7,7 +7,9 @@
           .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       %h2.parti-title
         = issue.title
-        = link_to '구독하기', '#', class: 'btn btn-primary'
+        = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary'
+
+
         - if can? :update, issue
           = link_to '수정', [:edit, issue], class: 'btn btn-default btn-xs'
         - if can? :destroy, issue

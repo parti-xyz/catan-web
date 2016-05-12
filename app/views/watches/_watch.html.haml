@@ -1,9 +1,12 @@
-- if user_signed_in?
-  - if issue.watched_by?(current_user)
-    = link_to cancel_issue_watches_path(issue), method: :delete, class: 'btn btn-default', remote: true do
-      구독끊기
+- watch_btn_class ||= (params['watch_btn_class'] || 'btn btn-primary')
+- cancel_btn_class ||= (params['cancel_btn_class'] || 'btn btn-default')
+%span(class="#{dom_id(issue)}-watch")
+  - if user_signed_in?
+    - if issue.watched_by?(current_user)
+      = link_to cancel_issue_watches_path(issue, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :delete, class: cancel_btn_class, remote: true do
+        구독끊기
+    - else
+      = link_to issue_watches_path(issue, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :post, remote: true , class: watch_btn_class do
+        구독하기
   - else
-    = link_to issue_watches_path(issue), method: :post, remote: true , class: 'btn btn-primary' do
-      구독하기
-- else
-  = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :issue_watch, id: issue.id}.to_json) }, class: 'btn btn-primary'
+    = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :issue_watch, id: issue.id}.to_json) }, class: 'btn btn-primary'
