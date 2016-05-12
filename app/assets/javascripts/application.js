@@ -623,9 +623,39 @@ $(function(){
     });
     $(elm).on('select2:selecting', function(e) {
       $option = $(e.params.args.data.element);
-      window.location.href  = $option.data('url');
+      if($option.data('url')) {
+        window.location.href  = $option.data('url');
+      }
     });
-  })
+  });
+
+  $('.page_waypoint').waypoint({
+    handler: function(direction) {
+      $container = $($(this.element).data('target'));
+      if($container.data('is-last')) {
+        return;
+      }
+
+      if($container.data('is-processing')) {
+        return;
+      }
+      $container.data('is-processing', true);
+      $('.page_waypoint__loading').show();
+
+      $.ajax({
+        url: $(this.element).data('url'),
+        type: "get",
+        data:{ last_id: $container.data('last-id') },
+        complete: function(xhr) {
+          Waypoint.refreshAll();
+          $container.data('is-processing', false);
+          $('.page_waypoint__loading').hide();
+        },
+      });
+    },
+    offset: 'bottom-in-view'
+  });
+
 });
 
 

@@ -17,11 +17,12 @@ class DashboardController < ApplicationController
     previous_last_post = Post.find_by(id: params[:last_id])
 
     watched_posts = current_user.watched_posts.order(last_commented_at: :desc)
-    paged_watched_posts = watched_posts.limit(1).previous_of_post(previous_last_post)
-
-    @is_last_page = (watched_posts.empty? or watched_posts.previous_of(paged_watched_posts.last.id).empty?)
+    paged_watched_posts = watched_posts.limit(25).previous_of_post(previous_last_post)
 
     current_last_post = paged_watched_posts.last
+
+    @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+
     paged_unwatched_posts = current_user.posts.where.not(issue: current_user.watched_issues)
     paged_unwatched_posts = paged_unwatched_posts.previous_of_post(previous_last_post)
     paged_unwatched_posts = paged_unwatched_posts.next_of_post(current_last_post) unless @is_last_page

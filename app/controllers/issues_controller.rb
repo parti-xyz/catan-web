@@ -25,7 +25,13 @@ class IssuesController < ApplicationController
   end
 
   def slug_articles
-    @articles = @issue.articles.recent.page params[:page]
+    previous_last_article = Article.find_by(id: params[:last_id])
+
+    @articles = @issue.articles.recent.previous_of_article(previous_last_article).limit(20)
+    current_last_article = @articles.last
+
+    @is_last_page = (@issue.articles.empty? or @issue.articles.previous_of_article(current_last_article).empty?)
+
     prepare_issue_meta_tags
   end
 

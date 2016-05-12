@@ -2,7 +2,7 @@
 
 %section#articles
   .container
-    .row.masonry-container
+    .row.masonry-container{data: {last_id: @articles.last.id, is_last: @is_last_page.to_s}}
       - if @articles.empty?
         .bg-default
           %i.fa.fa-info-circle
@@ -10,5 +10,6 @@
       - else
         - @articles.each do |postable|
           = render postable
-    = paginate @articles, theme: 'catan', params: @paginate_params
-
+    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_home_path(@issue, format: :js)}
+      .page_waypoint__loading
+        %i.fa.fa-3x.fa-spinner.fa-pulse

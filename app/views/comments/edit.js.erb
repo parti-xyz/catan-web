@@ -1,10 +1,3 @@
-<%
-if params[:style] == 'in_list'
-  partial = 'edit_form_in_list'
-elsif params[:style] == 'in_post'
-  partial = 'edit_form'
-end
-%>
-var $form = $.parseDiv$("<%= escape_javascript(render partial) %>");
+var $form = $.parseDiv$("<%= escape_javascript(render 'edit_form') %>");
 parti_prepare($form);
 $('.<%= dom_id(@comment) %>[data-parti-comment-style=<%= params[:style].dasherize %>]').html($form);

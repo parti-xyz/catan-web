@@ -127,4 +127,10 @@ label.required:after {
   margin-top: 0;
 }
 
-
+.page_waypoint {
+  margin-bottom: 10px;
+  &__loading {
+    color: $gray;
+    display: none;
+  }
+}

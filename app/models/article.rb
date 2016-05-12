@@ -11,6 +11,7 @@ class Article < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :visible, -> { where(hidden: false) }
+  scope :previous_of_article, ->(article) { where('articles.created_at < ?', article.created_at) if article.present? }
 
   before_save :update_post_issue_id_before_save
 
