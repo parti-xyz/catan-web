@@ -76,22 +76,36 @@
   %section#panels
     .container
       %h2.page-header Modules
+
+    .container
       %h3 parti header section
 
     - issue = Issue.first
     - if issue.present?
       = render 'issues/issue_header', issue: Issue.first
 
-
     .container
       %h3 parti panel
       %h3 user panel
-      %h3 user item
+      %h3 user card
       %h3 user byline
       .well
         = byline User.first
 
-      %h3 post item with comments
-      %h3 link item
-      %h3 talk item
-      %h3 opinion item
+      %h3 post card with comments
+
+    .container
+      %h3 link card
+      .row
+        = render Article.last if Article.last.present?
+        = render Article.last, template: 'popular' if Article.last.present?
+        = render Article.last, template: 'best' if Article.last.present?
+
+      %h3 talk card
+      .row
+        = render Talk.last if Talk.last.present?
+
+      %h3 opinion card
+      .row
+        .col-sm-6
+          = render 'opinions/card', card: Opinion.last if Opinion.last.present?

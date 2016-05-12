@@ -1,3 +1,95 @@
+.article-card {
+  background-color: #fff;
+  border-radius: 4px;
+  height: 380px;
+  overflow: hidden;
+  position: relative;
+
+  .thumb {
+    height: 150px;
+  }
+  .caption {
+    padding: 20px;
+
+    .date {
+      color: $text-muted;
+      font-size: $font-size-small;
+    }
+    .title {
+      font-size: $font-size-large;
+      font-weight: bold;
+      margin-top: 5px;
+    }
+    .body {
+      color: $text-muted;
+      font-size: $font-size-base;
+      line-height: $line-height-base;
+    }
+    .more {
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      font-size: $font-size-base;
+      width: 100%;
+      padding: 0 20px 20px 20px;
+      div {
+        background-image: image_url('icon_comment.png');
+        background-position: bottom left;
+        background-repeat: no-repeat;
+        border-top: 1px solid $gray-lighter;
+        padding-top: 20px;
+        padding-left: 25px;
+      }
+      a {
+        color: $text-muted;
+      }
+    }
+  }
+}
+
+.article-card.best, .article-card.popular {
+  .thumb {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    &::after {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, .6);
+      content: '';
+    }
+  }
+  .caption {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 70px;
+    width: 100%;
+    .date {
+      color: #fff;
+    }
+    .title a {
+      color: #fff;
+      font-size: $font-size-h3;
+      &:hover {
+        color: $brand-primary;
+      }
+    }
+    .body {
+      display: none;
+    }
+    .more div {
+      background-image: image_url('icon_comment_white.png');
+    }
+    .more a {
+      color: #fff;
+    }
+  }
+}
+
 .link-box {
   width: 100%;
   height: 100px;

@@ -6,52 +6,6 @@ section#posts {
   padding-top: 25px;
 }
 
-.post {
-  width: 100%;
-  background-color: #fff;
-  padding: 25px;
-  margin-bottom: 10px;
-  border: 1px solid #fff;
-  &:hover {
-    border-color: #bfa5eb;
-  }
-  &__title {
-    font-weight: bold;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  &__info {
-    .text-primary {
-      padding-left: 3px;
-    }
-  }
-  &__comment {
-    b {
-      color: #555;
-      font-size: 12px;
-    }
-  }
-  &__btn {
-    .fa-trash-o {
-      margin-left: 7px;
-    }
-  }
-  &__share {
-    text-align: right;
-    margin-top: 20px;
-    .share-box {
-      float: none;
-      display: inline-block;
-      .share-item {
-        border: 1px solid #d2d2d2;
-        margin-right: 0;
-        margin-left: 10px;
-      }
-    }
-  }
-}
-
 .post-card {
   background-color: #fff;
   margin-bottom: 0;

@@ -1,20 +1,33 @@
 - post = article.acting_as
-.post[post]
-  .post__info
-    = render 'posts/post_inline_footer', obj: article, show_issue: local_assigns[:show_issue]
-  %h4.post__title
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
-      = screenable_article_title(article)
-  .post__comment
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
-      = image_tag 'icon_comment.png'
-      %b
-        = post.comments_count
+- if local_assigns[:template] && template == 'best'
+  - wrapper_class = 'col-xs-12 col-sm-6'
+  - card_class = template
+- elsif local_assigns[:template] && template == 'popular'
+  - wrapper_class = 'col-xs-6 col-sm-3'
+  - card_class = template
+- else
+  - wrapper_class = 'col-xs-6 col-sm-3'
+  - card_class = 'default'
 
-  .post__footer
+%div{ class: wrapper_class }
+  .article-card[post]{ class: card_class }
     - if (article.has_image?)
-      = link_to article.link, class: 'link-box clearfix', target: '_blank' do
-        .thumb{style: "background-image: url(#{article.image.md.url})"}
-        %p= excerpt(article.body)
+      = link_to article.link, target: '_blank' do
+        .thumb{ style: "background-image: url(#{article.image.md.url})" }
+    .caption
+      .date= date_f article.created_at
 
+      %h4.title
+        = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
+          = truncate(screenable_article_title(article), length: 30)
 
+      .body
+        %p= excerpt(article.body, length: 70)
+
+      .more
+        %div
+          = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } do
+            %b> #{post.comments_count}개
+            의 수다
+            \|
+            %span.text-primary 더보기...
