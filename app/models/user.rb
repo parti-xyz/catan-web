@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
   has_many :watched_opinions, through: :watched_issues, source: :opinions
   has_many :watched_talks, through: :watched_issues, source: :talks
   has_many :watched_comments, through: :watched_posts, source: :comments
+  has_many :makers
 
   ## uploaders
   # mount
@@ -155,6 +156,10 @@ class User < ActiveRecord::Base
 
   def hottest_posts(count)
     posts.hottest.limit(count)
+  end
+
+  def maker?(issue)
+    makers.exists?(issue: issue)
   end
 
   private

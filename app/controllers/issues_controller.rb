@@ -50,6 +50,7 @@ class IssuesController < ApplicationController
   end
 
   def create
+    @issue.makers.build(user: current_user)
     if !%w(all).include?(@issue.slug) and @issue.save
       redirect_to @issue
     else

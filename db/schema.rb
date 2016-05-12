@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160510075119) do
+ActiveRecord::Schema.define(version: 20160512071948) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -111,6 +111,17 @@ ActiveRecord::Schema.define(version: 20160510075119) do
   end
 
   add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true
+
+  create_table "makers", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "issue_id",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "makers", ["issue_id"], name: "index_makers_on_issue_id"
+  add_index "makers", ["user_id", "issue_id"], name: "index_makers_on_user_id_and_issue_id", unique: true
+  add_index "makers", ["user_id"], name: "index_makers_on_user_id"
 
   create_table "mentions", force: :cascade do |t|
     t.integer  "user_id",          null: false

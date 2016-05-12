@@ -24,7 +24,8 @@
             %span.parti-makers-label
               빠띠메이커
             %span.parti-maker-icons
-              = byline User.first, hide_nickname: true
+              - issue.makers.each do  |maker|
+                = byline maker.user, hide_nickname: true
             = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
               %i.fa.fa-user
               +

@@ -67,6 +67,7 @@ class Issue < ActiveRecord::Base
     end
   end
   has_many :watched_users, through: :watches, source: :user
+  has_many :makers
 
   # validations
   validates :title, presence: true, uniqueness: { case_sensitive: false }
