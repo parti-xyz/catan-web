@@ -2,6 +2,15 @@
 
 ## 업그레이드
 
+### 1.2 --> 1.3
+
+관리자 암호를 등록해야합니다.
+```
+export PARTI_ADMIN_PASSWORD="12345678"
+```
+
+각 링크/톡/투표에 대해 마지막 댓글이 입력된 시간을 마이그레이션 합니다.
+
 ### 0.x --> 1.0
 
 각 빠띠마다 같은 URL의 글이 올란 경우를 찾아 봅니다. 검색이 되면 조치를 취합니다.
@@ -66,9 +75,15 @@ $ bundle exec rake db:migrate
 
 ### 초기 데이터 추가
 
+먼저 .powenv에 원하는 관리자용 암호를 등록합니다.
+```
+export PARTI_ADMIN_PASSWORD="12345678"
+```
+
 [mbleigh/seed-fu](https://github.com/mbleigh/seed-fu) 을 이용하여 설정된 초기 데이터를 로딩합니다.
 
 ```
+$ source .powenv
 $ bundle exec rake db:seed_fu
 ```
 
