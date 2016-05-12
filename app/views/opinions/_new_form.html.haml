@@ -8,7 +8,7 @@
         = f.hidden_field :issue_id, value: issue.id
       - else
         .form-group
-          = f.select :issue_id, current_user.editable_issues_continents, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', style: 'width: 99%', data: { 'rule-required': true, 'action': 'parti-select-parti'}}
+          = f.select :issue_id, editable_issues_continents(current_user), {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', style: 'width: 99%', data: { 'rule-required': true, 'action': 'parti-select-parti'}}
       .form-group
         = f.text_field :title, maxlength: 50, class: 'form-control', data: {'rule-required': true}, placeholder: '투표 내용을 적어주세요.'
         %p.help-block

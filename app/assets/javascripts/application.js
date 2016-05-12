@@ -605,16 +605,25 @@ $(function(){
   $('[data-action="parti-select-parti"]').each(function(i, elm) {
     formatParti = function (parti) {
       if (!parti.id) { return parti.text; }
-      var $parti = $(
-        '<span><img src="' + $(parti.element).data('logo') + '" style="width: 10px; height: 10px" /> ' + parti.text + '</span>'
+      if ($(parti.element).data('url')) {
+        return $(
+          '<span>' + parti.text + ' <i class="fa fa-arrow-right"></span>'
+        );
+      }
+
+      return $(
+        '<span><img src="' + $(parti.element).data('logo') + '" style="width: 20px; height: 20px" /> ' + parti.text + '</span>'
       );
-      return $parti;
     };
 
     $(elm).select2({
       theme: "bootstrap",
       templateResult: formatParti,
       templateSelection: formatParti
+    });
+    $(elm).on('select2:selecting', function(e) {
+      $option = $(e.params.args.data.element);
+      window.location.href  = $option.data('url');
     });
   })
 });

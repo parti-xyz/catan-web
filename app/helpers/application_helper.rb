@@ -95,4 +95,14 @@ module ApplicationHelper
   def is_mobile?
     request.variant.try(:include?, :mobile)
   end
+
+  def editable_issues_continents(user)
+    watched = user.watched_issues.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
+    featured = Issue.basic_issues.select { |issue| !user.watched_issues.include?(issue) }.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
+
+    result = []
+    result << ['구독 중인 빠띠', watched] if watched.any?
+    result << ['기본 빠띠', featured] if featured.any?
+    result << ['마땅한 빠띠가 없으세요?', [['전체빠띠에서 찾아보기', 0, {'data-url': issues_path}]]]
+  end
 end
