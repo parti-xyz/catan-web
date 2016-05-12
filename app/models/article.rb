@@ -49,7 +49,7 @@ class Article < ActiveRecord::Base
   end
 
   def image
-    return nil if self.hidden?
+    return LinkSource.new.image if self.hidden?
     link_source.try(:image)
   end
 
