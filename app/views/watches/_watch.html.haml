@@ -9,4 +9,4 @@
       = link_to issue_watches_path(issue, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :post, remote: true , class: watch_btn_class do
         구독하기
   - else
-    = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :issue_watch, id: issue.id}.to_json) }, class: 'btn btn-primary'
+    = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :issue_watch, id: issue.id}.to_json) }, class: 'btn btn-primary btn-watch'

@@ -223,13 +223,6 @@
 }
 
 /* post */
-.post {
-  padding: 10px;
-  &__title {
-    font-size: 16px;
-  }
-}
-
 
 .post-inline {
   margin-bottom: 0;
@@ -403,9 +396,6 @@ br.mobile {
 }
 
 /* vote */
-.card {
-  width: 100%;
-}
 .opinion-card {
   padding: 10px;
   &__title {

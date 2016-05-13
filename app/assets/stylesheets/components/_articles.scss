@@ -149,3 +149,20 @@ section#articles {
     height: 100%;
   }
 }
+
+@media (max-width: 768px) {
+  .article-card {
+    .caption {
+      padding: 10px;
+      .more {
+        padding: 0 10px 10px 10px;
+        div {
+          background-size: 14px 14px;
+          padding-top: 10px;
+          padding-left: 18px;
+       }
+        font-size: 10px;
+      }
+    }
+  }
+}
