@@ -21,6 +21,6 @@
               %b 투표 열기
     .row.masonry-container
       - @opinions.each do |opinion|
-        .card.col-xs-12.col-sm-4
+        .col-xs-12.col-sm-4
           = render 'opinions/card', card: opinion
       = paginate @opinions, theme: 'catan', params: @paginate_params
