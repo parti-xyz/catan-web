@@ -67,6 +67,10 @@ module ApplicationHelper
     article.hidden? ? icon('fa fa-exclamation-triangle') + " 빠띠메이커가 숨긴 링크입니다" : (length == 0 ? article.title : truncate(article.title, length: length))
   end
 
+  def article_card_image(article)
+    article.image.file.try(:exists?) ? article.image.md.url : asset_path('default_link_source_image_card.png')
+  end
+
   def video?(article)
     source = article.link_source
 

@@ -20,7 +20,7 @@
 
 .card{ class: wrapper_class }
   .article-card[post]{ class: card_class, data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } }
-    .thumb{ style: "background-image: url(#{article.image.md.url})" }
+    .thumb{ style: "background-image: url(#{article_card_image(article)})" }
     .caption
       .date= date_f article.created_at
 
