@@ -19,13 +19,20 @@ section#talks {
     color: $text-muted;
     font-size: $font-size-small;
     white-space: nowrap;
+    text-align: right;
     img {
       margin-right: 5px;
     }
   }
   .comment-users {
-    font-size: $font-size-large;
-    line-height: 30px;
+    color: $text-muted;
+    margin-top: 5px;
+    text-align: right;
+    white-space: nowrap;
+    .user-byline {
+      line-height: 20px;
+      height: 20px;
+    }
     img {
       width: 20px;
       height: 20px;
@@ -45,6 +52,10 @@ section#talks {
     h5.media-heading {
       margin-top: 5px;
       color: $text-muted;
+      line-height: $line-height-computed;
+    }
+    .media-right {
+      text-align: right;
     }
   }
 }
@@ -70,14 +81,17 @@ section#talks {
       padding-right: 5px;
     }
     .talk-media {
+      h4.media-heading.title {
+        margin-bottom: 0;
+      }
       .media-right {
         display: block;
-        margin-top: 10px;
         padding-left: 0;
         .comment-count {
           float: left;
           line-height: 30px;
           padding-left: 35px;
+          text-align: left;
         }
         .comment-users {
           float: right;
@@ -87,6 +101,14 @@ section#talks {
     .comment-media {
       padding-top: 10px;
       margin-top: 10px;
+      .media-left {
+        padding-left: 10px;
+      }
+      .media-right {
+        display: block;
+        padding-left: 35px;
+        text-align: left;
+      }
     }
   }
 }

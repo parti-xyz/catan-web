@@ -21,7 +21,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
-    Identicon.data_url_for model.try(:nickname) || 'default', 128, [255, 255, 255]
+    Identicon.data_url_for model.try(:nickname) || 'default', 128, [240, 240, 240]
   end
 
   # Process files as they are uploaded:

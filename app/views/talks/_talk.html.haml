@@ -14,9 +14,9 @@
         = image_tag 'icon_comment.png'
         %b> 총 #{post.comments_count}개
         %span.hidden-xs 의 수다
-      - if talk.commenters.any?
+      - if true || talk.commenters.any?
         - preview_count = 5
-        .comment-users.text-right
+        .comment-users
           - talk.commenters[0..preview_count-1].each do |user|
             = byline user, hide_nickname: true
           - if talk.commenters.count > preview_count
@@ -26,12 +26,13 @@
     - comment = talk.best_comment
     .media.comment-media
       .media-left
-        = image_tag 'icon_comment_best.png'
         = link_to user_gallery_path(comment.user) do
           = image_tag comment.user.image.xs.url, class: 'img-circle'
       .media-body
-        .pull-right= render 'upvotes/upvote', comment: comment
-        %span.date= date_f comment.created_at
+        .comment-info
+          %span.date= date_f comment.created_at
+          = image_tag 'icon_comment_best.png'
         %h5.media-heading{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }}
           = smart_format(comment.body)
-
+      .media-right
+        = render 'upvotes/upvote', comment: comment

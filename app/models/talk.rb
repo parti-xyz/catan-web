@@ -19,7 +19,7 @@ class Talk < ActiveRecord::Base
   end
 
   def best_comment
-    comments.where('comments.upvotes_count > ?', 3).order(upvotes_count: :desc).limit(1).first
+    comments.where('comments.upvotes_count >= ?', 3).order(upvotes_count: :desc).limit(1).first
   end
 
   def sequential_comments_but_presentation
