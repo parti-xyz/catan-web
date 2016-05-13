@@ -8,13 +8,13 @@ class UsersController < ApplicationController
   def comments
     fetch_user
     @comments = @user.comments.recent.limit(25).previous_of params[:last_id]
-    @is_last_page = (@comments.empty? or @user.comments.recent.previous_of(@comments.last.id).empty?)
+    @is_last_page = (@comments.empty? or @user.comments.recent.previous_of(@comments.last.try(:id)).empty?)
   end
 
   def upvotes
     fetch_user
     @upvotes = @user.upvotes.recent.limit(25).previous_of params[:last_id]
-    @is_last_page = (@upvotes.empty? or @user.upvotes.recent.previous_of(@upvotes.last.id).empty?)
+    @is_last_page = (@upvotes.empty? or @user.upvotes.recent.previous_of(@upvotes.last.try(:id)).empty?)
     @comments = @upvotes.map(&:comment)
   end
 

@@ -1,4 +1,4 @@
-$('.posts.bg-line').data('last-id', '<%= @posts.last.id %>');
+$('.posts.bg-line').data('last-id', '<%= @posts.last.try(:id) %>');
 $('.posts.bg-line').data('is-last', <%= @is_last_page %>);
 var $posts = parti_partial("<%= escape_javascript(render 'dashboard/posts_page') %>");
 $('#posts .posts').append($posts);

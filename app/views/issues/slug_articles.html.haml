@@ -2,7 +2,7 @@
 
 %section#articles
   .container
-    .row.masonry-container{data: {last_id: @articles.last.id, is_last: @is_last_page.to_s}}
+    .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s}}
       - if @articles.empty?
         .bg-default
           %i.fa.fa-info-circle
