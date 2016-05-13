@@ -1,6 +1,6 @@
 section#components {
   section#colors {
-    div.col-xs-1 {
+    div.col-xs-2 {
       padding-top: 10px;
       padding-bottom: 10px;
       height: 60px;
@@ -9,8 +9,19 @@ section#components {
     .color-brand-primary {
       background-color: $brand-primary;
     }
-    .color-brand-light {
-      background-color: $brand-light;
+    .color-brand-primary-darker {
+      background-color: $brand-primary-darker;
+      color: #fff;
+    }
+    .color-brand-primary-dark {
+      background-color: $brand-primary-dark;
+      color: #fff;
+    }
+    .color-brand-primary-light {
+      background-color: $brand-primary-light;
+    }
+    .color-brand-primary-lighter {
+      background-color: $brand-primary-lighter;
     }
     .color-brand-success {
       background-color: $brand-success;

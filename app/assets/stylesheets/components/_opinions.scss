@@ -18,7 +18,7 @@ section#opinions {
   text-align: center;
   border: 1px solid #f1f1f1;
   &--voted {
-    background-color: $brand-light;
+    background-color: $brand-primary-lighter;
     border: 1px solid #e4dfeb;
     h4 a {
       color: $gray;
