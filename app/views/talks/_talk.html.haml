@@ -22,8 +22,8 @@
           - if talk.commenters.count > preview_count
             +#{talk.commenters.count - preview_count}
 
-  - if post.comments.first
-    - comment = post.comments.first
+  - if talk.best_comment.present?
+    - comment = talk.best_comment
     .media.comment-media
       .media-left
         = image_tag 'icon_comment_best.png'

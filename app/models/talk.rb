@@ -18,6 +18,10 @@ class Talk < ActiveRecord::Base
     comments.map(&:user).uniq.reject { |u| u == self.user }
   end
 
+  def best_comment
+    comments.where('comments.upvotes_count > ?', 3).order(upvotes_count: :desc).limit(1).first
+  end
+
   def sequential_comments_but_presentation
     self.has_presentation? ? self.comments.sequential.offset(1) : self.comments.sequential
   end
