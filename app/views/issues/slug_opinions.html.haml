@@ -19,8 +19,9 @@
             %span.vote__new-img
               = image_tag 'img_opinion.png'
               %b 투표 열기
-    .row.masonry-container
-      - @opinions.each do |opinion|
-        .col-xs-12.col-sm-4
-          = render 'opinions/card', card: opinion
-      = paginate @opinions, theme: 'catan', params: @paginate_params
+    .row.masonry-container{data: {last_id: @opinions.last.try(:id), is_last: @is_last_page.to_s}}
+      = render 'issues/slug_opinions_page'
+    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_opinions_path(@issue, format: :js)}
+      .page_waypoint__loading
+        %i.fa.fa-3x.fa-spinner.fa-pulse
+

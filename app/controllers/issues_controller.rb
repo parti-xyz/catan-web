@@ -36,7 +36,13 @@ class IssuesController < ApplicationController
   end
 
   def slug_opinions
-    @opinions = @issue.opinions.recent.page params[:page]
+    previous_last_opinion = Opinion.find_by(id: params[:last_id])
+
+    @opinions = @issue.opinions.recent.previous_of_opinion(previous_last_opinion).limit(20)
+    current_last_opinion = @opinions.last
+
+    @is_last_page = (@issue.opinions.empty? or @issue.opinions.previous_of_opinion(current_last_opinion).empty?)
+
     prepare_issue_meta_tags
   end
 

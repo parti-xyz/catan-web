@@ -8,12 +8,14 @@ module PartiUrlHelper
     slug_issue_url(slug: issue.slug)
   end
 
-  def issue_articles_path(issue)
-    slug_issue_path(slug: issue.slug)
+  def issue_articles_path(issue, options = {})
+    options.update(slug: issue.slug)
+    slug_issue_path(options)
   end
 
-  def issue_opinions_path(issue)
-    slug_issue_opinions_path(slug: issue.slug)
+  def issue_opinions_path(issue, options = {})
+    options.update(slug: issue.slug)
+    slug_issue_opinions_path(options)
   end
 
   def issue_talks_path(issue)

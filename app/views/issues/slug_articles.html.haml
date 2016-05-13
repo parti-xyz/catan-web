@@ -8,8 +8,7 @@
           %i.fa.fa-info-circle
           해당되는 글이 없습니다.
       - else
-        - @articles.each do |postable|
-          = render postable
+        = render 'issues/slug_articles_page'
     .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_home_path(@issue, format: :js)}
       .page_waypoint__loading
         %i.fa.fa-3x.fa-spinner.fa-pulse
