@@ -29,6 +29,10 @@
   %nav.pagination-wrapper
     %ul{:class => "pagination #{pagination_class}"}
       = prev_page_tag unless current_page.first?
-      %li.pagi-num #{current_page}/#{num_pages}
+      - each_page do |page|
+        - if page.left_outer? || page.right_outer? || page.inside_window?
+          = page_tag page
+        - elsif !page.was_truncated?
+          = gap_tag
       = next_page_tag unless current_page.last?
 

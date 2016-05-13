@@ -87,6 +87,14 @@
         %a.btn.btn-ghost.btn-danger danger
         %a.btn.btn-ghost.btn-white white
 
+  %section#pagination
+    .container
+      %h2.page-header Pagination
+      %div
+        - arr = (1..500).to_a
+        - paginated_arr = Kaminari.paginate_array(arr).page(9)
+        = paginate paginated_arr, theme: 'catan'
+
   %section#panels
     .container
       %h2.page-header Modules

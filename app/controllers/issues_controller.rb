@@ -47,7 +47,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_talks
-    @talks = @issue.talks.recent.page params[:page]
+    @talks = @issue.talks.recent.page(params[:page])
     prepare_issue_meta_tags
   end
 
