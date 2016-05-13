@@ -25,7 +25,7 @@
       .date= date_f article.created_at
 
       %h4.title
-        = truncate(screenable_article_title(article), length: 23)
+        = screenable_article_title(article, length: 23)
 
       .body
         %p= excerpt(article.body, length: 50)

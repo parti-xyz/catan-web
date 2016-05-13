@@ -63,8 +63,8 @@ module ApplicationHelper
     end
   end
 
-  def screenable_article_title(article)
-    article.hidden? ? icon('fa fa-exclamation-triangle') + " 빠띠메이커가 숨긴 링크입니다" : article.title
+  def screenable_article_title(article, length: 0)
+    article.hidden? ? icon('fa fa-exclamation-triangle') + " 빠띠메이커가 숨긴 링크입니다" : (length == 0 ? article.title : truncate(article.title, length: length))
   end
 
   def video?(article)
