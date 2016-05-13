@@ -8,7 +8,8 @@
           .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       %h2.parti-title
         = issue.title
-        = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary'
+        %span.hidden-xs
+          = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary'
 
         - if can? :update, issue
           = link_to '수정', [:edit, issue], class: 'btn btn-primary'
@@ -40,6 +41,9 @@
           - map = { facebook: data.merge({'share-url': ('https://www.facebook.com/parti.xyz/' if issue.is_all?)}.compact) }
           - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
           = render 'application/share', map: map
+      - unless issue.watched_by?(current_user)
+        .parti-watch.visible-xs
+          = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white btn-block', watch_btn_class: 'btn btn-primary btn-block'
   .parti-menu
     - counts_container = issue.counts_container
     .container

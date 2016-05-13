@@ -541,23 +541,21 @@
       }
     }
     h2 {
-      font-size: 18px;
+      font-size: $font-size-h3;
       font-weight: bold;
       margin-top: 20px;
       margin-bottom: 20px;
       text-align: center;
       text-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 1);
     }
-    .btn-watch {
-      display: none;
-    }
     .parti-body {
       position: relative;
       text-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 1);
-      height: 60px;
       margin-bottom: 10px;
       text-align: center;
-      overflow: hidden;
+    }
+    .parti-watch {
+      margin-top: 10px;
     }
     .parti-info {
       position: static;
@@ -589,7 +587,7 @@
             padding: 1px 5px 0px;
           }
           h4 {
-            font-size: 18px;
+            font-size: $font-size-base;
             font-weight: bold;
             line-height: 24px;
           }
