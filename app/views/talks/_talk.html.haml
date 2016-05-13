@@ -1,12 +1,33 @@
 - post = talk.acting_as
-.post[post]
-  .post__info
-    = render 'posts/post_inline_footer', obj: talk, show_issue: local_assigns[:show_issue]
-  %h4.post__title
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
-      = talk.title
-  .post__comment
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
-      = image_tag 'icon_comment.png'
-      %b
-        = post.comments_count
+.talk-card[post]
+  .media.talk-media
+    .media-left
+      = link_to user_gallery_path(post.user) do
+        = image_tag post.user.image.xs.url, class: 'circle-30 img-circle'
+    .media-body
+      .date= date_f talk.created_at
+      %h4.media-heading.title
+        = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
+          = talk.title
+    .media-right
+      .comment-count
+        = image_tag 'icon_comment.png'
+        %b> 총 #{post.comments_count}개
+        %span.hidden-xs 의 수다
+      .comment-users
+        - post.comments.each do |comment|
+          = byline comment.user, hide_nickname: true
+
+  - if post.comments.first
+    - comment = post.comments.first
+    .media.comment-media
+      .media-left
+        = image_tag 'icon_comment_best.png'
+        = link_to user_gallery_path(comment.user) do
+          = image_tag comment.user.image.xs.url, class: 'img-circle'
+      .media-body
+        .pull-right= render 'upvotes/upvote', comment: comment
+        %span.date= date_f comment.created_at
+        %h5.media-heading{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }}
+          = smart_format(comment.body)
+

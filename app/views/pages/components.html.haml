@@ -102,8 +102,7 @@
         = render Article.last, template: 'best' if Article.last.present?
 
       %h3 talk card
-      .row
-        = render Talk.last if Talk.last.present?
+      = render Talk.last if Talk.last.present?
 
       %h3 opinion card
       .row

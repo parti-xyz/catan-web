@@ -1,3 +1,52 @@
+section#talks {
+  padding-top: 30px;
+}
+
+.talk-card {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 10px;
+  .date {
+    color: $gray-light;
+    font-size: $font-size-small;
+  }
+  .media-heading.title {
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  .comment-count {
+    color: $text-muted;
+    font-size: $font-size-small;
+    white-space: nowrap;
+    img {
+      margin-right: 5px;
+    }
+  }
+  .comment-users {
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .comment-media {
+    border-top: 1px solid $gray-lighter;
+    margin-top: 15px;
+    padding-top: 15px;
+    .media-left {
+      white-space: nowrap;
+      a img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    h5.media-heading {
+      margin-top: 5px;
+      color: $text-muted;
+    }
+  }
+}
+
 .talk-section {
   .talk__body {
     margin: 30px 0;
@@ -9,5 +58,33 @@
   .talk-inline__title {
     font-weight: bold;
     font-size: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .talk-card {
+    padding: 10px;
+    .media-left {
+      padding-right: 5px;
+    }
+    .talk-media {
+      .media-right {
+        display: block;
+        margin-top: 10px;
+        padding-left: 0;
+        .comment-count {
+          float: left;
+          line-height: 30px;
+          padding-left: 35px;
+        }
+        .comment-users {
+          float: right;
+        }
+      }
+    }
+    .comment-media {
+      padding-top: 10px;
+      margin-top: 10px;
+    }
   }
 }

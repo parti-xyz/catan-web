@@ -1,9 +1,6 @@
 = render 'issues/issue_header', active_tab: :talks
 
-%section#posts
+%section#talks
   .container
-    .row
-      .col-xs-9
-        = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
-        = paginate @talks, theme: 'catan', params: @paginate_params
-      = render 'issues/aside'
+    = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
+    = paginate @talks, theme: 'catan', params: @paginate_params
