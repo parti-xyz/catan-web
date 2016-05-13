@@ -14,6 +14,10 @@ class Talk < ActiveRecord::Base
     comments.any? and comments.first.user == user
   end
 
+  def commenters
+    comments.map(&:user).uniq.reject { |u| u == self.user }
+  end
+
   def sequential_comments_but_presentation
     self.has_presentation? ? self.comments.sequential.offset(1) : self.comments.sequential
   end

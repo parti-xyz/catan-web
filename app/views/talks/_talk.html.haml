@@ -14,9 +14,13 @@
         = image_tag 'icon_comment.png'
         %b> 총 #{post.comments_count}개
         %span.hidden-xs 의 수다
-      .comment-users
-        - post.comments.each do |comment|
-          = byline comment.user, hide_nickname: true
+      - if talk.commenters.any?
+        - preview_count = 5
+        .comment-users.text-right
+          - talk.commenters[0..preview_count-1].each do |user|
+            = byline user, hide_nickname: true
+          - if talk.commenters.count > preview_count
+            +#{talk.commenters.count - preview_count}
 
   - if post.comments.first
     - comment = post.comments.first
