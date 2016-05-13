@@ -9,7 +9,7 @@ ko:
     messages:
       not_saved: 저장되지 않았습니다
       blank: 값을 입력해 주세요
-      taken: 이미 사용 중 입니다
+      taken: 값이 이미 사용 중 입니다
       invalid_auth_token: 로그인한지 너무 오래 되셨네요. 다시 시도해 주세요.
       carrierwave_processing_error: 처리할 수없는 파일입니다.
       mini_magick_processing_error: 처리할 수없는 파일입니다.
@@ -36,6 +36,7 @@ ko:
         body: 내용
         logo: 대표 이미지
         cover: 커버 이미지
+        slug: 주소
       article:
         issue: 빠띠
         title: 제목
@@ -65,6 +66,10 @@ ko:
       messages:
         record_invalid: "오류가 있습니다: %{errors}"
       models:
+        issue:
+          attributes:
+            slug:
+              invalid: 값은 영문자와 숫자 혹은 '-'만 넣어주세요.
         user:
           attributes:
             nickname:

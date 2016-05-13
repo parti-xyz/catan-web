@@ -101,4 +101,12 @@ module ApplicationHelper
     result << ['기본 빠띠', featured] if featured.any?
     result << ['마땅한 빠띠가 없으세요?', [['', 0, {'data-url': issues_path, 'data-label': '<div><i class="fa fa-info-circle"/> 관심있는 빠띠를 구독해 보세요. <b style="white-space:nowrap">전체빠띠로 이동 <i class="fa fa-arrow-right"/></b></div>'}]]]
   end
+
+  def has_error_attr?(object, name)
+    object.respond_to?(:errors) && !(name.nil? || object.errors[name.to_s].empty?)
+  end
+
+  def error_class_str(object, name)
+    'has-error' if has_error_attr?(object, name)
+  end
 end
