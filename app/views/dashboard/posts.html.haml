@@ -14,6 +14,6 @@
               아직 글이 없습니다.
           - else
             = render 'dashboard/posts_page'
-        .page_waypoint.text-center{'data-target': '.posts.bg-line', 'data-url': dashboard_path(format: :js)}
+        .page_waypoint.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js)}
           .page_waypoint__loading
             %i.fa.fa-3x.fa-spinner.fa-pulse
