@@ -1,2 +1,2 @@
-- opinion = opinion_as_footnote
-= render 'opinions/opinion', opinion: opinion
+- options = local_assigns
+= render 'opinions/opinion', options.update(opinion: opinion_as_footnote)

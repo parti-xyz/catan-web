@@ -44,6 +44,17 @@ section#opinions {
       text-decoration: underline;
     }
   }
+  &__issue {
+    text-align: left;
+    img {
+      border-radius: 4px;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  &__date--with-issue {
+    line-height: 30px;
+  }
   &:hover {
     border: 1px solid $brand-primary-light;
   }

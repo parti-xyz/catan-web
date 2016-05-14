@@ -1,10 +1,4 @@
-- opinions = []
 - comments.each do |comment|
-  - show_opinion = false
-  - if comment.post.specific.is_a? Opinion
-    - show_opinion = !opinions.include?(comment.post.specific)
-    - opinions << comment.post.specific
-  - comment ||= local_assigns[:comment_in_list]
   .comment{class: dom_id(comment), data: { 'parti-comment-style': 'in-list' }}
     .clearfix
       = link_to user_gallery_path(comment.user), class: 'comment__link pull-left'  do
@@ -28,8 +22,5 @@
         = smart_format(comment.body)
     .comment__upvotes
       = render 'upvotes/upvote', comment: comment
-    - if show_opinion
-      = render comment.post.specific, show_issue: true
-    - else
-      .comment__footer
-        = render customize_partial_path(comment.post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: true
+    .comment__footer
+      = render customize_partial_path(comment.post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: true
