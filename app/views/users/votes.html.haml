@@ -5,8 +5,14 @@
       .col-xs-9
         %section#content-tab-section
           = render 'users/content_tabs', active_tab: :votes, counts_container: @user.writing_counts
-        = render 'opinions/cards', opinions: @opinions, hide_writing_card: true
-        = paginate @votes, theme: 'catan'
+        .votes
+          .row.masonry-container{data: {last_id: @votes.last.try(:id), is_last: @is_last_page.to_s}}
+            = render 'users/votes_page'
+          .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': nickname_user_votes_path(nickname: @user.nickname, format: :js)}
+            .page_waypoint__loading
+              %i.fa.fa-3x.fa-spinner.fa-pulse
+
+
       = render 'aside'
 
 

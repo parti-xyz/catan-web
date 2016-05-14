@@ -1,7 +1,6 @@
-- opinion = card
-- post = card.acting_as
+- post = opinion.acting_as
 - voted = user_signed_in? && opinion.voted_by?(current_user)
-.opinion-card[post]{ class: voted ? 'opinion-card--voted' : '' }
+.opinion-card[post]{ class: "#{dom_id(opinion)} #{voted ? 'opinion-card--voted' : ''}" }
   - unless local_assigns[:hide_created_at]
     .opinion-card__date.date-wrapper
       %span= date_f opinion.created_at

@@ -9,9 +9,15 @@ section#opinions {
     padding-left: 7px;
     padding-right: 7px;
   }
+
+  .card {
+    @include hover-grow();
+  }
 }
 
 .opinion-card {
+  @include hover-shadow();
+
   background-color: #fff;
   padding: 25px 20px;
   margin-bottom: 15px;
@@ -19,9 +25,12 @@ section#opinions {
   border: 1px solid #f1f1f1;
   &--voted {
     background-color: $brand-primary-lighter;
-    border: 1px solid #e4dfeb;
+    border: 1px solid $brand-primary-light;
     h4 a {
       color: $gray;
+    }
+    &:hover {
+      border: 1px solid $brand-primary;
     }
   }
   &__title {
@@ -34,6 +43,9 @@ section#opinions {
     a:hover {
       text-decoration: underline;
     }
+  }
+  &:hover {
+    border: 1px solid $brand-primary-light;
   }
 }
 

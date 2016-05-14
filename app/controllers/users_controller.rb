@@ -20,7 +20,14 @@ class UsersController < ApplicationController
 
   def votes
     fetch_user
-    @votes = @user.votes.recent.page params[:page]
+
+    previous_last_vote = Vote.find_by(id: params[:last_id])
+
+    @votes = @user.votes.recent.previous_of_vote(previous_last_vote).limit(20)
+    current_last_vote = @votes.last
+
+    @is_last_page = (@user.votes.empty? or @user.votes.previous_of_vote(previous_last_vote).empty?)
+
     @posts = @votes.map(&:post).compact
     @opinions = @posts.map(&:specific).compact
   end

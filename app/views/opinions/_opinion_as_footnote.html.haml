@@ -1,12 +1,2 @@
 - opinion = opinion_as_footnote
-- post = opinion.acting_as
-- voted = user_signed_in? && opinion.voted_by?(current_user)
-.opinion-card[post]{ class: voted ? 'opinion-card--voted' : '' }
-  - unless local_assigns[:hide_created_at]
-    .opinion-card__date.date-wrapper
-      %span= date_f opinion.created_at
-  %h4.opinion-card__title
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) } do
-      “#{opinion.title}”
-
-  = render 'votes/vote_inline', specific: opinion
+= render 'opinions/opinion', opinion: opinion

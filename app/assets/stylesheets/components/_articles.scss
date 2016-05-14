@@ -9,9 +9,15 @@ section#articles {
     padding-left: 7px;
     padding-right: 7px;
   }
+
+  .card {
+    @include hover-grow();
+  }
 }
 
 .article-card {
+  @include hover-shadow();
+
   background-color: #fff;
   border-radius: 4px;
   height: 380px;
@@ -56,6 +62,9 @@ section#articles {
         padding-left: 25px;
       }
     }
+  }
+  &:hover {
+    border: 1px solid $brand-primary;
   }
 }
 

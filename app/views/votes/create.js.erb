@@ -1,5 +1,6 @@
 <% if params[:partial] == 'inline' %>
-$('.<%= dom_id(@specific) %>-vote').replaceWith(parti_partial("<%= escape_javascript(render 'votes/vote_inline', specific: @specific) %>"));
+$('.<%= dom_id(@specific) %>').replaceWith(parti_partial("<%= escape_javascript(render @specific) %>"));
+parti_prepare_masonry($('body'));
 <% else %>
 $('#<%= dom_id(@specific) %>-vote').replaceWith(parti_partial("<%= escape_javascript(render 'votes/vote', specific: @specific) %>"));
 $('#<%= dom_id(@specific) %>-comments').replaceWith(parti_partial("<%= escape_javascript(render 'comments/comments', postable: @specific, style: :opinion) %>"));

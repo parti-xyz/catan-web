@@ -57,19 +57,34 @@ $.validator.addMethod("extern", function(value, element) {
   return this.optional(element) || $(element).data('rule-extern-value');
 }, "");
 
+$.parti_apply = function($base, query, callback) {
+  $.each($base.find(query), function(i, elm){
+    callback(elm);
+  });
+}
+
+var parti_prepare_masonry = function($base) {
+  //masonry
+  $.parti_apply($base, '.masonry-container', function(elm) {
+    var target = $(elm).data('masonry-target');
+    if (!target) {
+      target = '.card'
+    }
+    $(elm).masonry({
+      itemSelector: target
+    });
+  });
+}
+
 var parti_prepare = function($base) {
   if($base.data('parti-prepare-arel') == 'completed') {
     return;
   }
 
-  var parti_apply = function(query, callback) {
-    $.each($base.find(query), function(i, elm){
-      callback(elm);
-    });
-  }
+  parti_prepare_masonry($base);
 
   // typeahead
-  parti_apply('[data-provider="parti-issue-typeahead"]', function(elm) {
+  $.parti_apply($base, '[data-provider="parti-issue-typeahead"]', function(elm) {
     var $elm = $(elm);
     var url = $elm.data('typeahead-url');
     var displayField = $elm.data('typeahead-display-field');
@@ -147,15 +162,8 @@ var parti_prepare = function($base) {
     });
   });
 
-  //masonry
-  parti_apply('.masonry-container', function(elm) {
-    $(elm).masonry({
-      itemSelector: '.card'
-    });
-  });
-
   //switch
-  parti_apply('[data-action="parti-switch"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-switch"]', function(elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {
       $.prevent_click_exclude_parti(e);
@@ -177,7 +185,7 @@ var parti_prepare = function($base) {
   });
 
   // show
-  parti_apply('[data-action="parti-show"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-show"]', function(elm) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
@@ -190,7 +198,7 @@ var parti_prepare = function($base) {
   });
 
   //hide
-  parti_apply('[data-action="parti-hide"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-hide"]', function(elm) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
@@ -203,7 +211,7 @@ var parti_prepare = function($base) {
   });
 
   // focus
-  parti_apply('[data-action="parti-focus"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-focus"]', function(elm) {
     $(elm).on('click', function(e) {
       var $elm = $(e.currentTarget);
       var $target = $($elm.data('focus-target'));
@@ -214,7 +222,7 @@ var parti_prepare = function($base) {
   });
 
   //share
-  parti_apply('[data-action="parti-share"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-share"]', function(elm) {
     var $elm = $(elm);
 
     var url = $elm.data('share-url');
@@ -264,7 +272,7 @@ var parti_prepare = function($base) {
   });
 
   // carousel
-  parti_apply('[data-ride="parti-carousel"]', function(elm) {
+  $.parti_apply($base, '[data-ride="parti-carousel"]', function(elm) {
     var $elm = $(elm);
     var margin = $elm.data('carousel-magin');
     if(!margin) {
@@ -299,7 +307,7 @@ var parti_prepare = function($base) {
   });
 
   // login overlay
-  parti_apply('[data-toggle="parti-login-overlay"]', function(elm) {
+  $.parti_apply($base, '[data-toggle="parti-login-overlay"]', function(elm) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
@@ -315,7 +323,7 @@ var parti_prepare = function($base) {
       $("#login-overlay").fadeToggle();
     });
   });
-  parti_apply('[data-dismiss="parti-login-overlay"]', function(elm) {
+  $.parti_apply($base, '[data-dismiss="parti-login-overlay"]', function(elm) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       $("#login-overlay").fadeOut(400, function() {
@@ -328,7 +336,7 @@ var parti_prepare = function($base) {
   });
 
   // form submit by clicking link
-  parti_apply('[data-action="parti-form-submit"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-form-submit"]', function(elm) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
@@ -340,7 +348,7 @@ var parti_prepare = function($base) {
   });
 
   // form set value
-  parti_apply('[data-action="parti-form-set-vaule"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-form-set-vaule"]', function(elm) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
@@ -352,12 +360,12 @@ var parti_prepare = function($base) {
   });
 
   // autoresize toggle
-  parti_apply('[data-ride="parti-autoresize"]', function(elm) {
+  $.parti_apply($base, '[data-ride="parti-autoresize"]', function(elm) {
     autosize($(elm));
   });
 
   // form validator
-  parti_apply('[data-action="parti-form-validation"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-form-validation"]', function(elm) {
     var $elm = $(elm);
     var $form = $(elm);
     var $submit = $($elm.data("submit-form-control"));
@@ -395,7 +403,7 @@ var parti_prepare = function($base) {
   });
 
   // mention
-  parti_apply('[data-action="parti-mention"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-mention"]', function(elm) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $target = $(e.currentTarget);
@@ -408,7 +416,7 @@ var parti_prepare = function($base) {
   });
 
   // cancel form on blur
-  parti_apply('[data-action="parti-cancel-form-on-blur"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-cancel-form-on-blur"]', function(elm) {
     var $elm = $(elm);
 
     var close_form = function(e) {
@@ -426,7 +434,7 @@ var parti_prepare = function($base) {
   });
 
   //permalink post
-  parti_apply('#post-modal-permalink', function(elm) {
+  $.parti_apply($base, '#post-modal-permalink', function(elm) {
     var list_url = $(elm).data("list-url");
     var list_title = $(elm).data("list-title");
     $(elm).on('hidden.bs.modal', function (e) {
@@ -448,7 +456,7 @@ var parti_prepare = function($base) {
   });
 
   //new comments count
-  parti_apply('[data-action="parti-polling"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-polling"]', function(elm) {
     var $elm = $(elm);
     var polling_url = $(elm).data("polling-url");
     var polling_interval = $(elm).data("polling-interval");
@@ -461,7 +469,7 @@ var parti_prepare = function($base) {
   });
 
   // modal tooltip
-  parti_apply('[data-toggle="tooltip"]', function(elm) {
+  $.parti_apply($base, '[data-toggle="tooltip"]', function(elm) {
     $(elm).tooltip();
   });
 
@@ -538,7 +546,6 @@ var parti_prepare_post_modal = function($base) {
   $base.data('parti-prepare-post-modal-arel', 'completed');
 };
 
-//parti-post-modal
 var parti_partial = function(partial) {
   var $partial = $.parseDiv$(partial)
   parti_prepare_post_modal($partial);

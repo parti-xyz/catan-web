@@ -129,4 +129,4 @@
       %h3 opinion card
       .row
         .col-sm-6
-          = render 'opinions/card', card: Opinion.last if Opinion.last.present?
+          = render Opinion.last if Opinion.last.present?

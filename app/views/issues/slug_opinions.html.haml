@@ -2,23 +2,22 @@
 
 %section#opinions
   .container
-    - unless local_assigns[:hide_writing_card]
-      .vote__new#editors-tab
-        - if user_signed_in?
-          = link_to '#', class: 'btn-vote', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !@issue.is_all? ? 'input#opinion_title' : 'select#opinion_issue_id')} do
-            %span
-              더 나은 논의를 위해 투표를 열어 보세요.
-            %span.vote__new-img
-              = image_tag 'img_opinion.png'
-              %b 투표 열기
-          = render 'opinions/new_form', issue: @issue
-        - else
-          = link_to '#', class: 'btn-vote', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
-            %span
-              더 나은 논의를 위해 투표를 열어 보세요.
-            %span.vote__new-img
-              = image_tag 'img_opinion.png'
-              %b 투표 열기
+    .vote__new#editors-tab
+      - if user_signed_in?
+        = link_to '#', class: 'btn-vote', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !@issue.is_all? ? 'input#opinion_title' : 'select#opinion_issue_id')} do
+          %span
+            더 나은 논의를 위해 투표를 열어 보세요.
+          %span.vote__new-img
+            = image_tag 'img_opinion.png'
+            %b 투표 열기
+        = render 'opinions/new_form', issue: @issue
+      - else
+        = link_to '#', class: 'btn-vote', data: { toggle: 'parti-login-overlay', label: Opinion.model_name.human } do
+          %span
+            더 나은 논의를 위해 투표를 열어 보세요.
+          %span.vote__new-img
+            = image_tag 'img_opinion.png'
+            %b 투표 열기
     .row.masonry-container{data: {last_id: @opinions.last.try(:id), is_last: @is_last_page.to_s}}
       = render 'issues/slug_opinions_page'
     .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_opinions_path(@issue, format: :js)}
