@@ -219,4 +219,9 @@ section#opinions {
       }
     }
   }
+  .opinion-card {
+    &__date--with-issue {
+      display: none;
+    }
+  }
 }
