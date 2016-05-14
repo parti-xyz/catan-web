@@ -154,10 +154,10 @@ label.required:after {
 
 @mixin hover-shadow() {
   &:hover {
-    border-top: 1px solid #bfa5eb;
-    border-right: 1px solid #bfa5eb;
-    border-bottom: 1px solid #bfa5eb;
-    border-left: 1px solid #fff;
+    border-top: 1px solid $brand-primary-light;
+    border-right: 1px solid $brand-primary-light;
+    border-bottom: 1px solid $brand-primary-light;
+    border-left: 1px solid $brand-primary-light;
     -webkit-box-shadow: 4px 4px 4px 0px #deddda;
     -moz-box-shadow: 4px 4px 4px 0px #deddda;
     box-shadow: 4px 4px 4px 0px #deddda;
