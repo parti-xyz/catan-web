@@ -7,8 +7,7 @@
     %span.date-wrapper= date_f post.created_at
 
   .comment-panel-with-post__post
-    .comment__footer.text-muted
-      = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: local_assigns[:show_issue]
+    = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: local_assigns[:show_issue]
 
   - if post.latest_comments.any?
     .comment-panel-with-post__comments

@@ -1,7 +1,0 @@
-- post = obj.acting_as
-- linkable = (local_assigns[:linkable] == nil or local_assigns[:linkable])
-- if local_assigns[:show_issue]
-  %span.post-inline__issue-label
-    = link_to_if_with_block linkable, issue_home_path(post.issue) do
-      = image_tag post.issue.logo.xs.url, class: 'circle-25 img-circle'
-      %span.text-primary= post.issue.title

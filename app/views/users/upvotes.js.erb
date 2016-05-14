@@ -4,4 +4,4 @@
   $('#btn-next-page').attr('href', '<%= url_for(last_id: @upvotes.last.try(:id)) %>');
 <% end %>
 
-$('#user-gallery .comments').append(parti_partial("<%= escape_javascript(render 'comments/comments_per_page', comments: @comments, show_issue: true) %>"));
+$('#user-gallery .comments').append(parti_partial("<%= escape_javascript(render 'comments/comments_in_users', comments: @comments, show_issue: true) %>"));

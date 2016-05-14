@@ -6,7 +6,13 @@
         %section#content-tab-section
           = render 'users/content_tabs', active_tab: :upvotes, counts_container: @user.writing_counts
         .issue-comments
-          = render 'comments/list', comments: @comments, show_issue: true
+          .comments.bg-line
+            - if @comments.empty?
+              .bg-default
+                %i.fa.fa-info-circle
+                아직 글이 없습니다.
+            - else
+              = render 'comments/comments_in_users', comments: @comments, show_issue: true
           - unless @is_last_page
             = link_to url_for(last_id: @upvotes.last.try(:id)), remote: true, class: 'bg-line', id: 'btn-next-page', data: { disable_with: '<i class="fa fa-spinner fa-pulse"></i>' } do
               = image_tag 'icon_more.png'

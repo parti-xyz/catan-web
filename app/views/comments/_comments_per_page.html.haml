@@ -1,7 +1,0 @@
-- opinions = []
-- comments.each do |comment|
-  - show_opinion = false
-  - if comment.post.specific.is_a? Opinion
-    - show_opinion = !opinions.include?(comment.post.specific)
-    - opinions << comment.post.specific
-  = render customize_partial_path(comment, 'comment_in_list'), show_issue: local_assigns[:show_issue], show_opinion: show_opinion

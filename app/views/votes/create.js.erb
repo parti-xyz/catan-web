@@ -3,5 +3,5 @@ $('.<%= dom_id(@specific) %>').replaceWith(parti_partial("<%= escape_javascript(
 parti_prepare_masonry($('body'));
 <% else %>
 $('#<%= dom_id(@specific) %>-vote').replaceWith(parti_partial("<%= escape_javascript(render 'votes/vote', specific: @specific) %>"));
-$('#<%= dom_id(@specific) %>-comments').replaceWith(parti_partial("<%= escape_javascript(render 'comments/comments', postable: @specific, style: :opinion) %>"));
+$('#<%= dom_id(@specific) %>-comments').replaceWith(parti_partial("<%= escape_javascript(render 'comments/comments_in_post_modal', postable: @specific, style: :opinion) %>"));
 <% end %>

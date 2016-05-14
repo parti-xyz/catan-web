@@ -1,6 +1,12 @@
 - post = opinion.acting_as
+- issue = post.issue
 - voted = user_signed_in? && opinion.voted_by?(current_user)
 .opinion-card[post]{ class: "#{dom_id(opinion)} #{voted ? 'opinion-card--voted' : ''}" }
+  - if local_assigns[:show_issue]
+    .opinion-card__issue
+      = link_to issue_home_path(issue) do
+        = image_tag issue.logo.xs.url, class: 'circle-30 img-circle'
+        %span.text-primary= issue.title
   - unless local_assigns[:hide_created_at]
     .opinion-card__date.date-wrapper
       %span= date_f opinion.created_at
