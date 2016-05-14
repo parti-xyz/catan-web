@@ -1,8 +1,7 @@
 #aside.col-xs-3
   - watched_issues = current_user.watched_issues
   .aside_user
-    %ul.list-unstyled.clearfix
-      = render 'users/user_panel', user: current_user
+    = render 'users/user_panel', user: current_user
   .aside_issue
     %h4.aside_title 구독 중인 빠띠
     %ul.list-unstyled.clearfix

@@ -109,6 +109,11 @@
     .container
       %h3 parti panel
       %h3 user panel
+      %div
+      .row
+        .col-sm-3
+          = render 'users/user_panel', user: User.last
+
       %h3 user card
       %h3 user byline
       .well

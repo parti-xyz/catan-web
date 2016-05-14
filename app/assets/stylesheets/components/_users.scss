@@ -82,20 +82,17 @@ section#user-gallery{
 }
 
 .user-panel {
-  min-height: 210px;
   background-color: #fff;
-  border-bottom: 1px solid #dddbdc;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #fff;
-  border-top: 1px solid #fff;
-  margin-left: 2%;
-  margin-bottom: 15px;
   &__thumb {
+    background-image: image_url('img_user_panel_head.png');
+    background-repeat: no-repeat;
+    background-position: top center;
     text-align: center;
-    padding-top: 20px;
+    padding-top: 55px;
     a {
       color: $brand-primary;
       font-weight: bold;
+      font-size: $font-size-large;
     }
     .thumb {
       width: 90px;
@@ -111,6 +108,21 @@ section#user-gallery{
     }
   }
   &__info {
+    .row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    &__label {
+      font-size: $font-size-small;
+      color: $gray-light;
+    }
+    &__count {
+      margin-top: 8px;
+      margin-bottom: 12px;
+      font-size: $font-size-base;
+      color: $gray;
+      font-weight: bold;
+    }
     .col-xs-4 {
       min-height: 52px;
       padding: 0;
@@ -121,14 +133,9 @@ section#user-gallery{
       color: #353535;
       &.border-none {
         border: none;
-        img {
-          width: 18px;
-          height: auto;
-        }
       }
       img {
-        width: 20px;
-        height: auto;
+        height: 16px;
         display: block;
         margin: 0 auto 5px auto;
       }
