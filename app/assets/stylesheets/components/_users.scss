@@ -518,12 +518,29 @@ section#user-gallery{
   }
 }
 
-.aside_issue_btn {
-  margin-bottom: 36px;
+@media (max-width: 768px) {
+  section#user-gallery {
+    #content-tab-section .nav-tabs {
+      li {
+        width: 33.3%
+      }
+      .count-label-wrapper {
+        margin-bottom: 4px;
+      }
+    }
+  }
 }
 
+.user-byline {
+  color: $brand-primary;
+  font-weight: bold;
+  height: 30px;
+  line-height: 30px;
 
-
-
+  .user-image {
+    width: 30px;
+    height: 30px;
+  }
+}
 
 
