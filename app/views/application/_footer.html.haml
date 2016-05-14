@@ -1,4 +1,4 @@
-%footer.footer
+%footer.footer.hidden-xs
   .footer-logo.clearfix
     = link_to root_path do
       %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
@@ -28,8 +28,6 @@
         = image_tag 'icon_yellow.png', alt: 'btn-yellow', class: 'footer-sns--yellow'
   %a{href: 'http://creativecommons.org/licenses/by-nc/4.0/deed.ko', target: '_blank'}
     = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
-
-%hr
 
 / .fb-page{"data-adapt-container-width" => "true", "data-hide-cover" => "false", "data-href" => "https://www.facebook.com/parti.xyz/", "data-show-facepile" => "true", "data-small-header" => "true", "data-tabs" => "timeline"}
 /   .fb-xfbml-parse-ignore
