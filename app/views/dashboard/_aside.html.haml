@@ -1,9 +1,11 @@
 #aside.col-xs-3
-  - watched_issues = current_user.watched_issues
   .aside_user
     = render 'users/user_panel', user: current_user
   .aside_issue
+    .aside_issue_btn
+      = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
     %h4.aside_title 구독 중인 빠띠
-    %ul.list-unstyled.clearfix
-      = render customize_partial_path(watched_issues, 'card'), hide_watch_button: true
+    %ul.list-unstyled
+      - watched_issues = current_user.watched_issues
+      = render customize_partial_path(watched_issues, 'issue_line'), hide_watch_button: true
   = render 'application/footer'

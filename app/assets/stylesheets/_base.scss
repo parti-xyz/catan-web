@@ -2,17 +2,6 @@
   font-family: 'Apple SD Gothic Neo', 'Noto Sans CJK KR', 'Noto Sans KR', 'Source Sans Pro', 'Helvetica Neue', Helvetica, '돋움', dotum, Arial, sans-serif;
 }
 
-@mixin word-wrap() {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-
 html {
   min-height: 100%;
   position: relative;
@@ -135,31 +124,4 @@ label.required:after {
   }
 }
 
-@mixin hover-grow() {
-  display: inline-block;
-  vertical-align: middle;
-  transform: translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  transition-duration: 0.3s;
-  transition-property: transform;
 
-  &:hover,
-  &:focus,
-  &:active {
-    transform: scale(1.02);
-  }
-}
-
-@mixin hover-shadow() {
-  &:hover {
-    border-top: 1px solid $brand-primary-light;
-    border-right: 1px solid $brand-primary-light;
-    border-bottom: 1px solid $brand-primary-light;
-    border-left: 1px solid $brand-primary-light;
-    -webkit-box-shadow: 4px 4px 4px 0px #deddda;
-    -moz-box-shadow: 4px 4px 4px 0px #deddda;
-    box-shadow: 4px 4px 4px 0px #deddda;
-  }
-}

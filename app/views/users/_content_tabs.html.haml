@@ -6,7 +6,7 @@
         - if counts_container.latest_comments_count > 0
           %small.text-primary<>
             +#{counts_container.latest_comments_count}
-      %h4 작성한 댓글
+      %h4 수다
   %li{role: 'presentation', class: ('active' if active_tab == :upvotes)}
     = link_to nickname_user_upvotes_path(nickname: @user.nickname) do
       .nav-tabs__count{style: 'left: 100px;'}
@@ -14,7 +14,7 @@
         - if counts_container.latest_upvotes_count > 0
           %small.text-primary<>
             +#{counts_container.latest_upvotes_count}
-      %h4 하트한 댓글
+      %h4 좋아요
   %li{role: 'presentation', class: ('active' if active_tab == :votes)}
     = link_to nickname_user_votes_path(nickname: @user.nickname) do
       .nav-tabs__count

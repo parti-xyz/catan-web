@@ -193,6 +193,12 @@
   }
 }
 
+.btn-shadow {
+  -webkit-box-shadow: 0px 4px 0px 0px rgba(215, 213, 210, 0.8);
+  -moz-box-shadow: 0px 4px 0px 0px rgba(215, 213, 210, 0.8);
+  box-shadow: 0px 4px 0px 0px rgba(215, 213, 210, 0.8);
+}
+
 .btn-link {
   background:none!important;
   border:none;
@@ -235,6 +241,12 @@
     display: block;
     width: 100%;
   }
+}
+
+.btn-lg {
+  padding: 13px;
+  line-height: 28px;
+  font-weight: 500;
 }
 
 #btn-next-page {
@@ -293,14 +305,12 @@ br.mobile {
 .post-card__count, .post-inline__comment, .post__comment, .comment-count {
   img
   {
-    width: 14px !important;
-    height: auto !important;
+    height: 16px !important;
   }
 }
 .user-count {
   img {
-    width: 11px !important;
-    height: auto !important;
+    height: 16px !important;
   }
 }
 .comment__mention, .comment__btn {
@@ -311,14 +321,12 @@ br.mobile {
 }
 .post-card__date, .date-wrapper {
   img {
-    width: 16px;
-    height: 16px;
+    height: 16px !important;
   }
 }
 .btn-new-comment {
   img {
-    width: 15px;
-    height: auto;
+    height: 16px !important;
   }
 }
 .editors-tab , .vote__new-img{
@@ -335,12 +343,5 @@ br.mobile {
   img#{&}--yellow {
     width: 135px;
     height: auto;
-  }
-}
-.article__body__link-container {
-  .text-primary {
-    img {
-      width: 14px;
-    }
   }
 }

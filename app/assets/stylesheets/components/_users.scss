@@ -83,6 +83,8 @@ section#user-gallery{
 
 .user-panel {
   background-color: #fff;
+  margin-bottom: 20px;
+
   &__thumb {
     background-image: image_url('img_user_panel_head.png');
     background-repeat: no-repeat;
@@ -556,9 +558,9 @@ section#user-gallery{
   }
 }
 
-
-
-
+.aside_issue_btn {
+  margin-bottom: 36px;
+}
 
 
 

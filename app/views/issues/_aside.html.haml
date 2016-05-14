@@ -7,5 +7,5 @@
   .aside_issue
     %h4.aside_title 추천빠띠
     %ul.list-unstyled.clearfix
-      = render customize_partial_path((@issue || Issue::OF_ALL).recommends, 'card')
+      = render customize_partial_path((@issue || Issue::OF_ALL).recommends, 'issue_line')
   = render 'application/footer'

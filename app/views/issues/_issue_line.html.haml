@@ -1,0 +1,18 @@
+- issue ||= local_assigns[:issue_line]
+%li.issue-line
+  = link_to issue_home_path(issue) do
+    .media
+      .media-left.issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+      .media-body
+        .issue-line__title= issue.title
+        .issue-line__meta
+          %span.user-count
+            = image_tag 'icon_user.png'
+            %b= issue.watches.count
+          %span.comment-count
+            = image_tag 'icon_comment.png'
+            %b= issue.comments.count
+  - unless local_assigns[:hide_watch_button]
+    .issue-line__btn
+      = render 'watches/watch', issue: issue
+

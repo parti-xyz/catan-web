@@ -596,3 +596,69 @@
     }
   }
 }
+
+.aside_issue {
+  .issue-line {
+    width: 100%;
+    margin-bottom: 0;
+    border: 1px solid transparent;
+    border-bottom: 1px solid $gray-light;
+    padding: 10px;
+    a {
+      overflow: auto;
+      display: block;
+      &:hover .issue-card__title {
+        color: $brand-primary;
+      }
+    }
+    &__thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 4px;
+      background-position: center;
+      background-size: cover;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      display: inline-block;
+      float: left;
+      margin-right: 10px;
+    }
+    &__title {
+      color: $gray;
+      font-size: $font-size-base;
+      font-weight: bold;
+      padding-top: 10px;
+      padding-bottom: 4px;
+    }
+    &__meta {
+      color: $gray;
+      font-size: $font-size-base;
+      .user-count {
+        margin-right: 10px;
+      }
+    }
+    &__btn {
+      width: 100%;
+      height: 30px;
+      text-align: center;
+      font-size: 12px;
+      line-height: 30px;
+      margin-top: 15px;
+      display: block;
+      a {
+        color: #777;
+        border: 1px solid #d2d2d2;
+      }
+      &:hover, &:focus {
+        a {
+          color: #fff;
+          background: #555;
+        }
+      }
+    }
+    &:hover {
+      @include hover-shadow();
+      background-color: #fff;
+    }
+  }
+}
