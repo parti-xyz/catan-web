@@ -1,8 +1,10 @@
 .nav-tabs.message-tab
-  .nav-tabs__count
-    %small= @user.messages.count
-    - if @user.messages.latest.any?
-      %small.text-primary<>
-        +#{@user.messages.latest.count}
-  %h4 알림
+  %h4
+    알림
+    .count-label-wrapper
+      .count-label
+        = @user.messages.count
+        - if @user.messages.latest.any?
+          %small.text-primary
+            +#{@user.messages.latest.count}
 

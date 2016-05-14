@@ -2,26 +2,12 @@
   .container
     .row
       .col-xs-9.parties-all
-        - if user_signed_in?
-          .nav-tabs.page-title
-            %h4 내가 구독 중인 빠띠
-          - if current_user.watched_issues.count == 0
-            %p.parties-text 아직 구독한 빠띠가 없네요, 아래에서 골라보세요!
-          - else
-            %ul.issue-card-wrapper.list-unstyled.clearfix
-              - current_user.watched_issues.each do |issue|
-                = render 'issues/card', issue: issue
-              %li.issue-card.issue-card--more
-                %a{href: '#issues-all'}
-                  %p
-                    새로운 빠띠를
-                    %br
-                    구독해 보세요.
-                  = image_tag 'icon_plus.png'
-        %a.anchor#issues-all
-        .nav-tabs.page-title
-          %h4
-            전체빠띠
+        %section#content-tab-section
+          .nav-tabs.message-tab
+            %h4
+              전체빠띠
+              .count-label-wrapper
+                .count-label= Issue.count
         %ul.issue-card-wrapper.list-unstyled.clearfix
           - @issues.each do |issue|
             = render 'issues/card', issue: issue

@@ -5,9 +5,11 @@
       .col-xs-9
         %section#content-tab-section
           .nav-tabs.message-tab
-            .nav-tabs__count
-              %small= @issue.watches.count
-            %h4 구독회원
+            %h4
+              구독회원
+              .count-label-wrapper
+                .count-label= @issue.watches.count
+
         %ul.user-card-wrapper.list-unstyled.clearfix
           - @issue.watched_users.each do |user|
             = render user, issue: @issue

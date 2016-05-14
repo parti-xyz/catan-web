@@ -53,10 +53,27 @@
     padding: 0;
     color: #777;
     position: relative;
-    .nav-tabs__count {
-      left: 35px;
-    }
   }
+}
+
+.count-label-wrapper {
+  font-size: $font-size-small;
+  line-height: 1.8;
+  position: relative;
+  display: inline-block;
+}
+.count-label {
+  background-color: $gray-darker;
+  position: absolute;
+  padding: 1px 8px 0px;
+  color: #fff;
+  top: -25px;
+  left: -3px;
+  text-align: center;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  white-space: nowrap;
 }
 
 /* pagination */

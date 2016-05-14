@@ -119,11 +119,6 @@
   margin-right: -15px;
   &.message-tab {
     padding-left: 20px;
-    .nav-tabs__count {
-      position: absolute;
-      left: 55px;
-      top: -6px;
-    }
   }
   li {
     margin: 0;
@@ -135,12 +130,6 @@
         margin-bottom: 5px;
       }
     }
-  }
-  .nav-tabs__count {
-    min-width: 20px;
-    position: static;
-    display: inline-block;
-    padding: 1px 5px 0px;
   }
 }
 
@@ -570,9 +559,8 @@ br.mobile {
   &:nth-child(odd) {
     margin-left: 0%;
   };
-}#issue-users #content-tab-section .message-tab .nav-tabs__count {
-  left: 90px;
 }
+
 .banner-parti-wrapper {
   border-top: 4px solid #966fd6;
   .col-xs-7, .col-xs-5 {

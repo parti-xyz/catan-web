@@ -1,28 +1,35 @@
 %ul.nav.nav-tabs{role: 'tablist'}
   %li{role: 'presentation', class: ('active' if active_tab == :comments)}
     = link_to user_gallery_path(@user) do
-      .nav-tabs__count{style: 'left: 105px;'}
-        %small<>= counts_container.comments_count
-        - if counts_container.latest_comments_count > 0
-          %small.text-primary<>
-            +#{counts_container.latest_comments_count}
-      %h4 수다
+      %h4
+        수다
+        .count-label-wrapper
+          .count-label<>
+            = counts_container.comments_count
+            - if counts_container.latest_comments_count > 0
+              %small.text-primary
+                +#{counts_container.latest_comments_count}
   %li{role: 'presentation', class: ('active' if active_tab == :upvotes)}
     = link_to nickname_user_upvotes_path(nickname: @user.nickname) do
-      .nav-tabs__count{style: 'left: 100px;'}
-        %small<>= counts_container.upvotes_count
-        - if counts_container.latest_upvotes_count > 0
-          %small.text-primary<>
-            +#{counts_container.latest_upvotes_count}
-      %h4 좋아요
+      %h4
+        좋아요
+        .count-label-wrapper
+          .count-label<>
+            = counts_container.upvotes_count
+            - if counts_container.latest_upvotes_count > 0
+              %small.text-primary
+                +#{counts_container.latest_upvotes_count}
   %li{role: 'presentation', class: ('active' if active_tab == :votes)}
     = link_to nickname_user_votes_path(nickname: @user.nickname) do
-      .nav-tabs__count
-        %small<>= counts_container.votes_count
-        - if counts_container.latest_votes_count > 0
-          %small.text-primary<>
-            +#{counts_container.latest_votes_count}
-      %h4 투표
+      %h4
+        투표
+        .count-label-wrapper
+          .count-label<>
+            = counts_container.votes_count
+            - if counts_container.latest_votes_count > 0
+              %small.text-primary
+                +#{counts_container.latest_votes_count}
+
 
 
 
