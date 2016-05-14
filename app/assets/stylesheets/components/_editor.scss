@@ -9,3 +9,20 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .editors-tab {
+    .btn-group.btn-group-justified {
+      .btn {
+        font-size: $font-size-base;
+        font-weight: bold;
+        line-height: 1.4;
+        padding: 15px;
+        img {
+          height: 16px;
+          margin-bottom: 2px;
+        }
+      }
+    }
+  }
+}

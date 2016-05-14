@@ -190,28 +190,6 @@
 
 /* post */
 
-.post-inline {
-  margin-bottom: 0;
-  padding: 10px;
-  &__title {
-    width: 85%;
-    font-size: 12px;
-  }
-  &__comment {
-    img {
-      zoom: 0.8;
-    }
-  }
-  a {
-    font-size: 12px;
-  }
-}
-.post__info {
-  .post-inline__info {
-    display: none;
-  }
-}
-
 .link-box .thumb {
   width: 100%;
   height: 150px;

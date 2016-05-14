@@ -14,7 +14,7 @@ section#comments {
   .nickname {
     font-weight: bold;
     color: $brand-primary;
-    margin-right: 20px;
+    margin-right: 10px;
   }
   .date-wrapper {
     color: $gray-light;
@@ -37,6 +37,11 @@ section#comments {
     }
     .fa-heart {
       color: $brand-primary;
+    }
+  }
+  @media (max-width: 768px) {
+    .body {
+      font-size: $font-size-small;
     }
   }
 }

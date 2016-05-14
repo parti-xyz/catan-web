@@ -14,7 +14,7 @@
       - if post.comments_count > 0
         .more{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific) }}
           %b> 총 #{post.comments_count}개
-          의 수다
+          %span.hidden-xs 의 수다
           \|
           %span.text-primary 이전 수다 더보기...
       - post.latest_comments.each do |comment|

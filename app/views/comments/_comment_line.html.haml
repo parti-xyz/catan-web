@@ -14,5 +14,8 @@
 
       .body{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }}= smart_format(comment.body)
 
-    .media-right
+      .visible-xs.upvote
+        = render 'upvotes/upvote', comment: comment
+
+    .media-right.hidden-xs
       = render 'upvotes/upvote', comment: comment

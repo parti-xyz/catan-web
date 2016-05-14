@@ -27,7 +27,7 @@ section#opinions {
     background-color: $brand-primary-lighter;
     border: 1px solid $brand-primary-light;
     h4 a {
-      color: $gray;
+      color: $gray-darker;
     }
     &:hover {
       border: 1px solid $brand-primary;
@@ -38,7 +38,7 @@ section#opinions {
     line-height: 1.4em;
     margin: 30px 0;
     a {
-      color: $gray-base;
+      color: $gray-darker;
     }
     a:hover {
       text-decoration: underline;
@@ -192,6 +192,19 @@ section#opinions {
       }
       &.long {
         font-size: 55px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .post-card-with-comments__post {
+    .opinion-card__date {
+      display: none;
+    }
+    .opinion__vote-section {
+      .btn {
+        min-width: 90px;
       }
     }
   }
