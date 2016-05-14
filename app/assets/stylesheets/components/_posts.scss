@@ -6,6 +6,87 @@ section#posts {
   padding-top: 25px;
 }
 
+.post-card-with-comments {
+  position: relative;
+  background-color: #fff;
+  margin-bottom: 10px;
+  padding: 20px 20px 20px 50px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+
+  &__header {
+    .issue-logo img {
+      position: absolute;
+      left: 10px;
+      top: 15px;
+      width: 30px;
+      height: 30px;
+      border-radius: $border-radius-base;
+    }
+    .issue-title {
+      color: $brand-primary;
+      font-size: $font-size-base;
+      font-weight: bold;
+      margin-right: 20px;
+    }
+    .date-wrapper {
+      color: $gray-light;
+    }
+  }
+  &__post {
+    padding-top: 5px;
+    padding-bottom: 20px;
+    word-break: break-all;
+    .post-inline__title {
+      margin-bottom: 15px;
+    }
+  }
+  &__comments {
+    border-top: 1px solid #d2d2d2;
+    padding-top: 15px;
+  }
+  .more {
+    background-image: image_url('icon_comment.png');
+    background-repeat: no-repeat;
+    background-position: top left;
+    padding-left: 25px;
+    margin-bottom: 20px;
+    color: $gray-dark;
+    cursor: pointer;
+  }
+}
+
+.post-inline {
+  padding: 0;
+  position: relative;
+  border: none;
+  .img-circle {
+    position: static;
+  }
+  a {
+    color: #333333;
+    line-height: 1.4em;
+  }
+  &__title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: $gray-base;
+    font-weight: bold;
+  }
+  &--article,
+  &--talk {
+    cursor: pointer;
+  }
+  .media-body p {
+    color: $text-muted;
+  }
+  .thumb {
+    width: 150px;
+    height: 100px;
+    border-radius: $border-radius-base;
+  }
+}
+
 .post-card {
   background-color: #fff;
   margin-bottom: 0;
@@ -32,33 +113,6 @@ section#posts {
 }
 .post-card:last-child {
   margin-bottom: 20px;
-}
-
-.post-inline {
-  padding: 0;
-  position: relative;
-  border: none;
-  .img-circle {
-    position: static;
-  }
-  a {
-    color: #333333;
-    line-height: 1.4em;
-  }
-  &__title {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: $gray-base;
-    font-weight: bold;
-  }
-  &--article,
-  &--talk {
-    cursor: pointer;
-  }
-  .thumb {
-    width: 150px;
-    height: 100px;
-  }
 }
 
 

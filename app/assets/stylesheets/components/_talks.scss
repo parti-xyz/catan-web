@@ -68,9 +68,36 @@ section#talks {
 }
 
 .talk-inline {
-  .talk-inline__title {
+  .user-image {
+    width: 20px;
+    height: 20px;
+  }
+  .nickname {
     font-weight: bold;
-    font-size: 18px;
+    color: $brand-primary;
+    margin-right: 20px;
+  }
+  .date-wrapper {
+    color: $gray-light;
+  }
+  .talk-comment-body {
+    color: $text-muted;
+  }
+  .comment__mention {
+    float: none;
+    margin-left: 0;
+  }
+  &__upvotes {
+    float: right;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 15px;
+    .fa-heart-o  {
+      color: #aaaaaf;
+    }
+    .fa-heart {
+      color: $brand-primary;
+    }
   }
 }
 

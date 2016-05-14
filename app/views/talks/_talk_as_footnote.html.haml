@@ -1,6 +1,21 @@
 - talk = talk_as_footnote
 - post = talk.acting_as
-.post-inline.post-inline--talk[post]
+.talk-inline[post]
   %h4.post-inline__title{data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }}= talk.title
   - if talk.has_presentation?
-    = render 'comments/comment_line', comment: talk.comments.first
+    - comment = talk.comments.first
+    .media
+      .media-body
+        .talk-comment-body{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }}= smart_format(comment.body)
+
+        .talk-comment-info
+          = link_to user_gallery_path(comment.user) do
+            = image_tag comment.user.image.xs.url, class: 'img-circle user-image'
+          = link_to user_gallery_path(comment.user) do
+            %span.nickname= comment.user.nickname
+          - if comment.mentionable?(current_user)
+            %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+              = image_tag 'icon_mention.png'
+
+      .media-right
+        = render 'upvotes/upvote', comment: comment

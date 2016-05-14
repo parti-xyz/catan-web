@@ -115,6 +115,10 @@
         = byline User.first
 
       %h3 post card with comments
+      %div
+        = render 'posts/post_in_dashboard', post: Article.last.acting_as
+        = render 'posts/post_in_dashboard', post: Talk.last.acting_as
+        = render 'posts/post_in_dashboard', post: Opinion.last.acting_as
 
     .container
       %h3 link card
