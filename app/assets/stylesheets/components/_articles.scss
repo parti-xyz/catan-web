@@ -9,10 +9,6 @@ section#articles {
     padding-left: 7px;
     padding-right: 7px;
   }
-
-  .card {
-    @include hover-grow();
-  }
 }
 
 .article-card {
@@ -25,6 +21,7 @@ section#articles {
   position: relative;
   cursor: pointer;
   margin-bottom: 14px;
+  border: 1px solid #f1f1f1;
   .thumb {
     height: 150px;
   }

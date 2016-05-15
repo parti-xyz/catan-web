@@ -9,10 +9,6 @@ section#opinions {
     padding-left: 7px;
     padding-right: 7px;
   }
-
-  .card {
-    @include hover-grow();
-  }
 }
 
 .opinion-card {
