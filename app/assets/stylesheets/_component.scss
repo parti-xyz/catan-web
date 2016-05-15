@@ -224,6 +224,61 @@
 
 
 /* button */
+.btn {
+  [class^="icon-"], [class*=" icon-"] {
+    margin-right: 2px;
+    margin-left: 2px;
+  }
+}
+
+.btn-default {
+  color: $gray-dark;
+  background-color: $gray-lightest;
+  border-color: $gray-light;
+
+  -webkit-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+  -moz-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+  box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+
+  &:hover {
+    color: $brand-primary !important;
+    background-color: $gray-lightest !important;
+    border-color: $gray-light !important;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+  &:active {
+    color: $brand-primary-dark !important;
+    background-color: $gray-lightest !important;
+    border-color: $gray-light !important;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+}
+
+.btn-primary {
+  -webkit-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+  -moz-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+  box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
+
+  &:hover {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+  &:active {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    transform: translateY(2px);
+  }
+}
+
 .btn-border {
   border-radius: 50px;
   -webkit-border-radius: 50px;
@@ -312,36 +367,8 @@
   }
 }
 
-.upvote-btn {
-  white-space: nowrap;
-  display: inline-block;
-  width: 50px;
-  a {
-    background-size: cover;
-    background-position: center;
-    width: 17px;
-    height: 16px;
-    display: inline-block;
-    vertical-align: text-top;
-  }
-  &--unsigned, &--upvoted {
-    color: $brand-primary;
-    a {
-      background-image: image_url('icon_heart_primary.png');
-    }
-    a:hover {
-      background-image: image_url('icon_heart_primary_dark.png');
-    }
-  }
-  &--not-yet {
-    color: $text-muted;
-    a {
-      background-image: image_url('icon_heart_gray_light.png');
-    }
-    a:hover {
-      background-image: image_url('icon_heart.png');
-    }
-  }
+.btn-upvote {
+  min-width: 75px;
 }
 
 .editor-btn {

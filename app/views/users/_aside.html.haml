@@ -2,5 +2,5 @@
   .aside_issue
     %h4.aside_title 구독 하는 빠띠
     %ul.clearfix.list-unstyled
-      = render customize_partial_path(@user.watched_issues, 'issue_line')
+      = render customize_partial_path(@user.watched_issues, 'issue_line'), hide_watch_button: true
   = render 'application/footer'
