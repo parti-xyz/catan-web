@@ -339,8 +339,14 @@
       background-image: image_url('icon_heart_gray_light.png');
     }
     a:hover {
-      background-image: image_url('icon_heart_gray.png');
+      background-image: image_url('icon_heart.png');
     }
+  }
+}
+
+.editor-btn {
+  img {
+    height: 38px;
   }
 }
 
