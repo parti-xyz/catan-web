@@ -6,10 +6,6 @@
         .well
           %i.fa.fa-info-circle
           투표 후에 댓글을 남길 수 있습니다.
-    - else
-      = link_to '#', data: { toggle: 'parti-login-overlay', label: '댓글작성' }, class: 'btn btn-default btn-new-comment' do
-        = image_tag 'icon_comment_black.png'
-        댓글작성
   .tabs.vote__tab
     %ul.nav.nav-tabs
       %li{class: ('active' unless disagree_active) }

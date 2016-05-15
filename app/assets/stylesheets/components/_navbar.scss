@@ -88,6 +88,14 @@
       padding-top: 11px;
       margin-right: 10px;
       text-align: center;
+
+      &.active {
+        background-color: $brand-primary;
+        color: #fff;
+        .icon-bell:before {
+          font-weight: bold;
+        }
+      }
     }
   }
   &__up {

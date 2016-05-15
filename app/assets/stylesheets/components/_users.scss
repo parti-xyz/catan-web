@@ -125,6 +125,10 @@ section#user-gallery{
       color: $gray;
       font-weight: bold;
     }
+    &__icon {
+      font-size: $font-size-large;
+      margin: 0 auto 5px auto;
+    }
     .col-xs-4 {
       min-height: 52px;
       padding: 0;
@@ -135,11 +139,6 @@ section#user-gallery{
       color: #353535;
       &.border-none {
         border: none;
-      }
-      img {
-        height: 16px;
-        display: block;
-        margin: 0 auto 5px auto;
       }
     }
   }

@@ -5,10 +5,10 @@
     %span.issue-card__title= issue.title
     .issue-card__meta
       %span.user-count
-        = image_tag 'icon_user.png'
+        %i.icon-user
         %b= issue.watches.count
       %span.comment-count
-        = image_tag 'icon_comment.png'
+        %i.icon-comment
         %b= issue.comments.count
   .issue-card__btn
     - if user_signed_in?

@@ -2,12 +2,10 @@
   .container
     .row
       .col-xs-9.parties-all
-        %section#content-tab-section
-          .nav-tabs.message-tab
-            %h4
-              전체빠띠
-              .count-label-wrapper
-                .count-label= Issue.count
+        %h4
+          전체빠띠
+          .count-label-wrapper
+            .count-label= Issue.count
         %ul.issue-card-wrapper.list-unstyled.clearfix
           - @issues.each do |issue|
             = render 'issues/card', issue: issue

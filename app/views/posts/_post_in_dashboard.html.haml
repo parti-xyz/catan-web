@@ -13,7 +13,9 @@
     .post-card-with-comments__comments
       - if post.comments_count > 0
         .more{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific) }}
-          %b> 총 #{post.comments_count}개
+          %b>
+            %i.icon-comment
+            총 #{post.comments_count}개
           %span.hidden-xs 의 수다
           \|
           %span.text-primary 이전 수다 더보기...

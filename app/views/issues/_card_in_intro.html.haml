@@ -15,8 +15,8 @@
       .issue-card__body= excerpt(issue.body, length: 60)
       .issue-card__meta
         %span.user-count
-          = image_tag 'icon_user.png'
+          %i.icon-user
           %b= issue.watches.count
         %span.comment-count
-          = image_tag 'icon_comment.png'
+          %i.icon-comment
           %b= issue.comments.count

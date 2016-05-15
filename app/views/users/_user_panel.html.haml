@@ -10,17 +10,17 @@
     .row
       .col-xs-4.border-none
         = link_to user_gallery_path(user) do
-          = image_tag 'icon_comment.png'
+          .user-panel__info__icon.icon-comment
           .user-panel__info__label 수다
           .user-panel__info__count= writing_counts.comments_count
       .col-xs-4
         = link_to nickname_user_upvotes_path(nickname: user.nickname) do
-          = image_tag 'icon_heart.png'
+          .user-panel__info__icon.icon-heart
           .user-panel__info__label 좋아요
           .user-panel__info__count= writing_counts.upvotes_count
       .col-xs-4
         = link_to nickname_user_votes_path(nickname: user.nickname) do
-          = image_tag 'icon_vote.png'
+          .user-panel__info__icon.icon-vote
           .user-panel__info__label 투표
           .user-panel__info__count= writing_counts.votes_count
 

@@ -1,6 +1,6 @@
 // base
 @import "bootstrap-sprockets";
-@import "parti-icons";
+@import "fonts/parti-icons";
 @import "variables";
 @import "bootstrap";
 @import "mixin";
@@ -22,6 +22,8 @@
 @import 'layout';
 
 // components
+@import 'components/buttons';
+@import 'components/icons';
 @import 'components/navbar';
 @import 'components/aside';
 @import 'components/issues';

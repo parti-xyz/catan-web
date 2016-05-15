@@ -8,11 +8,11 @@
       %p= user.nickname
   .user-card__info
     .col-xs-4.border-none
-      = image_tag 'icon_comment.png'
+      %div.icon-comment
       = writing_counts.comments_count
     .col-xs-4
-      = image_tag 'icon_vote.png'
+      %div.icon-vote
       = writing_counts.votes_count
     .col-xs-4
-      = image_tag 'icon_heart.png'
+      %div.icon-heart
       = writing_counts.upvotes_count

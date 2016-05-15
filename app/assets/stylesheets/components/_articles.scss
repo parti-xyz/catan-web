@@ -51,13 +51,11 @@ section#articles {
       width: 100%;
       padding: 0 20px 20px 20px;
       div {
-        background-size: 16px;
-        background-image: image_url('icon_comment.png');
-        background-position: bottom left;
-        background-repeat: no-repeat;
         border-top: 1px solid $gray-lighter;
         padding-top: 20px;
-        padding-left: 25px;
+        i {
+          padding-right: 5px;
+        }
       }
     }
   }
@@ -96,9 +94,6 @@ section#articles {
     }
     .body {
       display: none;
-    }
-    .more div {
-      background-image: image_url('icon_comment_white.png');
     }
     .more {
       color: #fff;

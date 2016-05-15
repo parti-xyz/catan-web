@@ -7,16 +7,15 @@
         .nickname= comment.user.nickname
       - if comment.mentionable?(current_user)
         %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
-          = image_tag 'icon_mention.png'
+          %i.icon-mention
 
       .comment__btn.pull-left
         - if can? :destroy, comment
           = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' } do
-            .btn-icon.btn-icon--big
-              = image_tag 'icon_delete.png'
+            %i.icon-trash
 
       .comment__date.pull-right.date-wrapper
-        = image_tag 'icon_time.png'
+        %i.icon-clock
         %span= date_f comment.created_at
     - if specific.respond_to?(:is_presentation?) and specific.is_presentation?(comment)
       .comment__body.comment__body--talk

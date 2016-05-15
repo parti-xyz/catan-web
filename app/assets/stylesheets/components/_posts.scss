@@ -48,14 +48,12 @@ section#posts {
     padding-top: 15px;
   }
   .more {
-    background-size: 16px;
-    background-image: image_url('icon_comment.png');
-    background-repeat: no-repeat;
-    background-position: top left;
-    padding-left: 20px;
     margin-bottom: 20px;
     color: $gray;
     cursor: pointer;
+    i {
+      font-size: $font-size-large;
+    }
   }
 }
 

@@ -7,10 +7,10 @@
       .info
         = link_to user_gallery_path(comment.user) do
           %span.nickname= comment.user.nickname
+        %span.date-wrapper= date_f comment.created_at
         - if comment.mentionable?(current_user)
           %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
-            = image_tag 'icon_mention.png'
-        %span.date-wrapper= date_f comment.created_at
+            %i.icon-mention
 
       .body{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }}= smart_format(comment.body)
 

@@ -7,10 +7,10 @@
         .issue-line__title= issue.title
         .issue-line__meta
           %span.user-count
-            = image_tag 'icon_user.png'
+            %i.icon-user
             %b= issue.watches.count
           %span.comment-count
-            = image_tag 'icon_comment.png'
+            %i.icon-comment
             %b= issue.comments.count
   - unless local_assigns[:hide_watch_button]
     .issue-line__btn

@@ -20,8 +20,9 @@ section#talks {
     font-size: $font-size-small;
     white-space: nowrap;
     text-align: right;
-    img {
+    i {
       margin-right: 5px;
+      font-size: $font-size-base;
     }
   }
   .comment-users {
@@ -58,6 +59,14 @@ section#talks {
       text-align: right;
     }
   }
+  .comment-info {
+    i.icon-best {
+      font-size: 22px;
+      margin-top: -7px;
+      display: inline-block;
+      color: $brand-danger;
+    }
+  }
 }
 
 .talk-section {
@@ -76,7 +85,7 @@ section#talks {
   .nickname {
     font-weight: bold;
     color: $brand-primary;
-    margin-right: 20px;
+    margin-right: 5px;
   }
   .date-wrapper {
     color: $gray-light;
