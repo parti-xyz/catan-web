@@ -24,7 +24,7 @@
         .well
           %i.fa.fa-info-circle
           찬성 댓글이 없습니다.
-      %ul.media-list
+      %ul.media-list.comment-list
         = render postable.comments.agreed.sequential, style: :media, mention_form_contorl: '#new_comment #comment_body'
       - if user_signed_in? and postable.agreed_by?(current_user)
         = render 'comments/opinion_comments_form', local_assigns
@@ -33,7 +33,7 @@
         .well{style: 'background: #fff;'}
           %i.fa.fa-info-circle
           반대 댓글이 없습니다.
-      %ul.media-list
+      %ul.media-list.comment-list
         = render postable.comments.disagreed.sequential, mention_form_contorl: '#new_comment #comment_body'
       - if user_signed_in? and postable.disagreed_by?(current_user)
         = render 'comments/opinion_comments_form', local_assigns
