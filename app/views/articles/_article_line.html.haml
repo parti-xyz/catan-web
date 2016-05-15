@@ -10,7 +10,7 @@
   %h4.article-line__title.post-line__title= screenable_article_title(article)
   .media
     .media-body
-      = excerpt(article.body)
+      = excerpt(article.body, length: (is_mobile? ? 45 : 130))
     - if (article.has_image?)
       .media-right
         .thumb{style: "background-image: url(#{article.image.md.url})"}
