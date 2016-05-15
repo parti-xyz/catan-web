@@ -5,10 +5,10 @@
   의
 %span
   - if comment.mentioned?(message.user)
-    댓글에서
-    %strong @멘션
-    했습니다."
+    수다에서
+    %strong 댓글
+    보냈습니다.
   - else
-    댓글을 작성했습니다.
+    수다를 작성했습니다.
 %span
   "#{link_to("#{truncate(strip_tags(comment.body), length: 100)}", comment.post.specific)}"

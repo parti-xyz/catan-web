@@ -29,7 +29,7 @@ ko:
       opinion: 투표
       talk: 톡
       user: 회원
-      comment: 댓글
+      comment: 수다
     attributes:
       issue:
         title: 빠띠

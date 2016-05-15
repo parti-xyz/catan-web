@@ -8,7 +8,7 @@
       - presentation_comment = @talk.comments.first
       = hidden_field_tag :comment_id, presentation_comment.id
       .form-group
-        %label 댓글
+        %label 수다
         = text_area_tag :comment_body, presentation_comment.body, class: 'form-control'
 
     .editor-btn.text-right

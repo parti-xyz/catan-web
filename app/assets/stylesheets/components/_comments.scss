@@ -22,6 +22,7 @@ section#comments {
   .body {
     color: #777;
     padding-top: 5px;
+    cursor: pointer;
   }
   .comment__mention {
     float: none;
@@ -54,10 +55,7 @@ section#comments {
   padding: 20px;
   border: 1px solid #fff;
   &:hover {
-    border-top: 1px solid #bfa5eb;
-    border-right: 1px solid #bfa5eb;
-    border-bottom: 1px solid #bfa5eb;
-    border-left: 1px solid #fff;
+    border: 1px solid #bfa5eb;
     -webkit-box-shadow: 4px 4px 4px 0px rgba(222, 221, 218, 1);
     -moz-box-shadow:    4px 4px 4px 0px rgba(222, 221, 218, 1);
     box-shadow:         4px 4px 4px 0px rgba(222, 221, 218, 1);

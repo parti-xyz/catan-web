@@ -9,7 +9,7 @@
 export PARTI_ADMIN_PASSWORD="12345678"
 ```
 
-각 링크/톡/투표에 대해 마지막 댓글이 입력된 시간을 마이그레이션 합니다.
+각 링크/톡/투표에 대해 마지막 수다가 입력된 시간을 마이그레이션 합니다.
 현존하는 모든 빠띠의 메이커를 마이그레이션 합니다.
 
 ### 0.x --> 1.0
@@ -114,7 +114,7 @@ http://parti.dev/kill_me
 
 ## 데이터 관리
 
-### 아래를 rails console에서 수행하면 지워진 글의 댓글을 삭제합니다
+### 아래를 rails console에서 수행하면 지워진 글의 수다를 삭제합니다
 
 Comment.all.each { |c| c.destroy if c.post.blank? }
 

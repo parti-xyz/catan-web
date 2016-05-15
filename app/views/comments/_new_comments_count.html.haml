@@ -1,6 +1,8 @@
 #new-comments{data: {action: 'parti-polling', 'polling-url': new_comments_count_url, 'polling-interval': 30000}}
-  새로 올라온 댓글이
-  %span.text-primary +
-  %span.new-comments__count>
-  개 있습니다.
-  = link_to '새로고침', @list_url || request.original_url
+  = link_to (@list_url || request.original_url) do
+    새로 올라온 수다가
+    %span.text-primary +
+    %span.new-comments__count>
+    개 있습니다. 새로 고치려면
+    %b 여기
+    를 누르세요.
