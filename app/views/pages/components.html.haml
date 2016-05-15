@@ -1,6 +1,27 @@
 %section#components
   %section#colors
     .container
+      %h2.page-header Icons
+      %div{ style: 'font-size: 50px;' }
+        %i.icon-bell
+        %i.icon-best
+        %i.icon-clock
+        %i.icon-email
+        %i.icon-heart
+        %i.icon-link
+        %i.icon-logout
+        %i.icon-member
+        %i.icon-oppose
+        %i.icon-password
+        %i.icon-pencil_edit
+        %i.icon-recommend
+        %i.icon-search
+        %i.icon-speechballoon
+        %i.icon-talk
+        %i.icon-trash
+        %i.icon-vote
+        %i.icon-vote2
+
       %h2.page-header Colors
       .row
         .col-xs-2.col-sm-1.color-brand-primary
@@ -87,7 +108,7 @@
         %a.btn.btn-ghost.btn-danger danger
         %a.btn.btn-ghost.btn-white white
 
-      %h3 Like
+      %h3 Like Buttons
       %div
         = render 'upvotes/upvote', comment: Comment.last
         = render 'upvotes/upvote', comment: Comment.second, unsigned: true

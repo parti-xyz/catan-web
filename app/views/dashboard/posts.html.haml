@@ -4,6 +4,11 @@
       - unless is_mobile?
         = render 'aside'
       .col-xs-9
+        %div{ style: 'font-size: 40px;' }
+          .btn.btn-lg.btn-primary.btn-shadow
+            %i.icon.icon-heart
+            %i.fa.fa-heart
+            +999
         = render 'posts/new_form', issue: Issue::OF_ALL
         - if @posts.first.present?
           = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comment.id)
