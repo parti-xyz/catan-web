@@ -20,5 +20,5 @@
         .article__body__link-container
           - if @article.link_source.present? and !@article.hidden?
             = link_to @article.link, class: 'text-primary', target: '_blank' do
-              = image_tag 'icon_link.png'
+              %i.icon-article
               #{truncate @article.link, length: 50}
