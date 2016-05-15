@@ -87,6 +87,11 @@
         %a.btn.btn-ghost.btn-danger danger
         %a.btn.btn-ghost.btn-white white
 
+      %h3 Like
+      %div
+        = render 'upvotes/upvote', comment: Comment.last
+        = render 'upvotes/upvote', comment: Comment.second, unsigned: true
+
   %section#pagination
     .container
       %h2.page-header Pagination

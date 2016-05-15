@@ -312,6 +312,38 @@
   }
 }
 
+.upvote-btn {
+  white-space: nowrap;
+  display: inline-block;
+  width: 50px;
+  a {
+    background-size: cover;
+    background-position: center;
+    width: 17px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: text-top;
+  }
+  &--unsigned, &--upvoted {
+    color: $brand-primary;
+    a {
+      background-image: image_url('icon_heart_primary.png');
+    }
+    a:hover {
+      background-image: image_url('icon_heart_primary_dark.png');
+    }
+  }
+  &--not-yet {
+    color: $text-muted;
+    a {
+      background-image: image_url('icon_heart_gray_light.png');
+    }
+    a:hover {
+      background-image: image_url('icon_heart_gray.png');
+    }
+  }
+}
+
 /* inline editor form */
 .form-widget-container {
   display: none;

@@ -1,13 +1,16 @@
-%span.upvote-button{class: "#{dom_id(comment)}-upvote"}
-  - if !user_signed_in?
-    = link_to '#', data: { toggle: 'parti-login-overlay', label: '<i class="fa fa-heart">', 'after-login': h({action: :comment_upvote, id: comment.id}.to_json) }, class: 'btn btn-default upvote-button--unsigned' do
-      %i.fa.fa-heart-o
-      = comment.upvotes.count
+%span.upvote-btn{class: "#{dom_id(comment)}-upvote"}
+  - if !user_signed_in? or local_assigns[:unsigned]
+    %span.upvote-btn--unsigned
+      = link_to ' ', '#', data: { toggle: 'parti-login-overlay', label: '<i class="fa fa-heart">', 'after-login': h({action: :comment_upvote, id: comment.id}.to_json) }
+      - if comment.upvotes.count > 0
+        = comment.upvotes.count
   - elsif comment.upvoted_by? current_user
-    = link_to cancel_comment_upvotes_path(comment), method: :delete, remote: true, class: 'btn btn-default upvote-button--upvoted' do
-      %i.fa.fa-heart
-      = comment.upvotes.count
+    %span.upvote-btn--upvoted
+      = link_to ' ', cancel_comment_upvotes_path(comment), method: :delete, remote: true
+      - if comment.upvotes.count > 0
+        = comment.upvotes.count
   - else
-    = link_to comment_upvotes_path(comment), method: :post, remote: true, class: 'btn btn-default upvote-button--not-yet' do
-      %i.fa.fa-heart-o
-      = comment.upvotes.count
+    %span.upvote-btn--not-yet
+      = link_to ' ', comment_upvotes_path(comment), method: :post, remote: true
+      - if comment.upvotes.count > 0
+        = comment.upvotes.count
