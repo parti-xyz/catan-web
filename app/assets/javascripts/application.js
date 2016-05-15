@@ -483,7 +483,7 @@ var parti_prepare_post_modal = function($base) {
   }
   var target = '#post-modal'
   var $target = $(target);
-  var container = target + ' .post__partial-content';
+  var container = target + ' .post-modal__partial-content';
 
   var nickname = '';
   var mention_form_control = '';

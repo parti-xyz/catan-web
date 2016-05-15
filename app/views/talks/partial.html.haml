@@ -1,17 +1,17 @@
-.modal__top
-  .modal__info
+.post-modal__top
+  .post-modal__info
     = link_to issue_home_path(@talk.issue) do
       = image_tag @talk.issue.logo.xs.url, class: 'circle-30 img-circle'
       %span.text-primary= @talk.issue.title
-  %button.modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
+  %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
     = image_tag 'icon_close.png'
-.modal__content
+.post-modal__content
   %h2.text-center= @talk.title
   - if @talk.has_presentation?
-    .modal__content--first
+    .post-modal__content--first
       .profile= byline @talk.comments.first.user
       %p= smart_format(h(@talk.comments.first.body))
   = render 'posts/post_header', post: @talk.acting_as
 
-.modal__comment
+.post-modal__comment
   = render 'comments/comments_in_post_modal', postable: @talk, style: :talk

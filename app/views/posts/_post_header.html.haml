@@ -1,4 +1,4 @@
-.post__meta
+.post-modal__meta
   %span
     - if can? :update, post.specific
       = link_to '수정', [:edit, post.specific]
@@ -7,6 +7,6 @@
     - if local_assigns[:additional_buttons_partial].present?
       = render additional_buttons_partial, local_assigns
 
-.post__share
+.post-modal__share
   = render 'posts/share', post: post
 
