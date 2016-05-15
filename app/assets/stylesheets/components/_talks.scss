@@ -67,7 +67,8 @@ section#talks {
   }
 }
 
-.talk-inline {
+.talk-line {
+  cursor: pointer;
   .user-image {
     width: 20px;
     height: 20px;

@@ -89,6 +89,9 @@ section#comments {
     color: #777;
     font-size: 15px;
     word-break: break-all;
+    &--talk {
+      margin-top: 10px;
+    }
   }
   &__upvotes {
     color: #555;
@@ -99,6 +102,12 @@ section#comments {
     }
     .fa-heart {
       color: $brand-primary;
+    }
+  }
+  &__footer {
+    &--talk, &--article {
+      padding-top: 20px;
+      border-top: 1px solid #d2d2d2;
     }
   }
 }

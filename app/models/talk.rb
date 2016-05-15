@@ -14,6 +14,11 @@ class Talk < ActiveRecord::Base
     comments.any? and comments.first.user == user
   end
 
+  def is_presentation?(comment)
+    return false unless has_presentation?
+    comment == comments.first
+  end
+
   def commenters
     comments.map(&:user).uniq.reject { |u| u == self.user }
   end

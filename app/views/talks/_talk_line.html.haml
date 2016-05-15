@@ -1,0 +1,35 @@
+- talk = talk_line
+- post = talk.acting_as
+- issue = post.issue
+.talk-line.post-line[post]
+  - if local_assigns[:show_issue]
+    .talk-line__issue.post-line__issue
+      = link_to issue_home_path(issue) do
+        = image_tag issue.logo.xs.url
+        %span.text-primary= issue.title
+
+  %h4.talk-line__title.post-line__title{data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }}
+    = talk.title
+  - if talk.has_presentation?
+    - comment = talk.comments.first
+    .media
+      .media-body
+        .talk-comment-body{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }}= smart_format(comment.body)
+
+        - unless local_assigns[:hide_user]
+          .talk-comment-info
+            = link_to user_gallery_path(comment.user) do
+              = image_tag comment.user.image.xs.url, class: 'img-circle user-image'
+            = link_to user_gallery_path(comment.user) do
+              %span.nickname= comment.user.nickname
+            - if comment.mentionable?(current_user)
+              %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+                = image_tag 'icon_mention.png'
+
+        - unless local_assigns[:hide_upvote]
+          .talk-comment-upvote.visible-xs
+            = render 'upvotes/upvote', comment: comment
+
+      - unless local_assigns[:hide_upvote]
+        .media-right.hidden-xs
+          = render 'upvotes/upvote', comment: comment

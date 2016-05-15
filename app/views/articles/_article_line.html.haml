@@ -1,0 +1,17 @@
+- article = article_line
+- post = article.acting_as
+- issue = post.issue
+.article-line.post-line[post]{data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }}
+  - if local_assigns[:show_issue]
+    .article-line__issue.post-line__issue
+      = link_to issue_home_path(issue) do
+        = image_tag issue.logo.xs.url
+        %span.text-primary= issue.title
+  %h4.article-line__title.post-line__title= screenable_article_title(article)
+  .media
+    .media-body
+      = excerpt(article.body)
+    - if (article.has_image?)
+      .media-right
+        .thumb{style: "background-image: url(#{article.image.md.url})"}
+

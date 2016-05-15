@@ -1,11 +1,12 @@
 - comments.each do |comment|
+  - specific = comment.post.specific
   .comment{class: dom_id(comment), data: { 'parti-comment-style': 'in-list' }}
     .clearfix
       = link_to user_gallery_path(comment.user), class: 'comment__link pull-left'  do
         = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle border-2-primary'
         .nickname= comment.user.nickname
       - if comment.mentionable?(current_user)
-        %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+        %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
           = image_tag 'icon_mention.png'
 
       .comment__btn.pull-left
@@ -17,10 +18,17 @@
       .comment__date.pull-right.date-wrapper
         = image_tag 'icon_time.png'
         %span= date_f comment.created_at
-    .comment__body
-      %p
-        = smart_format(comment.body)
-    .comment__upvotes
-      = render 'upvotes/upvote', comment: comment
-    .comment__footer
-      = render customize_partial_path(comment.post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_as_footnote" }), show_issue: true
+    - if specific.respond_to?(:is_presentation?) and specific.is_presentation?(comment)
+      .comment__body.comment__body--talk
+        = render customize_partial_path(specific, 'talk_line'), show_issue: true, hide_user: true, hide_upvote: true
+      .comment__upvotes
+        = render 'upvotes/upvote', comment: comment
+    - else
+      .comment__body
+        %p
+          = smart_format(comment.body)
+      .comment__upvotes
+        = render 'upvotes/upvote', comment: comment
+      .comment__footer{class: "comment__footer--#{specific.class.to_s.underscore}"}
+        = render customize_partial_path(specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), show_issue: true
+

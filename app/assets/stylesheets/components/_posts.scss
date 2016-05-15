@@ -39,7 +39,7 @@ section#posts {
     padding-top: 5px;
     padding-bottom: 20px;
     word-break: break-all;
-    .post-inline__title {
+    .post-line__title {
       margin-bottom: 10px;
     }
   }
@@ -58,7 +58,7 @@ section#posts {
   }
 }
 
-.post-inline {
+.post-line {
   padding: 0;
   position: relative;
   border: none;
@@ -69,15 +69,24 @@ section#posts {
     color: #333333;
     line-height: 1.4em;
   }
+  &__issue {
+    font-size: $font-size-small;
+    font-weight: bold;
+    margin-bottom: 10px;
+    img {
+      border-radius: 4px;
+      width: 20px;
+      height: 20px;
+    }
+    span {
+      vertical-align: bottom;
+    }
+  }
   &__title {
     margin-top: 0;
     margin-bottom: 10px;
     color: $gray-base;
     font-weight: bold;
-  }
-  &--article,
-  &--talk {
-    cursor: pointer;
   }
   .media {
     margin-top: 0;
@@ -144,7 +153,7 @@ section#posts {
       }
     }
   }
-  .post-inline {
+  .post-line {
     &__title {
       font-size: $font-size-base;
     }

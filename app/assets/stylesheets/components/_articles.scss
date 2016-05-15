@@ -156,6 +156,10 @@ section#articles {
   }
 }
 
+.article-line {
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .article-card {
     .caption {
