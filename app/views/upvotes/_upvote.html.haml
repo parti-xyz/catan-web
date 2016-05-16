@@ -4,6 +4,8 @@
       %i.icon-heart
       - if comment.upvotes.count > 0
         = comment.upvotes.count
+      - else
+        좋아요
   - elsif comment.upvoted_by? current_user
     = link_to cancel_comment_upvotes_path(comment), method: :delete, remote: true, class: 'btn btn-primary btn-upvote' do
       %i.icon-heart
@@ -13,3 +15,5 @@
       %i.icon-heart
       - if comment.upvotes.count > 0
         = comment.upvotes.count
+      - else
+        좋아요

@@ -28,17 +28,8 @@ section#comments {
     float: none;
     margin-left: 0;
   }
-  &__upvotes {
-    float: right;
-    color: #555;
-    font-weight: bold;
-    margin-bottom: 15px;
-    .fa-heart-o  {
-      color: #aaaaaf;
-    }
-    .fa-heart {
-      color: $brand-primary;
-    }
+  .upvote {
+    margin-bottom: 2px;
   }
   @media (max-width: 768px) {
     .body {
@@ -119,5 +110,11 @@ section#comments {
   }
   a {
     color: #777;
+  }
+}
+
+@media (max-width: 768px) {
+  .comment-line {
+    margin-top: 10px;
   }
 }

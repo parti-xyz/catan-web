@@ -93,6 +93,12 @@ section#talks {
   .talk-comment-body {
     color: $text-muted;
   }
+  .talk-comment-info {
+    margin-bottom: 10px;
+  }
+  .talk-comment-upvote {
+    margin-bottom: 2px;
+  }
   .comment__mention {
     float: none;
     margin-left: 0;

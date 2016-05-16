@@ -167,4 +167,12 @@
 
 .btn-upvote {
   min-width: 75px;
+  @media (max-width: $screen-xs-max) {
+    width: 66px;
+    font-size: $font-size-small;
+    padding: 5px;
+  }
 }
+
+
+
