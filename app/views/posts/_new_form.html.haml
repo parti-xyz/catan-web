@@ -42,7 +42,7 @@
         = text_area_tag :comment_body, '', placeholder: '이 링크에 대해 어떻게 생각하시나요?', class: 'form-control', data: { ride: 'parti-autoresize', 'rule-required': true}
       .form-group.clearfix
         .pull-right
-          = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border'
+          = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
         .pull-right
           %a.btn.btn-default.btn-border{href: '#', data: {'hide-target': "#article-form-widget", 'inactive-target': '#editors-tab.editors-tab a[data-action=parti-switch]', action: "parti-hide", type: "button", 'disabled-typeahead-validation': 'true'}} 취소
 
@@ -63,7 +63,7 @@
         = text_area_tag :comment_body, '', placeholder: '이 톡 주제에 대해 어떻게 생각하시나요?', class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
       .form-group.clearfix
         .pull-right
-          = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border'
+          = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
         .pull-right
           %a.btn.btn-default.btn-border{href: '#', data: {'hide-target': "#talk-form-widget", 'inactive-target': '#editors-tab.editors-tab a[data-action=parti-switch]', action: "parti-hide", type: "button", 'disabled-typeahead-validation': 'true'}} 취소
 

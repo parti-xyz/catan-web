@@ -112,6 +112,22 @@ export POSTMARKER_API_KEY="키값"
 http://parti.dev/kill_me
 ```
 
+## 빠띠 테스트서버 관리
+
+주의 : 아래 관리 방법은 parti.xyz에서 테스트서버를 관리하는 팁입니다.
+
+### 실서버 이미지를 테스트서버로 이관하기
+
+omurice에서 실행합니다
+
+```
+$ rm -rf /home/deploy/test/files/uploads
+
+$ s3cmd sync s3://catan-file/uploads /home/deploy/test/files -c ~/.s3cfg.production
+
+$ s3cmd sync /home/deploy/test/files/uploads/ s3://catan-file-dev/uploads/
+```
+
 ## 데이터 관리
 
 ### 아래를 rails console에서 수행하면 지워진 글의 수다를 삭제합니다
