@@ -11,6 +11,10 @@ section#posts {
     padding: 0;
   }
 
+  &__title {
+    text-align: center;
+  }
+
   &__share {
     margin-top: 10px;
     .share-box {
@@ -276,6 +280,17 @@ section#posts {
     .thumb {
       width: 90px;
       height: 60px;
+    }
+  }
+
+  .post-modal {
+    &__content {
+      .opinion__title {
+        font-size: 24px;
+      }
+    }
+    &__title {
+      font-size: 24px;
     }
   }
 }

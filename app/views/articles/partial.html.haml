@@ -7,7 +7,7 @@
     = image_tag 'icon_close.png'
 
 .post-modal__content
-  %h2.text-center= screenable_article_title(@article)
+  %h2.post-modal__title= screenable_article_title(@article)
   = render 'body'
   = render 'posts/post_header', post: @article.acting_as
 
