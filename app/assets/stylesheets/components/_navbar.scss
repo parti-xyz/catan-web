@@ -85,15 +85,19 @@
     &.user-notice {
       width: 45px;
       height: 45px;
-      padding-top: 11px;
+      padding-top: 7px;
       margin-right: 10px;
       text-align: center;
+      font-size: 20px;
 
-      &.active {
-        background-color: $brand-primary;
-        color: #fff;
-        .icon-bell:before {
-          font-weight: bold;
+      .icon-bell-solid {
+        color: $brand-danger;
+      }
+      .fa-stack {
+        top: -5px;
+        font-size: 20px;
+        .icon-bell {
+          color: $gray;
         }
       }
     }
