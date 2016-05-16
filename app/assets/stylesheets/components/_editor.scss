@@ -32,6 +32,9 @@
 }
 
 @media (max-width: 768px) {
+  .editors-panel {
+    display: none;
+  }
   .editors-tab {
     .btn-group.btn-group-justified {
       .btn {
