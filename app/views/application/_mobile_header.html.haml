@@ -13,7 +13,9 @@
       .mobile-list__messages
         = link_to messages_path do
           - if current_user.unread_messages_count > 0
-            %i.icon-bell-solid
+            %span.fa-stack
+              %i.icon-bell-solid.fa-stack-1x
+              %i.icon-dot-corner.fa-stack-1x
           - else
             %i.icon-bell-solid
     %ul.mobile-list__menu.list-unstyled
