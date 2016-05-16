@@ -49,4 +49,11 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
     refute assigns(:issue).persisted?
   end
+
+  test '메이커넣기' do
+    sign_in(users(:admin))
+    put issue_path(issues(:issue1), issue: { makers_nickname: 'nick1' })
+
+    assert_equal users(:one), issues(:issue1).reload.makers.first.user
+  end
 end

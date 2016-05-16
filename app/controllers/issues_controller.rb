@@ -50,6 +50,13 @@ class IssuesController < ApplicationController
 
   def update
     @issue.assign_attributes(issue_params)
+    if @issue.makers_nickname.present?
+      @issue.makers.destroy_all
+      @issue.makers_nickname.split(",").map(&:strip).each do |nickname|
+        user = User.find_by(nickname: nickname)
+        @issue.makers.build(user: user) if user.present?
+      end
+    end
     if @issue.save
       redirect_to @issue
     else
@@ -87,7 +94,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname)
   end
 
   def prepare_issue_meta_tags

@@ -67,7 +67,11 @@ class Issue < ActiveRecord::Base
     end
   end
   has_many :watched_users, through: :watches, source: :user
-  has_many :makers
+  has_many :makers do
+    def merge_nickname
+      self.map { |m| m.user.nickname }.join(',')
+    end
+  end
 
   # validations
   validates :title, presence: true, uniqueness: { case_sensitive: false }
@@ -83,6 +87,7 @@ class Issue < ActiveRecord::Base
   # fields
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
+  attr_accessor :makers_nickname
 
   # callbacks
   before_save :downcase_slug

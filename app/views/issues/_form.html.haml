@@ -36,12 +36,20 @@
       = f.file_field :cover, class: 'form-control'
 
     - if current_user.admin?
+      %hr
+      %h3 운영
+
       .form-group
         = f.label :basic
         .checkbox
           %label
             = f.check_box :basic
             회원들이 수다를 작성할 때, 구독 여부와 관계없이 추천됩니다.
+
+      .form-group{class: ('has-error' if has_error_attr?(@issue, :makers))}
+        = f.label :makers
+        = f.text_field :makers_nickname, value: @issue.makers.merge_nickname, class: 'form-control'
+        %p.help-block 빠띠메이커의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을비워 놓으면 빠띠메이커 목록이 수정되지 않고 현재 그대로 보존됩니다.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg'
