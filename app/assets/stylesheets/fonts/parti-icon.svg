@@ -45,6 +45,8 @@
 <glyph glyph-name="mention" unicode="&#xe812;" d="M62 314l463 446v-287h223l197-219v-166l-88 80v48l-151 168h-269v159l-249-229 249-248v164h309l199-181v-122l-236 214h-184v-291z" horiz-adv-x="1000" />
 
 <glyph glyph-name="bell" unicode="&#xe813;" d="M499-115c-49 0-88 38-88 86h-296v184l161 485h179v106h93v-198h-206l-137-411v-73h590v75l-135 406h-75v95h144l158-485v-184h-300c0-48-39-86-88-86z" horiz-adv-x="1000" />
+
+<glyph glyph-name="dot-corner" unicode="&#xe814;" d="M779 784c84 0 153-69 153-152s-69-153-153-153-152 69-152 153 68 152 152 152z" horiz-adv-x="1000" />
 </font>
 </defs>
 </svg>

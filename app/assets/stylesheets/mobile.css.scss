@@ -86,11 +86,11 @@
       margin-top: 10px;
     }
   }
-  .mobile_bell {
-    width: 43px;
-    height: 43px;
-    display: block;
-    margin: 10px auto;
+  &__messages {
+    font-size: 24px;
+    i.icon-bell-solid {
+      color: #fff;
+    }
   }
   &__menu {
     padding-left: 40px;

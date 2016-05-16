@@ -16,8 +16,8 @@
         = link_to messages_path, class: "navbar-sign__in user-notice" do
           - if current_user.unread_messages_count > 0
             %span.fa-stack
-              %i.icon-bell-solid.fa-stack-1x
               %i.icon-bell.fa-stack-1x
+              %i.icon-dot-corner.fa-stack-1x
           - else
             %i.icon-bell
 

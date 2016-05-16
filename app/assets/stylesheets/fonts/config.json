@@ -285,6 +285,20 @@
       "search": [
         "bell"
       ]
+    },
+    {
+      "uid": "89b5fcd2e5a81c7a158aa3d592609d7e",
+      "css": "dot-corner",
+      "code": 59412,
+      "src": "custom_icons",
+      "selected": true,
+      "svg": {
+        "path": "M779.2 66.2C863.1 66.2 931.6 134.7 931.6 218.5S863.1 370.9 779.2 370.9 626.9 302.4 626.9 218.5 695.4 66.2 779.2 66.2Z",
+        "width": 1000
+      },
+      "search": [
+        "dot-corner"
+      ]
     }
   ]
 }

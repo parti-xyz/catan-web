@@ -10,11 +10,12 @@
   - if user_signed_in?
     .mobile-list__profile
       = byline current_user
-      = link_to messages_path do
-        - if current_user.unread_messages_count > 0
-          = image_tag 'icon_mobile_bell_dot.png', class: 'mobile_bell'
-        - else
-          = image_tag 'icon_mobile_bell.png', class: 'mobile_bell'
+      .mobile-list__messages
+        = link_to messages_path do
+          - if current_user.unread_messages_count > 0
+            %i.icon-bell-solid
+          - else
+            %i.icon-bell-solid
     %ul.mobile-list__menu.list-unstyled
       %li= link_to '홈', root_path
       %li= link_to '전체 빠띠', issues_path
