@@ -1,6 +1,7 @@
 #new-comments{data: {action: 'parti-polling', 'polling-url': new_comments_count_url, 'polling-interval': 30000}}
   = link_to (@list_url || request.original_url) do
-    새로운 수다
-    %span.text-primary +
-    %span.new-comments__count>
-    개 보기
+    .post-card-with-comments
+      새로운 수다
+      %span.text-primary +
+      %span.new-comments__count>
+      개 보기
