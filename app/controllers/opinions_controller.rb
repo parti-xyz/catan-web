@@ -35,7 +35,7 @@ class OpinionsController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @opinion.issue
-      @opinions = @issue.opinions.recent.page 1
+      opinions_page
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_opinions_path(@issue)
       @paginate_params = {controller: 'issues', :action => 'slug_opinions', slug: @issue.slug, id: nil}

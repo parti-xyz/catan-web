@@ -42,7 +42,7 @@ class TalksController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @talk.issue
-      @talks = @issue.talks.recent.page 1
+      talks_page
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_talks_path(@issue)
       @paginate_params = {controller: 'issues', :action => 'slug_talks', slug: @issue.slug, id: nil}
