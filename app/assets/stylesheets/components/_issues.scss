@@ -524,6 +524,28 @@
 }
 
 @media (max-width: 768px) {
+  .parti-watch-recommend--header {
+    padding: 20px;
+  }
+  .parti-watch-recommend--issues {
+    padding-top: 150px;
+  }
+  .parti-watch-recommend--modal {
+    h2 {
+      font-size: $font-size-large;
+    }
+    p {
+      font-size: $font-size-base;
+    }
+  }
+  .parti-watch-recommend--header{
+    #btn-continue {
+      float: none;
+    }
+    h2 {
+      display: none;
+    }
+  }
   .parti-header-section {
     height: auto;
     padding-top: 20px;
