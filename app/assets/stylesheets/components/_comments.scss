@@ -121,4 +121,11 @@ section#comments {
   .comment-line {
     margin-top: 10px;
   }
+
+  #new-comments {
+    .post-card-with-comments {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
