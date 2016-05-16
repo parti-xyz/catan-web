@@ -11,6 +11,26 @@
   }
 }
 
+.editors-panel {
+  margin-bottom: 25px;
+
+  .media {
+    padding-bottom: 4px;
+    .media-body {
+      h3 {
+        line-height: 25px;
+      }
+    }
+  }
+  .form-widget-container {
+    margin-top: 3px;
+  }
+
+  .editor-btn {
+    width: 225px;
+  }
+}
+
 @media (max-width: 768px) {
   .editors-tab {
     .btn-group.btn-group-justified {

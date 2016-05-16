@@ -1,0 +1,24 @@
+- issue ||= Issue::OF_ALL
+- if user_signed_in?
+  #article-form-widget.form-widget-container.bg-line
+    = form_for Article.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-form-widget form input[type=submit]' } } do |f|
+      = hidden_field_tag :back_url, @list_url || request.original_url
+      - if !issue.is_all?
+        = f.hidden_field :issue_id, value: issue.id
+      - else
+        .form-group
+          = f.select :issue_id, nil, {prompt: '빠띠를 선택해 주세요.'}, {class: 'form-control', style: 'width: 99%', data: { 'rule-required': true, 'action': 'parti-select-parti'}} do
+            = grouped_options_for_select(editable_issues_continents(current_user))
+
+      .form-group
+        = f.text_field :link, placeholder: '링크를 입력해주세요.', class: 'form-control', data: {'rule-required': true}
+      %hr
+      .form-group.textarea-box
+        = image_tag current_user.image.xs.url, class: 'img-circle circle-50 border-2-primary'
+        = image_tag 'icon_tooltip_left.png', class: 'icon-tooltip'
+        = text_area_tag :comment_body, '', placeholder: '이 링크에 대해 어떻게 생각하시나요?', class: 'form-control', data: { ride: 'parti-autoresize', 'rule-required': true}
+      .form-group.clearfix
+        .pull-right
+          = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
+        .pull-right
+          %a.btn.btn-default.btn-border{href: '#', data: {'hide-target': "#article-form-widget", 'inactive-target': '#editors-tab.editors-tab a[data-action=parti-switch]', action: "parti-hide", type: "button", 'disabled-typeahead-validation': 'true'}} 취소

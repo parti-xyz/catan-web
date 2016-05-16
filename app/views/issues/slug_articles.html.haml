@@ -2,6 +2,23 @@
 
 %section#articles
   .container
+    .editors-panel
+      .media
+        .media-body
+          %h3
+            함께 나누고 싶은 링크를 올려보세요!
+            %small 더 나은 논의를 위해 링크를 올려 이야기를 나눠보세요.
+        .media-right
+          - if user_signed_in?
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#article-form-widget', focus: 'input#article_link'} do
+              %i.icon-article
+              링크걸기
+          - else
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+              %i.icon-article
+              링크걸기
+      - if user_signed_in?
+        = render 'articles/new_form', issue: @issue
     .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s}}
       - if @articles.empty?
         .bg-default

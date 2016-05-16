@@ -2,5 +2,22 @@
 
 %section#talks
   .container
+    .editors-panel
+      .media
+        .media-body
+          %h3
+            지금 톡을 열어보세요!
+            %small 함께 나누고 싶은 톡을 올려보세요.
+        .media-right
+          - if user_signed_in?
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#talk-form-widget', focus: 'input#talk_title'} do
+              %i.icon-talk
+              톡열기
+          - else
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+              %i.icon-talk
+              톡열기
+      - if user_signed_in?
+        = render 'talks/new_form', issue: @issue
     = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
     = paginate @talks, theme: 'catan', params: @paginate_params
