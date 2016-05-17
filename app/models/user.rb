@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   VALID_NICKNAME_REGEX = /\A[a-z0-9_]+\z/i
   validates :nickname,
     presence: true,
-    exclusion: { in: %w(parti app new edit index session login logout users admin all crew issue group) },
+    exclusion: { in: %w(app new edit index session login logout users admin all crew issue group) },
     format: { with: VALID_NICKNAME_REGEX },
     uniqueness: { case_sensitive: false },
     length: { maximum: 20 }
