@@ -11,12 +11,12 @@
       %li{class: ('active' unless disagree_active) }
         %a(href="#agree" role="tab" data-toggle="tab")
           %strong
-            찬성
+            찬성의견
           %span.comments--count.comments--count__agree<>= postable.comments.agreed.count
       %li{class: ('active' if disagree_active) }
         %a(href="#disagree" role="tab" data-toggle="tab")
           %strong
-            반대
+            반대의견
           %span.comments--count.comments--count__disagree<>= postable.comments.disagreed.count
   .tab-content
     .tab-pane#agree{class: ('active' if !user_signed_in? or (postable.agreed_by? current_user) or (user_signed_in? and !postable.voted_by current_user)) }
