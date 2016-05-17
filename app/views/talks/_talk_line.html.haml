@@ -19,7 +19,7 @@
         - unless local_assigns[:hide_user]
           .talk-comment-info
             = link_to user_gallery_path(comment.user) do
-              .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+              .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
               %span.nickname= comment.user.nickname
             - if comment.mentionable?(current_user)
               %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }

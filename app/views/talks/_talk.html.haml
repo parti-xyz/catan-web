@@ -3,7 +3,7 @@
   .media.talk-media
     .media-left
       = link_to user_gallery_path(post.user) do
-        .thumb.img-circle.circle-30{style: "background-image: url(#{current_user.image.sm.url});"}
+        .thumb.img-circle.circle-30{style: "background-image: url(#{post.user.image.sm.url});"}
     .media-body
       .date= date_f talk.created_at
       %h4.media-heading.title
