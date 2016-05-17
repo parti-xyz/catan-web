@@ -241,6 +241,9 @@ section#user-gallery{
 .profile-box {
   display: table-cell;
   vertical-align: middle;
+  .thumb {
+    margin: 0 auto;
+  }
 }
 .btn-profile {
   background: #171229;
