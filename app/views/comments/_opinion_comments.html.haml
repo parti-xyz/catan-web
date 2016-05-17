@@ -11,19 +11,19 @@
       %li{class: ('active' unless disagree_active) }
         %a(href="#agree" role="tab" data-toggle="tab")
           %strong
-            찬성수다
+            찬성
           %span.comments--count.comments--count__agree<>= postable.comments.agreed.count
       %li{class: ('active' if disagree_active) }
         %a(href="#disagree" role="tab" data-toggle="tab")
           %strong
-            반대수다
+            반대
           %span.comments--count.comments--count__disagree<>= postable.comments.disagreed.count
   .tab-content
     .tab-pane#agree{class: ('active' if !user_signed_in? or (postable.agreed_by? current_user) or (user_signed_in? and !postable.voted_by current_user)) }
       - if postable.comments.agreed.empty?
         .well
           %i.fa.fa-info-circle
-          찬성 수다가 없습니다.
+          찬성 의견이 없습니다.
       %ul.media-list.comment-list
         = render postable.comments.agreed.sequential, style: :media, mention_form_contorl: '#new_comment #comment_body'
       - if user_signed_in? and postable.agreed_by?(current_user)
@@ -32,7 +32,7 @@
       - if postable.comments.disagreed.empty?
         .well{style: 'background: #fff;'}
           %i.fa.fa-info-circle
-          반대 수다가 없습니다.
+          반대 의견이 없습니다.
       %ul.media-list.comment-list
         = render postable.comments.disagreed.sequential, mention_form_contorl: '#new_comment #comment_body'
       - if user_signed_in? and postable.disagreed_by?(current_user)
