@@ -1,3 +1,3 @@
-var $comment_in_post = parti_partial("<%= escape_javascript(render 'comment', comment: @comment) %>");
+var $comment_in_post = parti_origin_partial("<%= escape_javascript(render 'comment', comment: @comment) %>");
 
 $('.<%= dom_id(@comment) %>[data-parti-comment-style=in-post]').replaceWith($comment_in_post);

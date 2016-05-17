@@ -1,4 +1,5 @@
-#post-modal.modal{:role => "dialog", :tabindex => "-1"}
+#post-modal.modal{class: ('post-modal-permlink' if content_for?(:post_modal_content)) ,role: "dialog", tabindex: "-1", data: {"list-title": @list_title, "list-url": @list_url}}
   .modal-dialog{:role => "document"}
     .modal-content
       .modal-body.post-modal__partial-content
+        = yield :post_modal_content if content_for?(:post_modal_content)

@@ -1,6 +1,3 @@
 = render file: 'issues/slug_articles'
-#post-modal-permalink.modal.fade{role: "dialog", tabindex: "-1", data: {"list-title": @list_title, "list-url": @list_url}}
-  .modal-dialog{:role => "document"}
-    .modal-content
-      .modal-body.post-modal__partial-content
-        = render file: 'articles/partial'
+- content_for :post_modal_content do
+  = render file: 'articles/partial'

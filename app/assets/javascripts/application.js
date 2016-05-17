@@ -420,7 +420,7 @@ var parti_prepare = function($base) {
     var $elm = $(elm);
 
     var close_form = function(e) {
-      if($elm.has(e.target).length == 0) {
+      if($elm.attr('id') != $(e.target).parents('form').attr('id')) {
         var $control = $($elm.data('cancel-form-control'));
         $(document).off('click', close_form);
         $(document).off('parti-click', close_form);
@@ -434,7 +434,10 @@ var parti_prepare = function($base) {
   });
 
   //permalink post
-  $.parti_apply($base, '#post-modal-permalink', function(elm) {
+  $.parti_apply($base, '#post-modal', function(elm) {
+    if(!$(elm).hasClass('post-modal-permlink')) {
+      return;
+    }
     var list_url = $(elm).data("list-url");
     var list_title = $(elm).data("list-title");
     $(elm).on('hidden.bs.modal', function (e) {
