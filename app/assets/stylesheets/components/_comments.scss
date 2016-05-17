@@ -81,12 +81,6 @@ section#comments {
     color: #555;
     font-weight: bold;
     margin-bottom: 15px;
-    .fa-heart-o  {
-      color: #aaaaaf;
-    }
-    .fa-heart {
-      color: $brand-primary;
-    }
   }
   &__footer {
     &--talk, &--article {
