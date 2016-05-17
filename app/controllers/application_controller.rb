@@ -126,7 +126,7 @@ class ApplicationController < ActionController::Base
     @articles = @issue.articles.recent.previous_of_article(previous_last_article).limit(20)
     current_last_article = @articles.last
 
-    @is_last_page = (@issue.articles.empty? or @issue.articles.previous_of_article(current_last_article).empty?)
+    @is_last_page = (@issue.articles.empty? or @issue.articles.recent.previous_of_article(current_last_article).empty?)
   end
 
   def opinions_page
