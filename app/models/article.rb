@@ -8,7 +8,7 @@ class Article < ActiveRecord::Base
   validates :link, presence: true
   validates :link_source, presence: true
 
-  scope :recent, -> { order(created_at: :desc) }
+  scope :recent, -> { includes(:post).order('posts.last_commented_at desc') }
   scope :latest, -> { after(1.day.ago) }
   scope :visible, -> { where(hidden: false) }
   scope :previous_of_article, ->(article) { where('articles.created_at < ?', article.created_at) if article.present? }
