@@ -1,7 +1,8 @@
 %section#posts
   .container
     .row
-      = render 'dashboard/aside'
+      .hidden-xs
+        = render 'dashboard/aside'
       .col-xs-9
         %section#content-tab-section
           = render 'content_tabs'
