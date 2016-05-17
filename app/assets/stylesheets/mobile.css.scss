@@ -428,15 +428,17 @@ br.mobile {
 .comment-form__area {
   width: auto;
   float: none;
-  padding-left: 23%;
   img {
-    left: 18%;
-    width: 14px;
+    display: none;
   }
   .form-control {
     margin: 0;
   }
 }
+.comment-form__img {
+  display: none;
+}
+
 .comment-form__btn {
   padding: 10px 20px !important;
 }

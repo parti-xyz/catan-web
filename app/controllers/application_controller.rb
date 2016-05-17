@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_device_type
-    request.variant = :mobile if browser.device.mobile?
+    request.variant = :mobile if (browser.device.mobile? or browser.device.tablet?)
   end
 
   def articles_page
