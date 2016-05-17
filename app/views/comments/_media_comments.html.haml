@@ -8,7 +8,7 @@
         = hidden_field_tag :container, "##{dom_id(postable)}-comments ul.comment-list"
         = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count"
         = hidden_field_tag :body_control, "##{dom_id(postable)}-comments form #comment_body"
-        = image_tag current_user.image.xs.url, class: 'circle-50 img-circle comment-form__img'
+        .thumb.circle-50.img-circle.comment-form__img{style: "background-image: url(#{current_user.image.sm.url});"}
         .comment-form__area
           = image_tag 'icon_tooltip_left2.png'
           = f.text_area :body, class: 'form-control'

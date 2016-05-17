@@ -6,6 +6,7 @@
     = link_to user_gallery_url(comment.user), style: 'color: #999; text-decoration: none' do
       = image_tag comment.user.image.xs.url, width: '13', height: '13'
       %span{ style: 'color: #999;' }
+      .thumb.circle-30.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
         = comment.user.nickname
     = static_date_f comment.created_at
   %p{ style: 'margin-bottom: 0' }= strip_tags(comment.body)

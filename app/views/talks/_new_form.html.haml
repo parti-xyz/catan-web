@@ -12,7 +12,7 @@
         = f.text_field :title, placeholder: '톡 주제를 써주세요.', class: 'form-control', data: {'rule-required': true}
       %hr
       .form-group.textarea-box
-        = image_tag current_user.image.xs.url, class: 'img-circle circle-50 border-2-primary'
+        .thumb.img-circle.circle-50.border-2-primary{style: "background-image: url(#{current_user.image.sm.url});"}
         = image_tag 'icon_tooltip_left.png', class: 'icon-tooltip'
         = text_area_tag :comment_body, '', placeholder: '이 톡 주제에 대해 어떻게 생각하시나요?', class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
       .form-group.clearfix

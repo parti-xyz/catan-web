@@ -28,7 +28,7 @@
             - opinion.votes.with_choice(:agree).partial_included_with(current_user).each do |vote|
               = link_to user_gallery_path(vote.user), class: 'text-nowrap' do
                 - unless local_assigns[:hide_image]
-                  = image_tag vote.user.image.sm.url, { class: 'circle-30 img-circle', "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{vote.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
         .col-xs-6.text-left
           %div{ style: 'padding-bottom: 20px;' }
             = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
@@ -39,7 +39,7 @@
             - opinion.votes.with_choice(:disagree).partial_included_with(current_user).each do |vote|
               = link_to user_gallery_path(vote.user), class: 'text-nowrap' do
                 - unless local_assigns[:hide_image]
-                  = image_tag vote.user.image.sm.url, { class: 'circle-30 img-circle', "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{vote.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
 
   - else
     .vote__buttons.text-center

@@ -1,7 +1,7 @@
 %li.comment{class: dom_id(comment), data: { 'parti-comment-style': 'in-post' }}
   %span.comment__user
     = link_to user_gallery_path(comment.user) do
-      = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle'
+      .thumb.circle-30.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
       %span.text-primary= comment.user.nickname
     - if comment.mentionable?(current_user) and local_assigns[:mention_form_contorl]
       %a.text-primary{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_contorl } }

@@ -4,7 +4,7 @@
 %li.user-card
   .user-card__thumb
     = link_to user_gallery_path(user) do
-      .thumb.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+      .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
       %p= user.nickname
   .user-card__info
     .col-xs-4.border-none

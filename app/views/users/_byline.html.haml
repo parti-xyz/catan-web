@@ -1,6 +1,6 @@
 = link_to user_gallery_path(user), class: 'text-nowrap user-byline' do
   - unless local_assigns[:hide_image]
-    = image_tag user.image.sm.url, class: 'user-image img-circle'
+    .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
   - else
     %i.fa.fa-at>
   - unless local_assigns[:hide_nickname]

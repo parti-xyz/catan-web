@@ -3,7 +3,7 @@
   .media.talk-media
     .media-left
       = link_to user_gallery_path(post.user) do
-        = image_tag post.user.image.xs.url, class: 'circle-30 img-circle'
+        .thumb.img-circle.circle-30{style: "background-image: url(#{current_user.image.sm.url});"}
     .media-body
       .date= date_f talk.created_at
       %h4.media-heading.title
@@ -27,7 +27,7 @@
     .media.comment-media
       .media-left
         = link_to user_gallery_path(comment.user) do
-          = image_tag comment.user.image.xs.url, class: 'img-circle'
+          .thumb.img-circle.circle-20{style: "background-image: url(#{comment.user.image.sm.url});"}
       .media-body
         .comment-info
           %span.date= date_f comment.created_at

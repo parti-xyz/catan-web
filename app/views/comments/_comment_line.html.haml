@@ -2,7 +2,8 @@
   .media
     .media-left
       = link_to user_gallery_path(comment.user) do
-        = image_tag comment.user.image.xs.url, class: 'img-circle user-image'
+        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
+
     .media-body
       .info
         = link_to user_gallery_path(comment.user) do

@@ -3,7 +3,7 @@
   .comment{class: dom_id(comment), data: { 'parti-comment-style': 'in-list' }}
     .clearfix
       = link_to user_gallery_path(comment.user), class: 'comment__link pull-left'  do
-        = image_tag comment.user.image.xs.url, class: 'circle-30 img-circle border-2-primary'
+        .thumb.circle-30.img-circle.border-2-primary{style: "background-image: url(#{comment.user.image.sm.url});"}
         .nickname= comment.user.nickname
       - if comment.mentionable?(current_user)
         %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
