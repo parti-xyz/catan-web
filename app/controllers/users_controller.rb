@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     @votes = @user.votes.recent.previous_of_vote(previous_last_vote).limit(20)
     current_last_vote = @votes.last
 
-    @is_last_page = (@user.votes.empty? or @user.votes.previous_of_vote(previous_last_vote).empty?)
+    @is_last_page = (@user.votes.empty? or @user.votes.recent.previous_of_vote(current_last_vote).empty?)
 
     @posts = @votes.map(&:post).compact
     @opinions = @posts.map(&:specific).compact
