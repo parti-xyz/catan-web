@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160512071948) do
+ActiveRecord::Schema.define(version: 20160518064757) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -63,6 +63,22 @@ ActiveRecord::Schema.define(version: 20160512071948) do
   end
 
   add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at"
+
+  create_table "groups", force: :cascade do |t|
+    t.integer  "user_id",                   null: false
+    t.string   "title",                     null: false
+    t.string   "slug",                      null: false
+    t.text     "body"
+    t.string   "logo"
+    t.string   "cover"
+    t.datetime "deleted_at"
+    t.string   "active",     default: "on"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "groups", ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true
+  add_index "groups", ["title", "active"], name: "index_groups_on_title_and_active", unique: true
 
   create_table "issues", force: :cascade do |t|
     t.string   "title",                         null: false

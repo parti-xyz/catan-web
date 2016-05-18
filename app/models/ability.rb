@@ -14,7 +14,7 @@ class Ability
         Vote, Like, Upvote, Watch], user_id: user.id
       if user.admin?
         can :update, Article
-        can :manage, [Issue, Related]
+        can :manage, [Group, Issue, Related]
       end
     end
   end

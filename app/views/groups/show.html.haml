@@ -1,0 +1,5 @@
+%h2= @group.title
+
+- if can? :update, @group
+  = link_to [:edit, @group] do
+    edit
