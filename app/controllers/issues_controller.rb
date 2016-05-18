@@ -21,7 +21,7 @@ class IssuesController < ApplicationController
 
   def show
     @issue = Issue.find params[:id]
-    redirect_to view_context.issue_home_path(@issue)
+    redirect_to issue_home_path(@issue)
   end
 
   def slug_articles

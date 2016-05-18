@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   def create
     @group.user = current_user
     if @group.save
-      redirect_to @group
+      redirect_to group_home_path(@group)
     else
       render 'new'
     end
@@ -13,19 +13,19 @@ class GroupsController < ApplicationController
 
   def slug_show
     @slug = params[:slug]
-    if @slug.present?
-      @group = Group.find_by slug: @slug
-      if @group.present?
-        redirect_to @group and return
-      end
-    end
+    redirect_to root_path and return unless @slug.present?
 
-    redirect_to root_path
+    @group = Group.find_by slug: @slug
+    render_404 and return unless @group.present?
+  end
+
+  def show
+    redirect_to group_home_path(@group)
   end
 
   def update
     if @group.update_attributes(group_params)
-      redirect_to @group
+      redirect_to group_home_path(@group)
     else
       render 'edit'
     end

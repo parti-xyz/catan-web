@@ -1,5 +1,13 @@
 %section#group-parties
   .container
+    %h2.page-header.clearfix
+      #{@group.title}그룹 빠띠관리
+      %small
+        =link_to group_home_path(@group), class: 'btn btn-default btn-xs' do
+          #{@group.title} 그룹으로 돌아가기
+          %i.fa.fa-arrow-right
+
+
     .well
       %ul
         - @group.issues.each do |issue|
