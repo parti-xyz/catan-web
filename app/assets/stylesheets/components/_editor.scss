@@ -33,7 +33,13 @@
 
 @media (max-width: 768px) {
   .editors-panel {
-    display: none;
+    .media-right {
+      display: block;
+      padding-left: 0;
+      .editor-btn {
+        width: 100%;
+      }
+    }
   }
   .editors-tab {
     .btn-group.btn-group-justified {
