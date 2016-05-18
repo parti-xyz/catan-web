@@ -173,4 +173,12 @@ section#articles {
       }
     }
   }
+
+  .article-line {
+    cursor: pointer;
+    .thumb {
+      width: 90px;
+      height: 60px;
+    }
+  }
 }
