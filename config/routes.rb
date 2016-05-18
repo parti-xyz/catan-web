@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :groups do
     member do
       get :parties
+      delete :remove_parti
       post :add_parti
     end
     resources :watches do

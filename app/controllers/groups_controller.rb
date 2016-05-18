@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:show]
   load_and_authorize_resource
 
   def create
@@ -23,12 +23,6 @@ class GroupsController < ApplicationController
     redirect_to root_path
   end
 
-  def show
-  end
-
-  def edit
-  end
-
   def update
     if @group.update_attributes(group_params)
       redirect_to @group
@@ -37,10 +31,27 @@ class GroupsController < ApplicationController
     end
   end
 
+  def destroy
+    @group.destroy
+    redirect_to root_path
+  end
+
   def add_parti
-    @issue = Issue.find_by slug: params[:parti_slug]
-    @issue.group = @group
-    @issue.save
+    @issue = Issue.find_by slug: params[:issue_slug]
+    if @issue.present?
+      @issue.group = @group
+      @issue.save
+    end
+
+    redirect_to parties_group_path(@group)
+  end
+
+  def remove_parti
+    @issue = Issue.find_by id: params[:issue_id]
+    if @issue.present? and @group.issues.exists?(@issue.id)
+      @issue.group = nil
+      @issue.save
+    end
 
     redirect_to parties_group_path(@group)
   end

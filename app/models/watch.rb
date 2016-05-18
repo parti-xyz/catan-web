@@ -4,5 +4,5 @@ class Watch < ActiveRecord::Base
 
   validates :user, presence: true
   validates :watchable, presence: true
-  validates :user, uniqueness: {scope: [:watchable]}
+  validates :user, uniqueness: {scope: [:watchable_id, :watchable_type]}
 end

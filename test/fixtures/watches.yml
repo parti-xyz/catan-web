@@ -10,3 +10,6 @@ watch3:
 watch4:
   user: one
   watchable: issue1 (Issue)
+watch5:
+  user: two
+  watchable: group1 (Group)

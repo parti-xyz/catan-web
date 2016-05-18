@@ -2,6 +2,7 @@ class Issue < ActiveRecord::Base
   include Watchable
   include UniqueSoftDeletable
   acts_as_unique_paranoid
+
   TITLE_OF_ASK_PARTI = 'Ask Parti'
   SLUG_OF_ASK_PARTI = 'ask-parti'
   OF_ALL = Naught.build do |config|
@@ -63,12 +64,6 @@ class Issue < ActiveRecord::Base
   has_many :articles, through: :posts, source: :postable, source_type: Article
   has_many :opinions, through: :posts, source: :postable, source_type: Opinion
   has_many :talks, through: :posts, source: :postable, source_type: Talk
-  # has_many :watches do
-  #   def latest
-  #     after(1.day.ago)
-  #   end
-  # end
-  # has_many :watched_users, through: :watches, source: :user
   has_many :makers do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
@@ -81,7 +76,7 @@ class Issue < ActiveRecord::Base
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
-    exclusion: { in: %w(app new edit index session login logout users admin
+    exclusion: { in: %w(group app new edit index session login logout users admin
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false },
     length: { maximum: 100 }

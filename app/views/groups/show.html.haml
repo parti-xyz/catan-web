@@ -4,6 +4,8 @@
     %p= @group.body
     - if can? :update, @group
       = link_to '수정', [:edit, @group]
+    - if can? :destroy, @group
+      = link_to '삭제', @group, method: :delete
     %p 구독회원 #{@group.watches.count}
     - if @group.watched_by? current_user
       = link_to cancel_group_watches_path(@group), method: :delete do

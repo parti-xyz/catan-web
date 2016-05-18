@@ -141,13 +141,6 @@ $ s3cmd sync /home/deploy/test/files/uploads/ s3://catan-file-dev/uploads/
 
 Comment.all.each { |c| c.destroy if c.post.blank? }
 
-### 계정 이전
-
-```
-$ bundle exec rake transfer_user[{SOURCE_USER_NICKNAME},{TARGET_USER_NICKNAME}]
-$ vi log/{SOURCE_USER_NICKNAME}_{TARGET_USER_NICKNAME}_{DATETIME}.log
-```
-
 ### 크롤링
 
 실패한 크롤링
