@@ -25,6 +25,9 @@ class GroupsController < ApplicationController
     end
   end
 
+  def parties
+  end
+
   private
 
   def group_params

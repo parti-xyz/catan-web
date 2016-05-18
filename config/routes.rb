@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
 
-  resources :groups
+  resources :groups do
+    get :parties, on: :member
+  end
   resources :parties, as: :issues, controller: 'issues' do
     member do
       get :opinions
