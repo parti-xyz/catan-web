@@ -36,26 +36,6 @@ class GroupsController < ApplicationController
     redirect_to root_path
   end
 
-  def add_parti
-    @issue = Issue.find_by slug: params[:issue_slug]
-    if @issue.present?
-      @issue.group = @group
-      @issue.save
-    end
-
-    redirect_to parties_group_path(@group)
-  end
-
-  def remove_parti
-    @issue = Issue.find_by id: params[:issue_id]
-    if @issue.present? and @group.issues.exists?(@issue.id)
-      @issue.group = nil
-      @issue.save
-    end
-
-    redirect_to parties_group_path(@group)
-  end
-
   private
 
   def group_params

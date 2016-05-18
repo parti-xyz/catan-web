@@ -45,15 +45,13 @@ class GroupsTest < ActionDispatch::IntegrationTest
     refute assigns(:group).persisted?
   end
 
-  test '빠띠를 추가해고 빼요' do
+  test '그룹용 빠띠 만들기' do
     sign_in(users(:admin))
 
-    post add_parti_group_path(groups(:group1), issue_slug: issues(:issue1).slug)
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body', group_id: groups(:group1).id })
 
-    assert groups(:group1).reload.issues.exists?(issues(:issue1).id)
-
-    delete remove_parti_group_path(groups(:group1), issue_id: issues(:issue1))
-
-    refute groups(:group1).reload.issues.exists?(issues(:issue1).id)
+    assert assigns(:issue).persisted?
+    assert_equal 'title', assigns(:issue).title
+    assert_equal assigns(:issue), groups(:group1).reload.issues.first
   end
 end

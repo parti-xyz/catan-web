@@ -2,6 +2,7 @@ class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!, only: [:create, :update, :destroy]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
+  load_and_authorize_resource :group
   load_and_authorize_resource
 
   def index
@@ -39,7 +40,16 @@ class IssuesController < ApplicationController
     prepare_issue_meta_tags
   end
 
+  def new
+    authorize_group!
+  end
+
+  def edit
+    authorize_group!
+  end
+
   def create
+    authorize_group!
     @issue.makers.build(user: current_user)
     if !%w(all).include?(@issue.slug) and @issue.save
       redirect_to @issue
@@ -49,6 +59,7 @@ class IssuesController < ApplicationController
   end
 
   def update
+    authorize_group!
     @issue.assign_attributes(issue_params)
     if @issue.makers_nickname.present?
       @issue.makers.destroy_all
@@ -81,6 +92,12 @@ class IssuesController < ApplicationController
 
   private
 
+  def authorize_group!
+    if @group.present?
+      authorize! :manage, @group
+    end
+  end
+
   def fetch_issue_by_slug
     @issue = Issue.find_by slug: params[:slug]
     if @issue.blank?
@@ -94,7 +111,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname)
+    params.require(:issue).permit(:group_id, :title, :body, :logo, :cover, :slug, :basic, :makers_nickname)
   end
 
   def prepare_issue_meta_tags

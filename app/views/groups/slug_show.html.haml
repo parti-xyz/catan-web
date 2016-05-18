@@ -2,8 +2,8 @@
   .container
     %h2= @group.title
     %p= @group.body
-    - if current_user.present? and current_user.admin?
-      = link_to '빠띠관리', parties_group_path(@group)
+    - if can? :update, @group
+      = link_to '빠띠만들기', new_group_issue_path(@group)
     - if can? :update, @group
       = link_to '수정', [:edit, @group]
     - if can? :destroy, @group

@@ -14,11 +14,6 @@ Rails.application.routes.draw do
   end
 
   resources :groups do
-    member do
-      get :parties
-      delete :remove_parti
-      post :add_parti
-    end
     resources :watches do
       delete :cancel, on: :collection
     end
@@ -34,6 +29,7 @@ Rails.application.routes.draw do
       delete :cancel, on: :collection
     end
   end
+  get 'groups/:group_id/parties/new', to: 'issues#new', as: 'new_group_issue'
 
   resources :posts, only: [] do
     shallow do
