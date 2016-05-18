@@ -105,4 +105,16 @@ class Post < ActiveRecord::Base
   def self.hottest_count
     hottest.length
   end
+
+  def self.best_articles_in_issues(issues, count)
+    self.where(issue: issues).only_articles.hottest.limit(count)
+  end
+
+  def self.best_opinions_in_issues(issues, count)
+    self.where(issue: issues).only_opinions.hottest.limit(count)
+  end
+
+  def self.best_talks_in_issues(issues, count)
+    self.where(issue: issues).only_talks.hottest.limit(count)
+  end
 end

@@ -1,4 +1,5 @@
 class Issue < ActiveRecord::Base
+  include Watchable
   include UniqueSoftDeletable
   acts_as_unique_paranoid
   TITLE_OF_ASK_PARTI = 'Ask Parti'
@@ -54,6 +55,7 @@ class Issue < ActiveRecord::Base
   end.instance
 
   # relations
+  belongs_to :group
   has_many :relateds
   has_many :related_issues, through: :relateds, source: :target
   has_many :posts, dependent: :destroy
@@ -61,12 +63,12 @@ class Issue < ActiveRecord::Base
   has_many :articles, through: :posts, source: :postable, source_type: Article
   has_many :opinions, through: :posts, source: :postable, source_type: Opinion
   has_many :talks, through: :posts, source: :postable, source_type: Talk
-  has_many :watches do
-    def latest
-      after(1.day.ago)
-    end
-  end
-  has_many :watched_users, through: :watches, source: :user
+  # has_many :watches do
+  #   def latest
+  #     after(1.day.ago)
+  #   end
+  # end
+  # has_many :watched_users, through: :watches, source: :user
   has_many :makers do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')

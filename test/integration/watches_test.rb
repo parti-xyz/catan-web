@@ -8,7 +8,7 @@ class WatchesTest < ActionDispatch::IntegrationTest
     post issue_watches_path(issue_id: issues(:issue3).id)
 
     assert assigns(:watch).persisted?
-    assert_equal issues(:issue3), assigns(:watch).issue
+    assert_equal issues(:issue3), assigns(:watch).watchable
     assert_equal users(:one), assigns(:watch).user
   end
 

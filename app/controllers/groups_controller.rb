@@ -11,6 +11,18 @@ class GroupsController < ApplicationController
     end
   end
 
+  def slug_show
+    @slug = params[:slug]
+    if @slug.present?
+      @group = Group.find_by slug: @slug
+      if @group.present?
+        redirect_to @group and return
+      end
+    end
+
+    redirect_to root_path
+  end
+
   def show
   end
 
@@ -25,7 +37,12 @@ class GroupsController < ApplicationController
     end
   end
 
-  def parties
+  def add_parti
+    @issue = Issue.find_by slug: params[:parti_slug]
+    @issue.group = @group
+    @issue.save
+
+    redirect_to parties_group_path(@group)
   end
 
   private

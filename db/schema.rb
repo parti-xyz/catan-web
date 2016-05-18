@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518073032) do
+ActiveRecord::Schema.define(version: 20160518091649) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -65,16 +65,17 @@ ActiveRecord::Schema.define(version: 20160518073032) do
   add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at"
 
   create_table "groups", force: :cascade do |t|
-    t.integer  "user_id",                   null: false
-    t.string   "title",                     null: false
-    t.string   "slug",                      null: false
+    t.integer  "user_id",                      null: false
+    t.string   "title",                        null: false
+    t.string   "slug",                         null: false
     t.text     "body"
     t.string   "logo"
     t.string   "cover"
     t.datetime "deleted_at"
-    t.string   "active",     default: "on"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "active",        default: "on"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "watches_count"
   end
 
   add_index "groups", ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true
@@ -376,14 +377,15 @@ ActiveRecord::Schema.define(version: 20160518073032) do
   add_index "votes", ["user_id"], name: "index_votes_on_user_id"
 
   create_table "watches", force: :cascade do |t|
-    t.integer  "issue_id",   null: false
-    t.integer  "user_id",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "user_id",        null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "watchable_id",   null: false
+    t.string   "watchable_type", null: false
   end
 
-  add_index "watches", ["issue_id"], name: "index_watches_on_issue_id"
-  add_index "watches", ["user_id", "issue_id"], name: "index_watches_on_user_id_and_issue_id", unique: true
+  add_index "watches", ["user_id", "watchable_id", "watchable_type"], name: "index_watches_on_user_id_and_watchable_id_and_watchable_type", unique: true
   add_index "watches", ["user_id"], name: "index_watches_on_user_id"
+  add_index "watches", ["watchable_type", "watchable_id"], name: "index_watches_on_watchable_type_and_watchable_id"
 
 end

@@ -44,12 +44,13 @@ class User < ActiveRecord::Base
   has_many :upvotes
   has_many :votes
   has_many :watches
-  has_many :watched_issues, through: :watches, source: :issue
+  has_many :watched_issues, through: :watches, source: :watchable, source_type: Issue
   has_many :watched_posts, through: :watched_issues, source: :posts
   has_many :watched_articles, through: :watched_issues, source: :articles
   has_many :watched_opinions, through: :watched_issues, source: :opinions
   has_many :watched_talks, through: :watched_issues, source: :talks
   has_many :watched_comments, through: :watched_posts, source: :comments
+  has_many :watched_groups, through: :watches, source: :watchable, source_type: Group
   has_many :makers
 
   ## uploaders

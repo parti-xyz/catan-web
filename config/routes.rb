@@ -14,7 +14,13 @@ Rails.application.routes.draw do
   end
 
   resources :groups do
-    get :parties, on: :member
+    member do
+      get :parties
+      post :add_parti
+    end
+    resources :watches do
+      delete :cancel, on: :collection
+    end
   end
   resources :parties, as: :issues, controller: 'issues' do
     member do
@@ -55,10 +61,7 @@ Rails.application.routes.draw do
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
   get '/dashboard/new_comments_count', to: "dashboard#new_comments_count", as: 'new_dashboard_comments_count'
 
-  get '/i/:slug', to: redirect('/p/%{slug}')
-  get '/i/:slug/articles', to: redirect('/p/%{slug}/articles')
-  get '/i/:slug/opinions', to: redirect('/p/%{slug}/opinions')
-  get '/i/:slug/talks', to: redirect('/p/%{slug}/talks')
+  get '/g/:slug', to: "groups#slug_show", as: 'slug_group'
 
   get '/p/:slug', to: "issues#slug_articles", as: 'slug_issue'
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'

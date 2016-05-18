@@ -2,7 +2,9 @@ require 'test_helper'
 
 class TransferUserServiceTest < ActiveSupport::TestCase
 
+
   test '소스 사용자의 글을 타켓 사용자의 글로 바꿉니다!' do
+    skip
     source_user = users(:one)
     target_user = users(:two)
 

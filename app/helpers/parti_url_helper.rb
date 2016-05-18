@@ -1,4 +1,8 @@
 module PartiUrlHelper
+  def watchable_home_path(watchable)
+    self.send(:"slug_#{watchable.class.to_s.underscore}_path", watchable.slug)
+  end
+
   def issue_home_path(issue, options = {})
     options.update(slug: issue.slug)
     slug_issue_path(options)
