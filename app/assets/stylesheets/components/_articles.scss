@@ -151,6 +151,11 @@ section#articles {
 
 .article-line {
   cursor: pointer;
+  .thumb {
+    width: 150px;
+    height: 100px;
+    border-radius: $border-radius-base;
+  }
 }
 
 @media (max-width: 768px) {
