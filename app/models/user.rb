@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   has_many :watched_group_issues, through: :watched_groups, source: :issues
   has_many :watched_common_issues, through: :watches, source: :watchable, source_type: Issue
   has_many :makers
+  has_many :made_issues, through: :makers, source: :issue
 
   ## uploaders
   # mount
@@ -151,6 +152,10 @@ class User < ActiveRecord::Base
 
   def watched_issues
     watched_common_issues.union(watched_group_issues)
+  end
+
+  def watched_only_issues
+    watched_issues.where.not(id: makers.select(:issue_id))
   end
 
   def watched_posts

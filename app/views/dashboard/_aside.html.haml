@@ -4,6 +4,10 @@
   .aside_issue
     .aside_issue_btn
       = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
+    - if current_user.made_issues.any?
+      %h4.aside_title 내가 만드는 빠띠
+      %ul.list-unstyled
+        = render customize_partial_path(current_user.made_issues, 'issue_line')
     - if current_user.watched_groups.any?
       %h4.aside_title 구독 중인 그룹
       - current_user.watched_groups.each do |group|
@@ -12,5 +16,5 @@
           = render customize_partial_path(group.issues, 'issue_line')
     %h4.aside_title 구독 중인 빠띠
     %ul.list-unstyled
-      = render customize_partial_path(current_user.watched_issues, 'issue_line')
+      = render customize_partial_path(current_user.watched_only_issues, 'issue_line')
   = render 'application/footer'
