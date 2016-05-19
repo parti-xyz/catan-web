@@ -180,5 +180,15 @@
   }
 }
 
-
-
+.btn-label {
+  cursor: text;
+  border: 1px solid transparent;
+  &:hover,
+  &:active,
+  &:focus {
+    background: initial;
+    color: initial;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}

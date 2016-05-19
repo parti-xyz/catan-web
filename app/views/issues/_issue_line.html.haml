@@ -12,7 +12,4 @@
           %span.comment-count
             %i.icon-comment
             %b= issue.comments.count
-  - unless local_assigns[:hide_watch_button]
-    .issue-line__btn
-      = render 'watches/watch', issue: issue
 

@@ -8,8 +8,8 @@
           .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       %h2.parti-title
         = issue.title
-        %span.hidden-xs
-          = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary'
+        %span.parti-watch.hidden-xs
+          = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary', maker_class: 'hidden'
 
         - if can? :update, issue
           = link_to '수정', [:edit, issue], class: 'btn btn-primary'

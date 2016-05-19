@@ -15,6 +15,22 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_equal 'title', assigns(:issue).title
   end
 
+  test '만든 사람이 메이커가 되어요' do
+    sign_in(users(:admin))
+
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
+
+    assert assigns(:issue).reload.made_by?(users(:admin))
+  end
+
+  test '만든 사람이 구독 되어요' do
+    sign_in(users(:admin))
+
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
+
+    assert assigns(:issue).reload.watched_by?(users(:admin))
+  end
+
   test '같은 이름으로는 못 만들어요' do
     sign_in(users(:admin))
 

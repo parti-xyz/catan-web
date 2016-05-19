@@ -45,28 +45,40 @@ class IssuesController < ApplicationController
   def create
     authorize_group!
     @issue.makers.build(user: current_user)
-    if !%w(all).include?(@issue.slug) and @issue.save
-      redirect_to @issue
-    else
-      render 'new'
+    @watch = current_user.watches.build(watchable: @issue)
+    ActiveRecord::Base.transaction do
+      if !%w(all).include?(@issue.slug) and @issue.save and @watch.save
+        redirect_to @issue
+      else
+        render 'new'
+      end
     end
   end
 
   def update
     authorize_group!
     @issue.assign_attributes(issue_params)
-    if @issue.makers_nickname.present?
-      @issue.makers.destroy_all
-      @issue.makers_nickname.split(",").map(&:strip).each do |nickname|
-        user = User.find_by(nickname: nickname)
-        @issue.makers.build(user: user) if user.present?
+
+    ActiveRecord::Base.transaction do
+      if @issue.makers_nickname.present?
+        @issue.makers.destroy_all
+        @issue.makers_nickname.split(",").map(&:strip).each do |nickname|
+          user = User.find_by(nickname: nickname)
+          if user.present?
+            @issue.makers.build(user: user)
+          end
+        end
       end
-    end
-    if @issue.save
-      redirect_to @issue
-    else
-      errors_to_flash @issue
-      render 'edit'
+      if @issue.save
+        @issue.makers.each do |maker|
+          @watch = maker.user.watches.build(watchable: @issue)
+          @watch.save
+        end
+        redirect_to @issue
+      else
+        errors_to_flash @issue
+        render 'edit'
+      end
     end
   end
 

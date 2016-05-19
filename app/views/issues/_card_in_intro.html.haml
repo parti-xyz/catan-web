@@ -1,22 +1,23 @@
 - issue ||= local_assigns[:card]
-- if issue.watched_by?(current_user)
-  - action_link = cancel_issue_watches_path(issue, partial: :intro)
-  - action_method = :delete
-- else
-  - action_link = issue_watches_path(issue, partial: :intro)
-  - action_method = :post
-%li.issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.watched_by?(current_user)}"}
-  = link_to action_link, method: action_method, remote: true do
-    .issue-card-base
-      .issue-card-cover
-      .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
-        .issue-card__thumb__btn
-      %span.issue-card__title= issue.title
-      .issue-card__body= excerpt(issue.body, length: 60)
-      .issue-card__meta
-        %span.user-count
-          %i.icon-user
-          %b= issue.watches.count
-        %span.comment-count
-          %i.icon-comment
-          %b= issue.comments.count
+- unless issue.made_by?(current_user)
+  - if issue.watched_by?(current_user)
+    - action_link = cancel_issue_watches_path(issue, partial: :intro)
+    - action_method = :delete
+  - else
+    - action_link = issue_watches_path(issue, partial: :intro)
+    - action_method = :post
+  %li.issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.watched_by?(current_user)}"}
+    = link_to action_link, method: action_method, remote: true do
+      .issue-card-base
+        .issue-card-cover
+        .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
+          .issue-card__thumb__btn
+        %span.issue-card__title= issue.title
+        .issue-card__body= excerpt(issue.body, length: 60)
+        .issue-card__meta
+          %span.user-count
+            %i.icon-user
+            %b= issue.watches.count
+          %span.comment-count
+            %i.icon-comment
+            %b= issue.comments.count

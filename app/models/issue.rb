@@ -48,6 +48,10 @@ class Issue < ActiveRecord::Base
     watches.exists? user: someone
   end
 
+  def made_by? someone
+    makers.exists? user: someone
+  end
+
   def is_all?
     false
   end

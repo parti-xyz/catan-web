@@ -26,3 +26,10 @@ admin:
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
   nickname: admin
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
+maker:
+  email: maker@test.com
+  uid: maker@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: maker
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>

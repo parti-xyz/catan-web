@@ -22,6 +22,17 @@ class WatchesTest < ActionDispatch::IntegrationTest
     refute issues(:issue1).watched_by? users(:two)
   end
 
+  test '메이커는 취소 못해요' do
+    assert issues(:issue1).watched_by? users(:maker)
+    assert issues(:issue1).made_by? users(:maker)
+
+    sign_in(users(:maker))
+
+    delete cancel_issue_watches_path(issue_id: issues(:issue1).id)
+
+    assert issues(:issue1).watched_by? users(:maker)
+  end
+
   test '그룹 구독해요' do
     sign_in(users(:one))
 

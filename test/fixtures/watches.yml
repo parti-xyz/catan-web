@@ -11,5 +11,8 @@ watch4:
   user: one
   watchable: issue1 (Issue)
 watch5:
+  user: maker
+  watchable: issue1 (Issue)
+watch6:
   user: two
   watchable: group1 (Group)

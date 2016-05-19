@@ -476,6 +476,22 @@ var parti_prepare = function($base) {
     $(elm).tooltip();
   });
 
+  // hover
+  $.parti_apply($base, '[data-action="parti-hover"]', function(elm) {
+    var $elm = $(elm);
+    var hover_on = $(elm).data("hover-on");
+    var hover_off = $(elm).data("hover-off");
+    $elm.html(hover_off);
+    $elm.on('mouseenter', function (e) {
+      var $target = $(e.currentTarget);
+      $target.html(hover_on);
+    });
+    $elm.on('mouseleave', function (e) {
+      var $target = $(e.currentTarget);
+      $target.html(hover_off);
+    });
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 
