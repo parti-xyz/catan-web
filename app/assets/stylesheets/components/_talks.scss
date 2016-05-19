@@ -115,6 +115,17 @@ section#talks {
   }
 }
 
+.talk__body {
+  border: 1px solid $brand-light;
+  border-radius: $border-radius-base;
+
+  &__text-container {
+    padding: 20px;
+    padding-bottom: 10px;
+    color: gray;
+  }
+}
+
 @media (max-width: 768px) {
   .talk-card {
     padding: 10px;

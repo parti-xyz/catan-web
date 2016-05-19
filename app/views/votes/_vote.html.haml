@@ -1,9 +1,6 @@
 - opinion ||= local_assigns[:specific]
 .opinion__vote-section{id: "#{dom_id(opinion)}-vote" }
 
-  %h2.post__title.opinion__title “#{opinion.title}”
-
-
   - if !user_signed_in?
     .vote__buttons.text-center
       = link_to '#', class: 'btn btn-default btn-lg', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :opinion_vote_agree, id: opinion.id}.to_json) } do
@@ -55,13 +52,19 @@
 
   %div.opinion__vote__info
     %p.text-center{ style: 'padding-top: 20px' }
-      %i.fa.fa-info-circle
-      - if opinion.votes.any?
-        현재
-        %strong
+    - if opinion.votes.any?
+      %div
+        현재&nbsp;
+        %strong<>
           #{opinion.votes.count}
         명이 투표에 참여했습니다.
 
-    %p.text-center
-      - if !user_signed_in? or !opinion.voted_by?(current_user)
-        투표를 하면 현재 결과를 볼 수 있습니다.
+    - if !user_signed_in? or !opinion.voted_by?(current_user)
+      %div
+        투표하면 결과를 볼 수 있습니다.
+
+    - if user_signed_in? and opinion.voted_by?(current_user)
+      %div
+        왜 #{ opinion.agreed_by?(current_user) ? '찬성' : '반대' }하는지&nbsp;
+        %strong<> 의견
+        을 적어 보세요.

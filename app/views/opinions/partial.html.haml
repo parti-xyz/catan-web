@@ -7,8 +7,8 @@
     = image_tag 'icon_close.png'
 
 .post-modal__content
-  .text-center
-    = render 'body'
+  %h2.post-modal__title= @opinion.title
+  = render 'body'
   = render 'posts/post_header', post: @opinion.acting_as, additional_buttons_partial: 'opinions/modal_buttons'
 
 .post-modal__comment

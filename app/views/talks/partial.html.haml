@@ -8,9 +8,10 @@
 .post-modal__content
   %h2.post-modal__title= @talk.title
   - if @talk.has_presentation?
-    .post-modal__content--first
-      .profile= byline @talk.comments.first.user
-      %p= smart_format(h(@talk.comments.first.body))
+    .post__body.talk__body
+      .talk__body__text-container
+        .profile= byline @talk.comments.first.user
+        %p= smart_format(h(@talk.comments.first.body))
   = render 'posts/post_header', post: @talk.acting_as
 
 .post-modal__comment

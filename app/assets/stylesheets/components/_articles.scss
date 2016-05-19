@@ -133,6 +133,14 @@ section#articles {
 }
 
 .article__body {
+  border: 1px solid $brand-light;
+  border-radius: $border-radius-base;
+  &__link-container {
+    background: #fafafb;
+    border-top: 1px solid $brand-light;
+    padding: 10px 20px;
+  }
+
   &__video-container {
     position: relative;
     width: 100%;
@@ -146,6 +154,11 @@ section#articles {
     left: 0;
     width: 100%;
     height: 100%;
+  }
+  &__text-container {
+    padding: 20px;
+    padding-bottom: 10px;
+    color: gray;
   }
 }
 

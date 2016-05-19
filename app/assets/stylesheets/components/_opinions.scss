@@ -64,6 +64,16 @@ section#opinions {
   }
 }
 
+.opinion__body {
+  border: 1px solid $brand-light;
+  border-radius: $border-radius-base;
+
+  &__text-container {
+    padding: 20px;
+    color: gray;
+    text-align: center;
+  }
+}
 
 .opinion__vote-section {
   .btn {
@@ -204,6 +214,30 @@ section#opinions {
       }
       &.long {
         font-size: 55px;
+      }
+    }
+  }
+}
+
+.opinion {
+  &__vote__info {
+    color: $gray;
+    font-size: $font-size-base;
+    strong {
+      color: $brand-primary;
+      font-weight: bold;
+    }
+  }
+  &__body {
+    .opinion__title {
+      margin-bottom: 40px;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    .vote__results {
+      .col-xs-6 {
+        padding: 0 3px;
       }
     }
   }

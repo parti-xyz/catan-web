@@ -31,15 +31,6 @@
     margin-top: 20px;
   }
 }
-.article__body__text-container {
-  padding: 25px;
-  color: #777777;
-}
-.article__body__link-container {
-  background: #fafafb;
-  border: 1px solid #f1f1f1;
-  padding: 10px 20px;
-}
 
 .comment-form {
   margin-top: 20px;
@@ -99,19 +90,7 @@
     }
   }
 }
-.opinion__body {
-  .opinion__title {
-    margin-bottom: 40px;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-  .vote__results {
-    .col-xs-6 {
-      padding: 0 3px;
-    }
-  }
-}
+
 .edit_article, .edit_talk {
  .form-group .btn-lg {
     padding: 6px 12px;

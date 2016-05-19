@@ -13,6 +13,7 @@ section#posts {
 
   &__title {
     text-align: center;
+    padding: 20px 0;
   }
 
   &__share {
@@ -60,7 +61,7 @@ section#posts {
       word-break: break-all;
     }
     &--first {
-      border: 1px solid $brand-primary;
+      border: 1px solid $brand-light;
       padding: 20px;
       color: #777;
       font-size: 15px;
@@ -69,7 +70,6 @@ section#posts {
         .user-image {
           width: 30px;
           height: 30px;
-          border: 2px solid $brand-primary;
           margin-right: 5px;
         }
         .text-nowrap {
@@ -270,10 +270,17 @@ section#posts {
   }
 
   .post-modal {
+    .modal-content {
+      border-radius: 0;
+    }
     &__content {
+      padding: 20px;
       .opinion__title {
         font-size: 24px;
       }
+    }
+    &__comment {
+      padding: 20px;
     }
     &__title {
       font-size: 24px;

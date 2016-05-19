@@ -1,5 +1,5 @@
 - issue ||= @issue
-- if @issue.grouped?
+- if issue.grouped?
   = render 'issues/group_issue_header', local_assigns
 - else
   = render 'issues/common_issue_header', local_assigns
