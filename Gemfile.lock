@@ -24,6 +24,8 @@ GEM
     active_record-acts_as (1.0.8)
       activerecord (~> 4, >= 4.1.2)
       activesupport (~> 4)
+    active_record_union (1.1.1)
+      activerecord (>= 4.0)
     activejob (4.2.5.1)
       activesupport (= 4.2.5.1)
       globalid (>= 0.3.0)
@@ -581,6 +583,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_record-acts_as (~> 1.0, >= 1.0.7)
+  active_record_union (~> 1.1)
   activerecord_any_of (~> 1.3)
   bootstrap-kaminari-views (~> 0.0.5)
   bootstrap-sass (~> 3.3, >= 3.3.5.1)

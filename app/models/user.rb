@@ -44,13 +44,9 @@ class User < ActiveRecord::Base
   has_many :upvotes
   has_many :votes
   has_many :watches
-  has_many :watched_issues, through: :watches, source: :watchable, source_type: Issue
-  has_many :watched_posts, through: :watched_issues, source: :posts
-  has_many :watched_articles, through: :watched_issues, source: :articles
-  has_many :watched_opinions, through: :watched_issues, source: :opinions
-  has_many :watched_talks, through: :watched_issues, source: :talks
-  has_many :watched_comments, through: :watched_posts, source: :comments
   has_many :watched_groups, through: :watches, source: :watchable, source_type: Group
+  has_many :watched_group_issues, through: :watched_groups, source: :issues
+  has_many :watched_public_issues, through: :watches, source: :watchable, source_type: Issue
   has_many :makers
 
   ## uploaders
@@ -151,6 +147,30 @@ class User < ActiveRecord::Base
 
   def maker?(issue)
     makers.exists?(issue: issue)
+  end
+
+  def watched_issues
+    watched_public_issues.union(watched_group_issues)
+  end
+
+  def watched_posts
+    Post.where(issue: watched_issues)
+  end
+
+  def watched_articles
+    watched_posts.only_articles
+  end
+
+  def watched_opinions
+    watched_posts.only_opinions
+  end
+
+  def watched_talks
+    watched_posts.only_talks
+  end
+
+  def watched_comments
+    Comment.where(post: watched_posts)
   end
 
   private

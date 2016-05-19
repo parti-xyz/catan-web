@@ -3,6 +3,7 @@ class Ability
 
   def initialize(user)
     can [:read, :social_card, :partial], :all
+    can [:slug_show], Group
     can [:slug, :users, :exist, :new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks], Issue
     if user
       can :update, Issue do |issue|
