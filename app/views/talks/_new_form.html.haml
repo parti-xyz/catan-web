@@ -1,9 +1,9 @@
-- issue ||= Issue::OF_ALL
+- issue ||= nil
 - if user_signed_in?
   #talk-form-widget.form-widget-container.bg-line
     = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
-      - if !issue.is_all?
+      - if issue.present?
         = f.hidden_field :issue_id, value: issue.id
       - else
         .form-group

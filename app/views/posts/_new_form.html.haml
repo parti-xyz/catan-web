@@ -1,9 +1,9 @@
-- issue ||= Issue::OF_ALL
+- issue ||= nil
 - if user_signed_in?
   - base_button_data = {'switch-target-base': ".form-widget-container", 'switch-source-base': '#editors-tab.editors-tab a[data-action=parti-switch]', action: "parti-switch", type: 'button'}
-  - article_button_data = {'switch-target': '#article-form-widget', focus: ( 'input#article_link' if !issue.is_all? ) }.update(base_button_data)
-  - talk_button_data = {'switch-target': '#talk-form-widget', focus: ( 'input#talk_title' if !issue.is_all? )}.update(base_button_data)
-  - opinion_button_data = {'switch-target': '#opinion-form-widget', focus: ( 'input#opinion_title' if !issue.is_all? )}.update(base_button_data)
+  - article_button_data = {'switch-target': '#article-form-widget', focus: ( 'input#article_link' if issue.present? ) }.update(base_button_data)
+  - talk_button_data = {'switch-target': '#talk-form-widget', focus: ( 'input#talk_title' if issue.present? )}.update(base_button_data)
+  - opinion_button_data = {'switch-target': '#opinion-form-widget', focus: ( 'input#opinion_title' if issue.present? )}.update(base_button_data)
 - else
   - article_button_data = opinion_button_data = talk_button_data = {toggle: "parti-login-overlay"}
 

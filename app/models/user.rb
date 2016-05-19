@@ -109,9 +109,9 @@ class User < ActiveRecord::Base
     counts
   end
 
-  def writing_counts(issue = Issue::OF_ALL)
+  def writing_counts(issue = nil)
     counts = OpenStruct.new
-    if issue.is_all?
+    unless issue.present?
       counts.comments_count = comments.count
       counts.latest_comments_count = comments.latest.count
       counts.upvotes_count = upvotes.count

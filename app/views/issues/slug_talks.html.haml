@@ -19,5 +19,5 @@
               톡열기
       - if user_signed_in?
         = render 'talks/new_form', issue: @issue
-    = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.is_all?
+    = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.blank?
     = paginate @talks, theme: 'catan', params: @paginate_params

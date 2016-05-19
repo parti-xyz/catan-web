@@ -5,55 +5,6 @@ class Issue < ActiveRecord::Base
 
   TITLE_OF_ASK_PARTI = 'Ask Parti'
   SLUG_OF_ASK_PARTI = 'ask-parti'
-  OF_ALL = Naught.build do |config|
-    config.singleton
-    config.impersonate Issue
-    def is_all?
-      true
-    end
-    def title
-      '모두보기'
-    end
-    def body
-      '수다로 정치하자, 빠띠에서 파티하자! 중요한 이슈, 이제 빠띠로 지켜보세요.'
-    end
-    def slug
-      'all'
-    end
-    def posts
-      Post.all
-    end
-    def articles
-      Article.all
-    end
-    def talks
-      Talk.all
-    end
-    def opinions
-      Opinion.all
-    end
-    def recommends
-      (Issue.past_week + Issue.hottest.limit(10)).uniq.shuffle.first(10)
-    end
-    def comments
-      Comment.all
-    end
-    def watches
-      User.all
-    end
-    def watched_users
-      User.all
-    end
-    def hottest_posts(count)
-      Post.hottest.limit(count)
-    end
-    def logo_url
-      ActionController::Base.helpers.asset_path('all_issue_logo.png')
-    end
-    def cover_url
-      ActionController::Base.helpers.asset_path('default_issue_cover.png')
-    end
-  end.instance
 
   # relations
   belongs_to :group
@@ -115,7 +66,8 @@ class Issue < ActiveRecord::Base
   end
 
   def recommends
-    (related_issues + OF_ALL.recommends - [self]).uniq.shuffle.first(10)
+    recommends = (Issue.past_week + Issue.hottest.limit(10)).uniq.shuffle.first(10)
+    (related_issues + recommends - [self]).uniq.shuffle.first(10)
   end
 
   def featured_posts(count)

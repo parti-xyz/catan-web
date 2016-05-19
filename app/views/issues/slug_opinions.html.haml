@@ -10,7 +10,7 @@
             %small 더 나은 논의를 위해 투표를 열어 여론을 알아보세요.
         .media-right
           - if user_signed_in?
-            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: ( !@issue.is_all? ? 'input#opinion_title' : 'select#opinion_issue_id')} do
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: 'input#opinion_title' } do
               %i.icon-opinion
               투표열기
           - else

@@ -8,12 +8,6 @@ class IssuesController < ApplicationController
   def index
     prepare_meta_tags title: "빠띠", description: "모든 빠띠들입니다."
     @issues = Issue.all
-    if request.format.json?
-      @issues = @issues.limit(10)
-    else
-      @issue_of_all = Issue::OF_ALL
-    end
-
     if params[:query].present?
       @issues = @issues.where("title like ?", "%#{params[:query]}%" )
     end
