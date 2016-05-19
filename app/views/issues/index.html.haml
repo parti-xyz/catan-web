@@ -3,9 +3,16 @@
     .row
       .col-xs-9.parties-all
         %h4
-          전체빠띠
+          그룹
           .count-label-wrapper
-            .count-label= Issue.count
+            .count-label= @groups.count
+        %ul.issue-card-wrapper.list-unstyled.clearfix
+          - @groups.each do |group|
+            = render 'groups/card', group: group
+        %h4
+          빠띠
+          .count-label-wrapper
+            .count-label= @issues.count
         %ul.issue-card-wrapper.list-unstyled.clearfix
           - @issues.each do |issue|
             = render 'issues/card', issue: issue

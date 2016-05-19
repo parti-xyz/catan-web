@@ -3,8 +3,11 @@ class Group < ActiveRecord::Base
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
+  # relations
   belongs_to :user
   has_many :issues, dependent: :nullify
+  has_many :posts, through: :issues
+  has_many :comments, through: :posts
 
   # validations
   validates :title, presence: true, uniqueness: { case_sensitive: false }

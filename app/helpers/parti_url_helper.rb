@@ -42,4 +42,12 @@ module PartiUrlHelper
   def user_gallery_url(user)
     nickname_user_url(nickname: user.nickname)
   end
+
+  def cancel_watchable_watches_path(watchable, options = {})
+    self.send(:"cancel_#{watchable.class.to_s.underscore}_watches_path", watchable, options)
+  end
+
+  def watchable_watches_path(watchable, options = {})
+    self.send(:"#{watchable.class.to_s.underscore}_watches_path", watchable, options)
+  end
 end

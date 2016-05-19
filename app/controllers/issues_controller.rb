@@ -7,11 +7,8 @@ class IssuesController < ApplicationController
 
   def index
     prepare_meta_tags title: "빠띠", description: "모든 빠띠들입니다."
-    @issues = Issue.all
-    if params[:query].present?
-      @issues = @issues.where("title like ?", "%#{params[:query]}%" )
-    end
-    respond_with @issues
+    @issues = Issue.common.all
+    @groups = Group.all
   end
 
   def show

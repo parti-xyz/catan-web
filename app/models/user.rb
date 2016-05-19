@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   has_many :watches
   has_many :watched_groups, through: :watches, source: :watchable, source_type: Group
   has_many :watched_group_issues, through: :watched_groups, source: :issues
-  has_many :watched_public_issues, through: :watches, source: :watchable, source_type: Issue
+  has_many :watched_common_issues, through: :watches, source: :watchable, source_type: Issue
   has_many :makers
 
   ## uploaders
@@ -150,7 +150,7 @@ class User < ActiveRecord::Base
   end
 
   def watched_issues
-    watched_public_issues.union(watched_group_issues)
+    watched_common_issues.union(watched_group_issues)
   end
 
   def watched_posts

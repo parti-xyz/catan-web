@@ -42,6 +42,7 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
+  scope :common, -> { where(group: nil) }
 
   # methods
   def watched_by? someone
@@ -113,6 +114,10 @@ class Issue < ActiveRecord::Base
 
   def hottest_posts(count)
     posts.hottest.limit(count)
+  end
+
+  def grouped?
+    group.present?
   end
 
   private
