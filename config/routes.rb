@@ -57,7 +57,8 @@ Rails.application.routes.draw do
 
   get '/g/:slug', to: "groups#slug_show", as: 'slug_group'
 
-  get '/p/:slug', to: "issues#slug_articles", as: 'slug_issue'
+  get '/p/:slug', to: "issues#slug_talks", as: 'slug_issue'
+  get '/p/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
   get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'

@@ -6,17 +6,17 @@
       .media
         .media-body.hidden-xs
           %h3
-            함께 나누고 싶은 링크를 올려보세요!
-            %small 더 나은 논의를 위해 링크를 올려 이야기를 나눠보세요.
+            함께 나누고 싶은 자료를 올려보세요!
+            %small 뉴스, 블로그, 영상 등 관련 자료를 모아보세요.
         .media-right
           - if user_signed_in?
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#article-form-widget', focus: 'input#article_link'} do
               %i.icon-article
-              링크걸기
+              = t('labels.new_article_button')
           - else
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
               %i.icon-article
-              링크걸기
+              = t('labels.new_article_button')
       - if user_signed_in?
         = render 'articles/new_form', issue: @issue
     .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s}}

@@ -5,11 +5,11 @@
       = hidden_field_tag :back_url, @list_url || request.original_url
 
       .form-group
-        = f.text_field :title, placeholder: '톡 주제를 써주세요.', class: 'form-control', data: {'rule-required': true}
+        = f.text_field :title, placeholder: '논의의 제목을 쓰세요', class: 'form-control', data: {'rule-required': true}
       %hr
       .form-group.textarea-box
         .thumb.img-circle.circle-50.border-2-primary{style: "background-image: url(#{current_user.image.sm.url});"}
-        = text_area_tag :comment_body, '', placeholder: '이 톡 주제에 대해 어떻게 생각하시나요? (선택사항)', class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
+        = text_area_tag :comment_body, '', placeholder: '이 주제에 대한 의견을 남겨주세요.', class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
 
       %hr
       .form-group.clearfix
@@ -20,6 +20,5 @@
           - else
             = f.select :issue_id, nil, {prompt: '빠띠를 선택해 주세요.'}, {style: 'width: 200px;', data: { 'rule-required': true, 'action': 'parti-select-parti'}} do
               = grouped_options_for_select(editable_issues_continents(current_user))
-          %span 빠띠에 톡을
-          = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
+          = f.submit '빠띠에 게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
 

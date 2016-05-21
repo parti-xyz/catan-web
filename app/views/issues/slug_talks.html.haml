@@ -6,17 +6,17 @@
       .media
         .media-body.hidden-xs
           %h3
-            지금 톡을 열어보세요!
-            %small 함께 나누고 싶은 톡을 올려보세요.
+            논의를 시작하세요!
+            %small 질문을 남기거나 제안을 받고, 혹은 자신의 의견을 펼쳐보세요.
         .media-right
           - if user_signed_in?
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#talk-form-widget', focus: 'input#talk_title'} do
               %i.icon-talk
-              톡열기
+              = t('labels.new_talk_button')
           - else
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
               %i.icon-talk
-              톡열기
+              = t('labels.new_talk_button')
       - if user_signed_in?
         = render 'talks/new_form', issue: @issue
     = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.blank?

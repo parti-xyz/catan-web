@@ -6,17 +6,17 @@
       .media
         .media-body.hidden-xs
           %h3
-            지금 투표를 열어 보세요.
-            %small 더 나은 논의를 위해 투표를 열어 여론을 알아보세요.
+            지금 투표를 제안해 보세요!
+            %small 투표를 통해 사람들의 의사를 확인하세요.
         .media-right
           - if user_signed_in?
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: 'input#opinion_title' } do
               %i.icon-opinion
-              투표열기
+              = t('labels.new_opinion_button')
           - else
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
               %i.icon-opinion
-              투표열기
+              = t('labels.new_opinion_button')
       - if user_signed_in?
         = render 'opinions/new_form', issue: @issue
     .row.masonry-container{data: {last_id: @opinions.last.try(:id), is_last: @is_last_page.to_s}}

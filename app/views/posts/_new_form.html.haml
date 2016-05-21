@@ -12,15 +12,15 @@
     = link_to '', data: talk_button_data, class: 'btn btn-primary btn-shadow editor-btn active' do
       %i.icon-talk
       %br.mobile
-      톡 열기
+      = t('labels.new_talk_button')
     = link_to '', data: article_button_data, class: 'btn btn-primary btn-shadow editor-btn' do
       %i.icon-article
       %br.mobile
-      링크걸기
+      = t('labels.new_article_button')
     = link_to '#', data: opinion_button_data, class: 'btn btn-primary btn-shadow editor-btn' do
       %i.icon-opinion
       %br.mobile
-      투표 열기
+      = t('labels.new_opinion_button')
 
 - if user_signed_in?
   .editors-tab-panel

@@ -25,9 +25,9 @@ ko:
   activerecord:
     models:
       issue: 빠띠
-      article: 링크
+      article: 자료
       opinion: 투표
-      talk: 톡
+      talk: 논의
       user: 회원
       comment: 수다
     attributes:
@@ -84,7 +84,9 @@ ko:
             current_password:
               invalid: 가 일치하지 않습니다.
   labels:
-    article_button: 뉴스/컬럼/링크
+    new_article_button: 자료 공유
+    new_talk_button: 논의 제안
+    new_opinion_button: 투표 제안
   enumerize:
     defaults:
       choice:
