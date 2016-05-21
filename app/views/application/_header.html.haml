@@ -3,9 +3,15 @@
     .navbar-header.pull-left{ style: 'position: relative' }
       %a.navbar-brand{ href: root_path }
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+
+      - if user_signed_in?
+        %a{ href: issues_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
+          %b
+            내 빠띠
+
       %a{ href: issues_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
         %b
-          전체 빠띠
+          모든 빠띠
 
     .navbar-sign
       - if user_signed_in?
@@ -20,6 +26,9 @@
               %i.icon-dot-corner.fa-stack-1x
           - else
             %i.icon-bell
+
+        = link_to dashboard_path, class: 'navbar-sign__in user-dashboard' do
+          %i.icon-comment
 
       - else
         .navbar-sign__up= link_to '로그인/회원가입', new_user_session_path

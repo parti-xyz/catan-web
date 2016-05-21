@@ -49,8 +49,8 @@
     }
   }
   .btn-link {
-    font-size: 16px;
-    margin-left: 40px;
+    font-size: 14px;
+    margin-left: 20px;
     margin-bottom: 0;
   }
 }
@@ -100,6 +100,14 @@
           left: -1px;
         }
       }
+    }
+    &.user-dashboard {
+      width: 45px;
+      height: 45px;
+      padding-top: 7px;
+      margin-right: 10px;
+      text-align: center;
+      font-size: 20px;
     }
   }
   &__up {
