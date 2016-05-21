@@ -4,14 +4,21 @@
       %a.navbar-brand{ href: root_path }
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
-      - if user_signed_in?
-        %a{ href: issues_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
-          %b
-            내 빠띠
-
       %a{ href: issues_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
         %b
           모든 빠띠
+
+      %a{ href: talks_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
+        %b
+          논의
+
+      %a{ href: articles_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
+        %b
+          자료
+
+      %a{ href: opinions_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
+        %b
+          투표
 
     .navbar-sign
       - if user_signed_in?
@@ -29,6 +36,9 @@
 
         = link_to dashboard_path, class: 'navbar-sign__in user-dashboard' do
           %i.icon-comment
+
+        = link_to issues_path, class: 'navbar-sign__in user-dashboard' do
+          P
 
       - else
         .navbar-sign__up= link_to '로그인/회원가입', new_user_session_path
