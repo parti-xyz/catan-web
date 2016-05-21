@@ -16,6 +16,12 @@
         %b
           투표
 
+      - if user_signed_in?
+        = link_to dashboard_path, class: 'btn btn-default btn-link navbar-btn' do
+          +
+          %i.icon-user
+
+
     .navbar-sign
       - if user_signed_in?
         .navbar-sign__in
