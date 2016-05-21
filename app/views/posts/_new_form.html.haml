@@ -3,7 +3,6 @@
   - base_button_data = {'switch-target-base': ".form-widget-container", 'switch-source-base': '#editors-tab.editors-tab a[data-action=parti-switch]', action: "parti-switch", type: 'button'}
   - article_button_data = {'switch-target': '#article-form-widget', focus: ( 'input#article_link' if issue.present? ) }.update(base_button_data)
   - talk_button_data = {'switch-target': '#talk-form-widget', focus: ( 'input#talk_title' if issue.present? )}.update(base_button_data)
-  - opinion_button_data = {'switch-target': '#opinion-form-widget', focus: ( 'input#opinion_title' if issue.present? )}.update(base_button_data)
 - else
   - article_button_data = opinion_button_data = talk_button_data = {toggle: "parti-login-overlay"}
 
@@ -17,13 +16,8 @@
       %i.icon-article
       %br.mobile
       = t('labels.new_article_button')
-    = link_to '#', data: opinion_button_data, class: 'btn btn-primary btn-shadow editor-btn' do
-      %i.icon-opinion
-      %br.mobile
-      = t('labels.new_opinion_button')
 
 - if user_signed_in?
   .editors-tab-panel
     = render 'talks/new_form', local_assigns
     = render 'articles/new_form', local_assigns
-    = render 'opinions/new_form', local_assigns
