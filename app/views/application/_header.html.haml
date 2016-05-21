@@ -6,7 +6,7 @@
 
       %a{ href: issues_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
         %b
-          모든 빠띠
+          빠띠
 
       %a{ href: talks_path, class: 'btn btn-default btn-link navbar-btn pull-left'}
         %b
@@ -23,22 +23,23 @@
     .navbar-sign
       - if user_signed_in?
         .navbar-sign__in
-          .user-profile= byline current_user
-          = link_to destroy_user_session_path, class: 'user-link', method: :delete do
+          .user-profile
+            = link_to dashboard_path, class: 'text-nowrap user-byline' do
+              .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+              = current_user.nickname
+
+          = link_to '내 빠띠', issues_path, class: 'btn'
+
+          = link_to messages_path, class: 'btn' do
+            - if current_user.unread_messages_count > 0
+              %span.fa-stack
+                %i.icon-bell.fa-stack-1x
+                %i.icon-dot-corner.fa-stack-1x
+            - else
+              %i.icon-bell
+
+          = link_to destroy_user_session_path, class: 'btn', method: :delete do
             %i.icon-logout
-        = link_to messages_path, class: "navbar-sign__in user-notice" do
-          - if current_user.unread_messages_count > 0
-            %span.fa-stack
-              %i.icon-bell.fa-stack-1x
-              %i.icon-dot-corner.fa-stack-1x
-          - else
-            %i.icon-bell
-
-        = link_to dashboard_path, class: 'navbar-sign__in user-dashboard' do
-          %i.icon-comment
-
-        = link_to issues_path, class: 'navbar-sign__in user-dashboard' do
-          P
 
       - else
         .navbar-sign__up= link_to '로그인/회원가입', new_user_session_path
