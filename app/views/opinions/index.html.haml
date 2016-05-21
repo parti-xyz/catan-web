@@ -1,8 +1,11 @@
 %section
   .container
-    .page-header
-      %h2 빠띠의 모든 투표
+    .row
+      .col-xs-9
+        .page-header
+          %h2 빠띠의 모든 투표
 
-    .opinions
-      .row
-        = render @opinions
+        .opinions
+          = render @opinions
+
+      .col-xs-3= render 'footer'

@@ -1,3 +1,18 @@
+%section.parti-intro
+  .container
+    .parti-intro-wrapper
+      .parti-intro__count>
+        %span.count #{Issue.count}
+        %span 개 빠띠에서
+      .parti-intro__count>
+        %span.count= User.count
+        %span 명이 나누는
+      .parti-intro__count
+        %span.count= Comment.count
+        %span 개 수다파티
+      = link_to about_path, class: 'btn parti-intro__btn_about' do
+        빠띠란 무엇인가요?
+
 %section.parties-all#issues
   .container
     .row

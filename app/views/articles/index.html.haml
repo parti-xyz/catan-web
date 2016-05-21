@@ -1,8 +1,12 @@
 %section
   .container
-    .page-header
-      %h2 빠띠의 모든 자료
+    .row
+      .col-xs-9
+        .page-header
+          %h2 빠띠의 모든 자료
 
-    .articles
-      .row
-        = render @articles
+        .articles
+          .row
+            = render @articles
+
+      .col-xs-3= render 'footer'
