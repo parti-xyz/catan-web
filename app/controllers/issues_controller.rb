@@ -7,6 +7,7 @@ class IssuesController < ApplicationController
 
   def index
     prepare_meta_tags title: "빠띠", description: "모든 빠띠들입니다."
+    @basic_issues = Issue.basic_issues
     @issues = Issue.common.all
     @groups = Group.all
   end

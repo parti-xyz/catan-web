@@ -3,12 +3,21 @@
     .row
       .col-xs-9.parties-all
         %h4
+          기본 빠띠
+          .count-label-wrapper
+            .count-label= @basic_issues.count
+        %ul.issue-card-wrapper.list-unstyled.clearfix
+          - @basic_issues.each do |issue|
+            = render 'issues/card', issue: issue
+
+        %h4
           그룹
           .count-label-wrapper
             .count-label= @groups.count
         %ul.issue-card-wrapper.list-unstyled.clearfix
           - @groups.each do |group|
             = render 'groups/card', group: group
+
         %h4
           빠띠
           .count-label-wrapper
