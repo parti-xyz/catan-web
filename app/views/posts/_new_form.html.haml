@@ -9,22 +9,21 @@
 
 #editors-tab.editors-tab.clearfix
   .btn-group.btn-group-justified
-    = link_to '', data: article_button_data, class: 'btn btn-primary btn-lg btn-shadow editor-btn' do
-      %i.icon-article
-      %div
-        링크걸기
-    = link_to '', data: talk_button_data, class: 'btn btn-primary btn-lg btn-shadow editor-btn' do
+    = link_to '', data: talk_button_data, class: 'btn btn-primary btn-shadow editor-btn active' do
       %i.icon-talk
-      %div
-        톡 열기
-    = link_to '#', data: opinion_button_data, class: 'btn btn-primary btn-lg btn-shadow editor-btn' do
+      %br.mobile
+      톡 열기
+    = link_to '', data: article_button_data, class: 'btn btn-primary btn-shadow editor-btn' do
+      %i.icon-article
+      %br.mobile
+      링크걸기
+    = link_to '#', data: opinion_button_data, class: 'btn btn-primary btn-shadow editor-btn' do
       %i.icon-opinion
-      %div
-        투표 열기
+      %br.mobile
+      투표 열기
 
 - if user_signed_in?
-  = render 'articles/new_form', local_assigns
-
-  = render 'talks/new_form', local_assigns
-
-  = render 'opinions/new_form', local_assigns
+  .editors-tab-panel
+    = render 'talks/new_form', local_assigns
+    = render 'articles/new_form', local_assigns
+    = render 'opinions/new_form', local_assigns

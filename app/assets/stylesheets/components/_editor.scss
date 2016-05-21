@@ -2,17 +2,44 @@
   .btn-group.btn-group-justified {
     .btn {
       i {
-        font-size: 35px;
+        font-size: 20px;
         margin-bottom: 5px;
       }
-      padding-top: 20px;
-      padding-bottom: 15px;
     }
+  }
+}
+
+.editors-tab-panel {
+  #talk-form-widget.form-widget-container {
+    display: block;
+  }
+  .submit-box {
+    text-align: right;
+  }
+}
+
+.form-widget-container {
+  display: none;
+  .select2-container--bootstrap {
+    display: inline-block;
+    text-align: left;
+  }
+  .form-widget hr {
+    border-top: 1px solid #efefef;
+  }
+  .textarea-box textarea {
+    width: 90%;
+    margin-left: 10%;
+    border: none;
   }
 }
 
 .editors-panel {
   margin-bottom: 25px;
+
+  .submit-box {
+    text-align: right;
+  }
 
   .media {
     padding-bottom: 4px;
@@ -32,7 +59,28 @@
 }
 
 @media (max-width: 768px) {
+  .editors-tab-panel {
+    .submit-box {
+      text-align: initial;
+    }
+    .textarea-box textarea {
+      width: 80%;
+      margin-left: 20%;
+    }
+    .select2-container {
+      width: 60% !important;
+      margin-bottom: 10px;
+    }
+    input[type=submit] {
+      margin-left: 0;
+      display: block;
+      width: 100%;
+    }
+  }
   .editors-panel {
+    .submit-box {
+      text-align: initial;
+    }
     .media-right {
       display: block;
       padding-left: 0;
@@ -40,12 +88,20 @@
         width: 100%;
       }
     }
+    input[type=submit] {
+      margin-left: 0;
+      display: block;
+      width: 100%;
+    }
+    .textarea-box textarea {
+      width: 80%;
+      margin-left: 20%;
+    }
   }
   .editors-tab {
     .btn-group.btn-group-justified {
       .btn {
         font-size: $font-size-base;
-        font-weight: bold;
         line-height: 1.4;
         padding: 15px;
         img {
