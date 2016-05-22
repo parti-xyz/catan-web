@@ -2,22 +2,14 @@
   .container.clearfix
     .navbar-header.pull-left{ style: 'position: relative' }
       %a.navbar-brand{ href: root_path }
-        %img{ alt: 'parti', src: asset_path('default_issue_logo.png')}
-
-      = link_to root_path, class: 'btn btn-default btn-link navbar-btn' do
-        %b
-          빠띠 홈
+        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
       = link_to issues_path, class: 'btn btn-default btn-link navbar-btn' do
         모든 빠띠
 
-      - if user_signed_in?
-        = link_to issues_path, class: 'btn btn-default btn-link navbar-btn' do
-          내 빠띠
-
       %a{ href: talks_path, class: 'btn btn-default btn-link navbar-btn'}
         %b
-          빠띠 인기글
+          인기 글
 
     .navbar-sign
       - if user_signed_in?
@@ -29,6 +21,9 @@
 
           = link_to dashboard_path, class: 'btn' do
             내 대시보드
+
+          = link_to issues_path, class: 'btn' do
+            내 빠띠
 
           = link_to messages_path, class: 'btn' do
             - if current_user.unread_messages_count > 0
