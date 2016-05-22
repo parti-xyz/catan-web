@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  root 'issues#index'
+  root 'pages#home'
 
   get '/robots.:format' => 'pages#robots'
 

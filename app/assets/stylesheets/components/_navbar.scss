@@ -45,13 +45,14 @@
     padding-top: 0;
     padding-bottom: 0;
     img {
-      width: 96px;
+      height: 50px;
     }
   }
   .btn-link {
     font-size: 14px;
-    margin-left: 20px;
     margin-bottom: 0;
+    box-shadow: none;
+    transform: none;
   }
 }
 
