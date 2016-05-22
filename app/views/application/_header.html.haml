@@ -4,42 +4,33 @@
       %a.navbar-brand{ href: root_path }
         %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
-      = link_to issues_path, class: 'btn btn-default btn-link navbar-btn' do
+      = link_to issues_path, class: 'btn' do
         모든 빠띠
 
-      %a{ href: talks_path, class: 'btn btn-default btn-link navbar-btn'}
-        %b
-          뜨는 글
+      = link_to issues_path, class: 'btn' do
+        내 빠띠
 
-      %a{ href: talks_path, class: 'btn btn-default btn-link navbar-btn'}
-        %b
-          뜨는 빠띠메이커
+      = link_to dashboard_path, class: 'btn' do
+        내 뉴스피드
 
-    .navbar-sign
+      = link_to messages_path, class: 'btn' do
+        - if current_user.unread_messages_count > 0
+          %span.fa-stack
+            %i.icon-bell.fa-stack-1x
+            %i.icon-dot-corner.fa-stack-1x
+        - else
+          %i.icon-bell
+
+    .navbar-sign.pull-right
       - if user_signed_in?
-        .navbar-sign__in
-          .user-profile
-            = link_to dashboard_path, class: 'text-nowrap user-byline' do
-              .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-              = current_user.nickname
-
-          = link_to dashboard_path, class: 'btn' do
-            내 대시보드
-
-          = link_to issues_path, class: 'btn' do
-            내 빠띠
-
-          = link_to messages_path, class: 'btn' do
-            - if current_user.unread_messages_count > 0
-              %span.fa-stack
-                %i.icon-bell.fa-stack-1x
-                %i.icon-dot-corner.fa-stack-1x
-            - else
-              %i.icon-bell
+        .navbar-sign__out
+          = link_to dashboard_path, class: 'text-nowrap user-byline' do
+            .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+            = current_user.nickname
 
           = link_to destroy_user_session_path, class: 'btn', method: :delete do
-            %i.icon-logout
+            로그아웃
 
       - else
-        .navbar-sign__up= link_to '로그인/회원가입', new_user_session_path
-
+        .navbar-sign__up
+          = link_to '로그인/회원가입', new_user_session_path

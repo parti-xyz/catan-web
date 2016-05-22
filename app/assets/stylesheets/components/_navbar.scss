@@ -37,7 +37,7 @@
 .navbar-default {
   margin-bottom: 0;
   border-bottom: 4px solid $brand-primary;
-  padding: 16px 0;
+  padding: 15px 0 10px 0;
 }
 .navbar-header {
   .navbar-brand {
@@ -45,7 +45,7 @@
     padding-top: 0;
     padding-bottom: 0;
     img {
-      height: 50px;
+      height: 30px;
     }
   }
   .btn-link {
