@@ -1,36 +1,40 @@
-%nav.navbar.navbar-default.navbar-fixed-top
-  .container.clearfix
-    .navbar-header.pull-left{ style: 'position: relative' }
-      %a.navbar-brand{ href: root_path }
-        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+#site-header
+  %nav.navbar.navbar-default.navbar-fixed-top
+    .container.clearfix
+      .navbar-header
+        %a.navbar-brand{ href: root_path }
+          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
-      = link_to issues_path, class: 'btn' do
-        모든 빠띠
+      %div
+        %ul.nav.navbar-nav
+          %li
+            = link_to issues_path, class: 'btn' do
+              모든 빠띠
+          %li
+            = link_to dashboard_path, class: 'btn' do
+              내 빠띠
+          %li
+            = link_to dashboard_path, class: 'btn' do
+              내 뉴스피드
+          %li
+            = link_to messages_path, class: 'btn' do
+              - if current_user.unread_messages_count > 0
+                %span.fa-stack
+                  %i.icon-bell.fa-stack-1x
+                  %i.icon-dot-corner.fa-stack-1x
+              - else
+                %i.icon-bell
 
-      = link_to issues_path, class: 'btn' do
-        내 빠띠
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          %li
+            = link_to dashboard_path, class: 'user-byline' do
+              .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+              = current_user.nickname
+          %li
+            = link_to destroy_user_session_path, method: :delete do
+              로그아웃
 
-      = link_to dashboard_path, class: 'btn' do
-        내 뉴스피드
-
-      = link_to messages_path, class: 'btn' do
-        - if current_user.unread_messages_count > 0
-          %span.fa-stack
-            %i.icon-bell.fa-stack-1x
-            %i.icon-dot-corner.fa-stack-1x
         - else
-          %i.icon-bell
-
-    .navbar-sign.pull-right
-      - if user_signed_in?
-        .navbar-sign__out
-          = link_to dashboard_path, class: 'text-nowrap user-byline' do
-            .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-            = current_user.nickname
-
-          = link_to destroy_user_session_path, class: 'btn', method: :delete do
-            로그아웃
-
-      - else
-        .navbar-sign__up
-          = link_to '로그인/회원가입', new_user_session_path
+          %li
+            = link_to '로그인/회원가입', new_user_session_path

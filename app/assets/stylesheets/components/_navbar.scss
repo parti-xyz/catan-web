@@ -34,25 +34,24 @@
   }
 }
 
-.navbar-default {
-  margin-bottom: 0;
-  border-bottom: 4px solid $brand-primary;
-  padding: 15px 0 10px 0;
-}
-.navbar-header {
-  .navbar-brand {
-    height: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    img {
-      height: 30px;
+#site-header {
+  .navbar-default {
+    border-bottom: 4px solid $brand-primary;
+  }
+  .navbar-header {
+    .navbar-brand {
+      height: auto;
+      img {
+        height: 30px;
+      }
     }
   }
-  .btn-link {
-    font-size: 14px;
-    margin-bottom: 0;
-    box-shadow: none;
-    transform: none;
+  .navbar-nav {
+    padding-top: 5px;
+  }
+  .user-byline .user-image {
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -124,5 +123,3 @@
     }
   }
 }
-
-
