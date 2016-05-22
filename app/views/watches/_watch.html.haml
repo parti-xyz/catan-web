@@ -10,14 +10,14 @@
           %i.fa.fa-check
           빠띠메이커
       - else
-        = link_to cancel_watchable_watches_path(watchable, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :delete, class: cancel_btn_class, remote: true, data: { action: ('parti-hover' unless is_mobile?), 'hover-on': '구독끊기', 'hover-off': '<i class="fa fa-check"></i> 구독 중'} do
+        = link_to cancel_watchable_watches_path(watchable, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :delete, class: cancel_btn_class, remote: true, data: { action: ('parti-hover' unless is_mobile?), 'hover-on': '참여 중단하기', 'hover-off': '<i class="fa fa-check"></i> 참여 중'} do
           - if is_mobile? or local_assigns[:hover_on]
-            구독끊기
+            참여 중단하기
           - else
             %i.fa.fa-check
-            구독 중
+            참여 중
     - else
       = link_to watchable_watches_path(watchable, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :post, remote: true , class: watch_btn_class do
-        구독하기
+        참여하기
   - else
-    = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :watchable_watch, id: watchable.id}.to_json) }, class: watch_btn_class
+    = link_to '참여하기', '#', data: { toggle: 'parti-login-overlay', label: '참여', 'after-login': h({action: :watchable_watch, id: watchable.id}.to_json) }, class: watch_btn_class
