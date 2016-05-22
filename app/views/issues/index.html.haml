@@ -2,43 +2,38 @@
   .container
     .parti-intro-wrapper
       .parti-intro__count>
-        %span.count #{Issue.count}
-        %span 개 빠띠에서
+        %span.count 자료
+        %span 를 모으고
       .parti-intro__count>
-        %span.count= User.count
-        %span 명이 나누는
+        %span.count 논의
+        %span 를 나누고
       .parti-intro__count
-        %span.count= Comment.count
-        %span 개 수다파티
-      = link_to about_path, class: 'btn parti-intro__btn_about' do
-        빠띠란 무엇인가요?
+        %span.count 활동
+        %span 을 조직하는 빠띠
 
 %section.parties-all#issues
   .container
-    .row
-      .col-xs-9.parties-all
-        %h4
-          기본 빠띠
-          .count-label-wrapper
-            .count-label= @basic_issues.count
-        %ul.issue-card-wrapper.list-unstyled.clearfix
-          - @basic_issues.each do |issue|
-            = render 'issues/card', issue: issue
+    .parties-all
+      %h4
+        뜨는 빠띠
+        .count-label-wrapper
+          .count-label= @basic_issues.count
+      %ul.issue-card-wrapper.list-unstyled.clearfix
+        - @groups.each do |group|
+          = render 'groups/card', group: group
 
-        %h4
-          그룹
-          .count-label-wrapper
-            .count-label= @groups.count
-        %ul.issue-card-wrapper.list-unstyled.clearfix
-          - @groups.each do |group|
-            = render 'groups/card', group: group
+      %h4
+        그룹
+        .count-label-wrapper
+          .count-label= @groups.count
+      %ul.issue-card-wrapper.list-unstyled.clearfix
+        - @groups.each do |group|
+          = render 'groups/card', group: group
 
-        %h4
-          빠띠
-          .count-label-wrapper
-            .count-label= @issues.count
-        %ul.issue-card-wrapper.list-unstyled.clearfix
-          - @issues.each do |issue|
-            = render 'issues/card', issue: issue
-      .col-xs-3= render 'footer'
-
+      %h4
+        모든 빠띠
+        .count-label-wrapper
+          .count-label= @issues.count
+      %ul.issue-card-wrapper.list-unstyled.clearfix
+        - @issues.each do |issue|
+          = render 'issues/card', issue: issue
