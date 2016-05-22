@@ -32,37 +32,7 @@
     - counts_container = issue.counts_container
     .container
       .row
-        .col-xs-4.col-sm-2.col-sm-offset-3{class: ('active' if active_tab == :talks)}
-          - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label<>
-                = counts_container.articles_count
-                - if counts_container.latest_articles_count > 0
-                  %small.text-primary<>
-                    +#{counts_container.latest_articles_count}
-          = link_to issue_home_path(issue) do
-            %h4
-              %span.visible-xs-inline<>= count_label
-              %br.visible-xs-inline<>
-              = Talk.model_name.human
-              %span.hidden-xs= count_label
-
-        .col-xs-4.col-sm-2{class: ('active' if active_tab == :articles)}
-          - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label<>
-                = counts_container.opinions_count
-                - if counts_container.latest_opinions_count > 0
-                  %small.text-primary<>
-                    +#{counts_container.latest_opinions_count}
-          = link_to issue_articles_path(issue) do
-            %h4
-              %span.visible-xs-inline<>= count_label
-              %br.visible-xs-inline<>
-              = Article.model_name.human
-              %span.hidden-xs= count_label
-
-        .col-xs-4.col-sm-2{class: ('active' if active_tab == :opinions)}
+        .col-xs-3.col-sm-2.col-sm-offset-2{class: ('active' if active_tab == :talks)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -70,9 +40,47 @@
                 - if counts_container.latest_talks_count > 0
                   %small.text-primary<>
                     +#{counts_container.latest_talks_count}
+          = link_to issue_home_path(issue) do
+            %h4
+              %span.visible-xs-inline<>= count_label
+              %br.visible-xs-inline<>
+              = Talk.model_name.human
+              %span.hidden-xs= count_label
+
+        .col-xs-3.col-sm-2{class: ('active' if active_tab == :articles)}
+          - count_label = capture_haml(counts_container) do
+            %span.count-label-wrapper
+              %span.count-label<>
+                = counts_container.articles_count
+                - if counts_container.latest_articles_count > 0
+                  %small.text-primary<>
+                    +#{counts_container.latest_articles_count}
+          = link_to issue_articles_path(issue) do
+            %h4
+              %span.visible-xs-inline<>= count_label
+              %br.visible-xs-inline<>
+              = Article.model_name.human
+              %span.hidden-xs= count_label
+
+        .col-xs-3.col-sm-2{class: ('active' if active_tab == :opinions)}
+          - count_label = capture_haml(counts_container) do
+            %span.count-label-wrapper
+              %span.count-label<>
+                = counts_container.opinions_count
+                - if counts_container.latest_opinions_count > 0
+                  %small.text-primary<>
+                    +#{counts_container.latest_opinions_count}
           = link_to issue_opinions_path(issue) do
             %h4
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
               = Opinion.model_name.human
               %span.hidden-xs= count_label
+
+        .col-xs-3.col-sm-2
+          %h4
+            = Wiki.model_name.human
+            %span.hidden-xs
+              %span.count-label-wrapper
+                %span.count-label<>
+                  준비중
