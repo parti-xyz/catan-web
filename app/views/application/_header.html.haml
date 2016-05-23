@@ -10,20 +10,21 @@
           %li
             = link_to issues_path, class: 'btn' do
               모든 빠띠
-          %li
-            = link_to dashboard_path, class: 'btn' do
-              내 빠띠
-          %li
-            = link_to dashboard_path, class: 'btn' do
-              내 뉴스피드
-          %li
-            = link_to messages_path, class: 'btn' do
-              - if current_user.unread_messages_count > 0
-                %span.fa-stack
-                  %i.icon-bell.fa-stack-1x
-                  %i.icon-dot-corner.fa-stack-1x
-              - else
-                %i.icon-bell
+          - if user_signed_in?
+            %li
+              = link_to dashboard_path, class: 'btn' do
+                내 빠띠
+            %li
+              = link_to dashboard_path, class: 'btn' do
+                내 뉴스피드
+            %li
+              = link_to messages_path, class: 'btn' do
+                - if current_user.unread_messages_count > 0
+                  %span.fa-stack
+                    %i.icon-bell.fa-stack-1x
+                    %i.icon-dot-corner.fa-stack-1x
+                - else
+                  %i.icon-bell
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
