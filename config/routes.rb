@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
+  get '/dashboard/parties', to: "dashboard#parties", as: 'dashboard_parties'
   get '/dashboard/new_comments_count', to: "dashboard#new_comments_count", as: 'new_dashboard_comments_count'
 
   get '/g/:slug', to: "groups#slug_show", as: 'slug_group'

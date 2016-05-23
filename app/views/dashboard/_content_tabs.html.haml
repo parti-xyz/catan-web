@@ -6,8 +6,8 @@
     알림
     .count-label-wrapper
       .count-label
-        = @user.messages.count
-        - if @user.messages.latest.any?
+        = current_user.messages.count
+        - if current_user.messages.latest.any?
           %small.text-primary
-            +#{@user.messages.latest.count}
+            +#{current_user.messages.latest.count}
 
