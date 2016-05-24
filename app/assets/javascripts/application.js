@@ -657,25 +657,23 @@ $(function(){
 
   $('.page_waypoint').waypoint({
     handler: function(direction) {
+      this.disable();
+
       $container = $($(this.element).data('target'));
       if($container.data('is-last')) {
         return;
       }
 
-      if($container.data('is-processing')) {
-        return;
-      }
-      $container.data('is-processing', true);
       $('.page_waypoint__loading').show();
 
+      console.log($container.data('last-id'));
       $.ajax({
         url: $(this.element).data('url'),
         type: "get",
         data:{ last_id: $container.data('last-id') },
         complete: function(xhr) {
-          Waypoint.refreshAll();
-          $container.data('is-processing', false);
           $('.page_waypoint__loading').hide();
+          Waypoint.enableAll();
         },
       });
     },
