@@ -666,7 +666,6 @@ $(function(){
 
       $('.page_waypoint__loading').show();
 
-      console.log($container.data('last-id'));
       $.ajax({
         url: $(this.element).data('url'),
         type: "get",
