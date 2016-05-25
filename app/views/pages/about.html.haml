@@ -136,7 +136,7 @@
       무엇이 옳은지 가치 판단을 하기도, 지금은 어떻게 되었는지도 알기 힘들어지죠.
       %br
       그래서 우리는 '이 이슈는 꼭 해결하겠다'고 다짐한 사람들이
-    %p.text.bg-black
+    %p.text.bg-blackpartiesissue
       공감하는 여러 사람들과 함께 그 이슈를 가꾸고 알리는
       %br.mobile
       플랫폼을 만들기로 했습니다.
@@ -147,14 +147,9 @@
       일상 생활 속에서 함께 가꾸는 데서 출발하지 않을까요?
 
     %p.text.last
-      빠띠와 함께 지키고 싶은 이슈가 있다면
-      = link_to 'Ask Parti', '/p/ask-parti'
-      나
-      %br
-      페이스북, 트위터, 미디엄, 옐로아이디
-      %a.mail-link(href='mailto:help@parti.xyz')
-        @parti_xyz
-      를 통해 언제든 연락해 주세요.
+      함께 지키고 싶은 이슈가 있다면
+      %b
+        = link_to '빠띠를 열어 주세요.', new_issue_path
 
     .about-parti__footer
       = link_to root_path do
@@ -177,7 +172,7 @@
           %a(href='mailto:help@parti.xyz')
             오류 및 버그 신고
         %li
-          = link_to slug_issue_path(slug: Issue::SLUG_OF_ASK_PARTI) do
+          = link_to slug_issue_path(slug: Issue::SLUG_OF_PARTI_PARTI) do
             제안 및 의견
 
 

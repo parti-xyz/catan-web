@@ -3,8 +3,8 @@ class Issue < ActiveRecord::Base
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
-  TITLE_OF_ASK_PARTI = 'Ask Parti'
-  SLUG_OF_ASK_PARTI = 'ask-parti'
+  TITLE_OF_PARTI_PARTI = '빠띠'
+  SLUG_OF_PARTI_PARTI = 'parti'
 
   # relations
   belongs_to :group
