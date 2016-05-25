@@ -2,6 +2,11 @@
 
 ## 업그레이드
 
+### 1.3 --> 1.4
+
+서버에 데이터베이스 설정을 수정합니다.
+https://support.cloud.engineyard.com/hc/en-us/articles/205407378-Use-Keep-Files-to-Customize-and-Maintain-Configurations
+
 ### 1.2 --> 1.3
 
 관리자 암호를 등록해야합니다.
