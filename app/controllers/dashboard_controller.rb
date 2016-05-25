@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
 
   def index
     if current_user.need_to_more_watch?
-      @issues = Issue.all
+      @issues = Issue.common.hottest
       render 'intro' and return
     end
     posts
