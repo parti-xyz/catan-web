@@ -45,10 +45,6 @@ class Issue < ActiveRecord::Base
   scope :common, -> { where(group: nil) }
 
   # methods
-  def watched_by? someone
-    watches.exists? user: someone
-  end
-
   def made_by? someone
     makers.exists? user: someone
   end

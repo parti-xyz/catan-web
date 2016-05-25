@@ -28,7 +28,7 @@ class MigrateAskParti < ActiveRecord::Migration
       ActiveRecord::Base.connection.execute query
       say query
 
-      ask_parti.watches.where(watchable: parti_parti).each do |watch|
+      ask_parti.watches.select{ |watch| parti_parti.watched_by?(watch.user) }.each do |watch|
         query = "DELETE FROM watches WHERE id = #{watch.id}"
         ActiveRecord::Base.connection.execute query
         say query

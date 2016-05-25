@@ -9,4 +9,9 @@ module Watchable
     end
     has_many :watched_users, through: :watches, source: :user
   end
+
+  def watched_by? someone
+    watches.exists? user: someone
+  end
+
 end
