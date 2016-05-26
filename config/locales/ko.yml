@@ -31,9 +31,10 @@ ko:
       wiki: 위키
       user: 회원
       comment: 수다
+      campaign: 캠페인
     attributes:
       issue:
-        title: 빠띠
+        title: 제목
         body: 내용
         logo: 대표 이미지
         cover: 커버 이미지
@@ -65,6 +66,13 @@ ko:
         enable_mailing: 메일수신 여부
       comment:
         body: 내용
+      campaign:
+        title: 제목
+        body: 내용
+        logo: 대표 이미지
+        cover: 커버 이미지
+        slug: 주소
+        issue_slugs: 지원하는 빠띠
     errors:
       messages:
         record_invalid: "오류가 있습니다: %{errors}"
