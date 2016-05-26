@@ -105,10 +105,8 @@ ActiveRecord::Schema.define(version: 20160526074948) do
     t.datetime "deleted_at"
     t.string   "active",        default: "on"
     t.boolean  "basic",         default: false
-    t.integer  "campaign_id"
   end
 
-  add_index "issues", ["campaign_id"], name: "index_issues_on_campaign_id"
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at"
   add_index "issues", ["slug", "active"], name: "index_issues_on_slug_and_active", unique: true
   add_index "issues", ["title", "active"], name: "index_issues_on_title_and_active", unique: true

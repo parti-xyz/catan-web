@@ -41,7 +41,6 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
-  scope :common, -> { where(campaign: nil) }
 
   # methods
   def made_by? someone

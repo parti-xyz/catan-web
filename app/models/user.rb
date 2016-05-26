@@ -131,7 +131,7 @@ class User < ActiveRecord::Base
   end
 
   def need_to_more_watch?
-    watched_issues.common.count < 3
+    watched_issues.count < 3
   end
 
   def unwatched_issues

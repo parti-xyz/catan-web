@@ -19,19 +19,10 @@
       %h4
         뜨는 빠띠
         .count-label-wrapper
-          .count-label= @basic_issues.count
+          .count-label= @issues.count
       %ul.issue-card-wrapper.list-unstyled.clearfix
-        - @campaigns.each do |campaign|
-          = render 'campaigns/card', campaign: campaign
-
-      %h4
-        그룹
-        .count-label-wrapper
-          .count-label= @campaigns.count
-      %ul.issue-card-wrapper.list-unstyled.clearfix
-        - @campaigns.each do |campaign|
-          = render 'campaigns/card', campaign: campaign
-
+        - @hottest_issues.each do |issue|
+          = render 'issues/card', issue: issue
       %h4
         모든 빠띠
         .count-label-wrapper
