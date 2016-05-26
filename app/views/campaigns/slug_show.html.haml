@@ -1,0 +1,49 @@
+%section#campaign-header
+  .container
+    %h2= @campaign.title
+    %p= @campaign.body
+    - if can? :update, @campaign
+      = link_to '빠띠만들기', new_campaign_issue_path(@campaign)
+    - if can? :update, @campaign
+      = link_to '수정', [:edit, @campaign]
+    - if can? :destroy, @campaign
+      = link_to '삭제', @campaign, method: :delete
+    %p 구독회원 #{@campaign.watches.count}
+    - if @campaign.watched_by? current_user
+      = link_to cancel_campaign_watches_path(@campaign), method: :delete do
+        구독끊기
+    - else
+      = link_to campaign_watches_path(@campaign), method: :post do
+        구독하기
+
+%section#campaign-issues
+  .container
+    %h4 빠띠
+    %ul.issue-card-wrapper.list-unstyled.clearfix
+      - @campaign.issues.each do |issue|
+        = render 'issues/card', issue: issue
+
+%section#campaign-article
+  .container
+    %h4 베스트 링크
+    .articles
+      - @campaign.best_articles.each do |article|
+        = render article
+
+%section#campaign-article
+  .container
+    %h4 베스트 톡
+    .talks
+      - @campaign.best_talks.each do |talk|
+        = render talk
+
+%section#campaign-article
+  .container
+    %h4 베스트 투표
+    .opinions
+      - @campaign.best_opinions.each do |opinion|
+        = render opinion
+
+
+
+

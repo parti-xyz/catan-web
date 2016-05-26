@@ -7,7 +7,7 @@ class Issue < ActiveRecord::Base
   SLUG_OF_PARTI_PARTI = 'parti'
 
   # relations
-  belongs_to :group
+  belongs_to :campaign
   has_many :relateds
   has_many :related_issues, through: :relateds, source: :target
   has_many :posts, dependent: :destroy
@@ -27,7 +27,7 @@ class Issue < ActiveRecord::Base
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
-    exclusion: { in: %w(group app new edit index session login logout users admin
+    exclusion: { in: %w(campaign app new edit index session login logout users admin
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false },
     length: { maximum: 100 }
@@ -42,7 +42,7 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
-  scope :common, -> { where(group: nil) }
+  scope :common, -> { where(campaign: nil) }
 
   # methods
   def made_by? someone
@@ -112,8 +112,8 @@ class Issue < ActiveRecord::Base
     posts.hottest.limit(count)
   end
 
-  def grouped?
-    group.present?
+  def campaigned?
+    campaign.present?
   end
 
   private

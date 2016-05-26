@@ -36,21 +36,21 @@ class WatchesTest < ActionDispatch::IntegrationTest
   test '그룹 구독해요' do
     sign_in(users(:one))
 
-    post group_watches_path(group_id: groups(:group3).id)
+    post campaign_watches_path(campaign_id: campaigns(:campaign3).id)
 
     assert assigns(:watch).persisted?
-    assert_equal groups(:group3), assigns(:watch).watchable
+    assert_equal campaigns(:campaign3), assigns(:watch).watchable
     assert_equal users(:one), assigns(:watch).user
   end
 
   test '그룹구독 취소해요' do
-    assert groups(:group1).watched_by? users(:two)
+    assert campaigns(:campaign1).watched_by? users(:two)
 
     sign_in(users(:two))
 
-    delete cancel_group_watches_path(group_id: groups(:group1).id)
+    delete cancel_campaign_watches_path(campaign_id: campaigns(:campaign1).id)
 
-    refute groups(:group1).watched_by? users(:two)
+    refute campaigns(:campaign1).watched_by? users(:two)
   end
 
   test '구독한 글만 구경해요' do

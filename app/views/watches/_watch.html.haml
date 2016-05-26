@@ -1,7 +1,7 @@
 - watch_btn_class ||= (params['watch_btn_class'] || 'btn btn-primary')
 - cancel_btn_class ||= (params['cancel_btn_class'] || 'btn btn-default')
 - maker_class ||= (params['maker_class'] || 'btn btn-default btn-label')
-- watchable = local_assigns[:issue] || local_assigns[:group]
+- watchable = local_assigns[:issue] || local_assigns[:campaign]
 %span(class="#{dom_id(watchable)}-watch")
   - if user_signed_in?
     - if watchable.watched_by?(current_user)

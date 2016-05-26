@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160524230017) do
+ActiveRecord::Schema.define(version: 20160526055635) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -39,6 +39,23 @@ ActiveRecord::Schema.define(version: 20160524230017) do
   add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
   add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
 
+  create_table "campaigns", force: :cascade do |t|
+    t.integer  "user_id",                      null: false
+    t.string   "title",                        null: false
+    t.string   "slug",                         null: false
+    t.text     "body"
+    t.string   "logo"
+    t.string   "cover"
+    t.datetime "deleted_at"
+    t.string   "active",        default: "on"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "watches_count"
+  end
+
+  add_index "campaigns", ["slug", "active"], name: "index_campaigns_on_slug_and_active", unique: true
+  add_index "campaigns", ["title", "active"], name: "index_campaigns_on_title_and_active", unique: true
+
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",                   null: false
     t.integer  "post_id",                   null: false
@@ -64,23 +81,6 @@ ActiveRecord::Schema.define(version: 20160524230017) do
 
   add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at"
 
-  create_table "groups", force: :cascade do |t|
-    t.integer  "user_id",                      null: false
-    t.string   "title",                        null: false
-    t.string   "slug",                         null: false
-    t.text     "body"
-    t.string   "logo"
-    t.string   "cover"
-    t.datetime "deleted_at"
-    t.string   "active",        default: "on"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "watches_count"
-  end
-
-  add_index "groups", ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true
-  add_index "groups", ["title", "active"], name: "index_groups_on_title_and_active", unique: true
-
   create_table "issues", force: :cascade do |t|
     t.string   "title",                         null: false
     t.datetime "created_at",                    null: false
@@ -94,11 +94,11 @@ ActiveRecord::Schema.define(version: 20160524230017) do
     t.datetime "deleted_at"
     t.string   "active",        default: "on"
     t.boolean  "basic",         default: false
-    t.integer  "group_id"
+    t.integer  "campaign_id"
   end
 
+  add_index "issues", ["campaign_id"], name: "index_issues_on_campaign_id"
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at"
-  add_index "issues", ["group_id"], name: "index_issues_on_group_id"
   add_index "issues", ["slug", "active"], name: "index_issues_on_slug_and_active", unique: true
   add_index "issues", ["title", "active"], name: "index_issues_on_title_and_active", unique: true
 

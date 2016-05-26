@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
 
-  resources :groups do
+  resources :campaigns do
     resources :watches do
       delete :cancel, on: :collection
     end
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
       delete :cancel, on: :collection
     end
   end
-  get 'groups/:group_id/parties/new', to: 'issues#new', as: 'new_group_issue'
+  get 'campaigns/:campaign_id/parties/new', to: 'issues#new', as: 'new_campaign_issue'
 
   resources :posts, only: [] do
     shallow do
@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   get '/dashboard/parties', to: "dashboard#parties", as: 'dashboard_parties'
   get '/dashboard/new_comments_count', to: "dashboard#new_comments_count", as: 'new_dashboard_comments_count'
 
-  get '/g/:slug', to: "groups#slug_show", as: 'slug_group'
+  get '/c/:slug', to: "campaigns#slug_show", as: 'slug_campaign'
 
   get '/p/:slug', to: "issues#slug_talks", as: 'slug_issue'
   get '/p/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'

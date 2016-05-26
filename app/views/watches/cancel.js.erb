@@ -1,10 +1,10 @@
 <% if params[:partial] == 'intro' %>
-  <% script = escape_javascript(render customize_partial_path(specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_in_intro" }), issue: @issue, group: @group) %>
+  <% script = escape_javascript(render customize_partial_path(specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_in_intro" }), issue: @issue, campaign: @campaign) %>
   $('.<%= dom_id(@watch.watchable) %>-card').replaceWith(parti_origin_partial("<%= script %>"));
   <% if current_user.need_to_more_watch? %>
     $('#btn-continue').addClass( "disabled" );
     $('#btn-continue').removeAttr("href");
   <% end %>
 <% else %>
-  $('.<%= dom_id(@watch.watchable) %>-watch').html(parti_origin_partial("<%= escape_javascript(render 'watches/watch', issue: @issue, group: @group) %>"));
+  $('.<%= dom_id(@watch.watchable) %>-watch').html(parti_origin_partial("<%= escape_javascript(render 'watches/watch', issue: @issue, campaign: @campaign) %>"));
 <% end %>

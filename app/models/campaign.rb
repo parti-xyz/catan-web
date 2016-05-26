@@ -1,4 +1,4 @@
-class Group < ActiveRecord::Base
+class Campaign < ActiveRecord::Base
   include Watchable
   include UniqueSoftDeletable
   acts_as_unique_paranoid
@@ -15,7 +15,7 @@ class Group < ActiveRecord::Base
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
-    exclusion: { in: %w(all group app new edit index session login logout users admin
+    exclusion: { in: %w(all campaign app new edit index session login logout users admin
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false },
     length: { maximum: 100 }

@@ -1,20 +1,20 @@
 .well
-  - if @group.errors.any?
+  - if @campaign.errors.any?
     .alert.alert-danger{:role => "alert"}
-      - @group.errors.full_messages.each do |msg|
+      - @campaign.errors.full_messages.each do |msg|
         %div
           %span.glyphicon.glyphicon-exclamation-sign{"aria-hidden" => "true"}
           %span.sr-only 오류 :
           = msg
 
-  = form_for @group do |f|
-    .form-group{class: error_class_str(@group, :title)}
+  = form_for @campaign do |f|
+    .form-group{class: error_class_str(@campaign, :title)}
       = f.label :title
       = f.text_field :title, class: 'form-control input-lg'
       %p.help-block
         (예) "기본소득", "더 나은 민주주의", "IT기술을 이용한 사회 혁신" 등으로 그룹을 만드세요
 
-    .form-group{class: ('has-error' if has_error_attr?(@group, :slug))}
+    .form-group{class: ('has-error' if has_error_attr?(@campaign, :slug))}
       = f.label :slug
       .input-group
         .input-group-addon
@@ -26,15 +26,15 @@
       = f.label :body
       = f.text_area :body, class: 'form-control'
 
-    .form-group{class: ('has-error' if has_error_attr?(@group, :logo))}
+    .form-group{class: ('has-error' if has_error_attr?(@campaign, :logo))}
       = f.label :logo
       = f.file_field :logo, class: 'form-control'
 
-    .form-group{class: ('has-error' if has_error_attr?(@group, :cover))}
+    .form-group{class: ('has-error' if has_error_attr?(@campaign, :cover))}
       = f.label :cover
       = f.file_field :cover, class: 'form-control'
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg'
-      = link_to (@group.new_record? ? root_path : @group), class: 'btn btn-default' do
+      = link_to (@campaign.new_record? ? root_path : @campaign), class: 'btn btn-default' do
         취소

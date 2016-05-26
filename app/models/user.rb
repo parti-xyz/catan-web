@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
   VALID_NICKNAME_REGEX = /\A[a-z0-9_]+\z/i
   validates :nickname,
     presence: true,
-    exclusion: { in: %w(app new edit index session login logout users admin all crew issue group) },
+    exclusion: { in: %w(app new edit index session login logout users admin all crew issue group campaign) },
     format: { with: VALID_NICKNAME_REGEX },
     uniqueness: { case_sensitive: false },
     length: { maximum: 20 }
@@ -44,8 +44,8 @@ class User < ActiveRecord::Base
   has_many :upvotes
   has_many :votes
   has_many :watches
-  has_many :watched_groups, through: :watches, source: :watchable, source_type: Group
-  has_many :watched_group_issues, through: :watched_groups, source: :issues
+  has_many :watched_campaigns, through: :watches, source: :watchable, source_type: Campaign
+  has_many :watched_campaign_issues, through: :watched_campaigns, source: :issues
   has_many :watched_common_issues, through: :watches, source: :watchable, source_type: Issue
   has_many :makers
   has_many :made_issues, through: :makers, source: :issue
@@ -151,7 +151,7 @@ class User < ActiveRecord::Base
   end
 
   def watched_issues
-    watched_common_issues.union(watched_group_issues)
+    watched_common_issues.union(watched_campaign_issues)
   end
 
   def watched_only_issues

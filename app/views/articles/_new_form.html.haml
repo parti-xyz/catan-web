@@ -18,7 +18,7 @@
             %b= issue.title
           - else
             = f.select :issue_id, nil, {prompt: '빠띠를 선택해 주세요.'}, {style: 'width: 200px;', data: { 'rule-required': true, 'action': 'parti-select-parti'}} do
-              = grouped_options_for_select(editable_issues_continents(current_user))
+              = campaigned_options_for_select(editable_issues_continents(current_user))
           %br.mobile
           = f.submit '빠띠에 게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
 

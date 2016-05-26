@@ -21,16 +21,16 @@
         .count-label-wrapper
           .count-label= @basic_issues.count
       %ul.issue-card-wrapper.list-unstyled.clearfix
-        - @groups.each do |group|
-          = render 'groups/card', group: group
+        - @campaigns.each do |campaign|
+          = render 'campaigns/card', campaign: campaign
 
       %h4
         그룹
         .count-label-wrapper
-          .count-label= @groups.count
+          .count-label= @campaigns.count
       %ul.issue-card-wrapper.list-unstyled.clearfix
-        - @groups.each do |group|
-          = render 'groups/card', group: group
+        - @campaigns.each do |campaign|
+          = render 'campaigns/card', campaign: campaign
 
       %h4
         모든 빠띠

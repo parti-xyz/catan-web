@@ -9,7 +9,7 @@
 
 
   = form_for @issue do |f|
-    = f.hidden_field :group_id
+    = f.hidden_field :campaign_id
     .form-group{class: error_class_str(@issue, :title)}
       = f.label :title
       = f.text_field :title, class: 'form-control input-lg'
