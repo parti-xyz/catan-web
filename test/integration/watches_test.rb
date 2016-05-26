@@ -33,26 +33,6 @@ class WatchesTest < ActionDispatch::IntegrationTest
     assert issues(:issue1).watched_by? users(:maker)
   end
 
-  test '그룹 구독해요' do
-    sign_in(users(:one))
-
-    post campaign_watches_path(campaign_id: campaigns(:campaign3).id)
-
-    assert assigns(:watch).persisted?
-    assert_equal campaigns(:campaign3), assigns(:watch).watchable
-    assert_equal users(:one), assigns(:watch).user
-  end
-
-  test '그룹구독 취소해요' do
-    assert campaigns(:campaign1).watched_by? users(:two)
-
-    sign_in(users(:two))
-
-    delete cancel_campaign_watches_path(campaign_id: campaigns(:campaign1).id)
-
-    refute campaigns(:campaign1).watched_by? users(:two)
-  end
-
   test '구독한 글만 구경해요' do
     sign_in(users(:one))
 
