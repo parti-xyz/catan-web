@@ -2,7 +2,6 @@ class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!, only: [:create, :update, :destroy]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
-  load_and_authorize_resource :campaign
   load_and_authorize_resource
 
   def index
@@ -32,16 +31,7 @@ class IssuesController < ApplicationController
     prepare_issue_meta_tags
   end
 
-  def new
-    authorize_campaign!
-  end
-
-  def edit
-    authorize_campaign!
-  end
-
   def create
-    authorize_campaign!
     @issue.makers.build(user: current_user)
     @watch = current_user.watches.build(watchable: @issue)
     ActiveRecord::Base.transaction do
@@ -54,7 +44,6 @@ class IssuesController < ApplicationController
   end
 
   def update
-    authorize_campaign!
     @issue.assign_attributes(issue_params)
 
     ActiveRecord::Base.transaction do
@@ -96,12 +85,6 @@ class IssuesController < ApplicationController
 
   private
 
-  def authorize_campaign!
-    if @campaign.present?
-      authorize! :manage, @campaign
-    end
-  end
-
   def fetch_issue_by_slug
     @issue = Issue.find_by slug: params[:slug]
     if @issue.blank?
@@ -115,7 +98,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:campaign_id, :title, :body, :logo, :cover, :slug, :basic, :makers_nickname)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname)
   end
 
   def prepare_issue_meta_tags

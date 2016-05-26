@@ -7,7 +7,6 @@ class Issue < ActiveRecord::Base
   SLUG_OF_PARTI_PARTI = 'parti'
 
   # relations
-  belongs_to :campaign
   has_many :relateds
   has_many :related_issues, through: :relateds, source: :target
   has_many :posts, dependent: :destroy

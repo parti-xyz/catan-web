@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526055635) do
+ActiveRecord::Schema.define(version: 20160526074948) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", null: false
@@ -38,6 +38,17 @@ ActiveRecord::Schema.define(version: 20160526055635) do
   add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"
   add_index "articles", ["link_source_id"], name: "index_articles_on_link_source_id"
   add_index "articles", ["post_issue_id", "link_source_id", "active"], name: "index_articles_on_unique_link_source", unique: true
+
+  create_table "campaigned_issues", force: :cascade do |t|
+    t.integer  "campaign_id", null: false
+    t.integer  "issue_id",    null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "campaigned_issues", ["campaign_id", "issue_id"], name: "index_campaigned_issues_on_campaign_id_and_issue_id", unique: true
+  add_index "campaigned_issues", ["campaign_id"], name: "index_campaigned_issues_on_campaign_id"
+  add_index "campaigned_issues", ["issue_id"], name: "index_campaigned_issues_on_issue_id"
 
   create_table "campaigns", force: :cascade do |t|
     t.integer  "user_id",                      null: false

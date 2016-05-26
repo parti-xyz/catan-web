@@ -8,6 +8,8 @@ class Campaign < ActiveRecord::Base
   has_many :issues, dependent: :nullify
   has_many :posts, through: :issues
   has_many :comments, through: :posts
+  has_many :campaigned_issues
+  has_many :issues, through: :campaigned_issues
 
   # validations
   validates :title, presence: true, uniqueness: { case_sensitive: false }
@@ -23,6 +25,7 @@ class Campaign < ActiveRecord::Base
   # fields
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
+  attr_accessor :issue_slugs
 
   # callbacks
   before_save :downcase_slug

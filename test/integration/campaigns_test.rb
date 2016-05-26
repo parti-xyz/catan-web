@@ -4,10 +4,12 @@ class CampaignsTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:admin))
 
-    post campaigns_path(campaign: { title: 'title', slug: 'title', body: 'body' })
+    post campaigns_path(campaign: { title: 'title', slug: 'title', body: 'body', issue_slugs: "issue1, issue2" })
 
     assert assigns(:campaign).persisted?
     assert_equal 'title', assigns(:campaign).title
+    assert assigns(:campaign).issues.exists?(issues(:issue1).id)
+    assert assigns(:campaign).issues.exists?(issues(:issue2).id)
   end
 
   test '같은 이름으로는 못 만들어요' do
@@ -43,15 +45,5 @@ class CampaignsTest < ActionDispatch::IntegrationTest
     post campaigns_path(campaign: { title: 'all', slug: 'all', body: 'body' })
 
     refute assigns(:campaign).persisted?
-  end
-
-  test '그룹용 빠띠 만들기' do
-    sign_in(users(:admin))
-
-    post issues_path(issue: { title: 'title', slug: 'title', body: 'body', campaign_id: campaigns(:campaign1).id })
-
-    assert assigns(:issue).persisted?
-    assert_equal 'title', assigns(:issue).title
-    assert_equal assigns(:issue), campaigns(:campaign1).reload.issues.first
   end
 end

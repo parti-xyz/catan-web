@@ -1,9 +1,11 @@
 class CampaignsController < ApplicationController
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!, except: [:show, :slug_show]
   load_and_authorize_resource
 
   def create
     @campaign.user = current_user
+    build_issues
+
     if @campaign.save
       redirect_to campaign_home_path(@campaign)
     else
@@ -24,7 +26,9 @@ class CampaignsController < ApplicationController
   end
 
   def update
-    if @campaign.update_attributes(campaign_params)
+    @campaign.assign_attributes(campaign_params)
+    build_issues
+    if @campaign.save
       redirect_to campaign_home_path(@campaign)
     else
       render 'edit'
@@ -39,6 +43,17 @@ class CampaignsController < ApplicationController
   private
 
   def campaign_params
-    params.require(:campaign).permit(:title, :body, :logo, :cover, :slug)
+    params.require(:campaign).permit(:title, :body, :logo, :cover, :slug, :issue_slugs)
+  end
+
+  def build_issues
+    @campaign.campaigned_issues.destroy_all if @campaign.persisted?
+    return if @campaign.issue_slugs.blank?
+    @campaign.issue_slugs.split(",").map(&:strip).each do |issue_slug|
+      issue = Issue.find_by(slug: issue_slug)
+      if issue.present?
+        @campaign.campaigned_issues.build(issue: issue)
+      end
+    end
   end
 end
