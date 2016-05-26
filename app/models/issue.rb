@@ -78,17 +78,6 @@ class Issue < ActiveRecord::Base
     result
   end
 
-  def self.recommends_for_watch(someone)
-    Issue.hottest.where.not(id: someone.watched_issues).limit(10).to_a
-  end
-
-  def self.featured_issues(someone)
-    result = []
-    result << someone.watched_issues.order(title: :asc) if someone.present?
-    result << basic_issues
-    result.flatten.compact.uniq { |i| [i.title] }
-  end
-
   def self.basic_issues
     Issue.where basic: true
   end
@@ -108,10 +97,6 @@ class Issue < ActiveRecord::Base
 
   def hottest_posts(count)
     posts.hottest.limit(count)
-  end
-
-  def campaigned?
-    campaign.present?
   end
 
   private

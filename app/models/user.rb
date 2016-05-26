@@ -44,9 +44,7 @@ class User < ActiveRecord::Base
   has_many :upvotes
   has_many :votes
   has_many :watches
-  has_many :watched_campaigns, through: :watches, source: :watchable, source_type: Campaign
-  has_many :watched_campaign_issues, through: :watched_campaigns, source: :issues
-  has_many :watched_common_issues, through: :watches, source: :watchable, source_type: Issue
+  has_many :watched_issues, through: :watches, source: :watchable, source_type: Issue
   has_many :makers
   has_many :made_issues, through: :makers, source: :issue
 
@@ -150,11 +148,7 @@ class User < ActiveRecord::Base
     makers.exists?(issue: issue)
   end
 
-  def watched_issues
-    watched_common_issues.union(watched_campaign_issues)
-  end
-
-  def watched_only_issues
+  def only_watched_issues
     watched_issues.where.not(id: makers.select(:issue_id))
   end
 

@@ -6,7 +6,6 @@ class IssuesController < ApplicationController
 
   def index
     prepare_meta_tags title: "빠띠", description: "모든 빠띠들입니다."
-    @basic_issues = Issue.basic_issues
     @issues = Issue.all
     @hottest_issues = Issue.all.hottest.limit(5);
     @campaigns = Campaign.all

@@ -34,8 +34,4 @@ class DashboardController < ApplicationController
   def new_comments_count
     @count = current_user.watched_comments.next_of(params[:first_id]).count
   end
-
-  def parties
-    @issues = current_user.watched_only_issues
-  end
 end
