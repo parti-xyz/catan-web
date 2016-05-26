@@ -17,9 +17,8 @@
   .container
     .parties-all
       %h4
-        뜨는 빠띠
+        인기 빠띠
         .count-label-wrapper
-          .count-label= @issues.count
       %ul.issue-card-wrapper.list-unstyled.clearfix
         - @hottest_issues.each do |issue|
           = render 'issues/card', issue: issue
