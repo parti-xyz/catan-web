@@ -10,11 +10,7 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
 
-  resources :campaigns do
-    resources :watches do
-      delete :cancel, on: :collection
-    end
-  end
+  resources :campaigns
   resources :parties, as: :issues, controller: 'issues' do
     member do
       get :opinions
@@ -26,7 +22,6 @@ Rails.application.routes.draw do
       delete :cancel, on: :collection
     end
   end
-  get 'campaigns/:campaign_id/parties/new', to: 'issues#new', as: 'new_campaign_issue'
 
   resources :posts, only: [] do
     shallow do

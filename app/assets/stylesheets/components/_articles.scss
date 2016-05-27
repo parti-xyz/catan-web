@@ -24,6 +24,14 @@ section#articles {
   border: 1px solid #f1f1f1;
   .thumb {
     height: 150px;
+    &--issue {
+      border-radius: 4px;
+      width: 33px;
+      max-height: 33px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
   }
   .caption {
     padding: 20px;

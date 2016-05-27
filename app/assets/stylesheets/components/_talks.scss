@@ -11,6 +11,12 @@ section#talks {
   border-radius: 4px;
   padding: 20px;
   margin-bottom: 10px;
+  .talk-media-left--issue {
+    padding-right: 20px;
+  }
+  .comment-media--issue {
+    margin-left: 63px;
+  }
   .date {
     color: $gray-light;
     font-size: $font-size-small;
@@ -18,6 +24,11 @@ section#talks {
   .media-heading.title {
     font-weight: bold;
     margin-top: 5px;
+  }
+  .thumb--issue {
+    border-radius: 4px;
+    width: 33px;
+    height: 33px;
   }
   .comment-count {
     color: $text-muted;

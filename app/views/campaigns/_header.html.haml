@@ -1,0 +1,19 @@
+#site-header
+  %nav.navbar.navbar-default.navbar-top.clearfix
+    .navbar-header
+      %a.navbar-brand{ href: root_path }
+        %img{ alt: 'parti', src: asset_path('parti_logo_white.png')}
+
+    %ul.nav.navbar-nav.navbar-right
+      - if user_signed_in?
+        %li
+          = link_to dashboard_path, class: 'user-byline' do
+            .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+            = current_user.nickname
+        %li
+          = link_to destroy_user_session_path, method: :delete do
+            로그아웃
+
+      - else
+        %li
+          = link_to '로그인/회원가입', new_user_session_path

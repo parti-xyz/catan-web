@@ -17,13 +17,16 @@
 
     = csrf_meta_tags
 
-  %body
+  %body{class: "app-#{params[:controller]} app-#{params[:controller]}-#{params[:action]}"}
     %section(style='position: fixed; z-index: 1000; width: 100%')
       .container
         .unobtrusive-flash-container
     = render 'shall_we_login'
     = render 'posts/modal'
-    = render 'header'
+    - if content_for?(:header)
+      = yield :header
+    - else
+      = render 'header'
     = yield
     / = render 'footer'
     = javascript_include_tag 'application'

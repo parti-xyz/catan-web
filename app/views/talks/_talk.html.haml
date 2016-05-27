@@ -1,6 +1,10 @@
 - post = talk.acting_as
 .talk-card[post]
   .media.talk-media
+    - if local_assigns[:show_issue]
+      .media-left.talk-media-left--issue
+        = link_to issue_home_path(post.issue) do
+          .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
     .media-left
       = link_to user_gallery_path(post.user) do
         .thumb.img-circle.circle-30{style: "background-image: url(#{post.user.image.sm.url});"}
@@ -24,7 +28,7 @@
 
   - if talk.best_comment.present?
     - comment = talk.best_comment
-    .media.comment-media
+    .media.comment-media{ class: "#{'comment-media--issue' if local_assigns[:show_issue]}"}
       .media-left
         = link_to user_gallery_path(comment.user) do
           .thumb.img-circle.circle-20{style: "background-image: url(#{comment.user.image.sm.url});"}

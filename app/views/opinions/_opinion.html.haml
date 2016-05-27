@@ -5,10 +5,8 @@
   .row
     .col-sm-6.col-xs-12
       - if local_assigns[:show_issue]
-        .opinion-card__issue
-          = link_to issue_home_path(issue) do
-            = image_tag issue.logo.xs.url
-            %span.text-primary= issue.title
+        = link_to issue_home_path(issue) do
+          .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
     .col-sm-6.col-xs-12
       .opinion-card__date.date-wrapper{class: ('opinion-card__date--with-issue' if local_assigns[:show_issue])}
         %span= date_f opinion.created_at

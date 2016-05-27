@@ -13,7 +13,7 @@
           - if user_signed_in?
             %li
               = link_to dashboard_path, class: 'btn' do
-                내 빠띠 소식
+                내 빠띠
             %li
               = link_to messages_path, class: 'btn' do
                 - if current_user.unread_messages_count > 0

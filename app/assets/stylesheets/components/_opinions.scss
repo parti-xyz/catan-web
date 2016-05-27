@@ -40,21 +40,13 @@ section#opinions {
       text-decoration: underline;
     }
   }
-  &__issue {
-    text-align: left;
-    font-size: $font-size-small;
-    font-weight: bold;
-    img {
-      border-radius: 4px;
-      width: 20px;
-      height: 20px;
-    }
-    span {
-      vertical-align: bottom;
-    }
+  .thumb--issue {
+    border-radius: 4px;
+    max-width: 33px;
+    height: 33px;
   }
   &__date--with-issue {
-    line-height: 20px;
+    line-height: 35px;
     span {
       vertical-align: bottom;
     }

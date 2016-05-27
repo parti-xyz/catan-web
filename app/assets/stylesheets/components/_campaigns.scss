@@ -1,0 +1,127 @@
+body.app-campaigns {
+  padding-top: 0;
+
+  #site-header .navbar-default {
+    border: none;
+    background-color: transparent;
+
+    navbar-brand {
+      padding-left: 0;
+    }
+  }
+}
+
+#campaign-header-section {
+  position: relative;
+  background: rgba(0,0,0,0.5);
+  overflow: hidden;
+  min-height: 760px;
+  &:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
+  }
+}
+
+.campaign-logo {
+  .thumb {
+    width: 240px;
+    min-height: 240px;
+    margin: 0 auto;
+  }
+}
+
+.campaign-body {
+  text-align: center;
+  color: #fff;
+  font-size: $font-size-base;
+}
+
+.campaign-issues {
+  padding-top: 60px;
+  text-align: center;
+
+  .issue-card-wrapper {
+    display: inline-block;
+    padding: 0;
+
+    .issue-card {
+      width: 160px;
+      margin-left: 15px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.campaign-section-title {
+  color: $gray-darker;
+  text-align: center;
+  border-bottom: 1px solid #d2d2d2;
+  padding-bottom: 15px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.campaign-best-articles {
+  margin-bottom: 30px;
+  .row {
+    margin-left: -7.5px;
+    margin-right: -7.5px;
+  }
+  .col-sm-3, .col-xs-6 {
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+  }
+}
+
+.campaign-best-talks {
+  margin-bottom: 50px;
+}
+
+.campaign-best-opinions {
+  .row {
+    margin-left: -7.5px;
+    margin-right: -7.5px;
+  }
+  .col-xs-12, .col-sm-4 {
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+  }
+}
+
+#campaign-talks {
+  background-color: $gray-light;
+}
+
+#campaign-footer {
+  border: 1px solid #d2d2d2;
+  margin-top: 50px;
+  padding-top: 20px;
+}
+
+.campaign-powered-by {
+  float: right;
+  color: #c0c0c2;
+  font-size: $font-size-base;
+  margin-bottom: 30px;
+
+  img {
+    width: 100px;
+    height: 45px;
+  }
+}

@@ -4,6 +4,10 @@
       - unless is_mobile?
         = render 'aside'
       .col-xs-9
+        %section#content-tab-section
+          .nav-tabs.message-tab
+            %h4
+              내 빠띠 소식
         - if @posts.first.present?
           = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comment.id)
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}

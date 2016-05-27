@@ -1,49 +1,58 @@
-%section#campaign-header
+:scss
+  #campaign-header-section:before {
+      background-image: url(#{@campaign.cover.url});
+  }
+- content_for :header do
+  %section#campaign-header-section
+    .container
+      = render 'campaigns/header'
+      .campaign-logo
+        .thumb{style: "background-image: url(#{@campaign.logo.md.url})"}
+      %p.campaign-body= simple_format(@campaign.body, {}, wrapper_tag: "span")
+      .text-center
+        - if can? :update, @campaign
+          = link_to '수정', [:edit, @campaign], class: 'btn btn-primary'
+        - if can? :destroy, @campaign
+          = link_to '삭제', @campaign, method: :delete, class: 'btn btn-primary'
+
+      .campaign-issues
+        %ul.issue-card-wrapper.list-unstyled.clearfix
+          - @campaign.issues.each do |issue|
+            = render 'issues/card', issue: issue
+
+- if @campaign.best_articles.any?
+  %section#campaign-articles
+    .container
+      %h2.campaign-section-title 베스트 자료
+      .campaign-best-articles
+        .row.masonry-container
+          - @campaign.best_articles.each do |article|
+            = render article, show_issue: true
+
+- if @campaign.best_talks.any?
+  %section#campaign-talks
+    .container
+      %h2.campaign-section-title 베스트 논의
+      .campaign-best-talks
+        - @campaign.best_talks.each do |talk|
+          = render talk, show_issue: true
+
+- if @campaign.best_opinions.any?
+  %section#campaign-opinions
+    .container
+      %h2.campaign-section-title 베스트 투표
+      .campaign-best-opinions
+        .row.masonry-container
+          - @campaign.best_opinions.each do |opinion|
+            .col-xs-12.col-sm-4.card.card--hover-grow
+              = render opinion, show_issue: true
+
+%section#campaign-footer
   .container
-    %h2= @campaign.title
-    %p= @campaign.body
-    - if can? :update, @campaign
-      = link_to '빠띠만들기', new_campaign_issue_path(@campaign)
-    - if can? :update, @campaign
-      = link_to '수정', [:edit, @campaign]
-    - if can? :destroy, @campaign
-      = link_to '삭제', @campaign, method: :delete
-    %p 구독회원 #{@campaign.watches.count}
-    - if @campaign.watched_by? current_user
-      = link_to cancel_campaign_watches_path(@campaign), method: :delete do
-        구독끊기
-    - else
-      = link_to campaign_watches_path(@campaign), method: :post do
-        구독하기
-
-%section#campaign-issues
-  .container
-    %h4 빠띠
-    %ul.issue-card-wrapper.list-unstyled.clearfix
-      - @campaign.issues.each do |issue|
-        = render 'issues/card', issue: issue
-
-%section#campaign-article
-  .container
-    %h4 베스트 링크
-    .articles
-      - @campaign.best_articles.each do |article|
-        = render article
-
-%section#campaign-article
-  .container
-    %h4 베스트 톡
-    .talks
-      - @campaign.best_talks.each do |talk|
-        = render talk
-
-%section#campaign-article
-  .container
-    %h4 베스트 투표
-    .opinions
-      - @campaign.best_opinions.each do |opinion|
-        = render opinion
-
-
+    .campaign-powered-by
+      Powered by
+      %br
+      = link_to root_path do
+        = image_tag 'parti_logo_gray.png'
 
 
