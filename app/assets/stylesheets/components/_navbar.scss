@@ -83,8 +83,7 @@
         font-weight: bold;
         font-size: $font-size-base;
         &:hover{
-          color: $brand-light;
-          border-bottom: 1px solid #c0c0c2;
+          color: $brand-primary;
         }
       }
     }
@@ -103,35 +102,101 @@
         font-size: 25px;
         margin-left: -4px;
       }
-      .fa-stack-1x{
+      .fa-stack-1x {
         left: -2px;
         top: -3px;
       }
     }
-    .dropdown{
-      a{
-        &:hover{
+    .dropdown {
+      a {
+        &:hover {
           background-color: transparent !important;
         }
-        &:focus{
+        &:focus {
           background-color: transparent !important;
         }
       }
     }
-    .dropdown.open{
-      a{
+    .dropdown.open {
+      a {
         background-color: transparent !important;
       }
     }
-    .dropdown-menu{
+    .dropdown-menu {
       min-width: 170px;
-      li{
-        a{
-          &:hover{
+      li {
+        a {
+          &:hover {
             color: #6b37c1 !important;
             background-color: transparent !important;
+            border-bottom: 1px solid #c0c0c2;
           }
         }
+      }
+    }
+  }
+  .navbar-right {
+    margin-right: 0px;
+    li.notification {
+      padding-right: 8px;
+      margin-top: 10px;
+      .btn {
+        border: 1px solid #966fd6;
+        border-radius: 80px;
+        padding: 5px;
+        color: #966fd6;
+      }
+    }
+    li.user-info {
+      border: 1px solid #966fd6;
+      border-radius: 22px;
+      margin-top: 10px;
+      min-width: 170px;
+      .user-byline {
+        padding-top: 3px;
+        padding-left: 3px;
+        display: inline-block;
+      }
+      .dropdown {
+        display: inline-block;
+        padding-right: 10px;
+        padding-left: 50px;
+        a {
+          color: #966fd6;
+        }
+        .dropdown-menu {
+          border-radius: 15px;
+          right: -6px;
+          margin-top: 10px;
+          border: 1px solid;
+          padding: 12px 15px 10px;
+          background-color: #F4F2F7;
+          li {
+            a {
+              color: #777777;
+              padding-left: 4px;
+              font-size: 14px;
+              font-weight: bold;
+            }
+          }
+          li#profile {
+            padding-bottom: 2px;
+          }
+          li#logout {
+            padding-top: 2px;
+          }
+        }
+      }
+    }
+    .sing-up {
+      border: 1px solid #966fd6;
+      border-radius: 22px;
+      margin-top: 8px;
+      a {
+        font-size: 14px;
+        font-weight: bold;
+        color: #777777;
+        padding: 6px 16px;
       }
     }
   }
@@ -139,6 +204,7 @@
     width: 25px;
     height: 25px;
   }
+
 }
 
 .navbar-sign {

@@ -26,31 +26,31 @@
               = link_to dashboard_path, class: 'btn' do
                 내 빠띠
 
-      %ul.nav.navbar-nav.navbar-right{style: "margin-right: 0px;"}
+      %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
-          %li{style: "padding-right: 8px; margin-top: 10px;"}
-            = link_to messages_path, style: 'border: 1px solid #966fd6; border-radius: 80px; padding: 5px; color: #966fd6;', class: 'btn' do
+          %li.notification
+            = link_to messages_path, class: 'btn' do
               - if current_user.unread_messages_count > 0
                 %span.fa-stack
                   %i.icon-bell.fa-stack-1x
                   %i.icon-dot-corner
               - else
                 %i.icon-bell
-          %li{style: "border: 1px solid #966fd6; border-radius: 22px; margin-top: 10px; min-width: 170px;"}
-            = link_to dashboard_path, style: 'padding-top: 3px; padding-left: 3px; display: inline-block;', class: 'user-byline' do
+          %li.user-info
+            = link_to dashboard_path, class: 'user-byline' do
               .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
               = current_user.nickname
-            .dropdown{style:"display: inline-block; padding-right: 10px; padding-left: 50px;"}
-              %a{"data-toggle" => "dropdown", "data-target" => "#", "role" => "button", style:"color: #966fd6"}
+            .dropdown
+              %a{"data-toggle" => "dropdown", "data-target" => "#", "role" => "button"}
                 ▼
-              %ul.dropdown-menu{"role" => "menu", style:"border-radius: 15px; right: -6px; margin-top: 10px; border: 1px solid; padding: 12px 15px 10px; background-color: #F4F2F7"}
-                %li{style: "padding-bottom: 2px;"}
-                  = link_to edit_user_registration_path, style:"padding-left: 4px; font-size: 14px; font-weight: bold; color: #777777;" do
+              %ul.dropdown-menu{"role" => "menu"}
+                %li#profile
+                  = link_to edit_user_registration_path do
                     •설정
-                %li{style: "padding-top: 2px;"}
-                  = link_to destroy_user_session_path, method: :delete, style:"padding-left: 4px; font-size: 14px; font-weight: bold; color: #777777;" do
+                %li#logout
+                  = link_to destroy_user_session_path, method: :delete do
                     •로그아웃
 
         - else
-          %li{style: "border: 1px solid #966fd6; border-radius: 22px; margin-top: 8px;"}
-            = link_to '로그인/회원가입', new_user_session_path, style:"font-size: 14px; font-weight: bold; color: #777777; padding: 6px 16px;"
+          %li.sing-up
+            = link_to '로그인/회원가입', new_user_session_path
