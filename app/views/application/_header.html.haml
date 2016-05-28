@@ -1,5 +1,16 @@
 #site-header
   %nav.navbar.navbar-default.navbar-fixed-top
+    - if request.path=='/'
+      .top-banner
+        %span.count> 시민
+        이 힘을 모아
+        %span
+        %span.count> 이슈
+        를 해결하는
+        %span.count 온라인 광장
+        빠띠
+        = link_to about_path, class: 'top-banner-btn' do
+          빠띠란 무엇일까요?
     .container.clearfix
       .navbar-header
         %a.navbar-brand{ href: root_path }

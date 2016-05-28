@@ -35,8 +35,36 @@
 }
 
 #site-header {
+  .top-banner{
+    text-align: center;
+    font-size: 27px;
+    font-weight: 100;
+    color: $gray-lightest;
+    background-color: $brand-primary-dark;
+    padding: 25px 0px;
+    .count{
+      color: #FFDE00;
+      font-weight: 900;
+    }
+    .top-banner-btn{
+      margin-left: 15px;
+      padding: 13px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 900;
+      color: $brand-primary-dark;
+      background-color: #FFDE00;
+      vertical-align: middle;
+      box-shadow: 0px 4px 0px 0px #d7d6d2;
+      line-height: 40px;
+    }
+  }
   .navbar-default {
     border-bottom: 4px solid $brand-primary;
+  }
+  .container.clearfix{
+    padding-top: 3px;
+    padding-bottom: 3px;
   }
   .navbar-header {
     .navbar-brand {
