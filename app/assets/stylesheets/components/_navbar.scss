@@ -83,7 +83,8 @@
         font-weight: bold;
         font-size: $font-size-base;
         &:hover{
-          color: $brand-primary;
+          color: $brand-light;
+          border-bottom: 1px solid #c0c0c2;
         }
       }
     }
