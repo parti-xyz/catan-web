@@ -1,26 +1,8 @@
-%section.parti-intro
-  .container
-    .parti-intro-wrapper
-      .parti-intro__count>
-        %span.count 시민
-        %span 이 힘을 모아
-      .parti-intro__count>
-        %span.count 이슈
-        %span 를 해결하는
-      .parti-intro__count
-        %span.count 온라인 광장
-        %b 빠띠
-      = link_to about_path, class: 'btn parti-intro__btn_about' do
-        빠띠란 무엇인가요?
+
 
 %section.parties-all#issues
   .container
     .parties-all
-      %h4
-        인기 빠띠
-      %ul.issue-card-wrapper.list-unstyled.clearfix
-        - @hottest_issues.each do |issue|
-          = render 'issues/card', issue: issue
       %h4
         모든 빠띠
         .count-label-wrapper
