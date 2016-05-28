@@ -53,7 +53,7 @@
       a{
         color: $gray-base;
         font-weight: bold;
-        font-size: 17px;
+        font-size: $font-size-base;
         &:hover{
           color: $brand-primary;
         }
