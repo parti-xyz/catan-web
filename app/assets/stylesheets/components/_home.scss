@@ -24,6 +24,21 @@
   }
 }
 
+@media (max-width: 768px) {
+  #top-banner {
+    text-align: left;
+    padding-top: 50px;
+    padding-bottom: 35px;
+   .text-parti {
+      display: block;
+      margin-bottom: 20px;
+    }
+    .top-banner-btn {
+      margin-left: 0;
+    }
+  }
+}
+
 section#home {
   padding: 20px 0;
 
@@ -99,7 +114,7 @@ ul.owl-carousel {
   list-style: none;
   li {
     overflow: hidden;
-    width: 228px;
+    width: 100%;
     display: inline-block;
   }
   .owl-controls {
