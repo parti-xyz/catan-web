@@ -2,11 +2,15 @@
 
 %section.parties-all#issues
   .container
-    .parties-all
-      %h4
-        모든 빠띠
-        .count-label-wrapper
-          .count-label= @issues.count
-      %ul.issue-card-wrapper.list-unstyled.clearfix
-        - @issues.each do |issue|
-          = render 'issues/card', issue: issue
+    .row
+      .col-xs-9
+        .parties-all
+          %h3.title
+            모든 빠띠
+            .count-label-wrapper
+              .count-label= @issues.count
+          %ul.issue-card-wrapper.list-unstyled.clearfix
+            - @issues.each do |issue|
+              = render 'issues/card', issue: issue
+      - unless is_mobile?
+        = render 'application/aside'

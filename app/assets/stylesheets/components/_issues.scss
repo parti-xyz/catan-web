@@ -1,3 +1,14 @@
+section#issues {
+  padding-top: 20px;
+  .parties-all {
+    h3.title {
+      border-bottom: 1px solid #d2d2d2;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+    }
+  }
+}
+
 .issue-header-actions {
   i {
     font-size: 18px;
@@ -256,18 +267,6 @@
 
   &.disabled {
     opacity: 0.2;
-  }
-}
-
-.parties-all {
-  padding-top: 20px;
-  .parties-text {
-    width: 100%;
-    min-height: 245px;
-    text-align: center;
-    color: #777;
-    font-size: 18px;
-    padding-top: 100px;
   }
 }
 
