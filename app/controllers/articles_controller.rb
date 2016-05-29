@@ -2,10 +2,6 @@ class ArticlesController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :partial]
   load_and_authorize_resource
 
-  def index
-    @articles = Article.recent.page(params[:page])
-  end
-
   def create
     redirect_to root_path and return if fetch_issue.blank?
     redirect_to issue_home_path(@issue) and return if @article.link.blank?

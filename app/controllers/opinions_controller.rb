@@ -2,10 +2,6 @@ class OpinionsController < ApplicationController
   before_filter :authenticate_user!, except: [:show, :social_card]
   load_and_authorize_resource
 
-  def index
-    @opinions = Opinion.recent.page(params[:page])
-  end
-
   def create
     set_issue
     redirect_to root_path and return if @issue.blank?

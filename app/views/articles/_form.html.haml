@@ -10,8 +10,8 @@
 
 
 %h5
-  이 링크를 숨기고 싶습니다.
+  이 자료를 숨기고 싶습니다.
   - if @article.hidden?
-    = link_to '링크 보이기', article_path(@article, article: { hidden: false }), method: :put, data: { confirm: '정말 보이게 하겠습니까?' }
+    = link_to '자료 보이기', article_path(@article, article: { hidden: false }), method: :put, data: { confirm: '정말 보이게 하겠습니까?' }
   - else
-    = link_to '링크 숨기기', article_path(@article, article: { hidden: true }), method: :put, data: { confirm: '정말 숨기겠습니까?' }
+    = link_to '자료 숨기기', article_path(@article, article: { hidden: true }), method: :put, data: { confirm: '정말 숨기겠습니까?' }

@@ -92,9 +92,14 @@
               %span.hidden-xs= count_label
 
         .col-xs-3.col-sm-2
-          %h4
-            = Wiki.model_name.human
-            %span.hidden-xs
-              %span.count-label-wrapper
-                %span.count-label<>
-                  준비중
+          - count_label = capture_haml(counts_container) do
+            %span.count-label-wrapper
+              %span.count-label<>
+                준비중
+          = link_to '#' do
+            %h4
+              %span.visible-xs-inline<>= count_label
+              %br.visible-xs-inline<>
+              = Wiki.model_name.human
+              %span.hidden-xs= count_label
+
