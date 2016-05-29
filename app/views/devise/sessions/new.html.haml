@@ -1,10 +1,10 @@
 .bs-component
   %section#sign-up
-    %h4.sign-up__title 로그인
+    %h4.sign-up__title 로그인/회원가입
     %h1.text-center.sign-up__txt
-      수다로 정치하자,
+      시민이 힘을 모아 이슈를 해결하는
       %br
-      빠띠에서 파티하자
+      온라인 광장 빠띠
     .sign-up__form
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :facebook) }, class: 'btn-sns btn-block' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}

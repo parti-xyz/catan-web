@@ -5,9 +5,9 @@
       %a.login-box__close{href: "#", "data-dismiss": "parti-login-overlay", type: "button"}
         = image_tag 'icon_close.png'
     %h1.login-box__txt
-      수다로 정치하자,
+      시민이 힘을 모아 이슈를 해결하는
       %br
-      빠띠에서 파티하자
+      온라인 광장 빠띠
     .login-box__content
       = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :facebook) } do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
