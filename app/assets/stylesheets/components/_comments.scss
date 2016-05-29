@@ -68,6 +68,9 @@ section#comments {
   }
   &__btn {
     margin-left: 10px;
+    a {
+      color: $text-muted;
+    }
   }
   &__body {
     color: #777;
@@ -115,6 +118,12 @@ section#comments {
     margin-top: 10px;
   }
 
+  .comment__btn i {
+    font-size: 20px;
+  }
+  .comment-list form.edit_comment textarea#comment_body {
+    height: 150px;
+  }
   #new-comments {
     .post-card-with-comments {
       padding-left: 0;
