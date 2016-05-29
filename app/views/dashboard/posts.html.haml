@@ -1,13 +1,11 @@
 %section#posts
   .container
     .row
-      - unless is_mobile?
-        = render 'application/aside'
       .col-xs-9
-        %section#content-tab-section
-          .nav-tabs.message-tab
-            %h4
-              내 빠띠 소식
+        %h3.title
+          내 소식
+          %br.mobile
+          %small #{current_user.nickname}님이 참여 중인 빠띠의 최근 소식입니다.
         - if @posts.first.present?
           = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comment.id)
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
@@ -20,3 +18,5 @@
         .page_waypoint.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js)}
           .page_waypoint__loading
             %i.fa.fa-3x.fa-spinner.fa-pulse
+      - unless is_mobile?
+        = render 'application/aside'
