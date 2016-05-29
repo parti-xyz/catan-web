@@ -2,29 +2,31 @@
   %nav.navbar.navbar-default.navbar-fixed-top
     - if request.path=='/'
       .top-banner
-        %span.count> 시민
+        %span.text-important> 시민
         이 힘을 모아
         %span
-        %span.count> 이슈
+        %span.text-important> 이슈
         를 해결하는
-        %span.count 온라인 광장
+        %span.text-important 온라인 광장
         빠띠
         = link_to about_path, class: 'top-banner-btn' do
-          빠띠란 무엇일까요?
+          빠띠란?
     .container.clearfix
       .navbar-header
         %a.navbar-brand{ href: root_path }
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
-      %div
-        %ul.nav.navbar-nav
+      %ul.nav.navbar-nav
+        %li
+          = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
+            홈
+        %li
+          = link_to issues_path, class: "btn #{'active' if current_page?(controller: '/issues', action: :index)}" do
+            모든 빠띠
+        - if user_signed_in?
           %li
-            = link_to issues_path, class: 'btn' do
-              모든 빠띠
-          - if user_signed_in?
-            %li
-              = link_to dashboard_path, class: 'btn' do
-                내 빠띠
+            = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
+              내 소식
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
@@ -36,21 +38,21 @@
                   %i.icon-dot-corner
               - else
                 %i.icon-bell
-          %li.user-info
-            = link_to dashboard_path, class: 'user-byline' do
-              .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-              = current_user.nickname
-            .dropdown
-              %a{"data-toggle" => "dropdown", "data-target" => "#", "role" => "button"}
-                ▼
-              %ul.dropdown-menu{"role" => "menu"}
-                %li#profile
-                  = link_to edit_user_registration_path do
-                    •설정
-                %li#logout
-                  = link_to destroy_user_session_path, method: :delete do
-                    •로그아웃
+          %li.user-info.dropdown
+            %a.dropdown-toggle.btn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+              %span.user-byline
+                .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+                = current_user.nickname
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                = link_to edit_user_registration_path do
+                  &middot; 프로필 설정
+              %li.divider(role="separator")
+              %li
+                = link_to destroy_user_session_path, method: :delete do
+                  &middot; 로그아웃
 
         - else
-          %li.sing-up
-            = link_to '로그인/회원가입', new_user_session_path
+          %li.sign-up
+            = link_to '로그인/회원가입', new_user_session_path, class: 'btn'
