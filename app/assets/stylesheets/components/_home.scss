@@ -3,9 +3,12 @@
   font-size: 27px;
   font-weight: 100;
   color: $gray-lightest;
-  background-color: $brand-primary-dark;
   padding: 25px 0px;
   padding-bottom: 20px;
+  background-image: image_url('thumb_main_keyvisual.png');
+  background-size: cover;
+  background-position: 0 550px;
+
   .text-important {
     color: #FFDE00;
     font-weight: 900;
@@ -26,7 +29,10 @@
 
 @media (max-width: 768px) {
   #top-banner {
-    text-align: left;
+    background-image: image_url('thumb_main_keyvisual.png');
+    background-size: cover;
+    background-position: center;
+
     padding-top: 50px;
     padding-bottom: 35px;
    .text-parti {
@@ -34,7 +40,7 @@
       margin-bottom: 20px;
     }
     .top-banner-btn {
-      margin-left: 0;
+      margin: 0 20px;
     }
   }
 }

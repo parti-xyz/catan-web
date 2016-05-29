@@ -299,7 +299,7 @@ var parti_prepare = function($base) {
           items: items_mobile,
           mergeFit: true
         },
-        1000:{
+        600:{
           items: items,
           mergeFit: false
         }
