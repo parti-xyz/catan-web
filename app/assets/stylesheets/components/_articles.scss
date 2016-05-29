@@ -84,6 +84,17 @@ section#articles {
       background-color: rgba(0, 0, 0, .6);
       content: '';
     }
+    &--issue {
+      border-radius: 4px;
+      width: 33px;
+      max-height: 33px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      &::after {
+        background: none;
+      }
+    }
   }
   .caption {
     position: absolute;

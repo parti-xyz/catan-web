@@ -142,6 +142,43 @@ section#user-gallery{
       }
     }
   }
+  &__sign-up {
+    padding: 10px;
+    .remember_me {
+      font-size: $font-size-small;
+      color: $text-muted;
+    }
+    .btn {
+      font-size: 14px;
+      padding-right: 0;
+      padding-left: 0;
+      margin-bottom: 10px;
+      &.btn-facebook {
+        background: #3650b0;
+        color: #fff;
+        i {
+          color: #fff;
+          font-size: 22px;
+        }
+      }
+      &.btn-twitter {
+        background: #55acee;
+        color: #fff;
+        i {
+          color: #fff;
+          font-size: 22px;
+        }
+      }
+      &.btn-google {
+        background: #c24851;
+        color: #fff;
+        i {
+          color: #fff;
+          font-size: 22px;
+        }
+      }
+    }
+  }
 }
 
 #dashboard-header-section {

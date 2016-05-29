@@ -1,25 +1,41 @@
-- issue ||= @issue
-- writing_counts = user.writing_counts(issue)
 .user-panel
-  .user-panel__thumb
-    = link_to user_gallery_path(user) do
-      .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
-      %p= user.nickname
-  .user-panel__info
-    .row
-      .col-xs-4.border-none
-        = link_to user_gallery_path(user) do
-          .user-panel__info__icon.icon-comment
-          .user-panel__info__label 수다
-          .user-panel__info__count= writing_counts.comments_count
-      .col-xs-4
-        = link_to nickname_user_upvotes_path(nickname: user.nickname) do
-          .user-panel__info__icon.icon-heart
-          .user-panel__info__label 좋아요
-          .user-panel__info__count= writing_counts.upvotes_count
-      .col-xs-4
-        = link_to nickname_user_votes_path(nickname: user.nickname) do
-          .user-panel__info__icon.icon-vote
-          .user-panel__info__label 투표
-          .user-panel__info__count= writing_counts.votes_count
-
+  - if user_signed_in?
+    - writing_counts = user.writing_counts
+    .user-panel__thumb
+      = link_to user_gallery_path(user) do
+        .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
+        %p= user.nickname
+    .user-panel__info
+      .row
+        .col-xs-4.border-none
+          = link_to user_gallery_path(user) do
+            .user-panel__info__icon.icon-comment
+            .user-panel__info__label 수다
+            .user-panel__info__count= writing_counts.comments_count
+        .col-xs-4
+          = link_to nickname_user_upvotes_path(nickname: user.nickname) do
+            .user-panel__info__icon.icon-heart
+            .user-panel__info__label 좋아요
+            .user-panel__info__count= writing_counts.upvotes_count
+        .col-xs-4
+          = link_to nickname_user_votes_path(nickname: user.nickname) do
+            .user-panel__info__icon.icon-vote
+            .user-panel__info__label 투표
+            .user-panel__info__count= writing_counts.votes_count
+  - else
+    .user-panel__sign-up
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :facebook) }, class: 'btn btn-lg btn-shadow btn-block btn-facebook' do
+        %i.fa.fa-facebook
+        아이디로 로그인
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :twitter) }, class: 'btn btn-lg btn-shadow btn-block btn-twitter' do
+        %i.fa.fa-twitter
+        아이디로 로그인
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) }, class: 'btn btn-lg btn-shadow btn-block btn-google' do
+        %i.fa.fa-google-plus
+        아이디로 로그인
+      #login-form
+        = form_tag nil, method: :get do
+          = hidden_field_tag(:after_login)
+          %label.remember_me
+            = check_box_tag(:remember_me, '1', true)
+            로그인 상태를 유지

@@ -1,17 +1,6 @@
 #site-header
   %nav.navbar.navbar-default.navbar-fixed-top
-    - if request.path=='/'
-      .top-banner
-        %span.text-important> 시민
-        이 힘을 모아
-        %span
-        %span.text-important> 이슈
-        를 해결하는
-        %span.text-important 온라인 광장
-        빠띠
-        = link_to about_path, class: 'top-banner-btn' do
-          빠띠란?
-    .container.clearfix
+    .container
       .navbar-header
         %a.navbar-brand{ href: root_path }
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}

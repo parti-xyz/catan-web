@@ -274,35 +274,44 @@ var parti_prepare = function($base) {
   // carousel
   $.parti_apply($base, '[data-ride="parti-carousel"]', function(elm) {
     var $elm = $(elm);
-    var margin = $elm.data('carousel-magin');
+    var margin = $elm.data('carousel-margin');
     if(!margin) {
       margin = 0;
+    }
+    var items = $elm.data('carousel-items');
+    if(!items) {
+      items = 3;
+    }
+    var items_mobile = $elm.data('carousel-items-mobile');
+    if(!items_mobile) {
+      items_mobile = 1;
     }
     $elm.owlCarousel({
       loop: $elm.children().length > 1,
       nav: $elm.children().length > 1,
+      slideBy: 'page',
       margin: margin,
-      navText: [
-        '<i class="fa fa-arrow-left">',
-        '<i class="fa fa-arrow-right">',
-      ],
       dots: false,
+      navText: false,
+      merge: true,
       responsive:{
-          0:{
-              items:1
-          },
-          1000:{
-              items:2
-          }
+        0:{
+          items: items_mobile,
+          mergeFit: true
+        },
+        1000:{
+          items: items,
+          mergeFit: false
+        }
       }
     });
     var next = $elm.data('carousel-next');
     var prev = $elm.data('carousel-prev');
     $(next).click(function(){
-      $elm.trigger('owl.next');
+      $elm.data('owl.carousel').next();
     });
     $(prev).click(function(){
-      $elm.trigger('owl.prev');
+      $elm.data('owl.carousel').prev();
     });
   });
 
