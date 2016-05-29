@@ -49,10 +49,10 @@
 
           %ul.owl-carousel(data-ride='parti-carousel' data-carousel-next='#recommend-articles .carousel-nav .btn-next' data-carousel-prev='#recommend-articles .carousel-nav .btn-prev' data-carousel-items='3' data-carousel-margin='7')
             - @recommend_article_posts.each_with_index do |post, index|
-              - if post.comments_count >= 5
+              - if post.comments_count >= 20
                 - template = 'best'
                 - current_merge = 2
-              - elsif post.comments_count >= 2
+              - elsif post.comments_count >= 10
                 - template = 'popular'
                 - current_merge = 1
               - else
