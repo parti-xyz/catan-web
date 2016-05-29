@@ -2,7 +2,7 @@ require 'test_helper'
 
 class WatchesTest < ActionDispatch::IntegrationTest
 
-  test '이슈 구독해요' do
+  test '이슈 참여해요' do
     sign_in(users(:one))
 
     post issue_watches_path(issue_id: issues(:issue3).id)
@@ -12,7 +12,7 @@ class WatchesTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:watch).user
   end
 
-  test '이슈구독 취소해요' do
+  test '이슈참여 취소해요' do
     assert issues(:issue1).watched_by? users(:two)
 
     sign_in(users(:two))
@@ -33,7 +33,7 @@ class WatchesTest < ActionDispatch::IntegrationTest
     assert issues(:issue1).watched_by? users(:maker)
   end
 
-  test '구독한 글만 구경해요' do
+  test '참여한 글만 구경해요' do
     sign_in(users(:one))
 
     assert_equal issues(:issue1).posts.count, Post.watched_by(users(:one)).count

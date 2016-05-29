@@ -101,9 +101,9 @@ module ApplicationHelper
     featured = Issue.basic_issues.select { |issue| !user.watched_issues.include?(issue) }.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
 
     result = []
-    result << ['구독 중인 빠띠', watched] if watched.any?
+    result << ['참여 중인 빠띠', watched] if watched.any?
     result << ['기본 빠띠', featured] if featured.any?
-    result << ['마땅한 빠띠가 없으세요?', [['', 0, {'data-url': issues_path, 'data-label': '<div><i class="fa fa-info-circle"/> 관심있는 빠띠를 구독해 보세요. <b style="white-space:nowrap">전체빠띠로 이동 <i class="fa fa-arrow-right"/></b></div>'}]]]
+    result << ['마땅한 빠띠가 없으세요?', [['', 0, {'data-url': issues_path, 'data-label': '<div><i class="fa fa-info-circle"/> 관심있는 빠띠에 참여해 보세요. <b style="white-space:nowrap">전체빠띠로 이동 <i class="fa fa-arrow-right"/></b></div>'}]]]
   end
 
   def has_error_attr?(object, name)

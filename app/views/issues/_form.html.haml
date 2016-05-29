@@ -44,7 +44,7 @@
         .checkbox
           %label
             = f.check_box :basic
-            회원들이 수다를 작성할 때, 구독 여부와 관계없이 추천됩니다.
+            회원들이 수다를 작성할 때, 참여 여부와 관계없이 추천됩니다.
 
       .form-group{class: ('has-error' if has_error_attr?(@issue, :makers))}
         = f.label :makers
