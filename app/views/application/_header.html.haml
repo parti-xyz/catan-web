@@ -35,8 +35,12 @@
               %span.caret
             %ul.dropdown-menu
               %li
+                = link_to user_gallery_path(current_user) do
+                  &middot; 프로필 보기
+              %li.divider(role="separator")
+              %li
                 = link_to edit_user_registration_path do
-                  &middot; 프로필 설정
+                  &middot; 설정
               %li.divider(role="separator")
               %li
                 = link_to destroy_user_session_path, method: :delete do
