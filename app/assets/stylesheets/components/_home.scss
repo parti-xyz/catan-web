@@ -13,16 +13,16 @@
     font-weight: 900;
   }
   .top-banner-btn {
+    @include btn-push($brand-primary-dark, #ffde00, $brand-primary-dark, #ffde00);
     margin-left: 15px;
-    padding: 13px 24px;
+    padding: 10px 20px;
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: 900;
+    font-weight: bold;
     color: $brand-primary-dark;
-    background-color: #FFDE00;
-    vertical-align: middle;
-    box-shadow: 0px 4px 0px 0px #d7d6d2;
-    line-height: 40px;
+    background-color: #ffde00;
+    &:hover, &:active, &:focus {
+      background-color: #ffde00;
+    }
   }
 }
 
@@ -40,6 +40,8 @@
     }
     .top-banner-btn {
       margin: 0 20px;
+      &:hover {
+      }
     }
   }
 }

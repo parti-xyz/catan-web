@@ -154,6 +154,7 @@ section#user-gallery{
       padding-left: 0;
       margin-bottom: 10px;
       &.btn-facebook {
+        @include btn-push(#fff, #3650b0, #fff, #3650b0);
         background: #3650b0;
         color: #fff;
         i {
@@ -162,6 +163,7 @@ section#user-gallery{
         }
       }
       &.btn-twitter {
+        @include btn-push(#fff, #55acee, #fff, #55acee);
         background: #55acee;
         color: #fff;
         i {
@@ -170,6 +172,7 @@ section#user-gallery{
         }
       }
       &.btn-google {
+        @include btn-push(#fff, #c24851, #fff, #c24851);
         background: #c24851;
         color: #fff;
         i {
