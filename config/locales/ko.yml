@@ -35,7 +35,7 @@ ko:
     attributes:
       issue:
         title: 제목
-        body: 내용
+        body: 설명
         logo: 대표 이미지
         cover: 커버 이미지
         slug: 주소
