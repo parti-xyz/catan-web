@@ -1,10 +1,14 @@
 class PagesController < ApplicationController
   def home
+
     slugs = %w(feminism basic-income digital-social-innovation workandlife_integration household_chemicals 20th-assembly environment climate-change sewolho)
     @recommend_issues_map = Issue.where(slug: slugs).map { |issue| {issue: issue, image_url: issue.logo.url} }
-    @recommend_article_posts = Post.only_articles.hottest.limit(9)
-    @recommend_talk_posts = Post.only_talks.hottest.limit(3)
-    @recommend_opinion_posts = Post.only_opinions.hottest.limit(10)
+
+    bad_issues = Issue.where(slug: 'heelo')
+    valid_posts = Post.where.not(issue: bad_issues)
+    @recommend_article_posts = valid_posts.only_articles.hottest.limit(9)
+    @recommend_talk_posts = valid_posts.only_talks.hottest.limit(3)
+    @recommend_opinion_posts = valid_posts.only_opinions.hottest.limit(10)
   end
 
   def about
