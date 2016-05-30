@@ -1,4 +1,4 @@
-body.app-campaigns {
+body.app-campaigns-slug_show {
   padding-top: 0;
 
   #site-header .navbar-default {
@@ -7,6 +7,15 @@ body.app-campaigns {
 
     .navbar-brand {
       padding-left: 0;
+    }
+
+    .navbar-nav {
+      .user-info.dropdown a.dropdown-toggle {
+        background-color: #fff;
+      }
+      .sign-up a {
+        background-color: #fff;
+      }
     }
   }
 }
