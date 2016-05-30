@@ -10,7 +10,7 @@ class MigrateAskParti < ActiveRecord::Migration
       ActiveRecord::Base.connection.execute query
       say query
 
-      ask_parti.makers.where(user: parti_parti).each do |maker|
+      ask_parti.makers.where(user: parti_parti.makers.map(&:user)).each do |maker|
         query = "DELETE FROM makers WHERE id = #{maker.id}"
         ActiveRecord::Base.connection.execute query
         say query

@@ -11,7 +11,7 @@ case ${option} in
     ey deploy -e oden -r hotfix
     ;;
   *)
-    echo "usage: `basename ${0}` [production|staging]"
+    echo "usage: `basename ${0}` [master|dev|hotfix]"
     exit 1
     ;;
 esac
