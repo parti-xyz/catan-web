@@ -1,10 +1,10 @@
 #aside.col-xs-3
   .aside_user
     = render 'users/user_panel', user: current_user
-  .aside_issue
-    .aside_issue_btn
-      = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
-    - if user_signed_in?
+  - if user_signed_in?
+    .aside_issue
+      .aside_issue_btn
+        = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
       - if current_user.made_issues.any?
         %h4.aside_title 내가 메이커인 빠띠
         %ul.list-unstyled.aside-issues
