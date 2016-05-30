@@ -115,6 +115,12 @@ section#home {
   section#recommend-talks {
     margin-bottom: 40px;
   }
+
+  section#recommend-opinions {
+    .opinion-card {
+      width: 99%;
+    }
+  }
 }
 
 ul.owl-carousel {
