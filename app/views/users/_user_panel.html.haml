@@ -26,13 +26,13 @@
     .user-panel__sign-up
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :facebook) }, class: 'btn btn-lg btn-shadow btn-block btn-facebook' do
         %i.fa.fa-facebook
-        아이디로 로그인
+        페이스북으로 로그인
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :twitter) }, class: 'btn btn-lg btn-shadow btn-block btn-twitter' do
         %i.fa.fa-twitter
-        아이디로 로그인
+        트위터로 로그인
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) }, class: 'btn btn-lg btn-shadow btn-block btn-google' do
         %i.fa.fa-google-plus
-        아이디로 로그인
+        구글로 로그인
       #login-form
         = form_tag nil, method: :get do
           = hidden_field_tag(:after_login)

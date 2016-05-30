@@ -19,6 +19,9 @@
   .navbar-header .navbar-brand img {
     width: 65px;
   }
+  .navbar-brand{
+    padding-top: 10px;
+  }
   /* footer */
   footer {
     padding: 0;
@@ -39,8 +42,8 @@
   }
   /* header */
   .btn-mobile-menu {
-    margin-right: -15px;
-    margin-top: 5px;
+    margin-right: 0px;
+    margin-top: 14px;
     img {
       zoom: 0.5;
     }

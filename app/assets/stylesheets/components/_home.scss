@@ -7,7 +7,6 @@
   padding-bottom: 20px;
   background-image: image_url('thumb_main_keyvisual.png');
   background-size: cover;
-  background-position: 0 550px;
 
   .text-important {
     color: #FFDE00;
@@ -65,6 +64,7 @@ section#home {
   section#recommend-parties {
     min-height: 300px;
     overflow: hidden;
+    margin-bottom: 40px;
     .issue-card {
       height: 340px;
       padding: 10px;
@@ -73,6 +73,8 @@ section#home {
       &__thumb {
         height: 210px;
         margin-bottom: 20px;
+        background-size: cover;
+        background-position: center;
       }
       &__title {
         display: table;
