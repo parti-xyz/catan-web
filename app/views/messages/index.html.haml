@@ -1,11 +1,12 @@
 %section#posts
   .container
     .row
-      .hidden-xs
-        = render 'application/aside'
       .col-xs-9
         %section#content-tab-section
           = render 'messages/content_tabs'
         .message-list
           = render @messages
         = paginate @messages, theme: 'catan'
+      .hidden-xs
+        = render 'application/aside'
+
