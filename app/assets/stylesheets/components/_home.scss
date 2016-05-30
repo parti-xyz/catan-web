@@ -66,6 +66,7 @@ section#home {
     overflow: hidden;
     margin-bottom: 40px;
     .issue-card {
+      @include hover-shadow();
       height: 340px;
       padding: 10px;
       background-color: #fff;
