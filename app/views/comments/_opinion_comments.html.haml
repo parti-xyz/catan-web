@@ -28,6 +28,10 @@
         = render postable.comments.agreed.sequential, style: :media, mention_form_contorl: '#new_comment #comment_body'
       - if user_signed_in? and postable.agreed_by?(current_user)
         = render 'comments/opinion_comments_form', local_assigns
+      - unless user_signed_in?
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
+          %i.icon-comment
+          수다작성
     .tab-pane#disagree{class: ('active' if user_signed_in? and postable.disagreed_by? current_user) }
       - if postable.comments.disagreed.empty?
         .well{style: 'background: #fff;'}
@@ -37,4 +41,7 @@
         = render postable.comments.disagreed.sequential, mention_form_contorl: '#new_comment #comment_body'
       - if user_signed_in? and postable.disagreed_by?(current_user)
         = render 'comments/opinion_comments_form', local_assigns
-
+      - unless user_signed_in?
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
+          %i.icon-comment
+          수다작성
