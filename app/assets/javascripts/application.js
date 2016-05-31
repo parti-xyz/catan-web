@@ -286,10 +286,14 @@ var parti_prepare = function($base) {
     if(!items_mobile) {
       items_mobile = 1;
     }
+    var slide_by = $elm.data('carousel-slide-by');
+    if(!slide_by) {
+      slide_by = 'page';
+    }
     $elm.owlCarousel({
       loop: $elm.children().length > 1,
       nav: $elm.children().length > 1,
-      slideBy: 'page',
+      slideBy: slide_by,
       margin: margin,
       dots: false,
       navText: false,

@@ -121,20 +121,20 @@ section#home {
       width: 99%;
     }
   }
-}
 
-ul.owl-carousel {
-  &.owl-loading {
-    height: 500px;
-  }
-  padding-left: 0;
-  list-style: none;
-  li {
-    overflow: hidden;
-    width: 100%;
-    display: inline-block;
-  }
-  .owl-controls {
-    display: none;
+  ul.owl-carousel {
+    &.owl-loading {
+      height: 500px;
+    }
+    padding-left: 0;
+    list-style: none;
+    li {
+      overflow: hidden;
+      width: 100%;
+      display: inline-block;
+    }
+    .owl-controls {
+      display: none;
+    }
   }
 }

@@ -53,6 +53,7 @@ body.app-campaigns-slug_show {
 }
 
 .campaign-body {
+  margin-top: 15px;
   text-align: center;
   color: #fff;
   font-size: $font-size-base;
@@ -62,16 +63,33 @@ body.app-campaigns-slug_show {
   padding-top: 60px;
   text-align: center;
 
-  .issue-card-wrapper {
+  .campaign-issues-list {
+    position: relative;
     display: inline-block;
-    padding: 0;
+    width: 500px;
+    .issue-card-wrapper {
+      padding: 0;
 
-    .issue-card {
-      width: 160px;
-      margin-left: 15px;
+      .issue-card {
+        width: 160px;
 
-      &:first-child {
-        margin-left: 0;
+        border: 2px solid #fff;
+        &:hover {
+          border: 2px solid $brand-primary;
+        }
+      }
+    }
+    .arrow-nav {
+      position: absolute;
+      top: 50%;
+      color: #fff;
+      font-size: 40px;
+      cursor: pointer;
+      &.arrow-nav-left {
+        left: -40px;
+      }
+      &.arrow-nav-right {
+        right: -40px;
       }
     }
   }
