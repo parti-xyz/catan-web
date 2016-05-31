@@ -4,7 +4,7 @@
       %h3 로그인
       %a.login-box__close{href: "#", "data-dismiss": "parti-login-overlay", type: "button"}
         = image_tag 'icon_close.png'
-    %h1.login-box__txt
+    %h1.login-box__txt.hidden-xs
       시민이 힘을 모아 이슈를 해결하는
       %br
       온라인 광장 빠띠
@@ -25,9 +25,28 @@
             = check_box_tag(:remember_me, '1', true)
             로그인 상태를 유지
 
-      .devider
-        %span{style: 'background: #fff'} 또는
 
-      = link_to new_user_session_path, class: 'login-box__link' do
-        이메일로 로그인
+      - if is_mobile?
+        .devider
+          %span 또는 이메일로 로그인
+
+        .email-login-form.panel
+          .panel-body
+            = form_for(User.new, as: :user, url: session_path(:user)) do |f|
+              = f.hidden_field :provider, value: 'email'
+              .form-group
+                = f.email_field :email, placeholder: '이메일을 입력하세요', class: 'form-control'
+              .form-group
+                = f.password_field :password, placeholder: '비밀번호를 입력하세요', autocomplete: "off", class: 'form-control'
+              .form-group
+                = f.check_box :remember_me, { checked: true }
+                = f.label :remember_me, class: 'remember_me'
+              = f.submit '로그인', class: 'btn btn-primary btn-block'
+      - else
+        .devider
+          %span{style: 'background: #fff'} 또는
+
+        = link_to new_user_session_path, class: 'login-box__link' do
+          이메일로 로그인
+
 
