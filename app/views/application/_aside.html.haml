@@ -5,10 +5,10 @@
     .aside_issue
       .aside_issue_btn
         = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
-      - if current_user.made_issues.any?
+      - if current_user.making_issues.any?
         %h4.aside_title 내가 메이커인 빠띠
         %ul.list-unstyled.aside-issues
-          = render customize_partial_path(current_user.made_issues, 'issue_line')
+          = render customize_partial_path(current_user.making_issues, 'issue_line')
       %h4.aside_title 내가 참여 중인 빠띠
       %ul.list-unstyled.aside-issues
         = render customize_partial_path(current_user.only_watched_issues, 'issue_line')

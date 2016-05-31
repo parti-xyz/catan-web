@@ -668,6 +668,33 @@ $(function(){
     });
   });
 
+  $('[data-action="parti-jump"]').each(function(i, elm) {
+    var parties = $(elm).data('parties');
+    $(elm).select2({
+      minimumResultsForSearch: 10,
+      placeholder: "참여 빠띠",
+      dropdownCssClass: 'parti-jump-dropdown',
+      width: '220px',
+      data: parties,
+      templateResult: function(parti) {
+        if (!parti.id) { return parti.text; }
+        if (parti.logo === undefined) {
+          return parti.text;
+        }
+
+        return $(
+          '<span data-url="' + parti.url + '"><img src="' + parti.logo + '" style="width: 20px; height: 20px" /> ' + parti.text + '</span>'
+        );
+      }
+    });
+    $(elm).on('select2:selecting', function(e) {
+      url = e.params.args.data.url;
+      if(url) {
+        window.location.href  = url;
+      }
+    });
+        });
+
   $('.page_waypoint').waypoint({
     handler: function(direction) {
       this.disable();

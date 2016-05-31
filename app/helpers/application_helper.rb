@@ -106,6 +106,16 @@ module ApplicationHelper
     result << ['마땅한 빠띠가 없으세요?', [['', 0, {'data-url': issues_path, 'data-label': '<div><i class="fa fa-info-circle"/> 관심있는 빠띠에 참여해 보세요. <b style="white-space:nowrap">전체빠띠로 이동 <i class="fa fa-arrow-right"/></b></div>'}]]]
   end
 
+  def jumpable_issues_continents(user)
+    making = user.making_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path(issue)} }
+    watched = user.only_watched_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path(issue)} }
+
+    result = []
+    result << {text: '메이커인 빠띠', children: making} if making.any?
+    result << {text: '참여 중인 빠띠', children: watched} if watched.any?
+    return result
+  end
+
   def has_error_attr?(object, name)
     object.respond_to?(:errors) && !(name.nil? || object.errors[name.to_s].empty?)
   end

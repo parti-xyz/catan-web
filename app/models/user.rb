@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   has_many :watches
   has_many :watched_issues, through: :watches, source: :watchable, source_type: Issue
   has_many :makers
-  has_many :made_issues, through: :makers, source: :issue
+  has_many :making_issues, through: :makers, source: :issue
 
   ## uploaders
   # mount
