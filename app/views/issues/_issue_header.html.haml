@@ -46,7 +46,7 @@
     - counts_container = issue.counts_container
     .container
       .row
-        .col-xs-3.col-sm-2.col-sm-offset-2{class: ('active' if active_tab == :talks)}
+        .col-xs-2.col-xs-offset-1{class: ('active' if active_tab == :talks)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -61,7 +61,7 @@
               = Talk.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2{class: ('active' if active_tab == :articles)}
+        .col-xs-2{class: ('active' if active_tab == :articles)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -76,7 +76,7 @@
               = Article.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2{class: ('active' if active_tab == :opinions)}
+        .col-xs-2{class: ('active' if active_tab == :opinions)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -91,7 +91,20 @@
               = Opinion.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2
+
+        .col-xs-2
+          - count_label = capture_haml(counts_container) do
+            %span.count-label-wrapper
+              %span.count-label<>
+                준비중
+          = link_to '#' do
+            %h4
+              %span.visible-xs-inline<>= count_label
+              %br.visible-xs-inline<>
+              = Proposal.model_name.human
+              %span.hidden-xs= count_label
+
+        .col-xs-2
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
