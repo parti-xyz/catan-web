@@ -17,12 +17,12 @@
 
       .campaign-issues
         .campaign-issues-list
-          - if @campaign.issues.count > 3
+          - if @campaign.issues.count > (is_mobile? ? 2 : 3)
             %i.fa.fa-angle-double-left.arrow-nav-left.arrow-nav
-          %ul.issue-card-wrapper.list-inline.owl-carousel(data-ride='parti-carousel' data-carousel-next='#campaign-header-section .campaign-issues .arrow-nav-right' data-carousel-prev='#campaign-header-section .campaign-issues .arrow-nav-left' data-carousel-items='3' data-carousel-margin='7' data-carousel-slide-by='1')
+          %ul.issue-card-wrapper.list-inline.owl-carousel(data-ride='parti-carousel' data-carousel-next='#campaign-header-section .campaign-issues .arrow-nav-right' data-carousel-prev='#campaign-header-section .campaign-issues .arrow-nav-left' data-carousel-items='3' data-carousel-items-mobile='2' data-carousel-margin='7' data-carousel-slide-by='1')
             - @campaign.issues.each do |issue|
               = render 'issues/card', issue: issue
-          - if @campaign.issues.count > 3
+          - if @campaign.issues.count > (is_mobile? ? 2 : 3)
             %i.fa.fa-angle-double-right.arrow-nav-right.arrow-nav
 
 - if @campaign.best_articles.any?

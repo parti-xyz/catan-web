@@ -152,3 +152,19 @@ body.app-campaigns-slug_show {
     height: 45px;
   }
 }
+
+@media (max-width: 768px) {
+  .app-campaigns.app-campaigns-slug_show{
+    #site-header {
+      display: none;
+    }
+  }
+  #campaign-header-section {
+    padding-top: 40px;
+  }
+  .campaign-issues {
+    .campaign-issues-list {
+      width: 320px;
+    }
+  }
+}
