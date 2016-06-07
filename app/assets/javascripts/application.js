@@ -295,7 +295,7 @@ var parti_prepare = function($base) {
       nav: $elm.children().length > 1,
       slideBy: slide_by,
       margin: margin,
-      dots: false,
+      dots: true,
       navText: false,
       merge: true,
       responsive:{
