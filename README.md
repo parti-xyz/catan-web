@@ -86,7 +86,36 @@ $ bundle install
 $ bundle exec rake db:migrate
 ```
 
-### 초기 데이터 추가
+### 데이터베이스 준비
+
+#### mysql 설정
+mysql을 구동해야합니다. mysql의 encoding은 utf8mb4를 사용합니다. mysql은 버전 5.6 이상을 사용합니다.
+
+encoding세팅은 my.cnf에 아래 설정을 넣고 반드시 재구동합니다. 참고로 맥에선 /usr/local/Cellar/mysql/(설치하신 mysql버전 번호)/my.cnf입니다.
+
+```
+[mysqld]
+innodb_file_format=Barracuda
+innodb_large_prefix = ON
+```
+
+#### 연결 정보
+
+프로젝트 최상위 폴더에 local_env.yml이라는 파일을 만듭니다. 데이터베이스 연결 정보를 아래와 예시를 보고 적당히 입력합니다.
+
+```
+development:
+  database:
+    username: 사용자이름
+    password: 암호
+```
+
+
+#### 스키마
+
+과거 마이그레이션이 정리되지 않아 최초엔 db:migrate가 작동하지 않습니다. db:create와 db:reset으로 생성합니다.
+
+#### 초기 데이터 추가
 
 먼저 .powenv에 원하는 관리자용 암호를 등록합니다.
 ```

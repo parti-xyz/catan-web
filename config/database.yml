@@ -1,15 +1,20 @@
 <%
   branch = `git rev-parse --abbrev-ref HEAD`.strip rescue nil
+  local_env = YAML.load_file("#{Rails.root}/local_env.yml")[Rails.env]
 %>
+
+development:
+  encoding: utf8mb4
+  collation: utf8mb4_bin
+  adapter:   mysql2
+  database:  catan_development_<%= branch %>
+  username:  <%= local_env['database']['username'] %>
+  password:  <%= local_env['database']['password'] %>
 
 default: &default
   adapter: sqlite3
   pool: 5
   timeout: 5000
-
-development:
-  <<: *default
-  database: db/development_<%= branch %>.sqlite3
 
 test:
   <<: *default
