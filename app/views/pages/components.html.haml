@@ -137,6 +137,12 @@
 
     .container
       %h3 parti panel
+      %div
+      .row
+        .col-sm-3
+          .issue-card-wrapper.clearfix
+            = render 'issues/new_card', issue: Issue.last
+
       %h3 user panel
       %div
       .row

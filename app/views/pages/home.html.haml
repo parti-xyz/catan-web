@@ -1,45 +1,11 @@
-%section#top-banner
-  .container
-    - if is_mobile?
-      .row
-        .col-xs-8
-          %span.text-important> 시민
-          이 힘을 모아
-          %span.text-important> 이슈
-          를
-          %br.mobile
-          해결하는
-          %span.text-parti
-            %span.text-important 온라인 광장
-            빠띠
-        .col-xs-4
-          = link_to '빠띠란?', about_path, class: 'btn top-banner-btn'
-    - else
-      %span.text-important> 시민
-      이 힘을 모아
-      %br.mobile
-      %span
-      %span.text-important> 이슈
-      를 해결하는
-      %br.mobile
-      %span.text-parti
-        %span.text-important 온라인 광장
-        빠띠
-      = link_to '빠띠란?', about_path, class: 'btn top-banner-btn'
+= render 'top_banner'
 %section#home
   .container
     .row
       .col-xs-9
         %section#recommend-parties
-          %h3.title.clearfix
-            추천 빠띠
-            .carousel-nav.btn-group
-              %button.btn.btn-default.btn-prev
-                %i.fa.fa-chevron-left
-              %button.btn.btn-default.btn-next
-                %i.fa.fa-chevron-right
 
-          %ul.owl-carousel(data-ride='parti-carousel' data-carousel-next='#recommend-parties .carousel-nav .btn-next' data-carousel-prev='#recommend-parties .carousel-nav .btn-prev' data-carousel-items='3' data-carousel-margin='7')
+          %ul.owl-carousel(data-ride='parti-carousel' data-carousel-next='#recommend-parties .carousel-nav .btn-next' data-carousel-prev='#recommend-parties .carousel-nav .btn-prev' data-carousel-items='1' data-carousel-margin='7')
             - @recommend_issues_map.each do |recommend|
               - issue = recommend[:issue]
               %li
@@ -50,57 +16,19 @@
                       %span= truncate(issue.title, length: 25)
                     .issue-card__body= issue.body
 
-        %section#campaign-banner
-          - if is_mobile?
-            = link_to (image_tag 'campaign_banner_mobile_v.jpg', style: 'width: 100%;'), "/c/vplatform"
-          - else
-            = link_to (image_tag 'campaign_banner_v.jpg', style: 'width: 100%; height: 134px;'), "/c/vplatform"
-
-        %section#recommend-articles
-          %h3.title.clearfix
-            인기 자료
-            .carousel-nav.btn-group
-              %button.btn.btn-default.btn-prev
-                %i.fa.fa-chevron-left
-              %button.btn.btn-default.btn-next
-                %i.fa.fa-chevron-right
-
-          %ul.owl-carousel(data-ride='parti-carousel' data-carousel-next='#recommend-articles .carousel-nav .btn-next' data-carousel-prev='#recommend-articles .carousel-nav .btn-prev' data-carousel-items='3' data-carousel-margin='7')
-            - @recommend_article_posts.each_with_index do |post, index|
-              - if post.comments_count >= 20
-                - template = 'best'
-                - current_merge = 2
-              - elsif post.comments_count >= 10
-                - template = 'popular'
-                - current_merge = 1
-              - else
-                - template = 'default'
-                - current_merge = 1
-              - current_merge = 1 if(index%3 == 2)
-              %div{'data-merge': current_merge}
-                = render post.specific, wrapper_class: 'card--home', template: template, show_issue: true
-
-        %section#recommend-talks
-          %h3.title.clearfix
-            인기 논의
-          .recommend-talks-list
-            - @recommend_talk_posts.each do |post|
-              = render post.specific, show_issue: true
-
-
-        %section#recommend-opinions
-          %h3.title.clearfix
-            인기 투표
-            .carousel-nav.btn-group
-              %button.btn.btn-default.btn-prev
-                %i.fa.fa-chevron-left
-              %button.btn.btn-default.btn-next
-                %i.fa.fa-chevron-right
-
-          %ul.owl-carousel(data-ride='parti-carousel' data-carousel-next='#recommend-opinions .carousel-nav .btn-next' data-carousel-prev='#recommend-opinions .carousel-nav .btn-prev' data-carousel-items='2' data-carousel-margin='7')
-            - @recommend_opinion_posts.each_with_index do |post, index|
-              %div
-                = render post.specific, show_issue: true
+          .text-center
+            &middot; &middot; &middot;
+        %section#parties
+          .parties-all
+            .well
+              = form_tag do
+                .form-group
+                  = text_field_tag :title, nil, class: 'form-field input-lg', placeholder: '빠띠를 찾아보세요.'
+            .row
+              - @issues.each do |issue|
+                .col-sm-4
+                  .issue-card-wrapper
+                    = render 'issues/new_card', issue: issue
 
       - unless is_mobile?
         = render 'application/aside'
