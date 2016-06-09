@@ -39,6 +39,7 @@ section#articles {
     .date {
       color: $gray-light;
       font-size: $font-size-small;
+      font-weight: 100;
     }
     .title {
       font-size: $font-size-large;
@@ -49,6 +50,7 @@ section#articles {
       color: $text-muted;
       font-size: $font-size-base;
       line-height: $line-height-base;
+      font-weight: 200;
     }
     .more {
       color: $text-muted;
@@ -195,13 +197,13 @@ section#articles {
     .caption {
       padding: 10px;
       .more {
-        padding: 0 10px 10px 10px;
+        padding: 0 0px 10px 0px;
         div {
           background-size: 14px 14px;
           padding-top: 10px;
-          padding-left: 18px;
+          padding-left: 11px;
        }
-        font-size: 10px;
+        font-size: 12px;
       }
     }
   }

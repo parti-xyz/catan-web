@@ -16,7 +16,7 @@ section#talks {
     padding-right: 20px;
   }
   .comment-media--issue {
-    margin-left: 63px;
+    margin-left: 0px;
   }
   .date {
     color: $gray-light;
@@ -70,6 +70,7 @@ section#talks {
       margin-top: 5px;
       color: $text-muted;
       line-height: $line-height-computed;
+      font-weight: 200;
     }
     .media-right {
       text-align: right;
@@ -147,15 +148,23 @@ section#talks {
     .talk-media {
       h4.media-heading.title {
         margin-bottom: 0;
+        padding-top: 8px;
+      }
+      .media-body {
+        text-align: left;
+        vertical-align: middle;
+        padding-left: 8px;
       }
       .media-right {
         display: block;
         padding-left: 0;
+        padding-top: 6px;
         .comment-count {
           float: left;
           line-height: 30px;
-          padding-left: 35px;
+          padding-left: 0px;
           text-align: left;
+          font-size: 14px;
         }
         .comment-users {
           float: right;

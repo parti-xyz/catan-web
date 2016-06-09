@@ -31,11 +31,15 @@
     background-image: image_url('thumb_main_keyvisual.png');
     background-size: cover;
     background-position: center;
-
-    padding-top: 50px;
-    padding-bottom: 35px;
-   .text-parti {
-      display: block;
+    font-size: 18px;
+    padding-top: 22px;
+    padding-bottom: 14px;
+    .col-xs-8 {
+      text-align: left;
+      padding-right: 8px;
+    }
+    .text-parti {
+      display: inline;
       margin-bottom: 20px;
     }
     .top-banner-btn {
@@ -46,13 +50,14 @@
   }
 }
 
+
 section#home {
-  padding: 20px 0;
+  padding: 4px 0;
 
   h3.title {
     border-bottom: 1px solid #d2d2d2;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
 
     .carousel-nav {
       float: right;
@@ -79,6 +84,7 @@ section#home {
         background-position: center;
       }
       &__title {
+        margin-bottom: -8px;
         display: table;
         width: 100%;
         height: 50px;
@@ -92,8 +98,10 @@ section#home {
         }
       }
       &__body {
+        color: $gray;
         height: 40px;
         overflow: hidden;
+        text-align: center;
       }
     }
   }

@@ -284,7 +284,7 @@ var parti_prepare = function($base) {
     }
     var items_mobile = $elm.data('carousel-items-mobile');
     if(!items_mobile) {
-      items_mobile = 1;
+      items_mobile = 2;
     }
     var slide_by = $elm.data('carousel-slide-by');
     if(!slide_by) {
