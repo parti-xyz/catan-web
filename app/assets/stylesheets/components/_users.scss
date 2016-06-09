@@ -331,6 +331,9 @@ section#user-gallery{
   margin: auto;
   background-color: rgba(83,83,86,0.8);
   z-index: 9999;
+  .devider span {
+    background-color: #fff;
+  }
 }
 .login-box {
   width: 700px;

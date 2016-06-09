@@ -19,6 +19,9 @@
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
+          - if current_user.watches.any?
+            %li.watch-parties
+              .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json)}
           %li.notification
             = link_to messages_path, class: 'btn' do
               - if current_user.unread_messages_count > 0
@@ -27,6 +30,7 @@
                   %i.icon-dot-corner
               - else
                 %i.icon-bell
+
           %li.user-info.dropdown
             %a.dropdown-toggle.btn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
               %span.user-byline
@@ -41,7 +45,6 @@
               %li
                 = link_to edit_user_registration_path do
                   &middot; 설정
-              %li.divider(role="separator")
               %li
                 = link_to destroy_user_session_path, method: :delete do
                   &middot; 로그아웃

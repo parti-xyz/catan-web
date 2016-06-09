@@ -223,6 +223,9 @@ br.mobile {
     margin: 30px 0;
     font-size: 24px;
   }
+  &__content {
+    padding-top: 30px;
+  }
 }
 #sign-up {
   width: 90%;
@@ -380,13 +383,6 @@ br.mobile {
 }
 .modal__comment {
   padding: 20px 10px;
-  .btn-new-comment {
-    padding: 7px 10px;
-    font-size: 12px;
-    img {
-      zoom: 0.7;
-    }
-  }
   .comments--count {
     left: 70px;
     font-size: 10px;

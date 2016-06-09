@@ -219,6 +219,14 @@
     padding: 0 10px;
   }
 }
+
+@media (max-width: 768px) {
+  .devider {
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+}
+
 br.mobile {
   display: none;
 }
@@ -264,11 +272,6 @@ label.required:after {
   }
 }
 .post-card__date, .date-wrapper {
-  img {
-    height: 16px !important;
-  }
-}
-.btn-new-comment {
   img {
     height: 16px !important;
   }

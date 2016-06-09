@@ -91,8 +91,13 @@ section#posts {
     border-top: 1px solid #d2d2d2;
     padding: 40px;
     .btn-new-comment {
-      position: relative;
-      padding: 10px 20px;
+      display: block;
+      width: 100%;
+      font-size: 12px;
+      min-width: 90px;
+      .icon-comment {
+        font-size: 14px;
+      }
     }
     .comments--count {
       padding: 2px 8px;

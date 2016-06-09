@@ -1,8 +1,9 @@
 .bs-component
   %section#sign-up
     %h4.sign-up__title 로그인/회원가입
-    %h1.text-center.sign-up__txt
-      시민이 힘을 모아 이슈를 해결하는
+    %h1.text-center.sign-up__txt.hidden-xs
+      시민이 힘을 모아
+      이슈를 해결하는
       %br
       온라인 광장 빠띠
     .sign-up__form
@@ -15,7 +16,7 @@
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) }, class: 'btn-sns btn-block' do
         %i.fa.fa-google-plus{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
         구글플러스 아이디로 빠띠하기
-      #login-form
+      #login-form.text-center
         = form_tag nil, method: :get do
           = hidden_field_tag(:after_login)
           %label.remember_me
@@ -33,7 +34,7 @@
               = f.email_field :email, placeholder: '이메일을 입력하세요', class: 'form-control'
             .form-group
               = f.password_field :password, placeholder: '비밀번호를 입력하세요', autocomplete: "off", class: 'form-control'
-            .form-group
+            .form-group.text-center
               - if devise_mapping.rememberable?
                 = f.check_box :remember_me
                 = f.label :remember_me, class: 'remember_me'
