@@ -1,6 +1,10 @@
 class ArticlesController < ApplicationController
-  before_filter :authenticate_user!, except: [:show, :partial]
+  before_filter :authenticate_user!, except: [:index, :show, :partial]
   load_and_authorize_resource
+
+  def index
+    articles_page
+  end
 
   def create
     redirect_to root_path and return if fetch_issue.blank?
@@ -52,7 +56,7 @@ class ArticlesController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @article.issue
-      articles_page
+      articles_page(@issue)
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_articles_path(@issue)
       @paginate_params = {controller: 'issues', action: 'slug_articles', slug: @issue.slug, id: nil}

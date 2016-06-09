@@ -1,0 +1,10 @@
+= render 'top_banner'
+%section#talks
+  .container
+    %h3.page-title
+      논의
+    .talks-list
+      - @talks.each do |talk|
+        = render talk, show_issue: true
+    = paginate @talks, theme: 'catan', params: @paginate_params
+

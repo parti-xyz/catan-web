@@ -104,17 +104,23 @@
   }
 }
 .about-parti-box {
-  padding: 160px 0;
+  padding: 50px 0px 0px 0px;
   position: relative;
-  color: #000;
-  hr {
-    border-width: 3px;
-    border-color: $brand-primary;
-    width: 140px;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    margin-left: -70px;
+  color: $gray;
+  .text-important {
+    color: $brand-primary;
+  }
+  .btn-about {
+    margin: 20px 0px -6px 0px;
+    width: 162px !important;
+    height: 52px !important;
+  }
+  .btn-about.yellow {
+    background-color: #ffde00;
+    &:hover, &:active, &:focus {
+      background-color: #ffc900 !important;
+      color: $gray-darker !important;
+    }
   }
   h2 {
     font-weight: bold;
@@ -136,6 +142,26 @@
       width: 100%;
     }
   }
+  .col-xs-4 {
+    font-size: 2.6em;
+    img {
+      width: 100%;
+    }
+    p {
+      padding-top: 2em;
+    }
+  }
+  .col-xs-8 {
+    img {
+      width: 100%;
+    }
+  }
+}
+.about-parti-box.odd {
+    background-color: #fff;
+  }
+.about-parti-box.even {
+  background-color: $gray-lightest;
 }
 
 /* editor */

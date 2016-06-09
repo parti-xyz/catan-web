@@ -8,14 +8,21 @@
       %ul.nav.navbar-nav
         %li
           = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
-            홈
-        %li
-          = link_to issues_path, class: "btn #{'active' if current_page?(controller: '/issues', action: :index)}" do
             모든 빠띠
+        %li
+          = link_to talks_path, class: "btn #{'active' if current_page?(controller: '/talks', action: :index)}" do
+            논의
+        %li
+          = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
+            자료
+        %li
+          = link_to opinions_path, class: "btn #{'active' if current_page?(controller: '/opinions', action: :index)}" do
+            투표
         - if user_signed_in?
           %li
             = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
               내 소식
+
 
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?

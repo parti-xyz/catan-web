@@ -17,12 +17,12 @@ class IssuesController < ApplicationController
   end
 
   def slug_articles
-    articles_page
+    articles_page(@issue)
     prepare_issue_meta_tags
   end
 
   def slug_opinions
-    opinions_page
+    opinions_page(@issue)
     prepare_issue_meta_tags
   end
 

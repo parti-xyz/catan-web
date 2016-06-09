@@ -1,6 +1,10 @@
 class OpinionsController < ApplicationController
-  before_filter :authenticate_user!, except: [:show, :social_card]
+  before_filter :authenticate_user!, except: [:index, :show, :social_card]
   load_and_authorize_resource
+
+  def index
+    opinions_page
+  end
 
   def create
     set_issue
@@ -35,7 +39,7 @@ class OpinionsController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @opinion.issue
-      opinions_page
+      opinions_page(@issue)
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_opinions_path(@issue)
       @paginate_params = {controller: 'issues', :action => 'slug_opinions', slug: @issue.slug, id: nil}

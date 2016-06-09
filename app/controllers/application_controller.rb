@@ -120,22 +120,24 @@ class ApplicationController < ActionController::Base
     request.variant = :mobile if (browser.device.mobile? or browser.device.tablet?)
   end
 
-  def articles_page
-    previous_last_article = Article.find_by(id: params[:last_id])
+  def articles_page(issue = nil)
+    articles_base = issue.nil? ? Article.all : issue.articles
 
-    @articles = @issue.articles.recent.previous_of_article(previous_last_article).limit(20)
+    previous_last_article = Article.find_by(id: params[:last_id])
+    @articles = articles_base.recent.previous_of_article(previous_last_article).limit(20)
     current_last_article = @articles.last
 
-    @is_last_page = (@issue.articles.empty? or @issue.articles.recent.previous_of_article(current_last_article).empty?)
+    @is_last_page = (articles_base.empty? or articles_base.recent.previous_of_article(current_last_article).empty?)
   end
 
-  def opinions_page
-    previous_last_opinion = Opinion.find_by(id: params[:last_id])
+  def opinions_page(issue = nil)
+    opinions_base = issue.nil? ? Opinion.all : issue.opinions
 
-    @opinions = @issue.opinions.recent.previous_of_opinion(previous_last_opinion).limit(20)
+    previous_last_opinion = Opinion.find_by(id: params[:last_id])
+    @opinions = opinions_base.recent.previous_of_opinion(previous_last_opinion).limit(20)
     current_last_opinion = @opinions.last
 
-    @is_last_page = (@issue.opinions.empty? or @issue.opinions.previous_of_opinion(current_last_opinion).empty?)
+    @is_last_page = (opinions_base.empty? or opinions_base.previous_of_opinion(current_last_opinion).empty?)
   end
 
   def talks_page
