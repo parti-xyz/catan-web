@@ -4,7 +4,7 @@
     .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
     .issue-card__title
       %span= truncate(issue.title, length: 23)
-    .issue-card__body= excerpt(issue.body * 100, length: 35)
+    .issue-card__body.hidden-xs= excerpt(issue.body * 100, length: 35)
     .issue-card__meta
       %span.user-count
         %i.icon-user

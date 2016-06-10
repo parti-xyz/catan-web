@@ -42,6 +42,9 @@ class Issue < ActiveRecord::Base
   # scopes
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
 
+  # search
+  scoped_search on: [:title, :body]
+
   # methods
   def made_by? someone
     makers.exists? user: someone

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :exist
+      get :search
     end
     resources :watches do
       delete :cancel, on: :collection

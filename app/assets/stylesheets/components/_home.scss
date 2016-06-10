@@ -31,7 +31,7 @@
     background-image: image_url('thumb_main_keyvisual.png');
     background-size: cover;
     background-position: center;
-    font-size: 18px;
+    font-size: 1em;
     padding-top: 22px;
     padding-bottom: 14px;
     .col-xs-8 {
@@ -50,9 +50,12 @@
   }
 }
 
-
 section#home {
-  padding: 30px 0;
+//<<<<<<< Updated upstream
+//  padding: 30px 0;
+//=======
+  margin-top: 10px;
+  padding: 4px 0;
 
   h3.title {
     border-bottom: 1px solid #d2d2d2;
@@ -71,11 +74,52 @@ section#home {
   section#recommend-parties {
     min-height: 300px;
     overflow: hidden;
+    position: relative;
+
+    .owl-carousel {
+      margin-top: 0;
+      .owl-nav {
+        position: absolute;
+        top: 35%;
+        width: 100%;
+
+        .owl-prev,
+        .owl-next {
+          background: none;
+          color: gray;
+        }
+        .owl-prev {
+          position: absolute;
+          left: 0;
+        }
+        .owl-next {
+          position: absolute;
+          right: 0;
+        }
+        .owl-prev:before,
+        .owl-next:before {
+          font-family: FontAwesome;
+          font-size: 2em;
+        }
+
+        .owl-prev:before { content: "\f053"; }
+        .owl-next:before { content: "\f054"; }
+      }
+      .owl-dot span {
+        background-color: #c0c0c2;
+      }
+      .owl-dot.active span {
+        background-color: $brand-primary;
+      }
+    }
     .issue-card {
-      @include hover-shadow();
       height: 340px;
       padding: 10px;
       background-color: #fff;
+      border: 1px solid transparent;
+      &:hover {
+        border: 1px solid $brand-primary-light;
+      }
       border-radius: $border-radius-base;
       &__thumb {
         height: 210px;
@@ -141,6 +185,44 @@ section#home {
       display: inline-block;
     }
     .owl-controls {
+      display: none;
+    }
+  }
+
+  section#parties-all {
+    margin-top: 30px;
+    form {
+      .input-group .form-control:not(:first-child):not(:last-child) {
+        border-top-left-radius: $border-radius-base;
+        border-bottom-left-radius: $border-radius-base;
+
+      }
+      .input-group-keyword input.form-control {
+        font-size: 1em;
+      }
+      .btn-group-default {
+        border-color: $btn-default-border;
+        background: $brand-primary;
+        color: #fff;
+      }
+    }
+    .parties-all > .row {
+      margin-left: -5px;
+      margin-right: -5px;
+      .col-sm-4 {
+        padding-left: 5px;
+        padding-right: 5px;
+      }
+    }
+
+    .parties-all-list {
+      margin-top: 15px;
+    }
+
+
+    .parties-all-loading {
+      text-align: center;
+      margin-top: 50px;
       display: none;
     }
   }

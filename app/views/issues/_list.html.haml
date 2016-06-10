@@ -1,0 +1,5 @@
+.row
+  - @issues.each do |issue|
+    .col-sm-4.col-xs-6
+      .issue-card-wrapper
+        = render 'issues/new_card', issue: issue

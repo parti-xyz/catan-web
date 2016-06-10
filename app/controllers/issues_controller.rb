@@ -11,6 +11,10 @@ class IssuesController < ApplicationController
     @campaigns = Campaign.all
   end
 
+  def search
+    @issues = Issue.search_for(params[:keyword])
+  end
+
   def show
     @issue = Issue.find params[:id]
     redirect_to issue_home_path(@issue)

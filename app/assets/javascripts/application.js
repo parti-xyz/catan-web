@@ -19,6 +19,7 @@
 //= require jquery.pjax
 //= require jquery.history
 //= require jquery.waypoints
+//= require jquery.typewatch
 //= require select2.full
 
 // blank
@@ -272,7 +273,7 @@ var parti_prepare = function($base) {
   });
 
   // carousel
-  $.parti_apply($base, '[data-ride="parti-carousel"]', function(elm) {
+  $.parti_apply($base, '[data-action="parti-carousel"]', function(elm) {
     var $elm = $(elm);
     var margin = $elm.data('carousel-margin');
     if(!margin) {
@@ -290,12 +291,25 @@ var parti_prepare = function($base) {
     if(!slide_by) {
       slide_by = 'page';
     }
+    var dots = $elm.data('carousel-dots');
+    if(!dots) {
+      dots = false;
+    }
+    var dots_each = $elm.data('carousel-dots-each');
+    if(!dots_each) {
+      dots_each = false;
+    }
+    var dots_each = $elm.data('carousel-dots-each');
+    if(!dots_each) {
+      dots_each = false;
+    }
     $elm.owlCarousel({
       loop: $elm.children().length > 1,
       nav: $elm.children().length > 1,
       slideBy: slide_by,
       margin: margin,
       dots: true,
+      dotsEach: dots_each,
       navText: false,
       merge: true,
       responsive:{
@@ -693,7 +707,7 @@ $(function(){
         window.location.href  = url;
       }
     });
-        });
+  });
 
   $('.page_waypoint').waypoint({
     handler: function(direction) {
@@ -717,6 +731,30 @@ $(function(){
       });
     },
     offset: 'bottom-in-view'
+  });
+
+  $('[data-action="parti-search-parties"]').each(function(i, elm) {
+    var options = {
+      callback: function (value) {
+        $('.parties-all-loading').show();
+        $('.parties-all-list').hide();
+        $.ajax({
+          url: '/parties/search.js',
+          type: "get",
+          data:{ keyword: value },
+          complete: function(xhr) {
+            $('.parties-all-loading').hide();
+            $('.parties-all-list').show();
+          },
+        });
+      },
+      wait: 500,
+      highlight: true,
+      allowSubmit: false,
+      captureLength: 2
+    }
+
+    $(elm).typeWatch( options );
   });
 
 });
