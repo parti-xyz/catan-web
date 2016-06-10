@@ -20,10 +20,12 @@
             &middot; &middot; &middot;
         %section#parties
           .parties-all
-            .well
-              = form_tag do
-                .form-group
-                  = text_field_tag :title, nil, class: 'form-field input-lg', placeholder: '빠띠를 찾아보세요.'
+            #parti-filtering-form
+              .panel.panel-default
+                .panel-body
+                  = form_tag do
+                    .form-group
+                      = text_field_tag :title, nil, class: 'form-control input-lg input-block', placeholder: "#{Issue.count}개의 빠띠 중에서, 관심있는 이슈를 다루는 빠띠를 찾아보세요."
             .row
               - @issues.each do |issue|
                 .col-sm-4
