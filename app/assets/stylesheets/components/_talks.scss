@@ -9,6 +9,8 @@ section#talks {
 .talk-card {
   @include hover-shadow();
   background-color: #fff;
+
+  border: 1px solid #fff;
   border-radius: 4px;
   padding: 20px;
   margin-bottom: 10px;
