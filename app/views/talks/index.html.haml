@@ -3,6 +3,7 @@
   .container
     %h3.page-title
       논의
+      %small 모든 빠띠의 최근 논의입니다.
     .talks-list
       - @talks.each do |talk|
         = render talk, show_issue: true

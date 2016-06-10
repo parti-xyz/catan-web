@@ -1,9 +1,17 @@
+= render 'top_banner'
 %section#posts
   .container
     .row
       .col-xs-9
-        %section#content-tab-section
-          = render 'messages/content_tabs'
+        %h3.page-title
+          %span.text-primary<> #{current_user.nickname}
+          님의 알림
+          .count-label-wrapper
+            .count-label
+              = current_user.messages.count
+              - if current_user.messages.latest.any?
+                %small.text-primary
+                  +#{current_user.messages.latest.count}
         .message-list
           = render @messages
         = paginate @messages, theme: 'catan'

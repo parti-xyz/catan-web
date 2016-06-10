@@ -36,18 +36,19 @@
     padding-bottom: 14px;
     .col-xs-8 {
       text-align: left;
-      padding-right: 8px;
+    }
+    .col-xs-4 {
+      text-align: right;
     }
     .text-parti {
       display: inline;
       margin-bottom: 20px;
     }
-    .top-banner-btn {
-      margin: 0 20px;
-      &:hover {
-      }
-    }
   }
+}
+
+section#facebook-like {
+  padding-top: 10px;
 }
 
 section#home {

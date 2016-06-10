@@ -3,25 +3,27 @@
     - if is_mobile?
       .row
         .col-xs-8
-          %span.text-important> 시민
-          이 힘을 모아
-          %span.text-important> 이슈
-          를
-          %br.mobile
-          해결하는
-          %span.text-parti
-            %span.text-important 온라인 광장
-            빠띠
+          %span
+            %span
+              %span.text-important> 시민
+              이 모여
+            %span
+              %span.text-important> 이슈
+              를
+          %br
+          %span
+            해결하는
+            %span.text-parti
+              %span.text-important 온라인 광장
+              빠띠
         .col-xs-4
           = link_to '빠띠란?', about_path, class: 'btn top-banner-btn'
     - else
       %span.text-important> 시민
-      이 힘을 모아
-      %br.mobile
+      이 모여
       %span
       %span.text-important> 이슈
       를 해결하는
-      %br.mobile
       %span.text-parti
         %span.text-important 온라인 광장
         빠띠
