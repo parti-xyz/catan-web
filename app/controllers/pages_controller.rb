@@ -1,9 +1,12 @@
 class PagesController < ApplicationController
   def home
 
-    slugs = %w(feminism basic-income digital-social-innovation workandlife_integration household_chemicals 20th-assembly environment climate-change sewolho)
-    @recommend_issues_map = Issue.where(slug: slugs).map { |issue| {issue: issue, image_url: issue.logo.url} }
-
+    #slugs = %w(feminism basic-income digital-social-innovation workandlife_integration household_chemicals 20th-assembly environment climate-change sewolho)
+    #@recommend_issues_map = Issue.where(slug: slugs).map { |issue| {issue: issue, image_url: issue.logo.url} }
+    @recommend_map = [
+      {url: 'http://up.parti.xyz', image: 'home/han21.png'},
+      {url: '/c/vplatform', image: 'home/vplatform.png'},
+    ]
     @issues = Issue.all.order(:title)
   end
 

@@ -69,15 +69,19 @@ section#home {
   }
 
   section#recommend-parties {
-    min-height: 300px;
+    min-height: 200px;
     overflow: hidden;
     position: relative;
 
     .owl-carousel {
       margin-top: 0;
+      li {
+        height: 200px;
+        background-size: cover;
+      }
       .owl-nav {
         position: absolute;
-        top: 35%;
+        top: 25%;
         width: 100%;
 
         .owl-prev,
