@@ -76,8 +76,11 @@ section#home {
     .owl-carousel {
       margin-top: 0;
       li {
-        height: 200px;
+        height: 210px;
         background-size: cover;
+        @media (max-width: 768px) {
+          height: 175px;
+        }
       }
       .owl-nav {
         position: absolute;
