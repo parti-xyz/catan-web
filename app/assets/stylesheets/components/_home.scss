@@ -83,7 +83,8 @@ section#home {
         .owl-prev,
         .owl-next {
           background: none;
-          color: gray;
+          color: #fff;
+          text-shadow: 0px 0px 20px rgba(0,0,0,0.9);
         }
         .owl-prev {
           position: absolute;
