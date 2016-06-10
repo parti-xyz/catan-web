@@ -6,11 +6,12 @@
   .container
     .row
       .col-xs-9
-        %section#recommend-parties
+        %section#recommend-parties.text-center
           %ul.owl-carousel.owl-theme(data-action='parti-carousel' data-carousel-items='1' data-carousel-items-mobile='1' data-carousel-margin='7' data-carousel-dots='true' data-carousel-dots-each='true')
             - @recommend_map.each do |recommend|
               = link_to recommend[:url] do
-                %li{style: "background-image: url(#{image_url(is_mobile? ? recommend[:mobile_image] : recommend[:image])});"}
+                %li
+                  = image_tag (is_mobile? ? recommend[:mobile_image] : recommend[:image])
         %section#parties-all
           .parties-all
             %form(onsubmit="return false;")

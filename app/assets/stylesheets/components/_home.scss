@@ -49,6 +49,9 @@
 
 section#facebook-like {
   padding-top: 10px;
+  .fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe {
+    width: 100% !important;
+  }
 }
 
 section#home {
@@ -75,13 +78,7 @@ section#home {
 
     .owl-carousel {
       margin-top: 0;
-      li {
-        height: 210px;
-        background-size: cover;
-        @media (max-width: 768px) {
-          height: 175px;
-        }
-      }
+
       .owl-nav {
         position: absolute;
         top: 25%;
