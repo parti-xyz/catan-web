@@ -3,7 +3,7 @@ class TalksController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @talks = Talk.page(params[:page])
+    @talks = Talk.recent.page(params[:page])
   end
 
   def create
