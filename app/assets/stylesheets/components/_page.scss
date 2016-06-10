@@ -116,6 +116,7 @@
     height: 52px !important;
   }
   .btn-about.yellow {
+    color: $gray;
     background-color: #ffde00;
     &:hover, &:active, &:focus {
       background-color: #ffc900 !important;

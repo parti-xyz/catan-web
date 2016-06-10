@@ -30,7 +30,8 @@
           - if user_signed_in?
             = link_to '빠띠 만들기', new_issue_path, class: 'btn btn-about btn-default btn-lg btn-block btn-shadow yellow'
           - else
-            = link_to '빠띠 만들기', new_issue_path, class: 'btn btn-about btn-default btn-lg btn-block btn-shadow yellow'
+            = link_to '#', class: 'btn btn-about yellow btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+              = t('빠띠 만들기')
           %p
             유기견 입양하기, 재활용 아이디어 공유하기, 기후변화를 늦추기 위한 봉사활동 찾기, 더 나은 민주주의 실험하기 등 내가 관심있는 사회 이슈가 있다면 버튼 하나로 빠띠를 만들거나 이미 있는 빠띠를 구독해 참여해보세요.
   .about-parti-box.odd
