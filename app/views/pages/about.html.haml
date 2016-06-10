@@ -2,7 +2,7 @@
   .about-parti-box.odd
     .container
       .row
-        .col-xs-4{style:''}
+        .col-xs-4
           %span.text-important> 시민
           이 모여
           %br
@@ -20,7 +20,7 @@
     .container
       .row
         .col-xs-8.text-right
-          = image_tag 'img_about_2.png', {style:'padding-top: 50px;'}
+          = image_tag 'img_about_2.png', {style:''}
         .col-xs-4#first{style:''}
           지금 바로
           %span
@@ -38,7 +38,7 @@
   .about-parti-box.odd
     .container
       .row
-        .col-xs-5#first{style:''}
+        .col-xs-5#first
           %span.text-important> 의견
           을 내고
           %br
@@ -50,8 +50,8 @@
             주제는 토크로, 다른 사람들의 의견은
             %br
             투표로 모으고 참여해 보세요.
-        .col-xs-4.col-xs-offset-3.text-right#second
-          = image_tag 'img_about_3.png',{style:'padding-right: 2em;'}
+        .col-xs-4#second.col-xs-offset-3.text-right
+          = image_tag 'img_about_3.png'
   .about-parti-box.even
     .container
       .row
@@ -70,15 +70,15 @@
             %br
             빠띠에 자료가 분류별로 정리됩니다.
   .about-parti-box.odd
-    .container{style:'text-align: center;'}
-      .use-parti{style: ''}
+    .container#use-parti
+      .use-parti
         %span.text-important> 빠띠
         를 사용해보세요.
       .parti-button
         = link_to '전체 빠띠', root_path, class: 'btn btn-about btn-default btn-lg btn-shadow yellow'
         = link_to '회원가입', new_user_session_path, class: 'btn btn-about btn-primary btn-lg btn-shadow'
       .img-wrapper
-        = image_tag 'img_about_5.png',{style:'width: 75%; padding-top: 30px;'}
+        = image_tag 'img_about_5.png'
 
 
 
