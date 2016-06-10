@@ -2,7 +2,7 @@
   .about-parti-box.odd
     .container
       .row
-        .col-xs-4{style:'margin-top: 2.5em;'}
+        .col-xs-4{style:''}
           %span.text-important> 시민
           이 모여
           %br
@@ -20,11 +20,12 @@
     .container
       .row
         .col-xs-8.text-right
-          = image_tag 'img_about_2.png', {style:'padding-right: 4em;'}
-        .col-xs-4{style:'margin-top: 3em;'}
+          = image_tag 'img_about_2.png', {style:'padding-top: 50px;'}
+        .col-xs-4#first{style:''}
           지금 바로
-          %span.text-important> 빠띠
-          를
+          %span
+            %span.text-important> 빠띠
+            를
           %br
           만들어 보세요
           - if user_signed_in?
@@ -37,7 +38,7 @@
   .about-parti-box.odd
     .container
       .row
-        .col-xs-4{style:'padding: 2.5em 0 0 1.2em;'}
+        .col-xs-5#first{style:''}
           %span.text-important> 의견
           을 내고
           %br
@@ -49,14 +50,14 @@
             주제는 토크로, 다른 사람들의 의견은
             %br
             투표로 모으고 참여해 보세요.
-        .col-xs-4.col-xs-offset-4.text-right
+        .col-xs-4.col-xs-offset-3.text-right#second
           = image_tag 'img_about_3.png',{style:'padding-right: 2em;'}
   .about-parti-box.even
     .container
       .row
-        .col-xs-8.text-right
-          = image_tag 'img_about_4.png', {style:'padding-right: 4em;'}
-        .col-xs-4{style:'margin-top: 3em;'}
+        .col-xs-7.text-right
+          = image_tag 'img_about_4.png'
+        .col-xs-5#second
           %span.text-important> 이슈
           와 관련된
           %br
@@ -70,7 +71,7 @@
             빠띠에 자료가 분류별로 정리됩니다.
   .about-parti-box.odd
     .container{style:'text-align: center;'}
-      .use-parti{style: 'font-size: 36px;'}
+      .use-parti{style: ''}
         %span.text-important> 빠띠
         를 사용해보세요.
       .parti-button

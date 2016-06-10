@@ -111,7 +111,7 @@
     color: $brand-primary;
   }
   .btn-about {
-    margin: 20px 0px -6px 0px;
+    margin: 16px 0px -6px 0px;
     width: 162px !important;
     height: 52px !important;
   }
@@ -134,6 +134,7 @@
   p {
     font-size: 18px;
     line-height: 1.4;
+    padding-top: 14px;
     b {
       margin-right: -5px;
     }
@@ -143,8 +144,39 @@
       width: 100%;
     }
   }
+  .col-xs-5#first {
+    padding: 0px 0 0 1.2em;
+    font-size: 34px;
+    margin-top: 3em;
+  }
+  .col-xs-5#second {
+    padding: 0px 0 0 1.2em;
+    font-size: 34px;
+    margin-top: 3em;
+  }
   .col-xs-4 {
     font-size: 2.6em;
+    padding-top: 150px;
+    img {
+      width: 100%;
+    }
+    p {
+      padding-top: 2em;
+    }
+  }
+  .col-xs-4#first {
+    font-size: 2.6em;
+    padding-top: 150px;
+    img {
+      width: 100%;
+    }
+    p {
+      padding-top: 2em;
+    }
+  }
+  .col-xs-4#second {
+    font-size: 2.6em;
+        padding-top: 0px;
     img {
       width: 100%;
     }
@@ -158,12 +190,75 @@
     }
   }
 }
+.use-parti {
+  font-size: 36px;
+}
+.col-xs-7.text-right {
+  img {
+    padding-right: 4em;
+    width: 100%;
+    margin-bottom: 60px;
+  }
+}
+
 .about-parti-box.odd {
     background-color: #fff;
   }
 .about-parti-box.even {
   background-color: $gray-lightest;
 }
+
+@media (max-width: 768px) {
+  .about-parti-box .col-xs-4 {
+    margin-top: 20px;
+    font-size: 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+  }
+  .about-parti-box .col-xs-4#first {
+    margin-top: 20px;
+    font-size: 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+  }
+  .about-parti-box .col-xs-4#second {
+    margin-top: 0px;
+    font-size: 12px;
+    padding-top: 10px;
+    padding-right: 12px;
+  }
+  .about-parti-box .btn-about {
+    margin: 10px 0px -6px 0px;
+    width: 76px !important;
+    height: 30px !important;
+    font-size: 12px;
+    padding-top: 2px;
+  }
+  .about-parti-box p {
+    font-size: 10px !important;
+  }
+  .use-parti {
+    font-size: 24px;
+  }
+  .col-xs-7.text-right img {
+    padding-right: 0px;
+    width: 100%;
+    margin-bottom: 0px;
+  }
+  .about-parti-box{
+    .col-xs-5#first {
+      margin-top: 0px;
+      font-size: 12px;
+      padding-left: 34px;
+    }
+    .col-xs-5#second {
+      margin-top: 0px;
+      font-size: 12px;
+    }
+  }
+}
+
+
 
 /* editor */
 
