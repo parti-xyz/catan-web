@@ -10,9 +10,9 @@
         .thumb.img-circle.circle-33{style: "background-image: url(#{post.user.image.sm.url});"}
     .media-body
       .date= date_f talk.created_at
-    %h4.media-heading.title
-      = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
-        = talk.title
+      %h4.media-heading.title
+        = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
+          = talk.title
     .media-right
       .comment-count
         %i.icon-comment
