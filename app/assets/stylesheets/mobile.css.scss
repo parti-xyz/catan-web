@@ -1,3 +1,5 @@
+@import "application";
+
 @media (max-width: 768px) {
   body {
     padding-top: 50px;
@@ -56,13 +58,13 @@
   bottom: 0;
   z-index: 9999;
   display: none;
-  overflow: hidden;
+  overflow: scroll;
   &__profile {
     width: 100%;
-    height: 300px;
+    height: 160px;
     background-color: #271e44;
     text-align: center;
-    padding-top: 70px;
+    padding-top: 10px;
     .user-image, .default-profile {
       width: 60px;
       height: 60px;
@@ -99,15 +101,22 @@
     }
   }
   &__menu {
-    padding-left: 40px;
+    padding-top: 5px;
     li {
-      border-bottom: 1px solid #ddc8ff;
+      padding-left: 40px;
+      border-bottom: 1px solid $gray-lightest;
+      &.divider {
+        border-bottom: 1px solid $brand-primary-light;
+      }
       a {
-        color: #966fd6;
+        color: $brand-primary;
         padding: 10px 0;
         display: block;
       }
     }
+  }
+  &__licence {
+      padding: 10px 40px;
   }
   &__close {
     position: absolute;

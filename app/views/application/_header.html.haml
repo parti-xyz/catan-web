@@ -2,60 +2,65 @@
   %nav.navbar.navbar-default.navbar-fixed-top
     .container
       .navbar-header
+        %button.navbar-toggle.collapsed{"data-target": "#collapsable", "data-toggle": "collapse", type: "button"}
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
         %a.navbar-brand{ href: root_path }
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
-      %ul.nav.navbar-nav
-        %li
-          = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
-            모든 빠띠
-        %li
-          = link_to talks_path, class: "btn #{'active' if current_page?(controller: '/talks', action: :index)}" do
-            논의
-        %li
-          = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
-            자료
-        %li
-          = link_to opinions_path, class: "btn #{'active' if current_page?(controller: '/opinions', action: :index)}" do
-            투표
-        - if user_signed_in?
+      #collapsable.collapse.navbar-collapse
+        %ul.nav.navbar-nav
           %li
-            = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
-              새소식
+            = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
+              모든 빠띠
+          %li
+            = link_to talks_path, class: "btn #{'active' if current_page?(controller: '/talks', action: :index)}" do
+              논의
+          %li
+            = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
+              자료
+          %li
+            = link_to opinions_path, class: "btn #{'active' if current_page?(controller: '/opinions', action: :index)}" do
+              투표
+          - if user_signed_in?
+            %li
+              = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
+                새소식
 
 
-      %ul.nav.navbar-nav.navbar-right
-        - if user_signed_in?
-          - if current_user.watches.any?
-            %li.watch-parties
-              .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json)}
-          %li.notification
-            = link_to messages_path, class: 'btn' do
-              - if current_user.unread_messages_count > 0
-                %span.fa-stack
-                  %i.icon-bell.fa-stack-1x
-                  %i.icon-dot-corner
-              - else
-                %i.icon-bell
+        %ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
+            - if current_user.watches.any?
+              %li.watch-parties
+                .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json)}
+            %li.notification
+              = link_to messages_path, class: 'btn' do
+                - if current_user.unread_messages_count > 0
+                  %span.fa-stack
+                    %i.icon-bell.fa-stack-1x
+                    %i.icon-dot-corner
+                - else
+                  %i.icon-bell
 
-          %li.user-info.dropdown
-            %a.dropdown-toggle.btn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
-              %span.user-byline
-                .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-                = current_user.nickname
-              %span.caret
-            %ul.dropdown-menu
-              %li
-                = link_to user_gallery_path(current_user) do
-                  &middot; 프로필 보기
-              %li.divider(role="separator")
-              %li
-                = link_to edit_user_registration_path do
-                  &middot; 설정
-              %li
-                = link_to destroy_user_session_path, method: :delete do
-                  &middot; 로그아웃
+            %li.user-info.dropdown
+              %a.dropdown-toggle.btn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+                %span.user-byline
+                  .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+                  = current_user.nickname
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to user_gallery_path(current_user) do
+                    &middot; 프로필 보기
+                %li.divider(role="separator")
+                %li
+                  = link_to edit_user_registration_path do
+                    &middot; 설정
+                %li
+                  = link_to destroy_user_session_path, method: :delete do
+                    &middot; 로그아웃
 
-        - else
-          %li.sign-up
-            = link_to '로그인/회원가입', new_user_session_path, class: 'btn'
+          - else
+            %li.sign-up
+              = link_to '로그인/회원가입', new_user_session_path, class: 'btn'

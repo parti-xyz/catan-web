@@ -1,37 +1,51 @@
-%nav.navbar.navbar-default.navbar-fixed-top
-  .container.clearfix
-    .navbar-header.pull-left{ style: 'position: relative' }
-      %a.navbar-brand{ href: root_path }
-        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-    %a.btn-mobile-menu.pull-right{ href: '#'}
-      = image_tag 'btn_mobile_menu.png'
-.mobile-list#mobile-list
-  = image_tag 'icon_close_white.png', class: 'mobile-list__close'
-  - if user_signed_in?
-    .mobile-list__profile
-      = byline current_user
-      .mobile-list__messages
-        = link_to messages_path do
-          - if current_user.unread_messages_count > 0
-            %span.fa-stack
-              %i.icon-bell-solid.fa-stack-1x
-              %i.icon-dot-corner.fa-stack-1x
-          - else
-            %i.icon-bell-solid
+#site-header
+  %nav.navbar.navbar-default.navbar-fixed-top
+    .container.clearfix
+      .navbar-header.pull-left{ style: 'position: relative' }
+        %a.navbar-brand{ href: root_path }
+          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+      %a.btn-mobile-menu.pull-right{ href: '#'}
+        = image_tag 'btn_mobile_menu.png'
+  .mobile-list#mobile-list
+    = image_tag 'icon_close_white.png', class: 'mobile-list__close'
+    - if user_signed_in?
+      .mobile-list__profile
+        = byline current_user
+        .mobile-list__messages
+          = link_to messages_path do
+            - if current_user.unread_messages_count > 0
+              %span.fa-stack
+                %i.icon-bell-solid.fa-stack-1x
+                %i.icon-dot-corner.fa-stack-1x
+            - else
+              %i.icon-bell-solid
+    - else
+      .mobile-list__profile
+        = image_tag 'img_default_profile.png', class: 'default-profile'
+        = link_to new_user_session_path, class: 'btn-new-user' do
+          로그인/회원가입
     %ul.mobile-list__menu.list-unstyled
       %li= link_to '모든 빠띠', root_path
       %li= link_to '논의', talks_path
       %li= link_to '자료', articles_path
       %li= link_to '투표', opinions_path
       %li= link_to '새소식', dashboard_path
-      %li= link_to '프로필 수정', edit_user_registration_path
-      %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
-  - else
-    .mobile-list__profile
-      = image_tag 'img_default_profile.png', class: 'default-profile'
-      = link_to new_user_session_path, class: 'btn-new-user' do
-        로그인/회원가입
-    %ul.mobile-list__menu.list-unstyled
-      %li= link_to '홈', root_path
-      %li= link_to '모든 빠띠', issues_path
+      - if user_signed_in?
+        %li.divider
+        %li= link_to '프로필 수정', edit_user_registration_path
+        %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
+      %li.divider
+      %li= link_to '빠띠 소개', '/about'
+      %li= link_to '이용약관', '/terms'
+      %li= link_to '개인정보취급정책', '/privacy'
+      %li
+        %a(href='mailto:help@parti.xyz')
+          오류 및 버그 신고
+      %li
+        = link_to slug_issue_path(slug: Issue::SLUG_OF_PARTI_PARTI) do
+          제안 및 의견
+    .mobile-list__licence
+      %a{href: 'http://creativecommons.org/licenses/by-nc/4.0/deed.ko', target: '_blank'}
+        = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
+
 
