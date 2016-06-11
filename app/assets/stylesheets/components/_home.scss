@@ -2,6 +2,7 @@ section#facebook-like {
   padding-top: 10px;
   .fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe {
     width: 100% !important;
+    overflow: hidden;
   }
 }
 
