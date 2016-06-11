@@ -10,5 +10,5 @@
           %ul.issue-card-wrapper.list-unstyled.clearfix
             - @issues.each do |issue|
               = render 'issues/card', issue: issue
-      - unless is_mobile?
+      - unless is_small_screen?
         = render 'application/aside'

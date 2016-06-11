@@ -1,15 +1,14 @@
 %section#top-banner
   .container
-    - if is_mobile?
+    - if is_small_screen?
       .row
         .col-xs-8
           %span
-            %span
-              %span.text-important> 시민
-              이 모여
-            %span
-              %span.text-important> 이슈
-              를
+            %span.text-important> 시민
+            이 모여
+          %span
+            %span.text-important> 이슈
+            를
           %br
           %span
             해결하는

@@ -18,5 +18,5 @@
         .page_waypoint.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js)}
           .page_waypoint__loading
             %i.fa.fa-3x.fa-spinner.fa-pulse
-      - unless is_mobile?
+      - unless is_small_screen?
         = render 'application/aside'

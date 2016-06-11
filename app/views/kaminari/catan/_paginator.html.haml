@@ -29,7 +29,7 @@
   %nav.pagination-wrapper
     %ul{:class => "pagination #{pagination_class}"}
       = prev_page_tag unless current_page.first?
-      - if is_mobile?
+      - if is_small_screen?
         %li #{current_page}/#{num_pages}
       - else
         - each_page do |page|

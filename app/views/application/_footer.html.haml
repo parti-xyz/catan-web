@@ -23,7 +23,7 @@
       = image_tag 'icon_tw.png', alt: 'btn-twitter'
     %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
       = image_tag 'icon_me.png', alt: 'btn-medium'
-    - if request.variant.try(:include?, :mobile)
+    - if is_kakao_talkable?
       %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
         = image_tag 'icon_yellow.png', alt: 'btn-yellow', class: 'footer-sns--yellow'
   %a{href: 'http://creativecommons.org/licenses/by-nc/4.0/deed.ko', target: '_blank'}

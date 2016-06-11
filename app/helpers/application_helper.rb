@@ -92,7 +92,11 @@ module ApplicationHelper
     end
   end
 
-  def is_mobile?
+  def is_small_screen?
+    request.variant.try(:include?, :mobile)
+  end
+
+  def is_kakao_talkable?
     request.variant.try(:include?, :mobile)
   end
 
