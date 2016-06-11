@@ -20,6 +20,7 @@
 //= require jquery.history
 //= require jquery.waypoints
 //= require jquery.typewatch
+//= require jquery.dotdotdot
 //= require select2.full
 
 // blank
@@ -517,6 +518,13 @@ var parti_prepare = function($base) {
       var $target = $(e.currentTarget);
       $target.html(hover_off);
     });
+  });
+
+  $.parti_apply($base, '[data-action="parti-ellipsis"]', function(elm) {
+    $(elm).dotdotdot();
+    if($(elm).html() != $(elm).attr('title')) {
+      $(elm).tooltip();
+    }
   });
 
   $base.data('parti-prepare-arel', 'completed');

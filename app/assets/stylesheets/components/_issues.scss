@@ -299,9 +299,13 @@ section#issues {
       font-size: $font-size-large;
       color: $gray-darker;
       display: table;
-      span {
+      &__text-wrapper {
         display: table-cell;
         vertical-align: middle;
+      }
+      &__text {
+        max-height: 50px;
+        word-break: keep-all;
       }
     }
     .issue-card__body {
