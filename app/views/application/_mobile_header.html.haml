@@ -3,9 +3,15 @@
     .container.clearfix
       .navbar-header.pull-left{ style: 'position: relative' }
         %a.navbar-brand{ href: root_path }
-          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-      %a.btn-mobile-menu.pull-right{ href: '#'}
-        = image_tag 'btn_mobile_menu.png'
+          %img{ alt: 'parti', src: asset_path('default_issue_logo.png')}
+      %ul.nav.navbar-nav.navbar-nav-menu
+        - if user_signed_in? and current_user.watches.any?
+          %li.watch-parties
+            .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '190px'}
+        %li
+          %a.btn-mobile-menu{ href: '#'}
+            = image_tag 'btn_mobile_menu.png'
+
   .mobile-list#mobile-list
     = image_tag 'icon_close_white.png', class: 'mobile-list__close'
     - if user_signed_in?

@@ -12,12 +12,35 @@
     display: none;
   }
   /* header */
-  .navbar-default {
-    padding: 0px;
+  #site-header {
+    .navbar-header .navbar-brand img {
+      width: 35px;
+    }
+    .navbar-default {
+      padding: 0px;
+    }
+    .navbar-brand{
+      padding-top: 10px;
+    }
+    .navbar-nav-menu {
+      float: right;
+      padding: 0;
+      margin: 0;
+      li {
+        display: inline-block;
+        padding: 0;
+        .select2-container--default {
+          margin-top: 3px;
+          margin-right: 0;
+        }
+      }
+      li a {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
   }
-  .navbar-brand{
-    padding-top: 10px;
-  }
+
   /* footer */
   footer {
     padding: 0;

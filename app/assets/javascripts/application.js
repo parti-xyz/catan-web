@@ -692,11 +692,15 @@ $(function(){
 
   $('[data-action="parti-jump"]').each(function(i, elm) {
     var parties = $(elm).data('parties');
+    var width = $(elm).data('jump-dropdown-width');
+    if(!width) {
+      width = '220px';
+    }
     $(elm).select2({
       minimumResultsForSearch: 10,
       placeholder: "참여 빠띠",
       dropdownCssClass: 'parti-jump-dropdown',
-      width: '220px',
+      width: width,
       data: parties,
       templateResult: function(parti) {
         if (!parti.id) { return parti.text; }
