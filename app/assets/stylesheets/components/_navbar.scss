@@ -2,13 +2,8 @@
   .navbar-default {
     border-bottom: 4px solid $brand-primary;
   }
-  .navbar-header {
-    .navbar-brand {
-      height: auto;
-      img {
-        height: 35px;
-      }
-    }
+  .navbar-header .navbar-brand img {
+    width: 65px;
   }
   .navbar-nav {
     padding-top: 6px;
