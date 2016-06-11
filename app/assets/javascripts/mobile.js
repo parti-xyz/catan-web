@@ -62,8 +62,5 @@ $(function() {
     lastWidth = pageWidth;
     setupScroll();
   })();
-
-  // owl-carousel
-  $('.owl-carousel.owl-loaded').css('width', $device_width-30);
 });
 
