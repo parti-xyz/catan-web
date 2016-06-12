@@ -13,10 +13,9 @@ class PartiMailer < ApplicationMailer
     @user = user
     return unless @user.enable_mailing?
 
-    @hottest_posts = @user.watched_posts.yesterday.hottest.limit(10)
-    @created_posts = @user.watched_posts.yesterday.recent.limit(10) - @hottest_posts
+    @hottest_posts = @user.watched_posts.hottest.limit(10)
 
-    if @created_posts.any? or @hottest_posts.any?
+    if @hottest_posts.any?
       mail(template_name: 'summary', to: @user.email,
         subject: "#{I18n.l Date.yesterday} 빠띠의 유쾌한 민주주의 소식입니다!",
         delivery_method: delivery_method,

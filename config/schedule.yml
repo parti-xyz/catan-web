@@ -1,5 +1,5 @@
 summary_job:
-  cron: "1 7 * * * Asia/Seoul"
+  cron: "1 5 * * 1 Asia/Seoul"
   class: "SummaryJob"
   queue: default
 statistics_job:
