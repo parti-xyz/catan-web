@@ -414,32 +414,6 @@ section#issues {
   }
 }
 
-
-.owl-carousel {
-  min-height: auto;
-  margin-top: 20px;
-  margin-bottom: 0;
-  .issue-card {
-    width: 100%;
-    border: none;
-    margin-bottom: 0;
-  }
-}
-.owl-theme .owl-dots .owl-dot span {
-  margin: 5px 3px;
-  background-color: #fff;
-}
-.owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
-  background-color: $brand-primary;
-}
-
-.owl-theme .owl-controls .owl-nav [class*='owl-'] {
-  background: none;
-  &:hover {
-    background: none;
-  }
-}
-
 .parti-watch-recommend--header {
   padding: 50px;
   color: $gray;
