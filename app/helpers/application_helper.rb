@@ -93,11 +93,15 @@ module ApplicationHelper
   end
 
   def is_small_screen?
-    request.variant.try(:include?, :mobile)
+    browser.device.mobile?
   end
 
   def is_kakao_talkable?
-    request.variant.try(:include?, :mobile)
+    browser.device.mobile?
+  end
+
+  def is_hoverable?
+    !browser.device.mobile? and !browser.device.tablet?
   end
 
   def editable_issues_continents(user)
