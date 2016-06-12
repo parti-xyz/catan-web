@@ -4,13 +4,6 @@ class IssuesController < ApplicationController
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
   load_and_authorize_resource
 
-  def index
-    prepare_meta_tags title: "빠띠", description: "모든 빠띠들입니다."
-    @issues = Issue.all
-    @hottest_issues = Issue.all.hottest.limit(5);
-    @campaigns = Campaign.all
-  end
-
   def search
     @issues = Issue.search_for(params[:keyword])
   end

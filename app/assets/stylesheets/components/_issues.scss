@@ -269,7 +269,7 @@ section#issues {
 }
 
 .issue-card-wrapper {
-  .issue-new-card {
+  .issue-card {
     width: 100%;
     min-height: 350px;
     padding: 10px;
@@ -299,6 +299,10 @@ section#issues {
       font-size: $font-size-large;
       color: $gray-darker;
       display: table;
+      font-weight: bold;
+      text-align: center;
+      overflow: hidden;
+      margin: 10px auto;
       &__text-wrapper {
         display: table-cell;
         vertical-align: middle;
@@ -308,12 +312,16 @@ section#issues {
       }
     }
     .issue-card__body {
+      margin-bottom: 10px;
       height: 40px;
       color: $gray;
+      text-align: center;
+      word-break: keep-all;
     }
     .issue-card__meta {
       position: static;
       background: none;
+      text-align: center;
       color: $gray-dark;
       span {
         padding: 0 10px;
@@ -326,120 +334,6 @@ section#issues {
       min-height: 200px;
       .issue-card__thumb {
         height: 140px;
-      }
-    }
-  }
-  .issue-card {
-    width: 19%;
-    margin-left: 1.25%;
-    float: left;
-    border-bottom: 1px solid #dddbdc;
-    border-left: 1px solid #fff;
-    border-right: 1px solid #fff;
-    border-top: 1px solid #fff;
-    background-color: #fff;
-    margin-bottom: 10px;
-    position: relative;
-    &__thumb {
-      width: 100%;
-      height: 130px;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      border-radius: 0;
-      -webkit-border-radius: 0;
-      -moz-border-radius: 0;
-    }
-    &__meta {
-      width: 100%;
-      position: absolute;
-      top: 100px;
-      padding: 5px 0;
-      background-color: rgba(0,0,0,0.9);
-      text-align: center;
-      color: #fff;
-      b {
-        font-size: 12px;
-      }
-      .comment-count {
-        margin-left: 5px;
-      }
-      img {
-        display: inline-block;
-      }
-    }
-    &__title {
-      width: 90%;
-      height: 40px;
-      overflow: hidden;
-      color: $brand-primary;
-      font-weight: bold;
-      text-align: center;
-      margin: 10px auto;
-      display: block;
-    }
-    &__btn {
-      .btn {
-        width: 87%;
-        margin: 0 auto 15px auto;
-        display: block;
-        border-radius: 3px;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-      }
-      a {
-        width: 87%;
-        margin: 0 auto 15px auto;
-        display: block;
-        border-radius: 3px;
-        -webkit-border-radius: 3px;
-        padding: 5px 10px;
-        font-size: 12px;
-        text-align: center;
-        line-height: 1.5;
-        color: #777;
-        border: 1px solid #d2d2d2;
-      }
-      .btn-primary {
-        background-color: $brand-primary !important;
-        color: #fff !important;
-        &:hover {
-          background-color: #7947cb !important;
-        }
-      }
-    }
-    &--more {
-      background-color: #ffffff;
-      text-align: center;
-      a {
-        height: 235px;
-        display: block;
-        padding-top: 80px;
-        color: #757375;
-        img {
-          width: 30px;
-          height: 30px;
-        }
-      }
-    }
-    &--watch_more {
-      border: none;
-      text-align: center;
-      display: table;
-      a {
-        height: 190px;
-        display: block;
-        display: table-cell;
-        vertical-align: middle;
-        img {
-          width: initial;
-          height: initial;
-          margin: auto;
-        }
-        p {
-          color: #7e7e7e;
-          font-weight: 500;
-        }
       }
     }
   }

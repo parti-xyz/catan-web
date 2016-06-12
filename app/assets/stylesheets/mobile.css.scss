@@ -651,19 +651,6 @@ br.mobile {
     font-size: 13px;
   }
 }
-.issue-card-wrapper {
-  .issue-card {
-    width: 48%;
-    margin-left: 4%;
-    &:nth-child(5n+1) {
-      margin-left: 4%;
-    }
-    &:nth-child(odd) {
-      margin-left: 0;
-    }
-  }
-}
-
 
 #btn-continue {
   background-color: #966fd6;
@@ -681,13 +668,6 @@ br.mobile {
   .col-xs-2, .col-xs-10 {
     width: 100%;
   }
-  .issue-card-txt {
-    font-size: 18px;
-    padding-top: 10px;
-    br {
-      display: none;
-    }
-  }
   .my-issue-count {
     margin-top: 20px;
     width: 100%;
@@ -698,12 +678,6 @@ br.mobile {
     top: 0px;
     padding: 2px;
     height: auto;
-  }
-}
-.owl-carousel {
-  margin: 0;
-  .issue-card {
-    width: 100%;
   }
 }
 

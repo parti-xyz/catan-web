@@ -66,13 +66,11 @@ body.app-campaigns-slug_show {
   .campaign-issues-list {
     position: relative;
     display: inline-block;
-    width: 500px;
+    width: 600px;
     .issue-card-wrapper {
       padding: 0;
 
       .issue-card {
-        width: 160px;
-
         border: 2px solid #fff;
         &:hover {
           border: 2px solid $brand-primary;
@@ -136,7 +134,7 @@ body.app-campaigns-slug_show {
 }
 
 #campaign-footer {
-  border: 1px solid #d2d2d2;
+  border-top: 1px solid #d2d2d2;
   margin-top: 50px;
   padding-top: 20px;
 }

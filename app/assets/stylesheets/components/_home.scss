@@ -52,42 +52,6 @@ section#key-visuals {
       background-color: $brand-primary;
     }
   }
-  .issue-card {
-    height: 340px;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid transparent;
-    &:hover {
-      border: 1px solid $brand-primary-light;
-    }
-    border-radius: $border-radius-base;
-    &__thumb {
-      height: 210px;
-      margin-bottom: 20px;
-      background-size: cover;
-      background-position: center;
-    }
-    &__title {
-      margin-bottom: -8px;
-      display: table;
-      width: 100%;
-      height: 50px;
-      text-align: center;
-      color: $gray-darker;
-      font-size: $font-size-large;
-      font-weight: bold;
-      span {
-        display: table-cell;
-        vertical-align: middle;
-      }
-    }
-    &__body {
-      color: $gray;
-      height: 40px;
-      overflow: hidden;
-      text-align: center;
-    }
-  }
 }
 
 section#home {
