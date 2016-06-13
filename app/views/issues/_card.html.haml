@@ -5,7 +5,7 @@
     .issue-card__title
       .issue-card__title__text-wrapper
         .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}= issue.title
-    .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= issue.body
+    .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
     .issue-card__meta
       %span.user-count
         %i.icon-user
