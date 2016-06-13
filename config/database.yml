@@ -1,6 +1,6 @@
 <%
   branch = `git rev-parse --abbrev-ref HEAD`.strip rescue nil
-  local_env = YAML.load_file("#{Rails.root}/local_env.yml")[Rails.env]
+  local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
 %>
 
 development:
@@ -8,8 +8,8 @@ development:
   collation: utf8mb4_bin
   adapter:   mysql2
   database:  catan_development_<%= branch %>
-  username:  <%= local_env['database']['username'] %>
-  password:  <%= local_env['database']['password'] %>
+  username:  <%= local_env.dig('database', 'username') %>
+  password:  <%= local_env.dig('database', 'password') %>
 
 default: &default
   adapter: sqlite3

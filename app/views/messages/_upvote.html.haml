@@ -1,9 +1,9 @@
 - post = upvote.comment.post
 %span
-  %strong>= link_to truncate(strip_tags(post.specific_desc), length: 100), post.specific
+  %strong>= link_to excerpt(post.specific_desc, length: 100), post.specific
   의 내 수다를
 %span
   좋아합니다.
   \:
 %span
-  "#{link_to("#{truncate(strip_tags(upvote.comment.body), length: 100)}", post.specific)}"
+  = link_to excerpt(upvote.comment.body, length: 100), post.specific

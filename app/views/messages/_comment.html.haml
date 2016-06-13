@@ -1,7 +1,7 @@
 %span
   #{comment.post.specific.class.model_name.human}
 %span
-  %strong>= link_to truncate(strip_tags(comment.post.specific_desc), length: 100), comment.post.specific
+  %strong>= link_to excerpt(comment.post.specific_desc, length: 100), comment.post.specific
   의
 %span
   - if comment.mentioned?(message.user)
@@ -11,4 +11,4 @@
   - else
     수다를 작성했습니다.
 %span
-  "#{link_to("#{truncate(strip_tags(comment.body), length: 100)}", comment.post.specific)}"
+  = link_to excerpt(comment.body, length: 100), comment.post.specific

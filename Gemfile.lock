@@ -485,6 +485,7 @@ GEM
     ruby-ll (2.1.2)
       ansi
       ast
+    ruby_dig (0.0.2)
     ruby_parser (3.8.1)
       sexp_processor (~> 4.1)
     rufus-scheduler (3.2.0)
@@ -636,6 +637,7 @@ DEPENDENCIES
   recursive-open-struct (~> 1.0, >= 1.0.1)
   redis (~> 3.2, >= 3.2.2)
   redis-namespace (~> 1.5, >= 1.5.2)
+  ruby_dig (~> 0.0.2)
   sass-rails (~> 5.0)
   scoped_search (~> 3.2, >= 3.2.2)
   seed-fu (~> 2.3, >= 2.3.5)

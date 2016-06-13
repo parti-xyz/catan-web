@@ -17,6 +17,7 @@ gem 'paranoia', '~> 2.1', '>= 2.1.5'
 gem 'activerecord_any_of', '~> 1.3'
 gem 'active_record_union', '~> 1.1'
 gem 'scoped_search', '~> 3.2', '>= 3.2.2'
+gem 'ruby_dig', '~> 0.0.2'
 
 # file upload
 gem 'carrierwave', '~> 0.10.0'
