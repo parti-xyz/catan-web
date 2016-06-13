@@ -135,8 +135,15 @@
       }
     }
   }
+  &__yellow {
+    padding: 10px 40px;
+    img {
+      width: 100px;
+      height: auto;
+    }
+  }
   &__licence {
-      padding: 10px 40px;
+    padding: 10px 40px;
   }
   &__close {
     position: absolute;
