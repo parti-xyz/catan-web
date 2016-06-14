@@ -1,7 +1,7 @@
 class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!, only: [:create, :update, :destroy]
-  before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks]
+  before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_wikis]
   load_and_authorize_resource
 
   def search
@@ -26,6 +26,9 @@ class IssuesController < ApplicationController
   def slug_talks
     talks_page
     prepare_issue_meta_tags
+  end
+
+  def slug_wikis
   end
 
   def create

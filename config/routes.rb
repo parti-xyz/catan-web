@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   resources :talks
   resources :relateds
   resources :messages
+  resources :wikis
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
@@ -58,6 +59,7 @@ Rails.application.routes.draw do
   get '/p/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
+  get '/p/:slug/wikis', to: "issues#slug_wikis", as: 'slug_issue_wikis'
   get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'
   get '/p/:slug/new_comments_count', to: "issues#new_comments_count", as: 'new_issue_comments_count'
 

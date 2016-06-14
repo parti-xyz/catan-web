@@ -14,6 +14,8 @@ class Issue < ActiveRecord::Base
   has_many :articles, through: :posts, source: :postable, source_type: Article
   has_many :opinions, through: :posts, source: :postable, source_type: Opinion
   has_many :talks, through: :posts, source: :postable, source_type: Talk
+  # 이슈는 위키를 하나 가지고 있어요.
+  has_one :wiki
   has_many :makers do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
@@ -38,6 +40,7 @@ class Issue < ActiveRecord::Base
 
   # callbacks
   before_save :downcase_slug
+  before_create :build_wiki
 
   # scopes
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }

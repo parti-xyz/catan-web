@@ -31,6 +31,10 @@ module PartiUrlHelper
     slug_issue_talks_path(slug: issue.slug)
   end
 
+  def issue_wikis_path(issue)
+    slug_issue_wikis_path(slug: issue.slug)
+  end
+
   def issue_users_path(issue)
     slug_issue_users_path(slug: issue.slug)
   end

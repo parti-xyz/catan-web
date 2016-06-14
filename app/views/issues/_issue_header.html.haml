@@ -90,12 +90,10 @@
               %br.visible-xs-inline<>
               = Opinion.model_name.human
               %span.hidden-xs= count_label
-        .col-xs-3.col-sm-2
+        .col-xs-3.col-sm-2{class: ('active' if active_tab == :wikis)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
-              %span.count-label<>
-                준비중
-          = link_to issue_opinions_path(issue) do
+          = link_to issue_wikis_path(issue) do
             %h4
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
