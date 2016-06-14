@@ -131,4 +131,8 @@ module ApplicationHelper
   def error_class_str(object, name)
     'has-error' if has_error_attr?(object, name)
   end
+
+  def upload_file_exists?(file_object)
+    file_object.file.try(:exists?)
+  end
 end

@@ -1,0 +1,23 @@
+section#admin {
+  padding-top: 10px;
+
+  nav.affix {
+    margin-top: 18px;
+  }
+
+  *[id]:before {
+    display: block;
+    content: " ";
+    margin-top: -75px;
+    height: 75px;
+    visibility: hidden;
+  }
+
+  .panel {
+    border-color: $gray-lighter;
+
+    .panel-footer {
+      border-color: $gray-lighter;
+    }
+  }
+}

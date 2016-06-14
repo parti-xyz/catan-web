@@ -1,0 +1,25 @@
+- origin_issue = featured_issue.issue
+- if origin_issue.present?
+  %li
+    = link_to issue_home_path(origin_issue) do
+      .title= featured_issue.title
+      .body= featured_issue.body
+      .image= featured_issue.image.url
+      .mobile-image= featured_issue.mobile_image.url
+      - if featured_issue.talk.present?
+        - talk = featured_issue.talk
+        = link_to talk do
+          .talk__title= featured_issue.talk_title
+          .talk__user= talk.user.nickname
+          .talk__comments-count= talk.comments.count
+      - if featured_issue.article.present?
+        - article = featured_issue.article
+        = link_to article do
+          .article__title= featured_issue.article_title
+          .article__comments-count= article.comments.count
+      - if featured_issue.opinion.present?
+        - opinion = featured_issue.opinion
+        = link_to opinion do
+          .opinion__title= featured_issue.opinion_title
+          .opinion__user= opinion.user.nickname
+          .opinion__comments-count= opinion.comments.count

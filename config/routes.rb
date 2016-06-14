@@ -86,4 +86,11 @@ Rails.application.routes.draw do
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/devel/emails"
   end
+
+  namespace :admin do
+    root "featured_contents#index"
+    resources :featured_contents
+    resources :featured_issues
+    resources :featured_campaigns
+  end
 end
