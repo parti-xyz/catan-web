@@ -22,6 +22,9 @@
 //= require jquery.typewatch
 //= require jquery.dotdotdot
 //= require select2.full
+//= require redactor2_rails/config
+//= require redactor
+//= require redactor2_rails/langs/ko
 
 // blank
 $.is_blank = function (obj) {

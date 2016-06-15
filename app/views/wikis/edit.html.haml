@@ -1,0 +1,12 @@
+= render 'issues/issue_header', active_tab: :wikis, issue: @wiki.issue
+
+%section#wiki-edit
+  .container
+    %h3.page-title
+      위키 수정
+    = form_for @wiki do |f|
+      .form-group
+        = f.text_area :body, class: 'form-control redactor', rows: 40, cols: 120
+        = f.hidden_field :issue_id, class: 'form-control'
+      .form-group
+        = f.submit '저장', class: 'btn btn-primary'

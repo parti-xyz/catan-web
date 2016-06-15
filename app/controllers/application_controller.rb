@@ -143,4 +143,9 @@ class ApplicationController < ActionController::Base
   def talks_page
     @talks = @issue.talks.recent.page(params[:page])
   end
+
+  #bugfix redactor2-rails
+  def redactor_current_user
+    redactor2_current_user
+  end
 end

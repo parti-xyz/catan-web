@@ -1,0 +1,12 @@
+section#wikis,
+section#wiki-edit {
+  padding-top: 30px;
+}
+
+section#wikis {
+  .body {
+    border: 1px solid $gray-light;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+}

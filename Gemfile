@@ -23,6 +23,7 @@ gem 'ruby_dig', '~> 0.0.2'
 gem 'carrierwave', '~> 0.10.0'
 gem "mini_magick"
 gem "fog"
+gem 'file_validators', '~> 2.0', '>= 2.0.2'
 
 # auth
 gem 'cancancan', '~> 1.10'
@@ -55,6 +56,7 @@ gem 'identicon', '~> 0.0.5'
 gem 'rails_autolink', '~> 1.1', '>= 1.1.6'
 gem 'partial_path_customizer', '~> 0.1.0'
 gem 'unobtrusive_flash', '~> 3.1'
+gem 'redactor2_rails', '~> 0.1.1'
 
 # crawling
 gem 'mechanize', '~> 2.7', '>= 2.7.4'
