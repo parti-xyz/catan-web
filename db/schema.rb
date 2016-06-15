@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614143149) do
+ActiveRecord::Schema.define(version: 20160614171124) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -316,6 +316,7 @@ ActiveRecord::Schema.define(version: 20160614143149) do
     t.integer  "height",            limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id",           limit: 4
   end
 
   add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree

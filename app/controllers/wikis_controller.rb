@@ -1,9 +1,10 @@
 class WikisController < ApplicationController
+  before_filter :authenticate_user!
+  load_and_authorize_resource
+
   def update
-    issue = Issue.find(params['wiki']['issue_id'])
-    @wiki = issue.wiki
     @wiki.update_attributes(update_params)
-    redirect_to issue_wikis_path(issue)
+    redirect_to issue_wikis_path(@wiki.issue)
   end
 
   private

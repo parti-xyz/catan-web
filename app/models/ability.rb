@@ -13,6 +13,7 @@ class Ability
         Vote, Like, Upvote, Watch]
       can :manage, [Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch], user_id: user.id
+      can :update, Wiki
       if user.admin?
         can :update, Article
         can :manage, [Campaign, Issue, Related, FeaturedIssue, FeaturedCampaign]
