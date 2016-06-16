@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614171124) do
+ActiveRecord::Schema.define(version: 20160616051437) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -436,6 +436,17 @@ ActiveRecord::Schema.define(version: 20160614171124) do
   add_index "watches", ["user_id", "watchable_id", "watchable_type"], name: "index_watches_on_user_id_and_watchable_id_and_watchable_type", unique: true, using: :btree
   add_index "watches", ["user_id"], name: "index_watches_on_user_id", using: :btree
   add_index "watches", ["watchable_type", "watchable_id"], name: "index_watches_on_watchable_type_and_watchable_id", using: :btree
+
+  create_table "wiki_histories", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4,     null: false
+    t.integer  "wiki_id",    limit: 4,     null: false
+    t.text     "body",       limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "wiki_histories", ["user_id"], name: "index_wiki_histories_on_user_id", using: :btree
+  add_index "wiki_histories", ["wiki_id"], name: "index_wiki_histories_on_wiki_id", using: :btree
 
   create_table "wikis", force: :cascade do |t|
     t.integer  "issue_id",   limit: 4

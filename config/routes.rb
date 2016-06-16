@@ -46,7 +46,9 @@ Rails.application.routes.draw do
   resources :talks
   resources :relateds
   resources :messages
-  resources :wikis
+  resources :wikis do
+    resources :wiki_histories, path: :histories, shallow: true
+  end
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'

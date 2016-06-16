@@ -8,5 +8,28 @@ section#wikis {
     border: 1px solid $gray-light;
     padding: 20px;
     margin-bottom: 20px;
+    .histories {
+      color: $gray;
+    }
+  }
+
+}
+
+section#wiki-history {
+  padding-bottom: 40px;
+}
+
+
+section#wiki-edit {
+  .redactor-toolbar li a.re-button.re-save {
+    position: absolute;
+    right: 0;
+    padding-left: 30px;
+    padding-right: 30px;
+    background-color: $brand-primary;
+    color: #fff;
+    font-weight: 300;
+    font-size: 20px;
+    border-bottom-left-radius: 12px;
   }
 }

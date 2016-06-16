@@ -124,7 +124,8 @@ ko:
     new_article_button: 자료 공유
     new_talk_button: 논의 제안
     new_opinion_button: 투표 제안
-    edit_wiki_button: 위키 수정
+    edit_wiki_button: 편집
+    show_history_button: 역사
   enumerize:
     defaults:
       choice:

@@ -4,6 +4,7 @@ class WikisController < ApplicationController
 
   def update
     @wiki.update_attributes(update_params)
+    @wiki.wiki_histories.create(user: current_user, body: @wiki.body)
     redirect_to issue_wikis_path(@wiki.issue)
   end
 

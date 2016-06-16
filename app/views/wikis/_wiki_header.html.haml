@@ -1,0 +1,12 @@
+- if can? :update, issue.wiki
+  .editors-panel
+    .media
+      .media-body.hidden-xs
+        %h3
+          위키에 정리해 보세요!
+          %small 공유하고 싶은 정보를 정리해 보세요.
+          %a.btn.btn-default 위키란?
+      .media-right
+        = link_to [:edit, issue.wiki], class: 'btn btn-primary btn-lg btn-shadow editor-btn' do
+          %i.icon-wiki
+          = t('labels.edit_wiki_button')

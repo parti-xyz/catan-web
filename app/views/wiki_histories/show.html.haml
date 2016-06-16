@@ -1,0 +1,16 @@
+= render 'issues/issue_header', active_tab: :wikis, issue: @wiki_history.wiki.issue
+
+%section#wikis
+  .container
+    %section#wiki-history
+      %h3.page-title
+        #{static_date_f @wiki_history.created_at} 버전
+        %small
+          = link_to issue_wikis_path(@wiki.issue) do
+            현재 버전 보기
+            %i.fa.fa-arrow-right
+      .body
+        = raw @wiki_history.body
+    %section#wiki-history-list
+      = render 'list'
+

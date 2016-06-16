@@ -26,6 +26,21 @@
 //= require redactor
 //= require redactor2_rails/langs/ko
 
+$.Redactor.prototype.wiki_save = function()
+{
+  return {
+    init: function ()
+    {
+      var button = this.button.add('save', '저장');
+      this.button.addCallback(button, this.wiki_save.saveButton);
+    },
+    saveButton: function(buttonName)
+    {
+      $('form.edit_wiki').submit();
+    }
+  };
+};
+
 // blank
 $.is_blank = function (obj) {
   if (!obj || $.trim(obj) === "") return true;
@@ -776,6 +791,18 @@ $(function(){
     }
 
     $(elm).typeWatch( options );
+  });
+
+    // Initialize Redactor
+  $('.redactor').redactor({
+    buttons: ['format', 'bold', 'italic', 'deleted', 'lists', 'image', 'link', 'horizontalrule'],
+    plugins: ['wiki_save'],
+    callbacks: {
+      imageUploadError: function(json, xhr) {
+        UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
+      }
+    },
+    toolbarFixedTopOffset: 60
   });
 
 });
