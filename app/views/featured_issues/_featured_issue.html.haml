@@ -1,25 +1,54 @@
 - origin_issue = featured_issue.issue
 - if origin_issue.present?
   %li
-    = link_to issue_home_path(origin_issue) do
-      .title= featured_issue.title
-      .body= featured_issue.body
-      .image= featured_issue.image.url
-      .mobile-image= featured_issue.mobile_image.url
-      - if featured_issue.talk.present?
-        - talk = featured_issue.talk
-        = link_to talk do
-          .talk__title= featured_issue.talk_title
-          .talk__user= talk.user.nickname
-          .talk__comments-count= talk.comments.count
-      - if featured_issue.article.present?
-        - article = featured_issue.article
-        = link_to article do
-          .article__title= featured_issue.article_title
-          .article__comments-count= article.comments.count
-      - if featured_issue.opinion.present?
-        - opinion = featured_issue.opinion
-        = link_to opinion do
-          .opinion__title= featured_issue.opinion_title
-          .opinion__user= opinion.user.nickname
-          .opinion__comments-count= opinion.comments.count
+    .featured-issue.clearfix{class: dom_id(featured_issue)}
+      = link_to issue_home_path(origin_issue) do
+        .featured-issue--parti{style: "background-image: url(#{featured_issue.image.url});"}
+          .featured-issue--parti--label 오늘의 빠띠
+          .featured-issue--parti--title-wrapper
+            .featured-issue--parti--title= raw featured_issue.title
+      .featured-issue--posts
+        .featured-issue--posts--tabs
+          %ul.nav.nav-pills(role="tablist" data-action="parti-home-slide")
+            - active_tab = nil
+            - if featured_issue.talk.present?
+              %li.active(role="presentation")
+                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-talk" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") 논의
+              - active_tab = :talk
+            - if featured_issue.article.present?
+              %li(role="presentation" class="#{'active' if active_tab.nil?}")
+                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-article" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") 자료
+              - active_tab = :article
+            - if featured_issue.opinion.present?
+              %li(role="presentation" class="#{'active' if active_tab.nil?}")
+                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-opinion" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") 투표
+              - active_tab = :opinion
+        .featured-issue--posts--tab-content.tab-content
+          - if featured_issue.talk.present?
+            - talk = featured_issue.talk
+            .tab-pane.active(id="#{dom_id(featured_issue)}-talk" role="tabpanel")
+              = link_to talk do
+                .talk__title-wrapper
+                  .talk__title= raw featured_issue.talk_title
+                .talk__user
+                  %i.icon-user
+                  = talk.user.nickname
+          - if featured_issue.article.present?
+            - article = featured_issue.article
+            .tab-pane(id="#{dom_id(featured_issue)}-article" role="tabpanel" class="#{'active' if active_tab == :article}")
+              = link_to article do
+                .article__title-wrapper
+                  .article__title= raw featured_issue.article_title
+                .article__comments-count
+                  %i.icon-comment
+                  = article.comments.count
+          - if featured_issue.opinion.present?
+            - opinion = featured_issue.opinion
+            .tab-pane(id="#{dom_id(featured_issue)}-opinion" role="tabpanel" class="#{'active' if active_tab == :article}")
+              = link_to opinion do
+                .opinion__title-wrapper
+                  .opinion__title= raw featured_issue.opinion_title
+                .opinion__user
+                  %i.icon-user
+                  = opinion.user.nickname
+

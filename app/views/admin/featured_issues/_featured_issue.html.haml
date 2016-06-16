@@ -1,7 +1,7 @@
 = form_for [:admin, featured_issue] do |f|
   .panel.panel-default
     .panel-heading
-      %h4.panel-title #{featured_issue.new_record? ? '새로 만들기' : "##{local_assigns[:index]} #{featured_issue.title}"}
+      %h4.panel-title #{featured_issue.new_record? ? '새로 만들기' : "##{local_assigns[:index]} #{featured_issue.slug}"}
     .panel-body
       .form-group
         = f.label :title
@@ -9,9 +9,6 @@
       .form-group
         = f.label :slug
         = f.text_field :slug, class: 'form-control'
-      .form-group
-        = f.label :body
-        = f.text_area :body, class: 'form-control'
       .form-group
         = f.label :image
         - if upload_file_exists?(featured_issue.image)

@@ -350,6 +350,12 @@ var parti_prepare = function($base) {
     $(prev).click(function(){
       $elm.data('owl.carousel').prev();
     });
+
+    if($elm.children().length > 1) {
+      if($elm.data('carousel-random')) {
+        $elm.trigger('to.owl.carousel', 1 + Math.floor(Math.random() * $elm.children().length));
+      }
+    }
   });
 
   // login overlay
@@ -651,27 +657,6 @@ $(function(){
     }
   });
 
-  $('[data-ride="parti-dashboard-slider"]').each(function(i, elm) {
-    var need_nav = $(elm).data('owl-need-nav');
-    $(elm).owlCarousel({
-      margin: 25,
-      nav: $(elm).data('owl-need-nav'),
-      navText: [
-        '<i class="fa fa-chevron-left">',
-        '<i class="fa fa-chevron-right">',
-      ],
-      dots: false,
-      responsive:{
-        0: {
-          items:2
-        },
-        768:{
-          items:5
-        }
-      }
-    });
-  });
-
   $('[data-action="parti-collapse"]').each(function(i, elm) {
     var parent = $(elm).data('parent');
     $(elm).on('click', function(e) {
@@ -793,7 +778,7 @@ $(function(){
     $(elm).typeWatch( options );
   });
 
-    // Initialize Redactor
+  // Initialize Redactor
   $('.redactor').redactor({
     buttons: ['format', 'bold', 'italic', 'deleted', 'lists', 'image', 'link', 'horizontalrule'],
     plugins: ['wiki_save'],
@@ -804,6 +789,15 @@ $(function(){
     },
     toolbarFixedTopOffset: 60
   });
+
+  $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var hash = $(e.target).attr('href');
+    var $containers = $($(e.target).data('slide-target'));
+    var $all_tab_panes = $($containers.find('.tab-pane'))
+    var $target_tab_panes = $($containers.find('.tab-pane' + hash))
+    $all_tab_panes.removeClass('active');
+    $target_tab_panes.addClass('active');
+  })
 
 });
 

@@ -1,17 +1,11 @@
 = form_for [:admin, featured_campaign] do |f|
   .panel.panel-default
     .panel-heading
-      %h4.panel-title #{featured_campaign.new_record? ? '새로 만들기' : "##{local_assigns[:index]} #{featured_campaign.title}"}
+      %h4.panel-title #{featured_campaign.new_record? ? '새로 만들기' : "##{local_assigns[:index]} #{featured_campaign.url}"}
     .panel-body
-      .form-group
-        = f.label :title
-        = f.text_field :title, class: 'form-control'
       .form-group
         = f.label :url
         = f.text_field :url, class: 'form-control'
-      .form-group
-        = f.label :body
-        = f.text_area :body, class: 'form-control'
       .form-group
         - if upload_file_exists?(featured_campaign.image)
           = image_tag featured_campaign.image.url, class: 'img-thumbnail'
