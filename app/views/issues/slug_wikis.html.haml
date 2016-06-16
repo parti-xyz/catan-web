@@ -6,8 +6,9 @@
 
     .body
       .histories
-        마지막으로 #{@issue.wiki.last_history.user.nickname}님이 #{date_f @issue.wiki.last_history.created_at}에 수정했습니다.
-        = link_to wiki_wiki_histories_path(@issue.wiki) do
-          %i.fa.fa-history
-          모든 버전 보기
+        -unless @issue.wiki.wiki_histories.blank?
+          마지막으로 #{@issue.wiki.last_history.user.nickname}님이 #{date_f @issue.wiki.last_history.created_at}에 수정했습니다.
+          = link_to wiki_wiki_histories_path(@issue.wiki) do
+            %i.fa.fa-history
+            모든 버전 보기
       = raw @issue.wiki.body
