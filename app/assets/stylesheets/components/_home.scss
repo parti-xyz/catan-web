@@ -91,7 +91,8 @@ section#key-visuals {
       background-color: $brand-primary;
       &--tabs {
         ul {
-          font-size: 12px;
+          font-size: $font-size-base;
+          font-weight: 400;
           margin: 60px 0;
           display: inline-block;
           li {
@@ -137,7 +138,7 @@ section#key-visuals {
           vertical-align: middle;
           font-size: $font-size-h3;
           color: #fff;
-          font-weight: 900;
+          font-weight: 100;
           &:hover {
             text-decoration: underline;
           }
