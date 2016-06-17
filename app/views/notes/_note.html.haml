@@ -1,0 +1,9 @@
+- post = note.acting_as
+.note-card[note]
+  .note-body
+    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
+      내용
+      = note.body
+  .note-user
+    누가
+    = note.user.nickname

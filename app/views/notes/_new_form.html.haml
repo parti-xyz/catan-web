@@ -1,0 +1,21 @@
+- issue ||= nil
+- if user_signed_in?
+  #note-form-widget.form-widget-container.bg-line
+    = form_for Note.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#note-form-widget form input[type=submit]' } } do |f|
+      = hidden_field_tag :back_url, @list_url || request.original_url
+
+      .form-group.textarea-box
+        .thumb.img-circle.circle-50.border-2-primary{style: "background-image: url(#{current_user.image.sm.url});"}
+        = f.text_area :body, placeholder: '한말씀 하시죠.', class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
+
+      %hr
+      .form-group.clearfix
+        .submit-box
+          - if issue.present?
+            = f.hidden_field :issue_id, value: issue.id
+            %b= issue.title
+          - else
+            = f.select :issue_id, nil, {prompt: '빠띠를 선택해 주세요.'}, {style: 'width: 200px;', data: { 'rule-required': true, 'action': 'parti-select-parti'}} do
+              = grouped_options_for_select(editable_issues_continents(current_user))
+          = f.submit '빠띠에 게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
+

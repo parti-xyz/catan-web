@@ -2,15 +2,19 @@ link1:
   title: 'link1'
   body: 'link1 body'
   url: 'http://link1'
+  crawling_status: 'completed'
 link2:
   title: 'link2'
   body: 'link2 body'
   url: 'article1 link'
+  crawling_status: 'completed'
 link3:
   title: 'link3'
   body: 'link3 body'
   url: 'article3 link'
+  crawling_status: 'not_yet'
 link4:
   title: 'link4'
   body: 'link4 body'
   url: 'article4 link'
+  crawling_status: 'completed'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616220024) do
+ActiveRecord::Schema.define(version: 20160617062536) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -197,6 +197,12 @@ ActiveRecord::Schema.define(version: 20160616220024) do
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id", using: :btree
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
+  create_table "notes", force: :cascade do |t|
+    t.text     "body",       limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "old_articles", force: :cascade do |t|
     t.string   "title",          limit: 255
     t.text     "body",           limit: 16777215
@@ -207,8 +213,8 @@ ActiveRecord::Schema.define(version: 20160616220024) do
     t.integer  "link_source_id", limit: 4,        null: false
   end
 
-  add_index "old_articles", ["deleted_at"], name: "index_articles_on_deleted_at", using: :btree
-  add_index "old_articles", ["link_source_id"], name: "index_articles_on_link_source_id", using: :btree
+  add_index "old_articles", ["deleted_at"], name: "index_old_articles_on_deleted_at", using: :btree
+  add_index "old_articles", ["link_source_id"], name: "index_old_articles_on_link_source_id", using: :btree
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      limit: 255
@@ -313,7 +319,6 @@ ActiveRecord::Schema.define(version: 20160616220024) do
     t.integer  "height",            limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",           limit: 4
   end
 
   add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree

@@ -1,0 +1,23 @@
+= render 'issues/issue_header', active_tab: :notes
+
+%section#notes
+  .container
+    .editors-panel
+      .media
+        .media-body.hidden-xs
+          %h3
+            논의를 시작하세요!
+            %small 질문을 남기거나 제안을 받고, 혹은 자신의 의견을 펼쳐보세요.
+        .media-right
+          - if user_signed_in?
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#note-form-widget', focus: 'input#note_title'} do
+              %i.icon-note
+              = t('labels.new_note_button')
+          - else
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+              %i.icon-note
+              = t('labels.new_note_button')
+      - if user_signed_in?
+        = render 'notes/new_form', issue: @issue
+    = render 'notes/list', postables: @notes, issue: @issue, show_issue: @issue.blank?
+

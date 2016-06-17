@@ -1,0 +1,8 @@
+.posts
+  - if postables.empty?
+    .bg-default
+      %i.fa.fa-info-circle
+      해당되는 글이 없습니다.
+  - else
+    - postables.each do |postable|
+      = render postable, show_issue: local_assigns[:show_issue]

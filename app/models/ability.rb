@@ -10,7 +10,7 @@ class Ability
         user.maker?(issue)
       end
       can :create, [Issue, Article, Talk, Opinion, Comment,
-        Vote, Like, Upvote, Watch]
+        Vote, Like, Upvote, Watch, Note]
       can :manage, [Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch], user_id: user.id
       can :update, Wiki

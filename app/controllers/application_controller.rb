@@ -144,6 +144,11 @@ class ApplicationController < ActionController::Base
     @talks = @issue.talks.recent.page(params[:page])
   end
 
+  def notes_page
+    @notes = @issue.notes
+    #@notes = @issue.notes.recent.page(params[:page])
+  end
+
   #bugfix redactor2-rails
   def redactor_current_user
     redactor2_current_user
