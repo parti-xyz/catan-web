@@ -611,3 +611,49 @@ section#issues {
     }
   }
 }
+
+section#issue-bottom-banner {
+  .bottom-banner {
+    z-index: 10000;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    transition: bottom 0.2s ease-in-out;
+    border-top: 1px solid $brand-primary-dark;
+
+    &.nav-down {
+        bottom: -65px;
+    }
+    @media (min-width: 768px) {
+      text-align: center;
+    }
+    padding: 10px 0;
+    background-color: $brand-primary;
+
+    .description {
+      position: relative;
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: 200;
+      padding: 5px;
+      @media (min-width: 768px) {
+        font-size: $font-size-large;
+        font-weight: 100;
+      }
+    }
+    .top-banner-btn {
+      @media (max-width: 768px) {
+        margin-top: 10px
+      }
+      @include btn-push($brand-primary-dark, #ffde00, $brand-primary-dark, #ffde00);
+      margin-left: 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      color: $brand-primary-dark;
+      background-color: #ffde00;
+      &:hover, &:active, &:focus {
+        background-color: #ffde00;
+      }
+    }
+  }
+}

@@ -798,7 +798,53 @@ $(function(){
     $all_tab_panes.removeClass('active');
     $target_tab_panes.addClass('active');
   })
+});
 
+// fixed section#issue-bottom-banner
+$(function(){
+  // Hide Header on on scroll down
+  var did_scroll;
+  var last_scroll_top = 0;
+  var delta = 5;
+  var $footer_element = $('section#issue-bottom-banner .bottom-banner');
+  var navbar_height = $footer_element.outerHeight();
+
+  $(window).scroll(function(e){
+      did_scroll = true;
+  });
+
+
+  if ($("body").height() > $(window).height()) {
+    setInterval(function() {
+      if (did_scroll) {
+        has_scrolled();
+        did_scroll = false;
+      }
+    }, 250);
+  }
+  else {
+    $('body').css('padding-bottom',
+      parseInt($('body').css('padding-bottom')) + 60 + 'px');
+    $footer_element.removeClass('nav-down').addClass('nav-up');
+  }
+
+  function has_scrolled() {
+    var st = $(this).scrollTop();
+
+    if(Math.abs(last_scroll_top - st) <= delta)
+      return;
+
+    if (st > last_scroll_top && st > navbar_height){
+      // Scroll Up
+      if(st + $(window).height() <= $(document).height()) {
+        $footer_element.removeClass('nav-up').addClass('nav-down');
+      }
+    } else {
+      $footer_element.removeClass('nav-down').addClass('nav-up');
+    }
+
+    last_scroll_top = st;
+  }
 });
 
 

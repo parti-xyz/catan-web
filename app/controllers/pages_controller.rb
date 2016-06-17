@@ -3,7 +3,7 @@ class PagesController < ApplicationController
     @featured_contents = []
     @featured_contents << FeaturedCampaign.all.to_a
     @featured_contents << FeaturedIssue.all.to_a
-    @featured_contents.compact!
+    @featured_contents.flatten!.compact!
     @issues = Issue.all.order(:title)
   end
 
