@@ -6,7 +6,7 @@
         .featured-issue--parti{style: "background-image: url(#{featured_issue.image.url});"}
           .featured-issue--parti--label 오늘의 빠띠
           .featured-issue--parti--title-wrapper
-            .featured-issue--parti--title= raw featured_issue.title
+            .featured-issue--parti--title= simple_format featured_issue.title, {}, wrapper_tag: 'span'
       .featured-issue--posts
         - active_tab = nil
         .featured-issue--posts--tabs
@@ -29,7 +29,7 @@
             .tab-pane(id="#{dom_id(featured_issue)}-talk" role="tabpanel" class="#{'active' if active_tab == :talk}")
               = link_to talk do
                 .talk__title-wrapper
-                  .talk__title= raw featured_issue.talk_title
+                  .talk__title= simple_format featured_issue.talk_title, {}, wrapper_tag: 'span'
                 .talk__user
                   %i.icon-user
                   = talk.user.nickname
@@ -38,7 +38,7 @@
             .tab-pane(id="#{dom_id(featured_issue)}-article" role="tabpanel" class="#{'active' if active_tab == :article}")
               = link_to article do
                 .article__title-wrapper
-                  .article__title= raw featured_issue.article_title
+                  .article__title= simple_format featured_issue.article_title, {}, wrapper_tag: 'span'
                 .article__comments-count
                   %i.icon-comment
                   = article.comments.count
@@ -47,7 +47,7 @@
             .tab-pane(id="#{dom_id(featured_issue)}-opinion" role="tabpanel" class="#{'active' if active_tab == :opinion}")
               = link_to opinion do
                 .opinion__title-wrapper
-                  .opinion__title= raw featured_issue.opinion_title
+                  .opinion__title= simple_format featured_issue.opinion_title, {}, wrapper_tag: 'span'
                 .opinion__user
                   %i.icon-user
                   = opinion.user.nickname
