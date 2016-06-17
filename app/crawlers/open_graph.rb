@@ -10,7 +10,7 @@ class OpenGraph
     @agent = Mechanize.new
     @agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if (Rails.env.production? or Rails.env.staging?)
     @agent.user_agent_alias = 'Windows IE 10'
-    @agent.follow_meta_refresh = true
+    @agent.follow_meta_refresh = false
     @agent.redirect_ok = :all
     @agent.redirection_limit = 5
     @agent.gzip_enabled = false
