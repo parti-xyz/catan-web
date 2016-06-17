@@ -1,15 +1,6 @@
-%section#issue-bottom-banner
-  .bottom-banner.nav-down
-    - if is_small_screen?
-      .row
-        .col-xs-7
-          .description
-            함께 만드는 빠띠,
-            %br
-            이렇게 참여해보세요
-        .col-xs-5
-          = link_to '활용 가이드', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: '_blank', class: 'btn top-banner-btn'
-    - else
+- unless is_small_screen?
+  %section#issue-bottom-banner
+    .bottom-banner.nav-up
       %div.description
         함께 만드는 빠띠, 이렇게 참여해보세요
         = link_to '활용 가이드', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: '_blank', class: 'btn top-banner-btn'
