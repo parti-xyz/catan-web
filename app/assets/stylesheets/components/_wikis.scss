@@ -8,7 +8,14 @@ section#wikis {
     border: 1px solid $gray-light;
     padding: 20px;
     margin-bottom: 20px;
+    background-color: #fff;
     .histories {
+      color: $gray;
+    }
+    p {
+      text-align: center;
+      font-size: 18px;
+      margin: 50px auto;
       color: $gray;
     }
   }
@@ -29,7 +36,5 @@ section#wiki-edit {
     background-color: $brand-primary;
     color: #fff;
     font-weight: 300;
-    font-size: 20px;
-    border-bottom-left-radius: 12px;
   }
 }
