@@ -1,5 +1,5 @@
 - if @issue.blank?
-  - data = {action: 'parti-share', 'share-url': 'http://parti.xyz', 'share-text': '시민이 모여 이슈를 해결하는 온라인 광장 빠띠'}
+  - data = {action: 'parti-share', 'share-url': 'http://parti.xyz', 'share-text': '함께 만드는 온라인 광장 빠띠'}
 - else
   - data = {action: 'parti-share', 'share-url': issue_home_url(@issue), 'share-text': "#{@issue.title} | 빠띠" }
 

@@ -85,7 +85,7 @@ class ApplicationController < ActionController::Base
   def default_meta_options
     {
       site_name: "빠띠",
-      title: "시민이 모여 이슈를 해결하는 온라인 광장",
+      title: "함께 만드는 온라인 광장",
       description: "더 나은 민주주의의 기반요소를 통합한 기민하고, 섬세하고, 일상적인 민주주의 플랫폼, 빠띠!",
       keywords: "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
       image: view_context.asset_url("parti_seo.png"),

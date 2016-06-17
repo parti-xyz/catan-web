@@ -8,6 +8,7 @@ footer {
   border-bottom: 1px solid #d9d9dd;
   padding-bottom: 15px;
   margin-bottom: 15px;
+  position: relative;
   &__img {
     width: 64px;
     height: auto;
@@ -18,7 +19,9 @@ footer {
     float: right;
     font-size: 12px;
     font-weight: bold;
-    padding: 10px 26px 0px 0px;
+    position: absolute;
+    top: -2px;
+    right: 0px;
   }
 }
 .footer-link {
