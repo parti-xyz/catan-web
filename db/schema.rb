@@ -213,8 +213,8 @@ ActiveRecord::Schema.define(version: 20160617062536) do
     t.integer  "link_source_id", limit: 4,        null: false
   end
 
-  add_index "old_articles", ["deleted_at"], name: "index_old_articles_on_deleted_at", using: :btree
-  add_index "old_articles", ["link_source_id"], name: "index_old_articles_on_link_source_id", using: :btree
+  add_index "old_articles", ["deleted_at"], name: "index_articles_on_deleted_at", using: :btree
+  add_index "old_articles", ["link_source_id"], name: "index_articles_on_link_source_id", using: :btree
 
   create_table "old_users", force: :cascade do |t|
     t.string   "email",      limit: 255
@@ -319,6 +319,7 @@ ActiveRecord::Schema.define(version: 20160617062536) do
     t.integer  "height",            limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id",           limit: 4
   end
 
   add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree
