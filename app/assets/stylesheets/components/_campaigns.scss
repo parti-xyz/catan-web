@@ -59,6 +59,17 @@ body.app-campaigns-slug_show {
   font-size: $font-size-base;
 }
 
+.campaign-share {
+  text-align: center;
+  padding-top: 30px;
+  .share-box {
+    display: inline-block;
+  }
+  .share-item:last-child {
+    margin-right: 0;
+  }
+}
+
 .campaign-issues {
   padding-top: 60px;
   text-align: center;

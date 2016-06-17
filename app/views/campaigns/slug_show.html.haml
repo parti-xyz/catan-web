@@ -14,7 +14,11 @@
           = link_to '수정', [:edit, @campaign], class: 'btn btn-primary'
         - if can? :destroy, @campaign
           = link_to '삭제', @campaign, method: :delete, class: 'btn btn-primary'
-
+      .campaign-share
+        - data = {action: 'parti-share', 'share-url': campaign_home_url(@campaign), 'share-text': "#{@campaign.title}" }
+        - map = { facebook: data }
+        - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+        = render 'application/share', map: map
       .campaign-issues
         .campaign-issues-list
           - if @campaign.issues.count > (is_small_screen? ? 2 : 3)

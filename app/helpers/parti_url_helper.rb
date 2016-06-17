@@ -8,6 +8,10 @@ module PartiUrlHelper
     slug_campaign_path(options)
   end
 
+  def campaign_home_url(campaign)
+    slug_campaign_url(slug: campaign.slug)
+  end
+
   def issue_home_path(issue, options = {})
     options.update(slug: issue.slug)
     slug_issue_path(options)
