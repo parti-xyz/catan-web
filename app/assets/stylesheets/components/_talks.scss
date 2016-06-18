@@ -12,7 +12,7 @@ section#talks {
 
   border: 1px solid #fff;
   border-radius: 4px;
-  padding: 15px;
+  padding: 20px 20px 15px;
   margin-bottom: 1px;
 
   .media-body, .media-right, .media-left {
@@ -21,6 +21,10 @@ section#talks {
 
   .talk-media-left--issue {
     padding-right: 20px;
+    .thumb--issue {
+      width: 20px;
+      height: 20px;
+    }
   }
   .comment-media--issue {
     margin-left: 0px;
@@ -31,8 +35,7 @@ section#talks {
     white-space: nowrap;
   }
   .media-heading.title {
-    font-weight: bold;
-    margin-top: 5px;
+    margin: 0;
   }
   .thumb--issue {
     border-radius: 4px;
