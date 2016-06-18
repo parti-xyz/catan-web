@@ -54,15 +54,15 @@ section#key-visuals {
   }
 
   .featured-issue {
-    &--parti,
-    &--posts {
+    &__parti,
+    &__posts {
       width: 50%;
       height: 350px;
       float: left;
     }
-    &--parti {
+    &__parti {
       background-size: cover;
-      &--label {
+      &__label {
         display: inline-block;
         padding: 5px 15px;
         margin-top: 60px;
@@ -72,7 +72,7 @@ section#key-visuals {
         color: #fff;
         font-size: $font-size-base;
       }
-      &--title {
+      &__title {
         color: #fff;
         font-size: $font-size-h1;
         font-weight: 100;
@@ -80,16 +80,16 @@ section#key-visuals {
         display: table-cell;
         vertical-align: middle;
       }
-      &--title-wrapper {
+      &__title-wrapper {
         height: 90px;
         overflow: hidden;
         display: table;
         width: 100%;
       }
     }
-    &--posts {
+    &__posts {
       background-color: $brand-primary;
-      &--tabs {
+      &__tabs {
         ul {
           font-size: $font-size-base;
           font-weight: 400;
@@ -122,7 +122,7 @@ section#key-visuals {
           }
         }
       }
-      &--tab-content {
+      &__tab-content {
         .talk__title-wrapper,
         .article__title-wrapper,
         .opinion__title-wrapper {
@@ -150,6 +150,28 @@ section#key-visuals {
           color: $brand-primary-dark;
         }
       }
+    }
+  }
+
+  @media (max-width: 768px) {
+    min-height: 300px;
+    margin-bottom: 0;
+    ul.owl-carousel .owl-nav {
+      .owl-prev,
+      .owl-next {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+  @media (max-width: 768px) and (orientation: portrait) {
+    ul.owl-carousel .owl-nav {
+      top: 20%;
+    }
+  }
+  @media (max-width: 768px) and (orientation: landscape) {
+    ul.owl-carousel .owl-nav {
+      top: 24%;
     }
   }
 }
