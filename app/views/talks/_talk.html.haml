@@ -15,8 +15,7 @@
 
     .media-right
       .comment-users
-        = link_to user_gallery_path(post.user) do
-          .thumb.img-circle.circle-33{style: "background-image: url(#{post.user.image.sm.url});"}
+        = byline post.user, hide_nickname: true
 
         - if true || talk.commenters.any?
           - preview_count = 5

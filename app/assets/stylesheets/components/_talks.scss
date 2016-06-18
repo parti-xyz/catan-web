@@ -49,17 +49,14 @@ section#talks {
     }
   }
   .comment-users {
-    color: $text-muted;
-    margin-top: 5px;
     text-align: right;
     white-space: nowrap;
     .user-byline {
       line-height: 20px;
-      height: 20px;
-    }
-    img {
-      width: 20px;
-      height: 20px;
+      .user-image {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
   .comment-media {
