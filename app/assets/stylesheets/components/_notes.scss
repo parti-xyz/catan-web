@@ -1,0 +1,30 @@
+.note-card {
+  @include hover-shadow();
+
+  background-color: $brand-warning;
+  border: 1px solid transparent;
+  margin-bottom: 30px;
+  min-height: 150px;
+  padding: 20px;
+
+  -webkit-box-shadow: 2px 2px 2px 0px $gray-lighter;
+  -moz-box-shadow: 2px 2px 2px 0px $gray-lighter;
+  box-shadow: 2px 2px 2px 0px $gray-lighter;
+
+  &__body {
+    margin: 20px 0;
+  }
+
+  &__comments {
+    border-top: 1px solid $gray-light;
+    padding-top: 10px;
+  }
+
+  &.note-card-1 { background-color: lighten($brand-info, 10%); }
+  &.note-card-2 { background-color: $brand-primary-light; }
+  &.note-card-3 { background-color: lighten($brand-danger, 15%); }
+}
+
+.note-form {
+  margin-bottom: 30px;
+}

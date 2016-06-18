@@ -145,8 +145,7 @@ class ApplicationController < ActionController::Base
   end
 
   def notes_page
-    @notes = @issue.notes
-    #@notes = @issue.notes.recent.page(params[:page])
+    @notes = @issue.notes.recent.page(params[:page])
   end
 
   #bugfix redactor2-rails

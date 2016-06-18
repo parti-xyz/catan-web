@@ -1,9 +1,21 @@
 - post = note.acting_as
-.note-card[note]
-  .note-body
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
-      내용
-      = note.body
-  .note-user
-    누가
-    = note.user.nickname
+.col-sm-4
+  .note-card[note]{ class: "note-card-#{rand(10)}" }
+    .note-card__user
+      = byline note.user
+    .note-card__body
+      = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
+        내용
+        = note.body
+    - if note.comments.any?
+      .note-card__comments
+        .comment-count
+          %i.icon-comment
+          %b #{post.comments_count}
+        - if true || note.commenters.any?
+          - preview_count = 5
+          .comment-users
+            - note.commenters[0..preview_count-1].each do |user|
+              = byline user, hide_nickname: true
+            - if note.commenters.count > preview_count
+              +#{note.commenters.count - preview_count}

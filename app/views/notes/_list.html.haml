@@ -1,8 +1,8 @@
 .posts
-  - if postables.empty?
-    .bg-default
-      %i.fa.fa-info-circle
-      해당되는 글이 없습니다.
-  - else
+  .row.masonry-container
+    - if user_signed_in?
+      .col-sm-4
+        = render 'notes/new_form', issue: @issue
+
     - postables.each do |postable|
       = render postable, show_issue: local_assigns[:show_issue]
