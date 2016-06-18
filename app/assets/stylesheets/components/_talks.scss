@@ -12,8 +12,13 @@ section#talks {
 
   border: 1px solid #fff;
   border-radius: 4px;
-  padding: 20px;
-  margin-bottom: 10px;
+  padding: 15px;
+  margin-bottom: 1px;
+
+  .media-body, .media-right, .media-left {
+    vertical-align: middle;
+  }
+
   .talk-media-left--issue {
     padding-right: 20px;
   }
@@ -23,6 +28,7 @@ section#talks {
   .date {
     color: $gray-light;
     font-size: $font-size-small;
+    white-space: nowrap;
   }
   .media-heading.title {
     font-weight: bold;
@@ -37,7 +43,6 @@ section#talks {
     color: $text-muted;
     font-size: $font-size-small;
     white-space: nowrap;
-    text-align: right;
     i {
       margin-right: 5px;
       font-size: $font-size-base;
@@ -85,6 +90,10 @@ section#talks {
       display: inline-block;
       color: $brand-danger;
     }
+  }
+
+  .talk-card__best-comment {
+    display: none;
   }
 }
 
