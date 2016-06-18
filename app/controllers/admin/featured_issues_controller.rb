@@ -19,6 +19,11 @@ class Admin::FeaturedIssuesController < AdminController
     redirect_to admin_featured_contents_path
   end
 
+  def destroy
+    @featured_issue.destroy if @featured_issue.present?
+    redirect_to admin_featured_contents_path
+  end
+
   private
 
   def featured_issue_params

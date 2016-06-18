@@ -19,6 +19,11 @@ class Admin::FeaturedCampaignsController < AdminController
     redirect_to admin_featured_contents_path
   end
 
+  def destroy
+    @featured_campaign.destroy if @featured_campaign.present?
+    redirect_to admin_featured_contents_path
+  end
+
   private
 
   def featured_campaign_params

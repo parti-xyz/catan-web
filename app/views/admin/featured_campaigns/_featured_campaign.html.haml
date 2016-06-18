@@ -16,6 +16,8 @@
           = image_tag featured_campaign.mobile_image.url, class: 'img-thumbnail'
         = f.label :mobile_image
         = f.file_field :mobile_image, class: 'form-control'
-    .panel-footer
-      = f.submit '저장'
-      = f.submit '취소', type: :reset
+    .panel-footer.clearfix
+      = f.submit '저장', class: 'btn btn-primary'
+      = f.submit '취소', type: :reset, class: 'btn btn-default'
+      - if featured_campaign.persisted?
+        = link_to '삭제', [:admin, featured_campaign], method: :delete, class: 'btn btn-primary btn-danger pull-right'
