@@ -5,7 +5,10 @@
     .panel-body
       .form-group
         = f.label :title
-        = f.text_area :title, class: 'form-control'
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = f.label :body
+        = f.text_area :body, class: 'form-control'
       .form-group
         = f.label :slug
         = f.text_field :slug, class: 'form-control'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617062536) do
+ActiveRecord::Schema.define(version: 20160618014851) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -96,8 +96,10 @@ ActiveRecord::Schema.define(version: 20160617062536) do
     t.string   "url",          limit: 255
     t.string   "image",        limit: 255
     t.string   "mobile_image", limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "title",        limit: 255
+    t.text     "body",         limit: 65535
   end
 
   create_table "featured_issues", force: :cascade do |t|
@@ -111,8 +113,9 @@ ActiveRecord::Schema.define(version: 20160617062536) do
     t.integer  "article_id",    limit: 4
     t.string   "opinion_title", limit: 255
     t.integer  "opinion_id",    limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.text     "body",          limit: 65535
   end
 
   create_table "issues", force: :cascade do |t|
@@ -319,7 +322,6 @@ ActiveRecord::Schema.define(version: 20160617062536) do
     t.integer  "height",            limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id",           limit: 4
   end
 
   add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree

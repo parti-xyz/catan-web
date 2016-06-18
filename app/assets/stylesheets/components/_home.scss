@@ -24,15 +24,15 @@ section#key-visuals {
 
     .owl-nav {
       position: absolute;
-      top: 38%;
+      top: 42%;
       width: 100%;
 
       .owl-prev,
       .owl-next {
         background: none;
         background-size: cover;
-        height: 40px;
-        width: 40px;
+        height: 20px;
+        width: 20px;
       }
       .owl-prev {
         background-image: asset_url('icon_slide_left.png');
@@ -85,6 +85,9 @@ section#key-visuals {
         overflow: hidden;
         display: table;
         width: 100%;
+      }
+      &__body-wrapper {
+        display: none;
       }
     }
     &__posts {
@@ -151,6 +154,36 @@ section#key-visuals {
         }
       }
     }
+
+    @media (max-width: 768px) {
+      &__parti {
+        width: 100%;
+        height: auto;
+        &__label {
+          font-size: $font-size-small;
+          margin: 15px;
+        }
+        &__title {
+          font-size: $font-size-h3;
+        }
+        &__body-wrapper {
+          display: table;
+          width: 100%;
+          margin-top: 40px;
+        }
+        &__body {
+          height: 120px;
+          background-color: rgba(0,0,0,0.2);
+          color: #fff;
+          padding: 10px 0;
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
+      &__posts {
+        display: none;
+      }
+    }
   }
 
   @media (max-width: 768px) {
@@ -163,10 +196,49 @@ section#key-visuals {
         width: 20px;
       }
     }
+    .featured-campaign {
+      background-size: cover;
+      &__label {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 4px;
+        background-color: $brand-primary;
+        color: #fff;
+        font-size: $font-size-small;
+        margin: 15px;
+      }
+      &__title {
+        color: #fff;
+        font-size: $font-size-h3;
+        font-weight: 100;
+        line-height: 42px;
+        display: table-cell;
+        vertical-align: middle;
+      }
+      &__title-wrapper {
+        height: 90px;
+        overflow: hidden;
+        display: table;
+        width: 100%;
+      }
+      &__body-wrapper {
+        display: table;
+        width: 100%;
+        margin-top: 40px;
+      }
+      &__body {
+        height: 120px;
+        background-color: rgba(0,0,0,0.2);
+        color: #fff;
+        padding: 10px 0;
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
   }
   @media (max-width: 768px) and (orientation: portrait) {
     ul.owl-carousel .owl-nav {
-      top: 20%;
+      top: 22%;
     }
   }
   @media (max-width: 768px) and (orientation: landscape) {
