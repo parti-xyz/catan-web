@@ -26,6 +26,11 @@ module PartiUrlHelper
     slug_issue_articles_path(options)
   end
 
+  def issue_notes_path(issue, options = {})
+    options.update(slug: issue.slug)
+    slug_issue_notes_path(options)
+  end
+
   def issue_opinions_path(issue, options = {})
     options.update(slug: issue.slug)
     slug_issue_opinions_path(options)

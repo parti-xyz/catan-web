@@ -2,8 +2,6 @@
 
 %section#notes
   .container
-    .hidden-xs
-      %h3 한마디 남겨주세요
-
-    = render 'notes/list', postables: @notes, issue: @issue, show_issue: @issue.blank?
+    %div{ style: 'margin-top: 30px' }
+      = render 'notes/list', postables: @notes, issue: @issue, show_issue: @issue.blank?
 

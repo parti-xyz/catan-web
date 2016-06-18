@@ -99,6 +99,8 @@ class Issue < ActiveRecord::Base
     counts.latest_opinions_count = opinions.latest.count
     counts.talks_count = talks.count
     counts.latest_talks_count = talks.latest.count
+    counts.notes_count = notes.count
+    counts.latest_notes_count = notes.latest.count
     counts
   end
 

@@ -46,7 +46,22 @@
     - counts_container = issue.counts_container
     .container
       .row
-        .col-xs-3.col-sm-2.col-sm-offset-2{class: ('active' if active_tab == :talks)}
+        .col-xs-3.col-sm-2.col-sm-offset-1{class: ('active' if active_tab == :notes)}
+          - count_label = capture_haml(counts_container) do
+            %span.count-label-wrapper
+              %span.count-label<>
+                = counts_container.notes_count
+                - if counts_container.latest_notes_count > 0
+                  %small.text-primary<>
+                    +#{counts_container.latest_notes_count}
+          = link_to issue_notes_path(issue) do
+            %h4
+              %span.visible-xs-inline<>= count_label
+              %br.visible-xs-inline<>
+              = Note.model_name.human
+              %span.hidden-xs= count_label
+
+        .col-xs-3.col-sm-2{class: ('active' if active_tab == :talks)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -59,6 +74,21 @@
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
               = Talk.model_name.human
+              %span.hidden-xs= count_label
+
+        .col-xs-3.col-sm-2{class: ('active' if active_tab == :opinions)}
+          - count_label = capture_haml(counts_container) do
+            %span.count-label-wrapper
+              %span.count-label<>
+                = counts_container.opinions_count
+                - if counts_container.latest_opinions_count > 0
+                  %small.text-primary<>
+                    +#{counts_container.latest_opinions_count}
+          = link_to issue_opinions_path(issue) do
+            %h4
+              %span.visible-xs-inline<>= count_label
+              %br.visible-xs-inline<>
+              = Opinion.model_name.human
               %span.hidden-xs= count_label
 
         .col-xs-3.col-sm-2{class: ('active' if active_tab == :articles)}
@@ -76,20 +106,6 @@
               = Article.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2{class: ('active' if active_tab == :opinions)}
-          - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label<>
-                = counts_container.opinions_count
-                - if counts_container.latest_opinions_count > 0
-                  %small.text-primary<>
-                    +#{counts_container.latest_opinions_count}
-          = link_to issue_opinions_path(issue) do
-            %h4
-              %span.visible-xs-inline<>= count_label
-              %br.visible-xs-inline<>
-              = Opinion.model_name.human
-              %span.hidden-xs= count_label
         .col-xs-3.col-sm-2{class: ('active' if active_tab == :wikis)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
