@@ -3,22 +3,16 @@
     .media
       .media-body
         - if video?(@article)
-          .article__body__video-container
+          .article__body__video
             = video_embed_code(@article)
-        - elsif @article.has_image?
-          - if @article.image_height > 255
-            .article__body__img-container.article__body__img-container--lg
-              = link_to @article.link, target: '_blank' do
-                = image_tag(@article.image.lg.url)
-          - else
-            .article__body__img-container
-              = link_to @article.link, target: '_blank' do
-                = image_tag(@article.image.url)
-
-        .article__body__text-container
-          = smart_format(@article.body)
-        .article__body__link-container
+        .article__body__body
+          = excerpt(@article.body, length: 130)
+        .article__body__link
           - if @article.link_source.present? and !@article.hidden?
             = link_to @article.link, class: 'text-primary', target: '_blank' do
               %i.icon-article
               #{truncate @article.link, length: 50}
+      - if (@article.has_image?)
+        .media-right
+          .thumb{style: "background-image: url(#{@article.image.md.url})"}
+
