@@ -110,6 +110,7 @@ ko:
             nickname:
               exclusion: 를 사용할 수 없습니다. 예시) users, admin, all 등
               invalid: 형식이 올바르지 않습니다.
+              too_long: 20자를 넘을 수 없습니다.
             password:
               too_short: 비밀번호는 8자 이상 입력해주세요.
             password_confirmation:
