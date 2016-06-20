@@ -4,7 +4,7 @@
     .featured-issue.clearfix{class: dom_id(featured_issue)}
       = link_to issue_home_path(origin_issue) do
         .featured-issue__parti{style: "background-image: url(#{is_small_screen? ? featured_issue.mobile_image.url : featured_issue.image.url});"}
-          .featured-issue__parti__label 오늘의 빠띠
+          .featured-issue__parti__label 이주의 빠띠
           .featured-issue__parti__title-wrapper
             .featured-issue__parti__title= simple_format featured_issue.title, {}, wrapper_tag: 'span'
           .featured-issue__parti__body-wrapper
