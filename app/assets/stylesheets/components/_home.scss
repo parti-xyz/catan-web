@@ -226,15 +226,13 @@ section#key-visuals {
     &__body-wrapper {
       display: table;
       width: 100%;
-      margin-top: 40px;
     }
     &__body {
       height: 120px;
-      background-color: rgba(0,0,0,0.2);
       color: #fff;
       padding: 10px 0;
       display: table-cell;
-      vertical-align: middle;
+      vertical-align: top;
       word-break: keep-all;
     }
 
@@ -254,6 +252,11 @@ section#key-visuals {
       &__body {
         padding-left: 23px;
         padding-right: 23px;
+        background-color: rgba(0,0,0,0.2);
+        vertical-align: middle;
+      }
+      &__body-wrapper {
+        margin-top: 40px;
       }
     }
   }
