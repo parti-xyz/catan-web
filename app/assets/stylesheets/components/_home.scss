@@ -89,6 +89,9 @@ section#key-visuals {
       &__body-wrapper {
         display: none;
       }
+      &__body {
+        word-break: keep-all;
+      }
     }
     &__posts {
       background-color: $brand-primary;
@@ -178,10 +181,79 @@ section#key-visuals {
           padding: 10px 0;
           display: table-cell;
           vertical-align: middle;
+          padding-left: 23px;
+          padding-right: 23px;
         }
       }
       &__posts {
         display: none;
+      }
+    }
+  }
+
+  .featured-campaign {
+    background-size: cover;
+    height: 350px;
+    text-align: left;
+    padding-left: 127px;
+    padding-right: 127px;
+
+    &__label {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 4px;
+      background-color: $brand-primary;
+      color: #fff;
+      font-size: $font-size-small;
+      margin-top: 60px;
+      margin-bottom: 10px;
+      font-size: $font-size-base;
+    }
+    &__title {
+      color: #fff;
+      font-size: $font-size-h1;
+      font-weight: 100;
+      line-height: 42px;
+      display: table-cell;
+      vertical-align: middle;
+    }
+    &__title-wrapper {
+      height: 90px;
+      overflow: hidden;
+      display: table;
+      width: 100%;
+    }
+    &__body-wrapper {
+      display: table;
+      width: 100%;
+      margin-top: 40px;
+    }
+    &__body {
+      height: 120px;
+      background-color: rgba(0,0,0,0.2);
+      color: #fff;
+      padding: 10px 0;
+      display: table-cell;
+      vertical-align: middle;
+      word-break: keep-all;
+    }
+
+    @media (max-width: 768px) {
+      height: auto;
+      text-align: center;
+      padding-left: 0;
+      padding-right: 0;
+
+      &__label {
+        margin: 15px;
+        font-size: $font-size-small;
+      }
+      &__title {
+        font-size: $font-size-h3;
+      }
+      &__body {
+        padding-left: 23px;
+        padding-right: 23px;
       }
     }
   }
@@ -194,45 +266,6 @@ section#key-visuals {
       .owl-next {
         height: 20px;
         width: 20px;
-      }
-    }
-    .featured-campaign {
-      background-size: cover;
-      &__label {
-        display: inline-block;
-        padding: 5px 15px;
-        border-radius: 4px;
-        background-color: $brand-primary;
-        color: #fff;
-        font-size: $font-size-small;
-        margin: 15px;
-      }
-      &__title {
-        color: #fff;
-        font-size: $font-size-h3;
-        font-weight: 100;
-        line-height: 42px;
-        display: table-cell;
-        vertical-align: middle;
-      }
-      &__title-wrapper {
-        height: 90px;
-        overflow: hidden;
-        display: table;
-        width: 100%;
-      }
-      &__body-wrapper {
-        display: table;
-        width: 100%;
-        margin-top: 40px;
-      }
-      &__body {
-        height: 120px;
-        background-color: rgba(0,0,0,0.2);
-        color: #fff;
-        padding: 10px 0;
-        display: table-cell;
-        vertical-align: middle;
       }
     }
   }
