@@ -14,8 +14,9 @@ section#wikis {
     background-color: #fff;
     .histories {
       color: $gray;
+      margin-bottom: 30px;
     }
-    p {
+    p#no-content {
       text-align: center;
       font-size: 18px;
       margin: 50px auto;
