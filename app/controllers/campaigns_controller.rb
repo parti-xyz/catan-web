@@ -19,6 +19,10 @@ class CampaignsController < ApplicationController
 
     @campaign = Campaign.find_by slug: @slug
     render_404 and return unless @campaign.present?
+
+    prepare_meta_tags title: @campaign.title,
+                      description: @campaign.body,
+                      image: @campaign.cover_url
   end
 
   def show
