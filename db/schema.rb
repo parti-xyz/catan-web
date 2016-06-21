@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621062125) do
+ActiveRecord::Schema.define(version: 20160621080146) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -206,29 +206,6 @@ ActiveRecord::Schema.define(version: 20160621062125) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "old_articles", force: :cascade do |t|
-    t.string   "title",          limit: 255
-    t.text     "body",           limit: 16777215
-    t.string   "link",           limit: 255
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.datetime "deleted_at"
-    t.integer  "link_source_id", limit: 4,        null: false
-  end
-
-  add_index "old_articles", ["deleted_at"], name: "index_articles_on_deleted_at", using: :btree
-  add_index "old_articles", ["link_source_id"], name: "index_articles_on_link_source_id", using: :btree
-
-  create_table "old_users", force: :cascade do |t|
-    t.string   "email",      limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.string   "nickname",   limit: 255
-  end
-
-  add_index "old_users", ["email"], name: "index_old_users_on_email", unique: true, using: :btree
-  add_index "old_users", ["nickname"], name: "index_old_users_on_nickname", unique: true, using: :btree
-
   create_table "opinions", force: :cascade do |t|
     t.string   "title",      limit: 255
     t.text     "body",       limit: 16777215
@@ -311,22 +288,6 @@ ActiveRecord::Schema.define(version: 20160621062125) do
 
   add_index "redactor2_assets", ["assetable_type", "assetable_id"], name: "idx_redactor2_assetable", using: :btree
   add_index "redactor2_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor2_assetable_type", using: :btree
-
-  create_table "redactor_assets", force: :cascade do |t|
-    t.string   "data_file_name",    limit: 255
-    t.string   "data_content_type", limit: 255
-    t.integer  "data_file_size",    limit: 4
-    t.integer  "assetable_id",      limit: 4
-    t.string   "assetable_type",    limit: 30
-    t.string   "type",              limit: 30
-    t.integer  "width",             limit: 4
-    t.integer  "height",            limit: 4
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree
-  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor_assetable_type", using: :btree
 
   create_table "relateds", force: :cascade do |t|
     t.integer  "issue_id",   limit: 4, null: false
