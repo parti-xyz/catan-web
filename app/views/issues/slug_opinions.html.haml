@@ -6,8 +6,8 @@
       .media
         .media-body.hidden-xs
           %h3
-            토론을 여세요
-            %small 토론을 통해 서로의 생각을 확인해 보세요.
+            #{t('activerecord.models.opinion')}을 여세요
+            %small #{t('activerecord.models.opinion')}을 통해 서로의 생각을 확인해 보세요.
         .media-right
           - if user_signed_in?
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: 'input#opinion_title' } do

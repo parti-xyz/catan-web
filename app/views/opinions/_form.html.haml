@@ -3,7 +3,7 @@
     .form-group
       = f.text_area :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
       %h5.help-block{style: 'margin-top: 10px;'}
-        라는 투표에
+        라는 #{t('activerecord.models.opinion')}에
         - if @opinion.new_record?
           %strong 찬성
         - else

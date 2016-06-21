@@ -2,7 +2,7 @@
 %section#notes
   .container
     %h3.page-title
-      담벼락
+      = t('activerecord.models.note')
 
     .row.masonry-container{data: {last_id: @notes.last.try(:id), is_last: @is_last_page.to_s}}
       - if @notes.empty?

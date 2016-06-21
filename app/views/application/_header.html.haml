@@ -38,7 +38,7 @@
             %li
               = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
                 %i.icon-user
-                내 홈
+                = t('labels.dashboard')
             %li.notification
               = link_to messages_path, class: 'btn' do
                 - if current_user.unread_messages_count > 0

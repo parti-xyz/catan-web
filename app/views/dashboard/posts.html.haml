@@ -4,7 +4,7 @@
     .row
       .col-xs-9
         %h3.page-title
-          새소식
+          = t('labels.dashboard')
           %small 참여 중인 빠띠의 최근 소식입니다.
         - if @posts.first.present?
           = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comment.id)

@@ -5,16 +5,16 @@
       = hidden_field_tag :back_url, @list_url || request.original_url
 
       .form-group
-        = f.text_field :title, maxlength: 50, class: 'form-control', data: {'rule-required': true}, placeholder: '투표 내용을 적어주세요.'
+        = f.text_field :title, maxlength: 50, class: 'form-control', data: {'rule-required': true}, placeholder: t('activerecord.models.opinion') + ' 내용을 적어주세요.'
         %p.help-block
-          라는 투표에
+          라는 #{t('activerecord.models.opinion')}에
           %span.text-primary 찬성
           합니다.
 
       %hr
       .form-group.textarea-box
         .thumb.img-circle.circle-50.border-2-primary{style: "background-image: url(#{current_user.image.sm.url});"}
-        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이 투표에 대해 왜 찬성하시나요? (선택사항)', data: {'rule-required': true} }
+        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이 ' + t('activerecord.models.opinion') + '에 대해 왜 찬성하시나요? (선택사항)', data: {'rule-required': true} }
 
       %hr
       .form-group.clearfix

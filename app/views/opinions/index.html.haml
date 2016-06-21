@@ -2,8 +2,8 @@
 %section#opinions
   .container
     %h3.page-title
-      투표
-      %small 모든 빠띠의 최근 투표입니다.
+      = t('activerecord.models.opinion')
+      %small 모든 빠띠의 최근 #{t('activerecord.models.opinion')}입니다.
     .row.masonry-container{data: {last_id: @opinions.last.try(:id), is_last: @is_last_page.to_s}}
       = render 'issues/slug_opinions_page', show_issue: true
     .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': opinions_path(format: :js)}

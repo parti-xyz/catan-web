@@ -5,7 +5,7 @@
       -if !postable.voted_by?(current_user)
         .well
           %i.fa.fa-info-circle
-          투표 후에 수다를 남길 수 있습니다.
+          #{t('activerecord.models.opinion')}에 참여한 후에 수다를 남길 수 있습니다.
   .tabs.vote__tab
     %ul.nav.nav-tabs
       %li{class: ('active' unless disagree_active) }

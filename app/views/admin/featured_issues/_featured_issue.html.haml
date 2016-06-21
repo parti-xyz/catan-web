@@ -27,7 +27,7 @@
         .col-sm-4
           .panel.panel-default
             .panel-heading
-              %h5.panel-title 논의
+              %h5.panel-title #{t('activerecord.models.talk')}
             .panel-body
               .form-group
                 = f.label :talk_title
@@ -38,7 +38,7 @@
         .col-sm-4
           .panel.panel-default
             .panel-heading
-              %h5.panel-title 자료
+              %h5.panel-title #{t('activerecord.models.article')}
             .panel-body
               .form-group
                 = f.label :article_title
@@ -49,7 +49,8 @@
         .col-sm-4
           .panel.panel-default
             .panel-heading
-              %h5.panel-title 투표
+              %h5.panel-title
+                = t('activerecord.models.opinion')
             .panel-body
               .form-group
                 = f.label :opinion_title

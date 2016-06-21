@@ -57,11 +57,11 @@
         현재&nbsp;
         %strong<>
           #{opinion.votes.count}
-        명이 투표에 참여했습니다.
+        명이 #{t('activerecord.models.opinion')}에 참여했습니다.
 
     - if !user_signed_in? or !opinion.voted_by?(current_user)
       %div
-        투표하면 결과를 볼 수 있습니다.
+        #{t('activerecord.models.opinion')}에 참여하면 결과를 볼 수 있습니다.
 
     - if user_signed_in? and opinion.voted_by?(current_user)
       %div

@@ -2,7 +2,7 @@
   = form_for @talk do |f|
     .form-group
       = f.label :title
-      = f.text_field :title, class: 'form-control', maxlength: 50, placeholder: '논의의 제목을 쓰세요'
+      = f.text_field :title, class: 'form-control', maxlength: 50, placeholder: t('activerecord.models.talk') + '의 제목을 쓰세요'
 
     - if @talk.has_presentation?
       - presentation_comment = @talk.comments.first

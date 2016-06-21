@@ -15,15 +15,15 @@
           %ul.nav.nav-pills(role="tablist" data-action="parti-home-slide")
             - if featured_issue.talk.present?
               %li.active(role="presentation")
-                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-talk" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") 논의
+                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-talk" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") #{t('activerecord.models.talk')}
               - active_tab = :talk
             - if featured_issue.article.present?
               %li(role="presentation" class="#{'active' if active_tab.nil?}")
-                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-article" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") 자료
+                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-article" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") #{t('activerecord.models.article')}
             - active_tab = :article unless active_tab.present?
             - if featured_issue.opinion.present?
               %li(role="presentation" class="#{'active' if active_tab.nil?}")
-                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-opinion" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") 투표
+                %a(data-toggle="tab" href="##{dom_id(featured_issue)}-opinion" role="tab" data-slide-target=".featured-issue.#{dom_id(featured_issue)}") #{t('activerecord.models.opinion')}
             - active_tab = :opinion unless active_tab.present?
         .featured-issue__posts__tab-content.tab-content
           - if featured_issue.talk.present?
