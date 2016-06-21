@@ -6,7 +6,7 @@
         = link_to issue_home_path(post.issue) do
           .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
     .media-body
-      %h4.media-heading.title
+      %h5.media-heading.title
         = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } do
           = talk.title
         %span.comment-count
