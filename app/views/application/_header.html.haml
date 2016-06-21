@@ -13,7 +13,7 @@
         %ul.nav.navbar-nav
           %li
             = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
-              모든 빠띠
+              모든빠띠
           %li
             = link_to notes_path, class: "btn #{'active' if current_page?(controller: '/notes', action: :index)}" do
               = Note.model_name.human
@@ -26,17 +26,19 @@
           %li
             = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
               = Article.model_name.human
-          - if user_signed_in?
-            %li
-              = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
-                새소식
-
+          %li
+            = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
+              = Wiki.model_name.human
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             - if current_user.watches.any?
               %li.watch-parties
                 .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json)}
+            %li
+              = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
+                %i.icon-user
+                내 홈
             %li.notification
               = link_to messages_path, class: 'btn' do
                 - if current_user.unread_messages_count > 0
