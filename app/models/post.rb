@@ -53,6 +53,9 @@ class Post < ActiveRecord::Base
   # mount
   mount_uploader :social_card, ImageUploader
 
+  # callbacks
+  before_create :touch_last_touched_at
+
   def voted_by voter
     votes.where(user: voter).first
   end
@@ -74,7 +77,7 @@ class Post < ActiveRecord::Base
   end
 
   def origin
-    specific.origin.post
+    specific.specific_origin.post
   end
 
   def linkable?
@@ -116,5 +119,11 @@ class Post < ActiveRecord::Base
 
   def self.best_talks_in_issues(issues, count)
     self.where(issue: issues).only_talks.hottest.limit(count)
+  end
+
+  private
+
+  def touch_last_touched_at
+    self.last_touched_at = DateTime.now
   end
 end

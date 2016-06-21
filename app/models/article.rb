@@ -15,7 +15,7 @@ class Article < ActiveRecord::Base
 
   before_save :update_post_issue_id_before_save
 
-  def origin
+  def specific_origin
     self
   end
 

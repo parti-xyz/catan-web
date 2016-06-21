@@ -9,4 +9,8 @@ class Note < ActiveRecord::Base
   def commenters
     comments.map(&:user).uniq.reject { |u| u == self.user }
   end
+
+  def specific_origin
+    self
+  end
 end

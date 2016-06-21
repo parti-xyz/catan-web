@@ -7,7 +7,7 @@ class Opinion < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :previous_of_opinion, ->(opinion) { where('opinions.created_at < ?', opinion.created_at) if opinion.present? }
 
-  def origin
+  def specific_origin
     self
   end
 end

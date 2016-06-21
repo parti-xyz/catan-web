@@ -26,7 +26,7 @@ class NotesController < ApplicationController
       @list_url = issue_notes_path(@issue)
       @paginate_params = {controller: 'issues', :action => 'slug_notes', slug: @issue.slug, id: nil}
     end
-    prepare_meta_tags title: @note.title
+    prepare_meta_tags title: @note.body
   end
 
   private

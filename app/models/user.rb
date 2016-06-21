@@ -172,6 +172,12 @@ class User < ActiveRecord::Base
     Comment.where(post: watched_posts)
   end
 
+  def mentionable? someone
+    return false if someone.blank?
+    return false if someone == self
+    return true
+  end
+
   private
 
   def downcase_nickname

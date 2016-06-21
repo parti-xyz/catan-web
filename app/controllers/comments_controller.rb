@@ -52,7 +52,7 @@ class CommentsController < ApplicationController
   private
 
   def redirect_to_origin
-    redirect_to @comment.post.specific.origin
+    redirect_to @comment.post.specific.specific_origin
   end
 
   def comment_params

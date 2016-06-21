@@ -28,3 +28,27 @@
 .note-form {
   margin-bottom: 30px;
 }
+
+.note-line {
+  cursor: pointer;
+  .user-image {
+    width: 20px;
+    height: 20px;
+  }
+  .nickname {
+    font-weight: bold;
+    color: $brand-primary;
+    margin-right: 5px;
+  }
+  .note-body {
+    color: $text-muted;
+  }
+  .note-info {
+    margin-bottom: 10px;
+  }
+  .comment__mention {
+    float: none;
+    margin-left: 0;
+  }
+
+}

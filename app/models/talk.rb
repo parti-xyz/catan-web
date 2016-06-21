@@ -6,7 +6,7 @@ class Talk < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
 
-  def origin
+  def specific_origin
     self
   end
 

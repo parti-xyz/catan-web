@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
 
     previous_last_post = Post.find_by(id: params[:last_id])
 
-    watched_posts = current_user.watched_posts.order(last_commented_at: :desc)
+    watched_posts = current_user.watched_posts.order(last_touched_at: :desc)
     paged_watched_posts = watched_posts.limit(25).previous_of_post(previous_last_post)
 
     current_last_post = paged_watched_posts.last

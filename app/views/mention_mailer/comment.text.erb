@@ -7,5 +7,5 @@
 
 <%= static_date_f @comment.created_at %>
 
-* 원글 [<%= @comment.post.specific.origin.class.model_name.human %>] <%= @comment.post.specific_desc %> ( <%=  url_for(@comment.post.specific.origin) %> )
+* 원글 [<%= @comment.post.specific.specific_origin.class.model_name.human %>] <%= @comment.post.specific_desc %> ( <%=  url_for(@comment.post.specific.specific_origin) %> )
 

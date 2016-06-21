@@ -127,6 +127,7 @@ ko:
     new_opinion_button: 토론 열기
     edit_wiki_button: 편집
     show_history_button: 역사
+    dashboard: 내 홈
   enumerize:
     defaults:
       choice:

@@ -15,6 +15,6 @@ class VotesController < ApplicationController
   private
 
   def redirect_to_origin
-    redirect_to @vote.post.specific.origin
+    redirect_to @vote.post.specific.specific_origin
   end
 end

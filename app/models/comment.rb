@@ -26,6 +26,7 @@ class Comment < ActiveRecord::Base
 
   after_create :send_messages
   after_create :touch_last_commented_at_of_posts
+  after_create :touch_last_touched_at_of_posts
 
   def linkable?
     post.try(:linkable?)
@@ -58,5 +59,9 @@ class Comment < ActiveRecord::Base
 
   def touch_last_commented_at_of_posts
     self.post.touch(:last_commented_at)
+  end
+
+  def touch_last_touched_at_of_posts
+    self.post.touch(:last_touched_at)
   end
 end
