@@ -15,6 +15,9 @@
             = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
               모든 빠띠
           %li
+            = link_to notes_path, class: "btn #{'active' if current_page?(controller: '/notes', action: :index)}" do
+              = Note.model_name.human
+          %li
             = link_to talks_path, class: "btn #{'active' if current_page?(controller: '/talks', action: :index)}" do
               = Talk.model_name.human
           %li

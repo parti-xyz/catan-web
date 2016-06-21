@@ -2,6 +2,10 @@ class NotesController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show]
   load_and_authorize_resource
 
+  def index
+    @notes = Note.recent.page(params[:page])
+  end
+
   def create
     redirect_to root_path and return if fetch_issue.blank?
 
