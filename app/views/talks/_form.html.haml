@@ -9,7 +9,7 @@
       = hidden_field_tag :comment_id, presentation_comment.id
       .form-group
         %label 수다
-        = text_area_tag :comment_body, presentation_comment.body, class: 'form-control'
+        = text_area_tag :comment_body, presentation_comment.body, class: 'form-control', data: {ride: 'parti-autoresize'}
 
     .editor-btn.text-right
       = link_to '취소', @talk, class: 'btn btn-default'

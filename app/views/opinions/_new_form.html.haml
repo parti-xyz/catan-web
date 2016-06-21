@@ -14,7 +14,7 @@
       %hr
       .form-group.textarea-box
         .thumb.img-circle.circle-50.border-2-primary{style: "background-image: url(#{current_user.image.sm.url});"}
-        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이 투표에 대해 왜 찬성하시나요? (선택사항)', data: {'rule-required': true} }
+        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이 투표에 대해 왜 찬성하시나요?', data: {ride: 'parti-autoresize', 'rule-required': true} }
 
       %hr
       .form-group.clearfix

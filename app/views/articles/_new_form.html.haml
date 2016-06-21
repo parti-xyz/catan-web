@@ -9,7 +9,7 @@
       %hr
       .form-group.textarea-box
         .thumb.img-circle.circle-50.border-2-primary{style: "background-image: url(#{current_user.image.sm.url});"}
-        = text_area_tag :comment_body, '', placeholder: '이 자료에 대한 의견을 남겨주세요. (선택사항)', class: 'form-control', data: { ride: 'parti-autoresize', 'rule-required': true}
+        = text_area_tag :comment_body, '', placeholder: '이 자료에 대한 의견을 남겨주세요.', class: 'form-control', data: { ride: 'parti-autoresize', 'rule-required': true}
       %hr
       .form-group.clearfix
         .submit-box

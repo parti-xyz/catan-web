@@ -34,6 +34,29 @@
   }
 }
 
+
+.textarea-box {
+  position: relative;
+  .img-circle {
+    position: absolute;
+    top: 20px;
+    left: 0;
+  }
+  .icon-tooltip {
+    position: absolute;
+    left: 15%;
+    margin-left: -14px;
+    margin-top: 35px;
+  }
+  textarea.form-control {
+    width: 85%;
+    min-height: 100px;
+    margin-left: 15%;
+    background-color: #fafafb;
+    color: #777;
+  }
+}
+
 .editors-panel {
   margin-bottom: 25px;
 
