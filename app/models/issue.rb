@@ -24,7 +24,12 @@ class Issue < ActiveRecord::Base
   end
 
   # validations
-  validates :title, presence: true, uniqueness: { case_sensitive: false }
+  validates :title,
+    presence: true,
+    length: { maximum: 60 },
+    uniqueness: { case_sensitive: false }
+  validates :body,
+    length: { maximum: 200 }
   VALID_SLUG = /\A[a-z0-9_-]+\z/i
   validates :slug,
     presence: true,

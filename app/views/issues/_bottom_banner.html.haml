@@ -1,4 +1,4 @@
-- unless is_small_screen?
+- unless is_small_screen? or !content_for?(:post_modal_content)
   %section#issue-bottom-banner
     .bottom-banner.nav-up
       %div.description

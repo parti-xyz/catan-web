@@ -104,6 +104,10 @@ ko:
       models:
         issue:
           attributes:
+            title:
+              too_long: 은 60자 이내로 적어주세요.
+            body:
+              too_long: 은 200자 이내로 적어주세요.
             slug:
               invalid: 값은 영문자와 숫자 혹은 '-'만 넣어주세요.
         user:
@@ -111,6 +115,7 @@ ko:
             nickname:
               exclusion: 를 사용할 수 없습니다. 예시) users, admin, all 등
               invalid: 형식이 올바르지 않습니다.
+              too_long: 20자를 넘을 수 없습니다.
             password:
               too_short: 비밀번호는 8자 이상 입력해주세요.
             password_confirmation:

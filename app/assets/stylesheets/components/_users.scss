@@ -451,28 +451,6 @@ section#user-gallery{
   }
 }
 
-.textarea-box {
-  position: relative;
-  .img-circle {
-    position: absolute;
-    top: 20px;
-    left: 0;
-  }
-  .icon-tooltip {
-    position: absolute;
-    left: 15%;
-    margin-left: -14px;
-    margin-top: 35px;
-  }
-  textarea {
-    width: 85%;
-    height: 100px !important;
-    margin-left: 15%;
-    background-color: #fafafb;
-    color: #777;
-  }
-}
-
 #sign-up {
   width: 600px;
   margin: 60px auto;

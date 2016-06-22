@@ -1,7 +1,7 @@
 .well
   = form_for @opinion do |f|
     .form-group
-      = f.text_area :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)'
+      = f.text_area :title, class: 'form-control input-lg', maxlength: 50, placeholder: '내용을 써주세요(최대 50자)', data: {ride: 'parti-autoresize'}
       %h5.help-block{style: 'margin-top: 10px;'}
         라는 #{t('activerecord.models.opinion')}에
         - if @opinion.new_record?
@@ -13,7 +13,7 @@
     - if @opinion.new_record?
       .form-group
         %p.help-block 왜냐하면
-        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이유를 적어주세요' }
+        = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '이유를 적어주세요'}
 
     .editor-btn.text-right
       - if @opinion.new_record?

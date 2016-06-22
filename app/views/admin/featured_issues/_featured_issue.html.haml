@@ -14,14 +14,16 @@
         = f.text_field :slug, class: 'form-control'
       .form-group
         = f.label :image
-        - if upload_file_exists?(featured_issue.image)
-          = image_tag featured_issue.image.url, class: 'img-thumbnail'
         = f.file_field :image, class: 'form-control'
+        .help-block 추천 크기 : 698 X 700 정도면 됩니다. 자동으로 적당히 늘어나고 잘려 나옵니다.
+        - if upload_file_exists?(featured_issue.image)
+          = image_tag featured_issue.image.url, class: 'img-thumbnail', style: 'max-width: 50%'
       .form-group
         = f.label :mobile_image
-        - if upload_file_exists?(featured_issue.mobile_image)
-          = image_tag featured_issue.mobile_image.url, class: 'img-thumbnail'
         = f.file_field :mobile_image, class: 'form-control'
+        .help-block 추천 크기 : 1400 X 614 정도면 됩니다. 자동으로 적당히 늘어나고 잘려 나옵니다.
+        - if upload_file_exists?(featured_issue.mobile_image)
+          = image_tag featured_issue.mobile_image.url, class: 'img-thumbnail', style: 'max-width: 50%'
       %hr
       .row
         .col-sm-4
