@@ -3,7 +3,7 @@ class NotesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @notes = Note.recent.page(params[:page])
+    notes_page
   end
 
   def create

@@ -1,7 +1,7 @@
 .posts
-  .row.masonry-container
+  .row.masonry-container{data: {last_id: @notes.last.try(:id), is_last: @is_last_page.to_s}}
     - if user_signed_in?
-      .col-sm-4
+      .col-sm-4.card
         = render 'notes/new_form', issue: @issue
 
     - postables.each do |postable|

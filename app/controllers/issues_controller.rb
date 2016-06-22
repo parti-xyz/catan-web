@@ -107,10 +107,8 @@ class IssuesController < ApplicationController
   end
 
   def prepare_issue_meta_tags
-    unless view_context.current_page?(root_url)
-      prepare_meta_tags title: meta_issue_title(@issue),
-                        description: (@issue.body.presence || "#{@issue.title} 빠띠에서 즐거운 수다파티"),
-                        image: @issue.cover_url
-    end
+    prepare_meta_tags title: meta_issue_title(@issue),
+                      description: (@issue.body.presence || "#{@issue.title} 빠띠에서 즐거운 수다파티"),
+                      image: @issue.cover_url
   end
 end

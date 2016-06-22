@@ -144,8 +144,15 @@ class ApplicationController < ActionController::Base
     @talks = @issue.talks.recent.page(params[:page])
   end
 
-  def notes_page
-    @notes = @issue.notes.recent.page(params[:page])
+  def notes_page(issue = nil)
+    # @notes = @issue.notes.recent.page(params[:page])
+    notes_base = issue.nil? ? Note.all : issue.notes
+
+    previous_last_note = Note.find_by(id: params[:last_id])
+    @notes = notes_base.recent.previous_of_note(previous_last_note).limit(20)
+    current_last_note = @notes.last
+
+    @is_last_page = (notes_base.empty? or notes_base.recent.previous_of_note(current_last_note).empty?)
   end
 
   #bugfix redactor2-rails
