@@ -1,0 +1,9 @@
+.well
+  = form_for @note do |f|
+    .form-group
+      = f.text_area :body, class: 'form-control'
+      %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
+
+    .editor-btn.text-right
+      = link_to '취소', @note, class: 'btn btn-default'
+      = f.submit '저장', class: 'btn btn-primary btn-ghost'

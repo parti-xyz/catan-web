@@ -16,6 +16,21 @@ class NotesController < ApplicationController
     redirect_to params[:back_url].presence || issue_home_path(@issue)
   end
 
+  def update
+    redirect_to root_path and return if fetch_issue.blank?
+    if @note.update_attributes(note_params)
+      redirect_to @note
+    else
+      errors_to_flash @note
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @note.destroy
+    redirect_to issue_notes_path(@note.issue)
+  end
+
   def show
     if request.headers['X-PJAX']
       render(:partial, layout: false) and return
