@@ -131,7 +131,7 @@ class OpenGraph
 
   def load_from_opengraph
     if @doc.present? and @doc.respond_to?(:css)
-      attrs_list = %w(title url type description site_name)
+      attrs_list = %w(title type description site_name)
       @doc.css('meta').each do |m|
         if m.attribute('property') && m.attribute('property').to_s.match(/^og:(.+)$/i)
           m_content = m.attribute('content').to_s.strip
