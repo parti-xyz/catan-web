@@ -26,6 +26,7 @@ class NotesController < ApplicationController
     end
   end
 
+
   def destroy
     @note.destroy
     redirect_to issue_notes_path(@note.issue)

@@ -26,9 +26,7 @@
           %li
             = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
               = Article.model_name.human
-          %li
-            = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
-              = Wiki.model_name.human
+
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?

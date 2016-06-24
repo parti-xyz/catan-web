@@ -11,8 +11,21 @@
   -moz-box-shadow: 2px 2px 2px 0px $gray-lighter;
   box-shadow: 2px 2px 2px 0px $gray-lighter;
 
+  .note-media-left--issue {
+    padding-right: 6px;
+    display: inline;
+    .thumb--issue {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   &__body {
     margin: 20px 0;
+  }
+
+  &__user {
+    display: inline;
   }
 
   &__comments {

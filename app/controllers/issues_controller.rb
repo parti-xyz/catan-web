@@ -29,7 +29,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_notes
-    notes_page
+    notes_page(@issue)
     prepare_issue_meta_tags
   end
 
