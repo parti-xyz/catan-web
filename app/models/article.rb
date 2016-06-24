@@ -46,7 +46,7 @@ class Article < ActiveRecord::Base
   def has_image?
     return false if self.hidden?
     return false if link_source.try(:image).blank?
-    link_source.image.file.exists?
+    link_source.image.present?
   end
 
   def image
