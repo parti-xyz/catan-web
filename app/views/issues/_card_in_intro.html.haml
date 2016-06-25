@@ -6,18 +6,21 @@
   - else
     - action_link = issue_watches_path(issue, partial: :intro)
     - action_method = :post
-  %li.issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.watched_by?(current_user)}"}
+
+  .issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.watched_by?(current_user)}"}
     = link_to action_link, method: action_method, remote: true do
-      .issue-card-base
-        .issue-card-cover
-        .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
-          .issue-card__thumb__btn
-        %span.issue-card__title= issue.title
-        .issue-card__body= excerpt(issue.body, length: 60)
-        .issue-card__meta
-          %span.user-count
-            %i.icon-user
-            %b= issue.watches.count
-          %span.comment-count
-            %i.icon-comment
-            %b= issue.comments.count
+      .issue-card-cover
+      .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
+        .issue-card__thumb__btn
+      .issue-card__title
+        .issue-card__title__text-wrapper
+          .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}= issue.title
+      .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
+      .issue-card__meta
+        %span.user-count
+          %i.icon-user
+          %b= issue.watches.count
+        %span.comment-count
+          %i.icon-comment
+          %b= issue.comments.count
+

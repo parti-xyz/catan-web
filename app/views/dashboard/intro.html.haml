@@ -9,9 +9,11 @@
 
 %section.parti-watch-recommend--issues
   .container
-    %ul.issue-card-wrapper.issue-list--6.list-unstyled.clearfix
+    .row
       - @issues.each do |issue|
-        = render 'issues/card_in_intro', issue: issue
+        .col-sm-3.col-xs-6
+          .issue-card-wrapper
+            = render 'issues/card_in_intro', issue: issue
 
 .modal.fade.in.parti-watch-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
   .modal-dialog

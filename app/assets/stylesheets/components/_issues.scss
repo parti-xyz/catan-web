@@ -343,33 +343,7 @@ section#issues {
   }
   .issue-card.issue-card--intro {
     cursor: pointer;
-    .issue-card__title {
-      height: initial;
-      margin: 30px auto;
-    }
-    .issue-card__body {
-      color: $gray;
-      padding: 0 10px;
-      height: 110px;
-      overflow: hidden;
-    }
-    .issue-card__thumb {
-      padding: 28px;
-      .issue-card__thumb__btn {
-        width: 48px;
-        height: 48px;
-        background-image: asset_url('btn_intro_check_normal.png');
-        margin-left: auto;
-        margin-right: auto;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
-    }
-    .issue-card-base {
-      position:relative;
-      height: 340px;
-    }
+    position: relative;
     .issue-card-cover {
       display: none;
       position: absolute;
@@ -382,6 +356,17 @@ section#issues {
       background-color: #444;
       opacity: .3;
     }
+    .issue-card__thumb .issue-card__thumb__btn {
+      background-image: asset_url('btn_intro_check_normal.png');
+      width: 48px;
+      height: 48px;
+      margin-left: auto;
+      margin-right: auto;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin-top: 80px;
+    }
     &:hover {
       .issue-card-cover {
         display: block;
@@ -391,6 +376,7 @@ section#issues {
       }
     }
     &.issue-card--watched {
+      border: 1px solid $brand-primary-light;
       .issue-card-cover {
         background-color: $brand-primary;
         display: block;
@@ -401,18 +387,6 @@ section#issues {
     }
   }
 
-}
-.issue-list--6 {
-  .issue-card {
-    width: 15%;
-    margin-left: 2%;
-  }
-  .issue-card:nth-child(5n+1) {
-    margin-left: 2%;
-  }
-  .issue-card:nth-child(6n+1) {
-    margin-left: 0;
-  }
 }
 
 .parti-watch-recommend--header {
@@ -428,6 +402,14 @@ section#issues {
 
 .parti-watch-recommend--issues {
   padding-top: 230px;
+  .row {
+    margin-left: -5px;
+    margin-right: -5px;
+    .col-sm-3 {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
 }
 
 .parti-watch-recommend--modal {
