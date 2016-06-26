@@ -1,5 +1,5 @@
 $('.row.masonry-container').data('last-id', '<%= @opinions.last.try(:id) %>');
 $('.row.masonry-container').data('is-last', <%= @is_last_page %>);
-var $posts = parti_origin_partial("<%= escape_javascript(render 'issues/slug_opinions_page') %>");
+var $posts = parti_origin_partial("<%= escape_javascript(render 'issues/slug_opinions_page', show_issue: true) %>");
 $('.row.masonry-container').append($posts).masonry('appended', $posts);
 
