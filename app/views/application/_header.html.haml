@@ -13,7 +13,7 @@
         %ul.nav.navbar-nav
           %li
             = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
-              모든빠띠
+              모든 빠띠
           %li
             = link_to notes_path, class: "btn #{'active' if current_page?(controller: '/notes', action: :index)}" do
               = Note.model_name.human
@@ -38,7 +38,7 @@
                 %i.icon-user
                 = t('labels.dashboard')
             %li.notification
-              = link_to messages_path, class: 'btn' do
+              = link_to messages_path, class: "btn #{'active' if current_page?(controller: '/messages', action: :index)}" do
                 - if current_user.unread_messages_count > 0
                   %span.fa-stack
                     %i.icon-bell.fa-stack-1x

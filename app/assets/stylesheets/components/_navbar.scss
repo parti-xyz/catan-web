@@ -72,6 +72,7 @@
           padding-top: 2px;
           padding-bottom: 2px;
           padding-right: 5px;
+          border: none;
         }
       }
       &.user-info,
@@ -150,11 +151,6 @@
         }
       }
       &.notification {
-        a {
-          margin-left: 0;
-          padding-left: 8px;
-          padding-right: 8px;
-        }
         .fa-stack {
           top: -3px;
           width: 1.2em;

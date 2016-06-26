@@ -8,6 +8,7 @@
         - if user_signed_in? and current_user.watches.any?
           %li.watch-parties
             .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '190px'}
+        %li.dashboard-menu= link_to t('labels.dashboard'), dashboard_path
         %li
           %a.btn-mobile-menu{ href: '#'}
             = image_tag 'btn_mobile_menu.png'
@@ -35,7 +36,6 @@
       %li= link_to t('activerecord.models.talk'), talks_path
       %li= link_to t('activerecord.models.article'), articles_path
       %li= link_to t('activerecord.models.opinion'), opinions_path
-      %li= link_to t('labels.dashboard'), dashboard_path
       - if user_signed_in?
         %li.divider
         %li= link_to '프로필 수정', edit_user_registration_path
