@@ -1,6 +1,8 @@
 <% if params[:partial] == 'intro' %>
-  <% script = escape_javascript(render customize_partial_path(@watch.watchable, ->(model) { "#{model.class.model_name.plural}/card_in_intro" }), issue: @issue) %>
-  $('.<%= dom_id(@watch.watchable) %>-card').replaceWith(parti_origin_partial("<%= script %>"));
+  <% script = escape_javascript(render 'issues/card_in_intro', issue: @issue) %>
+  card_query = '.<%= dom_id(@watch.watchable) %>-card';
+  $(card_query).replaceWith(parti_origin_partial("<%= script %>"));
+  parti_ellipsis($(card_query));
   <% unless current_user.need_to_more_watch? %>
     $('#btn-continue').removeClass( "disabled" );
     $('#btn-continue').attr("href", "<% root_path %>");
