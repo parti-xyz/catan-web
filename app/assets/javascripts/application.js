@@ -322,8 +322,15 @@ var parti_prepare = function($base) {
     if(!dots_each) {
       dots_each = false;
     }
+    var loop_check = '';
+    if(items > 2) {
+      loop_check = true;
+    }else {
+      loop_check = false;
+    }
+
     $elm.owlCarousel({
-      loop: $elm.children().length > 1,
+      loop: loop_check,
       nav: $elm.children().length > 1,
       slideBy: slide_by,
       margin: margin,
