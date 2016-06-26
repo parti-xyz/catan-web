@@ -1,3 +1,3 @@
-%ul.issue-card-wrapper.list-inline.owl-carousel(data-action='parti-carousel' data-carousel-next='#campaign-header-section .campaign-issues .arrow-nav-right' data-carousel-prev='#campaign-header-section .campaign-issues .arrow-nav-left' data-carousel-items=slider_count data-carousel-items-mobile=slider_count_mobile data-carousel-margin='7' data-carousel-slide-by='1' data-singleItem='true')
+%ul.issue-card-wrapper.list-inline.owl-carousel(data-action='parti-carousel' data-carousel-next='#campaign-header-section .campaign-issues .arrow-nav-right' data-carousel-prev='#campaign-header-section .campaign-issues .arrow-nav-left' data-carousel-items=slider_count data-carousel-items-mobile=slider_count_mobile data-carousel-margin='7' data-carousel-slide-by='1' data-singleItem='true' data-where='campaign')
   - @campaign.issues.each do |issue|
     = render 'issues/card', issue: issue
