@@ -46,7 +46,7 @@
     - counts_container = issue.counts_container
     .container
       .row
-        .col-xs-3.col-sm-2.col-sm-offset-1{class: ('active' if active_tab == :notes)}
+        .col-xs-2.col-xs-offset-1.col-sm-2.col-sm-offset-1{class: ('active' if active_tab == :notes)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -61,7 +61,7 @@
               = Note.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2{class: ('active' if active_tab == :talks)}
+        .col-xs-2.col-sm-2{class: ('active' if active_tab == :talks)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -69,14 +69,14 @@
                 - if counts_container.latest_talks_count > 0
                   %small.text-primary<>
                     +#{counts_container.latest_talks_count}
-          = link_to issue_home_path(issue) do
+          = link_to issue_talks_path(issue) do
             %h4
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
               = Talk.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2{class: ('active' if active_tab == :opinions)}
+        .col-xs-2.col-sm-2{class: ('active' if active_tab == :opinions)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -91,7 +91,7 @@
               = Opinion.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2{class: ('active' if active_tab == :articles)}
+        .col-xs-2.col-sm-2{class: ('active' if active_tab == :articles)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
               %span.count-label<>
@@ -106,9 +106,10 @@
               = Article.model_name.human
               %span.hidden-xs= count_label
 
-        .col-xs-3.col-sm-2{class: ('active' if active_tab == :wikis)}
+        .col-xs-2.col-sm-2{class: ('active' if active_tab == :wikis)}
           - count_label = capture_haml(counts_container) do
             %span.count-label-wrapper
+              %span.count-label 베타
           = link_to issue_wikis_path(issue) do
             %h4
               %span.visible-xs-inline<>= count_label

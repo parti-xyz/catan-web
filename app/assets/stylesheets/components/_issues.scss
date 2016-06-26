@@ -120,7 +120,7 @@ section#issues {
       text-align: center;
       padding: 0;
       margin: 0;
-      .col-xs-3 {
+      .col-xs-2 {
         position: relative;
         padding: 0;
         a {
@@ -509,10 +509,11 @@ section#issues {
             display: inline-block;
             padding: 1px 5px 0px;
             font-size: $font-size-small;
+            font-weight: 100;
           }
           h4 {
             font-size: $font-size-base;
-            font-weight: bold;
+            font-weight: normal;
             line-height: 24px;
             padding-top: 3px;
           }
