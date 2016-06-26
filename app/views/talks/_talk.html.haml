@@ -25,19 +25,3 @@
             +#{talk.commenters.count - preview_count}
     .media-right
       .date= date_f talk.created_at
-
-  .talk-card__best-comment
-    - if talk.best_comment.present?
-      - comment = talk.best_comment
-      .media.comment-media{ class: "#{'comment-media--issue' if local_assigns[:show_issue]}"}
-        .media-left
-          = link_to user_gallery_path(comment.user) do
-            .thumb.img-circle.circle-20{style: "background-image: url(#{comment.user.image.sm.url});"}
-        .media-body
-          .comment-info
-            %span.date= date_f comment.created_at
-            %i.icon-best.color-brand-danger
-          %h5.media-heading{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }}
-            = smart_format(comment.body)
-        .media-right
-          = render 'upvotes/upvote', comment: comment
