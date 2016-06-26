@@ -3,10 +3,11 @@
     padding: 0;
   }
 
-  &__title {
+  h3#{&}__title {
     padding: 20px 0;
     text-align: center;
     font-size: $font-size-h3;
+    word-break: keep-all;
   }
 
   &__share {

@@ -9,9 +9,8 @@
   .date-wrapper.pull-right
     %i.icon-clock
     = date_f comment.created_at
-  .comment__body
-    %p
-      = smart_format(h(comment.body))
+  .comment__body{class: ("comment__body--#{comment.choice}" if comment.choice.present?)}
+    = smart_format(h(comment.body))
   .comment__comment
     = render 'upvotes/upvote', comment: comment
   .comment__btn.text-right

@@ -74,10 +74,21 @@ section#comments {
   }
   &__body {
     color: #777;
-    font-size: 15px;
+    font-size: $font-size-base;
     word-break: break-all;
+    padding-top: 10px;
     &--talk {
       margin-top: 10px;
+    }
+    &--agree p:first-child:before {
+      content: '\e80d  ';
+      font-family: "parti-icon";
+      color: #966fd6;
+    }
+    &--disagree p:first-child:before {
+      content: '\e811  ';
+      font-family: "parti-icon";
+      color: #966fd6;
     }
   }
   &__upvotes {

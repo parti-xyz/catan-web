@@ -140,6 +140,7 @@ ko:
       choice:
         agree: 찬성
         disagree: 반대
+        unsure: 유보
   views:
     pagination:
       first: "&laquo; 처음"

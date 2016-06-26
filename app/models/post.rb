@@ -56,7 +56,7 @@ class Post < ActiveRecord::Base
   # callbacks
   before_create :touch_last_touched_at
 
-  def voted_by voter
+  def vote_by voter
     votes.where(user: voter).first
   end
 
@@ -70,6 +70,14 @@ class Post < ActiveRecord::Base
 
   def disagreed_by? voter
     votes.exists? user: voter, choice: 'disagree'
+  end
+
+  def sured_by? voter
+    votes.exists? user: voter, choice: ['agree', 'disagree']
+  end
+
+  def unsured_by? voter
+    votes.exists? user: voter, choice: 'unsure'
   end
 
   def specific_desc

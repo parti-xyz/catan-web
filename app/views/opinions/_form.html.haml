@@ -7,7 +7,7 @@
         - if @opinion.new_record?
           %strong 찬성
         - else
-          %strong= @opinion.voted_by(@opinion.user).choice_text
+          %strong= @opinion.vote_by(@opinion.user).choice_text
         합니다
 
     - if @opinion.new_record?

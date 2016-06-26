@@ -1,47 +1,25 @@
-- disagree_active = (user_signed_in? and postable.disagreed_by?(current_user))
-%section{id: "#{dom_id(postable)}-comments" }
-  %h5
-    - if user_signed_in?
-      -if !postable.voted_by?(current_user)
-        .well
-          %i.fa.fa-info-circle
-          #{t('activerecord.models.opinion')}에 참여한 후에 수다를 남길 수 있습니다.
-  .tabs.vote__tab
-    %ul.nav.nav-tabs
-      %li{class: ('active' unless disagree_active) }
-        %a(href="#agree" role="tab" data-toggle="tab")
-          %strong
-            찬성의견
-          %span.comments--count.comments--count__agree<>= postable.comments.agreed.count
-      %li{class: ('active' if disagree_active) }
-        %a(href="#disagree" role="tab" data-toggle="tab")
-          %strong
-            반대의견
-          %span.comments--count.comments--count__disagree<>= postable.comments.disagreed.count
-  .tab-content
-    .tab-pane#agree{class: ('active' if !user_signed_in? or (postable.agreed_by? current_user) or (user_signed_in? and !postable.voted_by current_user)) }
-      - if postable.comments.agreed.empty?
-        .well
-          %i.fa.fa-info-circle
-          찬성 의견이 없습니다.
-      %ul.media-list.comment-list
-        = render postable.comments.agreed.sequential, style: :media, mention_form_contorl: '#new_comment #comment_body'
-      - if user_signed_in? and postable.agreed_by?(current_user)
-        = render 'comments/opinion_comments_form', local_assigns
-      - unless user_signed_in?
-        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
-          %i.icon-comment
-          수다작성
-    .tab-pane#disagree{class: ('active' if user_signed_in? and postable.disagreed_by? current_user) }
-      - if postable.comments.disagreed.empty?
-        .well{style: 'background: #fff;'}
-          %i.fa.fa-info-circle
-          반대 의견이 없습니다.
-      %ul.media-list.comment-list
-        = render postable.comments.disagreed.sequential, mention_form_contorl: '#new_comment #comment_body'
-      - if user_signed_in? and postable.disagreed_by?(current_user)
-        = render 'comments/opinion_comments_form', local_assigns
-      - unless user_signed_in?
-        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
-          %i.icon-comment
-          수다작성
+%div{id: "#{dom_id(postable)}-comments" }
+  %ul.comment-list.list-unstyled
+    = render postable.comments.sequential, mention_form_contorl: '#new_comment #comment_body'
+  - if user_signed_in?
+    -if !postable.voted_by?(current_user)
+      .well
+        %i.fa.fa-info-circle
+        찬반 투표한 후에 수다를 남길 수 있습니다.
+    - else
+      %a.anchor#comment-form
+      .comment-form.clearfix
+        = form_for [postable.acting_as, Comment.new], remote: true, class: 'comment-form' do |f|
+          = hidden_field_tag :container, "##{dom_id(postable)}-comments ul.comment-list"
+          = hidden_field_tag :count_label, "##{dom_id(postable)}-comments .comments--count"
+          = hidden_field_tag :body_control, "##{dom_id(postable)}-comments form #comment_body"
+          .thumb.circle-50.img-circle.comment-form__img{style: "background-image: url(#{current_user.image.sm.url});"}
+          .comment-form__area
+            = image_tag 'icon_tooltip_left2.png'
+            = f.text_area :body, class: 'form-control'
+          = f.submit '게시', class: 'btn btn-primary comment-form__btn'
+  - else
+    = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
+      %i.icon-comment
+      수다작성
+

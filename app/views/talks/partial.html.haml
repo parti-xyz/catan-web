@@ -6,7 +6,7 @@
   %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
     = image_tag 'icon_close.png'
 .post-modal__content
-  %h2.post-modal__title= @talk.title
+  %h3.post-modal__title= @talk.title
   - if @talk.has_presentation?
     .post__body.talk__body
       .talk__body__text-container

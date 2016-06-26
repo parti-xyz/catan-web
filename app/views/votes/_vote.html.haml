@@ -10,9 +10,9 @@
         %i.icon-thumbs-down
         반대
       .vote__buttons--unsure.text-center
-        = link_to opinion_path(opinion, anchor: 'anchor-comments') do
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_unsure, id: opinion.id}.to_json) } do
           잘 모르겠습니다
-  - elsif opinion.voted_by? current_user
+  - elsif opinion.sured_by? current_user
     .vote__results
       .row
         .col-xs-6.text-right
@@ -37,7 +37,10 @@
               = link_to user_gallery_path(vote.user), class: 'text-nowrap' do
                 - unless local_assigns[:hide_image]
                   .thumb.img-circle.circle-30{style: "background-image: url(#{vote.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
-
+      - unless opinion.unsured_by? current_user
+        .vote__buttons--unsure.text-center
+          = link_to post_votes_path(opinion.acting_as, vote: {choice: :unsure}), method: :post, remote: true do
+            잘 모르겠습니다
   - else
     .vote__buttons.text-center
       = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
@@ -46,9 +49,10 @@
       = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
         %i.icon-thumbs-down
         반대
-      .vote__buttons--unsure.text-center
-        = link_to opinion_path(opinion, anchor: 'anchor-comments') do
-          잘 모르겠습니다
+      - unless opinion.unsured_by? current_user
+        .vote__buttons--unsure.text-center
+          = link_to post_votes_path(opinion.acting_as, vote: {choice: :unsure}), method: :post, remote: true do
+            잘 모르겠습니다
 
   %div.opinion__vote__info
     %p.text-center{ style: 'padding-top: 20px' }
@@ -56,15 +60,29 @@
       %div
         현재&nbsp;
         %strong<>
-          #{opinion.votes.count}
-        명이 #{t('activerecord.models.opinion')}에 참여했습니다.
+          #{opinion.votes.sure.count}
+        명이 찬반 투표했습니다.
 
     - if !user_signed_in? or !opinion.voted_by?(current_user)
       %div
-        #{t('activerecord.models.opinion')}에 참여하면 결과를 볼 수 있습니다.
+        찬반 투표하면 결과를 볼 수 있습니다.
 
     - if user_signed_in? and opinion.voted_by?(current_user)
-      %div
-        왜 #{ opinion.agreed_by?(current_user) ? '찬성' : '반대' }하는지&nbsp;
-        %strong<> 의견
-        을 적어 보세요.
+      - if opinion.unsured_by?(current_user)
+        %div
+          - if opinion.comments.any?
+            아래
+            %span
+              %strong<> 의견
+              을 나누고
+          %span
+            %strong<> 찬성
+            이나
+          %span
+            %strong<> 반대
+            에 투표해 보세요.
+      - else
+        %div
+          왜 #{ opinion.agreed_by?(current_user) ? '찬성' : '반대' }하는지&nbsp;
+          %strong<> 의견
+          을 적어 보세요.

@@ -7,11 +7,7 @@ class CommentsController < ApplicationController
     set_choice
     @comment.user = current_user
     @comment.save
-    if @comment.choice.present?
-      @comments_count = @comment.post.comments.by_choice(@comment.choice).count
-    else
-      @comments_count = @comment.post.comments.count
-    end
+    @comments_count = @comment.post.comments.count
     respond_to do |format|
       format.js
       format.html { redirect_to_origin }
@@ -60,8 +56,8 @@ class CommentsController < ApplicationController
   end
 
   def set_choice
-    if @comment.post.specific.respond_to? :voted_by
-      @vote = @comment.post.specific.voted_by current_user
+    if @comment.post.specific.respond_to? :vote_by
+      @vote = @comment.post.specific.vote_by current_user
       @comment.choice = @vote.try(:choice)
     end
   end

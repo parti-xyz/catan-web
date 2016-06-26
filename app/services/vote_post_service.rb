@@ -9,7 +9,7 @@ class VotePostService
   end
 
   def agree
-    previous_vote = self.specific.voted_by current_user
+    previous_vote = self.specific.vote_by current_user
     if previous_vote.present?
       vote = previous_vote
     else
@@ -22,7 +22,7 @@ class VotePostService
   end
 
   def disagree
-    previous_vote = self.specific.voted_by current_user
+    previous_vote = self.specific.vote_by current_user
     if previous_vote.present?
       vote = previous_vote
     else
@@ -30,6 +30,19 @@ class VotePostService
       vote.user = current_user
     end
     vote.choice = 'disagree'
+    vote.save
+    vote
+  end
+
+  def unsure
+    previous_vote = self.specific.vote_by current_user
+    if previous_vote.present?
+      vote = previous_vote
+    else
+      vote = specific.votes.build
+      vote.user = current_user
+    end
+    vote.choice = 'unsure'
     vote.save
     vote
   end
