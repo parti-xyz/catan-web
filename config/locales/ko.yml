@@ -59,6 +59,8 @@ ko:
       talk:
         issue: 빠띠
         title: 주제
+      note:
+        body: 내용
       user:
         email: 이메일
         image: 프로필 사진
