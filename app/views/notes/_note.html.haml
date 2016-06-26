@@ -10,7 +10,6 @@
       = byline note.user
     .note-card__body
       = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
-        내용
         = note.body
     - if note.comments.any?
       .note-card__comments
