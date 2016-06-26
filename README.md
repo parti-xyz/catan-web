@@ -76,14 +76,55 @@ database.yml
   collation: utf8mb4_unicode_ci
 ```
 
+환경변수값은 설정 [philnash/envyable](https://github.com/philnash/envyable) gem을 통해 설정합니다.
+
+```
+production:
+  SECRET_KEY_BASE: xx
+  GOOGLE_OAUTH2_APP_ID: xx
+  GOOGLE_OAUTH2_APP_SECRET: xx
+  FACEBOOK_APP_ID: xx
+  FACEBOOK_APP_SECRET: xx
+  TWITTER_APP_ID: xx
+  TWITTER_APP_SECRET: xx
+  MAILTRAP_USER_NAME: xx
+  MAILTRAP_PASSWORD: xx
+  POSTMARKER_API_KEY: xx
+  CRAWLING_PROXY_HOST: xx
+  CRAWLING_PROXY_PORT: xx
+  SLACK_WEBHOOK_URL: xx
+  S3_ACCESS_KEY: xx
+  S3_SECRET_KEY: xx
+  S3_REGION: xx
+  S3_BUCKET: xx
+  PARTI_ADMIN_PASSWORD: xx
+```
+
 ## 로컬 개발 환경 구축 방법
 
-기본적인 Rail 개발 환경에 rbenv를 이용합니다.
+기본적인 Rail 개발 환경에 rbenv, pow/powder를 이용합니다.
 
 ```
 $ rbenv install 2.2.3
 $ bundle install
 $ bundle exec rake db:migrate
+```
+
+### 소스관리 설정
+
+반드시 https://github.com/awslabs/git-secrets를 설치하도록 합니다. 설치 후에 반드시 https://github.com/awslabs/git-secrets#installing-git-secrets 이 부분을 참고하여 로컬 레포지토리에 모두 설정 합니다.
+
+```
+$ git secrets --install
+$ git secrets --register-aws
+```
+
+그리고 데이터베이스는 각 레포지토리마다 다릅니다. 아래 git hook 을 설정합니다
+
+```
+$ touch .git/hooks/post-checkout
+$ chmod +x .git/hooks/post-checkout
+$ echo $'#!/bin/sh\nspring stop\npowder restart' > .git/hooks/post-checkout
 ```
 
 ### 데이터베이스 준비
@@ -152,7 +193,7 @@ export POSTMARKER_API_KEY="키값"
 ```
 http://parti.dev/kill_me
 ```
-
+ 
 ## 빠띠 테스트서버 관리
 
 주의 : 아래 관리 방법은 parti.xyz에서 테스트서버를 관리하는 팁입니다.
