@@ -15,10 +15,14 @@
     padding-right: 6px;
     display: inline;
     .thumb--issue {
-      width: 20px;
-      height: 20px;
+      border-radius: 4px;
+      width: 30px;
+      height: 30px;
+      display: inline;
+      position: absolute;
     }
   }
+
 
   &__body {
     margin: 20px 0;
@@ -26,6 +30,7 @@
 
   &__user {
     display: inline;
+    padding-left: 32px;
   }
 
   &__comments {
