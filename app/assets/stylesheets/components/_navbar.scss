@@ -5,6 +5,9 @@
   .navbar-header .navbar-brand img {
     width: 65px;
   }
+  .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    border: none;
+  }
   .navbar-nav {
     padding-top: 6px;
     color: $brand-primary;
@@ -59,16 +62,6 @@
           }
         }
       }
-      &.sign-up a,
-      &.user-info a.dropdown-toggle,
-      &.notification a {
-        font-weight: normal;
-      }
-      &.sign-up a {
-        font-size: $font-size-small;
-        padding-right: 10px;
-        padding-left: 10px;
-      }
       &.user-info {
         .user-byline {
           color: $gray-darker;
@@ -107,7 +100,7 @@
           &:before {
             position: absolute;
             top: -7px;
-            right: 19px;
+            right: 24px;
             display: inline-block;
             border-right: 7px solid transparent;
             border-bottom: 7px solid #ccc;
@@ -119,7 +112,7 @@
           &:after {
             position: absolute;
             top: -6px;
-            right: 20px;
+            right: 25px;
             display: inline-block;
             border-right: 6px solid transparent;
             border-bottom: 6px solid $gray-lightest;
@@ -157,7 +150,6 @@
         }
       }
       &.notification {
-        margin-right: -20px;
         a {
           margin-left: 0;
           padding-left: 8px;

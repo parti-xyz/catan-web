@@ -45,12 +45,12 @@
                     %i.icon-dot-corner
                 - else
                   %i.icon-bell
+                알림
 
             %li.user-info.dropdown
               %a.dropdown-toggle.btn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
                 %span.user-byline
                   .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-                  = current_user.nickname
                 %span.caret
               %ul.dropdown-menu
                 %li
