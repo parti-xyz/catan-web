@@ -11,21 +11,23 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
-          %li
-            = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
-              빠띠
-          %li
-            = link_to notes_path, class: "btn #{'active' if current_page?(controller: '/notes', action: :index)}" do
-              = Note.model_name.human
-          %li
-            = link_to talks_path, class: "btn #{'active' if current_page?(controller: '/talks', action: :index)}" do
-              = Talk.model_name.human
-          %li
-            = link_to opinions_path, class: "btn #{'active' if current_page?(controller: '/opinions', action: :index)}" do
-              = Opinion.model_name.human
-          %li
-            = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
-              = Article.model_name.human
+          %li= link_to '빠띠', root_path, class: "btn #{'active' if current_page?('/')}"
+          %li= link_to Note.model_name.human, notes_path, class: "btn #{'active' if current_page?(controller: '/notes', action: :index)}"
+          %li= link_to Talk.model_name.human, talks_path, class: "btn #{'active' if current_page?(controller: '/talks', action: :index)}"
+          %li= link_to Opinion.model_name.human, opinions_path, class: "btn #{'active' if current_page?(controller: '/opinions', action: :index)}"
+          %li= link_to Article.model_name.human, articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}"
+
+          %li= link_to "·"
+          %li= link_to '정치', '/p/politics'
+          %li= link_to '경제', '/p/economy'
+          %li= link_to '사회', '/p/society'
+          %li= link_to '문화', '/p/nculture'
+          %li= link_to '교육', '/p/education'
+          %li= link_to '환경', '/p/environment'
+          %li= link_to '노동', '/p/labor'
+
+          %li= link_to "·"
+          %li= link_to '바글시민 와글입법', 'http://up.parti.xyz', target: '_blank'
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
@@ -34,17 +36,21 @@
                 .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json)}
             %li
               = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
-                %i.icon-user
+                %i.fa.fa-user
                 = t('labels.dashboard')
             %li.notification
               = link_to messages_path, class: "btn #{'active' if current_page?(controller: '/messages', action: :index)}" do
                 - if current_user.unread_messages_count > 0
                   %span.fa-stack
-                    %i.icon-bell.fa-stack-1x
+                    %i.fa.fa-bell.fa-stack-1x
                     %i.icon-dot-corner
                 - else
                   %i.icon-bell
                 알림
+            %li
+              = link_to destroy_user_session_path, method: :delete do
+                로그아웃
+
 
             %li.user-info.dropdown.hidden
               %a.dropdown-toggle.btn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
@@ -59,9 +65,6 @@
                 %li
                   = link_to edit_user_registration_path do
                     &middot; 설정
-                %li
-                  = link_to destroy_user_session_path, method: :delete do
-                    &middot; 로그아웃
 
           - else
             %li.sign-up
