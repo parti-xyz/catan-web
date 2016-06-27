@@ -8,9 +8,9 @@
     .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
     .issue-card__meta
       %span.user-count
-        %i.icon-user
+        %i.fa.fa-user
         %b= issue.watches.count
       %span.comment-count
-        %i.icon-comment
+        %i.fa.fa-comment
         %b= issue.comments.count
 

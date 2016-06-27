@@ -1,7 +1,8 @@
 = render 'top_banner'
+
 %section#articles
   .container
-    %h3.page-title
+    %h4
       자료
       %small 모든 빠띠의 최근 자료입니다.
     .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s}}

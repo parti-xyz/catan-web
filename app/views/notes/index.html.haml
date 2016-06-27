@@ -1,8 +1,8 @@
 = render 'top_banner'
+
 %section#notes
   .container
-    %h3.page-title
-      = t('activerecord.models.note')
+    %h4= t('activerecord.models.note')
 
     .row.masonry-container{data: {last_id: @notes.last.try(:id), is_last: @is_last_page.to_s}}
       - if @notes.empty?

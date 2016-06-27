@@ -6,10 +6,12 @@
       .media-body
         .issue-line__title= issue.title
         .issue-line__meta
-          %span.user-count
-            %i.icon-user
-            %b= issue.watches.count
-          %span.comment-count
-            %i.icon-comment
-            %b= issue.comments.count
+          - if issue.watches.latest.count > 0
+            %span.user-count
+              %i.fa.fa-user
+              %b= issue.watches.latest.count
+          - if issue.comments.latest.count > 0
+            %span.comment-count
+              %i.fa.fa-comment
+              %b= issue.comments.latest.count
 

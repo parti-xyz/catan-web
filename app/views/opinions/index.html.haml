@@ -1,7 +1,8 @@
 = render 'top_banner'
+
 %section#opinions
   .container
-    %h3.page-title
+    %h4
       = t('activerecord.models.opinion')
       %small 모든 빠띠의 최근 #{t('activerecord.models.opinion')}입니다.
     .row.masonry-container{data: {last_id: @opinions.last.try(:id), is_last: @is_last_page.to_s}}

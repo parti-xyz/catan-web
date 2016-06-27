@@ -297,7 +297,7 @@ section#issues {
     }
     .issue-card__title {
       height: 50px;
-      font-size: $font-size-large;
+      font-size: $font-size-base;
       color: $gray-darker;
       display: table;
       font-weight: bold;
@@ -323,7 +323,7 @@ section#issues {
       position: static;
       background: none;
       text-align: center;
-      color: $gray-dark;
+      color: $gray;
       span {
         padding: 0 10px;
       }
@@ -531,8 +531,8 @@ section#issues {
     width: 100%;
     margin-bottom: 0;
     border: 1px solid transparent;
-    border-bottom: 1px solid $gray-light;
-    padding: 10px;
+    border-bottom: 1px solid $gray-lightest;
+    padding: 5px 0px 0px 0px;
     a {
       overflow: auto;
       display: block;
@@ -541,33 +541,31 @@ section#issues {
       }
     }
     &__thumb {
-      width: 60px;
-      height: 60px;
-      border-radius: 4px;
+      width: 20px;
+      height: 20px;
+      border-radius: $border-radius-base;
       background-position: center;
       background-size: cover;
       -webkit-background-size: cover;
       -moz-background-size: cover;
       display: inline-block;
       float: left;
-      margin-right: 10px;
+      margin-right: 5px;
     }
     &__title {
       color: $gray;
+      display: inline-block;
       font-size: $font-size-base;
-      font-weight: bold;
-      padding-top: 10px;
-      padding-bottom: 4px;
+      margin-right: 5px;
+      &:hover {
+        color: $brand-primary;
+      }
     }
     &__meta {
-      color: $gray;
-      font-size: $font-size-base;
-      .user-count {
-        margin-right: 10px;
-      }
-      i {
-        font-size: $font-size-large;
-      }
+      color: $brand-primary;
+      display: inline-block;
+      font-size: $font-size-small;
+      font-weight: normal;
     }
     &__btn {
       width: 100%;
@@ -578,7 +576,7 @@ section#issues {
       margin-top: 15px;
       display: block;
       a {
-        color: #777;
+        color: $gray-light;
         border: 1px solid #d2d2d2;
       }
       &:hover, &:focus {
@@ -587,11 +585,6 @@ section#issues {
           background: #555;
         }
       }
-    }
-    &:hover {
-      @include hover-shadow();
-      border-top: 1px solid #fff !important;
-      background-color: #fff;
     }
   }
 }
