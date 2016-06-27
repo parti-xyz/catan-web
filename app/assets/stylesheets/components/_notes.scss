@@ -12,7 +12,7 @@
   box-shadow: 2px 2px 2px 0px $gray-lighter;
 
   .note-media-left--issue {
-    padding-right: 6px;
+    padding-right: 38px;
     display: inline;
     .thumb--issue {
       border-radius: 4px;
@@ -30,7 +30,6 @@
 
   &__user {
     display: inline;
-    padding-left: 32px;
   }
 
   &__comments {
