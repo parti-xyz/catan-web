@@ -1,8 +1,8 @@
 .posts
   - if postables.empty?
-    .bg-default
+    .bg-default.text-center
       %i.fa.fa-info-circle
-      해당되는 글이 없습니다.
+      가장 먼저 이야기를 나눠보세요.
   - else
     - postables.each do |postable|
       = render postable, show_issue: local_assigns[:show_issue]

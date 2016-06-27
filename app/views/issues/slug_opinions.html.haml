@@ -17,9 +17,15 @@
               = t('labels.new_opinion_button')
       - if user_signed_in?
         = render 'opinions/new_form', issue: @issue
-    .row.masonry-container{data: {last_id: @opinions.last.try(:id), is_last: @is_last_page.to_s}}
-      = render 'issues/slug_opinions_page'
-    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_opinions_path(@issue, format: :js)}
-      .page_waypoint__loading
-        %i.fa.fa-3x.fa-spinner.fa-pulse
+    - if @opinions.empty?
+      .posts
+        .bg-default.text-center
+          %i.fa.fa-info-circle
+          가장 먼저 쟁점을 꺼내보세요.
+    - else
+      .row.masonry-container{data: {last_id: @opinions.last.try(:id), is_last: @is_last_page.to_s}}
+        = render 'issues/slug_opinions_page'
+      .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_opinions_path(@issue, format: :js)}
+        .page_waypoint__loading
+          %i.fa.fa-3x.fa-spinner.fa-pulse
 

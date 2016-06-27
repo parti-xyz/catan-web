@@ -2,7 +2,18 @@
 
 %section#notes
   .container
-    %div{ style: 'margin-top: 30px' }
+    - if !user_signed_in?
+      .editors-panel
+        .media
+          .media-body.hidden-xs
+            %h3
+              담벼락에 가볍게 한마디
+              %small 하고 싶은 말 있으면 무엇이든 남겨보세요.
+          .media-right
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+              %i.icon-talk
+              = t('labels.new_note_button')
+    %div
       = render 'notes/list', postables: @notes, issue: @issue, show_issue: @issue.blank?
     .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_notes_path(@issue, format: :js)}
       .page_waypoint__loading
