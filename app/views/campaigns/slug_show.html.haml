@@ -26,11 +26,11 @@
             %i.fa.fa-angle-double-left.arrow-nav-left.arrow-nav
 
           - if @campaign.issues.count == 1
-            = render 'slider', slider_count: 1, slider_count_mobile: 1
+            = render 'slider', slider_count: 1, slider_count_mobile: 1, loop: 'no'
           - elsif @campaign.issues.count == 2
-            = render 'slider', slider_count: 2, slider_count_mobile: 2
+            = render 'slider', slider_count: 2, slider_count_mobile: 2, loop: 'no'
           - else
-            = render 'slider', slider_count: 3, slider_count_mobile: 2
+            = render 'slider', slider_count: 3, slider_count_mobile: 2, loop: 'yes'
 
           - if @campaign.issues.count > (is_small_screen? ? 2 : 3)
             %i.fa.fa-angle-double-right.arrow-nav-right.arrow-nav
