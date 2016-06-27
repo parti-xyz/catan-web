@@ -36,7 +36,7 @@
                 .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json)}
             %li
               = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
-                %i.fa.fa-user
+                %i.fa.fa-home
                 = t('labels.dashboard')
             %li.notification
               = link_to messages_path, class: "btn #{'active' if current_page?(controller: '/messages', action: :index)}" do
@@ -45,7 +45,7 @@
                     %i.fa.fa-bell.fa-stack-1x
                     %i.icon-dot-corner
                 - else
-                  %i.icon-bell
+                  %i.fa.fa-bell
                 알림
             %li
               = link_to destroy_user_session_path, method: :delete do
