@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   resources :parties, as: :issues, controller: 'issues' do
     member do
       get :opinions
+      delete :remove_logo
+      delete :remove_cover
     end
     collection do
       get :exist
