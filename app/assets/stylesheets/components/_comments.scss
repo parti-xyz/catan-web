@@ -81,12 +81,12 @@ section#comments {
       margin-top: 10px;
     }
     &--agree p:first-child:before {
-      content: '\e80d  ';
+      content: '\e80d  찬성  ';
       font-family: "parti-icon";
       color: #966fd6;
     }
     &--disagree p:first-child:before {
-      content: '\e811  ';
+      content: '\e811  반대  ';
       font-family: "parti-icon";
       color: #966fd6;
     }

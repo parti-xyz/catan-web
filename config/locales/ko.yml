@@ -112,6 +112,7 @@ ko:
               too_long: 은 200자 이내로 적어주세요.
             slug:
               invalid: 값은 영문자와 숫자 혹은 '-'만 넣어주세요.
+              exclusion: 은 이미 등록되어 있습니다.
         user:
           attributes:
             nickname:

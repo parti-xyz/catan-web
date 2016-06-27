@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   respond_to :js, :json, :html
-  before_filter :authenticate_user!, only: [:create, :update, :destroy]
+  before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
   load_and_authorize_resource
 
@@ -77,6 +77,18 @@ class IssuesController < ApplicationController
   def destroy
     @issue.destroy
     redirect_to root_path
+  end
+
+  def remove_logo
+    @issue.remove_logo!
+    @issue.save
+    redirect_to [:edit, @issue]
+  end
+
+  def remove_cover
+    @issue.remove_cover!
+    @issue.save
+    redirect_to [:edit, @issue]
   end
 
   def slug_users

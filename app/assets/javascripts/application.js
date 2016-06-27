@@ -322,21 +322,15 @@ var parti_prepare = function($base) {
     if(!dots_each) {
       dots_each = false;
     }
-    var loop_check = '';
-    var where = $elm.data('where');
-    if(where == 'campaign') {
-      if(items > 2) {
-      loop_check = true;
-      }else {
-        loop_check = false;
-      }
+    var loop_check = $elm.data('loop');
+    if(loop_check == 'no') {
+      loop = false;
     }else {
-      loop_check = $elm.children().length > 1;
+      loop = $elm.children().length > 1;
     }
 
-
     $elm.owlCarousel({
-      loop: loop_check,
+      loop: loop,
       nav: $elm.children().length > 1,
       slideBy: slide_by,
       margin: margin,

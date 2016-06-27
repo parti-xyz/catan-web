@@ -7,6 +7,9 @@ class Note < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :previous_of_note, ->(note) { includes(:post).where('posts.id < ?', note.acting_as.id) if note.present? }
 
+  def title
+    body
+  end
 
   def commenters
     comments.map(&:user).uniq.reject { |u| u == self.user }

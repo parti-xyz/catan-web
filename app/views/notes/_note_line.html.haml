@@ -7,9 +7,9 @@
       = link_to issue_home_path(issue) do
         = image_tag issue.logo.xs.url
         %span.text-primary= issue.title
-
-  / %h4.note-line__title.post-line__title{data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) }}
-  /   = note.title
+      %span.post-line__issue__post-type
+        &middot;
+        #{Note.model_name.human}
   .media
     .media-body
       .note-body{data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) }}= smart_format(note.body)
