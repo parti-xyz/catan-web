@@ -6,14 +6,14 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand{ href: root_path }
+        %a.hidden.navbar-brand{ href: root_path }
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li
             = link_to root_path, class: "btn #{'active' if current_page?('/')}" do
-              모든 빠띠
+              빠띠
           %li
             = link_to notes_path, class: "btn #{'active' if current_page?(controller: '/notes', action: :index)}" do
               = Note.model_name.human
@@ -27,11 +27,10 @@
             = link_to articles_path, class: "btn #{'active' if current_page?(controller: '/articles', action: :index)}" do
               = Article.model_name.human
 
-
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             - if current_user.watches.any?
-              %li.watch-parties
+              %li.watch-parties.hidden
                 .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json)}
             %li
               = link_to dashboard_path, class: "btn #{'active' if current_page?(controller: '/dashboard', action: :index)}" do
@@ -47,7 +46,7 @@
                   %i.icon-bell
                 알림
 
-            %li.user-info.dropdown
+            %li.user-info.dropdown.hidden
               %a.dropdown-toggle.btn{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :href => "#", :role => "button"}
                 %span.user-byline
                   .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}

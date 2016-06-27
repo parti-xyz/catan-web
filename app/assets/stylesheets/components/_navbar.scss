@@ -1,27 +1,17 @@
 #site-header {
-  .navbar-default {
-    border-bottom: 4px solid $brand-primary;
-  }
   .navbar-header .navbar-brand img {
-    width: 65px;
+    width: 40px;
   }
   .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
     border: none;
   }
   .navbar-nav {
-    padding-top: 6px;
     color: $brand-primary;
     li {
       a,
       .select2-selection__placeholder {
-        padding-top: 7px;
-        padding-bottom: 7px;
-        padding-right: 3px;
-        padding-left: 3px;
-        margin-left: 10px;
-        margin-right: 10px;
-        margin-top: 8px;
-        margin-bottom: 8px;
+        padding: 15px 15px 10px 0px;
+        margin: 0;
 
         color: $gray-base;
         font-weight: bold;
@@ -38,9 +28,6 @@
 
         &.active {
           color: $brand-primary;
-          border-bottom: 2px solid $brand-primary;
-          border-bottom-left-radius: 0;
-          border-bottom-right-radius: 0;
           -webkit-box-shadow: none;
           box-shadow: none;
         }
