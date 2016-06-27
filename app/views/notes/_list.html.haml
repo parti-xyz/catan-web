@@ -6,3 +6,8 @@
 
     - postables.each do |postable|
       = render postable, show_issue: local_assigns[:show_issue]
+
+  - if !user_signed_in? and postables.empty?
+    .bg-default.text-center
+      %i.fa.fa-info-circle
+      가장 먼저 한마디 남겨보세요.
