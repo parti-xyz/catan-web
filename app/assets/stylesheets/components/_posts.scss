@@ -30,9 +30,13 @@ section#posts {
       color: $brand-primary;
       font-size: $font-size-base;
       font-weight: bold;
-      margin-right: 10px;
+    }
+    .post-type {
+      color: $gray-light;
+      font-size: $font-size-base;
     }
     .date-wrapper {
+      margin-left: 10px;
       color: $gray-light;
     }
   }
@@ -74,6 +78,11 @@ section#posts {
     }
     span {
       vertical-align: bottom;
+
+      &.post-line__issue__post-type {
+        font-weight: normal;
+        color: $gray-light;
+      }
     }
   }
   &__title {

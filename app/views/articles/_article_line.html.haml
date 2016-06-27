@@ -7,6 +7,9 @@
       = link_to issue_home_path(issue) do
         = image_tag issue.logo.xs.url
         %span.text-primary= issue.title
+      %span.post-line__issue__post-type
+        &middot;
+        #{Article.model_name.human}
   %h4.article-line__title.post-line__title= screenable_article_title(article)
   .media
     .media-body
