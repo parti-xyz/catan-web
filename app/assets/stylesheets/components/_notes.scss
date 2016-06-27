@@ -32,14 +32,26 @@
     display: inline;
   }
 
-  &__comments {
+  &__meta {
     padding-top: 10px;
 
     .note-comment-wrapper {
       display: inline;
+      color: $gray;
+
       &:hover {
-        color: $gray-darker;
+        color: $gray;
       }
+    }
+
+    .date-wrapper {
+      color: $gray;
+      font-size: $font-size-base;
+      text-align: left;
+    }
+
+    .comment-count {
+      text-align: right;
     }
   }
 

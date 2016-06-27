@@ -2,6 +2,7 @@
 
 .col-sm-4.col-xs-12.card
   .note-card[note]{ class: "note-card-#{rand(10)}" }
+
     - if local_assigns[:show_issue]
       .media-left.note-media-left--issue
         = link_to issue_home_path(post.issue) do
@@ -11,14 +12,18 @@
     .note-card__body
       = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
         = note.body
-    - if note.comments.any?
-      .note-card__comments
-        .comment-count
+    .note-card__meta
+      .row
+        .col-sm-6
           = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
-            .note-comment-wrapper
-              %i.icon-comment
-              %b #{post.comments_count}
-        - if true || note.commenters.any?
-          - preview_count = 5
+            .date-wrapper
+              = date_f post.created_at
+        .col-sm-6
+          - if note.comments.any?
+            .comment-count
+              = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
+                .note-comment-wrapper
+                  %i.icon-comment
+                  %b #{post.comments_count}
 
 
