@@ -14,12 +14,11 @@
     - if note.comments.any?
       .note-card__comments
         .comment-count
-          %i.icon-comment
-          %b #{post.comments_count}
+          = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
+            .note-comment-wrapper
+              %i.icon-comment
+              %b #{post.comments_count}
         - if true || note.commenters.any?
           - preview_count = 5
-          .comment-users
-            - note.commenters[0..preview_count-1].each do |user|
-              = byline user, hide_nickname: true
-            - if note.commenters.count > preview_count
-              +#{note.commenters.count - preview_count}
+
+

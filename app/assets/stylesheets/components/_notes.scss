@@ -34,8 +34,14 @@
   }
 
   &__comments {
-    border-top: 1px solid $gray-light;
     padding-top: 10px;
+
+    .note-comment-wrapper {
+      display: inline;
+      &:hover {
+        color: $gray-darker;
+      }
+    }
   }
 
   &.note-card-1 { background-color: lighten($brand-info, 10%); }
