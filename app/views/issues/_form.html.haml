@@ -31,14 +31,14 @@
       = f.label :logo
       = f.file_field :logo, class: 'form-control'
       %p.help-block
-        - if upload_file_exists?(@issue.logo)
+        - if upload_file_exists?(@issue.logo) and @issue.persisted?
           = image_tag @issue.logo.url, class: 'img-thumbnail', style: 'max-height: 100px'
           = link_to '삭제', remove_logo_issue_path(@issue), method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
     .form-group{class: ('has-error' if has_error_attr?(@issue, :cover))}
       = f.label :cover
       = f.file_field :cover, class: 'form-control'
       %p.help-block
-        - if upload_file_exists?(@issue.cover)
+        - if upload_file_exists?(@issue.cover) and @issue.persisted?
           = image_tag @issue.cover.url, class: 'img-thumbnail', style: 'max-height: 100px'
           = link_to '삭제', remove_cover_issue_path(@issue), method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
     - if current_user.admin?
