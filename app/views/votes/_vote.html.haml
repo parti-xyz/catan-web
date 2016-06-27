@@ -71,16 +71,13 @@
       - if opinion.unsured_by?(current_user)
         %div
           - if opinion.comments.any?
-            아래
+            아래에서
             %span
               %strong<> 의견
               을 나누고
           %span
-            %strong<> 찬성
-            이나
-          %span
-            %strong<> 반대
-            에 투표해 보세요.
+            %strong 찬반
+            투표를 해보세요.
       - else
         %div
           왜 #{ opinion.agreed_by?(current_user) ? '찬성' : '반대' }하는지&nbsp;
