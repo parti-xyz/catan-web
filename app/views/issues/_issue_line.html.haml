@@ -4,8 +4,8 @@
     .media
       .media-left.issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
       .media-body
-        .issue-line__title= issue.title
-        .issue-line__meta
+        %span.issue-line__title= issue.title
+        %span.issue-line__meta
           - if issue.watches.latest.count > 0
             %span.user-count
               %i.fa.fa-user

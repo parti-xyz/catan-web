@@ -554,7 +554,6 @@ section#issues {
     }
     &__title {
       color: $gray;
-      display: inline-block;
       font-size: $font-size-base;
       margin-right: 5px;
       &:hover {
@@ -563,9 +562,8 @@ section#issues {
     }
     &__meta {
       color: $brand-primary;
-      display: inline-block;
       font-size: $font-size-small;
-      font-weight: normal;
+      font-weight: bold;
     }
     &__btn {
       width: 100%;
