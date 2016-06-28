@@ -37,7 +37,7 @@
         margin-right: 0;
       }
       .select2-container--default {
-        margin-top: 13px;
+        margin-top: 11px;
         margin-right: 10px;
         .select2-selection--single {
           &:focus {
@@ -147,11 +147,9 @@
             top: 0px;
           }
           .icon-dot-corner {
-            top: 2px;
-            left: -2px;
             color: red;
             font-size: 25px;
-            margin-left: -4px;
+            margin-left: -5px;
           }
           .fa-stack-1x {
             left: -2px;

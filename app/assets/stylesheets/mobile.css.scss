@@ -28,21 +28,18 @@
       margin: 0;
       li {
         display: inline-block;
-        padding: 0;
-        vertical-align: middle;
         .select2-container--default {
-          margin-top: 3px;
+          margin-top: 2px;
           margin-right: 0;
         }
       }
       li a {
-        margin-left: 0;
-        margin-right: 0;
-      }
-      li.dashboard-menu a {
-        padding-top: 10px;
-        margin-left: 5px;
-        margin-right: 8px;
+        &.btn-mobile-menu {
+          padding-right: 0;
+          img {
+            zoom: 0.5;
+          }
+        }
       }
     }
   }
@@ -63,14 +60,6 @@
           display: none;
         }
       }
-    }
-  }
-  /* header */
-  .btn-mobile-menu {
-    margin-right: 0px;
-    margin-top: 14px;
-    img {
-      zoom: 0.5;
     }
   }
 }
