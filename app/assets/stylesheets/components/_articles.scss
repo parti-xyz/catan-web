@@ -67,6 +67,8 @@ section#articles {
         padding-top: 20px;
         .fa {
           padding-right: 5px;
+          border-top: none;
+          padding-top: 0;
         }
       }
     }
@@ -203,7 +205,7 @@ section#articles {
         div {
           background-size: 14px 14px;
           padding-top: 10px;
-          padding-left: 11px;
+          padding-left: 6px;
        }
         font-size: 12px;
       }
