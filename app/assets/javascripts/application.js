@@ -862,6 +862,16 @@ $(function(){
 
     last_scroll_top = st;
   }
+
+  if(($('#post-modal').data('bs.modal') || {}).isShown) {
+    $footer_element.removeClass('nav-up').addClass('nav-down');
+  }
+  $('#post-modal').on('shown.bs.modal', function (e) {
+    $footer_element.removeClass('nav-up').addClass('nav-down');
+  });
+  $('#post-modal').on('hidden.bs.modal', function (e) {
+    $footer_element.removeClass('nav-down').addClass('nav-up');
+  });
 });
 
 
