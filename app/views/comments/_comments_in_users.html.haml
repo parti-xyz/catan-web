@@ -10,7 +10,7 @@
           %i.icon-mention
 
       .comment__date.pull-right.date-wrapper
-        %i.icon-clock
+        .fa.fa-clock-o
         %span= date_f comment.created_at
     - if specific.respond_to?(:is_presentation?) and specific.is_presentation?(comment)
       .comment__body.comment__body--talk

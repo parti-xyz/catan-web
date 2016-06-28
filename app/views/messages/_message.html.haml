@@ -4,7 +4,7 @@
     .nickname
       = message.sender.nickname
   .message__date.date-wrapper
-    %i.icon-clock
+    .fa.fa-clock-o
     %span= date_f message.created_at
   .message__messagable
     = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message

@@ -47,8 +47,8 @@ section#talks {
     color: $text-muted;
     font-size: $font-size-small;
     white-space: nowrap;
-    i {
-      margin-right: 5px;
+    .fa {
+      margin-right: 4px;
       font-size: $font-size-base;
     }
   }
