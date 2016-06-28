@@ -119,8 +119,8 @@ module ApplicationHelper
     watched = user.only_watched_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path(issue)} }
 
     result = []
-    result << {text: '메이커인 빠띠', children: making} if making.any?
-    result << {text: '참여 중인 빠띠', children: watched} if watched.any?
+    result << {text: '내가 메이커인 빠띠', children: making} if making.any?
+    result << {text: '내가 참여 중인 빠띠', children: watched} if watched.any?
     return result
   end
 

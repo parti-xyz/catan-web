@@ -2,45 +2,44 @@
 - active_tab ||= nil
 %section.parti-header-section{ style: "background-image: url(#{issue.cover.md.url});" }
   .container
-    .clearfix
-      .parti-logo
-        = link_to issue_home_path(issue) do
-          .thumb{style: "background-image: url(#{issue.logo.md.url})"}
-      %h2.parti-title
-        = issue.title
-        %span.parti-watch.hidden-xs
-          = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary', maker_class: 'hidden'
+    .media
+      .media-left
+        .parti-logo
+          = link_to issue_home_path(issue) do
+            .thumb{style: "background-image: url(#{issue.logo.md.url})"}
+      .media-body
+        %h2.parti-title
+          = issue.title
+          - if can? :update, issue
+            = link_to '수정', [:edit, issue], class: 'btn btn-primary'
+          - if can? :destroy, issue
+            = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-primary'
 
-        - if can? :update, issue
-          = link_to '수정', [:edit, issue], class: 'btn btn-primary'
-        - if can? :destroy, issue
-          = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-primary'
+        %p.parti-body
+          = issue.body
 
-      %p.parti-body
-        = issue.body
+        .parti-info
+          .row
+            .col-sm-7.col-xs-12
+              .parti-makers
+                %span.parti-makers-label
+                  빠띠메이커
+                %span.parti-maker-icons
+                  - issue.makers.each do  |maker|
+                    = byline maker.user, hide_nickname: true
+                = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
+                  %i.icon-user
+                  +
+                  = issue.watched_users.count
 
-  .parti-info
-    .container
-      .row
-        .col-sm-7.col-xs-12
-          .parti-makers
-            %span.parti-makers-label
-              빠띠메이커
-            %span.parti-maker-icons
-              - issue.makers.each do  |maker|
-                = byline maker.user, hide_nickname: true
-            = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
-              %i.icon-user
-              +
-              = issue.watched_users.count
-        .col-sm-5
-          - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
-          - map = { facebook: data }
-          - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-          = render 'application/share', map: map
-      - unless issue.watched_by?(current_user)
-        .parti-watch.visible-xs
-          = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white btn-block', watch_btn_class: 'btn btn-primary btn-block'
+                %span.parti-watch.hidden-xs
+                  = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary', maker_class: 'hidden'
+
+            .col-sm-5
+              - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
+              - map = { facebook: data }
+              - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+              = render 'application/share', map: map
 
   .parti-menu
     - counts_container = issue.counts_container
@@ -48,14 +47,13 @@
       .row
         .col-xs-2.col-xs-offset-1.col-sm-2.col-sm-offset-1{class: ('active' if active_tab == :notes)}
           - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label<>
-                = counts_container.notes_count
-                - if counts_container.latest_notes_count > 0
-                  %small.text-primary<>
-                    +#{counts_container.latest_notes_count}
+            %span.count<>
+              = counts_container.notes_count
+              - if counts_container.latest_notes_count > 0
+                %small.text-primary<>
+                  +#{counts_container.latest_notes_count}
           = link_to issue_notes_path(issue) do
-            %h4
+            %h5
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
               = Note.model_name.human
@@ -63,14 +61,13 @@
 
         .col-xs-2.col-sm-2{class: ('active' if active_tab == :talks)}
           - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label<>
-                = counts_container.talks_count
-                - if counts_container.latest_talks_count > 0
-                  %small.text-primary<>
-                    +#{counts_container.latest_talks_count}
+            %span.count<>
+              = counts_container.talks_count
+              - if counts_container.latest_talks_count > 0
+                %small.text-primary<>
+                  +#{counts_container.latest_talks_count}
           = link_to issue_talks_path(issue) do
-            %h4
+            %h5
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
               = Talk.model_name.human
@@ -78,14 +75,13 @@
 
         .col-xs-2.col-sm-2{class: ('active' if active_tab == :opinions)}
           - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label<>
-                = counts_container.opinions_count
-                - if counts_container.latest_opinions_count > 0
-                  %small.text-primary<>
-                    +#{counts_container.latest_opinions_count}
+            %span.count<>
+              = counts_container.opinions_count
+              - if counts_container.latest_opinions_count > 0
+                %small.text-primary<>
+                  +#{counts_container.latest_opinions_count}
           = link_to issue_opinions_path(issue) do
-            %h4
+            %h5
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
               = Opinion.model_name.human
@@ -93,14 +89,13 @@
 
         .col-xs-2.col-sm-2{class: ('active' if active_tab == :articles)}
           - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label<>
-                = counts_container.articles_count
-                - if counts_container.latest_articles_count > 0
-                  %small.text-primary<>
-                    +#{counts_container.latest_articles_count}
+            %span.count<>
+              = counts_container.articles_count
+              - if counts_container.latest_articles_count > 0
+                %small.text-primary<>
+                  +#{counts_container.latest_articles_count}
           = link_to issue_articles_path(issue) do
-            %h4
+            %h5
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
               = Article.model_name.human
@@ -108,14 +103,13 @@
 
         .col-xs-2.col-sm-2{class: ('active' if active_tab == :wikis)}
           - count_label = capture_haml(counts_container) do
-            %span.count-label-wrapper
-              %span.count-label 베타
+            %span.count 베타
           = link_to issue_wikis_path(issue) do
-            %h4
+            %h5
               %span.visible-xs-inline<>= count_label
               %br.visible-xs-inline<>
-              = Wiki.model_name.human
-              %span.hidden-xs= count_label
+                = Wiki.model_name.human
+                %span.hidden-xs= count_label
 
 = render 'issues/bottom_banner'
 

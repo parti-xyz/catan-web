@@ -713,7 +713,7 @@ $(function(){
     }
     $(elm).select2({
       minimumResultsForSearch: 10,
-      placeholder: "참여 빠띠",
+      placeholder: "내 빠띠",
       dropdownCssClass: 'parti-jump-dropdown',
       width: width,
       data: parties,

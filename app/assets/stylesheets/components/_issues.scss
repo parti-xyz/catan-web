@@ -52,11 +52,10 @@ section#issues {
   background-position: center;
   background-repeat: no-repeat;
   color: #fff;
-  height: 420px;
-  padding: 40px 0;
+  min-height: 280px;
+  padding: 20px 0;
 
   .parti-logo {
-    float: left;
     margin-right: 30px;
     margin-bottom: 20px;
     .thumb {
@@ -80,12 +79,6 @@ section#issues {
     min-width: 85px;
   }
   .parti-info {
-    position: absolute;
-    top: 280px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(15, 10, 20, .5);
     padding: 20px 0;
 
     .parti-makers {
@@ -110,10 +103,8 @@ section#issues {
   .parti-menu {
     position: absolute;
     bottom: 0;
-    background: $gray-dark;
+    background: rgba(0, 0, 0, .3);
     width: 100%;
-    height: 60px;
-    border-top: 1px solid $gray;
     border-bottom: 4px solid $brand-primary;
     .row {
       border-color: #d2d2d2;
@@ -123,46 +114,37 @@ section#issues {
       .col-xs-2 {
         position: relative;
         padding: 0;
-        a {
-          display: block;
-          color: $gray-light;
-          border: none;
-          border-right: 1px solid $gray;
-          width: 100%;
-          height: 55px;
-          &:hover {
-            background-color: $gray-darker;;
-          }
-          .text-primary {
-            color: #be97ff;
-          }
+      }
+      a {
+        display: block;
+        color: #fff;
+        border: none;
+        width: 100%;
+        height: 50px;
+        &:hover {
+          background-color: $gray-darker;;
         }
-        &:last-child > a {
-          border: none;
-        }
-        &.active > a {
-          color: #fff;
-          background: $brand-primary;
-        }
-        h4 {
-          line-height: 55px;
-          margin: 0;
+        .text-primary {
+          color: #be97ff;
         }
       }
-      .count {
-        min-width: 23px;
-        background: #232326;
+      &:last-child > a {
+        border: none;
+      }
+      &.active > a {
         color: #fff;
-        position: absolute;
-        padding: 1px 8px 0px;
-        left: 50%;
-        top: 10px;
-        margin-left: 13px;
-        text-align: center;
-        border-radius: 10px;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        white-space: nowrap;
+        background: $brand-primary;
+      }
+      h5 {
+        line-height: 50px;
+        margin: 0;
+      }
+      .count {
+        background-color: $gray-darker;
+        border-radius: 20px;
+        font-size: $font-size-small;
+        font-weight: normal;
+        padding: 3px 5px;
       }
     }
   }
@@ -287,7 +269,7 @@ section#issues {
     .issue-card__thumb {
       width: 100%;
       height: 200px;
-      border: 1px solid $gray-light;
+      background-color: $gray-lightest;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -503,20 +485,18 @@ section#issues {
         text-align: center;
         padding: 0;
         margin: 0;
-        .col-sm-2 {
-          .count-label {
-            position: static;
-            display: inline-block;
-            padding: 1px 5px 0px;
-            font-size: $font-size-small;
-            font-weight: 100;
-          }
-          h4 {
-            font-size: $font-size-base;
-            font-weight: normal;
-            line-height: 24px;
-            padding-top: 3px;
-          }
+        h5 {
+          font-size: $font-size-base;
+          font-weight: normal;
+          line-height: 24px;
+          padding-top: 3px;
+        }
+        .count-label {
+          position: static;
+          display: inline-block;
+          padding: 1px 5px 0px;
+          font-size: $font-size-small;
+          font-weight: 100;
         }
       }
     }
