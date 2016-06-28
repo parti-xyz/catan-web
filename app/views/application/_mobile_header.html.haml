@@ -7,7 +7,7 @@
       %ul.nav.navbar-nav.navbar-nav-menu
         - if user_signed_in? and current_user.watches.any?
           %li.watch-parties
-            .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '155px'}
+            .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '100px'}
         %li.dashboard-menu= link_to t('labels.dashboard'), dashboard_path
         %li
           %a.btn-mobile-menu{ href: '#'}

@@ -709,7 +709,7 @@ $(function(){
     var parties = $(elm).data('parties');
     var width = $(elm).data('jump-dropdown-width');
     if(!width) {
-      width = '220px';
+      width = '100px';
     }
     $(elm).select2({
       minimumResultsForSearch: 10,
@@ -723,9 +723,19 @@ $(function(){
           return parti.text;
         }
 
-        return $(
-          '<span data-url="' + parti.url + '"><img src="' + parti.logo + '" style="width: 20px; height: 20px" /> ' + parti.text + '</span>'
-        );
+        var option
+          = '<span class="media" data-url="' + parti.url + '">'
+          + '<span class="media-left"><img src="' + parti.logo + '" style="width: 20px; height: 20px" /></span>'
+          + '<span class="media-body">'
+            + '<span class="parti-name">' + parti.text + '</span>';
+        if (parti.new_comment_counts > 0) {
+          option += ' <span class="new-comment-counts"><i class="fa fa-comment"></i> ' + parti.new_comment_counts + '</span>'
+        }
+
+        option
+          += '</span>'
+          + '</span>';
+        return $(option);
       }
     });
     $(elm).on('select2:selecting', function(e) {

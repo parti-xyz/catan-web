@@ -165,8 +165,23 @@
   border: 1px solid rgba(0, 0, 0, 0.15) !important;
   padding: 3px;
   border-radius: 4px !important;
+  width: 200px !important;
+  left: -102px !important;
+
   .select2-results__group {
     background-color: $gray-lightest;
+  }
+
+  .parti-name {
+    word-break: keep-all;
+  }
+  .new-comment-counts {
+    color: $brand-primary;
+    font-size: $font-size-small;
+    white-space: nowrap;
+  }
+  .select2-results__option--highlighted[aria-selected] .new-comment-counts {
+    color: #fff;
   }
 }
 
