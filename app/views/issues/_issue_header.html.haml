@@ -11,35 +11,33 @@
         %h2.parti-title
           = issue.title
           - if can? :update, issue
-            = link_to '수정', [:edit, issue], class: 'btn btn-primary'
+            = link_to '수정', [:edit, issue], class: 'btn btn-default btn-xs'
           - if can? :destroy, issue
-            = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-primary'
-
-        %p.parti-body
-          = issue.body
+            = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-default btn-xs'
 
         .parti-info
-          .container
-            .row
-              .col-sm-7.col-xs-12
-                .parti-makers
-                  %span.parti-makers-label
-                    빠띠메이커
-                  %span.parti-maker-icons
-                    - issue.makers.each do  |maker|
-                      = byline maker.user, hide_nickname: true
-                  = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
-                    .fa.fa-user
-                    +
-                    = issue.watched_users.count
-              .col-sm-5
-                - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
-                - map = { facebook: data }
-                - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-                = render 'application/share', map: map
-            - unless issue.watched_by?(current_user)
-              .parti-watch.visible-xs
-                = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white btn-block', watch_btn_class: 'btn btn-primary btn-block'
+          .row
+            .col-sm-7.col-xs-12
+              .parti-makers
+                %span.parti-makers-label
+                  빠띠메이커
+                %span.parti-maker-icons
+                  - issue.makers.each do  |maker|
+                    = byline maker.user, hide_nickname: true
+                = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
+                  .fa.fa-user
+                  +
+                  = issue.watched_users.count
+            .col-sm-5
+              - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
+              - map = { facebook: data }
+              - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+              = render 'application/share', map: map
+
+        .parti-body
+          = issue.body
+
+
   .parti-menu
     - counts_container = issue.counts_container
     .container

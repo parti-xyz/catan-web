@@ -52,8 +52,8 @@ section#issues {
   background-position: center;
   background-repeat: no-repeat;
   color: #fff;
-  min-height: 280px;
-  padding: 20px 0;
+  min-height: 320px;
+  padding: 30px 0;
 
   .parti-logo {
     margin-right: 30px;
@@ -68,18 +68,17 @@ section#issues {
     }
   }
   h2 {
-    margin-top: 26px;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 1);
+    margin-top: 20px 0;
   }
   .parti-body {
-    text-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 1);
+    font-weight: 100;
   }
   .parti-watch .btn {
     min-width: 85px;
   }
   .parti-info {
-    padding: 20px 0;
+    margin: 20px 0;
+    padding: 0;
 
     .parti-makers {
       line-height: 34px;
