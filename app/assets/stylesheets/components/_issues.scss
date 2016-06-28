@@ -102,26 +102,25 @@ section#issues {
   .parti-menu {
     position: absolute;
     bottom: 0;
-    background: rgba(0, 0, 0, .3);
+    background: rgba(255,255,255,.9);
     width: 100%;
-    border-bottom: 4px solid $brand-primary;
     .row {
       border-color: #d2d2d2;
       text-align: center;
       padding: 0;
       margin: 0;
-      .col-xs-2 {
+      .col-xs-2, .col-sm-2, .col-sm-8 {
         position: relative;
         padding: 0;
       }
       a {
         display: block;
-        color: #fff;
+        color: $text-color;
         border: none;
         width: 100%;
-        height: 50px;
+        height: 40px;
         &:hover {
-          background-color: $gray-darker;;
+          background-color: #fff;
         }
         .text-primary {
           color: #be97ff;
@@ -135,15 +134,11 @@ section#issues {
         background: $brand-primary;
       }
       h5 {
-        line-height: 50px;
+        line-height: 40px;
         margin: 0;
       }
       .count {
-        background-color: $gray-darker;
-        border-radius: 20px;
-        font-size: $font-size-small;
-        font-weight: normal;
-        padding: 3px 5px;
+        font-size: 10px;
       }
     }
   }
