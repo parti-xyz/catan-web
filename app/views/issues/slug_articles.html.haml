@@ -11,11 +11,11 @@
         .media-right
           - if user_signed_in?
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#article-form-widget', focus: 'input#article_link'} do
-              %i.icon-article
+              .fa.fa-paperclip
               = t('labels.new_article_button')
           - else
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
-              %i.icon-article
+              .fa.fa-paperclip
               = t('labels.new_article_button')
       - if user_signed_in?
         = render 'articles/new_form', issue: @issue

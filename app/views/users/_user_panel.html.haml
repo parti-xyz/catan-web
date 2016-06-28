@@ -9,17 +9,17 @@
       .row
         .col-xs-4.border-none
           = link_to user_gallery_path(user) do
-            .user-panel__info__icon.icon-comment
+            .user-panel__info__icon.fa.fa-comment
             .user-panel__info__label 수다
             .user-panel__info__count= writing_counts.comments_count
         .col-xs-4
           = link_to nickname_user_upvotes_path(nickname: user.nickname) do
-            .user-panel__info__icon.icon-heart
+            .user-panel__info__icon.fa.fa-heart
             .user-panel__info__label 좋아요
             .user-panel__info__count= writing_counts.upvotes_count
         .col-xs-4
           = link_to nickname_user_votes_path(nickname: user.nickname) do
-            .user-panel__info__icon.fa.fa-fire{style: 'font-size: 25px;'}
+            .user-panel__info__icon.fa.fa-fire{style: 'font-size: 17px;'}
             .user-panel__info__label #{t('activerecord.models.opinion')}
             .user-panel__info__count= writing_counts.votes_count
   - else

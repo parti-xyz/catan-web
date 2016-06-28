@@ -7,7 +7,7 @@
       %ul.nav.navbar-nav.navbar-nav-menu
         - if user_signed_in? and current_user.watches.any?
           %li.watch-parties
-            .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '155px'}
+            .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '100px'}
         %li.dashboard-menu= link_to t('labels.dashboard'), dashboard_path
         %li
           %a.btn-mobile-menu{ href: '#'}
@@ -22,10 +22,10 @@
           = link_to messages_path do
             - if current_user.unread_messages_count > 0
               %span.fa-stack
-                %i.icon-bell-solid.fa-stack-1x
+                .fa.fa-bell.fa-stack-1x{style: 'color: white'}
                 %i.icon-dot-corner.fa-stack-1x
             - else
-              %i.icon-bell-solid
+              .fa.fa-bell{style: 'color: white'}
     - else
       .mobile-list__profile
         = image_tag 'img_default_profile.png', class: 'default-profile'

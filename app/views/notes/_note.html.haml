@@ -14,16 +14,16 @@
         = note.body
     .note-card__meta
       .row
-        .col-sm-6
+        .col-xs-6
           = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
             .date-wrapper
               = date_f post.created_at
-        .col-sm-6
+        .col-xs-6
           - if note.comments.any?
             .comment-count
               = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
                 .note-comment-wrapper
-                  %i.icon-comment
+                  .fa.fa-comment-o
                   %b #{post.comments_count}
 
 

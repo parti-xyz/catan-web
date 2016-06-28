@@ -115,8 +115,8 @@ module ApplicationHelper
   end
 
   def jumpable_issues_continents(user)
-    making = user.making_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path(issue)} }
-    watched = user.only_watched_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path(issue)} }
+    making = user.making_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path(issue), new_comment_counts: issue.comments.latest.count} }
+    watched = user.only_watched_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path(issue), new_comment_counts: issue.comments.latest.count} }
 
     result = []
     result << {text: '내가 메이커인 빠띠', children: making} if making.any?

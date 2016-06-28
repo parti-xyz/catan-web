@@ -9,11 +9,11 @@
 #editors-tab.editors-tab.clearfix
   .btn-group.btn-group-justified
     = link_to '', data: talk_button_data, class: 'btn btn-primary btn-shadow editor-btn active' do
-      %i.icon-talk
+      .fa.fa-comments-o
       %br.mobile
       = t('labels.new_talk_button')
     = link_to '', data: article_button_data, class: 'btn btn-primary btn-shadow editor-btn' do
-      %i.icon-article
+      .fa.fa-paperclip
       %br.mobile
       = t('labels.new_article_button')
 

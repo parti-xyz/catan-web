@@ -19,28 +19,27 @@
           = issue.body
 
         .parti-info
-          .row
-            .col-sm-7.col-xs-12
-              .parti-makers
-                %span.parti-makers-label
-                  빠띠메이커
-                %span.parti-maker-icons
-                  - issue.makers.each do  |maker|
-                    = byline maker.user, hide_nickname: true
-                = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
-                  %i.icon-user
-                  +
-                  = issue.watched_users.count
-
-                %span.parti-watch.hidden-xs
-                  = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white', watch_btn_class: 'btn btn-primary', maker_class: 'hidden'
-
-            .col-sm-5
-              - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
-              - map = { facebook: data }
-              - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-              = render 'application/share', map: map
-
+          .container
+            .row
+              .col-sm-7.col-xs-12
+                .parti-makers
+                  %span.parti-makers-label
+                    빠띠메이커
+                  %span.parti-maker-icons
+                    - issue.makers.each do  |maker|
+                      = byline maker.user, hide_nickname: true
+                  = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
+                    .fa.fa-user
+                    +
+                    = issue.watched_users.count
+              .col-sm-5
+                - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
+                - map = { facebook: data }
+                - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+                = render 'application/share', map: map
+            - unless issue.watched_by?(current_user)
+              .parti-watch.visible-xs
+                = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-ghost btn-white btn-block', watch_btn_class: 'btn btn-primary btn-block'
   .parti-menu
     - counts_container = issue.counts_container
     .container
