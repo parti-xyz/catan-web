@@ -1,7 +1,7 @@
 class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
-  before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
+  before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
   load_and_authorize_resource
 
   def search
@@ -11,6 +11,18 @@ class IssuesController < ApplicationController
   def show
     @issue = Issue.find params[:id]
     redirect_to issue_home_path(@issue)
+  end
+
+  def slug_home
+    @last_comment = @issue.comments.newest
+
+    previous_last_post = Post.find_by(id: params[:last_id])
+
+    issus_posts = @issue.posts.order(last_touched_at: :desc)
+    @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
+
+    current_last_post = @posts.last
+    @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
   end
 
   def slug_articles

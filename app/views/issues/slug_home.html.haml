@@ -1,11 +1,9 @@
-= render 'top_banner'
+= render 'issues/issue_header', active_tab: :home
+
 %section#posts
   .container
     .row
       .col-xs-9
-        %h3
-          = t('labels.dashboard')
-          %small 참여 중인 빠띠의 최근 소식입니다.
         - if @posts.first.present?
           = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_comment.id)
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
@@ -14,9 +12,9 @@
               %i.fa.fa-info-circle
               아직 글이 없습니다.
           - else
-            = render 'posts/page', show_issue: true
-        .page_waypoint.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js)}
+            = render 'posts/page', show_issue: false
+        .page_waypoint.text-center{'data-target': '.posts', 'data-url': issue_home_path(@issue, format: :js)}
           .page_waypoint__loading
             %i.fa.fa-3x.fa-spinner.fa-pulse
       - unless is_small_screen?
-        = render 'application/aside'
+        = render 'issue/aside'

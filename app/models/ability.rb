@@ -4,7 +4,7 @@ class Ability
   def initialize(user)
     can [:read, :social_card, :partial], :all
     can [:slug_show], Campaign
-    can [:slug, :users, :exist, :new_comments_count, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_wikis, :slug_notes, :search], Issue
+    can [:slug, :users, :exist, :new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_wikis, :slug_notes, :search], Issue
     if user
       can [:update, :remove_logo, :remove_cover], Issue do |issue|
         user.maker?(issue)
