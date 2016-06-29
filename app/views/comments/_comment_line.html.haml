@@ -1,11 +1,9 @@
 .comment-line
   .media
-    .media-left
-      = link_to user_gallery_path(comment.user) do
-        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
-
     .media-body
       .info
+        = link_to user_gallery_path(comment.user) do
+          .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
         = link_to user_gallery_path(comment.user) do
           %span.nickname= comment.user.nickname
         %span.date-wrapper= date_f comment.created_at
