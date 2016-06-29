@@ -102,7 +102,7 @@ section#issues {
   .parti-menu {
     position: absolute;
     bottom: 0;
-    background: rgba(0, 0, 0, .5);
+    background: rgba(0, 0, 0, .2);
     width: 100%;
     .row {
       border-color: #d2d2d2;
@@ -120,7 +120,7 @@ section#issues {
         width: 100%;
         height: 40px;
         &:hover {
-          background-color: rgba(0, 0, 0, .7);
+          background-color: rgba(0, 0, 0, .4);
         }
         .text-primary {
           color: #be97ff;

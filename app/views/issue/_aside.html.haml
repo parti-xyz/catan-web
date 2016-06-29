@@ -1,3 +1,14 @@
 .col-xs-3
   #aside
-    = render 'application/footer'
+    %section
+      %h5.aside_title
+        구독중인 회원
+        %span.text-primary<> #{@issue.watches.count}
+        명
+      - @issue.watched_users.each do |user|
+        = byline user, hide_nickname: true
+
+    %section
+      %h5.aside_title 관련 빠띠
+      %ul.list-unstyled.aside-issues
+        = render customize_partial_path(@issue.related_issues, 'issue_line')
