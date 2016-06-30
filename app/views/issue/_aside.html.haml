@@ -1,6 +1,12 @@
 .col-xs-3
   #aside
     %section
+      %h5.aside_title 빠띠 메이커
+      %ul.list-unstyled
+        - @issue.makers.each do |maker|
+          %li= byline maker.user
+
+    %section
       %h5.aside_title
         구독중인 회원
         %span.text-primary<> #{@issue.watches.count}

@@ -44,7 +44,7 @@
       .row
         .col-sm-7
           .row
-            .col-xs-2.col-sm-2
+            .col-xs-2.col-sm-2{ class: ('active' if active_tab.nil? || active_tab == :home) }
               = link_to issue_home_path(issue) do
                 %h5 홈
 

@@ -7,3 +7,9 @@
 .aside_issue_btn {
   margin-bottom: 36px;
 }
+
+#aside {
+  & > section {
+    margin-bottom: 30px;
+  }
+}
