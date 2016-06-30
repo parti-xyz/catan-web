@@ -109,36 +109,32 @@ section#issues {
       text-align: center;
       padding: 0;
       margin: 0;
-      .col-xs-2, .col-sm-2, .col-sm-8 {
+      div[class*='col-'] {
         position: relative;
         padding: 0;
-      }
-      a {
-        display: block;
-        color: #fff;
-        border: none;
-        width: 100%;
-        height: 40px;
-        &:hover {
-          background-color: rgba(0, 0, 0, .4);
+        a {
+          display: block;
+          color: #fff;
+          border: none;
+          width: 100%;
+          height: 40px;
+          &:hover {
+            background-color: $brand-primary;
+          }
+          .text-primary {
+            color: #be97ff;
+          }
         }
-        .text-primary {
-          color: #be97ff;
+        &.active > a {
+          background-color: $brand-primary;
         }
-      }
-      &:last-child > a {
-        border: none;
-      }
-      &.active > a {
-        color: #fff;
-        background: $brand-primary;
-      }
-      h5 {
-        line-height: 40px;
-        margin: 0;
-      }
-      .count {
-        font-size: 10px;
+        h5 {
+          line-height: 40px;
+          margin: 0;
+        }
+        .count {
+          font-size: 10px;
+        }
       }
     }
   }
