@@ -5,13 +5,14 @@
     %h4
       자료
       %small 모든 빠띠의 최근 자료입니다.
-    .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s}}
+    .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
       - if @articles.empty?
         .col-xs-12
           .bg-default
             %i.fa.fa-info-circle
             해당되는 글이 없습니다.
       - else
+        .grid-sizer.col-sm-3.col-xs-6
         = render 'issues/slug_articles_page', show_issue: true
     .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': articles_path(format: :js)}
       .page_waypoint__loading
