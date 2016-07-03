@@ -2,6 +2,7 @@ require 'mechanize'
 require 'nokogiri'
 require 'addressable/uri'
 require 'uri'
+require 'securerandom'
 
 class OpenGraph
   attr_accessor :src, :url, :type, :title, :site_name, :description, :images, :image_io, :image_width, :image_height, :image_original_filename, :metadata, :response, :original_images
@@ -107,7 +108,7 @@ class OpenGraph
   def set_image_io(bin, fast_image)
     @image_io = bin.body_io
     @image_io.class.class_eval { attr_accessor :original_filename }
-    @image_original_filename = @image_io.original_filename = filename_from_bin(bin, fast_image)
+    @image_original_filename = @image_io.original_filename = random_filename_from_bin(bin, fast_image)
     image_size = fast_image.size
     if image_size.present?
       @image_width = image_size[0]
@@ -115,12 +116,9 @@ class OpenGraph
     end
   end
 
-  def filename_from_bin(bin, fast_image)
-    if ".#{fast_image.type}" != File.extname(bin.filename)
-      "#{File.basename(bin.filename, File.extname(bin.filename))}.#{fast_image.type}"
-    else
-      bin.filename
-    end
+  def random_filename_from_bin(bin, fast_image)
+    ext = (".#{fast_image.type}" != File.extname(bin.filename)) ? fast_image.type : File.extname(bin.filename)
+    "#{SecureRandom.hex}.#{ext}"
   end
 
   def fallback_encoding
