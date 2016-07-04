@@ -68,7 +68,7 @@ module ApplicationHelper
   end
 
   def article_card_image(article)
-    article.image.file.try(:exists?) ? article.image.md.url : asset_path('default_link_source_image_card.png')
+    article.has_image? ? article.image.md.url : asset_path('default_link_source_image_card.png')
   end
 
   def video?(article)
