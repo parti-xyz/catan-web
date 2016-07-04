@@ -14,35 +14,33 @@
             = link_to '수정', [:edit, issue], class: 'btn btn-default btn-xs'
           - if can? :destroy, issue
             = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-default btn-xs'
-
-        .parti-info
-          .row
-            .col-sm-7.col-xs-12
+        .row
+          .col-xs-12.col-sm-9
+            .parti-info
               .parti-makers
                 %span.parti-makers-label
                   빠띠메이커
                 %span.parti-maker-icons
                   - issue.makers.each do  |maker|
                     = byline maker.user, hide_nickname: true
-                = link_to issue_users_path(issue), class: 'btn btn-white btn-ghost' do
-                  .fa.fa-user
-                  +
-                  = issue.watched_users.count
-            .col-sm-5
-              - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
-              - map = { facebook: data }
-              - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-              = render 'application/share', map: map
-
-        .parti-body
-          = issue.body
-
+                %span.parti-users-label
+                  참여자
+                %span.parti-users-count
+                  = link_to issue_users_path(issue) do
+                    = issue.watched_users.count
+            .parti-body
+              = issue.body
+          .col-sm-3.text-right.hidden-xs
+            - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
+            - map = { facebook: data }
+            - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+            = render 'application/share', map: map
 
   .parti-menu
     - counts_container = issue.counts_container
     .container
       .row
-        .col-sm-7
+        .col-sm-7.col-xs-12
           .row
             .col-xs-2.col-sm-2{ class: ('active' if active_tab.nil? || active_tab == :home) }
               = link_to issue_home_path(issue) do
@@ -57,8 +55,6 @@
                       +#{counts_container.latest_notes_count}
               = link_to issue_notes_path(issue) do
                 %h5
-                  %span.visible-xs-inline<>= count_label
-                  %br.visible-xs-inline<>
                   = Note.model_name.human
                   %span.hidden-xs= count_label
 
@@ -71,8 +67,6 @@
                       +#{counts_container.latest_talks_count}
               = link_to issue_talks_path(issue) do
                 %h5
-                  %span.visible-xs-inline<>= count_label
-                  %br.visible-xs-inline<>
                   = Talk.model_name.human
                   %span.hidden-xs= count_label
 
@@ -85,8 +79,6 @@
                       +#{counts_container.latest_opinions_count}
               = link_to issue_opinions_path(issue) do
                 %h5
-                  %span.visible-xs-inline<>= count_label
-                  %br.visible-xs-inline<>
                   = Opinion.model_name.human
                   %span.hidden-xs= count_label
 
@@ -99,8 +91,6 @@
                       +#{counts_container.latest_articles_count}
               = link_to issue_articles_path(issue) do
                 %h5
-                  %span.visible-xs-inline<>= count_label
-                  %br.visible-xs-inline<>
                   = Article.model_name.human
                   %span.hidden-xs= count_label
 
@@ -109,10 +99,8 @@
                 %span.count 베타
               = link_to issue_wikis_path(issue) do
                 %h5
-                  %span.visible-xs-inline<>= count_label
-                  %br.visible-xs-inline<>
-                    = Wiki.model_name.human
-                    %span.hidden-xs= count_label
+                  = Wiki.model_name.human
+                  %span.hidden-xs= count_label
 
 = render 'issues/bottom_banner'
 
