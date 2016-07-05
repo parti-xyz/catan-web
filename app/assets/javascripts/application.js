@@ -25,6 +25,7 @@
 //= require redactor2_rails/config
 //= require redactor
 //= require redactor2_rails/langs/ko
+//= require background-blur
 
 $.Redactor.prototype.wiki_save = function()
 {
@@ -794,6 +795,17 @@ $(function(){
 
     $(elm).typeWatch( options );
   });
+
+  $('[data-action="parti-blur-background"]').each(function(i, elm) {
+    var blur_image = $(elm).data('blur-image')
+    $(elm).backgroundBlur({
+      imageURL : blur_image,
+      blurAmount : 50,
+      imageClass : 'bg-blur'
+    });
+  });
+
+
 
   // Initialize Redactor
   $('.redactor').redactor({
