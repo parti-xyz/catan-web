@@ -11,7 +11,7 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
-          %li= link_to '홈', root_path, class: "#{'active' if current_page?('/')}"
+          %li= link_to '모든 빠띠', root_path, class: "#{'active' if current_page?('/')}"
 
           %li= link_to "·"
           %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
@@ -29,8 +29,6 @@
           %li= link_to '노동', '/p/labor'
           %li= link_to '언론', '/p/media'
           %li= link_to '빠띠제작', '/p/parti'
-          %li= link_to "·"
-          %li= link_to '모든 빠띠', issues_path
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
