@@ -1,7 +1,8 @@
 - issue ||= @issue
 - active_tab ||= nil
-%section.parti-header-section{ style: "background-image: url(#{issue.cover.md.url});" }
-  .parti-black-layer
+- background_image = (issue.cover.present? ? "url(#{issue.cover.md.url})" : GeoPattern.generate(@issue.title, base_color: '#2a164b').to_data_uri)
+%section.parti-header-section
+  .parti-black-layer{ style: "background-image: #{background_image};" }
   .container
     .media
       .media-left
