@@ -112,6 +112,10 @@ class IssuesController < ApplicationController
     end
   end
 
+  def new_comments_count
+    @count = @issue.comments.next_of(params[:first_id]).count
+  end
+
   private
 
   def fetch_issue_by_slug
