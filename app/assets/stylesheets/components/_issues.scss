@@ -49,7 +49,7 @@ section#issues {
   background: rgba(0,0,0,0.2);
   color: #fff;
   padding-top: 100px;
-  padding-bottom: 40px;
+  padding-bottom: 60px;
   position: relative;
 
   .parti-black-layer {
@@ -66,10 +66,10 @@ section#issues {
   }
 
   .parti-logo {
-    margin-right: 15px;
+    margin-right: 10px;
     .thumb {
-      width: 85px;
-      height: 85px;
+      width: 95px;
+      height: 95px;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -79,6 +79,7 @@ section#issues {
   h2 {
     margin: 0;
     &.parti-title {
+      margin-bottom: 5px;
       text-shadow: 1px 1px #333;
     }
     a {
@@ -86,12 +87,45 @@ section#issues {
     }
   }
   .parti-body {
+    color: $gray-light;
     font-weight: 100;
-    margin-bottom: 30px;
     text-shadow: 1px 1px #333;
   }
-  .parti-watch .btn {
-    min-width: 85px;
+  .parti-buttons {
+    margin-top: 15px;
+    .parti-watch-button {
+      margin-top: 10px;
+      padding-bottom: 3px;
+      .btn {
+        min-width: 110px;
+        &.btn-primary {
+          -moz-box-shadow: none;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+          &:hover {
+            transform: none;
+          }
+        }
+        &.btn-ghost {
+          color: $gray-light;
+          border: 1px solid $gray-light;
+          &:hover {
+            background: transparent;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    .parti-admin-buttons {
+      .btn {
+        color: $gray-light;
+        border: 1px solid $gray-light;
+        &:hover {
+          background: transparent;
+          font-weight: bold;
+        }
+      }
+    }
   }
   .parti-info {
     padding: 0;
@@ -446,7 +480,6 @@ section#issues {
   .parti-header-section {
     height: auto;
     padding-top: 100px;
-    padding-bottom: 0;
 
     .parti-logo {
       float: none;
@@ -469,10 +502,10 @@ section#issues {
     }
     .parti-body {
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
-      margin-bottom: 20px;
+      margin-bottom: 5px;
     }
-    .parti-watch {
-      margin-top: 10px;
+    .parti-buttons {
+      margin-top: 5px;
     }
     .parti-info {
       margin-top: 0;
@@ -487,7 +520,6 @@ section#issues {
       }
     }
     .parti-menu {
-      position: static;
       background: rgba(0,0,0,0.2);
       width: 100%;
       border-bottom: 4px solid $brand-primary;
