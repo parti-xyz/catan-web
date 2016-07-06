@@ -24,7 +24,8 @@
         %i.fa.fa-info-circle
         가장 먼저 자료를 올려보세요.
     - else
-      .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s}}
+      .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
+        .grid-sizer.col-sm-3.col-xs-6
         = render 'issues/slug_articles_page'
       .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_articles_path(@issue, format: :js)}
         .page_waypoint__loading

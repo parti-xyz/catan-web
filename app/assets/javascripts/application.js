@@ -87,13 +87,17 @@ $.parti_apply = function($base, query, callback) {
 var parti_prepare_masonry = function($base) {
   //masonry
   $.parti_apply($base, '.masonry-container', function(elm) {
-    var target = $(elm).data('masonry-target');
-    if (!target) {
-      target = '.card'
+    var options = {}
+    options.itemSelector = $(elm).data('masonry-target');
+    if (!options.itemSelector) {
+      options.itemSelector = '.card';
     }
-    $(elm).masonry({
-      itemSelector: target
-    });
+    var sizer = $(elm).data('masonry-grid-sizer');
+    if (sizer) {
+      options.columnWidth = sizer;
+      options.percentPosition = true;
+    }
+    $(elm).masonry(options);
   });
 }
 

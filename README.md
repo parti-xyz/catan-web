@@ -122,9 +122,8 @@ $ git secrets --register-aws
 그리고 데이터베이스는 각 레포지토리마다 다릅니다. 아래 git hook 을 설정합니다
 
 ```
-$ touch .git/hooks/post-checkout
-$ chmod +x .git/hooks/post-checkout
 $ echo $'#!/bin/sh\nif [ "1" == "$3" ]; then spring stop && powder restart; fi' > .git/hooks/post-checkout
+$ chmod +x .git/hooks/post-checkout
 ```
 
 ### 데이터베이스 준비
