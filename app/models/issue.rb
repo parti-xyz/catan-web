@@ -47,6 +47,7 @@ class Issue < ActiveRecord::Base
   # callbacks
   before_save :downcase_slug
   before_create :build_wiki
+  before_validation :strip_whitespace
 
   # scopes
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
@@ -135,5 +136,10 @@ class Issue < ActiveRecord::Base
   def downcase_slug
     return if slug.blank?
     self.slug = slug.downcase
+  end
+
+  def strip_whitespace
+    self.title = self.title.strip unless self.title.nil?
+    self.slug = self.slug.strip unless self.slug.nil?
   end
 end
