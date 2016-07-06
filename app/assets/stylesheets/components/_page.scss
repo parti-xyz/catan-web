@@ -180,7 +180,7 @@
 
 
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .about-wrapper {
     .about-parti-box {
       .col-xs-4 {

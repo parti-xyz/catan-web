@@ -236,7 +236,7 @@ section#opinions {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .post-card-with-comments__post {
     .opinion-card__date {
       display: none;

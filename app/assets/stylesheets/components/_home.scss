@@ -13,7 +13,7 @@ section#key-visuals {
   margin-bottom: 30px;
   text-align: center;
 
-  @media (min-width: 768px) {
+  @media (min-width: $screen-sm-min) {
     margin-bottom: 30px;
   }
 
@@ -158,7 +158,7 @@ section#key-visuals {
       }
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: $screen-xs-max) {
       &__parti {
         width: 100%;
         height: auto;
@@ -236,7 +236,7 @@ section#key-visuals {
       word-break: keep-all;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: $screen-xs-max) {
       height: auto;
       text-align: center;
       padding-left: 0;
@@ -261,7 +261,7 @@ section#key-visuals {
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $screen-xs-max) {
     min-height: 300px;
     margin-bottom: 0;
     ul.owl-carousel .owl-nav {
@@ -272,12 +272,12 @@ section#key-visuals {
       }
     }
   }
-  @media (max-width: 768px) and (orientation: portrait) {
+  @media (max-width: $screen-xs-max) and (orientation: portrait) {
     ul.owl-carousel .owl-nav {
       top: 22%;
     }
   }
-  @media (max-width: 768px) and (orientation: landscape) {
+  @media (max-width: $screen-xs-max) and (orientation: landscape) {
     ul.owl-carousel .owl-nav {
       top: 24%;
     }
@@ -356,7 +356,7 @@ section#home {
     }
 
     .parties-filter {
-      @media (min-width: 768px) {
+      @media (min-width: $screen-sm-min) {
         display: table;
         width: 100%;
         .parties-sort-select,
@@ -412,7 +412,7 @@ section#home {
     }
 
     .parties-all-list {
-      @media (min-width: 768px) {
+      @media (min-width: $screen-sm-min) {
         margin-top: 15px;
       }
       .row {

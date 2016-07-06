@@ -162,7 +162,7 @@ body.app-campaigns-slug_show {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .app-campaigns.app-campaigns-slug_show{
     #site-header {
       display: none;

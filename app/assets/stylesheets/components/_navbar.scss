@@ -217,7 +217,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   #top-banner {
     background-image: image_url('thumb_main_keyvisual.png');
     background-size: cover;

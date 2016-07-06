@@ -136,7 +136,7 @@ section#posts {
   margin-bottom: 20px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .post-card-with-comments {
     padding: 10px 10px 10px 50px;
     &__header {
@@ -160,7 +160,7 @@ section#posts {
       }
     }
     &--hidden-issue {
-      @media (max-width: 768px) {
+      @media (max-width: $screen-xs-max) {
         padding-left: 10px;
         .post-card-with-comments__comments {
           margin-left: 0;

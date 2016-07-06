@@ -528,7 +528,7 @@ section#user-gallery{
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   section#user-gallery {
     #content-tab-section .nav-tabs {
       li {

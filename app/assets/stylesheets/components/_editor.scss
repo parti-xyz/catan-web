@@ -77,7 +77,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .editors-tab-panel {
     .submit-box {
       text-align: initial;

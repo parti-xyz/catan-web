@@ -57,7 +57,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   #content-tab-section .nav-tabs {
     padding-left: 0;
     margin-left: -15px;
@@ -221,7 +221,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .devider {
     margin-top: 30px;
     margin-bottom: 30px;

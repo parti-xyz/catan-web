@@ -151,7 +151,7 @@ section#talks {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .talk-card {
     padding: 10px;
     .media-left {

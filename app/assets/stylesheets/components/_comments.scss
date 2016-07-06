@@ -31,7 +31,7 @@ section#comments {
   .upvote {
     margin-bottom: 2px;
   }
-  @media (max-width: 768px) {
+  @media (max-width: $screen-xs-max) {
     .body {
       font-size: $font-size-small;
     }
@@ -124,7 +124,7 @@ section#comments {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .comment-line {
     margin-top: 10px;
   }

@@ -355,7 +355,7 @@ section#issues {
         margin: 0;
       }
     }
-    @media (max-width: 768px) {
+    @media (max-width: $screen-xs-max) {
       min-height: 200px;
       .issue-card__thumb {
         height: 140px;
@@ -452,7 +452,7 @@ section#issues {
   opacity: 0.9;
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .parti-watch-recommend--header {
     padding: 20px;
   }
@@ -625,7 +625,7 @@ section#issue-bottom-banner {
     &.nav-down {
         bottom: -65px;
     }
-    @media (min-width: 768px) {
+    @media (min-width: $screen-sm-min) {
       text-align: center;
     }
     padding: 10px 0;
@@ -637,13 +637,13 @@ section#issue-bottom-banner {
       font-size: 1.2em;
       font-weight: 200;
       padding: 5px;
-      @media (min-width: 768px) {
+      @media (min-width: $screen-sm-min) {
         font-size: $font-size-large;
         font-weight: 100;
       }
     }
     .top-banner-btn {
-      @media (max-width: 768px) {
+      @media (max-width: $screen-xs-max) {
         margin-top: 10px
       }
       @include btn-push($brand-primary-dark, #ffde00, $brand-primary-dark, #ffde00);

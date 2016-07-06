@@ -196,7 +196,7 @@ section#articles {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $screen-xs-max) {
   .article-card {
     .caption {
       padding: 10px;

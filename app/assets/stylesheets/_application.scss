@@ -1,7 +1,6 @@
 // base
 @import "bootstrap-sprockets";
 @import "fonts/parti-icons";
-@import "variables";
 @import "bootstrap";
 @import "mixin";
 @import "base";
@@ -45,6 +44,9 @@
 @import 'components/campaigns';
 @import 'components/admin';
 
+// mobile
+@import 'mobile';
+
 // pages
 .popover-static .popover {
   position: relative;
@@ -58,8 +60,4 @@
   .oembedall-container iframe {
     height: 347px !important;
   }
-}
-
-.form-control {
-  color: $gray-darker;
 }
