@@ -130,7 +130,7 @@ section#issues {
   .parti-info {
     padding: 0;
     text-shadow: 1px 1px #333;
-    .parti-makers {
+    .parti-users {
       img {
         width: 30px;
         height: 30px;
@@ -142,9 +142,7 @@ section#issues {
       font-size: $font-size-small;
       font-weight: 100;
       margin-right: 10px;
-      a {
-        color: #fff;
-      }
+      color: #fff;
     }
     .parti-maker-icons {
       margin-right: 10px;

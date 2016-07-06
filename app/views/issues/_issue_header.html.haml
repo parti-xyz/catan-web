@@ -18,6 +18,14 @@
           .col-xs-12.col-sm-9
             .parti-body
               = issue.body
+            .parti-info.visible-xs-block
+              %span.parti-makers-label 빠띠메이커
+              %span.parti-maker-icons
+                - issue.makers.each do  |maker|
+                  = byline maker.user, hide_nickname: true
+              = link_to issue_users_path(issue) do
+                %span.parti-users-label 구독회원
+                %span.parti-users-count= issue.watched_users.count
             .parti-buttons
               %span.parti-watch-button
                 = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-xs btn-ghost', watch_btn_class: 'btn btn-xs btn-primary', maker_class: 'hidden'
