@@ -11,7 +11,7 @@
           %ul.list-unstyled.aside-issues
             = render customize_partial_path(current_user.making_issues, 'issue_line')
         - if current_user.only_watched_issues.any?
-          %h5.aside_title 내가 참여 중인 빠띠
+          %h5.aside_title 내가 구독 중인 빠띠
           %ul.list-unstyled.aside-issues
             = render customize_partial_path(current_user.only_watched_issues, 'issue_line')
     = render 'application/footer'
