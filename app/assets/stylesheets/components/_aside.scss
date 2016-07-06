@@ -8,6 +8,16 @@
   margin-bottom: 36px;
 }
 
+.aside-users {
+  .more {
+    margin-left: 10px;
+    color: #777777;
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+}
+
 #aside {
   & > section {
     margin-bottom: 30px;
