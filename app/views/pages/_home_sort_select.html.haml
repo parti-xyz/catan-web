@@ -1,0 +1,5 @@
+- data_params = { action: 'parti-sort-parties', 'search-input': '#parties-all input[data-action=parti-search-parties]', 'search-sort': 'default'}
+%ul.list-inline
+  %li= link_to '이름순', '#', data: data_params, class: ('active' if params['sort'].blank? or params['sort'] == 'default')
+  %li= link_to '인기순', '#', data: data_params.update('search-sort': 'hottest'), class: ('active' if params['sort'] == 'hottest')
+  %li= link_to '최신순', '#', data: data_params.update('search-sort': 'recent'), class: ('active' if params['sort'] == 'recent')

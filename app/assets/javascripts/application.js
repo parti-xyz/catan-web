@@ -26,6 +26,7 @@
 //= require redactor
 //= require redactor2_rails/langs/ko
 //= require background-blur
+//= require bootstrap-add-clear
 
 $.Redactor.prototype.wiki_save = function()
 {
@@ -626,6 +627,30 @@ var parti_prepare_post_modal = function($base) {
     });
   });
 
+  $.each($base.find('[data-action="parti-sort-parties"]'), function(i, elm) {
+    var $elm = $(elm);
+    $elm.on('click', function(e) {
+      var search_input = $(this).data('search-input');
+      var sort = $(this).data('search-sort');
+      var $elm = $(this);
+
+      $('.parties-all-loading').show();
+      $('.parties-all-list').hide();
+      $.ajax({
+        url: '/parties/search.js',
+        type: "get",
+        data:{
+          keyword: $(search_input).val(),
+          sort: $elm.data('search-sort')
+        },
+        complete: function(xhr) {
+          $('.parties-all-loading').hide();
+          $('.parties-all-list').show().trigger('parti-home-searched');
+        },
+      });
+    });
+  });
+
   $base.data('parti-prepare-post-modal-arel', 'completed');
 };
 
@@ -776,6 +801,7 @@ $(function(){
   });
 
   $('[data-action="parti-search-parties"]').each(function(i, elm) {
+    var sort = $(elm).data('search-sort');
     var options = {
       callback: function (value) {
         $('.parties-all-loading').show();
@@ -783,11 +809,13 @@ $(function(){
         $.ajax({
           url: '/parties/search.js',
           type: "get",
-          data:{ keyword: value },
+          data:{
+            keyword: value,
+            sort: $(sort).val()
+          },
           complete: function(xhr) {
             $('.parties-all-loading').hide();
-            $('.parties-all-list').show();
-            parti_ellipsis($('#parties-all .parties-all .parties-all-list'));
+            $('.parties-all-list').show().trigger('parti-home-searched');
           },
         });
       },
@@ -796,7 +824,7 @@ $(function(){
       allowSubmit: false,
       captureLength: 2
     }
-
+    $(elm).addClear();
     $(elm).typeWatch( options );
   });
 
@@ -824,8 +852,6 @@ $(function(){
       });
     });
   })();
-
-
 
   // Initialize Redactor
   $('.redactor').redactor({

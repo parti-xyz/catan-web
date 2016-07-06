@@ -60,7 +60,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   def url
-    (!Rails.env.development? or self.file.exists?) ? super : "https://catan-file.s3.amazonaws.com#{super}"
+    (!Rails.env.development? or self.file.try(:exists?)) ? super : "https://catan-file.s3.amazonaws.com#{super}"
   end
 
   protected

@@ -51,7 +51,8 @@
   }
   .message-tab {
     padding: 0;
-    color: #777;
+    color: $gray;
+    color: $gray;
     position: relative;
   }
 }
@@ -156,7 +157,7 @@
 .page-title {
   margin-bottom: 25px;
   h4 {
-    color: #777;
+    color: $gray;
   }
 }
 
@@ -215,7 +216,7 @@
   margin-bottom: 40px;
   span {
     background-color: #f5f5f9;
-    color: #777;
+    color: $gray;
     padding: 0 10px;
   }
 }

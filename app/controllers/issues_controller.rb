@@ -6,6 +6,15 @@ class IssuesController < ApplicationController
 
   def search
     @issues = Issue.search_for(params[:keyword])
+
+    case params[:sort]
+    when 'hottest'
+      @issues = @issues.hottest
+    when 'recent'
+      @issues = @issues.recent
+    else
+      @issues = @issues.sort{ |a, b| a.compare_title(b) }
+    end
   end
 
   def show

@@ -71,6 +71,11 @@ class ImageUploader < CarrierWave::Uploader::Base
      "#{secure_token(10)}.#{file.extension}" if original_filename.present?
   end
 
+ def url
+    super_result = super
+    (!Rails.env.development? or self.file.try(:exists?)) ? super_result : (super_result == default_url ? super_result : "https://catan-file.s3.amazonaws.com#{super_result}")
+  end
+
   protected
 
   def secure_token(length=16)

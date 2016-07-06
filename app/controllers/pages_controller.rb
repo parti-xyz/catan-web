@@ -4,7 +4,7 @@ class PagesController < ApplicationController
     @featured_contents << FeaturedCampaign.all.to_a
     @featured_contents << FeaturedIssue.all.to_a
     @featured_contents.flatten!.compact!
-    @issues = Issue.all
+    @issues = Issue.all.sort{ |a, b| a.compare_title(b) }
   end
 
   def about

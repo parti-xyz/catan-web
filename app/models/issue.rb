@@ -50,6 +50,7 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
+  scope :recent, -> { order(created_at: :desc) }
 
   # search
   scoped_search on: [:title, :body]
@@ -111,6 +112,22 @@ class Issue < ActiveRecord::Base
 
   def hottest_posts(count)
     posts.hottest.limit(count)
+  end
+
+  def compare_title(other)
+    self_title = title.strip
+    other_title = other.title.strip
+    self_title.split('').each_with_index do |char, i|
+      return -1 if other_title[i] == nil
+      if self_title[i] != other_title[i]
+        if (self_title[i].ascii_only? and other_title[i].ascii_only?) or (!self_title[i].ascii_only? and !other_title[i].ascii_only?)
+          return self_title[i] <=> other_title[i]
+        else
+          return (self_title[i].ascii_only? ? 1 : -1)
+        end
+      end
+    end
+    self_title <=> other_title
   end
 
   private
