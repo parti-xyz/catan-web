@@ -14,7 +14,10 @@
       - @issue.watched_users.each do |user|
         = byline user, hide_nickname: true
 
-    %section
-      %h5.aside_title 관련 빠띠
-      %ul.list-unstyled.aside-issues
-        = render customize_partial_path(@issue.related_issues, 'issue_line')
+    - if @issue.related_issues.present?
+      %section
+        %h5.aside_title 관련 빠띠
+        %ul.list-unstyled.aside-issues
+          = render customize_partial_path(@issue.related_issues, 'issue_line')
+
+    = render 'application/footer'
