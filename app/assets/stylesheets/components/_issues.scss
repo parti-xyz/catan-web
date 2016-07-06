@@ -87,7 +87,7 @@ section#issues {
     }
   }
   .parti-body {
-    color: $gray-light;
+    color: $gray-lighter;
     font-weight: 100;
     text-shadow: 1px 1px #333;
   }
@@ -107,8 +107,8 @@ section#issues {
           }
         }
         &.btn-ghost {
-          color: $gray-light;
-          border: 1px solid $gray-light;
+          color: $gray-lighter;
+          border: 1px solid $gray-lighter;
           &:hover {
             background: transparent;
             font-weight: bold;
@@ -118,8 +118,8 @@ section#issues {
     }
     .parti-admin-buttons {
       .btn {
-        color: $gray-light;
-        border: 1px solid $gray-light;
+        color: $gray-lighter;
+        border: 1px solid $gray-lighter;
         &:hover {
           background: transparent;
           font-weight: bold;
