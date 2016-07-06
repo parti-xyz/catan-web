@@ -355,6 +355,18 @@ section#home {
       }
     }
 
+    .parties-order-select{
+      padding-bottom: 10px;
+      .btn-parties-order {
+        &:hover {
+          background: $brand-primary !important;
+          a {
+            color: #fff !important;
+          }
+        }
+      }
+    }
+
     .parties-all-list {
       margin-top: 15px;
       .row {

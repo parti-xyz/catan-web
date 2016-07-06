@@ -8,7 +8,7 @@
 
     %section
       %h5.aside_title
-        구독중인 회원
+        구독회원
         %span.text-primary<> #{@issue.watches.count}
         명
       - @issue.watched_users.each do |user|

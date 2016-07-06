@@ -10,6 +10,14 @@
         = render 'pages/key_visuals' unless is_small_screen?
         %section#parties-all
           .parties-all
+            .parties-order-select
+              .btn.btn-default.btn-parties-order
+                = link_to '이름순', root_path(parti_order: 'title')
+              .btn.btn-default.btn-parties-order{class: 'selected' }
+                = link_to '인기순', root_path(parti_order: 'hottest')
+              .btn.btn-default.btn-parties-order
+                = link_to '최신순', root_path(parti_order: 'created_at')
+
             %form(onsubmit="return false;")
               .input-group.input-group-lg.input-group-keyword
                 %input.form-control{name: "keyword", placeholder: (is_small_screen? ? "관심있는 빠띠를 찾아보세요." : "#{Issue.count}개의 빠띠 중에서, 관심있는 이슈를 다루는 빠띠를 찾아보세요."), type: "text", data: { action: 'parti-search-parties'}}

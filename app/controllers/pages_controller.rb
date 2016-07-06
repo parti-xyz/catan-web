@@ -4,7 +4,7 @@ class PagesController < ApplicationController
     @featured_contents << FeaturedCampaign.all.to_a
     @featured_contents << FeaturedIssue.all.to_a
     @featured_contents.flatten!.compact!
-    @issues = Issue.all.order(:title)
+    @issues = Issue.all
   end
 
   def about
@@ -22,4 +22,6 @@ class PagesController < ApplicationController
 
   def components
   end
+
+
 end
