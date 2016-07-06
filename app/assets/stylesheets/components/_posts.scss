@@ -159,6 +159,14 @@ section#posts {
         margin-bottom: 10px;
       }
     }
+    &--hidden-issue {
+      @media (max-width: 768px) {
+        padding-left: 10px;
+        .post-card-with-comments__comments {
+          margin-left: 0;
+        }
+      }
+    }
   }
   .post-line {
     &__title {

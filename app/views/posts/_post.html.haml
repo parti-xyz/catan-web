@@ -1,5 +1,5 @@
 .post-card-with-comments{class: "#{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]}", data: { 'parti-comment-style': 'in-list' }}
-  .post-card-with-comments__header
+  .post-card-with-comments__header{class: "#{delete_margin_left if local_assigns[:delete_margin_left]}"}
     - if local_assigns[:show_issue]
       = link_to issue_home_path(post.issue), class: 'issue-logo' do
         = image_tag post.issue.logo.xs.url
