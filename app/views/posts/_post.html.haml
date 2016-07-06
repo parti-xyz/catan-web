@@ -7,8 +7,11 @@
       %span.post-type
         &middot;
         #{post.specific.class.model_name.human}
-
+    - unless local_assigns[:show_issue]
+      %span.post-type
+        #{post.specific.class.model_name.human}
     %span.date-wrapper= date_f post.created_at
+
 
   .post-card-with-comments__post
     = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), show_issue: false
