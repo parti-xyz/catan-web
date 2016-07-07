@@ -1,5 +1,6 @@
 class RelatedsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :load_related_with_issues, only: :new
   load_and_authorize_resource
 
   def new
@@ -14,10 +15,10 @@ class RelatedsController < ApplicationController
   def create
     @related.target = Issue.find_by title: params[:target_title]
     unless @related.target.present?
-      redirect_to issue_home_path(@related.issue)
+      flash[:notice] = t('activerecord.errors.messages.not_found_parti')
+      render 'new'
       return
     end
-
     if @related.save
       redirect_to @related.issue
     else
@@ -35,5 +36,10 @@ class RelatedsController < ApplicationController
 
   def create_params
     params.require(:related).permit(:issue_id)
+  end
+
+  def load_related_with_issues
+    issue = Issue.find(params[:issue_id])
+    @related = Related.new(issue: issue)
   end
 end

@@ -4,7 +4,9 @@ class Ability
   def initialize(user)
     can [:read, :social_card, :partial], :all
     can [:slug_show], Campaign
-    can [:slug, :users, :exist, :new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_wikis, :slug_notes, :search], Issue
+    can [:slug, :users, :exist, :new_comments_count, :slug_home,
+      :slug_users, :slug_articles, :slug_comments, :slug_opinions,
+      :slug_talks, :slug_wikis, :slug_notes, :search], Issue
     if user
       can [:update, :remove_logo, :remove_cover], Issue do |issue|
         user.maker?(issue)
@@ -13,6 +15,9 @@ class Ability
         Vote, Like, Upvote, Watch, Note]
       can :manage, [Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch, Note], user_id: user.id
+      can :manage, Related do |related|
+        user.maker?(related.issue)
+      end
       can :update, Wiki
       if user.admin?
         can :update, Article
