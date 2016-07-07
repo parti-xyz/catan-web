@@ -4,12 +4,44 @@
       = link_to issue_home_path(post.issue), class: 'issue-logo' do
         = image_tag post.issue.logo.xs.url
         %span.issue-title= post.issue.title
-      %span.post-type
+      %span
         &middot;
-        #{post.specific.class.model_name.human}
+        - model_type = post.specific.class.model_name
+        - if model_type == 'Talk'
+          = link_to issue_talks_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - elsif model_type == 'Article'
+          = link_to issue_articles_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - elsif model_type == 'Note'
+          = link_to issue_notes_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - elsif model_type == 'Opinion'
+          = link_to issue_opinions_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - else
+          = link_to issue_wikis_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+
+
     - unless local_assigns[:show_issue]
-      %span.post-type
-        #{post.specific.class.model_name.human}
+      %span
+        - model_type = post.specific.class.model_name
+        - if model_type == 'Talk'
+          = link_to issue_talks_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - elsif model_type == 'Article'
+          = link_to issue_articles_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - elsif model_type == 'Note'
+          = link_to issue_notes_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - elsif model_type == 'Opinion'
+          = link_to issue_opinions_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
+        - else
+          = link_to issue_wikis_path(post.issue), class: 'post-type' do
+            #{post.specific.class.model_name.human}
     %span.date-wrapper= date_f post.created_at
 
 
