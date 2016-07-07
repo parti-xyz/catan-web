@@ -1,17 +1,26 @@
 .aside-title {
-  color: $gray;
   padding-bottom: 10px;
   margin-bottom: 0;
+  font-size: $font-size-base;
+}
+
+.aside-title,
+.aside-title a {
+  color: $gray;
 }
 
 .aside_issue_btn {
   margin-bottom: 36px;
 }
 
+.aside-relate-issues,
 .aside-users {
-  .more {
+  .more,
+  .add-link {
     margin-left: 10px;
     color: $gray;
+    font-size: $font-size-small;
+    font-weight: normal;
     &:hover {
       color: $brand-primary;
     }

@@ -7,27 +7,31 @@
           %li= byline maker.user
 
     %section.aside-users
-      = link_to issue_users_path(@issue) do
-        %h5.aside-title
+      - prevew_count = 6 * 4 - 1
+      %h5.aside-title
+        = link_to issue_users_path(@issue) do
           구독회원
           %span
             %span.text-primary<> #{@issue.watches.count}
             명
-      - prevew_count = 6 * 4 - 2
+        - if @issue.watched_users.count > prevew_count
+          = link_to issue_users_path(@issue), class: 'more' do
+            더보기
+            %i.fa.fa-angle-double-right
       - @issue.watched_users.recent.limit(prevew_count).each do |user|
         = byline user, hide_nickname: true
       - if @issue.watched_users.count > prevew_count
         = link_to issue_users_path(@issue), class: 'more' do
-          더보기
-          %i.fa.fa-angle-double-right
+          %i.fa.fa-ellipsis-h
 
     - if @issue.related_issues.present? or can? :update, @issue
-      %section
+      %section.aside-relate-issues
         %h5.aside-title
           관련빠띠
-          %small
-            - if can? :update, @issue
-              = link_to '추가', new_related_path(issue_id: @issue), class: 'btn btn-default btn-xs btn-ghost'
+          - if can? :update, @issue
+            = link_to new_related_path(issue_id: @issue), class: 'add-link' do
+              추가
+              %i.fa.fa-plus
         %ul.list-unstyled.aside-issues
           - @issue.relateds.each do |related|
             - related_target_issue = related.target
