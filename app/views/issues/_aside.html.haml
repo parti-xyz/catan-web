@@ -1,14 +1,14 @@
 .col-xs-3
   .aside_issue#aside
     %section
-      %h5.aside_title 빠띠 메이커
+      %h5.aside-title 빠띠 메이커
       %ul.list-unstyled
         - @issue.makers.each do |maker|
           %li= byline maker.user
 
     %section.aside-users
       = link_to issue_users_path(@issue) do
-        %h5.aside_title
+        %h5.aside-title
           구독회원
           %span
             %span.text-primary<> #{@issue.watches.count}
@@ -21,10 +21,20 @@
           더보기
           %i.fa.fa-angle-double-right
 
-    - if @issue.related_issues.present?
+    - if @issue.related_issues.present? or can? :update, @issue
       %section
-        %h5.aside_title 관련 빠띠
+        %h5.aside-title
+          관련빠띠
+          %small
+            - if can? :update, @issue
+              = link_to '추가', new_related_path(issue_id: @issue), class: 'btn btn-default btn-xs btn-ghost'
         %ul.list-unstyled.aside-issues
-          = render customize_partial_path(@issue.related_issues, 'issue_line')
+          - @issue.relateds.each do |related|
+            - related_target_issue = related.target
+            - remove_button = capture do
+              - if can? :update, @issue
+                = link_to related, method: :delete do
+                  %i.fa.fa-trash-o
+            = render customize_partial_path(related_target_issue, 'issue_line'), after_block: remove_button
 
     = render 'application/footer'

@@ -561,7 +561,6 @@ section#issues {
     padding: 5px 0px 0px 0px;
     a {
       overflow: auto;
-      display: block;
       &:hover .issue-card__title {
         color: $brand-primary;
       }
@@ -609,6 +608,12 @@ section#issues {
           background: #555;
         }
       }
+    }
+    &:hover .after-block {
+      display: inline;
+    }
+    .after-block {
+      display: none;
     }
   }
 }

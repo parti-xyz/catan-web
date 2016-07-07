@@ -13,11 +13,15 @@ class RelatedsController < ApplicationController
 
   def create
     @related.target = Issue.find_by title: params[:target_title]
-    redirect_to @related.issue and return unless @related.target.present?
+    unless @related.target.present?
+      redirect_to issue_home_path(@related.issue)
+      return
+    end
 
     if @related.save
       redirect_to @related.issue
     else
+      errors_to_flash(@related)
       render 'new'
     end
   end

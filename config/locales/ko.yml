@@ -36,6 +36,7 @@ ko:
       campaign: 캠페인
       featured_issue: 추천빠띠
       featured_campaign: 추천캠페인
+      related: 관련빠띠
     attributes:
       issue:
         title: 제목
@@ -97,6 +98,9 @@ ko:
         image: 이미지
         mobile_image: 모바일 이미지
         url: 주소
+      related:
+        issue: 빠띠
+        target: 관련빠띠
     successful:
       messages:
         created: 저장되었습니다.
@@ -129,6 +133,10 @@ ko:
           attributes:
             data:
               file_size_is_less_than: 10MB 이하의 이미지만 업로드 할 수 있습니다.
+        related:
+          attributes:
+            target:
+              self_relation: 가 현재 빠띠와 같습니다. 다른 빠띠를 넣어 주세요.
   labels:
     new_article_button: 자료 공유
     new_talk_button: 이야기 나누기

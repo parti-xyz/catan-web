@@ -4,6 +4,14 @@ class IssuesController < ApplicationController
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
   load_and_authorize_resource
 
+  def index
+    @issues = Issue.limit(10)
+    if params[:query].present?
+      @issues = @issues.where("title like ?", "%#{params[:query]}%" )
+    end
+    respond_with @issues
+  end
+
   def search
     @issues = Issue.search_for(params[:keyword])
 

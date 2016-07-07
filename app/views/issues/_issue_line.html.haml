@@ -1,9 +1,10 @@
 - issue ||= local_assigns[:issue_line]
 %li.issue-line
-  = link_to issue_home_path(issue) do
-    .media
+  .media
+    = link_to issue_home_path(issue) do
       .media-left.issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-      .media-body
+    .media-body
+      = link_to issue_home_path(issue) do
         %span.issue-line__title= issue.title
         %span.issue-line__meta
           - if issue.watches.latest.count > 0
@@ -13,5 +14,5 @@
           - if issue.comments.latest.count > 0
             %span.comment-count
               %i.fa.fa-comment
-              %b= issue.comments.latest.count
-
+            %b= issue.comments.latest.count
+      %span.after-block= local_assigns[:after_block]
