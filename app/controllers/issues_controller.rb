@@ -2,8 +2,8 @@ class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
-  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :slug_users]
   load_and_authorize_resource
+  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :slug_users]
 
   def index
     @issues = Issue.limit(10)
