@@ -83,7 +83,7 @@ class IssuesController < ApplicationController
     ActiveRecord::Base.transaction do
       if @issue.makers_nickname.present?
         @issue.makers.destroy_all
-        @issue.makers_nickname.split(",").map(&:strip).each do |nickname|
+        @issue.makers_nickname.split(",").map(&:strip).uniq.each do |nickname|
           user = User.find_by(nickname: nickname)
           if user.present?
             @issue.makers.build(user: user)

@@ -58,6 +58,24 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_equal 'title x', assigns(:issue).title
   end
 
+  test '메이커를 넣어요' do
+    sign_in(users(:admin))
+
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', makers_nickname: users(:one).nickname })
+
+    assigns(:issue).reload
+    assert_equal users(:one), assigns(:issue).makers.first.user
+  end
+
+  test '중복된 메이커를 넣으면 알아서 넣어줘요.' do
+    sign_in(users(:admin))
+
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', makers_nickname: "#{users(:one).nickname},#{users(:one).nickname}" })
+
+    assigns(:issue).reload
+    assert_equal users(:one), assigns(:issue).makers.first.user
+  end
+
   test 'all이라는 이슈는 못만들어요' do
     sign_in(users(:admin))
 
