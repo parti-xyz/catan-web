@@ -47,7 +47,12 @@ class OpenGraph
 
   def parse_opengraph
     begin
-      @doc = @agent.get(@src)
+      begin
+        @doc = @agent.get(@src)
+      rescue Exception => msg
+        @agent.set_proxy(nil, nil, nil, nil)
+        @doc = @agent.get(@src)
+      end
       fallback_encoding
 
       if is_twitter?
