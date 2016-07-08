@@ -1,6 +1,7 @@
 class WikisController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
+  before_filter :load_issue
 
   def update
     @wiki.update_attributes(update_params)
@@ -12,5 +13,9 @@ class WikisController < ApplicationController
 
   def update_params
     params.require(:wiki).permit(:body)
+  end
+
+  def load_issue
+    @issue = @wiki.issue if @wiki.present?
   end
 end
