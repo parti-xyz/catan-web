@@ -1,4 +1,8 @@
 section#facebook-like {
+  min-height: 46px;
+  @media (max-width: $screen-xs-max) {
+    min-height: 40px;
+  }
   padding: 10px 0;
   .fb_iframe_widget, .fb_iframe_widget span, .fb_iframe_widget span iframe {
     width: 100% !important;
@@ -7,7 +11,7 @@ section#facebook-like {
 }
 
 section#key-visuals {
-  min-height: 350px;
+  min-height: 366px;
   overflow: hidden;
   position: relative;
   margin-bottom: 30px;
