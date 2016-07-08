@@ -648,6 +648,7 @@ var parti_prepare_post_modal = function($base) {
           $('.parties-all-list').show().trigger('parti-home-searched');
         },
       });
+      return false;
     });
   });
 
