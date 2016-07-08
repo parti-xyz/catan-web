@@ -1,8 +1,8 @@
 - issue ||= @issue
 - active_tab ||= nil
 %section.parti-header-section
-  - if issue.cover.present?
-    .parti-black-layer{ style: "background-color: #777;", data: { action: 'parti-blur-background', 'blur-image': issue.cover.md.url }}
+  - if issue.logo.present?
+    .parti-black-layer{ style: "background-color: #777;", data: { action: 'parti-blur-background', 'blur-image': issue.logo.md.url }}
   - else
     .parti-black-layer{ style: "background-image: #{GeoPattern.generate(@issue.title, base_color: '#2a164b').to_data_uri};" }
   .container

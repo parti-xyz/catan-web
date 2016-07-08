@@ -2,6 +2,7 @@ class IssuesController < ApplicationController
   respond_to :js, :json, :html
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
+  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :slug_users]
   load_and_authorize_resource
 
   def index
@@ -44,22 +45,18 @@ class IssuesController < ApplicationController
 
   def slug_articles
     articles_page(@issue)
-    prepare_issue_meta_tags
   end
 
   def slug_opinions
     opinions_page(@issue)
-    prepare_issue_meta_tags
   end
 
   def slug_talks
     talks_page
-    prepare_issue_meta_tags
   end
 
   def slug_notes
     notes_page(@issue)
-    prepare_issue_meta_tags
   end
 
   def slug_wikis
@@ -154,6 +151,6 @@ class IssuesController < ApplicationController
   def prepare_issue_meta_tags
     prepare_meta_tags title: meta_issue_title(@issue),
                       description: (@issue.body.presence || "#{@issue.title} 빠띠에서 즐거운 수다파티"),
-                      image: @issue.cover_url
+                      image: @issue.logo_url
   end
 end
