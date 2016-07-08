@@ -15,6 +15,7 @@ class RelatedsController < ApplicationController
   def create
     @related.target = Issue.find_by title: params[:target_title]
     unless @related.target.present?
+      @issue = @related.issue
       flash[:notice] = t('activerecord.errors.messages.not_found_parti')
       render 'new'
       return
