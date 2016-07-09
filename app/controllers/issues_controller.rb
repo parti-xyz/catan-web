@@ -1,5 +1,4 @@
 class IssuesController < ApplicationController
-  respond_to :js, :json, :html
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
   load_and_authorize_resource
@@ -10,7 +9,10 @@ class IssuesController < ApplicationController
     if params[:query].present?
       @issues = @issues.where("title like ?", "%#{params[:query]}%" )
     end
-    respond_with @issues
+
+    respond_to do |format|
+      format.json { render json: @issues }
+    end
   end
 
   def search

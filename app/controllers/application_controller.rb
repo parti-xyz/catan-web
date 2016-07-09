@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   if Rails.env.production? or Rails.env.staging?
-    rescue_from ActiveRecord::RecordNotFound do |exception|
+    rescue_from ActiveRecord::RecordNotFound, ActionController::UnknownFormat do |exception|
       render_404
     end
     rescue_from CanCan::AccessDenied do |exception|
