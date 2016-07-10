@@ -1,27 +1,15 @@
 // base
 @import "bootstrap-sprockets";
-@import "fonts/parti-icons";
 @import "bootstrap";
-@import "mixin";
-@import "base";
-@import "component";
-@import "dev";
-
-// vendors
-@import "bootstrap.offcanvas";
-@import "jquery.oembed";
-@import "jssocials";
-@import "owl.carousel";
-@import "owl.theme.default";
-@import "tabdrop";
-@import "select2";
-@import "select2-bootstrap";
-@import "redactor";
+@import "fonts/parti-icons";
+@import "base/mixin";
+@import "base/reset";
 
 // layouts
 @import 'layout';
 
 // components
+@import "components/shared";
 @import 'components/buttons';
 @import 'components/icons';
 @import 'components/navbar';
@@ -37,15 +25,13 @@
 @import 'components/wikis';
 @import 'components/comments';
 @import 'components/users';
-@import 'components/shares';
+@import 'components/share_boxes';
 @import 'components/modal';
 @import 'components/editor';
 @import 'components/page';
 @import 'components/campaigns';
 @import 'components/admin';
-
-// mobile
-@import 'mobile';
+@import "dev";
 
 // pages
 .popover-static .popover {

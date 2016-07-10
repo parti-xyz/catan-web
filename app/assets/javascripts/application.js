@@ -3,7 +3,6 @@
 //= require bootstrap
 //= require bootstrap-typeahead
 //= require masonry.pkgd
-//= require bootstrap.offcanvas
 //= require jquery.oembed
 //= require jssocials
 //= require owl.carousel
