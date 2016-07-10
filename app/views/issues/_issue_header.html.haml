@@ -1,10 +1,18 @@
 - issue ||= @issue
 - active_tab ||= nil
 %section.parti-header-section
-  - if issue.logo.present?
-    .parti-black-layer{ style: "background-color: #777;", data: { action: 'parti-blur-background', 'blur-image': issue.logo.md.url }}
-  - else
+  - geo_pattern_background = capture do
     .parti-black-layer{ style: "background-image: #{GeoPattern.generate(@issue.title, base_color: '#2a164b').to_data_uri};" }
+  - logo_background = capture do
+    .parti-black-layer{ style: "background-color: #777;" }
+      %svg#blurred_i89pasu2y.bg-blur{height: "100%", width: "100%", preserveAspectRatio: "xMidYMid slice", version: "1.1", xmlns: "http://www.w3.org/2000/svg"}
+        %filter#parti-header-blur-background
+          %fegaussianblur{in: "SourceGraphic", stdDeviation: "20"}
+        %image{externalResourcesRequired: "true", height: "100%", width: "100%", preserveAspectRatio: "xMidYMid slice", style: "filter:url(#parti-header-blur-background)", x: "0", y: "0", "xlink:href": issue.logo.md.url, "xmlns:xlink": "http://www.w3.org/1999/xlink"}
+  - if issue.logo.present? and (browser.ie?(">9") or !browser.ie?)
+    = logo_background
+  - else
+    = geo_pattern_background
   .container
     .media
       .media-left

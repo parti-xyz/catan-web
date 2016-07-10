@@ -24,7 +24,6 @@
 //= require redactor2_rails/config
 //= require redactor
 //= require redactor2_rails/langs/ko
-//= require background-blur
 //= require bootstrap-add-clear
 
 $.Redactor.prototype.wiki_save = function()
@@ -827,31 +826,6 @@ $(function(){
     $(elm).addClear();
     $(elm).typeWatch( options );
   });
-
-  (function() {
-    $('[data-action="parti-blur-background"]').each(function(i, elm) {
-      var blur_image = $(elm).data('blur-image')
-      var $elm = $(elm);
-      $elm.backgroundBlur({
-        imageURL : blur_image,
-        blurAmount : 20,
-        imageClass : 'bg-blur'
-      });
-      var $bg_blur = $elm.find(".bg-blur");
-      $bg_blur[0].setAttributeNS(null, 'preserveAspectRatio', 'xMidYMid slice');
-
-      var $bg_image = $bg_blur.find("image");
-      $bg_image[0].setAttributeNS(null, 'preserveAspectRatio', 'xMidYMid slice');
-      $bg_image.attr("width", "100%").attr("height", "100%");
-
-      $(window).resize(function() {
-        var width = $elm.width();
-        var height = $elm.height();
-        $bg_blur.attr("width", width).attr("height", height);
-        $bg_blur[0].setAttributeNS(null, 'viewBox', "0 0 " + width + " " + height);
-      });
-    });
-  })();
 
   // Initialize Redactor
   $('.redactor').redactor({
