@@ -42,7 +42,7 @@
                 .article__title-wrapper
                   .article__title= simple_format featured_issue.article_title, {}, wrapper_tag: 'span'
                 .article__comments-count
-                  %i.icon-comment
+                  %i.fa.fa-comment
                   = article.comments.count
           - if featured_issue.opinion.present?
             - opinion = featured_issue.opinion

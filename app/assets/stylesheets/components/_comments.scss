@@ -7,6 +7,11 @@ section#comments {
 }
 
 .comment-line {
+  &:hover {
+    .comment__mention {
+      color: $brand-primary;
+    }
+  }
   .user-image {
     width: 20px;
     height: 20px;
@@ -22,6 +27,7 @@ section#comments {
   .body {
     color: #777;
     padding-top: 5px;
+    padding-left: 22px;
     cursor: pointer;
   }
   .comment__mention {
@@ -35,6 +41,9 @@ section#comments {
     .body {
       font-size: $font-size-small;
     }
+    .upvote {
+      margin-left: 22px;
+    }
   }
 }
 
@@ -47,9 +56,15 @@ section#comments {
   border: 1px solid #fff;
   &:hover {
     border: 1px solid #bfa5eb;
-    -webkit-box-shadow: 4px 4px 4px 0px rgba(222, 221, 218, 1);
-    -moz-box-shadow:    4px 4px 4px 0px rgba(222, 221, 218, 1);
-    box-shadow:         4px 4px 4px 0px rgba(222, 221, 218, 1);
+    -webkit-box-shadow: 4px 4px 4px 0 $gray-lighter;
+    -moz-box-shadow:    4px 4px 4px 0 $gray-lighter;
+    box-shadow:         4px 4px 4px 0 $gray-lighter;
+    .issue-comments & {
+      border-left: 1px solid #fff;
+    }
+    .comment__mention {
+      color: $brand-primary;
+    }
   }
   &__link {
     .img-circle {
@@ -64,7 +79,7 @@ section#comments {
   }
   &__mention {
     margin-left: 5px;
-    color: $brand-primary;
+    color: $text-muted;
   }
   &__btn {
     margin-left: 10px;
@@ -98,8 +113,10 @@ section#comments {
   }
   &__footer {
     &--talk, &--article {
-      padding-top: 20px;
-      border-top: 1px solid #d2d2d2;
+      padding-top: 15px;
+    }
+    &--talk {
+      border-top: 1px solid $gray-lighter;
     }
   }
 }

@@ -189,6 +189,8 @@ section#articles {
 
 .article-line {
   cursor: pointer;
+  padding: 15px;
+  border: 1px solid $gray-lighter;
   .thumb {
     width: 150px;
     height: 100px;
@@ -213,7 +215,6 @@ section#articles {
   }
 
   .article-line {
-    cursor: pointer;
     .thumb {
       width: 90px;
       height: 60px;

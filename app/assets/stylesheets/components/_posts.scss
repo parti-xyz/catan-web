@@ -5,6 +5,12 @@ section#posts {
     margin-bottom: 20px;
     padding-bottom: 20px;
   }
+  @media (max-width: $screen-xs-max) {
+    & > .container > .row > .col-xs-9 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
 
@@ -14,7 +20,7 @@ section#posts {
   position: relative;
   background-color: #fff;
   margin-bottom: 10px;
-  padding: 20px 20px 20px 50px;
+  padding: 15px 15px 15px 50px;
   border: 1px solid #fff;
   border-radius: 4px;
 
@@ -47,11 +53,8 @@ section#posts {
     word-break: break-all;
     .post-line__title {
       margin-bottom: 10px;
+      font-weight: normal;
     }
-  }
-  &__comments {
-    border-top: 1px solid #d2d2d2;
-    padding-top: 15px;
   }
   .more {
     margin-bottom: 20px;
@@ -63,10 +66,7 @@ section#posts {
   }
 
   &--hidden-issue {
-    padding-left: 20px;
-
-    .date-wrapper {
-    }
+    padding-left: 15px;
   }
 }
 
@@ -97,7 +97,7 @@ section#posts {
     margin-top: 0;
     margin-bottom: 10px;
     color: $gray-base;
-    font-weight: bold;
+    font-weight: normal;
   }
   .media {
     margin-top: 0;
@@ -152,7 +152,6 @@ section#posts {
       padding-bottom: 10px;
     }
     &__comments {
-      padding-top: 10px;
       margin-left: -30px;
       .more {
         font-size: $font-size-small;
@@ -160,11 +159,9 @@ section#posts {
       }
     }
     &--hidden-issue {
-      @media (max-width: $screen-xs-max) {
-        padding-left: 10px;
-        .post-card-with-comments__comments {
-          margin-left: 0;
-        }
+      padding-left: 10px;
+      .post-card-with-comments__comments {
+        margin-left: 0;
       }
     }
   }

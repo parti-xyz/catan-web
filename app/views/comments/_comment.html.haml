@@ -5,7 +5,7 @@
       %span.text-primary= comment.user.nickname
     - if comment.mentionable?(current_user) and local_assigns[:mention_form_contorl]
       %a.text-primary{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_contorl } }
-        %i.icon-mention
+        %i.fa.fa-reply
   .date-wrapper.pull-right
     .fa.fa-clock-o
     = date_f comment.created_at

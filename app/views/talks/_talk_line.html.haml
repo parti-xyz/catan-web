@@ -26,7 +26,7 @@
               %span.nickname= comment.user.nickname
             - if comment.mentionable?(current_user)
               %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
-                %i.icon-mention
+                %i.fa.fa-reply
 
         - unless local_assigns[:hide_upvote]
           .talk-comment-upvote.visible-xs

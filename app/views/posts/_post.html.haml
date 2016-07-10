@@ -53,7 +53,7 @@
       - if post.comments_count > 2
         .more{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific) }}
           %b>
-            %i.icon-comment
+            %i.fa.fa-comment-o
             총 #{post.comments_count}개
           %span.hidden-xs 의 수다
           \|

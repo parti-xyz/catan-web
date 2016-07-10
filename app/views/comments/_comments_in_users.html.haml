@@ -7,7 +7,7 @@
         .nickname= comment.user.nickname
       - if comment.mentionable?(current_user)
         %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
-          %i.icon-mention
+          %i.fa.fa-reply
 
       .comment__date.pull-right.date-wrapper
         .fa.fa-clock-o
