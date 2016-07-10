@@ -9,7 +9,6 @@
 @import 'layout';
 
 // components
-@import "components/shared";
 @import 'components/buttons';
 @import 'components/icons';
 @import 'components/navbar';
@@ -31,6 +30,7 @@
 @import 'components/page';
 @import 'components/campaigns';
 @import 'components/admin';
+@import "components/shared";
 @import "dev";
 
 // pages
