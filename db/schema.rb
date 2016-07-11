@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621080146) do
+ActiveRecord::Schema.define(version: 20160711043146) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -124,7 +124,6 @@ ActiveRecord::Schema.define(version: 20160621080146) do
     t.datetime "updated_at",                                     null: false
     t.text     "body",          limit: 16777215
     t.string   "logo",          limit: 255
-    t.string   "cover",         limit: 255
     t.integer  "watches_count", limit: 4,        default: 0
     t.string   "slug",          limit: 255
     t.integer  "posts_count",   limit: 4,        default: 0

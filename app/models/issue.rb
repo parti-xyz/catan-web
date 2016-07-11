@@ -41,7 +41,6 @@ class Issue < ActiveRecord::Base
 
   # fields
   mount_uploader :logo, ImageUploader
-  mount_uploader :cover, ImageUploader
   attr_accessor :makers_nickname
 
   # callbacks
