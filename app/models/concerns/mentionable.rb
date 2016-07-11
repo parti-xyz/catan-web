@@ -81,7 +81,7 @@ module Mentionable
   end
 
   def push_to_slack(comment)
-    @webhook_url ||= ENV['SLACK_WEBHOOK_URL']
+    @webhook_url ||= ENV['MENTION_SLACK_WEBHOOK_URL']
     return if @webhook_url.blank?
 
     notifier = Slack::Notifier.new(@webhook_url, username: 'parti-catan')
