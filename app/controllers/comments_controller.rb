@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
     set_choice
     @comment.user = current_user
     @comment.save
-    @comments_count = @comment.post.comments.count
+    @comments_count = @comment.post.followed_comments_count
     respond_to do |format|
       format.js
       format.html { redirect_to_origin }

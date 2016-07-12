@@ -6,15 +6,24 @@ section#comments {
   padding-top: 25px;
 }
 
+.comment-line + .comment-line {
+  border-top: 1px solid #efefef;
+}
+
 .comment-line {
+  &:first-child,
+  .more + & {
+    border: none;
+  }
+  padding-top: 10px;
+  padding-bottom: 0;
+  @media (max-width: $screen-xs-max) {
+    padding-bottom: 10px;
+  }
   &:hover {
     .comment__mention {
       color: $brand-primary;
     }
-  }
-  .user-image {
-    width: 20px;
-    height: 20px;
   }
   .nickname {
     font-weight: bold;
@@ -28,7 +37,24 @@ section#comments {
     color: #777;
     padding-top: 5px;
     padding-left: 22px;
+    @media (max-width: $screen-xs-max) {
+      padding-left: 0;
+    }
     cursor: pointer;
+    &--agree p:first-child:before {
+      content: '\f087  찬성 ';
+      font-family: "FontAwesome";
+      color: #966fd6;
+    }
+    &--disagree p:first-child:before {
+      content: '\f088  반대 ';
+      font-family: "FontAwesome";
+      color: #966fd6;
+    }
+  }
+  .user-image {
+    width: 20px;
+    height: 20px;
   }
   .comment__mention {
     float: none;
@@ -41,9 +67,9 @@ section#comments {
     .body {
       font-size: $font-size-small;
     }
-    .upvote {
-      margin-left: 22px;
-    }
+  }
+  .update-form {
+    margin-bottom: 10px;
   }
 }
 
@@ -79,12 +105,19 @@ section#comments {
   }
   &__mention {
     margin-left: 5px;
-    color: $text-muted;
+    color: $gray-light;
   }
   &__btn {
-    margin-left: 10px;
+    margin-left: 22px;
+    @media (max-width: $screen-xs-max) {
+      margin-left: 0;
+    }
+    margin-bottom: 10px;
     a {
-      color: $text-muted;
+      color: $gray-light;
+      &:hover {
+        color: $gray;
+      }
     }
   }
   &__body {
@@ -121,6 +154,38 @@ section#comments {
   }
 }
 
+.comment-form {
+  margin-top: 20px;
+  &__img {
+    float: left;
+    width: 20px;
+    height: 20px;
+  }
+  &__area {
+    width: 83%;
+    position: relative;
+    float: left;
+    img {
+      position: absolute;
+      top: 20px;
+      left: 12px;
+    }
+    .form-control {
+      width: 100%;
+      height: 60px;
+      border: 1px solid #966fd6;
+      margin-left: 5px;
+      display: inline-block;
+    }
+  }
+  &__btn {
+    float: right;
+    width: 80px;
+    padding: 19px 30px !important;
+  }
+}
+
+
 #new-comments {
   display: none;
   padding-top: 15px;
@@ -142,10 +207,6 @@ section#comments {
 }
 
 @media (max-width: $screen-xs-max) {
-  .comment-line {
-    margin-top: 10px;
-  }
-
   .comment__btn i {
     font-size: 20px;
   }

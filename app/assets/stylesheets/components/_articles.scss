@@ -188,13 +188,30 @@ section#articles {
 }
 
 .article-line {
+  display: table;
   cursor: pointer;
-  padding: 15px;
   border: 1px solid $gray-lighter;
-  .thumb {
+  border-radius: $border-radius-base;
+  width: 100%;
+  &__content {
+    display: table-cell;
+    padding: 10px;
+  }
+  &__body {
+    @media (max-width: $screen-xs-max) {
+      font-size: $font-size-small;
+    }
+    color: $text-muted;
+  }
+  &__thumb {
+    display: table-cell;
     width: 150px;
-    height: 100px;
-    border-radius: $border-radius-base;
+    background-size: cover;
+  }
+  &__site-name {
+    font-size: 12px;
+    margin-top: 5px;
+    color: $gray-light;
   }
 }
 
@@ -215,9 +232,8 @@ section#articles {
   }
 
   .article-line {
-    .thumb {
+    &__thumb {
       width: 90px;
-      height: 60px;
     }
   }
 }

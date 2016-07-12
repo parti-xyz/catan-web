@@ -1,7 +1,7 @@
 <% if @comment.persisted? %>
-  var $comment = $.parseDiv$("<%= escape_javascript(render 'comments/comment', comment: @comment) %>");
-  parti_prepare($comment);
-  $('<%= params[:body_control] %>').val('');
-  $('<%= params[:count_label] %>').text('<%= @comments_count %>');
-  $('<%= params[:container] %>').append($comment);
+  $("<%= raw params[:body_control] %>").val('');
+  var $comment = parti_origin_partial("<%= escape_javascript(render 'comments/comment_line', comment: @comment, in_modal: true) %>");
+  $("<%= raw params[:container] %>").append($comment);
+  var $comments_count = parti_origin_partial("<%= escape_javascript(render 'comments/list_header', post: @comment.post, in_modal: true) %>");
+  $("<%= raw params[:count_label] %>").html($comments_count);
 <% end %>

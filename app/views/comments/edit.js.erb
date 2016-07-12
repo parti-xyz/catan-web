@@ -1,3 +1,2 @@
-var $form = $.parseDiv$("<%= escape_javascript(render 'edit_form') %>");
-parti_prepare($form);
-$('.<%= dom_id(@comment) %>[data-parti-comment-style=<%= params[:style].dasherize %>]').html($form);
+var $form = parti_origin_partial("<%= escape_javascript(render 'edit_form') %>");
+$('.<%= dom_id(@comment) %> .media').html($form);

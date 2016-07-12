@@ -104,6 +104,22 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def followed_comments
+    if specific.is_a?(Talk) and specific.has_presentation?
+      comments.recent.reverse[1..-1]
+    else
+      comments
+    end
+  end
+
+  def followed_comments_count
+    if specific.is_a?(Talk) and specific.has_presentation?
+      comments_count - 1
+    else
+      comments_count
+    end
+  end
+
   def self.recommends(exclude)
     result = recent.limit(10)
     if result.length < 10

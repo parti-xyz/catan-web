@@ -1,62 +1,51 @@
-.post-card-with-comments{class: "#{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]}", data: { 'parti-comment-style': 'in-list' }}
-  .post-card-with-comments__header{class: "#{delete_margin_left if local_assigns[:delete_margin_left]}"}
-    - if local_assigns[:show_issue]
-      = link_to issue_home_path(post.issue), class: 'issue-logo' do
-        = image_tag post.issue.logo.xs.url
-        %span.issue-title= post.issue.title
-      %span
-        &middot;
-        - model_type = post.specific.class.model_name
-        - if model_type == 'Talk'
-          = link_to issue_talks_path(post.issue), class: 'post-type' do
+- local_assigns[:show_issue] = true if local_assigns[:in_modal]
+- comment_style = local_assigns[:in_modal] ? 'in-modal' : 'in-list'
+.post-card-with-comments{class: "#{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]} post-card-with-comments__#{post.specific.class.model_name.singular}", data: { 'parti-comment-style': comment_style }}
+  .post-card-with-comments__content
+    .post-card-with-comments__header
+      .media
+        - if local_assigns[:show_issue]
+          .media-left
+            .issue-logo
+              = image_tag post.issue.logo.xs.url
+        .media-body
+          - if local_assigns[:show_issue]
+            = link_to issue_home_path(post.issue) do
+              %span.issue-title= post.issue.title
+            %br
+          = link_to send("issue_#{post.specific.class.model_name.plural}_path", post.issue), class: 'post-type' do
             #{post.specific.class.model_name.human}
-        - elsif model_type == 'Article'
-          = link_to issue_articles_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-        - elsif model_type == 'Note'
-          = link_to issue_notes_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-        - elsif model_type == 'Opinion'
-          = link_to issue_opinions_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-        - else
-          = link_to issue_wikis_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
+          %span.date-wrapper= date_f post.created_at
+        - if local_assigns[:in_modal]
+          .media-right
+            %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
+              = image_tag 'icon_close.png'
 
+    .post-card-with-comments__post
+      = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), show_issue: false
 
-    - unless local_assigns[:show_issue]
-      %span
-        - model_type = post.specific.class.model_name
-        - if model_type == 'Talk'
-          = link_to issue_talks_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-        - elsif model_type == 'Article'
-          = link_to issue_articles_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-        - elsif model_type == 'Note'
-          = link_to issue_notes_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-        - elsif model_type == 'Opinion'
-          = link_to issue_opinions_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-        - else
-          = link_to issue_wikis_path(post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-    %span.date-wrapper= date_f post.created_at
-
-
-  .post-card-with-comments__post
-    = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), show_issue: false
-
-  - if post.latest_comments.any?
-    .post-card-with-comments__comments
-      - if post.comments_count > 2
-        .more{data: { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific) }}
-          %b>
-            %i.fa.fa-comment-o
-            총 #{post.comments_count}개
-          %span.hidden-xs 의 수다
-          \|
-          %span.text-primary 이전 수다 더보기...
-      - post.latest_comments.each do |comment|
-        = render 'comments/comment_line', comment: comment
+    - if post.followed_comments_count > 0
+      .post-card-with-comments__comments
+        - unless local_assigns[:in_modal]
+          .post-card-with-comments__count
+            = render 'comments/list_header', local_assigns.update(post: post)
+        - if post.followed_comments.any?
+          - (local_assigns[:in_modal] ? post.followed_comments : post.latest_comments).each do |comment|
+            = render 'comments/comment_line', local_assigns.update(comment: comment, mention_form_control: '#new_comment #comment_body')
+  .post-card-with-comments__comment-form
+    - if local_assigns[:in_modal]
+      - if user_signed_in?
+        %a.anchor#comment-form
+        .clearfix
+          = form_for [post, Comment.new], remote: true, class: 'comment-form' do |f|
+            = hidden_field_tag :container, ".#{dom_id(post)}[data-parti-comment-style='in-modal'] .post-card-with-comments__comments"
+            = hidden_field_tag :count_label, ".#{dom_id(post)}[data-parti-comment-style='in-modal'] .post-card-with-comments__count"
+            = hidden_field_tag :body_control, ".#{dom_id(post)}[data-parti-comment-style='in-modal'] form#new_comment #comment_body"
+            .thumb.img-circle.comment-form__img{style: "background-image: url(#{current_user.image.sm.url});"}
+            .comment-form__area
+              = f.text_area :body, class: 'form-control'
+            = f.submit '게시', class: 'btn btn-primary comment-form__btn'
+      - else
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
+          %i.fa.fa-comment-o
+          수다작성

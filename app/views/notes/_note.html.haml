@@ -11,7 +11,7 @@
       = byline note.user
     .note-card__body
       = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
-        = note.body
+        = smart_format(note.body)
     .note-card__meta
       .row
         .col-xs-6

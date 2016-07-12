@@ -191,7 +191,17 @@
 
 .btn-upvote {
   min-width: 80px;
-  &--like-label {
+  border-color: $gray-lighter;
+  color: $gray;
+  background-color: #fff;
+  &--liked,
+  &--liked:hover {
+    border-color: $brand-primary-dark;
+    background-color: $brand-primary;
+    color: #fff;
+    @include btn-push(#fff, $brand-primary-dark, #fff, $brand-primary-dark);
+  }
+  &__like-label {
     font-size: $font-size-small;
     &:hover {
       color: $brand-primary;

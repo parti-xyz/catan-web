@@ -16,21 +16,16 @@ section#posts {
 
 .post-card-with-comments {
   @include hover-shadow();
-
   position: relative;
   background-color: #fff;
   margin-bottom: 10px;
-  padding: 15px 15px 15px 50px;
+  padding: 15px;
   border: 1px solid #fff;
   border-radius: 4px;
-
   &__header {
     .issue-logo img {
-      position: absolute;
-      left: 10px;
-      top: 15px;
-      width: 30px;
-      height: 30px;
+      width: 36px;
+      height: 36px;
       border-radius: $border-radius-base;
     }
     .issue-title {
@@ -49,24 +44,74 @@ section#posts {
   }
   &__post {
     padding-top: 5px;
-    padding-bottom: 20px;
     word-break: break-all;
     .post-line__title {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-weight: normal;
     }
   }
-  .more {
-    margin-bottom: 20px;
-    color: $gray;
-    cursor: pointer;
-    i {
-      font-size: $font-size-large;
+  &__comments {
+    padding-top: 10px;
+    margin-top: 10px;
+  }
+  &__talk,
+  &__note {
+    .post-card-with-comments__comments {
+      border-top: 1px solid $gray-lighter;
     }
   }
-
+  .more {
+    margin-bottom: 10px;
+    color: $gray-light;
+    cursor: pointer;
+    font-size: $font-size-small;
+    i {
+      font-size: $font-size-base;
+    }
+  }
   &--hidden-issue {
     padding-left: 15px;
+  }
+  .post-modal & {
+    padding: 0;
+    margin-bottom: 0;
+    border: none;
+    &:hover {
+      border: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+    &__content {
+      padding-top: 40px;
+      padding-right: 40px;
+      padding-left: 40px;
+      padding-bottom: 15px;
+    }
+    &__comment-form {
+      background-color: $gray-lightest;
+      padding-top: 20px;
+      padding-right: 40px;
+      padding-bottom: 20px;
+      padding-left: 40px;
+      border-bottom-left-radius: $border-radius-base;
+      border-bottom-right-radius: $border-radius-base;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      &__content {
+        padding-top: 15px;
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-bottom: 5px;
+      }
+      &__comment-form {
+        padding-top: 20px;
+        padding-right: 15px;
+        padding-bottom: 20px;
+        padding-left: 15px;
+      }
+    }
   }
 }
 
@@ -138,30 +183,32 @@ section#posts {
 
 @media (max-width: $screen-xs-max) {
   .post-card-with-comments {
-    padding: 10px 10px 10px 50px;
+    padding: 10px 10px 10px 10px;
     &__header {
-      .issue-logo img {
-        left: 10px;
-        top: 10px;
-      }
       .issue-title {
         font-size: $font-size-small;
       }
     }
     &__post {
-      padding-bottom: 10px;
+      padding-bottom: 0;
     }
     &__comments {
-      margin-left: -30px;
       .more {
         font-size: $font-size-small;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
       }
     }
     &--hidden-issue {
       padding-left: 10px;
+    }
+    .post-card-with-comments__comments {
+      margin-left: 0;
+      margin-top: 0;
+    }
+    &__talk,
+    &__note {
       .post-card-with-comments__comments {
-        margin-left: 0;
+        margin-top: 10px;
       }
     }
   }

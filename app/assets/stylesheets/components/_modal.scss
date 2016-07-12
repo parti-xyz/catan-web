@@ -1,5 +1,6 @@
 .modal-dialog {
   margin: 50px auto;
+  width: 755px;
 }
 
 .article__body__img-container.article__body__img-container--lg {
@@ -18,35 +19,6 @@
   img {
     width: auto;
     margin-top: 20px;
-  }
-}
-
-.comment-form {
-  margin-top: 20px;
-  &__img {
-    float: left;
-    margin-top: 5px;
-  }
-  &__area {
-    width: 65%;
-    position: relative;
-    float: left;
-    img {
-      position: absolute;
-      top: 20px;
-      left: 12px;
-    }
-    .form-control {
-      width: 100%;
-      height: 60px;
-      border: 1px solid #966fd6;
-      margin-left: 30px;
-      display: inline-block;
-    }
-  }
-  &__btn {
-    float: right;
-    padding: 19px 30px !important;
   }
 }
 

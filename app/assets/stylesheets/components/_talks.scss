@@ -111,6 +111,9 @@ section#talks {
     width: 20px;
     height: 20px;
   }
+  &__title {
+    margin-top: 5px;
+  }
   .nickname {
     font-weight: bold;
     color: $brand-primary;

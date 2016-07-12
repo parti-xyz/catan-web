@@ -12,7 +12,8 @@
         #{Note.model_name.human}
   .media
     .media-body
-      .note-body{data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) }}= smart_format(note.body)
+      .note-body{data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) }}
+        = smart_format(note.body)
 
       .note-info
         = link_to user_gallery_path(note.user) do

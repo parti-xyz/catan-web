@@ -1,6 +1,6 @@
 %div{id: "#{dom_id(postable)}-comments" }
   %ul.comment-list.list-unstyled
-    = render postable.sequential_comments_but_presentation, mention_form_contorl: '#new_comment #comment_body'
+    = render postable.sequential_comments_but_presentation, mention_form_control: '#new_comment #comment_body'
   - if user_signed_in?
     %a.anchor#comment-form
     .comment-form.clearfix

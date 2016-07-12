@@ -1,15 +1,16 @@
-.post-modal__top
-  .post-modal__info
-    = link_to issue_home_path(@opinion.issue) do
-      = image_tag @opinion.issue.logo.xs.url, class: 'img-circle'
-      %span.text-primary= @opinion.issue.title
-  %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
-    = image_tag 'icon_close.png'
+/ .post-modal__top
+/   .post-modal__info
+/     = link_to issue_home_path(@opinion.issue) do
+/       = image_tag @opinion.issue.logo.xs.url, class: 'img-circle'
+/       %span.text-primary= @opinion.issue.title
+/   %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
+/     = image_tag 'icon_close.png'
 
-.post-modal__content
-  %h3.post-modal__title= @opinion.title
-  = render 'body'
-  = render 'posts/post_header', post: @opinion.acting_as, additional_buttons_partial: 'opinions/modal_buttons'
+/ .post-modal__content
+/   %h3.post-modal__title= @opinion.title
+/   = render 'body'
+/   = render 'posts/post_header', post: @opinion.acting_as, additional_buttons_partial: 'opinions/modal_buttons'
 
-.post-modal__comment
-  = render 'comments/comments_in_post_modal', postable: @opinion, style: :opinion
+/ .post-modal__comment
+/   = render 'comments/comments_in_post_modal', postable: @opinion, style: :opinion
+= render @opinion.acting_as, in_modal: true

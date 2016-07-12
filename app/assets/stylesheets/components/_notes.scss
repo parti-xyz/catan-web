@@ -84,6 +84,9 @@ section#notes {
   }
   .note-info {
     margin-bottom: 10px;
+    @media (max-width: $screen-xs-max) {
+      margin-bottom: 0;
+    }
   }
   .comment__mention {
     float: none;
