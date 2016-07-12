@@ -3,3 +3,7 @@
     .modal-content
       .modal-body.post-modal__partial-content
         = yield :post_modal_content if content_for?(:post_modal_content)
+    .modal-footer.visible-xs-block
+      %div(data-dismiss="modal" aria-label="Close")
+        더많은 글이 빠띠에 있습니다.
+        %i.fa.fa-arrow-right

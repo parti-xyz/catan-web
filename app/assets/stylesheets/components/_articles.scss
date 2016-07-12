@@ -199,7 +199,7 @@ section#articles {
   }
   &__body {
     @media (max-width: $screen-xs-max) {
-      font-size: $font-size-small;
+      font-size: $font-size-base;
     }
     color: $text-muted;
   }
@@ -233,7 +233,7 @@ section#articles {
 
   .article-line {
     &__thumb {
-      width: 90px;
+      width: 120px;
     }
   }
 }

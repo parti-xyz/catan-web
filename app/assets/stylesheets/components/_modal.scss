@@ -22,36 +22,6 @@
   }
 }
 
-.vote__tab {
-  margin-bottom: 20px;
-  .nav-tabs {
-    text-align: center;
-    border-color: #d2d2d2;
-    li {
-      float: none;
-      display: inline-block;
-      margin: 0 20px;
-      &.active a , &:hover a, &:focus a, &:visited a {
-        color: $brand-primary;
-        background: transparent;
-        border: none;
-        border-bottom: 2px solid #966fd6;
-      }
-      a {
-        font-size: 18px;
-        border: none;
-        padding: 10px 5px;
-        color: #777;
-        position: relative;
-      .comments--count {
-        top: 0px;
-        left: 73px;
-        }
-      }
-    }
-  }
-}
-
 .edit_article, .edit_talk {
  .form-group .btn-lg {
     padding: 6px 12px;

@@ -46,6 +46,8 @@
               = f.text_area :body, class: 'form-control'
             = f.submit '게시', class: 'btn btn-primary comment-form__btn'
       - else
-        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
-          %i.fa.fa-comment-o
-          수다작성
+        .post-card-with-comments__comment-form--need-to-login
+          %span.text-muted 가볍게 수다를 작성해 보세요.
+          = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
+            %i.fa.fa-comment-o
+            게시

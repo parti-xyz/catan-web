@@ -660,37 +660,6 @@ label.required:after {
 
 
   /* modal */
-  .modal-dialog {
-    margin: 0 auto;
-    width: 100%;
-  }
-  .modal__top {
-    padding: 10px;
-    font-size: 12px;
-    .modal__btn {
-      width: 50px;
-      height: 50px;
-      img {
-        zoom: 0.8;
-      }
-    }
-  }
-  .modal__content {
-    padding: 20px;
-    h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      margin-top: 40px;
-    }
-  }
-  .modal__comment {
-    padding: 20px 10px;
-    .comments--count {
-      left: 70px;
-      font-size: 10px;
-      padding: 2px 6px 0px;
-    }
-  }
   .article__body__img-container img {
     width: 100%;
     margin-top: 0;

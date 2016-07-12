@@ -127,24 +127,13 @@ section#issues {
     }
   }
   .parti-info {
-    padding: 0;
+    margin-bottom: 10px;
     text-shadow: 1px 1px #333;
-    .parti-users {
-      img {
-        width: 30px;
-        height: 30px;
-      }
-    }
-    .parti-makers-label,
     .parti-users-label,
     .parti-users-count {
-      font-size: $font-size-small;
+      font-size: $font-size-base;
       font-weight: 100;
-      margin-right: 10px;
       color: #fff;
-    }
-    .parti-maker-icons {
-      margin-right: 10px;
     }
   }
   .share-box {
@@ -504,22 +493,13 @@ section#issues {
     .parti-buttons {
       margin-top: 5px;
     }
-    .parti-info {
-      margin-top: 0;
-      margin-bottom: 0;
-      position: static;
-      background-color: transparent;
-      .share-box {
-        display: none;
-      }
-      .parti-makers {
-        line-height: initial;
-      }
-    }
     .parti-menu {
       background: rgba(0,0,0,0.2);
       width: 100%;
       border-bottom: 4px solid $brand-primary;
+      & > .container {
+        padding: 0;
+      }
       .row {
         border-color: #d2d2d2;
         text-align: center;
