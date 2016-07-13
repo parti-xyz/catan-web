@@ -6,8 +6,9 @@
       .media
         - if local_assigns[:show_issue]
           .media-left
-            .issue-logo
-              = image_tag post.issue.logo.xs.url
+            = link_to issue_home_path(post.issue) do
+              .issue-logo
+                = image_tag post.issue.logo.xs.url
         .media-body
           - if local_assigns[:show_issue]
             = link_to issue_home_path(post.issue) do
@@ -22,16 +23,16 @@
               = image_tag 'icon_close.png'
 
     .post-card-with-comments__post
-      = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), show_issue: false
+      = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), local_assigns.update(show_issue: false)
 
     - if post.followed_comments_count > 0
       .post-card-with-comments__comments
         - unless local_assigns[:in_modal]
           .post-card-with-comments__count
             = render 'comments/list_header', local_assigns.update(post: post)
-        - if post.followed_comments.any?
-          - (local_assigns[:in_modal] ? post.followed_comments : post.latest_comments).each do |comment|
-            = render 'comments/comment_line', local_assigns.update(comment: comment, mention_form_control: '#new_comment #comment_body')
+      - if post.followed_comments.any?
+        - (local_assigns[:in_modal] ? post.followed_comments : post.latest_comments).each do |comment|
+          = render 'comments/comment_line', local_assigns.update(comment: comment, mention_form_control: '#new_comment #comment_body')
   .post-card-with-comments__comment-form
     - if local_assigns[:in_modal]
       - if user_signed_in?

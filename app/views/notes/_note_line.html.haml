@@ -1,6 +1,9 @@
 - note = note_line
 - post = note.acting_as
 - issue = post.issue
+- modal_data = local_assigns[:in_modal] ? {} : {toggle: 'parti-post-modal', target: '#post-modal', 'url': note_path(note)}
+- mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
+- mention_data = local_assigns[:in_modal] ? mention_options_data.update(action: 'parti-mention') : mention_options_data.update(modal_data)
 .note-line.post-line[post]
   - if local_assigns[:show_issue]
     .note-line__issue.post-line__issue
@@ -12,7 +15,7 @@
         #{Note.model_name.human}
   .media
     .media-body
-      .note-body{data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) }}
+      .note-body{data: modal_data}
         = smart_format(note.body)
 
       .note-info
@@ -20,6 +23,6 @@
           .thumb.user-image.img-circle{style: "background-image: url(#{note.user.image.sm.url});"}
           %span.nickname= note.user.nickname
         - if note.user.mentionable?(current_user)
-          %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': note_path(note), 'mention-nickname': note.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+          %a.comment__mention{ href: '#', data: mention_data }
             %i.fa.fa-reply
 

@@ -107,6 +107,9 @@ section#talks {
 
 .talk-line {
   cursor: pointer;
+  .post-modal & {
+    cursor: initial;
+  }
   .user-image {
     width: 20px;
     height: 20px;

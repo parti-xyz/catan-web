@@ -618,6 +618,9 @@ var parti_prepare_post_modal = function($base) {
     var nickname = $elm.data('mention-nickname');
     var mention_form_control = $elm.data('mention-form-control');
     $elm.on('click', function(e) {
+      if ($(e.target).closest('a').attr('href')) {
+        return true;
+      }
       $target.data('mention-nickname', nickname);
       $target.data('mention-form-control', mention_form_control);
       $.pjax({url: url, container: container, scrollTo: false, timeout: 5000});

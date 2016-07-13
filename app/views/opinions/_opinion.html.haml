@@ -1,17 +1,17 @@
 - post = opinion.acting_as
 - issue = post.issue
 - voted = user_signed_in? && opinion.voted_by?(current_user)
-.opinion-card[post]{ class: "#{dom_id(opinion)} #{voted ? 'opinion-card--voted' : ''}" }
-  .row
+- modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) }
+.opinion-card[post]{ class: "#{dom_id(opinion)} #{voted ? 'opinion-card--voted' : ''}", data: modal_data}
+  .row.opinion-card__meta
     .col-sm-6.col-xs-12
-      - if local_assigns[:show_issue]
+      .opinion-card__issue
         = link_to issue_home_path(issue) do
           .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
     .col-sm-6.col-xs-12
-      .opinion-card__date.date-wrapper{class: ('opinion-card__date--with-issue' if local_assigns[:show_issue])}
+      .opinion-card__date.date-wrapper.opinion-card__date--with-issue
         %span= date_f opinion.created_at
   %h4.opinion-card__title
-    = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) } do
-      “#{opinion.title}”
+    “#{opinion.title}”
 
   = render 'votes/vote_inline', specific: opinion

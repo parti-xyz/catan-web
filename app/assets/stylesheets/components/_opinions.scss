@@ -13,6 +13,10 @@ section#opinions {
 }
 
 .opinion-card {
+  cursor: pointer;
+  .post-modal & {
+    cursor: initial;
+  }
   @include hover-shadow();
 
   background-color: #fff;
@@ -54,6 +58,18 @@ section#opinions {
   }
   &:hover {
     border: 1px solid $brand-primary-light;
+  }
+
+  section#opinions.opinions--issue & .opinion-card__meta {
+    .opinion-card__issue {
+      display: none;
+    }
+    .opinion-card__date--with-issue {
+      line-height: initial;
+    }
+  }
+  .post-modal & .opinion-card__meta {
+    display: none;
   }
 }
 

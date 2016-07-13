@@ -208,7 +208,8 @@ section#articles {
     width: 150px;
     background-size: cover;
   }
-  &__site-name {
+  &__site-name,
+  &__site-name a {
     font-size: 12px;
     margin-top: 5px;
     color: $gray-light;
