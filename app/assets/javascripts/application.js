@@ -618,7 +618,8 @@ var parti_prepare_post_modal = function($base) {
     var nickname = $elm.data('mention-nickname');
     var mention_form_control = $elm.data('mention-form-control');
     $elm.on('click', function(e) {
-      if ($(e.target).closest('a').attr('href')) {
+      var href = $(e.target).closest('a').attr('href')
+      if (href && href != "#") {
         return true;
       }
       $target.data('mention-nickname', nickname);
