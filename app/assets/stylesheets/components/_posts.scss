@@ -45,7 +45,11 @@ section#posts {
     word-break: break-all;
     .post-line__title {
       margin-bottom: 20px;
-      font-weight: normal;
+      font-weight: 600;
+      font-size: $font-size-base;
+      .post-modal & {
+        font-size: initial;
+      }
     }
   }
   &__comments {
