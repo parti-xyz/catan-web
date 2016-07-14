@@ -1,7 +1,7 @@
 section#posts {
   padding: 20px 0;
   @media (max-width: $screen-xs-max) {
-    h4 {
+    .page-title {
       margin-left: 15px;
     }
     & > .container > .row > .col-xs-9 {
