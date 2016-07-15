@@ -3,7 +3,7 @@
 - issue = post.issue
 - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }
 - mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
-- mention_data = local_assigns[:in_modal] ? mention_options_data.update(action: 'parti-mention') : mention_options_data.update(modal_data)
+- mention_data = local_assigns[:in_modal] ? mention_options_data.merge(action: 'parti-mention') : mention_options_data.merge(modal_data)
 .talk-line.post-line[post]
   - if local_assigns[:show_issue]
     .talk-line__issue.post-line__issue
