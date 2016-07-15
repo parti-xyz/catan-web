@@ -252,11 +252,11 @@
     padding: 40px 35px 25px;
   }
   h5 {
-    color: #777;
+    color: $gray;
     font-size: 16px;
   }
   a {
-    color: #777;
+    color: $gray;
     font-weight: bold;
     text-decoration: underline;
   }
@@ -279,7 +279,7 @@
   }
   textarea {
     min-height: 150px;
-    color: #777;
+    color: $gray;
   }
 }
 

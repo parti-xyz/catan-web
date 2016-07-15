@@ -71,9 +71,9 @@
     right: 10px;
     top: 15px;
     a {
-      border: 1px solid #777;
+      border: 1px solid $gray;
       padding: 5px 9px;
-      color: #777;
+      color: $gray;
       font-size: 14px;
     }
   }
@@ -90,7 +90,7 @@
   &--first {
     border: 1px solid $brand-light;
     padding: 20px;
-    color: #777;
+    color: $gray;
     font-size: 15px;
     .profile {
       margin-bottom: 10px;

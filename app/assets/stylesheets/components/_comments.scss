@@ -7,7 +7,7 @@ section#comments {
 }
 
 .comment-line + .comment-line {
-  border-top: 1px solid #efefef;
+  border-top: 1px solid $gray-lighter;
 }
 
 .comment-line {
@@ -34,7 +34,7 @@ section#comments {
     color: $gray-light;
   }
   .body {
-    color: #777;
+    color: $gray;
     padding-top: 5px;
     padding-left: 22px;
     @media (max-width: $screen-xs-max) {
@@ -116,7 +116,7 @@ section#comments {
     }
   }
   &__body {
-    color: #777;
+    color: $gray;
     font-size: $font-size-base;
     word-break: break-all;
     padding-top: 10px;
@@ -184,7 +184,7 @@ section#comments {
 #new-comments {
   display: none;
   padding-top: 15px;
-  color: #777;
+  color: $gray;
   .post-card-with-comments {
     text-align: center;
     font-size: 16px;
@@ -196,7 +196,7 @@ section#comments {
       font-weight: bold;
     }
     a {
-      color: #777;
+      color: $gray;
     }
   }
 }

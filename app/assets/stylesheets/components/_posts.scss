@@ -59,9 +59,9 @@ section#posts {
   &__comment-form {
     &__link-to-modal,
     &__link-to-login {
-      border-top: 1px solid #efefef;
+      border-top: 1px solid $gray-lighter;
       padding-top: 10px;
-      color: #c0c0c2;
+      color: $gray-light;
       font-size: 12px;
       cursor: pointer;
       i {
@@ -178,7 +178,7 @@ section#posts {
   border-bottom: 1px solid #e6e6e7;
   padding: 20px;
   a {
-    color: #777;
+    color: $gray;
     font-size: 15px;
     margin-bottom: 15px;
     display: block;

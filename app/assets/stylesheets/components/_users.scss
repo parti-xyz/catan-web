@@ -432,7 +432,7 @@ section#user-gallery{
     border: 1px solid #d2d2d2;
   }
   a {
-    color: #777;
+    color: $gray;
     &:hover {
       color: $brand-primary;
     }
@@ -498,7 +498,7 @@ section#user-gallery{
   }
 }
 .remember_me {
-  color: #777;
+  color: $gray;
   font-weight: normal;
 }
 
@@ -522,7 +522,7 @@ section#user-gallery{
 .shared_links {
   margin-top: 20px;
   a {
-    color: #777;
+    color: $gray;
     text-decoration: underline;
   }
 }
