@@ -5,13 +5,5 @@
     = link_to user_gallery_path(user) do
       .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
       %p= user.nickname
-  .user-card__info
-    .col-xs-4.border-none
-      %div.icon-comment
-      = writing_counts.comments_count
-    .col-xs-4
-      %div.icon-vote
-      = writing_counts.votes_count
-    .col-xs-4
-      %div.icon-heart
-      = writing_counts.upvotes_count
+
+

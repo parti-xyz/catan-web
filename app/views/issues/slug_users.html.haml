@@ -11,7 +11,7 @@
                 .count-label= @issue.watches.count
 
         %ul.user-card-wrapper.list-unstyled.clearfix
-          - @issue.watched_users.each do |user|
+          - @issue.watched_users.recent.each do |user|
             = render user, issue: @issue
       .col-xs-3= render 'footer'
 
