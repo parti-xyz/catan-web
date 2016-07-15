@@ -18,6 +18,7 @@
       .article-line__site-name
         %a{href: article.link_source.url, target: '_blank'}
           = article.site_name.try(:upcase)
+          원글보기
           %i.fa.fa-external-link
     - if (article.has_image?)
       .article-line__thumb{style: "background-image: url(#{article.image.md.url})"}

@@ -578,18 +578,17 @@ var parti_prepare_post_modal = function($base) {
 
     var nickname = $target.data('mention-nickname');
     var mention_form_control = $target.data('mention-form-control');
+    var control = $target.find(mention_form_control);
 
     is_mention = $.is_present(mention_form_control) && $.is_present(nickname);
-
     if (is_mention) {
-      var control = $target.find(mention_form_control);
       var value = $(control).val();
       var at_nickname = '@' + nickname;
       if ($.is_blank(value) || value.indexOf(at_nickname) == -1) {
         $(control).val(at_nickname + ' ' + value);
       }
     }
-    if (is_mention) {
+    if ($.is_present(mention_form_control)) {
       $target.on('shown.bs.modal', function (e) {
         $(control).focus();
       });

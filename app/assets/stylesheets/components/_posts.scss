@@ -56,6 +56,19 @@ section#posts {
     padding-top: 10px;
     margin-top: 10px;
   }
+  &__comment-form {
+    &__link-to-modal,
+    &__link-to-login {
+      border-top: 1px solid #efefef;
+      padding-top: 10px;
+      color: #c0c0c2;
+      font-size: 12px;
+      cursor: pointer;
+      i {
+        font-size: 20px;
+      }
+    }
+  }
   &__talk,
   &__note {
     .post-card-with-comments__comments {
