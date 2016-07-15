@@ -10,7 +10,7 @@
             %small 질문을 남기거나 제안을 받고, 혹은 자신의 의견을 펼쳐보세요.
         .media-right
           - if user_signed_in?
-            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#talk-form-widget', focus: 'input#talk_title'} do
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#talk-form-widget', focus: 'input#talk_title', 'self-hide': true} do
               .fa.fa-comments-o
               = t('labels.new_talk_button')
           - else

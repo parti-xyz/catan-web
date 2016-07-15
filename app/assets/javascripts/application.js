@@ -218,6 +218,9 @@ var parti_prepare = function($base) {
       var focus_id = $elm.data('focus');
       $focus = $(focus_id);
       $focus.focus();
+      if($elm.data('self-hide')) {
+        $elm.hide();
+      }
     });
   });
 

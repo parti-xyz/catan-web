@@ -10,7 +10,7 @@
             %small 뉴스, 블로그, 영상 등 관련 자료를 모아보세요.
         .media-right
           - if user_signed_in?
-            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#article-form-widget', focus: 'input#article_link'} do
+            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#article-form-widget', focus: 'input#article_link', 'self-hide': true} do
               .fa.fa-paperclip
               = t('labels.new_article_button')
           - else
