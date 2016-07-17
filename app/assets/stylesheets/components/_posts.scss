@@ -1,4 +1,4 @@
-section#posts {
+_fsection#posts {
   padding: 20px 0;
   @media (max-width: $screen-xs-max) {
     .page-title {
@@ -55,15 +55,17 @@ section#posts {
   &__comments {
     padding-top: 10px;
     margin-top: 10px;
+    cursor: pointer;
   }
-  &__comment-form {
+  &__footer {
+    border-top: 1px solid $gray-lighter;
+    color: $gray-light;
+    font-size: 12px;
+    cursor: pointer;
+    padding-top: 10px;
     &__link-to-modal,
     &__link-to-login {
-      border-top: 1px solid $gray-lighter;
-      padding-top: 10px;
-      color: $gray-light;
-      font-size: 12px;
-      cursor: pointer;
+      padding-right: 20px;
       i {
         font-size: 20px;
       }
@@ -71,8 +73,13 @@ section#posts {
   }
   &__talk,
   &__note {
-    .post-card-with-comments__comments {
-      border-top: 1px solid $gray-lighter;
+    .post-card-with-comments {
+      &__comments {
+        border-top: 1px solid $gray-lighter;
+      }
+      &__footer {
+        margin-top: 10px;
+      }
     }
   }
   .more {
@@ -103,31 +110,35 @@ section#posts {
       padding-left: 40px;
       padding-bottom: 15px;
     }
+    &__comments {
+      padding-top: 10px;
+      margin-top: 10px;
+      cursor: initial;
+    }
+    &__footer {
+      padding: 10px 40px;
+    }
     &__comment-form {
+      border-top: 1px solid $gray-lighter;
+      padding: 20px 40px;
       background-color: $gray-lightest;
-      padding-top: 20px;
-      padding-right: 40px;
-      padding-bottom: 20px;
-      padding-left: 40px;
-      border-bottom-left-radius: $border-radius-base;
-      border-bottom-right-radius: $border-radius-base;
       &--need-to-login {
         text-align: center;
+      }
+      @media (min-width: $screen-sm-min) {
+        border-radius: 4px;
+      }
+      @media (max-width: $screen-xs-max) {
+        padding: 15px;
       }
     }
 
     @media (max-width: $screen-xs-max) {
       &__content {
-        padding-top: 15px;
-        padding-right: 15px;
-        padding-left: 15px;
-        padding-bottom: 5px;
+        padding: 15px;
       }
-      &__comment-form {
-        padding-top: 20px;
-        padding-right: 15px;
-        padding-bottom: 20px;
-        padding-left: 15px;
+      &__footer {
+        padding: 10px 15px;
       }
     }
   }

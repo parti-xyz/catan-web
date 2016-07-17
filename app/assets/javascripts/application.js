@@ -20,6 +20,7 @@
 //= require jquery.waypoints
 //= require jquery.typewatch
 //= require jquery.dotdotdot
+//= require jquery.webui-popover
 //= require select2.full
 //= require redactor2_rails/config
 //= require redactor
@@ -106,6 +107,8 @@ var parti_prepare = function($base) {
   }
 
   parti_prepare_masonry($base);
+
+  $('[data-action="parti-popover"]').webuiPopover();
 
   // typeahead
   $.parti_apply($base, '[data-provider="parti-issue-typeahead"]', function(elm) {
@@ -476,7 +479,9 @@ var parti_prepare = function($base) {
       var $control = $($target.data('mention-form-control'));
       var nickname = $target.data('mention-nickname');
       var value = $control.val();
-      $control.val('@' + nickname + ' ' + value);
+      if(nickname) {
+        $control.val('@' + nickname + ' ' + value);
+      }
       $control.focus();
     });
   });

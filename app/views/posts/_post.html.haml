@@ -1,6 +1,6 @@
 - local_assigns[:show_issue] = true if local_assigns[:in_modal]
 - comment_style = local_assigns[:in_modal] ? 'in-modal' : 'in-list'
-.post-card-with-comments{class: "#{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]} post-card-with-comments__#{post.specific.class.model_name.singular}", data: { 'parti-comment-style': comment_style }}
+.post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]} post-card-with-comments__#{post.specific.class.model_name.singular}", data: { 'parti-comment-style': comment_style }}
   .post-card-with-comments__content
     .post-card-with-comments__header
       .media
@@ -30,35 +30,47 @@
         - unless local_assigns[:in_modal]
           .post-card-with-comments__count
             = render 'comments/list_header', local_assigns.merge(post: post)
-      - if post.followed_comments.any?
-        - (local_assigns[:in_modal] ? post.followed_comments : post.latest_comments).each do |comment|
-          = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')
-  .post-card-with-comments__comment-form
-    - if local_assigns[:in_modal]
+        - if post.followed_comments.any?
+          - (local_assigns[:in_modal] ? post.followed_comments : post.latest_comments).each do |comment|
+            = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')
+  - share_partial = capture do
+    - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific), 'share-text': "#{post.specific_desc} | 빠띠" }
+    - map = { facebook: data }
+    - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+    = render 'application/share', map: map
+  .post-card-with-comments__footer
+    - if user_signed_in?
+      - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
+      - mention_data = local_assigns[:in_modal] ? mention_options_data.merge(action: 'parti-mention') : mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
+      %span.post-card-with-comments__footer__link-to-modal{ data: mention_data }
+        %i.fa.fa-commenting-o
+        수다작성
+    - else
+      %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '수다작성' }}
+        %i.fa.fa-commenting-o
+        수다작성
+    %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
+      %i.fa.fa-share-alt
+      공유하기
+    .hidden
+      .share-partial{id: "share-partial-#{dom_id(post)}"}
+        = share_partial
+  - if local_assigns[:in_modal]
+    .post-card-with-comments__comment-form
       - if user_signed_in?
         %a.anchor#comment-form
         .clearfix
-          = form_for [post, Comment.new], remote: true, class: 'comment-form' do |f|
+          = form_for [post, Comment.new], remote: true, class: 'comment-form', data: {action: 'parti-form-validation', 'submit-form-control': 'form#new_comment input[type=submit]' } do |f|
             = hidden_field_tag :container, ".#{dom_id(post)}[data-parti-comment-style='in-modal'] .post-card-with-comments__comments"
             = hidden_field_tag :count_label, ".#{dom_id(post)}[data-parti-comment-style='in-modal'] .post-card-with-comments__count"
             = hidden_field_tag :body_control, ".#{dom_id(post)}[data-parti-comment-style='in-modal'] form#new_comment #comment_body"
             .thumb.img-circle.comment-form__img{style: "background-image: url(#{current_user.image.sm.url});"}
             .comment-form__area
-              = f.text_area :body, class: 'form-control'
+              = f.text_area :body, class: 'form-control', placeholder: '수다를 입력하세요', data: { 'rule-required': true }
             = f.submit '게시', class: 'btn btn-primary comment-form__btn'
       - else
-        .post-card-with-comments__comment-form--need-to-login
+        .post-card-with-comments__footer--need-to-login
           %span.text-muted 가볍게 수다를 작성해 보세요.
           = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
             %i.fa.fa-comment-o
             게시
-    - else
-      - if user_signed_in?
-        - mention_data = { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific), 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
-        .post-card-with-comments__comment-form__link-to-modal{ data: mention_data }
-          %i.fa.fa-commenting-o
-          수다작성
-      - else
-        .post-card-with-comments__comment-form__link-to-login{data: { toggle: 'parti-login-overlay', label: '수다작성' }}
-          %i.fa.fa-commenting-o
-          수다작성
