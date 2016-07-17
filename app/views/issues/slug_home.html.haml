@@ -4,7 +4,7 @@
   .container
     .row
       .col-xs-9
-        - if @posts.first.present?
+        - if @last_comment.present?
           = render 'comments/new_comments_count', new_comments_count_url: new_issue_comments_count_url(slug: @issue.slug, first_id: @last_comment.id)
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?
