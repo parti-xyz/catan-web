@@ -14,4 +14,4 @@
   %h4.opinion-card__title
     “#{opinion.title}”
 
-  = render 'votes/vote_inline', specific: opinion
+  = render 'votes/vote_inline', local_assigns.merge(specific: opinion)

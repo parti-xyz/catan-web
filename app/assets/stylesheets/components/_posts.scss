@@ -11,8 +11,21 @@ section#posts {
   }
 }
 
-
 .post-card-with-comments {
+  & .comment-line + .comment-line {
+    border-top: 1px solid $gray-lighter;
+  }
+  & .post-card-with-comments__count + .comment-line {
+    border-top: none;
+  }
+  &__count {
+    border-top: 1px solid $gray-lighter;
+  }
+  &--article &__count,
+  &--opinion &__count{
+    border-top: none;
+  }
+
   @include hover-shadow();
   position: relative;
   background-color: #fff;
@@ -38,10 +51,12 @@ section#posts {
     .date-wrapper {
       margin-left: 10px;
       color: $gray-light;
+      cursor: pointer;
     }
   }
   &__buttons {
     margin-top: 5px;
+    margin-bottom: 10px;
     a {
       padding-right: 20px;
       color: $gray-light;
@@ -67,8 +82,6 @@ section#posts {
     }
   }
   &__comments {
-    padding-top: 10px;
-    margin-top: 10px;
     cursor: pointer;
   }
   &__footer {
@@ -85,23 +98,12 @@ section#posts {
         color: $gray;
       }
       i {
-        font-size: $font-size-large;
-      }
-    }
-  }
-  &__talk,
-  &__note {
-    .post-card-with-comments {
-      &__comments {
-        border-top: 1px solid $gray-lighter;
-      }
-      &__footer {
-        margin-top: 10px;
+        font-size: $font-size-base;
       }
     }
   }
   .more {
-    margin-bottom: 10px;
+    margin-top: 10px;
     color: $gray-light;
     cursor: pointer;
     font-size: $font-size-small;
@@ -122,19 +124,27 @@ section#posts {
       -moz-box-shadow: none;
       box-shadow: none;
     }
+    &__header {
+      .date-wrapper {
+        cursor: initial;
+      }
+    }
     &__content {
       padding-top: 40px;
       padding-right: 40px;
       padding-left: 40px;
-      padding-bottom: 15px;
+      .vote__buttons--unsure--label a {
+        display: none;
+      }
     }
     &__comments {
-      padding-top: 10px;
-      margin-top: 10px;
       cursor: initial;
     }
     &__footer {
-      padding: 10px 40px;
+      padding: 10px 0;
+      margin-left: 40px;
+      margin-right: 40px;
+      margin-bottom: 15px;
     }
     &__comment-form {
       border-top: 1px solid $gray-lighter;
@@ -150,13 +160,17 @@ section#posts {
         padding: 15px;
       }
     }
+    .more {
+      cursor: initial;
+    }
 
     @media (max-width: $screen-xs-max) {
       &__content {
         padding: 15px;
       }
       &__footer {
-        padding: 10px 15px;
+        margin-left: 15px;
+        margin-right: 15px;
       }
     }
   }
@@ -253,8 +267,8 @@ section#posts {
       margin-left: 0;
       margin-top: 0;
     }
-    &__talk,
-    &__note {
+    &--talk,
+    &--note {
       .post-card-with-comments__comments {
         margin-top: 10px;
       }

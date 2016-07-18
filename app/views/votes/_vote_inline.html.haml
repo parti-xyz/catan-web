@@ -37,8 +37,9 @@
         반대
       .vote__buttons--unsure
         - if opinion.unsured_by? current_user
-          = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) }, class: 'text-muted' do
-            여기에서 의견을 나눠 보세요.
+          .vote__buttons--unsure--label
+            = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) }, class: 'text-muted' do
+              수다로 의견을 나눠 보세요.
         - else
           = link_to post_votes_path(opinion.acting_as, vote: {choice: :unsure}, partial: 'inline'), method: :post, remote: true do
             잘 모르겠습니다

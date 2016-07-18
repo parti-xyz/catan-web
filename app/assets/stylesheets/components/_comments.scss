@@ -6,15 +6,7 @@ section#comments {
   padding-top: 25px;
 }
 
-.comment-line + .comment-line {
-  border-top: 1px solid $gray-lighter;
-}
-
 .comment-line {
-  &:first-child,
-  .more + & {
-    border: none;
-  }
   padding-top: 10px;
   padding-bottom: 0;
   @media (max-width: $screen-xs-max) {

@@ -38,6 +38,7 @@ section#opinions {
     font-weight: bold;
     line-height: 1.4em;
     margin: 30px 0;
+    word-break: keep-all;
     a {
       color: $gray-darker;
     }
@@ -68,6 +69,7 @@ section#opinions {
       line-height: initial;
     }
   }
+  section#posts & .opinion-card__meta,
   .post-modal & .opinion-card__meta {
     display: none;
   }
