@@ -12,12 +12,6 @@ section#posts {
 }
 
 .post-card-with-comments {
-  & .comment-line + .comment-line {
-    border-top: 1px solid $gray-lighter;
-  }
-  & .post-card-with-comments__count + .comment-line {
-    border-top: none;
-  }
   &__count {
     border-top: 1px solid $gray-lighter;
   }
