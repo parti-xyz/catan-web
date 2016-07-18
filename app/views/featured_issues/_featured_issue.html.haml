@@ -33,7 +33,7 @@
                 .talk__title-wrapper
                   .talk__title= simple_format featured_issue.talk_title, {}, wrapper_tag: 'span'
                 .talk__user
-                  .fa.fa-user
+                  %i.fa.fa-user
                   = talk.user.nickname
           - if featured_issue.article.present?
             - article = featured_issue.article
@@ -51,5 +51,5 @@
                 .opinion__title-wrapper
                   .opinion__title= simple_format featured_issue.opinion_title, {}, wrapper_tag: 'span'
                 .opinion__user
-                  .fa.fa-user
+                  %i.fa.fa-user
                   = opinion.user.nickname

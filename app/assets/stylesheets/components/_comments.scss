@@ -108,6 +108,11 @@ section#comments {
     }
     margin-bottom: 10px;
     a {
+      font-size: $font-size-small;
+      padding-right: 20px;
+      i {
+        font-size: $font-size-base;
+      }
       color: $gray-light;
       &:hover {
         color: $gray;

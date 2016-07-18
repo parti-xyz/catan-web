@@ -40,6 +40,20 @@ section#posts {
       color: $gray-light;
     }
   }
+  &__buttons {
+    margin-top: 5px;
+    a {
+      padding-right: 20px;
+      color: $gray-light;
+      &:hover {
+        color: $gray;
+      }
+      font-size: $font-size-small;
+      i {
+        font-size: $font-size-base;
+      }
+    }
+  }
   &__post {
     padding-top: 5px;
     word-break: break-all;
@@ -60,14 +74,18 @@ section#posts {
   &__footer {
     border-top: 1px solid $gray-lighter;
     color: $gray-light;
-    font-size: 12px;
+    font-size: $font-size-small;
     cursor: pointer;
     padding-top: 10px;
     &__link-to-modal,
-    &__link-to-login {
+    &__link-to-login,
+    &__share-modal {
       padding-right: 20px;
+      &:hover {
+        color: $gray;
+      }
       i {
-        font-size: 20px;
+        font-size: $font-size-large;
       }
     }
   }

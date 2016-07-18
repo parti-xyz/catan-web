@@ -22,10 +22,10 @@
           = link_to messages_path do
             - if current_user.unread_messages_count > 0
               %span.fa-stack
-                .fa.fa-bell.fa-stack-1x{style: 'color: white'}
+                %i.fa.fa-bell.fa-stack-1x{style: 'color: white'}
                 %i.icon-dot-corner.fa-stack-1x
             - else
-              .fa.fa-bell{style: 'color: white'}
+              %i.fa.fa-bell{style: 'color: white'}
     - else
       .mobile-list__profile
         = image_tag 'img_default_profile.png', class: 'default-profile'

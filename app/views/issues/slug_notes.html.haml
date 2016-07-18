@@ -11,7 +11,7 @@
               %small 하고 싶은 말 있으면 무엇이든 남겨보세요.
           .media-right
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
-              .fa.fa-comments-o
+              %i.fa.fa-comments-o
               = t('labels.new_note_button')
     %div
       = render 'notes/list', postables: @notes, issue: @issue, show_issue: @issue.blank?

@@ -13,4 +13,4 @@
 
 / .post-modal__comment
 /   = render 'comments/comments_in_post_modal', postable: @opinion, style: :opinion
-= render @opinion.acting_as, in_modal: true
+= render @opinion.acting_as, in_modal: true, additional_buttons_partial: 'opinions/modal_buttons'

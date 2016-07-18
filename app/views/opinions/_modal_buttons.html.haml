@@ -1,2 +1,4 @@
 - if current_user.try(:admin?)
-  = link_to '소셜카드 다시 만들기', social_card_opinion_path(post.specific, update: 'true', format: 'png'), target: '_blank'
+  = link_to social_card_opinion_path(post.specific, update: 'true', format: 'png'), target: '_blank' do
+    %i.fa.fa-credit-card
+    소셜카드 다시 만들기

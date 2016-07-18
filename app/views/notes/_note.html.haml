@@ -23,7 +23,7 @@
             .comment-count
               = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
                 .note-comment-wrapper
-                  .fa.fa-comment-o
+                  %i.fa.fa-comment-o
                   %b #{post.comments_count}
 
 

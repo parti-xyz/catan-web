@@ -1,18 +1,18 @@
 %span{class: "#{dom_id(comment)}-upvote"}
   - if !user_signed_in? or local_assigns[:unsigned]
     = link_to '#', data: { toggle: 'parti-login-overlay', 'after-login': h({action: :comment_upvote, id: comment.id}.to_json) }, class: 'btn btn-default btn-upvote' do
-      .fa.fa-heart-o
+      %i.fa.fa-heart-o
       - if comment.upvotes.count > 0
         = comment.upvotes.count
       - else
         %span.btn-upvote__like-label 좋아요
   - elsif comment.upvoted_by? current_user
     = link_to cancel_comment_upvotes_path(comment), method: :delete, remote: true, class: 'btn btn-upvote btn-upvote--liked' do
-      .fa.fa-heart-o
+      %i.fa.fa-heart-o
       = comment.upvotes.count
   - else
     = link_to comment_upvotes_path(comment), method: :post, remote: true, class: 'btn btn-default btn-upvote' do
-      .fa.fa-heart-o
+      %i.fa.fa-heart-o
       - if comment.upvotes.count > 0
         = comment.upvotes.count
       - else

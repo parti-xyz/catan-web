@@ -10,7 +10,7 @@
         .article__body__link
           - if @article.link_source.present? and !@article.hidden?
             = link_to @article.link, class: 'text-primary', target: '_blank' do
-              .fa.fa-paperclip
+              %i.fa.fa-paperclip
               #{truncate @article.link, length: 50}
       - if (@article.has_image?)
         .media-right
