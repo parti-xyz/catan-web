@@ -2,6 +2,7 @@ class Talk < ActiveRecord::Base
   acts_as_paranoid
   acts_as :post, as: :postable
   validates :title, presence: true, length: { maximum: 50 }
+  validates :body, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
@@ -11,7 +12,7 @@ class Talk < ActiveRecord::Base
   end
 
   def has_presentation?
-    comments.any? and comments.first.user == user
+    body.present?
   end
 
   def is_presentation?(comment)

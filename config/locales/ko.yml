@@ -6,6 +6,7 @@ ko:
     formats:
       default: "%Y.%m.%d %H:%M"
   errors:
+    format: "%{message}"
     messages:
       not_saved: 저장되지 않았습니다
       blank: 값을 입력해 주세요
@@ -59,7 +60,8 @@ ko:
         tag_list: 태그
       talk:
         issue: 빠띠
-        title: 주제
+        title: 제목
+        body: 내용
       note:
         body: 내용
       user:
@@ -112,16 +114,16 @@ ko:
         issue:
           attributes:
             title:
-              too_long: 은 60자 이내로 적어주세요.
+              too_long: 제목은 60자 이내로 적어주세요.
             body:
-              too_long: 은 200자 이내로 적어주세요.
+              too_long: 내용은 200자 이내로 적어주세요.
             slug:
               invalid: 값은 영문자와 숫자 혹은 '-'만 넣어주세요.
-              exclusion: 은 이미 등록되어 있습니다.
+              exclusion: '%{attribute}은 이미 등록되어 있습니다.'
         user:
           attributes:
             nickname:
-              exclusion: 를 사용할 수 없습니다. 예시) users, admin, all 등
+              exclusion: '%{attribute}를 사용할 수 없습니다. 예시) users, admin, all 등'
               invalid: 형식이 올바르지 않습니다.
               too_long: 20자를 넘을 수 없습니다.
             password:
@@ -129,7 +131,7 @@ ko:
             password_confirmation:
               confirmation: 새로 입력한 비밀번호가 서로 일치하지 않습니다.
             current_password:
-              invalid: 가 일치하지 않습니다.
+              invalid: '%{attribute}가 일치하지 않습니다.'
         redactor2_rails/image:
           attributes:
             data:
@@ -137,7 +139,11 @@ ko:
         related:
           attributes:
             target:
-              self_relation: 가 현재 빠띠와 같습니다. 다른 빠띠를 넣어 주세요.
+              self_relation: '%{attribute}가 현재 빠띠와 같습니다. 다른 빠띠를 넣어 주세요.'
+        talk:
+          attributes:
+            title:
+              too_long: 이야기의 %{attribute}이 너무 깁니다. 50자 이내로 써주세요.
   labels:
     new_article_button: 자료 공유
     new_talk_button: 이야기 나누기

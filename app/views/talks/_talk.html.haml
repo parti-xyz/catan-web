@@ -16,7 +16,6 @@
     .media-right
       .comment-users
         = byline post.user, hide_nickname: true
-
         - if true || talk.commenters.any?
           - preview_count = 5
           - talk.commenters[0..preview_count-1].each do |user|

@@ -9,18 +9,9 @@ class TalksController < ApplicationController
   def create
     redirect_to root_path and return if fetch_issue.blank?
 
-    ActiveRecord::Base.transaction do
-      @talk.user = current_user
-      if !@talk.save
-        errors_to_flash(@talk)
-        raise ActiveRecord::Rollback
-      end
-
-      @comment = build_comment
-      if @comment.blank? or !@comment.save
-        errors_to_flash(@comment) if @comment.present?
-        raise ActiveRecord::Rollback
-      end
+    @talk.user = current_user
+    if !@talk.save
+      errors_to_flash(@talk)
     end
     redirect_to params[:back_url].presence || issue_home_path(@issue)
   end
@@ -70,7 +61,7 @@ class TalksController < ApplicationController
   end
 
   def talk_params
-    params.require(:talk).permit(:title)
+    params.require(:talk).permit(:title, :body)
   end
 
   def fetch_issue

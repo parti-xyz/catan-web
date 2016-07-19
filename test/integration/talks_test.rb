@@ -4,28 +4,27 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post talks_path(talk: { title: 'title', issue_id: issues(:issue1).id }, comment_body: 'body')
+    post talks_path(talk: { title: 'title', body: 'body', issue_id: issues(:issue1).id })
 
     assert assigns(:talk).persisted?
     assigns(:talk).reload
     assert_equal 'title', assigns(:talk).title
+    assert_equal 'body', assigns(:talk).body
     assert_equal users(:one), assigns(:talk).user
     assert_equal issues(:issue1).title, assigns(:talk).issue.title
 
-    comment = assigns(:talk).comments.first
-    assert comment.persisted?
-    assert_equal 'body', comment.body
-    assert_equal users(:one), assigns(:talk).user
+    assert assigns(:talk).comments.empty?
   end
 
   test '고쳐요' do
     sign_in(users(:one))
 
-    put talk_path(talks(:talk1), talk: { title: 'title x', issue_id: issues(:issue2).id })
+    put talk_path(talks(:talk1), talk: { title: 'title x', body: 'body x', issue_id: issues(:issue2).id })
 
     refute assigns(:talk).errors.any?
     assigns(:talk).reload
     assert_equal 'title x', assigns(:talk).title
+    assert_equal 'body x', assigns(:talk).body
     assert_equal users(:one), assigns(:talk).user
     assert_equal issues(:issue2).title, assigns(:talk).issue.title
   end
@@ -34,11 +33,11 @@ class TalksTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Talk.count
-    post talks_path(talk: { link: 'link', issue_id: -1 }, comment_body: 'body')
+    post talks_path(talk: { link: 'link', body: 'body', issue_id: -1 })
     assert_equal previous_count, Talk.count
   end
 
-  test '댓글 없이는 못 만들어요' do
+  test '내용 없이는 못 만들어요' do
     sign_in(users(:one))
 
     post talks_path(talk: { title: 'title', issue_id: issues(:issue1).id })

@@ -1,10 +1,10 @@
 - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific) }
-- if post.followed_comments_count > 2 and !local_assigns[:in_modal]
+- if post.comments_count > 2 and !local_assigns[:in_modal]
   .more{data: modal_data}
     %b>
       %i.fa.fa-comment-o
       총
-      %span.post-card-with-comments__count__value #{post.followed_comments_count}
+      %span.post-card-with-comments__count__value #{post.comments_count}
       개의 수다
     - unless local_assigns[:in_modal]
       \|

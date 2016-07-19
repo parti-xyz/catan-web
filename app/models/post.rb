@@ -97,27 +97,7 @@ class Post < ActiveRecord::Base
   end
 
   def latest_comments
-    if specific.is_a?(Talk) and specific.has_presentation?
-      comments.recent.limit(3).reverse[1..-1]
-    else
-      comments.recent.limit(2).reverse
-    end
-  end
-
-  def followed_comments
-    if specific.is_a?(Talk) and specific.has_presentation?
-      comments.recent.reverse[1..-1]
-    else
-      comments
-    end
-  end
-
-  def followed_comments_count
-    if specific.is_a?(Talk) and specific.has_presentation?
-      comments_count - 1
-    else
-      comments_count
-    end
+    comments.recent.limit(2).reverse
   end
 
   def self.recommends(exclude)

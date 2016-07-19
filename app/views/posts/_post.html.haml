@@ -38,11 +38,11 @@
         - if local_assigns[:additional_buttons_partial].present?
           = render additional_buttons_partial, local_assigns
     .post-card-with-comments__comments
-      - if post.followed_comments_count > 0
+      - if post.comments_count > 0
         .post-card-with-comments__count
           = render 'comments/list_header', local_assigns.merge(post: post)
-        - if post.followed_comments.any?
-          - (local_assigns[:in_modal] ? post.followed_comments : post.latest_comments).each do |comment|
+        - if post.comments.any?
+          - (local_assigns[:in_modal] ? post.comments : post.latest_comments).each do |comment|
             = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')
   - share_partial = capture do
     - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific), 'share-text': "#{post.specific_desc} | 빠띠" }

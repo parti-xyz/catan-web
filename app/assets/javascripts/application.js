@@ -70,7 +70,7 @@ $.prevent_click_exclude_parti = function(e) {
   $(e.currentTarget).trigger('parti-click');
 }
 // unobtrusive_flash
-UnobtrusiveFlash.flashOptions['timeout'] = 3000;
+UnobtrusiveFlash.flashOptions['timeout'] = 30000;
 
 // Kakao Key
 Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
