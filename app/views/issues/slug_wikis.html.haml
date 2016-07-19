@@ -15,5 +15,5 @@
           %i.fa.fa-smile-o
             작성된 내용이 없습니다.
       -else
-        = raw @wiki_markdown_view
+        = raw render_markdown_to_html(@issue.wiki.body)
 

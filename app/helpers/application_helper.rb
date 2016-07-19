@@ -135,4 +135,10 @@ module ApplicationHelper
   def upload_file_exists?(file_object)
     file_object.file.try(:exists?)
   end
+
+  def render_markdown_to_html(wiki_body)
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true, quote: true, highlight: true)
+    @wiki_markdown_view = markdown.render(wiki_body)
+  end
+
 end
