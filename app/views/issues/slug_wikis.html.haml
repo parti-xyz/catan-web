@@ -3,7 +3,6 @@
 %section#wikis
   .container
     = render 'wikis/wiki_header', issue: @issue
-
     .body
       .histories
         -unless @issue.wiki.wiki_histories.blank?
@@ -16,4 +15,5 @@
           %i.fa.fa-smile-o
             작성된 내용이 없습니다.
       -else
-        = raw @issue.wiki.body
+        = raw @wiki_markdown_view
+

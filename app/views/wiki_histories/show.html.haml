@@ -10,7 +10,9 @@
             현재 버전 보기
             %i.fa.fa-arrow-right
       .body
-        = raw @wiki_history.body
+        - markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true, quote: true, highlight: true)
+        - @wiki_markdown_view = markdown.render(@wiki_history.body)
+        = raw @wiki_markdown_view
     %section#wiki-history-list
       = render 'list'
 

@@ -27,6 +27,7 @@
 //= require bootstrap-add-clear
 //= require diacritics
 //= require bootstrap-dropdown-filter
+//= require simplemde
 
 $.Redactor.prototype.wiki_save = function()
 {
@@ -791,6 +792,14 @@ $(function(){
     $all_tab_panes.removeClass('active');
     $target_tab_panes.addClass('active');
   })
+
+  // SimpleMDE
+  if ( $( ".simplemde" ).length ){
+    var simplemde = new SimpleMDE({
+     element: $(".simplemde")[0],
+     spellChecker: false
+    });
+  }
 });
 
 // fixed section#issue-bottom-banner

@@ -4,12 +4,12 @@ class WikiHistoriesController < ApplicationController
   before_filter :load_issue
 
   def index
-    @wiki_histories = paging(@wiki_histories)
+    @wiki_histories = paging(@wiki_histories.order(created_at: :desc))
   end
 
   def show
     @wiki = @wiki_history.wiki
-    @wiki_histories = paging(@wiki.wiki_histories)
+    @wiki_histories = paging(@wiki.wiki_histories.order(created_at: :desc))
   end
 
   private

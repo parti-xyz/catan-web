@@ -62,6 +62,8 @@ class IssuesController < ApplicationController
   end
 
   def slug_wikis
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true, quote: true, highlight: true)
+    @wiki_markdown_view = markdown.render(@issue.wiki.body)
   end
 
   def create

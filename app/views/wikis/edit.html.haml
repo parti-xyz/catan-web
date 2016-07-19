@@ -6,6 +6,6 @@
       위키 수정
     = form_for @wiki do |f|
       .form-group
-        = f.text_area :body, class: 'form-control redactor', rows: 40, cols: 120
+        = f.submit '저장', class: 'btn btn-primary'
+        = f.text_area :body, class: 'form-control simplemde', rows: 40, cols: 120
         = f.hidden_field :issue_id, class: 'form-control'
-

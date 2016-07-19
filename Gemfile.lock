@@ -484,6 +484,7 @@ GEM
       devise
       mime-types
       orm_adapter
+    redcarpet (3.3.4)
     redis (3.2.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -530,6 +531,7 @@ GEM
       jwt (~> 1.5)
       multi_json (~> 1.10)
     simple_oauth (0.3.1)
+    simplemde-rails (1.10.2)
     sitemap_generator (5.1.0)
       builder
     slack-notifier (1.5.1)
@@ -648,6 +650,7 @@ DEPENDENCIES
   rails_autolink (~> 1.1, >= 1.1.6)
   recursive-open-struct (~> 1.0, >= 1.0.1)
   redactor2_rails (~> 0.1.1)
+  redcarpet (~> 3.3, >= 3.3.4)
   redis (~> 3.2, >= 3.2.2)
   redis-namespace (~> 1.5, >= 1.5.2)
   ruby_dig (~> 0.0.2)
@@ -657,6 +660,7 @@ DEPENDENCIES
   sidekiq (~> 4.1)
   sidekiq-cron (~> 0.4.2)
   sidekiq-unique-jobs (~> 4.0, >= 4.0.16)
+  simplemde-rails (~> 1.10, >= 1.10.2)
   sitemap_generator (~> 5.1)
   slack-notifier (~> 1.4)
   spring

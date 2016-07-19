@@ -47,6 +47,7 @@ gem 'truncate_html', '~> 0.9.3'
 gem 'rails-timeago', '~> 2.13'
 gem 'browser', '~> 2.0', '>= 2.0.2'
 gem 'geo_pattern', '~> 1.4'
+gem 'redcarpet', '~> 3.3', '>= 3.3.4'
 
 # tool
 gem 'envyable', '~> 0.2.0'
@@ -58,6 +59,7 @@ gem 'rails_autolink', '~> 1.1', '>= 1.1.6'
 gem 'partial_path_customizer', '~> 0.1.0'
 gem 'unobtrusive_flash', '~> 3.1'
 gem 'redactor2_rails', '~> 0.1.1'
+gem 'simplemde-rails', '~> 1.10', '>= 1.10.2'
 
 # crawling
 gem 'mechanize', '~> 2.7', '>= 2.7.4'
