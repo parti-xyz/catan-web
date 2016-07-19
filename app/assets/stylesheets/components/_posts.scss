@@ -236,6 +236,11 @@ section#posts {
   margin-bottom: 20px;
 }
 
+#post-modal.post-modal {
+  .modal-dialog {
+    width: 745px;
+  }
+}
 @media (max-width: $screen-xs-max) {
   .post-card-with-comments {
     border-radius: 0;
@@ -283,6 +288,7 @@ section#posts {
   }
 
   #post-modal.post-modal {
+    z-index: 1028;
     .modal-dialog {
       margin: 0 auto;
       width: 100%;
@@ -336,6 +342,10 @@ section#posts {
     &__title {
       font-size: 24px;
     }
+  }
+
+  .modal-backdrop.in.post-backdrop {
+    z-index: 1025;
   }
 
   #post-modal.post-modal,
