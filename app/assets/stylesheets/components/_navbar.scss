@@ -8,8 +8,7 @@
   .navbar-nav {
     color: $brand-primary;
     li {
-      a,
-      .select2-selection__placeholder {
+      a {
         padding: 15px 10px 10px 0px;
         margin: 0;
 
@@ -36,23 +35,6 @@
           font-size: 18px;
         }
       }
-      .select2-selection__placeholder {
-        padding-right: 0;
-        margin-right: 0;
-      }
-      .select2-container--default {
-        margin-top: 11px;
-        margin-right: 10px;
-        .select2-selection--single {
-          &:focus {
-            outline: none;
-          }
-          border: none;
-          .select2-selection__rendered {
-            text-align: right;
-          }
-        }
-      }
       &.user-info {
         .user-byline {
           color: $gray-darker;
@@ -66,79 +48,43 @@
           border: none;
         }
       }
-      &.user-info,
       &.watch-parties {
-        .dropdown-menu {
-          border-radius: 22px;
-          right: 14px;
-          background-color: $gray-lightest;
-
-          a {
-            padding: 2px;
-            font-size: $font-size-small;
-            color: $text-muted;
-            &:hover {
-              color: $brand-primary;
-            }
-          }
-          & > li.divider {
-            margin-left: 10px;
-            margin-right: 10px;
-          }
-          & > li > a:hover
-          , & > li > a:focus {
-            background: none;
-          }
-          &:before {
-            position: absolute;
-            top: -7px;
-            right: 24px;
-            display: inline-block;
-            border-right: 7px solid transparent;
-            border-bottom: 7px solid #ccc;
-            border-left: 7px solid transparent;
-            border-bottom-color: rgba(0, 0, 0, 0.2);
-            content: '';
-          }
-
-          &:after {
-            position: absolute;
-            top: -6px;
-            right: 25px;
-            display: inline-block;
-            border-right: 6px solid transparent;
-            border-bottom: 6px solid $gray-lightest;
-            border-left: 6px solid transparent;
-            content: '';
-          }
+        .dropdown-filter {
+          padding-bottom: 10px;
+          display: block;
         }
-        &.open > a, &.open > a:hover, &.open > a:focus {
-          background: none;
-          .user-byline {
-            color: $brand-primary;
-          }
-          .caret {
+        .dropdown-header {
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+        .dropdown-toggle {
+          background-color: #fff;
+          &:hover {
             color: $brand-primary;
           }
         }
-      }
-      &.watch-parties {
-        &.open > a,
-        &.open > a:hover,
-        &.open > a:focus {
-          background: none;
-          border: 1px solid transparent;
-        }
-        .thumb {
-          width: 14px;
-          height: 14px;
-          display: inline-block;
-          vertical-align: text-bottom;
+        @media (max-width: $screen-xs-max) {
+          &.open .dropdown-menu {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          }
         }
         .dropdown-menu {
+          border-radius: 4px;
+          padding: 10px;
           height: auto;
-          max-height: 100px;
-          overflow-x: scroll;
+          max-height: 300px;
+          min-width: 240px;
+          overflow-x: hidden;
+        }
+        .issue-line {
+          border: none;
+        }
+        .issue-line + .dropdown-header {
+          padding-top: 20px;
         }
       }
       &.notification {
@@ -162,30 +108,6 @@
         }
       }
     }
-  }
-}
-
-.parti-jump-dropdown {
-  border: 1px solid rgba(0, 0, 0, 0.15) !important;
-  padding: 3px;
-  border-radius: 4px !important;
-  width: 200px !important;
-  left: -102px !important;
-
-  .select2-results__group {
-    background-color: $gray-lightest;
-  }
-
-  .parti-name {
-    word-break: keep-all;
-  }
-  .new-comment-counts {
-    color: $brand-primary;
-    font-size: $font-size-small;
-    white-space: nowrap;
-  }
-  .select2-results__option--highlighted[aria-selected] .new-comment-counts {
-    color: #fff;
   }
 }
 

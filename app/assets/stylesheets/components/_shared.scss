@@ -332,10 +332,6 @@ label.required:after {
       margin: 0;
       li {
         display: inline-block;
-        .select2-container--default {
-          margin-top: 0;
-          margin-right: 0;
-        }
       }
       li a {
         &.btn-mobile-menu {

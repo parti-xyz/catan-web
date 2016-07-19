@@ -6,8 +6,23 @@
           %img{ alt: 'parti', src: asset_path('default_issue_logo.png')}
       %ul.nav.navbar-nav.navbar-nav-menu
         - if user_signed_in? and current_user.watches.any?
-          %li.watch-parties
-            .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '100px'}
+          %li.dropdown.watch-parties
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              내 빠띠
+              %span.caret
+            %ul.dropdown-menu.dropdown-menu-right{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
+              - if current_user.making_issues.any?
+                %li.dropdown-header
+                  메이커인 빠띠
+                  #{current_user.making_issues.count}
+              - current_user.making_issues.each do |issue|
+                = render customize_partial_path(issue, 'issue_line')
+              - if current_user.only_watched_issues.any?
+                %li.dropdown-header
+                  구독 중인 빠띠
+                  #{current_user.only_watched_issues.count}
+              - current_user.only_watched_issues.each do |issue|
+                = render customize_partial_path(issue, 'issue_line')
         %li.dashboard-menu= link_to t('labels.dashboard'), dashboard_path
         %li
           %a.btn-mobile-menu{ href: '#'}
@@ -50,7 +65,7 @@
           오류 및 버그 신고
       %li
         = link_to slug_issue_path(slug: Issue::SLUG_OF_PARTI_PARTI) do
-          제안 및 의견
+          제안 및 의견 &middot; 빠띠만든당
     - if is_kakao_talkable?
       .mobile-list__yellow
         %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}

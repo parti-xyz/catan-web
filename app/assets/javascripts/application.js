@@ -21,11 +21,12 @@
 //= require jquery.typewatch
 //= require jquery.dotdotdot
 //= require jquery.webui-popover
-//= require select2.full
 //= require redactor2_rails/config
 //= require redactor
 //= require redactor2_rails/langs/ko
 //= require bootstrap-add-clear
+//= require diacritics
+//= require bootstrap-dropdown-filter
 
 $.Redactor.prototype.wiki_save = function()
 {
@@ -716,74 +717,6 @@ $(function(){
     e.preventDefault();
     var url = $(e.currentTarget).data("url");
     window.location.href  = url;
-  });
-
-  $('[data-action="parti-select-parti"]').each(function(i, elm) {
-    formatParti = function (parti) {
-      if (!parti.id) { return parti.text; }
-      if ($(parti.element).data('url')) {
-        return $(
-          $(parti.element).data('label')
-        );
-      }
-
-      return $(
-        '<span><img src="' + $(parti.element).data('logo') + '" style="width: 20px; height: 20px" /> ' + parti.text + '</span>'
-      );
-    };
-
-    $(elm).select2({
-      theme: "bootstrap",
-      templateResult: formatParti,
-      templateSelection: formatParti
-    });
-    $(elm).on('select2:selecting', function(e) {
-      $option = $(e.params.args.data.element);
-      if($option.data('url')) {
-        window.location.href  = $option.data('url');
-      }
-    });
-  });
-
-  $('[data-action="parti-jump"]').each(function(i, elm) {
-    var parties = $(elm).data('parties');
-    var width = $(elm).data('jump-dropdown-width');
-    if(!width) {
-      width = '100px';
-    }
-    $(elm).select2({
-      minimumResultsForSearch: 10,
-      placeholder: "내 빠띠",
-      dropdownCssClass: 'parti-jump-dropdown',
-      width: width,
-      data: parties,
-      templateResult: function(parti) {
-        if (!parti.id) { return parti.text; }
-        if (parti.logo === undefined) {
-          return parti.text;
-        }
-
-        var option
-          = '<span class="media" data-url="' + parti.url + '">'
-          + '<span class="media-left"><img src="' + parti.logo + '" style="width: 20px; height: 20px" /></span>'
-          + '<span class="media-body">'
-            + '<span class="parti-name">' + parti.text + '</span>';
-        if (parti.new_comment_counts > 0) {
-          option += ' <span class="new-comment-counts"><i class="fa fa-comment"></i> ' + parti.new_comment_counts + '</span>'
-        }
-
-        option
-          += '</span>'
-          + '</span>';
-        return $(option);
-      }
-    });
-    $(elm).on('select2:selecting', function(e) {
-      url = e.params.args.data.url;
-      if(url) {
-        window.location.href  = url;
-      }
-    });
   });
 
   $('.page_waypoint').waypoint({

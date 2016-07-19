@@ -12,13 +12,6 @@
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li= link_to '모든 빠띠', root_path, class: "#{'active' if current_page?('/')}"
-
-          %li= link_to "·"
-          %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
-          %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"
-          %li= link_to Opinion.model_name.human, opinions_path, class: "#{'active' if current_page?(controller: '/opinions', action: :index)}"
-          %li= link_to Article.model_name.human, articles_path, class: "#{'active' if current_page?(controller: '/articles', action: :index)}"
-
           %li= link_to "·"
           %li= link_to '정치', '/p/politics'
           %li= link_to '경제', '/p/economy'
@@ -29,13 +22,29 @@
           %li= link_to '노동', '/p/labor'
           %li= link_to '언론', '/p/media'
           %li= link_to "·"
-          %li= link_to '빠띠팀', '/p/parti'
+          %li= link_to '빠띠만든당', '/p/parti'
+          %li= link_to "·"
+          - if user_signed_in? and current_user.watches.any?
+            %li.dropdown.watch-parties
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                내 빠띠
+                %span.caret
+              %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
+                - if current_user.making_issues.any?
+                  %li.dropdown-header
+                    메이커인 빠띠
+                    #{current_user.making_issues.count}
+                - current_user.making_issues.each do |issue|
+                  = render customize_partial_path(issue, 'issue_line')
+                - if current_user.only_watched_issues.any?
+                  %li.dropdown-header
+                    구독 중인 빠띠
+                    #{current_user.only_watched_issues.count}
+                - current_user.only_watched_issues.each do |issue|
+                  = render customize_partial_path(issue, 'issue_line')
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            - if current_user.watches.any?
-              %li.watch-parties
-                .parti-jump{'data-action': 'parti-jump', 'data-parties': h(jumpable_issues_continents(current_user).to_json), 'data-jump-dropdown-width': '100px'}
             %li
               = link_to dashboard_path, class: "#{'active' if current_page?(controller: '/dashboard', action: :index)}" do
                 %i.fa.fa-home
