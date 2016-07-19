@@ -47,7 +47,7 @@
           - if user_signed_in?
             %li
               = link_to dashboard_path, class: "#{'active' if current_page?(controller: '/dashboard', action: :index)}" do
-                %i.fa.fa-home
+                .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
                 = t('labels.dashboard')
             %li.notification
               = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do

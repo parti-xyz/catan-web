@@ -4,17 +4,12 @@ body.app-campaigns-slug_show {
   #site-header .navbar-default {
     border: none;
     background-color: transparent;
-
-    .navbar-brand {
-      padding-left: 0;
-    }
-
     .navbar-nav {
-      .user-info.dropdown a.dropdown-toggle {
-        background-color: #fff;
-      }
-      .sign-up a {
-        background-color: #fff;
+      li a {
+        color: $gray-lightest;
+        &:hover {
+          color: $brand-primary-light;
+        }
       }
     }
   }
