@@ -380,8 +380,10 @@ section#issues {
       margin-top: 80px;
     }
     &:hover {
-      .issue-card-cover {
-        display: block;
+      @media (min-width: $screen-sm-min) {
+        .issue-card-cover {
+          display: block;
+        }
       }
       .issue-card__thumb .issue-card__thumb__btn {
         background-image: asset_url('btn_intro_check_hover.png');
@@ -532,68 +534,70 @@ section#issues {
   .aside-issues {
     margin-bottom: 40px;
   }
-  .issue-line {
-    width: 100%;
-    margin-bottom: 0;
-    border: 1px solid transparent;
-    border-bottom: 1px solid $gray-lightest;
-    padding: 5px 0px 0px 0px;
-    a {
-      overflow: auto;
-      &:hover .issue-card__title {
-        color: $brand-primary;
-      }
-    }
-    &__thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: $border-radius-base;
-      background-position: center;
-      background-size: cover;
-      -webkit-background-size: cover;
-      -moz-background-size: cover;
-      display: inline-block;
-      float: left;
-      margin-right: 5px;
-    }
-    &__title {
-      color: $gray;
-      font-size: $font-size-base;
-      margin-right: 5px;
-      &:hover {
-        color: $brand-primary;
-      }
-    }
-    &__meta {
+}
+
+.issue-line {
+  width: 100%;
+  margin-bottom: 0;
+  border: 1px solid transparent;
+  border-bottom: 1px solid $gray-lightest;
+  padding: 5px 0px 0px 0px;
+  a {
+    overflow: auto;
+    padding: 0 !important;
+    &:hover .issue-card__title {
       color: $brand-primary;
-      font-size: $font-size-small;
-      font-weight: bold;
     }
-    &__btn {
-      width: 100%;
-      height: 30px;
-      text-align: center;
-      font-size: 12px;
-      line-height: 30px;
-      margin-top: 15px;
-      display: block;
+  }
+  &__thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: $border-radius-base;
+    background-position: center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    display: inline-block;
+    float: left;
+    margin-right: 5px;
+  }
+  &__title {
+    color: $gray;
+    font-size: $font-size-base;
+    margin-right: 5px;
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+  &__meta {
+    color: $brand-primary;
+    font-size: $font-size-small;
+    font-weight: bold;
+  }
+  &__btn {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 30px;
+    margin-top: 15px;
+    display: block;
+    a {
+      color: $gray-light;
+      border: 1px solid #d2d2d2;
+    }
+    &:hover, &:focus {
       a {
-        color: $gray-light;
-        border: 1px solid #d2d2d2;
-      }
-      &:hover, &:focus {
-        a {
-          color: #fff;
-          background: #555;
-        }
+        color: #fff;
+        background: #555;
       }
     }
-    &:hover .after-block {
-      display: inline;
-    }
-    .after-block {
-      display: none;
-    }
+  }
+  &:hover .after-block {
+    display: inline;
+  }
+  .after-block {
+    display: none;
   }
 }
 
