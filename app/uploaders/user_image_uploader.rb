@@ -3,11 +3,15 @@
 class UserImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
-  if Rails.env.production? or Rails.env.staging?
-    storage :fog
-  else
-    storage :file
+  def self.env_storage
+    if Rails.env.production? or Rails.env.staging?
+      :fog
+    else
+      :file
+    end
   end
+
+  storage env_storage
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
@@ -60,7 +64,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   def url
-    (!Rails.env.development? or self.file.try(:exists?)) ? super : "https://catan-file.s3.amazonaws.com#{super}"
+    (Rails.env.production? or self.file.try(:exists?)) ? super : "https://catan-file.s3.amazonaws.com#{UserImageUploader::env_storage == :fog ? "/#{self.path}" : super}"
   end
 
   protected

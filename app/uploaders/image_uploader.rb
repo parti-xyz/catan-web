@@ -3,11 +3,15 @@
 class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
 
-  if Rails.env.production? or Rails.env.staging?
-    storage :fog
-  else
-    storage :file
+  def self.env_storage
+    if Rails.env.production? or Rails.env.staging?
+      :fog
+    else
+      :file
+    end
   end
+
+  storage env_storage
 
   def store_dir
     "#{'../test/' if Rails.env.test?}uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
@@ -73,7 +77,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
  def url
     super_result = super
-    (!Rails.env.development? or self.file.try(:exists?)) ? super_result : (super_result == default_url ? super_result : "https://catan-file.s3.amazonaws.com#{super_result}")
+    (Rails.env.production? or self.file.try(:exists?)) ? super_result : (super_result == default_url ? super_result : "https://catan-file.s3.amazonaws.com#{ImageUploader::env_storage == :fog ? "/#{self.path}" : super}")
   end
 
   protected
