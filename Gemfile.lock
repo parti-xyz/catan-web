@@ -475,6 +475,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    rb-readline (0.5.3)
     rbvmomi (1.8.2)
       builder
       nokogiri (>= 1.4.1)
@@ -648,6 +649,7 @@ DEPENDENCIES
   rails (= 4.2.5.1)
   rails-timeago (~> 2.13)
   rails_autolink (~> 1.1, >= 1.1.6)
+  rb-readline
   recursive-open-struct (~> 1.0, >= 1.0.1)
   redactor2_rails (~> 0.1.1)
   redcarpet (~> 3.3, >= 3.3.4)
