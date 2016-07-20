@@ -35,13 +35,13 @@
                     메이커인 빠띠
                     #{current_user.making_issues.count}
                 - current_user.making_issues.each do |issue|
-                  = render customize_partial_path(issue, 'issue_line')
+                  = render 'issues/issue_line', issue: issue
                 - if current_user.only_watched_issues.any?
                   %li.dropdown-header
                     구독 중인 빠띠
                     #{current_user.only_watched_issues.count}
                 - current_user.only_watched_issues.each do |issue|
-                  = render customize_partial_path(issue, 'issue_line')
+                  = render 'issues/issue_line', issue: issue
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
