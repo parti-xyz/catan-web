@@ -13,7 +13,7 @@
       = f.label :title
       = f.text_field :title, class: 'form-control input-lg'
       %p.help-block
-        (예) "기본소득", "더 나은 민주주의", "IT기술을 이용한 사회 혁신" 등으로 빠띠를 만드세요
+        (예) '기본소득 받고 싶당'처럼 정당의 느낌이 나면서, 빠띠를 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름으로 빠띠 이름을 지어보세요.
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :slug))}
       = f.label :slug
@@ -34,6 +34,7 @@
         - if upload_file_exists?(@issue.logo) and @issue.persisted?
           = image_tag @issue.logo.url, class: 'img-thumbnail', style: 'max-height: 100px'
           = link_to '삭제', remove_logo_issue_path(@issue), method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
+        권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
     - if current_user.admin?
       %hr
       %h3 운영
