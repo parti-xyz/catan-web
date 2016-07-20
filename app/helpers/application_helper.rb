@@ -137,7 +137,7 @@ module ApplicationHelper
   end
 
   def render_markdown_to_html(wiki_body)
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true, quote: true, highlight: true)
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true, quote: true, highlight: true, strikethrough: true)
     @wiki_markdown_view = markdown.render(wiki_body)
   end
 

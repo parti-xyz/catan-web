@@ -1,11 +1,9 @@
-= render 'issues/issue_header', active_tab: :wikis, issue: @wiki.issue
-
 %section#wiki-edit
   .container
-    %h3.page-title
-      위키 수정
     = form_for @wiki do |f|
+      .form-submit.visible-xs-block
+        = f.submit "#{@wiki.issue.title} 위키 저장", class: 'btn btn-sm btn-primary'
+        = link_to '취소', issue_wikis_path(@wiki.issue)
       .form-group
-        = f.submit '저장', class: 'btn btn-primary'
-        = f.text_area :body, class: 'form-control simplemde', rows: 40, cols: 120
+        = f.text_area :body, class: 'form-control simplemde', rows: 40, cols: 120, data: {'parti-title': @wiki.issue.title, 'parti-url': issue_wikis_path(@wiki.issue)}
         = f.hidden_field :issue_id, class: 'form-control'

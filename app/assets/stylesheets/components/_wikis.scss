@@ -1,5 +1,4 @@
-section#wikis,
-section#wiki-edit {
+section#wikis {
   padding-top: 30px;
 }
 
@@ -33,15 +32,82 @@ section#wiki-history {
   padding-bottom: 40px;
 }
 
+body.app-wikis.app-wikis-edit {
+  background-color: #fff;
+}
 
 section#wiki-edit {
-  .redactor-toolbar li a.re-button.re-save {
-    position: absolute;
-    right: 0;
-    padding-left: 30px;
-    padding-right: 30px;
-    background-color: $brand-primary;
-    color: #fff;
-    font-weight: 300;
+  background-color: #fff;
+  border-top: 3px solid #966fd6;
+  .btn-save-wiki {
+    padding: 0 20px;
+    width: auto;
+    float: right;
+    &:before {
+      content: attr(data-content) " 위키 저장";
+      color: #fff;
+    }
+    &:hover {
+      background-color: $brand-primary;
+    }
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
+  }
+  .link-to-wiki {
+    float: right;
+    border: none;
+    margin-right: 15px;
+    &:before {
+      content: "취소";
+    }
+    &:hover {
+      text-decoration: underline !important;
+    }
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
+  }
+  .editor-toolbar.fullscreen {
+    border-radius: 0;
+    top: 53px;
+    white-space: initial;
+    &:hover {
+        opacity: 1;
+    }
+    @media (max-width: $screen-xs-max) {
+      border-top: none;
+      top: 90px;
+      height: 90px;
+    }
+  }
+  .editor-toolbar.fullscreen::after {
+    background: none;
+  }
+  .CodeMirror.CodeMirror-fullscreen {
+    top: 103px;
+    @media (max-width: $screen-xs-max) {
+      top: 165px;
+    }
+  }
+  .editor-toolbar,
+  .CodeMirror.CodeMirror-fullscreen {
+    @media (max-width: $screen-xs-max) {
+      width: 100%;
+    }
+    @media (min-width: $screen-sm-min) {
+      width: 100%;
+    }
+    @media (min-width: $screen-md-min) {
+      width: $container-md;
+    }
+    @media (min-width: $screen-lg-min) {
+      width: $container-lg;
+    }
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+  .form-submit {
+    padding-top: 10px;
   }
 }
