@@ -68,14 +68,10 @@ module Mentionable
     end.flatten.compact.uniq
   end
 
-  PATTERN = /(?:^|\s)@([\w]+)/
-  PATTERN_WITH_AT = /(?:^|\s)(@[\w]+)/
-  HTML_PATTERN_WITH_AT = /(?:^|\s|>)(@[\w]+)/
-
   def parse(field)
     return [] if try(field).blank?
     result = begin
-      send(field).scan(PATTERN).flatten
+      send(field).scan(User::AT_NICKNAME_REGEX).flatten
     end
     result.uniq
   end

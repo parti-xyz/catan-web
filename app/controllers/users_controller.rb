@@ -48,6 +48,8 @@ class UsersController < ApplicationController
   private
 
   def fetch_user
-    @user ||= User.find_by! nickname: params[:nickname].try(:downcase)
+    id = User.slug_to_id(params[:slug])
+    (@user ||= User.find id) and return if id.present?
+    @user ||= User.find_by! nickname: params[:slug].try(:downcase)
   end
 end

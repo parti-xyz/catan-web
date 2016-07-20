@@ -25,7 +25,7 @@
             +#{counts_container.latest_upvotes_count}
 
   %li{role: 'presentation', class: ('active' if active_tab == :upvotes)}
-    = link_to nickname_user_upvotes_path(nickname: @user.nickname) do
+    = link_to slug_user_upvotes_path(slug: @user.slug) do
       %h4
         %span.visible-xs-inline<>= count_label
         %br.visible-xs-inline<>
@@ -40,7 +40,7 @@
           %small.text-primary
             +#{counts_container.latest_votes_count}
   %li{role: 'presentation', class: ('active' if active_tab == :votes)}
-    = link_to nickname_user_votes_path(nickname: @user.nickname) do
+    = link_to slug_user_votes_path(slug: @user.slug) do
       %h4<>
         %span.visible-xs-inline<>= count_label
         %br.visible-xs-inline<>

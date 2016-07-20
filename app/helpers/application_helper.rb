@@ -27,7 +27,7 @@ module ApplicationHelper
 
   def smart_format(text, html_options = {}, options = {})
     parsed_text = simple_format(h(text), html_options, options).to_str
-    parsed_text = parsed_text.gsub(Mentionable::HTML_PATTERN_WITH_AT) do |m|
+    parsed_text = parsed_text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
       at_nickname = $1
       nickname = at_nickname[1..-1]
       user = User.find_by nickname: nickname

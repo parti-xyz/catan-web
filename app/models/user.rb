@@ -9,7 +9,10 @@ class User < ActiveRecord::Base
          :confirmable, :omniauthable, :omniauth_providers => [:facebook, :google_oauth2, :twitter]
 
   # validations
-  VALID_NICKNAME_REGEX = /\A[a-z0-9_]+\z/i
+  VALID_NICKNAME_REGEX = /\A[ㄱ-ㅎ가-힣a-z0-9_]+\z/i
+  AT_NICKNAME_REGEX = /(?:^|\s)@([ㄱ-ㅎ가-힣a-z0-9_]+)/
+  HTML_AT_NICKNAME_REGEX = /(?:^|\s|>)(@[ㄱ-ㅎ가-힣a-z0-9_]+)/
+
   validates :nickname,
     presence: true,
     exclusion: { in: %w(app new edit index session login logout users admin all crew issue group campaign) },
@@ -176,6 +179,15 @@ class User < ActiveRecord::Base
     return false if someone.blank?
     return false if someone == self
     return true
+  end
+
+  def slug
+    nickname.try(:ascii_only?) ? nickname : "~#{id}"
+  end
+
+  def self.slug_to_id(slug)
+    return nil unless slug[0] == '~'
+    Integer(slug[1..-1]) rescue nil
   end
 
   private

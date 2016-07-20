@@ -49,11 +49,11 @@ module PartiUrlHelper
   end
 
   def user_gallery_path(user)
-    nickname_user_path(nickname: user.nickname)
+    slug_user_path(slug: user.slug)
   end
 
   def user_gallery_url(user)
-    nickname_user_url(nickname: user.nickname)
+    slug_user_url(slug: user.slug)
   end
 
   def cancel_watchable_watches_path(watchable, options = {})
