@@ -50,16 +50,17 @@
     - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
     = render 'application/share', map: map
   .post-card-with-comments__footer
-    - if user_signed_in?
-      - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
-      - mention_data = local_assigns[:in_modal] ? mention_options_data.merge(action: 'parti-mention') : mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
-      %span.post-card-with-comments__footer__link-to-modal{ data: mention_data }
-        %i.fa.fa-commenting-o
-        수다작성
-    - else
-      %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '수다작성' }}
-        %i.fa.fa-commenting-o
-        수다작성
+    - unless local_assigns[:in_modal]
+      - if user_signed_in?
+        - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
+        - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
+        %span.post-card-with-comments__footer__link-to-modal{ data: mention_data }
+          %i.fa.fa-commenting-o
+          수다작성
+      - else
+        %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '수다작성' }}
+          %i.fa.fa-commenting-o
+          수다작성
     %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
       %i.fa.fa-share-alt
       공유하기
