@@ -10,10 +10,11 @@
           = link_to wiki_wiki_histories_path(@issue.wiki) do
             %i.fa.fa-history
             모든 버전 보기
-      -if @issue.wiki.body.blank?
-        %p#no-content
-          %i.fa.fa-smile-o
-            작성된 내용이 없습니다.
-      -else
-        = raw render_markdown_to_html(@issue.wiki.body)
+      .wiki_content
+        -if @issue.wiki.body.blank?
+          %p#no-content
+            %i.fa.fa-smile-o
+              작성된 내용이 없습니다.
+        -else
+          = raw render_markdown_to_html(@issue.wiki.body)
 

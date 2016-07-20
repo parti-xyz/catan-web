@@ -909,6 +909,10 @@ $(function(){
     $('.btn-save-wiki').attr('data-content', $elm.data('parti-title'));
     $('.link-to-wiki').attr('target', null);
   }
+
+  if ( $('#wikis .body .wiki_content a').length ){
+    $('#wikis .body .wiki_content a').attr('target', '_blank');
+  }
 });
 
 // fixed section#issue-bottom-banner
