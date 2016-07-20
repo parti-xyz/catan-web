@@ -39,12 +39,15 @@ body.app-wikis.app-wikis-edit {
 section#wiki-edit {
   background-color: #fff;
   border-top: 3px solid #966fd6;
+  .page-title {
+    padding-top: 10px;
+  }
   .btn-save-wiki {
     padding: 0 20px;
     width: auto;
     float: right;
     &:before {
-      content: attr(data-content) " 위키 저장";
+      content: "저장";
       color: #fff;
     }
     &:hover {
@@ -70,8 +73,10 @@ section#wiki-edit {
   }
   .editor-toolbar.fullscreen {
     border-radius: 0;
-    top: 53px;
+    top: 100px;
     white-space: initial;
+    border: 1px solid #ddd;
+    border-bottom: none;
     &:hover {
         opacity: 1;
     }
@@ -85,7 +90,8 @@ section#wiki-edit {
     background: none;
   }
   .CodeMirror.CodeMirror-fullscreen {
-    top: 103px;
+    top: 150px;
+    margin-bottom: 20px;
     @media (max-width: $screen-xs-max) {
       top: 165px;
     }
@@ -102,7 +108,7 @@ section#wiki-edit {
       width: $container-md;
     }
     @media (min-width: $screen-lg-min) {
-      width: $container-lg;
+      width: $container-md;
     }
     left: 50%;
     transform: translate(-50%, 0);

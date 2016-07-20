@@ -906,7 +906,6 @@ $(function(){
         },
       ]
     }).toggleFullScreen();
-    $('.btn-save-wiki').attr('data-content', $elm.data('parti-title'));
     $('.link-to-wiki').attr('target', null);
   }
 
