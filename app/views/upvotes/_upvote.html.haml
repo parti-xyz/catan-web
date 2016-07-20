@@ -5,7 +5,7 @@
       - if comment.upvotes.count > 0
         = comment.upvotes.count
       - else
-        %span.btn-upvote__like-label 좋아요
+        %span.btn-upvote__like-label 공감해요
   - elsif comment.upvoted_by? current_user
     = link_to cancel_comment_upvotes_path(comment), method: :delete, remote: true, class: 'btn btn-upvote btn-upvote--liked' do
       %i.fa.fa-heart-o
@@ -16,4 +16,4 @@
       - if comment.upvotes.count > 0
         = comment.upvotes.count
       - else
-        %span.btn-upvote__like-label 좋아요
+        %span.btn-upvote__like-label 공감해요
