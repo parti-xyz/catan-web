@@ -27,7 +27,7 @@ ko:
     models:
       issue: 빠띠
       note: 담벼락
-      talk: 이야기
+      talk: 논의
       article: 자료
       opinion: 쟁점토론
       proposal: 제안-서명
@@ -88,8 +88,8 @@ ko:
         image: 이미지
         mobile_image: 모바일 이미지
         slug: 영문명
-        talk_title: 추천 이야기제목
-        talk_id: 추천 이야기번호
+        talk_title: 추천 논의제목
+        talk_id: 추천 논의번호
         article_title: 추천 자료제목
         article_id: 추천 자료번호
         opinion_title: 추천 쟁점토론제목
@@ -143,10 +143,10 @@ ko:
         talk:
           attributes:
             title:
-              too_long: 이야기의 %{attribute}이 너무 깁니다. 50자 이내로 써주세요.
+              too_long: 논의 %{attribute}이 너무 깁니다. 50자 이내로 써주세요.
   labels:
     new_article_button: 자료 공유
-    new_talk_button: 이야기 나누기
+    new_talk_button: 논의 하기
     new_opinion_button: 쟁점토론 열기
     new_note_button: 쓰기
     edit_wiki_button: 편집

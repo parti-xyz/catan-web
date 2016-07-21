@@ -2,7 +2,7 @@
   - if postables.empty?
     .bg-default.text-center
       %i.fa.fa-info-circle
-      가장 먼저 이야기를 나눠보세요.
+      가장 먼저 논의를 열어 보세요.
   - else
     - postables.each do |postable|
       = render postable, show_issue: local_assigns[:show_issue]
