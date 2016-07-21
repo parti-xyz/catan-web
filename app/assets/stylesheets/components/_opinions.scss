@@ -163,9 +163,35 @@ section#opinions {
   }
 }
 
-.vote__results .btn-primary {
-  .btn-icon img {
-    margin-top: -21px;
+.vote__results {
+  .btn-primary {
+    .btn-icon img {
+      margin-top: -21px;
+    }
+  }
+  .vote__results__agree {
+    float: left;
+    width: 50%;
+    text-align: right;
+    padding-right: 2.5px;
+  }
+  .vote__results__disagree {
+    float: right;
+    width: 50%;
+    text-align: left;
+    padding-left: 2.5px;
+  }
+  .vote__results__voters {
+    padding-top: 5px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+
+.vote__results, .vote__buttons {
+  img {
+    width: 20px;
+    height: auto;
   }
 }
 

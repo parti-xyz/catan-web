@@ -16,16 +16,30 @@
 
   - elsif opinion.sured_by? current_user
     / 로그인 & 투표완료
-    .vote__results
-      = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-        %i.fa.fa-thumbs-o-up
-        %span 찬성
-        %p.count= opinion.votes.with_choice(:agree).count
-      = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-        %i.fa.fa-thumbs-o-down
-        %span 반대
-        %p.count= opinion.votes.with_choice(:disagree).count
+    .vote__results.clearfix
+      .vote__results__agree
+        = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+          %i.fa.fa-thumbs-o-up
+          %span 찬성
+          %p.count= opinion.votes.with_choice(:agree).count
+        - if local_assigns[:in_modal]
+          .vote__results__voters
+            - opinion.votes.with_choice(:agree).partial_included_with(current_user).each do |vote|
+              = link_to user_gallery_path(vote.user), class: 'text-nowrap' do
+                - unless local_assigns[:hide_image]
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{vote.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
 
+      .vote__results__disagree
+        = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: 'inline'), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+          %i.fa.fa-thumbs-o-down
+          %span 반대
+          %p.count= opinion.votes.with_choice(:disagree).count
+        - if local_assigns[:in_modal]
+          .vote__results__voters
+            - opinion.votes.with_choice(:disagree).partial_included_with(current_user).each do |vote|
+              = link_to user_gallery_path(vote.user), class: 'text-nowrap' do
+                - unless local_assigns[:hide_image]
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{vote.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
   - else
     .vote__buttons
       / 로그인 & 투표 전
