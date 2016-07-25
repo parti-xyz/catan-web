@@ -6,7 +6,7 @@
     %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
     = display_meta_tags
 
-    =favicon_link_tag 'favicon.ico'
+    = render 'favicons'
 
     = stylesheet_link_tag 'application_xs', media: 'all'
     = stylesheet_link_tag 'vendors', media: 'all'
