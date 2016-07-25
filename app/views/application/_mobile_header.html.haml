@@ -10,7 +10,7 @@
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               내 빠띠
               %span.caret
-            %ul.dropdown-menu.dropdown-menu-right{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
+            %ul.dropdown-menu.dropdown-menu-right
               - if current_user.making_issues.any?
                 %li.dropdown-header
                   메이커인 빠띠
