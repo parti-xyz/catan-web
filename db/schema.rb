@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719120105) do
+ActiveRecord::Schema.define(version: 20160726071501) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -338,14 +338,14 @@ ActiveRecord::Schema.define(version: 20160719120105) do
   end
 
   create_table "upvotes", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4, null: false
-    t.integer  "comment_id", limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "user_id",        limit: 4,   null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "upvotable_id",   limit: 4,   null: false
+    t.string   "upvotable_type", limit: 255, null: false
   end
 
-  add_index "upvotes", ["comment_id"], name: "index_upvotes_on_comment_id", using: :btree
-  add_index "upvotes", ["user_id", "comment_id"], name: "index_upvotes_on_user_id_and_comment_id", unique: true, using: :btree
+  add_index "upvotes", ["user_id", "upvotable_id", "upvotable_type"], name: "index_upvotes_on_user_id_and_upvotable_id_and_upvotable_type", unique: true, using: :btree
   add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|

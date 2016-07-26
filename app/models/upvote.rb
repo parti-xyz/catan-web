@@ -1,12 +1,12 @@
 class Upvote < ActiveRecord::Base
   belongs_to :user
-  belongs_to :comment, counter_cache: true
+  belongs_to :upvotable, polymorphic: true, counter_cache: true
   has_one :post, through: :comment, source: :post
   has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true
-  validates :comment, presence: true
-  validates :user, uniqueness: {scope: [:comment]}
+  validates :upvotable, presence: true
+  validates :user, uniqueness: {scope: [:upvotable]}
 
   scope :recent, -> { order(created_at: :desc) }
   scope :previous_of, ->(id) { where('id < ?', id) if id.present? }
@@ -22,6 +22,6 @@ class Upvote < ActiveRecord::Base
   private
 
   def send_message
-    MessageService.new(self).call
+    #MessageService.new(self).call
   end
 end
