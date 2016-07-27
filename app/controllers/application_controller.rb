@@ -145,7 +145,6 @@ class ApplicationController < ActionController::Base
   end
 
   def notes_page(issue = nil)
-    # @notes = @issue.notes.recent.page(params[:page])
     notes_base = issue.nil? ? Note.all : issue.notes
 
     previous_last_note = Note.find_by(id: params[:last_id])
