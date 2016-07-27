@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  class GroupConstraint
+    # Implement the .matches? method and pass in the request object
+    def self.matches? request
+      matching_site?(request)
+    end
+
+    def self.matching_site? request
+      Group.all.any? { |g| g.slug == request.subdomain }
+    end
+  end
+  match '/', :to => 'groups#index', :constraints => GroupConstraint, via: :all
+
   post 'redactor2_rails/files', to: redirect('/')
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
