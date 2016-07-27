@@ -22,6 +22,6 @@ class Upvote < ActiveRecord::Base
   private
 
   def send_message
-    #MessageService.new(self).call
+    MessageService.new(self).call
   end
 end

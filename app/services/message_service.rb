@@ -10,7 +10,7 @@ class MessageService
     when Mention.to_s
       send_message(@source.user, @source.mentionable)
     when Upvote.to_s
-      send_message(@source.comment.user, @source)
+      send_message(@source.upvotable.user, @source)
     when Comment.to_s
       @source.post.messagable_users.each do |user|
         next if user == @source.user
