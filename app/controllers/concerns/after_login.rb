@@ -20,9 +20,6 @@ module AfterLogin
     when 'issue_watch'
       issue = Issue.find_by id: after_login['id']
       WatchIssueService.new(issue: issue, current_user: current_user).call if issue.present?
-    when 'comment_upvote'
-      comment = Comment.find_by id: after_login['id']
-      UpvoteCommentService.new(comment: comment, current_user: current_user).call if comment.present?
     end
 
     session["omniauth.params_data"] = nil

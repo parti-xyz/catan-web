@@ -3,6 +3,7 @@ class Comment < ActiveRecord::Base
 
   include Choosable
   include Mentionable
+  include Upvotable
   mentionable :body
 
   belongs_to :user
@@ -30,10 +31,6 @@ class Comment < ActiveRecord::Base
 
   def linkable?
     post.try(:linkable?)
-  end
-
-  def upvoted_by? someone
-    upvotes.exists? user: someone
   end
 
   def mentioned? someone

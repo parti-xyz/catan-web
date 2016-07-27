@@ -12,7 +12,7 @@
   .comment__body{class: ("comment__body--#{comment.choice}" if comment.choice.present?)}
     = smart_format(h(comment.body))
   .comment__comment
-    = render 'upvotes/upvote', comment: comment
+    = render 'upvotes/upvote', upvotable: comment
   .comment__btn.text-right
     - if can? :update, comment
       = link_to edit_comment_path(comment, style: :in_post), remote: true do

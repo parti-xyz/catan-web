@@ -17,8 +17,8 @@
     = talk.title
   .media
     .media-body
-      .talk-comment-body{data: modal_data}= smart_format(talk.body)
-
+      .talk-comment-body{data: modal_data}
+        = smart_format(talk.body)
       - unless local_assigns[:hide_user]
         .talk-comment-info
           = link_to user_gallery_path(talk.user) do
@@ -28,10 +28,10 @@
             %a.comment__mention{ href: '#', data: mention_data }
               %i.fa.fa-reply
 
-        / - unless local_assigns[:hide_upvote]
-        /   .talk-comment-upvote.visible-xs
-        /     = render 'upvotes/upvote', comment: comment
+        - unless local_assigns[:hide_upvote]
+          .talk-comment-upvote.visible-xs
+            = render 'upvotes/upvote', upvotable: post
 
-      / - unless local_assigns[:hide_upvote]
-      /   .media-right.hidden-xs
-      /     = render 'upvotes/upvote', comment: comment
+    - unless local_assigns[:hide_upvote]
+      .media-right.hidden-xs
+        = render 'upvotes/upvote', upvotable: post

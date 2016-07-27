@@ -28,13 +28,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts, only: [] do
+  concern :upvotable do
+    resources :upvotes do
+      delete :cancel, on: :collection
+    end
+  end
+
+  resources :posts, concerns: :upvotable do
     shallow do
-      resources :comments do
-        resources :upvotes do
-          delete :cancel, on: :collection
-        end
-      end
+      resources :comments, concerns: :upvotable
       resources :votes
     end
   end

@@ -1,6 +1,8 @@
 class Post < ActiveRecord::Base
   HOT_LIKES_COUNT = 3
 
+  include Upvotable
+
   acts_as_paranoid
   actable as: :postable
   paginates_per 20

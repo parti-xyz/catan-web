@@ -16,13 +16,13 @@
       .comment__body.comment__body--talk
         = render customize_partial_path(specific, 'talk_line'), show_issue: true, hide_user: true, hide_upvote: true
       .comment__upvotes
-        = render 'upvotes/upvote', comment: comment
+        = render 'upvotes/upvote', upvotable: comment
     - else
       .comment__body
         %p
           = smart_format(comment.body)
       .comment__upvotes
-        = render 'upvotes/upvote', comment: comment
+        = render 'upvotes/upvote', upvotable: comment
       .comment__footer{class: "comment__footer--#{specific.class.to_s.underscore}"}
         = render customize_partial_path(specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), show_issue: true
 

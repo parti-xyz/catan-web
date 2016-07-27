@@ -14,7 +14,8 @@ class UpvotesController < ApplicationController
   end
 
   def cancel
-    @upvote = @comment.upvotes.find_by user: current_user
+    @upvotable = (@comment || @post)
+    @upvote = @upvotable.upvotes.find_by user: current_user
     @upvote.try(:destroy)
 
     respond_to do |format|

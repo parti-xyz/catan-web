@@ -113,8 +113,8 @@
 
       %h3 Upvote Buttons
       %div
-        = render 'upvotes/upvote', comment: Comment.last
-        = render 'upvotes/upvote', comment: Comment.second, unsigned: true
+        = render 'upvotes/upvote', upvotable: Comment.last
+        = render 'upvotes/upvote', upvotable: Comment.second, unsigned: true
 
   %section#pagination
     .container

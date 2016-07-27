@@ -1,19 +1,19 @@
-%span{class: "#{dom_id(comment)}-upvote"}
+%span{class: "#{dom_id(upvotable)}-upvote"}
   - if !user_signed_in? or local_assigns[:unsigned]
-    = link_to '#', data: { toggle: 'parti-login-overlay', 'after-login': h({action: :comment_upvote, id: comment.id}.to_json) }, class: 'btn btn-default btn-upvote' do
+    = link_to '#', data: { toggle: 'parti-login-overlay' }, class: 'btn btn-default btn-upvote' do
       %i.fa.fa-heart-o
-      - if comment.upvotes.count > 0
-        = comment.upvotes.count
+      - if upvotable.upvotes.count > 0
+        = upvotable.upvotes.count
       - else
         %span.btn-upvote__like-label 공감해요
-  - elsif comment.upvoted_by? current_user
-    = link_to cancel_comment_upvotes_path(comment), method: :delete, remote: true, class: 'btn btn-upvote btn-upvote--liked' do
+  - elsif upvotable.upvoted_by? current_user
+    = link_to [:cancel, upvotable, :upvotes], method: :delete, remote: true, class: 'btn btn-upvote btn-upvote--liked' do
       %i.fa.fa-heart-o
-      = comment.upvotes.count
+      = upvotable.upvotes.count
   - else
-    = link_to comment_upvotes_path(comment), method: :post, remote: true, class: 'btn btn-default btn-upvote' do
+    = link_to [upvotable, :upvotes], method: :post, remote: true, class: 'btn btn-default btn-upvote' do
       %i.fa.fa-heart-o
-      - if comment.upvotes.count > 0
-        = comment.upvotes.count
+      - if upvotable.upvotes.count > 0
+        = upvotable.upvotes.count
       - else
         %span.btn-upvote__like-label 공감해요
