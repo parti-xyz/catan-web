@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     end
 
     def self.matching_site? request
-      Group.all.any? { |g| g.slug == request.subdomain }
+      Group.exists_slug? request.subdomain
     end
   end
   match '/', :to => 'groups#index', :constraints => GroupConstraint, via: :all

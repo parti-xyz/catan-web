@@ -66,6 +66,7 @@ class IssuesController < ApplicationController
 
   def create
     @issue.makers.build(user: current_user)
+    @issue.group_slug = current_group.try(:slug)
     @watch = current_user.watches.build(watchable: @issue)
     ActiveRecord::Base.transaction do
       if !%w(all).include?(@issue.slug) and @issue.save and @watch.save

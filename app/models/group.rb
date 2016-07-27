@@ -7,4 +7,12 @@ class Group
   def self.all
     [Group::GWANGJU]
   end
+
+  def self.find_by_slug(slug)
+    all.detect { |g| g.slug == slug }
+  end
+
+  def self.exists_slug?(slug)
+    all.any? { |g| g.slug == slug }
+  end
 end

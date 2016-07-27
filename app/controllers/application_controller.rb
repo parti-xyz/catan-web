@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
   after_filter :prepare_unobtrusive_flash
   after_filter :store_location
 
+  layout -> { get_layout }
+
   def store_location
     return unless request.get?
     if (!request.fullpath.match("/users") && !request.xhr?)
@@ -42,6 +44,8 @@ class ApplicationController < ActionController::Base
     return dashboard_path if path == slug_issue_path(slug: :all)
     path
   end
+
+  helper_method :current_group
 
   private
 
@@ -157,5 +161,19 @@ class ApplicationController < ActionController::Base
   #bugfix redactor2-rails
   def redactor_current_user
     redactor2_current_user
+  end
+
+  private
+
+  def get_layout
+    if current_group.present?
+      'group'
+    else
+      'application'
+    end
+  end
+
+  def current_group
+    Group.find_by_slug request.subdomain
   end
 end

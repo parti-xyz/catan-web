@@ -90,4 +90,14 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
     assert_equal users(:one), issues(:issue1).reload.makers.first.user
   end
+
+  test '그룹빠띠' do
+    host! "#{Group::GWANGJU.slug}.example.com"
+    sign_in(users(:admin))
+
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
+
+    assert assigns(:issue).persisted?
+    assert_equal Group::GWANGJU, assigns(:issue).group
+  end
 end

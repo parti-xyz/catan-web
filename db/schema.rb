@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20160728041026) do
     t.string   "active",        limit: 255,      default: "on"
     t.boolean  "basic",                          default: false
     t.string   "telegram_link", limit: 255
+    t.string   "group_slug",    limit: 255
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree

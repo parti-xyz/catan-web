@@ -1,1 +1,29 @@
-test
+= render 'top_banner'
+%section#facebook-like
+  .container
+    .fb-like{"data-action": "like", "data-href": "https://www.facebook.com/parti.xyz/", "data-layout": "standard", "data-share": "false", "data-show-faces": "false"}
+= render 'pages/key_visuals' if is_small_screen?
+%section#home
+  .container
+    .row
+      .col-xs-9
+        %section#parties-all
+          .parties-all
+            .parties-filter
+              .parties-search-form
+                %form(onsubmit="return false;")
+                  = hidden_field_tag :sort
+                  .input-group.input-group-lg.input-group-keyword
+                    %input.form-control{name: "keyword", placeholder: "어떤 이슈에 관심있으세요?", type: "search", data: { action: 'parti-search-parties', 'search-sort': '#parties-all input[name=sort]'}}
+                      %span.input-group-btn
+                        %button.btn.btn-group-default{:type => "button"}
+                          %i.fa.fa-search
+              .parties-sort-select
+                = render 'pages/home_sort_select'
+
+            .parties-all-loading
+              %i.fa.fa-spinner.fa-pulse.fa-3x.fa-fw
+            .parties-all-list
+              = render 'issues/list'
+      - unless is_small_screen?
+        = render 'application/aside'

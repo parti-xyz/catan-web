@@ -6,12 +6,13 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.hidden.navbar-brand{ href: root_url(subdomain: false) }
+        %a.navbar-brand{ href: root_url(subdomain: false) }
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
-          %li= link_to '모든 빠띠', root_url(subdomain: false), class: "#{'active' if current_page?('/')}"
+          %li= link_to "모든 #{current_group.name} 빠띠", root_path, class: "#{'active' if current_page?('/')}"
+          %li= link_to "·"
           %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false)
           - if user_signed_in? and current_user.watches.any?
             %li= link_to "·"
