@@ -37,7 +37,7 @@ class NotesController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @note.issue
-      notes_page
+      notes_page @issue
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_notes_path(@issue)
       @paginate_params = {controller: 'issues', :action => 'slug_notes', slug: @issue.slug, id: nil}
