@@ -12,15 +12,16 @@
       .issue-card-cover
       .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
         .issue-card__thumb__btn
-      .issue-card__title
-        .issue-card__title__text-wrapper
-          .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}= issue.title
-      .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
-      .issue-card__meta
-        %span.user-count
-          %i.fa.fa-user
-          %b= issue.watches.count
-        %span.comment-count
-          %i.fa.fa-comment
-          %b= issue.comments.count
+      .issue-card__content
+        .issue-card__title
+          .issue-card__title__text-wrapper
+            .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}= issue.title
+        .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
+        .issue-card__meta
+          %span.user-count
+            %i.fa.fa-user
+            %b= issue.watches.count
+          %span.comment-count
+            %i.fa.fa-comment
+            %b= issue.comments.count
 
