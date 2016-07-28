@@ -16,7 +16,7 @@ class OpinionsController < ApplicationController
       set_vote
     end
 
-    redirect_to params[:back_url].presence || issue_home_path(@issue)
+    redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
   end
 
   def update
@@ -31,7 +31,7 @@ class OpinionsController < ApplicationController
 
   def destroy
     @opinion.destroy
-    redirect_to issue_home_path(@opinion.issue)
+    redirect_to issue_home_path_or_url(@opinion.issue)
   end
 
   def show

@@ -18,7 +18,7 @@
     .editor-btn.text-right
       - if @opinion.new_record?
         - if @opinion.issue.present?
-          - back_to = issue_home_path(@opinion.issue)
+          - back_to = issue_home_path_or_url(@opinion.issue)
         - else
           - back_to = root_path
       - else

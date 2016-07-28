@@ -13,7 +13,7 @@ class TalksController < ApplicationController
     if !@talk.save
       errors_to_flash(@talk)
     end
-    redirect_to params[:back_url].presence || issue_home_path(@issue)
+    redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
   end
 
   def update
@@ -29,7 +29,7 @@ class TalksController < ApplicationController
 
   def destroy
     @talk.destroy
-    redirect_to issue_home_path(@talk.issue)
+    redirect_to issue_home_path_or_url(@talk.issue)
   end
 
   def show

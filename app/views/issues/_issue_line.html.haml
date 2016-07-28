@@ -1,13 +1,16 @@
 - issue ||= local_assigns[:issue_line]
 %li.issue-line
   .media
-    = link_to issue_home_path(issue) do
+    = link_to issue_home_path_or_url(issue) do
       .media-left.issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
     .media-body
-      = link_to issue_home_path(issue) do
+      = link_to issue_home_path_or_url(issue) do
         %span.issue-line__title
           - if issue.in_group? and current_group != issue.group
             = issue.group.name
+            %i.fa.fa-angle-right
+          - if !issue.in_group? and current_group.present?
+            = image_tag 'parti_logo_gray', class: 'issue-line__title__parti-logo'
             %i.fa.fa-angle-right
           = issue.title
         %span.issue-line__meta

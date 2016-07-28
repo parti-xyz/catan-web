@@ -12,13 +12,18 @@ module PartiUrlHelper
     slug_campaign_url(slug: campaign.slug)
   end
 
-  def issue_home_path(issue, options = {})
+  def issue_home_path_or_url(issue, options = {})
     options.update(slug: issue.slug)
-    slug_issue_path(options)
+    if issue.group == current_group
+      slug_issue_path(options)
+    else
+      issue_home_url(issue, options)
+    end
   end
 
-  def issue_home_url(issue)
-    slug_issue_url(slug: issue.slug)
+  def issue_home_url(issue, options = {})
+    options.update(slug: issue.slug, subdomain: issue.group.try(:slug))
+    slug_issue_url(options)
   end
 
   def issue_articles_path(issue, options = {})

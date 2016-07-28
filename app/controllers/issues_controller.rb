@@ -2,15 +2,13 @@ class IssuesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
   load_and_authorize_resource
+  before_filter :verify_group, only: [:slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :edit, :new]
   before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :slug_users]
 
   def index
     @issues = Issue.limit(10)
     if params[:query].present?
       @issues = @issues.where("title like ?", "%#{params[:query]}%")
-    end
-    if current_group.present?
-      @issues = @issues.where(group_slug: current_group.slug)
     end
 
     respond_to do |format|
@@ -36,7 +34,7 @@ class IssuesController < ApplicationController
 
   def show
     @issue = Issue.find params[:id]
-    redirect_to issue_home_path(@issue)
+    redirect_to issue_home_url(@issue)
   end
 
   def slug_home
@@ -65,9 +63,6 @@ class IssuesController < ApplicationController
 
   def slug_notes
     notes_page(@issue)
-  end
-
-  def slug_wikis
   end
 
   def create
@@ -126,9 +121,6 @@ class IssuesController < ApplicationController
     redirect_to [:edit, @issue]
   end
 
-  def slug_users
-  end
-
   def exist
     respond_to do |format|
       format.json { render json: Issue.exists?(title: params[:title]) }
@@ -161,5 +153,13 @@ class IssuesController < ApplicationController
     prepare_meta_tags title: meta_issue_title(@issue),
                       description: (@issue.body.presence || "#{@issue.title} 빠띠에서 즐거운 수다파티"),
                       image: @issue.logo_url
+  end
+
+  def verify_group
+    return if @issue.blank?
+    return if !request.format.html?
+
+    redirect_to subdomain: nil and return if !@issue.in_group? and current_group.present?
+    redirect_to subdomain: @issue.group.slug and return if @issue.in_group? and current_group.blank?
   end
 end

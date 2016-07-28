@@ -1,6 +1,6 @@
 / .post-modal__top
 /   .post-modal__info
-/     = link_to issue_home_path(@talk.issue) do
+/     = link_to issue_home_path_or_url(@talk.issue) do
 /       = image_tag @talk.issue.logo.xs.url, class: 'img-circle'
 /       %span.text-primary= @talk.issue.title
 /   %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")

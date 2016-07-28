@@ -1,6 +1,6 @@
 / .post-modal__top
 /   .post-modal__info
-/     / = link_to issue_home_path(@article.issue) do
+/     / = link_to issue_home_path_or_url(@article.issue) do
 /     /   = image_tag @article.issue.logo.xs.url, class: 'img-circle'
 /     /   %span.text-primary= @article.issue.title
 /     .media
@@ -8,7 +8,7 @@
 /         .issue-logo
 /           = image_tag @article.issue.logo.xs.url
 /       .media-body
-/         = link_to issue_home_path(@article.issue) do
+/         = link_to issue_home_path_or_url(@article.issue) do
 /           %span.issue-title= @article.issue.title
 /         %br
 /         = link_to send("issue_#{@article.class.model_name.plural}_path", @article.issue), class: 'post-type' do

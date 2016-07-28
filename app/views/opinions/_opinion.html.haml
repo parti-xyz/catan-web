@@ -6,7 +6,7 @@
   .row.opinion-card__meta
     .col-sm-6.col-xs-12
       .opinion-card__issue
-        = link_to issue_home_path(issue) do
+        = link_to issue_home_path_or_url(issue) do
           .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
     .col-sm-6.col-xs-12
       .opinion-card__date.date-wrapper.opinion-card__date--with-issue

@@ -8,7 +8,7 @@ class ArticlesController < ApplicationController
 
   def create
     redirect_to root_path and return if fetch_issue.blank?
-    redirect_to issue_home_path(@issue) and return if @article.link.blank?
+    redirect_to issue_home_path_or_url(@issue) and return if @article.link.blank?
 
     @article.user ||= current_user
     need_to_crawl = false
@@ -28,13 +28,13 @@ class ArticlesController < ApplicationController
       need_to_crawl = true
     end
     crawl if need_to_crawl
-    redirect_to params[:back_url].presence || issue_home_path(@issue)
+    redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
   end
 
   def update
     redirect_to root_path and return if fetch_issue.blank?
     @article.assign_attributes(update_link_param)
-    redirect_to issue_home_path(@issue) and return if @article.link.blank?
+    redirect_to issue_home_path_or_url(@issue) and return if @article.link.blank?
 
     need_to_crawl = false
     ActiveRecord::Base.transaction do

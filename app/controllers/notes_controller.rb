@@ -13,7 +13,7 @@ class NotesController < ApplicationController
     if !@note.save
       errors_to_flash(@note)
     end
-    redirect_to params[:back_url].presence || issue_home_path(@issue)
+    redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
   end
 
   def update
