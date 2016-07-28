@@ -9,11 +9,29 @@
 
 %section.parti-watch-recommend--issues
   .container
-    .row
-      - @issues.each do |issue|
-        .col-sm-3.col-xs-6
-          .issue-card-wrapper
-            = render 'issues/card_in_intro', issue: issue
+    - if current_group.present?
+      %h3.page-title #{current_group.name} 빠띠
+      .row
+        - @group_issues.each do |issue|
+          .col-sm-3.col-xs-6
+            .issue-card-wrapper
+              = render 'issues/card_in_intro', issue: issue
+        - if @group_issues.empty?
+          .col-xs-12
+            %i.fa.fa-info-circle
+            더 구독할 빠띠가 없습니다.
+      %h3.page-title 그외 빠띠
+      .row
+        - @issues.each do |issue|
+          .col-sm-3.col-xs-6
+            .issue-card-wrapper
+              = render 'issues/card_in_intro', issue: issue
+    - else
+      .row
+        - @issues.each do |issue|
+          .col-sm-3.col-xs-6
+            .issue-card-wrapper
+              = render 'issues/card_in_intro', issue: issue
 
 .modal.fade.in.parti-watch-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
   .modal-dialog

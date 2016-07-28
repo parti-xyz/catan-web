@@ -5,6 +5,11 @@ class DashboardController < ApplicationController
   def index
     if current_user.need_to_more_watch?
       @issues = Issue.hottest
+      if current_group.present?
+        @group_issues = @issues.where(group_slug: current_group.slug)
+        @group_issues.to_a.reject! { |issue| issue.made_by?(current_user) }
+        @issues = @issues.any_of({group_slug: nil}, Issue.where.not(group_slug: 'gwangju'))
+      end
       render 'intro' and return
     end
     posts
