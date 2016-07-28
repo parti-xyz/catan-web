@@ -87,7 +87,6 @@ section#issues {
   }
   .parti-body {
     color: $gray-lighter;
-    font-weight: 100;
     text-shadow: 1px 1px #333;
   }
   .parti-buttons {
@@ -113,6 +112,19 @@ section#issues {
             font-weight: bold;
           }
         }
+      }
+    }
+    .parti-telegram-button {
+      margin-left: 10px;
+      a {
+        font-weight: 100;
+        color: #fff;
+        &:hover {
+          font-weight: 200;
+        }
+      }
+      img {
+        max-width: 20px;
       }
     }
     .parti-admin-buttons {

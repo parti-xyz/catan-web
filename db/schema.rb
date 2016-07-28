@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160727061639) do
+ActiveRecord::Schema.define(version: 20160728041026) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -130,6 +130,7 @@ ActiveRecord::Schema.define(version: 20160727061639) do
     t.datetime "deleted_at"
     t.string   "active",        limit: 255,      default: "on"
     t.boolean  "basic",                          default: false
+    t.string   "telegram_link", limit: 255
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree
