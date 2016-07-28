@@ -2,6 +2,14 @@
 
 ## 업그레이드
 
+### 1.9 --> 1.10
+
+배포 후에 즉시 아래 스크립트를 실행한다.
+
+```
+RAILS_ENV=production bin/rake migrate:presetation_comment_to_talk_body
+```
+
 ### 1.3 --> 1.4
 
 서버에 데이터베이스 설정을 수정합니다.
