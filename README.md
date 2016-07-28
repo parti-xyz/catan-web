@@ -4,11 +4,16 @@
 
 ### 1.9 --> 1.10
 
-배포 후에 즉시 아래 스크립트를 실행한다.
-
+배포 후에 즉시 아래 스크립트를 실행합니다.
 ```
 RAILS_ENV=production bin/rake migrate:presetation_comment_to_talk_body
 ```
+
+배포 직전, 텔레그램 대화방 열기 위키문서(빠띠 활용 가이드 1.10 Beta)의 내용을 복사해서 원본 위키문서(빠띠 활용 가이드)로 옮깁니다.
+텔레그램 가이드로 앵커가 걸린 url을 복사해서, app/vies/issues/_form.html.haml에 있는 '텔레그램 슈퍼그룹이란?'의 기존 href url을 대체합니다.
+
+배보 직후, 활용가이드에 첨부된 이미지 url중 'dev'로 되어있는 부분은 'master'로 바꿉니다.
+
 
 ### 1.3 --> 1.4
 
