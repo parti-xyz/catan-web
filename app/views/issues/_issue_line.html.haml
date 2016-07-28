@@ -6,11 +6,8 @@
     .media-body
       = link_to issue_home_path_or_url(issue) do
         %span.issue-line__title
-          - if issue.in_group? and current_group != issue.group
+          - if issue.in_group? and !local_assigns[:hide_group]
             = issue.group.name
-            %i.fa.fa-angle-right
-          - if !issue.in_group? and current_group.present?
-            = image_tag 'parti_logo_gray', class: 'issue-line__title__parti-logo'
             %i.fa.fa-angle-right
           = issue.title
         %span.issue-line__meta

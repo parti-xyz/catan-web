@@ -594,10 +594,6 @@ section#issues {
     &:hover {
       color: $brand-primary;
     }
-    img#{&}__parti-logo {
-      max-height: 15px;
-      margin-bottom: 2px;
-    }
   }
   &__meta {
     color: $brand-primary;

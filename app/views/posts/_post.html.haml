@@ -12,6 +12,10 @@
         .media-body
           - if local_assigns[:show_issue]
             = link_to issue_home_path_or_url(post.issue) do
+              %span.issue-group
+                - if post.issue.in_group?
+                  = post.issue.group.name
+                  %i.fa.fa-angle-right
               %span.issue-title= post.issue.title
             %br
           = link_to send("issue_#{post.specific.class.model_name.plural}_path", post.issue), class: 'post-type' do
