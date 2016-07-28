@@ -43,7 +43,7 @@
                 %span.parti-telegram-button
                   = link_to issue.telegram_link, target: '_blank' do
                     = image_tag 'telegram_icon.png'
-                    텔레그램 열기
+                    대화방 열기
           .col-sm-3.text-right.hidden-xs
             - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
             - map = { facebook: data }
