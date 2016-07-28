@@ -135,6 +135,10 @@ class Issue < ActiveRecord::Base
     Group.find_by_slug group_slug
   end
 
+  def in_group?
+    group_slug.present?
+  end
+
   private
 
   def downcase_slug

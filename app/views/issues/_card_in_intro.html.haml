@@ -11,6 +11,9 @@
     = link_to action_link, method: action_method, remote: true do
       .issue-card-cover
       .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
+        - if issue.in_group? and current_group != issue.group
+          .issue-card__group
+            = issue.group.name
         .issue-card__thumb__btn
       .issue-card__content
         .issue-card__title
