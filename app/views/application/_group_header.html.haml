@@ -18,7 +18,7 @@
             %li= link_to "·"
             %li.dropdown.watch-parties
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                내 빠띠
+                내 #{current_group.name} 빠띠
                 %span.caret
               %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
                 - if current_user.making_issues.any?
@@ -39,7 +39,7 @@
             %li
               = link_to dashboard_url(subdomain: false), class: "#{'active' if current_page?(controller: '/dashboard', action: :index)}" do
                 .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-                = t('labels.dashboard')
+                내 #{current_group.name} 홈
             %li.notification
               = link_to messages_url(subdomain: false), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
                 - if current_user.unread_messages_count > 0
@@ -49,9 +49,9 @@
                 - else
                   %i.fa.fa-bell
             %li
-              = link_to destroy_user_session_url(subdomain: false), method: :delete do
+              = link_to destroy_user_session_url(subdomain: false, group_slug: current_group.slug, authenticity_token: form_authenticity_token), method: :delete do
                 로그아웃
 
           - else
             %li.sign-up
-              = link_to '로그인/회원가입', new_user_session_url(subdomain: false)
+              = link_to '로그인/회원가입', new_user_session_path

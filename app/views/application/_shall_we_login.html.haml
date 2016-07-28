@@ -9,18 +9,19 @@
       %br
       온라인 광장 빠띠
     .login-box__content
-      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :facebook) } do
+      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) } do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
         페이스북 아이디로 빠띠하기
-      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :twitter) } do
+      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) } do
         %i.fa.fa-twitter{style: 'font-size: 22px; color: #55acee; vertical-align: top;'}
         트위터 아이디로 빠띠하기
-      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) } do
+      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false) } do
         %i.fa.fa-google-plus{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
         구글플러스 아이디로 빠띠하기
       .login-box__remember
         = form_tag nil, method: :get do
           = hidden_field_tag(:after_login)
+          = hidden_field_tag(:group_slug, current_group.slug) if current_group.present?
           %label.remember_me
             = check_box_tag(:remember_me, '1', true)
             로그인 상태를 유지
@@ -29,7 +30,7 @@
       .devider
         %span{style: 'background: #fff'} 또는
 
-      = link_to new_user_session_path, class: 'login-box__link' do
+      = link_to new_user_session_url, class: 'login-box__link' do
         이메일로 로그인
 
 

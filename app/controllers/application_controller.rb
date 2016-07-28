@@ -40,9 +40,16 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    path = super
-    return dashboard_path if path == slug_issue_path(slug: :all)
-    path
+    result = super
+    omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
+    return root_url(subdomain: omniauth_params['group_slug']) if omniauth_params['group_slug'].present? and result == root_path
+    result
+  end
+
+  def after_sign_out_path_for(resource_or_scope)
+    result = super
+    return root_url(subdomain: params['group_slug']) if params['group_slug'].present?
+    result
   end
 
   helper_method :current_group

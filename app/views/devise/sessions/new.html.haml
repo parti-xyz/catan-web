@@ -6,18 +6,19 @@
       %br
       온라인 광장 빠띠
     .sign-up__form
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :facebook) }, class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn-sns btn-block' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
         페이스북 아이디로 빠띠하기
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :twitter) }, class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn-sns btn-block' do
         %i.fa.fa-twitter{style: 'font-size: 22px; color: #55acee; vertical-align: top;'}
         트위터 아이디로 빠띠하기
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) }, class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false) }, class: 'btn-sns btn-block' do
         %i.fa.fa-google-plus{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
         구글플러스 아이디로 빠띠하기
       #login-form.text-center
         = form_tag nil, method: :get do
           = hidden_field_tag(:after_login)
+          = hidden_field_tag(:group_slug, current_group.slug) if current_group.present?
           %label.remember_me
             = check_box_tag(:remember_me, '1', true)
             로그인 상태를 유지

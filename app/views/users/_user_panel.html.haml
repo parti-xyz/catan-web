@@ -24,18 +24,19 @@
             .user-panel__info__count= writing_counts.votes_count
   - else
     .user-panel__sign-up
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :facebook) }, class: 'btn btn-lg btn-shadow btn-block btn-facebook' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-facebook' do
         %i.fa.fa-facebook
         페이스북으로 로그인
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :twitter) }, class: 'btn btn-lg btn-shadow btn-block btn-twitter' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-twitter' do
         %i.fa.fa-twitter
         트위터로 로그인
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_path(:user, :google_oauth2) }, class: 'btn btn-lg btn-shadow btn-block btn-google' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-google' do
         %i.fa.fa-google-plus
         구글로 로그인
       #login-form
         = form_tag nil, method: :get do
           = hidden_field_tag(:after_login)
+          = hidden_field_tag(:group_slug, current_group.slug) if current_group.present?
           %label.remember_me
             = check_box_tag(:remember_me, '1', true)
             로그인 상태를 유지
