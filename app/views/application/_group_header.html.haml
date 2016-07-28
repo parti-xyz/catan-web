@@ -21,25 +21,27 @@
                 내 #{current_group.name} 빠띠
                 %span.caret
               %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
-                - if current_user.making_issues.any?
+                - making_issues = current_user.making_issues.in_group(current_group)
+                - if making_issues.any?
                   %li.dropdown-header
                     메이커인 빠띠
-                    #{current_user.making_issues.count}
-                - current_user.making_issues.each do |issue|
+                    #{making_issues.count}
+                - making_issues.each do |issue|
                   = render 'issues/issue_line', issue: issue
-                - if current_user.only_watched_issues.any?
+                - only_watched_issues = current_user.only_watched_issues.in_group(current_group)
+                - if only_watched_issues.any?
                   %li.dropdown-header
                     구독 중인 빠띠
-                    #{current_user.only_watched_issues.count}
-                - current_user.only_watched_issues.each do |issue|
+                    #{only_watched_issues.count}
+                - only_watched_issues.each do |issue|
                   = render 'issues/issue_line', issue: issue
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li
-              = link_to dashboard_url(subdomain: false), class: "#{'active' if current_page?(controller: '/dashboard', action: :index)}" do
+              = link_to dashboard_path(subdomain: false), class: "#{'active' if current_page?(controller: '/dashboard', action: :index)}" do
                 .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-                내 #{current_group.name} 홈
+                내 홈
             %li.notification
               = link_to messages_url(subdomain: false), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
                 - if current_user.unread_messages_count > 0
