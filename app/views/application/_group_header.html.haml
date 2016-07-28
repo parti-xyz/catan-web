@@ -12,8 +12,6 @@
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li= link_to "모든 #{current_group.name} 빠띠", root_path, class: "#{'active' if current_page?('/')}"
-          %li= link_to "·"
-          %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false)
           - if user_signed_in? and current_user.watches.any?
             %li= link_to "·"
             %li.dropdown.watch-parties
@@ -35,6 +33,8 @@
                     #{only_watched_issues.count}
                 - only_watched_issues.each do |issue|
                   = render 'issues/issue_line', issue: issue, hide_group: true
+          %li= link_to "·"
+          %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false)
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
