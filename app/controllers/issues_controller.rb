@@ -7,7 +7,10 @@ class IssuesController < ApplicationController
   def index
     @issues = Issue.limit(10)
     if params[:query].present?
-      @issues = @issues.where("title like ?", "%#{params[:query]}%" )
+      @issues = @issues.where("title like ?", "%#{params[:query]}%")
+    end
+    if current_group.present?
+      @issues = @issues.where(group_slug: current_group.slug)
     end
 
     respond_to do |format|
@@ -17,6 +20,9 @@ class IssuesController < ApplicationController
 
   def search
     @issues = Issue.search_for(params[:keyword])
+    if current_group.present?
+      @issues = @issues.where(group_slug: current_group.slug)
+    end
 
     case params[:sort]
     when 'hottest'
