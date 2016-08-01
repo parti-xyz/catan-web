@@ -52,6 +52,7 @@ class Issue < ActiveRecord::Base
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
   scope :recent, -> { order(created_at: :desc) }
   scope :in_group, ->(group) { where(group_slug: (group.try(:slug) || group)) if group.present? }
+  scope :of_slug, ->(slug) { find_by(slug: slug) }
 
   # search
   scoped_search on: [:title, :body]

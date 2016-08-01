@@ -1,6 +1,6 @@
 class AddPostIssueToNotesAndTalksAndOpinions < ActiveRecord::Migration
   def up
-    #add_reference :notes, :post_issue
+    add_reference :notes, :post_issue
     add_reference :talks, :post_issue
     add_reference :opinions, :post_issue
 
