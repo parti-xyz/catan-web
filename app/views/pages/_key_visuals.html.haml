@@ -1,4 +1,4 @@
-- if @featured_contents.any?
+- if @featured_contents.try(:any?)
   %section#key-visuals
     %ul.owl-carousel.owl-theme(data-action='parti-carousel' data-carousel-items='1' data-carousel-items-mobile='1' data-carousel-margin='7' data-carousel-dots='true' data-carousel-dots-each='true' data-carousel-random='true')
       - @featured_contents.each do |featured_content|
