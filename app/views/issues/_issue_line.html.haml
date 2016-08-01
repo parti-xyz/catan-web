@@ -6,7 +6,7 @@
     .media-body
       = link_to issue_home_path_or_url(issue) do
         %span.issue-line__title
-          - if issue.in_group? and !local_assigns[:hide_group]
+          - if issue.in_group? and issue.group != current_group and
             = issue.group.name
             %i.fa.fa-angle-right
           = issue.title
