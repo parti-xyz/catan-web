@@ -1,0 +1,79 @@
+#site-header
+  %nav.navbar.navbar-default.navbar-fixed-top
+    .container.clearfix
+      .navbar-header.pull-left{ style: 'position: relative' }
+        %a.navbar-brand{ href: root_path }
+          %img{ alt: 'parti', src: asset_path("groups/#{current_group.slug}_logo.png")}
+      %ul.nav.navbar-nav.navbar-nav-menu
+        - if user_signed_in? and current_user.watches.any?
+          %li.dropdown.watch-parties
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              내 #{current_group.name} 빠띠
+              %span.caret
+            %ul.dropdown-menu.dropdown-menu-right
+              - making_issues = current_user.making_issues.in_group(current_group)
+              - if making_issues.any?
+                %li.dropdown-header
+                  메이커인 빠띠
+                  #{making_issues.count}
+              - making_issues.each do |issue|
+                = render 'issues/issue_line', issue: issue
+              - only_watched_issues = current_user.only_watched_issues.in_group(current_group)
+              - if only_watched_issues.any?
+                %li.dropdown-header
+                  구독 중인 빠띠
+                  #{only_watched_issues.count}
+              - only_watched_issues.each do |issue|
+                = render 'issues/issue_line', issue: issue
+        %li.dashboard-menu= link_to t('labels.dashboard'), dashboard_path
+        %li
+          %a.btn-mobile-menu{ href: '#'}
+            = image_tag 'btn_mobile_menu.png'
+
+  .mobile-list#mobile-list
+    = image_tag 'icon_close_white.png', class: 'mobile-list__close'
+    - if user_signed_in?
+      .mobile-list__profile
+        = byline current_user
+        .mobile-list__messages
+          = link_to messages_path do
+            - if current_user.unread_messages_count > 0
+              %span.fa-stack
+                %i.fa.fa-bell.fa-stack-1x{style: 'color: white'}
+                %i.icon-dot-corner.fa-stack-1x
+            - else
+              %i.fa.fa-bell{style: 'color: white'}
+    - else
+      .mobile-list__profile
+        = image_tag 'img_default_profile.png', class: 'default-profile'
+        = link_to new_user_session_path, class: 'btn-new-user' do
+          로그인/회원가입
+    %ul.mobile-list__menu.list-unstyled
+      %li= link_to '모든 빠띠', root_path
+      %li= link_to t('activerecord.models.note'), notes_path
+      %li= link_to t('activerecord.models.talk'), talks_path
+      %li= link_to t('activerecord.models.opinion'), opinions_path
+      %li= link_to t('activerecord.models.article'), articles_path
+      - if user_signed_in?
+        %li.divider
+        %li= link_to '프로필 수정', edit_user_registration_path
+        %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
+      %li.divider
+      %li= link_to '빠띠 소개', '/about'
+      %li= link_to '이용약관', '/terms'
+      %li= link_to '개인정보취급정책', '/privacy'
+      %li
+        %a(href='mailto:help@parti.xyz')
+          오류 및 버그 신고
+      %li
+        = link_to slug_issue_path(slug: Issue::SLUG_OF_PARTI_PARTI) do
+          제안 및 의견 &middot; 빠띠만든당
+    - if is_kakao_talkable?
+      .mobile-list__yellow
+        %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
+          = image_tag 'icon_yellow.png', alt: 'btn-yellow'
+    .mobile-list__licence
+      %a{href: 'http://creativecommons.org/licenses/by-nc/4.0/deed.ko', target: '_blank'}
+        = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
+
+

@@ -8,7 +8,10 @@
 
     = render 'favicons'
 
-    = stylesheet_link_tag 'application_xs', media: 'all'
+    - if current_group.present?
+      = stylesheet_link_tag "#{current_group.slug}_xs", media: 'all'
+    - else
+      = stylesheet_link_tag 'application_xs', media: 'all'
     = stylesheet_link_tag 'vendors', media: 'all'
     %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", rel: "stylesheet"}
 
