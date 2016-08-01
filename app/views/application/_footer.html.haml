@@ -1,11 +1,18 @@
 %footer.footer.hidden-xs
-  .footer-logo.clearfix
-    = link_to root_path do
-      %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
-      %span.footer-logo__txt
-        함께 만드는
-        %br
-        온라인 광장 빠띠
+  - if current_group.present?
+    .footer-logo.footer-logo--group.clearfix
+      = link_to root_path do
+        %span.footer-logo__txt
+          Powered by
+        %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+  - else
+    .footer-logo.footer-logo.clearfix
+      = link_to root_path do
+        %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+        %span.footer-logo__txt
+          함께 만드는
+          %br
+          온라인 광장 빠띠
   %ul.footer-link.list-unstyled
     %li= link_to '빠띠 소개', '/about'
     %li= link_to '이용약관', '/terms'
@@ -16,16 +23,17 @@
     %li
       = link_to slug_issue_path(slug: Issue::SLUG_OF_PARTI_PARTI) do
         제안 및 의견
-  .footer-sns
-    %a{href: 'https://facebook.com/parti.xyz', target: '_blank'}
-      = image_tag 'icon_fb.png', alt: 'btn-facebook'
-    %a{href: 'https://twitter.com/parti_xyz', target: '_blank'}
-      = image_tag 'icon_tw.png', alt: 'btn-twitter'
-    %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
-      = image_tag 'icon_me.png', alt: 'btn-medium'
-    - if is_kakao_talkable?
-      %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
-        = image_tag 'icon_yellow.png', alt: 'btn-yellow', class: 'footer-sns--yellow'
+  - unless current_group.present?
+    .footer-sns
+      %a{href: 'https://facebook.com/parti.xyz', target: '_blank'}
+        = image_tag 'icon_fb.png', alt: 'btn-facebook'
+      %a{href: 'https://twitter.com/parti_xyz', target: '_blank'}
+        = image_tag 'icon_tw.png', alt: 'btn-twitter'
+      %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
+        = image_tag 'icon_me.png', alt: 'btn-medium'
+      - if is_kakao_talkable?
+        %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
+          = image_tag 'icon_yellow.png', alt: 'btn-yellow', class: 'footer-sns--yellow'
   %a{href: 'http://creativecommons.org/licenses/by-nc/4.0/deed.ko', target: '_blank'}
     = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
 
