@@ -1,3 +1,13 @@
+.webui-popover {
+  @media (max-width: $screen-xs-max) {
+    left: 0 !important;
+  }
+  .webui-arrow {
+    @media (max-width: $screen-xs-max) {
+      left: 40px !important;
+    }
+  }
+}
 section#posts {
   padding: 20px 0;
   @media (max-width: $screen-xs-max) {
