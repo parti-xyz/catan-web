@@ -884,7 +884,7 @@ $(function(){
         }, '|',
         {
           name: "guide",
-          action: "https://ko.wikipedia.org/wiki/%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4",
+          action: "https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%EC%9C%84%ED%82%A4-%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4-%EA%B0%80%EC%9D%B4%EB%93%9C",
           className: "fa fa-question-circle",
           title: "마크다운이란?",
         },
