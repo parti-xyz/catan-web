@@ -1,10 +1,10 @@
 class Article < ActiveRecord::Base
   include UniqueSoftDeletable
+  include Postable
   acts_as_unique_paranoid
   acts_as :post, as: :postable
 
   belongs_to :link_source
-  belongs_to :post_issue, class_name: Post
   validates :link, presence: true
   validates :link_source, presence: true
 
@@ -12,8 +12,6 @@ class Article < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :visible, -> { where(hidden: false) }
   scope :previous_of_article, ->(article) { includes(:post).where('posts.last_commented_at < ?', article.acting_as.last_commented_at) if article.present? }
-
-  before_save :update_post_issue_id_before_save
 
   def specific_origin
     self
@@ -77,11 +75,5 @@ class Article < ActiveRecord::Base
     end
     Post.reset_counters(oldest.acting_as.id, :comments) if oldest.persisted?
     return (oldest.present? ? oldest : article)
-  end
-
-  private
-
-  def update_post_issue_id_before_save
-    self.post_issue_id = self.issue_id
   end
 end

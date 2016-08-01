@@ -3,7 +3,7 @@ class TalksController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @talks = Talk.recent.page(params[:page])
+    talks_page
   end
 
   def create
@@ -37,7 +37,7 @@ class TalksController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @talk.issue
-      talks_page
+      talks_page(@issue)
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_talks_path(@issue)
       @paginate_params = {controller: 'issues', :action => 'slug_talks', slug: @issue.slug, id: nil}

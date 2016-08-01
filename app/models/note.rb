@@ -1,4 +1,5 @@
 class Note < ActiveRecord::Base
+  include Postable
   acts_as :post, as: :postable
 
   validates :body, presence: true

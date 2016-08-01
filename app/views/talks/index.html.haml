@@ -8,5 +8,9 @@
     .talks-list
       - @talks.each do |talk|
         = render talk, show_issue: true
+      - if @talks.empty?
+        .bg-default
+          %i.fa.fa-info-circle
+          해당되는 글이 없습니다.
     = paginate @talks, theme: 'catan', params: @paginate_params
 

@@ -1,4 +1,5 @@
 class Opinion < ActiveRecord::Base
+  include Postable
   acts_as_paranoid
   acts_as :post, as: :postable
   validates :title, presence: true, length: { maximum: 50 }

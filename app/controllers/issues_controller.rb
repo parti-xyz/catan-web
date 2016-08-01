@@ -58,7 +58,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_talks
-    talks_page
+    talks_page(@issue)
   end
 
   def slug_notes

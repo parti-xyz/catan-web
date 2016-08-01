@@ -34,6 +34,11 @@
                 - only_watched_issues.each do |issue|
                   = render 'issues/issue_line', issue: issue
           %li= link_to "·"
+          %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
+          %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"
+          %li= link_to Opinion.model_name.human, opinions_path, class: "#{'active' if current_page?(controller: '/opinions', action: :index)}"
+          %li= link_to Article.model_name.human, articles_path, class: "#{'active' if current_page?(controller: '/articles', action: :index)}"
+          %li= link_to "·"
           %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false)
 
         %ul.nav.navbar-nav.navbar-right
