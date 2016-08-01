@@ -139,6 +139,10 @@ class Issue < ActiveRecord::Base
     group_slug.present?
   end
 
+  def self.min_watched_issues_count(group = nil)
+    (group.present? and Issue.in_group(group).count < 3) ? 1 : 3
+  end
+
   private
 
   def downcase_slug

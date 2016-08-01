@@ -131,8 +131,8 @@ class User < ActiveRecord::Base
     counts
   end
 
-  def need_to_more_watch?
-    watched_issues.count < 3
+  def need_to_more_watch?(group = nil)
+    watched_issues.in_group(group).count < Issue.min_watched_issues_count(group)
   end
 
   def unwatched_issues
@@ -155,8 +155,8 @@ class User < ActiveRecord::Base
     watched_issues.where.not(id: makers.select(:issue_id))
   end
 
-  def watched_posts
-    Post.where(issue: watched_issues)
+  def watched_posts(group = nil)
+    Post.where(issue: watched_issues.in_group(group))
   end
 
   def watched_articles
@@ -171,8 +171,8 @@ class User < ActiveRecord::Base
     watched_posts.only_talks
   end
 
-  def watched_comments
-    Comment.where(post: watched_posts)
+  def watched_comments(group = nil)
+    Comment.where(post: watched_posts(group))
   end
 
   def mentionable? someone

@@ -5,7 +5,7 @@
     %h2.text-primary
       어떤 이슈의 빠띠를 키워 보시겠어요?
     %p
-      평소에 관심을 가지던 이슈의 빠띠를 3개 이상 골라 보세요.
+      평소에 관심을 가지던 이슈의 빠띠를 #{Issue.min_watched_issues_count(current_group)}개 이상 골라 보세요.
 
 %section.parti-watch-recommend--issues
   .container
@@ -39,7 +39,7 @@
       .modal-body.text-center
         = image_tag 'icon_intro_check.png', data: {dismiss: "modal"}
         %h2.text-primary
-          먼저 3개 이상 관심있는
+          먼저 #{Issue.min_watched_issues_count(current_group)}개 이상 관심있는
           %br
           이슈의 빠띠를 골라 보세요.
 
