@@ -9,7 +9,8 @@
     color: $brand-primary;
     li {
       a {
-        padding: 15px 10px 10px 0px;
+        padding-left: 8px;
+        padding-right: 8px;
         margin: 0;
 
         color: $gray-base;
@@ -35,6 +36,15 @@
           font-size: 18px;
         }
       }
+      &.divider {
+        height: 50px;
+        padding: 15px 0;
+        color: $gray-lighter;
+        &:after {
+          content: '|';
+        }
+      }
+
       &.user-info {
         .user-byline {
           color: $gray-darker;
