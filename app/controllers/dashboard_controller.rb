@@ -4,12 +4,7 @@ class DashboardController < ApplicationController
 
   def index
     if current_user.need_to_more_watch?(current_group)
-      @issues = Issue.hottest
-      if current_group.present?
-        @group_issues = @issues.where(group_slug: current_group.slug)
-        @group_issues.to_a.reject! { |issue| issue.made_by?(current_user) }
-        @issues = @issues.any_of({group_slug: nil}, Issue.where.not(group_slug: 'gwangju'))
-      end
+      @issues = Issue.hottest.in_group(current_group)
       render 'intro' and return
     end
     posts
