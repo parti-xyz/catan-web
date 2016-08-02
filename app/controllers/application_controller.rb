@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     result = super
     omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
-    return root_url(subdomain: omniauth_params['group_slug']) if omniauth_params['group_slug'].present? and result == root_path
+    return URI.join(root_url(subdomain: omniauth_params['group_slug']), result).to_s if omniauth_params['group_slug'].present?
     result
   end
 
