@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class ArticlesTest < ActionDispatch::IntegrationTest
-  def stub_crawl
-    OpenGraph.stubs(:new).returns(OpenStruct.new(title: 'page title', description: 'page body', url: 'http://stub'))
+  def stub_crawl(link = nil)
+    stub =  (link.present? ? OpenGraph.expects(:new).with(link) : OpenGraph.stubs(:new))
+    stub.returns(OpenStruct.new(title: 'page title', description: 'page body', url: (link || 'http://stub')))
     Sidekiq::Testing.inline! do
       yield
     end
@@ -12,7 +13,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path(article: { link: 'link', issue_id: issues(:issue1).id }, comment_body: 'body')
+      post articles_path(article: { issue_id: issues(:issue1).id, link_source_attributes: { url: 'link' } }, comment_body: 'body')
 
       assert assigns(:article).persisted?
       assigns(:article).reload
@@ -34,8 +35,8 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      article3_link = articles(:article3).link
-      post articles_path(article: { link: article3_link, issue_id: issues(:issue1).id }, comment_body: 'body')
+      article3_link = articles(:article3).link_source.url
+      post articles_path(article: { issue_id: issues(:issue1).id, link_source_attributes: { url: article3_link } }, comment_body: 'body')
 
       assert assigns(:article).persisted?
       assigns(:article).reload
@@ -54,10 +55,10 @@ class ArticlesTest < ActionDispatch::IntegrationTest
   end
 
   test '고쳐요' do
-    stub_crawl do
+    stub_crawl 'link x' do
       sign_in(users(:admin))
 
-      put article_path(articles(:article1), article: { link: 'link x', issue_id: issues(:issue2).id })
+      put article_path(articles(:article1), article: { issue_id: issues(:issue2).id, link_source_attributes: { url: 'link x'} })
 
       refute assigns(:article).errors.any?
       assigns(:article).reload
@@ -65,15 +66,16 @@ class ArticlesTest < ActionDispatch::IntegrationTest
       assert_equal 'page body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
       assert_equal issues(:issue2).title, assigns(:article).issue.title
+      assert_equal 'link x', assigns(:article).link_source.url
     end
   end
 
   test '이미 있는 링크로 고쳐요' do
-    stub_crawl do
+    article3_link = articles(:article3).link_source.url
+    stub_crawl(article3_link) do
       sign_in(users(:admin))
 
-      article3_link = articles(:article3).link
-      put article_path(articles(:article1), article: { link: article3_link })
+      put article_path(articles(:article1), article: { link_source_attributes: { url: article3_link } })
 
       refute assigns(:article).errors.any?
       assert_equal articles(:article3), assigns(:article)
@@ -82,11 +84,11 @@ class ArticlesTest < ActionDispatch::IntegrationTest
   end
 
   test '최근 새로 걸린 링크의 주소로 고쳐요' do
-    stub_crawl do
+    article1_link = articles(:article1).link_source.url
+    stub_crawl(article1_link) do
       sign_in(users(:admin))
 
-      article1_link = articles(:article1).link
-      put article_path(articles(:article3), article: { link: article1_link })
+      put article_path(articles(:article3), article: { link_source_attributes: { url: article1_link } })
 
       refute assigns(:article).errors.any?
       assert_equal articles(:article3), assigns(:article)
@@ -95,11 +97,11 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test '세상에 없었던 새로운 이슈를 넣으면 저장이 안되요' do
+  test '세상에 없는 빠띠를 넣으면 저장이 안되요' do
     sign_in(users(:one))
 
     previous_count = Article.count
-    post articles_path(article: { link: 'link', issue_id: -1}, comment_body: 'body')
+    post articles_path(article: { link_source_attributes: { url: 'link' }, issue_id: -1}, comment_body: 'body')
     assert_equal previous_count, Article.count
   end
 
@@ -113,7 +115,7 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path(article: { link: 'link', issue_id: issues(:issue1).id })
+      post articles_path(article: { link_source_attributes: { url: 'link'}, issue_id: issues(:issue1).id })
 
       refute assigns(:article).persisted?
     end

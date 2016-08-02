@@ -53,7 +53,6 @@ class Issue < ActiveRecord::Base
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
   scope :recent, -> { order(created_at: :desc) }
   scope :in_group, ->(group) { where(group_slug: (group.try(:slug) || group)) if group.present? }
-  scope :of_slug, ->(slug) { find_by(slug: slug) }
 
   # search
   scoped_search on: [:title, :body]
@@ -143,6 +142,10 @@ class Issue < ActiveRecord::Base
 
   def self.min_watched_issues_count(group = nil)
     (group.present? and Issue.in_group(group).count < 3) ? 1 : 3
+  end
+
+  def self.of_slug(slug)
+    self.find_by(slug: slug)
   end
 
   private

@@ -1,8 +1,9 @@
 .well
   = form_for @article do |f|
-    .form-group
-      = f.text_field :link, class: 'form-control'
-      %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
+    = f.fields_for :link_source do |ff|
+      .form-group
+        = ff.text_field :url, class: 'form-control'
+        %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
 
     .editor-btn.text-right
       = link_to '취소', @article, class: 'btn btn-default'

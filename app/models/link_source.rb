@@ -10,6 +10,8 @@ class LinkSource < ActiveRecord::Base
   # mount
   mount_uploader :image, ImageUploader
 
+  after_initialize :set_crawling_status
+
   def set_crawling_data(data)
     self.metadata = data.metadata.to_json || self.metadata
     self.title = data.title || self.title
@@ -22,4 +24,16 @@ class LinkSource < ActiveRecord::Base
     self.crawling_status = :completed
     self.crawled_at = DateTime.now
   end
+
+  def unify_by_url
+    previous_link_source = LinkSource.find_by(url: self.url)
+    previous_link_source.present? ? previous_link_source : self
+  end
+
+  private
+
+  def set_crawling_status
+    self.crawling_status = 'not_yet' if self.new_record?
+  end
+
 end

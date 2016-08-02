@@ -1,4 +1,5 @@
 - issue ||= local_assigns[:issue_line]
+- return if issue.blank?
 %li.issue-line
   = link_to issue_home_path_or_url(issue) do
     .media

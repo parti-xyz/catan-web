@@ -24,16 +24,14 @@ class CrawlingJob
           source.set_crawling_data(data)
           source.save!
           source.articles.each do |article|
-            article.link = data.url
-            article = Article.merge_by_link!(article)
+            article = Article.unify_by_url!(article)
             article.save!
           end
         else
           origin.set_crawling_data(data)
           origin.save!
           source.articles.each do |article|
-            article.link = data.url
-            article = Article.merge_by_link!(article)
+            article = Article.unify_by_url!(article)
             article.save!
           end
           source.destroy!

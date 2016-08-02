@@ -5,7 +5,8 @@ class Article < ActiveRecord::Base
   acts_as :post, as: :postable
 
   belongs_to :link_source
-  validates :link, presence: true
+  accepts_nested_attributes_for :link_source
+  belongs_to :post_issue, class_name: Post
   validates :link_source, presence: true
 
   scope :recent, -> { includes(:post).order('posts.last_commented_at desc') }
@@ -32,15 +33,6 @@ class Article < ActiveRecord::Base
     link_source.try(:site_name)
   end
 
-  def link=(val)
-    old_source = self.link_source
-    new_source = LinkSource.find_or_create_by!(url: val) do |new_link_source|
-      new_link_source.crawling_status = 'not_yet'
-    end
-    self.link_source = new_source
-    write_attribute(:link, val)
-  end
-
   def has_image?
     return false if self.hidden?
     link_source.attributes["image"].present?
@@ -61,9 +53,9 @@ class Article < ActiveRecord::Base
     link_source.try(:image_width) || 0
   end
 
-  def self.merge_by_link!(article)
+  def self.unify_by_url!(article)
     post = article.acting_as
-    targets = post.issue.articles.where(link: article.link).order(created_at: :asc)
+    targets = post.issue.articles.where(link_source: article.link_source).order(created_at: :asc)
     targets << article unless targets.include?(article)
     targets.to_a.sort_by!{ |a| (a.created_at || DateTime.now) }
     oldest = targets.first

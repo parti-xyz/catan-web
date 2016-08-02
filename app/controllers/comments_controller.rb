@@ -16,12 +16,7 @@ class CommentsController < ApplicationController
 
   def update
     unless params[:cancel]
-      need_to_crawl = false
       ActiveRecord::Base.transaction do
-        if params[:article_link].present? and @comment.linkable? and params[:article_link] != @comment.post.specific.link
-          change_article
-          need_to_crawl = true
-        end
         @comment.assign_attributes(comment_params)
         unless @comment.save
           if @comment.errors.any?
@@ -32,7 +27,6 @@ class CommentsController < ApplicationController
           end
         end
       end
-      crawl if need_to_crawl
     end
   end
 
@@ -62,22 +56,4 @@ class CommentsController < ApplicationController
     end
   end
 
-  def change_article
-    @previous_article = @comment.post.specific
-    @article = @comment.issue.articles.find_or_initialize_by(link: params[:article_link]) do |new_article|
-      new_article.user ||= current_user
-    end
-    @article.save!
-
-    @previous_article.destroy! if @previous_article.comments.empty?
-    # 반드시 post가 아니라 post_id를 세팅합니다.
-    # 안그러면 해당 post의 comment count 숫자가 한 번 더 변경됩니다.
-    @comment.post_id = @article.acting_as.id
-  end
-
-  def crawl
-    if @article.present? and @article.link_source.crawling_status.not_yet?
-      CrawlingJob.perform_async(@article.link_source.id)
-    end
-  end
 end

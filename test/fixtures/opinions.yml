@@ -1,15 +1,16 @@
 opinion1:
   title: opinion1 title
   body: opinion1 body
-
+  post_issue: issue1
 opinion2:
   title: opinion2 title
   body: opinion2 body
-
+  post_issue: issue1
 opinion3:
   title: opinion3 title
   body: opinion3 body
-
+  post_issue: issue2
 opinion4:
   title: opinion4 title
   body: opinion4 body
+  post_issue: issue2
