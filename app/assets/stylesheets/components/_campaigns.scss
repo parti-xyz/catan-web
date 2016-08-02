@@ -17,7 +17,7 @@ body.app-campaigns-slug_show {
 
 #campaign-header-section {
   position: relative;
-  background: rgba(0,0,0,0.5);
+  background-color: rgba(0,0,0,0.5);
   overflow: hidden;
   min-height: 760px;
   &:before {
@@ -101,8 +101,6 @@ body.app-campaigns-slug_show {
 
 .campaign-section-title {
   color: $gray-darker;
-  text-align: center;
-  border-bottom: 1px solid #d2d2d2;
   padding-bottom: 15px;
   margin-top: 30px;
   margin-bottom: 20px;
@@ -133,10 +131,6 @@ body.app-campaigns-slug_show {
     padding-left: 7.5px;
     padding-right: 7.5px;
   }
-}
-
-#campaign-talks {
-  background-color: $gray-light;
 }
 
 #campaign-footer {
