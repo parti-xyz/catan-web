@@ -12,11 +12,14 @@
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li= link_to "모든 #{current_group.name} 빠띠", root_path, class: "#{'active' if current_page?('/')}"
+          %li= link_to "·"
+          - ['시민내각', '시민참여 프로젝트', '마을', '정치인'].each do |tag_name|
+            %li= link_to "#{tag_name}", tag_path(name: tag_name), class: "#{'active' if current_page?(tag_path(name: tag_name))}"
           - if user_signed_in? and current_user.watched_issues.in_group(current_group).any?
             %li= link_to "·"
             %li.dropdown.watch-parties
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                내 #{current_group.name} 빠띠
+                내 빠띠
                 %span.caret
               %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
                 - making_issues = current_user.making_issues.in_group(current_group)
@@ -39,7 +42,7 @@
           %li= link_to Opinion.model_name.human, opinions_path, class: "#{'active' if current_page?(controller: '/opinions', action: :index)}"
           %li= link_to Article.model_name.human, articles_path, class: "#{'active' if current_page?(controller: '/articles', action: :index)}"
           %li= link_to "·"
-          %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false)
+          %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false), target: '_all_parti'
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?

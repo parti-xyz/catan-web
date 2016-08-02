@@ -48,7 +48,8 @@
           border: none;
         }
       }
-      &.watch-parties {
+      &.watch-parties,
+      &.parti-tags {
         .dropdown-filter {
           padding-bottom: 10px;
           display: block;
@@ -85,6 +86,9 @@
         }
         .issue-line + .dropdown-header {
           padding-top: 20px;
+        }
+        .parti-tag-line {
+          display: block;
         }
       }
       &.notification {

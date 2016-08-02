@@ -17,6 +17,11 @@ RAILS_ENV=production bin/rake migrate:presetation_comment_to_talk_body
 배포 직전, 빠띠 위키 마크다운 가이드의 내용을 복사해서 원본 위키문서(빠띠 활용 가이드)로 옮깁니다.
 앵커가 걸린 url을 복사해서, application.js에 있는 마크다운 활용가이드 링크의 url을 대체합니다.
 
+태그 설치를 위해 아래를 배포 후에 수행합니다.
+
+```
+RAILS_ENV=production bin/rake acts_as_taggable_on_engine:tag_names:collate_bin
+```
 
 ### 1.3 --> 1.4
 

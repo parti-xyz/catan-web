@@ -2,6 +2,7 @@ class Issue < ActiveRecord::Base
   include Watchable
   include UniqueSoftDeletable
   acts_as_unique_paranoid
+  acts_as_taggable
 
   TITLE_OF_PARTI_PARTI = '빠띠'
   SLUG_OF_PARTI_PARTI = 'parti'

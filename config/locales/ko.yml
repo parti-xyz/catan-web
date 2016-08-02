@@ -47,7 +47,8 @@ ko:
         slug: 주소
         makers: 빠띠메이커
         basic: 기본빠띠 여부
-        telegram_link: 텔레그램 그룹 링크
+        telegram_link: 텔레그램 슈퍼그룹 링크
+        tag_list: 태그
       article:
         issue: 빠띠
         title: 제목

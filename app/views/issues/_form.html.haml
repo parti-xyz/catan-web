@@ -35,6 +35,12 @@
           = image_tag @issue.logo.url, class: 'img-thumbnail', style: 'max-height: 100px'
           = link_to '삭제', remove_logo_issue_path(@issue), method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
         권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
+
+    .form-group{class: error_class_str(@issue, :tag_list)}
+      = f.label :tag_list
+      = f.text_field :tag_list, value: @issue.tag_list.to_s, class: 'form-control'
+      %p.help-block 쉼표로 구분해서 넣어 주세요.
+
     - if @issue.persisted?
       .form-group{class: ('has-error' if has_error_attr?(@issue, :telegram_link))}
         = f.label :telegram_link

@@ -18,6 +18,7 @@ gem 'activerecord_any_of', '~> 1.3'
 gem 'active_record_union', '~> 1.1'
 gem 'scoped_search', '~> 3.2', '>= 3.2.2'
 gem 'ruby_dig', '~> 0.0.2'
+gem 'acts-as-taggable-on', '~> 4.0'
 
 # file upload
 gem 'carrierwave', '~> 0.10.0'

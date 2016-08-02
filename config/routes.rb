@@ -97,7 +97,7 @@ Rails.application.routes.draw do
     get '/stat', to: "pages#stat"
   end
 
-  get '/tags/:name', to: redirect('/')
+  get '/tags/:name', to: "tags#show", as: :tag
 
   authenticate :user, lambda { |u| u.admin? } do
     get '/test/summary', to: "users#summary_test"

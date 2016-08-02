@@ -1,10 +1,9 @@
 - issue ||= local_assigns[:issue_line]
 %li.issue-line
-  .media
-    = link_to issue_home_path_or_url(issue) do
+  = link_to issue_home_path_or_url(issue) do
+    .media
       .media-left.issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-    .media-body
-      = link_to issue_home_path_or_url(issue) do
+      .media-body
         %span.issue-line__title
           - if issue.in_group? and issue.group != current_group and
             = issue.group.name
@@ -19,4 +18,4 @@
             %span.comment-count
               %i.fa.fa-comment
             %b= issue.comments.latest.count
-      %span.after-block= local_assigns[:after_block]
+        %span.after-block= local_assigns[:after_block]
