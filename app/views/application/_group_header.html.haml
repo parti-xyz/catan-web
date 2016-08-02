@@ -32,10 +32,10 @@
                     #{only_watched_issues.count}
                 - only_watched_issues.each do |issue|
                   = render 'issues/issue_line', issue: issue
-          %li.divider
+          %li.menu-divider
           - ['시민내각', '시민참여 프로젝트', '마을', '정치인'].each do |tag_name|
             %li= link_to "#{tag_name}", tag_path(name: tag_name), class: "#{'active' if current_page?(tag_path(name: tag_name))}"
-          %li.divider
+          %li.menu-divider
           %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
           %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"
           %li= link_to Opinion.model_name.human, opinions_path, class: "#{'active' if current_page?(controller: '/opinions', action: :index)}"

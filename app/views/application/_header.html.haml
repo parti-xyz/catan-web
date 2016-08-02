@@ -12,15 +12,6 @@
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li= link_to '모든 빠띠', root_path, class: "#{'active' if current_page?('/')}"
-          %li.dropdown.watch-parties
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              대표 빠띠
-              %span.caret
-            %ul.dropdown-menu
-              - %w(politics economy society nculture education environment labor media).each do |slug|
-                = render 'issues/issue_line', issue: Issue.of_slug(slug)
-              %li.divider
-              = render 'issues/issue_line', issue: Issue.of_slug('parti')
           - if user_signed_in? and current_user.watches.any?
             %li.dropdown.watch-parties
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -39,11 +30,22 @@
                     #{current_user.only_watched_issues.count}
                 - current_user.only_watched_issues.each do |issue|
                   = render 'issues/issue_line', issue: issue
-          %li= link_to "·"
+          %li.dropdown.watch-parties
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              대표 빠띠
+              %span.caret
+            %ul.dropdown-menu
+              - %w(politics economy society nculture education environment labor media).each do |slug|
+                = render 'issues/issue_line', issue: Issue.of_slug(slug)
+              %li.divider
+              = render 'issues/issue_line', issue: Issue.of_slug('parti')
+          %li.menu-divider
           %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
           %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"
           %li= link_to Opinion.model_name.human, opinions_path, class: "#{'active' if current_page?(controller: '/opinions', action: :index)}"
           %li= link_to Article.model_name.human, articles_path, class: "#{'active' if current_page?(controller: '/articles', action: :index)}"
+          %li.menu-divider
+          %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false), target: '_all_parti'
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li
