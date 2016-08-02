@@ -13,9 +13,10 @@ class UsersController < ApplicationController
 
   def upvotes
     fetch_user
-    @upvotes = @user.upvotes.recent.limit(25).previous_of params[:last_id]
-    @is_last_page = (@upvotes.empty? or @user.upvotes.recent.previous_of(@upvotes.last.try(:id)).empty?)
-    @comments = @upvotes.map(&:comment)
+    upvotes_base = @user.upvotes.recent.comment_only
+    @upvotes = upvotes_base.limit(25).previous_of params[:last_id]
+    @is_last_page = (upvotes_base.empty? or upvotes_base.previous_of(@upvotes.last.try(:id)).empty?)
+    @comments = @upvotes.map(&:upvotable)
   end
 
   def votes

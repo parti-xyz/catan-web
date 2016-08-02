@@ -9,7 +9,6 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :post, counter_cache: true
   has_one :issue, through: :post
-  has_many :upvotes, dependent: :destroy, as: :upvotable
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :mentions, as: :mentionable, dependent: :destroy
 
