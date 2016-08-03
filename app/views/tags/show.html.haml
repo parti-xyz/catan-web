@@ -4,9 +4,9 @@
   .container
     .row
       .col-xs-9
-        %h4
-          태그 "#{params[:name]}"
-          %small 해당 태그의 빠띠입니다.
+        %h4.page-title
+          #{params[:name]} 빠띠
+          %small #{params[:name]} 태그의 빠띠입니다.
         = render 'pages/key_visuals' unless is_small_screen?
         %section#parties-all
           - if @issues.any?

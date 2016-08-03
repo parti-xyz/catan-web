@@ -7,15 +7,20 @@
   }
   .navbar-nav {
     color: $brand-primary;
-    li {
-      a {
+    & > li {
+      & > a {
         padding-left: 8px;
         padding-right: 8px;
         margin: 0;
-
-        color: $gray-base;
+        color: $gray;
+        font-weight: 500;
         font-size: $font-size-base;
         line-height: 20px;
+
+        @media (max-width: $screen-xs-max) {
+          padding: 13px 5px;
+        }
+
         &:hover {
           color: $brand-primary;
         }
@@ -40,6 +45,7 @@
         height: 50px;
         padding: 15px 0;
         color: $gray-lighter;
+        font-weight: 500;
         &:after {
           content: '|';
         }
@@ -99,6 +105,9 @@
         }
         .parti-tag-line {
           display: block;
+          a {
+            padding-left: 5px;
+          }
         }
       }
       &.notification {
