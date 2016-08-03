@@ -1,85 +1,70 @@
 - opinion ||= local_assigns[:specific]
-.opinion__vote-section{id: "#{dom_id(opinion)}-vote" }
+.opinion__vote-section[opinion]{class: "#{dom_id(opinion)}-vote" }
 
   - if !user_signed_in?
-    .vote__buttons.text-center
-      = link_to '#', class: 'btn btn-default btn-lg', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :opinion_vote_agree, id: opinion.id}.to_json) } do
+    / 로그인 안함
+    .vote__buttons
+      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :opinion_vote_agree, id: opinion.id}.to_json) } do
         %i.fa.fa-thumbs-o-up
         찬성
-      = link_to '#', class: 'btn btn-default btn-lg', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_disagree, id: opinion.id}.to_json) } do
+      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_disagree, id: opinion.id}.to_json) } do
         %i.fa.fa-thumbs-o-down
         반대
-      .vote__buttons--unsure.text-center
+      .vote__buttons--unsure
         = link_to '#', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_unsure, id: opinion.id}.to_json) } do
           잘 모르겠습니다
+
   - elsif opinion.sured_by? current_user
-    .vote__results
-      .row
-        .col-xs-6.text-right
-          %div{ style: 'padding-bottom: 20px;' }
-            = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-              %i.fa.fa-thumbs-o-up
-              %span 찬성
-              %p.count= opinion.votes.with_choice(:agree).count
-          %div.voters
+    / 로그인 & 투표완료
+    .vote__results.clearfix
+      .vote__results__agree
+        = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn ' + ( opinion.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+          %i.fa.fa-thumbs-o-up
+          %span 찬성
+          %p.count= opinion.votes.with_choice(:agree).count
+        - if local_assigns[:in_modal]
+          .vote__results__voters
             - opinion.votes.with_choice(:agree).partial_included_with(current_user).each do |vote|
               = link_to user_gallery_path(vote.user), class: 'text-nowrap' do
                 - unless local_assigns[:hide_image]
                   .thumb.img-circle.circle-30{style: "background-image: url(#{vote.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
-        .col-xs-6.text-left
-          %div{ style: 'padding-bottom: 20px;' }
-            = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-              %i.fa.fa-thumbs-o-down
-              %span 반대
-              %p.count= opinion.votes.with_choice(:disagree).count
-          %div.voters
+
+      .vote__results__disagree
+        = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn ' + ( opinion.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
+          %i.fa.fa-thumbs-o-down
+          %span 반대
+          %p.count= opinion.votes.with_choice(:disagree).count
+        - if local_assigns[:in_modal]
+          .vote__results__voters
             - opinion.votes.with_choice(:disagree).partial_included_with(current_user).each do |vote|
               = link_to user_gallery_path(vote.user), class: 'text-nowrap' do
                 - unless local_assigns[:hide_image]
                   .thumb.img-circle.circle-30{style: "background-image: url(#{vote.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{vote.user.nickname}", :type => "button"}
-      - unless opinion.unsured_by? current_user
-        .vote__buttons--unsure.text-center
-          = link_to post_votes_path(opinion.acting_as, vote: {choice: :unsure}), method: :post, remote: true do
-            잘 모르겠습니다
   - else
-    .vote__buttons.text-center
-      = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
+    .vote__buttons
+      / 로그인 & 투표 전
+      = link_to post_votes_path(opinion.acting_as, vote: {choice: :agree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
         %i.fa.fa-thumbs-o-up
         찬성
-      = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
+      = link_to post_votes_path(opinion.acting_as, vote: {choice: :disagree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
         %i.fa.fa-thumbs-o-down
         반대
-      - unless opinion.unsured_by? current_user
-        .vote__buttons--unsure.text-center
-          = link_to post_votes_path(opinion.acting_as, vote: {choice: :unsure}), method: :post, remote: true do
+      .vote__buttons--unsure
+        - if opinion.unsured_by? current_user
+          .vote__buttons--unsure--label
+            = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) }, class: 'text-muted' do
+              수다로 의견을 나눠 보세요.
+        - else
+          = link_to post_votes_path(opinion.acting_as, vote: {choice: :unsure}, partial: local_assigns[:partial]), method: :post, remote: true do
             잘 모르겠습니다
 
-  %div.opinion__vote__info
-    %p.text-center{ style: 'padding-top: 20px' }
+  .text-muted
     - if opinion.votes.any?
-      %div
-        현재&nbsp;
-        %strong<>
+      %p
+        현재
+        %strong.text-primary
           #{opinion.votes.sure.count}
         명이 찬반 투표했습니다.
-
-    - if !user_signed_in? or !opinion.voted_by?(current_user)
-      %div
-        찬반 투표하면 결과를 볼 수 있습니다.
-
-    - if user_signed_in? and opinion.voted_by?(current_user)
-      - if opinion.unsured_by?(current_user)
-        %div
-          - if opinion.comments.any?
-            아래에서
-            %span
-              %strong<> 의견
-              을 나누고
-          %span
-            %strong 찬반
-            투표를 해보세요.
-      - else
-        %div
-          왜 #{ opinion.agreed_by?(current_user) ? '찬성' : '반대' }하는지&nbsp;
-          %strong<> 의견
-          을 적어 보세요.
+    - if !user_signed_in? or !opinion.sured_by?(current_user)
+      %p
+        찬반 투표하면 현재 결과를 볼 수 있습니다.

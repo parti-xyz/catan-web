@@ -35,12 +35,12 @@ section#comments {
     &--agree p:first-child:before {
       content: '\f087  찬성 ';
       font-family: "FontAwesome";
-      color: #966fd6;
+      color: #59baa3;
     }
     &--disagree p:first-child:before {
       content: '\f088  반대 ';
       font-family: "FontAwesome";
-      color: #966fd6;
+      color: #f0646d;
     }
   }
   .user-image {
