@@ -360,8 +360,18 @@ section#issues {
       background: none;
       text-align: center;
       color: $gray;
+      font-size: $font-size-small;
       span {
         padding: 0 10px;
+        & > small {
+          position: relative;
+          white-space: nowrap;
+          right: 2px;
+          top: -2px;
+          font-size: 75%;
+          color: $brand-primary;
+          font-weight: bold;
+        }
       }
       .comment-count {
         margin: 0;

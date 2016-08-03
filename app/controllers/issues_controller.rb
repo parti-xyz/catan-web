@@ -27,8 +27,10 @@ class IssuesController < ApplicationController
       @issues = @issues.hottest
     when 'recent'
       @issues = @issues.recent
-    else
+    when 'name'
       @issues = @issues.sort{ |a, b| a.compare_title(b) }
+    else
+      @issues = @issues.recent_touched
     end
   end
 

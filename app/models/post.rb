@@ -58,6 +58,7 @@ class Post < ActiveRecord::Base
 
   # callbacks
   before_create :touch_last_touched_at
+  after_create :touch_last_touched_at_of_issues
 
   def vote_by voter
     votes.where(user: voter).first
@@ -132,5 +133,9 @@ class Post < ActiveRecord::Base
 
   def touch_last_touched_at
     self.last_touched_at = DateTime.now
+  end
+
+  def touch_last_touched_at_of_issues
+    self.issue.touch(:last_touched_at)
   end
 end

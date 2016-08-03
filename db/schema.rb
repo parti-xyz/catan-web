@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802094013) do
+ActiveRecord::Schema.define(version: 20160803225912) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -118,19 +118,20 @@ ActiveRecord::Schema.define(version: 20160802094013) do
   end
 
   create_table "issues", force: :cascade do |t|
-    t.string   "title",         limit: 255
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.text     "body",          limit: 16777215
-    t.string   "logo",          limit: 255
-    t.integer  "watches_count", limit: 4,        default: 0
-    t.string   "slug",          limit: 255
-    t.integer  "posts_count",   limit: 4,        default: 0
+    t.string   "title",           limit: 255
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.text     "body",            limit: 16777215
+    t.string   "logo",            limit: 255
+    t.integer  "watches_count",   limit: 4,        default: 0
+    t.string   "slug",            limit: 255
+    t.integer  "posts_count",     limit: 4,        default: 0
     t.datetime "deleted_at"
-    t.string   "active",        limit: 255,      default: "on"
-    t.boolean  "basic",                          default: false
-    t.string   "telegram_link", limit: 255
-    t.string   "group_slug",    limit: 255
+    t.string   "active",          limit: 255,      default: "on"
+    t.boolean  "basic",                            default: false
+    t.string   "telegram_link",   limit: 255
+    t.string   "group_slug",      limit: 255
+    t.datetime "last_touched_at"
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree
