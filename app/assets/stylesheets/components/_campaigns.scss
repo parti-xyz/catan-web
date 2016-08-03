@@ -65,17 +65,21 @@ body.app-campaigns-slug_show {
 }
 
 .campaign-issues {
-  padding-top: 60px;
+  padding: 60px 0;
   text-align: center;
 
   .campaign-issues-list {
     position: relative;
     display: inline-block;
-    width: 600px;
+    .col-sm-3.col-xs-6 {
+      padding-left: 7.5px;
+      padding-right: 7.5px;
+    }
     .issue-card-wrapper {
       padding: 0;
 
       .issue-card {
+        margin: 7.5px 0;
         border: 2px solid #fff;
         &:hover {
           border: 2px solid $brand-primary;

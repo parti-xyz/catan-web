@@ -21,19 +21,12 @@
         = render 'application/share', map: map
       .campaign-issues
         .campaign-issues-list
+          .row
+            - @campaign.issues.each do |issue|
+              .col-sm-3.col-xs-6
+                .issue-card-wrapper
+                  = render 'issues/card', issue: issue
 
-          - if @campaign.issues.count > (is_small_screen? ? 2 : 3)
-            %i.fa.fa-angle-double-left.arrow-nav-left.arrow-nav
-
-          - if @campaign.issues.count == 1
-            = render 'slider', slider_count: 1, slider_count_mobile: 1, loop: 'no'
-          - elsif @campaign.issues.count == 2
-            = render 'slider', slider_count: 2, slider_count_mobile: 2, loop: 'no'
-          - else
-            = render 'slider', slider_count: 3, slider_count_mobile: 2, loop: 'yes'
-
-          - if @campaign.issues.count > (is_small_screen? ? 2 : 3)
-            %i.fa.fa-angle-double-right.arrow-nav-right.arrow-nav
 
 - if @campaign.best_articles.any?
   %section#campaign-articles
