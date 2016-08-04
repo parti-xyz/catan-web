@@ -1,6 +1,6 @@
 .well
   = form_for @article do |f|
-    = f.fields_for :link_source do |ff|
+    = f.fields_for :source do |ff|
       .form-group
         = ff.text_field :url, class: 'form-control'
         %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}

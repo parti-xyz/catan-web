@@ -72,7 +72,7 @@ module ApplicationHelper
   end
 
   def video?(article)
-    source = article.link_source
+    source = article.source
 
     source.present? and VideoInfo.usable?(source.url)
   end

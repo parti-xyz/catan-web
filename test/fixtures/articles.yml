@@ -1,14 +1,14 @@
 article1:
-  link_source: link2
+  source: link2 (LinkSource)
   post_issue: issue1
 article2:
-  link_source: link2
+  source: link2 (LinkSource)
   post_issue: issue2
 article3:
-  link_source: link3
+  source: link3 (LinkSource)
   post_issue: issue1
   created_at: <%= 5.day.ago.to_s(:db) %>
 article4:
-  link_source: link4
+  source: link4 (LinkSource)
   created_at: <%= 5.day.ago.to_s(:db) %>
   post_issue: issue2

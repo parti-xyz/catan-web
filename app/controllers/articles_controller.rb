@@ -9,7 +9,7 @@ class ArticlesController < ApplicationController
   def create
     redirect_to root_path and return if fetch_issue.blank?
 
-    @article.link_source = @article.link_source.unify_by_url
+    @article.source = @article.source.unify_by_url
     @article.user ||= current_user
     need_to_crawl = false
     ActiveRecord::Base.transaction do
@@ -35,8 +35,8 @@ class ArticlesController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
 
     @article.assign_attributes(update_params_only_link_source_url)
-    @article.link_source = @article.link_source.unify_by_url
-    redirect_to issue_home_path(@issue) and return if @article.link_source.blank?
+    @article.source = @article.source.unify_by_url
+    redirect_to issue_home_path(@issue) and return if @article.source.blank?
 
     need_to_crawl = false
     ActiveRecord::Base.transaction do
@@ -76,11 +76,11 @@ class ArticlesController < ApplicationController
   private
 
   def create_params
-    params.require(:article).permit(link_source_attributes: [:url])
+    params.require(:article).permit(:source_type, source_attributes: [:url])
   end
 
   def update_params_only_link_source_url
-    params.require(:article).permit(link_source_attributes: [:url])
+    params.require(:article).permit(:source_type, source_attributes: [:url])
   end
 
   def update_params_exclude_link_source_url
@@ -99,12 +99,12 @@ class ArticlesController < ApplicationController
   end
 
   def force_crawl
-    CrawlingJob.perform_async(@article.link_source.id)
+    CrawlingJob.perform_async(@article.source.id)
   end
 
   def crawl
-    if @article.link_source.crawling_status.not_yet?
-      CrawlingJob.perform_async(@article.link_source.id)
+    if @article.source.crawling_status.not_yet?
+      CrawlingJob.perform_async(@article.source.id)
     end
   end
 end

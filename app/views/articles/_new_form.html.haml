@@ -3,8 +3,9 @@
   #article-form-widget.form-widget-container.bg-line
     = form_for Article.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
+      = f.hidden_field :source_type, value: 'LinkSource'
 
-      = f.fields_for :link_source, LinkSource.new do |ff|
+      = f.fields_for :source, LinkSource.new do |ff|
         .form-group
           = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control', data: {'rule-required': true}
       .form-group.textarea-box

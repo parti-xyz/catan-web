@@ -10,12 +10,12 @@
           .article-line__video-content
             = video_embed_code(article)
         .article-line__site-name
-          %a{href: article.link_source.url, target: '_blank'}
+          %a{href: article.source.url, target: '_blank'}
             = article.site_name.try(:upcase)
             원글보기
             %i.fa.fa-external-link
     - else
-      %a{href: article.link_source.url, target: '_blank'}
+      %a{href: article.source.url, target: '_blank'}
         .article-line__content
           - if local_assigns[:show_issue]
             .article-line__issue.post-line__issue
@@ -28,14 +28,14 @@
           %h4.article-line__title.post-line__title= screenable_article_title(article)
           .article-line__body= excerpt(article.body, length: (is_small_screen? ? 45 : 130))
           .article-line__site-name
-            %a{href: article.link_source.url, target: '_blank'}
+            %a{href: article.source.url, target: '_blank'}
               = article.site_name.try(:upcase)
               원글보기
               %i.fa.fa-external-link
       - if (article.has_image?)
         .article-line__thumb{style: "background-image: url(#{article.image.md.url})"}
 - if local_assigns[:in_modal]
-  %a{href: article.link_source.url, target: '_blank'}
+  %a{href: article.source.url, target: '_blank'}
     = article_line
 - else
   = article_line

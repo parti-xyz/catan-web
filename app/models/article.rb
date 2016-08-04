@@ -4,9 +4,9 @@ class Article < ActiveRecord::Base
   acts_as_unique_paranoid
   acts_as :post, as: :postable
 
-  belongs_to :link_source
-  accepts_nested_attributes_for :link_source
-  validates :link_source, presence: true
+  belongs_to :source, polymorphic: true
+  accepts_nested_attributes_for :source
+  validates :source, presence: true
 
   scope :recent, -> { includes(:post).order('posts.last_commented_at desc') }
   scope :latest, -> { after(1.day.ago) }
@@ -19,48 +19,52 @@ class Article < ActiveRecord::Base
 
   def title
     return '' if self.hidden?
-    link_source.try(:title) || link_source.url
+    source.try(:title) || source.url
   end
 
   def body
     return '' if self.hidden?
-    link_source.try(:body)
+    source.try(:body)
   end
 
   def site_name
     return '' if self.hidden?
-    link_source.try(:site_name)
+    source.try(:site_name)
   end
 
   def has_image?
     return false if self.hidden?
-    link_source.attributes["image"].present?
+    source.attributes["image"].present?
   end
 
   def image
     return LinkSource.new.image if self.hidden?
-    link_source.try(:image)
+    source.try(:image)
   end
 
   def image_height
     return 0 if self.hidden?
-    link_source.try(:image_height) || 0
+    source.try(:image_height) || 0
   end
 
   def image_width
     return 0 if self.hidden?
-    link_source.try(:image_width) || 0
+    source.try(:image_width) || 0
+  end
+
+  def build_source(params)
+    self.source = self.source_type.constantize.new(params) if self.source_type.present?
   end
 
   def self.unify_by_url!(article)
     post = article.acting_as
-    targets = post.issue.articles.where(link_source: article.link_source).order(created_at: :asc)
+    targets = post.issue.articles.where(source: article.source).order(created_at: :asc)
     targets << article unless targets.include?(article)
     targets.to_a.sort_by!{ |a| (a.created_at || DateTime.now) }
     oldest = targets.first
 
     targets.each do |target|
-      next if target == oldest or target.link_source.blank?
+      next if target == oldest or target.source.blank?
       target.comments.update_all(post_id: oldest.acting_as.id)
       target.destroy
     end

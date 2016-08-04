@@ -1,7 +1,7 @@
 class LinkSource < ActiveRecord::Base
   extend Enumerize
 
-  has_many :articles
+  has_many :articles, as: :source
 
   validates :url, uniqueness: {case_sensitive: true}
   validates :crawling_status, presence: true
