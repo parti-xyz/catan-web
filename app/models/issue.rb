@@ -55,7 +55,7 @@ class Issue < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
   scope :in_group, ->(group) { where(group_slug: (group.try(:slug) || group)) if group.present? }
-
+  scope :categorized_with, ->(slug) { where(category_slug: slug) }
   # search
   scoped_search on: [:title, :body]
 

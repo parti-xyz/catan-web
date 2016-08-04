@@ -1,0 +1,21 @@
+= render 'top_banner'
+
+%section#tag
+  .container
+    .row
+      .col-xs-9
+        %h4.page-title
+          #{@category.name} 빠띠
+          %small #{@category.name} 분류의 빠띠입니다.
+        = render 'pages/key_visuals' unless is_small_screen?
+        %section#parties-all
+          - if @issues.any?
+            .parties-all
+              .parties-all-list
+                = render 'issues/list'
+          - else
+            .bg-default
+              %i.fa.fa-info-circle
+              해당되는 빠띠가 없습니다.
+      - unless is_small_screen?
+        = render 'application/aside'

@@ -15,6 +15,15 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_equal 'title', assigns(:issue).title
   end
 
+  test '카테고리 안에 만들어요' do
+    sign_in(users(:admin))
+
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body', category_slug: 'category1' })
+
+    assert assigns(:issue).persisted?
+    assert_equal 'category1', assigns(:issue).category_slug
+  end
+
   test '만든 사람이 메이커가 되어요' do
     sign_in(users(:admin))
 

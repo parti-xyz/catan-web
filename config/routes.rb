@@ -98,6 +98,7 @@ Rails.application.routes.draw do
   end
 
   get '/tags/:name', to: "tags#show", as: :tag
+  get '/categories/:slug', to: "categories#show", as: :category
 
   authenticate :user, lambda { |u| u.admin? } do
     get '/test/summary', to: "users#summary_test"

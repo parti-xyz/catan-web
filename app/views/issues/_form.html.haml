@@ -27,6 +27,11 @@
       = f.label :body
       = f.text_field :body, class: 'form-control'
 
+    - if current_group.try(:categories).try(:any?)
+      .form-group{class: error_class_str(@issue, :category_slug)}
+        = f.label :category_slug
+        = f.select :category_slug, current_group.categories.map { |category| [category.name, category.slug] }, {}, {class: 'form-control'}
+
     .form-group{class: ('has-error' if has_error_attr?(@issue, :logo))}
       = f.label :logo
       = f.file_field :logo, class: 'form-control'

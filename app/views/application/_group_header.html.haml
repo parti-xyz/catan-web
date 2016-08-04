@@ -6,13 +6,21 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand{ href: root_path }
+        %a.hidden.navbar-brand{ href: root_path }
           %img{ alt: 'parti', src: asset_path("groups/#{current_group.slug}_logo.png")}
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
-          %li= link_to "모든 #{current_group.name} 빠띠", root_path, class: "#{'active' if current_page?('/')}"
+          %li
+            = link_to root_path, class: "#{'active' if current_page?('/')}" do
+              민주주의 플랫폼
+              &middot;
+              #{current_group.name} 빠띠
+          %li.menu-divider
+          - current_group.categories.each do |category|
+            %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
           - if user_signed_in? and current_user.watched_issues.in_group(current_group).any?
+            %li.menu-divider
             %li.dropdown.watch-parties
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                 내 빠띠
@@ -32,9 +40,6 @@
                     #{only_watched_issues.count}
                 - only_watched_issues.each do |issue|
                   = render 'issues/issue_line', issue: issue
-          %li.menu-divider
-          - ['시민내각', '시민참여 프로젝트', '마을', '정치인'].each do |tag_name|
-            %li= link_to "#{tag_name}", tag_path(name: tag_name), class: "#{'active' if current_page?(tag_path(name: tag_name))}"
           %li.menu-divider
           %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
           %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"
