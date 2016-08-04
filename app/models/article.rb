@@ -6,7 +6,6 @@ class Article < ActiveRecord::Base
 
   belongs_to :link_source
   accepts_nested_attributes_for :link_source
-  belongs_to :post_issue, class_name: Post
   validates :link_source, presence: true
 
   scope :recent, -> { includes(:post).order('posts.last_commented_at desc') }
