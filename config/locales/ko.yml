@@ -8,9 +8,9 @@ ko:
   errors:
     format: "%{message}"
     messages:
-      not_saved: 저장되지 않았습니다
-      blank: 값을 입력해 주세요
-      taken: 값이 이미 사용 중 입니다
+      not_saved: "%{attribute}은(는) 저장되지 않았습니다"
+      blank: "%{attribute} 값을 입력해 주세요"
+      taken: "%{attribute} 값이 이미 사용 중 입니다"
       invalid_auth_token: 로그인한지 너무 오래 되셨네요. 다시 시도해 주세요.
       carrierwave_processing_error: 처리할 수없는 파일입니다.
       mini_magick_processing_error: 처리할 수없는 파일입니다.
@@ -121,14 +121,14 @@ ko:
             body:
               too_long: 내용은 200자 이내로 적어주세요.
             slug:
-              invalid: 값은 영문자와 숫자 혹은 '-'만 넣어주세요.
+              invalid: "%{attribute} 값은 영문자와 숫자 혹은 '-'만 넣어주세요."
               exclusion: '%{attribute}은 이미 등록되어 있습니다.'
         user:
           attributes:
             nickname:
-              exclusion: '%{attribute}를 사용할 수 없습니다. 예시) users, admin, all 등'
-              invalid: 형식이 올바르지 않습니다.
-              too_long: 20자를 넘을 수 없습니다.
+              exclusion: '%{attribute}에 입력한 값이 올바르지 않습니다. 예시) users, admin, all 등은 사용할 수 없습니다.'
+              invalid: '%{attribute} 형식이 올바르지 않습니다.'
+              too_long: '%{attribute}는 20자를 넘을 수 없습니다.'
             password:
               too_short: 비밀번호는 8자 이상 입력해주세요.
             password_confirmation:
