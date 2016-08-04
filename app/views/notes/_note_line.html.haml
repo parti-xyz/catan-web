@@ -26,3 +26,10 @@
           %a.comment__mention{ href: '#', data: mention_data }
             %i.fa.fa-reply
 
+      - unless local_assigns[:hide_upvote]
+        .note-comment-upvote.visible-xs
+          = render 'upvotes/upvote', upvotable: post
+
+    - unless local_assigns[:hide_upvote]
+      .media-right.hidden-xs
+        = render 'upvotes/upvote', upvotable: post

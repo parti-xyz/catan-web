@@ -201,6 +201,13 @@ http://parti.dev/stat
 
 위 주소에 접근하면 업데이트 됩니다.
 
+### 페이스북 로그인
+
+페이스북에 http://parti.dev와 연결된 앱의 정보를 아래와 같이 .powenv에 설정합니다.
+```
+export FACEBOOK_APP_ID="키값"
+export FACEBOOK_APP_SECRET="키값"
+```
 ### 포스트마커 연동
 
 .powenv에 API키를 등록 합니다.
