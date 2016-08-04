@@ -3,7 +3,7 @@
   .media.talk-media
     - if local_assigns[:show_issue]
       .media-left.talk-media-left--issue
-        = link_to issue_home_path_or_url(post.issue) do
+        = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
           .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
     .media-body
       %h5.media-heading.title

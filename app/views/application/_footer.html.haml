@@ -1,7 +1,7 @@
 %footer.footer.hidden-xs
   - if current_group.present?
     .footer-logo.footer-logo--group.clearfix
-      = link_to root_url(subdomain: false) do
+      = link_to root_url(subdomain: false), target: '_blank' do
         %span.footer-logo__txt
           Powered by
         %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }

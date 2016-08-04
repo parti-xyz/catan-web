@@ -17,7 +17,7 @@
     .media
       .media-left
         .parti-logo
-          = link_to issue_home_path_or_url(issue) do
+          = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
             .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       .media-body
         %h2.parti-title
@@ -57,7 +57,7 @@
         .col-sm-7.col-xs-12
           .row
             .col-xs-2.col-sm-2{ class: ('active' if active_tab.nil? || active_tab == :home) }
-              = link_to issue_home_path_or_url(issue) do
+              = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
                 %h5 홈
 
             .col-xs-2.col-sm-2{class: ('active' if active_tab == :notes)}

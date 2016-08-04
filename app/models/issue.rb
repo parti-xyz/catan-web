@@ -4,6 +4,7 @@ class Issue < ActiveRecord::Base
   acts_as_unique_paranoid
   acts_as_taggable
 
+  ALL_PARTI_NAME = '전체'
   TITLE_OF_PARTI_PARTI = '빠띠'
   SLUG_OF_PARTI_PARTI = 'parti'
 

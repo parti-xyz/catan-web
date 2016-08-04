@@ -7,7 +7,7 @@
 .note-line.post-line[post]
   - if local_assigns[:show_issue]
     .note-line__issue.post-line__issue
-      = link_to issue_home_path_or_url(issue) do
+      = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
         = image_tag issue.logo.xs.url
         %span.text-primary= issue.title
       %span.post-line__issue__post-type
