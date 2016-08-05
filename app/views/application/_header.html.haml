@@ -36,9 +36,9 @@
               %span.caret
             %ul.dropdown-menu
               - %w(politics economy society nculture education environment labor media).each do |slug|
-                = render 'issues/issue_line', issue: Issue.of_slug(slug)
+                = render 'issues/issue_line', issue: Issue.of_slug(slug, nil)
               %li.divider
-              = render 'issues/issue_line', issue: Issue.of_slug('parti')
+              = render 'issues/issue_line', issue: Issue.of_slug('parti', nil)
           %li.menu-divider
           %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
           %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"

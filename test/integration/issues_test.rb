@@ -40,12 +40,21 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert assigns(:issue).reload.watched_by?(users(:admin))
   end
 
-  test '같은 이름으로는 못 만들어요' do
+  test '같은 주소로는 못 만들어요' do
     sign_in(users(:admin))
 
-    post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
+    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
     assert assigns(:issue).persisted?
-    post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
+
+    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
+    refute assigns(:issue).persisted?
+
+    host! "#{Group::GWANGJU.slug}.example.com"
+
+    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
+    assert assigns(:issue).persisted?
+
+    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
     refute assigns(:issue).persisted?
   end
 

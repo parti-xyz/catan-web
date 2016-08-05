@@ -54,7 +54,7 @@ class CampaignsController < ApplicationController
     @campaign.campaigned_issues.destroy_all if @campaign.persisted?
     return if @campaign.issue_slugs.blank?
     @campaign.issue_slugs.split(",").map(&:strip).each do |issue_slug|
-      issue = Issue.find_by(slug: issue_slug)
+      issue = Issue.find_by(slug: issue_slug, group_slug: current_group.try(:slug))
       if issue.present?
         @campaign.campaigned_issues.build(issue: issue)
       end

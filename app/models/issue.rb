@@ -29,7 +29,7 @@ class Issue < ActiveRecord::Base
   validates :title,
     presence: true,
     length: { maximum: 60 },
-    uniqueness: { case_sensitive: false }
+    uniqueness: { case_sensitive: false, scope: :group_slug }
   validates :body,
     length: { maximum: 200 }
   VALID_SLUG = /\A[a-z0-9_-]+\z/i
@@ -38,7 +38,7 @@ class Issue < ActiveRecord::Base
     format: { with: VALID_SLUG },
     exclusion: { in: %w(campaign app new edit index session login logout users admin
     stylesheets assets javascripts images) },
-    uniqueness: { case_sensitive: false },
+    uniqueness: { case_sensitive: false, scope: :group_slug },
     length: { maximum: 100 }
 
   # fields
@@ -146,8 +146,8 @@ class Issue < ActiveRecord::Base
     (group.present? and Issue.in_group(group).count < 3) ? 1 : 3
   end
 
-  def self.of_slug(slug)
-    self.find_by(slug: slug)
+  def self.of_slug(slug, group_slug)
+    self.find_by(slug: slug, group_slug: group_slug)
   end
 
   private

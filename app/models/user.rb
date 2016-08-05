@@ -201,7 +201,7 @@ class User < ActiveRecord::Base
   end
 
   def watch_default_issues
-    issue = Issue.find_by slug: Issue::SLUG_OF_PARTI_PARTI
+    issue = Issue.find_by slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: nil
     Watch.create(user: self, watchable: issue) if issue.present?
   end
 

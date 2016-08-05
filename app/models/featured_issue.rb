@@ -3,7 +3,7 @@ class FeaturedIssue < ActiveRecord::Base
   mount_uploader :mobile_image, ImageUploader
 
   def issue
-    Issue.find_by(slug: slug)
+    Issue.find_by(slug: slug, group_slug: nil)
   end
 
   def talk
