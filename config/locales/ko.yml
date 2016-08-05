@@ -8,6 +8,7 @@ ko:
   errors:
     format: "%{message}"
     messages:
+      content_type_whitelist_error: "You are not allowed to upload %{content_type} files"
       not_saved: "%{attribute}은(는) 저장되지 않았습니다"
       blank: "%{attribute} 값을 입력해 주세요"
       taken: "%{attribute} 값이 이미 사용 중 입니다"

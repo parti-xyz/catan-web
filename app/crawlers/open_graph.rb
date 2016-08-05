@@ -85,7 +85,7 @@ class OpenGraph
         next if image_size.nil?
         bins_with_size << [bin, fast_image]
 
-        if image_size[0] > 200 and image_size[1] > 200
+        if image_size[0] > 200 and image_size[1] > 200 and !bin.body_io.respond_to?(:path)
           set_image_io(bin, fast_image)
           break
         end
@@ -97,7 +97,7 @@ class OpenGraph
         bin = m[0]
         fast_image = m[1]
         image_size = fast_image.size
-        if image_size[0] > 100 and image_size[1] > 100
+        if image_size[0] > 100 and image_size[1] > 100 and !bin.body_io.respond_to?(:path)
           set_image_io(bin, fast_image)
           break
         end
@@ -112,8 +112,12 @@ class OpenGraph
 
   def set_image_io(bin, fast_image)
     @image_io = bin.body_io
-    @image_io.class.class_eval { attr_accessor :original_filename }
+    @image_io.class.class_eval {
+      attr_accessor :original_filename
+      attr_accessor :content_type
+    }
     @image_original_filename = @image_io.original_filename = random_filename_from_bin(bin, fast_image)
+    @image_io.content_type = bin.response["content-type"]
     image_size = fast_image.size
     if image_size.present?
       @image_width = image_size[0]
@@ -122,8 +126,7 @@ class OpenGraph
   end
 
   def random_filename_from_bin(bin, fast_image)
-    ext = (".#{fast_image.type}" != File.extname(bin.filename)) ? fast_image.type : File.extname(bin.filename)
-    "#{SecureRandom.hex}.#{ext}"
+    "#{SecureRandom.hex}.#{fast_image.type.to_s}"
   end
 
   def fallback_encoding
