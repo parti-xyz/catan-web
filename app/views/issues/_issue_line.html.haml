@@ -3,7 +3,8 @@
 %li.issue-line
   = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
     .media
-      .media-left.issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+      .media-left
+        .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
       .media-body
         %span.issue-line__title
           - if issue.group != current_group and
