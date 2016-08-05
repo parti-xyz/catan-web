@@ -1,30 +1,28 @@
 - issue ||= local_assigns[:card]
-- unless issue.made_by?(current_user)
-  - if issue.watched_by?(current_user)
-    - action_link = cancel_issue_watches_path(issue, partial: :intro)
-    - action_method = :delete
-  - else
-    - action_link = issue_watches_path(issue, partial: :intro)
-    - action_method = :post
-
-  .issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.watched_by?(current_user)}"}
-    = link_to action_link, method: action_method, remote: true do
-      .issue-card-cover
-      .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
-        - if issue.in_group? and current_group != issue.group
-          .issue-card__group
-            = issue.group.name
-        .issue-card__thumb__btn
-      .issue-card__content
-        .issue-card__title
-          .issue-card__title__text-wrapper
-            .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}= issue.title
-        .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
-        .issue-card__meta
-          %span.user-count
-            %i.fa.fa-user
-            %b= issue.watches.count
-          %span.comment-count
-            %i.fa.fa-comment
-            %b= issue.comments.count
+- if issue.watched_by?(current_user)
+  - action_link = cancel_issue_watches_path(issue, partial: :intro)
+  - action_method = :delete
+- else
+  - action_link = issue_watches_path(issue, partial: :intro)
+  - action_method = :post
+.issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.watched_by?(current_user)}"}
+  = link_to action_link, method: action_method, remote: true do
+    .issue-card-cover
+    .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
+      - if issue.in_group? and current_group != issue.group
+        .issue-card__group
+          = issue.group.name
+      .issue-card__thumb__btn
+    .issue-card__content
+      .issue-card__title
+        .issue-card__title__text-wrapper
+          .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}= issue.title
+      .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
+      .issue-card__meta
+        %span.user-count
+          %i.fa.fa-user
+          %b= issue.watches.count
+        %span.comment-count
+          %i.fa.fa-comment
+          %b= issue.comments.count
 
