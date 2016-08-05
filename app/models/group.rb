@@ -1,9 +1,10 @@
 class Group
   include ActiveModel::Model
-  attr_accessor :slug, :name, :categories
+  attr_accessor :slug, :name, :categories, :site_title
 
   GWANGJU = Group.new(slug: 'gwangju',
     name: '광주',
+    site_title: '민주주의 플랫폼',
     categories: [
       Category::GWANGJU_AGENDA,
       Category::GWANGJU_COMMUNITY,
