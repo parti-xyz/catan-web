@@ -1,0 +1,5 @@
+file1:
+  name: 'file1'
+  attachment: 'sample2.pdf'
+  file_size: 100
+  file_type: 'image/png'

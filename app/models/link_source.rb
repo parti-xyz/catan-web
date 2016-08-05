@@ -25,7 +25,7 @@ class LinkSource < ActiveRecord::Base
     self.crawled_at = DateTime.now
   end
 
-  def unify_by_url
+  def unify
     previous_link_source = LinkSource.find_by(url: self.url)
     previous_link_source.present? ? previous_link_source : self
   end

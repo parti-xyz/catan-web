@@ -47,6 +47,9 @@ section#articles {
       font-size: $font-size-large;
       font-weight: bold;
       margin-top: 5px;
+      &--file-source {
+        word-break: break-all;
+      }
     }
     .body {
       color: $text-muted;

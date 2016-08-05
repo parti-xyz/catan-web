@@ -21,7 +21,7 @@ gem 'ruby_dig', '~> 0.0.2'
 gem 'acts-as-taggable-on', '~> 4.0'
 
 # file upload
-gem 'carrierwave', '~> 0.10.0'
+gem 'carrierwave', '~> 0.11.2'
 gem "mini_magick"
 gem "fog"
 gem 'file_validators', '~> 2.0', '>= 2.0.2'

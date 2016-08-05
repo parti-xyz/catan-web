@@ -12,3 +12,6 @@ article4:
   source: link4 (LinkSource)
   created_at: <%= 5.day.ago.to_s(:db) %>
   post_issue: issue2
+article5:
+  source: file1 (FileSource)
+  post_issue: issue1

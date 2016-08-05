@@ -14,8 +14,25 @@
             = article.site_name.try(:upcase)
             원글보기
             %i.fa.fa-external-link
+    - if article.file_source?
+      %a{href: download_file_source_path(article.source), target: '_blank'}
+        .article-line__content
+          - if local_assigns[:show_issue]
+            .article-line__issue.post-line__issue
+              = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue)  do
+                = image_tag issue.logo.xs.url
+                %span.text-primary= issue.title
+              %span.post-line__issue__post-type
+                &middot;
+                #{Article.model_name.human}
+          %h4.article-line__title.post-line__title= screenable_article_title(article)
+          %a{href: download_file_source_path(article.source), target: '_blank'}
+            .article-line__site-name
+              %i.fa.fa-floppy-o
+              다운로드
+
     - else
-      %a{href: article.source.url, target: '_blank'}
+      %a{href: article.source.url}
         .article-line__content
           - if local_assigns[:show_issue]
             .article-line__issue.post-line__issue
@@ -28,14 +45,17 @@
           %h4.article-line__title.post-line__title= screenable_article_title(article)
           .article-line__body= excerpt(article.body, length: (is_small_screen? ? 45 : 130))
           .article-line__site-name
-            %a{href: article.source.url, target: '_blank'}
+            %a{href: article.source.url}
               = article.site_name.try(:upcase)
               원글보기
               %i.fa.fa-external-link
       - if (article.has_image?)
         .article-line__thumb{style: "background-image: url(#{article.image.md.url})"}
-- if local_assigns[:in_modal]
+- if local_assigns[:in_modal] and article.link_source?
   %a{href: article.source.url, target: '_blank'}
+    = article_line
+- elsif local_assigns[:in_modal] and article.file_source?
+  %a{href: download_file_source_path(article.source)}
     = article_line
 - else
   = article_line

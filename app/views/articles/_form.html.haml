@@ -1,9 +1,18 @@
 .well
   = form_for @article do |f|
     = f.fields_for :source do |ff|
-      .form-group
-        = ff.text_field :url, class: 'form-control'
-        %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
+      - if @article.link_source?
+        .form-group
+          = ff.text_field :url, class: 'form-control'
+          %p.help-bloc
+      - if @article.file_source?
+        .form-group
+          %p
+            현재 파일:
+            = @article.source.name
+          = ff.file_field :attachment, class: 'form-control'
+          %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
+
 
     .editor-btn.text-right
       = link_to '취소', @article, class: 'btn btn-default'

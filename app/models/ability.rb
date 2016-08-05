@@ -18,6 +18,9 @@ class Ability
       can :manage, Related do |related|
         user.maker?(related.issue)
       end
+      can :manage, Article do |article|
+        article.file_source? and article.user == user
+      end
       can :update, Wiki
       if user.admin?
         can :update, Article

@@ -7,6 +7,10 @@ post_article3:
   user: one
   issue: issue1
   postable: article3 (Article)
+post_article5:
+  user: one
+  issue: issue1
+  postable: article5 (Article)
 post_opinion1:
   user: one
   issue: issue1

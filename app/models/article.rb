@@ -19,12 +19,12 @@ class Article < ActiveRecord::Base
 
   def title
     return '' if self.hidden?
-    source.try(:title) || source.url
+    source.try(:title) || source.try(:url) || source.try(:name)
   end
 
   def body
     return '' if self.hidden?
-    source.try(:body)
+    source.try(:body) || (comments.first.body if comments.any?)
   end
 
   def site_name
@@ -52,11 +52,19 @@ class Article < ActiveRecord::Base
     source.try(:image_width) || 0
   end
 
+  def file_source?
+    source.is_a? FileSource
+  end
+
+  def link_source?
+    source.is_a? LinkSource
+  end
+
   def build_source(params)
     self.source = self.source_type.constantize.new(params) if self.source_type.present?
   end
 
-  def self.unify_by_url!(article)
+  def self.unify!(article)
     post = article.acting_as
     targets = post.issue.articles.where(source: article.source).order(created_at: :asc)
     targets << article unless targets.include?(article)

@@ -7,8 +7,29 @@ require 'mocha/mini_test'
 Sidekiq::Testing.fake!
 Sidekiq::Logging.logger = nil
 
+class CarrierWave::Mount::Mounter
+  def store!
+    # Not storing uploads in the tests
+  end
+end
+
+module CatanTestHelpers
+  def fixture_file(flie_name)
+    fixture_file_upload(File.join(ActionController::TestCase.fixture_path, flie_name), nil, true)
+  end
+end
+
 class ActiveSupport::TestCase
   fixtures :all
+
+  include CatanTestHelpers
+
+  CarrierWave.root = Rails.root.join('test/fixtures/files')
+
+  def after_teardown
+    super
+    CarrierWave.clean_cached_files!(0)
+  end
 
   # Returns true if a test user is logged in.
   def signed_in?

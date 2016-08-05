@@ -10,9 +10,13 @@
             %small 뉴스, 블로그, 영상 등 관련 자료를 모아보세요.
         .media-right
           - if user_signed_in?
-            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#article-form-widget', focus: 'input#article_link', 'self-hide': true} do
-              %i.fa.fa-paperclip
-              = t('labels.new_article_button')
+            .btn-group
+              = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-switch', 'switch-target': '#article-link-source-form-widget', 'switch-target-base': '.form-widget-container, .editor-btn', focus: 'input#article_source_attributes_url'} do
+                %i.fa.fa-link
+                = t('labels.new_article_link_source_button')
+              = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-switch', 'switch-target': '#article-file-source-form-widget', 'switch-target-base': '.form-widget-container, .editor-btn', focus: 'input#article_source_attributes_attachment'} do
+                %i.fa.fa-floppy-o
+                = t('labels.new_article_file_source_button')
           - else
             = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
               %i.fa.fa-paperclip

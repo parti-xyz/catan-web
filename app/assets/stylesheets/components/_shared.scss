@@ -819,3 +819,45 @@ label.required:after {
     }
   }
 }
+
+
+.form-widget {
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 30px 30px 15px;
+  position: relative;
+  &__arrow {
+    position: absolute;
+    left: -19px;
+    top: 25px;
+  }
+  .input-group {
+    width: 100%;
+  }
+  input[type=text],
+  input[type=file],
+  textarea {
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border: 1px solid #d2d2d2;
+  }
+  a {
+    color: $gray;
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+  .btn-primary {
+    min-width: 130px;
+  }
+  .btn-default {
+    margin-left: 0;
+  }
+  hr {
+    border-top: 4px solid $gray-light;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}

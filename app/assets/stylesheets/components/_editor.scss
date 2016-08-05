@@ -26,6 +26,11 @@
   .textarea-box textarea {
     border: none;
   }
+  .btn-cancel {
+    color: #777777;
+    vertical-align: bottom;
+    padding: 7px;
+  }
 }
 
 
@@ -61,6 +66,15 @@
     .media-body {
       h3 {
         line-height: 25px;
+      }
+    }
+    .btn-group {
+      width: 225px;
+      @media (max-width: $screen-xs-max) {
+        width: 100%;
+      }
+      .editor-btn {
+        width: 50%;
       }
     }
   }

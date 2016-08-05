@@ -28,8 +28,10 @@
     .caption
       .date= date_f article.created_at
 
-      %h4.title
-        = screenable_article_title(article, length: 23)
+      %h4.title{ class: ('title--file-source' if article.file_source?) }
+        - if article.file_source?
+          %i.fa.fa-floppy-o
+        = screenable_article_title(article, length: (article.file_source? ? 50: 23))
 
       .body
         %p= excerpt(article.body, length: 45)

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ArticlesTest < ActionDispatch::IntegrationTest
+class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
   def stub_crawl(link = nil)
     stub =  (link.present? ? OpenGraph.expects(:new).with(link) : OpenGraph.stubs(:new))
     stub.returns(OpenStruct.new(title: 'page title', description: 'page body', url: (link || 'http://stub')))

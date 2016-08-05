@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160804133359) do
+ActiveRecord::Schema.define(version: 20160804232550) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -118,6 +118,15 @@ ActiveRecord::Schema.define(version: 20160804133359) do
     t.text     "body",          limit: 65535
   end
 
+  create_table "file_sources", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.string   "attachment", limit: 255, null: false
+    t.string   "file_type",  limit: 255, null: false
+    t.integer  "file_size",  limit: 4,   null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "issues", force: :cascade do |t|
     t.string   "title",           limit: 255
     t.datetime "created_at",                                       null: false
@@ -130,8 +139,8 @@ ActiveRecord::Schema.define(version: 20160804133359) do
     t.datetime "deleted_at"
     t.string   "active",          limit: 255,      default: "on"
     t.boolean  "basic",                            default: false
-    t.string   "telegram_link",   limit: 255
     t.string   "group_slug",      limit: 255
+    t.string   "telegram_link",   limit: 255
     t.datetime "last_touched_at"
     t.string   "category_slug",   limit: 255
   end
@@ -235,6 +244,14 @@ ActiveRecord::Schema.define(version: 20160804133359) do
 
   add_index "parti_sso_client_api_keys", ["client"], name: "index_parti_sso_client_api_keys_on_client", using: :btree
   add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true, using: :btree
+
+  create_table "petitions", force: :cascade do |t|
+    t.string   "email",      limit: 255,   null: false
+    t.string   "name",       limit: 255,   null: false
+    t.text     "body",       limit: 65535, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                          limit: 4,               null: false
