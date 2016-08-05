@@ -32,7 +32,7 @@
               다운로드
 
     - else
-      %a{href: article.source.url}
+      %a{href: article.source.url, target: '_blank'}
         .article-line__content
           - if local_assigns[:show_issue]
             .article-line__issue.post-line__issue
@@ -45,7 +45,7 @@
           %h4.article-line__title.post-line__title= screenable_article_title(article)
           .article-line__body= excerpt(article.body, length: (is_small_screen? ? 45 : 130))
           .article-line__site-name
-            %a{href: article.source.url}
+            %a{href: article.source.url, target: '_blank'}
               = article.site_name.try(:upcase)
               원글보기
               %i.fa.fa-external-link
