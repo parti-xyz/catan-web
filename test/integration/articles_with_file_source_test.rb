@@ -18,7 +18,7 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
   end
 
   test '고쳐요' do
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     put article_path(articles(:article5)), article: { body: 'body', issue_id: issues(:issue2).id, source_attributes: { attachment: fixture_file('files/sample.pdf')}, source_type: 'FileSource' }
 
@@ -36,12 +36,6 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
     previous_count = Article.count
     post articles_path, article: { body: 'body', source_attributes: { attachment: fixture_file('files/sample.pdf') }, source_type: 'FileSource', issue_id: -1}
     assert_equal previous_count, Article.count
-  end
-
-  test '글을 숨겨요' do
-    sign_in(users(:admin))
-    put article_path(articles(:article3), article: { hidden: true })
-    assert articles(:article3).reload.hidden?
   end
 
   test '본문이 없으면 안만들어요' do
