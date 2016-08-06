@@ -1,25 +1,15 @@
 Rails.application.routes.draw do
-  class GroupConstraint
-    # Implement the .matches? method and pass in the request object
-    def self.matches? request
-      matching_site?(request)
-    end
-
-    def self.matching_site? request
-      Group.exists_slug? request.subdomain
-    end
-  end
-  match '/', :to => 'groups#index', :constraints => GroupConstraint, via: :all
-
   post 'redactor2_rails/files', to: redirect('/')
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  root 'pages#home'
+  root 'pages#index'
+  get '/home', to: 'pages#home'
+  get '/robots.:format', to: 'pages#robots'
 
-  get '/robots.:format' => 'pages#robots'
-
-  resources :users, except: :show
+  resources :users, except: :show do
+    post 'toggle_root_page', on: :collection
+  end
   unless Rails.env.production?
     get 'kill_me', to: 'users#kill_me'
   end

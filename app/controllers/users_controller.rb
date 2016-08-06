@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, only: :kill_me
+  before_filter :authenticate_user!, only: [:kill_me, :toggle_root_page]
 
   def index
     @users = User.order("id DESC")
@@ -31,6 +31,14 @@ class UsersController < ApplicationController
 
     @posts = @votes.map(&:post).compact
     @opinions = @posts.map(&:specific).compact
+  end
+
+  def toggle_root_page
+    current_user.toggle(:root_as_dashboard)
+    current_user.save
+    respond_to do |format|
+      format.js
+    end
   end
 
   def summary_test

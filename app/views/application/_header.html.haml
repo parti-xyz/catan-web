@@ -11,7 +11,7 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
-          %li= link_to '모든 빠띠', root_path, class: "#{'active' if current_page?('/')}"
+          %li= link_to '모든 빠띠', home_path, class: "#{'active' if current_page?('/')}"
           - if user_signed_in? and current_user.watches.any?
             %li.dropdown.watch-parties
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}

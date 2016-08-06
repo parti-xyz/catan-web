@@ -5,6 +5,11 @@
     - if user_signed_in?
       .aside_issue
         .aside_issue_btn
+          %p.help-block#toggle_root_page
+            = render 'users/toggle_root_page'
+          = link_to dashboard_path, class: 'btn btn-primary btn-lg btn-block btn-shadow' do
+            %i.fa.fa-home
+            내 홈
           = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
         - if current_user.making_issues.in_group(current_group).any?
           %h5.aside-title 내가 메이커인 빠띠
