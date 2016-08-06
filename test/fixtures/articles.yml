@@ -1,17 +1,22 @@
 article1:
   source: link2 (LinkSource)
+  body: 'article1 body'
   post_issue: issue1
 article2:
   source: link2 (LinkSource)
+  body: 'article2 body'
   post_issue: issue2
 article3:
   source: link3 (LinkSource)
+  body: 'article3 body'
   post_issue: issue1
   created_at: <%= 5.day.ago.to_s(:db) %>
 article4:
   source: link4 (LinkSource)
+  body: 'article4 body'
   created_at: <%= 5.day.ago.to_s(:db) %>
   post_issue: issue2
 article5:
   source: file1 (FileSource)
+  body: 'article5 body'
   post_issue: issue1

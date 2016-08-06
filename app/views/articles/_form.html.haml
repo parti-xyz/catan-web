@@ -1,9 +1,9 @@
 .well
-  = form_for @article do |f|
+  = form_for @article, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': "form#edit_#{dom_id(@article)} input[type=submit]" } } do |f|
     = f.fields_for :source do |ff|
       - if @article.link_source?
         .form-group
-          = ff.text_field :url, class: 'form-control'
+          = ff.text_field :url, class: 'form-control', data: {'rule-required': true}
           %p.help-bloc
       - if @article.file_source?
         .form-group
@@ -13,15 +13,11 @@
           = ff.file_field :attachment, class: 'form-control'
           %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
 
+    .form-group
+      %label 수다
+      = f.text_area :body, class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
 
     .editor-btn.text-right
       = link_to '취소', @article, class: 'btn btn-default'
-      = f.submit '저장', class: 'btn btn-primary btn-ghost'
+      = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "게시 중..." }
 
-
-%h5
-  이 자료를 숨기고 싶습니다.
-  - if @article.hidden?
-    = link_to '자료 보이기', article_path(@article, article: { hidden: false }), method: :put, data: { confirm: '정말 보이게 하겠습니까?' }
-  - else
-    = link_to '자료 숨기기', article_path(@article, article: { hidden: true }), method: :put, data: { confirm: '정말 숨기겠습니까?' }

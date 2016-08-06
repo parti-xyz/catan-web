@@ -13,21 +13,19 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path(article: { issue_id: issues(:issue1).id, source_attributes: { url: 'link' }, source_type: 'LinkSource' }, comment_body: 'body')
+      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'link' }, source_type: 'LinkSource' }
 
       assert assigns(:article).persisted?
       assigns(:article).reload
 
       assert_equal 'page title', assigns(:article).title
-      assert_equal 'page body', assigns(:article).body
+      assert_equal 'page body', assigns(:article).source_body
+      assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
       assert_equal LinkSource.find_by(url: 'http://stub'), assigns(:article).source
       assert_equal issues(:issue1).title, assigns(:article).issue.title
 
-      comment = assigns(:article).comments.first
-      assert comment.persisted?
-      assert_equal 'body', comment.body
-      assert_equal users(:one), assigns(:article).user
+      assert assigns(:article).comments.empty?
     end
   end
 
@@ -36,21 +34,19 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
       sign_in(users(:one))
 
       article3_link = articles(:article3).source.url
-      post articles_path(article: { issue_id: issues(:issue1).id, source_attributes: { url: article3_link }, source_type: 'LinkSource' }, comment_body: 'body')
+      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: article3_link }, source_type: 'LinkSource' }
 
       assert assigns(:article).persisted?
       assigns(:article).reload
 
       assert_equal 'page title', assigns(:article).title
-      assert_equal 'page body', assigns(:article).body
+      assert_equal 'page body', assigns(:article).source_body
+      assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
       assert_equal LinkSource.find_by(url: 'http://stub'), assigns(:article).source
       assert_equal issues(:issue1).title, assigns(:article).issue.title
 
-      comment = assigns(:article).comments.first
-      assert comment.persisted?
-      assert_equal 'body', comment.body
-      assert_equal users(:one), assigns(:article).user
+      assert assigns(:article).comments.empty?
     end
   end
 
@@ -58,12 +54,13 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl 'link x' do
       sign_in(users(:admin))
 
-      put article_path(articles(:article1), article: { issue_id: issues(:issue2).id, source_attributes: { url: 'link x'}, source_type: 'LinkSource' })
+      put article_path(articles(:article1)), article: { body: 'body', issue_id: issues(:issue2).id, source_attributes: { url: 'link x'}, source_type: 'LinkSource' }
 
       refute assigns(:article).errors.any?
       assigns(:article).reload
       assert_equal 'page title', assigns(:article).title
-      assert_equal 'page body', assigns(:article).body
+      assert_equal 'page body', assigns(:article).source_body
+      assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
       assert_equal issues(:issue2).title, assigns(:article).issue.title
       assert_equal 'link x', assigns(:article).source.url
@@ -75,11 +72,11 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl(article3_link) do
       sign_in(users(:admin))
 
-      put article_path(articles(:article1), article: { source_attributes: { url: article3_link }, source_type: 'LinkSource' })
+      put article_path(articles(:article1)), article: { source_attributes: { url: article3_link }, source_type: 'LinkSource' }
 
       refute assigns(:article).errors.any?
-      assert_equal articles(:article3), assigns(:article)
-      refute Article.exists?(id: articles(:article1).id)
+      assert_equal articles(:article3).source, assigns(:article).source
+      assert Article.exists?(id: articles(:article1).id)
     end
   end
 
@@ -88,12 +85,12 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl(article1_link) do
       sign_in(users(:admin))
 
-      put article_path(articles(:article3), article: { source_attributes: { url: article1_link }, source_type: 'LinkSource' })
+      put article_path(articles(:article3)), article: { source_attributes: { url: article1_link }, source_type: 'LinkSource' }
 
       refute assigns(:article).errors.any?
       assert_equal articles(:article3), assigns(:article)
       assert_equal articles(:article1).source, articles(:article3).reload.source
-      refute Article.exists?(id: articles(:article1).id)
+      assert Article.exists?(id: articles(:article1).id)
     end
   end
 
@@ -101,7 +98,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Article.count
-    post articles_path(article: { source_attributes: { url: 'link' }, source_type: 'LinkSource', issue_id: -1}, comment_body: 'body')
+    post articles_path, article: { body: 'body', source_attributes: { url: 'link' }, source_type: 'LinkSource', issue_id: -1}
     assert_equal previous_count, Article.count
   end
 
@@ -111,11 +108,11 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     assert articles(:article3).reload.hidden?
   end
 
-  test '댓글이 없으면 안만들어요' do
+  test '본문이 없으면 안만들어요' do
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path(article: { source_attributes: { url: 'link'}, source_type: 'LinkSource', issue_id: issues(:issue1).id })
+      post articles_path, article: { source_attributes: { url: 'link'}, source_type: 'LinkSource', issue_id: issues(:issue1).id }
 
       refute assigns(:article).persisted?
     end

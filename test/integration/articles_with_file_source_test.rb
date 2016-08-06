@@ -3,7 +3,8 @@ require 'test_helper'
 class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
-    post articles_path, article: { issue_id: issues(:issue1).id, source_attributes: { attachment: fixture_file('files/sample.pdf') }, source_type: 'FileSource' }, comment_body: 'body'
+
+    post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { attachment: fixture_file('files/sample.pdf') }, source_type: 'FileSource' }
 
     assert assigns(:article).persisted?
     assigns(:article).reload
@@ -11,20 +12,19 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:article).user
     assert_equal 'sample.pdf', assigns(:article).source.name
     assert_equal issues(:issue1).title, assigns(:article).issue.title
+    assert_equal 'body', assigns(:article).body
 
-    comment = assigns(:article).comments.first
-    assert comment.persisted?
-    assert_equal 'body', comment.body
-    assert_equal users(:one), assigns(:article).user
+    assert assigns(:article).comments.empty?
   end
 
   test '고쳐요' do
     sign_in(users(:admin))
 
-    put article_path(articles(:article5)), article: { issue_id: issues(:issue2).id, source_attributes: { attachment: fixture_file('files/sample.pdf')}, source_type: 'FileSource' }
+    put article_path(articles(:article5)), article: { body: 'body', issue_id: issues(:issue2).id, source_attributes: { attachment: fixture_file('files/sample.pdf')}, source_type: 'FileSource' }
 
     refute assigns(:article).errors.any?
     assigns(:article).reload
+    assert_equal 'body', assigns(:article).body
     assert_equal users(:one), assigns(:article).user
     assert_equal issues(:issue2).title, assigns(:article).issue.title
     assert_equal 'sample.pdf', assigns(:article).source.name
@@ -34,7 +34,7 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Article.count
-    post articles_path, article: { source_attributes: { attachment: fixture_file('files/sample.pdf') }, source_type: 'FileSource', issue_id: -1}, comment_body: 'body'
+    post articles_path, article: { body: 'body', source_attributes: { attachment: fixture_file('files/sample.pdf') }, source_type: 'FileSource', issue_id: -1}
     assert_equal previous_count, Article.count
   end
 
@@ -44,7 +44,7 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
     assert articles(:article3).reload.hidden?
   end
 
-  test '댓글이 없으면 안만들어요' do
+  test '본문이 없으면 안만들어요' do
     sign_in(users(:one))
 
     post articles_path, article: { source_attributes: { attachment: fixture_file('files/sample.pdf')}, source_type: 'FileSource', issue_id: issues(:issue1).id }

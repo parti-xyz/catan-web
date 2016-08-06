@@ -10,47 +10,32 @@ class ArticlesController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
 
     @article.source = @article.source.unify
+    redirect_to issue_home_path(@issue) and return if @article.source.blank?
+
     @article.user ||= current_user
-    is_saved = false
-    ActiveRecord::Base.transaction do
-      @article = Article.unify!(@article)
-      if !@article.save
-        errors_to_flash(@article)
-        raise ActiveRecord::Rollback
-      end
-
-      @comment = build_comment
-      if @comment.blank? or !@comment.save
-        errors_to_flash(@comment) if @comment.present?
-        raise ActiveRecord::Rollback
-      end
-
-      is_saved = true
+    if @article.save
+      callback_after_creating_article
+    else
+      errors_to_flash(@article)
     end
-    callback_after_creating_article if is_saved
-    redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
+    redirect_to params[:back_url].presence || issue_articles_path(@issue)
   end
 
   def update
     redirect_to root_path and return if fetch_issue.blank?
 
-    @article.assign_attributes(update_params_only_link_source_url)
+    @article.assign_attributes(update_params)
     @article.source = @article.source.unify
     redirect_to issue_home_path(@issue) and return if @article.source.blank?
 
-    is_saved = false
-    ActiveRecord::Base.transaction do
-      @article = Article.unify!(@article)
-      @article.assign_attributes(update_params_exclude_link_source_url)
-      if @article.save
-        is_saved = true
-        redirect_to @article
-      else
-        errors_to_flash(@article)
-        render 'edit'
-      end
+    if @article.save
+      is_saved = true
+      callback_after_updating_article
+      redirect_to @article
+    else
+      errors_to_flash(@article)
+      render 'edit'
     end
-    callback_after_updating_article if is_saved
   end
 
   def show
@@ -64,14 +49,14 @@ class ArticlesController < ApplicationController
       @paginate_params = {controller: 'issues', action: 'slug_articles', slug: @issue.slug, id: nil}
     end
     prepare_meta_tags title: @article.title,
-                      description: @article.body,
+                      description: @article.source_body,
                       image: (@article.image if @article.has_image?),
                       og_title: [@article.title, @article.site_name.try(:upcase)].reject { |c| c.blank? }.map(&:strip).join(' | ')
   end
 
   def destroy
     @article.destroy
-    redirect_to issue_home_path_or_url(@article.issue)
+    redirect_to issue_articles_path(@article.issue)
   end
 
   def postable_controller?
@@ -81,15 +66,11 @@ class ArticlesController < ApplicationController
   private
 
   def create_params
-    params.require(:article).permit(:source_type, source_attributes: [:url, :attachment])
+    params.require(:article).permit(:body, :source_type, source_attributes: [:url, :attachment])
   end
 
-  def update_params_only_link_source_url
-    params.require(:article).permit(:source_type, source_attributes: [:url, :attachment])
-  end
-
-  def update_params_exclude_link_source_url
-    params.require(:article).permit(:hidden)
+  def update_params
+    params.require(:article).permit(:body, :hidden, :source_type, source_attributes: [:url, :attachment])
   end
 
   def fetch_issue
@@ -97,14 +78,8 @@ class ArticlesController < ApplicationController
     @article.issue = @issue = (Issue.find_by(id: params[:article][:issue_id]) || @article.issue)
   end
 
-  def build_comment
-    body = params[:comment_body]
-    return if body.blank?
-    @article.acting_as.comments.build(body: body, user: current_user)
-  end
-
   def callback_after_updating_article
-    if @article.source.try(:crawling_status).present?
+    if @article.link_source?
       CrawlingJob.perform_async(@article.source.id)
     end
   end

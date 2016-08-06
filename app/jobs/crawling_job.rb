@@ -23,15 +23,11 @@ class CrawlingJob
           source.url = data.url
           source.set_crawling_data(data)
           source.save!
-          source.articles.each do |article|
-            article = Article.unify!(article)
-            article.save!
-          end
         else
           origin.set_crawling_data(data)
           origin.save!
           source.articles.each do |article|
-            article = Article.unify!(article)
+            article.srouce = origin
             article.save!
           end
           source.destroy!

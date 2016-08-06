@@ -13,17 +13,13 @@ class Ability
       end
       can :create, [Issue, Article, Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch, Note]
-      can :manage, [Talk, Opinion, Comment,
+      can :manage, [Article, Talk, Opinion, Comment,
         Vote, Like, Upvote, Watch, Note], user_id: user.id
       can :manage, Related do |related|
         user.maker?(related.issue)
       end
-      can :manage, Article do |article|
-        article.file_source? and article.user == user
-      end
       can :update, Wiki
       if user.admin?
-        can :update, Article
         can :manage, [Campaign, Issue, Related, FeaturedIssue, FeaturedCampaign]
       end
     end

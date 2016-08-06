@@ -17,10 +17,10 @@
     = talk.title
   .media
     .media-body
-      .talk-comment-body{data: modal_data}
+      .talk-body{data: modal_data}
         = smart_format(talk.body)
       - unless local_assigns[:hide_user]
-        .talk-comment-info
+        .talk-info
           = link_to user_gallery_path(talk.user) do
             .thumb.user-image.img-circle{style: "background-image: url(#{talk.user.image.sm.url});"}
             %span.nickname= talk.user.nickname
@@ -29,7 +29,7 @@
               %i.fa.fa-reply
 
         - unless local_assigns[:hide_upvote]
-          .talk-comment-upvote.visible-xs
+          .talk-upvote.visible-xs
             = render 'upvotes/upvote', upvotable: post
 
     - unless local_assigns[:hide_upvote]

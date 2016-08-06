@@ -2,6 +2,8 @@
 - post = article.acting_as
 - issue = post.issue
 - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }
+- mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
+- mention_data = local_assigns[:in_modal] ? mention_options_data.merge(action: 'parti-mention') : mention_options_data.merge(modal_data)
 - article_line = capture do
   .article-line.post-line[post]{data: modal_data}
     - if video?(article)
@@ -43,7 +45,7 @@
                 &middot;
                 #{Article.model_name.human}
           %h4.article-line__title.post-line__title= screenable_article_title(article)
-          .article-line__body= excerpt(article.body, length: (is_small_screen? ? 45 : 130))
+          .article-line__source-body= excerpt(article.source_body, length: (is_small_screen? ? 45 : 130))
           .article-line__site-name
             %a{href: article.source.url, target: '_blank'}
               = article.site_name.try(:upcase)
@@ -59,3 +61,24 @@
     = article_line
 - else
   = article_line
+.article-line__body
+  .media
+    .media-body
+      .article-body{data: modal_data}
+        = smart_format(article.body)
+      - unless local_assigns[:hide_user]
+        .article-info
+          = link_to user_gallery_path(article.user) do
+            .thumb.user-image.img-circle{style: "background-image: url(#{article.user.image.sm.url});"}
+            %span.nickname= article.user.nickname
+          - if article.user.mentionable?(current_user)
+            %a.comment__mention{ href: '#', data: mention_data }
+              %i.fa.fa-reply
+
+        - unless local_assigns[:hide_upvote]
+          .article-upvote.visible-xs
+            = render 'upvotes/upvote', upvotable: post
+
+    - unless local_assigns[:hide_upvote]
+      .media-right.hidden-xs
+        = render 'upvotes/upvote', upvotable: post

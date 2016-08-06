@@ -7,6 +7,7 @@
 배포 후에 즉시 아래 스크립트를 실행합니다.
 ```
 RAILS_ENV=production bin/rake migrate:presetation_comment_to_talk_body
+RAILS_ENV=production bin/rake migrate:first_comment_to_article_body
 ```
 
 배포 직전, 텔레그램 대화방 열기 위키문서(빠띠 활용 가이드 1.10 Beta)의 내용을 복사해서 원본 위키문서(빠띠 활용 가이드)로 옮깁니다.

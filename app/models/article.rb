@@ -6,9 +6,11 @@ class Article < ActiveRecord::Base
 
   belongs_to :source, polymorphic: true
   accepts_nested_attributes_for :source
-  validates :source, presence: true
 
-  scope :recent, -> { includes(:post).order('posts.last_commented_at desc') }
+  validates :source, presence: true
+  validates :body, presence: true
+
+  scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :visible, -> { where(hidden: false) }
   scope :previous_of_article, ->(article) { includes(:post).where('posts.last_commented_at < ?', article.acting_as.last_commented_at) if article.present? }
@@ -22,7 +24,7 @@ class Article < ActiveRecord::Base
     source.try(:title) || source.try(:url) || source.try(:name)
   end
 
-  def body
+  def source_body
     return '' if self.hidden?
     source.try(:body) || (comments.first.body if comments.any?)
   end
@@ -64,19 +66,19 @@ class Article < ActiveRecord::Base
     self.source = self.source_type.constantize.new(params) if self.source_type.present?
   end
 
-  def self.unify!(article)
-    post = article.acting_as
-    targets = post.issue.articles.where(source: article.source).order(created_at: :asc)
-    targets << article unless targets.include?(article)
-    targets.to_a.sort_by!{ |a| (a.created_at || DateTime.now) }
-    oldest = targets.first
+  # def self.unify!(article)
+  #   post = article.acting_as
+  #   targets = post.issue.articles.where(source: article.source).order(created_at: :asc)
+  #   targets << article unless targets.include?(article)
+  #   targets.to_a.sort_by!{ |a| (a.created_at || DateTime.now) }
+  #   oldest = targets.first
 
-    targets.each do |target|
-      next if target == oldest or target.source.blank?
-      target.comments.update_all(post_id: oldest.acting_as.id)
-      target.destroy
-    end
-    Post.reset_counters(oldest.acting_as.id, :comments) if oldest.persisted?
-    return (oldest.present? ? oldest : article)
-  end
+  #   targets.each do |target|
+  #     next if target == oldest or target.source.blank?
+  #     target.comments.update_all(post_id: oldest.acting_as.id)
+  #     target.destroy
+  #   end
+  #   Post.reset_counters(oldest.acting_as.id, :comments) if oldest.persisted?
+  #   return (oldest.present? ? oldest : article)
+  # end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160805091657) do
+ActiveRecord::Schema.define(version: 20160805235625) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -25,14 +25,15 @@ ActiveRecord::Schema.define(version: 20160805091657) do
   add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "articles", force: :cascade do |t|
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.datetime "deleted_at"
-    t.boolean  "hidden",                    default: false
-    t.integer  "post_issue_id", limit: 4,                   null: false
-    t.string   "active",        limit: 255, default: "on"
-    t.integer  "source_id",     limit: 4,                   null: false
-    t.string   "source_type",   limit: 255,                 null: false
+    t.boolean  "hidden",                      default: false
+    t.integer  "post_issue_id", limit: 4,                     null: false
+    t.string   "active",        limit: 255,   default: "on"
+    t.integer  "source_id",     limit: 4,                     null: false
+    t.string   "source_type",   limit: 255,                   null: false
+    t.text     "body",          limit: 65535
   end
 
   add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at", using: :btree

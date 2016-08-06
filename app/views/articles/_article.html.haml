@@ -1,5 +1,9 @@
 - post = article.acting_as
 
+- modal_data = { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) }
+- mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
+- mention_data = mention_options_data.merge(modal_data)
+
 - if post.comments_count >= 20
   - template_by_post = 'best'
 - elsif post.comments_count >= 10
@@ -21,25 +25,60 @@
 - wrapper_class = (local_assigns[:wrapper_class] || wrapper_class)
 
 .card{ class: wrapper_class }
-  .article-card[post]{ class: card_class, data: { toggle: "parti-post-modal", target: '#post-modal', url: article_path(article) } }
-    .thumb{ style: "background-image: url(#{article_card_image(article)})" }
+  .article-card[post]{ class: card_class, data: modal_data }
+    - capture_thumb = capture do
+      .thumb{ style: "background-image: url(#{article_card_image(article)})" }
+    = link_to_if article.link_source?, capture_thumb, article.source.try(:url), target: '_blank'
     - if local_assigns[:show_issue]
       .thumb.thumb--issue{ style: "background-image: url(#{article.issue.logo.sm.url})" }
     .caption
-      .date= date_f article.created_at
+      - capture_source = capture do
+        .date= date_f article.created_at
 
-      %h4.title{ class: ('title--file-source' if article.file_source?) }
-        - if article.file_source?
-          %i.fa.fa-floppy-o
-        = screenable_article_title(article, length: (article.file_source? ? 50: 23))
+        %h4.title{ class: ('title--file-source' if article.file_source?) }
+          - if article.file_source?
+            %i.fa.fa-floppy-o
+          = screenable_article_title(article, length: (article.file_source? ? 50: 23))
 
+        .source-body
+          %p= excerpt(article.source_body, length: 60)
+      = link_to_if article.link_source?, capture_source, article.source.try(:url), target: '_blank', class: 'link-source'
       .body
-        %p= excerpt(article.body, length: 45)
+        %p
+          - max_length = 215
+          = excerpt(article.body, length: max_length)
+          - if article.body.try(:length) > max_length
+            %span.body-more
+              더보기
+              %i.fa.fa-angle-double-right
 
+        .article-info
+          = link_to user_gallery_path(article.user) do
+            .thumb.user-image.img-circle{style: "background-image: url(#{article.user.image.sm.url});"}
+            %span.nickname= article.user.nickname
+          - if article.user.mentionable?(current_user)
+            %a.comment__mention{ href: '#', data: mention_data }
+              %i.fa.fa-reply
       .more
-        %div
-          %i.fa.fa-comment-o
-          %b> #{post.comments_count}개
-          의 수다
-          \|
-          %span.text-primary 더보기...
+        - if post.comments_count > 0
+          %span.comments-count
+            %sapn.hidden-xs
+              %i.fa.fa-comment-o
+              %b> #{post.comments_count}개
+              의 수다
+            %sapn.visible-xs-inline
+              %i.fa.fa-comment-o<>
+              #{post.comments_count}
+          &nbsp;|&nbsp;
+          %span.link-to-more 더보기...
+        - else
+          - if user_signed_in?
+            - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
+            - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
+            %span.link-to-modal{ data: mention_data }
+              %i.fa.fa-commenting-o
+              수다작성
+          - else
+            %span.link-to-login{data: { toggle: 'parti-login-overlay', label: '수다작성' }}
+              %i.fa.fa-commenting-o
+              수다작성
