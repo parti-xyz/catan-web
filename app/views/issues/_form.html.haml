@@ -28,9 +28,14 @@
       = f.text_field :body, class: 'form-control'
 
     - if current_group.try(:categories).try(:any?)
+      - @issue.category_slug ||= current_group.categories.first.slug
       .form-group{class: error_class_str(@issue, :category_slug)}
         = f.label :category_slug
-        = f.select :category_slug, current_group.categories.map { |category| [category.name, category.slug] }, {}, {class: 'form-control'}
+        .radio-group
+          - current_group.categories.each do |category|
+            %label.radio-inline
+              = f.radio_button :category_slug, category.slug
+              = category.name
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :logo))}
       = f.label :logo
