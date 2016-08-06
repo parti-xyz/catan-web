@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
   resources :articles do
     get 'partial', on: :member
+    post 'recrawl', on: :member
   end
   resources :opinions do
     get 'social_card', on: :member

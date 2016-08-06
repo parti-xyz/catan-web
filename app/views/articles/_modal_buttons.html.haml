@@ -1,0 +1,4 @@
+- if current_user.try(:admin?) and post.specific.link_source?
+  = link_to recrawl_article_path(post.specific), remote: true, method: :post do
+    %i.fa.fa-refresh
+    다시 크롤링

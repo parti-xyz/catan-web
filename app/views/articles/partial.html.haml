@@ -1,27 +1,2 @@
-/ .post-modal__top
-/   .post-modal__info
-/     / = link_to issue_home_path_or_url(@article.issue) do
-/     /   = image_tag @article.issue.logo.xs.url, class: 'img-circle'
-/     /   %span.text-primary= @article.issue.title
-/     .media
-/       .media-left
-/         .issue-logo
-/           = image_tag @article.issue.logo.xs.url
-/       .media-body
-/         = link_to issue_home_path_or_url(@article.issue) do
-/           %span.issue-title= @article.issue.title
-/         %br
-/         = link_to send("issue_#{@article.class.model_name.plural}_path", @article.issue), class: 'post-type' do
-/           #{@article.class.model_name.human}
-/         %span.date-wrapper= date_f @article.created_at
+= render @article.acting_as, in_modal: true, additional_buttons_partial: 'articles/modal_buttons'
 
-/   %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
-/     = image_tag 'icon_close.png'
-
-/ .post-modal__content
-/   = render 'body'
-/   = render 'posts/post_header', post: @article.acting_as
-
-/ .post-modal__comment
-/   = render 'comments/comments_in_post_modal', postable: @article, style: :media
-= render @article.acting_as, in_modal: true

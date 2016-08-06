@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show, :partial]
+  before_filter :authenticate_user!, except: [:index, :show, :partial, :recrawl]
   load_and_authorize_resource
 
   def index
@@ -57,6 +57,11 @@ class ArticlesController < ApplicationController
   def destroy
     @article.destroy
     redirect_to issue_articles_path(@article.issue)
+  end
+
+  def recrawl
+    render nothing: true, status: :unauthorized and return unless current_user.admin?
+    CrawlingJob.perform_async(@article.source.id) if @article.link_source?
   end
 
   def postable_controller?
