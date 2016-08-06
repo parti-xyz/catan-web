@@ -37,6 +37,7 @@ class TalksController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @talk.issue
+      verify_group(@issue)
       talks_page(@issue)
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_talks_path(@issue)

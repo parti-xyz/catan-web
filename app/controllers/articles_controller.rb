@@ -43,6 +43,7 @@ class ArticlesController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @article.issue
+      verify_group(@issue)
       articles_page(@issue)
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_articles_path(@issue)

@@ -2,7 +2,7 @@ class IssuesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
   before_filter :fetch_issue_by_slug, only: [:new_comments_count, :slug_home, :slug_users, :slug_articles, :slug_comments, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis]
   load_and_authorize_resource
-  before_filter :verify_group, only: [:slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :edit]
+  before_filter :verify_issue_group, only: [:slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :edit]
   before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_articles, :slug_opinions, :slug_talks, :slug_notes, :slug_wikis, :slug_users]
 
   def index
@@ -157,11 +157,7 @@ class IssuesController < ApplicationController
                       image: @issue.logo_url
   end
 
-  def verify_group
-    return if @issue.blank?
-    return if !request.format.html?
-
-    redirect_to subdomain: nil and return if !@issue.in_group? and current_group.present?
-    redirect_to subdomain: @issue.group.slug and return if @issue.in_group? and current_group.blank?
+  def verify_issue_group
+    verify_group(@issue)
   end
 end

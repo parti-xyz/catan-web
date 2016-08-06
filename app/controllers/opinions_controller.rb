@@ -39,6 +39,7 @@ class OpinionsController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @opinion.issue
+      verify_group(@issue)
       opinions_page(@issue)
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_opinions_path(@issue)

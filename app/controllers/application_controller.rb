@@ -184,4 +184,12 @@ class ApplicationController < ActionController::Base
   def current_group
     Group.find_by_slug request.subdomain
   end
+
+  def verify_group(issue)
+    return if issue.blank?
+    return if !request.format.html?
+
+    redirect_to subdomain: nil and return if !issue.in_group? and current_group.present?
+    redirect_to subdomain: issue.group.slug and return if issue.in_group? and current_group.blank?
+  end
 end

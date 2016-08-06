@@ -37,6 +37,7 @@ class NotesController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @note.issue
+      verify_group(@issue)
       notes_page @issue
       @list_title = meta_issue_full_title(@issue)
       @list_url = issue_notes_path(@issue)
