@@ -85,7 +85,7 @@ class OpenGraph
         next if image_size.nil?
         bins_with_size << [bin, fast_image]
 
-        if image_size[0] > 200 and image_size[1] > 200 and !bin.body_io.respond_to?(:path)
+        if image_size[0] > 200 and image_size[1] > 200
           set_image_io(bin, fast_image)
           break
         end
@@ -97,7 +97,7 @@ class OpenGraph
         bin = m[0]
         fast_image = m[1]
         image_size = fast_image.size
-        if image_size[0] > 100 and image_size[1] > 100 and !bin.body_io.respond_to?(:path)
+        if image_size[0] > 100 and image_size[1] > 100
           set_image_io(bin, fast_image)
           break
         end
