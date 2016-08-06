@@ -13,7 +13,7 @@ class Article < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :visible, -> { where(hidden: false) }
-  scope :previous_of_article, ->(article) { where('created_at < ?', article.created_at) if article.present? }
+  scope :previous_of_article, ->(article) { where('articles.created_at < ?', article.created_at) if article.present? }
 
   def specific_origin
     self
@@ -36,12 +36,21 @@ class Article < ActiveRecord::Base
 
   def has_image?
     return false if self.hidden?
-    source.attributes["image"].present?
+    source.attributes["image"].present? or source.try(:image?)
+  end
+
+  def has_source_url?
+    link_source? or (file_source? and has_image?)
+  end
+
+  def source_url
+    nil unless has_source_url?
+    source.try(:url) || source.try(:attachment).try(:url)
   end
 
   def image
-    return LinkSource.new.image if self.hidden?
-    source.try(:image)
+    return LinkSource.new.image if self.hidden? or !has_image?
+    source.try(:image) or source.try(:attachment)
   end
 
   def image_height

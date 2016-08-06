@@ -17,7 +17,7 @@
             원글보기
             %i.fa.fa-external-link
     - if article.file_source?
-      %a{href: download_file_source_path(article.source), target: '_blank'}
+      %a{href: (article.has_source_url? ? article.source_url : download_file_source_path(article.source)), target: ('_blank' if article.has_image?)}
         .article-line__content
           - if local_assigns[:show_issue]
             .article-line__issue.post-line__issue
@@ -28,11 +28,12 @@
                 &middot;
                 #{Article.model_name.human}
           %h4.article-line__title.post-line__title= screenable_article_title(article)
-          %a{href: download_file_source_path(article.source), target: '_blank'}
-            .article-line__site-name
+          .article-line__site-name
+            %a{href: download_file_source_path(article.source)}
               %i.fa.fa-floppy-o
               다운로드
-
+        - if (article.has_image?)
+          %a.article-line__thumb{href: article.source.attachment.url, target: '_blank', style: "background-image: url(#{article.image.md.url})"}
     - else
       %a{href: article.source.url, target: '_blank'}
         .article-line__content

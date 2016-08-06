@@ -28,7 +28,7 @@
   .article-card[post]{ class: card_class, data: modal_data }
     - capture_thumb = capture do
       .thumb{ style: "background-image: url(#{article_card_image(article)})" }
-    = link_to_if article.link_source?, capture_thumb, article.source.try(:url), target: '_blank'
+    = link_to_if article.has_source_url?, capture_thumb, article.source_url, target: '_blank'
     - if local_assigns[:show_issue]
       .thumb.thumb--issue{ style: "background-image: url(#{article.issue.logo.sm.url})" }
     .caption

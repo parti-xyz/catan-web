@@ -2,6 +2,7 @@
 
 class FileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
+  include CarrierWave::MimeTypes
 
   def self.env_storage
     if Rails.env.production?
@@ -39,6 +40,21 @@ class FileUploader < CarrierWave::Uploader::Base
   # version :thumb do
   #   process :resize_to_fit => [50, 50]
   # end
+  version :xs, if: :image?  do
+    process resize_to_fit: [80, nil]
+  end
+
+  version :sm, if: :image? do
+    process resize_to_fit: [200, nil ]
+  end
+
+  version :md, if: :image? do
+    process resize_to_fit: [400, nil]
+  end
+
+  version :lg, if: :image? do
+    process resize_to_fit: [700, nil]
+  end
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
@@ -67,6 +83,10 @@ class FileUploader < CarrierWave::Uploader::Base
   end
 
   protected
+
+  def image?(new_file)
+    new_file.content_type.start_with? 'image'
+  end
 
   def secure_token(length=16)
     var = :"@#{mounted_as}_secure_token"
