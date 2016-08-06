@@ -30,7 +30,11 @@
       .thumb{ style: "background-image: url(#{article_card_image(article)})" }
     = link_to_if article.has_source_url?, capture_thumb, article.source_url, target: '_blank'
     - if local_assigns[:show_issue]
-      .thumb.thumb--issue{ style: "background-image: url(#{article.issue.logo.sm.url})" }
+      .article-card__group-and-issue
+        - if current_group != post.issue.group
+          .article-card__group
+            = post.issue.group.name
+        .thumb.thumb--issue{ style: "background-image: url(#{article.issue.logo.sm.url})" }
     .caption
       - capture_source = capture do
         .date= date_f article.created_at

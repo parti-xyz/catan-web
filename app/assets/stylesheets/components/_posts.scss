@@ -35,7 +35,7 @@ section#posts {
   margin-bottom: 10px;
   padding: 15px;
   border: 1px solid #fff;
-  border-radius: 4px;
+  border-radius: $border-radius-base;
   &__header {
     .issue-group {
       color: $gray-light;
@@ -160,7 +160,7 @@ section#posts {
         text-align: center;
       }
       @media (min-width: $screen-sm-min) {
-        border-radius: 4px;
+        border-radius: $border-radius-base;
       }
       @media (max-width: $screen-xs-max) {
         padding: 15px;
@@ -192,7 +192,7 @@ section#posts {
     font-weight: bold;
     margin-bottom: 10px;
     img {
-      border-radius: 4px;
+      border-radius: $border-radius-base;
       width: 20px;
       height: 20px;
     }

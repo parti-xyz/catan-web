@@ -7,6 +7,9 @@
     .col-sm-6.col-xs-12
       .opinion-card__issue
         = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+          - if current_group != post.issue.group
+            .opinion-card__group
+              = post.issue.group.name
           .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
     .col-sm-6.col-xs-12
       .opinion-card__date.date-wrapper.opinion-card__date--with-issue

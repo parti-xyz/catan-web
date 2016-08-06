@@ -15,15 +15,23 @@ section#notes {
   -moz-box-shadow: 2px 2px 2px 0px $gray-lighter;
   box-shadow: 2px 2px 2px 0px $gray-lighter;
 
-  .note-media-left--issue {
-    padding-right: 38px;
-    display: inline;
+  &__issue {
     .thumb--issue {
-      border-radius: 4px;
+      border-radius: $border-radius-base;
       width: 30px;
       height: 30px;
-      display: inline;
-      position: absolute;
+      display: inline-block;
+    }
+    .note-card__group {
+      background-color: rgba(150,111,214,0.9);
+      color: #fff;
+      border-radius: $border-radius-base;
+      border: 2px solid rgb(150,111,214);
+      padding: 3px;
+      height: 30px;
+      vertical-align: top;
+      line-height: 20px;
+      display: inline-block;
     }
   }
 
@@ -32,36 +40,47 @@ section#notes {
     margin: 20px 0;
   }
 
-  &__user {
-    display: inline;
-  }
 
-  &__meta {
-    padding-top: 10px;
-
-    .note-comment-wrapper {
-      display: inline;
-      color: $gray;
-
-      &:hover {
-        color: $gray;
-      }
-    }
-
-    .date-wrapper {
-      color: $gray;
-      font-size: $font-size-base;
-      text-align: left;
-    }
-
-    .comment-count {
+  &__header {
+    line-height: 30px;
+    .col-xs-6:not(:first-child) {
       text-align: right;
     }
+    &__user {
+      .user-byline .user-image {
+        width: 20px;
+        height: 20px;
+      }
+    }
   }
 
-  &.note-card-1 { background-color: lighten($brand-info, 10%); }
-  &.note-card-2 { background-color: $brand-primary-light; }
-  &.note-card-3 { background-color: lighten($brand-danger, 15%); }
+  &__footer {
+    line-height: 30px;
+    .date-wrapper {
+      text-align: left;
+      color: $gray;
+      font-size: $font-size-base;
+    }
+    &__counts {
+      text-align: right;
+      .comments-count,
+      .upvotes-count {
+        a {
+          color: $gray;
+          &:hover {
+            color: $gray-dark
+          }
+        }
+      }
+      .comments-count {
+        margin-left: 6px;
+      }
+    }
+  }
+
+  &.note-card-0 { background-color: lighten($brand-info, 10%); }
+  &.note-card-1 { background-color: $brand-primary-light; }
+  &.note-card-2 { background-color: lighten($brand-danger, 15%); }
 }
 
 .note-form {

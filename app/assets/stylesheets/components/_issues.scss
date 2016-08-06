@@ -316,7 +316,7 @@ section#issues {
       padding: 5px;
       display: inline-block;
       margin: 10px;
-      border-radius: 4px;
+      border-radius: $border-radius-base;
       border: 2px solid rgb(150,111,214);
     }
     .issue-card__thumb {
@@ -512,7 +512,7 @@ section#issues {
       .thumb {
         width: 73px;
         height: 73px;
-        border-radius: 4px;
+        border-radius: $border-radius-base;
         margin: 0 auto;
       }
     }

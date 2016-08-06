@@ -1,28 +1,39 @@
 - post = note.acting_as
 
 .col-sm-4.col-xs-12.card
-  .note-card[note]{ class: "note-card-#{rand(10)}" }
-
-    - if local_assigns[:show_issue]
-      .media-left.note-media-left--issue
-        = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
-          .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
-    .note-card__user
-      = byline note.user
+  .note-card[note]{ class: "note-card-#{note.created_at.to_i%3}" }
+    .note-card__header
+      .row
+        - if local_assigns[:show_issue]
+          .col-xs-6
+            .note-card__issue
+              = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
+                - if current_group != post.issue.group
+                  .note-card__group
+                    = post.issue.group.name
+                .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
+        .col-xs-6
+          .note-card__header__user
+            = byline note.user
     .note-card__body
       = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
         = smart_format(note.body)
-    .note-card__meta
+    .note-card__footer
       .row
         .col-xs-6
           = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
             .date-wrapper
               = date_f post.created_at
         .col-xs-6
-          - if note.comments.any?
-            .comment-count
-              = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
-                .note-comment-wrapper
+          .note-card__footer__counts
+            - if note.upvotes.any?
+              %span.upvotes-count
+                = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
+                  %i.fa.fa-heart-o
+                  %b #{post.upvotes_count}
+            - if note.comments.any?
+              %span.comments-count
+                = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: note_path(note) } do
                   %i.fa.fa-comment-o
                   %b #{post.comments_count}
 

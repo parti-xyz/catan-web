@@ -71,7 +71,7 @@ section#key-visuals {
         padding: 5px 15px;
         margin-top: 60px;
         margin-bottom: 50px;
-        border-radius: 4px;
+        border-radius: $border-radius-base;
         background-color: $brand-primary;
         color: #fff;
         font-size: $font-size-base;
@@ -205,7 +205,7 @@ section#key-visuals {
     &__label {
       display: inline-block;
       padding: 5px 15px;
-      border-radius: 4px;
+      border-radius: $border-radius-base;
       background-color: $brand-primary;
       color: #fff;
       font-size: $font-size-small;

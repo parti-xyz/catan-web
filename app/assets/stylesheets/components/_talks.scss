@@ -12,7 +12,7 @@ section#talks {
   background-color: #fff;
 
   border: 1px solid #fff;
-  border-radius: 4px;
+  border-radius: $border-radius-base;
   padding: 10px 20px;
   margin-bottom: 1px;
 
@@ -20,11 +20,35 @@ section#talks {
     vertical-align: middle;
   }
 
+  .talk-media {
+    overflow: visible;
+  }
   .talk-media-left--issue {
-    padding-right: 20px;
+    padding-left: 7px;
+    padding-right: 14px;
+    position: relative;
     .thumb--issue {
       width: 20px;
       height: 20px;
+      display: block;
+    }
+    .talk--group {
+      background-color: rgba(150, 111, 214, 0.9);
+      color: #fff;
+      border-radius: $border-radius-base;
+      border: 2px solid #966fd6;
+      padding: 1px;
+      font-size: 10px;
+      width: 20px;
+      height: 20px;
+      display: block;
+      text-align: center;
+      position: absolute;
+      top: 0;
+      left: -16px;
+      @media (max-width: $screen-xs-max) {
+        left: -20px;
+      }
     }
   }
   .comment-media--issue {
@@ -39,7 +63,7 @@ section#talks {
     margin: 0;
   }
   .thumb--issue {
-    border-radius: 4px;
+    border-radius: $border-radius-base;
     width: 33px;
     height: 33px;
   }

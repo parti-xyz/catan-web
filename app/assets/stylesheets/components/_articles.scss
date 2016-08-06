@@ -16,7 +16,7 @@ section#articles {
   @include hover-shadow();
 
   background-color: #fff;
-  border-radius: 4px;
+  border-radius: $border-radius-base;
   overflow: hidden;
   position: relative;
   cursor: pointer;
@@ -24,13 +24,28 @@ section#articles {
   border: 1px solid #f1f1f1;
   .thumb {
     height: 150px;
-    &--issue {
-      border-radius: 4px;
-      width: 33px;
-      max-height: 33px;
-      position: absolute;
-      top: 20px;
-      left: 20px;
+  }
+  &__group-and-issue {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    .thumb--issue {
+      border-radius: $border-radius-base;
+      width: 30px;
+      height: 30px;
+      box-shadow: 0 1px 15px rgba(0, 0, 0, 3);
+      display: inline-block;
+    }
+    .article-card__group {
+      background-color: rgba(150,111,214,0.9);
+      color: #fff;
+      border-radius: $border-radius-base;
+      border: 2px solid rgb(150,111,214);
+      padding: 3px;
+      height: 30px;
+      vertical-align: top;
+      line-height: 20px;
+      display: inline-block;
       box-shadow: 0 1px 15px rgba(0, 0, 0, 3);
     }
   }
@@ -127,7 +142,7 @@ section#articles {
       content: '';
     }
     &--issue {
-      border-radius: 4px;
+      border-radius: $border-radius-base;
       width: 33px;
       max-height: 33px;
       position: absolute;

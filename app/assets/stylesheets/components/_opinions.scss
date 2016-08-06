@@ -47,10 +47,25 @@ section#opinions {
       text-decoration: underline;
     }
   }
+  &__issue {
+    text-align: left;
+  }
   .thumb--issue {
-    border-radius: 4px;
-    max-width: 33px;
-    height: 33px;
+    border-radius: $border-radius-base;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+  }
+  &__group {
+    background-color: rgba(150,111,214,0.9);
+    color: #fff;
+    border-radius: $border-radius-base;
+    border: 2px solid rgb(150,111,214);
+    padding: 3px;
+    height: 30px;
+    vertical-align: top;
+    line-height: 20px;
+    display: inline-block;
   }
   &__date--with-issue {
     line-height: 35px;
