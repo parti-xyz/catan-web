@@ -45,7 +45,7 @@
                     = image_tag 'telegram_icon.png'
                     대화방 열기
           .col-sm-3.text-right.hidden-xs
-            - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | 빠띠" }
+            - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:share_site_title) || '빠띠'}" }
             - map = { facebook: data }
             - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
             = render 'application/share', map: map

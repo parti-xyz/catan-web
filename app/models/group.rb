@@ -16,6 +16,10 @@ class Group
     categories.detect { |c| c.slug == slug }
   end
 
+  def share_site_title
+    "#{name} 빠띠"
+  end
+
   def self.all
     [Group::GWANGJU]
   end

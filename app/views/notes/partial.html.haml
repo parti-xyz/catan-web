@@ -1,17 +1,1 @@
-/ .post-modal__top
-/   .post-modal__info
-/     = link_to issue_home_path_or_url(@note.issue) do
-/       = image_tag @note.issue.logo.xs.url, class: 'img-circle'
-/       %span.text-primary= @note.issue.title
-/   %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
-/     = image_tag 'icon_close.png'
-/ .post-modal__content
-/   .post__body.note__body
-/     .note__body__text-container
-/       .profile= byline @note.user
-/       %p= smart_format(@note.body)
-/   = render 'posts/post_header', post: @note.acting_as
-
-/ .post-modal__comment
-/   = render 'comments/comments_in_post_modal', postable: @note, style: :note
 = render @note.acting_as, in_modal: true

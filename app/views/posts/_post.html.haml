@@ -49,7 +49,7 @@
           - (local_assigns[:in_modal] ? post.comments : post.latest_comments).each do |comment|
             = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')
   - share_partial = capture do
-    - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific), 'share-text': "#{post.specific_desc} | 빠띠" }
+    - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc} | #{post.issue.group.try(:share_site_title) || "빠띠"}" }
     - map = { facebook: data }
     - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
     = render 'application/share', map: map
