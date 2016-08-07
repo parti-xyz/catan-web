@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160806035339) do
+ActiveRecord::Schema.define(version: 20160807161044) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -140,8 +140,8 @@ ActiveRecord::Schema.define(version: 20160806035339) do
     t.datetime "deleted_at"
     t.string   "active",          limit: 255,      default: "on"
     t.boolean  "basic",                            default: false
-    t.string   "telegram_link",   limit: 255
     t.string   "group_slug",      limit: 255
+    t.string   "telegram_link",   limit: 255
     t.datetime "last_touched_at"
     t.string   "category_slug",   limit: 255
   end
@@ -368,8 +368,10 @@ ActiveRecord::Schema.define(version: 20160806035339) do
     t.datetime "updated_at",                 null: false
     t.integer  "upvotable_id",   limit: 4,   null: false
     t.string   "upvotable_type", limit: 255, null: false
+    t.integer  "issue_id",       limit: 4
   end
 
+  add_index "upvotes", ["issue_id"], name: "index_upvotes_on_issue_id", using: :btree
   add_index "upvotes", ["user_id", "upvotable_id", "upvotable_type"], name: "index_upvotes_on_user_id_and_upvotable_id_and_upvotable_type", unique: true, using: :btree
   add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id", using: :btree
 

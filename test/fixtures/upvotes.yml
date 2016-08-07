@@ -1,7 +1,9 @@
 upvote1:
   user: two
   upvotable: comment1 (Comment)
+  issue: issue1
 
 upvote2:
   user: one
   upvotable: comment2 (Comment)
+  issue: issue2

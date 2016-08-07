@@ -2,6 +2,8 @@ require 'test_helper'
 
 class UpvoteTest < ActionDispatch::IntegrationTest
   test '댓글을 업보트해요' do
+    assert_equal 1, Upvote.by_issue(issues(:issue1)).count
+
     refute comments(:comment1).upvoted_by?(users(:one))
     sign_in(users(:one))
 
@@ -10,6 +12,8 @@ class UpvoteTest < ActionDispatch::IntegrationTest
     assert assigns(:upvote).persisted?
     assert_equal users(:one), assigns(:upvote).user
     assert comments(:comment1).upvoted_by? users(:one)
+
+    assert_equal 2, Upvote.by_issue(issues(:issue1)).count
   end
 
   test '업보트를 취소해요' do
