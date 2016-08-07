@@ -39,13 +39,8 @@ class Article < ActiveRecord::Base
     source.attributes["image"].present? or source.try(:image?)
   end
 
-  def has_source_url?
-    link_source? or (file_source? and has_image?)
-  end
-
   def source_url
-    nil unless has_source_url?
-    source.try(:url) || source.try(:attachment).try(:url)
+    source.try(:url)
   end
 
   def image

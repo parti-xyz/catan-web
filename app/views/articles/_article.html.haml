@@ -4,22 +4,22 @@
 - mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
 - mention_data = mention_options_data.merge(modal_data)
 
-- if post.comments_count >= 20
+- if post.comments_count >= 10
   - template_by_post = 'best'
-- elsif post.comments_count >= 10
+- elsif post.comments_count >= 5
   - template_by_post = 'popular'
 - else
   - template_by_post = 'default'
 
 - template ||= (local_assigns[:template] || template_by_post)
 - if template == 'best'
-  - wrapper_class = 'col-xs-12 col-sm-6'
+  - wrapper_class = 'col-xs-12 col-sm-4'
   - card_class = template
 - elsif template == 'popular'
-  - wrapper_class = 'col-xs-6 col-sm-3'
+  - wrapper_class = 'col-xs-12 col-sm-4'
   - card_class = template
 - else
-  - wrapper_class = 'col-xs-6 col-sm-3'
+  - wrapper_class = 'col-xs-12 col-sm-4'
   - card_class = 'default'
 
 - wrapper_class = (local_assigns[:wrapper_class] || wrapper_class)
@@ -27,8 +27,8 @@
 .card{ class: wrapper_class }
   .article-card[post]{ class: card_class, data: modal_data }
     - capture_thumb = capture do
-      .thumb{ style: "background-image: url(#{article_card_image(article)})" }
-    = link_to_if article.has_source_url?, capture_thumb, article.source_url, target: '_blank'
+      .thumb.thumb--article{ style: "background-image: url(#{article_card_image(article)})" }
+    = link_to_if (card_class == 'default'), capture_thumb, article.source_url, target: '_blank'
     - if local_assigns[:show_issue]
       .article-card__group-and-issue
         - if current_group != post.issue.group
@@ -42,16 +42,28 @@
         %h4.title{ class: ('title--file-source' if article.file_source?) }
           - if article.file_source?
             %i.fa.fa-floppy-o
-          = screenable_article_title(article, length: (article.file_source? ? 50: 23))
+          = screenable_article_title(article, length: 100)
 
         .source-body
-          %p= excerpt(article.source_body, length: 60)
-      = link_to_if article.link_source?, capture_source, article.source.try(:url), target: '_blank', class: 'link-source'
+          %p
+            = excerpt(article.source_body, length: 55)
+            .source-url
+              - if article.link_source?
+                원글보기
+                %i.fa.fa-external-link
+              - if article.file_source?
+                - if article.source.image?
+                  그림보기
+                  %i.fa.fa-external-link
+                - else
+                  다운로드
+                  %i.fa.fa-floppy-o
+      = link_to_if (article.link_source? and card_class == 'default'), capture_source, article.source.try(:url), target: '_blank', class: 'link-source'
       .body
         %p
           - max_length = 215
           = excerpt(article.body, length: max_length)
-          - if article.body.try(:length) > max_length
+          - if (article.body.try(:length) || 0) > max_length
             %span.body-more
               더보기
               %i.fa.fa-angle-double-right
@@ -66,13 +78,10 @@
       .more
         - if post.comments_count > 0
           %span.comments-count
-            %sapn.hidden-xs
+            %sapn
               %i.fa.fa-comment-o
               %b> #{post.comments_count}개
               의 수다
-            %sapn.visible-xs-inline
-              %i.fa.fa-comment-o<>
-              #{post.comments_count}
           &nbsp;|&nbsp;
           %span.link-to-more 더보기...
         - else
@@ -86,3 +95,5 @@
             %span.link-to-login{data: { toggle: 'parti-login-overlay', label: '수다작성' }}
               %i.fa.fa-commenting-o
               수다작성
+          &nbsp;|&nbsp;
+          %span.link-to-more 자세히...

@@ -13,6 +13,10 @@ class FileSource < ActiveRecord::Base
     attachment.content_type.start_with? 'image'
   end
 
+  def url
+    image? ? attachment.url : Rails.application.routes.url_helpers.download_file_source_path(self)
+  end
+
   private
 
   def update_type

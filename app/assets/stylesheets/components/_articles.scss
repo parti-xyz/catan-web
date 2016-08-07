@@ -68,14 +68,12 @@ section#articles {
       padding-left: 14px;
       padding-right: 14px;
     }
-    .date {
+    .date,
+    .source-url {
       color: $gray-light;
-      font-size: $font-size-small;
     }
     .title {
       color: $gray-base;
-      font-size: $font-size-large;
-      font-weight: bold;
       margin-top: 5px;
       &--file-source {
         word-break: break-all;
@@ -117,8 +115,6 @@ section#articles {
           color: $brand-primary-dark;
         }
       }
-      border-top: 1px solid $gray-lighter;
-      padding-top: 14px;
       .fa {
         padding-right: 5px;
       }
@@ -127,52 +123,36 @@ section#articles {
 }
 
 .article-card.best, .article-card.popular {
-  .thumb {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
+  .thumb--article {
+    height: 400px;
     &::after {
       position: absolute;
       top: 0;
       bottom: 0;
       left: 0;
       right: 0;
-      background-color: rgba(0, 0, 0, .6);
+      background-color: rgba(0, 0, 0, .5);
       content: '';
-    }
-    &--issue {
-      border-radius: $border-radius-base;
-      width: 33px;
-      max-height: 33px;
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      &::after {
-        background: none;
-      }
     }
   }
   .caption {
     position: absolute;
     bottom: 0;
-    padding-bottom: 70px;
-    width: 100%;
-    .date {
-      color: #fff;
-    }
-    .title {
-      color: #fff;
-      font-size: $font-size-h3;
+    .date,
+    .title,
+    .more,
+    .more .comments-count,
+    .more .link-to-more,
+    .more .link-to-modal,
+    .more .link-to-login {
+      color: #fff !important;
       &:hover {
-        color: $brand-primary;
+        color: #fff;
       }
     }
+    .source-body,
     .body {
       display: none;
-    }
-    .more {
-      color: #fff;
     }
   }
 }
