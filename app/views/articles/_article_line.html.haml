@@ -6,7 +6,7 @@
 - mention_data = local_assigns[:in_modal] ? mention_options_data.merge(action: 'parti-mention') : mention_options_data.merge(modal_data)
 - article_line = capture do
   .article-line.post-line[post]{data: modal_data}
-    - if video?(article)
+    - if article.video_source?
       .article-line__content.article-line__content--video
         .article-line__video-container
           .article-line__video-content
@@ -16,7 +16,7 @@
             = article.site_name.try(:upcase)
             원글보기
             %i.fa.fa-external-link
-    - if article.file_source?
+    - elsif article.file_source?
       %a{href: article.source_url, target: '_blank'}
         .article-line__content
           - if local_assigns[:show_issue]

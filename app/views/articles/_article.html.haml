@@ -42,6 +42,8 @@
         %h4.title{ class: ('title--file-source' if article.file_source?) }
           - if article.file_source?
             %i.fa.fa-floppy-o
+          - if article.video_source?
+            %i.fa.fa-play-circle
           = screenable_article_title(article, length: 100)
 
         .source-body

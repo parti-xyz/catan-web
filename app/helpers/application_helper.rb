@@ -71,14 +71,8 @@ module ApplicationHelper
     article.has_image? ? article.image.md.url : asset_path('default_link_source_image_card.png')
   end
 
-  def video?(article)
-    source = article.source
-
-    source.present? and VideoInfo.usable?(source.try(:url) || '')
-  end
-
   def video_embed_code(article)
-    return unless video?(article)
+    return unless article.video_source?
 
     source = article.source
     raw(VideoInfo.new(source.url).embed_code({iframe_attributes: { class: 'article__body__video-content'}}))

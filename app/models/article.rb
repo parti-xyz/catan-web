@@ -21,7 +21,7 @@ class Article < ActiveRecord::Base
 
   def title
     return '' if self.hidden?
-    source.try(:title) || source.try(:url) || source.try(:name)
+    source.try(:title) || source.try(:url)
   end
 
   def source_body
@@ -64,6 +64,11 @@ class Article < ActiveRecord::Base
 
   def link_source?
     source.is_a? LinkSource
+  end
+
+  def video_source?
+    return false unless link_source?
+    VideoInfo.usable?(source.try(:url) || '')
   end
 
   def build_source(params)

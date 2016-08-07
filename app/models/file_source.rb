@@ -9,6 +9,10 @@ class FileSource < ActiveRecord::Base
     self
   end
 
+  def title
+    name
+  end
+
   def image?
     attachment.content_type.start_with? 'image'
   end
