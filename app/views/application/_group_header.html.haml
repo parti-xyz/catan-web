@@ -13,9 +13,7 @@
         %ul.nav.navbar-nav
           %li
             = link_to root_path, class: "#{'active' if current_page?('/')}" do
-              민주주의 플랫폼
-              &middot;
-              #{current_group.name} 빠띠
+              #{current_group.head_title}
           %li.menu-divider
           %li= link_to '모든 빠띠', home_path
           - current_group.categories.each do |category|

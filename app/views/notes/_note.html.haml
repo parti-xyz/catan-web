@@ -8,7 +8,7 @@
           .col-xs-6
             .note-card__issue
               = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
-                - if current_group != post.issue.group
+                - if post.issue.in_group? and current_group != post.issue.group
                   .note-card__group
                     = post.issue.group.name
                 .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
