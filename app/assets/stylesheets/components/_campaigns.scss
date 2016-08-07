@@ -17,7 +17,6 @@ body.app-campaigns-slug_show {
 
 #campaign-header-section {
   position: relative;
-  background: rgba(0,0,0,0.5);
   overflow: hidden;
   min-height: 760px;
   &:before {
@@ -66,17 +65,21 @@ body.app-campaigns-slug_show {
 }
 
 .campaign-issues {
-  padding-top: 60px;
+  padding: 60px 0;
   text-align: center;
 
   .campaign-issues-list {
     position: relative;
     display: inline-block;
-    width: 600px;
+    .col-sm-3.col-xs-6 {
+      padding-left: 7.5px;
+      padding-right: 7.5px;
+    }
     .issue-card-wrapper {
       padding: 0;
 
       .issue-card {
+        margin: 7.5px 0;
         border: 2px solid #fff;
         &:hover {
           border: 2px solid $brand-primary;
@@ -101,11 +104,7 @@ body.app-campaigns-slug_show {
 
 .campaign-section-title {
   color: $gray-darker;
-  text-align: center;
-  border-bottom: 1px solid #d2d2d2;
-  padding-bottom: 15px;
   margin-top: 30px;
-  margin-bottom: 20px;
 }
 
 .campaign-best-articles {
@@ -133,10 +132,6 @@ body.app-campaigns-slug_show {
     padding-left: 7.5px;
     padding-right: 7.5px;
   }
-}
-
-#campaign-talks {
-  background-color: $gray-light;
 }
 
 #campaign-footer {
