@@ -15,70 +15,82 @@ section#talks {
   border-radius: $border-radius-base;
   padding: 10px 20px;
   margin-bottom: 1px;
+  cursor: pointer;
 
-  .media-body, .media-right, .media-left {
+  &__body-wrapper,
+  &__footer-wrapper, {
+    display: inline-block;
+  }
+
+  &__body,
+  &__footer {
+    display: table;
+    width: 100%;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    &__footer {
+      margin-top: 14px;
+    }
+  }
+
+  &__column {
+    display: table-cell;
     vertical-align: middle;
+    text-align: center;
   }
 
-  .talk-media {
-    overflow: visible;
+  &__no {
+    width: 8%;
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
   }
-  .talk-media-left--issue {
-    padding-left: 7px;
-    padding-right: 14px;
-    position: relative;
+
+  &__issue {
+    width: 12%;
+    @media (max-width: $screen-xs-max) {
+      width: 20%;
+    }
+    text-align: center;
     .thumb--issue {
       width: 20px;
       height: 20px;
-      display: block;
+      display: inline-block;
+      vertical-align: middle;
     }
-    .talk--group {
+    .talk-card__group {
       background-color: rgba(150, 111, 214, 0.9);
       color: #fff;
       border-radius: $border-radius-base;
       border: 2px solid #966fd6;
       padding: 1px;
       font-size: 10px;
-      width: 20px;
       height: 20px;
-      display: block;
-      text-align: center;
-      position: absolute;
-      top: 0;
-      left: -16px;
-      @media (max-width: $screen-xs-max) {
-        left: -20px;
-      }
+      display: inline-block;
+      margin-right: 2px;
+      overflow: hidden;
+      vertical-align: middle;
     }
   }
-  .comment-media--issue {
-    margin-left: 0px;
+
+  &__title {
+    text-align: left;
   }
-  .date {
-    color: $gray-light;
-    font-size: $font-size-small;
-    white-space: nowrap;
-  }
-  .media-heading.title {
-    margin: 0;
-  }
-  .thumb--issue {
-    border-radius: $border-radius-base;
-    width: 33px;
-    height: 33px;
-  }
+
   .comment-count {
     color: $text-muted;
     font-size: $font-size-small;
     white-space: nowrap;
+    display: inline-block;
     .fa {
       margin-right: 4px;
       font-size: $font-size-base;
     }
   }
-  .comment-users {
+  &__comment-users {
+    width: 70%;
     text-align: right;
-    white-space: nowrap;
     .user-byline {
       line-height: 20px;
       .user-image {
@@ -87,38 +99,11 @@ section#talks {
       }
     }
   }
-  .comment-media {
-    border-top: 1px solid $gray-lighter;
-    margin-top: 15px;
-    padding-top: 15px;
-    .media-left {
-      white-space: nowrap;
-      a img {
-        width: 20px;
-        height: 20px;
-      }
-    }
-    h5.media-heading {
-      margin-top: 5px;
-      color: $text-muted;
-      line-height: $line-height-computed;
-      font-weight: 200;
-    }
-    .media-right {
-      text-align: right;
-    }
-  }
-  .comment-info {
-    i.icon-best {
-      font-size: 22px;
-      margin-top: -7px;
-      display: inline-block;
-      color: $brand-danger;
-    }
-  }
 
-  .talk-card__best-comment {
-    display: none;
+  .date {
+    color: $gray-light;
+    font-size: $font-size-small;
+    white-space: nowrap;
   }
 }
 
@@ -184,45 +169,45 @@ section#talks {
 @media (max-width: $screen-xs-max) {
   .talk-card {
     padding: 10px;
-    .media-left {
-      padding-right: 5px;
-    }
-    .talk-media {
-      h4.media-heading.title {
-        margin-bottom: 0;
-        padding-top: 8px;
-      }
-      .media-body {
-        text-align: left;
-        vertical-align: middle;
-      }
-      .media-right {
-        display: block;
-        padding-left: 0;
-        padding-top: 6px;
-        .comment-count {
-          float: left;
-          line-height: 30px;
-          padding-left: 0px;
-          text-align: left;
-          font-size: 14px;
-        }
-        .comment-users {
-          float: right;
-        }
-      }
-    }
-    .comment-media {
-      padding-top: 10px;
-      margin-top: 10px;
-      .media-left {
-        padding-left: 10px;
-      }
-      .media-right {
-        display: block;
-        padding-left: 35px;
-        text-align: left;
-      }
-    }
+    // .media-left {
+    //   padding-right: 5px;
+    // }
+    // .talk-media {
+    //   h4.media-heading.title {
+    //     margin-bottom: 0;
+    //     padding-top: 8px;
+    //   }
+    //   .media-body {
+    //     text-align: left;
+    //     vertical-align: middle;
+    //   }
+    //   .media-right {
+    //     display: block;
+    //     padding-left: 0;
+    //     padding-top: 6px;
+    //     .comment-count {
+    //       float: left;
+    //       line-height: 30px;
+    //       padding-left: 0px;
+    //       text-align: left;
+    //       font-size: 14px;
+    //     }
+    //     .comment-users {
+    //       float: right;
+    //     }
+    //   }
+    // }
+    // .comment-media {
+    //   padding-top: 10px;
+    //   margin-top: 10px;
+    //   .media-left {
+    //     padding-left: 10px;
+    //   }
+    //   .media-right {
+    //     display: block;
+    //     padding-left: 35px;
+    //     text-align: left;
+    //   }
+    // }
   }
 }

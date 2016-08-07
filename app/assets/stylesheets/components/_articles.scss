@@ -23,7 +23,7 @@ section#articles {
   margin-bottom: 14px;
   border: 1px solid #f1f1f1;
   .thumb {
-    height: 150px;
+    height: 200px;
   }
   &__group-and-issue {
     position: absolute;
@@ -86,7 +86,7 @@ section#articles {
       font-weight: 200;
     }
     .body {
-      border-top: 1px solid $gray-lighter;
+      border-top: 2px solid $gray-lightest;
       padding-top: 14px;
       padding-bottom: 14px;
       color: $text-muted;
