@@ -19,6 +19,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
+    logger.fatal "Omniauth Fail : kind: #{OmniAuth::Utils.camelize(failed_strategy.try(:name))}, reason: #{failure_message}"
+    logger.fatal "Omniauth Env : #{request.env.inspect}"
     redirect_to root_path
   end
 
