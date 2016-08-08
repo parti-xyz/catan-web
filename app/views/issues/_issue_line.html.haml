@@ -1,8 +1,8 @@
 - issue ||= local_assigns[:issue_line]
 - return if issue.blank?
 %li.issue-line
-  = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
-    .media
+  .media
+    = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
       .media-left
         .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
       .media-body
@@ -13,11 +13,15 @@
           = issue.title
         %span.issue-line__meta
           - if issue.watches.latest.count > 0
-            %span.user-count
+            %span.users-count
               %i.fa.fa-user
               %b= issue.watches.latest.count
+          - if issue.posts.latest.count > 0
+            %span.posts-count
+              %i.fa.fa-file-text
+              %b= issue.posts.latest.count
           - if issue.comments.latest.count > 0
-            %span.comment-count
+            %span.comments-count
               %i.fa.fa-comment
               %b= issue.comments.latest.count
-        %span.after-block= local_assigns[:after_block]
+    .media-right.after-block= local_assigns[:after_block]
