@@ -18,9 +18,14 @@
                 %i.fa.fa-floppy-o
                 = t('labels.new_article_file_source_button')
           - else
-            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
-              %i.fa.fa-paperclip
-              = t('labels.new_article_button')
+            .btn-group
+              = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+                %i.fa.fa-link
+                = t('labels.new_article_link_source_button')
+              = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+                %i.fa.fa-floppy-o
+                = t('labels.new_article_file_source_button')
+
       - if user_signed_in?
         = render 'articles/new_form', issue: @issue
     - if @articles.empty?
