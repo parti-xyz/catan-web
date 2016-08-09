@@ -25,4 +25,4 @@
         - back_to = @opinion
       = link_to back_to, class: 'btn btn-default' do
         취소
-      = f.submit '저장', class: 'btn btn-primary btn-ghost'
+      = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }

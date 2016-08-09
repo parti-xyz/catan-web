@@ -83,7 +83,7 @@
             .thumb.img-circle.comment-form__img{style: "background-image: url(#{current_user.image.sm.url});"}
             .comment-form__area
               = f.text_area :body, class: 'form-control', placeholder: '수다를 입력하세요', data: { 'rule-required': true }
-            = f.submit '게시', class: 'btn btn-primary comment-form__btn'
+            = f.submit '게시', class: 'btn btn-primary comment-form__btn', data: { disable_with: "게시 중..." }
       - else
         .post-card-with-comments__footer--need-to-login
           %span.text-muted 가볍게 수다를 작성해 보세요.

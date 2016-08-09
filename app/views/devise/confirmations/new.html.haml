@@ -9,5 +9,5 @@
             .form-group
               = f.label :email
               = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control'
-            = f.submit "가입확인 메일을 재발송합니다", class: 'btn btn-danger'
+            = f.submit "가입확인 메일을 재발송합니다", class: 'btn btn-danger', data: { disable_with: "발송 중..." }
           = render "devise/shared/links"

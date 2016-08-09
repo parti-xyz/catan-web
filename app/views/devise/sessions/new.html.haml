@@ -39,7 +39,7 @@
                 = f.check_box :remember_me
                 = f.label :remember_me, class: 'remember_me'
             .form-group
-              = f.submit '로그인', class: 'btn btn-primary btn-block'
+              = f.submit '로그인', class: 'btn btn-primary btn-block', data: { disable_with: "로그인 중..." }
 
 
           = render "devise/shared/links"

@@ -17,7 +17,7 @@
           .comment-form__area
             = image_tag 'icon_tooltip_left2.png'
             = f.text_area :body, class: 'form-control'
-          = f.submit '게시', class: 'btn btn-primary comment-form__btn'
+          = f.submit '게시', class: 'btn btn-primary comment-form__btn', data: { disable_with: "게시 중..." }
   - else
     = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
       %i.fa.fa-comment-o

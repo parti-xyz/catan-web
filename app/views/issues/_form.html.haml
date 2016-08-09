@@ -74,6 +74,6 @@
         %p.help-block 빠띠메이커의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을비워 놓으면 빠띠메이커 목록이 수정되지 않고 현재 그대로 보존됩니다.
 
     .form-group
-      = f.submit '저장', class: 'btn btn-primary btn-lg'
+      = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
       = link_to (@issue.new_record? ? root_path : @issue), class: 'btn btn-default' do
         취소

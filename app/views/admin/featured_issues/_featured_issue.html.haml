@@ -61,7 +61,7 @@
                 = f.label :opinion_id
                 = f.text_field :opinion_id, class: 'form-control'
     .panel-footer
-      = f.submit '저장', class: 'btn btn-primary'
+      = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
       = f.submit '취소', type: :reset, class: 'btn btn-default'
       - if featured_issue.persisted?
         = link_to '삭제', [:admin, featured_issue], method: :delete, class: 'btn btn-primary btn-danger pull-right'

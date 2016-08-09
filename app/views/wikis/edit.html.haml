@@ -8,7 +8,7 @@
         빠띠의 위키를 수정합니다
     = form_for @wiki do |f|
       .form-submit.visible-xs-block
-        = f.submit "위키 저장", class: 'btn btn-sm btn-primary'
+        = f.submit "위키 저장", class: 'btn btn-sm btn-primary', data: { disable_with: "저장 중..." }
         = link_to '취소', issue_wikis_path(@wiki.issue)
       .form-group
         = f.text_area :body, class: 'form-control simplemde', rows: 40, cols: 120, data: {'parti-url': issue_wikis_path(@wiki.issue)}

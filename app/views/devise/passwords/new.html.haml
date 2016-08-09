@@ -12,5 +12,5 @@
         = devise_error_messages!
         .form-group
           = f.email_field :email, placeholder: '이메일을 입력하세요', autofocus: true, class: 'form-control'
-          = f.submit '보내기', class: 'btn btn-primary btn-block'
+          = f.submit '보내기', class: 'btn btn-primary btn-block', data: { disable_with: "전송 중..." }
       = render "devise/shared/links"

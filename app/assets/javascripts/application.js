@@ -409,6 +409,7 @@ var parti_prepare = function($base) {
   // form submit by clicking link
   $.parti_apply($base, '[data-action="parti-form-submit"]', function(elm) {
     $(elm).on('click', function(e) {
+      $('[data-action="parti-form-submit"]').attr('disabled', true);
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
       var $form = $($elm.data('form-target'));

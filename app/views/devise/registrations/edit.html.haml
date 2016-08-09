@@ -46,4 +46,4 @@
             %small.help-block - 보안을 위해 현재 비밀번호를 입력해 주세요
             = f.password_field :current_password, autocomplete: "off", class: 'form-control'
           %hr
-        = f.submit '저장', class: 'btn btn-primary btn-block'
+        = f.submit '저장', class: 'btn btn-primary btn-block', data: { disable_with: "저장 중..." }
