@@ -322,6 +322,9 @@ label.required:after {
       padding-top: 10px;
     }
     .navbar-nav-menu {
+      @media (max-width: $screen-xs-max) {
+        font-size: 10px;
+      }
       float: right;
       padding: 0;
       margin: 0;
