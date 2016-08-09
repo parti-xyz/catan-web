@@ -26,7 +26,7 @@ class Article < ActiveRecord::Base
 
   def source_body
     return '' if self.hidden?
-    source.try(:body) || (comments.first.body if comments.any?)
+    source.try(:body)
   end
 
   def site_name
@@ -75,19 +75,4 @@ class Article < ActiveRecord::Base
     self.source = self.source_type.constantize.new(params) if self.source_type.present?
   end
 
-  # def self.unify!(article)
-  #   post = article.acting_as
-  #   targets = post.issue.articles.where(source: article.source).order(created_at: :asc)
-  #   targets << article unless targets.include?(article)
-  #   targets.to_a.sort_by!{ |a| (a.created_at || DateTime.now) }
-  #   oldest = targets.first
-
-  #   targets.each do |target|
-  #     next if target == oldest or target.source.blank?
-  #     target.comments.update_all(post_id: oldest.acting_as.id)
-  #     target.destroy
-  #   end
-  #   Post.reset_counters(oldest.acting_as.id, :comments) if oldest.persisted?
-  #   return (oldest.present? ? oldest : article)
-  # end
 end
