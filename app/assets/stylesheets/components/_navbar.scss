@@ -150,7 +150,6 @@
   color: $gray-lightest;
   padding: 25px 0px;
   padding-bottom: 20px;
-  background-image: image_url('thumb_main_keyvisual.png');
   background-size: cover;
 
   .text-important {
@@ -170,10 +169,16 @@
     }
   }
 }
+#top-banner.all {
+  background-image: image_url('thumb_main_keyvisual.png');
+}
+#top-banner.gwangju {
+  background-image: image_url('groups/gwangju_thumb_main_keyvisual.png');
+}
 
 @media (max-width: $screen-xs-max) {
   #top-banner {
-    background-image: image_url('thumb_main_keyvisual.png');
+
     background-size: cover;
     background-position: center;
     font-size: 1em;
@@ -188,6 +193,12 @@
     .top-banner-btn {
       padding: 10px;
     }
+  }
+  #top-banner.all {
+    background-image: image_url('thumb_main_keyvisual.png');
+  }
+  #top-banner.gwangju {
+    background-image: image_url('groups/gwangju_thumb_main_keyvisual.png');
   }
 }
 
