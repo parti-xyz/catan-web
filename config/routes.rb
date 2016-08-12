@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root 'pages#index'
   get '/home', to: 'pages#home'
   get '/robots.:format', to: 'pages#robots'
+  get '/monitors', to: 'monitors#index'
 
   resources :users, except: :show do
     post 'toggle_root_page', on: :collection
