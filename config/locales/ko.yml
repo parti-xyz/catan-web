@@ -136,6 +136,8 @@ ko:
               confirmation: 새로 입력한 비밀번호가 서로 일치하지 않습니다.
             current_password:
               invalid: '%{attribute}가 일치하지 않습니다.'
+            email:
+              invalid: '올바르지 않습니다.'
         redactor2_rails/image:
           attributes:
             data:

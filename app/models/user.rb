@@ -88,6 +88,7 @@ class User < ActiveRecord::Base
     resource = super
     auth = session["devise.omniauth_data"]
     if auth.present?
+      auth["email"] = params['email'] if params['email'].present?
       resource.assign_attributes(auth)
       resource.password = Devise.friendly_token[0,20]
       resource.confirmed_at = DateTime.now
