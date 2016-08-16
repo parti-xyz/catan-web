@@ -372,9 +372,16 @@ section#issues {
           color: $brand-primary;
           font-weight: bold;
         }
+        @media (max-width: $screen-xs-max) {
+          padding: 0 2px;
+        }
       }
       .comment-count {
         margin: 0;
+      }
+
+      @media (max-width: $screen-xs-max) {
+        font-size: 10px;
       }
     }
     @media (max-width: $screen-xs-max) {
