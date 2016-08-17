@@ -639,11 +639,12 @@ var parti_prepare_post_modal = function($base) {
     });
   });
 
-  $.each($base.find('[data-action="parti-sort-parties"]'), function(i, elm) {
+  $.each($base.find('[data-action="parti-filter-parties"]'), function(i, elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {
       var search_input = $(this).data('search-input');
       var sort = $(this).data('search-sort');
+      var category = $(this).data('search-category');
       var $elm = $(this);
 
       $('.parties-all-loading').show();
@@ -653,7 +654,8 @@ var parti_prepare_post_modal = function($base) {
         type: "get",
         data:{
           keyword: $(search_input).val(),
-          sort: $elm.data('search-sort')
+          sort: sort,
+          category: category
         },
         complete: function(xhr) {
           $('.parties-all-loading').hide();

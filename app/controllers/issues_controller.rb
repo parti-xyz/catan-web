@@ -32,6 +32,8 @@ class IssuesController < ApplicationController
     else
       @issues = @issues.recent_touched
     end
+
+    @issues = @issues.categorized_with(params[:category]) if params[:category].present?
   end
 
   def show
