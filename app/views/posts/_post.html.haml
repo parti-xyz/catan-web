@@ -7,8 +7,7 @@
         - if local_assigns[:show_issue]
           .media-left
             = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
-              .issue-logo
-                = image_tag post.issue.logo.xs.url
+              .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
         .media-body
           - if local_assigns[:show_issue]
             = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do

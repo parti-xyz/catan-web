@@ -40,9 +40,11 @@ section#posts {
     .issue-group {
       color: $gray-light;
     }
-    .issue-logo img {
+    .issue-logo {
       width: 36px;
       height: 36px;
+      background-size: cover;
+      background-position: center;
       border-radius: $border-radius-base;
     }
     .issue-title {
