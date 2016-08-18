@@ -3,9 +3,8 @@ class LinkSource < ActiveRecord::Base
 
   has_many :articles, as: :source
 
-  validates :url, uniqueness: {case_sensitive: true}
+  validates :url, uniqueness: {case_sensitive: true}, format: {with:/\Ahttp/i, on: [:create, :update] }
   validates :crawling_status, presence: true
-  validates_format_of :url, with: /\A^http/i, on: [:create, :update]
   enumerize :crawling_status, in: [:not_yet, :completed], predicates: true, scope: true
   ## uploaders
   # mount
