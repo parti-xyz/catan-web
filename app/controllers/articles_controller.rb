@@ -10,7 +10,7 @@ class ArticlesController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
 
     @article.source = @article.source.unify
-    redirect_to issue_home_path(@issue) and return if @article.source.blank?
+    redirect_to issue_home_path_or_url(@issue) and return if @article.source.blank?
 
     @article.user ||= current_user
     if @article.save
@@ -26,7 +26,7 @@ class ArticlesController < ApplicationController
 
     @article.assign_attributes(update_params)
     @article.source = @article.source.unify
-    redirect_to issue_home_path(@issue) and return if @article.source.blank?
+    redirect_to issue_home_path_or_url(@issue) and return if @article.source.blank?
 
     if @article.save
       is_saved = true

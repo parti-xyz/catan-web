@@ -1,8 +1,8 @@
 class Watch < ActiveRecord::Base
   belongs_to :user
-  belongs_to :watchable, counter_cache: true, polymorphic: true
+  belongs_to :issue, counter_cache: true
 
   validates :user, presence: true
-  validates :watchable, presence: true
-  validates :user, uniqueness: {scope: [:watchable_id, :watchable_type]}
+  validates :issue, presence: true
+  validates :user, uniqueness: {scope: :issue}
 end

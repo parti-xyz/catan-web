@@ -9,17 +9,17 @@ class WatchesController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to watchable_home_path(@watch.watchable) }
+      format.html { redirect_to issue_home_path_or_url(@watch.issue) }
     end
   end
 
   def cancel
     @watch = @issue.watches.find_by user: current_user
-    @watch.destroy if (@watch.present? and !@watch.watchable.try(:made_by?, current_user))
+    @watch.destroy if (@watch.present? and !@watch.issue.try(:made_by?, current_user))
 
     respond_to do |format|
       format.js
-      format.html { redirect_to watchable_home_path(@watch.watchable) }
+      format.html { redirect_to issue_home_path_or_url(@watch.issue) }
     end
   end
 end

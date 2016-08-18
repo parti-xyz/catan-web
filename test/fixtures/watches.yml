@@ -1,18 +1,15 @@
 watch1:
   user: two
-  watchable: issue1 (Issue)
+  issue: issue1
 watch2:
   user: recipient
-  watchable: issue1 (Issue)
+  issue: issue1
 watch3:
   user: recipient
-  watchable: issue2 (Issue)
+  issue: issue2
 watch4:
   user: one
-  watchable: issue1 (Issue)
+  issue: issue1
 watch5:
   user: maker
-  watchable: issue1 (Issue)
-watch6:
-  user: two
-  watchable: campaign1 (Campaign)
+  issue: issue1

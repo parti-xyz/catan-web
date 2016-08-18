@@ -6,15 +6,15 @@ link1:
 link2:
   title: 'link2'
   body: 'link2 body'
-  url: 'article1 link'
+  url: 'http://article1.link'
   crawling_status: 'completed'
 link3:
   title: 'link3'
   body: 'link3 body'
-  url: 'article3 link'
+  url: 'http://article3.link'
   crawling_status: 'not_yet'
 link4:
   title: 'link4'
   body: 'link4 body'
-  url: 'article4 link'
+  url: 'http://article4.link'
   crawling_status: 'completed'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807161044) do
+ActiveRecord::Schema.define(version: 20160818115000) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -52,17 +52,16 @@ ActiveRecord::Schema.define(version: 20160807161044) do
   add_index "campaigned_issues", ["issue_id"], name: "index_campaigned_issues_on_issue_id", using: :btree
 
   create_table "campaigns", force: :cascade do |t|
-    t.integer  "user_id",       limit: 4,                    null: false
-    t.string   "title",         limit: 255,                  null: false
-    t.string   "slug",          limit: 255,                  null: false
-    t.text     "body",          limit: 65535
-    t.string   "logo",          limit: 255
-    t.string   "cover",         limit: 255
+    t.integer  "user_id",    limit: 4,                    null: false
+    t.string   "title",      limit: 255,                  null: false
+    t.string   "slug",       limit: 255,                  null: false
+    t.text     "body",       limit: 65535
+    t.string   "logo",       limit: 255
+    t.string   "cover",      limit: 255
     t.datetime "deleted_at"
-    t.string   "active",        limit: 255,   default: "on"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.integer  "watches_count", limit: 4
+    t.string   "active",     limit: 255,   default: "on"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   add_index "campaigns", ["slug", "active"], name: "index_campaigns_on_slug_and_active", unique: true, using: :btree
@@ -421,16 +420,15 @@ ActiveRecord::Schema.define(version: 20160807161044) do
   add_index "votes", ["user_id"], name: "index_votes_on_user_id", using: :btree
 
   create_table "watches", force: :cascade do |t|
-    t.integer  "user_id",        limit: 4,   null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "watchable_id",   limit: 4,   null: false
-    t.string   "watchable_type", limit: 255, null: false
+    t.integer  "user_id",    limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.integer  "issue_id",   limit: 4, null: false
   end
 
-  add_index "watches", ["user_id", "watchable_id", "watchable_type"], name: "index_watches_on_user_id_and_watchable_id_and_watchable_type", unique: true, using: :btree
+  add_index "watches", ["issue_id"], name: "index_watches_on_issue_id", using: :btree
+  add_index "watches", ["user_id", "issue_id"], name: "index_watches_on_user_id_and_issue_id", unique: true, using: :btree
   add_index "watches", ["user_id"], name: "index_watches_on_user_id", using: :btree
-  add_index "watches", ["watchable_type", "watchable_id"], name: "index_watches_on_watchable_type_and_watchable_id", using: :btree
 
   create_table "wiki_histories", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,     null: false

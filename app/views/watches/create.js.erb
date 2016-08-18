@@ -1,6 +1,6 @@
 <% if params[:partial] == 'intro' %>
   <% script = escape_javascript(render 'issues/card_in_intro', issue: @issue) %>
-  card_query = '.<%= dom_id(@watch.watchable) %>-card';
+  card_query = '.<%= dom_id(@watch.issue) %>-card';
   $(card_query).replaceWith(parti_origin_partial("<%= script %>"));
   parti_ellipsis($(card_query));
   <% unless current_user.need_to_more_watch?(current_group) %>
@@ -8,7 +8,7 @@
     $('#btn-continue').attr("href", "<% root_path %>");
   <% end %>
 <% else %>
-  $('.<%= dom_id(@watch.watchable) %>-watch').html(parti_origin_partial("<%= escape_javascript(render 'watches/watch', issue: @issue, hover_on: true) %>"));
+  $('.<%= dom_id(@watch.issue) %>-watch').html(parti_origin_partial("<%= escape_javascript(render 'watches/watch', issue: @issue, hover_on: true) %>"));
 <% end %>
 
 

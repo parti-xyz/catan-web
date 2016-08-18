@@ -13,7 +13,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'link' }, source_type: 'LinkSource' }
+      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
 
       assert assigns(:article).persisted?
       assigns(:article).reload
@@ -51,10 +51,10 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
   end
 
   test '고쳐요' do
-    stub_crawl 'link x' do
+    stub_crawl 'http://link.x' do
       sign_in(users(:one))
 
-      put article_path(articles(:article1)), article: { body: 'body', issue_id: issues(:issue2).id, source_attributes: { url: 'link x'}, source_type: 'LinkSource' }
+      put article_path(articles(:article1)), article: { body: 'body', issue_id: issues(:issue2).id, source_attributes: { url: 'http://link.x'}, source_type: 'LinkSource' }
 
       refute assigns(:article).errors.any?
       assigns(:article).reload
@@ -63,7 +63,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
       assert_equal issues(:issue2).title, assigns(:article).issue.title
-      assert_equal 'link x', assigns(:article).source.url
+      assert_equal 'http://link.x', assigns(:article).source.url
     end
   end
 

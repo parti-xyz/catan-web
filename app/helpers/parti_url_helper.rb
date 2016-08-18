@@ -1,8 +1,4 @@
 module PartiUrlHelper
-  def watchable_home_path(watchable)
-    self.send(:"slug_#{watchable.class.to_s.underscore}_path", watchable.slug)
-  end
-
   def campaign_home_path(campaign, options = {})
     options.update(slug: campaign.slug)
     slug_campaign_path(options)
@@ -59,13 +55,5 @@ module PartiUrlHelper
 
   def user_gallery_url(user)
     slug_user_url(slug: user.slug)
-  end
-
-  def cancel_watchable_watches_path(watchable, options = {})
-    self.send(:"cancel_#{watchable.class.to_s.underscore}_watches_path", watchable, options)
-  end
-
-  def watchable_watches_path(watchable, options = {})
-    self.send(:"#{watchable.class.to_s.underscore}_watches_path", watchable, options)
   end
 end

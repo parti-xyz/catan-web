@@ -1,5 +1,4 @@
 class Campaign < ActiveRecord::Base
-  include Watchable
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 

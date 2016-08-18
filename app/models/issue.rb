@@ -1,5 +1,4 @@
 class Issue < ActiveRecord::Base
-  include Watchable
   include UniqueSoftDeletable
   acts_as_unique_paranoid
   acts_as_taggable
@@ -22,6 +21,16 @@ class Issue < ActiveRecord::Base
   has_many :makers do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
+    end
+  end
+  has_many :watches, dependent: :destroy do
+    def latest
+      after(1.day.ago)
+    end
+  end
+  has_many :watched_users, through: :watches, source: :user do
+    def recent
+      order('watches.created_at desc')
     end
   end
 
@@ -61,6 +70,10 @@ class Issue < ActiveRecord::Base
   scoped_search on: [:title, :body]
 
   # methods
+  def watched_by? someone
+    watches.exists? user: someone
+  end
+
   def made_by? someone
     makers.exists? user: someone
   end

@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   has_many :upvotes
   has_many :votes
   has_many :watches
-  has_many :watched_issues, through: :watches, source: :watchable, source_type: Issue
+  has_many :watched_issues, through: :watches, source: :issue
   has_many :makers
   has_many :making_issues, through: :makers, source: :issue
 
@@ -203,7 +203,7 @@ class User < ActiveRecord::Base
 
   def watch_default_issues
     issue = Issue.find_by slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: nil
-    Watch.create(user: self, watchable: issue) if issue.present?
+    Watch.create(user: self, issue: issue) if issue.present?
   end
 
   def nickname_exclude_pattern
