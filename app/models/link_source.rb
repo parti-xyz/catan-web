@@ -5,11 +5,13 @@ class LinkSource < ActiveRecord::Base
 
   validates :url, uniqueness: {case_sensitive: true}
   validates :crawling_status, presence: true
+  validates_format_of :url, with: /\A^http/i, on: [:create, :update]
   enumerize :crawling_status, in: [:not_yet, :completed], predicates: true, scope: true
   ## uploaders
   # mount
   mount_uploader :image, ImageUploader
 
+  before_validation :strip_whitespace
   after_initialize :set_crawling_status
 
   def set_crawling_data(data)
@@ -34,6 +36,10 @@ class LinkSource < ActiveRecord::Base
 
   def set_crawling_status
     self.crawling_status = 'not_yet' if self.new_record?
+  end
+
+  def strip_whitespace
+    self.url = self.url.gsub(/\s+/, "") unless self.url.nil?
   end
 
 end

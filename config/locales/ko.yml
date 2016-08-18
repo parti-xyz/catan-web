@@ -150,6 +150,10 @@ ko:
           attributes:
             title:
               too_long: 논의 %{attribute}이 너무 깁니다. 50자 이내로 써주세요.
+        link_source:
+          attributes:
+            url:
+              invalid: url을 잘못입력하였습니다. 자료 url은 http:// 또는 https://로 시작해야 합니다.
   labels:
     new_article_link_source_button: 링크 걸기
     new_article_file_source_button: 파일 공유
