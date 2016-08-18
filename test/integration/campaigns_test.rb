@@ -4,12 +4,12 @@ class CampaignsTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:admin))
 
-    post campaigns_path(campaign: { title: 'title', slug: 'title', body: 'body', issue_slugs: "issue1, issue2" })
+    post campaigns_path(campaign: { title: 'title', slug: 'title', body: 'body', issue_slugs: "issue2, issue4" })
 
     assert assigns(:campaign).persisted?
     assert_equal 'title', assigns(:campaign).title
-    assert assigns(:campaign).issues.exists?(issues(:issue1).id)
     assert assigns(:campaign).issues.exists?(issues(:issue2).id)
+    assert assigns(:campaign).issues.exists?(issues(:issue4).id)
   end
 
   test '같은 이름으로는 못 만들어요' do

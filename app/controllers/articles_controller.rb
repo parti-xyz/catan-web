@@ -7,8 +7,7 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    redirect_to root_path and return if fetch_issue.blank?
-
+    @issue = @article.issue
     @article.source = @article.source.unify
     redirect_to issue_home_path_or_url(@issue) and return if @article.source.blank?
 
@@ -22,8 +21,7 @@ class ArticlesController < ApplicationController
   end
 
   def update
-    redirect_to root_path and return if fetch_issue.blank?
-
+    @issue = @article.issue
     @article.assign_attributes(update_params)
     @article.source = @article.source.unify
     redirect_to issue_home_path_or_url(@issue) and return if @article.source.blank?
@@ -72,16 +70,11 @@ class ArticlesController < ApplicationController
   private
 
   def create_params
-    params.require(:article).permit(:body, :source_type, source_attributes: [:url, :attachment])
+    params.require(:article).permit(:body, :source_type, :issue_id, source_attributes: [:url, :attachment])
   end
 
   def update_params
     params.require(:article).permit(:body, :hidden, :source_type, source_attributes: [:url, :attachment])
-  end
-
-  def fetch_issue
-    return @issue if @issue.present?
-    @article.issue = @issue = (Issue.find_by(id: params[:article][:issue_id]) || @article.issue)
   end
 
   def callback_after_updating_article

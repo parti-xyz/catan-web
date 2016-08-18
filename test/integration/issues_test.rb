@@ -8,7 +8,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '만들어요' do
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
 
@@ -17,7 +17,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '카테고리 안에 만들어요' do
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body', category_slug: 'category1' })
 
@@ -26,23 +26,31 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '만든 사람이 메이커가 되어요' do
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
 
-    assert assigns(:issue).reload.made_by?(users(:admin))
+    assert assigns(:issue).reload.made_by?(users(:one))
   end
 
-  test '만든 사람이 참여 되어요' do
-    sign_in(users(:admin))
+  test '만든 사람은 구독 되어요' do
+    sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
 
-    assert assigns(:issue).reload.watched_by?(users(:admin))
+    assert assigns(:issue).reload.watched_by?(users(:one))
+  end
+
+  test '만든 사람은 멤버가 되어요' do
+    sign_in(users(:one))
+
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
+
+    assert assigns(:issue).reload.member?(users(:one))
   end
 
   test '같은 주소로는 못 만들어요' do
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
     assert assigns(:issue).persisted?
@@ -60,7 +68,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '대소문자를 안가려요' do
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     post issues_path(issue: { title: 'Title', slug: 'Title', body: 'body' })
     assert assigns(:issue).persisted?
@@ -69,7 +77,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '고쳐요' do
-    sign_in(users(:admin))
+    sign_in(users(:maker))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x' })
 
@@ -78,7 +86,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '메이커를 넣어요' do
-    sign_in(users(:admin))
+    sign_in(users(:maker))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', makers_nickname: users(:one).nickname })
 
@@ -87,7 +95,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '중복된 메이커를 넣으면 알아서 넣어줘요.' do
-    sign_in(users(:admin))
+    sign_in(users(:maker))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', makers_nickname: "#{users(:one).nickname},#{users(:one).nickname}" })
 
@@ -96,7 +104,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test 'all이라는 이슈는 못만들어요' do
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     post issues_path(issue: { title: 'all', slug: 'all', body: 'body' })
 
@@ -104,7 +112,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '메이커넣기' do
-    sign_in(users(:admin))
+    sign_in(users(:maker))
     put issue_path(issues(:issue1), issue: { makers_nickname: 'nick1' })
 
     assert_equal users(:one), issues(:issue1).reload.makers.first.user
@@ -112,7 +120,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
   test '그룹빠띠' do
     host! "#{Group::GWANGJU.slug}.example.com"
-    sign_in(users(:admin))
+    sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
 

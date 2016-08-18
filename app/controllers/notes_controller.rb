@@ -49,7 +49,7 @@ class NotesController < ApplicationController
   private
 
   def note_params
-    params.require(:note).permit(:body)
+    params.require(:note).permit(:body, :issue_id)
   end
 
   def fetch_issue

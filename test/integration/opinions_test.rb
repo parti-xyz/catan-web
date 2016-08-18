@@ -4,13 +4,13 @@ class OpinionsTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post opinions_path(opinion: { title: 'title', issue_id: issues(:issue1).id }, comment_body: 'body')
+    post opinions_path(opinion: { title: 'title', issue_id: issues(:issue2).id }, comment_body: 'body')
 
     assert assigns(:opinion).persisted?
 
     assert_equal 'title', assigns(:opinion).title
     assert_equal users(:one), assigns(:opinion).user
-    assert_equal issues(:issue1).title, assigns(:opinion).issue.title
+    assert_equal issues(:issue2).title, assigns(:opinion).issue.title
 
     assert assigns(:vote).persisted?
     assert_equal 'agree', assigns(:vote).choice
@@ -19,6 +19,37 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     assert assigns(:comment).persisted?
     assert_equal 'body', assigns(:comment).body
     assert_equal users(:one), assigns(:comment).user
+  end
+
+  test '올빠띠의 개별빠띠에는 멤버가 아니라도 만들어요' do
+    refute issues(:issue2).in_group?
+    refute issues(:issue2).member? users(:two)
+
+    sign_in(users(:two))
+
+    post opinions_path(opinion: { title: 'title', issue_id: issues(:issue2).id }, comment_body: 'body')
+    assert assigns(:opinion).persisted?
+  end
+
+  test '그룹빠띠의 빠띠에는 멤버라야 만들어요' do
+    assert issues(:issue1).in_group?
+    assert issues(:issue1).member? users(:one)
+
+    sign_in(users(:one))
+
+    post opinions_path(opinion: { title: 'title', issue_id: issues(:issue1).id }, comment_body: 'body')
+    assert assigns(:opinion).persisted?
+  end
+
+  test '그룹빠띠의 빠띠에는 멤버가 아니면 못 만들어요' do
+    assert issues(:issue1).in_group?
+    refute issues(:issue1).member? users(:two)
+
+    sign_in(users(:two))
+
+    assert_raises CanCan::AccessDenied do
+      post opinions_path(opinion: { title: 'title', issue_id: issues(:issue1).id }, comment_body: 'body')
+    end
   end
 
   test '고쳐요' do
@@ -36,7 +67,10 @@ class OpinionsTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Opinion.count
-    post opinions_path(opinion: { title: 'title', issue_id: -1 })
+
+    assert_raises CanCan::AccessDenied do
+      post opinions_path(opinion: { title: 'title', issue_id: -1 })
+    end
     assert_equal previous_count, Opinion.count
   end
 end

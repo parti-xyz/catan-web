@@ -71,6 +71,7 @@ class IssuesController < ApplicationController
 
   def create
     @issue.makers.build(user: current_user)
+    @issue.members.build(user: current_user)
     @issue.group_slug = current_group.try(:slug)
     @watch = current_user.watches.build(issue: @issue)
     ActiveRecord::Base.transaction do

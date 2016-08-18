@@ -1,23 +1,19 @@
-- watch_btn_class ||= (params['watch_btn_class'] || 'btn btn-primary')
-- cancel_btn_class ||= (params['cancel_btn_class'] || 'btn btn-default')
-- maker_class ||= (params['maker_class'] || 'btn btn-default btn-label')
+- watch_btn_class = 'btn btn-xs btn-primary'
+- watched_btn_class = 'btn btn-xs btn-ghost'
 - issue = local_assigns[:issue]
 %span(class="#{dom_id(issue)}-watch")
   - if user_signed_in?
     - if issue.watched_by?(current_user)
-      - if issue.try(:made_by?, current_user)
-        %div{ class: maker_class }
-          %i.fa.fa-check
-          빠띠메이커
-      - else
-        = link_to cancel_issue_watches_path(issue, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :delete, class: cancel_btn_class, remote: true, data: { action: ('parti-hover' if is_hoverable?), 'hover-on': '구독 중단하기', 'hover-off': '<i class="fa fa-check"></i> 구독 중'} do
-          - if is_hoverable? and local_assigns[:hover_on]
-            %i.fa.fa-check
-            구독 중
-          - else
-            구독 중단하기
+      - unless issue.made_by? current_user
+        %button.btn-watch{"data-url": "#cancel-watch-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", class: watched_btn_class}
+          구독 중
+          %i.fa.fa-caret-down
+        .hidden
+          .cancel-watch{id: "cancel-watch-#{dom_id(issue)}"}
+            = link_to cancel_issue_watches_path(issue), method: :delete, remote: true do
+              구독 중단하기
     - else
-      = link_to issue_watches_path(issue, watch_btn_class: watch_btn_class, cancel_btn_class: cancel_btn_class), method: :post, remote: true , class: watch_btn_class do
+      = link_to issue_watches_path(issue), method: :post, remote: true , class: watch_btn_class do
         구독하기
   - else
     = link_to '구독하기', '#', data: { toggle: 'parti-login-overlay', label: '구독', 'after-login': h({action: :issue_watch, id: issue.id}.to_json) }, class: watch_btn_class

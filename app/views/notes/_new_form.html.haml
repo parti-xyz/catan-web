@@ -1,5 +1,5 @@
-- issue ||= nil
-- if user_signed_in?
+- issue ||= @issue
+- if user_signed_in? and issue.postable?(current_user)
   = form_for Note.new, html: { class: 'note-form form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#note-form-widget form input[type=submit]' } } do |f|
     = hidden_field_tag :back_url, @list_url || request.original_url
 

@@ -23,23 +23,34 @@
         %h2.parti-title
           = issue.title
           .parti-info.visible-xs-block
-            = link_to issue_users_path(issue) do
-              %span.parti-users-label 가입회원
-              %span.parti-users-count
-                #{issue.member_users.count}명
-            = link_to issue_users_path(issue) do
-              %span.parti-users-label 구독회원
-              %span.parti-users-count
-                #{issue.watched_users.count}명
+            - if issue.member_only?
+              = link_to issue_users_path(issue) do
+                %span.parti-users-label 가입회원
+                %span.parti-users-count
+                  #{issue.member_users.count}명
+            - else
+              = link_to issue_users_path(issue) do
+                %span.parti-users-label 구독회원
+                %span.parti-users-count
+                  #{issue.watched_users.count}명
         .row
           .col-xs-12.col-sm-9
             .parti-body
               = issue.body
             .parti-buttons
-              %span.parti-member-button
-                = render 'members/member', issue: issue, cancel_btn_class: 'btn btn-xs btn-ghost', member_btn_class: 'btn btn-xs btn-primary', maker_class: 'hidden'
-              %span.parti-watch-button
-                = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-xs btn-ghost', watch_btn_class: 'btn btn-xs btn-primary', maker_class: 'hidden'
+              - if issue.made_by? current_user
+                %span.parti-maker-button
+                  %div.btn.btn-xs.btn-ghost{"data-url": "#maker-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
+                    빠띠 메이커
+                  .hidden
+                    .maker-info{id: "maker-info-#{dom_id(issue)}"}
+                      #{current_user.nickname}님은 #{issue.title} 빠띠의 메이커입니다.
+              - elsif issue.member_only?
+                %span.parti-member-button
+                  = render 'members/member', issue: issue
+              - else
+                %span.parti-watch-button
+                  = render 'watches/watch', issue: issue
               %span.parti-admin-buttons
                 - if can? :update, issue
                   = link_to '수정', [:edit, issue], class: 'btn btn-ghost btn-xs'

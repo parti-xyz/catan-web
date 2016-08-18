@@ -29,6 +29,44 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test '올빠띠의 개별빠띠에는 멤버가 아니라도 만들어요' do
+    stub_crawl do
+      refute issues(:issue2).in_group?
+      refute issues(:issue2).member? users(:two)
+
+      sign_in(users(:two))
+
+      post articles_path, article: { issue_id: issues(:issue2).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
+
+      assert assigns(:article).persisted?
+    end
+  end
+
+  test '그룹빠띠의 빠띠에는 멤버라야 만들어요' do
+    stub_crawl do
+      assert issues(:issue1).in_group?
+      assert issues(:issue1).member? users(:one)
+
+      sign_in(users(:one))
+
+      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
+      assert assigns(:article).persisted?
+    end
+  end
+
+  test '그룹빠띠의 빠띠에는 멤버가 아니면 못 만들어요' do
+    stub_crawl do
+      assert issues(:issue1).in_group?
+      refute issues(:issue1).member? users(:two)
+
+      sign_in(users(:two))
+
+      assert_raises CanCan::AccessDenied do
+        post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
+      end
+    end
+  end
+
   test '이미 있는 링크로 만들어요' do
     stub_crawl do
       sign_in(users(:one))
@@ -54,7 +92,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl 'http://link.x' do
       sign_in(users(:one))
 
-      put article_path(articles(:article1)), article: { body: 'body', issue_id: issues(:issue2).id, source_attributes: { url: 'http://link.x'}, source_type: 'LinkSource' }
+      put article_path(articles(:article1)), article: { body: 'body', issue_id: issues(:issue1).id, source_attributes: { url: 'http://link.x'}, source_type: 'LinkSource' }
 
       refute assigns(:article).errors.any?
       assigns(:article).reload
@@ -62,7 +100,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert_equal 'page body', assigns(:article).source_body
       assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
-      assert_equal issues(:issue2).title, assigns(:article).issue.title
+      assert_equal issues(:issue1).title, assigns(:article).issue.title
       assert_equal 'http://link.x', assigns(:article).source.url
     end
   end
@@ -98,7 +136,9 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     previous_count = Article.count
-    post articles_path, article: { body: 'body', source_attributes: { url: 'link' }, source_type: 'LinkSource', issue_id: -1}
+    assert_raises CanCan::AccessDenied do
+      post articles_path, article: { body: 'body', source_attributes: { url: 'link' }, source_type: 'LinkSource', issue_id: -1}
+    end
     assert_equal previous_count, Article.count
   end
 

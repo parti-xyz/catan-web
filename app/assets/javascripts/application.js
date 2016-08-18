@@ -110,7 +110,7 @@ var parti_prepare = function($base) {
 
   parti_prepare_masonry($base);
 
-  $('[data-action="parti-popover"]').webuiPopover();
+  $base.find('[data-action="parti-popover"]').webuiPopover();
 
   // typeahead
   $.parti_apply($base, '[data-provider="parti-issue-typeahead"]', function(elm) {

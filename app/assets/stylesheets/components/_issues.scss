@@ -91,7 +91,9 @@ section#issues {
   }
   .parti-buttons {
     margin-top: 15px;
-    .parti-watch-button {
+    .parti-maker-button,
+    .parti-watch-button,
+    .parti-member-button {
       margin-top: 10px;
       padding-bottom: 3px;
       .btn {
@@ -189,6 +191,14 @@ section#issues {
         }
       }
     }
+  }
+}
+
+.webui-popover {
+  .maker-info,
+  .cancel-watch,
+  .cancel-member {
+    font-size: $font-size-small;
   }
 }
 

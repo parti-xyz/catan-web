@@ -1,14 +1,2 @@
-<% if @member.present? %>
-  <% if params[:partial] == 'intro' %>
-    <% script = escape_javascript(render customize_partial_path(@member.issue, ->(model) { "#{model.class.model_name.plural}/card_in_intro" }), issue: @issue) %>
-    card_query = '.<%= dom_id(@member.issue) %>-card';
-    $(card_query).replaceWith(parti_origin_partial("<%= script %>"));
-    parti_ellipsis($(card_query));
-    <% if current_user.need_to_more_member?(current_group) %>
-      $('#btn-continue').addClass( "disabled" );
-      $('#btn-continue').removeAttr("href");
-    <% end %>
-  <% else %>
-    $('.<%= dom_id(@member.issue) %>-member').html(parti_origin_partial("<%= escape_javascript(render 'members/member', issue: @issue) %>"));
-  <% end %>
-<% end %>
+$(".btn-member").webuiPopover('destroy');
+$('.<%= dom_id(@member.issue) %>-member').replaceWith(parti_origin_partial("<%= escape_javascript(render 'members/member', issue: @issue) %>"));

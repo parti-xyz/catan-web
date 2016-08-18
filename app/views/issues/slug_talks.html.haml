@@ -5,16 +5,19 @@
     .editors-panel
       .media
         .media-body.hidden-xs
-          %h3
+          %h4
             논의해 보세요
             %small 질문을 남기거나 제안을 받고, 혹은 자신의 의견을 펼쳐보세요.
         .media-right
           - if user_signed_in?
-            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#talk-form-widget', focus: 'input#talk_title', 'self-hide': true} do
-              %i.fa.fa-comments-o
-              = t('labels.new_talk_button')
+            - if @issue.postable?(current_user)
+              = link_to '#', class: 'btn btn-primary btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#talk-form-widget', focus: 'input#talk_title', 'self-hide': true} do
+                %i.fa.fa-comments-o
+                = t('labels.new_talk_button')
+            - else
+              = render 'issues/join_button'
           - else
-            = link_to '#', class: 'btn btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+            = link_to '#', class: 'btn btn-primary btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
               %i.fa.fa-comments-o
               = t('labels.new_talk_button')
       - if user_signed_in?

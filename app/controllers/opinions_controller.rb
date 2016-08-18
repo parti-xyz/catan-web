@@ -93,7 +93,7 @@ class OpinionsController < ApplicationController
   end
 
   def create_params
-    params.require(:opinion).permit(:title, :body)
+    params.require(:opinion).permit(:title, :body, :issue_id)
   end
 
   def update_params

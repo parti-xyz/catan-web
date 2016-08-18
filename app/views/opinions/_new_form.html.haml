@@ -1,5 +1,5 @@
-- issue ||= nil
-- if user_signed_in?
+- issue ||= @issue
+- if user_signed_in? and issue.postable?(current_user)
   #opinion-form-widget.form-widget-container.bg-line
     = form_for Opinion.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#opinion-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url

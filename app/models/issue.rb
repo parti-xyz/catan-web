@@ -26,7 +26,7 @@ class Issue < ActiveRecord::Base
   has_many :watches, dependent: :destroy
   has_many :watched_users, through: :watches, source: :user
   has_many :members, dependent: :destroy
-  has_many :member_users, through: :watches, source: :user
+  has_many :member_users, through: :members, source: :user
 
   # validations
   validates :title,
@@ -152,6 +152,14 @@ class Issue < ActiveRecord::Base
 
   def on_group?
     group_slug.present?
+  end
+
+  def member_only?
+    in_group?
+  end
+
+  def postable? someone
+    !in_group? or member?(someone)
   end
 
   def self.min_watched_issues_count(group = nil)

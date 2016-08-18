@@ -1,0 +1,12 @@
+- issue ||= @issue
+- popover = { url: "#join-member-#{dom_id(issue)}", action: 'parti-popover', placement: "bottom", trigger: 'hover' } if is_hoverable?
+= link_to issue_members_path(issue), method: :post, class: 'btn btn-primary btn-shadow editor-btn', data: local_assigns[popover] do
+  가입하기
+.hidden
+  .join-member{id: "join-member-#{dom_id(issue)}"}
+    가입하셔서 비슷한 관심을 가진 사람들과 함께
+    %br
+    논의, 쟁점토론, 자료공유, 위키정리로
+    %br
+    %strong #{issue.title}
+    빠띠를 키워보세요.

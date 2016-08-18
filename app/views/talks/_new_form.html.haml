@@ -1,4 +1,4 @@
-- issue ||= nil
+- issue ||= @issue
 - if user_signed_in?
   #talk-form-widget.form-widget-container.bg-line
     = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|

@@ -9,6 +9,7 @@
       $('#btn-continue').removeAttr("href");
     <% end %>
   <% else %>
-    $('.<%= dom_id(@watch.issue) %>-watch').html(parti_origin_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
+    $(".btn-watch").webuiPopover('destroy');
+    $('.<%= dom_id(@watch.issue) %>-watch').replaceWith(parti_origin_partial("<%= escape_javascript(render 'watches/watch', issue: @issue) %>"));
   <% end %>
 <% end %>

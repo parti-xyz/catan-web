@@ -1,9 +1,14 @@
 issue1:
   title: issue1
   slug: issue1
+  group_slug: gwangju
 issue2:
   title: issue2
   slug: issue2
 issue3:
   title: issue3
   slug: issue3
+  group_slug: gwangju
+issue4:
+  title: issue4
+  slug: issue4

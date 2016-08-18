@@ -1,5 +1,5 @@
-- issue ||= nil
-- if user_signed_in?
+- issue ||= @issue
+- if user_signed_in? and issue.postable?(current_user)
   #article-link-source-form-widget.form-widget-container.bg-line
     = form_for Article.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-link-source-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
@@ -14,9 +14,12 @@
       .form-group.clearfix
         .submit-box
           = f.hidden_field :issue_id, value: issue.id
-          %button.btn-link.btn-cancel{ data: { action: 'parti-switch', 'switch-target': '.editor-btn', 'switch-target-base': '.form-widget-container'} }
+          %button.btn-link.btn-cancel.hidden-xs{ data: { action: 'parti-switch', 'switch-target': '.editor-btn-group', 'switch-target-base': '.form-widget-container'} }
             취소
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
+          %button.btn-link.btn-cancel.visible-xs-inline{ data: { action: 'parti-switch', 'switch-target': '.editor-btn-group', 'switch-target-base': '.form-widget-container'} }
+            %i.fa.fa-times-circle
+            취소
   #article-file-source-form-widget.form-widget-container.bg-line
     = form_for Article.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#article-file-source-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
@@ -31,7 +34,9 @@
       .form-group.clearfix
         .submit-box
           = f.hidden_field :issue_id, value: issue.id
-          %button.btn-link.btn-cancel{ data: { action: 'parti-switch', 'switch-target': '.editor-btn', 'switch-target-base': '.form-widget-container'} }
+          %button.btn-link.btn-cancel.hidden-xs{ data: { action: 'parti-switch', 'switch-target': '.editor-btn-group', 'switch-target-base': '.form-widget-container'} }
             취소
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
-
+          %button.btn-link.btn-cancel.visible-xs-inline{ data: { action: 'parti-switch', 'switch-target': '.editor-btn-group', 'switch-target-base': '.form-widget-container'} }
+            %i.fa.fa-times-circle
+            취소
