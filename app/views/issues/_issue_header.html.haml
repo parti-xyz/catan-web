@@ -24,6 +24,10 @@
           = issue.title
           .parti-info.visible-xs-block
             = link_to issue_users_path(issue) do
+              %span.parti-users-label 가입회원
+              %span.parti-users-count
+                #{issue.member_users.count}명
+            = link_to issue_users_path(issue) do
               %span.parti-users-label 구독회원
               %span.parti-users-count
                 #{issue.watched_users.count}명
@@ -32,6 +36,8 @@
             .parti-body
               = issue.body
             .parti-buttons
+              %span.parti-member-button
+                = render 'members/member', issue: issue, cancel_btn_class: 'btn btn-xs btn-ghost', member_btn_class: 'btn btn-xs btn-primary', maker_class: 'hidden'
               %span.parti-watch-button
                 = render 'watches/watch', issue: issue, cancel_btn_class: 'btn btn-xs btn-ghost', watch_btn_class: 'btn btn-xs btn-primary', maker_class: 'hidden'
               %span.parti-admin-buttons

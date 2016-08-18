@@ -29,6 +29,9 @@ Rails.application.routes.draw do
     resources :watches do
       delete :cancel, on: :collection
     end
+    resources :members do
+      delete :cancel, on: :collection
+    end
   end
 
   concern :upvotable do

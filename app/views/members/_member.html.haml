@@ -1,0 +1,23 @@
+- member_btn_class ||= (params['member_btn_class'] || 'btn btn-primary')
+- cancel_btn_class ||= (params['cancel_btn_class'] || 'btn btn-default')
+- maker_class ||= (params['maker_class'] || 'btn btn-default btn-label')
+- issue = local_assigns[:issue]
+%span(class="#{dom_id(issue)}-member")
+  - if user_signed_in?
+    - if issue.member?(current_user)
+      - if issue.made_by? current_user
+        %div{ class: maker_class }
+          %i.fa.fa-check
+          빠띠메이커
+      - else
+        = link_to cancel_issue_members_path(issue, member_btn_class: member_btn_class, cancel_btn_class: cancel_btn_class), method: :delete, class: cancel_btn_class, remote: true, data: { action: ('parti-hover' if is_hoverable?), 'hover-on': '빠띠 나가기', 'hover-off': '<i class="fa fa-check"></i> 가입함'} do
+          - if is_hoverable? and local_assigns[:hover_on]
+            %i.fa.fa-check
+            가입함
+          - else
+            빠띠 나가기
+    - else
+      = link_to issue_members_path(issue, member_btn_class: member_btn_class, cancel_btn_class: cancel_btn_class), method: :post, remote: true , class: member_btn_class do
+        가입하기
+  - else
+    = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) }, class: member_btn_class

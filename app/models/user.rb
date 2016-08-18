@@ -57,6 +57,7 @@ class User < ActiveRecord::Base
 
   # scopes
   scope :latest, -> { after(1.day.ago) }
+  scope :recent, -> { order(created_at: :desc) }
 
   def admin?
     if Rails.env.staging? or Rails.env.production?

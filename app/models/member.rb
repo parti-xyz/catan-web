@@ -1,4 +1,4 @@
-class Watch < ActiveRecord::Base
+class Member < ActiveRecord::Base
   belongs_to :user
   belongs_to :issue, counter_cache: true
 
@@ -7,8 +7,4 @@ class Watch < ActiveRecord::Base
   validates :user, uniqueness: {scope: :issue}
 
   scope :latest, -> { after(1.day.ago) }
-
-  def unwatchable?
-    !issue.member?(user)
-  end
 end

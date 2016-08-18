@@ -12,9 +12,9 @@ class Ability
         user.maker?(issue)
       end
       can :create, [Issue, Article, Talk, Opinion, Comment,
-        Vote, Like, Upvote, Watch, Note]
+        Vote, Like, Upvote, Watch, Member, Note]
       can :manage, [Article, Talk, Opinion, Comment,
-        Vote, Like, Upvote, Watch, Note], user_id: user.id
+        Vote, Like, Upvote, Watch, Member, Note], user_id: user.id
       can :manage, Related do |related|
         user.maker?(related.issue)
       end

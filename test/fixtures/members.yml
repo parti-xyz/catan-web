@@ -1,0 +1,12 @@
+member2:
+  user: recipient
+  issue: issue1
+member3:
+  user: recipient
+  issue: issue2
+member4:
+  user: one
+  issue: issue1
+member5:
+  user: maker
+  issue: issue1

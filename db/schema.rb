@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160818115000) do
+ActiveRecord::Schema.define(version: 20160818122907) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 20160818115000) do
     t.string   "telegram_link",   limit: 255
     t.datetime "last_touched_at"
     t.string   "category_slug",   limit: 255
+    t.integer  "members_count",   limit: 4,        default: 0
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree
@@ -188,6 +189,17 @@ ActiveRecord::Schema.define(version: 20160818115000) do
   add_index "makers", ["issue_id"], name: "index_makers_on_issue_id", using: :btree
   add_index "makers", ["user_id", "issue_id"], name: "index_makers_on_user_id_and_issue_id", unique: true, using: :btree
   add_index "makers", ["user_id"], name: "index_makers_on_user_id", using: :btree
+
+  create_table "members", force: :cascade do |t|
+    t.integer  "issue_id",   limit: 4, null: false
+    t.integer  "user_id",    limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "members", ["issue_id"], name: "index_members_on_issue_id", using: :btree
+  add_index "members", ["user_id", "issue_id"], name: "index_members_on_user_id_and_issue_id", unique: true, using: :btree
+  add_index "members", ["user_id"], name: "index_members_on_user_id", using: :btree
 
   create_table "mentions", force: :cascade do |t|
     t.integer  "user_id",          limit: 4,   null: false

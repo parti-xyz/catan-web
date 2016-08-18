@@ -15,7 +15,7 @@ class WatchesController < ApplicationController
 
   def cancel
     @watch = @issue.watches.find_by user: current_user
-    @watch.destroy if (@watch.present? and !@watch.issue.try(:made_by?, current_user))
+    @watch.destroy if (@watch.present? and @watch.unwatchable?)
 
     respond_to do |format|
       format.js

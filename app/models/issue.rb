@@ -23,16 +23,10 @@ class Issue < ActiveRecord::Base
       self.map { |m| m.user.nickname }.join(',')
     end
   end
-  has_many :watches, dependent: :destroy do
-    def latest
-      after(1.day.ago)
-    end
-  end
-  has_many :watched_users, through: :watches, source: :user do
-    def recent
-      order('watches.created_at desc')
-    end
-  end
+  has_many :watches, dependent: :destroy
+  has_many :watched_users, through: :watches, source: :user
+  has_many :members, dependent: :destroy
+  has_many :member_users, through: :watches, source: :user
 
   # validations
   validates :title,
@@ -76,6 +70,10 @@ class Issue < ActiveRecord::Base
 
   def made_by? someone
     makers.exists? user: someone
+  end
+
+  def member? someone
+    members.exists? user: someone
   end
 
   def is_all?
