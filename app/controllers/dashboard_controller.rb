@@ -12,8 +12,8 @@ class DashboardController < ApplicationController
   end
 
   def posts
-    @last_comment = current_user.watched_comments(current_group).newest
     watched_posts = current_user.watched_posts(current_group)
+    @last_post = watched_posts.newest
 
     previous_last_post = Post.find_by(id: params[:last_id])
 
@@ -26,6 +26,11 @@ class DashboardController < ApplicationController
   end
 
   def new_comments_count
-    @count = current_user.watched_comments.next_of(params[:first_id]).count
+    first_post = Post.find_by id: params[:first_id]
+    if first_post.blank?
+      @count = 0
+    else
+      @count = current_user.watched_posts(current_group).next_of_post(first_post).count
+    end
   end
 end

@@ -48,6 +48,7 @@ class Post < ActiveRecord::Base
   scope :only_talks, -> { by_postable_type(Talk.to_s) }
   scope :latest, -> { after(1.day.ago) }
   scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
+  scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }
   scope :in_group, ->(group) { joins(:issue).where('issue.group_slug' => (group.try(:slug) || group)) if group.present? }
 
   ## uploaders
