@@ -566,6 +566,16 @@ var parti_prepare = function($base) {
     });
   });
 
+  // unified editor
+  $.parti_apply($base, '[data-action="parti-show-after-focused"]', function(elm) {
+    var $elm = $(elm);
+    var focus_target = $(elm).data("focus-target");
+
+    $(focus_target).on('focus', function(){
+      $elm.show();
+    });
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 

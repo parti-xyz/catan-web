@@ -11,13 +11,12 @@
           %span.text-primary 찬성
           합니다.
 
-      %hr
       .form-group.textarea-box
         = text_area_tag :comment_body, '', { class: 'form-control', placeholder: '왜 찬성하시나요?', data: {ride: 'parti-autoresize', 'rule-required': true} }
 
       %hr
       .form-group.clearfix
-        .submit-box
+        .submit-box.text-right
           = f.hidden_field :issue_id, value: issue.id
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
 

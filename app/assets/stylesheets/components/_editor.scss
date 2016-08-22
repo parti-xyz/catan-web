@@ -19,7 +19,7 @@
 }
 
 .unified-editor {
-  padding-top: 16px;
+  padding-top: 2px;
   margin-bottom: 20px;
   background-color: #fff;
   border-top: 1px solid #c0c0c2;
@@ -30,8 +30,12 @@
   -moz-box-shadow: 4px 4px 4px 0px #deddda;
   box-shadow: 4px 4px 4px 0px #deddda;
 
-  .nav > li > a:hover {
-    background-color: $gray-lightest;
+  .nav > li > a {
+    padding: 4px;
+    margin: 10px;
+    &:hover {
+      background-color: $gray-lightest;
+    }
   }
   .nav {
     background-color: #fff;
@@ -79,12 +83,25 @@
   }
 }
 
+#note-form-widget.form-widget-container {
+  display: block;
+}
+
 .form-widget-container {
   display: none;
 
   .unified-editor & {
     display: block;
-
+    .form-widget {
+      padding-top: 14px;
+      padding-bottom: 0;
+    }
+    .note-form {
+      margin-bottom: 0;
+      .submit-box {
+        display: none;
+      }
+    }
   }
   .form-widget hr {
     border-top: 1px solid $gray-lighter;

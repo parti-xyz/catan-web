@@ -11,7 +11,7 @@
 
       %hr
       .form-group.clearfix
-        .submit-box
+        .submit-box.text-right
           = f.hidden_field :issue_id, value: issue.id
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
 

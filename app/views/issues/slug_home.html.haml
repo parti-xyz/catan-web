@@ -29,7 +29,7 @@
                   = t('labels.new_article_file_source_button')
             .tab-content
               #editor-note.tab-pane.active{role: "tabpanel"}
-                = render 'notes/new_form', issue: @issue
+                = render 'notes/new_form', issue: @issue, body_rows_count: 3
               #editor-talk.tab-pane{role: "tabpanel"}
                 = render 'talks/new_form', issue: @issue
               #editor-opinion.tab-pane{role: "tabpanel"}

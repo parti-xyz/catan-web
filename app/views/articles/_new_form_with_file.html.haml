@@ -10,7 +10,7 @@
       = f.text_area :body, placeholder: '이 자료에 대한 의견을 남겨주세요.', class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
     %hr
     .form-group.clearfix
-      .submit-box
+      .submit-box.text-right
         = f.hidden_field :issue_id, value: issue.id
         %button.btn-link.btn-cancel.hidden-xs{ data: { action: 'parti-switch', 'switch-target': '.editor-btn-group', 'switch-target-base': '.form-widget-container'} }
           취소
