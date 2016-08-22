@@ -3,5 +3,8 @@
     .aside_issue
       %h4.aside-title 구독 중인 빠띠
       %ul.clearfix.list-unstyled
-        = render customize_partial_path(@user.watched_issues, 'issue_line')
+        = render customize_partial_path(@user.watched_issues.not_group, 'issue_line')
+      %h4.aside-title 구독 중인 '광주' 빠띠
+      %ul.clearfix.list-unstyled
+        = render customize_partial_path(@user.watched_issues.in_group('gwangju'), 'issue_line')
     = render 'application/footer'

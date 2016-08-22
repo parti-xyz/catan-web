@@ -7,9 +7,6 @@
         .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
       .media-body
         %span.issue-line__title
-          - if issue.group != current_group and
-            = issue.group.try(:name) || Issue::ALL_PARTI_NAME
-            %i.fa.fa-angle-right
           = issue.title
         %span.issue-line__meta
           - if issue.watches.latest.count > 0
