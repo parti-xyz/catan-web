@@ -11,12 +11,41 @@
             %i.fa.fa-home
             내 홈
           = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
-        - if current_user.making_issues.in_group(current_group).any?
-          %h5.aside-title 내가 메이커인 빠띠
-          %ul.list-unstyled.aside-issues
-            = render customize_partial_path(current_user.making_issues.in_group(current_group), 'issue_line')
-        - if current_user.only_watched_issues.in_group(current_group).any?
-          %h5.aside-title 구독 중인 빠띠
-          %ul.list-unstyled.aside-issues
-            = render customize_partial_path(current_user.only_watched_issues.in_group(current_group), 'issue_line')
+
+        - unless current_group.present?
+          - if current_user.making_issues.not_group.any?
+            %h5.aside-title 메이커인 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.making_issues.not_group, 'issue_line')
+          - if current_user.only_watched_issues.not_group.any?
+            %h5.aside-title 구독 중인 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.only_watched_issues.not_group, 'issue_line')
+          - if current_user.making_issues.only_group('gwangju').any?
+            %h5.aside-title 메이커인 '광주' 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.making_issues.in_group('gwangju'), 'issue_line')
+          - if current_user.only_watched_issues.only_group('gwangju').any?
+            %h5.aside-title 구독 중인 '광주' 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.only_watched_issues.in_group('gwangju'), 'issue_line')
+
+        - if current_group.present?
+          - if current_user.making_issues.only_group('gwangju').any?
+            %h5.aside-title 메이커인 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.making_issues.in_group('gwangju'), 'issue_line')
+          - if current_user.only_watched_issues.only_group('gwangju').any?
+            %h5.aside-title 구독 중인 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.only_watched_issues.in_group('gwangju'), 'issue_line')
+          - if current_user.making_issues.not_group.any?
+            %h5.aside-title 메이커인 '전체' 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.making_issues.not_group, 'issue_line')
+          - if current_user.only_watched_issues.not_group.any?
+            %h5.aside-title 구독 중인 '전체' 빠띠
+            %ul.list-unstyled.aside-issues
+              = render customize_partial_path(current_user.only_watched_issues.not_group, 'issue_line')
+
     = render 'application/footer'
