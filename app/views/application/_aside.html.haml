@@ -21,21 +21,21 @@
             %h5.aside-title 구독 중인 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.only_watched_issues.not_group, 'issue_line')
-          - if current_user.making_issues.only_group('gwangju').any?
+          - if current_user.making_issues.in_group('gwangju').any?
             %h5.aside-title 메이커인 '광주' 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.making_issues.in_group('gwangju'), 'issue_line')
-          - if current_user.only_watched_issues.only_group('gwangju').any?
+          - if current_user.only_watched_issues.in_group('gwangju').any?
             %h5.aside-title 구독 중인 '광주' 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.only_watched_issues.in_group('gwangju'), 'issue_line')
 
         - if current_group.present?
-          - if current_user.making_issues.only_group('gwangju').any?
+          - if current_user.making_issues.in_group('gwangju').any?
             %h5.aside-title 메이커인 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.making_issues.in_group('gwangju'), 'issue_line')
-          - if current_user.only_watched_issues.only_group('gwangju').any?
+          - if current_user.only_watched_issues.in_group('gwangju').any?
             %h5.aside-title 구독 중인 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.only_watched_issues.in_group('gwangju'), 'issue_line')

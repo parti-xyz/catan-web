@@ -18,18 +18,33 @@
                 내 빠띠
                 %span.caret
               %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
-                - if current_user.making_issues.any?
+                - if current_user.making_issues.not_group.any?
                   %li.dropdown-header
                     메이커인 빠띠
-                    #{current_user.making_issues.count}
-                - current_user.making_issues.each do |issue|
+                    #{current_user.making_issues.not_group.count}
+                - current_user.making_issues.not_group.each do |issue|
                   = render 'issues/issue_line', issue: issue
-                - if current_user.only_watched_issues.any?
+                - if current_user.only_watched_issues.not_group.any?
                   %li.dropdown-header
                     구독 중인 빠띠
-                    #{current_user.only_watched_issues.count}
-                - current_user.only_watched_issues.each do |issue|
+                    #{current_user.only_watched_issues.not_group.count}
+                - current_user.only_watched_issues.not_group.each do |issue|
                   = render 'issues/issue_line', issue: issue
+
+                - if current_user.making_issues.in_group('gwangju').any?
+                  %li.dropdown-header
+                    메이커인 '광주' 빠띠
+                    #{current_user.making_issues.in_group('gwangju').count}
+                - current_user.making_issues.in_group('gwangju').each do |issue|
+                  = render 'issues/issue_line', issue: issue
+                - if current_user.only_watched_issues.in_group('gwangju').any?
+                  %li.dropdown-header
+                    구독 중인 '광주' 빠띠
+                    #{current_user.only_watched_issues.in_group('gwangju').count}
+                - current_user.only_watched_issues.in_group('gwangju').each do |issue|
+                  = render 'issues/issue_line', issue: issue
+
+
           %li.dropdown.watch-parties
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               대표 빠띠

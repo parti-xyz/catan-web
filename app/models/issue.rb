@@ -57,7 +57,6 @@ class Issue < ActiveRecord::Base
   scope :in_group, ->(group) { where(group_slug: (group.try(:slug) || group)) if group.present? }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
   scope :not_group, -> {where(group_slug: nil)}
-  scope :only_group, ->(group) { where(group_slug: (group.try(:slug))) }
   # search
   scoped_search on: [:title, :body]
 
