@@ -42,7 +42,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_home
-    @last_comment = @issue.comments.newest
+    @last_post = @issue.posts.newest
 
     previous_last_post = Post.find_by(id: params[:last_id])
 
@@ -132,7 +132,12 @@ class IssuesController < ApplicationController
   end
 
   def new_comments_count
-    @count = @issue.comments.next_of(params[:first_id]).count
+    last_post = Post.find_by id: params[:first_id]
+    if last_post.blank?
+      @count = 0
+    else
+      @count = @issue.posts.next_of_post(last_post).count
+    end
   end
 
   private
