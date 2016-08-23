@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
 
   def index
     if current_user.need_to_more_watch?(current_group)
-      @issues = Issue.hottest.in_group(current_group)
+      @issues = Issue.hottest.only_group_or_all_if_blank(current_group)
       render 'intro' and return
     end
     posts

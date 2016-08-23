@@ -15,7 +15,7 @@ class PagesController < ApplicationController
       @featured_contents.flatten!.compact!
       @issues = Issue.all.recent_touched
     else
-      @issues = Issue.in_group(current_group).recent_touched
+      @issues = Issue.only_group_or_all_if_blank(current_group).recent_touched
       render 'group_home'
     end
   end

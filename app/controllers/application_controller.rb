@@ -132,7 +132,7 @@ class ApplicationController < ActionController::Base
   end
 
   def articles_page(issue = nil)
-    articles_base = issue.nil? ? Article.all.in_group(current_group) : issue.articles
+    articles_base = issue.nil? ? Article.all.only_group_or_all_if_nil(current_group) : issue.articles
 
     previous_last_article = Article.find_by(id: params[:last_id])
     @articles = articles_base.recent.previous_of_article(previous_last_article).limit(20)
@@ -142,7 +142,7 @@ class ApplicationController < ActionController::Base
   end
 
   def opinions_page(issue = nil)
-    opinions_base = issue.nil? ? Opinion.all.in_group(current_group) : issue.opinions
+    opinions_base = issue.nil? ? Opinion.all.only_group_or_all_if_blank(current_group) : issue.opinions
 
     previous_last_opinion = Opinion.find_by(id: params[:last_id])
     @opinions = opinions_base.recent.previous_of_opinion(previous_last_opinion).limit(20)
@@ -152,12 +152,12 @@ class ApplicationController < ActionController::Base
   end
 
   def talks_page(issue = nil)
-    talks_base = issue.nil? ? Talk.all.in_group(current_group) : issue.talks
+    talks_base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : issue.talks
     @talks = talks_base.recent.page(params[:page])
   end
 
   def notes_page(issue = nil)
-    notes_base = issue.nil? ? Note.all.in_group(current_group) : issue.notes
+    notes_base = issue.nil? ? Note.all.only_group_or_all_if_blank(current_group) : issue.notes
 
     previous_last_note = Note.find_by(id: params[:last_id])
     @notes = notes_base.recent.previous_of_note(previous_last_note).limit(20)
@@ -189,7 +189,7 @@ class ApplicationController < ActionController::Base
     return if issue.blank?
     return if !request.format.html?
 
-    redirect_to subdomain: nil and return if !issue.in_group? and current_group.present?
-    redirect_to subdomain: issue.group.slug and return if issue.in_group? and current_group.blank?
+    redirect_to subdomain: nil and return if !issue.on_group? and current_group.present?
+    redirect_to subdomain: issue.group.slug and return if issue.on_group? and current_group.blank?
   end
 end

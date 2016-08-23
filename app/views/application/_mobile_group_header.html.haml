@@ -20,14 +20,14 @@
               내 #{current_group.name} 빠띠
               %span.caret
             %ul.dropdown-menu.dropdown-menu-right
-              - making_issues = current_user.making_issues.in_group(current_group)
+              - making_issues = current_user.making_issues.only_group_or_all_if_blank(current_group)
               - if making_issues.any?
                 %li.dropdown-header
                   메이커인 빠띠
                   #{making_issues.count}
               - making_issues.each do |issue|
                 = render 'issues/issue_line', issue: issue
-              - only_watched_issues = current_user.only_watched_issues.in_group(current_group)
+              - only_watched_issues = current_user.only_watched_issues.only_group_or_all_if_blank(current_group)
               - if only_watched_issues.any?
                 %li.dropdown-header
                   구독 중인 빠띠

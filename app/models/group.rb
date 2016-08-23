@@ -13,6 +13,8 @@ class Group
       Category::GWANGJU_STATESMAN,
     ])
 
+  INDIE = Group.new(slug: nil, name: '전체')
+
   def find_category_by_slug(slug)
     categories.detect { |c| c.slug == slug }
   end
@@ -21,8 +23,16 @@ class Group
     "#{name} 빠띠"
   end
 
+  def self.all_with_indie_and_exclude(some_group)
+    Group.all_with_indie.reject {|group| group.slug == some_group.try(:slug) }
+  end
+
   def self.all
     [Group::GWANGJU]
+  end
+
+  def self.all_with_indie
+    [Group::GWANGJU, Group::INDIE]
   end
 
   def self.find_by_slug(slug)

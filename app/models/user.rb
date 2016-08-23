@@ -133,7 +133,7 @@ class User < ActiveRecord::Base
   end
 
   def need_to_more_watch?(group = nil)
-    watched_issues.in_group(group).count < Issue.min_watched_issues_count(group)
+    watched_issues.only_group_or_all_if_blank(group).count < Issue.min_watched_issues_count(group)
   end
 
   def unwatched_issues
@@ -157,7 +157,7 @@ class User < ActiveRecord::Base
   end
 
   def watched_posts(group = nil)
-    Post.where(issue: watched_issues.in_group(group))
+    Post.where(issue: watched_issues.only_group_or_all_if_blank(group))
   end
 
   def watched_articles

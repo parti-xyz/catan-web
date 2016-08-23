@@ -18,42 +18,44 @@
           %li= link_to '모든 빠띠', home_path
           - current_group.categories.each do |category|
             %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
-          - if user_signed_in? and current_user.watched_issues.in_group(current_group).any?
+          - if user_signed_in? and current_user.watched_issues.only_group_or_all_if_blank(current_group).any?
             %li.menu-divider
             %li.dropdown.watch-parties
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                 내 빠띠
                 %span.caret
               %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
-                - making_issues = current_user.making_issues.in_group(current_group)
-                - if making_issues.any?
+
+                / - abort current_user.making_issues.only_group(current_group).inspect
+                / - abort current_user.only_watched_issues.only_group(current_group).not_group.inspect
+
+                - if current_user.making_issues.only_group(current_group).any?
                   %li.dropdown-header
                     메이커인 빠띠
-                    #{making_issues.count}
-                - making_issues.each do |issue|
+                    #{current_user.making_issues.only_group(current_group).count}
+                - current_user.making_issues.only_group(current_group).each do |issue|
                   = render 'issues/issue_line', issue: issue
-                - only_watched_issues = current_user.only_watched_issues.in_group(current_group)
-                - if only_watched_issues.any?
+                - if current_user.only_watched_issues.only_group(current_group).any?
                   %li.dropdown-header
                     구독 중인 빠띠
-                    #{only_watched_issues.count}
-                - only_watched_issues.each do |issue|
+                    #{current_user.only_watched_issues.only_group(current_group).count}
+                - current_user.only_watched_issues.only_group(current_group).each do |issue|
                   = render 'issues/issue_line', issue: issue
 
-                - making_all_issues = current_user.making_issues.not_group
-                - if making_all_issues.not_group.any?
-                  %li.dropdown-header
-                    메이커인 '전체' 빠띠
-                    #{making_all_issues.count}
-                - making_all_issues.each do |issue|
-                  = render 'issues/issue_line', issue: issue
-                - only_watched_all_issues = current_user.only_watched_issues.not_group
-                - if only_watched_all_issues.not_group.any?
-                  %li.dropdown-header
-                    구독 중인 '전체' 빠띠
-                    #{only_watched_all_issues.count}
-                - only_watched_all_issues.each do |issue|
-                  = render 'issues/issue_line', issue: issue
+                - Group.all_with_indie_and_exclude(current_group).each do |group|
+                  - if current_user.making_issues.only_group(group).any?
+                    %li.dropdown-header
+                      메이커인 #{group.name} 빠띠
+                      #{current_user.making_issues.only_group(group).count}
+                  - current_user.making_issues.only_group(group).each do |issue|
+                    = render 'issues/issue_line', issue: issue
+                  - if current_user.only_watched_issues.only_group(group).any?
+                    %li.dropdown-header
+                      구독 중인 #{group.name} 빠띠
+                      #{current_user.only_watched_issues.only_group(group).count}
+                  - current_user.only_watched_issues.only_group(group).each do |issue|
+                    = render 'issues/issue_line', issue: issue
+
           %li.menu-divider
           %li.dropdown.all-posts
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}

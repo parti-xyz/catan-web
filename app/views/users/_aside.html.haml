@@ -1,11 +1,22 @@
 .col-xs-3
   #aside
     .aside_issue
-      %h4.aside-title 구독 중인 빠띠
-      %ul.clearfix.list-unstyled
-        = render customize_partial_path(@user.watched_issues.not_group, 'issue_line')
-      - if current_user.watched_issues.in_group('gwangju').any?
-        %h4.aside-title 구독 중인 '광주' 빠띠
+      - if current_user.making_issues.only_group(current_group).any?
+        %h4.aside-title 메이커인 빠띠
         %ul.clearfix.list-unstyled
-          = render customize_partial_path(@user.watched_issues.in_group('gwangju'), 'issue_line')
+          = render customize_partial_path(current_user.making_issues.only_group(current_group), 'issue_line')
+      - if current_user.only_watched_issues.only_group(current_group).any?
+        %h4.aside-title 구독 중인 빠띠
+        %ul.clearfix.list-unstyled
+          = render customize_partial_path(current_user.only_watched_issues.only_group(current_group), 'issue_line')
+
+      - Group.all_with_indie_and_exclude(current_group).each do |group|
+        - if current_user.making_issues.only_group(group).any?
+          %h4.aside-title 메이커인 #{group.name} 빠띠
+          %ul.clearfix.list-unstyled
+            = render customize_partial_path(current_user.making_issues.only_group(group), 'issue_line')
+        - if current_user.only_watched_issues.only_group(group).any?
+          %h4.aside-title 구독 중인 #{group.name} 빠띠
+          %ul.clearfix.list-unstyled
+            = render customize_partial_path(current_user.only_watched_issues.only_group(group), 'issue_line')
     = render 'application/footer'

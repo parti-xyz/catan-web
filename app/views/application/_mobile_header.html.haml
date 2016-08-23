@@ -11,18 +11,35 @@
               내 빠띠
               %span.caret
             %ul.dropdown-menu.dropdown-menu-right
-              - if current_user.making_issues.any?
+
+              - if current_user.making_issues.only_group(current_group).any?
                 %li.dropdown-header
                   메이커인 빠띠
-                  #{current_user.making_issues.count}
-              - current_user.making_issues.each do |issue|
+                  #{current_user.making_issues.only_group(current_group).count}
+              - current_user.making_issues.only_group(current_group).each do |issue|
                 = render 'issues/issue_line', issue: issue
-              - if current_user.only_watched_issues.any?
+              - if current_user.only_watched_issues.only_group(current_group).any?
                 %li.dropdown-header
                   구독 중인 빠띠
-                  #{current_user.only_watched_issues.count}
-              - current_user.only_watched_issues.each do |issue|
+                  #{current_user.only_watched_issues.only_group(current_group).count}
+              - current_user.only_watched_issues.only_group(current_group).each do |issue|
                 = render 'issues/issue_line', issue: issue
+
+              - Group.all_with_indie_and_exclude(current_group).each do |group|
+                - if current_user.making_issues.only_group(group).any?
+                  %li.dropdown-header
+                    메이커인 #{group.name} 빠띠
+                    #{current_user.making_issues.only_group(group).count}
+                - current_user.making_issues.only_group(group).each do |issue|
+                  = render 'issues/issue_line', issue: issue
+                - if current_user.only_watched_issues.only_group(group).any?
+                  %li.dropdown-header
+                    구독 중인 #{group.name} 빠띠
+                    #{current_user.only_watched_issues.only_group(group).count}
+                - current_user.only_watched_issues.only_group(group).each do |issue|
+                  = render 'issues/issue_line', issue: issue
+
+
         %li.dashboard-menu= link_to t('labels.dashboard'), dashboard_path
         %li
           %a.btn-mobile-menu{ href: '#'}

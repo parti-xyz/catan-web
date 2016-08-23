@@ -54,9 +54,9 @@ class Issue < ActiveRecord::Base
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
-  scope :in_group, ->(group) { where(group_slug: (group.try(:slug) || group)) if group.present? }
+  scope :only_group_or_all_if_blank, ->(group) { where(group_slug: (group.try(:slug) || group)) if group.present? }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
-  scope :not_group, -> {where(group_slug: nil)}
+  scope :only_group, ->(group) { where(group_slug: (group.try(:slug) || group))}
   # search
   scoped_search on: [:title, :body]
 
@@ -139,12 +139,12 @@ class Issue < ActiveRecord::Base
     Group.find_by_slug group_slug
   end
 
-  def in_group?
+  def on_group?
     group_slug.present?
   end
 
   def self.min_watched_issues_count(group = nil)
-    (group.present? and Issue.in_group(group).count < 3) ? 1 : 3
+    (group.present? and Issue.only_group_or_all_if_blank(group).count < 3) ? 1 : 3
   end
 
   def self.of_slug(slug, group_slug)

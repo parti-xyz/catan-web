@@ -8,7 +8,7 @@
         - if local_assigns[:show_issue]
           .talk-card__issue.talk-card__column
             /= link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue), class: 'clearfix' do
-            - if post.issue.in_group? and current_group != post.issue.group
+            - if post.issue.on_group? and current_group != post.issue.group
               .talk-card__group
                 = post.issue.group.name
             .thumb.thumb--issue{ class: ('thumb--group-issue' if current_group != post.issue.group), style: "background-image: url(#{post.issue.logo.sm.url})" }
