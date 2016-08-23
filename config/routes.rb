@@ -66,7 +66,7 @@ Rails.application.routes.draw do
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
   get '/dashboard/parties', to: "dashboard#parties", as: 'dashboard_parties'
-  get '/dashboard/new_comments_count', to: "dashboard#new_comments_count", as: 'new_dashboard_comments_count'
+  get '/dashboard/new_posts_count', to: "dashboard#new_posts_count", as: 'new_dashboard_posts_count'
 
   get '/c/:slug', to: "campaigns#slug_show", as: 'slug_campaign'
 
@@ -77,7 +77,7 @@ Rails.application.routes.draw do
   get '/p/:slug/notes', to: "issues#slug_notes", as: 'slug_issue_notes'
   get '/p/:slug/wikis', to: "issues#slug_wikis", as: 'slug_issue_wikis'
   get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'
-  get '/p/:slug/new_comments_count', to: "issues#new_comments_count", as: 'new_issue_comments_count'
+  get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
 
   get '/u/:slug', to: "users#comments", as: 'slug_user'
   get '/u/:slug/upvotes', to: "users#upvotes", as: 'slug_user_upvotes'

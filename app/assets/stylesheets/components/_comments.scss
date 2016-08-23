@@ -191,37 +191,4 @@ section#comments {
 }
 
 
-#new-comments {
-  display: none;
-  padding-top: 15px;
-  color: $gray;
-  .post-card-with-comments {
-    text-align: center;
-    font-size: 16px;
-    .new-comments__count {
-      margin-right: 3px;
-    }
-    .new-comments__count, .text-primary {
-      color: $brand-primary;
-      font-weight: bold;
-    }
-    a {
-      color: $gray;
-    }
-  }
-}
 
-@media (max-width: $screen-xs-max) {
-  .comment__btn i {
-    font-size: 20px;
-  }
-  .comment-list form.edit_comment textarea#comment_body {
-    height: 150px;
-  }
-  #new-comments {
-    .post-card-with-comments {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-}

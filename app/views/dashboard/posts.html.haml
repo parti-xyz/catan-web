@@ -7,7 +7,7 @@
           = t('labels.dashboard')
           %small 구독 중인 #{ current_group.name if current_group.present?} 빠띠의 최근 소식입니다.
         - if @posts.first.present? and @last_post.present?
-          = render 'comments/new_comments_count', new_comments_count_url: new_dashboard_comments_count_path(first_id: @last_post.id)
+          = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?
             .bg-default

@@ -25,7 +25,7 @@ class DashboardController < ApplicationController
     @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
   end
 
-  def new_comments_count
+  def new_posts_count
     first_post = Post.find_by id: params[:first_id]
     if first_post.blank?
       @count = 0
