@@ -1,12 +1,4 @@
 class PagesController < ApplicationController
-  def index
-    if user_signed_in? and current_user.root_as_dashboard?
-      redirect_to dashboard_path
-    else
-      redirect_to action: :home
-    end
-  end
-
   def home
     if current_group.blank?
       @featured_contents = []

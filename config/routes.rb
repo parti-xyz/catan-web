@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  root 'pages#index'
+  authenticated :user, lambda {|user| user.root_as_dashboard? } do
+    root 'dashboard#index', as: :dashboard_root
+  end
+  root 'pages#home'
+
   get '/home', to: 'pages#home'
   get '/robots.:format', to: 'pages#robots'
   get '/monitors', to: 'monitors#index'
