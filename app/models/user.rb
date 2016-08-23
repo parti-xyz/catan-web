@@ -139,14 +139,6 @@ class User < ActiveRecord::Base
     watched_issues.only_group_or_all_if_blank(group).count < Issue.min_watched_issues_count(group)
   end
 
-  def unwatched_issues
-    Issue.where.not(id: watched_issues)
-  end
-
-  def watched_hottest_posts(count)
-    watched_posts.hottest.limit(count)
-  end
-
   def hottest_posts(count)
     posts.hottest.limit(count)
   end
@@ -161,11 +153,10 @@ class User < ActiveRecord::Base
 
   def only_watched_or_member_issues(group)
     if group.try(:membership?)
-      member_issues.where.not(id: makers.select(:issue_id))
+      member_issues.only_group(group).where.not(id: makers.select(:issue_id))
     else
       watched_issues.only_group(group).where.not(id: makers.select(:issue_id))
     end
-
   end
 
   def watched_posts(group = nil)

@@ -6,8 +6,8 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.hidden.navbar-brand{ href: root_path }
-          %img{ alt: 'parti', src: asset_path("groups/#{current_group.slug}_logo.png")}
+        / %a.hidden.navbar-brand{ href: root_path }
+        /   %img{ alt: 'parti', src: asset_path("groups/#{current_group.logo}")}
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
@@ -16,8 +16,9 @@
               #{current_group.head_title}
           %li.menu-divider
           %li= link_to '모든 빠띠', home_path
-          - current_group.categories.each do |category|
-            %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
+          - if current_group.categories.try(:any?)
+            - current_group.categories.each do |category|
+              %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
           - if user_signed_in? and current_user.watched_issues.only_group_or_all_if_blank(current_group).any?
             %li.menu-divider
             %li.dropdown.watch-parties

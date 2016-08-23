@@ -1,6 +1,6 @@
 class Group
   include ActiveModel::Model
-  attr_accessor :slug, :name, :categories, :site_title, :head_title
+  attr_accessor :slug, :name, :logo, :categories, :site_title, :head_title
 
   GWANGJU = Group.new(slug: 'gwangju',
     name: '광주',
@@ -12,6 +12,11 @@ class Group
       Category::GWANGJU_PROJECT,
       Category::GWANGJU_STATESMAN,
     ])
+
+  GMOLABELING = Group.new(slug: 'gmolabeling',
+    name: '나는 알아야겠당',
+    site_title: 'GMO 완전표시제법',
+    head_title: 'GMO 완전표시제법 &middot; 나는 알아야겠당'.html_safe)
 
   INDIE = Group.new(slug: nil, name: '전체')
 
@@ -32,11 +37,11 @@ class Group
   end
 
   def self.all
-    [Group::GWANGJU]
+    [Group::GWANGJU, Group::GMOLABELING]
   end
 
   def self.all_with_indie
-    [Group::GWANGJU, Group::INDIE]
+    all + [Group::INDIE]
   end
 
   def self.find_by_slug(slug)

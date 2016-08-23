@@ -1,6 +1,5 @@
-@import "variables";
-$screen-sm-min: 10000px;
-@import "application";
+@import "variables_xs";
+@import "groups/gmolabeling";
 
 #site-header .navbar-header .navbar-brand img {
   width: 30px;

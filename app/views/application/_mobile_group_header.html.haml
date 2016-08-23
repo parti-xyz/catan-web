@@ -5,15 +5,16 @@
         %a.navbar-brand{ href: root_path }
           %img{ alt: 'parti', src: asset_path('default_issue_logo.png')}
       %ul.nav.navbar-nav.navbar-nav-menu
-        %li.dropdown.parti-tags
-          %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-            주제별 빠띠
-            %span.caret
-          %ul.dropdown-menu.dropdown-menu-left
-            - current_group.categories.each do |category|
-              %li.parti-tag-line
-                = link_to category_path(slug: category.slug) do
-                  = category.name
+        - if current_group.categories.try(:any?)
+          %li.dropdown.parti-tags
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              주제별 빠띠
+              %span.caret
+            %ul.dropdown-menu.dropdown-menu-left
+              - current_group.categories.each do |category|
+                %li.parti-tag-line
+                  = link_to category_path(slug: category.slug) do
+                    = category.name
         - if user_signed_in? and current_user.watches.any?
           %li.dropdown.watch-parties
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}

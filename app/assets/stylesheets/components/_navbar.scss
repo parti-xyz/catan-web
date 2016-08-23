@@ -95,7 +95,7 @@
           padding: 10px;
           height: auto;
           max-height: 300px;
-          min-width: 240px;
+          min-width: 220px;
           overflow-x: hidden;
         }
         .issue-line {
@@ -164,11 +164,8 @@
     }
   }
 }
-#top-banner.all {
+#top-banner {
   background-image: image_url('thumb_main_keyvisual.png');
-}
-#top-banner.gwangju {
-  background-image: image_url('groups/gwangju_thumb_main_keyvisual.png');
 }
 
 @media (max-width: $screen-xs-max) {
@@ -189,11 +186,8 @@
       padding: 10px;
     }
   }
-  #top-banner.all {
+  #top-banner {
     background-image: image_url('thumb_main_keyvisual.png');
-  }
-  #top-banner.gwangju {
-    background-image: image_url('groups/gwangju_thumb_main_keyvisual.png');
   }
 }
 

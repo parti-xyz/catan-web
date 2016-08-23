@@ -1,31 +1,26 @@
-%section#top-banner{class: ( current_group.present? ? 'gwangju' : 'all' )}
+%section#top-banner
   .container
     - if is_small_screen?
       .row
-        - unless current_group.present?
-          .col-xs-8
+        .col-xs-8
+          - if current_group.present?
+            %span.text-important= current_group.site_title
+            #{current_group.name} 빠띠
+          - else
             함께 만드는
             %br
             %span.text-important 온라인 광장
-            빠띠
-          .col-xs-4
-            = link_to '빠띠란?', about_path, class: 'btn top-banner-btn'
-        - if current_group.present?
-          .col-xs-8
-            %span.text-important 민주주의 플랫폼
-            %br
-            광주빠띠
-          .col-xs-4
-            = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EA%B4%91%EC%A3%BC-%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: '_blank', class: 'btn top-banner-btn'
+          빠띠
+        .col-xs-4
+          = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EA%B4%91%EC%A3%BC-%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: '_blank', class: 'btn top-banner-btn'
+
     - else
-      - unless current_group.present?
-        %span
+      %span
+        - if current_group.present?
+          %span.text-important= current_group.site_title
+          #{current_group.name} 빠띠
+        - else
           함께 만드는
           %span.text-important 온라인 광장
           빠띠
-        = link_to '빠띠란?', about_path, class: 'btn top-banner-btn'
-      - if current_group.present?
-        %span
-          %span.text-important 민주주의 플랫폼
-          광주빠띠
-        = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EA%B4%91%EC%A3%BC-%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: '_blank', class: 'btn top-banner-btn'
+      = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EA%B4%91%EC%A3%BC-%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', class: 'btn top-banner-btn'
