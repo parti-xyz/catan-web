@@ -60,8 +60,6 @@
           %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"
           %li= link_to Opinion.model_name.human, opinions_path, class: "#{'active' if current_page?(controller: '/opinions', action: :index)}"
           %li= link_to Article.model_name.human, articles_path, class: "#{'active' if current_page?(controller: '/articles', action: :index)}"
-          %li.menu-divider
-          %li= link_to '빠띠만든당', slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false), target: '_all_parti'
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li
