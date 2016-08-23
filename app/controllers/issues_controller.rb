@@ -42,7 +42,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_home
-    @last_post = @issue.posts.newest
+    @last_post = @issue.posts.newest(field: :last_touched_at)
 
     previous_last_post = Post.find_by(id: params[:last_id])
 

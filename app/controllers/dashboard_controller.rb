@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
 
   def posts
     watched_posts = current_user.watched_posts(current_group)
-    @last_post = watched_posts.newest
+    @last_post = watched_posts.newest(field: :last_touched_at)
 
     previous_last_post = Post.find_by(id: params[:last_id])
 
