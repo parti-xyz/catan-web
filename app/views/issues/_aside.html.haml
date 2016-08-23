@@ -10,7 +10,7 @@
       - prevew_count = 6 * 4 - 1
       %h5.aside-title
         = link_to issue_users_path(@issue) do
-          #{current_group.try(:membership?) ? '가입' : '구독'}회원
+          #{@issue.member_only? ? '가입' : '구독'}회원
           %span
             %span.text-primary<> #{@issue.watches.count}
             명
