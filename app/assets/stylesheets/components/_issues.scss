@@ -629,6 +629,12 @@ section#issues {
     color: $brand-primary;
     font-size: $font-size-small;
     font-weight: bold;
+    .users-count,
+    .posts-count,
+    .comments-count {
+      display: inline-block;
+      white-space: nowrap;
+    }
   }
   &__btn {
     width: 100%;
