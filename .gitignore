@@ -16,7 +16,7 @@
 .byebug_history
 db/*.sqlite3
 public/uploads/*
-public/sitemap.xml.gz
+public/sitemaps/*
 dump.rdb
 
 app/assets/images/email/.DS_Store
