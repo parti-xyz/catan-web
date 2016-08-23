@@ -50,6 +50,8 @@ class User < ActiveRecord::Base
   has_many :watched_issues, through: :watches, source: :issue
   has_many :makers
   has_many :making_issues, through: :makers, source: :issue
+  has_many :member
+  has_many :member_issues, through: :member, source: :issue
 
   ## uploaders
   # mount
@@ -155,6 +157,15 @@ class User < ActiveRecord::Base
 
   def only_watched_issues
     watched_issues.where.not(id: makers.select(:issue_id))
+  end
+
+  def only_watched_or_member_issues(group)
+    if group.try(:membership?)
+      member_issues.where.not(id: makers.select(:issue_id))
+    else
+      watched_issues.only_group(group).where.not(id: makers.select(:issue_id))
+    end
+
   end
 
   def watched_posts(group = nil)

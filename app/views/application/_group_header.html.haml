@@ -26,20 +26,17 @@
                 %span.caret
               %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
 
-                / - abort current_user.making_issues.only_group(current_group).inspect
-                / - abort current_user.only_watched_issues.only_group(current_group).not_group.inspect
-
                 - if current_user.making_issues.only_group(current_group).any?
                   %li.dropdown-header
                     메이커인 빠띠
                     #{current_user.making_issues.only_group(current_group).count}
                 - current_user.making_issues.only_group(current_group).each do |issue|
                   = render 'issues/issue_line', issue: issue
-                - if current_user.only_watched_issues.only_group(current_group).any?
+                - if current_user.only_watched_or_member_issues(current_group).any?
                   %li.dropdown-header
-                    구독 중인 빠띠
-                    #{current_user.only_watched_issues.only_group(current_group).count}
-                - current_user.only_watched_issues.only_group(current_group).each do |issue|
+                    #{current_group.try(:membership?) ? '가입한' : '구독 중인'} 빠띠
+                    #{current_user.only_watched_or_member_issues(current_group).count}
+                - current_user.only_watched_or_member_issues(current_group).each do |issue|
                   = render 'issues/issue_line', issue: issue
 
                 - Group.all_with_indie_and_exclude(current_group).each do |group|
@@ -49,11 +46,11 @@
                       #{current_user.making_issues.only_group(group).count}
                   - current_user.making_issues.only_group(group).each do |issue|
                     = render 'issues/issue_line', issue: issue
-                  - if current_user.only_watched_issues.only_group(group).any?
+                  - if current_user.only_watched_or_member_issues(group).any?
                     %li.dropdown-header
-                      구독 중인 #{group.name} 빠띠
-                      #{current_user.only_watched_issues.only_group(group).count}
-                  - current_user.only_watched_issues.only_group(group).each do |issue|
+                      #{group.try(:membership?) ? '가입한' : '구독 중인'} #{group.name} 빠띠
+                      #{current_user.only_watched_or_member_issues(group).count}
+                  - current_user.only_watched_or_member_issues(group).each do |issue|
                     = render 'issues/issue_line', issue: issue
 
           %li.menu-divider

@@ -155,11 +155,11 @@ class Issue < ActiveRecord::Base
   end
 
   def member_only?
-    in_group?
+    on_group?
   end
 
   def postable? someone
-    !in_group? or member?(someone)
+    !on_group? or member?(someone)
   end
 
   def self.min_watched_issues_count(group = nil)

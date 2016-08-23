@@ -23,6 +23,10 @@ class Group
     "#{name} 빠띠"
   end
 
+  def membership?
+    self != Group::INDIE
+  end
+
   def self.all_with_indie_and_exclude(some_group)
     Group.all_with_indie.reject {|group| group.slug == some_group.try(:slug) }
   end
