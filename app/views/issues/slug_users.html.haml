@@ -6,7 +6,7 @@
         %section#content-tab-section
           .nav-tabs.message-tab
             %h4
-              구독회원
+              #{@issue.member_only? ? '가입' : '구독'}회원
               .count-label-wrapper
                 .count-label= @issue.watches.count
 

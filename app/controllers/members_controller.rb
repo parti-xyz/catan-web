@@ -13,7 +13,10 @@ class MembersController < ApplicationController
       end
     end
 
-    redirect_to(request.referrer || issue_home_path_or_url(@member.issue))
+    respond_to do |format|
+      format.js
+      format.html { redirect_to(request.referrer || issue_home_path_or_url(@member.issue)) }
+    end
   end
 
   def cancel
@@ -27,7 +30,10 @@ class MembersController < ApplicationController
       end
     end
 
-    redirect_to(request.referrer || issue_home_path_or_url(@member.issue))
+    respond_to do |format|
+      format.js
+      format.html { redirect_to(request.referrer || issue_home_path_or_url(@member.issue)) }
+    end
   end
 
   private

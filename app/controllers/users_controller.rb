@@ -1,10 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!, only: [:kill_me, :toggle_root_page]
 
-  def index
-    @users = User.order("id DESC")
-  end
-
   def comments
     fetch_user
     @comments = @user.comments.recent.limit(25).previous_of params[:last_id]

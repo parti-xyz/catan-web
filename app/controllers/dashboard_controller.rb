@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
   respond_to :js, :html
 
   def index
-    if current_user.need_to_more_watch?(current_group)
+    if current_user.need_to_more_watch_or_member?(current_group)
       @issues = Issue.hottest.only_group_or_all_if_blank(current_group)
       render 'intro' and return
     end

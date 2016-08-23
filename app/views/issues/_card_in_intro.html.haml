@@ -1,9 +1,9 @@
 - issue ||= local_assigns[:card]
 - if issue.watched_by?(current_user)
-  - action_link = cancel_issue_watches_path(issue, partial: :intro)
+  - action_link = issue.member_only? ? cancel_issue_members_path(issue, partial: :intro) : cancel_issue_watches_path(issue, partial: :intro)
   - action_method = :delete
 - else
-  - action_link = issue_watches_path(issue, partial: :intro)
+  - action_link = issue.member_only? ? issue_members_path(issue, partial: :intro) : issue_watches_path(issue, partial: :intro)
   - action_method = :post
 .issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.watched_by?(current_user)}"}
   = link_to action_link, method: action_method, remote: true do

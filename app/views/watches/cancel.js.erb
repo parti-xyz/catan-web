@@ -4,7 +4,7 @@
     card_query = '.<%= dom_id(@watch.issue) %>-card';
     $(card_query).replaceWith(parti_origin_partial("<%= script %>"));
     parti_ellipsis($(card_query));
-    <% if current_user.need_to_more_watch?(current_group) %>
+    <% if current_user.need_to_more_watch_or_member?(current_group) %>
       $('#btn-continue').addClass( "disabled" );
       $('#btn-continue').removeAttr("href");
     <% end %>
