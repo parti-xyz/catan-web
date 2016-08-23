@@ -132,7 +132,7 @@ class ApplicationController < ActionController::Base
   end
 
   def articles_page(issue = nil)
-    articles_base = issue.nil? ? Article.all.only_group_or_all_if_nil(current_group) : issue.articles
+    articles_base = issue.nil? ? Article.all.only_group_or_all_if_blank(current_group) : issue.articles
 
     previous_last_article = Article.find_by(id: params[:last_id])
     @articles = articles_base.recent.previous_of_article(previous_last_article).limit(20)
