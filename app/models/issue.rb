@@ -57,9 +57,9 @@ class Issue < ActiveRecord::Base
   scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
-  scope :only_group_or_all_if_blank, ->(group) { where(group_slug: (group.try(:slug) || group)) if group.present? }
+  scope :only_group_or_all_if_blank, ->(group) { where(group_slug: group.slug) if group.present? }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
-  scope :only_group, ->(group) { where(group_slug: (group.try(:slug) || group))}
+  scope :only_group, ->(group) { where(group_slug: (group.present? ? group.slug : nil)) }
   # search
   scoped_search on: [:title, :body]
 

@@ -15,7 +15,7 @@ class NotesTest < ActionDispatch::IntegrationTest
   end
 
   test '올빠띠의 개별빠띠에는 멤버가 아니라도 만들어요' do
-    refute issues(:issue2).in_group?
+    refute issues(:issue2).on_group?
     refute issues(:issue2).member? users(:two)
 
     sign_in(users(:two))
@@ -25,7 +25,7 @@ class NotesTest < ActionDispatch::IntegrationTest
   end
 
   test '그룹빠띠의 빠띠에는 멤버라야 만들어요' do
-    assert issues(:issue1).in_group?
+    assert issues(:issue1).on_group?
     assert issues(:issue1).member? users(:one)
 
     sign_in(users(:one))
@@ -35,7 +35,7 @@ class NotesTest < ActionDispatch::IntegrationTest
   end
 
   test '그룹빠띠의 빠띠에는 멤버가 아니면 못 만들어요' do
-    assert issues(:issue1).in_group?
+    assert issues(:issue1).on_group?
     refute issues(:issue1).member? users(:two)
 
     sign_in(users(:two))
