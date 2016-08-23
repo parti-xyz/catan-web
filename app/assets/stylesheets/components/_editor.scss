@@ -48,7 +48,6 @@
       margin-left: 20px;
     }
 
-
     li.active {
       &:after, &:before {
         bottom: 0%;
@@ -75,9 +74,8 @@
         z-index: 1;
       }
       & > a, & > a:hover, & > a:focus {
+        color: $brand-primary-dark;
         background-color: transparent;
-        color: $brand-primary;
-
       }
     }
   }
@@ -101,6 +99,9 @@
       .submit-box {
         display: none;
       }
+    }
+    .submit-box .btn-cancel {
+      display: none;
     }
   }
   .form-widget hr {

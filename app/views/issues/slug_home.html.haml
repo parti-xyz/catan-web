@@ -5,7 +5,7 @@
     .row
       .col-xs-9
         - if user_signed_in? and @issue.postable?(current_user)
-          .unified-editor
+          .unified-editor.hidden-xs
             %ul.nav.nav-pills{role: "tablist"}
               %li.active.first{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#editor-note", role: "tab"}
