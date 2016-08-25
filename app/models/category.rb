@@ -7,5 +7,4 @@ class Category
   GWANGJU_COMMUNITY = Category.new(slug: 'community', name: '마을')
   GWANGJU_STATESMAN = Category.new(slug: 'statesman', name: '정치인')
 
-  DO_COMMITTEE = Category.new(slug: 'committee', name: '위원회')
 end

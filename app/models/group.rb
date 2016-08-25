@@ -16,10 +16,7 @@ class Group
   DO = Group.new(slug: 'do',
     name: '나는 알아야겠당',
     site_title: 'GMO 완전표시제법',
-    head_title: 'GMO 완전표시제법 &middot; 나는 알아야겠당'.html_safe,
-    categories: [
-      Category::DO_COMMITTEE
-    ])
+    head_title: 'GMO 완전표시제법 &middot; 나는 알아야겠당'.html_safe)
 
   INDIE = Group.new(slug: nil, name: '전체')
 
