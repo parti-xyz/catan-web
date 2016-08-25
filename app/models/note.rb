@@ -26,8 +26,10 @@ class Note < ActiveRecord::Base
   private
 
   def check_body_length
-    if self.body.gsub(/\r\n/, ' ').length > Note::MAX_BODY_LENGTH
-      errors.add(:body, I18n.t('activerecord.errors.models.note.attributes.body.too_long'))
+    if self.body != nil
+      if self.body.gsub(/\r\n/, ' ').length > Note::MAX_BODY_LENGTH
+        errors.add(:body, I18n.t('activerecord.errors.models.note.attributes.body.too_long'))
+      end
     end
   end
 end
