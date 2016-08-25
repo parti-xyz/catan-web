@@ -28,6 +28,7 @@
 //= require diacritics
 //= require bootstrap-dropdown-filter
 //= require simplemde
+//= require jquery.charactercounter
 
 $.Redactor.prototype.wiki_save = function()
 {
@@ -50,6 +51,8 @@ $.is_blank = function (obj) {
   if (obj.length && obj.length > 0) return false;
 
   for (var prop in obj) if (obj[prop]) return false;
+
+  if (obj) return false;
   return true;
 }
 
@@ -112,7 +115,20 @@ var parti_prepare = function($base) {
 
   $base.find('[data-action="parti-popover"]').webuiPopover();
 
+
+  $.parti_apply($base, 'form #note_body', function(elm) {
+    var limit_count = $(elm).data('rule-maxlength');
+    if($.is_blank(limit_count)) {
+      limit_count = 100;
+    }
+    $(elm).characterCounter({
+      limit: limit_count,
+      counterFormat: '%1자를 더 쓸 수 있습니다.',
+    });
+  });
+
   // typeahead
+
   $.parti_apply($base, '[data-provider="parti-issue-typeahead"]', function(elm) {
     var $elm = $(elm);
     var url = $elm.data('typeahead-url');

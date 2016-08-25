@@ -88,6 +88,10 @@
 .form-widget-container {
   display: none;
 
+  .counter.exceeded {
+      color: #f0646d;
+  }
+
   .unified-editor & {
     display: block;
     .form-widget {

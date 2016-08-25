@@ -1,7 +1,7 @@
 .well
-  = form_for @note do |f|
+  = form_for @note, html: { data: {action: 'parti-form-validation', 'submit-form-control': 'form.edit_note input[type=submit]' } } do |f|
     .form-group
-      = f.text_area :body, class: 'form-control'
+      = f.text_area :body, class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true, 'rule-maxlength': Note::MAX_BODY_LENGTH}
       %p.help-block.help-block__search-link{ style: 'margin-top: 5px;'}
 
     .editor-btn.text-right

@@ -146,6 +146,10 @@ ko:
           attributes:
             target:
               self_relation: '%{attribute}가 현재 빠띠와 같습니다. 다른 빠띠를 넣어 주세요.'
+        note:
+          attributes:
+            body:
+              too_long: 담벼락 글의 %{attribute}이 너무 깁니다. 200자 이내로 써주세요.
         talk:
           attributes:
             title:
