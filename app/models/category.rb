@@ -6,4 +6,6 @@ class Category
   GWANGJU_PROJECT = Category.new(slug: 'project', name: '시민참여 프로젝트')
   GWANGJU_COMMUNITY = Category.new(slug: 'community', name: '마을')
   GWANGJU_STATESMAN = Category.new(slug: 'statesman', name: '정치인')
+
+  DO_COMMITTEE = Category.new(slug: 'committee', name: '위원회')
 end

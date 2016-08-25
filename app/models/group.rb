@@ -13,10 +13,13 @@ class Group
       Category::GWANGJU_STATESMAN,
     ])
 
-  GMOLABELING = Group.new(slug: 'gmolabeling',
+  DO = Group.new(slug: 'do',
     name: '나는 알아야겠당',
     site_title: 'GMO 완전표시제법',
-    head_title: 'GMO 완전표시제법 &middot; 나는 알아야겠당'.html_safe)
+    head_title: 'GMO 완전표시제법 &middot; 나는 알아야겠당'.html_safe,
+    categories: [
+      Category::DO_COMMITTEE
+    ])
 
   INDIE = Group.new(slug: nil, name: '전체')
 
@@ -37,7 +40,7 @@ class Group
   end
 
   def self.all
-    [Group::GWANGJU, Group::GMOLABELING]
+    [Group::GWANGJU, Group::DO]
   end
 
   def self.all_with_indie
