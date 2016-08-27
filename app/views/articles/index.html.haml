@@ -2,9 +2,12 @@
 
 %section#articles
   .container
-    %h4
-      자료
-      %small 모든 빠띠의 최근 자료입니다.
+    .posts-header
+      %h4.posts-header__title
+        자료
+        %small 모든 빠띠의 자료입니다.
+      .posts-sort-select
+        = render 'posts/sort_select'
     .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
       - if @articles.empty?
         .col-xs-12

@@ -2,9 +2,12 @@
 
 %section#talks
   .container
-    %h4
-      = t('activerecord.models.talk')
-      %small 모든 빠띠의 최근 #{t('activerecord.models.talk')}입니다.
+    .posts-header
+      %h4.posts-header__title
+        = t('activerecord.models.talk')
+        %small 모든 빠띠의  #{t('activerecord.models.talk')}입니다.
+      .posts-sort-select
+        = render 'posts/sort_select'
     .talks-list
       - @talks.each do |talk|
         = render talk, show_issue: true

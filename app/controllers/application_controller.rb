@@ -132,38 +132,83 @@ class ApplicationController < ActionController::Base
   end
 
   def articles_page(issue = nil)
-    articles_base = issue.nil? ? Article.all.only_group_or_all_if_blank(current_group) : issue.articles
+    articles_base = issue.nil? ? Article.all.only_group_or_all_if_blank(current_group) : Article.of_issue(issue)
+
+    if issue.nil?
+      case params[:sort]
+      when 'recent'
+        articles_base = articles_base.recent
+      else
+        articles_base = articles_base.hottest
+      end
+    else
+      articles_base = articles_base.recent
+    end
 
     previous_last_article = Article.find_by(id: params[:last_id])
-    @articles = articles_base.recent.previous_of_article(previous_last_article).limit(20)
+    @articles = articles_base.previous_of_article(previous_last_article).limit(20)
     current_last_article = @articles.last
 
-    @is_last_page = (articles_base.empty? or articles_base.recent.previous_of_article(current_last_article).empty?)
+    @is_last_page = (articles_base.empty? or articles_base.previous_of_article(current_last_article).empty?)
   end
 
   def opinions_page(issue = nil)
-    opinions_base = issue.nil? ? Opinion.all.only_group_or_all_if_blank(current_group) : issue.opinions
+    opinions_base = issue.nil? ? Opinion.all.only_group_or_all_if_blank(current_group) : Opinion.of_issue(issue)
+
+    if issue.nil?
+      case params[:sort]
+      when 'recent'
+        opinions_base = opinions_base.recent
+      else
+        opinions_base = opinions_base.hottest
+      end
+    else
+      articles_base = opinions_base.recent
+    end
 
     previous_last_opinion = Opinion.find_by(id: params[:last_id])
-    @opinions = opinions_base.recent.previous_of_opinion(previous_last_opinion).limit(20)
+    @opinions = opinions_base.previous_of_opinion(previous_last_opinion).limit(20)
     current_last_opinion = @opinions.last
 
     @is_last_page = (opinions_base.empty? or opinions_base.previous_of_opinion(current_last_opinion).empty?)
   end
 
   def talks_page(issue = nil)
-    talks_base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : issue.talks
-    @talks = talks_base.recent.page(params[:page])
+    talks_base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
+
+    if issue.nil?
+      case params[:sort]
+      when 'recent'
+        talks_base = talks_base.recent
+      else
+        talks_base = talks_base.hottest
+      end
+    else
+      talks_base = talks_base.recent
+    end
+
+    @talks = talks_base.page(params[:page])
   end
 
   def notes_page(issue = nil)
-    notes_base = issue.nil? ? Note.all.only_group_or_all_if_blank(current_group) : issue.notes
+    notes_base = issue.nil? ? Note.all.only_group_or_all_if_blank(current_group) : Note.of_issue(issue)
+
+    if issue.nil?
+      case params[:sort]
+      when 'recent'
+        notes_base = notes_base.recent
+      else
+        notes_base = notes_base.hottest
+      end
+    else
+      notes_base = notes_base.recent
+    end
 
     previous_last_note = Note.find_by(id: params[:last_id])
-    @notes = notes_base.recent.previous_of_note(previous_last_note).limit(20)
+    @notes = notes_base.previous_of_note(previous_last_note).limit(20)
     current_last_note = @notes.last
 
-    @is_last_page = (notes_base.empty? or notes_base.recent.previous_of_note(current_last_note).empty?)
+    @is_last_page = (notes_base.empty? or notes_base.previous_of_note(current_last_note).empty?)
   end
 
   #bugfix redactor2-rails

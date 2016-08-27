@@ -5,6 +5,9 @@ module Postable
     belongs_to :post_issue, class_name: Issue
     before_save :update_post_issue_id_before_save
     scope :only_group_or_all_if_blank, ->(group) { joins(:post_issue).where('issues.group_slug = ?', group.slug) if group.present? }
+    scope :of_issue, ->(issue) { where(issue_id: issue) }
+    scope :hottest, -> { joins(:post).merge(Post.hottest) }
+
   end
 
   def update_post_issue_id_before_save
