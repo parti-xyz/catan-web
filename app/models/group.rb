@@ -18,6 +18,12 @@ class Group
     site_title: 'GMO 완전표시제법',
     head_title: 'GMO 완전표시제법 &middot; 나는 알아야겠당'.html_safe)
 
+
+  DUCKUP = Group.new(slug: 'duckup',
+    name: '덕업넷',
+    site_title: '덕후들 모여라',
+    head_title: '덕후들 모여라 &middot; 덕업넷'.html_safe)
+
   INDIE = Group.new(slug: nil, name: '전체')
 
   def find_category_by_slug(slug)
@@ -37,7 +43,7 @@ class Group
   end
 
   def self.all
-    [Group::GWANGJU, Group::DO]
+    [Group::GWANGJU, Group::DO, Group::DUCKUP]
   end
 
   def self.all_with_indie
