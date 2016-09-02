@@ -1,5 +1,5 @@
 - if current_group.try(:categories).try(:any?)
-  - data_params = { action: 'parti-filter-parties', 'search-input': '#parties-all input[data-action=parti-search-parties]', 'search-category': '_'}
+  - data_params = { action: 'parti-filter-parties', 'search-input': '#parties-all input[data-action=parti-search-parties]', 'search-category': ''}
   %ul.list-inline
     %li= link_to '전체', '#', data: data_params
     - current_group.categories.each do |category|
