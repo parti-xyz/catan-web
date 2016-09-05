@@ -30,7 +30,7 @@ ko:
       note: 담벼락
       talk: 논의
       article: 자료
-      opinion: 쟁점토론
+      opinion: 찬반토론
       proposal: 제안-서명
       wiki: 위키
       user: 회원
@@ -96,8 +96,8 @@ ko:
         talk_id: 추천 논의번호
         article_title: 추천 자료제목
         article_id: 추천 자료번호
-        opinion_title: 추천 쟁점토론제목
-        opinion_id: 추천 쟁점토론번호
+        opinion_title: 추천 찬반토론제목
+        opinion_id: 추천 찬반토론번호
       featured_campaign:
         title: 제목
         body: 내용
@@ -162,7 +162,7 @@ ko:
     new_article_link_source_button: 링크 걸기
     new_article_file_source_button: 파일 공유
     new_talk_button: 논의 하기
-    new_opinion_button: 쟁점토론 열기
+    new_opinion_button: 찬반토론 열기
     new_note_button: 담벼락에 쓰기
     edit_wiki_button: 편집
     show_history_button: 역사
