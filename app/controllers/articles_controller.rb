@@ -22,7 +22,7 @@ class ArticlesController < ApplicationController
 
   def update
     @issue = @article.issue
-    @article.assign_attributes(update_params)
+    @article.assign_attributes(update_params.delete_if {|key, value| value.empty? })
     @article.source = @article.source.unify
     redirect_to issue_home_path_or_url(@issue) and return if @article.source.blank?
 

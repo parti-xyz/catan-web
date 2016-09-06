@@ -30,6 +30,18 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
     assert_equal 'sample.pdf', assigns(:article).source.name
   end
 
+  test '기존 파일을 그대로 두고 고쳐요' do
+    sign_in(users(:one))
+
+    original_name = articles(:article5).reload.source.name
+
+    put article_path(articles(:article5)), article: { body: 'new body', source_attributes: {id: articles(:article5).source.id} }
+    refute assigns(:article).errors.any?
+    assigns(:article).reload
+    assert_equal 'new body', assigns(:article).body
+    assert_equal original_name, assigns(:article).source.name
+  end
+
   test '세상에 없는 빠띠를 넣으면 저장이 안되요' do
     sign_in(users(:one))
 

@@ -5,6 +5,9 @@ class FileSource < ActiveRecord::Base
 
   before_save :update_type
 
+  validates :name, presence: true
+  validates :attachment, presence: true
+
   def unify
     self
   end
