@@ -24,6 +24,11 @@ class Group
     site_title: '덕후들 모여라',
     head_title: '덕후들 모여라 &middot; 덕업넷'.html_safe)
 
+  CHANGE = Group.new(slug: 'change',
+    name: '바꿈',
+    site_title: '세상을 바꾸는 꿈',
+    head_title: '세상을 바꾸는 꿈 &middot; 바꿈'.html_safe)
+
   INDIE = Group.new(slug: nil, name: '전체')
 
   def find_category_by_slug(slug)
@@ -43,7 +48,7 @@ class Group
   end
 
   def self.all
-    [Group::GWANGJU, Group::DO, Group::DUCKUP]
+    [Group::GWANGJU, Group::DO, Group::DUCKUP, Group::CHANGE]
   end
 
   def self.all_with_indie

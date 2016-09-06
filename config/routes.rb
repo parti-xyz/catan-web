@@ -75,6 +75,13 @@ Rails.application.routes.draw do
   get '/dashboard/parties', to: "dashboard#parties", as: 'dashboard_parties'
   get '/dashboard/new_posts_count', to: "dashboard#new_posts_count", as: 'new_dashboard_posts_count'
 
+  get '/c/change2020', to: redirect(subdomain: 'change', path: '/'), constraints: { subdomain: '' }
+
+  %w(to-make-it-alive peacebridge gameisculture change-univeristy changebakkum-femi dignity wishforgoodjob politics21 wsc).each do |slug|
+    get "/p/#{slug}", to: redirect(subdomain: 'change', path: "/p/#{slug}"), constraints: { subdomain: '' }
+  end
+
+
   get '/c/:slug', to: "campaigns#slug_show", as: 'slug_campaign'
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
