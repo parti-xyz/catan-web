@@ -41,11 +41,11 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
     assert_equal previous_count, Article.count
   end
 
-  test '본문이 없으면 안만들어요' do
+  test '본문이 없어도 만들어요' do
     sign_in(users(:one))
 
     post articles_path, article: { source_attributes: { attachment: fixture_file('files/sample.pdf')}, source_type: 'FileSource', issue_id: issues(:issue2).id }
 
-    refute assigns(:article).persisted?
+    assert assigns(:article).persisted?
   end
 end
