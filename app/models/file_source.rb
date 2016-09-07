@@ -24,6 +24,10 @@ class FileSource < ActiveRecord::Base
     image? ? attachment.url : Rails.application.routes.url_helpers.download_file_source_path(self)
   end
 
+  def valid_name
+    self.name.gsub(/\\+/, "%20")
+  end
+
   private
 
   def update_type

@@ -192,6 +192,14 @@ $ source .powenv
 $ bundle exec rake db:seed_fu
 ```
 
+### 로컬에서 한글 이름의 파일을 다운로드하면 파일 이름이 깨질 때
+
+.powenv에 아래를 추가합니다.
+
+```
+export FILENAME_ENCODING="ISO-8859-1"
+```
+
 ### 메일 확인
 
 http://parti.dev/devel/emails 에서 메일 발송을 확인 할 수 있습니다.
