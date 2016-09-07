@@ -80,6 +80,13 @@ class Issue < ActiveRecord::Base
     false
   end
 
+  def to_group(group)
+    group_slug = group.slug
+    watches.each do |watch|
+      members.build(user: watch.user) unless member?(watch.user)
+    end
+  end
+
   def slug_formated_title
     return if self.title.blank?
     self.slug = self.title.strip.downcase.gsub(/\s+/, "-")
