@@ -8,6 +8,9 @@ class Ability
       :slug_users, :slug_articles, :slug_comments, :slug_opinions,
       :slug_talks, :slug_wikis, :slug_notes, :search], Issue
     if user
+      can :manage, Section do |section|
+        section.issue.made_by? user
+      end
       can [:update, :remove_logo, :remove_cover], Issue do |issue|
         user.maker?(issue)
       end

@@ -1,0 +1,17 @@
+.well
+  - if @section.errors.any?
+    .alert.alert-danger{:role => "alert"}
+      - @section.errors.full_messages.each do |msg|
+        %div
+          %span.glyphicon.glyphicon-exclamation-sign{"aria-hidden" => "true"}
+          %span.sr-only 오류 :
+          = msg
+
+  = form_for (@section.new_record? ? [@issue, @section] : @section), html: { data: {action: 'parti-form-validation', 'submit-form-control': "form#new_section input[type=submit] , form#edit_#{dom_id(@section)} input[type=submit]" } } do |f|
+    .form-group{class: error_class_str(@section, :name)}
+      = f.label :name
+      = f.text_field :name, class: 'form-control input-lg', data: {'rule-required': true}
+    .form-group
+      = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
+      = link_to issue_talks_path(@issue), class: 'btn btn-default' do
+        취소

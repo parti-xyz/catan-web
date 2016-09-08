@@ -13,6 +13,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
     assert assigns(:issue).persisted?
     assert_equal 'title', assigns(:issue).title
+    assert_equal Section::DEFAULT_NAME, assigns(:issue).sections.first.name
   end
 
   test '카테고리 안에 만들어요' do

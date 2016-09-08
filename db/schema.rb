@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823024748) do
+ActiveRecord::Schema.define(version: 20160908053315) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -336,6 +336,17 @@ ActiveRecord::Schema.define(version: 20160823024748) do
   end
 
   add_index "searches", ["searchable_type", "searchable_id"], name: "index_searches_on_searchable_type_and_searchable_id", using: :btree
+
+  create_table "sections", force: :cascade do |t|
+    t.string   "name",       limit: 255,                 null: false
+    t.integer  "issue_id",   limit: 4,                   null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "initial",                default: false
+  end
+
+  add_index "sections", ["issue_id"], name: "index_sections_on_issue_id", using: :btree
+  add_index "sections", ["name"], name: "index_sections_on_name", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4

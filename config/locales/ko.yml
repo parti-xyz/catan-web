@@ -158,6 +158,10 @@ ko:
           attributes:
             url:
               invalid: url을 잘못입력하였습니다. 자료 url은 http:// 또는 https://로 시작해야 합니다.
+        section:
+          attributes:
+            initial:
+              undeletable: 기본 섹션은 지울 수 없습니다.
   labels:
     new_article_link_source_button: 링크 걸기
     new_article_file_source_button: 파일 공유

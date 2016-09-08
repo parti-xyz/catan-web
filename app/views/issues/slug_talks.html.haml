@@ -22,5 +22,11 @@
               = t('labels.new_talk_button')
       - if user_signed_in?
         = render 'talks/new_form', issue: @issue
+    - if can? :create, Section.new(issue: @issue)
+      = link_to '카테고리 추가', new_issue_section_path(@issue)
+    - @issue.sections.each do |section|
+      = link_to section.name, [:edit, section]
+      - unless section.initial?
+        = link_to '삭제', section, method: :delete, data: { confirm: '정말 삭제하시겠습니까?'}
     = render 'talks/list', postables: @talks, issue: @issue, show_issue: @issue.blank?
     = paginate @talks, theme: 'catan', params: @paginate_params

@@ -27,6 +27,7 @@ class Issue < ActiveRecord::Base
   has_many :watched_users, through: :watches, source: :user
   has_many :members, dependent: :destroy
   has_many :member_users, through: :members, source: :user
+  has_many :sections, dependent: :destroy
 
   # validations
   validates :title,
