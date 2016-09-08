@@ -18,7 +18,9 @@ section#opinions {
   .post-modal & {
     cursor: initial;
   }
-  @include hover-shadow();
+  &:hover {
+    @include hover-shadow();
+  }
 
   background-color: #fff;
   padding: 25px 20px;

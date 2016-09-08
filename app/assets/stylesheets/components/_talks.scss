@@ -8,7 +8,9 @@ section#talks {
 }
 
 .talk-card {
-  @include hover-shadow();
+  &:hover {
+    @include hover-shadow();
+  }
   background-color: #fff;
 
   border: 1px solid #fff;
@@ -31,6 +33,9 @@ section#talks {
   @media (max-width: $screen-xs-max) {
     &__footer {
       margin-top: 14px;
+    }
+    &--with-issue &__footer {
+      padding-left: 20%;
     }
   }
 
@@ -91,19 +96,34 @@ section#talks {
   &__comment-users {
     width: 70%;
     text-align: right;
+    @media (max-width: $screen-xs-max) {
+      text-align: left;
+      width: auto;
+      display: inline-block;
+    }
     .user-byline {
       line-height: 20px;
+      color: $gray-light;
+      font-weight: normal;
       .user-image {
         width: 20px;
         height: 20px;
       }
     }
   }
-
-  .date {
-    color: $gray-light;
-    font-size: $font-size-small;
-    white-space: nowrap;
+  &__date {
+    @media (max-width: $screen-xs-max) {
+      display: inline-block;
+      margin-left: 7px;
+    }
+    .date {
+      color: $gray-light;
+      font-size: $font-size-small;
+      white-space: nowrap;
+      @media (max-width: $screen-xs-max) {
+        font-size: $font-size-base;
+      }
+    }
   }
 }
 
@@ -166,48 +186,98 @@ section#talks {
   }
 }
 
+.talk-section-wrapper {
+  position: relative;
+  .talk-section-edit {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    left: 7px;
+    display: none;
+    color: $brand-primary;
+  }
+  &:hover {
+    .talk-section-edit {
+      display: inline-block;
+    }
+    .talk-section {
+      @include hover-shadow();
+    }
+  }
+}
+.talk-section {
+  margin: 2px;
+  border: 1px solid #fff;
+  background-color: #fff;
+  padding: 11px 20px;
+  border-radius: 4px;
+  position: relative;
+  &:hover {
+    @include hover-shadow();
+  }
+  &.active {
+    color: $brand-primary;
+    border: 1px solid $brand-primary-light;
+    &:before,
+    &:after {
+      content: " ";
+      position: absolute;
+      top: 50%;
+      width: 0;
+      height: 0;
+    }
+    &:before {
+      right: -8px;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 8px solid $brand-primary-light;
+      margin-top: -8px;
+    }
+    &:after {
+      right: -6px;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+      border-left: 6px solid #fff;
+      margin-top: -6px;
+    }
+  }
+  &--add,
+  &--add:hover {
+    text-align: center;
+    color: $gray;
+    background-color: transparent;
+    border: transparent;
+    font-size: $font-size-small;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+  &--add:hover {
+    color: $brand-primary;
+    font-weight: bold;
+  }
+  .comments-count {
+    color: $text-muted;
+    font-size: $font-size-small;
+  }
+  &:hover {
+    .comments-count {
+      color: $brand-primary;
+    }
+    font-weight: 400;
+  }
+}
+
+.talk-section-dropdown {
+  margin-bottom: 14px;
+  &.open > .dropdown-menu {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 @media (max-width: $screen-xs-max) {
   .talk-card {
     padding: 10px;
-    // .media-left {
-    //   padding-right: 5px;
-    // }
-    // .talk-media {
-    //   h4.media-heading.title {
-    //     margin-bottom: 0;
-    //     padding-top: 8px;
-    //   }
-    //   .media-body {
-    //     text-align: left;
-    //     vertical-align: middle;
-    //   }
-    //   .media-right {
-    //     display: block;
-    //     padding-left: 0;
-    //     padding-top: 6px;
-    //     .comment-count {
-    //       float: left;
-    //       line-height: 30px;
-    //       padding-left: 0px;
-    //       text-align: left;
-    //       font-size: 14px;
-    //     }
-    //     .comment-users {
-    //       float: right;
-    //     }
-    //   }
-    // }
-    // .comment-media {
-    //   padding-top: 10px;
-    //   margin-top: 10px;
-    //   .media-left {
-    //     padding-left: 10px;
-    //   }
-    //   .media-right {
-    //     display: block;
-    //     padding-left: 35px;
-    //     text-align: left;
-    //   }
-    // }
   }
 }

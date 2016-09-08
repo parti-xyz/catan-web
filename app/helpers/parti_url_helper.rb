@@ -37,8 +37,14 @@ module PartiUrlHelper
     slug_issue_opinions_path(options)
   end
 
-  def issue_talks_path(issue)
-    slug_issue_talks_path(slug: issue.slug)
+  def issue_talks_path(issue, options = {})
+    options.update(slug: issue.slug)
+
+    if options.has_key? :section_id
+      slug_issue_talks_with_section_path(options)
+    else
+      slug_issue_talks_path(options)
+    end
   end
 
   def issue_wikis_path(issue)

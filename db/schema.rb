@@ -385,6 +385,8 @@ ActiveRecord::Schema.define(version: 20160908072903) do
     t.integer  "section_id",    limit: 4,     null: false
   end
 
+  add_index "talks", ["section_id"], name: "index_talks_on_section_id", using: :btree
+
   create_table "upvotes", force: :cascade do |t|
     t.integer  "user_id",        limit: 4,   null: false
     t.datetime "created_at",                 null: false

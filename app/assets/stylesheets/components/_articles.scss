@@ -13,7 +13,9 @@ section#articles {
 }
 
 .article-card {
-  @include hover-shadow();
+  &:hover {
+    @include hover-shadow();
+  }
 
   background-color: #fff;
   border-radius: $border-radius-base;

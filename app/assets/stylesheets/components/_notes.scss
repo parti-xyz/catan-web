@@ -3,7 +3,9 @@ section#notes {
 }
 
 .note-card {
-  @include hover-shadow();
+  &:hover {
+    @include hover-shadow();
+  }
 
   background-color: $brand-warning;
   border: 1px solid transparent;

@@ -1,8 +1,46 @@
 .posts
-  - if postables.empty?
-    .bg-default.text-center
-      %i.fa.fa-info-circle
-      가장 먼저 논의를 열어 보세요.
-  - else
-    - postables.each do |postable|
-      = render postable, show_issue: local_assigns[:show_issue]
+  .visible-xs-block
+    .talk-section-dropdown.dropdown
+      %button.btn.btn-block.btn-default.dropdown-toggle{'data-toggle': 'dropdown', type: 'button'}
+        = @section.blank? ? '전체' : @section.name
+        %span.caret
+      %ul.dropdown-menu
+        %li{class: ('active' if @section.blank?)}
+          = link_to '전체', issue_talks_path(@issue)
+        - @issue.sections.each do |section|
+          %li{class: ('active' if section == @section)}
+            = link_to issue_talks_path(@issue, section_id: section) do
+              = section.name
+              - if section.talks.any?
+                %span.comments-count
+                  (#{section.talks.count})
+  .row
+    .col-sm-2.hidden-xs
+      = link_to issue_talks_path(@issue) do
+        .talk-section{class: ('active' if @section.blank?)}
+          전체
+      - @issue.sections.each do |section|
+        .talk-section-wrapper
+          - if can? :edit, section
+            = link_to [:edit, section] do
+              .talk-section-edit
+                %i.fa.fa-edit
+          = link_to issue_talks_path(@issue, section_id: section) do
+            .talk-section{class: ('active' if section == @section)}
+              = section.name
+              - if section.talks.any?
+                %span.comments-count
+                  (#{section.talks.count})
+      - if can? :create, Section.new(issue: @issue)
+        = link_to new_issue_section_path(@issue) do
+          .talk-section.talk-section--add
+            %i.fa.fa-plus
+            추가
+    .col-sm-10.col-xs-12
+      - if postables.empty?
+        .bg-default.text-center
+          %i.fa.fa-info-circle
+          가장 먼저 논의를 열어 보세요.
+      - else
+        - postables.each do |postable|
+          = render postable, show_issue: local_assigns[:show_issue]

@@ -16,15 +16,13 @@
 }
 
 @mixin hover-shadow() {
-  &:hover {
-    border-top: 1px solid $brand-primary-light;
-    border-right: 1px solid $brand-primary-light;
-    border-bottom: 1px solid $brand-primary-light;
-    border-left: 1px solid $brand-primary-light;
-    -webkit-box-shadow: 4px 4px 4px 0px #deddda;
-    -moz-box-shadow: 4px 4px 4px 0px #deddda;
-    box-shadow: 4px 4px 4px 0px #deddda;
-  }
+  border-top: 1px solid $brand-primary-light;
+  border-right: 1px solid $brand-primary-light;
+  border-bottom: 1px solid $brand-primary-light;
+  border-left: 1px solid $brand-primary-light;
+  -webkit-box-shadow: 4px 4px 4px 0px #deddda;
+  -moz-box-shadow: 4px 4px 4px 0px #deddda;
+  box-shadow: 4px 4px 4px 0px #deddda;
 }
 
 @mixin word-wrap() {

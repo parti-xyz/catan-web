@@ -153,6 +153,10 @@ class ApplicationController < ActionController::Base
 
   def talks_page(issue = nil)
     talks_base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : issue.talks
+    if params[:section_id].present?
+      @section = Section.find_by id: params[:section_id]
+      talks_base = talks_base.where(section: @section) if @section.present?
+    end
     @talks = talks_base.recent.page(params[:page])
   end
 

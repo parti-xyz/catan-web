@@ -19,7 +19,9 @@ section#posts {
     border-top: none;
   }
 
-  @include hover-shadow();
+  &:hover {
+    @include hover-shadow();
+  }
   position: relative;
   background-color: #fff;
   margin-bottom: 10px;
