@@ -1,6 +1,13 @@
 .well
   = form_for @talk do |f|
     .form-group
+      = f.label :section_id
+      = f.select :section_id, nil, {}, {class: 'form-control'} do
+        - @talk.issue.sections.each do |section|
+          %option{value: section.id}
+            = section.name
+
+    .form-group
       = f.label :title
       = f.text_field :title, class: 'form-control', maxlength: 50, placeholder: t('activerecord.models.talk') + '의 제목을 쓰세요'
 

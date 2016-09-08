@@ -62,7 +62,7 @@ class TalksController < ApplicationController
   end
 
   def talk_params
-    params.require(:talk).permit(:title, :body, :issue_id)
+    params.require(:talk).permit(:title, :body, :issue_id, :section_id)
   end
 
   def fetch_issue

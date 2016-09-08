@@ -5,6 +5,8 @@ class Talk < ActiveRecord::Base
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true
 
+  belongs_to :section
+
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
 
