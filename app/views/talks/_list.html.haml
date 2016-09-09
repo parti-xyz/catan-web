@@ -42,5 +42,12 @@
           %i.fa.fa-info-circle
           가장 먼저 논의를 열어 보세요.
       - else
+        - has_blinds = false
         - postables.each do |postable|
-          = render postable, show_issue: local_assigns[:show_issue]
+          - unless postable.blinded?(current_user)
+            = render postable, show_issue: local_assigns[:show_issue]
+          - else
+            - has_blinds = true
+        - if has_blinds
+          .talk-card
+            = t('labels.blind_info')

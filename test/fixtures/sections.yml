@@ -1,0 +1,8 @@
+section1:
+  issue: issue1
+  name: section1
+  initial: true
+section2:
+  issue: issue2
+  name: sections2
+  initial: true

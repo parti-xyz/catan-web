@@ -36,7 +36,7 @@
     - else
       .row.masonry-container{data: {last_id: @articles.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
         .grid-sizer.col-sm-4.col-xs-6
-        = render 'issues/slug_articles_page'
+        = render 'articles/slug_articles_page'
       .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_articles_path(@issue, format: :js)}
         .page_waypoint__loading
           %i.fa.fa-3x.fa-spinner.fa-pulse

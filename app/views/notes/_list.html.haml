@@ -2,11 +2,8 @@
   .row.masonry-container{data: {last_id: @notes.last.try(:id), is_last: @is_last_page.to_s}}
     - if user_signed_in? and @issue.postable?(current_user)
       .col-sm-4.col-xs-12.card
-        = render 'notes/new_form', issue: @issue
-
-    - postables.each do |postable|
-      = render postable, show_issue: local_assigns[:show_issue]
-
+        = render 'notes/new_form', local_assigns
+    = render 'notes/slug_notes_page', local_assigns.merge(postables: @notes)
   - if !user_signed_in? and postables.empty?
     .bg-default.text-center
       %i.fa.fa-info-circle

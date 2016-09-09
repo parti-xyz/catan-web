@@ -103,6 +103,24 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:issue).makers.first.user
   end
 
+  test '블라인드할 사용자를 넣어요' do
+    sign_in(users(:maker))
+
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', blinds_nickname: users(:one).nickname })
+
+    assigns(:issue).reload
+    assert_equal users(:one), assigns(:issue).blinds.first.user
+  end
+
+  test '중복된 블라인드를 넣으면 알아서 넣어줘요.' do
+    sign_in(users(:maker))
+
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', blinds_nickname: "#{users(:one).nickname},#{users(:one).nickname}" })
+
+    assigns(:issue).reload
+    assert_equal users(:one), assigns(:issue).blinds.first.user
+  end
+
   test 'all이라는 이슈는 못만들어요' do
     sign_in(users(:one))
 

@@ -1,0 +1,11 @@
+- postables ||= @notes
+- has_blinds = false
+- postables.each do |postable|
+  - unless postable.blinded?(current_user)
+    = render postable, local_assigns
+  - else
+    - has_blinds = true
+- if has_blinds
+  .col-sm-4.col-xs-12.card
+    .note-card
+      = t('labels.blind_info')

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160908072903) do
+ActiveRecord::Schema.define(version: 20160909075624) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(version: 20160908072903) do
   add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at", using: :btree
   add_index "articles", ["post_issue_id", "source_id", "source_type", "deleted_at"], name: "index_article_on_unique_link_source", unique: true, using: :btree
   add_index "articles", ["source_type", "source_id"], name: "index_articles_on_source_type_and_source_id", using: :btree
+
+  create_table "blinds", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "issue_id",   limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "blinds", ["issue_id"], name: "index_blinds_on_issue_id", using: :btree
+  add_index "blinds", ["user_id"], name: "index_blinds_on_user_id", using: :btree
 
   create_table "campaigned_issues", force: :cascade do |t|
     t.integer  "campaign_id", limit: 4, null: false

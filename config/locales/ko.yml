@@ -48,6 +48,7 @@ ko:
         cover: 커버 이미지
         slug: 주소
         makers: 빠띠메이커
+        blinds: 블랙리스트 회원
         basic: 기본빠띠 여부
         category_slug: 주제
         telegram_link: 텔레그램 슈퍼그룹 링크
@@ -175,6 +176,7 @@ ko:
     edit_wiki_button: 편집
     show_history_button: 역사
     dashboard: 내 홈
+    blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 일부 숨겨진 글이 있습니다.
   enumerize:
     defaults:
       choice:

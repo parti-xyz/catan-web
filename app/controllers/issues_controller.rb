@@ -99,6 +99,15 @@ class IssuesController < ApplicationController
           end
         end
       end
+      if @issue.blinds_nickname.present?
+        @issue.blinds.destroy_all
+        @issue.blinds_nickname.split(",").map(&:strip).uniq.each do |nickname|
+          user = User.find_by(nickname: nickname)
+          if user.present?
+            @issue.blinds.build(user: user)
+          end
+        end
+      end
       if @issue.save
         @issue.makers.each do |maker|
           @watch = maker.user.watches.build(issue: @issue)
@@ -159,7 +168,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname, :telegram_link, :tag_list, :category_slug)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname, :blinds_nickname, :telegram_link, :tag_list, :category_slug)
   end
 
   def prepare_issue_meta_tags

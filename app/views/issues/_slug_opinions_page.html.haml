@@ -1,3 +1,10 @@
+- has_blinds = false
 - @opinions.each do |opinion|
+  - unless opinion.blinded?(current_user)
+    .col-xs-12.col-sm-4.card.card--hover-grow
+      = render opinion, local_assigns
+  - else
+    - has_blinds = true
+- if has_blinds
   .col-xs-12.col-sm-4.card.card--hover-grow
-    = render opinion, local_assigns
+    .opinion-card= t('labels.blind_info')

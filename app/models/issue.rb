@@ -8,7 +8,7 @@ class Issue < ActiveRecord::Base
   SLUG_OF_PARTI_PARTI = 'parti'
 
   # relations
-  has_many :relateds
+  has_many :relateds, dependent: :destroy
   has_many :related_issues, through: :relateds, source: :target
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
@@ -17,8 +17,13 @@ class Issue < ActiveRecord::Base
   has_many :talks, through: :posts, source: :postable, source_type: Talk
   has_many :notes, through: :posts, source: :postable, source_type: Note
   # 이슈는 위키를 하나 가지고 있어요.
-  has_one :wiki
-  has_many :makers do
+  has_one :wiki, dependent: :destroy
+  has_many :makers, dependent: :destroy do
+    def merge_nickname
+      self.map { |m| m.user.nickname }.join(',')
+    end
+  end
+  has_many :blinds, dependent: :destroy do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
     end
@@ -48,6 +53,7 @@ class Issue < ActiveRecord::Base
   # fields
   mount_uploader :logo, ImageUploader
   attr_accessor :makers_nickname
+  attr_accessor :blinds_nickname
 
   # callbacks
   before_save :downcase_slug
@@ -168,6 +174,10 @@ class Issue < ActiveRecord::Base
 
   def postable? someone
     !on_group? or member?(someone)
+  end
+
+  def blind_user? someone
+    blinds.exists?(user: someone)
   end
 
   def self.min_watched_issues_count(group = nil)

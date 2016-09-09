@@ -104,6 +104,11 @@ class Post < ActiveRecord::Base
     comments.recent.limit(2).reverse
   end
 
+  def blinded? someone
+    return false if someone == self.user
+    issue.blind_user? self.user
+  end
+
   def self.recommends(exclude)
     result = recent.limit(10)
     if result.length < 10

@@ -15,7 +15,7 @@
             %i.fa.fa-info-circle
             해당되는 글이 없습니다.
       - else
-        = render 'issues/slug_notes_page', show_issue: true
+        = render 'notes/slug_notes_page', postables: @notes, show_issue: true
     .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': notes_path(format: :js)}
       .page_waypoint__loading
         %i.fa.fa-3x.fa-spinner.fa-pulse

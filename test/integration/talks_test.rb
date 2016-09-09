@@ -4,7 +4,7 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post talks_path(talk: { title: 'title', body: 'body', issue_id: issues(:issue2).id })
+    post talks_path, talk: { title: 'title', body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
 
     assert assigns(:talk).persisted?
     assigns(:talk).reload
@@ -22,7 +22,7 @@ class TalksTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:two))
 
-    post talks_path(talk: { title: 'title', body: 'body', issue_id: issues(:issue2).id })
+    post talks_path, talk: { title: 'title', body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
     assert assigns(:talk).persisted?
   end
 
@@ -32,7 +32,7 @@ class TalksTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
 
-    post talks_path(talk: { title: 'title', body: 'body', issue_id: issues(:issue1).id })
+    post talks_path, talk: { title: 'title', body: 'body', issue_id: issues(:issue1).id, section_id: sections(:section1).id }
     assert assigns(:talk).persisted?
   end
 
@@ -50,7 +50,7 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '고쳐요' do
     sign_in(users(:one))
 
-    put talk_path(talks(:talk1), talk: { title: 'title x', body: 'body x', issue_id: issues(:issue2).id })
+    put talk_path(talks(:talk1)), talk: { title: 'title x', body: 'body x', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
 
     refute assigns(:talk).errors.any?
     assigns(:talk).reload
@@ -66,7 +66,7 @@ class TalksTest < ActionDispatch::IntegrationTest
     previous_count = Talk.count
 
     assert_raises CanCan::AccessDenied do
-      post talks_path(talk: { link: 'link', body: 'body', issue_id: -1 })
+      post talks_path, talk: { link: 'link', body: 'body', issue_id: -1, section_id: sections(:section1).id }
     end
     assert_equal previous_count, Talk.count
   end
@@ -74,7 +74,7 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '내용 없이는 못 만들어요' do
     sign_in(users(:one))
 
-    post talks_path(talk: { title: 'title', issue_id: issues(:issue2).id })
+    post talks_path, talk: { title: 'title', issue_id: issues(:issue2).id, section_id: sections(:section2).id }
 
     refute assigns(:talk).persisted?
   end

@@ -1,2 +1,13 @@
+- has_blinds = false
 - @posts.each do |post|
-  = render post, local_assigns
+  - unless post.blinded?(current_user)
+    = render post, local_assigns
+  - else
+    - has_blinds = true
+
+- if has_blinds
+  .post-card-with-comments
+    .post-card-with-comments__content
+      .post-card-with-comments__header
+        = t('labels.blind_info')
+
