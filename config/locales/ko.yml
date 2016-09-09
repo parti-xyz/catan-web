@@ -39,6 +39,7 @@ ko:
       featured_issue: 추천빠띠
       featured_campaign: 추천캠페인
       related: 관련빠띠
+      section: 섹션
     attributes:
       issue:
         title: 제목
@@ -64,6 +65,7 @@ ko:
         tag_list: 태그
       talk:
         issue: 빠띠
+        section: 섹션
         title: 제목
         body: 내용
       note:

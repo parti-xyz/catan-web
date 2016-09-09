@@ -7,7 +7,7 @@
       %ul.dropdown-menu
         %li{class: ('active' if @section.blank?)}
           = link_to '전체', issue_talks_path(@issue)
-        - @issue.sections.each do |section|
+        - @issue.sections.resent.each do |section|
           %li{class: ('active' if section == @section)}
             = link_to issue_talks_path(@issue, section_id: section) do
               = section.name
@@ -19,7 +19,7 @@
       = link_to issue_talks_path(@issue) do
         .talk-section{class: ('active' if @section.blank?)}
           전체
-      - @issue.sections.each do |section|
+      - @issue.sections.resent.each do |section|
         .talk-section-wrapper
           - if can? :edit, section
             = link_to [:edit, section] do

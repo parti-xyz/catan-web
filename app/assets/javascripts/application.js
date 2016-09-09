@@ -29,6 +29,7 @@
 //= require bootstrap-dropdown-filter
 //= require simplemde
 //= require jquery.charactercounter
+//= require bootstrap-select
 
 $.Redactor.prototype.wiki_save = function()
 {

@@ -2,6 +2,7 @@ class Talk < ActiveRecord::Base
   include Postable
   acts_as_paranoid
   acts_as :post, as: :postable
+  validates :section, presence: true
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true
 
