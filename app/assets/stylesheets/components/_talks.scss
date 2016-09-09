@@ -194,7 +194,10 @@ section#talks {
     top: 12px;
     left: 7px;
     display: none;
-    color: $brand-primary;
+    color: $gray;
+    &:hover {
+      color: $brand-primary;
+    }
   }
   &:hover {
     .talk-section-edit {
