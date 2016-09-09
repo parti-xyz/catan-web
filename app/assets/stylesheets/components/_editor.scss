@@ -182,8 +182,12 @@
   .editor-btn {
     width: 225px;
   }
+}
 
-  .bootstrap-select > .dropdown-toggle.bs-placeholder, .bootstrap-select > .dropdown-toggle.bs-placeholder:hover, .bootstrap-select > .dropdown-toggle.bs-placeholder:focus, .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
+
+.editors-panel,
+.unified-editor {
+  .bootstrap-select > .dropdown-toggle, .bootstrap-select > .dropdown-toggle:hover, .bootstrap-select > .dropdown-toggle:focus, .bootstrap-select > .dropdown-toggle:active {
     background-color: #fff;
     -webkit-box-shadow: none;
     box-shadow: none;
