@@ -474,6 +474,14 @@ var parti_prepare = function($base) {
       }
     });
 
+    $elm.find(':input').on('change', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
     $elm.find('select').on('change', function(e) {
       if($form.valid()) {
         $submit.prop('disabled', false);

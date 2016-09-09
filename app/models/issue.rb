@@ -13,7 +13,7 @@ class Issue < ActiveRecord::Base
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
   has_many :articles, through: :posts, source: :postable, source_type: Article
-  has_many :opinions, through: :posts, source: :postable, source_type: Opinion
+  has_many :opinions, through: :posts, source: :postable, source_type: Opinion, as: 'posts'
   has_many :talks, through: :posts, source: :postable, source_type: Talk
   has_many :notes, through: :posts, source: :postable, source_type: Note
   # 이슈는 위키를 하나 가지고 있어요.
@@ -79,6 +79,13 @@ class Issue < ActiveRecord::Base
 
   def is_all?
     false
+  end
+
+  def to_group(group)
+    group_slug = group.slug
+    watches.each do |watch|
+      members.build(user: watch.user) unless member?(watch.user)
+    end
   end
 
   def slug_formated_title

@@ -8,7 +8,6 @@ class Article < ActiveRecord::Base
   accepts_nested_attributes_for :source
 
   validates :source, presence: true
-  validates :body, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }

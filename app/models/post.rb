@@ -46,6 +46,7 @@ class Post < ActiveRecord::Base
   scope :only_articles, -> { by_postable_type(Article.to_s) }
   scope :only_opinions, -> { by_postable_type(Opinion.to_s) }
   scope :only_talks, -> { by_postable_type(Talk.to_s) }
+  scope :only_notes, -> { by_postable_type(Note.to_s) }
   scope :latest, -> { after(1.day.ago) }
   scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
   scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }

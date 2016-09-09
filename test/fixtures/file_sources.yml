@@ -1,5 +1,6 @@
+<% file_path = Rails.root.join('test/fixtures/files') %>
 file1:
   name: 'file1'
-  attachment: 'sample2.pdf'
+  attachment: <%= file_path.join('sample2.pdf') %>
   file_size: 100
   file_type: 'image/png'

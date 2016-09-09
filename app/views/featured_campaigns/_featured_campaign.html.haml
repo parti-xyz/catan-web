@@ -1,7 +1,6 @@
 %li
   = link_to featured_campaign.url do
     .featured-campaign{style: "background-image: url(#{is_small_screen? ? featured_campaign.mobile_image.url : featured_campaign.image.url});"}
-      .featured-campaign__label 캠페인
       .featured-campaign__title-wrapper
         .featured-campaign__title= simple_format featured_campaign.title, {}, wrapper_tag: 'span'
       .featured-campaign__body-wrapper

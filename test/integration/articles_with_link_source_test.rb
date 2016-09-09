@@ -137,18 +137,17 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
 
     previous_count = Article.count
     assert_raises CanCan::AccessDenied do
-      post articles_path, article: { body: 'body', source_attributes: { url: 'link' }, source_type: 'LinkSource', issue_id: -1}
+      post articles_path, article: { body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource', issue_id: -1}
     end
     assert_equal previous_count, Article.count
   end
 
-  test '본문이 없으면 안만들어요' do
+  test '본문이 없어도 만들어요' do
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path, article: { source_attributes: { url: 'link'}, source_type: 'LinkSource', issue_id: issues(:issue1).id }
-
-      refute assigns(:article).persisted?
+      post articles_path, article: { source_attributes: { url: 'http://link'}, source_type: 'LinkSource', issue_id: issues(:issue1).id }
+      assert assigns(:article).persisted?
     end
   end
 end

@@ -201,18 +201,9 @@ section#key-visuals {
     text-align: left;
     padding-left: 127px;
     padding-right: 127px;
+    padding-top: 114px;
+    word-break: keep-all;
 
-    &__label {
-      display: inline-block;
-      padding: 5px 15px;
-      border-radius: $border-radius-base;
-      background-color: $brand-primary;
-      color: #fff;
-      font-size: $font-size-small;
-      margin-top: 60px;
-      margin-bottom: 10px;
-      font-size: $font-size-base;
-    }
     &__title {
       color: #fff;
       font-size: $font-size-h1;
@@ -245,22 +236,22 @@ section#key-visuals {
       text-align: center;
       padding-left: 0;
       padding-right: 0;
+      padding-top: 57px;
 
-      &__label {
-        margin: 15px;
-        font-size: $font-size-small;
-      }
       &__title {
         font-size: $font-size-h3;
+        display: block;
+        margin-top: 22px;
+      }
+      &__body-wrapper {
+        margin-top: 40px;
       }
       &__body {
         padding-left: 23px;
         padding-right: 23px;
         background-color: rgba(0,0,0,0.2);
         vertical-align: middle;
-      }
-      &__body-wrapper {
-        margin-top: 40px;
+        display: block;
       }
     }
   }
