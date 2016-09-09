@@ -132,45 +132,39 @@ class ApplicationController < ActionController::Base
   end
 
   def articles_page(issue = nil)
-    articles_base = issue.nil? ? Article.all.only_group_or_all_if_blank(current_group) : Article.of_issue(issue)
+    base = issue.nil? ? Article.all.only_group_or_all_if_blank(current_group) : Article.of_issue(issue)
+    @is_last_page = base.empty?
 
-    if issue.nil?
-      case params[:sort]
-      when 'recent'
-        articles_base = articles_base.recent
-      else
-        articles_base = articles_base.hottest
-      end
-    else
-      articles_base = articles_base.recent
-    end
+    how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
 
-    previous_last_article = Article.find_by(id: params[:last_id])
-    @articles = articles_base.previous_of_article(previous_last_article).limit(20)
-    current_last_article = @articles.last
-
-    @is_last_page = (articles_base.empty? or articles_base.previous_of_article(current_last_article).empty?)
+    previous_last = Article.with_deleted.find_by(id: params[:last_id])
+    @articles = base.send(how_to, previous_last).limit(20)
+    current_last = @articles.last
+    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
   def opinions_page(issue = nil)
-    opinions_base = issue.nil? ? Opinion.all.only_group_or_all_if_blank(current_group) : Opinion.of_issue(issue)
+    base = issue.nil? ? Opinion.all.only_group_or_all_if_blank(current_group) : Opinion.of_issue(issue)
+    @is_last_page = base.empty?
 
-    if issue.nil?
-      case params[:sort]
-      when 'recent'
-        opinions_base = opinions_base.recent
-      else
-        opinions_base = opinions_base.hottest
-      end
-    else
-      articles_base = opinions_base.recent
-    end
+    how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
 
-    previous_last_opinion = Opinion.find_by(id: params[:last_id])
-    @opinions = opinions_base.previous_of_opinion(previous_last_opinion).limit(20)
-    current_last_opinion = @opinions.last
+    previous_last = Opinion.with_deleted.find_by(id: params[:last_id])
+    @opinions = base.send(how_to, previous_last).limit(20)
+    current_last = @opinions.last
+    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
+  end
 
-    @is_last_page = (opinions_base.empty? or opinions_base.previous_of_opinion(current_last_opinion).empty?)
+  def notes_page(issue = nil)
+    base = issue.nil? ? Note.all.only_group_or_all_if_blank(current_group) : Note.of_issue(issue)
+    @is_last_page = base.empty?
+
+    how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
+
+    previous_last = Note.with_deleted.find_by(id: params[:last_id])
+    @notes = base.send(how_to, previous_last).limit(20)
+    current_last = @notes.last
+    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
   def talks_page(issue = nil)
@@ -191,27 +185,6 @@ class ApplicationController < ActionController::Base
       talks_base = talks_base.recent
     end
     @talks = talks_base.page(params[:page])
-  end
-
-  def notes_page(issue = nil)
-    notes_base = issue.nil? ? Note.all.only_group_or_all_if_blank(current_group) : Note.of_issue(issue)
-
-    if issue.nil?
-      case params[:sort]
-      when 'recent'
-        notes_base = notes_base.recent
-      else
-        notes_base = notes_base.hottest
-      end
-    else
-      notes_base = notes_base.recent
-    end
-
-    previous_last_note = Note.find_by(id: params[:last_id])
-    @notes = notes_base.previous_of_note(previous_last_note).limit(20)
-    current_last_note = @notes.last
-
-    @is_last_page = (notes_base.empty? or notes_base.previous_of_note(current_last_note).empty?)
   end
 
   #bugfix redactor2-rails

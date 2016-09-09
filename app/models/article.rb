@@ -12,7 +12,11 @@ class Article < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :visible, -> { where(hidden: false) }
-  scope :previous_of_article, ->(article) { where('articles.created_at < ?', article.created_at) if article.present? }
+  scope :previous_of_recent, ->(article) {
+    base = recent
+    base = base.where('articles.created_at < ?', article.created_at) if article.present?
+    base
+  }
 
   def specific_origin
     self

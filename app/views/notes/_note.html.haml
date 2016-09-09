@@ -10,7 +10,7 @@
               = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
                 - if post.issue.on_group? and current_group != post.issue.group
                   .note-card__group
-                    = post.issue.group.name
+                    = post.issue.group.name[0..2]
                 .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
         .col-xs-6
           .note-card__header__user

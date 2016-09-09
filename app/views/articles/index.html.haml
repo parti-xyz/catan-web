@@ -17,7 +17,7 @@
       - else
         .grid-sizer.col-sm-4.col-xs-6
         = render 'articles/slug_articles_page', show_issue: true
-    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': articles_path(format: :js)}
+    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': articles_path(format: :js, sort: params[:sort])}
       .page_waypoint__loading
         %i.fa.fa-3x.fa-spinner.fa-pulse
 

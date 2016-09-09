@@ -41,6 +41,20 @@ class Post < ActiveRecord::Base
   default_scope -> { joins(:issue) }
   scope :recent, -> { order(created_at: :desc) }
   scope :hottest, -> { order(latest_comments_counted_datestamp: :desc, latest_comments_count: :desc) }
+  scope :previous_of_hottest, ->(post) {
+    base = hottest.order(id: :desc)
+    base = base.where('posts.latest_comments_count > 0')
+    base = base.where.not(latest_comments_counted_datestamp: nil)
+    base = base.where.any_of(
+      ['posts.latest_comments_count < ?', post.latest_comments_count],
+      where('posts.latest_comments_count = ? and posts.latest_comments_counted_datestamp < ?',
+        post.latest_comments_count, post.latest_comments_counted_datestamp),
+      where('posts.latest_comments_count = ? and posts.latest_comments_counted_datestamp = ? and posts.id < ?',
+        post.latest_comments_count, post.latest_comments_counted_datestamp, post.id)
+    ) if post.present?
+    base
+  }
+
   scope :watched_by, ->(someone) { where(issue_id: someone.watched_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :only_articles, -> { by_postable_type(Article.to_s) }

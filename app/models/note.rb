@@ -2,14 +2,19 @@ class Note < ActiveRecord::Base
   MAX_BODY_LENGTH = 250
 
   include Postable
+  acts_as_paranoid
   acts_as :post, as: :postable
 
   validates :body, presence: true
   validate :check_body_length
 
-  scope :recent, -> { includes(:post).order('posts.id desc') }
+  scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
-  scope :previous_of_note, ->(note) { joins(:post).where('posts.id < ?', note.acting_as.id) if note.present? }
+  scope :previous_of_recent, ->(note) {
+    base = recent
+    base = base.where('notes.created_at < ?', note.created_at) if note.present?
+    base
+  }
 
   def title
     body
