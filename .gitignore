@@ -25,5 +25,6 @@ app/assets/images/.DS_Store
 app/assets/.DS_Store
 
 local_env.yml
+test_env.yml
 
 .DS_Store

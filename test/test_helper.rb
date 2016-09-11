@@ -20,6 +20,15 @@ module CatanTestHelpers
 end
 
 class ActiveSupport::TestCase
+  # load .powenv
+  if File.exist?("#{Rails.root}/.powenv")
+    IO.foreach("#{Rails.root}/.powenv") do |line|
+      next if !line.include?('export') || line.blank?
+      key, value = line.gsub('export','').split('=',2)
+      ENV[key.strip] = value.delete('"\'').strip
+    end
+  end
+
   fixtures :all
 
   include CatanTestHelpers
@@ -50,6 +59,12 @@ class ActiveSupport::TestCase
     end
   end
 
+  # facebook test user
+  def facebook_user1
+    @test_users ||= Koala::Facebook::TestUsers.new(app_id: ENV['FACEBOOK_APP_ID'], secret: ENV['FACEBOOK_APP_SECRET'])
+    @test_users.list.find { |u| u["id"] == "114136252377837" }
+  end
+
   private
 
   # Returns true inside an integration test.
@@ -61,3 +76,4 @@ end
 class ActionController::TestCase
   include Devise::Test::ControllerHelpers
 end
+

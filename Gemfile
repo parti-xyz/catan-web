@@ -34,6 +34,16 @@ gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
 gem 'omniauth-google-oauth2', '~> 0.3.1'
 gem 'twitter', '~> 5.16'
 gem 'google-api-client', '~> 0.9.2'
+gem 'koala', '~> 2.4'
+gem 'devise-token_authenticatable', '~> 0.5.2'
+
+# api
+gem 'jsonapi-resources', '~> 0.8.0.beta2'
+gem 'grape', '~> 0.17.0'
+gem 'grape_on_rails_routes', '~> 0.3.1'
+gem 'grape-route-helpers', '~> 2.0'
+gem 'grape_logging', '~> 1.3'
+gem 'grape-entity', '~> 0.5.1'
 
 # views
 gem 'sass-rails', '~> 5.0'
