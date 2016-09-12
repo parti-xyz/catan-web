@@ -349,10 +349,10 @@ GEM
     lumberjack (1.0.10)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    mechanize (2.7.4)
+    mechanize (2.7.5)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
-      mime-types (>= 1.17.2, < 3)
+      mime-types (>= 1.17.2)
       net-http-digest_auth (~> 1.1, >= 1.1.1)
       net-http-persistent (~> 2.5, >= 2.5.2)
       nokogiri (~> 1.6)
@@ -634,7 +634,7 @@ DEPENDENCIES
   jquery-rails
   kaminari (~> 0.16.3)
   letter_opener_web
-  mechanize (~> 2.7, >= 2.7.4)
+  mechanize (~> 2.7, >= 2.7.5)
   meta-tags (~> 2.1.0)
   mini_magick
   minitest-focus (~> 1.1, >= 1.1.2)

@@ -63,7 +63,7 @@ gem 'simplemde-rails', '~> 1.10', '>= 1.10.2'
 gem 'rb-readline'
 
 # crawling
-gem 'mechanize', '~> 2.7', '>= 2.7.4'
+gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'video_info', '~> 2.6'
 gem 'fastimage', '~> 1.9'
 

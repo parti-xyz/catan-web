@@ -10,7 +10,7 @@ class OpenGraph
   def initialize(src)
     @agent = Mechanize.new
     @agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if (Rails.env.production? or Rails.env.staging?)
-    @agent.user_agent_alias = 'Windows IE 10'
+    @agent.user_agent_alias = 'Windows Chrome'
     @agent.follow_meta_refresh = false
     @agent.redirect_ok = :all
     @agent.redirection_limit = 5
@@ -53,6 +53,9 @@ class OpenGraph
         @agent.set_proxy(nil, nil, nil, nil)
         @doc = @agent.get(@src)
       end
+      if @doc.meta_refresh.try(:first).present? and !@doc.meta_refresh.first.link_self
+        @doc = @doc.meta_refresh.first.click
+      end
       fallback_encoding
 
       if is_twitter?
@@ -82,7 +85,7 @@ class OpenGraph
         bin = @agent.get(image)
         fast_image = FastImage.new(bin.body_io, proxy: proxy_for_fast_image)
         image_size = fast_image.size
-        next if image_size.nil?
+        next if image_size.nil? or image_size[0].nil? or image_size[1].nil?
         bins_with_size << [bin, fast_image]
 
         if image_size[0] > 200 and image_size[1] > 200
