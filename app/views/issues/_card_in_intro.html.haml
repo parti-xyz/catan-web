@@ -21,7 +21,10 @@
       .issue-card__meta
         %span.user-count
           %i.fa.fa-user
-          %b= issue.watches.count
+          - if issue.on_group?
+            %b= issue.members.count
+          - else
+            %b= issue.watches.count
         %span.comment-count
           %i.fa.fa-comment
           %b= issue.comments.count
