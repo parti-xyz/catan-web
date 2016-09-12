@@ -30,6 +30,7 @@
 //= require simplemde
 //= require jquery.charactercounter
 //= require bootstrap-select
+//= require jquery.viewport
 
 $.Redactor.prototype.wiki_save = function()
 {
@@ -758,11 +759,11 @@ $(function(){
     window.location.href  = url;
   });
 
-  $('.page_waypoint').waypoint({
-    handler: function(direction) {
-      this.disable();
+  (function() {
+    var load_page = function(waypoint) {
+      waypoint.disable();
 
-      $container = $($(this.element).data('target'));
+      var $container = $($(waypoint.element).data('target'));
       if($container.data('is-last')) {
         return;
       }
@@ -770,17 +771,30 @@ $(function(){
       $('.page_waypoint__loading').show();
 
       $.ajax({
-        url: $(this.element).data('url'),
+        url: $(waypoint.element).data('url'),
         type: "get",
         data:{ last_id: $container.data('last-id') },
+        context: waypoint,
         complete: function(xhr) {
           $('.page_waypoint__loading').hide();
           Waypoint.enableAll();
+          Waypoint.refreshAll();
+          waypoint = this
+          setTimeout(function(){
+            if($.inviewport(waypoint.element, {threshold : 100})) {
+              load_page(waypoint);
+            }
+          },100);
         },
       });
-    },
-    offset: 'bottom-in-view'
-  });
+    }
+    $('.page_waypoint').waypoint({
+      handler: function(direction) {
+        load_page(this);
+      },
+      offset: 'bottom-in-view'
+    });
+  })();
 
   $('[data-action="parti-search-parties"]').each(function(i, elm) {
     var sort = $(elm).data('search-sort');
