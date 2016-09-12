@@ -162,7 +162,7 @@ ko:
         link_source:
           attributes:
             url:
-              invalid: url을 잘못입력하였습니다. 자료 url은 http:// 또는 https://로 시작해야 합니다.
+              invalid: url을 잘못입력하였습니다.
         section:
           attributes:
             initial:
