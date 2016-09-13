@@ -8,10 +8,6 @@
           .unified-editor.hidden-xs
             %ul.nav.nav-pills{role: "tablist"}
               %li.active.first{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#editor-note", role: "tab"}
-                  %i{class: "fa fa-sticky-note-o"}
-                  = t('labels.new_note_button')
-              %li{role: "presentation"}
                 %a{"data-toggle": "tab", href: "#editor-talk", role: "tab"}
                   %i{class: "fa fa-comments-o"}
                   = t('labels.new_talk_button')
@@ -27,10 +23,12 @@
                 %a{"data-toggle": "tab", href: "#editor-file", role: "tab"}
                   %i{class: "fa fa-floppy-o"}
                   = t('labels.new_article_file_source_button')
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#editor-note", role: "tab"}
+                  %i{class: "fa fa-sticky-note-o"}
+                  = t('labels.new_note_button')
             .tab-content
-              #editor-note.tab-pane.active{role: "tabpanel"}
-                = render 'notes/new_form', issue: @issue, body_rows_count: 3
-              #editor-talk.tab-pane{role: "tabpanel"}
+              #editor-talk.tab-pane.active{role: "tabpanel"}
                 = render 'talks/new_form', issue: @issue
               #editor-opinion.tab-pane{role: "tabpanel"}
                 = render 'opinions/new_form', issue: @issue
@@ -38,6 +36,8 @@
                 = render 'articles/new_form_with_link', issue: @issue
               #editor-file.tab-pane{role: "tabpanel"}
                 = render 'articles/new_form_with_file', issue: @issue
+              #editor-note.tab-pane{role: "tabpanel"}
+                = render 'notes/new_form', issue: @issue, body_rows_count: 3
 
 
         - if @last_comment.present?
