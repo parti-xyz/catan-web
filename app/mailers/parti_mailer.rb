@@ -18,7 +18,7 @@ class PartiMailer < ApplicationMailer
 
     if @hottest_posts.any?
       mail(template_name: 'summary', to: @user.email,
-        subject: "#{I18n.l Date.yesterday} "+subject,
+        subject: "#{I18n.l Date.yesterday} #{subject}",
         delivery_method: delivery_method,
         delivery_method_options: delivery_method_options)
     end
