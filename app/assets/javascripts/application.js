@@ -602,6 +602,13 @@ var parti_prepare = function($base) {
     });
   });
 
+  $.parti_apply($base, '[data-action="parti-click"]', function(elm) {
+    var target = $(elm).data('target');
+    $(elm).on('click', function(e) {
+      $(target).click();
+    });
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 

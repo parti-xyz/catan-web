@@ -44,10 +44,6 @@
     margin-right: 30px;
     font-weight: 500;
 
-    li.first {
-      margin-left: 20px;
-    }
-
     li.active {
       &:after, &:before {
         bottom: 0%;
@@ -78,6 +74,15 @@
         background-color: transparent;
       }
     }
+    li:first-child > a {
+      margin-left: 0;
+    }
+  }
+
+  .placeholder-label {
+    padding: 14px 30px;
+    color: #c0c0c2;
+    cursor: pointer;
   }
 }
 
@@ -98,12 +103,6 @@
       padding-top: 14px;
       padding-bottom: 0;
     }
-    // .note-form {
-    //   margin-bottom: 0;
-    //   .submit-box {
-    //     display: none;
-    //   }
-    // }
     .submit-box .btn-cancel {
       display: none;
     }
