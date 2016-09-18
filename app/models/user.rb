@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :token_authenticatable,
+         :recoverable, :rememberable, :trackable,
          :confirmable, :omniauthable, :omniauth_providers => [:facebook, :google_oauth2, :twitter]
 
   # validations
@@ -100,6 +100,17 @@ class User < ActiveRecord::Base
       resource.provider = 'email'
     end
     resource
+  end
+
+  def self.create_by_external_auth!(external_auth, nickname)
+    User.create! uid: external_auth.uid,
+      provider: external_auth.provider,
+      email: external_auth.email,
+      password: Devise.friendly_token[0,20],
+      confirmed_at: DateTime.now,
+      enable_mailing: true,
+      nickname: nickname,
+      remote_image_url: external_auth.image_url
   end
 
   def watched_counts

@@ -1,0 +1,7 @@
+application1:
+  name: application1
+  uid: d075c351af974cd8aa6612d44e3d1e4979067d3cade307f3fcfdf62486878610
+  secret: e21913699427a9cf451b65e82710a096391f6999675a67a4aff51bc01eb3951b
+  redirect_uri: urn:ietf:wg:oauth:2.0:oob
+  created_at: <%= 1.day.ago.to_s(:db) %>
+  updated_at: <%= 1.day.ago.to_s(:db) %>

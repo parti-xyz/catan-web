@@ -1,0 +1,5 @@
+ko:
+  doorkeeper:
+    errors:
+      need_nickname: 가입해야 합니다. 닉네임을 주세요.
+      duplicate_nickname: 이미 사용 중인 닉네임입니다.

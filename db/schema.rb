@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910122833) do
+ActiveRecord::Schema.define(version: 20160916103512) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -242,6 +242,49 @@ ActiveRecord::Schema.define(version: 20160910122833) do
     t.datetime "deleted_at"
   end
 
+  create_table "oauth_access_grants", force: :cascade do |t|
+    t.integer  "resource_owner_id", limit: 4,     null: false
+    t.integer  "application_id",    limit: 4,     null: false
+    t.string   "token",             limit: 255,   null: false
+    t.integer  "expires_in",        limit: 4,     null: false
+    t.text     "redirect_uri",      limit: 65535, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "revoked_at"
+    t.string   "scopes",            limit: 255
+  end
+
+  add_index "oauth_access_grants", ["application_id"], name: "fk_rails_b4b53e07b8", using: :btree
+  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
+
+  create_table "oauth_access_tokens", force: :cascade do |t|
+    t.integer  "resource_owner_id",      limit: 4
+    t.integer  "application_id",         limit: 4
+    t.string   "token",                  limit: 255,              null: false
+    t.string   "refresh_token",          limit: 255
+    t.integer  "expires_in",             limit: 4
+    t.datetime "revoked_at"
+    t.datetime "created_at",                                      null: false
+    t.string   "scopes",                 limit: 255
+    t.string   "previous_refresh_token", limit: 255, default: "", null: false
+  end
+
+  add_index "oauth_access_tokens", ["application_id"], name: "fk_rails_732cb83ab7", using: :btree
+  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
+  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
+  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
+
+  create_table "oauth_applications", force: :cascade do |t|
+    t.string   "name",         limit: 255,                null: false
+    t.string   "uid",          limit: 255,                null: false
+    t.string   "secret",       limit: 255,                null: false
+    t.text     "redirect_uri", limit: 65535,              null: false
+    t.string   "scopes",       limit: 255,   default: "", null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+  end
+
+  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
+
   create_table "opinions", force: :cascade do |t|
     t.string   "title",         limit: 255
     t.text     "body",          limit: 16777215
@@ -412,33 +455,31 @@ ActiveRecord::Schema.define(version: 20160910122833) do
   add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                           limit: 255
-    t.string   "encrypted_password",              limit: 255
-    t.string   "reset_password_token",            limit: 255
+    t.string   "email",                  limit: 255
+    t.string   "encrypted_password",     limit: 255
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                   limit: 4,   default: 0,     null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip",              limit: 255
-    t.string   "last_sign_in_ip",                 limit: 255
-    t.string   "confirmation_token",              limit: 255
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.string   "confirmation_token",     limit: 255
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email",               limit: 255
-    t.string   "nickname",                        limit: 255
-    t.string   "image",                           limit: 255
-    t.datetime "created_at",                                                  null: false
-    t.datetime "updated_at",                                                  null: false
-    t.string   "provider",                        limit: 255
-    t.string   "uid",                             limit: 255
+    t.string   "unconfirmed_email",      limit: 255
+    t.string   "nickname",               limit: 255
+    t.string   "image",                  limit: 255
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.string   "provider",               limit: 255
+    t.string   "uid",                    limit: 255
     t.datetime "deleted_at"
-    t.integer  "unread_messages_count",           limit: 4,   default: 0
-    t.string   "active",                          limit: 255, default: "on"
-    t.boolean  "enable_mailing",                              default: true
-    t.boolean  "root_as_dashboard",                           default: false
-    t.string   "authentication_token",            limit: 255
-    t.datetime "authentication_token_created_at"
+    t.integer  "unread_messages_count",  limit: 4,   default: 0
+    t.string   "active",                 limit: 255, default: "on"
+    t.boolean  "enable_mailing",                     default: true
+    t.boolean  "root_as_dashboard",                  default: false
   end
 
   add_index "users", ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true, using: :btree
@@ -489,4 +530,6 @@ ActiveRecord::Schema.define(version: 20160910122833) do
 
   add_index "wikis", ["issue_id"], name: "index_wikis_on_issue_id", using: :btree
 
+  add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
+  add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
 end

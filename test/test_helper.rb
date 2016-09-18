@@ -29,6 +29,8 @@ class ActiveSupport::TestCase
     end
   end
 
+  set_fixture_class oauth_applications: Doorkeeper::Application
+  set_fixture_class oauth_tokens: Doorkeeper::AccessToken
   fixtures :all
 
   include CatanTestHelpers

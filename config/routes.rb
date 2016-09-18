@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   mount API, at: '/'
 
   post 'redactor2_rails/files', to: redirect('/')
