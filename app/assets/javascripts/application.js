@@ -32,21 +32,6 @@
 //= require bootstrap-select
 //= require jquery.viewport
 
-$.Redactor.prototype.wiki_save = function()
-{
-  return {
-    init: function ()
-    {
-      var button = this.button.add('save', '저장');
-      this.button.addCallback(button, this.wiki_save.saveButton);
-    },
-    saveButton: function(buttonName)
-    {
-      $('form.edit_wiki').submit();
-    }
-  };
-};
-
 // blank
 $.is_blank = function (obj) {
   if (!obj || $.trim(obj) === "") return true;
@@ -462,6 +447,7 @@ var parti_prepare = function($base) {
     $submit.prop('disabled', true);
 
     $form.validate({
+      ignore: ':hidden:not(.redactor)',
       errorPlacement: function(error, element) {
         return true;
       }
@@ -492,6 +478,14 @@ var parti_prepare = function($base) {
     });
 
     $elm.find(':input').on('parti-need-to-validate', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
+    $elm.find('.redactor').on('change.callback.redactor', function() {
       if($form.valid()) {
         $submit.prop('disabled', false);
       } else {
@@ -833,15 +827,15 @@ $(function(){
 
   // Initialize Redactor
   $('.redactor').redactor({
-    buttons: ['format', 'bold', 'italic', 'deleted', 'lists', 'image', 'link', 'horizontalrule'],
+    buttons: ['format', 'bold', 'italic', 'deleted', 'lists', 'link', 'horizontalrule'],
     plugins: ['wiki_save'],
     callbacks: {
       imageUploadError: function(json, xhr) {
         UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
       }
-    },
-    toolbarFixedTopOffset: 60
+    }
   });
+  $('.redactor .redactor-editor').prop('contenteditable', true);
 
   $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var hash = $(e.target).attr('href');

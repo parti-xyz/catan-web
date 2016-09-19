@@ -1,5 +1,4 @@
 $(function () {
-
     // Pass authenticity_token
     var params = '[name="authenticity_token"]';
     // Set global settings
@@ -9,7 +8,8 @@ $(function () {
         imageUploadFields: params,
         fileUpload: '/redactor2_rails/files',
         fileUploadFields: params,
-        lang: 'ko'
+        lang: 'ko',
+        toolbarFixed: true
     };
 });
 

@@ -18,7 +18,7 @@
   .media
     .media-body
       .talk-body{data: modal_data}
-        = smart_format(talk.body)
+        != talk.body
       - unless local_assigns[:hide_user]
         .talk-info
           = link_to user_gallery_path(talk.user) do
