@@ -39,7 +39,7 @@ ko:
       featured_issue: 추천빠띠
       featured_campaign: 추천캠페인
       related: 관련빠띠
-      section: 섹션
+      section: 주제
     attributes:
       issue:
         title: 제목
@@ -66,7 +66,7 @@ ko:
         tag_list: 태그
       talk:
         issue: 빠띠
-        section: 섹션
+        section: 주제
         title: 제목
         body: 내용
       note:
@@ -166,7 +166,7 @@ ko:
         section:
           attributes:
             initial:
-              undeletable: 기본 섹션은 지울 수 없습니다.
+              undeletable: 기본 주제는 지울 수 없습니다.
   labels:
     new_article_link_source_button: 링크 걸기
     new_article_file_source_button: 파일 공유
