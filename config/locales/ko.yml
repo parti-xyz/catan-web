@@ -166,7 +166,7 @@ ko:
         section:
           attributes:
             initial:
-              undeletable: 기본 주제는 지울 수 없습니다.
+              undeletable: 일반 주제는 지울 수 없습니다.
   labels:
     new_article_link_source_button: 링크 걸기
     new_article_file_source_button: 파일 공유
