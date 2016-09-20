@@ -6,3 +6,11 @@ section2:
   issue: issue2
   name: sections2
   initial: true
+section3:
+  issue: issue1
+  name: section3
+  initial: false
+section4:
+  issue: issue1
+  name: section4
+  initial: false
