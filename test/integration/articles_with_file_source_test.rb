@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
+
   test '만들어요' do
     sign_in(users(:one))
 
@@ -15,6 +16,14 @@ class ArticlesWithFileSourceTest < ActionDispatch::IntegrationTest
     assert_equal 'body', assigns(:article).body
 
     assert assigns(:article).comments.empty?
+  end
+
+  test '10mb초과하는 파일은 업로드할 수 없어요' do
+    sign_in(users(:one))
+
+    post articles_path, article: { issue_id: issues(:issue2).id, body: 'body', source_attributes: { attachment: fixture_file('files/sample_over_10mb.pdf') }, source_type: 'FileSource' }
+
+    refute assigns(:article).persisted?
   end
 
   test '고쳐요' do

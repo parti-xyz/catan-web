@@ -7,6 +7,7 @@ class FileSource < ActiveRecord::Base
 
   validates :name, presence: true
   validates :attachment, presence: true
+  validates :attachment, file_size: { less_than: 10.megabytes }
 
   def unify
     self
