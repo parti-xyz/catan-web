@@ -182,6 +182,7 @@ ko:
     show_history_button: 역사
     dashboard: 내 홈
     blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 일부 숨겨진 글이 있습니다.
+    comment_blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 숨겨진 댓글입니다.
   enumerize:
     defaults:
       choice:
