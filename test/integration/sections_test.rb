@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class SectionsTest < ActionDispatch::IntegrationTest
-  focus
   test '일반주제는 삭제하지 못합니다' do
     sign_in(users(:maker))
 
@@ -10,7 +9,6 @@ class SectionsTest < ActionDispatch::IntegrationTest
     assert assigns(:section).persisted?
   end
 
-  focus
   test '일반주제가 아닌 주제를 삭제합니다' do
     sign_in(users(:maker))
 
@@ -19,7 +17,6 @@ class SectionsTest < ActionDispatch::IntegrationTest
     refute assigns(:section).persisted?
   end
 
-  focus
   test '일반주제가 아닌 주제인데 글이 있는 경우, 해당 글은 일반주제로 옮겨 갑니다' do
     sign_in(users(:maker))
     talk = sections(:section4).talks.first

@@ -31,12 +31,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    ActiveRecord::Base.transaction do
-      @comment.destroy!
-      if @comment.post.linkable? and !@comment.post.comments.exists?
-        @comment.post.destroy!
-      end
-    end
+    @comment.destroy!
   end
 
   private
