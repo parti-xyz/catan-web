@@ -33,3 +33,10 @@ maker:
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
   nickname: maker
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
+bad:
+  email: bad@test.com
+  uid: bad@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: bad
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>

@@ -15,6 +15,7 @@
 /tmp
 .byebug_history
 db/*.sqlite3
+db/*.sqlite3-journal
 public/uploads/*
 public/sitemaps/*
 dump.rdb
