@@ -9,7 +9,7 @@
   %span{ style: 'font-size: 70%;' }
     %a{href: url_for(post.issue), style: 'color: #999; text-decoration: none'}
       = image_tag post.issue.logo.xs.url, width: '13', height: '13'
-      \##{post.issue.title}
+      \#{post.issue.title}
   %h4
     %img{ src: image_url("email/#{postable_type_image_map.fetch(post.postable_type, default_postable_type_image)}"), width: '13', height: '13'}
     %a{href: url_for(post.specific), style: 'color: #333; text-decoration: none'}

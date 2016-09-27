@@ -4,17 +4,19 @@
     = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
 
-      .form-group
-        = f.select :section_id, nil, {}, {class: 'form-control selectpicker', title: '섹션을 선택하세요', data: {'rule-required': true}} do
-          - @issue.sections.resent.each do |section|
-            %option{value: section.id}
-              = section.name
-
+      - if issue.sections.count == 1
+        = f.hidden_field :section_id, value: issue.sections.first.id
+      - else
+        .form-group
+          = f.select :section_id, nil, {}, {class: 'form-control selectpicker', title: '주제를 선택하세요', data: {'rule-required': true}} do
+            - @issue.sections.resent.each do |section|
+              %option{value: section.id}
+                = section.name
 
       .form-group
         = f.text_field :title, placeholder: t('activerecord.models.talk') + '의 제목을 쓰세요', class: 'form-control', data: {'rule-required': true}
       .form-group.textarea-box
-        = f.text_area :body, placeholder: '내용을 적어 주세요.', class: 'form-control', data: {ride: 'parti-autoresize', 'rule-required': true}
+        = f.text_area :body, placeholder: '내용을 적어 주세요.', class: 'form-control redactor validation-ignore', data: {'rule-required': true}
 
       %hr
       .form-group.clearfix

@@ -1,5 +1,5 @@
 class Section < ActiveRecord::Base
-  DEFAULT_NAME = '기본'
+  DEFAULT_NAME = '일반'
 
   belongs_to :issue
   has_many :talks

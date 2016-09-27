@@ -56,10 +56,10 @@
               %li.divider
               = render 'issues/issue_line', issue: Issue.of_slug('parti', nil)
           %li.menu-divider
-          %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
           %li= link_to Talk.model_name.human, talks_path, class: "#{'active' if current_page?(controller: '/talks', action: :index)}"
           %li= link_to Opinion.model_name.human, opinions_path, class: "#{'active' if current_page?(controller: '/opinions', action: :index)}"
           %li= link_to Article.model_name.human, articles_path, class: "#{'active' if current_page?(controller: '/articles', action: :index)}"
+          %li= link_to Note.model_name.human, notes_path, class: "#{'active' if current_page?(controller: '/notes', action: :index)}"
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li

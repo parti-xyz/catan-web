@@ -3,7 +3,7 @@
     - if user_signed_in? and @issue.postable?(current_user)
       .col-sm-4.col-xs-12.card
         = render 'notes/new_form', local_assigns
-    = render 'notes/slug_notes_page', local_assigns.merge(postables: @notes)
+    = render 'notes/slug_notes_page', local_assigns.merge(postables: @notes, first_page: true)
   - if !user_signed_in? and postables.empty?
     .bg-default.text-center
       %i.fa.fa-info-circle

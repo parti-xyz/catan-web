@@ -5,7 +5,7 @@
     = render postable, local_assigns
   - else
     - has_blinds = true
-- if has_blinds
+- if has_blinds and local_assigns[:first_page]
   .col-sm-4.col-xs-12.card
     .note-card
       = t('labels.blind_info')

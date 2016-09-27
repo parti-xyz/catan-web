@@ -3,7 +3,7 @@ class LinkSource < ActiveRecord::Base
 
   has_many :articles, as: :source
 
-  validates :url, uniqueness: {case_sensitive: true}, format: {with:/\Ahttp/i, on: [:create, :update] }
+  validates :url, uniqueness: {case_sensitive: true}, format: {with:/\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?\z/ix, on: [:create, :update] }
   validates :crawling_status, presence: true
   enumerize :crawling_status, in: [:not_yet, :completed], predicates: true, scope: true
   ## uploaders

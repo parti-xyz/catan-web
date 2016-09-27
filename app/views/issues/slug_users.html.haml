@@ -8,10 +8,17 @@
             %h4
               #{@issue.member_only? ? '가입' : '구독'}회원
               .count-label-wrapper
-                .count-label= @issue.watches.count
+                - if @issue.on_group?
+                  .count-label= @issue.members.count
+                - else
+                  .count-label= @issue.watches.count
 
         %ul.user-card-wrapper.list-unstyled.clearfix
-          - @issue.watched_users.recent.each do |user|
-            = render user, issue: @issue
+          - if @issue.on_group?
+            - @issue.member_users.recent.each do |user|
+              = render user, issue: @issue
+          - else
+            - @issue.watched_users.recent.each do |user|
+              = render user, issue: @issue
       .col-xs-3= render 'footer'
 

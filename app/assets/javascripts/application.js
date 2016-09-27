@@ -30,21 +30,7 @@
 //= require simplemde
 //= require jquery.charactercounter
 //= require bootstrap-select
-
-$.Redactor.prototype.wiki_save = function()
-{
-  return {
-    init: function ()
-    {
-      var button = this.button.add('save', '저장');
-      this.button.addCallback(button, this.wiki_save.saveButton);
-    },
-    saveButton: function(buttonName)
-    {
-      $('form.edit_wiki').submit();
-    }
-  };
-};
+//= require jquery.viewport
 
 // blank
 $.is_blank = function (obj) {
@@ -461,6 +447,7 @@ var parti_prepare = function($base) {
     $submit.prop('disabled', true);
 
     $form.validate({
+      ignore: ':hidden:not(.redactor)',
       errorPlacement: function(error, element) {
         return true;
       }
@@ -491,6 +478,14 @@ var parti_prepare = function($base) {
     });
 
     $elm.find(':input').on('parti-need-to-validate', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
+    $elm.find('.redactor').on('change.callback.redactor', function() {
       if($form.valid()) {
         $submit.prop('disabled', false);
       } else {
@@ -598,6 +593,13 @@ var parti_prepare = function($base) {
 
     $(focus_target).on('focus', function(){
       $elm.show();
+    });
+  });
+
+  $.parti_apply($base, '[data-action="parti-click"]', function(elm) {
+    var target = $(elm).data('target');
+    $(elm).on('click', function(e) {
+      $(target).click();
     });
   });
 
@@ -758,11 +760,11 @@ $(function(){
     window.location.href  = url;
   });
 
-  $('.page_waypoint').waypoint({
-    handler: function(direction) {
-      this.disable();
+  (function() {
+    var load_page = function(waypoint) {
+      waypoint.disable();
 
-      $container = $($(this.element).data('target'));
+      var $container = $($(waypoint.element).data('target'));
       if($container.data('is-last')) {
         return;
       }
@@ -770,17 +772,30 @@ $(function(){
       $('.page_waypoint__loading').show();
 
       $.ajax({
-        url: $(this.element).data('url'),
+        url: $(waypoint.element).data('url'),
         type: "get",
         data:{ last_id: $container.data('last-id') },
+        context: waypoint,
         complete: function(xhr) {
           $('.page_waypoint__loading').hide();
           Waypoint.enableAll();
+          Waypoint.refreshAll();
+          waypoint = this
+          setTimeout(function(){
+            if($.inviewport(waypoint.element, {threshold : 100})) {
+              load_page(waypoint);
+            }
+          },100);
         },
       });
-    },
-    offset: 'bottom-in-view'
-  });
+    }
+    $('.page_waypoint').waypoint({
+      handler: function(direction) {
+        load_page(this);
+      },
+      offset: 'bottom-in-view'
+    });
+  })();
 
   $('[data-action="parti-search-parties"]').each(function(i, elm) {
     var sort = $(elm).data('search-sort');
@@ -812,15 +827,15 @@ $(function(){
 
   // Initialize Redactor
   $('.redactor').redactor({
-    buttons: ['format', 'bold', 'italic', 'deleted', 'lists', 'image', 'link', 'horizontalrule'],
+    buttons: ['format', 'bold', 'italic', 'deleted', 'lists', 'link', 'horizontalrule'],
     plugins: ['wiki_save'],
     callbacks: {
       imageUploadError: function(json, xhr) {
         UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
       }
-    },
-    toolbarFixedTopOffset: 60
+    }
   });
+  $('.redactor .redactor-editor').prop('contenteditable', true);
 
   $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var hash = $(e.target).attr('href');
