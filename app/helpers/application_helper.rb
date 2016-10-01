@@ -138,4 +138,8 @@ module ApplicationHelper
   def issue_link_target_name(issue)
     '_blank' if issue.group != current_group
   end
+
+  def sort_issues_by_title(issues)
+    issues.sort{ |a, b| a.compare_title(b) }
+  end
 end

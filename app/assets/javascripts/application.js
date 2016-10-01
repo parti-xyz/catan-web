@@ -30,6 +30,7 @@
 //= require simplemde
 //= require jquery.charactercounter
 //= require bootstrap-select
+//= require bootstrap-select/defaults-ko_KR.js
 //= require jquery.viewport
 
 // blank
@@ -737,6 +738,13 @@ $(function(){
   parti_prepare($('body'));
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
+
+  $('.parti-editor-selectpicker').selectpicker('render');
+  $('.parti-editor-selectpicker').on('changed.bs.select', function(e) {
+    var select_value = $(this).val();
+    $('form.form-widget input[name*="[issue_id]"]').val(select_value);
+  });
+
 
   $(document).ajaxError(function (e, xhr, settings) {
     if(xhr.status == 500) {

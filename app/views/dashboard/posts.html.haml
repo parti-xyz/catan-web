@@ -8,6 +8,110 @@
           %small #{current_group.try(:membership?) ? '가입' : '구독'} 중인 #{ current_group.name if current_group.present?} 빠띠의 최근 소식입니다.
         - if @posts.first.present? and @last_post.present?
           = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
+
+        - if user_signed_in?
+          - watched_issues = current_user.watched_issues.order(:title)
+          .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
+            .text-muted
+              = byline current_user, hide_nickname: true
+              #{current_user.nickname}님, 이야기 나누실래요?
+          .unified-editor.unified-editor--hidden.hidden-xs
+            .parti-select
+              .text-muted 어느 빠띠 사람들과 이야기 나누고 싶으세요?
+              %select.parti-editor-selectpicker(data-live-search="true" data-width="100%")
+                - issues_selection = {"메이커인 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(current_group)), "구독/가입 중인 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(current_group))}
+                - if current_group.blank?
+                  - Group.all_with_indie_and_exclude(current_group).each do |group|
+                    - issues_selection.merge! "메이커인 #{group.name} 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(group)), "구독/가입 중인 #{group.name} 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(group))
+                - issues_selection.each do |group_label, issues|
+                  - if issues.any?
+                    %optgroup{label: group_label}
+                      - issues.each do |issue|
+                        - issue_content = capture do
+                          .parti-option
+                            .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+                            %span.issue-line__title
+                              = issue.title
+                            %span.issue-line__meta
+                              - if issue.watches.latest.count > 0
+                                .users-count
+                                  %i.fa.fa-user
+                                  %b= issue.watches.latest.count
+                              - if issue.posts.latest.count > 0
+                                .posts-count
+                                  %i.fa.fa-file-text
+                                  %b= issue.posts.latest.count
+                              - if issue.comments.latest.count > 0
+                                .comments-count
+                                  %i.fa.fa-comment
+                                  %b= issue.comments.latest.count
+                        %option{value: issue.id, 'data-content': issue_content}= issue.title
+
+              / .dropdown
+              /   %button.btn.btn-default.dropdown-toggle{"data-toggle" => "dropdown", :type => "button"}
+              /     어느 빠띠 사람들과 이야기 나누고 싶으세요?
+              /     %span.caret
+              /   %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
+              /     - current_user.watched_issues.each do |issue|
+              /       %li.issue-line
+              /         .media
+              /           .media-left
+              /             .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+              /           .media-body
+              /             %span.issue-line__title
+              /               = issue.title
+              /             %span.issue-line__meta
+              /               - if issue.watches.latest.count > 0
+              /                 .users-count
+              /                   %i.fa.fa-user
+              /                   %b= issue.watches.latest.count
+              /               - if issue.posts.latest.count > 0
+              /                 .posts-count
+              /                   %i.fa.fa-file-text
+              /                   %b= issue.posts.latest.count
+              /               - if issue.comments.latest.count > 0
+              /                 .comments-count
+              /                   %i.fa.fa-comment
+              /                   %b= issue.comments.latest.count
+
+            %ul.nav.nav-pills{role: "tablist"}
+              %li.first{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#editor-talk", role: "tab"}
+                  %i{class: "fa fa-comments-o"}
+                  = t('labels.new_talk_button')
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#editor-opinion", role: "tab"}
+                  %i{class: "fa fa-fire"}
+                  = t('labels.new_opinion_button')
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#editor-link", role: "tab"}
+                  %i{class: "fa fa-link"}
+                  = t('labels.new_article_link_source_button')
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#editor-file", role: "tab"}
+                  %i{class: "fa fa-floppy-o"}
+                  = t('labels.new_article_file_source_button')
+              %li{role: "presentation"}
+                %a{"data-toggle": "tab", href: "#editor-note", role: "tab"}
+                  %i{class: "fa fa-sticky-note-o"}
+                  = t('labels.new_note_button')
+            .tab-content
+              #editor-placeholder.tab-pane.active{role: "tabpanel"}
+                .placeholder-label(data-action="parti-click" data-target=".unified-editor li.first a")
+                  어떤 이야기를 하고 싶으세요?
+              #editor-talk.tab-pane{role: "tabpanel"}
+                = render 'talks/new_form', issue: watched_issues.first
+              #editor-opinion.tab-pane{role: "tabpanel"}
+                = render 'opinions/new_form', issue: watched_issues.first
+              #editor-link.tab-pane{role: "tabpanel"}
+                = render 'articles/new_form_with_link', issue: watched_issues.first
+              #editor-file.tab-pane{role: "tabpanel"}
+                = render 'articles/new_form_with_file', issue: watched_issues.first
+              #editor-note.tab-pane{role: "tabpanel"}
+                = render 'notes/new_form', issue: watched_issues.first, body_rows_count: 3
+
+
+
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?
             .bg-default

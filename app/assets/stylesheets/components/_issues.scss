@@ -589,6 +589,29 @@ section#issues {
   }
 }
 
+.parti-select {
+  .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    .issue-line__title, .issue-line__meta {
+      color: #fff;
+    }
+  }
+  .parti-option {
+    margin: 3px 0;
+  }
+  .parti-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: $border-radius-base;
+    background-position: center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 2px;
+  }
+}
+
 .issue-line {
   width: 100%;
   margin-bottom: 0;

@@ -34,6 +34,18 @@
     padding: 15px;
   }
 
+  &--hidden {
+    display: none;
+  }
+  &-intro {
+    padding: 20px 30px;
+    cursor: pointer;
+  }
+
+  .parti-select {
+    margin: 20px 30px;
+  }
+
   .nav > li > a {
     padding: 4px;
     margin: 10px;

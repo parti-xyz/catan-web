@@ -1,5 +1,5 @@
 /*!
- * Bootstrap-select v1.11.0 (http://silviomoreto.github.io/bootstrap-select)
+ * Bootstrap-select v1.11.2 (http://silviomoreto.github.io/bootstrap-select)
  *
  * Copyright 2013-2016 bootstrap-select
  * Licensed under MIT (https://github.com/silviomoreto/bootstrap-select/blob/master/LICENSE)
@@ -149,15 +149,18 @@
     };
   }
 
-  // set data-selected on options that are programmatically selected
+  // set data-selected on select element if the value has been programmatically selected
   // prior to initialization of bootstrap-select
-  var _val = $.fn.val;
-  $.fn.val = function(value){
-    if (this.is('select') && value) {
-      this.find('option[value="' + value + '"]').data('selected', true);
-    }
-    
-    return _val.apply(this, arguments);
+  // * consider removing or replacing an alternative method *
+  var valHooks = {
+    useDefault: false,
+    _set: $.valHooks.select.set
+  };
+
+  $.valHooks.select.set = function(elem, value) {
+    if (value && !valHooks.useDefault) $(elem).data('selected', true);
+
+    return valHooks._set.apply(this, arguments);
   };
 
   var changed_arguments = null;
@@ -165,7 +168,7 @@
     var el = this[0],
         event;
 
-    if (el.dispatchEvent) {
+    if (el.dispatchEvent) { // for modern browsers & IE9+
       if (typeof Event === 'function') {
         // For modern browsers
         event = new Event(eventName, {
@@ -178,13 +181,12 @@
       }
 
       el.dispatchEvent(event);
+    } else if (el.fireEvent) { // for IE8
+      event = document.createEventObject();
+      event.eventType = eventName;
+      el.fireEvent('on' + eventName, event);
     } else {
-      if (el.fireEvent) {
-        event = document.createEventObject();
-        event.eventType = eventName;
-        el.fireEvent('on' + eventName, event);
-      }
-
+      // fall back to jQuery.trigger
       this.trigger(eventName);
     }
   };
@@ -247,29 +249,48 @@
   }
 
 
-  function htmlEscape(html) {
-    var escapeMap = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#x27;',
-      '`': '&#x60;'
+  // List of HTML entities for escaping.
+  var escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '`': '&#x60;'
+  };
+
+  var unescapeMap = {
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&quot;': '"',
+    '&#x27;': "'",
+    '&#x60;': '`'
+  };
+
+  // Functions for escaping and unescaping strings to/from HTML interpolation.
+  var createEscaper = function(map) {
+    var escaper = function(match) {
+      return map[match];
     };
-    var source = '(?:' + Object.keys(escapeMap).join('|') + ')',
-        testRegexp = new RegExp(source),
-        replaceRegexp = new RegExp(source, 'g'),
-        string = html == null ? '' : '' + html;
-    return testRegexp.test(string) ? string.replace(replaceRegexp, function (match) {
-      return escapeMap[match];
-    }) : string;
-  }
+    // Regexes for identifying a key that needs to be escaped.
+    var source = '(?:' + Object.keys(map).join('|') + ')';
+    var testRegexp = RegExp(source);
+    var replaceRegexp = RegExp(source, 'g');
+    return function(string) {
+      string = string == null ? '' : '' + string;
+      return testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
+    };
+  };
+
+  var htmlEscape = createEscaper(escapeMap);
+  var htmlUnescape = createEscaper(unescapeMap);
 
   var Selectpicker = function (element, options, e) {
-    // bootstrap-select has been initialized - revert val back to its original function
-    if (_val) {
-      $.fn.val = _val;
-      _val = null;
+    // bootstrap-select has been initialized - revert valHooks.select.set back to its original function
+    if (!valHooks.useDefault) {
+      $.valHooks.select.set = valHooks._set;
+      valHooks.useDefault = true;
     }
 
     if (e) {
@@ -290,6 +311,12 @@
       this.options.title = this.$element.attr('title');
     }
 
+    // Format window padding
+    var winPad = this.options.windowPadding;
+    if (typeof winPad === 'number') {
+      this.options.windowPadding = [winPad, winPad, winPad, winPad];
+    }
+
     //Expose public methods
     this.val = Selectpicker.prototype.val;
     this.render = Selectpicker.prototype.render;
@@ -305,7 +332,7 @@
     this.init();
   };
 
-  Selectpicker.VERSION = '1.11.0';
+  Selectpicker.VERSION = '1.11.2';
 
   // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
   Selectpicker.DEFAULTS = {
@@ -352,7 +379,8 @@
     maxOptions: false,
     mobile: false,
     selectOnTab: false,
-    dropdownAlignRight: false
+    dropdownAlignRight: false,
+    windowPadding: 0
   };
 
   Selectpicker.prototype = {
@@ -558,8 +586,8 @@
       var generateA = function (text, classes, inline, tokens) {
         return '<a tabindex="0"' +
             (typeof classes !== 'undefined' ? ' class="' + classes + '"' : '') +
-            (typeof inline !== 'undefined' ? ' style="' + inline + '"' : '') +
-            (that.options.liveSearchNormalize ? ' data-normalized-text="' + normalizeToBase(htmlEscape(text)) + '"' : '') +
+            (inline ? ' style="' + inline + '"' : '') +
+            (that.options.liveSearchNormalize ? ' data-normalized-text="' + normalizeToBase(htmlEscape($(text).html())) + '"' : '') +
             (typeof tokens !== 'undefined' || tokens !== null ? ' data-tokens="' + tokens + '"' : '') +
             ' role="option">' + text +
             '<span class="' + that.options.iconBase + ' ' + that.options.tickIcon + ' check-mark"></span>' +
@@ -580,9 +608,9 @@
           element.insertBefore(titleOption, element.firstChild);
           // Check if selected or data-selected attribute is already set on an option. If not, select the titleOption option.
           // the selected item may have been changed by user or programmatically before the bootstrap select plugin runs,
-          // if so, the option will have the data-selected attribute
+          // if so, the select will have the data-selected attribute
           var $opt = $(element.options[element.selectedIndex]);
-          if ($opt.attr('selected') === undefined && $opt.data('selected') === undefined) {
+          if ($opt.attr('selected') === undefined && this.$element.data('selected') === undefined) {
             titleOption.selected = true;
           }
         }
@@ -644,7 +672,7 @@
                 labelSubtext = typeof $parent.data('subtext') !== 'undefined' ? '<small class="text-muted">' + $parent.data('subtext') + '</small>' : '',
                 labelIcon = $parent.data('icon') ? '<span class="' + that.options.iconBase + ' ' + $parent.data('icon') + '"></span> ' : '';
 
-            label = labelIcon + '<span class="text">' + label + labelSubtext + '</span>';
+            label = labelIcon + '<span class="text">' + htmlEscape(label) + labelSubtext + '</span>';
 
             if (index !== 0 && _li.length > 0) { // Is it NOT the first option of the select && are there elements in the dropdown?
               liIndex++;
@@ -752,7 +780,7 @@
           if (typeof $this.attr('title') !== 'undefined') {
             return $this.attr('title');
           } else if ($this.data('content') && that.options.showContent) {
-            return $this.data('content');
+            return $this.data('content').toString();
           } else {
             return icon + $this.html() + subtext;
           }
@@ -787,8 +815,8 @@
         title = typeof this.options.title !== 'undefined' ? this.options.title : this.options.noneSelectedText;
       }
 
-      //strip all html-tags and trim the result
-      this.$button.attr('title', $.trim(title.replace(/<[^>]*>?/g, '')));
+      //strip all HTML tags and trim the result, then unescape any escaped tags
+      this.$button.attr('title', htmlUnescape($.trim(title.replace(/<[^>]*>?/g, ''))));
       this.$button.children('.filter-option').html(title);
 
       this.$element.trigger('rendered.bs.select');
@@ -942,10 +970,13 @@
               containerPos = { top: 0, left: 0 };
             }
 
+            var winPad = that.options.windowPadding;
             selectOffsetTop = pos.top - containerPos.top - $window.scrollTop();
-            selectOffsetBot = $window.height() - selectOffsetTop - selectHeight - containerPos.top;
+            selectOffsetBot = $window.height() - selectOffsetTop - selectHeight - containerPos.top - winPad[2];
             selectOffsetLeft = pos.left - containerPos.left - $window.scrollLeft();
-            selectOffsetRight = $window.width() - selectOffsetLeft - selectWidth - containerPos.left;
+            selectOffsetRight = $window.width() - selectOffsetLeft - selectWidth - containerPos.left - winPad[1];
+            selectOffsetTop -= winPad[0];
+            selectOffsetLeft -= winPad[3];
           };
 
       getPos();
@@ -1189,11 +1220,11 @@
 
     togglePlaceholder: function () {
       var value = this.$element.val();
-      this.$button.toggleClass('bs-placeholder', value === null || value === '');
+      this.$button.toggleClass('bs-placeholder', value === null || value === '' || (value.constructor === Array && value.length === 0));
     },
 
     tabIndex: function () {
-      if (this.$element.data('tabindex') !== this.$element.attr('tabindex') && 
+      if (this.$element.data('tabindex') !== this.$element.attr('tabindex') &&
         (this.$element.attr('tabindex') !== -98 && this.$element.attr('tabindex') !== '-98')) {
         this.$element.data('tabindex', this.$element.attr('tabindex'));
         this.$button.attr('tabindex', this.$element.data('tabindex'));
@@ -1507,13 +1538,13 @@
           $lisVisible = this.$lis.not('.divider, .dropdown-header, .disabled, .hidden'),
           lisVisLen = $lisVisible.length,
           selectedOptions = [];
-          
+
       if (status) {
         if ($lisVisible.filter('.selected').length === $lisVisible.length) return;
       } else {
         if ($lisVisible.filter('.selected').length === 0) return;
       }
-          
+
       $lisVisible.toggleClass('selected', status);
 
       for (var i = 0; i < lisVisLen; i++) {
@@ -1633,11 +1664,10 @@
       }
 
       if (that.options.liveSearch) {
-        if (/(^9$|27)/.test(e.keyCode.toString(10)) && isActive && that.$menu.find('.active').length === 0) {
+        if (/(^9$|27)/.test(e.keyCode.toString(10)) && isActive) {
           e.preventDefault();
-          that.$menu.parent().removeClass('open');
-          if (that.options.container) that.$newElement.removeClass('open');
-          that.$button.focus();
+          e.stopPropagation();
+          that.$button.click().focus();
         }
         // $items contains li elements when liveSearch is enabled
         $items = $('[role="listbox"] li' + selector, $parent);
