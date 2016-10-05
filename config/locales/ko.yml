@@ -176,7 +176,7 @@ ko:
     new_note_button: 응원 한마디
     edit_wiki_button: 편집
     show_history_button: 역사
-    dashboard: 내 홈
+    dashboard: 홈
     blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 일부 숨겨진 글이 있습니다.
   enumerize:
     defaults:

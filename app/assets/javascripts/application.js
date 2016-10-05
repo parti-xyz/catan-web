@@ -739,6 +739,10 @@ $(function(){
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
 
+  $('#new-theme-site-header').on('show.bs.collapse','.collapse', function() {
+      $('#new-theme-site-header').find('.collapse.in').collapse('hide');
+  });
+
   $('.parti-editor-selectpicker').selectpicker('render');
   $('.parti-editor-selectpicker').on('changed.bs.select', function(e) {
     var select_value = $(this).val();

@@ -310,37 +310,6 @@ label.required:after {
   .aside_hottest_posts, .aside_issue, #aside hr {
     display: none;
   }
-  /* header */
-  #site-header {
-    .navbar-header .navbar-brand img {
-      width: 35px;
-    }
-    .navbar-default {
-      padding: 0px;
-    }
-    .navbar-brand{
-      padding-top: 10px;
-    }
-    .navbar-nav-menu {
-      @media (max-width: $screen-xs-max) {
-        font-size: 10px;
-      }
-      float: right;
-      padding: 0;
-      margin: 0;
-      li {
-        display: inline-block;
-      }
-      li a {
-        &.btn-mobile-menu {
-          padding-right: 0;
-          img {
-            zoom: 0.5;
-          }
-        }
-      }
-    }
-  }
 
   /* footer */
   footer {
