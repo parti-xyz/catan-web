@@ -65,13 +65,18 @@
         text-align: center;
       }
     }
+    background-color: $gray-lightest;
+    color: $gray;
     &:hover {
-      background-color: $gray-lightest;
+      background-color: $brand-primary;
+      color: #fff;
     }
   }
   .nav {
     background-color: #fff;
-    border-bottom: 1px solid $gray-light;
+    &.active {
+      border-bottom: 1px solid $gray-light;
+    }
     margin-left: 30px;
     margin-right: 30px;
     font-weight: 500;
