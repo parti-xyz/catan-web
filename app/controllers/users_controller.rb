@@ -29,14 +29,6 @@ class UsersController < ApplicationController
     @opinions = @posts.map(&:specific).compact
   end
 
-  def toggle_root_page
-    current_user.toggle(:root_as_dashboard)
-    current_user.save
-    respond_to do |format|
-      format.js
-    end
-  end
-
   def summary_test
     User.limit(100).each do |user|
       PartiMailer.summary_by_mailtrap(user).deliver_later
