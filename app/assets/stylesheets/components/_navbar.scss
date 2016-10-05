@@ -254,7 +254,7 @@
 //
 #new-theme-site-header {
   $site-header-brand-image-width: 40px;
-  $site-header-brand-image-width-xs: 26px;
+  $site-header-brand-image-width-xs: 25px;
 
   // brand
   .navbar-header {
@@ -281,6 +281,9 @@
         left: 50%;
         padding-left: 0;
         margin-left: - 0.5 * $site-header-brand-image-width;
+        @media (max-width: $screen-xs-max) {
+          height: 55px;
+        }
       }
     }
   }
