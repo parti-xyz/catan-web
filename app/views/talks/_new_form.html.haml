@@ -16,7 +16,7 @@
       .form-group
         = f.text_field :title, placeholder: '어떤 논의를 제안하고 싶으신가요?', class: 'form-control input-lg', data: {'rule-required': true}
       .form-group.textarea-box
-        = f.text_area :body, placeholder: '내용 ...', class: 'form-control redactor validation-ignore', data: {'rule-required': true}
+        = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor' if  is_redactorable?} validation-ignore", data: {'rule-required': true}
 
       %hr
       .form-group.clearfix

@@ -169,11 +169,11 @@ ko:
             initial:
               undeletable: 일반 주제는 지울 수 없습니다.
   labels:
-    new_article_link_source_button: 링크 모으기
-    new_article_file_source_button: 파일 공유하기
-    new_talk_button: 논의 제안하기
-    new_opinion_button: 찬반토론 열기
-    new_note_button: 응원 한마디
+    new_article_link_source_button: 링크<span class='hidden-xs'> 모으기</span>
+    new_article_file_source_button: 파일<span class='hidden-xs'> 공유하기</span>
+    new_talk_button: 논의<span class='hidden-xs'> 제안하기</span>
+    new_opinion_button: 찬반토론<span class='hidden-xs'> 열기</span>
+    new_note_button: 응원<span class='hidden-xs'> 한마디</span>
     edit_wiki_button: 편집
     show_history_button: 역사
     dashboard: 홈

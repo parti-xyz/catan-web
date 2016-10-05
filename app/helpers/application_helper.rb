@@ -98,6 +98,14 @@ module ApplicationHelper
     !browser.device.mobile? and !browser.device.tablet?
   end
 
+  def is_redactorable?
+    !browser.device.mobile? and !browser.device.tablet?
+  end
+
+  def is_selectpickerable?
+    !browser.device.mobile? and !browser.device.tablet?
+  end
+
   def editable_issues_continents(user)
     watched = user.watched_issues.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
     featured = Issue.basic_issues.select { |issue| !user.watched_issues.include?(issue) }.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }

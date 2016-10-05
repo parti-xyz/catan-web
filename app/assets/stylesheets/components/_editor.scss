@@ -44,11 +44,27 @@
 
   .parti-select {
     margin: 20px 30px;
+    max-width: 100%;
+    .issue-line__title {
+      display: inline-block;
+      white-space: normal;
+      word-break: keep-all;
+    }
+    .parti-thumb {
+      vertical-align: top;
+    }
   }
 
   .nav > li > a {
     padding: 4px;
     margin: 10px;
+    @media (max-width: $screen-xs-max) {
+      margin: 6px;
+      > i {
+        display: block;
+        text-align: center;
+      }
+    }
     &:hover {
       background-color: $gray-lightest;
     }
