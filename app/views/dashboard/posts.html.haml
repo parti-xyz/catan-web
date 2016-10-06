@@ -17,6 +17,7 @@
               #{current_user.nickname}님, 이야기 나누실래요?
 
           .unified-editor.unified-editor--hidden
+            - selected_parti = nil
             .parti-select
               .text-muted 어느 빠띠 사람들과 이야기 나누고 싶으세요?
               %select.parti-editor-selectpicker(data-live-search="true" data-width="100%")
@@ -28,6 +29,7 @@
                   - if issues.any?
                     %optgroup{label: group_label}
                       - issues.each do |issue|
+                        - selected_parti = issue if selected_parti.blank?
                         - issue_content = capture do
                           .parti-option
                             .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
@@ -71,15 +73,15 @@
 
             .tab-content
               #editor-talk.tab-pane{role: "tabpanel"}
-                = render 'talks/new_form', issue: Issue.find(issues_selection.first.second.first.id)
+                = render 'talks/new_form', issue: selected_parti
               #editor-opinion.tab-pane{role: "tabpanel"}
-                = render 'opinions/new_form', issue: Issue.find(issues_selection.first.second.first.id)
+                = render 'opinions/new_form', issue: selected_parti
               #editor-link.tab-pane{role: "tabpanel"}
-                = render 'articles/new_form_with_link', issue: Issue.find(issues_selection.first.second.first.id)
+                = render 'articles/new_form_with_link', issue: selected_parti
               #editor-file.tab-pane{role: "tabpanel"}
-                = render 'articles/new_form_with_file', issue: Issue.find(issues_selection.first.second.first.id)
+                = render 'articles/new_form_with_file', issue: selected_parti
               #editor-note.tab-pane{role: "tabpanel"}
-                = render 'notes/new_form', issue: Issue.find(issues_selection.first.second.first.id), body_rows_count: 3
+                = render 'notes/new_form', issue: selected_parti, body_rows_count: 3
 
 
 
