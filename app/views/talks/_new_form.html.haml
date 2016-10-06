@@ -9,7 +9,7 @@
       - else
         .form-group
           = f.select :section_id, nil, {}, {class: 'form-control selectpicker', title: '주제를 선택하세요', data: {'rule-required': true}} do
-            - @issue.sections.resent.each do |section|
+            - issue.sections.resent.each do |section|
               %option{value: section.id}
                 = section.name
 

@@ -15,6 +15,7 @@
             .text-muted
               = byline current_user, hide_nickname: true
               #{current_user.nickname}님, 이야기 나누실래요?
+
           .unified-editor.unified-editor--hidden
             .parti-select
               .text-muted 어느 빠띠 사람들과 이야기 나누고 싶으세요?
@@ -67,17 +68,18 @@
                 %a{"data-toggle": "tab", href: "#editor-note", role: "tab"}
                   %i{class: "fa fa-sticky-note-o"}
                   != t('labels.new_note_button')
+
             .tab-content
               #editor-talk.tab-pane{role: "tabpanel"}
-                = render 'talks/new_form', issue: watched_issues.first
+                = render 'talks/new_form', issue: Issue.find(issues_selection.first.second.first.id)
               #editor-opinion.tab-pane{role: "tabpanel"}
-                = render 'opinions/new_form', issue: watched_issues.first
+                = render 'opinions/new_form', issue: Issue.find(issues_selection.first.second.first.id)
               #editor-link.tab-pane{role: "tabpanel"}
-                = render 'articles/new_form_with_link', issue: watched_issues.first
+                = render 'articles/new_form_with_link', issue: Issue.find(issues_selection.first.second.first.id)
               #editor-file.tab-pane{role: "tabpanel"}
-                = render 'articles/new_form_with_file', issue: watched_issues.first
+                = render 'articles/new_form_with_file', issue: Issue.find(issues_selection.first.second.first.id)
               #editor-note.tab-pane{role: "tabpanel"}
-                = render 'notes/new_form', issue: watched_issues.first, body_rows_count: 3
+                = render 'notes/new_form', issue: Issue.find(issues_selection.first.second.first.id), body_rows_count: 3
 
 
 
