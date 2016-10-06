@@ -188,19 +188,23 @@ section#talks {
 
 .talk-section-wrapper {
   position: relative;
-  .talk-section-edit {
+  .talk-section-cotrol {
     position: absolute;
     z-index: 1;
-    top: 12px;
+    top: 6px;
     left: 7px;
     display: none;
     color: $gray;
+    line-height: 17px;
+    &--initial {
+      top: 13px;
+    }
     &:hover {
       color: $brand-primary;
     }
   }
   &:hover {
-    .talk-section-edit {
+    .talk-section-cotrol {
       display: inline-block;
     }
     .talk-section {

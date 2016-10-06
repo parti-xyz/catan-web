@@ -1,16 +1,20 @@
 talk1:
   title: 'talk1'
   post_issue: issue1
-  section: sections1
+  section: section1
 talk2:
   title: 'talk2'
   post_issue: issue2
-  section: sections2
+  section: section2
 talk3:
   title: 'talk3'
   post_issue: issue1
-  section: sections1
+  section: section1
 talk4:
   title: 'talk4'
   post_issue: issue2
-  section: sections1
+  section: section1
+talk5:
+  title: 'talk5'
+  post_issue: issue1
+  section: section4

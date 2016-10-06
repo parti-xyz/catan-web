@@ -1,0 +1,4 @@
+- unless comment.issue.blind_user? comment.user
+  = smart_format(h(comment.body))
+- else
+  %p.comment-blind-info= t('labels.comment_blind_info')

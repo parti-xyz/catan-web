@@ -3,7 +3,7 @@ require 'test_helper'
 class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
   def stub_crawl(link = nil)
     stub =  (link.present? ? OpenGraph.expects(:new).with(link) : OpenGraph.stubs(:new))
-    stub.returns(OpenStruct.new(title: 'page title', description: 'page body', url: (link || 'http://stub')))
+    stub.returns(OpenStruct.new(title: 'page title', description: 'page body', url: (link || 'http://stub.xx')))
     Sidekiq::Testing.inline! do
       yield
     end
@@ -13,7 +13,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
+      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link.xx' }, source_type: 'LinkSource' }
 
       assert assigns(:article).persisted?
       assigns(:article).reload
@@ -22,7 +22,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert_equal 'page body', assigns(:article).source_body
       assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
-      assert_equal LinkSource.find_by(url: 'http://stub'), assigns(:article).source
+      assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:article).source
       assert_equal issues(:issue1).title, assigns(:article).issue.title
 
       assert assigns(:article).comments.empty?
@@ -36,7 +36,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
 
       sign_in(users(:two))
 
-      post articles_path, article: { issue_id: issues(:issue2).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
+      post articles_path, article: { issue_id: issues(:issue2).id, body: 'body', source_attributes: { url: 'http://link.xx' }, source_type: 'LinkSource' }
 
       assert assigns(:article).persisted?
     end
@@ -49,7 +49,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
 
       sign_in(users(:one))
 
-      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
+      post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link.xx' }, source_type: 'LinkSource' }
       assert assigns(:article).persisted?
     end
   end
@@ -62,7 +62,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
       sign_in(users(:two))
 
       assert_raises CanCan::AccessDenied do
-        post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource' }
+        post articles_path, article: { issue_id: issues(:issue1).id, body: 'body', source_attributes: { url: 'http://link.xx' }, source_type: 'LinkSource' }
       end
     end
   end
@@ -81,7 +81,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert_equal 'page body', assigns(:article).source_body
       assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
-      assert_equal LinkSource.find_by(url: 'http://stub'), assigns(:article).source
+      assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:article).source
       assert_equal issues(:issue1).title, assigns(:article).issue.title
 
       assert assigns(:article).comments.empty?
@@ -89,10 +89,10 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
   end
 
   test '고쳐요' do
-    stub_crawl 'http://link.x' do
+    stub_crawl 'http://link.xx' do
       sign_in(users(:one))
 
-      put article_path(articles(:article1)), article: { body: 'body', issue_id: issues(:issue1).id, source_attributes: { url: 'http://link.x'}, source_type: 'LinkSource' }
+      put article_path(articles(:article1)), article: { body: 'body', issue_id: issues(:issue1).id, source_attributes: { url: 'http://link.xx'}, source_type: 'LinkSource' }
 
       refute assigns(:article).errors.any?
       assigns(:article).reload
@@ -101,7 +101,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert_equal 'body', assigns(:article).body
       assert_equal users(:one), assigns(:article).user
       assert_equal issues(:issue1).title, assigns(:article).issue.title
-      assert_equal 'http://link.x', assigns(:article).source.url
+      assert_equal 'http://link.xx', assigns(:article).source.url
     end
   end
 
@@ -137,7 +137,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
 
     previous_count = Article.count
     assert_raises CanCan::AccessDenied do
-      post articles_path, article: { body: 'body', source_attributes: { url: 'http://link' }, source_type: 'LinkSource', issue_id: -1}
+      post articles_path, article: { body: 'body', source_attributes: { url: 'http://link.xx' }, source_type: 'LinkSource', issue_id: -1}
     end
     assert_equal previous_count, Article.count
   end
@@ -146,7 +146,7 @@ class ArticlesWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post articles_path, article: { source_attributes: { url: 'http://link'}, source_type: 'LinkSource', issue_id: issues(:issue1).id }
+      post articles_path, article: { source_attributes: { url: 'http://link.xx'}, source_type: 'LinkSource', issue_id: issues(:issue1).id }
       assert assigns(:article).persisted?
     end
   end

@@ -1,7 +1,7 @@
 link1:
   title: 'link1'
   body: 'link1 body'
-  url: 'http://link1'
+  url: 'http://link1.ok'
   crawling_status: 'completed'
 link2:
   title: 'link2'

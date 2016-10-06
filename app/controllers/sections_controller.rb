@@ -31,8 +31,14 @@ class SectionsController < ApplicationController
     if @section.initial?
       flash[:notice] = t('activerecord.errors.models.section.attributes.initial.undeletable')
     else
-      if !@section.destroy
-        errors_to_flash(@section)
+      ActiveRecord::Base.transaction do
+        if @section.talks.any?
+          initial_section = @issue.initial_section
+          @section.talks.move_to(initial_section)
+        end
+        if !@section.destroy
+          errors_to_flash(@section)
+        end
       end
     end
 

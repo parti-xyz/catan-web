@@ -23,7 +23,7 @@ gem 'acts-as-taggable-on', '~> 4.0'
 gem 'carrierwave', '~> 0.11.2'
 gem "mini_magick"
 gem "fog"
-gem 'file_validators', '~> 2.0', '>= 2.0.2'
+gem 'file_validators', '~> 2.1'
 
 # auth
 gem 'cancancan', '~> 1.10'

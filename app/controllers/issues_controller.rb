@@ -73,7 +73,7 @@ class IssuesController < ApplicationController
     @issue.makers.build(user: current_user)
     @issue.members.build(user: current_user)
     @issue.group_slug = current_group.try(:slug)
-    @issue.sections.build(name: Section::DEFAULT_NAME)
+    @issue.sections.build(name: Section::DEFAULT_NAME, initial: true)
 
     @watch = current_user.watches.build(issue: @issue)
 
