@@ -14,13 +14,16 @@
           %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
           %li.dropdown.general-parties
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              일반 빠띠
+              추천 빠띠
               %span.caret
             %ul.dropdown-menu
               - %w(politics economy society nculture education environment labor media).each do |slug|
                 = render 'issues/issue_line', issue: Issue.of_slug(slug, nil)
               %li.divider
               = render 'issues/issue_line', issue: Issue.of_slug('parti', nil)
+              %li.divider
+              - %w(basic-income better-democracy 20th-assembly digital-social-innovation us-presidential-election).each do |slug|
+                = render 'issues/issue_line', issue: Issue.of_slug(slug, nil)
           %li.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               베스트
