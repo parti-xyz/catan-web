@@ -1,23 +1,19 @@
 #new-theme-site-header
   %nav.navbar.navbar-default.navbar-fixed-top
     .container.clearfix
-      .navbar-header
+      .navbar-header.navbar-header-center
         %a.navbar-brand{ href: root_path }
-          %img{ alt: 'parti', src: asset_path('default_issue_logo.png')}
+          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+      %ul.nav.navbar-nav.navbar-left
+        %li
+          %a.btn-mobile-menu{ href: '#'}
+            = image_tag 'btn_mobile_menu.png'
       %ul.nav.navbar-nav.navbar-right-xs
-        - if user_signed_in? and current_user.watches.any?
-          %li
-            %a.collapse-toggle.collapsed(data-toggle="collapse" data-target="#nav-watch-parties")
-              내 #{current_group.name} 빠띠
-              %span.caret
         - if current_group.categories.try(:any?)
           %li
             %a.collapse-toggle.collapsed(data-toggle="collapse" data-target="#nav-parti-categories")
               주제별 빠띠
               %span.caret
-        %li
-          %a.btn-mobile-menu{ href: '#'}
-            = image_tag 'btn_mobile_menu.png'
 
   .mobile-list#mobile-list
     = image_tag 'icon_close_white.png', class: 'mobile-list__close'

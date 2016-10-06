@@ -6,17 +6,31 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        - if user_signed_in?
-          %a.navbar-brand{ href: root_path }
-            %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+        %a.navbar-brand{ href: root_path }
+          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
+          %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
+          %li.dropdown.general-parties
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              일반 빠띠
+              %span.caret
+            %ul.dropdown-menu
+              - %w(politics economy society nculture education environment labor media).each do |slug|
+                = render 'issues/issue_line', issue: Issue.of_slug(slug, nil)
+              %li.divider
+              = render 'issues/issue_line', issue: Issue.of_slug('parti', nil)
+          %li.dropdown
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              베스트
+              %span.caret
+            %ul.dropdown-menu
+              - %w(talk opinion article note).each do |model|
+                %li= link_to model.classify.safe_constantize.model_name.human, talks_path, class: "#{'active' if current_page?(controller: "/#{model.pluralize}", action: :index)}"
+
+        %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            %li
-              = link_to dashboard_path, class: "#{'active' if params[:controller] == 'dashboard' and params[:action] == 'index'}" do
-                %i.fa.fa-home
-                = t('labels.dashboard')
             - if current_user.watches.any?
               %li.dropdown.watch-parties
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -58,29 +72,7 @@
                     %i.icon-dot-corner
                 - else
                   %i.fa.fa-bell
-          - else
-            %li.brand-dashbord
-              = link_to home_path, class: "#{'active' if current_page?('/home')}" do
-                %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-                홈
-        %ul.nav.navbar-nav.navbar-right
-          %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
-          %li.dropdown.general-parties
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              일반 빠띠
-              %span.caret
-            %ul.dropdown-menu
-              - %w(politics economy society nculture education environment labor media).each do |slug|
-                = render 'issues/issue_line', issue: Issue.of_slug(slug, nil)
-              %li.divider
-              = render 'issues/issue_line', issue: Issue.of_slug('parti', nil)
-          %li.dropdown
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              베스트
-              %span.caret
-            %ul.dropdown-menu
-              - %w(talk opinion article note).each do |model|
-                %li= link_to model.classify.safe_constantize.model_name.human, talks_path, class: "#{'active' if current_page?(controller: "/#{model.pluralize}", action: :index)}"
+                알림
 
           - if user_signed_in?
             %li.dropdown
@@ -96,4 +88,3 @@
           - else
             %li.sign-up
               = link_to '로그인/회원가입', new_user_session_path
-

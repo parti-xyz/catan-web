@@ -253,8 +253,8 @@
 // renewal style
 //
 #new-theme-site-header {
-  $site-header-brand-image-width: 40px;
-  $site-header-brand-image-width-xs: 25px;
+  $site-header-brand-image-width: 60px;
+  $site-header-brand-image-width-xs: 60px;
 
   // brand
   .navbar-header {
@@ -283,6 +283,10 @@
         margin-left: - 0.5 * $site-header-brand-image-width;
         @media (max-width: $screen-xs-max) {
           height: 55px;
+          margin-left: - 0.5 * $site-header-brand-image-width-xs;
+        }
+        @media (min-width: $screen-sm-max) {
+          top: -4px;
         }
       }
     }

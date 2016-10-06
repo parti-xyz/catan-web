@@ -3,17 +3,17 @@
     .container.clearfix
       .navbar-header.navbar-header-center
         %a.navbar-brand{ href: root_path }
-          %img{ alt: 'parti', src: asset_path('default_issue_logo.png')}
+          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
       %ul.nav.navbar-nav.navbar-left
+        %li
+          %a.btn-mobile-menu{ href: '#'}
+            = image_tag 'btn_mobile_menu.png'
+      %ul.nav.navbar-nav.navbar-right-xs
         - if user_signed_in? and current_user.watches.any?
           %li
             %a.collapse-toggle.collapsed(data-toggle="collapse" data-target="#nav-watch-parties")
               내 빠띠
               %span.caret
-      %ul.nav.navbar-nav.navbar-right-xs
-        %li
-          %a.btn-mobile-menu{ href: '#'}
-            = image_tag 'btn_mobile_menu.png'
 
   .mobile-list#mobile-list
     = image_tag 'icon_close_white.png', class: 'mobile-list__close'

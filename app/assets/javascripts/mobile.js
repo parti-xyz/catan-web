@@ -9,24 +9,24 @@ $(function() {
   $mobile_menu_btn.on('click', function() {
     if ( $mobile_list.is(':visible') ) {
       $mobile_list.hide().animate({
-        right: '-260px'
+        left: '-260px'
       }, 400 );
       $('body').css( {'margin-left':'0px', 'margin-right':'0px'} );
-      $navbar.animate( {'left': '0'} );
+      $navbar.animate( {'right': '0'} );
     } else {
       $mobile_list.show().animate({
-        right: '0px'
+        left: '0px'
       }, 400 );
-      $('body').animate( { marginLeft: '-260px', marginRight: '260px' } );
-      $navbar.animate( {'left': '-260px'} );
+      $('body').animate( { marginRight: '-260px', marginLeft: '260px' } );
+      $navbar.animate( {'right': '-260px'} );
     }
   });
   $mobile_menu_cancel.on('click', function() {
     $mobile_list.hide().animate({
-      right: '-260px'
+      left: '-260px'
     }, 400 );
     $('body').css( {'margin-left':'0px', 'margin-right':'0px'} );
-    $navbar.css( {'left': '0'} );
+    $navbar.css( {'right': '0'} );
   });
 });
 
