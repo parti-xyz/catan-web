@@ -350,6 +350,9 @@
       &.general-parties {
         & > ul.dropdown-menu {
           min-width: 240px;
+          max-height: 400px;
+          overflow: hidden;
+          overflow-y: auto;
         }
       }
     }
