@@ -14,7 +14,7 @@
 - default_postable_type_image = 'fa-link.png'
 - postable_type_image_map = {'Article' => 'fa-link.png', 'Opinion' => 'fa-bar-chart.png', 'Talk' => 'fa-bar-chart.png'}
 %div
-  %p{ style: 'font-size: 70%; margin-right: 10px;' } 아래 글의 수다입니다.
+  %p{ style: 'font-size: 70%; margin-right: 10px;' } 아래 글의 댓글입니다.
   %h5
     %img{ src: image_url("email/#{postable_type_image_map.fetch(post.postable_type, default_postable_type_image)}"), width: '13', height: '13'}
     %a{href: url_for(post.specific), style: 'color: #333; text-decoration: none'}

@@ -53,7 +53,7 @@
         - if opinion.unsured_by? current_user
           .vote__buttons--unsure--label
             = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: opinion_path(opinion) }, class: 'text-muted' do
-              수다로 의견을 나눠 보세요.
+              댓글로 의견을 나눠 보세요.
         - else
           = link_to post_votes_path(opinion.acting_as, vote: {choice: :unsure}, partial: local_assigns[:partial]), method: :post, remote: true do
             잘 모르겠습니다

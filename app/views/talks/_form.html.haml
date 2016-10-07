@@ -12,7 +12,6 @@
       = f.text_field :title, class: 'form-control', maxlength: 50, placeholder: t('activerecord.models.talk') + '의 제목을 쓰세요'
 
     .form-group
-      %label 수다
       = f.text_area :body, class: 'form-control redactor', data: {ride: 'parti-autoresize'}
 
     .editor-btn.text-right

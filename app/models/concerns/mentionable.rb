@@ -84,7 +84,7 @@ module Mentionable
     notifier = Slack::Notifier.new(@webhook_url, username: 'parti-catan')
 
     if comment.body.present?
-      notifier.ping("@#{comment.user.nickname}님의 수다 #{polymorphic_url(comment.post.specific)}", attachments: [{ text: comment.body, color: "#36a64f" }])
+      notifier.ping("@#{comment.user.nickname}님의 댓글 #{polymorphic_url(comment.post.specific)}", attachments: [{ text: comment.body, color: "#36a64f" }])
     end
   end
 end
