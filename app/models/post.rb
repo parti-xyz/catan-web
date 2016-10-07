@@ -40,17 +40,17 @@ class Post < ActiveRecord::Base
   # scopes
   default_scope -> { joins(:issue) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :hottest, -> { order(latest_comments_counted_datestamp: :desc, latest_comments_count: :desc) }
+  scope :hottest, -> { order(recommend_score_datestamp: :desc, recommend_score: :desc) }
   scope :previous_of_hottest, ->(post) {
     base = hottest.order(id: :desc)
-    base = base.where('posts.latest_comments_count > 0')
-    base = base.where.not(latest_comments_counted_datestamp: nil)
+    base = base.where('posts.recommend_score > 0')
+    base = base.where.not(recommend_score_datestamp: nil)
     base = base.where.any_of(
-      ['posts.latest_comments_count < ?', post.latest_comments_count],
-      where('posts.latest_comments_count = ? and posts.latest_comments_counted_datestamp < ?',
-        post.latest_comments_count, post.latest_comments_counted_datestamp),
-      where('posts.latest_comments_count = ? and posts.latest_comments_counted_datestamp = ? and posts.id < ?',
-        post.latest_comments_count, post.latest_comments_counted_datestamp, post.id)
+      ['posts.recommend_score < ?', post.recommend_score],
+      where('posts.recommend_score = ? and posts.recommend_score_datestamp < ?',
+        post.recommend_score, post.recommend_score_datestamp),
+      where('posts.recommend_score = ? and posts.recommend_score_datestamp = ? and posts.id < ?',
+        post.recommend_score, post.recommend_score_datestamp, post.id)
     ) if post.present?
     base
   }
