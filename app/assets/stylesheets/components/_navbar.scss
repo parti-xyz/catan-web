@@ -386,4 +386,11 @@
       }
     }
   }
+
+  // mobile sidemenu
+  .mobile-list {
+    border-right: 1px solid $gray-lighter;
+    padding-bottom: 100px;
+    margin-bottom: 100px;
+  }
 }

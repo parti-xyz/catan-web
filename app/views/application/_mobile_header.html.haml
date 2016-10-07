@@ -11,7 +11,7 @@
       %ul.nav.navbar-nav.navbar-right-xs
         - if user_signed_in? and current_user.watches.any?
           %li
-            %a.collapse-toggle.collapsed(data-toggle="collapse" data-target="#nav-watch-parties")
+            %a.collapse-toggle.collapsed(href="#" data-toggle="collapse" data-target="#nav-watch-parties")
               내 빠띠
               %span.caret
 
