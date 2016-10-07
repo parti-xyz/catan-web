@@ -393,4 +393,17 @@
     padding-bottom: 100px;
     margin-bottom: 100px;
   }
+
+  // messages bell button
+
+  .icon-bell-stack{
+    position: relative;
+    display: inline-block;
+    width: 24px;
+    vertical-align: top;
+    .fa-circle {
+      color: #966fd6;
+      font-size: 26px;
+    }
+  }
 }
