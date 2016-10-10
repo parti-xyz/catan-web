@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/home', to: 'pages#home'
   get '/robots.:format', to: 'pages#robots'
   get '/monitors', to: 'monitors#index'
+  get 'parties/new_intro', to: 'issues#new_intro'
 
   resources :users, except: :show do
     post 'toggle_root_page', on: :collection
