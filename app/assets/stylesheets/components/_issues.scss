@@ -727,36 +727,34 @@ section#issue-bottom-banner {
 }
 
 section#parti-making {
+  padding-top: 120px;
+
+  .key-visual {
+    width: 100%;
+  }
+  h1 {
+    color: $brand-primary;
+    margin-bottom: 30px;
+  }
+  .description {
+    color: $gray;
+  }
+  .parti-guide {
+    vertical-align: bottom;
+    color: $gray;
+    text-decoration: underline;
+  }
+  .btn-start-making {
+    margin-top: 24px;
+  }
   .accordion-heading a.accordion-toggle {
     display: inline-block;
-  }
-  .about-parti-box {
-    .container {
-      padding-bottom: 50px;
-      @media (max-width: $screen-xs-max) {
-        padding-bottom: 0;
-      }
-      img {
-        padding-top: 0;
-      }
-      .btn {
-        margin-left: 30px;
-        margin-top: 8px;
-        @media (max-width: $screen-xs-max) {
-          margin-left: 0;
-          margin-top: 0;
-          font-size: 12px;
-          padding: 2px 8px;
-        }
-
-      }
-    }
   }
   .parti-make-submit {
     text-align: center;
     margin-bottom: 4px;
   }
-  #parti-make-Modal {
+  #parti-make-modal {
 
     .panel-heading .accordion-toggle:after {
         font-family: 'Glyphicons Halflings';

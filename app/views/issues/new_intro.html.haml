@@ -1,21 +1,28 @@
 %section#parti-making
-  %section.about-wrapper
-    .about-parti-box
-      .container
-        .row
-          .col-xs-4
-            %span 함께 만드는
+  .container
+    .row
+      .col-sm-7.col-xs-12
+        %h1
+          빠띠, 수다로 정치하는 새로운 방법
+        .description
+          %p
+            더 나은 민주주의 실험하기, 기본소득, 우리 지역의 시민 교육, 미니멀 라이프까지
             %br
-            %span.text-important 온라인 광장
+            할 말이 너무 많은데 함께 이야기할 사람도, 공간도 찾지 못했나요?
+          %p
+            파티를 열듯, 내가 관심있는 사회 이슈로 마음껏 수다 떨고 싶다면
             %br
-            %span 만들어볼까요?
-            %br
-            %button.btn.btn-primary.btn-lg{"data-target" => "#parti-make-Modal", "data-toggle" => "modal", :type => "button"}
-              빠띠 만들기
-          .col-xs-8.text-right
-            = image_tag 'img_about_1.png'
+            %span
+              %strong.text-primary<> 빠띠
+              를
+            만들고 함께할 사람들을 초대해보세요.
+            = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: "_blank", class: 'parti-guide'
+        %button.btn.btn-primary.btn-lg.btn-start-making{"data-target" => "#parti-make-modal", "data-toggle" => "modal", :type => "button"}
+          시작하기
+      .col-sm-5.hidden-xs
+        = image_tag 'img_about_1.png', class: 'key-visual'
 
-  #parti-make-Modal.modal.fade{"aria-labelledby" => "parti-make-ModalLabel", :role => "dialog", :tabindex => "-1"}
+  #parti-make-modal.modal.fade{"aria-labelledby" => "parti-make-ModalLabel", :role => "dialog", :tabindex => "-1", data: {action: 'parti-making-parti-intro', 'modal-checkbox': "#parti-make-modal input:checkbox", 'modal_checked_checkbox': "input:checked", 'modal_submit_btn': ".parti-make-submit .btn"}}
     .modal-dialog{:role => "document"}
       .modal-content
         .modal-header
@@ -28,7 +35,7 @@
               %h4#parti-make-ModalLabel.modal-title
                 함께 만드는 온라인 광장, 빠띠는 실제 광장처럼 다른 회원들에게 공개된 공간입니다.
                 %br
-                빠띠만의 특징을 알려드릴게요. 내가 만드려는 공간과 성격이 맞는지 확인하고 시작해주세요.
+                빠띠만의 특징을 알려드릴게요. 내가 만드려는 공간과 성격이 맞는지 확인하고 계속해주세요.
         .modal-body
           #accordion.panel-group{"aria-multiselectable" => "true", :role => "tablist"}
             .panel.panel-default
@@ -75,4 +82,4 @@
                 (all@parti.xyz)
         .modal-footer
           .aside_issue_btn.parti-make-submit
-            = link_to '시작하기', new_issue_path, class: 'btn btn-primary btn-lg btn-shadow'
+            = link_to '계속하기', new_issue_path, class: 'btn btn-primary btn-lg btn-shadow disabled'
