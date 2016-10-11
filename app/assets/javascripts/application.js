@@ -1041,28 +1041,19 @@ $(function(){
     $footer_element.removeClass('nav-down').addClass('nav-up');
   });
 
-  $('.parti-make-description').hide();
-  $('.toggle-parti-make-description').on('click',function (e){
-    if(this == e.target){
-      if($(this).next('.parti-make-description').is(':hidden')){
-        $(this).next('.parti-make-description').show();
-        $(this).css('transform', 'rotateX(-180deg)');
-      } else{
-        $(this).css('transform', 'rotateX(0deg)');
-        $(this).next('.parti-make-description').hide();
-      }
-    }
-  });
-
-  $('.parti-make-submit').hide();
+  $('.parti-make-submit a').addClass('disabled');
   $("#parti-make-Modal input:checkbox").on('click',function (e){
     var countChecked = function() {
       var n = $( "input:checked" ).length;
       return n-1;
     };
     if(countChecked() == 4)
-      $('.parti-make-submit').show();
+      $('.parti-make-submit a').removeClass('disabled');
     else
-      $('.parti-make-submit').hide();
+      $('.parti-make-submit a').addClass('disabled');
   });
+
+  $scope.checkboxClick = function(group, $event){
+    $event.stopPropagation();
+  }
 });

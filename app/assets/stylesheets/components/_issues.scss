@@ -725,3 +725,85 @@ section#issue-bottom-banner {
     }
   }
 }
+
+section#parti-making {
+  .accordion-heading a.accordion-toggle {
+    display: inline-block;
+  }
+  .about-parti-box {
+    .container {
+      padding-bottom: 50px;
+      @media (max-width: $screen-xs-max) {
+        padding-bottom: 0;
+      }
+      img {
+        padding-top: 0;
+      }
+      .btn {
+        margin-left: 30px;
+        margin-top: 8px;
+        @media (max-width: $screen-xs-max) {
+          margin-left: 0;
+          margin-top: 0;
+          font-size: 12px;
+          padding: 2px 8px;
+        }
+
+      }
+    }
+  }
+  .parti-make-submit {
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  #parti-make-Modal {
+
+    .panel-heading .accordion-toggle:after {
+        font-family: 'Glyphicons Halflings';
+        content: "\e114";
+        float: right;
+        color: grey;
+    }
+    .panel-heading .accordion-toggle.collapsed:after {
+        content: "\e080";
+    }
+    .modal-dialog {
+      width: 70%;
+      @media (max-width: $screen-xs-max) {
+        width: 100%;
+      }
+    }
+    .modal-title {
+      color: $brand-primary;
+    }
+    .modal-body {
+      .help-block {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+      .panel-collapse {
+        line-height: 24px;
+        .panel-body {
+          padding: 10px 32px;
+        }
+      }
+      .panel-title {
+        p {
+          display: inline-block;
+          margin-bottom: 0;
+          @media (max-width: $screen-xs-max) {
+            width: 86%;
+            vertical-align: text-top;
+          }
+        }
+      }
+    }
+    .fa-check-square-o {
+      font-size: 40px;
+      color: #966fd6;
+    }
+    .parti-mail a {
+      color: $brand-danger;
+    }
+  }
+}
