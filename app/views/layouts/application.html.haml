@@ -20,7 +20,7 @@
 
     = csrf_meta_tags
 
-  %body{class: "app-#{params[:controller]} app-#{params[:controller]}-#{params[:action]}"}
+  %body{class: body_class }
     %section(style='position: fixed; z-index: 1000; width: 100%')
       .container
         .unobtrusive-flash-container

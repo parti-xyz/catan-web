@@ -1,26 +1,19 @@
-%section#top-banner
-  .container
-    - if is_small_screen?
-      .row
-        .col-xs-8
-          - if current_group.present?
-            %span.text-important= current_group.site_title
-            #{current_group.name}
-          - else
+- if current_group.nil?
+  %section#top-banner
+    .container
+      - if is_small_screen?
+        .row
+          .col-xs-8
             함께 만드는
             %br
             %span.text-important 온라인 광장
-          빠띠
-        .col-xs-4
-          = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: '_blank', class: 'btn top-banner-btn'
+            빠띠
+          .col-xs-4
+            = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: '_blank', class: 'btn top-banner-btn'
 
-    - else
-      %span
-        - if current_group.present?
-          %span.text-important= current_group.site_title
-          #{current_group.name} 빠띠
-        - else
+      - else
+        %span
           함께 만드는
           %span.text-important 온라인 광장
           빠띠
-      = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', class: 'btn top-banner-btn'
+        = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', class: 'btn top-banner-btn'
