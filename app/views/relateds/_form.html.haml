@@ -3,7 +3,7 @@
     = f.hidden_field :issue_id
     .form-group
       = f.label :target_title, Issue.model_name.human
-      = text_field_tag :target_title, nil, class: 'form-control typeahead', placeholder: '이슈 제목', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title' }
+      = text_field_tag :target_title, nil, class: 'form-control typeahead', placeholder: '빠띠 이름', autocomplete: 'off', data: { 'provider': 'parti-issue-typeahead', 'typeahead-url': issues_path, 'typeahead-display-field': 'title' }
       %p.help-block
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
