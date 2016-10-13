@@ -285,7 +285,8 @@ section#issues {
     line-height: 1.4em;
   }
 }
-#btn-continue {
+#btn-after-select-parties,
+#btn-go-select-parties {
   background-color: $brand-primary;
   padding: 13px 18px;
   font-size: 14px;
@@ -463,10 +464,39 @@ section#issues {
   left: 0;
   z-index: 1029;
   opacity: 0.9;
+
 }
 
 .parti-watch-recommend--issues {
   padding-top: 230px;
+  @media (max-width: $screen-xs-max){
+    .col-xs-6:nth-child(2n) {
+      padding-right: 15px;
+      padding-left: 7.5px;
+    }
+    .col-xs-6:nth-child(2n+1) {
+      padding-left: 15px;
+      padding-right: 7.5px;
+    }
+  }
+}
+
+.parti-watch-recommend--select-interest {
+  padding-top: 230px;
+  .parti-watch-recommend-title {
+
+  }
+  .issue-tag-list {
+    .issue-tag {
+      margin: 6px 6px;
+      background-color: $brand-primary-light;
+      color: $brand-primary;
+    }
+    .selected-tag {
+      background-color: $brand-primary-dark;
+      color: #fff;
+    }
+  }
   @media (max-width: $screen-xs-max){
     .col-xs-6:nth-child(2n) {
       padding-right: 15px;

@@ -5,6 +5,7 @@ class DashboardController < ApplicationController
   def index
     if current_user.need_to_more_watch_or_member?(current_group)
       @issues = Issue.hottest.only_group_or_all_if_blank(current_group)
+      @issue_tags = ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').joins(:taggings).select('name').distinct
       render 'intro' and return
     end
     posts

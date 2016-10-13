@@ -1,13 +1,25 @@
 %section.parti-watch-recommend--header
   .container
-    %a#btn-continue.disabled
-      빠띠 시작하기
-    %h2.text-primary
-      어떤 이슈의 빠띠를 키워 보시겠어요?
-    %p
-      평소에 관심을 가지던 이슈의 빠띠를 #{Issue.min_watched_issues_count(current_group)}개 이상 골라 보세요.
+    #header-before-select-tags
+      %a.btn#btn-go-select-parties{href: '#', data: {action: 'parti-select-parties'}}
+        계속하기
+      %a.btn#btn-after-select-parties.hide{href: root_path}
+        시작하기
+      %h2.text-primary
+        먼저 #{current_user.nickname}님이 관심있는 분야를 선택해보세요.
+      %p.select-interest-title
+        선택하신 관심분야를 기준으로 관련된 빠띠를 추천해드릴게요.
+    #header-after-select-tags.hide
+      %a.btn#btn-after-select-parties{href: root_path}
+        시작하기
+      %h2.text-primary
+        나만의 타임라인을 만들어보세요.
+      %p.select-interest-title
+        구독하는 빠띠의 업데이트 내용을
+        %br
+        내 타임라인에서 확인 할 수 있어요.
 
-%section.parti-watch-recommend--issues
+%section.parti-watch-recommend--issues.hide
   .container
     .row
       - @issues.each do |issue|
@@ -16,12 +28,22 @@
             .issue-card-wrapper
               = render 'issues/card_in_intro', issue: issue
 
+%section.parti-watch-recommend--select-interest
+  .container
+    %h3.parti-watch-recommend-title
+      내 관심사는 무엇인가요?
+    .issue-tag-list
+      - @issue_tags.each do |tag|
+        .issue-tag.btn.btn-primary{data: {action: 'parti-select-interested-tag'}}
+          = tag.name
+
+/ 임시주석
 .modal.fade.in.parti-watch-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
   .modal-dialog
     .modal-content(style="background: transparent; border: none; box-shadow: none; -webkit-box-shadow: none;")
       .modal-body.text-center
         %h2.text-primary
-          @#{current_user.nickname}님 만나서 반가워요.
+          #{current_user.nickname}님 만나서 반가워요.
         %p
           빠띠는 내 관심사에 맞는 빠띠를 추천하고
           %br

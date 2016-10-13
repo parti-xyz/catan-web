@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     collection do
       get :exist
       get :search
+      get :search_by_tags
     end
     resources :watches do
       delete :cancel, on: :collection

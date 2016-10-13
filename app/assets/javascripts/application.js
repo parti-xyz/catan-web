@@ -1056,4 +1056,36 @@ $(function(){
         $(modal_submit_btn).addClass('disabled');
     });
   });
+
+  $('[data-action="parti-select-interested-tag"]').each(function(index, elm){
+    $(this).on('click',function (e){
+      if($(this).hasClass('selected-tag')) {
+        $(this).removeClass('selected-tag');
+      } else {
+        $(this).addClass('selected-tag');
+      }
+    });
+  });
+
+  $('[data-action="parti-select-parties"]').each(function(index, elm){
+    $(this).on('click',function (e){
+      $.ajax({
+        url: '/parties/search_by_tags.js',
+        type: "get",
+        data:{
+          selected_tags: $('.selected-tag').text().trim().split(/\s+/),
+        },
+        complete: function(xhr) {
+          $('.parties-all-loading').hide();
+          $('.parties-all-list').show().trigger('parti-home-searched');
+        },
+      });
+      $('.parti-watch-recommend--select-interest').hide();
+      return false;
+      $('.parti-watch-recommend--issues').removeClass('hide');
+      $('#header-before-select-tags').hide();
+      $('#header-after-select-tags').removeClass('hide');
+
+    });
+  });
 });

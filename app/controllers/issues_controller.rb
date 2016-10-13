@@ -36,6 +36,10 @@ class IssuesController < ApplicationController
     @issues = @issues.categorized_with(params[:category]) if params[:category].present?
   end
 
+  def serch_by_tags
+    abort (params[:keyword])
+  end
+
   def show
     @issue = Issue.find params[:id]
     redirect_to issue_home_url(@issue)
