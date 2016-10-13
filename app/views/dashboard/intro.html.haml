@@ -20,19 +20,19 @@
   .modal-dialog
     .modal-content(style="background: transparent; border: none; box-shadow: none; -webkit-box-shadow: none;")
       .modal-body.text-center
-        = image_tag 'icon_intro_check.png', data: {dismiss: "modal"}
         %h2.text-primary
-          먼저 #{Issue.min_watched_issues_count(current_group)}개 이상 관심있는
-          %br
-          이슈의 빠띠를 골라 보세요.
-
+          @#{current_user.nickname}님 만나서 반가워요.
         %p
-          관심가는 빠띠를 가입하거나 구독하면 빠띠가 더욱 즐거워집니다.
+          빠띠는 내 관심사에 맞는 빠띠를 추천하고
           %br
-          @#{current_user.nickname}님의 빠띠를 키워보세요.
+          논의, 찬반토론, 링크, 자료, 응원한마디를
+          %br.visible-xs
+          업데이트 해줍니다.
+          %br
+          관심사를 알려주시면 설정을 도와드릴게요!
 
         %button.btn.btn-primary.btn-lg{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          시작하기
+          시작해볼까요?
 
 - content_for :script do
   :javascript
