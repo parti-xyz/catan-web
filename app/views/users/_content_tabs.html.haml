@@ -1,5 +1,10 @@
 %ul.nav.nav-tabs{role: 'tablist'}
 
+  %li{role: 'presentation', class: ('active' if active_tab == :parties)}
+    = link_to user_gallery_path(@user) do
+      %h4 빠띠
+
+
   - count_label = capture_haml(counts_container) do
     %span.count-label-wrapper<>
       %span.count-label<>
@@ -9,12 +14,13 @@
             +#{counts_container.latest_comments_count}
 
   %li{role: 'presentation', class: ('active' if active_tab == :comments)}
-    = link_to user_gallery_path(@user) do
+    = link_to slug_user_comments_path(slug: @user.slug) do
       %h4
         %span.visible-xs-inline<>= count_label
         %br.visible-xs-inline<>
         댓글
         %span.hidden-xs= count_label
+
 
   - count_label = capture_haml(counts_container) do
     %span.count-label-wrapper<>
@@ -31,6 +37,7 @@
         %br.visible-xs-inline<>
         공감
         %span.hidden-xs= count_label
+
 
   - count_label = capture_haml(counts_container) do |counts_container|
     %span.count-label-wrapper<>

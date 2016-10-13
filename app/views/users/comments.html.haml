@@ -6,7 +6,7 @@
         %section#content-tab-section
           = render 'users/content_tabs', active_tab: :comments, counts_container: @user.writing_counts
         .issue-comments
-          .comments.bg-line
+          .comments
             - if @comments.empty?
               .bg-default
                 %i.fa.fa-info-circle
