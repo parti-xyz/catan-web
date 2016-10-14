@@ -185,7 +185,7 @@ class Issue < ActiveRecord::Base
   end
 
   def self.min_watched_issues_count(group = nil)
-    (group.present? and Issue.only_group_or_all_if_blank(group).count < 3) ? 1 : 3
+    (group.present? and Issue.only_group_or_all_if_blank(group).count < 3) ? 1 : 1
   end
 
   def self.of_slug(slug, group_slug)

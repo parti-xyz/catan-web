@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   get 'file_source/:id/download', to: "file_sources#download", as: :download_file_source
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
+  get '/dashboard/intro', to: "dashboard#intro", as: 'dashboard_intro'
   get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'

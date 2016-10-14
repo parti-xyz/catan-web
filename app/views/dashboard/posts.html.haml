@@ -1,20 +1,32 @@
 = render 'top_banner'
+
+
 %section#posts
   .container
     .row
       .col-xs-9
-        %h4.page-title
-          = t('labels.dashboard')
-          %small #{current_group.try(:membership?) ? '가입' : '구독'} 중인 #{ current_group.name if current_group.present?} 빠띠의 최근 소식입니다.
-        - if @posts.first.present? and @last_post.present?
-          = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
+        - if current_user.need_to_more_watch_or_member?(current_group)
+          %h4.page-title
+            = t('labels.dashboard')
+        - else
+          %h4.page-title
+            = t('labels.dashboard')
+            %small #{current_group.try(:membership?) ? '가입' : '구독'} 중인 #{ current_group.name if current_group.present?} 빠띠의 최근 소식입니다.
+          - if @posts.first.present? and @last_post.present?
+            = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
 
         - if user_signed_in?
-          - watched_issues = current_user.watched_issues.order(:title)
-          .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
-            .text-muted
-              = byline current_user, hide_nickname: true
-              #{current_user.nickname}님, 이야기 나누실래요?
+          - if current_user.need_to_more_watch_or_member?(current_group)
+            .unified-editor.unified-editor-intro.cursor-default
+              .text-muted
+                = byline current_user, hide_nickname: true
+                #{current_user.nickname}님, 빠띠를 구독하고 수다를 시작해보세요!
+          - else
+            - watched_issues = current_user.watched_issues.order(:title)
+            .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
+              .text-muted
+                = byline current_user, hide_nickname: true
+                #{current_user.nickname}님, 이야기 나누실래요?
 
           .unified-editor.unified-editor--hidden
             - selected_parti = nil
@@ -81,25 +93,32 @@
                   %span.hidden-xs
                     = t('labels.postfix_new_note_button')
 
-            .tab-content
-              #editor-talk.tab-pane{role: "tabpanel"}
-                = render 'talks/new_form', issue: selected_parti
-              #editor-opinion.tab-pane{role: "tabpanel"}
-                = render 'opinions/new_form', issue: selected_parti
-              #editor-link.tab-pane{role: "tabpanel"}
-                = render 'articles/new_form_with_link', issue: selected_parti
-              #editor-file.tab-pane{role: "tabpanel"}
-                = render 'articles/new_form_with_file', issue: selected_parti
-              #editor-note.tab-pane{role: "tabpanel"}
-                = render 'notes/new_form', issue: selected_parti, body_rows_count: 3
-
-
+            - unless current_user.need_to_more_watch_or_member?(current_group)
+              .tab-content
+                #editor-talk.tab-pane{role: "tabpanel"}
+                  = render 'talks/new_form', issue: selected_parti
+                #editor-opinion.tab-pane{role: "tabpanel"}
+                  = render 'opinions/new_form', issue: selected_parti
+                #editor-link.tab-pane{role: "tabpanel"}
+                  = render 'articles/new_form_with_link', issue: selected_parti
+                #editor-file.tab-pane{role: "tabpanel"}
+                  = render 'articles/new_form_with_file', issue: selected_parti
+                #editor-note.tab-pane{role: "tabpanel"}
+                  = render 'notes/new_form', issue: selected_parti, body_rows_count: 3
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?
-            .bg-default
-              %i.fa.fa-info-circle
-              아직 글이 없습니다.
+            - if current_user.need_to_more_watch_or_member?(current_group)
+              .bg-default.no-background.text-center
+                현재 내 타임라인이 비었습니다.
+                %br
+                내 관심사에 맞는 빠띠를
+                = link_to '빠띠찾기', home_path, class: 'text-primary'
+                에서 구독해보세요.
+            - else
+              .bg-default
+                %i.fa.fa-info-circle
+                아직 글이 없습니다.
           - else
             = render 'posts/page', show_issue: true
         .page_waypoint.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js)}

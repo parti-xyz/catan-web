@@ -4,10 +4,16 @@
   background-color: $gray-lighter;
   padding: $alert-padding;
 }
+.no-background {
+  background-color: transparent;
+}
 .bg-line {
   background-image: asset_url('line-primary.png');
   background-repeat: repeat-y;
   background-position: 25px;
+}
+.cursor-default {
+  cursor: default;
 }
 
 /* tabs */

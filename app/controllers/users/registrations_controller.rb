@@ -23,6 +23,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params.require(:user).permit(:nickname, :image, :email, :password, :password_confirmation, :current_password, :enable_mailing)
   end
 
+  def after_sign_up_path_for(resource)
+    dashboard_intro_path
+  end
+
   def after_inactive_sign_up_path_for(resource)
     root_path
   end

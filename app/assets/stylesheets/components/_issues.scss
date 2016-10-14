@@ -287,7 +287,6 @@ section#issues {
 }
 #btn-after-select-parties,
 #btn-go-select-parties {
-  background-color: $brand-primary;
   padding: 13px 18px;
   font-size: 14px;
   font-weight: bold;
@@ -321,6 +320,7 @@ section#issues {
       padding: 10px;
     }
     .issue-card__group {
+      position: absolute;
       background-color: rgba(150,111,214,0.9);
       color: #fff;
       text-align: center;
@@ -510,7 +510,7 @@ section#issues {
 }
 
 .parti-watch-recommend--modal {
-  color: $gray-lighter;
+  color: $gray;
   font-size: 1.3em;
   line-height: 1.7em;
   h2 {
@@ -522,7 +522,8 @@ section#issues {
   }
 }
 .parti-watch-recommend--modal ~ .modal-backdrop.fade.in {
-  opacity: 0.9;
+  opacity: 1;
+  background-color: #fff;
 }
 
 @media (max-width: $screen-xs-max) {
