@@ -1,1 +1,2 @@
 $('#parti-cards').html(parti_origin_partial("<%= escape_javascript(render 'issues/intro_parti_cards', issues: @issues) %>"));
+$('#header-after-select-tags').html(parti_origin_partial("<%= escape_javascript(render 'issues/intro_after_select_tags.html.haml', issues: @issues) %>"));

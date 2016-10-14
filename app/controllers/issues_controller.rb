@@ -37,7 +37,12 @@ class IssuesController < ApplicationController
   end
 
   def search_by_tags
-    @issues = Issue.tagged_with(params[:selected_tags], :any => true)
+    if params[:selected_tags] == [""]
+      @issues = Issue.hottest
+      @no_tags_selected = 'yes'
+    else
+      @issues = Issue.tagged_with(params[:selected_tags], :any => true)
+    end
   end
 
   def show

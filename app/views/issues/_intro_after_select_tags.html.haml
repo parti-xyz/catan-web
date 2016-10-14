@@ -1,0 +1,11 @@
+%a.btn.btn-primary#btn-after-select-parties{href: root_path}
+  시작하기
+%h2.text-primary
+  - if @no_tags_selected == 'yes'
+    관심사를 선택하지 않으셔서, 모든 빠띠를 인기순으로 보여드립니다.
+  - else
+    #{current_user.nickname}님의 관심사에 어울리는 빠띠를 골라봤어요!
+%p.select-interest-title
+  선택한 빠띠의 업데이트 내용은
+  %br.visible-xs-block
+  내 타임라인에서 확인 할 수 있어요.
