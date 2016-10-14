@@ -1,0 +1,11 @@
+= render 'user_header'
+%section#user-gallery
+  .container
+    .row
+      .col-xs-9
+        %section#content-tab-section
+          = render 'users/content_tabs', active_tab: :parties, counts_container: @user.writing_counts
+        .parties
+          = render 'issues/list'
+
+      = render 'aside'

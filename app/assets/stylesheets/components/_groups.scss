@@ -1,0 +1,74 @@
+body.in-group {
+  padding-top: 100px;
+
+  #site-header {
+    .navbar-fixed-top {
+      height: 100px;
+      border: none;
+    }
+
+    .container {
+      position: relative;
+      height: 100%;
+    }
+
+    .navbar-header {
+      width: auto;
+
+      .navbar-brand {
+        position: relative;
+        left: 0;
+        height: 21px;
+        padding: 0;
+        margin: 15px 0;
+        img {
+          width: 21px;
+          height: 21px;
+        }
+      }
+    }
+
+    .nav > li > a {
+      color: $gray-lighter;
+      font-weight: normal;
+      &:hover {
+        color: $gray-light;
+      }
+      h4 {
+        font-weight: 200;
+        margin: 1px 0 0 0;
+      }
+    }
+
+    .navbar-nav > li.watch-parties .dropdown-toggle, .navbar-nav > li.parti-tags .dropdown-toggle, .navbar-nav > li.all-posts .dropdown-toggle {
+      background: none;
+      &:hover {
+        color: $gray-light;
+      }
+    }
+    .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+      background: none;
+    }
+
+    .navbar-bottom {
+      position: absolute;
+      width: 90%;
+      bottom: 0;
+      left: 7px;
+    }
+  }
+
+  &.in-parti {
+    padding-top: 50px;
+
+    #site-header {
+      .navbar-fixed-top {
+        height: 50px;
+      }
+    }
+
+    .navbar-bottom {
+      display: none;
+    }
+  }
+}

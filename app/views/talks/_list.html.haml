@@ -1,58 +1,15 @@
 .posts
-  .visible-xs-block
-    .talk-section-dropdown.dropdown
-      %button.btn.btn-block.btn-default.dropdown-toggle{'data-toggle': 'dropdown', type: 'button'}
-        = @section.blank? ? '전체' : @section.name
-        %span.caret
-      %ul.dropdown-menu
-        %li{class: ('active' if @section.blank?)}
-          = link_to '전체', issue_talks_path(@issue)
-        - @issue.sections.resent.each do |section|
-          %li{class: ('active' if section == @section)}
-            = link_to issue_talks_path(@issue, section_id: section) do
-              = section.name
-              - if section.talks.any?
-                %span.comments-count
-                  (#{section.talks.count})
-  .row
-    .col-sm-2.hidden-xs
-      = link_to issue_talks_path(@issue) do
-        .talk-section{class: ('active' if @section.blank?)}
-          전체
-      - @issue.sections.resent.each do |section|
-        .talk-section-wrapper
-          .talk-section-cotrol{class: ('talk-section-cotrol--initial' if section.initial?)}
-            - if can? :edit, section
-              .talk-section-edit
-                = link_to [:edit, section] do
-                  %i.fa.fa-edit
-            - if can?(:destroy, section) and !section.initial?
-              .talk-section-destroy
-                = link_to section_path(section), method: :delete,data: { confirm: "정말 삭제하시겠습니까? 해당 주제가 삭제되면 기존 글은 #{@issue.initial_section.name} 주제로 이동합니다." } do
-                  %i.fa.fa-trash
-          = link_to issue_talks_path(@issue, section_id: section) do
-            .talk-section{class: ('active' if section == @section)}
-              = section.name
-              - if section.talks.any?
-                %span.comments-count
-                  (#{section.talks.count})
-      - if can? :create, Section.new(issue: @issue)
-        = link_to new_issue_section_path(@issue) do
-          .talk-section.talk-section--add
-            %i.fa.fa-plus
-            추가
-    .col-sm-10.col-xs-12
-      - if postables.empty?
-        .bg-default.text-center
-          %i.fa.fa-info-circle
-          가장 먼저 논의를 열어 보세요.
+  - if postables.empty?
+    .bg-default.text-center
+      %i.fa.fa-info-circle
+      가장 먼저 논의를 열어 보세요.
+  - else
+    - has_blinds = false
+    - postables.each do |postable|
+      - unless postable.blinded?(current_user)
+        = render postable, show_issue: local_assigns[:show_issue]
       - else
-        - has_blinds = false
-        - postables.each do |postable|
-          - unless postable.blinded?(current_user)
-            = render postable, show_issue: local_assigns[:show_issue]
-          - else
-            - has_blinds = true
-        - if has_blinds
-          .talk-card
-            = t('labels.blind_info')
+        - has_blinds = true
+    - if has_blinds
+      .talk-card
+        = t('labels.blind_info')

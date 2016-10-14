@@ -3,15 +3,7 @@
   #talk-form-widget.form-widget-container.bg-line
     = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
       = hidden_field_tag :back_url, @list_url || request.original_url
-
-      - if issue.sections.count == 1
-        = f.hidden_field :section_id, value: issue.sections.first.id
-      - else
-        .form-group
-          = f.select :section_id, nil, {}, {class: 'form-control selectpicker', title: '주제를 선택하세요', data: {'rule-required': true}} do
-            - issue.sections.resent.each do |section|
-              %option{value: section.id}
-                = section.name
+      = f.hidden_field :section_id, value: issue.sections.first.id
 
       .form-group
         = f.text_field :title, placeholder: '어떤 논의를 제안하고 싶으신가요?', class: 'form-control input-lg', data: {'rule-required': true}

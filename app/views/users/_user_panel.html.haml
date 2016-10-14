@@ -19,7 +19,7 @@
             .user-panel__info__count= writing_counts.upvotes_count
         .col-xs-4
           = link_to slug_user_votes_path(slug: user.slug) do
-            .user-panel__info__icon.fa.fa-fire{style: 'font-size: 17px;'}
+            .user-panel__info__icon.fa.fa-thumbs-up{style: 'font-size: 17px;'}
             .user-panel__info__label #{t('activerecord.models.opinion')}
             .user-panel__info__count= writing_counts.votes_count
   - else

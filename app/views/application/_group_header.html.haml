@@ -6,81 +6,86 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        / %a.hidden.navbar-brand{ href: root_path }
-        /   %img{ alt: 'parti', src: asset_path("groups/#{current_group.logo}")}
+        %a.navbar-brand{ href: root_path }
+          %img{ alt: 'parti', src: asset_path("parti_symbol.png")}
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li
             = link_to root_path, class: "#{'active' if current_page?('/')}" do
-              #{current_group.head_title}
-          %li.menu-divider
-          %li= link_to '모든 빠띠', home_path
+              %h4 #{current_group.head_title}
+
+        %ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
+            - if current_user.watches.any?
+              %li.dropdown.watch-parties
+                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                  내 빠띠
+                  %span.caret
+                %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
+
+                  - if current_user.making_issues.only_group(current_group).any?
+                    %li.dropdown-header
+                      메이커인 빠띠
+                      #{current_user.making_issues.only_group(current_group).count}
+                  - current_user.making_issues.only_group(current_group).each do |issue|
+                    = render 'issues/issue_line', issue: issue
+                  - if current_user.only_watched_or_member_issues(current_group).any?
+                    %li.dropdown-header
+                      #{current_group.try(:membership?) ? '가입한' : '구독 중인'} 빠띠
+                      #{current_user.only_watched_or_member_issues(current_group).count}
+                  - current_user.only_watched_or_member_issues(current_group).each do |issue|
+                    = render 'issues/issue_line', issue: issue
+
+                  - Group.all_with_indie_and_exclude(current_group).each do |group|
+                    - if current_user.making_issues.only_group(group).any?
+                      %li.dropdown-header
+                        메이커인 #{group.name} 빠띠
+                        #{current_user.making_issues.only_group(group).count}
+                    - current_user.making_issues.only_group(group).each do |issue|
+                      = render 'issues/issue_line', issue: issue
+                    - if current_user.only_watched_or_member_issues(group).any?
+                      %li.dropdown-header
+                        #{group.try(:membership?) ? '가입한' : '구독 중인'} #{group.name} 빠띠
+                        #{current_user.only_watched_or_member_issues(group).count}
+                    - current_user.only_watched_or_member_issues(group).each do |issue|
+                      = render 'issues/issue_line', issue: issue
+            %li.notification
+              = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
+                - if current_user.unread_messages_count > 0
+                  %span.icon-bell-stack
+                    %i.fa.fa-circle.fa-stack-1x
+                    %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                - else
+                  %i.fa.fa-bell
+                알림
+
+          - if user_signed_in?
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+                %span.caret
+              %ul.dropdown-menu
+                %li
+                  = link_to user_gallery_path(current_user) do
+                    %strong= current_user.nickname
+                    프로필
+                %li.divider
+                %li= link_to '설정', edit_user_registration_path
+                %li= link_to '로그아웃', destroy_user_session_path, method: :delete
+          - else
+            %li.sign-up
+              = link_to '로그인/회원가입', new_user_session_path
+
+        %ul.nav.navbar-nav.navbar-bottom
+          %li= link_to '전체', home_path
           - if current_group.categories.try(:any?)
             - current_group.categories.each do |category|
               %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
-          - if user_signed_in? and current_user.watched_issues.only_group_or_all_if_blank(current_group).any?
-            %li.menu-divider
-            %li.dropdown.watch-parties
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                내 빠띠
-                %span.caret
-              %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.only_group(current_group).count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
-
-                - if current_user.making_issues.only_group(current_group).any?
-                  %li.dropdown-header
-                    메이커인 빠띠
-                    #{current_user.making_issues.only_group(current_group).count}
-                - current_user.making_issues.only_group(current_group).each do |issue|
-                  = render 'issues/issue_line', issue: issue
-                - if current_user.only_watched_or_member_issues(current_group).any?
-                  %li.dropdown-header
-                    #{current_group.try(:membership?) ? '가입한' : '구독 중인'} 빠띠
-                    #{current_user.only_watched_or_member_issues(current_group).count}
-                - current_user.only_watched_or_member_issues(current_group).each do |issue|
-                  = render 'issues/issue_line', issue: issue
-
-                - Group.all_with_indie_and_exclude(current_group).each do |group|
-                  - if current_user.making_issues.only_group(group).any?
-                    %li.dropdown-header
-                      메이커인 #{group.name} 빠띠
-                      #{current_user.making_issues.only_group(group).count}
-                  - current_user.making_issues.only_group(group).each do |issue|
-                    = render 'issues/issue_line', issue: issue
-                  - if current_user.only_watched_or_member_issues(group).any?
-                    %li.dropdown-header
-                      #{group.try(:membership?) ? '가입한' : '구독 중인'} #{group.name} 빠띠
-                      #{current_user.only_watched_or_member_issues(group).count}
-                  - current_user.only_watched_or_member_issues(group).each do |issue|
-                    = render 'issues/issue_line', issue: issue
-
-          %li.menu-divider
           %li.dropdown.all-posts
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              모든 글
+              베스트
               %span.caret
             %ul.dropdown-menu
               - [Note, Talk, Opinion, Article].each do |model|
                 %li= link_to model.model_name.human, polymorphic_path(model), class: "#{'active' if current_page?(polymorphic_path(model))}"
-
-        %ul.nav.navbar-nav.navbar-right
-          - if user_signed_in?
-            %li
-              = link_to dashboard_path(subdomain: false), class: "#{'active' if current_page?(controller: '/dashboard', action: :index)}" do
-                .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-                내 홈
-            %li.notification
-              = link_to messages_path(subdomain: false), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
-                - if current_user.unread_messages_count > 0
-                  %span.fa-stack
-                    %i.fa.fa-bell.fa-stack-1x
-                    %i.icon-dot-corner
-                - else
-                  %i.fa.fa-bell
-            %li
-              = link_to destroy_user_session_url(subdomain: false, group_slug: current_group.slug, authenticity_token: form_authenticity_token), method: :delete do
-                로그아웃
-
-          - else
-            %li.sign-up
-              = link_to '로그인/회원가입', new_user_session_path

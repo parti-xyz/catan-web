@@ -1,4 +1,11 @@
 module ApplicationHelper
+  def body_class
+    arr = ["app-#{params[:controller]}", "app-#{params[:controller]}-#{params[:action]}"]
+    arr << "in-group" if current_group.present?
+    arr << "in-parti" if @issue.present?
+    arr.join(' ')
+  end
+
   def byline(user, options={})
     return if user.nil?
     raw render(partial: 'users/byline', locals: options.merge(user: user))
