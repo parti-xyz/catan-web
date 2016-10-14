@@ -4,7 +4,11 @@
       %a.btn.btn-primary#btn-go-select-parties{href: '#', data: {action: 'parti-select-parties'}}
         계속하기
       %h2.text-primary
-        먼저 #{current_user.nickname}님이 관심있는 분야를 선택해보세요.
+        %span
+          먼저
+        %b<>
+          #{current_user.nickname}
+        님이 관심있는 분야를 선택해보세요.
       %p.select-interest-title
         선택하신 관심분야를 기준으로 관련된 빠띠를 추천해드릴게요.
     #header-after-select-tags
@@ -25,7 +29,9 @@
     .modal-content(style="background: transparent; border: none; box-shadow: none; -webkit-box-shadow: none;")
       .modal-body.text-center
         %h2.text-primary
-          #{current_user.nickname}님 만나서 반가워요.
+          %b<>
+            #{current_user.nickname}
+          님 만나서 반가워요.
         %p
           빠띠는 내 관심사에 맞는 빠띠를 추천하고
           %br
