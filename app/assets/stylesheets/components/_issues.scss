@@ -297,6 +297,10 @@ section#issues {
   margin-right: 25px;
   color: #fff;
   float: right;
+  @media (max-width: $screen-xs-max) {
+    margin-top: 20px;
+    margin-right: 0;
+  }
 
   &.disabled {
     opacity: 0.2;
@@ -464,6 +468,7 @@ section#issues {
   left: 0;
   z-index: 1029;
   opacity: 0.9;
+  word-break: keep-all;
 
 }
 
@@ -484,7 +489,8 @@ section#issues {
 .parti-watch-recommend--select-interest {
   padding-top: 230px;
   .parti-watch-recommend-title {
-
+    margin-left: 10px;
+    word-break: keep-all;
   }
   .issue-tag-list {
     .issue-tag {
@@ -498,6 +504,7 @@ section#issues {
     }
   }
   @media (max-width: $screen-xs-max){
+    padding-top: 190px;
     .col-xs-6:nth-child(2n) {
       padding-right: 15px;
       padding-left: 7.5px;
@@ -531,7 +538,7 @@ section#issues {
     padding: 20px;
   }
   .parti-watch-recommend--issues {
-    padding-top: 150px;
+    padding-top: 180px;
   }
   .parti-watch-recommend--modal {
     h2 {
@@ -546,7 +553,7 @@ section#issues {
       float: none;
     }
     h2 {
-      display: none;
+      font-size: $font-size-large;
     }
   }
   .parti-header-section {

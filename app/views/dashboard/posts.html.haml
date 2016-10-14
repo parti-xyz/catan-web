@@ -19,8 +19,11 @@
           - if current_user.need_to_more_watch_or_member?(current_group)
             .unified-editor.unified-editor-intro.cursor-default
               .text-muted
-                = byline current_user, hide_nickname: true
-                #{current_user.nickname}님, 빠띠를 구독하고 수다를 시작해보세요!
+                .media
+                  .media-left
+                    = byline current_user, hide_nickname: true
+                  .media-body
+                    #{current_user.nickname}님, 빠띠를 구독하고 수다를 시작해보세요!
           - else
             - watched_issues = current_user.watched_issues.order(:title)
             .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
@@ -113,6 +116,7 @@
                 현재 내 타임라인이 비었습니다.
                 %br
                 내 관심사에 맞는 빠띠를
+                %br.visible-xs
                 = link_to '빠띠찾기', home_path, class: 'text-primary'
                 에서 구독해보세요.
             - else
