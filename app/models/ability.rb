@@ -14,7 +14,7 @@ class Ability
       can [:update, :remove_logo, :remove_cover], Issue do |issue|
         user.maker?(issue)
       end
-      can [:create, :new_intro], [Issue]
+      can [:create, :new_intro, :search_by_tags], [Issue]
 
       can [:update, :destroy], [Article, Talk, Opinion, Note], user_id: user.id
       can :create, [Article, Talk, Opinion, Note] do |specific|

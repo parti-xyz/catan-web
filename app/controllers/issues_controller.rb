@@ -36,8 +36,8 @@ class IssuesController < ApplicationController
     @issues = @issues.categorized_with(params[:category]) if params[:category].present?
   end
 
-  def serch_by_tags
-    abort (params[:keyword])
+  def search_by_tags
+    @issues = Issue.tagged_with(params[:selected_tags], :any => true)
   end
 
   def show

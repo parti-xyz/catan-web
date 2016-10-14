@@ -1,0 +1,8 @@
+%section.parti-watch-recommend--issues
+  .container
+    .row
+      - issues.each do |issue|
+        - unless issue.made_by?(current_user)
+          .col-sm-3.col-xs-6
+            .issue-card-wrapper
+              = render 'issues/card_in_intro', issue: issue
