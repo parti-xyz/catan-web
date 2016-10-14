@@ -99,6 +99,10 @@
     box-shadow: none;
     transform: translateY(2px);
   }
+
+  &-dark {
+    background-color: $brand-primary-dark;
+  }
 }
 
 .btn-border {
