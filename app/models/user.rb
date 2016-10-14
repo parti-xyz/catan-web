@@ -129,6 +129,7 @@ class User < ActiveRecord::Base
   def writing_counts(issue = nil)
     counts = OpenStruct.new
     unless issue.present?
+      counts.parties_count = watches.count
       counts.comments_count = comments.count
       counts.latest_comments_count = comments.latest.count
       counts.upvotes_count = upvotes.count

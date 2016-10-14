@@ -1,8 +1,17 @@
 %ul.nav.nav-tabs{role: 'tablist'}
 
+  - count_label = capture_haml(counts_container) do
+    %span.count-label-wrapper<>
+      %span.count-label<>
+        = counts_container.parties_count
+
   %li{role: 'presentation', class: ('active' if active_tab == :parties)}
     = link_to user_gallery_path(@user) do
-      %h4 빠띠
+      %h4
+        %span.visible-xs-inline<>= count_label
+        %br.visible-xs-inline<>
+        빠띠
+        %span.hidden-xs= count_label
 
 
   - count_label = capture_haml(counts_container) do
