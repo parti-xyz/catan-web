@@ -132,6 +132,16 @@
         }
       }
       &.notification {
+        .icon-bell-stack{
+          position: relative;
+          display: inline-block;
+          width: 24px;
+          vertical-align: top;
+          .fa-circle {
+            color: #966fd6;
+            font-size: 26px;
+          }
+        }
         .fa-stack {
           top: -3px;
           width: 1.2em;
