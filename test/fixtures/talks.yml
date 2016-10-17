@@ -2,6 +2,7 @@ talk1:
   title: 'talk1'
   post_issue: issue1
   section: section1
+  reference: link6 (LinkSource)
 talk2:
   title: 'talk2'
   post_issue: issue2
@@ -10,6 +11,7 @@ talk3:
   title: 'talk3'
   post_issue: issue1
   section: section1
+  reference: link5 (LinkSource)
 talk4:
   title: 'talk4'
   post_issue: issue2

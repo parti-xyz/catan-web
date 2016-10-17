@@ -39,6 +39,22 @@ class Talk < ActiveRecord::Base
     self.has_presentation? ? self.comments.sequential.offset(1) : self.comments.sequential
   end
 
+  def reference_url
+    reference.try(:url)
+  end
+
+  def reference_title
+    reference.try(:title) || reference.try(:url)
+  end
+
+  def reference_body
+    reference.try(:body)
+  end
+
+  def link_source?
+    reference.is_a? LinkSource
+  end
+
   def build_reference(params)
     self.reference = self.reference_type.constantize.new(params) if self.reference_type.present?
   end

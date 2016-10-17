@@ -26,7 +26,6 @@ class TalksWithFileSourceTest < ActionDispatch::IntegrationTest
     refute assigns(:talk).persisted?
   end
 
-  focus
   test '고쳐요' do
     sign_in(users(:one))
 
@@ -40,14 +39,12 @@ class TalksWithFileSourceTest < ActionDispatch::IntegrationTest
     assert_equal 'sample.pdf', assigns(:talk).reference.name
   end
 
-  focus
   test '기존 파일을 그대로 두고 고쳐요' do
     sign_in(users(:one))
 
     original_name = talks(:talk5).reload.reference.name
 
     put talk_path(talks(:talk5)), talk: { body: 'new body', reference_attributes: {id: talks(:talk5).reference.id} }
-    byebug
     refute assigns(:talk).errors.any?
     assigns(:talk).reload
     assert_equal 'new body', assigns(:talk).body

@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "deleted_at"
   end
 
-  add_index "answers", ["deleted_at"], name: "index_answers_on_deleted_at"
-  add_index "answers", ["question_id"], name: "index_answers_on_question_id"
+  add_index "answers", ["deleted_at"], name: "index_answers_on_deleted_at", using: :btree
+  add_index "answers", ["question_id"], name: "index_answers_on_question_id", using: :btree
 
   create_table "articles", force: :cascade do |t|
     t.datetime "created_at",                                  null: false
@@ -36,9 +36,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.text     "body",          limit: 65535
   end
 
-  add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at"
-  add_index "articles", ["post_issue_id", "source_id", "source_type", "deleted_at"], name: "index_article_on_unique_link_source", unique: true
-  add_index "articles", ["source_type", "source_id"], name: "index_articles_on_source_type_and_source_id"
+  add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at", using: :btree
+  add_index "articles", ["post_issue_id", "source_id", "source_type", "deleted_at"], name: "index_article_on_unique_link_source", unique: true, using: :btree
+  add_index "articles", ["source_type", "source_id"], name: "index_articles_on_source_type_and_source_id", using: :btree
 
   create_table "blinds", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
@@ -47,8 +47,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "blinds", ["issue_id"], name: "index_blinds_on_issue_id"
-  add_index "blinds", ["user_id"], name: "index_blinds_on_user_id"
+  add_index "blinds", ["issue_id"], name: "index_blinds_on_issue_id", using: :btree
+  add_index "blinds", ["user_id"], name: "index_blinds_on_user_id", using: :btree
 
   create_table "campaigned_issues", force: :cascade do |t|
     t.integer  "campaign_id", limit: 4, null: false
@@ -57,9 +57,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",            null: false
   end
 
-  add_index "campaigned_issues", ["campaign_id", "issue_id"], name: "index_campaigned_issues_on_campaign_id_and_issue_id", unique: true
-  add_index "campaigned_issues", ["campaign_id"], name: "index_campaigned_issues_on_campaign_id"
-  add_index "campaigned_issues", ["issue_id"], name: "index_campaigned_issues_on_issue_id"
+  add_index "campaigned_issues", ["campaign_id", "issue_id"], name: "index_campaigned_issues_on_campaign_id_and_issue_id", unique: true, using: :btree
+  add_index "campaigned_issues", ["campaign_id"], name: "index_campaigned_issues_on_campaign_id", using: :btree
+  add_index "campaigned_issues", ["issue_id"], name: "index_campaigned_issues_on_issue_id", using: :btree
 
   create_table "campaigns", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,                    null: false
@@ -74,8 +74,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "campaigns", ["slug", "active"], name: "index_campaigns_on_slug_and_active", unique: true
-  add_index "campaigns", ["title", "active"], name: "index_campaigns_on_title_and_active", unique: true
+  add_index "campaigns", ["slug", "active"], name: "index_campaigns_on_slug_and_active", unique: true, using: :btree
+  add_index "campaigns", ["title", "active"], name: "index_campaigns_on_title_and_active", unique: true, using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",       limit: 4,                    null: false
@@ -88,9 +88,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "upvotes_count", limit: 4,        default: 0
   end
 
-  add_index "comments", ["deleted_at"], name: "index_comments_on_deleted_at"
-  add_index "comments", ["post_id"], name: "index_comments_on_post_id"
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id"
+  add_index "comments", ["deleted_at"], name: "index_comments_on_deleted_at", using: :btree
+  add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
+  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "discussions", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "deleted_at"
   end
 
-  add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at"
+  add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at", using: :btree
 
   create_table "featured_campaigns", force: :cascade do |t|
     t.string   "url",          limit: 255
@@ -156,9 +156,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "members_count",   limit: 4,        default: 0
   end
 
-  add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at"
-  add_index "issues", ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true
-  add_index "issues", ["group_slug", "title", "active"], name: "index_issues_on_group_slug_and_title_and_active", unique: true
+  add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree
+  add_index "issues", ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true, using: :btree
+  add_index "issues", ["group_slug", "title", "active"], name: "index_issues_on_group_slug_and_title_and_active", unique: true, using: :btree
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
@@ -167,9 +167,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "likes", ["post_id"], name: "index_likes_on_post_id"
-  add_index "likes", ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true
-  add_index "likes", ["user_id"], name: "index_likes_on_user_id"
+  add_index "likes", ["post_id"], name: "index_likes_on_post_id", using: :btree
+  add_index "likes", ["user_id", "post_id"], name: "index_likes_on_user_id_and_post_id", unique: true, using: :btree
+  add_index "likes", ["user_id"], name: "index_likes_on_user_id", using: :btree
 
   create_table "link_sources", force: :cascade do |t|
     t.string   "title",           limit: 255
@@ -187,7 +187,7 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "image_width",     limit: 4,        default: 0
   end
 
-  add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true
+  add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true, using: :btree
 
   create_table "makers", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
@@ -196,9 +196,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "makers", ["issue_id"], name: "index_makers_on_issue_id"
-  add_index "makers", ["user_id", "issue_id"], name: "index_makers_on_user_id_and_issue_id", unique: true
-  add_index "makers", ["user_id"], name: "index_makers_on_user_id"
+  add_index "makers", ["issue_id"], name: "index_makers_on_issue_id", using: :btree
+  add_index "makers", ["user_id", "issue_id"], name: "index_makers_on_user_id_and_issue_id", unique: true, using: :btree
+  add_index "makers", ["user_id"], name: "index_makers_on_user_id", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.integer  "issue_id",   limit: 4, null: false
@@ -207,9 +207,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "members", ["issue_id"], name: "index_members_on_issue_id"
-  add_index "members", ["user_id", "issue_id"], name: "index_members_on_user_id_and_issue_id", unique: true
-  add_index "members", ["user_id"], name: "index_members_on_user_id"
+  add_index "members", ["issue_id"], name: "index_members_on_issue_id", using: :btree
+  add_index "members", ["user_id", "issue_id"], name: "index_members_on_user_id_and_issue_id", unique: true, using: :btree
+  add_index "members", ["user_id"], name: "index_members_on_user_id", using: :btree
 
   create_table "mentions", force: :cascade do |t|
     t.integer  "user_id",          limit: 4,   null: false
@@ -219,9 +219,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",                   null: false
   end
 
-  add_index "mentions", ["mentionable_type", "mentionable_id"], name: "index_mentions_on_mentionable_type_and_mentionable_id"
-  add_index "mentions", ["user_id", "mentionable_id", "mentionable_type"], name: "uniq_user_mention", unique: true
-  add_index "mentions", ["user_id"], name: "index_mentions_on_user_id"
+  add_index "mentions", ["mentionable_type", "mentionable_id"], name: "index_mentions_on_mentionable_type_and_mentionable_id", using: :btree
+  add_index "mentions", ["user_id", "mentionable_id", "mentionable_type"], name: "uniq_user_mention", unique: true, using: :btree
+  add_index "mentions", ["user_id"], name: "index_mentions_on_user_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "user_id",         limit: 4,   null: false
@@ -231,8 +231,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",                  null: false
   end
 
-  add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
-  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+  add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id", using: :btree
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "notes", force: :cascade do |t|
     t.text     "body",          limit: 65535
@@ -253,8 +253,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.string   "scopes",            limit: 255
   end
 
-  add_index "oauth_access_grants", ["application_id"], name: "fk_rails_b4b53e07b8"
-  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true
+  add_index "oauth_access_grants", ["application_id"], name: "fk_rails_b4b53e07b8", using: :btree
+  add_index "oauth_access_grants", ["token"], name: "index_oauth_access_grants_on_token", unique: true, using: :btree
 
   create_table "oauth_access_tokens", force: :cascade do |t|
     t.integer  "resource_owner_id",      limit: 4
@@ -268,10 +268,10 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.string   "previous_refresh_token", limit: 255, default: "", null: false
   end
 
-  add_index "oauth_access_tokens", ["application_id"], name: "fk_rails_732cb83ab7"
-  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true
-  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id"
-  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true
+  add_index "oauth_access_tokens", ["application_id"], name: "fk_rails_732cb83ab7", using: :btree
+  add_index "oauth_access_tokens", ["refresh_token"], name: "index_oauth_access_tokens_on_refresh_token", unique: true, using: :btree
+  add_index "oauth_access_tokens", ["resource_owner_id"], name: "index_oauth_access_tokens_on_resource_owner_id", using: :btree
+  add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
 
   create_table "oauth_applications", force: :cascade do |t|
     t.string   "name",         limit: 255,                null: false
@@ -283,7 +283,7 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",                              null: false
   end
 
-  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true
+  add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
   create_table "opinions", force: :cascade do |t|
     t.string   "title",         limit: 255
@@ -294,7 +294,7 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "post_issue_id", limit: 4,        null: false
   end
 
-  add_index "opinions", ["deleted_at"], name: "index_opinions_on_deleted_at"
+  add_index "opinions", ["deleted_at"], name: "index_opinions_on_deleted_at", using: :btree
 
   create_table "parti_sso_client_api_keys", force: :cascade do |t|
     t.integer  "user_id",           limit: 4,                   null: false
@@ -308,8 +308,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",                                    null: false
   end
 
-  add_index "parti_sso_client_api_keys", ["client"], name: "index_parti_sso_client_api_keys_on_client"
-  add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true
+  add_index "parti_sso_client_api_keys", ["client"], name: "index_parti_sso_client_api_keys_on_client", using: :btree
+  add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true, using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                  limit: 4,               null: false
@@ -330,10 +330,10 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "upvotes_count",             limit: 4,   default: 0
   end
 
-  add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at"
-  add_index "posts", ["issue_id"], name: "index_posts_on_issue_id"
-  add_index "posts", ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id"
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
+  add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
+  add_index "posts", ["issue_id"], name: "index_posts_on_issue_id", using: :btree
+  add_index "posts", ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id", using: :btree
+  add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "proposals", force: :cascade do |t|
     t.integer  "discussion_id", limit: 4,        null: false
@@ -343,8 +343,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "deleted_at"
   end
 
-  add_index "proposals", ["deleted_at"], name: "index_proposals_on_deleted_at"
-  add_index "proposals", ["discussion_id"], name: "index_proposals_on_discussion_id"
+  add_index "proposals", ["deleted_at"], name: "index_proposals_on_deleted_at", using: :btree
+  add_index "proposals", ["discussion_id"], name: "index_proposals_on_discussion_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -367,8 +367,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at"
   end
 
-  add_index "redactor2_assets", ["assetable_type", "assetable_id"], name: "idx_redactor2_assetable"
-  add_index "redactor2_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor2_assetable_type"
+  add_index "redactor2_assets", ["assetable_type", "assetable_id"], name: "idx_redactor2_assetable", using: :btree
+  add_index "redactor2_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor2_assetable_type", using: :btree
 
   create_table "relateds", force: :cascade do |t|
     t.integer  "issue_id",   limit: 4, null: false
@@ -377,9 +377,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",           null: false
   end
 
-  add_index "relateds", ["issue_id", "target_id"], name: "index_relateds_on_issue_id_and_target_id", unique: true
-  add_index "relateds", ["issue_id"], name: "index_relateds_on_issue_id"
-  add_index "relateds", ["target_id"], name: "index_relateds_on_target_id"
+  add_index "relateds", ["issue_id", "target_id"], name: "index_relateds_on_issue_id_and_target_id", unique: true, using: :btree
+  add_index "relateds", ["issue_id"], name: "index_relateds_on_issue_id", using: :btree
+  add_index "relateds", ["target_id"], name: "index_relateds_on_target_id", using: :btree
 
   create_table "searches", force: :cascade do |t|
     t.integer  "searchable_id",   limit: 4,        null: false
@@ -389,7 +389,7 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at",                       null: false
   end
 
-  add_index "searches", ["searchable_type", "searchable_id"], name: "index_searches_on_searchable_type_and_searchable_id"
+  add_index "searches", ["searchable_type", "searchable_id"], name: "index_searches_on_searchable_type_and_searchable_id", using: :btree
 
   create_table "sections", force: :cascade do |t|
     t.string   "name",       limit: 255,                 null: false
@@ -399,8 +399,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.boolean  "initial",                default: false
   end
 
-  add_index "sections", ["issue_id"], name: "index_sections_on_issue_id"
-  add_index "sections", ["name"], name: "index_sections_on_name"
+  add_index "sections", ["issue_id"], name: "index_sections_on_issue_id", using: :btree
+  add_index "sections", ["name"], name: "index_sections_on_name", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
@@ -412,22 +412,22 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["context"], name: "index_taggings_on_context"
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
-  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id"
-  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type"
-  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id"
+  add_index "taggings", ["context"], name: "index_taggings_on_context", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
+  add_index "taggings", ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
+  add_index "taggings", ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
+  add_index "taggings", ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
+  add_index "taggings", ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string  "name",           limit: 255
     t.integer "taggings_count", limit: 4,   default: 0
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true
+  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "talks", force: :cascade do |t|
     t.string   "title",          limit: 255
@@ -437,13 +437,14 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.text     "body",           limit: 65535
     t.integer  "post_issue_id",  limit: 4,     null: false
     t.integer  "section_id",     limit: 4,     null: false
-    t.integer  "reference_id"
-    t.string   "reference_type"
+    t.integer  "source_id",      limit: 4
+    t.integer  "reference_id",   limit: 4
+    t.string   "reference_type", limit: 255
   end
 
-  add_index "talks", ["id", "reference_id", "reference_type"], name: "index_talks_on_id_and_reference_id_and_reference_type", unique: true
-  add_index "talks", ["reference_type", "reference_id"], name: "index_talks_on_reference_type_and_reference_id"
-  add_index "talks", ["section_id"], name: "index_talks_on_section_id"
+  add_index "talks", ["id", "reference_id", "reference_type"], name: "index_talks_on_id_and_reference_id_and_reference_type", unique: true, using: :btree
+  add_index "talks", ["reference_type", "reference_id"], name: "index_talks_on_reference_type_and_reference_id", using: :btree
+  add_index "talks", ["source_id"], name: "index_talks_on_source_id", using: :btree
 
   create_table "upvotes", force: :cascade do |t|
     t.integer  "user_id",        limit: 4,   null: false
@@ -454,9 +455,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "issue_id",       limit: 4
   end
 
-  add_index "upvotes", ["issue_id"], name: "index_upvotes_on_issue_id"
-  add_index "upvotes", ["user_id", "upvotable_id", "upvotable_type"], name: "index_upvotes_on_user_id_and_upvotable_id_and_upvotable_type", unique: true
-  add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id"
+  add_index "upvotes", ["issue_id"], name: "index_upvotes_on_issue_id", using: :btree
+  add_index "upvotes", ["user_id", "upvotable_id", "upvotable_type"], name: "index_upvotes_on_user_id_and_upvotable_id_and_upvotable_type", unique: true, using: :btree
+  add_index "upvotes", ["user_id"], name: "index_upvotes_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255
@@ -485,11 +486,11 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.boolean  "enable_mailing",                     default: true
   end
 
-  add_index "users", ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true
-  add_index "users", ["deleted_at"], name: "index_users_on_deleted_at"
-  add_index "users", ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true
-  add_index "users", ["provider", "uid", "active"], name: "index_users_on_provider_and_uid_and_active", unique: true
-  add_index "users", ["reset_password_token", "active"], name: "index_users_on_reset_password_token_and_active", unique: true
+  add_index "users", ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true, using: :btree
+  add_index "users", ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
+  add_index "users", ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true, using: :btree
+  add_index "users", ["provider", "uid", "active"], name: "index_users_on_provider_and_uid_and_active", unique: true, using: :btree
+  add_index "users", ["reset_password_token", "active"], name: "index_users_on_reset_password_token_and_active", unique: true, using: :btree
 
   create_table "votes", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,   null: false
@@ -499,8 +500,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "post_id",    limit: 4,   null: false
   end
 
-  add_index "votes", ["post_id", "user_id"], name: "index_votes_on_post_id_and_user_id", unique: true
-  add_index "votes", ["user_id"], name: "index_votes_on_user_id"
+  add_index "votes", ["post_id", "user_id"], name: "index_votes_on_post_id_and_user_id", unique: true, using: :btree
+  add_index "votes", ["user_id"], name: "index_votes_on_user_id", using: :btree
 
   create_table "watches", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
@@ -509,9 +510,9 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.integer  "issue_id",   limit: 4, null: false
   end
 
-  add_index "watches", ["issue_id"], name: "index_watches_on_issue_id"
-  add_index "watches", ["user_id", "issue_id"], name: "index_watches_on_user_id_and_issue_id", unique: true
-  add_index "watches", ["user_id"], name: "index_watches_on_user_id"
+  add_index "watches", ["issue_id"], name: "index_watches_on_issue_id", using: :btree
+  add_index "watches", ["user_id", "issue_id"], name: "index_watches_on_user_id_and_issue_id", unique: true, using: :btree
+  add_index "watches", ["user_id"], name: "index_watches_on_user_id", using: :btree
 
   create_table "wiki_histories", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,     null: false
@@ -521,8 +522,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at"
   end
 
-  add_index "wiki_histories", ["user_id"], name: "index_wiki_histories_on_user_id"
-  add_index "wiki_histories", ["wiki_id"], name: "index_wiki_histories_on_wiki_id"
+  add_index "wiki_histories", ["user_id"], name: "index_wiki_histories_on_user_id", using: :btree
+  add_index "wiki_histories", ["wiki_id"], name: "index_wiki_histories_on_wiki_id", using: :btree
 
   create_table "wikis", force: :cascade do |t|
     t.integer  "issue_id",   limit: 4
@@ -531,6 +532,8 @@ ActiveRecord::Schema.define(version: 20161017021801) do
     t.datetime "updated_at"
   end
 
-  add_index "wikis", ["issue_id"], name: "index_wikis_on_issue_id"
+  add_index "wikis", ["issue_id"], name: "index_wikis_on_issue_id", using: :btree
 
+  add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
+  add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
 end

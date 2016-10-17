@@ -8,9 +8,11 @@ class TalksController < ApplicationController
 
   def create
     redirect_to root_path and return if fetch_issue.blank?
-
+    @talk.reference = @talk.reference.unify
     @talk.user = current_user
-    if !@talk.save
+    if @talk.save
+      callback_after_creating_talk
+    else
       errors_to_flash(@talk)
     end
     redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
@@ -19,7 +21,9 @@ class TalksController < ApplicationController
   def update
     redirect_to root_path and return if fetch_issue.blank?
     @talk.assign_attributes(talk_params.delete_if {|key, value| value.empty? })
+    @talk.reference = @talk.reference.unify
     if @talk.save
+      callback_after_updating_talk
       update_comments
       redirect_to @talk
     else
@@ -75,5 +79,17 @@ class TalksController < ApplicationController
     body = params[:comment_body]
     return if body.blank?
     @talk.acting_as.comments.build(body: body, user: current_user)
+  end
+
+  def callback_after_updating_talk
+    if @talk.link_source?
+      CrawlingJob.perform_async(@talk.reference.id)
+    end
+  end
+
+  def callback_after_creating_talk
+    if @talk.reference.try(:crawling_status).try(:not_yet?)
+      CrawlingJob.perform_async(@talk.reference.id)
+    end
   end
 end

@@ -18,3 +18,13 @@ link4:
   body: 'link4 body'
   url: 'http://article4.link'
   crawling_status: 'completed'
+link5:
+  title: 'link5'
+  body: 'link5 body'
+  url: 'http://talk3.link'
+  crawling_status: 'not_yet'
+link6:
+  title: 'link6'
+  body: 'link6 body'
+  url: 'http://talk1.link'
+  crawling_status: 'completed'

@@ -27,8 +27,12 @@ class CrawlingJob
           origin.set_crawling_data(data)
           origin.save!
           source.articles.each do |article|
-            article.srouce = origin
+            article.source = origin
             article.save!
+          end
+          source.talks.each do |talk|
+            talk.source = origin
+            talk.save!
           end
           source.destroy!
         end
