@@ -18,7 +18,8 @@ class TalksController < ApplicationController
 
   def update
     redirect_to root_path and return if fetch_issue.blank?
-    if @talk.update_attributes(talk_params)
+    @talk.assign_attributes(talk_params.delete_if {|key, value| value.empty? })
+    if @talk.save
       update_comments
       redirect_to @talk
     else
@@ -62,7 +63,7 @@ class TalksController < ApplicationController
   end
 
   def talk_params
-    params.require(:talk).permit(:title, :body, :issue_id, :section_id)
+    params.require(:talk).permit(:title, :body, :issue_id, :section_id, :reference_type, reference_attributes: [:url, :attachment])
   end
 
   def fetch_issue

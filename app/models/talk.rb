@@ -2,11 +2,14 @@ class Talk < ActiveRecord::Base
   include Postable
   acts_as_paranoid
   acts_as :post, as: :postable
+
+  belongs_to :section
+  belongs_to :reference, polymorphic: true
+  accepts_nested_attributes_for :reference
+
   validates :section, presence: true
   validates :title, presence: true, length: { maximum: 50 }
   validates :body, presence: true
-
-  belongs_to :section
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
@@ -34,5 +37,9 @@ class Talk < ActiveRecord::Base
 
   def sequential_comments_but_presentation
     self.has_presentation? ? self.comments.sequential.offset(1) : self.comments.sequential
+  end
+
+  def build_reference(params)
+    self.reference = self.reference_type.constantize.new(params) if self.reference_type.present?
   end
 end

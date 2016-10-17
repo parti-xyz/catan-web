@@ -2,6 +2,7 @@ class LinkSource < ActiveRecord::Base
   extend Enumerize
 
   has_many :articles, as: :source
+  has_many :talks, as: :reference
 
   validates :url, uniqueness: {case_sensitive: true}, format: {with:/\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(:[0-9]{1,5})?(\/.*)?\z/ix, on: [:create, :update] }
   validates :crawling_status, presence: true

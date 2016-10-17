@@ -18,3 +18,4 @@ talk5:
   title: 'talk5'
   post_issue: issue1
   section: section4
+  reference: file2 (FileSource)

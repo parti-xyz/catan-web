@@ -4,3 +4,9 @@ file1:
   attachment: <%= file_path.join('sample2.pdf') %>
   file_size: 100
   file_type: 'image/png'
+file2:
+  name: 'file2'
+  attachment: <%= file_path.join('sample2.pdf') %>
+  file_size: 100
+  file_type: 'image/png'
+

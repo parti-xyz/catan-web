@@ -35,6 +35,11 @@ post_note3:
   user: one
   issue: issue1
   postable: note3 (Note)
+post_talk5:
+  user: one
+  issue: issue1
+  postable: talk5 (Talk)
+
 
 # issue2
 post_article2:
