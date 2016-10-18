@@ -78,4 +78,25 @@ class Article < ActiveRecord::Base
     self.source = self.source_type.constantize.new(params) if self.source_type.present?
   end
 
+  LIMIT_CHAR = 50
+
+  def smart_title_and_body
+    return [source.try(:title) || source.try(:url) || source.try(:name), nil] unless body.present?
+
+    first_line = strip_body.lines.first.strip
+    remains = strip_body.lines[1..-1].join
+
+    result = [first_line, remains]
+    result = [first_line.truncate(Note::LIMIT_CHAR), strip_body] if first_line.length > Note::LIMIT_CHAR
+    result = [strip_body, nil] if result[0].length > (strip_body.length*0.30)
+
+    result
+  end
+
+  private
+
+  def strip_body
+    body.strip
+  end
+
 end

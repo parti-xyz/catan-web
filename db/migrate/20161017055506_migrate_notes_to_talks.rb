@@ -3,7 +3,7 @@ class MigrateNotesToTalks < ActiveRecord::Migration
     ActiveRecord::Base.transaction do
       Note.all.each do |note|
         talk_title, talk_body = note.smart_title_and_body
-        talk = Talk.create!(title: talk_title, body: talk_body, created_at: note.created_at, updated_at: note.updated_at, issue: note.issue, section_id: note.issue.sections.first.id, user: note.user)
+        talk = Talk.create!(title: talk_title, body: talk_body, created_at: note.created_at, updated_at: note.updated_at, issue: note.issue, section_id: note.issue.sections.initial_section.id, user: note.user)
         post = talk.acting_as
         post_note = note.acting_as
         note.comments.each do |comment|
