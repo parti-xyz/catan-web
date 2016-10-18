@@ -8,8 +8,7 @@ class Talk < ActiveRecord::Base
   accepts_nested_attributes_for :reference
 
   validates :section, presence: true
-  validates :title, presence: true, length: { maximum: 50 }
-  validates :body, presence: true
+  validates :title, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
