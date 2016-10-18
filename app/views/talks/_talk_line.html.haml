@@ -19,6 +19,29 @@
     .media-body
       .talk-body{data: modal_data}
         != talk.body
+        - if talk.file_source?
+          .article-line.post-line[post]{data: modal_data}
+            %a{href: talk.reference_url, target: '_blank'}
+              .article-line__content
+                - if local_assigns[:show_issue]
+                  .article-line__issue.post-line__issue
+                    = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue)  do
+                      = image_tag issue.logo.xs.url
+                      %span.text-primary= issue.title
+                    %span.post-line__issue__post-type
+                      &middot;
+                      #{Talk.model_name.human}
+                %h4.article-line__title.post-line__title= talk.reference_title
+                .article-line__site-name
+                  %a{href: talk.reference_url, target: '_blank'}
+                    - if talk.reference.image?
+                      그림보기
+                      %i.fa.fa-external-link
+                    - else
+                      다운로드
+                      %i.fa.fa-floppy-o
+              - if (talk.has_image?)
+                %a.article-line__thumb{href: talk.reference.attachment.url, target: '_blank', style: "background-image: url(#{talk.image.md.url})"}
       - unless local_assigns[:hide_user]
         .talk-info
           = link_to user_gallery_path(talk.user) do

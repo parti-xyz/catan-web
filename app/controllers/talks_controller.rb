@@ -8,7 +8,7 @@ class TalksController < ApplicationController
 
   def create
     redirect_to root_path and return if fetch_issue.blank?
-    @talk.reference = @talk.reference.unify
+    @talk.reference = @talk.reference.unify if @talk.reference
     @talk.user = current_user
     if @talk.save
       callback_after_creating_talk

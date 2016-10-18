@@ -38,6 +38,15 @@ class Talk < ActiveRecord::Base
     self.has_presentation? ? self.comments.sequential.offset(1) : self.comments.sequential
   end
 
+  def image
+    return LinkSource.new.image if !has_image?
+    reference.try(:image) or reference.try(:attachment)
+  end
+
+  def has_image?
+    reference.attributes["image"].present? or reference.try(:image?)
+  end
+
   def reference_url
     reference.try(:url)
   end
@@ -48,6 +57,10 @@ class Talk < ActiveRecord::Base
 
   def reference_body
     reference.try(:body)
+  end
+
+  def file_source?
+    reference.is_a? FileSource
   end
 
   def link_source?
