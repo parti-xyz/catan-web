@@ -6,18 +6,9 @@ class UsersController < ApplicationController
     @issues = @user.watched_issues
   end
 
-  def comments
+  def talks
     fetch_user
-    @comments = @user.comments.recent.limit(25).previous_of params[:last_id]
-    @is_last_page = (@comments.empty? or @user.comments.recent.previous_of(@comments.last.try(:id)).empty?)
-  end
-
-  def upvotes
-    fetch_user
-    upvotes_base = @user.upvotes.recent.comment_only
-    @upvotes = upvotes_base.limit(25).previous_of params[:last_id]
-    @is_last_page = (upvotes_base.empty? or upvotes_base.previous_of(@upvotes.last.try(:id)).empty?)
-    @comments = @upvotes.map(&:upvotable)
+    @talks= @user.talks.recent.page(params[:page])
   end
 
   def votes

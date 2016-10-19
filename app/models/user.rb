@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   # associations
   has_many :messages
   has_many :posts
+  has_many :talks, through: :posts, source: :postable, source_type: Talk
   has_many :comments
   has_many :upvotes
   has_many :votes
@@ -60,6 +61,7 @@ class User < ActiveRecord::Base
   # scopes
   scope :latest, -> { after(1.day.ago) }
   scope :recent, -> { order(created_at: :desc) }
+
 
   def admin?
     if Rails.env.staging? or Rails.env.production?
@@ -130,12 +132,10 @@ class User < ActiveRecord::Base
     counts = OpenStruct.new
     unless issue.present?
       counts.parties_count = watches.count
-      counts.comments_count = comments.count
-      counts.latest_comments_count = comments.latest.count
-      counts.upvotes_count = upvotes.count
-      counts.latest_upvotes_count = upvotes.latest.count
       counts.votes_count = votes.count
       counts.latest_votes_count = votes.latest.count
+      counts.talks_count = talks.count
+      counts.latest_talks_count = talks.latest.count
     else
       counts.comments_count = comments.by_issue(issue).count
       counts.latest_comments_count = comments.by_issue(issue).latest.count

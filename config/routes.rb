@@ -102,9 +102,8 @@ Rails.application.routes.draw do
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
 
   get '/u/:slug', to: "users#parties", as: 'slug_user'
-  get '/u/:slug/comments', to: "users#comments", as: 'slug_user_comments'
-  get '/u/:slug/upvotes', to: "users#upvotes", as: 'slug_user_upvotes'
   get '/u/:slug/votes', to: "users#votes", as: 'slug_user_votes'
+  get '/u/:slug/talks', to: "users#talks", as: 'slug_user_talks'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
