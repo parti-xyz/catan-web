@@ -16,18 +16,7 @@
                   %a{"data-toggle": "tab", href: "#editor-opinion", role: "tab"}
                     %i{class: "fa fa-fire"}
                     != t('labels.new_opinion_button')
-                %li{role: "presentation"}
-                  %a{"data-toggle": "tab", href: "#editor-link", role: "tab"}
-                    %i{class: "fa fa-link"}
-                    != t('labels.new_article_link_source_button')
-                %li{role: "presentation"}
-                  %a{"data-toggle": "tab", href: "#editor-file", role: "tab"}
-                    %i{class: "fa fa-floppy-o"}
-                    != t('labels.new_article_file_source_button')
-                %li{role: "presentation"}
-                  %a{"data-toggle": "tab", href: "#editor-note", role: "tab"}
-                    %i{class: "fa fa-sticky-note-o"}
-                    != t('labels.new_note_button')
+
               .tab-content
                 #editor-placeholder.tab-pane.active{role: "tabpanel"}
                   .placeholder-label(data-action="parti-click" data-target=".unified-editor li.first a")
@@ -55,18 +44,7 @@
                 %a{"data-toggle": "tab", href: "#editor-opinion", role: "tab"}
                   %i{class: "fa fa-fire"}
                   != t('labels.new_opinion_button')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#editor-link", role: "tab"}
-                  %i{class: "fa fa-link"}
-                  != t('labels.new_article_link_source_button')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#editor-file", role: "tab"}
-                  %i{class: "fa fa-floppy-o"}
-                  != t('labels.new_article_file_source_button')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#editor-note", role: "tab"}
-                  %i{class: "fa fa-sticky-note-o"}
-                  != t('labels.new_note_button')
+
             .tab-content
               #editor-placeholder.tab-pane.active{role: "tabpanel"}
                 .placeholder-label
