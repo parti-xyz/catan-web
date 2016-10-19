@@ -110,6 +110,8 @@ ko:
         target: 관련빠띠
       section:
         name: 이름
+      link_source:
+        url: 주소
     successful:
       messages:
         created: 저장되었습니다.

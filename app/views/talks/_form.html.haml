@@ -1,12 +1,27 @@
 .well
   = form_for @talk do |f|
-
+    = f.hidden_field :reference_type
     .form-group
       = f.label :title
       = f.text_field :title, class: 'form-control', maxlength: 50, placeholder: t('activerecord.models.talk') + '의 제목을 쓰세요'
 
     .form-group
+      = f.label :body
       = f.text_area :body, class: 'form-control redactor', data: {ride: 'parti-autoresize'}
+
+    - if @talk.reference_type == 'LinkSource'
+      = f.fields_for :reference do |ff|
+        .form-group
+          = ff.label :url
+          = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
+
+    - if @talk.reference_type == 'FileSource'
+      = f.fields_for :reference do |ff|
+        .form-group
+          %label
+            현재 파일:
+            = @talk.reference.name
+          = ff.file_field :attachment, class: 'form-control'
 
     .editor-btn.text-right
       = link_to '취소', @talk, class: 'btn btn-default'
