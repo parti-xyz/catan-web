@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/parti-xyz/catan-web.png?label=ready&title=Ready)](https://waffle.io/parti-xyz/catan-web)
 # parti 함께 만드는 온라인 광장 빠띠
 
 ## 업그레이드
