@@ -143,7 +143,7 @@ class ApplicationController < ActionController::Base
     @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
-  def having_reference_talks(issue = nil)
+  def having_reference_talks_page(issue = nil)
     base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
     @is_last_page = base.empty?
 

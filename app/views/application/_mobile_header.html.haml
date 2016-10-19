@@ -37,7 +37,7 @@
       %li= link_to '모든 빠띠', home_path
       %li= link_to t('activerecord.models.talk'), talks_path
       %li= link_to t('activerecord.models.opinion'), opinions_path
-      %li= link_to t('activerecord.models.article'), articles_path
+      %li= link_to '자료', references_path
       - if user_signed_in?
         %li.divider
         %li= link_to '프로필 수정', edit_user_registration_path

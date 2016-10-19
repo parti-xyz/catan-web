@@ -75,7 +75,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_references
-    having_reference_talks(@issue)
+    having_reference_talks_page(@issue)
   end
 
   def create

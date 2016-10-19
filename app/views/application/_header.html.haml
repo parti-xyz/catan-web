@@ -29,8 +29,9 @@
               베스트
               %span.caret
             %ul.dropdown-menu
-              - %w(talk opinion article).each do |model|
+              - %w(talk opinion).each do |model|
                 %li= link_to model.classify.safe_constantize.model_name.human, send("#{model.pluralize}_path"), class: "#{'active' if current_page?(controller: "/#{model.pluralize}", action: :index)}"
+              %li= link_to '자료' ,references_path, class: "#{'active' if current_page?(controller: "/references", action: :index)}"
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
