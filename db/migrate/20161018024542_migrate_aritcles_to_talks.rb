@@ -1,5 +1,6 @@
 class MigrateAritclesToTalks < ActiveRecord::Migration
   def up
+    remove_index(:articles, name: :index_article_on_unique_link_source)
     ActiveRecord::Base.transaction do
       LinkSource.all.each do |link_source|
         original_url = link_source.url

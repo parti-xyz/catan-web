@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 20161018024542) do
   end
 
   add_index "articles", ["deleted_at"], name: "index_articles_on_deleted_at", using: :btree
-  add_index "articles", ["post_issue_id", "source_id", "source_type", "deleted_at"], name: "index_article_on_unique_link_source", unique: true, using: :btree
   add_index "articles", ["source_type", "source_id"], name: "index_articles_on_source_type_and_source_id", using: :btree
 
   create_table "blinds", force: :cascade do |t|

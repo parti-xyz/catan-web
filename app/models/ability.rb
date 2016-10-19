@@ -6,7 +6,7 @@ class Ability
     can [:slug_show], Campaign
     can [:slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_users, :slug_articles, :slug_comments, :slug_opinions,
-      :slug_talks, :slug_wikis, :slug_notes, :search], Issue
+      :slug_talks, :slug_wikis, :search], Issue
     if user
       can :manage, Section do |section|
         section.issue.made_by? user
@@ -16,8 +16,8 @@ class Ability
       end
       can [:create, :new_intro, :search_by_tags], [Issue]
 
-      can [:update, :destroy], [Article, Talk, Opinion, Note], user_id: user.id
-      can :create, [Article, Talk, Opinion, Note] do |specific|
+      can [:update, :destroy], [Article, Talk, Opinion], user_id: user.id
+      can :create, [Article, Talk, Opinion] do |specific|
         specific.issue.try(:postable?, user)
       end
 

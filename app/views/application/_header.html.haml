@@ -29,7 +29,7 @@
               베스트
               %span.caret
             %ul.dropdown-menu
-              - %w(talk opinion article note).each do |model|
+              - %w(talk opinion article).each do |model|
                 %li= link_to model.classify.safe_constantize.model_name.human, send("#{model.pluralize}_path"), class: "#{'active' if current_page?(controller: "/#{model.pluralize}", action: :index)}"
 
         %ul.nav.navbar-nav.navbar-right

@@ -106,8 +106,6 @@
                   = render 'articles/new_form_with_link', issue: selected_parti
                 #editor-file.tab-pane{role: "tabpanel"}
                   = render 'articles/new_form_with_file', issue: selected_parti
-                #editor-note.tab-pane{role: "tabpanel"}
-                  = render 'notes/new_form', issue: selected_parti, body_rows_count: 3
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?

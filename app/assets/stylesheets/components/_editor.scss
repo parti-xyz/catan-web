@@ -123,10 +123,6 @@
   }
 }
 
-#note-form-widget.form-widget-container {
-  display: block;
-}
-
 .form-widget-container {
   display: none;
 
@@ -180,15 +176,6 @@
 
 .editors-panel {
   margin-bottom: 25px;
-
-  @media (max-width: $screen-xs-max) {
-    #notes & {
-      display: none;
-      &.editors-panel--unpostable {
-        display: block;
-      }
-    }
-  }
 
   .submit-box {
     text-align: right;

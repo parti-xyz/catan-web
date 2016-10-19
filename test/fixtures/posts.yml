@@ -27,19 +27,10 @@ post_talk3:
   user: one
   issue: issue1
   postable: talk3 (Talk)
-post_note1:
-  user: one
-  issue: issue1
-  postable: note1 (Note)
-post_note3:
-  user: one
-  issue: issue1
-  postable: note3 (Note)
 post_talk5:
   user: one
   issue: issue1
   postable: talk5 (Talk)
-
 
 # issue2
 post_article2:
@@ -66,11 +57,3 @@ post_talk4:
   user: two
   issue: issue2
   postable: talk4 (Talk)
-post_note2:
-  user: one
-  issue: issue2
-  postable: note2 (Note)
-post_note4:
-  user: two
-  issue: issue2
-  postable: note4 (Note)

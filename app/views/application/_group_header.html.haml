@@ -87,5 +87,5 @@
               베스트
               %span.caret
             %ul.dropdown-menu
-              - [Note, Talk, Opinion, Article].each do |model|
+              - [Talk, Opinion, Article].each do |model|
                 %li= link_to model.model_name.human, polymorphic_path(model), class: "#{'active' if current_page?(polymorphic_path(model))}"

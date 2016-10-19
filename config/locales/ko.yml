@@ -27,7 +27,6 @@ ko:
   activerecord:
     models:
       issue: 빠띠
-      note: 담벼락
       talk: 논의
       article: 자료
       opinion: 찬반토론
@@ -69,8 +68,6 @@ ko:
         issue_id: 빠띠
         section: 주제
         title: 제목
-        body: 내용
-      note:
         body: 내용
       user:
         email: 이메일
@@ -152,10 +149,6 @@ ko:
           attributes:
             target:
               self_relation: '%{attribute}가 현재 빠띠와 같습니다. 다른 빠띠를 넣어 주세요.'
-        note:
-          attributes:
-            body:
-              too_long: 담벼락 글의 %{attribute}이 너무 깁니다. 200자 이내로 써주세요.
         talk:
           attributes:
             title:
@@ -178,13 +171,11 @@ ko:
     new_article_file_source_button: 파일
     new_talk_button: 논의
     new_opinion_button: 찬반토론
-    new_note_button: 응원
 
     postfix_new_article_link_source_button: 모으기
     postfix_new_article_file_source_button: 공유하기
     postfix_new_talk_button: 제안하기
     postfix_new_opinion_button: 열기
-    postfix_new_note_button: 한마디
 
     edit_wiki_button: 편집
     show_history_button: 역사

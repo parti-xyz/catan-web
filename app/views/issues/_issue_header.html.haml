@@ -120,17 +120,5 @@
                   = Wiki.model_name.human
                   %span.hidden-xs= count_label
 
-            .col-xs-2.col-sm-2{class: ('active' if active_tab == :notes)}
-              - count_label = capture_haml(counts_container) do
-                %span.count<>
-                  = counts_container.notes_count
-                  - if counts_container.latest_notes_count > 0
-                    %small.text-primary<>
-                      +#{counts_container.latest_notes_count}
-              = link_to issue_notes_path(issue) do
-                %h5
-                  = Note.model_name.human
-                  %span.hidden-xs= count_label
-
 = render 'issues/bottom_banner'
 
