@@ -1,0 +1,6 @@
+= form_for [:admin, @blind] do |f|
+  .form-group
+    = f.label :nickname
+    = f.text_field :nickname, class: 'form-control'
+  .form-group
+    = f.submit

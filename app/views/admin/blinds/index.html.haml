@@ -1,0 +1,9 @@
+= render 'form'
+
+%ul
+  - @blinds.each do |blind|
+    %li
+      = blind.user.nickname
+      = link_to [:admin, blind], method: :delete, data: { confirm: '정말 지우시겠습니까?' } do
+        %i.fa.fa-trash
+
