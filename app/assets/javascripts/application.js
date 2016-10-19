@@ -1046,12 +1046,12 @@ $(function(){
   });
 
   $('[data-action="parti-talk-select-reference"]').each(function(index,elm){
-    var disabled_target = $(elm).data('disabled-target');
+    var hidden_target = $(elm).data('hidden-target');
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     $(this).on('click',function (e){
       e.preventDefault();
-      $(disabled_target).prop("disabled", true);
+      $(hidden_target).hide();
       if($(reference_field).hasClass('hidden')){
         $(reference_field).removeClass('hidden');
       }
@@ -1067,11 +1067,11 @@ $(function(){
   $('[data-action="parti-talk-cancel-reference"]').each(function(index,elm){
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
-    var enabled_target = $(elm).data('enabled-target');
+    var show_target = $(elm).data('show-target');
     $(this).on('click',function(e){
       $(reference_type_field).val(null);
       $(reference_field).addClass('hidden');
-      $(enabled_target).prop("disabled", false);
+      $(show_target).show();
       $(reference_field).find('input').data("rule-required",false);
     });
   });

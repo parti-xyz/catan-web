@@ -15,7 +15,7 @@
             .form-group
               .input-group
                 = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
-                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field', 'enabled-target': '.talk-file-btn, .talk-link-btn' }}
+                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field', 'show-target': '.talk-reference-btns' }}
                   취소
 
         .talk-file-field.hidden
@@ -23,14 +23,14 @@
             .form-group
               .input-group
                 = ff.file_field :attachment, class: 'form-control'
-                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field', 'enabled-target': '.talk-file-btn, .talk-link-btn' }}
+                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field', 'show-target': '.talk-reference-btns' }}
                   취소
 
         .talk-reference-btns
-          %button{class: 'btn btn-xs btn-default btn-shadow editor-btn talk-link-btn', data: { action: 'parti-talk-select-reference', 'disabled-target': '.talk-file-btn', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field'}}
+          %button{class: 'btn btn-xs btn-link editor-btn talk-link-btn', data: { action: 'parti-talk-select-reference', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field'}}
             %i.fa.fa-link
             = t('labels.new_article_link_source_button')
-          %button{class: 'btn btn-xs btn-default btn-shadow editor-btn talk-file-btn', data: { action: 'parti-talk-select-reference', 'disabled-target': '.talk-link-btn', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field'}}
+          %button{class: 'btn btn-xs btn-link editor-btn talk-file-btn', data: { action: 'parti-talk-select-reference', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field'}}
             %i.fa.fa-floppy-o
             = t('labels.new_article_file_source_button')
 
