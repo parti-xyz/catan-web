@@ -13,7 +13,6 @@ Rails.application.routes.draw do
 
   get '/home', to: 'pages#home'
   get '/robots.:format', to: 'pages#robots'
-  get '/monitors', to: 'monitors#index'
   get 'parties/new_intro', to: 'issues#new_intro'
 
   resources :users, except: :show do
@@ -128,7 +127,12 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    root "featured_contents#index"
+    root to: 'monitors#index'
+    resources :users do
+      collection do
+        get 'all_email'
+      end
+    end
     resources :featured_contents
     resources :featured_issues
     resources :featured_campaigns
