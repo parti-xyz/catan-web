@@ -50,19 +50,6 @@
                             .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
                             %span.issue-line__title
                               = issue.title
-                            %span.issue-line__meta
-                              - if issue.watches.latest.count > 0
-                                .users-count
-                                  %i.fa.fa-user
-                                  %b= issue.watches.latest.count
-                              - if issue.posts.latest.count > 0
-                                .posts-count
-                                  %i.fa.fa-file-text
-                                  %b= issue.posts.latest.count
-                              - if issue.comments.latest.count > 0
-                                .comments-count
-                                  %i.fa.fa-comment
-                                  %b= issue.comments.latest.count
                         %option{value: issue.id, 'data-content': issue_content}= issue.title
             %ul.nav.nav-pills{"data-action": "parti-home-editor", role: "tablist"}
               %li.first{role: "presentation"}

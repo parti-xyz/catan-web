@@ -34,6 +34,10 @@ class LinkSource < ActiveRecord::Base
     previous_link_source.present? ? previous_link_source : self
   end
 
+  def self.require_attrbutes
+    [:url]
+  end
+
   private
 
   def set_crawling_status

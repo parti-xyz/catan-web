@@ -123,6 +123,9 @@
   }
 }
 
+#note-form-widget.form-widget-container {
+  display: block;
+}
 .form-widget-container {
   display: none;
 
@@ -135,6 +138,9 @@
     .form-widget {
       padding-top: 14px;
       padding-bottom: 0;
+      .talk-reference-btns {
+        margin-top: 14px;
+      }
     }
     .submit-box .btn-cancel {
       display: none;

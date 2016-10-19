@@ -831,8 +831,8 @@ $(function(){
 
   // Initialize Redactor
   $('.redactor').redactor({
-    buttons: ['format', 'bold', 'italic', 'deleted', 'lists', 'link', 'horizontalrule'],
-    plugins: ['wiki_save'],
+    buttons: ['bold', 'italic', 'deleted'],
+    air: true,
     callbacks: {
       imageUploadError: function(json, xhr) {
         UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
@@ -1042,6 +1042,37 @@ $(function(){
         $(modal_submit_btn).removeClass('disabled');
       else
         $(modal_submit_btn).addClass('disabled');
+    });
+  });
+
+  $('[data-action="parti-talk-select-reference"]').each(function(index,elm){
+    var disabled_target = $(elm).data('disabled-target');
+    var reference_type_field = $(elm).data('reference-type-field');
+    var reference_field = $(elm).data('reference-field');
+    $(this).on('click',function (e){
+      e.preventDefault();
+      $(disabled_target).prop("disabled", true);
+      if($(reference_field).hasClass('hidden')){
+        $(reference_field).removeClass('hidden');
+      }
+      if($(this).hasClass('talk-link-btn')) {
+        $(reference_type_field).val('LinkSource');
+      } else {
+        $(reference_type_field).val('FileSource');
+      }
+      $(reference_field).find('input').data("rule-required",true);
+    })
+  });
+
+  $('[data-action="parti-talk-cancel-reference"]').each(function(index,elm){
+    var reference_type_field = $(elm).data('reference-type-field');
+    var reference_field = $(elm).data('reference-field');
+    var enabled_target = $(elm).data('enabled-target');
+    $(this).on('click',function(e){
+      $(reference_type_field).val(null);
+      $(reference_field).addClass('hidden');
+      $(enabled_target).prop("disabled", false);
+      $(reference_field).find('input').data("rule-required",false);
     });
   });
 

@@ -29,6 +29,10 @@ class FileSource < ActiveRecord::Base
     self.name.gsub(/\\+/, "%20")
   end
 
+  def self.require_attrbutes
+    [:attachment]
+  end
+
   private
 
   def update_type

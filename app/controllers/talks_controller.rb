@@ -67,7 +67,9 @@ class TalksController < ApplicationController
   end
 
   def talk_params
-    params.require(:talk).permit(:title, :body, :issue_id, :section_id, :reference_type, reference_attributes: [:url, :attachment])
+    reference_type = params[:talk][:reference_type]
+    reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
+    params.require(:talk).permit(:title, :body, :issue_id, :section_id, :reference_type, reference_attributes: reference_attributes)
   end
 
   def fetch_issue

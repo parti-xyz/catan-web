@@ -47,6 +47,10 @@ class Talk < ActiveRecord::Base
     reference.attributes["image"].present? or reference.try(:image?)
   end
 
+  def site_name
+    reference.try(:site_name)
+  end
+
   def reference_url
     reference.try(:url)
   end
@@ -65,6 +69,11 @@ class Talk < ActiveRecord::Base
 
   def link_source?
     reference.is_a? LinkSource
+  end
+
+  def video_source?
+    return false unless link_source?
+    VideoInfo.usable?(reference.try(:url) || '')
   end
 
   def build_reference(params)
