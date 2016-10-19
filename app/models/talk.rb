@@ -12,6 +12,12 @@ class Talk < ActiveRecord::Base
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
+  scope :having_reference, -> { where.not(reference: nil) }
+  scope :previous_of_recent, ->(talk) {
+    base = recent
+    base = base.where('talks.created_at < ?', talk.created_at) if talk.present?
+    base
+  }
 
   def specific_origin
     self
@@ -44,6 +50,7 @@ class Talk < ActiveRecord::Base
   end
 
   def has_image?
+    return false if reference.blank?
     reference.attributes["image"].present? or reference.try(:image?)
   end
 

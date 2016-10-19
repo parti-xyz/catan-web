@@ -1,0 +1,11 @@
+- has_blinds = false
+- @talks.each do |postable|
+  - unless postable.blinded?(current_user)
+    = render 'references/reference', local_assigns.merge(talk: postable)
+  - else
+    - has_blinds = true
+- if has_blinds
+  .card.col-sm-4.col-xs-12
+    .article-card
+      .caption
+        .body= t('labels.blind_info')

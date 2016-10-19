@@ -12,7 +12,7 @@ section#articles {
   }
 }
 
-.article-card {
+.reference-card {
   &:hover {
     @include hover-shadow();
   }
@@ -38,7 +38,7 @@ section#articles {
       box-shadow: 0 1px 15px rgba(0, 0, 0, 3);
       display: inline-block;
     }
-    .article-card__group {
+    .reference-card__group {
       background-color: rgba(150,111,214,0.9);
       color: #fff;
       border-radius: $border-radius-base;

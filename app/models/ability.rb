@@ -5,7 +5,7 @@ class Ability
     can [:read, :social_card, :partial], :all
     can [:slug_show], Campaign
     can [:slug, :users, :exist, :new_posts_count, :slug_home,
-      :slug_users, :slug_articles, :slug_comments, :slug_opinions,
+      :slug_users, :slug_articles, :slug_references, :slug_comments, :slug_opinions,
       :slug_talks, :slug_wikis, :search], Issue
     if user
       can :manage, Section do |section|

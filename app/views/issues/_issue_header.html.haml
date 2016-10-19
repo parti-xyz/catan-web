@@ -100,17 +100,9 @@
                   = Opinion.model_name.human
                   %span.hidden-xs= count_label
 
-            .col-xs-2.col-sm-2{class: ('active' if active_tab == :articles)}
-              - count_label = capture_haml(counts_container) do
-                %span.count<>
-                  = counts_container.articles_count
-                  - if counts_container.latest_articles_count > 0
-                    %small.text-primary<>
-                      +#{counts_container.latest_articles_count}
-              = link_to issue_articles_path(issue) do
-                %h5
-                  = Article.model_name.human
-                  %span.hidden-xs= count_label
+            .col-xs-2.col-sm-2{class: ('active' if active_tab == :references)}
+              = link_to issue_references_path(issue) do
+                %h5 자료
 
             .col-xs-2.col-sm-2{class: ('active' if active_tab == :wikis)}
               - count_label = capture_haml(counts_container) do
