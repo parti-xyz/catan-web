@@ -9,17 +9,14 @@
       .row
         .col-xs-4.border-none
           = link_to user_gallery_path(user) do
-            .user-panel__info__icon.fa.fa-comment
-            .user-panel__info__label 댓글
-            .user-panel__info__count= writing_counts.comments_count
+            .user-panel__info__label 빠띠
+            .user-panel__info__count= writing_counts.parties_count
         .col-xs-4
-          = link_to slug_user_upvotes_path(slug: user.slug) do
-            .user-panel__info__icon.fa.fa-heart
-            .user-panel__info__label 공감
-            .user-panel__info__count= writing_counts.upvotes_count
+          = link_to slug_user_talks_path(slug: user.slug) do
+            .user-panel__info__label 논의
+            .user-panel__info__count= writing_counts.talks_count
         .col-xs-4
           = link_to slug_user_votes_path(slug: user.slug) do
-            .user-panel__info__icon.fa.fa-thumbs-up{style: 'font-size: 17px;'}
             .user-panel__info__label #{t('activerecord.models.opinion')}
             .user-panel__info__count= writing_counts.votes_count
   - else
