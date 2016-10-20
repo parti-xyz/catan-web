@@ -171,7 +171,7 @@ ko:
   labels:
     new_article_link_source_button: 링크걸기
     new_article_file_source_button: 파일올리기
-    new_talk_button: 글쓰기
+    new_talk_button: 논의열기
     new_opinion_button: 찬반토론
 
     postfix_new_article_link_source_button: 모으기
