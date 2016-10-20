@@ -1,10 +1,16 @@
 body.in-group {
   padding-top: 100px;
 
+  #group-key-visual {
+    img {
+      width: 100%;  
+    }
+  }
+
   #site-header {
     .navbar-fixed-top {
       height: 100px;
-      border: none;
+      border-bottom: 1px solid $brand-primary-darker;
     }
 
     .container {

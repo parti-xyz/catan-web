@@ -138,7 +138,7 @@
           width: 24px;
           vertical-align: top;
           .fa-circle {
-            color: #966fd6;
+            color: $brand-primary;
             font-size: 26px;
           }
         }
@@ -262,6 +262,11 @@
 /////////////////////////////////////////////
 // renewal style
 //
+#group-key-visual {
+  img {
+    width: 100%;  
+  }
+}
 #new-theme-site-header {
   $site-header-brand-image-width: 60px;
   $site-header-brand-image-width-xs: 60px;
@@ -411,7 +416,7 @@
     width: 24px;
     vertical-align: top;
     .fa-circle {
-      color: #966fd6;
+      color: $brand-primary;
       font-size: 26px;
     }
   }

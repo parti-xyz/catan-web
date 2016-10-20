@@ -1,4 +1,7 @@
 = render 'top_banner'
+-if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual.png"
+  %section#group-key-visual
+    = image_tag "groups/#{current_group.slug}_thumb_main_keyvisual.png"
 %section#home
   .container
     .row
