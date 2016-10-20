@@ -29,6 +29,11 @@ class Group
     site_title: '세상을 바꾸는 꿈',
     head_title: '세상을 바꾸는 꿈 &middot; 바꿈'.html_safe)
 
+  TOKTOK = Group.new(slug: 'toktok',
+    name: '국회톡톡',
+    site_title: '내게 필요한 법, 국회에 직접 제안해서 만들어봐요',
+    head_title: '내게 필요한 법, 국회에 직접 제안해서 만들어봐요 &middot; 국회톡톡'.html_safe)
+
   INDIE = Group.new(slug: nil, name: '전체')
 
   def find_category_by_slug(slug)
@@ -48,7 +53,7 @@ class Group
   end
 
   def self.all
-    [Group::GWANGJU, Group::DO, Group::DUCKUP, Group::CHANGE]
+    [Group::GWANGJU, Group::DO, Group::DUCKUP, Group::CHANGE, Group::TOKTOK]
   end
 
   def self.all_with_indie
