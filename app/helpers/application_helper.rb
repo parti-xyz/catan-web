@@ -78,11 +78,11 @@ module ApplicationHelper
     talk.has_image? ? talk.image.md.url : asset_path('default_link_source_image_card.png')
   end
 
-  def video_embed_code(article)
-    return unless article.video_source?
+  def video_embed_code(talk)
+    return unless talk.video_source?
 
-    source = article.source
-    raw(VideoInfo.new(source.url).embed_code({iframe_attributes: { class: 'article__body__video-content'}}))
+    reference = talk.reference
+    raw(VideoInfo.new(reference.url).embed_code({iframe_attributes: { class: 'article__body__video-content'}}))
   end
 
   def link_to_if_with_block condition, options, html_options={}, &block
