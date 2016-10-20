@@ -176,7 +176,11 @@ development:
 
 #### 스키마
 
-과거 마이그레이션이 정리되지 않아 최초엔 db:migrate가 작동하지 않습니다. db:create와 db:reset으로 생성합니다.
+데이터베이스를 만듧니다.
+```
+mysql > create database catan_development_브랜치명 CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+```
+db:setup으로 스키마를 생성합니다.
 
 #### 초기 데이터 추가
 
