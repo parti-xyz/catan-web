@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018024542) do
+ActiveRecord::Schema.define(version: 20161019024543) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20161018024542) do
 
   create_table "blinds", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
-    t.integer  "issue_id",   limit: 4, null: false
+    t.integer  "issue_id",   limit: 4
     t.datetime "created_at",           null: false
     t.datetime "updated_at",           null: false
   end

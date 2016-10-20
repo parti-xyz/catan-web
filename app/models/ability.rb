@@ -27,7 +27,7 @@ class Ability
       end
       can :update, Wiki
       if user.admin?
-        can :manage, [Campaign, Issue, Related, FeaturedIssue, FeaturedCampaign]
+        can :manage, [Campaign, Issue, Related, FeaturedIssue, FeaturedCampaign, Blind]
         can :recrawl, Article
       end
     end
