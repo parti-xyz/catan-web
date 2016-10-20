@@ -154,7 +154,7 @@ ko:
         talk:
           attributes:
             title:
-              too_long: 논의 %{attribute}이 너무 깁니다. 50자 이내로 써주세요.
+              too_long: 논의 %{attribute}이 너무 깁니다. 180자 이내로 써주세요.
         link_source:
           attributes:
             url:

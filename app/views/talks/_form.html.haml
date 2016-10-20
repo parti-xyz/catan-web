@@ -3,7 +3,7 @@
     = f.hidden_field :reference_type
     .form-group
       = f.label :title
-      = f.text_field :title, class: 'form-control', maxlength: 50, placeholder: t('activerecord.models.talk') + '의 제목을 쓰세요'
+      = f.text_field :title, class: 'form-control', maxlength: 180, placeholder: t('activerecord.models.talk') + '의 제목을 쓰세요'
 
     .form-group
       = f.label :body
