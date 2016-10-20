@@ -145,6 +145,7 @@ class ApplicationController < ActionController::Base
 
   def having_reference_talks_page(issue = nil)
     base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
+    base = base.having_reference
     @is_last_page = base.empty?
 
     how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
