@@ -2,12 +2,10 @@
 %section#facebook-like
   .container
     .fb-like{"data-action": "like", "data-href": "https://www.facebook.com/parti.xyz/", "data-layout": "standard", "data-share": "false", "data-show-faces": "false"}
-= render 'pages/key_visuals' if is_small_screen?
 %section#home
   .container
     .row
       .col-xs-9
-        = render 'pages/key_visuals' unless is_small_screen?
         %section#parties-all
           .parties-all
             .parties-filter
