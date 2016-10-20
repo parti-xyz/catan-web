@@ -21,7 +21,7 @@ class TalksController < ApplicationController
   def update
     redirect_to root_path and return if fetch_issue.blank?
     @talk.assign_attributes(talk_params.delete_if {|key, value| value.empty? })
-    @talk.reference = @talk.reference.unify
+    @talk.reference = @talk.reference.try(:unify)
     if @talk.save
       callback_after_updating_talk
       update_comments
