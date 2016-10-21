@@ -8,7 +8,6 @@ class Section < ActiveRecord::Base
     end
   end
 
-  validates :issue, presence: true
   validates :name, presence: true
 
   scope :resent, -> { self.order(created_at: :asc) }

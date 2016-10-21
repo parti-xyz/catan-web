@@ -40,3 +40,9 @@ bad:
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
   nickname: bad
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
+facebook_user1:
+  email: facebook1@test.com
+  provider: facebook
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: facebook_user1
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
