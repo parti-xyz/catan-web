@@ -220,7 +220,7 @@ section#articles {
   }
 }
 
-.article-line {
+.talk-reference-line {
   display: table;
   cursor: pointer;
   border: 1px solid $gray-lighter;
@@ -232,7 +232,7 @@ section#articles {
     padding: 10px;
     &--video {
       padding: 0px;
-      .article-line__site-name {
+      .talk-reference-line__site-name {
         padding: 10px;
         padding-top: 0;
       }
@@ -289,7 +289,7 @@ section#articles {
 }
 
 @media (max-width: $screen-xs-max) {
-  .article-line {
+  .talk-reference-line {
     &__thumb {
       width: 120px;
     }

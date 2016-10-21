@@ -18,30 +18,30 @@
   .talk-body{data: modal_data}
     != talk.body
     - if talk.video_source?
-      .article-line.post-line[post]{data: modal_data}
-        .article-line__content.article-line__content--video
-          .article-line__video-container
-            .article-line__video-content
+      .talk-reference-line.post-line[post]{data: modal_data}
+        .talk-reference-line__content.talk-reference-line__content--video
+          .talk-reference-line__video-container
+            .talk-reference-line__video-content
               = video_embed_code(talk)
-          .article-line__site-name
+          .talk-reference-line__site-name
             %a{href: talk.reference.url, target: '_blank'}
               = talk.site_name.try(:upcase)
               원글보기
               %i.fa.fa-external-link
     - elsif talk.file_source?
-      .article-line.post-line[post]{data: modal_data}
+      .talk-reference-line.post-line[post]{data: modal_data}
         %a{href: talk.reference_url, target: '_blank'}
-          .article-line__content
+          .talk-reference-line__content
             - if local_assigns[:show_issue]
-              .article-line__issue.post-line__issue
+              .post-line__issue
                 = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue)  do
                   = image_tag issue.logo.xs.url
                   %span.text-primary= issue.title
                 %span.post-line__issue__post-type
                   &middot;
                   #{Talk.model_name.human}
-            %h4.article-line__title.post-line__title= talk.reference_title
-            .article-line__site-name
+            %h4.post-line__title= talk.reference_title
+            .talk-reference-line__site-name
               %a{href: talk.reference_url, target: '_blank'}
                 - if talk.reference.image?
                   그림보기
@@ -50,28 +50,28 @@
                   다운로드
                   %i.fa.fa-floppy-o
           - if (talk.has_image?)
-            %a.article-line__thumb{href: talk.reference.attachment.url, target: '_blank', style: "background-image: url(#{talk.image.md.url})"}
+            %a.talk-reference-line__thumb{href: talk.reference.attachment.url, target: '_blank', style: "background-image: url(#{talk.image.md.url})"}
     - elsif talk.link_source?
-      .article-line.post-line[post]{data: modal_data}
+      .talk-reference-line.post-line[post]{data: modal_data}
         %a{href: talk.reference_url, target: '_blank'}
-          .article-line__content
+          .talk-reference-line__content
             - if local_assigns[:show_issue]
-              .article-line__issue.post-line__issue
+              .post-line__issue
                 = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue)  do
                   = image_tag issue.logo.xs.url
                   %span.text-primary= issue.title
                 %span.post-line__issue__post-type
                   &middot;
                   #{Talk.model_name.human}
-            %h4.article-line__title.post-line__title= talk.reference_title
-            .article-line__source-body= excerpt(talk.reference_body, length: (is_small_screen? ? 45 : 130))
-            .article-line__site-name
+            %h4.post-line__title= talk.reference_title
+            .talk-reference-line__source-body= excerpt(talk.reference_body, length: (is_small_screen? ? 45 : 130))
+            .talk-reference-line__site-name
               %a{href: talk.reference_url, target: '_blank'}
                 = talk.site_name.try(:upcase)
                 원글보기
                 %i.fa.fa-external-link
           - if (talk.has_image?)
-            .article-line__thumb{style: "background-image: url(#{talk.image.md.url})"}
+            .talk-reference-line__thumb{style: "background-image: url(#{talk.image.md.url})"}
   - unless local_assigns[:hide_user]
     .talk-info
       = link_to user_gallery_path(talk.user) do
