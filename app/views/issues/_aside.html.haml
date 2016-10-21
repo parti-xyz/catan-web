@@ -2,7 +2,7 @@
   .aside_issue#aside
     %section
       %h5.aside-title 빠띠 메이커
-      %ul.list-unstyled
+      %ul.list-unstyled.parti-makers
         - @issue.makers.each do |maker|
           %li= byline maker.user
 

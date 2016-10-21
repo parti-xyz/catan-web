@@ -625,6 +625,23 @@ section#issues {
   .aside-issues {
     margin-bottom: 20px;
   }
+  .parti-makers {
+    .user-byline {
+      font-size: $font-size-large;
+      .user-image {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+  .aside-users {
+    .user-byline {
+      .user-image {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 }
 
 .parti-select {
