@@ -21,7 +21,7 @@ class Ability
         specific.issue.try(:postable?, user)
       end
 
-      can :manage, [Comment, Vote, Like, Upvote, Watch, Member], user_id: user.id
+      can :manage, [Comment, Vote, Upvote, Watch, Member], user_id: user.id
       can :manage, Related do |related|
         user.maker?(related.issue)
       end
