@@ -34,10 +34,6 @@ class Campaign < ActiveRecord::Base
     watches.exists? user: someone
   end
 
-  def best_articles
-    Post.best_articles_in_issues(issues, 4).map(&:specific)
-  end
-
   def best_opinions
     Post.best_opinions_in_issues(issues, 4).map(&:specific)
   end

@@ -1,4 +1,4 @@
-section#articles {
+section#references {
   padding-top: 30px;
   padding-bottom: 30px;
   .row {
@@ -124,19 +124,7 @@ section#articles {
   }
 }
 
-.article-card.best, .article-card.popular {
-  .thumb--article {
-    height: 400px;
-    &::after {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: rgba(0, 0, 0, .5);
-      content: '';
-    }
-  }
+.reference-card.best, .reference-card.popular {
   .caption {
     position: absolute;
     bottom: 0;
@@ -187,36 +175,6 @@ section#articles {
     padding-right: 10px;
     display: table-cell;
     vertical-align: middle;
-  }
-}
-
-.article__body {
-  border: 1px solid $brand-light;
-  border-radius: $border-radius-base;
-  &__link-container {
-    background: #fafafb;
-    border-top: 1px solid $brand-light;
-    padding: 10px 20px;
-  }
-
-  &__video-container {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%;
-    margin-bottom: 20px;
-  }
-  &__video-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  &__text-container {
-    padding: 20px;
-    padding-bottom: 10px;
-    color: gray;
   }
 }
 
@@ -272,15 +230,6 @@ section#articles {
   }
   &__body {
     padding-top: 14px;
-    .article-body {
-      color: $text-muted;
-    }
-    .article-info {
-      margin-bottom: 10px;
-    }
-    .article-upvote {
-      margin-bottom: 2px;
-    }
     .user-image {
       width: 20px;
       height: 20px;

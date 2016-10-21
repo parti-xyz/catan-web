@@ -131,18 +131,6 @@ class ApplicationController < ActionController::Base
     request.variant = :mobile if (browser.device.mobile?)
   end
 
-  def articles_page(issue = nil)
-    base = issue.nil? ? Article.all.only_group_or_all_if_blank(current_group) : Article.of_issue(issue)
-    @is_last_page = base.empty?
-
-    how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
-
-    previous_last = Article.with_deleted.find_by(id: params[:last_id])
-    @articles = base.send(how_to, previous_last).limit(20)
-    current_last = @articles.last
-    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
-  end
-
   def having_reference_talks_page(issue = nil)
     base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
     base = base.having_reference

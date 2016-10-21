@@ -1,4 +1,0 @@
-$('.row.masonry-container').data('last-id', '<%= @articles.last.try(:id) %>');
-$('.row.masonry-container').data('is-last', <%= @is_last_page %>);
-var $posts = parti_origin_partial("<%= escape_javascript(render 'articles/slug_articles_page', show_issue: true) %>");
-$('.row.masonry-container').append($posts).masonry('appended', $posts);

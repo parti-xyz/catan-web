@@ -26,18 +26,6 @@
     }
   }
 
-  .article__body {
-    background-color: $gray-lightest;
-    border: none;
-    color: $text-muted;
-    font-size: $font-size-small;
-    padding: 15px;
-    &__link {
-      font-size: $font-size-base;
-      margin-top: 10px;
-    }
-  }
-
   &__info {
     .img-circle {
       width: 20px;

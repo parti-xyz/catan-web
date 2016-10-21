@@ -56,10 +56,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :articles do
-    get 'partial', on: :member
-    post 'recrawl', on: :member
-  end
   resources :references
   resources :opinions do
     get 'social_card', on: :member
@@ -75,7 +71,6 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/intro', to: "dashboard#intro", as: 'dashboard_intro'
-  get '/dashboard/articles', to: "dashboard#articles", as: 'dashboard_articles'
   get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
   get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
   get '/dashboard/parties', to: "dashboard#parties", as: 'dashboard_parties'
@@ -91,7 +86,6 @@ Rails.application.routes.draw do
   get '/c/:slug', to: "campaigns#slug_show", as: 'slug_campaign'
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
-  get '/p/:slug/articles', to: "issues#slug_articles", as: 'slug_issue_articles'
   get '/p/:slug/references', to: "issues#slug_references", as: 'slug_issue_references'
   get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
   get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'

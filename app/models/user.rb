@@ -117,8 +117,6 @@ class User < ActiveRecord::Base
 
   def watched_counts
     counts = OpenStruct.new
-    counts.articles_count = watched_articles.count
-    counts.latest_articles_count = watched_articles.latest.count
     counts.comments_count = watched_posts.sum(:comments_count)
     counts.latest_comments_count = watched_comments.latest.count
     counts.opinions_count = watched_opinions.count
@@ -173,10 +171,6 @@ class User < ActiveRecord::Base
 
   def watched_posts(group = nil)
     Post.where(issue: watched_issues.only_group_or_all_if_blank(group))
-  end
-
-  def watched_articles
-    watched_posts.only_articles
   end
 
   def watched_opinions

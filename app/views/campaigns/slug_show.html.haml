@@ -27,16 +27,6 @@
                 .issue-card-wrapper
                   = render 'issues/card', issue: issue
 
-
-- if @campaign.best_articles.any?
-  %section#campaign-articles
-    .container
-      %h3.campaign-section-title 베스트 #{t('activerecord.models.article')}
-      .campaign-best-articles
-        .row.masonry-container
-          - @campaign.best_articles.each do |article|
-            = render article, show_issue: true
-
 - if @campaign.best_talks.any?
   %section#campaign-talks
     .container

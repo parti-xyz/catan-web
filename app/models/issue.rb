@@ -12,7 +12,6 @@ class Issue < ActiveRecord::Base
   has_many :related_issues, through: :relateds, source: :target
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
-  has_many :articles, through: :posts, source: :postable, source_type: Article
   has_many :opinions, through: :posts, source: :postable, source_type: Opinion, as: 'posts'
   has_many :talks, through: :posts, source: :postable, source_type: Talk
   has_many :notes, through: :posts, source: :postable, source_type: Note
@@ -116,23 +115,12 @@ class Issue < ActiveRecord::Base
     (related_issues + recommends - [self]).uniq.shuffle.first(10)
   end
 
-  def featured_posts(count)
-    result = []
-    posts.only_articles.hottest.limit(50).each do |post|
-      result << post if (post.specific.has_image? and !post.specific.hidden?)
-      return result if result.length > count
-    end
-    result
-  end
-
   def self.basic_issues
     Issue.where basic: true
   end
 
   def counts_container
     counts = OpenStruct.new
-    counts.articles_count = articles.count
-    counts.latest_articles_count = articles.latest.count
     counts.comments_count = comments.count
     counts.latest_comments_count = comments.latest.count
     counts.opinions_count = opinions.count

@@ -625,26 +625,11 @@ label.required:after {
 
 
   /* modal */
-  .article__body__img-container img {
-    width: 100%;
-    margin-top: 0;
-  }
-
   .post__body {
     margin-top: 0;
     margin-bottom: 0;
     .media {
       margin-top: 0;
-    }
-  }
-
-  .article__body__link-container {
-    padding: 10px;
-    .text-primary {
-      font-size: 12px;
-      img {
-        margin-right: 5px
-      }
     }
   }
 

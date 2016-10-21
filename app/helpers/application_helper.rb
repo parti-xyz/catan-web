@@ -70,10 +70,6 @@ module ApplicationHelper
     end
   end
 
-  def screenable_article_title(article, length: 0)
-    article.hidden? ? icon('fa fa-exclamation-triangle') + " 빠띠메이커가 숨긴 자료입니다" : (length == 0 ? article.title : truncate(article.title, length: length))
-  end
-
   def reference_card_image(talk)
     talk.has_image? ? talk.image.md.url : asset_path('default_link_source_image_card.png')
   end
@@ -82,7 +78,7 @@ module ApplicationHelper
     return unless talk.video_source?
 
     reference = talk.reference
-    raw(VideoInfo.new(reference.url).embed_code({iframe_attributes: { class: 'article__body__video-content'}}))
+    raw(VideoInfo.new(reference.url).embed_code({iframe_attributes: { class: 'talk-reference-line__video-content'}}))
   end
 
   def link_to_if_with_block condition, options, html_options={}, &block

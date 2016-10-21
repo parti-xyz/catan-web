@@ -29,10 +29,6 @@ class Comment < ActiveRecord::Base
   after_create :touch_last_touched_at_of_posts
   after_create :touch_last_touched_at_of_issues
 
-  def linkable?
-    post.try(:linkable?)
-  end
-
   def mentioned? someone
     mentions.exists? user: someone
   end

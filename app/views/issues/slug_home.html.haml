@@ -25,10 +25,6 @@
                   = render 'talks/new_form', issue: @issue
                 #editor-opinion.tab-pane{role: "tabpanel"}
                   = render 'opinions/new_form', issue: @issue
-                #editor-link.tab-pane{role: "tabpanel"}
-                  = render 'articles/new_form_with_link', issue: @issue
-                #editor-file.tab-pane{role: "tabpanel"}
-                  = render 'articles/new_form_with_file', issue: @issue
           - else
             .unified-editor.unified-editor--join.hidden-xs
               이 빠띠에 가입하여 게시물을 올려보세요.

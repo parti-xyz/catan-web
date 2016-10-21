@@ -140,10 +140,8 @@ section#comments {
     margin-bottom: 15px;
   }
   &__footer {
-    &--talk, &--article {
-      padding-top: 15px;
-    }
     &--talk {
+      padding-top: 15px;
       border-top: 1px solid $gray-lighter;
     }
   }

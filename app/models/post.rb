@@ -57,7 +57,6 @@ class Post < ActiveRecord::Base
 
   scope :watched_by, ->(someone) { where(issue_id: someone.watched_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
-  scope :only_articles, -> { by_postable_type(Article.to_s) }
   scope :only_opinions, -> { by_postable_type(Opinion.to_s) }
   scope :only_talks, -> { by_postable_type(Talk.to_s) }
   scope :only_notes, -> { by_postable_type(Note.to_s) }
@@ -106,10 +105,6 @@ class Post < ActiveRecord::Base
     specific.specific_origin.post
   end
 
-  def linkable?
-    specific.is_a? Article
-  end
-
   def messagable_users
     (comments.users + votes.users).uniq
   end
@@ -134,10 +129,6 @@ class Post < ActiveRecord::Base
 
   def self.hottest_count
     hottest.length
-  end
-
-  def self.best_articles_in_issues(issues, count)
-    self.where(issue: issues).only_articles.hottest.limit(count)
   end
 
   def self.best_opinions_in_issues(issues, count)

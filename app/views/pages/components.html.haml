@@ -156,17 +156,10 @@
 
       %h3 post card with comments
       %div
-        = render Article.last.acting_as
         = render Talk.last.acting_as
         = render Opinion.last.acting_as
 
     .container
-      %h3 link card
-      .row
-        = render Article.last, template: 'default' if Article.last.present?
-        = render Article.last, template: 'popular' if Article.last.present?
-        = render Article.last, template: 'best' if Article.last.present?
-
       %h3 talk card
       = render Talk.last if Talk.last.present?
 
