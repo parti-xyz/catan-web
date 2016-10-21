@@ -178,35 +178,5 @@ body.app-campaigns-slug_show {
     .arrow-nav {
       display: none;
     }
-
-    .owl-dots {
-      margin-top: 25px;
-      text-align: center;
-      -webkit-tap-highlight-color: transparent;
-
-      .owl-dot {
-        display: inline-block;
-        zoom: 1;
-        *display: inline;
-
-        span {
-          width: $dot-width;
-          height: $dot-height;
-          margin: $dot-margin;
-          background: $dot-background;
-          display: block;
-          -webkit-backface-visibility: visible;
-          transition: opacity 200ms ease;
-          border-radius: 30px;
-        }
-
-        &.active,
-        &:hover {
-          span {
-            background: $dot-background-active;
-          }
-        }
-      }
-    }
   }
 }

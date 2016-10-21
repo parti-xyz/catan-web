@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161019024543) do
+ActiveRecord::Schema.define(version: 20161021063912) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -100,32 +100,6 @@ ActiveRecord::Schema.define(version: 20161019024543) do
   end
 
   add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at", using: :btree
-
-  create_table "featured_campaigns", force: :cascade do |t|
-    t.string   "url",          limit: 255
-    t.string   "image",        limit: 255
-    t.string   "mobile_image", limit: 255
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "title",        limit: 255
-    t.text     "body",         limit: 65535
-  end
-
-  create_table "featured_issues", force: :cascade do |t|
-    t.string   "title",         limit: 255
-    t.string   "slug",          limit: 255
-    t.string   "image",         limit: 255
-    t.string   "mobile_image",  limit: 255
-    t.string   "talk_title",    limit: 255
-    t.integer  "talk_id",       limit: 4
-    t.string   "article_title", limit: 255
-    t.integer  "article_id",    limit: 4
-    t.string   "opinion_title", limit: 255
-    t.integer  "opinion_id",    limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.text     "body",          limit: 65535
-  end
 
   create_table "file_sources", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false

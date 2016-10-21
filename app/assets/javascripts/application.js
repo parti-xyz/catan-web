@@ -5,7 +5,6 @@
 //= require masonry.pkgd
 //= require jquery.oembed
 //= require jssocials
-//= require owl.carousel
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
 //= require bootstrap-tabdrop
@@ -292,80 +291,6 @@ var parti_prepare = function($base) {
         text: text,
         url: url
       });
-    }
-  });
-
-  // carousel
-  $.parti_apply($base, '[data-action="parti-carousel"]', function(elm) {
-    var $elm = $(elm);
-    var margin = $elm.data('carousel-margin');
-    if(!margin) {
-      margin = 0;
-    }
-    var items = $elm.data('carousel-items');
-    if(!items) {
-      items = 3;
-    }
-    var items_mobile = $elm.data('carousel-items-mobile');
-    if(!items_mobile) {
-      items_mobile = 2;
-    }
-    var slide_by = $elm.data('carousel-slide-by');
-    if(!slide_by) {
-      slide_by = 'page';
-    }
-    var dots = $elm.data('carousel-dots');
-    if(!dots) {
-      dots = false;
-    }
-    var dots_each = $elm.data('carousel-dots-each');
-    if(!dots_each) {
-      dots_each = false;
-    }
-    var dots_each = $elm.data('carousel-dots-each');
-    if(!dots_each) {
-      dots_each = false;
-    }
-    var loop_check = $elm.data('loop');
-    if(loop_check == 'no') {
-      loop = false;
-    }else {
-      loop = $elm.children().length > 1;
-    }
-
-    $elm.owlCarousel({
-      loop: loop,
-      nav: $elm.children().length > 1,
-      slideBy: slide_by,
-      margin: margin,
-      dots: true,
-      dotsEach: dots_each,
-      navText: false,
-      merge: true,
-      responsive:{
-        0:{
-          items: items_mobile,
-          mergeFit: true
-        },
-        768:{
-          items: items,
-          mergeFit: false
-        }
-      }
-    });
-    var next = $elm.data('carousel-next');
-    var prev = $elm.data('carousel-prev');
-    $(next).click(function(){
-      $elm.data('owl.carousel').next();
-    });
-    $(prev).click(function(){
-      $elm.data('owl.carousel').prev();
-    });
-
-    if($elm.children().length > 1) {
-      if($elm.data('carousel-random')) {
-        $elm.trigger('to.owl.carousel', 1 + Math.floor(Math.random() * $elm.children().length));
-      }
     }
   });
 

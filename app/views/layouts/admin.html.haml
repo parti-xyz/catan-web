@@ -30,7 +30,6 @@
           .col-sm-3
             %ul.nav.nav-stacked.affix(style="background-color: #fff")
               %li= link_to '관리 홈', admin_root_path, class: "#{current_page?(admin_root_path) ? 'text-primary' : 'text-default'}"
-              %li= link_to '모든빠띠 상단 운영', admin_featured_contents_path, class: "#{current_page?(admin_featured_contents_path) ? 'text-primary' : 'text-default'}"
               %li= link_to '사용자 이메일 다운로드', all_email_admin_users_path(format: :xlsx)
               %li= link_to '블랙리스트 유저 관리', admin_blinds_path
             /%nav#toc(data-spy="affix" data-toggle="toc")

@@ -35,8 +35,6 @@ ko:
       user: 회원
       comment: 댓글
       campaign: 캠페인
-      featured_issue: 추천빠띠
-      featured_campaign: 추천캠페인
       related: 관련빠띠
       section: 주제
     attributes:
@@ -87,24 +85,6 @@ ko:
         cover: 커버 이미지
         slug: 주소
         issue_slugs: 지원하는 빠띠
-      featured_issue:
-        title: 제목
-        body: 내용
-        image: 이미지
-        mobile_image: 모바일 이미지
-        slug: 영문명
-        talk_title: 추천 논의제목
-        talk_id: 추천 논의번호
-        article_title: 추천 자료제목
-        article_id: 추천 자료번호
-        opinion_title: 추천 찬반토론제목
-        opinion_id: 추천 찬반토론번호
-      featured_campaign:
-        title: 제목
-        body: 내용
-        image: 이미지
-        mobile_image: 모바일 이미지
-        url: 주소
       related:
         issue: 빠띠
         target: 관련빠띠

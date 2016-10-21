@@ -1,10 +1,6 @@
 class PagesController < ApplicationController
   def home
     if current_group.blank?
-      @featured_contents = []
-      @featured_contents << FeaturedCampaign.all.to_a
-      @featured_contents << FeaturedIssue.all.to_a
-      @featured_contents.flatten!.compact!
       @issues = Issue.all.recent_touched
     else
       @issues = Issue.only_group_or_all_if_blank(current_group).recent_touched

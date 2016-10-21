@@ -133,8 +133,5 @@ Rails.application.routes.draw do
       end
     end
     resources :blinds
-    resources :featured_contents
-    resources :featured_issues
-    resources :featured_campaigns
   end
 end
