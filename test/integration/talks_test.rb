@@ -71,11 +71,11 @@ class TalksTest < ActionDispatch::IntegrationTest
     assert_equal previous_count, Talk.count
   end
 
-  test '내용 없이는 못 만들어요' do
+  test '내용 없이 만들수 있어요' do
     sign_in(users(:one))
 
     post talks_path, talk: { title: 'title', issue_id: issues(:issue2).id, section_id: sections(:section2).id }
 
-    refute assigns(:talk).persisted?
+    assert assigns(:talk).persisted?
   end
 end

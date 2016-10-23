@@ -20,7 +20,6 @@ class IssuesTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body', category_slug: 'category1' })
-
     assert assigns(:issue).persisted?
     assert_equal 'category1', assigns(:issue).category_slug
   end
