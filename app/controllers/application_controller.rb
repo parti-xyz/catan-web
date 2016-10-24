@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include PartiUrlHelper
+  include GroupHelper
 
   protect_from_forgery with: :exception
   before_action :prepare_meta_tags, if: "request.get?"
@@ -192,7 +193,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_group
-    Group.find_by_slug request.subdomain
+    fetch_group request
   end
 
   def verify_group(issue)

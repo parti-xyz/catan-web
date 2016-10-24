@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  class RootPartiRouteConstraint
+    include GroupHelper
+    def matches?(request)
+      fetch_group(request).blank?
+    end
+  end
+
   use_doorkeeper
   mount API, at: '/'
 
@@ -6,8 +13,10 @@ Rails.application.routes.draw do
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  authenticated :user do
-    root 'dashboard#index', as: :dashboard_root
+  constraints(RootPartiRouteConstraint.new) do
+    authenticated :user do
+      root 'dashboard#index', as: :dashboard_root
+    end
   end
   root 'pages#home'
 
@@ -71,9 +80,6 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/intro', to: "dashboard#intro", as: 'dashboard_intro'
-  get '/dashboard/opinions', to: "dashboard#opinions", as: 'dashboard_opinions'
-  get '/dashboard/talks', to: "dashboard#talks", as: 'dashboard_talks'
-  get '/dashboard/parties', to: "dashboard#parties", as: 'dashboard_parties'
   get '/dashboard/new_posts_count', to: "dashboard#new_posts_count", as: 'new_dashboard_posts_count'
 
   get '/c/change2020', to: redirect(subdomain: 'change', path: '/'), constraints: { subdomain: '' }

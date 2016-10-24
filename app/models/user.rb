@@ -146,7 +146,7 @@ class User < ActiveRecord::Base
   end
 
   def need_to_more_watch_or_member?(group = nil)
-    watched_issues.only_group_or_all_if_blank(group).count < Issue.min_watched_issues_count(group)
+    watched_issues.only_group_or_all_if_blank(group).empty?
   end
 
   def hottest_posts(count)

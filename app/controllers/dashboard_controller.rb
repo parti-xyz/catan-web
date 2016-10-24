@@ -3,15 +3,6 @@ class DashboardController < ApplicationController
   respond_to :js, :html
 
   def index
-    posts
-    render 'posts'
-  end
-
-  def intro
-    @issue_tags = ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').most_used(30).joins(:taggings).select('name').distinct
-  end
-
-  def posts
     watched_posts = current_user.watched_posts(current_group)
     @last_post = watched_posts.newest(field: :last_touched_at)
 
@@ -23,6 +14,10 @@ class DashboardController < ApplicationController
     current_last_post = @posts.last
 
     @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+  end
+
+  def intro
+    @issue_tags = ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').most_used(30).joins(:taggings).select('name').distinct
   end
 
   def new_posts_count

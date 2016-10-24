@@ -5,13 +5,10 @@
   .container
     .row
       .col-xs-9
-        - if current_user.need_to_more_watch_or_member?(current_group)
-          %h4.page-title
-            = t('labels.dashboard')
-        - else
-          %h4.page-title
-            = t('labels.dashboard')
-            %small #{current_group.try(:membership?) ? '가입' : '구독'} 중인 #{ current_group.name if current_group.present?} 빠띠의 최근 소식입니다.
+        %h4.page-title
+          = t('labels.dashboard')
+          - unless current_user.need_to_more_watch_or_member?(current_group)
+            %small 구독 &middot; 가입 중인 빠띠의 최근 소식입니다.
           - if @posts.first.present? and @last_post.present?
             = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
 
@@ -34,7 +31,12 @@
           .unified-editor.unified-editor--hidden
             - selected_parti = nil
             .parti-select
-              .text-muted 어느 빠띠 사람들과 이야기 나누고 싶으세요?
+              .help-block.clearfix
+                어느 빠띠 사람들과 이야기 나누고 싶으세요?
+                %span.link-intro
+                  = link_to dashboard_intro_path do
+                    다른 빠띠 만나보기
+                    &gt;
               %select.parti-editor-selectpicker(data-live-search="true" data-width="100%")
                 - issues_selection = {"메이커인 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(current_group)), "구독/가입 중인 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(current_group))}
                 - if current_group.blank?

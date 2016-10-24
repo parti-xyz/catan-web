@@ -63,7 +63,7 @@ class Post < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
   scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }
-  scope :only_group_or_all_if_blank, ->(group) { joins(:issue).where('issue.group_slug' => group.slug) if group.present? }
+  scope :only_group_or_all_if_blank, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
 
   ## uploaders
   # mount

@@ -53,6 +53,14 @@
     .parti-thumb {
       vertical-align: top;
     }
+    .help-block {
+      .link-intro {
+        float: right;
+        a {
+          color: $brand-primary;
+        }
+      }
+    }
   }
 
   .nav > li > a {
