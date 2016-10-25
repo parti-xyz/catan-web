@@ -15,20 +15,20 @@ module V1
                    GrapeLogging::Loggers::FilterParameters.new ]
 
       unless Rails.env.dev?
-      rescue_from ActiveRecord::RecordNotFound do |e|
-        logger.info "404"
-        error!(e.message, 404)
-      end
+        rescue_from ActiveRecord::RecordNotFound do |e|
+          logger.info "404"
+          error!(e.message, 404)
+        end
 
-      rescue_from ActiveRecord::RecordInvalid do |e|
-        logger.info "422"
-        error!(e.message, 422)
-      end
+        rescue_from ActiveRecord::RecordInvalid do |e|
+          logger.info "422"
+          error!(e.message, 422)
+        end
 
-      rescue_from Grape::Exceptions::ValidationErrors do |e|
-        logger.info "400"
-        error!(e.message, 400)
-      end
+        rescue_from Grape::Exceptions::ValidationErrors do |e|
+          logger.info "400"
+          error!(e.message, 400)
+        end
       end
 
       rescue_from WineBouncer::Errors::OAuthUnauthorizedError do |e|

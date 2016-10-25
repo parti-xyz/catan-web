@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, only: [:kill_me, :toggle_root_page]
+  before_filter :authenticate_user!, only: [:kill_me, :toggle_root_page, :access_token]
 
   def parties
     fetch_user
@@ -36,6 +36,16 @@ class UsersController < ApplicationController
     current_user.update_attributes(uid: SecureRandom.hex(10))
     sign_out current_user
     redirect_to root_path
+  end
+
+  def access_token
+    app = Doorkeeper::Application.find_by(name: params[:app])
+    if app.present?
+      access_token = Doorkeeper::AccessToken.last_authorized_token_for(app.id, current_user.id)
+      render json: { access_token: access_token.try(:token), refresh_token: access_token.try(:refresh_token) }
+    else
+      render json: { error: 'not found' }
+    end
   end
 
   private

@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   resources :users, except: :show do
     post 'toggle_root_page', on: :collection
+    get 'access_token', on: :collection
   end
   unless Rails.env.production?
     get 'kill_me', to: 'users#kill_me'
