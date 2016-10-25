@@ -20,34 +20,7 @@ module V1
         @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
 
         present :is_last_page, @is_last_page
-        present :posts, @posts, with: V1::Entities::PostEntity
-      end
-    end
-
-  end
-
-  module Entities
-    class GroupEntity < Grape::Entity
-      expose :name
-      expose :slug
-    end
-
-    class PartiEntity < Grape::Entity
-      expose :id
-      expose :title
-      expose :slug
-      expose :logo_url
-      expose :group, using: V1::Entities::GroupEntity
-    end
-
-    class PostEntity < Grape::Entity
-      expose :id
-      expose :issue, using: V1::Entities::PartiEntity, as: :parti
-      expose :title do |model|
-        model.specific.try(:title)
-      end
-      expose :body do |model|
-        model.specific.try(:body)
+        present :posts, @posts
       end
     end
   end

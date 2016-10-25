@@ -1,4 +1,7 @@
 class Group
+  include Grape::Entity::DSL
+  entity :name, :slug
+
   include ActiveModel::Model
   attr_accessor :slug, :name, :logo, :categories, :site_title, :head_title
 

@@ -1,4 +1,16 @@
 class Post < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity do
+    expose :id
+    expose :issue, using: Issue::Entity, as: :parti
+    expose :title do |model|
+      model.specific.try(:title)
+    end
+    expose :body do |model|
+      model.specific.try(:body)
+    end
+  end
+
   HOT_LIKES_COUNT = 3
 
   include Upvotable

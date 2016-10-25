@@ -1,4 +1,7 @@
 class Issue < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity :id, :title, :slug, :logo_url, :group
+
   include UniqueSoftDeletable
   acts_as_unique_paranoid
   acts_as_taggable

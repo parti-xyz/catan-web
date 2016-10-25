@@ -276,3 +276,13 @@ $ bundle exec rake crawling:reload[아이디값]
 $ bundle exec rake crawling:reload_all
 ```
 
+## oauth
+
+아래 주소에서 oauth application 정보 관리할 수 있다.
+
+http://parti.dev/oauth/applications
+
+로컬에서 아래 명령을 수행하면 로그인한 사용자의 최근 access token정보를 알 수 있다
+
+http://parti.dev/users/access_token?app=어플리케이션이름
+

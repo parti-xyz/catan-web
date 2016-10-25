@@ -36,7 +36,7 @@ module V1
         error!(e.message, 401)
       end
 
-      unless Rails.env.dev?
+      unless Rails.env.development?
         rescue_from :all do |e|
           logger.info "500"
           error!(e.message, 500)

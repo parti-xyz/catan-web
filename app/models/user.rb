@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity :id, :nickname, :email, :image_url
+
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
