@@ -4,6 +4,11 @@ Doorkeeper.configure do
   access_token_methods :from_bearer_authorization
 
   resource_owner_from_assertion do
+    app = Doorkeeper::Application.by_uid_and_secret(params[:client_id], params[:client_secret])
+    if app.blank?
+      Rails.logger.info "Invalid Client"
+    end
+
     external_auth = "Doorkeeper::ExternalAuth::#{params[:provider].try(:classify)}".safe_constantize.try(:new, params[:assertion])
 
     if external_auth.blank?
