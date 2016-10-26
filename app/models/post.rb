@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     expose :id
+    expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
     expose :title do |model|
       model.specific.try(:title)
@@ -9,6 +10,7 @@ class Post < ActiveRecord::Base
     expose :body do |model|
       model.specific.try(:body)
     end
+    expose :created_at, format_with: lambda { |dt| dt.iso8601 }
   end
 
   HOT_LIKES_COUNT = 3

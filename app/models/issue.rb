@@ -1,6 +1,10 @@
 class Issue < ActiveRecord::Base
   include Grape::Entity::DSL
-  entity :id, :title, :slug, :logo_url, :group
+  entity :id, :title, :slug, :group do
+    expose :logo, as: :logo_url do |model|
+      model.logo.sm.url
+    end
+  end
 
   include UniqueSoftDeletable
   acts_as_unique_paranoid
