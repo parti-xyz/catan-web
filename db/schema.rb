@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021063912) do
+ActiveRecord::Schema.define(version: 20161027072144) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -284,6 +284,15 @@ ActiveRecord::Schema.define(version: 20161021063912) do
   add_index "parti_sso_client_api_keys", ["client"], name: "index_parti_sso_client_api_keys_on_client", using: :btree
   add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true, using: :btree
 
+  create_table "polls", force: :cascade do |t|
+    t.string   "title",      limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "talk_id",    limit: 4
+  end
+
+  add_index "polls", ["talk_id"], name: "index_polls_on_talk_id", using: :btree
+
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                  limit: 4,               null: false
     t.integer  "postable_id",               limit: 4,               null: false
@@ -405,13 +414,14 @@ ActiveRecord::Schema.define(version: 20161021063912) do
   create_table "talks", force: :cascade do |t|
     t.string   "title",          limit: 255
     t.datetime "deleted_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.text     "body",           limit: 65535
-    t.integer  "post_issue_id",  limit: 4,     null: false
-    t.integer  "section_id",     limit: 4,     null: false
+    t.integer  "post_issue_id",  limit: 4,                     null: false
+    t.integer  "section_id",     limit: 4,                     null: false
     t.integer  "reference_id",   limit: 4
     t.string   "reference_type", limit: 255
+    t.boolean  "has_poll",                     default: false
   end
 
   add_index "talks", ["id", "reference_id", "reference_type"], name: "index_talks_on_id_and_reference_id_and_reference_type", unique: true, using: :btree

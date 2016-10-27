@@ -43,7 +43,7 @@
   }
 
   .parti-select {
-    margin: 20px 30px;
+    margin: 20px 30px 0;
     max-width: 100%;
     .issue-line__title {
       display: inline-block;
@@ -149,6 +149,7 @@
       .talk-reference-btns {
         margin-top: 14px;
       }
+      .talk-poll-field,
       .talk-link-field,
       .talk-file-field {
         padding-top: 14px;

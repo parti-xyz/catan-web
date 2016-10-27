@@ -974,6 +974,7 @@ $(function(){
     var hidden_target = $(elm).data('hidden-target');
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
+    var has_poll = $(elm).data('has-poll');
     $(this).on('click',function (e){
       e.preventDefault();
       $(hidden_target).hide();
@@ -982,8 +983,13 @@ $(function(){
       }
       if($(this).hasClass('talk-link-btn')) {
         $(reference_type_field).val('LinkSource');
-      } else {
+      } else if($(this).hasClass('talk-file-btn')){
         $(reference_type_field).val('FileSource');
+      } else if($(this).hasClass('talk-poll-btn')){
+        $(reference_type_field).val('');
+        $(has_poll).val(true);
+      } else {
+        $(reference_type_field).val('');
       }
       $(reference_field).find('input').data("rule-required",true);
     })
@@ -993,11 +999,13 @@ $(function(){
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     var show_target = $(elm).data('show-target');
+    var has_poll = $(elm).data('has-poll');
     $(this).on('click',function(e){
       $(reference_type_field).val(null);
       $(reference_field).addClass('hidden');
       $(show_target).show();
       $(reference_field).find('input').data("rule-required",false);
+      $(has_poll).val(false);
     });
   });
 

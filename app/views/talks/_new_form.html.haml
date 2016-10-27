@@ -5,6 +5,7 @@
       = hidden_field_tag :back_url, @list_url || request.original_url
       = f.hidden_field :section_id, value: issue.sections.first.id
       = f.hidden_field :reference_type
+      = f.hidden_field :has_poll
 
       .form-group
         = f.text_field :title, placeholder: '어떤 이야기를 하고 싶으신가요?', maxlength: 180, class: 'form-control input-lg', data: {'rule-required': true}
@@ -15,7 +16,7 @@
             .form-group
               .input-group
                 = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
-                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field', 'show-target': '.talk-reference-btns' }}
+                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field', 'show-target': '.talk-reference-btns','has-poll': '#talk_has_poll' }}
                   취소
 
         .talk-file-field.hidden
@@ -23,16 +24,27 @@
             .form-group
               .input-group
                 = ff.file_field :attachment, class: 'form-control'
-                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field', 'show-target': '.talk-reference-btns' }}
+                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field', 'show-target': '.talk-reference-btns','has-poll': '#talk_has_poll' }}
+                  취소
+
+        .talk-poll-field.hidden
+          = f.fields_for :poll, Poll.new do |ff|
+            .form-group
+              .input-group
+                = ff.text_field :title, class: 'form-control', placeholder: '찬반토론 제목: ex. 팅수육소스는 찍어먹어야합니다'
+                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-poll-field', 'show-target': '.talk-reference-btns', 'has-poll': '#talk_has_poll' }}
                   취소
 
         .talk-reference-btns
-          %button{class: 'btn btn-xs btn-link editor-btn talk-link-btn', data: { action: 'parti-talk-select-reference', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field'}}
+          %button{class: 'btn btn-xs btn-link editor-btn talk-link-btn', data: { action: 'parti-talk-select-reference', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type','has-poll': '#talk_has_poll', 'reference-field': '.talk-link-field'}}
             %i.fa.fa-link
             = t('labels.new_talk_link_source_button')
-          %button{class: 'btn btn-xs btn-link editor-btn talk-file-btn', data: { action: 'parti-talk-select-reference', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field'}}
+          %button{class: 'btn btn-xs btn-link editor-btn talk-file-btn', data: { action: 'parti-talk-select-reference', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type','has-poll': '#talk_has_poll', 'reference-field': '.talk-file-field'}}
             %i.fa.fa-floppy-o
             = t('labels.new_talk_file_source_button')
+          %button{class: 'btn btn-xs btn-link editor-btn talk-poll-btn', data: { action: 'parti-talk-select-reference', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type', 'has-poll': '#talk_has_poll','reference-field': '.talk-poll-field'}}
+            %i.fa.fa-fire
+            찬반토론
 
       .form-group.clearfix
         .submit-box.text-right

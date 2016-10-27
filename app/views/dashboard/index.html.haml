@@ -53,24 +53,9 @@
                             %span.issue-line__title
                               = issue.title
                         %option{value: issue.id, 'data-content': issue_content}= issue.title
-            %ul.nav.nav-pills{"data-action": "parti-home-editor", role: "tablist"}
-              %li.first{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#editor-talk", role: "tab"}
-                  %i{class: "fa fa-comments-o"}
-                  = t('labels.new_talk_button')
-              %li{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#editor-opinion", role: "tab"}
-                  %i{class: "fa fa-fire"}
-                  = t('labels.new_opinion_button')
-                  %span.hidden-xs
-                    = t('labels.postfix_new_opinion_button')
 
             - unless current_user.need_to_more_watch_or_member?(current_group)
-              .tab-content
-                #editor-talk.tab-pane{role: "tabpanel"}
-                  = render 'talks/new_form', issue: selected_parti
-                #editor-opinion.tab-pane{role: "tabpanel"}
-                  = render 'opinions/new_form', issue: selected_parti
+              = render 'talks/new_form', issue: selected_parti
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?

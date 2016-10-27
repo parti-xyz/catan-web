@@ -23,6 +23,12 @@
             = @talk.reference.name
           = ff.file_field :attachment, class: 'form-control'
 
+    - if @talk.has_poll == true
+      = f.fields_for :poll do |ff|
+        .form-group
+          = ff.label :title
+          = ff.text_field :title, placeholder: '찬반토론 제목: ex. 팅수육소스는 찍어먹어야합니다', class: 'form-control'
+
     .editor-btn.text-right
       = link_to '취소', @talk, class: 'btn btn-default'
       = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }

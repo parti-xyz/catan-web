@@ -69,7 +69,8 @@ class TalksController < ApplicationController
   def talk_params
     reference_type = params[:talk][:reference_type]
     reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
-    params.require(:talk).permit(:title, :body, :issue_id, :section_id, :reference_type, reference_attributes: reference_attributes)
+    params.require(:talk).permit(:title, :body, :issue_id, :section_id, :reference_type, :has_poll,
+      reference_attributes: reference_attributes, poll_attributes: [:title])
   end
 
   def fetch_issue

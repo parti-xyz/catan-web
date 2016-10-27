@@ -4,7 +4,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '글에 만들어요' do
     sign_in(users(:one))
 
-    post post_comments_path(post_id: articles(:article1).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: talks(:talk1).acting_as.id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_equal 'body', assigns(:comment).body

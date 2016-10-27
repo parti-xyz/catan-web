@@ -3,9 +3,11 @@ class Talk < ActiveRecord::Base
   acts_as_paranoid
   acts_as :post, as: :postable
 
+  has_one :poll, dependent: :destroy
   belongs_to :section
   belongs_to :reference, polymorphic: true
   accepts_nested_attributes_for :reference
+  accepts_nested_attributes_for :poll
 
   validates :section, presence: true
   validates :title, presence: true, length: { maximum: 180 }
