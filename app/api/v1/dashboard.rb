@@ -20,7 +20,7 @@ module V1
         @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
 
         present :is_last_page, @is_last_page
-        present :posts, @posts
+        present :posts, @posts, current_user: resource_owner
       end
     end
   end

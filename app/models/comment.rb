@@ -1,4 +1,19 @@
 class Comment < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity do
+    expose :id, :body, :choice, :upvotes_count
+    expose :user, using: User::Entity
+    expose :created_at, format_with: lambda { |dt| dt.iso8601 }
+    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+      expose :is_mentionable do |model, options|
+        model.mentionable? options[:current_user]
+      end
+      expose :is_upvotable do |model, options|
+        model.upvotable? options[:current_user]
+      end
+    end
+  end
+
   acts_as_paranoid
 
   include Choosable
@@ -41,6 +56,11 @@ class Comment < ActiveRecord::Base
 
   def sender_of_message
     user
+  end
+
+  def upvotable? someone
+    return false if someone.blank?
+    !upvotes.exists?(user: someone)
   end
 
   private

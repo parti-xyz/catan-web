@@ -11,6 +11,17 @@ class Post < ActiveRecord::Base
       model.specific.try(:body)
     end
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
+    expose :comments, using: Comment::Entity do |model|
+      model.comments.recent
+    end
+    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+      expose :is_upvotable do |model, options|
+        model.upvotable? options[:current_user]
+      end
+      expose :is_blinded do |model, options|
+        model.blinded? options[:current_user]
+      end
+    end
   end
 
   HOT_LIKES_COUNT = 3
@@ -130,6 +141,11 @@ class Post < ActiveRecord::Base
   def blinded? someone
     return false if someone == self.user
     issue.blind_user? self.user
+  end
+
+  def upvotable? someone
+    return false if someone.blank?
+    !upvotes.exists?(user: someone)
   end
 
   def self.recommends(exclude)
