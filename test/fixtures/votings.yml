@@ -1,0 +1,16 @@
+voting1:
+  poll: poll1
+  choice: agree
+  user: two
+voting2:
+  poll: poll2
+  choice: disagree
+  user: one
+voting3:
+  poll: poll3
+  choice: disagree
+  user: one
+voting4:
+  poll: poll3
+  choice: agree
+  user: two

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161027072144) do
+ActiveRecord::Schema.define(version: 20161028030712) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -285,10 +285,11 @@ ActiveRecord::Schema.define(version: 20161027072144) do
   add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true, using: :btree
 
   create_table "polls", force: :cascade do |t|
-    t.string   "title",      limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "talk_id",    limit: 4
+    t.string   "title",         limit: 255,             null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "talk_id",       limit: 4
+    t.integer  "votings_count", limit: 4,   default: 0
   end
 
   add_index "polls", ["talk_id"], name: "index_polls_on_talk_id", using: :btree
@@ -483,6 +484,18 @@ ActiveRecord::Schema.define(version: 20161027072144) do
 
   add_index "votes", ["post_id", "user_id"], name: "index_votes_on_post_id_and_user_id", unique: true, using: :btree
   add_index "votes", ["user_id"], name: "index_votes_on_user_id", using: :btree
+
+  create_table "votings", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4,   null: false
+    t.integer  "poll_id",    limit: 4,   null: false
+    t.string   "choice",     limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "votings", ["poll_id", "user_id"], name: "index_votings_on_poll_id_and_user_id", unique: true, using: :btree
+  add_index "votings", ["poll_id"], name: "index_votings_on_poll_id", using: :btree
+  add_index "votings", ["user_id"], name: "index_votings_on_user_id", using: :btree
 
   create_table "watches", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false

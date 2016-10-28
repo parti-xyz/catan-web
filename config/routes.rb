@@ -70,6 +70,12 @@ Rails.application.routes.draw do
   resources :opinions do
     get 'social_card', on: :member
   end
+  resources :polls do
+    shallow do
+      resources :votings
+    end
+  end
+
   resources :talks
   resources :relateds
   resources :messages
