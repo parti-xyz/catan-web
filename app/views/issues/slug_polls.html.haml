@@ -1,0 +1,34 @@
+= render 'issues/issue_header', active_tab: :opinions
+
+%section#opinions.opinions--issue
+  .container
+    .editors-panel
+      .media
+        .media-body.hidden-xs
+          %h4
+            #{t('activerecord.models.opinion')}을 여세요
+            %small #{t('activerecord.models.opinion')}을 통해 서로의 생각을 확인해 보세요.
+        .media-right
+          - if user_signed_in?
+            - if @issue.postable?(current_user)
+              = link_to '#', class: 'btn btn-primary btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: 'input#opinion_title', 'self-hide': true } do
+                = t('labels.new_opinion_button')
+            - else
+              = render 'issues/join_button'
+          - else
+            = link_to '#', class: 'btn btn-primary btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
+              = t('labels.new_opinion_button')
+      - if user_signed_in?
+        = render 'opinions/new_form', issue: @issue
+    - if @talks.empty?
+      .posts
+        .bg-default.text-center
+          %i.fa.fa-info-circle
+          가장 먼저 쟁점을 꺼내보세요.
+    - else
+      .row.masonry-container{data: {last_id: @talks.last.try(:id), is_last: @is_last_page.to_s}}
+        = render 'polls/slug_polls_page'
+      .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_polls_path(@issue, format: :js)}
+        .page_waypoint__loading
+          %i.fa.fa-3x.fa-spinner.fa-pulse
+

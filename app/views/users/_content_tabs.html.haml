@@ -28,21 +28,11 @@
         = t('activerecord.models.talk')
         %span.hidden-xs= count_label
 
-  - count_label = capture_haml(counts_container) do |counts_container|
-    %span.count-label-wrapper<>
-      %span.count-label<>
-        = counts_container.votes_count
-        - if counts_container.latest_votes_count > 0
-          %small.text-primary
-            +#{counts_container.latest_votes_count}
-  %li{role: 'presentation', class: ('active' if active_tab == :votes)}
-    = link_to slug_user_votes_path(slug: @user.slug) do
-      %h4<>
-        %span.visible-xs-inline<>= count_label
-        %br.visible-xs-inline<>
+  %li{role: 'presentation', class: ('active' if active_tab == :polls)}
+    = link_to slug_user_polls_path(slug: @user.slug) do
+      %h4
         %span.hidden-xs 참여한
-        = t('activerecord.models.opinion')
-        %span.hidden-xs= count_label
+        = t('activerecord.models.poll')
 
 
 

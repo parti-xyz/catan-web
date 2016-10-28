@@ -1,9 +1,9 @@
 class IssuesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
-  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_references, :slug_comments, :slug_opinions, :slug_talks, :slug_wikis]
+  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_references, :slug_comments, :slug_opinions, :slug_polls, :slug_talks, :slug_wikis]
   load_and_authorize_resource
-  before_filter :verify_issue_group, only: [:slug_home, :slug_references, :slug_opinions, :slug_talks, :slug_wikis, :edit]
-  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_opinions, :slug_talks, :slug_wikis, :slug_users]
+  before_filter :verify_issue_group, only: [:slug_home, :slug_references, :slug_opinions, :slug_polls, :slug_talks, :slug_wikis, :edit]
+  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_opinions, :slug_polls, :slug_talks, :slug_wikis, :slug_users]
 
   def index
     @issues = Issue.limit(10)
@@ -64,6 +64,10 @@ class IssuesController < ApplicationController
 
   def slug_opinions
     opinions_page(@issue)
+  end
+
+  def slug_polls
+    having_poll_talks_page(@issue)
   end
 
   def slug_talks

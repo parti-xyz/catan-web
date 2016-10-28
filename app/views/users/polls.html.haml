@@ -1,0 +1,23 @@
+= render 'user_header'
+%section#user-gallery
+  .container
+    .row
+      .col-xs-9
+        %section#content-tab-section
+          = render 'users/content_tabs', active_tab: :polls, counts_container: @user.writing_counts
+        .votes
+          - if @polls.empty?
+            .bg-default
+              %i.fa.fa-info-circle
+              아직 글이 없습니다.
+          - else
+            .row.masonry-container{data: {last_id: @polls.last.try(:id), is_last: @is_last_page.to_s}}
+              = render 'users/polls_page'
+            .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': slug_user_polls_path(slug: @user.nickname, format: :js)}
+              .page_waypoint__loading
+                %i.fa.fa-3x.fa-spinner.fa-pulse
+
+
+      = render 'aside'
+
+

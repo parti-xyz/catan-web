@@ -54,6 +54,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :upvotes
   has_many :votes
+  has_many :polls, through: :talks
   has_many :watches
   has_many :watched_issues, through: :watches, source: :issue
   has_many :makers

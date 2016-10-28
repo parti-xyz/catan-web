@@ -100,7 +100,7 @@ Rails.application.routes.draw do
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
   get '/p/:slug/references', to: "issues#slug_references", as: 'slug_issue_references'
-  get '/p/:slug/opinions', to: "issues#slug_opinions", as: 'slug_issue_opinions'
+  get '/p/:slug/polls', to: "issues#slug_polls", as: 'slug_issue_polls'
   get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
   get '/p/:slug/talks/sections/:section_id', to: "issues#slug_talks", as: 'slug_issue_talks_with_section'
   get '/p/:slug/wikis', to: "issues#slug_wikis", as: 'slug_issue_wikis'
@@ -109,6 +109,7 @@ Rails.application.routes.draw do
 
   get '/u/:slug', to: "users#parties", as: 'slug_user'
   get '/u/:slug/votes', to: "users#votes", as: 'slug_user_votes'
+  get '/u/:slug/polls', to: "users#polls", as: 'slug_user_polls'
   get '/u/:slug/talks', to: "users#talks", as: 'slug_user_talks'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'

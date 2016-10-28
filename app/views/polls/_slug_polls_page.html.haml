@@ -1,0 +1,10 @@
+- has_blinds = false
+- @talks.each do |talk|
+  - unless talk.blinded?(current_user)
+    .col-xs-12.col-sm-4.card.card--hover-grow
+      = render 'polls/poll', local_assigns.merge(poll: talk.poll)
+  - else
+    - has_blinds = true
+- if has_blinds
+  .col-xs-12.col-sm-4.card.card--hover-grow
+    .opinion-card= t('labels.blind_info')

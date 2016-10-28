@@ -15,6 +15,7 @@ class Talk < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :having_reference, -> { where.not(reference: nil) }
+  scope :having_poll, -> { where(has_poll: true) }
   scope :previous_of_recent, ->(talk) {
     base = recent
     base = base.where('talks.created_at < ?', talk.created_at) if talk.present?

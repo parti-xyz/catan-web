@@ -36,6 +36,7 @@ ko:
       campaign: 캠페인
       related: 관련빠띠
       section: 주제
+      poll: 찬반투표
     attributes:
       issue:
         title: 제목

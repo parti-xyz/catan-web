@@ -25,6 +25,19 @@ class UsersController < ApplicationController
     @opinions = @posts.map(&:specific).compact
   end
 
+  def polls
+    fetch_user
+
+    previous_last_poll = Poll.find_by(id: params[:last_id])
+
+    @polls = @user.polls.recent.previous_of_poll(previous_last_poll).limit(20)
+    current_last_poll = @polls.last
+
+    @is_last_page = (@user.polls.empty? or @user.polls.recent.previous_of_poll(current_last_poll).empty?)
+
+    @talks = @polls.map(&:talk).compact
+  end
+
   def summary_test
     User.limit(100).each do |user|
       PartiMailer.summary_by_mailtrap(user).deliver_later
