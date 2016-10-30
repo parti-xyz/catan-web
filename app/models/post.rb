@@ -12,7 +12,7 @@ class Post < ActiveRecord::Base
     end
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
     expose :comments, using: Comment::Entity do |model|
-      model.comments.recent
+      model.comments.sequential
     end
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
       expose :is_upvotable do |model, options|

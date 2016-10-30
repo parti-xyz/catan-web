@@ -12,6 +12,7 @@ class Comment < ActiveRecord::Base
         model.upvotable? options[:current_user]
       end
     end
+    expose :post_id, if: { type: :full }
   end
 
   acts_as_paranoid
