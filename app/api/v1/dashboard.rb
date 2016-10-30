@@ -17,10 +17,10 @@ module V1
 
         current_last_post = @posts.last
 
-        @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+        @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
-        present :is_last_page, @is_last_page
-        present :posts, @posts, current_user: resource_owner
+        present :has_more_item, @has_more_item
+        present :items, @posts, current_user: resource_owner
       end
     end
   end
