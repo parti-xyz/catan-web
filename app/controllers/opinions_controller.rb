@@ -3,7 +3,7 @@ class OpinionsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    opinions_page
+    redirect_to polls_path
   end
 
   def create
@@ -35,20 +35,8 @@ class OpinionsController < ApplicationController
   end
 
   def show
-    if request.headers['X-PJAX']
-      render(:partial, layout: false) and return
-    else
-      @issue = @opinion.issue
-      verify_group(@issue)
-      opinions_page(@issue)
-      @list_title = meta_issue_full_title(@issue)
-      @list_url = issue_opinions_path(@issue)
-      @paginate_params = {controller: 'issues', :action => 'slug_opinions', slug: @issue.slug, id: nil}
-    end
-    prepare_meta_tags title: @opinion.title,
-      description: '어떻게 생각하시나요?',
-      image: social_card_opinion_url(format: :png),
-      twitter_card_type: 'summary_large_image'
+    redirect_destination = OpinionToTalk.where(opinion_id: params[:id]).first.talk_id
+    redirect_to talk_path(redirect_destination)
   end
 
   def social_card
