@@ -72,6 +72,23 @@
                 %i.fa.fa-external-link
           - if (talk.has_image?)
             .talk-reference-line__thumb{style: "background-image: url(#{talk.image.md.url})"}
+    - elsif talk.has_poll?
+      .poll-card[post]{ class: "#{dom_id(talk.poll)} #{user_signed_in? && talk.poll.votinged_by?(current_user) ? 'poll-card--voted' : ''}", data: modal_data}
+        .row.poll-card__meta
+          .col-sm-6.col-xs-12
+            .poll-card__issue
+              = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+                - if post.issue.on_group? and current_group != post.issue.group
+                  .poll-card__group
+                    = post.issue.group.name[0..2]
+                .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
+          .col-sm-6.col-xs-12
+            .poll-card__date.date-wrapper.poll-card__date--with-issue
+              %span= date_f talk.poll.created_at
+        %h4.poll-card__title
+          “#{talk.poll.title}”
+
+        = render 'votings/voting', local_assigns.merge(specific: talk, partial: local_assigns[:partial])
   - unless local_assigns[:hide_user]
     .talk-info
       = link_to user_gallery_path(talk.user) do
