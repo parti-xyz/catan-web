@@ -1,25 +1,13 @@
 = render 'issues/issue_header', active_tab: :opinions
 
-%section#opinions.opinions--issue
+%section#polls.polls--issue
   .container
     .editors-panel
       .media
         .media-body.hidden-xs
           %h4
-            #{t('activerecord.models.opinion')}을 여세요
-            %small #{t('activerecord.models.opinion')}을 통해 서로의 생각을 확인해 보세요.
-        .media-right
-          - if user_signed_in?
-            - if @issue.postable?(current_user)
-              = link_to '#', class: 'btn btn-primary btn-shadow editor-btn', data: { action: 'parti-show', 'show-target': '#opinion-form-widget', focus: 'input#opinion_title', 'self-hide': true } do
-                = t('labels.new_opinion_button')
-            - else
-              = render 'issues/join_button'
-          - else
-            = link_to '#', class: 'btn btn-primary btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
-              = t('labels.new_opinion_button')
-      - if user_signed_in?
-        = render 'opinions/new_form', issue: @issue
+            #{t('activerecord.models.poll')}을 여세요
+            %small #{t('activerecord.models.poll')}을 통해 서로의 생각을 확인해 보세요.
     - if @talks.empty?
       .posts
         .bg-default.text-center

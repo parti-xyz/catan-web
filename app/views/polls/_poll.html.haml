@@ -3,19 +3,19 @@
 - issue = post.issue
 - voted = user_signed_in? && poll.votinged_by?(current_user)
 - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: poll_path(poll) }
-.opinion-card[post]{ class: "#{dom_id(poll)} #{voted ? 'opinion-card--voted' : ''}", data: modal_data}
-  .row.opinion-card__meta
+.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''}", data: modal_data}
+  .row.poll-card__meta
     .col-sm-6.col-xs-12
-      .opinion-card__issue
+      .poll-card__issue
         = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
           - if post.issue.on_group? and current_group != post.issue.group
-            .opinion-card__group
+            .poll-card__group
               = post.issue.group.name[0..2]
           .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
     .col-sm-6.col-xs-12
-      .opinion-card__date.date-wrapper.opinion-card__date--with-issue
+      .poll-card__date.date-wrapper.poll-card__date--with-issue
         %span= date_f poll.created_at
-  %h4.opinion-card__title
+  %h4.poll-card__title
     “#{poll.title}”
 
   = render 'votings/voting', local_assigns.merge(specific: talk, partial: local_assigns[:partial])
