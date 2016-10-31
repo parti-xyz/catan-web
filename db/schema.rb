@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028030712) do
+ActiveRecord::Schema.define(version: 20161028121213) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -258,6 +258,11 @@ ActiveRecord::Schema.define(version: 20161028030712) do
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
 
+  create_table "opinion_to_talks", force: :cascade do |t|
+    t.integer "opinion_id", limit: 4
+    t.integer "talk_id",    limit: 4
+  end
+
   create_table "opinions", force: :cascade do |t|
     t.string   "title",         limit: 255
     t.text     "body",          limit: 16777215
@@ -427,6 +432,7 @@ ActiveRecord::Schema.define(version: 20161028030712) do
 
   add_index "talks", ["id", "reference_id", "reference_type"], name: "index_talks_on_id_and_reference_id_and_reference_type", unique: true, using: :btree
   add_index "talks", ["reference_type", "reference_id"], name: "index_talks_on_reference_type_and_reference_id", using: :btree
+  add_index "talks", ["section_id"], name: "index_talks_on_section_id", using: :btree
 
   create_table "upvotes", force: :cascade do |t|
     t.integer  "user_id",        limit: 4,   null: false

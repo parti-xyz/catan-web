@@ -10,7 +10,8 @@ class Talk < ActiveRecord::Base
   accepts_nested_attributes_for :poll
 
   validates :section, presence: true
-  validates :title, presence: true, length: { maximum: 180 }
+  validates :title, length: { maximum: 180 }
+  validate :cannot_be_without_title_if_poll_is_blank
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
@@ -88,5 +89,13 @@ class Talk < ActiveRecord::Base
 
   def build_reference(params)
     self.reference = self.reference_type.constantize.new(params) if self.reference_type.present?
+  end
+
+  private
+
+  def cannot_be_without_title_if_poll_is_blank
+    if poll.blank? and title.blank?
+      errors.add(:title, "찬반투표가 없을 경우에는 제목을 입력해야 합니다.")
+    end
   end
 end
