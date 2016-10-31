@@ -970,7 +970,7 @@ $(function(){
     });
   });
 
-  $('[data-action="parti-talk-select-reference"]').each(function(index,elm){
+  $('[data-action="parti-talk-select-reference-or-poll"]').each(function(index,elm){
     var hidden_target = $(elm).data('hidden-target');
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
@@ -995,7 +995,7 @@ $(function(){
     })
   });
 
-  $('[data-action="parti-talk-cancel-reference"]').each(function(index,elm){
+  $('[data-action="parti-talk-cancel-reference-or-poll"]').each(function(index,elm){
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     var show_target = $(elm).data('show-target');
