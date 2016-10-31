@@ -7,7 +7,7 @@ $('.<%= dom_id(@specific) %>').each(function(index, elm){
     $(elm).replaceWith(specific_partial);
   }
 });
-// parti_prepare_masonry($('body'));
-// <% if params[:partial] != 'post' %>
-//   $('.<%= dom_id(@specific) %>').click();
-// <% end %>
+parti_prepare_masonry($('body'));
+<% if params[:partial] != 'post' %>
+  $('.<%= dom_id(@specific) %>').click();
+<% end %>
