@@ -10,7 +10,7 @@
       .form-group
         = f.text_field :title, placeholder: '어떤 이야기를 하고 싶으신가요?', maxlength: 180, class: 'form-control input-lg', data: {'rule-required': true}
       .form-group.textarea-box
-        = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor' if  is_redactorable?} validation-ignore", data: {'rule-required': true}
+        = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor' if  is_redactorable?} validation-ignore"
         .talk-link-field.hidden
           = f.fields_for :reference, LinkSource.new do |ff|
             .form-group
