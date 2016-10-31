@@ -9,7 +9,7 @@ class MigrateOpinionsToTalks < ActiveRecord::Migration
       Opinion.all.each do |opinion|
         talk = Talk.new(created_at: opinion.created_at, updated_at: opinion.updated_at,
           issue: opinion.issue, section_id: opinion.issue.sections.initial_section.id,
-          has_poll: true, user: opinion.user)
+          user: opinion.user, has_poll: 'true')
 
         talk.build_poll(title: opinion.title)
 

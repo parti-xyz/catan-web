@@ -1,5 +1,5 @@
 class Poll < ActiveRecord::Base
-  belongs_to :talk
+  has_one :talk, dependent: :destroy
   has_many :votings, dependent: :destroy do
     def users
       self.map(&:user).uniq

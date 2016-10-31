@@ -293,11 +293,8 @@ ActiveRecord::Schema.define(version: 20161028121213) do
     t.string   "title",         limit: 255,             null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.integer  "talk_id",       limit: 4
     t.integer  "votings_count", limit: 4,   default: 0
   end
-
-  add_index "polls", ["talk_id"], name: "index_polls_on_talk_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                  limit: 4,               null: false
@@ -420,17 +417,18 @@ ActiveRecord::Schema.define(version: 20161028121213) do
   create_table "talks", force: :cascade do |t|
     t.string   "title",          limit: 255
     t.datetime "deleted_at"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.text     "body",           limit: 65535
-    t.integer  "post_issue_id",  limit: 4,                     null: false
-    t.integer  "section_id",     limit: 4,                     null: false
+    t.integer  "post_issue_id",  limit: 4,     null: false
+    t.integer  "section_id",     limit: 4,     null: false
     t.integer  "reference_id",   limit: 4
     t.string   "reference_type", limit: 255
-    t.boolean  "has_poll",                     default: false
+    t.integer  "poll_id",        limit: 4
   end
 
   add_index "talks", ["id", "reference_id", "reference_type"], name: "index_talks_on_id_and_reference_id_and_reference_type", unique: true, using: :btree
+  add_index "talks", ["poll_id"], name: "index_talks_on_poll_id", using: :btree
   add_index "talks", ["reference_type", "reference_id"], name: "index_talks_on_reference_type_and_reference_id", using: :btree
   add_index "talks", ["section_id"], name: "index_talks_on_section_id", using: :btree
 

@@ -5,7 +5,7 @@
       = hidden_field_tag :back_url, @list_url || request.original_url
       = f.hidden_field :section_id, value: issue.sections.first.id
       = f.hidden_field :reference_type
-      = f.hidden_field :has_poll
+      = f.hidden_field :has_poll, value: false
 
       .form-group
         = f.text_field :title, placeholder: '어떤 이야기를 하고 싶으신가요?', maxlength: 180, class: 'form-control input-lg', data: {'rule-required': true}
