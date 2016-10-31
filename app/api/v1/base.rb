@@ -3,5 +3,6 @@ module V1
     mount V1::Users
     mount V1::Dashboard
     mount V1::Comments
+    mount V1::Upvotes
   end
 end

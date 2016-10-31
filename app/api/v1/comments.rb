@@ -24,11 +24,8 @@ module V1
         @comment = Comment.new permitted(params, :comment)
         @comment.user = resource_owner
         set_choice @comment
-        if @comment.save
-          present :comment, @comment, type: :full
-        else
-          error!(@comment.errors, 500)
-        end
+        @comment.save!
+        present :comment, @comment, type: :full
       end
     end
 
