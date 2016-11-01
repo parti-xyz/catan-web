@@ -1,40 +1,42 @@
 - issue ||= @issue
 - if user_signed_in?
-  #talk-form-widget.form-widget-container.bg-line
+  #talk-form-widget.form-widget-container
     = form_for Talk.new, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#talk-form-widget form input[type=submit]' } } do |f|
-      = hidden_field_tag :back_url, @list_url || request.original_url
-      = f.hidden_field :section_id, value: issue.sections.first.id
-      = f.hidden_field :reference_type
-      = f.hidden_field :has_poll, value: false
+      .form-widget-content
+        .user-info
+          = render 'users/post_byline', user: current_user
+        = hidden_field_tag :back_url, @list_url || request.original_url
+        = f.hidden_field :section_id, value: issue.sections.first.id
+        = f.hidden_field :reference_type
+        = f.hidden_field :has_poll, value: false
 
-      .form-group
-        = f.text_field :title, placeholder: '어떤 이야기를 하고 싶으신가요?', maxlength: 180, class: 'form-control input-lg', data: {'rule-required': true}
-      .form-group.textarea-box
-        = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor' if  is_redactorable?} validation-ignore"
-        .talk-link-field.hidden
-          = f.fields_for :reference, LinkSource.new do |ff|
-            .form-group
-              .input-group
-                = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
-                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference-or-poll', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field', 'show-target': '.talk-reference-btns','has-poll': '#talk_has_poll' }}
-                  취소
+        .form-group.textarea-box
+          = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor' if  is_redactorable?} validation-ignore"
+          .talk-link-field.hidden
+            = f.fields_for :reference, LinkSource.new do |ff|
+              .form-group
+                .input-group
+                  = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
+                  .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference-or-poll', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-link-field', 'show-target': '.talk-reference-btns','has-poll': '#talk_has_poll' }}
+                    취소
 
-        .talk-file-field.hidden
-          = f.fields_for :reference, FileSource.new do |ff|
-            .form-group
-              .input-group
-                = ff.file_field :attachment, class: 'form-control'
-                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference-or-poll', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field', 'show-target': '.talk-reference-btns','has-poll': '#talk_has_poll' }}
-                  취소
+          .talk-file-field.hidden
+            = f.fields_for :reference, FileSource.new do |ff|
+              .form-group
+                .input-group
+                  = ff.file_field :attachment, class: 'form-control'
+                  .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference-or-poll', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-file-field', 'show-target': '.talk-reference-btns','has-poll': '#talk_has_poll' }}
+                    취소
 
-        .talk-poll-field.hidden
-          = f.fields_for :poll, Poll.new do |ff|
-            .form-group
-              .input-group
-                = ff.text_field :title, class: 'form-control', placeholder: '찬반토론 제목: ex. 팅수육소스는 찍어먹어야합니다'
-                .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference-or-poll', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-poll-field', 'show-target': '.talk-reference-btns', 'has-poll': '#talk_has_poll' }}
-                  취소
+          .talk-poll-field.hidden
+            = f.fields_for :poll, Poll.new do |ff|
+              .form-group
+                .input-group
+                  = ff.text_field :title, class: 'form-control', placeholder: '찬반토론 제목: ex. 팅수육소스는 찍어먹어야합니다'
+                  .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference-or-poll', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-poll-field', 'show-target': '.talk-reference-btns', 'has-poll': '#talk_has_poll' }}
+                    취소
 
+      .form-widget-btns.clearfix
         .talk-reference-btns
           %button{class: 'btn btn-xs btn-link editor-btn talk-link-btn', data: { action: 'parti-talk-select-reference-or-poll', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type','has-poll': '#talk_has_poll', 'reference-field': '.talk-link-field'}}
             %i.fa.fa-link
@@ -45,9 +47,7 @@
           %button{class: 'btn btn-xs btn-link editor-btn talk-poll-btn', data: { action: 'parti-talk-select-reference-or-poll', 'hidden-target': '.talk-reference-btns', 'reference-type-field': '#talk_reference_type', 'has-poll': '#talk_has_poll','reference-field': '.talk-poll-field'}}
             %i.fa.fa-fire
             찬반토론
-
-      .form-group.clearfix
-        .submit-box.text-right
+        .submit-box
           = f.hidden_field :issue_id, value: issue.id
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
 

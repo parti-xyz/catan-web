@@ -23,14 +23,7 @@
 
     .post-card-with-comments__post
       .post-info
-        = link_to user_gallery_path(post.user) do
-          .media
-            .media-left
-              .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
-            .media-body
-              %span.nickname= post.user.nickname
-              %br
-              %span.date= date_f post.created_at
+        = render 'users/post_byline', post: post
 
       = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), local_assigns.merge(show_issue: false)
       = render 'upvotes/upvote_count', upvotable: post

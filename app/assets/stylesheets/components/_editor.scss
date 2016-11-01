@@ -43,22 +43,30 @@
   }
 
   .parti-select {
-    margin: 20px 30px 0;
+    margin: 0;
+    padding: 18px;
+    border-bottom: 1px solid $gray-less-lighter;
     max-width: 100%;
-    .issue-line__title {
-      display: inline-block;
-      white-space: normal;
-      word-break: keep-all;
-    }
-    .parti-thumb {
-      vertical-align: top;
-    }
-    .help-block {
-      .link-intro {
-        float: right;
-        a {
-          color: $brand-primary;
+    .bootstrap-select {
+      .issue-line__title {
+        display: inline-block;
+        white-space: normal;
+        word-break: keep-all;
+      }
+      .parti-thumb {
+        vertical-align: top;
+      }
+      .dropdown-toggle.btn-default {
+        border-radius: 0;
+        border: 1px solid $brand-primary;
+        &:hover {
+          background-color: #fff !important;
+          transform: none;
+          border: 1px solid $brand-primary !important;
         }
+      }
+      .dropdown-menu.open {
+        border-radius: 0;
       }
     }
   }
@@ -131,11 +139,13 @@
   }
 }
 
-#note-form-widget.form-widget-container {
-  display: block;
-}
 .form-widget-container {
   display: none;
+  padding: 18px 0;
+
+  .user-info {
+    @include post-byline();
+  }
 
   .counter.exceeded {
       color: #f0646d;
@@ -144,23 +154,41 @@
   .unified-editor & {
     display: block;
     .form-widget {
-      padding-top: 14px;
-      padding-bottom: 0;
+      padding: 0;
+      &-content,
+      &-btns {
+        padding-right: 18px;
+        padding-left: 18px;
+      }
+      &-btns {
+        padding-top: 18px;
+        border-top: 1px solid $gray-less-lighter;
+      }
       .talk-reference-btns {
         margin-top: 14px;
+        float: left;
+        .editor-btn {
+          color: $gray;
+        }
       }
       .talk-poll-field,
       .talk-link-field,
       .talk-file-field {
         padding-top: 14px;
       }
-    }
-    .submit-box .btn-cancel {
-      display: none;
+      .submit-box {
+        float: right;
+      }
+      .redactor-editor {
+        border: none;
+        padding: 0;
+      }
     }
   }
-  .form-widget hr {
-    border-top: 1px solid $gray-lighter;
+  .form-widget {
+    hr {
+      border-top: 1px solid $gray-lighter;
+    }
   }
   .textarea-box textarea {
     border: none;

@@ -1,3 +1,18 @@
+@mixin post-byline() {
+  .user-image {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 12px;
+  }
+  .nickname {
+    color: $brand-primary;
+    font-weight: bold
+  }
+  .date {
+    color: $gray;
+  }
+}
+
 section#posts {
   padding: 20px 0;
   @media (max-width: $screen-xs-max) {
@@ -73,18 +88,7 @@ section#posts {
     padding-top: 18px;
     word-break: break-all;
     .post-info {
-      .user-image {
-        width: 36px;
-        height: 36px;
-        margin-bottom: 12px;
-      }
-      .nickname {
-        color: $brand-primary;
-        font-weight: bold
-      }
-      .date {
-        color: $gray;
-      }
+      @include post-byline();
     }
     .post-line__title {
       margin-top: 8px;

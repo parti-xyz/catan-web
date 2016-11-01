@@ -31,17 +31,11 @@
           .unified-editor.unified-editor--hidden
             - selected_parti = nil
             .parti-select
-              .help-block.clearfix
-                어느 빠띠 사람들과 이야기 나누고 싶으세요?
-                %span.link-intro
-                  = link_to dashboard_intro_path do
-                    다른 빠띠 만나보기
-                    &gt;
-              %select.parti-editor-selectpicker(data-live-search="true" data-width="100%")
-                - issues_selection = {"메이커인 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(current_group)), "구독/가입 중인 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(current_group))}
+              %select.parti-editor-selectpicker(data-live-search="true" data-width="100%" title="어떤 빠띠에 이야기하시겠어요?")
+                - issues_selection = {"메이커인 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(current_group)), "가입 중인 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(current_group))}
                 - if current_group.blank?
                   - Group.all_with_indie_and_exclude(current_group).each do |group|
-                    - issues_selection.merge! "메이커인 #{group.name} 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(group)), "구독/가입 중인 #{group.name} 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(group))
+                    - issues_selection.merge! "메이커인 #{group.name} 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(group)), "가입 중인 #{group.name} 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(group))
                 - issues_selection.each do |group_label, issues|
                   - if issues.any?
                     %optgroup{label: group_label}

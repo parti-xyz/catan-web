@@ -1,0 +1,11 @@
+- user ||= local_assigns[:post].try(:user)
+- created_at = local_assigns[:post].try(:created_at)
+- byline = capture do
+  .media
+    .media-left
+      .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+    .media-body
+      %span.nickname= user.nickname
+      %br
+      %span.date= created_at.nil? ? '지금' : date_f(created_at)
+= local_assigns[:post].present? ? link_to(byline, user_gallery_path(user)) : byline
