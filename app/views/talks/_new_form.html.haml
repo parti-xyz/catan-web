@@ -32,7 +32,7 @@
             = f.fields_for :poll, Poll.new do |ff|
               .form-group
                 .input-group
-                  = ff.text_field :title, class: 'form-control', placeholder: '찬반토론 제목: ex. 팅수육소스는 찍어먹어야합니다'
+                  = ff.text_field :title, class: 'form-control', placeholder: '찬반토론 제목: ex. 탕수육소스는 찍어먹어야합니다'
                   .input-group-addon.cursor-pointer{data: { action: 'parti-talk-cancel-reference-or-poll', 'reference-type-field': '#talk_reference_type', 'reference-field': '.talk-poll-field', 'show-target': '.talk-reference-btns', 'has-poll': '#talk_has_poll' }}
                     취소
 
