@@ -1,19 +1,13 @@
 %span{class: "#{dom_id(upvotable)}-upvote"}
   - if !user_signed_in? or local_assigns[:unsigned]
-    = link_to '#', data: { toggle: 'parti-login-overlay' }, class: 'btn btn-default btn-upvote' do
-      %i.fa.fa-heart-o
-      - if upvotable.upvotes.count > 0
-        = upvotable.upvotes.count
-      - else
-        %span.btn-upvote__like-label 공감해요
+    = link_to '#', data: { toggle: 'parti-login-overlay' }, class: 'upvote' do
+      %i.fa.fa-heart
+      공감해요
   - elsif upvotable.upvoted_by? current_user
-    = link_to [:cancel, upvotable, :upvotes], method: :delete, remote: true, class: 'btn btn-upvote btn-upvote--liked' do
-      %i.fa.fa-heart-o
-      = upvotable.upvotes.count
+    = link_to [:cancel, upvotable, :upvotes], method: :delete, remote: true, class: 'upvote upvote-liked' do
+      %i.fa.fa-heart
+      공감해요
   - else
-    = link_to [upvotable, :upvotes], method: :post, remote: true, class: 'btn btn-default btn-upvote' do
-      %i.fa.fa-heart-o
-      - if upvotable.upvotes.count > 0
-        = upvotable.upvotes.count
-      - else
-        %span.btn-upvote__like-label 공감해요
+    = link_to [upvotable, :upvotes], method: :post, remote: true, class: 'upvote' do
+      %i.fa.fa-heart
+      공감해요

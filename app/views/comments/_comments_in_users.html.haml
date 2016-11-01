@@ -14,7 +14,7 @@
         %span= date_f comment.created_at
     - if specific.respond_to?(:is_presentation?) and specific.is_presentation?(comment)
       .comment__body.comment__body--talk
-        = render customize_partial_path(specific, 'talk_line'), show_issue: true, hide_user: true, hide_upvote: true
+        = render customize_partial_path(specific, 'talk_line'), show_issue: true, hide_upvote: true
       .comment__upvotes
         = render 'upvotes/upvote', upvotable: comment
     - else

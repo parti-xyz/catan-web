@@ -89,15 +89,3 @@
           “#{talk.poll.title}”
 
         = render 'votings/voting', local_assigns.merge(specific: talk, partial: local_assigns[:partial])
-  - unless local_assigns[:hide_user]
-    .talk-info
-      = link_to user_gallery_path(talk.user) do
-        .thumb.user-image.img-circle{style: "background-image: url(#{talk.user.image.sm.url});"}
-        %span.nickname= talk.user.nickname
-      - if talk.user.mentionable?(current_user)
-        %a.comment__mention{ href: '#', data: mention_data }
-          %i.fa.fa-reply
-
-    - unless local_assigns[:hide_upvote]
-      .talk-upvote
-        = render 'upvotes/upvote', upvotable: post

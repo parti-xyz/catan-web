@@ -1,1 +1,2 @@
 $(".<%= dom_id(@upvote.upvotable) %>-upvote").replaceWith(parti_origin_partial("<%= escape_javascript(render 'upvotes/upvote', upvotable: @upvote.upvotable) %>"));
+$(".<%= dom_id(@upvote.upvotable) %>-upvote-counts").replaceWith(parti_origin_partial("<%= escape_javascript(render 'upvotes/upvote_count', upvotable: @upvote.upvotable) %>"));

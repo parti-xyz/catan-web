@@ -11,23 +11,30 @@
         .media-body
           - if local_assigns[:show_issue]
             = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
-              %span.issue-group
-                - if post.issue.on_group?
-                  = post.issue.group.name
-                  %i.fa.fa-angle-right
               %span.issue-title= post.issue.title
-            %br
-          = link_to send("issue_#{post.specific.class.model_name.plural}_path", post.issue), class: 'post-type' do
-            #{post.specific.class.model_name.human}
-          - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific) }
-          %span.date-wrapper{data: modal_data}= date_f post.created_at
+              - if post.issue.on_group?
+                %i.fa.fa-angle-left
+                %span.issue-group
+                  = post.issue.group.name
         - if local_assigns[:in_modal]
           .media-right
             %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
               = image_tag 'icon_close.png'
 
     .post-card-with-comments__post
+      .post-info
+        = link_to user_gallery_path(post.user) do
+          .media
+            .media-left
+              .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
+            .media-body
+              %span.nickname= post.user.nickname
+              %br
+              %span.date= date_f post.created_at
+
       = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), local_assigns.merge(show_issue: false)
+      = render 'upvotes/upvote_count', upvotable: post
+
     - if local_assigns[:in_modal]
       .post-card-with-comments__buttons
         - if can? :update, post.specific
@@ -40,6 +47,33 @@
             삭제
         - if local_assigns[:additional_buttons_partial].present?
           = render additional_buttons_partial, local_assigns
+    - share_partial = capture do
+      - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc} | #{post.issue.group.try(:share_site_title) || "빠띠"}" }
+      - map = { facebook: data }
+      - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+      = render 'application/share', map: map
+    .post-card-with-comments__footer
+      %span.post-card-with-comments__footer__upvote
+        - unless local_assigns[:hide_upvote]
+          .talk-upvote
+            = render 'upvotes/upvote', upvotable: post
+      - unless local_assigns[:in_modal]
+        - if user_signed_in?
+          - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
+          - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
+          %span.post-card-with-comments__footer__link-to-modal{ data: mention_data }
+            %i.fa.fa-comment
+            댓글달기
+        - else
+          %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
+            %i.fa.fa-comment
+            댓글달기
+      %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
+        %i.fa.fa-share-alt
+        공유하기
+      .hidden
+        .share-partial{id: "share-partial-#{dom_id(post)}"}
+          = share_partial
     .post-card-with-comments__comments
       - if post.comments_count > 0
         .post-card-with-comments__count
@@ -47,29 +81,6 @@
         - if post.comments.any?
           - (local_assigns[:in_modal] ? post.comments : post.latest_comments).each do |comment|
             = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')
-  - share_partial = capture do
-    - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc} | #{post.issue.group.try(:share_site_title) || "빠띠"}" }
-    - map = { facebook: data }
-    - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-    = render 'application/share', map: map
-  .post-card-with-comments__footer
-    - unless local_assigns[:in_modal]
-      - if user_signed_in?
-        - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
-        - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
-        %span.post-card-with-comments__footer__link-to-modal{ data: mention_data }
-          %i.fa.fa-commenting-o
-          댓글작성
-      - else
-        %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글작성' }}
-          %i.fa.fa-commenting-o
-          댓글작성
-    %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
-      %i.fa.fa-share-alt
-      공유하기
-    .hidden
-      .share-partial{id: "share-partial-#{dom_id(post)}"}
-        = share_partial
   - if local_assigns[:in_modal]
     .post-card-with-comments__comment-form
       - if user_signed_in?
