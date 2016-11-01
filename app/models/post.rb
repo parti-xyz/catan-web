@@ -10,6 +10,15 @@ class Post < ActiveRecord::Base
     expose :body do |model|
       model.specific.try(:body)
     end
+    expose :link_reference, using: LinkSource::Entity do |model|
+      model.specific.reference if model.specific.link_source?
+    end
+    expose :file_reference, using: FileSource::Entity do |model|
+      model.specific.reference if model.specific.file_source?
+    end
+    expose :poll, using: Poll::Entity do |model|
+      model.specific.poll if model.specific.poll.present?
+    end
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
     expose :comments, using: Comment::Entity do |model|
       model.comments.sequential

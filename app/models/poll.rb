@@ -1,4 +1,26 @@
 class Poll < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity do
+    expose :title, :votings_count
+    expose :agreed_voting_users, using: User::Entity do |model|
+      model.votings.agreed.map &:user
+    end
+    expose :disagreed_voting_users, using: User::Entity do |model|
+      model.votings.disagreed.map &:user
+    end
+    expose :agreed_votings_count do |model|
+      model.votings.agreed.count
+    end
+    expose :disagreed_votings_count do |model|
+      model.votings.disagreed.count
+    end
+    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+      expose :my_choice do |model, options|
+        model.voting_by(options[:current_user]).try(:choice)
+      end
+    end
+  end
+
   has_one :talk, dependent: :destroy
   has_many :votings, dependent: :destroy do
     def users

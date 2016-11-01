@@ -1,4 +1,11 @@
 class LinkSource < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity do
+    expose :url, :title, :body, :site_name
+    expose :image_url do |model|
+      model.image.md.url
+    end
+  end
   extend Enumerize
 
   URL_FORMAT = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,20}(:[0-9]{1,5})?(\/.*)?\z/ix

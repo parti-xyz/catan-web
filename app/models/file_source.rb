@@ -1,4 +1,8 @@
 class FileSource < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity do
+    expose :attachment_url, :name, :file_type, :file_size
+  end
   ## uploaders
   # mount
   mount_uploader :attachment, FileUploader
