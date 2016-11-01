@@ -15,9 +15,6 @@ class MigrateOpinionsToTalks < ActiveRecord::Migration
 
         talk.save!
 
-        opinion.comments.update_all post_id: talk.acting_as.id
-        opinion.upvotes.update_all upvotable_id: talk.acting_as.id
-
         OpinionToTalk.create!(opinion: opinion, talk: talk)
 
         opinion.votes.each do |vote|
@@ -25,6 +22,23 @@ class MigrateOpinionsToTalks < ActiveRecord::Migration
             created_at: vote.created_at, updated_at: vote.updated_at,
             poll: talk.poll)
         end
+
+        post = talk.acting_as
+        post_opinion = opinion.acting_as
+
+        opinion.comments.each do |comment|
+          comment.update_attributes(post: post)
+        end
+        opinion.upvotes.each do |upvote|
+          upvote.update_attributes(upvotable: post)
+        end
+
+        Post.reset_counters(post.id, :comments, :upvotes)
+
+        post.update_columns(created_at: post_opinion.created_at, updated_at: post_opinion.updated_at,
+          recommend_score: post_opinion.recommend_score,
+          recommend_score_datestamp: post_opinion.recommend_score_datestamp,
+          last_commented_at: post_opinion.last_commented_at, last_touched_at: post_opinion.last_touched_at)
       end
     end
   end
