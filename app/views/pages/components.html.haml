@@ -157,13 +157,7 @@
       %h3 post card with comments
       %div
         = render Talk.last.acting_as
-        = render Opinion.last.acting_as
 
     .container
       %h3 talk card
       = render Talk.last if Talk.last.present?
-
-      %h3 opinion card
-      .row
-        .col-sm-6
-          = render Opinion.last if Opinion.last.present?

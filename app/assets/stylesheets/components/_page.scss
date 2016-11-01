@@ -242,7 +242,7 @@
 
 /* editor */
 
-#talk-form, #opinion-form {
+#talk-form {
   .page-wrapper {
     width: 670px;
   }
@@ -280,12 +280,6 @@
   textarea {
     min-height: 150px;
     color: $gray;
-  }
-}
-
-#opinion-form {
-  a {
-    font-weight: 200;
   }
 }
 

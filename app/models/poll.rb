@@ -42,6 +42,7 @@ class Poll < ActiveRecord::Base
   end
 
   scope :recent, -> { order(updated_at: :desc) }
+  scope :latest, -> { after(1.day.ago) }
   scope :previous_of_poll, ->(poll) { where('polls.updated_at < ?', poll.updated_at) if poll.present? }
 
   validates :title, presence: true

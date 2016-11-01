@@ -15,7 +15,7 @@ class MigrateOpinionsToTalks < ActiveRecord::Migration
 
         talk.save!
 
-        OpinionToTalk.create!(opinion: opinion, talk: talk)
+        OpinionToTalk.create!(opinion_id: opinion.id, talk: talk)
 
         opinion.votes.each do |vote|
           voting = Voting.create!(user: vote.user, choice: vote.choice,

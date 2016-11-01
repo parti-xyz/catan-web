@@ -1,18 +1,18 @@
 - talk ||= local_assigns[:specific]
 - poll = talk.poll
-.opinion__vote-section[talk]{class: "#{dom_id(talk)}-vote" }
+.poll__vote-section[talk]{class: "#{dom_id(talk)}-vote" }
 
   - if !user_signed_in?
     / 로그인 안함
     .vote__buttons
-      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :opinion_vote_agree, id: poll.id}.to_json) } do
+      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
         %i.fa.fa-thumbs-o-up
         찬성
-      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_disagree, id: poll.id}.to_json) } do
+      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_disagree, id: poll.id}.to_json) } do
         %i.fa.fa-thumbs-o-down
         반대
       .vote__buttons--unsure
-        = link_to '#', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :opinion_vote_unsure, id: poll.id}.to_json) } do
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_unsure, id: poll.id}.to_json) } do
           잘 모르겠습니다
 
   - elsif poll.sured_by? current_user

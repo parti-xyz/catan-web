@@ -15,9 +15,6 @@ section#posts {
   &__count {
     border-top: 1px solid $gray-lighter;
   }
-  &--opinion &__count{
-    border-top: none;
-  }
 
   &:hover {
     @include hover-shadow();
@@ -337,9 +334,6 @@ section#posts {
     }
     &__content {
       padding: 20px;
-      .opinion__title {
-        font-size: 24px;
-      }
     }
     &__comment {
       padding: 20px;

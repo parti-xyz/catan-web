@@ -6,7 +6,7 @@
     = stylesheet_link_tag asset_data_base64('vendors.css')
     %link{href: "http://fonts.googleapis.com/earlyaccess/notosanskr.css", rel: "stylesheet"}
   %body(style='padding: 0;')
-    %section.opinion-social-card-section{ style: "background-image: url(#{asset_data_base64('share_opinion.png')});" }
+    %section.poll-social-card-section{ style: "background-image: url(#{asset_data_base64('share_poll.png')});" }
       .card
         .info
           \# #{@talk.issue.title}

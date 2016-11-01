@@ -588,14 +588,14 @@ label.required:after {
   }
 
   /* vote */
-  .opinion-card {
+  .poll-card {
     padding: 10px;
     &__title {
       margin: 15px 0;
       font-size: 16px;
     }
   }
-  .opinion__vote-section {
+  .poll__vote-section {
     .btn {
       min-width: 110px;
     }
@@ -764,7 +764,7 @@ label.required:after {
 
   /* editor */
 
-  #talk-form, #opinion-form {
+  #talk-form{
     .container {
       padding: 5px;
     }

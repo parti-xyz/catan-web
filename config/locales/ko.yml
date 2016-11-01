@@ -28,7 +28,6 @@ ko:
     models:
       issue: 빠띠
       talk: 논의
-      opinion: 찬반토론
       proposal: 제안-서명
       wiki: 위키
       user: 회원
@@ -48,11 +47,6 @@ ko:
         basic: 기본빠띠 여부
         category_slug: 주제
         telegram_link: 텔레그램 슈퍼그룹 링크
-        tag_list: 태그
-      opinion:
-        issue: 빠띠
-        title: 제목
-        body: 내용
         tag_list: 태그
       talk:
         issue: 빠띠
@@ -140,8 +134,8 @@ ko:
     new_talk_link_source_button: 링크걸기
     new_talk_file_source_button: 파일올리기
     new_talk_button: 논의열기
-    new_opinion_button: 찬반토론
-    postfix_new_opinion_button: 열기
+    new_talk_poll_button: 찬반토론
+    postfix_new_talk_poll_button: 열기
 
     edit_wiki_button: 편집
     show_history_button: 역사

@@ -16,9 +16,9 @@
             .user-panel__info__label 논의
             .user-panel__info__count= writing_counts.talks_count
         .col-xs-4
-          = link_to slug_user_votes_path(slug: user.slug) do
-            .user-panel__info__label #{t('activerecord.models.opinion')}
-            .user-panel__info__count= writing_counts.votes_count
+          = link_to slug_user_polls_path(slug: user.slug) do
+            .user-panel__info__label #{t('activerecord.models.poll')}
+            .user-panel__info__count= writing_counts.polls_count
   - else
     .user-panel__sign-up
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-facebook' do

@@ -91,7 +91,6 @@ class Post < ActiveRecord::Base
 
   scope :watched_by, ->(someone) { where(issue_id: someone.watched_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
-  scope :only_opinions, -> { by_postable_type(Opinion.to_s) }
   scope :only_talks, -> { by_postable_type(Talk.to_s) }
   scope :only_notes, -> { by_postable_type(Note.to_s) }
   scope :latest, -> { after(1.day.ago) }
@@ -168,10 +167,6 @@ class Post < ActiveRecord::Base
 
   def self.hottest_count
     hottest.length
-  end
-
-  def self.best_opinions_in_issues(issues, count)
-    self.where(issue: issues).only_opinions.hottest.limit(count)
   end
 
   def self.best_talks_in_issues(issues, count)

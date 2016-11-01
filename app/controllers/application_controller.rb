@@ -159,19 +159,6 @@ class ApplicationController < ActionController::Base
     @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
-  def opinions_page(issue = nil)
-    base = issue.nil? ? Opinion.all.only_group_or_all_if_blank(current_group) : Opinion.of_issue(issue)
-    @is_last_page = base.empty?
-
-    how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
-
-    previous_last = Opinion.with_deleted.find_by(id: params[:last_id])
-    @opinions = base.send(how_to, previous_last).limit(20)
-    current_last = @opinions.last
-    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
-  end
-
-
   def talks_page(issue = nil)
     talks_base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
 

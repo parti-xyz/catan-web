@@ -34,7 +34,6 @@ Rails.application.routes.draw do
 
   resources :parties, as: :issues, controller: 'issues' do
     member do
-      get :opinions
       delete :remove_logo
       delete :remove_cover
     end
@@ -66,9 +65,6 @@ Rails.application.routes.draw do
   end
 
   resources :references
-  resources :opinions do
-    get 'social_card', on: :member
-  end
   resources :polls do
     shallow do
       resources :votings
@@ -107,7 +103,6 @@ Rails.application.routes.draw do
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
 
   get '/u/:slug', to: "users#parties", as: 'slug_user'
-  get '/u/:slug/votes', to: "users#votes", as: 'slug_user_votes'
   get '/u/:slug/polls', to: "users#polls", as: 'slug_user_polls'
   get '/u/:slug/talks', to: "users#talks", as: 'slug_user_talks'
 

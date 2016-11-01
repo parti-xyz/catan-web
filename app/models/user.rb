@@ -127,8 +127,6 @@ class User < ActiveRecord::Base
     counts = OpenStruct.new
     counts.comments_count = watched_posts.sum(:comments_count)
     counts.latest_comments_count = watched_comments.latest.count
-    counts.opinions_count = watched_opinions.count
-    counts.latest_opinions_count = watched_opinions.latest.count
     counts.talks_count = watched_talks.count
     counts.latest_talks_count = watched_talks.latest.count
     counts
@@ -138,8 +136,8 @@ class User < ActiveRecord::Base
     counts = OpenStruct.new
     unless issue.present?
       counts.parties_count = watches.count
-      counts.votes_count = votes.count
-      counts.latest_votes_count = votes.latest.count
+      counts.polls_count = polls.count
+      counts.latest_polls_count = polls.latest.count
       counts.talks_count = talks.count
       counts.latest_talks_count = talks.latest.count
     else
@@ -147,8 +145,8 @@ class User < ActiveRecord::Base
       counts.latest_comments_count = comments.by_issue(issue).latest.count
       counts.upvotes_count = upvotes.by_issue(issue).count
       counts.latest_upvotes_count = upvotes.by_issue(issue).latest.count
-      counts.votes_count = votes.by_issue(issue).count
-      counts.latest_votes_count = votes.by_issue(issue).latest.count
+      counts.polls_count = polls.by_issue(issue).count
+      counts.latest_polls_count = polls.by_issue(issue).latest.count
     end
     counts
   end
@@ -179,10 +177,6 @@ class User < ActiveRecord::Base
 
   def watched_posts(group = nil)
     Post.where(issue: watched_issues.only_group_or_all_if_blank(group))
-  end
-
-  def watched_opinions
-    watched_posts.only_opinions
   end
 
   def watched_talks
