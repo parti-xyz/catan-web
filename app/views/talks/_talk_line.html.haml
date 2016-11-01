@@ -19,7 +19,7 @@
     != talk.body
     - if talk.video_source?
       .talk-reference-line.post-line[post]{data: modal_data}
-        .talk-reference-line__content.talk-reference-line__content--video
+        .talk-reference-line__link-content.talk-reference-line__link-content--video
           .talk-reference-line__video-container
             .talk-reference-line__video-content
               = video_embed_code(talk)
@@ -29,32 +29,30 @@
               원글보기
               %i.fa.fa-external-link
     - elsif talk.file_source?
-      .talk-reference-line.post-line[post]{data: modal_data}
-        %a{href: talk.reference_url, target: '_blank'}
-          .talk-reference-line__content
-            - if local_assigns[:show_issue]
-              .post-line__issue
-                = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue)  do
-                  = image_tag issue.logo.xs.url
-                  %span.text-primary= issue.title
-                %span.post-line__issue__post-type
-                  &middot;
-                  #{Talk.model_name.human}
-            %h4.post-line-reference__title= talk.reference_title
-            .talk-reference-line__site-name
-              %a{href: talk.reference_url, target: '_blank'}
-                - if talk.reference.image?
-                  그림보기
-                  %i.fa.fa-external-link
-                - else
-                  다운로드
-                  %i.fa.fa-floppy-o
-          - if (talk.has_image?)
-            %a.talk-reference-line__thumb{href: talk.reference.attachment.url, target: '_blank', style: "background-image: url(#{talk.image.md.url})"}
+      - if talk.reference.image?
+        .talk-reference-line__file-content__file-image
+          %a{href: talk.reference.attachment.url, target: '_blank'}
+            = image_tag "#{talk.reference.attachment.url}"
+      - else
+        .talk-reference-line.post-line[post]{data: modal_data}
+          .talk-reference-line__file-content
+            .media
+              .media-left.hidden-xs
+                %i.fa.fa-floppy-o
+              .media-body
+                %span.post-line-reference__title
+                  = talk.reference_title
+                %br.visible-xs
+                %span.talk-reference-line__file-content__file-size
+                  = number_to_human_size(talk.reference.file_size)
+              .media-right
+                .talk-reference-line__file-content__download
+                  %a{href: talk.reference_url, target: '_blank'}
+                    다운로드
     - elsif talk.link_source?
       .talk-reference-line.post-line[post]{data: modal_data}
         %a{href: talk.reference_url, target: '_blank'}
-          .talk-reference-line__content
+          .talk-reference-line__link-content
             .media
               .media-body
                 %h4.post-line-reference__title= talk.reference_title
@@ -66,7 +64,7 @@
                     %i.fa.fa-external-link
               .media-right
                 - if (talk.has_image?)
-                  .talk-reference-line__content__thumb{style: "background-image: url(#{talk.image.md.url})"}
+                  .talk-reference-line__link-content__thumb{style: "background-image: url(#{talk.image.md.url})"}
     - elsif talk.poll.present?
       .poll-card[post]{ class: "#{dom_id(talk.poll)} #{user_signed_in? && talk.poll.votinged_by?(current_user) ? 'poll-card--voted' : ''}", data: modal_data}
         .row.poll-card__meta
