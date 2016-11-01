@@ -55,7 +55,7 @@ class Issue < ActiveRecord::Base
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
-    exclusion: { in: %w(campaign app new edit index session login logout users admin
+    exclusion: { in: %w(app new edit index session login logout users admin
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false, scope: :group_slug },
     length: { maximum: 100 }

@@ -1,13 +1,4 @@
 module PartiUrlHelper
-  def campaign_home_path(campaign, options = {})
-    options.update(slug: campaign.slug)
-    slug_campaign_path(options)
-  end
-
-  def campaign_home_url(campaign)
-    slug_campaign_url(slug: campaign.slug)
-  end
-
   def issue_home_path_or_url(issue, options = {})
     options.update(slug: issue.slug)
     if issue.group == current_group

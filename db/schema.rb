@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028121213) do
+ActiveRecord::Schema.define(version: 20161101051442) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -48,33 +48,6 @@ ActiveRecord::Schema.define(version: 20161028121213) do
 
   add_index "blinds", ["issue_id"], name: "index_blinds_on_issue_id", using: :btree
   add_index "blinds", ["user_id"], name: "index_blinds_on_user_id", using: :btree
-
-  create_table "campaigned_issues", force: :cascade do |t|
-    t.integer  "campaign_id", limit: 4, null: false
-    t.integer  "issue_id",    limit: 4, null: false
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-  end
-
-  add_index "campaigned_issues", ["campaign_id", "issue_id"], name: "index_campaigned_issues_on_campaign_id_and_issue_id", unique: true, using: :btree
-  add_index "campaigned_issues", ["campaign_id"], name: "index_campaigned_issues_on_campaign_id", using: :btree
-  add_index "campaigned_issues", ["issue_id"], name: "index_campaigned_issues_on_issue_id", using: :btree
-
-  create_table "campaigns", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4,                    null: false
-    t.string   "title",      limit: 255,                  null: false
-    t.string   "slug",       limit: 255,                  null: false
-    t.text     "body",       limit: 65535
-    t.string   "logo",       limit: 255
-    t.string   "cover",      limit: 255
-    t.datetime "deleted_at"
-    t.string   "active",     limit: 255,   default: "on"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-  end
-
-  add_index "campaigns", ["slug", "active"], name: "index_campaigns_on_slug_and_active", unique: true, using: :btree
-  add_index "campaigns", ["title", "active"], name: "index_campaigns_on_title_and_active", unique: true, using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",       limit: 4,                    null: false

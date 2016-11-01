@@ -32,7 +32,6 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
 
-  resources :campaigns
   resources :parties, as: :issues, controller: 'issues' do
     member do
       get :opinions
@@ -92,13 +91,11 @@ Rails.application.routes.draw do
   get '/dashboard/new_posts_count', to: "dashboard#new_posts_count", as: 'new_dashboard_posts_count'
 
   get '/c/change2020', to: redirect(subdomain: 'change', path: '/'), constraints: { subdomain: '' }
+  get '/c/vplatform', to: redirect(path: '/')
 
   %w(to-make-it-alive peacebridge gameisculture change-univeristy changebakkum-femi dignity wishforgoodjob politics21 wsc).each do |slug|
     get "/p/#{slug}", to: redirect(subdomain: 'change', path: "/p/#{slug}"), constraints: { subdomain: '' }
   end
-
-
-  get '/c/:slug', to: "campaigns#slug_show", as: 'slug_campaign'
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
   get '/p/:slug/references', to: "issues#slug_references", as: 'slug_issue_references'

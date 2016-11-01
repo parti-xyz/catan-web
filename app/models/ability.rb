@@ -3,7 +3,6 @@ class Ability
 
   def initialize(user)
     can [:read, :poll_social_card, :partial], :all
-    can [:slug_show], Campaign
     can [:slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_users, :slug_references, :slug_comments, :slug_polls,
       :slug_talks, :slug_wikis, :search], Issue
@@ -27,7 +26,7 @@ class Ability
       end
       can :update, Wiki
       if user.admin?
-        can :manage, [Campaign, Issue, Related, Blind]
+        can :manage, [Issue, Related, Blind]
       end
     end
   end
