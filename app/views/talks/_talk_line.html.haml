@@ -40,7 +40,7 @@
                 %span.post-line__issue__post-type
                   &middot;
                   #{Talk.model_name.human}
-            %h4.post-line__title= talk.reference_title
+            %h4.post-line-reference__title= talk.reference_title
             .talk-reference-line__site-name
               %a{href: talk.reference_url, target: '_blank'}
                 - if talk.reference.image?
@@ -55,23 +55,18 @@
       .talk-reference-line.post-line[post]{data: modal_data}
         %a{href: talk.reference_url, target: '_blank'}
           .talk-reference-line__content
-            - if local_assigns[:show_issue]
-              .post-line__issue
-                = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue)  do
-                  = image_tag issue.logo.xs.url
-                  %span.text-primary= issue.title
-                %span.post-line__issue__post-type
-                  &middot;
-                  #{Talk.model_name.human}
-            %h4.post-line__title= talk.reference_title
-            .talk-reference-line__source-body= excerpt(talk.reference_body, length: (is_small_screen? ? 45 : 130))
-            .talk-reference-line__site-name
-              %a{href: talk.reference_url, target: '_blank'}
-                = talk.site_name.try(:upcase)
-                원글보기
-                %i.fa.fa-external-link
-          - if (talk.has_image?)
-            .talk-reference-line__thumb{style: "background-image: url(#{talk.image.md.url})"}
+            .media
+              .media-body
+                %h4.post-line-reference__title= talk.reference_title
+                .talk-reference-line__source-body= excerpt(talk.reference_body, length: (is_small_screen? ? 45 : 130))
+                .talk-reference-line__site-name
+                  %a{href: talk.reference_url, target: '_blank'}
+                    = talk.site_name.try(:upcase)
+                    원글보기
+                    %i.fa.fa-external-link
+              .media-right
+                - if (talk.has_image?)
+                  .talk-reference-line__content__thumb{style: "background-image: url(#{talk.image.md.url})"}
     - elsif talk.poll.present?
       .poll-card[post]{ class: "#{dom_id(talk.poll)} #{user_signed_in? && talk.poll.votinged_by?(current_user) ? 'poll-card--voted' : ''}", data: modal_data}
         .row.poll-card__meta
