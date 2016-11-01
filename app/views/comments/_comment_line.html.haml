@@ -1,26 +1,29 @@
 .comment-line{class: (dom_id(comment) if local_assigns[:in_modal])}
   .media
+    .media-left
+      = link_to user_gallery_path(comment.user) do
+        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
     .media-body
-      .info
-        = link_to user_gallery_path(comment.user) do
-          .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
-        = link_to user_gallery_path(comment.user) do
-          %span.nickname= comment.user.nickname
-        %span.date-wrapper= date_f comment.created_at
-        - if comment.mentionable?(current_user)
-          - if local_assigns[:in_modal]
-            - if local_assigns[:mention_form_control]
-              %a.comment__mention{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_control } }
-                %i.fa.fa-reply
-          - else
-            %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
-              %i.fa.fa-reply
-
+      = link_to user_gallery_path(comment.user) do
+        %span.nickname= comment.user.nickname
       - body_data = {}
       - unless local_assigns[:in_modal]
         - body_data = { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }
       .body{ data: body_data, class: ("body--#{comment.choice}" if comment.choice.present?) }
         = render 'comments/body', comment: comment
+      .footer
+        = render 'upvotes/upvote', upvotable: comment
+        - if comment.mentionable?(current_user)
+          - if local_assigns[:in_modal]
+            - if local_assigns[:mention_form_control]
+              %a.comment__mention{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_control } }
+                댓글달기
+          - else
+            %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+              댓글달기
+        .upvote-count
+          = render 'upvotes/upvote_count', upvotable: comment
+        %span.date-wrapper= date_f comment.created_at
 
       - if local_assigns[:in_modal]
         .comment__btn
@@ -32,10 +35,5 @@
             = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' } do
               %i.fa.fa-trash
               삭제
-      .visible-xs.upvote
-        = render 'upvotes/upvote', upvotable: comment
-
-    .media-right.hidden-xs
-      = render 'upvotes/upvote', upvotable: comment
 
 

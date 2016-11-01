@@ -12,27 +12,36 @@ section#comments {
 
 .comment-line {
   padding-top: 10px;
-  padding-bottom: 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eaeaeb;
   @media (max-width: $screen-xs-max) {
     padding-bottom: 10px;
+  }
+  &:last-child {
+    border-bottom: none;
   }
   &:hover {
     .comment__mention {
       color: $brand-primary;
     }
   }
+  .date-wrapper {
+    color: $gray-light;
+    font-size: $font-size-base;
+    margin-left: 12px;
+  }
   .nickname {
     font-weight: bold;
     color: $brand-primary;
-    margin-right: 10px;
-  }
-  .date-wrapper {
-    color: $gray-light;
   }
   .body {
+    display: inline;
     color: $gray;
-    padding-top: 5px;
-    padding-left: 22px;
+    padding-left: 6px;
+    p {
+      display: inline;
+      margin-bottom: 0;
+    }
     @media (max-width: $screen-xs-max) {
       padding-left: 0;
     }
@@ -48,15 +57,25 @@ section#comments {
     }
   }
   .user-image {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
   }
   .comment__mention {
     float: none;
-    margin-left: 0;
+    margin-left: 12px;
+    color: $brand-primary;
   }
   .upvote {
     margin-bottom: 2px;
+    color: $brand-primary;
+  }
+  .upvote-liked {
+    color: $gray;
+  }
+  .upvote-count {
+    display: inline-block;
+    margin-left: 12px;
+    color: $brand-primary;
   }
   .update-form {
     margin-bottom: 10px;
@@ -98,11 +117,9 @@ section#comments {
     color: $gray-light;
   }
   &__btn {
-    margin-left: 22px;
     @media (max-width: $screen-xs-max) {
       margin-left: 0;
     }
-    margin-bottom: 10px;
     a {
       font-size: $font-size-small;
       padding-right: 20px;

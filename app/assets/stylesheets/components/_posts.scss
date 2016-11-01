@@ -153,10 +153,7 @@ section#posts {
     margin-top: 10px;
     color: $gray-light;
     cursor: pointer;
-    font-size: $font-size-small;
-    i {
-      font-size: $font-size-base;
-    }
+    font-size: $font-size-base;
   }
   &--hidden-issue {
     padding-left: 15px;
