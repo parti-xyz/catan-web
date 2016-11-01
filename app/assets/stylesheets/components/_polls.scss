@@ -28,7 +28,7 @@ section#polls {
   text-align: center;
   border: 1px solid #f1f1f1;
   &--voted {
-    background-color: $brand-primary-lighter;
+    background-color: #f9f9f9;
     border: 1px solid $brand-primary-light;
     h4 a {
       color: $gray-darker;
@@ -38,9 +38,11 @@ section#polls {
     }
   }
   &__title {
-    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: $font-size-h3;
+    color: $gray-dark;
     line-height: 1.4em;
-    margin: 30px 0;
     word-break: keep-all;
     a {
       color: $gray-darker;
@@ -106,8 +108,7 @@ section#polls {
 
 .poll__vote-section {
   .btn {
-    min-width: 120px;
-    padding: 15px;
+    padding: 10px 20px;
     border-color: $brand-primary;
     border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -117,6 +118,7 @@ section#polls {
     -moz-box-shadow:    0px 2px 0px 0px rgba(215, 213, 210, 0.8);
     box-shadow:         0px 2px 0px 0px rgba(215, 213, 210, 0.8);
     margin: 0 2px;
+
     span {
       font-weight: bold;
     }
@@ -127,6 +129,17 @@ section#polls {
       background: whitesmoke;
     }
   }
+  .btn-danger {
+    margin-left: 6px;
+  }
+  .btn-success-dark {
+    background-color: $brand-success-dark;
+    border-color: $brand-success-dark;
+  }
+  .btn-danger-dark {
+    background-color: $brand-danger-dark;
+    border-color: $brand-danger-dark;
+  }
   .count {
     font-size: 20px;
     font-weight: bold;
@@ -136,13 +149,13 @@ section#polls {
   .vote__buttons--unsure {
     font-size: 12px;
     text-decoration: underline;
-    margin-top: 20px;
+    margin-top: 12px;
     a {
       color: #aaaaaf;
     }
   }
   .text-muted {
-    margin-top: 20px;
+    margin-top: 14px;
   }
 }
 .text-muted {
@@ -200,7 +213,7 @@ section#polls {
     padding-left: 2.5px;
   }
   .vote__results__voters {
-    padding-top: 5px;
+    padding-top: 8px;
     padding-left: 2px;
     padding-right: 2px;
   }

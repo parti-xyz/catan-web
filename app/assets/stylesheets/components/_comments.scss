@@ -46,12 +46,12 @@ section#comments {
       padding-left: 0;
     }
     &--agree p:first-child:before {
-      content: '\f087  찬성 ';
+      content: '\f164  찬성 ';
       font-family: "FontAwesome";
       color: #59baa3;
     }
     &--disagree p:first-child:before {
-      content: '\f088  반대 ';
+      content: '\f165  반대 ';
       font-family: "FontAwesome";
       color: #f0646d;
     }

@@ -149,6 +149,24 @@
       color: #fff !important;
     }
   }
+  &.btn-success {
+    border: 1px solid $brand-success !important;
+    background-color: transparent !important;
+    color: $brand-success !important;
+    &:hover {
+      background-color: $brand-success !important;
+      color: #fff !important;
+    }
+  }
+  &.btn-danger {
+    border: 1px solid $brand-danger !important;
+    background-color: transparent !important;
+    color: $brand-danger !important;
+    &:hover {
+      background-color: $brand-danger !important;
+      color: #fff !important;
+    }
+  }
 
   border-color: $gray;
   background-color: transparent;

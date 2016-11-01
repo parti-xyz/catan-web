@@ -5,11 +5,11 @@
   - if !user_signed_in?
     / 로그인 안함
     .vote__buttons
-      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
-        %i.fa.fa-thumbs-o-up
+      = link_to '#', class: 'btn btn-default btn-ghost btn-success', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
+        %i.fa.fa-thumbs-up
         찬성
-      = link_to '#', class: 'btn btn-default', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_disagree, id: poll.id}.to_json) } do
-        %i.fa.fa-thumbs-o-down
+      = link_to '#', class: 'btn btn-default btn-ghost btn-danger', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_disagree, id: poll.id}.to_json) } do
+        %i.fa.fa-thumbs-down
         반대
       .vote__buttons--unsure
         = link_to '#', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_unsure, id: poll.id}.to_json) } do
@@ -19,8 +19,8 @@
     / 로그인 & 투표완료
     .vote__results.clearfix
       .vote__results__agree
-        = link_to poll_votings_path(poll, voting: {choice: :agree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn ' + ( poll.agreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-          %i.fa.fa-thumbs-o-up
+        = link_to poll_votings_path(poll, voting: {choice: :agree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn ' + ( poll.agreed_by?(current_user) ? 'btn-primary btn-success-dark' : 'btn-default btn-ghost btn-success' ) do
+          %i.fa.fa-thumbs-up
           %span 찬성
           %p.count= poll.votings.with_choice(:agree).count
         - if local_assigns[:in_modal]
@@ -31,8 +31,8 @@
                   .thumb.img-circle.circle-30{style: "background-image: url(#{voting.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{voting.user.nickname}", :type => "button"}
 
       .vote__results__disagree
-        = link_to poll_votings_path(poll, voting: {choice: :disagree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn ' + ( poll.disagreed_by?(current_user) ? 'btn-primary' : 'btn-default' ) do
-          %i.fa.fa-thumbs-o-down
+        = link_to poll_votings_path(poll, voting: {choice: :disagree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn ' + ( poll.disagreed_by?(current_user) ? 'btn-primary btn-danger-dark' : 'btn-default btn-ghost btn-danger' ) do
+          %i.fa.fa-thumbs-down
           %span 반대
           %p.count= poll.votings.with_choice(:disagree).count
         - if local_assigns[:in_modal]
@@ -44,11 +44,11 @@
   - else
     .vote__buttons
       / 로그인 & 투표 전
-      = link_to poll_votings_path(poll, voting: {choice: :agree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
-        %i.fa.fa-thumbs-o-up
+      = link_to poll_votings_path(poll, voting: {choice: :agree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-success' do
+        %i.fa.fa-thumbs-up
         찬성
-      = link_to poll_votings_path(poll, voting: {choice: :disagree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn btn-default btn-ghost' do
-        %i.fa.fa-thumbs-o-down
+      = link_to poll_votings_path(poll, voting: {choice: :disagree}, partial: local_assigns[:partial]), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-danger' do
+        %i.fa.fa-thumbs-down
         반대
       .vote__buttons--unsure
         - if poll.unsured_by? current_user
