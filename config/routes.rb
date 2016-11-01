@@ -76,7 +76,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :talks
+  resources :talks do
+    get 'poll_social_card', on: :member
+  end
   resources :relateds
   resources :messages
   resources :wikis do

@@ -1,5 +1,5 @@
 class TalksController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_filter :authenticate_user!, except: [:index, :show, :poll_social_card]
   load_and_authorize_resource
 
   def index
@@ -48,7 +48,43 @@ class TalksController < ApplicationController
       @list_url = issue_talks_path(@issue)
       @paginate_params = {controller: 'issues', :action => 'slug_talks', slug: @issue.slug, id: nil}
     end
-    prepare_meta_tags title: @talk.title
+
+    if @talk.poll.blank?
+      prepare_meta_tags title: @talk.title
+    else
+      prepare_meta_tags title: @talk.poll.title,
+        description: '어떻게 생각하시나요?',
+        image: poll_social_card_talk_url(format: :png),
+        twitter_card_type: 'summary_large_image'
+    end
+  end
+
+  def poll_social_card
+    respond_to do |format|
+      format.png do
+        if params[:no_cached]
+          png = IMGKit.new(render_to_string(layout: nil), width: 1200, height: 630, quality: 10).to_png
+          send_data(png, :type => "image/png", :disposition => 'inline')
+        else
+          @post = @talk.acting_as
+          if !@post.social_card.file.try(:exists?) or (params[:update] and current_user.try(:admin?))
+            file = Tempfile.new(["social_card_#{@post.id.to_s}", '.png'], 'tmp', :encoding => 'ascii-8bit')
+            file.write IMGKit.new(render_to_string(layout: nil), width: 1200, height: 630, quality: 10).to_png
+            file.flush
+            @post.social_card = file
+            @post.save
+            file.unlink
+          end
+          if @post.social_card.file.respond_to?(:url)
+            data = open @post.social_card.url
+            send_data data.read, filename: "social_card.png", :type => "image/png", disposition: 'inline', stream: 'true', buffer_size: '4096'
+          else
+            send_file(@post.social_card.path, :type => "image/png", :disposition => 'inline')
+          end
+        end
+      end
+      format.html { render(layout: nil) }
+    end
   end
 
   def postable_controller?
