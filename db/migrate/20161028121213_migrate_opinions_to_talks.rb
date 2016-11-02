@@ -40,6 +40,9 @@ class MigrateOpinionsToTalks < ActiveRecord::Migration
           recommend_score_datestamp: post_opinion.recommend_score_datestamp,
           last_commented_at: post_opinion.last_commented_at, last_touched_at: post_opinion.last_touched_at)
       end
+
+      Opinion.destroy_all
+      Vote.destroy_all
     end
   end
 end
