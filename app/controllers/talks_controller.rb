@@ -42,11 +42,11 @@ class TalksController < ApplicationController
       render(:partial, layout: false) and return
     else
       @issue = @talk.issue
-      verify_group(@issue)
-      talks_page(@issue)
-      @list_title = meta_issue_full_title(@issue)
-      @list_url = issue_talks_path(@issue)
-      @paginate_params = {controller: 'issues', :action => 'slug_talks', slug: @issue.slug, id: nil}
+      @last_post = nil
+      issus_posts = @issue.posts.order(last_touched_at: :desc)
+      @posts = issus_posts.limit(25)
+      current_last_post = @posts.last
+      @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
     end
 
     if @talk.poll.present?

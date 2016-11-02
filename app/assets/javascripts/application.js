@@ -997,7 +997,7 @@ $(function(){
     var show_target = $(elm).data('show-target');
     var has_poll = $(elm).data('has-poll');
     $(this).on('click',function(e){
-      $(reference_type_field).val(null);
+      $(reference_type_field).val('');
       $(reference_field).addClass('hidden');
       $(show_target).show();
       $(reference_field).find('input').data("rule-required",false);
