@@ -191,6 +191,9 @@ section#comments {
   &__btn {
     float: right;
     width: 80px;
+    @media (max-width: $screen-xs-max) {
+      width: 70px;
+    }
   }
 
   @media (max-width: $screen-xs-max) {

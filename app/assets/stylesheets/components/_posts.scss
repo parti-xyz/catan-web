@@ -68,19 +68,33 @@ section#posts {
         padding-right: 3px;
       }
     }
+    .media-right {
+      width: 28%;
+      text-align: right;
+      .post-modal__btn {
+        padding-left: 20px;
+        @media (max-width: $screen-xs-max) {
+          padding-left: 4px;
+        }
+      }
+    }
   }
   &__buttons {
+    display: inline;
     margin-top: 5px;
     margin-bottom: 10px;
     a {
-      padding-right: 20px;
+      padding-left: 20px;
+      @media (max-width: $screen-xs-max) {
+        padding-left: 4px;
+      }
       color: $gray-light;
       &:hover {
         color: $gray;
       }
-      font-size: $font-size-small;
+      font-size: $font-size-base;
       i {
-        font-size: $font-size-base;
+        font-size: $font-size-large;
       }
     }
   }
@@ -125,6 +139,9 @@ section#posts {
     cursor: pointer;
     padding-top: 10px;
     padding-bottom: 10px;
+    @media (max-width: $screen-xs-max) {
+      padding-bottom: 0;
+    }
     &__upvote .upvote,
     &__link-to-modal,
     &__link-to-login,
@@ -187,6 +204,9 @@ section#posts {
     }
     &__footer {
       padding: 10px 0;
+      @media (max-width: $screen-xs-max) {
+        padding-bottom: 0;
+      }
     }
     &__comment-form {
       border-top: 1px solid $gray-lighter;
@@ -211,8 +231,6 @@ section#posts {
         padding: 15px;
       }
       &__footer {
-        margin-left: 15px;
-        margin-right: 15px;
       }
     }
   }

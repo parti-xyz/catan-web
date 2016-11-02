@@ -16,8 +16,22 @@
                 %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.name
-        - if local_assigns[:in_modal]
-          .media-right
+        .media-right
+          .post-card-with-comments__buttons
+            - if can? :update, post.specific
+              = link_to [:edit, post.specific] do
+                %i.fa.fa-pencil
+                %span.hidden-xs
+                  수정
+            - if can? :destroy, post.specific
+              = link_to post.specific, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
+                %i.fa.fa-trash
+                %span.hidden-xs
+                  삭제
+            - if local_assigns[:additional_buttons_partial].present?
+              = render additional_buttons_partial, local_assigns
+
+          - if local_assigns[:in_modal]
             %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
               = image_tag 'icon_close.png'
 
@@ -28,18 +42,6 @@
       = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), local_assigns.merge(show_issue: false)
       = render 'upvotes/upvote_count', upvotable: post
 
-    - if local_assigns[:in_modal]
-      .post-card-with-comments__buttons
-        - if can? :update, post.specific
-          = link_to [:edit, post.specific] do
-            %i.fa.fa-pencil
-            수정
-        - if can? :destroy, post.specific
-          = link_to post.specific, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
-            %i.fa.fa-trash
-            삭제
-        - if local_assigns[:additional_buttons_partial].present?
-          = render additional_buttons_partial, local_assigns
     - share_partial = capture do
       - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc} | #{post.issue.group.try(:share_site_title) || "빠띠"}" }
       - map = { facebook: data }
@@ -67,11 +69,11 @@
       .hidden
         .share-partial{id: "share-partial-#{dom_id(post)}"}
           = share_partial
-    .post-card-with-comments__comments
-      - if post.comments_count > 0
-        .post-card-with-comments__count
-          = render 'comments/list_header', local_assigns.merge(post: post)
-        - if post.comments.any?
+    - if post.comments.any?
+      .post-card-with-comments__comments
+        - if post.comments_count > 0
+          .post-card-with-comments__count
+            = render 'comments/list_header', local_assigns.merge(post: post)
           - (local_assigns[:in_modal] ? post.comments : post.latest_comments).each do |comment|
             = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')
   - if local_assigns[:in_modal]
