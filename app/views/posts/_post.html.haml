@@ -17,25 +17,25 @@
                 %span.issue-group
                   = post.issue.group.name
         .media-right
-          .post-card-with-comments__buttons
-            - if can? :update, post.specific
-              = link_to [:edit, post.specific] do
-                %i.fa.fa-pencil
-                %span.hidden-xs
-                  수정
-            - if can? :destroy, post.specific
-              = link_to post.specific, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
-                %i.fa.fa-trash
-                %span.hidden-xs
-                  삭제
-            - if local_assigns[:additional_buttons_partial].present?
-              = render additional_buttons_partial, local_assigns
 
           - if local_assigns[:in_modal]
             %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
               = image_tag 'icon_close.png'
 
     .post-card-with-comments__post
+      .post-card-with-comments__buttons.pull-right
+        - if can? :update, post.specific
+          = link_to [:edit, post.specific] do
+            %i.fa.fa-pencil
+            %span.hidden-xs
+              수정
+        - if can? :destroy, post.specific
+          = link_to post.specific, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
+            %i.fa.fa-trash
+            %span.hidden-xs
+              삭제
+        - if local_assigns[:additional_buttons_partial].present?
+          = render additional_buttons_partial, local_assigns
       .post-info
         = render 'users/post_byline', post: post
 
