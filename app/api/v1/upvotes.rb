@@ -13,7 +13,6 @@ module V1
         end
       end
       post do
-        permitted(params, :upvote)
         @upvote = Upvote.where(user: resource_owner).find_by permitted(params, :upvote)
         return if @upvote.present?
 

@@ -1,7 +1,7 @@
 class Poll < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
-    expose :title, :votings_count
+    expose :id, :title, :votings_count
     expose :agreed_voting_users, using: User::Entity do |model|
       model.votings.agreed.map &:user
     end

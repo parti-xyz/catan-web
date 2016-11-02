@@ -2,6 +2,9 @@ class FileSource < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     expose :attachment_url, :name, :file_type, :file_size
+    expose :attachment_filename do |model|
+      model.attachment.file.filename
+    end
   end
   ## uploaders
   # mount
