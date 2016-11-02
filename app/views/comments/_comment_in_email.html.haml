@@ -18,7 +18,7 @@
   %h5
     %img{ src: image_url("email/#{postable_type_image_map.fetch(post.postable_type, default_postable_type_image)}"), width: '13', height: '13'}
     %a{href: url_for(post.specific), style: 'color: #333; text-decoration: none'}
-      #{post.specific.title}
+      != post.specific_desc
   %span{ style: 'font-size: 70%; margin-top: 20px; margin-right: 10px;' }
     = link_to user_gallery_url(post.user), style: 'color: #999; text-decoration: none' do
       = image_tag post.user.image.xs.url, width: '13', height: '13'

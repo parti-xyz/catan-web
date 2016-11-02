@@ -131,7 +131,7 @@ class Post < ActiveRecord::Base
   end
 
   def specific_desc
-    specific.try(:title) || specific.try(:body)
+    specific.try(:title) || specific.try(:parsed_title) || specific.try(:body)
   end
 
   def origin

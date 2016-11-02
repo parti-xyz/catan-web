@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161101051442) do
+ActiveRecord::Schema.define(version: 20161102062929) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -388,7 +388,6 @@ ActiveRecord::Schema.define(version: 20161101051442) do
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
   create_table "talks", force: :cascade do |t|
-    t.string   "title",          limit: 255
     t.datetime "deleted_at"
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false

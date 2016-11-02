@@ -13,6 +13,6 @@
   %h4
     %img{ src: image_url("email/#{postable_type_image_map.fetch(post.postable_type, default_postable_type_image)}"), width: '13', height: '13'}
     %a{href: url_for(post.specific), style: 'color: #333; text-decoration: none'}
-      #{post.specific.title}
-  - if post.specific.respond_to?(:body) and post.specific.body.present?
-    %p{ style: 'font-size: 90%; color: #aaa; margin-bottom: 0' }= excerpt(post.specific.body, length: 100)
+      != post.specific_desc
+  - if post.specific.respond_to?(:parsed_body) and post.specific.parsed_body.present?
+    %p{ style: 'font-size: 90%; color: #aaa; margin-bottom: 0' }= excerpt(post.specific.parsed_body, length: 100)

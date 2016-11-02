@@ -14,9 +14,9 @@
         &middot;
         #{Talk.model_name.human}
   %h4.talk-line__title.post-line__title{data: modal_data}
-    = talk.title
+    != talk.parsed_title
   .talk-body{data: modal_data}
-    != talk.body
+    != talk.parsed_body
     - if talk.video_source?
       .talk-reference-line.post-line[post]{data: modal_data}
         .talk-reference-line__link-content.talk-reference-line__link-content--video

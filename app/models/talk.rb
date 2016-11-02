@@ -10,8 +10,6 @@ class Talk < ActiveRecord::Base
   accepts_nested_attributes_for :poll
 
   validates :section, presence: true
-  validates :title, length: { maximum: 180 }
-  validate :cannot_be_without_title_if_poll_is_blank
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
@@ -31,6 +29,16 @@ class Talk < ActiveRecord::Base
 
   def has_presentation?
     body.present?
+  end
+
+  def parsed_title
+    title, _ = parsed_title_and_body
+    title
+  end
+
+  def parsed_body
+    _, body = parsed_title_and_body
+    body
   end
 
   def is_presentation?(comment)
@@ -97,11 +105,32 @@ class Talk < ActiveRecord::Base
     self.poll = Poll.new(params) if self.has_poll == 'true'
   end
 
+  def meta_tag_title
+    if poll.present?
+      poll.title
+    else
+      strip_body = body.try(:strip)
+      strip_body = '' if strip_body.nil?
+      lines = strip_body.lines
+      lines.first
+    end
+  end
+
   private
 
-  def cannot_be_without_title_if_poll_is_blank
-    if poll.blank? and title.blank?
-      errors.add(:title, "찬반투표가 없을 경우에는 제목을 입력해야 합니다.")
+  def parsed_title_and_body
+    strip_body = body.try(:strip)
+    strip_body = '' if strip_body.nil?
+    if link_source? || file_source? || poll.present?
+      [nil, body]
+    elsif strip_body.length < 100
+      [body, nil]
+    elsif strip_body.length < 250
+      [nil, body]
+    else
+      lines = strip_body.lines
+      remains = lines[1..-1].join
+      [lines.first, remains]
     end
   end
 end

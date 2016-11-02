@@ -64,8 +64,8 @@
       .body
         %p
           - max_length = 215
-          = excerpt(talk.body, length: max_length)
-          - if (talk.body.try(:length) || 0) > max_length
+          = excerpt(talk.parsed_body, length: max_length)
+          - if (talk.parsed_body.try(:length) || 0) > max_length
             %span.body-more
               더보기
               %i.fa.fa-angle-double-right

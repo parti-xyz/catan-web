@@ -49,13 +49,13 @@ class TalksController < ApplicationController
       @paginate_params = {controller: 'issues', :action => 'slug_talks', slug: @issue.slug, id: nil}
     end
 
-    if @talk.poll.blank?
-      prepare_meta_tags title: @talk.title
-    else
-      prepare_meta_tags title: @talk.poll.title,
+    if @talk.poll.present?
+      prepare_meta_tags title: @talk.meta_tag_title,
         description: '어떻게 생각하시나요?',
         image: poll_social_card_talk_url(format: :png),
         twitter_card_type: 'summary_large_image'
+    else
+      prepare_meta_tags title: @talk.meta_tag_title
     end
   end
 
@@ -107,7 +107,7 @@ class TalksController < ApplicationController
     reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
     poll = params[:talk][:poll_attributes]
     poll_attributes = [:title] if poll.present?
-    params.require(:talk).permit(:title, :body, :issue_id, :section_id, :reference_type, :has_poll,
+    params.require(:talk).permit(:body, :issue_id, :section_id, :reference_type, :has_poll,
       reference_attributes: reference_attributes, poll_attributes: poll_attributes)
   end
 

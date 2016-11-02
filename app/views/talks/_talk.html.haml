@@ -13,7 +13,7 @@
                 = post.issue.group.name[0..1]
             .thumb.thumb--issue{ class: ('thumb--group-issue' if current_group != post.issue.group), style: "background-image: url(#{post.issue.logo.sm.url})" }
         .talk-card__title.talk-card__column{class: ('talk-card__title--hide-issue' unless local_assigns[:show_issue])}
-          = talk.title
+          = talk.parsed_title
           - if post.comments_count > 0
             %span.comment-count
               %i.fa.fa-comment-o
