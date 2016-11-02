@@ -75,18 +75,7 @@
           .row
             .col-xs-2.col-sm-2{ class: ('active' if active_tab.nil? || active_tab == :home) }
               = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
-                %h5 홈
-            .col-xs-2.col-sm-2{class: ('active' if active_tab == :talks)}
-              - count_label = capture_haml(counts_container) do
-                %span.count<>
-                  = counts_container.talks_count
-                  - if counts_container.latest_talks_count > 0
-                    %small.text-primary<>
-                      +#{counts_container.latest_talks_count}
-              = link_to issue_talks_path(issue) do
-                %h5
-                  = Talk.model_name.human
-                  %span.hidden-xs= count_label
+                %h5 타임라인
 
             .col-xs-2.col-sm-2{class: ('active' if active_tab == :polls)}
               = link_to issue_polls_path(issue) do

@@ -96,8 +96,6 @@ Rails.application.routes.draw do
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
   get '/p/:slug/references', to: "issues#slug_references", as: 'slug_issue_references'
   get '/p/:slug/polls', to: "issues#slug_polls", as: 'slug_issue_polls'
-  get '/p/:slug/talks', to: "issues#slug_talks", as: 'slug_issue_talks'
-  get '/p/:slug/talks/sections/:section_id', to: "issues#slug_talks", as: 'slug_issue_talks_with_section'
   get '/p/:slug/wikis', to: "issues#slug_wikis", as: 'slug_issue_wikis'
   get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
