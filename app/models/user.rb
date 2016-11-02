@@ -132,22 +132,13 @@ class User < ActiveRecord::Base
     counts
   end
 
-  def writing_counts(issue = nil)
+  def writing_counts
     counts = OpenStruct.new
-    unless issue.present?
-      counts.parties_count = watches.count
-      counts.polls_count = polls.count
-      counts.latest_polls_count = polls.latest.count
-      counts.talks_count = talks.count
-      counts.latest_talks_count = talks.latest.count
-    else
-      counts.comments_count = comments.by_issue(issue).count
-      counts.latest_comments_count = comments.by_issue(issue).latest.count
-      counts.upvotes_count = upvotes.by_issue(issue).count
-      counts.latest_upvotes_count = upvotes.by_issue(issue).latest.count
-      counts.polls_count = polls.by_issue(issue).count
-      counts.latest_polls_count = polls.by_issue(issue).latest.count
-    end
+    counts.parties_count = watches.count
+    counts.polls_count = polls.count
+    counts.latest_polls_count = polls.latest.count
+    counts.talks_count = talks.count
+    counts.latest_talks_count = talks.latest.count
     counts
   end
 
