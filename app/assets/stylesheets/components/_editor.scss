@@ -57,7 +57,6 @@
         vertical-align: top;
       }
       .dropdown-toggle.btn-default {
-        border-radius: 0;
         border: 1px solid $brand-primary;
         &:hover {
           background-color: #fff !important;
@@ -66,7 +65,6 @@
         }
       }
       .dropdown-menu.open {
-        border-radius: 0;
       }
     }
   }

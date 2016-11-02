@@ -55,7 +55,7 @@
         }
 
         .fa-home {
-          font-size: 18px;
+          font-size: $font-size-large;
         }
       }
       &.menu-divider {
@@ -264,7 +264,7 @@
 //
 #group-key-visual {
   img {
-    width: 100%;  
+    width: 100%;
   }
 }
 #new-theme-site-header {

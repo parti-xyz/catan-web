@@ -108,7 +108,7 @@ section#posts {
       margin-top: 8px;
       margin-bottom: 4px;
       font-weight: 600;
-      font-size: $font-size-h3;
+      font-size: $font-size-large;
       .post-modal & {
         font-size: initial;
       }
@@ -118,7 +118,7 @@ section#posts {
       margin-bottom: 4px;
       font-weight: 600;
       color: $gray-dark;
-      font-size: $font-size-h3;
+      font-size: $font-size-large;
       .post-modal & {
         font-size: initial;
       }
@@ -402,7 +402,7 @@ section#posts {
       padding: 20px;
     }
     &__title {
-      font-size: 24px;
+      font-size: $font-size-large;
     }
   }
 

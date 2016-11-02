@@ -40,7 +40,7 @@ section#polls {
   &__title {
     margin-top: 0;
     margin-bottom: 14px;
-    font-size: $font-size-h3;
+    font-size: $font-size-large;
     color: $gray-dark;
     line-height: 1.4em;
     word-break: keep-all;
@@ -170,7 +170,7 @@ section#polls {
   background: #fff;
   margin-bottom: 20px;
   color: #222222;
-  font-size: 18px;
+  font-size: $font-size-large;
   .icon-box {
     margin-right: 5px;
   }
