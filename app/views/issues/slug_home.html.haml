@@ -6,33 +6,20 @@
       .col-xs-9
         - if user_signed_in?
           - if @issue.postable?(current_user)
-            .unified-editor.hidden-xs
-              %ul.nav.nav-pills{"data-action": "parti-home-editor", role: "tablist"}
-                %li.first{role: "presentation"}
-                  %a{"data-toggle": "tab", href: "#editor-talk", role: "tab"}
-                    %i{class: "fa fa-comments-o"}
-                    != t('labels.new_talk_button')
-              .tab-content
-                #editor-placeholder.tab-pane.active{role: "tabpanel"}
-                  .placeholder-label(data-action="parti-click" data-target=".unified-editor li.first a")
-                    어떤 이야기를 하고 싶으세요?
-                #editor-talk.tab-pane{role: "tabpanel"}
-                  = render 'talks/new_form', issue: @issue
+            .unified-editor.unified-editor-intro.hidden-xs{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
+              .text-muted
+                = byline current_user, hide_nickname: true
+                #{current_user.nickname}님, 이야기 나누실래요?
+            .unified-editor.unified-editor--hidden
+              = render 'talks/new_form', issue: @issue
           - else
             .unified-editor.unified-editor--join.hidden-xs
               이 빠띠에 가입하여 게시물을 올려보세요.
               = render 'issues/join_button'
         - else
-          .unified-editor.hidden-xs{data: { toggle: 'parti-login-overlay' }}
-            %ul.nav.nav-pills{role: "tablist"}
-              %li.first{role: "presentation"}
-                %a{"data-toggle": "tab", href: "#editor-talk", role: "tab"}
-                  %i{class: "fa fa-comments-o"}
-                  != t('labels.new_talk_button')
-            .tab-content
-              #editor-placeholder.tab-pane.active{role: "tabpanel"}
-                .placeholder-label
-                  어떤 이야기를 하고 싶으세요?
+          .unified-editor.unified-editor-intro.hidden-xs{data: { toggle: 'parti-login-overlay' }}
+            .text-muted
+              어떤 이야기를 하고 싶으세요?
 
 
         - if @last_comment.present?

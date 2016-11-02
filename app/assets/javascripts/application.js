@@ -656,10 +656,6 @@ $(function(){
       $('#new-theme-site-header').find('.collapse.in').collapse('hide');
   });
 
-  $('[data-action="parti-home-editor"] a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-    $(e.target).closest('[data-action="parti-home-editor"]').addClass('active');
-  })
-
   $('.parti-editor-selectpicker').selectpicker('render');
   $('.parti-editor-selectpicker').on('changed.bs.select', function(e) {
     var select_value = $(this).val();
