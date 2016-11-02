@@ -2,7 +2,7 @@
 - comment_style = local_assigns[:in_modal] ? 'in-modal' : 'in-list'
 .post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]} post-card-with-comments--#{post.specific.class.model_name.singular}", data: { 'parti-comment-style': comment_style }}
   .post-card-with-comments__content
-    .post-card-with-comments__header
+    .post-card-with-comments__header{class: "#{'hide' unless local_assigns[:show_issue]}"}
       .media
         - if local_assigns[:show_issue]
           .media-left

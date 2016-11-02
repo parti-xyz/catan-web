@@ -41,6 +41,13 @@ section#posts {
   &__header {
     border-bottom: 1px solid $gray-less-lighter;
     padding: 18px;
+    &.hide {
+      border-bottom: none;
+      padding: 0;
+    }
+    &.blind {
+      border-bottom: none;
+    }
     .issue-logo {
       width: 30px;
       height: 30px;
@@ -67,7 +74,7 @@ section#posts {
       }
     }
     .media-right {
-      width: 28%;
+      width: 34%;
       text-align: right;
       .post-modal__btn {
         padding-left: 20px;
@@ -172,7 +179,6 @@ section#posts {
     font-size: $font-size-base;
   }
   &--hidden-issue {
-    padding-left: 15px;
   }
   .post-modal & {
     padding: 0;
@@ -316,7 +322,6 @@ section#posts {
       }
     }
     &--hidden-issue {
-      padding-left: 15px;
     }
     .post-card-with-comments__comments {
       margin-left: 0;
