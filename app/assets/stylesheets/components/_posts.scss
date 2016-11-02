@@ -28,7 +28,6 @@ section#posts {
 
 .post-card-with-comments {
   &__count {
-    border-top: 1px solid $gray-lighter;
   }
 
   &:hover {
@@ -37,12 +36,11 @@ section#posts {
   position: relative;
   background-color: #fff;
   margin-bottom: 10px;
-  padding: 12px 19px;
   border: 1px solid #fff;
   border-radius: $border-radius-base;
   &__header {
-    border-bottom: 1px solid $gray-lighter;
-    padding-bottom: 12px;
+    border-bottom: 1px solid $gray-less-lighter;
+    padding: 18px;
     .issue-logo {
       width: 30px;
       height: 30px;
@@ -99,12 +97,13 @@ section#posts {
     }
   }
   &__post {
-    padding-top: 18px;
+    padding: 18px;
     word-break: break-all;
     .post-info {
       @include post-byline();
     }
     .post-line__title {
+      color: $gray-dark;
       margin-top: 8px;
       margin-bottom: 4px;
       font-weight: 600;
@@ -126,22 +125,21 @@ section#posts {
     .post-upvote-count {
       color: $gray-light;
       margin-top: 10px;
-      margin-bottom: 10px;
     }
   }
   &__comments {
     cursor: pointer;
+    padding: 18px 14px;
+    border-top: 1px solid $gray-less-lighter;
   }
   &__footer {
+    margin-left: 14px;
+    margin-right: 14px;
+    padding: 18px 18px 18px 4px;
     border-top: 1px solid $gray-lighter;
     color: $gray-light;
     font-size: $font-size-base;
     cursor: pointer;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    @media (max-width: $screen-xs-max) {
-      padding-bottom: 0;
-    }
     &__upvote .upvote,
     &__link-to-modal,
     &__link-to-login,
@@ -192,9 +190,7 @@ section#posts {
       }
     }
     &__content {
-      padding-top: 40px;
-      padding-right: 40px;
-      padding-left: 40px;
+      padding: 18px 0;
       .vote__buttons--unsure--label a {
         display: none;
       }
@@ -203,10 +199,7 @@ section#posts {
       cursor: initial;
     }
     &__footer {
-      padding: 10px 0;
-      @media (max-width: $screen-xs-max) {
-        padding-bottom: 0;
-      }
+      padding: 18px 4px;
     }
     &__comment-form {
       border-top: 1px solid $gray-lighter;
@@ -228,7 +221,7 @@ section#posts {
 
     @media (max-width: $screen-xs-max) {
       &__content {
-        padding: 15px;
+        padding: 0;
       }
       &__footer {
       }
@@ -310,14 +303,11 @@ section#posts {
 @media (max-width: $screen-xs-max) {
   .post-card-with-comments {
     border-radius: 0;
-    padding: 15px;
+    padding: 0;
     &__header {
       .issue-title {
         font-size: $font-size-small;
       }
-    }
-    &__post {
-      padding-bottom: 0;
     }
     &__comments {
       .more {
@@ -334,7 +324,6 @@ section#posts {
     }
     &--talk {
       .post-card-with-comments__comments {
-        margin-top: 10px;
       }
     }
   }
