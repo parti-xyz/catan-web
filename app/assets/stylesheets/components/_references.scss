@@ -124,7 +124,20 @@ section#references {
   }
 }
 
-.reference-card.best, .reference-card.popular {
+.reference-card.best,
+.reference-card.popular {
+  .thumb--reference {
+      height: 400px;
+      &::after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, .5);
+        content: '';
+      }
+    }
   .caption {
     position: absolute;
     bottom: 0;
