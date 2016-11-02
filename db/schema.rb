@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161102062929) do
+ActiveRecord::Schema.define(version: 20161102233705) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -266,8 +266,11 @@ ActiveRecord::Schema.define(version: 20161102062929) do
     t.string   "title",         limit: 255,             null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.integer  "talk_id",       limit: 4
     t.integer  "votings_count", limit: 4,   default: 0
   end
+
+  add_index "polls", ["talk_id"], name: "index_polls_on_talk_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                  limit: 4,               null: false
@@ -360,6 +363,14 @@ ActiveRecord::Schema.define(version: 20161102062929) do
   add_index "sections", ["issue_id"], name: "index_sections_on_issue_id", using: :btree
   add_index "sections", ["name"], name: "index_sections_on_name", using: :btree
 
+  create_table "statistics", force: :cascade do |t|
+    t.string  "when",             limit: 255, null: false
+    t.integer "join_users_count", limit: 4,   null: false
+    t.integer "posts_count",      limit: 4,   null: false
+    t.integer "comments_count",   limit: 4,   null: false
+    t.integer "upvotes_count",    limit: 4,   null: false
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id",        limit: 4
     t.integer  "taggable_id",   limit: 4
@@ -389,13 +400,14 @@ ActiveRecord::Schema.define(version: 20161102062929) do
 
   create_table "talks", force: :cascade do |t|
     t.datetime "deleted_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.text     "body",           limit: 65535
-    t.integer  "post_issue_id",  limit: 4,     null: false
-    t.integer  "section_id",     limit: 4,     null: false
+    t.integer  "post_issue_id",  limit: 4,                     null: false
+    t.integer  "section_id",     limit: 4,                     null: false
     t.integer  "reference_id",   limit: 4
     t.string   "reference_type", limit: 255
+    t.boolean  "has_poll",                     default: false
     t.integer  "poll_id",        limit: 4
   end
 

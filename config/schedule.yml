@@ -1,4 +1,8 @@
-statistics_job:
+score_job:
   cron: "1 * * * * Asia/Seoul"
-  class: "StatisticsJob"
+  class: "ScoreJob"
+  queue: default
+analyze_job:
+  cron: "0 1 * * * Asia/Seoul"
+  class: "AnalyzeJob"
   queue: default

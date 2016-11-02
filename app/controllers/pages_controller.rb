@@ -16,8 +16,13 @@ class PagesController < ApplicationController
     expires_in 6.hours, public: true
   end
 
-  def stat
-    StatisticsJob.perform_async
+  def score
+    ScoreJob.perform_async
+    redirect_to root_path
+  end
+
+  def analyze
+    AnalyzeJob.perform_async
     redirect_to root_path
   end
 

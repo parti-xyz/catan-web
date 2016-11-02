@@ -109,7 +109,8 @@ Rails.application.routes.draw do
   get '/privacy', to: "pages#privacy", as: 'privacy'
   get '/terms', to: "pages#terms", as: 'terms'
   if Rails.env.development?
-    get '/stat', to: "pages#stat"
+    get '/score', to: "pages#score"
+    get '/analyze', to: "pages#analyze"
   end
 
   get '/tags/:name', to: "tags#show", as: :tag
