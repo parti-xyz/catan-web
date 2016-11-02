@@ -361,7 +361,7 @@ var parti_prepare = function($base) {
     $submit.prop('disabled', true);
 
     $form.validate({
-      ignore: ':hidden:not(.redactor)',
+      ignore: ':hidden:not(.validate)',
       errorPlacement: function(error, element) {
         return true;
       }
@@ -659,7 +659,10 @@ $(function(){
   $('.parti-editor-selectpicker').selectpicker('render');
   $('.parti-editor-selectpicker').on('changed.bs.select', function(e) {
     var select_value = $(this).val();
-    $('form.form-widget input[name*="[issue_id]"]').val(select_value);
+    var $input_elm = $('form.form-widget input[name*="[issue_id]"]');
+
+    $input_elm.val(select_value);
+    $input_elm.trigger('parti-need-to-validate');
   });
 
 

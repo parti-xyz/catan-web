@@ -11,7 +11,7 @@
         = f.hidden_field :has_poll, value: false
 
         .form-group.textarea-box
-          = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor' if  is_redactorable?} validation-ignore"
+          = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_redactorable?} validation-ignore"
           .talk-link-field.hidden
             = f.fields_for :reference, LinkSource.new do |ff|
               .form-group
@@ -48,6 +48,6 @@
             %i.fa.fa-fire
             찬반토론
         .submit-box
-          = f.hidden_field :issue_id, value: issue.id
+          = f.hidden_field :issue_id, data:{ 'rule-required': true}, class: 'validate'
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
 
