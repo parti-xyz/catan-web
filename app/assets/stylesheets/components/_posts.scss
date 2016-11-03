@@ -139,6 +139,9 @@ section#posts {
         font-size: $font-size-small;
       }
     }
+    &.no-content {
+      display: none;
+    }
     cursor: pointer;
     padding: 18px 14px;
     border-top: 1px solid $gray-less-lighter;
@@ -329,10 +332,6 @@ section#posts {
     .post-card-with-comments__comments {
       margin-left: 0;
       margin-top: 0;
-    }
-    &--talk {
-      .post-card-with-comments__comments {
-      }
     }
   }
   .post-line {

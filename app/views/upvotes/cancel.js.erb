@@ -1,5 +1,9 @@
 $('.<%= dom_id(@upvotable) %>-upvote').replaceWith(parti_origin_partial("<%= escape_javascript(render 'upvotes/upvote', upvotable: @upvotable) %>"));
 $(".<%= dom_id(@upvote.upvotable) %>-upvote-counts").replaceWith(parti_origin_partial("<%= escape_javascript(render 'upvotes/upvote_count', upvotable: @upvote.upvotable) %>"));
 <% if @upvote.upvotable_type == "Post" %>
-$(".<%= dom_id(@upvote.upvotable) %>-post-reaction").html(parti_origin_partial("<%= escape_javascript(render 'posts/reaction', post: @upvote.upvotable) %>"));
+  $(".<%= dom_id(@upvote.upvotable) %>-post-reaction").html(parti_origin_partial("<%= escape_javascript(render 'posts/reaction', post: @upvote.upvotable) %>"));
+  <% if @upvote.upvotable.upvotes.count == 0 and @upvote.upvotable.upvotes.count == 0 %>
+  $('.post-card-with-comments.<%= dom_id(@upvote.upvotable) %> .post-card-with-comments__comments').addClass('no-content');
+  <% end %>
 <% end %>
+

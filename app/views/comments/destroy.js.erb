@@ -1,1 +1,5 @@
 $('.<%= dom_id(@comment) %>').remove();
+
+<% if @comment.post.comments.count == 0 and @comment.post.upvotes.count == 0 %>
+$('.post-card-with-comments.<%= dom_id(@comment.post) %> .post-card-with-comments__comments').addClass('no-content');
+<% end %>

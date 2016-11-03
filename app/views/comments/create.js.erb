@@ -5,3 +5,5 @@
   var $comments_count = parti_origin_partial("<%= escape_javascript(render 'comments/list_header', post: @comment.post, in_modal: true) %>");
   $("<%= raw params[:count_label] %>").html($comments_count);
 <% end %>
+
+$('.post-card-with-comments.<%= dom_id(@comment.post) %> .post-card-with-comments__comments').removeClass('no-content');

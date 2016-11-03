@@ -1,5 +1,5 @@
-- if post.comments.any? or post.upvotes.count > 0
-  .post-card-with-comments__comments
+.post-card-with-comments__comments{class: "#{'no-content' if post.upvotes.count <= 0 and post.comments.count <= 0}" }
+  - if post.comments.any? or post.upvotes.count > 0
     - if post.upvotes.count > 0
       = render 'upvotes/upvote_count', upvotable: post
     - if post.comments_count > 0
