@@ -62,8 +62,8 @@
                     = talk.site_name.try(:upcase)
                     원글보기
                     %i.fa.fa-external-link
-              .media-right
-                - if (talk.has_image?)
+              - if (talk.has_image?)
+                .media-right
                   .talk-reference-line__link-content__thumb{style: "background-image: url(#{talk.image.md.url})"}
     - elsif talk.poll.present?
       .poll-card[post]{ class: "#{dom_id(talk.poll)} #{user_signed_in? && talk.poll.votinged_by?(current_user) ? 'poll-card--voted' : ''}", data: modal_data}

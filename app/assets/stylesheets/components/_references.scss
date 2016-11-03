@@ -249,7 +249,11 @@ section#references {
     &__file-image {
       a {
         img {
-          width: 100%;
+          max-height: 400px;
+          max-width: 100%;
+          @media (max-width: $screen-xs-max) {
+            max-width: 100%
+          }
         }
       }
     }
