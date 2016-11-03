@@ -71,7 +71,7 @@
         .share-partial{id: "share-partial-#{dom_id(post)}"}
           = share_partial
     .post-reaction{class: "#{dom_id(post)}-post-reaction"}
-      = render 'posts/reaction', post: post
+      = render 'posts/reaction', local_assigns
 
   - if local_assigns[:in_modal]
     .post-card-with-comments__comment-form
