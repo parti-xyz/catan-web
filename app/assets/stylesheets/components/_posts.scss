@@ -131,12 +131,14 @@ section#posts {
         font-size: initial;
       }
     }
-    .post-upvote-count {
-      color: $gray-light;
-      margin-top: 10px;
-    }
   }
   &__comments {
+    .post-upvote-count {
+      color: $brand-primary;
+      @media (max-width: $screen-xs-max) {
+        font-size: $font-size-small;
+      }
+    }
     cursor: pointer;
     padding: 18px 14px;
     border-top: 1px solid $gray-less-lighter;

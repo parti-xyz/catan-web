@@ -40,7 +40,7 @@
         = render 'users/post_byline', post: post
 
       = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), local_assigns.merge(show_issue: false)
-      = render 'upvotes/upvote_count', upvotable: post
+
 
     - share_partial = capture do
       - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc} | #{post.issue.group.try(:share_site_title) || "빠띠"}" }
@@ -52,6 +52,7 @@
         - unless local_assigns[:hide_upvote]
           .talk-upvote
             = render 'upvotes/upvote', upvotable: post
+
       - unless local_assigns[:in_modal]
         - if user_signed_in?
           - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
@@ -69,13 +70,9 @@
       .hidden
         .share-partial{id: "share-partial-#{dom_id(post)}"}
           = share_partial
-    - if post.comments.any?
-      .post-card-with-comments__comments
-        - if post.comments_count > 0
-          .post-card-with-comments__count
-            = render 'comments/list_header', local_assigns.merge(post: post)
-          - (local_assigns[:in_modal] ? post.comments : post.latest_comments).each do |comment|
-            = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')
+    .post-reaction{class: "#{dom_id(post)}-post-reaction"}
+      = render 'posts/reaction', post: post
+
   - if local_assigns[:in_modal]
     .post-card-with-comments__comment-form
       - if user_signed_in?
