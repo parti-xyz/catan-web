@@ -19,11 +19,6 @@ section#comments {
   &:last-child {
     border-bottom: none;
   }
-  &:hover {
-    .comment__mention {
-      color: $brand-primary;
-    }
-  }
   .date-wrapper {
     color: $gray-light;
     font-size: $font-size-base;
@@ -31,7 +26,7 @@ section#comments {
   }
   .nickname {
     font-weight: bold;
-    color: $brand-primary;
+    color: $brand-primary-dark;
   }
   .body {
     display: inline;
@@ -69,7 +64,7 @@ section#comments {
     color: $brand-primary;
   }
   .upvote-liked {
-    color: $gray;
+    color: $brand-primary;
   }
   .upvote-count {
     display: inline-block;

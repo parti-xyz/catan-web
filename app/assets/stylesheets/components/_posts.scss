@@ -140,6 +140,7 @@ section#posts {
     cursor: pointer;
     padding: 18px 14px;
     border-top: 1px solid $gray-less-lighter;
+    background-color: $gray-more-lightest;
   }
   &__footer {
     margin-left: 14px;
@@ -154,9 +155,7 @@ section#posts {
     &__link-to-login,
     &__share-modal {
       padding-right: 20px;
-      &:hover {
-        color: $gray;
-      }
+      color: $gray;
       i {
         font-size: $font-size-base;
       }
@@ -166,7 +165,7 @@ section#posts {
       .talk-upvote {
         display: inline-block;
         .upvote {
-          color: $gray-light;
+          color: $gray;
         }
         .upvote-liked {
           color: $brand-primary;

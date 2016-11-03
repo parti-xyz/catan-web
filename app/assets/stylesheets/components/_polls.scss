@@ -28,7 +28,7 @@ section#polls {
   text-align: center;
   border: 1px solid #f1f1f1;
   &--voted {
-    background-color: #f9f9f9;
+    background-color: $gray-more-lightest;
     border: 1px solid $brand-primary-light;
     h4 a {
       color: $gray-darker;

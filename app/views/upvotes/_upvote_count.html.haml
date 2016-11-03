@@ -1,6 +1,7 @@
 .post-upvote-count{class: "#{dom_id(upvotable)}-upvote-counts"}
-  - unless upvotable.class.name == "Comment"
-    공감 #{upvotable.upvotes.count}
-  - else
-    %i.fa.fa-heart
-    #{upvotable.upvotes.count}
+  - if upvotable.upvotes.any?
+    - unless upvotable.class.name == "Comment"
+      공감 #{upvotable.upvotes.count}
+    - else
+      %i.fa.fa-heart
+      #{upvotable.upvotes.count}
