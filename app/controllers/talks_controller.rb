@@ -10,6 +10,7 @@ class TalksController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
     @talk.reference = @talk.reference.unify if @talk.reference
     @talk.user = current_user
+    @talk.section = @talk.issue.initial_section if @talk.section.blank?
     if @talk.save
       callback_after_creating_talk
     else
