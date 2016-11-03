@@ -87,6 +87,5 @@
               베스트
               %span.caret
             %ul.dropdown-menu
-              - [Talk, Poll].each do |model|
-                %li= link_to model.model_name.human, polymorphic_path(model), class: "#{'active' if current_page?(polymorphic_path(model))}"
+              %li= link_to '찬반투표', polls_path, class: "#{'active' if current_page?(controller: "/polls", action: :index)}"
               %li= link_to '자료' ,references_path, class: "#{'active' if current_page?(controller: "/references", action: :index)}"
