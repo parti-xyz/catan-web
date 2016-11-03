@@ -11,7 +11,7 @@
         = f.hidden_field :has_poll, value: false
 
         .form-group.textarea-box
-          = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_redactorable?} validation-ignore"
+          = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_redactorable?} validation-ignore", data: { 'rule-required': true }
           .talk-link-field.hidden
             = f.fields_for :reference, LinkSource.new do |ff|
               .form-group

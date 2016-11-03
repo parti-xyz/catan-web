@@ -9,7 +9,7 @@
             .unified-editor.unified-editor-intro.hidden-xs{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
               .text-muted
                 = byline current_user, hide_nickname: true
-                #{current_user.nickname}님, 이야기 나누실래요?
+                #{current_user.nickname}님, 무슨 이야기를 나누실래요?
             .unified-editor.unified-editor--hidden
               = render 'talks/new_form', issue: @issue
           - else

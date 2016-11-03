@@ -64,7 +64,10 @@
           border: 1px solid $brand-primary !important;
         }
       }
-      .dropdown-menu.open {
+      .dropdown-header {
+        font-size: $font-size-base;
+        font-weight: bold;
+        color: $brand-primary;
       }
     }
   }
