@@ -13,21 +13,6 @@
         빠띠
         %span.hidden-xs= count_label
 
-  - count_label = capture_haml(counts_container) do |counts_container|
-    %span.count-label-wrapper<>
-      %span.count-label<>
-        = counts_container.talks_count
-        - if counts_container.latest_talks_count > 0
-          %small.text-primary
-            +#{counts_container.latest_talks_count}
-  %li{role: 'presentation', class: ('active' if active_tab == :talks)}
-    = link_to slug_user_talks_path(slug: @user.slug) do
-      %h4<>
-        %span.visible-xs-inline<>= count_label
-        %br.visible-xs-inline<>
-        = t('activerecord.models.talk')
-        %span.hidden-xs= count_label
-
   %li{role: 'presentation', class: ('active' if active_tab == :polls)}
     = link_to slug_user_polls_path(slug: @user.slug) do
       %h4

@@ -102,7 +102,6 @@ Rails.application.routes.draw do
 
   get '/u/:slug', to: "users#parties", as: 'slug_user'
   get '/u/:slug/polls', to: "users#polls", as: 'slug_user_polls'
-  get '/u/:slug/talks', to: "users#talks", as: 'slug_user_talks'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'

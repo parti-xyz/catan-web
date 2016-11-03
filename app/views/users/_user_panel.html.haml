@@ -12,7 +12,7 @@
             .user-panel__info__label 빠띠
             .user-panel__info__count= writing_counts.parties_count
         .col-xs-4
-          = link_to slug_user_talks_path(slug: user.slug) do
+          = link_to user_gallery_path(user) do
             .user-panel__info__label 논의
             .user-panel__info__count= writing_counts.talks_count
         .col-xs-4
