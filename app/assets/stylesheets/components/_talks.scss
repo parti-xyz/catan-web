@@ -156,6 +156,7 @@ section#talks {
   }
   .talk-body {
     color: $text-muted;
+    word-break: break-word;
   }
   .talk-upvote {
     margin-top: 12px;
