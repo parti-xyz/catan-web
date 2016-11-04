@@ -133,7 +133,7 @@ section#posts {
   }
   &__comments {
     .post-upvote-count {
-      color: $gray-light;
+      color: $brand-primary;
       @media (max-width: $screen-xs-max) {
         font-size: $font-size-small;
       }
