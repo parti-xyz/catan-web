@@ -2,5 +2,6 @@
   - unless upvotable.class.name == "Comment"
     공감 #{upvotable.upvotes.count}
   - else
-    %i.fa.fa-heart
-    #{upvotable.upvotes.count}
+    - if upvotable.upvotes.count > 0
+      %i.fa.fa-heart
+      #{upvotable.upvotes.count}

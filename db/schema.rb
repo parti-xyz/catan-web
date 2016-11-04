@@ -266,11 +266,8 @@ ActiveRecord::Schema.define(version: 20161102233705) do
     t.string   "title",         limit: 255,             null: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.integer  "talk_id",       limit: 4
     t.integer  "votings_count", limit: 4,   default: 0
   end
-
-  add_index "polls", ["talk_id"], name: "index_polls_on_talk_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                  limit: 4,               null: false
@@ -400,14 +397,13 @@ ActiveRecord::Schema.define(version: 20161102233705) do
 
   create_table "talks", force: :cascade do |t|
     t.datetime "deleted_at"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.text     "body",           limit: 65535
-    t.integer  "post_issue_id",  limit: 4,                     null: false
-    t.integer  "section_id",     limit: 4,                     null: false
+    t.integer  "post_issue_id",  limit: 4,     null: false
+    t.integer  "section_id",     limit: 4,     null: false
     t.integer  "reference_id",   limit: 4
     t.string   "reference_type", limit: 255
-    t.boolean  "has_poll",                     default: false
     t.integer  "poll_id",        limit: 4
   end
 
