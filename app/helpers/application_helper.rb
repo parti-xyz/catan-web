@@ -50,6 +50,21 @@ module ApplicationHelper
       sanitize: false))
   end
 
+  def redactor_smart_format(text, html_options = {}, options = {})
+    return text if text.blank?
+    text = text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
+      at_nickname = $1
+      nickname = at_nickname[1..-1]
+      user = User.find_by nickname: nickname
+      if user.present?
+        m.gsub($1, link_to($1, user_gallery_path(user), class: 'user__nickname--mentioned'))
+      else
+        m
+      end
+    end
+    raw(text)
+  end
+
   def asset_data_base64(path)
     content, content_type = parse_asset(path)
     base64 = Base64.encode64(content).gsub(/\s+/, "")
