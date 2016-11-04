@@ -68,10 +68,12 @@ section#comments {
   }
   .upvote-count {
     display: inline-block;
-    margin-left: 12px;
     color: $brand-primary;
     &.delete-margin-left {
       margin-left: 0;
+    }
+    &.add-margin-left {
+      margin-left: 12px;
     }
   }
   .update-form {

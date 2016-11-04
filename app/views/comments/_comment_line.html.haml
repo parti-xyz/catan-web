@@ -21,7 +21,7 @@
           - else
             %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
               댓글달기
-        .upvote-count{class: "#{'delete-margin-left' if comment.upvotes.count == 0}"}
+        .upvote-count{class: "#{'delete-margin-left' if comment.upvotes.count == 0 } #{'add-margin-left' if comment.upvotes.count > 0 }" }
           = render 'upvotes/upvote_count', upvotable: comment
         %span.date-wrapper= date_f comment.created_at
 
