@@ -13,7 +13,8 @@
       %span.post-line__issue__post-type
         &middot;
         #{Talk.model_name.human}
-  %h4.talk-line__title.post-line__title{data: modal_data}
+  -if talk.parsed_title.present?
+    %h4.talk-line__title.post-line__title{data: modal_data}
     != talk.parsed_title
   .talk-body{data: modal_data}
     != talk.parsed_body
