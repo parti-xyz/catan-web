@@ -5,14 +5,13 @@ class Comment < ActiveRecord::Base
     expose :user, using: User::Entity
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
-      expose :is_mentionable do |model, options|
-        model.mentionable? options[:current_user]
+      expose :is_mentionable do |instance, options|
+        instance.mentionable? options[:current_user]
       end
-      expose :is_upvotable do |model, options|
-        model.upvotable? options[:current_user]
+      expose :is_upvotable do |instance, options|
+        instance.upvotable? options[:current_user]
       end
     end
-    expose :post_id, if: { type: :full }
   end
 
   acts_as_paranoid

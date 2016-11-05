@@ -2,21 +2,21 @@ class Poll < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     expose :id, :title, :votings_count
-    expose :agreed_voting_users, using: User::Entity do |model|
-      model.votings.agreed.map &:user
+    expose :agreed_voting_users, using: User::Entity do |instance|
+      instance.votings.agreed.map &:user
     end
-    expose :disagreed_voting_users, using: User::Entity do |model|
-      model.votings.disagreed.map &:user
+    expose :disagreed_voting_users, using: User::Entity do |instance|
+      instance.votings.disagreed.map &:user
     end
-    expose :agreed_votings_count do |model|
-      model.votings.agreed.count
+    expose :agreed_votings_count do |instance|
+      instance.votings.agreed.count
     end
-    expose :disagreed_votings_count do |model|
-      model.votings.disagreed.count
+    expose :disagreed_votings_count do |instance|
+      instance.votings.disagreed.count
     end
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
-      expose :my_choice do |model, options|
-        model.voting_by(options[:current_user]).try(:choice)
+      expose :my_choice do |instance, options|
+        instance.voting_by(options[:current_user]).try(:choice)
       end
     end
   end

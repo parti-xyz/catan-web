@@ -2,8 +2,8 @@ class LinkSource < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     expose :url, :title, :body, :site_name
-    expose :image_url do |model|
-      model.image.md.url
+    expose :image_url do |instance|
+      instance.image.md.url
     end
   end
   extend Enumerize

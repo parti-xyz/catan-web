@@ -157,3 +157,15 @@ ko:
       truncate: "&hellip;"
   unauthorized:
     default: "권한이 없습니다."
+  api:
+    entities:
+      message:
+        desc:
+          comment:
+            created: "글 <span class='post-desc'>'%{post_desc}'</span>에 댓글을 작성했습니다 : <span class='comment-desc'>%{comment_desc}</span>"
+            mentioned: "글 <span class='post-desc'>'%{post_desc}'</span>의 댓글에서 나를 멘션했습니다 : <span class='comment-desc'>%{comment_desc}</span>"
+          upvote:
+            comment: "글 <span class='post-desc'>'%{post_desc}'</span>에 게시한 내 댓글을 공감합니다 : <span class='comment-desc'>%{comment_desc}</span>"
+            post: "내 글을 공감합니다. : <span class='post-desc post-desc--source'>%{post_desc}"
+
+

@@ -1,7 +1,13 @@
 class Upvote < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
-    expose :id, :upvotable_id, :upvotable_type
+    expose :id, :upvotable_type
+    expose :post_upvotable, using: Post::Entity, if: lambda { |instance, options|  instance.upvotable_type == 'Post' } do |instance|
+      instance.upvotable
+    end
+    expose :comment_upvotable, using: Comment::Entity, if: lambda { |instance, options|  instance.upvotable_type == 'Comment' } do |instance|
+      instance.upvotable
+    end
     expose :user, using: User::Entity
   end
 
@@ -25,6 +31,10 @@ class Upvote < ActiveRecord::Base
 
   def sender_of_message
     user
+  end
+
+  def post
+    upvotable.is_a?(Post) ? upvotable : upvotable.post
   end
 
   private

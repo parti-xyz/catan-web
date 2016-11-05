@@ -4,31 +4,35 @@ class Post < ActiveRecord::Base
     expose :id, :upvotes_count
     expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
-    expose :title do |model|
-      model.specific.try(:title)
+    expose :parsed_title do |instance|
+      instance.specific.try(:parsed_title)
     end
-    expose :body do |model|
-      model.specific.try(:body)
-    end
-    expose :link_reference, using: LinkSource::Entity do |model|
-      model.specific.reference if model.specific.link_source?
-    end
-    expose :file_reference, using: FileSource::Entity do |model|
-      model.specific.reference if model.specific.file_source?
-    end
-    expose :poll, using: Poll::Entity do |model|
-      model.specific.poll if model.specific.poll.present?
+    expose :parsed_body do |instance|
+      instance.specific.try(:parsed_body)
     end
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
-    expose :comments, using: Comment::Entity do |model|
-      model.comments.sequential
-    end
+
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
-      expose :is_upvotable do |model, options|
-        model.upvotable? options[:current_user]
+      expose :is_upvotable do |instance, options|
+        instance.upvotable? options[:current_user]
       end
-      expose :is_blinded do |model, options|
-        model.blinded? options[:current_user]
+      expose :is_blinded do |instance, options|
+        instance.blinded? options[:current_user]
+      end
+    end
+
+    with_options(if: lambda { |instance, options| options[:type] == :full }) do
+      expose :link_reference, using: LinkSource::Entity, if: lambda { |instance, options| instance.specific.link_source? } do |instance|
+        instance.specific.reference
+      end
+      expose :file_reference, using: FileSource::Entity, if: lambda { |instance, options| instance.specific.file_source? } do |instance|
+        instance.specific.reference
+      end
+      expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.specific.poll.present? } do |instance|
+        instance.specific.poll
+      end
+      expose :comments, using: Comment::Entity do |instance|
+        instance.comments.sequential
       end
     end
   end
@@ -132,6 +136,10 @@ class Post < ActiveRecord::Base
 
   def specific_desc
     specific.try(:title) || specific.try(:parsed_title) || specific.try(:body)
+  end
+
+  def specific_desc_striped_tags
+    ActionView::Base.full_sanitizer.sanitize(specific_desc)
   end
 
   def origin

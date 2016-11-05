@@ -1,8 +1,8 @@
 class Issue < ActiveRecord::Base
   include Grape::Entity::DSL
   entity :id, :title, :slug, :group do
-    expose :logo, as: :logo_url do |model|
-      model.logo.sm.url
+    expose :logo, as: :logo_url do |instance|
+      instance.logo.sm.url
     end
   end
 

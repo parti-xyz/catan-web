@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   include Grape::Entity::DSL
   entity :id, :nickname, :email do
-    expose :image, as: :image_url do |model|
-      model.image.sm.url
+    expose :image_url do |instance|
+      instance.image.sm.url
     end
   end
 
