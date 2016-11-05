@@ -38,7 +38,7 @@ class Talk < ActiveRecord::Base
 
   def parsed_body
     _, body = parsed_title_and_body
-    body
+   body
   end
 
   def is_presentation?(comment)

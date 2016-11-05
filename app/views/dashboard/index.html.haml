@@ -48,7 +48,7 @@
                         %option{value: issue.id, 'data-content': issue_content}= issue.title
 
             - unless current_user.need_to_more_watch_or_member?(current_group)
-              = render 'talks/new_form', issue: selected_parti
+              = render 'talks/new_form', issue: nil
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?

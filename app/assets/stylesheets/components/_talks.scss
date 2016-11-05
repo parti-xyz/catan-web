@@ -136,6 +136,9 @@ section#talks {
 
 .talk-line {
   cursor: pointer;
+  p {
+    margin: 0 0 12px;
+  }
   .post-modal & {
     cursor: initial;
   }

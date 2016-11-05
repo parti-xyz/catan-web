@@ -102,6 +102,10 @@ var parti_prepare = function($base) {
 
   $base.find('[data-action="parti-popover"]').webuiPopover();
 
+  // redactor의 링크를 새 창으로 띄웁니다
+  $.parti_apply($base, '[data-action="parti-link-target-blank"]', function(elm) {
+    $(elm).find('a').attr('target', '_blank');
+  });
   // typeahead
 
   $.parti_apply($base, '[data-provider="parti-issue-typeahead"]', function(elm) {
@@ -757,6 +761,7 @@ $(function(){
   $('.redactor').redactor({
     buttons: ['bold', 'italic', 'deleted'],
     air: true,
+    pasteLinks: false,
     callbacks: {
       imageUploadError: function(json, xhr) {
         UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})

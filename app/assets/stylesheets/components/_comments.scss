@@ -11,7 +11,7 @@ section#comments {
 }
 
 .comment-line {
-  padding: 10px 4px 12px;
+  padding: 12px 0;
   border-bottom: 1px solid #eaeaeb;
   @media (max-width: $screen-xs-max) {
     padding-bottom: 10px;
@@ -68,8 +68,13 @@ section#comments {
   }
   .upvote-count {
     display: inline-block;
-    margin-left: 12px;
     color: $brand-primary;
+    &.delete-margin-left {
+      margin-left: 0;
+    }
+    &.add-margin-left {
+      margin-left: 12px;
+    }
   }
   .update-form {
     margin-bottom: 10px;

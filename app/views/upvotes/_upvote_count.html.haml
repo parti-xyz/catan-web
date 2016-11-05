@@ -1,6 +1,8 @@
-.post-upvote-count{class: "#{dom_id(upvotable)}-upvote-counts"}
+.post-upvote-count{class: "#{dom_id(upvotable)}-upvote-counts #{'delete-margin-top' if upvotable.comments.count == 0 if upvotable.class.name == "Post"} #{'add-margin-top' if upvotable.comments.count >0 if upvotable.class.name == "Post"} " }
   - unless upvotable.class.name == "Comment"
     공감 #{upvotable.upvotes.count}
   - else
-    %i.fa.fa-heart
-    #{upvotable.upvotes.count}
+    - if upvotable.upvotes.count > 0
+      %span{class: "#{'upvoted' if upvotable.upvoted_by? (current_user)}"}
+        %i.fa.fa-heart
+        #{upvotable.upvotes.count}
