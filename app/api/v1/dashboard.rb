@@ -10,7 +10,7 @@ module V1
         watched_posts = resource_owner.watched_posts
         @last_post = watched_posts.newest(field: :last_touched_at)
 
-        previous_last_post = Post.find_by(id: params[:last_id])
+        previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
 
         watched_posts = watched_posts.order(last_touched_at: :desc)
         @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
