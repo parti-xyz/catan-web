@@ -3,23 +3,50 @@ module V1
     helpers DefaultHelpers
     include V1::Defaults
 
+    helpers do
+      def parties_joined_only
+        resource_owner.only_watched_issues.sort{ |a, b| a.compare_title(b) }
+      end
+
+      def parties_making
+        resource_owner.making_issues.sort{ |a, b| a.compare_title(b) }
+      end
+    end
+
     namespace :parties do
       desc '내가 메이커가 아닌 가입만한 빠띠 목록을 반환합니다'
       oauth2
       get :joined_only do
-        present :parties, resource_owner.only_watched_issues
+        present :parties, parties_joined_only
       end
 
       desc '내가 메이커인 빠띠 목록을 반환합니다'
       oauth2
       get :making do
-        present :parties, resource_owner.making_issues
+        present :parties, parties_making
       end
 
-      desc '내가 모든 빠띠 목록을 반환합니다'
+      desc '모든 빠띠 목록을 반환합니다'
       oauth2
+      params do
+        optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
+      end
       get do
-        present :parties, Issue.all.limit(20)
+        present :parties, Issue.all.send(params[:sort]).limit(20)
+      end
+
+      desc '앱에서 기본으로 보여질 빠띠를 반환합니다.'
+      oauth2
+      get :first do
+        if parties_making.any?
+          @first = parties_making.first
+        elsif parties_joined_only.any?
+          @first = parties_joined_only.first
+        else
+          @first = Issue.hottest.first
+        end
+
+        present :parti, @first
       end
 
       desc '해당 빠띠의 모든 글을 반환합니다'
