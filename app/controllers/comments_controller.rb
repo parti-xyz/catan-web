@@ -45,9 +45,9 @@ class CommentsController < ApplicationController
   end
 
   def set_choice
-    if @comment.post.specific.respond_to? :vote_by
-      @vote = @comment.post.specific.vote_by current_user
-      @comment.choice = @vote.try(:choice)
+    if @comment.post.specific.respond_to? :voting_by
+      @voting = @comment.post.specific.voting_by current_user
+      @comment.choice = @voting.try(:choice)
     end
   end
 

@@ -118,22 +118,6 @@ class Post < ActiveRecord::Base
     votes.exists? user: voter
   end
 
-  def agreed_by? voter
-    votes.exists? user: voter, choice: 'agree'
-  end
-
-  def disagreed_by? voter
-    votes.exists? user: voter, choice: 'disagree'
-  end
-
-  def sured_by? voter
-    votes.exists? user: voter, choice: ['agree', 'disagree']
-  end
-
-  def unsured_by? voter
-    votes.exists? user: voter, choice: 'unsure'
-  end
-
   def specific_desc
     specific.try(:title) || specific.try(:parsed_title) || specific.try(:body)
   end
@@ -147,7 +131,7 @@ class Post < ActiveRecord::Base
   end
 
   def messagable_users
-    (comments.users + votes.users).uniq
+    (comments.users + (specific.poll.try(:votings).try(:users) || [])).uniq
   end
 
   def latest_comments

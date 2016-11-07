@@ -29,7 +29,7 @@ module PartiUrlHelper
     if options.has_key? :section_id
       slug_issue_talks_with_section_path(options)
     else
-      slug_issue_talks_path(options)
+      slug_issue_path(options)
     end
   end
 

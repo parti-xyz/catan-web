@@ -51,7 +51,7 @@ class Poll < ActiveRecord::Base
     votings.where(user: voter).first
   end
 
-  def votinged_by? voter
+  def voting_by? voter
     votings.exists? user: voter
   end
 

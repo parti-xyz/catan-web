@@ -32,42 +32,41 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '찬성하는 주장에 만들어요' do
-    assert opinions(:opinion1).agreed_by? users(:two)
+    assert talks(:talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:two))
 
-    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_equal 'agree', assigns(:comment).choice
   end
 
-  test '업보트한 경우 댓글을 달면 메시지가 보내져요' do
-    assert opinions(:opinion1).agreed_by? users(:two)
+  test '찬반투표한 경우 댓글을 달면 메시지가 보내져요' do
+    assert talks(:talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:one))
-    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' }), format: :js
-
+    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
     refute assigns(:comment).errors.any?
     assert_equal assigns(:comment), users(:two).messages.first.messagable
   end
 
-  test '업보트한 경우라도 블랙리스트 사용자가 댓글을 달면 메시지가 안 보내져요' do
-    assert opinions(:opinion1).agreed_by? users(:two)
+  test '찬반투표한 경우라도 블랙리스트 사용자가 댓글을 달면 메시지가 안 보내져요' do
+    assert talks(:talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:bad))
-    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
 
     refute assigns(:comment).errors.any?
     refute users(:two).messages.any?
   end
 
   test '투표 안한 주장에 만들어요' do
-    refute opinions(:opinion1).voted_by? users(:one)
+    refute talks(:talk4).poll.voting_by? users(:three)
 
-    sign_in(users(:one))
+    sign_in(users(:three))
 
-    post post_comments_path(post_id: opinions(:opinion1).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_nil assigns(:comment).choice

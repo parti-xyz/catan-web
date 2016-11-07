@@ -1,7 +1,7 @@
 - talk = poll.talk
 - post = talk.acting_as
 - issue = post.issue
-- voted = user_signed_in? && poll.votinged_by?(current_user)
+- voted = user_signed_in? && poll.voting_by?(current_user)
 - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }
 .poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''}", data: modal_data}
   .row.poll-card__meta

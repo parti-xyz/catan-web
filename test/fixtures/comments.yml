@@ -1,9 +1,9 @@
 comment1:
   user: one
-  post: post_article1
+  post: post_talk1
   body: body
 
 comment2:
   user: two
-  post: post_article2
+  post: post_talk3
   body: body2

@@ -70,7 +70,7 @@
                 .media-right
                   .talk-reference-line__link-content__thumb{style: "background-image: url(#{talk.image.md.url})"}
     - elsif talk.poll.present?
-      .poll-card[post]{ class: "#{dom_id(talk.poll)} #{user_signed_in? && talk.poll.votinged_by?(current_user) ? 'poll-card--voted' : ''}", data: modal_data}
+      .poll-card[post]{ class: "#{dom_id(talk.poll)} #{user_signed_in? && talk.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}", data: modal_data}
         .row.poll-card__meta
           .col-sm-6.col-xs-12
             .poll-card__issue

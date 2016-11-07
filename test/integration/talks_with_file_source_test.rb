@@ -5,7 +5,7 @@ class TalksWithFileSourceTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post talks_path, talk: { issue_id: issues(:issue2).id, title: 'title', body: 'body', section_id: sections(:section2).id, reference_attributes: { attachment: fixture_file('files/sample.pdf') }, reference_type: 'FileSource' }
+    post talks_path, talk: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { attachment: fixture_file('files/sample.pdf') }, reference_type: 'FileSource' }
 
     assert assigns(:talk).persisted?
     assigns(:talk).reload

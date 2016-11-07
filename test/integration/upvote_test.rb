@@ -3,16 +3,13 @@ require 'test_helper'
 class UpvoteTest < ActionDispatch::IntegrationTest
   test '댓글을 업보트해요' do
     assert_equal 1, Upvote.by_issue(issues(:issue1)).count
-
     refute comments(:comment1).upvoted_by?(users(:one))
     sign_in(users(:one))
-
     post comment_upvotes_path(comment_id: comments(:comment1).id), format: :js
 
     assert assigns(:upvote).persisted?
     assert_equal users(:one), assigns(:upvote).user
     assert comments(:comment1).upvoted_by? users(:one)
-
     assert_equal 2, Upvote.by_issue(issues(:issue1)).count
   end
 

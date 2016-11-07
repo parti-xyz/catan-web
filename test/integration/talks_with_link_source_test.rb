@@ -13,7 +13,7 @@ class TalksWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post talks_path, talk: { issue_id: issues(:issue2).id, title: 'title', body: 'body', section_id: sections(:section2).id, reference_attributes: { url: 'http://link.xx' }, reference_type: 'LinkSource' }
+      post talks_path, talk: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: 'http://link.xx' }, reference_type: 'LinkSource' }
       assert assigns(:talk).persisted?
       assigns(:talk).reload
       assert_equal 'page title', assigns(:talk).reference_title
@@ -21,7 +21,6 @@ class TalksWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert_equal 'body', assigns(:talk).body
       assert_equal users(:one), assigns(:talk).user
       assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:talk).reference
-      assert_equal issues(:issue2).title, assigns(:talk).issue.title
 
       assert assigns(:talk).comments.empty?
     end
@@ -32,7 +31,7 @@ class TalksWithLinkSourceTest < ActionDispatch::IntegrationTest
       sign_in(users(:one))
 
       talk3_link = talks(:talk3).reference.url
-      post talks_path, talk: { issue_id: issues(:issue2).id, title: 'title', body: 'body', section_id: sections(:section2).id, reference_attributes: { url: talk3_link }, reference_type: 'LinkSource' }
+      post talks_path, talk: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: talk3_link }, reference_type: 'LinkSource' }
       assert assigns(:talk).persisted?
       assigns(:talk).reload
 

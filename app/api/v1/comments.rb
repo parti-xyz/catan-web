@@ -6,9 +6,9 @@ module V1
     namespace :comments do
       helpers do
         def set_choice(comment)
-          return unless comment.post.specific.respond_to? :vote_by
-          vote = comment.post.specific.vote_by resource_owner
-          comment.choice = vote.try(:choice)
+          return unless comment.post.specific.respond_to? :voting_by
+          voting = comment.post.specific.voting_by resource_owner
+          comment.choice = voting.try(:choice)
         end
       end
 

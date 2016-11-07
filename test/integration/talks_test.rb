@@ -4,14 +4,13 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post talks_path, talk: { title: 'title', body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    post talks_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
 
     assert assigns(:talk).persisted?
     assigns(:talk).reload
-    assert_equal 'title', assigns(:talk).title
     assert_equal 'body', assigns(:talk).body
     assert_equal users(:one), assigns(:talk).user
-    assert_equal issues(:issue2).title, assigns(:talk).issue.title
+    assert_equal issues(:issue2).body, assigns(:talk).issue.body
 
     assert assigns(:talk).comments.empty?
   end
@@ -22,7 +21,7 @@ class TalksTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:two))
 
-    post talks_path, talk: { title: 'title', body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    post talks_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
     assert assigns(:talk).persisted?
   end
 
@@ -32,7 +31,7 @@ class TalksTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
 
-    post talks_path, talk: { title: 'title', body: 'body', issue_id: issues(:issue1).id, section_id: sections(:section1).id }
+    post talks_path, talk: { body: 'body', issue_id: issues(:issue1).id, section_id: sections(:section1).id }
     assert assigns(:talk).persisted?
   end
 
@@ -43,21 +42,20 @@ class TalksTest < ActionDispatch::IntegrationTest
     sign_in(users(:two))
 
     assert_raises CanCan::AccessDenied do
-      post talks_path(talk: { title: 'title', body: 'body', issue_id: issues(:issue1).id })
+      post talks_path(talk: { body: 'body', issue_id: issues(:issue1).id })
     end
   end
 
   test '고쳐요' do
     sign_in(users(:one))
 
-    put talk_path(talks(:talk1)), talk: { title: 'title x', body: 'body x', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    put talk_path(talks(:talk1)), talk: { body: 'body x', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
 
     refute assigns(:talk).errors.any?
     assigns(:talk).reload
-    assert_equal 'title x', assigns(:talk).title
     assert_equal 'body x', assigns(:talk).body
     assert_equal users(:one), assigns(:talk).user
-    assert_equal issues(:issue2).title, assigns(:talk).issue.title
+    assert_equal issues(:issue2).body, assigns(:talk).issue.body
   end
 
   test '세상에 없었던 새로운 이슈를 넣으면 저장이 안되요' do
@@ -74,7 +72,7 @@ class TalksTest < ActionDispatch::IntegrationTest
   test '내용 없이 만들수 있어요' do
     sign_in(users(:one))
 
-    post talks_path, talk: { title: 'title', issue_id: issues(:issue2).id, section_id: sections(:section2).id }
+    post talks_path, talk: { issue_id: issues(:issue2).id, section_id: sections(:section2).id }
 
     assert assigns(:talk).persisted?
   end

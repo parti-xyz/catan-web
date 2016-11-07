@@ -102,7 +102,11 @@ class Talk < ActiveRecord::Base
   end
 
   def build_poll(params)
-    self.poll = Poll.new(params) if self.has_poll == 'true'
+    if self.poll.try(:persisted?)
+      self.poll.assign_attributes(params)
+    else
+      self.poll = Poll.new(params) if self.has_poll == 'true'
+    end
   end
 
   def meta_tag_title
@@ -114,6 +118,30 @@ class Talk < ActiveRecord::Base
       lines = strip_body.lines
       lines.first
     end
+  end
+
+  def voting_by voter
+    poll.try(:voting_by, voter)
+  end
+
+  def voting_by? voter
+    poll.try(:voting_by?, voter)
+  end
+
+  def agreed_by? voter
+    poll.try(:agreed_by?, voter)
+  end
+
+  def disagreed_by? voter
+    poll.try(:disagreed_by?, voter)
+  end
+
+  def sured_by? voter
+    poll.try(:sured_by?, voter)
+  end
+
+  def unsured_by? voter
+    poll.try(:unsured_by?, voter)
   end
 
   private

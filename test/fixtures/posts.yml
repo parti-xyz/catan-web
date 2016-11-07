@@ -1,12 +1,4 @@
 # issue1
-post_opinion1:
-  user: one
-  issue: issue1
-  postable: opinion1 (Opinion)
-post_opinion2:
-  user: one
-  issue: issue1
-  postable: opinion2 (Opinion)
 post_talk1:
   user: one
   issue: issue1
@@ -21,14 +13,6 @@ post_talk5:
   postable: talk5 (Talk)
 
 # issue2
-post_opinion3:
-  user: one
-  issue: issue2
-  postable: opinion3 (Opinion)
-post_opinion4:
-  user: one
-  issue: issue2
-  postable: opinion4 (Opinion)
 post_talk2:
   user: one
   issue: issue2

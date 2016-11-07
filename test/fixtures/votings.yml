@@ -14,3 +14,7 @@ voting4:
   poll: poll3
   choice: agree
   user: two
+voting5:
+  poll: poll2
+  choice: agree
+  user: two
