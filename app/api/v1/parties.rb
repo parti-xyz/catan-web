@@ -17,13 +17,13 @@ module V1
       desc '내가 메이커가 아닌 가입만한 빠띠 목록을 반환합니다'
       oauth2
       get :joined_only do
-        present :parties, parties_joined_only
+        present :parties, parties_joined_only, base_options
       end
 
       desc '내가 메이커인 빠띠 목록을 반환합니다'
       oauth2
       get :making do
-        present :parties, parties_making
+        present :parties, parties_making, base_options
       end
 
       desc '모든 빠띠 목록을 반환합니다'
@@ -32,7 +32,7 @@ module V1
         optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
       end
       get do
-        present :parties, Issue.all.send(params[:sort]).limit(20)
+        present :parties, Issue.all.send(params[:sort]).limit(20), base_options
       end
 
       desc '앱에서 기본으로 보여질 빠띠를 반환합니다.'
@@ -46,7 +46,7 @@ module V1
           @first = Issue.hottest.first
         end
 
-        present :parti, @first
+        present :parti, @first, base_options
       end
 
       desc '해당 빠띠의 모든 글을 반환합니다'
@@ -69,7 +69,36 @@ module V1
         @has_more_item = (base_posts.any? and base_posts.previous_of_post(current_last_post).any?)
 
         present :has_more_item, @has_more_item
-        present :items, @posts, current_user: resource_owner, type: :full
+        present :items, @posts, base_options.merge(type: :full)
+      end
+
+      desc '가입합니다'
+      oauth2
+      params do
+        requires :slug, type: String, desc: '빠띠의 slug'
+      end
+      post ':slug/members' do
+        @issue = Issue.find_by(slug: params[:slug])
+
+        @issue.watches.build(user: resource_owner)
+        @issue.members.build(users: resource_owner) if @issue.member_only?
+
+        @issue.save!
+      end
+
+      desc '탈퇴합니다'
+      oauth2
+      params do
+        requires :slug, type: String, desc: '빠띠의 slug'
+      end
+      delete ':slug/members' do
+        @issue = Issue.find_by(slug: params[:slug])
+
+        return if @issue.made_by? resource_owner
+        ActiveRecord::Base.transaction do
+          @issue.watches.find_by(user: resource_owner).try(:destroy!)
+          @issue.members.find_by(user: resource_owner).try(:destroy!)
+        end
       end
     end
   end

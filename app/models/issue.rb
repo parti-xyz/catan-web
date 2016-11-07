@@ -4,6 +4,15 @@ class Issue < ActiveRecord::Base
     expose :logo, as: :logo_url do |instance|
       instance.logo.sm.url
     end
+
+    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+      expose :is_member do |instance, options|
+        instance.watched_by? options[:current_user] or instance.member? options[:current_user]
+      end
+      expose :is_made_by do |instance, options|
+        instance.made_by? options[:current_user]
+      end
+    end
   end
 
   include UniqueSoftDeletable
