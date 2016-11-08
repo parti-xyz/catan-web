@@ -157,8 +157,9 @@ class Talk < ActiveRecord::Base
       [nil, body]
     else
       lines = strip_body.lines
-      remains = lines[1..-1].join
-      [lines.first, remains]
+      setences = lines.first.split(/(?<=\<\/p>)/)
+      remains = (setences[1..-1] + lines[1..-1]).join
+      [setences.first, remains]
     end
   end
 end
