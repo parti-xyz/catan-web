@@ -6,6 +6,23 @@ GIT
       doorkeeper (>= 4.0)
       railties (>= 3.1)
 
+GIT
+  remote: git://github.com/parti-xyz/twitter.git
+  revision: 7ad6c2a27e8c58c58c2558681e1ec35db130d217
+  branch: feature/user-email
+  specs:
+    twitter (5.16.0)
+      addressable (~> 2.3)
+      buftok (~> 0.2.0)
+      equalizer (= 0.0.10)
+      faraday (~> 0.9.0)
+      http (~> 1.0)
+      http_parser.rb (~> 0.6.0)
+      json (~> 1.8)
+      memoizable (~> 0.4.0)
+      naught (~> 1.0)
+      simple_oauth (~> 0.3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -127,7 +144,7 @@ GEM
     doorkeeper (4.2.0)
       railties (>= 4.2)
     dumb_delegator (0.8.0)
-    enumerable-lazy (0.0.1)
+    enumerable-lazy (0.0.2)
     enumerize (1.1.1)
       activesupport (>= 3.2)
     envyable (0.2.0)
@@ -341,7 +358,7 @@ GEM
       haml (>= 4.0.6, < 5.0)
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
-    hashie (3.4.3)
+    hashie (3.4.6)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
       haml (~> 4.0.0)
@@ -426,12 +443,12 @@ GEM
     mimemagic (0.3.2)
     mini_magick (4.5.1)
     mini_portile2 (2.1.0)
-    minitest (5.9.0)
+    minitest (5.9.1)
     minitest-focus (1.1.2)
       minitest (>= 4, < 6)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
-    multi_json (1.11.2)
+    multi_json (1.12.1)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     mustermann19 (0.4.4)
@@ -620,17 +637,6 @@ GEM
     timecop (0.8.1)
     trollop (2.1.2)
     truncate_html (0.9.3)
-    twitter (5.16.0)
-      addressable (~> 2.3)
-      buftok (~> 0.2.0)
-      equalizer (= 0.0.10)
-      faraday (~> 0.9.0)
-      http (~> 1.0)
-      http_parser.rb (~> 0.6.0)
-      json (~> 1.8)
-      memoizable (~> 0.4.0)
-      naught (~> 1.0)
-      simple_oauth (~> 0.3.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uber (0.0.15)
@@ -755,7 +761,7 @@ DEPENDENCIES
   time_difference (~> 0.4.2)
   timecop (~> 0.8.0)
   truncate_html (~> 0.9.3)
-  twitter (~> 5.16)
+  twitter!
   uglifier (>= 1.3.0)
   unobtrusive_flash (~> 3.1)
   video_info (~> 2.6)

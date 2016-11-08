@@ -10,6 +10,9 @@ Doorkeeper.configure do
     end
 
     external_auth = "Doorkeeper::ExternalAuth::#{params[:provider].try(:classify)}".safe_constantize.try(:new, params[:assertion])
+    if external_auth.respond_to? :secret and params[:secret].present?
+      external_auth.secret = params[:secret]
+    end
 
     if external_auth.blank?
       Rails.logger.info "Provider not found : #{params[:provider]}"
