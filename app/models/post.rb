@@ -2,6 +2,7 @@ class Post < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     expose :id, :upvotes_count
+    expose :id, :comments_count
     expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
     expose :parsed_title do |instance|
