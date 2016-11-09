@@ -1,17 +1,16 @@
 - if upvote.upvotable.is_a? Comment
   - post = upvote.upvotable.post
-
-  %div{id: "#{dom_id(message)}-url-source", data: { url: talk_path_or_url(post.specific) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: post_url(post) } }
     %strong
       = message.sender.nickname
       님이 내 댓글에 공감합니다.
     %br
-      = link_to excerpt(upvote.upvotable.body, length: 100), talk_path_or_url(post.specific)
+      = link_to excerpt(upvote.upvotable.body, length: 100), post
 - else
   - post = upvote.upvotable
-  %div{id: "#{dom_id(message)}-url-source", data: { url: talk_path_or_url(post.specific) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: post_url(post) } }
     %strong
       = message.sender.nickname
       님이 내 게시글을 공감합니다.
     %br
-      = link_to upvote.upvotable.specific_desc_striped_tags, talk_path_or_url(post.specific)
+      = link_to upvote.upvotable.specific_desc_striped_tags, post

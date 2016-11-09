@@ -86,4 +86,4 @@
         %h4.poll-card__title
           “#{talk.poll.title}”
 
-        = render 'votings/voting', local_assigns.merge(specific: talk, partial: local_assigns[:partial])
+        = render 'votings/voting', local_assigns.merge(partial: local_assigns[:partial])

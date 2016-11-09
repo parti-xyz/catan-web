@@ -89,7 +89,7 @@
         - else
           - if user_signed_in?
             - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
-            - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
+            - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post))
             %span.link-to-modal{ data: mention_data }
               %i.fa.fa-commenting-o
               댓글작성

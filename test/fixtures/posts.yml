@@ -2,33 +2,50 @@
 post_talk1:
   user: one
   issue: issue1
-  postable: talk1 (Talk)
+  body: 'talk1'
+  section: section1
+  reference: link6 (LinkSource)
+  postable: talk1
 post_talk3:
   user: one
   issue: issue1
-  postable: talk3 (Talk)
+  body: 'talk3'
+  section: section1
+  reference: link5 (LinkSource)
+  postable: talk3
 post_talk5:
   user: one
   issue: issue1
-  postable: talk5 (Talk)
+  body: 'talk5'
+  section: section4
+  reference: file2 (FileSource)
+  postable: talk5
 
 # issue2
 post_talk2:
   user: one
   issue: issue2
-  postable: talk2 (Talk)
+  body: 'talk2'
+  section: section2
+  postable: talk2
 post_talk4:
   user: two
   issue: issue2
-  postable: talk4 (Talk)
+  body: 'talk4'
+  section: section1
+  poll: poll2
+  postable: talk4
 post_talk6:
   user: one
   issue: issue2
-  postable: talk6 (Talk)
+  body: 'talk6'
+  section: section2
+  poll: poll1
+  postable: talk6
 
 # merge_source_issue
 source_post:
   user: one
   issue: merge_source_issue
-  postable: talk7 (Talk)
+  postable: talk7
   updated_at: <%= 5.day.ago.to_s(:db) %>

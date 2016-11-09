@@ -8,7 +8,7 @@
         %span.nickname= comment.user.nickname
       - body_data = {}
       - unless local_assigns[:in_modal]
-        - body_data = { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post.specific) }
+        - body_data = { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post) }
       .body{ data: body_data, class: ("body--#{comment.choice}" if comment.choice.present?) }
         = render 'comments/body', comment: comment
       .footer
@@ -19,7 +19,7 @@
               %a.comment__mention{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_control } }
                 댓글달기
           - else
-            %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post.specific), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
+            %a.comment__mention{ href: '#', data: { toggle: 'parti-post-modal', target: '#post-modal', 'url': url_for(comment.post), 'mention-nickname': comment.user.nickname, 'mention-form-control': '#new_comment #comment_body' } }
               댓글달기
         .upvote-count{class: "#{'delete-margin-left' if comment.upvotes.count == 0 } #{'add-margin-left' if comment.upvotes.count > 0 }" }
           = render 'upvotes/upvote_count', upvotable: comment

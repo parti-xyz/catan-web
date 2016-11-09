@@ -1,6 +1,6 @@
 - local_assigns[:show_issue] = true if local_assigns[:in_modal]
 - comment_style = local_assigns[:in_modal] ? 'in-modal' : 'in-list'
-.post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]} post-card-with-comments--#{post.specific.class.model_name.singular}", data: { 'parti-comment-style': comment_style }}
+.post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]}", data: { 'parti-comment-style': comment_style }}
   .post-card-with-comments__content
     .post-card-with-comments__header{class: "#{'hide' unless local_assigns[:show_issue]}"}
       .media
@@ -23,13 +23,13 @@
 
     .post-card-with-comments__post
       .post-card-with-comments__buttons.pull-right
-        - if can? :update, post.specific
-          = link_to [:edit, post.specific] do
+        - if can? :update, post
+          = link_to [:edit, post] do
             %i.fa.fa-pencil
             %span.hidden-xs
               수정
-        - if can? :destroy, post.specific
-          = link_to post.specific, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
+        - if can? :destroy, post
+          = link_to post, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
             %i.fa.fa-trash
             %span.hidden-xs
               삭제
@@ -38,7 +38,7 @@
       .post-info
         = render 'users/post_byline', post: post
 
-      = render customize_partial_path(post.specific, ->(model) { "#{model.class.model_name.plural}/#{model.class.model_name.singular}_line" }), local_assigns.merge(show_issue: false)
+      = render 'talks/talk_line', local_assigns.merge(show_issue: false)
 
 
     - share_partial = capture do
@@ -55,7 +55,7 @@
       - unless local_assigns[:in_modal]
         - if user_signed_in?
           - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
-          - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post.specific))
+          - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post))
           %span.post-card-with-comments__footer__link-to-modal{ data: mention_data }
             %i.fa.fa-comment
             댓글달기

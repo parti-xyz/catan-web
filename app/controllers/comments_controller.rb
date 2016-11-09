@@ -37,7 +37,7 @@ class CommentsController < ApplicationController
   private
 
   def redirect_to_origin
-    redirect_to @comment.post.specific.specific_origin
+    redirect_to @comment.post
   end
 
   def comment_params
@@ -45,10 +45,8 @@ class CommentsController < ApplicationController
   end
 
   def set_choice
-    if @comment.post.specific.respond_to? :voting_by
-      @voting = @comment.post.specific.voting_by current_user
-      @comment.choice = @voting.try(:choice)
-    end
+    @voting = @comment.post.voting_by current_user
+    @comment.choice = @voting.try(:choice)
   end
 
 end

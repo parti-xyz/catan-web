@@ -159,7 +159,7 @@ class User < ActiveRecord::Base
   end
 
   def watched_talks
-    watched_posts.only_talks
+    watched_posts
   end
 
   def watched_comments(group = nil)

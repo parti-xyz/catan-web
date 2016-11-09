@@ -3,16 +3,10 @@ class Post < ActiveRecord::Base
   entity do
     include Rails.application.routes.url_helpers
 
-    expose :id, :upvotes_count
-    expose :id, :comments_count
+    expose :id, :upvotes_count, :comments_count
     expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
-    expose :parsed_title do |instance|
-      instance.specific.try(:parsed_title)
-    end
-    expose :parsed_body do |instance|
-      instance.specific.try(:parsed_body)
-    end
+    expose :parsed_title, :parsed_body
     expose :specific_desc_striped_tags do |instance|
       instance.specific_desc_striped_tags;
     end
@@ -28,14 +22,14 @@ class Post < ActiveRecord::Base
     end
 
     with_options(if: lambda { |instance, options| options[:type] == :full }) do
-      expose :link_reference, using: LinkSource::Entity, if: lambda { |instance, options| instance.specific.link_source? } do |instance|
-        instance.specific.reference
+      expose :link_reference, using: LinkSource::Entity, if: lambda { |instance, options| instance.link_source? } do |instance|
+        instance.reference
       end
-      expose :file_reference, using: FileSource::Entity, if: lambda { |instance, options| instance.specific.file_source? } do |instance|
-        instance.specific.reference
+      expose :file_reference, using: FileSource::Entity, if: lambda { |instance, options| instance.file_source? } do |instance|
+        instance.reference
       end
-      expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.specific.poll.present? } do |instance|
-        instance.specific.poll
+      expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.poll.present? } do |instance|
+        instance.poll
       end
       expose :comments, using: Comment::Entity do |instance|
         instance.comments.sequential
@@ -78,11 +72,14 @@ class Post < ActiveRecord::Base
   include Upvotable
 
   acts_as_paranoid
-  actable as: :postable
   paginates_per 20
 
   belongs_to :issue, counter_cache: true
   belongs_to :user
+  belongs_to :section
+  belongs_to :poll
+  belongs_to :reference, polymorphic: true
+  belongs_to :postable, polymorphic: true
   has_many :comments, dependent: :destroy do
     def users
       self.map(&:user).uniq
@@ -131,8 +128,6 @@ class Post < ActiveRecord::Base
 
   scope :watched_by, ->(someone) { where(issue_id: someone.member_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
-  scope :only_talks, -> { by_postable_type(Talk.to_s) }
-  scope :only_notes, -> { by_postable_type(Note.to_s) }
   scope :latest, -> { after(1.day.ago) }
   scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
   scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }
@@ -155,7 +150,7 @@ class Post < ActiveRecord::Base
   end
 
   def specific_desc
-    specific.try(:title) || specific.try(:parsed_title) || specific.try(:body)
+    self.parsed_title || self.body
   end
 
   def specific_desc_striped_tags
@@ -183,11 +178,11 @@ class Post < ActiveRecord::Base
   end
 
   def origin
-    specific.specific_origin.post
+    self
   end
 
   def messagable_users
-    ([user] + comments.users + (specific.poll.try(:votings).try(:users) || [])).uniq
+    (comments.users + (poll.try(:votings).try(:users) || [])).uniq
   end
 
   def latest_comments
@@ -217,8 +212,14 @@ class Post < ActiveRecord::Base
     hottest.length
   end
 
-  def self.best_talks_in_issues(issues, count)
-    self.where(issue: issues).only_talks.hottest.limit(count)
+  def parsed_title
+    title, _ = parsed_title_and_body
+    title
+  end
+
+  def parsed_body
+    _, body = parsed_title_and_body
+   body
   end
 
   private
@@ -229,5 +230,22 @@ class Post < ActiveRecord::Base
 
   def touch_last_touched_at_of_issues
     self.issue.touch(:last_touched_at)
+  end
+
+  def parsed_title_and_body
+    strip_body = body.try(:strip)
+    strip_body = '' if strip_body.nil?
+    if link_source? || file_source? || poll.present?
+      [nil, body]
+    elsif strip_body.length < 100
+      [body, nil]
+    elsif strip_body.length < 250
+      [nil, body]
+    else
+      lines = strip_body.lines
+      setences = lines.first.split(/(?<=\<\/p>)/)
+      remains = (setences[1..-1] + lines[1..-1]).join
+      [setences.first, remains]
+    end
   end
 end
