@@ -313,27 +313,35 @@ ActiveRecord::Schema.define(version: 20161121093327) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "issue_id",                  limit: 4,               null: false
-    t.integer  "postable_id",               limit: 4,               null: false
+    t.integer  "issue_id",                  limit: 4,                 null: false
+    t.integer  "postable_id",               limit: 4,                 null: false
     t.string   "postable_type",             limit: 255
-    t.integer  "user_id",                   limit: 4,               null: false
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.integer  "likes_count",               limit: 4,   default: 0
-    t.integer  "comments_count",            limit: 4,   default: 0
-    t.integer  "votes_count",               limit: 4,   default: 0
+    t.integer  "user_id",                   limit: 4,                 null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+    t.integer  "likes_count",               limit: 4,     default: 0
+    t.integer  "comments_count",            limit: 4,     default: 0
+    t.integer  "votes_count",               limit: 4,     default: 0
     t.datetime "deleted_at"
     t.string   "social_card",               limit: 255
-    t.integer  "recommend_score",           limit: 4,   default: 0
+    t.integer  "recommend_score",           limit: 4,     default: 0
     t.string   "recommend_score_datestamp", limit: 255
     t.datetime "last_commented_at"
     t.datetime "last_touched_at"
-    t.integer  "upvotes_count",             limit: 4,   default: 0
+    t.integer  "upvotes_count",             limit: 4,     default: 0
+    t.text     "body",                      limit: 65535
+    t.integer  "section_id",                limit: 4
+    t.integer  "reference_id",              limit: 4
+    t.string   "reference_type",            limit: 255
+    t.integer  "poll_id",                   limit: 4
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
+  add_index "posts", ["id", "reference_id", "reference_type"], name: "index_posts_on_id_and_reference_id_and_reference_type", unique: true, using: :btree
   add_index "posts", ["issue_id"], name: "index_posts_on_issue_id", using: :btree
+  add_index "posts", ["poll_id"], name: "index_posts_on_poll_id", using: :btree
   add_index "posts", ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id", using: :btree
+  add_index "posts", ["reference_type", "reference_id"], name: "index_posts_on_reference_type_and_reference_id", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "proposals", force: :cascade do |t|
