@@ -1,8 +1,20 @@
 class Issue < ActiveRecord::Base
   include Grape::Entity::DSL
-  entity :id, :title, :slug, :group do
+  entity :id, :title, :body, :slug, :group, :updated_at do
     expose :logo, as: :logo_url do |instance|
       instance.logo.sm.url
+    end
+    expose :latest_members_count do |instance|
+      instance.watches.latest.count
+    end
+    expose :latest_posts_count do |instance|
+      instance.posts.latest.count
+    end
+    expose :members_count do |instance|
+      instance.watches.count
+    end
+    expose :posts_count do |instance|
+      instance.posts.count
     end
 
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
