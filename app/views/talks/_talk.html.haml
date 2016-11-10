@@ -1,36 +1,36 @@
-- post = talk.acting_as
-.talk-card[post]{ class: ('talk-card--with-issue' if local_assigns[:show_issue]), data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) } }
+- post = post.acting_as
+.post-card[post]{ class: ('post-card--with-issue' if local_assigns[:show_issue]), data: { toggle: "parti-post-modal", target: '#post-modal', url: post_path(post) } }
   .row
     .col-sm-8.col-xs-12
-      .talk-card__body
-        .talk-card__no.talk-card__column
-          = talk.id
+      .post-card__body
+        .post-card__no.post-card__column
+          = post.id
         - if local_assigns[:show_issue]
-          .talk-card__issue.talk-card__column
+          .post-card__issue.post-card__column
             /= link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue), class: 'clearfix' do
             - if post.issue.on_group? and current_group != post.issue.group
-              .talk-card__group
+              .post-card__group
                 = post.issue.group.name[0..1]
             .thumb.thumb--issue{ class: ('thumb--group-issue' if current_group != post.issue.group), style: "background-image: url(#{post.issue.logo.sm.url})" }
-        .talk-card__title.talk-card__column{class: ('talk-card__title--hide-issue' unless local_assigns[:show_issue])}
-          = talk.parsed_title
+        .post-card__title.post-card__column{class: ('post-card__title--hide-issue' unless local_assigns[:show_issue])}
+          = post.parsed_title
           - if post.comments_count > 0
             %span.comment-count
               %i.fa.fa-comment-o
               %b> #{post.comments_count}
     .col-sm-4.col-xs-12
-      .talk-card__footer
-        .talk-card__comment-users.talk-card__column
+      .post-card__footer
+        .post-card__comment-users.post-card__column
           %span.visible-xs-inline
             = byline post.user
           %span.hidden-xs
             = byline post.user, hide_nickname: true
           %span.hidden-xs
-            - if true || talk.commenters.any?
+            - if true || post.commenters.any?
               - preview_count = 5
-              - talk.commenters[0..preview_count-1].each do |user|
+              - post.commenters[0..preview_count-1].each do |user|
                 = byline user, hide_nickname: true
-              - if talk.commenters.count > preview_count
-                +#{talk.commenters.count - preview_count}
-        .talk-card__date.talk-card__column
-          .date= date_f talk.created_at
+              - if post.commenters.count > preview_count
+                +#{post.commenters.count - preview_count}
+        .post-card__date.post-card__column
+          .date= date_f post.created_at

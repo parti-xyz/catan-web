@@ -1,37 +1,37 @@
 .well
-  = form_for @talk do |f|
+  = form_for @post do |f|
     = f.hidden_field :reference_type
-    = f.hidden_field :has_poll, value: "#{ 'true' if @talk.poll.present? }"
+    = f.hidden_field :has_poll, value: "#{ 'true' if @post.poll.present? }"
     = f.hidden_field :is_html_body, value: is_redactorable? ? true : false
     - unless is_redactorable?
-      - @talk.body = strip_tags(@talk.body)
+      - @post.body = strip_tags(@post.body)
 
     .form-group
       = f.label :body
       = f.text_area :body, class: "form-control #{'redactor validate' if  is_redactorable?} validate", data: {ride: 'parti-autoresize'}
 
-    - if @talk.reference_type == 'LinkSource'
+    - if @post.reference_type == 'LinkSource'
       = f.fields_for :reference do |ff|
         .form-group
           = ff.label :url
           = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
 
-    - if @talk.reference_type == 'FileSource'
+    - if @post.reference_type == 'FileSource'
       = f.fields_for :reference do |ff|
         .form-group
           %label
             현재 파일:
-            = @talk.reference.name
+            = @post.reference.name
           = ff.file_field :attachment, class: 'form-control'
 
-    - if @talk.poll.present?
+    - if @post.poll.present?
       = f.fields_for :poll do |ff|
         .form-group
           = ff.label :title
           = ff.text_field :title, placeholder: '찬반토론 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
 
     .editor-btn.text-right
-      = link_to '취소', @talk, class: 'btn btn-default'
+      = link_to '취소', @post, class: 'btn btn-default'
       = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
 
 

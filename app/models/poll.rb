@@ -21,7 +21,7 @@ class Poll < ActiveRecord::Base
     end
   end
 
-  has_one :talk, dependent: :destroy
+  has_one :post, dependent: :destroy
   has_many :votings, dependent: :destroy do
     def users
       self.map(&:user).uniq

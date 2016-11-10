@@ -26,9 +26,9 @@ class CrawlingJob
         else
           origin.set_crawling_data(data)
           origin.save!
-          source.talks.each do |talk|
-            talk.source = origin
-            talk.save!
+          source.posts.each do |post|
+            post.source = origin
+            post.save!
           end
           source.destroy!
         end

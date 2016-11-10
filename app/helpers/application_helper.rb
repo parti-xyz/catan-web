@@ -90,15 +90,15 @@ module ApplicationHelper
     end
   end
 
-  def reference_card_image(talk)
-    talk.has_image? ? talk.image.md.url : asset_path('default_link_source_image_card.png')
+  def reference_card_image(post)
+    post.has_image? ? post.image.md.url : asset_path('default_link_source_image_card.png')
   end
 
-  def video_embed_code(talk)
-    return unless talk.video_source?
+  def video_embed_code(post)
+    return unless post.video_source?
 
-    reference = talk.reference
-    raw(VideoInfo.new(reference.url).embed_code({iframe_attributes: { class: 'talk-reference-line__video-content'}}))
+    reference = post.reference
+    raw(VideoInfo.new(reference.url).embed_code({iframe_attributes: { class: 'post-reference-line__video-content'}}))
   end
 
   def link_to_if_with_block condition, options, html_options={}, &block

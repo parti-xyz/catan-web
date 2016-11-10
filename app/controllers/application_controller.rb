@@ -128,51 +128,51 @@ class ApplicationController < ActionController::Base
     request.variant = :mobile if (browser.device.mobile?)
   end
 
-  def having_reference_talks_page(issue = nil)
-    base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
+  def having_reference_posts_page(issue = nil)
+    base = issue.nil? ? Post.all.only_group_or_all_if_blank(current_group) : Post.of_issue(issue)
     base = base.having_reference
     @is_last_page = base.empty?
 
     how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
 
-    previous_last = Talk.with_deleted.find_by(id: params[:last_id])
-    @talks = base.send(how_to, previous_last).limit(20)
-    current_last = @talks.last
+    previous_last = Post.with_deleted.find_by(id: params[:last_id])
+    @posts = base.send(how_to, previous_last).limit(20)
+    current_last = @posts.last
     @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
-  def having_poll_talks_page(issue = nil)
-    base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
+  def having_poll_posts_page(issue = nil)
+    base = issue.nil? ? Post.all.only_group_or_all_if_blank(current_group) : Post.of_issue(issue)
     base = base.having_poll
     @is_last_page = base.empty?
 
     how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
 
-    previous_last = Talk.with_deleted.find_by(id: params[:last_id])
-    @talks = base.send(how_to, previous_last).limit(20)
+    previous_last = Post.with_deleted.find_by(id: params[:last_id])
+    @posts = base.send(how_to, previous_last).limit(20)
 
-    current_last = @talks.last
+    current_last = @posts.last
     @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
-  def talks_page(issue = nil)
-    talks_base = issue.nil? ? Talk.all.only_group_or_all_if_blank(current_group) : Talk.of_issue(issue)
+  def posts_page(issue = nil)
+    posts_base = issue.nil? ? Post.all.only_group_or_all_if_blank(current_group) : Post.of_issue(issue)
 
     if params[:section_id].present?
       @section = Section.find_by id: params[:section_id]
-      talks_base = talks_base.where(section: @section) if @section.present?
+      posts_base = posts_base.where(section: @section) if @section.present?
     end
     if issue.nil?
       case params[:sort]
       when 'recent'
-        talks_base = talks_base.recent
+        posts_base = posts_base.recent
       else
-        talks_base = talks_base.hottest
+        posts_base = posts_base.hottest
       end
     else
-      talks_base = talks_base.recent
+      posts_base = posts_base.recent
     end
-    @talks = talks_base.page(params[:page])
+    @posts = posts_base.page(params[:page])
   end
 
   #bugfix redactor2-rails

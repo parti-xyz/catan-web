@@ -1,4 +1,4 @@
-section#talks {
+section#posts {
   padding-top: 30px;
   padding-bottom: 30px;
 
@@ -7,7 +7,7 @@ section#talks {
   }
 }
 
-.talk-card {
+.post-card {
   &:hover {
     @include hover-shadow();
   }
@@ -64,7 +64,7 @@ section#talks {
       display: inline-block;
       vertical-align: middle;
     }
-    .talk-card__group {
+    .post-card__group {
       background-color: rgba(150, 111, 214, 0.9);
       color: #fff;
       border-radius: $border-radius-base;
@@ -127,14 +127,14 @@ section#talks {
   }
 }
 
-.talk-section {
-  .talk__body {
+.post-section {
+  .post__body {
     margin: 30px 0;
     font-size: 16px;
   }
 }
 
-.talk-line {
+.post-line {
   cursor: pointer;
   p {
     margin: 0 0 6px;
@@ -157,7 +157,7 @@ section#talks {
   .date-wrapper {
     color: $gray-light;
   }
-  .talk-body {
+  .post-body {
     color: $text-muted;
     word-break: break-word;
     .talk-parsed-body {
@@ -170,7 +170,7 @@ section#talks {
       }
     }
   }
-  .talk-upvote {
+  .post-upvote {
     margin-top: 12px;
     margin-bottom: 12px;
     color: $gray-light;
@@ -187,7 +187,7 @@ section#talks {
   }
 }
 
-.talk__body {
+.post__body {
   border: 1px solid $brand-light;
   border-radius: $border-radius-base;
 
@@ -198,9 +198,9 @@ section#talks {
   }
 }
 
-.talk-section-wrapper {
+.post-section-wrapper {
   position: relative;
-  .talk-section-cotrol {
+  .post-section-cotrol {
     position: absolute;
     z-index: 1;
     top: 6px;
@@ -216,15 +216,15 @@ section#talks {
     }
   }
   &:hover {
-    .talk-section-cotrol {
+    .post-section-cotrol {
       display: inline-block;
     }
-    .talk-section {
+    .post-section {
       @include hover-shadow();
     }
   }
 }
-.talk-section {
+.post-section {
   margin: 2px;
   border: 1px solid #fff;
   background-color: #fff;
@@ -287,7 +287,7 @@ section#talks {
   }
 }
 
-.talk-section-dropdown {
+.post-section-dropdown {
   margin-bottom: 14px;
   &.open > .dropdown-menu {
     width: 100%;
@@ -296,7 +296,7 @@ section#talks {
 }
 
 @media (max-width: $screen-xs-max) {
-  .talk-card {
+  .post-card {
     padding: 10px;
   }
 }

@@ -1,6 +1,6 @@
-- post = talk.acting_as
+- post = post.acting_as
 
-- modal_data = { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }
+- modal_data = { toggle: "parti-post-modal", target: '#post-modal', url: post_path(post) }
 - mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
 - mention_data = mention_options_data.merge(modal_data)
 
@@ -27,54 +27,54 @@
 .card{ class: wrapper_class }
   .reference-card[post]{ class: card_class, data: modal_data }
     - capture_thumb = capture do
-      .thumb.thumb--reference{ style: "background-image: url(#{reference_card_image(talk)})" }
-    = link_to_if (card_class == 'default'), capture_thumb, talk.reference_url, target: '_blank'
+      .thumb.thumb--reference{ style: "background-image: url(#{reference_card_image(post)})" }
+    = link_to_if (card_class == 'default'), capture_thumb, post.reference_url, target: '_blank'
     - if local_assigns[:show_issue]
       .reference-card__group-and-issue
         - if post.issue.on_group? and current_group != post.issue.group
           .reference-card__group
             = post.issue.group.name
-        .thumb.thumb--issue{ style: "background-image: url(#{talk.issue.logo.sm.url})" }
+        .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
     .caption
       - capture_source = capture do
-        .date= date_f talk.created_at
+        .date= date_f post.created_at
 
-        %h4.title{ class: ('title--file-source' if talk.file_source?) }
-          - if talk.file_source?
+        %h4.title{ class: ('title--file-source' if post.file_source?) }
+          - if post.file_source?
             %i.fa.fa-floppy-o
-          - if talk.video_source?
+          - if post.video_source?
             %i.fa.fa-play-circle
-          = truncate(talk.reference_title, length: 100)
+          = truncate(post.reference_title, length: 100)
 
         .source-body
           %p
-            = excerpt(talk.reference_body, length: 55)
+            = excerpt(post.reference_body, length: 55)
             .source-url
-              - if talk.link_source?
+              - if post.link_source?
                 원글보기
                 %i.fa.fa-external-link
-              - if talk.file_source?
-                - if talk.reference.image?
+              - if post.file_source?
+                - if post.reference.image?
                   그림보기
                   %i.fa.fa-external-link
                 - else
                   다운로드
                   %i.fa.fa-floppy-o
-      = link_to_if (talk.link_source? and card_class == 'default'), capture_source, talk.reference.try(:url), target: '_blank', class: 'link-source'
+      = link_to_if (post.link_source? and card_class == 'default'), capture_source, post.reference.try(:url), target: '_blank', class: 'link-source'
       .body
         %p
           - max_length = 215
-          = excerpt(talk.parsed_body, length: max_length)
-          - if (talk.parsed_body.try(:length) || 0) > max_length
+          = excerpt(post.parsed_body, length: max_length)
+          - if (post.parsed_body.try(:length) || 0) > max_length
             %span.body-more
               더보기
               %i.fa.fa-angle-double-right
 
         .reference-info
-          = link_to user_gallery_path(talk.user) do
-            .thumb.user-image.img-circle{style: "background-image: url(#{talk.user.image.sm.url});"}
-            %span.nickname= talk.user.nickname
-          - if talk.user.mentionable?(current_user)
+          = link_to user_gallery_path(post.user) do
+            .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
+            %span.nickname= post.user.nickname
+          - if post.user.mentionable?(current_user)
             %a.comment__mention{ href: '#', data: mention_data }
               %i.fa.fa-reply
       .more

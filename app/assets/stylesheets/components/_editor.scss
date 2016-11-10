@@ -10,7 +10,7 @@
 }
 
 .editors-tab-panel {
-  #talk-form-widget.form-widget-container {
+  #post-form-widget.form-widget-container {
     display: block;
   }
   .submit-box {
@@ -168,7 +168,7 @@
         padding-top: 18px;
         border-top: 1px solid $gray-less-lighter;
       }
-      .talk-reference-btns {
+      .post-reference-btns {
         margin-top: 14px;
         float: left;
         @media (max-width: $screen-xs-max) {
@@ -182,9 +182,9 @@
           float: none;
         }
       }
-      .talk-poll-field,
-      .talk-link-field,
-      .talk-file-field {
+      .post-poll-field,
+      .post-link-field,
+      .post-file-field {
         padding-top: 14px;
       }
       .submit-box {
@@ -274,7 +274,7 @@
     box-shadow: none;
     -moz-box-shadow: none;
   }
-  .talk-reference-btns {
+  .post-reference-btns {
     margin-top: 10px;
   }
 }

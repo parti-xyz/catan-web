@@ -8,8 +8,8 @@
         %small 모든 빠띠의 자료입니다.
       .posts-sort-select
         = render 'posts/sort_select'
-    .row.masonry-container{data: {last_id: @talks.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
-      - if @talks.empty?
+    .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
+      - if @posts.empty?
         .col-xs-12
           .bg-default
             %i.fa.fa-info-circle

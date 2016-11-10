@@ -1,4 +1,4 @@
-.poll__vote-section[talk]{class: "#{dom_id(talk)}-vote" }
+.poll__vote-section[post]{class: "#{dom_id(post)}-vote" }
 
   - if !user_signed_in?
     / 로그인 안함
@@ -51,7 +51,7 @@
       .vote__buttons--unsure
         - if poll.unsured_by? current_user
           .vote__buttons--unsure--label
-            = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: talk_path(talk) }, class: 'text-muted' do
+            = link_to '#', data: { toggle: "parti-post-modal", target: '#post-modal', url: post_path(post) }, class: 'text-muted' do
               댓글로 의견을 나눠 보세요.
         - else
           = link_to poll_votings_path(poll, voting: {choice: :unsure}, partial: local_assigns[:partial]), method: :post, remote: true do

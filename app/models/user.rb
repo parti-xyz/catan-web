@@ -52,11 +52,10 @@ class User < ActiveRecord::Base
   has_many :messages, dependent: :destroy
   has_many :send_messages, dependent: :destroy, foreign_key: :sender_id, class_name: Message
   has_many :posts
-  has_many :talks, through: :posts, source: :postable, source_type: Talk
   has_many :comments
   has_many :upvotes
   has_many :votes
-  has_many :polls, through: :talks
+  has_many :polls, through: :posts
   has_many :makers
   has_many :making_issues, through: :makers, source: :issue
   has_many :members, dependent: :destroy
@@ -129,8 +128,8 @@ class User < ActiveRecord::Base
     counts.parties_count = members.count
     counts.polls_count = polls.count
     counts.latest_polls_count = polls.latest.count
-    counts.talks_count = talks.count
-    counts.latest_talks_count = talks.latest.count
+    counts.posts_count = posts.count
+    counts.latest_posts_count = posts.latest.count
     counts
   end
 
@@ -156,10 +155,6 @@ class User < ActiveRecord::Base
 
   def watched_posts(group = nil)
     Post.where(issue: member_issues.only_group_or_all_if_blank(group))
-  end
-
-  def watched_talks
-    watched_posts
   end
 
   def watched_comments(group = nil)

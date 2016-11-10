@@ -156,8 +156,8 @@
 
       %h3 post card with comments
       %div
-        = render Talk.last.acting_as
+        = render Post.last.acting_as
 
     .container
-      %h3 talk card
-      = render Talk.last if Talk.last.present?
+      %h3 post card
+      = render Post.last if Post.last.present?

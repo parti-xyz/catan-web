@@ -2,12 +2,12 @@
 
 %section#references
   .container
-    - if @talks.empty?
+    - if @posts.empty?
       .bg-default.text-center
         %i.fa.fa-info-circle
         가장 먼저 자료를 올려보세요.
     - else
-      .row.masonry-container{data: {last_id: @talks.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
+      .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
         .grid-sizer.col-sm-4.col-xs-6
         = render 'references/slug_references_page'
       .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_references_path(@issue, format: :js)}

@@ -5,7 +5,7 @@ class SectionsController < ApplicationController
 
   def create
     if @section.save
-      redirect_to issue_talks_path(@issue)
+      redirect_to issue_posts_path(@issue)
     else
       errors_to_flash(@section)
       render 'new'
@@ -19,7 +19,7 @@ class SectionsController < ApplicationController
   def update
     @issue = @section.issue
     if @section.update_attributes(section_params)
-      redirect_to issue_talks_path(@issue)
+      redirect_to issue_posts_path(@issue)
     else
       errors_to_flash(@section)
       render 'edit'
@@ -32,9 +32,9 @@ class SectionsController < ApplicationController
       flash[:notice] = t('activerecord.errors.models.section.attributes.initial.undeletable')
     else
       ActiveRecord::Base.transaction do
-        if @section.talks.any?
+        if @section.posts.any?
           initial_section = @issue.initial_section
-          @section.talks.move_to(initial_section)
+          @section.posts.move_to(initial_section)
         end
         if !@section.destroy
           errors_to_flash(@section)
@@ -42,7 +42,7 @@ class SectionsController < ApplicationController
       end
     end
 
-    redirect_to issue_talks_path(@issue)
+    redirect_to issue_posts_path(@issue)
   end
 
   private

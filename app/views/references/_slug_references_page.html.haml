@@ -1,7 +1,7 @@
 - has_blinds = false
-- @talks.each do |postable|
+- @posts.each do |postable|
   - unless postable.blinded?(current_user)
-    = render 'references/reference', local_assigns.merge(talk: postable)
+    = render 'references/reference', local_assigns.merge(post: postable)
   - else
     - has_blinds = true
 - if has_blinds

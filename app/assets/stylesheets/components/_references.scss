@@ -191,7 +191,7 @@ section#references {
   }
 }
 
-.talk-reference-line {
+.post-reference-line {
   margin-top: 12px;
   display: table;
   cursor: pointer;
@@ -209,7 +209,7 @@ section#references {
     }
     &--video {
       padding: 0px;
-      .talk-reference-line__site-name {
+      .post-reference-line__site-name {
         padding: 10px;
         padding-top: 0;
       }
@@ -288,7 +288,7 @@ section#references {
 }
 
 @media (max-width: $screen-xs-max) {
-  .talk-reference-line {
+  .post-reference-line {
     &__file-content .media-right {
       width: 34%;
       text-align: center;

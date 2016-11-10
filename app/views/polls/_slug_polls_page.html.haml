@@ -1,8 +1,8 @@
 - has_blinds = false
-- @talks.each do |talk|
-  - unless talk.blinded?(current_user)
+- @posts.each do |post|
+  - unless post.blinded?(current_user)
     .col-xs-12.col-sm-4.card.card--hover-grow
-      = render 'polls/poll', local_assigns.merge(poll: talk.poll)
+      = render 'polls/poll', local_assigns.merge(poll: post.poll)
   - else
     - has_blinds = true
 - if has_blinds

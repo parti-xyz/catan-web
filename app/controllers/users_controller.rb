@@ -6,9 +6,9 @@ class UsersController < ApplicationController
     @issues = @user.member_issues
   end
 
-  def talks
+  def posts
     fetch_user
-    @talks= @user.talks.recent.page(params[:page])
+    @posts= @user.posts.recent.page(params[:page])
   end
 
   def polls
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
 
     @is_last_page = (@user.polls.empty? or @user.polls.recent.previous_of_poll(current_last_poll).empty?)
 
-    @talks = @polls.map(&:talk).compact
+    @posts = @polls.map(&:post).compact
   end
 
   def summary_test

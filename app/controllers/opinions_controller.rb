@@ -5,7 +5,7 @@ class OpinionsController < ApplicationController
   end
 
   def show
-    redirect_destination = OpinionToTalk.where(opinion_id: params[:id]).first.talk_id
-    redirect_to talk_path(redirect_destination)
+    redirect_destination = OpinionToPost.where(opinion_id: params[:id]).first.post_id
+    redirect_to post_path(redirect_destination)
   end
 end

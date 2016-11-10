@@ -981,7 +981,7 @@ $(function(){
     });
   });
 
-  $('[data-action="parti-talk-select-reference-or-poll"]').each(function(index,elm){
+  $('[data-action="parti-post-select-reference-or-poll"]').each(function(index,elm){
     var hidden_target = $(elm).data('hidden-target');
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
@@ -992,11 +992,11 @@ $(function(){
       if($(reference_field).hasClass('hidden')){
         $(reference_field).removeClass('hidden');
       }
-      if($(this).hasClass('talk-link-btn')) {
+      if($(this).hasClass('post-link-btn')) {
         $(reference_type_field).val('LinkSource');
-      } else if($(this).hasClass('talk-file-btn')){
+      } else if($(this).hasClass('post-file-btn')){
         $(reference_type_field).val('FileSource');
-      } else if($(this).hasClass('talk-poll-btn')){
+      } else if($(this).hasClass('post-poll-btn')){
         $(reference_type_field).val('');
         $(has_poll).val(true);
       } else {
@@ -1006,7 +1006,7 @@ $(function(){
     })
   });
 
-  $('[data-action="parti-talk-cancel-reference-or-poll"]').each(function(index,elm){
+  $('[data-action="parti-post-cancel-reference-or-poll"]').each(function(index,elm){
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     var show_target = $(elm).data('show-target');

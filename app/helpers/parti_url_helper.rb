@@ -23,11 +23,11 @@ module PartiUrlHelper
     slug_issue_polls_path(options)
   end
 
-  def issue_talks_path(issue, options = {})
+  def issue_posts_path(issue, options = {})
     options.update(slug: issue.slug)
 
     if options.has_key? :section_id
-      slug_issue_talks_with_section_path(options)
+      slug_issue_posts_with_section_path(options)
     else
       slug_issue_path(options)
     end

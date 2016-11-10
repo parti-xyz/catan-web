@@ -14,11 +14,11 @@
         #{Post.model_name.human}
   -if post.parsed_title.present?
     %h4.post-line__title.post-line__title{data: modal_data}
-      %div{'data-action': 'parti-link-target-blank'}
-        = redactor_smart_format post.parsed_title
+      = redactor_smart_format post.parsed_title
   .post-body{data: modal_data}
     .post-parsed-body{'data-action': 'parti-link-target-blank'}
       = redactor_smart_format post.parsed_body
+
 
     - if post.video_source?
       .post-reference-line.post-line[post]{data: modal_data}
@@ -35,7 +35,7 @@
       - if post.reference.image?
         .post-reference-line__file-content__file-image
           %a{href: post.reference.attachment.url, target: '_blank'}
-            = image_tag "#{post.reference.attachment.md.url}"
+            = image_tag "#{post.reference.attachment.url}"
       - else
         .post-reference-line.post-line[post]{data: modal_data}
           .post-reference-line__file-content

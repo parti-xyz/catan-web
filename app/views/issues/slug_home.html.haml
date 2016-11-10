@@ -11,7 +11,7 @@
                 = byline current_user, hide_nickname: true
                 #{current_user.nickname}님, 무슨 이야기를 나누실래요?
             .unified-editor.unified-editor--hidden
-              = render 'talks/new_form', issue: @issue
+              = render 'posts/new_form', issue: @issue
           - else
             .unified-editor.unified-editor--join
               이 빠띠에 가입하여 게시물을 올려보세요.

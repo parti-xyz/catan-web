@@ -4,13 +4,13 @@
     .row
       .col-sm-8.col-xs-12
         %section#content-tab-section
-          = render 'users/content_tabs', active_tab: :talks, counts_container: @user.writing_counts
-        .talks-list
-          - @talks.each do |talk|
-            = render talk, show_issue: true
-          - if @talks.empty?
+          = render 'users/content_tabs', active_tab: :posts, counts_container: @user.writing_counts
+        .posts-list
+          - @posts.each do |post|
+            = render post, show_issue: true
+          - if @posts.empty?
             .bg-default
               %i.fa.fa-info-circle
               해당되는 글이 없습니다.
-        = paginate @talks, theme: 'catan', params: @paginate_params
+        = paginate @posts, theme: 'catan', params: @paginate_params
       = render 'aside'

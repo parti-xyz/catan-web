@@ -38,7 +38,7 @@
       .post-info
         = render 'users/post_byline', post: post
 
-      = render 'talks/talk_line', local_assigns.merge(show_issue: false)
+      = render 'posts/post_line', local_assigns.merge(show_issue: false)
 
 
     - share_partial = capture do
@@ -49,7 +49,7 @@
     .post-card-with-comments__footer
       %span.post-card-with-comments__footer__upvote
         - unless local_assigns[:hide_upvote]
-          .talk-upvote
+          .post-upvote
             = render 'upvotes/upvote', upvotable: post
 
       - unless local_assigns[:in_modal]

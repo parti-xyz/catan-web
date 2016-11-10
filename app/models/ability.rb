@@ -5,7 +5,7 @@ class Ability
     can [:read, :poll_social_card, :partial], :all
     can [:slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_users, :slug_references, :slug_comments, :slug_polls,
-      :slug_talks, :slug_wikis, :search], Issue
+      :slug_posts, :slug_wikis, :search], Issue
     if user
       can :manage, Section do |section|
         section.issue.made_by? user

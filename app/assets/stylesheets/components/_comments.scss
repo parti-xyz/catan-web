@@ -136,7 +136,7 @@ section#comments {
     font-size: $font-size-base;
     word-break: break-all;
     padding-top: 10px;
-    &--talk {
+    &--post {
       margin-top: 10px;
     }
     &--agree p:first-child:before {
@@ -156,7 +156,7 @@ section#comments {
     margin-bottom: 15px;
   }
   &__footer {
-    &--talk {
+    &--post {
       padding-top: 15px;
       border-top: 1px solid $gray-lighter;
     }

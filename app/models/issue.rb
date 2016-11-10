@@ -73,8 +73,6 @@ class Issue < ActiveRecord::Base
   has_many :relatings, class_name: Related, foreign_key: :target_id, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
-  has_many :talks, through: :posts, source: :postable, source_type: Talk
-  has_many :notes, through: :posts, source: :postable, source_type: Note
   # 이슈는 위키를 하나 가지고 있어요.
   has_one :wiki, dependent: :destroy
   has_many :invitations, dependent: :destroy
@@ -190,8 +188,8 @@ class Issue < ActiveRecord::Base
     counts = OpenStruct.new
     counts.comments_count = comments.count
     counts.latest_comments_count = comments.latest.count
-    counts.talks_count = talks.count
-    counts.latest_talks_count = talks.latest.count
+    counts.posts_count = posts.count
+    counts.latest_posts_count = posts.latest.count
     counts.notes_count = notes.count
     counts.latest_notes_count = notes.latest.count
     counts

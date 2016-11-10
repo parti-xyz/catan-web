@@ -9,8 +9,8 @@
     %section.poll-social-card-section{ style: "background-image: url(#{asset_data_base64('share_poll.png')});" }
       .card
         .info
-          \# #{@talk.issue.title}
+          \# #{@post.issue.title}
           %br
-          @#{@talk.user.nickname}
-        .title{ class: (@talk.poll.title.length < 31 ? (@talk.poll.title.length < 17 ? 'short' : 'medium') : 'long') }
-          = truncate(@talk.poll.title, length: 50)
+          @#{@post.user.nickname}
+        .title{ class: (@post.poll.title.length < 31 ? (@post.poll.title.length < 17 ? 'short' : 'medium') : 'long') }
+          = truncate(@post.poll.title, length: 50)

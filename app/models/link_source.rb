@@ -17,7 +17,7 @@ class LinkSource < ActiveRecord::Base
 
   URL_FORMAT = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,20}(:[0-9]{1,5})?(\/.*)?\z/ix
 
-  has_many :talks, as: :reference
+  has_many :posts, as: :reference
 
   validates :url, uniqueness: {case_sensitive: true}, format: {with: LinkSource::URL_FORMAT, on: [:create, :update] }
   validates :crawling_status, presence: true
