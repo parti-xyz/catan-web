@@ -4,7 +4,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '글에 만들어요' do
     sign_in(users(:one))
 
-    post post_comments_path(post_id: talks(:talk1).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk1).id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_equal 'body', assigns(:comment).body
@@ -36,7 +36,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:two))
 
-    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_equal 'agree', assigns(:comment).choice
@@ -46,7 +46,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert talks(:talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:one))
-    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
     refute assigns(:comment).errors.any?
     assert_equal assigns(:comment), users(:two).messages.first.messagable
   end
@@ -55,7 +55,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert talks(:talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:bad))
-    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
 
     refute assigns(:comment).errors.any?
     refute users(:two).messages.any?
@@ -66,7 +66,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:three))
 
-    post post_comments_path(post_id: talks(:talk4).acting_as.id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
 
     assert assigns(:comment).persisted?
     assert_nil assigns(:comment).choice

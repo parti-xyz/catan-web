@@ -144,13 +144,8 @@ class Post < ActiveRecord::Base
   before_create :touch_last_touched_at
   after_create :touch_last_touched_at_of_issues
 
-  def vote_by voter
-    votes.where(user: voter).first
-  end
+  attr_accessor :has_poll
 
-  def voted_by? voter
-    votes.exists? user: voter
-  end
 
   def specific_desc
     self.parsed_title || self.body
@@ -274,6 +269,30 @@ class Post < ActiveRecord::Base
     else
       self.poll = Poll.new(params) if self.has_poll == 'true'
     end
+  end
+
+  def voting_by voter
+    poll.try(:voting_by, voter)
+  end
+
+  def voting_by? voter
+    poll.try(:voting_by?, voter)
+  end
+
+  def agreed_by? voter
+    poll.try(:agreed_by?, voter)
+  end
+
+  def disagreed_by? voter
+    poll.try(:disagreed_by?, voter)
+  end
+
+  def sured_by? voter
+    poll.try(:sured_by?, voter)
+  end
+
+  def unsured_by? voter
+    poll.try(:unsured_by?, voter)
   end
 
   private

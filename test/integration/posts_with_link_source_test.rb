@@ -13,16 +13,16 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post talks_path, talk: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: 'http://link.xx' }, reference_type: 'LinkSource' }
-      assert assigns(:talk).persisted?
-      assigns(:talk).reload
-      assert_equal 'page title', assigns(:talk).reference_title
-      assert_equal 'page body', assigns(:talk).reference_body
-      assert_equal 'body', assigns(:talk).body
-      assert_equal users(:one), assigns(:talk).user
-      assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:talk).reference
+      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: 'http://link.xx' }, reference_type: 'LinkSource' }
+      assert assigns(:post).persisted?
+      assigns(:post).reload
+      assert_equal 'page title', assigns(:post).reference_title
+      assert_equal 'page body', assigns(:post).reference_body
+      assert_equal 'body', assigns(:post).body
+      assert_equal users(:one), assigns(:post).user
+      assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:post).reference
 
-      assert assigns(:talk).comments.empty?
+      assert assigns(:post).comments.empty?
     end
   end
 
@@ -30,19 +30,19 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      talk3_link = talks(:talk3).reference.url
-      post talks_path, talk: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: talk3_link }, reference_type: 'LinkSource' }
-      assert assigns(:talk).persisted?
-      assigns(:talk).reload
+      post_talk3_link = posts(:post_talk3).reference.url
+      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: post_talk3_link }, reference_type: 'LinkSource' }
+      assert assigns(:post).persisted?
+      assigns(:post).reload
 
-      assert_equal 'page title', assigns(:talk).reference_title
-      assert_equal 'page body', assigns(:talk).reference_body
-      assert_equal 'body', assigns(:talk).body
-      assert_equal users(:one), assigns(:talk).user
-      assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:talk).reference
-      assert_equal issues(:issue2).title, assigns(:talk).issue.title
+      assert_equal 'page title', assigns(:post).reference_title
+      assert_equal 'page body', assigns(:post).reference_body
+      assert_equal 'body', assigns(:post).body
+      assert_equal users(:one), assigns(:post).user
+      assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:post).reference
+      assert_equal issues(:issue2).title, assigns(:post).issue.title
 
-      assert assigns(:talk).comments.empty?
+      assert assigns(:post).comments.empty?
     end
   end
 
@@ -50,41 +50,41 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl 'http://link.xx' do
       sign_in(users(:one))
 
-      put talk_path(talks(:talk1)), talk: { body: 'body', issue_id: issues(:issue1).id, reference_attributes: { url: 'http://link.xx'}, reference_type: 'LinkSource' }
+      put post_path(posts(:post_talk1)), post: { body: 'body', issue_id: issues(:issue1).id, reference_attributes: { url: 'http://link.xx'}, reference_type: 'LinkSource' }
 
-      refute assigns(:talk).errors.any?
-      assigns(:talk).reload
-      assert_equal 'page title', assigns(:talk).reference_title
-      assert_equal 'page body', assigns(:talk).reference_body
-      assert_equal 'body', assigns(:talk).body
-      assert_equal users(:one), assigns(:talk).user
-      assert_equal issues(:issue1).title, assigns(:talk).issue.title
-      assert_equal 'http://link.xx', assigns(:talk).reference.url
+      refute assigns(:post).errors.any?
+      assigns(:post).reload
+      assert_equal 'page title', assigns(:post).reference_title
+      assert_equal 'page body', assigns(:post).reference_body
+      assert_equal 'body', assigns(:post).body
+      assert_equal users(:one), assigns(:post).user
+      assert_equal issues(:issue1).title, assigns(:post).issue.title
+      assert_equal 'http://link.xx', assigns(:post).reference.url
     end
   end
 
   test '다른 논의에서 레퍼런스하던 링크로 고칠 수 있어요' do
-    talk3_link = talks(:talk3).reference.url
-    stub_crawl(talk3_link) do
+    post_talk3_link = posts(:post_talk3).reference.url
+    stub_crawl(post_talk3_link) do
       sign_in(users(:one))
 
-      put talk_path(talks(:talk1)), talk: { body: 'body', reference_attributes: { url: talk3_link }, reference_type: 'LinkSource' }
-      refute assigns(:talk).errors.any?
-      assert_equal talks(:talk3).reference, assigns(:talk).reference
-      assert Talk.exists?(id: talks(:talk1).id)
+      put post_path(posts(:post_talk1)), post: { body: 'body', reference_attributes: { url: post_talk3_link }, reference_type: 'LinkSource' }
+      refute assigns(:post).errors.any?
+      assert_equal posts(:post_talk3).reference, assigns(:post).reference
+      assert Post.exists?(id: posts(:post_talk1).id)
     end
   end
 
   test '최근 새로 걸린 링크의 주소로 고쳐요' do
-    talk1_link = talks(:talk1).reference.url
-    stub_crawl(talk1_link) do
+    post_talk1_link = posts(:post_talk1).reference.url
+    stub_crawl(post_talk1_link) do
       sign_in(users(:one))
 
-      put talk_path(talks(:talk3)), talk: { body: 'body', reference_attributes: { url: talk1_link }, reference_type: 'LinkSource' }
-      refute assigns(:talk).errors.any?
-      assert_equal talks(:talk3), assigns(:talk)
-      assert_equal talks(:talk1).reference, talks(:talk3).reload.reference
-      assert Talk.exists?(id: talks(:talk1).id)
+      put post_path(posts(:post_talk3)), post: { body: 'body', reference_attributes: { url: post_talk1_link }, reference_type: 'LinkSource' }
+      refute assigns(:post).errors.any?
+      assert_equal posts(:post_talk3), assigns(:post)
+      assert_equal posts(:post_talk1).reference, posts(:post_talk3).reload.reference
+      assert Post.exists?(id: posts(:post_talk1).id)
     end
   end
 

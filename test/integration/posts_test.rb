@@ -6,15 +6,15 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert issues(:issue2).member? users(:one)
     sign_in(users(:one))
 
-    post talks_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    post posts_path, post: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
 
-    assert assigns(:talk).persisted?
-    assigns(:talk).reload
-    assert_equal 'body', assigns(:talk).body
-    assert_equal users(:one), assigns(:talk).user
-    assert_equal issues(:issue2).body, assigns(:talk).issue.body
+    assert assigns(:post).persisted?
+    assigns(:post).reload
+    assert_equal 'body', assigns(:post).body
+    assert_equal users(:one), assigns(:post).user
+    assert_equal issues(:issue2).body, assigns(:post).issue.body
 
-    assert assigns(:talk).comments.empty?
+    assert assigns(:post).comments.empty?
   end
 
   test '그룹에 속하지 않은 빠띠는 멤버가 아니면 못 만들어요' do
@@ -24,8 +24,9 @@ class PostsTest < ActionDispatch::IntegrationTest
     sign_in(users(:two))
 
     assert_raises CanCan::AccessDenied do
-      post talks_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+      post posts_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
     end
+    assert assigns(:post).persisted?
   end
 
   test '그룹의 빠띠에는 멤버라야 만들어요' do
@@ -34,8 +35,8 @@ class PostsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
 
-    post talks_path, talk: { body: 'body', issue_id: issues(:issue1).id, section_id: sections(:section1).id }
-    assert assigns(:talk).persisted?
+    post posts_path, post: { body: 'body', issue_id: issues(:issue1).id, section_id: sections(:section1).id }
+    assert assigns(:post).persisted?
   end
 
   test '그룹의 빠띠에는 멤버가 아니면 못 만들어요' do
@@ -45,20 +46,20 @@ class PostsTest < ActionDispatch::IntegrationTest
     sign_in(users(:two))
 
     assert_raises CanCan::AccessDenied do
-      post talks_path(talk: { body: 'body', issue_id: issues(:issue1).id })
+      post posts_path(post: { body: 'body', issue_id: issues(:issue1).id })
     end
   end
 
   test '고쳐요' do
     sign_in(users(:one))
 
-    put talk_path(talks(:talk1)), talk: { body: 'body x', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    put post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
 
-    refute assigns(:talk).errors.any?
-    assigns(:talk).reload
-    assert_equal 'body x', assigns(:talk).body
-    assert_equal users(:one), assigns(:talk).user
-    assert_equal issues(:issue2).body, assigns(:talk).issue.body
+    refute assigns(:post).errors.any?
+    assigns(:post).reload
+    assert_equal 'body x', assigns(:post).body
+    assert_equal users(:one), assigns(:post).user
+    assert_equal issues(:issue2).body, assigns(:post).issue.body
   end
 
   test '세상에 없었던 새로운 이슈를 넣으면 저장이 안되요' do
@@ -67,7 +68,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     previous_count = Talk.count
 
     assert_raises CanCan::AccessDenied do
-      post talks_path, talk: { link: 'link', body: 'body', issue_id: -1, section_id: sections(:section1).id }
+      post posts_path, post: { link: 'link', body: 'body', issue_id: -1, section_id: sections(:section1).id }
     end
     assert_equal previous_count, Talk.count
   end
@@ -75,8 +76,8 @@ class PostsTest < ActionDispatch::IntegrationTest
   test '내용 없이 만들수 있어요' do
     sign_in(users(:one))
 
-    post talks_path, talk: { issue_id: issues(:issue2).id, section_id: sections(:section2).id }
+    post posts_path, post: { issue_id: issues(:issue2).id, section_id: sections(:section2).id }
 
-    assert assigns(:talk).persisted?
+    assert assigns(:post).persisted?
   end
 end

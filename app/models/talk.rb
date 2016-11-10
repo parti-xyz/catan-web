@@ -1,6 +1,7 @@
 class Talk < ActiveRecord::Base
   include Postable
   acts_as_paranoid
+  acts_as :post, as: :postable
 
   belongs_to :poll
   belongs_to :section
