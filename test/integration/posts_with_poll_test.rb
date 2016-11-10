@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TalksWithPollTest < ActionDispatch::IntegrationTest
+class PostsWithPollTest < ActionDispatch::IntegrationTest
 
   test '만들어요' do
     sign_in(users(:one))

@@ -80,6 +80,9 @@ class Post < ActiveRecord::Base
   belongs_to :poll
   belongs_to :reference, polymorphic: true
   belongs_to :postable, polymorphic: true
+  accepts_nested_attributes_for :reference
+  accepts_nested_attributes_for :poll
+
   has_many :comments, dependent: :destroy do
     def users
       self.map(&:user).uniq
@@ -220,6 +223,57 @@ class Post < ActiveRecord::Base
   def parsed_body
     _, body = parsed_title_and_body
    body
+  end
+
+  def image
+    return LinkSource.new.image if !has_image?
+    reference.try(:image) or reference.try(:attachment)
+  end
+
+  def has_image?
+    return false if reference.blank?
+    reference.attributes["image"].present? or reference.try(:image?)
+  end
+
+  def site_name
+    reference.try(:site_name)
+  end
+
+  def reference_url
+    reference.try(:url)
+  end
+
+  def reference_title
+    reference.try(:title) || reference.try(:url)
+  end
+
+  def reference_body
+    reference.try(:body)
+  end
+
+  def file_source?
+    reference.is_a? FileSource
+  end
+
+  def link_source?
+    reference.is_a? LinkSource
+  end
+
+  def video_source?
+    return false unless link_source?
+    VideoInfo.usable?(reference.try(:url) || '')
+  end
+
+  def build_reference(params)
+    self.reference = reference_type.constantize.new(params) if self.reference_type.present?
+  end
+
+  def build_poll(params)
+    if self.poll.try(:persisted?)
+      self.poll.assign_attributes(params)
+    else
+      self.poll = Poll.new(params) if self.has_poll == 'true'
+    end
   end
 
   private

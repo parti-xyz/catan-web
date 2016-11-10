@@ -15,9 +15,9 @@ class Ability
       end
       can [:create, :new_intro, :search_by_tags], [Issue]
 
-      can [:update, :destroy], [Talk], user_id: user.id
-      can :create, [Talk] do |talk|
-        talk.issue.try(:postable?, user)
+      can [:update, :destroy], [Post], user_id: user.id
+      can :create, [Post] do |post|
+        post.issue.try(:postable?, user)
       end
 
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id

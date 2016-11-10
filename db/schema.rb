@@ -314,7 +314,7 @@ ActiveRecord::Schema.define(version: 20161121093327) do
 
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                  limit: 4,                 null: false
-    t.integer  "postable_id",               limit: 4,                 null: false
+    t.integer  "postable_id",               limit: 4
     t.string   "postable_type",             limit: 255
     t.integer  "user_id",                   limit: 4,                 null: false
     t.datetime "created_at",                                          null: false

@@ -1,21 +1,20 @@
 require 'test_helper'
 
-class TalksWithFileSourceTest < ActionDispatch::IntegrationTest
-
+class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post talks_path, talk: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { attachment: fixture_file('files/sample.pdf') }, reference_type: 'FileSource' }
+    post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { attachment: fixture_file('files/sample.pdf') }, reference_type: 'FileSource' }
 
-    assert assigns(:talk).persisted?
-    assigns(:talk).reload
+    assert assigns(:post).persisted?
+    assigns(:post).reload
 
-    assert_equal users(:one), assigns(:talk).user
-    assert_equal 'sample.pdf', assigns(:talk).reference.name
-    assert_equal issues(:issue2).title, assigns(:talk).issue.title
-    assert_equal 'body', assigns(:talk).body
+    assert_equal users(:one), assigns(:post).user
+    assert_equal 'sample.pdf', assigns(:post).reference.name
+    assert_equal issues(:issue2).title, assigns(:post).issue.title
+    assert_equal 'body', assigns(:post).body
 
-    assert assigns(:talk).comments.empty?
+    assert assigns(:post).comments.empty?
   end
 
   test '10mb초과하는 파일은 업로드할 수 없어요' do

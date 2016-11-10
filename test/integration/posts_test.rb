@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TalksTest < ActionDispatch::IntegrationTest
+class PostsTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     refute issues(:issue2).on_group?
     assert issues(:issue2).member? users(:one)

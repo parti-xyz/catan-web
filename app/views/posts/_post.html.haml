@@ -42,7 +42,7 @@
 
 
     - share_partial = capture do
-      - data = {action: 'parti-share', 'share-url': polymorphic_url(post.specific, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc_striped_tags} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.specific.meta_tag_image}" }
+      - data = {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc_striped_tags} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
       - map = { facebook: data }
       - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
       = render 'application/share', map: map
