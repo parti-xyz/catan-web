@@ -190,8 +190,6 @@ class Issue < ActiveRecord::Base
     counts.latest_comments_count = comments.latest.count
     counts.posts_count = posts.count
     counts.latest_posts_count = posts.latest.count
-    counts.notes_count = notes.count
-    counts.latest_notes_count = notes.latest.count
     counts
   end
 

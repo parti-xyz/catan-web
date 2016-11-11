@@ -1,0 +1,34 @@
+.well
+  = form_for @post do |f|
+    = f.hidden_field :reference_type
+    = f.hidden_field :has_poll, value: "#{ 'true' if @post.poll.present? }"
+
+    .form-group
+      = f.label :body
+      = f.text_area :body, class: 'form-control redactor validate', data: {ride: 'parti-autoresize'}
+
+    - if @post.reference_type == 'LinkSource'
+      = f.fields_for :reference do |ff|
+        .form-group
+          = ff.label :url
+          = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
+
+    - if @post.reference_type == 'FileSource'
+      = f.fields_for :reference do |ff|
+        .form-group
+          %label
+            현재 파일:
+            = @post.reference.name
+          = ff.file_field :attachment, class: 'form-control'
+
+    - if @post.poll.present?
+      = f.fields_for :poll do |ff|
+        .form-group
+          = ff.label :title
+          = ff.text_field :title, placeholder: '찬반토론 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
+
+    .editor-btn.text-right
+      = link_to '취소', @post, class: 'btn btn-default'
+      = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
+
+

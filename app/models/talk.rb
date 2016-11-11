@@ -1,5 +1,4 @@
 class Talk < ActiveRecord::Base
-  include Postable
   acts_as_paranoid
   acts_as :post, as: :postable
 

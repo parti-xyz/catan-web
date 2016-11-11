@@ -1,3 +1,5 @@
+- post ||= poll.post
+- poll ||= post.poll
 .poll__vote-section[post]{class: "#{dom_id(post)}-vote" }
 
   - if !user_signed_in?

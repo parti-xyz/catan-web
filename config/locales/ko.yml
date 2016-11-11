@@ -35,6 +35,7 @@ ko:
       related: 관련빠띠
       section: 주제
       poll: 찬반투표
+      post: 게시글
     attributes:
       issue:
         title: 제목
@@ -131,11 +132,11 @@ ko:
             initial:
               undeletable: 일반 주제는 지울 수 없습니다.
   labels:
-    new_talk_link_source_button: 링크걸기
-    new_talk_file_source_button: 파일올리기
-    new_talk_button: 글쓰기
-    new_talk_poll_button: 찬반토론
-    postfix_new_talk_poll_button: 열기
+    new_post_link_source_button: 링크걸기
+    new_post_file_source_button: 파일올리기
+    new_post_button: 논의열기
+    new_post_poll_button: 찬반토론
+    postfix_new_post_poll_button: 열기
 
     edit_wiki_button: 편집
     show_history_button: 역사

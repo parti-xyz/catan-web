@@ -128,13 +128,22 @@ class Post < ActiveRecord::Base
     ) if post.present?
     base
   }
+  scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
+  scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }
+  scope :previous_of_recent, ->(post) {
+    base = recent
+    base = base.where('posts.created_at < ?', post.created_at) if post.present?
+    base
+  }
 
   scope :watched_by, ->(someone) { where(issue_id: someone.member_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :latest, -> { after(1.day.ago) }
-  scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
-  scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }
   scope :only_group_or_all_if_blank, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
+
+  scope :having_reference, -> { where.not(reference: nil) }
+  scope :having_poll, -> { where.not(poll_id: nil) }
+
 
   ## uploaders
   # mount
@@ -148,7 +157,7 @@ class Post < ActiveRecord::Base
 
 
   def specific_desc
-    self.parsed_title || self.body
+    self.parsed_title || self.body || self.poll.try(:title) || (self.reference.try(:name) if self.file_source?) || (self.reference.try(:title) if self.link_source?)
   end
 
   def specific_desc_striped_tags
@@ -173,10 +182,6 @@ class Post < ActiveRecord::Base
 
   def share_image_dimensions
     [300, 158]
-  end
-
-  def origin
-    self
   end
 
   def messagable_users
@@ -268,6 +273,17 @@ class Post < ActiveRecord::Base
       self.poll.assign_attributes(params)
     else
       self.poll = Poll.new(params) if self.has_poll == 'true'
+    end
+  end
+
+  def meta_tag_title
+    if poll.present?
+      poll.title
+    else
+      strip_body = body.try(:strip)
+      strip_body = '' if strip_body.nil?
+      lines = strip_body.lines
+      lines.first
     end
   end
 

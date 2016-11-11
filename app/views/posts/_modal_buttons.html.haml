@@ -1,0 +1,5 @@
+- if current_user.try(:admin?)
+  = link_to poll_social_card_post_path(post, update: 'true', format: 'png'), target: '_blank' do
+    %i.fa.fa-credit-card
+    %span.hidden-xs
+      소셜카드 다시 만들기

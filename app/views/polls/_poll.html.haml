@@ -1,5 +1,4 @@
 - post = poll.post
-- post = post.acting_as
 - issue = post.issue
 - voted = user_signed_in? && poll.voting_by?(current_user)
 - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: post_path(post) }
