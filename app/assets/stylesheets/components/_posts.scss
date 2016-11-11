@@ -1,15 +1,21 @@
 @mixin post-byline() {
-  .user-image {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 12px;
-  }
-  .nickname {
-    color: $brand-primary-dark;
-    font-weight: bold
-  }
-  .date {
-    color: $gray;
+  .media {
+    display: inline-block;
+    .user-image {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 12px;
+    }
+    .media-body {
+      width: 0;
+      .nickname {
+        color: $brand-primary-dark;
+        font-weight: bold
+      }
+      .date {
+        color: $gray;
+      }
+    }
   }
 }
 
