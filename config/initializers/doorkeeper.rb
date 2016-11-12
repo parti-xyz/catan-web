@@ -24,9 +24,13 @@ Doorkeeper.configure do
       if user.present?
         user
       elsif params.dig(:user, :nickname).present?
-        User.create_by_external_auth! external_auth, params.dig(:user, :nickname)
+        User.create_by_external_auth! external_auth, params.dig(:user, :nickname), params.dig(:user, :email)
       else
-        raise Doorkeeper::Errors::DoorkeeperError.new(:need_nickname)
+        if external_auth.email.present?
+          raise Doorkeeper::Errors::DoorkeeperError.new(:need_nickname)
+        else
+          raise Doorkeeper::Errors::DoorkeeperError.new(:need_nickname_and_email)
+        end
       end
     rescue Doorkeeper::Errors::DoorkeeperError => e
       raise e

@@ -112,10 +112,10 @@ class User < ActiveRecord::Base
     resource
   end
 
-  def self.create_by_external_auth!(external_auth, nickname)
+  def self.create_by_external_auth!(external_auth, nickname, email)
     User.create! uid: external_auth.uid,
       provider: external_auth.provider,
-      email: external_auth.email,
+      email: (external_auth.email || email),
       password: Devise.friendly_token[0,20],
       confirmed_at: DateTime.now,
       enable_mailing: true,
