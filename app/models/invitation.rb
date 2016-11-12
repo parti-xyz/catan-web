@@ -7,4 +7,8 @@ class Invitation < ActiveRecord::Base
   validates :user, uniqueness: { scope: :recipient_id }, presence: true
   validates :recipient, presence: true
   validates :issue, presence: true
+
+  def sender_of_message
+    user
+  end
 end

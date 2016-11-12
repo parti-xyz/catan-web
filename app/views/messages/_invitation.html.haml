@@ -1,0 +1,9 @@
+%span
+  #{invitation.user.nickname}님이
+  %strong= link_to invitation.issue.title, invitation.issue
+  빠띠로 초대했습니다.
+  \:
+%span
+  = link_to invitation.issue do
+    바로가기
+    %i.fa.fa-arrow-right
