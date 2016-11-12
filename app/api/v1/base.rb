@@ -7,5 +7,6 @@ module V1
     mount V1::Votings
     mount V1::Parties
     mount V1::Messages
+    mount V1::Invitations
   end
 end

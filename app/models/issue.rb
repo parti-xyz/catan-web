@@ -105,6 +105,10 @@ class Issue < ActiveRecord::Base
     watches.exists? user: someone
   end
 
+  def watched_by_email? email
+    watches.joins(:user).exists? 'users.email': email
+  end
+
   def made_by? someone
     makers.exists? user: someone
   end
