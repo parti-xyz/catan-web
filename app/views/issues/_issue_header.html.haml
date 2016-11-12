@@ -73,25 +73,17 @@
       .row
         .col-sm-7.col-xs-12
           .row
-            .col-xs-2.col-sm-2{ class: ('active' if active_tab.nil? || active_tab == :home) }
+            .col-xs-3.col-sm-3{ class: ('active' if active_tab.nil? || active_tab == :home) }
               = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
                 %h5 타임라인
 
-            .col-xs-2.col-sm-2{class: ('active' if active_tab == :polls)}
+            .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}
               = link_to issue_polls_path(issue) do
                 %h5= Poll.model_name.human
 
-            .col-xs-2.col-sm-2{class: ('active' if active_tab == :references)}
+            .col-xs-3.col-sm-3{class: ('active' if active_tab == :references)}
               = link_to issue_references_path(issue) do
                 %h5 자료
-
-            .col-xs-2.col-sm-2{class: ('active' if active_tab == :wikis)}
-              - count_label = capture_haml(counts_container) do
-                %span.count 베타
-              = link_to issue_wikis_path(issue) do
-                %h5
-                  = Wiki.model_name.human
-                  %span.hidden-xs= count_label
 
 = render 'issues/bottom_banner'
 

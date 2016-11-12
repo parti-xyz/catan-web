@@ -160,6 +160,15 @@ section#talks {
   .talk-body {
     color: $text-muted;
     word-break: break-word;
+    .talk-parsed-body {
+      @media (max-width: $screen-xs-max) {
+        .video-container {
+          iframe {
+            width: 100%
+          }
+        }
+      }
+    }
   }
   .talk-upvote {
     margin-top: 12px;

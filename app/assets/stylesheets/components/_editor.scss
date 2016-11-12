@@ -162,14 +162,24 @@
         padding-left: 18px;
       }
       &-btns {
+        @media (max-width: $screen-xs-max) {
+          text-align: center;
+        }
         padding-top: 18px;
         border-top: 1px solid $gray-less-lighter;
       }
       .talk-reference-btns {
         margin-top: 14px;
         float: left;
+        @media (max-width: $screen-xs-max) {
+          float: none;
+          margin-top: 0px;
+          margin-bottom: 14px;
+        }
         .editor-btn {
           color: $gray;
+          text-align: center;
+          float: none;
         }
       }
       .talk-poll-field,
@@ -179,6 +189,10 @@
       }
       .submit-box {
         float: right;
+        @media (max-width: $screen-xs-max) {
+          display: block;
+          float: none;
+        }
       }
       .redactor-editor {
         border: none;
