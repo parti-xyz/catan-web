@@ -49,6 +49,16 @@ module V1
         present :parti, @first, base_options
       end
 
+      desc '특정 빠띠에 대한 정보를 반환합니다'
+      oauth2
+      params do
+        requires :slug, type: String, desc: '빠띠의 slug'
+      end
+      get ':slug' do
+        @issue = Issue.find_by!(slug: params[:slug])
+        present :parti, @issue
+      end
+
       desc '해당 빠띠의 모든 글을 반환합니다'
       oauth2
       params do
