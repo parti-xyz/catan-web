@@ -9,6 +9,14 @@ module V1
       get :me do
         present :user, resource_owner
       end
+
+      desc '닉네임에 해당되는 사용자의 정보를 반환합니다'
+      params do
+        requires :nickname, type: String
+      end
+      get :by_nickname do
+        present :user, User.find_by(nickname: params[:nickname])
+      end
     end
   end
 end
