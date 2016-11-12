@@ -1,7 +1,7 @@
 class LinkSource < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
-    expose :url, :title, :body, :site_name
+    expose :url, :title, :body, :site_name, :page_type
     expose :image_url do |instance|
       instance.image.md.url
     end
