@@ -30,9 +30,10 @@ module V1
       oauth2
       params do
         optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
+        optional :limit, type: Integer, default: 50
       end
       get do
-        present :parties, Issue.all.send(params[:sort]).limit(20), base_options
+        present :parties, Issue.all.send(params[:sort]).limit(params[:limit]), base_options
       end
 
       desc '앱에서 기본으로 보여질 빠띠를 반환합니다.'
@@ -47,6 +48,15 @@ module V1
         end
 
         present :parti, @first, base_options
+      end
+
+      desc '태그 달린 빠띠들을 반환합니다'
+      oauth2
+      params do
+        requires :tags, type: Array[String]
+      end
+      get :tagged do
+        present :parties, Issue.hottest.tagged_with(params[:tags], any: true), base_options
       end
 
       desc '특정 빠띠에 대한 정보를 반환합니다'
@@ -90,8 +100,10 @@ module V1
       post ':slug/members' do
         @issue = Issue.find_by(slug: params[:slug])
 
+        return if @issue.watched_by?(resource_owner)
+
         @issue.watches.build(user: resource_owner)
-        @issue.members.build(users: resource_owner) if @issue.member_only?
+        @issue.members.build(user: resource_owner) if @issue.member_only?
 
         @issue.save!
       end
@@ -104,6 +116,7 @@ module V1
       delete ':slug/members' do
         @issue = Issue.find_by(slug: params[:slug])
 
+        return if !@issue.watched_by?(resource_owner) and !@issue.member?(resource_owner)
         return if @issue.made_by? resource_owner
         ActiveRecord::Base.transaction do
           @issue.watches.find_by(user: resource_owner).try(:destroy!)

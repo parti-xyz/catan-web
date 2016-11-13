@@ -70,7 +70,7 @@ class Issue < ActiveRecord::Base
     length: { maximum: 60 },
     uniqueness: { case_sensitive: false, scope: :group_slug }
   validates :body,
-    length: { maximum: 200 }
+    length: { maximum: 200 }, on: :create
   VALID_SLUG = /\A[a-z0-9_-]+\z/i
   validates :slug,
     presence: true,
@@ -207,6 +207,10 @@ class Issue < ActiveRecord::Base
 
   def self.of_slug(slug, group_slug)
     self.find_by(slug: slug, group_slug: group_slug)
+  end
+
+  def self.most_used_tags(limit)
+    ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').most_used(limit).joins(:taggings).select('name').distinct
   end
 
   private

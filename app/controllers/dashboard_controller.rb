@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
   end
 
   def intro
-    @issue_tags = ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').most_used(30).joins(:taggings).select('name').distinct
+    @issue_tags = Issue.most_used_tags(30)
   end
 
   def new_posts_count
