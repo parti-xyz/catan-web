@@ -5,6 +5,13 @@ class LinkSource < ActiveRecord::Base
     expose :image_url do |instance|
       instance.image.md.url
     end
+    expose :is_video do |instance|
+      instance.is_video?
+    end
+    expose :video_embeded_code, if: lambda { |instance, options| instance.is_video? } do |instance|
+      video = VideoInfo.new(instance.url)
+      video.embed_code
+    end
   end
   extend Enumerize
 
@@ -38,6 +45,10 @@ class LinkSource < ActiveRecord::Base
   def unify
     previous_link_source = LinkSource.find_by(url: self.url)
     previous_link_source.present? ? previous_link_source : self
+  end
+
+  def is_video?
+    VideoInfo.usable?(self.url)
   end
 
   def self.require_attrbutes
