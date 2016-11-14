@@ -11,6 +11,9 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
+          %li
+            = link_to root_path do
+              홈
           - if user_signed_in?
             - if current_user.watches.any?
               %li.dropdown.watch-parties
