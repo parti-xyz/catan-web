@@ -61,6 +61,7 @@ class User < ActiveRecord::Base
   has_many :making_issues, through: :makers, source: :issue
   has_many :member
   has_many :member_issues, through: :member, source: :issue
+  has_many :device_tokens, dependent: :destroy
 
   ## uploaders
   # mount

@@ -9,5 +9,6 @@ module V1
     mount V1::Messages
     mount V1::Invitations
     mount V1::Tags
+    mount V1::DeviceTokens
   end
 end
