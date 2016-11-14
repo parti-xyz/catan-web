@@ -3,7 +3,7 @@
 %section#posts
   .container
     .row
-      .col-xs-9
+      .col-xs-8
         - if user_signed_in?
           - if @issue.postable?(current_user)
             .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }

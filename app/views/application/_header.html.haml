@@ -11,28 +11,6 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
-          %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
-          %li.dropdown.general-parties
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              추천 빠띠
-              %span.caret
-            %ul.dropdown-menu
-              - %w(politics economy society nculture education environment labor media).each do |slug|
-                = render 'issues/issue_line', issue: Issue.of_slug(slug, nil)
-              %li.divider
-              = render 'issues/issue_line', issue: Issue.of_slug('parti', nil)
-              %li.divider
-              - %w(basic-income better-democracy 20th-assembly digital-social-innovation us-presidential-election).each do |slug|
-                = render 'issues/issue_line', issue: Issue.of_slug(slug, nil)
-          %li.dropdown
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              베스트
-              %span.caret
-            %ul.dropdown-menu
-              %li= link_to '찬반투표', polls_path, class: "#{'active' if current_page?(controller: "/polls", action: :index)}"
-              %li= link_to '자료', references_path, class: "#{'active' if current_page?(controller: "/references", action: :index)}"
-
-        %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             - if current_user.watches.any?
               %li.dropdown.watch-parties
@@ -67,6 +45,10 @@
                         #{current_user.only_watched_or_member_issues(group).count}
                     - current_user.only_watched_or_member_issues(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
+          %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
+
+        %ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
             %li.notification
               = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
                 - if current_user.unread_messages_count > 0
