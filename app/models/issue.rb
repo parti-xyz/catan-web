@@ -5,13 +5,13 @@ class Issue < ActiveRecord::Base
       instance.logo.sm.url
     end
     expose :latest_members_count do |instance|
-      instance.watches.latest.count
+      instance.members.latest.count
     end
     expose :latest_posts_count do |instance|
       instance.posts.latest.count
     end
     expose :members_count do |instance|
-      instance.watches.count
+      instance.members.count
     end
     expose :posts_count do |instance|
       instance.posts.count
@@ -19,7 +19,7 @@ class Issue < ActiveRecord::Base
 
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
       expose :is_member do |instance, options|
-        instance.watched_by? options[:current_user] or instance.member? options[:current_user]
+        instance.members_by? options[:current_user] or instance.member? options[:current_user]
       end
       expose :is_made_by do |instance, options|
         instance.made_by? options[:current_user]
@@ -54,8 +54,6 @@ class Issue < ActiveRecord::Base
       self.map { |m| m.user.nickname }.join(',')
     end
   end
-  has_many :watches, dependent: :destroy
-  has_many :watched_users, through: :watches, source: :user
   has_many :members, dependent: :destroy
   has_many :member_users, through: :members, source: :user
   has_many :sections, dependent: :destroy do
@@ -91,7 +89,7 @@ class Issue < ActiveRecord::Base
   before_validation :strip_whitespace
 
   # scopes
-  scope :hottest, -> { order('issues.watches_count + issues.posts_count desc') }
+  scope :hottest, -> { order('issues.member_count + issues.posts_count desc') }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
   scope :only_group_or_all_if_blank, ->(group) { where(group_slug: group.slug) if group.present? }
@@ -101,12 +99,9 @@ class Issue < ActiveRecord::Base
   scoped_search on: [:title, :body]
 
   # methods
-  def watched_by? someone
-    watches.exists? user: someone
-  end
 
-  def watched_by_email? email
-    watches.joins(:user).exists? 'users.email': email
+  def member_email? email
+    members.joins(:user).exists? 'users.email': email
   end
 
   def made_by? someone
@@ -123,8 +118,8 @@ class Issue < ActiveRecord::Base
 
   def to_group(group)
     group_slug = group.slug
-    watches.each do |watch|
-      members.build(user: watch.user) unless member?(watch.user)
+    members.each do |member|
+      members.build(user: member.user) unless member?(member.user)
     end
   end
 
@@ -187,10 +182,6 @@ class Issue < ActiveRecord::Base
 
   def on_group?
     group_slug.present?
-  end
-
-  def member_only?
-    on_group?
   end
 
   def postable? someone

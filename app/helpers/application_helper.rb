@@ -124,26 +124,6 @@ module ApplicationHelper
     !browser.device.mobile? and !browser.device.tablet?
   end
 
-  def editable_issues_continents(user)
-    watched = user.watched_issues.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
-    featured = Issue.basic_issues.select { |issue| !user.watched_issues.include?(issue) }.map { |issue| [issue.title, issue.id, {data: {logo: issue.logo.xs.url}}] }
-
-    result = []
-    result << ['참여 중인 빠띠', watched] if watched.any?
-    result << ['기본 빠띠', featured] if featured.any?
-    result << ['마땅한 빠띠가 없으세요?', [['', 0, {'data-url': issues_path, 'data-label': '<div><i class="fa fa-info-circle"/> 관심있는 빠띠에 참여해 보세요. <b style="white-space:nowrap">전체빠띠로 이동 <i class="fa fa-arrow-right"/></b></div>'}]]]
-  end
-
-  def jumpable_issues_continents(user)
-    making = user.making_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path_or_url(issue), new_comment_counts: issue.comments.latest.count} }
-    watched = user.only_watched_issues.hottest.map { |issue| {id: issue.id, text: issue.title, logo: issue.logo.xs.url, url: issue_home_path_or_url(issue), new_comment_counts: issue.comments.latest.count} }
-
-    result = []
-    result << {text: '내가 메이커인 빠띠', children: making} if making.any?
-    result << {text: '내가 참여 중인 빠띠', children: watched} if watched.any?
-    return result
-  end
-
   def has_error_attr?(object, name)
     object.respond_to?(:errors) && !(name.nil? || object.errors[name.to_s].empty?)
   end

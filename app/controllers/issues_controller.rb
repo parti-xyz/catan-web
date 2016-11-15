@@ -80,14 +80,10 @@ class IssuesController < ApplicationController
     @issue.group_slug = current_group.try(:slug)
     @issue.sections.build(name: Section::DEFAULT_NAME, initial: true)
 
-    @watch = current_user.watches.build(issue: @issue)
-
-    ActiveRecord::Base.transaction do
-      if !%w(all).include?(@issue.slug) and @issue.save and @watch.save
-        redirect_to @issue
-      else
-        render 'new'
-      end
+    if !%w(all).include?(@issue.slug) and @issue.save
+      redirect_to @issue
+    else
+      render 'new'
     end
   end
 
@@ -115,8 +111,8 @@ class IssuesController < ApplicationController
       end
       if @issue.save
         @issue.makers.each do |maker|
-          @watch = maker.user.watches.build(issue: @issue)
-          @watch.save
+          @member = maker.user.members.build(issue: @issue)
+          @member.save
         end
         MessageService.new(@issue, sender: current_user).call
         redirect_to @issue

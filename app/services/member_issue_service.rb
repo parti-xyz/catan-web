@@ -1,4 +1,4 @@
-class WatchIssueService
+class MemberIssueService
 
   attr_accessor :issue
   attr_accessor :current_user
@@ -9,8 +9,8 @@ class WatchIssueService
   end
 
   def call
-    watch = @issue.watches.build(user: @current_user)
-    watch.save
-    watch
+    member = @issue.member.build(user: @current_user)
+    member.save
+    member
   end
 end

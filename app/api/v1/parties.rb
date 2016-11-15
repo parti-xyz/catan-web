@@ -5,7 +5,7 @@ module V1
 
     helpers do
       def parties_joined_only
-        resource_owner.only_watched_issues.sort{ |a, b| a.compare_title(b) }
+        resource_owner.only_all_member_issues.sort{ |a, b| a.compare_title(b) }
       end
 
       def parties_making
@@ -100,11 +100,8 @@ module V1
       post ':slug/members' do
         @issue = Issue.find_by(slug: params[:slug])
 
-        return if @issue.watched_by?(resource_owner)
-
-        @issue.watches.build(user: resource_owner)
-        @issue.members.build(user: resource_owner) if @issue.member_only?
-
+        return if @issue.member?(resource_owner)
+        @issue.members.build(user: resource_owner)
         @issue.save!
       end
 
@@ -116,10 +113,9 @@ module V1
       delete ':slug/members' do
         @issue = Issue.find_by(slug: params[:slug])
 
-        return if !@issue.watched_by?(resource_owner) and !@issue.member?(resource_owner)
+        return if !@issue.member?(resource_owner)
         return if @issue.made_by? resource_owner
         ActiveRecord::Base.transaction do
-          @issue.watches.find_by(user: resource_owner).try(:destroy!)
           @issue.members.find_by(user: resource_owner).try(:destroy!)
         end
       end

@@ -9,10 +9,10 @@
         %span.issue-line__title
           = issue.title
         %span.issue-line__meta
-          - if issue.watches.latest.count > 0
+          - if issue.members.latest.count > 0
             .users-count
               %i.fa.fa-user
-              %b= issue.watches.latest.count
+              %b= issue.members.latest.count
           - if issue.posts.latest.count > 0
             .posts-count
               %i.fa.fa-file-text

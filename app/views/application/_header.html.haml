@@ -15,12 +15,12 @@
             = link_to root_path do
               홈
           - if user_signed_in?
-            - if current_user.watches.any?
-              %li.dropdown.watch-parties
+            - if current_user.members.any?
+              %li.dropdown.member-parties
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                   내 빠띠
                   %span.caret
-                %ul.dropdown-menu{data: {'filter': (current_user.watched_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
+                %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
 
                   - if current_user.making_issues.only_group(current_group).any?
                     %li.dropdown-header
@@ -28,11 +28,11 @@
                       #{current_user.making_issues.only_group(current_group).count}
                   - current_user.making_issues.only_group(current_group).each do |issue|
                     = render 'issues/issue_line', issue: issue
-                  - if current_user.only_watched_or_member_issues(current_group).any?
+                  - if current_user.only_member_issues(current_group).any?
                     %li.dropdown-header
                       #{current_group.try(:membership?) ? '가입한' : '구독 중인'} 빠띠
-                      #{current_user.only_watched_or_member_issues(current_group).count}
-                  - current_user.only_watched_or_member_issues(current_group).each do |issue|
+                      #{current_user.only_member_issues(current_group).count}
+                  - current_user.only_member_issues(current_group).each do |issue|
                     = render 'issues/issue_line', issue: issue
 
                   - Group.all_with_indie_and_exclude(current_group).each do |group|
@@ -42,11 +42,11 @@
                         #{current_user.making_issues.only_group(group).count}
                     - current_user.making_issues.only_group(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
-                    - if current_user.only_watched_or_member_issues(group).any?
+                    - if current_user.only_member_issues(group).any?
                       %li.dropdown-header
                         #{group.try(:membership?) ? '가입한' : '구독 중인'} #{group.name} 빠띠
-                        #{current_user.only_watched_or_member_issues(group).count}
-                    - current_user.only_watched_or_member_issues(group).each do |issue|
+                        #{current_user.only_member_issues(group).count}
+                    - current_user.only_member_issues(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
           %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
 

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   def parties
     fetch_user
-    @issues = @user.watched_issues
+    @issues = @user.member_issues
   end
 
   def talks

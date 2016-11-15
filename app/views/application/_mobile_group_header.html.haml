@@ -59,8 +59,8 @@
       %a{href: 'http://creativecommons.org/licenses/by-nc/4.0/deed.ko', target: '_blank'}
         = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
 
-  - if user_signed_in? and current_user.watches.any?
-    #nav-watch-parties.collapse.collapse-parties
+  - if user_signed_in? and current_user.members.any?
+    #nav-member-parties.collapse.collapse-parties
       %ul.nav.navbar-nav
         - if current_user.making_issues.only_group(current_group).any?
           %li.dropdown-header
@@ -68,11 +68,11 @@
             #{current_user.making_issues.only_group(current_group).count}
         - current_user.making_issues.only_group(current_group).each do |issue|
           = render 'issues/issue_line', issue: issue
-        - if current_user.only_watched_or_member_issues(current_group).any?
+        - if current_user.only_member_issues(current_group).any?
           %li.dropdown-header
             #{current_group.try(:membership?) ? '가입한' : '구독 중인'} 빠띠
-            #{current_user.only_watched_or_member_issues(current_group).count}
-        - current_user.only_watched_or_member_issues(current_group).each do |issue|
+            #{current_user.only_member_issues(current_group).count}
+        - current_user.only_member_issues(current_group).each do |issue|
           = render 'issues/issue_line', issue: issue
 
         - Group.all_with_indie_and_exclude(current_group).each do |group|
@@ -82,11 +82,11 @@
               #{current_user.making_issues.only_group(group).count}
           - current_user.making_issues.only_group(group).each do |issue|
             = render 'issues/issue_line', issue: issue
-          - if current_user.only_watched_or_member_issues(group).any?
+          - if current_user.only_member_issues(group).any?
             %li.dropdown-header
               #{group.try(:membership?) ? '가입한' : '구독 중인'} #{group.name} 빠띠
-              #{current_user.only_watched_or_member_issues(group).count}
-          - current_user.only_watched_or_member_issues(group).each do |issue|
+              #{current_user.only_member_issues(group).count}
+          - current_user.only_member_issues(group).each do |issue|
             = render 'issues/issue_line', issue: issue
 
   - if current_group.categories.try(:any?)

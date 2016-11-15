@@ -20,7 +20,7 @@ class MessageService
       end
     when Issue.to_s
       if @source.previous_changes["title"].present?
-        @source.watched_users.each do |user|
+        @source.member_users.each do |user|
           next if user == @sender
           send_message(sender: @sender, user: user, messagable: @source,
             action: :edit_title, action_params: { previous_title: @source.previous_changes["title"][0] })

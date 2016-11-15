@@ -3,7 +3,7 @@ body.in-group {
 
   #group-key-visual {
     img {
-      width: 100%;  
+      width: 100%;
     }
   }
 
@@ -46,7 +46,7 @@ body.in-group {
       }
     }
 
-    .navbar-nav > li.watch-parties .dropdown-toggle, .navbar-nav > li.parti-tags .dropdown-toggle, .navbar-nav > li.all-posts .dropdown-toggle {
+    .navbar-nav > li.member-parties .dropdown-toggle, .navbar-nav > li.parti-tags .dropdown-toggle, .navbar-nav > li.all-posts .dropdown-toggle {
       background: none;
       &:hover {
         color: $gray-light;

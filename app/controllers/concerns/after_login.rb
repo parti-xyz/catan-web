@@ -17,9 +17,9 @@ module AfterLogin
     when 'poll_vote_unsure'
       specific = Poll.find_by id: after_login['id']
       VotingPollService.new(specific: specific, current_user: current_user).unsure if specific.present?
-    when 'issue_watch'
+    when 'issue_member'
       issue = Issue.find_by id: after_login['id']
-      WatchIssueService.new(issue: issue, current_user: current_user).call if issue.present?
+      MemberIssueService.new(issue: issue, current_user: current_user).call if issue.present?
     end
 
     session["omniauth.params_data"] = nil

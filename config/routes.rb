@@ -42,9 +42,6 @@ Rails.application.routes.draw do
       get :search
       get :search_by_tags
     end
-    resources :watches do
-      delete :cancel, on: :collection
-    end
     resources :members do
       delete :cancel, on: :collection
     end

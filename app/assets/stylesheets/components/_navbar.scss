@@ -81,7 +81,7 @@
           border: none;
         }
       }
-      &.watch-parties,
+      &.member-parties,
       &.parti-tags,
       &.all-posts {
         .dropdown-filter {
@@ -357,7 +357,7 @@
           }
         }
       }
-      &.watch-parties {
+      &.member-parties {
         & > ul.dropdown-menu {
           min-width: 300px;
         }

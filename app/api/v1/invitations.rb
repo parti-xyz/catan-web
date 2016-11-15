@@ -14,7 +14,7 @@ module V1
         issue = Issue.find_by id: params[:parti_id]
         return if issue.blank?
 
-        params[:emails].reject{ |email| issue.watched_by_email? email }.each do |email|
+        params[:emails].reject{ |email| issue.member_email? email }.each do |email|
           InvitationMailer.invite_parti_by_email(resource_owner.id, email, issue.id).deliver_later
         end
       end
@@ -29,7 +29,7 @@ module V1
         issue = Issue.find_by id: params[:parti_id]
         return if issue.blank?
 
-        params[:nicknames].map { |nickname| User.find_by nickname: nickname }.compact.reject{ |user| issue.watched_by? user.nickname }.each do |user|
+        params[:nicknames].map { |nickname| User.find_by nickname: nickname }.compact.reject{ |user| issue.member? user.nickname }.each do |user|
           invitation = Invitation.new(user: resource_owner, recipient: user, issue: issue);
           invitation.messages.build(messagable: invitation, user: user) if invitation.present?
           if invitation.save

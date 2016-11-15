@@ -1,4 +1,4 @@
-%section.parti-watch-recommend--header
+%section.parti-member-recommend--header
   .container
     #header-before-select-tags
       .media
@@ -18,16 +18,16 @@
 
 #parti-cards
 
-%section.parti-watch-recommend--select-interest
+%section.parti-member-recommend--select-interest
   .container
-    %h3.parti-watch-recommend-title
+    %h3.parti-member-recommend-title
       내 관심사는 무엇인가요?
     .issue-tag-list
       - @issue_tags.each do |tag|
         .issue-tag.btn.btn-primary{data: {action: 'parti-select-interested-tag'}}
           = tag.name
 
-.modal.fade.in.parti-watch-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
+.modal.fade.in.parti-member-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
   .modal-dialog
     .modal-content(style="background: transparent; border: none; box-shadow: none; -webkit-box-shadow: none;")
       .modal-body.text-center

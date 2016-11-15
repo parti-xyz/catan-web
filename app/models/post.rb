@@ -94,7 +94,7 @@ class Post < ActiveRecord::Base
     base
   }
 
-  scope :watched_by, ->(someone) { where(issue_id: someone.watched_issues) }
+  scope :watched_by, ->(someone) { where(issue_id: someone.member_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :only_talks, -> { by_postable_type(Talk.to_s) }
   scope :only_notes, -> { by_postable_type(Note.to_s) }

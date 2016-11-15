@@ -12,8 +12,8 @@ class GruopsTest < ActionDispatch::IntegrationTest
     issue.reload
 
     assert_equal Group::GWANGJU.slug, issue.group_slug
-    issue.watched_users.each do |watched_user|
-      assert issue.member?(watched_user)
+    issue.member_users.each do |member_user|
+      assert issue.member?(member_user)
     end
   end
 end

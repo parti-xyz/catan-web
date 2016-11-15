@@ -6,13 +6,13 @@
       .col-xs-9
         %h4.page-title
           = t('labels.dashboard')
-          - unless current_user.need_to_more_watch_or_member?(current_group)
+          - unless current_user.need_to_more_member?(current_group)
             %small 구독 &middot; 가입 중인 빠띠의 최근 소식입니다.
           - if @posts.first.present? and @last_post.present?
             = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
 
         - if user_signed_in?
-          - if current_user.need_to_more_watch_or_member?(current_group)
+          - if current_user.need_to_more_member?(current_group)
             .unified-editor.unified-editor-intro.cursor-default
               .text-muted
                 .media
@@ -21,7 +21,7 @@
                   .media-body
                     #{current_user.nickname}님, 빠띠를 구독하고 수다를 시작해보세요!
           - else
-            - watched_issues = current_user.watched_issues.order(:title)
+            - member_issues = current_user.member_issues.order(:title)
             .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
               .text-muted
                 = byline current_user, hide_nickname: true
@@ -31,10 +31,10 @@
             - selected_parti = nil
             .parti-select
               %select.parti-editor-selectpicker(data-live-search="true" data-width="100%" title="이야기 나눌 빠띠를 골라 주세요")
-                - issues_selection = {"메이커인 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(current_group)), "가입 중인 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(current_group))}
+                - issues_selection = {"메이커인 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(current_group)), "가입 중인 빠띠" => sort_issues_by_title(current_user.only_all_member_issues.only_group(current_group))}
                 - if current_group.blank?
                   - Group.all_with_indie_and_exclude(current_group).each do |group|
-                    - issues_selection.merge! "메이커인 #{group.name} 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(group)), "가입 중인 #{group.name} 빠띠" => sort_issues_by_title(current_user.only_watched_issues.only_group(group))
+                    - issues_selection.merge! "메이커인 #{group.name} 빠띠" => sort_issues_by_title(current_user.making_issues.only_group(group)), "가입 중인 #{group.name} 빠띠" => sort_issues_by_title(current_user.only_all_member_issues.only_group(group))
                 - issues_selection.each do |group_label, issues|
                   - if issues.any?
                     %optgroup{label: group_label}
@@ -47,12 +47,12 @@
                               = issue.title
                         %option{value: issue.id, 'data-content': issue_content}= issue.title
 
-            - unless current_user.need_to_more_watch_or_member?(current_group)
+            - unless current_user.need_to_more_member?(current_group)
               = render 'talks/new_form', issue: nil
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?
-            - if current_user.need_to_more_watch_or_member?(current_group)
+            - if current_user.need_to_more_member?(current_group)
               .bg-default.no-background.text-center
                 현재 내 타임라인이 비었습니다.
                 %br

@@ -60,7 +60,6 @@ section#issues {
   .parti-buttons {
     margin-top: 15px;
     .parti-maker-button,
-    .parti-watch-button,
     .parti-member-button {
       margin-top: 10px;
       padding-bottom: 3px;
@@ -164,7 +163,6 @@ section#issues {
 
 .webui-popover {
   .maker-info,
-  .cancel-watch,
   .cancel-member {
     font-size: $font-size-small;
   }
@@ -413,7 +411,7 @@ section#issues {
         background-image: asset_url('btn_intro_check_hover.png');
       }
     }
-    &.issue-card--watched {
+    &.issue-card--joined {
       border: 1px solid $brand-primary-light;
       .issue-card-cover {
         background-color: $brand-primary;
@@ -427,7 +425,7 @@ section#issues {
 
 }
 
-.parti-watch-recommend--header {
+.parti-member-recommend--header {
   padding: 50px;
   color: $gray;
   background-color: #fff;
@@ -440,7 +438,7 @@ section#issues {
 
 }
 
-.parti-watch-recommend--issues {
+.parti-member-recommend--issues {
   padding-top: 230px;
   @media (max-width: $screen-xs-max){
     .col-xs-6:nth-child(2n) {
@@ -454,9 +452,9 @@ section#issues {
   }
 }
 
-.parti-watch-recommend--select-interest {
+.parti-member-recommend--select-interest {
   padding-top: 230px;
-  .parti-watch-recommend-title {
+  .parti-member-recommend-title {
     margin-left: 10px;
     word-break: keep-all;
   }
@@ -484,7 +482,7 @@ section#issues {
   }
 }
 
-.parti-watch-recommend--modal {
+.parti-member-recommend--modal {
   color: $gray;
   font-size: 1.3em;
   line-height: 1.7em;
@@ -496,19 +494,19 @@ section#issues {
     padding-bottom: 25px;
   }
 }
-.parti-watch-recommend--modal ~ .modal-backdrop.fade.in {
+.parti-member-recommend--modal ~ .modal-backdrop.fade.in {
   opacity: 1;
   background-color: #fff;
 }
 
 @media (max-width: $screen-xs-max) {
-  .parti-watch-recommend--header {
+  .parti-member-recommend--header {
     padding: 20px;
   }
-  .parti-watch-recommend--issues {
+  .parti-member-recommend--issues {
     padding-top: 180px;
   }
-  .parti-watch-recommend--modal {
+  .parti-member-recommend--modal {
     h2 {
       font-size: $font-size-large;
     }
@@ -516,7 +514,7 @@ section#issues {
       font-size: $font-size-base;
     }
   }
-  .parti-watch-recommend--header{
+  .parti-member-recommend--header{
     #btn-continue {
       float: none;
     }

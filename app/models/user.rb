@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   before_save :downcase_nickname
   before_save :set_uid
   before_validation :strip_whitespace, only: :nickname
-  after_create :watch_default_issues
+  after_create :default_member_issues
 
   # associations
   has_many :messages, dependent: :destroy
@@ -56,12 +56,10 @@ class User < ActiveRecord::Base
   has_many :upvotes
   has_many :votes
   has_many :polls, through: :talks
-  has_many :watches
-  has_many :watched_issues, through: :watches, source: :issue
   has_many :makers
   has_many :making_issues, through: :makers, source: :issue
-  has_many :member
-  has_many :member_issues, through: :member, source: :issue
+  has_many :members, dependent: :destroy
+  has_many :member_issues, through: :members, source: :issue
   has_many :device_tokens, dependent: :destroy
 
   ## uploaders
@@ -125,18 +123,9 @@ class User < ActiveRecord::Base
       remote_image_url: external_auth.image_url
   end
 
-  def watched_counts
-    counts = OpenStruct.new
-    counts.comments_count = watched_posts.sum(:comments_count)
-    counts.latest_comments_count = watched_comments.latest.count
-    counts.talks_count = watched_talks.count
-    counts.latest_talks_count = watched_talks.latest.count
-    counts
-  end
-
   def writing_counts
     counts = OpenStruct.new
-    counts.parties_count = watches.count
+    counts.parties_count = members.count
     counts.polls_count = polls.count
     counts.latest_polls_count = polls.latest.count
     counts.talks_count = talks.count
@@ -144,8 +133,8 @@ class User < ActiveRecord::Base
     counts
   end
 
-  def need_to_more_watch_or_member?(group = nil)
-    watched_issues.only_group_or_all_if_blank(group).empty?
+  def need_to_more_member?(group = nil)
+    member_issues.only_group_or_all_if_blank(group).empty?
   end
 
   def hottest_posts(count)
@@ -156,20 +145,16 @@ class User < ActiveRecord::Base
     makers.exists?(issue: issue)
   end
 
-  def only_watched_issues
-    watched_issues.where.not(id: makers.select(:issue_id))
+  def only_all_member_issues
+    member_issues.where.not(id: makers.select(:issue_id))
   end
 
-  def only_watched_or_member_issues(group)
-    if group.try(:membership?)
-      member_issues.only_group(group).where.not(id: makers.select(:issue_id))
-    else
-      watched_issues.only_group(group).where.not(id: makers.select(:issue_id))
-    end
+  def only_member_issues(group)
+    member_issues.only_group(group).where.not(id: makers.select(:issue_id))
   end
 
   def watched_posts(group = nil)
-    Post.where(issue: watched_issues.only_group_or_all_if_blank(group))
+    Post.where(issue: member_issues.only_group_or_all_if_blank(group))
   end
 
   def watched_talks
@@ -205,7 +190,7 @@ class User < ActiveRecord::Base
     self.uid = self.email if self.provider == 'email'
   end
 
-  def watch_default_issues
+  def default_member_issues
     issue = Issue.find_by slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: nil
     Watch.create(user: self, issue: issue) if issue.present?
   end

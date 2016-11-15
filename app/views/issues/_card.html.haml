@@ -13,10 +13,7 @@
       .issue-card__meta
         %span.users-count
           %i.fa.fa-user
-          - if issue.on_group?
-            = issue.members.count
-          - else
-            = issue.watches.count
+          = issue.members.count
         %span.posts-count
           %i.fa.fa-file-text
           = issue.posts.count

@@ -32,14 +32,6 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert assigns(:issue).reload.made_by?(users(:one))
   end
 
-  test '만든 사람은 구독 되어요' do
-    sign_in(users(:one))
-
-    post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
-
-    assert assigns(:issue).reload.watched_by?(users(:one))
-  end
-
   test '만든 사람은 멤버가 되어요' do
     sign_in(users(:one))
 

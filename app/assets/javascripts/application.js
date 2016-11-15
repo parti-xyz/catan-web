@@ -1032,7 +1032,7 @@ $(function(){
           selected_tags: $('.selected-tag').text().trim().split(/\s+/),
         },
         complete: function(xhr) {
-          $('.parti-watch-recommend--select-interest').hide();
+          $('.parti-member-recommend--select-interest').hide();
           $('#header-before-select-tags').hide();
           $('#header-after-select-tags').removeClass('hide');
         },

@@ -11,7 +11,7 @@
       - if @issue.on_group?
         %h5.aside-title
           = link_to issue_users_path(@issue) do
-            #{@issue.member_only? ? '가입' : '구독'}회원
+            가입멤버
             %span
               %span.text-primary<> #{@issue.members.count}명
           - if @issue.member_users.count > prevew_count
@@ -26,16 +26,16 @@
       - else
         %h5.aside-title
           = link_to issue_users_path(@issue) do
-            #{@issue.member_only? ? '가입' : '구독'}회원
+            가입멤버
             %span
-              %span.text-primary<> #{@issue.watches.count}명
-          - if @issue.watched_users.count > prevew_count
+              %span.text-primary<> #{@issue.members.count}명
+          - if @issue.member_users.count > prevew_count
             = link_to issue_users_path(@issue), class: 'more' do
               더보기
               %i.fa.fa-angle-double-right
-        - @issue.watched_users.recent.limit(prevew_count).each do |user|
+        - @issue.member_users.recent.limit(prevew_count).each do |user|
           = byline user, hide_nickname: true
-        - if @issue.watched_users.count > prevew_count
+        - if @issue.member_users.count > prevew_count
           = link_to issue_users_path(@issue), class: 'more' do
             %i.fa.fa-ellipsis-h
 

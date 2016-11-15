@@ -6,12 +6,9 @@
         %section#content-tab-section
           .nav-tabs.message-tab
             %h4
-              #{@issue.member_only? ? '가입' : '구독'}회원
+              가입멤버
               .count-label-wrapper
-                - if @issue.on_group?
-                  .count-label= @issue.members.count
-                - else
-                  .count-label= @issue.watches.count
+                .count-label= @issue.members.count
 
         %ul.user-card-wrapper.list-unstyled.clearfix
           - if @issue.on_group?
