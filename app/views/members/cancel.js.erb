@@ -1,7 +1,7 @@
 <% if @member.present? %>
   <% if params[:partial] == 'intro' %>
     <% script = escape_javascript(render customize_partial_path(@member.issue, ->(model) { "#{model.class.model_name.plural}/card_in_intro" }), issue: @issue) %>
-    card_query = '.<%= dom_id(@member.issue) %>-card';
+    var card_query = '.<%= dom_id(@member.issue) %>-card';
     $(card_query).replaceWith(parti_origin_partial("<%= script %>"));
     parti_ellipsis($(card_query));
   <% else %>

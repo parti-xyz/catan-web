@@ -411,7 +411,7 @@ section#issues {
         background-image: asset_url('btn_intro_check_hover.png');
       }
     }
-    &.issue-card--joined {
+    &.issue-card--member {
       border: 1px solid $brand-primary-light;
       .issue-card-cover {
         background-color: $brand-primary;
