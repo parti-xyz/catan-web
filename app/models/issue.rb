@@ -61,6 +61,7 @@ class Issue < ActiveRecord::Base
       find_by(initial: true)
     end
   end
+  has_many :messages, as: :messagable, dependent: :destroy
 
   # validations
   validates :title,

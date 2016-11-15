@@ -1,0 +1,18 @@
+- content_for(:head) do
+  %strong
+    안녕하세요. 빠띠메이커 #{@maker_user.nickname}님!
+
+%table(width="100%" style="text-align: left;")
+  %tbody
+    %tr
+      %td
+        %span<>
+          %strong #{@member.user.nickname}
+          님이
+        %span
+          = link_to @member.issue.title, issue_home_url(@member.issue, protocol: :https)
+        빠띠에 가입합니다.
+    %tr
+      %td
+        = link_to issue_home_url(@member.issue, protocol: :https), class: 'btn-email' do
+          #{@member.issue.title} 빠띠로 이동하기

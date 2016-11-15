@@ -26,6 +26,10 @@ class MessageService
             action: :edit_title, action_params: { previous_title: @source.previous_changes["title"][0] })
         end
       end
+    when Member.to_s
+      @source.issue.makers.each do |maker|
+        send_message(sender: @source.user, user: maker.user, messagable: @source, action: :create)
+      end
     end
   end
 

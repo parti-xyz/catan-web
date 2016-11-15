@@ -38,7 +38,7 @@ module Mentionable
     self.mentions.each do |mention|
       mentioned_user = mention.user
       unless @pervious_user.include? mentioned_user
-        MentionMailer.send(self.class.to_s.underscore, self.user.id, mentioned_user.id, self.id).deliver_later
+        MentionMailer.on_comment(self.user.id, mentioned_user.id, self.id).deliver_later
       end
     end
   end

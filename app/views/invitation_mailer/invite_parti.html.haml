@@ -3,14 +3,19 @@
     안녕하세요.
     - if @recipient.present?
       #{@recipient.nickname}님!
-    %br
-    \#{@sender.nickname}님이 #{@issue.title} 빠띠에 초대합니다.
-
 
 %table(width="100%" style="text-align: left;")
   %tbody
     %tr
       %td
-        = link_to issue_home_url(@issue, protocol: :https), class: 'btn btn-block btn-primary' do
+        %span<>
+          %strong #{@sender.nickname}
+          님이
+        %span
+          = link_to @issue.title, issue_home_url(@issue, protocol: :https)
+        빠띠에 초대합니다.
+    %tr
+      %td
+        = link_to issue_home_url(@issue, protocol: :https), class: 'btn-email' do
           #{@issue.title} 빠띠로 이동하기
 
