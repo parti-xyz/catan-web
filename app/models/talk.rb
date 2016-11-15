@@ -117,6 +117,7 @@ class Talk < ActiveRecord::Base
       strip_body = '' if strip_body.nil?
       lines = strip_body.lines
       lines.first
+      ActionView::Base.full_sanitizer.sanitize(lines.first)
     end
   end
 
