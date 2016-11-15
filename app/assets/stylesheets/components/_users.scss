@@ -86,13 +86,15 @@ section#user-gallery{
 .user-panel {
   background-color: #fff;
   margin-bottom: 20px;
+  border-radius: $border-radius-base;
 
   &__thumb {
+    padding-top: 81px;
+    background-size: contain;
     background-image: image_url('img_user_panel_head.png');
     background-repeat: no-repeat;
     background-position: top center;
     text-align: center;
-    padding-top: 55px;
     a {
       color: $brand-primary;
       font-weight: bold;

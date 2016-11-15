@@ -3,7 +3,7 @@
 %section#posts
   .container
     .row
-      .col-xs-9
+      .col-xs-8
         - if @posts.first.present? and @last_post.present?
           = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
 
