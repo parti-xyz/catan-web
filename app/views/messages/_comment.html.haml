@@ -12,7 +12,7 @@
   %span
     #{comment.post.specific.class.model_name.human}
   %span
-    %strong>= link_to excerpt(comment.post.specific_desc_striped_tags, length: 100), comment.post.specific
+    %strong>= link_to comment.post.specific_desc_striped_tags, comment.post.specific
     의
   %span
     - if comment.mentioned?(message.user)
