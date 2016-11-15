@@ -118,6 +118,7 @@ class IssuesController < ApplicationController
           @watch = maker.user.watches.build(issue: @issue)
           @watch.save
         end
+        MessageService.new(@issue, sender: current_user).call
         redirect_to @issue
       else
         errors_to_flash @issue

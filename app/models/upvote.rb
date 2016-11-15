@@ -29,7 +29,7 @@ class Upvote < ActiveRecord::Base
   after_create :send_message
   before_save :set_issue
 
-  def sender_of_message
+  def sender_of_message(message)
     user
   end
 

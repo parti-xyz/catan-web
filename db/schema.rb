@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114155200) do
+ActiveRecord::Schema.define(version: 20161115020243) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -194,14 +194,18 @@ ActiveRecord::Schema.define(version: 20161114155200) do
   add_index "mentions", ["user_id"], name: "index_mentions_on_user_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "user_id",         limit: 4,   null: false
-    t.integer  "messagable_id",   limit: 4,   null: false
+    t.integer  "user_id",         limit: 4,     null: false
+    t.integer  "messagable_id",   limit: 4,     null: false
     t.string   "messagable_type", limit: 255
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "action",          limit: 255
+    t.text     "action_params",   limit: 65535
+    t.integer  "sender_id",       limit: 4,     null: false
   end
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id", using: :btree
+  add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "notes", force: :cascade do |t|

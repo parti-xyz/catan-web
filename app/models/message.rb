@@ -38,6 +38,7 @@ class Message < ActiveRecord::Base
   end
 
   belongs_to :user
+  belongs_to :sender, class_name: User
   belongs_to :messagable, polymorphic: true
 
   scope :recent, -> { order(updated_at: :desc) }
@@ -46,12 +47,12 @@ class Message < ActiveRecord::Base
 
   before_save :mark_unread
 
-  def sender
-    messagable.sender_of_message
-  end
-
   def post
     messagable.post
+  end
+
+  def action_params_hash
+    JSON.parse(action_params)
   end
 
   private

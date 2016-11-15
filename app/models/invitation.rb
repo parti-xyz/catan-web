@@ -8,7 +8,7 @@ class Invitation < ActiveRecord::Base
   validates :recipient, presence: true
   validates :issue, presence: true
 
-  def sender_of_message
+  def sender_of_message(message)
     user
   end
 end

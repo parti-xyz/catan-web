@@ -54,7 +54,7 @@ class Comment < ActiveRecord::Base
     return true
   end
 
-  def sender_of_message
+  def sender_of_message(message)
     user
   end
 

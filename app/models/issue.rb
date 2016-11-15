@@ -205,6 +205,10 @@ class Issue < ActiveRecord::Base
     sections.find_by(initial: true)
   end
 
+  def sender_of_message(message)
+    message.user
+  end
+
   def self.of_slug(slug, group_slug)
     self.find_by(slug: slug, group_slug: group_slug)
   end
