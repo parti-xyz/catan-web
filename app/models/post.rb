@@ -132,7 +132,7 @@ class Post < ActiveRecord::Base
   end
 
   def messagable_users
-    (comments.users + (specific.poll.try(:votings).try(:users) || [])).uniq
+    ([user] + comments.users + (specific.poll.try(:votings).try(:users) || [])).uniq
   end
 
   def latest_comments
