@@ -48,12 +48,12 @@ class MembersTest < ActionDispatch::IntegrationTest
   end
 
   test '멤버인 빠띠 글만 구경해요' do
-    sign_in(users(:one))
+    sign_in(users(:three))
 
-    assert_equal issues(:issue1).posts.count, Post.watched_by(users(:one)).count
+    assert_equal issues(:issue1).posts.count, Post.watched_by(users(:three)).count
 
     post issue_members_path(issue_id: issues(:issue1).id)
-    assert_equal issues(:issue1).posts.count, Post.watched_by(users(:one)).count
+    assert_equal issues(:issue1).posts.count, Post.watched_by(users(:three)).count
 
     post issue_members_path(issue_id: issues(:issue2).id)
     assert_equal issues(:issue1).posts.count + issues(:issue2).posts.count, Post.watched_by(users(:one)).count

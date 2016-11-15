@@ -189,7 +189,7 @@ class Issue < ActiveRecord::Base
   end
 
   def postable? someone
-    !on_group? or member?(someone)
+    member?(someone)
   end
 
   def blind_user? someone

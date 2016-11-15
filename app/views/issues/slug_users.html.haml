@@ -11,10 +11,6 @@
                 .count-label= @issue.members.count
 
         %ul.user-card-wrapper.list-unstyled.clearfix
-          - if @issue.on_group?
-            - @issue.member_users.recent.each do |user|
-              = render user, issue: @issue
-          - else
-            - @issue.watched_users.recent.each do |user|
-              = render user, issue: @issue
+          - @issue.member_users.recent.each do |user|
+            = render user, issue: @issue
       .col-xs-3= render 'footer'

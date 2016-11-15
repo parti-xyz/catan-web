@@ -2,6 +2,8 @@ require 'test_helper'
 
 class TalksTest < ActionDispatch::IntegrationTest
   test '만들어요' do
+    refute issues(:issue2).on_group?
+    assert issues(:issue2).member? users(:one)
     sign_in(users(:one))
 
     post talks_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
@@ -15,17 +17,18 @@ class TalksTest < ActionDispatch::IntegrationTest
     assert assigns(:talk).comments.empty?
   end
 
-  test '올빠띠의 개별빠띠에는 멤버가 아니라도 만들어요' do
+  test '그룹에 속하지 않은 빠띠는 멤버가 아니면 못 만들어요' do
     refute issues(:issue2).on_group?
     refute issues(:issue2).member? users(:two)
 
     sign_in(users(:two))
 
-    post talks_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
-    assert assigns(:talk).persisted?
+    assert_raises CanCan::AccessDenied do
+      post talks_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    end
   end
 
-  test '그룹빠띠의 빠띠에는 멤버라야 만들어요' do
+  test '그룹의 빠띠에는 멤버라야 만들어요' do
     assert issues(:issue1).on_group?
     assert issues(:issue1).member? users(:one)
 
@@ -35,7 +38,7 @@ class TalksTest < ActionDispatch::IntegrationTest
     assert assigns(:talk).persisted?
   end
 
-  test '그룹빠띠의 빠띠에는 멤버가 아니면 못 만들어요' do
+  test '그룹의 빠띠에는 멤버가 아니면 못 만들어요' do
     assert issues(:issue1).on_group?
     refute issues(:issue1).member? users(:two)
 

@@ -88,10 +88,6 @@ class TalksController < ApplicationController
     end
   end
 
-  def postable_controller?
-    true
-  end
-
   private
 
   def update_comments

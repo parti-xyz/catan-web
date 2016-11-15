@@ -10,3 +10,9 @@ member4:
 member5:
   user: maker
   issue: issue1
+member6:
+  user: one
+  issue: issue2
+member7:
+  user: three
+  issue: issue1

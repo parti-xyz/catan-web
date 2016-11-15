@@ -5,7 +5,7 @@
 - else
   - action_link = issue_members_path(issue, partial: :intro)
   - action_method = :post
-.issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--watched' if issue.member?(current_user)}"}
+.issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--member' if issue.member?(current_user)}"}
   = link_to action_link, method: action_method, remote: true do
     .issue-card-cover
     .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
