@@ -19,7 +19,7 @@ class Issue < ActiveRecord::Base
 
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
       expose :is_member do |instance, options|
-        instance.members_by? options[:current_user] or instance.member? options[:current_user]
+        instance.member_by? options[:current_user] or instance.member? options[:current_user]
       end
       expose :is_made_by do |instance, options|
         instance.made_by? options[:current_user]
@@ -99,6 +99,10 @@ class Issue < ActiveRecord::Base
   scoped_search on: [:title, :body]
 
   # methods
+
+  def member_by? someone
+    members.exists? user: someone
+  end
 
   def member_email? email
     members.joins(:user).exists? 'users.email': email
