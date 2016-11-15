@@ -11,9 +11,10 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
-          %li
-            = link_to root_path do
-              홈
+          - if user_signed_in?
+            %li
+              = link_to root_path, class: "#{'active' if current_page?('/')}" do
+                홈
           - if user_signed_in?
             - if current_user.members.any?
               %li.dropdown.member-parties
