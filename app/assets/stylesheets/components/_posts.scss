@@ -354,6 +354,7 @@ section#posts {
   .post-line {
     &__title {
       font-size: $font-size-base;
+      line-height: 1.3;
     }
     .media-body {
       color: $text-muted;
