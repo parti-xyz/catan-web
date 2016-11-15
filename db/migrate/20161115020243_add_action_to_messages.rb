@@ -1,7 +1,7 @@
 class AddActionToMessages < ActiveRecord::Migration
   def change
-    # add_column :messages, :action, :string
-    # add_column :messages, :action_params, :text
+    add_column :messages, :action, :string
+    add_column :messages, :action_params, :text
     add_reference :messages, :sender, null: false, index: true
 
     reversible do |dir|
