@@ -16,9 +16,8 @@
                 %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.name
-        .media-right
-
-          - if local_assigns[:in_modal]
+        - if local_assigns[:in_modal]
+          .media-right
             %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
               = image_tag 'icon_close.png'
 
