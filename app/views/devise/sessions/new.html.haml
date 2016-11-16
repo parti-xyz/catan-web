@@ -2,9 +2,9 @@
   %section#sign-up
     %h4.sign-up__title 로그인/회원가입
     %h1.text-center.sign-up__txt.hidden-xs
-      함께 만드는
+      덕업일치를 위한
       %br
-      온라인 광장 빠띠
+      오픈커뮤니티 빠띠
     .sign-up__form
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn-sns btn-block' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
