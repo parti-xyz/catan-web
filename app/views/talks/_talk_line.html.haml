@@ -36,7 +36,7 @@
       - if talk.reference.image?
         .talk-reference-line__file-content__file-image
           %a{href: talk.reference.attachment.url, target: '_blank'}
-            = image_tag "#{talk.reference.attachment.url}"
+            = image_tag "#{talk.reference.attachment.lg.url}"
       - else
         .talk-reference-line.post-line[post]{data: modal_data}
           .talk-reference-line__file-content

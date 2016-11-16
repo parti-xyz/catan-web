@@ -78,6 +78,16 @@ class FileUploader < CarrierWave::Uploader::Base
     (Rails.env.production? or self.file.try(:exists?)) ? super_result : (super_result == default_url ? super_result : "https://catan-file.s3.amazonaws.com#{ImageUploader::env_storage == :fog ? "/#{self.path}" : super}")
   end
 
+  def fix_exif_rotation
+    if image?(self.file)
+      manipulate! do |img|
+        img.tap(&:auto_orient)
+      end
+    end
+  end
+
+  process :fix_exif_rotation
+
   before :cache, :save_original_filename
   def save_original_filename(file)
     model.name ||= file.original_filename.unicode_normalize if file.respond_to?(:original_filename)
