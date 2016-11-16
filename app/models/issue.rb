@@ -213,6 +213,10 @@ class Issue < ActiveRecord::Base
     ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').most_used(limit).joins(:taggings).select('name').distinct
   end
 
+  def issue_for_message
+    self
+  end
+
   private
 
   def downcase_slug

@@ -11,4 +11,8 @@ class Invitation < ActiveRecord::Base
   def sender_of_message(message)
     user
   end
+
+  def issue_for_message
+    issue
+  end
 end

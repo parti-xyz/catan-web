@@ -63,6 +63,10 @@ class Comment < ActiveRecord::Base
     !upvotes.exists?(user: someone)
   end
 
+  def issue_for_message
+    self.issue
+  end
+
   private
 
   def send_messages
@@ -80,4 +84,5 @@ class Comment < ActiveRecord::Base
   def touch_last_touched_at_of_issues
     self.issue.touch(:last_touched_at)
   end
+
 end

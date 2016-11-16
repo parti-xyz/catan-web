@@ -8,4 +8,8 @@ class Member < ActiveRecord::Base
   validates :user, uniqueness: {scope: :issue}
 
   scope :latest, -> { after(1.day.ago) }
+
+  def issue_for_message
+    issue
+  end
 end
