@@ -6,7 +6,7 @@ class InvitationMailer < ApplicationMailer
     return if @issue.blank?
 
     mail(template_name: 'invite_parti', to: recipient_email,
-         subject: "[빠띠] @#{@sender.nickname}님이 #{@issue.title} 빠띠로 초대합니다.")
+         subject: "[빠띠] @#{@sender.nickname}님이 #{@issue.title} 빠띠로 초대했습니다.")
   end
 
   def invite_parti_by_nickname(sender_id, recipient_id, issue_id)
@@ -18,6 +18,6 @@ class InvitationMailer < ApplicationMailer
     return unless @recipient.enable_mailing?
 
     mail(template_name: 'invite_parti', to: @recipient.email,
-         subject: "[빠띠] @#{@sender.nickname}님이 #{@issue.title} 빠띠로 초대합니다.")
+         subject: "[빠띠] @#{@sender.nickname}님이 #{@issue.title} 빠띠로 초대했습니다.")
   end
 end

@@ -92,7 +92,7 @@ module V1
         present :items, @posts, base_options.merge(type: :full)
       end
 
-      desc '가입합니다'
+      desc '가입했습니다'
       oauth2
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
@@ -105,7 +105,7 @@ module V1
         @issue.save!
       end
 
-      desc '탈퇴합니다'
+      desc '탈퇴했습니다'
       oauth2
       params do
         requires :slug, type: String, desc: '빠띠의 slug'

@@ -4,7 +4,7 @@ module V1
     include V1::Defaults
 
     namespace :invitations do
-      desc '이메일로 초대합니다'
+      desc '이메일로 초대했습니다'
       oauth2
       params do
         requires :parti_id, type: Integer
@@ -19,7 +19,7 @@ module V1
         end
       end
 
-      desc '닉네임으로 초대합니다'
+      desc '닉네임으로 초대했습니다'
       oauth2
       params do
         requires :parti_id, type: Integer
