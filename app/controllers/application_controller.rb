@@ -1,21 +1,15 @@
 class ApplicationController < ActionController::Base
   include PartiUrlHelper
   include GroupHelper
+  include StoreLocation
 
   protect_from_forgery with: :exception
   before_action :prepare_meta_tags, if: "request.get?"
   before_action :set_device_type
   after_filter :prepare_unobtrusive_flash
-  after_filter :store_location
+  after_filter :prepare_store_location
 
   layout -> { get_layout }
-
-  def store_location
-    return unless request.get?
-    if (!request.fullpath.match("/users") && !request.xhr?)
-      store_location_for(:user, request.fullpath)
-    end
-  end
 
   if Rails.env.production? or Rails.env.staging?
     rescue_from ActiveRecord::RecordNotFound, ActionController::UnknownFormat do |exception|
@@ -41,9 +35,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    result = super
     omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
-    return URI.join(root_url(subdomain: omniauth_params['group_slug']), result).to_s if omniauth_params['group_slug'].present?
+    group = Group.find_by_slug(omniauth_params['group_slug'])
+
+    result = stored_location(group) || '/'
+    result = URI.join(root_url(subdomain: group.slug), result).to_s if group.present?
     result
   end
 
@@ -185,6 +181,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def prepare_store_location
+    store_location(current_group)
+  end
 
   def get_layout
     if current_group.present?
