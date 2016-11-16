@@ -21,8 +21,8 @@ footer {
     font-size: 12px;
     font-weight: bold;
     position: absolute;
-    top: -2px;
-    right: 0px;
+    top: 7px;
+    right: 28px;
   }
   &.footer-logo--group {
     .footer-logo__txt {
@@ -43,7 +43,7 @@ footer {
   padding-bottom: 15px;
   margin-bottom: 15px;
   a {
-    color: #b1b0b1;
+    color: $gray;
   }
 }
 .footer-sns {
