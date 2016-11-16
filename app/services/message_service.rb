@@ -30,6 +30,8 @@ class MessageService
       @source.issue.makers.each do |maker|
         send_message(sender: @source.user, user: maker.user, messagable: @source, action: :create)
       end
+    when Invitation.to_s
+      send_message(sender: @source.user, user: @source.recipient, messagable: @source)
     end
   end
 
@@ -38,4 +40,5 @@ class MessageService
   def send_message(sender:, user:, messagable:, action: nil, action_params: nil)
     user.messages.find_or_create_by(messagable: messagable, sender: sender, action: action, action_params: action_params.try(:to_json))
   end
+
 end

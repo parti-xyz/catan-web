@@ -1,4 +1,11 @@
 class Invitation < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity :id do
+    expose :issue, using: Issue::Entity, as: :parti
+    expose :user, using: User::Entity
+    expose :recipient, using: User::Entity
+  end
+
   belongs_to :user
   belongs_to :recipient, class_name: User
   belongs_to :issue

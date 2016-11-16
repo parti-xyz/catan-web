@@ -31,8 +31,8 @@ module V1
 
         params[:nicknames].map { |nickname| User.find_by nickname: nickname }.compact.reject{ |user| issue.member? user.nickname }.each do |user|
           invitation = Invitation.new(user: resource_owner, recipient: user, issue: issue);
-          invitation.messages.build(messagable: invitation, sender: resource_owner, user: user)
           if invitation.save
+            MessageService.new(invitation).call
             InvitationMailer.invite_parti_by_nickname(resource_owner.id, user.id, issue.id).deliver_later
           end
         end
