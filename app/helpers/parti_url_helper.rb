@@ -48,4 +48,13 @@ module PartiUrlHelper
   def user_gallery_url(user)
     slug_user_url(slug: user.slug)
   end
+
+  def talk_path_or_url(talk, options = {})
+    if talk.issue.group == current_group
+      polymorphic_path(talk, options)
+    else
+      options.update(subdomain: talk.issue.group.try(:slug))
+      polymorphic_url(talk, options)
+    end
+  end
 end

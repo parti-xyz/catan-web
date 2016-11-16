@@ -1,20 +1,21 @@
-- if comment.post.user == message.user
-  %strong
-    = message.sender.nickname
-    님이 내 게시글에 댓글을 남겼습니다.
-  %br
-  = link_to excerpt(comment.body, length: 100), comment.post.specific
-- else
-  %strong
-    %span
-      = comment.post.user.nickname
-      님의 게시글에
+%div{id: "#{dom_id(message)}-url-source", data: { url: talk_path_or_url(comment.post.specific) } }
+  - if comment.post.user == message.user
+    %strong
       = message.sender.nickname
-      님이
-    %span
-      - if comment.mentioned?(message.user)
-        댓글에서 나를 언급했습니다
-      - else
-        댓글을 남겼습니다.
-  %br
-  = link_to excerpt(comment.body, length: 100), comment.post.specific
+      님이 내 게시글에 댓글을 남겼습니다.
+    %br
+    = link_to excerpt(comment.body, length: 100), talk_path_or_url(comment.post.specific)
+  - else
+    %strong
+      %span
+        = comment.post.user.nickname
+        님의 게시글에
+        = message.sender.nickname
+        님이
+      %span
+        - if comment.mentioned?(message.user)
+          댓글에서 나를 언급했습니다
+        - else
+          댓글을 남겼습니다.
+    %br
+    = link_to excerpt(comment.body, length: 100), talk_path_or_url(comment.post.specific)

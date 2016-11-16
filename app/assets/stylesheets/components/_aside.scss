@@ -8,6 +8,14 @@
 .aside-title a {
   color: $brand-primary-dark;
 }
+.parti-makers {
+  li {
+    &:first-child {
+      padding-top: 0;
+    }
+    padding-top: 4px;
+  }
+}
 
 .aside_issue_btn {
   margin-bottom: 36px;

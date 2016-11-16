@@ -325,8 +325,11 @@
   // menu group positions
   .nav.navbar-nav {
     &.navbar-left {
-      margin-left: -15px;
+      margin-left: -8px;
       float: left;
+    }
+    &.navbar-right {
+      margin-right: -8px;
     }
     &.navbar-right-xs {
       @media (max-width: $screen-xs-max) {

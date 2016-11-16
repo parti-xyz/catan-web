@@ -1,0 +1,27 @@
+/* message 알림 */
+.message {
+  cursor: pointer;
+  background-color: #fff;
+  margin-bottom: 12px;
+  margin-top: 0;
+  padding: 12px;
+  &__link {
+    display: inline-block;
+    float: left;
+    .profile {
+      margin-right: 5px;
+      float: left;
+    }
+    .nickname {
+      height: 30px;;
+      line-height: 30px;
+      float: left;
+      color: $brand-primary;
+      font-weight: bold;
+    }
+  }
+  &__parti,
+  &__parti a {
+    color: $brand-primary;
+  }
+}

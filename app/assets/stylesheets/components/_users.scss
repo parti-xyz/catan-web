@@ -89,7 +89,7 @@ section#user-gallery{
   border-radius: $border-radius-base;
 
   &__thumb {
-    padding-top: 81px;
+    padding-top: 90px;
     background-size: contain;
     background-image: image_url('img_user_panel_head.png');
     background-repeat: no-repeat;
@@ -373,35 +373,6 @@ section#user-gallery{
 
 #user-gallery {
   padding: 20px 0;
-}
-
-/* message 알림 */
-.message {
-  background-color: #fff;
-  margin-bottom: 5px;
-  margin-top: 0;
-  padding: 10px 20px;
-  &__link {
-    display: inline-block;
-    float: left;
-    .profile {
-      margin-right: 5px;
-      float: left;
-    }
-    .nickname {
-      height: 30px;;
-      line-height: 30px;
-      float: left;
-      color: $brand-primary;
-      font-weight: bold;
-    }
-  }
-  &__date {
-    height: 30px;
-  }
-  &__messagable {
-    margin-top: 10px;
-  }
 }
 
 /* dashboard 상단 버튼 */

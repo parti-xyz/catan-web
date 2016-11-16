@@ -27,7 +27,7 @@ ko:
   activerecord:
     models:
       issue: 빠띠
-      talk: 논의
+      talk: 게시글
       proposal: 제안-서명
       wiki: 위키
       user: 회원
@@ -116,7 +116,7 @@ ko:
         talk:
           attributes:
             title:
-              too_long: 논의 %{attribute}이 너무 깁니다. 180자 이내로 써주세요.
+              too_long: 게시글 %{attribute}이 너무 깁니다. 180자 이내로 써주세요.
         link_source:
           attributes:
             url:
@@ -133,7 +133,7 @@ ko:
   labels:
     new_talk_link_source_button: 링크걸기
     new_talk_file_source_button: 파일올리기
-    new_talk_button: 논의열기
+    new_talk_button: 글쓰기
     new_talk_poll_button: 찬반토론
     postfix_new_talk_poll_button: 열기
 
