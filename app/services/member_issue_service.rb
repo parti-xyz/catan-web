@@ -9,7 +9,7 @@ class MemberIssueService
   end
 
   def call
-    member = @issue.member.build(user: @current_user)
+    member = @issue.members.build(user: @current_user)
     member.save
     member
   end
