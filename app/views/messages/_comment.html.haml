@@ -1,24 +1,20 @@
 - if comment.post.user == message.user
-  %div #{comment.issue.title} 빠띠
-  %div
-    %span<>
-      = link_to message.sender.nickname, user_gallery_path(message.sender)
+  %strong
+    = message.sender.nickname
+    님이 내 게시글에 댓글을 남겼습니다.
+  %br
+  = link_to excerpt(comment.body, length: 100), comment.post.specific
+- else
+  %strong
+    %span
+      = comment.post.user.nickname
+      님의 게시글에
+      = message.sender.nickname
       님이
     %span
-      내 게시글에 댓글을 남겼습니다.:
-    %span
-      = link_to excerpt(comment.body, length: 100), comment.post.specific
-- else
-  %span
-    #{comment.post.specific.class.model_name.human}
-  %span
-    %strong>= link_to comment.post.specific_desc_striped_tags, comment.post.specific
-    의
-  %span
-    - if comment.mentioned?(message.user)
-      댓글에서 나를 언급했습니다
-    - else
-      댓글을 작성했습니다.
-    \:
-  %span
-    = link_to excerpt(comment.body, length: 100), comment.post.specific
+      - if comment.mentioned?(message.user)
+        댓글에서 나를 언급했습니다
+      - else
+        댓글을 남겼습니다.
+  %br
+  = link_to excerpt(comment.body, length: 100), comment.post.specific

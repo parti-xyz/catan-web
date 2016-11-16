@@ -1,6 +1,6 @@
-%span
+%strong
   #{message.sender.nickname}님이
-  %strong= link_to message.action_params_hash["previous_title"], issue
+  = link_to message.action_params_hash["previous_title"], issue
   빠띠 이름을
-  %strong= link_to issue.title, issue
+  = link_to issue.title, issue
   빠띠로 수정했습니다.

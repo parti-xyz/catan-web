@@ -51,6 +51,10 @@ class Message < ActiveRecord::Base
     messagable.post
   end
 
+  def issue
+    messagable.issue_for_message
+  end
+
   def action_params_hash
     JSON.parse(action_params)
   end

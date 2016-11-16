@@ -1,20 +1,14 @@
 - if upvote.upvotable.is_a? Comment
   - post = upvote.upvotable.post
-  %span
-    %strong>= link_to excerpt(post.specific_desc, length: 100), post.specific
-    의 내 댓글을
-  %span
-    공감합니다.
-    \:
-  %span
+  %strong
+    = message.sender.nickname
+    님이 내 댓글에 공감합니다.
+  %br
     = link_to excerpt(upvote.upvotable.body, length: 100), post.specific
 - else
   - post = upvote.upvotable
-  %span
-    %strong>= link_to excerpt(post.specific_desc, length: 100), post.specific
-    의 내 #{post.specific.class.model_name.human}를
-  %span
-    공감합니다.
-    \:
-  %span
-    = link_to excerpt(upvote.upvotable.specific_desc, length: 100), post.specific
+  %strong
+    = message.sender.nickname
+    님이 내 게시글을 공감합니다.
+  %br
+    = link_to upvote.upvotable.specific_desc_striped_tags, post.specific

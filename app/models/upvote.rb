@@ -37,6 +37,10 @@ class Upvote < ActiveRecord::Base
     upvotable.is_a?(Post) ? upvotable : upvotable.post
   end
 
+  def issue_for_message
+    issue
+  end
+
   private
 
   def send_message
