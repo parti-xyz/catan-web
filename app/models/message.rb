@@ -11,29 +11,36 @@ class Message < ActiveRecord::Base
     expose :user, using: User::Entity
     expose :sender, using: User::Entity
     expose :created_at
-    expose :post, using: Post::Entity
+    # expose :post, using: Post::Entity
     expose :desc do |instance|
-      comment = nil
       key = case instance.messagable_type
       when 'Comment'
-        comment = instance.messagable
-        if instance.messagable.mentioned?(instance.user)
+        if instance.messagable.post.user == instance.user
+          'comment.created_at_my_post'
+        elsif instance.messagable.mentioned?(instance.user)
           'comment.mentioned'
         else
-          'comment.created'
+          'comment.created_at_other_post'
         end
       when 'Upvote'
         if instance.messagable.upvotable.is_a? Comment
-          comment = instance.messagable.upvotable
           'upvote.comment'
         else
           'upvote.post'
         end
+      when 'Member'
+        'member.join'
+      when 'Invitation'
+        'invitation'
+      when 'Issue'
+        'issue'
       end
 
       I18n.t("api.entities.message.desc.#{key}",
-        post_desc: instance.messagable.post.specific_desc_striped_tags.truncate(100),
-        comment_desc: (comment.body.truncate(100) if comment.present?))
+        sender: instance.sender.nickname,
+        writer_of_post: (instance.messagable.post.user.nickname if instance.messagable_type == 'Comment'),
+        issue_title: (instance.messagable.issue_for_message.title if (instance.messagable_type == 'Member' || instance.messagable_type == 'Invitation' || instance.messagable_type == 'Issue')),
+        previous_issue_title: (instance.action_params_hash["previous_title"] if instance.messagable_type == 'Issue'))
     end
   end
 

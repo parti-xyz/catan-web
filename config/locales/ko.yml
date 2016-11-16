@@ -162,10 +162,15 @@ ko:
       message:
         desc:
           comment:
-            created: "글 <span class='post-desc'>'%{post_desc}'</span>에 댓글을 작성했습니다 : <span class='comment-desc'>%{comment_desc}</span>"
-            mentioned: "글 <span class='post-desc'>'%{post_desc}'</span>의 댓글에서 나를 멘션했습니다 : <span class='comment-desc'>%{comment_desc}</span>"
+            created_at_my_post: "%{sender}님이 내 게시글에 댓글을 남겼습니다."
+            created_at_other_post: "%{writer_of_post}님의 게시글에 %{sender}님이 댓글을 남겼습니다"
+            mentioned: "%{writer_of_post}님의 게시글에 %{sender}님이 댓글에서 나를 언급했습니다"
           upvote:
-            comment: "글 <span class='post-desc'>'%{post_desc}'</span>에 게시한 내 댓글을 공감합니다 : <span class='comment-desc'>%{comment_desc}</span>"
-            post: "내 글을 공감합니다. : <span class='post-desc post-desc--source'>%{post_desc}"
+            comment: "%{sender}님이 내 댓글에 공감합니다"
+            post: "%{sender}님이 내 게시글을 공갑합니다"
+          member:
+            join: "%{sender}님이 %{issue_title}빠띠에 가입했습니다."
+          invitation: "%{sender}님이 %{issue_title}빠띠에 초대했습니다."
+          issue: "%{sender}님이 %{previous_issue_title}빠띠이름을 %{issue_title}빠띠로 수정했습니다"
 
 
