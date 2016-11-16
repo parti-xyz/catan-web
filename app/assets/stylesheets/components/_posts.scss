@@ -87,10 +87,6 @@ section#posts {
     .media-right {
       text-align: right;
       .post-modal__btn {
-        padding-left: 20px;
-        @media (max-width: $screen-xs-max) {
-          padding-left: 4px;
-        }
       }
     }
   }
