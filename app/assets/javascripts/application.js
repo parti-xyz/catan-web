@@ -692,6 +692,13 @@ $(function(){
     window.location.href  = url;
   });
 
+  $('[data-action="parti-message-link"]').on('click', function(e) {
+    e.preventDefault();
+    var $url_source = $($(e.currentTarget).data("base"));
+    var url = $url_source.data("url");
+    if(url) { window.location.href  = url; }
+  });
+
   (function() {
     var load_page = function(waypoint) {
       waypoint.disable();

@@ -1,13 +1,11 @@
-.message.clearfix[message]
-  .message__parti.pull-left
-    = message.issue.title
-    빠띠
-    - if message.issue.on_group?
-      <
-      = message.issue.group.name
-  .message__date.date-wrapper.pull-right
-    = date_f message.created_at
-  %br
+.message.clearfix[message]{ data: {action: 'parti-message-link', base: "##{dom_id(message)}-url-source" } }
+  .message__header.clearfix
+    .message__parti.pull-left
+      = link_to "#{message.issue.title} 빠띠", issue_home_url(message.issue)
+      - if message.issue.on_group?
+        &gt;
+        = link_to message.issue.group.name, root_url(subdomain: message.issue.group.slug)
+    .message__date.date-wrapper.pull-right
+      = date_f message.created_at
   .message__messagable
     = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message
-

@@ -1,6 +1,7 @@
-%strong
-  #{message.sender.nickname}님이
-  = link_to message.action_params_hash["previous_title"], issue
-  빠띠 이름을
-  = link_to issue.title, issue
-  빠띠로 수정했습니다.
+%div{id: "#{dom_id(message)}-url-source", data: { url: issue_home_url(issue) } }
+  %strong
+    #{message.sender.nickname}님이
+    = link_to message.action_params_hash["previous_title"], issue_home_url(issue)
+    빠띠 이름을
+    = link_to issue.title, issue_home_url(issue)
+    빠띠로 수정했습니다.
