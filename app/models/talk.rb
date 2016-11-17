@@ -22,6 +22,7 @@ class Talk < ActiveRecord::Base
   }
 
   attr_accessor :has_poll
+  attr_accessor :is_html_body
 
   def specific_origin
     self

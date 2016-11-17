@@ -1,6 +1,7 @@
 class TalksController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show, :poll_social_card]
   load_and_authorize_resource
+  include ActionView::Helpers::TextHelper
 
   def index
     talks_page
@@ -11,6 +12,9 @@ class TalksController < ApplicationController
     @talk.reference = @talk.reference.unify if @talk.reference
     @talk.user = current_user
     @talk.section = @talk.issue.initial_section if @talk.section.blank?
+    if @talk.is_html_body == 'false'
+      @talk.body = simple_format(@talk.body)
+    end
     if @talk.save
       callback_after_creating_talk
     else
@@ -23,6 +27,9 @@ class TalksController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
     @talk.assign_attributes(talk_params.delete_if {|key, value| value.empty? })
     @talk.reference = @talk.reference.try(:unify)
+    if @talk.is_html_body == 'false'
+      @talk.body = simple_format(@talk.body)
+    end
     if @talk.save
       callback_after_updating_talk
       update_comments
@@ -104,7 +111,7 @@ class TalksController < ApplicationController
     reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
     poll = params[:talk][:poll_attributes]
     poll_attributes = [:title] if poll.present?
-    params.require(:talk).permit(:body, :issue_id, :section_id, :reference_type, :has_poll,
+    params.require(:talk).permit(:body, :issue_id, :section_id, :reference_type, :has_poll, :is_html_body,
       reference_attributes: reference_attributes, poll_attributes: poll_attributes)
   end
 

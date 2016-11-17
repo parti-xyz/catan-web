@@ -2,10 +2,13 @@
   = form_for @talk do |f|
     = f.hidden_field :reference_type
     = f.hidden_field :has_poll, value: "#{ 'true' if @talk.poll.present? }"
+    = f.hidden_field :is_html_body, value: is_redactorable? ? true : false
+    - unless is_redactorable?
+      - @talk.body = strip_tags(@talk.body)
 
     .form-group
       = f.label :body
-      = f.text_area :body, class: 'form-control redactor validate', data: {ride: 'parti-autoresize'}
+      = f.text_area :body, class: "form-control #{'redactor validate' if  is_redactorable?} validate", data: {ride: 'parti-autoresize'}
 
     - if @talk.reference_type == 'LinkSource'
       = f.fields_for :reference do |ff|
