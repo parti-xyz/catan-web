@@ -122,6 +122,20 @@ class Talk < ActiveRecord::Base
     end
   end
 
+  def meta_tag_image
+    if poll.present?
+      share_image = poll_social_card_talk_url(format: :png)
+    elsif link_source?
+      share_image = image.md.url
+    elsif file_source? and reference.image?
+      share_image = reference.attachment
+    else
+      share_image = issue.logo
+    end
+    share_image = issue.logo unless share_image.present?
+    return share_image
+  end
+
   def voting_by voter
     poll.try(:voting_by, voter)
   end
