@@ -124,7 +124,7 @@ class Talk < ActiveRecord::Base
 
   def meta_tag_image
     if poll.present?
-      share_image = poll_social_card_talk_url(format: :png)
+      share_image = Rails.application.routes.url_helpers.poll_social_card_talk_url(self, format: :png)
     elsif link_source?
       share_image = image.md.url
     elsif file_source? and reference.image?
@@ -133,7 +133,7 @@ class Talk < ActiveRecord::Base
       share_image = issue.logo
     end
     share_image = issue.logo unless share_image.present?
-    return share_image
+    share_image
   end
 
   def voting_by voter
