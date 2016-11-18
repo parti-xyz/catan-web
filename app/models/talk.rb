@@ -110,15 +110,13 @@ class Talk < ActiveRecord::Base
     end
   end
 
-  def meta_tag_title
+  def meta_tag_description
     if poll.present?
       poll.title
     else
       strip_body = body.try(:strip)
       strip_body = '' if strip_body.nil?
-      lines = strip_body.lines
-      lines.first
-      ActionView::Base.full_sanitizer.sanitize(lines.first)
+      ActionView::Base.full_sanitizer.sanitize(strip_body)
     end
   end
 

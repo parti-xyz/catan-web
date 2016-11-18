@@ -57,11 +57,14 @@ class TalksController < ApplicationController
     end
 
     if @talk.poll.present?
-      prepare_meta_tags title: @talk.meta_tag_title, image: @talk.meta_tag_image,
-        description: '어떻게 생각하시나요?',
+      prepare_meta_tags title: @talk.issue.title,
+        image: @talk.meta_tag_image,
+        description: "\"#{@talk.meta_tag_description}\" 어떻게 생각하시나요?",
         twitter_card_type: 'summary_large_image'
     else
-      prepare_meta_tags title: @talk.meta_tag_title, image: @talk.meta_tag_image
+      prepare_meta_tags title: @talk.issue.title,
+        image: @talk.meta_tag_image,
+        description: @talk.meta_tag_description
     end
   end
 
