@@ -15,7 +15,8 @@
         #{Talk.model_name.human}
   -if talk.parsed_title.present?
     %h4.talk-line__title.post-line__title{data: modal_data}
-      = redactor_smart_format talk.parsed_title
+      %div{'data-action': 'parti-link-target-blank'}
+        = redactor_smart_format talk.parsed_title
   .talk-body{data: modal_data}
     .talk-parsed-body{'data-action': 'parti-link-target-blank'}
       = redactor_smart_format talk.parsed_body

@@ -1,7 +1,6 @@
 class TalksController < ApplicationController
   before_filter :authenticate_user!, except: [:index, :show, :poll_social_card]
   load_and_authorize_resource
-  include ActionView::Helpers::TextHelper
 
   def index
     talks_page
@@ -13,7 +12,7 @@ class TalksController < ApplicationController
     @talk.user = current_user
     @talk.section = @talk.issue.initial_section if @talk.section.blank?
     if @talk.is_html_body == 'false'
-      @talk.body = simple_format(@talk.body)
+      @talk.body = view_context.autolink_format(@talk.body)
     end
     if @talk.save
       callback_after_creating_talk
@@ -28,7 +27,7 @@ class TalksController < ApplicationController
     @talk.assign_attributes(talk_params.delete_if {|key, value| value.empty? })
     @talk.reference = @talk.reference.try(:unify)
     if @talk.is_html_body == 'false'
-      @talk.body = simple_format(@talk.body)
+      @talk.body = view_context.autolink_format(@talk.body)
     end
     if @talk.save
       callback_after_updating_talk
