@@ -92,6 +92,15 @@ module V1
         present :items, @posts, base_options.merge(type: :full)
       end
 
+      desc '해당 빠띠의 멤버를 조회합니다'
+      params do
+        requires :slug, type: String, desc: '빠띠의 slug'
+      end
+      get ':slug/members' do
+        issue = Issue.find_by!(slug: params[:slug])
+        present :members, issue.members, base_options
+      end
+
       desc '가입했습니다'
       oauth2
       params do
