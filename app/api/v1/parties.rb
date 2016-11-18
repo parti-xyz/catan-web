@@ -8,6 +8,10 @@ module V1
         resource_owner.only_all_member_issues.sort{ |a, b| a.compare_title(b) }
       end
 
+      def parties_joined
+        resource_owner.member_issues.sort{ |a, b| a.compare_title(b) }
+      end
+
       def parties_making
         resource_owner.making_issues.sort{ |a, b| a.compare_title(b) }
       end
@@ -18,6 +22,12 @@ module V1
       oauth2
       get :joined_only do
         present :parties, parties_joined_only, base_options
+      end
+
+      desc '내가 가입한 빠띠 목록을 내가 메이커인 빠띠를 포함하여 반환합니다'
+      oauth2
+      get :joined do
+        present :parties, parties_joined, base_options
       end
 
       desc '내가 메이커인 빠띠 목록을 반환합니다'
