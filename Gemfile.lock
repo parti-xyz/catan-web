@@ -162,6 +162,9 @@ GEM
       multipart-post (>= 1.2, < 3)
     fastimage (1.9.0)
       addressable (~> 2.3.5)
+    fcm (0.0.2)
+      httparty
+      json
     ffi (1.9.10)
     file_validators (2.1.0)
       activemodel (>= 3.0)
@@ -376,6 +379,8 @@ GEM
       domain_name (~> 0.5)
     http-form_data (1.0.1)
     http_parser.rb (0.6.0)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     httpclient (2.7.1)
     hurley (0.2)
     i18n (0.7.0)
@@ -704,6 +709,7 @@ DEPENDENCIES
   exception_notification (~> 4.1, >= 4.1.4)
   ey_config
   fastimage (~> 1.9)
+  fcm (~> 0.0.2)
   file_validators (~> 2.1)
   fog
   geo_pattern (~> 1.4)

@@ -1,0 +1,16 @@
+<%
+  invitation = message.messagable
+  body = "#{invitation.user.nickname}님이 #{invitation.issue.title} 빠띠에 초대했습니다."
+%>
+{
+  "notification": {
+    "title": "<%= invitation.issue.title %>",
+    "body": "<%= body %>"
+  },
+  "data": {
+    "title": "<%= invitation.issue.title %>",
+    "body": "<%= body %>",
+    "type": "parti",
+    "param": "<%= invitation.issue.slug %>"
+  }
+}

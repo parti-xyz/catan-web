@@ -50,6 +50,8 @@ gem 'grape_logging', '~> 1.3'
 gem 'grape-entity', '~> 0.5.1'
 gem 'wine_bouncer', '~> 1.0', '>= 1.0.1'
 
+gem 'fcm', '~> 0.0.2'
+
 # views
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'

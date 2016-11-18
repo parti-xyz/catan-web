@@ -9,36 +9,52 @@ class MessageService
   def call
     case @source.class.to_s
     when Mention.to_s
-      send_message(sender: @source.mentionable.user, user: @source.user, messagable: @source.mentionable)
+      send_messages(
+        sender: @source.mentionable.user, users: [@source.user],
+        messagable: @source.mentionable)
     when Upvote.to_s
-      send_message(sender: @source.user, user: @source.upvotable.user, messagable: @source)
+      send_messages(
+        sender: @source.user, users: [@source.upvotable.user],
+        messagable: @source)
     when Comment.to_s
       return if @source.issue.blind_user? @source.user
-      @source.post.messagable_users.each do |user|
-        next if user == @source.user
-        send_message(sender: @source.user, user: user, messagable: @source)
-      end
+      users = @source.post.messagable_usersmessagable_users.reject{ |user| user == @source.user.id }
+      send_messages(
+        sender: @source.user, users: users,
+        messagable: @source)
     when Issue.to_s
       if @source.previous_changes["title"].present?
-        @source.member_users.each do |user|
-          next if user == @sender
-          send_message(sender: @sender, user: user, messagable: @source,
-            action: :edit_title, action_params: { previous_title: @source.previous_changes["title"][0] })
-        end
+        users = @source.member_users.where.not(id: @sender.id)
+        send_messages(
+          sender: @sender, users: users, messagable: @source,
+          action: :edit_title, action_params: { previous_title: @source.previous_changes["title"][0] })
       end
     when Member.to_s
-      @source.issue.makers.each do |maker|
-        send_message(sender: @source.user, user: maker.user, messagable: @source, action: :create)
-      end
+      users = @source.issue.makers.map &:user
+      send_messages(
+        sender: @source.user, users: users,
+        messagable: @source, action: :create)
     when Invitation.to_s
-      send_message(sender: @source.user, user: @source.recipient, messagable: @source)
+      send_messages(
+        sender: @source.user, users: [@source.recipient],
+        messagable: @source)
     end
   end
 
   private
 
-  def send_message(sender:, user:, messagable:, action: nil, action_params: nil)
-    user.messages.find_or_create_by(messagable: messagable, sender: sender, action: action, action_params: action_params.try(:to_json))
+  def send_messages(sender:, users:, messagable:, action: nil, action_params: nil)
+    data = users.map do |user|
+      {messagable: messagable, sender: sender, user: user, action: action, action_params: action_params.try(:to_json)}
+    end
+    messages = Message.create(data)
+    send_fcm(messages)
   end
 
+  def send_fcm(messages)
+    messages.each do |message|
+      FcmJob.perform_async(message.id)
+    end
+  end
 end
+

@@ -1,0 +1,16 @@
+<%
+  issue = issue
+  body = "#{message.sender.nickname}님이 #{issue.title} 빠띠에 가입했습니다."
+%>
+{
+  "notification": {
+    "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+  },
+  "data": {
+    "title": "<%= issue.title %>",
+    "body": "<%= body %>",
+    "type": "parti",
+    "param": "<%= issue.slug %>"
+  }
+}

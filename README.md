@@ -121,6 +121,7 @@ production:
   S3_REGION: xx
   S3_BUCKET: xx
   PARTI_ADMIN_PASSWORD: xx
+  FCM_KEY: xx
 ```
 
 ## 로컬 개발 환경 구축 방법
