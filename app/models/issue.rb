@@ -1,6 +1,9 @@
 class Issue < ActiveRecord::Base
   include Grape::Entity::DSL
   entity :id, :title, :body, :slug, :group, :updated_at do
+    include Rails.application.routes.url_helpers
+    include PartiUrlHelper
+
     expose :logo, as: :logo_url do |instance|
       instance.logo.sm.url
     end
@@ -23,6 +26,34 @@ class Issue < ActiveRecord::Base
       end
       expose :is_made_by do |instance, options|
         instance.made_by? options[:current_user]
+      end
+    end
+
+    expose :share do
+      expose :url do |instance|
+        issue_home_url(instance)
+      end
+      expose :twitter_text do |instance|
+        instance.title
+      end
+
+      expose :kakaotalk_text do |instance|
+        instance.title
+      end
+      expose :kakaotalk_link_text do |instance|
+        "빠띠로 이동하기"
+      end
+
+      with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
+        expose :kakaotalk_image_url do |instance|
+          instance.share_image_url
+        end
+        expose :kakaotalk_image_width do |instance|
+          instance.share_image_dimensions[0]
+        end
+        expose :kakaotalk_image_height do |instance|
+          instance.share_image_dimensions[1]
+        end
       end
     end
   end
@@ -203,6 +234,14 @@ class Issue < ActiveRecord::Base
 
   def sender_of_message(message)
     message.user
+  end
+
+  def share_image_dimensions
+    @share_image_dimensions ||= FastImage.new(share_image_url).size
+  end
+
+  def share_image_url
+    logo.md.url
   end
 
   def self.of_slug(slug, group_slug)
