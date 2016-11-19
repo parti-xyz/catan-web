@@ -116,22 +116,22 @@ class Talk < ActiveRecord::Base
     else
       strip_body = body.try(:strip)
       strip_body = '' if strip_body.nil?
-      ActionView::Base.full_sanitizer.sanitize(strip_body)
+      ActionView::Base.full_sanitizer.sanitize(strip_body).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
     end
   end
 
   def meta_tag_image
     if poll.present?
-      share_image = Rails.application.routes.url_helpers.poll_social_card_talk_url(self, format: :png)
+      share_image_url = Rails.application.routes.url_helpers.poll_social_card_talk_url(self, format: :png)
     elsif link_source?
-      share_image = image.md.url
+      share_image_url = image.md.url
     elsif file_source? and reference.image?
-      share_image = reference.attachment
+      share_image_url = reference.attachment.md.url
     else
-      share_image = issue.logo
+      share_image_url = issue.logo.md.url
     end
-    share_image = issue.logo unless share_image.present?
-    share_image
+    share_image_url = issue.logo unless share_image_url.present?
+    share_image_url
   end
 
   def voting_by voter

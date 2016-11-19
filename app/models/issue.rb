@@ -237,7 +237,7 @@ class Issue < ActiveRecord::Base
   end
 
   def share_image_dimensions
-    @share_image_dimensions ||= FastImage.new(share_image_url).size
+    [300, 158]
   end
 
   def share_image_url

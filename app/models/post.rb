@@ -1,6 +1,8 @@
 class Post < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
+    include Rails.application.routes.url_helpers
+
     expose :id, :upvotes_count
     expose :id, :comments_count
     expose :user, using: User::Entity
@@ -34,6 +36,36 @@ class Post < ActiveRecord::Base
       end
       expose :comments, using: Comment::Entity do |instance|
         instance.comments.sequential
+      end
+    end
+
+    expose :share do
+      expose :url do |instance|
+        polymorphic_url(instance.specific)
+      end
+
+      expose :twitter_text do |instance|
+        instance.share_description.truncate(50)
+      end
+
+      expose :kakaotalk_text do |instance|
+        instance.share_description.truncate(100)
+      end
+
+      expose :kakaotalk_link_text do |instance|
+        "빠띠 게시물로 이동하기"
+      end
+
+      with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
+        expose :kakaotalk_image_url do |instance|
+          instance.share_image_url
+        end
+        expose :kakaotalk_image_width do |instance|
+          instance.share_image_dimensions[0]
+        end
+        expose :kakaotalk_image_height do |instance|
+          instance.share_image_dimensions[1]
+        end
       end
     end
   end
@@ -125,6 +157,26 @@ class Post < ActiveRecord::Base
 
   def specific_desc_striped_tags
     ActionView::Base.full_sanitizer.sanitize(specific_desc).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
+  end
+
+  def share_description
+    if(specific.respond_to?(:meta_tag_description))
+      specific.meta_tag_description
+    else
+      specific_desc_striped_tags
+    end
+  end
+
+  def share_image_url
+    if(specific.respond_to?(:meta_tag_image))
+      specific.meta_tag_image
+    else
+      issue.share_image_url
+    end
+  end
+
+  def share_image_dimensions
+    [300, 158]
   end
 
   def origin
