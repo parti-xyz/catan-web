@@ -51,6 +51,10 @@ class Group
     self != Group::INDIE
   end
 
+  def self.joined_by(someone)
+    someone.member_issues.map(&:group).uniq.compact
+  end
+
   def self.all_with_indie_and_exclude(some_group)
     Group.all_with_indie.reject {|group| group.slug == some_group.try(:slug) }
   end
