@@ -17,16 +17,22 @@ module V1
       unless Rails.env.dev?
         rescue_from ActiveRecord::RecordNotFound do |e|
           logger.info "404"
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
           error!(e.message, 404)
         end
 
         rescue_from ActiveRecord::RecordInvalid do |e|
           logger.info "422"
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
           error!(e.message, 422)
         end
 
         rescue_from Grape::Exceptions::ValidationErrors do |e|
           logger.info "400"
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
           error!(e.message, 400)
         end
       end
@@ -38,6 +44,8 @@ module V1
 
       unless Rails.env.development?
         rescue_from :all do |e|
+          logger.error e.message
+          logger.error e.backtrace.join("\n")
           logger.info "500"
           error!(e.message, 500)
         end
