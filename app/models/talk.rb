@@ -130,7 +130,7 @@ class Talk < ActiveRecord::Base
     else
       share_image_url = issue.logo.md.url
     end
-    share_image_url = issue.logo unless share_image_url.present?
+    share_image_url = issue.logo.md.url unless share_image_url.present?
     share_image_url
   end
 
