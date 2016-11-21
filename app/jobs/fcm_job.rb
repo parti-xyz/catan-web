@@ -13,7 +13,7 @@ class FcmJob
         results = JSON.parse(response[:body])["results"]
         results.map{ |t| t["error"] }.each_with_index do |value, i|
           if "NotRegistered" == value
-            token = user.device_tokens.find_by registration_id: registration_ids[i]
+            token = message.user.device_tokens.find_by registration_id: registration_ids[i]
             token.destroy
           end
         end

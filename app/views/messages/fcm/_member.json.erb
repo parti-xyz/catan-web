@@ -1,5 +1,6 @@
 <%
-  issue = message.messagable
+  member = message.messagable
+  issue = member.issue
   body = "#{message.sender.nickname}님이 #{issue.title} 빠띠에 가입했습니다."
 %>
 {
