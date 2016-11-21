@@ -64,6 +64,7 @@ module V1
       oauth2
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
+        optional :last_id, type: Integer, desc: '이전 마지막 게시글 번호'
       end
       get ':slug/posts' do
         @issue = Issue.find_by(slug: params[:slug])
@@ -71,13 +72,12 @@ module V1
         @last_post = base_posts.newest(field: :last_touched_at)
 
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-
         watched_posts = base_posts.order(last_touched_at: :desc)
-        @posts = base_posts.limit(25).previous_of_post(previous_last_post)
+        @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
 
         current_last_post = @posts.last
 
-        @has_more_item = (base_posts.any? and base_posts.previous_of_post(current_last_post).any?)
+        @has_more_item = (base_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
         present :has_more_item, @has_more_item
         present :items, @posts, base_options.merge(type: :full)
