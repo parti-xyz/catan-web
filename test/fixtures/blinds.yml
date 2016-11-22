@@ -4,3 +4,15 @@ blind1:
 blind2:
   user: bad
   issue: issue2
+target_blind:
+  user: target_blind
+  issue: merge_target_issue
+source_blind:
+  user: source_blind
+  issue: merge_source_issue
+bat_blind1:
+  user: bat_blind
+  issue: merge_target_issue
+bat_blind2:
+  user: bat_blind
+  issue: merge_source_issue

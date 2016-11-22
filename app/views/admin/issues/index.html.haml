@@ -1,0 +1,12 @@
+%h4 빠띠 합하기
+= form_tag merge_admin_issues_path, method: :post do
+  .form-group
+    = text_field_tag :source_slug, nil, class: 'form-control'
+    빠띠를 지우고
+  .form-group
+    = text_field_tag :issue_slug, nil, class: 'form-control'
+    빠띠로 통합합니다.
+  .form-group
+    = submit_tag '합하기', data: { action: 'parti-confirm-merge', source: '#source_slug', target: '#issue_slug' }
+
+

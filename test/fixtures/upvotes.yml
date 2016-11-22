@@ -2,8 +2,12 @@ upvote1:
   user: two
   upvotable: comment1 (Comment)
   issue: issue1
-
 upvote2:
   user: one
   upvotable: comment2 (Comment)
   issue: issue2
+upvote3:
+  user: three
+  upvotable: comment2 (Comment)
+  issue: merge_source_issue
+  updated_at: <%= 5.day.ago.to_s(:db) %>

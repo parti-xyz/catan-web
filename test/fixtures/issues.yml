@@ -12,3 +12,9 @@ issue3:
 issue4:
   title: issue4
   slug: issue4
+merge_target_issue:
+  title: merge_target_issue
+  slug: merge_target_issue
+merge_source_issue:
+  title: merge_source_issue
+  slug: merge_source_issue

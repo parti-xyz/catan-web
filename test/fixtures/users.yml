@@ -40,6 +40,69 @@ maker:
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
   nickname: maker
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
+target_maker:
+  email: target_maker@test.com
+  uid: target_maker@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: target_maker
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+source_maker:
+  email: source_maker@test.com
+  uid: source_maker@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: source_maker
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+bat_maker:
+  email: bat_maker@test.com
+  uid: bat_maker@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: bat_maker
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+target_member:
+  email: target_member@test.com
+  uid: target_member@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: target_member
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+source_member:
+  email: source_member@test.com
+  uid: source_member@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: source_member
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+bat_member:
+  email: bat_member@test.com
+  uid: bat_member@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: bat_member
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+target_blind:
+  email: target_blind@test.com
+  uid: target_blind@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: target_blind
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+source_blind:
+  email: source_blind@test.com
+  uid: source_blind@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: source_blind
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
+bat_blind:
+  email: bat_blind@test.com
+  uid: bat_blind@test.com
+  provider: email
+  encrypted_password: <%= User.new.send(:password_digest, "password") %>
+  nickname: bat_blind
+  confirmed_at: <%= 5.day.ago.to_s(:db) %>
 bad:
   email: bad@test.com
   uid: bad@test.com

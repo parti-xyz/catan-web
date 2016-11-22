@@ -16,3 +16,15 @@ member6:
 member7:
   user: three
   issue: issue1
+target_member:
+  user: target_member
+  issue: merge_target_issue
+source_member:
+  user: source_member
+  issue: merge_source_issue
+bat_member1:
+  user: bat_member
+  issue: merge_target_issue
+bat_member2:
+  user: bat_member
+  issue: merge_source_issue

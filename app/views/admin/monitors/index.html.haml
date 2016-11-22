@@ -1,34 +1,32 @@
 %section#counts
-  .container
-    %h4 통계
-    .well
-      %ul.list-unstyled{ style: 'margin-bottom: 0;' }
-        %li 회원 수: #{number_with_delimiter User.count}
-        %li 최근 24시간 동안 가입한 회원 수 : +#{number_with_delimiter User.latest.count}
-        %li 수다 수 : #{number_with_delimiter Post.count}
-        %li 댓글 수 : #{number_with_delimiter Comment.count}
-    %table.table
-      %thead
+  %h4 통계
+  .well
+    %ul.list-unstyled{ style: 'margin-bottom: 0;' }
+      %li 회원 수: #{number_with_delimiter User.count}
+      %li 최근 24시간 동안 가입한 회원 수 : +#{number_with_delimiter User.latest.count}
+      %li 수다 수 : #{number_with_delimiter Post.count}
+      %li 댓글 수 : #{number_with_delimiter Comment.count}
+  %table.table
+    %thead
+      %tr
+        %th 날짜
+        %th 신규회원
+        %th 글
+        %th 댓글
+        %th 공감
+    %tbody
+      - @statistics.each do |data|
         %tr
-          %th 날짜
-          %th 신규회원
-          %th 글
-          %th 댓글
-          %th 공감
-      %tbody
-        - @statistics.each do |data|
-          %tr
-            %td= data.when
-            %td= data.join_users_count
-            %td= data.posts_count
-            %td= data.comments_count
-            %td= data.upvotes_count
+          %td= data.when
+          %td= data.join_users_count
+          %td= data.posts_count
+          %td= data.comments_count
+          %td= data.upvotes_count
 
 %section#counts
-  .container
-    %h4 빠띠 태그
-    - @issue_tags.each do |tag|
-      %h5= tag
-      %ul.list-unstyled
-        - Issue.tagged_with(tag).each do |issue|
-          = render 'issues/issue_line', issue: issue
+  %h4 빠띠 태그
+  - @issue_tags.each do |tag|
+    %h5= tag
+    %ul.list-unstyled
+      - Issue.tagged_with(tag).each do |issue|
+        = render 'issues/issue_line', issue: issue

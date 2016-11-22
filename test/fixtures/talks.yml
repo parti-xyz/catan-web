@@ -27,3 +27,7 @@ talk6:
   post_issue: issue2
   section: section2
   poll: poll1
+talk7:
+  body: 'talk7'
+  post_issue: merge_source_issue
+  section: section2

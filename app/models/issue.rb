@@ -67,14 +67,17 @@ class Issue < ActiveRecord::Base
   SLUG_OF_PARTI_PARTI = 'parti'
 
   # relations
+  has_many :merged_issues, dependent: :destroy
   has_many :relateds, dependent: :destroy
   has_many :related_issues, through: :relateds, source: :target
+  has_many :relatings, class_name: Related, foreign_key: :target_id, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
   has_many :talks, through: :posts, source: :postable, source_type: Talk
   has_many :notes, through: :posts, source: :postable, source_type: Note
   # 이슈는 위키를 하나 가지고 있어요.
   has_one :wiki, dependent: :destroy
+  has_many :invitations, dependent: :destroy
   has_many :makers, dependent: :destroy do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
@@ -85,8 +88,10 @@ class Issue < ActiveRecord::Base
       self.map { |m| m.user.nickname }.join(',')
     end
   end
+  has_many :maker_users, through: :makers, source: :user
   has_many :members, dependent: :destroy
   has_many :member_users, through: :members, source: :user
+  has_many :blind_users, through: :blinds, source: :user
   has_many :sections, dependent: :destroy do
     def initial_section
       find_by(initial: true)

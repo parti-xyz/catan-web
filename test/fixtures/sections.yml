@@ -14,3 +14,11 @@ section4:
   issue: issue1
   name: section4
   initial: false
+section5:
+  issue: merge_source_issue
+  name: section5
+  initial: true
+section6:
+  issue: merge_target_issue
+  name: section6
+  initial: true

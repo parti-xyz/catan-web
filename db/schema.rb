@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117061822) do
+ActiveRecord::Schema.define(version: 20161121093327) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -192,6 +192,21 @@ ActiveRecord::Schema.define(version: 20161117061822) do
   add_index "mentions", ["mentionable_type", "mentionable_id"], name: "index_mentions_on_mentionable_type_and_mentionable_id", using: :btree
   add_index "mentions", ["user_id", "mentionable_id", "mentionable_type"], name: "uniq_user_mention", unique: true, using: :btree
   add_index "mentions", ["user_id"], name: "index_mentions_on_user_id", using: :btree
+
+  create_table "merged_issues", force: :cascade do |t|
+    t.integer  "source_id",   limit: 4,   null: false
+    t.string   "source_slug", limit: 255, null: false
+    t.integer  "issue_id",    limit: 4,   null: false
+    t.integer  "user_id",     limit: 4,   null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "merged_issues", ["issue_id"], name: "index_merged_issues_on_issue_id", using: :btree
+  add_index "merged_issues", ["source_id", "issue_id"], name: "index_merged_issues_on_source_id_and_issue_id", unique: true, using: :btree
+  add_index "merged_issues", ["source_id"], name: "index_merged_issues_on_source_id", using: :btree
+  add_index "merged_issues", ["source_slug"], name: "index_merged_issues_on_source_slug", using: :btree
+  add_index "merged_issues", ["user_id"], name: "index_merged_issues_on_user_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "user_id",         limit: 4,     null: false

@@ -1,0 +1,20 @@
+source_related:
+  issue: merge_source_issue
+  target: issue4
+  updated_at: <%= 5.day.ago.to_s(:db) %>
+source_to_target_related:
+  issue: merge_source_issue
+  target: merge_target_issue
+  updated_at: <%= 5.day.ago.to_s(:db) %>
+target_bat_related:
+  issue: merge_target_issue
+  target: issue2
+  updated_at: <%= 5.day.ago.to_s(:db) %>
+source_bat_related:
+  issue: merge_source_issue
+  target: issue2
+  updated_at: <%= 5.day.ago.to_s(:db) %>
+target_to_source_related:
+  issue: merge_target_issue
+  target: merge_source_issue
+  updated_at: <%= 5.day.ago.to_s(:db) %>

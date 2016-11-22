@@ -31,7 +31,8 @@
             %ul.nav.nav-stacked.affix(style="background-color: #fff")
               %li= link_to '관리 홈', admin_root_path, class: "#{current_page?(admin_root_path) ? 'text-primary' : 'text-default'}"
               %li= link_to '사용자 이메일 다운로드', all_email_admin_users_path(format: :xlsx)
-              %li= link_to '블랙리스트 유저 관리', admin_blinds_path
+              %li= link_to '블랙리스트 유저 관리', admin_blinds_path, class: "#{current_page?(admin_blinds_path) ? 'text-primary' : 'text-default'}"
+              %li= link_to '빠띠 관리', admin_issues_path, class: "#{current_page?(admin_issues_path) ? 'text-primary' : 'text-default'}"
             /%nav#toc(data-spy="affix" data-toggle="toc")
           .col-sm-9
             = yield

@@ -32,6 +32,22 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
 
+  class MergedIssueConstraint
+    def matches?(request)
+      fetch_group(request).blank?
+    end
+  end
+
+  get '/p/:slug/', to: redirect { |params, req| "/p/#{MergedIssue.find_by(source_slug: params[:slug]).issue.slug}"}, constraints: lambda { |request, params|
+    MergedIssue.exists?(source_slug: params[:slug])
+  }
+  get '/p/:slug/*path', to: redirect { |params, req|
+    merged_issue = MergedIssue.find_by(source_slug: params[:slug])
+    "/p/#{merged_issue.issue.slug}/#{params[:path]}"
+  }, constraints: lambda { |request, params|
+    MergedIssue.exists?(source_slug: params[:slug])
+  }
+
   resources :parties, as: :issues, controller: 'issues' do
     member do
       delete :remove_logo
@@ -41,6 +57,7 @@ Rails.application.routes.draw do
       get :exist
       get :search
       get :search_by_tags
+      post :merge
     end
     resources :members do
       delete :cancel, on: :collection
@@ -124,6 +141,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'monitors#index'
+    resources :issues do
+      post 'merge', on: :collection
+    end
+
     resources :users do
       collection do
         get 'all_email'

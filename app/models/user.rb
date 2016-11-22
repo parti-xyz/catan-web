@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   after_create :default_member_issues
 
   # associations
+  has_many :merged_issues, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :send_messages, dependent: :destroy, foreign_key: :sender_id, class_name: Message
   has_many :posts

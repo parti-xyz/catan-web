@@ -25,3 +25,10 @@ post_talk6:
   user: one
   issue: issue2
   postable: talk6 (Talk)
+
+# merge_source_issue
+source_post:
+  user: one
+  issue: merge_source_issue
+  postable: talk7 (Talk)
+  updated_at: <%= 5.day.ago.to_s(:db) %>
