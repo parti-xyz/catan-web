@@ -18,7 +18,7 @@ class MessageService
         messagable: @source)
     when Comment.to_s
       return if @source.issue.blind_user? @source.user
-      users = @source.post.messagable_users.reject{ |user| user == @source.user.id }
+      users = @source.post.messagable_users.reject{ |user| user == @source.user }
       send_messages(
         sender: @source.user, users: users,
         messagable: @source)
