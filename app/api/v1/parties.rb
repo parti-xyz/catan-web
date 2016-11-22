@@ -5,7 +5,7 @@ module V1
 
     helpers do
       def parties_joined
-        resource_owner.member_issues.sort{ |a, b| a.compare_title(b) }
+        resource_owner.member_issues
       end
     end
 
@@ -13,8 +13,12 @@ module V1
 
       desc '내가 가입한 빠띠 목록을 내가 메이커인 빠띠를 포함하여 반환합니다'
       oauth2
+      params do
+        optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
+        optional :limit, type: Integer, default: 50
+      end
       get :joined do
-        present :parties, parties_joined, base_options
+        present :parties, parties_joined.send(params[:sort]).limit(params[:limit]), base_options
       end
 
       desc '모든 빠띠 목록을 반환합니다'
