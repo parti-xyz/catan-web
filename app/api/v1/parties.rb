@@ -31,20 +31,6 @@ module V1
         present :parties, Issue.all.send(params[:sort]).limit(params[:limit]), base_options
       end
 
-      desc '앱에서 기본으로 보여질 빠띠를 반환합니다.'
-      oauth2
-      get :first do
-        if parties_making.any?
-          @first = parties_making.first
-        elsif parties_joined_only.any?
-          @first = parties_joined_only.first
-        else
-          @first = Issue.hottest.first
-        end
-
-        present :parti, @first, base_options
-      end
-
       desc '태그 달린 빠띠들을 반환합니다'
       oauth2
       params do
