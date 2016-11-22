@@ -3,6 +3,9 @@ class Member < ActiveRecord::Base
   entity :id do
     expose :issue, using: Issue::Entity, as: :parti
     expose :user, using: User::Entity
+    expose :is_maker do |instance|
+      instance.is_maker?
+    end
   end
 
   belongs_to :user
@@ -17,5 +20,15 @@ class Member < ActiveRecord::Base
 
   def issue_for_message
     issue
+  end
+
+  def is_maker?
+    is_maker = false
+    issue.makers.each do |maker|
+      if maker.user == user
+        is_maker = true
+      end
+    end
+    is_maker
   end
 end
