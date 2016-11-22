@@ -46,7 +46,7 @@ ko:
         blinds: 블랙리스트 회원
         basic: 기본빠띠 여부
         category_slug: 주제
-        telegram_link: 텔레그램 슈퍼그룹 링크
+        telegram_link: 메신저 열기
         tag_list: 태그
       talk:
         issue: 빠띠
