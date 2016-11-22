@@ -43,11 +43,11 @@ gem 'doorkeeper-grants_assertion', github: 'doorkeeper-gem/doorkeeper-grants_ass
 
 # api
 gem 'jsonapi-resources', '~> 0.8.0.beta2'
-gem 'grape', '~> 0.17.0'
+gem 'grape', '~> 0.18.0'
 gem 'grape_on_rails_routes', '~> 0.3.1'
 gem 'grape-route-helpers', '~> 2.0'
 gem 'grape_logging', '~> 1.3'
-gem 'grape-entity', '~> 0.5.1'
+gem 'grape-entity', '~> 0.6.0'
 gem 'wine_bouncer', '~> 1.0', '>= 1.0.1'
 
 gem 'fcm', '~> 0.0.2'

@@ -47,6 +47,7 @@ module V1
           logger.error e.message
           logger.error e.backtrace.join("\n")
           logger.info "500"
+          ExceptionNotifier.notify_exception(e)
           error!(e.message, 500)
         end
       end
