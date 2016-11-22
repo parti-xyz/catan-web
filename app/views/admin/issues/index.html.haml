@@ -7,6 +7,6 @@
     = text_field_tag :issue_slug, nil, class: 'form-control'
     빠띠로 통합합니다.
   .form-group
-    = submit_tag '합하기', data: { action: 'parti-confirm-merge', source: '#source_slug', target: '#issue_slug' }
+    = submit_tag '합하기', data: { action: 'parti-confirm-merge', source: '#source_slug', target: '#issue_slug', disable_with: "처리 중..." }
 
 
