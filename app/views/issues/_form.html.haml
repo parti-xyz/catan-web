@@ -54,14 +54,15 @@
     - if @issue.persisted?
       .form-group{class: ('has-error' if has_error_attr?(@issue, :telegram_link))}
         = f.label :telegram_link
-        %span 메신저로 이 빠띠의 회원들과 이야기할 수 있습니다.
-        = f.text_field :telegram_link, class: 'form-control', placeholder: '텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요. (ex. https://telegram.me/basic_incomes)'
+        %span 텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요.
+        = f.text_field :telegram_link, class: 'form-control', placeholder: '예시) https://telegram.me/basic_incomes'
         %p.help-block
-          = link_to '텔레그램 슈퍼그룹 링크 만드는 방법', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C#%EA%B0%81-%EB%B9%A0%EB%9D%A0%EB%B3%84%EB%A1%9C-%EB%8C%80%ED%99%94%EB%B0%A9%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EC%96%B4%EC%9A%94', target: '_blank'
-          &nbsp;
-          = link_to '카카오톡 오픈 채팅 링크 만드는 방법', 'http://www.kakao.com/helps?category=105&locale=ko&service=8', target: '_blank'
-          &nbsp;
-          = link_to '페이스북 메신저 링크 만드는 방법', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
+          = link_to '텔레그램 슈퍼그룹', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C#%EA%B0%81-%EB%B9%A0%EB%9D%A0%EB%B3%84%EB%A1%9C-%EB%8C%80%ED%99%94%EB%B0%A9%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EC%96%B4%EC%9A%94', target: '_blank'
+          ,&nbsp;
+          = link_to '카카오톡 오픈 채팅', 'http://www.kakao.com/helps?category=105&locale=ko&service=8', target: '_blank'
+          ,&nbsp;
+          = link_to '페이스북 메신저', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
+          링크 만들기
       .form-group{class: ('has-error' if has_error_attr?(@issue, :blinds))}
         = f.label :blinds
         = f.text_field :blinds_nickname, value: @issue.blinds.merge_nickname, class: 'form-control'

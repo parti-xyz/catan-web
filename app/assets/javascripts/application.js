@@ -1053,7 +1053,7 @@ $(function(){
     $(this).on('click',function (e){
       var source = $($(this).data('source')).val()
       var target = $($(this).data('target')).val()
-      return confirm( '\n지워지는 빠띠: ' + source + '\n합해지는 빠띠: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n')
+      return confirm( '----------------------------------------\n지워지는 빠띠와 위키: ' + source + '\n합해지는 빠띠: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n----------------------------------------')
     });
   });
 });
