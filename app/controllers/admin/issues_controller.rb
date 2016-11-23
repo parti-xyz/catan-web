@@ -1,9 +1,9 @@
 class Admin::IssuesController < AdminController
   def merge
-    source = Issue.find_by slug: params[:source_slug]
-    target = Issue.find_by slug: params[:issue_slug]
+    source = Issue.find_by slug: params[:source_slug], group_slug: nil
+    target = Issue.find_by slug: params[:issue_slug], group_slug: nil
     if source.blank? or target.blank?
-      flash[:error] = '빠띠를 찾을 수 없습니다'
+      flash[:error] = '메인에서 빠띠를 찾을 수 없습니다. 혹시 그룹의 빠띠인가요? 그룹의 빠띠는 지원하지 않습니다.'
       redirect_to admin_issues_path and return
     end
 
@@ -60,6 +60,7 @@ class Admin::IssuesController < AdminController
       source.reload.destroy!
     end
 
+    flash[:success] = '완료했습니다.'
     redirect_to admin_issues_path
   end
 end
