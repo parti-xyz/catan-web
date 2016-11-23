@@ -44,9 +44,10 @@ module V1
       oauth2
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
+        optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
       end
       get ':slug' do
-        @issue = Issue.find_by!(slug: params[:slug])
+        @issue = Issue.find_by!(slug: params[:slug], group_slug: params[:group_slug])
         present :parti, @issue
       end
 
@@ -54,10 +55,11 @@ module V1
       oauth2
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
+        optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
         optional :last_id, type: Integer, desc: '이전 마지막 게시글 번호'
       end
       get ':slug/posts' do
-        @issue = Issue.find_by(slug: params[:slug])
+        @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
         base_posts = @issue.posts
         @last_post = base_posts.newest(field: :last_touched_at)
 
@@ -76,9 +78,10 @@ module V1
       desc '해당 빠띠의 멤버를 조회합니다'
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
+        optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
       end
       get ':slug/members' do
-        issue = Issue.find_by!(slug: params[:slug])
+        issue = Issue.find_by!(slug: params[:slug], group_slug: params[:group_slug])
         present :members, issue.members, base_options
       end
 
@@ -86,9 +89,10 @@ module V1
       oauth2
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
+        optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
       end
       post ':slug/members' do
-        @issue = Issue.find_by(slug: params[:slug])
+        @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
 
         return if @issue.member?(resource_owner)
         @issue.members.build(user: resource_owner)
@@ -99,9 +103,10 @@ module V1
       oauth2
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
+        optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
       end
       delete ':slug/members' do
-        @issue = Issue.find_by(slug: params[:slug])
+        @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
 
         return if !@issue.member?(resource_owner)
         return if @issue.made_by? resource_owner
