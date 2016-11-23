@@ -13,6 +13,9 @@ class Post < ActiveRecord::Base
     expose :parsed_body do |instance|
       instance.specific.try(:parsed_body)
     end
+    expose :specific_desc_striped_tags do |instance|
+      instance.specific_desc_striped_tags;
+    end
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
 
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
