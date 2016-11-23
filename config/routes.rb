@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     end
   end
   root 'pages#home'
+  get '/g/:group_slug/:parti_slug', to: redirect('http://%{group_slug}.parti.xyz/p/%{parti_slug}')
 
   get '/home', to: 'pages#home'
   get '/robots.:format', to: 'pages#robots'

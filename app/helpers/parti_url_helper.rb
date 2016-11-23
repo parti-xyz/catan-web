@@ -53,8 +53,12 @@ module PartiUrlHelper
     if talk.issue.group == current_group
       polymorphic_path(talk, options)
     else
-      options.update(subdomain: talk.issue.group.try(:slug))
-      polymorphic_url(talk, options)
+      parti_talk_url(talk, options)
     end
+  end
+
+  def parti_talk_url(talk, options = {})
+    options.update(subdomain: talk.issue.group.try(:slug))
+    polymorphic_url(talk, options)
   end
 end

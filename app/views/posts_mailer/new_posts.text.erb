@@ -1,17 +1,20 @@
 안녕하세요. <%= @user.nickname %>님!
 
-<%= @post_day %> <%= @issue.title%> 빠띠 새 소식입니다
+<%= @post_day %> 빠띠 새 소식입니다
 ---------------------------------------------------------
 
-<% if @posts.any? %>
-  <% @posts.each do |post| %>
+<%
+@yesterday_data.each do |issue, posts|
+  next if posts.empty?
+%>
+# <%= issue.title %> 빠띠
 
+<% posts.each do |post| %>
   * [<%= post.specific.class.model_name.human %>] <%= post.specific.parsed_title %> ( <%=  url_for(post.specific) %> )
 
   <%  if post.specific.respond_to?(:body) %>
   <%= excerpt(post.specific.body, length: 100) %>
   <%  end %>
 
-  <% end %>
 <% end %>
-
+<% end %>
