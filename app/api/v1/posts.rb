@@ -56,6 +56,22 @@ module V1
         present :post, @post
       end
 
+      desc '게시글을 작성합니다'
+      oauth2
+      params do
+        requires :post, type: Hash do
+          requires :body, type: String
+          requires :issue_id, type: Integer
+        end
+      end
+      post do
+        @talk = Talk.new permitted(params, :post)
+        @talk.user = resource_owner
+        @talk.section = @talk.issue.initial_section
+        @talk.body = view_context.autolink_format(@talk.body)
+        @talk.save!
+        present :post, @talk.acting_as, base_options.merge(type: :full)
+      end
     end
   end
 end
