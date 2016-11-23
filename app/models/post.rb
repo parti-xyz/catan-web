@@ -143,6 +143,7 @@ class Post < ActiveRecord::Base
 
   scope :having_reference, -> { where.not(reference: nil) }
   scope :having_poll, -> { where.not(poll_id: nil) }
+  scope :of_issue, ->(issue) { where(issue_id: issue) }
 
 
   ## uploaders
