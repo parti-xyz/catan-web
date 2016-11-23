@@ -7,6 +7,10 @@ module V1
       def parties_joined
         resource_owner.member_issues
       end
+
+      def parties_joined_by_user(someone)
+        someone.member_issues
+      end
     end
 
     namespace :parties do
@@ -19,6 +23,18 @@ module V1
       end
       get :joined do
         present :parties, parties_joined.send(params[:sort]).limit(params[:limit]), base_options
+      end
+
+      desc '한 사용자가 가입한 빠띠 목록을 반환합니다'
+      oauth2
+      params do
+        requires :user_id, type: Integer, desc: '사용자 번호'
+        optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
+        optional :limit, type: Integer, default: 50
+      end
+      get 'joined_by_user' do
+        user = User.find_by(id: params[:user_id])
+        present :parties, parties_joined_by_user(user).send(params[:sort]).limit(params[:limit]), base_options
       end
 
       desc '모든 빠띠 목록을 반환합니다'
