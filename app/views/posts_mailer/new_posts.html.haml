@@ -1,24 +1,33 @@
 - content_for(:header) do
   %span{:style => "font-size: 20px; color: rgb(249, 249, 249);"}
-    = link_to issue_home_url(@issue), :style => "text-decoration: none; color: #fff;" do
-      %strong #{@issue.title} 빠띠 새 소식
+    %strong #{@user.nickname}님의 빠띠 새소식
   %span{:style => "color: rgb(249, 249, 249);"}
     #{@post_day}
 
-- @posts.each do |post|
-  = link_to parti_talk_url(post.specific), style: 'color: rgb(51, 51, 51); text-decoration: none' do
-    %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
-      %div{:style => "background: rgb(255, 255, 255); padding: 15px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 1px; border-color: rgb(210, 210, 210);"}
-        %div{:style => "padding: 0px 5px;"}
-          %div{:style => "padding: 0 10px;"}
-            %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: left;"}
-              %div
-                = image_tag post.user.image.xs.url, width: '20px', height: '20px', style: 'vertical-align: middle;'
-                %span{:style => "font-size: 14px; font-weight: bold;"}= post.user.nickname
-              %div
-                != post.specific_desc_striped_tags.truncate(200)
+
+- @yesterday_data.each do |issue, posts|
+  - next if posts.empty?
+
   %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
-    %div{:style => "padding: 5px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;"}
-      %div{:style => "padding: 0px 5px;"}
-        %div
-          %div{:style => "height: 1px; background: none; display: block; margin: 0px 10px; padding: 0px; border-top: 1px solid rgb(249, 249, 249);"}
+    %div{:style => "padding: 15px 0px; text-align: left; line-height: 1.8;"}
+      = link_to issue_home_url(issue), :style => "text-decoration: none; color: #fff;" do
+        %strong(style="color: rgb(150, 111, 214); font-size: 14px;") #{issue.title} 빠띠
+
+  - posts.each do |post|
+    = link_to parti_talk_url(post.specific), style: 'color: rgb(51, 51, 51); text-decoration: none' do
+      %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+        %div{:style => "background: rgb(255, 255, 255); padding: 15px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 1px; border-color: rgb(210, 210, 210);"}
+          %div{:style => "padding: 0px 5px;"}
+            %div{:style => "padding: 0 10px;"}
+              %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: left;"}
+                %div
+                  = image_tag post.user.image.xs.url, width: '20px', height: '20px', style: 'vertical-align: middle;'
+                  %span{:style => "font-size: 14px; font-weight: bold;"}= post.user.nickname
+                  %span{:style => "font-size: 14px; padding-left: 6px;"}= post.created_at.strftime("%H:%M")
+                %div
+                  != post.specific_desc_striped_tags.truncate(200)
+    %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+      %div{:style => "padding: 5px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;"}
+        %div{:style => "padding: 0px 5px;"}
+          %div
+            %div{:style => "height: 1px; background: none; display: block; margin: 0px 10px; padding: 0px; border-top: 1px solid rgb(249, 249, 249);"}
