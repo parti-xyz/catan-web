@@ -10,7 +10,7 @@
     %i.fa.fa-clock-o
     = date_f comment.created_at
   .comment__body{class: ("comment__body--#{comment.choice}" if comment.choice.present?)}
-    = render 'comments/_boy', comment: comment
+    = render 'comments/_body', comment: comment
   .comment__comment
     = render 'upvotes/upvote', upvotable: comment
   .comment__btn.text-right
