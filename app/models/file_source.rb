@@ -8,7 +8,7 @@ class FileSource < ActiveRecord::Base
   end
   ## uploaders
   # mount
-  mount_uploader :attachment, FileUploader
+  mount_base64_uploader :attachment, FileUploader, file_name: 'userpic'
 
   before_save :update_type
 

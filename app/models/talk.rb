@@ -92,6 +92,10 @@ class Talk < ActiveRecord::Base
     reference.is_a? LinkSource
   end
 
+  def format_linkable_body
+    self.body = ApplicationController.helpers.autolink_format(self.body)
+  end
+
   def video_source?
     return false unless link_source?
     VideoInfo.usable?(reference.try(:url) || '')

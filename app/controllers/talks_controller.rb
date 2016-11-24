@@ -12,7 +12,7 @@ class PostsController < ApplicationController
     @post.user = current_user
     @post.section = @post.issue.initial_section if @post.section.blank?
     if @post.is_html_body == 'false'
-      @post.body = view_context.autolink_format(@post.body)
+      format_linkable_body
     end
     if @post.save
       callback_after_creating_post
@@ -27,7 +27,7 @@ class PostsController < ApplicationController
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.reference = @post.reference.try(:unify)
     if @post.is_html_body == 'false'
-      @post.body = view_context.autolink_format(@post.body)
+      format_linkable_body
     end
     if @post.save
       callback_after_updating_post

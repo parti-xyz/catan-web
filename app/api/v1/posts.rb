@@ -61,16 +61,37 @@ module V1
       params do
         requires :post, type: Hash do
           requires :body, type: String
-          requires :issue_id, type: Integer
+          requires :parti_id, type: Integer
+          optional :reference, type: Hash do
+            optional :attachment, type: String
+            optional :poll, type: String
+            optional :link, type: String
+          end
         end
       end
       post do
-        @talk = Talk.new permitted(params, :post)
-        @talk.user = resource_owner
-        @talk.section = @talk.issue.initial_section
-        @talk.body = view_context.autolink_format(@talk.body)
-        @talk.save!
-        present :post, @talk.acting_as, base_options.merge(type: :full)
+        permitted_params = permitted(params, :post)
+        permitted_params[:issue_id] = permitted_params.delete :parti_id
+        reference = permitted_params.delete :reference
+        @post = Post.new permitted_params
+        @post.user = resource_owner
+        @post.section = @post.issue.initial_section
+        @post.format_linkable_body
+        if reference.present?
+          if reference[:attachment].present?
+            @post.reference = FileSource.new(attachment: reference[:attachment], name: 'file-#{DateTime.now.to_i}')
+          elsif reference[:link].present?
+            @post.reference = LinkSource.new(url: reference[:link])
+          elsif reference[:poll].present?
+            @post.poll = Poll.new(title: reference[:poll])
+          end
+        end
+        @post.save!
+
+        if @post.link_source?
+          CrawlingJob.perform_async(@post.reference.id)
+        end
+        present :post, @post, base_options.merge(type: :full)
       end
     end
   end

@@ -249,6 +249,10 @@ class Post < ActiveRecord::Base
     VideoInfo.usable?(reference.try(:url) || '')
   end
 
+  def format_linkable_body
+    self.body = ApplicationController.helpers.autolink_format(self.body)
+  end
+
   def build_reference(params)
     self.reference = reference_type.constantize.new(params) if self.reference_type.present?
   end
