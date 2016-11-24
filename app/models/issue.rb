@@ -46,7 +46,7 @@ class Issue < ActiveRecord::Base
 
       with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
         expose :kakaotalk_image_url do |instance|
-          instance.share_image_url
+          instance.meta_tag_image
         end
         expose :kakaotalk_image_width do |instance|
           instance.share_image_dimensions[0]

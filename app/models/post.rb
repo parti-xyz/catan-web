@@ -42,11 +42,11 @@ class Post < ActiveRecord::Base
       end
 
       expose :twitter_text do |instance|
-        instance.share_description.truncate(50)
+        instance.meta_tag_description.truncate(50)
       end
 
       expose :kakaotalk_text do |instance|
-        instance.share_description.truncate(100)
+        instance.meta_tag_description.truncate(100)
       end
 
       expose :kakaotalk_link_text do |instance|
@@ -55,7 +55,7 @@ class Post < ActiveRecord::Base
 
       with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
         expose :kakaotalk_image_url do |instance|
-          instance.share_image_url
+          instance.meta_tag_image
         end
         expose :kakaotalk_image_width do |instance|
           instance.share_image_dimensions[0]
@@ -165,22 +165,6 @@ class Post < ActiveRecord::Base
     ActionView::Base.full_sanitizer.sanitize(specific_desc).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
   end
 
-  def share_description
-    if(specific.respond_to?(:meta_tag_description))
-      specific.meta_tag_description
-    else
-      specific_desc_striped_tags
-    end
-  end
-
-  def share_image_url
-    if(specific.respond_to?(:meta_tag_image))
-      specific.meta_tag_image
-    else
-      issue.share_image_url
-    end
-  end
-
   def share_image_dimensions
     [300, 158]
   end
@@ -286,6 +270,30 @@ class Post < ActiveRecord::Base
       lines = strip_body.lines
       lines.first
     end
+  end
+
+  def meta_tag_description
+    if poll.present?
+      poll.title
+    else
+      strip_body = body.try(:strip)
+      strip_body = '' if strip_body.nil?
+      ActionView::Base.full_sanitizer.sanitize(strip_body).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
+    end
+  end
+
+  def meta_tag_image
+    if poll.present?
+      share_image_url = Rails.application.routes.url_helpers.poll_social_card_post_url(self, format: :png)
+    elsif link_source?
+      share_image_url = image.md.url
+    elsif file_source? and reference.image?
+      share_image_url = reference.attachment.md.url
+    else
+      share_image_url = issue.logo.md.url
+    end
+    share_image_url = issue.logo.md.url unless share_image_url.present?
+    share_image_url
   end
 
   def voting_by voter
