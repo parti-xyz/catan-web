@@ -38,7 +38,7 @@ class Post < ActiveRecord::Base
 
     expose :share do
       expose :url do |instance|
-        polymorphic_url(instance.specific)
+        polymorphic_url(instance)
       end
 
       expose :twitter_text do |instance|
