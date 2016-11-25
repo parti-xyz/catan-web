@@ -3,12 +3,12 @@
     = smart_format(h(comment.body))
   - else
     - wrapper_id = "#{dom_id(comment)}-truncatable-body"
-    .comment-truncatable-body{ id: wrapper_id }
-      .truncated-body
+    %span.comment-truncatable-body{ id: wrapper_id }
+      %span.truncated-body
         - more_button = capture do
           %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{wrapper_id}" } ... 더보기
         = truncate_html(smart_format(h(comment.body)), length: 400, omission: more_button)
-      .original-body{ style: 'display: none;' }
+      %span.original-body{ style: 'display: none;' }
         = smart_format(h(comment.body))
 - else
   %p.comment-blind-info= t('labels.comment_blind_info')
