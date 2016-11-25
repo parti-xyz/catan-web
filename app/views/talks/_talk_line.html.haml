@@ -15,10 +15,18 @@
   -if post.parsed_title.present?
     %h4.post-line__title.post-line__title{data: modal_data}
       %div{'data-action': 'parti-link-target-blank'}
-        = redactor_smart_format post.parsed_title
-  .post-body{data: modal_data}
-    .post-parsed-body{'data-action': 'parti-link-target-blank'}
-      = redactor_smart_format post.parsed_body
+        = redactor_smart_format talk.parsed_title
+  .talk-body{data: modal_data}
+    .talk-parsed-body{'data-action': 'parti-link-target-blank'}
+      - if local_assigns[:in_modal]
+        = redactor_smart_format talk.parsed_body
+      - else
+        .truncated-body
+          - more_button = capture do
+            %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.talk-line" } ... 더보기
+          = truncate_html(redactor_smart_format(talk.parsed_body), length: 500, omission: more_button)
+        .original-body{ style: 'display: none;' }
+          = redactor_smart_format talk.parsed_body
 
     - if post.video_source?
       .post-reference-line.post-line[post]{data: modal_data}

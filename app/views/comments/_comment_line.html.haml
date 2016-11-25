@@ -10,7 +10,7 @@
       - unless local_assigns[:in_modal]
         - body_data = { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(comment.post) }
       .body{ data: body_data, class: ("body--#{comment.choice}" if comment.choice.present?) }
-        = render 'comments/body', comment: comment
+        = render 'comments/body', local_assigns
       .footer
         = render 'upvotes/upvote', upvotable: comment
         - if comment.mentionable?(current_user)
