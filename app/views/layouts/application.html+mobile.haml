@@ -25,13 +25,18 @@
     %section(style='position: fixed; z-index: 1000; width: 100%')
       .container
         .unobtrusive-flash-container
+
     = render 'shall_we_login'
     = render 'posts/modal'
+
     - if content_for?(:header)
       = yield :header
     - else
       = render 'application/mobile_header'
+
     = yield
+
+    = render 'messenger'
 
     = javascript_include_tag 'application'
     = javascript_include_tag 'mobile'
