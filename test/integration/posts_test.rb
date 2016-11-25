@@ -24,9 +24,8 @@ class PostsTest < ActionDispatch::IntegrationTest
     sign_in(users(:two))
 
     assert_raises CanCan::AccessDenied do
-      post posts_path, talk: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+      post posts_path, post: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
     end
-    assert assigns(:post).persisted?
   end
 
   test '그룹의 빠띠에는 멤버라야 만들어요' do
@@ -65,12 +64,12 @@ class PostsTest < ActionDispatch::IntegrationTest
   test '세상에 없었던 새로운 이슈를 넣으면 저장이 안되요' do
     sign_in(users(:one))
 
-    previous_count = Talk.count
+    previous_count = Post.count
 
     assert_raises CanCan::AccessDenied do
       post posts_path, post: { link: 'link', body: 'body', issue_id: -1, section_id: sections(:section1).id }
     end
-    assert_equal previous_count, Talk.count
+    assert_equal previous_count, Post.count
   end
 
   test '내용 없이 만들수 있어요' do

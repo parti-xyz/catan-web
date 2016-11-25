@@ -1,19 +1,19 @@
 class VotingPollService
 
-  attr_accessor :specific
+  attr_accessor :poll
   attr_accessor :current_user
 
-  def initialize(specific:, current_user:)
-    @specific = specific
+  def initialize(poll:, current_user:)
+    @poll = poll
     @current_user = current_user
   end
 
   def agree
-    previous_voting = self.specific.voting_by current_user
+    previous_voting = self.poll.voting_by current_user
     if previous_voting.present?
       voting = previous_voting
     else
-      voting = specific.votings.build
+      voting = poll.votings.build
       voting.user = current_user
     end
     voting.choice = 'agree'
@@ -22,11 +22,11 @@ class VotingPollService
   end
 
   def disagree
-    previous_voting = self.specific.voting_by current_user
+    previous_voting = self.poll.voting_by current_user
     if previous_voting.present?
       voting = previous_voting
     else
-      voting = specific.votings.build
+      voting = poll.votings.build
       voting.user = current_user
     end
     voting.choice = 'disagree'
@@ -35,11 +35,11 @@ class VotingPollService
   end
 
   def unsure
-    previous_voting = self.specific.voting_by current_user
+    previous_voting = self.poll.voting_by current_user
     if previous_voting.present?
       voting = previous_voting
     else
-      voting = specific.votings.build
+      voting = poll.votings.build
       voting.user = current_user
     end
     voting.choice = 'unsure'

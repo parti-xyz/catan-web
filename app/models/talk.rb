@@ -23,13 +23,7 @@ class Talk < ActiveRecord::Base
   attr_accessor :has_poll
   attr_accessor :is_html_body
 
-  def specific_origin
-    self
-  end
 
-  def has_presentation?
-    body.present?
-  end
 
   def parsed_title
     title, _ = parsed_title_and_body
@@ -41,21 +35,8 @@ class Talk < ActiveRecord::Base
    body
   end
 
-  def is_presentation?(comment)
-    return false unless has_presentation?
-    comment == comments.first
-  end
-
   def commenters
     comments.map(&:user).uniq.reject { |u| u == self.user }
-  end
-
-  def best_comment
-    comments.where('comments.upvotes_count >= ?', (Rails.env.development? ? 0 : 3)).order(upvotes_count: :desc).limit(1).first
-  end
-
-  def sequential_comments_but_presentation
-    self.has_presentation? ? self.comments.sequential.offset(1) : self.comments.sequential
   end
 
   def image

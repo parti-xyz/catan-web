@@ -32,7 +32,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '찬성하는 주장에 만들어요' do
-    assert talks(:talk4).poll.agreed_by? users(:two)
+    assert posts(:post_talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:two))
 
@@ -43,7 +43,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '찬반투표한 경우 댓글을 달면 메시지가 보내져요' do
-    assert talks(:talk4).poll.agreed_by? users(:two)
+    assert posts(:post_talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:one))
     post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
@@ -52,7 +52,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '찬반투표한 경우라도 블랙리스트 사용자가 댓글을 달면 메시지가 안 보내져요' do
-    assert talks(:talk4).poll.agreed_by? users(:two)
+    assert posts(:post_talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:bad))
     post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
@@ -62,7 +62,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '투표 안한 주장에 만들어요' do
-    refute talks(:talk4).poll.voting_by? users(:three)
+    refute posts(:post_talk4).poll.voting_by? users(:three)
 
     sign_in(users(:three))
 

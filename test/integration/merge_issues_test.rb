@@ -29,7 +29,7 @@ class MergeIssuesTest < ActionDispatch::IntegrationTest
     # post가 합쳐집니다
     assert_equal issues(:merge_target_issue), posts(:source_post).reload.issue
     assert_equal old_post_updated_at, posts(:source_post).updated_at
-    assert_equal issues(:merge_target_issue).sections.initial_section, posts(:source_post).specific.section
+    assert_equal issues(:merge_target_issue).sections.initial_section, posts(:source_post).section
 
     # blind유저가 합쳐집니다
     blind_users.each do |user|
@@ -47,8 +47,8 @@ class MergeIssuesTest < ActionDispatch::IntegrationTest
       assert issues(:merge_target_issue).related_with?(issue)
     end
 
-    # talk가 합쳐집니다
-    assert_equal issues(:merge_target_issue), talks(:talk7).reload.post_issue
+    # post가 합쳐집니다
+    assert_equal issues(:merge_target_issue), posts(:source_post).reload.issue
 
     # upvotes가 합쳐집니다
     assert_equal issues(:merge_target_issue), upvotes(:upvote3).reload.issue

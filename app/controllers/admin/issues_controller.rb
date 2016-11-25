@@ -43,8 +43,8 @@ class Admin::IssuesController < AdminController
       begin
         source.posts.each do |post|
           origin_updated_at = post.updated_at
-          post.specific.update_attributes!(section: target.sections.initial_section,
-            updated_at: post.specific.updated_at, issue_id: target.id)
+          post.update_attributes!(section: target.sections.initial_section,
+            updated_at: post.updated_at, issue_id: target.id)
           post.reload.update_attributes!(issue_id: target.id, updated_at: origin_updated_at)
         end
         source.invitations.each do |invitation|

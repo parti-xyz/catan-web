@@ -9,14 +9,14 @@ module AfterLogin
     after_login = JSON.parse(omniauth_params['after_login'])
     case after_login['action']
     when 'poll_vote_agree'
-      specific = Poll.find_by id: after_login['id']
-      VotingPollService.new(specific: specific, current_user: current_user).agree if specific.present?
+      poll = Poll.find_by id: after_login['id']
+      VotingPollService.new(poll: poll, current_user: current_user).agree if poll.present?
     when 'poll_vote_disagree'
-      specific = Poll.find_by id: after_login['id']
-      VotingPollService.new(specific: specific, current_user: current_user).disagree if specific.present?
+      poll = Poll.find_by id: after_login['id']
+      VotingPollService.new(poll: poll, current_user: current_user).disagree if poll.present?
     when 'poll_vote_unsure'
-      specific = Poll.find_by id: after_login['id']
-      VotingPollService.new(specific: specific, current_user: current_user).unsure if specific.present?
+      poll = Poll.find_by id: after_login['id']
+      VotingPollService.new(poll: poll, current_user: current_user).unsure if poll.present?
     when 'issue_member'
       issue = Issue.find_by id: after_login['id']
       MemberIssueService.new(issue: issue, current_user: current_user).call if issue.present?

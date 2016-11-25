@@ -11,8 +11,4 @@ class Opinion < ActiveRecord::Base
     base
   }
 
-  def specific_origin
-    self
-  end
-
 end

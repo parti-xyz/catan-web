@@ -15,7 +15,7 @@ module V1
       post do
         permitted_params = permitted(params, :voting)
         @poll = Poll.find permitted_params[:poll_id]
-        service = VotingPollService.new(specific: @poll, current_user: resource_owner)
+        service = VotingPollService.new(poll: @poll, current_user: resource_owner)
         @voting = service.send(permitted_params[:choice].to_sym)
         if @voting.errors.any?
           error!(@voting.errors.full_messages, 500)

@@ -3,8 +3,7 @@ class VotingsController < ApplicationController
 
   def create
     @poll = Poll.find params[:poll_id]
-    @specific = @poll
-    service = VotingPollService.new(specific: @specific, current_user: current_user)
+    service = VotingPollService.new(poll: @poll, current_user: current_user)
     @voting = service.send(params[:voting][:choice].to_sym)
     respond_to do |format|
       format.js

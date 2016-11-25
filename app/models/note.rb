@@ -23,10 +23,6 @@ class Note < ActiveRecord::Base
     comments.map(&:user).uniq.reject { |u| u == self.user }
   end
 
-  def specific_origin
-    self
-  end
-
   LIMIT_CHAR = 50
 
   def smart_title_and_body

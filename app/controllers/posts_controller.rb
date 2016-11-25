@@ -11,6 +11,9 @@ class PostsController < ApplicationController
     @post.reference = @post.reference.unify if @post.reference
     @post.user = current_user
     @post.section = @post.issue.initial_section if @post.section.blank?
+    if @post.is_html_body == 'false'
+      format_linkable_body
+    end
     if @post.save
       callback_after_creating_post
     else
@@ -23,6 +26,9 @@ class PostsController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank?
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.reference = @post.reference.try(:unify)
+    if @post.is_html_body == 'false'
+      format_linkable_body
+    end
     if @post.save
       callback_after_updating_post
       update_comments
@@ -51,12 +57,14 @@ class PostsController < ApplicationController
     end
 
     if @post.poll.present?
-      prepare_meta_tags title: @post.meta_tag_title,
-        description: '어떻게 생각하시나요?',
-        image: poll_social_card_post_url(format: :png),
+      prepare_meta_tags title: @post.issue.title,
+        image: @post.meta_tag_image,
+        description: "\"#{@post.meta_tag_description}\" 어떻게 생각하시나요?",
         twitter_card_type: 'summary_large_image'
     else
-      prepare_meta_tags title: @post.meta_tag_title
+      prepare_meta_tags title: @post.issue.title,
+        image: @post.meta_tag_image,
+        description: @post.meta_tag_description
     end
   end
 

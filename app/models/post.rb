@@ -155,7 +155,7 @@ class Post < ActiveRecord::Base
   after_create :touch_last_touched_at_of_issues
 
   attr_accessor :has_poll
-
+  attr_accessor :is_html_body
 
   def specific_desc
     self.parsed_title || self.body || self.poll.try(:title) || (self.reference.try(:name) if self.file_source?) || (self.reference.try(:title) if self.link_source?)
@@ -346,8 +346,12 @@ class Post < ActiveRecord::Base
     else
       lines = strip_body.lines
       setences = lines.first.split(/(?<=\<\/p>)/)
-      remains = (setences[1..-1] + lines[1..-1]).join
-      [setences.first, remains]
+      if setences.first.length < 100
+        remains = (setences[1..-1] + lines[1..-1]).join
+        [setences.first, remains]
+      else
+        [nil, body]
+      end
     end
   end
 end
