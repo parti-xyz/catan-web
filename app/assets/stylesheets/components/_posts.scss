@@ -288,6 +288,11 @@ section#posts {
     color: $gray-base;
     font-weight: normal;
   }
+  .truncated-body {
+    .btn-more {
+      color: $gray-light;
+    }
+  }
   .media {
     margin-top: 0;
   }

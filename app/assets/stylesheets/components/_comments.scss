@@ -49,6 +49,11 @@ section#comments {
       font-family: "FontAwesome";
       color: #f0646d;
     }
+    .comment-truncatable-body {
+      .btn-more {
+        color: $gray-light;
+      }
+    }
   }
   .user-image {
     width: 30px;

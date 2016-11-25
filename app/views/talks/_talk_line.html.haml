@@ -19,7 +19,15 @@
         = redactor_smart_format talk.parsed_title
   .talk-body{data: modal_data}
     .talk-parsed-body{'data-action': 'parti-link-target-blank'}
-      = redactor_smart_format talk.parsed_body
+      - if local_assigns[:in_modal]
+        = redactor_smart_format talk.parsed_body
+      - else
+        .truncated-body
+          - more_button = capture do
+            %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.talk-line" } ... 더보기
+          = truncate_html(redactor_smart_format(talk.parsed_body), length: 500, omission: more_button)
+        .original-body{ style: 'display: none;' }
+          = redactor_smart_format talk.parsed_body
 
 
     - if talk.video_source?

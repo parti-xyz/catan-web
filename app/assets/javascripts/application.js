@@ -587,6 +587,11 @@ var parti_prepare_post_modal = function($base) {
       if (href && href != "#") {
         return true;
       }
+      var disabled = $(e.target).closest('[data-disable-modal="true"]')
+      if (disabled.length) {
+        console.log($(disabled));
+        return true;
+      }
       $target.data('mention-nickname', nickname);
       $target.data('mention-form-control', mention_form_control);
       $.pjax({url: url, container: container, scrollTo: false, timeout: 5000});
@@ -1054,6 +1059,14 @@ $(function(){
       var source = $($(this).data('source')).val()
       var target = $($(this).data('target')).val()
       return confirm( '----------------------------------------\n지워지는 빠띠와 위키: ' + source + '\n합해지는 빠띠: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n----------------------------------------')
+    });
+  });
+
+  $('[data-action="parti-show-more"]').each(function(index, elm){
+    $(this).on('click',function (e){
+      var post = $($(this).data('more-wrapper'));
+      $(post).find('.original-body').show();
+      $(post).find('.truncated-body').hide();
     });
   });
 });
