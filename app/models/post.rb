@@ -1,12 +1,17 @@
 class Post < ActiveRecord::Base
   include Grape::Entity::DSL
+
   entity do
     include Rails.application.routes.url_helpers
+    include TruncateHtmlHelper
 
     expose :id, :upvotes_count, :comments_count
     expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
     expose :parsed_title, :parsed_body
+    expose :truncated_parsed_body do |instance|
+      truncate_html(instance.parsed_body, length: 220, omission: "... <span class='more'>더보기</span>")
+    end
     expose :specific_desc_striped_tags do |instance|
       instance.specific_desc_striped_tags;
     end
