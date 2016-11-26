@@ -2,7 +2,7 @@
 %section#issue-users
   .container
     .row
-      .col-xs-9
+      .col-sm-8.col-xs-12
         %section#content-tab-section
           .nav-tabs.message-tab
             %h4
@@ -13,4 +13,4 @@
         %ul.user-card-wrapper.list-unstyled.clearfix
           - @issue.member_users.recent.each do |user|
             = render user, issue: @issue
-      .col-xs-3= render 'footer'
+      .col-sm-4= render 'footer'
