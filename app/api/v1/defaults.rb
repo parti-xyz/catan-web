@@ -51,8 +51,8 @@ module V1
       end
 
       rescue_from WineBouncer::Errors::OAuthUnauthorizedError do |e|
-        logger.info "501"
-        error!(e.message, 501)
+        logger.info "401"
+        error!(e.message, 401)
       end
 
       unless Rails.env.development?
