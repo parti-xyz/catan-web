@@ -15,7 +15,9 @@ class Post < ActiveRecord::Base
     expose :specific_desc_striped_tags do |instance|
       instance.specific_desc_striped_tags;
     end
-    expose :created_at, format_with: lambda { |dt| dt.iso8601 }
+    with_options(format_with: lambda { |dt| dt.iso8601 }) do
+      expose :created_at, :last_touched_at
+    end
 
     with_options(if: lambda { |instance, options| !!options[:current_user] }) do
       expose :is_upvotable do |instance, options|
@@ -135,6 +137,7 @@ class Post < ActiveRecord::Base
   }
   scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
   scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }
+  scope :next_of_last_touched_at, ->(date) { where('posts.last_touched_at > ?', date) }
   scope :previous_of_recent, ->(post) {
     base = recent
     base = base.where('posts.created_at < ?', post.created_at) if post.present?

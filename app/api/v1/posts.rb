@@ -13,7 +13,6 @@ module V1
       get 'by_user' do
         @user = User.find_by(id: params[:user_id])
         base_posts = @user.posts
-        @last_post = base_posts.newest
 
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
         user_posts = base_posts.order(last_touched_at: :desc)
@@ -27,11 +26,10 @@ module V1
         present :items, @posts, base_options.merge(type: :full)
       end
 
-      desc '내홈의 글을 가져옵니다'
+      desc '내홈 글을 가져옵니다'
       oauth2
       get :dashboard do
         watched_posts = resource_owner.watched_posts
-        @last_post = watched_posts.newest(field: :last_touched_at)
 
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
 
@@ -44,6 +42,18 @@ module V1
 
         present :has_more_item, @has_more_item
         present :items, @posts, current_user: resource_owner, type: :full
+      end
+
+      desc '최신 글 갯수를 가져옵니다'
+      oauth2
+      params do
+        requires :last_touched_at, type: String, desc: '기준 시점'
+      end
+      get :new_count do
+        last_touched_at = Time.parse params[:last_touched_at]
+        logger.debug(last_touched_at)
+        count = resource_owner.watched_posts.order(last_touched_at: :desc).next_of_last_touched_at(last_touched_at).count
+        present :posts_count, count
       end
 
       desc '특정 글에 대한 정보를 반환합니다'
