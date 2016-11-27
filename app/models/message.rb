@@ -16,7 +16,6 @@ class Message < ActiveRecord::Base
     expose :id, :messagable_type
     expose :user, using: User::Entity
     expose :sender, using: User::Entity
-    expose :created_at
     expose :post, using: Post::Entity
     expose :issue, using: Issue::Entity, as: :parti
     expose :desc do |instance|
@@ -25,14 +24,16 @@ class Message < ActiveRecord::Base
         locals: { message: instance }
       )
     end
-    expose :read_at, format_with: lambda { |dt| dt.try(:iso8601) }
+    with_options(format_with: lambda { |dt| dt.try(:iso8601) }) do
+      expose :read_at, :created_at
+    end
   end
 
   belongs_to :user
   belongs_to :sender, class_name: User
   belongs_to :messagable, polymorphic: true
 
-  scope :recent, -> { order(updated_at: :desc) }
+  scope :recent, -> { order(id: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :only_upvote, -> { where(messagable_type: Upvote.to_s) }
 
