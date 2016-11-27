@@ -14,32 +14,45 @@ module V1
                    GrapeLogging::Loggers::RequestHeaders.new,
                    GrapeLogging::Loggers::FilterParameters.new ]
 
-      unless Rails.env.dev?
-        rescue_from ActiveRecord::RecordNotFound do |e|
-          logger.info "404"
-          logger.error e.message
-          logger.error e.backtrace.join("\n")
-          error!(e.message, 404)
-        end
+      route :any, '*path' do
+        error!({ error:  'Not Implemented',
+                 detail: "No such route '#{request.path}'",
+                 status: '501' },
+                 501)
+      end
 
-        rescue_from ActiveRecord::RecordInvalid do |e|
-          logger.info "422"
-          logger.error e.message
-          logger.error e.backtrace.join("\n")
-          error!(e.message, 422)
-        end
+      # Generate a properly formatted 404 error for '/'
+      route :any do
+        error!({ error:  'Not Implemented',
+                 detail: "No such route '#{request.path}'",
+                 status: '501' },
+                 501)
+      end
 
-        rescue_from Grape::Exceptions::ValidationErrors do |e|
-          logger.info "400"
-          logger.error e.message
-          logger.error e.backtrace.join("\n")
-          error!(e.message, 400)
-        end
+      rescue_from ActiveRecord::RecordNotFound do |e|
+        logger.info "404"
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+        error!(e.message, 404)
+      end
+
+      rescue_from ActiveRecord::RecordInvalid do |e|
+        logger.info "422"
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+        error!(e.message, 422)
+      end
+
+      rescue_from Grape::Exceptions::ValidationErrors do |e|
+        logger.info "400"
+        logger.error e.message
+        logger.error e.backtrace.join("\n")
+        error!(e.message, 400)
       end
 
       rescue_from WineBouncer::Errors::OAuthUnauthorizedError do |e|
-        logger.info "401"
-        error!(e.message, 401)
+        logger.info "501"
+        error!(e.message, 501)
       end
 
       unless Rails.env.development?
