@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161121093327) do
+ActiveRecord::Schema.define(version: 20161125060438) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -217,6 +217,7 @@ ActiveRecord::Schema.define(version: 20161121093327) do
     t.string   "action",          limit: 255
     t.text     "action_params",   limit: 65535
     t.integer  "sender_id",       limit: 4,     null: false
+    t.datetime "read_at"
   end
 
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id", using: :btree

@@ -25,6 +25,7 @@ class Message < ActiveRecord::Base
         locals: { message: instance }
       )
     end
+    expose :read_at, format_with: lambda { |dt| dt.try(:iso8601) }
   end
 
   belongs_to :user
