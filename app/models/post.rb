@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
       expose :created_at, :last_touched_at
     end
 
-    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
       expose :is_upvotable do |instance, options|
         instance.upvotable? options[:current_user]
       end
@@ -38,11 +38,11 @@ class Post < ActiveRecord::Base
       expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.poll.present? } do |instance|
         instance.poll
       end
-      expose :comments, using: Comment::Entity do |instance|
-        instance.comments.sequential
-      end
       expose :comment_users, using: User::Entity do |instance|
         instance.comments.users
+      end
+      expose :comments, using: Comment::Entity do |instance|
+        instance.comments.sequential
       end
     end
 
@@ -333,6 +333,10 @@ class Post < ActiveRecord::Base
 
   def unsured_by? voter
     poll.try(:unsured_by?, voter)
+  end
+
+  def self.reject_blinds(posts, user)
+    posts.to_a.reject{ |post| post.blinded?(user) }
   end
 
   private

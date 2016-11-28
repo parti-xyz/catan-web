@@ -20,7 +20,7 @@ class Issue < ActiveRecord::Base
       instance.posts.count
     end
 
-    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
       expose :is_member do |instance, options|
         instance.member_by? options[:current_user] or instance.member? options[:current_user]
       end

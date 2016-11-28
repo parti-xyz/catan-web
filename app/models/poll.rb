@@ -14,7 +14,7 @@ class Poll < ActiveRecord::Base
     expose :disagreed_votings_count do |instance|
       instance.votings.disagreed.count
     end
-    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
       expose :my_choice do |instance, options|
         instance.voting_by(options[:current_user]).try(:choice)
       end

@@ -74,7 +74,7 @@ module V1
         @has_more_item = (base_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
         present :has_more_item, @has_more_item
-        present :items, @posts, base_options.merge(type: :full)
+        present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
       end
 
       desc '해당 빠띠의 멤버를 조회합니다'

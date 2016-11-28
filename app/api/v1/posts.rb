@@ -41,7 +41,7 @@ module V1
         @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
         present :has_more_item, @has_more_item
-        present :items, @posts, current_user: resource_owner, type: :full
+        present :items, Post.reject_blinds(@posts, resource_owner), current_user: resource_owner, type: :full
       end
 
       desc '최신 글 갯수를 가져옵니다'

@@ -4,12 +4,15 @@ class Comment < ActiveRecord::Base
     expose :id, :body, :choice, :upvotes_count
     expose :user, using: User::Entity
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
-    with_options(if: lambda { |instance, options| !!options[:current_user] }) do
+    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
       expose :is_mentionable do |instance, options|
         instance.mentionable? options[:current_user]
       end
       expose :is_upvotable do |instance, options|
         instance.upvotable? options[:current_user]
+      end
+      expose :is_blinded do |instance, options|
+        instance.blinded? options[:current_user]
       end
     end
   end
@@ -46,6 +49,11 @@ class Comment < ActiveRecord::Base
 
   def mentioned? someone
     mentions.exists? user: someone
+  end
+
+  def blinded? someone
+    return false if someone == self.user
+    issue.blind_user? self.user
   end
 
   def mentionable? someone
