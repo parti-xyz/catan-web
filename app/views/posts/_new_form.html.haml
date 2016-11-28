@@ -30,7 +30,7 @@
             = f.fields_for :poll, Poll.new do |ff|
               .form-group
                 .input-group
-                  = ff.text_field :title, class: 'form-control', placeholder: '찬반토론 제목: ex. 탕수육소스는 찍어먹어야합니다'
+                  = ff.text_field :title, class: 'form-control', placeholder: '찬반투표 제목: ex. 탕수육소스는 찍어먹어야합니다'
                   .input-group-addon.cursor-pointer{data: { action: 'parti-post-cancel-reference-or-poll', 'reference-type-field': '#post_reference_type', 'reference-field': '.post-poll-field', 'show-target': '.post-reference-btns', 'has-poll': '#post_has_poll' }}
                     취소
 
@@ -44,7 +44,7 @@
             = t('labels.new_post_file_source_button')
           %button{class: 'btn btn-xs btn-link editor-btn post-poll-btn', data: { action: 'parti-post-select-reference-or-poll', 'hidden-target': '.post-reference-btns', 'reference-type-field': '#post_reference_type', 'has-poll': '#post_has_poll','reference-field': '.post-poll-field'}}
             %i.fa.fa-fire
-            찬반토론
+            찬반투표
         .submit-box
           = f.hidden_field :issue_id, data:{ 'rule-required': true}, class: 'validate', value: (issue.id if issue.present?)
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
