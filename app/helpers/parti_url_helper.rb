@@ -49,7 +49,6 @@ module PartiUrlHelper
     slug_user_url(slug: user.slug)
   end
 
-  # talk_path_or_url
   def smart_post_path_or_url(post, options = {})
     if post.issue.group == current_group
       polymorphic_path(post, options)
@@ -58,7 +57,6 @@ module PartiUrlHelper
     end
   end
 
-  # parti_talk_url
   def smart_post_url(post, options = {})
     options.update(subdomain: post.issue.group.try(:slug))
     polymorphic_url(post, options)

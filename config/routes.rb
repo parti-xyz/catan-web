@@ -33,12 +33,7 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
 
-  class MergedIssueConstraint
-    def matches?(request)
-      fetch_group(request).blank?
-    end
-  end
-
+  # 통합 빠띠
   get '/p/:slug/', to: redirect { |params, req| "/p/#{MergedIssue.find_by(source_slug: params[:slug]).issue.slug}"}, constraints: lambda { |request, params|
     MergedIssue.exists?(source_slug: params[:slug])
   }
@@ -48,6 +43,12 @@ Rails.application.routes.draw do
   }, constraints: lambda { |request, params|
     MergedIssue.exists?(source_slug: params[:slug])
   }
+
+  # 구 talk/opinion/note/article 주소를 신 post로 이동
+  get 'talks/:id', to: 'redirects#talk'
+  get 'opinions/:id', to: 'redirects#opinion'
+  get 'notes/*path', to: redirect('http://parti.xyz')
+  get 'articles/*path', to: redirect('http://parti.xyz')
 
   resources :parties, as: :issues, controller: 'issues' do
     member do
