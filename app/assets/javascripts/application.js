@@ -100,7 +100,16 @@ var parti_prepare = function($base) {
 
   parti_prepare_masonry($base);
 
-  $base.find('[data-action="parti-popover"]').webuiPopover();
+  //$base.find('[data-action="parti-popover"]').webuiPopover();
+  $.parti_apply($base, '[data-action="parti-popover"]', function(elm) {
+    var options = {}
+    var style = $(elm).data('style');
+    if(style) {
+      options['style'] = style;
+    }
+
+    $(elm).webuiPopover(options);
+  });
 
   // redactor의 링크를 새 창으로 띄웁니다
   $.parti_apply($base, '[data-action="parti-link-target-blank"]', function(elm) {
