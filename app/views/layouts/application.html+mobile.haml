@@ -36,7 +36,8 @@
 
     = yield
 
-    = render 'messenger'
+    - unless is_small_screen?
+      = render 'messenger'
 
     = javascript_include_tag 'application'
     = javascript_include_tag 'mobile'

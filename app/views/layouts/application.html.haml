@@ -34,7 +34,8 @@
       = render 'application/header'
     = yield
 
-    = render 'messenger'
+    - unless is_small_screen?
+      = render 'messenger'
 
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)
