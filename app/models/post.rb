@@ -41,6 +41,9 @@ class Post < ActiveRecord::Base
       expose :comments, using: Comment::Entity do |instance|
         instance.comments.sequential
       end
+      expose :comment_users, using: User::Entity do |instance|
+        instance.comments.users
+      end
     end
 
     expose :share do
