@@ -24,15 +24,21 @@
     %section(style='position: fixed; z-index: 1000; width: 100%')
       .container
         .unobtrusive-flash-container
+
     = render 'shall_we_login'
     = render 'posts/modal'
+
     - if content_for?(:header)
       = yield :header
     - else
       = render 'application/header'
     = yield
+
+    = render 'messenger'
+
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)
+
     #fb-root
     :javascript
       (function(d, s, id) {
