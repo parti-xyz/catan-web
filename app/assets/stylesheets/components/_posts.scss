@@ -135,6 +135,11 @@ section#posts {
         font-size: initial;
       }
     }
+    .post-body {
+      p {
+        word-break: break-word;
+      }
+    }
   }
   &__comments {
     cursor: pointer;
