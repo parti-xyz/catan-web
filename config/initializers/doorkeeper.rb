@@ -23,8 +23,8 @@ Doorkeeper.configure do
       user = User.find_by uid: external_auth.uid, provider: external_auth.provider
       if user.present?
         user
-      elsif params.dig(:user, :nickname).present?
-        User.create_by_external_auth! external_auth, params.dig(:user, :nickname), params.dig(:user, :email)
+      elsif params[:user].try(:fetch, :nickname).present?
+        User.create_by_external_auth! external_auth, params[:user].try(:fetch, :nickname), params[:user].try(:fetch, :email)
       else
         if external_auth.email.present?
           raise Doorkeeper::Errors::DoorkeeperError.new(:need_nickname)
@@ -35,7 +35,7 @@ Doorkeeper.configure do
     rescue Doorkeeper::Errors::DoorkeeperError => e
       raise e
     rescue => e
-      if User.exists? nickname: params.dig(:user, :nickname)
+      if User.exists? nickname: params[:user].try(:fetch, :nickname)
         raise Doorkeeper::Errors::DoorkeeperError.new(:duplicate_nickname)
       elsif external_auth.email.blank?
         raise Doorkeeper::Errors::DoorkeeperError.new(:invalid_external_auth_email)
