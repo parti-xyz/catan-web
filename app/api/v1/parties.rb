@@ -20,7 +20,7 @@ module V1
       end
       get :joined do
         user = User.find_by(id: params[:user_id])
-        present :parties, parties_joined(user).send(params[:sort]).limit(params[:limit]), base_options
+        present :parties, parties_joined(user).send(params[:sort]).limit(params[:limit]), base_options.merge(target_user: user)
       end
 
       desc '모든 빠띠 목록을 반환합니다'
