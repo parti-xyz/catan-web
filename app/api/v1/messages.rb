@@ -31,7 +31,7 @@ module V1
       desc '가장 최근에 도착한 알림 번호를 반환합니다'
       oauth2
       get 'last_id' do
-        present :last_message_id, resource_owner.messages.recent.first.id
+        present :last_message_id, resource_owner.messages.recent.first.try(:id) || 0
       end
 
       desc '알림 읽음을 표시합니다'
