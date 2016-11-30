@@ -133,7 +133,7 @@ class Issue < ActiveRecord::Base
   before_validation :strip_whitespace
 
   # scopes
-  scope :hottest, -> { order('issues.members_count + issues.posts_count desc') }
+  scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
   scope :only_group_or_all_if_blank, ->(group) { where(group_slug: group.slug) if group.present? }

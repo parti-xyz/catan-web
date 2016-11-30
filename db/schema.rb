@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161125060438) do
+ActiveRecord::Schema.define(version: 20161130005652) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -108,22 +108,24 @@ ActiveRecord::Schema.define(version: 20161125060438) do
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
-    t.string   "title",           limit: 255
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
-    t.text     "body",            limit: 16777215
-    t.string   "logo",            limit: 255
-    t.integer  "watches_count",   limit: 4,        default: 0
-    t.string   "slug",            limit: 255
-    t.integer  "posts_count",     limit: 4,        default: 0
+    t.string   "title",               limit: 255
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+    t.text     "body",                limit: 16777215
+    t.string   "logo",                limit: 255
+    t.integer  "watches_count",       limit: 4,        default: 0
+    t.string   "slug",                limit: 255
+    t.integer  "posts_count",         limit: 4,        default: 0
     t.datetime "deleted_at"
-    t.string   "active",          limit: 255,      default: "on"
-    t.boolean  "basic",                            default: false
-    t.string   "group_slug",      limit: 255
-    t.string   "telegram_link",   limit: 255
+    t.string   "active",              limit: 255,      default: "on"
+    t.boolean  "basic",                                default: false
+    t.string   "group_slug",          limit: 255
+    t.string   "telegram_link",       limit: 255
     t.datetime "last_touched_at"
-    t.string   "category_slug",   limit: 255
-    t.integer  "members_count",   limit: 4,        default: 0
+    t.string   "category_slug",       limit: 255
+    t.integer  "members_count",       limit: 4,        default: 0
+    t.integer  "hot_score",           limit: 4,        default: 0
+    t.string   "hot_score_datestamp", limit: 255
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree

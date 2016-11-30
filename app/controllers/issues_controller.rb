@@ -23,14 +23,14 @@ class IssuesController < ApplicationController
     end
 
     case params[:sort]
-    when 'hottest'
-      @issues = @issues.hottest
     when 'recent'
       @issues = @issues.recent
     when 'name'
       @issues = @issues.sort{ |a, b| a.compare_title(b) }
-    else
+    when 'recent_touched'
       @issues = @issues.recent_touched
+    else
+      @issues = @issues.hottest
     end
 
     @issues = @issues.categorized_with(params[:category]) if params[:category].present?
