@@ -50,6 +50,25 @@ module ApplicationHelper
       sanitize: false))
   end
 
+  def comment_format(text, html_options = {}, options = {})
+    parsed_text = simple_format(h(text), html_options, options.merge(wrapper_tag: 'span')).to_str
+    parsed_text = parsed_text.gsub(/(?:\n\r?|\r\n?)/, '<br>')
+    parsed_text = parsed_text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
+      at_nickname = $1
+      nickname = at_nickname[1..-1]
+      user = User.find_by nickname: nickname
+      if user.present?
+        m.gsub($1, link_to($1, user_gallery_path(user), class: 'user__nickname--mentioned'))
+      else
+        m
+      end
+    end
+    raw(auto_link(parsed_text,
+      html: {class: 'auto_link', target: '_blank'},
+      link: :urls,
+      sanitize: false))
+  end
+
   def redactor_smart_format(text, html_options = {}, options = {})
     return text if text.blank?
     text = text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|

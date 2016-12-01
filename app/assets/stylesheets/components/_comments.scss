@@ -33,8 +33,6 @@ section#comments {
     color: $gray;
     padding-left: 6px;
     p {
-      display: inline;
-      margin-bottom: 0;
     }
     @media (max-width: $screen-xs-max) {
       padding-left: 0;
