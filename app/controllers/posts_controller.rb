@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    posts_page
+    redirect_to root_path
   end
 
   def create

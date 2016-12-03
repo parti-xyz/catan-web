@@ -33,18 +33,16 @@ section#comments {
     color: $gray;
     padding-left: 6px;
     p {
-      display: inline;
-      margin-bottom: 0;
     }
     @media (max-width: $screen-xs-max) {
       padding-left: 0;
     }
-    &--agree p:first-child:before {
+    &--agree > span:first-child:before {
       content: '\f164  찬성 ';
       font-family: "FontAwesome";
       color: #59baa3;
     }
-    &--disagree p:first-child:before {
+    &--disagree > span:first-child:before {
       content: '\f165  반대 ';
       font-family: "FontAwesome";
       color: #f0646d;
