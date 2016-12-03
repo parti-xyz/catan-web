@@ -28,28 +28,6 @@ module ApplicationHelper
     date.strftime("%Y.%m.%d %H:%M")
   end
 
-  def striped_smart_format(text, html_options = {}, options = {})
-    smart_format(strip_tags(text), html_options, options)
-  end
-
-  def smart_format(text, html_options = {}, options = {})
-    parsed_text = simple_format(h(text), html_options, options).to_str
-    parsed_text = parsed_text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
-      at_nickname = $1
-      nickname = at_nickname[1..-1]
-      user = User.find_by nickname: nickname
-      if user.present?
-        m.gsub($1, link_to($1, user_gallery_path(user), class: 'user__nickname--mentioned'))
-      else
-        m
-      end
-    end
-    raw(auto_link(parsed_text,
-      html: {class: 'auto_link', target: '_blank'},
-      link: :urls,
-      sanitize: false))
-  end
-
   def comment_format(text, html_options = {}, options = {})
     parsed_text = simple_format(h(text), html_options, options.merge(wrapper_tag: 'span')).to_str
     parsed_text = parsed_text.gsub(/(?:\n\r?|\r\n?)/, '<br>')
@@ -58,7 +36,9 @@ module ApplicationHelper
       nickname = at_nickname[1..-1]
       user = User.find_by nickname: nickname
       if user.present?
-        m.gsub($1, link_to($1, user_gallery_path(user), class: 'user__nickname--mentioned'))
+        as_url = options[:as_url] || false
+        url = as_url ? slug_user_url(slug: user.slug) :  slug_user_path(slug: user.slug)
+        m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
       else
         m
       end
@@ -69,19 +49,24 @@ module ApplicationHelper
       sanitize: false))
   end
 
-  def redactor_smart_format(text, html_options = {}, options = {})
+  def post_body_format(text, as_url = false)
     return text if text.blank?
     text = text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
       at_nickname = $1
       nickname = at_nickname[1..-1]
       user = User.find_by nickname: nickname
       if user.present?
-        m.gsub($1, link_to($1, user_gallery_path(user), class: 'user__nickname--mentioned'))
+        url = as_url ? slug_user_url(slug: user.slug) :  slug_user_path(slug: user.slug)
+        m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
       else
         m
       end
     end
     raw(text)
+  end
+
+  def post_body_format_for_api(text)
+    post_body_format(text, true)
   end
 
   def autolink_format(text)

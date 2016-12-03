@@ -1,7 +1,11 @@
 class Comment < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
-    expose :id, :body, :choice, :upvotes_count
+    expose :id, :choice, :upvotes_count
+    expose :body do |instance|
+      ActionView::Base.send(:include, Rails.application.routes.url_helpers)
+      ApplicationController.helpers.comment_format(instance.body, {}, {as_url: true})
+    end
     expose :user, using: User::Entity
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }
     with_options(if: lambda { |instance, options| options[:current_user].present? }) do

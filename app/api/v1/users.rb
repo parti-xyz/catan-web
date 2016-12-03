@@ -17,6 +17,16 @@ module V1
       get :by_nickname do
         present :user, User.find_by(nickname: params[:nickname])
       end
+
+      desc '슬러그에 해당되는 사용자의 정보를 반환합니다'
+      params do
+        requires :slug, type: String
+      end
+      get :by_slug do
+        id = User.slug_to_id(params[:slug])
+        present(:user, User.find(id)) and return if id.present?
+        present :user, User.find_by!(nickname: params[:slug].try(:downcase))
+      end
     end
   end
 end

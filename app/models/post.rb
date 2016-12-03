@@ -8,7 +8,14 @@ class Post < ActiveRecord::Base
     expose :id, :upvotes_count, :comments_count
     expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
-    expose :parsed_title, :parsed_body
+    expose :parsed_title do |instance|
+      ActionView::Base.send(:include, Rails.application.routes.url_helpers)
+      ApplicationController.helpers.post_body_format_for_api(instance.parsed_title)
+    end
+    expose :parsed_body do |instance|
+      ActionView::Base.send(:include, Rails.application.routes.url_helpers)
+      ApplicationController.helpers.post_body_format_for_api(instance.parsed_body)
+    end
     expose :truncated_parsed_body do |instance|
       truncate_html(instance.parsed_body, length: 220, omission: "... <span class='more'>더보기</span>")
     end
