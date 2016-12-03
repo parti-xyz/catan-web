@@ -32,14 +32,12 @@ module V1
         requires :last_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 마지막 게시글 번호'
       end
       get :dashboard_after do
-        watched_posts = resource_owner.watched_posts
+        watched_posts = resource_owner.watched_posts.order(last_touched_at: :desc)
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
 
-        watched_posts = watched_posts.order(last_touched_at: :desc)
         @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
 
         current_last_post = @posts.last
-
         @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
         present :has_more_item, @has_more_item
@@ -52,17 +50,16 @@ module V1
         optional :first_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 첫 게시글 번호'
       end
       get :dashboard_latest do
-        watched_posts = resource_owner.watched_posts
+        watched_posts = resource_owner.watched_posts.order(last_touched_at: :desc)
         previous_first_post = Post.with_deleted.find_by(id: params[:first_id])
 
-        watched_posts = watched_posts.order(last_touched_at: :desc)
-        limit = 25
-        @posts = watched_posts.limit(limit)
+        @posts = watched_posts.limit(25)
+        @posts = @posts.next_of_post(previous_first_post) if previous_first_post.present?
 
         current_last_post = @posts.last
         @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
-        present :has_gap, (watched_posts.limit(limit + 1).last != previous_first_post)
+        present :has_gap, (watched_posts.previous_of_post(current_last_post).first != previous_first_post)
         present :has_more_item, @has_more_item
         present :items, Post.reject_blinds(@posts, resource_owner), current_user: resource_owner, type: :full
       end
