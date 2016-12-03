@@ -62,7 +62,7 @@ module V1
         current_last_post = @posts.last
         @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
-        present :has_gap, (watched_posts.limit(limit + 1).last == previous_first_post)
+        present :has_gap, (watched_posts.limit(limit + 1).last != previous_first_post)
         present :has_more_item, @has_more_item
         present :items, Post.reject_blinds(@posts, resource_owner), current_user: resource_owner, type: :full
       end
