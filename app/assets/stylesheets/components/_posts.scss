@@ -290,6 +290,14 @@ section#posts {
     margin-bottom: 10px;
     color: $gray-base;
     font-weight: normal;
+    a {
+      color: $brand-primary;
+    }
+  }
+  .post-parsed-body {
+    a {
+      color: $brand-primary;
+    }
   }
   .truncated-body {
     .btn-more {

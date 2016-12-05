@@ -12,7 +12,7 @@ class PostsController < ApplicationController
     @post.user = current_user
     @post.section = @post.issue.initial_section if @post.section.blank?
     if @post.is_html_body == 'false'
-      format_linkable_body
+      @post.format_linkable_body
     end
     if @post.save
       callback_after_creating_post
@@ -27,7 +27,7 @@ class PostsController < ApplicationController
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.reference = @post.reference.try(:unify)
     if @post.is_html_body == 'false'
-      format_linkable_body
+      @post.format_linkable_body
     end
     if @post.save
       callback_after_updating_post
@@ -115,7 +115,7 @@ class PostsController < ApplicationController
     reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
     poll = params[:post][:poll_attributes]
     poll_attributes = [:title] if poll.present?
-    params.require(:post).permit(:body, :issue_id, :section_id, :reference_type, :has_poll,
+    params.require(:post).permit(:body, :issue_id, :section_id, :reference_type, :has_poll, :is_html_body,
       reference_attributes: reference_attributes, poll_attributes: poll_attributes)
   end
 

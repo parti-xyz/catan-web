@@ -10,6 +10,7 @@
 
         .form-group.textarea-box
           = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_redactorable?} validation-ignore", data: { 'rule-required': true }
+          = f.hidden_field :is_html_body, value: is_redactorable? ? true : false
           .post-link-field.hidden
             = f.fields_for :reference, LinkSource.new do |ff|
               .form-group
