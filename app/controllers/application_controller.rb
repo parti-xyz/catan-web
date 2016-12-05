@@ -96,7 +96,8 @@ class ApplicationController < ActionController::Base
       title: current_group.try(:site_title) || "덕업일치를 위한 오픈커뮤니티 빠띠",
       description: "더 나은 민주주의의 기반요소를 통합한 기민하고, 섬세하고, 일상적인 민주주의 플랫폼, 빠띠!",
       keywords: "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
-      image: view_context.asset_url("parti_seo.png"),
+      image: ( (current_group.blank? or !File.exist?("app/assets/images/groups/#{current_group.slug}_seo.png")) ?
+        view_context.asset_url("parti_seo.png") : view_context.asset_url("groups/#{current_group.slug}_seo.png")),
       twitter_card_type: "summary_card"
     }
   end
