@@ -1,10 +1,15 @@
 class Comment < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
+    include ApiEntityHelper
+
     expose :id, :choice, :upvotes_count
     expose :body do |instance|
-      ActionView::Base.send(:include, Rails.application.routes.url_helpers)
-      ApplicationController.helpers.comment_format(instance.body, {}, {as_url: true})
+      view_helpers.comment_format(instance.body, {}, {as_url: true})
+    end
+    expose :truncated_body do |instance|
+      body = view_helpers.comment_format(instance.body, {}, {as_url: true})
+      view_helpers.smart_truncate_html(body, length: 100, omission: "... <read-more/>")
     end
     expose :user, using: User::Entity
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }

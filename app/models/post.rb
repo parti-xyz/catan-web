@@ -3,25 +3,22 @@ class Post < ActiveRecord::Base
 
   entity do
     include Rails.application.routes.url_helpers
-    include TruncateHtmlHelper
+    include ApiEntityHelper
 
     expose :id, :upvotes_count, :comments_count
     expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
     expose :parsed_title do |instance|
-      ActionView::Base.send(:include, Rails.application.routes.url_helpers)
-      ApplicationController.helpers.post_body_format_for_api(instance.parsed_title)
+      view_helpers.post_body_format_for_api(instance.parsed_title)
     end
     expose :parsed_body do |instance|
-      ActionView::Base.send(:include, Rails.application.routes.url_helpers)
-      ApplicationController.helpers.post_body_format_for_api(instance.parsed_body)
+      view_helpers.post_body_format_for_api(instance.parsed_body)
     end
     expose :truncated_parsed_body do |instance|
-      truncate_html(instance.parsed_body, length: 220, omission: "... <span class='more'>더보기</span>")
+      parsed_body = view_helpers.post_body_format_for_api(instance.parsed_body)
+      view_helpers.smart_truncate_html(parsed_body, length: 220, omission: "... <read-more/>")
     end
-    expose :specific_desc_striped_tags do |instance|
-      instance.specific_desc_striped_tags;
-    end
+    expose :specific_desc_striped_tags
     with_options(format_with: lambda { |dt| dt.iso8601 }) do
       expose :created_at, :last_touched_at
     end

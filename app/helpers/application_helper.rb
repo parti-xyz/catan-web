@@ -157,4 +157,10 @@ module ApplicationHelper
   def sort_issues_by_title(issues)
     issues.sort{ |a, b| a.compare_title(b) }
   end
+
+  def smart_truncate_html(text, options = {})
+    max_length = options[:length] || TruncateHtml.configuration.length
+    return text if (strip_tags(text).try(:length) || 0) < max_length.to_i
+    truncate_html(text, options)
+  end
 end
