@@ -6,7 +6,9 @@ class CommentsController < ApplicationController
   def create
     set_choice
     @comment.user = current_user
-    @comment.save
+    if @comment.save
+      MessageService.new(@comment).call
+    end
     @comments_count = @comment.post.comments_count
     respond_to do |format|
       format.js
@@ -17,8 +19,11 @@ class CommentsController < ApplicationController
   def update
     unless params[:cancel]
       ActiveRecord::Base.transaction do
+        @previous_mentioned_users = @comment.mentioned_users.to_a
         @comment.assign_attributes(comment_params)
-        unless @comment.save
+        if @comment.save
+          MessageService.new(@comment).call(previous_mentioned_users: @previous_mentioned_users)
+        else
           if @comment.errors.any?
             errors_to_flash(@comment)
             @comment.reload

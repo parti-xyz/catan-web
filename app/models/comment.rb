@@ -51,7 +51,6 @@ class Comment < ActiveRecord::Base
   scope :by_issue, ->(issue) { joins(:post).where(posts: {issue_id: issue})}
   scope :previous_of, ->(id) { where('comments.created_at < ?', with_deleted.find(id).created_at) if id.present? }
 
-  after_create :send_messages
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_touched_at_of_posts
   after_create :touch_last_touched_at_of_issues
@@ -85,10 +84,6 @@ class Comment < ActiveRecord::Base
   end
 
   private
-
-  def send_messages
-    MessageService.new(self).call
-  end
 
   def touch_last_commented_at_of_posts
     self.post.touch(:last_commented_at)

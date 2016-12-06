@@ -4,9 +4,10 @@ module Mentionable
   include Rails.application.routes.url_helpers
 
   included do
-    after_save :set_mentions
+    before_save :set_mentions
     after_commit :send_mention_emails
-    has_many :mentions, as: :mentionable
+    has_many :mentions, as: :mentionable, dependent: :destroy
+    has_many :mentioned_users, through: :mentions, source: :user
     cattr_accessor(:mentionable_fields)
   end
 
@@ -20,13 +21,11 @@ module Mentionable
 
   def set_mentions
     @pervious_user = []
-
     pervious = self.mentions.destroy_all
     @pervious_user = pervious.map &:user
     scan_users.map do |mentioned_user|
-      self.mentions.create(user: mentioned_user)
+      self.mentions.build(user: mentioned_user)
     end
-    send_mention_messages
 
     if has_parti?
       push_to_slack(self)
@@ -39,15 +38,6 @@ module Mentionable
       mentioned_user = mention.user
       unless @pervious_user.include? mentioned_user
         MentionMailer.on_comment(self.user.id, mentioned_user.id, self.id).deliver_later
-      end
-    end
-  end
-
-  def send_mention_messages
-    self.mentions.each do |mention|
-      mentioned_user = mention.user
-      unless @pervious_user.include? mentioned_user
-        MessageService.new(mention).call
       end
     end
   end

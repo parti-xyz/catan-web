@@ -6,19 +6,27 @@ class MessageService
     @sender = sender
   end
 
-  def call
+  def call(options = {})
+    @options = options
     case @source.class.to_s
-    when Mention.to_s
-      send_messages(
-        sender: @source.mentionable.user, users: [@source.user],
-        messagable: @source.mentionable)
     when Upvote.to_s
       send_messages(
         sender: @source.user, users: [@source.upvotable.user],
         messagable: @source)
     when Comment.to_s
       return if @source.issue.blind_user? @source.user
+
+      previous_mentioned_users = @options[:previous_mentioned_users] || []
+
+      @source.mentions.each do |mention|
+        next if previous_mentioned_users.include?(mention.user)
+        send_messages(
+          sender: mention.mentionable.user, users: [mention.user],
+          messagable: mention.mentionable)
+      end
+
       users = @source.post.messagable_users.reject{ |user| user == @source.user }
+      users = users - @source.mentions.map(&:user)
       send_messages(
         sender: @source.user, users: users,
         messagable: @source)
