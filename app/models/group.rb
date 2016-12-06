@@ -3,7 +3,7 @@ class Group
   entity :name, :slug
 
   include ActiveModel::Model
-  attr_accessor :slug, :name, :logo, :categories, :site_title, :head_title
+  attr_accessor :slug, :name, :logo, :categories, :site_title, :head_title, :site_description, :site_keywords
 
   GWANGJU = Group.new(slug: 'gwangju',
     name: '광주',
@@ -39,12 +39,16 @@ class Group
   INNOVATORS = Group.new(slug: 'innovators',
     name: 'N명의 사회혁신가',
     site_title: '함께 새로운 세상을 만들자',
-    head_title: '함께 새로운 세상을 만들자 - N명의 사회혁신가'.html_safe)
+    head_title: '함께 새로운 세상을 만들자 - N명의 사회혁신가',
+    site_description: '사회혁신가는 일상에서 대안과 해결책을 고민하고 제안하며, 구체적인 그림과 방법을 연구하고, 각자의 현장에서 실천하고자 하는 사람들입니다.',
+    site_keywords: '함께, 새로운세상을, 만들자, 사회혁신가, 소셜벤처, 박근혜게이트, 정치, 시국선언'.html_safe)
 
   CITIZENSASSEMBLY = Group.new(slug: 'citizensassembly',
     name: '촛불의회',
     site_title: '너희가 안 하면 우리가 한다',
-    head_title: '너희가 안 하면 우리가 한다 - 촛불의회'.html_safe)
+    head_title: '너희가 안 하면 우리가 한다 - 촛불의회',
+    site_description: '국가의 권력은 시민의 촛불에서 시작됩니다. 촛불의회는 시민의 목소리를 대변할 시민의 진정한 대표로 구성됩니다.',
+    site_keywords: '촛불의회, 주권, 시민, 광장'.html_safe)
 
   INDIE = Group.new(slug: nil, name: '전체')
 
