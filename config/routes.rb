@@ -107,6 +107,10 @@ Rails.application.routes.draw do
     get "/p/#{slug}", to: redirect(subdomain: 'change', path: "/p/#{slug}"), constraints: { subdomain: '' }
   end
 
+  %w(mission election rule role pghfuture solution impeach place).each do |slug|
+    get "/p/#{slug}", to: redirect(subdomain: 'citizensassembly', path: "/p/#{slug}"), constraints: { subdomain: '' }
+  end
+
   get "/p/innovators-declaration", to: redirect(subdomain: 'innovators', path: "/p/innovators-declaration"), constraints: { subdomain: '' }
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'

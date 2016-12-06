@@ -21,7 +21,6 @@ class Group
     site_title: 'GMO 완전표시제법',
     head_title: 'GMO 완전표시제법 - 나는 알아야겠당'.html_safe)
 
-
   DUCKUP = Group.new(slug: 'duckup',
     name: '덕업넷',
     site_title: '덕후들 모여라',
@@ -41,6 +40,11 @@ class Group
     name: 'N명의 사회혁신가',
     site_title: '함께 새로운 세상을 만들자',
     head_title: '함께 새로운 세상을 만들자 - N명의 사회혁신가'.html_safe)
+
+  INNOVATORS = Group.new(slug: 'citizensassembly',
+    name: '촛불의회',
+    site_title: '너희가 안 하면 우리가 한다',
+    head_title: '너희가 안 하면 우리가 한다 - 촛불의회'.html_safe)
 
   INDIE = Group.new(slug: nil, name: '전체')
 
