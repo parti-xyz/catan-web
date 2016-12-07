@@ -42,8 +42,11 @@ class Post < ActiveRecord::Base
       expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.poll.present? } do |instance|
         instance.poll
       end
-      expose :comment_users, using: User::Entity do |instance|
-        instance.comments.users
+      expose :upvote_users, using: User::Entity do |instance|
+        instance.upvote_users
+      end
+      expose :upvotes, using: Upvote::Entity do |instance|
+        instance.upvotes.sequential
       end
       expose :comments, using: Comment::Entity do |instance|
         instance.comments.sequential
