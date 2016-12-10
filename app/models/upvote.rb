@@ -1,13 +1,7 @@
 class Upvote < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
-    expose :id, :upvotable_type
-    expose :post_upvotable, using: Post::Entity, if: lambda { |instance, options|  instance.upvotable_type == 'Post' } do |instance|
-      instance.upvotable
-    end
-    expose :comment_upvotable, using: Comment::Entity, if: lambda { |instance, options|  instance.upvotable_type == 'Comment' } do |instance|
-      instance.upvotable
-    end
+    expose :id, :upvotable_type, :upvotable_id
     expose :user, using: User::Entity
   end
 

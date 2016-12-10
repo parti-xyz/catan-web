@@ -5,6 +5,9 @@ class Post < ActiveRecord::Base
     include Rails.application.routes.url_helpers
     include ApiEntityHelper
 
+    expose :full do |instance, options|
+      options[:type]
+    end
     expose :id, :upvotes_count, :comments_count
     expose :user, using: User::Entity
     expose :issue, using: Issue::Entity, as: :parti
@@ -42,14 +45,14 @@ class Post < ActiveRecord::Base
       expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.poll.present? } do |instance|
         instance.poll
       end
-      expose :upvote_users, using: User::Entity do |instance|
-        instance.upvote_users
+      expose :latest_upvote_users, using: User::Entity do |instance|
+        instance.upvotes.recent.limit(8).map &:user
       end
-      expose :upvotes, using: Upvote::Entity do |instance|
-        instance.upvotes.sequential
+      expose :latest_upvotes, using: Upvote::Entity do |instance|
+        instance.upvotes.recent.limit(8)
       end
-      expose :comments, using: Comment::Entity do |instance|
-        instance.comments.sequential
+      expose :latest_comments, using: Comment::Entity do |instance|
+        instance.comments.sequential.limit(2)
       end
     end
 

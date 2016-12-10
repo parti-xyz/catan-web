@@ -41,7 +41,7 @@ module V1
         @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
 
         present :has_more_item, @has_more_item
-        present :items, Post.reject_blinds(@posts, resource_owner), current_user: resource_owner, type: :full
+        present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
       end
 
       desc '내홈 최신글을 가져옵니다'
@@ -61,7 +61,7 @@ module V1
 
         present :has_gap, (watched_posts.previous_of_post(current_last_post).first != previous_first_post)
         present :has_more_item, @has_more_item
-        present :items, Post.reject_blinds(@posts, resource_owner), current_user: resource_owner, type: :full
+        present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
       end
 
       desc '최신 글 갯수를 가져옵니다'
@@ -83,7 +83,7 @@ module V1
       end
       get ':id' do
         @post = Post.find_by!(id: params[:id])
-        present :post, @post
+        present :post, @post, base_options.merge(type: :full)
       end
 
       desc '게시글을 작성합니다'

@@ -2,11 +2,11 @@ class Poll < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     expose :id, :title, :votings_count
-    expose :agreed_voting_users, using: User::Entity do |instance|
-      instance.votings.agreed.map &:user
+    expose :latest_agreed_voting_users, using: User::Entity do |instance|
+      instance.votings.recent.limit(5).agreed.map &:user
     end
-    expose :disagreed_voting_users, using: User::Entity do |instance|
-      instance.votings.disagreed.map &:user
+    expose :latest_disagreed_voting_users, using: User::Entity do |instance|
+      instance.votings.recent.limit(5).disagreed.map &:user
     end
     expose :agreed_votings_count do |instance|
       instance.votings.agreed.count
