@@ -37,6 +37,9 @@ body.in-group {
     .nav > li > a {
       color: $gray-lighter;
       font-weight: normal;
+      &.group-title {
+        padding-left: 0;
+      }
       &:hover {
         color: $gray-light;
       }
