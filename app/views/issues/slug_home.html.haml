@@ -23,22 +23,23 @@
             %br
             빠띠팀 드림
 
-        - if user_signed_in?
-          - if @issue.postable?(current_user)
-            .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
-              .text-muted
-                = byline current_user, hide_nickname: true
-                #{current_user.nickname}님, 무슨 이야기를 나누실래요?
-            .unified-editor.unified-editor--hidden
-              = render 'posts/new_form', issue: @issue
+        - if @issue.freezed_at.blank?
+          - if user_signed_in?
+            - if @issue.postable?(current_user)
+              .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
+                .text-muted
+                  = byline current_user, hide_nickname: true
+                  #{current_user.nickname}님, 무슨 이야기를 나누실래요?
+              .unified-editor.unified-editor--hidden
+                = render 'posts/new_form', issue: @issue
+            - else
+              .unified-editor.unified-editor--join
+                이 빠띠에 가입하여 게시물을 올려보세요.
+                = render 'issues/join_button'
           - else
-            .unified-editor.unified-editor--join
-              이 빠띠에 가입하여 게시물을 올려보세요.
-              = render 'issues/join_button'
-        - else
-          .unified-editor.unified-editor-intro{data: { toggle: 'parti-login-overlay' }}
-            .text-muted
-              어떤 이야기를 하고 싶으세요?
+            .unified-editor.unified-editor-intro{data: { toggle: 'parti-login-overlay' }}
+              .text-muted
+                어떤 이야기를 하고 싶으세요?
 
 
         - if @last_comment.present?
