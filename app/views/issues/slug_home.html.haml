@@ -4,7 +4,7 @@
   .container
     .row
       .col-xs-12.col-sm-8
-        - if (current_group.present? and (current_group.slug == 'citizensassembly')) or @issue.slug == 'parti'
+        - if %w(parti absent assemblybyebye chaebolbuja city election impeach impeachment mission new-start pghfuture place role rule solution whoweare).include? @issue.slug
           .notice.unified-editor.unified-editor--join
             안녕하세요, 빠띠를 만들고 있는 빠띠팀입니다.
             %br
