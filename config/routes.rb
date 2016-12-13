@@ -13,6 +13,13 @@ Rails.application.routes.draw do
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
+  # 삭제된 그룹과 그룹빠띠를 메인홈과 인디빠띠로 리다이렉트
+  constraints(subdomain: 'citizensassembly') do
+    get '/',  to: redirect(subdomain: '', path: '/')
+    get '/p/:slug', to: redirect(subdomain: '', path: '/p/%{slug}')
+    get '/posts/:id', to: redirect(subdomain: '', path: '/posts/%{id}')
+  end
+
   constraints(RootPartiRouteConstraint.new) do
     authenticated :user do
       root 'dashboard#index', as: :dashboard_root
@@ -105,10 +112,6 @@ Rails.application.routes.draw do
 
   %w(to-make-it-alive peacebridge gameisculture change-univeristy changebakkum-femi dignity wishforgoodjob politics21 wsc).each do |slug|
     get "/p/#{slug}", to: redirect(subdomain: 'change', path: "/p/#{slug}"), constraints: { subdomain: '' }
-  end
-
-  %w(mission election rule role pghfuture solution impeach place).each do |slug|
-    get "/p/#{slug}", to: redirect(subdomain: 'citizensassembly', path: "/p/#{slug}"), constraints: { subdomain: '' }
   end
 
   get "/p/innovators-declaration", to: redirect(subdomain: 'innovators', path: "/p/innovators-declaration"), constraints: { subdomain: '' }

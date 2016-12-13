@@ -43,13 +43,6 @@ class Group
     site_description: '사회혁신가는 일상에서 대안과 해결책을 고민하고 제안하며, 구체적인 그림과 방법을 연구하고, 각자의 현장에서 실천하고자 하는 사람들입니다.',
     site_keywords: '함께, 새로운세상을, 만들자, 사회혁신가, 소셜벤처, 박근혜게이트, 정치, 시국선언'.html_safe)
 
-  CITIZENSASSEMBLY = Group.new(slug: 'citizensassembly',
-    name: '온라인 시민의회',
-    site_title: '탄핵이후를 준비한다',
-    head_title: '탄핵이후를 준비한다 - 온라인 시민의회',
-    site_description: '국가의 권력은 시민의 촛불에서 시작됩니다. 온라인 시민의회는 시민의 목소리를 대변할 시민의 진정한 대표로 구성됩니다.',
-    site_keywords: '온라인 시민의회, 주권, 시민, 광장'.html_safe)
-
   INDIE = Group.new(slug: nil, name: '전체')
 
   def find_category_by_slug(slug)
@@ -73,7 +66,7 @@ class Group
   end
 
   def self.all
-    [Group::GWANGJU, Group::DO, Group::DUCKUP, Group::CHANGE, Group::TOKTOK, Group::INNOVATORS, Group::CITIZENSASSEMBLY]
+    [Group::GWANGJU, Group::DO, Group::DUCKUP, Group::CHANGE, Group::TOKTOK, Group::INNOVATORS]
   end
 
   def self.all_with_indie
