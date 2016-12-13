@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
+  # 시민의회 그룹 빠띠는 모두 role빠띠로 리다이렉트됩니다
   constraints(subdomain: 'citizensassembly') do
     get '/posts/:id', to: redirect(subdomain: '', path: '/posts/%{id}')
     get '/', to: redirect(subdomain: '', path: '/p/role')

@@ -40,6 +40,10 @@
             .unified-editor.unified-editor-intro{data: { toggle: 'parti-login-overlay' }}
               .text-muted
                 어떤 이야기를 하고 싶으세요?
+        - else
+          .unified-editor.unified-editor-intro
+            .text-muted.text-primary
+              휴면 중인 빠띠입니다.
 
 
         - if @last_comment.present?
