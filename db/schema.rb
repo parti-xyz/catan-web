@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130005652) do
+ActiveRecord::Schema.define(version: 20161213025026) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 20161130005652) do
     t.integer  "members_count",       limit: 4,        default: 0
     t.integer  "hot_score",           limit: 4,        default: 0
     t.string   "hot_score_datestamp", limit: 255
+    t.datetime "freezed_at"
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree

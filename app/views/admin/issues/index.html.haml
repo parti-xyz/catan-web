@@ -15,4 +15,18 @@
   .form-group
     = submit_tag '합하기', data: { action: 'parti-confirm-merge', source: '#source_slug', target: '#issue_slug', disable_with: "처리 중..." }
 
+%hr
 
+%h4 빠띠 얼리기
+= form_tag freeze_admin_issues_path, method: :post do
+  .form-group
+    = text_field_tag :issue_to_be_freezed, nil, class: 'form-control'
+    빠띠를 얼립니다.
+  .help-block
+    얼린 빠띠는
+    %br
+    1. 빠띠 목록에서 보이지 않습니다. (url 직접입력을 통한 접근은 가능합니다)
+    %br
+    2. 해당 빠띠에 글을 올릴 수 없습니다. (댓글도 못다나?)
+  .form-group
+    = submit_tag '얼리기', data: { confirm: '정말 얼리시겠습니까?', disable_with: "처리 중..." }

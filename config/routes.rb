@@ -152,6 +152,7 @@ Rails.application.routes.draw do
     root to: 'monitors#index'
     resources :issues do
       post 'merge', on: :collection
+      post 'freeze', on: :collection
     end
 
     resources :users do
