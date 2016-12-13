@@ -13,11 +13,10 @@ Rails.application.routes.draw do
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  # 삭제된 그룹과 그룹빠띠를 메인홈과 인디빠띠로 리다이렉트
   constraints(subdomain: 'citizensassembly') do
-    get '/',  to: redirect(subdomain: '', path: '/')
-    get '/p/:slug', to: redirect(subdomain: '', path: '/p/%{slug}')
     get '/posts/:id', to: redirect(subdomain: '', path: '/posts/%{id}')
+    get '/', to: redirect(subdomain: '', path: '/p/role')
+    match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
   end
 
   constraints(RootPartiRouteConstraint.new) do
