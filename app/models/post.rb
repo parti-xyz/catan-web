@@ -102,24 +102,6 @@ class Post < ActiveRecord::Base
       self.map(&:user).uniq
     end
   end
-  has_many :votes, dependent: :destroy do
-    def users
-      self.map(&:user).uniq
-    end
-
-    def partial_included_with(someone)
-      partial = recent.limit(100)
-      if !partial.map(&:user).include?(someone)
-        (partial.all << find_by(user: someone)).compact
-      else
-        partial.all
-      end
-    end
-
-    def point
-      agreed.count - disagreed.count
-    end
-  end
 
   # validations
   validates :issue, presence: true
