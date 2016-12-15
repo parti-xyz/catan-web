@@ -14,7 +14,7 @@ class Upvote < ActiveRecord::Base
   validates :upvotable, presence: true
   validates :user, uniqueness: {scope: [:upvotable_id, :upvotable_type]}
 
-  scope :recent, -> { order(created_at: :desc) }
+  scope :recent, -> { order(id: :desc) }
   scope :sequential, -> { order(created_at: :asc) }
   scope :previous_of, ->(id) { where('id < ?', id) if id.present? }
   scope :latest, -> { after(1.day.ago) }

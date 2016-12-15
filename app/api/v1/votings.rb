@@ -21,7 +21,45 @@ module V1
           error!(@voting.errors.full_messages, 500)
         end
       end
-    end
 
+      desc '찬성투표를 반환합니다'
+      oauth2
+      params do
+        requires :poll_id, type: Integer
+        optional :last_id, type: Integer, desc: '이전 마지막 투표 번호'
+      end
+      get 'agrees_of_poll' do
+        poll = Poll.find(params[:poll_id])
+        votings_base = poll.votings.agreed.recent
+
+        @votings = votings_base.limit(25)
+        @votings = @votings.where('id < ?', params[:last_id]) if params[:last_id].present?
+        current_last = @votings.last
+        @has_more_item = (votings_base.any? and votings_base.where('id < ?', current_last.try(:id)).any?)
+
+        present :has_more_item, @has_more_item
+        present :items, @votings
+      end
+
+      desc '반대투표를 반환합니다'
+      oauth2
+      params do
+        requires :poll_id, type: Integer
+        optional :last_id, type: Integer, desc: '이전 마지막 투표 번호'
+      end
+      get 'disagrees_of_poll' do
+        poll = Poll.find(params[:poll_id])
+        votings_base = poll.votings.disagreed.recent
+
+        @votings = votings_base.limit(25)
+        @votings = @votings.where('id < ?', params[:last_id]) if params[:last_id].present?
+        current_last = @votings.last
+        @has_more_item = (votings_base.any? and votings_base.where('id < ?', current_last.try(:id)).any?)
+
+        present :has_more_item, @has_more_item
+        present :items, @votings
+      end
+
+    end
   end
 end

@@ -77,14 +77,23 @@ module V1
         present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
       end
 
-      desc '해당 빠띠의 멤버를 조회합니다'
+      desc '해당 빠띠의 멤버회원을 반환합니다'
       params do
         requires :slug, type: String, desc: '빠띠의 slug'
         optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
+        optional :last_id, type: Integer, desc: '이전 마지막 회원 번호'
       end
       get ':slug/members' do
         issue = Issue.find_by!(slug: params[:slug], group_slug: params[:group_slug])
-        present :members, issue.members, base_options
+        members_base = issue.members.recent
+
+        @members = members_base.limit(25)
+        @members = @members.where('id < ?', params[:last_id]) if params[:last_id].present?
+        current_last = @members.last
+        @has_more_item = (members_base.any? and members_base.where('id < ?', current_last.try(:id)).any?)
+
+        present :has_more_item, @has_more_item
+        present :items, @members
       end
 
       desc '가입했습니다'

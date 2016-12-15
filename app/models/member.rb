@@ -17,6 +17,7 @@ class Member < ActiveRecord::Base
   validates :user, uniqueness: {scope: :issue}
 
   scope :latest, -> { after(1.day.ago) }
+  scope :recent, -> { order(id: :desc) }
 
   def issue_for_message
     issue
