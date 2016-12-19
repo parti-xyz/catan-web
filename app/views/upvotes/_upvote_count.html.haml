@@ -1,8 +1,8 @@
 .post-upvote-count{class: "#{dom_id(upvotable)}-upvote-counts #{'delete-margin-top' if upvotable.comments.count == 0 if upvotable.class.name == "Post"} #{'add-margin-top' if upvotable.comments.count >0 if upvotable.class.name == "Post"} " }
   - unless upvotable.class.name == "Comment"
-    공감 #{upvotable.upvotes.count}
+    공감 #{upvotable.upvotes_count}
   - else
-    - if upvotable.upvotes.count > 0
+    - if upvotable.upvotes_count > 0
       %span{class: "#{'upvoted' if upvotable.upvoted_by? (current_user)}"}
         %i.fa.fa-heart
-        #{upvotable.upvotes.count}
+        #{upvotable.upvotes_count}

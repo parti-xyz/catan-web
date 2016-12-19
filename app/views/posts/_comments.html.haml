@@ -1,0 +1,30 @@
+.post-card-with-comments__comments
+  - showing_comments = (local_assigns[:in_modal] ? post.comments : post.latest_comments)
+  - hidden_comments = (local_assigns[:in_modal] ? Comment.none : post.comments - post.latest_comments)
+
+  - if hidden_comments.any?
+    .post-card-with-comments__comments--hidden{ id: comments_more_dom_id(post), style: 'display: none'}
+      - hidden_comments.each do |comment|
+        = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
+
+    .post-card-with-comments__count{ data: { action: 'parti-show', 'show-target': comments_more_dom_selector(post), 'self-hide': 'true' } }
+      .more #{post.comments_count}개의 댓글 모두 보기
+
+  - showing_comments.each do |comment|
+    = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
+  .post-card-with-comments__comment-form.comment-line
+    - if user_signed_in?
+      = form_for [post, Comment.new], remote: true, class: 'comment-form', html: { id: new_comment_form_dom_id(post)}, data: {action: 'parti-form-validation', 'submit-form-control': new_comment_form_submit_dom_selector(post) } do |f|
+        .media{ style: 'margin-top: 0;' }
+          .media-left
+            .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+          .media-body
+            .comment-form__area
+              = f.text_area :body, class: "form-control #{'in-modal' if local_assigns[:in_modal]} comment-body", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: ('parti-autoresize' if !local_assigns[:in_modal]) }, rows: 1, id: new_comment_form_body_input_dom_id(post)
+            = f.submit '게시', class: 'btn btn-primary comment-form__btn', data: { disable_with: "게시 중..." }
+    - else
+      .post-card-with-comments__footer--need-to-login
+        %span.text-muted 가볍게 댓글을 작성해 보세요.
+        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
+          %i.fa.fa-comment-o
+          게시

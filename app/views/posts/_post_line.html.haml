@@ -1,8 +1,5 @@
 - post = post
 - issue = post.issue
-- modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: post_path(post) }
-- mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
-- mention_data = local_assigns[:in_modal] ? mention_options_data.merge(action: 'parti-mention') : mention_options_data.merge(modal_data)
 .post-line.post-line[post]
   - if local_assigns[:show_issue]
     .post-line__issue.post-line__issue
@@ -13,9 +10,9 @@
         &middot;
         #{Post.model_name.human}
   -if post.parsed_title.present?
-    %h4.post-line__title.post-line__title{data: modal_data}
+    %h4.post-line__title.post-line__title
       = post_body_format post.parsed_title
-  .post-body{data: modal_data}
+  .post-body
     .post-parsed-body{'data-action': 'parti-link-target-blank'}
       - if local_assigns[:in_modal]
         = post_body_format post.parsed_body
@@ -27,7 +24,7 @@
         .original-body{ style: 'display: none;' }
           = post_body_format post.parsed_body
     - if post.video_source?
-      .post-reference-line.post-line[post]{data: modal_data}
+      .post-reference-line.post-line[post]
         .post-reference-line__link-content.post-reference-line__link-content--video
           .post-reference-line__video-container
             .post-reference-line__video-content
@@ -43,7 +40,7 @@
           %a{href: post.reference.attachment.url, target: '_blank'}
             = image_tag "#{post.reference.attachment.url}"
       - else
-        .post-reference-line.post-line[post]{data: modal_data}
+        .post-reference-line.post-line[post]
           .post-reference-line__file-content
             .media
               .media-left.hidden-xs
@@ -59,7 +56,7 @@
                   %a{href: post.reference_url, target: '_blank'}
                     다운로드
     - elsif post.link_source?
-      .post-reference-line.post-line[post]{data: modal_data}
+      .post-reference-line.post-line[post]
         %a{href: post.reference_url, target: '_blank'}
           .post-reference-line__link-content
             .media
@@ -75,7 +72,7 @@
                 .media-right
                   .post-reference-line__link-content__thumb{style: "background-image: url(#{post.image.md.url})"}
     - elsif post.poll.present?
-      .poll-card[post]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}", data: modal_data}
+      .poll-card[post]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
         .row.poll-card__meta
           .col-sm-6.col-xs-12
             .poll-card__issue

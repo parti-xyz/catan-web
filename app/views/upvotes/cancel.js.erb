@@ -1,15 +1,2 @@
 $('.<%= dom_id(@upvotable) %>-upvote').replaceWith(parti_origin_partial("<%= escape_javascript(render 'upvotes/upvote', upvotable: @upvotable) %>"));
-$(".<%= dom_id(@upvote.upvotable) %>-upvote-counts").replaceWith(parti_origin_partial("<%= escape_javascript(render 'upvotes/upvote_count', upvotable: @upvote.upvotable) %>"));
-<% if @upvote.upvotable_type == "Post" %>
-
-  var reaction_partial_in_modal = "<%= escape_javascript(render 'posts/reaction', post: @upvote.upvotable, in_modal: true) %>"
-  var reaction_partial_in_list = "<%= escape_javascript(render 'posts/reaction', post: @upvote.upvotable, in_modal: false) %>"
-  $('.post-card-with-comments.<%= dom_id(@upvote.upvotable) %>').each(function(i, e){
-    reaction_partial = ($(e).data('parti-comment-style') == 'in-modal') ? reaction_partial_in_modal : reaction_partial_in_list;
-    $(e).find(".<%= dom_id(@upvote.upvotable) %>-post-reaction").html(parti_origin_partial(reaction_partial));
-  });
-
-  <% if @upvote.upvotable.upvotes.count == 0 and @upvote.upvotable.comments.count == 0 %>
-  $('.post-card-with-comments.<%= dom_id(@upvote.upvotable) %> .post-card-with-comments__comments').addClass('no-content');
-  <% end %>
-<% end %>
+$(".<%= dom_id(@upvote.upvotable) %>-upvote-counts").replaceWith(parti_origin_partial("<%= escape_javascript(render 'upvotes/upvote_count', upvotable: @upvotable) %>"));

@@ -237,9 +237,6 @@ section#posts {
       padding: 12px 18px;
     }
     &__comment-form {
-      border-top: 1px solid $gray-lighter;
-      padding: 20px 40px;
-      background-color: $gray-lightest;
       &--need-to-login {
         text-align: center;
       }

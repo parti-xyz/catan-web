@@ -7,6 +7,7 @@ class UpvotesController < ApplicationController
   def create
     @upvote.user = current_user
     @upvote.save
+    @upvote.upvotable.reload
 
     respond_to do |format|
       format.js
@@ -17,6 +18,7 @@ class UpvotesController < ApplicationController
     @upvotable = (@comment || @post)
     @upvote = @upvotable.upvotes.find_by user: current_user
     @upvote.try(:destroy)
+    @upvotable.reload
 
     respond_to do |format|
       format.js

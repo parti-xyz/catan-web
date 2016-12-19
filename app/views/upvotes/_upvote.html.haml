@@ -3,16 +3,25 @@
     = link_to '#', data: { toggle: 'parti-login-overlay' }, class: 'upvote' do
       - unless upvotable.class.name == "Comment"
         %i.fa.fa-heart
-      공감해요
+      - if upvotable.class.name == "Post" and upvotable.upvotes_count > 0
+        #{upvotable.upvotes_count}
+      - else
+        공감해요
   - elsif upvotable.upvoted_by? current_user
     = link_to [:cancel, upvotable, :upvotes], method: :delete, remote: true, data: { disable_with: "진행 중..." }, class: 'upvote upvote-liked' do
       - unless upvotable.class.name == "Comment"
         %i.fa.fa-heart
-        공감해요
+        - if upvotable.class.name == "Post" and upvotable.upvotes_count > 0
+          #{upvotable.upvotes_count}
+        - else
+          공감해요
       - else
         공감취소
   - else
     = link_to [upvotable, :upvotes], method: :post, remote: true, data: { disable_with: "진행 중..." }, class: 'upvote' do
       - unless upvotable.class.name == "Comment"
         %i.fa.fa-heart
-      공감해요
+      - if upvotable.class.name == "Post" and upvotable.upvotes_count > 0
+        #{upvotable.upvotes_count}
+      - else
+        공감해요

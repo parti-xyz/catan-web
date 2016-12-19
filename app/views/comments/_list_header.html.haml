@@ -1,6 +1,6 @@
 - modal_data = local_assigns[:in_modal] ? {} : { toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post) }
 - if post.comments_count > 2 and !local_assigns[:in_modal]
-  .more{data: modal_data}
+  .more
     - if local_assigns[:in_modal]
       #{post.comments_count}개의 댓글
     - else

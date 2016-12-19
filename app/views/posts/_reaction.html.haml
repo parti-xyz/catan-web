@@ -1,9 +1,0 @@
-.post-card-with-comments__comments{class: "#{'no-content' if (post.upvotes.count <= 0 and post.comments.count <= 0)} #{'no-comments' if post.upvotes.count > 0 and post.comments.count <= 0}" }
-  - if post.comments.any? or post.upvotes.count > 0
-    - if post.upvotes.count > 0
-      = render 'upvotes/upvote_count', upvotable: post
-    - if post.comments_count > 0
-      .post-card-with-comments__count
-        = render 'comments/list_header', local_assigns.merge(post: post)
-      - (local_assigns[:in_modal] ? post.comments : post.latest_comments).each do |comment|
-        = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: '#new_comment #comment_body')

@@ -19,6 +19,9 @@ section#comments {
   &:last-child {
     border-bottom: none;
   }
+  .post-card-with-comments__comments--hidden &:last-child {
+    border-bottom: 1px solid #eaeaeb;
+  }
   .date-wrapper {
     color: $gray-light;
     font-size: $font-size-base;
@@ -178,15 +181,16 @@ section#comments {
     width: 83%;
     position: relative;
     float: left;
-    .form-control#comment_body {
+    .form-control.comment-body {
       width: 100%;
       height: 35px;
-      border: 1px solid $brand-primary;
       margin-left: 5px;
       display: inline-block;
-
-      &:active, &:focus {
+      &.in-modal:active, &.in-modal:focus {
         height: 120px;
+      }
+      &:focus, &:active {
+        border: 1px solid $brand-primary;
       }
     }
   }

@@ -1,9 +1,6 @@
 <% if @comment.persisted? %>
-  $("<%= raw params[:body_control] %>").val('');
-  var $comment = parti_origin_partial("<%= escape_javascript(render 'comments/comment_line', comment: @comment, in_modal: true) %>");
-  $("<%= raw params[:container] %>").append($comment);
-  var $comments_count = parti_origin_partial("<%= escape_javascript(render 'comments/list_header', post: @comment.post, in_modal: true) %>");
-  $("<%= raw params[:count_label] %>").html($comments_count);
+  $("<%= raw new_comment_form_body_input_dom_selector(@comment.post) %>").val('');
+  var $comment = parti_origin_partial("<%= escape_javascript(render 'comments/comment_line', comment: @comment) %>");
+  $comment.insertBefore("<%= raw new_comment_form_dom_selector(@comment.post) %>");
+  $("<%= raw comments_count_dom_selector(@comment.post) %>").text("<%= @comment.post.reload.comments_count %>");
 <% end %>
-
-$('.post-card-with-comments.<%= dom_id(@comment.post) %> .post-card-with-comments__comments').removeClass('no-content');

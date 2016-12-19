@@ -530,6 +530,14 @@ var parti_prepare = function($base) {
     });
   });
 
+  $.parti_apply($base, '[data-action="parti-show-more"]', function(elm) {
+    $(elm).on('click',function (e){
+      var $post = $($(this).data('more-wrapper'));
+      $post.find('.original-body').show();
+      $post.find('.truncated-body').hide();
+    });
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 
@@ -1068,14 +1076,6 @@ $(function(){
       var source = $($(this).data('source')).val()
       var target = $($(this).data('target')).val()
       return confirm( '----------------------------------------\n지워지는 빠띠와 위키: ' + source + '\n합해지는 빠띠: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n----------------------------------------')
-    });
-  });
-
-  $('[data-action="parti-show-more"]').each(function(index, elm){
-    $(this).on('click',function (e){
-      var post = $($(this).data('more-wrapper'));
-      $(post).find('.original-body').show();
-      $(post).find('.truncated-body').hide();
     });
   });
 });
