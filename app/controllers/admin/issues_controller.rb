@@ -63,4 +63,21 @@ class Admin::IssuesController < AdminController
     flash[:success] = '완료했습니다.'
     redirect_to admin_issues_path
   end
+
+  def freeze
+    issue = Issue.find_by slug: params[:issue_to_be_freezed]
+    if issue.blank?
+      flash[:error] = '빠띠를 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
+      redirect_to admin_issues_path and return
+    end
+    issue.freezed_at = DateTime.now
+
+    if issue.save
+      flash[:success] = '얼리기를 완료했습니다.'
+      redirect_to admin_issues_path
+    else
+      flash[:success] = '작업을 완료하지 못했습니다.'
+      redirect_to admin_issues_path
+    end
+  end
 end

@@ -48,19 +48,23 @@ class User < ActiveRecord::Base
   after_create :default_member_issues
 
   # associations
-  has_many :merged_issues, dependent: :destroy
+  has_many :merged_issues
   has_many :messages, dependent: :destroy
   has_many :send_messages, dependent: :destroy, foreign_key: :sender_id, class_name: Message
-  has_many :posts
-  has_many :comments
-  has_many :upvotes
-  has_many :votes
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
+  has_many :upvotes, dependent: :destroy
+  has_many :votings, dependent: :destroy
+  has_many :blinds, dependent: :destroy
   has_many :polls, through: :posts
-  has_many :makers
+  has_many :makers, dependent: :destroy
   has_many :making_issues, through: :makers, source: :issue
+  has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
   has_many :member_issues, through: :members, source: :issue
   has_many :device_tokens, dependent: :destroy
+  has_many :invitations, dependent: :destroy
+  has_many :received_invitations, dependent: :destroy, foreign_key: :recipient_id, class_name: Invitation
 
   ## uploaders
   # mount

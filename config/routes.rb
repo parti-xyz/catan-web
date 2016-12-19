@@ -13,6 +13,13 @@ Rails.application.routes.draw do
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
+  # 시민의회 그룹 빠띠는 모두 role빠띠로 리다이렉트됩니다
+  constraints(subdomain: 'citizensassembly') do
+    get '/posts/:id', to: redirect(subdomain: '', path: '/posts/%{id}')
+    get '/', to: redirect(subdomain: '', path: '/p/role')
+    match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
+  end
+
   constraints(RootPartiRouteConstraint.new) do
     authenticated :user do
       root 'dashboard#index', as: :dashboard_root
@@ -107,10 +114,6 @@ Rails.application.routes.draw do
     get "/p/#{slug}", to: redirect(subdomain: 'change', path: "/p/#{slug}"), constraints: { subdomain: '' }
   end
 
-  %w(mission election rule role pghfuture solution impeach place).each do |slug|
-    get "/p/#{slug}", to: redirect(subdomain: 'citizensassembly', path: "/p/#{slug}"), constraints: { subdomain: '' }
-  end
-
   get "/p/innovators-declaration", to: redirect(subdomain: 'innovators', path: "/p/innovators-declaration"), constraints: { subdomain: '' }
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
@@ -149,6 +152,7 @@ Rails.application.routes.draw do
     root to: 'monitors#index'
     resources :issues do
       post 'merge', on: :collection
+      post 'freeze', on: :collection
     end
 
     resources :users do

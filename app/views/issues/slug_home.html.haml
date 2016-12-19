@@ -4,22 +4,46 @@
   .container
     .row
       .col-xs-12.col-sm-8
-        - if user_signed_in?
-          - if @issue.postable?(current_user)
-            .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
-              .text-muted
-                = byline current_user, hide_nickname: true
-                #{current_user.nickname}님, 무슨 이야기를 나누실래요?
-            .unified-editor.unified-editor--hidden
-              = render 'posts/new_form', issue: @issue
+        - if %w(parti absent assemblybyebye chaebolbuja city election impeach impeachment mission new-start pghfuture place role rule solution whoweare).include? @issue.slug
+          .notice.unified-editor.unified-editor--join
+            안녕하세요, 빠띠를 만들고 있는 빠띠팀입니다.
+            %br
+            %br
+            먼저 시민의회와 관련한 논란으로 불편해 하시는 여러 사용자 분께,
+            시민의 한 사람으로서 충분히 공감하고 있음을 밝힙니다.
+            %br
+            %br
+            다만 저희 빠띠는 시민의회를 추진한 조직과는 다른 조직이며,
+            추진 과정에도 참여한 바가 없어 빠띠에 주시는 질문과 불만에 대응할 수가 없는 상태입니다.
+            %br
+            %br
+            시민의회 빠띠에 주시는 질문과 불만사항에 대해선 계속해서 전달을 하고 있으나,
+            공식적으로 저희가 이 빠띠를 운영하고 있지 않기에 대응이 불가능한 상황임을 양해 부탁드립니다.
+            %br
+            %br
+            빠띠팀 드림
+
+        - if @issue.freezed_at.blank?
+          - if user_signed_in?
+            - if @issue.postable?(current_user)
+              .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
+                .text-muted
+                  = byline current_user, hide_nickname: true
+                  #{current_user.nickname}님, 무슨 이야기를 나누실래요?
+              .unified-editor.unified-editor--hidden
+                = render 'posts/new_form', issue: @issue
+            - else
+              .unified-editor.unified-editor--join
+                이 빠띠에 가입하여 게시물을 올려보세요.
+                = render 'issues/join_button'
           - else
-            .unified-editor.unified-editor--join
-              이 빠띠에 가입하여 게시물을 올려보세요.
-              = render 'issues/join_button'
+            .unified-editor.unified-editor-intro{data: { toggle: 'parti-login-overlay' }}
+              .text-muted
+                어떤 이야기를 하고 싶으세요?
         - else
-          .unified-editor.unified-editor-intro{data: { toggle: 'parti-login-overlay' }}
-            .text-muted
-              어떤 이야기를 하고 싶으세요?
+          .unified-editor.unified-editor-intro
+            .text-muted.text-primary
+              휴면 중인 빠띠입니다.
 
 
         - if @last_comment.present?

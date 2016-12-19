@@ -6,14 +6,12 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand{ href: root_url(subdomain: false) }
-          %img{ alt: 'parti', src: asset_path("parti_symbol.png")}
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li
-            = link_to root_path, class: "#{'active' if current_page?('/')}" do
-              %h4 &middot; #{current_group.head_title}
+            = link_to root_path, class: "group-title #{'active' if current_page?('/')}" do
+              %h4 #{current_group.head_title}
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?

@@ -30,6 +30,9 @@
     -moz-box-shadow: 4px 4px 4px 0px #deddda;
     box-shadow: 4px 4px 4px 0px #deddda;
   }
+  &.notice {
+    border: 1px solid $brand-primary;
+  }
   &--join {
     padding: 15px;
   }

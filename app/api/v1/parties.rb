@@ -30,7 +30,7 @@ module V1
         optional :limit, type: Integer, default: 50
       end
       get do
-        present :parties, Issue.all.send(params[:sort]).limit(params[:limit]), base_options
+        present :parties, Issue.unfreezed.send(params[:sort]).limit(params[:limit]), base_options
       end
 
       desc '태그 달린 빠띠들을 반환합니다'
@@ -39,7 +39,7 @@ module V1
         requires :tags, type: Array[String]
       end
       get :tagged do
-        present :parties, Issue.hottest.tagged_with(params[:tags], any: true), base_options
+        present :parties, Issue.unfreezed.hottest.tagged_with(params[:tags], any: true), base_options
       end
 
       desc '특정 빠띠에 대한 정보를 반환합니다'

@@ -133,6 +133,7 @@ class Issue < ActiveRecord::Base
   before_validation :strip_whitespace
 
   # scopes
+  scope :unfreezed, -> { where(freezed_at: nil) }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
