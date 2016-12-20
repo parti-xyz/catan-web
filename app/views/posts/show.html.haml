@@ -1,3 +1,10 @@
-= render file: 'issues/slug_home'
-- content_for :post_modal_content do
-  = render file: 'posts/partial'
+= render 'issues/issue_header', simple: true
+
+%section#posts
+  .container
+    .row
+      .col-xs-12.col-sm-8
+        .posts
+          = render @post, in_modal: true, additional_buttons_partial: 'posts/modal_buttons'
+      - unless is_small_screen?
+        = render 'issues/aside'

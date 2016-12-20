@@ -1,6 +1,6 @@
 - issue ||= @issue
 - active_tab ||= nil
-%section.parti-header-section
+%section.parti-header-section{ class: ('parti-header-section--simple' if local_assigns[:simple]) }
   - geo_pattern_background = capture do
     .parti-black-layer{ style: "background-image: #{GeoPattern.generate(issue.title, base_color: '#2a164b').to_data_uri};" }
   - logo_background = capture do
@@ -20,17 +20,9 @@
           = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
             .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       .media-body
-        %h2.parti-title
-          = issue.title
-          .parti-info.visible-xs-block
-            = link_to issue_users_path(issue) do
-              %span.parti-users-label 가입회원
-              %span.parti-users-count
-                #{issue.member_users.count}명
-        .row
-          .col-xs-12.col-sm-9
-            .parti-body
-              = issue.body
+        - if local_assigns[:simple]
+          %h4.parti-title
+            = issue.title
             .parti-buttons
               - if issue.made_by? current_user
                 %span.parti-maker-button
@@ -41,39 +33,63 @@
                       #{current_user.nickname}님은 #{issue.title} 빠띠의 메이커입니다.
               %span.parti-member-button
                 = render 'members/member', issue: issue
-              %span.parti-admin-buttons
-                - if can? :update, issue
-                  = link_to '수정', [:edit, issue], class: 'btn btn-ghost btn-xs'
-                - if can? :destroy, issue
-                  = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-ghost btn-xs'
-              - if issue.telegram_link.present?
-                %span.parti-telegram-button
-                  = link_to issue.telegram_link, target: '_blank' do
-                    = image_tag 'telegram_icon.png'
-                    메신저 열기
-          .col-sm-3.text-right.hidden-xs
-            - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:share_site_title) || '빠띠'}" }
-            - map = { facebook: data }
-            - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-            = render 'application/share', map: map
-
-  .parti-menu
-    - counts_container = issue.counts_container
-    .container
-      .row
-        .col-sm-7.col-xs-12
+        - else
+          %h2.parti-title
+            = issue.title
+            .parti-info.visible-xs-block
+              = link_to issue_users_path(issue) do
+                %span.parti-users-label 가입회원
+                %span.parti-users-count
+                  #{issue.member_users.count}명
           .row
-            .col-xs-3.col-sm-3{ class: ('active' if active_tab.nil? || active_tab == :home) }
-              = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
-                %h5 타임라인
+            .col-xs-12.col-sm-9
+              .parti-body
+                = issue.body
+              .parti-buttons
+                - if issue.made_by? current_user
+                  %span.parti-maker-button
+                    %div.btn.btn-xs.btn-ghost{"data-url": "#maker-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
+                      빠띠 메이커
+                    .hidden
+                      .maker-info{id: "maker-info-#{dom_id(issue)}"}
+                        #{current_user.nickname}님은 #{issue.title} 빠띠의 메이커입니다.
+                %span.parti-member-button
+                  = render 'members/member', issue: issue
+                %span.parti-admin-buttons
+                  - if can? :update, issue
+                    = link_to '수정', [:edit, issue], class: 'btn btn-ghost btn-xs'
+                  - if can? :destroy, issue
+                    = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-ghost btn-xs'
+                - if issue.telegram_link.present?
+                  %span.parti-telegram-button
+                    = link_to issue.telegram_link, target: '_blank' do
+                      = image_tag 'telegram_icon.png'
+                      메신저 열기
+            .col-sm-3.text-right.hidden-xs
+              - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:share_site_title) || '빠띠'}" }
+              - map = { facebook: data }
+              - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+              = render 'application/share', map: map
 
-            .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}
-              = link_to issue_polls_path(issue) do
-                %h5= Poll.model_name.human
+  - if !local_assigns[:simple]
+    .parti-menu
+      - counts_container = issue.counts_container
+      .container
+        .row
+          .col-sm-7.col-xs-12
+            .row
+              .col-xs-3.col-sm-3{ class: ('active' if active_tab.nil? || active_tab == :home) }
+                = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+                  %h5 타임라인
 
-            .col-xs-3.col-sm-3{class: ('active' if active_tab == :references)}
-              = link_to issue_references_path(issue) do
-                %h5 자료
+              .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}
+                = link_to issue_polls_path(issue) do
+                  %h5= Poll.model_name.human
 
-= render 'issues/bottom_banner'
+              .col-xs-3.col-sm-3{class: ('active' if active_tab == :references)}
+                = link_to issue_references_path(issue) do
+                  %h5 자료
+
+- if !local_assigns[:simple]
+  = render 'issues/bottom_banner'
 

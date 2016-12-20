@@ -159,6 +159,29 @@ section#issues {
       }
     }
   }
+
+  &--simple {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    > .container > .media {
+      > .media-left {
+        vertical-align: middle;
+        .parti-logo {
+          margin-right: 0;
+          .thumb {
+            width: 36px;
+            height: 36px;
+          }
+        }
+      }
+      > .media-body {
+        .parti-buttons {
+          margin-left: 12px;
+          display: inline;
+        }
+      }
+    }
+  }
 }
 
 .webui-popover {

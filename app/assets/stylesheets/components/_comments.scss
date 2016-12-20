@@ -186,9 +186,6 @@ section#comments {
       height: 35px;
       margin-left: 5px;
       display: inline-block;
-      &.in-modal:active, &.in-modal:focus {
-        height: 120px;
-      }
       &:focus, &:active {
         border: 1px solid $brand-primary;
       }

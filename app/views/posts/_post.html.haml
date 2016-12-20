@@ -1,4 +1,3 @@
-- local_assigns[:show_issue] = true if local_assigns[:in_modal]
 - comment_style = local_assigns[:in_modal] ? 'in-modal' : 'in-list'
 .post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]}", data: { 'parti-comment-style': comment_style }}
   .post-card-with-comments__content
@@ -16,10 +15,6 @@
                 %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.name
-        - if local_assigns[:in_modal]
-          .media-right
-            %button.post-modal__btn(type="button" class="close" data-dismiss="modal" aria-label="Close")
-              = image_tag 'icon_close.png'
 
     .post-card-with-comments__post
       .post-card-with-comments__buttons.pull-right

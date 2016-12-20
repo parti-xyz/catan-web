@@ -45,16 +45,16 @@ class PostsController < ApplicationController
   end
 
   def show
-    if request.headers['X-PJAX']
-      render(:partial, layout: false) and return
-    else
-      @issue = @post.issue
-      @last_post = nil
-      issus_posts = @issue.posts.order(last_touched_at: :desc)
-      @posts = issus_posts.limit(25)
-      current_last_post = @posts.last
-      @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
-    end
+    @issue = @post.issue
+    # if request.headers['X-PJAX']
+    #   render(:partial, layout: false) and return
+    # else
+    #   @last_post = nil
+    #   issus_posts = @issue.posts.order(last_touched_at: :desc)
+    #   @posts = issus_posts.limit(25)
+    #   current_last_post = @posts.last
+    #   @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
+    # end
 
     if @post.poll.present?
       prepare_meta_tags title: @post.issue.title,
