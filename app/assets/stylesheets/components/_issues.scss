@@ -163,6 +163,10 @@ section#issues {
   &--simple {
     padding-top: 12px;
     padding-bottom: 12px;
+
+    .parti-title a {
+      color: #fff;
+    }
     > .container > .media {
       > .media-left {
         vertical-align: middle;

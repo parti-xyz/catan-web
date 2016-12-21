@@ -22,7 +22,7 @@
       .media-body
         - if local_assigns[:simple]
           %h4.parti-title
-            = issue.title
+            = link_to issue.title, issue_home_path_or_url(issue)
             .parti-buttons
               - if issue.made_by? current_user
                 %span.parti-maker-button
