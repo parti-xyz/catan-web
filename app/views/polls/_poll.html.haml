@@ -1,5 +1,5 @@
 - post = poll.post
-
+- local_assigns[:hide_voting_users] ||= false
 - modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
 
 - issue = post.issue
@@ -19,4 +19,4 @@
   %h4.poll-card__title
     “#{poll.title}”
 
-  = render 'votings/voting', local_assigns.merge(hide_voting_users: true)
+  = render 'votings/voting', local_assigns

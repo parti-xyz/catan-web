@@ -2,7 +2,7 @@
 - @posts.each do |post|
   - unless post.blinded?(current_user)
     .col-xs-12.col-sm-4.card.card--hover-grow
-      = render 'polls/poll', local_assigns.merge(poll: post.poll)
+      = render 'polls/poll', local_assigns.merge(poll: post.poll, hide_voting_users: true)
   - else
     - has_blinds = true
 - if has_blinds

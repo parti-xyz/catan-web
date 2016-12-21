@@ -19,7 +19,7 @@
     / 로그인 & 투표완료
     .vote__results.clearfix
       .vote__results__agree
-        = link_to poll_votings_path(poll, voting: {choice: :agree}), method: :post, remote: true, class: 'btn ' + ( poll.agreed_by?(current_user) ? 'btn-primary btn-success-dark' : 'btn-default btn-ghost btn-success' ) do
+        = link_to poll_votings_path(poll, voting: {choice: :agree}, hide_voting_users: local_assigns[:hide_voting_users]), method: :post, remote: true, class: 'btn ' + ( poll.agreed_by?(current_user) ? 'btn-primary btn-success-dark' : 'btn-default btn-ghost btn-success' ) do
           %i.fa.fa-thumbs-up
           %span 찬성
           %p.count= poll.votings.with_choice(:agree).count
@@ -30,7 +30,7 @@
                 .thumb.img-circle.circle-30{style: "background-image: url(#{voting.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{voting.user.nickname}", :type => "button"}
 
       .vote__results__disagree
-        = link_to poll_votings_path(poll, voting: {choice: :disagree}), method: :post, remote: true, class: 'btn ' + ( poll.disagreed_by?(current_user) ? 'btn-primary btn-danger-dark' : 'btn-default btn-ghost btn-danger' ) do
+        = link_to poll_votings_path(poll, voting: {choice: :disagree}, hide_voting_users: local_assigns[:hide_voting_users]), method: :post, remote: true, class: 'btn ' + ( poll.disagreed_by?(current_user) ? 'btn-primary btn-danger-dark' : 'btn-default btn-ghost btn-danger' ) do
           %i.fa.fa-thumbs-down
           %span 반대
           %p.count= poll.votings.with_choice(:disagree).count
@@ -42,10 +42,10 @@
   - else
     .vote__buttons
       / 로그인 & 투표 전
-      = link_to poll_votings_path(poll, voting: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-success' do
+      = link_to poll_votings_path(poll, voting: {choice: :agree}, hide_voting_users: local_assigns[:hide_voting_users]), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-success' do
         %i.fa.fa-thumbs-up
         찬성
-      = link_to poll_votings_path(poll, voting: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-danger' do
+      = link_to poll_votings_path(poll, voting: {choice: :disagree}, hide_voting_users: local_assigns[:hide_voting_users]), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-danger' do
         %i.fa.fa-thumbs-down
         반대
       .vote__buttons--unsure
@@ -57,7 +57,7 @@
               = link_to '#', data: { toggle: "parti-post-modal", url: modal_post_path(post) }, class: 'text-muted' do
                 댓글로 의견을 나눠 보세요.
         - else
-          = link_to poll_votings_path(poll, voting: {choice: :unsure}), method: :post, remote: true do
+          = link_to poll_votings_path(poll, voting: {choice: :unsure}, hide_voting_users: local_assigns[:hide_voting_users]), method: :post, remote: true do
             잘 모르겠습니다
 
   .text-muted
