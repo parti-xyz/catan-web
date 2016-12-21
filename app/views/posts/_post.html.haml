@@ -1,4 +1,4 @@
-- comment_style = local_assigns[:in_modal] ? 'in-modal' : 'in-list'
+- comment_style = local_assigns[:mode] || 'in-list'
 .post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]}", data: { 'parti-comment-style': comment_style }}
   .post-card-with-comments__content
     .post-card-with-comments__header{class: "#{'hide' unless local_assigns[:show_issue]}"}
@@ -15,6 +15,9 @@
                 %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.name
+        - if local_assigns[:mode] == 'modal'
+          .media-right( style='vertical-align: middle;' )
+            %button(type="button" class="close" data-dismiss="modal") &times;
 
     .post-card-with-comments__post
       .post-card-with-comments__buttons.pull-right
@@ -41,30 +44,22 @@
       - map = { facebook: data }
       - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
       = render 'application/share', map: map
-    .post-card-with-comments__footer
+    .post-card-with-comments__footer.clearfix
       %span.post-card-with-comments__footer__upvote
         .post-upvote
           = render 'upvotes/upvote', upvotable: post
 
       - if user_signed_in?
         %span.post-card-with-comments__footer__link-to-modal{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
-          %i.fa.fa-comment
           %span{id: comments_count_dom_id(post)}
-            - if post.comments_count > 0
-              #{post.comments_count}
-            - else
-              댓글달기
+            댓글달기
       - else
         %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
-          %i.fa.fa-comment
-          %span{id: comments_count_dom_id(post)}
-          - if post.comments_count > 0
-            #{post.comments_count}
-          - else
-            댓글달기
+          댓글달기
       %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
-        %i.fa.fa-share-alt
         공유하기
+      %span.post-card-with-comments__footer__upvote-count
+        = render 'upvotes/upvote_count', upvotable: post
       .hidden
         .share-partial{id: "share-partial-#{dom_id(post)}"}
           = share_partial

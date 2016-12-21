@@ -53,7 +53,6 @@ section#references {
   }
   .caption {
     padding-top: 14px;
-    padding-bottom: 14px;
     .link-source:hover {
       .title {
         color: $brand-primary;
@@ -104,6 +103,7 @@ section#references {
     }
     .more {
       color: $gray-light;
+      padding-bottom: 14px;
       .comments-count,
       .link-to-modal,
       .link-to-login {

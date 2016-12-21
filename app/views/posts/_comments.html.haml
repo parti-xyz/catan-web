@@ -1,6 +1,6 @@
 .post-card-with-comments__comments
-  - showing_comments = (local_assigns[:in_modal] ? post.comments : post.latest_comments)
-  - hidden_comments = (local_assigns[:in_modal] ? Comment.none : post.comments - post.latest_comments)
+  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments : post.comments)
+  - hidden_comments = (local_assigns[:mode] == 'list' ? post.comments - post.latest_comments : Comment.none)
 
   - if hidden_comments.any?
     .post-card-with-comments__comments--hidden{ id: comments_more_dom_id(post), style: 'display: none'}
@@ -20,7 +20,7 @@
             .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
           .media-body
             .comment-form__area
-              = f.text_area :body, class: "form-control comment-body", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, id: new_comment_form_body_input_dom_id(post)
+              = f.text_area :body, class: "form-control comment-body", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize', 'in-post-modal': ('true' if local_assigns[:mode] == 'modal') }, rows: 1, id: new_comment_form_body_input_dom_id(post)
             = f.submit '게시', class: 'btn btn-primary comment-form__btn', data: { disable_with: "게시 중..." }
     - else
       .post-card-with-comments__footer--need-to-login

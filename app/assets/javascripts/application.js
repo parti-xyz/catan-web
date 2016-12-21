@@ -14,7 +14,6 @@
 //= require jquery.validate
 //= require messages_ko
 //= require kakao
-//= require jquery.pjax
 //= require jquery.history
 //= require jquery.waypoints
 //= require jquery.typewatch
@@ -363,7 +362,13 @@ var parti_prepare = function($base) {
 
   // autoresize toggle
   $.parti_apply($base, '[data-ride="parti-autoresize"]', function(elm) {
-    autosize($(elm));
+    if($(elm).data('in-post-modal')) {
+      $(elm).on('focus', function(e) {
+        $(elm).height('120');
+      });
+    } else {
+      autosize($(elm));
+    }
   });
 
   // form validator
@@ -454,31 +459,6 @@ var parti_prepare = function($base) {
     $(document).on('parti-click', close_form);
   });
 
-  //permalink post
-  $.parti_apply($base, '#post-modal', function(elm) {
-    if(!$(elm).hasClass('post-modal-permlink')) {
-      return;
-    }
-    var list_url = $(elm).data("list-url");
-    var list_title = $(elm).data("list-title");
-    $(elm).on('hidden.bs.modal', function (e) {
-      History.pushState(null, list_title, list_url);
-    });
-
-    var post_modal_url = History.getState().url;
-    var post_modal_index = History.getCurrentIndex;
-    window.onstatechange = function(){
-      var current_url = History.getState().url;
-      var current_index = History.getCurrentIndex;
-      if(post_modal_url == current_url && post_modal_index == current_index) {
-        $(elm).modal('show');
-      } else {
-        $(elm).modal('hide');
-      }
-    };
-    $(elm).modal('show');
-  });
-
   //new comments count
   $.parti_apply($base, '[data-action="parti-polling"]', function(elm) {
     var $elm = $(elm);
@@ -543,62 +523,10 @@ var parti_prepare = function($base) {
 
 //parti-post-modal
 var parti_prepare_post_modal = function($base) {
-  if($base.data('parti-prepare-post-modal-arel') == 'completed') {
-    return;
-  }
-  var target = '#post-modal'
-  var $target = $(target);
-  var container = target + ' .post-modal__partial-content';
-
-  var nickname = '';
-  var mention_form_control = '';
-  var is_mention = false;
-
-  $target.data('parti-pjax-back-trigger', 'off');
-  $target.on('pjax:success', function(e, data, status, xhr, options) {
-    parti_prepare($(container).children());
-    $target.data('parti-pjax-back-trigger', 'on');
-
-    var nickname = $target.data('mention-nickname');
-    var mention_form_control = $target.data('mention-form-control');
-    var control = $target.find(mention_form_control);
-
-    is_mention = $.is_present(mention_form_control) && $.is_present(nickname);
-    if (is_mention) {
-      var value = $(control).val();
-      var at_nickname = '@' + nickname;
-      if ($.is_blank(value) || value.indexOf(at_nickname) == -1) {
-        $(control).val(at_nickname + ' ' + value);
-      }
-    }
-    if ($.is_present(mention_form_control)) {
-      $target.on('shown.bs.modal', function (e) {
-        $(control).focus();
-      });
-    }
-    $target.modal('show');
-  });
-  $target.on('hidden.bs.modal', function (e) {
-    if($target.data('parti-pjax-back-trigger') == 'on') {
-      $target.data('parti-pjax-back-trigger', 'off')
-      window.history.back();
-    }
-    $target.data('mention-nickname', '');
-    $target.data('mention-form-control', '');
-  });
-  $target.on('pjax:popstate', function(e) {
-    $target.data('parti-pjax-back-trigger', 'off');
-    if(e.direction == "back" && $target.is(":visible")) {
-      $target.modal('hide');
-    }
-  });
-
   $.each($base.find('[data-toggle="parti-post-modal"]'), function(i, elm) {
-    var $elm = $(elm);
-
+    $elm = $(elm);
     var url = $elm.data("url");
-    var nickname = $elm.data('mention-nickname');
-    var mention_form_control = $elm.data('mention-form-control');
+
     $elm.on('click', function(e) {
       var href = $(e.target).closest('a').attr('href')
       if (href && href != "#") {
@@ -606,13 +534,14 @@ var parti_prepare_post_modal = function($base) {
       }
       var disabled = $(e.target).closest('[data-disable-modal="true"]')
       if (disabled.length) {
-        console.log($(disabled));
         return true;
       }
-      $target.data('mention-nickname', nickname);
-      $target.data('mention-form-control', mention_form_control);
-      $.pjax({url: url, container: container, scrollTo: false, timeout: 5000});
-      return false;
+      $.ajax({
+        url: url,
+        format: 'js',
+        success: function(result){
+        }
+      });
     });
   });
 
@@ -642,8 +571,6 @@ var parti_prepare_post_modal = function($base) {
       return false;
     });
   });
-
-  $base.data('parti-prepare-post-modal-arel', 'completed');
 };
 
 var parti_partial = function(partial) {

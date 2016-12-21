@@ -1,7 +1,7 @@
 - has_blinds = false
 - @posts.each do |post|
   - unless post.blinded?(current_user)
-    = render post, local_assigns
+    = render post, local_assigns.merge(mode: 'list')
   - else
     - has_blinds = true
 

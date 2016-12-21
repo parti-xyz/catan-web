@@ -1,6 +1,4 @@
-- modal_data = { toggle: "parti-post-modal", target: '#post-modal', url: post_path(post) }
-- mention_options_data = { 'mention-nickname': post.user.nickname, 'mention-form-control': '#new_comment #comment_body' }
-- mention_data = mention_options_data.merge(modal_data)
+- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
 
 - if post.comments_count >= 10
   - template_by_post = 'best'
@@ -72,28 +70,10 @@
           = link_to user_gallery_path(post.user) do
             .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
             %span.nickname= post.user.nickname
-          - if post.user.mentionable?(current_user)
-            %a.comment__mention{ href: '#', data: mention_data }
-              %i.fa.fa-reply
-      .more
-        - if post.comments_count > 0
+      - if post.comments_count > 0
+        .more
           %span.comments-count
             %sapn
               %i.fa.fa-comment-o
               %b> #{post.comments_count}개
               의 댓글
-          &nbsp;|&nbsp;
-          %span.link-to-more 더보기...
-        - else
-          - if user_signed_in?
-            - mention_options_data = { 'mention-nickname': '', 'mention-form-control': '#new_comment #comment_body' }
-            - mention_data = mention_options_data.merge(toggle: "parti-post-modal", target: '#post-modal', url: polymorphic_url(post))
-            %span.link-to-modal{ data: mention_data }
-              %i.fa.fa-commenting-o
-              댓글작성
-          - else
-            %span.link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글작성' }}
-              %i.fa.fa-commenting-o
-              댓글작성
-          &nbsp;|&nbsp;
-          %span.link-to-more 자세히...

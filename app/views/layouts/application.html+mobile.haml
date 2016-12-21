@@ -27,7 +27,7 @@
         .unobtrusive-flash-container
 
     = render 'shall_we_login'
-    = render 'posts/modal'
+    #post-modal.modal.post-modal
 
     - if content_for?(:header)
       = yield :header

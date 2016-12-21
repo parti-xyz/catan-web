@@ -1,7 +1,10 @@
 - post = poll.post
+
+- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
+
 - issue = post.issue
 - voted = user_signed_in? && poll.voting_by?(current_user)
-.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''}"}
+.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''}", data: modal_data}
   .row.poll-card__meta
     .col-sm-6.col-xs-12
       .poll-card__issue
@@ -16,4 +19,4 @@
   %h4.poll-card__title
     “#{poll.title}”
 
-  = render 'votings/voting', local_assigns.merge(partial: local_assigns[:partial])
+  = render 'votings/voting', local_assigns.merge(hide_voting_users: true)

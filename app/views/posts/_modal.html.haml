@@ -1,9 +1,8 @@
-#post-modal.modal.post-modal{class: ('post-modal-permlink' if content_for?(:post_modal_content)) ,role: "dialog", tabindex: "-1", data: {"list-title": @list_title, "list-url": @list_url}}
-  .modal-dialog{:role => "document"}
-    .modal-content
-      .modal-body.post-modal__partial-content
-        = yield :post_modal_content if content_for?(:post_modal_content)
-    .modal-footer.visible-xs-block
-      %div(data-dismiss="modal" aria-label="Close")
-        더많은 글이 빠띠에 있습니다.
-        %i.fa.fa-arrow-right
+.modal-dialog{:role => "document"}
+  .modal-content
+    .modal-body.post-modal__partial-content
+      = render @post, mode: 'modal', show_issue: true, additional_buttons_partial: 'posts/modal_buttons'
+  .modal-footer.visible-xs-block
+    %div(data-dismiss="modal" aria-label="Close")
+      더많은 글이 빠띠에 있습니다.
+      %i.fa.fa-arrow-right

@@ -150,14 +150,11 @@ section#posts {
     border-bottom-right-radius: 4px;
     .post-upvote-count {
       color: $brand-primary;
+      &--any {
+        margin-left: 12px;
+      }
       @media (max-width: $screen-xs-max) {
         font-size: $font-size-small;
-      }
-      &.delete-margin-top {
-        margin-top: 0;
-      }
-      &.add-margin-top {
-        margin-top: 12px;
       }
       .upvoted {
         color: $brand-primary;
@@ -195,9 +192,15 @@ section#posts {
         .upvote {
           color: $gray;
         }
-        .upvote-liked {
-          color: $brand-primary;
-        }
+      }
+    }
+    &__upvote-count {
+      color: $gray;
+      .upvoted {
+        color: $brand-primary;
+      }
+      .post-upvote-count {
+        display: inline-block;
       }
     }
   }
@@ -225,7 +228,6 @@ section#posts {
       }
     }
     &__content {
-      padding: 18px 0 0;
       .vote__buttons--unsure--label a {
         display: none;
       }
@@ -242,9 +244,6 @@ section#posts {
       }
       @media (min-width: $screen-sm-min) {
         border-radius: $border-radius-base;
-      }
-      @media (max-width: $screen-xs-max) {
-        padding: 15px;
       }
     }
     .more {

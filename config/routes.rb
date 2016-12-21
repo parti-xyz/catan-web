@@ -85,7 +85,10 @@ Rails.application.routes.draw do
       resources :comments, concerns: :upvotable
       resources :votes
     end
-    get 'poll_social_card', on: :member
+    member do
+      get 'poll_social_card'
+      get 'modal'
+    end
   end
 
   resources :references

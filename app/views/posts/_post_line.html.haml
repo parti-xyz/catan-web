@@ -1,3 +1,4 @@
+- local_assigns[:mode] ||= 'in-list'
 - post = post
 - issue = post.issue
 .post-line.post-line[post]
@@ -14,7 +15,7 @@
       = post_body_format post.parsed_title
   .post-body
     .post-parsed-body{'data-action': 'parti-link-target-blank'}
-      - if local_assigns[:in_modal]
+      - if %w(modal detail).include? local_assigns[:mode]
         = post_body_format post.parsed_body
       - else
         .truncated-body
@@ -87,4 +88,4 @@
         %h4.poll-card__title
           “#{post.poll.title}”
 
-        = render 'votings/voting', local_assigns.merge(partial: local_assigns[:partial])
+        = render 'votings/voting', local_assigns.merge(in_post: true)

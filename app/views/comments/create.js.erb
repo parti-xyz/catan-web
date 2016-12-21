@@ -1,6 +1,6 @@
 <% if @comment.persisted? %>
   $("<%= raw new_comment_form_body_input_dom_selector(@comment.post) %>").val('');
   var $comment = parti_origin_partial("<%= escape_javascript(render 'comments/comment_line', comment: @comment) %>");
-  $comment.insertBefore("<%= raw new_comment_form_dom_selector(@comment.post) %>");
+  $comment.insertBefore($("<%= raw new_comment_form_dom_selector(@comment.post) %>").closest('.comment-line'));
   $("<%= raw comments_count_dom_selector(@comment.post) %>").text("<%= @comment.post.reload.comments_count %>");
 <% end %>

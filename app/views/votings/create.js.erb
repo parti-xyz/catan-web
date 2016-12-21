@@ -8,6 +8,3 @@ $('.<%= dom_id(@poll) %>').each(function(index, elm){
   }
 });
 parti_prepare_masonry($('body'));
-<% if params[:partial] != 'post' %>
-  $('.<%= dom_id(@poll) %>').click();
-<% end %>

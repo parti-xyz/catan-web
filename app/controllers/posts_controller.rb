@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show, :poll_social_card]
+  before_filter :authenticate_user!, except: [:index, :show, :poll_social_card, :modal]
   load_and_authorize_resource
 
   def index
@@ -44,17 +44,16 @@ class PostsController < ApplicationController
     redirect_to issue_home_path_or_url(@post.issue)
   end
 
+  def modal
+    @post = Post.find(params[:id])
+  end
+
   def show
-    @issue = @post.issue
-    # if request.headers['X-PJAX']
-    #   render(:partial, layout: false) and return
-    # else
-    #   @last_post = nil
-    #   issus_posts = @issue.posts.order(last_touched_at: :desc)
-    #   @posts = issus_posts.limit(25)
-    #   current_last_post = @posts.last
-    #   @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
-    # end
+    if request.headers['X-PJAX']
+      render(:partial, layout: false) and return
+    else
+      @issue = @post.issue
+    end
 
     if @post.poll.present?
       prepare_meta_tags title: @post.issue.title,

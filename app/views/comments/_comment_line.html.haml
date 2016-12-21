@@ -14,7 +14,7 @@
           - if local_assigns[:mention_form_control]
             %a.comment__mention{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_control } }
               댓글달기
-        .upvote-count{class: "#{'delete-margin-left' if comment.upvotes.count == 0 } #{'add-margin-left' if comment.upvotes.count > 0 }" }
+        .upvote-count
           = render 'upvotes/upvote_count', upvotable: comment
         %span.date-wrapper= date_f comment.created_at
 
