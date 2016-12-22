@@ -2,10 +2,10 @@
   <% if params[:partial] == 'intro' %>
     <% script = escape_javascript(render customize_partial_path(@member.issue, ->(model) { "#{model.class.model_name.plural}/card_in_intro" }), issue: @issue) %>
     var card_query = '.<%= dom_id(@member.issue) %>-card';
-    $(card_query).replaceWith(parti_origin_partial("<%= script %>"));
+    $(card_query).replaceWith(parti_partial("<%= script %>"));
     parti_ellipsis($(card_query));
   <% else %>
     $(".btn-member").webuiPopover('destroy');
-    $('.<%= dom_id(@member.issue) %>-member').replaceWith(parti_origin_partial("<%= escape_javascript(render 'members/member', issue: @issue) %>"));
+    $('.<%= dom_id(@member.issue) %>-member').replaceWith(parti_partial("<%= escape_javascript(render 'members/member', issue: @issue) %>"));
   <% end %>
 <% end %>

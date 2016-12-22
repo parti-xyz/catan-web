@@ -1,5 +1,3 @@
-var specific_partial = parti_origin_partial("<%= escape_javascript(render @poll, post: @poll.post, hide_voting_users: params[:hide_voting_users] == 'true') %>");
-$('.<%= dom_id(@poll) %>').each(function(index, elm){
-  $(elm).replaceWith(specific_partial);
-});
+var specific_partial = parti_partial("<%= escape_javascript(render 'votings/voting', poll: @poll) %>");
+$('<%= post_votings_dom_selector(@poll.post) %>').replaceWith(specific_partial);
 parti_prepare_masonry($('body'));

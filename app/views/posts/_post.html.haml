@@ -1,5 +1,5 @@
 - comment_style = local_assigns[:mode] || 'in-list'
-.post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]}", data: { 'parti-comment-style': comment_style }}
+.post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}", data: { 'parti-comment-style': comment_style }}
   .post-card-with-comments__content
     .post-card-with-comments__header{class: "#{'hide' unless local_assigns[:show_issue]}"}
       .media
@@ -27,7 +27,7 @@
             %span.hidden-xs
               수정
         - if can? :destroy, post
-          = link_to post, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' } do
+          = link_to post_path(post, mode: local_assigns[:mode]), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
             %i.fa.fa-trash
             %span.hidden-xs
               삭제

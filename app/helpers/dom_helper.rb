@@ -1,4 +1,4 @@
-module CommentDomHelper
+module DomHelper
   def new_comment_form_dom_id(post)
     "#{dom_id(post)}--new-comment"
   end
@@ -33,5 +33,21 @@ module CommentDomHelper
 
   def comments_more_dom_selector(post)
     "##{comments_more_dom_id(post)}"
+  end
+
+  def removable_with_post_dom_class(post)
+    "removable-with-#{dom_id(post)}"
+  end
+
+  def removable_with_post_dom_selector(post)
+    ".#{removable_with_post_dom_class(post)}"
+  end
+
+  def post_votings_dom_class(post)
+    "#{dom_id(post)}-vote"
+  end
+
+  def post_votings_dom_selector(post)
+    ".#{post_votings_dom_class(post)}"
   end
 end

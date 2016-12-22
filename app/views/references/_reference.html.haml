@@ -20,7 +20,7 @@
 
 - wrapper_class = (local_assigns[:wrapper_class] || wrapper_class)
 
-.card{ class: wrapper_class }
+.card{ class: "#{wrapper_class} #{removable_with_post_dom_class(post)}" }
   .reference-card[post]{ class: card_class, data: modal_data }
     - capture_thumb = capture do
       .thumb.thumb--reference{ style: "background-image: url(#{reference_card_image(post)})" }

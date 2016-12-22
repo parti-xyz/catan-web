@@ -41,7 +41,11 @@ class PostsController < ApplicationController
 
   def destroy
     @post.destroy
-    redirect_to issue_home_path_or_url(@post.issue)
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to issue_home_path_or_url(@post.issue) }
+    end
   end
 
   def modal

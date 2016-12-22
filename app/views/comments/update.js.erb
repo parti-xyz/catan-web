@@ -1,4 +1,4 @@
 <% if @comment.persisted? %>
-  var $comment = parti_origin_partial("<%= escape_javascript(render 'comments/comment_line', comment: @comment) %>");
+  var $comment = parti_partial("<%= escape_javascript(render 'comments/comment_line', comment: @comment) %>");
   $('.<%= dom_id(@comment) %>').replaceWith($comment);
 <% end %>

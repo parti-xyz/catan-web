@@ -1,10 +1,9 @@
 - post = poll.post
-- local_assigns[:hide_voting_users] ||= false
 - modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
 
 - issue = post.issue
 - voted = user_signed_in? && poll.voting_by?(current_user)
-.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''}", data: modal_data}
+.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)}", data: modal_data}
   .row.poll-card__meta
     .col-sm-6.col-xs-12
       .poll-card__issue

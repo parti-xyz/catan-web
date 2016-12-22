@@ -70,7 +70,7 @@ $.validator.addMethod("extern", function(value, element) {
 }, "");
 
 $.parti_apply = function($base, query, callback) {
-  $.each($base.find(query), function(i, elm){
+  $.each($base.find(query).addBack(query), function(i, elm){
     callback(elm);
   });
 }
@@ -523,7 +523,7 @@ var parti_prepare = function($base) {
 
 //parti-post-modal
 var parti_prepare_post_modal = function($base) {
-  $.each($base.find('[data-toggle="parti-post-modal"]'), function(i, elm) {
+  $.parti_apply($base, '[data-toggle="parti-post-modal"]', function(elm) {
     $elm = $(elm);
     var url = $elm.data("url");
 
@@ -545,7 +545,7 @@ var parti_prepare_post_modal = function($base) {
     });
   });
 
-  $.each($base.find('[data-action="parti-filter-parties"]'), function(i, elm) {
+  $.parti_apply($base, '[data-action="parti-filter-parties"]', function(elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {
       var search_input = $(this).data('search-input');
@@ -574,14 +574,6 @@ var parti_prepare_post_modal = function($base) {
 };
 
 var parti_partial = function(partial) {
-  var $partial = $.parseDiv$(partial);
-  parti_prepare_post_modal($partial);
-  parti_prepare($partial);
-
-  return $partial;
-}
-
-var parti_origin_partial = function(partial) {
   var $partial = $.parse$(partial);
   parti_prepare_post_modal($partial);
   parti_prepare($partial);
