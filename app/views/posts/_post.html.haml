@@ -51,8 +51,7 @@
 
       - if user_signed_in?
         %span.post-card-with-comments__footer__link-to-modal{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
-          %span{id: comments_count_dom_id(post)}
-            댓글달기
+          댓글달기
       - else
         %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
           댓글달기

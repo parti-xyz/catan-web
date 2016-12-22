@@ -8,7 +8,9 @@
         = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
 
     .post-card-with-comments__count{ data: { action: 'parti-show', 'show-target': comments_more_dom_selector(post), 'self-hide': 'true' } }
-      .more #{post.comments_count}개의 댓글 모두 보기
+      .more
+        %span{id: comments_count_dom_id(post)}<>= post.comments_count
+        개의 댓글 모두 보기
 
   - showing_comments.each do |comment|
     = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
