@@ -188,7 +188,6 @@ section#comments {
     .form-control.comment-body {
       width: 100%;
       height: 35px;
-      margin-left: 5px;
       display: inline-block;
       &:focus, &:active {
         border: 1px solid $brand-primary;
@@ -196,6 +195,7 @@ section#comments {
     }
   }
   &__btn {
+    margin-bottom: 2px;
     float: right;
     width: 80px;
     @media (max-width: $screen-xs-max) {
@@ -205,10 +205,8 @@ section#comments {
 
   @media (max-width: $screen-xs-max) {
     &__area {
-       width: 75%;
-      img {
-        display: none;
-      }
+      float: initial;
+      width: auto;
       .form-control#comment_body {
         margin: 0;
       }

@@ -21,6 +21,12 @@
 
 section#posts {
   padding: 20px 0;
+
+  @media (max-width: $screen-xs-max) {
+    .app-posts-show & {
+      padding: 0;
+    }
+  }
   @media (max-width: $screen-xs-max) {
     .page-title {
       margin-left: 15px;
@@ -380,14 +386,15 @@ section#posts {
   }
 
   #post-modal.post-modal {
-    z-index: 1028;
+    // z-index: 1028;
     .modal-dialog {
-      margin: 0 auto;
-      width: 100%;
+      // margin: 0 auto;
+      width: 95%;
     }
     .modal-footer {
-      margin-top: 30px;
+      margin-top: 8px;
       color: $gray;
+      background: #fff;
     }
     .modal__top {
       padding: 10px;
@@ -431,19 +438,6 @@ section#posts {
     &__title {
       font-size: $font-size-large;
     }
-  }
-
-  .modal-backdrop.in.post-backdrop {
-    z-index: 1025;
-  }
-
-  #post-modal.post-modal,
-  .modal-backdrop.in.post-backdrop {
-    top: 51px;
-  }
-  .modal-backdrop.in.post-backdrop {
-    background-color: $gray-lightest;
-    opacity: 1;
   }
 }
 
