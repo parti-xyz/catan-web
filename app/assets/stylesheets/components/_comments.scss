@@ -85,6 +85,10 @@ section#comments {
   .update-form {
     margin-bottom: 10px;
   }
+  span.comment-body-line:not(:last-child):after {
+    content: '\a\a';
+    line-height: 1em;
+  }
 }
 
 .comment {

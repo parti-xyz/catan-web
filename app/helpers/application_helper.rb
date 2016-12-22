@@ -29,8 +29,7 @@ module ApplicationHelper
   end
 
   def comment_format(text, html_options = {}, options = {})
-    parsed_text = simple_format(h(text), html_options, options.merge(wrapper_tag: 'span')).to_str
-    parsed_text = parsed_text.gsub(/(?:\n\r?|\r\n?)/, '<br>')
+    parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line'), options.merge(wrapper_tag: 'span')).to_str
     parsed_text = parsed_text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
       at_nickname = $1
       nickname = at_nickname[1..-1]
