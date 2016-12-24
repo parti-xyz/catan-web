@@ -2,7 +2,7 @@ class LinkSource < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     expose :url, :title, :body, :site_name, :page_type
-    expose :image_url do |instance|
+    expose :image_url, if: lambda { |instance, options| instance.has_image? } do |instance|
       instance.image.md.url
     end
     expose :is_video do |instance|
@@ -53,6 +53,10 @@ class LinkSource < ActiveRecord::Base
 
   def self.require_attrbutes
     [:url]
+  end
+
+  def has_image?
+    self["image"].present?
   end
 
   private
