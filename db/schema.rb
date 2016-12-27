@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161227015946) do
+ActiveRecord::Schema.define(version: 20161227125949) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -84,6 +84,19 @@ ActiveRecord::Schema.define(version: 20161227015946) do
   end
 
   add_index "discussions", ["deleted_at"], name: "index_discussions_on_deleted_at", using: :btree
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "survey_id",  limit: 4, null: false
+    t.integer  "option_id",  limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "feedbacks", ["option_id"], name: "index_feedbacks_on_option_id", using: :btree
+  add_index "feedbacks", ["survey_id"], name: "index_feedbacks_on_survey_id", using: :btree
+  add_index "feedbacks", ["user_id", "survey_id"], name: "index_feedbacks_on_user_id_and_survey_id", unique: true, using: :btree
+  add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
   create_table "file_sources", force: :cascade do |t|
     t.string   "name",       limit: 255, null: false
@@ -300,6 +313,7 @@ ActiveRecord::Schema.define(version: 20161227015946) do
     t.integer  "feedbacks_counts", limit: 4,     default: 0
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
+    t.integer  "feedbacks_count",  limit: 4,     default: 0
   end
 
   add_index "options", ["survey_id"], name: "index_options_on_survey_id", using: :btree
@@ -439,6 +453,7 @@ ActiveRecord::Schema.define(version: 20161227015946) do
     t.integer  "feedbacks_counts", limit: 4, default: 0
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.integer  "feedbacks_count",  limit: 4, default: 0
   end
 
   create_table "taggings", force: :cascade do |t|

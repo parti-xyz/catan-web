@@ -1,0 +1,31 @@
+.sruvey-card{ class: survey_card_dom_class(post) }
+  .sruvey-card--body
+    %table
+      - post.survey.options.each do |option|
+        %tr
+          - if !user_signed_in?
+            %td.checkbox-btn
+              = link_to '#', data: { toggle: 'parti-login-overlay' } do
+                %i.fa.fa-square-o
+          - else
+            %td.checkbox-btn
+              = link_to feedbacks_path(option_id: option.id), remote: true, method: :post do
+                - if option.selected?(current_user)
+                  %i.fa.fa-check-square-o
+                - else
+                  %i.fa.fa-square-o
+          %td.body
+            - if post.survey.feedbacked?(current_user)
+              .chart{ class: ('active' if option.selected?(current_user)) }
+                .chart__bar{ style: "width: #{post.survey.percentage(option)}%"}
+                  %span.chart__label= option.body
+            - else
+              .no-chart__label
+                = option.body
+          %td.feedbacks-count
+            - if post.survey.feedbacked?(current_user) and option.feedbacks_count > 0
+              #{option.feedbacks_count}명
+  - if post.survey.feedbacks_count > 0
+    .sruvey-card--footer
+      총투표 #{post.survey.feedbacks_count}명
+

@@ -1,0 +1,54 @@
+.sruvey-card {
+  $padding-side: 18px;
+  border: 1px solid $gray-lighter;
+  border-radius: 4px;
+  &--body {
+    padding: $padding-side;
+    > table {
+      width: 100%;
+
+      td.checkbox-btn {
+        width: 24px;
+      }
+      td.body {
+        padding: 2px 0;
+      }
+      td.feedbacks-count {
+        width: 48px;
+        text-align: right;
+      }
+
+      .chart {
+        border-radius: 4px;
+        border: 1px solid $gray-lighter;
+        &.active {
+          border-color: $brand-primary;
+        }
+
+        .chart__bar {
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+          background-color: $brand-primary-light;
+          padding: 3px 0;
+        }
+
+        .chart__label {
+          color: $gray;
+          white-space: nowrap;
+          padding: 0 6px;
+        }
+        &.active .chart__label {
+          color: $gray-dark;
+        }
+      }
+
+      .no-chart__label {
+        padding: 4px 6px;
+      }
+    }
+  }
+  &--footer {
+    padding: 6px $padding-side;
+    border-top: 1px solid $gray-lighter;
+  }
+}

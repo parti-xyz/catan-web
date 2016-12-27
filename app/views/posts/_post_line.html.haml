@@ -25,7 +25,7 @@
         .original-body{ style: 'display: none;' }
           = post_body_format post.parsed_body
     - if post.video_source?
-      .post-reference-line.post-line[post]
+      .post-reference-line.post-line
         .post-reference-line__link-content.post-reference-line__link-content--video
           .post-reference-line__video-container
             .post-reference-line__video-content
@@ -41,7 +41,7 @@
           %a{href: post.reference.attachment.url, target: '_blank'}
             = image_tag "#{post.reference.attachment.url}"
       - else
-        .post-reference-line.post-line[post]
+        .post-reference-line.post-line
           .post-reference-line__file-content
             .media
               .media-left.hidden-xs
@@ -57,7 +57,7 @@
                   %a{href: post.reference_url, target: '_blank'}
                     다운로드
     - elsif post.link_source?
-      .post-reference-line.post-line[post]
+      .post-reference-line.post-line
         %a{href: post.reference_url, target: '_blank'}
           .post-reference-line__link-content
             .media
@@ -73,7 +73,7 @@
                 .media-right
                   .post-reference-line__link-content__thumb{style: "background-image: url(#{post.image.md.url})"}
     - elsif post.poll.present?
-      .poll-card[post]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
+      .poll-card[post.poll]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
         .row.poll-card__meta
           .col-sm-6.col-xs-12
             .poll-card__issue
@@ -89,3 +89,5 @@
           “#{post.poll.title}”
 
         = render 'votings/voting', local_assigns.merge(in_post: true)
+    - elsif post.survey.present?
+      = render 'surveys/card', local_assigns

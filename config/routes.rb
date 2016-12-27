@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       get 'modal'
     end
   end
+  post 'feedbacks', to: 'feedbacks#create'
 
   resources :references
   resources :polls do

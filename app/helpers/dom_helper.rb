@@ -50,4 +50,12 @@ module DomHelper
   def post_votings_dom_selector(post)
     ".#{post_votings_dom_class(post)}"
   end
+
+  def survey_card_dom_class(post)
+    dom_id(post.survey)
+  end
+
+  def survey_card_dom_selector(post)
+    ".sruvey-card.#{survey_card_dom_class(post)}"
+  end
 end
