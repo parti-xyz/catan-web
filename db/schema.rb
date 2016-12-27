@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213025026) do
+ActiveRecord::Schema.define(version: 20161227015946) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -294,6 +294,16 @@ ActiveRecord::Schema.define(version: 20161213025026) do
 
   add_index "opinions", ["deleted_at"], name: "index_opinions_on_deleted_at", using: :btree
 
+  create_table "options", force: :cascade do |t|
+    t.integer  "survey_id",        limit: 4,                 null: false
+    t.text     "body",             limit: 65535
+    t.integer  "feedbacks_counts", limit: 4,     default: 0
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+  end
+
+  add_index "options", ["survey_id"], name: "index_options_on_survey_id", using: :btree
+
   create_table "parti_sso_client_api_keys", force: :cascade do |t|
     t.integer  "user_id",           limit: 4,                   null: false
     t.string   "digest",            limit: 255
@@ -338,6 +348,7 @@ ActiveRecord::Schema.define(version: 20161213025026) do
     t.integer  "reference_id",              limit: 4
     t.string   "reference_type",            limit: 255
     t.integer  "poll_id",                   limit: 4
+    t.integer  "survey_id",                 limit: 4
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
@@ -346,6 +357,7 @@ ActiveRecord::Schema.define(version: 20161213025026) do
   add_index "posts", ["poll_id"], name: "index_posts_on_poll_id", using: :btree
   add_index "posts", ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id", using: :btree
   add_index "posts", ["reference_type", "reference_id"], name: "index_posts_on_reference_type_and_reference_id", using: :btree
+  add_index "posts", ["survey_id"], name: "index_posts_on_survey_id", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "proposals", force: :cascade do |t|
@@ -421,6 +433,12 @@ ActiveRecord::Schema.define(version: 20161213025026) do
     t.integer "posts_count",      limit: 4,   null: false
     t.integer "comments_count",   limit: 4,   null: false
     t.integer "upvotes_count",    limit: 4,   null: false
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.integer  "feedbacks_counts", limit: 4, default: 0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   create_table "taggings", force: :cascade do |t|

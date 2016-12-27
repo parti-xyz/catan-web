@@ -12,6 +12,7 @@
 //= require locales/jquery.timeago.ko
 //= require autoresize
 //= require jquery.validate
+//= require additional-methods
 //= require messages_ko
 //= require kakao
 //= require jquery.history
@@ -92,12 +93,78 @@ var parti_prepare_masonry = function($base) {
   });
 }
 
+var parti_prepare_form_validator = function($base) {
+  // form validator
+  $.parti_apply($base, '[data-action="parti-form-validation"]', function(elm) {
+    var $elm = $(elm);
+    var $form = $(elm);
+    var $submit = $($elm.data("submit-form-control"));
+    $submit.prop('disabled', true);
+
+    $form.validate({
+      ignore: ':hidden:not(.validate)',
+      errorPlacement: function(error, element) {
+        return true;
+      }
+    });
+
+    $elm.find(':input').on('input', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
+    $elm.find(':input').on('change', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
+    $elm.find('select').on('change', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
+    $elm.find(':input').on('parti-need-to-validate', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
+    $elm.on('parti-need-to-validate', function(e) {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+
+    $elm.find('.redactor').on('change.callback.redactor', function() {
+      if($form.valid()) {
+        $submit.prop('disabled', false);
+      } else {
+        $submit.prop('disabled', true);
+      }
+    });
+  });
+}
+
 var parti_prepare = function($base) {
   if($base.data('parti-prepare-arel') == 'completed') {
     return;
   }
 
   parti_prepare_masonry($base);
+  parti_prepare_form_validator($base);
 
   //$base.find('[data-action="parti-popover"]').webuiPopover();
   $.parti_apply($base, '[data-action="parti-popover"]', function(elm) {
@@ -369,61 +436,6 @@ var parti_prepare = function($base) {
     } else {
       autosize($(elm));
     }
-  });
-
-  // form validator
-  $.parti_apply($base, '[data-action="parti-form-validation"]', function(elm) {
-    var $elm = $(elm);
-    var $form = $(elm);
-    var $submit = $($elm.data("submit-form-control"));
-    $submit.prop('disabled', true);
-
-    $form.validate({
-      ignore: ':hidden:not(.validate)',
-      errorPlacement: function(error, element) {
-        return true;
-      }
-    });
-
-    $elm.find(':input').on('input', function(e) {
-      if($form.valid()) {
-        $submit.prop('disabled', false);
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find(':input').on('change', function(e) {
-      if($form.valid()) {
-        $submit.prop('disabled', false);
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find('select').on('change', function(e) {
-      if($form.valid()) {
-        $submit.prop('disabled', false);
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find(':input').on('parti-need-to-validate', function(e) {
-      if($form.valid()) {
-        $submit.prop('disabled', false);
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find('.redactor').on('change.callback.redactor', function() {
-      if($form.valid()) {
-        $submit.prop('disabled', false);
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
   });
 
   // mention
@@ -922,11 +934,12 @@ $(function(){
     });
   });
 
-  $('[data-action="parti-post-select-reference-or-poll"]').each(function(index,elm){
+  $('[data-action="parti-post-select-subform"]').each(function(index,elm){
     var hidden_target = $(elm).data('hidden-target');
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     var has_poll = $(elm).data('has-poll');
+    var has_survey = $(elm).data('has-survey');
     $(this).on('click',function (e){
       e.preventDefault();
       $(hidden_target).hide();
@@ -940,24 +953,52 @@ $(function(){
       } else if($(this).hasClass('post-poll-btn')){
         $(reference_type_field).val('');
         $(has_poll).val(true);
+      } else if($(this).hasClass('post-survey-btn')){
+        $(reference_type_field).val('');
+        $(has_survey).val(true);
       } else {
         $(reference_type_field).val('');
       }
-      $(reference_field).find('input').data("rule-required",true);
+
+      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
     })
   });
 
-  $('[data-action="parti-post-cancel-reference-or-poll"]').each(function(index,elm){
+  $('[data-action="parti-post-cancel-subform"]').each(function(index,elm){
     var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     var show_target = $(elm).data('show-target');
     var has_poll = $(elm).data('has-poll');
+    var has_survey = $(elm).data('has-survey');
     $(this).on('click',function(e){
+      e.preventDefault();
+
       $(reference_type_field).val('');
       $(reference_field).addClass('hidden');
       $(show_target).show();
-      $(reference_field).find('input').data("rule-required",false);
       $(has_poll).val(false);
+      $(has_survey).val(false);
+
+      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
+
+      return false;
+    });
+  });
+
+  $('[data-action="parti-add-survey-option"').each(function(index, elm) {
+    var template = $(elm).data('option-template');
+
+    $(this).on('click',function (e){
+      e.preventDefault();
+
+      var $template = $(template);
+      $template.find('[data-action="parti-remove-survey-option"]').on('click', function(e) {
+        $template.remove();
+      });
+      $template.insertBefore($(e.target));
+      parti_prepare_form_validator($(e.target).closest('[data-action="parti-form-validation"]'));
+
+      return false;
     });
   });
 

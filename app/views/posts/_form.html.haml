@@ -2,6 +2,7 @@
   = form_for @post do |f|
     = f.hidden_field :reference_type
     = f.hidden_field :has_poll, value: "#{ 'true' if @post.poll.present? }"
+    = f.hidden_field :has_survey, value: "#{ 'true' if @post.survey.present? }"
     = f.hidden_field :is_html_body, value: is_redactorable? ? true : false
 
     .form-group

@@ -118,8 +118,10 @@ class PostsController < ApplicationController
     reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
     poll = params[:post][:poll_attributes]
     poll_attributes = [:title] if poll.present?
-    params.require(:post).permit(:body, :issue_id, :section_id, :reference_type, :has_poll, :is_html_body,
-      reference_attributes: reference_attributes, poll_attributes: poll_attributes)
+    survey = params[:post][:survey_attributes]
+    survey_attributes = [options_attributes: [:body]] if survey.present?
+    params.require(:post).permit(:body, :issue_id, :section_id, :reference_type, :has_poll, :has_survey, :is_html_body,
+      reference_attributes: reference_attributes, poll_attributes: poll_attributes, survey_attributes: survey_attributes)
   end
 
   def fetch_issue

@@ -98,10 +98,12 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :section
   belongs_to :poll
+  belongs_to :survey
   belongs_to :reference, polymorphic: true
   belongs_to :postable, polymorphic: true
   accepts_nested_attributes_for :reference
   accepts_nested_attributes_for :poll
+  accepts_nested_attributes_for :survey
 
   has_many :comments, dependent: :destroy do
     def users
@@ -146,6 +148,7 @@ class Post < ActiveRecord::Base
 
   scope :having_reference, -> { where.not(reference: nil) }
   scope :having_poll, -> { where.not(poll_id: nil) }
+  scope :having_survey, -> { where.not(survey_id: nil) }
   scope :of_issue, ->(issue) { where(issue_id: issue) }
 
 
@@ -158,6 +161,7 @@ class Post < ActiveRecord::Base
   after_create :touch_last_touched_at_of_issues
 
   attr_accessor :has_poll
+  attr_accessor :has_survey
   attr_accessor :is_html_body
 
   def specific_desc
@@ -265,6 +269,14 @@ class Post < ActiveRecord::Base
       self.poll.assign_attributes(params)
     else
       self.poll = Poll.new(params) if self.has_poll == 'true'
+    end
+  end
+
+  def build_survey(params)
+    if self.survey.try(:persisted?)
+      self.survey.assign_attributes(params)
+    else
+      self.survey = Survey.new(params) if self.has_survey == 'true'
     end
   end
 
