@@ -119,7 +119,7 @@ class PostsController < ApplicationController
     poll = params[:post][:poll_attributes]
     poll_attributes = [:title] if poll.present?
     survey = params[:post][:survey_attributes]
-    survey_attributes = [options_attributes: [:body]] if survey.present?
+    survey_attributes = [options_attributes: [:id, :body]] if survey.present?
     params.require(:post).permit(:body, :issue_id, :section_id, :reference_type, :has_poll, :has_survey, :is_html_body,
       reference_attributes: reference_attributes, poll_attributes: poll_attributes, survey_attributes: survey_attributes)
   end

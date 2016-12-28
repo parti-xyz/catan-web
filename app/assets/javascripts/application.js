@@ -31,6 +31,7 @@
 //= require bootstrap-select
 //= require bootstrap-select/defaults-ko_KR.js
 //= require jquery.viewport
+//= require cocoon
 
 // blank
 $.is_blank = function (obj) {
@@ -980,23 +981,6 @@ $(function(){
       $(has_survey).val(false);
 
       $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
-
-      return false;
-    });
-  });
-
-  $('[data-action="parti-add-survey-option"').each(function(index, elm) {
-    var template = $(elm).data('option-template');
-
-    $(this).on('click',function (e){
-      e.preventDefault();
-
-      var $template = $(template);
-      $template.find('[data-action="parti-remove-survey-option"]').on('click', function(e) {
-        $template.remove();
-      });
-      $template.insertBefore($(e.target));
-      parti_prepare_form_validator($(e.target).closest('[data-action="parti-form-validation"]'));
 
       return false;
     });

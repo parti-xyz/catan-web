@@ -36,6 +36,7 @@ ko:
       section: 주제
       poll: 찬반투표
       post: 게시글
+      survey: 설문
     attributes:
       issue:
         title: 제목
@@ -75,6 +76,8 @@ ko:
         url: 주소
       poll:
         title: 찬반투표 제목
+      post:
+        body: 내용
     successful:
       messages:
         created: 저장되었습니다.
@@ -136,6 +139,7 @@ ko:
     new_post_file_source_button: 파일올리기
     new_post_button: 논의열기
     new_post_poll_button: 찬반투표
+    new_post_survey_button: 설문
     postfix_new_post_poll_button: 열기
 
     edit_wiki_button: 편집

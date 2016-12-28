@@ -66,6 +66,7 @@ gem 'rails-timeago', '~> 2.13'
 gem 'browser', '~> 2.0', '>= 2.0.2'
 gem 'geo_pattern', '~> 1.4'
 gem 'redcarpet', '~> 3.3', '>= 3.3.4'
+gem 'cocoon', '~> 1.2', '>= 1.2.9'
 
 # tool
 gem 'envyable', '~> 0.2.0'

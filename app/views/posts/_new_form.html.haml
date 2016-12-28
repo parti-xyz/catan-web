@@ -42,20 +42,12 @@
               .help-block
                 선택 항목을 넣어주세요.
                 %a.btn.btn-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-survey-field') } 취소
-
-              - option_input = capture do
-                = ff.fields_for :options, Option.new do |fff|
-                  = fff.text_field :body, class: 'form-control js-survey-option', placeholder: '선택항목 내용 ex. 짜장면', 'data-rule-require_from_group': '[1,".js-survey-option"]', name: 'post[survey_attributes][options_attributes][][body]'
               - 2.times do
                 .form-group
-                  = option_input
-              - add_option = capture do
-                .form-group
-                  .input-group
-                    = option_input
-                    .input-group-addon.cursor-pointer{ 'data-action': 'parti-remove-survey-option' }
-                      &times;
-              %a.text-muted{ href: '#', data: { action: 'parti-add-survey-option', 'option-template':  add_option} } + 선택항목 추가
+                  = ff.fields_for :options, Option.new do |fff|
+                    = render 'posts/option_fields', f: fff, static: true, input_data: { placeholder: '* 필수입력: ex. 짜장면', 'data-rule-required': true }
+              .new-form-group
+                = link_to_add_association '+ 선택항목 추가', ff, :options, partial: 'posts/option_fields', render_options: { locals: { input_data: { placeholder: 'ex. 짬뽕' } } }
 
       .form-widget-btns.clearfix
         .post-reference-btns
@@ -68,10 +60,10 @@
             = t('labels.new_post_file_source_button')
           %button{ class: 'btn btn-xs btn-link editor-btn post-poll-btn', data: open_btn_data.merge('reference-field': '.post-poll-field') }
             %i.fa.fa-fire
-            찬반투표
+            = t('labels.new_post_poll_button')
           %button{ class: 'btn btn-xs btn-link editor-btn post-survey-btn', data: open_btn_data.merge('reference-field': '.post-survey-field') }
             %i.fa.fa-list-ul
-            설문
+            = t('labels.new_post_survey_button')
         .submit-box
           = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (issue.id if issue.present?)
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
