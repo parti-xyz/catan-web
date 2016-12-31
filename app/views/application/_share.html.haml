@@ -1,10 +1,12 @@
 .share-box.clearfix
-  - %w(facebook twitter kakao-link kakao-story).each do |provider|
-    - data = map[provider.to_sym].merge('share-provider': provider)
+  - %w(facebook twitter telegram kakao-link kakao-story).each do |provider|
+    - data = (map[provider.to_sym] || {}).merge('share-provider': provider)
 
     - if provider == 'kakao-link'
-      - hide_kakao_link = (! browser.device.mobile?) ? ' hide' : ''
+      - hide_kakao_link = (is_kakao_talkable? ? '' : ' hide')
       - data = data.merge('share-image': "#{poll_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158') if @post.try(:poll).try(:present?)
+
+    - next if provider == 'telegram' and !is_telegram_talkable?
 
     %span.pull-left{class: "share-item share-#{provider}#{hide_kakao_link}", data: data }
       - if provider == 'kakao-story'

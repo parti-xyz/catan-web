@@ -120,6 +120,10 @@ module ApplicationHelper
     browser.device.mobile?
   end
 
+  def is_telegram_talkable?
+    browser.device.mobile?
+  end
+
   def is_hoverable?
     !browser.device.mobile? and !browser.device.tablet?
   end
