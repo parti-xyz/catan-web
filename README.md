@@ -5,6 +5,13 @@
 ### 1.69.0 --> 1.70.0 (주의: 아직 완성되지 않은 버전입니다)
 SSL을 적용됩니다. 로컬 개발환경을 powder에서 puma-dev로 변경합니다. 페이스북API, 트위터API, 구글 API를 변경합니다.
 
+프로젝트 최상위 폴더에서 아래를 수행합니다
+```
+$ rm -rf .git/hooks/post-checkout
+$ echo $'#!/bin/sh\nif [ "1" == "$3" ]; then spring stop && touch ./tmp/restart.txt; fi' > .git/hooks/post-checkout
+$ chmod +x .git/hooks/post-checkout
+```
+
 ### 1.9 --> 1.10
 
 배포 후에 즉시 아래 스크립트를 실행합니다.
@@ -151,7 +158,7 @@ $ git secrets --register-aws
 그리고 데이터베이스는 각 레포지토리마다 다릅니다. 아래 git hook 을 설정합니다
 
 ```
-$ echo $'#!/bin/sh\nif [ "1" == "$3" ]; then spring stop && powder restart; fi' > .git/hooks/post-checkout
+$ echo $'#!/bin/sh\nif [ "1" == "$3" ]; then spring stop && touch ./tmp/restart.txt; fi' > .git/hooks/post-checkout
 $ chmod +x .git/hooks/post-checkout
 ```
 
