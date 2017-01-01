@@ -365,7 +365,7 @@ var parti_prepare = function($base) {
     break
     default:
       $elm.jsSocials({
-        showCount: true,
+        showCount: false,
         showLabel: false,
         shares: [share],
         text: text,

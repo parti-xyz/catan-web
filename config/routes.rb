@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     end
   end
   root 'pages#home'
-  get '/g/:group_slug/:parti_slug', to: redirect('http://%{group_slug}.parti.xyz/p/%{parti_slug}')
+  get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
 
   get '/home', to: 'pages#home'
   get '/robots.:format', to: 'pages#robots'
@@ -54,8 +54,8 @@ Rails.application.routes.draw do
   # 구 talk/opinion/note/article 주소를 신 post로 이동
   get 'talks/:id', to: 'redirects#talk'
   get 'opinions/:id', to: 'redirects#opinion'
-  get 'notes/*path', to: redirect('http://parti.xyz')
-  get 'articles/*path', to: redirect('http://parti.xyz')
+  get 'notes/*path', to: redirect('https://parti.xyz')
+  get 'articles/*path', to: redirect('https://parti.xyz')
 
   resources :parties, as: :issues, controller: 'issues' do
     member do

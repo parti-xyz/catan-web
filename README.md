@@ -2,6 +2,9 @@
 
 ## 업그레이드
 
+### 1.69.0 --> 1.70.0 (주의: 아직 완성되지 않은 버전입니다)
+SSL을 적용됩니다. 로컬 개발환경을 powder에서 puma-dev로 변경합니다. 페이스북API, 트위터API, 구글 API를 변경합니다.
+
 ### 1.9 --> 1.10
 
 배포 후에 즉시 아래 스크립트를 실행합니다.
@@ -129,10 +132,12 @@ production:
 기본적인 Rail 개발 환경에 rbenv, pow/powder를 이용합니다.
 
 ```
-$ rbenv install 2.2.3
+$ rbenv install 2.3.1
 $ bundle install
 $ bundle exec rake db:migrate
 ```
+
+pow/powder에서 puma-dev를 사용하는 방향으로 고려 중입니다.
 
 ### 소스관리 설정
 
@@ -207,17 +212,17 @@ export FILENAME_ENCODING="ISO-8859-1"
 
 ### 메일 확인
 
-http://parti.dev/devel/emails 에서 메일 발송을 확인 할 수 있습니다.
+https://parti.dev/devel/emails 에서 메일 발송을 확인 할 수 있습니다.
 
 ### 인기글 업데이트
 
-http://parti.dev/score
+https://parti.dev/score
 
 위 주소에 접근하면 업데이트 됩니다.
 
 ### 페이스북 로그인
 
-페이스북에 http://parti.dev와 연결된 앱의 정보를 아래와 같이 .powenv에 설정합니다.
+페이스북에 https://parti.dev와 연결된 앱의 정보를 아래와 같이 .powenv에 설정합니다.
 ```
 export FACEBOOK_APP_ID="키값"
 export FACEBOOK_APP_SECRET="키값"
@@ -233,7 +238,7 @@ export POSTMARKER_API_KEY="키값"
 ### 사용자 임시 삭제
 
 ```
-http://parti.dev/kill_me
+https://parti.dev/kill_me
 ```
  
 ## 빠띠 테스트서버 관리
@@ -281,9 +286,9 @@ $ bundle exec rake crawling:reload_all
 
 아래 주소에서 oauth application 정보 관리할 수 있다.
 
-http://parti.dev/oauth/applications
+https://parti.dev/oauth/applications
 
 로컬에서 아래 명령을 수행하면 로그인한 사용자의 최근 access token정보를 알 수 있다
 
-http://parti.dev/users/access_token?app=어플리케이션이름
+https://parti.dev/users/access_token?app=어플리케이션이름
 

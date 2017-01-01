@@ -1,4 +1,4 @@
-SitemapGenerator::Sitemap.default_host = "http://parti.xyz"
+SitemapGenerator::Sitemap.default_host = "https://parti.xyz"
 SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps/'
 SitemapGenerator::Sitemap.create do
   Issue.find_each do |issue|

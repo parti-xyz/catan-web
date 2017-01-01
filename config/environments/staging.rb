@@ -65,7 +65,7 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { :host => 'dev.parti.xyz' }
-  config.action_mailer.asset_host =  'http://dev.parti.xyz'
+  config.action_mailer.asset_host =  'https://dev.parti.xyz'
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {

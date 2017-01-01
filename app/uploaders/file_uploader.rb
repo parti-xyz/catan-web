@@ -81,7 +81,7 @@ class FileUploader < CarrierWave::Uploader::Base
       if FileUploader::env_storage == :fog
         super_result
       else
-        super_result = "http://#{ENV["HOST"]}#{super_result}" if ENV["HOST"].present?
+        super_result = "https://#{ENV["HOST"]}#{super_result}" if ENV["HOST"].present?
         super_result
       end
     else

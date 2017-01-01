@@ -531,6 +531,7 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (3.6.2)
     rack (1.6.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -754,6 +755,7 @@ DEPENDENCIES
   partial_path_customizer (~> 0.1.0)
   postmark-rails (~> 0.12.0)
   premailer-rails (~> 1.9)
+  puma
   rails (= 4.2.5.1)
   rails-timeago (~> 2.13)
   rails_autolink (~> 1.1, >= 1.1.6)
