@@ -18,9 +18,10 @@
             = f.fields_for :reference, LinkSource.new do |ff|
               .form-group
                 .input-group
-                  = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control', data: { 'rule-required': true }
+                  = ff.text_field :url, class: 'form-control', 'data-rule-required': true, 'data-rule-http_url': true
                   .input-group-addon.cursor-pointer{ data: cancel_btn_data.merge('reference-field': '.post-link-field') }
                     취소
+                .help-block http://로 시작하는 주소를 입력하세요
 
           .post-file-field.hidden
             = f.fields_for :reference, FileSource.new do |ff|
