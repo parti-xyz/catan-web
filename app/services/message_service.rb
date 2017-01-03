@@ -30,6 +30,17 @@ class MessageService
       send_messages(
         sender: @source.user, users: users,
         messagable: @source)
+    when Post.to_s
+      return if @source.issue.blind_user? @source.user
+
+      previous_mentioned_users = @options[:previous_mentioned_users] || []
+
+      @source.mentions.each do |mention|
+        next if previous_mentioned_users.include?(mention.user)
+        send_messages(
+          sender: mention.mentionable.user, users: [mention.user],
+          messagable: mention.mentionable)
+      end
     when Issue.to_s
       if @source.previous_changes["title"].present?
         users = @source.member_users.where.not(id: @sender.id)

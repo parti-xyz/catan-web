@@ -1,11 +1,10 @@
 안녕하세요. <%= @recipient.nickname %>님!
 
-<%= @sender.nickname %>님이 빠띠에서 댓글을 보냅니다.
+<%= @sender.nickname %>님이 빠띠에서 <%= @recipient.nickname %>님을 언급합니다.
 ---------------------------------------------------------
 
 <%= @subject.body %>
 
 <%= static_date_f @subject.created_at %>
 
-* 원글 <%= @subject.post.specific_desc %> ( <%=  url_for(@subject.post) %> )
 

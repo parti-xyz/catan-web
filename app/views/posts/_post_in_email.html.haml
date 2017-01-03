@@ -2,17 +2,14 @@
 - default_postable_type_image = 'fa-link.png'
 - postable_type_image_map = {'Post' => 'fa-bar-chart.png'}
 %div{ style: 'padding-top: 20px; padding-bottom: 20px; border-bottom: 1px solid #eee;'}
-  %span{ style: 'font-size: 70%; margin-right: 10px;' }
+  %h4
+    %a{href: url_for(post), style: 'color: #333; text-decoration: none'}
+      != post.specific_desc
+  %span{ style: 'font-size: 70%; margin-top: 20px; margin-right: 10px;' }
     = link_to user_gallery_url(post.user), style: 'color: #999; text-decoration: none' do
       = image_tag post.user.image.xs.url, width: '13', height: '13'
       = post.user.nickname
   %span{ style: 'font-size: 70%;' }
     %a{href: url_for(post.issue), style: 'color: #999; text-decoration: none'}
       = image_tag post.issue.logo.xs.url, width: '13', height: '13'
-      \#{post.issue.title}
-  %h4
-    %img{ src: image_url("email/#{postable_type_image_map.fetch(post.postable_type, default_postable_type_image)}"), width: '13', height: '13'}
-    %a{href: url_for(post), style: 'color: #333; text-decoration: none'}
-      != post.specific_desc
-  - if post.parsed_body.present?
-    %p{ style: 'font-size: 90%; color: #aaa; margin-bottom: 0' }= excerpt(post.parsed_body, length: 100)
+      \##{post.issue.title}

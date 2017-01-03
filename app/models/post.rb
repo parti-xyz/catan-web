@@ -90,6 +90,8 @@ class Post < ActiveRecord::Base
   HOT_LIKES_COUNT = 3
 
   include Upvotable
+  include Mentionable
+  mentionable :body
 
   acts_as_paranoid
   paginates_per 20
@@ -340,6 +342,10 @@ class Post < ActiveRecord::Base
 
   def self.reject_blinds(posts, user)
     posts.to_a.reject{ |post| post.blinded?(user) }
+  end
+
+  def issue_for_message
+    issue
   end
 
   private

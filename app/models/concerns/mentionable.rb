@@ -37,7 +37,7 @@ module Mentionable
     self.mentions.each do |mention|
       mentioned_user = mention.user
       unless @pervious_user.include? mentioned_user
-        MentionMailer.on_comment(self.user.id, mentioned_user.id, self.id).deliver_later
+        MentionMailer.notify(self.user.id, mentioned_user.id, self.id, self.class.model_name.to_s).deliver_later
       end
     end
   end
@@ -62,7 +62,7 @@ module Mentionable
   def parse(field)
     return [] if try(field).blank?
     result = begin
-      send(field).scan(User::AT_NICKNAME_REGEX).flatten
+      ApplicationController.helpers.strip_tags(send(field)).scan(User::AT_NICKNAME_REGEX).flatten
     end
     result.uniq
   end

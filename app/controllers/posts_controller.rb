@@ -13,28 +13,34 @@ class PostsController < ApplicationController
     if @post.is_html_body == 'false'
       @post.format_linkable_body
     end
-    if @post.save
-      callback_after_creating_post
-    else
-      errors_to_flash(@post)
+    ActiveRecord::Base.transaction do
+      if @post.save
+        crawling_after_creating_post
+        MessageService.new(@post).call
+      else
+        errors_to_flash(@post)
+      end
     end
     redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
   end
 
   def update
     redirect_to root_path and return if fetch_issue.blank?
+    @previous_mentioned_users = @post.mentioned_users.to_a
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.reference = @post.reference.try(:unify)
     if @post.is_html_body == 'false'
       @post.format_linkable_body
     end
-    if @post.save
-      callback_after_updating_post
-      update_comments
-      redirect_to @post
-    else
-      errors_to_flash @post
-      render 'edit'
+    ActiveRecord::Base.transaction do
+      if @post.save
+        crawling_after_updating_post
+        MessageService.new(@comment).call(previous_mentioned_users: @previous_mentioned_users)
+        redirect_to @post
+      else
+        errors_to_flash @post
+        render 'edit'
+      end
     end
   end
 
@@ -102,16 +108,6 @@ class PostsController < ApplicationController
   end
 
   private
-
-  def update_comments
-    return if params[:comment_body].blank?
-
-    comment = Comment.find_by(id: params[:comment_id])
-    return if comment.blank? or comment.user != current_user
-
-    comment.update_attributes(body: params[:comment_body])
-  end
-
   def post_params
     reference_type = params[:post][:reference_type]
     reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
@@ -128,19 +124,13 @@ class PostsController < ApplicationController
     @post.issue = @issue.presence || @post.issue
   end
 
-  def build_comment
-    body = params[:comment_body]
-    return if body.blank?
-    @post.comments.build(body: body, user: current_user)
-  end
-
-  def callback_after_updating_post
+  def crawling_after_updating_post
     if @post.link_source?
       CrawlingJob.perform_async(@post.reference.id)
     end
   end
 
-  def callback_after_creating_post
+  def crawling_after_creating_post
     if @post.reference.try(:crawling_status).try(:not_yet?)
       CrawlingJob.perform_async(@post.reference.id)
     end

@@ -2,12 +2,12 @@
   %strong
     안녕하세요. #{@recipient.nickname}님!
     %br
-    \#{@sender.nickname}님이 빠띠에서 댓글을 보냅니다.
+    \#{@sender.nickname}님이 빠띠에서 #{@recipient.nickname}님을 언급합니다.
 
 
 %table(width="100%" style="text-align: left;")
   %tbody
     %tr
       %td
-        = render customize_partial_path(@subject, 'comment_in_email')
+        = render customize_partial_path(@subject, 'post_in_email')
 
