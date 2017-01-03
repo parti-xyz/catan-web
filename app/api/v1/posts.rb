@@ -105,7 +105,6 @@ module V1
         reference = permitted_params.delete :reference
         @post = Post.new permitted_params
         @post.user = resource_owner
-        @post.section = @post.issue.initial_section
         @post.format_linkable_body
         if reference.present?
           if reference[:attachment].present?

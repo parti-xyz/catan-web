@@ -159,10 +159,6 @@ class ApplicationController < ActionController::Base
   def posts_page(issue = nil)
     posts_base = issue.nil? ? Post.all.only_group_or_all_if_blank(current_group) : Post.of_issue(issue)
 
-    if params[:section_id].present?
-      @section = Section.find_by id: params[:section_id]
-      posts_base = posts_base.where(section: @section) if @section.present?
-    end
     if issue.nil?
       case params[:sort]
       when 'recent'

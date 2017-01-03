@@ -7,9 +7,6 @@ class Ability
       :slug_users, :slug_references, :slug_comments, :slug_polls,
       :slug_posts, :slug_wikis, :search], Issue
     if user
-      can :manage, Section do |section|
-        section.issue.made_by? user
-      end
       can [:update, :remove_logo, :remove_cover], Issue do |issue|
         user.maker?(issue)
       end

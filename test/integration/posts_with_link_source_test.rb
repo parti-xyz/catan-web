@@ -13,7 +13,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: 'http://link.xx' }, reference_type: 'LinkSource' }
+      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', reference_attributes: { url: 'http://link.xx' }, reference_type: 'LinkSource' }
       assert assigns(:post).persisted?
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).reference_title
@@ -31,7 +31,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       sign_in(users(:one))
 
       post_talk3_link = posts(:post_talk3).reference.url
-      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { url: post_talk3_link }, reference_type: 'LinkSource' }
+      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', reference_attributes: { url: post_talk3_link }, reference_type: 'LinkSource' }
       assert assigns(:post).persisted?
       assigns(:post).reload
 

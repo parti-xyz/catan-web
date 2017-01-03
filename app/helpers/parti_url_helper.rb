@@ -26,11 +26,7 @@ module PartiUrlHelper
   def issue_posts_path(issue, options = {})
     options.update(slug: issue.slug)
 
-    if options.has_key? :section_id
-      slug_issue_posts_with_section_path(options)
-    else
-      slug_issue_path(options)
-    end
+    slug_issue_path(options)
   end
 
   def issue_wikis_path(issue)

@@ -96,7 +96,6 @@ class Post < ActiveRecord::Base
 
   belongs_to :issue, counter_cache: true
   belongs_to :user
-  belongs_to :section
   belongs_to :poll
   belongs_to :survey
   belongs_to :reference, polymorphic: true

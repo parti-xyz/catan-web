@@ -5,7 +5,7 @@ class PostsWithPollTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post posts_path(post: { section_id: sections(:section2).id, body: 'body', has_poll: 'true', issue_id: issues(:issue2).id,
+    post posts_path(post: { body: 'body', has_poll: 'true', issue_id: issues(:issue2).id,
       poll_attributes: { title: 'poll_title' } })
 
     assert assigns(:post).persisted?

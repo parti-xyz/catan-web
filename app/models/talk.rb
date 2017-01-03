@@ -3,12 +3,9 @@ class Talk < ActiveRecord::Base
   acts_as :post, as: :postable
 
   belongs_to :poll
-  belongs_to :section
   belongs_to :reference, polymorphic: true
   accepts_nested_attributes_for :reference
   accepts_nested_attributes_for :poll
-
-  validates :section, presence: true
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }

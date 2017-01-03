@@ -4,7 +4,7 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', section_id: sections(:section2).id, reference_attributes: { attachment: fixture_file('files/sample.pdf') }, reference_type: 'FileSource' }
+    post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', reference_attributes: { attachment: fixture_file('files/sample.pdf') }, reference_type: 'FileSource' }
 
     assert assigns(:post).persisted?
     assigns(:post).reload

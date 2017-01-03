@@ -71,7 +71,6 @@ Rails.application.routes.draw do
     resources :members do
       delete :cancel, on: :collection
     end
-    resources :sections, shallow: true
   end
 
   concern :upvotable do

@@ -6,7 +6,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert issues(:issue2).member? users(:one)
     sign_in(users(:one))
 
-    post posts_path, post: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    post posts_path, post: { body: 'body', issue_id: issues(:issue2).id }
 
     assert assigns(:post).persisted?
     assigns(:post).reload
@@ -24,7 +24,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     sign_in(users(:two))
 
     assert_raises CanCan::AccessDenied do
-      post posts_path, post: { body: 'body', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+      post posts_path, post: { body: 'body', issue_id: issues(:issue2).id }
     end
   end
 
@@ -34,7 +34,7 @@ class PostsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
 
-    post posts_path, post: { body: 'body', issue_id: issues(:issue1).id, section_id: sections(:section1).id }
+    post posts_path, post: { body: 'body', issue_id: issues(:issue1).id }
     assert assigns(:post).persisted?
   end
 
@@ -52,7 +52,7 @@ class PostsTest < ActionDispatch::IntegrationTest
   test '고쳐요' do
     sign_in(users(:one))
 
-    put post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id, section_id: sections(:section1).id }
+    put post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id }
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
@@ -67,7 +67,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     previous_count = Post.count
 
     assert_raises CanCan::AccessDenied do
-      post posts_path, post: { link: 'link', body: 'body', issue_id: -1, section_id: sections(:section1).id }
+      post posts_path, post: { link: 'link', body: 'body', issue_id: -1 }
     end
     assert_equal previous_count, Post.count
   end
@@ -75,7 +75,7 @@ class PostsTest < ActionDispatch::IntegrationTest
   test '내용 없이 만들수 있어요' do
     sign_in(users(:one))
 
-    post posts_path, post: { issue_id: issues(:issue2).id, section_id: sections(:section2).id }
+    post posts_path, post: { issue_id: issues(:issue2).id }
 
     assert assigns(:post).persisted?
   end

@@ -99,11 +99,6 @@ class Issue < ActiveRecord::Base
   has_many :members, dependent: :destroy
   has_many :member_users, through: :members, source: :user
   has_many :blind_users, through: :blinds, source: :user
-  has_many :sections, dependent: :destroy do
-    def initial_section
-      find_by(initial: true)
-    end
-  end
   has_many :messages, as: :messagable, dependent: :destroy
 
   # validations
@@ -233,10 +228,6 @@ class Issue < ActiveRecord::Base
 
   def blind_user? someone
     blinds.exists?(user: someone) or Blind.site_wide?(someone)
-  end
-
-  def initial_section
-    sections.find_by(initial: true)
   end
 
   def sender_of_message(message)
