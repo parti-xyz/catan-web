@@ -1,0 +1,10 @@
+- if post.pinned?
+  = link_to [:unpin, post], method: :delete, remote: true do
+    %i.fa.fa-ban
+    %span.hidden-xs
+      공지내리기
+- else
+  = link_to [:pin, post], method: :post, remote: true do
+    %i.fa.fa-thumb-tack
+    %span.hidden-xs
+      공지걸기

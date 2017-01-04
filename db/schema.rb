@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103014401) do
+ActiveRecord::Schema.define(version: 20170104042025) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -341,12 +341,12 @@ ActiveRecord::Schema.define(version: 20170103014401) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "issue_id",                  limit: 4,                 null: false
+    t.integer  "issue_id",                  limit: 4,                     null: false
     t.integer  "postable_id",               limit: 4
     t.string   "postable_type",             limit: 255
-    t.integer  "user_id",                   limit: 4,                 null: false
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.integer  "user_id",                   limit: 4,                     null: false
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
     t.integer  "likes_count",               limit: 4,     default: 0
     t.integer  "comments_count",            limit: 4,     default: 0
     t.integer  "votes_count",               limit: 4,     default: 0
@@ -362,6 +362,7 @@ ActiveRecord::Schema.define(version: 20170103014401) do
     t.string   "reference_type",            limit: 255
     t.integer  "poll_id",                   limit: 4
     t.integer  "survey_id",                 limit: 4
+    t.boolean  "pinned",                                  default: false
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree

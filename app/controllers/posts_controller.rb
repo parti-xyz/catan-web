@@ -53,6 +53,15 @@ class PostsController < ApplicationController
     end
   end
 
+  def pin
+    @post.update_attributes(pinned: true, last_touched_at: DateTime.now)
+
+  end
+
+  def unpin
+    @post.update_attributes(pinned: false)
+  end
+
   def modal
     @post = Post.find(params[:id])
   end

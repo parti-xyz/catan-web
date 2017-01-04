@@ -16,6 +16,9 @@ class Ability
       can :create, [Post] do |post|
         post.issue.try(:postable?, user)
       end
+      can [:pin, :unpin], Post do |post|
+        user.maker?(post.issue)
+      end
 
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
       can :manage, Related do |related|

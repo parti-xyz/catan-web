@@ -87,6 +87,8 @@ Rails.application.routes.draw do
     member do
       get 'poll_social_card'
       get 'modal'
+      post 'pin'
+      delete 'unpin'
     end
   end
   post 'feedbacks', to: 'feedbacks#create'

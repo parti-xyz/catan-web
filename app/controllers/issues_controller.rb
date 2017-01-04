@@ -55,7 +55,7 @@ class IssuesController < ApplicationController
 
     previous_last_post = Post.find_by(id: params[:last_id])
 
-    issus_posts = @issue.posts.order(last_touched_at: :desc)
+    issus_posts = @issue.posts.unpinned.order(last_touched_at: :desc)
     @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
 
     current_last_post = @posts.last

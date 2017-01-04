@@ -58,4 +58,12 @@ module DomHelper
   def survey_card_dom_selector(post)
     ".sruvey-card.#{survey_card_dom_class(post)}"
   end
+
+  def post_pin_buttons_dom_class(post)
+    "#{dom_id(post)}-pin-buttons"
+  end
+
+  def post_pin_buttons_dom_selector(post)
+    ".#{post_pin_buttons_dom_class(post)}"
+  end
 end

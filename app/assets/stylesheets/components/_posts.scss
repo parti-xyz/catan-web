@@ -95,6 +95,10 @@ section#posts {
       .post-modal__btn {
       }
     }
+    .pin-mark {
+      white-space: nowrap;
+      color: $brand-primary;
+    }
   }
   &__buttons {
     display: inline;

@@ -151,7 +151,8 @@ class Post < ActiveRecord::Base
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :having_survey, -> { where.not(survey_id: nil) }
   scope :of_issue, ->(issue) { where(issue_id: issue) }
-
+  scope :pinned, -> { where(pinned: true) }
+  scope :unpinned, -> { where.not(pinned: true) }
 
   ## uploaders
   # mount
