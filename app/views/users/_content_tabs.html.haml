@@ -10,7 +10,23 @@
       %h4
         %span.visible-xs-inline<>= count_label
         %br.visible-xs-inline<>
+        %span.hidden-xs 가입한
         빠띠
+        %span.hidden-xs= count_label
+
+
+  - count_label = capture_haml(counts_container) do
+    %span.count-label-wrapper<>
+      %span.count-label<>
+        = counts_container.posts_count < 20 ? counts_container.posts_count : 20
+
+  %li{role: 'presentation', class: ('active' if active_tab == :posts)}
+    = link_to slug_user_posts_path(slug: @user.slug) do
+      %h4
+        %span.visible-xs-inline<>= count_label
+        %br.visible-xs-inline<>
+        %span.hidden-xs 최근 작성한
+        = t('activerecord.models.post')
         %span.hidden-xs= count_label
 
 
@@ -27,6 +43,8 @@
         %span.hidden-xs 참여한
         = t('activerecord.models.poll')
         %span.hidden-xs= count_label
+
+
 
 
 
