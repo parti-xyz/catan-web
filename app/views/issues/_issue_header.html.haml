@@ -58,7 +58,7 @@
                 %span.parti-admin-buttons
                   - if can? :update, issue
                     = link_to '수정', [:edit, issue], class: 'btn btn-ghost btn-xs'
-                  - if can? :destroy, issue
+                  - if can?(:destroy, issue) and issue.deletable_by?(current_user)
                     = link_to '삭제', issue, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-ghost btn-xs'
                 - if issue.telegram_link.present?
                   %span.parti-telegram-button

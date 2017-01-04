@@ -254,6 +254,10 @@ class Issue < ActiveRecord::Base
     self
   end
 
+  def deletable_by?(someone)
+    self.posts.blank? and (self.members.blank? or self.member_users.to_a == [someone])
+  end
+
   private
 
   def downcase_slug

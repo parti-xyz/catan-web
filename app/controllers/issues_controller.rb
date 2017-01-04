@@ -80,7 +80,7 @@ class IssuesController < ApplicationController
     @issue.group_slug = current_group.try(:slug)
 
     if !%w(all).include?(@issue.slug) and @issue.save
-      redirect_to @issue
+      redirect_to issue_home_url(@issue)
     else
       render 'new'
     end
@@ -114,7 +114,7 @@ class IssuesController < ApplicationController
           @member.save
         end
         MessageService.new(@issue, sender: current_user).call
-        redirect_to @issue
+        redirect_to issue_home_url(@issue)
       else
         errors_to_flash @issue
         render 'edit'
@@ -123,8 +123,13 @@ class IssuesController < ApplicationController
   end
 
   def destroy
-    @issue.destroy
-    redirect_to root_path
+    if @issue.deletable_by? current_user
+      @issue.destroy
+      redirect_to root_path
+    else
+      flash[:error] = t('errors.messages.not_deletable_parti')
+      redirect_to issue_home_url(@issue)
+    end
   end
 
   def remove_logo
