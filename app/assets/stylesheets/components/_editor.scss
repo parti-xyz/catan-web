@@ -43,6 +43,12 @@
   &-intro {
     padding: 20px 18px;
     cursor: pointer;
+
+    .text-muted {
+      .media-body {
+        vertical-align: middle;
+      }
+    }
   }
 
   .parti-select {
