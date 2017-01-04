@@ -90,13 +90,11 @@ class IssuesController < ApplicationController
     @issue.assign_attributes(issue_params)
 
     ActiveRecord::Base.transaction do
-      if @issue.makers_nickname.present?
-        @issue.makers.destroy_all
-        @issue.makers_nickname.split(",").map(&:strip).uniq.each do |nickname|
-          user = User.find_by(nickname: nickname)
-          if user.present?
-            @issue.makers.build(user: user)
-          end
+      @issue.makers.destroy_all
+      @issue.makers_nickname.split(",").map(&:strip).uniq.each do |nickname|
+        user = User.find_by(nickname: nickname)
+        if user.present?
+          @issue.makers.build(user: user)
         end
       end
       if @issue.blinds_nickname.present?

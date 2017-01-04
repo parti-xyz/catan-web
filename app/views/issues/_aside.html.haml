@@ -3,8 +3,11 @@
     %section
       %h5.aside-title 빠띠 메이커
       %ul.list-unstyled.parti-makers
-        - @issue.makers.each do |maker|
-          %li= byline maker.user
+        - if @issue.makers.present?
+          - @issue.makers.each do |maker|
+            %li= byline maker.user
+        - else
+          %li= byline User.find_by(nickname: 'parti')
 
     %section.aside-users
       - prevew_count = 6 * 4 - 1
