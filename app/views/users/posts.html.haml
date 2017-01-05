@@ -6,7 +6,7 @@
         %section#content-tab-section
           = render 'users/content_tabs', active_tab: :posts, counts_container: @user.writing_counts
         .posts
-          = render 'posts/page'
+          = render 'posts/page', show_issue: true
 
       = render 'aside'
 
