@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
 
   # validations
   VALID_NICKNAME_REGEX = /\A[ㄱ-ㅎ가-힣a-z0-9_]+\z/i
-  AT_NICKNAME_REGEX = /(?:^|\s)@([ㄱ-ㅎ가-힣a-z0-9_]+)/
-  HTML_AT_NICKNAME_REGEX = /(?:^|\s|>)(@[ㄱ-ㅎ가-힣a-z0-9_]+)/
+  AT_NICKNAME_REGEX = /(?:^|[[:space:]])@([ㄱ-ㅎ가-힣a-z0-9_]+)/
+  HTML_AT_NICKNAME_REGEX = /(?:^|[[:space:]]|>|&nbsp;)(@[ㄱ-ㅎ가-힣a-z0-9_]+)/
 
   validates :nickname,
     presence: true,
