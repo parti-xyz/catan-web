@@ -1,4 +1,4 @@
-= render 'issues/issue_header', active_tab: ''
+= render 'issues/issue_header', active_tab: :users
 %section#issue-users
   .container
     .row
@@ -13,4 +13,5 @@
         %ul.user-card-wrapper.list-unstyled.clearfix
           - @issue.member_users.recent.each do |user|
             = render user, issue: @issue
-      .col-sm-4= render 'footer'
+      - unless is_small_screen?
+        = render 'issues/aside'
