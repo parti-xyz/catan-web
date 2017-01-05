@@ -28,10 +28,6 @@ module Mentionable
     scan_users.map do |mentioned_user|
       self.mentions.build(user: mentioned_user)
     end
-
-    if has_parti?
-      push_to_slack(self)
-    end
   end
 
   def send_mention_emails
@@ -71,16 +67,5 @@ module Mentionable
     result = result.uniq
     result = (self.try(:issue).try(:member_users) || []).map(&:nickname) if result.include?('all') and self.try(:issue).try(:member?, self.user)
     result
-  end
-
-  def push_to_slack(comment)
-    @webhook_url ||= ENV['MENTION_SLACK_WEBHOOK_URL']
-    return if @webhook_url.blank?
-
-    notifier = Slack::Notifier.new(@webhook_url, username: 'parti-catan')
-
-    if comment.body.present?
-      notifier.ping("@#{comment.user.nickname}님의 댓글 #{polymorphic_url(comment.post)}", attachments: [{ text: comment.body, color: "#36a64f" }])
-    end
   end
 end
