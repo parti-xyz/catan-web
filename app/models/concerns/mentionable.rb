@@ -36,6 +36,7 @@ module Mentionable
 
   def send_mention_emails
     return if self.try(:issue).try(:blind_user?, self.user)
+    return if @pervious_user.nil?
 
     self.mentions.each do |mention|
       mentioned_user = mention.user
