@@ -20,6 +20,8 @@ module Mentionable
   end
 
   def set_mentions
+    return if self.try(:issue).try(:blind_user?, self.user)
+
     @pervious_user = []
     pervious = self.mentions.destroy_all
     @pervious_user = pervious.map &:user
@@ -34,6 +36,7 @@ module Mentionable
 
   def send_mention_emails
     return if self.try(:issue).try(:blind_user?, self.user)
+
     self.mentions.each do |mention|
       mentioned_user = mention.user
       unless @pervious_user.include? mentioned_user
@@ -64,7 +67,9 @@ module Mentionable
     result = begin
       ApplicationController.helpers.strip_tags(send(field)).scan(User::AT_NICKNAME_REGEX).flatten
     end
-    result.uniq
+    result = result.uniq
+    result = (self.try(:issue).try(:member_users) || []).map(&:nickname) if result.include?('all') and self.try(:issue).try(:member?, self.user)
+    result
   end
 
   def push_to_slack(comment)
