@@ -209,6 +209,28 @@ $ source .powenv
 $ bundle exec rake db:seed_fu
 ```
 
+
+### 사이드킥을 로컬에서 테스트하려면
+.powenv에 아래를 추가합니다.
+
+```
+export SIDEKIQ=true
+```
+
+redis를 구동합니다
+
+```
+$ redis-server
+```
+
+사이드킥을 구동합니다
+
+```
+$ source .powenv && bundle exec sidekiq
+```
+
+puma를 재기동합니다
+
 ### 로컬에서 한글 이름의 파일을 다운로드하면 파일 이름이 깨질 때
 
 .powenv에 아래를 추가합니다.

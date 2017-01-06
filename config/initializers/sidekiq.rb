@@ -1,4 +1,4 @@
-if Rails.env.development? or Rails.env.test?
+if !ENV['SIDEKIQ'] and (Rails.env.development? or Rails.env.test?)
   require 'sidekiq/testing'
   Sidekiq::Testing.inline!
 else

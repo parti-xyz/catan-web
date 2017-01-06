@@ -4,8 +4,6 @@ module Mentionable
   include Rails.application.routes.url_helpers
 
   included do
-    before_save :set_mentions
-    after_commit :send_mention_emails
     has_many :mentions, as: :mentionable, dependent: :destroy
     has_many :mentioned_users, through: :mentions, source: :user
     cattr_accessor(:mentionable_fields)
@@ -19,30 +17,41 @@ module Mentionable
     end
   end
 
-  def set_mentions
+  def perform_mentions_async
+    return if self.try(:issue).try(:blind_user?, self.user)
+    MentionJob.perform_async(self.class.model_name, self.id)
+  end
+
+  def perform_mentions_now
     return if self.try(:issue).try(:blind_user?, self.user)
 
-    @pervious_user = []
+    previous_mentioned_users = self.mentioned_users.to_a
+    # Transaction을 걸지 않습니다
+    set_mentions
+    send_mention_emails(previous_mentioned_users)
+    MessageService.new(self).call(previous_mentioned_users: previous_mentioned_users)
+  end
+
+  private
+
+  def set_mentions
     pervious = self.mentions.destroy_all
-    @pervious_user = pervious.map &:user
     scan_users.map do |mentioned_user|
       self.mentions.build(user: mentioned_user)
     end
+    self.save
   end
 
-  def send_mention_emails
+  def send_mention_emails(previous_mentioned_users)
     return if self.try(:issue).try(:blind_user?, self.user)
-    return if @pervious_user.nil?
 
     self.mentions.each do |mention|
       mentioned_user = mention.user
-      unless @pervious_user.include? mentioned_user
+      unless previous_mentioned_users.include? mentioned_user
         MentionMailer.notify(self.user.id, mentioned_user.id, self.id, self.class.model_name.to_s).deliver_later
       end
     end
   end
-
-  private
 
   def has_parti?
     scan_nicknames.include?('parti')
@@ -65,7 +74,9 @@ module Mentionable
       ApplicationController.helpers.strip_tags(send(field)).scan(User::AT_NICKNAME_REGEX).flatten
     end
     result = result.uniq
-    result = (self.try(:issue).try(:member_users) || []).map(&:nickname) if result.include?('all') and self.try(:issue).try(:member?, self.user)
+
+    member_users = self.try(:issue).try(:member_users) || []
+    result = member_users.map(&:nickname) if result.include?('all') and self.try(:issue).try(:member?, self.user)
     result
   end
 end

@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
     set_choice
     @comment.user = current_user
     if @comment.save
-      MessageService.new(@comment).call
+      @comment.perform_mentions_async
     end
     @comments_count = @comment.post.comments_count
     respond_to do |format|
@@ -18,18 +18,15 @@ class CommentsController < ApplicationController
 
   def update
     unless params[:cancel]
-      ActiveRecord::Base.transaction do
-        @previous_mentioned_users = @comment.mentioned_users.to_a
-        @comment.assign_attributes(comment_params)
-        if @comment.save
-          MessageService.new(@comment).call(previous_mentioned_users: @previous_mentioned_users)
+      @comment.assign_attributes(comment_params)
+      if @comment.save
+        @comment.perform_mentions_async
+      else
+        if @comment.errors.any?
+          errors_to_flash(@comment)
+          @comment.reload
         else
-          if @comment.errors.any?
-            errors_to_flash(@comment)
-            @comment.reload
-          else
-            return head(:internal_server_error)
-          end
+          return head(:internal_server_error)
         end
       end
     end

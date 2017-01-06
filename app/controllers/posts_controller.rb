@@ -13,34 +13,29 @@ class PostsController < ApplicationController
     if @post.is_html_body == 'false'
       @post.format_linkable_body
     end
-    ActiveRecord::Base.transaction do
-      if @post.save
-        crawling_after_creating_post
-        MessageService.new(@post).call
-      else
-        errors_to_flash(@post)
-      end
+    if @post.save
+      crawling_after_creating_post
+      @post.perform_mentions_async
+    else
+      errors_to_flash(@post)
     end
     redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
   end
 
   def update
     redirect_to root_path and return if fetch_issue.blank?
-    @previous_mentioned_users = @post.mentioned_users.to_a
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.reference = @post.reference.try(:unify)
     if @post.is_html_body == 'false'
       @post.format_linkable_body
     end
-    ActiveRecord::Base.transaction do
-      if @post.save
-        crawling_after_updating_post
-        MessageService.new(@comment).call(previous_mentioned_users: @previous_mentioned_users)
-        redirect_to @post
-      else
-        errors_to_flash @post
-        render 'edit'
-      end
+    if @post.save
+      crawling_after_updating_post
+      @post.perform_mentions_async
+      redirect_to @post
+    else
+      errors_to_flash @post
+      render 'edit'
     end
   end
 
