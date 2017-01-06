@@ -7,11 +7,11 @@
         - if @issue.freezed_at.blank?
           - if user_signed_in?
             - if @issue.postable?(current_user)
-              .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
+              .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true', 'spotlight-post-editor': 'true'} }
                 .text-muted
                   = byline current_user, hide_nickname: true
                   #{current_user.nickname}님, 무슨 이야기를 나누실래요?
-              .unified-editor.unified-editor--hidden
+              .unified-editor.unified-editor--hidden{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
                 = render 'posts/new_form', issue: @issue
             - else
               .unified-editor.unified-editor--join

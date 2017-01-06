@@ -32,6 +32,7 @@
 //= require bootstrap-select/defaults-ko_KR.js
 //= require jquery.viewport
 //= require cocoon
+//= require focus-element-overlay
 
 // blank
 $.is_blank = function (obj) {
@@ -60,6 +61,24 @@ $.prevent_click_exclude_parti = function(e) {
   e.preventDefault();
   $(e.currentTarget).trigger('parti-click');
 }
+
+// fucusable
+var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true }
+var parti_post_editor_spotlight = function(e) {
+  if(!$('[data-action="parti-post-editor-spotlight"]').length) {
+    return;
+  }
+  if(!Focusable.getActiveElement()) {
+    Focusable.setFocus($('[data-action="parti-post-editor-spotlight"]'), focusableOptions);
+  } else {
+    setTimeout(function() {
+      Focusable.refresh();
+    }, 10);
+  }
+}
+$(document).on('parti-post-editor-spotlight', parti_post_editor_spotlight);
+
+
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 30000;
 
@@ -301,6 +320,9 @@ var parti_prepare = function($base) {
       $focus.focus();
       if($elm.data('self-hide')) {
         $elm.hide();
+      }
+      if($elm.data('spotlight-post-editor')) {
+        $(document).trigger('parti-post-editor-spotlight');
       }
     });
   });
@@ -864,65 +886,6 @@ $(function(){
   if ( $('#wikis .body .wiki_content a').length ){
     $('#wikis .body .wiki_content a').attr('target', '_blank');
   }
-});
-
-// fixed section#issue-bottom-banner
-$(function(){
-  // Hide Header on on scroll down
-  var did_scroll;
-  var last_scroll_top = 0;
-  var delta = 5;
-  var $footer_element = $('section#issue-bottom-banner .bottom-banner');
-  var navbar_height = $footer_element.outerHeight();
-
-  $(window).scroll(function(e){
-      did_scroll = true;
-  });
-
-
-  if ($("body").height() > $(window).height()) {
-    setInterval(function() {
-      if (did_scroll) {
-        has_scrolled();
-        did_scroll = false;
-      }
-    }, 250);
-  }
-  else {
-    $('body').css('padding-bottom',
-      parseInt($('body').css('padding-bottom')) + 60 + 'px');
-    $footer_element.removeClass('nav-down').addClass('nav-up');
-  }
-
-  function has_scrolled() {
-    var st = $(this).scrollTop();
-
-    if(Math.abs(last_scroll_top - st) <= delta)
-      return;
-
-    if (st > last_scroll_top && st > navbar_height){
-      // Scroll Up
-      if(st + $(window).height() <= $(document).height()) {
-        $footer_element.removeClass('nav-up').addClass('nav-down');
-      }
-    } else {
-      $footer_element.removeClass('nav-down').addClass('nav-up');
-    }
-
-    last_scroll_top = st;
-  }
-
-  if(($('#post-modal').data('bs.modal') || {}).isShown) {
-    $footer_element.removeClass('nav-up').addClass('nav-down');
-    $('#post-modal').data('bs.modal').$backdrop.addClass('post-backdrop');
-  }
-  $('#post-modal').on('shown.bs.modal', function (e) {
-    $footer_element.removeClass('nav-up').addClass('nav-down');
-    $('#post-modal').data('bs.modal').$backdrop.addClass('post-backdrop');
-  });
-  $('#post-modal').on('hidden.bs.modal', function (e) {
-    $footer_element.removeClass('nav-down').addClass('nav-up');
-  });
 
   $('[data-action="parti-making-parti-intro"]').each(function(index, elm){
     var modal_checkbox = $(elm).data('modal-checkbox');
@@ -982,6 +945,7 @@ $(function(){
       $(reference_type_field).val('');
       $(reference_field).addClass('hidden');
       $(show_target).show();
+      $(document).trigger('parti-post-editor-spotlight');
       $(has_poll).val(false);
       $(has_survey).val(false);
 
@@ -1027,4 +991,72 @@ $(function(){
       return confirm( '----------------------------------------\n지워지는 빠띠와 위키: ' + source + '\n합해지는 빠띠: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n----------------------------------------')
     });
   });
+
+
+  $('[data-action="parti-post-editor-spotlight"]').each(function(index, elm){
+    $(elm).on('click',function (e){
+      $(document).trigger('parti-post-editor-spotlight');
+    });
+  });
 });
+
+// fixed section#issue-bottom-banner
+$(function(){
+  // Hide Header on on scroll down
+  var did_scroll;
+  var last_scroll_top = 0;
+  var delta = 5;
+  var $footer_element = $('section#issue-bottom-banner .bottom-banner');
+  var navbar_height = $footer_element.outerHeight();
+
+  $(window).scroll(function(e){
+      did_scroll = true;
+  });
+
+
+  if ($("body").height() > $(window).height()) {
+    setInterval(function() {
+      if (did_scroll) {
+        has_scrolled();
+        did_scroll = false;
+      }
+    }, 250);
+  }
+  else {
+    $('body').css('padding-bottom',
+      parseInt($('body').css('padding-bottom')) + 60 + 'px');
+    $footer_element.removeClass('nav-down').addClass('nav-up');
+  }
+
+  function has_scrolled() {
+    var st = $(this).scrollTop();
+
+    if(Math.abs(last_scroll_top - st) <= delta)
+      return;
+
+    if (st > last_scroll_top && st > navbar_height){
+      // Scroll Up
+      if(st + $(window).height() <= $(document).height()) {
+        $footer_element.removeClass('nav-up').addClass('nav-down');
+      }
+    } else {
+      $footer_element.removeClass('nav-down').addClass('nav-up');
+    }
+
+    last_scroll_top = st;
+  }
+
+  if(($('#post-modal').data('bs.modal') || {}).isShown) {
+    $footer_element.removeClass('nav-up').addClass('nav-down');
+    $('#post-modal').data('bs.modal').$backdrop.addClass('post-backdrop');
+  }
+  $('#post-modal').on('shown.bs.modal', function (e) {
+    $footer_element.removeClass('nav-up').addClass('nav-down');
+    $('#post-modal').data('bs.modal').$backdrop.addClass('post-backdrop');
+  });
+  $('#post-modal').on('hidden.bs.modal', function (e) {
+    $footer_element.removeClass('nav-down').addClass('nav-up');
+  });
+});
+
+

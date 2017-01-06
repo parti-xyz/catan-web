@@ -78,6 +78,9 @@
         font-weight: bold;
         color: $brand-primary;
       }
+      .dropdown-menu.open {
+        z-index: 10000;
+      }
     }
   }
 

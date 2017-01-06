@@ -18,12 +18,12 @@
                     #{current_user.nickname}님, 빠띠를 구독하고 수다를 시작해보세요!
           - else
             - member_issues = current_user.member_issues.order(:title)
-            .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true'} }
+            .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true', 'spotlight-post-editor': 'true'} }
               .text-muted
                 = byline current_user, hide_nickname: true
                 #{current_user.nickname}님, 무슨 이야기를 나누실래요?
 
-          .unified-editor.unified-editor--hidden
+          .unified-editor.unified-editor--hidden{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
             - selected_parti = nil
             .parti-select
               %select.parti-editor-selectpicker(data-live-search="true" data-width="100%" title="이야기 나눌 빠띠를 골라 주세요")
