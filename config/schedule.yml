@@ -7,6 +7,6 @@ analyze_job:
   class: "AnalyzeJob"
   queue: default
 new_posts_job:
-  cron: "1 5 * * 1 Asia/Seoul"
+  cron: "1 5 * * * Asia/Seoul"
   class: "NewPostsJob"
   queue: default
