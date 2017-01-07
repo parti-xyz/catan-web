@@ -1,2 +1,4 @@
-$("#post-modal").html(parti_partial("<%= j render(partial: 'posts/modal') %>"));
+var $post = $("<%= j render(partial: 'posts/modal') %>");
+$("#post-modal").html($post);
+parti_partial$($post);
 $('#post-modal').modal();

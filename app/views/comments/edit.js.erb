@@ -1,2 +1,3 @@
-var $form = parti_partial("<%= escape_javascript(render 'edit_form') %>");
+var $form = $("<%= escape_javascript(render 'edit_form') %>");
 $('.<%= dom_id(@comment) %> .media').html($form);
+parti_partial$($form);

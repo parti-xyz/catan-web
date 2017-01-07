@@ -1,3 +1,7 @@
-$(".<%= dom_id(@upvote.upvotable) %>-upvote").replaceWith(parti_partial("<%= escape_javascript(render 'upvotes/upvote', upvotable: @upvote.upvotable) %>"));
-$(".<%= dom_id(@upvote.upvotable) %>-upvote-counts").replaceWith(parti_partial("<%= escape_javascript(render 'upvotes/upvote_count', upvotable: @upvote.upvotable) %>"));
+var $upvote = $("<%= escape_javascript(render 'upvotes/upvote', upvotable: @upvote.upvotable) %>");
+$(".<%= dom_id(@upvote.upvotable) %>-upvote").replaceWith($upvote);
+parti_partial$($upvote);
 
+var $upvote_counts = $("<%= escape_javascript(render 'upvotes/upvote_count', upvotable: @upvote.upvotable) %>")
+$(".<%= dom_id(@upvote.upvotable) %>-upvote-counts").replaceWith($upvote_counts);
+parti_partial$($upvote_counts);

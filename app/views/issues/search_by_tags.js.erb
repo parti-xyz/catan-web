@@ -1,2 +1,7 @@
-$('#parti-cards').html(parti_partial("<%= escape_javascript(render 'issues/intro_parti_cards', issues: @issues) %>"));
-$('#header-after-select-tags').html(parti_partial("<%= escape_javascript(render 'issues/intro_after_select_tags.html.haml', issues: @issues) %>"));
+var $cards = $("<%= escape_javascript(render 'issues/intro_parti_cards', issues: @issues) %>")
+$('#parti-cards').html($cards);
+parti_partial$($cards);
+
+var $tagged = $("<%= escape_javascript(render 'issues/intro_after_select_tags.html.haml', issues: @issues) %>")
+$('#header-after-select-tags').html($tagged);
+parti_partial$($tagged);

@@ -613,8 +613,7 @@ var parti_prepare_post_modal = function($base) {
   });
 };
 
-var parti_partial = function(partial) {
-  var $partial = $.parse$(partial);
+var parti_partial$ = function($partial) {
   parti_prepare_post_modal($partial);
   parti_prepare($partial);
 
@@ -700,7 +699,7 @@ $(function(){
           $('.page_waypoint__loading').hide();
           Waypoint.enableAll();
           Waypoint.refreshAll();
-          waypoint = this
+          var waypoint = this
           setTimeout(function(){
             if($.inviewport(waypoint.element, {threshold : 100})) {
               load_page(waypoint);
