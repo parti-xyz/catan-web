@@ -63,13 +63,15 @@ $.prevent_click_exclude_parti = function(e) {
 }
 
 // fucusable
-var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true }
+var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true, findOnResize: true }
 var parti_post_editor_spotlight = function(e) {
   if(!$('[data-action="parti-post-editor-spotlight"]').length) {
     return;
   }
   if(!Focusable.getActiveElement()) {
     Focusable.setFocus($('[data-action="parti-post-editor-spotlight"]'), focusableOptions);
+    $('body').css('overflow-x', 'hidden');
+    $('body').css('overflow-y', '');
   } else {
     setTimeout(function() {
       Focusable.refresh();
