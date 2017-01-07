@@ -757,6 +757,9 @@ $(function(){
     }
   });
   $('.redactor .redactor-editor').prop('contenteditable', true);
+  $('.redactor').on('change.callback.redactor', function() {
+    $(document).trigger('parti-post-editor-spotlight');
+  });
 
   $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var hash = $(e.target).attr('href');
