@@ -71,3 +71,23 @@ a {
   color: $gray-darker;
 }
 
+// focusable
+
+body.editor-spotlight {
+  overflow-y: initial !important;
+  padding-top: 0 !important;
+
+  .navbar-fixed-top {
+    position: inherit !important;
+    margin-bottom: 0 !important;
+  }
+
+  .unified-editor {
+    &:hover {
+      border: 1px solid #fff;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+  }
+}

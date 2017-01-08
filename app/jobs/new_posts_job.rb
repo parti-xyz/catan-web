@@ -3,7 +3,8 @@ class NewPostsJob
 
   def perform
     post_day = Date.yesterday
-    all_yesterday_map = Hash[Issue.all.map { |issue| [issue, issue.posts.yesterday.where.not(user: issue.blind_users)] }]
+    site_wide_blind_users = Blind.site_wide_only.map(&:user)
+    all_yesterday_map = Hash[Issue.all.map { |issue| [issue, issue.posts.yesterday.where.not(user: site_wide_blind_users + issue.blind_users)] }]
     all_yesterday_issues = all_yesterday_map.select { |k,v| v.any? }.keys
     User.where(enable_mailing: true).each do |user|
       next unless user.members.exists?(issue: all_yesterday_issues)

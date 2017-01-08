@@ -1,1 +1,3 @@
-$("<%= survey_card_dom_selector(@post) %>").replaceWith(parti_partial("<%= escape_javascript(render 'surveys/card', post: @post) %>"));
+var $survey_card = $("<%= escape_javascript(render 'surveys/card', post: @post) %>")
+$("<%= survey_card_dom_selector(@post) %>").replaceWith($survey_card);
+parti_partial$($survey_card);

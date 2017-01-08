@@ -52,7 +52,7 @@
    * @return {jQuery object} this
    */
   function createPlugin() {
-    if (!window.jQuery || !window.$ || !window.$.fn) {
+    if (!window.jQuery || !window.$ || !window.$.fn) {
       return;
     }
 
@@ -91,6 +91,8 @@
   }
 
   function setFocus($el, userOptions) {
+    $el.trigger('focusable.focus');
+
     $('body').css('overflow', 'hidden');
     options = $.extend(options, userOptions);
     $element = $el;
@@ -101,6 +103,8 @@
     }
 
     $columnWrapper.find(columnSelector).fadeIn(options.fadeDuration);
+
+    $element.trigger('focusable.focused');
   };
 
   function clearColumns() {
@@ -108,10 +112,15 @@
   }
 
   function hide() {
+    $element.trigger('focusable.hide');
+    var $oldElement = $element;
+
     isVisible = false;
     $element = null;
     $('body').css('overflow', '');
     $columnWrapper.find(columnSelector).fadeOut(options.fadeDuration, clearColumns);
+
+    $oldElement.trigger('focusable.hidden');
   }
 
   function createColumns(forceVisibility) {

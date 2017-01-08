@@ -63,8 +63,8 @@ $.prevent_click_exclude_parti = function(e) {
 }
 
 // fucusable
-var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true }
 var parti_post_editor_spotlight = function(e) {
+  var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true, findOnResize: true }
   if(!$('[data-action="parti-post-editor-spotlight"]').length) {
     return;
   }
@@ -613,8 +613,7 @@ var parti_prepare_post_modal = function($base) {
   });
 };
 
-var parti_partial = function(partial) {
-  var $partial = $.parse$(partial);
+var parti_partial$ = function($partial) {
   parti_prepare_post_modal($partial);
   parti_prepare($partial);
 
@@ -700,7 +699,7 @@ $(function(){
           $('.page_waypoint__loading').hide();
           Waypoint.enableAll();
           Waypoint.refreshAll();
-          waypoint = this
+          var waypoint = this
           setTimeout(function(){
             if($.inviewport(waypoint.element, {threshold : 100})) {
               load_page(waypoint);
@@ -757,6 +756,9 @@ $(function(){
     }
   });
   $('.redactor .redactor-editor').prop('contenteditable', true);
+  $('.redactor').on('change.callback.redactor', function() {
+    $(document).trigger('parti-post-editor-spotlight');
+  });
 
   $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var hash = $(e.target).attr('href');
@@ -996,6 +998,13 @@ $(function(){
   $('[data-action="parti-post-editor-spotlight"]').each(function(index, elm){
     $(elm).on('click',function (e){
       $(document).trigger('parti-post-editor-spotlight');
+    });
+    $(elm).on('focusable.focused', function(e) {
+      $('body').addClass('editor-spotlight');
+    });
+    $(elm).on('focusable.hidden', function(e) {
+      $('#new-theme-site-header > nav').addClass('navbar-fixed-top');
+      $('body').removeClass('editor-spotlight');
     });
   });
 });

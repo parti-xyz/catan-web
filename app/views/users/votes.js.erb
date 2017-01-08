@@ -1,5 +1,0 @@
-$('.row.masonry-container').data('last-id', '<%= @votes.last.try(:id) %>');
-$('.row.masonry-container').data('is-last', <%= @is_last_page %>);
-var $posts = parti_partial("<%= escape_javascript(render 'users/votes_page') %>");
-$('.row.masonry-container').append($posts).masonry('appended', $posts);
-
