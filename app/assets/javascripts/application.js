@@ -63,15 +63,13 @@ $.prevent_click_exclude_parti = function(e) {
 }
 
 // fucusable
-var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true, findOnResize: true }
 var parti_post_editor_spotlight = function(e) {
+  var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true, findOnResize: true }
   if(!$('[data-action="parti-post-editor-spotlight"]').length) {
     return;
   }
   if(!Focusable.getActiveElement()) {
     Focusable.setFocus($('[data-action="parti-post-editor-spotlight"]'), focusableOptions);
-    $('body').css('overflow-x', 'hidden');
-    $('body').css('overflow-y', '');
   } else {
     setTimeout(function() {
       Focusable.refresh();
@@ -1000,6 +998,13 @@ $(function(){
   $('[data-action="parti-post-editor-spotlight"]').each(function(index, elm){
     $(elm).on('click',function (e){
       $(document).trigger('parti-post-editor-spotlight');
+    });
+    $(elm).on('focusable.focused', function(e) {
+      $('body').addClass('editor-spotlight');
+    });
+    $(elm).on('focusable.hidden', function(e) {
+      $('#new-theme-site-header > nav').addClass('navbar-fixed-top');
+      $('body').removeClass('editor-spotlight');
     });
   });
 });
