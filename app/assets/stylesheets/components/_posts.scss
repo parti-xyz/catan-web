@@ -1,13 +1,13 @@
 @mixin post-byline() {
   .media {
     display: inline-block;
+    width: 50%;
     .user-image {
       width: 36px;
       height: 36px;
       margin-bottom: 12px;
     }
     .media-body {
-      width: 0;
       .nickname {
         color: $brand-primary-dark;
         font-weight: bold
