@@ -2,6 +2,42 @@ ko:
   date:
     formats:
       default: '%Y.%m.%d'
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: 약 한 시간
+        other: 약 %{count}시간
+      about_x_months:
+        one: 약 한 달
+        other: 약 %{count}달
+      about_x_years:
+        one: 약 일 년
+        other: 약 %{count}년
+      almost_x_years:
+        one: 일 년 이하
+        other: "%{count}년 이하"
+      half_a_minute: 30초
+      less_than_x_minutes:
+        one: 일 분 이하
+        other: "%{count}분 이하"
+      less_than_x_seconds:
+        one: 일 초 이하
+        other: "%{count}초 이하"
+      over_x_years:
+        one: 일 년 이상
+        other: "%{count}년 이상"
+      x_days:
+        one: 하루
+        other: "%{count}일"
+      x_minutes:
+        one: 일 분
+        other: "%{count}분"
+      x_months:
+        one: 한 달
+        other: "%{count}달"
+      x_seconds:
+        one: 일 초
+        other: "%{count}초"
   time:
     formats:
       default: "%Y.%m.%d %H:%M"
@@ -79,6 +115,8 @@ ko:
         title: 찬반투표 제목
       post:
         body: 내용
+      survey:
+        duration: '기간:'
     successful:
       messages:
         created: 저장되었습니다.
@@ -130,7 +168,6 @@ ko:
           attributes:
             attachment:
               file_size_is_less_than: 10MB 이하의 파일만 업로드 할 수 있습니다.
-
         section:
           attributes:
             initial:

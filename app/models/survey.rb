@@ -15,6 +15,11 @@ class Survey < ActiveRecord::Base
     feedbacks.exists? user: someone
   end
 
+  def open?
+    return true if duration.days <= 0
+    (self.created_at + duration.days).future?
+  end
+
   def percentage(option)
     return 0 if feedbacks_count == 0 or option.feedbacks_count == 0
 

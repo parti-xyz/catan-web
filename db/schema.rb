@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104042025) do
+ActiveRecord::Schema.define(version: 20170109050938) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -443,6 +443,7 @@ ActiveRecord::Schema.define(version: 20170104042025) do
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
     t.integer  "feedbacks_count",  limit: 4, default: 0
+    t.integer  "duration",         limit: 4, default: 0
   end
 
   create_table "taggings", force: :cascade do |t|

@@ -39,7 +39,10 @@
             = fff.text_field :body, class: 'form-control', placeholder: '* 필수입력: ex. 짜장면', 'data-rule-required': true
         .new-form-group
           = link_to_add_association '+ 선택항목 추가', ff, :options, render_options: { locals: { input_data: { placeholder: 'ex. 짬뽕' } } }
-
+        %hr
+        .form-inline
+          = ff.label :duration
+          = ff.select :duration, options_for_select((1...10).map { |i| [ "#{i}일", i] }, ff.object.duration), {}, class: 'form-control'
     .editor-btn.text-right
       = link_to '취소', @post, class: 'btn btn-default'
       = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }

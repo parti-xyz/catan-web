@@ -166,4 +166,9 @@ module ApplicationHelper
     return text if (strip_tags(text).try(:length) || 0) < max_length.to_i
     truncate_html(text, options)
   end
+
+  def survey_remain_time(survey)
+    return '계속' if survey.duration <= 0
+    distance_of_time_in_words_to_now(survey.created_at + survey.duration.days)
+  end
 end

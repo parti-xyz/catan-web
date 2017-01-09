@@ -9,11 +9,18 @@
                 %i.fa.fa-square-o
           - else
             %td.checkbox-btn
-              = link_to feedbacks_path(option_id: option.id), remote: true, method: :post do
-                - if option.selected?(current_user)
-                  %i.fa.fa-check-square-o
-                - else
-                  %i.fa.fa-square-o
+              - if post.survey.open?
+                = link_to feedbacks_path(option_id: option.id), remote: true, method: :post do
+                  - if option.selected?(current_user)
+                    %i.fa.fa-check-square-o
+                  - else
+                    %i.fa.fa-square-o
+              - else
+                %span.closed
+                  - if option.selected?(current_user)
+                    %i.fa.fa-check-square-o
+                  - else
+                    %i.fa.fa-square-o
           %td.body
             - if post.survey.feedbacked?(current_user)
               .chart{ class: ('active' if option.selected?(current_user)) }
@@ -25,7 +32,12 @@
           %td.feedbacks-count
             - if post.survey.feedbacked?(current_user) and option.feedbacks_count > 0
               #{option.feedbacks_count}명
-  - if post.survey.feedbacks_count > 0
     .sruvey-card--footer
-      총투표 #{post.survey.feedbacks_count}명
+      - if post.survey.open?
+        마감까지 #{survey_remain_time(post.survey)}
+      - else
+        마감
+      - if post.survey.feedbacks_count > 0
+        &middot;
+        총투표 #{post.survey.feedbacks_count}명
 

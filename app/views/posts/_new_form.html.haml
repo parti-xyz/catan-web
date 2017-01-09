@@ -40,15 +40,21 @@
                     취소
           .post-survey-field.hidden
             = f.fields_for :survey, Survey.new do |ff|
-              .help-block
-                선택 항목을 넣어주세요.
-                %a.btn.btn-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-survey-field') } 취소
-              - 2.times do
-                .form-group
-                  = ff.fields_for :options, Option.new do |fff|
-                    = render 'posts/option_fields', f: fff, static: true, input_data: { placeholder: '* 필수입력: ex. 짜장면', 'data-rule-required': true }
-              .new-form-group
-                = link_to_add_association '+ 선택항목 추가', ff, :options, partial: 'posts/option_fields', render_options: { locals: { input_data: { placeholder: 'ex. 짬뽕' } } }
+              .form-group-options
+                .help-block.clearfix
+                  선택 항목을 넣어주세요.
+                  .pull-right
+                    %a.btn.btn-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-survey-field') } 설문 취소
+                - 2.times do
+                  .form-group
+                    = ff.fields_for :options, Option.new do |fff|
+                      = render 'posts/option_fields', f: fff, static: true, input_data: { placeholder: '* 필수입력: ex. 짜장면', 'data-rule-required': true }
+                .new-form-group
+                  = link_to_add_association '+ 선택항목 추가', ff, :options, partial: 'posts/option_fields', render_options: { locals: { input_data: { placeholder: 'ex. 짬뽕' } } }
+              .form-group-duration
+                .form-inline
+                  = ff.label :duration
+                  = ff.select :duration, options_for_select((1...10).map { |i| [ "#{i}일", i] }), {}, class: 'form-control'
 
       .form-widget-btns.clearfix
         .post-reference-btns

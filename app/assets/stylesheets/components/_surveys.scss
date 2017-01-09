@@ -9,6 +9,9 @@
 
       td.checkbox-btn {
         width: 24px;
+        span.closed {
+          color: $gray-lighter;
+        }
       }
       td.body {
         padding: 2px 0;
@@ -48,7 +51,8 @@
     }
   }
   &--footer {
-    padding: 6px $padding-side;
-    border-top: 1px solid $gray-lighter;
+    padding-top: 12px;
+    border-top: 1px solid #eaeaeb;
+    margin-top: 12px;
   }
 }

@@ -199,6 +199,22 @@
       .post-file-field {
         padding-top: 14px;
       }
+      .post-survey-field {
+        border: 1px solid $gray-lighter;
+        padding: 14px 0;
+        .form-group-options {
+          padding: 0 14px;
+        }
+        .form-group-duration {
+          padding: 12px 14px 0;
+          margin-top: 12px;
+          border-top: 1px solid $gray-lighter;
+          label {
+            font-weight: normal;
+            color: $gray;
+          }
+        }
+      }
       .submit-box {
         float: right;
         @media (max-width: $screen-xs-max) {
