@@ -31,7 +31,7 @@
           = render 'comments/new_comments_count', new_comments_count_url: new_issue_comments_count_url(slug: @issue.slug, first_id: @last_comment.id)
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           = render @issue.posts.pinned.order(last_touched_at: :desc), show_issue: false, mode: 'list'
-          - if @posts.empty?
+          - if @issue.posts.empty?
             .bg-default
               %i.fa.fa-info-circle
               아직 글이 없습니다.
