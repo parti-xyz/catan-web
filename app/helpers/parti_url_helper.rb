@@ -33,8 +33,9 @@ module PartiUrlHelper
     slug_issue_wikis_path(slug: issue.slug)
   end
 
-  def issue_users_path(issue)
-    slug_issue_users_path(slug: issue.slug)
+  def issue_users_path(issue, options = {})
+    options.update(slug: issue.slug)
+    slug_issue_users_path(options)
   end
 
   def user_gallery_path(user)

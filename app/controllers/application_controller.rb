@@ -148,8 +148,8 @@ class ApplicationController < ActionController::Base
     @is_last_page = base.empty?
 
     how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
-
     previous_last = Post.with_deleted.find_by(id: params[:last_id])
+
     @posts = base.send(how_to, previous_last).limit(20)
 
     current_last = @posts.last

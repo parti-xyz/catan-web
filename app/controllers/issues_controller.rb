@@ -70,6 +70,16 @@ class IssuesController < ApplicationController
     posts_page(@issue)
   end
 
+  def slug_users
+    base = @issue.member_users
+    @is_last_page = base.empty?
+    previous_last = @issue.member_users.with_deleted.find_by(id: params[:last_id])
+    @users = base.previous_of_recent(previous_last).limit(12)
+
+    @current_last = @users.last
+    @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
+  end
+
   def slug_references
     having_reference_posts_page(@issue)
   end

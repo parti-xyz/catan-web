@@ -74,6 +74,11 @@ class User < ActiveRecord::Base
   # scopes
   scope :latest, -> { after(1.day.ago) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :previous_of_recent, ->(user) {
+    base = recent
+    base = base.where('users.created_at < ?', user.created_at) if user.present?
+    base
+  }
 
 
   def admin?
