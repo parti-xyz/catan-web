@@ -7,5 +7,5 @@
 
 <%= static_date_f @subject.created_at %>
 
-* 원글 <%= @subject.post.specific_desc %> ( <%=  url_for(@subject.post) %> )
+* 원글 <%= strip_tags(@subject.post.specific_desc) %> ( <%=  smart_post_url(@subject.post) %> )
 

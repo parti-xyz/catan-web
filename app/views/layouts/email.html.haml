@@ -1,119 +1,63 @@
-!!!
-%html{:xmlns => "http://www.w3.org/1999/xhtml", "xmlns:o" => "urn:schemas-microsoft-com:office:office", "xmlns:v" => "urn:schemas-microsoft-com:vml"}
-  %head
-    /[if gte mso 15]
-      <xml>
-      <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-      </o:OfficeDocumentSettings>
-      </xml>
-    %meta{:charset => "UTF-8"}/
-    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}/
-    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
-    =stylesheet_link_tag 'email.css'
-  %body
-    %center
-      %table#bodyTable{:align => "center", :border => "0", :cellpadding => "0", :cellspacing => "0", :height => "100%", :width => "100%"}
-        %tr
-          %td#bodyCell{:align => "center", :valign => "top"}
-            /[if gte mso 9]
-              <table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
-              <tr>
-              <td align="center" valign="top" width="600" style="width:600px;">
-            %table.templateContainer{:border => "0", :cellpadding => "0", :cellspacing => "0", :width => "100%"}
-              %tr
-                %td#templatePreheader{:valign => "top"}
-              %tr
-                %td#templateHeader{:valign => "top"}
-                  %table.mcnTextBlock{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                    %tbody.mcnTextBlockOuter
-                      %tr
-                        %td.mcnTextBlockInner{:valign => "top"}
-                          %table.mcnTextContentContainer{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                            %tbody
-                              %tr
-                                %td.mcnTextContent{:style => "padding-top:20px; padding-right: 30px; padding-bottom: 10px; padding-left: 30px;", :valign => "top"}
-                                  %a{:href => "https://parti.xyz", :target => "_blank"}
-                                    %img{:align => "none", :alt => "parti-xyz", :height => "40", :src => asset_url('parti_logo_white.png'), :style => "max-height: 40px;"}/
-                              - if content_for?(:head)
-                                %tr
-                                  %td.mcnTextContent{:style => "text-align: left; color: #fff; padding-top:0px; padding-right: 30px; padding-bottom: 20px; padding-left: 30px; background-color: #966fd6;", :valign => "top"}
-                                    = yield :head
-              %tr
-                %td#templateBody{:valign => "top"}
-                  %table.mcnTextBlock{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                    %tbody.mcnTextBlockOuter
-                      %tr
-                        %td.mcnTextBlockInner{:valign => "top"}
-                          %table.mcnTextContentContainer{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                            %tbody
-                              %tr
-                                %td.mcnTextContent{:style => "padding-top: 60px; padding-right: 18px; padding-bottom: 40px; padding-left: 18px; text-align: center;", :valign => "top"}
-                                  = yield
-              %tr
-                %td#templateColumns{:valign => "top"}
-                  /[if gte mso 9]
-                    <table align="center" border="0" cellspacing="0" cellpadding="0" width="600" style="width:600px;">
-                    <tr>
-                    <td align="center" valign="top" width="160" style="width:160px;">
-                  %table.columnWrapper{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "160"}
-                    %tr
-                      %td.columnContainer{:valign => "top"}
-                        %table.mcnTextBlock{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                          %tbody.mcnTextBlockOuter
-                            %tr
-                              %td.mcnTextBlockInner{:valign => "top"}
-                                %table.mcnTextContentContainer{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                                  %tbody
-                                    %tr
-                                      %td.mcnTextContent{:style => "padding-top:9px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;", :valign => "top"}
-                                        %a{:href => "https://parti.xyz", :target => "_blank"}
-                                          %img{:align => "none", :height => "36", :src => asset_url('parti_logo_white.png'), :style => "width: 88px; height: 40px; margin: 15px;", :width => "88"}/
-                  /[if gte mso 9]
-                    </td>
-                    <td align="center" valign="top" width="180" style="width:180px;">
-                  %table.columnWrapper{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "180"}
-                    %tr
-                      %td.columnContainer{:valign => "top"}
-                        %table.mcnTextBlock{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                          %tbody.mcnTextBlockOuter
-                            %tr
-                              %td.mcnTextBlockInner{:valign => "top"}
-                                %table.mcnTextContentContainer{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                                  %tbody
-                                    %tr
-                                      %td.mcnTextContent{:style => "padding-top:20px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;", :valign => "top"}
-                                        %a{:href => "https://parti.xyz/", :style => "font-size: 10pt; line-height: 1.2;"} parti.xyz
-                                        %br/
-                                        %a{:href => "mailto:help@parti.xyz", :style => "font-size: 10pt; line-height: 1.2;"} help@parti.xyz
-                  /[if gte mso 9]
-                    </td>
-                    <td align="center" valign="top" width="240" style="width:240px;">
-                  %table.columnWrapper{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :width => "240"}
-                    %tr
-                      %td.columnContainer{:valign => "top"}
-                        %table.mcnTextBlock{:border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                          %tbody.mcnTextBlockOuter
-                            %tr
-                              %td.mcnTextBlockInner{:valign => "top"}
-                                %table.mcnTextContentContainer{:align => "left", :border => "0", :cellpadding => "0", :cellspacing => "0", :style => "min-width:100%;", :width => "100%"}
-                                  %tbody
-                                    %tr
-                                      %td.mcnTextContent{:style => "padding-top:20px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;", :valign => "top"}
-                                        %a{:href => "http://fb.com/parti.xyz", :style => "font-size: 10pt; line-height: 1.2;"}> fb.com/parti.xyz
-                                         
-                                        %br/
-                                        = succeed "\u{a0}" do
-                                          %a{:href => "http://twitter.com/parti-xyz", :style => "font-size: 10pt; line-height: 1.2;"} twitter.com/parti-xyz
-                                        %br/
-                                        %a{:href => "http://medium.com/parti-xyz-developers", :style => "font-size: 10pt; line-height: 1.2;"} medium.com/parti-xyz-developers
-                  /[if gte mso 9]
-                    </td>
-                    </tr>
-                    </table>
-      /[if mso]
-        </td>
-      /[if mso]
-        </tr>
-        </table>
+%body
+  .public-email
+    .inner
+      %table{:cellpadding => "0", :cellspacing => "0", :style => "width: 90%; margin: 0px auto; background: rgb(249, 249, 249); border-width: 0px; border-style: solid;"}
+        %tr{:style => "margin: 0;padding:0;"}
+          %td{:style => "width: 100%; max-width: 620px; margin: 0 auto; position: relative; border-spacing: 0; clear: both; border-collapse: separate;padding:0;overflow:hidden;_width:620px;"}
+            %div{:height => "0", :style => "height: 0px; max-height: 0px; border: 0px; visibility: hidden; line-height: 0px; font-size: 0px; overflow: hidden;", :width => "0"}
+            %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+              %div{:style => "background: rgb(150, 111, 214); padding: 20px 0px; text-align: center; line-height: 1.8; border-style: solid; border-width: 0px;"}
+                %div{:style => "padding: 0px 5px;"}
+                  %div{:style => "overflow: hidden; clear: both;"}
+                    %div{:style => "vertical-align: top; padding: 5px 0px;"}
+                      %div{:style => "padding: 0px 10px;"}
+                        %div
+                          %p{:style => "text-align: center; margin: 0px;"}
+                            %a{:href => "http://parti.xyz/", :style => "display: block; border: 0px;", :target => "_blank", :title => ""}
+                              %img{:alt => "", :src => "https://stibee.com/api/v1.0/public/images/b0f91e444b0c2c9c9be9c0f8b420bdc2e4c1145b0b14139ba4b1e383532a5ca1v.png", :style => "width: auto; display: inline; vertical-align: middle; max-width: 100%; border: 0px; text-align: center;"}/
+            %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+              %div{:style => "background: rgb(150, 111, 214); padding: 5px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;"}
+                %div{:style => "padding: 0px 5px;"}
+                  %div
+                    %div{:style => "height: 1px; background: none; display: block; margin: 0px 10px; padding: 0px; border-top: 1px dashed rgb(227, 188, 255);"}
+            %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+              %div{:style => "background: rgb(150, 111, 214); padding: 15px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;"}
+                %div{:style => "padding: 0px 5px;"}
+                  %div{:style => "padding: 0 10px;"}
+                    %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: left;"}
+                      = yield :head
+            %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+              %div{:style => "padding: 5px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;"}
+                %div{:style => "padding: 0px 5px;"}
+                  %div
+                    %div{:style => "height: 1px; background: none; display: block; margin: 0px 10px; padding: 0px; border-top: 1px solid rgb(249, 249, 249);"}
+            = yield
+            %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+              %div{:style => "padding: 15px 0px; text-align: center; line-height: 1.8; border-style: solid; border-width: 0px;"}
+                %div{:style => "padding: 0px 5px;"}
+                  %div{:style => "margin:0 10px"}
+                    %table{:style => "text-align: center; padding: 0px; margin: 0px auto;"}
+                      %tbody
+                        %tr{:style => "padding: 0px; margin: 0px;"}
+                          %td{:style => "list-style: none; padding: 0px 3px; margin: 0px;"}
+                            %a{:href => "http://fb.com/parti.xyz", :style => "padding: 0px 3px; border: 0px; text-decoration: none;", :target => "_blank", :title => "페이스북"}
+                              %span{:style => "display: inline-block;"}
+                                %img{:src => "http://stibee.com/assets/images/sns/white/sns_icon_facebook.png", :style => "width: 32px; height: 32px; display: block; border: 0px;"}/
+                          %td{:style => "list-style: none; padding: 0px 3px; margin: 0px;"}
+                            %a{:href => "http://twitter.com/parti_xyz", :style => "padding: 0px 3px; border: 0px; text-decoration: none;", :target => "_blank", :title => "트위터"}
+                              %span{:style => "display: inline-block;"}
+                                %img{:src => "http://stibee.com/assets/images/sns/white/sns_icon_twitter.png", :style => "width: 32px; height: 32px; display: block; border: 0px;"}/
+                          %td{:style => "list-style: none; padding: 0px 3px; margin: 0px;"}
+                            %a{:href => "http://medium.com/parti-xyz-developers", :style => "padding: 0px 3px; border: 0px; text-decoration: none;", :target => "_blank", :title => "블로그"}
+                              %span{:style => "display: inline-block;"}
+                                %img{:src => "http://stibee.com/assets/images/sns/white/sns_icon_blog.png", :style => "width: 32px; height: 32px; display: block; border: 0px;"}/
+            %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+              %div{:style => "background: rgb(150, 111, 214); padding: 5px 0px; text-align: center; line-height: 1.6; border-style: solid; border-width: 0px;"}
+                %div{:style => "padding: 0px 5px;"}
+                  %div{:style => "font-size: 12px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(96, 96, 96); padding: 0px; margin: 0px; text-align: center;"}
+                    %span{:style => "color: rgb(251, 249, 249);"}
+                      빠띠유니온
+                      %br>/
+                      %a(href='mailto:contact@parti.xyz') contact@parti.xyz
+                    %br/
+                    %a{:href => "https://parti.xyz/users/edit"} 수신거부

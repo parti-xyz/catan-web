@@ -1,13 +1,15 @@
 - content_for(:head) do
-  %strong
-    안녕하세요. #{@recipient.nickname}님!
-    %br
-    \#{@sender.nickname}님이 빠띠에서 댓글을 보냅니다.
+  %div{:style => "text-align: center;"}
+    %span{:style => "color: rgb(255, 255, 255); font-size: 14px;"}
+      안녕하세요. #{@recipient.nickname}님!
+      %span{:style => "color: rgb(255, 255, 255);"} 새 댓글을 확인하세요. 
+  %div{:style => "text-align: center;"}
+    %span{:style => "color: rgb(255, 255, 255);"}
+      = l(@subject.created_at.to_date, format: :email)
 
 
-%table(width="100%" style="text-align: left;")
-  %tbody
-    %tr
-      %td
-        = render customize_partial_path(@subject, 'comment_in_email')
+= render customize_partial_path(@subject, 'comment_in_email')
+
+
+
 

@@ -2,6 +2,7 @@ ko:
   date:
     formats:
       default: '%Y.%m.%d'
+      email: '%Y년 %-m월 %-d일'
   datetime:
     distance_in_words:
       about_x_hours:
