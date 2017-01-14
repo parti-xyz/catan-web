@@ -6,7 +6,16 @@
         %section#content-tab-section
           = render 'users/content_tabs', active_tab: :posts, counts_container: @user.writing_counts
         .posts
-          = render 'posts/page', show_issue: true
+          - if @posts.empty?
+            .bg-default
+              %i.fa.fa-info-circle
+              아직 글이 없습니다.
+          - else
+            .post-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
+              = render 'posts/page', show_issue: true
+            .page_waypoint.text-center{'data-target': '.post-container', 'data-url': slug_user_posts_path(format: :js)}
+              .page_waypoint__loading
+                %i.fa.fa-3x.fa-spinner.fa-pulse
 
       = render 'aside'
 

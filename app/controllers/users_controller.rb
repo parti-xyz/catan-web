@@ -8,7 +8,13 @@ class UsersController < ApplicationController
 
   def posts
     fetch_user
-    @posts= @user.posts.recent.page(params[:page])
+
+    previous_last_post = @user.posts.find_by(id: params[:last_id])
+
+    @posts = @user.posts.recent.previous_of_post(previous_last_post).limit(20)
+    current_last_post = @posts.last
+
+    @is_last_page = (@user.posts.empty? or @user.posts.recent.previous_of_post(current_last_post).empty?)
   end
 
   def polls
