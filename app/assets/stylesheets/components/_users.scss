@@ -392,6 +392,16 @@ section#user-gallery{
 #sign-up {
   width: 600px;
   margin: 60px auto;
+
+  .user-cancel {
+    width: 300px;
+    margin: 20px auto;
+    color: $gray;
+
+    a {
+      text-decoration: underline;
+    }
+  }
 }
 .sign-up {
   &__title {
