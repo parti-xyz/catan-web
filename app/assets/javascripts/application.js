@@ -193,7 +193,7 @@ var parti_prepare = function($base) {
 
   //$base.find('[data-action="parti-popover"]').webuiPopover();
   $.parti_apply($base, '[data-action="parti-popover"]', function(elm) {
-    var options = {}
+    var options = {};
     var style = $(elm).data('style');
     if(style) {
       options['style'] = style;
