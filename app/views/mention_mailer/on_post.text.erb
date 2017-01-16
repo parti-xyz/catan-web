@@ -3,8 +3,6 @@
 <%= @sender.nickname %>님이 빠띠에서 <%= @recipient.nickname %>님을 언급합니다.
 ---------------------------------------------------------
 
-<%= @subject.body %>
+<%= strip_tags(@subject.body) %>
 
 <%= static_date_f @subject.created_at %>
-
-
