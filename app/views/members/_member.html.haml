@@ -16,4 +16,4 @@
       = link_to issue_members_path(issue), method: :post, class: join_btn_class do
         가입하기
   - else
-    = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입p', 'after-login': h({action: :issue_member, id: issue.id}.to_json) }, class: join_btn_class
+    = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) }, class: join_btn_class

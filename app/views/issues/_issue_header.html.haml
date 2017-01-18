@@ -1,5 +1,6 @@
 - issue ||= @issue
 - active_tab ||= nil
+- blocked ||= false
 %section.parti-header-section{ class: ('parti-header-section--simple' if local_assigns[:simple]) }
   - geo_pattern_background = capture do
     .parti-black-layer{ style: "background-image: #{GeoPattern.generate(issue.title, base_color: '#2a164b').to_data_uri};" }
@@ -31,8 +32,8 @@
                   .hidden
                     .maker-info{id: "maker-info-#{dom_id(issue)}"}
                       #{current_user.nickname}님은 #{issue.title} 빠띠의 메이커입니다.
-              %span.parti-member-button
-                = render 'members/member', issue: issue
+                %span.parti-member-button
+                  = render 'members/member', issue: issue
         - else
           %h2.parti-title
             = issue.title
@@ -53,8 +54,9 @@
                     .hidden
                       .maker-info{id: "maker-info-#{dom_id(issue)}"}
                         #{current_user.nickname}님은 #{issue.title} 빠띠의 메이커입니다.
-                %span.parti-member-button
-                  = render 'members/member', issue: issue
+                  - unless blocked
+                    %span.parti-member-button
+                      = render 'members/member', issue: issue
                 %span.parti-admin-buttons
                   - if can? :update, issue
                     = link_to '수정', [:edit, issue], class: 'btn btn-ghost btn-xs'
@@ -71,7 +73,7 @@
               - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
               = render 'application/share', map: map
 
-  - if !local_assigns[:simple]
+  - if !local_assigns[:simple] and !blocked
     .parti-menu
       - counts_container = issue.counts_container
       .container

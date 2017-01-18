@@ -51,6 +51,8 @@ class IssuesController < ApplicationController
   end
 
   def slug_home
+    render 'slug_home_blocked' if privte_blocked?(@issue)
+
     @last_post = @issue.posts.newest(field: :last_touched_at)
 
     previous_last_post = Post.find_by(id: params[:last_id])
@@ -63,6 +65,8 @@ class IssuesController < ApplicationController
   end
 
   def slug_polls
+    redirect_to issue_home_path_or_url(@issue) if privte_blocked?(@issue)
+
     having_poll_posts_page(@issue)
   end
 
@@ -71,6 +75,8 @@ class IssuesController < ApplicationController
   end
 
   def slug_users
+    redirect_to issue_home_path_or_url(@issue) if privte_blocked?(@issue)
+
     base = @issue.member_users
     @is_last_page = base.empty?
     previous_last = @issue.member_users.with_deleted.find_by(id: params[:last_id])
@@ -81,6 +87,8 @@ class IssuesController < ApplicationController
   end
 
   def slug_references
+    redirect_to issue_home_path_or_url(@issue) if privte_blocked?(@issue)
+
     having_reference_posts_page(@issue)
   end
 
@@ -182,7 +190,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname, :blinds_nickname, :telegram_link, :tag_list, :category_slug)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname, :blinds_nickname, :telegram_link, :tag_list, :category_slug, :private)
   end
 
   def prepare_issue_meta_tags
@@ -193,5 +201,9 @@ class IssuesController < ApplicationController
 
   def verify_issue_group
     verify_group(@issue)
+  end
+
+  def privte_blocked?(issue)
+    !issue.member?(current_user) && issue.private?
   end
 end
