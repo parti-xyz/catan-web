@@ -57,4 +57,8 @@ Doorkeeper.configure do
   # add your supported grant types and other extensions
   grant_flows %w(assertion)
   #  authorization_code implicit password client_credentials
+
+  admin_authenticator do |routes|
+    redirect_to root_url unless current_user.try(:admin?)
+  end
 end
