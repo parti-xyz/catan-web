@@ -71,6 +71,10 @@ Rails.application.routes.draw do
     resources :members do
       delete :cancel, on: :collection
     end
+    resources :member_requests do
+      delete :cancel, on: :collection
+      post :accept, on: :collection
+    end
   end
 
   concern :upvotable do

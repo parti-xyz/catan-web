@@ -2,6 +2,19 @@
 
 %section#issue-users
   .container
+    - if @issue.member_request_users.any?
+      .row
+        .col-sm-8.col-xs-12
+          %section#content-tab-section
+            .nav-tabs.message-tab
+              %h4
+                가입신청
+                .count-label-wrapper
+                  .count-label= @issue.member_requests.count
+          %ul.request-card-wrapper.list-unstyled.clearfix
+            - @issue.member_request_users.each do |user|
+              = render user, issue: @issue, additional_buttons_partial: 'member_requests/accept_buttons'
+
     .row
       .col-sm-8.col-xs-12
         %section#content-tab-section
@@ -11,7 +24,7 @@
               .count-label-wrapper
                 .count-label= @issue.members.count
         %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
-          = render 'users/slug_users_page'
+          = render 'users/slug_users_page', users: @users, issue: @issue
         .page_waypoint.text-center{'data-target': '.user-card-wrapper', 'data-url': issue_users_path(@issue, format: :js)}
           .page_waypoint__loading
             %i.fa.fa-3x.fa-spinner.fa-pulse

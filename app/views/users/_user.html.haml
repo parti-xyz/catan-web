@@ -4,3 +4,6 @@
     = link_to user_gallery_path(user) do
       .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
       %p= user.nickname
+  - if local_assigns[:additional_buttons_partial].present?
+    .user-card__additional_buttons
+      = render additional_buttons_partial, local_assigns.merge(user: user)

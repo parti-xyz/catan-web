@@ -1,9 +1,10 @@
 class MessageService
   attr_accessor :source
 
-  def initialize(source, sender: nil)
+  def initialize(source, sender: nil, action: nil)
     @source = source
     @sender = sender
+    @action = action
   end
 
   def call(options = {})
@@ -57,6 +58,19 @@ class MessageService
       send_messages(
         sender: @source.user, users: [@source.recipient],
         messagable: @source)
+    when MemberRequest.to_s
+      if @source.deleted?
+        send_messages(
+          sender: @sender, users: [@source.user],
+          messagable: @source,
+          action: @action)
+      else
+        users = @source.issue.makers.map &:user
+        send_messages(
+          sender: @source.user, users: users,
+          messagable: @source,
+          action: :request)
+      end
     end
   end
 

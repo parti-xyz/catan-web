@@ -1,0 +1,6 @@
+안녕하세요. <%= @maker_user.nickname %>님!
+
+<%= @member_request.user.nickname %>님이 <%= @member_request.issue.title %> 빠띠에 가입요청했습니다.
+---------------------------------------------------------
+
+* 빠띠 주소 : <%= issue_home_url(@member_request.issue) %>

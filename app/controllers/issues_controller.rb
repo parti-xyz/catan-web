@@ -77,7 +77,7 @@ class IssuesController < ApplicationController
   def slug_users
     redirect_to issue_home_path_or_url(@issue) if private_blocked?(@issue)
 
-    base = @issue.member_users
+    base = @issue.member_users.recent
     @is_last_page = base.empty?
     previous_last = @issue.member_users.with_deleted.find_by(id: params[:last_id])
     @users = base.previous_of_recent(previous_last).limit(12)

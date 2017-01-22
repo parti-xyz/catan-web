@@ -58,6 +58,10 @@ section#user-gallery{
       text-overflow: ellipsis;
     }
   }
+  &__additional_buttons {
+    text-align: center;
+    padding-bottom: 20px;
+  }
   &__info {
     .col-xs-4 {
       min-height: 52px;

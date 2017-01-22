@@ -98,6 +98,8 @@ class Issue < ActiveRecord::Base
   has_many :maker_users, through: :makers, source: :user
   has_many :members, dependent: :destroy
   has_many :member_users, through: :members, source: :user
+  has_many :member_requests, dependent: :destroy
+  has_many :member_request_users, through: :member_requests, source: :user
   has_many :blind_users, through: :blinds, source: :user
   has_many :messages, as: :messagable, dependent: :destroy
 
@@ -150,6 +152,10 @@ class Issue < ActiveRecord::Base
 
   def member? someone
     members.exists? user: someone
+  end
+
+  def member_requested? someone
+    member_requests.exists? user: someone
   end
 
   def is_all?

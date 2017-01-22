@@ -58,4 +58,12 @@ module PartiUrlHelper
     options.update(subdomain: post.issue.group.try(:slug))
     polymorphic_url(post, options)
   end
+
+  def smart_members_or_member_requests_path(issue, options = {})
+    if issue.private?
+      issue_member_requests_path(issue, options)
+    else
+      issue_members_path(issue, options)
+    end
+  end
 end

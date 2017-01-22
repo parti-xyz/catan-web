@@ -3,7 +3,7 @@
   - action_link = cancel_issue_members_path(issue, partial: :intro)
   - action_method = :delete
 - else
-  - action_link = issue_members_path(issue, partial: :intro)
+  - action_link = smart_members_or_member_requests_path(issue, partial: :intro)
   - action_method = :post
 .issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--member' if issue.member?(current_user)}"}
   = link_to action_link, method: action_method, remote: true do

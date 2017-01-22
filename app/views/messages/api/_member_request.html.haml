@@ -1,0 +1,15 @@
+- if message.action.to_s == 'request'
+  %strong
+    #{message.sender.nickname}님이
+    = message.messagable.issue_for_message.title
+    빠띠에 가입요청합니다.
+- if message.action.to_s == 'accept'
+  %strong
+    #{message.sender.nickname}님이
+    = message.messagable.issue_for_message.title
+    빠띠 가입요청을 승인합니다.
+- if message.action.to_s == 'cancel'
+  %strong
+    #{message.sender.nickname}님이
+    = message.messagable.issue_for_message.title
+    빠띠 가입요청을 거절합니다.

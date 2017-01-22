@@ -34,13 +34,20 @@
     - if post.private_blocked?(current_user)
       .post-card-with-comments__post
         %strong 비밀빠띠 게시글입니다.
-        이 게시글을 보시려면 먼저 가입신청을 해주세요.
-        %span(class="#{dom_id(post.issue)}-member")
-          - if user_signed_in?
-            = link_to issue_members_path(post.issue), method: :post, class: 'btn btn-md btn-primary' do
-              가입하기
-          - else
-            = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: post.issue.id}.to_json) }, class: 'btn btn-md btn-primary'
+        - if @issue.member_requested? current_user
+          %br
+          비밀빠띠를 보시려면 먼저 가입승인 받아야합니다.
+          %span
+            %strong<> 빠띠메이커의 가입승인
+            을 기다려주세요.
+        - else
+          이 게시글을 보시려면 먼저 가입신청을 해주세요.
+          %span(class="#{dom_id(post.issue)}-member")
+            - if user_signed_in?
+              = link_to smart_members_or_member_requests_path(post.issue), method: :post, class: 'btn btn-md btn-primary' do
+                가입하기
+            - else
+              = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: post.issue.id}.to_json) }, class: 'btn btn-md btn-primary'
 
     - else
       .post-card-with-comments__post

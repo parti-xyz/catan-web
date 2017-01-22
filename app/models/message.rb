@@ -31,7 +31,7 @@ class Message < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :sender, class_name: User
-  belongs_to :messagable, polymorphic: true
+  belongs_to :messagable, -> { try(:with_deleted) || all }, polymorphic: true
 
   scope :recent, -> { order(id: :desc) }
   scope :latest, -> { after(1.day.ago) }

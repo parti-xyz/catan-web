@@ -1,0 +1,25 @@
+<%
+  member_request = message.messagable
+  issue = member_request.issue
+  if message.action.to_s == 'request'
+    body = "#{message.sender.nickname}님이 #{member_request.issue_for_message.title} 빠띠에 가입요청합니다."
+  end
+  if message.action.to_s == 'accept'
+    body = "#{message.sender.nickname}님이 #{member_request.issue_for_message.title} 빠띠 가입요청을 승인합니다."
+  end
+  if message.action.to_s == 'cancel'
+    body = "#{message.sender.nickname}님이 #{member_request.issue_for_message.title} 빠띠 가입요청을 거절합니다."
+  end
+%>
+{
+  "notification": {
+    "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+  },
+  "data": {
+    "title": "<%= issue.title %>",
+    "body": "<%= body %>",
+    "type": "parti",
+    "param": "<%= issue.slug %>"
+  }
+}

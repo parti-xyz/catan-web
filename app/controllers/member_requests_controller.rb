@@ -1,0 +1,55 @@
+class MemberRequestsController < ApplicationController
+  before_filter :authenticate_user!
+  load_resource :issue
+  load_and_authorize_resource :member_request, through: :issue, shallow: true
+
+  def create
+    render_404 and return if @issue.member?(current_user)
+
+    @member_request.user = current_user
+    if @member_request.save
+      MessageService.new(@member_request).call
+      MemberRequestMailer.deliver_all_later_on_create(@member_request)
+    end
+    respond_to do |format|
+      format.js
+      format.html { redirect_to(request.referrer || issue_home_path_or_url(@member_request.issue)) }
+    end
+  end
+
+  def accept
+    @user = User.find_by(id: params[:user_id])
+    render_404 and return if @user.blank? or @issue.member?(@user)
+
+    @member_request = @issue.member_requests.find_by(user: @user)
+    @member = @issue.members.build(user: @member_request.user)
+    ActiveRecord::Base.transaction do
+      if @member.save
+        @member_request.try(:destroy)
+        MessageService.new(@member_request, sender: current_user, action: :accept).call
+        MemberMailer.deliver_all_later_on_create(@member)
+        MemberRequestMailer.on_accept(@member_request.id, current_user.id).deliver_later
+      end
+    end
+
+    redirect_to(request.referrer || issue_users_path(@member.issue))
+  end
+
+  def cancel
+    @user = User.find_by(id: params[:user_id])
+    render_404 and return if @user.blank?
+
+    @member_request = @issue.member_requests.find_by(user: @user)
+    render_404 and return if @member_request.blank?
+
+    @member_request.update_attributes(cancel_message: params[:cancel_message])
+    if @member_request.destroy
+      MessageService.new(@member_request, sender: current_user, action: :cancel).call
+      MemberRequestMailer.on_cancel(@member_request.id, current_user.id).deliver_later
+    end
+    respond_to do |format|
+      format.js
+      format.html { redirect_to(request.referrer || issue_home_path_or_url(@member_request.issue)) }
+    end
+  end
+end

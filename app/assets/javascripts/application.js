@@ -199,6 +199,11 @@ var parti_prepare = function($base) {
       options['style'] = style;
     }
 
+    var backdrop = $(elm).data('backdrop');
+    if(backdrop) {
+      options['backdrop'] = backdrop;
+    }
+
     $(elm).webuiPopover(options);
   });
 

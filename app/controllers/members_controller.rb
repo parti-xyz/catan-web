@@ -4,10 +4,15 @@ class MembersController < ApplicationController
   load_and_authorize_resource :member, through: :issue, shallow: true
 
   def create
+    render_404 and return if @issue.private_blocked?(current_user)
+
     @member.user = current_user
-    if @member.save
-      MessageService.new(@member).call
-      MemberMailer.on_create(@member.id).deliver_later
+    ActiveRecord::Base.transaction do
+      if @member.save
+        @member.issue.member_requests.find_by(user: @member.user).try(:destroy)
+        MessageService.new(@member).call
+        MemberMailer.deliver_all_later_on_create(@member)
+      end
     end
     respond_to do |format|
       format.js
