@@ -51,7 +51,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_home
-    render 'slug_home_blocked' if privte_blocked?(@issue)
+    render 'slug_home_blocked' if private_blocked?(@issue)
 
     @last_post = @issue.posts.newest(field: :last_touched_at)
 
@@ -65,7 +65,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_polls
-    redirect_to issue_home_path_or_url(@issue) if privte_blocked?(@issue)
+    redirect_to issue_home_path_or_url(@issue) if private_blocked?(@issue)
 
     having_poll_posts_page(@issue)
   end
@@ -75,7 +75,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_users
-    redirect_to issue_home_path_or_url(@issue) if privte_blocked?(@issue)
+    redirect_to issue_home_path_or_url(@issue) if private_blocked?(@issue)
 
     base = @issue.member_users
     @is_last_page = base.empty?
@@ -87,7 +87,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_references
-    redirect_to issue_home_path_or_url(@issue) if privte_blocked?(@issue)
+    redirect_to issue_home_path_or_url(@issue) if private_blocked?(@issue)
 
     having_reference_posts_page(@issue)
   end
@@ -203,7 +203,7 @@ class IssuesController < ApplicationController
     verify_group(@issue)
   end
 
-  def privte_blocked?(issue)
-    !issue.member?(current_user) && issue.private?
+  def private_blocked?(issue)
+    issue.private_blocked?(current_user)
   end
 end

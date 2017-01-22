@@ -31,53 +31,65 @@
               %i.fa.fa-thumb-tack
               공지
 
-    .post-card-with-comments__post
-      .post-card-with-comments__buttons.pull-right
-        - if can? :update, post
-          = link_to [:edit, post] do
-            %i.fa.fa-pencil
-            %span.hidden-xs
-              수정
-        - if can? :destroy, post
-          = link_to post_path(post, mode: local_assigns[:mode]), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
-            %i.fa.fa-trash
-            %span.hidden-xs
-              삭제
-        - if can? :pin, post
-          %span{ class: post_pin_buttons_dom_class(post) }
-            = render 'posts/pin_buttons', post: post
-        - if local_assigns[:additional_buttons_partial].present?
-          = render additional_buttons_partial, local_assigns
-      .post-info
-        = render 'users/post_byline', post: post
+    - if post.private_blocked?(current_user)
+      .post-card-with-comments__post
+        %strong 비밀빠띠 게시글입니다.
+        이 게시글을 보시려면 먼저 가입신청을 해주세요.
+        %span(class="#{dom_id(post.issue)}-member")
+          - if user_signed_in?
+            = link_to issue_members_path(post.issue), method: :post, class: 'btn btn-md btn-primary' do
+              가입하기
+          - else
+            = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: post.issue.id}.to_json) }, class: 'btn btn-md btn-primary'
 
-      = render 'posts/post_line', local_assigns.merge(show_issue: false)
+    - else
+      .post-card-with-comments__post
+        .post-card-with-comments__buttons.pull-right
+          - if can? :update, post
+            = link_to [:edit, post] do
+              %i.fa.fa-pencil
+              %span.hidden-xs
+                수정
+          - if can? :destroy, post
+            = link_to post_path(post, mode: local_assigns[:mode]), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
+              %i.fa.fa-trash
+              %span.hidden-xs
+                삭제
+          - if can? :pin, post
+            %span{ class: post_pin_buttons_dom_class(post) }
+              = render 'posts/pin_buttons', post: post
+          - if local_assigns[:additional_buttons_partial].present?
+            = render additional_buttons_partial, local_assigns
+        .post-info
+          = render 'users/post_byline', post: post
+
+        = render 'posts/post_line', local_assigns.merge(show_issue: false)
 
 
-    - share_partial = capture do
-      - data = {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc_striped_tags.try(:truncate, 100)} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
-      - map = { facebook: data, telegram: data }
-      - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-      = render 'application/share', map: map
-    .post-card-with-comments__footer.clearfix
-      %span.post-card-with-comments__footer__upvote
-        .post-upvote
-          = render 'upvotes/upvote', upvotable: post
+      - share_partial = capture do
+        - data = {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc_striped_tags.try(:truncate, 100)} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
+        - map = { facebook: data, telegram: data }
+        - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
+        = render 'application/share', map: map
+      .post-card-with-comments__footer.clearfix
+        %span.post-card-with-comments__footer__upvote
+          .post-upvote
+            = render 'upvotes/upvote', upvotable: post
 
-      - if user_signed_in?
-        %span.post-card-with-comments__footer__link-to-modal{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
-          댓글달기
-      - else
-        %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
-          댓글달기
-      %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
-        공유하기
-      %span.post-card-with-comments__footer__upvote-count
-        = render 'upvotes/upvote_count', upvotable: post
-      .hidden
-        .share-partial{id: "share-partial-#{dom_id(post)}"}
-          = share_partial
-    .post-reaction{class: "#{dom_id(post)}-post-reaction"}
-      = render 'posts/comments', local_assigns
+        - if user_signed_in?
+          %span.post-card-with-comments__footer__link-to-modal{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
+            댓글달기
+        - else
+          %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
+            댓글달기
+        %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
+          공유하기
+        %span.post-card-with-comments__footer__upvote-count
+          = render 'upvotes/upvote_count', upvotable: post
+        .hidden
+          .share-partial{id: "share-partial-#{dom_id(post)}"}
+            = share_partial
+      .post-reaction{class: "#{dom_id(post)}-post-reaction"}
+        = render 'posts/comments', local_assigns
 
 

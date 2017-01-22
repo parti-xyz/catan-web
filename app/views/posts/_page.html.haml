@@ -1,6 +1,6 @@
 - has_blinds = false
 - @posts.each do |post|
-  - unless post.blinded?(current_user)
+  - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
     = render post, local_assigns.merge(mode: 'list')
   - else
     - has_blinds = true

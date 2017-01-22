@@ -258,6 +258,10 @@ class Issue < ActiveRecord::Base
     self.posts.blank? and (self.members.blank? or self.member_users.to_a == [someone])
   end
 
+  def private_blocked?(someone = nil)
+    !member?(someone) && private?
+  end
+
   private
 
   def downcase_slug

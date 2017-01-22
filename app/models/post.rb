@@ -349,6 +349,10 @@ class Post < ActiveRecord::Base
     issue
   end
 
+  def private_blocked?(someone)
+    issue.private_blocked?(someone)
+  end
+
   private
 
   def touch_last_touched_at

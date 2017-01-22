@@ -7,7 +7,8 @@ class PostsController < ApplicationController
   end
 
   def create
-    redirect_to root_path and return if fetch_issue.blank?
+    redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
+
     @post.reference = @post.reference.unify if @post.reference
     @post.user = current_user
     if @post.is_html_body == 'false'
@@ -23,7 +24,8 @@ class PostsController < ApplicationController
   end
 
   def update
-    redirect_to root_path and return if fetch_issue.blank?
+    redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
+
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.reference = @post.reference.try(:unify)
     if @post.is_html_body == 'false'
@@ -50,7 +52,6 @@ class PostsController < ApplicationController
 
   def pin
     @post.update_attributes(pinned: true, last_touched_at: DateTime.now)
-
   end
 
   def unpin
@@ -81,6 +82,8 @@ class PostsController < ApplicationController
   end
 
   def poll_social_card
+    render_404 and return if @post.private_blocked?
+
     respond_to do |format|
       format.png do
         if params[:no_cached]
@@ -105,10 +108,6 @@ class PostsController < ApplicationController
       end
       format.html { render(layout: nil) }
     end
-  end
-
-  def postable_controller?
-    true
   end
 
   private
@@ -138,5 +137,9 @@ class PostsController < ApplicationController
     if @post.reference.try(:crawling_status).try(:not_yet?)
       CrawlingJob.perform_async(@post.reference.id)
     end
+  end
+
+  def private_blocked?(someone = nil)
+    issue.private_blocked?(someone)
   end
 end
