@@ -4,7 +4,7 @@ class MemberRequest < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :issue
-  has_many :messages, as: :messagable, dependent: :destroy
+  has_many :messages, as: :messagable
 
   validates :user, presence: true
   validates :issue, presence: true
