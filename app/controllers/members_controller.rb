@@ -10,10 +10,13 @@ class MembersController < ApplicationController
     ActiveRecord::Base.transaction do
       if @member.save
         @member.issue.member_requests.find_by(user: @member.user).try(:destroy)
-        MessageService.new(@member).call
-        MemberMailer.deliver_all_later_on_create(@member)
       end
     end
+    if @member.persisted?
+      MessageService.new(@member).call
+      MemberMailer.deliver_all_later_on_create(@member)
+    end
+
     respond_to do |format|
       format.js
       format.html { redirect_to(request.referrer || issue_home_path_or_url(@member.issue)) }
