@@ -82,7 +82,7 @@ class PostsController < ApplicationController
   end
 
   def poll_social_card
-    render_404 and return if @post.private_blocked?(current_user)
+    render_404 and return if @post.private_blocked?
 
     respond_to do |format|
       format.png do

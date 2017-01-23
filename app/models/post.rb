@@ -349,7 +349,7 @@ class Post < ActiveRecord::Base
     issue
   end
 
-  def private_blocked?(someone)
+  def private_blocked?(someone = nil)
     issue.private_blocked?(someone)
   end
 
