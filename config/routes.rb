@@ -106,9 +106,6 @@ Rails.application.routes.draw do
 
   resources :relateds
   resources :messages
-  resources :wikis do
-    resources :wiki_histories, path: :histories, shallow: true
-  end
 
   get 'file_source/:id/download', to: "file_sources#download", as: :download_file_source
 
