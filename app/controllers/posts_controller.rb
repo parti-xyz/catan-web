@@ -140,6 +140,6 @@ class PostsController < ApplicationController
   end
 
   def private_blocked?(someone = nil)
-    issue.private_blocked?(someone)
+    @issue.private_blocked?(someone)
   end
 end
