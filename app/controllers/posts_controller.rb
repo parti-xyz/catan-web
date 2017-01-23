@@ -125,6 +125,7 @@ class PostsController < ApplicationController
   def fetch_issue
     @issue ||= Issue.find_by id: params[:post][:issue_id]
     @post.issue = @issue.presence || @post.issue
+    @issue = @post.issue
   end
 
   def crawling_after_updating_post
@@ -139,7 +140,8 @@ class PostsController < ApplicationController
     end
   end
 
-  def private_blocked?(someone = nil)
-    @issue.private_blocked?(someone)
+  def private_blocked?(issue)
+    return true if issue.blank?
+    issue.private_blocked?(current_user)
   end
 end
