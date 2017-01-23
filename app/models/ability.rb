@@ -21,8 +21,8 @@ class Ability
       end
 
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
-      can [:create, :destroy], MemberRequest, user_id: user.id
-      can [:destroy, :accept, :cancel], MemberRequest do |request|
+      can [:create], MemberRequest, user_id: user.id
+      can [:accept, :reject], MemberRequest do |request|
         user.maker?(request.issue)
       end
       can :manage, Related do |related|

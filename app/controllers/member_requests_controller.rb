@@ -26,27 +26,33 @@ class MemberRequestsController < ApplicationController
     ActiveRecord::Base.transaction do
       if @member.save
         @member_request.try(:destroy)
-        MessageService.new(@member_request, sender: current_user, action: :accept).call
-        MemberMailer.deliver_all_later_on_create(@member)
-        MemberRequestMailer.on_accept(@member_request.id, current_user.id).deliver_later
       end
+    end
+    if @member.persisted?
+      MessageService.new(@member_request, sender: current_user, action: :accept).call
+      MemberMailer.deliver_all_later_on_create(@member)
+      MemberRequestMailer.on_accept(@member_request.id, current_user.id).deliver_later
     end
 
     redirect_to(request.referrer || issue_users_path(@member.issue))
   end
 
-  def cancel
+  def reject
     @user = User.find_by(id: params[:user_id])
     render_404 and return if @user.blank?
 
     @member_request = @issue.member_requests.find_by(user: @user)
     render_404 and return if @member_request.blank?
 
-    @member_request.update_attributes(cancel_message: params[:cancel_message])
-    if @member_request.destroy
+    ActiveRecord::Base.transaction do
+      @member_request.update_attributes(cancel_message: params[:cancel_message])
+      @member_request.destroy
+    end
+    if @member_request.paranoia_destroyed?
       MessageService.new(@member_request, sender: current_user, action: :cancel).call
       MemberRequestMailer.on_cancel(@member_request.id, current_user.id).deliver_later
     end
+
     respond_to do |format|
       format.js
       format.html { redirect_to(request.referrer || issue_home_path_or_url(@member_request.issue)) }

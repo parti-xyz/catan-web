@@ -72,7 +72,7 @@ Rails.application.routes.draw do
       delete :cancel, on: :collection
     end
     resources :member_requests do
-      delete :cancel, on: :collection
+      delete :reject, on: :collection
       post :accept, on: :collection
     end
   end

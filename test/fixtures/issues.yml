@@ -18,3 +18,7 @@ merge_target_issue:
 merge_source_issue:
   title: merge_source_issue
   slug: merge_source_issue
+private_issue:
+  title: private_issue
+  slug: private_issue
+  private: true
