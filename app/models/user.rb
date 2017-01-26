@@ -186,6 +186,14 @@ class User < ActiveRecord::Base
     Integer(slug[1..-1]) rescue nil
   end
 
+  def sent_new_posts_email_today!
+    update_attributes(sent_new_posts_email_at: Date.today)
+  end
+
+  def sent_new_posts_email_today?
+    sent_new_posts_email_at.present? and sent_new_posts_email_at >= Date.today
+  end
+
   private
 
   def downcase_nickname
