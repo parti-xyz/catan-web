@@ -163,10 +163,7 @@ class Issue < ActiveRecord::Base
   end
 
   def to_group(group)
-    group_slug = group.slug
-    members.each do |member|
-      members.build(user: member.user) unless member?(member.user)
-    end
+    self.group_slug = group.slug
   end
 
   def slug_formated_title
