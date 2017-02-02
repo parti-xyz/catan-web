@@ -1,0 +1,4 @@
+- if local_assigns[:issue].present? and current_user.try(:admin?)
+  = link_to ban_issue_members_path(issue, user_id: user.id), method: :delete, class: 'btn btn-sm btn-danger', remote: true, data: { 'confirm': '정말 강퇴하시겠습니까?', 'disable-with': '처리 중...' } do
+    강퇴하기
+

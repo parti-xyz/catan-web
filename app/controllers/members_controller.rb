@@ -33,4 +33,13 @@ class MembersController < ApplicationController
       format.html { redirect_to(request.referrer || issue_home_path_or_url(@member.issue)) }
     end
   end
+
+  def ban
+    @user = User.find_by id: params[:user_id]
+    @member = @issue.members.find_by user: @user
+    @member.try(:destroy)
+    respond_to do |format|
+      format.js
+    end
+  end
 end

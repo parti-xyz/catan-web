@@ -1,0 +1,5 @@
+<% if !@member.nil? and @member.destroyed? %>
+  $('#<%= dom_id(@user) %>').fadeOut("normal", function() {
+    $(this).remove();
+  });
+<% end %>

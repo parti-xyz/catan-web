@@ -1,5 +1,5 @@
 - issue ||= @issue
-%li.user-card
+%li.user-card[user]
   .user-card__thumb
     = link_to user_gallery_path(user) do
       .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}

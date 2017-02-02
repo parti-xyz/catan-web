@@ -70,10 +70,11 @@ Rails.application.routes.draw do
     end
     resources :members do
       delete :cancel, on: :collection
+      delete :ban, on: :collection
     end
     resources :member_requests do
-      delete :reject, on: :collection
       post :accept, on: :collection
+      delete :reject, on: :collection
     end
   end
 
