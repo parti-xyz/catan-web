@@ -30,6 +30,7 @@ gem 'carrierwave-base64', '~> 2.3', '>= 2.3.3'
 
 # auth
 gem 'cancancan', '~> 1.10'
+gem 'rolify'
 gem 'devise', '~> 4.2'
 gem 'omniauth', '~> 1.3', '>= 1.3.1'
 gem 'omniauth-facebook', '~> 4.0'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126003956) do
+ActiveRecord::Schema.define(version: 20170202051448) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -435,6 +435,17 @@ ActiveRecord::Schema.define(version: 20170126003956) do
   add_index "relateds", ["issue_id"], name: "index_relateds_on_issue_id", using: :btree
   add_index "relateds", ["target_id"], name: "index_relateds_on_target_id", using: :btree
 
+  create_table "roles", force: :cascade do |t|
+    t.string   "name",          limit: 255
+    t.integer  "resource_id",   limit: 4
+    t.string   "resource_type", limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
   create_table "searches", force: :cascade do |t|
     t.integer  "searchable_id",   limit: 4,        null: false
     t.string   "searchable_type", limit: 255
@@ -551,6 +562,13 @@ ActiveRecord::Schema.define(version: 20170126003956) do
   add_index "users", ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true, using: :btree
   add_index "users", ["provider", "uid", "active"], name: "index_users_on_provider_and_uid_and_active", unique: true, using: :btree
   add_index "users", ["reset_password_token", "active"], name: "index_users_on_reset_password_token_and_active", unique: true, using: :btree
+
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.integer "user_id", limit: 4
+    t.integer "role_id", limit: 4
+  end
+
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
   create_table "votes", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,   null: false

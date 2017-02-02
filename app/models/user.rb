@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  rolify
   include Grape::Entity::DSL
   entity :id, :nickname, :email do
     expose :image_url do |instance|
@@ -82,11 +83,7 @@ class User < ActiveRecord::Base
 
 
   def admin?
-    if Rails.env.staging? or Rails.env.production?
-      %w(account@parti.xyz rest515@parti.xyz berry@parti.xyz dalikim@parti.xyz qus1225@gmail.com dmtgjh@naver.com lynnata@gmail.com ajimania@hanmail.net).include? email
-    else
-      %w(account@parti.xyz admin@test.com foroso@gmail.com).include? email
-    end
+    has_role?(:admin)
   end
 
   def send_devise_notification(notification, *args)

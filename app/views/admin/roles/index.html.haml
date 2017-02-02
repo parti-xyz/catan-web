@@ -1,0 +1,16 @@
+%section.roles
+  %h3 운영자 관리
+  .role-form
+    = form_tag add_admin_roles_path, method: :post do |f|
+      .form-group
+        = text_field_tag :user_nickname, '', class: 'form-control'
+      = submit_tag '새로운 운영자 추가하기'
+
+
+  .row{ style: 'margin-top: 24px;' }
+    - User.with_role(:admin).each do |user|
+      .col-sm-3
+        = render 'users/byline', user: user
+        - unless current_user == user
+          = link_to remove_admin_roles_path(user_nickname: user.nickname), method: :delete, class: 'btn btn-xs btn-default' do
+            %i.fa.fa-trash

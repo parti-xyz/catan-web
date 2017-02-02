@@ -162,6 +162,12 @@ Rails.application.routes.draw do
       post 'freeze', on: :collection
     end
 
+    resources :roles do
+      collection do
+        post :add
+        delete :remove
+      end
+    end
     resources :users do
       collection do
         get 'all_email'
