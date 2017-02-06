@@ -1,0 +1,27 @@
+= form_for [:admin, @group] do |f|
+  .form-group
+    = f.label :slug
+    = f.text_field :slug, class: 'form-control'
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: 'form-control'
+  .form-group
+    = f.label :site_title
+    = f.text_field :site_title, class: 'form-control'
+  .form-group
+    = f.label :head_title
+    = f.text_field :head_title, class: 'form-control'
+  .form-group
+    = f.label :site_description
+    ~ f.text_area :site_description, class: 'form-control'
+  .form-group
+    = f.label :site_keywords
+    ~ f.text_area :site_keywords, class: 'form-control'
+  .form-group
+    = f.label :logo
+    = f.file_field :logo, class: 'form-control'
+  .form-group
+    = f.label :cover
+    = f.file_field :cover, class: 'form-control'
+  .form-group
+    = f.submit

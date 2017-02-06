@@ -30,7 +30,7 @@ class Ability
       end
       can :update, Wiki
       if user.admin?
-        can :manage, [Issue, Related, Blind, Role]
+        can :manage, [Issue, Related, Blind, Role, Group]
       end
     end
   end

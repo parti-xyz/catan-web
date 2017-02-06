@@ -173,6 +173,7 @@ Rails.application.routes.draw do
         get 'all_email'
       end
     end
+    resources :groups
     resources :blinds
   end
 end

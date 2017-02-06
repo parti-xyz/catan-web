@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170202051448) do
+ActiveRecord::Schema.define(version: 20170206050715) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -106,6 +106,25 @@ ActiveRecord::Schema.define(version: 20170202051448) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
+
+  create_table "groups", force: :cascade do |t|
+    t.integer  "user_id",          limit: 4,                    null: false
+    t.string   "name",             limit: 255,                  null: false
+    t.string   "site_title",       limit: 255,                  null: false
+    t.string   "head_title",       limit: 255,                  null: false
+    t.text     "site_description", limit: 65535
+    t.text     "site_keywords",    limit: 65535
+    t.string   "slug",             limit: 255,                  null: false
+    t.string   "logo",             limit: 255
+    t.string   "cover",            limit: 255
+    t.datetime "deleted_at"
+    t.string   "active",           limit: 255,   default: "on"
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+  end
+
+  add_index "groups", ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true, using: :btree
+  add_index "groups", ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true, using: :btree
 
   create_table "invitations", force: :cascade do |t|
     t.integer  "user_id",      limit: 4, null: false
