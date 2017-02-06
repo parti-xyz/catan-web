@@ -58,10 +58,6 @@ class Group < ActiveRecord::Base
     "#{name} 빠띠"
   end
 
-  def membership?
-    self != Group::INDIE
-  end
-
   def categories
     if slug == 'gwangju'
       [
@@ -88,10 +84,10 @@ class Group < ActiveRecord::Base
   end
 
   def self.find_by_slug(slug)
-    all.detect { |g| g.slug == slug }
+    find_by(slug: slug)
   end
 
   def self.exists_slug?(slug)
-    all.any? { |g| g.slug == slug }
+    exists? slug: slug
   end
 end

@@ -71,7 +71,7 @@
           = render 'issues/issue_line', issue: issue
         - if current_user.only_member_issues(current_group).any?
           %li.dropdown-header
-            #{current_group.try(:membership?) ? '가입한' : '구독 중인'} 빠띠
+            가입한 빠띠
             #{current_user.only_member_issues(current_group).count}
         - current_user.only_member_issues(current_group).each do |issue|
           = render 'issues/issue_line', issue: issue
@@ -85,7 +85,7 @@
             = render 'issues/issue_line', issue: issue
           - if current_user.only_member_issues(group).any?
             %li.dropdown-header
-              #{group.try(:membership?) ? '가입한' : '구독 중인'} #{group.name} 빠띠
+              가입한 #{group.name} 빠띠
               #{current_user.only_member_issues(group).count}
           - current_user.only_member_issues(group).each do |issue|
             = render 'issues/issue_line', issue: issue

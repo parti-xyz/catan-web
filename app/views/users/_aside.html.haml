@@ -7,7 +7,7 @@
         %ul.list-unstyled.aside-issues
           = render customize_partial_path(@user.making_issues.only_group(current_group), 'issue_line')
       - if @user.only_member_issues(current_group).any?
-        %h5.aside-title #{current_group.try(:membership?) ? '가입한' : '구독 중인'} 빠띠
+        %h5.aside-title 가입한 빠띠
         %ul.list-unstyled.aside-issues
           = render customize_partial_path(@user.only_member_issues(current_group), 'issue_line')
 
@@ -17,7 +17,7 @@
           %ul.list-unstyled.aside-issues
             = render customize_partial_path(@user.making_issues.only_group(group), 'issue_line')
         - if @user.only_member_issues(group).any?
-          %h5.aside-title #{group.try(:membership?) ? '가입한' : '구독 중인'} #{group.name} 빠띠
+          %h5.aside-title 가입한 #{group.name} 빠띠
           %ul.list-unstyled.aside-issues
             = render customize_partial_path(@user.only_member_issues(group), 'issue_line')
 
