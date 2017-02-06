@@ -2,6 +2,14 @@
 
 ## 업그레이드
 
+### 1.75.0 --> ?
+
+그룹 DB를 채웁니다.
+
+```
+$ RAILS_ENV=production bin/rake data:seed:group
+```
+
 ### 1.69.0 --> 1.70.0 (주의: 아직 완성되지 않은 버전입니다)
 SSL을 적용됩니다. 로컬 개발환경을 powder에서 puma-dev로 변경합니다. 페이스북API, 트위터API, 구글 API를 변경합니다.
 
