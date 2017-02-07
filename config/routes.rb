@@ -108,6 +108,10 @@ Rails.application.routes.draw do
   resources :relateds
   resources :messages
 
+  namespace :group do
+    resources :members
+  end
+
   get 'file_source/:id/download', to: "file_sources#download", as: :download_file_source
 
   get '/dashboard', to: "dashboard#index", as: 'dashboard'

@@ -24,4 +24,10 @@
     = f.label :cover
     = f.file_field :cover, class: 'form-control'
   .form-group
+    = f.label :private
+    .checkbox
+      %label
+        = f.check_box :private
+        비밀그룹으로 설정하면, 이 그룹에 가입한 멤버만 활동할 수 있습니다.
+  .form-group
     = f.submit

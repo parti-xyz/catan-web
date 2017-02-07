@@ -1,7 +1,7 @@
 class Member < ActiveRecord::Base
   include Grape::Entity::DSL
   entity :id do
-    expose :issue, using: Issue::Entity, as: :parti
+    #expose :issue, using: Issue::Entity, as: :parti
     expose :user, using: User::Entity
     expose :is_maker do |instance|
       instance.is_maker?
@@ -9,12 +9,12 @@ class Member < ActiveRecord::Base
   end
 
   belongs_to :user
-  belongs_to :issue, counter_cache: true
+  belongs_to :joinable, counter_cache: true
   has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true
-  validates :issue, presence: true
-  validates :user, uniqueness: {scope: :issue}
+  validates :joinable, presence: true
+  validates :user, uniqueness: {scope: :joinable}
 
   scope :latest, -> { after(1.day.ago) }
   scope :recent, -> { order(id: :desc) }

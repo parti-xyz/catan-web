@@ -25,6 +25,6 @@ class Admin::GroupsController < AdminController
   private
 
   def group_params
-    params.require(:group).permit(:slug, :name, :logo, :categories, :site_title, :head_title, :site_description, :site_keywords)
+    params.require(:group).permit(:slug, :name, :logo, :categories, :site_title, :head_title, :site_description, :site_keywords, :private)
   end
 end

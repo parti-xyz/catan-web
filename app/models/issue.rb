@@ -96,7 +96,7 @@ class Issue < ActiveRecord::Base
     end
   end
   has_many :maker_users, through: :makers, source: :user
-  has_many :members, dependent: :destroy
+  has_many :members, as: :joinable, dependent: :destroy
   has_many :member_users, through: :members, source: :user
   has_many :member_requests, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
