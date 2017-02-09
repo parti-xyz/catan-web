@@ -11,7 +11,8 @@ class Group < ActiveRecord::Base
   mount_uploader :cover, ImageUploader
 
   belongs_to :user
-  has_many :members, as: :joinable, dependant: :destroy
+  has_many :members, as: :joinable, dependent: :destroy
+  has_many :member_users, through: :members, source: :user
 
   def find_category_by_slug(slug)
     categories.detect { |c| c.slug == slug }

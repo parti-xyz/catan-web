@@ -9,7 +9,7 @@ class Member < ActiveRecord::Base
   end
 
   belongs_to :user
-  belongs_to :joinable, counter_cache: true
+  belongs_to :joinable, counter_cache: true, polymorphic: true
   has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true

@@ -62,7 +62,7 @@ class User < ActiveRecord::Base
   has_many :making_issues, through: :makers, source: :issue
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
-  has_many :member_issues, through: :members, source: :issue
+  has_many :member_issues, through: :members, source: :joinable, source_type: Issue
   has_many :device_tokens, dependent: :destroy
   has_many :invitations, dependent: :destroy
   has_many :received_invitations, dependent: :destroy, foreign_key: :recipient_id, class_name: Invitation
