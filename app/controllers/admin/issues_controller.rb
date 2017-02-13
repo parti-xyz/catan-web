@@ -64,7 +64,7 @@ class Admin::IssuesController < AdminController
   end
 
   def freeze
-    issue = Issue.find_by slug: params[:issue_to_be_freezed]
+    issue = Issue.find_by slug: params[:issue_to_be_freezed], group_slug: (params[:issue_to_be_freezed_of_group].presence || nil)
     if issue.blank?
       flash[:error] = '빠띠를 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_issues_path and return
