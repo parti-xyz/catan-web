@@ -1,3 +1,10 @@
+- has_blinds = false
 - @posts.each do |post|
+  - unless post.blinded?(current_user)
+    .col-xs-12.col-sm-6.card.card--hover-grow
+      = render post.poll, show_issue: true
+  - else
+    - has_blinds = true
+- if has_blinds
   .col-xs-12.col-sm-6.card.card--hover-grow
-    = render post.poll, show_issue: true
+    .poll-card= t('labels.blind_info')
