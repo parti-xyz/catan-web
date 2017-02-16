@@ -1,0 +1,5 @@
+$('.user-card-wrapper').data('last-id', '<%= @users.last.try(:id) %>');
+$('.user-card-wrapper').data('is-last', <%= @is_last_page %>);
+var $users = $("<%= escape_javascript(render 'users/slug_users_page', group: current_group, users: @users) %>");
+$('.user-card-wrapper').append($users);
+parti_partial$($users);

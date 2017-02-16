@@ -22,6 +22,10 @@ class Group < ActiveRecord::Base
     "#{name} 빠띠"
   end
 
+  def member? someone
+    members.exists? user: someone
+  end
+
   def categories
     if slug == 'gwangju'
       [
@@ -33,6 +37,10 @@ class Group < ActiveRecord::Base
     else
       []
     end
+  end
+
+  def private_blocked?(someone = nil)
+    !member?(someone) && private?
   end
 
   def self.joined_by(someone)
