@@ -1,7 +1,8 @@
 class Member < ActiveRecord::Base
   include Grape::Entity::DSL
   entity :id do
-    #expose :issue, using: Issue::Entity, as: :parti
+    expose :issue, using: Issue::Entity, as: :parti
+    expose :group, using: Group::Entity
     expose :user, using: User::Entity
     expose :is_maker do |instance|
       instance.is_maker?
@@ -19,8 +20,16 @@ class Member < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :recent, -> { order(id: :desc) }
 
+  def issue
+    joinable if joinable_type == 'Issue'
+  end
+
   def issue_for_message
     issue
+  end
+
+  def group_for_message
+    joinable if joinable_type == 'Group'
   end
 
   def is_maker?

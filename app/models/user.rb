@@ -203,7 +203,7 @@ class User < ActiveRecord::Base
 
   def default_member_issues
     issue = Issue.find_by slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: nil
-    Member.create(user: self, issue: issue) if issue.present?
+    Member.create(user: self, joinable: issue) if issue.present?
   end
 
   def nickname_exclude_pattern
