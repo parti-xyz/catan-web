@@ -1,5 +1,7 @@
 class CreateGroupsAgain < ActiveRecord::Migration
   def change
+    drop_table :groups
+
     create_table :groups, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
       t.references :user, null: false
       t.string :name, null: false
