@@ -2,12 +2,10 @@
 
 ## 업그레이드
 
-### 1.75.0 --> ?
-
-그룹 DB를 채웁니다.
-
+### ? --> ?
+배포전 실서버에 더미 그룹테이블을 만들어줍니다.
 ```
-$ RAILS_ENV=production bin/rake data:seed:group
+CREATE TABLE `groups` (   `id` int(11) NOT NULL AUTO_INCREMENT,   `user_id` int(11) NOT NULL,   `name` varchar(255) NOT NULL,   `site_title` varchar(255) NOT NULL,   `head_title` varchar(255) NOT NULL,   `site_description` text,   `site_keywords` text,   `slug` varchar(255) NOT NULL,   `logo` varchar(255) DEFAULT NULL,   `cover` varchar(255) DEFAULT NULL,   `deleted_at` datetime DEFAULT NULL,   `active` varchar(255) DEFAULT 'on',   `created_at` datetime NOT NULL,   `updated_at` datetime NOT NULL,   `private` tinyint(1) NOT NULL DEFAULT '0',   `members_count` int(11) NOT NULL DEFAULT '0',   PRIMARY KEY (`id`),   UNIQUE KEY `index_groups_on_slug_and_active` (`slug`,`active`),   UNIQUE KEY `index_groups_on_site_title_and_active` (`site_title`,`active`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 ```
 
 ### 1.69.0 --> 1.70.0 (주의: 아직 완성되지 않은 버전입니다)
