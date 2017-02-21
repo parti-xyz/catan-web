@@ -58,8 +58,9 @@ class User < ActiveRecord::Base
   has_many :votings, dependent: :destroy
   has_many :blinds, dependent: :destroy
   has_many :polls, through: :posts
-  has_many :makers, dependent: :destroy
-  has_many :making_issues, through: :makers, source: :issue
+  has_many :issue_makers, -> { where(makable_type: 'Issue')}, dependent: :destroy, class_name: Maker
+  has_many :group_makers, -> { where(makable_type: 'Group')}, dependent: :destroy, class_name: Maker
+  has_many :making_issues, through: :issue_makers, source: :makable, source_type: Issue
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
   has_many :member_issues, through: :members, source: :joinable, source_type: Issue
@@ -149,15 +150,15 @@ class User < ActiveRecord::Base
   end
 
   def maker?(issue)
-    makers.exists?(issue: issue)
+    issue_makers.exists?(makable: issue)
   end
 
   def only_all_member_issues
-    member_issues.where.not(id: makers.select(:issue_id))
+    member_issues.where.not(id: issue_makers.select(:makable_id))
   end
 
   def only_member_issues(group)
-    member_issues.only_group(group).where.not(id: makers.select(:issue_id))
+    member_issues.only_group(group).where.not(id: issue_makers.select(:makable_id))
   end
 
   def watched_posts(group = nil)

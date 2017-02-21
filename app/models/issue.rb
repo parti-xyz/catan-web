@@ -85,7 +85,7 @@ class Issue < ActiveRecord::Base
   # 이슈는 위키를 하나 가지고 있어요.
   has_one :wiki, dependent: :destroy
   has_many :invitations, dependent: :destroy
-  has_many :makers, dependent: :destroy do
+  has_many :makers, as: :makable, dependent: :destroy do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
     end
