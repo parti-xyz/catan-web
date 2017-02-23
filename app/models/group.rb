@@ -48,6 +48,12 @@ class Group
     site_title: 'Solutions for Change',
     head_title: 'Solutions for Change - 슬로워크'.html_safe)
 
+  WESTAY1 = Group.new(slug: 'westay1',
+    name: '별내 위스테이 공동체 사회적협동조합',
+    site_title: '함께살아보장',
+    head_title: '함께살아보장 - 별내 위스테이 공동체 사회적협동조합',
+    site_description: '별내지구에 조성될 위스테이 아파트 입주자(조합원)의 온라인 커뮤니케이션 채널입니다. 사회적협동조합의 정관과 사업계획에서 다양한 공동체 소모임까지 조합원들과 함께 만들어 갑니다. '.html_safe)
+
   INDIE = Group.new(slug: nil, name: '전체')
 
   def find_category_by_slug(slug)
@@ -71,7 +77,7 @@ class Group
   end
 
   def self.all
-    [Group::GWANGJU, Group::DO, Group::DUCKUP, Group::CHANGE, Group::TOKTOK, Group::INNOVATORS, Group::SLOWALK]
+    [Group::GWANGJU, Group::DO, Group::DUCKUP, Group::CHANGE, Group::TOKTOK, Group::INNOVATORS, Group::SLOWALK, Group::WESTAY1]
   end
 
   def self.all_with_indie

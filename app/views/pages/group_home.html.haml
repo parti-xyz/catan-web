@@ -2,6 +2,9 @@
 -if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual.png"
   %section#group-key-visual
     = image_tag "groups/#{current_group.slug}_thumb_main_keyvisual.png"
+-if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual.jpg"
+  %section#group-key-visual
+    = image_tag "groups/#{current_group.slug}_thumb_main_keyvisual.jpg"
 %section#home
   .container
     .row
