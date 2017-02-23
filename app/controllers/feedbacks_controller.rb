@@ -5,6 +5,11 @@ class FeedbacksController < ApplicationController
     option = Option.find params[:option_id]
     survey = option.survey
 
+    @post = Post.find_by survey: survey
+    if @post.blank? or @post.private_blocked?(current_user)
+      render_404 and return
+    end
+
     if survey.open?
       previous_feedback = survey.feedbacks.find_by user: current_user
 
@@ -18,7 +23,6 @@ class FeedbacksController < ApplicationController
       end
     end
 
-    @post = Post.find_by! survey: survey
   end
 
   private
