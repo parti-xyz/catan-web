@@ -60,6 +60,15 @@ namespace :data do
         site_title: 'Solutions for Change',
         head_title: 'Solutions for Change - 슬로워크')
       group.save!
+
+      group = Group.find_or_initialize_by slug: 'westay1'
+      group.assign_attributes(
+        user: user,
+        name: '별내 위스테이 공동체 사회적협동조합',
+        site_title: '함께살아보장',
+        head_title: '함께살아보장 - 별내 위스테이 공동체 사회적협동조합',
+        site_description: '별내지구에 조성될 위스테이 아파트 입주자(조합원)의 온라인 커뮤니케이션 채널입니다. 사회적협동조합의 정관과 사업계획에서 다양한 공동체 소모임까지 조합원들과 함께 만들어 갑니다.')
+      group.save!
     end
   end
 end
