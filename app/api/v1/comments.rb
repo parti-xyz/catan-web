@@ -27,6 +27,17 @@ module V1
         present :comment, @comment, type: :full
       end
 
+      desc '댓글을 지웁니다'
+      oauth2
+      params do
+        requires :id, type: Integer, desc: '지울 댓글 번호'
+      end
+      delete ':id' do
+        @comment = Comment.find(params[:id])
+        authorize! :destroy, @comment
+        @comment.destroy!
+      end
+
       desc '한 게시글의 댓글을 반환합니다.'
       oauth2
       params do
