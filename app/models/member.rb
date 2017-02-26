@@ -1,8 +1,15 @@
 class Member < ActiveRecord::Base
   include Grape::Entity::DSL
-  entity :id do
-    expose :issue, using: Issue::Entity, as: :parti
-    expose :group, using: Group::Entity
+  entity do
+    { parti: Issue::Entity,
+      group: Group::Entity
+    }.each do |key, entity|
+      type = ( key == :parti ? 'Issue' : key.capitalize.to_s)
+      expose :"#{key}_joinable", using: entity, if: lambda { |instance, options| instance.joinable_type == type } do |instance|
+        instance.joinable
+      end
+    end
+    expose :id, :joinable_type
     expose :user, using: User::Entity
     expose :is_maker do |instance|
       instance.is_maker?
