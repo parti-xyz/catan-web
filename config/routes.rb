@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  class RootPartiRouteConstraint
+  class IndieGroupRouteConstraint
     include GroupHelper
     def matches?(request)
       fetch_group(request).blank?
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
     match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
   end
 
-  constraints(RootPartiRouteConstraint.new) do
+  constraints(IndieGroupRouteConstraint.new) do
     authenticated :user do
       root 'dashboard#index', as: :dashboard_root
     end

@@ -9,23 +9,43 @@
   .container
     .row
       .col-xs-12.col-sm-8
-        %section#parties-all
-          .parties-all
-            .parties-filter
-              .parties-search-form
-                %form(onsubmit="return false;")
-                  = hidden_field_tag :sort
-                  .input-group.input-group-lg.input-group-keyword
-                    %input.form-control{name: "keyword", placeholder: "어떤 이슈에 관심있으세요?", type: "search", data: { action: 'parti-search-parties', 'search-sort': '#parties-all input[name=sort]'}}
-                      %span.input-group-btn
-                        %button.btn.btn-group-default{:type => "button"}
-                          %i.fa.fa-search
-              .parties-sort-select
-                = render 'pages/home_sort_select'
+        - if current_group.private_blocked? current_user
+          .blocked
+            %h4
+              비공개 그룹입니다.
+            - if current_group.member_requested? current_user
+              %p
+                이 그룹에서 활동하려면 먼저 가입승인을 받아야합니다.
+                %span.text-nowrap
+                  %strong<> 그룹메이커의 가입승인
+                  을 기다려주세요.
+            - else
+              %p
+                비공개 그룹에서 활동하려면 먼저 가입신청을 해주세요.
+              %div(class="#{dom_id(current_group)}-member" style="    padding-bottom: 12px;")
+                - if user_signed_in?
+                  = link_to smart_members_or_member_requests_path(current_group), method: :post, class: 'btn btn-md btn-primary' do
+                    가입하기
+                - else
+                  = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.id}.to_json) }, class: 'btn btn-md btn-primary'
+        - else
+          %section#parties-all
+            .parties-all
+              .parties-filter
+                .parties-search-form
+                  %form(onsubmit="return false;")
+                    = hidden_field_tag :sort
+                    .input-group.input-group-lg.input-group-keyword
+                      %input.form-control{name: "keyword", placeholder: "어떤 이슈에 관심있으세요?", type: "search", data: { action: 'parti-search-parties', 'search-sort': '#parties-all input[name=sort]'}}
+                        %span.input-group-btn
+                          %button.btn.btn-group-default{:type => "button"}
+                            %i.fa.fa-search
+                .parties-sort-select
+                  = render 'pages/home_sort_select'
 
-            .parties-all-loading
-              %i.fa.fa-spinner.fa-pulse.fa-3x.fa-fw
-            .parties-all-list
-              = render 'issues/list'
+              .parties-all-loading
+                %i.fa.fa-spinner.fa-pulse.fa-3x.fa-fw
+              .parties-all-list
+                = render 'issues/list'
       - unless is_small_screen?
         = render 'application/aside'

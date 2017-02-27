@@ -6,7 +6,8 @@ namespace :data do
       seed_group(user, 'gwangju', [],
         name: '광주',
         site_title: '민주주의 플랫폼',
-        head_title: '민주주의 플랫폼 - 광주빠띠')
+        head_title: '민주주의 플랫폼 - 광주빠띠',
+        private: true)
 
       seed_group(user, 'do', [],
         name: '나는 알아야겠당',

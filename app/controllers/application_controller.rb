@@ -6,8 +6,9 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :prepare_meta_tags, if: "request.get?"
   before_action :set_device_type
-  after_filter :prepare_unobtrusive_flash
-  after_filter :prepare_store_location
+  before_action :blocked_private_group
+  after_action :prepare_unobtrusive_flash
+  after_action :prepare_store_location
 
   layout -> { get_layout }
 
@@ -52,6 +53,13 @@ class ApplicationController < ActionController::Base
   helper_method :current_group
 
   private
+
+  def blocked_private_group
+    return if current_group.blank?
+    if current_group.private_blocked? current_user and !(controller_name == 'pages' and action_name == 'home')
+      redirect_to root_url
+    end
+  end
 
   def build_meta_options(options)
     unless options.nil?

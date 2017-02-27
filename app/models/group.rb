@@ -44,6 +44,10 @@ class Group < ActiveRecord::Base
     !member?(someone) && private?
   end
 
+  def member_requested?(someone)
+    false
+  end
+
   def self.joined_by(someone)
     someone.member_issues.map(&:group).uniq.compact
   end
