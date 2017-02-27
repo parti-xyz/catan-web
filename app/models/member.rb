@@ -22,7 +22,7 @@ class Member < ActiveRecord::Base
 
   validates :user, presence: true
   validates :joinable, presence: true
-  validates :user, uniqueness: {scope: :joinable}
+  validates :user, uniqueness: {scope: [:joinable_id, :joinable_type]}
 
   scope :latest, -> { after(1.day.ago) }
   scope :recent, -> { order(id: :desc) }
@@ -40,12 +40,6 @@ class Member < ActiveRecord::Base
   end
 
   def is_maker?
-    is_maker = false
-    issue.makers.each do |maker|
-      if maker.user == user
-        is_maker = true
-      end
-    end
-    is_maker
+    joinable.makers.exists? user: self.user
   end
 end

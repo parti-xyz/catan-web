@@ -35,7 +35,7 @@ namespace :data do
         site_description: '사회혁신가는 일상에서 대안과 해결책을 고민하고 제안하며, 구체적인 그림과 방법을 연구하고, 각자의 현장에서 실천하고자 하는 사람들입니다.',
         site_keywords: '함께, 새로운세상을, 만들자, 사회혁신가, 소셜벤처, 박근혜게이트, 정치, 시국선언')
 
-      seed_group(user, 'slowalk', [],
+      seed_group(user, 'slowalk', ['rest515'],
         name: '슬로워크',
         site_title: 'Solutions for Change',
         head_title: 'Solutions for Change - 슬로워크')
@@ -58,6 +58,10 @@ namespace :data do
       group.makers.build(user: user)
     end
     group.makers.all.select { |maker| !maker_users.include?(maker.user) }.map &:destroy!
+    maker_users.each do |user|
+      next if group.members.exists?(user: user)
+      group.members.build(user: user)
+    end
     group.save!
   end
 end
