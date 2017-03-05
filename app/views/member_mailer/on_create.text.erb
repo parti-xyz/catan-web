@@ -1,6 +1,6 @@
 안녕하세요. <%= @maker_user.nickname %>님!
 
-<%= @member.user.nickname %>님이 <%= @member.issue.title %> 빠띠에 가입했습니다.
+<%= @member.user.nickname %>님이 <%= @member.joinable.title %> <%= @member.joinable.model_name.human %>에 가입했습니다.
 ---------------------------------------------------------
 
-* 빠띠 주소 : <%= issue_home_url(@member.issue) %>
+* 빠띠 주소 : <%= smart_joinable_url(@member.joinable) %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170227070248) do
+ActiveRecord::Schema.define(version: 20170305044008) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 20170227070248) do
 
   create_table "groups", force: :cascade do |t|
     t.integer  "user_id",          limit: 4,                     null: false
-    t.string   "name",             limit: 255,                   null: false
+    t.string   "title",            limit: 255,                   null: false
     t.string   "site_title",       limit: 255,                   null: false
     t.string   "head_title",       limit: 255,                   null: false
     t.text     "site_description", limit: 65535
@@ -211,17 +211,18 @@ ActiveRecord::Schema.define(version: 20170227070248) do
   add_index "makers", ["user_id"], name: "index_makers_on_user_id", using: :btree
 
   create_table "member_requests", force: :cascade do |t|
-    t.integer  "issue_id",       limit: 4,                    null: false
+    t.integer  "joinable_id",    limit: 4,                    null: false
     t.integer  "user_id",        limit: 4,                    null: false
     t.datetime "deleted_at"
     t.string   "active",         limit: 255,   default: "on"
     t.text     "cancel_message", limit: 65535
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
+    t.string   "joinable_type",  limit: 255,                  null: false
   end
 
-  add_index "member_requests", ["issue_id", "user_id", "active"], name: "index_member_requests_on_issue_id_and_user_id_and_active", unique: true, using: :btree
-  add_index "member_requests", ["issue_id"], name: "index_member_requests_on_issue_id", using: :btree
+  add_index "member_requests", ["joinable_id", "joinable_type", "user_id", "active"], name: "unique_member_requests", unique: true, using: :btree
+  add_index "member_requests", ["joinable_id", "joinable_type"], name: "index_member_requests_on_joinable_id_and_joinable_type", using: :btree
   add_index "member_requests", ["user_id"], name: "index_member_requests_on_user_id", using: :btree
 
   create_table "members", force: :cascade do |t|

@@ -28,7 +28,10 @@ class ApplicationController < ActionController::Base
 
   def render_404
     self.response_body = nil
-    render file: "#{Rails.root}/public/404.html", layout: false, status: 404
+    respond_to do |format|
+      format.html { render file: "#{Rails.root}/public/404.html", layout: false, status: 404 }
+      format.all { head 404 }
+    end
   end
 
   def prepare_meta_tags(options={})
@@ -56,7 +59,11 @@ class ApplicationController < ActionController::Base
 
   def blocked_private_group
     return if current_group.blank?
-    if current_group.private_blocked? current_user and !(controller_name == 'pages' and action_name == 'home')
+    if current_group.private_blocked? current_user and
+    !(
+      (controller_name == 'pages' and action_name == 'home') or
+      (controller_name == 'member_requests' and action_name == 'create')
+    )
       redirect_to root_url
     end
   end
@@ -100,7 +107,7 @@ class ApplicationController < ActionController::Base
 
   def default_meta_options
     {
-      site_name: (current_group.blank? ? "빠띠" : "#{current_group.name} 빠띠"),
+      site_name: (current_group.blank? ? "빠띠" : "#{current_group.title} 빠띠"),
       title: current_group.try(:site_title) || "덕업일치를 위한 오픈커뮤니티 빠띠",
       description: current_group.try(:site_description) || "더 나은 민주주의의 기반요소를 통합한 기민하고, 섬세하고, 일상적인 민주주의 플랫폼, 빠띠!",
       keywords: current_group.try(:site_keywords) || "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",

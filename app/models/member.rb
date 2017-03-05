@@ -21,7 +21,7 @@ class Member < ActiveRecord::Base
   has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true
-  validates :joinable, presence: true
+  validates :joinable, presence: true, on: :update
   validates :user, uniqueness: {scope: [:joinable_id, :joinable_type]}
 
   scope :latest, -> { after(1.day.ago) }

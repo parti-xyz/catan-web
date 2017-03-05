@@ -350,7 +350,7 @@ class Post < ActiveRecord::Base
   end
 
   def private_blocked?(someone = nil)
-    issue.private_blocked?(someone)
+    issue.private_blocked?(someone) or issue.group.try(:private_blocked?, someone)
   end
 
   private

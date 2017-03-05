@@ -30,7 +30,7 @@
                 - issues_selection = {"메이커인 빠띠" => sort_issues_by_title(current_user.making_issues.unfreezed.only_group(current_group)), "가입 중인 빠띠" => sort_issues_by_title(current_user.only_all_member_issues.unfreezed.only_group(current_group))}
                 - if current_group.blank?
                   - Group.all_with_indie_and_exclude(current_group).each do |group|
-                    - issues_selection.merge! "메이커인 #{group.name} 빠띠" => sort_issues_by_title(current_user.making_issues.unfreezed.only_group(group)), "가입 중인 #{group.name} 빠띠" => sort_issues_by_title(current_user.only_all_member_issues.unfreezed.only_group(group))
+                    - issues_selection.merge! "메이커인 #{group.title} 빠띠" => sort_issues_by_title(current_user.making_issues.unfreezed.only_group(group)), "가입 중인 #{group.title} 빠띠" => sort_issues_by_title(current_user.only_all_member_issues.unfreezed.only_group(group))
                 - issues_selection.each do |group_label, issues|
                   - if issues.any?
                     %optgroup{label: group_label}

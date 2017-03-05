@@ -29,7 +29,7 @@
       .reference-card__group-and-issue
         - if post.issue.on_group? and current_group != post.issue.group
           .reference-card__group
-            = post.issue.group.name
+            = post.issue.group.title
         .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
     .caption
       - capture_source = capture do

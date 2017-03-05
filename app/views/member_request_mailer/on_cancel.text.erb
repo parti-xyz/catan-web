@@ -1,6 +1,6 @@
 안녕하세요. <%= @member_request.user.nickname %>님!
 
-<%= @user.nickname %>님이 <%= @member_request.issue.title %> 빠띠에 가입요청을 거절했습니다.
+<%= @user.nickname %>님이 <%= @member_request.joinable.title %> <%= @member_request.joinable.model_name.human %>에 가입요청을 거절했습니다.
 ---------------------------------------------------------
 
-* 빠띠 주소 : <%= issue_home_url(@member_request.issue) %>
+* 빠띠 주소 : <%= smart_joinable_url(@member_request.joinable) %>

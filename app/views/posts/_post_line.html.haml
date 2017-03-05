@@ -80,7 +80,7 @@
               = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
                 - if post.issue.on_group? and current_group != post.issue.group
                   .poll-card__group
-                    = post.issue.group.name[0..2]
+                    = post.issue.group.title[0..2]
                 .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
           .col-sm-6.col-xs-12
             .poll-card__date.date-wrapper.poll-card__date--with-issue

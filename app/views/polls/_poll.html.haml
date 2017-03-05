@@ -18,7 +18,7 @@
       이 게시글을 보시려면 먼저 가입신청을 해주세요.
       %span(class="#{dom_id(post.issue)}-member")
         - if user_signed_in?
-          = link_to smart_members_or_member_requests_path(post.issue), method: :post, class: 'btn btn-md btn-primary' do
+          = link_to smart_members_or_member_requests_parti_path(post.issue), method: :post, class: 'btn btn-md btn-primary' do
             가입하기
         - else
           = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: post.issue.id}.to_json) }, class: 'btn btn-md btn-primary'
@@ -29,7 +29,7 @@
           = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
             - if post.issue.on_group? and current_group != post.issue.group
               .poll-card__group
-                = post.issue.group.name[0..2]
+                = post.issue.group.title[0..2]
             .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
       .col-sm-6.col-xs-12
         .poll-card__date.date-wrapper.poll-card__date--with-issue

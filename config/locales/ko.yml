@@ -50,10 +50,11 @@ ko:
       blank: "%{attribute} 값을 입력해 주세요"
       taken: "%{attribute} 값이 이미 사용 중 입니다"
       invalid_auth_token: 로그인한지 너무 오래 되셨네요. 다시 시도해 주세요.
-      carrierwave_processing_error: 처리할 수없는 파일입니다.
-      mini_magick_processing_error: 처리할 수없는 파일입니다.
+      carrierwave_processing_error: 처리할 수 없는 파일입니다.
+      mini_magick_processing_error: 처리할 수 없는 파일입니다.
       carrierwave_integrity_error: 허용되지 않는 파일 형식입니다.
       not_deletable_parti: 가입한 멤버가 있거나 게시글이 있는 빠띠는 삭제할 수 없습니다.
+      unknown: 앗! 뭔가 잘못되었습니다.
     models:
       user:
         attributes:
@@ -75,6 +76,7 @@ ko:
       poll: 찬반투표
       post: 게시글
       survey: 설문
+      group: 그룹
     attributes:
       issue:
         title: 제목

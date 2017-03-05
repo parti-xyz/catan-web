@@ -1,19 +1,19 @@
 - member_request = message.messagable
 - if message.action.to_s == 'request'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: issue_users_path(member_request.issue) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member_request.joinable) } }
     %strong
       #{member_request.user.nickname}님이
-      = link_to member_request.issue.title, issue_home_url(member_request.issue)
-      빠띠에 가입요청합니다.
+      = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
+      #{member_request.joinable.model_name.human}에 가입요청합니다.
 - if message.action.to_s == 'accept'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: issue_home_url(member_request.issue) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member_request.joinable) } }
     %strong
       #{message.sender.nickname}님이
-      = link_to member_request.issue.title, issue_home_url(member_request.issue)
-      빠띠 가입요청을 승인합니다.
+      = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
+      #{member_request.joinable.model_name.human} 가입요청을 승인합니다.
 - if message.action.to_s == 'cancel'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: issue_home_url(member_request.issue) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member_request.joinable) } }
     %strong
       #{message.sender.nickname}님이
-      = link_to member_request.issue.title, issue_home_url(member_request.issue)
-      빠띠 가입요청을 거절합니다.
+      = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
+      #{member_request.joinable.model_name.human} 가입요청을 거절합니다.

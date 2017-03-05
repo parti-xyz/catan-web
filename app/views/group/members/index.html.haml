@@ -1,5 +1,18 @@
 %section#issue-users
   .container
+    - if current_group.member_request_users.any?
+      .row
+        .col-sm-8.col-xs-12
+          %section#content-tab-section
+            .nav-tabs.message-tab
+              %h4
+                가입신청
+                .count-label-wrapper
+                  .count-label= current_group.member_requests.count
+          %ul.request-card-wrapper.list-unstyled.clearfix
+            - current_group.member_request_users.each do |user|
+              = render 'users/user', user: user, additional_buttons_partial: 'group/member_requests/accept_buttons'
+
     .row
       .col-sm-8.col-xs-12
         %section#content-tab-section

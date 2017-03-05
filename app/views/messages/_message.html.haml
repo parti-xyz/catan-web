@@ -1,10 +1,14 @@
 .message.clearfix[message]{ data: {action: 'parti-message-link', base: "##{dom_id(message)}-url-source" } }
   .message__header.clearfix
     .message__parti.pull-left
-      = link_to "#{message.issue.title} 빠띠", issue_home_url(message.issue)
-      - if message.issue.on_group?
-        &gt;
-        = link_to message.issue.group.name, root_url(subdomain: message.issue.group.slug)
+      - if message.issue.present?
+        = link_to "#{message.issue.title} 빠띠", issue_home_url(message.issue)
+        - if message.issue.on_group?
+          &gt;
+          = link_to message.issue.group.title, root_url(subdomain: message.issue.group.slug)
+      - else message.group.present?
+        = link_to "#{message.group.title} 그룹", smart_group_url(message.group)
+
     .message__date.date-wrapper.pull-right
       = date_f message.created_at
   .message__messagable

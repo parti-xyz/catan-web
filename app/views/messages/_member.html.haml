@@ -1,5 +1,5 @@
-%div{id: "#{dom_id(message)}-url-source", data: { url: issue_home_url(member.issue) } }
+%div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
   %strong
     #{member.user.nickname}님이
-    = link_to member.issue.title, issue_home_url(member.issue)
-    빠띠에 가입했습니다.
+    = link_to member.joinable.title, smart_joinable_url(member.joinable)
+    #{member.joinable.model_name.human}에 가입했습니다.

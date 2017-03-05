@@ -19,9 +19,12 @@ class MemberRequestsController < ApplicationController
 
   def accept
     @user = User.find_by(id: params[:user_id])
-    render_404 and return if @user.blank? or @issue.member?(@user)
+    render_404 and return if @user.blank?
+    redirect_to(request.referrer || issue_users_path(@member.issue)) if @issue.member?(@user)
 
     @member_request = @issue.member_requests.find_by(user: @user)
+    render_404 and return if @member_request.blank?
+
     @member = @issue.members.build(user: @member_request.user)
     ActiveRecord::Base.transaction do
       if @member.save

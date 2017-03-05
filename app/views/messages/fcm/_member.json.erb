@@ -1,17 +1,17 @@
 <%
   member = message.messagable
-  issue = member.issue
-  body = "#{message.sender.nickname}님이 #{issue.title} 빠띠에 가입했습니다."
+  joinable = member.joinable
+  body = "#{message.sender.nickname}님이 #{joinable.title} #{joinable.model_name.human}에 가입했습니다."
 %>
 {
   "notification": {
-    "title": "<%= issue.title %>",
+    "title": "<%= joinable.title %>",
     "body": "<%= body %>"
   },
   "data": {
-    "title": "<%= issue.title %>",
+    "title": "<%= joinable.title %>",
     "body": "<%= body %>",
-    "type": "parti",
-    "param": "<%= issue.slug %>"
+    "type": "<%= joinable.is_a? Group ? 'group' : 'parti' %>",
+    "param": "<%= joinable.slug %>"
   }
 }

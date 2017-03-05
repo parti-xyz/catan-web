@@ -79,13 +79,13 @@
         - Group.all_with_indie_and_exclude(current_group).each do |group|
           - if current_user.making_issues.only_group(group).any?
             %li.dropdown-header
-              메이커인 #{group.name} 빠띠
+              메이커인 #{group.title} 빠띠
               #{current_user.making_issues.only_group(group).count}
           - current_user.making_issues.only_group(group).each do |issue|
             = render 'issues/issue_line', issue: issue
           - if current_user.only_member_issues(group).any?
             %li.dropdown-header
-              가입한 #{group.name} 빠띠
+              가입한 #{group.title} 빠띠
               #{current_user.only_member_issues(group).count}
           - current_user.only_member_issues(group).each do |issue|
             = render 'issues/issue_line', issue: issue

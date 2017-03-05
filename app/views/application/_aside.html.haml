@@ -18,11 +18,11 @@
 
         - Group.all_with_indie_and_exclude(current_group).each do |group|
           - if current_user.making_issues.only_group(group).any?
-            %h5.aside-title 메이커인 #{group.name} 빠띠
+            %h5.aside-title 메이커인 #{group.title} 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.making_issues.only_group(group), 'issue_line')
           - if current_user.only_member_issues(group).any?
-            %h5.aside-title 가입한 #{group.name} 빠띠
+            %h5.aside-title 가입한 #{group.title} 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.only_member_issues(group), 'issue_line')
 

@@ -59,11 +59,26 @@ module PartiUrlHelper
     polymorphic_url(post, options)
   end
 
-  def smart_members_or_member_requests_path(issue, options = {})
+  def smart_members_or_member_requests_parti_path(issue, options = {})
     if issue.private?
       issue_member_requests_path(issue, options)
     else
       issue_members_path(issue, options)
     end
+  end
+
+  def smart_joinable_url(joinable, options = {})
+    case joinable
+    when Group
+      smart_group_url(joinable, options)
+    when Issue
+      issue_home_url(joinable, options)
+    else
+      polymorphic_url(joinable, options)
+    end
+  end
+
+  def smart_group_url(group, options = {})
+    root_url(options.merge(subdomain: group.slug))
   end
 end

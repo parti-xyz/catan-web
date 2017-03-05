@@ -109,7 +109,14 @@ Rails.application.routes.draw do
   resources :messages
 
   namespace :group do
-    resources :members
+    resources :members do
+      delete :cancel, on: :collection
+      delete :ban, on: :collection
+    end
+    resources :member_requests do
+      post :accept, on: :collection
+      delete :reject, on: :collection
+    end
   end
 
   get 'file_source/:id/download', to: "file_sources#download", as: :download_file_source
