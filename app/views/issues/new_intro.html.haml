@@ -1,4 +1,4 @@
-%section#parti-making
+%section#parti-organizing
   .container
     .row
       .col-sm-7.col-xs-12
@@ -22,12 +22,12 @@
               를
             만들고 함께 할 사람들을 초대해보세요.
             = link_to '빠띠란?', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C', target: "_blank", class: 'text-primary', style: 'font-weight: bold; text-decoration: underline;'
-        %button.btn.btn-primary.btn-lg.btn-start-making{"data-target" => "#parti-make-modal", "data-toggle" => "modal", :type => "button"}
+        %button.btn.btn-primary.btn-lg.btn-start-organizing{"data-target" => "#parti-organizemodal", "data-toggle" => "modal", :type => "button"}
           시작하기
       .col-sm-5.hidden-xs
         = image_tag 'img_about_1.png', class: 'key-visual'
 
-  #parti-make-modal.modal.fade{"aria-labelledby" => "parti-make-ModalLabel", :role => "dialog", :tabindex => "-1", data: {action: 'parti-making-parti-intro', 'modal-checkbox': "#parti-make-modal input:checkbox", 'modal_checked_checkbox': "input:checked", 'modal_submit_btn': ".parti-make-submit .btn"}}
+  #parti-organizemodal.modal.fade{"aria-labelledby" => "parti-organizeModalLabel", :role => "dialog", :tabindex => "-1", data: {action: 'parti-organizing-parti-intro', 'modal-checkbox': "#parti-organizemodal input:checkbox", 'modal_checked_checkbox': "input:checked", 'modal_submit_btn': ".parti-organizesubmit .btn"}}
     .modal-dialog{:role => "document"}
       .modal-content
         .modal-header
@@ -37,7 +37,7 @@
             .media-left
               %i.fa.fa-check-square-o
             .media-body
-              %h4#parti-make-ModalLabel.modal-title
+              %h4#parti-organizeModalLabel.modal-title
                 덕업일치를 위한 오픈커뮤니티, 빠띠는 다른 회원들에게 공개된 공간입니다.
                 %br
                 빠띠만의 특징을 알려드릴게요. 내가 만드려는 공간과 성격이 맞는지 확인하고 계속해주세요.
@@ -86,5 +86,5 @@
               = link_to 'http://m.me/parti.xyz', target: '_blank', style: 'text-decoration: underline' do
                 메신저 열기
         .modal-footer
-          .aside_issue_btn.parti-make-submit
+          .aside_issue_btn.parti-organizesubmit
             = link_to '계속하기', new_issue_path, class: 'btn btn-primary btn-lg btn-shadow disabled'

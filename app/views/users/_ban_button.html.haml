@@ -1,6 +1,6 @@
 - if local_assigns[:issue].present? and current_user.try(:admin?)
   = link_to ban_issue_members_path(issue, user_id: user.id), method: :delete, class: 'btn btn-sm btn-danger', remote: true, data: { 'confirm': '정말 강퇴하시겠습니까?', 'disable-with': '처리 중...' } do
     강퇴하기
-- if local_assigns[:group].present? and local_assigns[:group].try(:made_by?, current_user)
+- if local_assigns[:group].present? and local_assigns[:group].try(:organized_by?, current_user)
   = link_to ban_group_members_path(user_id: user.id), method: :delete, class: 'btn btn-sm btn-danger', remote: true, data: { 'confirm': '정말 탈퇴처리 하시겠습니까?', 'disable-with': '처리 중...' } do
     탈퇴처리하기

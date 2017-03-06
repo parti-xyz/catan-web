@@ -2,7 +2,6 @@ require 'test_helper'
 
 class MergeIssuesTest < ActionDispatch::IntegrationTest
   test '합쳐요' do
-    maker_users = [:target_maker, :source_maker, :bat_maker1].map { |slug| makers(slug).user }
     member_users = [:target_member, :source_member, :bat_member1].map { |slug| members(slug).user }
     blind_users = [:target_blind, :source_blind, :bat_blind1].map { |slug| blinds(slug).user }
     old_post_updated_at = posts(:source_post).updated_at
@@ -15,11 +14,6 @@ class MergeIssuesTest < ActionDispatch::IntegrationTest
 
     # source이슈가 사라집니다
     refute Issue.exists?(id: issues(:merge_source_issue).id)
-
-    # 메이커가 합쳐집니다
-    maker_users.each do |user|
-      assert issues(:merge_target_issue).made_by?(user)
-    end
 
     # 멤버가 합쳐집니다
     member_users.each do |user|

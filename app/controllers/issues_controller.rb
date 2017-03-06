@@ -91,8 +91,7 @@ class IssuesController < ApplicationController
   end
 
   def create
-    @issue.makers.build(user: current_user)
-    @issue.members.build(user: current_user)
+    @issue.members.build(user: current_user, is_organizer: true)
     @issue.group_slug = current_group.try(:slug) || 'indie'
 
     if !%w(all).include?(@issue.slug) and @issue.save
@@ -106,12 +105,12 @@ class IssuesController < ApplicationController
     @issue.assign_attributes(issue_params)
 
     ActiveRecord::Base.transaction do
-      @issue.makers.destroy_all
-      (@issue.makers_nickname.try(:split, ",") || []).compact.map(&:strip).uniq.each do |nickname|
+      @issue.members.map { |m| m.is_organizer = false }
+      (@issue.organizer_nicknames.try(:split, ",") || []).compact.map(&:strip).uniq.each do |nickname|
         user = User.find_by(nickname: nickname)
-        if user.present?
-          @issue.makers.build(user: user)
-        end
+        member = @issue.members.find_by(user: user)
+        next if user.blank? or member.blank?
+        member.update_attributes(is_organizer: true)
       end
       if @issue.blinds_nickname.present?
         @issue.blinds.destroy_all
@@ -123,10 +122,6 @@ class IssuesController < ApplicationController
         end
       end
       if @issue.save
-        @issue.makers.each do |maker|
-          @member = maker.user.members.build(joinable: @issue)
-          @member.save
-        end
         MessageService.new(@issue, sender: current_user).call
         redirect_to smart_issue_home_url(@issue)
       else
@@ -188,7 +183,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :makers_nickname, :blinds_nickname, :telegram_link, :tag_list, :category_slug, :private)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_slug, :private)
   end
 
   def prepare_issue_meta_tags

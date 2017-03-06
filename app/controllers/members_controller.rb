@@ -25,7 +25,7 @@ class MembersController < ApplicationController
 
   def cancel
     @member = @issue.members.find_by user: current_user
-    if @member.present? and !@member.issue.made_by?(current_user)
+    if @member.present? and !@member.issue.organized_by?(current_user)
       @member.destroy
     end
     respond_to do |format|

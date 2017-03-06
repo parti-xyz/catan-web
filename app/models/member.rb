@@ -11,8 +11,8 @@ class Member < ActiveRecord::Base
     end
     expose :id, :joinable_type
     expose :user, using: User::Entity
-    expose :is_maker do |instance|
-      instance.is_maker?
+    expose :is_organizer do |instance|
+      instance.is_organizer?
     end
   end
 
@@ -37,9 +37,5 @@ class Member < ActiveRecord::Base
 
   def group_for_message
     joinable if joinable_type == 'Group'
-  end
-
-  def is_maker?
-    joinable.makers.exists? user: self.user
   end
 end

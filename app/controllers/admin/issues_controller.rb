@@ -13,10 +13,6 @@ class Admin::IssuesController < AdminController
 
       ActiveRecord::Base.record_timestamps = false
       begin
-        source.makers.each do |maker|
-          user = maker.user
-          target.makers.build(user: user, updated_at: maker.updated_at, created_at: maker.created_at) unless target.maker_users.exists?(id: user.id)
-        end
         source.members.each do |member|
           user = member.user
           target.members.build(user: user, updated_at: member.updated_at, created_at: member.created_at) unless target.member_users.exists?(id: user.id)

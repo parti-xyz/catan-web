@@ -58,9 +58,9 @@ class User < ActiveRecord::Base
   has_many :votings, dependent: :destroy
   has_many :blinds, dependent: :destroy
   has_many :polls, through: :posts
-  has_many :issue_makers, -> { where(makable_type: 'Issue')}, dependent: :destroy, class_name: Maker
-  has_many :group_makers, -> { where(makable_type: 'Group')}, dependent: :destroy, class_name: Maker
-  has_many :making_issues, through: :issue_makers, source: :makable, source_type: Issue
+  has_many :issue_organizer_members, -> { where(joinable_type: 'Issue').where(is_organizer: true) }, class_name: Member
+  has_many :group_organizer_members, -> { where(joinable_type: 'Group').where(is_organizer: true)}, class_name: Member
+  has_many :organizing_issues, through: :issue_organizer_members, source: :joinable, source_type: Issue
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
   has_many :member_issues, through: :members, source: :joinable, source_type: Issue
@@ -149,16 +149,16 @@ class User < ActiveRecord::Base
     posts.hottest.limit(count)
   end
 
-  def maker?(issue)
-    issue_makers.exists?(makable: issue)
+  def is_organizer?(issue)
+    issue_organizer_members.exists?(joinable: issue)
   end
 
   def only_all_member_issues
-    member_issues.where.not(id: issue_makers.select(:makable_id))
+    member_issues.where.not(id: issue_organizer_members.select(:joinable_id))
   end
 
   def only_member_issues(group)
-    result = member_issues.where.not(id: issue_makers.select(:makable_id))
+    result = member_issues.where.not(id: issue_organizer_members.select(:joinable_id))
     result = result.only_group(group) if group.present?
     result
   end

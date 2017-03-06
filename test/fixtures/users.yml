@@ -34,33 +34,33 @@ admin:
   nickname: admin
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
   roles: admin
-maker:
-  email: maker@test.com
-  uid: maker@test.com
+organizer:
+  email: organizer@test.com
+  uid: organizer@test.com
   provider: email
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
-  nickname: maker
+  nickname: organizer
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
-target_maker:
-  email: target_maker@test.com
-  uid: target_maker@test.com
+target_organizer:
+  email: target_organizer@test.com
+  uid: target_organizer@test.com
   provider: email
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
-  nickname: target_maker
+  nickname: target_organizer
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
-source_maker:
-  email: source_maker@test.com
-  uid: source_maker@test.com
+source_organizer:
+  email: source_organizer@test.com
+  uid: source_organizer@test.com
   provider: email
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
-  nickname: source_maker
+  nickname: source_organizer
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
-bat_maker:
-  email: bat_maker@test.com
-  uid: bat_maker@test.com
+bat_organizer:
+  email: bat_organizer@test.com
+  uid: bat_organizer@test.com
   provider: email
   encrypted_password: <%= User.new.send(:password_digest, "password") %>
-  nickname: bat_maker
+  nickname: bat_organizer
   confirmed_at: <%= 5.day.ago.to_s(:db) %>
 target_member:
   email: target_member@test.com

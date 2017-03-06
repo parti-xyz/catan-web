@@ -894,7 +894,7 @@ $(function(){
     $('#wikis .body .wiki_content a').attr('target', '_blank');
   }
 
-  $('[data-action="parti-making-parti-intro"]').each(function(index, elm){
+  $('[data-action="parti-organizing-parti-intro"]').each(function(index, elm){
     var modal_checkbox = $(elm).data('modal-checkbox');
     var modal_checked_checkbox = $(elm).data('modal-checked-checkbox');
     var modal_submit_btn = $(elm).data('modal-submit-btn');

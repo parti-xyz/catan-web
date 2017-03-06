@@ -50,7 +50,7 @@ class MessageService
           action: :edit_title, action_params: { previous_title: @source.previous_changes["title"][0] })
       end
     when Member.to_s
-      users = @source.joinable.makers.map &:user
+      users = @source.joinable.organizer_members.map &:user
       send_messages(
         sender: @source.user, users: users,
         messagable: @source, action: :create)
@@ -65,7 +65,7 @@ class MessageService
           messagable: @source,
           action: @action)
       else
-        users = @source.joinable.makers.map &:user
+        users = @source.joinable.organizer_members.map &:user
         send_messages(
           sender: @source.user, users: users,
           messagable: @source,

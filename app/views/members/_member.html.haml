@@ -4,7 +4,7 @@
 %span(class="#{dom_id(issue)}-member")
   - if user_signed_in?
     - if issue.member?(current_user)
-      - unless issue.made_by? current_user
+      - unless issue.organized_by? current_user
         %button.btn-member{"data-url": "#cancel-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", class: member_btn_class}
           가입함
           %i.fa.fa-caret-down

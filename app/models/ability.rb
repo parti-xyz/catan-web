@@ -8,7 +8,7 @@ class Ability
       :slug_posts, :slug_wikis, :search], Issue
     if user
       can [:update, :destroy, :remove_logo, :remove_cover], Issue do |issue|
-        user.maker?(issue)
+        user.is_organizer?(issue)
       end
       can [:create, :new_intro, :search_by_tags], [Issue]
 
@@ -17,16 +17,16 @@ class Ability
         post.issue.try(:postable?, user)
       end
       can [:pin, :unpin], Post do |post|
-        user.maker?(post.issue)
+        user.is_organizer?(post.issue)
       end
 
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
       can [:create], MemberRequest, user_id: user.id
       can [:accept, :reject], MemberRequest do |request|
-        user.maker?(request.issue)
+        user.is_organizer?(request.issue)
       end
       can :manage, Related do |related|
-        user.maker?(related.issue)
+        user.is_organizer?(related.issue)
       end
       can :update, Wiki
       if user.admin?

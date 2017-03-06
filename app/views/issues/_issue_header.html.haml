@@ -25,12 +25,12 @@
           %h4.parti-title
             = link_to issue.title, smart_issue_home_path_or_url(issue)
             .parti-buttons
-              - if issue.made_by? current_user
-                %span.parti-maker-button
-                  %div.btn.btn-xs.btn-ghost{"data-url": "#maker-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
+              - if issue.organized_by? current_user
+                %span.parti-organizer-button
+                  %div.btn.btn-xs.btn-ghost{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
                     빠띠 메이커
                   .hidden
-                    .maker-info{id: "maker-info-#{dom_id(issue)}"}
+                    .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
                       #{current_user.nickname}님은 #{issue.title} 빠띠의 메이커입니다.
               %span.parti-member-button
                 = render 'members/member', issue: issue
@@ -47,12 +47,12 @@
               .parti-body
                 = issue.body
               .parti-buttons
-                - if issue.made_by? current_user
-                  %span.parti-maker-button
-                    %div.btn.btn-xs.btn-ghost{"data-url": "#maker-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
+                - if issue.organized_by? current_user
+                  %span.parti-organizer-button
+                    %div.btn.btn-xs.btn-ghost{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
                       빠띠 메이커
                     .hidden
-                      .maker-info{id: "maker-info-#{dom_id(issue)}"}
+                      .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
                         #{current_user.nickname}님은 #{issue.title} 빠띠의 메이커입니다.
                 %span.parti-member-button
                   = render 'members/member', issue: issue

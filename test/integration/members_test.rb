@@ -37,14 +37,14 @@ class MembersTest < ActionDispatch::IntegrationTest
   end
 
   test '메이커는 탈퇴 못해요' do
-    assert issues(:issue1).member? users(:maker)
-    assert issues(:issue1).made_by? users(:maker)
+    assert issues(:issue1).member? users(:organizer)
+    assert issues(:issue1).organized_by? users(:organizer)
 
-    sign_in(users(:maker))
+    sign_in(users(:organizer))
 
     delete cancel_issue_members_path(issue_id: issues(:issue1).id)
 
-    assert issues(:issue1).member? users(:maker)
+    assert issues(:issue1).member? users(:organizer)
   end
 
   test '멤버인 빠띠 글만 구경해요' do

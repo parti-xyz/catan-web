@@ -10,8 +10,8 @@ class Group < ActiveRecord::Base
 
   belongs_to :user
   has_many :members, as: :joinable, dependent: :destroy
+  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member
   has_many :member_users, through: :members, source: :user
-  has_many :makers, as: :makable, dependent: :destroy
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
 
@@ -42,8 +42,8 @@ class Group < ActiveRecord::Base
     !member?(someone) && private?
   end
 
-  def made_by? someone
-    makers.exists? user: someone
+  def organized_by? someone
+    organizer_members.exists? user: someone
   end
 
   def member? someone

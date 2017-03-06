@@ -69,6 +69,6 @@ module PartiUrlHelper
   end
 
   def smart_group_url(group, options = {})
-    root_url(options.merge(subdomain: group.slug))
+    root_url(options.merge(subdomain: group.subdomain))
   end
 end

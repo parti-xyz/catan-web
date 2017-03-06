@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170306032538) do
+ActiveRecord::Schema.define(version: 20170306105343) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -226,11 +226,12 @@ ActiveRecord::Schema.define(version: 20170306032538) do
   add_index "member_requests", ["user_id"], name: "index_member_requests_on_user_id", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.integer  "joinable_id",   limit: 4,   null: false
-    t.integer  "user_id",       limit: 4,   null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.string   "joinable_type", limit: 255, null: false
+    t.integer  "joinable_id",   limit: 4,                   null: false
+    t.integer  "user_id",       limit: 4,                   null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.string   "joinable_type", limit: 255,                 null: false
+    t.boolean  "is_organizer",              default: false, null: false
   end
 
   add_index "members", ["joinable_id", "joinable_type"], name: "index_members_on_joinable_id_and_joinable_type", using: :btree

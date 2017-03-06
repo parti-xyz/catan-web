@@ -28,7 +28,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
 
-    assert assigns(:issue).reload.made_by?(users(:one))
+    assert assigns(:issue).reload.organized_by?(users(:one))
   end
 
   test '만든 사람은 멤버가 되어요' do
@@ -67,7 +67,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '고쳐요' do
-    sign_in(users(:maker))
+    sign_in(users(:organizer))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x' })
 
@@ -76,25 +76,25 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '메이커를 넣어요' do
-    sign_in(users(:maker))
+    sign_in(users(:organizer))
 
-    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', makers_nickname: users(:one).nickname })
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: users(:one).nickname })
 
     assigns(:issue).reload
-    assert_equal users(:one), assigns(:issue).makers.first.user
+    assert assigns(:issue).organizer_members.exists?(user: users(:one))
   end
 
   test '중복된 메이커를 넣으면 알아서 넣어줘요.' do
-    sign_in(users(:maker))
+    sign_in(users(:organizer))
 
-    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', makers_nickname: "#{users(:one).nickname},#{users(:one).nickname}" })
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: "#{users(:one).nickname},#{users(:one).nickname}" })
 
     assigns(:issue).reload
-    assert_equal users(:one), assigns(:issue).makers.first.user
+    assert assigns(:issue).organizer_members.exists?(user: users(:one))
   end
 
   test '블라인드할 사용자를 넣어요' do
-    sign_in(users(:maker))
+    sign_in(users(:organizer))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', blinds_nickname: users(:one).nickname })
 
@@ -103,7 +103,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '중복된 블라인드를 넣으면 알아서 넣어줘요.' do
-    sign_in(users(:maker))
+    sign_in(users(:organizer))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', blinds_nickname: "#{users(:one).nickname},#{users(:one).nickname}" })
 
@@ -120,10 +120,10 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '메이커넣기' do
-    sign_in(users(:maker))
-    put issue_path(issues(:issue1), issue: { makers_nickname: 'nick1' })
+    sign_in(users(:organizer))
+    put issue_path(issues(:issue1), issue: { organizer_nicknames: 'nick1' })
 
-    assert_equal users(:one), issues(:issue1).reload.makers.first.user
+    assert assigns(:issue).organizer_members.exists?(user: users(:one))
   end
 
   test '그룹빠띠' do

@@ -120,7 +120,7 @@ module V1
         @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
 
         return if !@issue.member?(resource_owner)
-        return if @issue.made_by? resource_owner
+        return if @issue.organized_by? resource_owner
         ActiveRecord::Base.transaction do
           @issue.members.find_by(user: resource_owner).try(:destroy!)
         end

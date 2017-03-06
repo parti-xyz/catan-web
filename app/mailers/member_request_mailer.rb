@@ -2,15 +2,15 @@ class MemberRequestMailer < ApplicationMailer
   def self.deliver_all_later_on_create(member_request)
     return if member_request.blank?
 
-    member_request.joinable.makers.each do |maker|
-      on_create(maker, member_request).deliver_later
+    member_request.joinable.organizer_members.each do |organizer|
+      on_create(organizer, member_request).deliver_later
     end
   end
 
-  def on_create(maker, member_request)
-    @maker_user = maker.user
+  def on_create(organizer, member_request)
+    @organizer_user = organizer.user
     @member_request = member_request
-    mail(to: @maker_user.email,
+    mail(to: @organizer_user.email,
          subject: "[빠띠] #{@member_request.user.nickname}님이 #{@member_request.joinable.title} #{@member_request.joinable.model_name.human}에 가입요청했습니다")
   end
 

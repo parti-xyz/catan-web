@@ -63,20 +63,16 @@ namespace :data do
     end
   end
 
-  def seed_group(admin, group_slug, maker_nicknames, options)
-    maker_users = User.where(nickname: maker_nicknames)
+  def seed_group(admin, group_slug, organizer_nicknames, options)
+    organizer_users = User.where(nickname: organizer_nicknames)
     group = Group.find_or_initialize_by slug: group_slug
     group.assign_attributes({ private: false }.merge(options))
     group.user = admin
-    maker_users.each do |user|
-      next if group.makers.exists?(user: user)
-      group.makers.build(user: user)
+    organizer_users.each do |user|
+      organizer_member = group.members.find_or_initialize_by(user: user)
+      organizer_member.is_organizer = true
     end
-    group.makers.all.select { |maker| !maker_users.include?(maker.user) }.map &:destroy!
-    maker_users.each do |user|
-      next if group.members.exists?(user: user)
-      group.members.build(user: user)
-    end
+    group.members.all.select { |organizer| !organizer_users.include?(organizer.user) }.map { |member| member.is_organizer = false }
     group.save!
 
     group

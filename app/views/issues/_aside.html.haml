@@ -2,12 +2,9 @@
   .aside_issue#aside
     %section
       %h5.aside-title 빠띠 메이커
-      %ul.list-unstyled.parti-makers
-        - if @issue.makers.present?
-          - @issue.makers.each do |maker|
-            %li= byline maker.user
-        - else
-          %li= byline User.find_by(nickname: 'parti')
+      %ul.list-unstyled.parti-organizers
+        - @issue.fallbackable_organizer_members.each do |organizer_member|
+          %li= byline organizer_member.user
 
     %section.aside-users
       - prevew_count = 6 * 4 - 1

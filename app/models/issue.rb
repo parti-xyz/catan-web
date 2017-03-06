@@ -24,8 +24,8 @@ class Issue < ActiveRecord::Base
       expose :is_member do |instance, options|
         instance.member? options[:current_user]
       end
-      expose :is_made_by do |instance, options|
-        instance.made_by? options[:current_user]
+      expose :is_organized_by do |instance, options|
+        instance.organized_by? options[:current_user]
       end
     end
 
@@ -33,8 +33,8 @@ class Issue < ActiveRecord::Base
       expose :is_member_by_target_user do |instance, options|
         instance.member? options[:target_user]
       end
-      expose :is_made_by_target_user do |instance, options|
-        instance.made_by? options[:target_user]
+      expose :is_organized_by_target_user do |instance, options|
+        instance.organized_by? options[:target_user]
       end
     end
 
@@ -85,7 +85,9 @@ class Issue < ActiveRecord::Base
   # 이슈는 위키를 하나 가지고 있어요.
   has_one :wiki, dependent: :destroy
   has_many :invitations, dependent: :destroy
-  has_many :makers, as: :makable, dependent: :destroy do
+  has_many :members, as: :joinable, dependent: :destroy
+  has_many :member_users, through: :members, source: :user
+  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
     end
@@ -95,9 +97,6 @@ class Issue < ActiveRecord::Base
       self.map { |m| m.user.nickname }.join(',')
     end
   end
-  has_many :maker_users, through: :makers, source: :user
-  has_many :members, as: :joinable, dependent: :destroy
-  has_many :member_users, through: :members, source: :user
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :blind_users, through: :blinds, source: :user
@@ -121,7 +120,7 @@ class Issue < ActiveRecord::Base
 
   # fields
   mount_uploader :logo, ImageUploader
-  attr_accessor :makers_nickname
+  attr_accessor :organizer_nicknames
   attr_accessor :blinds_nickname
 
   # callbacks
@@ -146,8 +145,8 @@ class Issue < ActiveRecord::Base
     members.joins(:user).exists? 'users.email': email
   end
 
-  def made_by? someone
-    makers.exists? user: someone
+  def organized_by? someone
+    organizer_members.exists? user: someone
   end
 
   def member? someone
@@ -271,6 +270,10 @@ class Issue < ActiveRecord::Base
     else
       current_group == self.group
     end
+  end
+
+  def fallbackable_organizer_members
+    organizer_members.present? ? organizer_members : [User.find_by(nickname: 'parti')]
   end
 
   private
