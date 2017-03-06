@@ -1,4 +1,4 @@
-class Group::MembersController < GroupBaseControllerss
+class Group::MembersController < GroupBaseController
   load_and_authorize_resource
 
   def index
