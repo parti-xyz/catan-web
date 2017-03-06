@@ -18,12 +18,12 @@
     .media
       .media-left
         .parti-logo
-          = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+          = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
             .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       .media-body
         - if local_assigns[:simple]
           %h4.parti-title
-            = link_to issue.title, issue_home_path_or_url(issue)
+            = link_to issue.title, smart_issue_home_path_or_url(issue)
             .parti-buttons
               - if issue.made_by? current_user
                 %span.parti-maker-button
@@ -38,7 +38,7 @@
           %h2.parti-title
             = issue.title
             .parti-info.visible-xs-block
-              = link_to issue_users_path(issue) do
+              = link_to smart_issue_users_path(issue) do
                 %span.parti-users-label 가입회원
                 %span.parti-users-count
                   #{issue.member_users.count}명
@@ -67,7 +67,7 @@
                       = image_tag 'telegram_icon.png'
                       메신저 열기
             .col-sm-3.text-right.hidden-xs
-              - data = {action: 'parti-share', 'share-url': issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:share_site_title) || '빠띠'}" }
+              - data = {action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:share_site_title) || '빠띠'}" }
               - map = { facebook: data }
               - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
               = render 'application/share', map: map
@@ -80,19 +80,19 @@
           .col-sm-7.col-xs-12
             .row
               .col-xs-3.col-sm-3{ class: ('active' if active_tab.nil? || active_tab == :home) }
-                = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+                = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
                   %h5 타임라인
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}
-                = link_to issue_polls_path(issue) do
+                = link_to smart_issue_polls_path(issue) do
                   %h5= Poll.model_name.human
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :references)}
-                = link_to issue_references_path(issue) do
+                = link_to smart_issue_references_path(issue) do
                   %h5 자료
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :users)}
-                = link_to issue_users_path(issue) do
+                = link_to smart_issue_users_path(issue) do
                   %h5 멤버
 
 - if !local_assigns[:simple]

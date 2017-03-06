@@ -1,0 +1,24 @@
+gwanju:
+  slug: gwangju
+  user: admin
+  title: '광주'
+  site_title: '광주'
+  head_title: '광주'
+indie:
+  slug: indie
+  user: admin
+  title: '전체'
+  site_title: '전체'
+  head_title: '전체'
+merge_target_issue:
+  slug: merge_target_issue
+  user: admin
+  title: '대상'
+  site_title: '대상'
+  head_title: '대상'
+merge_source_issue:
+  slug: merge_source_issue
+  user: admin
+  title: '소스'
+  site_title: '소스'
+  head_title: '소스'

@@ -1,10 +1,10 @@
-%div{id: "#{dom_id(message)}-url-source", data: { url: issue_home_url(invitation.issue) } }
+%div{id: "#{dom_id(message)}-url-source", data: { url: smart_issue_home_url(invitation.issue) } }
   %span
     #{invitation.user.nickname}님이
-    %strong= link_to invitation.issue.title, issue_home_url(invitation.issue)
+    %strong= link_to invitation.issue.title, smart_issue_home_url(invitation.issue)
     빠띠에 초대했습니다.
     \:
   %span
-    = link_to issue_home_url(invitation.issue) do
+    = link_to smart_issue_home_url(invitation.issue) do
       바로가기
       %i.fa.fa-arrow-right

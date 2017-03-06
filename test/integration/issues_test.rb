@@ -18,9 +18,9 @@ class IssuesTest < ActionDispatch::IntegrationTest
   test '카테고리 안에 만들어요' do
     sign_in(users(:one))
 
-    post issues_path(issue: { title: 'title', slug: 'title', body: 'body', category_slug: 'category1' })
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body', category_slug: Category::GWANGJU_AGENDA.slug, group_slug: 'gwangju' })
     assert assigns(:issue).persisted?
-    assert_equal 'category1', assigns(:issue).category_slug
+    assert_equal Category::GWANGJU_AGENDA.slug, assigns(:issue).category_slug
   end
 
   test '만든 사람이 메이커가 되어요' do
@@ -48,7 +48,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
     refute assigns(:issue).persisted?
 
-    host! "#{Group::GWANGJU.slug}.example.com"
+    host! "gwangju.example.com"
 
     post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
     assert assigns(:issue).persisted?
@@ -127,12 +127,12 @@ class IssuesTest < ActionDispatch::IntegrationTest
   end
 
   test '그룹빠띠' do
-    host! "#{Group::GWANGJU.slug}.example.com"
+    host! "gwangju.example.com"
     sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
 
     assert assigns(:issue).persisted?
-    assert_equal Group::GWANGJU, assigns(:issue).group
+    assert_equal 'gwangju', assigns(:issue).group.slug
   end
 end

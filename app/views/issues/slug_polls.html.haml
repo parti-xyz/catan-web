@@ -16,7 +16,7 @@
     - else
       .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
         = render 'polls/slug_polls_page'
-      .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': issue_polls_path(@issue, format: :js)}
+      .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': smart_issue_polls_path(@issue, format: :js)}
         .page_waypoint__loading
           %i.fa.fa-3x.fa-spinner.fa-pulse
 

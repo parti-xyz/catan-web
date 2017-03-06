@@ -45,7 +45,7 @@ class IssuesController < ApplicationController
 
   def show
     @issue = Issue.find params[:id]
-    redirect_to issue_home_url(@issue)
+    redirect_to smart_issue_home_url(@issue)
   end
 
   def slug_home
@@ -63,7 +63,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_polls
-    redirect_to issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
     having_poll_posts_page(@issue)
   end
@@ -73,7 +73,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_users
-    redirect_to issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
     base = @issue.member_users.recent
     @is_last_page = base.empty?
@@ -85,7 +85,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_references
-    redirect_to issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
     having_reference_posts_page(@issue)
   end
@@ -93,10 +93,10 @@ class IssuesController < ApplicationController
   def create
     @issue.makers.build(user: current_user)
     @issue.members.build(user: current_user)
-    @issue.group_slug = current_group.try(:slug)
+    @issue.group_slug = current_group.try(:slug) || 'indie'
 
     if !%w(all).include?(@issue.slug) and @issue.save
-      redirect_to issue_home_url(@issue)
+      redirect_to smart_issue_home_url(@issue)
     else
       render 'new'
     end
@@ -107,7 +107,7 @@ class IssuesController < ApplicationController
 
     ActiveRecord::Base.transaction do
       @issue.makers.destroy_all
-      @issue.makers_nickname.split(",").map(&:strip).uniq.each do |nickname|
+      (@issue.makers_nickname.try(:split, ",") || []).compact.map(&:strip).uniq.each do |nickname|
         user = User.find_by(nickname: nickname)
         if user.present?
           @issue.makers.build(user: user)
@@ -124,11 +124,11 @@ class IssuesController < ApplicationController
       end
       if @issue.save
         @issue.makers.each do |maker|
-          @member = maker.user.members.build(issue: @issue)
+          @member = maker.user.members.build(joinable: @issue)
           @member.save
         end
         MessageService.new(@issue, sender: current_user).call
-        redirect_to issue_home_url(@issue)
+        redirect_to smart_issue_home_url(@issue)
       else
         errors_to_flash @issue
         render 'edit'
@@ -142,7 +142,7 @@ class IssuesController < ApplicationController
       redirect_to root_path
     else
       flash[:error] = t('errors.messages.not_deletable_parti')
-      redirect_to issue_home_url(@issue)
+      redirect_to smart_issue_home_url(@issue)
     end
   end
 

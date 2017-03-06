@@ -2,7 +2,7 @@
   .message__header.clearfix
     .message__parti.pull-left
       - if message.issue.present?
-        = link_to "#{message.issue.title} 빠띠", issue_home_url(message.issue)
+        = link_to "#{message.issue.title} 빠띠", smart_issue_home_url(message.issue)
         - unless message.issue.displayable_group?(current_group)
           &gt;
           = link_to message.issue.group.title, root_url(subdomain: message.issue.group_subdomain)

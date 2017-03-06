@@ -4,7 +4,7 @@
 .post-line.post-line[post]
   - if local_assigns[:show_issue]
     .post-line__issue.post-line__issue
-      = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+      = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
         = image_tag issue.logo.xs.url
         %span.text-primary= issue.title
       %span.post-line__issue__post-type
@@ -77,7 +77,7 @@
         .row.poll-card__meta
           .col-sm-6.col-xs-12
             .poll-card__issue
-              = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+              = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
                 - unless post.issue.displayable_group? current_group
                   .poll-card__group
                     = post.issue.group.title[0..2]

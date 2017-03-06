@@ -6,7 +6,7 @@
       %h3.page-title
         #{static_date_f @wiki_history.created_at} 버전
         %small
-          = link_to issue_wikis_path(@wiki.issue) do
+          = link_to smart_issue_wikis_path(@wiki.issue) do
             현재 버전 보기
             %i.fa.fa-arrow-right
       .body

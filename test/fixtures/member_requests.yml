@@ -1,4 +1,4 @@
 request1:
-  issue: private_issue
+  joinable: private_issue (Issue)
   user: one
 

@@ -5,10 +5,10 @@
       .post-card-with-comments__header
         .media
           .media-left
-            = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
+            = link_to smart_issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
           .media-body
-            = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
+            = link_to smart_issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
               %span.issue-title= post.issue.title
               - unless post.issue.displayable_group? current_group
                 %i.fa.fa-angle-left

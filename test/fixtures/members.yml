@@ -1,30 +1,30 @@
 member2:
   user: recipient
-  issue: issue1
+  joinable: issue1 (Issue)
 member3:
   user: recipient
-  issue: issue2
+  joinable: issue2 (Issue)
 member4:
   user: one
-  issue: issue1
+  joinable: issue1 (Issue)
 member5:
   user: maker
-  issue: issue1
+  joinable: issue1 (Issue)
 member6:
   user: one
-  issue: issue2
+  joinable: issue2 (Issue)
 member7:
   user: three
-  issue: issue1
+  joinable: issue1 (Issue)
 target_member:
   user: target_member
-  issue: merge_target_issue
+  joinable: merge_target_issue (Issue)
 source_member:
   user: source_member
-  issue: merge_source_issue
+  joinable: merge_source_issue (Issue)
 bat_member1:
   user: bat_member
-  issue: merge_target_issue
+  joinable: merge_target_issue (Issue)
 bat_member2:
   user: bat_member
-  issue: merge_source_issue
+  joinable: merge_source_issue (Issue)

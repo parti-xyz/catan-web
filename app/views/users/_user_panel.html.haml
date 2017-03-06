@@ -2,17 +2,17 @@
   - if user_signed_in?
     - writing_counts = user.writing_counts
     .user-panel__thumb
-      = link_to user_gallery_path(user) do
+      = link_to smart_user_gallery_path(user) do
         .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
         %p= user.nickname
     .user-panel__info
       .row
         .col-xs-4.border-none
-          = link_to user_gallery_path(user) do
+          = link_to smart_user_gallery_path(user) do
             .user-panel__info__label 빠띠
             .user-panel__info__count= writing_counts.parties_count
         .col-xs-4
-          = link_to user_gallery_path(user) do
+          = link_to smart_user_gallery_path(user) do
             .user-panel__info__label 게시글
             .user-panel__info__count= writing_counts.posts_count
         .col-xs-4

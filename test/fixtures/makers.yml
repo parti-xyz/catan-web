@@ -1,15 +1,15 @@
 maker1:
   user: maker
-  issue: issue1
+  makable: issue1 (Issue)
 target_maker:
   user: target_maker
-  issue: merge_target_issue
+  makable: merge_target_issue (Issue)
 source_maker:
   user: source_maker
-  issue: merge_source_issue
+  makable: merge_source_issue (Issue)
 bat_maker1:
   user: bat_maker
-  issue: merge_target_issue
+  makable: merge_target_issue (Issue)
 bat_maker2:
   user: bat_maker
-  issue: merge_source_issue
+  makable: merge_source_issue (Issue)

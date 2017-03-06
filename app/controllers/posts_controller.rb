@@ -20,7 +20,7 @@ class PostsController < ApplicationController
     else
       errors_to_flash(@post)
     end
-    redirect_to params[:back_url].presence || issue_home_path_or_url(@issue)
+    redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)
   end
 
   def update
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to issue_home_path_or_url(@post.issue) }
+      format.html { redirect_to smart_issue_home_path_or_url(@post.issue) }
     end
   end
 

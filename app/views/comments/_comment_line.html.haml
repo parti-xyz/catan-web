@@ -1,10 +1,10 @@
 .comment-line{class: dom_id(comment)}
   .media
     .media-left
-      = link_to user_gallery_path(comment.user) do
+      = link_to smart_user_gallery_path(comment.user) do
         .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
     .media-body
-      = link_to user_gallery_path(comment.user) do
+      = link_to smart_user_gallery_path(comment.user) do
         %span.nickname= comment.user.nickname
       .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
         = render 'comments/body', local_assigns

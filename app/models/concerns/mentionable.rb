@@ -53,10 +53,6 @@ module Mentionable
     end
   end
 
-  def has_parti?
-    scan_nicknames.include?('parti')
-  end
-
   def scan_users
     users = scan_nicknames.map { |nickname| User.find_by_nickname(nickname) }.compact
     users.reject{ |u| u == try(:user) }

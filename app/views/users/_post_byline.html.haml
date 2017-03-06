@@ -6,10 +6,10 @@
   %span.date= created_at.nil? ? '지금' : date_f(created_at)
 .media
   .media-left
-    = local_assigns[:post].present? ? link_to(user_image, user_gallery_path(user)) : user_image
+    = local_assigns[:post].present? ? link_to(user_image, smart_user_gallery_path(user)) : user_image
   .media-body
     %span.nickname
-      = local_assigns[:post].present? ? link_to(user.nickname, user_gallery_path(user)) : user.nickname
+      = local_assigns[:post].present? ? link_to(user.nickname, smart_user_gallery_path(user)) : user.nickname
     %br
     = local_assigns[:post].present? ? link_to(date, post) : date
 

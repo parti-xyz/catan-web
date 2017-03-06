@@ -9,7 +9,6 @@ class MemberRequest < ActiveRecord::Base
   validates :user, presence: true
   validates :joinable, presence: true
   validates :user, uniqueness: {scope: [:joinable_id, :joinable_type]}
-
   scope :recent, -> { order(id: :desc) }
 
   def issue_for_message

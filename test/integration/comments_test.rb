@@ -25,7 +25,9 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert comment.post.comments.users.include?(users(:one))
 
     sign_in(users(:two))
-    post post_comments_path(post_id: comment.post.id, comment: { body: 'body' }), format: :js
+    Sidekiq::Testing.inline! do
+      post post_comments_path(post_id: comment.post.id, comment: { body: 'body' }), format: :js
+    end
 
     refute assigns(:comment).errors.any?
     assert_equal assigns(:comment), users(:one).messages.first.messagable
@@ -35,8 +37,9 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert posts(:post_talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:two))
-
-    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+    Sidekiq::Testing.inline! do
+      post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+    end
 
     assert assigns(:comment).persisted?
     assert_equal 'agree', assigns(:comment).choice
@@ -46,7 +49,9 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert posts(:post_talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:one))
-    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+    Sidekiq::Testing.inline! do
+      post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+    end
     refute assigns(:comment).errors.any?
     assert_equal assigns(:comment), users(:two).messages.first.messagable
   end

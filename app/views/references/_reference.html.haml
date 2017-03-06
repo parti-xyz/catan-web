@@ -67,7 +67,7 @@
               %i.fa.fa-angle-double-right
 
         .reference-info
-          = link_to user_gallery_path(post.user) do
+          = link_to smart_user_gallery_path(post.user) do
             .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
             %span.nickname= post.user.nickname
       - if post.comments_count > 0

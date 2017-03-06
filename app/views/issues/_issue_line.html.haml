@@ -2,7 +2,7 @@
 - return if issue.blank?
 %li.issue-line
   .media
-    = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+    = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
       .media-left
         .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
       .media-body

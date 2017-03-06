@@ -12,7 +12,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     assigns(:post).reload
     assert_equal 'body', assigns(:post).body
     assert_equal users(:one), assigns(:post).user
-    assert_equal issues(:issue2).body, assigns(:post).issue.body
+    assert_equal issues(:issue2), assigns(:post).issue
 
     assert assigns(:post).comments.empty?
   end
@@ -58,7 +58,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     assigns(:post).reload
     assert_equal 'body x', assigns(:post).body
     assert_equal users(:one), assigns(:post).user
-    assert_equal issues(:issue2).body, assigns(:post).issue.body
+    assert_equal issues(:issue2), assigns(:post).issue
   end
 
   test '세상에 없었던 새로운 이슈를 넣으면 저장이 안되요' do

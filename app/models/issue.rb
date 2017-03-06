@@ -40,7 +40,7 @@ class Issue < ActiveRecord::Base
 
     expose :share do
       expose :url do |instance|
-        issue_home_url(instance)
+        smart_issue_home_url(instance)
       end
       expose :twitter_text do |instance|
         instance.title

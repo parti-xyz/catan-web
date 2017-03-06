@@ -12,18 +12,18 @@
     %section.aside-users
       - prevew_count = 6 * 4 - 1
       %h5.aside-title
-        = link_to issue_users_path(@issue) do
+        = link_to smart_issue_users_path(@issue) do
           가입멤버
           %span
             %span.text-primary<> #{@issue.members.count}명
         - if @issue.member_users.count > prevew_count
-          = link_to issue_users_path(@issue), class: 'more' do
+          = link_to smart_issue_users_path(@issue), class: 'more' do
             더보기
             %i.fa.fa-angle-double-right
       - @issue.member_users.recent.limit(prevew_count).each do |user|
         = byline user, hide_nickname: true
       - if @issue.member_users.count > prevew_count
-        = link_to issue_users_path(@issue), class: 'more' do
+        = link_to smart_issue_users_path(@issue), class: 'more' do
           %i.fa.fa-ellipsis-h
 
     - if @issue.related_issues.present? or can? :update, @issue

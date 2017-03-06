@@ -3,13 +3,13 @@
     %h4.page-title
       #{Wiki.model_name.human} 편집
       %small
-        = link_to issue_home_path_or_url(@wiki.issue), target: '_blank' do
+        = link_to smart_issue_home_path_or_url(@wiki.issue), target: '_blank' do
           '#{@wiki.issue.title}'
         빠띠의 위키를 수정합니다
     = form_for @wiki do |f|
       .form-submit.visible-xs-block
         = f.submit "위키 저장", class: 'btn btn-sm btn-primary', data: { disable_with: "저장 중..." }
-        = link_to '취소', issue_wikis_path(@wiki.issue)
+        = link_to '취소', smart_issue_wikis_path(@wiki.issue)
       .form-group
-        = f.text_area :body, class: 'form-control simplemde', rows: 40, cols: 120, data: {'parti-url': issue_wikis_path(@wiki.issue)}
+        = f.text_area :body, class: 'form-control simplemde', rows: 40, cols: 120, data: {'parti-url': smart_issue_wikis_path(@wiki.issue)}
         = f.hidden_field :issue_id, class: 'form-control'

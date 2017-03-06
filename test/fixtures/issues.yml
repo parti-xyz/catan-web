@@ -5,6 +5,7 @@ issue1:
 issue2:
   title: issue2
   slug: issue2
+  group_slug: indie
 issue3:
   title: issue3
   slug: issue3
@@ -12,13 +13,17 @@ issue3:
 issue4:
   title: issue4
   slug: issue4
+  group_slug: indie
 merge_target_issue:
   title: merge_target_issue
   slug: merge_target_issue
+  group_slug: indie
 merge_source_issue:
   title: merge_source_issue
   slug: merge_source_issue
+  group_slug: indie
 private_issue:
   title: private_issue
   slug: private_issue
+  group_slug: indie
   private: true

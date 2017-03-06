@@ -13,14 +13,14 @@ class MemberRequestsController < ApplicationController
     end
     respond_to do |format|
       format.js
-      format.html { redirect_to(request.referrer || issue_home_path_or_url(@member_request.issue)) }
+      format.html { redirect_to(request.referrer || smart_joinable_url(@member_request.joinable)) }
     end
   end
 
   def accept
     @user = User.find_by(id: params[:user_id])
     render_404 and return if @user.blank?
-    redirect_to(request.referrer || issue_users_path(@member.issue)) if @issue.member?(@user)
+    redirect_to(request.referrer || smart_issue_users_path(@member.issue)) if @issue.member?(@user)
 
     @member_request = @issue.member_requests.find_by(user: @user)
     render_404 and return if @member_request.blank?
@@ -37,7 +37,7 @@ class MemberRequestsController < ApplicationController
       MemberRequestMailer.on_accept(@member_request.id, current_user.id).deliver_later
     end
 
-    redirect_to(request.referrer || issue_users_path(@member.issue))
+    redirect_to(request.referrer || smart_issue_users_path(@member.issue))
   end
 
   def reject
@@ -58,7 +58,7 @@ class MemberRequestsController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to(request.referrer || issue_home_path_or_url(@member_request.issue)) }
+      format.html { redirect_to(request.referrer || smart_joinable_url(@member_request.joinable)) }
     end
   end
 end

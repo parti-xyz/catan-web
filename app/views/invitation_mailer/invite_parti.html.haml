@@ -7,7 +7,7 @@
       %br
       %strong #{@sender.nickname}
       님이
-      = link_to @issue.title, issue_home_url(@issue, protocol: :https), style: 'color: #fff;', target: '_blank'
+      = link_to @issue.title, smart_issue_home_url(@issue, protocol: :https), style: 'color: #fff;', target: '_blank'
       빠띠에 초대했습니다.
 
 %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
@@ -22,7 +22,7 @@
     %div{:style => "padding: 0px 5px;"}
       %div{:style => "padding: 16px 0px; margin: 0px 10px;"}
         %p{:style => "margin: 0px;"}
-          %a{:href => issue_home_url(@issue, protocol: :https), :style => "font-size: 14px; display: inline-block; color: rgb(150, 111, 214); background: none; border-radius: 3px; padding: 16px 20px; text-decoration: none; outline: 0px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; border-width: 2px; border-style: solid; border-color: rgb(150, 111, 214);_display:inline", :target => "_blank"} #{@issue.title} 빠띠로 이동하기
+          %a{:href => smart_issue_home_url(@issue, protocol: :https), :style => "font-size: 14px; display: inline-block; color: rgb(150, 111, 214); background: none; border-radius: 3px; padding: 16px 20px; text-decoration: none; outline: 0px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; border-width: 2px; border-style: solid; border-color: rgb(150, 111, 214);_display:inline", :target => "_blank"} #{@issue.title} 빠띠로 이동하기
 
 / %table(width="100%" style="text-align: left;")
 /   %tbody
@@ -32,10 +32,10 @@
 /           %strong #{@sender.nickname}
 /           님이
 /         %span
-/           = link_to @issue.title, issue_home_url(@issue, protocol: :https)
+/           = link_to @issue.title, smart_issue_home_url(@issue, protocol: :https)
 /         빠띠에 초대했습니다.
 /     %tr
 /       %td
-/         = link_to issue_home_url(@issue, protocol: :https), class: 'btn-email' do
+/         = link_to smart_issue_home_url(@issue, protocol: :https), class: 'btn-email' do
 /           #{@issue.title} 빠띠로 이동하기
 

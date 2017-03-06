@@ -25,7 +25,7 @@
           %p.count= poll.votings.with_choice(:agree).count
         .vote__results__voters
           - poll.votings.with_choice(:agree).partial_included_with(current_user).each do |voting|
-            = link_to user_gallery_path(voting.user), class: 'text-nowrap' do
+            = link_to smart_user_gallery_path(voting.user), class: 'text-nowrap' do
               .thumb.img-circle.circle-30{style: "background-image: url(#{voting.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{voting.user.nickname}", :type => "button"}
 
       .vote__results__disagree
@@ -35,7 +35,7 @@
           %p.count= poll.votings.with_choice(:disagree).count
         .vote__results__voters
           - poll.votings.with_choice(:disagree).partial_included_with(current_user).each do |voting|
-            = link_to user_gallery_path(voting.user), class: 'text-nowrap' do
+            = link_to smart_user_gallery_path(voting.user), class: 'text-nowrap' do
               .thumb.img-circle.circle-30{style: "background-image: url(#{voting.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{voting.user.nickname}", :type => "button"}
   - else
     .vote__buttons
