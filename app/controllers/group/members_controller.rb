@@ -14,6 +14,15 @@ class Group::MembersController < ApplicationController
     @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
   end
 
+  def ban
+    @user = User.find_by id: params[:user_id]
+    @member = current_group.members.find_by user: @user
+    @member.try(:destroy)
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def private_blocked?(group)
     group.private_blocked?(current_user)
   end
