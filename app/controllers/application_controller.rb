@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     group = Group.find_by_slug(omniauth_params['group_slug'])
 
     result = stored_location(group) || '/'
-    result = URI.join(root_url(subdomain: group.slug), result).to_s if group.present?
+    result = URI.join(root_url(subdomain: group.subdomain), result).to_s if group.present?
     result
   end
 
@@ -107,12 +107,11 @@ class ApplicationController < ActionController::Base
 
   def default_meta_options
     {
-      site_name: (current_group.blank? ? "빠띠" : "#{current_group.title} 빠띠"),
+      site_name: current_group.blank? ? "빠띠" : "#{current_group.title} 빠띠",
       title: current_group.try(:site_title) || "덕업일치를 위한 오픈커뮤니티 빠띠",
       description: current_group.try(:site_description) || "더 나은 민주주의의 기반요소를 통합한 기민하고, 섬세하고, 일상적인 민주주의 플랫폼, 빠띠!",
       keywords: current_group.try(:site_keywords) || "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
-      image: ( (current_group.blank? or !File.exist?("app/assets/images/groups/#{current_group.slug}_seo.png")) ?
-        view_context.asset_url("parti_seo.png") : view_context.asset_url("groups/#{current_group.slug}_seo.png")),
+      image: view_context.asset_url(current_group.try(:seo_image) || "parti_seo.png"),
       twitter_card_type: "summary_card"
     }
   end
@@ -145,7 +144,7 @@ class ApplicationController < ActionController::Base
   end
 
   def having_reference_posts_page(issue = nil)
-    base = issue.nil? ? Post.all.only_group_or_all_if_blank(current_group) : Post.of_issue(issue)
+    base = issue.nil? ? Post.all.displayable_in_current_group(current_group) : Post.of_issue(issue)
     base = base.having_reference
     @is_last_page = base.empty?
 
@@ -158,7 +157,7 @@ class ApplicationController < ActionController::Base
   end
 
   def having_poll_posts_page(issue = nil)
-    base = issue.nil? ? Post.all.only_group_or_all_if_blank(current_group) : Post.of_issue(issue)
+    base = issue.nil? ? Post.all.displayable_in_current_group(current_group) : Post.of_issue(issue)
     base = base.having_poll
     @is_last_page = base.empty?
 
@@ -172,7 +171,7 @@ class ApplicationController < ActionController::Base
   end
 
   def posts_page(issue = nil)
-    posts_base = issue.nil? ? Post.all.only_group_or_all_if_blank(current_group) : Post.of_issue(issue)
+    posts_base = issue.nil? ? Post.all.displayable_in_current_group(current_group) : Post.of_issue(issue)
 
     if issue.nil?
       case params[:sort]
@@ -214,7 +213,6 @@ class ApplicationController < ActionController::Base
     return if issue.blank?
     return if !request.format.html?
 
-    redirect_to subdomain: nil and return if !issue.on_group? and current_group.present?
-    redirect_to subdomain: issue.group.slug and return if issue.on_group? and current_group.blank?
+    redirect_to subdomain: issue.group.subdomain and return unless issue.displayable_group?(current_group)
   end
 end

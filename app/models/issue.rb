@@ -134,9 +134,9 @@ class Issue < ActiveRecord::Base
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
-  scope :only_group_or_all_if_blank, ->(group) { where(group_slug: group.slug) if group.present? }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
-  scope :only_group, ->(group) { where(group_slug: (group.present? ? group.slug : nil)) }
+  scope :only_group, ->(group) { where(group_slug: (group.try(:slug) || 'indie')) }
+  scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
   # search
   scoped_search on: [:title, :body]
 
@@ -158,7 +158,7 @@ class Issue < ActiveRecord::Base
     member_requests.exists? user: someone
   end
 
-  def to_group(group)
+  def change_group(group)
     self.group_slug = group.slug
   end
 
@@ -214,11 +214,15 @@ class Issue < ActiveRecord::Base
   end
 
   def group
-    Group.find_by_slug group_slug
+    @group ||= Group.find_by_slug group_slug
   end
 
-  def on_group?
-    group_slug.present?
+  def group_subdomain
+    group.subdomain
+  end
+
+  def indie_group?
+    group.indie?
   end
 
   def postable? someone
@@ -241,8 +245,8 @@ class Issue < ActiveRecord::Base
     logo.md.url
   end
 
-  def self.of_slug(slug, group_slug)
-    self.find_by(slug: slug, group_slug: group_slug)
+  def self.of_slug(slug, group_slug = nil)
+    self.find_by(slug: slug, group_slug: group_slug || 'indie')
   end
 
   def self.most_used_tags(limit)
@@ -259,6 +263,14 @@ class Issue < ActiveRecord::Base
 
   def private_blocked?(someone = nil)
     !member?(someone) && private?
+  end
+
+  def displayable_group?(current_group)
+    if self.group.indie?
+      current_group.blank?
+    else
+      current_group == self.group
+    end
   end
 
   private

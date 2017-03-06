@@ -18,9 +18,7 @@ class IssuesController < ApplicationController
 
   def search
     @issues = Issue.unfreezed.search_for(params[:keyword])
-    if current_group.present?
-      @issues = @issues.where(group_slug: current_group.try(:slug))
-    end
+    @issues = @issues.displayable_in_current_group(current_group)
 
     case params[:sort]
     when 'recent'
@@ -178,9 +176,9 @@ class IssuesController < ApplicationController
   private
 
   def fetch_issue_by_slug
-    @issue = Issue.find_by slug: params[:slug], group_slug: current_group.try(:slug)
+    @issue = Issue.displayable_in_current_group(current_group).find_by slug: params[:slug]
     if @issue.blank?
-      @issue_by_title = Issue.find_by(title: params[:slug].titleize, group_slug: current_group.try(:slug))
+      @issue_by_title = Issue.only_group(current_group).find_by(title: params[:slug].titleize)
       if @issue_by_title.present?
         redirect_to @issue_by_title and return
       else

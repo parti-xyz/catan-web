@@ -1,7 +1,7 @@
 class Admin::IssuesController < AdminController
   def merge
-    source = Issue.find_by slug: params[:source_slug], group_slug: nil
-    target = Issue.find_by slug: params[:issue_slug], group_slug: nil
+    source = Issue.find_by slug: params[:source_slug], group_slug: 'indie'
+    target = Issue.find_by slug: params[:issue_slug], group_slug: 'indie'
     if source.blank? or target.blank?
       flash[:error] = '메인에서 빠띠를 찾을 수 없습니다. 혹시 그룹의 빠띠인가요? 그룹의 빠띠는 지원하지 않습니다.'
       redirect_to admin_issues_path and return
@@ -64,7 +64,7 @@ class Admin::IssuesController < AdminController
   end
 
   def freeze
-    issue = Issue.find_by slug: params[:issue_to_be_freezed], group_slug: (params[:issue_to_be_freezed_of_group].presence || nil)
+    issue = Issue.of_slug(params[:issue_to_be_freezed], params[:issue_to_be_freezed_of_group])
     if issue.blank?
       flash[:error] = '빠띠를 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_issues_path and return

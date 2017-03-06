@@ -7,20 +7,20 @@
         .aside_issue_btn
           = link_to '빠띠만들기', parties_new_intro_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
 
-        - if current_user.making_issues.only_group(current_group).any?
+        - if current_user.making_issues.displayable_in_current_group(current_group).any?
           %h5.aside-title 메이커인 빠띠
           %ul.list-unstyled.aside-issues
-            = render customize_partial_path(current_user.making_issues.only_group(current_group), 'issue_line')
+            = render customize_partial_path(current_user.making_issues.displayable_in_current_group(current_group), 'issue_line')
         - if current_user.only_member_issues(current_group).any?
           %h5.aside-title 가입한 빠띠
           %ul.list-unstyled.aside-issues
             = render customize_partial_path(current_user.only_member_issues(current_group), 'issue_line')
 
-        - Group.all_with_indie_and_exclude(current_group).each do |group|
-          - if current_user.making_issues.only_group(group).any?
+        - Group.all_but(current_group).each do |group|
+          - if current_user.making_issues.displayable_in_current_group(group).any?
             %h5.aside-title 메이커인 #{group.title} 빠띠
             %ul.list-unstyled.aside-issues
-              = render customize_partial_path(current_user.making_issues.only_group(group), 'issue_line')
+              = render customize_partial_path(current_user.making_issues.displayable_in_current_group(group), 'issue_line')
           - if current_user.only_member_issues(group).any?
             %h5.aside-title 가입한 #{group.title} 빠띠
             %ul.list-unstyled.aside-issues

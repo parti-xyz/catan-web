@@ -2,7 +2,7 @@
 .issue-card
   = link_to issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
     .issue-card__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-      - if issue.on_group? and current_group != issue.group
+      - unless issue.displayable_group?(current_group)
         .issue-card__group
           = issue.group.title
     .issue-card__content

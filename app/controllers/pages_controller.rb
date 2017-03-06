@@ -3,7 +3,7 @@ class PagesController < ApplicationController
     if current_group.blank?
       @issues = Issue.unfreezed.hottest
     else
-      @issues = Issue.unfreezed.only_group_or_all_if_blank(current_group).recent_touched
+      @issues = Issue.unfreezed.displayable_in_current_group(current_group).recent_touched
       render 'group_home'
     end
   end

@@ -3,6 +3,11 @@ namespace :data do
   task 'seed:group' => :environment do
     user = User.find_by(nickname: 'parti')
     Group.transaction do
+      seed_group(user, 'indie', [],
+        title: '전체',
+        site_title: '전체',
+        head_title: '전체')
+
       seed_group(user, 'gwangju', [],
         title: '광주',
         site_title: '민주주의 플랫폼',
@@ -35,13 +40,13 @@ namespace :data do
         site_description: '사회혁신가는 일상에서 대안과 해결책을 고민하고 제안하며, 구체적인 그림과 방법을 연구하고, 각자의 현장에서 실천하고자 하는 사람들입니다.',
         site_keywords: '함께, 새로운세상을, 만들자, 사회혁신가, 소셜벤처, 박근혜게이트, 정치, 시국선언')
 
-      seed_group(user, 'slowalk', ['rest515', 'blue_spider'],
+      seed_group(user, 'slowalk', ['rest515', '달리'],
         title: '슬로워크',
         site_title: 'Solutions for Change',
         head_title: 'Solutions for Change - 슬로워크',
         private: true)
 
-      seed_group(user, 'westay1', [],
+      seed_group(user, 'westay1', ['rest515', '달리'],
         title: '별내 위스테이 공동체 사회적협동조합',
         site_title: '함께살아보장',
         head_title: '함께살아보장 - 별내 위스테이 공동체 사회적협동조합',
@@ -61,7 +66,7 @@ namespace :data do
   def seed_group(admin, group_slug, maker_nicknames, options)
     maker_users = User.where(nickname: maker_nicknames)
     group = Group.find_or_initialize_by slug: group_slug
-    group.assign_attributes options
+    group.assign_attributes({ private: false }.merge(options))
     group.user = admin
     maker_users.each do |user|
       next if group.makers.exists?(user: user)
@@ -73,5 +78,7 @@ namespace :data do
       group.members.build(user: user)
     end
     group.save!
+
+    group
   end
 end

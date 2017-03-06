@@ -1,7 +1,7 @@
 module PartiUrlHelper
   def issue_home_path_or_url(issue, options = {})
     options.update(slug: issue.slug)
-    if issue.group == current_group
+    if issue.displayable_group?(current_group)
       slug_issue_path(options)
     else
       issue_home_url(issue, options)
@@ -47,7 +47,7 @@ module PartiUrlHelper
   end
 
   def smart_post_path_or_url(post, options = {})
-    if post.issue.group == current_group
+    if post.issue.displayable_group?(current_group)
       polymorphic_path(post, options)
     else
       smart_post_url(post, options)

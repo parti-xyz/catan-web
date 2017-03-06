@@ -27,7 +27,7 @@
     = link_to_if (card_class == 'default'), capture_thumb, post.reference_url, target: '_blank'
     - if local_assigns[:show_issue]
       .reference-card__group-and-issue
-        - if post.issue.on_group? and current_group != post.issue.group
+        - unless post.issue.displayable_group? current_group
           .reference-card__group
             = post.issue.group.title
         .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }

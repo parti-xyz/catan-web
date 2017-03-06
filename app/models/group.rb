@@ -5,9 +5,6 @@ class Group < ActiveRecord::Base
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
-  attr_accessor :name
-  INDIE = Group.new(slug: nil, name: '전체')
-
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
 
@@ -18,12 +15,14 @@ class Group < ActiveRecord::Base
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
 
+  default_scope -> { order :slug }
+
   def find_category_by_slug(slug)
     categories.detect { |c| c.slug == slug }
   end
 
   def share_site_title
-    "#{name} 빠띠"
+    "#{title} 빠띠"
   end
 
   def categories
@@ -59,16 +58,28 @@ class Group < ActiveRecord::Base
     member_requests.exists? user: someone
   end
 
+  def seo_image
+    if File.exist?("app/assets/images/groups/#{self.slug}_seo.png")
+      "groups/#{self.slug}_seo.png"
+    else
+      "parti_seo.png"
+    end
+  end
+
+  def subdomain
+    indie? ? nil : self.slug
+  end
+
+  def indie?
+    self.slug == 'indie'
+  end
+
   def self.joined_by(someone)
     someone.member_issues.map(&:group).uniq.compact
   end
 
-  def self.all_with_indie_and_exclude(some_group)
-    Group.all_with_indie.reject {|group| group.slug == some_group.try(:slug) }
-  end
-
-  def self.all_with_indie
-    all + [Group::INDIE]
+  def self.all_but(some_group)
+    Group.all.reject { |group| group.slug == some_group.try(:slug) }
   end
 
   def self.find_by_slug(slug)

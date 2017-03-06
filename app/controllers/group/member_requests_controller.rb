@@ -1,4 +1,4 @@
-class Group::MemberRequestsController < ApplicationController
+class Group::MemberRequestsController < GroupBaseController
   before_filter :authenticate_user!
   load_and_authorize_resource :member_request
 

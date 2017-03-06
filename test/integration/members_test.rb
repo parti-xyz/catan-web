@@ -17,7 +17,7 @@ class MembersTest < ActionDispatch::IntegrationTest
   end
 
   test '그룹이 아닌 빠띠에 가입해요' do
-    refute issues(:issue2).on_group?
+    assert issues(:issue2).indie_group?
 
     sign_in(users(:one))
 

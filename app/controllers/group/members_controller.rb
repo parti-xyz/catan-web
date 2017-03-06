@@ -1,8 +1,7 @@
-class Group::MembersController < ApplicationController
+class Group::MembersController < GroupBaseControllerss
   load_and_authorize_resource
 
   def index
-    redirect_to root_url(subdomain: nil) and return if current_group.blank?
     redirect_to root_path and return if private_blocked?(current_group)
 
     base = current_group.member_users.recent

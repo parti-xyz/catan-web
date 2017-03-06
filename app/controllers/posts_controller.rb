@@ -63,6 +63,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    verify_group(@post.issue)
     if request.headers['X-PJAX']
       render(:partial, layout: false) and return
     else

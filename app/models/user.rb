@@ -142,7 +142,7 @@ class User < ActiveRecord::Base
   end
 
   def need_to_more_member?(group = nil)
-    member_issues.only_group_or_all_if_blank(group).empty?
+    member_issues.displayable_in_current_group(group).empty?
   end
 
   def hottest_posts(count)
@@ -158,11 +158,13 @@ class User < ActiveRecord::Base
   end
 
   def only_member_issues(group)
-    member_issues.only_group(group).where.not(id: issue_makers.select(:makable_id))
+    result = member_issues.where.not(id: issue_makers.select(:makable_id))
+    result = result.only_group(group) if group.present?
+    result
   end
 
   def watched_posts(group = nil)
-    Post.where(issue: member_issues.only_group_or_all_if_blank(group))
+    Post.where(issue: member_issues.displayable_in_current_group(group))
   end
 
   def watched_comments(group = nil)
@@ -203,7 +205,7 @@ class User < ActiveRecord::Base
   end
 
   def default_member_issues
-    issue = Issue.find_by slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: nil
+    issue = Issue.of_slug Issue::SLUG_OF_PARTI_PARTI
     Member.create(user: self, joinable: issue) if issue.present?
   end
 

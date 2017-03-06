@@ -145,7 +145,7 @@ class Post < ActiveRecord::Base
   scope :watched_by, ->(someone) { where(issue_id: someone.member_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :latest, -> { after(1.day.ago) }
-  scope :only_group_or_all_if_blank, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
+  scope :displayable_in_current_group, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
 
   scope :having_reference, -> { where.not(reference: nil) }
   scope :having_poll, -> { where.not(poll_id: nil) }

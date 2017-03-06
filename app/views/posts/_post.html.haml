@@ -10,7 +10,7 @@
           .media-body
             = link_to issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
               %span.issue-title= post.issue.title
-              - if post.issue.on_group?
+              - unless post.issue.displayable_group? current_group
                 %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.title
@@ -74,7 +74,7 @@
 
 
       - share_partial = capture do
-        - data = {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_slug), 'share-text': "#{post.specific_desc_striped_tags.try(:truncate, 100)} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
+        - data = {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_subdomain), 'share-text': "#{post.specific_desc_striped_tags.try(:truncate, 100)} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
         - map = { facebook: data, telegram: data }
         - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
         = render 'application/share', map: map
