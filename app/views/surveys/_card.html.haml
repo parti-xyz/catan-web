@@ -37,7 +37,14 @@
             #{option.feedbacks_count}명
           - if can? :destroy, option
             = link_to '삭제', option, method: :delete, remote: true, 'data-confirm': '정말 삭제하시겠습니까?'
-    - if post.survey.open?
+    - if post.survey.options.blank?
+      - if post.survey.open? and post.issue.member?(current_user)
+        .help-block
+          처음으로 제안해 보세요.
+      - else
+        .help-block
+          제안된 항목이 없습니다.
+    - if post.survey.open? and post.issue.member?(current_user)
       .option.clearfix
         = form_for Option.new, remote: true do |f|
           = f.hidden_field :survey_id, value: post.survey.id

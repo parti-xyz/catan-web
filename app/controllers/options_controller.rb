@@ -1,13 +1,13 @@
 class OptionsController < ApplicationController
   before_action :authenticate_user!
-  # TODO remote
+
   def create
     @option = Option.new(options_params)
     @option.user = current_user
 
     survey = @option.survey
     @post = Post.find_by survey: survey
-    if @post.blank? or @post.private_blocked?(current_user)
+    if @post.blank? or @post.private_blocked?(current_user) or !@post.issue.member?(current_user)
       render_404 and return
     end
 
@@ -23,7 +23,7 @@ class OptionsController < ApplicationController
       render_404 and return
     end
 
-    @option.destroy!
+    @option.destroy! if @option.user == current_user
   end
 
   private
