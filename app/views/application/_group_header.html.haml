@@ -15,8 +15,9 @@
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            %li
-              = link_to '멤버', group_members_path
+            - if current_group.private?
+              %li
+                = link_to '멤버', group_members_path
             - if current_user.members.any?
               %li.dropdown.member-parties
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
