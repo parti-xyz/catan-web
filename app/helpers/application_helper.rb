@@ -169,6 +169,6 @@ module ApplicationHelper
 
   def survey_remain_time(survey)
     return '계속' if survey.duration <= 0
-    distance_of_time_in_words_to_now(survey.created_at + survey.duration.days)
+    distance_of_time_in_words_to_now(survey.expire_at)
   end
 end

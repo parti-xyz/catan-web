@@ -14,6 +14,7 @@ class PostsController < ApplicationController
     if @post.is_html_body == 'false'
       @post.format_linkable_body
     end
+    set_current_user_to_options(@post)
     if @post.save
       crawling_after_creating_post
       @post.perform_mentions_async
@@ -112,15 +113,23 @@ class PostsController < ApplicationController
   end
 
   private
+
   def post_params
     reference_type = params[:post][:reference_type]
     reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
     poll = params[:post][:poll_attributes]
     poll_attributes = [:title] if poll.present?
     survey = params[:post][:survey_attributes]
-    survey_attributes = [:duration, options_attributes: [:id, :body]] if survey.present?
+    options_attributes = [:id, :body] unless @post.try(:survey).try(:persisted?)
+    survey_attributes = [:duration, options_attributes: options_attributes] if survey.present?
     params.require(:post).permit(:body, :issue_id, :reference_type, :has_poll, :has_survey, :is_html_body,
       reference_attributes: reference_attributes, poll_attributes: poll_attributes, survey_attributes: survey_attributes)
+  end
+
+  def set_current_user_to_options(post)
+    (post.survey.try(:options) || []).each do |option|
+      option.user = current_user
+    end
   end
 
   def fetch_issue

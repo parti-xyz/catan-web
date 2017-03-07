@@ -2,11 +2,15 @@ class FeedbacksController < ApplicationController
   before_filter :authenticate_user!
 
   def create
-    option = Option.find params[:option_id]
-    survey = option.survey
+    @post = Post.find params[:post_id]
+    @option = Option.find_by id: params[:option_id]
+    return if @option.blank?
 
-    @post = Post.find_by survey: survey
-    if @post.blank? or @post.private_blocked?(current_user)
+    survey = @option.survey
+    if @post != Post.find_by(survey: survey)
+      render_404 and return
+    end
+    if @post.private_blocked?(current_user)
       render_404 and return
     end
 
@@ -15,11 +19,11 @@ class FeedbacksController < ApplicationController
 
       if previous_feedback.present?
         previous_feedback.destroy
-        if previous_feedback.option != option
-          feedback = create_feedback(option)
+        if previous_feedback.option != @option
+          feedback = create_feedback(@option)
         end
       else
-        feedback = create_feedback(option)
+        feedback = create_feedback(@option)
       end
     end
 

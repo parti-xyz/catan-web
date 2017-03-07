@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170306105343) do
+ActiveRecord::Schema.define(version: 20170307025147) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -356,9 +356,11 @@ ActiveRecord::Schema.define(version: 20170306105343) do
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
     t.integer  "feedbacks_count",  limit: 4,     default: 0
+    t.integer  "user_id",          limit: 4,                 null: false
   end
 
   add_index "options", ["survey_id"], name: "index_options_on_survey_id", using: :btree
+  add_index "options", ["user_id"], name: "index_options_on_user_id", using: :btree
 
   create_table "parti_sso_client_api_keys", force: :cascade do |t|
     t.integer  "user_id",           limit: 4,                   null: false

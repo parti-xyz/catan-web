@@ -5,19 +5,17 @@ class Survey < ActiveRecord::Base
     attributes['body'].try(:strip).blank?
   }
 
-  validate :has_options
-
-  def has_options
-    errors.add(:base, 'must add at least one options') if self.options.blank?
-  end
-
   def feedbacked?(someone)
     feedbacks.exists? user: someone
   end
 
   def open?
     return true if duration.days <= 0
-    (self.created_at + duration.days).future?
+    expire_at.future?
+  end
+
+  def expire_at
+    self.created_at + duration.days
   end
 
   def percentage(option)

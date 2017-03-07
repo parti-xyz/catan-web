@@ -4,23 +4,50 @@
   border-radius: 4px;
   &--body {
     padding: $padding-side;
-    > table {
-      width: 100%;
-
-      td.checkbox-btn {
-        width: 24px;
+    > .option {
+      .checkbox-btn {
+        width: 5%;
         span.closed {
           color: $gray-lighter;
         }
+        i {
+          font-size: 1.5em;
+          color: $gray-lighter;
+          &.active {
+            color: $brand-primary;
+          }
+        }
       }
-      td.body {
+      .body {
         padding: 2px 0;
+        width: 75%;
+        input {
+          width: 100%;
+        }
       }
-      td.feedbacks-count {
-        width: 48px;
+      .feedbacks-count {
+        width: 20%;
         text-align: right;
+        a,
+        input.btn.btn-link {
+          color: $brand-primary;
+          &:hover {
+            font-weight: bold;
+          }
+          padding: 0;
+        }
       }
-
+      .checkbox-btn,
+      .body,
+      .feedbacks-count {
+        min-height: 1px;
+        position: relative;
+        float: left;
+      }
+      .checkbox-btn,
+      .feedbacks-count {
+        line-height: 2.5em;
+      }
       .chart {
         border-radius: 4px;
         border: 1px solid $gray-lighter;

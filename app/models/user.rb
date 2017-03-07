@@ -68,6 +68,7 @@ class User < ActiveRecord::Base
   has_many :invitations, dependent: :destroy
   has_many :received_invitations, dependent: :destroy, foreign_key: :recipient_id, class_name: Invitation
   has_many :feedbacks, dependent: :destroy
+  has_many :options, dependent: :destroy
 
   ## uploaders
   # mount

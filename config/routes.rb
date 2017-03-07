@@ -97,6 +97,7 @@ Rails.application.routes.draw do
     end
   end
   post 'feedbacks', to: 'feedbacks#create'
+  resources :options
 
   resources :references
   resources :polls do

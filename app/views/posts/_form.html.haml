@@ -31,18 +31,11 @@
 
     - if @post.survey.present?
       = f.fields_for :survey do |ff|
-        %label
-          선택 항목을 넣어주세요.
-        = ff.fields_for :options do |fff|
-          .form-group
-            = fff.hidden_field :id
-            = fff.text_field :body, class: 'form-control', placeholder: '* 필수입력: ex. 짜장면', 'data-rule-required': true
-        .new-form-group
-          = link_to_add_association '+ 선택항목 추가', ff, :options, render_options: { locals: { input_data: { placeholder: 'ex. 짬뽕' } } }
-        %hr
-        .form-inline
+        .form-group
           = ff.label :duration
-          = ff.select :duration, options_for_select((1...10).map { |i| [ "#{i}일", i] }, ff.object.duration), {}, class: 'form-control'
+          %div
+            %span #{l f.object.created_at.to_date}부터 &nbsp;
+            = ff.select :duration, options_for_select((1..10).map { |i| [ "#{i}일 간", i] }, ff.object.duration), {}, class: 'form-control', style: 'width: 50%; display: inline-block'
     .editor-btn.text-right
       = link_to '취소', @post, class: 'btn btn-default'
       = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }

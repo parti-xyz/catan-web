@@ -29,6 +29,9 @@ class Ability
         user.is_organizer?(related.issue)
       end
       can :update, Wiki
+      can :destroy, Option do |option|
+        option.user == user and option.feedbacks_count == 0
+      end
       if user.admin?
         can :manage, [Issue, Related, Blind, Role, Group]
       end
