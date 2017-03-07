@@ -66,4 +66,8 @@ module DomHelper
   def post_pin_buttons_dom_selector(post)
     ".#{post_pin_buttons_dom_class(post)}"
   end
+
+  def user_chevron_dom_id(user)
+    "#{dom_id(user)}-dropdown"
+  end
 end

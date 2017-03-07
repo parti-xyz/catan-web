@@ -106,7 +106,7 @@ class API::AuthTest < ActionDispatch::IntegrationTest
     xhr :get, '/oauth/token/info', {}, {Authorization: "Bearer #{access_token}"}
     assert_response :ok
 
-    Timecop.freeze(Date.tomorrow) do
+    Timecop.freeze(1.month.from_now) do
       xhr :get, '/oauth/token/info', {}, {Authorization: "Bearer #{access_token}"}
       assert_response :unauthorized
 

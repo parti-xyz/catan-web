@@ -72,6 +72,9 @@ section#user-gallery{
     i {
       color: $gray-light;
     }
+    &.open .dropdown-menu  li+li {
+      border-top: 1px solid $gray-lightest;
+    }
   }
   &__info {
     .col-xs-4 {

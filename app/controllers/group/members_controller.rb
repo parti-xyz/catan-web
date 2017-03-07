@@ -30,6 +30,16 @@ class Group::MembersController < GroupBaseController
     end
   end
 
+  def organizer
+    @user = User.find_by id: params[:user_id]
+    @member = current_group.members.find_by user: @user
+    @member.update_attributes(is_organizer: request.put?) if @member.present?
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def private_blocked?(group)
     group.private_blocked?(current_user)
   end

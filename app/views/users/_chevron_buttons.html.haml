@@ -1,0 +1,33 @@
+- if local_assigns[:issue].present?
+  - if current_user.try(:admin?) or issue.organized_by?(current_user)
+    - if issue.organized_by?(user)
+      %li
+        = link_to organizer_issue_members_path(issue, user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...' } do
+          오거나이저로 지정취소
+    - else
+      %li
+        = link_to organizer_issue_members_path(issue, user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...' } do
+          오거나이저로 지정
+  - if current_user.try(:admin?)
+    %li
+      = link_to ban_issue_members_path(issue, user_id: user.id), method: :delete, remote: true, data: { 'confirm': '정말 강퇴하시겠습니까?', 'disable-with': '처리 중...' } do
+        강퇴하기
+- if local_assigns[:group].present?
+  - if current_user.try(:admin?) or group.organized_by?(current_user)
+    - if group.organized_by?(user)
+      %li
+        = link_to organizer_group_members_path(user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...' } do
+          오거나이저로 지정취소
+    - else
+      %li
+        = link_to organizer_group_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...' } do
+          오거나이저로 지정
+  - if can?(:destroy, current_group.member_of(user))
+    %li
+      - if user == current_user
+        = link_to cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...' } do
+          그룹 나가기
+      - else
+        = link_to ban_group_members_path(user_id: user.id), method: :delete, remote: true, data: { 'confirm': '정말 내보내시겠습니까?', 'disable-with': '처리 중...' } do
+          그룹에서 내보내기
+

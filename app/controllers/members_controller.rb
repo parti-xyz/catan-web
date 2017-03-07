@@ -42,4 +42,14 @@ class MembersController < ApplicationController
       format.js
     end
   end
+
+  def organizer
+    @user = User.find_by id: params[:user_id]
+    @member = @issue.members.find_by user: @user
+    @member.update_attributes(is_organizer: request.put?) if @member.present?
+
+    respond_to do |format|
+      format.js
+    end
+  end
 end

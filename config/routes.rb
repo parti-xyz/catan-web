@@ -69,6 +69,8 @@ Rails.application.routes.draw do
       post :merge
     end
     resources :members do
+      put :organizer, on: :collection
+      delete :organizer, on: :collection
       delete :cancel, on: :collection
       delete :ban, on: :collection
     end
@@ -111,6 +113,8 @@ Rails.application.routes.draw do
 
   namespace :group do
     resources :members do
+      put :organizer, on: :collection
+      delete :organizer, on: :collection
       delete :ban, on: :collection
       delete :cancel, on: :collection
     end

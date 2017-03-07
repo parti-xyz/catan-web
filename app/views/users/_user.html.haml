@@ -13,7 +13,7 @@
       = render chevron_buttons_partial, local_assigns.merge(user: user)
     - if partial.strip.present?
       .user-card__chevron_buttons
-        - dropdown_dom_id = "#{dom_id(user)}-dropdown"
+        - dropdown_dom_id = user_chevron_dom_id(user)
         %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
           %i.fa.fa-chevron-down
         %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
