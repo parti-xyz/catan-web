@@ -41,6 +41,7 @@ class IssuesController < ApplicationController
     else
       @issues = Issue.unfreezed.tagged_with(params[:selected_tags], :any => true)
     end
+    @issues = @issues.to_a.reject { |i| i.private_blocked?(current_user) }
   end
 
   def show

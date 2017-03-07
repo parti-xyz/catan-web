@@ -261,7 +261,7 @@ class Issue < ActiveRecord::Base
   end
 
   def private_blocked?(someone = nil)
-    !member?(someone) && private?
+    (!member?(someone) && private?) or (self.group.private_blocked?(someone))
   end
 
   def displayable_group?(current_group)
@@ -272,8 +272,8 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def fallbackable_organizer_members
-    organizer_members.present? ? organizer_members : [User.find_by(nickname: 'parti')]
+  def fallbackable_organizer_member_users
+    organizer_members.present? ? organizer_members.to_a.map(&:user) : [User.find_by(nickname: 'parti')]
   end
 
   private

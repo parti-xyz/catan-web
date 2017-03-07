@@ -17,7 +17,7 @@ class DashboardController < ApplicationController
   end
 
   def intro
-    @issue_tag_names = Issue.most_used_tags(30).map &:name
+    @issue_tag_names = Issue.most_used_tags(20).map &:name
     @issue_tag_names += %w(정치 경제 사회 문화 교육 경제 환경 노동 페미니즘 인권 민주주의)
     @issue_tag_names.uniq!
   end

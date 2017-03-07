@@ -4,7 +4,6 @@
 - issue = post.issue
 - voted = user_signed_in? && poll.voting_by?(current_user)
 .poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)}", data: modal_data}
-
   - if post.private_blocked?(current_user)
     %strong 비밀빠띠 게시글입니다.
     - if post.issue.member_requested? current_user

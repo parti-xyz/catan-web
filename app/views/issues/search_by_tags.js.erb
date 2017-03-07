@@ -1,6 +1,7 @@
 var $cards = $("<%= escape_javascript(render 'issues/intro_parti_cards', issues: @issues) %>")
 $('#parti-cards').html($cards);
 parti_partial$($cards);
+parti_ellipsis($cards);
 
 var $tagged = $("<%= escape_javascript(render 'issues/intro_after_select_tags.html.haml', issues: @issues) %>")
 $('#header-after-select-tags').html($tagged);

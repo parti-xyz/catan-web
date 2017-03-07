@@ -3,8 +3,8 @@
     %section
       %h5.aside-title 빠띠 오거나이저
       %ul.list-unstyled.parti-organizers
-        - @issue.fallbackable_organizer_members.each do |organizer_member|
-          %li= byline organizer_member.user
+        - @issue.fallbackable_organizer_member_users.each do |user|
+          %li= byline user
 
     %section.aside-users
       - prevew_count = 6 * 4 - 1
