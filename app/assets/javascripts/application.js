@@ -903,7 +903,7 @@ $(function(){
         var n = $(modal_checked_checkbox).length;
         return n-1;
       };
-      if(countChecked() == 4)
+      if(countChecked() == 3)
         $(modal_submit_btn).removeClass('disabled');
       else
         $(modal_submit_btn).addClass('disabled');
