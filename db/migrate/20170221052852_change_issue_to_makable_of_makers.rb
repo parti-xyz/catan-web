@@ -4,7 +4,10 @@ class ChangeIssueToMakableOfMakers < ActiveRecord::Migration
     add_column :makers, :makable_type, :string, null: true
     add_index :makers, [:makable_id, :makable_type]
 
-    Maker.update_all(makable_type: 'Issue')
+    query = <<-SQL.squish
+      UPDATE makers SET makable_type = 'Issue'
+    SQL
+    ActiveRecord::Base.connection.execute query
     change_column_null :makers, :makable_type, false
   end
   def down
