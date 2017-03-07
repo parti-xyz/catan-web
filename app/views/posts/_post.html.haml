@@ -14,17 +14,16 @@
                 %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.title
-          - if post.pinned?
-            .media-right( style='vertical-align: middle;' )
-              %span.pin-mark
-                %i.fa.fa-thumb-tack
-                공지
+          .media-right( style='vertical-align: middle;' )
+            %span.pin-mark.js-pin-mark{ class: ('collapse' unless post.pinned?) }
+              %i.fa.fa-thumb-tack
+              공지
           - if local_assigns[:mode] == 'modal'
             .media-right( style='vertical-align: middle;' )
               %button(type="button" class="close" data-dismiss="modal") &times;
 
-    - elsif post.pinned
-      .post-card-with-comments__header
+    - else
+      .post-card-with-comments__header.js-pin-mark{ class: ('collapse' unless post.pinned?) }
         .media
           .media-left
             .pin-mark
