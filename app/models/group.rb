@@ -15,7 +15,7 @@ class Group < ActiveRecord::Base
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
 
-  default_scope -> { order :slug }
+  default_scope -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
 
   def find_category_by_slug(slug)
     categories.detect { |c| c.slug == slug }
