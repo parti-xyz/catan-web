@@ -1,8 +1,8 @@
 %section#issue-users
   .container
-    - if current_group.member_request_users.any?
-      .row
-        .col-sm-8.col-xs-12
+    .row
+      .col-sm-8.col-xs-12
+        - if current_group.member_request_users.any?
           %section#content-tab-section
             .nav-tabs.message-tab
               %h4
@@ -13,8 +13,6 @@
             - current_group.member_request_users.each do |user|
               = render 'users/user', user: user, additional_buttons_partial: 'group/member_requests/accept_buttons'
 
-    .row
-      .col-sm-8.col-xs-12
         %section#content-tab-section
           .nav-tabs.message-tab
             %h4
@@ -26,3 +24,6 @@
         .page_waypoint.text-center{'data-target': '.user-card-wrapper', 'data-url': group_members_path(format: :js)}
           .page_waypoint__loading
             %i.fa.fa-3x.fa-spinner.fa-pulse
+
+      - unless is_small_screen?
+        = render 'application/aside'

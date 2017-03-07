@@ -2,8 +2,6 @@ class Group::MembersController < GroupBaseController
   load_and_authorize_resource
 
   def index
-    redirect_to root_path and return if private_blocked?(current_group)
-
     @myself = current_user if params[:last_id].blank? and current_group.member?(current_user)
 
     base = current_group.member_users.recent.where.not(id: current_user.id)
@@ -38,9 +36,5 @@ class Group::MembersController < GroupBaseController
     respond_to do |format|
       format.js
     end
-  end
-
-  def private_blocked?(group)
-    group.private_blocked?(current_user)
   end
 end

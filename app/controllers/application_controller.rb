@@ -58,7 +58,7 @@ class ApplicationController < ActionController::Base
   private
 
   def blocked_private_group
-    return if current_group.blank?
+    return if current_group.blank? or current_user.try(:admin?)
     if current_group.private_blocked? current_user and
     !(
       (controller_name == 'pages' and action_name == 'home') or

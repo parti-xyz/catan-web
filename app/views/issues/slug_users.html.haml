@@ -2,9 +2,9 @@
 
 %section#issue-users
   .container
-    - if @issue.member_request_users.any?
-      .row
-        .col-sm-8.col-xs-12
+    .row
+      .col-sm-8.col-xs-12
+        - if @issue.member_request_users.any?
           %section#content-tab-section
             .nav-tabs.message-tab
               %h4
@@ -15,8 +15,6 @@
             - @issue.member_request_users.each do |user|
               = render user, issue: @issue, additional_buttons_partial: 'member_requests/accept_buttons'
 
-    .row
-      .col-sm-8.col-xs-12
         %section#content-tab-section
           .nav-tabs.message-tab
             %h4
