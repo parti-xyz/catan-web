@@ -40,13 +40,13 @@ namespace :data do
         site_description: '사회혁신가는 일상에서 대안과 해결책을 고민하고 제안하며, 구체적인 그림과 방법을 연구하고, 각자의 현장에서 실천하고자 하는 사람들입니다.',
         site_keywords: '함께, 새로운세상을, 만들자, 사회혁신가, 소셜벤처, 박근혜게이트, 정치, 시국선언')
 
-      seed_group(user, 'slowalk', ['rest515', '달리'],
+      seed_group(user, 'slowalk', [],
         title: '슬로워크',
         site_title: 'Solutions for Change',
         head_title: 'Solutions for Change - 슬로워크',
         private: true)
 
-      seed_group(user, 'westay1', ['rest515', '달리'],
+      seed_group(user, 'westay1', [],
         title: '별내 위스테이 공동체 사회적협동조합',
         site_title: '함께살아보장',
         head_title: '함께살아보장 - 별내 위스테이 공동체 사회적협동조합',

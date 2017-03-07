@@ -1,6 +1,13 @@
 - if local_assigns[:issue].present? and current_user.try(:admin?)
-  = link_to ban_issue_members_path(issue, user_id: user.id), method: :delete, class: 'btn btn-sm btn-danger', remote: true, data: { 'confirm': '정말 강퇴하시겠습니까?', 'disable-with': '처리 중...' } do
-    강퇴하기
-- if local_assigns[:group].present? and local_assigns[:group].try(:organized_by?, current_user)
-  = link_to ban_group_members_path(user_id: user.id), method: :delete, class: 'btn btn-sm btn-danger', remote: true, data: { 'confirm': '정말 탈퇴처리 하시겠습니까?', 'disable-with': '처리 중...' } do
-    탈퇴처리하기
+  %li
+    = link_to ban_issue_members_path(issue, user_id: user.id), method: :delete, remote: true, data: { 'confirm': '정말 강퇴하시겠습니까?', 'disable-with': '처리 중...' } do
+      강퇴하기
+- if local_assigns[:group].present? and can?(:destroy, current_group.member_of(user))
+  %li
+    - if user == current_user
+      = link_to cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...' } do
+        그룹 나가기
+    - else
+      = link_to ban_group_members_path(user_id: user.id), method: :delete, remote: true, data: { 'confirm': '정말 내보내시겠습니까?', 'disable-with': '처리 중...' } do
+        그룹에서 내보내기
+

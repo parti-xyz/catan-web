@@ -21,6 +21,7 @@ class Ability
       end
 
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
+      can [:destroy], Member, user_id: user.id
       can [:create], MemberRequest, user_id: user.id
       can [:accept, :reject], MemberRequest do |request|
         user.is_organizer?(request.issue)
@@ -33,7 +34,7 @@ class Ability
         option.user == user and option.feedbacks_count == 0 and option.survey.open?
       end
       if user.admin?
-        can :manage, [Issue, Related, Blind, Role, Group]
+        can :manage, [Issue, Related, Blind, Role, Group, MemberRequest, Member]
       end
     end
   end

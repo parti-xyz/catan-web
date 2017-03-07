@@ -50,6 +50,10 @@ class Group < ActiveRecord::Base
     members.exists? user: someone
   end
 
+  def member_of someone
+    members.find_by(user: someone)
+  end
+
   def title
     read_attribute(:title) || read_attribute(:name)
   end

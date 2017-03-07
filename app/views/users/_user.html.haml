@@ -8,3 +8,14 @@
   - if local_assigns[:additional_buttons_partial].present?
     .user-card__additional_buttons
       = render additional_buttons_partial, local_assigns.merge(user: user)
+  - if local_assigns[:chevron_buttons_partial].present?
+    - partial = capture do
+      = render chevron_buttons_partial, local_assigns.merge(user: user)
+    - if partial.strip.present?
+      .user-card__chevron_buttons
+        - dropdown_dom_id = "#{dom_id(user)}-dropdown"
+        %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+          %i.fa.fa-chevron-down
+        %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+          = partial
+

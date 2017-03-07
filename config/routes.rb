@@ -112,6 +112,7 @@ Rails.application.routes.draw do
   namespace :group do
     resources :members do
       delete :ban, on: :collection
+      delete :cancel, on: :collection
     end
     resources :member_requests do
       post :accept, on: :collection
