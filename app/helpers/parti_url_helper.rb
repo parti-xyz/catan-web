@@ -9,7 +9,7 @@ module PartiUrlHelper
   end
 
   def smart_issue_home_url(issue, options = {})
-    options.update(slug: issue.slug, subdomain: issue.group.try(:slug))
+    options.update(slug: issue.slug, subdomain: issue.group.try(:subdomain))
     slug_issue_url(options)
   end
 
@@ -45,7 +45,7 @@ module PartiUrlHelper
   end
 
   def smart_post_url(post, options = {})
-    options.update(subdomain: post.issue.group.try(:slug))
+    options.update(subdomain: post.issue.group.try(:subdomain))
     polymorphic_url(post, options)
   end
 
