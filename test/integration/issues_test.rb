@@ -23,7 +23,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_equal Category::GWANGJU_AGENDA.slug, assigns(:issue).category_slug
   end
 
-  test '만든 사람이 메이커가 되어요' do
+  test '만든 사람이 오거나이저가 되어요' do
     sign_in(users(:one))
 
     post issues_path(issue: { title: 'title', slug: 'title', body: 'body' })
@@ -75,7 +75,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert_equal 'title x', assigns(:issue).title
   end
 
-  test '메이커를 넣어요' do
+  test '오거나이저를 넣어요' do
     sign_in(users(:organizer))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: users(:one).nickname })
@@ -84,7 +84,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert assigns(:issue).organizer_members.exists?(user: users(:one))
   end
 
-  test '중복된 메이커를 넣으면 알아서 넣어줘요.' do
+  test '중복된 오거나이저를 넣으면 알아서 넣어줘요.' do
     sign_in(users(:organizer))
 
     put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: "#{users(:one).nickname},#{users(:one).nickname}" })
@@ -119,7 +119,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
     refute assigns(:issue).persisted?
   end
 
-  test '메이커넣기' do
+  test '오거나이저넣기' do
     sign_in(users(:organizer))
     put issue_path(issues(:issue1), issue: { organizer_nicknames: 'nick1' })
 

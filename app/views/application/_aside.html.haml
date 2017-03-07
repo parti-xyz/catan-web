@@ -8,7 +8,7 @@
           = link_to '빠띠만들기', parties_new_intro_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
 
         - if current_user.organizing_issues.displayable_in_current_group(current_group).any?
-          %h5.aside-title 메이커인 빠띠
+          %h5.aside-title 오거나이저인 빠띠
           %ul.list-unstyled.aside-issues
             = render customize_partial_path(current_user.organizing_issues.displayable_in_current_group(current_group), 'issue_line')
         - if current_user.only_member_issues(current_group).any?
@@ -18,7 +18,7 @@
 
         - Group.all_but(current_group).each do |group|
           - if current_user.organizing_issues.displayable_in_current_group(group).any?
-            %h5.aside-title 메이커인 #{group.title} 빠띠
+            %h5.aside-title 오거나이저인 #{group.title} 빠띠
             %ul.list-unstyled.aside-issues
               = render customize_partial_path(current_user.organizing_issues.displayable_in_current_group(group), 'issue_line')
           - if current_user.only_member_issues(group).any?

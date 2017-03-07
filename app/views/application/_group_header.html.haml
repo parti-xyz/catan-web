@@ -26,7 +26,7 @@
 
                   - if current_user.organizing_issues.displayable_in_current_group(current_group).any?
                     %li.dropdown-header
-                      메이커인 빠띠
+                      오거나이저인 빠띠
                       #{current_user.organizing_issues.displayable_in_current_group(current_group).count}
                   - current_user.organizing_issues.displayable_in_current_group(current_group).each do |issue|
                     = render 'issues/issue_line', issue: issue
@@ -40,7 +40,7 @@
                   - Group.all_but(current_group).each do |group|
                     - if current_user.organizing_issues.only_group(group).any?
                       %li.dropdown-header
-                        메이커인 #{group.title} 빠띠
+                        오거나이저인 #{group.title} 빠띠
                         #{current_user.organizing_issues.only_group(group).count}
                     - current_user.organizing_issues.only_group(group).each do |issue|
                       = render 'issues/issue_line', issue: issue

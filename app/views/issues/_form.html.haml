@@ -73,7 +73,7 @@
     .form-group{class: ('has-error' if has_error_attr?(@issue, :organizer_nicknames))}
       = f.label :organizer_nicknames
       = f.text_field :organizer_nicknames, value: @issue.organizer_members.merge_nickname, class: 'form-control'
-      %p.help-block 빠띠메이커의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 빠띠메이커 목록이 수정되지 않고 현재 그대로 보존됩니다.
+      %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :private))}
       = f.label :private

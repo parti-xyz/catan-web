@@ -57,7 +57,7 @@ export PARTI_ADMIN_PASSWORD="12345678"
 Post.all.each { |p| p.update_columns(last_commented_at: (p.comments.newest.try(:created_at) || p.created_at)) }
 ```
 
-현존하는 모든 빠띠의 메이커를 마이그레이션 합니다.
+현존하는 모든 빠띠의 오거나이저를 마이그레이션 합니다.
 ```
 Issue.all.select { |i| !i.makers.exists?(user: admin) }.each { |i| i.makers.build(user: admin); i.save }
 ```

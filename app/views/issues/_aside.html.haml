@@ -1,7 +1,7 @@
 .col-sm-4.hidden-xs
   .aside_issue#aside
     %section
-      %h5.aside-title 빠띠 메이커
+      %h5.aside-title 빠띠 오거나이저
       %ul.list-unstyled.parti-organizers
         - @issue.fallbackable_organizer_members.each do |organizer_member|
           %li= byline organizer_member.user

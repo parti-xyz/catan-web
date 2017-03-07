@@ -36,7 +36,7 @@ class MembersTest < ActionDispatch::IntegrationTest
     refute issues(:issue1).member? users(:one)
   end
 
-  test '메이커는 탈퇴 못해요' do
+  test '오거나이저는 탈퇴 못해요' do
     assert issues(:issue1).member? users(:organizer)
     assert issues(:issue1).organized_by? users(:organizer)
 
