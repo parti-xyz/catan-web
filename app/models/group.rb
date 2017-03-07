@@ -83,7 +83,7 @@ class Group < ActiveRecord::Base
   end
 
   def self.all_but(some_group)
-    Group.all.reject { |group| group.slug == some_group.try(:slug) }
+    Group.all.reject { |group| group.slug == Group.default_slug(some_group) }
   end
 
   def self.find_by_slug(slug)
@@ -92,5 +92,9 @@ class Group < ActiveRecord::Base
 
   def self.exists_slug?(slug)
     exists? slug: slug
+  end
+
+  def self.default_slug(current_group)
+    current_group.try(:slug) || (current_group if current_group.is_a?(String)) || 'indie'
   end
 end

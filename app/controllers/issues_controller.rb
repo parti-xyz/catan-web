@@ -92,7 +92,7 @@ class IssuesController < ApplicationController
 
   def create
     @issue.members.build(user: current_user, is_organizer: true)
-    @issue.group_slug = current_group.try(:slug) || 'indie'
+    @issue.group_slug = Group.default_slug(current_group)
 
     if !%w(all).include?(@issue.slug) and @issue.save
       redirect_to smart_issue_home_url(@issue)

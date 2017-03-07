@@ -134,7 +134,7 @@ class Issue < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
-  scope :only_group, ->(group) { where(group_slug: (group.try(:slug) || 'indie')) }
+  scope :only_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
   # search
   scoped_search on: [:title, :body]
@@ -245,7 +245,7 @@ class Issue < ActiveRecord::Base
   end
 
   def self.of_slug(slug, group_slug = nil)
-    self.find_by(slug: slug, group_slug: group_slug || 'indie')
+    self.find_by(slug: slug, group_slug: Group.default_slug(group_slug))
   end
 
   def self.most_used_tags(limit)
