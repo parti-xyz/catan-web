@@ -67,12 +67,20 @@
                 .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
                 %span.caret
               %ul.dropdown-menu
-                %li
-                  = link_to smart_user_gallery_path(current_user) do
-                    %strong= current_user.nickname
-                    프로필
-                %li.divider
-                %li= link_to '설정', edit_user_registration_path
+                - if current_group.private_blocked? current_user
+                  %li
+                    = link_to smart_user_gallery_url(current_user, subdomain: nil) do
+                      %strong= current_user.nickname
+                      프로필
+                  %li.divider
+                  %li= link_to '설정', edit_user_registration_url(subdomain: nil)
+                - else
+                  %li
+                    = link_to smart_user_gallery_path(current_user) do
+                      %strong= current_user.nickname
+                      프로필
+                  %li.divider
+                  %li= link_to '설정', edit_user_registration_path
                 %li= link_to '로그아웃', destroy_user_session_path, method: :delete
           - else
             %li.sign-up

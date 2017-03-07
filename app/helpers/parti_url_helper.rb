@@ -36,6 +36,11 @@ module PartiUrlHelper
     slug_user_path(slug: user.slug)
   end
 
+  def smart_user_gallery_url(user, options = {})
+    options.update(slug: user.slug)
+    slug_user_url(options)
+  end
+
   def smart_post_path_or_url(post, options = {})
     if post.issue.displayable_group?(current_group)
       polymorphic_path(post, options)
