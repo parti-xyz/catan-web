@@ -91,12 +91,6 @@ $ nohup bin/rake images:reprocess RAILS_ENV=staging > ~/nohup4.out 2>&1&
 
 engineyard를 사용합니다.
 
-```
-$ bin/deploy master
-$ bin/deploy dev
-$ bin/deploy hotfix
-```
-
 ## 실환경 구축
 
 mysql의 encoding은 utf8mb4를 사용합니다. mysql은 버전 5.6 이상을 사용합니다.
