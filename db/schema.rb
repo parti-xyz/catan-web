@@ -197,19 +197,6 @@ ActiveRecord::Schema.define(version: 20170307025147) do
 
   add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true, using: :btree
 
-  create_table "makers", force: :cascade do |t|
-    t.integer  "user_id",      limit: 4,   null: false
-    t.integer  "makable_id",   limit: 4,   null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "makable_type", limit: 255, null: false
-  end
-
-  add_index "makers", ["makable_id", "makable_type"], name: "index_makers_on_makable_id_and_makable_type", using: :btree
-  add_index "makers", ["makable_id"], name: "index_makers_on_makable_id", using: :btree
-  add_index "makers", ["user_id", "makable_id", "makable_type"], name: "index_makers_on_user_id_and_makable_id_and_makable_type", unique: true, using: :btree
-  add_index "makers", ["user_id"], name: "index_makers_on_user_id", using: :btree
-
   create_table "member_requests", force: :cascade do |t|
     t.integer  "joinable_id",    limit: 4,                    null: false
     t.integer  "user_id",        limit: 4,                    null: false
