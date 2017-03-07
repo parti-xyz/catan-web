@@ -2,11 +2,33 @@
   $padding-side: 18px;
   border: 1px solid $gray-lighter;
   border-radius: 4px;
+
+  &--body > .option {
+    .checkbox-btn {
+      width: 5%;
+    }
+    .body {
+      width: 75%;
+    }
+    .feedbacks-count {
+      width: 20%;
+    }
+  }
+  &--body--no-checkbox > .option {
+    .checkbox-btn {
+      display: none;
+    }
+    .body {
+      width: 80%;
+    }
+    .feedbacks-count {
+      width: 20%;
+    }
+  }
   &--body {
     padding: $padding-side;
     > .option {
       .checkbox-btn {
-        width: 5%;
         span.closed {
           color: $gray-lighter;
         }
@@ -20,7 +42,7 @@
       }
       .body {
         padding: 2px 0;
-        width: 75%;
+
         input {
           width: 100%;
         }

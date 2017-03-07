@@ -30,7 +30,7 @@ class Ability
       end
       can :update, Wiki
       can :destroy, Option do |option|
-        option.user == user and option.feedbacks_count == 0
+        option.user == user and option.feedbacks_count == 0 and option.survey.open?
       end
       if user.admin?
         can :manage, [Issue, Related, Blind, Role, Group]

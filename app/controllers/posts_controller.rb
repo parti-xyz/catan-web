@@ -35,7 +35,7 @@ class PostsController < ApplicationController
     if @post.save
       crawling_after_updating_post
       @post.perform_mentions_async
-      redirect_to @post
+      redirect_to params[:back_url].presence || @post
     else
       errors_to_flash @post
       render 'edit'

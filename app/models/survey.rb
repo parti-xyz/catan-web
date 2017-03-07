@@ -14,6 +14,10 @@ class Survey < ActiveRecord::Base
     expire_at.future?
   end
 
+  def visible_feedbacks?(someone)
+    feedbacked?(someone) or !open?
+  end
+
   def expire_at
     self.created_at + duration.days
   end
