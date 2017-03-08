@@ -1,13 +1,27 @@
-.share-box.clearfix
-  - %w(facebook twitter telegram kakao-link kakao-story).each do |provider|
-    - data = (map[provider.to_sym] || {}).merge('share-provider': provider)
+.share-box
+  .social.clearfix
+    - providers.reject{ |p| p == 'copy' }.each do |provider|
+      - data = share_map.merge('share-provider': provider)
+      - if provider == 'kakao-link'
+        - hide_kakao_link = (is_kakao_talkable? ? '' : ' hide')
+        - data = data.merge('share-image': "#{poll_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158') if @post.try(:poll).try(:present?)
 
-    - if provider == 'kakao-link'
-      - hide_kakao_link = (is_kakao_talkable? ? '' : ' hide')
-      - data = data.merge('share-image': "#{poll_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158') if @post.try(:poll).try(:present?)
+      - next if provider == 'telegram' and !is_telegram_talkable?
 
-    - next if provider == 'telegram' and !is_telegram_talkable?
+      %span.pull-left{class: "share-item share-#{provider}#{hide_kakao_link}", data: data }
+        - if provider == 'kakao-story'
+          = image_tag 'icon_kas.png', class: 'icon-kas'
 
-    %span.pull-left{class: "share-item share-#{provider}#{hide_kakao_link}", data: data }
-      - if provider == 'kakao-story'
-        = image_tag 'icon_kas.png', class: 'icon-kas'
+  - if providers.include? 'copy'
+    .clipboard
+      .form-group
+        %label
+          %i.fa.fa-link
+          주소복사
+        .input-group
+          - copy_id = "copy-#{SecureRandom.uuid}"
+          %input.form-control{ type: "text", value: share_map[:'share-url'], id: copy_id }
+          %span.input-group-btn
+            %button.btn.btn-default.js-clipboard{ 'data-clipboard-target': "##{copy_id}", 'data-toggle': 'tooltip', 'data-trigger': 'manual', 'data-title': '복사완료!' }
+              %i.fa.fa-clipboard
+

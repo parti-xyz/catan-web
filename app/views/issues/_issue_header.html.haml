@@ -67,10 +67,7 @@
                       = image_tag 'telegram_icon.png'
                       메신저 열기
             .col-sm-3.text-right.hidden-xs
-              - data = {action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:share_site_title) || '빠띠'}" }
-              - map = { facebook: data }
-              - map.update twitter: data, 'kakao-link': data, 'kakao-story': data
-              = render 'application/share', map: map
+              = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:share_site_title) || '빠띠'}" }
 
   - if !local_assigns[:simple] and !blocked
     .parti-menu

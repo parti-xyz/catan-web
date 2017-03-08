@@ -1,4 +1,4 @@
-.share-box {
+.share-box .social {
   .share-item {
     min-width: 35px;
     height: 35px;
@@ -54,5 +54,16 @@
     .fa-paper-plane.jssocials-share-logo {
       color: #0088cc;
     }
+  }
+}
+
+.share-box .clipboard {
+  padding-top: 12px;
+  max-width: 300px;
+  .form-group {
+    margin-bottom: 0;
+  }
+  .tooltip-inner {
+    white-space: nowrap;
   }
 }

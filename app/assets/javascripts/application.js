@@ -33,6 +33,7 @@
 //= require jquery.viewport
 //= require cocoon
 //= require focus-element-overlay
+//= require clipboard
 
 // blank
 $.is_blank = function (obj) {
@@ -191,7 +192,16 @@ var parti_prepare = function($base) {
   parti_prepare_masonry($base);
   parti_prepare_form_validator($base);
 
-  //$base.find('[data-action="parti-popover"]').webuiPopover();
+  //clipboard
+  $.parti_apply($base, '.js-clipboard', function(elm) {
+    var clipboard = new Clipboard(elm);
+    clipboard.on('success', function(e) {
+      $(e.trigger).tooltip('show');
+      // setTimeout(function() { $(e.trigger).tooltip('hide'); }, 1000);
+      e.clearSelection();
+    });
+  });
+
   $.parti_apply($base, '[data-action="parti-popover"]', function(elm) {
     var options = {};
     var style = $(elm).data('style');
@@ -640,6 +650,7 @@ $(function(){
   parti_prepare($('body'));
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
+
 
   $('#new-theme-site-header').on('show.bs.collapse','.collapse', function() {
       $('#new-theme-site-header').find('.collapse.in').collapse('hide');
