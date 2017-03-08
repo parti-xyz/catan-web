@@ -711,6 +711,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3, >= 3.3.5.1)
   bootswatch-rails
   browser (~> 2.0, >= 2.0.2)
+  bundler (~> 1.14, >= 1.14.5)
   by_star (~> 2.2, >= 2.2.1)
   byebug
   cancancan (~> 1.10)
@@ -800,4 +801,4 @@ DEPENDENCIES
   wkhtmltoimage-binary (~> 0.12.2)
 
 BUNDLED WITH
-   1.13.7
+   1.14.6

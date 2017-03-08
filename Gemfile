@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.5.1'
 gem 'unicorn'
+gem 'bundler', '~> 1.14', '>= 1.14.5'
 
 # db
 gem 'mysql2', '>= 0.3.13', '< 0.5'
