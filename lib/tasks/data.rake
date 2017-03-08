@@ -60,6 +60,13 @@ namespace :data do
         site_description: '직접 민주주의 프로젝트 정당 우주당입니다. 우리가 주인이 되어 우리의 이야기로 정치하는, 새롭고 즐거운 시도들을 함께 해요!',
         site_keywords: '정치, 정당, 우주당, 직접민주주의, 해적당, wouldyouparty, 빠띠, 민주주의')
 
+      seed_group(user, 'union', [],
+        title: '민주주의 벤처',
+        site_title: '빠띠유니온',
+        head_title: '빠띠유니온 - 민주주의 벤처',
+        site_description: '직접 민주주의 프로젝트 정당 우주당입니다. 우리가 주인이 되어 우리의 이야기로 정치하는, 새롭고 즐거운 시도들을 함께 해요!',
+        private: true)
+
     end
   end
 
