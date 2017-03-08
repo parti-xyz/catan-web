@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
-  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_references, :slug_comments, :slug_polls, :slug_posts, :slug_wikis]
+  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_references, :slug_polls, :slug_posts, :slug_wikis]
   load_and_authorize_resource
   before_filter :verify_issue_group, only: [:slug_home, :slug_references, :slug_polls, :slug_posts, :slug_wikis, :edit]
   before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_polls, :slug_posts, :slug_wikis, :slug_users]
@@ -172,7 +172,7 @@ class IssuesController < ApplicationController
   private
 
   def fetch_issue_by_slug
-    @issue = Issue.displayable_in_current_group(current_group).find_by slug: params[:slug]
+    @issue = Issue.only_group(current_group).find_by slug: params[:slug]
     if @issue.blank?
       @issue_by_title = Issue.only_group(current_group).find_by(title: params[:slug].titleize)
       if @issue_by_title.present?

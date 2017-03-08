@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
 
   def only_member_issues(group)
     result = member_issues.where.not(id: issue_organizer_members.select(:joinable_id))
-    result = result.only_group(group) if group.present?
+    result = result.only_group(group)
     result
   end
 

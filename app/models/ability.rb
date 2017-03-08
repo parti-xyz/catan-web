@@ -4,7 +4,7 @@ class Ability
   def initialize(user)
     can [:read, :poll_social_card, :partial, :modal], :all
     can [:slug, :users, :exist, :new_posts_count, :slug_home,
-      :slug_users, :slug_references, :slug_comments, :slug_polls,
+      :slug_users, :slug_references, :slug_polls,
       :slug_posts, :slug_wikis, :search], Issue
     if user
       can [:update, :destroy, :remove_logo, :remove_cover], Issue do |issue|

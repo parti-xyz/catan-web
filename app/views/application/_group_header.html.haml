@@ -25,11 +25,11 @@
                   %span.caret
                 %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
 
-                  - if current_user.organizing_issues.displayable_in_current_group(current_group).any?
+                  - if current_user.organizing_issues.only_group(current_group).any?
                     %li.dropdown-header
                       오거나이저인 빠띠
-                      #{current_user.organizing_issues.displayable_in_current_group(current_group).count}
-                  - current_user.organizing_issues.displayable_in_current_group(current_group).each do |issue|
+                      #{current_user.organizing_issues.only_group(current_group).count}
+                  - current_user.organizing_issues.only_group(current_group).each do |issue|
                     = render 'issues/issue_line', issue: issue
                   - if current_user.only_member_issues(current_group).any?
                     %li.dropdown-header

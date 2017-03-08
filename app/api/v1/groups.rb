@@ -18,7 +18,7 @@ module V1
       end
       get ':slug/parties' do
         group = Group.find_by_slug(params[:slug])
-        present :parties, Issue.displayable_in_current_group(group).recent_touched, base_options
+        present :parties, Issue.only_group(group).recent_touched, base_options
       end
     end
   end
