@@ -41,7 +41,10 @@
                             .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
                             %span.issue-line__title
                               = issue.title
-                        %option{value: issue.id, 'data-content': issue_content}= issue.title
+                              = security_icon(issue)
+                        %option{value: issue.id, 'data-content': issue_content}
+                          = issue.title
+                          = security_icon(issue)
 
             - unless current_user.need_to_more_member?(current_group)
               = render 'posts/new_form', issue: nil

@@ -9,11 +9,14 @@
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
           .media-body
             = link_to smart_issue_home_path_or_url(post.issue), target: issue_link_target_name(post.issue) do
-              %span.issue-title= post.issue.title
+              %span.issue-title
+                = post.issue.title
+                = security_icon(post.issue)
               - unless post.issue.displayable_group? current_group
                 %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.title
+                  = security_icon(post.issue.group)
           .media-right( style='vertical-align: middle;' )
             %span.pin-mark.js-pin-mark{ class: ('collapse' unless post.pinned?) }
               %i.fa.fa-thumb-tack

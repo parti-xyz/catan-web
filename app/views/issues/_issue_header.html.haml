@@ -23,7 +23,9 @@
       .media-body
         - if local_assigns[:simple]
           %h4.parti-title
-            = link_to issue.title, smart_issue_home_path_or_url(issue)
+            = link_to smart_issue_home_path_or_url(issue) do
+              = issue.title
+              %small= security_icon(issue)
             .parti-buttons
               - if issue.organized_by? current_user
                 %span.parti-organizer-button
@@ -37,6 +39,7 @@
         - else
           %h2.parti-title
             = issue.title
+            %small= security_icon(issue)
             .parti-info.visible-xs-block
               = link_to smart_issue_users_path(issue) do
                 %span.parti-users-label 가입회원

@@ -30,6 +30,7 @@
         - unless post.issue.displayable_group? current_group
           .reference-card__group
             = post.issue.group.title
+            = security_icon(post.issue.group)
         .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
     .caption
       - capture_source = capture do

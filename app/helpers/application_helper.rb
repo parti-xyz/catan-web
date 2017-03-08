@@ -171,4 +171,8 @@ module ApplicationHelper
     return '계속' if survey.duration <= 0
     distance_of_time_in_words_to_now(survey.expire_at)
   end
+
+  def security_icon(model)
+    content_tag("i", '', class: ["fa", "fa-lock"]) if model.try(:private?)
+  end
 end

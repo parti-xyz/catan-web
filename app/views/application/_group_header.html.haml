@@ -11,7 +11,9 @@
         %ul.nav.navbar-nav
           %li
             = link_to root_path, class: "group-title #{'active' if current_page?('/')}" do
-              %h4 #{current_group.head_title}
+              %h4
+                #{current_group.head_title}
+                = security_icon(current_group)
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?

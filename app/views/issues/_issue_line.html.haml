@@ -8,6 +8,7 @@
       .media-body
         %span.issue-line__title
           = issue.title
+          = security_icon(issue)
         %span.issue-line__meta
           - if issue.members.latest.count > 0
             .users-count

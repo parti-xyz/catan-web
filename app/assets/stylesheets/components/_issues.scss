@@ -48,6 +48,9 @@ section#issues {
     &.parti-title {
       margin-bottom: 5px;
       text-shadow: 1px 1px #333;
+      small {
+        color: white;
+      }
     }
     a {
       text-shadow: none;
@@ -170,8 +173,10 @@ section#issues {
     padding-top: 12px;
     padding-bottom: 12px;
 
-    .parti-title a {
-      color: #fff;
+    .parti-title {
+      a, small {
+        color: #fff;
+      }
     }
     > .container > .media {
       > .media-left {
