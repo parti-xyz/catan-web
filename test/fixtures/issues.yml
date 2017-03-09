@@ -27,3 +27,9 @@ private_issue:
   slug: private_issue
   group_slug: indie
   private: true
+parti:
+  title: 빠띠만든당
+  slug: parti
+  group_slug: union
+
+

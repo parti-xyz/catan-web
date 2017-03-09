@@ -60,10 +60,6 @@ class IssuesTest < ActionDispatch::IntegrationTest
   test 'union그룹에만 parti빠띠를 만들어요' do
     sign_in(users(:one))
 
-    host! "#{Group::SLUG_OF_UNION}.example.com"
-    post issues_path, issue: { title: 'title', slug: Issue::SLUG_OF_PARTI_PARTI, body: 'body', group_slug: Group::SLUG_OF_UNION }
-    assert assigns(:issue).persisted?
-
     host! "www.example.com"
     post issues_path, issue: { title: 'title', slug: Issue::SLUG_OF_PARTI_PARTI, body: 'body', group_slug: 'xx' }
     refute assigns(:issue).persisted?
