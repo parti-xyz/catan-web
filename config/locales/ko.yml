@@ -56,7 +56,6 @@ ko:
       not_deletable_parti: 가입한 멤버가 있거나 게시글이 있는 빠띠는 삭제할 수 없습니다.
       unknown: 앗! 뭔가 잘못되었습니다.
       deleted_option: 지워진 제안입니다
-      unauthorized_group: 선택할 권한이 없는 그룹입니다.
     models:
       user:
         attributes:

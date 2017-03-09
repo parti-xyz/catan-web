@@ -48,10 +48,6 @@ class Group < ActiveRecord::Base
     organizer_members.exists? user: someone
   end
 
-  def parti_putable_by? someone
-    indie? or organized_by?(someone) or someone.admin?
-  end
-
   def member? someone
     members.exists? user: someone
   end

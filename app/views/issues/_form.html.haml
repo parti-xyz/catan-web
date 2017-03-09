@@ -82,11 +82,10 @@
           = f.check_box :private
           비공개빠띠로 설정하면, 이 빠띠에 가입한 멤버만 게시글을 볼 수 있습니다.
 
-    - if current_user.groups_of_parti_putable.any?
-      - f.object.group_slug = Group.default_slug(current_group) if f.object.group_slug.blank?
+    - if current_user.admin? and f.object.persisted?
       .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
         = f.label :group_slug
-        = f.select :group_slug, current_user.groups_of_parti_putable.map { |g| [ g.form_select_title, g.slug] }, {}, class: 'form-control'
+        = f.select :group_slug, Group.all.map { |g| [ g.form_select_title, g.slug] }, {}, class: 'form-control'
         %p.help-block 이 빠띠가 속할 그룹을 선택해 주세요.
 
     .form-group

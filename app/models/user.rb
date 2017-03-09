@@ -196,14 +196,6 @@ class User < ActiveRecord::Base
     sent_new_posts_email_at.present? and sent_new_posts_email_at >= Date.today
   end
 
-  def groups_of_parti_putable
-    if admin?
-      Group.all
-    else
-      [Group.indie] + organizing_groups.to_a
-    end
-  end
-
   private
 
   def downcase_nickname

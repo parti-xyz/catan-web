@@ -104,8 +104,8 @@ class IssuesController < ApplicationController
 
   def update
     @issue.assign_attributes(issue_params)
-    if @issue.group_slug_changed? and !@issue.group.parti_putable_by?(current_user)
-      flash[:notice] = t('errors.messages.unauthorized_group')
+    if @issue.group_slug_changed? and !current_user.admin?
+      flash[:notice] = t('unauthorized.default')
       render 'edit' and return
     end
 
