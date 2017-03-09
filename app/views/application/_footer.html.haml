@@ -19,7 +19,7 @@
       %a(href='mailto:help@parti.xyz')
         오류 및 버그 신고
     %li
-      = link_to slug_issue_url(slug: Issue::SLUG_OF_PARTI_PARTI, subdomain: false) do
+      = link_to smart_issue_home_url(Issue.parti_parti) do
         제안 및 의견
   - unless current_group.present?
     .footer-sns

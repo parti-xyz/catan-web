@@ -115,7 +115,7 @@ class Issue < ActiveRecord::Base
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false, scope: :group_slug },
     length: { maximum: 100 }
-  validate :not_parti_slug
+  validate :not_parti_parti_slug
 
   # fields
   mount_uploader :logo, ImageUploader
@@ -291,7 +291,7 @@ class Issue < ActiveRecord::Base
     self.slug = self.slug.strip unless self.slug.nil?
   end
 
-  def not_parti_slug
+  def not_parti_parti_slug
     if self.slug == Issue::SLUG_OF_PARTI_PARTI and self.group_slug != Group::SLUG_OF_UNION
       errors.add(:slug, I18n.t('errors.messages.taken'))
     end
