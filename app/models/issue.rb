@@ -117,6 +117,7 @@ class Issue < ActiveRecord::Base
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false, scope: :group_slug },
     length: { maximum: 100 }
+  validate :not_parti_slug
 
   # fields
   mount_uploader :logo, ImageUploader
@@ -252,6 +253,10 @@ class Issue < ActiveRecord::Base
     ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').most_used(limit).joins(:taggings).select('name').distinct
   end
 
+  def self.parti_parti
+    find_by(slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: Group::SLUG_OF_UNION)
+  end
+
   def issue_for_message
     self
   end
@@ -286,5 +291,11 @@ class Issue < ActiveRecord::Base
   def strip_whitespace
     self.title = self.title.strip unless self.title.nil?
     self.slug = self.slug.strip unless self.slug.nil?
+  end
+
+  def not_parti_slug
+    if self.slug == Issue::SLUG_OF_PARTI_PARTI and self.group_slug != Group::SLUG_OF_UNION
+      errors.add(:slug, I18n.t('errors.messages.taken'))
+    end
   end
 end

@@ -7,9 +7,15 @@ gwanju:
 indie:
   slug: indie
   user: admin
-  title: '전체'
-  site_title: '전체'
-  head_title: '전체'
+  title: '일반'
+  site_title: '일반'
+  head_title: '일반'
+union:
+  slug: union
+  user: admin
+  title: '민주주의 벤처'
+  site_title: '빠띠유니온'
+  head_title: '빠띠유니온'
 merge_target_issue:
   slug: merge_target_issue
   user: admin

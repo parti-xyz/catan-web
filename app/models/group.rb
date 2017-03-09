@@ -8,6 +8,8 @@ class Group < ActiveRecord::Base
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
 
+  SLUG_OF_UNION = 'union'
+
   belongs_to :user
   has_many :members, as: :joinable, dependent: :destroy
   has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member
