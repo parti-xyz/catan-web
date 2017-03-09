@@ -18,11 +18,6 @@ namespace :data do
         site_title: 'GMO 완전표시제법',
         head_title: 'GMO 완전표시제법 - 나는 알아야겠당')
 
-      seed_group(user, 'duckup', [],
-        title: '덕업넷',
-        site_title: '덕후들 모여라',
-        head_title: '덕후들 모여라 - 덕업넷')
-
       seed_group(user, 'change', [],
         title: '바꿈',
         site_title: '세상을 바꾸는 꿈',
@@ -67,6 +62,8 @@ namespace :data do
         site_description: '직접 민주주의 프로젝트 정당 우주당입니다. 우리가 주인이 되어 우리의 이야기로 정치하는, 새롭고 즐거운 시도들을 함께 해요!',
         private: false)
 
+      Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
+      Group.find_by(slug: 'duckup').try(:destroy!)
     end
   end
 

@@ -13,11 +13,20 @@ Rails.application.routes.draw do
   mount Redactor2Rails::Engine => '/redactor2_rails'
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
 
-  # 시민의회 그룹 빠띠는 모두 role빠띠로 리다이렉트됩니다
+  ## 그룹
+
+  # 시민의회 그룹은 모두 role빠띠로 리다이렉트됩니다
   constraints(subdomain: 'citizensassembly') do
     get '/posts/:id', to: redirect(subdomain: '', path: '/posts/%{id}')
     get '/', to: redirect(subdomain: '', path: '/p/role')
     match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
+  end
+
+  # 덕업넷 그룹은 일반 빠띠로 리다이렉트됩니다
+  constraints(subdomain: 'duckup') do
+    get '/p/:slug/*path', to: redirect(subdomain: '', path: '/p/%{slug}/%{path}')
+    get '/', to: redirect(subdomain: '')
+    match '*path', to: redirect(subdomain: nil, path: '%{path}'), via: :all
   end
 
   constraints(IndieGroupRouteConstraint.new) do
