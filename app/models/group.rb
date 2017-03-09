@@ -62,7 +62,7 @@ class Group < ActiveRecord::Base
     if indie?
       I18n.t('views.indie_form_select_title')
     else
-      title
+      head_title
     end
   end
 
