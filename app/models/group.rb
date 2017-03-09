@@ -46,12 +46,24 @@ class Group < ActiveRecord::Base
     organizer_members.exists? user: someone
   end
 
+  def parti_putable_by? someone
+    indie? or organized_by?(someone) or someone.admin?
+  end
+
   def member? someone
     members.exists? user: someone
   end
 
   def member_of someone
     members.find_by(user: someone)
+  end
+
+  def form_select_title
+    if indie?
+      I18n.t('views.indie_form_select_title')
+    else
+      title
+    end
   end
 
   def title
@@ -96,5 +108,9 @@ class Group < ActiveRecord::Base
 
   def self.default_slug(current_group)
     current_group.try(:slug) || (current_group if current_group.is_a?(String)) || 'indie'
+  end
+
+  def self.indie
+    find_by(slug: 'indie')
   end
 end

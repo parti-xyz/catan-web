@@ -13,7 +13,7 @@
       = f.label :title
       = f.text_field :title, class: 'form-control input-lg'
       %p.help-block
-        (예) '기본소득 받고 싶당'처럼 정당의 느낌이 나면서, 빠띠를 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름으로 빠띠 이름을 지어보세요.
+        (예) 빠띠를 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름으로 빠띠 이름을 지어보세요.
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :slug))}
       = f.label :slug
@@ -82,16 +82,12 @@
           = f.check_box :private
           비공개빠띠로 설정하면, 이 빠띠에 가입한 멤버만 게시글을 볼 수 있습니다.
 
-    - if current_user.admin?
-      %hr
-      %h3 운영
-
-      .form-group
-        = f.label :basic
-        .checkbox
-          %label
-            = f.check_box :basic
-            회원들이 댓글을 작성할 때, 구독 여부와 관계없이 추천됩니다.
+    - if current_user.groups_of_parti_putable.any?
+      - f.object.group_slug = 'indie' if f.object.group_slug.blank?
+      .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
+        = f.label :group_slug
+        = f.select :group_slug, current_user.groups_of_parti_putable.map { |g| [ g.form_select_title, g.slug] }, {}, class: 'form-control'
+        %p.help-block 이 빠띠가 속할 그룹을 선택해 주세요.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }

@@ -59,8 +59,9 @@ class User < ActiveRecord::Base
   has_many :blinds, dependent: :destroy
   has_many :polls, through: :posts
   has_many :issue_organizer_members, -> { where(joinable_type: 'Issue').where(is_organizer: true) }, class_name: Member
-  has_many :group_organizer_members, -> { where(joinable_type: 'Group').where(is_organizer: true)}, class_name: Member
   has_many :organizing_issues, through: :issue_organizer_members, source: :joinable, source_type: Issue
+  has_many :group_organizer_members, -> { where(joinable_type: 'Group').where(is_organizer: true)}, class_name: Member
+  has_many :organizing_groups, through: :group_organizer_members, source: :joinable, source_type: Group
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
   has_many :member_issues, through: :members, source: :joinable, source_type: Issue
@@ -193,6 +194,14 @@ class User < ActiveRecord::Base
 
   def sent_new_posts_email_today?
     sent_new_posts_email_at.present? and sent_new_posts_email_at >= Date.today
+  end
+
+  def groups_of_parti_putable
+    if admin?
+      Group.all
+    else
+      [Group.indie] + organizing_groups.to_a
+    end
   end
 
   private

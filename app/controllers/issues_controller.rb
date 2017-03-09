@@ -104,6 +104,10 @@ class IssuesController < ApplicationController
 
   def update
     @issue.assign_attributes(issue_params)
+    if @issue.group_slug_changed? and !@issue.group.parti_putable_by?(current_user)
+      flash[:notice] = t('errors.messages.unauthorized_group')
+      render 'edit' and return
+    end
 
     ActiveRecord::Base.transaction do
       @issue.members.map { |m| m.is_organizer = false }
@@ -184,7 +188,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_slug, :private)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_slug, :private, :group_slug)
   end
 
   def prepare_issue_meta_tags
