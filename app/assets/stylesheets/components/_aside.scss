@@ -7,7 +7,12 @@
 .aside-title,
 .aside-title a {
   color: $brand-primary-dark;
+
 }
+.aside-title a:hover {
+  text-decoration: underline;
+}
+
 .parti-organizers {
   li {
     &:first-child {

@@ -3,6 +3,8 @@ class DashboardController < ApplicationController
   respond_to :js, :html
 
   def index
+    redirect_to root_url and return if current_group.present?
+
     watched_posts = current_user.watched_posts(current_group)
     @last_post = watched_posts.newest(field: :last_touched_at)
 

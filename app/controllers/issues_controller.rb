@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_polls_or_surveys, :slug_posts, :slug_wikis, :slug_users]
 
   def index
-    @issues = Issue.unfreezed.limit(10)
+    @issues = Issue.alive.limit(10)
     if params[:query].present?
       @issues = @issues.where("title like ?", "%#{params[:query]}%")
     end
@@ -17,7 +17,7 @@ class IssuesController < ApplicationController
   end
 
   def search
-    @issues = Issue.unfreezed.search_for(params[:keyword])
+    @issues = Issue.alive.search_for(params[:keyword])
     @issues = @issues.displayable_in_current_group(current_group)
 
     case params[:sort]
@@ -36,10 +36,10 @@ class IssuesController < ApplicationController
 
   def search_by_tags
     if params[:selected_tags] == [""]
-      @issues = Issue.unfreezed.hottest
+      @issues = Issue.alive.hottest
       @no_tags_selected = 'yes'
     else
-      @issues = Issue.unfreezed.tagged_with(params[:selected_tags], :any => true)
+      @issues = Issue.alive.tagged_with(params[:selected_tags], :any => true)
     end
     @issues = @issues.to_a.reject { |i| i.private_blocked?(current_user) }
   end

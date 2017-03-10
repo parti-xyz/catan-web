@@ -14,6 +14,23 @@
             %a.collapse-toggle.collapsed(href="#" data-toggle="collapse" data-target="#nav-member-parties")
               내 빠띠
               %span.caret
+      - if user_signed_in? and current_user.members.any?
+        #nav-member-parties.collapse.collapse-parties
+          %ul.nav.navbar-nav
+            - if current_user.member_issues.only_group(current_group).any?
+              %li.dropdown-header
+                가입한 빠띠
+                #{current_user.member_issues.only_group(current_group).count}
+            - current_user.only_member_issues(current_group).each do |issue|
+              = render 'issues/issue_line', issue: issue
+
+            - Group.all_but(current_group).each do |group|
+              - if current_user.member_issues.only_group(group).any?
+                %li.dropdown-header
+                  #{group.aside_title}
+                  #{current_user.member_issues.only_group(group).count}
+              - current_user.member_issues.only_group(group).each do |issue|
+                = render 'issues/issue_line', issue: issue
 
   .mobile-list#mobile-list
     = image_tag 'icon_close_white.png', class: 'mobile-list__close'
@@ -58,32 +75,3 @@
         = image_tag 'icon_cc.png', alt: 'icon-cc', class: 'footer-cc'
 
 
-  - if user_signed_in? and current_user.members.any?
-    #nav-member-parties.collapse.collapse-parties
-      %ul.nav.navbar-nav
-        - if current_user.organizing_issues.only_group(current_group).any?
-          %li.dropdown-header
-            오거나이저인 빠띠
-            #{current_user.organizing_issues.only_group(current_group).count}
-        - current_user.organizing_issues.only_group(current_group).each do |issue|
-          = render 'issues/issue_line', issue: issue
-        - if current_user.only_member_issues(current_group).any?
-          %li.dropdown-header
-            가입한 빠띠
-            #{current_user.only_member_issues(current_group).count}
-        - current_user.only_member_issues(current_group).each do |issue|
-          = render 'issues/issue_line', issue: issue
-
-        - Group.all_but(current_group).each do |group|
-          - if current_user.organizing_issues.only_group(group).any?
-            %li.dropdown-header
-              오거나이저인 #{group.title} 빠띠
-              #{current_user.organizing_issues.only_group(group).count}
-          - current_user.organizing_issues.only_group(group).each do |issue|
-            = render 'issues/issue_line', issue: issue
-          - if current_user.only_member_issues(group).any?
-            %li.dropdown-header
-              가입한 #{group.title} 빠띠
-              #{current_user.only_member_issues(group).count}
-          - current_user.only_member_issues(group).each do |issue|
-            = render 'issues/issue_line', issue: issue

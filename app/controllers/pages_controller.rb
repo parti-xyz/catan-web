@@ -1,9 +1,9 @@
 class PagesController < ApplicationController
   def home
     if current_group.blank?
-      @issues = Issue.unfreezed.hottest
+      @issues = Issue.alive.hottest
     else
-      @issues = Issue.unfreezed.displayable_in_current_group(current_group).recent_touched
+      @issues = Issue.alive.displayable_in_current_group(current_group).recent_touched
       render 'group_home'
     end
   end

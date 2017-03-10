@@ -30,7 +30,7 @@
               - if issue.organized_by? current_user
                 %span.parti-organizer-button
                   %div.btn.btn-xs.btn-ghost{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
-                    빠띠 오거나이저
+                    오거나이저
                   .hidden
                     .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
                       #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.

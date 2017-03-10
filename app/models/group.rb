@@ -27,6 +27,10 @@ class Group < ActiveRecord::Base
     "#{title} 빠띠"
   end
 
+  def aside_title
+    "#{title} #{ indie? ? "빠띠" : "그룹"}"
+  end
+
   def categories
     if slug == 'gwangju'
       [

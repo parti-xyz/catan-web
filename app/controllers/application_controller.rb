@@ -206,8 +206,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def current_group
-    fetch_group request
+  def current_group(fallback: nil)
+    @__current_group ||= fetch_group request
+    return fallback if @__current_group.nil? and !fallback.nil?
+    @__current_group
   end
 
   def verify_group(issue)

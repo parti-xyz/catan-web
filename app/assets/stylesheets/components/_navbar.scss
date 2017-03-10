@@ -297,8 +297,17 @@
         padding-left: 0;
         margin-left: - 0.5 * $site-header-brand-image-width;
         @media (max-width: $screen-xs-max) {
-          height: 55px;
-          margin-left: - 0.5 * $site-header-brand-image-width-xs;
+          line-height: 27px;
+          overflow: hidden;
+          white-space: nowrap;
+          width: 30%;
+          text-overflow: ellipsis;
+          padding-left: 0;
+          padding-right: 0;
+          -webkit-transform: translateX(-25%);
+          -moz-transform: translateX(-25%);
+          transform: translateX(-25%);
+          text-align: center;
         }
         @media (min-width: $screen-sm-max) {
           top: -4px;
@@ -392,6 +401,15 @@
     }
   }
   .collapse-parties {
+    position: absolute;
+    top: 56px;
+    right: 0px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 200px;
+    width: 100%;
+    background-color: $gray-lightest;
+    border-bottom: 1px solid $gray-lighter;
     & > .nav.navbar-nav {
       & > .issue-line> .media {
         padding: 3px 20px;

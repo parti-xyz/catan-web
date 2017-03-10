@@ -23,31 +23,19 @@
                   %span.caret
                 %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
 
-                  - if current_user.organizing_issues.only_group(current_group).any?
-                    %li.dropdown-header
-                      오거나이저인 빠띠
-                      #{current_user.organizing_issues.only_group(current_group).count}
-                  - current_user.organizing_issues.only_group(current_group).each do |issue|
-                    = render 'issues/issue_line', issue: issue
-                  - if current_user.only_member_issues(current_group).any?
+                  - if current_user.member_issues.only_group(current_group).any?
                     %li.dropdown-header
                       가입한 빠띠
-                      #{current_user.only_member_issues(current_group).count}
-                  - current_user.only_member_issues(current_group).each do |issue|
+                      #{current_user.member_issues.only_group(current_group).count}
+                  - current_user.member_issues.only_group(current_group).each do |issue|
                     = render 'issues/issue_line', issue: issue
 
                   - Group.all_but(current_group).each do |group|
-                    - if current_user.organizing_issues.only_group(group).any?
+                    - if current_user.member_issues.only_group(group).any?
                       %li.dropdown-header
-                        오거나이저인 #{group.title} 빠띠
-                        #{current_user.organizing_issues.only_group(group).count}
-                    - current_user.organizing_issues.only_group(group).each do |issue|
-                      = render 'issues/issue_line', issue: issue
-                    - if current_user.only_member_issues(group).any?
-                      %li.dropdown-header
-                        가입한 #{group.title} 빠띠
-                        #{current_user.only_member_issues(group).count}
-                    - current_user.only_member_issues(group).each do |issue|
+                        #{group.aside_title}
+                        #{current_user.member_issues.only_group(group).count}
+                    - current_user.member_issues.only_group(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
           %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
 
