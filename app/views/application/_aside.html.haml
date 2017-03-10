@@ -5,7 +5,7 @@
     - if user_signed_in?
       .aside_issue
         .aside_issue_btn
-          = link_to '빠띠만들기', parties_new_intro_path, class: 'btn btn-primary btn-lg btn-block btn-shadow'
+          = link_to '빠띠만들기', parties_new_intro_path, class: 'btn btn-primary btn-block'
 
         - if current_user.member_issues.only_group(current_group).any?
           %h5.aside-title= current_group(fallback: Group.indie).aside_title

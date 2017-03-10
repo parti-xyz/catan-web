@@ -170,59 +170,6 @@
   }
 }
 
-#top-banner {
-  text-align: center;
-  font-size: 27px;
-  font-weight: 100;
-  color: $gray-lightest;
-  padding: 25px 0px;
-  padding-bottom: 20px;
-  background-size: cover;
-
-  .text-important {
-    color: #FFDE00;
-    font-weight: 900;
-  }
-  .top-banner-btn {
-    @include btn-push($brand-primary-dark, #ffde00, $brand-primary-dark, #ffde00);
-    margin-left: 15px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    color: $brand-primary-dark;
-    background-color: #ffde00;
-    &:hover, &:active, &:focus {
-      background-color: #ffde00;
-    }
-  }
-}
-#top-banner {
-  background-image: image_url('thumb_main_keyvisual.png');
-}
-
-@media (max-width: $screen-xs-max) {
-  #top-banner {
-    font-weight: 500;
-    background-size: cover;
-    background-position: center;
-    font-size: 1em;
-    padding-top: 22px;
-    padding-bottom: 14px;
-    .col-xs-8 {
-      text-align: left;
-    }
-    .col-xs-4 {
-      text-align: right;
-    }
-    .top-banner-btn {
-      padding: 10px;
-    }
-  }
-  #top-banner {
-    background-image: image_url('thumb_main_keyvisual.png');
-  }
-}
-
 @media (max-width: $screen-xs-max) {
   /* header */
   #site-header {
