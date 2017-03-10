@@ -328,17 +328,20 @@ var parti_prepare = function($base) {
     $(elm).on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
+
       var $target = $($elm.data('show-target'));
-      $target.show();
-      var focus_id = $elm.data('focus');
-      $focus = $(focus_id);
-      $focus.focus();
-      if($elm.data('self-hide')) {
-        $elm.hide();
-      }
-      if($elm.data('spotlight-post-editor')) {
-        $(document).trigger('parti-post-editor-spotlight');
-      }
+      $target.show({ duration: 1, complete: function() {
+        if($elm.data('self-hide')) {
+          $elm.hide({ duration: 1, complete: function() {
+            if($elm.data('spotlight-post-editor')) {
+              $(document).trigger('parti-post-editor-spotlight');
+            }
+            var focus_id = $elm.data('focus');
+            $focus = $(focus_id);
+            $focus.focus();
+          }});
+        }
+      }});
     });
   });
 
