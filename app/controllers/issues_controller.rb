@@ -16,15 +16,16 @@ class IssuesController < ApplicationController
     end
   end
 
-  def search
+  def index
     @issues = Issue.alive.search_for(params[:keyword])
     @issues = @issues.displayable_in_current_group(current_group)
 
-    case params[:sort]
+    params[:sort] ||= (current_group.blank? ? 'hottest' : 'recent_touched')
+    case (params[:sort])
     when 'recent'
       @issues = @issues.recent
     when 'name'
-      @issues = @issues.sort{ |a, b| a.compare_title(b) }
+      @issues = @issues.sort_by_name
     when 'recent_touched'
       @issues = @issues.recent_touched
     else
@@ -32,6 +33,13 @@ class IssuesController < ApplicationController
     end
 
     @issues = @issues.categorized_with(params[:category]) if params[:category].present?
+    @issues = @issues.page(params[:page]).per(3 * 10)
+
+    if current_group.blank?
+      render
+    else
+      render 'group_index'
+    end
   end
 
   def search_by_tags

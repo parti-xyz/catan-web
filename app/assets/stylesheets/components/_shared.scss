@@ -143,6 +143,7 @@
         border: 1px solid $gray-light;
         padding: 6px 10px;
         border-radius: $border-radius-base;
+        background-color: white;
       }
       &.next>a:hover, &.prev>a:hover {
         border: 1px solid $brand-primary;

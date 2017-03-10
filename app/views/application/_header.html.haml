@@ -37,7 +37,7 @@
                         #{current_user.member_issues.only_group(group).count}
                     - current_user.member_issues.only_group(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
-          %li= link_to '빠띠 찾기', home_path, class: "#{'active' if current_page?('/home')}"
+          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if current_page?('/home')}"
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?

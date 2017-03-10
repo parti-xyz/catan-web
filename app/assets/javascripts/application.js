@@ -611,13 +611,14 @@ var parti_prepare_post_modal = function($base) {
       $('.parties-all-loading').show();
       $('.parties-all-list').hide();
       $.ajax({
-        url: '/parties/search.js',
+        url: '/parties',
         type: "get",
         data:{
           keyword: $(search_input).val(),
           sort: sort,
           category: category
         },
+        dataType: 'script',
         complete: function(xhr) {
           $('.parties-all-loading').hide();
           $('.parties-all-list').show().trigger('parti-home-searched');
@@ -732,33 +733,42 @@ $(function(){
     });
   })();
 
-  $('[data-action="parti-search-parties"]').each(function(i, elm) {
-    var sort = $(elm).data('search-sort');
-    var options = {
-      callback: function (value) {
-        $('.parties-all-loading').show();
-        $('.parties-all-list').hide();
-        $.ajax({
-          url: '/parties/search.js',
-          type: "get",
-          data:{
-            keyword: value,
-            sort: $(sort).val()
-          },
-          complete: function(xhr) {
-            $('.parties-all-loading').hide();
-            $('.parties-all-list').show().trigger('parti-home-searched');
-          },
-        });
-      },
-      wait: 500,
-      highlight: true,
-      allowSubmit: false,
-      captureLength: 2
+  (function() {
+    var ajax_search = function (value) {
+      $('.parties-all-loading').show();
+      $('.parties-all-list').hide();
+      $.ajax({
+        url: '/parties',
+        type: "get",
+        data:{
+          keyword: value,
+          sort: $(sort).val()
+        },
+        complete: function(xhr) {
+          $('.parties-all-loading').hide();
+          $('.parties-all-list').show().trigger('parti-home-searched');
+        },
+        dataType: 'script'
+      });
     }
-    $(elm).addClear();
-    $(elm).typeWatch( options );
-  });
+    $('[data-action="parti-search-parties"]').each(function(i, elm) {
+
+      var sort = $(elm).data('search-sort');
+      var options = {
+        callback: ajax_search,
+        wait: 500,
+        highlight: true,
+        allowSubmit: false,
+        captureLength: 2
+      }
+      $(elm).addClear({
+        onClear: function(){
+          ajax_search('');
+        }
+      });
+      $(elm).typeWatch( options );
+    });
+  })();
 
   // Initialize Redactor
   $('.redactor').redactor({

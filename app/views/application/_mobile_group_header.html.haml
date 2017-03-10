@@ -60,7 +60,7 @@
         = link_to new_user_session_path, class: 'btn-new-user' do
           로그인/회원가입
     %ul.mobile-list__menu.list-unstyled
-      %li= link_to '모든 빠띠', home_path
+      %li= link_to '모든 빠띠', issues_path
       - if user_signed_in?
         %li.divider
         %li= link_to '프로필 수정', edit_user_registration_path

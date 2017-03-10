@@ -34,10 +34,10 @@ Rails.application.routes.draw do
       root 'dashboard#index', as: :dashboard_root
     end
   end
-  root 'pages#home'
+  root 'issues#index'
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
 
-  get '/home', to: 'pages#home'
+  get '/home', to: 'issues#index'
   get '/robots.:format', to: 'pages#robots'
   get 'parties/new_intro', to: 'issues#new_intro'
 
@@ -73,7 +73,6 @@ Rails.application.routes.draw do
     end
     collection do
       get :exist
-      get :search
       get :search_by_tags
       get :simple_search
       post :merge

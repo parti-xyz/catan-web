@@ -129,6 +129,7 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :alive, -> { where(freezed_at: nil) }
+  scope :sort_by_name, -> { order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_touched_at: :desc) }
