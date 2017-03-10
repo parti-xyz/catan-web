@@ -17,9 +17,8 @@
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            - if current_group.private?
-              %li
-                = link_to '멤버', group_members_path
+            %li
+              = link_to '내 홈', dashboard_url(subdomain: '')
             - if current_user.members.any?
               %li.dropdown.member-parties
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -88,3 +87,6 @@
             %ul.dropdown-menu
               %li= link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls", action: :index)}"
               %li= link_to '자료' ,references_path, class: "#{'active' if current_page?(controller: "/references", action: :index)}"
+          - if current_group.private?
+            %li
+              = link_to '멤버', group_members_path

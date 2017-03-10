@@ -3,8 +3,7 @@
     .container.clearfix
       .navbar-header.navbar-header-center
         %a.navbar-brand{ href: root_path }
-          %p
-            #{current_group.title}
+          #{current_group.title}
       %ul.nav.navbar-nav.navbar-left
         %li
           %a.btn-mobile-menu{ href: '#'}
@@ -19,6 +18,11 @@
       - if user_signed_in? and current_user.members.any? or current_group.categories.try(:any?)
         #nav-member-parties.collapse.collapse-parties
           %ul.nav.navbar-nav
+            %li.parti-tag-line
+              = link_to dashboard_url(subdomain: '') do
+                %i.fa.fa-home
+                내 홈
+            %li.nav-divider
             - if current_group.categories.try(:any?)
               %li.dropdown-header
                 주제별 빠띠
