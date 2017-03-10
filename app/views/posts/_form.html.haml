@@ -27,7 +27,7 @@
       = f.fields_for :poll do |ff|
         .form-group
           = ff.label :title
-          = ff.text_field :title, placeholder: '찬반토표 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
+          = ff.text_field :title, placeholder: '찬반투표 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
 
     - if @post.survey.present?
       = f.fields_for :survey do |ff|

@@ -84,15 +84,15 @@
                   %h5 타임라인
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}
-                = link_to smart_issue_polls_path(issue) do
-                  %h5= Poll.model_name.human
+                = link_to smart_issue_polls_or_surveys_path(issue) do
+                  %h5= t('labels.polls_or_surveys')
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :references)}
                 = link_to smart_issue_references_path(issue) do
                   %h5 자료
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :users)}
-                = link_to smart_issue_users_path(issue) do
+                = link_to smart_issue_polls_or_surveys_path(issue) do
                   %h5 멤버
 
 - if !local_assigns[:simple]

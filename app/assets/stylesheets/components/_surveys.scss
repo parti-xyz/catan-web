@@ -1,14 +1,37 @@
-.sruvey-card {
+.survey-options {
+  text-align: left;
   $padding-side: 18px;
   border: 1px solid $gray-lighter;
   border-radius: 4px;
 
-  &--body > .option {
+  .survey-card &--body > .option {
     .checkbox-btn {
-      width: 5%;
+      width: 15%;
     }
     .body {
-      width: 75%;
+      width: 85%;
+    }
+    .feedbacks-count {
+      display: none;
+    }
+  }
+  .survey-card &--body--no-checkbox > .option {
+    .checkbox-btn {
+      display: none;
+    }
+    .body {
+      width: 100%;
+    }
+    .feedbacks-count {
+      display: none;
+    }
+  }
+  &--body > .option {
+    .checkbox-btn {
+      width: 8%;
+    }
+    .body {
+      width: 72%;
     }
     .feedbacks-count {
       width: 20%;
@@ -71,6 +94,7 @@
         line-height: 2.5em;
       }
       .chart {
+        overflow: hidden;
         border-radius: 4px;
         border: 1px solid $gray-lighter;
         &.active {
@@ -103,5 +127,83 @@
     padding-top: 12px;
     border-top: 1px solid #eaeaeb;
     margin-top: 12px;
+  }
+}
+
+.survey-card {
+  cursor: pointer;
+  .post-modal & {
+    cursor: initial;
+  }
+  &:hover {
+    @include hover-shadow();
+  }
+
+  background-color: #fff;
+  padding: 25px 20px;
+  margin-bottom: 15px;
+  text-align: center;
+  border: 1px solid #f1f1f1;
+  &--feedbacked {
+    background-color: $gray-more-lightest;
+    border: 1px solid $brand-primary-light;
+    h4 a {
+      color: $gray-darker;
+    }
+    &:hover {
+      border: 1px solid $brand-primary;
+    }
+  }
+  &__title {
+    margin-top: 0;
+    margin-bottom: 14px;
+    font-size: $font-size-large;
+    color: $gray-dark;
+    line-height: 1.4em;
+    word-break: keep-all;
+    a {
+      color: $gray-darker;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+  &__issue {
+    text-align: left;
+  }
+  .thumb--issue {
+    border-radius: $border-radius-base;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+  }
+  &__group {
+    background-color: rgba(150,111,214,0.9);
+    color: #fff;
+    border-radius: $border-radius-base;
+    border: 2px solid rgb(150,111,214);
+    padding: 3px;
+    height: 30px;
+    vertical-align: top;
+    line-height: 20px;
+    display: inline-block;
+  }
+  &__date--with-issue {
+    line-height: 35px;
+    span {
+      vertical-align: bottom;
+    }
+  }
+  &:hover {
+    border: 1px solid $brand-primary-light;
+  }
+
+  section#post_or_surveys.surveys--issue & .survey-card__meta {
+    .survey-card__issue {
+      display: none;
+    }
+    .survey-card__date--with-issue {
+      line-height: initial;
+    }
   }
 }

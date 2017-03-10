@@ -51,12 +51,12 @@ module DomHelper
     ".#{post_votings_dom_class(post)}"
   end
 
-  def survey_card_dom_class(post)
+  def survey_options_dom_class(post)
     dom_id(post.survey)
   end
 
-  def survey_card_dom_selector(post)
-    ".sruvey-card.#{survey_card_dom_class(post)}"
+  def survey_options_dom_selector(post)
+    ".survey-options.#{survey_options_dom_class(post)}"
   end
 
   def post_pin_buttons_dom_class(post)

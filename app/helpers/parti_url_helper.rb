@@ -18,9 +18,9 @@ module PartiUrlHelper
     slug_issue_references_path(options)
   end
 
-  def smart_issue_polls_path(issue, options = {})
+  def smart_issue_polls_or_surveys_path(issue, options = {})
     options.update(slug: issue.slug)
-    slug_issue_polls_path(options)
+    slug_issue_polls_or_surveys_path(options)
   end
 
   def smart_issue_wikis_path(issue)

@@ -17,19 +17,6 @@ class UsersController < ApplicationController
     @is_last_page = (@user.posts.empty? or @user.posts.recent.previous_of_post(current_last_post).empty?)
   end
 
-  def polls
-    fetch_user
-
-    previous_last_poll = Poll.find_by(id: params[:last_id])
-
-    @polls = @user.polls.recent.previous_of_poll(previous_last_poll).limit(20)
-    current_last_poll = @polls.last
-
-    @is_last_page = (@user.polls.empty? or @user.polls.recent.previous_of_poll(current_last_poll).empty?)
-
-    @posts = @polls.map(&:post).compact
-  end
-
   def summary_test
     User.limit(100).each do |user|
       PartiMailer.summary_by_mailtrap(user).deliver_later

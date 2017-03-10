@@ -181,16 +181,14 @@ ko:
   labels:
     new_post_link_source_button: 링크걸기
     new_post_file_source_button: 파일올리기
-    new_post_button: 논의열기
     new_post_poll_button: 찬반투표
     new_post_survey_button: 설문
-    postfix_new_post_poll_button: 열기
-
     edit_wiki_button: 편집
     show_history_button: 역사
-    dashboard: 타임라인
+    polls_or_surveys: 투표와 설문
     blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 일부 숨겨진 글이 있습니다.
     comment_blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 숨겨진 댓글입니다.
+
   enumerize:
     defaults:
       choice:

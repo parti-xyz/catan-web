@@ -116,6 +116,7 @@ Rails.application.routes.draw do
       resources :votings
     end
   end
+  get 'polls_or_surveys', to: 'polls_or_surveys#index'
 
   resources :relateds
   resources :messages
@@ -150,12 +151,12 @@ Rails.application.routes.draw do
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
   get '/p/:slug/references', to: "issues#slug_references", as: 'slug_issue_references'
-  get '/p/:slug/polls', to: "issues#slug_polls", as: 'slug_issue_polls'
+  get '/p/:slug/polls', to: redirect('/p/%{slug}/polls_or_surveys')
+  get '/p/:slug/polls_or_surveys', to: "issues#slug_polls_or_surveys", as: 'slug_issue_polls_or_surveys'
   get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
 
   get '/u/:slug', to: "users#parties", as: 'slug_user'
-  get '/u/:slug/polls', to: "users#polls", as: 'slug_user_polls'
   get '/u/:slug/posts', to: "users#posts", as: 'slug_user_posts'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'

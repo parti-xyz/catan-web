@@ -1,0 +1,39 @@
+- post = survey.post
+- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
+
+- issue = post.issue
+- feedbacked = user_signed_in? && survey.feedbacked?(current_user)
+.survey-card[post]{ class: "#{dom_id(survey)} #{feedbacked ? 'survey-card--feedbacked' : ''} #{removable_with_post_dom_class(post)}", data: modal_data}
+  - if post.private_blocked?(current_user)
+    %strong 비밀빠띠 게시글입니다.
+    - if post.issue.member_requested? current_user
+      %br
+      %span.text-keep-all
+        비밀빠띠를 보시려면 먼저 가입승인 받아야합니다.
+      %span.text-keep-all
+        %strong<> 오거나이저의 가입승인
+        을 기다려주세요.
+    - else
+      이 게시글을 보시려면 먼저 가입신청을 해주세요.
+      %span(class="#{dom_id(post.issue)}-member")
+        - if user_signed_in?
+          = link_to smart_members_or_member_requests_parti_path(post.issue), method: :post, class: 'btn btn-md btn-primary' do
+            가입하기
+        - else
+          = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: post.issue.id}.to_json) }, class: 'btn btn-md btn-primary'
+  - else
+    .row.survey-card__meta
+      .col-sm-6.col-xs-12
+        .survey-card__issue
+          = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+            - unless post.issue.displayable_group? current_group
+              .survey-card__group
+                = post.issue.group.title[0..2]
+            .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
+      .col-sm-6.col-xs-12
+        .survey-card__date.date-wrapper.survey-card__date--with-issue
+          %span= date_f post.created_at
+    %h4.survey-card__title
+      “#{excerpt survey.post.specific_desc, length: 50}”
+
+    = render 'surveys/card', local_assigns

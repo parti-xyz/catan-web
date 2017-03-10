@@ -1,11 +1,11 @@
 = render 'top_banner'
 
-%section#polls.polls--all
+%section#polls_or_surveys.polls_or_surveys--all
   .container
     .posts-header
       %h4.posts-header__title
         = t('activerecord.models.poll')
-        %small 모든 빠띠의 #{t('activerecord.models.poll')}입니다.
+        %small 모든 빠띠의 #{Poll.model_name.human}와 #{Survey.model_name.human}입니다.
       .posts-sort-select
         = render 'posts/sort_select'
     .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
@@ -15,7 +15,7 @@
             %i.fa.fa-info-circle
             해당되는 글이 없습니다.
       - else
-        = render 'polls/slug_polls_page', show_issue: true
-    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': polls_path(sort: params[:sort], format: :js)}
+        = render 'polls_or_surveys/page', show_issue: true
+    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': polls_or_surveys_path(sort: params[:sort], format: :js)}
       .page_waypoint__loading
         %i.fa.fa-3x.fa-spinner.fa-pulse

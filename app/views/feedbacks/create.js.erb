@@ -1,5 +1,5 @@
 var $survey_card = $("<%= escape_javascript(render 'surveys/card', post: @post) %>")
-$("<%= survey_card_dom_selector(@post) %>").replaceWith($survey_card);
+$("<%= survey_options_dom_selector(@post) %>").replaceWith($survey_card);
 parti_partial$($survey_card);
 
 <% if @option.blank? %>

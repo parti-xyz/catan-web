@@ -136,8 +136,6 @@ class User < ActiveRecord::Base
   def writing_counts
     counts = OpenStruct.new
     counts.parties_count = members.count
-    counts.polls_count = polls.count
-    counts.latest_polls_count = polls.latest.count
     counts.posts_count = posts.count
     counts.latest_posts_count = posts.latest.count
     counts

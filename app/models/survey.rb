@@ -1,4 +1,5 @@
 class Survey < ActiveRecord::Base
+  has_one :post, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
   has_many :options, dependent: :destroy
   accepts_nested_attributes_for :options, reject_if: proc { |attributes|

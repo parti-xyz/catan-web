@@ -690,6 +690,7 @@ GEM
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
     webrobots (0.1.2)
+    where-or (0.1.5)
     wine_bouncer (1.0.1)
       doorkeeper (>= 1.4, < 4.3)
       grape (~> 0.10, < 1.0)
@@ -797,6 +798,7 @@ DEPENDENCIES
   unobtrusive_flash (~> 3.1)
   video_info (~> 2.6)
   web-console (~> 2.0)
+  where-or
   wine_bouncer (~> 1.0, >= 1.0.1)
   wkhtmltoimage-binary (~> 0.12.2)
 

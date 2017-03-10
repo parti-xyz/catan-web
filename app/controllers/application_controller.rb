@@ -157,9 +157,9 @@ class ApplicationController < ActionController::Base
     @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
-  def having_poll_posts_page(issue = nil)
-    base = issue.nil? ? Post.all.displayable_in_current_group(current_group) : Post.of_issue(issue)
-    base = base.having_poll
+  def having_poll_and_survey_posts_page(issue = nil)
+    base = Post.having_poll.or(Post.having_survey)
+    base = issue.nil? ? base.displayable_in_current_group(current_group) : base.of_issue(issue)
     @is_last_page = base.empty?
 
     how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
