@@ -137,6 +137,7 @@ class User < ActiveRecord::Base
     counts = OpenStruct.new
     counts.parties_count = members.count
     counts.posts_count = posts.count
+    counts.comments_count = comments.count
     counts.latest_posts_count = posts.latest.count
     counts
   end

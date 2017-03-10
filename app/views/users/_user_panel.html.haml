@@ -1,20 +1,25 @@
 .user-panel
   - if user_signed_in?
     - writing_counts = user.writing_counts
+    .user-panel__bg
     .user-panel__thumb
       = link_to smart_user_gallery_path(user) do
         .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
         %p= user.nickname
     .user-panel__info
       .row
-        .col-xs-6.border-none
+        .col-xs-4.text-center
           = link_to smart_user_gallery_path(user) do
             .user-panel__info__label 빠띠
             .user-panel__info__count= writing_counts.parties_count
-        .col-xs-6
+        .col-xs-4.text-center
           = link_to smart_user_gallery_path(user) do
             .user-panel__info__label 게시글
             .user-panel__info__count= writing_counts.posts_count
+        .col-xs-4.text-center
+          = link_to smart_user_gallery_path(user) do
+            .user-panel__info__label 댓글
+            .user-panel__info__count= writing_counts.comments_count
   - else
     .user-panel__sign-up
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-facebook' do
