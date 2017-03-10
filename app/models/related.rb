@@ -11,7 +11,7 @@ class Related < ActiveRecord::Base
 
   def prevent_self_relation
     if self.issue == self.target
-      errors.add(:target, I18n.t('activerecord.errors.models.related.attributes.target.self_relation'))
+      errors.add(:target, :self_relation)
     end
   end
 end

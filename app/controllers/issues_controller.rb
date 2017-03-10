@@ -5,7 +5,7 @@ class IssuesController < ApplicationController
   before_filter :verify_issue_group, only: [:slug_home, :slug_references, :slug_polls_or_surveys, :slug_posts, :slug_wikis, :edit]
   before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_polls_or_surveys, :slug_posts, :slug_wikis, :slug_users]
 
-  def index
+  def simple_search
     @issues = Issue.alive.limit(10)
     if params[:query].present?
       @issues = @issues.where("title like ?", "%#{params[:query]}%")
