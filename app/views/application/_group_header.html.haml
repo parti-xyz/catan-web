@@ -77,7 +77,7 @@
               = link_to '로그인/회원가입', new_user_session_path
 
         %ul.nav.navbar-nav.navbar-bottom
-          %li= link_to '전체', home_path
+          %li= link_to '홈', home_path
           - if current_group.categories.try(:any?)
             - current_group.categories.each do |category|
               %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
