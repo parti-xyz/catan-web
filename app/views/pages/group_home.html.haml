@@ -35,7 +35,7 @@
                   %form(onsubmit="return false;")
                     = hidden_field_tag :sort
                     .input-group.input-group-lg.input-group-keyword
-                      %input.form-control{name: "keyword", placeholder: "어떤 이슈에 관심있으세요?", type: "search", data: { action: 'parti-search-parties', 'search-sort': '#parties-all input[name=sort]'}}
+                      %input.form-control{name: "keyword", placeholder: "무엇에 관심있으세요?", type: "search", data: { action: 'parti-search-parties', 'search-sort': '#parties-all input[name=sort]'}}
                         %span.input-group-btn
                           %button.btn.btn-group-default{:type => "button"}
                             %i.fa.fa-search
