@@ -28,7 +28,7 @@
           = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
             - unless post.issue.displayable_group? current_group
               .poll-card__group
-                = post.issue.group.title[0..2]
+                = post.issue.group.head_title
             .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
       .col-sm-6.col-xs-12
         .poll-card__date.date-wrapper.poll-card__date--with-issue

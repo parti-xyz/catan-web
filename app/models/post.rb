@@ -285,11 +285,10 @@ class Post < ActiveRecord::Base
   def meta_tag_title
     if poll.present?
       poll.title
+    elsif parsed_title.present?
+      parsed_title
     else
-      strip_body = body.try(:strip)
-      strip_body = '' if strip_body.nil?
-      lines = strip_body.lines
-      lines.first
+      parsed_body.gsub('\n', '').truncate(13)
     end
   end
 

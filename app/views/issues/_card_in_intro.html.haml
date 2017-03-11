@@ -11,7 +11,7 @@
     .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
       - unless issue.displayable_group?(current_group)
         .issue-card__group
-          = issue.group.title[0..2]
+          = issue.group.head_title
       .issue-card__thumb__btn
     .issue-card__content
       .issue-card__title

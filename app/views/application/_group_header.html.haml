@@ -12,7 +12,7 @@
           %li
             = link_to root_path, class: "group-title #{'active' if current_page?('/')}" do
               %h4
-                #{current_group.head_title}
+                #{current_group.site_title}
                 = security_icon(current_group)
 
         %ul.nav.navbar-nav.navbar-right
