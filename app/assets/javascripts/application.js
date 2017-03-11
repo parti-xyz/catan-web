@@ -642,6 +642,7 @@ var parti_partial$ = function($partial) {
 var parti_ellipsis = function($partial) {
   $.parti_apply($partial, '[data-action="parti-ellipsis"]', function(elm) {
     $(elm).dotdotdot();
+    $(elm).dotdotdot();
     if($(elm).html() != $(elm).attr('title')) {
       $(elm).tooltip();
     }

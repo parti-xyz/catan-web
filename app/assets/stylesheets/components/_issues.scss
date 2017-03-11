@@ -365,6 +365,7 @@ section#issues {
       }
       &__text {
         max-height: 50px;
+        word-break: keep-all;
       }
     }
     .issue-card__body {
