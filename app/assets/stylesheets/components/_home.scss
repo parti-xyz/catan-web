@@ -59,6 +59,29 @@ section#home {
       .parties-sort-select {
         @media (max-width: $screen-xs-max) {
           margin-top: 10px;
+          &--group {
+            position: relative;
+            white-space: nowrap;
+            nav {
+              overflow: auto;
+              margin-left: 6px;
+              padding-right: 40px;
+            }
+          }
+          .list-inline:after {
+            position: absolute;
+            top: 0;
+            right: -1px;
+            height: 16px;
+            width: 50px;
+            z-index: 1;
+            pointer-events: none;
+            background: -webkit-linear-gradient( right , $gray-lighter, rgba(248, 247, 238, 0));
+            background: linear-gradient(to left, $gray-lighter, rgba(248, 247, 238, 0));
+            visibility: visible;
+            opacity: 1;
+            content: ' ';
+          }
         }
         @media (min-width: $screen-sm-min) {
           text-align: right;
@@ -80,7 +103,7 @@ section#home {
           }
           li + li:before {
             content: '|';
-            color: $gray;
+            color: $gray-light;
             margin: 0 5px;
           }
         }

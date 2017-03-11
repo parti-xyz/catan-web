@@ -736,7 +736,10 @@ $(function(){
     });
   })();
 
-  (function() {
+  $('[data-action="parti-search-parties"]').each(function(i, elm) {
+    var sort = $(elm).data('search-sort');
+    var category = $(elm).data('search-category');
+
     var ajax_search = function (value) {
       $('.parties-all-loading').show();
       $('.parties-all-list').hide();
@@ -745,7 +748,8 @@ $(function(){
         type: "get",
         data:{
           keyword: value,
-          sort: $(sort).val()
+          sort: $(sort).val(),
+          category: $(category).val()
         },
         complete: function(xhr) {
           $('.parties-all-loading').hide();
@@ -754,24 +758,20 @@ $(function(){
         dataType: 'script'
       });
     }
-    $('[data-action="parti-search-parties"]').each(function(i, elm) {
-
-      var sort = $(elm).data('search-sort');
-      var options = {
-        callback: ajax_search,
-        wait: 500,
-        highlight: true,
-        allowSubmit: false,
-        captureLength: 2
+    var options = {
+      callback: ajax_search,
+      wait: 500,
+      highlight: true,
+      allowSubmit: false,
+      captureLength: 2
+    }
+    $(elm).addClear({
+      onClear: function(){
+        ajax_search('');
       }
-      $(elm).addClear({
-        onClear: function(){
-          ajax_search('');
-        }
-      });
-      $(elm).typeWatch( options );
     });
-  })();
+    $(elm).typeWatch( options );
+  });
 
   // Initialize Redactor
   $('.redactor').redactor({

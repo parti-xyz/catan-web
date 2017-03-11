@@ -1,13 +1,14 @@
-- if current_group.try(:categories).try(:any?)
-  - data_params = { action: 'parti-filter-parties', 'search-input': '#parties-all input[data-action=parti-search-parties]', 'search-category': ''}
-  %ul.list-inline
-    %li= link_to '홈', '#', data: data_params
-    - current_group.categories.each do |category|
-      %li= link_to "#{category.name}", '#', data: data_params.merge('search-category': category.slug)
-- else
-  - data_params = { action: 'parti-filter-parties', 'search-input': '#parties-all input[data-action=parti-search-parties]', 'search-sort': 'default'}
-  %ul.list-inline
-    %li= link_to '인기순', '#', data: data_params.merge('search-sort': 'hottest'), class: ('active' if params['sort'] == 'hottest' or params['sort'].blank?)
-    %li= link_to '업데이트순', '#', data: data_params.merge('search-sort': 'recent_touched'), class: ('active' if params['sort'] == 'recent_touched')
-    %li= link_to '이름순', '#', data: data_params.merge('search-sort': 'name'), class: ('active' if params['sort'] == 'name')
-    %li= link_to '최신순', '#', data: data_params.merge('search-sort': 'recent'), class: ('active' if params['sort'] == 'recent')
+%nav
+  - if current_group.try(:categories).try(:any?)
+    - data_params = { action: 'parti-filter-parties', 'search-input': '#parties-all input[data-action=parti-search-parties]', 'search-category': ''}
+    %ul.list-inline
+      %li= link_to '전체', '#', data: data_params, class: ('active' if params['category'].blank?)
+      - current_group.categories.each do |category|
+        %li= link_to "#{category.name}", '#', data: data_params.merge('search-category': category.slug), class: ('active' if params['category'] == category.slug)
+  - else
+    - data_params = { action: 'parti-filter-parties', 'search-input': '#parties-all input[data-action=parti-search-parties]', 'search-sort': 'default'}
+    %ul.list-inline
+      %li= link_to '인기순', '#', data: data_params.merge('search-sort': 'hottest'), class: ('active' if params['sort'] == 'hottest' or params['sort'].blank?)
+      %li= link_to '업데이트순', '#', data: data_params.merge('search-sort': 'recent_touched'), class: ('active' if params['sort'] == 'recent_touched')
+      %li= link_to '이름순', '#', data: data_params.merge('search-sort': 'name'), class: ('active' if params['sort'] == 'name')
+      %li= link_to '최신순', '#', data: data_params.merge('search-sort': 'recent'), class: ('active' if params['sort'] == 'recent')
