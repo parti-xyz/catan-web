@@ -5,7 +5,7 @@ class Ability
     can [:read, :poll_social_card, :partial, :modal], :all
     can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_users, :slug_references,
-      :slug_posts, :slug_wikis, :search], Issue
+      :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys], Issue
     if user
       can [:update, :destroy, :remove_logo, :remove_cover], Issue do |issue|
         user.is_organizer?(issue)
