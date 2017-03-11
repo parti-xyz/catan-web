@@ -92,7 +92,7 @@
                   %h5 자료
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :users)}
-                = link_to smart_issue_polls_or_surveys_path(issue) do
+                = link_to smart_issue_users_path(issue) do
                   %h5 멤버
 
 - if !local_assigns[:simple]
