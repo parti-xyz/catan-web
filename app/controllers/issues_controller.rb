@@ -16,6 +16,10 @@ class IssuesController < ApplicationController
     end
   end
 
+  def home
+    index
+  end
+
   def index
     @issues = Issue.alive.search_for(params[:keyword])
     @issues = @issues.displayable_in_current_group(current_group)
@@ -36,7 +40,7 @@ class IssuesController < ApplicationController
     @issues = @issues.page(params[:page]).per(3 * 10)
 
     if current_group.blank?
-      render
+      render 'index'
     else
       render 'group_index'
     end

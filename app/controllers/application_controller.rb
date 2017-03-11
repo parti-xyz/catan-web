@@ -61,7 +61,8 @@ class ApplicationController < ActionController::Base
     return if current_group.blank? or current_user.try(:admin?)
     if current_group.private_blocked? current_user and
     !(
-      (controller_name == 'pages' and action_name == 'home') or
+      (controller_name == 'issues' and action_name == 'home') or
+      (controller_name == 'issues' and action_name == 'index') or
       (controller_name == 'member_requests' and action_name == 'create') or
       (controller_name == 'sessions')
     )

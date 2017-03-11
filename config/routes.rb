@@ -34,10 +34,8 @@ Rails.application.routes.draw do
       root 'dashboard#index', as: :dashboard_root
     end
   end
-  root 'issues#index'
+  root 'issues#home'
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
-
-  get '/home', to: 'issues#index'
   get '/robots.:format', to: 'pages#robots'
   get 'parties/new_intro', to: 'issues#new_intro'
 

@@ -1,2 +1,2 @@
 = render 'issues/list'
-= paginate @issues, theme: 'catan'
+= paginate @issues, theme: 'catan', params: { controller: 'issues', action: 'index' }

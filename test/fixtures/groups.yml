@@ -28,3 +28,10 @@ merge_source_issue:
   title: '소스'
   site_title: '소스'
   head_title: '소스'
+pirvate_group:
+  slug: private
+  user: admin
+  title: '비공개'
+  site_title: '비공개'
+  head_title: '비공개'
+  private: true
