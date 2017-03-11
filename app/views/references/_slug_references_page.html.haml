@@ -1,7 +1,7 @@
 - has_blinds = false
-- @posts.each do |postable|
-  - unless postable.blinded?(current_user)
-    = render 'references/reference', local_assigns.merge(post: postable)
+- @posts.each do |post|
+  - unless post.blinded?(current_user) or post.private_blocked?(current_user)
+    = render 'references/reference', local_assigns.merge(post: post)
   - else
     - has_blinds = true
 - if has_blinds
