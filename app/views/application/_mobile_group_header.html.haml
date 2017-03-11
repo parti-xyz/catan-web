@@ -9,13 +9,13 @@
           %a.btn-mobile-menu{ href: '#'}
             = image_tag 'btn_mobile_menu.png'
       %ul.nav.navbar-nav.navbar-right-xs
-        - if user_signed_in? and current_user.members.any? or current_group.categories.try(:any?)
+        - if user_signed_in? and (current_user.members.any? or current_group.categories.try(:any?))
           %li
             %a.collapse-toggle.collapsed(href="#" data-toggle="collapse" data-target="#nav-member-parties")
               내 빠띠
               %span.caret
 
-      - if user_signed_in? and current_user.members.any? or current_group.categories.try(:any?)
+      - if user_signed_in? and (current_user.members.any? or current_group.categories.try(:any?))
         #nav-member-parties.collapse.collapse-parties
           %ul.nav.navbar-nav
             %li.parti-tag-line
