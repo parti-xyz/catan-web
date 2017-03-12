@@ -18,7 +18,7 @@
     .media
       .media-left
         .parti-logo
-          = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+          = link_to smart_issue_home_path_or_url(issue) do
             .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       .media-body
         - if local_assigns[:simple]
@@ -80,7 +80,7 @@
           .col-sm-7.col-xs-12
             .row
               .col-xs-3.col-sm-3{ class: ('active' if active_tab.nil? || active_tab == :home) }
-                = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+                = link_to smart_issue_home_path_or_url(issue) do
                   %h5 타임라인
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}

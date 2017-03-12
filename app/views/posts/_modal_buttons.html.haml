@@ -1,4 +1,4 @@
-- if current_user.try(:admin?)
+- if current_user.try(:admin?) and post.poll.present?
   = link_to poll_social_card_post_path(post, update: 'true', format: 'png'), target: '_blank' do
     %i.fa.fa-credit-card
     %span.hidden-xs

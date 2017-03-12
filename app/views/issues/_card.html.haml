@@ -1,6 +1,6 @@
 - issue ||= local_assigns[:card]
 .issue-card
-  = link_to smart_issue_home_path_or_url(issue), target: issue_link_target_name(issue) do
+  = link_to smart_issue_home_path_or_url(issue) do
     .issue-card__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
       - unless issue.displayable_group?(current_group)
         .issue-card__group
