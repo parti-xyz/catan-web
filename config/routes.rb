@@ -103,6 +103,8 @@ Rails.application.routes.draw do
       get 'modal'
       post 'pin'
       delete 'unpin'
+      get 'readers'
+      get 'unreaders'
     end
   end
   post 'feedbacks', to: 'feedbacks#create'

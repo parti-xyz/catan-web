@@ -16,7 +16,7 @@ class Ability
       can :create, [Post] do |post|
         post.issue.try(:postable?, user)
       end
-      can [:pin, :unpin], Post do |post|
+      can [:pin, :unpin, :readers, :unreaders], Post do |post|
         user.is_organizer?(post.issue)
       end
 

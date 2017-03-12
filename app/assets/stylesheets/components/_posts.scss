@@ -97,22 +97,10 @@ section#posts {
     }
   }
   &__buttons {
-    display: inline;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    a {
-      padding-left: 20px;
-      @media (max-width: $screen-xs-max) {
-        padding-left: 10px;
-      }
+    position: relative;
+    float: right;
+    button.dropdown-toggle i {
       color: $gray-light;
-      &:hover {
-        color: $gray;
-      }
-      font-size: $font-size-base;
-      i {
-        font-size: $font-size-large;
-      }
     }
   }
   &__post {
@@ -286,7 +274,7 @@ section#posts {
           margin-left: 0;
         }
         .read-mark {
-          color: $gray-lighter;
+          color: $gray-light;
         }
       }
     }

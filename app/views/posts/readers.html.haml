@@ -1,0 +1,20 @@
+= render 'issues/issue_header', simple: true
+
+%section#post-readers
+  .container
+    .row
+      .col-sm-8.col-xs-12
+        %section#content-tab-section
+          .nav-tabs.message-tab
+            %h4
+              게시글을 확인한 가입멤버
+              .count-label-wrapper
+                .count-label= @post.readers_count
+        %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
+          = render 'users/slug_users_page', users: @users, issue: @post.issue
+        .page_waypoint.text-center{'data-target': '.user-card-wrapper', 'data-url': readers_post_path(@post, format: :js)}
+          .page_waypoint__loading
+            %i.fa.fa-3x.fa-spinner.fa-pulse
+
+      - unless is_small_screen?
+        = render 'issues/aside'

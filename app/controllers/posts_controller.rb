@@ -59,6 +59,36 @@ class PostsController < ApplicationController
     @post.update_attributes(pinned: false)
   end
 
+  def readers
+    @issue = @post.issue
+
+    base = @post.readers.recent
+    @is_last_page = base.empty?
+    @previous_last = @post.readers.find_by(id: params[:last_id])
+    return if @previous_last.blank? and params[:last_id].present?
+
+    @readers = base.previous_of_recent(@previous_last).limit(12)
+    @users = @readers.map &:user
+
+    @current_last = @readers.last
+    @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
+  end
+
+  def unreaders
+    @issue = @post.issue
+
+    base = @issue.members.where.not(id: @post.readers.select(:member_id)).recent
+    @is_last_page = base.empty?
+    @previous_last = @issue.members.find_by(id: params[:last_id])
+    return if @previous_last.blank? and params[:last_id].present?
+
+    @members = base.previous_of_recent(@previous_last).limit(12)
+    @users = @members.map &:user
+
+    @current_last = @members.last
+    @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
+  end
+
   def modal
     @post = Post.find(params[:id])
   end
@@ -158,6 +188,9 @@ class PostsController < ApplicationController
 
   def add_reader(post)
     return unless user_signed_in?
-    post.readers.find_or_create_by(user: current_user)
+    member = post.issue.members.find_by(user: current_user)
+    return if member.blank?
+
+    post.readers.find_or_create_by(member: member)
   end
 end

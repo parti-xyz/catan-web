@@ -19,6 +19,7 @@ class Member < ActiveRecord::Base
   belongs_to :user
   belongs_to :joinable, counter_cache: true, polymorphic: true
   has_many :messages, as: :messagable, dependent: :destroy
+  has_many :readers, dependent: :destroy
 
   validates :user, presence: true
   validates :joinable, presence: true, on: :update
@@ -26,6 +27,11 @@ class Member < ActiveRecord::Base
 
   scope :latest, -> { after(1.day.ago) }
   scope :recent, -> { order(id: :desc) }
+  scope :previous_of_recent, ->(member) {
+    base = recent
+    base = base.where('members.created_at < ?', member.created_at) if member.present?
+    base
+  }
 
   def issue
     joinable if joinable_type == 'Issue'

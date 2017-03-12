@@ -355,7 +355,7 @@ class Post < ActiveRecord::Base
   end
 
   def read_by?(someone)
-    readers.exists?(user: someone)
+    readers.includes(:member).exists?('members.user_id': someone)
   end
 
   private
