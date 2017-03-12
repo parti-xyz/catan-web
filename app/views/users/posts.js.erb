@@ -1,5 +1,5 @@
 $('.post-container').data('last-id', '<%= @posts.last.try(:id) %>');
 $('.post-container').data('is-last', <%= @is_last_page %>);
-var $posts = $("<%= escape_javascript(render 'users/posts_page') %>");
+var $posts = $("<%= escape_javascript(render 'posts/page') %>");
 $('.post-container').append($posts)
 parti_partial$($posts);
