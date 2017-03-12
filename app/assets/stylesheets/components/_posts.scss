@@ -254,6 +254,10 @@ section#posts {
   }
   &.pinned {
     .post-card-with-comments__post {
+      .issue-meta {
+        color: $brand-primary;
+        display: block;
+      }
       .show-all {
       color: $brand-primary;
         cursor: pointer;
@@ -274,7 +278,7 @@ section#posts {
           margin-left: 0;
         }
         .read-mark {
-          color: $gray-light;
+          color: $gray-lighter;
         }
       }
     }

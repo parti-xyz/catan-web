@@ -12,6 +12,16 @@
             .read-mark
               &middot;
             .desc
+              - if local_assigns[:show_issue]
+                %span.issue-meta
+                  %span.issue-title
+                    = post.issue.title
+                    = security_icon(post.issue)
+                  - unless post.issue.indie_group?
+                    %i.fa.fa-angle-left
+                    %span.issue-group
+                      = post.issue.group.title
+                      = security_icon(post.issue.group)
               != post.specific_desc_striped_tags.try(:truncate, 120)
 
     - if collapsed_count > 0
