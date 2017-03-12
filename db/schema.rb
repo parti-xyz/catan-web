@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170312053249) do
+ActiveRecord::Schema.define(version: 20170312124119) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -142,31 +142,33 @@ ActiveRecord::Schema.define(version: 20170312053249) do
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
-    t.string   "title",               limit: 255
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
-    t.text     "body",                limit: 16777215
-    t.string   "logo",                limit: 255
-    t.integer  "watches_count",       limit: 4,        default: 0
-    t.string   "slug",                limit: 255
-    t.integer  "posts_count",         limit: 4,        default: 0
+    t.string   "title",                limit: 255
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+    t.text     "body",                 limit: 16777215
+    t.string   "logo",                 limit: 255
+    t.integer  "watches_count",        limit: 4,        default: 0
+    t.string   "slug",                 limit: 255
+    t.integer  "posts_count",          limit: 4,        default: 0
     t.datetime "deleted_at"
-    t.string   "active",              limit: 255,      default: "on"
-    t.boolean  "basic",                                default: false
-    t.string   "group_slug",          limit: 255,                      null: false
-    t.string   "telegram_link",       limit: 255
-    t.datetime "last_touched_at"
-    t.string   "category_slug",       limit: 255
-    t.integer  "members_count",       limit: 4,        default: 0
-    t.integer  "hot_score",           limit: 4,        default: 0
-    t.string   "hot_score_datestamp", limit: 255
+    t.string   "active",               limit: 255,      default: "on"
+    t.boolean  "basic",                                 default: false
+    t.string   "group_slug",           limit: 255,                      null: false
+    t.string   "telegram_link",        limit: 255
+    t.datetime "last_stroked_at"
+    t.string   "category_slug",        limit: 255
+    t.integer  "members_count",        limit: 4,        default: 0
+    t.integer  "hot_score",            limit: 4,        default: 0
+    t.string   "hot_score_datestamp",  limit: 255
     t.datetime "freezed_at"
-    t.boolean  "private",                              default: false, null: false
+    t.boolean  "private",                               default: false, null: false
+    t.integer  "last_stroked_user_id", limit: 4
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree
   add_index "issues", ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true, using: :btree
   add_index "issues", ["group_slug", "title", "active"], name: "index_issues_on_group_slug_and_title_and_active", unique: true, using: :btree
+  add_index "issues", ["last_stroked_user_id"], name: "index_issues_on_last_stroked_user_id", using: :btree
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
@@ -386,7 +388,7 @@ ActiveRecord::Schema.define(version: 20170312053249) do
     t.integer  "recommend_score",           limit: 4,     default: 0
     t.string   "recommend_score_datestamp", limit: 255
     t.datetime "last_commented_at"
-    t.datetime "last_touched_at"
+    t.datetime "last_stroked_at"
     t.integer  "upvotes_count",             limit: 4,     default: 0
     t.text     "body",                      limit: 65535
     t.integer  "reference_id",              limit: 4
@@ -396,11 +398,13 @@ ActiveRecord::Schema.define(version: 20170312053249) do
     t.boolean  "pinned",                                  default: false
     t.datetime "pinned_at"
     t.integer  "readers_count",             limit: 4,     default: 0
+    t.integer  "last_stroked_user_id",      limit: 4
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
   add_index "posts", ["id", "reference_id", "reference_type"], name: "index_posts_on_id_and_reference_id_and_reference_type", unique: true, using: :btree
   add_index "posts", ["issue_id"], name: "index_posts_on_issue_id", using: :btree
+  add_index "posts", ["last_stroked_user_id"], name: "index_posts_on_last_stroked_user_id", using: :btree
   add_index "posts", ["poll_id"], name: "index_posts_on_poll_id", using: :btree
   add_index "posts", ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id", using: :btree
   add_index "posts", ["reference_type", "reference_id"], name: "index_posts_on_reference_type_and_reference_id", using: :btree

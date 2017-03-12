@@ -15,6 +15,8 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert_equal issues(:issue2), assigns(:post).issue
 
     assert assigns(:post).comments.empty?
+
+    assert_equal users(:one), assigns(:post).last_stroked_user
   end
 
   test '그룹에 속하지 않은 빠띠는 멤버가 아니면 못 만들어요' do
@@ -51,7 +53,6 @@ class PostsTest < ActionDispatch::IntegrationTest
 
   test '고쳐요' do
     sign_in(users(:one))
-
     put post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id }
 
     refute assigns(:post).errors.any?

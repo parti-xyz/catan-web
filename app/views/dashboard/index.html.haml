@@ -3,7 +3,7 @@
     .row
       .col-xs-12.col-sm-8
         - if @posts.first.present? and @last_post.present?
-          = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(first_id: @last_post.id)
+          = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(last_time: @last_post.last_stroked_at.to_i)
 
         - if user_signed_in?
           - if current_user.need_to_more_member?(current_group)

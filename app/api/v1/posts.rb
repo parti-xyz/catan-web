@@ -15,7 +15,7 @@ module V1
         base_posts = @user.posts
 
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-        user_posts = base_posts.order(last_touched_at: :desc)
+        user_posts = base_posts.order(last_stroked_at: :desc)
         @posts = user_posts.limit(25).previous_of_post(previous_last_post)
 
         current_last_post = @posts.last
@@ -32,7 +32,7 @@ module V1
         requires :last_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 마지막 게시글 번호'
       end
       get :dashboard_after do
-        watched_posts = resource_owner.watched_posts.order(last_touched_at: :desc)
+        watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
 
         @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
@@ -50,7 +50,7 @@ module V1
         optional :first_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 첫 게시글 번호'
       end
       get :dashboard_latest do
-        watched_posts = resource_owner.watched_posts.order(last_touched_at: :desc)
+        watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
         previous_first_post = Post.with_deleted.find_by(id: params[:first_id])
 
         @posts = watched_posts.limit(25)
@@ -67,12 +67,12 @@ module V1
       desc '최신 글 갯수를 가져옵니다'
       oauth2
       params do
-        requires :last_touched_at, type: String, desc: '기준 시점'
+        requires :last_stroked_at, type: String, desc: '기준 시점'
       end
       get :new_count do
-        last_touched_at = Time.parse params[:last_touched_at]
-        logger.debug(last_touched_at)
-        count = resource_owner.watched_posts.order(last_touched_at: :desc).next_of_last_touched_at(last_touched_at).count
+        last_stroked_at = Time.parse params[:last_stroked_at]
+        logger.debug(last_stroked_at)
+        count = resource_owner.watched_posts.order(last_stroked_at: :desc).next_of_last_stroked_at(last_stroked_at).count
         present :posts_count, count
       end
 

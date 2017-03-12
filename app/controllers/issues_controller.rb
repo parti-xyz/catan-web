@@ -64,10 +64,10 @@ class IssuesController < ApplicationController
   def slug_home
     render 'slug_home_blocked' and return if private_blocked?(@issue)
 
-    @last_post = @issue.posts.newest(field: :last_touched_at)
+    @last_post = @issue.posts.newest(field: :last_stroked_at)
 
     previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-    issus_posts = @issue.posts.order(last_touched_at: :desc)
+    issus_posts = @issue.posts.order(last_stroked_at: :desc)
     @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
 
     current_last_post = @posts.last
@@ -105,8 +105,9 @@ class IssuesController < ApplicationController
   def create
     @issue.members.build(user: current_user, is_organizer: true)
     @issue.group_slug = Group.default_slug(current_group)
+    @issue.strok_by(current_user)
 
-    if !%w(all).include?(@issue.slug) and @issue.save
+    if @issue.save
       redirect_to smart_issue_home_url(@issue)
     else
       render 'new'
@@ -176,11 +177,14 @@ class IssuesController < ApplicationController
   end
 
   def new_posts_count
-    last_post = Post.find_by id: params[:first_id]
+    last_post = Post.with_deleted.find_by id: params[:first_id]
     if last_post.blank?
       @count = 0
     else
-      @count = @issue.posts.next_of_post(last_post).count
+      @countable_issues = @issue.posts.next_of_post(last_post)
+      @countable_issues = @countable_issues.where.not(last_stroked_user: current_user) if user_signed_in?
+      @count = @countable_issues.count
+      abort @countable_issues.to_sql
     end
   end
 

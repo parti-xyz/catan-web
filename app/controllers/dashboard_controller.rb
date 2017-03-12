@@ -6,10 +6,10 @@ class DashboardController < ApplicationController
     redirect_to root_url and return if current_group.present?
 
     watched_posts = current_user.watched_posts(current_group)
-    @last_post = watched_posts.newest(field: :last_touched_at)
+    @last_post = watched_posts.newest(field: :last_stroked_at)
 
     previous_last_post = Post.find_by(id: params[:last_id])
-    watched_posts = watched_posts.order(last_touched_at: :desc)
+    watched_posts = watched_posts.order(last_stroked_at: :desc)
     @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
 
     current_last_post = @posts.last
@@ -27,11 +27,13 @@ class DashboardController < ApplicationController
   end
 
   def new_posts_count
-    first_post = Post.find_by id: params[:first_id]
-    if first_post.blank?
+    first_post = Post.with_deleted.find_by id: params[:last_time]
+    if params[:last_time].blank?
       @count = 0
     else
-      @count = current_user.watched_posts(current_group).next_of_post(first_post).count
+      @countable_issues = current_user.watched_posts(current_group).next_of_time(params[:last_time])
+      @countable_issues = @countable_issues.where.not(last_stroked_user: current_user) if user_signed_in?
+      @count = @countable_issues.count
     end
   end
 end

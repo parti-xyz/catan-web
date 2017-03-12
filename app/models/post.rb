@@ -23,7 +23,7 @@ class Post < ActiveRecord::Base
     end
     expose :specific_desc_striped_tags
     with_options(format_with: lambda { |dt| dt.iso8601 }) do
-      expose :created_at, :last_touched_at
+      expose :created_at, :last_stroked_at
     end
 
     with_options(if: lambda { |instance, options| options[:current_user].present? }) do
@@ -102,6 +102,7 @@ class Post < ActiveRecord::Base
   belongs_to :survey
   belongs_to :reference, polymorphic: true
   belongs_to :postable, polymorphic: true
+  belongs_to :last_stroked_user, class_name: User
   accepts_nested_attributes_for :reference
   accepts_nested_attributes_for :poll
   accepts_nested_attributes_for :survey
@@ -135,9 +136,10 @@ class Post < ActiveRecord::Base
     ) if post.present?
     base
   }
-  scope :previous_of_post, ->(post) { where('posts.last_touched_at < ?', post.last_touched_at) if post.present? }
-  scope :next_of_post, ->(post) { where('posts.last_touched_at > ?', post.last_touched_at) if post.present? }
-  scope :next_of_last_touched_at, ->(date) { where('posts.last_touched_at > ?', date) }
+  scope :previous_of_post, ->(post) { where('posts.last_stroked_at < ?', post.last_stroked_at) if post.present? }
+  scope :next_of_time, ->(time) { where('posts.last_stroked_at > ?', Time.at(time.to_i).in_time_zone) }
+  scope :next_of_post, ->(post) { where('posts.last_stroked_at > ?', post.last_stroked_at) if post.present? }
+  scope :next_of_last_stroked_at, ->(date) { where('posts.last_stroked_at > ?', date) }
   scope :previous_of_recent, ->(post) {
     base = recent
     base = base.where('posts.created_at < ?', post.created_at) if post.present?
@@ -159,10 +161,6 @@ class Post < ActiveRecord::Base
   ## uploaders
   # mount
   mount_uploader :social_card, ImageUploader
-
-  # callbacks
-  before_create :touch_last_touched_at
-  after_create :touch_last_touched_at_of_issues
 
   attr_accessor :has_poll
   attr_accessor :has_survey
@@ -364,6 +362,16 @@ class Post < ActiveRecord::Base
     MessageService.new(self, sender: someone, action: :pinned).call()
   end
 
+  def strok_by(someone = nil)
+    self.last_stroked_at = DateTime.now
+    self.last_stroked_user = someone || self.user
+    self
+  end
+
+  def strok_by!(someone = nil)
+    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone || self.user)
+  end
+
   private
 
   def send_notifiy_pinned_emails(someone)
@@ -371,14 +379,6 @@ class Post < ActiveRecord::Base
     users.each do |user|
       PinMailer.notify(someone.id, user.id, self.id).deliver_later
     end
-  end
-
-  def touch_last_touched_at
-    self.last_touched_at = DateTime.now
-  end
-
-  def touch_last_touched_at_of_issues
-    self.issue.touch(:last_touched_at)
   end
 
   def parsed_title_and_body

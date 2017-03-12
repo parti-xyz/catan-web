@@ -13,6 +13,8 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
     assert assigns(:issue).persisted?
     assert_equal 'title', assigns(:issue).title
+
+    assert_equal users(:one), assigns(:issue).last_stroked_user
   end
 
   test '카테고리 안에 만들어요' do

@@ -74,6 +74,7 @@ class Issue < ActiveRecord::Base
   SLUG_OF_PARTI_PARTI = 'parti'
 
   # relations
+  belongs_to :last_stroked_user, class_name: User
   has_many :merged_issues, dependent: :destroy
   has_many :relateds, dependent: :destroy
   has_many :related_issues, through: :relateds, source: :target
@@ -111,7 +112,7 @@ class Issue < ActiveRecord::Base
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
-    exclusion: { in: %w(app new edit index session login logout users admin
+    exclusion: { in: %w(all app new edit index session login logout users admin
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false, scope: :group_slug },
     length: { maximum: 100 }
@@ -132,7 +133,7 @@ class Issue < ActiveRecord::Base
   scope :sort_by_name, -> { order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
-  scope :recent_touched, -> { order(last_touched_at: :desc) }
+  scope :recent_touched, -> { order(last_stroked_at: :desc) }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
   scope :only_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
@@ -278,6 +279,16 @@ class Issue < ActiveRecord::Base
 
   def fallbackable_organizer_member_users
     organizer_members.present? ? organizer_members.to_a.map(&:user) : [User.find_by(nickname: 'parti')]
+  end
+
+  def strok_by(someone)
+    self.last_stroked_at = DateTime.now
+    self.last_stroked_user = someone
+    self
+  end
+
+  def strok_by!(someone)
+    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone)
   end
 
   private

@@ -65,7 +65,7 @@ module V1
         base_posts = @issue.posts
 
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-        watched_posts = base_posts.order(last_touched_at: :desc)
+        watched_posts = base_posts.order(last_stroked_at: :desc)
         @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
 
         current_last_post = @posts.last

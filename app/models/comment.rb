@@ -52,8 +52,8 @@ class Comment < ActiveRecord::Base
   scope :previous_of, ->(id) { where('comments.created_at < ?', with_deleted.find(id).created_at) if id.present? }
 
   after_create :touch_last_commented_at_of_posts
-  after_create :touch_last_touched_at_of_posts
-  after_create :touch_last_touched_at_of_issues
+  after_create :touch_last_stroked_at_of_posts
+  after_create :touch_last_stroked_at_of_issues
 
   def mentioned? someone
     mentions.exists? user: someone
@@ -89,12 +89,12 @@ class Comment < ActiveRecord::Base
     self.post.touch(:last_commented_at)
   end
 
-  def touch_last_touched_at_of_posts
-    self.post.touch(:last_touched_at)
+  def touch_last_stroked_at_of_posts
+    self.post.strok_by!(self.user)
   end
 
-  def touch_last_touched_at_of_issues
-    self.issue.touch(:last_touched_at)
+  def touch_last_stroked_at_of_issues
+    self.issue.strok_by!(self.user)
   end
 
 end

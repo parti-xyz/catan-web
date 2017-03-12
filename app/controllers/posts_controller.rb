@@ -11,11 +11,13 @@ class PostsController < ApplicationController
 
     @post.reference = @post.reference.unify if @post.reference
     @post.user = current_user
+    @post.strok_by(current_user)
     if @post.is_html_body == 'false'
       @post.format_linkable_body
     end
     set_current_user_to_options(@post)
     if @post.save
+      @post.issue.strok_by!(current_user)
       crawling_after_creating_post
       @post.perform_mentions_async
     else
@@ -53,7 +55,10 @@ class PostsController < ApplicationController
 
   def pin
     need_to_notification = @post.pinned_at.blank?
-    @post.update_attributes(pinned: true, last_touched_at: DateTime.now, pinned_at: DateTime.now)
+    @post.assign_attributes(pinned: true, last_stroked_at: DateTime.now, pinned_at: DateTime.now)
+    @post.strok_by(current_user)
+    @post.save!
+    @post.issue.strok_by(current_user).save
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification
   end
 
