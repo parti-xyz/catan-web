@@ -8,12 +8,14 @@
       .unread
         = render 'posts/post_pinned', local_assigns.merge(post: post)
 
-    - if read_posts.any?
+    - collapsing_read = (unread_posts.any? or (read_posts.count > 1))
+
+    - if read_posts.any? and collapsing_read
       .post-card-with-comments__post.js-show-all-pinned-post-wrapper
         .show-all.js-show-all-pinned-post
-          이미 확인한 공지 #{read_posts.count}개 펼쳐보기
-          %i.fa.fa-arrow-down
+          이미 확인한 공지 펼쳐보기
+          %i.fa.fa-chevron-down
 
     - read_posts.each do |post|
-      .read.collapse.js-posts-pinned-and-read
+      .read.js-posts-pinned-and-read{ class: ('collapse' if collapsing_read) }
         = render 'posts/post_pinned', local_assigns.merge(post: post)
