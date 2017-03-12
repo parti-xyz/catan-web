@@ -177,15 +177,16 @@ class IssuesController < ApplicationController
   end
 
   def new_posts_count
-    last_post = Post.with_deleted.find_by id: params[:first_id]
-    if last_post.blank?
+    if params[:last_time].blank?
       @count = 0
     else
-      @countable_issues = @issue.posts.next_of_post(last_post)
+      @issue = Issue.find(params[:issue_id])
+      @countable_issues = @issue.posts.next_of_time(params[:last_time])
       @countable_issues = @countable_issues.where.not(last_stroked_user: current_user) if user_signed_in?
       @count = @countable_issues.count
-      abort @countable_issues.to_sql
     end
+
+    render 'posts/new_posts_count'
   end
 
   private

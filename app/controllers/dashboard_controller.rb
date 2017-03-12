@@ -27,7 +27,6 @@ class DashboardController < ApplicationController
   end
 
   def new_posts_count
-    first_post = Post.with_deleted.find_by id: params[:last_time]
     if params[:last_time].blank?
       @count = 0
     else
@@ -35,5 +34,7 @@ class DashboardController < ApplicationController
       @countable_issues = @countable_issues.where.not(last_stroked_user: current_user) if user_signed_in?
       @count = @countable_issues.count
     end
+
+    render 'posts/new_posts_count'
   end
 end
