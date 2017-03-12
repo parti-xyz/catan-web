@@ -273,7 +273,9 @@ section#posts {
         line-height: 0.8em;
         color: $brand-primary;
       }
-      &.read {
+    }
+    .read {
+      .post-card-with-comments__post {
         .desc p {
           margin-left: 0;
         }

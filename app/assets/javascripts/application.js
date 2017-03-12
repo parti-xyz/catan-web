@@ -657,7 +657,7 @@ $(function(){
   parti_ellipsis($('body'));
 
   $('.js-show-all-pinned-post').on('click', function(e) {
-    $('.js-pinned-post').show();
+    $('.js-posts-pinned-and-read').show();
     $('.js-show-all-pinned-post-wrapper').hide();
   });
 
