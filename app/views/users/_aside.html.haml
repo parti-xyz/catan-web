@@ -3,13 +3,14 @@
     .aside_issue
 
       - if @user.member_issues.only_group(current_group).any?
-        %h5.aside-title 가입한 빠띠
+        %h5.aside-title= current_group(fallback: Group.indie).aside_title
         %ul.list-unstyled.aside-issues
           = render customize_partial_path(@user.member_issues.only_group(current_group), 'issue_line')
 
       - Group.all_but(current_group).each do |group|
         - if @user.member_issues.only_group(group).any?
-          %h5.aside-title 가입한 #{group.title} 빠띠
+          %h5.aside-title
+            = link_to group.aside_title, smart_group_url(group)
           %ul.list-unstyled.aside-issues
             = render customize_partial_path(@user.member_issues.only_group(group), 'issue_line')
 
