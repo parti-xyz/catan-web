@@ -2,8 +2,7 @@
 - @posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
     = render post, local_assigns.merge(mode: 'list')
-  - else
-    - has_blinds = true
+  - has_blinds = post.blinded?(current_user)
 
 - if has_blinds
   .post-card-with-comments
