@@ -1,0 +1,21 @@
+<%
+  post = message.messagable
+  issue = post.issue
+  if message.action.to_s == 'pinned'
+    body = "#{message.sender.nickname}님이 게시글을 공지했습니다."
+  else
+    body = "#{post.user.nickname}님이 게시글에서 나를 언급했습니다."
+  end
+%>
+{
+  "notification": {
+    "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+  },
+  "data": {
+   "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+    "type": "post",
+    "param": "<%= post.id %>"
+  }
+}

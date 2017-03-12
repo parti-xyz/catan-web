@@ -1,8 +1,13 @@
 - post = message.messagable
-%strong
-  %span
-    #{post.user.nickname}님이 게시글에서
-  %span
-    나를 언급했습니다
+- if message.action.to_s == 'pinned'
+  %strong
+    %span
+      #{message.sender.nickname}님이 게시글을 공지했습다.
+- else
+  %strong
+    %span
+      #{post.user.nickname}님이 게시글에서
+    %span
+      나를 언급했습니다
 %br
 = excerpt(post.specific_desc, length: 100)

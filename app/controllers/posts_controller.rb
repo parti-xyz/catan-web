@@ -52,7 +52,9 @@ class PostsController < ApplicationController
   end
 
   def pin
+    need_to_notification = @post.pinned_at.blank?
     @post.update_attributes(pinned: true, last_touched_at: DateTime.now, pinned_at: DateTime.now)
+    PinJob.perform_async(@post.id, current_user.id) if need_to_notification
   end
 
   def unpin

@@ -358,7 +358,20 @@ class Post < ActiveRecord::Base
     readers.includes(:member).exists?('members.user_id': someone)
   end
 
+  def notifiy_pinned_now(someone)
+    # Transaction을 걸지 않습니다
+    send_notifiy_pinned_emails(someone)
+    MessageService.new(self, sender: someone, action: :pinned).call()
+  end
+
   private
+
+  def send_notifiy_pinned_emails(someone)
+    users = self.issue.member_users.where.not(id: someone)
+    users.each do |user|
+      PinMailer.notify(someone.id, user.id, self.id).deliver_later
+    end
+  end
 
   def touch_last_touched_at
     self.last_touched_at = DateTime.now

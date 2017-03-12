@@ -9,12 +9,12 @@ class MessageService
 
   def call(options = {})
     @options = options
-    case @source.class.to_s
-    when Upvote.to_s
+    case @source
+    when Upvote
       send_messages(
         sender: @source.user, users: [@source.upvotable.user],
         messagable: @source)
-    when Comment.to_s
+    when Comment
       return if @source.issue.blind_user? @source.user
 
       previous_mentioned_users = @options[:previous_mentioned_users] || []
@@ -31,34 +31,41 @@ class MessageService
       send_messages(
         sender: @source.user, users: users,
         messagable: @source)
-    when Post.to_s
-      return if @source.issue.blind_user? @source.user
-
-      previous_mentioned_users = @options[:previous_mentioned_users] || []
-
-      @source.mentions.each do |mention|
-        next if previous_mentioned_users.include?(mention.user)
+    when Post
+      if @action == :pinned
+        users = @source.issue.member_users.where.not(id: @sender)
         send_messages(
-          sender: mention.mentionable.user, users: [mention.user],
-          messagable: mention.mentionable)
+          sender: @source.user, users: users,
+          messagable: @source, action: @action)
+      else
+        return if @source.issue.blind_user? @source.user
+
+        previous_mentioned_users = @options[:previous_mentioned_users] || []
+
+        @source.mentions.each do |mention|
+          next if previous_mentioned_users.include?(mention.user)
+          send_messages(
+            sender: mention.mentionable.user, users: [mention.user],
+            messagable: mention.mentionable)
+        end
       end
-    when Issue.to_s
+    when Issue
       if @source.previous_changes["title"].present?
         users = @source.member_users.where.not(id: @sender.id)
         send_messages(
           sender: @sender, users: users, messagable: @source,
           action: :edit_title, action_params: { previous_title: @source.previous_changes["title"][0] })
       end
-    when Member.to_s
+    when Member
       users = @source.joinable.organizer_members.map &:user
       send_messages(
         sender: @source.user, users: users,
         messagable: @source, action: :create)
-    when Invitation.to_s
+    when Invitation
       send_messages(
         sender: @source.user, users: [@source.recipient],
         messagable: @source)
-    when MemberRequest.to_s
+    when MemberRequest
       if @source.deleted?
         send_messages(
           sender: @sender, users: [@source.user],

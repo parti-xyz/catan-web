@@ -1,6 +1,6 @@
 - if upvote.upvotable.is_a? Comment
   - post = upvote.upvotable.post
-  %div{id: "#{dom_id(message)}-url-source", data: { url: post_url(post) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
     %strong
       = message.sender.nickname
       님이 내 댓글에 공감합니다.
@@ -8,7 +8,7 @@
       = link_to excerpt(upvote.upvotable.body, length: 100), post
 - else
   - post = upvote.upvotable
-  %div{id: "#{dom_id(message)}-url-source", data: { url: post_url(post) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
     %strong
       = message.sender.nickname
       님이 내 게시글을 공감합니다.

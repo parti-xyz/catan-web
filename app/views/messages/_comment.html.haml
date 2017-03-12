@@ -1,4 +1,4 @@
-%div{id: "#{dom_id(message)}-url-source", data: { url: post_url(comment.post) } }
+%div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(comment.post) } }
   - if comment.post.user == message.user
     %strong
       = message.sender.nickname
