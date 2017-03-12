@@ -112,6 +112,8 @@ class Post < ActiveRecord::Base
     end
   end
 
+  has_many :readers, dependent: :destroy
+
   # validations
   validates :issue, presence: true
   validates :user, presence: true
@@ -350,6 +352,10 @@ class Post < ActiveRecord::Base
 
   def private_blocked?(someone = nil)
     issue.private_blocked?(someone) or issue.group.try(:private_blocked?, someone)
+  end
+
+  def read_by?(someone)
+    readers.exists?(user: someone)
   end
 
   private

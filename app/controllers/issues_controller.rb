@@ -1,9 +1,9 @@
 class IssuesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
-  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_references, :slug_polls_or_surveys, :slug_posts, :slug_wikis]
+  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_references, :slug_polls_or_surveys, :slug_wikis]
   load_and_authorize_resource
-  before_filter :verify_issue_group, only: [:slug_home, :slug_references, :slug_polls_or_surveys, :slug_posts, :slug_wikis, :edit]
-  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_polls_or_surveys, :slug_posts, :slug_wikis, :slug_users]
+  before_filter :verify_issue_group, only: [:slug_home, :slug_references, :slug_polls_or_surveys, :slug_wikis, :edit]
+  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_polls_or_surveys, :slug_wikis, :slug_users]
 
   def simple_search
     @issues = Issue.alive.limit(10)
@@ -66,23 +66,22 @@ class IssuesController < ApplicationController
 
     @last_post = @issue.posts.newest(field: :last_touched_at)
 
-    previous_last_post = Post.find_by(id: params[:last_id])
-
-    issus_posts = @issue.posts.unpinned.order(last_touched_at: :desc)
+    previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
+    issus_posts = @issue.posts.order(last_touched_at: :desc)
     @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
 
     current_last_post = @posts.last
     @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
+
+    if params[:last_id].blank?
+      @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
+    end
   end
 
   def slug_polls_or_surveys
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
     having_poll_and_survey_posts_page(@issue)
-  end
-
-  def slug_posts
-    posts_page(@issue)
   end
 
   def slug_users

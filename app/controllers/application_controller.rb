@@ -172,22 +172,6 @@ class ApplicationController < ActionController::Base
     @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
   end
 
-  def posts_page(issue = nil)
-    posts_base = issue.nil? ? Post.all.displayable_in_current_group(current_group) : Post.of_issue(issue)
-
-    if issue.nil?
-      case params[:sort]
-      when 'recent'
-        posts_base = posts_base.recent
-      else
-        posts_base = posts_base.hottest
-      end
-    else
-      posts_base = posts_base.recent
-    end
-    @posts = posts_base.page(params[:page])
-  end
-
   #bugfix redactor2-rails
   def redactor_current_user
     redactor2_current_user

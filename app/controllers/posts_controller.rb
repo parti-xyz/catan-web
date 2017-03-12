@@ -52,7 +52,7 @@ class PostsController < ApplicationController
   end
 
   def pin
-    @post.update_attributes(pinned: true, last_touched_at: DateTime.now)
+    @post.update_attributes(pinned: true, last_touched_at: DateTime.now, pinned_at: DateTime.now)
   end
 
   def unpin
@@ -64,6 +64,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    add_reader(@post) if @post.pinned?
     verify_group(@post.issue)
     if request.headers['X-PJAX']
       render(:partial, layout: false) and return
@@ -153,5 +154,10 @@ class PostsController < ApplicationController
   def private_blocked?(issue)
     return true if issue.blank?
     issue.private_blocked?(current_user)
+  end
+
+  def add_reader(post)
+    return unless user_signed_in?
+    post.readers.find_or_create_by(user: current_user)
   end
 end

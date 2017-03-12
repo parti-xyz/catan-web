@@ -656,6 +656,10 @@ $(function(){
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
 
+  $('.js-show-all-pinned-post').on('click', function(e) {
+    $('.js-pinned-post').show();
+    $('.js-show-all-pinned-post-wrapper').hide();
+  });
 
   $('#new-theme-site-header').on('show.bs.collapse','.collapse', function() {
       $('#new-theme-site-header').find('.collapse.in').collapse('hide');

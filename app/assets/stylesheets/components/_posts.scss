@@ -95,10 +95,6 @@ section#posts {
       .post-modal__btn {
       }
     }
-    .pin-mark {
-      white-space: nowrap;
-      color: $brand-primary;
-    }
   }
   &__buttons {
     display: inline;
@@ -266,6 +262,36 @@ section#posts {
       }
       &__footer {
       }
+    }
+  }
+  &.pinned {
+    .post-card-with-comments__post {
+      .show-all {
+      color: $brand-primary;
+        cursor: pointer;
+      }
+      .desc {
+        margin-bottom: 0;
+        margin-left: 12px;
+      }
+      .read-mark {
+        float: left;
+        font-weight: 900;
+        font-size: 2em;
+        line-height: 0.8em;
+        color: $brand-primary;
+      }
+      &.read {
+        .desc p {
+          margin-left: 0;
+        }
+        .read-mark {
+          color: $gray-lighter;
+        }
+      }
+    }
+    .post-card-with-comments__post + .post-card-with-comments__post {
+      border-top: 1px solid $gray-lightest;
     }
   }
 }

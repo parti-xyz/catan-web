@@ -1,0 +1,20 @@
+- if posts.present?
+  .post-card-with-comments.pinned{ class: ('only-unread' if local_assigns[:only_unread]) }
+    .post-card-with-comments__header.clearfix
+      공지
+
+    - collapsed_count = 0
+    - posts.each do |post|
+      - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
+        - collapsed_count += 1 if local_assigns[:only_unread] and post.read_by?(current_user)
+        .post-card-with-comments__post.clearfix.js-pinned-post{ class: "#{('read' if post.read_by?(current_user))} #{('collapse' if post.read_by?(current_user) and local_assigns[:only_unread])}" }
+          = link_to post do
+            .read-mark
+              &middot;
+            .desc
+              != post.specific_desc_striped_tags.try(:truncate, 120)
+
+    - if collapsed_count > 0
+      .post-card-with-comments__post.js-show-all-pinned-post-wrapper
+        .show-all.js-show-all-pinned-post
+          + 확인한 공지 #{collapsed_count}개 보기

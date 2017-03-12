@@ -63,7 +63,6 @@ module V1
       get ':slug/posts' do
         @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
         base_posts = @issue.posts
-        @last_post = base_posts.newest(field: :last_touched_at)
 
         previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
         watched_posts = base_posts.order(last_touched_at: :desc)

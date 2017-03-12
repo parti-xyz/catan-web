@@ -17,21 +17,9 @@
                 %span.issue-group
                   = post.issue.group.title
                   = security_icon(post.issue.group)
-          .media-right( style='vertical-align: middle;' )
-            %span.pin-mark.js-pin-mark{ class: ('collapse' unless post.pinned?) }
-              %i.fa.fa-thumb-tack
-              공지
           - if local_assigns[:mode] == 'modal'
             .media-right( style='vertical-align: middle;' )
               %button(type="button" class="close" data-dismiss="modal") &times;
-
-    - else
-      .post-card-with-comments__header.js-pin-mark{ class: ('collapse' unless post.pinned?) }
-        .media
-          .media-left
-            .pin-mark
-              %i.fa.fa-thumb-tack
-              공지
 
     - if post.private_blocked?(current_user)
       .post-card-with-comments__post

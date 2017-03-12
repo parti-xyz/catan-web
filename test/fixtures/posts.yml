@@ -5,6 +5,8 @@ post_talk1:
   body: 'talk1'
   reference: link6 (LinkSource)
   postable: talk1
+  pinned: true
+  pinned_at: <%= 1.day.ago.to_s(:db) %>
 post_talk3:
   user: one
   issue: issue1
