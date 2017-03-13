@@ -1,5 +1,16 @@
-%div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
-  %strong
-    #{member.user.nickname}님이
-    = link_to member.joinable.title, smart_joinable_url(member.joinable)
-    #{member.joinable.model_name.human}에 가입했습니다.
+- if message.action.to_s == 'ban'
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+    %strong
+      #{message.sender.nickname}님이 회원님을
+      = link_to member.joinable.title, smart_joinable_url(member.joinable)
+      #{member.joinable.model_name.human}에서 탈퇴시키셨습니다.
+  - if member.ban_message?
+    %br
+    = member.ban_message
+
+- else
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+    %strong
+      #{member.user.nickname}님이
+      = link_to member.joinable.title, smart_joinable_url(member.joinable)
+      #{member.joinable.model_name.human}에 가입했습니다.

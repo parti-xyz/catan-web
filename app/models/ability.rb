@@ -21,7 +21,9 @@ class Ability
       end
 
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
-      can [:destroy], Member, user_id: user.id
+      can [:destroy], Member do |member|
+        member.user == user or user.is_organizer?(member.joinable)
+      end
       can [:create], MemberRequest, user_id: user.id
       can [:accept, :reject], MemberRequest do |request|
         user.is_organizer?(request.issue)

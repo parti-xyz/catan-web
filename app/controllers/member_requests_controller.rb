@@ -48,12 +48,12 @@ class MemberRequestsController < ApplicationController
     render_404 and return if @member_request.blank?
 
     ActiveRecord::Base.transaction do
-      @member_request.update_attributes(cancel_message: params[:cancel_message])
+      @member_request.update_attributes(reject_message: params[:reject_message])
       @member_request.destroy
     end
     if @member_request.paranoia_destroyed?
       MessageService.new(@member_request, sender: current_user, action: :cancel).call
-      MemberRequestMailer.on_cancel(@member_request.id, current_user.id).deliver_later
+      MemberRequestMailer.on_reject(@member_request.id, current_user.id).deliver_later
     end
 
     respond_to do |format|

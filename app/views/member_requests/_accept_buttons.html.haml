@@ -1,12 +1,12 @@
 - if local_assigns[:issue].present? and local_assigns[:issue].organized_by?(current_user)
   = link_to accept_issue_member_requests_path(issue_id: local_assigns[:issue].id, user_id: user.id), method: :post, class: 'btn btn-sm btn-default' do
     가입승인
-  %button.btn.btn-sm.btn-default{"data-url": "##{dom_id(user)}__cancel-member-request", "data-action": "parti-popover", "data-placement": "bottom", "data-backdrop": "true"}
+  %button.btn.btn-sm.btn-default{"data-url": "##{dom_id(user)}__reject-member-request", "data-action": "parti-popover", "data-placement": "bottom", "data-backdrop": "true"}
     요청거절
   .hidden
-    %div{ id: "#{dom_id(user)}__cancel-member-request" }
+    %div{ id: "#{dom_id(user)}__reject-member-request" }
       = form_tag reject_issue_member_requests_path(issue_id: local_assigns[:issue].id, user_id: user.id), method: :delete do
         .form-group
-          = label_tag :cancel_message, "#{user.nickname}님에게 거절 이유를 보내주세요."
-          = text_area_tag :cancel_message, nil, class: 'form-control'
+          = label_tag :reject_message, "#{user.nickname}님에게 거절 이유를 보내주세요."
+          = text_area_tag :reject_message, nil, class: 'form-control'
         = submit_tag '거절', class: 'btn btn-primary'

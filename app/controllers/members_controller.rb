@@ -37,7 +37,17 @@ class MembersController < ApplicationController
   def ban
     @user = User.find_by id: params[:user_id]
     @member = @issue.members.find_by user: @user
-    @member.try(:destroy)
+
+    if @member.present?
+      ActiveRecord::Base.transaction do
+        @member.update_attributes(ban_message: params[:ban_message])
+        @member.destroy
+      end
+      if @member.paranoia_destroyed?
+        MessageService.new(@member, sender: current_user, action: :ban).call
+        MemberMailer.on_ban(@member.id, current_user.id).deliver_later
+      end
+    end
     respond_to do |format|
       format.js
     end

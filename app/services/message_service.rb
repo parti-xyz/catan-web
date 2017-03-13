@@ -57,10 +57,17 @@ class MessageService
           action: :edit_title, action_params: { previous_title: @source.previous_changes["title"][0] })
       end
     when Member
-      users = @source.joinable.organizer_members.map &:user
-      send_messages(
-        sender: @source.user, users: users,
-        messagable: @source, action: :create)
+      if @action == :ban
+        send_messages(
+          sender: @sender, users: [@source.user],
+          messagable: @source,
+          action: @action)
+      else
+        users = @source.joinable.organizer_members.map &:user
+        send_messages(
+          sender: @source.user, users: users,
+          messagable: @source, action: :create)
+      end
     when Invitation
       send_messages(
         sender: @source.user, users: [@source.recipient],

@@ -150,8 +150,8 @@ class User < ActiveRecord::Base
     posts.hottest.limit(count)
   end
 
-  def is_organizer?(issue)
-    issue_organizer_members.exists?(joinable: issue)
+  def is_organizer?(joinable)
+    joinable.organized_by?(self)
   end
 
   def only_all_member_issues

@@ -16,6 +16,9 @@ class Member < ActiveRecord::Base
     end
   end
 
+  include UniqueSoftDeletable
+  acts_as_unique_paranoid
+
   belongs_to :user
   belongs_to :joinable, counter_cache: true, polymorphic: true
   has_many :messages, as: :messagable, dependent: :destroy

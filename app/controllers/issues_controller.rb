@@ -87,12 +87,15 @@ class IssuesController < ApplicationController
   def slug_users
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
-    base = @issue.member_users.recent
+    base = @issue.members.recent
     @is_last_page = base.empty?
-    previous_last = @issue.member_users.with_deleted.find_by(id: params[:last_id])
-    @users = base.previous_of_recent(previous_last).limit(12)
+    @previous_last = @issue.members.with_deleted.find_by(id: params[:last_id])
+    return if @previous_last.blank? and params[:last_id].present?
 
-    @current_last = @users.last
+    @members = base.previous_of_recent(@previous_last).limit(12)
+
+    @current_last = @members.last
+    @users = @members.map &:user
     @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
   end
 
@@ -218,6 +221,6 @@ class IssuesController < ApplicationController
   end
 
   def private_blocked?(issue)
-    issue.private_blocked?(current_user)
+    issue.private_blocked?(current_user) and !current_user.try(:admin?)
   end
 end

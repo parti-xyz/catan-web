@@ -5,11 +5,11 @@
   - if user_signed_in?
     - if issue.member?(current_user)
       - unless issue.organized_by? current_user
-        %button.btn-member{"data-url": "#cancel-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", class: member_btn_class}
+        %button.btn-member{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", class: member_btn_class}
           가입함
           %i.fa.fa-caret-down
         .hidden
-          .cancel-member{id: "cancel-member-#{dom_id(issue)}"}
+          .reject-member{id: "reject-member-#{dom_id(issue)}"}
             = link_to cancel_issue_members_path(issue), method: :delete do
               빠띠 나가기
     - elsif issue.member_requested?(current_user)

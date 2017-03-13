@@ -13,4 +13,15 @@ class MemberMailer < ApplicationMailer
     mail(to: @organizer_user.email,
         subject: "[빠띠] #{member.user.nickname}님이 #{member.joinable.title} #{member.joinable.model_name.human}에 가입했습니다")
   end
+
+  def on_ban(member_id, user_id)
+    @member = Member.with_deleted.find_by(id: member_id)
+    return if @member.blank?
+
+    @user = User.find_by(id: user_id)
+    return if @user.blank?
+
+    mail(to: @member.user.email,
+         subject: "[빠띠] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에서 탈퇴시켰습니다.")
+  end
 end

@@ -1,7 +1,11 @@
 <%
   member = message.messagable
   joinable = member.joinable
-  body = "#{message.sender.nickname}님이 #{joinable.title} #{joinable.model_name.human}에 가입했습니다."
+  if message.action.to_s == 'ban'
+    body = "#{message.sender.nickname}님이 회원님을 #{member.joinable.title} #{member.joinable.model_name.human}에서 탈퇴시켰습니다."
+  else
+    body = "#{message.sender.nickname}님이 #{joinable.title} #{joinable.model_name.human}에 가입했습니다."
+  end
 %>
 {
   "notification": {

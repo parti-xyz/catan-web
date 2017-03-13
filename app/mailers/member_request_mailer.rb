@@ -25,7 +25,7 @@ class MemberRequestMailer < ApplicationMailer
          subject: "[빠띠] #{@user.nickname}님이 #{@member_request.joinable.title} #{@member_request.joinable.model_name.human}에 가입요청을 승인했습니다")
   end
 
-  def on_cancel(member_request_id, user_id)
+  def on_reject(member_request_id, user_id)
     @member_request = MemberRequest.with_deleted.find_by(id: member_request_id)
     return if @member_request.blank?
 

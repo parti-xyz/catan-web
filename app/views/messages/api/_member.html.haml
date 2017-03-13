@@ -1,4 +1,13 @@
-%strong
-  #{message.sender.nickname}님이
-  = message.messagable.issue_for_message.title
-  빠띠에 가입했습니다.
+- if message.action.to_s == 'ban'
+  %strong
+    #{message.sender.nickname}님이 회원님을
+    #{member.joinable.title}
+    #{member.joinable.model_name.human}에
+    탈퇴시켰습니다.
+- else
+  %strong
+    #{message.sender.nickname}님이
+    = message.messagable.issue_for_message.title
+    #{member.joinable.title}
+    #{member.joinable.model_name.human}에
+    가입했습니다.
