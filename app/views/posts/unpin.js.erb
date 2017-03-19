@@ -1,3 +1,4 @@
 setTimeout(function() {
 $("<%= post_pin_buttons_dom_selector(@post) %>").html("<%= j render('posts/pin_buttons', post: @post) %>");
+$("<%= pinned_post_dom_selector(@post) %>").remove();
 }, 100);

@@ -122,6 +122,8 @@ gem 'premailer-rails', '~> 1.9'
 gem 'newrelic_rpm'
 gem 'ey_config'
 
+gem 'rack-mini-profiler', require: false
+
 group :development, :test do
   gem 'letter_opener_web'
   gem 'byebug'

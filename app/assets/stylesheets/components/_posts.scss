@@ -254,12 +254,14 @@ section#posts {
   }
   &.pinned {
     .post-card-with-comments__post {
+      position: relative;
+
       .issue-meta {
         color: $brand-primary;
         display: block;
       }
       .show-all {
-        color: $gray;
+        color: $gray-light;
         cursor: pointer;
       }
       .desc {
@@ -272,15 +274,22 @@ section#posts {
         font-size: 2em;
         line-height: 0.8em;
         color: $brand-primary;
-      }
-    }
-    .read {
-      .post-card-with-comments__post {
-        .desc p {
-          margin-left: 0;
-        }
-        .read-mark {
+        &--read {
           color: $gray-lighter;
+        }
+      }
+      .date {
+        color: $gray;
+      }
+      .issue-and-group {
+        margin-right: 6px;
+      }
+      .pin-buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        button.dropdown-toggle i {
+          color: $gray-light;
         }
       }
     }

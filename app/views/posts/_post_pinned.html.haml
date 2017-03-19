@@ -1,16 +1,38 @@
-.post-card-with-comments__post.clearfix
+.post-card-with-comments__post.clearfix{ id: pinned_post_dom_id(post), class: ('js-posts-pinned-and-read collapse' if local_assigns[:collapse]) }
   = link_to post do
-    .read-mark
+    .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
       &middot;
     .desc
-      - if local_assigns[:show_issue]
-        %span.issue-meta
-          %span.issue-title
-            = post.issue.title
-            = security_icon(post.issue)
-          - unless post.issue.indie_group?
-            %i.fa.fa-angle-left
-            %span.issue-group
-              = post.issue.group.title
-              = security_icon(post.issue.group)
+      .issue-meta
+        - if local_assigns[:show_issue]
+          %span.issue-and-group
+            %span.issue-title
+              = post.issue.title
+              = security_icon(post.issue)
+            - unless post.issue.indie_group?
+              %i.fa.fa-angle-left
+              %span.issue-group
+                = post.issue.group.title
+                = security_icon(post.issue.group)
+        - created_at = local_assigns[:post].try(:created_at)
+        %span.date= created_at.nil? ? '지금' : date_f(created_at)
       != post.specific_desc_striped_tags.try(:truncate, 120)
+  - chevron_dropdown = capture do
+    - if can? :pin, post
+      %li
+        = render 'posts/pin_buttons', post: post
+      - if post.pinned?
+        %li
+          = link_to [:readers, post], target: '_blank' do
+            확인한 가입멤버 보기 (#{post.readers_count})
+        %li
+          = link_to [:unreaders, post], target: '_blank' do
+            확인하지 않은 가입멤버 보기
+  - dropdown_dom_id = "#{dom_id(post)}__pinned_chevron-buttons"
+  - if chevron_dropdown.try(:strip).present?
+    .pin-buttons
+      %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+        %i.fa.fa-chevron-down
+      %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+        = chevron_dropdown
+

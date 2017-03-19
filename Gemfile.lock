@@ -539,6 +539,8 @@ GEM
     rack (1.6.5)
     rack-accept (0.4.5)
       rack (>= 0.4)
+    rack-mini-profiler (0.10.2)
+      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.5.1)
@@ -768,6 +770,7 @@ DEPENDENCIES
   postmark-rails (~> 0.12.0)
   premailer-rails (~> 1.9)
   puma
+  rack-mini-profiler
   rails (= 4.2.5.1)
   rails-timeago (~> 2.13)
   rails_autolink (~> 1.1, >= 1.1.6)

@@ -1,19 +1,17 @@
 - if posts.present?
-  - read_posts, unread_posts = posts.to_a.reject { |p| p.blinded?(current_user) or p.private_blocked?(current_user) }.partition { |p| p.read_by?(current_user) }
+  - collapsed_posts, uncollapsed_posts = posts.to_a.reject { |p| p.blinded?(current_user) or p.private_blocked?(current_user) }.partition { |p| !p.issue.organized_by?(current_user) and p.read_by?(current_user) }
 
-  .post-card-with-comments.pinned{ class: ('only-unread' if local_assigns[:only_unread]) }
-    .post-card-with-comments__header.clearfix.js-posts-pinned-and-read{ class: ('collapse' if unread_posts.empty?) }
+  .post-card-with-comments.pinned
+    .post-card-with-comments__header.clearfix.js-posts-pinned-and-read{ class: ('collapse' if uncollapsed_posts.empty?) }
       공지
-    - unread_posts.each do |post|
-      .unread
-        = render 'posts/post_pinned', local_assigns.merge(post: post)
+    - uncollapsed_posts.each do |post|
+      = render 'posts/post_pinned', local_assigns.merge(post: post)
 
-    - if read_posts.any?
+    - if collapsed_posts.any?
       .post-card-with-comments__post.js-show-all-pinned-post-wrapper
         .show-all.js-show-all-pinned-post
           이미 확인한 공지 펼쳐보기
           %i.fa.fa-chevron-down
 
-    - read_posts.each do |post|
-      .read.js-posts-pinned-and-read.collapse
-        = render 'posts/post_pinned', local_assigns.merge(post: post)
+    - collapsed_posts.each do |post|
+      = render 'posts/post_pinned', local_assigns.merge(post: post, collapse: true)

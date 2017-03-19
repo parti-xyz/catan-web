@@ -70,4 +70,12 @@ module DomHelper
   def user_chevron_dom_id(user)
     "#{dom_id(user)}-dropdown"
   end
+
+  def pinned_post_dom_selector(post)
+    "##{pinned_post_dom_id(post)}"
+  end
+
+  def pinned_post_dom_id(post)
+    "#{dom_id(post)}--list-pinned"
+  end
 end
