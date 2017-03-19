@@ -1,211 +1,3 @@
-#site-header {
-  $site-header-brand-image-width: 40px;
-
-  // center brand
-  .navbar-header {
-    position: relative;
-    width: 100%;
-    margin-right: 0;
-    margin-left: 0;
-
-    .navbar-brand {
-      position: absolute;
-      left: 50%;
-      margin-left: - 0.5 * $site-header-brand-image-width;
-      padding-left: 0;
-      img {
-        width: $site-header-brand-image-width;
-      }
-    }
-  }
-
-  .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-    border: none;
-  }
-  .navbar-nav {
-    color: $brand-primary;
-    & > li {
-      & > a {
-        padding-left: 8px;
-        padding-right: 8px;
-        margin: 0;
-        color: $gray;
-        font-weight: 500;
-        font-size: $font-size-base;
-        line-height: 20px;
-
-        @media (max-width: $screen-xs-max) {
-          padding: 13px 5px;
-        }
-
-        &:hover {
-          color: $brand-primary;
-        }
-
-        &.btn:focus, &.btn:active:focus, &.btn:active.focus {
-          outline: 0;
-          -webkit-box-shadow: none;
-          box-shadow: none;
-        }
-
-        &.active {
-          color: $brand-primary;
-          -webkit-box-shadow: none;
-          box-shadow: none;
-        }
-
-        .fa-home {
-          font-size: $font-size-large;
-        }
-      }
-      &.menu-divider {
-        height: 50px;
-        padding: 15px 0;
-        color: $gray-lighter;
-        font-weight: 500;
-        &:after {
-          content: '|';
-        }
-      }
-
-      &.user-info {
-        .user-byline {
-          color: $gray-darker;
-          font-size: $font-size-small;
-          padding-right: 5px;
-        }
-        a.dropdown-toggle {
-          padding-top: 2px;
-          padding-bottom: 2px;
-          padding-right: 5px;
-          border: none;
-        }
-      }
-      &.member-parties,
-      &.parti-tags,
-      &.all-posts {
-        .dropdown-filter {
-          padding-bottom: 10px;
-          display: block;
-        }
-        .dropdown-header {
-          padding-left: 5px;
-          padding-right: 5px;
-        }
-        .dropdown-toggle {
-          background-color: #fff;
-          &:hover {
-            color: $brand-primary;
-          }
-        }
-        @media (max-width: $screen-xs-max) {
-          &.open .dropdown-menu {
-            position: absolute;
-            background-color: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.15);
-            -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-          }
-        }
-        .dropdown-menu {
-          border-radius: $border-radius-base;
-          padding: 10px;
-          height: auto;
-          max-height: 300px;
-          min-width: 220px;
-          overflow-x: hidden;
-        }
-        .issue-line {
-          border: none;
-          &__title {
-            white-space: initial;
-          }
-        }
-        .issue-line + .dropdown-header {
-          padding-top: 20px;
-        }
-        .parti-tag-line {
-          display: block;
-          a {
-            padding-left: 5px;
-          }
-        }
-      }
-      &.notification {
-        .icon-bell-stack{
-          position: relative;
-          display: inline-block;
-          width: 24px;
-          vertical-align: top;
-          .fa-circle {
-            color: $brand-primary;
-            font-size: 26px;
-          }
-        }
-        .fa-stack {
-          top: -3px;
-          width: 1.2em;
-          height: 1.2em;
-          .icon-dot-corner.fa-stack-1x{
-            left: -6px;
-            top: 0px;
-          }
-          .icon-dot-corner {
-            color: red;
-            font-size: 25px;
-            margin-left: -5px;
-          }
-          .fa-stack-1x {
-            left: -2px;
-            top: -3px;
-          }
-        }
-      }
-      &.brand-dashbord {
-        img {
-          width: $site-header-brand-image-width;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: $screen-xs-max) {
-  /* header */
-  #site-header {
-    .navbar-header .navbar-brand img {
-      width: 35px;
-    }
-    .navbar-default {
-      padding: 0px;
-    }
-    .navbar-brand{
-      padding-top: 10px;
-    }
-    .navbar-nav-menu {
-      @media (max-width: $screen-xs-max) {
-        font-size: 10px;
-      }
-      float: right;
-      padding: 0;
-      margin: 0;
-      li {
-        display: inline-block;
-      }
-      li a {
-        &.btn-mobile-menu {
-          padding-right: 0;
-          img {
-            zoom: 0.5;
-          }
-        }
-      }
-    }
-  }
-}
-
-
-
 /////////////////////////////////////////////
 // renewal style
 //
@@ -214,7 +6,7 @@
     width: 100%;
   }
 }
-#new-theme-site-header {
+#site-header {
   $site-header-brand-image-width: 60px;
   $site-header-brand-image-width-xs: 60px;
 
@@ -379,14 +171,21 @@
 
   // messages bell button
 
-  .icon-bell-stack{
-    position: relative;
-    display: inline-block;
-    width: 24px;
-    vertical-align: top;
-    .fa-circle {
+  .notification {
+    .icon-bell-stack{
+      position: relative;
+      display: inline-block;
+      width: 24px;
+      vertical-align: top;
       color: $brand-primary;
-      font-size: 26px;
+      .fa-circle {
+        font-size: 26px;
+      }
+    }
+    .label.label-danger {
+      position: absolute;
+      bottom: 25px;
+      right: 54px;
     }
   }
 }

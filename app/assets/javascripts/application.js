@@ -661,8 +661,8 @@ $(function(){
     $('.js-show-all-pinned-post-wrapper').hide();
   });
 
-  $('#new-theme-site-header').on('show.bs.collapse','.collapse', function() {
-      $('#new-theme-site-header').find('.collapse.in').collapse('hide');
+  $('#site-header').on('show.bs.collapse','.collapse', function() {
+      $('#site-header').find('.collapse.in').collapse('hide');
   });
 
   $('.parti-editor-selectpicker').selectpicker('render');
@@ -1037,7 +1037,7 @@ $(function(){
       $('body').addClass('editor-spotlight');
     });
     $(elm).on('focusable.hidden', function(e) {
-      $('#new-theme-site-header > nav').addClass('navbar-fixed-top');
+      $('#site-header > nav').addClass('navbar-fixed-top');
       $('body').removeClass('editor-spotlight');
     });
   });

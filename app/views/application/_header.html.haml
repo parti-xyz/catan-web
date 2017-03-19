@@ -1,4 +1,4 @@
-#new-theme-site-header
+#site-header
   %nav.navbar.navbar-default.navbar-fixed-top
     .container
       .navbar-header.navbar-header-center
@@ -47,6 +47,7 @@
                   %span.icon-bell-stack
                     %i.fa.fa-circle.fa-stack-1x
                     %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                  %span.label.label-danger= trim_count current_user.unread_messages_count
                 - else
                   %i.fa.fa-bell
                 알림

@@ -175,4 +175,12 @@ module ApplicationHelper
   def security_icon(model)
     content_tag("i", '', class: ["fa", "fa-lock"]) if model.try(:private?)
   end
+
+  def trim_count(value, limit = 99)
+    if value > limit
+      limit + '+'
+    else
+      value
+    end
+  end
 end

@@ -44,8 +44,9 @@
               = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
                 - if current_user.unread_messages_count > 0
                   %span.icon-bell-stack
-                    %i.fa.fa-circle.fa-stack-1x
-                    %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                    %i.fa.fa-circle.fa-stack-1x.fa-inverse
+                    %i.fa.fa-bell.fa-stack-1x
+                  %span.label.label-danger= trim_count current_user.unread_messages_count
                 - else
                   %i.fa.fa-bell
                 알림
