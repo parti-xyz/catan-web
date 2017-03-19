@@ -6,6 +6,19 @@ section#home {
   margin-top: 24px;
 }
 
+body.in-group #site-header .nav > li > a:hover,
+body.in-group #site-header .nav > li > a {
+  color: white;
+}
+
+body.in-group #site-header .navbar-nav {
+  > li.member-parties .dropdown-toggle:hover,
+  > li.parti-tags .dropdown-toggle:hover,
+  > li.all-posts .dropdown-toggle:hover {
+    color: white;
+  }
+}
+
 #site-header .navbar-header .navbar-brand img {
   height: 20px;
   width: auto;
