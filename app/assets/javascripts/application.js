@@ -706,12 +706,15 @@ $(function(){
     window.location.href  = url;
   });
 
-  $('[data-action="parti-message-link"]').on('click', function(e) {
-    e.preventDefault();
-    var $url_source = $($(e.currentTarget).data("base"));
-    var url = $url_source.data("url");
-    if(url) { window.location.href  = url; }
-  });
+  (function() {
+    var callback = function(e) {
+      e.preventDefault();
+      var $url_source = $($(e.currentTarget).data("base"));
+      var url = $url_source.data("url");
+      if(url) { window.location.href  = url; }
+    }
+    $('#site-header, section#posts').on('click', '[data-action="parti-message-link"]', callback);
+  })();
 
   (function() {
     var load_page = function(waypoint) {
