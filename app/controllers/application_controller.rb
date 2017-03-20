@@ -54,6 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   helper_method :current_group
+  helper_method :host_group
 
   private
 
@@ -193,10 +194,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def current_group(fallback: nil)
+  def current_group
     @__current_group ||= fetch_group request
-    return fallback if @__current_group.nil? and !fallback.nil?
-    @__current_group
+  end
+
+  def host_group
+    current_group || Group.indie
   end
 
   def verify_group(issue)

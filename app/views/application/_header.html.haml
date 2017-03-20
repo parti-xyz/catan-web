@@ -23,18 +23,15 @@
                   %span.caret
                 %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
 
-                  - if current_user.member_issues.only_group(current_group).any?
-                    %li.dropdown-header
-                      가입한 빠띠
-                      #{current_user.member_issues.only_group(current_group).count}
-                  - current_user.member_issues.only_group(current_group).each do |issue|
+                  - if current_user.member_issues.only_group(host_group).any?
+                    %li.group-line
+                      = link_to host_group.aside_title, root_path
+                  - current_user.member_issues.only_group(host_group).each do |issue|
                     = render 'issues/issue_line', issue: issue
 
-                  - Group.all_but(current_group).each do |group|
-                    - if current_user.member_issues.only_group(group).any?
-                      %li.dropdown-header
-                        #{group.aside_title}
-                        #{current_user.member_issues.only_group(group).count}
+                  - Group.nested_joined_by(current_user).but(host_group).each do |group|
+                    %li.group-line
+                      = link_to group.aside_title, root_path
                     - current_user.member_issues.only_group(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
           %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if current_page?('/home')}"

@@ -7,18 +7,18 @@
         .aside_issue_btn
           = link_to '빠띠만들기', parties_new_intro_path, class: 'btn btn-primary btn-block'
 
-        - if current_user.member_issues.only_group(current_group).any?
-          %h5.aside-title= current_group(fallback: Group.indie).aside_title
+        - if host_group.nested_joined_by?(current_user)
+          %h5.aside-title= host_group.aside_title
+        - if current_user.member_issues.only_group(host_group).any?
           %ul.list-unstyled.aside-issues
-            - current_user.member_issues.only_group(current_group).each do |issue|
+            - current_user.member_issues.only_group(host_group).each do |issue|
               = render '/issues/issue_line', issue_line: issue
 
-        - Group.all_but(current_group).each do |group|
-          - if current_user.member_issues.only_group(group).any?
-            %h5.aside-title
-              = link_to group.aside_title, smart_group_url(group)
-            %ul.list-unstyled.aside-issues
-              - current_user.member_issues.only_group(group).each do |issue|
-                = render '/issues/issue_line', issue_line: issue
+        - Group.nested_joined_by(current_user).but(host_group).each do |group|
+          %h5.aside-title
+            = link_to group.aside_title, smart_group_url(group)
+          %ul.list-unstyled.aside-issues
+            - current_user.member_issues.only_group(group).each do |issue|
+              = render '/issues/issue_line', issue_line: issue
 
     = render 'application/footer'

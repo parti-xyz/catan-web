@@ -19,7 +19,7 @@ class Group < ActiveRecord::Base
   has_many :member_request_users, through: :member_requests, source: :user
 
   default_scope -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
-
+  scope :but, ->(group) { where.not(id: group) }
   def find_category_by_slug(slug)
     categories.detect { |c| c.slug == slug }
   end
@@ -102,12 +102,13 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def self.joined_by(someone)
-    someone.member_issues.map(&:group).uniq.compact
+  def nested_joined_by?(someone)
+    Group.nested_joined_by(someone).exists?(id: self)
   end
 
-  def self.all_but(some_group)
-    Group.all.reject { |group| group.slug == Group.default_slug(some_group) }
+  def self.nested_joined_by(someone)
+    self.where(slug: (someone.member_issues.select(:group_slug).distinct))
+        .or(self.where(id: someone.member_groups))
   end
 
   def self.find_by_slug(slug)
