@@ -55,7 +55,11 @@ ko:
       carrierwave_integrity_error: 허용되지 않는 파일 형식입니다.
       not_deletable_parti: 가입한 멤버가 있거나 게시글이 있는 빠띠는 삭제할 수 없습니다.
       unknown: 앗! 뭔가 잘못되었습니다.
-      deleted_option: 지워진 제안입니다
+      deleted_option: 지워진 제안입니다.
+      invitation:
+        recipient_codes: 입력하신 이메일이나 닉네임을 확인해 주세요.
+        not_found_recipients: 아래 닉네임에 해당되는 회원이 없습니다. 다시 한번 확인해 주세요.
+        ambiguous_recipients: 아래 이메일을 쓰는 회원이 여럿 있습니다. 이메일 대신 회원의 정확한 닉네임을 입력해 주세요.
     models:
       user:
         attributes:

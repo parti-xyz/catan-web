@@ -43,7 +43,7 @@ class Admin::IssuesController < AdminController
           post.reload.update_attributes!(issue_id: target.id, updated_at: origin_updated_at)
         end
         source.invitations.each do |invitation|
-          invitation.update_attributes!(issue: target, updated_at: invitation.updated_at)
+          invitation.update_attributes!(joinable: target, updated_at: invitation.updated_at)
         end
         Upvote.where(issue: source).each do |upvote|
           upvote.update_columns(issue_id: target.id, updated_at: upvote.updated_at)

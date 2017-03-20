@@ -62,6 +62,11 @@ class MessageService
           sender: @sender, users: [@source.user],
           messagable: @source,
           action: @action)
+      elsif @action == :admit
+        send_messages(
+          sender: @sender, users: [@source.user],
+          messagable: @source,
+          action: @action)
       else
         users = @source.joinable.organizer_members.map &:user
         send_messages(

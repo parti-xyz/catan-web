@@ -1,0 +1,33 @@
+%section#form
+  .container
+    %h2.page-header 멤버추가하기
+
+    - if @has_error_recipient_codes
+      .panel.panel-danger
+        - if @not_found_recipient_codes.try(:any?)
+          .panel-heading
+            %strong= t('errors.messages.invitation.not_found_recipients')
+            %div
+              = @not_found_recipient_codes.join(' ')
+        - if @ambiguous_recipient_codes.try(:any?)
+          .panel-heading
+            %strong= t('errors.messages.invitation.ambiguous_recipients')
+            %div
+              = @ambiguous_recipient_codes.join(' ')
+
+    = form_tag admit_group_members_path do |f|
+      .form-group
+        = label_tag :recipients, '이메일이나 빠띠 닉네임'
+        = text_area_tag :recipients, params[:recipients], class: 'form-control', rows: 5
+        %p.help-block
+          멤버로 추가할 닉네임이나 이메일을 띄어쓰기로 구분해서 넣어 주세요. 이메일에 해당되는 빠띠 회원을 찾을 수 없으면 자동으로 초대 메일이 발송됩니다.
+
+      .form-group
+        = label_tag :message, '초대 메일에 넣을 메시지'
+        = text_area_tag :message, params[:message], class: 'form-control', rows: 10
+        %p.help-block
+          빠띠 회원이 아닐 경우 발송될 초대 메일의 메시지를 작성해 주세요.
+
+      .form-group
+        = submit_tag '저장', class: 'btn btn-primary', data: { disable_with: "처리 중..." }
+

@@ -4,10 +4,18 @@
       #{message.sender.nickname}님이 회원님을
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human}에서 탈퇴시키셨습니다.
-  - if member.ban_message?
+  - if member.ban_message.present?
     %br
     = member.ban_message
-
+- elsif message.action.to_s == 'admit'
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+    %strong
+      #{message.sender.nickname}님이 회원님을
+      = link_to member.joinable.title, smart_joinable_url(member.joinable)
+      #{member.joinable.model_name.human}에 가입시키셨습니다.
+  - if member.admit_message.present?
+    %br
+    = member.admit_message
 - else
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
     %strong

@@ -28,7 +28,7 @@ merge_source_issue:
   title: '소스'
   site_title: '소스'
   head_title: '소스'
-pirvate_group:
+private_group:
   slug: private
   user: admin
   title: '비공개'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313093339) do
+ActiveRecord::Schema.define(version: 20170320163428) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -129,16 +129,21 @@ ActiveRecord::Schema.define(version: 20170313093339) do
   add_index "groups", ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true, using: :btree
 
   create_table "invitations", force: :cascade do |t|
-    t.integer  "user_id",      limit: 4, null: false
-    t.integer  "recipient_id", limit: 4, null: false
-    t.integer  "issue_id",     limit: 4, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "user_id",         limit: 4,     null: false
+    t.integer  "recipient_id",    limit: 4
+    t.integer  "joinable_id",     limit: 4,     null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "recipient_email", limit: 255
+    t.string   "joinable_type",   limit: 255,   null: false
+    t.text     "message",         limit: 65535
   end
 
-  add_index "invitations", ["issue_id"], name: "index_invitations_on_issue_id", using: :btree
+  add_index "invitations", ["joinable_id", "joinable_type"], name: "index_invitations_on_joinable_id_and_joinable_type", using: :btree
+  add_index "invitations", ["joinable_id"], name: "index_invitations_on_joinable_id", using: :btree
   add_index "invitations", ["recipient_id"], name: "index_invitations_on_recipient_id", using: :btree
-  add_index "invitations", ["user_id", "recipient_id", "issue_id"], name: "index_invitations_on_user_id_and_recipient_id_and_issue_id", unique: true, using: :btree
+  add_index "invitations", ["user_id", "recipient_id", "joinable_id", "joinable_type"], name: "unique_index_invitations", unique: true, using: :btree
+  add_index "invitations", ["user_id", "recipient_id", "joinable_id"], name: "index_invitations_on_user_id_and_recipient_id_and_joinable_id", unique: true, using: :btree
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
@@ -224,6 +229,7 @@ ActiveRecord::Schema.define(version: 20170313093339) do
     t.datetime "deleted_at"
     t.string   "active",        limit: 255,   default: "on"
     t.text     "ban_message",   limit: 65535
+    t.text     "admit_message", limit: 65535
   end
 
   add_index "members", ["joinable_id", "joinable_type"], name: "index_members_on_joinable_id_and_joinable_type", using: :btree

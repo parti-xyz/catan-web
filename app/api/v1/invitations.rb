@@ -15,7 +15,11 @@ module V1
         return if issue.blank?
 
         params[:emails].reject{ |email| issue.member_email? email }.each do |email|
-          InvitationMailer.invite_parti_by_email(resource_owner.id, email, issue.id).deliver_later
+          invitation = Invitation.new(user: resource_owner, recipient_email: user, joinable: issue);
+          Invitation.transaction { invitation.save }
+          if invitation.errors.empty?
+            InvitationMailer.invite(invitation.id).deliver_later
+          end
         end
       end
 
@@ -30,10 +34,11 @@ module V1
         return if issue.blank?
 
         params[:nicknames].map { |nickname| User.find_by nickname: nickname }.compact.reject{ |user| issue.member? user.nickname }.each do |user|
-          invitation = Invitation.new(user: resource_owner, recipient: user, issue: issue);
-          if invitation.save
+          invitation = Invitation.new(user: resource_owner, recipient: user, joinable: issue);
+          Invitation.transaction { invitation.save }
+          if invitation.errors.empty?
             MessageService.new(invitation).call
-            InvitationMailer.invite_parti_by_nickname(resource_owner.id, user.id, issue.id).deliver_later
+            InvitationMailer.invite(invitation.id).deliver_later
           end
         end
       end

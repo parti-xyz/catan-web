@@ -1,6 +1,11 @@
 class GroupBaseController < ApplicationController
   before_action :verify_current_group
 
+
+  def only_organizer
+    head 404 and return if !current_group.organized_by?(current_user) and !current_user.try(:admin?)
+  end
+
   private
 
   def verify_current_group

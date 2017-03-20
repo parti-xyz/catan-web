@@ -2,8 +2,14 @@
   %strong
     #{message.sender.nickname}님이 회원님을
     #{member.joinable.title}
-    #{member.joinable.model_name.human}에
+    #{member.joinable.model_name.human}에서
     탈퇴시켰습니다.
+- elsif message.action.to_s == 'admit'
+  %strong
+    #{message.sender.nickname}님이 회원님을
+    #{member.joinable.title}
+    #{member.joinable.model_name.human}에
+    가입시켰습니다.
 - else
   %strong
     #{message.sender.nickname}님이

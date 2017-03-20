@@ -11,6 +11,7 @@ class Group < ActiveRecord::Base
   SLUG_OF_UNION = 'union'
 
   belongs_to :user
+  has_many :invitations, as: :joinable, dependent: :destroy
   has_many :members, as: :joinable, dependent: :destroy
   has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member
   has_many :member_users, through: :members, source: :user
@@ -90,6 +91,15 @@ class Group < ActiveRecord::Base
 
   def indie?
     self.slug == 'indie'
+  end
+
+  def invited?(recipient)
+    case recipient
+    when User
+      invitations.exists?(recipient: recipient)
+    else
+      invitations.exists?(recipient_email: recipient)
+    end
   end
 
   def self.joined_by(someone)

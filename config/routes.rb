@@ -123,10 +123,14 @@ Rails.application.routes.draw do
 
   namespace :group do
     resources :members do
-      put :organizer, on: :collection
-      delete :organizer, on: :collection
-      delete :ban, on: :collection
-      delete :cancel, on: :collection
+      collection do
+        put :organizer
+        delete :organizer
+        delete :ban
+        delete :cancel
+        post :admit
+        get :new_admit
+      end
     end
     resources :member_requests do
       post :accept, on: :collection

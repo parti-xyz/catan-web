@@ -45,3 +45,7 @@ bat_organizer2:
   user: bat_organizer
   joinable: merge_source_issue (Issue)
   is_organizer: true
+three_of_private_group:
+  user: three
+  joinable: private_group (Group)
+

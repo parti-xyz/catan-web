@@ -1,5 +1,6 @@
 class Group::MembersController < GroupBaseController
   load_and_authorize_resource
+  before_action :only_organizer, only: [:ban, :organizer, :new_admit, :admit]
 
   def index
     @myself = current_user if params[:last_id].blank? and current_group.member?(current_user)
@@ -47,6 +48,75 @@ class Group::MembersController < GroupBaseController
 
     respond_to do |format|
       format.js
+    end
+  end
+
+  def admit
+    redirect_to group_members_path and return unless current_group.private?
+
+    @not_found_recipient_codes = []
+    @ambiguous_recipient_codes = []
+    @has_error_recipient_codes = false
+    new_members = []
+    new_invitations = []
+
+    params[:recipients].split.map(&:strip).reject(&:blank?).each do |recipient_code|
+      recipient = nil
+      if recipient_code.match /@/
+        recipients = User.where(email: recipient_code)
+        if recipients.count > 1
+          @ambiguous_recipient_codes << recipient_code
+          @has_error_recipient_codes = true
+          next
+        else recipients.count == 1
+          recipient = recipients.first
+        end
+      else
+        recipient = User.find_by(nickname: recipient_code)
+      end
+
+      next if current_group.invited?(recipient || recipient_code)
+      next if current_group.member?(recipient)
+
+      if recipient.present?
+        new_members << current_group.members.build(user: recipient, admit_message: params[:message])
+      elsif recipient_code.match /@/
+        new_invitations << current_group.invitations.build(user: current_user, recipient_email: recipient_code, message: params[:message])
+      else
+        @not_found_recipient_codes << recipient_code
+        @has_error_recipient_codes = true
+      end
+    end
+
+    unless @has_error_recipient_codes
+      @success = false
+      ActiveRecord::Base.transaction do
+        if current_group.save and
+          current_group.member_requests.where(user: new_members.map(&:user)).destroy_all and
+          current_group.invitations.where(recipient: new_members.map(&:user)).destroy_all and
+          current_group.invitations.where(recipient_email: new_members.map(&:user).map(&:email)).destroy_all
+          @success = true
+        else
+          raise ActiveRecord::Rollback
+        end
+      end
+
+      if @success
+        new_members.each do |member|
+          MemberMailer.on_admit(member.id, current_user.id).deliver_later
+          MessageService.new(member, sender: current_user, action: :admit).call
+        end
+        new_invitations.each do |invitation|
+          InvitationMailer.invite(invitation.id).deliver_later
+        end
+        redirect_to group_members_path
+      else
+        errors_to_flash(current_group)
+        render 'new_admit'
+      end
+    else
+      flash[:error] = t('errors.messages.invitation.recipient_codes')
+      render 'new_admit'
     end
   end
 end

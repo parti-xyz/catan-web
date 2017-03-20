@@ -7,6 +7,17 @@ class MemberMailer < ApplicationMailer
     end
   end
 
+  def on_admit(member_id, user_id)
+    @member = Member.find_by(id: member_id)
+    return if @member.blank?
+
+    @user = User.find_by(id: user_id)
+    return if @user.blank?
+
+    mail(to: @member.user.email,
+         subject: "[빠띠] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에서 가입시켰습니다.")
+  end
+
   def on_create(organizer, member)
     @organizer_user = organizer.user
     @member = member

@@ -1,0 +1,6 @@
+<% recipient_code = @invitation.recipient.try(:nickname) || @invitation.recipient_email %>
+안녕하세요. <%= recipient_code %> 님!
+<%= @invitation.user.nickname %>님이 <%= @invitation.joinable.title %> <%= @invitation.joinable.model_name.human %>에 초대했습니다.
+---------------------------------------------------------
+
+* 주소 : <%= smart_joinable_url(@invitation.joinable) %>
