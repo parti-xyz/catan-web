@@ -6,7 +6,7 @@
       .media
         .media-body
           %h4
-            비공개빠띠입니다.
+            비공개 빠띠입니다.
           - if @issue.member_requested? current_user
             %p
               이 빠띠를 보시려면 먼저 가입승인을 받아야합니다.
@@ -15,7 +15,7 @@
                 을 기다려주세요.
           - else
             %p
-              비공개빠띠를 보시려면 먼저 가입신청을 해주세요.
+              비공개 빠띠를 보시려면 먼저 가입신청을 해주세요.
             %div(class="#{dom_id(@issue)}-member" style="    padding-bottom: 12px;")
               - if user_signed_in?
                 = link_to smart_members_or_member_requests_parti_path(@issue), method: :post, class: 'btn btn-md btn-primary' do

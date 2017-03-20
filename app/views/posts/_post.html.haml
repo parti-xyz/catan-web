@@ -23,10 +23,10 @@
 
     - if post.private_blocked?(current_user)
       .post-card-with-comments__post
-        %strong 비밀빠띠 게시글입니다.
+        %strong 비공개 빠띠 게시글입니다.
         - if post.issue.member_requested? current_user
           %br
-          비밀빠띠를 보시려면 먼저 가입승인 받아야합니다.
+          비공개 빠띠를 보시려면 먼저 가입승인 받아야합니다.
           %span
             %strong<> 오거나이저의 가입승인
             을 기다려주세요.
