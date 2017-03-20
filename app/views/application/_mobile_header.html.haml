@@ -8,29 +8,6 @@
         %li
           %a.btn-mobile-menu{ href: '#'}
             = image_tag 'btn_mobile_menu.png'
-      %ul.nav.navbar-nav.navbar-right-xs
-        - if user_signed_in? and current_user.members.any?
-          %li
-            %a.collapse-toggle.collapsed(href="#" data-toggle="collapse" data-target="#nav-member-parties")
-              내 빠띠
-              %span.caret
-      - if user_signed_in? and current_user.members.any?
-        #nav-member-parties.collapse.collapse-parties
-          %ul.nav.navbar-nav
-            - if current_user.member_issues.only_group(current_group).any?
-              %li.dropdown-header
-                가입한 빠띠
-                #{current_user.member_issues.only_group(current_group).count}
-            - current_user.only_member_issues(current_group).each do |issue|
-              = render 'issues/issue_line', issue: issue
-
-            - Group.all_but(current_group).each do |group|
-              - if current_user.member_issues.only_group(group).any?
-                %li.dropdown-header
-                  #{group.aside_title}
-                  #{current_user.member_issues.only_group(group).count}
-              - current_user.member_issues.only_group(group).each do |issue|
-                = render 'issues/issue_line', issue: issue
 
   .mobile-list#mobile-list
     = image_tag 'icon_close_white.png', class: 'mobile-list__close'
@@ -51,6 +28,22 @@
         = link_to new_user_session_path, class: 'btn-new-user' do
           로그인/회원가입
     %ul.mobile-list__menu.list-unstyled
+      - if user_signed_in?
+        - if current_user.member_issues.only_group(current_group).any?
+          %li.group-line
+            = link_to root_path do
+              #{current_group(fallback: Group.indie).aside_title}
+        - current_user.member_issues.only_group(current_group).each do |issue|
+          = render 'issues/issue_line', issue: issue
+
+        - Group.all_but(current_group).each do |group|
+          - if current_user.member_issues.only_group(group).any?
+            %li.group-line
+              = link_to smart_group_url(group) do
+                #{group.aside_title}
+          - current_user.member_issues.only_group(group).each do |issue|
+            = render 'issues/issue_line', issue: issue
+        %li.divider.large
       %li= link_to '모든 빠띠', issues_path
       - if user_signed_in?
         %li.divider

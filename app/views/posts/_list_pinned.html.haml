@@ -1,5 +1,9 @@
 - if posts.present?
-  - collapsed_posts, uncollapsed_posts = posts.to_a.reject { |p| p.blinded?(current_user) or p.private_blocked?(current_user) }.partition { |p| !p.issue.organized_by?(current_user) and p.read_by?(current_user) }
+  - if local_assigns[:compact]
+    - collapsed_posts, uncollapsed_posts = posts.to_a.reject { |p| p.blinded?(current_user) or p.private_blocked?(current_user) }.partition { |p| !p.issue.organized_by?(current_user) and p.read_by?(current_user) }
+  - else
+    - collapsed_posts = []
+    - uncollapsed_posts = posts
 
   .post-card-with-comments.pinned
     .post-card-with-comments__header.clearfix.js-posts-pinned-and-read{ class: ('collapse' if uncollapsed_posts.empty?) }
