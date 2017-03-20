@@ -178,7 +178,7 @@ module ApplicationHelper
 
   def trim_count(value, limit = 99)
     if value > limit
-      limit + '+'
+      limit.to_s + '+'
     else
       value
     end
