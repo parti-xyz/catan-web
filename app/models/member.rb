@@ -23,6 +23,7 @@ class Member < ActiveRecord::Base
   belongs_to :joinable, counter_cache: true, polymorphic: true
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :readers, dependent: :destroy
+  belongs_to :admit_user
 
   validates :user, presence: true
   validates :joinable, presence: true, on: :update

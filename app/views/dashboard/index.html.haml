@@ -10,7 +10,8 @@
                   .media-left
                     = byline current_user, hide_nickname: true
                   .media-body
-                    #{current_user.nickname}님, 빠띠를 구독하고 수다를 시작해보세요!
+                    #{current_user.nickname}님, 이제 빠띠를 시작해보세요!
+                    = link_to '시작하기', dashboard_intro_path, class: 'btn btn-primary'
           - else
             - member_issues = current_user.member_issues.order(:title)
             .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true', 'spotlight-post-editor': 'true'} }
@@ -46,15 +47,7 @@
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if @posts.empty?
-            - if current_user.need_to_more_member?(current_group)
-              .bg-default.no-background.text-center
-                현재 내 타임라인이 비었습니다.
-                %br
-                내 관심사에 맞는 빠띠를
-                %br.visible-xs
-                = link_to '빠띠찾기', issues_path, class: 'text-primary'
-                에서 구독해보세요.
-            - else
+            - unless current_user.need_to_more_member?(current_group)
               .bg-default
                 %i.fa.fa-info-circle
                 아직 글이 없습니다.

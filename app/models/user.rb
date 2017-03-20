@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
     format: { with: Devise.email_regexp }
 
   validates :uid, uniqueness: {scope: [:provider]}
+  validates :email, uniqueness: true, if: 'provider == "email"'
   validates :password,
     presence: true,
     confirmation: true,
@@ -47,6 +48,7 @@ class User < ActiveRecord::Base
   before_save :set_uid
   before_validation :strip_whitespace, only: :nickname
   after_create :default_member_issues
+  after_create :check_invitations
 
   # associations
   has_many :merged_issues
@@ -83,7 +85,6 @@ class User < ActiveRecord::Base
     base = base.where('users.created_at < ?', user.created_at) if user.present?
     base
   }
-
 
   def admin?
     has_role?(:admin)
@@ -158,12 +159,6 @@ class User < ActiveRecord::Base
     member_issues.where.not(id: issue_organizer_members.select(:joinable_id))
   end
 
-  def only_member_issues(group)
-    result = member_issues.where.not(id: issue_organizer_members.select(:joinable_id))
-    result = result.only_group(group)
-    result
-  end
-
   def watched_posts(group = nil)
     Post.where(issue: member_issues.displayable_in_current_group(group))
   end
@@ -208,6 +203,17 @@ class User < ActiveRecord::Base
   def default_member_issues
     issue = Issue.of_slug Issue::SLUG_OF_PARTI_PARTI
     Member.create(user: self, joinable: issue) if issue.present?
+  end
+
+  def check_invitations
+    ActiveRecord::Base.transaction do
+      invitations = Invitation.where(recipient_email: self.email)
+      invitations.each do |invitation|
+        member = invitation.joinable.members.create!(user: self)
+        MessageService.new(member, sender: invitation.user, action: :admit).call
+      end
+      invitations.destroy_all
+    end
   end
 
   def nickname_exclude_pattern

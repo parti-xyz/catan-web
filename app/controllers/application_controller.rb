@@ -64,7 +64,9 @@ class ApplicationController < ActionController::Base
       (controller_name == 'issues' and action_name == 'home') or
       (controller_name == 'issues' and action_name == 'index') or
       (controller_name == 'member_requests' and action_name == 'create') or
-      (controller_name == 'sessions')
+      (controller_name == 'sessions') or
+      (controller_name == 'users' and action_name == 'pre_sign_up') or
+      (controller_name == 'users' and action_name == 'email_sign_in')
     )
       redirect_to root_url
     end

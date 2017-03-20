@@ -209,6 +209,15 @@ section#user-gallery{
           font-size: 22px;
         }
       }
+      &.btn-email {
+        @include btn-push(#fff, $brand-primary, #fff, $brand-primary);
+        background: $brand-primary;
+        color: #fff;
+        i {
+          color: #fff;
+          font-size: 22px;
+        }
+      }
     }
   }
 }
@@ -417,7 +426,7 @@ section#user-gallery{
 
 #sign-up {
   width: 600px;
-  margin: 60px auto;
+  margin: 30px auto;
 
   .user-cancel {
     width: 300px;
@@ -429,6 +438,13 @@ section#user-gallery{
     }
   }
 }
+
+#sign-up-links {
+  a {
+    text-decoration: underline;
+  }
+}
+
 .sign-up {
   &__title {
     color: #333;

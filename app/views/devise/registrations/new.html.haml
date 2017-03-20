@@ -18,11 +18,21 @@
           .text-primary
             * 한글, 알파벳, 숫자, _ 만 가능합니다.
 
-        - if resource.email.blank? or resource.errors.include?(:email)
+        - if resource.email.blank? or resource.errors.include?(:email) or resource.provider == 'email'
           .form-group
             = f.label :email do
               이메일을 넣어 주세요.
             = f.text_field :email, autofocus: true, class: 'form-control'
+
+        - if resource.password.blank?
+          .form-group
+            = f.label :password
+            = f.password_field :password, autocomplete: "off", class: 'form-control'
+            .text-primary
+              * 8글자 이상 넣어주세요
+          .form-group
+            = f.label :password_confirmation
+            = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'
 
         .form-group
           = f.submit '계속하기', class: 'btn btn-primary btn-block', data: { disable_with: "진행 중..." }

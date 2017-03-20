@@ -40,8 +40,12 @@ Rails.application.routes.draw do
   get 'parties/new_intro', to: 'issues#new_intro'
 
   resources :users, except: :show do
-    post 'toggle_root_page', on: :collection
-    get 'access_token', on: :collection
+    collection do
+      post 'toggle_root_page'
+      get 'access_token'
+      get 'pre_sign_up'
+      get 'email_sign_in'
+    end
   end
   unless Rails.env.production?
     get 'kill_me', to: 'users#kill_me'
