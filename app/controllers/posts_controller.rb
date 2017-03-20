@@ -109,6 +109,7 @@ class PostsController < ApplicationController
       @issue = @post.issue
     end
 
+    return if @post.private_blocked?(current_user)
     if @post.poll.present?
       prepare_meta_tags title: @post.issue.title,
         image: @post.meta_tag_image,
