@@ -1,0 +1,6 @@
+- current_user.messages.recent.limit(10).each do |message|
+  %li
+    = render message
+%li.show-all
+  =link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
+    더 많은 알림 보기

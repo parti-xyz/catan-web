@@ -656,6 +656,15 @@ $(function(){
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
 
+  // 알림드롭다운
+  $('#js-notification').on('show.bs.dropdown', function(e) {
+    var $this = $(this);
+    $.ajax({
+      url: $this.data('url'),
+      type: "get"
+    });
+  });
+
   $('.js-show-all-pinned-post').on('click', function(e) {
     $('.js-posts-pinned-and-read').show();
     $('.js-show-all-pinned-post-wrapper').hide();

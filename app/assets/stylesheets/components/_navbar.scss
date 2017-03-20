@@ -181,6 +181,31 @@
       bottom: 25px;
       right: 54px;
     }
+    &.dropdown .dropdown-menu {
+      width: 420px;
+      max-height: 450px;
+      padding-bottom: 0;
+      padding-top: 0;
+      overflow-y: scroll;
+      .message {
+        margin-bottom: 0;
+        &:hover {
+          background-color: $gray-lighter;
+        }
+      }
+      .show-all {
+        padding: 12px;
+        background-color: $dropdown-link-hover-bg;
+        &:hover,
+        a:hover,
+        a:focus {
+          background-color: $gray-lighter;
+        }
+        a {
+          padding: 0;
+        }
+      }
+    }
   }
 
   body.in-group & nav .navbar-header-center .navbar-brand,

@@ -41,16 +41,24 @@
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            %li.notification
-              = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
-                - if current_user.unread_messages_count > 0
-                  %span.icon-bell-stack
-                    %i.fa.fa-circle.fa-stack-1x
-                    %i.fa.fa-bell.fa-stack-1x.fa-inverse
-                  %span.label.label-danger= trim_count current_user.unread_messages_count
-                - else
+            - if current_user.messages.empty?
+              %li.notification
+                = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
                   %i.fa.fa-bell
-                알림
+                  알림
+            - else
+              %li.notification.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
+                %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#"}
+                  %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
+                    %span.icon-bell-stack
+                      %i.fa.fa-circle.fa-stack-1x
+                      %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                    %span.label.label-danger= trim_count current_user.unread_messages_count
+                  %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
+                    %i.fa.fa-bell
+                  알림
+                %ul.dropdown-menu.js-notification-dropdown-menu
+
 
           - if user_signed_in?
             %li.dropdown
