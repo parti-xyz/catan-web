@@ -13,7 +13,7 @@
                   .count-label= @issue.member_requests.count
           %ul.request-card-wrapper.list-unstyled.clearfix
             - @issue.member_request_users.each do |user|
-              = render user, issue: @issue, additional_buttons_partial: 'member_requests/accept_buttons'
+              = render user, issue: @issue, additional_buttons_partial: 'member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons'
 
         %section#content-tab-section
           .nav-tabs.message-tab

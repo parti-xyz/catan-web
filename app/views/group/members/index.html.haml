@@ -42,7 +42,7 @@
                   .count-label= current_group.member_requests.count
             %ul.request-card-wrapper.list-unstyled.clearfix
               - current_group.member_request_users.each do |user|
-                = render 'users/user', user: user, additional_buttons_partial: 'group/member_requests/accept_buttons'
+                = render 'users/user', user: user, group: current_group, additional_buttons_partial: 'group/member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons'
 
         %section#content-tab-section
           .nav-tabs.message-tab

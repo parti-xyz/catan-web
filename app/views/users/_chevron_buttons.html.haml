@@ -1,37 +1,42 @@
 - if local_assigns[:issue].present?
   - if current_user.try(:admin?) or issue.organized_by?(current_user)
-    - if issue.organized_by?(user)
-      %li
-        = link_to organizer_issue_members_path(issue, user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...' } do
-          오거나이저로 지정취소
-    - else
-      %li
-        = link_to organizer_issue_members_path(issue, user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...' } do
-          오거나이저로 지정
     %li
-      = link_to '#', {"data-url": "##{dom_id(user)}__ban-member", "data-action": "parti-popover", "data-placement": "bottom", "data-backdrop": "true"} do
-        탈퇴시키기
-    .hidden
-      %div{ id: "#{dom_id(user)}__ban-member" }
-        = form_tag ban_issue_members_path(issue, user_id: user.id), method: :delete, remote: true, data: { 'confirm': '정말 탈퇴시키시겠습니까?', 'disable-with': '처리 중...' } do
-          .form-group
-            = label_tag :ban_message, "#{user.nickname}님에게 이유를 보내주세요."
-            = text_area_tag :ban_message, nil, class: 'form-control'
-          = submit_tag '탈퇴시키기', class: 'btn btn-primary'
+      %a(href="mailto:#{user.email}")= user.email
+    - if issue.member?(user)
+      - if issue.organized_by?(user)
+        %li
+          = link_to organizer_issue_members_path(issue, user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...' } do
+            오거나이저로 지정취소
+      - else
+        %li
+          = link_to organizer_issue_members_path(issue, user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...' } do
+            오거나이저로 지정
+    - if issue.member?(user)
+      %li
+        = link_to '#', {"data-url": "##{dom_id(user)}__ban-member", "data-action": "parti-popover", "data-placement": "bottom", "data-backdrop": "true"} do
+          탈퇴시키기
+      .hidden
+        %div{ id: "#{dom_id(user)}__ban-member" }
+          = form_tag ban_issue_members_path(issue, user_id: user.id), method: :delete, remote: true, data: { 'confirm': '정말 탈퇴시키시겠습니까?', 'disable-with': '처리 중...' } do
+            .form-group
+              = label_tag :ban_message, "#{user.nickname}님에게 이유를 보내주세요."
+              = text_area_tag :ban_message, nil, class: 'form-control'
+            = submit_tag '탈퇴시키기', class: 'btn btn-primary'
 
 - if local_assigns[:group].present?
   - if current_user.try(:admin?) or group.organized_by?(current_user)
     %li
       %a(href="mailto:#{user.email}")= user.email
-    - if group.organized_by?(user)
-      %li
-        = link_to organizer_group_members_path(user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...' } do
-          오거나이저로 지정취소
-    - else
-      %li
-        = link_to organizer_group_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...' } do
-          오거나이저로 지정
-  - if can?(:destroy, current_group.member_of(user))
+    - if group.member?(user)
+      - if group.organized_by?(user)
+        %li
+          = link_to organizer_group_members_path(user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...' } do
+            오거나이저로 지정취소
+      - else
+        %li
+          = link_to organizer_group_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...' } do
+            오거나이저로 지정
+  - if group.member?(user) and can?(:destroy, current_group.member_of(user))
     %li
       - if user == current_user
         = link_to cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...' } do
