@@ -51,6 +51,25 @@ class PostsTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test '공지전용 빠띠는 오거나이저는 잘 만들어요' do
+    assert issues(:notice).organized_by? users(:organizer)
+
+    sign_in(users(:organizer))
+
+    post posts_path(post: { body: 'body', issue_id: issues(:notice).id })
+    assert assigns(:post).persisted?
+  end
+
+  test '공지전용 빠띠는 오거나이저가 아닌 회원은 못 만들어요' do
+    refute issues(:notice).organized_by? users(:one)
+
+    sign_in(users(:one))
+
+    assert_raises CanCan::AccessDenied do
+      post posts_path(post: { body: 'body', issue_id: issues(:notice).id })
+    end
+  end
+
   test '고쳐요' do
     sign_in(users(:one))
     put post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id }

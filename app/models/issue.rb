@@ -226,7 +226,8 @@ class Issue < ActiveRecord::Base
   end
 
   def postable? someone
-    member?(someone)
+    return true if organized_by?(someone)
+    member?(someone) and !notice_only
   end
 
   def blind_user? someone

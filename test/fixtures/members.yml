@@ -48,4 +48,10 @@ bat_organizer2:
 three_of_private_group:
   user: three
   joinable: private_group (Group)
-
+notice_organizer:
+  user: organizer
+  joinable: notice (Issue)
+  is_organizer: true
+notice_one:
+  user: one
+  joinable: notice (Issue)

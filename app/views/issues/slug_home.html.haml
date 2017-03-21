@@ -6,17 +6,23 @@
       .col-xs-12.col-sm-8
         - if @issue.freezed_at.blank?
           - if user_signed_in?
-            - if @issue.postable?(current_user)
-              .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true', 'spotlight-post-editor': 'true'} }
-                .text-muted
-                  = byline current_user, hide_nickname: true
-                  .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
-              .unified-editor.unified-editor--hidden{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
-                = render 'posts/new_form', issue: @issue
+            - if @issue.member?(current_user)
+              - if @issue.postable?(current_user)
+                .unified-editor.unified-editor-intro{ data: { action: 'parti-show', 'show-target': '.unified-editor.unified-editor--hidden', 'self-hide': 'true', 'spotlight-post-editor': 'true'} }
+                  .text-muted
+                    = byline current_user, hide_nickname: true
+                    .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
+                .unified-editor.unified-editor--hidden{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
+                  = render 'posts/new_form', issue: @issue
             - else
-              .unified-editor.unified-editor--join
-                이 빠띠에 가입하여 게시물을 올려보세요.
-                = render 'issues/join_button'
+              - if @issue.notice_only?
+                .unified-editor.unified-editor--join
+                  이 빠띠에 가입하여 새소식을 들어보세요.
+                  = render 'issues/join_button'
+              - else
+                .unified-editor.unified-editor--join
+                  이 빠띠에 가입하여 게시물을 올려보세요.
+                  = render 'issues/join_button'
           - else
             .unified-editor.unified-editor-intro{data: { toggle: 'parti-login-overlay' }}
               .text-muted

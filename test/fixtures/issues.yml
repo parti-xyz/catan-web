@@ -31,5 +31,8 @@ parti:
   title: 빠띠만든당
   slug: parti
   group_slug: union
-
-
+notice:
+  title: 공지
+  slug: notice
+  notice_only: true
+  group_slug: indie
