@@ -5,17 +5,7 @@ class MembersController < ApplicationController
 
   def create
     render_404 and return if @issue.private_blocked?(current_user)
-
-    @member.user = current_user
-    ActiveRecord::Base.transaction do
-      if @member.save
-        @member.issue.member_requests.find_by(user: @member.user).try(:destroy)
-      end
-    end
-    if @member.persisted?
-      MessageService.new(@member).call
-      MemberMailer.deliver_all_later_on_create(@member)
-    end
+    @member = MemberIssueService.new(issue: @issue, current_user: current_user, is_auto: false).call
 
     respond_to do |format|
       format.js

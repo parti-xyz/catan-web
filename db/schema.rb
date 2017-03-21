@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321061102) do
+ActiveRecord::Schema.define(version: 20170321064707) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 20170321061102) do
     t.boolean  "private",                               default: false, null: false
     t.integer  "last_stroked_user_id", limit: 4
     t.boolean  "notice_only",                           default: false
+    t.boolean  "is_default",                            default: false
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree

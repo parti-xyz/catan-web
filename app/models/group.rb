@@ -106,6 +106,10 @@ class Group < ActiveRecord::Base
     Group.nested_joined_by(someone).exists?(id: self)
   end
 
+  def default_issues
+    Issue.only_group(self).where(is_default: true)
+  end
+
   def self.nested_joined_by(someone)
     self.where(slug: (someone.member_issues.select(:group_slug).distinct))
         .or(self.where(id: someone.member_groups))

@@ -36,3 +36,8 @@ notice:
   slug: notice
   notice_only: true
   group_slug: indie
+default_of_private_group:
+  title: 기본
+  slug: default_of_private_group
+  group_slug: private
+  is_default: true

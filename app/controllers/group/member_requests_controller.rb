@@ -17,13 +17,15 @@ class Group::MemberRequestsController < GroupBaseController
     @user = User.find_by(id: params[:user_id])
     render_404 and return if @user.blank?
     redirect_to(request.referrer || group_members_path) and return if current_group.member?(@user)
-
     @member_request = current_group.member_requests.find_by(user: @user)
     render_404 and return if @member_request.blank?
     @member = current_group.members.build(user: @member_request.user)
     ActiveRecord::Base.transaction do
       if @member.save
         @member_request.try(:destroy)
+        current_group.default_issues.each do |issue|
+          MemberIssueService.new(issue: issue, current_user: @user, is_auto: true).call
+        end
       end
     end
     if @member.persisted?

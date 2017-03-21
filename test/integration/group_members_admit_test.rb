@@ -5,13 +5,16 @@ class GroupMembersAdmitTest < ActionDispatch::IntegrationTest
     sign_in(users(:admin))
 
     host! "private.example.com"
-    post admit_group_members_path, { recipients: "#{users(:one).email} #{users(:two).nickname} not_exists@email.com" , message: 'ok' }
+    post admit_group_members_path, { recipients: "#{users(:one).email}, #{users(:two).nickname}, not_exists@email.com" , message: 'ok' }
 
     refute groups(:private_group).invited?(users(:one))
     refute groups(:private_group).invited?(users(:two))
     assert groups(:private_group).member?(users(:one))
     assert groups(:private_group).member?(users(:two))
     assert groups(:private_group).invited?("not_exists@email.com")
+
+    assert issues(:default_of_private_group).member?(users(:one))
+    assert issues(:default_of_private_group).member?(users(:two))
   end
 
   test '두번 초대는 안해요' do

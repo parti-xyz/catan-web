@@ -94,8 +94,9 @@ ko:
         category_slug: 주제
         telegram_link: 메신저 열기
         tag_list: 태그
-        private: 비공개 빠띠
-        notice_only: 공지 빠띠
+        private: 비공개
+        notice_only: 공지 용도
+        is_default: 기본으로 가입되는 빠띠
         organizer_nicknames: 오거나이저
         group_slug: 그룹
       talk:

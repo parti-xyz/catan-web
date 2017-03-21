@@ -60,7 +60,7 @@ class Group::MembersController < GroupBaseController
     new_members = []
     new_invitations = []
 
-    params[:recipients].split.map(&:strip).reject(&:blank?).each do |recipient_code|
+    params[:recipients].split(',').map(&:strip).reject(&:blank?).each do |recipient_code|
       recipient = nil
       if recipient_code.match /@/
         recipients = User.where(email: recipient_code)
@@ -95,6 +95,11 @@ class Group::MembersController < GroupBaseController
           current_group.member_requests.where(user: new_members.map(&:user)).destroy_all and
           current_group.invitations.where(recipient: new_members.map(&:user)).destroy_all and
           current_group.invitations.where(recipient_email: new_members.map(&:user).map(&:email)).destroy_all
+          current_group.default_issues.each do |issue|
+            new_members.each do |member|
+              MemberIssueService.new(issue: issue, current_user: member.user, is_auto: true).call
+            end
+          end
           @success = true
         else
           raise ActiveRecord::Rollback

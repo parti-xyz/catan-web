@@ -207,7 +207,9 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic, :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_slug, :private, :notice_only, :group_slug)
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic,
+      :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_slug,
+      :private, :notice_only, :is_default, :group_slug)
   end
 
   def prepare_issue_meta_tags
