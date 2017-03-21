@@ -4,7 +4,7 @@
 
       - if host_group.nested_joined_by?(@user)
         %h5.aside-title= host_group.aside_title
-      - if current_user.member_issues.only_group(host_group).any?
+      - if @user.member_issues.only_group(host_group).any?
         %ul.list-unstyled.aside-issues
           = render customize_partial_path(@user.member_issues.only_group(host_group), 'issue_line')
 
