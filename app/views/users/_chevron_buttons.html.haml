@@ -21,6 +21,8 @@
 
 - if local_assigns[:group].present?
   - if current_user.try(:admin?) or group.organized_by?(current_user)
+    %li
+      %a(href="mailto:#{user.email}")= user.email
     - if group.organized_by?(user)
       %li
         = link_to organizer_group_members_path(user_id: user.id), method: :delete, remote: true, data: { 'disable-with': '처리 중...' } do
