@@ -61,6 +61,12 @@ namespace :data do
         head_title: '빠띠유니온',
         private: false)
 
+      seed_group(user, 'meetshare', ['berry', '갱'],
+        title: '미트쉐어',
+        site_title: '작지만 멋진 일 - 미트쉐어',
+        head_title: '미트쉐어',
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
     end
