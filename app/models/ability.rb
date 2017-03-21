@@ -35,11 +35,14 @@ class Ability
       can :destroy, Option do |option|
         option.user == user and option.feedbacks_count == 0 and option.survey.open?
       end
+      can :destroy, Invitation do |invitation|
+        invitation.joinable.organized_by? user
+      end
       can :admit, Group do |group|
         group.organized_by?(user)
       end
       if user.admin?
-        can :manage, [Issue, Related, Blind, Role, Group, MemberRequest, Member]
+        can :manage, [Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation]
       end
     end
   end

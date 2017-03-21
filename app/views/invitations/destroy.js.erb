@@ -1,0 +1,4 @@
+<% if !@invitation.nil? and @invitation.destroyed? %>
+  $('#<%= dom_id(@invitation) %>').remove();
+  parti_partial$($member);
+<% end %>

@@ -124,6 +124,7 @@ Rails.application.routes.draw do
 
   resources :relateds
   resources :messages
+  resources :invitations
 
   namespace :group do
     resources :members do
