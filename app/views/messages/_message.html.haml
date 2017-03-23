@@ -6,7 +6,7 @@
         - unless message.issue.displayable_group?(current_group)
           &gt;
           = link_to message.issue.group.title, root_url(subdomain: message.issue.group_subdomain)
-      - else message.group.present?
+      - elsif message.group.present?
         = link_to "#{message.group.title} 그룹", smart_group_url(message.group)
 
     .message__date.date-wrapper.pull-right
