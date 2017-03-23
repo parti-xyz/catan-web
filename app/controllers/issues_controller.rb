@@ -160,7 +160,10 @@ class IssuesController < ApplicationController
 
   def destroy
     if @issue.deletable_by? current_user
-      @issue.destroy
+      ActiveRecord::Base.transaction do
+        @issue.destroy
+        Message.where(messagable: @issue.members_with_deleted).destroy_all
+      end
       redirect_to root_path
     else
       flash[:error] = t('errors.messages.not_deletable_parti')

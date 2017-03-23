@@ -33,4 +33,19 @@ class MessagesTest < ActionDispatch::IntegrationTest
     assert_equal nick2_previous_messages_count + 1, users(:two).reload.messages.count
     assert_equal nick3_previous_messages_count, users(:three).reload.messages.count
   end
+
+  test '삭제된 빠띠의 탈퇴시킨 사람의 메시지가 지워집니다' do
+    assert issues(:issue1).member? users(:one)
+    sign_in(users(:admin))
+    delete ban_issue_members_path(issue_id: issues(:issue1).id, user_id: users(:one).id, format: :js)
+
+    issues(:issue1).posts.destroy_all
+    issues(:issue1).members.destroy_all
+
+    delete issue_path(issues(:issue1))
+    assert assigns(:issue).paranoia_destroyed?
+
+    get messages_path(user: users(:one).nickname)
+    assert_response :success
+  end
 end

@@ -292,6 +292,10 @@ class Issue < ActiveRecord::Base
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone)
   end
 
+  def members_with_deleted
+    Member.with_deleted.where(joinable: self)
+  end
+
   private
 
   def downcase_slug
