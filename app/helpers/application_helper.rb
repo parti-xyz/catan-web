@@ -174,8 +174,9 @@ module ApplicationHelper
 
   def security_icon(model)
     content_tag :span do
-      content_tag("i", '', class: ["fa", "fa-lock"]) if model.try(:private?)
-      content_tag("i", '', class: ["fa", "fa-bullhorn"]) if model.try(:notice_only?)
+      concat content_tag("i", '', class: ["fa", "fa-lock"]) if model.try(:private?)
+      concat raw('&nbsp;') if model.try(:private?) and model.try(:notice_only?)
+      concat content_tag("i", '', class: ["fa", "fa-bullhorn"]) if model.try(:notice_only?)
     end
   end
 
