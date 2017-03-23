@@ -95,4 +95,4 @@
               %li= link_to '자료' ,references_path, class: "#{'active' if current_page?(controller: "/references", action: :index)}"
           - if current_group.private?
             %li
-              = link_to '멤버', group_members_path, root_path, class: ('active' if current_page?('/groups/members'))
+              = link_to '멤버', group_members_path, class: ('active' if current_page?('/groups/members'))
