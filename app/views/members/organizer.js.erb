@@ -1,1 +1,3 @@
-$("ul[aria-labelledby='<%= user_chevron_dom_id(@user) %>']").html('<%= j render('users/chevron_buttons', issue: @issue, user: @user) %>');
+var $chevron_buttons = $('<%= j render('users/chevron_buttons', issue: @issue, user: @user) %>');
+$("ul[aria-labelledby='<%= user_chevron_dom_id(@user) %>']").html($chevron_buttons);
+parti_partial$($chevron_buttons);
