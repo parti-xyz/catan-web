@@ -11,7 +11,8 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
-          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if current_page?('/home')}"
+          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if (current_page?('/parties') or (!user_signed_in? and current_page?('/')))}"
+          %li= link_to '그룹 찾기', groups_path, class: "#{'active' if current_page?('/groups')}"
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li
@@ -44,7 +45,7 @@
                   알림
             - else
               %li.notification.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
-                %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#"}
+                %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}"}
                   %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
                     %span.icon-bell-stack
                       %i.fa.fa-circle.fa-stack-1x

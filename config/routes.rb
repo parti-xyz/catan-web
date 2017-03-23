@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   get 'notes/*path', to: redirect('https://parti.xyz')
   get 'articles/*path', to: redirect('https://parti.xyz')
 
+  resources :groups
   resources :parties, as: :issues, controller: 'issues' do
     member do
       delete :remove_logo

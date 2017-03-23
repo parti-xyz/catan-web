@@ -1,0 +1,16 @@
+.panel.panel-primary[group]
+  .panel-heading
+    = link_to smart_group_url(group) do
+      %h5.group-title.clearfix
+        = group.site_title
+        = security_icon(group)
+        - if Issue.only_group(group).any?
+          %span.partis-count
+            #{Issue.only_group(group).count}개의 빠띠
+  - if Issue.only_group(group).any?
+    .panel-body
+      .row
+        - Issue.only_group(group).hottest.limit(3).each do |issue|
+          .col-sm-4.col-xs-6
+            .issue-card-wrapper
+              = render 'issues/card', issue: issue

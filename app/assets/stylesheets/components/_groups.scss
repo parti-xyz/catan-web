@@ -1,3 +1,18 @@
+#groups-all {
+  .group-title {
+    color: white;
+    .partis-count {
+      float: right;
+      font-weight: 200;
+    }
+  }
+  .issue-card-wrapper .issue-card {
+    border: 1px solid $gray-lighter;
+    &:hover {
+      border: 1px solid $brand-primary-light;
+    }
+  }
+}
 body.in-group {
   @media (min-width: $screen-sm-min) {
     padding-top: 100px;
@@ -40,7 +55,9 @@ body.in-group {
         font-weight: normal;
         &.group-title {
           padding-left: 0;
+          color: white;
         }
+        &.active,
         &:hover {
           color: white;
         }

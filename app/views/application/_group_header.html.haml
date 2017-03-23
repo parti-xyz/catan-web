@@ -10,7 +10,7 @@
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav
           %li
-            = link_to root_path, class: "group-title #{'active' if current_page?('/')}" do
+            = link_to root_path, class: 'group-title' do
               %h4
                 #{current_group.site_title}
                 = security_icon(current_group)
@@ -46,7 +46,7 @@
                       알림
                 - else
                   %li.notification.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
-                    %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#"}
+                    %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}"}
                       %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
                         %span.icon-bell-stack
                           %i.fa.fa-circle.fa-stack-1x
@@ -82,7 +82,7 @@
               = link_to '로그인/회원가입', new_user_session_path
 
         %ul.nav.navbar-nav.navbar-bottom
-          %li= link_to '홈', root_path
+          %li= link_to '홈', root_path, class: ('active' if current_page?('/'))
           - if current_group.categories.try(:any?)
             - current_group.categories.each do |category|
               %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
@@ -95,4 +95,4 @@
               %li= link_to '자료' ,references_path, class: "#{'active' if current_page?(controller: "/references", action: :index)}"
           - if current_group.private?
             %li
-              = link_to '멤버', group_members_path
+              = link_to '멤버', group_members_path, root_path, class: ('active' if current_page?('/groups/members'))
