@@ -35,6 +35,8 @@ class DashboardController < ApplicationController
       @count = @countable_issues.count
     end
 
-    render 'posts/new_posts_count'
+    respond_to do |format|
+      format.js { render 'posts/new_posts_count' }
+    end
   end
 end
