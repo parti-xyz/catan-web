@@ -97,10 +97,24 @@ class IssuesTest < ActionDispatch::IntegrationTest
   test '중복된 오거나이저를 넣으면 알아서 넣어줘요.' do
     sign_in(users(:organizer))
 
-    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: "#{users(:one).nickname},#{users(:one).nickname}" })
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: "#{users(:organizer).nickname},#{users(:one).nickname},#{users(:one).nickname}" })
 
     assigns(:issue).reload
     assert assigns(:issue).organizer_members.exists?(user: users(:one))
+  end
+
+  test '오거나이저를 삭제하면 빼줘요' do
+    sign_in(users(:organizer))
+
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: "#{users(:organizer).nickname}, #{users(:one).nickname}, #{users(:three).nickname}" })
+    assigns(:issue).reload
+    assert assigns(:issue).organizer_members.exists?(user: users(:one))
+    assert assigns(:issue).organizer_members.exists?(user: users(:three))
+
+    put issue_path(issues(:issue1), issue: { title: 'title x', body: 'body x', organizer_nicknames: "#{users(:organizer).nickname}, #{users(:one).nickname}" })
+    assigns(:issue).reload
+    assert assigns(:issue).organizer_members.exists?(user: users(:one))
+    refute assigns(:issue).organizer_members.exists?(user: users(:three))
   end
 
   test '블라인드할 사용자를 넣어요' do

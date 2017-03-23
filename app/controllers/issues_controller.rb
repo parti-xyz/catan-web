@@ -127,16 +127,21 @@ class IssuesController < ApplicationController
     end
 
     ActiveRecord::Base.transaction do
-      @issue.members.map { |m| m.is_organizer = false }
-      (@issue.organizer_nicknames.try(:split, ",") || []).compact.map(&:strip).uniq.each do |nickname|
-        user = User.find_by(nickname: nickname)
-        member = @issue.members.find_by(user: user)
-        next if user.blank? or member.blank?
-        member.update_attributes(is_organizer: true)
+      if params[:issue].has_key?(:organizer_nicknames)
+        organizer_nicknames = (@issue.organizer_nicknames.try(:split, ",") || []).map(&:strip).uniq.compact
+        organizer_nicknames.each do |nickname|
+          user = User.find_by(nickname: nickname)
+          member = @issue.members.find_by(user: user)
+          next if user.blank? or member.blank?
+          member.update_attributes(is_organizer: true)
+        end
+        @issue.organizer_members.each do |member|
+          member.update_attributes(is_organizer: false) unless organizer_nicknames.include? member.user.nickname
+        end
       end
-      if @issue.blinds_nickname.present?
+      if params[:issue].has_key?(:blinds_nickname)
         @issue.blinds.destroy_all
-        @issue.blinds_nickname.split(",").map(&:strip).uniq.each do |nickname|
+        (@issue.blinds_nickname.split(",") || []).map(&:strip).compact.uniq.each do |nickname|
           user = User.find_by(nickname: nickname)
           if user.present?
             @issue.blinds.build(user: user)
