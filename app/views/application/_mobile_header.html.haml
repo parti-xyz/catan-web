@@ -29,6 +29,10 @@
           로그인/회원가입
     %ul.mobile-list__menu.list-unstyled
       - if user_signed_in?
+        %li.home-line
+          = link_to dashboard_url(subdomain: '') do
+            %i.fa.fa-th-list
+            내 피드
         - if current_user.member_issues.only_group(host_group).any?
           %li.group-line
             = link_to root_path do

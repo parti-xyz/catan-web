@@ -31,8 +31,8 @@
       - if user_signed_in?
         %li.home-line
           = link_to dashboard_url(subdomain: '') do
-            %i.fa.fa-home
-            내 홈
+            %i.fa.fa-th-list
+            내 피드
         - if !current_group.private_blocked?(current_user) and current_group.categories.try(:any?)
           %li.category-line
             주제별 빠띠

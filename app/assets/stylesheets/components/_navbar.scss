@@ -10,6 +10,12 @@
   $site-header-brand-image-width: 60px;
   $site-header-brand-image-width-xs: 60px;
 
+  &.main-site-header {
+    .navbar-brand {
+      position: relative;
+      top: -4px;
+    }
+  }
   // brand
   .navbar-header {
     img {

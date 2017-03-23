@@ -18,7 +18,9 @@
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li
-              = link_to '내 홈', dashboard_url(subdomain: '')
+              = link_to dashboard_url(subdomain: '') do
+                %i.fa.fa-th-list
+                내 피드
             - if current_user.members.any?
               %li.dropdown.member-parties
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}

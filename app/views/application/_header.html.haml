@@ -1,7 +1,7 @@
-#site-header
+#site-header.main-site-header
   %nav.navbar.navbar-default.navbar-fixed-top
     .container
-      .navbar-header.navbar-header-center
+      .navbar-header
         %button.navbar-toggle.collapsed{"data-target": "#collapsable", "data-toggle": "collapse", type: "button"}
           %span.icon-bar
           %span.icon-bar
@@ -11,10 +11,13 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
+          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if current_page?('/home')}"
+        %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li
               = link_to root_path, class: "#{'active' if current_page?('/')}" do
-                홈
+                %i.fa.fa-th-list
+                내 피드
           - if user_signed_in?
             - if current_user.members.any?
               %li.dropdown.member-parties
@@ -22,7 +25,6 @@
                   내 빠띠
                   %span.caret
                 %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
-
                   - if current_user.member_issues.only_group(host_group).any?
                     %li.group-line
                       = link_to host_group.aside_title, root_path
@@ -34,9 +36,6 @@
                       = link_to group.aside_title, root_path
                     - current_user.member_issues.only_group(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
-          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if current_page?('/home')}"
-
-        %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             - if current_user.messages.empty?
               %li.notification
