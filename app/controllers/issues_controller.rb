@@ -21,8 +21,10 @@ class IssuesController < ApplicationController
   end
 
   def index
-    @issues = Issue.alive.search_for(params[:keyword])
-    @issues = @issues.displayable_in_current_group(current_group)
+    as_tags = (params[:keyword].try(:split) || []).map(&:strip).reject(&:blank?)
+
+    @issues = Issue.displayable_in_current_group(current_group)
+    @issues = @issues.where.any_of(Issue.alive.search_for(params[:keyword]), Issue.alive.tagged_with(as_tags, any: true)) if params[:keyword].present?
 
     params[:sort] ||= (current_group.blank? ? 'hottest' : 'recent_touched')
     case (params[:sort])
