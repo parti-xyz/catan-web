@@ -286,8 +286,8 @@ section#posts {
       }
       .pin-buttons {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 6px;
+        right: 24px;
         button.dropdown-toggle i {
           color: $gray-light;
         }
@@ -494,9 +494,6 @@ section#posts {
 }
 
 @media (max-width: $screen-xs-max) {
-  .comment__btn i {
-    font-size: 20px;
-  }
   .comment-list form.edit_comment textarea#comment_body {
     height: 150px;
   }

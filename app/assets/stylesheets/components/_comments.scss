@@ -13,6 +13,11 @@ section#comments {
 .comment-line {
   padding: 12px 0;
   border-bottom: 1px solid #eaeaeb;
+  position: relative;
+  padding-right: 24px;
+  &.post-card-with-comments__comment-form {
+    padding-right: 0;
+  }
   @media (max-width: $screen-xs-max) {
     padding-bottom: 10px;
   }
@@ -64,6 +69,14 @@ section#comments {
     float: none;
     margin-left: 12px;
     color: $brand-primary;
+  }
+  .comment__btn {
+    position: absolute;
+    top: 6px;
+    right: 0;
+    button {
+      color: $gray-light;
+    }
   }
   .upvote {
     margin-bottom: 2px;
