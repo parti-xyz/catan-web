@@ -68,8 +68,9 @@ class ApplicationController < ActionController::Base
       (controller_name == 'sessions') or
       (controller_name == 'users' and action_name == 'pre_sign_up') or
       (controller_name == 'users' and action_name == 'email_sign_in') or
-      (controller_name == 'devise/passwords')
+      (controller_name == 'passwords')
     )
+
       redirect_to root_url
     end
   end
