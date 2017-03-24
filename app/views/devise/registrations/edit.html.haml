@@ -12,13 +12,10 @@
           = f.text_field :nickname, class: 'form-control'
         .form-group
           = f.label :email
-          - if resource.provider == 'email'
-            = f.email_field :email, autofocus: true, class: 'form-control'
-            - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-              %div
-                확인을 기다리고 있습니다.: #{resource.unconfirmed_email}
-          - else
-            %div= f.object.email
+          = f.email_field :email, autofocus: true, class: 'form-control'
+          - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+            %div
+              확인을 기다리고 있습니다.: #{resource.unconfirmed_email}
         .form-group
           = f.label :image
           = f.file_field :image, autofocus: true, class: 'form-control'

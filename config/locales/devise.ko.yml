@@ -5,7 +5,7 @@
 ko:
   devise:
     confirmations:
-      confirmed: "계정이 성공적으로 확인되었습니다. 로그인 해 주세요"
+      confirmed: "메일이 확인되었습니다."
       new:
         resend_confirmation: "확인 메일 다시 보내기"
       send_instructions: "계정을 확인하기 위한 메일이 몇 분 안에 도착합니다."
