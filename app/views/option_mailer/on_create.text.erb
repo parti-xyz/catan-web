@@ -1,0 +1,11 @@
+안녕하세요. <%= @user.nickname %>님!
+
+<%= @option.user.nickname %>님이 빠띠에서 새로운 제안을 올렸습니다.
+---------------------------------------------------------
+
+<%= @option.body %>
+
+<%= static_date_f @option.created_at %>
+
+* 원글 <%= strip_tags(@option.survey.post.specific_desc) %> ( <%=  smart_post_url(@option.survey.post) %> )
+

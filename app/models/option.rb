@@ -6,4 +6,12 @@ class Option < ActiveRecord::Base
   def selected? someone
     feedbacks.exists? user: someone
   end
+
+  def issue_for_message
+    survey.post.issue
+  end
+
+  def group_for_message
+    survey.post.issue.group
+  end
 end

@@ -23,10 +23,6 @@ class Poll < ActiveRecord::Base
 
   has_one :post, dependent: :destroy
   has_many :votings, dependent: :destroy do
-    def users
-      self.map(&:user).uniq
-    end
-
     def partial_included_with(someone)
       partial = recent.limit(100)
       if !partial.map(&:user).include?(someone)

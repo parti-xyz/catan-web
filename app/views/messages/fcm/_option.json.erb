@@ -1,0 +1,19 @@
+<%
+  option = message.messagable
+  post = option.survey.post
+  issue = post.issue
+  body = "#{option.user.nickname}님이 게시글에서 새로운 제안을 올렸습니다."
+  end
+%>
+{
+  "notification": {
+    "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+  },
+  "data": {
+   "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+    "type": "post",
+    "param": "<%= post.id %>"
+  }
+}

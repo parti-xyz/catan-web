@@ -12,6 +12,11 @@ class OptionsController < ApplicationController
     end
 
     @option.save! if survey.open?
+
+    if @option.persisted?
+      MessageService.new(@option).call
+      OptionMailer.deliver_all_later_on_create(@option)
+    end
   end
 
   def destroy

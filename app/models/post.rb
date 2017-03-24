@@ -179,7 +179,19 @@ class Post < ActiveRecord::Base
   end
 
   def messagable_users
-    (comments.users + (poll.try(:votings).try(:users) || [])).uniq
+    result = [user]
+    result += comments.users
+
+    if poll.present?
+      result += User.where(id: poll.votings.select(:user_id))
+    end
+
+    if survey.present?
+      result += User.where(id: survey.feedbacks.select(:user_id))
+      result += User.where(id: survey.options.select(:user_id))
+    end
+
+    result.uniq
   end
 
   def latest_comments

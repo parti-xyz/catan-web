@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321064707) do
+ActiveRecord::Schema.define(version: 20170324015325) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -350,13 +350,12 @@ ActiveRecord::Schema.define(version: 20170321064707) do
   add_index "opinions", ["deleted_at"], name: "index_opinions_on_deleted_at", using: :btree
 
   create_table "options", force: :cascade do |t|
-    t.integer  "survey_id",        limit: 4,                 null: false
-    t.text     "body",             limit: 65535
-    t.integer  "feedbacks_counts", limit: 4,     default: 0
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.integer  "feedbacks_count",  limit: 4,     default: 0
-    t.integer  "user_id",          limit: 4,                 null: false
+    t.integer  "survey_id",       limit: 4,                 null: false
+    t.text     "body",            limit: 65535
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+    t.integer  "feedbacks_count", limit: 4,     default: 0
+    t.integer  "user_id",         limit: 4,                 null: false
   end
 
   add_index "options", ["survey_id"], name: "index_options_on_survey_id", using: :btree
@@ -509,11 +508,10 @@ ActiveRecord::Schema.define(version: 20170321064707) do
   end
 
   create_table "surveys", force: :cascade do |t|
-    t.integer  "feedbacks_counts", limit: 4, default: 0
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
-    t.integer  "feedbacks_count",  limit: 4, default: 0
-    t.integer  "duration",         limit: 4, default: 0
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "feedbacks_count", limit: 4, default: 0
+    t.integer  "duration",        limit: 4, default: 0
   end
 
   create_table "taggings", force: :cascade do |t|

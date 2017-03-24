@@ -1,0 +1,8 @@
+- option = message.messagable
+- post = option.survey.post
+%div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
+  %strong
+    %span
+      #{option.user.nickname}님이 게시글에 새로운 제안을 올렸습니다.
+%br
+= link_to excerpt(option.body, length: 100), post

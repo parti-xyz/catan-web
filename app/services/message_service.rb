@@ -90,6 +90,11 @@ class MessageService
           messagable: @source,
           action: :request)
       end
+    when Option
+      users = @source.survey.post.messagable_users.reject{ |user| user == @source.user }
+      send_messages(
+        sender: @source.user, users: users,
+        messagable: @source)
     end
   end
 
