@@ -1,0 +1,19 @@
+<%
+  survey = message.messagable
+  post = survey.post
+  issue = post.issue
+  body = "#{post.user.nickname}님이 올린 설문의 결과가 나왔습니다."
+  end
+%>
+{
+  "notification": {
+    "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+  },
+  "data": {
+   "title": "<%= issue.title %>",
+    "body": "<%= body %>"
+    "type": "post",
+    "param": "<%= post.id %>"
+  }
+}

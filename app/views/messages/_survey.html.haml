@@ -1,0 +1,8 @@
+- survey = message.messagable
+- post = survey.post
+%div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
+  %strong
+    %span
+      #{post.user.nickname}님이 올린 설문의 결과가 나왔습니다.
+%br
+= link_to excerpt(post.specific_desc, length: 100), post

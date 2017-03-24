@@ -95,6 +95,11 @@ class MessageService
       send_messages(
         sender: @source.user, users: users,
         messagable: @source)
+    when Survey
+      users = @source.post.messagable_users
+      send_messages(
+        sender: @source.post.user, users: users,
+        messagable: @source, action: @action)
     end
   end
 

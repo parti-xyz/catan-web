@@ -6,4 +6,7 @@ analyze_job:
   cron: "0 1 * * * Asia/Seoul"
   class: "AnalyzeJob"
   queue: default
-
+survey_closed_message_job:
+  cron: "*/40 * * * * Asia/Seoul"
+  class: "SurveyClosedMessagesJob"
+  queue: default

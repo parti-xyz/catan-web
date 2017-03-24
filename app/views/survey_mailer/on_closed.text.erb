@@ -1,0 +1,7 @@
+안녕하세요. <%= @user.nickname %>님!
+
+<%= @survey.post.user.nickname %>님이 빠띠에 올린 설문의 결과가 나왔습니다.
+---------------------------------------------------------
+
+* 원글 <%= strip_tags(@survey.post.specific_desc) %> ( <%=  smart_post_url(@survey.post) %> )
+
