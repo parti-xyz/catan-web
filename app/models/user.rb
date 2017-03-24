@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
   before_validation :strip_whitespace, only: :nickname
   after_create :default_member_issues
   after_create :check_invitations
+  after_update :check_invitations, :if => "email.present? && email_changed?"
 
   # associations
   has_many :merged_issues
