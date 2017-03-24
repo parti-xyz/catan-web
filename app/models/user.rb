@@ -48,8 +48,7 @@ class User < ActiveRecord::Base
   before_save :set_uid
   before_validation :strip_whitespace, only: :nickname
   after_create :default_member_issues
-  after_create :check_invitations
-  after_update :check_invitations, :if => "email.present? && email_changed?"
+  after_create :check_invitations, :if => "email.present? && confirmed_at.present?"
 
   # associations
   has_many :merged_issues
@@ -190,6 +189,10 @@ class User < ActiveRecord::Base
 
   def sent_new_posts_email_today?
     sent_new_posts_email_at.present? and sent_new_posts_email_at >= Date.today
+  end
+
+  def after_confirmation
+    check_invitations
   end
 
   private
