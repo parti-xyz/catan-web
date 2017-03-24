@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
     format: { with: Devise.email_regexp }
 
   validates :uid, uniqueness: {scope: [:provider]}
-  validates :email, uniqueness: true, if: 'provider == "email"'
+  validates :email, uniqueness: {scope: [:provider]}, if: 'provider == "email"'
   validates :password,
     presence: true,
     confirmation: true,
