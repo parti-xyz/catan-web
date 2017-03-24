@@ -18,7 +18,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).reference_title
       assert_equal 'page body', assigns(:post).reference_body
-      assert_equal 'body', assigns(:post).body
+      assert_equal '<p>body</p>', assigns(:post).body
       assert_equal users(:one), assigns(:post).user
       assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:post).reference
 
@@ -37,7 +37,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
 
       assert_equal 'page title', assigns(:post).reference_title
       assert_equal 'page body', assigns(:post).reference_body
-      assert_equal 'body', assigns(:post).body
+      assert_equal '<p>body</p>', assigns(:post).body
       assert_equal users(:one), assigns(:post).user
       assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:post).reference
       assert_equal issues(:issue2).title, assigns(:post).issue.title
@@ -56,7 +56,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).reference_title
       assert_equal 'page body', assigns(:post).reference_body
-      assert_equal 'body', assigns(:post).body
+      assert_equal '<p>body</p>', assigns(:post).body
       assert_equal users(:one), assigns(:post).user
       assert_equal issues(:issue1).title, assigns(:post).issue.title
       assert_equal 'http://link.xx', assigns(:post).reference.url

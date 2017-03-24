@@ -12,7 +12,7 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:post).user
     assert_equal 'sample.pdf', assigns(:post).reference.name
     assert_equal issues(:issue2).title, assigns(:post).issue.title
-    assert_equal 'body', assigns(:post).body
+    assert_equal '<p>body</p>', assigns(:post).body
 
     assert assigns(:post).comments.empty?
   end
@@ -32,7 +32,7 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
-    assert_equal 'body', assigns(:post).body
+    assert_equal '<p>body</p>', assigns(:post).body
     assert_equal users(:one), assigns(:post).user
     assert_equal issues(:issue1).title, assigns(:post).issue.title
     assert_equal 'sample.pdf', assigns(:post).reference.name
@@ -46,7 +46,7 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
     put post_path(posts(:post_talk5)), post: { body: 'new body', reference_attributes: {id: posts(:post_talk5).reference.id} }
     refute assigns(:post).errors.any?
     assigns(:post).reload
-    assert_equal 'new body', assigns(:post).body
+    assert_equal '<p>new body</p>', assigns(:post).body
     assert_equal original_name, assigns(:post).reference.name
   end
 end

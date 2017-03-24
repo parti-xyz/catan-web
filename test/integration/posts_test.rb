@@ -10,7 +10,7 @@ class PostsTest < ActionDispatch::IntegrationTest
 
     assert assigns(:post).persisted?
     assigns(:post).reload
-    assert_equal 'body', assigns(:post).body
+    assert_equal '<p>body</p>', assigns(:post).body
     assert_equal users(:one), assigns(:post).user
     assert_equal issues(:issue2), assigns(:post).issue
 
@@ -76,7 +76,7 @@ class PostsTest < ActionDispatch::IntegrationTest
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
-    assert_equal 'body x', assigns(:post).body
+    assert_equal '<p>body x</p>', assigns(:post).body
     assert_equal users(:one), assigns(:post).user
     assert_equal issues(:issue2), assigns(:post).issue
   end
