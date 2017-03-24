@@ -6,11 +6,12 @@
     = stylesheet_link_tag asset_data_base64('vendors.css')
     %link{href: "http://fonts.googleapis.com/earlyaccess/notosanskr.css", rel: "stylesheet"}
   %body(style='padding: 0;')
-    %section.poll-social-card-section{ style: "background-image: url(#{asset_data_base64('share_poll.png')});" }
+    %section.survey-social-card-section{ style: "background-image: url(#{asset_data_base64('share_survey.png')});" }
       .card
         .info
           #{@post.issue.title}
           %br
           @#{@post.user.nickname}
-        .title{ class: (@post.poll.title.length < 31 ? (@post.poll.title.length < 17 ? 'short' : 'medium') : 'long') }
-          = truncate(@post.poll.title, length: 50)
+        - desc = @post.specific_desc_striped_tags
+        .title{ class: (desc.length < 31 ? (desc.length < 17 ? 'short' : 'medium') : 'long') }
+          = truncate(desc, length: 50)

@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show, :poll_social_card, :modal]
+  before_filter :authenticate_user!, except: [:index, :show, :poll_social_card, :survey_social_card, :modal]
   load_and_authorize_resource
 
   def index
@@ -125,6 +125,16 @@ class PostsController < ApplicationController
   end
 
   def poll_social_card
+    social_card
+  end
+
+  def survey_social_card
+    social_card
+  end
+
+  private
+
+  def social_card
     render_404 and return if @post.private_blocked?
 
     respond_to do |format|
@@ -152,8 +162,6 @@ class PostsController < ApplicationController
       format.html { render(layout: nil) }
     end
   end
-
-  private
 
   def post_params
     reference_type = params[:post][:reference_type]

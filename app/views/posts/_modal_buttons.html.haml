@@ -1,3 +1,7 @@
-- if current_user.try(:admin?) and post.poll.present?
-  = link_to poll_social_card_post_path(post, update: 'true', format: 'png'), target: '_blank' do
-    소셜카드 다시 만들기
+- if current_user.try(:admin?)
+  - if post.poll.present?
+    = link_to poll_social_card_post_path(post, update: 'true', format: 'png'), target: '_blank' do
+      찬반 소셜카드 다시 만들기
+  - if post.survey.present?
+    = link_to survey_social_card_post_path(post, update: 'true', format: 'png'), target: '_blank' do
+      설문 소셜카드 다시 만들기

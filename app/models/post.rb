@@ -317,6 +317,8 @@ class Post < ActiveRecord::Base
   def meta_tag_image
     if poll.present?
       share_image_url = Rails.application.routes.url_helpers.poll_social_card_post_url(self, format: :png)
+    elsif survey.present?
+      share_image_url = Rails.application.routes.url_helpers.survey_social_card_post_url(self, format: :png)
     elsif link_source?
       share_image_url = image.md.url
     elsif file_source? and reference.image?

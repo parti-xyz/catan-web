@@ -105,6 +105,7 @@ Rails.application.routes.draw do
     end
     member do
       get 'poll_social_card'
+      get 'survey_social_card'
       get 'modal'
       post 'pin'
       delete 'unpin'

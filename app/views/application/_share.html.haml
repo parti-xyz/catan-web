@@ -4,7 +4,10 @@
       - data = share_map.merge('share-provider': provider)
       - if provider == 'kakao-link'
         - hide_kakao_link = (is_kakao_talkable? ? '' : ' hide')
-        - data = data.merge('share-image': "#{poll_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158') if @post.try(:poll).try(:present?)
+        - if @post.try(:poll).present?
+          - data = data.merge('share-image': "#{poll_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158')
+        - elsif @post.try(:survey).present?
+          - data = data.merge('share-image': "#{survey_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158')
 
       - next if provider == 'telegram' and !is_telegram_talkable?
 
