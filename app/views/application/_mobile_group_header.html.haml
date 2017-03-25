@@ -25,8 +25,10 @@
     - else
       .mobile-list__profile
         = image_tag 'img_default_profile.png', class: 'default-profile'
-        = link_to new_user_session_path, class: 'btn-new-user' do
-          로그인/회원가입
+        .btn-new-user
+          = link_to '회원가입', pre_sign_up_users_path
+          \|
+          = link_to '로그인', new_user_session_path
     %ul.mobile-list__menu.list-unstyled
       - if user_signed_in?
         %li.home-line

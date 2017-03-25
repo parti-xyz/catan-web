@@ -46,8 +46,8 @@ ko:
         unlock: "내 계정 풀기"
       welcome: "%{email}님 환영합니다!"
     omniauth_callbacks:
-      failure: "%{kind}으로 로그인할 수 없습니다. 원인은 다음과 같습니다: \"%{reason}\"."
-      success: "%{kind}으로 로그인했습니다."
+      failure: "로그인할 수 없습니다. 원인은 다음과 같습니다: \"%{reason}\"."
+      success: "로그인했습니다."
     passwords:
       edit:
         change_password: "비밀번호 바꾸기"
