@@ -12,10 +12,8 @@ class PostsController < ApplicationController
     @post.reference = @post.reference.unify if @post.reference
     @post.user = current_user
     @post.strok_by(current_user)
-    strip_empty_tags(@post)
-    if @post.is_html_body == 'false'
-      @post.format_linkable_body
-    end
+    @post.format_body
+
     set_current_user_to_options(@post)
     if @post.save
       @post.issue.strok_by!(current_user)
@@ -32,10 +30,8 @@ class PostsController < ApplicationController
 
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.reference = @post.reference.try(:unify)
-    strip_empty_tags(@post)
-    if @post.is_html_body == 'false'
-      @post.format_linkable_body
-    end
+    @post.format_body
+
     if @post.save
       crawling_after_updating_post
       @post.perform_mentions_async
@@ -210,21 +206,5 @@ class PostsController < ApplicationController
     return if member.blank?
 
     post.readers.find_or_create_by(member: member)
-  end
-
-  def strip_empty_tags(post)
-    doc = Nokogiri::HTML post.body
-    ps = doc.xpath '/html/body/*'
-    first_text = -1
-    last_text = 0
-    ps.each_with_index do |p, i|
-      next unless p.enum_for(:traverse).map.to_a.select(&:text?).map(&:text).map(&:strip).any?(&:present?)
-
-      #found some text
-      first_text = i if first_text == -1
-      last_text = i
-    end
-
-    post.body = ps.slice(first_text .. last_text).to_s
   end
 end

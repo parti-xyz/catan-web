@@ -270,8 +270,29 @@ class Post < ActiveRecord::Base
     VideoInfo.usable?(reference.try(:url) || '')
   end
 
-  def format_linkable_body
-    self.body = ApplicationController.helpers.autolink_format(self.body)
+  def format_body
+    if self.is_html_body == 'false'
+      parsed_text = ApplicationController.helpers.simple_format(ERB::Util.h(self.body), {}, sanitize: false)
+      self.body = ApplicationController.helpers.auto_link(parsed_text, html: {class: 'auto_link', target: '_blank'}, link: :urls, sanitize: false)
+    end
+
+    strip_empty_tags
+  end
+
+  def strip_empty_tags
+    doc = Nokogiri::HTML self.body
+    ps = doc.xpath '/html/body/*'
+    first_text = -1
+    last_text = 0
+    ps.each_with_index do |p, i|
+      next unless p.enum_for(:traverse).map.to_a.select(&:text?).map(&:text).map(&:strip).any?(&:present?)
+
+      #found some text
+      first_text = i if first_text == -1
+      last_text = i
+    end
+
+    self.body = ps.slice(first_text .. last_text).to_s
   end
 
   def build_reference(params)

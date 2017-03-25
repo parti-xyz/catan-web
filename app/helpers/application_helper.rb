@@ -68,11 +68,6 @@ module ApplicationHelper
     post_body_format(text, true)
   end
 
-  def autolink_format(text)
-    parsed_text = simple_format(text)
-    auto_link(parsed_text, html: {class: 'auto_link', target: '_blank'}, link: :urls, sanitize: false)
-  end
-
   def asset_data_base64(path)
     content, content_type = parse_asset(path)
     base64 = Base64.encode64(content).gsub(/\s+/, "")
