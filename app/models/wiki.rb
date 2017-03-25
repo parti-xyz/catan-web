@@ -1,6 +1,6 @@
 class Wiki < ActiveRecord::Base
   belongs_to :issue
-  has_many :wiki_histories
+  has_many :wiki_histories, dependent: :destroy
 
   def last_history
     wiki_histories.newest
