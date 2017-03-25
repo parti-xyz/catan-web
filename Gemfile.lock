@@ -8,7 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/parti-xyz/truncate_html.git
-  revision: 882443960dea75ac782a7bd8adf7696171129810
+  revision: 49cf0e0deaa22559a6d9b77ea6d9fd9487414f11
+  tag: p0.9.4
   specs:
     truncate_html (0.9.3)
 
