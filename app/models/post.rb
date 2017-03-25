@@ -406,7 +406,7 @@ class Post < ActiveRecord::Base
       [nil, body]
     else
       lines = strip_body.lines
-      setences = lines.first.split(/(?<=\<\/p>)/)
+      setences = lines.first.split(/(?=(<\/p>|<br>))/)
       if setences.first.length < 100
         remains = (setences[1..-1] + lines[1..-1]).join
         [setences.first, remains]
