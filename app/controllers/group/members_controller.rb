@@ -60,7 +60,7 @@ class Group::MembersController < GroupBaseController
     new_members = []
     new_invitations = []
 
-    params[:recipients].split(',').map(&:strip).reject(&:blank?).each do |recipient_code|
+    params[:recipients].split(/[,\s]+/).map(&:strip).reject(&:blank?).each do |recipient_code|
       recipient = nil
       if recipient_code.match /@/
         recipients = User.where(email: recipient_code)
