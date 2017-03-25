@@ -296,6 +296,10 @@ class Issue < ActiveRecord::Base
     Member.with_deleted.where(joinable: self)
   end
 
+  def member_requests_with_deleted
+    MemberRequest.with_deleted.where(joinable: self)
+  end
+
   private
 
   def downcase_slug

@@ -4,7 +4,7 @@ class MemberRequest < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :joinable, polymorphic: true
-  has_many :messages, as: :messagable
+  has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true
   validates :joinable, presence: true

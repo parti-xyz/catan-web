@@ -163,6 +163,7 @@ class IssuesController < ApplicationController
       ActiveRecord::Base.transaction do
         @issue.destroy
         Message.where(messagable: @issue.members_with_deleted).destroy_all
+        Message.where(messagable: @issue.member_requests_with_deleted).destroy_all
       end
       redirect_to root_path
     else

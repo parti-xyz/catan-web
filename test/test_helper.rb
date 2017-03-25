@@ -61,6 +61,10 @@ class ActiveSupport::TestCase
     end
   end
 
+  def sign_out
+    delete_via_redirect destroy_user_session_path
+  end
+
   # facebook test user
   def facebook_user1
     @test_users ||= Koala::Facebook::TestUsers.new(app_id: ENV['FACEBOOK_APP_ID'], secret: ENV['FACEBOOK_APP_SECRET'])

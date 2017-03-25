@@ -48,4 +48,30 @@ class MessagesTest < ActionDispatch::IntegrationTest
     get messages_path(user: users(:one).nickname)
     assert_response :success
   end
+
+  test '삭제된 빠띠의 멤버 요청 관련한 메시지가 지워집니다' do
+    refute issues(:private_issue).member_requested? users(:two)
+
+    # 가입요청
+    sign_in(users(:two))
+    post issue_member_requests_path(issue_id: issues(:private_issue).id)
+    member_request = assigns(:member_request)
+    assert issues(:private_issue).member_requested? users(:two)
+
+    sign_out
+
+    # 거절
+    sign_in(users(:admin))
+    delete reject_issue_member_requests_path(issue_id: issues(:private_issue).id), { user_id: users(:two).id  }
+    assert member_request, users(:two).reload.messages.last.messagable
+
+    # 빠띠 삭제
+    issues(:private_issue).posts.destroy_all
+    issues(:private_issue).members.destroy_all
+    delete issue_path(issues(:private_issue))
+    assert assigns(:issue).paranoia_destroyed?
+
+    get messages_path(user: users(:two).nickname)
+    assert_response :success
+  end
 end
