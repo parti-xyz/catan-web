@@ -88,6 +88,14 @@ module ApplicationHelper
     end
   end
 
+  def exist_asset?(path)
+    if Rails.application.assets
+      Rails.application.assets.find_asset(path).present?
+    else
+      Rails.application.assets_manifest.assets[path].present?
+    end
+  end
+
   def reference_card_image(post)
     post.has_image? ? post.image.md.url : asset_path('default_link_source_image_card.png')
   end
