@@ -9,7 +9,7 @@ module V1
         requires :limit, type: Integer
       end
       get :most_used_on_parties do
-        present :tags, Issue.most_used_tags(params[:limit]).map(&:name)
+        present Issue.most_used_tags(params[:limit]).map(&:name)
       end
     end
   end

@@ -8,7 +8,7 @@ module V1
       desc '내가 가입한 빠띠의 그룹 목록을 반환합니다'
       oauth2
       get :joined do
-        present :groups, Group.nested_joined_by(resource_owner), base_options
+        present Group.nested_joined_by(resource_owner), base_options
       end
 
       desc '각 그룹에 속한 빠띠목록을 반환합니다'
@@ -18,7 +18,7 @@ module V1
       end
       get ':slug/parties' do
         group = Group.find_by_slug(params[:slug])
-        present :parties, Issue.only_group(group).recent_touched, base_options
+        present Issue.only_group(group).recent_touched, base_options
       end
     end
   end

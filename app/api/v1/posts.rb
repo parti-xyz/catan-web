@@ -83,7 +83,7 @@ module V1
       end
       get ':id' do
         @post = Post.find_by!(id: params[:id])
-        present :post, @post, base_options.merge(type: :full)
+        present @post, base_options.merge(type: :full)
       end
 
       desc '게시글을 작성합니다'
@@ -120,7 +120,7 @@ module V1
         if @post.link_source?
           CrawlingJob.perform_async(@post.reference.id)
         end
-        present :post, @post, base_options.merge(type: :full)
+        present @post, base_options.merge(type: :full)
       end
     end
   end

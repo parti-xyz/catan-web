@@ -24,7 +24,7 @@ module V1
         @comment.user = resource_owner
         set_choice @comment
         @comment.save!
-        present :comment, @comment, type: :full
+        present @comment, type: :full
       end
 
       desc '댓글을 지웁니다'

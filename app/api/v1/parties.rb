@@ -20,7 +20,7 @@ module V1
       end
       get :joined do
         user = User.find_by(id: params[:user_id])
-        present :parties, parties_joined(user).send(params[:sort]).limit(params[:limit]), base_options.merge(target_user: user)
+        present parties_joined(user).send(params[:sort]).limit(params[:limit]), base_options.merge(target_user: user)
       end
 
       desc '모든 빠띠 목록을 반환합니다'
@@ -30,7 +30,7 @@ module V1
         optional :limit, type: Integer, default: 50
       end
       get do
-        present :parties, Issue.alive.send(params[:sort]).limit(params[:limit]), base_options
+        present Issue.alive.send(params[:sort]).limit(params[:limit]), base_options
       end
 
       desc '태그 달린 빠띠들을 반환합니다'
@@ -39,7 +39,7 @@ module V1
         requires :tags, type: Array[String]
       end
       get :tagged do
-        present :parties, Issue.alive.hottest.tagged_with(params[:tags], any: true), base_options
+        present Issue.alive.hottest.tagged_with(params[:tags], any: true), base_options
       end
 
       desc '특정 빠띠에 대한 정보를 반환합니다'
@@ -50,7 +50,7 @@ module V1
       end
       get ':slug' do
         @issue = Issue.find_by!(slug: params[:slug], group_slug: params[:group_slug])
-        present :parti, @issue
+        present @issue
       end
 
       desc '해당 빠띠의 모든 글을 반환합니다'
