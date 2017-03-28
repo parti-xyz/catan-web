@@ -1,4 +1,14 @@
 <% if @count > 0 %>
   $('#new-posts .new-posts__count').text(<%= @count %>);
   $('#new-posts').show();
+
+  var count_on_title = "(<%= @count %>)";
+  var original_title = document.title;
+
+  var regx = /^\(([^)]+)\)/;
+  if(regx.exec(original_title)) {
+    document.title = original_title.replace(regx, count_on_title);
+  } else {
+    document.title = count_on_title + ' ' + original_title;
+  }
 <% end %>
