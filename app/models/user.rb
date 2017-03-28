@@ -214,10 +214,15 @@ class User < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       invitations = Invitation.where(recipient_email: self.email)
       invitations.each do |invitation|
-        member = invitation.joinable.members.create(user: self)
-        MessageService.new(member, sender: invitation.user, action: :admit).call if member.present?
-        (invitation.joinable.try(:default_issues) || []).each do |issue|
-          MemberIssueService.new(issue: issue, current_user: self, is_auto: true).call
+        unless invitation.joinable.member? self
+          member = invitation.joinable.members.create(user: self)
+          MessageService.new(member, sender: invitation.user, action: :admit).call if member.present?
+          (invitation.joinable.try(:default_issues) || []).each do |issue|
+            MemberIssueService.new(issue: issue, current_user: self, is_auto: true).call
+          end
+        end
+        if invitation.joinable.try(:member_requests).present?
+          invitation.joinable.member_requests.where(user: self).destroy_all
         end
       end
       invitations.destroy_all
