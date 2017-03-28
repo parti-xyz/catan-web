@@ -18,9 +18,8 @@ class MessageService
       return if @source.issue.blind_user? @source.user
 
       previous_mentioned_users = @options[:previous_mentioned_users] || []
-
       @source.mentions.each do |mention|
-        next if previous_mentioned_users.include?(mention.user)
+        next if previous_mentioned_users.include?(mention.user) or @source.messages.exists?(user: mention.user)
         send_messages(
           sender: mention.mentionable.user, users: [mention.user],
           messagable: mention.mentionable)

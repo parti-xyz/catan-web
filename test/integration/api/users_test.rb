@@ -14,7 +14,7 @@ class API::UsersTest < ActionDispatch::IntegrationTest
     assert_equal status_code(:ok), last_response.status
 
     body = JSON.parse(last_response.body)
-    assert_equal user.id, body.dig("user", "id")
-    assert_equal user.email, body.dig("user", "email")
+    assert_equal user.id, body.dig("id")
+    assert_equal user.email, body.dig("email")
   end
 end
