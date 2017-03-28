@@ -96,6 +96,7 @@ class MessageService
         sender: @source.user, users: users,
         messagable: @source)
     when Survey
+      return if @source.post.blank?
       users = @source.post.messagable_users
       send_messages(
         sender: @source.post.user, users: users,
