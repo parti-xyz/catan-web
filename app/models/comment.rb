@@ -9,7 +9,7 @@ class Comment < ActiveRecord::Base
     end
     expose :truncated_body do |instance|
       body = view_helpers.comment_format(instance.body, {}, {as_url: true})
-      view_helpers.smart_truncate_html(body, length: 100, omission: "... <read-more/>")
+      view_helpers.smart_truncate_html(body, length: 100, ellipsis: "... <read-more/>")
     end
     expose :user, using: User::Entity
     expose :created_at, format_with: lambda { |dt| dt.iso8601 }

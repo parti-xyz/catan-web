@@ -4,7 +4,7 @@
     %span.truncated-body
       - more_button = capture do
         %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{wrapper_id}" } ... 더보기
-      = truncate_html(comment_format(h(comment.body)), length: 400, omission: more_button)
+      != smart_truncate_html(comment_format(h(comment.body)), length: 400, ellipsis: more_button)
     %span.original-body{ style: 'display: none;' }
       = comment_format(h(comment.body))
 - else

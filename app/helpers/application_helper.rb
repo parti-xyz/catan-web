@@ -165,9 +165,9 @@ module ApplicationHelper
   end
 
   def smart_truncate_html(text, options = {})
-    max_length = options[:length] || TruncateHtml.configuration.length
+    max_length = options[:length] || 100
     return text if (strip_tags(text).try(:length) || 0) < max_length.to_i
-    truncate_html(text, options)
+    HTML_Truncator.truncate(text, max_length, options.merge(length_in_chars: true))
   end
 
   def survey_remain_time(survey)

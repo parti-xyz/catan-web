@@ -98,7 +98,7 @@ section#comments {
   .update-form {
     margin-bottom: 10px;
   }
-  span.comment-body-line:not(:last-child):after {
+  span.comment-body-line + span.comment-body-line:before {
     content: '\a\a';
     line-height: 1em;
     white-space: pre;
