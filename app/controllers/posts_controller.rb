@@ -9,10 +9,10 @@ class PostsController < ApplicationController
   def create
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
 
-    @post.reference = @post.reference.unify if @post.reference
     @post.user = current_user
     @post.strok_by(current_user)
     @post.format_body
+    setup_reference(@post)
 
     set_current_user_to_options(@post)
     if @post.save
@@ -29,8 +29,8 @@ class PostsController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
 
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
-    @post.reference = @post.reference.try(:unify)
     @post.format_body
+    setup_reference(@post)
 
     if @post.save
       crawling_after_updating_post
@@ -206,5 +206,16 @@ class PostsController < ApplicationController
     return if member.blank?
 
     post.readers.find_or_create_by(member: member)
+  end
+
+  def setup_reference(post)
+    if post.body.present? and post.reference.blank? or post.link_source?
+      doc = Nokogiri::HTML.parse(post.body)
+      first_link = doc.xpath('//a[@href]').first
+      if first_link.present? and first_link['href'].present?
+        post.reference = LinkSource.new(url: first_link['href'])
+      end
+    end
+    post.reference = post.reference.unify if post.reference.present?
   end
 end

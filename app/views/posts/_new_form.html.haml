@@ -61,9 +61,6 @@
       .form-widget-btns.clearfix
         .post-reference-btns
           - open_btn_data = {action: 'parti-post-select-subform', 'hidden-target': '.post-reference-btns', 'reference-type-field': '#post_reference_type', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
-          %button{ class: 'btn btn-xs btn-link editor-btn post-link-btn', data: open_btn_data.merge('reference-field': '.post-link-field') }
-            %i.fa.fa-link
-            = t('labels.new_post_link_source_button')
           %button{ class: 'btn btn-xs btn-link editor-btn post-file-btn', data: open_btn_data.merge('reference-field': '.post-file-field') }
             %i.fa.fa-floppy-o
             = t('labels.new_post_file_source_button')

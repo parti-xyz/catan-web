@@ -9,12 +9,6 @@
       = f.label :body
       = f.text_area :body, class: 'form-control redactor validate', data: {ride: 'parti-autoresize'}
 
-    - if @post.reference_type == 'LinkSource'
-      = f.fields_for :reference do |ff|
-        .form-group
-          = ff.label :url
-          = ff.text_field :url, placeholder: 'http://로 시작하는 주소를 입력하세요', class: 'form-control'
-
     - if @post.reference_type == 'FileSource'
       = f.fields_for :reference do |ff|
         .form-group

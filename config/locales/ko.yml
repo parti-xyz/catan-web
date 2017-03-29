@@ -185,7 +185,6 @@ ko:
             initial:
               undeletable: 일반 주제는 지울 수 없습니다.
   labels:
-    new_post_link_source_button: 링크걸기
     new_post_file_source_button: 파일올리기
     new_post_poll_button: 찬반투표
     new_post_survey_button: 설문

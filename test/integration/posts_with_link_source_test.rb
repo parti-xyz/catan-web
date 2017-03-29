@@ -13,12 +13,12 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', reference_attributes: { url: 'http://link.xx' }, reference_type: 'LinkSource' }
+      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body http://link.xx', is_html_body: 'false' }
       assert assigns(:post).persisted?
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).reference_title
       assert_equal 'page body', assigns(:post).reference_body
-      assert_equal '<p>body</p>', assigns(:post).body
+      assert assigns(:post).body.include? 'body'
       assert_equal users(:one), assigns(:post).user
       assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:post).reference
 
@@ -31,13 +31,13 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       sign_in(users(:one))
 
       post_talk3_link = posts(:post_talk3).reference.url
-      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', reference_attributes: { url: post_talk3_link }, reference_type: 'LinkSource' }
+      post posts_path, post: { issue_id: issues(:issue2).id, body: "body #{post_talk3_link}", is_html_body: 'false' }
       assert assigns(:post).persisted?
       assigns(:post).reload
 
       assert_equal 'page title', assigns(:post).reference_title
       assert_equal 'page body', assigns(:post).reference_body
-      assert_equal '<p>body</p>', assigns(:post).body
+      assert assigns(:post).body.include? 'body'
       assert_equal users(:one), assigns(:post).user
       assert_equal LinkSource.find_by(url: 'http://stub.xx'), assigns(:post).reference
       assert_equal issues(:issue2).title, assigns(:post).issue.title
@@ -50,13 +50,13 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl 'http://link.xx' do
       sign_in(users(:one))
 
-      put post_path(posts(:post_talk1)), post: { body: 'body', issue_id: issues(:issue1).id, reference_attributes: { url: 'http://link.xx'}, reference_type: 'LinkSource' }
+      put post_path(posts(:post_talk1)), post: { body: 'body http://link.xx', issue_id: issues(:issue1).id, is_html_body: 'false' }
 
       refute assigns(:post).errors.any?
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).reference_title
       assert_equal 'page body', assigns(:post).reference_body
-      assert_equal '<p>body</p>', assigns(:post).body
+      assert assigns(:post).body.include? 'body'
       assert_equal users(:one), assigns(:post).user
       assert_equal issues(:issue1).title, assigns(:post).issue.title
       assert_equal 'http://link.xx', assigns(:post).reference.url
@@ -68,7 +68,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl(post_talk3_link) do
       sign_in(users(:one))
 
-      put post_path(posts(:post_talk1)), post: { body: 'body', reference_attributes: { url: post_talk3_link }, reference_type: 'LinkSource' }
+      put post_path(posts(:post_talk1)), post: { body: "body #{post_talk3_link}", is_html_body: 'false' }
       refute assigns(:post).errors.any?
       assert_equal posts(:post_talk3).reference, assigns(:post).reference
       assert Post.exists?(id: posts(:post_talk1).id)
@@ -80,7 +80,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl(post_talk1_link) do
       sign_in(users(:one))
 
-      put post_path(posts(:post_talk3)), post: { body: 'body', reference_attributes: { url: post_talk1_link }, reference_type: 'LinkSource' }
+      put post_path(posts(:post_talk3)), post: { body: "body #{post_talk1_link}", is_html_body: 'false' }
       refute assigns(:post).errors.any?
       assert_equal posts(:post_talk3), assigns(:post)
       assert_equal posts(:post_talk1).reference, posts(:post_talk3).reload.reference
@@ -88,4 +88,17 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test '파일을 넣으면 링크 안 만들어요' do
+    sign_in(users(:one))
+
+    post posts_path, post: { issue_id: issues(:issue2).id, body: 'body http://daum.net', reference_attributes: { attachment: fixture_file('files/sample.pdf') }, reference_type: 'FileSource' }
+
+    assert assigns(:post).persisted?
+    assigns(:post).reload
+
+    assert_equal users(:one), assigns(:post).user
+    assert_equal 'sample.pdf', assigns(:post).reference.name
+    assert_equal issues(:issue2).title, assigns(:post).issue.title
+    assert assigns(:post).comments.empty?
+  end
 end

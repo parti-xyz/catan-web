@@ -7570,18 +7570,19 @@
 					var text = $el.text();
 					var html = text;
 
-					if (html.match(this.opts.regexps.linkyoutube) || html.match(this.opts.regexps.linkvimeo))
-					{
-						html = this.linkify.convertVideoLinks(html);
-					}
-					else if (html.match(this.opts.regexps.linkimage))
-					{
-						html = this.linkify.convertImages(html);
-					}
-					else
-					{
+					// Patch by Parti XYZ
+					// if (html.match(this.opts.regexps.linkyoutube) || html.match(this.opts.regexps.linkvimeo))
+					// {
+					// 	html = this.linkify.convertVideoLinks(html);
+					// }
+					// else if (html.match(this.opts.regexps.linkimage))
+					// {
+					// 	html = this.linkify.convertImages(html);
+					// }
+					// else
+					// {
 						html = this.linkify.convertLinks(html);
-					}
+					// }
 
 					$el.before(text.replace(text, html)).remove();
 				},
