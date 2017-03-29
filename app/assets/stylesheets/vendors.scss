@@ -12,11 +12,13 @@
 .redactor-air {
   min-width: auto;
 }
-.redactor-editor {
-  border-color: $gray-less-lighter;
-  border-radius: 6px;
-}
 
 .redactor-styles {
   font-size: 14px;
+  border: none;
+  padding: 0;
+  .redactor-placeholder::after {
+    top: 0;
+    left: 0;
+  }
 }

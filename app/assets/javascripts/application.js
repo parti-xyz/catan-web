@@ -802,7 +802,6 @@ $(function(){
       }
     }
   });
-  $('.redactor .redactor-editor').prop('contenteditable', true);
   $('.redactor').on('change.callback.redactor', function() {
     $(document).trigger('parti-post-editor-spotlight');
   });
