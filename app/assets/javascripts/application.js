@@ -795,6 +795,7 @@ $(function(){
     buttons: ['bold', 'italic', 'deleted'],
     air: true,
     pasteLinks: false,
+    linkSize: 10000,
     callbacks: {
       imageUploadError: function(json, xhr) {
         UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
