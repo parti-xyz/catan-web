@@ -9,10 +9,10 @@ class Survey < ActiveRecord::Base
 
   scope :limited, -> { where.not(duration: 0) }
   scope :need_to_reset_sent_closed_message_at, -> {
-    limited.where('sent_closed_message_at < DATE(DATE_ADD(created_at, INTERVAL duration DAY))')
+    limited.where('sent_closed_message_at < DATE_ADD(created_at, INTERVAL duration DAY)')
   }
   scope :need_to_send_closed_message, -> {
-    limited.where('? > DATE(DATE_ADD(created_at, INTERVAL duration DAY))', DateTime.now).where(sent_closed_message_at: nil)
+    limited.where('? > DATE_ADD(created_at, INTERVAL duration DAY)', DateTime.now).where(sent_closed_message_at: nil)
   }
 
   def feedbacked?(someone)
