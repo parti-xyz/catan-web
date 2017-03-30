@@ -2,6 +2,7 @@ class Option < ActiveRecord::Base
   belongs_to :user
   belongs_to :survey
   has_many :feedbacks, dependent: :destroy
+  has_many :messages, as: :messagable, dependent: :destroy
 
   def selected? someone
     feedbacks.exists? user: someone

@@ -89,4 +89,51 @@ class MessagesTest < ActionDispatch::IntegrationTest
     get messages_path(user: users(:two).nickname)
     assert_response :success
   end
+
+  test '옵션이 삭제되면 해당 메시지도 삭제됩니다' do
+    # 설문 만들기
+    sign_in(users(:one))
+    post posts_path(post: { body: 'body', has_survey: 'true', issue_id: issues(:issue2).id,
+      survey_attributes: { title: 'survey_title', duration: 3 } })
+
+    post = assigns(:post)
+    sign_out
+
+    # 옵션 만들기
+    sign_in(users(:recipient))
+    post options_path(format: :js, option: { body: 'body', survey_id: post.survey.id })
+
+    option = assigns(:option)
+    assert users(:one).reload.messages.exists?(messagable: option)
+
+    # 옵션 지우기
+    delete option_path(option, format: :js)
+
+    refute users(:one).reload.messages.exists?(messagable: option)
+  end
+
+  test '설문이 있는 글이 삭제되면 해당 메시지도 삭제됩니다' do
+    # 설문 만들기
+    sign_in(users(:one))
+    post posts_path(post: { body: 'body', has_survey: 'true', issue_id: issues(:issue2).id,
+      survey_attributes: { title: 'survey_title', duration: 3 } })
+
+    post = assigns(:post)
+    survey = post.survey
+    sign_out
+
+    # 옵션 만들기
+    sign_in(users(:recipient))
+    post options_path(format: :js, option: { body: 'body', survey_id: post.survey.id })
+
+    option = assigns(:option)
+    assert users(:one).reload.messages.exists?(messagable: option)
+    sign_out
+
+    # 설문 지우기
+    sign_in(users(:one))
+    delete post_path(post)
+
+    refute users(:one).reload.messages.exists?(messagable: option)
+  end
 end
