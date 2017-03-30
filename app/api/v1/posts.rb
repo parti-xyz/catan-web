@@ -64,16 +64,22 @@ module V1
         present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
       end
 
-      desc '최신 글 갯수를 가져옵니다'
+      desc '새로운 글이 있는지 확인합니다'
       oauth2
       params do
         requires :last_stroked_at, type: String, desc: '기준 시점'
       end
-      get :new_count do
-        last_stroked_at = Time.parse params[:last_stroked_at]
+      get :has_updated do
+        if params[:last_stroked_at].present?
+          last_stroked_at = Time.parse params[:last_stroked_at]
+        else
+          last_stroked_at = nil
+        end
         logger.debug(last_stroked_at)
-        count = resource_owner.watched_posts.order(last_stroked_at: :desc).next_of_last_stroked_at(last_stroked_at).count
-        present :posts_count, count
+        countable_issues = resource_owner.watched_posts
+        countable_issues = countable_issues.where.not(last_stroked_user: resource_owner)
+        countable_issues = countable_issues.next_of_time(last_stroked_at) if last_stroked_at.present?
+        present :has_updated, countable_issues.any?
       end
 
       desc '특정 글에 대한 정보를 반환합니다'
