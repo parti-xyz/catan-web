@@ -17,10 +17,11 @@ body.in-group {
   @media (min-width: $screen-sm-min) {
     padding-top: 100px;
 
-    #group-key-visual {
-      img {
-        width: 100%;
-      }
+    #group-key-visual-bg {
+      height: 500px;
+      background-position: center;
+      background-repeat: none;
+      background-size: cover;
     }
 
     #site-header {
