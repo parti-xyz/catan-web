@@ -37,7 +37,7 @@ namespace :data do
 
       seed_group(user, 'slowalk', [],
         title: '슬로워크',
-        site_title: 'Solutions for Change - 슬로워크',
+        site_title: '슬로워크',
         head_title: '슬로워크',
         private: true)
 
