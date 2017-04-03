@@ -96,15 +96,15 @@ module ApplicationHelper
     end
   end
 
-  def reference_card_image(post)
-    post.has_image? ? post.image.md.url : asset_path('default_link_source_image_card.png')
+  def link_source_card_image(post)
+    post.link_source.has_image? ? post.link_source.image.md.url : asset_path('default_link_source_image_card.png')
   end
 
   def video_embed_code(post)
     return unless post.video_source?
 
-    reference = post.reference
-    raw(VideoInfo.new(reference.url).embed_code({iframe_attributes: { class: 'post-reference-line__video-content'}}))
+    link_source = post.link_source
+    raw(VideoInfo.new(link_source.url).embed_code({iframe_attributes: { class: 'post-reference-line__video-content'}}))
   end
 
   def link_to_if_with_block condition, options, html_options={}, &block

@@ -116,12 +116,12 @@ Rails.application.routes.draw do
   post 'feedbacks', to: 'feedbacks#create'
   resources :options
 
-  resources :references
   resources :polls do
     shallow do
       resources :votings
     end
   end
+  get 'links_and_files', to: 'links_and_files#index'
   get 'polls_or_surveys', to: 'polls_or_surveys#index'
 
   resources :relateds
@@ -161,7 +161,7 @@ Rails.application.routes.draw do
   get "/p/innovators-declaration", to: redirect(subdomain: 'innovators', path: "/p/innovators-declaration"), constraints: { subdomain: '' }
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
-  get '/p/:slug/references', to: "issues#slug_references", as: 'slug_issue_references'
+  get '/p/:slug/references', to: "issues#slug_links_and_files", as: 'slug_issue_links_and_files'
   get '/p/:slug/polls', to: redirect('/p/%{slug}/polls_or_surveys')
   get '/p/:slug/polls_or_surveys', to: "issues#slug_polls_or_surveys", as: 'slug_issue_polls_or_surveys'
   get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'

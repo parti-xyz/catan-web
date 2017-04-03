@@ -1,9 +1,9 @@
 class IssuesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
-  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_references, :slug_polls_or_surveys, :slug_wikis]
+  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_links_and_files, :slug_polls_or_surveys, :slug_wikis]
   load_and_authorize_resource
-  before_filter :verify_issue_group, only: [:slug_home, :slug_references, :slug_polls_or_surveys, :slug_wikis, :edit]
-  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_references, :slug_polls_or_surveys, :slug_wikis, :slug_users]
+  before_filter :verify_issue_group, only: [:slug_home, :slug_links_and_files, :slug_polls_or_surveys, :slug_wikis, :edit]
+  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_and_files, :slug_polls_or_surveys, :slug_wikis, :slug_users]
 
   def simple_search
     @issues = Issue.alive.limit(10)
@@ -101,10 +101,10 @@ class IssuesController < ApplicationController
     @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
   end
 
-  def slug_references
+  def slug_links_and_files
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
-    having_reference_posts_page(@issue)
+    having_link_or_file_posts_page(@issue)
   end
 
   def create

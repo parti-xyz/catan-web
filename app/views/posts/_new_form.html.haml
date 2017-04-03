@@ -5,7 +5,6 @@
         .user-info
           = render 'users/post_byline', user: current_user
         = hidden_field_tag :back_url, @list_url || request.original_url
-        = f.hidden_field :reference_type
         = f.hidden_field :has_poll, value: false
         = f.hidden_field :has_survey, value: false
 
@@ -13,56 +12,62 @@
           = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_redactorable?} validation-ignore", data: { 'rule-required': true }
           = f.hidden_field :is_html_body, value: is_redactorable? ? true : false
 
-          - cancel_btn_data = {action: 'parti-post-cancel-subform', 'reference-type-field': '#post_reference_type', 'show-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
-          .post-link-field.hidden
-            = f.fields_for :reference, LinkSource.new do |ff|
-              .form-group
-                .input-group
-                  = ff.text_field :url, class: 'form-control', 'data-rule-required': true, 'data-rule-http_url': true
-                  .input-group-addon.cursor-pointer{ data: cancel_btn_data.merge('reference-field': '.post-link-field') }
-                    취소
-                .help-block http://로 시작하는 주소를 입력하세요
+          - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
 
-          .post-file-field.hidden
-            = f.fields_for :reference, FileSource.new do |ff|
-              .form-group
-                .input-group
-                  = ff.file_field :attachment, class: 'form-control', data: { 'rule-required': true }
-                  .input-group-addon.cursor-pointer{ data: cancel_btn_data.merge('reference-field': '.post-file-field') }
-                    취소
+      .form-widget-references
+        .post-file-field.hidden
+          .help-block.clearfix
+            %span.label.label-default TIP
+            최대 10M까지 업로드됩니다. 이미지는 드래그해서 순서를 조정할 수 있습니다.
+            .pull-right
+              %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-file-field') } 업로드 취소
+          .form-groups#js-post-editor-file_sources-wrapper<>
+            #js-form-group-images.form-group-images<>
+              = f.fields_for :file_sources, FileSource.new do |ff|
+                = render 'posts/file_source_fields', f: ff
+              .js-last-position
+            #js-form-group-files.form-group-files<>
+          .add-form-group-btn#js-post-editor-file_sources-add-btn
+            = link_to_add_association '+ 추가', f, :file_sources, partial: 'posts/file_source_fields', 'data-association-insertion-node': '.post-file-field .form-groups #js-form-group-images .js-last-position'
+            %span.count
+              (
+              %span.js-current-count<> 0
+              \/10)
 
-          .post-poll-field.hidden
+        .post-poll-field.hidden
+          .help-block.clearfix
+            .pull-right
+              %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-poll-field') } 찬반투표 취소
+          .form-groups
             = f.fields_for :poll, Poll.new do |ff|
               .form-group
-                .input-group
-                  = ff.text_field :title, class: 'form-control', placeholder: '찬반투표 제목: ex. 탕수육소스는 찍어먹어야합니다', data: { 'rule-required': true }
-                  .input-group-addon.cursor-pointer{ data: cancel_btn_data.merge('reference-field': '.post-poll-field') }
-                    취소
-          .post-survey-field.hidden
-            = f.fields_for :survey, Survey.new do |ff|
-              .form-group-options
-                .help-block.clearfix
-                  제안이 있으시면 넣어주세요.
-                  .pull-right
-                    %a.btn.btn-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-survey-field') } 설문 취소
-                - 2.times do
-                  .form-group
-                    = ff.fields_for :options, Option.new do |fff|
-                      = render 'posts/option_fields', f: fff, static: true, input_data: { placeholder: 'ex. 짜장면' }
-                .new-form-group
-                  = link_to_add_association '+ 선택항목 추가', ff, :options, partial: 'posts/option_fields', render_options: { locals: { input_data: { placeholder: 'ex. 짬뽕' } } }
-              .form-group-duration
-                .form-inline
-                  .help-block 진행 기간을 선택해 주세요
-                  %div
-                    %span 지금부터 &nbsp;
-                    = ff.select :duration, options_for_select((1..10).map { |i| [ "#{i}일 간", i] }), {}, class: 'form-control', style: 'width: 50%; display: inline-block'
+                = ff.label :title do
+                  찬반투표 제목
+                = ff.text_field :title, class: 'form-control', placeholder: 'ex. 탕수육소스는 찍어먹어야합니다', data: { 'rule-required': true }
+        .post-survey-field.hidden
+          .help-block.clearfix
+            .pull-right
+              %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-survey-field') } 설문 취소
+          = f.fields_for :survey, Survey.new do |ff|
+            .form-groups
+              %label 제안이 있으시면 넣어주세요.
+              - 2.times do |i|
+                = ff.fields_for :options, Option.new do |fff|
+                  = render 'posts/option_fields', f: fff, static: true, input_data: { placeholder: "ex. 제안#{i + 1}" }
+              .new-form-group
+                = link_to_add_association '+ 선택항목 추가', ff, :options, partial: 'posts/option_fields', render_options: { locals: { input_data: { placeholder: 'ex. 추가 제안' } } }
+            .form-groups
+              .form-inline
+                %label 진행 기간을 선택해 주세요
+                %div
+                  %span 지금부터 &nbsp;
+                  = ff.select :duration, options_for_select((1..10).map { |i| [ "#{i}일 간", i] }), {}, class: 'form-control', style: 'width: 50%; display: inline-block'
 
       .form-widget-btns.clearfix
         .post-reference-btns
-          - open_btn_data = {action: 'parti-post-select-subform', 'hidden-target': '.post-reference-btns', 'reference-type-field': '#post_reference_type', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
-          %button{ class: 'btn btn-xs btn-link editor-btn post-file-btn', data: open_btn_data.merge('reference-field': '.post-file-field') }
-            %i.fa.fa-floppy-o
+          - open_btn_data = {action: 'parti-post-select-subform', 'hidden-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
+          %button{ class: 'btn btn-xs btn-link editor-btn post-file-btn', data: open_btn_data.merge('reference-field': '.post-file-field', 'file-input': '#post_file_sources_attributes_0_attachment') }
+            %i.fa.fa-cloud-upload
             = t('labels.new_post_file_source_button')
           %button{ class: 'btn btn-xs btn-link editor-btn post-poll-btn', data: open_btn_data.merge('reference-field': '.post-poll-field') }
             %i.fa.fa-fire

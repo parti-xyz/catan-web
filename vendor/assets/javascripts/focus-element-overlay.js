@@ -93,7 +93,9 @@
   function setFocus($el, userOptions) {
     $el.trigger('focusable.focus');
 
-    $('body').css('overflow', 'hidden');
+    // Patched By Parti xyz
+    //$('body').css('overflow', 'hidden');
+    $('body').css('overflow-x', 'hidden');
     options = $.extend(options, userOptions);
     $element = $el;
     createColumns();
@@ -117,7 +119,9 @@
 
     isVisible = false;
     $element = null;
-    $('body').css('overflow', '');
+    // Patched By Parti xyz
+    // $('body').css('overflow', '');
+    $('body').css('overflow-x', '');
     $columnWrapper.find(columnSelector).fadeOut(options.fadeDuration, clearColumns);
 
     $oldElement.trigger('focusable.hidden');

@@ -23,8 +23,8 @@
 .card{ class: "#{wrapper_class} #{removable_with_post_dom_class(post)}" }
   .reference-card[post]{ class: card_class, data: modal_data }
     - capture_thumb = capture do
-      .thumb.thumb--reference{ style: "background-image: url(#{reference_card_image(post)})" }
-    = link_to_if (card_class == 'default'), capture_thumb, post.reference_url, target: '_blank'
+      .thumb.thumb--reference{ style: "background-image: url(#{link_source_card_image(post)})" }
+    = link_to_if (card_class == 'default'), capture_thumb, post.link_source.url, target: '_blank'
     - if local_assigns[:show_issue]
       .reference-card__group-and-issue
         - unless post.issue.displayable_group? current_group
@@ -36,28 +36,18 @@
       - capture_source = capture do
         .date= date_f post.created_at
 
-        %h4.title{ class: ('title--file-source' if post.file_source?) }
-          - if post.file_source?
-            %i.fa.fa-floppy-o
+        %h4.title
           - if post.video_source?
             %i.fa.fa-play-circle
-          = truncate(post.reference_title, length: 100)
+          = truncate(post.link_source.title_or_url, length: 100)
 
         .source-body
           %p
-            = excerpt(post.reference_body, length: 55)
+            = excerpt(post.link_source.body, length: 55)
             .source-url
-              - if post.link_source?
-                원글보기
-                %i.fa.fa-external-link
-              - if post.file_source?
-                - if post.reference.image?
-                  그림보기
-                  %i.fa.fa-external-link
-                - else
-                  다운로드
-                  %i.fa.fa-floppy-o
-      = link_to_if (post.link_source? and card_class == 'default'), capture_source, post.reference.try(:url), target: '_blank', class: 'link-source'
+              원글보기
+              %i.fa.fa-external-link
+      = link_to_if (card_class == 'default'), capture_source, post.link_source.url, target: '_blank', class: 'link-source'
       .body
         %p
           - max_length = 215

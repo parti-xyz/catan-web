@@ -1,7 +1,10 @@
 - has_blinds = false
 - @posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
-    = render 'references/reference', local_assigns.merge(post: post)
+    - if post.file_sources.any?
+      = render 'file_sources/file_sources', local_assigns.merge(post: post)
+    - elsif post.link_source.present?
+      = render 'link_sources/link_source', local_assigns.merge(post: post)
   - has_blinds = post.blinded?(current_user)
 - if has_blinds
   .card.col-sm-4.col-xs-12

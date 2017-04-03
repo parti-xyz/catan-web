@@ -17,7 +17,7 @@ class LinkSource < ActiveRecord::Base
 
   URL_FORMAT = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,20}(:[0-9]{1,5})?(\/.*)?\z/ix
 
-  has_many :posts, as: :reference, dependent: :nullify
+  has_many :posts, dependent: :nullify
 
   validates :url, uniqueness: {case_sensitive: true}, format: {with: LinkSource::URL_FORMAT, on: [:create, :update] }
   validates :crawling_status, presence: true
@@ -49,6 +49,10 @@ class LinkSource < ActiveRecord::Base
 
   def is_video?
     VideoInfo.usable?(self.url)
+  end
+
+  def title_or_url
+    title || url
   end
 
   def self.require_attrbutes

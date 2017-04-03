@@ -151,9 +151,9 @@ class ApplicationController < ActionController::Base
     request.variant = :mobile if (browser.device.mobile?)
   end
 
-  def having_reference_posts_page(issue = nil)
+  def having_link_or_file_posts_page(issue = nil)
     base = issue.nil? ? Post.all.displayable_in_current_group(current_group) : Post.of_issue(issue)
-    base = base.having_reference
+    base = base.having_link_of_file
     @is_last_page = base.empty?
 
     how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest

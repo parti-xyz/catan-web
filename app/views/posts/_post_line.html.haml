@@ -33,16 +33,26 @@
             .post-reference-line__video-content
               = video_embed_code(post)
           .post-reference-line__site-name
-            %a{href: post.reference.url, target: '_blank'}
-              = post.site_name.try(:upcase)
+            %a{href: post.link_source.url, target: '_blank'}
+              = post.link_source.site_name.try(:upcase)
               원글보기
               %i.fa.fa-external-link
-    - elsif post.file_source?
-      - if post.reference.image?
-        .post-reference-line__file-content__file-image
-          %a{href: post.reference.attachment.url, target: '_blank'}
-            = image_tag "#{post.reference.attachment.url}"
-      - else
+    - elsif post.file_sources.any?
+      - if post.file_sources.only_image.any?
+        - odd = post.file_sources.only_image.count.odd?
+        .post-reference-line-file-content-wrapper--image<>
+          - previous_style = nil
+          - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
+            - if index == 0 and odd == true
+              - current_style = 'single'
+            - elsif previous_style == 'left'
+              - current_style = 'right'
+            - else
+              - current_style = 'left'
+            .post-reference-line__file-content--image{ 'data-action': 'parti-link', 'data-url': file_source.attachment.url, 'data-link-target': '_blank', class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
+            - previous_style = current_style
+
+      - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
         .post-reference-line.post-line
           .post-reference-line__file-content
             .media
@@ -50,30 +60,30 @@
                 %i.fa.fa-floppy-o
               .media-body
                 %span.post-line-reference__title
-                  = post.reference_title
+                  = file_source.name
                 %br.visible-xs
                 %span.post-reference-line__file-content__file-size
-                  = number_to_human_size(post.reference.file_size)
+                  = number_to_human_size(file_source.file_size)
               .media-right
                 .post-reference-line__file-content__download
-                  %a{href: post.reference_url, target: '_blank'}
+                  %a{href: file_source.url, target: '_blank'}
                     다운로드
-    - elsif post.link_source?
+    - elsif post.link_source.present?
       .post-reference-line.post-line
-        %a{href: post.reference_url, target: '_blank'}
+        %a{href: post.link_source.url, target: '_blank'}
           .post-reference-line__link-content
             .media
               .media-body
-                %h4.post-line-reference__title= post.reference_title
-                .post-reference-line__source-body= excerpt(post.reference_body, length: (is_small_screen? ? 45 : 130))
+                %h4.post-line-reference__title= post.link_source.title_or_url
+                .post-reference-line__source-body= excerpt(post.link_source.body, length: (is_small_screen? ? 45 : 130))
                 .post-reference-line__site-name
-                  %a{href: post.reference_url, target: '_blank'}
-                    = post.site_name.try(:upcase)
+                  %a{href: post.link_source.url, target: '_blank'}
+                    = post.link_source.site_name.try(:upcase)
                     원글보기
                     %i.fa.fa-external-link
-              - if (post.has_image?)
+              - if (post.link_source.has_image?)
                 .media-right
-                  .post-reference-line__link-content__thumb{style: "background-image: url(#{post.image.md.url})"}
+                  .post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})"}
     - elsif post.poll.present?
       .poll-card[post.poll]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
         .row.poll-card__meta

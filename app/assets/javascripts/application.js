@@ -34,6 +34,7 @@
 //= require cocoon
 //= require focus-element-overlay
 //= require clipboard
+//= require Sortable
 
 // blank
 $.is_blank = function (obj) {
@@ -95,6 +96,13 @@ $.validator.addMethod("extern", function(value, element) {
 $.validator.addMethod("http_url", function(value, element) {
   return this.optional(element) || /^(?:(?:(?:https?):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test( value );
 }, "");
+
+$.validator.addMethod('filesize', function(value, element, param) {
+  // param = size (in bytes)
+  // element = element to validate (<input>)
+  // value = value of the element (file name)
+  return this.optional(element) || (element.files[0].size <= param)
+});
 
 $.parti_apply = function($base, query, callback) {
   $.each($base.find(query).addBack(query), function(i, elm){
@@ -656,6 +664,105 @@ $(function(){
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
 
+  (function() {
+    if($('#js-form-group-images').length > 0) {
+      Sortable.create($('#js-form-group-images')[0]);
+    }
+    if($('#js-form-group-files').length > 0) {
+      Sortable.create($('#js-form-group-files')[0]);
+    }
+    var formatBytes = function(bytes,decimals) {
+       if(bytes == 0) return '0 Bytes';
+       var k = 1000,
+           dm = decimals + 1 || 3,
+           sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+           i = Math.floor(Math.log(bytes) / Math.log(k));
+       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    function check_to_hide_or_show_add_link() {
+      var count = $('#js-post-editor-file_sources-wrapper .nested-fields:visible').length;
+      if (count >= 10) {
+        $('#js-post-editor-file_sources-add-btn').hide();
+      } else {
+        $('#js-post-editor-file_sources-add-btn').show();
+      }
+
+      $('#js-post-editor-file_sources-add-btn .js-current-count').text(count);
+    }
+
+    $('body').on('change', '.js-editor-file_source-attachment-input', function(e) {
+      if (!(this.files && this.files[0])) {
+        return;
+      }
+
+      var current_file = this.files[0];
+      var current_input = $(this);
+      var object_name = $(this).closest('.form-group').data('object-name')
+      var $form_group = $(".js-editor-file_source-form-group[data-object-name='" + object_name + "']");
+      var $all_form_groups = $(".js-editor-file_source-form-group");
+
+      if(parseInt($(this).data('rule-filesize')) < current_file.size) {
+        UnobtrusiveFlash.showFlashMessage('10MB이하의 파일만 업로드 가능합니다', {type: 'error'})
+        $form_group.remove();
+      } else {
+        if( /^image/.test(current_file.type) ){
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $form_group.find('.js-upload-image img').attr('src', e.target.result);
+            $form_group.find('.js-upload-image').removeClass('collapse');
+            $form_group.css('display', 'inline-block');
+            $('#js-form-group-images').addClass('js-any');
+            $(document).trigger('parti-post-editor-spotlight');
+            check_to_hide_or_show_add_link();
+          }
+          reader.readAsDataURL(current_file);
+        } else {
+          $form_group.find('.js-upload-doc .name').text(current_file.name);
+          $form_group.find('.js-upload-doc .size').text(formatBytes(current_file.size));
+          $form_group.find('.js-upload-doc').removeClass('collapse');
+          $form_group.css('display', 'block');
+          $('#js-form-group-files').addClass('js-any');
+          $(document).trigger('parti-post-editor-spotlight');
+          $form_group.detach().appendTo('#js-form-group-files');
+        }
+      }
+
+      check_to_hide_or_show_add_link();
+    });
+
+    $('#js-post-editor-file_sources-wrapper').on('cocoon:after-insert', function(e, item) {
+      item.find("input[type='file']").trigger('click');
+    });
+    $('#js-post-editor-file_sources-wrapper').on('cocoon:after-remove', function(e, item) {
+      var has_image = false;
+      $("#js-form-group-images input[type='file']").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_image = true; }
+      });
+      $("#js-form-group-images input.js-id").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_image = true; }
+      });
+
+      if(!has_image) {
+        $('#js-form-group-images').removeClass('js-any');
+      }
+
+      var has_file = false;
+      $("#js-form-group-files input[type='file']").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_file = true; }
+      });
+      $("#js-form-group-files input.js-id").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_file = true; }
+      });
+
+      if(!has_file) {
+        $('#js-form-group-files').removeClass('js-any');
+      }
+
+      check_to_hide_or_show_add_link();
+    });
+  })();
+
   // 알림드롭다운
   $('#js-notification').on('show.bs.dropdown', function(e) {
     var $this = $(this);
@@ -703,7 +810,11 @@ $(function(){
   $('[data-action="parti-link"]').on('click', function(e) {
     e.preventDefault();
     var url = $(e.currentTarget).data("url");
-    window.location.href  = url;
+    if($.is_present($(this).data('link-target'))) {
+      window.open(url, $(this).data('link-target'));
+    } else {
+      window.location.href  = url;
+    }
   });
 
   (function() {
@@ -953,36 +1064,30 @@ $(function(){
 
   $('[data-action="parti-post-select-subform"]').each(function(index,elm){
     var hidden_target = $(elm).data('hidden-target');
-    var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     var has_poll = $(elm).data('has-poll');
     var has_survey = $(elm).data('has-survey');
+    var file_input = $(elm).data('file-input');
     $(this).on('click',function (e){
       e.preventDefault();
       $(hidden_target).hide();
       if($(reference_field).hasClass('hidden')){
         $(reference_field).removeClass('hidden');
       }
-      if($(this).hasClass('post-link-btn')) {
-        $(reference_type_field).val('LinkSource');
-      } else if($(this).hasClass('post-file-btn')){
-        $(reference_type_field).val('FileSource');
-      } else if($(this).hasClass('post-poll-btn')){
-        $(reference_type_field).val('');
+      if($(this).hasClass('post-poll-btn')){
         $(has_poll).val(true);
       } else if($(this).hasClass('post-survey-btn')){
-        $(reference_type_field).val('');
         $(has_survey).val(true);
-      } else {
-        $(reference_type_field).val('');
+      } else if($(this).hasClass('post-file-btn')) {
+        if($.is_blank($(file_input).val())) {
+          $(file_input).trigger('click');
+        }
       }
-
       $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
     })
   });
 
   $('[data-action="parti-post-cancel-subform"]').each(function(index,elm){
-    var reference_type_field = $(elm).data('reference-type-field');
     var reference_field = $(elm).data('reference-field');
     var show_target = $(elm).data('show-target');
     var has_poll = $(elm).data('has-poll');
@@ -990,7 +1095,6 @@ $(function(){
     $(this).on('click',function(e){
       e.preventDefault();
 
-      $(reference_type_field).val('');
       $(reference_field).addClass('hidden');
       $(show_target).show();
       $(document).trigger('parti-post-editor-spotlight');

@@ -36,11 +36,11 @@ class Post < ActiveRecord::Base
     end
 
     with_options(if: lambda { |instance, options| options[:type] == :full }) do
-      expose :link_reference, using: LinkSource::Entity, if: lambda { |instance, options| instance.link_source? } do |instance|
-        instance.reference
+      expose :link_source, using: LinkSource::Entity, if: lambda { |instance, options| instance.link_source.present? } do |instance|
+        instance.link_source
       end
-      expose :file_reference, using: FileSource::Entity, if: lambda { |instance, options| instance.file_source? } do |instance|
-        instance.reference
+      expose :file_sources, using: FileSource::Entity, if: lambda { |instance, options| instance.file_sources.any? } do |instance|
+        instance.file_sources
       end
       expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.poll.present? } do |instance|
         instance.poll
@@ -100,10 +100,14 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :poll
   belongs_to :survey
-  belongs_to :reference, polymorphic: true
+  belongs_to :link_source
+  has_many :file_sources, dependent: :destroy
   belongs_to :postable, polymorphic: true
   belongs_to :last_stroked_user, class_name: User
-  accepts_nested_attributes_for :reference
+  accepts_nested_attributes_for :link_source
+  accepts_nested_attributes_for :file_sources, allow_destroy: true, reject_if: proc { |attributes|
+    attributes['attachment'].blank? and attributes['attachment_cache'].blank? and attributes['id'].blank?
+  }
   accepts_nested_attributes_for :poll
   accepts_nested_attributes_for :survey
 
@@ -151,7 +155,7 @@ class Post < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :displayable_in_current_group, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
 
-  scope :having_reference, -> { where.not(reference: nil) }
+  scope :having_link_of_file, -> { any_of(where.not(link_source: nil), where('file_sources_count > 0')) }
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :having_survey, -> { where.not(survey_id: nil) }
   scope :of_issue, ->(issue) { where(issue_id: issue) }
@@ -167,7 +171,7 @@ class Post < ActiveRecord::Base
   attr_accessor :is_html_body
 
   def specific_desc
-    self.parsed_title || self.body || self.poll.try(:title) || (self.reference.try(:name) if self.file_source?) || (self.reference.try(:title) if self.link_source?)
+    self.parsed_title || self.body || self.poll.try(:title) || (self.file_sources.first.try(:name) if self.file_sources.any?) || (self.link_source.try(:title) if self.link_source.present?)
   end
 
   def specific_desc_striped_tags
@@ -231,43 +235,9 @@ class Post < ActiveRecord::Base
    body
   end
 
-  def image
-    return LinkSource.new.image if !has_image?
-    reference.try(:image) or reference.try(:attachment)
-  end
-
-  def has_image?
-    return false if reference.blank?
-    reference.attributes["image"].present? or reference.try(:image?)
-  end
-
-  def site_name
-    reference.try(:site_name)
-  end
-
-  def reference_url
-    reference.try(:url)
-  end
-
-  def reference_title
-    reference.try(:title) || reference.try(:url)
-  end
-
-  def reference_body
-    reference.try(:body)
-  end
-
-  def file_source?
-    reference.is_a? FileSource
-  end
-
-  def link_source?
-    reference.is_a? LinkSource
-  end
-
   def video_source?
-    return false unless link_source?
-    VideoInfo.usable?(reference.try(:url) || '')
+    return false unless link_source.present?
+    VideoInfo.usable?(link_source.try(:url) || '')
   end
 
   def format_body
@@ -293,10 +263,6 @@ class Post < ActiveRecord::Base
     end
 
     self.body = ps.slice(first_text .. last_text).to_s
-  end
-
-  def build_reference(params)
-    self.reference = reference_type.constantize.new(params) if self.reference_type.present?
   end
 
   def build_poll(params)
@@ -336,18 +302,16 @@ class Post < ActiveRecord::Base
   end
 
   def meta_tag_image
+    share_image_url = issue.logo.md.url
     if poll.present?
       share_image_url = Rails.application.routes.url_helpers.poll_social_card_post_url(self, format: :png)
     elsif survey.present?
       share_image_url = Rails.application.routes.url_helpers.survey_social_card_post_url(self, format: :png)
-    elsif link_source?
-      share_image_url = image.md.url
-    elsif file_source? and reference.image?
-      share_image_url = reference.attachment.md.url
-    else
-      share_image_url = issue.logo.md.url
+    elsif link_source.present? and link_source.image?
+      share_image_url = link_source.image.lg.url
+    elsif file_sources.only_image.any?
+      share_image_url = file_sources.only_image.first.attachment.lg.url
     end
-    share_image_url = issue.logo.md.url unless share_image_url.present?
     share_image_url
   end
 
@@ -419,7 +383,7 @@ class Post < ActiveRecord::Base
   def parsed_title_and_body
     strip_body = body.try(:strip)
     strip_body = '' if strip_body.nil?
-    if link_source? || file_source? || poll.present?
+    if link_source.present? || file_sources.any? || poll.present?
       [nil, body]
     elsif strip_body.length < 100
       [body, nil]

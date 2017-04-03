@@ -82,6 +82,23 @@
   }
 }
 
+.btn-flatten-default {
+  color: $gray-dark;
+  background-color: $gray-lightest;
+  border-color: $gray-light;
+
+  &:hover {
+    color: $gray !important;
+    background-color: $gray-lighter !important;
+    border-color: $gray-light !important;
+  }
+  &:active {
+    color: $gray !important;
+    background-color: $gray-light !important;
+    border-color: $gray-light !important;
+  }
+}
+
 .btn-primary {
   -webkit-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
   -moz-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);

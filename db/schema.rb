@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330125434) do
+ActiveRecord::Schema.define(version: 20170403051114) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -99,13 +99,17 @@ ActiveRecord::Schema.define(version: 20170330125434) do
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
   create_table "file_sources", force: :cascade do |t|
-    t.string   "name",       limit: 255, null: false
-    t.string   "attachment", limit: 255, null: false
-    t.string   "file_type",  limit: 255, null: false
-    t.integer  "file_size",  limit: 4,   null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "name",       limit: 255,             null: false
+    t.string   "attachment", limit: 255,             null: false
+    t.string   "file_type",  limit: 255,             null: false
+    t.integer  "file_size",  limit: 4,               null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "post_id",    limit: 4
+    t.integer  "seq_no",     limit: 4,   default: 0, null: false
   end
+
+  add_index "file_sources", ["post_id"], name: "index_file_sources_on_post_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
     t.integer  "user_id",          limit: 4,                     null: false
@@ -205,6 +209,19 @@ ActiveRecord::Schema.define(version: 20170330125434) do
   end
 
   add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true, using: :btree
+
+  create_table "makers", force: :cascade do |t|
+    t.integer  "user_id",      limit: 4,   null: false
+    t.integer  "makable_id",   limit: 4,   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.string   "makable_type", limit: 255, null: false
+  end
+
+  add_index "makers", ["makable_id", "makable_type"], name: "index_makers_on_makable_id_and_makable_type", using: :btree
+  add_index "makers", ["makable_id"], name: "index_makers_on_makable_id", using: :btree
+  add_index "makers", ["user_id", "makable_id", "makable_type"], name: "index_makers_on_user_id_and_makable_id_and_makable_type", unique: true, using: :btree
+  add_index "makers", ["user_id"], name: "index_makers_on_user_id", using: :btree
 
   create_table "member_requests", force: :cascade do |t|
     t.integer  "joinable_id",    limit: 4,                    null: false
@@ -401,23 +418,22 @@ ActiveRecord::Schema.define(version: 20170330125434) do
     t.datetime "last_stroked_at"
     t.integer  "upvotes_count",             limit: 4,     default: 0
     t.text     "body",                      limit: 65535
-    t.integer  "reference_id",              limit: 4
-    t.string   "reference_type",            limit: 255
+    t.integer  "link_source_id",            limit: 4
     t.integer  "poll_id",                   limit: 4
     t.integer  "survey_id",                 limit: 4
     t.boolean  "pinned",                                  default: false
     t.datetime "pinned_at"
     t.integer  "readers_count",             limit: 4,     default: 0
     t.integer  "last_stroked_user_id",      limit: 4
+    t.integer  "file_sources_count",        limit: 4,     default: 0
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
-  add_index "posts", ["id", "reference_id", "reference_type"], name: "index_posts_on_id_and_reference_id_and_reference_type", unique: true, using: :btree
   add_index "posts", ["issue_id"], name: "index_posts_on_issue_id", using: :btree
   add_index "posts", ["last_stroked_user_id"], name: "index_posts_on_last_stroked_user_id", using: :btree
+  add_index "posts", ["link_source_id"], name: "index_posts_on_reference_type_and_reference_id", using: :btree
   add_index "posts", ["poll_id"], name: "index_posts_on_poll_id", using: :btree
   add_index "posts", ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id", using: :btree
-  add_index "posts", ["reference_type", "reference_id"], name: "index_posts_on_reference_type_and_reference_id", using: :btree
   add_index "posts", ["survey_id"], name: "index_posts_on_survey_id", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 

@@ -12,7 +12,8 @@ class PostsController < ApplicationController
     @post.user = current_user
     @post.strok_by(current_user)
     @post.format_body
-    setup_reference(@post)
+
+    setup_link_source(@post)
 
     set_current_user_to_options(@post)
     if @post.save
@@ -27,10 +28,10 @@ class PostsController < ApplicationController
 
   def update
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
-
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.format_body
-    setup_reference(@post)
+
+    setup_link_source(@post)
 
     if @post.save
       crawling_after_updating_post
@@ -164,15 +165,25 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    reference_type = params[:post][:reference_type]
-    reference_attributes = reference_type.constantize.require_attrbutes if reference_type.present?
+    file_sources = params[:post][:file_sources_attributes]
+    if file_sources.try(:any?)
+      file_sources_attributes = FileSource.require_attrbutes
+
+      file_sources.to_a.each_with_index do |file_source, index|
+        params[:post][:file_sources_attributes][file_source[0]]["seq_no"] = index
+      end
+    end
+
     poll = params[:post][:poll_attributes]
     poll_attributes = [:title] if poll.present?
+
     survey = params[:post][:survey_attributes]
-    options_attributes = [:id, :body] unless @post.try(:survey).try(:persisted?)
+    options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
     survey_attributes = [:duration, options_attributes: options_attributes] if survey.present?
-    params.require(:post).permit(:body, :issue_id, :reference_type, :has_poll, :has_survey, :is_html_body,
-      reference_attributes: reference_attributes, poll_attributes: poll_attributes, survey_attributes: survey_attributes)
+
+    params.require(:post)
+      .permit(:body, :issue_id, :has_poll, :has_survey, :is_html_body,
+        file_sources_attributes: file_sources_attributes, poll_attributes: poll_attributes, survey_attributes: survey_attributes)
   end
 
   def set_current_user_to_options(post)
@@ -188,14 +199,14 @@ class PostsController < ApplicationController
   end
 
   def crawling_after_updating_post
-    if @post.link_source?
-      CrawlingJob.perform_async(@post.reference.id)
+    if @post.link_source.present?
+      CrawlingJob.perform_async(@post.link_source.id)
     end
   end
 
   def crawling_after_creating_post
-    if @post.reference.try(:crawling_status).try(:not_yet?)
-      CrawlingJob.perform_async(@post.reference.id)
+    if @post.link_source.try(:crawling_status).try(:not_yet?)
+      CrawlingJob.perform_async(@post.link_source.id)
     end
   end
 
@@ -212,14 +223,16 @@ class PostsController < ApplicationController
     post.readers.find_or_create_by(member: member)
   end
 
-  def setup_reference(post)
-    if post.body.present? and post.reference.blank? or post.link_source?
+  def setup_link_source(post)
+    if post.survey.blank? and post.poll.blank? and post.file_sources.blank? and post.body.present?
       doc = Nokogiri::HTML.parse(post.body)
       first_link = doc.xpath('//a[@href]').first
       if first_link.present? and first_link['href'].present?
-        post.reference = LinkSource.new(url: first_link['href'])
+        if post.link_source.try(:url) != first_link['href']
+          post.link_source = LinkSource.new(url: first_link['href'])
+        end
       end
     end
-    post.reference = post.reference.unify if post.reference.present?
+    post.link_source = post.link_source.unify if post.link_source.present?
   end
 end

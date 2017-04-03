@@ -1,5 +1,5 @@
 $('.row.masonry-container').data('last-id', '<%= @posts.last.try(:id) %>');
 $('.row.masonry-container').data('is-last', <%= @is_last_page %>);
-var $posts = $("<%= escape_javascript(render 'references/slug_references_page', show_issue: true) %>");
+var $posts = $("<%= escape_javascript(render 'links_and_files/page', show_issue: true) %>");
 $('.row.masonry-container').append($posts).masonry('appended', $posts);
 parti_partial$($posts);

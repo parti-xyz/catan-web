@@ -1,9 +1,10 @@
 class Issue < ActiveRecord::Base
   include Grape::Entity::DSL
-  entity :id, :title, :body, :slug, :group, :updated_at do
+  entity :id, :title, :body, :slug, :updated_at do
     include Rails.application.routes.url_helpers
     include PartiUrlHelper
 
+    expose :group, using: Group::Entity
     expose :logo, as: :logo_url do |instance|
       instance.logo.sm.url
     end

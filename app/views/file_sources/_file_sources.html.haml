@@ -1,0 +1,68 @@
+- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
+
+- wrapper_class = 'col-xs-12 col-sm-4'
+- card_class = 'default'
+
+- wrapper_class = (local_assigns[:wrapper_class] || wrapper_class)
+
+.card{ class: "#{wrapper_class} #{removable_with_post_dom_class(post)}" }
+  .reference-card.reference-card--files-sources[post]{ class: card_class, data: modal_data }
+    - if local_assigns[:show_issue]
+      .reference-card__group-and-issue
+        - unless post.issue.displayable_group? current_group
+          .reference-card__group
+            = post.issue.group.title
+            = security_icon(post.issue.group)
+        .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
+        %span.issue-name= post.issue.title
+    .caption
+      - if post.file_sources.only_image.any?
+        %h4.title.title--file-source
+          %i.fa.fa-image
+          = post.file_sources.only_image.sort_by_seq_no.first.name.truncate(15)
+          %small
+            +
+            = post.file_sources.only_image.count - 1
+        - odd = post.file_sources.only_image.count.odd?
+        - previous_style = nil
+        - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
+          - if index == 0 and odd == true
+            - current_style = 'single'
+          - elsif previous_style == 'left'
+            - current_style = 'right'
+          - else
+            - current_style = 'left'
+          .thumb.thumb--reference{ class: current_style, style: "background-image: url(#{file_source.attachment.sm.url})" }<>
+          - previous_style = current_style
+      - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+        %h4.title.title--file-source
+          = link_to file_source.url, target: '_blank' do
+            %i.fa.fa-floppy-o
+            = truncate(file_source.name, length: 100)
+        .source-body
+          %p
+            .source-url
+              = link_to file_source.url, target: '_blank' do
+                다운로드
+                %i.fa.fa-download
+      .body
+        %p
+          - max_length = 215
+          = excerpt(post.parsed_body, length: max_length)
+          - if (post.parsed_body.try(:length) || 0) > max_length
+            %span.body-more
+              더보기
+              %i.fa.fa-angle-double-right
+
+        .reference-info
+          = link_to smart_user_gallery_path(post.user) do
+            .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
+            %span.nickname= post.user.nickname
+            %span.date= date_f post.created_at
+      - if post.comments_count > 0
+        .more
+          %span.comments-count
+            %sapn
+              %i.fa.fa-comment-o
+              %b> #{post.comments_count}개
+              의 댓글

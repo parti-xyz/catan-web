@@ -13,9 +13,9 @@ module PartiUrlHelper
     slug_issue_url(options)
   end
 
-  def smart_issue_references_path(issue, options = {})
+  def smart_issue_links_and_files_path(issue, options = {})
     options.update(slug: issue.slug)
-    slug_issue_references_path(options)
+    slug_issue_links_and_files_path(options)
   end
 
   def smart_issue_polls_or_surveys_path(issue, options = {})

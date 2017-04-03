@@ -1,0 +1,16 @@
+.form-group.form-group--inline.nested-fields.js-editor-file_source-form-group{ class: ('collapse' if f.object.new_record?), 'data-object-name': f.object_name }<>
+  = f.hidden_field :id, { class: 'js-id' }
+  = f.hidden_field :seq_no
+  = f.file_field :attachment, { class: "form-control js-editor-file_source-attachment-input", data: { 'rule-required': true, 'rule-filesize': '10485760' } }
+  = f.hidden_field :attachment_cache, value: f.object.attachment_cache
+  - remove_button = capture do
+    = link_to_remove_association f, class: 'remove-upload-btn' do
+      &times;
+
+  .upload-doc.js-upload-doc{ class: ('collapse' if f.object.new_record? or f.object.image?), 'data-object-name': f.object_name }<>
+    %i.fa.fa-floppy-o
+    %span.name= (f.object.name if f.object.persisted?)
+    %span.size= (number_to_human_size(f.object.file_size) if f.object.persisted?)
+  .upload-image.js-upload-image{ class: ('collapse' if f.object.new_record? or f.object.doc?), 'data-object-name': f.object_name }<>
+    %img{ src: (f.object.attachment.md.url if f.object.persisted?) }
+  = remove_button

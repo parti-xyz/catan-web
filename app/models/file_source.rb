@@ -6,6 +6,9 @@ class FileSource < ActiveRecord::Base
       instance.attachment.file.filename
     end
   end
+
+  belongs_to :post, counter_cache: true
+
   ## uploaders
   # mount
   mount_base64_uploader :attachment, FileUploader, file_name: 'userpic'
@@ -16,6 +19,10 @@ class FileSource < ActiveRecord::Base
   validates :attachment, presence: true
   validates :attachment, file_size: { less_than: 10.megabytes }
 
+  scope :sort_by_seq_no, -> { order(:seq_no).order(:id) }
+  scope :only_image, -> { where("file_type like 'image/%'") }
+  scope :only_doc, -> { where("file_type not like 'image/%'") }
+
   def unify
     self
   end
@@ -25,7 +32,11 @@ class FileSource < ActiveRecord::Base
   end
 
   def image?
-    attachment.content_type.start_with? 'image'
+    attachment.content_type.try(:start_with?, 'image')
+  end
+
+  def doc?
+    !attachment.content_type.try(:start_with?, 'image')
   end
 
   def url
@@ -37,7 +48,7 @@ class FileSource < ActiveRecord::Base
   end
 
   def self.require_attrbutes
-    [:attachment]
+    [:id, :seq_no, :attachment, :attachemnt_cache, :_destroy]
   end
 
   private

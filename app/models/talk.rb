@@ -3,13 +3,10 @@ class Talk < ActiveRecord::Base
   acts_as :post, as: :postable
 
   belongs_to :poll
-  belongs_to :reference, polymorphic: true
-  accepts_nested_attributes_for :reference
   accepts_nested_attributes_for :poll
 
   scope :recent, -> { order(created_at: :desc) }
   scope :latest, -> { after(1.day.ago) }
-  scope :having_reference, -> { where.not(reference: nil) }
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :previous_of_recent, ->(post) {
     base = recent
@@ -34,49 +31,6 @@ class Talk < ActiveRecord::Base
 
   def commenters
     comments.map(&:user).uniq.reject { |u| u == self.user }
-  end
-
-  def image
-    return LinkSource.new.image if !has_image?
-    reference.try(:image) or reference.try(:attachment)
-  end
-
-  def has_image?
-    return false if reference.blank?
-    reference.attributes["image"].present? or reference.try(:image?)
-  end
-
-  def site_name
-    reference.try(:site_name)
-  end
-
-  def reference_url
-    reference.try(:url)
-  end
-
-  def reference_title
-    reference.try(:title) || reference.try(:url)
-  end
-
-  def reference_body
-    reference.try(:body)
-  end
-
-  def file_source?
-    reference.is_a? FileSource
-  end
-
-  def link_source?
-    reference.is_a? LinkSource
-  end
-
-  def video_source?
-    return false unless link_source?
-    VideoInfo.usable?(reference.try(:url) || '')
-  end
-
-  def build_reference(params)
-    self.reference = reference_type.constantize.new(params) if self.reference_type.present?
   end
 
   def build_poll(params)
@@ -116,7 +70,7 @@ class Talk < ActiveRecord::Base
   def parsed_title_and_body
     strip_body = body.try(:strip)
     strip_body = '' if strip_body.nil?
-    if link_source? || file_source? || poll.present?
+    if link_source.present? || poll.present?
       [nil, body]
     elsif strip_body.length < 100
       [body, nil]

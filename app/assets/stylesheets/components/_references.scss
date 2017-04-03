@@ -26,6 +26,24 @@ section#references {
   border: 1px solid #f1f1f1;
   .thumb {
     height: 200px;
+    &.left {
+      margin-right: 0.5%;
+    }
+    &.right {
+      margin-left: 0.5%;
+    }
+    &.left,
+    &.right,
+    &.single {
+      margin-bottom: 1%;
+    }
+
+    &.left,
+    &.right {
+      display: inline-block;
+      width: 49%;
+      height: 150px;
+    }
   }
   &__group-and-issue {
     position: absolute;
@@ -120,6 +138,30 @@ section#references {
       .fa {
         padding-right: 5px;
       }
+    }
+  }
+}
+
+.reference-card.reference-card--files-sources {
+  .reference-card__group-and-issue + .caption {
+    border-top: 2px solid $gray-lightest;
+  }
+  .caption {
+    .body {
+      border-top: none;
+    }
+  }
+  .reference-card__group-and-issue {
+    position: relative;
+    top: 20px;
+    left: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    .issue-name {
+      color: $gray;
+      padding-left: 6px;
+      line-height: 30px;
+      vertical-align: text-bottom;
     }
   }
 }
@@ -258,6 +300,29 @@ section#references {
           }
         }
       }
+    }
+  }
+  &__file-content--image {
+    overflow: hidden;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    border: 1px solid $gray-lighter;
+    &.single {
+      width: 100%;
+      height: 250px;
+    }
+    &.left,
+    &.right {
+      width: 49.5%;
+      height: 200px;
+    }
+    &.left {
+      margin-right: 0.5%;
+    }
+    &.right {
+      margin-left: 0.5%;
     }
   }
   &__video-container {

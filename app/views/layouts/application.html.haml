@@ -21,7 +21,7 @@
     = csrf_meta_tags
 
   %body{class: body_class }
-    %section(style='position: fixed; z-index: 1000; width: 100%')
+    %section(style='position: fixed; z-index: 10000; width: 100%')
       .container
         .unobtrusive-flash-container
 
@@ -37,6 +37,8 @@
     - unless is_small_screen?
       = render 'messenger'
 
+    :javascript
+      window.FileAPI = { staticPath: '/images/file-api/', debug: true };
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)
 
