@@ -30,10 +30,11 @@ class Member < ActiveRecord::Base
   validates :user, uniqueness: {scope: [:joinable_id, :joinable_type]}
 
   scope :latest, -> { after(1.day.ago) }
-  scope :recent, -> { order(id: :desc) }
+  scope :recent, -> { order(created_at: :desc).order(id: :desc) }
   scope :previous_of_recent, ->(member) {
     base = recent
-    base = base.where('members.created_at < ?', member.created_at) if member.present?
+    base = base.where('members.created_at <= ?', member.created_at) if member.present?
+    base = base.where('id < ?', member.id) if member.present?
     base
   }
 
