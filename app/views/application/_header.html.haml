@@ -16,7 +16,7 @@
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li
-              = link_to root_path, class: "#{'active' if current_page?('/')}" do
+              = link_to root_path, class: "#{'active' if current_page?('/') or current_page?('/dashboard')}" do
                 %i.fa.fa-th-list
                 내 피드
           - if user_signed_in?
