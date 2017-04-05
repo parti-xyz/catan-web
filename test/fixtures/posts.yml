@@ -10,7 +10,7 @@ post_talk1:
 post_talk3:
   user: one
   issue: issue1
-  body: 'talk3'
+  body: 'talk3 <a href="http://talk3.link">sdfsd</a>'
   link_source: link5
   postable: talk3
 post_talk5:

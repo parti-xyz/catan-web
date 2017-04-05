@@ -76,7 +76,7 @@ class PostsTest < ActionDispatch::IntegrationTest
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
-    assert_equal '<p>body x</p>', assigns(:post).body
+    assert assigns(:post).body.include?  '<p>body x</p>'
     assert_equal users(:one), assigns(:post).user
     assert_equal issues(:issue2), assigns(:post).issue
   end

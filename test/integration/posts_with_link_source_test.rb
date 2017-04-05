@@ -51,7 +51,6 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       sign_in(users(:one))
 
       put post_path(posts(:post_talk1)), post: { body: 'body http://link.xx', issue_id: issues(:issue1).id, is_html_body: 'false' }
-
       refute assigns(:post).errors.any?
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).link_source.title
@@ -61,6 +60,44 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert_equal issues(:issue1).title, assigns(:post).issue.title
       assert_equal 'http://link.xx', assigns(:post).link_source.url
     end
+  end
+
+  test '예전에 링크를 따로 저장할 때 게시글을 고치면 본문 맨끝에 링크를 추가해요' do
+    assert posts(:post_talk1).link_source.present?
+    old_link = posts(:post_talk1).link_source
+    refute posts(:post_talk1).body.include? posts(:post_talk1).link_source.url
+
+    stub_crawl old_link.url do
+      sign_in(users(:one))
+
+      put post_path(posts(:post_talk1)), post: { body: 'body text', issue_id: issues(:issue1).id, is_html_body: 'false' }
+
+      refute assigns(:post).errors.any?
+      assigns(:post).reload
+      assert_equal 'page title', assigns(:post).link_source.title
+      assert_equal 'page body', assigns(:post).link_source.body
+      assert assigns(:post).body.include?('body')
+      assert assigns(:post).body.include?(old_link.url)
+      assert_equal users(:one), assigns(:post).user
+      assert_equal issues(:issue1).title, assigns(:post).issue.title
+      assert_equal old_link.url, assigns(:post).link_source.url
+    end
+  end
+
+  test '본문에 링크가 있다가 없어지면 링크 첨부가 사라져요' do
+    assert posts(:post_talk3).link_source.present?
+    old_link = posts(:post_talk3).link_source
+
+    sign_in(users(:one))
+
+    put post_path(posts(:post_talk3)), post: { body: 'body text', issue_id: issues(:issue1).id, is_html_body: 'false' }
+
+    refute assigns(:post).errors.any?
+    assigns(:post).reload
+    assert assigns(:post).body.include? 'body'
+    assert_equal users(:one), assigns(:post).user
+    assert_equal issues(:issue1).title, assigns(:post).issue.title
+    assert assigns(:post).link_source.blank?
   end
 
   test '다른 논의에서 레퍼런스하던 링크로 고칠 수 있어요' do
