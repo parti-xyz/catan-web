@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   after_create :check_invitations, :if => "email.present? && confirmed_at.present?"
 
   # associations
-  has_many :merged_issues
+  has_many :merged_issues, dependent: :nullify
   has_many :messages, dependent: :destroy
   has_many :send_messages, dependent: :destroy, foreign_key: :sender_id, class_name: Message
   has_many :posts, dependent: :destroy
@@ -66,6 +66,7 @@ class User < ActiveRecord::Base
   has_many :organizing_groups, through: :group_organizer_members, source: :joinable, source_type: Group
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
+  has_many :member_request, dependent: :destroy
   has_many :member_issues, through: :members, source: :joinable, source_type: Issue
   has_many :member_groups, through: :members, source: :joinable, source_type: Group
   has_many :device_tokens, dependent: :destroy
@@ -73,6 +74,7 @@ class User < ActiveRecord::Base
   has_many :received_invitations, dependent: :destroy, foreign_key: :recipient_id, class_name: Invitation
   has_many :feedbacks, dependent: :destroy
   has_many :options, dependent: :destroy
+  has_many :group, dependent: :nullify
 
   ## uploaders
   # mount
