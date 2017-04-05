@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170403051114) do
+ActiveRecord::Schema.define(version: 20170405132720) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -146,8 +146,6 @@ ActiveRecord::Schema.define(version: 20170403051114) do
   add_index "invitations", ["joinable_id", "joinable_type"], name: "index_invitations_on_joinable_id_and_joinable_type", using: :btree
   add_index "invitations", ["joinable_id"], name: "index_invitations_on_joinable_id", using: :btree
   add_index "invitations", ["recipient_id"], name: "index_invitations_on_recipient_id", using: :btree
-  add_index "invitations", ["user_id", "recipient_id", "joinable_id", "joinable_type"], name: "unique_index_invitations", unique: true, using: :btree
-  add_index "invitations", ["user_id", "recipient_id", "joinable_id"], name: "index_invitations_on_user_id_and_recipient_id_and_joinable_id", unique: true, using: :btree
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
