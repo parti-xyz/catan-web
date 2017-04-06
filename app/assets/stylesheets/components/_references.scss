@@ -242,9 +242,8 @@ section#references {
   width: 100%;
   &__link-content {
     display: table-cell;
-    padding: 24px 18px;
     .media-body {
-      padding-right: 18px;
+      padding: 24px 18px;
     }
     .media-right {
       width: 37%;
@@ -257,11 +256,15 @@ section#references {
       }
     }
     &__thumb {
-      display: table-cell;
-      width: 220px;
-      height: 147px;
       background-size: cover;
       background-position: center;
+      border-left: 1px solid #efefef;
+    }
+    &__big-thumb {
+      height: 150px;
+      background-position: center;
+      background-size: cover;
+      border-bottom: 1px solid #efefef;
     }
   }
   &__file-content {
