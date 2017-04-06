@@ -9,7 +9,7 @@
         #{current_user.nickname}님을 초대합니다.
 
       %p
-        = link_to magic_join_group_members_url(key: params[:key]), method: :post, class: 'btn btn-primary'do
+        = link_to magic_join_group_members_url(key: params[:key]), method: :post, class: 'btn btn-primary', "data-disable-with": '처리 중...' do
           초대를 허락합니다
 
 

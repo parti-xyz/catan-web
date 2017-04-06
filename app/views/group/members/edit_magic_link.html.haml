@@ -16,9 +16,9 @@
             주소가 없습니다.
         .col-xs-12.col-sm-3.text-right.margin-top-xs
           - if current_group.magic_key.present?
-            = link_to '링크 삭제하기', delete_magic_link_group_members_path, method: :delete, class: 'btn btn-primary', data: { confirm: '현재 링크를 삭제하시겠습니까? 계속하시면 현재 링크는 더이상 작동하지 않습니다' }
+            = link_to '링크 삭제하기', delete_magic_link_group_members_path, method: :delete, class: 'btn btn-primary', data: { confirm: '현재 링크를 삭제하시겠습니까? 계속하시면 현재 링크는 더이상 작동하지 않습니다', "disable-with": '처리 중...' }
           - else
-            = link_to '링크 만들기', magic_link_group_members_path, method: :post, class: 'btn btn-primary'
+            = link_to '링크 만들기', magic_link_group_members_path, method: :post, class: 'btn btn-primary', "data-disable-with": '처리 중...'
 
     - if current_group.magic_key.present?
       .help-block

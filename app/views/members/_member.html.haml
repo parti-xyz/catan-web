@@ -10,13 +10,13 @@
           %i.fa.fa-caret-down
         .hidden
           .reject-member{id: "reject-member-#{dom_id(issue)}"}
-            = link_to cancel_issue_members_path(issue), method: :delete do
+            = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
               빠띠 나가기
     - elsif issue.member_requested?(current_user)
       %button.btn-member{ class: member_btn_class }
         가입요청 중
     - else
-      = link_to smart_members_or_member_requests_parti_path(issue), method: :post, class: join_btn_class do
+      = link_to smart_members_or_member_requests_parti_path(issue), method: :post, 'data-disable-with': '처리 중...', class: join_btn_class do
         가입하기
   - else
     = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) }, class: join_btn_class
