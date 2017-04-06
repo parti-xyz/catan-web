@@ -14,8 +14,8 @@
             해당되는 글이 없습니다.
       - else
         .grid-sizer.col-sm-4.col-xs-6
-        = render 'links_and_files/page', show_issue: true
-    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': links_and_files_path(format: :js, sort: params[:sort])}
+        = render 'links_or_files/page', show_issue: true
+    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': links_or_files_path(format: :js, sort: params[:sort])}
       .page_waypoint__loading
         %i.fa.fa-3x.fa-spinner.fa-pulse
 

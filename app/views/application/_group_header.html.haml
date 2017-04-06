@@ -12,7 +12,7 @@
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
           %li= link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
-          %li= link_to '자료', links_and_files_path, class: "#{'active' if current_page?(controller: "/links_and_files", action: :index)}"
+          %li= link_to '자료', links_or_files_path, class: "#{'active' if current_page?(controller: "/links_or_files", action: :index)}"
           - if current_group.private?
             %li
               = link_to '멤버', group_members_path, class: ('active' if current_page?('/group/members'))

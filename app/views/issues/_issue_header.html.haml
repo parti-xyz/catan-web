@@ -87,8 +87,8 @@
                 = link_to smart_issue_polls_or_surveys_path(issue) do
                   %h5= t('labels.polls_or_surveys')
 
-              .col-xs-3.col-sm-3{class: ('active' if active_tab == :links_and_files)}
-                = link_to smart_issue_links_and_files_path(issue) do
+              .col-xs-3.col-sm-3{class: ('active' if active_tab == :links_or_files)}
+                = link_to smart_issue_links_or_files_path(issue) do
                   %h5 자료
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :users)}
