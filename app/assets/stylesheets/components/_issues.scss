@@ -355,6 +355,8 @@ section#issues {
       font-size: $font-size-base;
       color: $gray-darker;
       display: table;
+      table-layout: fixed;
+      width: 100%;
       font-weight: bold;
       text-align: center;
       overflow: hidden;
@@ -366,6 +368,7 @@ section#issues {
       &__text {
         max-height: 50px;
         word-break: keep-all;
+        overflow-wrap: break-word;
       }
     }
     .issue-card__body {
