@@ -24,7 +24,7 @@
               이메일을 넣어 주세요.
             = f.text_field :email, autofocus: true, class: 'form-control'
 
-        - if resource.password.blank?
+        - if resource.password.blank? and resource.provider == 'email'
           .form-group
             = f.label :password
             = f.password_field :password, autocomplete: "off", class: 'form-control'

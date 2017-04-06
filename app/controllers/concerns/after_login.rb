@@ -22,6 +22,6 @@ module AfterLogin
       MemberIssueService.new(issue: issue, current_user: current_user).call if issue.present?
     end
 
-    session["omniauth.params_data"] = nil
+    session["omniauth.params_data"]['after_login'] = nil
   end
 end

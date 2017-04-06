@@ -24,7 +24,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    dashboard_intro_path
+    omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
+
+    group = Group.find_by_slug(omniauth_params['group_slug'])
+    if group.present? and !group.indie?
+      root_url(subdomain: group.subdomain)
+    else
+      dashboard_intro_path
+    end
   end
 
   def after_inactive_sign_up_path_for(resource)
