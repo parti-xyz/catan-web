@@ -45,4 +45,17 @@ class Survey < ActiveRecord::Base
   def group_for_message
     post.issue.group
   end
+
+  def mvp_options
+    @mvp_options if @mvp_options.present?
+
+    mvp_feedbacks_count = options.order(feedbacks_count: :desc).first.try(:feedbacks_count)
+    @mvp_options ||= options.where(feedbacks_count: mvp_feedbacks_count)
+    @mvp_options = Option.none if @mvp_options.count == options.count
+    @mvp_options
+  end
+
+  def mvp_option?(option)
+    mvp_options.exists?(id: option)
+  end
 end

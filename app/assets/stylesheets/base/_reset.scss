@@ -92,6 +92,11 @@ body.editor-spotlight {
   }
 }
 
+.text-basic-wrap {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
 @media (max-width: $screen-xs-max) {
   .margin-top-xs {
     margin-top: 12px;

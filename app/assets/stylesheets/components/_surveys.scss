@@ -57,7 +57,7 @@
         }
         i {
           font-size: 1.5em;
-          color: $gray-lighter;
+          color: $gray-light;
           &.active {
             color: $brand-primary;
           }
@@ -97,6 +97,8 @@
         overflow: hidden;
         border-radius: 4px;
         border: 1px solid $gray-lighter;
+        margin-bottom: 16px;
+        margin-top: 6px;
         &.active {
           border-color: $brand-primary;
         }
@@ -105,7 +107,12 @@
           border-top-left-radius: 4px;
           border-bottom-left-radius: 4px;
           background-color: $brand-primary-light;
-          padding: 3px 0;
+          .count {
+            white-space: nowrap;
+            padding-left: 6px;
+            font-size: $font-size-small;
+            color: $gray;
+          }
         }
 
         .chart__label {
@@ -204,6 +211,14 @@
     }
     .survey-card__date--with-issue {
       line-height: initial;
+    }
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  .survey-card {
+    &__date--with-issue {
+      display: none;
     }
   }
 }

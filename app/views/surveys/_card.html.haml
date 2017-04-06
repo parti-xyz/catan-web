@@ -1,5 +1,5 @@
 .survey-options{ class: survey_options_dom_class(post) }
-  .survey-options--body{ class: ('survey-options--body--no-checkbox' if !post.survey.feedbacked?(current_user) and !post.survey.open?) }
+  .survey-options--body{ class: ('survey-options--body--no-checkbox' if (!post.survey.feedbacked?(current_user) or !post.survey.mvp_options.any?) and !post.survey.open?) }
     - post.survey.options.each do |option|
       .option.clearfix[option]
         - if !user_signed_in?
@@ -17,14 +17,18 @@
             - else
               %span.closed
                 - if option.selected?(current_user)
-                  %i.fa.fa-check.active
-                - else
+                  %i.fa.fa-check-circle-o.active
         .body
           - option_body = capture do
             - if post.survey.visible_feedbacks?(current_user)
-              .chart{ class: ('active' if option.selected?(current_user)) }
+              %span.chart__label= option.body
+              .chart{ style: 'position: relative', class: ('active' if option.selected?(current_user)) }
                 .chart__bar{ style: "width: #{post.survey.percentage(option)}%"}
-                  %span.chart__label= option.body
+                  %span.count
+                    #{option.feedbacks_count}명
+                - if post.survey.mvp_option?(option)
+                  %span.label.label-primary{ style: 'position: absolute;padding: 0.3em;bottom: 2px;right: 2px;'}<>
+                    최다득표
             - else
               .no-chart__label
                 = option.body
@@ -33,8 +37,6 @@
           - else
             = option_body
         .feedbacks-count
-          - if post.survey.visible_feedbacks?(current_user) and option.feedbacks_count > 0
-            #{option.feedbacks_count}명
           - if can? :destroy, option
             = link_to '삭제', option, method: :delete, remote: true, 'data-confirm': '정말 삭제하시겠습니까?'
     - if post.survey.options.blank?
@@ -57,21 +59,27 @@
           .feedbacks-count
             .form-group
               = f.submit '+ 제안추가', class: 'btn btn-link'
-    .survey-options--footer
+    .survey-options--footer.clearfix
       - if post.survey.open?
         마감까지 #{survey_remain_time(post.survey)}
       - else
         마감
-      - if post.survey.feedbacks_count > 0
-        &middot;
-        - popover_placement = browser.device.mobile? ? 'auto' : 'right'
-        %span.survey-options--count{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
-          총투표 #{post.survey.feedbacks_count}명
-        .webui-popover-content
-          .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
-            - post.survey.feedbacks.map(&:user).each do |user|
-              = link_to smart_user_gallery_path(user), target: '_blank' do
-                .user-info
-                  .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
-                  = user.nickname
 
+      - if post.survey.open? and post.survey.feedbacks.any? and !post.survey.feedbacked?(current_user)
+        %div.text-basic-wrap
+          현재
+          %strong.text-primary #{post.survey.feedbacks_count}
+          명이 투표했습니다. 투표하면 결과를 볼 수 있습니다.
+      - else
+        - if post.survey.feedbacks_count > 0
+          &middot;
+          - popover_placement = browser.device.mobile? ? 'auto' : 'right'
+          %span.survey-options--count{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
+            총투표 #{post.survey.feedbacks_count}명
+          .webui-popover-content
+            .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
+              - post.survey.feedbacks.map(&:user).each do |user|
+                = link_to smart_user_gallery_path(user), target: '_blank' do
+                  .user-info
+                    .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+                    = user.nickname

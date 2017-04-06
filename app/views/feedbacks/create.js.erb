@@ -1,7 +1,12 @@
 var $survey_card = $("<%= escape_javascript(render 'surveys/card', post: @post) %>")
 $("<%= survey_options_dom_selector(@post) %>").replaceWith($survey_card);
+<% if @post.survey.feedbacked?(current_user) %>
+  $('.survey-card.<%= dom_id(@post.survey) %>').addClass('survey-card--feedbacked');
+<% else %>
+  $('.survey-card.<%= dom_id(@post.survey) %>').removeClass('survey-card--feedbacked');
+<% end %>
 parti_partial$($survey_card);
-
+parti_prepare_masonry($('body'));
 <% if @option.blank? %>
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.deleted_option') %>");
 <% end %>
