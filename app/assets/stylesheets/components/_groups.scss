@@ -19,7 +19,12 @@
 }
 body.in-group {
   @media (min-width: $screen-sm-min) {
-    padding-top: 100px;
+    &.in-group--has-categories {
+      padding-top: 100px;
+      #site-header .navbar-fixed-top {
+        height: 100px;
+      }
+    }
 
     #group-key-visual-bg {
       height: 500px;
@@ -30,7 +35,6 @@ body.in-group {
 
     #site-header {
       .navbar-fixed-top {
-        height: 100px;
         border-bottom: 1px solid $brand-primary-darker;
       }
 
@@ -43,15 +47,8 @@ body.in-group {
         width: auto;
 
         .navbar-brand {
-          position: relative;
-          left: 0;
-          height: 21px;
-          padding: 0;
-          margin: 15px 0;
-          img {
-            width: 21px;
-            height: 21px;
-          }
+          font-weight: 600;
+          color: white;
         }
       }
 

@@ -2,6 +2,7 @@ module ApplicationHelper
   def body_class
     arr = ["app-#{params[:controller]}", "app-#{params[:controller]}-#{params[:action]}"]
     arr << "in-group" if current_group.present?
+    arr << "in-group--has-categories" if host_group.categories.try(:any?)
     arr << "in-parti" if @issue.present?
     arr.join(' ')
   end

@@ -6,14 +6,16 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-
+        %a.navbar-brand{ href: root_path }
+          #{current_group.site_title}
+          = security_icon(current_group)
       #collapsable.collapse.navbar-collapse
-        %ul.nav.navbar-nav
-          %li
-            = link_to root_path, class: 'group-title' do
-              %h4
-                #{current_group.site_title}
-                = security_icon(current_group)
+        %ul.nav.navbar-nav.navbar-left
+          %li= link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
+          %li= link_to '자료', links_and_files_path, class: "#{'active' if current_page?(controller: "/links_and_files", action: :index)}"
+          - if current_group.private?
+            %li
+              = link_to '멤버', group_members_path, class: ('active' if current_page?('/group/members'))
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
@@ -83,18 +85,7 @@
             %li.sign-up
               = link_to '로그인', new_user_session_path
 
-        %ul.nav.navbar-nav.navbar-bottom
-          %li= link_to '홈', root_path, class: ('active' if current_page?('/'))
-          - if current_group.categories.try(:any?)
+        - if current_group.categories.try(:any?)
+          %ul.nav.navbar-nav.navbar-bottom
             - current_group.categories.each do |category|
               %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
-          %li.dropdown.all-posts
-            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-              베스트
-              %span.caret
-            %ul.dropdown-menu
-              %li= link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls", action: :index)}"
-              %li= link_to '자료', links_and_files_path, class: "#{'active' if current_page?(controller: "/links_and_files", action: :index)}"
-          - if current_group.private?
-            %li
-              = link_to '멤버', group_members_path, class: ('active' if current_page?('/groups/members'))
