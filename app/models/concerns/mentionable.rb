@@ -28,7 +28,8 @@ module Mentionable
     previous_mentioned_users = self.mentioned_users.to_a
     # Transaction을 걸지 않습니다
     set_mentions
-    send_mention_emails(previous_mentioned_users)
+    mention_mail_limit = 500
+    send_mention_emails(previous_mentioned_users) if self.mentions.count <= mention_mail_limit
     MessageService.new(self).call(previous_mentioned_users: previous_mentioned_users)
   end
 
