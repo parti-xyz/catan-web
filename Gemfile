@@ -86,6 +86,7 @@ gem 'unobtrusive_flash', '~> 3.1'
 gem 'redactor2_rails', '~> 0.1.1'
 gem 'simplemde-rails', '~> 1.10', '>= 1.10.2'
 gem 'rb-readline'
+gem 'browsernizer'
 
 # crawling
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
