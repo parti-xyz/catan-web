@@ -3,5 +3,5 @@ $('.<%= dom_id(@upvotable) %>-upvote').replaceWith($upvote);
 parti_partial$($upvote);
 
 var $upvote_counts = $("<%= escape_javascript(render 'upvotes/upvote_count', upvotable: @upvotable) %>")
-$(".<%= dom_id(@upvote.upvotable) %>-upvote-counts").replaceWith($upvote_counts);
+$(".<%= dom_id(@upvotable) %>-upvote-counts").replaceWith($upvote_counts);
 parti_partial$($upvote_counts);

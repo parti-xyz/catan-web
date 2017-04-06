@@ -4,7 +4,7 @@
       공감해요
   - elsif upvotable.upvoted_by? current_user
     = link_to [:cancel, upvotable, :upvotes], method: :delete, remote: true, data: { disable_with: "진행 중..." }, class: 'upvote upvote-liked' do
-      공감취소
+      %strong.upvoted 공감해요
   - else
     = link_to [upvotable, :upvotes], method: :post, remote: true, data: { disable_with: "진행 중..." }, class: 'upvote' do
       공감해요
