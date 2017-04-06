@@ -137,6 +137,11 @@ Rails.application.routes.draw do
         delete :cancel
         post :admit
         get :new_admit
+        get :edit_magic_link
+        post :magic_link
+        delete :delete_magic_link
+        get :magic_form
+        post :magic_join
       end
     end
     resources :member_requests do

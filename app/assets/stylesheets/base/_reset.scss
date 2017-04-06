@@ -91,3 +91,10 @@ body.editor-spotlight {
     }
   }
 }
+
+@media (max-width: $screen-xs-max) {
+  .margin-top-xs {
+    margin-top: 12px;
+  }
+}
+

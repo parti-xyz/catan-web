@@ -1,6 +1,7 @@
 class Group::MembersController < GroupBaseController
   load_and_authorize_resource
   before_action :only_organizer, only: [:ban, :organizer, :new_admit, :admit]
+  before_action :authenticate_user!, except: [:magic_form]
 
   def index
     @myself = current_user if params[:last_id].blank? and current_group.member?(current_user)
@@ -123,5 +124,59 @@ class Group::MembersController < GroupBaseController
       flash[:error] = t('errors.messages.invitation.recipient_codes')
       render 'new_admit'
     end
+  end
+
+  def magic_link
+    current_group.magic_key = SecureRandom.hex
+    current_group.save
+
+    redirect_to :edit_magic_link_group_members
+  end
+
+  def delete_magic_link
+    current_group.magic_key = nil
+    current_group.save
+
+    redirect_to :edit_magic_link_group_members
+  end
+
+  def magic_form
+    unless user_signed_in?
+      flash[:info] = t('devise.failure.unauthenticated')
+      redirect_to new_user_session_path and return
+    end
+
+    redirect_to  root_path and return if current_group.member?(current_user)
+
+    if current_group.magic_key != params[:key]
+      flash[:error] = t('errors.messages.invalid_group_magic_key')
+      redirect_to  root_path and return
+    end
+  end
+
+  def magic_join
+    redirect_to root_path and return if current_group.member?(current_user)
+    if current_group.magic_key != params[:key]
+      flash[:error] = t('errors.messages.invalid_group_magic_key')
+      redirect_to root_path and return
+    end
+
+    @member = current_group.members.build(user: current_user)
+    ActiveRecord::Base.transaction do
+      if @member.save
+        Invitation.where(recipient_email: current_user.email).destroy_all
+        MemberRequest.where(user: current_user).destroy_all
+        current_group.default_issues.each do |issue|
+          MemberIssueService.new(issue: issue, current_user: current_user, is_auto: true).call
+        end
+      end
+    end
+    if @member.persisted?
+      flash[:success] = t('views.group.welcome')
+      MessageService.new(@member).call
+      MemberMailer.deliver_all_later_on_create(@member)
+    end
+
+    redirect_to root_path
   end
 end

@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   layout -> { get_layout }
 
-  if Rails.env.production? or Rails.env.staging?
+  #if Rails.env.production? or Rails.env.staging?
     rescue_from ActiveRecord::RecordNotFound, ActionController::UnknownFormat do |exception|
       render_404
     end
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       self.response_body = nil
       redirect_to root_url, :alert => I18n.t('errors.messages.invalid_auth_token')
     end
-  end
+  #end
 
   def render_404
     self.response_body = nil
@@ -61,6 +61,7 @@ class ApplicationController < ActionController::Base
 
   def blocked_private_group
     return if current_group.blank? or current_user.try(:admin?)
+
     if current_group.private_blocked? current_user and
     !(
       (controller_name == 'issues' and action_name == 'home') or
@@ -69,7 +70,9 @@ class ApplicationController < ActionController::Base
       (controller_name == 'sessions') or
       (controller_name == 'users' and action_name == 'pre_sign_up') or
       (controller_name == 'users' and action_name == 'email_sign_in') or
-      (controller_name == 'passwords')
+      (controller_name == 'passwords') or
+      (controller_name == 'members' and action_name == 'magic_join') or
+      (controller_name == 'members' and action_name == 'magic_form')
     )
 
       redirect_to root_url

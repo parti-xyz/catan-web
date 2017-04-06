@@ -1,5 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   include AfterLogin
+  include StoreLocation
+
   after_filter :after_omniauth_login, only: :create
   skip_before_filter :verify_authenticity_token, :only => :create
 
@@ -28,7 +30,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     group = Group.find_by_slug(omniauth_params['group_slug'])
     if group.present? and !group.indie?
-      root_url(subdomain: group.subdomain)
+      result = stored_location(group) || '/'
+      URI.join(root_url(subdomain: group.subdomain), result).to_s
     else
       dashboard_intro_path
     end

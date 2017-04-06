@@ -2,10 +2,18 @@
   .container
     .row
       .col-sm-8.col-xs-12
-        - if can? :admit, current_group
-          .well
-            이 그룹에 멤버를 추가합니다.
-            =link_to '추가하기', new_admit_group_members_path, class: 'btn btn-primary'
+        - if can?(:admit, current_group) or can?(:magic_link, current_group)
+          %ul.list-inline.controls-group-members<>
+            - if can? :admit, current_group
+              %li<>
+                .well
+                  %p 이 그룹에 멤버를 추가합니다.
+                  =link_to '멤버 추가하기', new_admit_group_members_path, class: 'btn btn-primary'
+            - if can? :magic_link, current_group
+              %li<>
+                .well
+                  %p 그룹의 초대링크를 관리합니다.
+                  =link_to '초대링크 관리', edit_magic_link_group_members_path, class: 'btn btn-primary'
         - if (current_user.try(:admin?) or current_group.organized_by?(current_user)) and current_group.invitations.any?
           %section#content-tab-section
             .nav-tabs.message-tab

@@ -56,6 +56,7 @@ ko:
       not_deletable_parti: 가입한 멤버가 있거나 게시글이 있는 빠띠는 삭제할 수 없습니다.
       unknown: 앗! 뭔가 잘못되었습니다.
       deleted_option: 지워진 제안입니다.
+      invalid_group_magic_key: 사용이 중지된 그룹 가입 주소입니다. 오거나이저에게 새로운 가입 주소를 요청하세요.
       invitation:
         recipient_codes: 입력하신 이메일이나 닉네임을 확인해 주세요.
         not_found_recipients: 아래 닉네임에 해당되는 회원이 없습니다. 다시 한번 확인해 주세요.
@@ -202,6 +203,8 @@ ko:
         unsure: 유보
   views:
     indie_form_select_title: '그룹에 속하지 않는 일반 빠띠'
+    group:
+      welcome: '그룹에 가입되었습니다'
     pagination:
       first: "&laquo; 처음"
       last: "마지막 &raquo;"
