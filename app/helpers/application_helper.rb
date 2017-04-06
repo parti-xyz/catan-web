@@ -30,38 +30,35 @@ module ApplicationHelper
 
   def comment_format(text, html_options = {}, options = {})
     parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line'), options.merge(wrapper_tag: 'span')).to_str
-    parsed_text = parsed_text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
-      at_nickname = $1
-      nickname = at_nickname[1..-1]
-      user = User.find_by nickname: nickname
-      if user.present?
-        as_url = options[:as_url] || false
-        url = as_url ? slug_user_url(slug: user.slug) :  slug_user_path(slug: user.slug)
-        m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
-      else
-        m
-      end
-    end
+    parsed_text = parse_mentions(parsed_text)
     raw(auto_link(parsed_text,
       html: {class: 'auto_link', target: '_blank'},
       link: :urls,
       sanitize: false))
   end
 
-  def post_body_format(text, as_url = false)
+  def post_body_format(text)
     return text if text.blank?
-    text = text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
+    text = parse_mentions(text)
+    raw(text)
+  end
+
+  def parse_mentions(text)
+    text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
       at_nickname = $1
       nickname = at_nickname[1..-1]
-      user = User.find_by nickname: nickname
-      if user.present?
-        url = as_url ? slug_user_url(slug: user.slug) :  slug_user_path(slug: user.slug)
-        m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
+      if nickname == 'all'
+        m.gsub($1, content_tag('span', $1, class: 'user__nickname--mentioned'))
       else
-        m
+        user = User.find_by nickname: nickname
+        if user.present?
+          url = slug_user_url(slug: user.slug)
+          m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
+        else
+          m
+        end
       end
     end
-    raw(text)
   end
 
   def post_body_format_for_api(text)

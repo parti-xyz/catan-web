@@ -5,10 +5,10 @@ class Comment < ActiveRecord::Base
 
     expose :id, :choice, :upvotes_count
     expose :body do |instance|
-      view_helpers.comment_format(instance.body, {}, {as_url: true})
+      view_helpers.comment_format(instance.body)
     end
     expose :truncated_body do |instance|
-      body = view_helpers.comment_format(instance.body, {}, {as_url: true})
+      body = view_helpers.comment_format(instance.body)
       view_helpers.smart_truncate_html(body, length: 100, ellipsis: "... <read-more/>")
     end
     expose :user, using: User::Entity
