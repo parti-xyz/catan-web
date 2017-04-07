@@ -21,7 +21,7 @@
         .body
           - option_body = capture do
             - if post.survey.visible_feedbacks?(current_user)
-              %span.chart__label= option.body
+              %span.text-basic-wrap.chart__label= option.body
               .chart{ style: 'position: relative', class: ('active' if option.selected?(current_user)) }
                 .chart__bar{ style: "width: #{post.survey.percentage(option)}%"}
                   %span.count
@@ -30,7 +30,7 @@
                   %span.label.label-primary{ style: 'position: absolute;padding: 0.3em;bottom: 2px;right: 2px;'}<>
                     최다득표
             - else
-              .no-chart__label
+              .no-chart__label.text-basic-wrap
                 = option.body
           - if post.survey.open?
             = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id), remote: true, method: :post
