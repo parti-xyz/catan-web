@@ -1,8 +1,8 @@
 - issue ||= local_assigns[:issue_line]
-- cache issue, race_condition_ttl: 30.seconds,  expires_in: 1.hours do
-  - return if issue.blank?
-  %li.issue-line
-    .media
+- return if issue.blank?
+%li.issue-line
+  .media
+    - cache issue, race_condition_ttl: 30.seconds,  expires_in: 1.hours do
       = link_to smart_issue_home_path_or_url(issue) do
         .media-left
           .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
@@ -23,4 +23,4 @@
               .comments-count
                 %i.fa.fa-comment
                 %b= issue.comments.latest.count
-      .media-right.after-block= local_assigns[:after_block]
+    .media-right.after-block= local_assigns[:after_block]
