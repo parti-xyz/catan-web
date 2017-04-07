@@ -1,4 +1,4 @@
-#new-posts{data: {action: 'parti-polling', 'polling-url': new_posts_count_url, 'polling-interval': 1000000}}
+#new-posts{data: {action: 'parti-polling', 'polling-url': new_posts_count_url, 'polling-interval': 5 * 60 * 1000}}
   = link_to (@list_url || request.original_url) do
     .post-card-with-comments.new-post
       새로운 소식

@@ -81,7 +81,7 @@
             .row
               .col-xs-3.col-sm-3{ class: ('active' if active_tab.nil? || active_tab == :home) }
                 = link_to smart_issue_home_path_or_url(issue) do
-                  %h5 타임라인
+                  %h5 피드
 
               .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}
                 = link_to smart_issue_polls_or_surveys_path(issue) do
