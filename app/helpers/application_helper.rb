@@ -62,10 +62,6 @@ module ApplicationHelper
     end
   end
 
-  def post_body_format_for_api(text)
-    post_body_format(text, true)
-  end
-
   def asset_data_base64(path)
     content, content_type = parse_asset(path)
     base64 = Base64.encode64(content).gsub(/\s+/, "")
