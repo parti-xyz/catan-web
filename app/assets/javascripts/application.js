@@ -531,7 +531,10 @@ var parti_prepare = function($base) {
     var polling_url = $(elm).data("polling-url");
     var polling_interval = $(elm).data("polling-interval");
 
+    var count = 0;
     var update_new_comments = function() {
+      if(count > 20) { return; }
+      count += 1;
       $.getScript(polling_url);
       setTimeout(update_new_comments, polling_interval);
     }
