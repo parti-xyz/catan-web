@@ -119,8 +119,8 @@ class ApplicationController < ActionController::Base
   def default_meta_options
     {
       site_name: current_group.blank? ? "빠띠" : "#{current_group.title} 빠띠",
-      title: current_group.try(:site_title) || "민주적 협력 커뮤니티 플랫폼 '빠띠'",
-      description: current_group.try(:site_description) || "더 나은 민주주의의 기반요소를 통합한 기민하고, 섬세하고, 일상적인 협력 커뮤니 플랫폼, 빠띠!",
+      title: current_group.try(:site_title) || "민주적 일상 커뮤니티 '빠띠'",
+      description: current_group.try(:site_description) || "더 나은 민주주의의 기반요소를 통합한 기민하고, 섬세하고, 일상적인 커뮤니티 플랫폼, 빠띠!",
       keywords: current_group.try(:site_keywords) || "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
       image: view_context.asset_url(current_group.try(:seo_image) || "parti_seo.png"),
       twitter_card_type: "summary_card"

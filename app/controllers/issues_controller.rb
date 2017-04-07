@@ -227,7 +227,7 @@ class IssuesController < ApplicationController
 
   def prepare_issue_meta_tags
     prepare_meta_tags title: meta_issue_title(@issue),
-                      description: (@issue.body.presence || "#{@issue.title} | 민주적 협력 커뮤니티 플랫폼 '빠띠'"),
+                      description: (@issue.body.presence || "#{@issue.title} | 민주적 일상 커뮤니티 '빠띠'"),
                       image: @issue.logo_url
   end
 
