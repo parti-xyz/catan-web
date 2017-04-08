@@ -41,3 +41,14 @@ default_of_private_group:
   slug: default_of_private_group
   group_slug: private
   is_default: true
+frozen_private_parti:
+  title: 휴면비공빠띠
+  slug: frozen_private
+  group_slug: indie
+  freezed_at: <%= 5.day.ago.to_s(:db) %>
+  private: true
+frozen_parti:
+  title: 휴면빠띠
+  slug: frozen
+  group_slug: indie
+  freezed_at: <%= 5.day.ago.to_s(:db) %>

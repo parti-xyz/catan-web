@@ -28,4 +28,17 @@ class MemberRequestsTest < ActionDispatch::IntegrationTest
     refute issues(:private_issue).member_requested?(users(:one))
     assert_equal users(:one).messages.last.messagable.id, assigns(:member_request).id
   end
+
+  test '휴면 중이면 멤버 요청이 거부되어요' do
+    refute issues(:frozen_private_parti).member?(users(:one))
+    refute issues(:frozen_private_parti).member_requested?(users(:one))
+
+    sign_in(users(:one))
+    post issue_member_requests_path(issue_id: issues(:frozen_private_parti).id)
+
+    users(:one).reload
+
+    refute issues(:frozen_private_parti).member?(users(:one))
+    refute issues(:frozen_private_parti).member_requested?(users(:one))
+  end
 end

@@ -13,7 +13,7 @@
       %span.text-keep-all
         %strong<> 오거나이저의 가입승인
         을 기다려주세요.
-    - else
+    - elsif post.issue.alive?
       이 게시글을 보시려면 먼저 가입신청을 해주세요.
       %span(class="#{dom_id(post.issue)}-member")
         - if user_signed_in?

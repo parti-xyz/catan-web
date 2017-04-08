@@ -301,6 +301,14 @@ class Issue < ActiveRecord::Base
     MemberRequest.with_deleted.where(joinable: self)
   end
 
+  def frozen?
+    freezed_at.present?
+  end
+
+  def alive?
+    ! frozen?
+  end
+
   private
 
   def downcase_slug

@@ -16,6 +16,16 @@ class MembersTest < ActionDispatch::IntegrationTest
     assert issues(:issue3).member?(users(:one))
   end
 
+  test '휴면 중이면 멤버가입이 거부되어요' do
+    refute issues(:frozen_parti).member?(users(:one))
+
+    sign_in(users(:one))
+
+    post issue_members_path(issue_id: issues(:frozen_parti).id)
+
+    refute issues(:frozen_parti).reload.member?(users(:one))
+  end
+
   test '그룹이 아닌 빠띠에 가입해요' do
     assert issues(:issue2).indie_group?
 

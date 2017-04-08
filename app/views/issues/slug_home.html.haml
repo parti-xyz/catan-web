@@ -4,7 +4,7 @@
   .container
     .row
       .col-xs-12.col-sm-8
-        - if @issue.freezed_at.blank?
+        - if !@issue.frozen?
           - if user_signed_in?
             - if @issue.member?(current_user)
               - if @issue.postable?(current_user)

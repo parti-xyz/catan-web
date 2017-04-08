@@ -5,20 +5,24 @@
     .editors-panel
       .media
         .media-body
-          %h4
-            비공개 빠띠입니다.
-          - if @issue.member_requested? current_user
-            %p
-              이 빠띠를 보시려면 먼저 가입승인을 받아야합니다.
-              %span.text-nowrap
-                %strong<> 오거나이저의 가입승인
-                을 기다려주세요.
+          - if @issue.alive?
+            %h4
+              비공개 빠띠입니다.
+            - if @issue.member_requested? current_user
+              %p
+                이 빠띠를 보시려면 먼저 가입승인을 받아야합니다.
+                %span.text-nowrap
+                  %strong<> 오거나이저의 가입승인
+                  을 기다려주세요.
+            - else
+              %p
+                비공개 빠띠를 보시려면 먼저 가입신청을 해주세요.
+              %div(class="#{dom_id(@issue)}-member" style="    padding-bottom: 12px;")
+                - if user_signed_in?
+                  = link_to smart_members_or_member_requests_parti_path(@issue), method: :post, 'data-disable-with': '처리 중...', class: 'btn btn-md btn-primary' do
+                    가입하기
+                - else
+                  = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: @issue.id}.to_json) }, class: 'btn btn-md btn-primary'
           - else
-            %p
-              비공개 빠띠를 보시려면 먼저 가입신청을 해주세요.
-            %div(class="#{dom_id(@issue)}-member" style="    padding-bottom: 12px;")
-              - if user_signed_in?
-                = link_to smart_members_or_member_requests_parti_path(@issue), method: :post, 'data-disable-with': '처리 중...', class: 'btn btn-md btn-primary' do
-                  가입하기
-              - else
-                = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: @issue.id}.to_json) }, class: 'btn btn-md btn-primary'
+            %h4
+              휴면 중인 빠띠입니다.

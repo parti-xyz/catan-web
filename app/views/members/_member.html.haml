@@ -2,7 +2,10 @@
 - member_btn_class = 'btn btn-xs btn-ghost'
 - issue = local_assigns[:issue]
 %span(class="#{dom_id(issue)}-member")
-  - if user_signed_in?
+  - if issue.frozen?
+    %button.btn-member{ class: member_btn_class }
+      휴면 중
+  - elsif user_signed_in?
     - if issue.member?(current_user)
       - unless issue.organized_by? current_user
         %button.btn-member{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", class: member_btn_class}

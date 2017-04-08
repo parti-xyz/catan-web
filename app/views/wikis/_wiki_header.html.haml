@@ -12,7 +12,7 @@
           = link_to [:edit, issue.wiki], class: 'btn btn-primary btn-shadow editor-btn' do
             %i.fa.fa-pencil
             = t('labels.edit_wiki_button')
-        - else
+        - elsif @issue.alive?
           = render 'issues/join_button'
       - else
         = link_to '#', class: 'btn btn-primary btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
