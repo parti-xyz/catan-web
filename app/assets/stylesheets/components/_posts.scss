@@ -23,7 +23,8 @@ section#posts {
   padding: 20px 0;
 
   @media (max-width: $screen-xs-max) {
-    .app-posts-show & {
+    .app-posts-show &,
+    .app-posts-images & {
       padding: 0;
     }
   }

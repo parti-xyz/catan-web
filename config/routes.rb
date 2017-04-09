@@ -108,6 +108,7 @@ Rails.application.routes.draw do
       get 'poll_social_card'
       get 'survey_social_card'
       get 'modal'
+      get 'images'
       post 'pin'
       delete 'unpin'
       get 'readers'

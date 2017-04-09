@@ -1,0 +1,8 @@
+= render 'issues/issue_header', simple: true
+
+%section#posts
+  .container
+    .row
+      .col-xs-12
+        .posts
+          = render @post, mode: 'detail', additional_buttons_partial: 'posts/modal_buttons', post_line: 'only_image'

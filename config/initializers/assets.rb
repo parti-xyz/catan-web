@@ -11,3 +11,4 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w(email.css application_xs.css application_default.css vendors.css mobile.js)
 Rails.application.config.assets.precompile << %r{\Agroups/(?!_)([^\/]*)\.(css|sass|scss)\z}x
+Rails.application.config.assets.precompile += %w(lightbox/*)

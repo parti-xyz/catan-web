@@ -34,6 +34,18 @@
 //= require focus-element-overlay
 //= require clipboard
 //= require Sortable
+//= require lightbox
+
+
+lightbox.option({
+  'albumLabel': '이미지 %1 / %2',
+  'resizeDuration': 200,
+  'showImageNumberLabel': true,
+  'imageFadeDuration': 400,
+  'alwaysShowNavOnTouchDevices': true,
+  fitImagesInViewport: true,
+  maxWidth: 500
+})
 
 // blank
 $.is_blank = function (obj) {

@@ -175,7 +175,7 @@ class Post < ActiveRecord::Base
   end
 
   def specific_desc_striped_tags
-    ActionView::Base.full_sanitizer.sanitize(specific_desc).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
+    sanitize_html specific_desc
   end
 
   def share_image_dimensions

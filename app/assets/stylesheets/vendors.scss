@@ -8,6 +8,7 @@
 @import "jquery.webui-popover";
 @import "simplemde";
 @import "bootstrap-select";
+@import "lightbox";
 
 .redactor-air {
   min-width: auto;
@@ -29,4 +30,43 @@
 
 .tooltip-wrapper--no-wrap .tooltip-inner {
   white-space: nowrap;
+}
+
+// lightbox
+
+body {
+  #lightboxOverlay {
+    position: fixed !important;
+    top: 0; left: 0;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  #lightbox {
+    position: fixed !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    max-width: 650px;
+    margin-right: auto;
+    margin-left: auto;
+    left: 0;
+    right: 0;
+  }
+
+  .lb-nav a.lb-next {
+    opacity: 1;
+    position: fixed;
+  }
+  .lb-nav a.lb-prev {
+    opacity: 1;
+    position: fixed;
+  }
+
+  .lb-dataContainer {
+    left: 50%;
+    position: absolute;
+    top: -45px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
 }

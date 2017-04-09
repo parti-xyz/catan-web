@@ -16,95 +16,107 @@
     %h4.post-line__title.post-line__title
       = post_body_format post.parsed_title
   .post-body
-    .post-parsed-body{'data-action': 'parti-link-target-blank'}
-      - if %w(modal detail).include? local_assigns[:mode]
-        = post_body_format post.parsed_body
-      - else
-        .truncated-body
-          - more_button = capture do
-            %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더보기
-          != smart_truncate_html(post_body_format(post.parsed_body), length: 500, ellipsis: more_button)
-        .original-body{ style: 'display: none;' }
-          = post_body_format post.parsed_body
-    - if post.video_source?
-      .post-reference-line.post-line
-        .post-reference-line__link-content.post-reference-line__link-content--video
-          .post-reference-line__video-container
-            .post-reference-line__video-content
-              = video_embed_code(post)
-          .post-reference-line__site-name
-            %a{href: post.link_source.url, target: '_blank'}
-              = post.link_source.site_name.try(:upcase)
-              원글보기
-              %i.fa.fa-external-link
-    - elsif post.file_sources.any?
+    - if local_assigns[:post_line]
       - if post.file_sources.only_image.any?
-        - odd = post.file_sources.only_image.count.odd?
         .post-reference-line-file-content-wrapper--image<>
-          - previous_style = nil
           - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
-            - if index == 0 and odd == true
-              - current_style = 'single'
-            - elsif previous_style == 'left'
-              - current_style = 'right'
-            - else
-              - current_style = 'left'
-            - if current_style == 'single'
-              .post-reference-line__file-content--image{ 'data-action': 'parti-link', 'data-url': file_source.attachment.url, 'data-link-target': '_blank', class: current_style }<>
-                = image_tag file_source.attachment.md.url
-            - else
-              .post-reference-line__file-content--image{ 'data-action': 'parti-link', 'data-url': file_source.attachment.url, 'data-link-target': '_blank', class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
-            - previous_style = current_style
-
-      - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+            %a.post-reference-line__file-content--image{ href: file_source.attachment.url, class: 'single' }<>
+              = image_tag file_source.attachment.md.url
+    - else
+      .post-parsed-body{'data-action': 'parti-link-target-blank'}
+        - if %w(modal detail).include? local_assigns[:mode]
+          = post_body_format post.parsed_body
+        - else
+          .truncated-body
+            - more_button = capture do
+              %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더보기
+            != smart_truncate_html(post_body_format(post.parsed_body), length: 500, ellipsis: more_button)
+          .original-body{ style: 'display: none;' }
+            = post_body_format post.parsed_body
+      - if post.video_source?
         .post-reference-line.post-line
-          .post-reference-line__file-content
-            .media
-              .media-left.hidden-xs
-                %i.fa.fa-floppy-o
-              .media-body
-                %span.post-line-reference__title
-                  = file_source.name
-                %br.visible-xs
-                %span.post-reference-line__file-content__file-size
-                  = number_to_human_size(file_source.file_size)
-              .media-right
-                .post-reference-line__file-content__download
-                  %a{href: file_source.url, target: '_blank'}
-                    다운로드
-    - elsif post.link_source.present?
-      .post-reference-line.post-line
-        %a{href: post.link_source.url, target: '_blank'}
-          .post-reference-line__link-content
-            - if (post.link_source.has_image?)
-              .post-reference-line__link-content__big-thumb.visible-xs-block{style: "background-image: url(#{post.link_source.image.md.url});"}
-            .media
-              .media-body
-                %h4.post-line-reference__title= post.link_source.title_or_url
-                .post-reference-line__source-body= excerpt(post.link_source.body, length: (is_small_screen? ? 45 : 130))
-                .post-reference-line__site-name
-                  %a{href: post.link_source.url, target: '_blank'}
-                    = post.link_source.site_name.try(:upcase)
-                    원글보기
-                    %i.fa.fa-external-link
-              - if (post.link_source.has_image?)
-                .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})"}
-    - elsif post.poll.present?
-      .poll-card[post.poll]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
-        .row.poll-card__meta
-          .col-sm-6.col-xs-12
-            .poll-card__issue
-              = link_to smart_issue_home_path_or_url(issue) do
-                - unless post.issue.displayable_group? current_group
-                  .poll-card__group
-                    = post.issue.group.head_title
-                .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-          .col-sm-6.col-xs-12
-            .poll-card__date.date-wrapper.poll-card__date--with-issue
-              %span= date_f post.poll.created_at
-        %h4.poll-card__title
-          “#{post.poll.title}”
+          .post-reference-line__link-content.post-reference-line__link-content--video
+            .post-reference-line__video-container
+              .post-reference-line__video-content
+                = video_embed_code(post)
+            .post-reference-line__site-name
+              %a{href: post.link_source.url, target: '_blank'}
+                = post.link_source.site_name.try(:upcase)
+                원글보기
+                %i.fa.fa-external-link
+      - elsif post.file_sources.any?
+        - if post.file_sources.only_image.any?
+          - odd = post.file_sources.only_image.count.odd?
+          - image_id = "image-#{SecureRandom.uuid}"
+          .post-reference-line-file-content-wrapper--image<>
+            - previous_style = nil
+            - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
+              - if is_small_screen?
+                - action_options = { 'data-action': 'parti-link', 'data-url': images_post_path(post), 'data-link-target': '_blank' }
+              - else
+                - action_options = { href: file_source.attachment.url, 'data-lightbox': "image-#{image_id}", 'data-title': post.specific_desc_striped_tags }
+              - if index == 0 and odd == true
+                - current_style = 'single'
+              - elsif previous_style == 'left'
+                - current_style = 'right'
+              - else
+                - current_style = 'left'
+              - if current_style == 'single'
+                %a.post-reference-line__file-content--image{ action_options, class: current_style }<>
+                  = image_tag file_source.attachment.md.url
+              - else
+                %a.post-reference-line__file-content--image{ action_options, class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
+              - previous_style = current_style
 
-        = render 'votings/voting', local_assigns.merge(in_post: true)
-    - elsif post.survey.present?
-      = render 'surveys/card', local_assigns
+        - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+          .post-reference-line.post-line
+            .post-reference-line__file-content
+              .media
+                .media-left.hidden-xs
+                  %i.fa.fa-floppy-o
+                .media-body
+                  %span.post-line-reference__title
+                    = file_source.name
+                  %br.visible-xs
+                  %span.post-reference-line__file-content__file-size
+                    = number_to_human_size(file_source.file_size)
+                .media-right
+                  .post-reference-line__file-content__download
+                    %a{href: file_source.url, target: '_blank'}
+                      다운로드
+      - elsif post.link_source.present?
+        .post-reference-line.post-line
+          %a{href: post.link_source.url, target: '_blank'}
+            .post-reference-line__link-content
+              - if (post.link_source.has_image?)
+                .post-reference-line__link-content__big-thumb.visible-xs-block{style: "background-image: url(#{post.link_source.image.md.url});"}
+              .media
+                .media-body
+                  %h4.post-line-reference__title= post.link_source.title_or_url
+                  .post-reference-line__source-body= excerpt(post.link_source.body, length: (is_small_screen? ? 45 : 130))
+                  .post-reference-line__site-name
+                    %a{href: post.link_source.url, target: '_blank'}
+                      = post.link_source.site_name.try(:upcase)
+                      원글보기
+                      %i.fa.fa-external-link
+                - if (post.link_source.has_image?)
+                  .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})"}
+      - elsif post.poll.present?
+        .poll-card[post.poll]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
+          .row.poll-card__meta
+            .col-sm-6.col-xs-12
+              .poll-card__issue
+                = link_to smart_issue_home_path_or_url(issue) do
+                  - unless post.issue.displayable_group? current_group
+                    .poll-card__group
+                      = post.issue.group.head_title
+                  .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
+            .col-sm-6.col-xs-12
+              .poll-card__date.date-wrapper.poll-card__date--with-issue
+                %span= date_f post.poll.created_at
+          %h4.poll-card__title
+            “#{post.poll.title}”
+
+          = render 'votings/voting', local_assigns.merge(in_post: true)
+      - elsif post.survey.present?
+        = render 'surveys/card', local_assigns

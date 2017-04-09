@@ -104,6 +104,14 @@ class PostsController < ApplicationController
     end
   end
 
+  def images
+    @issue = @post.issue
+    prepare_meta_tags title: @post.meta_tag_title,
+        site_name: ("#{@post.issue.title} 빠띠" if @post.issue.group.indie?),
+        image: @post.meta_tag_image,
+        description: @post.meta_tag_description
+  end
+
   def poll_social_card
     social_card
   end

@@ -6,6 +6,7 @@ class Ability
     can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys], Issue
+    can [:images], Post
     if user
       can [:update, :destroy, :remove_logo, :remove_cover], Issue do |issue|
         user.is_organizer?(issue)
