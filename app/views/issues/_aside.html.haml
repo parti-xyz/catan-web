@@ -23,6 +23,14 @@
         = link_to smart_issue_users_path(@issue), class: 'more' do
           %i.fa.fa-ellipsis-h
 
+    - unless @issue.indie_group?
+      %section.aside-relate-issues
+        %h5.aside-title
+          #{@issue.group.title} 그룹
+        %ul.list-unstyled.aside-issues
+          - Issue.only_group(@issue.group).sort_by_name.each do |issue|
+            = render customize_partial_path(issue, 'issue_line')
+
     - if @issue.related_issues.present? or can? :update, @issue
       %section.aside-relate-issues
         %h5.aside-title
