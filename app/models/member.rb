@@ -38,6 +38,9 @@ class Member < ActiveRecord::Base
     base
   }
 
+  scoped_search relation: :user, on: [:nickname]
+  scoped_search relation: :user, on: [:nickname, :email], profile: :admin
+
   def issue
     joinable if joinable_type == 'Issue'
   end

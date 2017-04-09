@@ -210,4 +210,10 @@ class ApplicationController < ActionController::Base
 
     redirect_to subdomain: issue.group.subdomain and return unless issue.displayable_group?(current_group)
   end
+
+  def smart_search_for(model, q, options = {})
+    return model.search_for(q, options) if q.blank?
+
+    model.search_for q.split.map { |t| "\"#{t}\"" }.join(" OR "), options
+  end
 end

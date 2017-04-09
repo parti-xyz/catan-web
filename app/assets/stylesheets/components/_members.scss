@@ -3,3 +3,15 @@
     width: 50%;
   }
 }
+
+.members-search-form {
+  margin-bottom: 12px;
+  .input-group {
+    width: 60%;
+  }
+  .btn-group-default {
+    border-color: $btn-default-border;
+    background: $brand-primary;
+    color: #fff;
+  }
+}

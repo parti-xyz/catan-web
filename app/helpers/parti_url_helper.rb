@@ -27,7 +27,7 @@ module PartiUrlHelper
     slug_issue_wikis_path(slug: issue.slug)
   end
 
-  def smart_issue_users_path(issue, options = {})
+  def smart_issue_members_path(issue, options = {})
     options.update(slug: issue.slug)
     slug_issue_users_path(options)
   end

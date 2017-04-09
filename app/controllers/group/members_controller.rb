@@ -4,7 +4,9 @@ class Group::MembersController < GroupBaseController
   before_action :authenticate_user!, except: [:magic_form]
 
   def index
-    @members = current_group.members.recent.page(params[:page]).per(3 * 10)
+    base = current_group.members.recent
+    base = smart_search_for(base, params[:keyword], profile: (:admin if user_signed_in? and current_user.admin?)) if params[:keyword].present?
+    @members = base.page(params[:page]).per(3 * 10)
   end
 
   def cancel

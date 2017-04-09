@@ -89,7 +89,9 @@ class IssuesController < ApplicationController
   def slug_members
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
-    @members = @issue.members.recent.page(params[:page]).per(3 * 10)
+    base = @issue.members.recent
+    base = smart_search_for(base, params[:keyword], profile: (:admin if user_signed_in? and current_user.admin?)) if params[:keyword].present?
+    @members = base.page(params[:page]).per(3 * 10)
   end
 
   def slug_links_or_files

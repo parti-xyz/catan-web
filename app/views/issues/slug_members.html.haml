@@ -11,9 +11,9 @@
                 가입신청
                 .count-label-wrapper
                   .count-label= @issue.member_requests.count
-          %ul.request-card-wrapper.list-unstyled.clearfix
-            - @issue.member_request_users.each do |user|
-              = render user, issue: @issue, additional_buttons_partial: 'member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons'
+            %ul.request-card-wrapper.list-unstyled.clearfix
+              - @issue.member_request_users.each do |user|
+                = render user, issue: @issue, additional_buttons_partial: 'member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons'
 
         %section#content-tab-section
           .nav-tabs.message-tab
@@ -21,8 +21,16 @@
               가입멤버
               .count-label-wrapper
                 .count-label= @issue.members.count
-        %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
-          = render 'members/members_page', members: @members, issue: @issue
-        = paginate @members, theme: 'catan', params: { controller: 'issues', action: 'slug_members' }
+          .members-search-form
+            = form_tag smart_issue_members_path(@issue), method: :get do
+              = hidden_field_tag :sort, params[:sort]
+              .input-group.input-group-keyword
+                %input.form-control{name: "keyword", placeholder: "ex) 닉네임#{(' 이메일' if user_signed_in? and current_user.admin?)}", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
+                  %span.input-group-btn
+                    %button.btn.btn-group-default
+                      %i.fa.fa-search
+          %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
+            = render 'members/members_page', members: @members, issue: @issue
+          = paginate @members, theme: 'catan', params: { controller: 'issues', action: 'slug_members' }
       - unless is_small_screen?
         = render 'issues/aside'

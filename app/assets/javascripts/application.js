@@ -629,7 +629,7 @@ var parti_prepare_post_modal = function($base) {
   });
 };
 
-$('[data-action="parti-search-parties"]').each(function(i, elm) {
+$('[data-action="parti-clearable-search"]').each(function(i, elm) {
   if($.is_present($(elm).val())) {
     $(elm).addClear({
       showOnLoad: true,

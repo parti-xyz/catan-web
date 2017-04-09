@@ -58,6 +58,14 @@
               가입멤버
               .count-label-wrapper
                 .count-label= current_group.members.count
+          .members-search-form
+            = form_tag group_members_path, method: :get do
+              = hidden_field_tag :sort, params[:sort]
+              .input-group.input-group-keyword
+                %input.form-control{name: "keyword", placeholder: "ex) 닉네임#{(' 이메일' if user_signed_in? and current_user.admin?)}", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
+                  %span.input-group-btn
+                    %button.btn.btn-group-default
+                      %i.fa.fa-search
           %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
             = render 'members/members_page', members: @members, group: current_group
           = paginate @members, theme: 'catan', params: { controller: 'group/members', action: 'index' }

@@ -35,7 +35,7 @@
                     = hidden_field_tag :sort, params[:sort]
                     = hidden_field_tag :category, params[:category]
                     .input-group.input-group-lg.input-group-keyword
-                      %input.form-control{name: "keyword", placeholder: "무엇에 관심있으세요?", value: params[:keyword], type: "search", 'data-action': 'parti-search-parties'}
+                      %input.form-control{name: "keyword", placeholder: "무엇에 관심있으세요?", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
                         %span.input-group-btn
                           %button.btn.btn-group-default{:type => "button"}
                             %i.fa.fa-search
