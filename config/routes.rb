@@ -170,7 +170,7 @@ Rails.application.routes.draw do
   get '/p/:slug/references', to: "issues#slug_links_or_files", as: 'slug_issue_links_or_files'
   get '/p/:slug/polls', to: redirect('/p/%{slug}/polls_or_surveys')
   get '/p/:slug/polls_or_surveys', to: "issues#slug_polls_or_surveys", as: 'slug_issue_polls_or_surveys'
-  get '/p/:slug/users', to: "issues#slug_users", as: 'slug_issue_users'
+  get '/p/:slug/members', to: "issues#slug_members", as: 'slug_issue_users'
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
 
   get '/u/:slug', to: "users#parties", as: 'slug_user'

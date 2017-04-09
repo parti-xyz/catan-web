@@ -4,7 +4,7 @@
 <% else %>
   $('.user-card-wrapper').data('last-id', '<%= @readers.last.try(:id) %>');
   $('.user-card-wrapper').data('is-last', <%= @is_last_page %>);
-  var $users = $("<%= escape_javascript(render 'users/slug_users_page', issue: @issue, users: @users) %>");
+  var $users = $("<%= escape_javascript(render 'members/members_page', issue: @issue, users: @users) %>");
   $('.user-card-wrapper').append($users);
   parti_partial$($users);
 <% end %>

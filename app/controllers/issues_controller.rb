@@ -1,9 +1,9 @@
 class IssuesController < ApplicationController
   before_filter :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
-  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_users, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis]
+  before_filter :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis]
   load_and_authorize_resource
   before_filter :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
-  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_users]
+  before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
   def simple_search
     @issues = Issue.alive.limit(10)
@@ -86,7 +86,7 @@ class IssuesController < ApplicationController
     having_poll_and_survey_posts_page(@issue)
   end
 
-  def slug_users
+  def slug_members
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
     base = @issue.members.recent

@@ -22,7 +22,7 @@
               .count-label-wrapper
                 .count-label= @issue.members.count
         %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
-          = render 'users/slug_users_page', users: @users, issue: @issue
+          = render 'members/members_page', users: @users, issue: @issue
         .page_waypoint.text-center{'data-target': '.user-card-wrapper', 'data-url': smart_issue_users_path(@issue, format: :js)}
           .page_waypoint__loading
             %i.fa.fa-3x.fa-spinner.fa-pulse
