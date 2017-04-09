@@ -115,7 +115,8 @@ class PostsController < ApplicationController
         description: "\"#{@post.meta_tag_description}\" 어떻게 생각하시나요?",
         twitter_card_type: 'summary_large_image'
     else
-      prepare_meta_tags title: "#{@post.meta_tag_title} | #{@post.issue.title}",
+      prepare_meta_tags title: @post.meta_tag_title,
+        site_name: ("#{@post.issue.title} 빠띠" if @post.issue.group.indie?),
         image: @post.meta_tag_image,
         description: @post.meta_tag_description
     end

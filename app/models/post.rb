@@ -282,15 +282,13 @@ class Post < ActiveRecord::Base
   end
 
   def meta_tag_title
-    result = if poll.present?
-      poll.title
+    if poll.present?
+      sanitize_html poll.title
     elsif parsed_title.present?
-      parsed_title
+      sanitize_html parsed_title
     else
-      parsed_body.gsub('\n', '').truncate(13)
+      sanitize_html(parsed_body).gsub('\n', '').truncate(13)
     end
-
-    ActionView::Base.full_sanitizer.sanitize(result).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
   end
 
   def meta_tag_description
@@ -299,7 +297,7 @@ class Post < ActiveRecord::Base
     else
       strip_body = body.try(:strip)
       strip_body = '' if strip_body.nil?
-      ActionView::Base.full_sanitizer.sanitize(strip_body).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
+      sanitize_html(strip_body)
     end
   end
 
@@ -401,5 +399,9 @@ class Post < ActiveRecord::Base
         [nil, body]
       end
     end
+  end
+
+  def sanitize_html text
+    ActionView::Base.full_sanitizer.sanitize(text).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
   end
 end

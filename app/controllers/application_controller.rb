@@ -118,7 +118,7 @@ class ApplicationController < ActionController::Base
 
   def default_meta_options
     {
-      site_name: current_group.blank? ? "빠띠" : "#{current_group.title} 빠띠",
+      site_name: current_group.blank? ? "빠띠" : "#{current_group.title} 그룹빠띠",
       title: current_group.try(:site_title) || "민주적 일상 커뮤니티 '빠띠'",
       description: current_group.try(:site_description) || "더 나은 민주주의의 기반요소를 통합한 기민하고, 섬세하고, 일상적인 커뮤니티 플랫폼, 빠띠!",
       keywords: current_group.try(:site_keywords) || "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
@@ -140,10 +140,6 @@ class ApplicationController < ActionController::Base
 
   def meta_issue_title(issue)
     issue.title
-  end
-
-  def meta_issue_full_title(issue)
-    "#{meta_issue_title(issue)} | #{default_meta_options[:site_name]}"
   end
 
   def errors_to_flash(model)
