@@ -89,16 +89,7 @@ class IssuesController < ApplicationController
   def slug_members
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
-    base = @issue.members.recent
-    @is_last_page = base.empty?
-    @previous_last = @issue.members.with_deleted.find_by(id: params[:last_id])
-    return if @previous_last.blank? and params[:last_id].present?
-
-    @members = base.previous_of_recent(@previous_last).limit(12)
-
-    @current_last = @members.last
-    @users = @members.map &:user
-    @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
+    @members = @issue.members.recent.page(params[:page]).per(3 * 10)
   end
 
   def slug_links_or_files

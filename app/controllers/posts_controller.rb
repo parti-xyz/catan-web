@@ -67,32 +67,14 @@ class PostsController < ApplicationController
 
   def readers
     @issue = @post.issue
-
-    base = @post.readers.recent
-    @is_last_page = base.empty?
-    @previous_last = @post.readers.find_by(id: params[:last_id])
-    return if @previous_last.blank? and params[:last_id].present?
-
-    @readers = base.previous_of_recent(@previous_last).limit(12)
-    @users = @readers.map &:user
-
-    @current_last = @readers.last
-    @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
+    @readers = @post.readers.recent.page(params[:page]).per(3 * 10)
   end
 
   def unreaders
     @issue = @post.issue
 
     base = @issue.members.where.not(id: @post.readers.select(:member_id)).recent
-    @is_last_page = base.empty?
-    @previous_last = @issue.members.find_by(id: params[:last_id])
-    return if @previous_last.blank? and params[:last_id].present?
-
-    @members = base.previous_of_recent(@previous_last).limit(12)
-    @users = @members.map &:user
-
-    @current_last = @members.last
-    @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
+    @members = base.recent.page(params[:page]).per(3 * 10)
   end
 
   def modal

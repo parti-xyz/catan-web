@@ -4,18 +4,7 @@ class Group::MembersController < GroupBaseController
   before_action :authenticate_user!, except: [:magic_form]
 
   def index
-    @myself = current_user if params[:last_id].blank? and current_group.member?(current_user)
-
-    base = current_group.members.recent.where.not(user_id: current_user.id)
-    @is_last_page = base.empty?
-    @previous_last = current_group.members.with_deleted.find_by(id: params[:last_id])
-    return if @previous_last.blank? and params[:last_id].present?
-
-    @members = base.previous_of_recent(@previous_last).limit(@myself.blank? ? 12 : 11)
-
-    @current_last = @members.last
-    @users = @members.map &:user
-    @is_last_page = (@is_last_page or base.previous_of_recent(@current_last).empty?)
+    @members = current_group.members.recent.page(params[:page]).per(3 * 10)
   end
 
   def cancel

@@ -59,10 +59,7 @@
               .count-label-wrapper
                 .count-label= current_group.members.count
           %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
-            = render 'members/members_page', users: ([@myself] + @users.to_a).compact  , group: current_group
-          .page_waypoint.text-center{'data-target': '.user-card-wrapper', 'data-url': group_members_path(format: :js)}
-            .page_waypoint__loading
-              %i.fa.fa-3x.fa-spinner.fa-pulse
-
+            = render 'members/members_page', members: @members, group: current_group
+          = paginate @members, theme: 'catan', params: { controller: 'group/members', action: 'index' }
       - unless is_small_screen?
         = render 'application/aside'

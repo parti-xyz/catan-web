@@ -1,2 +1,3 @@
-- users.each do |user|
+- members.map(&:user).each do |user|
   = render 'users/user', user: user, issue: local_assigns[:issue], group: local_assigns[:group], chevron_buttons_partial: 'users/chevron_buttons'
+
