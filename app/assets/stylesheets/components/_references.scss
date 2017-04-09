@@ -314,7 +314,9 @@ section#references {
     border: 1px solid $gray-lighter;
     &.single {
       width: 100%;
-      height: 250px;
+      img {
+        width: 100%;
+      }
     }
     &.left,
     &.right {

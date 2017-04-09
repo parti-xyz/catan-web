@@ -49,7 +49,11 @@
               - current_style = 'right'
             - else
               - current_style = 'left'
-            .post-reference-line__file-content--image{ 'data-action': 'parti-link', 'data-url': file_source.attachment.url, 'data-link-target': '_blank', class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
+            - if current_style == 'single'
+              .post-reference-line__file-content--image{ 'data-action': 'parti-link', 'data-url': file_source.attachment.url, 'data-link-target': '_blank', class: current_style }<>
+                = image_tag file_source.attachment.md.url
+            - else
+              .post-reference-line__file-content--image{ 'data-action': 'parti-link', 'data-url': file_source.attachment.url, 'data-link-target': '_blank', class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
             - previous_style = current_style
 
       - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
