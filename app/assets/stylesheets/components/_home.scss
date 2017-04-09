@@ -142,15 +142,5 @@ section#home {
         }
       }
     }
-
-
-    .parties-all-loading {
-      text-align: center;
-      margin-top: 50px;
-      display: none;
-      @media (max-width: $screen-xs-max){
-        min-height: 800px;
-      }
-    }
   }
 }

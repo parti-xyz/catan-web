@@ -41,9 +41,6 @@
                             %i.fa.fa-search
                 .parties-sort-select.parties-sort-select--group
                   = render 'issues/index_filter'
-
-              .parties-all-loading
-                %i.fa.fa-spinner.fa-pulse.fa-3x.fa-fw
               .parties-all-list
                 = render 'issues/page'
       - unless is_small_screen?
