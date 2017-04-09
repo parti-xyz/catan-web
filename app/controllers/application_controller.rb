@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   layout -> { get_layout }
 
-  #if Rails.env.production? or Rails.env.staging?
+  if Rails.env.production? or Rails.env.staging?
     rescue_from ActiveRecord::RecordNotFound, ActionController::UnknownFormat do |exception|
       render_404
     end
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       self.response_body = nil
       redirect_to root_url, :alert => I18n.t('errors.messages.invalid_auth_token')
     end
-  #end
+  end
 
   def render_404
     self.response_body = nil
