@@ -17,7 +17,6 @@
 //= require kakao
 //= require jquery.history
 //= require jquery.waypoints
-//= require jquery.typewatch
 //= require jquery.dotdotdot
 //= require jquery.webui-popover
 //= require redactor2_rails/config
@@ -617,31 +616,30 @@ var parti_prepare_post_modal = function($base) {
   $.parti_apply($base, '[data-action="parti-filter-parties"]', function(elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {
-      var search_input = $(this).data('search-input');
+      var search_form = $(this).data('search-form');
       var sort = $(this).data('search-sort');
       var category = $(this).data('search-category');
       var $elm = $(this);
 
-      $('.parties-all-loading').show();
-      $('.parties-all-list').hide();
-      $.ajax({
-        url: '/parties',
-        type: "get",
-        data:{
-          keyword: $(search_input).val(),
-          sort: sort,
-          category: category
-        },
-        dataType: 'script',
-        complete: function(xhr) {
-          $('.parties-all-loading').hide();
-          $('.parties-all-list').show().trigger('parti-home-searched');
-        },
-      });
+      $(search_form).find("input[name='sort']").val(sort);
+      $(search_form).find("input[name='category']").val(category);
+      $(search_form).submit();
       return false;
     });
   });
 };
+
+$('[data-action="parti-search-parties"]').each(function(i, elm) {
+  if($.is_present($(elm).val())) {
+    $(elm).addClear({
+      showOnLoad: true,
+      onClear: function(){
+        $(elm).val('');
+        $(elm).closest("form").submit();
+      }
+    });
+  }
+});
 
 var parti_partial$ = function($partial) {
   parti_prepare_post_modal($partial);
@@ -866,43 +864,6 @@ $(function(){
       offset: 'bottom-in-view'
     });
   })();
-
-  $('[data-action="parti-search-parties"]').each(function(i, elm) {
-    var sort = $(elm).data('search-sort');
-    var category = $(elm).data('search-category');
-
-    var ajax_search = function (value) {
-      $('.parties-all-loading').show();
-      $('.parties-all-list').hide();
-      $.ajax({
-        url: '/parties',
-        type: "get",
-        data:{
-          keyword: value,
-          sort: $(sort).val(),
-          category: $(category).val()
-        },
-        complete: function(xhr) {
-          $('.parties-all-loading').hide();
-          $('.parties-all-list').show().trigger('parti-home-searched');
-        },
-        dataType: 'script'
-      });
-    }
-    var options = {
-      callback: ajax_search,
-      wait: 500,
-      highlight: true,
-      allowSubmit: false,
-      captureLength: 2
-    }
-    $(elm).addClear({
-      onClear: function(){
-        ajax_search('');
-      }
-    });
-    $(elm).typeWatch( options );
-  });
 
   // Initialize Redactor
   $('.redactor').redactor({

@@ -9,12 +9,12 @@
           .parties-all
             .parties-filter
               .parties-search-form
-                %form(onsubmit="return false;")
-                  = hidden_field_tag :sort
+                = form_tag issues_path, method: :get, id: 'js-search-parties-form' do
+                  = hidden_field_tag :sort, params[:sort]
                   .input-group.input-group-lg.input-group-keyword
-                    %input.form-control{name: "keyword", placeholder: "무엇에 관심있으세요?", type: "search", data: { action: 'parti-search-parties', 'search-sort': '#parties-all input[name=sort]', 'search-category': '#parties-all input[name=category]'}}
+                    %input.form-control{name: "keyword", placeholder: "무엇에 관심있으세요?", value: params[:keyword], type: "search", 'data-action': 'parti-search-parties'}
                       %span.input-group-btn
-                        %button.btn.btn-group-default{:type => "button"}
+                        %button.btn.btn-group-default
                           %i.fa.fa-search
               .parties-sort-select
                 = render 'issues/index_filter'

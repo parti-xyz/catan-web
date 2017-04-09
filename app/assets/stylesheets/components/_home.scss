@@ -53,7 +53,9 @@ section#home {
         .parties-sort-select,
         .parties-search-form  {
           display: table-cell;
-          width: 50%;
+        }
+        .parties-search-form {
+          width: 40%;
         }
       }
       .parties-sort-select {
