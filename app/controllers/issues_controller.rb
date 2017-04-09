@@ -159,17 +159,9 @@ class IssuesController < ApplicationController
   end
 
   def destroy
-    if @issue.deletable_by? current_user
-      ActiveRecord::Base.transaction do
-        @issue.destroy
-        Message.where(messagable: @issue.members_with_deleted).destroy_all
-        Message.where(messagable: @issue.member_requests_with_deleted).destroy_all
-      end
-      redirect_to root_path
-    else
-      flash[:error] = t('errors.messages.not_deletable_parti')
-      redirect_to smart_issue_home_url(@issue)
-    end
+    IssueDestroyJob.perform_async(current_user.id, @issue.id, params[:message])
+    flash[:success] = t('views.started_issue_destroying')
+    redirect_to root_path
   end
 
   def remove_logo

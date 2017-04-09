@@ -159,4 +159,17 @@ class IssuesTest < ActionDispatch::IntegrationTest
     assert assigns(:issue).persisted?
     assert_equal 'gwangju', assigns(:issue).group.slug
   end
+
+  test '빠띠를 삭제해요' do
+    sign_in(users(:organizer))
+    Sidekiq::Testing.inline! do
+      delete issue_path(issues(:issue1)), message: 'reason'
+    end
+    deleted_issue = Issue.with_deleted.find_by(id: issues(:issue1).id).reload
+    assert deleted_issue.paranoia_destroyed?
+    refute deleted_issue.members.any?
+    refute deleted_issue.member_requests.any?
+    refute Post.where(id: deleted_issue.posts).any?
+    assert users(:organizer), deleted_issue.destroyer
+  end
 end

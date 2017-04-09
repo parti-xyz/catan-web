@@ -23,4 +23,16 @@ class PartiMailer < ApplicationMailer
         delivery_method_options: delivery_method_options)
     end
   end
+
+  def on_destroy(organizer_id, user_id, issue_id, message)
+    @organizer = User.find_by(id: organizer_id)
+    @user = User.find_by(id: user_id)
+    @issue = Issue.with_deleted.find_by(id: issue_id)
+    return if @user.blank? or @issue.blank?
+
+    @message = message
+
+    mail(to: @user.email,
+         subject: "[빠띠] #{@organizer.nickname}님이 #{@issue.title} 빠띠를 닫습니다.")
+  end
 end

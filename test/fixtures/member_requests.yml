@@ -4,4 +4,7 @@ request1:
 request2:
   joinable: private_group (Group)
   user: member_request_to_private_group
+request3:
+  joinable: issue1 (Issue)
+  user: two
 

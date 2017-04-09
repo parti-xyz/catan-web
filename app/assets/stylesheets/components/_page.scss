@@ -243,13 +243,13 @@
   .well {
     background-color: #fff;
     border-color: $brand-primary;
-    padding: 40px 35px 25px;
+    padding: 40px;
   }
   h5 {
     color: $gray;
     font-size: 16px;
   }
-  a {
+  .help-block a {
     color: $gray;
     font-weight: bold;
     text-decoration: underline;

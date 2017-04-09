@@ -202,6 +202,7 @@ ko:
         disagree: 반대
         unsure: 유보
   views:
+    started_issue_destroying: '빠띠 삭제가 시작되었습니다. 잠시 후에 완료됩니다.'
     indie_form_select_title: '그룹에 속하지 않는 일반 빠띠'
     group:
       welcome: '그룹에 가입되었습니다'

@@ -57,8 +57,10 @@ class MessagesTest < ActionDispatch::IntegrationTest
     issues(:issue1).posts.destroy_all
     issues(:issue1).members.destroy_all
 
-    delete issue_path(issues(:issue1))
-    assert assigns(:issue).paranoia_destroyed?
+    Sidekiq::Testing.inline! do
+      delete issue_path(issues(:issue1))
+    end
+    assert assigns(:issue).reload.paranoia_destroyed?
 
     get messages_path(user: users(:one).nickname)
     assert_response :success
@@ -83,8 +85,10 @@ class MessagesTest < ActionDispatch::IntegrationTest
     # 빠띠 삭제
     issues(:private_issue).posts.destroy_all
     issues(:private_issue).members.destroy_all
-    delete issue_path(issues(:private_issue))
-    assert assigns(:issue).paranoia_destroyed?
+    Sidekiq::Testing.inline! do
+      delete issue_path(issues(:private_issue))
+    end
+    assert assigns(:issue).reload.paranoia_destroyed?
 
     get messages_path(user: users(:two).nickname)
     assert_response :success

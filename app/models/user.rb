@@ -75,6 +75,7 @@ class User < ActiveRecord::Base
   has_many :feedbacks, dependent: :destroy
   has_many :options, dependent: :destroy
   has_many :group, dependent: :nullify
+  has_many :destroyed_issues, dependent: :nullify, foreign_key: :destroyer_id, class_name: Issue
 
   ## uploaders
   # mount

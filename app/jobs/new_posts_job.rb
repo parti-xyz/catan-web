@@ -10,7 +10,7 @@ class NewPostsJob
       next unless user.members.exists?(joinable: all_yesterday_issues)
       next if user.sent_new_posts_email_today?
       yesterday_data = [user.organizing_issues, user.only_all_member_issues].flatten.map { |issue| [ issue, all_yesterday_map[issue] ]}
-      PostsMailer.new_posts(user, yesterday_data, post_day).deliver_now
+      PostMailer.new_posts(user, yesterday_data, post_day).deliver_now
       user.sent_new_posts_email_today!
     end
   end

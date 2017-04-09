@@ -101,6 +101,7 @@ class Issue < ActiveRecord::Base
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :blind_users, through: :blinds, source: :user
   has_many :messages, as: :messagable, dependent: :destroy
+  belongs_to :destroyer, class_name: User
 
   # validations
   validates :title,
@@ -261,10 +262,6 @@ class Issue < ActiveRecord::Base
 
   def issue_for_message
     self
-  end
-
-  def deletable_by?(someone)
-    self.posts.blank? and (self.members.blank? or self.member_users.to_a == [someone])
   end
 
   def private_blocked?(someone = nil)

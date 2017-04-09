@@ -1,0 +1,16 @@
+%section#post-form
+  .container
+    %h2.page-header 빠띠삭제
+    .well
+      %p
+        %strong.text-danger 빠띠를 삭제합니다. 이 작업은 되돌릴 수 없습니다.
+
+      = form_tag @issue, method: :delete do
+        .form-group
+          = label_tag :message, '멤버에게 빠띠 삭제를 안내해 주세요'
+          = text_area_tag :message, '', class: 'form-control', placeholder: 'ex) 이 빠띠는 이러한 이유로 삭제합니다.'
+
+        .form-group
+          = submit_tag '삭제', class: 'btn btn-primary btn-lg', data: { confirm: '이 작업은 되돌릴 수 없습니다. 삭제하시겠습니까?', disable_with: "저장 중..." }
+          = link_to root_path, class: 'btn btn-default' do
+            취소

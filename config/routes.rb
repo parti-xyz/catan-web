@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     member do
       delete :remove_logo
       delete :remove_cover
+      get :destroy_form
     end
     collection do
       get :exist

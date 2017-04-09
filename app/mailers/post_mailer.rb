@@ -1,4 +1,4 @@
-class PostsMailer < ApplicationMailer
+class PostMailer < ApplicationMailer
   layout 'new_email'
 
   def new_posts(user, yesterday_data, post_day)
