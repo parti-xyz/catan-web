@@ -306,6 +306,10 @@ class Issue < ActiveRecord::Base
     ! frozen?
   end
 
+  def comments_count
+    posts.sum(:comments_count)
+  end
+
   private
 
   def downcase_slug
