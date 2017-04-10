@@ -15,8 +15,8 @@ class FileSource < ActiveRecord::Base
 
   ## uploaders
   # mount
-  mount_base64_uploader :attachment, FileUploader, file_name: 'userpic'
-  mount_base64_uploader :secure_attachment, PrivateFileUploader, file_name: -> { 'userpic' }
+  mount_base64_uploader :deprecated_attachment, DeprecatedFileUploader, file_name: -> { 'userpic' }
+  mount_base64_uploader :attachment, PrivateFileUploader, file_name: -> { 'userpic' }
 
   before_save :update_type
 

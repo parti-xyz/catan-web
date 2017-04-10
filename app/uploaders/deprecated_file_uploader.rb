@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class FileUploader < CarrierWave::Uploader::Base
+class DeprecatedFileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   include CarrierWave::MimeTypes
 
@@ -16,7 +16,7 @@ class FileUploader < CarrierWave::Uploader::Base
 
   def store_dir
     return '' if Rails.env.test?
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "uploads/#{model.class.to_s.underscore}/deprecated_attachment/#{model.id}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
@@ -78,14 +78,14 @@ class FileUploader < CarrierWave::Uploader::Base
     if Rails.env.production?
       super_result
     elsif self.file.try(:exists?)
-      if FileUploader::env_storage == :fog
+      if DeprecatedFileUploader::env_storage == :fog
         super_result
       else
         super_result = "https://#{ENV["HOST"]}#{super_result}" if ENV["HOST"].present?
         super_result
       end
     else
-      if FileUploader::env_storage == :fog
+      if DeprecatedFileUploader::env_storage == :fog
         "https://catan-file.s3.amazonaws.com#{self.path}"
       else
         "https://catan-file.s3.amazonaws.com#{super_result}"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410111759) do
+ActiveRecord::Schema.define(version: 20170410163248) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -99,15 +99,15 @@ ActiveRecord::Schema.define(version: 20170410111759) do
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
   create_table "file_sources", force: :cascade do |t|
-    t.string   "name",              limit: 255,             null: false
-    t.string   "attachment",        limit: 255,             null: false
-    t.string   "file_type",         limit: 255,             null: false
-    t.integer  "file_size",         limit: 4,               null: false
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.integer  "post_id",           limit: 4
-    t.integer  "seq_no",            limit: 4,   default: 0, null: false
-    t.string   "secure_attachment", limit: 255
+    t.string   "name",                  limit: 255,             null: false
+    t.string   "deprecated_attachment", limit: 255
+    t.string   "file_type",             limit: 255,             null: false
+    t.integer  "file_size",             limit: 4,               null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "post_id",               limit: 4
+    t.integer  "seq_no",                limit: 4,   default: 0, null: false
+    t.string   "attachment",            limit: 255,             null: false
   end
 
   add_index "file_sources", ["post_id"], name: "index_file_sources_on_post_id", using: :btree

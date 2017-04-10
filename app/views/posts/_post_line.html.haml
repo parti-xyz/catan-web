@@ -54,7 +54,7 @@
               - if is_small_screen?
                 - action_options = { 'data-action': 'parti-link', 'data-url': images_post_path(post), 'data-link-target': '_blank' }
               - else
-                - action_options = { href: file_source.attachment.url, 'data-lightbox': "image-#{image_id}", 'data-title': post.specific_desc_striped_tags.try(:truncate, 20) }
+                - action_options = { href: file_source.attachment.url, 'data-lightbox': "image-#{image_id}", 'data-title': post.specific_desc_striped_tags.try(:truncate, 100) }
               - if index == 0 and odd == true
                 - current_style = 'single'
               - elsif previous_style == 'left'
