@@ -100,7 +100,7 @@
                       원글보기
                       %i.fa.fa-external-link
                 - if (post.link_source.has_image?)
-                  .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})"}
+                  .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})", 'data-action': 'parti-link', 'data-url': post.link_source.url, 'data-link-target': '_blank' }
       - elsif post.poll.present?
         .poll-card[post.poll]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
           .row.poll-card__meta
