@@ -152,7 +152,7 @@ class Group::MembersController < GroupBaseController
       redirect_to root_path and return
     end
 
-    @member = current_group.members.build(user: current_user)
+    @member = current_group.members.build(user: current_user, is_magic: true)
     ActiveRecord::Base.transaction do
       if @member.save
         Invitation.where(recipient_email: current_user.email).destroy_all

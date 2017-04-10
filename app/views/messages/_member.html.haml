@@ -21,4 +21,4 @@
     %strong
       #{member.user.nickname}님이
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
-      #{member.joinable.model_name.human}에 가입했습니다.
+      #{member.joinable.model_name.human}에 #{('초대링크로 ' if member.is_magic?)}가입했습니다.

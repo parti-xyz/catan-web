@@ -16,4 +16,5 @@
     = message.messagable.issue_for_message.title
     #{member.joinable.title}
     #{member.joinable.model_name.human}에
+    #{('초대링크로 ' if member.is_magic?)}
     가입했습니다.
