@@ -16,11 +16,12 @@ class FileSource < ActiveRecord::Base
   ## uploaders
   # mount
   mount_base64_uploader :attachment, FileUploader, file_name: 'userpic'
+  mount_base64_uploader :secure_attachment, PrivateFileUploader, file_name: -> { 'userpic' }
 
   before_save :update_type
 
   validates :name, presence: true
-  validates :attachment, presence: true
+  validates :attachment, presence: true, on: :create
   validates :attachment, file_size: { less_than: 10.megabytes }
 
   scope :sort_by_seq_no, -> { order(:seq_no).order(:id) }

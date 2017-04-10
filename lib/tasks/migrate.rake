@@ -32,4 +32,19 @@ namespace :migrate do
       end
     end
   end
+
+  desc "업로드된 파일을 새로운 비밀s3로 옮깁니다"
+  task :move_new_private_s3 => :environment do
+    FileSource.where(secure_attachment: nil).each do |file_source|
+      begin
+        file_source.remote_secure_attachment_url = file_source.attachment.url
+        file_source.save!
+
+        print "."
+      rescue => e
+        puts "fail: #{file_source.id} #{file_source.name}"
+        puts e.inspect
+      end
+    end
+  end
 end
