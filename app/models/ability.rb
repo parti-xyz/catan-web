@@ -39,7 +39,7 @@ class Ability
       can :destroy, Invitation do |invitation|
         invitation.joinable.organized_by? user
       end
-      can :admit, Group do |group|
+      can [:admit, :magic_link], Group do |group|
         group.organized_by?(user)
       end
       if user.admin?
