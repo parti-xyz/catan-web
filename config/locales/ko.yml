@@ -212,5 +212,8 @@ ko:
       next: "다음"
       previous: "이전"
       truncate: "&hellip;"
+    voting:
+      cancel_agree: "찬성투표를 취소하시겠습니까?"
+      cancel_disagree: "반대투표를 취소하시겠습니까?"
   unauthorized:
     default: "권한이 없습니다."
