@@ -1,31 +1,32 @@
-%section.parti-member-recommend--header
-  .container
-    #header-before-select-tags
-      .media
-        .media-body
-          %h2.text-primary
-            %span
-              먼저
-            %b<>
-              #{current_user.nickname}
-            님이 관심있는 분야를 선택해보세요.
-          %p.select-interest-title
-            선택하신 관심분야를 기준으로 관련된 빠띠를 추천해드릴게요.
-        .media-right
-          %a.btn.btn-primary.btn-primary-dark#btn-go-select-parties{href: '#', data: {action: 'parti-select-parties', 'disable-with': '처리 중...'}}
-            계속하기
-    #header-after-select-tags
+#main.collapse
+  %section.parti-member-recommend--header
+    .container
+      #header-before-select-tags
+        .media
+          .media-body
+            %h2.text-primary
+              %span
+                먼저
+              %b<>
+                #{current_user.nickname}
+              님이 관심있는 분야를 선택해보세요.
+            %p.select-interest-title
+              선택하신 관심분야를 기준으로 관련된 빠띠를 추천해드릴게요.
+          .media-right
+            %a.btn.btn-primary.btn-primary-dark#btn-go-select-parties{href: '#', data: {action: 'parti-select-parties', 'disable-with': '처리 중...'}}
+              계속하기
+      #header-after-select-tags
 
-#parti-cards
+  #parti-cards
 
-%section.parti-member-recommend--select-interest
-  .container
-    %h3.parti-member-recommend-title
-      내 관심사는 무엇인가요?
-    .issue-tag-list
-      - @issue_tag_names.each do |tag|
-        .issue-tag.btn.btn-primary{data: {action: 'parti-select-interested-tag'}}
-          = tag
+  %section.parti-member-recommend--select-interest
+    .container
+      %h3.parti-member-recommend-title
+        내 관심사는 무엇인가요?
+      .issue-tag-list
+        - @issue_tag_names.each do |tag|
+          .issue-tag.btn.btn-primary{data: {action: 'parti-select-interested-tag'}}
+            = tag
 
 .modal.fade.in.parti-member-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
   .modal-dialog
@@ -49,4 +50,7 @@
   :javascript
     $(function(){
       $('#parti-intro').modal();
+      $('#parti-intro').on('hide.bs.modal', function () {
+        $('#main').show();
+      });
     });
