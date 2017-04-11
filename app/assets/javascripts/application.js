@@ -1,7 +1,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
-//= require bootstrap-typeahead
 //= require masonry.pkgd
 //= require jquery.oembed
 //= require jssocials
@@ -239,85 +238,6 @@ var parti_prepare = function($base) {
   // redactor의 링크를 새 창으로 띄웁니다
   $.parti_apply($base, '[data-action="parti-link-target-blank"]', function(elm) {
     $(elm).find('a').attr('target', '_blank');
-  });
-  // typeahead
-
-  $.parti_apply($base, '[data-provider="parti-issue-typeahead"]', function(elm) {
-    var $elm = $(elm);
-    var url = $elm.data('typeahead-url');
-    var displayField = $elm.data('typeahead-display-field');
-
-    if (!url) return;
-
-    $elm.bind('keydown', function(e) {
-        if (e.keyCode == 13) {
-          e.preventDefault();
-        }
-    });
-    var clear_error = function() {
-      $elm.closest('.form-group').removeClass('has-error')
-          .find('.help-block.typeahead-warning').empty().hide();
-      // form validation
-      $elm.data('rule-extern-value', true);
-      $elm.trigger('parti-need-to-validate');
-    }
-    $elm.typeahead({
-      onSelect: function(item) {
-        $elm.data('title', item.text );
-        clear_error();
-      },
-      ajax: {
-        url: url,
-        timeout: 500,
-        displayField: displayField || 'name',
-        triggerLength: 1,
-        method: "get",
-        preProcess: function (data) {
-          return data;
-        }
-      }
-    }).on('keydown', function() {
-      $elm.data('rule-extern-value', false);
-      $elm.trigger('parti-need-to-validate');
-    }).on('blur', function(e){
-      if($(e.relatedTarget).data('disabled-typeahead-validation')) {
-        return true;
-      }
-      if($(this).data('typeahead').shown) {
-        return;
-      }
-      if ( $.is_blank($(this).val()) ) {
-        clear_error();
-        $elm.data('rule-extern-value', false);
-        return;
-      }
-      if ( $(this).val() === $elm.data('title') ) {
-        clear_error();
-      } else {
-        $.ajax({
-          url: "/parties/exist.json",
-          type: "get",
-          data:{ title: $elm.val() },
-          success: function(data) {
-            if($.parseJSON(data)) {
-              clear_error();
-            } else {
-              $elm.closest('.form-group').addClass('has-error')
-              var $help_block = $elm.closest('.form-group').find('.help-block.typeahead-warning')
-
-              $help_block.show().html('<span class="text-danger">자동 완성된 빠띠나 추천하는 빠디를 선택해야 합니다.</span>');
-              // form validation
-              $elm.data('rule-extern-value', false);
-              $elm.trigger('parti-need-to-validate');
-            }
-          },
-          error: function(xhr) {
-            //ignore server error
-            clear_error();
-          }
-        });
-      }
-    });
   });
 
   //switch

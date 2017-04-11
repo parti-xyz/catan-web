@@ -5,17 +5,6 @@ class IssuesController < ApplicationController
   before_filter :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
   before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
-  def simple_search
-    @issues = Issue.alive.limit(10)
-    if params[:query].present?
-      @issues = @issues.where("title like ?", "%#{params[:query]}%")
-    end
-
-    respond_to do |format|
-      format.json { render json: @issues }
-    end
-  end
-
   def home
     index
   end

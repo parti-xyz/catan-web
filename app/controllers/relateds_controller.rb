@@ -13,13 +13,20 @@ class RelatedsController < ApplicationController
   end
 
   def create
-    @related.target = Issue.find_by title: params[:target_title]
-    @issue = @related.issue
-    unless @related.target.present?
-      flash[:notice] = t('activerecord.errors.messages.not_found_parti')
-      render 'new'
-      return
+    begin
+      parsed = Rails.application.routes.recognize_path params[:target_issue_url]
+      related_target = Issue.find_by slug: parsed[:slug]
+    rescue ActionController::RoutingError => e
+      related_target = nil
     end
+
+    @issue = @related.issue
+    if related_target.blank?
+      flash[:notice] = t('activerecord.errors.messages.not_found_parti')
+      render 'new' and return
+    end
+
+    @related.target = related_target
     if @related.save
       redirect_to @related.issue
     else

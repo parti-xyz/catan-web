@@ -132,6 +132,7 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :alive, -> { where(freezed_at: nil) }
+  scope :only_public, -> { where.not(private: true) }
   scope :sort_by_name, -> { order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }

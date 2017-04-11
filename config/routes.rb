@@ -78,7 +78,6 @@ Rails.application.routes.draw do
     collection do
       get :exist
       get :search_by_tags
-      get :simple_search
       post :merge
     end
     resources :members do
