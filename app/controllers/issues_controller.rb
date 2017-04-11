@@ -10,10 +10,10 @@ class IssuesController < ApplicationController
   end
 
   def index
-    as_tags = (params[:keyword].try(:split) || []).map(&:strip).reject(&:blank?)
+    tags = (params[:keyword].try(:split) || []).map(&:strip).reject(&:blank?)
 
-    @issues = Issue.displayable_in_current_group(current_group)
-    @issues = @issues.where.any_of(Issue.alive.search_for(params[:keyword]), Issue.alive.tagged_with(as_tags, any: true)) if params[:keyword].present?
+    @issues = Issue.only_public(current_group).displayable_in_current_group(current_group)
+    @issues = @issues.where.any_of(Issue.alive.search_for(params[:keyword]), Issue.alive.tagged_with(tags, any: true)) if params[:keyword].present?
 
     params[:sort] ||= (current_group.blank? ? 'hottest' : 'recent_touched')
     case (params[:sort])
@@ -38,7 +38,7 @@ class IssuesController < ApplicationController
   end
 
   def search_by_tags
-    @issues = Issue.alive.only_public
+    @issues = Issue.alive.only_public(current_group)
     if params[:selected_tags] == [""]
       @issues = @issues.hottest
       @no_tags_selected = 'yes'

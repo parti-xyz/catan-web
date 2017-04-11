@@ -102,6 +102,7 @@ class Issue < ActiveRecord::Base
   has_many :blind_users, through: :blinds, source: :user
   has_many :messages, as: :messagable, dependent: :destroy
   belongs_to :destroyer, class_name: User
+  belongs_to :group, foreign_key: :group_slug, primary_key: :slug
 
   # validations
   validates :title,
@@ -132,8 +133,14 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :alive, -> { where(freezed_at: nil) }
-  scope :only_public, -> { where.not(private: true) }
-  scope :sort_by_name, -> { order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
+  scope :only_public, ->(current_group) {
+    result = where.not(private: true)
+    if current_group.blank? or current_group.indie?
+      result = result.joins(:group).where.not('groups.private': true)
+    end
+    result
+  }
+  scope :sort_by_name, -> { order("if(ascii(substring(issues.title, 1)) < 128, 1, 0)").order('issues.title') }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
@@ -214,10 +221,6 @@ class Issue < ActiveRecord::Base
       end
     end
     self_title <=> other_title
-  end
-
-  def group
-    @group ||= Group.find_by_slug group_slug
   end
 
   def group_subdomain

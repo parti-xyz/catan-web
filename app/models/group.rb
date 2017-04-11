@@ -17,6 +17,7 @@ class Group < ActiveRecord::Base
   has_many :member_users, through: :members, source: :user
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
+  has_many :issues, dependent: :restrict_with_error, primary_key: :slug, foreign_key: :group_slug
 
   default_scope -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
   scope :but, ->(group) { where.not(id: group) }
@@ -107,7 +108,7 @@ class Group < ActiveRecord::Base
   end
 
   def default_issues
-    Issue.only_group(self).where(is_default: true)
+    issues.where(is_default: true)
   end
 
   def self.nested_joined_by(someone)
