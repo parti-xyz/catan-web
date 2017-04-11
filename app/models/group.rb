@@ -103,15 +103,15 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def nested_joined_by?(someone)
-    Group.nested_joined_by(someone).exists?(id: self)
+  def comprehensive_joined_by?(someone)
+    Group.comprehensive_joined_by(someone).exists?(id: self)
   end
 
   def default_issues
     issues.where(is_default: true)
   end
 
-  def self.nested_joined_by(someone)
+  def self.comprehensive_joined_by(someone)
     self.where(slug: (someone.member_issues.select(:group_slug).distinct))
         .or(self.where(id: someone.member_groups))
   end

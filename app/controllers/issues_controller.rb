@@ -14,7 +14,6 @@ class IssuesController < ApplicationController
 
     @issues = Issue.displayable_in_current_group(current_group)
     if current_group.blank? or !host_group.organized_by?(current_user)
-
       @issues = @issues.only_public_in_current_group(current_group)
     end
     @issues = @issues.where.any_of(Issue.alive.search_for(params[:keyword]), Issue.alive.tagged_with(tags, any: true)) if params[:keyword].present?
