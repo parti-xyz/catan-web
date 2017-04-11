@@ -326,6 +326,7 @@ section#issues {
 
     .issue-card__content {
       padding: 10px;
+      height: 147px;
     }
     .issue-card__group {
       position: absolute;
@@ -349,6 +350,17 @@ section#issues {
       border-radius: $border-radius-base/2;
       border-bottom-left-radius: 0;
       border-bottom-right-radius: 0;
+      &.loading {
+        text-align: center;
+        p {
+          position: absolute;
+          top: 100px;
+          margin-left: auto;
+          margin-right: auto;
+          left: 0;
+          right: 0;
+        }
+      }
     }
     .issue-card__title {
       height: 40px;

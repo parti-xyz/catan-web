@@ -38,11 +38,12 @@ class IssuesController < ApplicationController
   end
 
   def search_by_tags
+    @issues = Issue.alive.only_public
     if params[:selected_tags] == [""]
-      @issues = Issue.alive.hottest
+      @issues = @issues.hottest
       @no_tags_selected = 'yes'
     else
-      @issues = Issue.alive.tagged_with(params[:selected_tags], :any => true)
+      @issues = @issues.tagged_with(params[:selected_tags], :any => true)
     end
     @issues = @issues.to_a.reject { |i| i.private_blocked?(current_user) }
   end
