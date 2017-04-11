@@ -29,6 +29,7 @@
           #{@issue.group.title} 그룹
         %ul.list-unstyled.aside-issues
           - Issue.only_group(@issue.group).sort_by_name.each do |issue|
+            - next if issue.private_blocked?(current_user)
             = render customize_partial_path(issue, 'issue_line')
 
     - if @issue.related_issues.present? or can? :update, @issue
