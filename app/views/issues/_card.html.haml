@@ -19,10 +19,10 @@
         %span.posts-count
           %i.fa.fa-file-text
           = issue.posts_count
-          - cache issue, race_condition_ttl: 30.seconds,  expires_in: 1.hours do
+          - cache ['issues-card-latest_posts_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
             - if issue.posts.latest.count > 0
               %small +#{issue.posts.latest.count}
-        - cache issue, race_condition_ttl: 30.seconds,  expires_in: 1.hours do
+        - cache ['issues-card-latest_comments_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
           %span.comments-count
             %i.fa.fa-comment
             = issue.comments_count
