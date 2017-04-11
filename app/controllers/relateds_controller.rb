@@ -16,6 +16,7 @@ class RelatedsController < ApplicationController
     begin
       parsed = Rails.application.routes.recognize_path params[:target_issue_url]
       related_target = Issue.find_by slug: parsed[:slug]
+      related_target = nil if related_target.try(:private_blocked?, current_user)
     rescue ActionController::RoutingError => e
       related_target = nil
     end

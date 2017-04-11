@@ -136,7 +136,7 @@ ko:
     errors:
       messages:
         record_invalid: "오류가 있습니다: %{errors}"
-        not_found_parti: 입력하신 빠띠가 없습니다.
+        not_found_parti: 입력하신 빠띠가 없거나 비공개입니다.
       models:
         issue:
           attributes:
