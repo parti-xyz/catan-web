@@ -133,9 +133,9 @@ class Issue < ActiveRecord::Base
 
   # scopes
   scope :alive, -> { where(freezed_at: nil) }
-  scope :only_public, ->(current_group) {
+  scope :only_public_in_current_group, ->(current_group) {
     result = where.not(private: true)
-    if current_group.blank? or current_group.indie?
+    if current_group.blank?
       result = result.joins(:group).where.not('groups.private': true)
     end
     result

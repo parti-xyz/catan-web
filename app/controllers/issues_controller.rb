@@ -12,7 +12,11 @@ class IssuesController < ApplicationController
   def index
     tags = (params[:keyword].try(:split) || []).map(&:strip).reject(&:blank?)
 
-    @issues = Issue.only_public(current_group).displayable_in_current_group(current_group)
+    @issues = Issue.displayable_in_current_group(current_group)
+    if current_group.blank? or !host_group.organized_by?(current_user)
+
+      @issues = @issues.only_public_in_current_group(current_group)
+    end
     @issues = @issues.where.any_of(Issue.alive.search_for(params[:keyword]), Issue.alive.tagged_with(tags, any: true)) if params[:keyword].present?
 
     params[:sort] ||= (current_group.blank? ? 'hottest' : 'recent_touched')
