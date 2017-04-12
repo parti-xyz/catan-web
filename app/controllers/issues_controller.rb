@@ -41,7 +41,7 @@ class IssuesController < ApplicationController
   end
 
   def search_by_tags
-    @issues = Issue.alive.only_public(current_group)
+    @issues = Issue.alive.only_public_in_current_group(current_group)
     if params[:selected_tags] == [""]
       @issues = @issues.hottest
       @no_tags_selected = 'yes'
