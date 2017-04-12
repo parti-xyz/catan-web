@@ -2,7 +2,7 @@
 - return if issue.blank?
 %li.issue-line
   .media
-    - cache ['issues-issue_line', issue], race_condition_ttl: 30.seconds,  expires_in: 1.hours do
+    - cache ["#{host_group.slug}-issues-issue_line", issue], race_condition_ttl: 30.seconds,  expires_in: 1.hours do
       = link_to smart_issue_home_path_or_url(issue) do
         .media-left
           .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
