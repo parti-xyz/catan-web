@@ -28,7 +28,7 @@
             %span.count
               (
               %span.js-current-count<>= @post.file_sources.count
-              \/10)
+              \/20)
 
     - if @post.poll.present?
       = f.fields_for :poll do |ff|

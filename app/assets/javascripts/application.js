@@ -615,7 +615,7 @@ $(function(){
 
     function check_to_hide_or_show_add_link() {
       var count = $('#js-post-editor-file_sources-wrapper .nested-fields:visible').length;
-      if (count >= 10) {
+      if (count >= 20) {
         $('#js-post-editor-file_sources-add-btn').hide();
       } else {
         $('#js-post-editor-file_sources-add-btn').show();
