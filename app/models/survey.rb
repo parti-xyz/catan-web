@@ -1,4 +1,6 @@
 class Survey < ActiveRecord::Base
+  attr_accessor :duration_days
+
   has_one :post, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
   has_many :options, dependent: :destroy
@@ -7,12 +9,12 @@ class Survey < ActiveRecord::Base
     attributes['body'].try(:strip).blank?
   }
 
-  scope :limited, -> { where.not(duration: 0) }
+  scope :finite, -> { where.not(expires_at: nil) }
   scope :need_to_reset_sent_closed_message_at, -> {
-    limited.where('sent_closed_message_at < DATE_ADD(created_at, INTERVAL duration DAY)')
+    finite.where('sent_closed_message_at < expires_at')
   }
   scope :need_to_send_closed_message, -> {
-    limited.where('? > DATE_ADD(created_at, INTERVAL duration DAY)', DateTime.now).where(sent_closed_message_at: nil)
+    finite.where('? > expires_at', DateTime.now).where(sent_closed_message_at: nil)
   }
 
   def feedbacked?(someone)
@@ -20,16 +22,28 @@ class Survey < ActiveRecord::Base
   end
 
   def open?
-    return true if duration.days <= 0
-    expire_at.future?
+    expires_at.nil? or expires_at.future?
+  end
+
+  def setup_expires_at
+    if self.duration_days.present?
+      case self.duration_days
+      when '-1'
+        self.touch(:expires_at)
+      when '0'
+        self.expires_at = nil
+      else
+       self.assign_expires_after(self.duration_days.to_i.days)
+      end
+    end
+  end
+
+  def assign_expires_after(duration_days)
+    self.expires_at = DateTime.now + duration_days
   end
 
   def visible_feedbacks?(someone)
     feedbacked?(someone) or !open?
-  end
-
-  def expire_at
-    self.created_at + duration.days
   end
 
   def percentage(option)

@@ -129,7 +129,7 @@ ko:
       post:
         body: 내용
       survey:
-        duration: '기간'
+        duration_days: 기간
     successful:
       messages:
         created: 저장되었습니다.

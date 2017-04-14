@@ -165,8 +165,8 @@ module ApplicationHelper
   end
 
   def survey_remain_time(survey)
-    return '계속' if survey.duration <= 0
-    distance_of_time_in_words_to_now(survey.expire_at)
+    return '계속' if survey.expires_at.nil?
+    distance_of_time_in_words_to_now(survey.expires_at)
   end
 
   def security_icon(model)

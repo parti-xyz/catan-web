@@ -279,6 +279,7 @@ class Post < ActiveRecord::Base
     else
       self.survey = Survey.new(params) if self.has_survey == 'true'
     end
+    self.survey.setup_expires_at
   end
 
   def meta_tag_title
