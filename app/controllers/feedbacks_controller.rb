@@ -15,15 +15,23 @@ class FeedbacksController < ApplicationController
     end
 
     if survey.open?
-      previous_feedback = survey.feedbacks.find_by user: current_user
+      ActiveRecord::Base.transaction do
+        previous_feedbacks = survey.feedbacks.where user: current_user
 
-      if previous_feedback.present?
-        previous_feedback.destroy
-        if previous_feedback.option != @option
-          feedback = create_feedback(@option)
+        if survey.multiple_select?
+          if previous_feedbacks.exists?(option: @option)
+            previous_feedbacks.find_by(option: @option).destroy
+          else
+            feedback = create_feedback(@option)
+          end
+        else
+          if previous_feedbacks.exists?(option: @option)
+            previous_feedbacks.destroy_all
+          else
+            feedback = create_feedback(@option)
+            previous_feedbacks.where.not(option: @option).destroy_all
+          end
         end
-      else
-        feedback = create_feedback(@option)
       end
     end
 

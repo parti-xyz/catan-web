@@ -14,7 +14,7 @@ class IssuesController < ApplicationController
 
     @issues = Issue.displayable_in_current_group(current_group)
     if current_group.blank? or !host_group.organized_by?(current_user)
-      @issues = @issues.any_of(
+      @issues = @issues.where.any_of(
         *[Issue.only_public_in_current_group(current_group),
         (Issue.where(id: current_user.member_issues) if user_signed_in?)].compact)
     end

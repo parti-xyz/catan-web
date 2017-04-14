@@ -68,14 +68,17 @@
       - if post.survey.open? and post.survey.feedbacks.any? and !post.survey.feedbacked?(current_user)
         %div.text-basic-wrap
           현재
-          %strong.text-primary #{post.survey.feedbacks_count}
+          %strong.text-primary #{post.survey.feedback_users_count}
           명이 투표했습니다. 투표하면 결과를 볼 수 있습니다.
       - else
         - if post.survey.feedbacks_count > 0
           &middot;
           - popover_placement = browser.device.mobile? ? 'auto' : 'right'
           %span.survey-options--count{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
-            총투표 #{post.survey.feedbacks_count}명
+            총투표 #{post.survey.feedback_users_count}명
+            - if post.survey.multiple_select?
+              &middot;
+              중복 투표 가능
           .webui-popover-content
             .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
               - post.survey.feedbacks.map(&:user).each do |user|

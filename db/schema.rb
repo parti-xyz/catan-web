@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170414052647) do
+ActiveRecord::Schema.define(version: 20170414080905) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20170414052647) do
 
   add_index "feedbacks", ["option_id"], name: "index_feedbacks_on_option_id", using: :btree
   add_index "feedbacks", ["survey_id"], name: "index_feedbacks_on_survey_id", using: :btree
-  add_index "feedbacks", ["user_id", "survey_id"], name: "index_feedbacks_on_user_id_and_survey_id", unique: true, using: :btree
+  add_index "feedbacks", ["user_id", "option_id"], name: "index_feedbacks_on_user_id_and_option_id", unique: true, using: :btree
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id", using: :btree
 
   create_table "file_sources", force: :cascade do |t|
@@ -513,12 +513,13 @@ ActiveRecord::Schema.define(version: 20170414052647) do
   end
 
   create_table "surveys", force: :cascade do |t|
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.integer  "feedbacks_count",        limit: 4, default: 0
     t.integer  "duration",               limit: 4, default: 0
     t.datetime "sent_closed_message_at"
     t.datetime "expires_at"
+    t.boolean  "multiple_select",                  default: false
   end
 
   create_table "taggings", force: :cascade do |t|

@@ -166,7 +166,7 @@ class PostsController < ApplicationController
 
     survey = params[:post][:survey_attributes]
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
-    survey_attributes = [:duration_days, options_attributes: options_attributes] if survey.present?
+    survey_attributes = [:duration_days, :multiple_select, options_attributes: options_attributes] if survey.present?
 
     params.require(:post)
       .permit(:body, :issue_id, :has_poll, :has_survey, :is_html_body,

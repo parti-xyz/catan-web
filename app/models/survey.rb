@@ -72,4 +72,8 @@ class Survey < ActiveRecord::Base
   def mvp_option?(option)
     mvp_options.exists?(id: option)
   end
+
+  def feedback_users_count
+    feedbacks.select(:user_id).distinct.count
+  end
 end
