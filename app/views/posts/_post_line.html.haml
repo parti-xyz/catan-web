@@ -71,18 +71,18 @@
         - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
           .post-reference-line.post-line
             .post-reference-line__file-content
-              .media
-                .media-left.hidden-xs
-                  %i.fa.fa-floppy-o
-                .media-body
-                  %span.post-line-reference__title
-                    = file_source.name
-                  %br.visible-xs
-                  %span.post-reference-line__file-content__file-size
-                    = number_to_human_size(file_source.file_size)
-                .media-right
-                  .post-reference-line__file-content__download
-                    %a{href: file_source.url, target: '_blank'}
+              %a{href: file_source.url, target: '_blank'}
+                .media
+                  .media-left.hidden-xs
+                    %i.fa.fa-floppy-o
+                  .media-body
+                    %span.post-line-reference__title
+                      = file_source.name
+                    %br.visible-xs
+                    %span.post-reference-line__file-content__file-size
+                      = number_to_human_size(file_source.file_size)
+                  .media-right
+                    .post-reference-line__file-content__download
                       다운로드
       - elsif post.link_source.present?
         .post-reference-line.post-line
