@@ -12,7 +12,7 @@
         = render 'upvotes/upvote', upvotable: comment
         - if comment.mentionable?(current_user)
           - if local_assigns[:mention_form_control]
-            %a.comment__mention{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_control } }
+            %a.comment__mention.cursor-pointer{ href: '#', data: { action: 'parti-mention', 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_control } }
               댓글달기
         .upvote-count
           = render 'upvotes/upvote_count', upvotable: comment

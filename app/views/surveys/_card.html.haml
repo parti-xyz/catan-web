@@ -1,3 +1,4 @@
+- popover_placement = browser.device.mobile? ? 'auto' : 'right'
 .survey-options{ class: survey_options_dom_class(post) }
   .survey-options--body{ class: ('survey-options--body--no-checkbox' if (!post.survey.feedbacked?(current_user) or !post.survey.mvp_options.any?) and !post.survey.open?) }
     - post.survey.options.each do |option|
@@ -19,23 +20,35 @@
                 - if option.selected?(current_user)
                   %i.fa.fa-check-circle-o.active
         .body
-          - option_body = capture do
-            - if post.survey.visible_feedbacks?(current_user)
+          - if post.survey.visible_feedbacks?(current_user)
+            - option_body = capture do
               %span.text-basic-wrap.chart__label= option.body
-              .chart{ style: 'position: relative', class: ('active' if option.selected?(current_user)) }
-                .chart__bar{ style: "width: #{post.survey.percentage(option)}%"}
-                  %span.count
-                    #{option.feedbacks_count}명
-                - if post.survey.mvp_option?(option)
-                  %span.label.label-primary{ style: 'position: absolute;padding: 0.3em;bottom: 2px;right: 2px;'}<>
-                    최다득표
+            - if post.survey.open?
+              = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id), remote: true, method: :post
             - else
+              = option_body
+            .chart{ style: 'position: relative', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users", trigger: 'hover', placement: popover_placement } }
+              .chart__bar{ style: "width: #{post.survey.percentage(option)}%"}
+                %span.count
+                  #{option.feedbacks_count}명
+              - if post.survey.mvp_option?(option)
+                %span.label.label-primary{ style: 'position: absolute;padding: 0.3em;bottom: 2px;right: 2px;'}<>
+                  최다득표
+            .webui-popover-content
+              .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users"}
+                - post.survey.feedback_users.each do |user|
+                  = link_to smart_user_gallery_path(user), target: '_blank' do
+                    .user-info
+                      .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+                      = user.nickname
+          - else
+            - option_body = capture do
               .no-chart__label.text-basic-wrap
                 = option.body
-          - if post.survey.open?
-            = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id), remote: true, method: :post
-          - else
-            = option_body
+            - if post.survey.open?
+              = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id), remote: true, method: :post
+            - else
+              = option_body
         .feedbacks-count
           - if can? :destroy, option
             = link_to '삭제', option, method: :delete, remote: true, 'data-confirm': '정말 삭제하시겠습니까?'
@@ -72,17 +85,19 @@
           명이 투표했습니다. 투표하면 결과를 볼 수 있습니다.
       - else
         - if post.survey.feedbacks_count > 0
-          &middot;
-          - popover_placement = browser.device.mobile? ? 'auto' : 'right'
-          %span.survey-options--count{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
+          %span.hidden-xs &middot;
+          %br.visible-xs-block
+          %span.survey-options--count.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
             총투표 #{post.survey.feedback_users_count}명
-            - if post.survey.multiple_select?
-              &middot;
-              중복 투표 가능
           .webui-popover-content
             .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
-              - post.survey.feedbacks.map(&:user).each do |user|
+              - post.survey.feedback_users.each do |user|
                 = link_to smart_user_gallery_path(user), target: '_blank' do
                   .user-info
                     .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
                     = user.nickname
+          - if post.survey.multiple_select?
+            %span.survey-options--mulitple-select
+              &middot;
+              중복 투표 가능
+

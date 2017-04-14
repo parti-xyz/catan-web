@@ -74,6 +74,10 @@ class Survey < ActiveRecord::Base
   end
 
   def feedback_users_count
-    feedbacks.select(:user_id).distinct.count
+    feedback_users.count
+  end
+
+  def feedback_users
+    User.where(id: self.feedbacks.select(:user_id).distinct)
   end
 end

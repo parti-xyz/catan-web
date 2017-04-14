@@ -78,12 +78,12 @@
             = render 'upvotes/upvote', upvotable: post
 
         - if user_signed_in?
-          %span.post-card-with-comments__footer__link-to-modal{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
+          %span.post-card-with-comments__footer__link-to-modal.cursor-pointer{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
             댓글달기
         - else
-          %span.post-card-with-comments__footer__link-to-login{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
+          %span.post-card-with-comments__footer__link-to-login.cursor-pointer{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
             댓글달기
-        %span.post-card-with-comments__footer__share-modal{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
+        %span.post-card-with-comments__footer__share-modal.cursor-pointer{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
           공유하기
         %span.post-card-with-comments__footer__upvote-count
           = render 'upvotes/upvote_count', upvotable: post
