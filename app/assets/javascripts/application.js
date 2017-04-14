@@ -43,6 +43,7 @@ lightbox.option({
   'imageFadeDuration': 400,
   'alwaysShowNavOnTouchDevices': true,
   fitImagesInViewport: true,
+  wrapAround: false,
   maxWidth: 500
 })
 

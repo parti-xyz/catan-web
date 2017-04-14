@@ -52,6 +52,7 @@
 }
 
 // keep all
-.text-keep-all {
+.text-basic-wrap {
   word-break: keep-all;
+  overflow-wrap: break-word;
 }

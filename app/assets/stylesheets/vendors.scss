@@ -54,19 +54,21 @@ body {
   }
 
   .lb-nav a.lb-next {
-    opacity: 1;
     position: fixed;
   }
   .lb-nav a.lb-prev {
-    opacity: 1;
     position: fixed;
   }
 
   .lb-dataContainer {
     left: 50%;
     position: absolute;
-    top: -45px;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
+  }
+
+  .lb-data .lb-caption {
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 }
