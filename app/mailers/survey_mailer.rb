@@ -13,6 +13,6 @@ class SurveyMailer < ApplicationMailer
     return if @survey.blank? or @user.blank? or !@user.enable_mailing?
 
     mail(to: @user.email,
-         subject: "[빠띠] #{@survey.post.user.nickname}님이 올린 설문에 결과가 나왔습니다 : #{view_context.excerpt(@survey.post.specific_desc, length: 50)}")
+         subject: "[빠띠] #{@survey.post.user.nickname}님이 올린 설문에 결과가 나왔습니다 : #{@survey.post.specific_desc_striped_tags(50)}")
   end
 end

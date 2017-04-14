@@ -8,7 +8,7 @@
 
   <% @hottest_posts.each do |post| %>
 
-  * <%= post.specific_desc %> ( <%=  url_for(post) %> )
+  * <%= post.specific_desc_striped_tags(50) %> ( <%=  url_for(post) %> )
 
   <% end %>
 <% end %>

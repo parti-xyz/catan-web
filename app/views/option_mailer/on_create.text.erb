@@ -7,5 +7,5 @@
 
 <%= static_date_f @option.created_at %>
 
-* 원글 <%= strip_tags(@option.survey.post.specific_desc) %> ( <%=  smart_post_url(@option.survey.post) %> )
+* 원글 <%= @option.survey.post.specific_desc_striped_tags(20) %> ( <%=  smart_post_url(@option.survey.post) %> )
 

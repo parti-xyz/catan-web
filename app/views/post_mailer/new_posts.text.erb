@@ -13,7 +13,7 @@
   * [<%= post.class.model_name.human %>] <%= post.parsed_title %> ( <%=  smart_post_url(post) %> )
 
   <%  if post.respond_to?(:body) %>
-  <%= excerpt(post.body, length: 100) %>
+  <%= excerpt(post.body, length: 100, from_html: true) %>
   <%  end %>
 
 <% end %>

@@ -3,6 +3,6 @@
 <%= @sender.nickname %>님이 빠띠에서 게시글을 공지했습니다.
 ---------------------------------------------------------
 
-<%= @post.specific_desc_striped_tags.truncate(100) %>
+<%= @post.specific_desc_striped_tags(100) %>
 
 * 게시글 주소 <%=  smart_post_url(@post) %>

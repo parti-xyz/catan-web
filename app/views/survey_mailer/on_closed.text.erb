@@ -3,5 +3,5 @@
 <%= @survey.post.user.nickname %>님이 빠띠에 올린 설문의 결과가 나왔습니다.
 ---------------------------------------------------------
 
-* 원글 <%= strip_tags(@survey.post.specific_desc) %> ( <%=  smart_post_url(@survey.post) %> )
+* 원글 <%= @survey.post.specific_desc_striped_tags(20) %> ( <%=  smart_post_url(@survey.post) %> )
 

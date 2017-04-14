@@ -6,7 +6,7 @@ class MentionMailer < ApplicationMailer
     return if @subject.blank?
 
     return unless @recipient.enable_mailing?
-    truncated_body = view_context.strip_tags(@subject.body).truncate(20)
+    truncated_body = view_context.excerpt(@subject.body, length: 20, from_html: @subject.body_html?)
     mail(template_name: "on_#{@subject.class.model_name.singular}",
       to: @recipient.email,
       subject: "[빠띠] #{@sender.nickname}님이 회원님을 언급했습니다 : #{truncated_body}")

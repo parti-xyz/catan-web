@@ -50,12 +50,7 @@
       = link_to_if (card_class == 'default'), capture_source, post.link_source.url, target: '_blank', class: 'link-source'
       .body
         %p
-          - max_length = 215
-          = excerpt(post.parsed_body, length: max_length)
-          - if (post.parsed_body.try(:length) || 0) > max_length
-            %span.body-more
-              더보기
-              %i.fa.fa-angle-double-right
+          = post.specific_desc_striped_tags(215)
 
         .reference-info
           = link_to smart_user_gallery_path(post.user) do

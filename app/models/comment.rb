@@ -83,6 +83,10 @@ class Comment < ActiveRecord::Base
     self.issue
   end
 
+  def body_html?
+    false
+  end
+
   private
 
   def touch_last_commented_at_of_posts

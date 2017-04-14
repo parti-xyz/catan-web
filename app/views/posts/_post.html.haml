@@ -71,7 +71,7 @@
 
 
       - share_partial = capture do
-        = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_subdomain), 'share-text': "#{post.specific_desc_striped_tags.try(:truncate, 100)} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
+        = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_subdomain), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
       .post-card-with-comments__footer.clearfix
         %span.post-card-with-comments__footer__upvote
           .post-upvote

@@ -19,10 +19,11 @@
       - if post.file_sources.only_image.any?
         %h4.title.title--file-source
           %i.fa.fa-image
-          = post.file_sources.only_image.sort_by_seq_no.first.name.truncate(15)
-          %small
-            +
-            = post.file_sources.only_image.count - 1
+          = post.file_sources.only_image.sort_by_seq_no.first.name.truncate(20)
+          - if post.file_sources.only_image.count > 1
+            %small
+              +
+              = post.file_sources.only_image.count - 1
         - odd = post.file_sources.only_image.count.odd?
         - previous_style = nil
         - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
@@ -47,12 +48,7 @@
                 %i.fa.fa-download
       .body
         %p
-          - max_length = 215
-          = excerpt(post.parsed_body, length: max_length)
-          - if (post.parsed_body.try(:length) || 0) > max_length
-            %span.body-more
-              더보기
-              %i.fa.fa-angle-double-right
+          = post.specific_desc_striped_tags(215)
 
         .reference-info
           = link_to smart_user_gallery_path(post.user) do

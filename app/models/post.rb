@@ -171,11 +171,14 @@ class Post < ActiveRecord::Base
   attr_accessor :is_html_body
 
   def specific_desc
-    self.parsed_title || self.body || self.poll.try(:title) || (self.file_sources.first.try(:name) if self.file_sources.any?) || (self.link_source.try(:title) if self.link_source.present?)
+    self.parsed_title || self.body || (ERB::Util.h(self.poll.try(:title)).presence) || (ERB::Util.h(self.file_sources.first.try(:name)).presence if self.file_sources.any?) || (ERB::Util.h(self.link_source.try(:title)).presence if self.link_source.present?)
   end
 
-  def specific_desc_striped_tags
-    sanitize_html specific_desc
+  def specific_desc_striped_tags(length = 0)
+    result = sanitize_html specific_desc
+
+    return result if length <= 0
+    return result.try(:truncate, length)
   end
 
   def share_image_dimensions
@@ -372,6 +375,10 @@ class Post < ActiveRecord::Base
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone || self.user)
   end
 
+  def body_html?
+    true
+  end
+
   private
 
   def send_notifiy_pinned_emails(someone)
@@ -403,6 +410,6 @@ class Post < ActiveRecord::Base
   end
 
   def sanitize_html text
-    ActionView::Base.full_sanitizer.sanitize(text).to_s.gsub('&lt;', '<').gsub('&gt;', '>')
+    HTMLEntities.new.decode ActionView::Base.full_sanitizer.sanitize(text)
   end
 end

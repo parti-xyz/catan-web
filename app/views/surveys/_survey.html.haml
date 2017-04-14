@@ -26,6 +26,6 @@
         .survey-card__date.date-wrapper.survey-card__date--with-issue
           %span= date_f post.created_at
     %h4.survey-card__title
-      “#{excerpt survey.post.specific_desc, length: 50}”
+      “#{survey.post.specific_desc_striped_tags(50)}”
 
     = render 'surveys/card', local_assigns

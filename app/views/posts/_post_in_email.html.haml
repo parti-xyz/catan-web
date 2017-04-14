@@ -20,7 +20,7 @@
                 = l(post.created_at.to_date, format: :email)
               %br/
             %div
-              != post.specific_desc
+              = post.specific_desc_striped_tags(100)
 
   - unless hide_parti_button
     %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}

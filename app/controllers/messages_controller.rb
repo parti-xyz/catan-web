@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
       @user = User.find_by(nickname: params[:user])
     end
     @user ||= current_user
-    @messages = @user.messages.recent.page params[:page]
+    @messages = @user.messages.recent.page(params[:page])
 
     @user.update_attributes(unread_messages_count: 0)
   end

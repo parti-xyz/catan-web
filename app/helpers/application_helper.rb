@@ -1,3 +1,5 @@
+require 'htmlentities'
+
 module ApplicationHelper
   def body_class
     arr = ["app-#{params[:controller]}", "app-#{params[:controller]}-#{params[:action]}"]
@@ -18,7 +20,14 @@ module ApplicationHelper
 
   def excerpt(text, options = {})
     options[:length] = 130 unless options.has_key?(:length)
-    truncate((strip_tags(text).try(:html_safe)), options)
+
+    result = text
+    if options[:from_html]
+      result = strip_tags(result)
+      result = HTMLEntities.new.decode(result)
+    end
+    return result if result.blank?
+    return result.truncate(options[:length], options)
   end
 
   def date_f(date)
