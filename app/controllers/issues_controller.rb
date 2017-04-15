@@ -38,6 +38,7 @@ class IssuesController < ApplicationController
     if current_group.blank?
       render 'index'
     else
+      @posts_pinned = current_group.pinned_posts(current_user)
       render 'group_index'
     end
   end

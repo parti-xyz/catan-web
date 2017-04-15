@@ -131,4 +131,17 @@ class Group < ActiveRecord::Base
   def self.indie
     find_by(slug: 'indie')
   end
+
+  def pinned_posts(someone)
+    noticed_issues = self.issues.notice_only.to_a
+    if someone.present?
+      noticed_issues += self.issues.where(id: someone.member_issues).to_a
+      noticed_issues.uniq!
+    end
+
+    pinned_posts = noticed_issues.map do |issue|
+      issue.posts.pinned.to_a
+    end.flatten.compact
+    pinned_posts.sort_by { |post| post.created_at }.reverse
+  end
 end

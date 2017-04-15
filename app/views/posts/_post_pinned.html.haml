@@ -9,7 +9,7 @@
             %span.issue-title
               = post.issue.title
               = security_icon(post.issue)
-            - unless post.issue.indie_group?
+            - if post.issue.group != host_group
               %i.fa.fa-angle-left
               %span.issue-group
                 = post.issue.group.title

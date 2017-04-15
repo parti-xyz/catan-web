@@ -15,6 +15,7 @@
       .post-card-with-comments__post.js-show-all-pinned-post-wrapper
         .show-all.js-show-all-pinned-post
           이미 확인한 공지 펼쳐보기
+          (#{collapsed_posts.count})
           %i.fa.fa-chevron-down
 
     - collapsed_posts.each do |post|

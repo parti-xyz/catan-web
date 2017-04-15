@@ -176,6 +176,7 @@ class Post < ActiveRecord::Base
 
   def specific_desc_striped_tags(length = 0)
     result = sanitize_html specific_desc
+    result = result.gsub(/\A\p{Space}*/, '') if result.present?
 
     return result if length <= 0
     return result.try(:truncate, length)

@@ -147,6 +147,7 @@ class Issue < ActiveRecord::Base
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
   scope :only_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
+  scope :notice_only, -> { where(notice_only: true) }
   # search
   scoped_search on: [:title, :body]
 
