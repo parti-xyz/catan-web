@@ -44,6 +44,7 @@ lightbox.option({
   'alwaysShowNavOnTouchDevices': true,
   fitImagesInViewport: true,
   wrapAround: false,
+  maxHeight: 500,
   maxWidth: 500
 })
 
