@@ -4,9 +4,10 @@
       %h2.page-header 빠띠수정
       = render 'form'
 
-  %section#post-form
-    .container
-      %h2.page-header 빠띠삭제
-      .well
-        .help-block 빠띠를 삭제합니다. 이 작업은 되돌릴 수 없습니다.
-        = link_to '삭제하기', destroy_form_issue_path(@issue), class: 'btn btn-danger'
+  - if can? :destroy, @issue
+    %section#post-form
+      .container
+        %h2.page-header 빠띠삭제
+        .well
+          .help-block 빠띠를 삭제합니다. 이 작업은 되돌릴 수 없습니다.
+          = link_to '삭제하기', destroy_form_issue_path(@issue), class: 'btn btn-danger'
