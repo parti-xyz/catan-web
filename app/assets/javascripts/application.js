@@ -742,7 +742,7 @@ $(function(){
     });
   });
 
-  $('[data-action="parti-link"]').on('click', function(e) {
+  $(document).on('click', '[data-action="parti-link"]', function(e) {
     e.preventDefault();
     var url = $(e.currentTarget).data("url");
     if($.is_present($(this).data('link-target'))) {
