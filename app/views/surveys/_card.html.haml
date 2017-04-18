@@ -36,7 +36,7 @@
                   최다득표
             .webui-popover-content
               .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users"}
-                - post.survey.feedback_users.each do |user|
+                - option.feedback_users.each do |user|
                   = link_to smart_user_gallery_path(user), target: '_blank' do
                     .user-info
                       .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}

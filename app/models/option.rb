@@ -15,4 +15,8 @@ class Option < ActiveRecord::Base
   def group_for_message
     survey.post.issue.group
   end
+
+  def feedback_users
+    User.where(id: self.feedbacks.select(:user_id).distinct)
+  end
 end
