@@ -376,6 +376,12 @@ class Post < ActiveRecord::Base
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone || self.user)
   end
 
+  def generous_strok_by!(someone = nil)
+    if self.last_stroked_at < 2.hours.ago
+      strok_by!(someone)
+    end
+  end
+
   def body_html?
     true
   end

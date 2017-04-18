@@ -17,7 +17,9 @@ class VotingPollService
       voting.user = current_user
     end
     voting.choice = 'agree'
-    voting.save
+    if voting.save
+      strok_post
+    end
     voting
   end
 
@@ -30,7 +32,9 @@ class VotingPollService
       voting.user = current_user
     end
     voting.choice = 'disagree'
-    voting.save
+    if voting.save
+      strok_post
+    end
     voting
   end
 
@@ -43,7 +47,15 @@ class VotingPollService
       voting.user = current_user
     end
     voting.choice = 'unsure'
-    voting.save
+    if voting.save
+      strok_post
+    end
     voting
+  end
+
+  private
+
+  def strok_post
+    self.poll.try(:post).try(:generous_strok_by!, current_user)
   end
 end

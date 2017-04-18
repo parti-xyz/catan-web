@@ -32,6 +32,8 @@ class FeedbacksController < ApplicationController
             previous_feedbacks.where.not(option: @option).destroy_all
           end
         end
+
+        @post.generous_strok_by!(current_user)
       end
     end
 
