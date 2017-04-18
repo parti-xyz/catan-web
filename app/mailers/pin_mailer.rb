@@ -6,7 +6,7 @@ class PinMailer < ApplicationMailer
     return if @sender.blank? or @recipient.blank? or @post.blank?
     return unless @recipient.enable_mailing?
     truncated_body = @post.specific_desc_striped_tags(20)
-    mail(to: @recipient.email,
+    mail(to: @recipient.email, reply_to: @sender.email,
       subject: "[빠띠] #{@sender.nickname}님이 게시글을 공지했습니다 : #{truncated_body}")
   end
 end
