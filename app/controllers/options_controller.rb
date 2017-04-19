@@ -3,6 +3,10 @@ class OptionsController < ApplicationController
 
   def create
     @option = Option.new(options_params)
+    if @option.body.blank?
+      return
+    end
+
     @option.user = current_user
 
     survey = @option.survey

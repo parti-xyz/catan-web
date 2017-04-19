@@ -1,4 +1,6 @@
+<% if @option.persisted? %>
 var $survey_card = $("<%= escape_javascript(render 'surveys/card', post: @post) %>")
 $("<%= survey_options_dom_selector(@post) %>").replaceWith($survey_card);
 parti_partial$($survey_card);
 parti_prepare_masonry($('body'));
+<% end %>
