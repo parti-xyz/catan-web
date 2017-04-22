@@ -56,3 +56,8 @@
   word-break: keep-all;
   overflow-wrap: break-word;
 }
+
+// webp
+body.no-webp .webp {
+  display: none !important;
+}

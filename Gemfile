@@ -23,6 +23,7 @@ gem 'acts-as-taggable-on', '~> 4.0'
 gem 'axlsx_rails', '~> 0.5.0'
 gem 'backport_new_renderer', '~> 1.0'
 gem 'where-or'
+gem 'groupdate'
 
 # file upload
 gem 'carrierwave', '~> 0.11.2'

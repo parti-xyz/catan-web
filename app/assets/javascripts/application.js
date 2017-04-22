@@ -34,7 +34,7 @@
 //= require clipboard
 //= require Sortable
 //= require lightbox
-
+//= require webp-check
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',

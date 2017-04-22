@@ -193,4 +193,10 @@ module ApplicationHelper
       value
     end
   end
+
+  def is_webp? url
+    return false if url.blank?
+
+    '.webp' == File.extname(URI.parse(url).path)
+  end
 end

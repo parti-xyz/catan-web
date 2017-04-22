@@ -89,8 +89,9 @@ class OpenGraph
         bins_with_size << [bin, fast_image]
 
         if image_size[0] > 200 and image_size[1] > 200
-          set_image_io(bin, fast_image)
-          break
+          if set_image_io(bin, fast_image)
+            break
+          end
         end
       rescue
       end
@@ -101,8 +102,9 @@ class OpenGraph
         fast_image = m[1]
         image_size = fast_image.size
         if image_size[0] > 100 and image_size[1] > 100
-          set_image_io(bin, fast_image)
-          break
+          if set_image_io(bin, fast_image)
+            break
+          end
         end
       end
     end
@@ -121,11 +123,17 @@ class OpenGraph
     }
     @image_original_filename = @image_io.original_filename = random_filename_from_bin(bin, fast_image)
     @image_io.content_type = bin.response["content-type"]
+    if 'image/webp' == @image_io.content_type
+      @image_io = nil
+      return false
+    end
     image_size = fast_image.size
     if image_size.present?
       @image_width = image_size[0]
       @image_height = image_size[1]
     end
+
+    return true
   end
 
   def random_filename_from_bin(bin, fast_image)
@@ -195,6 +203,8 @@ class OpenGraph
       if Addressable::URI.parse(img).host.nil?
         full_path = uri.join(img).to_s
         add_image(full_path)
+      elsif '.webp' == File.extname(Addressable::URI.parse(url).path)
+        next
       else
         add_image(img)
       end
