@@ -62,8 +62,7 @@
               - else
                 - current_style = 'left'
               - if current_style == 'single'
-                %a.post-reference-line__file-content--image{ action_options, class: current_style }<>
-                  = image_tag file_source.attachment.md.url
+                %a.post-reference-line__file-content--image{ action_options, class: current_style }<>= image_tag file_source.attachment.md.url, style: 'display: block'
               - else
                 %a.post-reference-line__file-content--image{ action_options, class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
               - previous_style = current_style
