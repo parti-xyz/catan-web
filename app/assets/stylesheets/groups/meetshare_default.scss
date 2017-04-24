@@ -10,3 +10,14 @@ section#home {
   height: 20px;
   width: auto;
 }
+
+body.in-group #group-key-visual-bg {
+  height: 345px;
+  background-position: bottom;
+  @media (max-width: $screen-md-max) {
+    height: 270px;
+  }
+  @media (max-width: $screen-xs-max) {
+    height: 0;
+  }
+}
