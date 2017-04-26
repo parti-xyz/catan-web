@@ -9,8 +9,7 @@ module V1
       #   Grape::Formatter::ActiveModelSerializers
       use GrapeLogging::Middleware::RequestLogger,
         instrumentation_key: 'grape_key',
-        include: [ GrapeLogging::Loggers::Response.new,
-                   GrapeLogging::Loggers::ClientEnv.new,
+        include: [ GrapeLogging::Loggers::ClientEnv.new,
                    GrapeLogging::Loggers::RequestHeaders.new,
                    GrapeLogging::Loggers::FilterParameters.new ]
 

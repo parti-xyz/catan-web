@@ -92,6 +92,29 @@ module V1
         present @post, base_options.merge(type: :full)
       end
 
+      desc '파일을 다운로드합니다'
+      oauth2
+      params do
+        requires :id, type: Integer, desc: '글 번호'
+        requires :file_source_id, type: Integer, desc: '파일번호'
+      end
+      get ':id/download_file/:file_source_id' do
+        @post = Post.find_by!(id: params[:id])
+        @file_source = @post.file_sources.find_by!(id: params[:file_source_id])
+
+        content_type @file_source.file_type || MIME::Types.type_for(@file_source.read_attribute(:attachment))[0].to_s
+        env['api.format'] = :binary
+        header 'Content-Disposition', "attachment; filename*=UTF-8''#{URI.escape(@file_source.name)}"
+        if @file_source.attachment.file.respond_to?(:url)
+          # s3
+          data = open @file_source.attachment.url
+          data.read
+        else
+          # local storage
+          File.open(@file_source.attachment.path).read
+        end
+      end
+
       # desc '게시글을 작성합니다'
       # oauth2
       # params do

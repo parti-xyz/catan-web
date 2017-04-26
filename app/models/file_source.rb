@@ -2,7 +2,7 @@ class FileSource < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     include ActionView::Helpers::NumberHelper
-    expose :attachment_url, :name, :file_type, :file_size
+    expose :id, :attachment_url, :name, :file_type, :file_size
     expose :attachment_filename do |instance|
       instance.attachment.file.filename
     end
