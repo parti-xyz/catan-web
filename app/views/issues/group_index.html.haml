@@ -1,8 +1,16 @@
 - if request.query_string.blank?
   - ['jpg', 'gif', 'png'].each do |ext|
-    -if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual_bg.#{ext}"
-      %section#group-key-visual-bg{style: "background-image: url(#{asset_url("groups/#{current_group.slug}_thumb_main_keyvisual_bg.#{ext}")});"}
+    - if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual_bg.#{ext}"
+      - bg_path = "groups/#{current_group.slug}_thumb_main_keyvisual_bg.#{ext}"
+      %section#group-key-visual-bg{style: "background-image: url(#{asset_url(bg_path)});"}
       - break
+  - ['jpg', 'gif', 'png'].each do |ext|
+    - if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual.#{ext}"
+      - bg_path = "groups/#{current_group.slug}_thumb_main_keyvisual.#{ext}"
+      %section#group-key-visual
+        = image_tag bg_path, style: "width: 100%"
+      - break
+
 %section#home
   .container
     .row

@@ -67,6 +67,13 @@ namespace :data do
         head_title: '미트쉐어',
         private: false)
 
+      seed_group(user, 'youthchange', ['천은선'],
+        title: '시작된변화',
+        site_title: '청소년마을프로젝트 - 시작된변화',
+        head_title: '시작된변화',
+        site_description: "'마을'을 위해, '사람'을 위해, 청소년이 만들어가는 '변화'. 대책 없는 상상력과 무시무시한 실행력으로 마을의 변화를 만드는 청소년들의 이야기가 흘러넘치는 곳, 시작된변화 빠띠입니다.",
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
     end

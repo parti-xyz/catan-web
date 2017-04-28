@@ -101,4 +101,9 @@ body.in-group {
       }
     }
   }
+  @media (max-width: $screen-xs-max) {
+    #group-key-visual {
+      display: none;
+    }
+  }
 }
