@@ -45,6 +45,9 @@ class Post < ActiveRecord::Base
       expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.poll.present? } do |instance|
         instance.poll
       end
+      expose :survey, using: Survey::Entity, if: lambda { |instance, options| instance.survey.present? } do |instance|
+        instance.survey
+      end
       expose :latest_upvote_users, using: User::Entity do |instance|
         instance.upvotes.recent.limit(8).map &:user
       end

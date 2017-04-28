@@ -4,6 +4,7 @@ module V1
     mount V1::Comments
     mount V1::Upvotes
     mount V1::Votings
+    mount V1::Feedbacks
     mount V1::Parties
     mount V1::Groups
     mount V1::Posts

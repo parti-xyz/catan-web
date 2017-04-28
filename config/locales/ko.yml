@@ -217,5 +217,10 @@ ko:
     voting:
       cancel_agree: "찬성투표를 취소하시겠습니까?"
       cancel_disagree: "반대투표를 취소하시겠습니까?"
+    survey:
+      remain_time:
+        undefined: "마감까지 계속"
+        open: "마감까지 %{duration}"
+        closed: "마감"
   unauthorized:
     default: "권한이 없습니다."

@@ -14,29 +14,7 @@ class FeedbacksController < ApplicationController
       render_404 and return
     end
 
-    if survey.open?
-      ActiveRecord::Base.transaction do
-        previous_feedbacks = survey.feedbacks.where user: current_user
-
-        if survey.multiple_select?
-          if previous_feedbacks.exists?(option: @option)
-            previous_feedbacks.find_by(option: @option).destroy
-          else
-            feedback = create_feedback(@option)
-          end
-        else
-          if previous_feedbacks.exists?(option: @option)
-            previous_feedbacks.destroy_all
-          else
-            feedback = create_feedback(@option)
-            previous_feedbacks.where.not(option: @option).destroy_all
-          end
-        end
-
-        @post.generous_strok_by!(current_user)
-      end
-    end
-
+    FeedbackSurveyService.new(option: @option, current_user: current_user, selected: params[:selected] == "true").feedback
   end
 
   private

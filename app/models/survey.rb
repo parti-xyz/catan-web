@@ -1,4 +1,15 @@
 class Survey < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
+
+  include Grape::Entity::DSL
+  entity do
+    expose :id, :remain_time_human, :feedbacks_count, :feedback_users_count, :expires_at, :multiple_select
+    expose :options, using: Option::Entity
+    expose :is_open do |instance, options|
+      instance.open?
+    end
+  end
+
   attr_accessor :duration_days
 
   has_one :post, dependent: :destroy
@@ -79,5 +90,15 @@ class Survey < ActiveRecord::Base
 
   def feedback_users
     User.where(id: self.feedbacks.select(:user_id).distinct)
+  end
+
+  def remain_time_human
+    if self.open?
+      return I18n.t('views.survey.remain_time.undefined') if self.expires_at.nil?
+
+      I18n.t('views.survey.remain_time.open', duration: distance_of_time_in_words_to_now(self.expires_at))
+    else
+      I18n.t('views.survey.remain_time.closed')
+    end
   end
 end
