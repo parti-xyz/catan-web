@@ -315,6 +315,14 @@ class Issue < ActiveRecord::Base
     posts.sum(:comments_count)
   end
 
+  def not_blind_hottest_posts(count, current_user)
+    posts.hottest.limit(count).reject { |post| post.blinded?(current_user) }
+  end
+
+  def not_blind_recent_posts(count, current_user)
+    posts.recent.limit(count).reject { |post| post.blinded?(current_user) }
+  end
+
   private
 
   def downcase_slug

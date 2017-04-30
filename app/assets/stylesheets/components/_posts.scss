@@ -134,6 +134,9 @@ section#posts {
       p {
         word-break: break-word;
       }
+      .post-parsed-body > p:last-child {
+        margin-bottom: 0;
+      }
     }
   }
   &__comments {
@@ -558,4 +561,8 @@ strong.upvoted {
 
 .group-home-posts-pinned {
   padding-bottom: 24px;
+}
+
+.another-post {
+  margin-top: 48px;
 }

@@ -743,8 +743,14 @@ $(function(){
   });
 
   $(document).on('click', '[data-action="parti-link"]', function(e) {
+    var href = $(e.target).closest('a').attr('href')
+    if (href && href != "#") {
+      return true;
+    }
+
     e.preventDefault();
     var url = $(e.currentTarget).data("url");
+
     if($.is_present($(this).data('link-target'))) {
       window.open(url, $(this).data('link-target'));
     } else {
