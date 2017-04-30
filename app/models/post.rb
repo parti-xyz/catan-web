@@ -55,7 +55,11 @@ class Post < ActiveRecord::Base
         instance.upvotes.recent.limit(8)
       end
       expose :latest_comments, using: Comment::Entity do |instance|
-        instance.comments.recent.limit(2)
+        if instance.comments_count <= 3
+          instance.comments
+        else
+          instance.comments.recent.limit(2)
+        end
       end
     end
 
