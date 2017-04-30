@@ -8,6 +8,11 @@ class Survey < ActiveRecord::Base
     expose :is_open do |instance, options|
       instance.open?
     end
+    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
+      expose :is_feedbacked_by_me do |instance, options|
+        instance.feedbacked?(options[:current_user])
+      end
+    end
   end
 
   attr_accessor :duration_days
