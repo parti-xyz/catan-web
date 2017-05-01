@@ -565,4 +565,8 @@ strong.upvoted {
 
 .another-post {
   margin-top: 48px;
+  @media (max-width: $screen-xs-max) {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
 }
