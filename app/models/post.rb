@@ -56,9 +56,9 @@ class Post < ActiveRecord::Base
       end
       expose :latest_comments, using: Comment::Entity do |instance|
         if instance.comments_count <= 3
-          instance.comments
+          instance.comments.recent.reverse
         else
-          instance.comments.recent.limit(2)
+          instance.comments.recent.limit(2).reverse
         end
       end
     end

@@ -39,7 +39,8 @@ module ApplicationHelper
   end
 
   def comment_format(text, html_options = {}, options = {})
-    parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line'), options.merge(wrapper_tag: 'span')).to_str
+    options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
+    parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line'), options).to_str
     parsed_text = parse_mentions(parsed_text)
     raw(auto_link(parsed_text,
       html: {class: 'auto_link', target: '_blank'},

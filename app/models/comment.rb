@@ -5,10 +5,10 @@ class Comment < ActiveRecord::Base
 
     expose :id, :choice, :upvotes_count
     expose :body do |instance|
-      view_helpers.comment_format(instance.body)
+      view_helpers.comment_format(instance.body, {}, { wrapper_tag: 'p' })
     end
     expose :truncated_body do |instance|
-      body = view_helpers.comment_format(instance.body)
+      body = view_helpers.comment_format(instance.body, {}, { wrapper_tag: 'p' })
       view_helpers.smart_truncate_html(body, length: 100, ellipsis: "... <read-more/>")
     end
     expose :user, using: User::Entity
@@ -43,13 +43,17 @@ class Comment < ActiveRecord::Base
   validates :post, presence: true
   validates :body, presence: true
 
-  scope :recent, -> { order(created_at: :desc) }
+  scope :recent, -> { order(created_at: :desc).order(id: :desc) }
   scope :sequential, -> { order(created_at: :asc) }
   scope :next_of, ->(id) { where('comments.created_at > ?', with_deleted.find_by(id: id).try(:created_at)) if id.present? }
   scope :latest, -> { after(1.day.ago) }
   scope :persisted, -> { where "id IS NOT NULL" }
   scope :by_issue, ->(issue) { joins(:post).where(posts: {issue_id: issue})}
-  scope :previous_of, ->(id) { where('comments.created_at < ?', with_deleted.find(id).created_at) if id.present? }
+  scope :previous_of, ->(id) {
+    if id.present?
+      where('comments.created_at <= ?', with_deleted.find(id).created_at).where('comments.id < ?', id)
+    end
+  }
 
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_stroked_at_of_posts

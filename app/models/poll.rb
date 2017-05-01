@@ -3,10 +3,10 @@ class Poll < ActiveRecord::Base
   entity do
     expose :id, :title, :votings_count
     expose :latest_agreed_voting_users, using: User::Entity do |instance|
-      instance.votings.recent.limit(5).agreed.map &:user
+      instance.votings.recent.limit(7).agreed.map &:user
     end
     expose :latest_disagreed_voting_users, using: User::Entity do |instance|
-      instance.votings.recent.limit(5).disagreed.map &:user
+      instance.votings.recent.limit(7).disagreed.map &:user
     end
     expose :agreed_votings_count do |instance|
       instance.votings.agreed.count
