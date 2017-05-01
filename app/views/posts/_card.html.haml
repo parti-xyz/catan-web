@@ -1,4 +1,4 @@
-.post-card-with-comments{ 'data-action': 'parti-link', 'data-url': post_path(post) }
+.post-card-with-comments.cursor-pointer{ 'data-action': 'parti-link', 'data-url': post_path(post) }
   - if post.issue.private_blocked?(current_user)
     .post-card-with-comments__post
       %strong 비공개 빠띠 게시글입니다.
