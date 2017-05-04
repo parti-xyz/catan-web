@@ -27,6 +27,9 @@ class Post < ActiveRecord::Base
     end
 
     with_options(if: lambda { |instance, options| options[:current_user].present? }) do
+      expose :is_upvoted_by_me do |instance, options|
+        instance.upvoted_by? options[:current_user]
+      end
       expose :is_upvotable do |instance, options|
         instance.upvotable? options[:current_user]
       end
@@ -47,12 +50,6 @@ class Post < ActiveRecord::Base
       end
       expose :survey, using: Survey::Entity, if: lambda { |instance, options| instance.survey.present? } do |instance|
         instance.survey
-      end
-      expose :latest_upvote_users, using: User::Entity do |instance|
-        instance.upvotes.recent.limit(8).map &:user
-      end
-      expose :latest_upvotes, using: Upvote::Entity do |instance|
-        instance.upvotes.recent.limit(8)
       end
       expose :latest_comments, using: Comment::Entity do |instance|
         if instance.comments_count <= 3

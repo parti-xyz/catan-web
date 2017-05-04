@@ -19,6 +19,9 @@ module V1
         @upvote = Upvote.new permitted(params, :upvote)
         @upvote.user = resource_owner
         @upvote.save!
+
+        @body = nil
+        status 204
       end
 
       desc '공감을 취소합니다'
