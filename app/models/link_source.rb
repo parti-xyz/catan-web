@@ -8,9 +8,11 @@ class LinkSource < ActiveRecord::Base
     expose :is_video do |instance|
       instance.is_video?
     end
-    expose :video_embeded_code, if: lambda { |instance, options| instance.is_video? } do |instance|
-      video = VideoInfo.new(instance.url)
-      video.embed_code
+    with_options(if: lambda { |instance, options| instance.is_video? }) do |instance|
+      expose :video_embeded_code do |instance|
+        instance.video.embed_code
+      end
+      expose :video_app_url
     end
   end
   extend Enumerize
@@ -48,7 +50,21 @@ class LinkSource < ActiveRecord::Base
   end
 
   def is_video?
-    VideoInfo.usable?(self.url)
+    VideoInfo.usable?(self.url) and video.try(:available?)
+  end
+
+  def video
+    @video ||= VideoInfo.new(self.url)
+  end
+
+  def video_app_url
+    return if video.blank?
+    case video.provider
+    when 'YouTube'
+      "vnd.youtube:#{video.video_id}"
+    when ''
+      "vimeo://app.vimeo.com/videos/#{video.video_id}"
+    end
   end
 
   def title_or_url
