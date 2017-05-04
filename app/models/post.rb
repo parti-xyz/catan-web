@@ -245,7 +245,7 @@ class Post < ActiveRecord::Base
 
   def video_source?
     return false unless link_source.present?
-    VideoInfo.usable?(link_source.try(:url) || '')
+    link_source.is_video?
   end
 
   def format_body
