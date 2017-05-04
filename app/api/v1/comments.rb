@@ -24,6 +24,8 @@ module V1
         @comment.user = resource_owner
         set_choice @comment
         @comment.save!
+        @comment.perform_mentions_async
+
         present @comment, type: :full
       end
 
