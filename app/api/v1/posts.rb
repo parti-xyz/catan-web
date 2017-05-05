@@ -76,10 +76,12 @@ module V1
           last_stroked_at = nil
         end
         logger.debug(last_stroked_at)
-        countable_issues = resource_owner.watched_posts
-        countable_issues = countable_issues.where.not(last_stroked_user: resource_owner)
-        countable_issues = countable_issues.next_of_time(last_stroked_at) if last_stroked_at.present?
-        present :has_updated, countable_issues.any?
+        new_posts = resource_owner.watched_posts
+        new_posts = new_posts.where.not(last_stroked_user: resource_owner)
+        new_posts = new_posts.next_of_time(last_stroked_at) if last_stroked_at.present?
+        logger.debug(new_posts.any?.inspect)
+        present :has_updated, new_posts.any?
+        present :last_stroked_at, new_posts.maximum(:last_stroked_at)
       end
 
       desc '특정 글에 대한 정보를 반환합니다'
