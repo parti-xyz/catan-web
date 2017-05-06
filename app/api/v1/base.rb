@@ -13,5 +13,6 @@ module V1
     mount V1::Tags
     mount V1::DeviceTokens
     mount V1::Settings
+    mount V1::AppVersion
   end
 end
