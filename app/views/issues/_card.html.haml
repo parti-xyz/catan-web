@@ -5,6 +5,10 @@
       - unless issue.displayable_group?(current_group)
         .issue-card__group
           = issue.group.head_title
+      - if !issue.private_blocked?(current_user) && !issue.member?(current_user)
+        - issue_card_join_button_id = "issue-card-join-btn-#{SecureRandom.uuid}"
+        = link_to smart_members_or_member_requests_parti_path(issue, partial: :isseu_card, button_id: issue_card_join_button_id), method: :post, remote: true, 'data-disable-with': '처리 중...', 'data-completed-with': '가입완료 <i class="fa fa-check"/>', id: issue_card_join_button_id, class: 'issue-card__join' do
+          가입하기
     .issue-card__content
       .issue-card__title
         .issue-card__title__text-wrapper

@@ -5,6 +5,22 @@
   $(card_query).replaceWith($member);
   parti_partial$($member);
   parti_ellipsis($(card_query));
+<% elsif params[:partial] == 'isseu_card' %>
+  <% if @issue.member? current_user %>
+    var completed = $('#<%= params[:button_id] %>').data('completed-with');
+    $('#<%= params[:button_id] %>').data('ujs:enable-with', completed)
+    $('#<%= params[:button_id] %>').data('disable-with', completed);
+
+    setTimeout(function() {
+      console.log("disable");
+      $.rails.disableElement($('#<%= params[:button_id] %>'));
+    }, 100);
+    setTimeout(function() {
+      $('#<%= params[:button_id] %>').fadeOut();
+    }, 1000);
+  <% else %>
+    UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+  <% end %>
 <% else %>
   var $member = $("<%= escape_javascript(render 'members/member', issue: @issue) %>");
   $('.<%= dom_id(@member.issue) %>-member').replaceWith($member);

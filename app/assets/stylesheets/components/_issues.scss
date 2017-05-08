@@ -328,16 +328,31 @@ section#issues {
       padding: 10px;
       height: 147px;
     }
-    .issue-card__group {
-      position: absolute;
-      background-color: rgba(150,111,214,0.9);
-      color: #fff;
+    .issue-card__group,
+    .issue-card__join {
       text-align: center;
       padding: 5px;
       display: inline-block;
-      margin: 10px;
       border-radius: $border-radius-base;
-      border: 2px solid rgb(150,111,214);
+      border: 1px solid $brand-primary;
+      font-size: $font-size-small;
+    }
+    .issue-card__group {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      background-color: rgba(255, 255, 255, 0.85);
+      color: rgba($brand-primary, 0.85);
+    }
+    .issue-card__join {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background-color: rgba($brand-primary, 0.85);
+      color: #fff;
+      &:hover {
+        background-color: $brand-primary;
+      }
     }
     .issue-card__thumb {
       width: 100%;

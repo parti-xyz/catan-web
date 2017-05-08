@@ -220,6 +220,9 @@ ko:
     indie_form_select_title: '그룹에 속하지 않는 일반 빠띠'
     group:
       welcome: '그룹에 가입되었습니다'
+    issue:
+      welcome: '빠띠에 가입되었습니다'
+      requested: '빠띠에 가입요청되었습니다'
     pagination:
       first: "&laquo; 처음"
       last: "마지막 &raquo;"
