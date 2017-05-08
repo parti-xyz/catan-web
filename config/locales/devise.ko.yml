@@ -53,7 +53,7 @@ ko:
         change_password: "비밀번호 바꾸기"
       new:
         forgot_password: "비밀번호를 잊었습니까?"
-        no_account: "등록되지 않은 이메일 주소입니다."
+        no_account: "해당 이메일로 가입한 이메일 가입자가 없습니다. 혹시 페이스북이나 구글로 가입하셨는지 다시 확인해 주세요."
         send_password_instructions: "비밀번호 재설정 메일 보내기"
       send_instructions: "몇 분 안으로 비밀번호를 초기화하기 위한 이메일이 도착합니다."
       updated: "비밀번호를 성공적으로 바꾼 뒤 로그인했습니다."

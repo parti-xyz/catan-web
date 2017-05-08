@@ -11,7 +11,11 @@ Rails.application.routes.draw do
 
   post 'redactor2_rails/files', to: redirect('/')
   mount Redactor2Rails::Engine => '/redactor2_rails'
-  devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    omniauth_callbacks: 'users/omniauth_callbacks',
+    passwords: 'users/passwords'
+  }
 
   ## 그룹
 
