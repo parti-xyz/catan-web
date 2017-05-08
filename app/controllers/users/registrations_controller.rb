@@ -7,7 +7,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # Overwrite update_resource to let users to update their user without giving their password
   def update_resource(resource, params)
-    if Devise.omniauth_providers.include?(resource.provider.to_sym)
+    if Devise.omniauth_providers.include?(resource.provider.to_sym) or (params[:password].blank? and params[:password_confirmation].blank?)
       params.delete("current_password")
       resource.update_without_password(params)
     else
@@ -18,11 +18,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:nickname, :image, :email, :password, :password_confirmation)
+    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation)
   end
 
   def account_update_params
-    params.require(:user).permit(:nickname, :image, :email, :password, :password_confirmation, :current_password, :enable_mailing)
+    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation, :current_password, :enable_mailing)
   end
 
   def after_sign_up_path_for(resource)

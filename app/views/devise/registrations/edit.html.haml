@@ -5,7 +5,7 @@
       = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
         = devise_error_messages!
         .form-group.text-center
-          - if f.object.image.file.present?
+          - if f.object.read_attribute(:image).present?
             = image_tag f.object.image_url, class: 'img-circle circle-140'
         .form-group
           = f.label :nickname
@@ -20,6 +20,10 @@
           = f.label :image
           = f.file_field :image, autofocus: true, class: 'form-control'
           = f.hidden_field :image_cache
+          - if f.object.read_attribute(:image).present?
+            %label{ style: 'font-weight: normal; margin-top: 6px' }
+              = f.check_box :remove_image
+              삭제하기
         .form-group
           = f.label :enable_mailing
           .checkbox
@@ -32,15 +36,14 @@
         - if resource.provider == 'email'
           .form-group
             = f.label :password
-            %small.help-block - 변경하지 않으시려면 비워두세요
+            %small.help-block 변경하지 않으시려면 비워두세요
             = f.password_field :password, autocomplete: "off", class: 'form-control'
           .form-group
             = f.label :password_confirmation
             = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'
-          %hr
           .form-group
             = f.label :current_password
-            %small.help-block - 보안을 위해 현재 비밀번호를 입력해 주세요
+            %small.help-block 보안을 위해 현재 비밀번호를 입력해 주세요
             = f.password_field :current_password, autocomplete: "off", class: 'form-control'
           %hr
         = f.submit '저장', class: 'btn btn-primary btn-block', data: { disable_with: "저장 중..." }
