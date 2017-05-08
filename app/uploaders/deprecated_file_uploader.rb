@@ -2,7 +2,6 @@
 
 class DeprecatedFileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
-  include CarrierWave::MimeTypes
 
   def self.env_storage
     if Rails.env.production?

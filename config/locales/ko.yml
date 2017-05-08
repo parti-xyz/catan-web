@@ -61,6 +61,17 @@ ko:
         recipient_codes: 입력하신 이메일이나 닉네임을 확인해 주세요.
         not_found_recipients: 아래 닉네임에 해당되는 회원이 없습니다. 다시 한번 확인해 주세요.
         ambiguous_recipients: 아래 이메일을 쓰는 회원이 여럿 있습니다. 이메일 대신 회원의 정확한 닉네임을 입력해 주세요.
+      carrierwave_processing_error: "이미지 사이즈 조정에 실패했습니다."
+      carrierwave_integrity_error: "이미지 파일이 아닙니다."
+      carrierwave_download_error: "다운로드 할 수 없습니다."
+      extension_whitelist_error: "허용되지 않는 파일 종류입니다."
+      extension_blacklist_error: "허용되지 않는 파일 종류입니다."
+      content_type_whitelist_error: "허용되지 않는 파일 종류입니다."
+      content_type_blacklist_error: "허용되지 않는 파일 종류입니다."
+      rmagick_processing_error: "이미지 파일이 아니거나 처리할 수 없는 파일입니다."
+      mini_magick_processing_error: "이미지 파일이 아니거나 처리할 수 없는 파일입니다."
+      min_size_error: "파일사이즈가 너무 작습니다."
+      max_size_error: "파일사이즈가 너무 큽니다."
     models:
       user:
         attributes:

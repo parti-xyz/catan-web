@@ -26,7 +26,7 @@ gem 'where-or'
 gem 'groupdate'
 
 # file upload
-gem 'carrierwave', '~> 0.11.2'
+gem 'carrierwave', '~> 1.1'
 gem "mini_magick"
 gem "fog"
 gem 'file_validators', '~> 2.1'
