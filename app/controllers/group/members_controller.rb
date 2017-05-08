@@ -11,7 +11,12 @@ class Group::MembersController < GroupBaseController
 
   def cancel
     @member = current_group.member_of current_user
-    @member.destroy! if @member.present?
+    ActiveRecord::Base.transaction do
+      @member.destroy! if @member.present?
+      current_group.issues.each do |issue|
+        issue.members.find_by(user: current_user).try(:destroy)
+      end
+    end
     redirect_to smart_group_url(current_group)
   end
 
@@ -22,6 +27,9 @@ class Group::MembersController < GroupBaseController
       ActiveRecord::Base.transaction do
         @member.update_attributes(ban_message: params[:ban_message])
         @member.destroy
+        current_group.issues.each do |issue|
+          issue.members.find_by(user: @user).try(:destroy)
+        end
       end
       if @member.paranoia_destroyed?
         MessageService.new(@member, sender: current_user, action: :ban).call
