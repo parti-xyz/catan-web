@@ -41,11 +41,12 @@ gem 'omniauth-facebook', '~> 4.0'
 gem 'omniauth-twitter', '~> 1.2', '>= 1.2.1'
 gem 'omniauth-google-oauth2', '~> 0.3.1'
 gem 'twitter', github: 'parti-xyz/twitter', branch: 'feature/user-email'
-gem 'google-api-client', '~> 0.9.2'
+gem 'google-api-client', '~> 0.11'
 gem 'koala', '~> 2.4'
 gem 'bcrypt-ruby', '~> 3.1', '>= 3.1.5', require: 'bcrypt'
 gem 'doorkeeper', '~> 4.2'
 gem 'doorkeeper-grants_assertion', github: 'doorkeeper-gem/doorkeeper-grants_assertion'
+gem 'rest-client', '~> 2.0', '>= 2.0.2'
 
 # api
 gem 'jsonapi-resources', '~> 0.8.0.beta2'
@@ -92,7 +93,7 @@ gem 'browsernizer'
 # crawling
 gem 'mechanize', '~> 2.7', '>= 2.7.5'
 gem 'video_info', '~> 2.6'
-gem 'fastimage', '~> 1.9'
+gem 'fastimage', '~> 2.1'
 
 # SEO
 gem 'meta-tags', '~> 2.1.0'
