@@ -182,8 +182,6 @@ class ApplicationController < ActionController::Base
     redactor2_current_user
   end
 
-  private
-
   def prepare_store_location
     store_location(current_group)
   end
