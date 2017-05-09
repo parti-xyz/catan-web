@@ -3,9 +3,18 @@
     .fb-like{"data-action": "like", "data-href": "https://www.facebook.com/PartiUnion/", "data-layout": "standard", "data-share": "false", "data-show-faces": "false"}
 %section#home
   .container
+
     .row
       .col-xs-12.col-sm-8
         %h4 그룹 찾기
+
+        .panel.panel-primary
+          .panel-body
+            %p
+              여러분의 모임&middot;조직만을 위한 그룹을 만들어 보세요. 그룹 안에서 여러 빠띠를 개설할 수 있습니다. 그룹은 공개형과 비공개형으로 나뉩니다.
+
+            %p
+              = link_to '그룹 개설을 신청합니다', 'https://goo.gl/forms/ldIKoqbRkUefqpgU2', class: 'btn btn-primary', target: '_blank'
         %section#groups-all
           = render Group.all.where.not(slug: 'indie')
       - unless is_small_screen?
