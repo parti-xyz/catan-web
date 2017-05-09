@@ -3,6 +3,13 @@ Doorkeeper.configure do
   access_token_expires_in 2.hours
   access_token_methods :from_bearer_authorization
 
+  resource_owner_from_credentials do |routes|
+    user = User.find_for_database_authentication(provider: :email, email: params[:email])
+    if user && user.valid_for_authentication? { user.valid_password?(params[:password]) }
+      user
+    end
+  end
+
   resource_owner_from_assertion do
     app = Doorkeeper::Application.by_uid_and_secret(params[:client_id], params[:client_secret])
     if app.blank?
@@ -55,10 +62,12 @@ Doorkeeper.configure do
   # end
 
   # add your supported grant types and other extensions
-  grant_flows %w(assertion)
+  grant_flows %w(assertion password)
   #  authorization_code implicit password client_credentials
 
   admin_authenticator do |routes|
     redirect_to root_url unless current_user.try(:admin?)
   end
 end
+
+# Doorkeeper.configuration.token_grant_types << "password"
