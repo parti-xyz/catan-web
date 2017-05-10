@@ -35,6 +35,9 @@ module V1
       delete do
         @upvote = Upvote.where(user: resource_owner).find_by permitted(params, :upvote)
         @upvote.destroy! if @upvote.present?
+
+        @body = nil
+        status 204
       end
 
       desc '특정 게시글의 공감들을 반환합니다'
