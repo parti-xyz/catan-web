@@ -6,6 +6,9 @@ class FileSource < ActiveRecord::Base
     expose :attachment_filename do |instance|
       instance.attachment.file.filename
     end
+    expose :attachment_sm_url do |instance|
+      instance.sm_url
+    end
     expose :human_file_size do |instance|
       number_to_human_size(instance.file_size)
     end
@@ -46,6 +49,10 @@ class FileSource < ActiveRecord::Base
 
   def url
     image? ? attachment.url : Rails.application.routes.url_helpers.download_file_source_path(self)
+  end
+
+  def sm_url
+    image? ? attachment.sm.url : Rails.application.routes.url_helpers.download_file_source_path(self)
   end
 
   def valid_name
