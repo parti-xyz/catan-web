@@ -7,12 +7,6 @@ require 'mocha/mini_test'
 Sidekiq::Testing.fake!
 Sidekiq::Logging.logger = nil
 
-class CarrierWave::Mount::Mounter
-  def store!
-    # Not storing uploads in the tests
-  end
-end
-
 module CatanTestHelpers
   def fixture_file(flie_name)
     fixture_file_upload(File.join(ActionController::TestCase.fixture_path, flie_name), nil, true)
@@ -35,7 +29,25 @@ class ActiveSupport::TestCase
 
   include CatanTestHelpers
 
-  CarrierWave.root = Rails.root.join('test/fixtures/files')
+  CarrierWave::Mounter.class_eval { def store!; end }
+
+  carrierwave_template = Rails.root.join('test','fixtures','files')
+  carrierwave_root = Rails.root.join('test','support','carrierwave')
+
+  CarrierWave.configure do |config|
+    config.root = carrierwave_root
+    config.enable_processing = false
+    config.storage = :file
+    config.cache_dir = Rails.root.join('test','support','carrierwave','carrierwave_cache')
+  end
+
+  at_exit do
+    #puts "Removing carrierwave test directories:"
+    Dir.glob(carrierwave_root.join('*')).each do |dir|
+      #puts "   #{dir}"
+      FileUtils.remove_entry(dir)
+    end
+  end
 
   def after_teardown
     super

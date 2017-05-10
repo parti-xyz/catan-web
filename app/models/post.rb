@@ -381,7 +381,7 @@ class Post < ActiveRecord::Base
   end
 
   def generous_strok_by!(someone = nil)
-    if self.last_stroked_at < 2.hours.ago
+    if self.last_stroked_at.blank? or self.last_stroked_at < 2.hours.ago
       strok_by!(someone)
     end
   end

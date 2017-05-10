@@ -28,7 +28,7 @@ class FeedbackSurveyService
           end
         else
           if survey.multiple_select?
-            previous_feedbacks.find_by(option: option).destroy
+            previous_feedbacks.find_by(option: option).try(:destroy)
           else
             previous_feedbacks.destroy_all
           end
