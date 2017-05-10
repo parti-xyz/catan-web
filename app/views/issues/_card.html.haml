@@ -1,35 +1,34 @@
 - issue ||= local_assigns[:card]
-.issue-card
-  = link_to smart_issue_home_path_or_url(issue) do
-    .issue-card__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-      - unless issue.displayable_group?(current_group)
-        .issue-card__group
-          = issue.group.head_title
-      - if !issue.private_blocked?(current_user) && !issue.member?(current_user)
-        - issue_card_join_button_id = "issue-card-join-btn-#{SecureRandom.uuid}"
-        = link_to smart_members_or_member_requests_parti_path(issue, partial: :isseu_card, button_id: issue_card_join_button_id), method: :post, remote: true, 'data-disable-with': '처리 중...', 'data-completed-with': '가입완료 <i class="fa fa-check"/>', id: issue_card_join_button_id, class: 'issue-card__join' do
-          가입하기
-    .issue-card__content
-      .issue-card__title
-        .issue-card__title__text-wrapper
-          .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}
-            = issue.title
-            = security_icon(issue)
-      .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
-      .issue-card__meta
-        %span.users-count
-          %i.fa.fa-user
-          = issue.members.count
-        %span.posts-count
-          %i.fa.fa-file-text
-          = issue.posts_count
-          - cache ['issues-card-latest_posts_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
-            - if issue.posts.latest.count > 0
-              %small +#{issue.posts.latest.count}
-        - cache ['issues-card-latest_comments_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
-          %span.comments-count
-            %i.fa.fa-comment
-            = issue.comments_count
-            - if issue.comments.latest.count > 0
-              %small +#{issue.comments.latest.count}
+.issue-card.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_issue_home_path_or_url(issue) }
+  .issue-card__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+    - unless issue.displayable_group?(current_group)
+      .issue-card__group
+        = issue.group.head_title
+    - if !issue.private_blocked?(current_user) && !issue.member?(current_user)
+      - issue_card_join_button_id = "issue-card-join-btn-#{SecureRandom.uuid}"
+      = link_to smart_members_or_member_requests_parti_path(issue, partial: :isseu_card, button_id: issue_card_join_button_id), method: :post, remote: true, 'data-disable-with': '처리 중...', 'data-completed-with': '가입완료 <i class="fa fa-check"/>', id: issue_card_join_button_id, class: 'issue-card__join' do
+        가입하기
+  .issue-card__content
+    .issue-card__title
+      .issue-card__title__text-wrapper
+        .issue-card__title__text{"data-action": "parti-ellipsis", title: issue.title, style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}
+          = issue.title
+          = security_icon(issue)
+    .issue-card__body.hidden-xs{"data-action": "parti-ellipsis", title: issue.body}= excerpt(issue.body, length: 60)
+    .issue-card__meta
+      %span.users-count
+        %i.fa.fa-user
+        = issue.members.count
+      %span.posts-count
+        %i.fa.fa-file-text
+        = issue.posts_count
+        - cache ['issues-card-latest_posts_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+          - if issue.posts.latest.count > 0
+            %small +#{issue.posts.latest.count}
+      - cache ['issues-card-latest_comments_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+        %span.comments-count
+          %i.fa.fa-comment
+          = issue.comments_count
+          - if issue.comments.latest.count > 0
+            %small +#{issue.comments.latest.count}
 
