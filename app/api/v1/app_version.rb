@@ -6,7 +6,7 @@ module V1
     namespace :app_version do
       desc '앱의 가장 최신 버전명을 반환합니다'
       get :last do
-        present :last_version, "0.1.0-alpha"
+        present :last_version, "0.1.1-alpha"
       end
     end
   end
