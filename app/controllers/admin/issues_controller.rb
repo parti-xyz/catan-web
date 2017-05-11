@@ -1,9 +1,15 @@
 class Admin::IssuesController < AdminController
   def merge
-    source = Issue.find_by slug: params[:source_slug], group_slug: 'indie'
-    target = Issue.find_by slug: params[:issue_slug], group_slug: 'indie'
+    group = Group.find_by slug: params[:group_slug]
+    if group.blank?
+      flash[:error] = '그룹 슬러그를 확인해 주세요'
+      redirect_to admin_issues_path and return
+    end
+
+    source = Issue.find_by slug: params[:source_slug], group_slug: group.slug
+    target = Issue.find_by slug: params[:issue_slug], group_slug: group.slug
     if source.blank? or target.blank?
-      flash[:error] = '메인에서 빠띠를 찾을 수 없습니다. 혹시 그룹의 빠띠인가요? 그룹의 빠띠는 지원하지 않습니다.'
+      flash[:error] = '빠띠를 찾을 수 없습니다. 혹시 다른 그룹의 빠띠인가요?'
       redirect_to admin_issues_path and return
     end
 
@@ -11,6 +17,7 @@ class Admin::IssuesController < AdminController
       MergedIssue.where(issue: source).update_all(issue_id: target.id)
       MergedIssue.create!(source_id: source.id, source_slug: source.slug, issue: target, user: current_user)
 
+      # members : joinable_id
       ActiveRecord::Base.record_timestamps = false
       begin
         source.members.each do |member|
@@ -20,9 +27,34 @@ class Admin::IssuesController < AdminController
       ensure
         ActiveRecord::Base.record_timestamps = true
       end
+
+      # member_requests : joinable_id
+      ActiveRecord::Base.record_timestamps = false
+      begin
+        source.member_requests.each do |member_request|
+          user = member_request.user
+          target.member_request.build(user: user, updated_at: member_request.updated_at, created_at: member_request.created_at) unless target.member_request_users.exists?(id: user.id)
+        end
+      ensure
+        ActiveRecord::Base.record_timestamps = true
+      end
+
+      # invitations : joinable_id
+      ActiveRecord::Base.record_timestamps = false
+      begin
+        source.invitations.each do |invitation|
+          invitation.update_columns(joinable_id: target.id) unless target.invitations.exists?(user: user)
+        end
+      ensure
+        ActiveRecord::Base.record_timestamps = true
+      end
+
+      # blinds :issue_id
       source.blind_users.each do |user|
         target.blinds.build(user: user) unless target.blind_users.exists?(id: user.id)
       end
+
+      # relateds : issue_id
       source.relateds.each do |related|
         if related.target == target
           next
@@ -30,29 +62,36 @@ class Admin::IssuesController < AdminController
         if target.relateds.exists?(target: related.target)
           next
         end
-
         target.relateds.build(target: related.target)
       end
       target.save!
 
+      # messagable_id : messagable_id
       ActiveRecord::Base.record_timestamps = false
       begin
-        source.posts.each do |post|
-          origin_updated_at = post.updated_at
-          post.update_attributes!(updated_at: post.updated_at, issue_id: target.id)
-          post.reload.update_attributes!(issue_id: target.id, updated_at: origin_updated_at)
-        end
-        source.invitations.each do |invitation|
-          invitation.update_attributes!(joinable: target, updated_at: invitation.updated_at)
-        end
-        Upvote.where(issue: source).each do |upvote|
-          upvote.update_columns(issue_id: target.id, updated_at: upvote.updated_at)
-        end
-        Issue.reset_counters(target.id, :posts, :members)
+        Message.where(messagable_id: source.id, messagable_type: 'Issue').update_all(messagable_id: target.id)
       ensure
         ActiveRecord::Base.record_timestamps = true
       end
+
+      # posts : issue_id
+      ActiveRecord::Base.record_timestamps = false
+      begin
+        source.posts.update_all(issue_id: target.id)
+
+
+        # upvotes : issue_id
+        Upvote.where(issue: source).each do |upvote|
+          upvote.update_columns(issue_id: target.id, updated_at: upvote.updated_at)
+        end
+
+      ensure
+        ActiveRecord::Base.record_timestamps = true
+      end
+
       source.reload.destroy!
+
+      Issue.reset_counters(target.id, :posts, :members)
     end
 
     flash[:success] = '완료했습니다.'

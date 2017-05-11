@@ -1,6 +1,9 @@
 %h4 빠띠 합하기
 = form_tag merge_admin_issues_path, method: :post do
   .form-group
+    = text_field_tag :group_slug, nil, class: 'form-control'
+    그룹의(일반 빠띠 그룹의 slug은 indie입니다)
+  .form-group
     = text_field_tag :source_slug, nil, class: 'form-control'
     빠띠를 지우고
   .form-group
