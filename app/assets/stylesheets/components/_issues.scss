@@ -343,11 +343,22 @@ section#issues {
       left: 30px;
       background-color: rgba(255, 255, 255, 0.85);
       color: rgba($brand-primary, 0.85);
+
+      @media(max-width: $screen-xs-max) {
+        position: relative;
+        top: 10px;
+        left: 10px;
+      }
     }
     .issue-card__join {
       position: absolute;
       top: 30px;
       right: 30px;
+      @media(max-width: $screen-xs-max) {
+        position: relative;
+        top: 10px;
+        right: 10px;
+      }
       background-color: rgba($brand-primary, 0.85);
       color: #fff;
       &:hover {
