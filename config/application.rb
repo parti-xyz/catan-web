@@ -28,5 +28,13 @@ module CatanWeb
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_job.queue_adapter = ((!ENV['SIDEKIQ'] and (Rails.env.test? or Rails.env.development?)) ? :inline : :sidekiq)
+
+    if Rails.env.test? || Rails.env.development?
+        config.asset_host = 'http://parti.dev'
+    elsif Rails.env.staging?
+        config.asset_host = 'https://dev.parti.xyz'
+    else
+        config.asset_host = 'https://parti.xyz'
+    end
   end
 end
