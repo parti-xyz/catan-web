@@ -3,7 +3,7 @@ class LinkSource < ActiveRecord::Base
   entity do
     expose :url, :title_or_url, :title, :body, :site_name, :page_type
     expose :image_url, if: lambda { |instance, options| instance.has_image? } do |instance|
-      instance.image.sm.url
+      instance.image.md.url
     end
     expose :is_video do |instance|
       instance.is_video?

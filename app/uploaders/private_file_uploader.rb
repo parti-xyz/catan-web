@@ -104,7 +104,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
         ActionController::Base.helpers.asset_url(super_result)
       else
         if self.fog_authenticated_url_expiration > 60
-          Rails.cache.fetch(super_result, expires_in: ((self.fog_authenticated_url_expiration || 600).in_milliseconds - 60.in_milliseconds)) do
+          Rails.cache.fetch(super_result, expires_in: ((self.fog_authenticated_url_expiration || 600) - 60)) do
             production_s3_url super_result
           end
         else
