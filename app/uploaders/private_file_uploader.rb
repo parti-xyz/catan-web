@@ -94,9 +94,11 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   end
 
   def url
-    if Rails.env.production?
-      Rails.cache.fetch("#{model.class.name}::#{model.id}::#{mounted_as}", expires_in: ((self.fog_authenticated_url_expiration || 600).in_milliseconds - 60.in_milliseconds)) do
-          super
+    if self.model.read_attribute(self.mounted_as.to_sym).blank?
+      super
+    elsif Rails.env.production?
+      Rails.cache.fetch("#{model.class.name}::#{model.id}::#{mounted_as}::#{self.model.read_attribute(self.mounted_as.to_sym)}", expires_in: ((self.fog_authenticated_url_expiration || 600).in_milliseconds - 60.in_milliseconds)) do
+        super
       end
     else
       super_result = super
@@ -116,7 +118,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
 
   def production_s3_url super_result
     @production_s3_bucket ||= @production_storage.directories.get ENV["PRIVATE_S3_BUCKET"]
-    @production_s3_bucket.files.get(super_result[1..-1]).try(:url, ::Fog::Time.now + self.fog_authenticated_url_expiration)
+    @production_s3_bucket.files.get(super_result[1..-1]).try(:url, ::Fog::Time.now.to_i + self.fog_authenticated_url_expiration)
   end
 
   def fix_exif_rotation
