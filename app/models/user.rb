@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   include Grape::Entity::DSL
   entity :id, :nickname, :email do
     expose :image_url do |instance|
-      instance.image.sm.url
+      instance.image.xs.url
     end
   end
 

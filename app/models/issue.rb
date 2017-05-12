@@ -6,7 +6,7 @@ class Issue < ActiveRecord::Base
 
     expose :group, using: Group::Entity
     expose :logo, as: :logo_url do |instance|
-      instance.logo.sm.url
+      instance.logo.xs.url
     end
     expose :latest_members_count do |instance|
       instance.members.latest.count

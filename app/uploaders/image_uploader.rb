@@ -80,6 +80,8 @@ class ImageUploader < CarrierWave::Uploader::Base
 
     if Rails.env.production?
       super_result
+    elsif self.model.read_attribute(self.mounted_as.to_sym).blank?
+      super_result
     else
       if self.file.try(:exists?) or ENV["S3_BUCKET"].blank?
         ActionController::Base.helpers.asset_url(super_result)
