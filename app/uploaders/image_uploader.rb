@@ -77,20 +77,14 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   def url
     super_result = super
+
     if Rails.env.production?
       super_result
-    elsif self.file.try(:exists?)
-      if ImageUploader::env_storage == :fog
-        super_result
-      else
-        super_result = "https://#{ENV["HOST"]}#{super_result}" if ENV["HOST"].present?
-        super_result
-      end
     else
-      if ImageUploader::env_storage == :fog
-        "https://catan-file.s3.amazonaws.com#{self.path}"
+      if self.file.try(:exists?) or ENV["S3_BUCKET"].blank?
+        ActionController::Base.helpers.asset_url(super_result)
       else
-        "https://catan-file.s3.amazonaws.com#{super_result}"
+        "https://#{ENV["S3_BUCKET"]}.s3.amazonaws.com#{super_result}"
       end
     end
   end

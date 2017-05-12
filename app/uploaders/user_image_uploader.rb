@@ -64,8 +64,26 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   def url
-    (Rails.env.production? or self.file.try(:exists?)) ? super : "https://catan-file.s3.amazonaws.com#{UserImageUploader::env_storage == :fog ? "/#{self.path}" : super}"
+    super_result = super
+
+    if Rails.env.production?
+      return super_result
+    else
+      if self.file.try(:exists?) or ENV["S3_BUCKET"].blank?
+        ActionController::Base.helpers.asset_url(super_result)
+      else
+        "https://#{ENV["S3_BUCKET"]}.s3.amazonaws.com#{super_result}"
+      end
+    end
   end
+
+  def fix_exif_rotation
+    manipulate! do |img|
+      img.tap(&:auto_orient)
+    end
+  end
+
+  process :fix_exif_rotation
 
   protected
 
