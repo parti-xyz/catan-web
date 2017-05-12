@@ -97,9 +97,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
     if self.model.read_attribute(self.mounted_as.to_sym).blank?
       super
     elsif Rails.env.production?
-      Rails.cache.fetch("#{model.class.name}::#{model.id}::#{mounted_as}::#{self.model.read_attribute(self.mounted_as.to_sym)}", expires_in: ((self.fog_authenticated_url_expiration || 600).in_milliseconds - 60.in_milliseconds)) do
-        super
-      end
+      super
     else
       super_result = super
       if self.file.try(:exists?) or @production_storage.blank?
