@@ -225,7 +225,13 @@ class PostsController < ApplicationController
       first_link = links.first
       if first_link.present? and first_link['href'].present?
         if post.link_source.try(:url) != first_link['href']
-          post.link_source = LinkSource.new(url: first_link['href'])
+          encoding_options = {
+            :invalid           => :replace,  # Replace invalid byte sequences
+            :undef             => :replace,  # Replace anything not defined in ASCII
+            :replace           => '',        # Use a blank for those replacements
+            :universal_newline => true       # Always break lines with \n
+          }
+          post.link_source = LinkSource.new(url: first_link['href'].encode(Encoding.find('ASCII'), encoding_options))
         end
       else
         if old_link.present?

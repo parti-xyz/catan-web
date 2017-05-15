@@ -50,7 +50,11 @@ class LinkSource < ActiveRecord::Base
   end
 
   def is_video?
-    VideoInfo.usable?(self.url) and video.try(:available?)
+    begin
+      VideoInfo.usable?(self.url) and video.try(:available?)
+    rescue VideoInfo::HttpError => e
+    rescue URI::InvalidURIError => e
+    end
   end
 
   def video
