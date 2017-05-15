@@ -34,7 +34,15 @@ class FcmJob
   end
 
   def fcm_message(user, message)
-    json = ApplicationController.renderer.render(
+
+
+    parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
+    host = parsed_asset_url.host
+    is_https = (parsed_asset_url.scheme == 'https')
+    json = ApplicationController.renderer.new(
+      http_host: host,
+      https: is_https)
+    .render(
       partial: "messages/fcm/#{message.messagable.class.model_name.singular}",
       locals: { message: message }
     )
