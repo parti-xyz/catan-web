@@ -1,20 +1,13 @@
 <%
   comment = message.messagable
-  if comment.post.user == message.user
-    body = "#{message.sender.nickname}님이 내 게시글에 댓글을 남겼습니다."
-  else
-    body = "#{comment.post.user.nickname}님의 게시글에 #{message.sender.nickname}님이 #{comment.mentioned?(message.user) ? '댓글에서 나를 언급했습니다.' : '댓글을 남겼습니다.'}"
-  end
+  body = "#{comment.user.nickname}: #{comment.body.try(:truncate, 120)}"
 %>
 {
-  "notification": {
-    "title": "<%= comment.issue.title %>",
-    "body": "<%= body %>"
-  },
   "data": {
-    "title": "<%= comment.issue.title %>",
+    "title": "<%= comment.issue.title %> <%= Issue.model_name.human %>",
     "body": "<%= body %>",
     "type": "post",
+    "priority": "<%= comment.mentioned?(message.user) ? "high" : "low" %>",
     "param": "<%= comment.post.id %>"
   }
 }

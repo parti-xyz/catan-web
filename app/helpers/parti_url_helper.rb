@@ -76,4 +76,12 @@ module PartiUrlHelper
   def smart_group_url(group, options = {})
     root_url(options.merge(subdomain: group.subdomain))
   end
+
+  def smart_joinable_url(joinable, options = {})
+    if joinable.instance_of?(Issue)
+      smart_issue_home_url(joinable, options)
+    elsif joinable.instance_of?(Group)
+      smart_group_url(joinable, options)
+    end
+  end
 end

@@ -12,14 +12,11 @@
   end
 %>
 {
-  "notification": {
-    "title": "<%= joinable.title %>",
-    "body": "<%= body %>"
-  },
   "data": {
-    "title": "<%= joinable.title %>",
+    "title": "<%= joinable.title %> <%= joinable.class.model_name.human %>",
     "body": "<%= body %>",
     "type": "<%= joinable.is_a? Group ? 'group' : 'parti' %>",
+    "url": "<%= smart_joinable_url(joinable) || '' %>",
     "param": "<%= joinable.slug %>"
   }
 }

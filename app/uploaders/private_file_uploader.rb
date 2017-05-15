@@ -115,8 +115,8 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   end
 
   def production_s3_url super_result
-    @production_s3_bucket ||= @production_storage.directories.get ENV["PRIVATE_S3_BUCKET"]
-    @production_s3_bucket.files.get(super_result[1..-1]).try(:url, ::Fog::Time.now.to_i + self.fog_authenticated_url_expiration)
+    @production_s3_bucket ||= @production_storage.directories.new(key: ENV["PRIVATE_S3_BUCKET"])
+    @production_s3_bucket.files.new(key: super_result[1..-1]).try(:url, ::Fog::Time.now.to_i + self.fog_authenticated_url_expiration)
   end
 
   def fix_exif_rotation

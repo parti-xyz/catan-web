@@ -3,14 +3,11 @@
   body = "#{invitation.user.nickname}님이 #{invitation.issue.title} 빠띠에 초대했습니다."
 %>
 {
-  "notification": {
-    "title": "<%= invitation.issue.title %>",
-    "body": "<%= body %>"
-  },
   "data": {
-    "title": "<%= invitation.issue.title %>",
+    "title": "<%= invitation.joinable.title %> <%= invitation.joinable.class.model_name.human %>",
     "body": "<%= body %>",
     "type": "parti",
+    "url": "<%= smart_joinable_url(invitation.joinable) || '' %>",
     "param": "<%= invitation.issue.slug %>"
   }
 }

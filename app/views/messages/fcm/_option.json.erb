@@ -2,17 +2,13 @@
   option = message.messagable
   post = option.survey.post
   issue = post.issue
-  body = "#{option.user.nickname}님이 게시글에서 새로운 제안을 올렸습니다."
+  body = "#{option.user.nickname}님이 새로운 제안을 올렸습니다. \"#{option.body}\""
   end
 %>
 {
-  "notification": {
-    "title": "<%= issue.title %>",
-    "body": "<%= body %>"
-  },
   "data": {
-   "title": "<%= issue.title %>",
-    "body": "<%= body %>"
+   "title": "<%= issue.title %> <%= Issue.model_name.human %>",
+    "body": "<%= body %>",
     "type": "post",
     "param": "<%= post.id %>"
   }
