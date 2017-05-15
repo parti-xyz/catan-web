@@ -345,9 +345,9 @@ section#issues {
       color: rgba($brand-primary, 0.85);
 
       @media(max-width: $screen-xs-max) {
-        position: relative;
-        top: 10px;
-        left: 10px;
+        position: static;
+        margin-top: 5px;
+        margin-left: 5px;
       }
     }
     .issue-card__join {
@@ -355,9 +355,9 @@ section#issues {
       top: 30px;
       right: 30px;
       @media(max-width: $screen-xs-max) {
-        position: relative;
-        top: 10px;
-        right: 10px;
+        position: static;
+        margin-top: 5px;
+        margin-left: 5px;
       }
       background-color: rgba($brand-primary, 0.85);
       color: #fff;
