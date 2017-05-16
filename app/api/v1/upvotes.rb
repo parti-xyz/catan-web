@@ -20,8 +20,7 @@ module V1
         @upvote.user = resource_owner
         @upvote.save!
 
-        @body = nil
-        status 204
+        return_no_content
       end
 
       desc '공감을 취소합니다'
@@ -36,8 +35,7 @@ module V1
         @upvote = Upvote.where(user: resource_owner).find_by permitted(params, :upvote)
         @upvote.destroy! if @upvote.present?
 
-        @body = nil
-        status 204
+        return_no_content
       end
 
       desc '특정 게시글의 공감들을 반환합니다'

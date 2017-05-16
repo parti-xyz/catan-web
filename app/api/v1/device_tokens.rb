@@ -11,8 +11,8 @@ module V1
       end
       post do
         DeviceToken.find_or_create_by!(user: resource_owner, registration_id: params[:registration_id])
-        @body = nil
-        status 204
+
+        return_no_content
       end
 
       desc '디바이스토큰을 삭제합니다.'
@@ -23,8 +23,8 @@ module V1
       delete do
         device_token = DeviceToken.find_by(user: resource_owner, registration_id: params[:registration_id])
         device_token.blank? or device_token.destroy!
-        @body = nil
-        status 204
+
+        return_no_content
       end
     end
 
