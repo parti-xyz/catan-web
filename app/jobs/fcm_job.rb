@@ -2,8 +2,6 @@ class FcmJob
   include Sidekiq::Worker
 
   def perform(id)
-    return if Rails.env.production?
-
     message = Message.find_by(id: id)
     if message.present? and message.user.device_tokens.any?
       Rails.logger.debug(fcm_message(message.user, message).inspect)
