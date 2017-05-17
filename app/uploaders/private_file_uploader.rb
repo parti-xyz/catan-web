@@ -137,7 +137,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   protected
 
   def image?(new_file)
-    new_file.content_type.start_with? 'image'
+    new_file.content_type.try(:start_with?, 'image')
   end
 
   def secure_token(length=16)
