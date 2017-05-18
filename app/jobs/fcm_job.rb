@@ -32,8 +32,6 @@ class FcmJob
   end
 
   def fcm_message(user, message)
-
-
     parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
     host = parsed_asset_url.host
     is_https = (parsed_asset_url.scheme == 'https')

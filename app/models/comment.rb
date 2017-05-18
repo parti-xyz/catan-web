@@ -20,6 +20,9 @@ class Comment < ActiveRecord::Base
       expose :is_upvotable do |instance, options|
         instance.upvotable? options[:current_user]
       end
+      expose :is_upvoted_by_me do |instance, options|
+        instance.is_upvoted_by? options[:current_user]
+      end
       expose :is_blinded do |instance, options|
         instance.blinded? options[:current_user]
       end
@@ -80,7 +83,12 @@ class Comment < ActiveRecord::Base
 
   def upvotable? someone
     return false if someone.blank?
-    !upvotes.exists?(user: someone)
+    !is_upvoted_by?(someone)
+  end
+
+  def is_upvoted_by? someone
+    return false if someone.blank?
+    upvotes.exists?(user: someone)
   end
 
   def issue_for_message

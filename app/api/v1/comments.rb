@@ -26,7 +26,7 @@ module V1
         @comment.save!
         @comment.perform_mentions_async
 
-        present @comment, type: :full
+        present @comment, base_options.merge(type: :full)
       end
 
       desc '댓글을 지웁니다'
