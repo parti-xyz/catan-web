@@ -26,7 +26,7 @@ class Group < ActiveRecord::Base
   end
 
   def share_site_title
-    "#{title} 빠띠"
+    indie? ? nil : "#{title} 빠띠"
   end
 
   def aside_title
