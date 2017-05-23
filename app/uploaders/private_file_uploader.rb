@@ -94,6 +94,10 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   end
 
   def url
+    if Rails.env.test?
+      return super
+    end
+
     if self.model.read_attribute(self.mounted_as.to_sym).blank?
       super
     elsif Rails.env.production?

@@ -73,6 +73,10 @@ class DeprecatedFileUploader < CarrierWave::Uploader::Base
   end
 
   def url
+    if Rails.env.test?
+      return super
+    end
+
     super_result = super
     if Rails.env.production?
       super_result
