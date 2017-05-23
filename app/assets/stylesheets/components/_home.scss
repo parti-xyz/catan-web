@@ -144,3 +144,20 @@ section#home {
     }
   }
 }
+
+section#group-home-submenu {
+  background-color: $brand-primary;
+  margin-top: 6px;
+  .list-inline {
+    margin-top: 10px;
+    a {
+      color: white;
+      font-weight: 200;
+    }
+
+    li.active a {
+      color: $gray-lightest;
+      font-weight: bold;
+    }
+  }
+}
