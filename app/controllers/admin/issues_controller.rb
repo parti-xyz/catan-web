@@ -43,6 +43,7 @@ class Admin::IssuesController < AdminController
       ActiveRecord::Base.record_timestamps = false
       begin
         source.invitations.each do |invitation|
+          user = invitation.user
           invitation.update_columns(joinable_id: target.id) unless target.invitations.exists?(user: user)
         end
       ensure
