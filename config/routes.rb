@@ -223,5 +223,8 @@ Rails.application.routes.draw do
     end
     resources :groups
     resources :blinds
+
+    get :new_notice_email, to: 'notice_email#new'
+    post :deliver_notice_email, to: 'notice_email#deliver'
   end
 end

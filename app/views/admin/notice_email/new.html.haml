@@ -1,0 +1,10 @@
+%section.roles
+  %h3 전체 공지 메일 보내기
+  .notice-email-form
+    = form_tag admin_deliver_notice_email_path, method: :post do |f|
+      .form-group
+        = text_field_tag :title, '', class: 'form-control'
+      .form-group
+        = text_area_tag :body, '', class: 'form-control', rows: 20
+      = submit_tag "#{current_user.email}로 테스트발송", name: 'test_commit', class: 'btn btn-default'
+      = submit_tag '실제발송', class: 'btn btn-danger', data: { confirm: '정말 발송하시겠습니까? 취소할 수 없습니다', disable_with: '발송 중' }
