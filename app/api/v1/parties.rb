@@ -11,6 +11,16 @@ module V1
 
     namespace :parties do
 
+      desc '현재 로그인한 사용자가 가입한 빠띠 목록을 반환합니다'
+      oauth2
+      params do
+        optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
+        optional :limit, type: Integer, default: 50
+      end
+      get :my_joined do
+        present parties_joined(current_user).send(params[:sort]).limit(params[:limit]), base_options.merge(target_user: current_user)
+      end
+
       desc '한 사용자가 가입한 빠띠 목록을 반환합니다'
       oauth2
       params do
