@@ -291,13 +291,15 @@ class Post < ActiveRecord::Base
   end
 
   def meta_tag_title
-    if poll.present?
+    post_title = if poll.present?
       sanitize_html poll.title
     elsif parsed_title.present?
       sanitize_html parsed_title
     else
       sanitize_html(parsed_body).gsub('\n', '').truncate(13)
     end
+
+    post_title.present? ? "#{post_title.truncate(15)} | #{issue.title} 빠띠" : "#{issue.title} 빠띠"
   end
 
   def meta_tag_description

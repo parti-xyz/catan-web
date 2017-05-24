@@ -99,7 +99,6 @@ class PostsController < ApplicationController
           twitter_card_type: 'summary_large_image'
       else
         prepare_meta_tags title: @post.meta_tag_title,
-          site_name: "#{@post.issue.title} 빠띠",
           image: @post.meta_tag_image,
           description: @post.meta_tag_description
       end
@@ -109,9 +108,8 @@ class PostsController < ApplicationController
   def images
     @issue = @post.issue
     prepare_meta_tags title: @post.meta_tag_title,
-        site_name: ("#{@post.issue.title} 빠띠" if @post.issue.group.indie?),
-        image: @post.meta_tag_image,
-        description: @post.meta_tag_description
+      image: @post.meta_tag_image,
+      description: @post.meta_tag_description
   end
 
   def poll_social_card

@@ -89,9 +89,7 @@ class ApplicationController < ActionController::Base
 
     current_url = request.url
     og_description = (view_context.strip_tags options[:description]).truncate(160)
-
     {
-      site:        options[:site_name],
       title:       options[:title],
       reverse:     true,
       image:       view_context.asset_url(options[:image]),
@@ -99,7 +97,6 @@ class ApplicationController < ActionController::Base
       keywords:    options[:keywords],
       canonical:   current_url,
       twitter: {
-        site_name: options[:site_name],
         site: '@parti_xyz',
         card: options[:twitter_card_type],
         description: twitter_description(options),
@@ -107,8 +104,7 @@ class ApplicationController < ActionController::Base
       },
       og: {
         url: current_url,
-        site_name: options[:site_name],
-        title: options[:og_title] || "#{options[:title]} | #{options[:site_name]}",
+        title: options[:og_title] || options[:title],
         image: view_context.asset_url(options[:image]),
         description: og_description,
         type: 'website'
