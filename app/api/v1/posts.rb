@@ -117,42 +117,32 @@ module V1
         end
       end
 
-      # desc '게시글을 작성합니다'
-      # oauth2
-      # params do
-      #   requires :post, type: Hash do
-      #     requires :body, type: String
-      #     requires :parti_id, type: Integer
-      #     optional :reference, type: Hash do
-      #       optional :attachment, type: String
-      #       optional :poll, type: String
-      #       optional :link, type: String
-      #     end
-      #   end
-      # end
-      # post do
-      #   permitted_params = permitted(params, :post)
-      #   permitted_params[:issue_id] = permitted_params.delete :parti_id
-      #   reference = permitted_params.delete :reference
-      #   @post = Post.new permitted_params
-      #   @post.user = resource_owner
-      #   @post.format_linkable_body
-      #   if reference.present?
-      #     if reference[:attachment].present?
-      #       @post.reference = FileSource.new(attachment: reference[:attachment], name: 'file-#{DateTime.now.to_i}')
-      #     elsif reference[:link].present?
-      #       @post.reference = LinkSource.new(url: reference[:link])
-      #     elsif reference[:poll].present?
-      #       @post.poll = Poll.new(title: reference[:poll])
-      #     end
-      #   end
-      #   @post.save!
+      desc '게시글을 작성합니다'
+      oauth2
+      params do
+        requires :post, type: Hash do
+          requires :body, type: String
+          requires :parti_id, type: Integer
+        end
+      end
+      post do
+        permitted_params = permitted(params, :post)
+        permitted_params[:issue_id] = permitted_params.delete :parti_id
+        # reference = permitted_params.delete :reference
 
-      #   if @post.link_source.present?
-      #     CrawlingJob.perform_async(@post.reference.id)
-      #   end
-      #   present @post, base_options.merge(type: :full)
-      # end
+        @post = Post.new permitted_params
+        error!('private issue', 500) if @post.issue.blank? or @post.issue.private_blocked?(current_user)
+
+        service = PostCreateService.new(post: @post, current_user: current_user)
+
+        if service.call
+          present @post, base_options.merge(type: :full)
+        else
+          logger.error("fail to save post")
+          logger.error(@post.errors.inspect)
+          error!('private issue', 500)
+        end
+      end
 
       desc '한 게시글의 댓글을 반환합니다.'
       oauth2

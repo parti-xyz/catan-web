@@ -9,18 +9,19 @@ class PostsController < ApplicationController
   def create
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
 
-    @post.user = current_user
-    @post.strok_by(current_user)
-    @post.format_body
+    service = PostCreateService.new(post: @post, current_user: current_user)
+    # @post.user = current_user
+    # @post.strok_by(current_user)
+    # @post.format_body
 
-    setup_link_source(@post)
+    # Post.setup_link_source(@post)
 
-    set_current_user_to_options(@post)
-    if @post.save
-      @post.issue.strok_by!(current_user)
-      crawling_after_creating_post
-      @post.perform_mentions_async
-    else
+    # set_current_user_to_options(@post)
+    # if @post.save
+    #   @post.issue.strok_by!(current_user)
+    #   crawling_after_creating_post
+    #   @post.perform_mentions_async
+    unless service.call
       errors_to_flash(@post)
     end
     redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)

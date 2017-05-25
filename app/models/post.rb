@@ -248,8 +248,12 @@ class Post < ActiveRecord::Base
     link_source.is_video?
   end
 
-  def format_body
-    if self.is_html_body == 'false'
+  def format_body!
+    format_body(true)
+  end
+
+  def format_body(force = false)
+    if self.is_html_body == 'false' or force
       parsed_text = ApplicationController.helpers.simple_format(ERB::Util.h(self.body), {}, sanitize: false)
       self.body = ApplicationController.helpers.auto_link(parsed_text, html: {class: 'auto_link', target: '_blank'}, link: :urls, sanitize: false)
     end
