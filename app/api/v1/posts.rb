@@ -123,15 +123,17 @@ module V1
         requires :post, type: Hash do
           requires :body, type: String
           requires :parti_id, type: Integer
+          optional :file_sources_attributes, type: Array do
+            requires :attachment, type: Rack::Multipart::UploadedFile
+          end
         end
       end
       post do
         permitted_params = permitted(params, :post)
         permitted_params[:issue_id] = permitted_params.delete :parti_id
-        # reference = permitted_params.delete :reference
 
         @post = Post.new permitted_params
-        error!('private issue', 500) if @post.issue.blank? or @post.issue.private_blocked?(current_user)
+        error!('private issue', 500) if permitted_params[:body].blank? or @post.issue.blank? or @post.issue.private_blocked?(current_user)
 
         service = PostCreateService.new(post: @post, current_user: current_user)
 

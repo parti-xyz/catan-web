@@ -4,7 +4,7 @@ module DefaultHelpers
   end
 
   def permitted(params, require)
-    ActionController::Parameters.new(declared(params)).require(require).permit!
+    ActionController::Parameters.new(declared(params, include_missing: false)).require(require).permit!
   end
 
   def base_options
