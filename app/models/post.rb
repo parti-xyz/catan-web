@@ -382,13 +382,13 @@ class Post < ActiveRecord::Base
     self
   end
 
-  def strok_by!(someone = nil)
-    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone || self.user)
+  def strok_by!(someone, subject)
+    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone, last_stroked_for: subject)
   end
 
-  def generous_strok_by!(someone = nil)
+  def generous_strok_by!(someone, subject)
     if self.last_stroked_at.blank? or self.last_stroked_at < 2.hours.ago
-      strok_by!(someone)
+      strok_by!(someone, subject)
     end
   end
 

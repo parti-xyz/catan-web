@@ -33,6 +33,8 @@
 
     - else
       .post-card__post
+        = render 'posts/last_stroked_for', post: post
+
         - chevron_dropdown = capture do
           - if can? :update, post
             %li

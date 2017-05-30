@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170414080905) do
+ActiveRecord::Schema.define(version: 20170530042309) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -415,6 +415,7 @@ ActiveRecord::Schema.define(version: 20170414080905) do
     t.integer  "readers_count",             limit: 4,     default: 0
     t.integer  "last_stroked_user_id",      limit: 4
     t.integer  "file_sources_count",        limit: 4,     default: 0
+    t.string   "last_stroked_for",          limit: 255
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree

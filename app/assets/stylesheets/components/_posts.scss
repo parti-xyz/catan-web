@@ -40,9 +40,6 @@ section#posts {
 }
 
 .post-card {
-  &__content {
-    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.12);
-  }
   &__count {
   }
   &.new-post {
@@ -103,6 +100,14 @@ section#posts {
     button.dropdown-toggle i {
       color: $gray-light;
     }
+  }
+  &__last-strocked {
+    color: $gray;
+    padding-bottom: 6px;
+    background: $gray-lightest;
+    margin-bottom: 12px;
+    padding: 6px 12px;
+    border-radius: 4px;
   }
   &__post {
     padding: 12px 18px;
