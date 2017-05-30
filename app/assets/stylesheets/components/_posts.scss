@@ -103,6 +103,9 @@ section#posts {
   }
   &__last-strocked {
     color: $gray;
+    a {
+      color: $gray;
+    }
     padding-bottom: 6px;
     background: $gray-lightest;
     margin-bottom: 12px;
