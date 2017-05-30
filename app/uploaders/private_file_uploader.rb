@@ -104,6 +104,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
       super
     else
       super_result = super
+      return super_result if super_result.nil?
       if self.file.try(:exists?) or @production_storage.blank?
         ActionController::Base.helpers.asset_url(super_result)
       else
