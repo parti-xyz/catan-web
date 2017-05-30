@@ -302,7 +302,7 @@
 }
 
 @media (max-width: $screen-xs-max) {
-  .post-card-with-comments__post {
+  .post-card__post {
     .poll-card__date {
       display: none;
     }

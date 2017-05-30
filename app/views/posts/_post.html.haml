@@ -1,8 +1,8 @@
 - comment_style = local_assigns[:mode] || 'in-list'
-.post-card-with-comments{class: "post-card-with-comments--#{comment_style} #{dom_id(post)} #{ 'post-card-with-comments--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}", data: { 'parti-comment-style': comment_style }}
-  .post-card-with-comments__content
+.post-card{class: "post-card--#{comment_style} #{dom_id(post)} #{ 'post-card--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}", data: { 'parti-comment-style': comment_style }}
+  .post-card__content
     - if local_assigns[:show_issue]
-      .post-card-with-comments__header
+      .post-card__header
         .media
           .media-left
             = link_to smart_issue_home_path_or_url(post.issue) do
@@ -22,7 +22,7 @@
               %button(type="button" class="close" data-dismiss="modal") &times;
 
     - if post.private_blocked?(current_user)
-      .post-card-with-comments__post
+      .post-card__post
         %strong 비공개 빠띠 게시글입니다.
         - if post.issue.member_requested? current_user
           %br
@@ -32,7 +32,7 @@
             을 기다려주세요.
 
     - else
-      .post-card-with-comments__post
+      .post-card__post
         - chevron_dropdown = capture do
           - if can? :update, post
             %li
@@ -59,7 +59,7 @@
             %li= additional_buttons
         - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
         - if chevron_dropdown.try(:strip).present?
-          .post-card-with-comments__buttons
+          .post-card__buttons
             %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
               %i.fa.fa-chevron-down
             %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
@@ -72,20 +72,20 @@
 
       - share_partial = capture do
         = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-url': polymorphic_url(post, subdomain: post.issue.group_subdomain), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{post.meta_tag_image}" }
-      .post-card-with-comments__footer.clearfix
-        %span.post-card-with-comments__footer__upvote
+      .post-card__footer.clearfix
+        %span.post-card__footer__upvote
           .post-upvote
             = render 'upvotes/upvote', upvotable: post
 
         - if user_signed_in?
-          %span.post-card-with-comments__footer__link-to-modal.cursor-pointer{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
+          %span.post-card__footer__link-to-modal.cursor-pointer{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
             댓글달기
         - else
-          %span.post-card-with-comments__footer__link-to-login.cursor-pointer{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
+          %span.post-card__footer__link-to-login.cursor-pointer{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
             댓글달기
-        %span.post-card-with-comments__footer__share-modal.cursor-pointer{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
+        %span.post-card__footer__share-modal.cursor-pointer{"data-url": "#share-partial-#{dom_id(post)}", "data-action": "parti-popover", "data-placement": "top"}
           공유하기
-        %span.post-card-with-comments__footer__upvote-count
+        %span.post-card__footer__upvote-count
           = render 'upvotes/upvote_count', upvotable: post
         .hidden
           .share-partial{id: "share-partial-#{dom_id(post)}"}

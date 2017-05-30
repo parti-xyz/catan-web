@@ -1,6 +1,6 @@
-.post-card-with-comments.cursor-pointer{ 'data-action': 'parti-link', 'data-url': post_path(post) }
+.post-card.cursor-pointer{ 'data-action': 'parti-link', 'data-url': post_path(post) }
   - if post.issue.private_blocked?(current_user)
-    .post-card-with-comments__post
+    .post-card__post
       %strong 비공개 빠띠 게시글입니다.
       - if post.issue.member_requested? current_user
         %br
@@ -10,7 +10,7 @@
           을 기다려주세요.
 
   - else
-    .post-card-with-comments__post
+    .post-card__post
       .post-info
         = render 'users/post_byline', post: post
       .post-line.post-line

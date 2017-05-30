@@ -15,7 +15,7 @@ section#comments {
   border-bottom: 1px solid #eaeaeb;
   position: relative;
   padding-right: 24px;
-  &.post-card-with-comments__comment-form {
+  &.post-card__comment-form {
     padding-right: 0;
   }
   @media (max-width: $screen-xs-max) {
@@ -24,7 +24,7 @@ section#comments {
   &:last-child {
     border-bottom: none;
   }
-  .post-card-with-comments__comments--hidden &:last-child {
+  .post-card__comments--hidden &:last-child {
     border-bottom: 1px solid #eaeaeb;
   }
   .date-wrapper {

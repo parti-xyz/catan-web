@@ -1,4 +1,4 @@
-.post-card-with-comments__post.clearfix{ id: pinned_post_dom_id(post), class: ('js-posts-pinned-and-read collapse' if local_assigns[:collapse]) }
+.post-card__post.clearfix{ id: pinned_post_dom_id(post), class: ('js-posts-pinned-and-read collapse' if local_assigns[:collapse]) }
   = link_to post do
     .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
       &middot;

@@ -39,7 +39,7 @@ section#posts {
   }
 }
 
-.post-card-with-comments {
+.post-card {
   &__content {
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.12);
   }
@@ -256,7 +256,7 @@ section#posts {
     }
   }
   &.pinned {
-    .post-card-with-comments__post {
+    .post-card__post {
       position: relative;
 
       .issue-meta {
@@ -296,7 +296,7 @@ section#posts {
         }
       }
     }
-    .post-card-with-comments__post + .post-card-with-comments__post {
+    .post-card__post + .post-card__post {
       border-top: 1px solid $gray-lightest;
     }
   }
@@ -355,42 +355,13 @@ section#posts {
   }
 }
 
-.post-card {
-  background-color: #fff;
-  margin-bottom: 0;
-  border-left: 1px solid #e6e6e7;
-  border-right: 1px solid #e6e6e7;
-  border-bottom: 1px solid #e6e6e7;
-  padding: 20px;
-  a {
-    color: $gray;
-    font-size: 15px;
-    margin-bottom: 15px;
-    display: block;
-    &:hover {
-      color: $brand-primary;
-    }
-  }
-  &__count {
-    margin-bottom: 5px;
-  }
-  &__date {
-    color: #aaaaaf;
-    font-size: 12px;
-  }
-}
-
-.post-card:last-child {
-  margin-bottom: 20px;
-}
-
 #post-modal.post-modal {
   .modal-dialog {
     width: 745px;
   }
 }
 @media (max-width: $screen-xs-max) {
-  .post-card-with-comments {
+  .post-card {
     border-radius: 0;
     padding: 0;
     &__header {
@@ -406,7 +377,7 @@ section#posts {
     }
     &--hidden-issue {
     }
-    .post-card-with-comments__comments {
+    .post-card__comments {
       margin-left: 0;
       margin-top: 0;
     }
@@ -485,7 +456,7 @@ section#posts {
 #new-posts {
   display: none;
   color: $gray;
-  .post-card-with-comments {
+  .post-card {
     text-align: center;
     font-size: 16px;
     .new-posts__count {
@@ -506,7 +477,7 @@ section#posts {
     height: 150px;
   }
   #new-posts {
-    .post-card-with-comments {
+    .post-card {
       padding-left: 0;
       padding-right: 0;
     }

@@ -5,14 +5,14 @@
     - collapsed_posts = []
     - uncollapsed_posts = posts
 
-  .post-card-with-comments.pinned
-    .post-card-with-comments__header.clearfix.js-posts-pinned-and-read{ class: ('collapse' if uncollapsed_posts.empty?) }
+  .post-card.pinned
+    .post-card__header.clearfix.js-posts-pinned-and-read{ class: ('collapse' if uncollapsed_posts.empty?) }
       공지
     - uncollapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post)
 
     - if collapsed_posts.any?
-      .post-card-with-comments__post.js-show-all-pinned-post-wrapper
+      .post-card__post.js-show-all-pinned-post-wrapper
         .show-all.js-show-all-pinned-post
           이미 확인한 공지 펼쳐보기
           (#{collapsed_posts.count})
