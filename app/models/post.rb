@@ -19,7 +19,7 @@ class Post < ActiveRecord::Base
     end
     expose :truncated_parsed_body do |instance|
       parsed_body = view_helpers.post_body_format(instance.parsed_body)
-      result = view_helpers.smart_truncate_html(parsed_body, length: 220, ellipsis: "... <read-more><read-more/>")
+      result = view_helpers.smart_truncate_html(parsed_body, length: 220, ellipsis: "... <read-more></read-more>")
       (result == parsed_body ? nil : result)
     end
     expose :specific_desc_striped_tags
@@ -416,10 +416,9 @@ class Post < ActiveRecord::Base
     elsif strip_body.length < 250
       [nil, body]
     else
-      lines = strip_body.lines
-      setences = lines.first.split(/(?=(<\/p>|<br>))/)
+      setences = strip_body.lines.map { |l| l.split(/(?<=<\/p>)/) }.map { |s| s.split(/(?=<br>)/) }.flatten
       if setences.first.length < 100
-        remains = (setences[1..-1] + lines[1..-1]).join
+        remains = setences[1..-1].join.strip
         [setences.first, remains]
       else
         [nil, body]
