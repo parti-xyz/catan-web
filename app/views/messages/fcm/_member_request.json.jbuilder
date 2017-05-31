@@ -11,6 +11,7 @@ if message.action.to_s == 'cancel'
 end
 
 json.data do
+  json.id message.id
   json.title "#{joinable.title} #{joinable.class.model_name.human}"
   json.body body
   json.type (joinable.is_a?(Group) ? 'group' : 'parti')

@@ -10,6 +10,7 @@ else
 end
 
 json.data do
+  json.id message.id
   json.title "#{issue.title} #{Issue.model_name.human}"
   json.body body
   json.type "post"
