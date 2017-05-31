@@ -3,6 +3,29 @@ module V1
     helpers DefaultHelpers
     include V1::Defaults
 
+    helpers do
+      def fetch_posts_page_after first_id
+        watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
+        next_first_post = Post.with_deleted.find_by(id: first_id)
+
+        @posts = watched_posts.limit(25)
+        @posts = @posts.next_of_post(next_first_post) if next_first_post.present?
+
+        current_last_post = @posts.last
+        @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
+      end
+
+      def fetch_posts_page_before last_id
+        watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
+        previous_last_post = Post.with_deleted.find_by(id: last_id)
+
+        @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
+
+        current_last_post = @posts.last
+        @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
+      end
+    end
+
     namespace :posts do
       desc '한 사용자가 쓴 글을 반환합니다.'
       oauth2
@@ -32,36 +55,34 @@ module V1
         requires :last_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 마지막 게시글 번호'
       end
       get :dashboard_after do
-        watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
-        previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-
-        @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
-
-        current_last_post = @posts.last
-        @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
+        last_id = params[:last_id]
+        loop do
+          fetch_posts_page_before last_id
+          @result_posts = Post.reject_blinds(@posts, resource_owner)
+          last_id = @posts.last.try(:id)
+          break if !@has_more_item or @result_posts.any?
+        end
 
         present :has_more_item, @has_more_item
-        present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
+        present :items, @result_posts, base_options.merge(type: :full)
       end
 
-      desc '내홈 최신글을 가져옵니다'
+      desc '내홈 이전글이나 최신글을 가져옵니다'
       oauth2
       params do
         optional :first_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 첫 게시글 번호'
       end
       get :dashboard_latest do
-        watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
-        previous_first_post = Post.with_deleted.find_by(id: params[:first_id])
+        first_id = params[:first_id]
+        loop do
+          fetch_posts_page_after first_id
+          @result_posts = Post.reject_blinds(@posts, resource_owner)
+          first_id = @posts.first.try(:id)
+          break if !@has_more_item or @result_posts.any?
+        end
 
-        @posts = watched_posts.limit(25)
-        @posts = @posts.next_of_post(previous_first_post) if previous_first_post.present?
-
-        current_last_post = @posts.last
-        @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
-
-        present :has_gap, (watched_posts.previous_of_post(current_last_post).first != previous_first_post)
         present :has_more_item, @has_more_item
-        present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
+        present :items, @result_posts, base_options.merge(type: :full)
       end
 
       desc '새로운 글이 있는지 확인합니다'
