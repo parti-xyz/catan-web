@@ -19,7 +19,8 @@ class Post < ActiveRecord::Base
     end
     expose :truncated_parsed_body do |instance|
       parsed_body = view_helpers.post_body_format(instance.parsed_body)
-      view_helpers.smart_truncate_html(parsed_body, length: 220, ellipsis: "... <read-more/>")
+      result = view_helpers.smart_truncate_html(parsed_body, length: 220, ellipsis: "... <read-more><read-more/>")
+      (result == parsed_body ? nil : result)
     end
     expose :specific_desc_striped_tags
     with_options(format_with: lambda { |dt| dt.iso8601 }) do
