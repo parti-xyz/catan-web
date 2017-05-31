@@ -170,8 +170,9 @@ module ApplicationHelper
 
   def smart_truncate_html(text, options = {})
     max_length = options[:length] || 100
-    return text if (strip_tags(text).try(:length) || 0) < max_length.to_i
-    HTML_Truncator.truncate(text, max_length, options.merge(length_in_chars: true))
+    offset = 100
+    return text if (strip_tags(text).try(:length) || 0) < (max_length.to_i + offset)
+    result = HTML_Truncator.truncate(text, max_length, options.merge(length_in_chars: true))
   end
 
   def security_icon(model)
