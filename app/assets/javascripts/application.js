@@ -7,7 +7,7 @@
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
 //= require bootstrap-tabdrop
-//= require rails-timeago
+//= require jquery.timeago
 //= require locales/jquery.timeago.ko
 //= require autoresize
 //= require jquery.validate
@@ -211,6 +211,11 @@ var parti_prepare = function($base) {
 
   parti_prepare_masonry($base);
   parti_prepare_form_validator($base);
+
+  //timeago
+  $.parti_apply($base, 'time[data-time-ago]', function(elm) {
+    $(elm).timeago();
+  });
 
   //clipboard
   $.parti_apply($base, '.js-clipboard', function(elm) {
