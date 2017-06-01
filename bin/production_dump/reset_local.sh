@@ -16,11 +16,11 @@ eval $(parse_yaml ./local_env.yml "config_")
 
 if [ ! -z "$config_development_database_password" ]
 then
-  $pass = "-p${config_development_database_password}" 
+  pass="-p${config_development_database_password}"
 fi
 
 
 ey scp HOST:/mnt/tmp/$file_name . -e omurice
 mysql -u$config_development_database_username $pass -e "DROP DATABASE catan_development_${branch_namne}; CREATE DATABASE catan_development_${branch_namne} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
-gunzip -c $file_name | mysql -uroot catan_development_$branch_namne
+gunzip -c $file_name | mysql -uroot $pass catan_development_$branch_namne
 rm -rf $file_name

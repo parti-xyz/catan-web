@@ -135,15 +135,23 @@ production:
 
 ## 로컬 개발 환경 구축 방법
 
-기본적인 Rail 개발 환경에 rbenv, pow/powder를 이용합니다.
+기본적인 Rail 개발 환경에 rbenv, puma-dev를 이용합니다.
+
+### rbenv 설정 
 
 ```
 $ rbenv install 2.3.1
 $ bundle install
-$ bundle exec rake db:migrate
 ```
 
-pow/powder에서 puma-dev를 사용하는 방향으로 고려 중입니다.
+### puma-dev 설정
+
+```
+$ brew install puma/puma/puma-dev
+$ sudo puma-dev -setup
+$ puma-dev link -n parti
+```
+
 
 ### 소스관리 설정
 
@@ -194,6 +202,10 @@ mysql > create database catan_development_브랜치명 CHARACTER SET utf8mb4 COL
 ```
 db:setup으로 스키마를 생성합니다.
 
+```
+$ bin/rake db:setup 
+```
+
 #### 초기 데이터 추가
 
 먼저 .powenv에 원하는 관리자용 암호를 등록합니다.
@@ -206,6 +218,7 @@ export PARTI_ADMIN_PASSWORD="12345678"
 ```
 $ source .powenv
 $ bundle exec rake db:seed_fu
+$ bundle exec rake data:seed:group
 ```
 
 
@@ -320,3 +333,14 @@ https://parti.dev/oauth/applications
 
 https://parti.dev/users/access_token?app=어플리케이션이름
 
+## 로컬 환경에서도 사용자 프로필 사진, 빠띠 대문 이미지 등을 보이게 하는 법 
+
+.powenv 파일에 아래 변수를 추가합니다.
+
+```
+export PRIVATE_S3_ACCESS_KEY="xx"
+export PRIVATE_S3_SECRET_KEY="xx"
+export PRIVATE_S3_REGION="xx"
+export PRIVATE_S3_BUCKET="xx"
+export S3_BUCKET="xx"
+```
