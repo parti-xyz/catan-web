@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170530042309) do
+ActiveRecord::Schema.define(version: 20170601032344) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -504,6 +504,17 @@ ActiveRecord::Schema.define(version: 20170530042309) do
   end
 
   add_index "searches", ["searchable_type", "searchable_id"], name: "index_searches_on_searchable_type_and_searchable_id", using: :btree
+
+  create_table "settings", force: :cascade do |t|
+    t.string   "var",        limit: 255,   null: false
+    t.text     "value",      limit: 65535
+    t.integer  "thing_id",   limit: 4
+    t.string   "thing_type", limit: 30
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
 
   create_table "statistics", force: :cascade do |t|
     t.string  "when",             limit: 255, null: false

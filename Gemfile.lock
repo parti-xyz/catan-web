@@ -578,6 +578,8 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-settings-cached (0.6.5)
+      rails (>= 4.2.0)
     rails-timeago (2.16.0)
       actionpack (>= 3.1)
       activesupport (>= 3.1)
@@ -797,6 +799,7 @@ DEPENDENCIES
   puma
   rack-mini-profiler
   rails (= 4.2.5.1)
+  rails-settings-cached
   rails-timeago (~> 2.13)
   rails_autolink (~> 1.1, >= 1.1.6)
   rb-readline
