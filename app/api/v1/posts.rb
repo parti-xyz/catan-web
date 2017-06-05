@@ -8,7 +8,7 @@ module V1
         watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
         next_first_post = Post.with_deleted.find_by(id: first_id)
 
-        @posts = watched_posts.limit(25)
+        @posts = watched_posts.limit(40)
         @posts = @posts.next_of_post(next_first_post) if next_first_post.present?
 
         current_last_post = @posts.last
@@ -19,7 +19,7 @@ module V1
         watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
         previous_last_post = Post.with_deleted.find_by(id: last_id)
 
-        @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
+        @posts = watched_posts.limit(40).previous_of_post(previous_last_post)
 
         current_last_post = @posts.last
         @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)

@@ -16,7 +16,7 @@
             빠띠에서 사용할 아이디를 넣어 주세요.
           = f.text_field :nickname, autofocus: true, class: 'form-control'
           .text-primary
-            * 한글, 알파벳, 숫자, _ 만 가능합니다.
+            * 한글, 알파벳 소문자, 숫자, _ 만 가능합니다.
 
         - if resource.email.blank? or resource.errors.include?(:email) or resource.provider == 'email'
           .form-group

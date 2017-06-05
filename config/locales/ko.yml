@@ -161,17 +161,17 @@ ko:
         user:
           attributes:
             nickname:
-              exclusion: '%{attribute}에 입력한 값이 올바르지 않습니다. 예시) users, admin, all 등은 사용할 수 없습니다.'
-              invalid: '%{attribute} 형식이 올바르지 않습니다.'
-              too_long: '%{attribute}는 20자를 넘을 수 없습니다.'
+              exclusion: ' 아이디로 입력한 값이 올바르지 않습니다. 예시) users, admin, all 등은 사용할 수 없습니다.'
+              invalid: ' 입력한 아이디 값이 올바르지 않습니다. 한글, 알파벳 소문자, 숫자, _ 만 가능합니다.'
+              too_long: ' 아이디는 20자를 넘을 수 없습니다.'
             password:
               too_short: 비밀번호는 8자 이상 입력해주세요.
             password_confirmation:
               confirmation: 새로 입력한 비밀번호가 서로 일치하지 않습니다.
             current_password:
-              invalid: '%{attribute}가 일치하지 않습니다.'
+              invalid: '비밀번호가 일치하지 않습니다.'
             email:
-              invalid: '올바르지 않습니다.'
+              invalid: '이메일이 올바르지 않습니다.'
         redactor2_rails/image:
           attributes:
             data:
