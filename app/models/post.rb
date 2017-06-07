@@ -355,8 +355,8 @@ class Post < ActiveRecord::Base
     poll.try(:unsured_by?, voter)
   end
 
-  def self.reject_blinds(posts, user)
-    posts.to_a.reject{ |post| post.blinded?(user) }
+  def self.reject_blinded_or_blocked(posts, user)
+    posts.to_a.reject{ |post| post.blinded?(user) or post.private_blocked?(user) }
   end
 
   def issue_for_message

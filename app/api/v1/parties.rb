@@ -7,6 +7,17 @@ module V1
       def parties_joined(someone)
         someone.member_issues
       end
+
+      def fetch_posts_page issue, last_id
+        base_posts = issue.posts.order(last_stroked_at: :desc)
+        previous_last_post = Post.with_deleted.find_by(id: last_id)
+
+        @posts = base_posts.limit(40)
+        @posts = @posts.previous_of_post(previous_last_post) if previous_last_post.present?
+
+        current_last_post = @posts.last
+        @has_more_item = (base_posts.any? and base_posts.previous_of_post(current_last_post).any?)
+      end
     end
 
     namespace :parties do
@@ -63,27 +74,26 @@ module V1
         present @issue
       end
 
-      desc '해당 빠띠의 모든 글을 반환합니다'
+      desc '빠띠 게시글을 페이지별로 가져옵니다'
       oauth2
       params do
-        requires :slug, type: String, desc: '빠띠의 slug'
-        optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
-        optional :last_id, type: Integer, desc: '이전 마지막 게시글 번호'
+        requires :id, type: Integer, desc: '빠띠의 ID'
+        optional :last_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 마지막 게시글 번호'
       end
-      get ':slug/posts' do
-        @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
-        base_posts = @issue.posts
+      get ':id/posts' do
+        last_id = params[:last_id]
+        @issue = Issue.find_by(id: params[:id])
+        error!(:not_found, 404) and return if @issue.blank?
 
-        previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-        watched_posts = base_posts.order(last_stroked_at: :desc)
-        @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
-
-        current_last_post = @posts.last
-
-        @has_more_item = (base_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
+        loop do
+          fetch_posts_page @issue, last_id
+          @result_posts = Post.reject_blinded_or_blocked(@posts, resource_owner)
+          last_id = @posts.last.try(:id)
+          break if !@has_more_item or @result_posts.any?
+        end
 
         present :has_more_item, @has_more_item
-        present :items, Post.reject_blinds(@posts, resource_owner), base_options.merge(type: :full)
+        present :items, @result_posts, base_options.merge(type: :full)
       end
 
       desc '해당 빠띠의 멤버회원을 반환합니다'

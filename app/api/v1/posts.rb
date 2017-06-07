@@ -4,22 +4,12 @@ module V1
     include V1::Defaults
 
     helpers do
-      def fetch_posts_page_after first_id
-        watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
-        next_first_post = Post.with_deleted.find_by(id: first_id)
-
-        @posts = watched_posts.limit(40)
-        @posts = @posts.next_of_post(next_first_post) if next_first_post.present?
-
-        current_last_post = @posts.last
-        @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
-      end
-
-      def fetch_posts_page_before last_id
+      def fetch_posts_page last_id
         watched_posts = resource_owner.watched_posts.order(last_stroked_at: :desc)
         previous_last_post = Post.with_deleted.find_by(id: last_id)
 
-        @posts = watched_posts.limit(40).previous_of_post(previous_last_post)
+        @posts = watched_posts.limit(40)
+        @posts = @posts.previous_of_post(previous_last_post) if previous_last_post.present?
 
         current_last_post = @posts.last
         @has_more_item = (watched_posts.any? and watched_posts.previous_of_post(current_last_post).any?)
@@ -49,35 +39,17 @@ module V1
         present :items, @posts, base_options.merge(type: :full)
       end
 
-      desc '내홈의 다음 글을 가져옵니다'
+      desc '내홈의 게시글을 페이지별로 가져옵니다'
       oauth2
       params do
-        requires :last_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 마지막 게시글 번호'
+        optional :last_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 마지막 게시글 번호'
       end
-      get :dashboard_after do
+      get :dashboard do
         last_id = params[:last_id]
         loop do
-          fetch_posts_page_before last_id
-          @result_posts = Post.reject_blinds(@posts, resource_owner)
+          fetch_posts_page last_id
+          @result_posts = Post.reject_blinded_or_blocked(@posts, resource_owner)
           last_id = @posts.last.try(:id)
-          break if !@has_more_item or @result_posts.any?
-        end
-
-        present :has_more_item, @has_more_item
-        present :items, @result_posts, base_options.merge(type: :full)
-      end
-
-      desc '내홈 이전글이나 최신글을 가져옵니다'
-      oauth2
-      params do
-        optional :first_id, type: Integer, desc: '이전에 보고 있던 게시글 중에 첫 게시글 번호'
-      end
-      get :dashboard_latest do
-        first_id = params[:first_id]
-        loop do
-          fetch_posts_page_after first_id
-          @result_posts = Post.reject_blinds(@posts, resource_owner)
-          first_id = @posts.first.try(:id)
           break if !@has_more_item or @result_posts.any?
         end
 
