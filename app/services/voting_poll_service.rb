@@ -56,6 +56,10 @@ class VotingPollService
   private
 
   def strok_post
-    self.poll.try(:post).try(:generous_strok_by!, current_user, :voting)
+    return if self.poll.try(:post).blank?
+
+    if self.poll.post.generous_strok_by!(current_user, :voting)
+      self.poll.post.issue.strok_by!(current_user)
+    end
   end
 end

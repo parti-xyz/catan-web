@@ -47,7 +47,7 @@ class PostsController < ApplicationController
     @post.assign_attributes(pinned: true, last_stroked_at: DateTime.now, pinned_at: DateTime.now)
     @post.strok_by(current_user)
     @post.save!
-    @post.issue.strok_by(current_user).save
+    @post.issue.strok_by!(current_user)
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification
   end
 

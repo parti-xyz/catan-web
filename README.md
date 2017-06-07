@@ -1,92 +1,5 @@
 # 민주주의 커뮤니티, 빠띠
 
-## 업그레이드
-
-### ? --> ?
-배포전 실서버에 더미 그룹테이블을 만들어줍니다.
-```
-CREATE TABLE `groups` (   `id` int(11) NOT NULL AUTO_INCREMENT,   `user_id` int(11) NOT NULL,   `name` varchar(255) NOT NULL,   `site_title` varchar(255) NOT NULL,   `head_title` varchar(255) NOT NULL,   `site_description` text,   `site_keywords` text,   `slug` varchar(255) NOT NULL,   `logo` varchar(255) DEFAULT NULL,   `cover` varchar(255) DEFAULT NULL,   `deleted_at` datetime DEFAULT NULL,   `active` varchar(255) DEFAULT 'on',   `created_at` datetime NOT NULL,   `updated_at` datetime NOT NULL,   `private` tinyint(1) NOT NULL DEFAULT '0',   `members_count` int(11) NOT NULL DEFAULT '0',   PRIMARY KEY (`id`),   UNIQUE KEY `index_groups_on_slug_and_active` (`slug`,`active`),   UNIQUE KEY `index_groups_on_site_title_and_active` (`site_title`,`active`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
-```
-
-### 1.69.0 --> 1.70.0 (주의: 아직 완성되지 않은 버전입니다)
-SSL을 적용됩니다. 로컬 개발환경을 powder에서 puma-dev로 변경합니다. 페이스북API, 트위터API, 구글 API를 변경합니다.
-
-프로젝트 최상위 폴더에서 아래를 수행합니다
-```
-$ rm -rf .git/hooks/post-checkout
-$ echo $'#!/bin/sh\nif [ "1" == "$3" ]; then spring stop && touch ./tmp/restart.txt; fi' > .git/hooks/post-checkout
-$ chmod +x .git/hooks/post-checkout
-```
-
-### 1.9 --> 1.10
-
-배포 후에 즉시 아래 스크립트를 실행합니다.
-```
-RAILS_ENV=production bin/rake migrate:presetation_comment_to_talk_body
-RAILS_ENV=production bin/rake migrate:first_comment_to_article_body
-```
-
-배포 직전, 텔레그램 대화방 열기 위키문서(빠띠 활용 가이드 1.10 Beta)의 내용을 복사해서 원본 위키문서(빠띠 활용 가이드)로 옮깁니다.
-텔레그램 가이드로 앵커가 걸린 url을 복사해서, app/vies/issues/_form.html.haml에 있는 '텔레그램 슈퍼그룹이란?'의 기존 href url을 대체합니다.
-
-배포 직후, 활용가이드에 첨부된 이미지 url중 'dev'로 되어있는 부분은 'master'로 바꿉니다.
-
-배포 직전, 빠띠 위키 마크다운 가이드의 내용을 복사해서 원본 위키문서(빠띠 활용 가이드)로 옮깁니다.
-앵커가 걸린 url을 복사해서, application.js에 있는 마크다운 활용가이드 링크의 url을 대체합니다.
-
-태그 설치를 위해 아래를 배포 후에 수행합니다.
-
-```
-RAILS_ENV=production bin/rake acts_as_taggable_on_engine:tag_names:collate_bin
-```
-
-### 1.3 --> 1.4
-
-서버에 데이터베이스 설정을 수정합니다.
-https://support.cloud.engineyard.com/hc/en-us/articles/205407378-Use-Keep-Files-to-Customize-and-Maintain-Configurations
-
-### 1.2 --> 1.3
-
-관리자 암호를 등록해야합니다.
-```
-export PARTI_ADMIN_PASSWORD="12345678"
-```
-
-각 링크/톡/투표에 대해 마지막 수다가 입력된 시간을 마이그레이션 합니다.
-```
-Post.all.each { |p| p.update_columns(last_commented_at: (p.comments.newest.try(:created_at) || p.created_at)) }
-```
-
-현존하는 모든 빠띠의 오거나이저를 마이그레이션 합니다.
-```
-Issue.all.select { |i| !i.makers.exists?(user: admin) }.each { |i| i.makers.build(user: admin); i.save }
-```
-
-### 0.x --> 1.0
-
-각 빠띠마다 같은 URL의 글이 올란 경우를 찾아 봅니다. 검색이 되면 조치를 취합니다.
-```
-Article.all.select { |a| Article.joins(:post).where('issue_id': a.issue_id, link_source_id: a.link_source_id).count > 1 }
-```
-
-존재하지 않는 사용자가 투표한 데이터를 삭제합니다.
-
-```
-Vote.all.select {|v| v.user.nil? }.each {|v| v.destroy }
-```
-
-크롤링을 다시 합니다.
-
-```
-$ bundle exec rake crawling:reload_all
-```
-
-이미지 프로세싱을 다시 합니다
-
-```
-$ nohup bin/rake images:reprocess RAILS_ENV=staging > ~/nohup4.out 2>&1&
-```
-
 ## 배포
 
 engineyard를 사용합니다.
@@ -132,6 +45,10 @@ production:
   PARTI_ADMIN_PASSWORD: xx
   FCM_KEY: xx
 ```
+
+firebase realtime database와 연결합니다.
+
+https://console.firebase.google.com/project/{구글 프로젝트 이름}/settings/serviceaccounts/adminsdk 에서 "새 비공개 키 생성" 버튼을 클릭하여 계정 파일을 다운로드 받습니다. 이 파일을 config아래에 복사해 둡니다
 
 ## 로컬 개발 환경 구축 방법
 
@@ -343,4 +260,13 @@ export PRIVATE_S3_SECRET_KEY="xx"
 export PRIVATE_S3_REGION="xx"
 export PRIVATE_S3_BUCKET="xx"
 export S3_BUCKET="xx"
+```
+
+## firebase realtime database와 연결
+
+https://console.firebase.google.com/project/{구글 프로젝트 이름}/settings/serviceaccounts/adminsdk 에서 "새 비공개 키 생성" 버튼을 클릭하여 계정 파일을 다운로드 받습니다. 이 파일을 config아래에 복사해 둡니다
+
+.powenv 파일에 개발자마다 유일한 키를 등록합니다
+```
+export FIREBASE_BUCKETNAME="dalikim"
 ```

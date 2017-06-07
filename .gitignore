@@ -30,3 +30,5 @@ local_env.yml
 test_env.yml
 
 .DS_Store
+
+config/firebase-serviceAccountCredentials.json

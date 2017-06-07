@@ -19,6 +19,7 @@ class OptionsController < ApplicationController
 
     if @option.persisted?
       @post.strok_by!(current_user, :option)
+      @post.issue.strok_by!(current_user)
       MessageService.new(@option).call
       OptionMailer.deliver_all_later_on_create(@option)
     end

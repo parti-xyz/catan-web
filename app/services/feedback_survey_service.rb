@@ -34,7 +34,9 @@ class FeedbackSurveyService
           end
         end
 
-        post.generous_strok_by!(current_user, :feedback)
+        if post.generous_strok_by!(current_user, :feedback)
+          post.issue.strok_by!(current_user)
+        end
       end
     end
   end

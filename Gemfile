@@ -57,7 +57,7 @@ gem 'grape_logging', '~> 1.3'
 gem 'grape-entity', '~> 0.6.0'
 gem 'grape-cancan'
 gem 'wine_bouncer', '~> 1.0', '>= 1.0.1'
-
+gem 'firebase', github: 'parti-xyz/firebase-admin-ruby'
 gem 'fcm', '~> 0.0.2'
 
 # views
