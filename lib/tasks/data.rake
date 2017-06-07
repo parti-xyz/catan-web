@@ -75,6 +75,13 @@ namespace :data do
         site_description: "'마을'을 위해, '사람'을 위해, 청소년이 만들어가는 '변화'. 대책 없는 상상력과 무시무시한 실행력으로 마을의 변화를 만드는 청소년들의 이야기가 흘러넘치는 곳, 시작된변화 빠띠입니다.",
         private: false)
 
+      seed_group(user, 'adaptiveleadership', ['gingertproject'],
+        title: '어댑티브 리더십',
+        site_title: '함께 읽는 어댑티브 리더십',
+        head_title: '변화리더십',
+        site_description: "조직의 문제와 나의 문제를 고민하는 사람들이 모여, 이전에는 시도되지 않은 실험을 해나가면서 해결책을 도출해 나가는 변화 리더십에 대한 고민과 생각을 나눕니다.",
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
     end
