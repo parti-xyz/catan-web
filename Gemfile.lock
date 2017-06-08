@@ -8,7 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/parti-xyz/firebase-admin-ruby.git
-  revision: 4b79c8627bef7e5b323ab1c2bf53e82ebd5ac6d8
+  revision: cfe52eb5013e0f157d8ef5b41b74d991aa422315
+  tag: v0.2.7-catan
   specs:
     firebase (0.2.7)
       httpclient
