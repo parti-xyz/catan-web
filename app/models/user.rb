@@ -2,8 +2,14 @@ class User < ActiveRecord::Base
   rolify
   include Grape::Entity::DSL
   entity :id, :nickname, :email do
+    include Rails.application.routes.url_helpers
+    include PartiUrlHelper
+
     expose :image_url do |instance|
       instance.image.xs.url
+    end
+    expose :profile_url do |instance|
+      smart_user_gallery_url(instance)
     end
   end
 
