@@ -66,12 +66,11 @@ module V1
       desc '특정 빠띠에 대한 정보를 반환합니다'
       oauth2
       params do
-        requires :slug, type: String, desc: '빠띠의 slug'
-        optional :group_slug, type: String, desc: '빠띠의 그룹 slug'
+        requires :id, type: String, desc: '빠띠의 id'
       end
-      get ':slug' do
-        @issue = Issue.find_by!(slug: params[:slug], group_slug: params[:group_slug])
-        present @issue
+      get ':id' do
+        @issue = Issue.find_by!(id: params[:id])
+        present @issue, base_options.merge(target_user: current_user)
       end
 
       desc '빠띠 게시글을 페이지별로 가져옵니다'
@@ -84,6 +83,7 @@ module V1
         last_id = params[:last_id]
         @issue = Issue.find_by(id: params[:id])
         error!(:not_found, 404) and return if @issue.blank?
+        error!(:forbidden, 403) and return if @issue.private_blocked?(resource_owner)
 
         loop do
           fetch_posts_page @issue, last_id
