@@ -1,0 +1,11 @@
+@import "variables_xs";
+@import "groups/variables_zakdang";
+@import "groups/zakdang";
+
+#site-header .navbar-header .navbar-brand img {
+  width: 30px;
+}
+
+section#home {
+  margin-top: 30px;
+}
