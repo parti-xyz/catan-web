@@ -293,7 +293,7 @@ class Issue < ActiveRecord::Base
 
   def strok_by!(someone)
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone)
-    IssueFirebaseRealtimeDb.perform_async(self.id)
+    IssueFirebaseRealtimeDb.perform_async(self.id, someone.id)
   end
 
   def members_with_deleted
