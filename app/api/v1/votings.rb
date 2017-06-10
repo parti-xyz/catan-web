@@ -12,6 +12,8 @@ module V1
       end
       post do
         @poll = Poll.find params[:poll_id]
+        error!(:forbidden, 403) and return if @poll.post.private_blocked?(current_user)
+
         service = VotingPollService.new(poll: @poll, current_user: resource_owner)
         @voting = service.send(params[:choice].to_sym)
         if @voting.errors.any?

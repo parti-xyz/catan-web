@@ -15,7 +15,8 @@ module V1
         @option = Option.find params[:option_id]
         survey = @option.survey
         post = survey.post
-        error! if @option.blank? or survey.blank? or post.blank?
+        error! and return if @option.blank? or survey.blank? or post.blank?
+        error!(:forbidden, 403) and return if @option.try(:survey).try(:post).try(:private_blocked?, current_user)
 
         FeedbackSurveyService.new(option: @option, current_user: current_user, selected: params[:selected]).feedback
 

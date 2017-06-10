@@ -85,6 +85,8 @@ module V1
       end
       get ':id' do
         @post = Post.find_by!(id: params[:id])
+        error!(:forbidden, 403) and return if @post.private_blocked?(resource_owner)
+
         present @post, base_options.merge(type: :full)
       end
 
@@ -96,6 +98,8 @@ module V1
       end
       get ':id/download_file/:file_source_id' do
         @post = Post.find_by!(id: params[:id])
+        error!(:forbidden, 403) and return if @post.private_blocked?(current_user)
+
         @file_source = @post.file_sources.find_by!(id: params[:file_source_id])
 
         content_type @file_source.file_type || MIME::Types.type_for(@file_source.read_attribute(:attachment))[0].to_s
@@ -127,7 +131,8 @@ module V1
         permitted_params[:issue_id] = permitted_params.delete :parti_id
 
         @post = Post.new permitted_params
-        error!('private issue', 500) if permitted_params[:body].blank? or @post.issue.blank? or @post.issue.private_blocked?(current_user)
+        error!('bad request', 500) and return if permitted_params[:body].blank? or @post.issue.blank? or @post.issue.private_blocked?(current_user)
+        error!(:forbidden, 403) and return if @post.issue.private_blocked?(current_user)
 
         service = PostCreateService.new(post: @post, current_user: current_user)
 

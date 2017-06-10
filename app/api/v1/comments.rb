@@ -23,6 +23,9 @@ module V1
         @comment = Comment.new permitted(params, :comment)
         @comment.user = resource_owner
         set_choice @comment
+
+        error!(:forbidden, 403) and return if @comment.post.private_blocked?(resource_owner)
+
         @comment.save!
         @comment.perform_mentions_async
 

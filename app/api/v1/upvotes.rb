@@ -18,6 +18,9 @@ module V1
 
         @upvote = Upvote.new permitted(params, :upvote)
         @upvote.user = resource_owner
+
+        error!(:forbidden, 403) and return if @upvote.post.private_blocked?(resource_owner)
+
         @upvote.save!
 
         return_no_content
