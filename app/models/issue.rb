@@ -291,7 +291,9 @@ class Issue < ActiveRecord::Base
     self
   end
 
-  def strok_by!(someone)
+  def strok_by!(someone, post)
+    return if post.blinded?
+
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone)
     IssueFirebaseRealtimeDb.perform_async(self.id, someone.id)
   end

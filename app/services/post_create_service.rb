@@ -13,7 +13,7 @@ class PostCreateService
     set_current_user_to_options(@post, @current_user)
     return false unless @post.save
 
-    @post.issue.strok_by!(@current_user)
+    @post.issue.strok_by!(@current_user, @post)
     crawling_after_creating_post
     @post.perform_mentions_async
   end

@@ -1,4 +1,4 @@
-- if post.last_stroked_at > 24.hours.ago
+- if post.present? and post.last_stroked_at.present? and post.last_stroked_at > 24.hours.ago
   - if %w(voting feedback).include? post.last_stroked_for
     .post-card__last-stroked
       #{link_to "@#{post.last_stroked_user.nickname}", smart_user_gallery_path(post.last_stroked_user)}님이 투표했습니다.

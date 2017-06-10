@@ -59,7 +59,7 @@ class VotingPollService
     return if self.poll.try(:post).blank?
 
     if self.poll.post.generous_strok_by!(current_user, :voting)
-      self.poll.post.issue.strok_by!(current_user)
+      self.poll.post.issue.strok_by!(current_user, self.poll.post)
     end
   end
 end

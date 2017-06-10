@@ -106,7 +106,7 @@ class Comment < ActiveRecord::Base
   end
 
   def touch_last_stroked_at_of_issues
-    self.issue.strok_by!(self.user)
+    self.issue.strok_by!(self.user, self.post)
   end
 
 end

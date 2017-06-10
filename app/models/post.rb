@@ -211,8 +211,8 @@ class Post < ActiveRecord::Base
     comments.recent.limit(2).reverse
   end
 
-  def blinded? someone
-    return false if someone == self.user
+  def blinded? someone = nil
+    return false if someone.present? and someone == self.user
     issue.blind_user? self.user
   end
 
