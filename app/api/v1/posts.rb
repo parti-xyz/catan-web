@@ -53,6 +53,7 @@ module V1
           break if !@has_more_item or @result_posts.any?
         end
 
+        present :last_stroked_at, resource_owner.member_issues.maximum(:last_stroked_at)
         present :has_more_item, @has_more_item
         present :items, @result_posts, base_options.merge(type: :full)
       end
