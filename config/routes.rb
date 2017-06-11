@@ -42,7 +42,6 @@ Rails.application.routes.draw do
   root 'issues#home'
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
   get '/robots.:format', to: 'pages#robots'
-  get 'parties/new_intro', to: 'issues#new_intro'
 
   resources :users, except: :show do
     collection do

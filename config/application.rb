@@ -36,5 +36,7 @@ module CatanWeb
     else
         config.asset_host = 'https://parti.xyz'
     end
+
+    I18n.backend.class.send(:include, I18n::Backend::Cascade)
   end
 end

@@ -7,30 +7,32 @@
           %span.sr-only 오류 :
           = msg
 
-
   = form_for @issue do |f|
     .form-group{class: error_class_str(@issue, :title)}
-      = f.label :title
+      = f.label :title, t("labels.issue.form.groups.#{host_group.slug}.title", cascade: true)
       = f.text_field :title, class: 'form-control input-lg'
       %p.help-block
-        (예) 빠띠를 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름으로 빠띠 이름을 지어보세요.
+        = t("labels.issue.form.groups.#{host_group.slug}.title_help", cascade: true)
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :slug))}
-      = f.label :slug
+      = f.label :slug, t("labels.issue.form.groups.#{host_group.slug}.slug", cascade: true)
       .input-group
         .input-group-addon
           #{request.base_url}/p/
         = f.text_field :slug, class: 'form-control input-lg'
-      %p.help-block 영문자와 숫자, -만 넣어주세요. 이미 등록된 주소는 사용할 수 없습니다.
+      %p.help-block
+        = t("labels.issue.form.groups.#{host_group.slug}.slug_help", cascade: true)
 
     .form-group{class: error_class_str(@issue, :body)}
-      = f.label :body
+      = f.label :body, t("labels.issue.form.groups.#{host_group.slug}.body", cascade: true)
       = f.text_field :body, class: 'form-control'
+      %p.help-block
+        = t("labels.issue.form.groups.#{host_group.slug}.body_help", cascade: true)
 
     - if current_group.try(:categories).try(:any?)
       - @issue.category_slug ||= current_group.categories.first.slug
       .form-group{class: error_class_str(@issue, :category_slug)}
-        = f.label :category_slug
+        = f.label :category_slug, t("labels.issue.form.groups.#{host_group.slug}.category_slug", cascade: true)
         .radio-group
           - current_group.categories.each do |category|
             %label.radio-inline
@@ -38,18 +40,18 @@
               = category.name
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :logo))}
-      = f.label :logo
+      = f.label :logo, t("labels.issue.form.groups.#{host_group.slug}.logo", cascade: true)
       = f.file_field :logo, class: 'form-control'
       %p.help-block
         - if upload_file_exists?(@issue.logo) and @issue.persisted?
           = image_tag @issue.logo.url, class: 'img-thumbnail', style: 'max-height: 100px'
           = link_to '삭제', remove_logo_issue_path(@issue), method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
-        권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
+        = t("labels.issue.form.groups.#{host_group.slug}.logo_help", cascade: true)
 
     .form-group{class: error_class_str(@issue, :tag_list)}
-      = f.label :tag_list
+      = f.label :tag_list, t("labels.issue.form.groups.#{host_group.slug}.tag_list", cascade: true)
       = f.text_field :tag_list, value: @issue.tag_list.to_s, class: 'form-control'
-      %p.help-block 쉼표로 구분해서 넣어 주세요.
+      %p.help-block 쉼표로 구분해서 넣어 주세요. #는 붙이실 필요 없어요.
 
     - if @issue.persisted?
       .form-group{class: ('has-error' if has_error_attr?(@issue, :telegram_link))}

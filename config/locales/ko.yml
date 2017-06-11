@@ -209,6 +209,24 @@ ko:
     blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 일부 숨겨진 글이 있습니다.
     post_blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 숨겨진 글입니다.
     comment_blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 숨겨진 댓글입니다.
+    issue:
+      form:
+        title: 제목
+        title_help: 빠띠를 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름으로 빠띠 이름을 지어보세요.
+        slug: 주소
+        slug_help: 영문자와 숫자, -만 넣어주세요. 이미 등록된 주소는 사용할 수 없습니다.
+        body: 설명(선택)
+        body_help: 빠띠를 쉽고 재미있게 설명해보세요.
+        category_slug: 주제
+        logo: 대표 이미지(선택)
+        logo_help: 권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
+        tag_list: 태그(선택)
+        groups:
+          zakdang:
+            title: 당 이름(선택)
+            title_help: 당명을 적어주세요. 작당을 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름이면 더욱 좋습니다.
+            body_help: 당을 쉽고 재미있게 설명해보세요.
+            logo_help: 당을 상징하는 이미지를 넣어보세요. 권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
 
   enumerize:
     defaults:

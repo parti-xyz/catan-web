@@ -955,22 +955,6 @@ $(function(){
     $('#wikis .body .wiki_content a').attr('target', '_blank');
   }
 
-  $('[data-action="parti-organizing-parti-intro"]').each(function(index, elm){
-    var modal_checkbox = $(elm).data('modal-checkbox');
-    var modal_checked_checkbox = $(elm).data('modal-checked-checkbox');
-    var modal_submit_btn = $(elm).data('modal-submit-btn');
-    $(modal_checkbox).on('click',function (e){
-      var countChecked = function() {
-        var n = $(modal_checked_checkbox).length;
-        return n-1;
-      };
-      if(countChecked() == 3)
-        $(modal_submit_btn).removeClass('disabled');
-      else
-        $(modal_submit_btn).addClass('disabled');
-    });
-  });
-
   $('[data-action="parti-post-select-subform"]').each(function(index,elm){
     var hidden_target = $(elm).data('hidden-target');
     var reference_field = $(elm).data('reference-field');
