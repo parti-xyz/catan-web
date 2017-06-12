@@ -11,3 +11,45 @@ section#home {
   width: auto;
 }
 
+.key-page{
+  height:300px;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-color:#ffffff;
+  text-align:center;
+  padding-top:50px;
+  .title{
+    display:inline-block;
+    width:230px;
+    height:200px;
+    color:$brand-primary;
+    h1{
+      font-size:50px;
+      letter-spacing:-0.02em;
+    }
+  }
+  .desc{
+    display:inline-block;
+    width:400px;
+    height:200px;
+    h3{
+      color:$brand-primary;
+      margin:0px;
+    }
+  }
+  button{
+    width:160px;
+    height:40px;
+    border:0px;
+    outline:0;
+  }
+  .btn-info{
+    background-color:#f9eb7e;
+    color:#9e6790
+  }
+  .btn-submit{
+    background-color:#ff7b30;
+    color:#ffffff
+  }
+}

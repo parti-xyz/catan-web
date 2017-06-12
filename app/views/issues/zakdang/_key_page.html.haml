@@ -1,0 +1,33 @@
+.key-page{style:"background-image:url(#{asset_url('groups/zakdang/key_page_bg.png')});"}
+  .desc{style:"margin:0 auto;width:600px;padding-top:30px;"}
+    %table
+      %tr
+        %td
+          %img{src:"#{asset_url('groups/zakdang/zakdang_title.png')}",width:"180px"}
+        %td{style:"text-align:left;padding-left:30px;vertical-align:top;"}
+          %h3
+            "나만의 의제로, 나만의 정당을!"
+          %p{style:"margin-top:20px;color:#797979"}
+            누구나 자신만의 의제로 자신의 정치를 할 수 있는 나만의 당 만들기!<br/>
+            시민들이 직접 변화시키는 정치가 시작됩니다.
+            %br
+            %br
+            %button.btn-info{onclick:"window.open('http://zakdang.kr')"}
+              시민작당 행사 안내
+            %button.btn-submit
+              = link_to '정당 만들고 참여하기', new_issue_path
+.key-page-mobile{style:"display:none;background-image:url(#{asset_url('groups/zakdang/mobile_bg.png')})"}
+  .mobile-info
+    %img{src:"#{asset_url('groups/zakdang/zakdang_title.png')}",width:"180px"}
+    %h3
+      "나만의 의제로, 나만의 정당을!"
+    %p{style:"margin-top:20px;color:#797979"}
+      누구나 자신만의 의제로<br/>
+      자신의 정치를 할 수 있는 나만의 당 만들기!<br/>
+      시민들이 직접 변화시키는 정치가 시작됩니다.
+      %br
+      %br
+      %button.btn-info{onclick:"window.open('http://zakdang.kr')"}
+        시민작당 행사 안내
+      %button.btn-submit
+        = link_to '정당 만들고 참여하기', new_issue_path

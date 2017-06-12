@@ -11,6 +11,9 @@
         = image_tag bg_path, style: "width: 100%"
       - break
 
+  - if lookup_context.exists?("issues/#{host_group.slug}/_key_page")
+    = render "issues/#{host_group.slug}/key_page"
+
 = render 'application/group_home_mobile_header', active: 'home'
 
 %section#home

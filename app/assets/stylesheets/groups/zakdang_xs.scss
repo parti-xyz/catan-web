@@ -9,3 +9,42 @@
 section#home {
   margin-top: 30px;
 }
+
+.key-page{
+  display:none;
+}
+
+.key-page-mobile{
+  display:block !important;
+  height:600px;
+  background-size:contain;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-color:#ffffff;
+  padding-top:110px;
+  text-align:center;
+  button{
+    width:160px;
+    height:40px;
+    border:0px;
+    outline:0;
+    margin:5px 0px;
+  }
+  .btn-info{
+    background-color:#f9eb7e;
+    color:#9e6790
+  }
+  .btn-submit{
+    background-color:#ff7b30;
+    color:#ffffff
+  }
+  h3{
+      color:$brand-primary;
+      font-size:18px;
+      margin:30px 0px;
+  }
+  p{
+    font-size:16px;
+    line-height:28px;
+  }
+}
