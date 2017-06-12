@@ -48,69 +48,74 @@
           = link_to '삭제', remove_logo_issue_path(@issue), method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
         = t("labels.issue.form.groups.#{host_group.slug}.logo_help", cascade: true)
 
-    .form-group{class: error_class_str(@issue, :tag_list)}
-      = f.label :tag_list, t("labels.issue.form.groups.#{host_group.slug}.tag_list", cascade: true)
-      = f.text_field :tag_list, value: @issue.tag_list.to_s, class: 'form-control'
-      %p.help-block 쉼표로 구분해서 넣어 주세요. #는 붙이실 필요 없어요.
+    .advanced-option#js-advanced-option
+      .toggle-option{ 'data-action': 'parti-collapse', 'data-parent': '#js-advanced-option' }
+        고급 설정
+        %i.fa.fa-angle-double-right
+      .collapse
+        .form-group{class: error_class_str(@issue, :tag_list)}
+          = f.label :tag_list, t("labels.issue.form.groups.#{host_group.slug}.tag_list", cascade: true)
+          = f.text_field :tag_list, value: @issue.tag_list.to_s, class: 'form-control'
+          %p.help-block 쉼표로 구분해서 넣어 주세요. #는 붙이실 필요 없어요.
 
-    - if @issue.persisted?
-      .form-group{class: ('has-error' if has_error_attr?(@issue, :telegram_link))}
-        = f.label :telegram_link
-        %span 텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요.
-        = f.text_field :telegram_link, class: 'form-control', placeholder: '예시) https://telegram.me/basic_incomes'
-        %p.help-block
-          = link_to '텔레그램 슈퍼그룹', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C#%EA%B0%81-%EB%B9%A0%EB%9D%A0%EB%B3%84%EB%A1%9C-%EB%8C%80%ED%99%94%EB%B0%A9%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EC%96%B4%EC%9A%94', target: '_blank'
-          ,&nbsp;
-          = link_to '카카오톡 오픈 채팅', 'http://www.kakao.com/helps?category=105&locale=ko&service=8', target: '_blank'
-          ,&nbsp;
-          = link_to '페이스북 메신저', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
-          링크 만들기
-      .form-group{class: ('has-error' if has_error_attr?(@issue, :blinds))}
-        = f.label :blinds
-        = f.text_field :blinds_nickname, value: @issue.blinds.merge_nickname, class: 'form-control'
-        %p.help-block
-          건강하고 유쾌한 빠띠 활동을 방해하는 회원의 글을 숨깁니다. 해당 회원의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
-          %strong 이 기능은 꼭 필요한 경우에만 신중히 사용해 주세요.
+        - if @issue.persisted?
+          .form-group{class: ('has-error' if has_error_attr?(@issue, :telegram_link))}
+            = f.label :telegram_link
+            %span 텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요.
+            = f.text_field :telegram_link, class: 'form-control', placeholder: '예시) https://telegram.me/basic_incomes'
+            %p.help-block
+              = link_to '텔레그램 슈퍼그룹', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C#%EA%B0%81-%EB%B9%A0%EB%9D%A0%EB%B3%84%EB%A1%9C-%EB%8C%80%ED%99%94%EB%B0%A9%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EC%96%B4%EC%9A%94', target: '_blank'
+              ,&nbsp;
+              = link_to '카카오톡 오픈 채팅', 'http://www.kakao.com/helps?category=105&locale=ko&service=8', target: '_blank'
+              ,&nbsp;
+              = link_to '페이스북 메신저', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
+              링크 만들기
+          .form-group{class: ('has-error' if has_error_attr?(@issue, :blinds))}
+            = f.label :blinds
+            = f.text_field :blinds_nickname, value: @issue.blinds.merge_nickname, class: 'form-control'
+            %p.help-block
+              건강하고 유쾌한 빠띠 활동을 방해하는 회원의 글을 숨깁니다. 해당 회원의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
+              %strong 이 기능은 꼭 필요한 경우에만 신중히 사용해 주세요.
 
-    - if @issue.persisted?
-      .form-group{class: ('has-error' if has_error_attr?(@issue, :organizer_nicknames))}
-        = f.label :organizer_nicknames
-        = f.text_field :organizer_nicknames, value: @issue.organizer_members.merge_nickname, class: 'form-control'
-        %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 빠띠의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
-    - else
-      .form-group
-        = f.label :organizer_nicknames
-        %p= current_user.nickname
-        %p.help-block 빠띠를 만든 후에 오거나이저를 고칠 수 있습니다.
+        - if @issue.persisted?
+          .form-group{class: ('has-error' if has_error_attr?(@issue, :organizer_nicknames))}
+            = f.label :organizer_nicknames
+            = f.text_field :organizer_nicknames, value: @issue.organizer_members.merge_nickname, class: 'form-control'
+            %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 빠띠의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
+        - else
+          .form-group
+            = f.label :organizer_nicknames
+            %p= current_user.nickname
+            %p.help-block 빠띠를 만든 후에 오거나이저를 고칠 수 있습니다.
 
-    .form-group{class: ('has-error' if has_error_attr?(@issue, :private))}
-      = f.label :private
-      .checkbox
-        %label
-          = f.check_box :private
-          비공개로 설정하면 이 빠띠에 가입한 멤버만 게시글을 볼 수 있습니다.
+        .form-group{class: ('has-error' if has_error_attr?(@issue, :private))}
+          = f.label :private
+          .checkbox
+            %label
+              = f.check_box :private
+              비공개로 설정하면 이 빠띠에 가입한 멤버만 게시글을 볼 수 있습니다.
 
-    .form-group{class: ('has-error' if has_error_attr?(@issue, :notice_only))}
-      = f.label :notice_only
-      .checkbox
-        %label
-          = f.check_box :notice_only
-          공지 용도로 설정하면 이 빠띠는 오거나이저만 게시할 수 있습니다.
+        .form-group{class: ('has-error' if has_error_attr?(@issue, :notice_only))}
+          = f.label :notice_only
+          .checkbox
+            %label
+              = f.check_box :notice_only
+              공지 용도로 설정하면 이 빠띠는 오거나이저만 게시할 수 있습니다.
 
-    - if !host_group.indie? and host_group.private?
-      .form-group{class: ('has-error' if has_error_attr?(@issue, :is_default))}
-        = f.label :is_default
-        .checkbox
-          %label
-            = f.check_box :is_default
-            그룹에 가입되는 멤버는 기본으로 가입되는 빠띠가 됩니다.
+        - if !host_group.indie? and host_group.private?
+          .form-group{class: ('has-error' if has_error_attr?(@issue, :is_default))}
+            = f.label :is_default
+            .checkbox
+              %label
+                = f.check_box :is_default
+                그룹에 가입되는 멤버는 기본으로 가입되는 빠띠가 됩니다.
 
 
-    - if current_user.admin? and f.object.persisted?
-      .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
-        = f.label :group_slug
-        = f.select :group_slug, Group.all.map { |g| [ g.form_select_title, g.slug] }, {}, class: 'form-control'
-        %p.help-block 이 빠띠가 속할 그룹을 선택해 주세요.
+        - if current_user.admin? and f.object.persisted?
+          .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
+            = f.label :group_slug
+            = f.select :group_slug, Group.all.map { |g| [ g.form_select_title, g.slug] }, {}, class: 'form-control'
+            %p.help-block 이 빠띠가 속할 그룹을 선택해 주세요.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
