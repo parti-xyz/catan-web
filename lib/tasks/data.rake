@@ -89,6 +89,13 @@ namespace :data do
         site_description: "자신만의 의제로 자신의 정치를 할 수 있는 나만의 당 만들기",
         private: false)
 
+      seed_group(user, 'youthpolicynet', ['odong'],
+        title: '전국청년정책네트워크',
+        site_title: '다음세대를 위한 새로운 시작 - 전국청년정책네트워크',
+        head_title: '전청넷',
+        site_description: "<전국청년정책네트워크>는 이행기 청년의 불평등 문제를 지역 간 협력과 제도 개선을 통해 해결하는 자발적 시민 네트워크입니다.",
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
     end
