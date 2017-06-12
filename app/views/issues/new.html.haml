@@ -6,8 +6,16 @@
     - new_guide = "issues/#{host_group.slug}/new_guide" if lookup_context.exists?("issues/#{host_group.slug}/_new_guide")
     = render new_guide
 
-  %section#form
-    .container
-      - if !shown_intro
-        %h2.page-header 빠띠 만들기
-      = render 'form'
+  - if user_signed_in?
+    %section#form
+      .container
+        - if !shown_intro
+          %h2.page-header 빠띠 만들기
+        = render 'form'
+  - else
+    %section
+      .container
+        = link_to '로그인하고 계속하기', new_user_session_path, class: 'btn btn-primary'
+        .help-block
+          빠띠에 처음 오셨나요?
+          = link_to '가입하기', pre_sign_up_users_path, style: 'text-decoration: underline'

@@ -5,7 +5,7 @@ class Ability
     can [:read, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form], :all
     can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
-      :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys], Issue
+      :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new], Issue
     can [:images], Post
     if user
       can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover], Issue do |issue|
