@@ -753,6 +753,11 @@ $(function(){
       return true;
     }
 
+    var $no_parti_link = $(e.target).closest('[data-no-parti-link="no"]')
+    if ($no_parti_link.length) {
+      return true;
+    }
+
     e.preventDefault();
     var url = $(e.currentTarget).data("url");
 
