@@ -1,10 +1,12 @@
 %section.visible-xs-block#group-home-submenu
   .container
-    %nav
-      %ul.list-inline
+    %nav.clearfix
+      %ul.list-inline.pull-left
         %li{ class: ('active' if local_assigns[:active] == 'home') }
           = link_to '빠띠찾기', root_path
         %li{ class: ('active' if local_assigns[:active] == 'polls_or_surveys') }
           = link_to t('labels.polls_or_surveys'), polls_or_surveys_path
         %li{ class: ('active' if local_assigns[:active] == 'links_or_files') }
           = link_to t('labels.links_or_files'), links_or_files_path
+      = link_to '빠띠만들기', new_issue_path, class: 'pull-right btn btn-default btn-xs', style: "margin-top:7px;"
+
