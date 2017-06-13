@@ -121,6 +121,7 @@ module V1
         requires :post, type: Hash do
           requires :body, type: String
           requires :parti_id, type: Integer
+          requires :is_html_body, type: String
           optional :file_sources_attributes, type: Array do
             requires :attachment, type: Rack::Multipart::UploadedFile
           end
