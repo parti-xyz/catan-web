@@ -11,7 +11,7 @@
           = link_to smart_members_or_member_requests_parti_path(issue, partial: :isseu_card, button_id: issue_card_join_button_id), method: :post, remote: true, 'data-disable-with': '처리 중...', 'data-completed-with': '가입완료 <i class="fa fa-check"/>', id: issue_card_join_button_id, class: 'issue-card__join' do
             가입하기
         - else
-          = link_to '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.id}.to_json), 'no-parti-link': 'no' }, class: 'issue-card__join' do
+          = link_to '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.try(:id)}.to_json), 'no-parti-link': 'no' }, class: 'issue-card__join' do
             가입하기
     .issue-card__content
       .issue-card__title
