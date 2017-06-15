@@ -646,17 +646,23 @@ $(function(){
         UnobtrusiveFlash.showFlashMessage('10MB이하의 파일만 업로드 가능합니다', {type: 'error'})
         $form_group.remove();
       } else {
-        if( /^image/.test(current_file.type) ){
-          var reader = new FileReader();
-          reader.onload = function (e) {
-            $form_group.find('.js-upload-image img').attr('src', e.target.result);
-            $form_group.find('.js-upload-image').removeClass('collapse');
-            $form_group.css('display', 'inline-block');
-            $('#js-form-group-images').addClass('js-any');
-            $(document).trigger('parti-post-editor-spotlight');
-            check_to_hide_or_show_add_link();
-          }
-          reader.readAsDataURL(current_file);
+        if( typeof(URL.createObjectURL) === "function" && /^image/.test(current_file.type) ){
+          // var reader = new FileReader();
+          // reader.onload = function (e) {
+          //   $form_group.find('.js-upload-image img').attr('src', e.target.result);
+          //   $form_group.find('.js-upload-image').removeClass('collapse');
+          //   $form_group.css('display', 'inline-block');
+          //   $('#js-form-group-images').addClass('js-any');
+          //   $(document).trigger('parti-post-editor-spotlight');
+          //   check_to_hide_or_show_add_link();
+          // }
+          // reader.readAsDataURL(current_file);
+          $form_group.find('.js-upload-image img').attr('src', URL.createObjectURL(current_file));
+          $form_group.find('.js-upload-image').removeClass('collapse');
+          $form_group.css('display', 'inline-block');
+          $('#js-form-group-images').addClass('js-any');
+          $(document).trigger('parti-post-editor-spotlight');
+          check_to_hide_or_show_add_link();
         } else {
           $form_group.find('.js-upload-doc .name').text(current_file.name);
           $form_group.find('.js-upload-doc .size').text(formatBytes(current_file.size));
