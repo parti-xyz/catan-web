@@ -326,6 +326,10 @@ class Issue < ActiveRecord::Base
     posts.recent.limit(count).reject { |post| post.blinded?(current_user) }
   end
 
+  def default_image_pick_up
+    %w(green yellow blue)[self.id % 3]
+  end
+
   private
 
   def downcase_slug

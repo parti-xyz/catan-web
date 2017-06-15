@@ -29,7 +29,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
   def default_url
-    ActionController::Base.helpers.asset_url("default_#{model.class.to_s.underscore}_#{mounted_as}.png")
+    if model.respond_to?(:default_image_pick_up)
+      ActionController::Base.helpers.asset_url("default_#{model.class.to_s.underscore}_#{mounted_as}_#{model.default_image_pick_up}.png")
+    else
+      ActionController::Base.helpers.asset_url("default_#{model.class.to_s.underscore}_#{mounted_as}.png")
+    end
   end
 
   # Process files as they are uploaded:
