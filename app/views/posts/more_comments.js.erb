@@ -1,0 +1,21 @@
+<% limit = 30 %>
+
+<% not_latest_comments, has_more = @post.not_latest_comments(limit) %>
+var $comment = null;
+<% not_latest_comments.each do |comment| %>
+  $comment = $("<%= j(render 'comments/comment_line', comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(@post)) %>");
+  parti_partial$($comment);
+  $('<%= comments_more_dom_selector(@post) %>').append($comment);
+<% end %>
+
+<% if has_more %>
+  $('<%= comments_more_button_dom_selector(@post) %>').attr('href', "<%= smart_post_path_or_url(@post) %>");
+  $('<%= comments_more_button_dom_selector(@post) %>').removeAttr('data-remote');
+  $('<%= comments_more_label_dom_selector(@post) %>').text('모든 댓글 보기');
+<% else %>
+  $('<%= comments_more_button_dom_selector(@post) %>').remove();
+<% end %>
+
+<% if not_latest_comments.any? %>
+$('<%= comments_more_dom_selector(@post) %>').show();
+<% end %>

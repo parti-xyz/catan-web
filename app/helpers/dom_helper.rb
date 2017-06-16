@@ -35,6 +35,22 @@ module DomHelper
     "##{comments_more_dom_id(post)}"
   end
 
+  def comments_more_button_dom_id(post)
+    "#{dom_id(post)}-comments-more-btn"
+  end
+
+  def comments_more_button_dom_selector(post)
+    "##{comments_more_button_dom_id(post)}"
+  end
+
+  def comments_more_label_dom_id(post)
+    "#{dom_id(post)}-comments-more-label"
+  end
+
+  def comments_more_label_dom_selector(post)
+    "##{comments_more_label_dom_id(post)}"
+  end
+
   def removable_with_post_dom_class(post)
     "removable-with-#{dom_id(post)}"
   end

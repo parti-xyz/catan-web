@@ -110,6 +110,10 @@ class PostsController < ApplicationController
     social_card
   end
 
+  def more_comments
+
+  end
+
   private
 
   def social_card

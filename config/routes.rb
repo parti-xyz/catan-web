@@ -116,6 +116,7 @@ Rails.application.routes.draw do
       delete 'unpin'
       get 'readers'
       get 'unreaders'
+      get 'more_comments'
     end
   end
   post 'feedbacks', to: 'feedbacks#create'
