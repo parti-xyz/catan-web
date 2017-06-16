@@ -144,4 +144,14 @@ class Group < ActiveRecord::Base
     end.flatten.compact
     pinned_posts.sort_by { |post| post.created_at }.reverse
   end
+
+  def guide_link
+    if 'zakdang' == slug
+      "https://wouldyouparty.gitbooks.io/party_guide/"
+    elsif %w(slowalk westay1 Group::SLUG_OF_UNION adaptiveleadership youthpolicynet).include? slug
+      "https://parti-xyz.gitbooks.io/org-guide/content/"
+    else
+      "https://parti-xyz.gitbooks.io/issue-guide/content/"
+    end
+  end
 end
