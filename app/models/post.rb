@@ -90,6 +90,12 @@ class Post < ActiveRecord::Base
         end
       end
     end
+
+    with_options(if: lambda { |instance, options| options[:sticky_comment].present? and instance.comments.exists?(id: options[:sticky_comment]) }) do
+      expose :sticky_comment, using: Comment::Entity do |instance, options|
+        options[:sticky_comment]
+      end
+    end
   end
 
   HOT_LIKES_COUNT = 3

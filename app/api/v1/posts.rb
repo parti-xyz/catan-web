@@ -78,6 +78,19 @@ module V1
         present :last_stroked_at, new_posts.maximum(:last_stroked_at)
       end
 
+      desc '특정 댓글의 게시글정보를 반환합니다'
+      oauth2
+      params do
+        requires :comment_id, type: Integer, desc: '댓글 번호'
+      end
+      get 'by_sticky_comment' do
+        @comment = Comment.find_by!(id: params[:comment_id])
+        @post = @comment.post
+        error!(:forbidden, 403) and return if @post.private_blocked?(resource_owner)
+
+        present @post, base_options.merge(type: :full, sticky_comment: @comment)
+      end
+
       desc '특정 글에 대한 정보를 반환합니다'
       oauth2
       params do
