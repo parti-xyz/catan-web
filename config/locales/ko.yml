@@ -258,5 +258,10 @@ ko:
         undefined: "마감까지 계속"
         open: "마감까지 %{duration}"
         closed: "마감"
+    post:
+      last_stroked_for:
+        voting: "%{user}님이 투표했습니다."
+        feedback: "%{user}님이 투표했습니다."
+        option: "%{user}님이 새 제안을 올렸습니다."
   unauthorized:
     default: "권한이 없습니다."

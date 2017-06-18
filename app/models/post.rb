@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
 
   entity do
     include Rails.application.routes.url_helpers
+    include PartiUrlHelper
     include ApiEntityHelper
 
     expose :full do |instance, options|
@@ -25,6 +26,11 @@ class Post < ActiveRecord::Base
     expose :specific_desc_striped_tags
     with_options(format_with: lambda { |dt| dt.iso8601 }) do
       expose :created_at, :last_stroked_at
+    end
+    expose :latest_stroked_activity do |instance|
+      instance.latest_stroked_activity do |user|
+        "<a href='#{smart_user_gallery_path(user)}'>@#{user.nickname}</a>"
+      end
     end
 
     with_options(if: lambda { |instance, options| options[:current_user].present? }) do
@@ -405,6 +411,17 @@ class Post < ActiveRecord::Base
 
   def strok_by!(someone, subject)
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone, last_stroked_for: subject)
+  end
+
+  def latest_stroked_activity
+    if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present? and last_stroked_at > 24.hours.ago
+      user = if block_given?
+        yield last_stroked_user
+      else
+        last_stroked_user.nickname
+      end
+      I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user: user)
+    end
   end
 
   def generous_strok_by!(someone, subject)
