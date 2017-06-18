@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170601032344) do
+ActiveRecord::Schema.define(version: 20170618035626) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20170601032344) do
     t.string   "registration_id", limit: 255, null: false
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.string   "application_id",  limit: 255, null: false
   end
 
   add_index "device_tokens", ["registration_id"], name: "index_device_tokens_on_registration_id", using: :btree

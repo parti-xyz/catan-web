@@ -8,9 +8,10 @@ module V1
       oauth2
       params do
         requires :registration_id, type: String
+        requires :application_id, type: String
       end
       post do
-        DeviceToken.find_or_create_by!(user: resource_owner, registration_id: params[:registration_id])
+        DeviceToken.find_or_create_by!(user: resource_owner, application_id: params[:application_id], registration_id: params[:registration_id])
 
         return_no_content
       end

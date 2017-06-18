@@ -3,17 +3,17 @@ class FcmJob
 
   def perform(id)
     message = Message.find_by(id: id)
-    if message.present? and message.user.device_tokens.any?
-      Rails.logger.debug(fcm_message(message.user, message).inspect)
-      registration_ids = message.user.device_tokens.pluck(:registration_id)
+    if message.present? and message.user.current_device_tokens.any?
+      current_message = fcm_message(message.user, message)
+      registration_ids = message.user.current_device_tokens.pluck(:registration_id)
       registration_ids.each_slice(1000) do |ids|
         Rails.logger.debug(ids.inspect)
-        response = fcm.send(ids, fcm_message(message.user, message))
+        response = fcm.send(ids, current_message)
         Rails.logger.debug(response)
         results = JSON.parse(response[:body])["results"]
         results.map{ |t| t["error"] }.each_with_index do |value, i|
           if "NotRegistered" == value
-            token = message.user.device_tokens.find_by registration_id: registration_ids[i]
+            token = message.user.current_device_tokens.find_by registration_id: registration_ids[i]
             token.destroy
           end
         end

@@ -204,6 +204,13 @@ class User < ActiveRecord::Base
     check_invitations
   end
 
+  def current_device_tokens
+    application_id = { 'production' => 'xyz.parti.catan', 'development' => 'xyz.parti.catan.debug' }[Rails.env]
+    return [] if application_id.blank?
+
+    device_tokens.where(application_id: application_id)
+  end
+
   private
 
   def downcase_nickname
