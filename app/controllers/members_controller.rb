@@ -16,7 +16,10 @@ class MembersController < ApplicationController
   def cancel
     @member = @issue.members.find_by user: current_user
     if @member.present? and !@member.issue.organized_by?(current_user)
-      @member.destroy
+      ActiveRecord::Base.transaction do
+        @member.destroy
+        current_user.update_attributes(member_issues_changed_at: DateTime.now)
+      end
     end
     respond_to do |format|
       format.js
@@ -32,6 +35,7 @@ class MembersController < ApplicationController
       ActiveRecord::Base.transaction do
         @member.update_attributes(ban_message: params[:ban_message])
         @member.destroy
+        @user.update_attributes(member_issues_changed_at: DateTime.now)
       end
       if @member.paranoia_destroyed?
         MessageService.new(@member, sender: current_user, action: :ban).call

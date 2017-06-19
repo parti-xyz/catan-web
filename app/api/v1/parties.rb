@@ -36,13 +36,20 @@ module V1
       oauth2
       params do
         requires :user_id, type: Integer, desc: '사용자 번호'
-        optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
-        optional :limit, type: Integer, default: 50
+        optional :sort, type: Symbol, values: [:hottest, :recent], default: :recent, desc: '정렬 조건'
+        optional :limit, type: Integer, default: 1000
       end
       get :joined do
         user = User.find_by(id: params[:user_id])
         present parties_joined(user).send(params[:sort]).limit(params[:limit]), base_options.merge(target_user: user)
       end
+
+      desc '내가 가입한 빠띠 목록의 최종 변경 시간을 가져옵니다'
+      oauth2
+      get :my_joined_parties_changed_at do
+        present resource_owner.member_issues_changed_at
+      end
+
 
       desc '모든 빠띠 목록을 반환합니다'
       oauth2

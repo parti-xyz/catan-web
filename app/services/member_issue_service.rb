@@ -17,6 +17,7 @@ class MemberIssueService
       if @member.save
         @issue.member_requests.where(user: @member.user).try(:destroy_all)
         @issue.invitations.where(recipient: @member.user).try(:destroy_all)
+        @current_user.update_attributes(member_issues_changed_at: DateTime.now)
       end
     end
     if @member.persisted?
