@@ -8,18 +8,18 @@ class Issue < ActiveRecord::Base
     expose :logo, as: :logo_url do |instance|
       instance.logo.xs.url
     end
-    expose :latest_members_count do |instance|
-      instance.members.latest.count
-    end
-    expose :latest_posts_count do |instance|
-      instance.posts.latest.count
-    end
-    expose :members_count do |instance|
-      instance.members.count
-    end
-    expose :posts_count do |instance|
-      instance.posts.count
-    end
+    # expose :latest_members_count do |instance|
+    #   instance.members.latest.count
+    # end
+    # expose :latest_posts_count do |instance|
+    #   instance.posts.latest.count
+    # end
+    # expose :members_count do |instance|
+    #   instance.members.count
+    # end
+    # expose :posts_count do |instance|
+    #   instance.posts.count
+    # end
 
     with_options(if: lambda { |instance, options| options[:current_user].present? }) do
       expose :is_member do |instance, options|
