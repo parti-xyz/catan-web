@@ -59,39 +59,39 @@ class Post < ActiveRecord::Base
         instance.survey
       end
       expose :latest_comments, using: Comment::Entity do |instance|
-        instance.comments.recent.limit(10).reverse
+        instance.comments.recent.limit(5).reverse
       end
     end
 
-    expose :share do
-      expose :url do |instance|
-        polymorphic_url(instance)
-      end
+    # expose :share do
+    #   expose :url do |instance|
+    #     polymorphic_url(instance)
+    #   end
 
-      expose :twitter_text do |instance|
-        instance.meta_tag_description.truncate(50)
-      end
+    #   expose :twitter_text do |instance|
+    #     instance.meta_tag_description.truncate(50)
+    #   end
 
-      expose :kakaotalk_text do |instance|
-        instance.meta_tag_description.truncate(100)
-      end
+    #   expose :kakaotalk_text do |instance|
+    #     instance.meta_tag_description.truncate(100)
+    #   end
 
-      expose :kakaotalk_link_text do |instance|
-        "빠띠 게시물로 이동하기"
-      end
+    #   expose :kakaotalk_link_text do |instance|
+    #     "빠띠 게시물로 이동하기"
+    #   end
 
-      with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
-        expose :kakaotalk_image_url do |instance|
-          instance.meta_tag_image
-        end
-        expose :kakaotalk_image_width do |instance|
-          instance.share_image_dimensions[0]
-        end
-        expose :kakaotalk_image_height do |instance|
-          instance.share_image_dimensions[1]
-        end
-      end
-    end
+    #   with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
+    #     expose :kakaotalk_image_url do |instance|
+    #       instance.meta_tag_image
+    #     end
+    #     expose :kakaotalk_image_width do |instance|
+    #       instance.share_image_dimensions[0]
+    #     end
+    #     expose :kakaotalk_image_height do |instance|
+    #       instance.share_image_dimensions[1]
+    #     end
+    #   end
+    # end
 
     with_options(if: lambda { |instance, options| options[:sticky_comment].present? and instance.comments.exists?(id: options[:sticky_comment]) }) do
       expose :sticky_comment, using: Comment::Entity do |instance, options|

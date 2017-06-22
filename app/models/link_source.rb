@@ -9,9 +9,6 @@ class LinkSource < ActiveRecord::Base
       instance.is_video?
     end
     with_options(if: lambda { |instance, options| instance.is_video? }) do |instance|
-      expose :video_embeded_code do |instance|
-        instance.video.embed_code
-      end
       expose :video_app_url
     end
   end

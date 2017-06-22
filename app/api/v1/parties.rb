@@ -50,7 +50,6 @@ module V1
         present resource_owner.member_issues_changed_at
       end
 
-
       desc '모든 빠띠 목록을 반환합니다'
       oauth2
       params do

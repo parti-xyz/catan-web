@@ -3,9 +3,6 @@ class FileSource < ActiveRecord::Base
   entity do
     include ActionView::Helpers::NumberHelper
     expose :id, :attachment_url, :name, :file_type, :file_size
-    expose :attachment_filename do |instance|
-      instance.attachment.file.filename
-    end
     expose :attachment_sm_url do |instance|
       instance.sm_url
     end

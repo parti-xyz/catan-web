@@ -39,33 +39,33 @@ class Issue < ActiveRecord::Base
       end
     end
 
-    expose :share do
-      expose :url do |instance|
-        smart_issue_home_url(instance)
-      end
-      expose :twitter_text do |instance|
-        instance.title
-      end
+    # expose :share do
+    #   expose :url do |instance|
+    #     smart_issue_home_url(instance)
+    #   end
+    #   expose :twitter_text do |instance|
+    #     instance.title
+    #   end
 
-      expose :kakaotalk_text do |instance|
-        instance.title
-      end
-      expose :kakaotalk_link_text do |instance|
-        "빠띠로 이동하기"
-      end
+    #   expose :kakaotalk_text do |instance|
+    #     instance.title
+    #   end
+    #   expose :kakaotalk_link_text do |instance|
+    #     "빠띠로 이동하기"
+    #   end
 
-      with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
-        expose :kakaotalk_image_url do |instance|
-          instance.share_image_url
-        end
-        expose :kakaotalk_image_width do |instance|
-          instance.share_image_dimensions[0]
-        end
-        expose :kakaotalk_image_height do |instance|
-          instance.share_image_dimensions[1]
-        end
-      end
-    end
+    #   with_options(if: lambda { |instance, options| instance.share_image_dimensions.present? }) do
+    #     expose :kakaotalk_image_url do |instance|
+    #       instance.share_image_url
+    #     end
+    #     expose :kakaotalk_image_width do |instance|
+    #       instance.share_image_dimensions[0]
+    #     end
+    #     expose :kakaotalk_image_height do |instance|
+    #       instance.share_image_dimensions[1]
+    #     end
+    #   end
+    # end
   end
 
   include UniqueSoftDeletable
