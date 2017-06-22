@@ -47,7 +47,7 @@ module V1
       desc '내가 가입한 빠띠 목록의 최종 변경 시간을 가져옵니다'
       oauth2
       get :my_joined_parties_changed_at do
-        present resource_owner.member_issues_changed_at
+        [resource_owner.member_issues.maximum(:updated_at), resource_owner.member_groups.maximum(:updated_at), resource_owner.member_issues_changed_at].max
       end
 
       desc '모든 빠띠 목록을 반환합니다'
