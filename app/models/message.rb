@@ -72,8 +72,6 @@ class Message < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :only_upvote, -> { where(messagable_type: Upvote.to_s) }
 
-  before_save :mark_unread
-
   def post
     messagable.try(:post)
   end
@@ -88,11 +86,5 @@ class Message < ActiveRecord::Base
 
   def action_params_hash
     JSON.parse(action_params)
-  end
-
-  private
-
-  def mark_unread
-    user.increment!(:unread_messages_count)
   end
 end

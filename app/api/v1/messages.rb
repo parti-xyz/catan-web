@@ -18,30 +18,24 @@ module V1
         present :items, messages
       end
 
-      desc '특정 알림 이후에 도착한 알림 숫자를 반환합니다'
+      desc '내 알람을 최근에 몇 번까지 읽었는지를 반환합니다'
       oauth2
-      params do
-        requires :last_id, type: Integer, desc: '마지막 기준 알림 번호'
-      end
-      get 'new_count' do
-        count = resource_owner.messages.recent.where('id > ?', params[:last_id]).count
-        present :new_messages_count, count
+      get 'status' do
+        present :user_id, resource_owner.id
+        present :last_created_message_id, resource_owner.messages.maximum(:id)
+        present :last_server_read_messag_id, resource_owner.last_read_message_id
       end
 
-      desc '가장 최근에 도착한 알림 번호를 반환합니다'
-      oauth2
-      get 'last_id' do
-        present :last_message_id, resource_owner.messages.recent.first.try(:id) || 0
-      end
-
-      desc '알림 읽음을 표시합니다'
+      desc '내 알람을 최근에 몇 번까지 읽었는지를 저장합니다'
       oauth2
       params do
-        requires :id, type: Integer, desc: '알림 번호'
+        requires :last_id, type: Integer, desc: '알림 번호'
       end
-      patch ':id/touch_read_at' do
-        message = resource_owner.messages.find params[:id]
-        message.touch(:read_at)
+      post 'last_read_message' do
+        if resource_owner.last_read_message_id < params[:last_id]
+          resource_owner.update_columns(last_read_message_id: params[:last_id])
+        end
+        return_no_content
       end
     end
   end

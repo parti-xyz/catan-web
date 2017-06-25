@@ -1,5 +1,5 @@
 class ChangeMultipleFileSourcesPerPosts < ActiveRecord::Migration
-  def change
+  def up
     add_reference :file_sources, :post, index: true
 
     query = <<-SQL.squish
@@ -12,5 +12,8 @@ class ChangeMultipleFileSourcesPerPosts < ActiveRecord::Migration
     rename_column :posts, :reference_id, :link_source_id
 
     change_column_null :file_sources, :post_id, :false
+  end
+  def down
+    raise '다운그레이드는 지원되지 않습니다'
   end
 end

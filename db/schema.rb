@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170619005704) do
+ActiveRecord::Schema.define(version: 20170625155813) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -619,6 +619,7 @@ ActiveRecord::Schema.define(version: 20170619005704) do
     t.boolean  "enable_mailing",                       default: true
     t.date     "sent_new_posts_email_at"
     t.datetime "member_issues_changed_at"
+    t.integer  "last_read_message_id",     limit: 4,   default: 0
   end
 
   add_index "users", ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true, using: :btree

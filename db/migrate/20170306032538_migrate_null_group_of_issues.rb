@@ -1,5 +1,5 @@
 class MigrateNullGroupOfIssues < ActiveRecord::Migration
-  def change
+  def up
     query = <<-SQL.squish
       UPDATE issues
          SET group_slug = 'indie'

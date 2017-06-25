@@ -211,6 +211,15 @@ class User < ActiveRecord::Base
     device_tokens.where(application_id: application_id)
   end
 
+  def update_last_read_message(messages)
+    max_message_id = messages.maximum(:id)
+    update_columns(last_read_message_id: max_message_id) if last_read_message_id <= max_message_id
+  end
+
+  def unread_messages_count
+    messages.where('id > ?', last_read_message_id).count
+  end
+
   private
 
   def downcase_nickname

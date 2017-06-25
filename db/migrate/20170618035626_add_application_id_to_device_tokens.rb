@@ -1,5 +1,5 @@
 class AddApplicationIdToDeviceTokens < ActiveRecord::Migration
-  def change
+  def up
     add_column :device_tokens, :application_id, :string
 
     query = <<-SQL.squish
@@ -8,5 +8,8 @@ class AddApplicationIdToDeviceTokens < ActiveRecord::Migration
     ActiveRecord::Base.connection.execute query
 
     change_column_null :device_tokens, :application_id, false
+  end
+  def down
+    raise '다운그레이드는 지원되지 않습니다'
   end
 end

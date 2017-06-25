@@ -8,6 +8,6 @@ class MessagesController < ApplicationController
     @user ||= current_user
     @messages = @user.messages.recent.page(params[:page])
 
-    @user.update_attributes(unread_messages_count: 0)
+    @user.update_last_read_message(@messages)
   end
 end
