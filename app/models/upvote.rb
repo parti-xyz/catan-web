@@ -36,6 +36,10 @@ class Upvote < ActiveRecord::Base
     issue
   end
 
+  def group_for_message
+    self.issue.group
+  end
+
   private
 
   def send_message

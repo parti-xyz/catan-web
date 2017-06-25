@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
     { parti: Issue::Entity,
       group: Group::Entity
     }.each do |key, entity|
-      type = ( key == :parti ? 'Issue' : key.capitalize.to_s)
+      type = ( key == :parti ? 'Issue' : key.to_s.classify)
       expose :"#{key}_joinable", using: entity, if: lambda { |instance, options| instance.joinable_type == type } do |instance|
         instance.joinable
       end

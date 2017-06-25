@@ -1,0 +1,5 @@
+- upvote = message.messagable
+- if upvote.upvotable.is_a? Comment
+  = excerpt(upvote.upvotable.body, length: 200)
+- else
+  = upvote.upvotable.specific_desc_striped_tags(200)

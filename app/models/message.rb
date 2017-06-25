@@ -1,13 +1,19 @@
 class Message < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
+    include Rails.application.routes.url_helpers
+    include PartiUrlHelper
+
     { comment: Comment::Entity,
       upvote: Upvote::Entity,
       invitation: Invitation::Entity,
       parti: Issue::Entity,
-      member: Member::Entity
+      member: Member::Entity,
+      member_request: MemberRequest::Entity,
+      option: Option::Entity,
+      survey: Survey::Entity
     }.each do |key, entity|
-      type = ( key == :parti ? 'Issue' : key.capitalize.to_s)
+      type = ( key == :parti ? 'Issue' : key.to_s.classify)
       expose :"#{key}_messagable", using: entity, if: lambda { |instance, options| instance.messagable_type == type } do |instance|
         instance.messagable
       end
@@ -18,9 +24,38 @@ class Message < ActiveRecord::Base
     expose :sender, using: User::Entity
     expose :post, using: Post::Entity
     expose :issue, using: Issue::Entity, as: :parti
-    expose :desc do |instance|
-      ApplicationController.renderer.render(
-        partial: "messages/api/#{instance.messagable.class.model_name.singular}",
+    expose :header do |instance|
+      if instance.issue.blank? and instance.group.blank?
+        "@#{instance.sender.nickname}"
+      else
+        if instance.issue.blank?
+          instance.group.title
+        else
+          "#{instance.issue.title} < #{instance.issue.group.title}"
+        end
+      end
+    end
+    expose :title do |instance|
+      parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
+      host = parsed_asset_url.host
+      is_https = (parsed_asset_url.scheme == 'https')
+      ApplicationController.renderer.new(
+        http_host: host,
+        https: is_https)
+      .render(
+        partial: "messages/api/title/#{instance.messagable.class.model_name.singular}",
+        locals: { message: instance }
+      )
+    end
+    expose :body do |instance|
+      parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
+      host = parsed_asset_url.host
+      is_https = (parsed_asset_url.scheme == 'https')
+      ApplicationController.renderer.new(
+        http_host: host,
+        https: is_https)
+      .render(
+        partial: "messages/api/body/#{instance.messagable.class.model_name.singular}",
         locals: { message: instance }
       )
     end

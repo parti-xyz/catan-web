@@ -91,6 +91,10 @@ class Comment < ActiveRecord::Base
     self.issue
   end
 
+  def group_for_message
+    self.issue.group
+  end
+
   def body_html?
     false
   end

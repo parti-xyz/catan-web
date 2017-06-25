@@ -269,6 +269,10 @@ class Issue < ActiveRecord::Base
     self
   end
 
+  def group_for_message
+    self.group
+  end
+
   def private_blocked?(someone = nil)
     (!member?(someone) && private?) or (self.group.private_blocked?(someone))
   end

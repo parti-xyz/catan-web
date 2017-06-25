@@ -1,3 +1,4 @@
+- member = message.messagable
 - if message.action.to_s == 'ban'
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
     %strong

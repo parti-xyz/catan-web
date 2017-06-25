@@ -1,6 +1,6 @@
 - issue = message.messagable
 %strong
-  #{message.sender.nickname}님이
+  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이
   = message.action_params_hash["previous_title"]
   빠띠 이름을
   = issue.title

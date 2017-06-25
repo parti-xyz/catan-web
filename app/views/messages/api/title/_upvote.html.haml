@@ -1,0 +1,5 @@
+- upvote = message.messagable
+- if upvote.upvotable.is_a? Comment
+  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 내 댓글에 공감합니다
+- else
+  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 내 게시글을 공감합니다
