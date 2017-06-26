@@ -1,6 +1,6 @@
 - member_request = message.messagable
 - if message.action.to_s == 'request'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member_request.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_members_url(member_request.joinable) } }
     %strong
       #{member_request.user.nickname}님이
       = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)

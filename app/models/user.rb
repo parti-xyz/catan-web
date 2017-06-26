@@ -212,8 +212,9 @@ class User < ActiveRecord::Base
   end
 
   def update_last_read_message(messages)
-    max_message_id = messages.maximum(:id)
-    update_columns(last_read_message_id: max_message_id) if last_read_message_id <= max_message_id
+    max_message_id = messages.reorder('id desc').first.try(:id)
+    return if max_message_id.blank?
+    update_columns(last_read_message_id: max_message_id) if last_read_message_id.blank? or last_read_message_id <= max_message_id
   end
 
   def unread_messages_count

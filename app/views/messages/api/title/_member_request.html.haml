@@ -1,3 +1,4 @@
+- member_request = message.messagable
 - if message.action.to_s == 'request'
   #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이
   #{member_request.joinable.title} #{member_request.joinable.model_name.human}에

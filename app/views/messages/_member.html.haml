@@ -18,7 +18,7 @@
     %br
     = member.admit_message
 - else
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_members_url(member.joinable) } }
     %strong
       #{member.user.nickname}님이
       = link_to member.joinable.title, smart_joinable_url(member.joinable)

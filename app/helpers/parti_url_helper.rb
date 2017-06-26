@@ -1,26 +1,24 @@
 module PartiUrlHelper
   def smart_issue_home_path_or_url(issue, options = {})
-    options.update(slug: issue.slug)
+    new_options = options.merge(slug: issue.slug)
     if issue.displayable_group?(current_group)
-      slug_issue_path(options)
+      slug_issue_path(new_options)
     else
-      smart_issue_home_url(issue, options)
+      smart_issue_home_url(issue, new_options)
     end
   end
 
   def smart_issue_home_url(issue, options = {})
-    options.update(slug: issue.slug, subdomain: issue.group.try(:subdomain))
-    slug_issue_url(options)
+    new_options = options.merge(slug: issue.slug, subdomain: issue.group.try(:subdomain))
+    slug_issue_url(new_options)
   end
 
   def smart_issue_links_or_files_path(issue, options = {})
-    options.update(slug: issue.slug)
-    slug_issue_links_or_files_path(options)
+    slug_issue_links_or_files_path(options.merge(slug: issue.slug))
   end
 
   def smart_issue_polls_or_surveys_path(issue, options = {})
-    options.update(slug: issue.slug)
-    slug_issue_polls_or_surveys_path(options)
+    slug_issue_polls_or_surveys_path(options.merge(slug: issue.slug))
   end
 
   def smart_issue_wikis_path(issue)
@@ -28,8 +26,7 @@ module PartiUrlHelper
   end
 
   def smart_issue_members_path(issue, options = {})
-    options.update(slug: issue.slug)
-    slug_issue_users_path(options)
+    slug_issue_users_path(options.merge(slug: issue.slug))
   end
 
   def smart_user_gallery_path(user)
@@ -37,8 +34,7 @@ module PartiUrlHelper
   end
 
   def smart_user_gallery_url(user, options = {})
-    options.update(slug: user.slug)
-    slug_user_url(options)
+    slug_user_url(options.merge(slug: user.slug))
   end
 
   def smart_post_path_or_url(post, options = {})
@@ -50,8 +46,7 @@ module PartiUrlHelper
   end
 
   def smart_post_url(post, options = {})
-    options.update(subdomain: post.issue.group.try(:subdomain))
-    polymorphic_url(post, options)
+    polymorphic_url(post, options.merge(subdomain: post.issue.group.try(:subdomain)))
   end
 
   def smart_members_or_member_requests_parti_path(issue, options = {})
@@ -77,11 +72,22 @@ module PartiUrlHelper
     root_url(options.merge(subdomain: group.subdomain))
   end
 
-  def smart_joinable_url(joinable, options = {})
-    if joinable.instance_of?(Issue)
-      smart_issue_home_url(joinable, options)
-    elsif joinable.instance_of?(Group)
-      smart_group_url(joinable, options)
+  def smart_joinable_members_url(joinable, options = {})
+    case joinable
+    when Group
+      smart_group_members_url(joinable, options)
+    when Issue
+      smart_issue_members_url(joinable, options)
+    else
+      polymorphic_url(joinable, options)
     end
+  end
+
+  def smart_group_members_url(group, options = {})
+    group_members_url(options.merge(subdomain: group.subdomain))
+  end
+
+  def smart_issue_members_url(issue, options = {})
+    slug_issue_users_url(options.merge(slug: issue.slug, subdomain: issue.group.subdomain))
   end
 end
