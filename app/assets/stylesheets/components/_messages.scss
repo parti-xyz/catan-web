@@ -2,7 +2,7 @@
 .message {
   cursor: pointer;
   background-color: #fff;
-  margin-bottom: 12px;
+  border-bottom:1px solid $gray-lighter;
   margin-top: 0;
   padding: 12px;
   &__link {
