@@ -1,2 +1,2 @@
 - post = message.messagable
-= post.specific_desc_striped_tags(200)
+= smart_truncate_html(post_body_format(post.specific_desc), length: 300, ellipsis: '...')
