@@ -1,6 +1,6 @@
 class AddLastReadMessageIdToUsers < ActiveRecord::Migration
   def up
-    # add_column :users, :last_read_message_id, :integer, default: 0
+    add_column :users, :last_read_message_id, :integer, default: 0
 
     reversible do |dir|
       dir.up do
