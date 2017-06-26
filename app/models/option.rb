@@ -22,6 +22,10 @@ class Option < ActiveRecord::Base
     feedbacks.exists? user: someone
   end
 
+  def post_for_message
+    survey.post
+  end
+
   def issue_for_message
     survey.post.issue
   end

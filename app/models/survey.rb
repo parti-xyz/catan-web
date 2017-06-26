@@ -68,6 +68,10 @@ class Survey < ActiveRecord::Base
     (option.feedbacks_count / feedbacks_count.to_f * 100).ceil
   end
 
+  def post_for_message
+    post
+  end
+
   def issue_for_message
     post.issue
   end

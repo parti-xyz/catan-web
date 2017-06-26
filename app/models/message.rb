@@ -3,26 +3,34 @@ class Message < ActiveRecord::Base
   entity do
     include Rails.application.routes.url_helpers
     include PartiUrlHelper
+    include ApiEntityHelper
 
-    { comment: Comment::Entity,
-      upvote: Upvote::Entity,
-      invitation: Invitation::Entity,
-      parti: Issue::Entity,
-      member: Member::Entity,
-      member_request: MemberRequest::Entity,
-      option: Option::Entity,
-      survey: Survey::Entity
-    }.each do |key, entity|
-      type = ( key == :parti ? 'Issue' : key.to_s.classify)
-      expose :"#{key}_messagable", using: entity, if: lambda { |instance, options| instance.messagable_type == type } do |instance|
-        instance.messagable
+    expose :post, if: lambda { |instance, options| %w(Post Comment Upvote Option Survey).include? instance.messagable_type } do |instance, options|
+      sticky_comment = if instance.messagable.respond_to? :sticky_comment_for_message
+        instance.messagable.sticky_comment_for_message
+      else
+        nil
       end
+      post_for_message = instance.messagable.try(:post_for_message)
+      Post::Entity.represent post_for_message, options.merge(sticky_comment: sticky_comment) if post_for_message.present?
+    end
+    expose :url do |instance|
+      parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
+      host = parsed_asset_url.host
+      is_https = (parsed_asset_url.scheme == 'https')
+      json = ApplicationController.renderer.new(
+        http_host: host,
+        https: is_https)
+      .render(
+        partial: "messages/fcm/#{instance.messagable.class.model_name.singular}",
+        locals: { message: instance }
+      )
+      (JSON.parse(json)['data'] || {})['url']
     end
 
     expose :id, :messagable_type
     expose :user, using: User::Entity
     expose :sender, using: User::Entity
-    expose :post, using: Post::Entity
     expose :issue, using: Issue::Entity, as: :parti
     expose :header do |instance|
       if instance.issue.blank? and instance.group.blank?
@@ -58,19 +66,6 @@ class Message < ActiveRecord::Base
         partial: "messages/api/body/#{instance.messagable.class.model_name.singular}",
         locals: { message: instance }
       )
-    end
-    expose :fcm do |instance|
-      parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
-      host = parsed_asset_url.host
-      is_https = (parsed_asset_url.scheme == 'https')
-      json = ApplicationController.renderer.new(
-        http_host: host,
-        https: is_https)
-      .render(
-        partial: "messages/fcm/#{instance.messagable.class.model_name.singular}",
-        locals: { message: instance }
-      )
-      (JSON.parse(json)['data'] || {}).select {|k,_| %w(type param url).include?(k) }
     end
     with_options(format_with: lambda { |dt| dt.try(:iso8601) }) do
       expose :read_at, :created_at

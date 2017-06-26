@@ -32,6 +32,14 @@ class Upvote < ActiveRecord::Base
     upvotable.is_a?(Post) ? upvotable : upvotable.post
   end
 
+  def sticky_comment_for_message
+    upvotable.is_a?(Comment) ? upvotable : nil
+  end
+
+  def post_for_message
+    post
+  end
+
   def issue_for_message
     issue
   end

@@ -15,7 +15,7 @@ module V1
 
         has_more_item = resource_owner.messages.recent.where('id < ?', messages.last.try(:id)).any?
         present :has_more_item, has_more_item
-        present :items, messages
+        present :items, messages, base_options.merge(type: :full)
       end
 
       desc '내 알람을 최근에 몇 번까지 읽었는지를 반환합니다'

@@ -115,6 +115,8 @@ class Post < ActiveRecord::Base
   belongs_to :survey
   belongs_to :link_source
   has_many :file_sources, dependent: :destroy
+  has_many :messages, as: :messagable, dependent: :destroy
+
   belongs_to :postable, polymorphic: true
   belongs_to :last_stroked_user, class_name: User
   accepts_nested_attributes_for :link_source
@@ -379,6 +381,10 @@ class Post < ActiveRecord::Base
 
   def self.reject_blinded_or_blocked(posts, user)
     posts.to_a.reject{ |post| post.blinded?(user) or post.private_blocked?(user) }
+  end
+
+  def post_for_message
+    self
   end
 
   def issue_for_message

@@ -87,6 +87,14 @@ class Comment < ActiveRecord::Base
     !upvoted_by?(someone)
   end
 
+  def sticky_comment_for_message
+    self
+  end
+
+  def post_for_message
+    post
+  end
+
   def issue_for_message
     self.issue
   end
