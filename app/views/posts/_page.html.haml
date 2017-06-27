@@ -1,12 +1,3 @@
-- has_blinds = false
 - @posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
     = render post, local_assigns.merge(mode: 'list')
-  - has_blinds = post.blinded?(current_user)
-
-- if has_blinds
-  .post-card
-    .post-card__content
-      .post-card__header.blind
-        = t('labels.blind_info')
-
