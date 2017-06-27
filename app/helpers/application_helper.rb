@@ -61,12 +61,14 @@ module ApplicationHelper
       if nickname == 'all'
         m.gsub($1, content_tag('span', $1, class: 'user__nickname--mentioned'))
       else
-        user = User.find_by nickname: nickname
-        if user.present?
-          url = slug_user_url(slug: user.slug)
-          m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
-        else
-          m
+        Rails.cache.fetch ["view-user-at", nickname], race_condition_ttl: 30.seconds, expires_in: 12.hours do
+          user = User.find_by nickname: nickname
+          if user.present?
+            url = slug_user_url(slug: user.slug)
+            m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
+          else
+            m
+          end
         end
       end
     end

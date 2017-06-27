@@ -44,28 +44,32 @@ class Message < ActiveRecord::Base
       end
     end
     expose :title do |instance|
-      parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
-      host = parsed_asset_url.host
-      is_https = (parsed_asset_url.scheme == 'https')
-      ApplicationController.renderer.new(
-        http_host: host,
-        https: is_https)
-      .render(
-        partial: "messages/api/title/#{instance.messagable.class.model_name.singular}",
-        locals: { message: instance }
-      )
+      Rails.cache.fetch ["api-message-title", instance.id], race_condition_ttl: 30.seconds, expires_in: 12.hours do
+        parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
+        host = parsed_asset_url.host
+        is_https = (parsed_asset_url.scheme == 'https')
+        ApplicationController.renderer.new(
+          http_host: host,
+          https: is_https)
+        .render(
+          partial: "messages/api/title/#{instance.messagable.class.model_name.singular}",
+          locals: { message: instance }
+        )
+      end
     end
     expose :body do |instance|
-      parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
-      host = parsed_asset_url.host
-      is_https = (parsed_asset_url.scheme == 'https')
-      ApplicationController.renderer.new(
-        http_host: host,
-        https: is_https)
-      .render(
-        partial: "messages/api/body/#{instance.messagable.class.model_name.singular}",
-        locals: { message: instance }
-      )
+      Rails.cache.fetch ["api-message-body", instance.id], race_condition_ttl: 30.seconds, expires_in: 12.hours do
+        parsed_asset_url = URI.parse(Rails.application.config.asset_host || "https://parti.xyz")
+        host = parsed_asset_url.host
+        is_https = (parsed_asset_url.scheme == 'https')
+        ApplicationController.renderer.new(
+          http_host: host,
+          https: is_https)
+        .render(
+          partial: "messages/api/body/#{instance.messagable.class.model_name.singular}",
+          locals: { message: instance }
+        )
+      end
     end
     with_options(format_with: lambda { |dt| dt.try(:iso8601) }) do
       expose :read_at, :created_at

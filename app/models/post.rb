@@ -11,7 +11,11 @@ class Post < ActiveRecord::Base
     end
     expose :id, :upvotes_count, :comments_count
     expose :user, using: User::Entity
-    expose :issue, using: Issue::Entity, as: :parti
+    expose :parti do |instance, options|
+      Rails.cache.fetch ["api-issue", instance.issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+        Issue::Entity.represent(instance.issue, options).serializable_hash
+      end
+    end
     expose :parsed_title do |instance|
       view_helpers.post_body_format(instance.parsed_title)
     end
@@ -46,8 +50,14 @@ class Post < ActiveRecord::Base
     end
 
     with_options(if: lambda { |instance, options| options[:type] == :full }) do
-      expose :link_source, using: LinkSource::Entity, if: lambda { |instance, options| instance.link_source.present? } do |instance|
-        instance.link_source
+      expose :link_source, if: lambda { |instance, options| instance.link_source.present? } do |instance, options|
+        if instance.link_source.crawling_status == 'completed'
+         Rails.cache.fetch ["api-link_source", instance.link_source.id], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+            LinkSource::Entity.represent(instance.link_source, options).serializable_hash
+         end
+        else
+         LinkSource::Entity.represent(instance.link_source, options).serializable_hash
+        end
       end
       expose :file_sources, using: FileSource::Entity, if: lambda { |instance, options| instance.file_sources.any? } do |instance|
         instance.file_sources
