@@ -26,7 +26,7 @@ module V1
       oauth2
       params do
         optional :sort, type: Symbol, values: [:hottest, :recent], default: :hottest, desc: '정렬 조건'
-        optional :limit, type: Integer, default: 50
+        optional :limit, type: Integer, default: 1000
       end
       get :my_joined do
         present parties_joined(current_user).send(params[:sort]).limit(params[:limit]), base_options.merge(target_user: current_user)
@@ -75,7 +75,8 @@ module V1
         requires :id, type: String, desc: '빠띠의 id'
       end
       get ':id' do
-        @issue = Issue.find_by!(id: params[:id])
+        @issue = Issue.find_by(id: params[:id])
+        error!(:not_found, 410) and return if @issue.blank?
         present @issue, base_options.merge(target_user: current_user)
       end
 
@@ -88,7 +89,7 @@ module V1
       get ':id/posts' do
         last_id = params[:last_id]
         @issue = Issue.find_by(id: params[:id])
-        error!(:not_found, 404) and return if @issue.blank?
+        error!(:not_found, 410) and return if @issue.blank?
         error!(:forbidden, 403) and return if @issue.private_blocked?(resource_owner)
 
         loop do
@@ -131,7 +132,7 @@ module V1
       post ':slug/members' do
         @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
 
-        return if @issue.member?(resource_owner)
+        return_no_content and return if @issue.member?(resource_owner)
         @issue.members.build(user: resource_owner)
         @issue.save!
       end

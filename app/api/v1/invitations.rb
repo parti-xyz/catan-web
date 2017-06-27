@@ -12,7 +12,7 @@ module V1
       end
       post 'by_emails' do
         issue = Issue.find_by id: params[:parti_id]
-        return if issue.blank?
+        error!(:not_found, 410) and return if issue.blank?
 
         params[:emails].reject{ |email| issue.member_email? email }.each do |email|
           invitation = Invitation.new(user: resource_owner, recipient_email: user, joinable: issue);
@@ -31,7 +31,7 @@ module V1
       end
       post 'by_nicknames' do
         issue = Issue.find_by id: params[:parti_id]
-        return if issue.blank?
+        error!(:not_found, 410) and return if issue.blank?
 
         params[:nicknames].map { |nickname| User.find_by nickname: nickname }.compact.reject{ |user| issue.member? user.nickname }.each do |user|
           invitation = Invitation.new(user: resource_owner, recipient: user, joinable: issue);

@@ -10,7 +10,7 @@ module V1
         optional :last_id, type: Integer, desc: '마지막 기준 알림 번호'
       end
       get do
-        messages = resource_owner.messages.recent.limit(30)
+        messages = resource_owner.messages.recent.limit(20)
         messages = messages.where('id < ?', params[:last_id]) if params[:last_id].present?
 
         has_more_item = resource_owner.messages.recent.where('id < ?', messages.last.try(:id)).any?

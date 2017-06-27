@@ -11,8 +11,9 @@ module V1
         requires :selected, coerce: Boolean
       end
       post do
-        logger.debug params.inspect
-        @option = Option.find params[:option_id]
+        @option = Option.find_by id: params[:option_id]
+        error!(:not_found, 410) and return if @option.blank?
+
         survey = @option.survey
         post = survey.post
         error! and return if @option.blank? or survey.blank? or post.blank?

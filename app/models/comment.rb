@@ -107,6 +107,10 @@ class Comment < ActiveRecord::Base
     false
   end
 
+  def private_blocked?(someone = nil)
+    post.private_blocked? someone
+  end
+
   private
 
   def touch_last_commented_at_of_posts

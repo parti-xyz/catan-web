@@ -13,8 +13,11 @@ module V1
         end
       end
       post do
+        upvotable = Upvote.new(permitted(params, :upvote)).upvotable
+        error!(:not_found, 410) and return if upvotable.blank?
+
         @upvote = Upvote.where(user: resource_owner).find_by permitted(params, :upvote)
-        return if @upvote.present?
+        return_no_content and return if @upvote.present?
 
         @upvote = Upvote.new permitted(params, :upvote)
         @upvote.user = resource_owner
@@ -35,9 +38,13 @@ module V1
         end
       end
       delete do
-        @upvote = Upvote.where(user: resource_owner).find_by permitted(params, :upvote)
-        @upvote.destroy! if @upvote.present?
+        error!(:not_found, 410) and return if Upvote.new(permitted(params, :upvote)).upvotable.blank?
 
+        @upvote = Upvote.where(user: resource_owner).find_by permitted(params, :upvote)
+        return_no_content and return if @upvote.blank?
+
+        error!(:forbidden, 403) and return if @upvote.post.private_blocked?(resource_owner)
+        @upvote.destroy! if @upvote.present?
         return_no_content
       end
 

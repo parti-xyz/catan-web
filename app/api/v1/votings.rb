@@ -11,7 +11,8 @@ module V1
         requires :choice, type: String
       end
       post do
-        @poll = Poll.find params[:poll_id]
+        @poll = Poll.find_by params[:poll_id]
+        error!(:not_found, 410) and return if @poll.blank? or @poll.post.blank?
         error!(:forbidden, 403) and return if @poll.post.private_blocked?(current_user)
 
         service = VotingPollService.new(poll: @poll, current_user: resource_owner)
@@ -28,7 +29,9 @@ module V1
         optional :last_id, type: Integer, desc: '이전 마지막 투표 번호'
       end
       get 'agrees_of_poll' do
-        poll = Poll.find(params[:poll_id])
+        poll = Poll.find_by(params[:poll_id])
+        error!(:not_found, 410) and return if @poll.blank? or @poll.post.blank?
+        error!(:forbidden, 403) and return if @poll.post.private_blocked?(current_user)
         votings_base = poll.votings.agreed.recent
 
         @votings = votings_base.limit(25)

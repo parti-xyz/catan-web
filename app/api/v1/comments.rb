@@ -22,9 +22,11 @@ module V1
       post do
         @comment = Comment.new permitted(params, :comment)
         @comment.user = resource_owner
-        set_choice @comment
 
+        error!(:not_found, 410) and return if @comment.post.blank? or @comment.post.private_blocked?(current_user)
         error!(:forbidden, 403) and return if @comment.post.private_blocked?(resource_owner)
+
+        set_choice @comment
 
         @comment.save!
         @comment.perform_mentions_async
@@ -38,7 +40,10 @@ module V1
         requires :id, type: Integer, desc: '지울 댓글 번호'
       end
       delete ':id' do
-        @comment = Comment.find(params[:id])
+        @comment = Comment.find_by(id: params[:id])
+
+        error!(:not_found, 410) and return if @comment.blank?
+
         authorize! :destroy, @comment
         @comment.destroy!
       end
