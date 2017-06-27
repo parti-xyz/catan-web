@@ -82,13 +82,6 @@ namespace :data do
         site_description: "조직의 문제와 나의 문제를 고민하는 사람들이 모여, 이전에는 시도되지 않은 실험을 해나가면서 해결책을 도출해 나가는 변화 리더십에 대한 고민과 생각을 나눕니다.",
         private: false)
 
-      seed_group(user, 'zakdang', ['berry'],
-        title: '시민작당',
-        site_title: '시민작당, 광장에서 모의하당',
-        head_title: '시민작당',
-        site_description: "자신만의 의제로 자신의 정치를 할 수 있는 나만의 당 만들기",
-        private: false)
-
       seed_group(user, 'youthpolicynet', ['odong'],
         title: '전국청년정책네트워크',
         site_title: '다음세대를 위한 새로운 시작 - 전국청년정책네트워크',
@@ -98,6 +91,8 @@ namespace :data do
 
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
+      Group.find_by(slug: 'zakdang').try(:destroy!)
+
     end
   end
 
