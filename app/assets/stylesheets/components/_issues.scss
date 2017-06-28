@@ -327,6 +327,9 @@ section#issues {
     .issue-card__content {
       padding: 10px;
       height: 147px;
+      @media (max-width: $screen-xs-max) {
+        height:100px !important;
+      }
     }
     .issue-card__group,
     .issue-card__join {
