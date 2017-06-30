@@ -63,9 +63,9 @@ class Survey < ActiveRecord::Base
   end
 
   def percentage(option)
-    return 0 if feedbacks_count == 0 or option.feedbacks_count == 0
-
-    (option.feedbacks_count / feedbacks_count.to_f * 100).ceil
+    max_feedbacks_count = options.maximum(:feedbacks_count)
+    return 0 if max_feedbacks_count == 0 or option.feedbacks_count == 0
+    (option.feedbacks_count / max_feedbacks_count.to_f * 100).ceil
   end
 
   def post_for_message
