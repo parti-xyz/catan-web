@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170625155813) do
+ActiveRecord::Schema.define(version: 20170701040000) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -524,6 +524,16 @@ ActiveRecord::Schema.define(version: 20170625155813) do
     t.integer "comments_count",   limit: 4,   null: false
     t.integer "upvotes_count",    limit: 4,   null: false
   end
+
+  create_table "summary_emails", force: :cascade do |t|
+    t.integer  "user_id",   limit: 4,   null: false
+    t.string   "code",      limit: 255, null: false
+    t.datetime "mailed_at"
+  end
+
+  add_index "summary_emails", ["code"], name: "index_summary_emails_on_code", using: :btree
+  add_index "summary_emails", ["user_id", "code"], name: "index_summary_emails_on_user_id_and_code", unique: true, using: :btree
+  add_index "summary_emails", ["user_id"], name: "index_summary_emails_on_user_id", using: :btree
 
   create_table "surveys", force: :cascade do |t|
     t.datetime "created_at",                                       null: false

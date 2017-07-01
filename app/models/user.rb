@@ -82,6 +82,7 @@ class User < ActiveRecord::Base
   has_many :options, dependent: :destroy
   has_many :group, dependent: :nullify
   has_many :destroyed_issues, dependent: :nullify, foreign_key: :destroyer_id, class_name: Issue
+  has_many :summary_emails, dependent: :destroy
 
   ## uploaders
   # mount
@@ -219,6 +220,23 @@ class User < ActiveRecord::Base
 
   def unread_messages_count
     messages.where('id > ?', last_read_message_id).count
+  end
+
+  # summary emails
+  def self.need_to_delivery(code)
+    joins("LEFT OUTER JOIN summary_emails se ON users.id = se.user_id")
+    .where("se.id is null or se.mailed_at <= ?", SummaryEmail.limit_datetime(code))
+    .order("se.mailed_at")
+  end
+
+  def need_to_delivery?(code)
+    !summary_emails.where("mailed_at > ?", SummaryEmail.limit_datetime(code)).exists?(code)
+  end
+
+  def mail_delivered!(code)
+    m = summary_emails.find_or_initialize_by(code: code)
+    m.mailed_at = DateTime.now
+    m.save!
   end
 
   private

@@ -11,6 +11,6 @@ survey_closed_message_job:
   class: "SurveyClosedMessagesJob"
   queue: default
 summary_job:
-  cron: "1 5 * * 1 Asia/Seoul"
+  cron: "*/25 * * * 1 Asia/Seoul"
   class: "SummaryJob"
   queue: default
