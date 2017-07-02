@@ -24,6 +24,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
         region:                ENV["PRIVATE_S3_REGION"]
       }
       self.fog_directory = ENV["PRIVATE_S3_BUCKET"]
+      self.fog_authenticated_url_expiration = 60 * 60 * 24
       self.fog_public = false
     else
       @production_storage = Fog::Storage.new(
@@ -31,6 +32,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
         aws_access_key_id:     ENV["PRIVATE_S3_ACCESS_KEY"],
         aws_secret_access_key: ENV["PRIVATE_S3_SECRET_KEY"],
         region:                ENV["PRIVATE_S3_REGION"])
+      self.fog_authenticated_url_expiration = 60 * 60 * 24
     end
   end
 
