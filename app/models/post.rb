@@ -108,6 +108,10 @@ class Post < ActiveRecord::Base
         options[:sticky_comment]
       end
     end
+
+    expose :expired_after do |instance|
+      12 * 60 * 60 * 1000
+    end
   end
 
   HOT_LIKES_COUNT = 3
