@@ -89,6 +89,13 @@ namespace :data do
         site_description: "<전국청년정책네트워크>는 이행기 청년의 불평등 문제를 지역 간 협력과 제도 개선을 통해 해결하는 자발적 시민 네트워크입니다.",
         private: false)
 
+      seed_group(user, 'eduhope', ['갱'],
+        title: '전교조',
+        site_title: '교육과 세상을 바꾸는 전교조',
+        head_title: '전교조',
+        site_description: "교육의 자주성, 전문성 확립과 교육민주화 실현을 위한 전국의 유치원, 초등학교, 중·고등학교 교사들의 자주적 노동조합입니다.",
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
       Group.find_by(slug: 'zakdang').try(:destroy!)
