@@ -56,20 +56,21 @@ module ApplicationHelper
 
   def parse_mentions(text)
     text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
-      at_nickname = $1
+      at_nickname = Regexp.last_match[1]
       nickname = at_nickname[1..-1]
       if nickname == 'all'
-        m.gsub($1, content_tag('span', $1, class: 'user__nickname--mentioned'))
+        m.gsub(at_nickname, content_tag('span', at_nickname, class: 'user__nickname--mentioned'))
       else
-        Rails.cache.fetch "view-user-at-#{nickname}", race_condition_ttl: 30.seconds, expires_in: 12.hours do
+        parsed = Rails.cache.fetch "view-user-at-sign-#{nickname}", race_condition_ttl: 30.seconds, expires_in: 12.hours do
           user = User.find_by nickname: nickname
           if user.present?
             url = slug_user_url(slug: user.slug)
-            m.gsub($1, link_to($1, url, class: 'user__nickname--mentioned'))
+            link_to(at_nickname, url, class: 'user__nickname--mentioned')
           else
-            m
+            at_nickname
           end
        end
+       m.gsub(at_nickname, parsed)
       end
     end
   end
