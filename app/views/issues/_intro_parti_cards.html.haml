@@ -1,8 +1,18 @@
 %section.parti-member-recommend--issues
   .container
-    .row
-      - issues.each do |issue|
-        - unless issue.organized_by?(current_user)
-          .col-sm-3.col-xs-6
-            .issue-card-wrapper
-              = render 'issues/card_in_intro', issue: issue
+    - grouping_issues = issues.group_by { |i| i.group }
+    - grouping_issues.sort_by { |group,_| group.id }.each do |group, issues|
+      .row
+        .col-sm-12.col-xs-12
+          - unless group.indie?
+            .group-heading{style:"margin:0px 15px;border-bottom:2px solid #d9d9d9"}
+              %h4
+                #{group.title}
+                - unless group.site_description.nil?
+                  %small
+                    #{group.site_description}
+          .row
+          - issues.each do |issue|
+            .col-sm-3.col-xs-6#groups-all
+              .issue-card-wrapper
+                = render 'issues/card_in_intro', issue: issue
