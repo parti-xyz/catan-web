@@ -8,6 +8,3 @@
         = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post)
   - else
     - has_blinds = true
-- if has_blinds
-  .col-xs-12.col-sm-4.card.card--hover-grow
-    .poll-card= t('labels.blind_info')

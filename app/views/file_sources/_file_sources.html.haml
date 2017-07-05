@@ -14,16 +14,8 @@
             = post.issue.group.title
             = security_icon(post.issue.group)
         .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
-        %span.issue-name= post.issue.title
-    .caption
-      - if post.file_sources.only_image.any?
-        %h4.title.title--file-source
-          %i.fa.fa-image
-          = post.file_sources.only_image.sort_by_seq_no.first.name.truncate(20)
-          - if post.file_sources.only_image.count > 1
-            %small
-              +
-              = post.file_sources.only_image.count - 1
+    - if post.file_sources.only_image.any?
+      .caption-images<>
         - odd = post.file_sources.only_image.count.odd?
         - previous_style = nil
         - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
@@ -35,17 +27,18 @@
             - current_style = 'left'
           .thumb.thumb--reference{ class: current_style, style: "background-image: url(#{file_source.attachment.sm.url})" }<>
           - previous_style = current_style
-      - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
-        %h4.title.title--file-source
+    - else
+      - if local_assigns[:show_issue]
+        .caption-images-no-icon{ style: 'height: 50px' }
+    - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+      .caption-file
+        .title.title--file-source.clearfix
           = link_to file_source.url, target: '_blank' do
-            %i.fa.fa-floppy-o
-            = truncate(file_source.name, length: 100)
-        .source-body
-          %p
-            .source-url
-              = link_to file_source.url, target: '_blank' do
-                다운로드
-                %i.fa.fa-download
+            .file-icon
+              = (File.extname(file_source.name) || "FILE").gsub(".", "").upcase
+            .file-name
+              = truncate(file_source.name, length: 100)
+    .caption
       .body
         %p
           = post.specific_desc_striped_tags(215)

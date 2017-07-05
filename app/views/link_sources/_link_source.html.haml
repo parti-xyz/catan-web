@@ -8,12 +8,16 @@
   - template_by_post = 'default'
 
 - template ||= (local_assigns[:template] || template_by_post)
-- if template == 'best'
-  - wrapper_class = 'col-xs-12 col-sm-4'
-  - card_class = template
-- elsif template == 'popular'
-  - wrapper_class = 'col-xs-12 col-sm-4'
-  - card_class = template
+- if post.link_source.has_image?
+  - if template == 'best'
+    - wrapper_class = 'col-xs-12 col-sm-4'
+    - card_class = template
+  - elsif template == 'popular'
+    - wrapper_class = 'col-xs-12 col-sm-4'
+    - card_class = template
+  - else
+    - wrapper_class = 'col-xs-12 col-sm-4'
+    - card_class = 'default'
 - else
   - wrapper_class = 'col-xs-12 col-sm-4'
   - card_class = 'default'
@@ -22,9 +26,10 @@
 
 .card{ class: "#{wrapper_class} #{removable_with_post_dom_class(post)}" }
   .reference-card[post]{ class: card_class, data: modal_data }
-    - capture_thumb = capture do
-      .thumb.thumb--reference{ style: "background-image: url(#{link_source_card_image(post)})" }
-    = link_to_if (card_class == 'default'), capture_thumb, post.link_source.url, target: '_blank'
+    - if post.link_source.has_image?
+      - capture_thumb = capture do
+        .thumb.thumb--reference{ style: "background-image: url(#{post.link_source.image.md.url})" }
+      = link_to_if (card_class == 'default'), capture_thumb, post.link_source.url, target: '_blank'
     - if local_assigns[:show_issue]
       .reference-card__group-and-issue
         - unless post.issue.displayable_group? current_group

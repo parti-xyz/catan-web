@@ -103,10 +103,6 @@ module ApplicationHelper
     end
   end
 
-  def link_source_card_image(post)
-    post.link_source.has_image? ? post.link_source.image.md.url : asset_path('default_link_source_image_card.png')
-  end
-
   def video_embed_code(post)
     return unless post.video_source?
 

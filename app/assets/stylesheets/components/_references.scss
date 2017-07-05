@@ -44,7 +44,7 @@ section#references {
     &.left,
     &.right {
       display: inline-block;
-      width: 49%;
+      width: 49.5%;
       height: 150px;
     }
   }
@@ -71,6 +71,26 @@ section#references {
       display: inline-block;
       box-shadow: 0 1px 15px rgba(0, 0, 0, 3);
     }
+  }
+  .caption-file {
+    margin-top: 24px;
+    padding-right: 14px;
+    padding-left: 14px;
+    .file-icon {
+      padding: 20px;
+      float: left;
+      margin-right: 6px;
+      border: 1px solid $brand-primary;
+      color: $brand-primary;
+      font-weight: 900;
+    }
+    .file-name {
+      font-size: $font-size-large;
+     font-weight: 200;
+    }
+  }
+  .caption-images {
+    line-height: 0;
   }
   .caption {
     padding-top: 14px;
@@ -146,25 +166,9 @@ section#references {
 }
 
 .reference-card.reference-card--files-sources {
-  .reference-card__group-and-issue + .caption {
-    border-top: 2px solid $gray-lightest;
-  }
   .caption {
     .body {
       border-top: none;
-    }
-  }
-  .reference-card__group-and-issue {
-    position: relative;
-    top: 20px;
-    left: 20px;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    .issue-name {
-      color: $gray;
-      padding-left: 6px;
-      line-height: 30px;
-      vertical-align: text-bottom;
     }
   }
 }

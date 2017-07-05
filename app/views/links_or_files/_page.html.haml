@@ -6,8 +6,4 @@
     - elsif post.link_source.present?
       = render 'link_sources/link_source', local_assigns.merge(post: post)
   - has_blinds = post.blinded?(current_user)
-- if has_blinds
-  .card.col-sm-4.col-xs-12
-    .reference-card
-      .caption
-        .body= t('labels.blind_info')
+
