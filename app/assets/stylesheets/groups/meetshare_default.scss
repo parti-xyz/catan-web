@@ -22,40 +22,20 @@ body.in-group #group-key-visual-bg {
   }
 }
 .key-page{
-  height:350px;
-  text-align:center;
-
   .social{
     text-align:right;
-  }
-  .social-icon{
-    width:50px;
-    height:50px;
-    margin:10px 5px;
-    color:#ffffff;
-    text-align:center;
-    padding-top:12px;
-    font-size:20px;
-    border-radius:25px;
-    display:inline-block;
-    cursor:pointer;
+    .social-icon{
+      margin:10px 5px;
+    }
   }
   button{
-    box-shadow: 3px 3px 0px 0px #c5c5c5;
-    border-radius:0px !important;
     margin:10px;
   }
   .key-page-desc{
-    width: 500px;
-    margin: 0 auto;
-    padding: 50px 20px;
-  }
-  .key-page-title{
-    font-weight: 200;
-    font-size: 22px;
-    margin: 10px;
-    span{
-      font-weight:bold;
+    width:500px;
+    padding:50px 20px;
+    .key-page-title{
+      font-size: 22px;
     }
   }
 }
