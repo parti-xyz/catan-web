@@ -28,6 +28,9 @@ class Issue < ActiveRecord::Base
       expose :is_organized_by do |instance, options|
         instance.organized_by? options[:current_user]
       end
+      expose :is_postable do |instance, options|
+        instance.postable? options[:current_user]
+      end
     end
 
     with_options(if: lambda { |instance, options| options[:target_user].present? }) do

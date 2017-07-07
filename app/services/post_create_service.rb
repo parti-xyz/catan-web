@@ -5,6 +5,9 @@ class PostCreateService
   end
 
   def call
+    return false if @post.issue.blank? or @post.issue.private_blocked?(@current_user)
+    return false unless @post.issue.postable?(@current_user)
+
     @post.user = @current_user
     @post.strok_by(@current_user)
     @post.format_body
@@ -16,6 +19,8 @@ class PostCreateService
     @post.issue.strok_by!(@current_user, @post)
     crawling_after_creating_post
     @post.perform_mentions_async
+
+    return true
   end
 
   private

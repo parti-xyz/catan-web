@@ -149,7 +149,7 @@ module V1
         permitted_params[:issue_id] = permitted_params.delete :parti_id
 
         @post = Post.new permitted_params
-        error!(:forbidden, 403) and return if @post.issue.blank? or @post.issue.private_blocked?(current_user)
+        error!(:forbidden, 403) and return if @post.issue.blank? or @post.issue.private_blocked?(current_user) or !@post.issue.postable?(current_user)
         error!('bad request', 500) and return if permitted_params[:body].blank?
 
         service = PostCreateService.new(post: @post, current_user: current_user)
