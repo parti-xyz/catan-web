@@ -96,6 +96,13 @@ namespace :data do
         site_description: "교육의 자주성, 전문성 확립과 교육민주화 실현을 위한 전국의 유치원, 초등학교, 중·고등학교 교사들의 자주적 노동조합입니다.",
         private: false)
 
+      seed_group(user, 'syp', ['seoulyouth2014'],
+        title: '서울청년의회',
+        site_title: '서울청년의회',
+        head_title: '청년의회',
+        site_description: "정책이 청년의 일상에 가 닿을 수 있도록 청년이 행정에 직접 질의하고, 정책을 발의합니다. 문제의 당사자에서 문제해결의 주체가 되고, 필요와 현실이 반영된 정책이 만들어지는 과정에 참여하는 시민참여의 장입니다.",
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
       Group.find_by(slug: 'zakdang').try(:destroy!)
