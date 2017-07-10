@@ -1,0 +1,5 @@
+- has_blinds = false
+- @posts.each do |post|
+  - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
+    = render 'wikis/card', local_assigns.merge(post: post)
+

@@ -86,7 +86,6 @@ class Issue < ActiveRecord::Base
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
   # 이슈는 위키를 하나 가지고 있어요.
-  has_one :wiki, dependent: :destroy
   has_many :invitations, as: :joinable, dependent: :destroy
   has_many :members, as: :joinable, dependent: :destroy
   has_many :member_users, through: :members, source: :user
@@ -131,7 +130,6 @@ class Issue < ActiveRecord::Base
 
   # callbacks
   before_save :downcase_slug
-  before_create :build_wiki
   before_validation :strip_whitespace
 
   # scopes
@@ -335,6 +333,18 @@ class Issue < ActiveRecord::Base
 
   def default_image_pick_up
     %w(green yellow blue)[self.id % 3]
+  end
+
+  def active_wiki_count
+    Wiki.where(id: posts.select(:wiki_id)).with_status(:active).count
+  end
+
+  def inactive_wiki_count
+    Wiki.where(id: posts.select(:wiki_id)).with_status(:inactive).count
+  end
+
+  def exists_wiki?
+    posts.exists?(['wiki_id is not ?', nil])
   end
 
   private

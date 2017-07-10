@@ -1,8 +1,7 @@
 section#wikis {
   padding-top: 30px;
-}
+  padding-bottom: 30px;
 
-section#wikis {
   .body {
     border: 1px solid $gray-light;
     padding: 20px;
@@ -28,92 +27,153 @@ section#wikis {
 
 }
 
-section#wiki-history {
-  padding-bottom: 40px;
-}
-
-body.app-wikis.app-wikis-edit {
-  background-color: #fff;
-}
-
-section#wiki-edit {
-  background-color: #fff;
-  border-top: 3px solid $brand-primary;
-  .page-title {
-    padding-top: 10px;
+section#wiki-histories {
+  padding: 20px;
+  @media (max-width: $screen-xs-max) {
+    background-color: #fff;
   }
-  .btn-save-wiki {
-    padding: 0 20px;
-    width: auto;
-    float: right;
-    &:before {
-      content: "저장";
-      color: #fff;
-    }
-    &:hover {
-      background-color: $brand-primary;
-    }
-    @media (max-width: $screen-xs-max) {
-      display: none;
-    }
-  }
-  .link-to-wiki {
-    float: right;
-    border: none;
-    margin-right: 15px;
-    &:before {
-      content: "취소";
-    }
-    &:hover {
-      text-decoration: underline !important;
-    }
-    @media (max-width: $screen-xs-max) {
-      display: none;
-    }
-  }
-  .editor-toolbar.fullscreen {
-    border-radius: 0;
-    top: 100px;
-    white-space: initial;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    &:hover {
-        opacity: 1;
-    }
-    @media (max-width: $screen-xs-max) {
-      border-top: none;
-      top: 90px;
-      height: 90px;
-    }
-  }
-  .editor-toolbar.fullscreen::after {
-    background: none;
-  }
-  .CodeMirror.CodeMirror-fullscreen {
-    top: 150px;
-    margin-bottom: 20px;
-    @media (max-width: $screen-xs-max) {
-      top: 165px;
-    }
-  }
-  .editor-toolbar,
-  .CodeMirror.CodeMirror-fullscreen {
-    @media (max-width: $screen-xs-max) {
-      width: 100%;
-    }
+  .wiki-history-page {
+    background-color: #fff;
     @media (min-width: $screen-sm-min) {
-      width: 100%;
+      padding: 20px;
+      border-radius: $border-radius-base;
     }
-    @media (min-width: $screen-md-min) {
-      width: $container-md;
-    }
-    @media (min-width: $screen-lg-min) {
-      width: $container-md;
-    }
-    left: 50%;
-    transform: translate(-50%, 0);
   }
-  .form-submit {
-    padding-top: 10px;
+  .wiki-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    padding: 0;
+    font-size: $font-size-large;
+    font-weight: 600;
   }
 }
+
+
+.wiki-line {
+  .wiki-line-body {
+    border: 1px solid $gray-lighter;
+    border-radius: $border-radius-base;
+    position: relative;
+    .shadow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0px -10px 20px 0px rgba(236, 236, 236, 0.9);
+      -webkit-box-shadow: inset 0px -10px 20px 0px rgba(236, 236, 236, 0.9);
+      top: 0;
+      left: 0;
+    }
+  }
+  .wiki-title {
+    font-size: $font-size-large;
+    color: $gray-dark;
+    line-height: 1.4em;
+    word-break: keep-all;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 0;
+    margin-top: 20px;
+  }
+  .wiki-body {
+    min-height: 20px;
+    img {
+      width: 100%;
+      background-repeat: repeat;
+      background-size: cover;
+    }
+  }
+  .wiki-authors {
+    margin-top: 6px;
+    color: $gray-light;
+    float: right;
+  }
+}
+
+.wiki-card {
+  margin-top: 24px;
+  border-radius: $border-radius-base;
+  padding: 12px;
+  background-color: #fff;
+  .wiki-body {
+    min-height: 20px;
+    img {
+      width: 100%;
+    }
+  }
+  .post-card__last-stroked {
+    margin-bottom: 0px;
+    margin-top: 12px;
+  }
+}
+
+.wiki-history {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-top: 1px solid $gray-lighter;
+}
+
+#post-form.wiki-form {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  .container {
+    padding: 0;
+  }
+  textarea {
+    min-height: auto;
+  }
+  .post-card__buttons {
+    line-height: 24px;
+  }
+  .wiki-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    padding: 0;
+    font-size: $font-size-large;
+    font-weight: 600;
+  }
+  .wiki-content {
+    &--read-only {
+      background-color: #fff;
+      @media (max-width: $screen-xs-max) {
+        border-radius: 0;
+      }
+      padding: 20px;
+    }
+  }
+  .post-card {
+    margin-top: 12px;
+    .post-card__footer {
+      border-top: none
+    }
+  }
+
+  .form-widget {
+    @media (max-width: $screen-xs-max) {
+      border-radius: 0;
+    }
+  }
+
+  .wiki-issue {
+    .media-left {
+      vertical-align: middle;
+    }
+    .media-body {
+      vertical-align: middle;
+      line-height: 38px;
+    }
+  }
+
+  #post_wiki_attributes_title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid $gray-light;
+    border-radius: 0;
+    padding: 0;
+    font-size: $font-size-large;
+    font-weight: 600;
+  }
+}
+

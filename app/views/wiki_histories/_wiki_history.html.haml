@@ -1,0 +1,6 @@
+.wiki-history.clearfix[wiki_history]
+  != wiki_history.activity { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
+  %span.date= date_f(wiki_history.created_at)
+  - if wiki_history.touched_body?
+    %div
+      != wiki_history.diff_body

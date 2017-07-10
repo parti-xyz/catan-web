@@ -75,21 +75,25 @@
       - counts_container = issue.counts_container
       .container
         .row
-          .col-sm-7.col-xs-12
+          .col-sm-8.col-xs-12
             .row
-              .col-xs-3.col-sm-3{ class: ('active' if active_tab.nil? || active_tab == :home) }
+              .col-xs-5th-1{ class: ('active' if active_tab.nil? || active_tab == :home) }
                 = link_to smart_issue_home_path_or_url(issue) do
                   %h5 피드
 
-              .col-xs-3.col-sm-3{class: ('active' if active_tab == :polls)}
+              .col-xs-5th-1{class: ('active' if active_tab == :polls)}
                 = link_to smart_issue_polls_or_surveys_path(issue) do
                   %h5= t('labels.polls_or_surveys')
 
-              .col-xs-3.col-sm-3{class: ('active' if active_tab == :links_or_files)}
+              .col-xs-5th-1{class: ('active' if active_tab == :links_or_files)}
                 = link_to smart_issue_links_or_files_path(issue) do
                   %h5 자료
 
-              .col-xs-3.col-sm-3{class: ('active' if active_tab == :users)}
+              .col-xs-5th-1{class: ('active' if active_tab == :wikis)}
+                = link_to smart_issue_wikis_path(issue) do
+                  %h5 위키
+
+              .col-xs-5th-1{class: ('active' if active_tab == :users)}
                 = link_to smart_issue_members_path(issue) do
                   %h5 멤버
 

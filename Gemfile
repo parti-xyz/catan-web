@@ -90,6 +90,7 @@ gem 'simplemde-rails', '~> 1.10', '>= 1.10.2'
 gem 'rb-readline'
 gem 'browsernizer'
 gem 'rails-settings-cached'
+gem 'diffy'
 
 # crawling
 gem 'mechanize', '~> 2.7', '>= 2.7.5'

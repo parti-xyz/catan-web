@@ -9,8 +9,7 @@
         = f.hidden_field :has_survey, value: false
 
         .form-group.textarea-box
-          = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_redactorable?} validation-ignore", data: { 'rule-required': true }
-          = f.hidden_field :is_html_body, value: is_redactorable? ? true : false
+          = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_air_redactorable?} validation-ignore", data: { 'rule-required': true }
 
           - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
 
@@ -80,6 +79,9 @@
           %button{ class: 'btn btn-xs btn-link editor-btn post-survey-btn', data: open_btn_data.merge('reference-field': '.post-survey-field') }
             %i.fa.fa-list-ul
             = t('labels.new_post_survey_button')
+          = link_to new_wiki_posts_path(issue_id: @issue.try(:id)), target: '_blank', class: 'btn btn-xs btn-link editor-btn post-wiki-btn js-post-wiki-btn' do
+            %i.fa.fa-file-word-o
+            = t('labels.new_post_wiki_button')
         .submit-box
           = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (issue.id if issue.present?)
           = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }

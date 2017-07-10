@@ -492,7 +492,7 @@ section#posts {
   }
 }
 
-.posts-sort-select {
+.posts-filter-select {
   vertical-align: bottom;
   ul {
     display: inline-block;
@@ -522,7 +522,7 @@ section#posts {
     &__title {
       float: left;
     }
-    .posts-sort-select {
+    .posts-filter-select {
       float: right;
       line-height: 40px;
     }

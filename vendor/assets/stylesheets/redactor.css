@@ -1,10 +1,10 @@
 /*
-  Redactor II
+	Redactor II
 
-  http://imperavi.com/redactor/
+	http://imperavi.com/redactor/
 
-  Copyright (c) 2009-2017, Imperavi Oy.
-  License: http://imperavi.com/redactor/license/
+	Copyright (c) 2009-2017, Imperavi Oy.
+	License: http://imperavi.com/redactor/license/
 */
 @font-face {
   font-family: 'Redactor';
@@ -162,7 +162,7 @@
   z-index: auto; }
 
 .redactor-link-tooltip {
-  z-index: 99; }
+  z-index: 1050; }
 
 .redactor-toolbar {
   z-index: 100; }
@@ -247,6 +247,11 @@
     content: "";
     display: table;
     clear: both; }
+
+.redactor-toolbar.redactor-toolbar-overflow {
+  overflow-y: auto;
+  white-space: nowrap;
+  height: 48px; }
 
 .redactor-toolbar li a {
   color: rgba(0, 0, 0, 0.8); }

@@ -78,8 +78,12 @@ class IssuesController < ApplicationController
 
   def slug_polls_or_surveys
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-
     having_poll_and_survey_posts_page(@issue)
+  end
+
+  def slug_wikis
+    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    having_wikis_posts_page(@issue, params[:status] || 'active')
   end
 
   def slug_members

@@ -2,16 +2,6 @@
 - post = post
 - issue = post.issue
 .post-line.post-line[post]
-  - if local_assigns[:show_issue]
-    .post-line__issue.post-line__issue
-      = link_to smart_issue_home_path_or_url(issue) do
-        = image_tag issue.logo.xs.url
-        %span.text-primary
-          = issue.title
-          = security_icon(issue)
-      %span.post-line__issue__post-type
-        &middot;
-        #{Post.model_name.human}
   -if post.parsed_title.present?
     %h4.post-line__title.post-line__title
       = post_body_format post.parsed_title
@@ -119,3 +109,5 @@
           = render 'votings/voting', local_assigns.merge(in_post: true)
       - elsif post.survey.present?
         = render 'surveys/card', local_assigns
+      - elsif post.wiki.present?
+        = render 'wikis/line', local_assigns

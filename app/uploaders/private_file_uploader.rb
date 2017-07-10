@@ -149,7 +149,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
 
   before :cache, :save_original_filename
   def save_original_filename(file)
-    model.name ||= file.original_filename.unicode_normalize if file.respond_to?(:original_filename)
+    model.name ||= file.original_filename.unicode_normalize if file.respond_to?(:original_filename) and model.respond_to?(:name)
   end
 
   protected

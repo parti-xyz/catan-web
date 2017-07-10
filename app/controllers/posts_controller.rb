@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show, :poll_social_card, :survey_social_card, :modal]
+  before_filter :authenticate_user!, except: [:index, :show, :wiki, :poll_social_card, :survey_social_card, :modal]
   load_and_authorize_resource
 
   def index
@@ -13,7 +13,13 @@ class PostsController < ApplicationController
     unless service.call
       errors_to_flash(@post)
     end
-    redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)
+
+    if @post.wiki.present? and @post.errors.blank?
+      flash[:success] = I18n.t('activerecord.successful.messages.created')
+      redirect_to wiki_post_path(@post)
+    else
+      redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)
+    end
   end
 
   def update
@@ -26,10 +32,48 @@ class PostsController < ApplicationController
     if @post.save
       crawling_after_updating_post
       @post.perform_mentions_async
+      flash[:success] = I18n.t('activerecord.successful.messages.created')
       redirect_to params[:back_url].presence || @post
     else
       errors_to_flash @post
       render 'edit'
+    end
+  end
+
+  def new_wiki
+    if params[:issue_id].present?
+      @issue = Issue.find_by id: params[:issue_id]
+      render_404 and return if @issue.blank? or @issue.private_blocked?(current_user)
+    end
+
+    @post = Post.new
+    @post.wiki = Wiki.new
+    @post.issue = @issue
+  end
+
+  def wiki
+    render_404 and return if @post.wiki.blank?
+  end
+
+  def update_wiki
+    redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
+    render_404 and return if @post.wiki.blank?
+
+    @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
+    if @post.wiki.changed?
+      @post.strok_by(current_user)
+      @post.wiki.last_author = @current_user
+      if @post.save
+        @post.issue.strok_by!(current_user, @post)
+        flash[:success] = I18n.t('activerecord.successful.messages.created')
+        redirect_to params[:back_url].presence || wiki_post_path(@post)
+      else
+        errors_to_flash @post
+        render wiki_post_path(@post)
+      end
+    else
+      flash[:success] = I18n.t('activerecord.successful.messages.created')
+      redirect_to params[:back_url].presence || wiki_post_path(@post)
     end
   end
 
@@ -111,7 +155,10 @@ class PostsController < ApplicationController
   end
 
   def more_comments
+  end
 
+  def edit
+    redirect_to wiki_post_path(@post) and return if @post.wiki.present?
   end
 
   private
@@ -162,9 +209,23 @@ class PostsController < ApplicationController
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
     survey_attributes = [:duration_days, :multiple_select, options_attributes: options_attributes] if survey.present?
 
+    wiki = params[:post][:wiki_attributes]
+    wiki_attributes = [:id, :title, :body, :is_html_body] if wiki.present?
+
     params.require(:post)
       .permit(:body, :issue_id, :has_poll, :has_survey, :is_html_body,
-        file_sources_attributes: file_sources_attributes, poll_attributes: poll_attributes, survey_attributes: survey_attributes)
+        file_sources_attributes: file_sources_attributes,
+        poll_attributes: poll_attributes, survey_attributes: survey_attributes,
+        wiki_attributes: wiki_attributes)
+  end
+
+  def wiki_post_params
+    wiki = params[:post][:wiki_attributes]
+    wiki_attributes = [:id, :title, :body, :is_html_body] if wiki.present?
+
+    params.require(:post)
+      .permit(:has_poll, :has_survey,
+        wiki_attributes: wiki_attributes)
   end
 
   def set_current_user_to_options(post)

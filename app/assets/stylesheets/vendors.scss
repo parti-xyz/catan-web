@@ -9,6 +9,7 @@
 @import "simplemde";
 @import "bootstrap-select";
 @import "lightbox";
+@import "bootstrap-5-columns";
 
 .redactor-air {
   min-width: auto;
@@ -26,6 +27,10 @@
     top: 0;
     left: 0;
   }
+}
+.redactor-wrapper--toolbar .redactor-styles {
+  padding: 12px;
+  border: 1px solid #efefef;
 }
 
 .tooltip-wrapper--no-wrap .tooltip-inner {
@@ -98,5 +103,35 @@ body {
     display: inline-block!important;
     width: 100%;
     line-height: 1.2em;
+  }
+}
+
+.tooltip {
+  white-space: nowrap;
+}
+
+.diff {
+  background-color: $gray-more-lightest;
+  border-radius: 4px;
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 0;
+    li {
+      padding: 12px;
+    }
+    li.ins {
+      background-color: rgba(89, 186, 163, 0.1);
+      ins {
+        text-decoration: none;
+      }
+    }
+    li.del {
+      color: $gray;
+      background-color: rgba(240, 100, 109, 0.1);
+    }
+    li.unchanged {
+      display: none;
+    }
   }
 }

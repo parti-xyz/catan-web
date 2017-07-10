@@ -134,7 +134,7 @@ module ApplicationHelper
     !browser.device.mobile? and !browser.device.tablet?
   end
 
-  def is_redactorable?
+  def is_air_redactorable?
     !browser.device.mobile? and !browser.device.tablet?
   end
 

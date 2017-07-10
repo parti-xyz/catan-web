@@ -83,6 +83,7 @@ class User < ActiveRecord::Base
   has_many :group, dependent: :nullify
   has_many :destroyed_issues, dependent: :nullify, foreign_key: :destroyer_id, class_name: Issue
   has_many :summary_emails, dependent: :destroy
+  has_many :last_touched_wiki, dependent: :nullify, class_name: Wiki, foreign_key: :last_author_id
 
   ## uploaders
   # mount

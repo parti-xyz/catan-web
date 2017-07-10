@@ -9,7 +9,7 @@ class Redactor2RailsImageUploader < CarrierWave::Uploader::Base
 
   # Choose what kind of storage to use for this uploader:
   # storage :fog
-  if Rails.env.production? or Rails.env.staging?
+  if Rails.env.production?
     storage :fog
   else
     storage :file

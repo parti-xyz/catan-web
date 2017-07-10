@@ -6,7 +6,7 @@
       %h4.posts-header__title
         자료
         %small 모든 빠띠의 자료입니다.
-      .posts-sort-select
+      .posts-filter-select
         = render 'posts/sort_select'
     .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
       - if @posts.empty?

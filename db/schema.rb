@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170710104152) do
+ActiveRecord::Schema.define(version: 20170711051230) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -419,6 +419,7 @@ ActiveRecord::Schema.define(version: 20170710104152) do
     t.integer  "last_stroked_user_id",      limit: 4
     t.integer  "file_sources_count",        limit: 4,     default: 0
     t.string   "last_stroked_for",          limit: 255
+    t.integer  "wiki_id",                   limit: 4
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
@@ -429,6 +430,7 @@ ActiveRecord::Schema.define(version: 20170710104152) do
   add_index "posts", ["postable_type", "postable_id"], name: "index_posts_on_postable_type_and_postable_id", using: :btree
   add_index "posts", ["survey_id"], name: "index_posts_on_survey_id", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
+  add_index "posts", ["wiki_id"], name: "index_posts_on_wiki_id", using: :btree
 
   create_table "proposals", force: :cascade do |t|
     t.integer  "discussion_id", limit: 4,        null: false
@@ -682,9 +684,11 @@ ActiveRecord::Schema.define(version: 20170710104152) do
   add_index "watches", ["user_id"], name: "index_watches_on_user_id", using: :btree
 
   create_table "wiki_histories", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4,     null: false
-    t.integer  "wiki_id",    limit: 4,     null: false
-    t.text     "body",       limit: 65535
+    t.string   "title",      limit: 255,      null: false
+    t.integer  "wiki_id",    limit: 4,        null: false
+    t.integer  "user_id",    limit: 4,        null: false
+    t.text     "body",       limit: 16777215
+    t.string   "code",       limit: 255,      null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -693,13 +697,19 @@ ActiveRecord::Schema.define(version: 20170710104152) do
   add_index "wiki_histories", ["wiki_id"], name: "index_wiki_histories_on_wiki_id", using: :btree
 
   create_table "wikis", force: :cascade do |t|
-    t.integer  "issue_id",   limit: 4
-    t.text     "body",       limit: 65535
+    t.string   "title",          limit: 255,                         null: false
+    t.text     "body",           limit: 16777215
+    t.string   "thumbnail",      limit: 255
+    t.datetime "deleted_at"
+    t.integer  "last_author_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status",         limit: 255,      default: "active", null: false
+    t.integer  "image_width",    limit: 4,        default: 0
+    t.integer  "image_height",   limit: 4,        default: 0
   end
 
-  add_index "wikis", ["issue_id"], name: "index_wikis_on_issue_id", using: :btree
+  add_index "wikis", ["last_author_id"], name: "index_wikis_on_last_author_id", using: :btree
 
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"

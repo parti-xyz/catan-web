@@ -117,6 +117,17 @@ Rails.application.routes.draw do
       get 'readers'
       get 'unreaders'
       get 'more_comments'
+      get 'wiki'
+      patch 'wiki', to: 'posts#update_wiki'
+      namespace :wiki, module: nil, controller: "wikis" do
+        patch 'purge'
+        patch 'activate'
+        patch 'inactivate'
+        get 'histories'
+      end
+    end
+    collection do
+      get 'new_wiki'
     end
   end
   post 'feedbacks', to: 'feedbacks#create'
@@ -173,6 +184,7 @@ Rails.application.routes.draw do
 
   get '/p/:slug', to: "issues#slug_home", as: 'slug_issue'
   get '/p/:slug/references', to: "issues#slug_links_or_files", as: 'slug_issue_links_or_files'
+  get '/p/:slug/wikis', to: "issues#slug_wikis", as: 'slug_issue_wikis'
   get '/p/:slug/polls', to: redirect('/p/%{slug}/polls_or_surveys')
   get '/p/:slug/polls_or_surveys', to: "issues#slug_polls_or_surveys", as: 'slug_issue_polls_or_surveys'
   get '/p/:slug/members', to: "issues#slug_members", as: 'slug_issue_users'

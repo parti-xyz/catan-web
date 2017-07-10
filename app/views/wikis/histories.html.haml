@@ -1,0 +1,13 @@
+%section#wiki-histories
+  .container.container-xs-no-padding
+    .wiki-history-page
+      .row
+        .col-xs-12.col-sm-6
+          = render 'posts/wiki_issue_line', issue: @post.issue
+      %h4.wiki-title
+        = link_to @post.wiki.title, wiki_post_path(@post)
+        이력
+      .history-list
+        = render @history_page
+      = paginate @history_page, theme: 'catan'
+

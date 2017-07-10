@@ -202,6 +202,7 @@ ko:
     new_post_file_source_button: "사진\xB7파일 업로드"
     new_post_poll_button: 찬반투표
     new_post_survey_button: 설문
+    new_post_wiki_button: 위키
     edit_wiki_button: 편집
     show_history_button: 역사
     polls_or_surveys: 투표
@@ -234,11 +235,18 @@ ko:
         agree: 찬성
         disagree: 반대
         unsure: 유보
+    wiki:
+      status:
+        active:
+        inactive: 아카이브
+        purge: 삭제
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지를 내렸습니다.
     started_issue_destroying: '빠띠 삭제가 시작되었습니다. 잠시 후에 완료됩니다.'
     indie_form_select_title: '그룹에 속하지 않는 일반 빠띠'
+    user:
+      anoymous: 어느 회원
     group:
       welcome: '그룹에 가입되었습니다'
     issue:
@@ -263,5 +271,14 @@ ko:
         voting: "%{user}님이 투표했습니다."
         feedback: "%{user}님이 투표했습니다."
         option: "%{user}님이 새 제안을 올렸습니다."
+    wiki:
+      history:
+        create: "%{user}님이 게시했습니다."
+        activate: "%{user}님이 다시 게시했습니다."
+        inactivate: "%{user}님이 아카이브했습니다."
+        purge: "%{user}님이 지웠습니다."
+        update_title: "%{user}님이 제목을 고쳤습니다."
+        update_body: "%{user}님이 내용을 고쳤습니다."
+        update_title_and_body: "%{user}님이 제목과 내용을 고쳤습니다."
   unauthorized:
     default: "권한이 없습니다."

@@ -33,43 +33,44 @@
 
     - else
       .post-card__post
-        = render 'posts/last_stroked_for', post: post
+        - if !post.wiki.present?
+          = render 'posts/last_stroked_for', post: post
 
-        - chevron_dropdown = capture do
-          - if can? :update, post
-            %li
-              = link_to [:edit, post] do
-                수정
-          - if can? :destroy, post
-            %li
-              = link_to post_path(post, mode: local_assigns[:mode]), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
-                삭제
-          - if can? :pin, post
-            %li
-              = render 'posts/pin_buttons', post: post
-            - if post.pinned?
+          - chevron_dropdown = capture do
+            - if can?:update, post
               %li
-                = link_to [:readers, post], target: '_blank' do
-                  확인한 가입멤버 보기 (#{post.readers_count})
+                = link_to [:edit, post] do
+                  수정
+            - if can? :destroy, post
               %li
-                = link_to [:unreaders, post], target: '_blank' do
-                  확인하지 않은 가입멤버 보기
-          - additional_buttons = capture do
-            - if local_assigns[:additional_buttons_partial].present?
-              = render additional_buttons_partial, local_assigns
-          - if additional_buttons.try(:strip).present?
-            %li= additional_buttons
-        - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
-        - if chevron_dropdown.try(:strip).present?
-          .post-card__buttons
-            %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-              %i.fa.fa-chevron-down
-            %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-              = chevron_dropdown
-        .post-info
-          = render 'users/post_byline', post: post
+                = link_to post_path(post, mode: local_assigns[:mode]), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
+                  삭제
+            - if can? :pin, post
+              %li
+                = render 'posts/pin_buttons', post: post
+              - if post.pinned?
+                %li
+                  = link_to [:readers, post], target: '_blank' do
+                    확인한 가입멤버 보기 (#{post.readers_count})
+                %li
+                  = link_to [:unreaders, post], target: '_blank' do
+                    확인하지 않은 가입멤버 보기
+            - additional_buttons = capture do
+              - if local_assigns[:additional_buttons_partial].present?
+                = render additional_buttons_partial, local_assigns
+            - if additional_buttons.try(:strip).present?
+              %li= additional_buttons
+          - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
+          - if chevron_dropdown.try(:strip).present?
+            .post-card__buttons
+              %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                %i.fa.fa-chevron-down
+              %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+                = chevron_dropdown
+          .post-info
+            = render 'users/post_byline', post: post
 
-        = render 'posts/post_line', local_assigns.merge(show_issue: false)
+        = render 'posts/post_line', local_assigns
 
 
       - share_partial = capture do

@@ -20,24 +20,7 @@
                 .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
 
           .unified-editor.unified-editor--hidden{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
-            - selected_parti = nil
-            .parti-select
-              %select.parti-editor-selectpicker(data-live-search="true" data-width="100%" title="이야기 나눌 빠띠를 골라 주세요")
-                - Group.all.each do |group|
-                  - issues = sort_issues_by_title(current_user.member_issues.alive.only_group(group))
-                  - if issues.any?
-                    %optgroup{label: group.aside_title}
-                      - issues.each do |issue|
-                        - selected_parti = issue if selected_parti.blank?
-                        - issue_content = capture do
-                          .parti-option
-                            .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-                            %span.issue-line__title
-                              = issue.title
-                              = security_icon(issue)
-                        %option{value: issue.id, 'data-content': issue_content}
-                          = issue.title
-                          = security_icon(issue)
+            = render 'posts/issue_selector'
 
             - unless current_user.need_to_more_member?(current_group)
               = render 'posts/new_form', issue: nil

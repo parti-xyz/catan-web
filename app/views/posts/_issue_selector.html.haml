@@ -1,0 +1,18 @@
+- selected_parti = nil
+.parti-select
+  %select.parti-editor-selectpicker.collapse(data-live-search="true" data-width="100%" title="게시할 빠띠를 골라 주세요")
+    - Group.all.each do |group|
+      - issues = sort_issues_by_title(current_user.member_issues.alive.only_group(group))
+      - if issues.any?
+        %optgroup{label: group.aside_title}
+          - issues.each do |issue|
+            - selected_parti = issue if selected_parti.blank?
+            - issue_content = capture do
+              .parti-option
+                .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+                %span.issue-line__title
+                  = issue.title
+                  = security_icon(issue)
+            %option{value: issue.id, 'data-content': issue_content}
+              = issue.title
+              = security_icon(issue)

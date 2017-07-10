@@ -128,12 +128,14 @@ class Post < ActiveRecord::Base
   belongs_to :poll
   belongs_to :survey
   belongs_to :link_source
+  belongs_to :wiki
   has_many :file_sources, dependent: :destroy
   has_many :messages, as: :messagable, dependent: :destroy
 
   belongs_to :postable, polymorphic: true
   belongs_to :last_stroked_user, class_name: User
   accepts_nested_attributes_for :link_source
+  accepts_nested_attributes_for :wiki
   accepts_nested_attributes_for :file_sources, allow_destroy: true, reject_if: proc { |attributes|
     attributes['attachment'].blank? and attributes['attachment_cache'].blank? and attributes['id'].blank?
   }
@@ -185,6 +187,11 @@ class Post < ActiveRecord::Base
   scope :displayable_in_current_group, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
 
   scope :having_link_of_file, -> { any_of(where.not(link_source: nil), where('file_sources_count > 0')) }
+  scope :having_wiki, ->(status = nil) {
+    condition = where.not(wiki: nil)
+    condition = condition.joins('LEFT OUTER JOIN wikis on wikis.id = posts.wiki_id').where('wikis.status': status) if status.present?
+    condition
+  }
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :having_survey, -> { where.not(survey_id: nil) }
   scope :of_issue, ->(issue) { where(issue_id: issue) }
@@ -200,7 +207,11 @@ class Post < ActiveRecord::Base
   attr_accessor :is_html_body
 
   def specific_desc
-    self.parsed_title || self.body || (ERB::Util.h(self.poll.try(:title)).presence) || (ERB::Util.h(self.file_sources.first.try(:name)).presence if self.file_sources.any?) || (ERB::Util.h(self.link_source.try(:title)).presence if self.link_source.present?)
+    self.parsed_title || self.body ||
+      (ERB::Util.h(self.poll.try(:title)).presence) ||
+      (ERB::Util.h(self.file_sources.first.try(:name)).presence if self.file_sources.any?) ||
+      (ERB::Util.h(self.link_source.try(:title)).presence if self.link_source.present?) ||
+      (ERB::Util.h(self.wiki.try(:specific_desc)).presence if self.wiki.present?)
   end
 
   def specific_desc_striped_tags(length = 0)

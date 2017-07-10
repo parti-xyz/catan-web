@@ -138,7 +138,7 @@ class ApplicationController < ActionController::Base
   end
 
   def errors_to_flash(model)
-    flash[:notice] = model.errors.full_messages.join('<br>').html_safe
+    flash[:notice] = model.errors.full_messages.join('<br>').html_safe if model.errors.any?
   end
 
   def set_device_type
@@ -160,6 +160,20 @@ class ApplicationController < ActionController::Base
 
   def having_poll_and_survey_posts_page(issue = nil)
     base = Post.having_poll.or(Post.having_survey)
+    base = issue.nil? ? base.displayable_in_current_group(current_group) : base.of_issue(issue)
+    @is_last_page = base.empty?
+
+    how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
+    previous_last = Post.with_deleted.find_by(id: params[:last_id])
+
+    @posts = base.send(how_to, previous_last).limit(20)
+
+    current_last = @posts.last
+    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
+  end
+
+  def having_wikis_posts_page(issue = nil, status = nil)
+    base = Post.having_wiki(status)
     base = issue.nil? ? base.displayable_in_current_group(current_group) : base.of_issue(issue)
     @is_last_page = base.empty?
 

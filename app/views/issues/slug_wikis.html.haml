@@ -2,19 +2,24 @@
 
 %section#wikis
   .container
-    = render 'wikis/wiki_header', issue: @issue
-    .body
-      .histories
-        -unless @issue.wiki.wiki_histories.blank?
-          마지막으로 #{@issue.wiki.last_history.user.nickname}님이 #{date_f @issue.wiki.last_history.created_at}에 수정했습니다.
-          = link_to wiki_wiki_histories_path(@issue.wiki) do
-            %i.fa.fa-history
-            모든 버전 보기
-      .wiki_content
-        -if @issue.wiki.body.blank?
-          %p#no-content
-            %i.fa.fa-smile-o
-              작성된 내용이 없습니다.
-        -else
-          = raw render_markdown_to_html(@issue.wiki.body)
-
+    - unless @issue.exists_wiki?
+      .bg-default.text-center
+        %i.fa.fa-info-circle
+        가장 먼저 위키를 올려보세요.
+    - else
+      .posts-header
+        .posts-filter-select
+          %ul.list-inline
+            %li= link_to "게시 중인 위키 (#{@issue.active_wiki_count})", {status: 'active'}, class: ('active' if params['status'] == 'active' or params['status'].nil?)
+            %li= link_to "아카이브된 위키 (#{@issue.inactive_wiki_count})", {status: 'inactive'}, class: ('active' if params['status'] == 'inactive')
+      - if @posts.any?
+        .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
+          .grid-sizer.col-sm-4.col-xs-6
+          = render 'wikis/page'
+        .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': smart_issue_wikis_path(@issue, format: :js)}
+          .page_waypoint__loading
+            %i.fa.fa-3x.fa-spinner.fa-pulse
+      - else
+        .bg-default.text-center
+          %i.fa.fa-info-circle
+          위키가 없습니다.

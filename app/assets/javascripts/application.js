@@ -604,6 +604,10 @@ $(function(){
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
 
+  $('.js-post-wiki-btn').on('click', function(e) {
+    Focusable.hide();
+    return true;
+  });
   (function() {
     if($('#js-form-group-images').length > 0) {
       Sortable.create($('#js-form-group-images')[0]);
@@ -735,7 +739,9 @@ $(function(){
     $input_elm.val(select_value);
     $input_elm.trigger('parti-need-to-validate');
   });
-
+  $('.parti-editor-selectpicker').on('loaded.bs.select', function(e) {
+    $(this).show();
+  });
 
   $(document).ajaxError(function (e, xhr, settings) {
     if(xhr.status == 500) {
@@ -822,16 +828,23 @@ $(function(){
   })();
 
   // Initialize Redactor
-  $('.redactor').redactor({
-    buttons: ['bold', 'italic', 'deleted'],
-    air: true,
-    pasteLinks: false,
-    linkSize: 10000,
-    callbacks: {
-      imageUploadError: function(json, xhr) {
-        UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
+  //
+  $('.redactor').each(function(index,elm){
+    var is_air = !$(elm).hasClass('js-redactor-toolbar')
+    $(elm).redactor({
+      buttons: ['bold', 'italic', 'deleted'],
+      air: is_air,
+      pasteLinks: false,
+      linkSize: 10000,
+      callbacks: {
+        imageUploadError: function(json, xhr) {
+          UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
+        },
+        init: function(argument) {
+          $(this).show();
+        }
       }
-    }
+    });
   });
   $('.redactor').on('change.callback.redactor', function() {
     $(document).trigger('parti-post-editor-spotlight');

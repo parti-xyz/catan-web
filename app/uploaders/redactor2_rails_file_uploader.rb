@@ -3,7 +3,7 @@ class Redactor2RailsFileUploader < CarrierWave::Uploader::Base
   include Redactor2Rails::Backend::CarrierWave
 
   # storage :fog
-  if Rails.env.production? or Rails.env.staging?
+  if Rails.env.production?
     storage :fog
   else
     storage :file

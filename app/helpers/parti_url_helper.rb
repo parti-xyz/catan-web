@@ -21,8 +21,8 @@ module PartiUrlHelper
     slug_issue_polls_or_surveys_path(options.merge(slug: issue.slug))
   end
 
-  def smart_issue_wikis_path(issue)
-    slug_issue_wikis_path(slug: issue.slug)
+  def smart_issue_wikis_path(issue, options = {})
+    slug_issue_wikis_path(options.merge(slug: issue.slug))
   end
 
   def smart_issue_members_path(issue, options = {})

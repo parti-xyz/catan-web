@@ -1,0 +1,20 @@
+%section#post-form.wiki-form
+  .container
+    = form_for @post, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form form input[type=submit]' } } do |f|
+      - controls = capture do
+        = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (@issue.id if @issue.present?)
+        = f.submit '게시', class: 'btn btn-primary btn-ghost', data: { disable_with: "게시 중..." }
+      .row
+        .col-xs-12.col-sm-6
+          - if @post.issue.present?
+            .wiki-issue
+              = render 'posts/wiki_issue_line', issue: @post.issue
+          - else
+            = render 'posts/issue_selector'
+        .hidden-xs
+          .col-xs-12.col-sm-6
+            .submit-box.pull-right
+              = controls
+      =  render 'posts/wiki_form', f: f
+      .visible-xs-block.hidden-sm{ style: 'margin-top: 12px' }
+        = controls
