@@ -47,7 +47,7 @@ namespace :user do
   end
 
   desc "회원의 이메일을 변경합니다."
-  task :change_eamil, [:nickname, :new_email] => :environment do |task, args|
+  task :change_email, [:nickname, :new_email] => :environment do |task, args|
     ActiveRecord::Base.transaction do
       user = User.find_by(nickname: args.nickname)
       if user.blank?
@@ -67,6 +67,44 @@ namespace :user do
       end
 
       puts user.reload.inspect
+    end
+  end
+
+  desc "계정을 통합합니다"
+  task :merge, [:from_nickname, :to_nickname] => :environment do |task, args|
+    ActiveRecord::Base.transaction do
+      from_user = User.find_by(nickname: args.from_nickname)
+      to_user = User.find_by(nickname: args.to_nickname)
+
+      if from_user.blank?
+        puts '해당되는 From 회원이 없습니다.'
+        next
+      end
+
+      if to_user.blank?
+        puts '해당되는 to 회원이 없습니다.'
+        next
+      end
+
+      Post.where(user: from_user).update_all(user_id: to_user)
+      Comment.where(user: from_user).update_all(user_id: to_user)
+
+      Voting.where(user: from_user).where(poll_id: Voting.select(:poll_id).where(user: to_user)).destroy_all
+      Voting.where(user: from_user).update_all(user_id: to_user)
+
+      %w(Post Comment).each do |upvotable_type|
+        Upvote.where(user: from_user).where(upvotable_type: upvotable_type)
+          .where(upvotable_id: Upvote.where(user: to_user)
+          .where(upvotable_type: upvotable_type)
+          .select(:upvotable_id)).destroy_all
+      end
+      Upvote.where(user: from_user).update_all(user_id: to_user)
+
+      reset_counter Post.where(user: to_user).map(&:id), Post, :comments
+      reset_counter Post.where(user: to_user).map(&:id), Post, :upvotes
+      reset_counter Comment.where(user: to_user).map(&:id), Comment, :upvotes
+      reset_counter Voting.where(user: to_user).map(&:poll_id), Poll, :votings
+
     end
   end
 end
