@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170701040000) do
+ActiveRecord::Schema.define(version: 20170710104152) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -109,6 +109,8 @@ ActiveRecord::Schema.define(version: 20170701040000) do
     t.integer  "post_id",               limit: 4
     t.integer  "seq_no",                limit: 4,   default: 0, null: false
     t.string   "attachment",            limit: 255,             null: false
+    t.integer  "image_width",           limit: 4,   default: 0
+    t.integer  "image_height",          limit: 4,   default: 0
   end
 
   add_index "file_sources", ["post_id"], name: "index_file_sources_on_post_id", using: :btree

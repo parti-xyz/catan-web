@@ -2,7 +2,7 @@ class FileSource < ActiveRecord::Base
   include Grape::Entity::DSL
   entity do
     include ActionView::Helpers::NumberHelper
-    expose :id, :attachment_url, :name, :file_type, :file_size
+    expose :id, :attachment_url, :name, :file_type, :file_size, :image_ratio
     expose :attachment_sm_url do |instance|
       instance.sm_url
     end
@@ -70,6 +70,11 @@ class FileSource < ActiveRecord::Base
     self.name.gsub(/\\+/, "%20")
   end
 
+  def image_ratio
+    return 0.8 if image_width == 0 or image_height == 0
+    image_width / image_height.to_f
+  end
+
   def self.require_attrbutes
     [:id, :seq_no, :attachment, :attachemnt_cache, :_destroy]
   end
@@ -82,6 +87,4 @@ class FileSource < ActiveRecord::Base
       self.file_size = attachment.file.size
     end
   end
-
-
 end

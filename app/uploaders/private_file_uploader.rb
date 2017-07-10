@@ -134,7 +134,18 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
     end
   end
 
+  def store_dimensions
+    if image?(self.file)
+      if file && model
+        width, height = ::MiniMagick::Image.open(file.file)[:dimensions]
+        model.image_width = width if model.respond_to?(:image_width)
+        model.image_height = height if model.respond_to?(:image_height)
+      end
+    end
+  end
+
   process :fix_exif_rotation
+  process :store_dimensions
 
   before :cache, :save_original_filename
   def save_original_filename(file)
