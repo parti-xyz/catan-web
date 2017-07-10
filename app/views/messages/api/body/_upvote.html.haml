@@ -1,5 +1,9 @@
 - upvote = message.messagable
 - if upvote.upvotable.is_a? Comment
-  = excerpt(upvote.upvotable.body, length: 200)
+  - comment = upvote.upvotable
+  != comment_format(comment.body, length: 300)
+- elsif upvote.upvotable.is_a? Post
+  - post = upvote.upvotable
+  != smart_truncate_html(post_body_format(post.specific_desc), length: 300, ellipsis: '...')
 - else
   = upvote.upvotable.specific_desc_striped_tags(200)
