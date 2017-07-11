@@ -82,7 +82,7 @@ namespace :data do
         site_description: "<전국청년정책네트워크>는 이행기 청년의 불평등 문제를 지역 간 협력과 제도 개선을 통해 해결하는 자발적 시민 네트워크입니다.",
         private: false)
 
-      seed_group(user, 'eduhope', ['갱'],
+      seed_group(user, 'eduhope', ['옹달샘'],
         title: '전교조',
         site_title: '교육과 세상을 바꾸는 전교조',
         head_title: '전교조',
