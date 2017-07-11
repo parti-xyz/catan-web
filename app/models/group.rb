@@ -154,4 +154,12 @@ class Group < ActiveRecord::Base
       "https://parti-xyz.gitbooks.io/issue-guide/content/"
     end
   end
+
+  def members_with_deleted
+    Member.with_deleted.where(joinable: self)
+  end
+
+  def member_requests_with_deleted
+    MemberRequest.with_deleted.where(joinable: self)
+  end
 end

@@ -97,10 +97,9 @@ namespace :data do
         private: false)
 
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
-      Group.find_by(slug: 'duckup').try(:destroy!)
-      Group.find_by(slug: 'zakdang').try(:destroy!)
-      Group.find_by(slug: 'westay1').try(:destroy!)
-
+      GroupDestroyService.new('duckup').call
+      GroupDestroyService.new('zakdang').call
+      GroupDestroyService.new('westay1').call
     end
   end
 
