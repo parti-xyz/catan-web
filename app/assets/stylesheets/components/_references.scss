@@ -56,7 +56,7 @@ section#references {
       border-radius: $border-radius-base;
       width: 30px;
       height: 30px;
-      box-shadow: 0 1px 15px rgba(0, 0, 0, 3);
+      box-shadow: 0 1px 5px $gray;
       display: inline-block;
     }
     .reference-card__group {
