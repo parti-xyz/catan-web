@@ -15,6 +15,14 @@
   min-width: auto;
 }
 
+#redactor-modal-overlay, #redactor-modal-box {
+  z-index: 10001;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+#redactor-modal {
+  z-index: 10001;
+}
 .redactor-styles {
   font-size: 14px;
   border: none;

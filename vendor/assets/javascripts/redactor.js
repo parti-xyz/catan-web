@@ -7999,13 +7999,35 @@
 						// var regexp = new RegExp('(' + href.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&") + regexB + ')', 'g');
 
 						// target
-						var target = '';
-						if (this.opts.pasteLinkTarget !== false)
-                        {
-    					    target = ' target="' + this.opts.pasteLinkTarget + '"';
-                        }
+						// var target = '';
+						// if (this.opts.pasteLinkTarget !== false)
+      // 			{
+    		// 				target = ' target="' + this.opts.pasteLinkTarget + '"';
+      // 			}
 
-						html = html.replace(regexp, '<a href="' + linkProtocol + $.trim(href) + '"' + target + ' class="redactor-linkify-object">' + $.trim(text) + '</a>');
+						// html = html.replace(regexp, '<a href="' + linkProtocol + $.trim(href) + '"' + target + ' class="redactor-linkify-object">' + $.trim(text) + '</a>');
+
+						var regexB1 = "(^\|[ \n\r\t.,'\"\+!?]+)";
+						var regexB2 = "([ \n\r\t.,'\"\+!?-]+\|$)";
+
+						var isSimple = $.inArray(href.slice(-1), ["/", "&", "="]) !== -1
+						if (isSimple)
+						{
+							regexB1 = "";
+							regexB2 = "";
+						}
+
+						// escaping url
+						var regexp = new RegExp(regexB1 + '(' + href.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&") + ')' + regexB2, 'g');
+
+						var howTo = null;
+						if (isSimple) {
+							howTo = '<a href="' + linkProtocol + $.trim(href) + '" class="redactor-linkify-object">' + $.trim(text) + '</a>';
+						} else {
+							howTo = '$1<a href="' + linkProtocol + $.trim(href) + '" class="redactor-linkify-object">' + $.trim(text) + '</a>&nbsp;$3';
+						}
+						html = html.replace(/\u00A0/g, " ").replace(/\u200B/g,' ').replace(regexp, howTo);
+
 					}
 
 					return html;

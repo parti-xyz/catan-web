@@ -10,6 +10,7 @@
 
         .form-group.textarea-box
           = f.text_area :body, placeholder: '내용 ...', class: "form-control #{'redactor validate' if  is_air_redactorable?} validation-ignore", data: { 'rule-required': true }
+          = f.hidden_field :is_html_body, value: is_air_redactorable? ? true : false
 
           - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
 

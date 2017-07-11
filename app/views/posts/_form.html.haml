@@ -5,7 +5,9 @@
 
     .form-group.redactor-box-style-wrapper
       = f.label :body
-      = f.text_area :body, class: "form-control validate redactor", data: {ride: 'parti-autoresize'}
+      %div{ class: ("redactor-wrapper--toolbar" unless is_air_redactorable?) }
+        = f.text_area :body, class: "form-control redactor validate #{'js-redactor-toolbar' unless is_air_redactorable?}", data: {ride: 'parti-autoresize'}
+      = f.hidden_field :is_html_body, value: true
 
     - if @post.file_sources.any?
       .form-widget-references
