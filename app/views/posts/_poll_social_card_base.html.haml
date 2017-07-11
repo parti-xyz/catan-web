@@ -12,5 +12,3 @@
           #{@post.issue.title}
           %br
           @#{@post.user.nickname}
-        .title{ class: (@post.poll.title.length < 31 ? (@post.poll.title.length < 17 ? 'short' : 'medium') : 'long') }
-          = truncate(@post.poll.title, length: 50)

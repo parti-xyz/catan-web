@@ -12,6 +12,3 @@
           #{@post.issue.title}
           %br
           @#{@post.user.nickname}
-        - desc = @post.specific_desc_striped_tags(50)
-        .title{ class: (desc.length < 31 ? (desc.length < 17 ? 'short' : 'medium') : 'long') }
-          = desc
