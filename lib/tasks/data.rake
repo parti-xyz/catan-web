@@ -41,13 +41,6 @@ namespace :data do
         head_title: '슬로워크',
         private: true)
 
-      seed_group(user, 'westay1', [],
-        title: '함께살아보장',
-        site_title: '함께살아보장 - 별내 위스테이 공동체 사회적협동조합',
-        head_title: '함께살아보장',
-        site_description: '별내지구에 조성될 위스테이 아파트 입주자(조합원)의 온라인 커뮤니케이션 채널입니다. 사회적협동조합의 정관과 사업계획에서 다양한 공동체 소모임까지 조합원들과 함께 만들어 갑니다.',
-        private: true)
-
       seed_group(user, 'wouldyou', [],
         title: '우주당',
         site_title: '우리가 주인이당 - 우주당',
@@ -106,6 +99,7 @@ namespace :data do
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       Group.find_by(slug: 'duckup').try(:destroy!)
       Group.find_by(slug: 'zakdang').try(:destroy!)
+      Group.find_by(slug: 'westay1').try(:destroy!)
 
     end
   end
