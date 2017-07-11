@@ -15,10 +15,10 @@ class Ability
 
       can [:update, :destroy], [Post], user_id: user.id
       can [:create, :new_wiki, :update_wiki], [Post] do |post|
-        !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+        !post.issue.blind_user?(user) and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
       end
       can [:update, :activate, :inactivate, :purge, :histories], Wiki do |wiki|
-        !wiki.post.issue.try(:private_blocked?, user) && wiki.post.issue.try(:postable?, user)
+        !wiki.try(:post).issue.blind_user?(user) and !wiki.try(:post).issue.try(:private_blocked?, user) && wiki.try(:post).issue.try(:postable?, user)
       end
       can [:pin, :unpin, :readers, :unreaders], Post do |post|
         user.is_organizer?(post.issue)

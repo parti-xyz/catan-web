@@ -1,4 +1,4 @@
-- unless comment.issue.blind_user? comment.user
+- unless comment.blinded? current_user
   - wrapper_id = "#{dom_id(comment)}-truncatable-body"
   %span.comment-truncatable-body{ id: wrapper_id }
     %span.truncated-body
