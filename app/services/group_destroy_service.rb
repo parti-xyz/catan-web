@@ -13,6 +13,7 @@ class GroupDestroyService
     ActiveRecord::Base.transaction do
       Message.where(messagable: @group.members_with_deleted).destroy_all
       Message.where(messagable: @group.member_requests_with_deleted).destroy_all
+      User.where(id: @group.members.select(:user_id)).update_all(member_issues_changed_at: DateTime.now)
       @group.destroy!
     end
   end

@@ -15,7 +15,9 @@ class IssueDestroyJob
       end
       Message.where(messagable: issue.members_with_deleted).destroy_all
       Message.where(messagable: issue.member_requests_with_deleted).destroy_all
-      issue.destroy
+
+      User.where(id: issue.members.select(:user_id)).update_all(member_issues_changed_at: DateTime.now)
+      issue.destroy!
 
       mailing_user_ids.each do |user_id|
         PartiMailer.on_destroy(organizer.id, user_id, issue_id, message).deliver_later
