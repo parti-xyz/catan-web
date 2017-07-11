@@ -246,7 +246,7 @@ ko:
     started_issue_destroying: '빠띠 삭제가 시작되었습니다. 잠시 후에 완료됩니다.'
     indie_form_select_title: '그룹에 속하지 않는 일반 빠띠'
     user:
-      anoymous: 어느 회원
+      anonymous: 어느 회원
     group:
       welcome: '그룹에 가입되었습니다'
     issue:
@@ -273,12 +273,12 @@ ko:
         option: "%{user}님이 새 제안을 올렸습니다."
     wiki:
       history:
-        create: "%{user}님이 게시했습니다."
-        activate: "%{user}님이 다시 게시했습니다."
-        inactivate: "%{user}님이 아카이브했습니다."
-        purge: "%{user}님이 지웠습니다."
-        update_title: "%{user}님이 제목을 고쳤습니다."
-        update_body: "%{user}님이 내용을 고쳤습니다."
-        update_title_and_body: "%{user}님이 제목과 내용을 고쳤습니다."
+        create: "%{user}님이 위키를 게시했습니다."
+        activate: "%{user}님이 위키를 다시 게시했습니다."
+        inactivate: "%{user}님이 위키를 아카이브했습니다."
+        purge: "%{user}님이 위키를 지웠습니다."
+        update_title: "%{user}님이 위키 제목을 고쳤습니다."
+        update_body: "%{user}님이 위키 내용을 고쳤습니다."
+        update_title_and_body: "%{user}님이 위키 제목과 내용을 고쳤습니다."
   unauthorized:
     default: "권한이 없습니다."

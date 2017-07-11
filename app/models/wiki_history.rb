@@ -12,7 +12,7 @@ class WikiHistory < ActiveRecord::Base
         "@#{user.nickname}"
       end
     else
-      I18n.t("views.user.anoymous")
+      I18n.t("views.user.anonymous")
     end
 
     I18n.t("views.wiki.history.#{code}", default: nil, user: user_text)

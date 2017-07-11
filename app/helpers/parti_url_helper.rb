@@ -49,6 +49,12 @@ module PartiUrlHelper
     polymorphic_url(post, options.merge(subdomain: post.issue.group.try(:subdomain)))
   end
 
+  def smart_wiki_url(wiki, options = {})
+    post = wiki.post
+    return root_url if wiki.post.blank?
+    wiki_post_url(post, options.merge(subdomain: post.issue.group.try(:subdomain)))
+  end
+
   def smart_members_or_member_requests_parti_path(issue, options = {})
     if issue.private?
       issue_member_requests_path(issue, options)

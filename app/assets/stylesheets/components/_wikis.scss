@@ -70,13 +70,15 @@ section#wiki-histories {
     color: $gray-dark;
     line-height: 1.4em;
     word-break: keep-all;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 12px;
+    padding-right: 12px;
     margin-bottom: 0;
     margin-top: 20px;
   }
   .wiki-body {
     min-height: 20px;
+    padding-left: 8px;
+    padding-right: 8px;
     img {
       width: 100%;
       background-repeat: repeat;

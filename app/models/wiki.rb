@@ -1,4 +1,34 @@
 class Wiki < ActiveRecord::Base
+  include Grape::Entity::DSL
+  entity do
+    include Rails.application.routes.url_helpers
+    include PartiUrlHelper
+    include ApiEntityHelper
+
+    expose :id, :title, :image_ratio
+    expose :thumbnail_md_url do |instance|
+      instance.thumbnail.md.url
+    end
+    expose :authors, using: User::Entity do |instance|
+      instance.authors.limit(5)
+    end
+    expose :latest_activity_body do |instance|
+      instance.latest_activity do |user|
+        if user.present?
+          "<a href='#{smart_user_gallery_url(user)}'>@#{user.nickname}</a>"
+        else
+          I18n.t("views.user.anonymous")
+        end
+      end
+    end
+    expose :latest_activity_at do |instance|
+      instance.last_history.try(:created_at)
+    end
+    expose :url do |instance|
+      smart_wiki_url(instance)
+    end
+  end
+
   acts_as_paranoid
 
   has_one :post, dependent: :nullify
@@ -73,11 +103,10 @@ class Wiki < ActiveRecord::Base
     wiki_histories.create(title: title, body: body, user: last_author, wiki: self, code: code)
   end
 
-  def latest_activity
-    last_history = wiki_histories.order(created_at: :desc).first
+  def latest_activity(&block)
     return if last_history.blank?
 
-    last_history.activity
+    last_history.activity(&block)
   end
 
   def latest_history
@@ -106,6 +135,11 @@ class Wiki < ActiveRecord::Base
 
   def specific_desc
     title
+  end
+
+  def image_ratio
+    return 0.8 if image_width == 0 or image_height == 0
+    image_width / image_height.to_f
   end
 end
 

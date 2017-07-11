@@ -33,7 +33,7 @@ class Post < ActiveRecord::Base
     end
     expose :latest_stroked_activity do |instance|
       instance.latest_stroked_activity do |user|
-        "<a href='#{smart_user_gallery_path(user)}'>@#{user.nickname}</a>"
+        "<a href='#{smart_user_gallery_url(user)}'>@#{user.nickname}</a>"
       end
     end
 
@@ -67,6 +67,9 @@ class Post < ActiveRecord::Base
       end
       expose :survey, using: Survey::Entity, if: lambda { |instance, options| instance.survey.present? } do |instance|
         instance.survey
+      end
+      expose :wiki, using: Wiki::Entity, if: lambda { |instance, options| instance.wiki.present? } do |instance|
+        instance.wiki
       end
       expose :latest_comments, using: Comment::Entity do |instance|
         instance.comments.recent.limit(5).reverse
