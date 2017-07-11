@@ -34,7 +34,7 @@ class MessageService
       if @action == :pinned
         users = @source.issue.member_users.where.not(id: @sender)
         send_messages(
-          sender: @source.user, users: users,
+          sender: @sender, users: users,
           messagable: @source, action: @action)
       else
         return if @source.issue.blind_user? @source.user
