@@ -87,7 +87,7 @@ namespace :data do
         site_title: '교육과 세상을 바꾸는 전교조',
         head_title: '전교조',
         site_description: "교육의 자주성, 전문성 확립과 교육민주화 실현을 위한 전국의 유치원, 초등학교, 중·고등학교 교사들의 자주적 노동조합입니다.",
-        private: false)
+        private: true)
 
       seed_group(user, 'syp', ['seoulyouth2014'],
         title: '서울청년의회',
