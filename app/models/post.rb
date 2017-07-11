@@ -417,6 +417,7 @@ class Post < ActiveRecord::Base
   end
 
   def private_blocked?(someone = nil)
+    return false if issue.blank?
     issue.private_blocked?(someone) or issue.group.try(:private_blocked?, someone)
   end
 
