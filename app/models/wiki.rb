@@ -57,7 +57,7 @@ class Wiki < ActiveRecord::Base
 
     result = ApplicationController.renderer.new.render(
       partial: "wikis/capture",
-      locals: { title: title, body: body }
+      locals: { body: body }
     )
     file.write IMGKit.new(result, width: 600, quality: 10).to_png
     file.flush
@@ -67,8 +67,9 @@ class Wiki < ActiveRecord::Base
   end
 
   def capture_async
-    return if !new_record? and !body_changed?
-    WikiCaptureJob.perform_async(id)
+    if self.read_attribute(:thumbnail).blank? or body_changed?
+      WikiCaptureJob.perform_async(id)
+    end
   end
 
   def authors
