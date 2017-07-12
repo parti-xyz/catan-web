@@ -16,16 +16,19 @@ namespace :data do
       seed_group(user, 'do', [],
         title: '나는 알아야겠당',
         site_title: 'GMO 완전표시제법 - 나는 알아야겠당',
+        site_description: 'GMO 완전표시제법 통과를 위한 국내 최초 온라인 프로젝트 정당 실험! 세상에 없던 정당의 당원이 되세요',
         head_title: '나알당')
 
       seed_group(user, 'change', [],
         title: '바꿈',
         site_title: '세상을 바꾸는 꿈 - 바꿈',
+        site_description: '세대와 계층을 넘어 바꿈이 세상을 바꿉니다',
         head_title: '바꿈')
 
       seed_group(user, 'toktok', [],
         title: '국회톡톡',
         site_title: '내게 필요한 법, 국회에 직접 제안해서 만들어봐요 - 국회톡톡',
+        site_description: '국회에 직접 제안을 보내세요. 시민의 제안으로 법안을 만듭니다',
         head_title: '국회톡톡')
 
       seed_group(user, 'innovators', [],
@@ -59,6 +62,7 @@ namespace :data do
         title: '미트쉐어',
         site_title: '작지만 멋진 일 - 미트쉐어',
         head_title: '미트쉐어',
+        site_description: '미트쉐어는 우리 일상 속에서 공익적 가치를 발견하고, 사회에 긍정적인 변화를 가져오는 공익 프로젝트들이 더 많아지길 기대합니다.',
         private: false)
 
       seed_group(user, 'youthchange', ['천은선'],
