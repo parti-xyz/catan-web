@@ -508,11 +508,15 @@ section#issues {
   }
 
 }
+/* dashboard/intro body */
+.app-dashboard-intro{
+  background-color:#fff;
+}
 
 .parti-member-recommend--header {
   padding: 50px;
   color: $gray;
-  background-color: #fff;
+  background-color: $brand-light;
   position: fixed;
   right: 0;
   left: 0;
