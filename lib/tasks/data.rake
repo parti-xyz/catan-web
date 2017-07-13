@@ -116,7 +116,14 @@ namespace :data do
       organizer_member = group.members.find_or_initialize_by(user: user)
       organizer_member.is_organizer = true
     end
-    group.members.all.select { |organizer| !organizer_users.include?(organizer.user) }.map { |member| member.is_organizer = false }
+    if !group.private?
+      group.members.all.select do |member|
+        !organizer_users.include?(member.user)
+      end.map do |member|
+        member.update_columns(is_organizer: false)
+      end
+    end
+
     group.save!
 
     group
