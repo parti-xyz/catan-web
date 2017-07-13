@@ -1,5 +1,6 @@
 class MentionJob
   include Sidekiq::Worker
+  sidekiq_options retry: false
 
   def perform(mentionable_type, mentionable_id)
     mentionable_model = mentionable_type.safe_constantize

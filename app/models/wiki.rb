@@ -42,6 +42,8 @@ class Wiki < ActiveRecord::Base
     build_history('create') }
   after_update :build_history_after_update
 
+  attr_accessor :skip_capture, :skip_history
+
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
 
@@ -52,22 +54,33 @@ class Wiki < ActiveRecord::Base
   end
 
   def capture!
-    return if body.blank?
-    file = Tempfile.new(["captire_wiki_#{id.to_s}", '.png'], 'tmp', :encoding => 'ascii-8bit')
+    self.skip_capture = true
+    self.skip_history = true
 
+    return if body.blank?
+
+    self.remove_thumbnail = true
+    self.save!
+
+    file = Tempfile.new(["captire_wiki_#{id.to_s}", '.png'], 'tmp', :encoding => 'ascii-8bit')
     result = ApplicationController.renderer.new.render(
       partial: "wikis/capture",
       locals: { body: body }
     )
     file.write IMGKit.new(result, width: 600, quality: 10).to_png
     file.flush
+
     self.thumbnail = file
     self.save!
+
     file.unlink
+
+    self.skip_capture = false
+    self.skip_history = false
   end
 
   def capture_async
-    if self.read_attribute(:thumbnail).blank? or body_changed?
+    if !self.skip_capture and (self.read_attribute(:thumbnail).blank? or body_changed?)
       WikiCaptureJob.perform_async(id)
     end
   end
@@ -77,7 +90,9 @@ class Wiki < ActiveRecord::Base
   end
 
   def build_history_after_update
-      if self.status_changed?
+    return if skip_history
+
+    if self.status_changed?
       if self.status == 'active'
         return build_history('activate')
       elsif self.status == 'inactive'

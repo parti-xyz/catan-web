@@ -1,5 +1,6 @@
 class WikiCaptureJob
   include Sidekiq::Worker
+  sidekiq_options retry: false
 
   def perform(id)
     wiki = Wiki.find_by(id: id)
