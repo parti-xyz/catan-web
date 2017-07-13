@@ -37,7 +37,7 @@ class Wiki < ActiveRecord::Base
 
   mount_uploader :thumbnail, PrivateFileUploader
 
-  after_save :capture_async
+  after_commit :capture_async
   after_create ->(obj) {
     build_history('create') }
   after_update :build_history_after_update
@@ -80,7 +80,7 @@ class Wiki < ActiveRecord::Base
   end
 
   def capture_async
-    if !self.skip_capture and (self.read_attribute(:thumbnail).blank? or body_changed?)
+    if !self.skip_capture and (self.read_attribute(:thumbnail).blank? or previous_changes["body"].present?)
       WikiCaptureJob.perform_async(id)
     end
   end
