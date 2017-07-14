@@ -16,12 +16,13 @@
   background-position: top center;
   background-repeat: no-repeat;
   .button-area{
-    margin-top:200px;
+    margin-top:210px;
     text-align:center;
   }
   button{
+    margin:2px;
     background-color:transparent;
-    border:3px solid #135d98;
+    border:2px solid #135d98;
     color:#135d98;
     font-weight:bold;
     &:hover{
@@ -29,4 +30,9 @@
       border-color:darken(#135d98,20%);
     }
   }
+}
+
+.parti-black-layer{
+  background-image:none !important;
+  background-color:$brand-primary;
 }
