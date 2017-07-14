@@ -11,3 +11,28 @@ section#home {
   width: auto;
 }
 
+#site-header .navbar-fixed-top{
+  background-color:$brand-sub !important;
+}
+
+.key-page{
+  padding:50px;
+  height: 350px;
+  background-size: contain;
+  background-position: top center;
+  background-repeat: no-repeat;
+  .button-area{
+    margin-top:200px;
+    text-align:center;
+  }
+  button{
+    background-color:transparent;
+    border:3px solid #135d98;
+    color:#135d98;
+    font-weight:bold;
+    &:hover{
+      color:darken(#135d98,20%);
+      border-color:darken(#135d98,20%);
+    }
+  }
+}
