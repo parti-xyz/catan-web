@@ -1,7 +1,7 @@
 - issue ||= @issue
 - popover = { url: "#join-member-#{dom_id(issue)}", action: 'parti-popover', placement: "bottom", trigger: 'hover' } if is_hoverable?
 = link_to smart_members_or_member_requests_parti_path(issue), method: :post, class: 'btn btn-primary btn-shadow editor-btn', data: { 'disable-with': '처리 중...' }.merge(local_assigns[popover] || {}) do
-  가입하기
+  = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
 .hidden
   .join-member{id: "join-member-#{dom_id(issue)}"}
     가입하셔서 비슷한 관심을 가진 사람들과 함께

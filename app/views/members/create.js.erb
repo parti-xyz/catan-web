@@ -5,7 +5,7 @@
   $(card_query).replaceWith($member);
   parti_partial$($member);
   parti_ellipsis($(card_query));
-<% elsif params[:partial] == 'isseu_card' %>
+<% elsif params[:partial] == 'issue_card' %>
   <% if @issue.member? current_user %>
     var completed = $('#<%= params[:button_id] %>').data('completed-with');
     $('#<%= params[:button_id] %>').data('ujs:enable-with', completed)

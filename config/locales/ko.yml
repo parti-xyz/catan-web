@@ -222,13 +222,10 @@ ko:
         logo: 대표 이미지(선택)
         logo_help: 권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
         tag_list: 태그(선택)
-        groups:
-          zakdang:
-            title: 당 이름(선택)
-            title_help: 당명을 적어주세요. 작당을 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름이면 더욱 좋습니다.
-            body_help: 당을 쉽고 재미있게 설명해보세요.
-            logo_help: 당을 상징하는 이미지를 넣어보세요. 권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
-
+      public_join: 가입하기
+      groups:
+        syp:
+          public_join: 지지하기
   enumerize:
     defaults:
       choice:
