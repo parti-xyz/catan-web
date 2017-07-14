@@ -5,3 +5,28 @@
     background-color: $brand-primary;
   }
 }
+.navbar-default .navbar-toggle .icon-bar{
+  background-color:#ffffff;
+}
+
+.key-page{
+  padding:50px;
+  height: 350px;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  .button-area{
+    margin-top:200px;
+    text-align:center;
+  }
+  button{
+    background-color:transparent;
+    border:3px solid #135d98;
+    color:#135d98;
+    font-weight:bold;
+    &:hover{
+      color:darken(#135d98,20%);
+      border-color:darken(#135d98,20%);
+    }
+  }
+}
