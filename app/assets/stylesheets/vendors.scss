@@ -42,7 +42,7 @@
 }
 
 .tooltip-wrapper--no-wrap .tooltip-inner {
-  white-space: nowrap;
+  // white-space: nowrap;
 }
 
 // lightbox
@@ -114,7 +114,7 @@ body {
   }
 }
 
-.tooltip {
+.tooltip-no-wrap .tooltip{
   white-space: nowrap;
 }
 

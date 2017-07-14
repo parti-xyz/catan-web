@@ -13,7 +13,7 @@
         - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
           = image_tag post.wiki.thumbnail.lg.url
       .shadow
-  .wiki-authors
+  .wiki-authors.tooltip-no-wrap
     작성
     - post.wiki.authors.each do |user|
       = link_to smart_user_gallery_path(user) do
