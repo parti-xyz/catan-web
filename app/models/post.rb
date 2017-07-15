@@ -52,11 +52,11 @@ class Post < ActiveRecord::Base
     with_options(if: lambda { |instance, options| options[:type] == :full }) do
       expose :link_source, if: lambda { |instance, options| instance.link_source.present? } do |instance, options|
         if instance.link_source.crawling_status == 'completed'
-         Rails.cache.fetch ["api-link_source", instance.link_source.id], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+          ((Rails.cache.fetch ["api-link_source", instance.link_source.id], race_condition_ttl: 30.seconds, expires_in: 1.hours do
             LinkSource::Entity.represent(instance.link_source, options).serializable_hash
-         end
+          end) || {}).merge(image_url: instance.link_source.image_url)
         else
-         LinkSource::Entity.represent(instance.link_source, options).serializable_hash
+          LinkSource::Entity.represent(instance.link_source, options).serializable_hash
         end
       end
       expose :file_sources, using: FileSource::Entity, if: lambda { |instance, options| instance.file_sources.any? } do |instance|
