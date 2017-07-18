@@ -54,6 +54,10 @@ class Wiki < ActiveRecord::Base
   end
 
   def capture!
+    if CarrierWave.tmp_path.nil?
+      Rails.logger.info "CarrierWave.tmp_pat nil!!!!"
+    end
+
     self.skip_capture = true
     self.skip_history = true
 
