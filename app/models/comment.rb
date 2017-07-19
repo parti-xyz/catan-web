@@ -24,6 +24,9 @@ class Comment < ActiveRecord::Base
       expose :is_upvoted_by_me do |instance, options|
         instance.upvoted_by? options[:current_user]
       end
+      expose :is_destroyable do |instance, options|
+        instance.user == options[:current_user]
+      end
       expose :is_blinded do |instance, options|
         instance.blinded? options[:current_user]
       end

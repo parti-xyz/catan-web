@@ -46,6 +46,7 @@ module V1
 
         authorize! :destroy, @comment
         @comment.destroy!
+        return_no_content
       end
     end
   end
