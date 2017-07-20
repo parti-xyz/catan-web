@@ -100,7 +100,7 @@
           .checkbox
             %label
               = f.check_box :notice_only
-              공지 용도로 설정하면 이 빠띠는 오거나이저만 게시할 수 있습니다.
+              이 빠띠는 오거나이저만 게시할 수 있습니다.
 
         - if !host_group.indie? and host_group.private?
           .form-group{class: ('has-error' if has_error_attr?(@issue, :is_default))}
