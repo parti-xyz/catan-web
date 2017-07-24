@@ -9,7 +9,23 @@
         = f.text_area :body, class: "form-control redactor validate #{'js-redactor-toolbar' unless is_air_redactorable?}", data: {ride: 'parti-autoresize'}
       = f.hidden_field :is_html_body, value: true
 
-    - if @post.file_sources.any?
+    - if @post.poll.present?
+      = f.fields_for :poll do |ff|
+        .form-group
+          = ff.label :title
+          = ff.text_field :title, placeholder: '찬반투표 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
+
+    - elsif @post.survey.present?
+      = f.fields_for :survey do |ff|
+        .form-group
+          = ff.label :duration_days do
+            진행 기간을 선택하세요
+          %div
+            - survey_durationsoptions = [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]] + [['바로 종료', -1]]
+            - survey_durationsoptions = [["기간 변경없이 #{l @post.survey.expires_at.to_date}까지 진행", '']] + survey_durationsoptions if @post.survey.expires_at.present?
+            = ff.select :duration_days, options_for_select(survey_durationsoptions, (@post.survey.expires_at.present? ? '' : '0')), {}, class: 'form-control'
+
+    - else
       .form-widget-references
         .post-file-field
           .help-block.clearfix
@@ -32,21 +48,6 @@
               %span.js-current-count<>= @post.file_sources.count
               \/20)
 
-    - if @post.poll.present?
-      = f.fields_for :poll do |ff|
-        .form-group
-          = ff.label :title
-          = ff.text_field :title, placeholder: '찬반투표 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
-
-    - if @post.survey.present?
-      = f.fields_for :survey do |ff|
-        .form-group
-          = ff.label :duration_days do
-            진행 기간을 선택하세요
-          %div
-            - survey_durationsoptions = [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]] + [['바로 종료', -1]]
-            - survey_durationsoptions = [["기간 변경없이 #{l @post.survey.expires_at.to_date}까지 진행", '']] + survey_durationsoptions if @post.survey.expires_at.present?
-            = ff.select :duration_days, options_for_select(survey_durationsoptions, (@post.survey.expires_at.present? ? '' : '0')), {}, class: 'form-control'
 
     .editor-btn.text-right
       = link_to '취소', @post, class: 'btn btn-default'

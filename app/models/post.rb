@@ -50,7 +50,7 @@ class Post < ActiveRecord::Base
     end
 
     with_options(if: lambda { |instance, options| options[:type] == :full }) do
-      expose :link_source, if: lambda { |instance, options| instance.link_source.present? } do |instance, options|
+      expose :link_source, if: lambda { |instance, options| instance.link_source.present? and instance.file_sources.blank? } do |instance, options|
         if instance.link_source.crawling_status == 'completed'
           ((Rails.cache.fetch ["api-link_source", instance.link_source.id], race_condition_ttl: 30.seconds, expires_in: 1.hours do
             LinkSource::Entity.represent(instance.link_source, options).serializable_hash
@@ -468,6 +468,40 @@ class Post < ActiveRecord::Base
     true
   end
 
+  def setup_link_source(body_was = '')
+    if self.survey.blank? and self.poll.blank? and self.body.present?
+      old_link = nil
+      if self.link_source.present?
+        old_link = self.link_source.url
+      end
+
+      links = find_all_a_tags(self.body)
+      links_was = find_all_a_tags(body_was)
+
+      first_link = links.first
+      if first_link.present? and first_link['href'].present?
+        if self.link_source.try(:url) != first_link['href']
+          encoding_options = {
+            :invalid           => :replace,  # Replace invalid byte sequences
+            :undef             => :replace,  # Replace anything not defined in ASCII
+            :replace           => '',        # Use a blank for those replacements
+            :universal_newline => true       # Always break lines with \n
+          }
+          self.link_source = LinkSource.new(url: first_link['href'].encode(Encoding.find('ASCII'), encoding_options))
+        end
+      else
+        if old_link.present?
+          if !links.map{ |l| l['href'] }.include?(old_link) and links_was.map{ |l| l['href'] }.include?(old_link)
+            self.link_source = nil
+          else
+            self.body += "<p><a href='#{old_link}'>#{old_link}</a></p>"
+          end
+        end
+      end
+    end
+    self.link_source = self.link_source.unify if self.link_source.present?
+  end
+
   private
 
   def send_notifiy_pinned_emails(someone)
@@ -499,5 +533,17 @@ class Post < ActiveRecord::Base
 
   def sanitize_html text
     HTMLEntities.new.decode ActionView::Base.full_sanitizer.sanitize(text)
+  end
+
+  def find_all_a_tags(body)
+    Nokogiri::HTML.parse(body).xpath('//a[@href]').reject{ |p| all_child_nodes_are_blank?(p) }
+  end
+
+  def all_child_nodes_are_blank?(node)
+    node.children.all?{ |child| is_blank_node?(child) }
+  end
+
+  def is_blank_node?(node)
+    (node.text? && node.content.strip == '') || (node.element? && node.name == 'br')
   end
 end
