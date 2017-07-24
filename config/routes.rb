@@ -196,6 +196,7 @@ Rails.application.routes.draw do
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
   get '/privacy', to: "pages#privacy", as: 'privacy'
+  get '/service', to: "pages#service", as: 'service'
   get '/terms', to: "pages#terms", as: 'terms'
   if Rails.env.development?
     get '/score', to: "pages#score"

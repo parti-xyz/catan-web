@@ -15,6 +15,7 @@
 
             %p
               = link_to '그룹 개설을 신청합니다', 'https://goo.gl/forms/ldIKoqbRkUefqpgU2', class: 'btn btn-primary', target: '_blank'
+              = link_to '가격 정책 안내', '/service', style:"text-decoration:underline;margin-left:10px;", target: '_blank'
         %section#groups-all
           = render Group.all.where.not(slug: 'indie')
       - unless is_small_screen?
