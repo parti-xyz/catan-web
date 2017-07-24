@@ -102,7 +102,7 @@ namespace :data do
 
       seed_group(user, 'studio', ['jerim'],
         title: 'Parti Studio',
-        site_title: 'PARTI',
+        site_title: 'Parti Studio',
         head_title: 'Parti Studio',
         private: true)
 
