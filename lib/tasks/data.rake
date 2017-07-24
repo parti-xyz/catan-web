@@ -100,6 +100,12 @@ namespace :data do
         site_description: "정책이 청년의 일상에 가 닿을 수 있도록 청년이 행정에 직접 질의하고, 정책을 발의합니다. 문제의 당사자에서 문제해결의 주체가 되고, 필요와 현실이 반영된 정책이 만들어지는 과정에 참여하는 시민참여의 장입니다.",
         private: false)
 
+      seed_group(user, 'studio', ['jerim'],
+        title: 'Parti Studio',
+        site_title: 'PARTI',
+        head_title: 'Parti Studio',
+        private: true)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
