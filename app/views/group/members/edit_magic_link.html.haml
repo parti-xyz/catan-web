@@ -9,7 +9,7 @@
             .input-group
               - copy_id = "copy-#{SecureRandom.uuid}"
               %input.form-control{ type: "text", value: magic_form_group_members_url(key: current_group.magic_key), id: copy_id }
-              %span.input-group-btn.tooltip-wrapper--no-wrap
+              %span.input-group-btn.tooltip-no-wrap
                 %button.btn.btn-default.js-clipboard{ 'data-clipboard-target': "##{copy_id}", 'data-toggle': 'tooltip', 'data-trigger': 'manual', 'data-title': '복사완료!' }
                   %i.fa.fa-clipboard
           - else
