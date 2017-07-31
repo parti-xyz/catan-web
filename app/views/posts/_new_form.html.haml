@@ -85,5 +85,5 @@
             = t('labels.new_post_wiki_button')
         .submit-box
           = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (issue.id if issue.present?)
-          = f.submit '게시', class: 'btn btn-primary btn-ghost btn-border', data: { disable_with: "게시 중..." }
+          = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
 

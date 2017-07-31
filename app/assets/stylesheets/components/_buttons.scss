@@ -12,7 +12,7 @@
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transform: translateY(2px);
+    /*transform: translateY(2px);*/
   }
   &:active {
     color: $active-color !important;
@@ -64,12 +64,12 @@
 
   &:hover {
     color: $brand-primary !important;
-    background-color: $gray-lightest !important;
+    background-color: #ffffff !important;
     border-color: $gray-light !important;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transform: translateY(2px);
+    /*transform: translateY(2px);*/
   }
   &:active {
     color: $brand-primary-dark !important;
@@ -78,7 +78,7 @@
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transform: translateY(2px);
+    /*transform: translateY(2px);*/
   }
 }
 
@@ -108,13 +108,13 @@
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transform: translateY(2px);
+    /*transform: translateY(2px);*/
   }
   &:active {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transform: translateY(2px);
+    /*transform: translateY(2px);*/
   }
 
   &-dark {
@@ -131,13 +131,13 @@
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transform: translateY(2px);
+    /*transform: translateY(2px);*/
   }
   &:active {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-    transform: translateY(2px);
+    /*transform: translateY(2px);*/
   }
 }
 
