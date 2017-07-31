@@ -11,6 +11,7 @@ var $comment = null;
 <% if has_more %>
   $('<%= comments_more_button_dom_selector(@post) %>').attr('href', "<%= smart_post_path_or_url(@post) %>");
   $('<%= comments_more_button_dom_selector(@post) %>').removeAttr('data-remote');
+  $('<%= comments_more_button_dom_selector(@post) %>').removeData('remote');
   $('<%= comments_more_label_dom_selector(@post) %>').text('모든 댓글 보기');
 <% else %>
   $('<%= comments_more_button_dom_selector(@post) %>').remove();
