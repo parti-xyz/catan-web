@@ -521,6 +521,12 @@ section#posts {
   @media (min-width: $screen-sm-min) {
     &__title {
       float: left;
+      padding: 10px 0px;
+      letter-spacing: -0.02em;
+      font-weight: 600;
+      small{
+        font-weight:200;
+      }
     }
     .posts-filter-select {
       float: right;
