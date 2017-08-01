@@ -109,5 +109,10 @@ body.in-group {
 }
 .group-heading{
   margin:0px 15px;
+  font-weight: $headings-font-weight;
   border-bottom:2px solid $brand-primary-light;
+  letter-spacing: $headings-letter-spacing;
+  small{
+    font-weight: $small-in-headings-font-weight;
+  }
 }

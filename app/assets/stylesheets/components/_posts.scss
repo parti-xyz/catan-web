@@ -522,10 +522,10 @@ section#posts {
     &__title {
       float: left;
       padding: 10px 0px;
-      letter-spacing: -0.02em;
-      font-weight: 600;
+    letter-spacing:  $headings-letter-spacing;
+      font-weight: $headings-font-weight;
       small{
-        font-weight:200;
+        font-weight: $small-in-headings-font-weight;
       }
     }
     .posts-filter-select {
