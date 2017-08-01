@@ -85,8 +85,6 @@ class Issue < ActiveRecord::Base
   has_many :relatings, class_name: Related, foreign_key: :target_id, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
-  # 이슈는 위키를 하나 가지고 있어요.
-  has_many :invitations, as: :joinable, dependent: :destroy
   has_many :members, as: :joinable, dependent: :destroy
   has_many :member_users, through: :members, source: :user
   has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member do

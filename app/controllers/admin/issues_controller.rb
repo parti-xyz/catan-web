@@ -39,17 +39,6 @@ class Admin::IssuesController < AdminController
         ActiveRecord::Base.record_timestamps = true
       end
 
-      # invitations : joinable_id
-      ActiveRecord::Base.record_timestamps = false
-      begin
-        source.invitations.each do |invitation|
-          user = invitation.user
-          invitation.update_columns(joinable_id: target.id) unless target.invitations.exists?(user: user)
-        end
-      ensure
-        ActiveRecord::Base.record_timestamps = true
-      end
-
       # blinds :issue_id
       source.blind_users.each do |user|
         target.blinds.build(user: user) unless target.blind_users.exists?(id: user.id)

@@ -1,23 +1,22 @@
 class MemberIssueService
 
   attr_accessor :issue
-  attr_accessor :current_user
+  attr_accessor :user
 
-  def initialize(issue:, current_user:, is_auto: false)
+  def initialize(issue:, user:, is_auto: false)
     @issue = issue
-    @current_user = current_user
+    @user = user
     @is_auto = is_auto
   end
 
   def call
-    return if @issue.private_blocked?(@current_user)
-    @member = @issue.members.build(user: @current_user)
-    @member.user = @current_user
+    return if @issue.private_blocked?(@user)
+    @member = @issue.members.build(user: @user)
+    @member.user = @user
     ActiveRecord::Base.transaction do
       if @member.save
         @issue.member_requests.where(user: @member.user).try(:destroy_all)
-        @issue.invitations.where(recipient: @member.user).try(:destroy_all)
-        @current_user.update_attributes(member_issues_changed_at: DateTime.now)
+        @user.update_attributes(member_issues_changed_at: DateTime.now)
       end
     end
     if @member.persisted?

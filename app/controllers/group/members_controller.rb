@@ -97,7 +97,7 @@ class Group::MembersController < GroupBaseController
           current_group.invitations.where(recipient_email: new_members.map(&:user).map(&:email)).destroy_all
           current_group.default_issues.each do |issue|
             new_members.each do |member|
-              MemberIssueService.new(issue: issue, current_user: member.user, is_auto: true).call
+              MemberIssueService.new(issue: issue, user: member.user, is_auto: true).call
             end
           end
           @success = true
@@ -160,16 +160,7 @@ class Group::MembersController < GroupBaseController
       redirect_to root_path and return
     end
 
-    @member = current_group.members.build(user: current_user, is_magic: true)
-    ActiveRecord::Base.transaction do
-      if @member.save
-        Invitation.where(recipient_email: current_user.email).destroy_all
-        MemberRequest.where(user: current_user).destroy_all
-        current_group.default_issues.each do |issue|
-          MemberIssueService.new(issue: issue, current_user: current_user, is_auto: true).call
-        end
-      end
-    end
+    @member = MemberGroupService.new(group: current_group, user: current_user).call
     if @member.persisted?
       flash[:success] = t('views.group.welcome')
       MessageService.new(@member).call

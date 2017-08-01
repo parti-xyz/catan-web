@@ -8,7 +8,7 @@ class MemberRequestsController < ApplicationController
 
     @member_request.user = current_user
     if @member_request.save
-      MessageService.new(@member_request).call
+      MessageService.new(@member_request, action: :request).call
       MemberRequestMailer.deliver_all_later_on_create(@member_request)
     end
     respond_to do |format|

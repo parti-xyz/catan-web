@@ -29,10 +29,6 @@ class MergeIssuesTest < ActionDispatch::IntegrationTest
       assert issues(:merge_target_issue).blind_user?(user)
     end
 
-    # 초대가 합쳐집니다
-    assert_equal issues(:merge_target_issue), invitations(:source_invitation).reload.issue
-    assert_equal old_invitation_updated_at, invitations(:source_invitation).updated_at
-
     # 연관빠띠가 합쳐집니다
     expected_related_issues = [:issue4, :issue2].map { |slug| issues(slug) }
     assert_equal expected_related_issues.length, issues(:merge_target_issue).relateds.count

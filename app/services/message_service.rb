@@ -77,7 +77,7 @@ class MessageService
         sender: @source.user, users: [@source.recipient],
         messagable: @source)
     when MemberRequest
-      if @source.deleted?
+      if %i(accept cancel).include? @action
         send_messages(
           sender: @sender, users: [@source.user],
           messagable: @source,
@@ -87,7 +87,7 @@ class MessageService
         send_messages(
           sender: @source.user, users: users,
           messagable: @source,
-          action: :request)
+          action: @action)
       end
     when Option
       users = @source.survey.post.messagable_users.reject{ |user| user == @source.user }

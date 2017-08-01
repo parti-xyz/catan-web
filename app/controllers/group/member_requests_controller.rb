@@ -6,7 +6,7 @@ class Group::MemberRequestsController < GroupBaseController
     unless current_group.member?(current_user)
       @member_request.assign_attributes(joinable: current_group, user: current_user)
       if @member_request.save
-        MessageService.new(@member_request).call
+        MessageService.new(@member_request, action: :request).call
         MemberRequestMailer.deliver_all_later_on_create(@member_request)
       end
     end
@@ -19,15 +19,7 @@ class Group::MemberRequestsController < GroupBaseController
     redirect_to(request.referrer || group_members_path) and return if current_group.member?(@user)
     @member_request = current_group.member_requests.find_by(user: @user)
     render_404 and return if @member_request.blank?
-    @member = current_group.members.build(user: @member_request.user)
-    ActiveRecord::Base.transaction do
-      if @member.save
-        @member_request.try(:destroy)
-        current_group.default_issues.each do |issue|
-          MemberIssueService.new(issue: issue, current_user: @user, is_auto: true).call
-        end
-      end
-    end
+    @member = MemberGroupService.new(group: current_group, user: @member_request.user).call
     if @member.persisted?
       MessageService.new(@member_request, sender: current_user, action: :accept).call
       MemberMailer.deliver_all_later_on_create(@member)

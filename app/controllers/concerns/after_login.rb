@@ -19,7 +19,7 @@ module AfterLogin
       VotingPollService.new(poll: poll, current_user: current_user).unsure if poll.present?
     when 'issue_member'
       issue = Issue.find_by id: after_login['id']
-      MemberIssueService.new(issue: issue, current_user: current_user).call if issue.present?
+      MemberIssueService.new(issue: issue, user: current_user).call if issue.present?
     end
 
     if session["omniauth.params_data"].present? and session["omniauth.params_data"]['after_login'].present?
