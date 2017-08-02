@@ -18,6 +18,10 @@ class IssuesController < ApplicationController
         *[Issue.only_public_in_current_group(current_group),
         (Issue.where(id: current_user.member_issues) if user_signed_in?)].compact)
     end
+
+    unless params[:group].blank?
+      @issues = Issue.only_group(params[:group])
+    end
     @issues = @issues.where.any_of(Issue.alive.search_for(params[:keyword]), Issue.alive.tagged_with(tags, any: true)) if params[:keyword].present?
 
     params[:sort] ||= (current_group.blank? ? 'hottest' : 'recent_touched')

@@ -4,7 +4,7 @@
     - Group.all.each do |group|
       - issues = sort_issues_by_title(current_user.member_issues.alive.only_group(group))
       - if issues.any?
-        %optgroup{label: group.aside_title}
+        %optgroup{label: group.title_basic_format}
           - issues.each do |issue|
             - selected_parti = issue if selected_parti.blank?
             - issue_content = capture do

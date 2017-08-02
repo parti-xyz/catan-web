@@ -38,14 +38,14 @@
         - if current_user.member_issues.only_group(host_group).any?
           %li.group-line
             = link_to root_path do
-              #{host_group.aside_title}
+              #{host_group.title_basic_format}
         - current_user.member_issues.only_group(host_group).each do |issue|
           = render 'issues/issue_line', issue: issue
 
         - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
           %li.group-line
             = link_to smart_group_url(group) do
-              #{group.aside_title}
+              #{group.title_basic_format}
           - current_user.member_issues.only_group(group).each do |issue|
             = render 'issues/issue_line', issue: issue
         %li.divider.large

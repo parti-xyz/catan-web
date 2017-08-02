@@ -8,7 +8,7 @@
           = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-block'
 
         - if host_group.comprehensive_joined_by?(current_user)
-          %h5.aside-title= host_group.aside_title
+          %h5.aside-title= host_group.title_basic_format
         - if current_user.member_issues.only_group(host_group).any?
           %ul.list-unstyled.aside-issues
             - current_user.member_issues.only_group(host_group).each do |issue|
@@ -16,7 +16,7 @@
 
         - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
           %h5.aside-title
-            = link_to group.aside_title, smart_group_url(group)
+            = link_to group.title_basic_format, smart_group_url(group)
           %ul.list-unstyled.aside-issues
             - current_user.member_issues.only_group(group).each do |issue|
               = render '/issues/issue_line', issue_line: issue

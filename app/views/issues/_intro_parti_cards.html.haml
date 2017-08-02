@@ -8,11 +8,11 @@
             .group-heading
               %h4
                 #{group.title}
-                - unless group.site_description.nil?
-                  %small
-                    #{group.site_description}
+              - unless group.site_description.nil?
+                .group-desc
+                  #{group.site_description}
           .row
-          - issues.each do |issue|
-            .col-sm-3.col-xs-6#groups-all
-              .issue-card-wrapper
-                = render 'issues/card_in_intro', issue: issue
+            - issues.each do |issue|
+              .col-sm-3.col-xs-6#groups-all
+                .issue-card-wrapper
+                  = render 'issues/card_in_intro', issue: issue

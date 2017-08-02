@@ -3,7 +3,7 @@
     .aside_issue
 
       - if host_group.comprehensive_joined_by?(@user)
-        %h5.aside-title= host_group.aside_title
+        %h5.aside-title= host_group.title_basic_format
       - if @user.member_issues.only_group(host_group).any?
         %ul.list-unstyled.aside-issues
           = render customize_partial_path(@user.member_issues.only_group(host_group).reject { |issue| issue.private_blocked?(current_user) }, 'issue_line')
@@ -11,7 +11,7 @@
       - Group.comprehensive_joined_by(@user).but(host_group).each do |group|
         - next if group.private_blocked? current_user
         %h5.aside-title
-          = link_to group.aside_title, smart_group_url(group)
+          = link_to group.title_basic_format, smart_group_url(group)
         %ul.list-unstyled.aside-issues
           = render customize_partial_path(@user.member_issues.only_group(group).reject { |issue| issue.private_blocked?(current_user) }, 'issue_line')
 

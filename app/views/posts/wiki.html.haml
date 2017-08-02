@@ -100,7 +100,7 @@
             = render 'upvotes/upvote_count', upvotable: @post
           .hidden
             .share-partial{id: "share-partial-#{dom_id(@post)}"}
-              = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-url': polymorphic_url(@post, subdomain: @post.issue.group_subdomain), 'share-text': "#{@post.specific_desc_striped_tags(100)} | #{@post.issue.group.try(:share_site_title) || "빠띠"}", 'share-image': "#{@post.meta_tag_image}" }
+              = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-url': polymorphic_url(@post, subdomain: @post.issue.group_subdomain), 'share-text': "#{@post.specific_desc_striped_tags(100)} | #{@post.issue.group.try(:title_share_format) || "빠띠"}", 'share-image': "#{@post.meta_tag_image}" }
         .post-reaction{class: "#{dom_id(@post)}-post-reaction"}
           = render 'posts/comments', local_assigns.merge(post: @post)
 

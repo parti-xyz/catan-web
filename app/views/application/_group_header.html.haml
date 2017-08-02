@@ -30,13 +30,13 @@
                   %span.caret
                 %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
                   %li.group-line
-                    = link_to current_group.aside_title, smart_group_url(current_group)
+                    = link_to current_group.title_basic_format, smart_group_url(current_group)
                   - current_user.member_issues.only_group(current_group).each do |issue|
                     = render 'issues/issue_line', issue: issue
 
                   - Group.comprehensive_joined_by(current_user).but(current_group).each do |group|
                     %li.group-line
-                      = link_to group.aside_title, smart_group_url(group)
+                      = link_to group.title_basic_format, smart_group_url(group)
                     - current_user.member_issues.only_group(group).each do |issue|
                       = render 'issues/issue_line', issue: issue
             %li.notification

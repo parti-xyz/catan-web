@@ -108,11 +108,19 @@ body.in-group {
   }
 }
 .group-heading{
-  margin:0px 15px;
+  h4{
+    display:inline-block;
+    margin:0px;
+  }
+  border-left:3px solid $brand-primary;
+  margin-top: 20px;
+  padding: 5px 10px;
   font-weight: $headings-font-weight;
-  border-bottom:2px solid $brand-primary-light;
   letter-spacing: $headings-letter-spacing;
-  small{
+  .group-desc{
+    margin-top:5px;
+    color:$gray;
+    font-size:12px;
     font-weight: $small-in-headings-font-weight;
   }
 }
