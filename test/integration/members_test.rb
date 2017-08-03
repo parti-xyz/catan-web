@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class MembersTest < ActionDispatch::IntegrationTest
-  test '빠띠 가입해요' do
+  test '그룹의 빠띠 가입해요' do
     refute issues(:issue3).member?(users(:one))
 
     sign_in(users(:one))
@@ -14,6 +14,7 @@ class MembersTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:member).user
 
     assert issues(:issue3).member?(users(:one))
+    assert issues(:issue3).group.member?(users(:one))
   end
 
   test '휴면 중이면 멤버가입이 거부되어요' do

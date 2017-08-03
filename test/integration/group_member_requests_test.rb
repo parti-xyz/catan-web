@@ -15,5 +15,11 @@ class GroupMemberRequestsTest < ActionDispatch::IntegrationTest
     assert issues(:default_of_private_group).member?(users(:member_request_to_private_group))
     refute groups(:private_group).member_requested?(users(:member_request_to_private_group))
     assert_equal users(:member_request_to_private_group).messages.last.messagable.id, assigns(:member_request).id
+
+    # 기본으로 가입되는 빠띠에 가입이 됩니다
+    assert groups(:private_group).default_issues.any?
+    groups(:private_group).default_issues.each do |issue|
+      assert issue.member?(users(:member_request_to_private_group))
+    end
   end
 end
