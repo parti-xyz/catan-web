@@ -101,12 +101,6 @@ namespace :data do
         site_description: "정책이 청년의 일상에 가 닿을 수 있도록 청년이 행정에 직접 질의하고, 정책을 발의합니다. 문제의 당사자에서 문제해결의 주체가 되고, 필요와 현실이 반영된 정책이 만들어지는 과정에 참여하는 시민참여의 장입니다.",
         private: false)
 
-      seed_group(user, 'studio', ['jerim'],
-        title: 'Parti Studio',
-        site_title: 'Parti Studio',
-        head_title: 'Parti Studio',
-        private: true)
-
       seed_group(user, 'volunteer', ['남문'],
         title: '자원봉사',
         site_title: '자원봉사로 내 삶을 풍성하게 - 자원봉사',
@@ -118,13 +112,11 @@ namespace :data do
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
       GroupDestroyService.new('westay1').call
+      GroupDestroyService.new('studio').call
     end
   end
 
   def seed_group(admin, group_slug, organizer_nicknames, options)
-    if group_slug == 'union'
-      byebug
-    end
     organizer_users = User.where(nickname: organizer_nicknames)
     group = Group.find_or_initialize_by slug: group_slug
     group.assign_attributes({ private: false }.merge(options))
