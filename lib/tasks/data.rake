@@ -3,6 +3,7 @@ namespace :data do
   task 'seed:group' => :environment do
     user = User.find_by(nickname: 'parti')
     Group.transaction do
+
       seed_group(user, 'indie', [],
         title: '일반',
         site_title: '일반',
@@ -106,6 +107,13 @@ namespace :data do
         head_title: 'Parti Studio',
         private: true)
 
+      seed_group(user, 'volunteer', ['남문'],
+        title: '자원봉사',
+        site_title: '자원봉사로 내 삶을 풍성하게 - 자원봉사',
+        site_description: "자원봉사의 미래를 설계하기 위해 고민하는 그룹입니다.",
+        head_title: '자원봉사',
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
@@ -114,6 +122,9 @@ namespace :data do
   end
 
   def seed_group(admin, group_slug, organizer_nicknames, options)
+    if group_slug == 'union'
+      byebug
+    end
     organizer_users = User.where(nickname: organizer_nicknames)
     group = Group.find_or_initialize_by slug: group_slug
     group.assign_attributes({ private: false }.merge(options))
@@ -123,7 +134,7 @@ namespace :data do
       organizer_member.is_organizer = true
     end
     if !group.private?
-      group.members.all.select do |member|
+      group.members.where(is_organizer: true).select do |member|
         !organizer_users.include?(member.user)
       end.map do |member|
         member.update_columns(is_organizer: false)
