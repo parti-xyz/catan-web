@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711051230) do
+ActiveRecord::Schema.define(version: 20170809114856) do
 
   create_table "answers", force: :cascade do |t|
     t.integer  "question_id", limit: 4,        null: false
@@ -393,35 +393,37 @@ ActiveRecord::Schema.define(version: 20170711051230) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.integer  "issue_id",                  limit: 4,                     null: false
+    t.integer  "issue_id",                  limit: 4,                        null: false
     t.integer  "postable_id",               limit: 4
     t.string   "postable_type",             limit: 255
-    t.integer  "user_id",                   limit: 4,                     null: false
-    t.datetime "created_at",                                              null: false
-    t.datetime "updated_at",                                              null: false
-    t.integer  "likes_count",               limit: 4,     default: 0
-    t.integer  "comments_count",            limit: 4,     default: 0
-    t.integer  "votes_count",               limit: 4,     default: 0
+    t.integer  "user_id",                   limit: 4,                        null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+    t.integer  "likes_count",               limit: 4,        default: 0
+    t.integer  "comments_count",            limit: 4,        default: 0
+    t.integer  "votes_count",               limit: 4,        default: 0
     t.datetime "deleted_at"
     t.string   "social_card",               limit: 255
-    t.integer  "recommend_score",           limit: 4,     default: 0
+    t.integer  "recommend_score",           limit: 4,        default: 0
     t.string   "recommend_score_datestamp", limit: 255
     t.datetime "last_commented_at"
     t.datetime "last_stroked_at"
-    t.integer  "upvotes_count",             limit: 4,     default: 0
+    t.integer  "upvotes_count",             limit: 4,        default: 0
     t.text     "body",                      limit: 65535
     t.integer  "link_source_id",            limit: 4
     t.integer  "poll_id",                   limit: 4
     t.integer  "survey_id",                 limit: 4
-    t.boolean  "pinned",                                  default: false
+    t.boolean  "pinned",                                     default: false
     t.datetime "pinned_at"
-    t.integer  "readers_count",             limit: 4,     default: 0
+    t.integer  "readers_count",             limit: 4,        default: 0
     t.integer  "last_stroked_user_id",      limit: 4
-    t.integer  "file_sources_count",        limit: 4,     default: 0
+    t.integer  "file_sources_count",        limit: 4,        default: 0
     t.string   "last_stroked_for",          limit: 255
     t.integer  "wiki_id",                   limit: 4
+    t.text     "body_ngram",                limit: 16777215
   end
 
+  add_index "posts", ["body_ngram"], name: "index_posts_on_body_ngram", type: :fulltext
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
   add_index "posts", ["issue_id"], name: "index_posts_on_issue_id", using: :btree
   add_index "posts", ["last_stroked_user_id"], name: "index_posts_on_last_stroked_user_id", using: :btree

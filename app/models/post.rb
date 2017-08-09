@@ -209,6 +209,9 @@ class Post < ActiveRecord::Base
   attr_accessor :has_survey
   attr_accessor :is_html_body
 
+  # fulltext serch
+  before_save :reindex_for_search
+
   def specific_desc
     self.parsed_title || self.body ||
       (ERB::Util.h(self.poll.try(:title)).presence) ||
@@ -502,7 +505,22 @@ class Post < ActiveRecord::Base
     self.link_source = self.link_source.unify if self.link_source.present?
   end
 
+  def self.search(key)
+    ngramed_key = self.to_ngram(key).map { |w| (w.length > 1 ? "+(\"#{w}\")" : "+*#{w}*") }.join(' ')
+    where("match(body_ngram) against (? in boolean mode)", ngramed_key)
+  end
+
+  def reindex_for_search!
+    reindex_for_search
+    save
+  end
+
   private
+
+  def reindex_for_search
+    return if body.nil?
+    self.body_ngram = Post.to_ngram(sanitize_html(self.body)).join(' ')
+  end
 
   def send_notifiy_pinned_emails(someone)
     users = self.issue.member_users.where.not(id: someone)
@@ -545,5 +563,14 @@ class Post < ActiveRecord::Base
 
   def is_blank_node?(node)
     (node.text? && node.content.strip == '') || (node.element? && node.name == 'br')
+  end
+
+  def self.to_ngram(data)
+    @ngram ||= NGram.new({
+                      size: 2,
+                      word_separator: "",
+                      padchar: ""
+                    })
+    data.split.map { |w| (w.length > 1 ? @ngram.parse(w).join(' ') : w) }
   end
 end
