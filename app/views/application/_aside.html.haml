@@ -5,7 +5,7 @@
     - if user_signed_in?
       .aside_issue
         .aside_issue_btn
-          = link_to '빠띠만들기', new_issue_path, class: 'btn btn-primary btn-block'
+          = link_to "#{ current_group and "#{current_group.title}" } 빠띠만들기", new_issue_path, class: 'btn btn-primary btn-block'
 
         - if host_group.comprehensive_joined_by?(current_user)
           %h5.aside-title= host_group.title_basic_format
