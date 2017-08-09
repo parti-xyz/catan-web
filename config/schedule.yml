@@ -14,3 +14,7 @@ summary_job:
   cron: "*/25 * * * 1 Asia/Seoul"
   class: "SummaryJob"
   queue: default
+active_issue_stats_job:
+  cron: "0 2 * * * Asia/Seoul"
+  class: "MonitorActiveIssuesJob"
+  queue: default

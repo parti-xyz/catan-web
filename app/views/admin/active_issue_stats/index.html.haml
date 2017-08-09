@@ -1,0 +1,20 @@
+%section#counts
+  %h4 활성 빠띠 조회
+  .well
+    어제 일 기준으로 포스팅 1건 이상, 댓글 3건 이상이 올라온 빠띠를 활성 빠띠로 산정하여 조회합니다.
+  %table.table
+    %thead
+      %tr
+        %th 날짜
+        %th 빠띠 이름
+        %th 신규 포스팅 수
+        %th 신규 댓글 수
+    %tbody
+      - @active_issue_stats.each do |active_issue|
+        %tr
+          %td= active_issue.stat_at
+          %td
+            - issue = Issue.find(active_issue.issue_id)
+            = link_to issue.title, smart_issue_home_path_or_url(issue)
+          %td= active_issue.new_posts_count
+          %td= active_issue.new_comments_count
