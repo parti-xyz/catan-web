@@ -75,9 +75,8 @@ module PartiUrlHelper
   end
 
   def smart_group_url(group, options = {})
-
     if group.slug == 'indie'
-      return '/parties?group=indie'
+      return indies_issues_url(options.merge(subdomain: nil))
     else
       return root_url(options.merge(subdomain: group.subdomain))
     end

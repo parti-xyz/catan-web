@@ -1,0 +1,38 @@
+%section#home.no-facebook-like
+  .container
+    .row
+      .col-xs-12.col-sm-8
+        - group = Group.indie
+        .group-heading.margin-bottom-default
+          %h4
+            = group.title_basic_format
+            = security_icon(group)
+            %span.partis-count.badge
+              #{Issue.only_group(group).count}개의 빠띠
+          - unless group.site_description.nil?
+            .group-desc
+              #{group.site_description}
+              - if Issue.only_group(group).any?
+                %br.visible-xs-block.group
+        %section#parties-all
+          .parties-filter
+            .parties-search-form
+              = form_tag indies_issues_path, method: :get, id: 'js-search-parties-form' do
+                = hidden_field_tag :sort, params[:sort]
+                .input-group.input-group-lg.input-group-keyword
+                  %input.form-control{name: "keyword", placeholder: "무엇에 관심있으세요?", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
+                  %span.input-group-btn
+                    %button.btn.btn-group-default
+                      %i.fa.fa-search
+            .parties-sort-select
+              = render 'issues/index_filter'
+          - if @issues.any?
+            .parties-all-list
+              = render 'issues/page'
+          - elsif params[:keyword].present?
+            .bg-default
+              %i.fa.fa-info-circle
+              검색 결과가 없습니다.
+
+      - unless is_small_screen?
+        = render 'application/aside'

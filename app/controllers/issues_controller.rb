@@ -5,39 +5,12 @@ class IssuesController < ApplicationController
   before_filter :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
   before_filter :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
-  def home
+  def root
     index
   end
 
   def index
-    tags = (params[:keyword].try(:split) || []).map(&:strip).reject(&:blank?)
-
-    @issues = Issue.displayable_in_current_group(current_group)
-    if current_group.blank? or !host_group.organized_by?(current_user)
-      @issues = @issues.where.any_of(
-        *[Issue.only_public_in_current_group(current_group),
-        (Issue.where(id: current_user.member_issues) if user_signed_in?)].compact)
-    end
-
-    unless params[:group].blank?
-      @issues = Issue.only_group(params[:group])
-    end
-    @issues = @issues.where.any_of(Issue.alive.search_for(params[:keyword]), Issue.alive.tagged_with(tags, any: true)) if params[:keyword].present?
-
-    params[:sort] ||= (current_group.blank? ? 'hottest' : 'recent_touched')
-    case (params[:sort])
-    when 'recent'
-      @issues = @issues.recent
-    when 'name'
-      @issues = @issues.sort_by_name
-    when 'recent_touched'
-      @issues = @issues.recent_touched
-    else
-      @issues = @issues.hottest
-    end
-
-    @issues = @issues.categorized_with(params[:category]) if params[:category].present?
-    @issues = @issues.page(params[:page]).per(3 * 10)
+    index_issues(current_group, params[:keyword])
 
     if current_group.blank?
       render 'index'
@@ -45,6 +18,10 @@ class IssuesController < ApplicationController
       @posts_pinned = current_group.pinned_posts(current_user)
       render 'group_index'
     end
+  end
+
+  def indies
+    index_issues(Group.indie, params[:keyword])
   end
 
   def search_by_tags
@@ -195,6 +172,33 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def index_issues(group, keyword)
+    tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
+
+    @issues = Issue.displayable_in_current_group(group)
+    if group.blank? or !host_group.organized_by?(current_user)
+      @issues = @issues.where.any_of(
+        *[Issue.only_public_in_current_group(group),
+        (Issue.where(id: current_user.member_issues) if user_signed_in?)].compact)
+    end
+    @issues = @issues.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
+
+    params[:sort] ||= (group.blank? or group.indie? ? 'hottest' : 'recent_touched')
+    case (params[:sort])
+    when 'recent'
+      @issues = @issues.recent
+    when 'name'
+      @issues = @issues.sort_by_name
+    when 'recent_touched'
+      @issues = @issues.recent_touched
+    else
+      @issues = @issues.hottest
+    end
+
+    @issues = @issues.categorized_with(params[:category]) if params[:category].present?
+    @issues = @issues.page(params[:page]).per(3 * 10)
+  end
 
   def fetch_issue_by_slug
     @issue = Issue.only_group(current_group).find_by slug: params[:slug]

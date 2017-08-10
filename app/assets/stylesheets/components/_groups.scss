@@ -1,20 +1,21 @@
 #groups-all {
   .group-title {
     color: white;
-    .partis-count {
-      float: right;
-      font-weight: 200;
-      @media (max-width: $screen-xs-max) {
-        float: left;
-        margin-top: 6px;
-      }
-    }
   }
   .issue-card-wrapper .issue-card {
     border: 1px solid $gray-lighter;
     &:hover {
       border: 1px solid $brand-primary-light;
     }
+  }
+}
+
+.group-heading {
+  .partis-count {
+    font-weight: 200;
+    background-color: transparent;
+    color: $gray;
+    border: 1px solid $gray;
   }
 }
 body.in-group {
@@ -107,13 +108,13 @@ body.in-group {
     }
   }
 }
+
 .group-heading{
   h4{
     display:inline-block;
     margin:0px;
   }
   border-left:3px solid $brand-primary;
-  margin-top: 20px;
   padding: 5px 10px;
   font-weight: $headings-font-weight;
   letter-spacing: $headings-letter-spacing;

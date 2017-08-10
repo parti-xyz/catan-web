@@ -11,8 +11,7 @@
 
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left
-          /%li= link_to '빠띠 찾기', issues_path, class: "#{'active' if (current_page?('/parties') or (!user_signed_in? and current_page?('/')))}"
-          %li= link_to '빠띠 찾기', groups_path, class: "#{'active' if current_page?('/groups')}"
+          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if (current_page?('/parties') or (!user_signed_in? and current_page?('/')))}"
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li

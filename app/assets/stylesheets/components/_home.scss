@@ -11,6 +11,9 @@ section#facebook-like {
 }
 
 section#home {
+  &.no-facebook-like {
+    padding-top: 20px;
+  }
   h3.title {
     border-bottom: 1px solid #d2d2d2;
     margin-bottom: 12px;
@@ -61,14 +64,12 @@ section#home {
       .parties-sort-select {
         @media (max-width: $screen-xs-max) {
           margin-top: 10px;
-          &--group {
-            position: relative;
-            white-space: nowrap;
-            nav {
-              overflow: auto;
-              margin-left: 6px;
-              padding-right: 40px;
-            }
+          position: relative;
+          white-space: nowrap;
+          nav {
+            overflow: auto;
+            margin-left: 6px;
+            padding-right: 40px;
           }
           .list-inline:after {
             position: absolute;
@@ -142,6 +143,9 @@ section#home {
         }
       }
     }
+  }
+  .panel-group-info {
+    background-color: $brand-primary-lighter;
   }
 }
 

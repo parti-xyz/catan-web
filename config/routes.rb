@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       root 'dashboard#index', as: :dashboard_root
     end
   end
-  root 'issues#home'
+  root 'issues#root'
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
   get '/robots.:format', to: 'pages#robots'
 
@@ -72,7 +72,6 @@ Rails.application.routes.draw do
   get 'notes/*path', to: redirect('https://parti.xyz')
   get 'articles/*path', to: redirect('https://parti.xyz')
 
-  resources :groups
   resources :parties, as: :issues, controller: 'issues' do
     member do
       delete :remove_logo
@@ -80,6 +79,7 @@ Rails.application.routes.draw do
       get :destroy_form
     end
     collection do
+      get :indies
       get :exist
       get :search_by_tags
       post :merge

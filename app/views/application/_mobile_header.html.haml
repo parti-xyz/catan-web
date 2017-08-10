@@ -50,7 +50,6 @@
             = render 'issues/issue_line', issue: issue
         %li.divider.large
       %li= link_to '빠띠 찾기', issues_path
-      %li= link_to '그룹 찾기', groups_path
       - if user_signed_in?
         %li.divider
         %li= link_to '프로필 수정', edit_user_registration_path
