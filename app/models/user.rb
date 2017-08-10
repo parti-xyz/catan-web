@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
   has_many :destroyed_issues, dependent: :nullify, foreign_key: :destroyer_id, class_name: Issue
   has_many :summary_emails, dependent: :destroy
   has_many :last_touched_wiki, dependent: :nullify, class_name: Wiki, foreign_key: :last_author_id
-
+  has_many :wiki_histories, dependent: :nullify
   ## uploaders
   # mount
   mount_uploader :image, UserImageUploader
