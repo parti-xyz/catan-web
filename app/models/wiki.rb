@@ -73,6 +73,9 @@ class Wiki < ActiveRecord::Base
     )
     file.write IMGKit.new(result, width: 600, quality: 10).to_png
     file.flush
+    if file.respond_to? :"original_filename="
+      file.original_filename = File.basename(file.path)
+    end
 
     self.thumbnail = file
     self.save!
