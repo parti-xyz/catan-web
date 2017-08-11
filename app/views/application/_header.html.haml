@@ -20,7 +20,7 @@
                 내 피드
           - if user_signed_in?
             - if current_user.members.any?
-              %li.dropdown.member-parties
+              %li.dropdown.member-parties#js-member-parties
                 %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
                   내 빠띠
                   %span.caret
