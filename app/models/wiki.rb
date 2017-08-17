@@ -41,6 +41,8 @@ class Wiki < ActiveRecord::Base
   after_create ->(obj) {
     build_history('create') }
   after_update :build_history_after_update
+  # fulltext serch
+  after_save :reindex_for_search!
 
   attr_accessor :skip_capture, :skip_history
 
@@ -163,6 +165,10 @@ class Wiki < ActiveRecord::Base
   def image_ratio
     return 0.8 if image_width == 0 or image_height == 0
     image_width / image_height.to_f
+  end
+
+  def reindex_for_search!
+    post.try(:reindex_for_search!)
   end
 end
 
