@@ -37,6 +37,7 @@ class Wiki < ActiveRecord::Base
 
   mount_uploader :thumbnail, PrivateFileUploader
 
+  after_save :reserve_capture
   after_commit :capture_async
   after_create ->(obj) {
     build_history('create') }
@@ -44,7 +45,7 @@ class Wiki < ActiveRecord::Base
   # fulltext serch
   after_save :reindex_for_search!
 
-  attr_accessor :skip_capture, :skip_history
+  attr_accessor :skip_capture, :skip_history, :reserved_capture
 
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
@@ -88,8 +89,12 @@ class Wiki < ActiveRecord::Base
     self.skip_history = false
   end
 
+  def reserve_capture
+    self.reserved_capture = body_changed?
+  end
+
   def capture_async
-    if !self.skip_capture and (self.read_attribute(:thumbnail).blank? or previous_changes["body"].present?)
+    if !self.skip_capture and (self.read_attribute(:thumbnail).blank? or self.reserved_capture)
       WikiCaptureJob.perform_async(id)
     end
   end
