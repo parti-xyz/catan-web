@@ -9,7 +9,7 @@
     = render 'favicons'
 
     - if current_group.present?
-      = stylesheet_link_tag "groups/#{current_group.slug}_xs", media: 'all'
+      = stylesheet_link_tag "groups/#{current_group.slug}/#{current_group.slug}_xs", media: 'all'
     - else
       = stylesheet_link_tag 'application_xs', media: 'all'
     = stylesheet_link_tag 'vendors', media: 'all'

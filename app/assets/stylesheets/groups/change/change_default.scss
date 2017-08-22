@@ -1,0 +1,13 @@
+@import "variables";
+@import "groups/change/variables_change";
+@import "groups/change/change";
+
+section#home {
+  margin-top: 24px;
+}
+
+#site-header .navbar-header .navbar-brand img {
+  height: 20px;
+  width: auto;
+}
+

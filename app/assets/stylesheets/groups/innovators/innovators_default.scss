@@ -1,0 +1,13 @@
+@import "variables";
+@import "groups/innovators/variables_innovators";
+@import "groups/innovators/innovators";
+
+section#home {
+  margin-top: 24px;
+}
+
+#site-header .navbar-header .navbar-brand img {
+  height: 20px;
+  width: auto;
+}
+

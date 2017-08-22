@@ -1,0 +1,19 @@
+@import "variables";
+@import "groups/syp/variables_syp";
+@import "groups/syp/syp";
+
+section#home {
+  margin-top: 24px;
+}
+.navbar-default .navbar-brand{
+  color:#ffffff;
+}
+
+#site-header .navbar-header .navbar-brand img {
+  height: 20px;
+  width: auto;
+}
+
+#site-header .navbar-fixed-top{
+  background-color:$brand-sub !important;
+}
