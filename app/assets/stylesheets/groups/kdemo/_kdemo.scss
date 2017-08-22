@@ -1,0 +1,8 @@
+@import "application";
+
+#site-header {
+  .navbar-fixed-top {
+    background-image: image_url('groups/innovators_thumb_main_banner.png');
+    background-color: $brand-primary;
+  }
+}
