@@ -526,11 +526,10 @@ class Post < ActiveRecord::Base
   private
 
   def reindex_for_search
-    new_index = ""
-    [self.body, self.wiki.try(:title), self.wiki.try(:body)].each do |text|
-      new_index += Post.to_ngram(sanitize_html(text)).join(' ')
-    end
-    self.body_ngram = new_index.presence
+    new_index = [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
+      Post.to_ngram(sanitize_html(text)).join(' ')
+    end.join(' ')
+    self.body_ngram = new_index.strip.presence
   end
 
   def send_notifiy_pinned_emails(someone)
