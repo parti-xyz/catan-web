@@ -47,6 +47,14 @@ class IssuesController < ApplicationController
 
     previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
     issus_posts = @issue.posts.order(last_stroked_at: :desc)
+    if params[:q].present?
+      @search_q = Post.sanitize_search_key params[:q]
+      issus_posts = if @search_q.present?
+        issus_posts.search(@search_q)
+      else
+        Post.none
+      end
+    end
     @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
 
     current_last_post = @posts.last

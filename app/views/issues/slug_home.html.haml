@@ -36,12 +36,29 @@
           = render 'posts/new_posts_count', new_posts_count_url: new_issue_posts_count_url(issue_id: @issue.id, last_time: @last_post.last_stroked_at.to_i)
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
-          = render 'posts/list_pinned', posts: @posts_pinned
-          - if @issue.posts.empty?
-            .bg-default
-              %i.fa.fa-info-circle
-              아직 글이 없습니다.
+          - if params[:q].present?
+            .post-card.pinned
+              .post-card__post
+                - if @search_q.present?
+                  "#{@search_q}"을(를) 검색한 결과입니다.
+                  - if @search_q != params[:q]
+                    영문과 한글만 검색합니다.
+                  = link_to '취소', smart_issue_home_path_or_url(@issue), class: 'btn btn-sm btn-default'
+                - else
+                  두 글자 이상의 영문과 한글만 검색됩니다. 검색할 키워드를 다시 입력하세요.
+          - if @posts.empty?
+            - if @search_q.present?
+              .bg-default
+                %i.fa.fa-info-circle
+                검색 결과가 없습니다.
+            - elsif params[:q].blank?
+              - unless current_user.need_to_more_member?(current_group)
+                .bg-default
+                  %i.fa.fa-info-circle
+                  아직 글이 없습니다.
           - else
+            - unless @search_q.present?
+              = render 'posts/list_pinned', posts: @posts_pinned
             = render 'posts/page', show_issue: false
         .page_waypoint.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js)}
           .page_waypoint__loading

@@ -505,6 +505,14 @@ class Post < ActiveRecord::Base
     self.link_source = self.link_source.unify if self.link_source.present?
   end
 
+  def self.sanitize_search_key(key)
+    result = key.split.compact.map do |w|
+      w.gsub(/[^ㄱ-ㅎ가-힣a-z0-9]/i, '')
+    end.compact.join(' ')
+
+    (key.length >= 2 ? key : nil)
+  end
+
   def self.search(key)
     ngramed_key = self.to_ngram(key).map { |w| (w.length > 1 ? "+(\"#{w}\")" : "+*#{w}*") }.join(' ')
     where("match(body_ngram) against (? in boolean mode)", ngramed_key)

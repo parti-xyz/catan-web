@@ -7,14 +7,11 @@ class DashboardController < ApplicationController
 
     watched_posts = current_user.watched_posts(current_group)
     if params[:q].present?
-      @search_q = params[:q].split.compact.map do |w|
-        w.gsub(/[^ㄱ-ㅎ가-힣a-z0-9]/i, '')
-      end.compact.join(' ')
-      if @search_q.present? and @search_q.length >= 2
-        watched_posts = watched_posts.search(@search_q)
+      @search_q = Post.sanitize_search_key params[:q]
+      watched_posts = if @search_q.present?
+        watched_posts.search(@search_q)
       else
-        @search_q = nil
-        watched_posts = Post.none
+        Post.none
       end
     end
     @last_post = watched_posts.newest(field: :last_stroked_at)
