@@ -1,20 +1,21 @@
 .group.margin-bottom-default
-  .group-heading
-    = link_to smart_group_url(group) do
-      %h4
-        = group.title_basic_format
-        = security_icon(group)
-        %span.partis-count.badge
-          #{Issue.only_group(group).count}개의 빠띠
-    - unless group.site_description.nil?
-      .group-desc
-        #{group.site_description}
-        - if Issue.only_group(group).any?
-          %br.visible-xs-block
+  - unless group.private_blocked?
+    .group-heading
+      = link_to smart_group_url(group) do
+        %h4
+          = group.title_basic_format
+          = security_icon(group)
+          %span.partis-count.badge
+            #{Issue.only_group(group).count}개의 빠띠
+      - unless group.site_description.nil?
+        .group-desc
+          #{group.site_description}
+          - if Issue.only_group(group).any?
+            %br.visible-xs-block
 
-  - if Issue.only_group(group).any?
-    .row
-      - Issue.only_group(group).hottest.limit(is_small_screen? ? 4 : 3).each do |issue|
-        .col-sm-4.col-xs-6
-          .issue-card-wrapper
-            = render 'issues/card', issue: issue
+    - if Issue.only_group(group).any?
+      .row
+        - Issue.only_group(group).hottest.limit(is_small_screen? ? 4 : 3).each do |issue|
+          .col-sm-4.col-xs-6
+            .issue-card-wrapper
+              = render 'issues/card', issue: issue
