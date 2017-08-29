@@ -1,3 +1,5 @@
+= render 'issues/issue_header', simple: true, issue: @post.issue
+
 %section#post-form.wiki-form
   .container
     - if @post.private_blocked?(current_user)
