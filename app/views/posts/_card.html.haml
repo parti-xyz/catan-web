@@ -16,4 +16,7 @@
       .post-line.post-line
         .post-body
           .post-parsed-body
-            != smart_truncate_html(post_body_format(post.specific_desc), length: 100, ellipsis: '...')
+            - if post.wiki.present?
+              = render 'wikis/line', local_assigns.merge(post: post)
+            - else
+              != smart_truncate_html(post_body_format(post.specific_desc), length: 100, ellipsis: '...')
