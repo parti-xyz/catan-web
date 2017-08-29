@@ -16,7 +16,7 @@
           - if anothers.empty?
             - anothers = @post.issue.not_blind_recent_posts(20, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }
           - if anothers.any?
-            %p
+            %p.title
               %strong #{@post.issue.title}
               빠띠의 다른글
               = render 'posts/card', post: anothers.sample(1).first
