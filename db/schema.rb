@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811013504) do
+ActiveRecord::Schema.define(version: 20170829044140) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -271,12 +271,13 @@ ActiveRecord::Schema.define(version: 20170811013504) do
   add_index "mentions", ["user_id"], name: "index_mentions_on_user_id", using: :btree
 
   create_table "merged_issues", force: :cascade do |t|
-    t.integer  "source_id",   limit: 4,   null: false
-    t.string   "source_slug", limit: 255, null: false
-    t.integer  "issue_id",    limit: 4,   null: false
-    t.integer  "user_id",     limit: 4,   null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "source_id",         limit: 4,   null: false
+    t.string   "source_slug",       limit: 255, null: false
+    t.integer  "issue_id",          limit: 4,   null: false
+    t.integer  "user_id",           limit: 4,   null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "source_group_slug", limit: 255
   end
 
   add_index "merged_issues", ["issue_id"], name: "index_merged_issues_on_issue_id", using: :btree

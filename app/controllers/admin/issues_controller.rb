@@ -15,7 +15,7 @@ class Admin::IssuesController < AdminController
 
     ActiveRecord::Base.transaction do
       MergedIssue.where(issue: source).update_all(issue_id: target.id)
-      MergedIssue.create!(source_id: source.id, source_slug: source.slug, issue: target, user: current_user)
+      MergedIssue.create!(source_id: source.id, source_group_slug: source.group_slug, source_slug: source.slug, issue: target, user: current_user)
 
       # members : joinable_id
       ActiveRecord::Base.record_timestamps = false

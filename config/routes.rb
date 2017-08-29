@@ -55,16 +55,25 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
 
+  class MergedIssueRouteConstraint
+    include GroupHelper
+    def matches?(request)
+      group = fetch_group(request) || Group.indie
+      params = request.params
+      MergedIssue.exists?(source_slug: params[:slug], source_group_slug: group.slug)
+    end
+  end
+
   # 통합 빠띠
-  get '/p/:slug/', to: redirect { |params, req| "/p/#{MergedIssue.find_by(source_slug: params[:slug]).issue.slug}"}, constraints: lambda { |request, params|
-    MergedIssue.exists?(source_slug: params[:slug])
-  }
+  get '/p/:slug/', to: redirect { |params, req|
+    group = fetch_group(request) || Group.indie
+    "/p/#{MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug).issue.slug}"
+  }, constraints: MergedIssueRouteConstraint.new
   get '/p/:slug/*path', to: redirect { |params, req|
-    merged_issue = MergedIssue.find_by(source_slug: params[:slug])
+    group = fetch_group(request) || Group.indie
+    merged_issue = MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug)
     "/p/#{merged_issue.issue.slug}/#{params[:path]}"
-  }, constraints: lambda { |request, params|
-    MergedIssue.exists?(source_slug: params[:slug])
-  }
+  }, constraints: MergedIssueRouteConstraint.new
 
   # 구 talk/opinion/note/article 주소를 신 post로 이동
   get 'talks/:id', to: 'redirects#talk'
