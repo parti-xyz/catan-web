@@ -43,6 +43,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def send_welcome_mail
+    return if current_user.blank?
     WelcomeMailer.welcome(current_user.id).deliver_later
   end
 end
