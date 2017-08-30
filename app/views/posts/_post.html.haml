@@ -1,4 +1,6 @@
 - comment_style = local_assigns[:mode] || 'in-list'
+- if post.issue.blank?
+  - return
 .post-card{class: "post-card--#{comment_style} #{dom_id(post)} #{ 'post-card--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}", data: { 'parti-comment-style': comment_style }}
   .post-card__content
     - if local_assigns[:show_issue]
