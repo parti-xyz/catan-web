@@ -303,6 +303,15 @@ section#posts {
           color: $gray-light;
         }
       }
+      .unpin-label{
+        position: absolute;
+        right: 60px;
+        a{
+          &:hover{
+            color:$gray-dark;
+          }
+        }
+      }
     }
     .post-card__post + .post-card__post {
       border-top: 1px solid $gray-lightest;

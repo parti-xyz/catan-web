@@ -1,4 +1,9 @@
 .post-card__post.clearfix{ id: pinned_post_dom_id(post), class: ('js-posts-pinned-and-read collapse' if local_assigns[:collapse]) }
+  - if post.pinned_at < 1.week.ago
+    - if can? :pin, post
+      %span.label.label-warning.unpin-label
+        = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '공지내리기' }, class: post_pin_buttons_dom_class(post) do
+          공지내리기
   = link_to post do
     .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
       &middot;
