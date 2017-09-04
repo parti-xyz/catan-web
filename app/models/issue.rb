@@ -349,7 +349,8 @@ class Issue < ActiveRecord::Base
     result = hottest.limit(count * 5).to_a
     result.reject! { |r| r.private_blocked?(someone) }
     if result.count < count
-      result += Issue.where.not(id: result.select(:id).to_a).recent_touched.limit(count-result.count).to_a
+      selected_ids = result.map &:id
+      result += Issue.where.not(id: selected_ids).recent_touched.limit(count-result.count).to_a
     end
     result[0...count]
   end
