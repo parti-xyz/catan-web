@@ -107,6 +107,12 @@ class IssuesController < ApplicationController
       flash[:notice] = t('unauthorized.default')
       render 'edit' and return
     end
+    target_group = Group.find_by(slug: @issue.group_slug)
+    if @issue.group_slug_changed? and !@issue.movable_to_group?(target_group)
+      @target_group = target_group
+      @out_of_member_users = @target_group.out_of_member_users(@issue.member_users)
+      render 'warning_out_of_members_notice' and return
+    end
 
     ActiveRecord::Base.transaction do
       if params[:issue].has_key?(:organizer_nicknames)

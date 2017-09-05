@@ -96,6 +96,10 @@ class Group < ActiveRecord::Base
     self.slug == 'indie'
   end
 
+  def out_of_member_users member_users
+    member_users.to_a.select { |user| !member?(user) }
+  end
+
   def invited?(recipient)
     case recipient
     when User

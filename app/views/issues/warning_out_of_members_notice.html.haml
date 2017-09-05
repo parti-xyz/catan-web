@@ -1,0 +1,24 @@
+%section
+  .container
+    .well
+      %h4.text-center
+        아래 멤버들이
+        %span.text-primary
+          #{@target_group.title}
+        그룹빠띠에
+        소속되지 않아 빠띠를 이동할 수 없습니다.
+      %br
+      %br
+      %div{style:"width:400px;margin:0 auto;"}
+        %table.table
+          %tr
+            %th
+            %th.text-center
+              닉네임
+            %th.text-center
+              이메일
+          - @out_of_member_users.each_with_index do |user, idx|
+            %tr
+              %td.text-center= idx + 1
+              %td.text-center= user.nickname
+              %td.text-center= user.email

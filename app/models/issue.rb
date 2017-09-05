@@ -355,6 +355,14 @@ class Issue < ActiveRecord::Base
     result[0...count]
   end
 
+  def movable_to_group? target_group
+    return true if target_group.indie?
+    member_users.each do |user|
+      return false if !target_group.member?(user)
+    end
+    true
+  end
+
   private
 
   def downcase_slug
