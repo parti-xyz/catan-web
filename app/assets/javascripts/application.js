@@ -2,6 +2,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require masonry.pkgd
+//= require imagesloaded.pkgd.js
 //= require jquery.oembed
 //= require jssocials
 //= require unobtrusive_flash
@@ -136,6 +137,9 @@ var parti_prepare_masonry = function($base) {
       options.percentPosition = true;
     }
     $(elm).masonry(options);
+    $(elm).imagesLoaded().progress( function() {
+      $(elm).masonry(options);
+    });
   });
 }
 
