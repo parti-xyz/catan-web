@@ -2,7 +2,7 @@
 .parti-select
   %select.parti-editor-selectpicker.collapse(data-live-search="true" data-width="100%" title="게시할 빠띠를 골라 주세요")
     - Group.all.each do |group|
-      - issues = sort_issues_by_title(current_user.member_issues.alive.only_group(group))
+      - issues = sort_issues_by_title(current_user.member_issues.only_alive_group(group))
       - if issues.any?
         %optgroup{label: group.title_basic_format}
           - issues.each do |issue|

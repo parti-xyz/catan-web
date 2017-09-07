@@ -215,9 +215,9 @@ class IssuesController < ApplicationController
   end
 
   def fetch_issue_by_slug
-    @issue = Issue.only_group(current_group).find_by slug: params[:slug]
+    @issue = Issue.only_alive_or_frozen_group(current_group).find_by slug: params[:slug]
     if @issue.blank?
-      @issue_by_title = Issue.only_group(current_group).find_by(title: params[:slug].titleize)
+      @issue_by_title = Issue.only_alive_or_frozen_group(current_group).find_by(title: params[:slug].titleize)
       if @issue_by_title.present?
         redirect_to @issue_by_title and return
       else

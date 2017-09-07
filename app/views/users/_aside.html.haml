@@ -4,15 +4,15 @@
 
       - if host_group.comprehensive_joined_by?(@user)
         %h5.aside-title= host_group.title_basic_format
-      - if @user.member_issues.only_group(host_group).any?
+      - if @user.member_issues.only_alive_or_frozen_group(host_group).any?
         %ul.list-unstyled.aside-issues
-          = render customize_partial_path(@user.member_issues.only_group(host_group).reject { |issue| issue.private_blocked?(current_user) }, 'issue_line')
+          = render customize_partial_path(@user.member_issues.only_alive_or_frozen_group(host_group).reject { |issue| issue.private_blocked?(current_user) }, 'issue_line')
 
       - Group.comprehensive_joined_by(@user).but(host_group).each do |group|
         - next if group.private_blocked? current_user
         %h5.aside-title
           = link_to group.title_basic_format, smart_group_url(group)
         %ul.list-unstyled.aside-issues
-          = render customize_partial_path(@user.member_issues.only_group(group).reject { |issue| issue.private_blocked?(current_user) }, 'issue_line')
+          = render customize_partial_path(@user.member_issues.only_alive_or_frozen_group(group).reject { |issue| issue.private_blocked?(current_user) }, 'issue_line')
 
     = render 'application/footer'

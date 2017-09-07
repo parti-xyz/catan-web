@@ -144,7 +144,8 @@ class Issue < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
-  scope :only_group, ->(group) { where(group_slug: Group.default_slug(group)) }
+  scope :only_alive_or_frozen_group, ->(group) { where(group_slug: Group.default_slug(group)) }
+  scope :only_alive_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
   scope :notice_only, -> { where(notice_only: true) }
   # search

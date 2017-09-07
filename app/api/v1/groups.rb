@@ -12,13 +12,12 @@ module V1
       end
 
       desc '각 그룹에 속한 빠띠목록을 반환합니다'
-      oauth2
       params do
         requires :slug, type: String, desc: '그룹의 slug'
       end
       get ':slug/parties' do
         group = Group.find_by_slug(params[:slug])
-        present Issue.only_group(group).recent_touched, base_options
+        present Issue.only_alive_group(group).recent_touched, base_options
       end
     end
   end
