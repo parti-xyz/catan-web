@@ -17,7 +17,9 @@ module V1
       end
       get ':slug/parties' do
         group = Group.find_by_slug(params[:slug])
-        present Issue.only_alive_group(group).recent_touched, base_options
+        present Issue.only_alive_group(group).recent_touched.to_a.reject { |issue|
+          issue.private_blocked?(current_user)
+        }, base_options
       end
     end
   end
