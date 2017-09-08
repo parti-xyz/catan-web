@@ -10,6 +10,9 @@
       %br
       %br
       %div{style:"width:400px;margin:0 auto;"}
+        - @issue_url = smart_issue_home_url(@origin_issue)
+        %button.btn.btn-default{onclick:"window.open('#{@issue_url}/members')"}
+          멤버 페이지로 이동
         %table.table
           %tr
             %th

@@ -107,6 +107,7 @@ class IssuesController < ApplicationController
       flash[:notice] = t('unauthorized.default')
       render 'edit' and return
     end
+    @origin_issue = Issue.find(@issue.id)
     target_group = Group.find_by(slug: @issue.group_slug)
     if @issue.group_slug_changed? and !@issue.movable_to_group?(target_group)
       @target_group = target_group
