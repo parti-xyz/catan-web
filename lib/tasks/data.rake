@@ -112,7 +112,7 @@ namespace :data do
         title: '우리가 만드는 나라',
         site_title: '일상 속에서의 민주주의 실현 - 우리가 만드는 나라',
         site_description: "전국적인 온라인 만민공동회 구축을 통해 깨어 있는 시민들의 자발적 네트워크를 구축해 나가는 것을 지향합니다.",
-        head_title: '민주주의',
+        head_title: '우리만나',
         private: false)
 
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
