@@ -1,4 +1,28 @@
 .wiki-line.clearfix
+  - chevron_dropdown = capture do
+    - if can? :pin, post
+      %li
+        = render 'posts/pin_buttons', post: post
+      - if post.pinned?
+        %li
+          = link_to [:readers, post], target: '_blank' do
+            확인한 가입멤버 보기 (#{post.readers_count})
+        %li
+          = link_to [:unreaders, post], target: '_blank' do
+            확인하지 않은 가입멤버 보기
+    - additional_buttons = capture do
+      - if local_assigns[:additional_buttons_partial].present?
+        = render additional_buttons_partial, local_assigns
+    - if additional_buttons.try(:strip).present?
+      %li= additional_buttons
+  - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
+  - if chevron_dropdown.try(:strip).present?
+    .post-card__buttons
+      %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+        %i.fa.fa-chevron-down
+      %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+        = chevron_dropdown
+    %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
   - if post.wiki.wiki_histories.any?
     - text = post.wiki.latest_activity { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
   - if text.present?

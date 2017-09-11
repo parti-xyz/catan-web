@@ -21,6 +21,8 @@
                 = security_icon(post.issue.group)
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
+      - if post.wiki.present?
+        = post.wiki.title
       = post.specific_desc_striped_tags(120)
   - chevron_dropdown = capture do
     - if can? :pin, post
