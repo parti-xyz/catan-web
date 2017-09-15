@@ -213,7 +213,8 @@ class Post < ActiveRecord::Base
   before_save :reindex_for_search
 
   def specific_desc
-    self.parsed_title || self.body ||
+    self.parsed_title.presence || self.body.presence ||
+      (ERB::Util.h(self.wiki.try(:title)).presence) ||
       (ERB::Util.h(self.poll.try(:title)).presence) ||
       (ERB::Util.h(self.file_sources.first.try(:name)).presence if self.file_sources.any?) ||
       (ERB::Util.h(self.link_source.try(:title)).presence if self.link_source.present?) ||
