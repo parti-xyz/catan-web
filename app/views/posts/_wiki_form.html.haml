@@ -5,5 +5,5 @@
   .col-xs-12
     = f.fields_for :wiki do |ff|
       = ff.text_field :title, placeholder: '제목을 넣어주세요...', class: "form-control", data: { 'rule-required': true }
-      %div{ class: ("redactor-wrapper--toolbar" unless is_air_redactorable?) }
+      %div{ class: (is_air_redactorable? ? "redactor-box-style-wiki" : "redactor-wrapper--toolbar") }
         = ff.text_area :body, placeholder: '내용 ...', class: "form-control collapse redactor validate #{'js-redactor-toolbar' unless is_air_redactorable?} validation-ignore", data: { 'rule-required': true }

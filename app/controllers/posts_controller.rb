@@ -52,6 +52,7 @@ class PostsController < ApplicationController
   end
 
   def wiki
+    @issue = @post.issue
     render_404 and return if @post.wiki.blank?
   end
 

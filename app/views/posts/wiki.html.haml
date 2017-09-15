@@ -14,95 +14,90 @@
                 %strong<> 오거나이저의 가입승인
                 을 기다려주세요.
     - else
-      - dropdown_dom_id = "#{dom_id(@post)}__chevron-buttons"
-      - chevron_dropdown = capture do
-        .post-card__buttons
-          %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", style: 'color: #ccc;' }
-            관리
-            %i.fa.fa-chevron-down
-          %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-            - if @post.wiki.activatable?
-              %li
-                = link_to '다시 게시하기', activate_wiki_post_path(@post), method: :patch
-            - if @post.wiki.inactivatable?
-              %li
-                = link_to '아카이브하기', inactivate_wiki_post_path(@post), method: :patch
-            - if @post.wiki.purgeable?
-              %li
-                = link_to '삭제하기', purge_wiki_post_path(@post), method: :patch
-            - if @post.wiki.purgeable?
-              %li.divider
-              %li
-                = link_to '이력보기', histories_wiki_post_path(@post)
-      - read_only_wiki_content = capture do
-        %h4.wiki-title
-          = @post.wiki.title
-          - if !@post.wiki.status.active?
-            %span.label.label-default= @post.wiki.status_text
-        .wiki-body
-          - if @post.wiki.purged?
-            .text-muted 삭제되었습니다
-          - else
-            != @post.wiki.body
+      .row
+        .col-xs-12.col-sm-8
+          - dropdown_dom_id = "#{dom_id(@post)}__chevron-buttons"
+          - chevron_dropdown = capture do
+            .post-card__buttons
+              %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", style: 'color: #ccc;' }
+                관리
+                %i.fa.fa-chevron-down
+              %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+                - if @post.wiki.activatable?
+                  %li
+                    = link_to '다시 게시하기', activate_wiki_post_path(@post), method: :patch
+                - if @post.wiki.inactivatable?
+                  %li
+                    = link_to '아카이브하기', inactivate_wiki_post_path(@post), method: :patch
+                - if @post.wiki.purgeable?
+                  %li
+                    = link_to '삭제하기', purge_wiki_post_path(@post), method: :patch
+                - if @post.wiki.purgeable?
+                  %li.divider
+                  %li
+                    = link_to '이력보기', histories_wiki_post_path(@post)
+          - read_only_wiki_content = capture do
+            %h4.wiki-title
+              = @post.wiki.title
+              - if !@post.wiki.status.active?
+                %span.label.label-default= @post.wiki.status_text
+            .wiki-body
+              - if @post.wiki.purged?
+                .text-muted 삭제되었습니다
+              - else
+                != @post.wiki.body
 
-      - if @post.wiki.wiki_histories.any?
-        - last_history_text = @post.wiki.latest_activity { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
-        - if last_history_text.present?
-          .post-card__last-stroked
-            != last_history_text
-            %span.date= date_f(@post.wiki.latest_history.created_at)
+          - if @post.wiki.wiki_histories.any?
+            - last_history_text = @post.wiki.latest_activity { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
+            - if last_history_text.present?
+              .post-card__last-stroked
+                != last_history_text
+                %span.date= date_f(@post.wiki.latest_history.created_at)
 
-      - if can? :update, @post.wiki
-        = form_for @post, url: wiki_post_path(@post), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
-          - controls = capture do
-            - if @post.wiki.activate?
-              = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
-            = chevron_dropdown
-          .row
-            .col-xs-12.col-sm-6
-              = render 'posts/wiki_issue_line', issue: @post.issue
-            .hidden-xs
-              .col-xs-12.col-sm-6
-                .submit-box.pull-right
+          - if can? :update, @post.wiki
+            = form_for @post, url: wiki_post_path(@post), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
+              - controls = capture do
+                - if @post.wiki.activate?
+                  = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
+                = chevron_dropdown
+              .hidden-xs
+                .submit-box
                   = controls
-
-          - if @post.wiki.activate?
-            =  render 'posts/wiki_form', f: f
+              - if @post.wiki.activate?
+                =  render 'posts/wiki_form', f: f
+              - else
+                .row
+                  .col-xs-12
+                    = read_only_wiki_content
+              .visible-xs-block.hidden-sm{ style: 'margin-top: 12px' }
+                .submit-box
+                  = controls
           - else
-            .row
-              .col-xs-12
-                = read_only_wiki_content
-          .visible-xs-block.hidden-sm{ style: 'margin-top: 12px' }
-            .submit-box
-              = controls
-      - else
-        .wik-content.wiki-content--read-only
-          .row
-            .col-xs-12.col-sm-6
-              = render 'posts/wiki_issue_line', issue: @post.issue
-          .row
-            .col-xs-12
-              = read_only_wiki_content
-    .post-card
-      .post-card__content
-        .post-card__footer.clearfix
-          %span.post-card__footer__upvote
-            .post-upvote
-              = render 'upvotes/upvote', upvotable: @post
+            .wik-content.wiki-content--read-only
+              .row
+                .col-xs-12
+                  = read_only_wiki_content
+          .post-card
+            .post-card__content
+              .post-card__footer.clearfix
+                %span.post-card__footer__upvote
+                  .post-upvote
+                    = render 'upvotes/upvote', upvotable: @post
 
-          - if user_signed_in?
-            %span.post-card__footer__link-to-modal.cursor-pointer{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(@post)}}
-              댓글달기
-          - else
-            %span.post-card__footer__link-to-login.cursor-pointer{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
-              댓글달기
-          %span.post-card__footer__share-modal.cursor-pointer{"data-url": "#share-partial-#{dom_id(@post)}", "data-action": "parti-popover", "data-placement": "top"}
-            공유하기
-          %span.post-card__footer__upvote-count
-            = render 'upvotes/upvote_count', upvotable: @post
-          .hidden
-            .share-partial{id: "share-partial-#{dom_id(@post)}"}
-              = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-url': polymorphic_url(@post, subdomain: @post.issue.group_subdomain), 'share-text': "#{@post.specific_desc_striped_tags(100)} | #{@post.issue.group.try(:title_share_format) || "빠띠"}", 'share-image': "#{@post.meta_tag_image}" }
-        .post-reaction{class: "#{dom_id(@post)}-post-reaction"}
-          = render 'posts/comments', local_assigns.merge(post: @post)
-
+                - if user_signed_in?
+                  %span.post-card__footer__link-to-modal.cursor-pointer{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(@post)}}
+                    댓글달기
+                - else
+                  %span.post-card__footer__link-to-login.cursor-pointer{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
+                    댓글달기
+                %span.post-card__footer__share-modal.cursor-pointer{"data-url": "#share-partial-#{dom_id(@post)}", "data-action": "parti-popover", "data-placement": "top"}
+                  공유하기
+                %span.post-card__footer__upvote-count
+                  = render 'upvotes/upvote_count', upvotable: @post
+                .hidden
+                  .share-partial{id: "share-partial-#{dom_id(@post)}"}
+                    = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-url': polymorphic_url(@post, subdomain: @post.issue.group_subdomain), 'share-text': "#{@post.specific_desc_striped_tags(100)} | #{@post.issue.group.try(:title_share_format) || "빠띠"}", 'share-image': "#{@post.meta_tag_image}" }
+              .post-reaction{class: "#{dom_id(@post)}-post-reaction"}
+                = render 'posts/comments', local_assigns.merge(post: @post)
+        - unless is_small_screen?
+          = render 'issues/aside'
