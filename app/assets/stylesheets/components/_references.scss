@@ -276,15 +276,22 @@ section#references {
   }
   &__file-content {
     display: table-cell;
-    padding: 24px 18px;
+    padding: 6px 18px;
     .media-left {
-      font-size: $font-size-h1;
+      font-size: $font-size-base;
       vertical-align: middle;
       color: $brand-primary;
+      padding-top: 6px;
     }
     .media-body {
       padding-right: 18px;
       vertical-align: middle;
+      padding-top: 6px;
+      color: $gray-dark;
+      @media (max-width: $screen-xs-max) {
+        font-weight: 400;
+        font-size: $font-size-large;
+      }
     }
     .media-right {
       width: 14%;
@@ -295,6 +302,7 @@ section#references {
       border: 1px solid $gray-lighter;
       border-radius: $border-radius-base;
       padding: 6px 7px;
+      font-size: $font-size-small;
     }
     &__file-size {
       font-size: $font-size-base;
