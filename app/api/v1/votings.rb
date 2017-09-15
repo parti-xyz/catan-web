@@ -20,6 +20,8 @@ module V1
         if @voting.errors.any?
           error!(@voting.errors.full_messages, 500)
         end
+
+        return_no_content
       end
 
       desc '찬성투표를 반환합니다'
