@@ -840,6 +840,7 @@ $(function(){
       air: is_air,
       pasteLinks: false,
       linkSize: 10000,
+      toolbarFixedTopOffset: 55,
       callbacks: {
         imageUploadError: function(json, xhr) {
           UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})

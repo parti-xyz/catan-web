@@ -60,8 +60,8 @@
                 - if @post.wiki.activate?
                   = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
                 = chevron_dropdown
-              .hidden-xs
-                .submit-box
+              - if @post.wiki.body.length > 2000
+                .submit-box{ style: 'margin-bottom: 20px' }
                   = controls
               - if @post.wiki.activate?
                 =  render 'posts/wiki_form', f: f
@@ -69,9 +69,8 @@
                 .row
                   .col-xs-12
                     = read_only_wiki_content
-              .visible-xs-block.hidden-sm{ style: 'margin-top: 12px' }
-                .submit-box
-                  = controls
+              .submit-box{ style: 'margin-top: 12px' }
+                = controls
           - else
             .wik-content.wiki-content--read-only
               .row
