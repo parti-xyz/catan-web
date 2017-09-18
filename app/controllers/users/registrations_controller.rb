@@ -23,7 +23,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def account_update_params
-    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation, :current_password, :enable_mailing)
+    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation, :current_password,
+      :enable_mailing_summary, :enable_mailing_pin, :enable_mailing_mention, :enable_mailing_poll_or_survey)
   end
 
   def after_sign_up_path_for(resource)

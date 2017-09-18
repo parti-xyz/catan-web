@@ -11,7 +11,7 @@ class PartiMailer < ApplicationMailer
 
   def summary(user, delivery_method = nil, delivery_method_options = nil)
     @user = user
-    return unless @user.enable_mailing?
+    return unless @user.enable_mailing_summary?
 
     @hottest_posts = @user.watched_posts.hottest.past_week.limit(50)
     @hottest_posts = @hottest_posts.reject { |post| post.blinded?(@user) }[0...10]

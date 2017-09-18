@@ -30,7 +30,7 @@
       != text
       %span.date= date_f(post.wiki.latest_history.created_at)
 
-  = link_to wiki_post_path(post), target: '_blank' do
+  = link_to wiki_post_path(post) do
     .wiki-line-body
       %h4.wiki-title= post.wiki.title
       .wiki-body

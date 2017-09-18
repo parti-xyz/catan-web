@@ -5,7 +5,7 @@ class MentionMailer < ApplicationMailer
     @subject = subject_type.safe_constantize.try(:find, subject_id)
     return if @subject.blank?
 
-    return unless @recipient.enable_mailing?
+    return unless @recipient.enable_mailing_mention?
     truncated_body = view_context.excerpt(@subject.body, length: 20, from_html: @subject.body_html?)
     mail(template_name: "on_#{@subject.class.model_name.singular}",
       to: @recipient.email,

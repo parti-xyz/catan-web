@@ -141,7 +141,10 @@ class User < ActiveRecord::Base
       email: (external_auth.email || email),
       password: Devise.friendly_token[0,20],
       confirmed_at: DateTime.now,
-      enable_mailing: true,
+      enable_mailing_summary: true,
+      enable_mailing_pin: true,
+      enable_mailing_mention: true,
+      enable_mailing_poll_or_survey: true,
       nickname: nickname,
       remote_image_url: external_auth.image_url
   end

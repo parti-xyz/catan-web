@@ -10,7 +10,7 @@ class SurveyMailer < ApplicationMailer
   def on_closed(user_id, survey_id)
     @survey = Survey.find_by(id: survey_id)
     @user = User.find_by(id: user_id)
-    return if @survey.blank? or @user.blank? or !@user.enable_mailing?
+    return if @survey.blank? or @user.blank? or !@user.enable_mailing_poll_or_survey?
 
     mail(to: @user.email,
          subject: "[빠띠] #{@survey.post.user.nickname}님이 올린 설문에 결과가 나왔습니다 : #{@survey.post.specific_desc_striped_tags(50)}")

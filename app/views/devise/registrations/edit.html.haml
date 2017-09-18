@@ -28,8 +28,20 @@
           = f.label :enable_mailing
           .checkbox
             %label
-              = f.check_box :enable_mailing
-              나를 언급한 댓글이나 가입하거나 구독하는 빠띠의 소식을
+              = f.check_box :enable_mailing_mention
+              나를 언급한 게시글이나 댓글을 이메일로 받습니다.
+          .checkbox
+            %label
+              = f.check_box :enable_mailing_pin
+              공지사항을 이메일로 받습니다.
+          .checkbox
+            %label
+              = f.check_box :enable_mailing_poll_or_survey
+              설문이나 투표의 진행 사항을 이메일로 받습니다.
+          .checkbox
+            %label
+              = f.check_box :enable_mailing_summary
+              구독하는 빠띠의 소식을
               이메일로 받습니다.
 
         %hr
