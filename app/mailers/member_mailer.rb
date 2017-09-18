@@ -21,6 +21,9 @@ class MemberMailer < ApplicationMailer
   def on_create(organizer, member)
     @organizer_user = organizer.user
     @member = member
+
+    return unless @organizer_user.try(:enable_mailing_member?)
+
     mail(to: @organizer_user.email,
         subject: "[빠띠] #{member.user.nickname}님이 #{member.joinable.title} #{member.joinable.model_name.human}에 가입했습니다")
   end

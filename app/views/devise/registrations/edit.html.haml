@@ -40,6 +40,10 @@
               설문이나 투표의 진행 사항을 이메일로 받습니다.
           .checkbox
             %label
+              = f.check_box :enable_mailing_member
+              오거나이저인 빠띠에 신규 멤버가 가입한 경우 이메일을 받습니다.
+          .checkbox
+            %label
               = f.check_box :enable_mailing_summary
               구독하는 빠띠의 소식을
               이메일로 받습니다.
