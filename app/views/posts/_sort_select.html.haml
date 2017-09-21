@@ -1,3 +1,3 @@
 .btn-group
-  %button.btn.btn-default{ class: ('active' if params['sort'] == 'hottest' or params['sort'].nil?) }= link_to '인기글', {sort: 'hottest'}
-  %button.btn.btn-default{ class: ('active' if params['sort'] == 'recent') }= link_to '최신글', {sort: 'recent'}
+  = link_to '인기글', {sort: 'hottest'}, class: "btn btn-default #{('active' if params['sort'] == 'hottest' or params['sort'].nil?)}"
+  = link_to '최신글', {sort: 'recent'}, class: "btn btn-default #{('active' if params['sort'] == 'recent')}"

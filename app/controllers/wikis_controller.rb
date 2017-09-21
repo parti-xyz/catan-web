@@ -1,7 +1,11 @@
 class WikisController < ApplicationController
-  before_filter :authenticate_user!, except: [:show]
+  before_filter :authenticate_user!, except: [:index, :show]
   authorize_resource
-  before_action :load_post_and_wiki
+  before_action :load_post_and_wiki, except: [:index]
+
+  def index
+    having_wikis_posts_page(@issue, params[:status] || 'active')
+  end
 
   def activate
     render_404 and return if @wiki.blank?

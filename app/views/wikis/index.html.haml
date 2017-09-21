@@ -1,0 +1,24 @@
+= render 'application/group_home_mobile_header', active: 'wikis'
+
+%section#references
+  .container
+    .posts-header
+      %h4.posts-header__title
+        = Wiki.model_name.human
+        %small 모든 빠띠의 위키입니다.
+      .posts-filter-select
+        .btn-group
+          = link_to "게시 중인 위키", {status: 'active'}, class: "btn btn-default #{('active' if params['status'] == 'active' or params['status'].nil?)}"
+          = link_to "아카이브된 위키", {status: 'inactive'}, class: "btn btn-default #{('active' if params['status'] == 'inactive')}"
+    .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
+      - if @posts.empty?
+        .col-xs-12
+          .bg-default
+            %i.fa.fa-info-circle
+            해당되는 글이 없습니다.
+      - else
+        .grid-sizer.col-sm-4.col-xs-6
+        = render 'wikis/page', show_issue: true
+    .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': wikis_path(format: :js, sort: params[:sort])}
+      .page_waypoint__loading
+        %i.fa.fa-3x.fa-spinner.fa-pulse

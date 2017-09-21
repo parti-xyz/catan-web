@@ -9,9 +9,9 @@
     - else
       .posts-header
         .posts-filter-select
-          %ul.list-inline
-            %li= link_to "게시 중인 위키 (#{@issue.active_wiki_count})", {status: 'active'}, class: ('active' if params['status'] == 'active' or params['status'].nil?)
-            %li= link_to "아카이브된 위키 (#{@issue.inactive_wiki_count})", {status: 'inactive'}, class: ('active' if params['status'] == 'inactive')
+          .btn-group
+            = link_to "게시 중인 위키 (#{@issue.active_wiki_count})", {status: 'active'}, class: "btn btn-default #{('active' if params['status'] == 'active' or params['status'].nil?)}"
+            = link_to "아카이브된 위키 (#{@issue.inactive_wiki_count})", {status: 'inactive'}, class: "btn btn-default #{('active' if params['status'] == 'inactive')}"
       - if @posts.any?
         .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
           .grid-sizer.col-sm-4.col-xs-6

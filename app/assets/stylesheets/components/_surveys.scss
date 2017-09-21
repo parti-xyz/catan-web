@@ -168,12 +168,16 @@
     color: $gray-dark;
     line-height: 1.4em;
     word-break: keep-all;
+    word-wrap: break-word;
     a {
       color: $gray-darker;
     }
     a:hover {
       text-decoration: underline;
     }
+  }
+  &--feedbacked &__title {
+    color: $gray;
   }
   &__issue {
     text-align: left;
