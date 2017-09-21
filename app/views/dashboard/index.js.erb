@@ -1,3 +1,9 @@
+<% if @posts.empty? %>
+if($('#posts .posts').data('last-id') == '-1') {
+  console.log($('#posts .posts').data('last-id'));
+  $('#no-data').show();
+}
+<% end %>
 $('#posts .posts').data('last-id', '<%= @posts.last.try(:id) %>');
 $('#posts .posts').data('is-last', <%= @is_last_page %>);
 var $posts_doms = $("<%= escape_javascript(render 'posts/page', show_issue: true) %>");

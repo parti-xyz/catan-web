@@ -472,7 +472,6 @@ var parti_prepare = function($base) {
     var $elm = $(elm);
     var polling_url = $(elm).data("polling-url");
     var polling_interval = $(elm).data("polling-interval");
-
     var count = 0;
     var update_new_comments = function() {
       if(count > 20) { return; }
@@ -827,7 +826,9 @@ $(function(){
       handler: function(direction) {
         load_page(this);
       },
-      offset: 'bottom-in-view'
+      offset: function () {
+        return this.context.innerHeight() - this.adapter.outerHeight() + 300
+      }
     });
   })();
 

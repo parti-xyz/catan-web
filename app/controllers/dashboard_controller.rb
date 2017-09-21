@@ -5,23 +5,28 @@ class DashboardController < ApplicationController
   def index
     redirect_to root_url and return if current_group.present?
 
-    watched_posts = current_user.watched_posts(current_group)
     if params[:q].present?
       @search_q = Post.sanitize_search_key params[:q]
-      watched_posts = if @search_q.present?
-        watched_posts.search(@search_q)
-      else
-        Post.none
-      end
     end
-    @last_post = watched_posts.newest(field: :last_stroked_at)
 
-    previous_last_post = Post.find_by(id: params[:last_id])
-    watched_posts = watched_posts.order(last_stroked_at: :desc)
-    @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
+    if request.xhr?
+      watched_posts = current_user.watched_posts(current_group)
+      if @search_q.present?
+        watched_posts = if @search_q.present?
+          watched_posts.search(@search_q)
+        else
+          Post.none
+        end
+      end
+      @last_post = watched_posts.newest(field: :last_stroked_at)
 
-    current_last_post = @posts.last
-    @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+      previous_last_post = Post.find_by(id: params[:last_id])
+      watched_posts = watched_posts.order(last_stroked_at: :desc)
+      @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
+
+      current_last_post = @posts.last
+      @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+    end
 
     if params[:last_id].blank?
       @posts_pinned = current_user.watched_posts(current_group).pinned.order('pinned_at desc')
