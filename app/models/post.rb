@@ -76,6 +76,10 @@ class Post < ActiveRecord::Base
       end
     end
 
+    expose :url do |instance|
+      smart_post_url(instance)
+    end
+
     # expose :share do
     #   expose :url do |instance|
     #     polymorphic_url(instance)
