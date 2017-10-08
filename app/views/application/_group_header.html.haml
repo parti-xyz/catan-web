@@ -1,16 +1,17 @@
 #site-header
   %nav.navbar.navbar-default.navbar-fixed-top
-    .container
-      .navbar-header
-        %button.navbar-toggle.collapsed{"data-target": "#collapsable", "data-toggle": "collapse", type: "button"}
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
+    .container-fluid.clearfix
+      .navbar-header.navbar-header-center
         %a.navbar-brand{ href: root_path }
           #{current_group.site_title}
           = security_icon(current_group)
+      %ul.nav.navbar-nav.navbar-left
+        %li
+          %a.btn-mobile-menu{ href: '#'}
+            = image_tag 'btn_mobile_menu_white.png'
+
       #collapsable.collapse.navbar-collapse
-        %ul.nav.navbar-nav.navbar-left
+        %ul.nav.navbar-nav.navbar-left.hidden
           %li= link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
           %li= link_to '자료', links_or_files_path, class: "#{'active' if current_page?(controller: "/links_or_files", action: :index)}"
           %li= link_to Wiki.model_name.human, wikis_path, class: "#{'active' if current_page?(controller: "/wikis", action: :index)}"
@@ -20,26 +21,6 @@
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            %li
-              = link_to dashboard_url(subdomain: '') do
-                %i.fa.fa-th-list
-                내 피드
-            - if current_user.members.any?
-              %li.dropdown.member-parties
-                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                  내 빠띠
-                  %span.caret
-                %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
-                  %li.group-line
-                    = link_to current_group.title_basic_format, smart_group_url(current_group)
-                  - current_user.member_issues.only_alive_group(current_group).each do |issue|
-                    = render 'issues/issue_line', issue: issue
-
-                  - Group.comprehensive_joined_by(current_user).but(current_group).each do |group|
-                    %li.group-line
-                      = link_to group.title_basic_format, smart_group_url(group)
-                    - current_user.member_issues.only_alive_group(group).each do |issue|
-                      = render 'issues/issue_line', issue: issue
             %li.notification
               - if user_signed_in?
                 - if current_user.messages.empty?
@@ -59,27 +40,6 @@
                         %i.fa.fa-bell
                       알림
                     %ul.dropdown-menu.js-notification-dropdown-menu
-          - if user_signed_in?
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-                %span.caret
-              %ul.dropdown-menu
-                - if current_group.private_blocked? current_user
-                  %li
-                    = link_to smart_user_gallery_url(current_user, subdomain: nil) do
-                      %strong= current_user.nickname
-                      프로필
-                  %li.divider
-                  %li= link_to '설정', edit_user_registration_url(subdomain: nil)
-                - else
-                  %li
-                    = link_to smart_user_gallery_path(current_user) do
-                      %strong= current_user.nickname
-                      프로필
-                  %li.divider
-                  %li= link_to '설정', edit_user_registration_path
-                %li= link_to '로그아웃', destroy_user_session_path, method: :delete
           - else
             %li.sign-up
               = link_to '회원가입', pre_sign_up_users_path
@@ -90,3 +50,5 @@
           %ul.nav.navbar-nav.navbar-bottom
             - current_group.categories.each do |category|
               %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
+
+  = render 'drawer_menu'
