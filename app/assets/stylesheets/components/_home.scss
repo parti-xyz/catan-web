@@ -86,9 +86,6 @@ section#home {
             content: ' ';
           }
         }
-        @media (min-width: $screen-sm-min) {
-          text-align: right;
-        }
         vertical-align: bottom;
         ul {
           display: inline-block;
@@ -133,13 +130,9 @@ section#home {
         margin-top: 15px;
       }
       @media (max-width: $screen-xs-max){
-        .col-xs-6:nth-child(2n) {
-          padding-right: 15px;
-          padding-left: 7.5px;
-        }
-        .col-xs-6:nth-child(2n+1) {
-          padding-left: 15px;
+        .col-xs-6 {
           padding-right: 7.5px;
+          padding-left: 7.5px;
         }
       }
     }

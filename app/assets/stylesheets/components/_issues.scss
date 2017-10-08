@@ -563,14 +563,6 @@ section#issues {
   }
   @media (max-width: $screen-xs-max){
     padding-top: 190px;
-    .col-xs-6:nth-child(2n) {
-      padding-right: 15px;
-      padding-left: 7.5px;
-    }
-    .col-xs-6:nth-child(2n+1) {
-      padding-left: 15px;
-      padding-right: 7.5px;
-    }
   }
 }
 

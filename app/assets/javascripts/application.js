@@ -36,6 +36,7 @@
 //= require Sortable
 //= require lightbox
 //= require webp-check
+//= require slick
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
@@ -48,6 +49,19 @@ lightbox.option({
   maxHeight: 500,
   maxWidth: 500
 })
+
+$('.slick-slider').slick({
+  centerMode: true,
+  slidesToShow: 5,
+  responsive: [
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 2
+      }
+    }
+  ]
+});
 
 // blank
 $.is_blank = function (obj) {

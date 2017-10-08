@@ -17,9 +17,9 @@
 = render 'application/group_home_mobile_header', active: 'home'
 
 %section#home
-  .container
+  .container-fluid
     .row
-      .col-xs-12.col-sm-8
+      .col-xs-12.col-sm-12
         - if current_group.private_blocked? current_user
           .blocked
             %h4
@@ -46,6 +46,11 @@
           %section#parties-all
             .parties-all
               .parties-filter
+                .parties-sort-select
+                  .hidden
+                    = render 'issues/index_filter'
+                  %h4
+                    = link_to '모두 보기', '#'
                 .parties-search-form
                   = form_tag issues_path, method: :get, id: 'js-search-parties-form' do
                     = hidden_field_tag :sort, params[:sort]
@@ -55,9 +60,22 @@
                         %span.input-group-btn
                           %button.btn.btn-group-default{:type => "button"}
                             %i.fa.fa-search
-                .parties-sort-select
-                  = render 'issues/index_filter'
               .parties-all-list
                 = render 'issues/page'
-      - unless is_small_screen?
-        = render 'application/aside'
+
+        %section
+          %h4
+            = link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
+
+        %section
+          %h4
+            = link_to Wiki.model_name.human, wikis_path, class: "#{'active' if current_page?(controller: "/wikis", action: :index)}"
+
+        %section
+          %h4
+            = link_to '자료', links_or_files_path, class: "#{'active' if current_page?(controller: "/links_or_files", action: :index)}"
+
+        - if current_group.private?
+          %section
+            %h4
+              = link_to '멤버', group_members_path, class: ('active' if current_page?('/group/members'))
