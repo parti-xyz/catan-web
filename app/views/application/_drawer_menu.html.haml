@@ -1,5 +1,5 @@
 .mobile-list#mobile-list
-  = image_tag 'icon_close_white.png', class: 'mobile-list__close'
+  %i.fa.fa-times.mobile-list__close{style:"color:#ffffff"}
   - if user_signed_in?
     .mobile-list__profile
       = byline current_user
