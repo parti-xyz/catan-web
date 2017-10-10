@@ -1,5 +1,5 @@
 class MemberRequestsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   load_resource :issue
   load_and_authorize_resource :member_request, through: :issue, shallow: true
 

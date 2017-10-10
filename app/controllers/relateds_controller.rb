@@ -1,6 +1,6 @@
 class RelatedsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :load_related_with_issues, only: :new
+  before_action :authenticate_user!
+  before_action :load_related_with_issues, only: :new
   load_and_authorize_resource
 
   def new

@@ -1,5 +1,5 @@
 class WikisController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show]
   authorize_resource
   before_action :load_post_and_wiki, except: [:index]
 

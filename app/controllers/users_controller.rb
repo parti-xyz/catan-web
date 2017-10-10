@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!, only: [:kill_me, :toggle_root_page, :access_token]
+  before_action :authenticate_user!, only: [:kill_me, :toggle_root_page, :access_token]
 
   def parties
     fetch_user

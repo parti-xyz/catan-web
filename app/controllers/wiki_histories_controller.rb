@@ -1,7 +1,7 @@
 class WikiHistoriesController < ApplicationController
   load_and_authorize_resource :wiki
   load_and_authorize_resource :wiki_history, through: :wiki, shallow: true
-  before_filter :load_issue
+  before_action :load_issue
 
   def index
     @wiki_histories = paging(@wiki_histories.order(created_at: :desc))

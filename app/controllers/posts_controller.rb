@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_user!, except: [:index, :show, :wiki, :poll_social_card, :survey_social_card, :modal]
+  before_action :authenticate_user!, except: [:index, :show, :wiki, :poll_social_card, :survey_social_card, :modal]
   load_and_authorize_resource
 
   def index

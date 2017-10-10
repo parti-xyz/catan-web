@@ -1,6 +1,6 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   include AfterLogin
-  prepend_before_filter :require_no_authentication, only: [:facebook, :google_oauth2, :twitter]
+  prepend_before_action :require_no_authentication, only: [:facebook, :google_oauth2, :twitter]
 
   def facebook
     run_omniauth

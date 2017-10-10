@@ -1,5 +1,5 @@
 class VotingsController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
 
   def create
     @poll = Poll.find params[:poll_id]

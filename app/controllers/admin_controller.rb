@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   layout 'admin'
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :require_admin
 
   def require_admin
