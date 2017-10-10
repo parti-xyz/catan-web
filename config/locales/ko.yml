@@ -225,7 +225,7 @@ ko:
       public_join: 가입하기
       groups:
         syp:
-          public_join: 지지하기
+          public_join: 함께하기
   enumerize:
     defaults:
       choice:
