@@ -1,5 +1,5 @@
 - has_blinds = false
-- @posts.each do |post|
+- posts.each do |post|
   - unless post.blinded?(current_user) or post.private_blocked?(current_user)
     .col-xs-12.col-sm-4.card.card--hover-grow
       - if post.poll.present?

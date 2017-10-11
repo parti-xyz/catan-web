@@ -16,6 +16,10 @@ class IssuesController < ApplicationController
       render 'index'
     else
       @posts_pinned = current_group.pinned_posts(current_user)
+
+      @polls_and_surveys = Post.having_poll.or(Post.having_survey).displayable_in_current_group(current_group)
+      @polls_and_surveys = @polls_and_surveys.hottest.limit(10)
+
       render 'group_index'
     end
   end

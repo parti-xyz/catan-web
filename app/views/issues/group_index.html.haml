@@ -63,9 +63,13 @@
               .parties-all-list
                 = render 'issues/page'
 
+          // 카드 형태로 렌더링합니다.
+          //
         %section
           %h4
             = link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
+          .row.masonry-container
+            = render '/polls_or_surveys/page', posts: @polls_and_surveys
 
         %section
           %h4

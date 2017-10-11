@@ -1,6 +1,6 @@
 $('.row.masonry-container').data('last-id', '<%= @posts.last.try(:id) %>');
 $('.row.masonry-container').data('is-last', <%= @is_last_page %>);
-var $posts = $("<%= escape_javascript(render 'polls_or_surveys/page', show_issue: true) %>");
+var $posts = $("<%= escape_javascript(render 'polls_or_surveys/page', posts: @posts, show_issue: true) %>");
 $('.row.masonry-container').append($posts).masonry('appended', $posts);
 $('.row.masonry-container').append($posts).imagesLoaded().progress( function() {
   $('.row.masonry-container').append($posts).masonry(options);
