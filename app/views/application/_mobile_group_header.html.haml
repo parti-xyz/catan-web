@@ -10,7 +10,7 @@
             = image_tag 'btn_mobile_menu_white.png'
 
   .mobile-list#mobile-list
-    = image_tag 'icon_close_white.png', class: 'mobile-list__close'
+    %i.fa.fa-close.mobile-list__close{style:"font-size:24px;color:white"}
     - if user_signed_in?
       .mobile-list__profile
         = byline current_user
