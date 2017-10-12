@@ -8,8 +8,7 @@
       %ul.nav.navbar-nav.navbar-left
         %li
           %a.btn-mobile-menu{ href: '#'}
-            = image_tag 'btn_mobile_menu_white.png'
-
+            %i.fa.fa-bars{style:"font-size:18px;"}
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-left.hidden
           %li= link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"

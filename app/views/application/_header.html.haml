@@ -1,18 +1,13 @@
 #site-header.main-site-header
   %nav.navbar.navbar-default.navbar-fixed-top
-    .container
-      .navbar-header
-        %button.navbar-toggle.collapsed{"data-target": "#collapsable", "data-toggle": "collapse", type: "button"}
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        %a.navbar-brand{ href: issues_path }
-          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-
-      #collapsable.collapse.navbar-collapse
+    .container-fluid
+      .navbar-header.navbar-header-center
         %ul.nav.navbar-nav.navbar-left
-          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if (current_page?('/parties') or (!user_signed_in? and current_page?('/')))}"
+          %li
+            %a.btn-mobile-menu{ href: '#'}
+              %i.fa.fa-bars{style:"font-size:18px;"}
         %ul.nav.navbar-nav.navbar-right
+          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if (current_page?('/parties') or (!user_signed_in? and current_page?('/')))}"
           - if user_signed_in?
             %li
               = link_to root_path, class: "#{'active' if current_page?('/') or current_page?('/dashboard')}" do
@@ -74,3 +69,10 @@
               = link_to '회원가입', pre_sign_up_users_path
             %li.sign-up
               = link_to '로그인', new_user_session_path
+        %button.navbar-toggle.collapsed{"data-target": "#collapsable", "data-toggle": "collapse", type: "button"}
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a.navbar-brand{ href: issues_path }
+          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+  = render 'drawer_menu'
