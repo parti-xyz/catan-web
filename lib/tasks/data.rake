@@ -115,6 +115,13 @@ namespace :data do
         head_title: '우리만나',
         private: false)
 
+      seed_group(user, 'donghaeng', ['donghaeng'],
+        title: '서울동행프로젝트',
+        site_title: '대학생과 청소년 동생들이 함께 성장하는 동행',
+        site_description: "대학생 자원봉사 전문 플랫폼, 서울동행프로젝트입니다",
+        head_title: '서울동행',
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
