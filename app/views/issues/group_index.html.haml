@@ -19,13 +19,13 @@
 %section#home
   .container-fluid
     %section{style:"margin-top:50px;"}
-      %h3.group-home-subtitle
+      %h4.group-heading
         = link_to '진행 중인 토론', polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
       .row.masonry-container
         = render '/polls_or_surveys/page', posts: @polls_and_surveys
 
     %section{style:"margin-top:50px;"}
-      %h3.group-home-subtitle 최신 의견
+      %h4.group-heading 최신 의견
 
       %ul.list-group
         - Post.limit(10).each do |post|
@@ -83,7 +83,7 @@
                   .parties-sort-select
                     .hidden
                       = render 'issues/index_filter'
-                    %h3.group-home-subtitle
+                    %h4.group-heading
                       빠띠
                   / .parties-search-form
                   /   = form_tag issues_path, method: :get, id: 'js-search-parties-form' do
