@@ -123,3 +123,11 @@ body.in-group {
     font-weight: $small-in-headings-font-weight;
   }
 }
+
+h5.group-home-subtitle{
+  width:120px;
+  border-left:2px solid black;
+  border-right:2px solid black;
+  margin:10px auto;
+  text-align:center;
+}
