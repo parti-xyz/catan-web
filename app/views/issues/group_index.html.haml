@@ -65,7 +65,7 @@
 
         %section{style:"margin-top:30px;"}
           %h5.group-home-subtitle
-            = link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
+            = link_to '진행 중인 토론', polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
           .row.masonry-container{style:"margin-top:40px;"}
             = render '/polls_or_surveys/page', posts: @polls_and_surveys
           }
