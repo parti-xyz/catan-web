@@ -18,7 +18,6 @@ $(function() {
         left: '0px'
       }, 400 );
       $('body').animate( { marginRight: '-260px', marginLeft: '260px' } );
-      $navbar.animate( {'right': '-260px'} );
     }
   });
   $mobile_menu_cancel.on('click', function() {
