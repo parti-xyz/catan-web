@@ -49,8 +49,8 @@
                 .parties-sort-select
                   .hidden
                     = render 'issues/index_filter'
-                  %h5.group-home-subtitle
-                    모든 빠띠 보기
+                  %h3.group-home-subtitle
+                    빠띠
                 / .parties-search-form
                 /   = form_tag issues_path, method: :get, id: 'js-search-parties-form' do
                 /     = hidden_field_tag :sort, params[:sort]
@@ -63,9 +63,8 @@
               .parties-all-list
                 = render 'issues/page'
 
-        %section{style:"margin-top:30px;"}
-          %h5.group-home-subtitle
+        %section{style:"margin-top:50px;"}
+          %h3.group-home-subtitle
             = link_to '진행 중인 토론', polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
           .row.masonry-container{style:"margin-top:40px;"}
             = render '/polls_or_surveys/page', posts: @polls_and_surveys
-          }

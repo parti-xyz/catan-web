@@ -52,8 +52,20 @@ lightbox.option({
 
 $('.slick-slider').slick({
   centerMode: true,
-  slidesToShow: 5,
+  slidesToShow: 7,
   responsive: [
+    {
+      breakpoint: 1280,
+      settings: {
+        slidesToShow: 5
+      }
+    },
+    {
+      breakpoint: 960,
+      settings: {
+        slidesToShow: 3
+      }
+    },
     {
       breakpoint: 480,
       settings: {
