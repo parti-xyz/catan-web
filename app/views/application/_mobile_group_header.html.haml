@@ -55,14 +55,16 @@
           - current_user.member_issues.only_alive_group(group).each do |issue|
             = render 'issues/issue_line', issue: issue
         %li.divider.large
-      %li= link_to '빠띠 찾기', issues_url(subdomain: nil)
+      %li
+        %i.fa.fa-search.action-link
+        = link_to '빠띠 찾기', issues_url(subdomain: nil), style:"display:inline-block", class:"action-link"
       - if user_signed_in?
         %li.divider
         %li= link_to '프로필 수정', edit_user_registration_path
         %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
-      %li.divider
       %li= link_to '빠띠 소개', '/about'
       %li= link_to '이용약관', '/terms'
+      %li= link_to '그룹 개설 안내', '/service'
       %li= link_to '개인정보취급정책', '/privacy'
       %li
         %a(href='mailto:help@parti.xyz')

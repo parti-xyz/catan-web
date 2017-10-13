@@ -40,11 +40,19 @@
             #{group.title_basic_format}
         - current_user.member_issues.only_alive_group(group).each do |issue|
           = render 'issues/issue_line', issue: issue
-      %li.divider.large
-    %li= link_to '빠띠 찾기', issues_path
-    %li.divider
+      %li{style:"padding-right:20px;"}
+        %hr
+    %li
+      = link_to root_path do
+        %div
+          %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+        %span{style:"font-size:12px;color:dimgray;font-weight:bold;line-height:30px;"}
+          민주적 일상 커뮤니티 '빠띠'
+    %li{style:"padding-right:20px;"}
+      %hr
     %li= link_to '빠띠 소개', '/about'
     %li= link_to '이용약관', '/terms'
+    %li= link_to '그룹 개설 안내', '/service'
     %li= link_to '개인정보취급정책', '/privacy'
     %li
       %a(href='mailto:help@parti.xyz')

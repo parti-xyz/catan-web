@@ -276,10 +276,10 @@
       }
     }
     &__menu {
+      margin-top: 15px;
       padding-top: 5px;
       li {
         padding-left: 20px;
-        border-bottom: 1px solid $gray-lightest;
         &.divider {
           border-bottom: 1px solid $brand-primary-light;
           &.large {
@@ -287,9 +287,13 @@
           }
         }
         a {
-          color: $brand-primary;
-          padding: 10px 0;
+          color: $gray-dark;
+          padding: 5px 0;
           display: block;
+        }
+        .action-link{
+          color: $brand-primary;
+          font-weight:bold;
         }
         &.home-line {
           border-bottom: none;
