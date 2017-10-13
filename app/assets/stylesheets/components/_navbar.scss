@@ -243,11 +243,14 @@
       text-align: center;
       padding-top: 10px;
       .user-image, .default-profile {
-        width: 100px;
-        padding-left:40px;
+        width: 60px;
         height: 60px;
         display: block;
         margin: 10px auto;
+      }
+      .default-profile{
+        width:100px !important;
+        padding-left:40px;
       }
       .text-nowrap {
         font-size: 18px;
