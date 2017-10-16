@@ -51,25 +51,28 @@ lightbox.option({
 })
 
 $('.slick-slider').slick({
-  centerMode: true,
-  slidesToShow: 7,
+  slidesToShow: 6,
+  slidesToScroll: 6,
   responsive: [
     {
       breakpoint: 1280,
       settings: {
-        slidesToShow: 5
+        slidesToShow: 5,
+        slidesToScroll: 5
       }
     },
     {
       breakpoint: 960,
       settings: {
-        slidesToShow: 3
+        slidesToShow: 3,
+        slidesToScroll: 3
       }
     },
     {
       breakpoint: 480,
       settings: {
-        slidesToShow: 1
+        slidesToShow: 1,
+        slidesToScroll: 1
       }
     }
   ]
