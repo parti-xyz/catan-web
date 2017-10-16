@@ -935,20 +935,19 @@ body.app-issues-new, .bs-component{
     border-radius: $border-radius-base;
   }
 }
-
-/*slick slider*/
-.slick-slider{
-  @media(min-width:$screen-sm-max){
-    margin:0px 30px;
-  }
+.slick-arrow{
+  width: 20px;
+  height: 20px;
+  font-size: 50px !important;
+  color: lightgray;
+  position: absolute;
+  top: 45%;
+  cursor: pointer;
+  z-index:99;
 }
-.slick-arrow{background-color:white; height:100px;}
-.slick-prev:before, .slick-next:before { font-family: "slick"; font-size: 40px; line-height: 1; color: black; opacity: 0.75; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-
-.slick-prev:before { content: "‹"; }
-[dir="rtl"] .slick-prev:before { content: "›"; }
-
-[dir="rtl"] .slick-next { left: -10px; top: 70px; right: auto; }
-.slick-next:before { content: "›"; }
-[dir="rtl"] .slick-next:before { content: "‹"; }
-
+.slick-custom-prev{
+  left: -10px;
+}
+.slick-custom-next{
+  right: 10px;
+}

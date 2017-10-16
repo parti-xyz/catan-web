@@ -1,7 +1,7 @@
 - has_blinds = false
 - posts.each do |post|
   - unless post.blinded?(current_user) or post.private_blocked?(current_user)
-    .col-xs-12.col-sm-4.col-md-3.card.card--hover-grow
+    .col-xs-12.col-sm-4.col-md-4.card.card--hover-grow
       - if post.poll.present?
         = render 'polls/poll', local_assigns.merge(poll: post.poll)
       - elsif post.survey.present?

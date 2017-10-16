@@ -17,7 +17,7 @@
 = render 'application/group_home_mobile_header', active: 'home'
 
 %section#home
-  .container-fluid
+  .container
     %section{style:"margin-top:50px;"}
       %h4.group-heading
         = link_to '진행 중인 토론', polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
@@ -27,30 +27,34 @@
     %section{style:"margin-top:50px;"}
       .row
         .col-sm-12.col-md-6
-          %h4.group-heading 최신 의견
-          %ul.list-group
-            - Post.limit(6).each do |post|
-              %li.list-group-item[post]
-                .media
-                  .media-body
-                    = link_to post do
-                      = post.specific_desc_striped_tags(120)
-                      .desc
-                        .issue-meta
-                          - if local_assigns[:show_issue]
-                            %span.issue-and-group
-                              %span.issue-title
-                                = post.issue.title
-                                = security_icon(post.issue)
-                              - if post.issue.group != host_group
-                                %i.fa.fa-angle-left
-                                %span.issue-group
-                                  = post.issue.group.title
-                                  = security_icon(post.issue.group)
-                          - created_at = local_assigns[:post].try(:created_at)
-                          %span.date= created_at.nil? ? '지금' : date_f(created_at)
-                  .media-right
-                    = link_to '투표나 라이크', '#', class: 'btn btn-default'
+          %h4.group-heading 최신 글
+          .post-card.pinned
+            - Post.limit(4).each do |post|
+              .post-card__post
+                .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
+                  &middot;
+                .desc
+                  .issue-meta
+                    %span.issue-and-group
+                      %span.issue-title
+                        = post.issue.title
+                        = security_icon(post.issue)
+                      - if post.issue.group != host_group
+                        %i.fa.fa-angle-left
+                        %span.issue-group
+                          = post.issue.group.title
+                          = security_icon(post.issue.group)
+                    - created_at = local_assigns[:post].try(:created_at)
+                    %span.date= created_at.nil? ? '지금' : date_f(created_at)
+                  = link_to post do
+                    = post.specific_desc_striped_tags(120)
+                .media-right
+                  - if post.survey.present?
+                    %label.label-default
+                      설문
+                  - elsif post.poll.present?
+                    %labe.label-default
+                      찬반
         .col-sm-12.col-md-6
           %h4.group-heading 공지사항
           - if @posts_pinned.try(:any?)
@@ -67,7 +71,7 @@
                 .parties-sort-select
                   .hidden
                     = render 'issues/index_filter'
-                  %h4.group-heading
+                  %h4.group-heading{style:"margin-bottom:-20px;"}
                     빠띠
                 / .parties-search-form
                 /   = form_tag issues_path, method: :get, id: 'js-search-parties-form' do
