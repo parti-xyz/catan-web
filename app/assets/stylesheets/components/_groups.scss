@@ -112,6 +112,9 @@ body.in-group {
     display:inline-block;
     margin:0px;
   }
+  small{
+    margin-left: 5px;
+  }
   border-left:3px solid $brand-primary;
   padding: 5px 10px;
   font-weight: $headings-font-weight;
