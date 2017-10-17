@@ -150,6 +150,7 @@ Rails.application.routes.draw do
   get 'links_or_files', to: 'links_or_files#index'
   get 'polls_or_surveys', to: 'polls_or_surveys#index'
   get 'wikis', to: 'wikis#index'
+  get 'all_in_group', to: 'issues#index'
 
   resources :relateds
   resources :messages

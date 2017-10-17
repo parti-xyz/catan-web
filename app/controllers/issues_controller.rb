@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :list_in_group]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
@@ -11,6 +11,11 @@ class IssuesController < ApplicationController
 
   def index
     index_issues(current_group, params[:keyword])
+
+    if request.path == '/all_in_group'
+      render 'group_list'
+      return
+    end
 
     if current_group.blank?
       render 'index'

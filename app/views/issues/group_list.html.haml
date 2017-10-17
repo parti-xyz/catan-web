@@ -1,0 +1,11 @@
+%section#home
+  .container
+    %h4.posts-header__title{style:"display:block;width:100%;clear:both;"}
+      빠띠
+      %small
+        그룹 내 모든 빠띠입니다.
+    .row
+      - @issues.each do |issue|
+        .ol-xs-12.col-md-3
+          .issue-card-wrapper
+            = render 'issues/card', issue: issue
