@@ -28,7 +28,7 @@
               = render 'issues/index_filter'
           - if @issues.any?
             .parties-all-list
-              = render 'issues/page'
+              = render 'issues/page', issues: @issues
           - elsif params[:keyword].present?
             .bg-default
               %i.fa.fa-info-circle

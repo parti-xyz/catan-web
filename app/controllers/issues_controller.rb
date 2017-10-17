@@ -1,31 +1,34 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :list_in_group]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
   before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
+  #그룹이 없는 일반 빠띠의 경우 루트로 접속했을 때 어떻게 가는지 확인
+  #광주빠띠 카테고ㄹ1
   def root
-    index
-  end
-
-  def index
-    index_issues(current_group, params[:keyword])
-
-    if request.path == '/all_in_group'
-      render 'group_list'
-      return
-    end
-
     if current_group.blank?
+      index_issues(Group.indie, params[:keyword])
       render 'index'
     else
+      group_issues(current_group)
       @posts_pinned = current_group.pinned_posts(current_user)
 
       @polls_and_surveys = Post.having_poll.or(Post.having_survey).displayable_in_current_group(current_group)
       @polls_and_surveys = @polls_and_surveys.hottest.limit(7)
 
       render 'group_index'
+    end
+  end
+
+  def index
+    if current_group.blank?
+      index_issues(Group.indie, params[:keyword])
+      render 'index'
+    else
+      group_issues(current_group)
+      render 'group_list'
     end
   end
 
@@ -197,6 +200,12 @@ class IssuesController < ApplicationController
 
   private
 
+  def group_issues(group)
+    @issues = Issue.displayable_in_current_group(group)
+    @issues = @issues.hottest
+    @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
+  end
+
   def index_issues(group, keyword)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
 
@@ -221,7 +230,7 @@ class IssuesController < ApplicationController
     end
 
     @issues = @issues.categorized_with(params[:category]) if params[:category].present?
-    @issues = @issues.page(params[:page]).per(3 * 10)
+    @issues = @issues.page(params[:page]).per(4 * 10)
   end
 
   def fetch_issue_by_slug

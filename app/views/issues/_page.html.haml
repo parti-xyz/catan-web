@@ -1,2 +1,3 @@
-= render 'issues/list'
-/= paginate @issues, theme: 'catan'
+= render 'issues/list', issues: issues
+- if issues.respond_to? :total_pages
+  = paginate issues, theme: 'catan'

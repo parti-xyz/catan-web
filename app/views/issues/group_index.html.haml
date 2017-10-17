@@ -79,11 +79,16 @@
                 .parties-sort-select
                   .hidden
                     = render 'issues/index_filter'
-                  = link_to all_in_group_path do
+                  = link_to issues_path do
                     %h4.group-heading{style:"margin-bottom:-20px;"}
                       빠띠
                       %small
                         모두 보기
                         %i.fa.fa-angle-double-right
               .parties-all-list
-                = render 'issues/page'
+                .row.slick-slider
+                  - @issues.each do |issue|
+                    .col-sm-4.col-xs-12.col-md-4.col-lg-2
+                      .issue-card-wrapper
+                        = render 'issues/card', issue: issue
+

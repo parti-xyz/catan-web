@@ -9,7 +9,7 @@
           - if @issues.any?
             .parties-all
               .parties-all-list
-                = render 'issues/list'
+                = render 'issues/list', issues: @issues
           - else
             .bg-default
               %i.fa.fa-info-circle

@@ -6,6 +6,6 @@
         %section#content-tab-section
           = render 'users/content_tabs', active_tab: :parties, counts_container: @user.writing_counts
         .parties
-          = render 'issues/list'
+          = render 'issues/list', issues: @issues
 
       = render 'users/aside'
