@@ -1,9 +1,9 @@
 - post = survey.post
-- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
+/- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
 
 - issue = post.issue
 - feedbacked = user_signed_in? && survey.feedbacked?(current_user)
-.survey-card[post]{ class: "#{dom_id(survey)} #{feedbacked ? 'survey-card--feedbacked' : ''} #{removable_with_post_dom_class(post)}", data: modal_data}
+.survey-card[post]{ class: "#{dom_id(survey)} #{feedbacked ? 'survey-card--feedbacked' : ''} #{removable_with_post_dom_class(post)} js-survey-modal", "data-url": post_path(post)}
   - if post.private_blocked?(current_user)
     %strong 비공개 빠띠 게시글입니다.
     - if post.issue.member_requested? current_user

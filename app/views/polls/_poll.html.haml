@@ -1,9 +1,9 @@
 - post = poll.post
-- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
+/- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
 
 - issue = post.issue
 - voted = user_signed_in? && poll.voting_by?(current_user)
-.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)}", data: modal_data}
+.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)} js-poll-card", "data-url": post_path(post)}
   - if post.private_blocked?(current_user)
     %strong 비공개 빠띠 게시글입니다.
     - if post.issue.member_requested? current_user

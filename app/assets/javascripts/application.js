@@ -562,6 +562,20 @@ var parti_prepare = function($base) {
   $base.data('parti-prepare-arel', 'completed');
 }
 
+$(".js-poll-card, .js-survey-modal").click(function(){
+  var href = $(this).closest('a').attr('href');
+  var url = $(this).data("url");
+
+  if (href && href != "#") {
+    return true;
+  }
+  var disabled = $(this).closest('[data-disable-modal="true"]')
+  if (disabled.length) {
+    return true;
+  }
+  location.href = url;
+})
+
 //parti-post-modal
 var parti_prepare_post_modal = function($base) {
   $.parti_apply($base, '[data-toggle="parti-post-modal"]', function(elm) {
