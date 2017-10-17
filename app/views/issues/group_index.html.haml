@@ -33,9 +33,6 @@
         .col-sm-12.col-md-6
           %h4.group-heading
             최신 글
-            %small
-              더 보기
-              %i.fa.fa-angle-double-right
           .post-card.pinned
             - Post.displayable_in_current_group(host_group).limit(4).each do |post|
               .post-card__post
