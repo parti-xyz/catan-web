@@ -22,6 +22,10 @@
           - if user_signed_in?
             %li.notification
               - if user_signed_in?
+                %li
+                  = link_to dashboard_url(subdomain: '') do
+                    %i.fa.fa-th-list
+                    내 피드
                 - if current_user.messages.empty?
                   %li.notification
                     = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
