@@ -10,5 +10,11 @@
           = link_to '위키', wikis_path
         %li{ class: ('active' if local_assigns[:active] == 'links_or_files') }
           = link_to t('labels.links_or_files'), links_or_files_path
-      = link_to '빠띠만들기', new_issue_path, class: 'pull-right btn btn-default btn-xs', style: "margin-top:7px;"
-
+        - if current_group.private?
+          %li
+            = link_to '멤버', group_members_path, class: ('active' if current_page?('/group/members'))
+      %ul.list-inline.pull-right
+        %li
+          = link_to new_issue_path do
+            %i.fa.fa-magic
+            빠띠 만들기
