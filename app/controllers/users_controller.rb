@@ -1,12 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:kill_me, :toggle_root_page, :access_token]
 
-  def parties
-    fetch_user
-    @issues = @user.member_issues
-    @issues = @issues.only_public_in_current_group unless current_user == @user
-  end
-
   def posts
     fetch_user
 

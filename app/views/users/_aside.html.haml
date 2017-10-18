@@ -1,7 +1,6 @@
 .col-sm-4.hidden-xs
   #aside
     .aside_issue
-
       - if host_group.comprehensive_joined_by?(@user)
         %h5.aside-title= host_group.title_basic_format
       - if @user.member_issues.only_alive_or_frozen_group(host_group).any?

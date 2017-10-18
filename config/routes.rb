@@ -200,8 +200,7 @@ Rails.application.routes.draw do
   get '/p/:slug/members', to: "issues#slug_members", as: 'slug_issue_users'
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
 
-  get '/u/:slug', to: "users#parties", as: 'slug_user'
-  get '/u/:slug/posts', to: "users#posts", as: 'slug_user_posts'
+  get '/u/:slug', to: "users#posts", as: 'slug_user'
 
   get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
