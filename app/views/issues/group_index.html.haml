@@ -31,6 +31,14 @@
     %section{style:"margin-top:20px;"}
       .row
         .col-sm-12.col-md-6
+          .visible-xs-block{style:"margin-top:40px;"}
+          %h4.group-heading 공지사항
+          - if @posts_pinned.try(:any?)
+            = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true, not_need_header: true
+          - else
+            공지사항이 없습니다
+
+        .col-sm-12.col-md-6
           %h4.group-heading
             최신 글
           .post-card.pinned
@@ -60,13 +68,6 @@
                   - elsif post.poll.present?
                     %label.label-default
                       찬반
-        .col-sm-12.col-md-6
-          .visible-xs-block{style:"margin-top:40px;"}
-          %h4.group-heading 공지사항
-          - if @posts_pinned.try(:any?)
-            = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true, not_need_header: true
-          - else
-            공지사항이 없습니다
 
     %section{style:"margin-top:50px;"}
       .row
@@ -86,7 +87,7 @@
               .parties-all-list
                 .row.slick-slider
                   - @issues.each do |issue|
-                    .col-sm-4.col-xs-12.col-md-4.col-lg-2
+                    .col-xs-12.col-sm-4.col-md-4.col-lg-3
                       .issue-card-wrapper
                         = render 'issues/card', issue: issue
 

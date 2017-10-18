@@ -51,18 +51,11 @@ lightbox.option({
 })
 
 $('.slick-slider').slick({
-  slidesToShow: 6,
-  slidesToScroll: 6,
+  slidesToShow: 5,
+  slidesToScroll: 5,
   nextArrow: '<i class="fa fa-chevron-circle-right slick-custom-next"></i>',
   prevArrow: '<i class="fa fa-chevron-circle-left slick-custom-prev"></i>',
   responsive: [
-    {
-      breakpoint: 1280,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 5
-      }
-    },
     {
       breakpoint: 960,
       settings: {
