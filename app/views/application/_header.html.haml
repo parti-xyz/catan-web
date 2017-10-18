@@ -7,30 +7,11 @@
             %a.btn-mobile-menu{ href: '#'}
               %i.fa.fa-bars{style:"font-size:18px;"}
         %ul.nav.navbar-nav.navbar-right
-          %li= link_to '빠띠 찾기', issues_path, class: "#{'active' if (current_page?('/parties') or (!user_signed_in? and current_page?('/')))}"
           - if user_signed_in?
             %li
               = link_to root_path, class: "#{'active' if current_page?('/') or current_page?('/dashboard')}" do
                 %i.fa.fa-th-list
                 내 피드
-          - if user_signed_in?
-            - if current_user.members.any?
-              %li.dropdown.member-parties#js-member-parties
-                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                  내 빠띠
-                  %span.caret
-                %ul.dropdown-menu{data: {'filter': (current_user.member_issues.count > 12), 'filter-label': '찾으려는 빠띠 이름을 넣어주세요.'}}
-                  - if current_user.member_issues.only_alive_group(host_group).any?
-                    %li.group-line
-                      = link_to host_group.title_basic_format, root_path
-                  - current_user.member_issues.only_alive_group(host_group).each do |issue|
-                    = render 'issues/issue_line', issue: issue
-
-                  - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
-                    %li.group-line
-                      = link_to group.title_basic_format, root_path
-                    - current_user.member_issues.only_alive_group(group).each do |issue|
-                      = render 'issues/issue_line', issue: issue
           - if user_signed_in?
             - if current_user.messages.empty?
               %li.notification
