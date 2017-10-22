@@ -144,9 +144,6 @@ section#home {
 
 section#group-home-submenu {
   background-color: $brand-primary;
-  @media (max-width: $screen-xs-max){
-    margin-top: 6px;
-  }
   .list-inline {
     margin-top: 10px;
     a {
