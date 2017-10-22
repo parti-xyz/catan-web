@@ -17,6 +17,6 @@
         .post-body
           .post-parsed-body
             - if post.wiki.present?
-              = render 'wikis/line', local_assigns.merge(post: post)
+              = render 'wikis/card', local_assigns.merge(post: post)
             - else
               != smart_truncate_html(post_body_format(post.specific_desc), length: 100, ellipsis: '...')
