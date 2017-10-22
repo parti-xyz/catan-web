@@ -555,15 +555,11 @@ var parti_prepare = function($base) {
   $base.data('parti-prepare-arel', 'completed');
 }
 
-$(".js-poll-card, .js-survey-modal").click(function(){
-  var href = $(this).closest('a').attr('href');
+$(".js-poll-card, .js-survey-modal").click(function(e){
+  var href = $(e.target).closest('a').attr('href');
   var url = $(this).data("url");
 
-  if (href && href != "#") {
-    return true;
-  }
-  var disabled = $(this).closest('[data-disable-modal="true"]')
-  if (disabled.length) {
+  if(href && href != "#"){
     return true;
   }
   location.href = url;
