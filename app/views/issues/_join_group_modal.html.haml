@@ -1,0 +1,18 @@
+.modal.fade#join-modal{"tabindex": "-1", "role": "dialog", "aria-labelledby": "join-modal", "aria-hidden": "true"}
+  .modal-dialog.group-modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss": "modal", "aria-label": "Close"}
+          %span{"aria-hidden":"true"}
+            &times;
+        %h4.modal-title
+          그룹에 가입신청하기
+      .modal-body
+        = form_tag group_member_requests_path do
+          .form-group
+            %label
+              오거나이저가 알 수 있도록
+              '#{current_user.nickname}' 님을 구체적으로 소개해주세요.
+            = text_area_tag :description, nil, class: 'form-control', placeholder: 'ex) 소속, 성함'
+          .form-group.text-right
+            = submit_tag "신청합니다", class: 'btn btn-danger', data: { disable_with: "진행 중..." }

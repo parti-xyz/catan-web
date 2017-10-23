@@ -59,6 +59,9 @@ section#user-gallery{
       overflow: hidden;
       text-overflow: ellipsis;
     }
+    pre{
+      margin: 20px;
+    }
   }
   &__additional_buttons {
     text-align: center;

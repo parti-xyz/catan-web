@@ -4,7 +4,7 @@ class Group::MemberRequestsController < GroupBaseController
 
   def create
     unless current_group.member?(current_user)
-      @member_request.assign_attributes(joinable: current_group, user: current_user)
+      @member_request.assign_attributes(joinable: current_group, user: current_user, description: params[:description])
       if @member_request.save
         MessageService.new(@member_request, action: :request).call
         MemberRequestMailer.deliver_all_later_on_create(@member_request)

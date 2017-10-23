@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918074414) do
+ActiveRecord::Schema.define(version: 20171023013651) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -233,6 +233,7 @@ ActiveRecord::Schema.define(version: 20170918074414) do
     t.datetime "created_at",                                  null: false
     t.datetime "updated_at",                                  null: false
     t.string   "joinable_type",  limit: 255,                  null: false
+    t.string   "description",    limit: 255
   end
 
   add_index "member_requests", ["joinable_id", "joinable_type", "user_id", "active"], name: "unique_member_requests", unique: true, using: :btree
