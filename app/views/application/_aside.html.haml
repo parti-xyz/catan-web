@@ -2,5 +2,18 @@
   #aside
     .aside_user
       = render 'users/user_panel', user: current_user
+    - if user_signed_in?
+      .aside_issue
+        .aside_issue_btn
+          = link_to "#{ current_group and "#{current_group.title}" } 빠띠만들기", new_issue_path, class: 'btn btn-primary btn-block'
+
+        - if params[:controller] == 'dashboard' and params[:action] == 'index'
+          .aside_search
+            = form_tag dashboard_path, method: :get do
+              .form-group.has-feedback
+                = search_field_tag :q, params[:q], placeholder: '내 피드에서 게시글 찾기...', class: 'form-control'
+                %span.form-control-feedback{ style: 'pointer-events: initial;' }
+                  = button_tag class: 'btn btn-link btn-xs' do
+                    %i.fa.fa-search.text-muted
 
     = render 'application/footer'
