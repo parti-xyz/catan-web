@@ -35,18 +35,18 @@
           = link_to dashboard_url(subdomain: '') do
             %i.fa.fa-th-list
             내 피드
-        - if current_user.member_issues.only_alive_group(host_group).any?
+        - if current_user.member_issues.only_alive_of_group(host_group).any?
           %li.group-line
             = link_to root_path do
               #{host_group.title_basic_format}
-        - current_user.member_issues.only_alive_group(host_group).each do |issue|
+        - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
           = render 'issues/issue_line', issue: issue
 
         - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
           %li.group-line
             = link_to smart_group_url(group) do
               #{group.title_basic_format}
-          - current_user.member_issues.only_alive_group(group).each do |issue|
+          - current_user.member_issues.only_alive_of_group(group).each do |issue|
             = render 'issues/issue_line', issue: issue
         %li.divider.large
       %li= link_to '빠띠 찾기', issues_path

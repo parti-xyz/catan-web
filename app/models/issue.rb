@@ -144,10 +144,10 @@ class Issue < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
-  scope :only_alive_or_frozen_group, ->(group) { where(group_slug: Group.default_slug(group)) }
-  scope :only_alive_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
+  scope :of_group, ->(group) { where(group_slug: Group.default_slug(group)) }
+  scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
-  scope :not_private_blocked, ->(current_user) { any_of(where(id: current_user.try(:member_issues)), where.not(private: true)) }
+  scope :not_private_blocked, ->(current_user) { where.any_of(where(id: current_user.try(:member_issues)), where.not(private: true)) }
   scope :hottest_not_private_blocked, ->(someone, count = 10) {
     not_private_blocked(someone).hottest.limit(count)
   }

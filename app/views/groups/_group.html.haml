@@ -6,17 +6,17 @@
           = group.title_basic_format
           = security_icon(group)
           %span.partis-count.badge
-            #{Issue.only_alive_or_frozen_group(group).count}개의 빠띠
+            #{Issue.of_group(group).count}개의 빠띠
       - unless group.site_description.nil?
         .group-desc
           #{group.site_description}
-          - if Issue.only_alive_or_frozen_group(group).any?
+          - if Issue.of_group(group).any?
             %br.visible-xs-block
 
-    - if Issue.only_alive_or_frozen_group(group).any?
+    - if Issue.of_group(group).any?
       .row
         - display_count = is_small_screen? ? 4 : 3
-        - Issue.only_alive_or_frozen_group(group).hottest_not_private_blocked(current_user, display_count).each do |issue|
+        - Issue.of_group(group).hottest_not_private_blocked(current_user, display_count).each do |issue|
           .col-sm-4.col-xs-6
             .issue-card-wrapper
               = render 'issues/card', issue: issue

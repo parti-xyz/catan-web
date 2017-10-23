@@ -38,7 +38,7 @@
         %h5.aside-title
           #{@issue.group.title} 그룹
         %ul.list-unstyled.aside-issues
-          - Issue.only_alive_group(@issue.group).sort_by_name.each do |issue|
+          - Issue.only_alive_of_group(@issue.group).sort_by_name.each do |issue|
             - next if issue.private_blocked?(current_user)
             = render customize_partial_path(issue, 'issue_line')
 
