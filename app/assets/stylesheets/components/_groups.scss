@@ -10,6 +10,18 @@
   }
 }
 
+.app-issues-root.in-group {
+  .slick-list {
+    .issue-card-wrapper .issue-card {
+      margin: 0;
+    }
+  }
+
+  section#home section#parties-all .parties-all-list {
+    margin-top: 0;
+  }
+}
+
 .group-heading {
   .partis-count {
     font-weight: 200;

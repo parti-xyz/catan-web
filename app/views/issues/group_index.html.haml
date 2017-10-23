@@ -92,7 +92,7 @@
                         %label.label-default
                           찬반
 
-      %section{style:"margin-top:50px;"}
+      %section{style:"margin-top:20px;"}
         .row
           .col-sm-12.col-md-12
             %section#parties-all
@@ -110,7 +110,7 @@
                 .parties-all-list
                   .row.slick-slider
                     - @issues.each do |issue|
-                      .col-xs-12.col-sm-4.col-md-4.col-lg-3
+                      .col-xs-6.col-sm-4.col-md-4.col-lg-3
                         .issue-card-wrapper
                           = render 'issues/card', issue: issue
 
