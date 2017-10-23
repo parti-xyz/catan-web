@@ -146,8 +146,8 @@ class Issue < ActiveRecord::Base
   scope :categorized_with, ->(slug) { where(category_slug: slug) }
   scope :of_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
-  scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
-  scope :not_private_blocked, ->(current_user) { where.any_of(where(id: current_user.try(:member_issues)), where.not(private: true)) }
+  scope :displayable_in_current_group, ->(group) { where(group_slug: Group.default_slug(group)) if group.present? }
+  scope :not_private_blocked, ->(current_user) { where.any_of(where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id')), where.not(private: true)) }
   scope :hottest_not_private_blocked, ->(someone, count = 10) {
     not_private_blocked(someone).hottest.limit(count)
   }
