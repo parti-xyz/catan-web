@@ -60,8 +60,7 @@
             %h4.group-heading
               최신 글
             .post-card.pinned
-              - posts = Post.displayable_in_current_group(host_group).send('recent')
-              - posts.limit(4).each do |post|
+              - @recent_posts.each do |post|
                 .post-card__post
                   .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
                     &middot;

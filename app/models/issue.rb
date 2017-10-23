@@ -147,7 +147,9 @@ class Issue < ActiveRecord::Base
   scope :only_alive_or_frozen_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :only_alive_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: group.slug) if group.present? }
+  scope :not_private_blocked, ->(current_user) { any_of(where(id: current_user.member_issues), where.not(private: true)) }
   scope :notice_only, -> { where(notice_only: true) }
+
   # search
   scoped_search on: [:title, :body]
 

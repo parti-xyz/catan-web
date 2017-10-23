@@ -5,19 +5,17 @@ class IssuesController < ApplicationController
   before_action :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
   before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
-  #그룹이 없는 일반 빠띠의 경우 루트로 접속했을 때 어떻게 가는지 확인
   #광주빠띠 카테고ㄹ1
   def root
     if current_group.blank?
-      index_issues(Group.indie, params[:keyword])
-      render 'index'
+      index
     else
       group_issues(current_group)
       @posts_pinned = current_group.pinned_posts(current_user)
 
-      @polls_and_surveys = Post.having_poll.or(Post.having_survey).displayable_in_current_group(current_group)
+      @polls_and_surveys = Post.having_poll.or(Post.having_survey).displayable_in_current_group(current_group).not_private_blocked(current_user)
       @polls_and_surveys = @polls_and_surveys.hottest.limit(7)
-
+      @recent_posts = Post.displayable_in_current_group(current_group).not_private_blocked(current_user).recent.limit(4)
       render 'group_index'
     end
   end
