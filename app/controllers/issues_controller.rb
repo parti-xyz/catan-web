@@ -14,7 +14,7 @@ class IssuesController < ApplicationController
 
       @polls_and_surveys = Post.having_poll.or(Post.having_survey).displayable_in_current_group(current_group).not_private_blocked(current_user)
       @polls_and_surveys = @polls_and_surveys.hottest.limit(7)
-      @recent_posts = Post.displayable_in_current_group(current_group).not_private_blocked(current_user).recent.limit(4)
+      @recent_posts = Post.displayable_in_current_group(current_group).not_private_blocked(current_user).order_by_stroked_at.limit(4)
       render 'group_root'
     end
   end

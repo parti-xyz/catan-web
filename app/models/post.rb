@@ -164,6 +164,7 @@ class Post < ActiveRecord::Base
   # scopes
   default_scope -> { joins(:issue) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :order_by_stroked_at, -> { order(last_stroked_at: :desc).recent }
   scope :hottest, -> { order(recommend_score_datestamp: :desc, recommend_score: :desc) }
   scope :previous_of_hottest, ->(post) {
     base = hottest.order(id: :desc)
@@ -188,7 +189,7 @@ class Post < ActiveRecord::Base
     base
   }
   scope :previous_of_stroked, ->(post) {
-    base = order(last_stroked_at: :desc).recent
+    base = order_by_stroked_at
     base = base.where('posts.last_stroked_at < ?', post.last_stroked_at).where('posts.created_at < ?', post.created_at) if post.present?
     base
   }
