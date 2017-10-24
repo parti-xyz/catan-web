@@ -6,15 +6,15 @@
           #{current_group.head_title}
       %ul.nav.navbar-nav.navbar-left
         %li
-          %a.btn-mobile-menu{ href: '#'}
+          %a.btn-drawer-menu{ href: '#'}
             = image_tag 'btn_mobile_menu_white.png'
 
-  .mobile-list#mobile-list
-    %i.fa.fa-close.mobile-list__close{style:"font-size:24px;color:white"}
+  .drawer-list#drawer-list
+    %i.fa.fa-close.drawer-list__close{style:"font-size:24px;color:white"}
     - if user_signed_in?
-      .mobile-list__profile
+      .drawer-list__profile
         = byline current_user
-        .mobile-list__messages
+        .drawer-list__messages
           = link_to messages_path do
             - if current_user.unread_messages_count > 0
               %span.fa-stack
@@ -23,13 +23,13 @@
             - else
               %i.fa.fa-bell{style: 'color: white'}
     - else
-      .mobile-list__profile
+      .drawer-list__profile
         = image_tag 'img_default_profile.png', class: 'default-profile'
         .btn-new-user
           = link_to '회원가입', pre_sign_up_users_path
           \|
           = link_to '로그인', new_user_session_path
-    %ul.mobile-list__menu.list-unstyled
+    %ul.drawer-list__menu.list-unstyled
       - if user_signed_in?
         %li.home-line
           = link_to dashboard_url(subdomain: '') do
@@ -75,7 +75,7 @@
         = link_to smart_issue_home_url(Issue.parti_parti) do
           제안 및 의견 &middot; 빠띠만든당
     - if is_kakao_talkable?
-      .mobile-list__yellow
+      .drawer-list__yellow
         %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
           = image_tag 'icon_yellow.png', alt: 'btn-yellow'
 
