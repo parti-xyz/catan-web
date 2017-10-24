@@ -2,7 +2,7 @@
   .container
     .page-wrapper
       %h3.page-wrapper__title
-        가격 정책
+        그룹 개설 안내
       %p.service-info
         • 빠띠에서는 사용하고자 하는 목적에 따라 '그룹'을 생성할 수 있습니다.<br/>
         • '그룹' 안에 다양한 빠띠를 운영하여 구성원 간의 소통 도구로 사용할 수 있습니다.<br/>
@@ -42,7 +42,9 @@
             커스터마이징 테마
           %p
             분기별 1회 무료
-        %br
-        %br
-        = link_to '그룹 개설을 신청합니다', 'https://goo.gl/forms/ldIKoqbRkUefqpgU2', class: 'btn btn-primary btn-lg', target: '_blank'
-        = link_to '그룹 찾기', '/groups', class: 'btn btn-default btn-lg', target: '_blank'
+        %p
+          = link_to '그룹 개설을 신청합니다', 'https://goo.gl/forms/ldIKoqbRkUefqpgU2', class: 'btn btn-primary btn-lg', target: '_blank'
+        %p
+          = link_to issues_path(subdomain: nil), target: '_blank', style: 'font-size: 14px; text-decoration: underline' do
+            개설된 그룹 둘러보기
+            %i.fa.fa-arrow-right
