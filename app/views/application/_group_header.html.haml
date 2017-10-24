@@ -12,29 +12,39 @@
       #collapsable.collapse.navbar-collapse
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            %li.notification
-              - if user_signed_in?
+            %li
+              = link_to dashboard_url(subdomain: '') do
+                %i.fa.fa-th-list
+                내 피드
+            - if current_user.messages.empty?
+              %li.notification
+                = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
+                  %i.fa.fa-bell
+                  알림
+            - else
+              %li.notification.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
+                %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}"}
+                  %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
+                    %span.icon-bell-stack
+                      %i.fa.fa-circle.fa-stack-1x
+                      %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                    %span.label.label-danger= trim_count current_user.unread_messages_count
+                  %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
+                    %i.fa.fa-bell
+                  알림
+                %ul.dropdown-menu.js-notification-dropdown-menu
+            %li.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+                %span.caret
+              %ul.dropdown-menu
                 %li
-                  = link_to dashboard_url(subdomain: '') do
-                    %i.fa.fa-th-list
-                    내 피드
-                - if current_user.messages.empty?
-                  %li.notification
-                    = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
-                      %i.fa.fa-bell
-                      알림
-                - else
-                  %li.notification.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
-                    %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}"}
-                      %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
-                        %span.icon-bell-stack
-                          %i.fa.fa-circle.fa-stack-1x
-                          %i.fa.fa-bell.fa-stack-1x.fa-inverse
-                        %span.label.label-danger= trim_count current_user.unread_messages_count
-                      %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
-                        %i.fa.fa-bell
-                      알림
-                    %ul.dropdown-menu.js-notification-dropdown-menu
+                  = link_to smart_user_gallery_url(current_user, subdomain: nil) do
+                    %strong= current_user.nickname
+                    프로필
+                %li.divider
+                %li= link_to '설정', edit_user_registration_url(subdomain: nil)
+                %li= link_to '로그아웃', destroy_user_session_path, method: :delete
           - else
             %li.sign-up
               = link_to '회원가입', pre_sign_up_users_path
