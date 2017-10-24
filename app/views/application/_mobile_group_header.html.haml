@@ -35,18 +35,18 @@
           = link_to dashboard_url(subdomain: '') do
             %i.fa.fa-th-list
             내 피드
-        - if !current_group.private_blocked?(current_user) and current_group.categories.try(:any?)
-          %li.category-line
-            주제별 빠띠
-          - current_group.categories.each do |category|
-            %li.issue-line
-              = link_to category_path(slug: category.slug) do
-                = category.name
         %li.group-line
           = link_to root_path do
             #{current_group.title_basic_format}
         - current_user.member_issues.only_alive_of_group(current_group).each do |issue|
           = render 'issues/issue_line', issue: issue
+        - if !current_group.private_blocked?(current_user) and current_group.categories.try(:any?)
+          %li.category-line
+            주제별 빠띠
+          - current_group.categories.each do |category|
+            %li.issue-line
+              = link_to issues_path(category_slug: category.slug) do
+                = category.name
 
         - Group.comprehensive_joined_by(current_user).but(current_group).each do |group|
           %li.group-line

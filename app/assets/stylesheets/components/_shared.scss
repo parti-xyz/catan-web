@@ -731,3 +731,55 @@ label.required:after {
     margin-bottom: 20px;
   }
 }
+
+
+.parties-filter {
+  .parties-filter-select {
+    text-align: right;
+    @media (max-width: $screen-xs-max) {
+      margin-top: 10px;
+      position: relative;
+      white-space: nowrap;
+      text-align: left;
+      nav {
+        overflow: auto;
+        padding-right: 40px;
+      }
+      .list-inline:after {
+        position: absolute;
+        top: 0;
+        right: -1px;
+        height: 16px;
+        width: 50px;
+        z-index: 1;
+        pointer-events: none;
+        background: -webkit-linear-gradient( right , $gray-lighter, rgba(248, 247, 238, 0));
+        background: linear-gradient(to left, $gray-lighter, rgba(248, 247, 238, 0));
+        visibility: visible;
+        opacity: 1;
+        content: ' ';
+      }
+    }
+    vertical-align: bottom;
+    ul {
+      display: inline-block;
+      margin: 0;
+      li {
+        padding: 0;
+        a {
+          color: $gray;
+          &:hover,
+          &.active {
+            color: $brand-primary;
+            text-decoration: underline;
+          }
+        }
+      }
+      li + li:before {
+        content: '|';
+        color: $gray-light;
+        margin: 0 5px;
+      }
+    }
+  }
+}

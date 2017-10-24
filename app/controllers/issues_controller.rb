@@ -5,7 +5,6 @@ class IssuesController < ApplicationController
   before_action :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
   before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
-  #광주빠띠 카테고ㄹ1
   def root
     if current_group.blank?
       index
@@ -16,7 +15,7 @@ class IssuesController < ApplicationController
       @polls_and_surveys = Post.having_poll.or(Post.having_survey).displayable_in_current_group(current_group).not_private_blocked(current_user)
       @polls_and_surveys = @polls_and_surveys.hottest.limit(7)
       @recent_posts = Post.displayable_in_current_group(current_group).not_private_blocked(current_user).recent.limit(4)
-      render 'group_index'
+      render 'group_root'
     end
   end
 
@@ -25,8 +24,8 @@ class IssuesController < ApplicationController
       index_issues(Group.indie, params[:keyword])
       render 'index'
     else
-      group_issues(current_group)
-      render 'group_list'
+      group_issues(current_group, params[:category_slug])
+      render 'group_index'
     end
   end
 
@@ -198,9 +197,10 @@ class IssuesController < ApplicationController
 
   private
 
-  def group_issues(group)
+  def group_issues(group, category_slug = nil)
     @issues = Issue.displayable_in_current_group(group)
     @issues = @issues.hottest
+    @issues = @issues.categorized_with(category_slug) if category_slug.present?
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
   end
 

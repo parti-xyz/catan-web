@@ -32,13 +32,6 @@
 }
 body.in-group {
   @media (min-width: $screen-sm-min) {
-    &.in-group--has-categories {
-      padding-top: 100px;
-      #site-header .navbar-fixed-top {
-        height: 100px;
-      }
-    }
-
     #group-key-visual-bg {
       height: 500px;
       background-position: center;

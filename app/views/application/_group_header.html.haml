@@ -10,14 +10,6 @@
           %a.btn-mobile-menu{ href: '#'}
             %i.fa.fa-bars{style:"font-size:18px;"}
       #collapsable.collapse.navbar-collapse
-        %ul.nav.navbar-nav.navbar-left.hidden
-          %li= link_to t('labels.polls_or_surveys'), polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}"
-          %li= link_to '자료', links_or_files_path, class: "#{'active' if current_page?(controller: "/links_or_files", action: :index)}"
-          %li= link_to Wiki.model_name.human, wikis_path, class: "#{'active' if current_page?(controller: "/wikis", action: :index)}"
-          - if current_group.private?
-            %li
-              = link_to '멤버', group_members_path, class: ('active' if current_page?('/group/members'))
-
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li.notification
@@ -48,10 +40,5 @@
               = link_to '회원가입', pre_sign_up_users_path
             %li.sign-up
               = link_to '로그인', new_user_session_path
-
-        - if current_group.categories.try(:any?)
-          %ul.nav.navbar-nav.navbar-bottom
-            - current_group.categories.each do |category|
-              %li= link_to "#{category.name}", category_path(slug: category.slug), class: "#{'active' if current_page?(category_path(slug: category.slug))}"
 
   = render 'drawer_menu'

@@ -1,116 +1,19 @@
-- if request.query_string.blank?
-  - ['jpg', 'gif', 'png'].each do |ext|
-    - if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual_bg.#{ext}"
-      - bg_path = "groups/#{current_group.slug}_thumb_main_keyvisual_bg.#{ext}"
-      %section#group-key-visual-bg{style: "background-image: url(#{asset_url(bg_path)});"}
-      - break
-  - ['jpg', 'gif', 'png'].each do |ext|
-    - if File.exist? "app/assets/images/groups/#{current_group.slug}_thumb_main_keyvisual.#{ext}"
-      - bg_path = "groups/#{current_group.slug}_thumb_main_keyvisual.#{ext}"
-      %section#group-key-visual
-        = image_tag bg_path, style: "width: 100%"
-      - break
-
-  - if lookup_context.exists?("issues/#{host_group.slug}/_key_page")
-    = render "issues/#{host_group.slug}/key_page"
-
-- if current_group.private_blocked? current_user
-  %section
-    .container
-      .blocked
-        %h4
-          비공개 그룹입니다.
-        - if current_group.member_requested? current_user
-          %p
-            이 그룹에서 활동하려면 먼저 가입승인을 받아야 합니다.
-            %span.text-nowrap
-              %strong 그룹 오거나이저의 가입승인을 기다려주세요.
-        - else
-          %p
-            비공개 그룹에서 활동하려면 먼저 가입신청을 해주세요.
-            %br
-            - if user_signed_in?
-              %button.btn.btn-md.btn-primary{"data-toggle": "modal", "data-target": "#join-modal"}
-                가입 신청하기
-              = render "issues/join_group_modal"
-            - else
-              = link_to '가입하기', '#', data: {toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.id}.to_json) }, class: 'btn btn-md btn-primary'
-- else
-  = render 'application/group_home_sub_header', active: 'home'
-  %section#home
-    .container
-      - if @polls_and_surveys.try(:any?)
-        %section{style:"margin-top:20px;"}
-          = link_to polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}" do
-            %h4.group-heading
-              진행 중인 토론
-              %small
-                더 보기
-                %i.fa.fa-angle-double-right
-          .row.masonry-container
-            = render '/polls_or_surveys/page', posts: @polls_and_surveys
-
-      - if @posts_pinned.try(:any?) or @recent_posts.try(:any?)
-        %section{style:"margin-top:20px;"}
-          .row
-            .col-sm-12.col-md-6
-              %h4.group-heading 공지사항
-              - if @posts_pinned.try(:any?)
-                = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true, not_need_header: true
-              - else
-                공지사항이 없습니다
-
-            .col-sm-12.col-md-6
-              .visible-xs-block{style:"margin-top:40px;"}
-              %h4.group-heading
-                최신 글
-              .post-card.pinned
-                - @recent_posts.each do |post|
-                  .post-card__post
-                    .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
-                      &middot;
-                    .desc
-                      .issue-meta
-                        %span.issue-and-group
-                          %span.issue-title
-                            = post.issue.title
-                            = security_icon(post.issue)
-                          - if post.issue.group != host_group
-                            %i.fa.fa-angle-left
-                            %span.issue-group
-                              = post.issue.group.title
-                              = security_icon(post.issue.group)
-                        - created_at = post.try(:created_at)
-                        %span.date= created_at.nil? ? '지금' : date_f(created_at)
-                      = link_to post do
-                        = post.specific_desc_striped_tags(120)
-                    .media-right
-                      - if post.survey.present?
-                        %label.label-default
-                          설문
-                      - elsif post.poll.present?
-                        %label.label-default
-                          찬반
-
-      %section{style:"margin-top:20px;"}
-        .row
-          .col-sm-12.col-md-12
-            %section#parties-all
-              .parties-all
-                .parties-filter
-                  .parties-sort-select
-                    .hidden
-                      = render 'issues/index_filter'
-                    = link_to issues_path do
-                      %h4.group-heading
-                        빠띠
-                        %small
-                          모두 보기
-                          %i.fa.fa-angle-double-right
-                .parties-all-list
-                  .row.slick-slider
-                    - @issues.each do |issue|
-                      .col-xs-6.col-sm-4.col-md-4.col-lg-3
-                        .issue-card-wrapper
-                          = render 'issues/card', issue: issue
-
+%section#home
+  .container
+    .clearfix
+      %h4.posts-header__title{style:"display:block;width:100%;clear:both;"}
+        빠띠
+        %small
+          그룹 내 빠띠입니다.
+      - if current_group.categories.try(:any?)
+        .parties-filter
+          .parties-filter-select.pull-left
+            %nav
+              %ul.list-inline
+                %li= link_to '전체', issues_path, class: ('active' if params['category_slug'].blank?)
+                - current_group.categories.each do |category|
+                  %li
+                    = link_to issues_path(category_slug: category.slug), class: ('active' if params['category_slug'] == category.slug) do
+                      = category.name
+    .parties-all-list
+      = render 'issues/page', issues: @issues
