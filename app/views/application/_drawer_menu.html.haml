@@ -33,6 +33,12 @@
           = render 'issues/issue_line', issue: issue
       %li{style:"padding-right:20px;"}
         %hr
+      %li
+        = link_to issues_path, class: 'action-link' do
+          %i.fa.fa-search
+          빠띠 찾기
+      %li{style:"padding-right:20px;"}
+        %hr
     %li
       = link_to root_path do
         %div
