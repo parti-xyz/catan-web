@@ -77,12 +77,16 @@ section#references {
     padding-right: 14px;
     padding-left: 14px;
     .file-icon {
-      padding: 20px;
+      width: 70px;
+      padding: 20px 0;
       float: left;
       margin-right: 6px;
       border: 1px solid $brand-primary;
       color: $brand-primary;
       font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-align: center;
     }
     .file-name {
       font-size: $font-size-large;
