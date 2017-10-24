@@ -163,7 +163,7 @@ class ApplicationController < ActionController::Base
     base = issue.nil? ? base.displayable_in_current_group(current_group) : base.of_issue(issue)
     @is_last_page = base.empty?
 
-    how_to = :previous_of_recent
+    how_to = :previous_of_stroked
     previous_last = Post.with_deleted.find_by(id: params[:last_id])
 
     @posts = base.send(how_to, previous_last).limit(20)

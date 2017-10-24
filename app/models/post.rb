@@ -187,6 +187,11 @@ class Post < ActiveRecord::Base
     base = base.where('posts.created_at < ?', post.created_at) if post.present?
     base
   }
+  scope :previous_of_stroked, ->(post) {
+    base = order(last_stroked_at: :desc).recent
+    base = base.where('posts.last_stroked_at < ?', post.last_stroked_at).where('posts.created_at < ?', post.created_at) if post.present?
+    base
+  }
 
   scope :watched_by, ->(someone) { where(issue_id: someone.member_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
