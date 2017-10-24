@@ -3,7 +3,7 @@
   %span.comment-truncatable-body{ id: wrapper_id }
     %span.truncated-body
       - more_button = capture do
-        %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{wrapper_id}" } ... 더보기
+        %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{wrapper_id}" } ... 더보기
       != smart_truncate_html(comment_format(h(comment.body)), length: 400, ellipsis: more_button)
     %span.original-body{ style: 'display: none;' }
       = comment_format(h(comment.body))

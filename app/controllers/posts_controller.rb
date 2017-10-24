@@ -112,18 +112,10 @@ class PostsController < ApplicationController
     @members = base.recent.page(params[:page]).per(3 * 10)
   end
 
-  def modal
-    @post = Post.find(params[:id])
-  end
-
   def show
     add_reader(@post) if @post.pinned?
     verify_group(@post.issue)
-    if request.headers['X-PJAX']
-      render(:partial, layout: false) and return
-    else
-      @issue = @post.issue
-    end
+    @issue = @post.issue
 
     return if @post.private_blocked?(current_user)
     if !@post.blinded?(current_user)

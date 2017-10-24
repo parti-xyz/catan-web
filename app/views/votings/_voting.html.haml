@@ -70,7 +70,7 @@
             - if local_assigns[:in_post]
               댓글로 의견을 나눠 보세요.
             - else
-              %sapn.text-muted{ data: { toggle: "parti-post-modal", url: modal_post_path(post) } }
+              %sapn.text-muted{ data: { data: "parti-link", url: smart_post_path_or_url(post) } }
                 댓글로 의견을 나눠 보세요.
         - else
           = link_to poll_votings_path(poll, voting: {choice: :unsure}), method: :post, remote: true do

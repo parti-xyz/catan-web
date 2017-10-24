@@ -1,4 +1,4 @@
-- modal_data = { toggle: "parti-post-modal", url: modal_post_path(post) }
+- modal_data = { 'action': "parti-link", 'url': smart_post_path_or_url(post) }
 
 - if post.comments_count >= 10
   - template_by_post = 'best'

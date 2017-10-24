@@ -19,7 +19,7 @@
         - else
           .truncated-body
             - more_button = capture do
-              %button.btn-more.btn-link{ 'data-disable-modal': 'true', 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더보기
+              %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더보기
             != smart_truncate_html(post_body_format(post.parsed_body), length: 500, ellipsis: more_button)
           .original-body{ style: 'display: none;' }
             = post_body_format post.parsed_body

@@ -555,40 +555,8 @@ var parti_prepare = function($base) {
   $base.data('parti-prepare-arel', 'completed');
 }
 
-$(".js-poll-card, .js-survey-modal").click(function(e){
-  var href = $(e.target).closest('a').attr('href');
-  var url = $(this).data("url");
-
-  if(href && href != "#"){
-    return true;
-  }
-  location.href = url;
-})
-
 //parti-post-modal
 var parti_prepare_post_modal = function($base) {
-  $.parti_apply($base, '[data-toggle="parti-post-modal"]', function(elm) {
-    $elm = $(elm);
-    var url = $elm.data("url");
-
-    $elm.on('click', function(e) {
-      var href = $(e.target).closest('a').attr('href')
-      if (href && href != "#") {
-        return true;
-      }
-      var disabled = $(e.target).closest('[data-disable-modal="true"]')
-      if (disabled.length) {
-        return true;
-      }
-      $.ajax({
-        url: url,
-        format: 'js',
-        success: function(result){
-        }
-      });
-    });
-  });
-
   $.parti_apply($base, '[data-action="parti-filter-parties"]', function(elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {
