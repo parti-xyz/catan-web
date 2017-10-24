@@ -49,7 +49,10 @@
           - current_user.member_issues.only_alive_of_group(group).each do |issue|
             = render 'issues/issue_line', issue: issue
         %li.divider.large
-      %li= link_to '빠띠 찾기', issues_path
+      %li
+        = link_to issues_path, class: 'action-link' do
+          %i.fa.fa-search
+          빠띠 찾기
       - if user_signed_in?
         %li.divider
         %li= link_to '프로필 수정', edit_user_registration_path

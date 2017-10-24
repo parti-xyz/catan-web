@@ -56,12 +56,14 @@
             = render 'issues/issue_line', issue: issue
         %li.divider.large
       %li
-        %i.fa.fa-search.action-link
-        = link_to '빠띠 찾기', issues_url(subdomain: nil), style:"display:inline-block", class:"action-link"
+        = link_to issues_url(subdomain: nil), class: 'action-link' do
+          %i.fa.fa-search
+          빠띠 찾기
       - if user_signed_in?
         %li.divider
         %li= link_to '프로필 수정', edit_user_registration_path
         %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
+      %li.divider
       %li= link_to '빠띠 소개', '/about'
       %li= link_to '이용약관', '/terms'
       %li= link_to '그룹 개설 안내', '/service'
