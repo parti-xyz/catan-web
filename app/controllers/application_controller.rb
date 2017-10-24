@@ -145,19 +145,6 @@ class ApplicationController < ActionController::Base
     request.variant = :mobile if (browser.device.mobile?)
   end
 
-  def having_link_or_file_posts_page(issue = nil)
-    base = issue.nil? ? Post.all.displayable_in_current_group(current_group) : Post.of_issue(issue)
-    base = base.having_link_of_file
-    @is_last_page = base.empty?
-
-    how_to = (issue.present? or params[:sort] == 'recent') ? :previous_of_recent : :previous_of_hottest
-
-    previous_last = Post.with_deleted.find_by(id: params[:last_id])
-    @posts = base.send(how_to, previous_last).limit(20)
-    current_last = @posts.last
-    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
-  end
-
   def having_wikis_posts_page(issue = nil, status = nil)
     base = Post.having_wiki(status)
     base = issue.nil? ? base.displayable_in_current_group(current_group) : base.of_issue(issue)

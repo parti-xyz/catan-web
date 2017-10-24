@@ -31,7 +31,8 @@
         .thumb.thumb--reference{ style: "background-image: url(#{post.link_source.image.md.url})" }
       = link_to_if (card_class == 'default'), capture_thumb, post.link_source.url, target: '_blank'
     - else
-      .caption-images-no-icon{ style: 'height: 50px' }
+      - if local_assigns[:show_issue]
+        .caption-images-no-icon{ style: 'height: 50px' }
     - if local_assigns[:show_issue]
       .reference-card__group-and-issue
         - unless post.issue.displayable_group? current_group

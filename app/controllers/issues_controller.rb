@@ -94,8 +94,7 @@ class IssuesController < ApplicationController
 
   def slug_links_or_files
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-
-    having_link_or_file_posts_page(@issue)
+    @posts = Post.having_link_or_file.of_issue(@issue).page(params[:page]).per(3*5)
   end
 
   def create

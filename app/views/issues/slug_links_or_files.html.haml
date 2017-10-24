@@ -10,6 +10,5 @@
       .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
         .grid-sizer.col-sm-4.col-xs-6
         = render 'links_or_files/page'
-      .page_waypoint.text-center{'data-target': '.row.masonry-container', 'data-url': smart_issue_links_or_files_path(@issue, format: :js)}
-        .page_waypoint__loading
-          %i.fa.fa-3x.fa-spinner.fa-pulse
+
+    = paginate @posts, theme: 'catan'
