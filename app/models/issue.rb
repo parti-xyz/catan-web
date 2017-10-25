@@ -246,6 +246,11 @@ class Issue < ActiveRecord::Base
     blinds.exists?(user: someone) or Blind.site_wide?(someone)
   end
 
+  def safe_postable? someone
+    return false if blind_user?(someone)
+    postable? someone
+  end
+
   def sender_of_message(message)
     message.user
   end

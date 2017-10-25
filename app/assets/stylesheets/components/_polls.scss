@@ -12,6 +12,7 @@
   margin-bottom: 15px;
   text-align: center;
   border: 1px solid #f1f1f1;
+  border-radius: $border-radius-base;
   &--voted {
     background-color: $gray-more-lightest;
     border: 1px solid $gray-less-lighter;

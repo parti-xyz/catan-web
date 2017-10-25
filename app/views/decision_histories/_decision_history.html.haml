@@ -1,0 +1,10 @@
+%li.decision-history.clearfix[decision_history]
+  %span.date= date_f(decision_history.created_at)
+  %span
+    - if decision_history.user.present?
+      = link_to("@#{decision_history.user.nickname}", smart_user_gallery_path(decision_history.user))
+    - else
+      탈퇴한 사용자
+
+  %div
+    != decision_history.diff_body

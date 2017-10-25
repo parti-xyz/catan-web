@@ -1,4 +1,5 @@
-= render 'application/group_home_sub_header', active: 'wikis'
+- if current_group.present?
+  = render 'application/group_home_sub_header', active: 'wikis'
 
 %section#references
   .container

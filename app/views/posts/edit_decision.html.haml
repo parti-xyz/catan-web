@@ -1,0 +1,7 @@
+.bs-component.page-bg
+  %section#post-form
+    .container
+      .page-wrapper
+        %h3.page-wrapper__title
+          #{Post.model_name.human} 결정사항 기록하기
+        = render 'form_decision'

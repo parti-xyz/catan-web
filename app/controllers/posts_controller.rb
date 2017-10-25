@@ -80,6 +80,32 @@ class PostsController < ApplicationController
     end
   end
 
+  def update_decision
+    redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
+
+    @post.assign_attributes(decision: params[:post][:decision])
+    @post.strok_by(current_user, :decision)
+
+    unless @post.decision_changed?
+      redirect_to(params[:back_url].presence || @post) and return
+    end
+
+    if @post.save
+      @post.issue.strok_by!(current_user, @post)
+      @post.decision_histories.create(body: @post.decision, user: current_user)
+
+      flash[:success] = I18n.t('activerecord.successful.messages.created')
+      redirect_to params[:back_url].presence || @post
+    else
+      errors_to_flash @post
+      render edit_decision_post_path(@post)
+    end
+  end
+
+  def decision_histories
+    @history_page = @post.decision_histories.recent.page params[:page]
+  end
+
   def destroy
     PostDestroyService.new(@post).call
 
@@ -208,7 +234,7 @@ class PostsController < ApplicationController
     wiki_attributes = [:id, :title, :body] if wiki.present?
 
     params.require(:post)
-      .permit(:body, :issue_id, :has_poll, :has_survey, :is_html_body,
+      .permit(:body, :issue_id, :has_poll, :has_survey, :is_html_body, :decision,
         file_sources_attributes: file_sources_attributes,
         poll_attributes: poll_attributes, survey_attributes: survey_attributes,
         wiki_attributes: wiki_attributes)

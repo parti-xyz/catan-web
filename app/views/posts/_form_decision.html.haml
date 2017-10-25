@@ -1,0 +1,12 @@
+.well.post-edit-form
+  = form_for [:update_decision, @post] do |f|
+    .form-group
+      = f.label :decision
+      %div
+        = f.text_area :decision, class: "form-control", data: {ride: 'parti-autoresize'}
+
+    .editor-btn.text-right
+      = link_to '취소', @post, class: 'btn btn-default'
+      = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
+
+

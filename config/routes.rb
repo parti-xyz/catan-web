@@ -128,6 +128,9 @@ Rails.application.routes.draw do
       get 'more_comments'
       get 'wiki'
       patch 'wiki', to: 'posts#update_wiki'
+      get 'edit_decision'
+      patch 'update_decision'
+      get 'decision_histories'
       namespace :wiki, module: nil, controller: "wikis" do
         patch 'purge'
         patch 'activate'

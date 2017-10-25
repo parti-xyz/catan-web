@@ -151,6 +151,7 @@
   margin-bottom: 15px;
   text-align: center;
   border: 1px solid #f1f1f1;
+  border-radius: $border-radius-base;
   &--feedbacked {
     background-color: $gray-more-lightest;
     border: 1px solid $gray-less-lighter;

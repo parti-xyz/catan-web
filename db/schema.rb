@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023013651) do
+ActiveRecord::Schema.define(version: 20171025104148) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -73,6 +73,17 @@ ActiveRecord::Schema.define(version: 20171023013651) do
   add_index "comments", ["deleted_at"], name: "index_comments_on_deleted_at", using: :btree
   add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "decision_histories", force: :cascade do |t|
+    t.integer  "post_id",    limit: 4,     null: false
+    t.integer  "user_id",    limit: 4
+    t.text     "body",       limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "decision_histories", ["post_id"], name: "index_decision_histories_on_post_id", using: :btree
+  add_index "decision_histories", ["user_id"], name: "index_decision_histories_on_user_id", using: :btree
 
   create_table "device_tokens", force: :cascade do |t|
     t.integer  "user_id",         limit: 4,   null: false
@@ -433,6 +444,7 @@ ActiveRecord::Schema.define(version: 20171023013651) do
     t.string   "last_stroked_for",          limit: 255
     t.integer  "wiki_id",                   limit: 4
     t.text     "body_ngram",                limit: 16777215
+    t.text     "decision",                  limit: 65535
   end
 
   add_index "posts", ["body_ngram"], name: "index_posts_on_body_ngram", type: :fulltext

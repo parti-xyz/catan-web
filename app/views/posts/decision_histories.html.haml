@@ -4,9 +4,8 @@
   .container.container-xs-no-padding
     .wiki-history-page
       %h4.wiki-title
-        = link_to @post.wiki.title, wiki_post_path(@post)
-        이력
-      .history-list
+        = link_to @post.specific_desc_striped_tags(20), smart_post_url(@post)
+        결정사항 이력
+      %ul.list-unstyled.history-list
         = render @history_page
       = paginate @history_page, theme: 'catan'
-

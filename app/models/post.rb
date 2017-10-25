@@ -138,6 +138,7 @@ class Post < ActiveRecord::Base
   belongs_to :wiki
   has_many :file_sources, dependent: :destroy
   has_many :messages, as: :messagable, dependent: :destroy
+  has_many :decision_histories, dependent: :destroy
 
   belongs_to :postable, polymorphic: true
   belongs_to :last_stroked_user, class_name: User
@@ -448,9 +449,10 @@ class Post < ActiveRecord::Base
     MessageService.new(self, sender: someone, action: :pinned).call()
   end
 
-  def strok_by(someone = nil)
+  def strok_by(someone, subject = nil)
     self.last_stroked_at = DateTime.now
     self.last_stroked_user = someone || self.user
+    self.last_stroked_for = subject
     self
   end
 
@@ -532,6 +534,10 @@ class Post < ActiveRecord::Base
   def reindex_for_search!
     reindex_for_search
     save
+  end
+
+  def decision_authors
+    User.where(id: decision_histories.select(:user_id).distinct)
   end
 
   private

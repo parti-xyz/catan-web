@@ -13,7 +13,7 @@ class Ability
       end
       can [:create, :new_intro, :search_by_tags], [Issue]
 
-      can [:update, :destroy], [Post], user_id: user.id
+      can [:update, :destroy, :edit_decision, :update_decision, :decision_histories], [Post], user_id: user.id
       can [:create], [Post] do |post|
         post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
       end

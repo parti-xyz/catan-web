@@ -1,0 +1,23 @@
+.decision-panel
+  - if post.decision.blank?
+    - if post.issue.safe_postable?(current_user)
+      %sapn.text-muted 어느 정도 결정된 사항이 있나요?
+      = link_to '기록하기', edit_decision_post_path(post), class: 'text-primary'
+    - elsif
+      %h5 결정사항
+      %sapn.text-muted 결정된 사항이 없습니다.
+  - else
+    %h5 결정사항
+    = simple_format(h(post.decision.strip))
+    - if post.issue.safe_postable?(current_user)
+      .control
+        - if post.decision_authors.any?
+          %span.writer.text-muted
+            %span<>
+              != post.decision_authors.map { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user), class: 'text-muted') }.join(", ")
+            %span<> 님이 작성했습니다
+          &middot;
+        = link_to '수정', edit_decision_post_path(post), class: 'text-primary'
+        &middot;
+        = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
+

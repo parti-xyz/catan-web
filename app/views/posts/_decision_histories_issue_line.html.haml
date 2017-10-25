@@ -1,0 +1,8 @@
+.media
+  = link_to smart_issue_home_path_or_url(issue) do
+    .media-left
+      .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+    .media-body
+      %span.issue-line__title
+        = issue.title
+        = security_icon(issue)
