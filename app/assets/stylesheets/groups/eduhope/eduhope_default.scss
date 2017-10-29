@@ -6,11 +6,20 @@ section#home {
   margin-top: 24px;
 }
 .key-page{
+  background-size: contain;
+  background-position: center;
+  background-color: #2b2a2a;
+  background-repeat: no-repeat;
   padding-top: 100px;
   small{
     color: white;
   }
   button{
-    margin-top: 10px;
+    margin-top: 5px;
+  }
+  .button-area{
+    text-align: center;
+    margin-left: 20px;
+    margin-top: 130px;
   }
 }

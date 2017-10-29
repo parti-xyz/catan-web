@@ -7,22 +7,22 @@
 }
 
 section#home {
-  margin-top: 30px;
 }
 .key-page{
+  height: 200px;
+  background-image: none !important;
+  background-color: darken($brand-primary, 30%);
   h2{
     margin-bottom: 20px;
     line-height: 40px;
   }
   small{
-    display: none;
+    color: white;
   }
   button{
     margin-top: 10px;
   }
   .container{
-    padding-top: 50px;
-    background-color: rgba(0,0,0,0.5);
     height: 100%;
   }
 }
