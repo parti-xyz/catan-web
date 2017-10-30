@@ -19,7 +19,7 @@
             - if params[:keyword].present?
               - if @issues.any?
                 .parties-all-list
-                  = render 'issues/page', issues: @issues
+                  = render 'issues/page', issues: @issues, has_aside: true
               - else
                 .bg-default
                   %i.fa.fa-info-circle
