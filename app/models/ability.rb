@@ -14,7 +14,10 @@ class Ability
       can [:create, :new_intro, :search_by_tags], [Issue]
 
       can [:update, :destroy], [Post], user_id: user.id
-      can [:create, :new_wiki, :update_wiki], [Post] do |post|
+      can [:create], [Post] do |post|
+        post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+      end
+      can [:new_wiki, :update_wiki, :edit_decision, :update_decision, :decision_histories], [Post] do |post|
         post.issue.present? and !post.issue.blind_user?(user) and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
       end
       can [:update, :activate, :inactivate, :purge, :histories], Wiki do |wiki|
