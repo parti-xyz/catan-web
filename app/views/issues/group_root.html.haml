@@ -48,7 +48,7 @@
                 더 보기
                 %i.fa.fa-angle-double-right
           .row.masonry-container
-            = render '/polls_or_surveys/page', posts: @polls_and_surveys
+            = render 'polls_or_surveys/page', posts: @polls_and_surveys
 
       - if @posts_pinned.try(:any?) or @recent_posts.try(:any?)
         %section{style:"margin-top:20px;"}
@@ -82,15 +82,19 @@
                               = security_icon(post.issue.group)
                         - created_at = post.try(:created_at)
                         %span.date= created_at.nil? ? '지금' : date_f(created_at)
-                      = link_to post do
-                        = post.specific_desc_striped_tags(120)
-                    .media-right
-                      - if post.survey.present?
-                        .label.label-default
-                          설문
-                      - elsif post.poll.present?
-                        .label.label-default
-                          찬반
+                      - if !post.blinded?(current_user)
+                        = link_to post do
+                          = post.specific_desc_striped_tags(120)
+                      - else
+                        .text-muted= t('labels.post_blind_info')
+                    - if !post.blinded?(current_user)
+                      .media-right
+                        - if post.survey.present?
+                          .label.label-default
+                            설문
+                        - elsif post.poll.present?
+                          .label.label-default
+                            찬반
 
       %section{style:"margin-top:20px;"}
         .row
