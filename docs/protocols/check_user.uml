@@ -1,0 +1,16 @@
+@startuml
+autonumber
+actor 회원
+회원 -> Parti : 멤버 가입요청
+Parti --> 회원 : Parti 서비스키가 포함된 회원정보 확인API 주소로 redirect
+회원 --> 회원정보제공서버 : 자동 redirect되는 확인 요청
+회원정보제공서버 -> 회원 : Parti에 회원정보 제공 동의 및 IP/PW 입력화면 제공
+|||
+회원 -> 회원정보제공서버 : 동의 및 IP/PW 입력
+회원정보제공서버 --> 회원 : 인증토큰이 포함된 Parti 회원정보 확인완료 주소로 redirect
+회원 --> Parti : 인증토큰을 넘겨서 가입진행하는 자동 redirect
+Parti -> 회원정보제공서버 : 인증토큰으로 해당 회원정보 확인
+회원정보제공서버 --> Parti : 회원정보 확인, 필요한 정보가 있다면 반환
+Parti -> Parti : 멤버가입 처리
+Parti -> 회원 : 가입완료 통보
+@enduml
