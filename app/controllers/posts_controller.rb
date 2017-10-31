@@ -16,7 +16,7 @@ class PostsController < ApplicationController
 
     if @post.wiki.present? and @post.errors.blank?
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to wiki_post_path(@post)
+      redirect_to smart_wiki_url(@post.wiki)
     else
       redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)
     end
@@ -53,6 +53,8 @@ class PostsController < ApplicationController
 
   def wiki
     @issue = @post.issue
+    verify_group(@issue)
+
     render_404 and return if @post.wiki.blank?
   end
 
@@ -67,14 +69,14 @@ class PostsController < ApplicationController
       if @post.save
         @post.issue.strok_by!(current_user, @post)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
-        redirect_to params[:back_url].presence || wiki_post_path(@post)
+        redirect_to params[:back_url].presence || smart_wiki_url(@post.wiki)
       else
         errors_to_flash @post
-        render wiki_post_path(@post)
+        render :wiki
       end
     else
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to params[:back_url].presence || wiki_post_path(@post)
+      redirect_to params[:back_url].presence || smart_wiki_url(@post.wiki)
     end
   end
 
@@ -151,7 +153,7 @@ class PostsController < ApplicationController
   end
 
   def edit
-    redirect_to wiki_post_path(@post) and return if @post.wiki.present?
+    redirect_to smart_wiki_url(@post.wiki) and return if @post.wiki.present?
   end
 
   private

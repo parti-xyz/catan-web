@@ -12,7 +12,7 @@ class WikisController < ApplicationController
     @wiki.update_attributes(status: 'active')
 
     errors_to_flash(@post)
-    redirect_to wiki_post_path(@post)
+    redirect_to smart_wiki_url(@post.wiki)
   end
 
   def inactivate
@@ -20,7 +20,7 @@ class WikisController < ApplicationController
     @wiki.update_attributes(status: 'inactive')
 
     errors_to_flash(@post)
-    redirect_to wiki_post_path(@post)
+    redirect_to smart_wiki_url(@post.wiki)
   end
 
   def purge
@@ -28,7 +28,7 @@ class WikisController < ApplicationController
     @wiki.update_attributes(status: 'purge')
 
     errors_to_flash(@post)
-    redirect_to wiki_post_path(@post)
+    redirect_to smart_wiki_url(@post.wiki)
   end
 
   def histories
