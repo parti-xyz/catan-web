@@ -11,8 +11,8 @@
         %li{ class: ('active' if local_assigns[:active] == 'links_or_files') }
           = link_to t('labels.links_or_files'), links_or_files_path
         - if current_group.private?
-          %li
-            = link_to '멤버', group_members_path, class: ('active' if current_page?('/group/members'))
+          %li{ class: ('active' if current_page?('/group/members')) }
+            = link_to '멤버', group_members_path
       %ul.list-inline.pull-right
         %li
           = link_to new_issue_path do
