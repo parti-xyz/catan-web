@@ -125,7 +125,7 @@ namespace :data do
       seed_group(user, 'c-time', ['하늬커'],
         title: 'C-Time',
         site_title: '청소년들이 만드는 변화',
-        site_description: "대학생 자원봉사 전문 플랫폼, 서울동행프로젝트입니다",
+        site_description: "청소년 체인지메이커들의 커뮤니티입니다. 내 주변의 문제에 공감해 보고, 무엇이든 행동에 옮겨보는 여러분들의 프로젝트를 공유 해 주세요.",
         head_title: 'C-Time',
         private: false)
 
