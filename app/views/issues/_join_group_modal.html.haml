@@ -11,8 +11,7 @@
         = form_tag group_member_requests_path do
           .form-group
             %label
-              오거나이저가 알 수 있도록
-              '#{current_user.nickname}' 님을 구체적으로 소개해주세요.
+              = t("group.#{host_group.slug}.request_join", cascade: true)
             = text_area_tag :description, nil, class: 'form-control', placeholder: 'ex) 소속, 성함'
           .form-group.text-right
-            = submit_tag "신청합니다", class: 'btn btn-danger', data: { disable_with: "진행 중..." }
+            = submit_tag "신청합니다", class: 'btn btn-primary', data: { disable_with: "진행 중..." }

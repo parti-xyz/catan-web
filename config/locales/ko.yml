@@ -279,3 +279,7 @@ ko:
         update_title_and_body: "%{user}님이 위키 제목과 내용을 고쳤습니다."
   unauthorized:
     default: "권한이 없습니다."
+  group:
+    request_join: 오거나이저가 알 수 있도록 구체적으로 소개해주세요.
+    eduhope:
+      request_join: 소속된 지부, 학교, 성함, 휴대폰 번호를 작성해주세요.
