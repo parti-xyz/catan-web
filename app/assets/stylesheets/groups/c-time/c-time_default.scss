@@ -1,0 +1,13 @@
+@import "variables";
+@import "groups/c-time/variables_c-time";
+@import "groups/c-time/c-time";
+
+section#home {
+  margin-top: 24px;
+}
+
+#site-header .navbar-header .navbar-brand img {
+  height: 20px;
+  width: auto;
+}
+

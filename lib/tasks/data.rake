@@ -122,6 +122,13 @@ namespace :data do
         head_title: '서울동행',
         private: false)
 
+      seed_group(user, 'c-time', ['하늬커'],
+        title: 'C-Time',
+        site_title: '청소년들이 만드는 변화',
+        site_description: "대학생 자원봉사 전문 플랫폼, 서울동행프로젝트입니다",
+        head_title: 'C-Time',
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
