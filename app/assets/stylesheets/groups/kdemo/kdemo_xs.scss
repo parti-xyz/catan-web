@@ -9,3 +9,15 @@
 section#home {
   margin-top: 30px;
 }
+
+.key-page{
+  height: 40px;
+  .mobile-link{
+    color: white;
+    text-align: right;
+    padding: 10px 0px;
+  }
+}
+.key-page .banner, .key-page .desc{
+  display: none;
+}
