@@ -76,7 +76,7 @@ class IssuesController < ApplicationController
 
   def slug_polls_or_surveys
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-    @posts = Post.having_poll.or(Post.having_survey).of_issue(@issue).page(params[:page]).per(3*5)
+    @posts = Post.having_poll.or(Post.having_survey).of_issue(@issue).order_by_stroked_at.page(params[:page]).per(3*5)
   end
 
   def slug_wikis
