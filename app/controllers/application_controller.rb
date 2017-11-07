@@ -145,20 +145,6 @@ class ApplicationController < ActionController::Base
     request.variant = :mobile if (browser.device.mobile?)
   end
 
-  def having_wikis_posts_page(issue = nil, status = nil)
-    base = Post.having_wiki(status)
-    base = issue.nil? ? base.displayable_in_current_group(current_group) : base.of_issue(issue)
-    @is_last_page = base.empty?
-
-    how_to = :previous_of_stroked
-    previous_last = Post.with_deleted.find_by(id: params[:last_id])
-
-    @posts = base.send(how_to, previous_last).limit(20)
-
-    current_last = @posts.last
-    @is_last_page = (@is_last_page or base.send(how_to, current_last).empty?)
-  end
-
   #bugfix redactor2-rails
   def redactor_current_user
     redactor2_current_user

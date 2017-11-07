@@ -4,7 +4,7 @@ class WikisController < ApplicationController
   before_action :load_post_and_wiki, except: [:index]
 
   def index
-    having_wikis_posts_page(@issue, params[:status] || 'active')
+    @posts = Post.having_wiki(params[:status] || 'active').displayable_in_current_group(current_group).order_by_stroked_at.page(params[:page]).per(3*5)
   end
 
   def activate

@@ -81,7 +81,7 @@ class IssuesController < ApplicationController
 
   def slug_wikis
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-    having_wikis_posts_page(@issue, params[:status] || 'active')
+    @posts = Post.having_wiki(params[:status] || 'active').of_issue(@issue).order_by_stroked_at.page(params[:page]).per(3*5)
   end
 
   def slug_members
