@@ -53,10 +53,10 @@ namespace :data do
         site_keywords: '정치, 정당, 우주당, 직접민주주의, 해적당, wouldyouparty, 빠띠, 민주주의')
 
       seed_group(user, Group::SLUG_OF_UNION, [],
-        title: '빠띠유니온',
-        site_title: '민주주의 벤처 - 빠띠유니온',
+        title: '빠띠',
+        site_title: '민주주의 활동가 그룹 - 빠띠',
         site_description: '일상을 더 민주적으로! 민주주의 벤처 빠띠는 우리 사회 곳곳에 민주주의를 확산시키기 위해 노력합니다.',
-        head_title: '빠띠유니온',
+        head_title: '빠띠',
         private: false)
 
       seed_group(user, 'meetshare', ['berry', '갱'],
