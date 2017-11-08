@@ -16,6 +16,7 @@ class PostsController < ApplicationController
 
     if @post.wiki.present? and @post.errors.blank?
       flash[:success] = I18n.t('activerecord.successful.messages.created')
+      @post.wiki.reload
       redirect_to smart_wiki_url(@post.wiki)
     else
       redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)
