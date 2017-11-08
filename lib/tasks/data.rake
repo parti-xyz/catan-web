@@ -129,6 +129,13 @@ namespace :data do
         head_title: 'C-Time',
         private: false)
 
+      seed_group(user, 'greenpartyjeju', ['rebecca_shin'],
+        title: '당다라당당 제주녹색당',
+        site_title: '대안의 숲, 전환의 씨앗',
+        site_description: "2012년 창당준비위원회 결성한 제주녹색당입니다. 선거제도를 바꾸고, 제주와 나라를 구한 뒤 여유 있으면 창당할게요. 그 모든 과정에 함께 할 생명 옹호자를 만나고 싶어요. 태양과 바람의 정당, 당다라당당 제주녹색당!",
+        head_title: '제주녹색당',
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
