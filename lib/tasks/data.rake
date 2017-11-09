@@ -117,21 +117,21 @@ namespace :data do
 
       seed_group(user, 'donghaeng', ['donghaeng'],
         title: '서울동행프로젝트',
-        site_title: '대학생과 청소년 동생들이 함께 성장하는 동행',
+        site_title: '대학생과 청소년 동생들이 함께 성장하는 동행 - 서울동행프로젝트',
         site_description: "대학생 자원봉사 전문 플랫폼, 서울동행프로젝트입니다",
         head_title: '서울동행',
         private: false)
 
       seed_group(user, 'c-time', ['하늬커'],
         title: 'C-Time',
-        site_title: '청소년들이 만드는 변화',
+        site_title: '청소년들이 만드는 변화 - C-Time',
         site_description: "청소년 체인지메이커들의 커뮤니티입니다. 내 주변의 문제에 공감해 보고, 무엇이든 행동에 옮겨보는 여러분들의 프로젝트를 공유 해 주세요.",
         head_title: 'C-Time',
         private: false)
 
       seed_group(user, 'greenpartyjeju', ['rebecca_shin'],
         title: '당다라당당 제주녹색당',
-        site_title: '대안의 숲, 전환의 씨앗',
+        site_title: '대안의 숲, 전환의 씨앗 - 제주녹색당',
         site_description: "2012년 창당준비위원회 결성한 제주녹색당입니다. 선거제도를 바꾸고, 제주와 나라를 구한 뒤 여유 있으면 창당할게요. 그 모든 과정에 함께 할 생명 옹호자를 만나고 싶어요. 태양과 바람의 정당, 당다라당당 제주녹색당!",
         head_title: '제주녹색당',
         private: false)
