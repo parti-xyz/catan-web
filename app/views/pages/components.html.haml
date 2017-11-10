@@ -85,6 +85,17 @@
       %h3 Line Height
       .well
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum eaque hic sunt corrupti recusandae nesciunt mollitia temporibus officia aperiam reiciendis, repellendus explicabo sint porro eos, molestias at quos ipsam consequuntur.
+  %section#typo
+    .container
+      %h2.page-header Sub Title
+      %h4.group-heading
+        진행중인 토론
+      .posts-header
+        %h4.posts-header__title
+          토론
+          %small 모든 빠띠의 #{Poll.model_name.human}와 #{Survey.model_name.human}입니다.
+        .posts-filter-select
+          = render 'posts/sort_select'
   %section#buttons
     .container
       %h2.page-header Buttons
@@ -154,10 +165,23 @@
       .well
         = byline User.first
 
-      %h3 post card with comments
-      %div
-        = render Post.last
-
     .container
-      %h3 post card
-      = render Post.last if Post.last.present?
+      .row
+        %h3 post card
+        .col-xs-12.col-sm-8
+          = render Post.last if Post.last.present?
+
+      .row
+        %h3 post card with vote
+        .col-xs-12.col-sm-8
+          = render Post.find(13377)
+
+      .row
+        %h3 post card with poll
+        .col-xs-12.col-sm-8
+          = render Post.find(12462)
+
+      .row
+        %h3 post card with wiki
+        .col-xs-12.col-sm-8
+          = render Post.find(14585)
