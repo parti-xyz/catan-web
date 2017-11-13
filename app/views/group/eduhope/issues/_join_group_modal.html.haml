@@ -13,5 +13,5 @@
             %label
               = t("group.#{host_group.slug}.request_join", cascade: true)
             = text_area_tag :description, nil, class: 'form-control', required: true
-          .form-group.text-right
+          .form-group
             = submit_tag "가입하기", class: 'btn btn-primary', data: { disable_with: "진행 중..." }
