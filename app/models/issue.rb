@@ -152,6 +152,12 @@ class Issue < ActiveRecord::Base
     not_private_blocked(someone).hottest.limit(count)
   }
   scope :notice_only, -> { where(notice_only: true) }
+  scope :only_public_hottest, ->(count){
+    where.any_of(where(group_slug: Group.where.not(private: true).select(:slug)), where(group_slug: 'indie'))
+    .where.not(private: true)
+    .hottest
+    .limit(count)
+  }
 
   # search
   scoped_search on: [:title, :body]
