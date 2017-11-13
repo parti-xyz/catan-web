@@ -12,9 +12,9 @@ class IssuesController < ApplicationController
       group_issues(current_group)
       @posts_pinned = current_group.pinned_posts(current_user)
 
-      @polls_and_surveys = Post.having_poll.or(Post.having_survey).displayable_in_current_group(current_group).not_private_blocked(current_user)
+      @polls_and_surveys = Post.having_poll.or(Post.having_survey).not_private_blocked_of_group(current_group, current_user)
       @polls_and_surveys = @polls_and_surveys.hottest.limit(7)
-      @recent_posts = Post.displayable_in_current_group(current_group).not_private_blocked(current_user).order_by_stroked_at.limit(4)
+      @recent_posts = Post.not_private_blocked_of_group(current_group, current_user).order_by_stroked_at.limit(4)
       render 'group_root'
     end
   end

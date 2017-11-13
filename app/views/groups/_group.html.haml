@@ -16,7 +16,7 @@
     - if Issue.of_group(group).any?
       .row
         - display_count = is_small_screen? ? 4 : 3
-        - Issue.of_group(group).hottest_not_private_blocked(current_user, display_count).each do |issue|
+        - Issue.hottest_not_private_blocked_of_group(group, current_user, display_count).each do |issue|
           .col-sm-4.col-xs-6
             .issue-card-wrapper
               = render 'issues/card', issue: issue

@@ -199,7 +199,7 @@ class Post < ActiveRecord::Base
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :latest, -> { after(1.day.ago) }
   scope :displayable_in_current_group, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
-  scope :not_private_blocked, ->(current_user) { where(issue_id: Issue.not_private_blocked(current_user))  }
+  scope :not_private_blocked_of_group, ->(group, someone) { displayable_in_current_group(group).where(issue_id: Issue.not_private_blocked(someone))  }
   scope :having_link_or_file, -> { where.any_of(where.not(link_source: nil), where('file_sources_count > 0')) }
   scope :having_wiki, ->(status = nil) {
     condition = where.not(wiki: nil)
