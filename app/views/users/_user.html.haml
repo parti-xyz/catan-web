@@ -9,7 +9,7 @@
         - if local_assigns[:description].present?
           = local_assigns[:description]
         - else
-          '#{user.nickname}'입니다
+          #{user.nickname}입니다
   - if local_assigns[:additional_buttons_partial].present?
     .user-card__additional_buttons
       = render additional_buttons_partial, local_assigns.merge(user: user)
