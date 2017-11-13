@@ -3,15 +3,16 @@ class MemberGroupService
   attr_accessor :group
   attr_accessor :user
 
-  def initialize(group:, user:)
+  def initialize(group:, user:, description: nil)
     @group = group
     @user = user
+    @description = description
   end
 
   def call
     return if @group.blank? or @group.member? self
     ActiveRecord::Base.transaction do
-      @member = @group.members.create(user: @user)
+      @member = @group.members.create(user: @user, description: @description)
       return if @member.blank?
       (group.default_issues || []).each do |issue|
         MemberIssueService.new(issue: issue, user: @user, is_auto: true).call

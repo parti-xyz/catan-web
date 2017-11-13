@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171025104148) do
+ActiveRecord::Schema.define(version: 20171113031739) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -263,6 +263,7 @@ ActiveRecord::Schema.define(version: 20171025104148) do
     t.text     "ban_message",   limit: 65535
     t.text     "admit_message", limit: 65535
     t.boolean  "is_magic",                    default: false
+    t.text     "description",   limit: 65535
   end
 
   add_index "members", ["joinable_id", "joinable_type"], name: "index_members_on_joinable_id_and_joinable_type", using: :btree

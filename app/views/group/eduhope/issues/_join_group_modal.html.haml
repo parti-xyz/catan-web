@@ -1,0 +1,17 @@
+.modal.fade#join-modal{"tabindex": "-1", "role": "dialog", "aria-labelledby": "join-modal", "aria-hidden": "true"}
+  .modal-dialog.group-modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss": "modal", "aria-label": "Close"}
+          %span{"aria-hidden":"true"}
+            &times;
+        %h4.modal-title
+          전교조 커뮤니티 가입하기
+      .modal-body
+        = form_tag admit_group_eduhope_members_path do
+          .form-group
+            %label
+              = t("group.#{host_group.slug}.request_join", cascade: true)
+            = text_area_tag :description, nil, class: 'form-control'
+          .form-group.text-right
+            = submit_tag "가입하기", class: 'btn btn-primary', data: { disable_with: "진행 중..." }

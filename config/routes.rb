@@ -178,6 +178,14 @@ Rails.application.routes.draw do
       post :accept, on: :collection
       delete :reject, on: :collection
     end
+
+    namespace :eduhope do
+      resources :members do
+        collection do
+          post :admit
+        end
+      end
+    end
   end
 
   get 'file_source/:id/download', to: "file_sources#download", as: :download_file_source
