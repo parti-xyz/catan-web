@@ -5,3 +5,6 @@
         %h3.page-wrapper__title
           #{Post.model_name.human} 결정사항 기록하기
         = render 'form_decision'
+        %h5
+          대상 게시글
+        = render @post
