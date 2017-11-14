@@ -59,7 +59,7 @@
             .col-sm-12.col-md-6
               %h4.group-heading 공지사항
               - if @posts_pinned.try(:any?)
-                = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true, not_need_header: true
+                = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: false, not_need_header: true
               - else
                 공지사항이 없습니다
 
