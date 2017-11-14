@@ -43,6 +43,15 @@ class Group < ActiveRecord::Base
         Category::GWANGJU_PROJECT,
         Category::GWANGJU_STATESMAN,
       ]
+    elsif slug == 'meetshare'
+      [
+        Category::MEETSHARE_WORK,
+        Category::MEETSHARE_GENDER,
+        Category::MEETSHARE_CULTURE,
+        Category::MEETSHARE_GREEN,
+        Category::MEETSHARE_LIFE,
+        Category::MEETSHARE_ACTIVIST
+      ]
     else
       []
     end
