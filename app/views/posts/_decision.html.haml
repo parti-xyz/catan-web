@@ -8,7 +8,7 @@
       %sapn.text-muted 결정된 사항이 없습니다.
   - else
     %h5 결정사항
-    = simple_format(h(post.decision.strip))
+    = decision_body_format(post.decision.strip)
     - if post.issue.safe_postable?(current_user)
       .control
         - if post.decision_authors.any?

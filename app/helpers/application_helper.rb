@@ -53,6 +53,15 @@ module ApplicationHelper
     raw(text)
   end
 
+  def decision_body_format(text)
+    return text if text.blank?
+    parsed_text = parse_mentions(text)
+    raw(auto_link(parsed_text,
+      html: {class: 'auto_link', target: '_blank'},
+      link: :urls,
+      sanitize: false))
+  end
+
   def parse_mentions(text)
     text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
       at_nickname = Regexp.last_match[1]
