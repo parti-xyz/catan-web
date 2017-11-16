@@ -1,11 +1,15 @@
 .post-card__post.clearfix{ id: pinned_post_dom_id(post), class: ('js-posts-pinned-and-read collapse' if local_assigns[:collapse]) }
-  - if post.pinned_at < 1.week.ago
-    - if can? :pin, post
-      %span.label.label-warning.unpin-label
-        = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '공지내리기' }, class: post_pin_buttons_dom_class(post) do
-          공지내리기
+  - if can? :pin, post
+    - if post.pinned_at < 1.week.ago
+      %span.label.unpin-label.action-label
+        = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '공지내림' }, class: post_pin_buttons_dom_class(post) do
+          공지내림
+  - elsif !post.read_by?(current_user)
+    %span.label.read-label.action-label.js-read-action-label
+      = link_to [:read, post], method: :put, remote: true, data: { disable_with: '확인완료' }, class: post_pin_buttons_dom_class(post) do
+        확인완료
   = link_to post do
-    .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
+    .read-mark.js-read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
       &middot;
     .desc
       .issue-meta

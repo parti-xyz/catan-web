@@ -129,6 +129,10 @@ class PostsController < ApplicationController
     @post.update_attributes(pinned: false)
   end
 
+  def read
+    add_reader(@post)
+  end
+
   def readers
     @issue = @post.issue
     @readers = @post.readers.recent.page(params[:page]).per(3 * 10)

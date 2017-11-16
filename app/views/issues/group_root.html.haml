@@ -67,7 +67,7 @@
               .visible-xs-block{style:"margin-top:40px;"}
               %h4.group-heading
                 최근 업데이트
-              .post-card.pinned
+              .post-card.summary
                 - @recent_posts.each do |post|
                   .post-card__post
                     .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }

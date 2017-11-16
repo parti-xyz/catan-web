@@ -119,7 +119,7 @@ $(document).on('parti-post-editor-spotlight', parti_post_editor_spotlight);
 
 
 // unobtrusive_flash
-UnobtrusiveFlash.flashOptions['timeout'] = 30000;
+UnobtrusiveFlash.flashOptions['timeout'] = 5000;
 
 // Kakao Key
 Kakao.init('6cd2725534444560cb5fe8c77b020bd6');

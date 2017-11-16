@@ -263,7 +263,7 @@ section#posts {
       }
     }
   }
-  &.pinned {
+  &.summary {
     .post-card__post {
       position: relative;
 
@@ -303,13 +303,26 @@ section#posts {
           color: $gray-light;
         }
       }
-      .unpin-label{
+      .action-label{
         position: absolute;
         right: 60px;
+        font-weight: 400;
         a{
-          &:hover{
-            color:$gray-dark;
-          }
+          color: #fff;
+          position: relative;
+          bottom: -1px;
+        }
+      }
+      .unpin-label{
+        background-color: $brand-danger-light;
+        &:hover{
+          background-color: $brand-danger;
+        }
+      }
+      .read-label{
+        background-color: $brand-primary-light;
+        &:hover{
+          background-color: $brand-primary;
         }
       }
     }

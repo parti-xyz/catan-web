@@ -125,6 +125,7 @@ Rails.application.routes.draw do
       delete 'unpin'
       get 'readers'
       get 'unreaders'
+      put 'read'
       get 'more_comments'
       get 'wiki'
       patch 'wiki', to: 'posts#update_wiki'

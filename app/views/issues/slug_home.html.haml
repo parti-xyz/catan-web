@@ -37,7 +37,7 @@
 
         .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
           - if params[:q].present?
-            .post-card.pinned
+            .post-card.summary
               .post-card__post
                 - if @search_q.present?
                   "#{@search_q}"을(를) 검색한 결과입니다.

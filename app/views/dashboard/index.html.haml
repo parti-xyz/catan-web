@@ -29,7 +29,7 @@
 
         .posts{data: {last_id: -1, is_last: 'false'}}
           - if params[:q].present?
-            .post-card.pinned
+            .post-card.summary
               .post-card__post
                 - if @search_q.present?
                   내 피드에서 "#{@search_q}"을(를) 검색한 결과입니다.

@@ -5,7 +5,7 @@
   - else
     - collapsed_posts = []
     - uncollapsed_posts = posts
-  .post-card.pinned
+  .post-card.summary.pinned
     - unless not_need_header
       .post-card__header.clearfix.js-posts-pinned-and-read{ class: ('collapse' if uncollapsed_posts.empty?) }
         공지
