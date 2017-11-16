@@ -51,13 +51,33 @@ section#references {
   &__group-and-issue {
     position: absolute;
     top: 20px;
-    left: 20px;
+    left: 15px;
     .thumb--issue {
       border-radius: $border-radius-base;
       width: 30px;
       height: 30px;
       box-shadow: 0 1px 5px $gray;
       display: inline-block;
+    }
+    .thumb--issue-with-title {
+      border-radius: $border-radius-base;
+      height: 30px;
+      color: #fff;
+      display: inline-block;
+      line-height: 30px;
+      padding: 0 5px;
+      text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.9);
+      box-shadow: inset 2000px 0 0 0 rgba(255, 255, 255, 0.2);
+      background-size: 30px 100%;
+      background-position: left;
+      padding-left: 35px;
+      background-repeat: no-repeat;
+    }
+    .thumb--issue-with-title--no-image {
+      text-shadow: none;
+      color: $gray-light;
+      font-weight: 400;
+      border: 1px solid rgba(1, 1, 1, 0.1);
     }
     .reference-card__group {
       background-color: rgba(150,111,214,0.9);
@@ -69,7 +89,6 @@ section#references {
       vertical-align: top;
       line-height: 20px;
       display: inline-block;
-      box-shadow: 0 1px 15px rgba(0, 0, 0, 3);
     }
   }
   .caption-file {

@@ -100,6 +100,7 @@
                     .poll-card__group
                       = post.issue.group.head_title
                   .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
+                    = post.issue.title.truncate(10)
             .col-sm-6.col-xs-12
               .poll-card__date.date-wrapper.poll-card__date--with-issue
                 %span= date_f post.poll.created_at

@@ -14,15 +14,16 @@
         %strong<> 오거나이저의 가입승인
         을 기다려주세요.
   - else
-    .row.survey-card__meta
-      .col-sm-6.col-xs-12
+    .survey-card__meta.clearfix
+      .pull-left
         .survey-card__issue
           = link_to smart_issue_home_path_or_url(issue) do
             - unless post.issue.displayable_group? current_group
               .survey-card__group
                 = post.issue.group.head_title
             .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-      .col-sm-6.col-xs-12
+              = post.issue.title.truncate(6)
+      .pull-right
         .survey-card__date.date-wrapper.survey-card__date--with-issue
           %span= date_f post.created_at
     %h4.survey-card__title

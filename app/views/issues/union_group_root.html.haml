@@ -78,11 +78,6 @@
                           %span.issue-title
                             = post.issue.title
                             = security_icon(post.issue)
-                          - if post.issue.group != host_group
-                            %i.fa.fa-angle-left
-                            %span.issue-group
-                              = post.issue.group.title
-                              = security_icon(post.issue.group)
                         - created_at = post.try(:created_at)
                         %span.date= created_at.nil? ? '지금' : date_f(created_at)
                       - if !post.blinded?(current_user)

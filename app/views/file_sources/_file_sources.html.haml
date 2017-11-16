@@ -11,9 +11,10 @@
       .reference-card__group-and-issue
         - unless post.issue.displayable_group? current_group
           .reference-card__group
-            = post.issue.group.title
+            = post.issue.group.head_title
             = security_icon(post.issue.group)
-        .thumb.thumb--issue{ style: "background-image: url(#{post.issue.logo.sm.url})" }
+        .thumb.thumb--issue-with-title{ style: "background-image: url(#{post.issue.logo.sm.url})", class: ('thumb--issue-with-title--no-image' unless post.file_sources.only_image.any?) }
+          = post.issue.title.truncate(10)
     - if post.file_sources.only_image.any?
       .caption-images<>
         - odd = post.file_sources.only_image.count.odd?
