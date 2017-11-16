@@ -738,6 +738,13 @@ section#issues {
       color: $brand-primary;
     }
   }
+  .btn-xs.btn-join {
+    font-size: 10px;
+    line-height: 1.3em;
+    height: 1.5em;
+    vertical-align: text-top;
+    padding: 0 5px !important;
+  }
   &__thumb {
     width: 20px;
     height: 20px;

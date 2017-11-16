@@ -1,0 +1,10 @@
+.col-sm-4.hidden-xs
+  .aside_issue#aside{ style: 'margin-top:20px; padding-bottom: 10px' }
+    %section
+      %h5.aside-title
+        모든 빠띠
+      %ul.list-unstyled.aside-issues
+        - Issue.only_alive_of_group(current_group).sort_by_name.each do |issue|
+          - next if issue.private_blocked?(current_user)
+          = render customize_partial_path(issue, 'issue_line')
+    = render 'application/footer'

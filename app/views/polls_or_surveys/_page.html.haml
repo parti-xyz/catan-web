@@ -1,7 +1,9 @@
+- sm_columns_count = local_assigns[:sm_columns_count] || 3
+- col_sm = "col-sm-#{12/sm_columns_count}"
 - has_blinds = false
 - posts.each do |post|
   - unless post.blinded?(current_user) or post.private_blocked?(current_user)
-    .col-xs-12.col-sm-4.col-md-4.card.card--hover-grow
+    .col-xs-12.card.card--hover-grow{ class: col_sm }
       - if post.poll.present?
         = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post)
       - elsif post.survey.present?
@@ -9,7 +11,7 @@
   - else
     - has_blinds = true
 - if has_blinds
-  .card.col-xs-12.col-sm-4
+  .card.col-xs-12{ class: col_sm }
     .reference-card
       .caption
         .info-body
