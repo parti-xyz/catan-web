@@ -390,10 +390,10 @@ class Post < ActiveRecord::Base
       share_image_url = Rails.application.routes.url_helpers.poll_social_card_post_url(self, format: :png)
     elsif survey.present?
       share_image_url = Rails.application.routes.url_helpers.survey_social_card_post_url(self, format: :png)
-    elsif link_source.present? and link_source.image?
-      share_image_url = link_source.image.lg.url
     elsif file_sources.only_image.any?
       share_image_url = file_sources.only_image.first.attachment.lg.url
+    elsif link_source.present? and link_source.image?
+      share_image_url = link_source.image.lg.url
     end
     share_image_url
   end
