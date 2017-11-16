@@ -148,7 +148,7 @@ class Group < ActiveRecord::Base
   end
 
   def pinned_posts(someone)
-    noticed_issues = self.issues.notice_only.to_a
+    noticed_issues = self.issues.only_public_in_current_group.to_a
     if someone.present?
       noticed_issues += self.issues.where(id: someone.member_issues).to_a
       noticed_issues.uniq!
