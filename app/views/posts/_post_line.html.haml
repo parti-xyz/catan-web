@@ -92,8 +92,8 @@
                   .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})", 'data-action': 'parti-link', 'data-url': post.link_source.url, 'data-link-target': '_blank', class: ('webp' if is_webp?(post.link_source.image.url)) }
       - elsif post.poll.present?
         .poll-card[post.poll]{ class: "#{dom_id(post.poll)} #{user_signed_in? && post.poll.voting_by?(current_user) ? 'poll-card--voted' : ''}"}
-          .row.poll-card__meta
-            .col-sm-6.col-xs-12
+          .poll-card__meta.clearfix
+            .pull-left
               .poll-card__issue
                 = link_to smart_issue_home_path_or_url(issue) do
                   - unless post.issue.displayable_group? current_group
@@ -101,7 +101,7 @@
                       = post.issue.group.head_title
                   .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
                     = post.issue.title.truncate(10)
-            .col-sm-6.col-xs-12
+            .pull-right
               .poll-card__date.date-wrapper.poll-card__date--with-issue
                 %span= date_f post.poll.created_at
           %h4.poll-card__title
