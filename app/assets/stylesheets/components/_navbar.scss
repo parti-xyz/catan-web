@@ -174,9 +174,10 @@
       }
     }
     .label.label-danger {
-      position: absolute;
-      bottom: 25px;
-      right: 54px;
+      position: relative;
+      display: inline-block;
+      height: 12px;
+      vertical-align: text-top;
     }
     &.dropdown .dropdown-menu {
       width: 420px;

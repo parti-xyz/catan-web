@@ -12,6 +12,13 @@
               = link_to root_path, class: "#{'active' if current_page?('/') or current_page?('/dashboard')}" do
                 %i.fa.fa-th-list
                 내 피드
+            %li.my-group.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                %i.fa.fa-cube
+                내 그룹
+              %ul.dropdown-menu
+                - current_user.member_groups.each do |group|
+                  %li= link_to group.title, smart_group_url(group)
           - if user_signed_in?
             - if current_user.messages.empty?
               %li.notification
@@ -25,10 +32,10 @@
                     %span.icon-bell-stack
                       %i.fa.fa-circle.fa-stack-1x
                       %i.fa.fa-bell.fa-stack-1x.fa-inverse
-                    %span.label.label-danger= trim_count current_user.unread_messages_count
+                      %span.label.label-danger= trim_count current_user.unread_messages_count
                   %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
                     %i.fa.fa-bell
-                  알림
+
                 %ul.dropdown-menu.js-notification-dropdown-menu
 
 
