@@ -37,7 +37,7 @@
             내 피드
         - if current_user.member_issues.only_alive_of_group(host_group).any?
           %li.group-line
-            = link_to root_path do
+            = link_to (current_group.present? ? root_path : indies_issues_url(subdomain: nil)) do
               #{host_group.title_basic_format}
         - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
           = render 'issues/issue_line', issue: issue
