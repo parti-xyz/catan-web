@@ -37,6 +37,10 @@ module ApplicationHelper
     date.strftime("%Y.%m.%d %H:%M")
   end
 
+  def static_day_f(date)
+    date.strftime("%Y.%m.%d")
+  end
+
   def comment_format(text, html_options = {}, options = {})
     options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
     parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line'), options).to_str

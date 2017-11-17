@@ -20,9 +20,9 @@ class DashboardController < ApplicationController
       end
       @last_post = watched_posts.newest(field: :last_stroked_at)
 
-      previous_last_post = Post.find_by(id: params[:last_id])
+      @previous_last_post = Post.find_by(id: params[:last_id])
       watched_posts = watched_posts.order(last_stroked_at: :desc)
-      @posts = watched_posts.limit(25).previous_of_post(previous_last_post)
+      @posts = watched_posts.limit(25).previous_of_post(@previous_last_post)
 
       current_last_post = @posts.last
       @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
