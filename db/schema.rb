@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171113031739) do
+ActiveRecord::Schema.define(version: 20171117062018) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 20171113031739) do
     t.text     "body",       limit: 65535
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.datetime "mailed_at"
   end
 
   add_index "decision_histories", ["post_id"], name: "index_decision_histories_on_post_id", using: :btree

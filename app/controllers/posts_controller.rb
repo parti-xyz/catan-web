@@ -93,7 +93,8 @@ class PostsController < ApplicationController
 
     if @post.save
       @post.issue.strok_by!(current_user, @post)
-      @post.decision_histories.create(body: @post.decision, user: current_user)
+      @decision_history = @post.decision_histories.create(body: @post.decision, user: current_user)
+      DecisionMailer.deliver_all_later_on_update(@decision_history)
 
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       redirect_to params[:back_url].presence || @post
