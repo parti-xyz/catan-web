@@ -57,8 +57,8 @@
             - unless @search_q.present?
               = render 'posts/list_pinned', posts: @posts_pinned
             = render 'posts/page', show_issue: false
-        .page_waypoint.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js)}
-          .page_waypoint__loading
-            %i.fa.fa-3x.fa-spinner.fa-pulse
+        .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js)}
+          .page-waypoint-loading.js-page-waypoint-loading
+            %i.fa.fa-2x.fa-spinner.fa-pulse
       - unless is_small_screen?
         = render 'issues/aside'

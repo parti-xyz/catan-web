@@ -13,9 +13,9 @@
           - else
             .post-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
               = render 'posts/page', show_issue: true
-            .page_waypoint.text-center{'data-target': '.post-container', 'data-url': slug_user_path(format: :js)}
-              .page_waypoint__loading
-                %i.fa.fa-3x.fa-spinner.fa-pulse
+            .page-waypoint.js-page-waypoint.text-center{'data-target': '.post-container', 'data-url': slug_user_path(format: :js)}
+              .page-waypoint-loading.js-page-waypoint-loading
+                %i.fa.fa-2x.fa-spinner.fa-pulse
 
       = render 'users/aside'
 

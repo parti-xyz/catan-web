@@ -796,6 +796,8 @@ $(function(){
   })();
 
   (function() {
+    var is_first_loaded = false
+
     var load_page = function(waypoint) {
       waypoint.disable();
 
@@ -804,7 +806,7 @@ $(function(){
         return;
       }
 
-      $('.page_waypoint__loading').show();
+      $('.js-page-waypoint-loading').show();
 
       $.ajax({
         url: $(waypoint.element).data('url'),
@@ -812,7 +814,7 @@ $(function(){
         data:{ last_id: $container.data('last-id') },
         context: waypoint,
         complete: function(xhr) {
-          $('.page_waypoint__loading').hide();
+          $('.js-page-waypoint-loading').hide();
           Waypoint.enableAll();
           Waypoint.refreshAll();
           var waypoint = this
@@ -821,10 +823,12 @@ $(function(){
               load_page(waypoint);
             }
           },100);
+          is_first_loaded = true
         },
       });
     }
-    $('.page_waypoint').waypoint({
+
+    $('.js-page-waypoint').waypoint({
       handler: function(direction) {
         load_page(this);
       },
@@ -832,6 +836,22 @@ $(function(){
         return this.context.innerHeight() - this.adapter.outerHeight() + 300
       }
     });
+
+    var waypoints_onload = $('.js-page-waypoint-onload').waypoint({
+      handler: function(direction) {
+        if(is_first_loaded) {
+          load_page(this);
+        }
+      },
+      offset: function () {
+        return this.context.innerHeight() - this.adapter.outerHeight() + 300
+      }
+    });
+
+    if(waypoints_onload.length > 0) {
+      load_page(waypoints_onload[0]);
+    }
+
   })();
 
   // Initialize Redactor
