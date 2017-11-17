@@ -53,7 +53,8 @@
                     더 보기
                     %i.fa.fa-angle-double-right
               .row.masonry-container
-                = render 'polls_or_surveys/page', posts: @polls_and_surveys, sm_columns_count: 2
+                - sm_columns_count = (@polls_and_surveys.count > 1 ? 2 : 1)
+                = render 'polls_or_surveys/page', posts: @polls_and_surveys, sm_columns_count: sm_columns_count
 
           - if @posts_pinned.try(:any?)
             %section{style:"margin-top:20px; padding-bottom: 10px"}
