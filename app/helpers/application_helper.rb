@@ -59,7 +59,8 @@ module ApplicationHelper
 
   def decision_body_format(text)
     return text if text.blank?
-    parsed_text = parse_mentions(text)
+    parsed_text = simple_format(h(text)).to_str
+    parsed_text = parse_mentions(parsed_text)
     raw(auto_link(parsed_text,
       html: {class: 'auto_link', target: '_blank'},
       link: :urls,
