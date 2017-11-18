@@ -594,4 +594,7 @@ strong.upvoted {
   margin: 24px 0 12px;
   font-weight: 600;
   color: $gray-light;
+  @media (max-width: $screen-xs-max) {
+    padding: 0px 15px;
+  }
 }
