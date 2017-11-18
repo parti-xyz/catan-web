@@ -12,27 +12,30 @@
         = link_to '로그인', new_user_session_path
   %ul.drawer-list__menu.list-unstyled
     - if user_signed_in?
-      - if current_user.member_issues.only_alive_of_group(host_group).any?
-        %li.group-line
-          = link_to (current_group.present? ? root_path : indies_issues_url(subdomain: nil)) do
-            #{host_group.title_basic_format}
-      - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
-        = render 'issues/issue_line', issue: issue
-      - if current_group.present? and !current_group.private_blocked?(current_user) and current_group.categories.try(:any?)
-        %li.category-line
-          주제별 빠띠
-        - current_group.categories.each do |category|
-          %li.issue-line
-            = link_to issues_path(category_slug: category.slug) do
-              = category.name
-      - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
-        %li.group-line
-          = link_to smart_group_url(group) do
-            #{group.title_basic_format}
-        - current_user.member_issues.only_alive_of_group(group).each do |issue|
+      - if Group.comprehensive_joined_by(current_user).any?
+        - if current_user.member_issues.only_alive_of_group(host_group).any?
+          %li.group-line
+            = link_to (current_group.present? ? root_path : indies_issues_url(subdomain: nil)) do
+              #{host_group.title_basic_format}
+        - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
           = render 'issues/issue_line', issue: issue
-      %li{style:"padding-left: 0;"}
-        %hr
+        - if current_group.present? and current_group.categories.try(:any?) and current_group.member?(current_user)
+          %li.category-line
+            주제별 빠띠
+          - current_group.categories.each do |category|
+            %li.issue-line
+              = link_to issues_path(category_slug: category.slug) do
+                = category.name
+        - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
+          %li.group-line
+            = link_to smart_group_url(group) do
+              #{group.title_basic_format}
+          - current_user.member_issues.only_alive_of_group(group).each do |issue|
+            = render 'issues/issue_line', issue: issue
+        %li{style:"padding-left: 0;"}
+          %hr
+      - else
+        %li{style:"padding-top: 10px;"}
       %li
         = link_to issues_url(subdomain: nil), class: 'action-link' do
           %i.fa.fa-search
