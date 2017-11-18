@@ -727,6 +727,8 @@ section#issues {
   width: 100%;
   margin-bottom: 0;
   border: 1px solid transparent;
+  padding: 3px 0;
+  cursor: pointer;
   .media {
     margin-top: 0;
     display: table;
@@ -745,6 +747,11 @@ section#issues {
     vertical-align: text-top;
     padding: 0 5px !important;
   }
+  .btn-join-sign {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   &__thumb {
     width: 20px;
     height: 20px;
@@ -756,6 +763,13 @@ section#issues {
     display: inline-block;
     float: left;
     margin-right: 5px;
+  }
+  .issue-line-body-wraper {
+    word-break: keep-all;
+    word-wrap: break-word;
+    .after-block {
+      position: relative;
+    }
   }
   &__title {
     color: $gray;

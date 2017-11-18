@@ -32,7 +32,7 @@
                     %span.icon-bell-stack
                       %i.fa.fa-circle.fa-stack-1x
                       %i.fa.fa-bell.fa-stack-1x.fa-inverse
-                      %span.label.label-danger= trim_count current_user.unread_messages_count
+                    %span.label.label-danger= trim_count current_user.unread_messages_count
                   %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
                     %i.fa.fa-bell
 

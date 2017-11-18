@@ -101,6 +101,20 @@ $.prevent_click_exclude_parti = function(e) {
   $(e.currentTarget).trigger('parti-click');
 }
 
+$.fn.visible = function() {
+    return this.css('visibility', 'visible');
+};
+
+$.fn.invisible = function() {
+    return this.css('visibility', 'hidden');
+};
+
+$.fn.visibilityToggle = function() {
+    return this.css('visibility', function(i, visibility) {
+        return (visibility == 'visible') ? 'hidden' : 'visible';
+    });
+};
+
 // fucusable
 var parti_post_editor_spotlight = function(e) {
   var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true, findOnResize: true }
@@ -273,28 +287,6 @@ var parti_prepare = function($base) {
   // redactor의 링크를 새 창으로 띄웁니다
   $.parti_apply($base, '[data-action="parti-link-target-blank"]', function(elm) {
     $(elm).find('a').attr('target', '_blank');
-  });
-
-  //switch
-  $.parti_apply($base, '[data-action="parti-switch"]', function(elm) {
-    var $elm = $(elm);
-    $elm.on('click', function(e) {
-      $.prevent_click_exclude_parti(e);
-      var $elm = $(e.currentTarget);
-
-      var $target = $($elm.data('switch-target'));
-      var $target_base = $($elm.data('switch-target-base'));
-      $target_base.hide();
-      $target.show();
-
-      var $source_base = $($elm.data('switch-source-base'));
-      $source_base.removeClass("active");
-      $elm.addClass("active");
-
-      var focus_id = $elm.data('focus');
-      $focus = $(focus_id);
-      $focus.focus();
-    });
   });
 
   // show
@@ -511,22 +503,6 @@ var parti_prepare = function($base) {
     $(elm).tooltip();
   });
 
-  // hover
-  $.parti_apply($base, '[data-action="parti-hover"]', function(elm) {
-    var $elm = $(elm);
-    var hover_on = $(elm).data("hover-on");
-    var hover_off = $(elm).data("hover-off");
-    $elm.html(hover_off);
-    $elm.on('mouseenter', function (e) {
-      var $target = $(e.currentTarget);
-      $target.html(hover_on);
-    });
-    $elm.on('mouseleave', function (e) {
-      var $target = $(e.currentTarget);
-      $target.html(hover_off);
-    });
-  });
-
   // unified editor
   $.parti_apply($base, '[data-action="parti-show-after-focused"]', function(elm) {
     var $elm = $(elm);
@@ -608,6 +584,16 @@ $(function(){
   parti_prepare($('body'));
   parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
+
+  // 빠띠 사이드바 hover 할때 가입 버튼 보이기
+  $('.js-issue-line-hover').on('mouseenter', function(elm) {
+    $(this).find('.js-join-button').visible();
+    $(this).find('.js-join-sign').invisible();
+  });
+  $('.js-issue-line-hover').on('mouseleave', function(elm) {
+    $(this).find('.js-join-button').invisible();
+    $(this).find('.js-join-sign').visible();
+  });
 
   $('.js-post-wiki-btn').on('click', function(e) {
     Focusable.hide();
