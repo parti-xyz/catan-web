@@ -3,7 +3,7 @@
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
     - if local_assigns[:show_today] and post.last_stroked_at.present? and before_post.try(:last_stroked_at).try(:to_date) != post.last_stroked_at.to_date
       .post-data-divider
-        #{post.last_stroked_at.to_date == Date.today ? '오늘' : static_day_f(post.last_stroked_at)} 업데이트된 게시글
+        #{post.last_stroked_at.to_date.today? ? '오늘' : (post.last_stroked_at.to_date == (Time.current - 1.day).to_date ? "어제" : static_day_f(post.last_stroked_at))} 업데이트된 게시글
   .post-card__content
     = render post, local_assigns.merge(mode: 'list')
     - before_post = post
