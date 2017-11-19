@@ -1,0 +1,14 @@
+- if user_signed_in? and !current_user.email_verified? and !current_page?(controller: 'users/registrations', action: :edit)
+  #js-check-real-email.check-real-email.collapse
+    %p
+      어떤 새로운 댓글이 달렸는지, 토론이 어떻게 진행되는지 궁금하시죠?
+      %br
+      빠띠에서 나누는 소중한 이야기를 메일로 알려드릴께요.
+    %p
+      자주 쓰는 메일 주소가 맞나요?
+    .text-center
+      .real-mail{ style: 'font-size: 24px; font-weight: 300;' }= current_user.email
+
+      .control-buttons{ style: "margin-top: 20px" }
+        = link_to '네, 맞습니다', valid_email_users_path, method: :put, remote: true, class: 'js-ok-real-email btn btn-success btn-xs'
+        = link_to '아! 다른 메일주소를 씁니다', invalid_email_users_path, method: :put, class: 'btn btn-danger btn-xs'

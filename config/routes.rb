@@ -49,6 +49,8 @@ Rails.application.routes.draw do
       get 'access_token'
       get 'pre_sign_up'
       get 'email_sign_in'
+      put 'valid_email'
+      put 'invalid_email'
     end
   end
   unless Rails.env.production?

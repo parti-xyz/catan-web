@@ -245,6 +245,10 @@ class User < ActiveRecord::Base
     m.save!
   end
 
+  def email_verified?
+    email_verified_at.present?
+  end
+
   private
 
   def downcase_nickname

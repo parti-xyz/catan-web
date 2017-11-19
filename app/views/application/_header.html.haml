@@ -42,8 +42,8 @@
 
           - if user_signed_in?
             %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                .thumb.circle-20.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+              %a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#" }
+                #my-profile-image.thumb.circle-20.img-circle{ style: "background-image: url(#{current_user.image.sm.url});" }
                 %span.caret
               %ul.dropdown-menu
                 %li
@@ -53,6 +53,7 @@
                 %li.divider
                 %li= link_to '설정', edit_user_registration_path
                 %li= link_to '로그아웃', destroy_user_session_path, method: :delete
+
           - else
             %li.sign-up
               = link_to '회원가입', pre_sign_up_users_path
@@ -65,3 +66,4 @@
         %a.navbar-brand{ href: issues_path }
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
   = render 'drawer_menu'
+  = render 'application/check_real_email'

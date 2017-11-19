@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171117062018) do
+ActiveRecord::Schema.define(version: 20171119003600) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -666,6 +666,7 @@ ActiveRecord::Schema.define(version: 20171117062018) do
     t.boolean  "enable_mailing_pin",                        default: true
     t.boolean  "enable_mailing_poll_or_survey",             default: true
     t.boolean  "enable_mailing_member",                     default: true
+    t.datetime "email_verified_at"
   end
 
   add_index "users", ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true, using: :btree

@@ -704,6 +704,11 @@ $(function(){
     });
   })();
 
+  // 실제 메일인지 확인
+  setTimeout(function(){
+    $('#js-check-real-email').fadeIn();
+  }, 2000);
+
   // 알림드롭다운
   $('#js-notification').on('show.bs.dropdown', function(e) {
     var $this = $(this);
