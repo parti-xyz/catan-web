@@ -13,7 +13,7 @@ class IssuesController < ApplicationController
       @posts_pinned = current_group.pinned_posts(current_user)
 
       @polls_and_surveys = Post.having_poll.or(Post.having_survey).not_private_blocked_of_group(current_group, current_user)
-      @polls_and_surveys = @polls_and_surveys.hottest.limit(7)
+      @polls_and_surveys = @polls_and_surveys.order_by_stroked_at.limit(7)
       @recent_posts = Post.not_private_blocked_of_group(current_group, current_user).order_by_stroked_at.limit(4)
       if %w(union greenpartyjeju).include? current_group.slug
         render 'union_group_root'
