@@ -56,7 +56,7 @@
       %a(href='mailto:help@parti.xyz')
         오류 및 버그 신고
     %li
-      = link_to slug_issue_path(slug: Issue::SLUG_OF_PARTI_PARTI) do
+      = link_to smart_issue_home_url(Issue.parti_parti) do
         제안 및 의견 &middot; 빠띠만든당
 
   - if is_kakao_talkable?
