@@ -5,7 +5,7 @@
     - if user_signed_in?
       .aside_issue
         .aside_issue_btn
-          = link_to "#{ current_group and "#{current_group.title}" } 빠띠만들기", new_issue_path, class: 'btn btn-primary btn-block'
+          = link_to "#{ current_group and "#{current_group.title_short_format}" } 빠띠만들기", new_issue_path, class: 'btn btn-primary btn-block'
 
         - if params[:controller] == 'dashboard' and params[:action] == 'index'
           .aside_search

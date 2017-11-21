@@ -13,7 +13,7 @@
       - @active_issue_stats.each do |group_slug, active_issues|
         %tr{ style: 'background-color: #f5f5f5' }
           - group = Group.find_by(slug: group_slug)
-          %td{colspan: 4}= link_to group.title, smart_group_url(group)
+          %td{colspan: 4}= link_to group.title_basic_format, smart_group_url(group)
         - active_issues.each do |active_issue|
           %tr
             %td= active_issue.stat_at

@@ -318,6 +318,9 @@
             margin-top: 0;
             border: none;
           }
+          &-starter {
+            border-top: 1px solid $brand-primary-light;
+          }
         }
         &.category-line {
           color: $gray-light;

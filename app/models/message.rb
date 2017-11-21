@@ -37,9 +37,9 @@ class Message < ActiveRecord::Base
         "@#{instance.sender.nickname}"
       else
         if instance.issue.blank?
-          instance.group.title
+          instance.group.title_short_format
         else
-          "#{instance.issue.title} < #{instance.issue.group.title}"
+          "#{instance.issue.title} < #{instance.issue.group.title_short_format}"
         end
       end
     end

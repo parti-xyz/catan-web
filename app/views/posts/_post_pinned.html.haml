@@ -21,7 +21,7 @@
             - if post.issue.group != host_group
               %i.fa.fa-angle-left
               %span.issue-group
-                = post.issue.group.title
+                = post.issue.group.title_basic_format
                 = security_icon(post.issue.group)
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)

@@ -19,7 +19,7 @@
                   내 그룹
                 %ul.dropdown-menu
                   - current_user.member_groups.each do |group|
-                    %li= link_to group.title, smart_group_url(group)
+                    %li= link_to group.title_short_format, smart_group_url(group)
           - if user_signed_in?
             - if current_user.messages.empty?
               %li.notification

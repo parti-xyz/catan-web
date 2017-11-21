@@ -25,14 +25,16 @@ class Group < ActiveRecord::Base
     categories.detect { |c| c.slug == slug }
   end
 
-  # title_share_format
   def title_share_format
     indie? ? nil : "#{title} 빠띠"
   end
 
-  # title_basic_format
   def title_basic_format
-    "#{title} #{ indie? ? "빠띠" : "그룹"}"
+    indie? ? "빠띠" : "#{title} 그룹"
+  end
+
+  def title_short_format
+    indie? ? "빠띠" : title
   end
 
   def categories

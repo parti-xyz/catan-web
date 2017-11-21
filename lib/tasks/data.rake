@@ -5,9 +5,9 @@ namespace :data do
     Group.transaction do
 
       seed_group(user, 'indie', [],
-        title: '일반',
-        site_title: '일반',
-        head_title: '일반')
+        title: '빠띠',
+        site_title: '빠띠',
+        head_title: '빠띠')
 
       seed_group(user, 'gwangju', [],
         title: '광주',

@@ -26,8 +26,8 @@
             %li.issue-line
               = link_to issues_path(category_slug: category.slug) do
                 = category.name
-        - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
-          %li.group-line
+        - Group.comprehensive_joined_by(current_user).but(host_group).each_with_index do |group, index|
+          %li.group-line{ class: ('group-line-starter' if index == 0) }
             = link_to smart_group_url(group) do
               #{group.title_basic_format}
           - current_user.member_issues.only_alive_of_group(group).each do |issue|

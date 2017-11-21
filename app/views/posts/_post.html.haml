@@ -17,7 +17,7 @@
               - unless post.issue.displayable_group? current_group
                 %i.fa.fa-angle-left
                 %span.issue-group
-                  = post.issue.group.title
+                  = post.issue.group.title_basic_format
                   = security_icon(post.issue.group)
           - if local_assigns[:mode] == 'modal'
             .media-right( style='vertical-align: middle;' )
