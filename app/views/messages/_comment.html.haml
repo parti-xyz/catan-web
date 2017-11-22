@@ -7,12 +7,12 @@
     = link_to excerpt(comment.body, length: 100), comment.post
   - else
     %strong
-      %span
-        #{message.sender.nickname}님이
-      %span
-        - if comment.mentioned?(message.user)
-          댓글에서 나를 언급했습니다
-        - else
-          게시물에 댓글을 남겼습니다.
+      - if comment.mentioned?(message.user)
+        %span
+          #{message.sender.nickname}님이 댓글에서 나를 언급했습니다
+      - else
+        %span
+          #{comment.post.user.nickname}님의 게시글에
+          #{message.sender.nickname}님이 댓글을 남겼습니다.
     %br
     = link_to excerpt(comment.body, length: 100), comment.post
