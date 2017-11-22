@@ -110,4 +110,9 @@ class Survey < ActiveRecord::Base
       I18n.t('views.survey.remain_time.closed')
     end
   end
+
+  def changable_multiple_select?
+    return true unless multiple_select?
+    feedbacks.group(:user_id).having('count(id) > 1').empty?
+  end
 end
