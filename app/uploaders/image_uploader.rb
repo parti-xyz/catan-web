@@ -88,7 +88,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
     if Rails.env.production?
       super_result
-    elsif self.model.read_attribute(self.mounted_as.to_sym).blank?
+    elsif self.model.read_attribute(self.mounted_as.try(:to_sym)).blank?
       super_result
     else
       if self.file.try(:exists?) or ENV["S3_BUCKET"].blank?
@@ -106,6 +106,19 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   process :fix_exif_rotation
+
+  class InstantImage
+    def id
+      @id ||= SecureRandom.hex(16)
+    end
+
+    def read_attribute(_)
+    end
+  end
+
+  def model
+    super || InstantImage.new
+  end
 
   protected
 

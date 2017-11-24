@@ -783,3 +783,95 @@ label.required:after {
     }
   }
 }
+
+.mce-content-body {
+  height: auto;
+  padding: 0 14px;
+  p {
+    margin: 14px 0;
+  }
+
+  .tinymce-placeholder {
+    color: $gray-light;
+  }
+
+  .tinymce-content-image {
+    max-width: 100%;
+  }
+
+  blockquote {
+    p:first-child,
+    ul:first-child,
+    ol:first-child {
+      margin-top: 0;
+    }
+    font-size: $font-size-base;
+    margin: 12px 0;
+  }
+
+  & > ul:first-child,
+  & > ol:first-child {
+    margin-top: 14px;
+  }
+}
+
+.mce-primary {
+  border-color: transparent;
+  background-color: $brand-primary;
+}
+
+// 폼에서 빠띠 선택
+.parti-select {
+  margin: 0;
+  padding: 18px;
+  border-bottom: 1px solid $gray-less-lighter;
+  max-width: 100%;
+  .bootstrap-select {
+    .issue-line__title {
+      display: inline-block;
+      white-space: normal;
+      word-break: keep-all;
+    }
+    .parti-thumb {
+      vertical-align: top;
+    }
+    .dropdown-toggle.btn-default {
+      border: 1px solid $brand-primary;
+      background-color: #fff !important;
+      &:hover {
+        background-color: #fff !important;
+        transform: none;
+        border: 1px solid $brand-primary !important;
+      }
+    }
+    .dropdown-header {
+      font-size: $font-size-base;
+      font-weight: bold;
+      color: $brand-primary;
+    }
+    .dropdown-menu.open {
+      z-index: 10000;
+    }
+  }
+
+  .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    .issue-line__title, .issue-line__meta {
+      color: #fff;
+    }
+  }
+  .parti-option {
+    margin: 3px 0;
+  }
+  .parti-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: $border-radius-base;
+    background-position: center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 2px;
+  }
+}

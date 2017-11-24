@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   use_doorkeeper
   mount API, at: '/'
 
-  post 'redactor2_rails/files', to: redirect('/')
-  mount Redactor2Rails::Engine => '/redactor2_rails'
+  post '/tinymce_assets' => 'tinymce_assets#create'
+
   devise_for :users, controllers: {
     registrations: 'users/registrations',
     omniauth_callbacks: 'users/omniauth_callbacks',

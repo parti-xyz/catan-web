@@ -38,5 +38,14 @@ module CatanWeb
     end
 
     I18n.backend.class.send(:include, I18n::Backend::Cascade)
+
+    config.tinymce.install = :compile
+
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '/assets/*', :headers => :any, :methods => :get
+      end
+    end
   end
 end

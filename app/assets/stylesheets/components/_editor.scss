@@ -67,39 +67,6 @@
     }
   }
 
-  .parti-select {
-    margin: 0;
-    padding: 18px;
-    border-bottom: 1px solid $gray-less-lighter;
-    max-width: 100%;
-    .bootstrap-select {
-      .issue-line__title {
-        display: inline-block;
-        white-space: normal;
-        word-break: keep-all;
-      }
-      .parti-thumb {
-        vertical-align: top;
-      }
-      .dropdown-toggle.btn-default {
-        border: 1px solid $brand-primary;
-        &:hover {
-          background-color: #fff !important;
-          transform: none;
-          border: 1px solid $brand-primary !important;
-        }
-      }
-      .dropdown-header {
-        font-size: $font-size-base;
-        font-weight: bold;
-        color: $brand-primary;
-      }
-      .dropdown-menu.open {
-        z-index: 10000;
-      }
-    }
-  }
-
   .nav > li > a {
     padding: 4px;
     margin: 10px;
@@ -174,6 +141,9 @@
 
   .user-info {
     @include post-byline();
+    .media .user-image {
+      margin-bottom: 0;
+    }
   }
 
   .counter.exceeded {
@@ -318,6 +288,12 @@
     vertical-align: bottom;
     padding: 7px;
   }
+
+  .mce-content-body {
+    padding: 0;
+    outline: none;
+    min-height: 100px;
+  }
 }
 
 
@@ -432,6 +408,9 @@
 }
 
 #post-form .post-edit-form {
+  .form-control-tinymce {
+    height: auto;
+  }
   .form-widget-references {
     .add-form-group-btn,
     .form-groups {

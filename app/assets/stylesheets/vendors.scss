@@ -4,47 +4,11 @@
 @import "jquery.oembed";
 @import "jssocials";
 @import "tabdrop";
-@import "redactor";
 @import "jquery.webui-popover";
 @import "simplemde";
 @import "bootstrap-select";
 @import "lightbox";
 @import "bootstrap-5-columns";
-
-.redactor-air {
-  min-width: auto;
-}
-
-#redactor-modal-overlay, #redactor-modal-box {
-  z-index: 10001;
-  background: rgba(0, 0, 0, 0.8);
-}
-
-#redactor-modal {
-  z-index: 10001;
-}
-.redactor-styles {
-  font-size: 14px;
-  border: none;
-  padding: 0;
-  .redactor-box-style-wrapper & {
-    border: 1px solid $gray-lightest;
-    padding: 20px;
-  }
-  .redactor-box-style-wiki & {
-    border: 1px solid $gray-light;
-    border-radius: 4px;
-    padding: 20px;
-  }
-  .redactor-placeholder::after {
-    top: 0;
-    left: 0;
-  }
-}
-.redactor-wrapper--toolbar .redactor-styles {
-  padding: 12px;
-  border: 1px solid #efefef;
-}
 
 // lightbox
 

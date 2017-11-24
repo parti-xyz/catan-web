@@ -1,0 +1,16 @@
+toolbar:
+  - styleselect | bold italic | insertfile undo redo
+  - image | link
+  - bullist numlist outdent indent
+plugins:
+  - image
+  - link
+  - autolink
+  - anchor
+  - visualblocks
+  - code
+  - media
+  - contextmenu
+  - paste
+inline: true
+menubar: false

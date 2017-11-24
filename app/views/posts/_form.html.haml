@@ -1,12 +1,13 @@
 .well.post-edit-form
-  = form_for @post do |f|
+  = form_for @post, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '.post-edit-form form input[type=submit]' } } do |f|
     = f.hidden_field :has_poll, value: "#{ 'true' if @post.poll.present? }"
     = f.hidden_field :has_survey, value: "#{ 'true' if @post.survey.present? }"
 
-    .form-group.redactor-box-style-wrapper
+    .form-group
       = f.label :body
-      %div{ class: ("redactor-wrapper--toolbar" unless is_air_redactorable?) }
-        = f.text_area :body, class: "form-control redactor validate #{'js-redactor-toolbar' unless is_air_redactorable?}", data: {ride: 'parti-autoresize'}
+      .js-tinymce.form-control.form-control-tinymce{ id: "post[body]" }
+        != @post.body
+      = f.hidden_field :body, class: 'validate', data: { 'rule-required': true }
       = f.hidden_field :is_html_body, value: true
 
     - if @post.poll.present?

@@ -146,11 +146,6 @@ class ApplicationController < ActionController::Base
     request.variant = :mobile if (browser.device.mobile?)
   end
 
-  #bugfix redactor2-rails
-  def redactor_current_user
-    redactor2_current_user
-  end
-
   def prepare_store_location
     store_location(current_group)
   end

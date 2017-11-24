@@ -203,5 +203,18 @@ section#wiki-histories {
     font-size: $font-size-large;
     font-weight: 600;
   }
+
+  .parti-select {
+    padding: 0;
+    .bootstrap-select > .dropdown-toggle.bs-placeholder,
+    .bootstrap-select > .dropdown-toggle.bs-placeholder:hover,
+    .bootstrap-select > .dropdown-toggle.bs-placeholder:focus,
+    .bootstrap-select > .dropdown-toggle.bs-placeholder:active {
+      background-color: #fff;
+      outline: none;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+    }
+  }
 }
 

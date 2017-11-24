@@ -19,9 +19,6 @@
 //= require jquery.waypoints
 //= require jquery.dotdotdot
 //= require jquery.webui-popover
-//= require redactor2_rails/config
-//= require redactor
-//= require redactor2_rails/langs/ko
 //= require bootstrap-add-clear
 //= require diacritics
 //= require bootstrap-dropdown-filter
@@ -37,6 +34,7 @@
 //= require lightbox
 //= require webp-check
 //= require slick
+//= require tinymce-jquery
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
@@ -131,7 +129,6 @@ var parti_post_editor_spotlight = function(e) {
 }
 $(document).on('parti-post-editor-spotlight', parti_post_editor_spotlight);
 
-
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 5000;
 
@@ -196,6 +193,10 @@ var parti_prepare_form_validator = function($base) {
       }
     });
 
+    if($form.valid()) {
+      $submit.prop('disabled', false);
+    }
+
     $elm.find(':input').on('input', function(e) {
       if($form.valid()) {
         $submit.prop('disabled', false);
@@ -236,7 +237,7 @@ var parti_prepare_form_validator = function($base) {
       }
     });
 
-    $elm.find('.redactor').on('change.callback.redactor', function() {
+    $elm.find('.js-tinymce').on('change', function() {
       if($form.valid()) {
         $submit.prop('disabled', false);
       } else {
@@ -282,11 +283,6 @@ var parti_prepare = function($base) {
     }
 
     $(elm).webuiPopover(options);
-  });
-
-  // redactor의 링크를 새 창으로 띄웁니다
-  $.parti_apply($base, '[data-action="parti-link-target-blank"]', function(elm) {
-    $(elm).find('a').attr('target', '_blank');
   });
 
   // show
@@ -842,32 +838,7 @@ $(function(){
     if(waypoints_onload.length > 0) {
       load_page(waypoints_onload[0]);
     }
-
   })();
-
-  // Initialize Redactor
-  //
-  $('.redactor').each(function(index,elm){
-    var is_air = !$(elm).hasClass('js-redactor-toolbar')
-    $(elm).redactor({
-      buttons: ['bold', 'italic', 'deleted'],
-      air: is_air,
-      pasteLinks: false,
-      linkSize: 10000,
-      toolbarFixedTopOffset: 55,
-      callbacks: {
-        imageUploadError: function(json, xhr) {
-          UnobtrusiveFlash.showFlashMessage(json.error.data[0], {type: 'notice'})
-        },
-        init: function(argument) {
-          $(this).show();
-        }
-      }
-    });
-  });
-  $('.redactor').on('change.callback.redactor', function() {
-    $(document).trigger('parti-post-editor-spotlight');
-  });
 
   $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     var hash = $(e.target).attr('href');
@@ -1152,6 +1123,103 @@ $(function(){
   $('#post-modal').on('hidden.bs.modal', function (e) {
     $footer_element.removeClass('nav-down').addClass('nav-up');
   });
+
+  // tinyMCE.init({
+  //   selector: '.js-tinymce',
+  //   toolbar: ['styleselect | bold italic | insertfile undo redo | image | link | bullist numlist outdent indent'],
+  //   plugins: ['image link autolink anchor visualblocks code media contextmenu paste' ],
+  //   inline: true,
+  //   menubar: false,
+  // });
+
+  (function() {
+
+    var setPlaceholder = function(editor, placeholder) {
+      editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
+    };
+
+    var removePlaceholder = function(editor, placeholder) {
+      $placeholder = $("#js-tinymce-placeholder");
+      if($placeholder.length) {
+        $placeholder.remove();
+        editor.setContent("<p></p>");
+        return true;
+      }
+
+      return false
+    };
+
+    //plugins: 'image media link paste contextmenu textpattern autolink',
+    var settings = {
+      default: {
+        plugins: 'link paste autolink lists advlist',
+        insert_toolbar: '',
+        selection_toolbar: 'bold italic | quicklink blockquote | bullist numlist | outdent indent',
+      },
+      wiki: {
+        plugins: 'image media link paste autolink uploadimage lists advlist',
+        insert_toolbar: '',
+        selection_toolbar: 'bold italic | quicklink h1 h2 h3 blockquote | bullist numlist | outdent indent | uploadimage',
+      },
+    };
+
+    $.each($('.js-tinymce'), function(i, elm){
+      var setting_name = $(elm).data('tinymce-setting');
+      var setting = settings.default;
+      if(setting_name) {
+        setting = settings[setting_name];
+      }
+      var placeholder = $(elm).data('placeholder');
+
+      $(elm).tinymce({
+        theme: 'inlite',
+        inline: true,
+        language: 'ko_KR',
+        plugins: setting.plugins,
+        insert_toolbar: setting.insert_toolbar,
+        selection_toolbar: setting.selection_toolbar,
+        paste_data_images: true,
+        hidden_input: false,
+        uploadimage_default_img_class: 'tinymce-content-image',
+        setup: function (editor) {
+          if(placeholder) {
+            editor.on('init', function(){
+              setPlaceholder(editor, placeholder);
+            });
+            editor.on('blur', function (e) {
+              var $input_elm = $(':input[name="' + editor.id + '"]');
+              if($input_elm.val() == "") {
+                setPlaceholder(editor, placeholder);
+              }
+            });
+            editor.on('focus', function (e) {
+              if(removePlaceholder(editor)) {
+                editor.execCommand('mceFocus', false);
+                $(document).trigger('parti-post-editor-spotlight');
+              }
+            });
+            editor.on('KeyDown', function (e) {
+              removePlaceholder(editor);
+            });
+          }
+        },
+        init_instance_callback: function (editor) {
+          editor.on('change', function (e) {
+            tinymce.triggerSave();
+            var $input_elm = $(':input[name="' + editor.id + '"]');
+            $input_elm.trigger('parti-need-to-validate');
+            $(document).trigger('parti-post-editor-spotlight');
+          });
+        }
+      });
+    });
+  })();
+
+
+  tinymce.on('AddEditor', function (e) {
+    console.log('Added editor with id: ' + e.editor.id);
+  });
+
 });
 
 
