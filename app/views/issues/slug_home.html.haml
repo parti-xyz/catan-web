@@ -32,10 +32,10 @@
             .text-muted.text-primary
               휴면 중인 빠띠입니다.
 
-        - if @posts.first.present? and @last_post.present?
-          = render 'posts/new_posts_count', new_posts_count_url: new_issue_posts_count_url(issue_id: @issue.id, last_time: @last_post.last_stroked_at.to_i)
+        - if params[:q].blank?
+          = render 'posts/new_posts_count', new_posts_count_url: new_issue_posts_count_url(issue_id: @issue.id, last_time: DateTime.now.to_i)
 
-        .posts{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
+        .posts{data: {last_id: -1, is_last: 'false'}}
           - if params[:q].present?
             .post-card.summary
               .post-card__post
@@ -46,18 +46,15 @@
                   = link_to '취소', smart_issue_home_path_or_url(@issue), class: 'btn btn-sm btn-default'
                 - else
                   두 글자 이상의 영문과 한글만 검색됩니다. 검색할 키워드를 다시 입력하세요.
-          - if @posts.empty?
-            .bg-default
-              %i.fa.fa-info-circle
-              - if @search_q.present?
-                검색 결과가 없습니다.
-              - elsif params[:q].blank?
+          - unless @search_q.present?
+            = render 'posts/list_pinned', posts: @posts_pinned
+          #no-data.text-center.alert{ style: 'display: none;' }
+            %i.fa.fa-info-circle
+              - if params[:q].blank?
                 아직 글이 없습니다.
-          - else
-            - unless @search_q.present?
-              = render 'posts/list_pinned', posts: @posts_pinned
-            = render 'posts/page', show_issue: false
-        .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js)}
+              - else
+                검색 결과가 없습니다.
+        .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js)}
           .page-waypoint-loading.js-page-waypoint-loading
             %i.fa.fa-2x.fa-spinner.fa-pulse
       - unless is_small_screen?

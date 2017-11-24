@@ -56,22 +56,27 @@ class IssuesController < ApplicationController
   def slug_home
     render 'slug_home_blocked' and return if private_blocked?(@issue)
 
-    @last_post = @issue.posts.newest(field: :last_stroked_at)
-
-    previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-    issus_posts = @issue.posts.order(last_stroked_at: :desc)
     if params[:q].present?
       @search_q = Post.sanitize_search_key params[:q]
-      issus_posts = if @search_q.present?
-        issus_posts.search(@search_q)
-      else
-        Post.none
-      end
     end
-    @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
 
-    current_last_post = @posts.last
-    @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
+    if request.xhr?
+      @last_post = @issue.posts.newest(field: :last_stroked_at)
+
+      previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
+      issus_posts = @issue.posts.order(last_stroked_at: :desc)
+      if params[:q].present?
+        issus_posts = if @search_q.present?
+          issus_posts.search(@search_q)
+        else
+          Post.none
+        end
+      end
+      @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
+
+      current_last_post = @posts.last
+      @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
+    end
 
     if params[:last_id].blank?
       @posts_pinned = @issue.posts.pinned.order('pinned_at desc')

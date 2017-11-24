@@ -813,7 +813,7 @@ $(function(){
           is_first_loaded = true
         },
       });
-    }
+    };
 
     $('.js-page-waypoint').waypoint({
       handler: function(direction) {
