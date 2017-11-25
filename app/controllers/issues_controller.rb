@@ -60,7 +60,7 @@ class IssuesController < ApplicationController
       @search_q = Post.sanitize_search_key params[:q]
     end
 
-    if request.xhr?
+    if request.format.js?
       @last_post = @issue.posts.newest(field: :last_stroked_at)
 
       previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
@@ -72,7 +72,8 @@ class IssuesController < ApplicationController
           Post.none
         end
       end
-      @posts = issus_posts.limit(25).previous_of_post(previous_last_post)
+      limit_count = ( previous_last_post.blank? ? 5 : 25 )
+      @posts = issus_posts.limit(limit_count).previous_of_post(previous_last_post)
 
       current_last_post = @posts.last
       @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
