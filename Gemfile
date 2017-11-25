@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5.1'
+gem 'rails', '4.2.7.1'
 gem 'unicorn'
 gem 'bundler', '~> 1.14', '>= 1.14.5'
 
@@ -22,7 +22,9 @@ gem 'scoped_search', '~> 4.1'
 gem 'search_cop'
 gem 'ngram'
 gem 'acts-as-taggable-on', '~> 4.0'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: '776037c0fc799bb09da8c9ea47980bd3bf296874'
 gem 'axlsx_rails', '~> 0.5.0'
+gem 'rubyzip', '>= 1.2.1'
 gem 'backport_new_renderer', '~> 1.0'
 gem 'where-or'
 gem 'groupdate'
