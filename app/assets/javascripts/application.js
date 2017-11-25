@@ -1124,14 +1124,6 @@ $(function(){
     $footer_element.removeClass('nav-down').addClass('nav-up');
   });
 
-  // tinyMCE.init({
-  //   selector: '.js-tinymce',
-  //   toolbar: ['styleselect | bold italic | insertfile undo redo | image | link | bullist numlist outdent indent'],
-  //   plugins: ['image link autolink anchor visualblocks code media contextmenu paste' ],
-  //   inline: true,
-  //   menubar: false,
-  // });
-
   (function() {
 
     var setPlaceholder = function(editor, placeholder) {
@@ -1154,12 +1146,12 @@ $(function(){
       default: {
         plugins: 'link paste autolink lists advlist',
         insert_toolbar: '',
-        selection_toolbar: 'bold italic | quicklink blockquote | bullist numlist | outdent indent',
+        selection_toolbar: 'bold italic strikethrough | quicklink blockquote | bullist numlist | outdent indent',
       },
       wiki: {
         plugins: 'image media link paste autolink uploadimage lists advlist',
         insert_toolbar: '',
-        selection_toolbar: 'bold italic | quicklink h1 h2 h3 blockquote | bullist numlist | outdent indent | uploadimage',
+        selection_toolbar: 'bold italic strikethrough | quicklink h1 h2 h3 blockquote | bullist numlist | outdent indent | uploadimage',
       },
     };
 
@@ -1180,6 +1172,7 @@ $(function(){
         selection_toolbar: setting.selection_toolbar,
         paste_data_images: true,
         hidden_input: false,
+        forced_root_block: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         setup: function (editor) {
           if(placeholder) {
