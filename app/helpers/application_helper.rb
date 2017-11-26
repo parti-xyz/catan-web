@@ -45,10 +45,9 @@ module ApplicationHelper
     options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
     parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line'), options).to_str
     parsed_text = parse_mentions(parsed_text)
-    raw(auto_link(parsed_text,
-      html: {class: 'auto_link', target: '_blank'},
-      link: :urls,
-      sanitize: false))
+    Rinku.auto_link(parsed_text, :all,
+      "class='auto_link' target='_blank'",
+      nil).html_safe()
   end
 
   def post_body_format(text)
@@ -61,10 +60,9 @@ module ApplicationHelper
     return text if text.blank?
     parsed_text = simple_format(h(text)).to_str
     parsed_text = parse_mentions(parsed_text)
-    raw(auto_link(parsed_text,
-      html: {class: 'auto_link', target: '_blank'},
-      link: :urls,
-      sanitize: false))
+    Rinku.auto_link(parsed_text, :all,
+      "class='auto_link' target='_blank'",
+      nil).html_safe()
   end
 
   def parse_mentions(text)

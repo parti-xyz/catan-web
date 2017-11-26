@@ -651,6 +651,7 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.1)
+    rinku (2.0.3)
     rolify (5.1.0)
     ruby-ll (2.1.2)
       ansi
@@ -854,6 +855,7 @@ DEPENDENCIES
   redis (~> 3.2, >= 3.2.2)
   redis-namespace (~> 1.5, >= 1.5.2)
   rest-client (~> 2.0, >= 2.0.2)
+  rinku
   rolify
   rubyzip (>= 1.2.1)
   sass-rails (~> 5.0)

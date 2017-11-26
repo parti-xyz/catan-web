@@ -322,10 +322,21 @@ class Post < ActiveRecord::Base
 
   def format_body(force = false)
     if self.is_html_body == 'false' or force
-      parsed_text = ApplicationController.helpers.simple_format(ERB::Util.h(self.body), {}, sanitize: false)
-      self.body = ApplicationController.helpers.auto_link(parsed_text, html: {class: 'auto_link', target: '_blank'}, link: :urls, sanitize: false)
+      self.body = ApplicationController.helpers.simple_format(ERB::Util.h(self.body), {}, sanitize: false)
     end
 
+    self.body = find_all_a_tags(body) do |links|
+      links.each do |link|
+        link['target'] = '_blank'
+        existing = (link['class'] || "").split(/\s+/)
+        existing << "auto_link"
+        link['class'] = existing.uniq.join(" ")
+      end
+    end.to_html()
+
+    self.body = Rinku.auto_link(self.body, :all,
+        "class='auto_link' target='_blank'",
+        nil)
     strip_empty_tags
   end
 
@@ -581,7 +592,14 @@ class Post < ActiveRecord::Base
   end
 
   def find_all_a_tags(body)
-    Nokogiri::HTML.parse(body).xpath('//a[@href]').reject{ |p| all_child_nodes_are_blank?(p) }
+    doc = Nokogiri::HTML.parse(body)
+    links = doc.xpath('//a[@href]').reject{ |p| all_child_nodes_are_blank?(p) }
+    if block_given?
+      yield links
+      return doc
+    else
+      return links
+    end
   end
 
   def all_child_nodes_are_blank?(node)
