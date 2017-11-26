@@ -270,3 +270,8 @@ https://console.firebase.google.com/project/{구글 프로젝트 이름}/setting
 ```
 export FIREBASE_BUCKETNAME="dalikim"
 ```
+
+개발 환경에서 firebase와 연결을 하려면 아래 설정을 해야 합니다. 아래 설정이 없으면 firebase에 연결하지 않고서도 개발이 가능합니다.
+```
+export FIREBASE=true
+```

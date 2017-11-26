@@ -9,7 +9,10 @@ class PostCreateService
     return false unless @post.issue.safe_postable?(@current_user)
 
     @post.user = @current_user
-    @post.wiki.last_author = @current_user if @post.wiki.present?
+    if @post.wiki.present?
+      @post.wiki.last_author = @current_user
+      @post.wiki.format_body
+    end
     @post.strok_by(@current_user)
     @post.format_body
 

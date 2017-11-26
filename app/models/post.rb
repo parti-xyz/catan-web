@@ -123,6 +123,7 @@ class Post < ActiveRecord::Base
 
   HOT_LIKES_COUNT = 3
 
+  include AutoLinkableBody
   include Upvotable
   include Mentionable
   mentionable :body
@@ -318,42 +319,6 @@ class Post < ActiveRecord::Base
 
   def format_body!
     format_body(true)
-  end
-
-  def format_body(force = false)
-    if self.is_html_body == 'false' or force
-      self.body = ApplicationController.helpers.simple_format(ERB::Util.h(self.body), {}, sanitize: false)
-    end
-
-    self.body = find_all_a_tags(body) do |links|
-      links.each do |link|
-        link['target'] = '_blank'
-        existing = (link['class'] || "").split(/\s+/)
-        existing << "auto_link"
-        link['class'] = existing.uniq.join(" ")
-      end
-    end.to_html()
-
-    self.body = Rinku.auto_link(self.body, :all,
-        "class='auto_link' target='_blank'",
-        nil)
-    strip_empty_tags
-  end
-
-  def strip_empty_tags
-    doc = Nokogiri::HTML self.body
-    ps = doc.xpath '/html/body/*'
-    first_text = -1
-    last_text = 0
-    ps.each_with_index do |p, i|
-      next unless p.enum_for(:traverse).map.to_a.select(&:text?).map(&:text).map(&:strip).any?(&:present?)
-
-      #found some text
-      first_text = i if first_text == -1
-      last_text = i
-    end
-
-    self.body = ps.slice(first_text .. last_text).to_s
   end
 
   def build_poll(params)
@@ -589,25 +554,6 @@ class Post < ActiveRecord::Base
 
   def sanitize_html text
     HTMLEntities.new.decode ActionView::Base.full_sanitizer.sanitize(text)
-  end
-
-  def find_all_a_tags(body)
-    doc = Nokogiri::HTML.parse(body)
-    links = doc.xpath('//a[@href]').reject{ |p| all_child_nodes_are_blank?(p) }
-    if block_given?
-      yield links
-      return doc
-    else
-      return links
-    end
-  end
-
-  def all_child_nodes_are_blank?(node)
-    node.children.all?{ |child| is_blank_node?(child) }
-  end
-
-  def is_blank_node?(node)
-    (node.text? && node.content.strip == '') || (node.element? && node.name == 'br')
   end
 
   def self.to_ngram(data)

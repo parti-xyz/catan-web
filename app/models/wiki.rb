@@ -30,6 +30,7 @@ class Wiki < ActiveRecord::Base
   end
 
   acts_as_paranoid
+  include AutoLinkableBody
 
   has_one :post, dependent: :nullify
   has_many :wiki_histories, dependent: :destroy

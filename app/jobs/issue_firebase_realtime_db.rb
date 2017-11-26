@@ -2,6 +2,10 @@
   include Sidekiq::Worker
 
   def perform(issue_id, user_id)
+    if !Rails.env.production?
+      return if ENV["FIREBASE"] != 'true'
+    end
+
     issue = Issue.find_by(id: issue_id)
     return if issue.blank?
 
