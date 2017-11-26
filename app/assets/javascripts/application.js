@@ -1172,7 +1172,6 @@ $(function(){
         selection_toolbar: setting.selection_toolbar,
         paste_data_images: true,
         hidden_input: false,
-        forced_root_block: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         setup: function (editor) {
           if(placeholder) {
