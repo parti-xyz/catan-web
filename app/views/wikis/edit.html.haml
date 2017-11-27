@@ -11,5 +11,5 @@
         = f.submit "위키 저장", class: 'btn btn-sm btn-primary', data: { disable_with: "저장 중..." }
         = link_to '취소', smart_issue_wikis_path(@wiki.issue)
       .form-group
-        = f.text_area :body, class: 'form-control simplemde', rows: 40, cols: 120, data: {'parti-url': smart_issue_wikis_path(@wiki.issue)}
+        = f.text_area :body, class: 'form-control', rows: 40, cols: 120, data: {'parti-url': smart_issue_wikis_path(@wiki.issue)}
         = f.hidden_field :issue_id, class: 'form-control'

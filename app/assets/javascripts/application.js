@@ -3,11 +3,9 @@
 //= require bootstrap
 //= require masonry.pkgd
 //= require imagesloaded.pkgd.js
-//= require jquery.oembed
 //= require jssocials
 //= require unobtrusive_flash
 //= require unobtrusive_flash_bootstrap
-//= require bootstrap-tabdrop
 //= require jquery.timeago
 //= require locales/jquery.timeago.ko
 //= require autoresize
@@ -22,8 +20,6 @@
 //= require bootstrap-add-clear
 //= require diacritics
 //= require bootstrap-dropdown-filter
-//= require simplemde
-//= require jquery.charactercounter
 //= require bootstrap-select
 //= require bootstrap-select/defaults-ko_KR.js
 //= require jquery.viewport
@@ -848,122 +844,6 @@ $(function(){
     $all_tab_panes.removeClass('active');
     $target_tab_panes.addClass('active');
   })
-
-  // SimpleMDE
-  if ( $( ".simplemde" ).length ){
-    var $elm = $($(".simplemde")[0])
-    var simplemde = new SimpleMDE({
-      autosave: {
-        enabled: false,
-      },
-      element: $(".simplemde")[0],
-      spellChecker: false,
-      status: false,
-      toolbar: [
-        {
-          name: "bold",
-          action: SimpleMDE.toggleBold,
-          className: "fa fa-bold",
-          title: "굵게",
-        },
-        {
-          name: "italic",
-          action: SimpleMDE.toggleItalic,
-          className: "fa fa-italic",
-          title: "기울임",
-        },
-        {
-          name: "strikethrough",
-          action: SimpleMDE.toggleStrikethrough,
-          className: "fa fa-strikethrough",
-          title: "취소선"
-        },
-        {
-          name: "heading",
-          action: SimpleMDE.toggleHeadingSmaller,
-          className: "fa fa-header",
-          title: "제목",
-        },  '|',
-        {
-          name: "quote",
-          action: SimpleMDE.toggleBlockquote,
-          className: "fa fa-quote-left",
-          title: "인용",
-        },
-        {
-          name: "unordered-list",
-          action: SimpleMDE.toggleUnorderedList,
-          className: "fa fa-list-ul",
-          title: "글머리 기호 넣기",
-        },
-        {
-          name: "ordered-list",
-          action: SimpleMDE.toggleOrderedList,
-          className: "fa fa-list-ol",
-          title: "순번 매기기",
-        },  '|',
-        {
-          name: "link",
-          action: SimpleMDE.drawLink,
-          className: "fa fa-link",
-          title: "링크 연결",
-        },
-        {
-          name: "image",
-          action: SimpleMDE.drawImage,
-          className: "fa fa-picture-o",
-          title: "이미지 넣기",
-        },
-        {
-          name: "table",
-          action: SimpleMDE.drawTable,
-          className: "fa fa-table",
-          title: "표 그리기"
-        },
-        {
-          name: "horizontal-rule",
-          action: SimpleMDE.drawHorizontalRule,
-          className: "fa fa-minus",
-          title: "가로줄"
-        },  '|',
-        {
-          name: "preview",
-          action: SimpleMDE.togglePreview,
-          className: "fa fa-eye no-disable",
-          title: "미리보기",
-        },
-        {
-          name: "side-by-side",
-          action: SimpleMDE.toggleSideBySide,
-          className: "fa fa-columns no-disable no-mobile",
-          title: "미리 보면서 작성하기",
-        }, '|',
-        {
-          name: "guide",
-          action: "https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%EC%9C%84%ED%82%A4-%EB%A7%88%ED%81%AC%EB%8B%A4%EC%9A%B4-%EA%B0%80%EC%9D%B4%EB%93%9C",
-          className: "fa fa-question-circle",
-          title: "마크다운이란?",
-        },
-        {
-          name: "save",
-          action: function(editor) {
-            if($.is_present(editor.value())) {
-              editor.element.form.submit();
-            }
-          },
-          className: "btn btn-primary btn-sm btn-save-wiki",
-          title: "Save"
-        },
-        {
-          name: "취소",
-          action: $elm.data('parti-url'),
-          className: "link-to-wiki",
-          title: "취소",
-        },
-      ]
-    }).toggleFullScreen();
-    $('.link-to-wiki').attr('target', null);
-  }
 
   if ( $('#wikis .body .wiki_content a').length ){
     $('#wikis .body .wiki_content a').attr('target', '_blank');
