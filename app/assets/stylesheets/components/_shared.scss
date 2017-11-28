@@ -813,6 +813,15 @@ label.required:after {
   & > ol:first-child {
     margin-top: 14px;
   }
+
+  .mce-item-table,
+  .mce-item-table td,
+  .mce-item-table th,
+  .mce-item-table caption {
+    border: 1px solid $gray-light;
+    padding: 4px;
+  }
+
 }
 
 .mce-primary {
