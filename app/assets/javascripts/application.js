@@ -1051,6 +1051,7 @@ $(function(){
         insert_toolbar: setting.insert_toolbar,
         selection_toolbar: setting.selection_toolbar,
         paste_data_images: true,
+        link_context_toolbar: true,
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         setup: function (editor) {
