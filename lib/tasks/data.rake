@@ -85,7 +85,7 @@ namespace :data do
         site_title: '다음세대를 위한 새로운 시작 - 전국청년정책네트워크',
         head_title: '전청넷',
         site_description: "<전국청년정책네트워크>는 이행기 청년의 불평등 문제를 지역 간 협력과 제도 개선을 통해 해결하는 자발적 시민 네트워크입니다.",
-        private: false)
+        private: true)
 
       seed_group(user, 'eduhope', ['옹달샘','이현자'],
         title: '전교조',
