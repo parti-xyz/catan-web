@@ -19,7 +19,7 @@ class Group::MemberRequestsController < GroupBaseController
     redirect_to(request.referrer || group_members_path) and return if current_group.member?(@user)
     @member_request = current_group.member_requests.find_by(user: @user)
     render_404 and return if @member_request.blank?
-    @member = MemberGroupService.new(group: current_group, user: @member_request.user).call
+    @member = MemberGroupService.new(group: current_group, user: @member_request.user, description: @member_request.description).call
     if @member.persisted?
       MessageService.new(@member_request, sender: current_user, action: :accept).call
       MemberMailer.deliver_all_later_on_create(@member)
