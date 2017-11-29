@@ -122,13 +122,6 @@ namespace :data do
         head_title: '서울동행',
         private: false)
 
-      seed_group(user, 'c-time', ['하늬커'],
-        title: 'C-Time',
-        site_title: '청소년들이 만드는 변화 - C-Time',
-        site_description: "청소년 체인지메이커들의 커뮤니티입니다. 내 주변의 문제에 공감해 보고, 무엇이든 행동에 옮겨보는 여러분들의 프로젝트를 공유 해 주세요.",
-        head_title: 'C-Time',
-        private: false)
-
       seed_group(user, 'greenpartyjeju', ['rebecca_shin'],
         title: '당다라당당 제주녹색당',
         site_title: '대안의 숲, 전환의 씨앗 - 제주녹색당',
@@ -143,11 +136,19 @@ namespace :data do
         head_title: '빠-오',
         private: false)
 
+      seed_group(user, 'youthmango', ['하늬커'],
+        title: 'youthmango',
+        site_title: '청소년들이 만드는 변화 - 유쓰망고',
+        site_description: "해결해보고 싶은 나만의 _______ 가 있나요? 망설이지말고, 고!",
+        head_title: '유쓰망고',
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
       GroupDestroyService.new('westay1').call
       GroupDestroyService.new('studio').call
+      GroupDestroyService.new('c-time').call
     end
   end
 
