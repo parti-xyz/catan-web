@@ -58,6 +58,18 @@
         %section#content-tab-section
           .nav-tabs.message-tab
             %h4
+              그룹 내 프로필 관리
+          .row
+            .col-md-10
+              = form_tag update_profile_group_members_path, method: :post do
+                .input-group
+                  = text_field_tag :description, nil, class: 'form-control'
+                  %span.input-group-btn
+                    = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+        %br
+        %section#content-tab-section
+          .nav-tabs.message-tab
+            %h4
               가입멤버
               .count-label-wrapper
                 .count-label= current_group.members.count

@@ -175,6 +175,7 @@ Rails.application.routes.draw do
         delete :delete_magic_link
         get :magic_form
         post :magic_join
+        post :update_profile
       end
     end
     resources :member_requests do
