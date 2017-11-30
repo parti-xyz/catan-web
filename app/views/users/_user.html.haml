@@ -5,11 +5,16 @@
     = link_to smart_user_gallery_path(user) do
       .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
       %p= user.nickname
-      %pre
+      - description_html =capture do
         - if local_assigns[:description].present?
-          = local_assigns[:description]
+          = simple_format h(local_assigns[:description])
         - else
-          #{user.nickname}입니다
+          %p #{user.nickname}입니다
+      .description{ 'data-trigger': 'click', 'data-action': 'parti-popover', 'data-placement': "bottom", 'data-url': "##{dom_id(user)}__member_user" }
+        = description_html
+      .hidden
+        %div{ id: "#{dom_id(user)}__member_user" }
+          = description_html
   - if local_assigns[:additional_buttons_partial].present?
     .user-card__additional_buttons
       = render additional_buttons_partial, local_assigns.merge(user: user)

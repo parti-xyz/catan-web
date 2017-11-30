@@ -62,6 +62,19 @@ section#user-gallery{
     pre{
       margin: 20px;
     }
+
+    .description {
+      height: 1.9em;
+      overflow: hidden;
+      margin: 20px 12px;
+      background-color: $gray-lighter;
+      font-weight: normal;
+      color: initial;
+
+      &:hover {
+        font-weight: bold;
+      }
+    }
   }
   &__additional_buttons {
     text-align: center;

@@ -884,3 +884,7 @@ label.required:after {
     margin-right: 2px;
   }
 }
+
+.webui-popover-content p:last-child {
+    margin-bottom: 0;
+}
