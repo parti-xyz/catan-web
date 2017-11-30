@@ -13,7 +13,7 @@
       .description{ 'data-trigger': 'click', 'data-action': 'parti-popover', 'data-placement': "bottom", 'data-url': "##{dom_id(user)}__member_user" }
         = description_html
       .hidden
-        %div{ id: "#{dom_id(user)}__member_user" }
+        %div{ id: "#{dom_id(user)}__member_user", style: "max-width: 180px" }
           = description_html
   - if local_assigns[:additional_buttons_partial].present?
     .user-card__additional_buttons
