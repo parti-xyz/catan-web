@@ -17,6 +17,8 @@ class IssuesController < ApplicationController
       @recent_posts = Post.not_private_blocked_of_group(current_group, current_user).order_by_stroked_at.limit(4)
       if %w(union greenpartyjeju eduhope).include? current_group.slug
         render 'union_group_root'
+      elsif %w(youthmango).include? current_group.slug
+        render 'recent_first_group_root'
       else
         render 'group_root'
       end
