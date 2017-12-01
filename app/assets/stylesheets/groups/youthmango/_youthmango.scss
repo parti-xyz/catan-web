@@ -5,3 +5,25 @@
     background-color: $brand-primary;
   }
 }
+
+.key-page{
+  text-align:center;
+  background-size: cover;
+  button{
+    box-shadow: 3px 3px 0px 0px #c5c5c5;
+    border-radius:0px !important;
+  }
+  .key-page-desc{
+    margin: 0 auto;
+  }
+  .key-page-title{
+    font-weight: 200;
+    span{
+      font-weight:bold;
+    }
+  }
+}
+.btn-facebook{
+  background-color: #3351A2;
+  color: white;
+}

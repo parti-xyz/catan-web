@@ -11,3 +11,30 @@ section#home {
   width: auto;
 }
 
+
+body.in-group #group-key-visual-bg {
+  height: 345px;
+  background-position: bottom;
+  @media (max-width: $screen-md-max) {
+    height: 270px;
+  }
+  @media (max-width: $screen-xs-max) {
+    height: 0;
+  }
+}
+.key-page{
+  background-image: asset_url('groups/youthmango/key_page_bg.png');
+  height:350px;
+  button{
+    margin:10px;
+  }
+  .key-page-desc{
+    width:500px;
+    padding:50px 20px;
+    .key-page-title{
+      font-size: 22px;
+      margin: 10px;
+      padding-top: 80px;
+    }
+  }
+}

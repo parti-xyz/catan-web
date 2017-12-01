@@ -9,3 +9,19 @@
 section#home {
   margin-top: 30px;
 }
+.key-page{
+  background-image: asset_url('groups/youthmango/key_page_mobile_bg.png');
+  height:250px;
+  .key-page-desc{
+    width:500px;
+    padding:50px 20px;
+    text-align: left;
+    .key-page-title{
+      font-size: 20px;
+      margin-bottom: 30px;
+    }
+    button{
+      margin: 5px 0px;
+    }
+  }
+}

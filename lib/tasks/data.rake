@@ -139,7 +139,7 @@ namespace :data do
       seed_group(user, 'youthmango', ['하늬커'],
         title: 'youthmango',
         site_title: '청소년들이 만드는 변화 - 유쓰망고',
-        site_description: "해결해보고 싶은 나만의 _______ 가 있나요? 망설이지말고, 고!",
+        site_description: "청소년 체인지메이커들의 커뮤니티입니다. 내 주변의 문제에 공감해 보고, 사회를 변화시키기 위해 무엇이든 행동에 옮겨보는 여러분들의 프로젝트를 공유 해 주세요.",
         head_title: '유쓰망고',
         private: false)
 
