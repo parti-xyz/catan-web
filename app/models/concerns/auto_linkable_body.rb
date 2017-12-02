@@ -25,7 +25,7 @@ module AutoLinkableBody
 
   def find_all_a_tags(body)
     doc = Nokogiri::HTML.parse(body)
-    links = doc.xpath('//a[@href]').reject{ |p| all_child_nodes_are_blank?(p) }
+    links = doc.xpath('//a[@href]').select{ |p| p['href'] =~ /^(http:\/\/|https:\/\/)/ }.reject{ |p| all_child_nodes_are_blank?(p) }
     if block_given?
       yield links
       return doc
