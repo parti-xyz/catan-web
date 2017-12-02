@@ -1,6 +1,7 @@
+include GroupHelper
+
 Rails.application.routes.draw do
   class IndieGroupRouteConstraint
-    include GroupHelper
     def matches?(request)
       fetch_group(request).blank?
     end
@@ -58,7 +59,6 @@ Rails.application.routes.draw do
   end
 
   class MergedIssueRouteConstraint
-    include GroupHelper
     def matches?(request)
       group = fetch_group(request) || Group.indie
       params = request.params
@@ -67,11 +67,11 @@ Rails.application.routes.draw do
   end
 
   # 통합 빠띠
-  get '/p/:slug/', to: redirect { |params, req|
+  get '/p/:slug/', to: redirect { |params, request|
     group = fetch_group(request) || Group.indie
     "/p/#{MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug).issue.slug}"
   }, constraints: MergedIssueRouteConstraint.new
-  get '/p/:slug/*path', to: redirect { |params, req|
+  get '/p/:slug/*path', to: redirect { |params, request|
     group = fetch_group(request) || Group.indie
     merged_issue = MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug)
     "/p/#{merged_issue.issue.slug}/#{params[:path]}"
