@@ -3,7 +3,7 @@
 
 - issue = post.issue
 - voted = user_signed_in? && poll.voting_by?(current_user)
-.poll-card[post]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)}", data: modal_data}
+.poll-card[(local_assigns[:in_post] ? poll: post)]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)}", data: modal_data}
   - if post.private_blocked?(current_user)
     %strong 비공개 빠띠 게시글입니다.
     - if post.issue.member_requested? current_user
@@ -22,12 +22,12 @@
               .poll-card__group
                 = post.issue.group.head_title
             .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-              = post.issue.title.truncate(6)
+              = post.issue.title.truncate(10)
       .pull-right
         .poll-card__date.date-wrapper.poll-card__date--with-issue
           %span= date_f post.created_at
     %h4.poll-card__title
       “#{poll.title}”
-
     = render 'votings/voting', local_assigns
-
+  - if local_assigns[:show_decision]
+    = render 'posts/decision', local_assigns.merge(post: post)

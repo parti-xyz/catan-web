@@ -2,7 +2,7 @@
   - if post.decision.blank?
     - if post.issue.safe_postable?(current_user)
       %sapn.text-muted 어느 정도 결정된 사항이 있나요?
-      = link_to '기록하기', edit_decision_post_path(post), class: 'text-primary'
+      = link_to '기록하기', edit_decision_post_path(post), class: 'text-primary text-nowrap'
     - elsif
       %h5 결정사항
       %sapn.text-muted 결정된 사항이 없습니다.

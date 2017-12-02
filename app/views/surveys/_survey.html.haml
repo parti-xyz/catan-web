@@ -30,3 +30,5 @@
       “#{survey.post.specific_desc_striped_tags(50)}”
 
     = render 'surveys/card', local_assigns
+  - if local_assigns[:show_decision]
+    = render 'posts/decision', local_assigns.merge(post: post)

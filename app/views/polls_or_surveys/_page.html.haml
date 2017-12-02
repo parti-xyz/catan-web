@@ -5,9 +5,9 @@
   - unless post.blinded?(current_user) or post.private_blocked?(current_user)
     .col-xs-12.card.card--hover-grow{ class: col_sm }
       - if post.poll.present?
-        = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post)
+        = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post, show_decision: true)
       - elsif post.survey.present?
-        = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post)
+        = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post, show_decision: true)
   - else
     - has_blinds = true
 - if has_blinds
