@@ -137,10 +137,17 @@ namespace :data do
         private: false)
 
       seed_group(user, 'youthmango', ['하늬커'],
-        title: 'youthmango',
+        title: '유쓰망고',
         site_title: '청소년들이 만드는 변화 - 유쓰망고',
         site_description: "청소년 체인지메이커들의 커뮤니티입니다. 내 주변의 문제에 공감해 보고, 사회를 변화시키기 위해 무엇이든 행동에 옮겨보는 여러분들의 프로젝트를 공유 해 주세요.",
         head_title: '유쓰망고',
+        private: false)
+
+      seed_group(user, 'changemakersym', ['chmym0329'],
+        title: '양명고등학교 공감혁신부',
+        site_title: '우리부터 시작되는 체인지메이킹 - 양명고등학교 공감혁신부',
+        site_description: "저희는 나로부터 시작되는 사회적 이슈를 발견, 해결해나가는 체인지메이커 팀들의 동아리입니다. 저희는 비영리법인 유스망고, 사단법인 아쇼카 한국과 함께 하고 있습니다.",
+        head_title: '양명고',
         private: false)
 
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
