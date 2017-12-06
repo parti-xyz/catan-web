@@ -37,7 +37,13 @@
                     영문과 한글만 검색합니다.
                   = link_to '취소', dashboard_path, class: 'btn btn-sm btn-default'
                 - else
-                  두 글자 이상의 영문과 한글만 검색됩니다. 검색할 키워드를 다시 입력하세요.
+                  = form_tag dashboard_path, method: :get do
+                    .form-group.has-feedback
+                      = search_field_tag :q, params[:q], placeholder: '게시글 찾기...', class: 'form-control'
+                      %span.form-control-feedback{ style: 'pointer-events: initial;' }
+                        = button_tag class: 'btn btn-link btn-xs' do
+                          %i.fa.fa-search.text-muted
+                  각 단어가 두 글자 이상은 되어야 검색됩니다. 검색할 키워드를 다시 입력하세요.
           - unless @search_q.present?
             = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true
           #no-data.text-center.alert{ style: 'display: none;' }

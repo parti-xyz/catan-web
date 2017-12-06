@@ -806,10 +806,12 @@ $(function(){
         type: "get",
         data:{ last_id: $container.data('last-id') },
         context: $waypoint_element,
-        complete: function(xhr) {
-          $('.js-page-waypoint-loading').hide();
+        success: function(xhr) {
           var $waypoint_element = this;
           listen_waypoint($waypoint_element);
+        },
+        complete: function(xhr) {
+          $('.js-page-waypoint-loading').hide();
           is_first_loaded = true
         },
       });

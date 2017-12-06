@@ -497,19 +497,22 @@ class Post < ActiveRecord::Base
   def self.sanitize_search_key(key)
     result = key.split.compact.map do |w|
       w.gsub(/[^ㄱ-ㅎ가-힣a-z0-9]/i, '')
-    end.compact.join(' ')
+    end.compact
 
-    (key.length >= 2 ? key : nil)
+    return nil if result.any? { |w| w.length < 2 }
+    result.join(' ')
   end
 
   def self.search(key)
-    ngramed_key = self.to_ngram(key).map { |w| (w.length > 1 ? "+(\"#{w}\")" : "+*#{w}*") }.join(' ')
-    where("match(body_ngram) against (? in boolean mode)", ngramed_key)
+    sanitized_key = Post.sanitize_search_key(key)
+    return all if sanitized_key.blank?
+
+    fulltext_query = sanitized_key.split.map { |w| "+(\"#{w}\")" }.join(' ')
+    where("match(body_ngram) against (? in boolean mode)", fulltext_query)
   end
 
   def reindex_for_search!
-    reindex_for_search
-    save
+    update_columns(body_ngram: make_index)
   end
 
   def decision_authors
@@ -519,10 +522,14 @@ class Post < ActiveRecord::Base
   private
 
   def reindex_for_search
-    new_index = [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
-      Post.to_ngram(sanitize_html(text)).join(' ')
-    end.join(' ')
-    self.body_ngram = new_index.strip.presence
+    self.body_ngram = make_index
+  end
+
+  def make_index
+    max = 16777215 / 3
+    [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
+      Post.to_ngram(sanitize_html(text))
+    end.flatten.uniq.join(' ').strip[0..max]
   end
 
   def send_notifiy_pinned_emails(someone)
@@ -553,15 +560,11 @@ class Post < ActiveRecord::Base
   end
 
   def sanitize_html text
-    HTMLEntities.new.decode ActionView::Base.full_sanitizer.sanitize(text)
+    HTMLEntities.new.decode Catan::SpaceSanitizer.new.do(text)
   end
 
   def self.to_ngram(data)
-    @ngram ||= NGram.new({
-                      size: 2,
-                      word_separator: "",
-                      padchar: ""
-                    })
-    data.split.map { |w| (w.length > 1 ? @ngram.parse(w).join(' ') : w) }
+    @ngram ||= Catan::Search::NGram.new(min_size: 2, word_separator: " ")
+    @ngram.parse(data)
   end
 end
