@@ -36,7 +36,7 @@ class IssuesController < ApplicationController
   end
 
   def indies
-    index_issues(Group.indie, params[:keyword])
+    index_issues(Group.indie, params[:keyword], 3)
   end
 
   def search_by_tags
@@ -209,7 +209,7 @@ class IssuesController < ApplicationController
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
   end
 
-  def index_issues(group, keyword)
+  def index_issues(group, keyword, item_a_row = nil)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
 
     @issues = Issue.displayable_in_current_group(group)
@@ -234,6 +234,7 @@ class IssuesController < ApplicationController
 
     @issues = @issues.categorized_with(params[:category]) if params[:category].present?
     @issues = @issues.page(params[:page]).per(4 * 10)
+    @issues = @issues.page(params[:page]).per(item_a_row * 10) if item_a_row.present?
   end
 
   def fetch_issue_by_slug
