@@ -781,10 +781,20 @@ $(function(){
   (function() {
     var is_first_loaded = false
 
-    var load_page = function(waypoint) {
-      waypoint.disable();
+    var listen_waypoint = function($waypoint_element) {
+      $waypoint_element.waypoint({
+        handler: function(direction) {
+          load_page_with_waypoint(this);
+        },
+        offset: "100%"
+      });
+    }
 
-      var $container = $($(waypoint.element).data('target'));
+    var load_page = function($waypoint_element) {
+      if($waypoint_element.length <= 0) {
+        return;
+      }
+      var $container = $($waypoint_element.data('target'));
       if($container.data('is-last')) {
         return;
       }
@@ -792,38 +802,28 @@ $(function(){
       $('.js-page-waypoint-loading').show();
 
       $.ajax({
-        url: $(waypoint.element).data('url'),
+        url: $waypoint_element.data('url'),
         type: "get",
         data:{ last_id: $container.data('last-id') },
-        context: waypoint,
+        context: $waypoint_element,
         complete: function(xhr) {
           $('.js-page-waypoint-loading').hide();
-          Waypoint.enableAll();
-          Waypoint.refreshAll();
+          var $waypoint_element = this;
+          listen_waypoint($waypoint_element);
           is_first_loaded = true
         },
       });
+    }
+
+    var load_page_with_waypoint = function(waypoint) {
+      var $waypoint_element = $(waypoint.element)
+      waypoint.destroy();
+
+      load_page($waypoint_element);
     };
 
-    $('.js-page-waypoint').waypoint({
-      handler: function(direction) {
-        load_page(this);
-      },
-      offset: "100%"
-    });
-
-    var waypoints_onload = $('.js-page-waypoint-onload').waypoint({
-      handler: function(direction) {
-        if(is_first_loaded) {
-          load_page(this);
-        }
-      },
-      offset: "100%"
-    });
-
-    if(waypoints_onload.length > 0) {
-      load_page(waypoints_onload[0]);
-    }
+    listen_waypoint($('.js-page-waypoint'));
+    load_page($('.js-page-waypoint-onload'));
   })();
 
   $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -1077,11 +1077,6 @@ $(function(){
       });
     });
   })();
-
-
-  tinymce.on('AddEditor', function (e) {
-    console.log('Added editor with id: ' + e.editor.id);
-  });
 
 });
 

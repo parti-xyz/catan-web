@@ -10,18 +10,12 @@ class DashboardController < ApplicationController
     end
 
     if request.format.js?
-      watched_posts = current_user.watched_posts(current_group)
-      if @search_q.present?
-        watched_posts = if @search_q.present?
-          watched_posts.search(@search_q)
-        else
-          Post.none
-        end
-      end
-      @last_post = watched_posts.newest(field: :last_stroked_at)
-
       @previous_last_post = Post.find_by(id: params[:last_id])
+
+      watched_posts = current_user.watched_posts(current_group)
       watched_posts = watched_posts.order(last_stroked_at: :desc)
+      watched_posts = watched_posts.search(@search_q) if @search_q.present?
+
       limit_count = (@previous_last_post.blank? ? 5 : 25)
       @posts = watched_posts.limit(limit_count).previous_of_post(@previous_last_post)
 
