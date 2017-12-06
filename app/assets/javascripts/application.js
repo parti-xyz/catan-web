@@ -800,12 +800,6 @@ $(function(){
           $('.js-page-waypoint-loading').hide();
           Waypoint.enableAll();
           Waypoint.refreshAll();
-          var waypoint = this
-          setTimeout(function(){
-            if($.inviewport(waypoint.element, {threshold : 100})) {
-              load_page(waypoint);
-            }
-          },100);
           is_first_loaded = true
         },
       });
@@ -815,9 +809,7 @@ $(function(){
       handler: function(direction) {
         load_page(this);
       },
-      offset: function () {
-        return this.context.innerHeight() - this.adapter.outerHeight() + 300
-      }
+      offset: "100%"
     });
 
     var waypoints_onload = $('.js-page-waypoint-onload').waypoint({
@@ -826,9 +818,7 @@ $(function(){
           load_page(this);
         }
       },
-      offset: function () {
-        return this.context.innerHeight() - this.adapter.outerHeight() + 300
-      }
+      offset: "100%"
     });
 
     if(waypoints_onload.length > 0) {
