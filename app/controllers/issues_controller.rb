@@ -65,14 +65,14 @@ class IssuesController < ApplicationController
     if request.format.js?
       @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
 
-      issus_posts = @issue.posts.order(last_stroked_at: :desc)
-      issus_posts = issus_posts.search(@search_q) if @search_q.present?
+      issue_posts = @issue.posts.order(last_stroked_at: :desc)
+      issue_posts = issue_posts.search(@search_q) if @search_q.present?
 
       limit_count = ( @previous_last_post.blank? ? 5 : 25 )
-      @posts = issus_posts.limit(limit_count).previous_of_post(@previous_last_post)
+      @posts = issue_posts.limit(limit_count).previous_of_post(@previous_last_post)
 
       current_last_post = @posts.last
-      @is_last_page = (issus_posts.empty? or issus_posts.previous_of_post(current_last_post).empty?)
+      @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
     end
 
     if params[:last_id].blank?
