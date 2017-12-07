@@ -549,10 +549,17 @@ class Post < ActiveRecord::Base
     elsif strip_body.length < 250
       [nil, body]
     else
+      blockquote_index = strip_body.index('<blockquote>')
+      strip_body_remain = ""
+      unless blockquote_index.nil?
+        strip_body_remain = strip_body.slice(blockquote_index..-1)
+        strip_body = strip_body.slice(0...blockquote_index)
+      end
+
       setences = strip_body.lines.map { |l| l.split(/(?<=<\/p>)/) }.map { |s| s.split(/(?=<br>)/) }.flatten
-      if setences.first.length < 100
-        remains = setences[1..-1].join.strip
-        [setences.first, remains]
+      if setences.any? and setences.first.length < 100
+        strip_body_remain = setences[1..-1].join + strip_body_remain
+        [setences.first, strip_body_remain]
       else
         [nil, body]
       end
