@@ -35,6 +35,6 @@ class DecisionMailer < ApplicationMailer
     return if @post.blank? or @user.blank? or !@user.enable_mailing_poll_or_survey? or @user.email.blank?
 
     mail(to: @user.email,
-      subject: "[빠띠] \"#{@post.specific_desc_striped_tags(50)}\" 게시글의 결정사항이 업데이트되었습니다.")
+      subject: "[빠띠] \"#{@post.specific_desc_striped_tags(50)}\" 게시글의 결론이 업데이트되었습니다.")
   end
 end
