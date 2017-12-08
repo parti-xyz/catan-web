@@ -79,7 +79,7 @@
             .row
               .col-xs-5th-1{ class: ('active' if active_tab.nil? || active_tab == :home) }
                 = link_to smart_issue_home_path_or_url(issue) do
-                  %h5 피드
+                  %h5 전체글
 
               .col-xs-5th-1{class: ('active' if active_tab == :polls)}
                 = link_to smart_issue_polls_or_surveys_path(issue) do
