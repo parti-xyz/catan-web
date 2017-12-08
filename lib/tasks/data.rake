@@ -150,6 +150,13 @@ namespace :data do
         head_title: '양명고',
         private: false)
 
+      seed_group(user, 'cairos', ['현준, 갱'],
+        title: '연구집단 카이로스',
+        site_title: '연구집단 카이로스',
+        site_description: "인문사회과학 연구자들의 모임입니다.",
+        head_title: '양명고',
+        private: false)
+
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
       GroupDestroyService.new('zakdang').call
