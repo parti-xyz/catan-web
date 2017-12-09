@@ -96,21 +96,6 @@
 }
 
 .btn-primary {
-  -webkit-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
-  -moz-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
-  box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
-
-  &:hover {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-  &:active {
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
   &-dark {
     background-color: $brand-primary-dark;
   }

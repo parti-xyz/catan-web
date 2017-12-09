@@ -4,7 +4,7 @@
       %span.label.unpin-label.action-label
         = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '공지내림' }, class: post_pin_buttons_dom_class(post) do
           공지내림
-  - elsif !post.read_by?(current_user)
+  - elsif user_signed_in? and !post.read_by?(current_user)
     %span.label.read-label.action-label.js-read-action-label
       = link_to [:read, post], method: :put, remote: true, data: { disable_with: '확인완료' }, class: post_pin_buttons_dom_class(post) do
         확인완료

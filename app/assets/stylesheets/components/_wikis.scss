@@ -59,8 +59,8 @@ section#wiki-histories {
       position: absolute;
       width: 100%;
       height: 100%;
-      box-shadow: inset 0px -10px 20px 0px rgba(236, 236, 236, 0.9);
-      -webkit-box-shadow: inset 0px -10px 20px 0px rgba(236, 236, 236, 0.9);
+      box-shadow: inset 0px -40px 50px 0px rgba(236, 236, 236, 0.9);
+      -webkit-box-shadow: inset 0px -40px 50px 0px rgba(236, 236, 236, 0.9);
       top: 0;
       left: 0;
     }
@@ -76,7 +76,7 @@ section#wiki-histories {
     margin-top: 20px;
   }
   .wiki-body {
-    min-height: 20px;
+    min-height: 70px;
     padding-left: 8px;
     padding-right: 8px;
     img {
@@ -90,6 +90,11 @@ section#wiki-histories {
     color: $gray-light;
     float: right;
   }
+  .wiki-button {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+  }
 }
 
 .wiki-card {
@@ -98,7 +103,7 @@ section#wiki-histories {
   padding: 12px;
   background-color: #fff;
   .wiki-body {
-    min-height: 20px;
+    min-height: 70px;
     img {
       width: 100%;
     }
