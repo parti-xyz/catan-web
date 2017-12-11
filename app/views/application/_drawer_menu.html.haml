@@ -42,9 +42,12 @@
         %li{style:"padding-top: 10px;"}
       %li{style:"padding-left: 0;"}
         %hr
+    %li{ style: "margin-top: 10px;"}
+      = link_to issues_url(subdomain: nil), class: 'action-link' do
+        %i.fa.fa-search
+        관심있는 빠띠를 찾아보세요
     %li.group-line
-      %span{ style: "color: #271f44; line-height: 30px;" }
-        %i.fa.fa-sign-language
+      %span{ style: "color: #271f44; line-height: 30px; font-weight: bold" }
         지금 가장 인기있는 빠띠
       - @hottest_issues = Issue.only_public_hottest(5)
       - @hottest_issues.each do |hottest_issue|
