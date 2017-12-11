@@ -154,7 +154,7 @@ namespace :data do
         title: '연구집단 카이로스',
         site_title: '연구집단 카이로스',
         site_description: "인문사회과학 연구자들의 모임입니다.",
-        head_title: '양명고',
+        head_title: '카이로스',
         private: false)
 
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
