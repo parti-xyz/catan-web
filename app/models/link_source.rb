@@ -80,6 +80,10 @@ class LinkSource < ActiveRecord::Base
     self["image"].present?
   end
 
+  def self.valid_url? url
+    !!(LinkSource::URL_FORMAT =~ url)
+  end
+
   private
 
   def set_crawling_status

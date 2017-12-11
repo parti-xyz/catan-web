@@ -467,27 +467,19 @@ class Post < ActiveRecord::Base
         old_link = self.link_source.url
       end
 
-      links = find_all_a_tags(self.body)
-      links_was = find_all_a_tags(body_was)
+      links = find_all_a_tags(self.body).map { |t| encode_url(t['href']) }.compact.select { |url| LinkSource.valid_url?(url) }
+      links_was = find_all_a_tags(body_was).map { |t| encode_url(t['href']) }.compact.select { |url| LinkSource.valid_url?(url) }
 
       first_link = links.first
-      if first_link.present? and first_link['href'].present?
-        if self.link_source.try(:url) != first_link['href']
-          encoding_options = {
-            :invalid           => :replace,  # Replace invalid byte sequences
-            :undef             => :replace,  # Replace anything not defined in ASCII
-            :replace           => '',        # Use a blank for those replacements
-            :universal_newline => true       # Always break lines with \n
-          }
-          self.link_source = LinkSource.new(url: first_link['href'].encode(Encoding.find('ASCII'), encoding_options))
+      if first_link.present?
+        if self.link_source.try(:url) != first_link
+          self.link_source = LinkSource.new(url: first_link)
         end
-      else
-        if old_link.present?
-          if !links.map{ |l| l['href'] }.include?(old_link) and links_was.map{ |l| l['href'] }.include?(old_link)
-            self.link_source = nil
-          else
-            self.body += "<p><a href='#{old_link}'>#{old_link}</a></p>"
-          end
+      elsif old_link.present?
+        if !links.include?(old_link) and links_was.include?(old_link)
+          self.link_source = nil
+        else
+          self.body += "<p><a href='#{old_link}'>#{old_link}</a></p>"
         end
       end
     end

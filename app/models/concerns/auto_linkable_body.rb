@@ -21,11 +21,23 @@ module AutoLinkableBody
     strip_empty_tags
   end
 
+  def encode_url(url)
+    return if url.blank?
+
+    encoding_options = {
+      :invalid           => :replace,  # Replace invalid byte sequences
+      :undef             => :replace,  # Replace anything not defined in ASCII
+      :replace           => '',        # Use a blank for those replacements
+      :universal_newline => true       # Always break lines with \n
+    }
+    url.encode(Encoding.find('ASCII'), encoding_options)
+  end
+
   private
 
   def find_all_a_tags(body)
     doc = Nokogiri::HTML.parse(body)
-    links = doc.xpath('//a[@href]').select{ |p| p['href'] =~ /^(http:\/\/|https:\/\/)/ }.reject{ |p| all_child_nodes_are_blank?(p) }
+    links = doc.xpath('//a[@href]').select{ |p| LinkSource.valid_url?(encode_url(p['href'])) }.reject{ |p| all_child_nodes_are_blank?(p) }
     if block_given?
       yield links
       return doc
