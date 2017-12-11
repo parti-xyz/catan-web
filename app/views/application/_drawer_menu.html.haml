@@ -12,6 +12,10 @@
         = link_to '로그인', new_user_session_path
   %ul.drawer-list__menu.list-unstyled
     - if user_signed_in?
+      %li{ style: "margin-top: 10px;"}
+        = link_to issues_url(subdomain: nil), class: 'action-link' do
+          %i.fa.fa-search
+          빠띠 찾기
       - if Group.comprehensive_joined_by(current_user).any?
         - if current_user.member_issues.only_alive_of_group(host_group).any?
           %li.group-line
@@ -36,12 +40,18 @@
           %hr
       - else
         %li{style:"padding-top: 10px;"}
-      %li
-        = link_to issues_url(subdomain: nil), class: 'action-link' do
-          %i.fa.fa-search
-          빠띠 찾기
       %li{style:"padding-left: 0;"}
         %hr
+    %li.group-line
+      %span{ style: "color: #271f44; line-height: 30px;" }
+        %i.fa.fa-sign-language
+        지금 가장 인기있는 빠띠
+      - @hottest_issues = Issue.only_public_hottest(5)
+      - @hottest_issues.each do |hottest_issue|
+        = render 'issues/issue_line', issue: hottest_issue
+      %br
+    %li{style:"padding-left: 0;"}
+      %hr
     %li
       = link_to root_path do
         %div
