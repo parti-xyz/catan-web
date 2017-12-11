@@ -124,19 +124,4 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       assert Post.exists?(id: posts(:post_talk1).id)
     end
   end
-
-  test '파일을 넣으면 링크 안 만들어요' do
-    sign_in(users(:one))
-
-    post posts_path, post: { issue_id: issues(:issue2).id, body: 'body http://daum.net', file_sources_attributes: { '0': { attachment: fixture_file('files/sample.pdf') } } }
-
-    assert assigns(:post).persisted?
-    assigns(:post).reload
-
-    assert_equal users(:one), assigns(:post).user
-    assert assigns(:post).link_source.nil?
-    assert_equal 'sample.pdf', assigns(:post).file_sources.first.name
-    assert_equal issues(:issue2).title, assigns(:post).issue.title
-    assert assigns(:post).comments.empty?
-  end
 end
