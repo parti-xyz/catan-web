@@ -110,3 +110,49 @@ section#group-home-submenu {
     }
   }
 }
+#parties-all {
+  form {
+    .input-group .form-control:not(:first-child):not(:last-child) {
+      border-top-left-radius: $border-radius-base;
+      border-bottom-left-radius: $border-radius-base;
+
+    }
+    .input-group-keyword input.form-control {
+      font-size: 1em;
+    }
+    .btn-group-default {
+      border-color: $btn-default-border;
+      background: $brand-primary;
+      color: #fff;
+    }
+  }
+
+  .parties-filter {
+    @media (min-width: $screen-sm-min) {
+      display: table;
+      width: 100%;
+      .parties-filter-select,
+      .parties-search-form  {
+        display: table-cell;
+      }
+      .parties-search-form {
+        width: 40%;
+      }
+    }
+    .parties-search-form {
+      vertical-align: middle;
+      form {
+        input[type='search'],
+        button {
+          height: 35px;
+        }
+        button {
+          padding: 5px 16px;
+        }
+        .add-clear-x {
+          z-index: 1000;
+        }
+      }
+    }
+  }
+}
