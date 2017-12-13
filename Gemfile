@@ -27,6 +27,7 @@ gem 'rubyzip', '>= 1.2.1'
 gem 'backport_new_renderer', '~> 1.0'
 gem 'where-or'
 gem 'groupdate'
+gem 'chartkick'
 
 # file upload
 gem 'carrierwave', '~> 1.1'

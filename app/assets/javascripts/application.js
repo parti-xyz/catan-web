@@ -31,6 +31,8 @@
 //= require webp-check
 //= require slick
 //= require tinymce-jquery
+//= require Chart.bundle
+//= require chartkick
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
