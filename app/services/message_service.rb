@@ -25,7 +25,7 @@ class MessageService
           messagable: mention.mentionable)
       end
 
-      users = @source.post.messagable_users.reject{ |user| user == @source.user }
+      users = @source.post.messagable_users
       users = users - @source.messages.map(&:user)
       send_messages(
         sender: @source.user, users: users,
