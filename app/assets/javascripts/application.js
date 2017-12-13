@@ -321,11 +321,10 @@ var parti_prepare = function($base) {
   // focus
   $.parti_apply($base, '[data-action="parti-focus"]', function(elm) {
     $(elm).on('click', function(e) {
+      $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
       var $target = $($elm.data('focus-target'));
-      setTimeout(function(){
-        $target.focus();
-      },10);
+      $target.focus();
     });
   });
 
