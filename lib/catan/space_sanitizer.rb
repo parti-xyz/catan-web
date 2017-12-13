@@ -3,13 +3,13 @@ module Catan
     def do(html, *conditions)
       conditions = ["p", "ul", "li", "br", "a"] if conditions.empty?
 
-      export = ::ActiveSupport::SafeBuffer.new # or just String
+      export = ""
       process(::Nokogiri::HTML.parse(html)) do |node|
         if node.is_a?(::Nokogiri::XML::Text)
           if node.parent.is_a?(::Nokogiri::XML::Element) && match(node.parent, conditions) && export.present?
             export << " "
           end
-          export << node.to_s
+          export << node.text
         end
       end
       export
