@@ -99,6 +99,9 @@
   &-dark {
     background-color: $brand-primary-dark;
   }
+  &-light {
+    opacity: 0.65;
+  }
 }
 
 .btn-border {
