@@ -1045,6 +1045,8 @@ $(function(){
         selection_toolbar: setting.selection_toolbar,
         paste_data_images: true,
         link_context_toolbar: true,
+        relative_urls: false,
+        remove_script_host : false,
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         setup: function (editor) {
