@@ -4,6 +4,8 @@
       %ul.list-inline.pull-left
         %li{ class: ('active' if local_assigns[:active] == 'home') }
           = link_to '홈', root_path
+        %li{ class: ('active' if local_assigns[:active] == 'issues') }
+          = link_to '빠띠', issues_path
         %li{ class: ('active' if local_assigns[:active] == 'polls_or_surveys') }
           = link_to '토론', polls_or_surveys_path
         %li{ class: ('active' if local_assigns[:active] == 'wikis') }
