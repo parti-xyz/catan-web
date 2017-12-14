@@ -1,4 +1,4 @@
-  class IssueFirebaseRealtimeDb
+class IssueFirebaseRealtimeDb
   include Sidekiq::Worker
 
   def perform(issue_id, user_id)

@@ -108,7 +108,7 @@ ko:
         tag_list: 태그
         private: 비공개
         notice_only: 오거나이저만 게시
-        is_default: 기본으로 가입되는 빠띠
+        is_default: 자동으로 가입되는 빠띠
         organizer_nicknames: 오거나이저
         group_slug: 그룹
       talk:

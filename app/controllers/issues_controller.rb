@@ -109,6 +109,9 @@ class IssuesController < ApplicationController
     @issue.strok_by(current_user)
 
     if @issue.save
+      if @issue.is_default?
+          IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
+        end
       redirect_to smart_issue_home_url(@issue)
     else
       render 'new'
@@ -152,6 +155,9 @@ class IssuesController < ApplicationController
         end
       end
       if @issue.save
+        if @issue.previous_changes["is_default"].present? and @issue.is_default?
+          IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
+        end
         MessageService.new(@issue, sender: current_user).call
         redirect_to smart_issue_home_url(@issue)
       else

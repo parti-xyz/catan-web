@@ -3,13 +3,18 @@ class MemberRequestMailer < ApplicationMailer
     return if member_request.blank?
 
     member_request.joinable.organizer_members.each do |organizer|
-      on_create(organizer, member_request).deliver_later
+      on_create(organizer.id, member_request.id).deliver_later
     end
   end
 
-  def on_create(organizer, member_request)
-    @organizer_user = organizer.user
-    @member_request = member_request
+  def on_create(organizer_id, member_request_id)
+    organizer = Member.find_by id: organizer_id
+    @organizer_user = organizer.try(:user)
+    return if @organizer_user.blank?
+
+    @member_request = MemberRequest.with_deleted.find_by id: member_request_id
+    return if @member_request.blank?
+
     mail(to: @organizer_user.email,
          subject: "[빠띠] #{@member_request.user.nickname}님이 #{@member_request.joinable.title} #{@member_request.joinable.model_name.human}에 가입요청했습니다")
   end

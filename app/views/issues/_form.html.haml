@@ -108,7 +108,7 @@
             .checkbox
               %label
                 = f.check_box :is_default
-                그룹에 가입되는 멤버는 기본으로 가입되는 빠띠가 됩니다.
+                그룹에 가입하는 멤버는 자동으로 가입되는 빠띠가 됩니다.
 
 
         - if current_user.admin? and f.object.persisted?
