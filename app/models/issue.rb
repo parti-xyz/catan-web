@@ -202,10 +202,6 @@ class Issue < ActiveRecord::Base
     (related_issues + recommends - [self]).uniq.shuffle.first(10)
   end
 
-  def self.basic_issues
-    Issue.where basic: true
-  end
-
   def counts_container
     counts = OpenStruct.new
     counts.comments_count = comments.count

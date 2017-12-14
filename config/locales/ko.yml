@@ -102,7 +102,6 @@ ko:
         cover: 커버 이미지
         slug: 주소
         blinds: 블랙리스트 회원
-        basic: 기본빠띠 여부
         category_slug: 주제
         telegram_link: 메신저 열기
         tag_list: 태그

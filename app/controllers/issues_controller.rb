@@ -256,7 +256,7 @@ class IssuesController < ApplicationController
   end
 
   def issue_params
-    params.require(:issue).permit(:title, :body, :logo, :cover, :slug, :basic,
+    params.require(:issue).permit(:title, :body, :logo, :cover, :slug,
       :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_slug,
       :private, :notice_only, :is_default, :group_slug)
   end

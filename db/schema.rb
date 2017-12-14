@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171119003600) do
+ActiveRecord::Schema.define(version: 20171214142816) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -75,11 +75,11 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
 
   create_table "decision_histories", force: :cascade do |t|
-    t.integer  "post_id",    limit: 4,     null: false
+    t.integer  "post_id",    limit: 4,        null: false
     t.integer  "user_id",    limit: 4
-    t.text     "body",       limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "body",       limit: 16777215
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.datetime "mailed_at"
   end
 
@@ -138,21 +138,21 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "file_sources", ["post_id"], name: "index_file_sources_on_post_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.integer  "user_id",          limit: 4,                     null: false
-    t.string   "title",            limit: 255,                   null: false
-    t.string   "site_title",       limit: 255,                   null: false
-    t.string   "head_title",       limit: 255,                   null: false
-    t.text     "site_description", limit: 65535
-    t.text     "site_keywords",    limit: 65535
-    t.string   "slug",             limit: 255,                   null: false
+    t.integer  "user_id",          limit: 4,                        null: false
+    t.string   "title",            limit: 255,                      null: false
+    t.string   "site_title",       limit: 255,                      null: false
+    t.string   "head_title",       limit: 255,                      null: false
+    t.text     "site_description", limit: 16777215
+    t.text     "site_keywords",    limit: 16777215
+    t.string   "slug",             limit: 255,                      null: false
     t.string   "logo",             limit: 255
     t.string   "cover",            limit: 255
     t.datetime "deleted_at"
-    t.string   "active",           limit: 255,   default: "on"
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
-    t.boolean  "private",                        default: false, null: false
-    t.integer  "members_count",    limit: 4,     default: 0,     null: false
+    t.string   "active",           limit: 255,      default: "on"
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.boolean  "private",                           default: false, null: false
+    t.integer  "members_count",    limit: 4,        default: 0,     null: false
     t.string   "magic_key",        limit: 255
   end
 
@@ -160,14 +160,14 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "groups", ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true, using: :btree
 
   create_table "invitations", force: :cascade do |t|
-    t.integer  "user_id",         limit: 4,     null: false
+    t.integer  "user_id",         limit: 4,        null: false
     t.integer  "recipient_id",    limit: 4
-    t.integer  "joinable_id",     limit: 4,     null: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.integer  "joinable_id",     limit: 4,        null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.string   "recipient_email", limit: 255
-    t.string   "joinable_type",   limit: 255,   null: false
-    t.text     "message",         limit: 65535
+    t.string   "joinable_type",   limit: 255,      null: false
+    t.text     "message",         limit: 16777215
   end
 
   add_index "invitations", ["joinable_id", "joinable_type"], name: "index_invitations_on_joinable_id_and_joinable_type", using: :btree
@@ -186,7 +186,6 @@ ActiveRecord::Schema.define(version: 20171119003600) do
     t.integer  "posts_count",          limit: 4,        default: 0
     t.datetime "deleted_at"
     t.string   "active",               limit: 255,      default: "on"
-    t.boolean  "basic",                                 default: false
     t.string   "group_slug",           limit: 255,                      null: false
     t.string   "telegram_link",        limit: 255
     t.datetime "last_stroked_at"
@@ -237,14 +236,14 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "link_sources", ["url"], name: "index_link_sources_on_url", unique: true, using: :btree
 
   create_table "member_requests", force: :cascade do |t|
-    t.integer  "joinable_id",    limit: 4,                    null: false
-    t.integer  "user_id",        limit: 4,                    null: false
+    t.integer  "joinable_id",    limit: 4,                       null: false
+    t.integer  "user_id",        limit: 4,                       null: false
     t.datetime "deleted_at"
-    t.string   "active",         limit: 255,   default: "on"
-    t.text     "reject_message", limit: 65535
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "joinable_type",  limit: 255,                  null: false
+    t.string   "active",         limit: 255,      default: "on"
+    t.text     "reject_message", limit: 16777215
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.string   "joinable_type",  limit: 255,                     null: false
     t.string   "description",    limit: 255
   end
 
@@ -253,18 +252,18 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "member_requests", ["user_id"], name: "index_member_requests_on_user_id", using: :btree
 
   create_table "members", force: :cascade do |t|
-    t.integer  "joinable_id",   limit: 4,                     null: false
-    t.integer  "user_id",       limit: 4,                     null: false
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
-    t.string   "joinable_type", limit: 255,                   null: false
-    t.boolean  "is_organizer",                default: false, null: false
+    t.integer  "joinable_id",   limit: 4,                        null: false
+    t.integer  "user_id",       limit: 4,                        null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.string   "joinable_type", limit: 255,                      null: false
+    t.boolean  "is_organizer",                   default: false, null: false
     t.datetime "deleted_at"
-    t.string   "active",        limit: 255,   default: "on"
-    t.text     "ban_message",   limit: 65535
-    t.text     "admit_message", limit: 65535
-    t.boolean  "is_magic",                    default: false
-    t.text     "description",   limit: 65535
+    t.string   "active",        limit: 255,      default: "on"
+    t.text     "ban_message",   limit: 16777215
+    t.text     "admit_message", limit: 16777215
+    t.boolean  "is_magic",                       default: false
+    t.text     "description",   limit: 16777215
   end
 
   add_index "members", ["joinable_id", "joinable_type"], name: "index_members_on_joinable_id_and_joinable_type", using: :btree
@@ -317,20 +316,20 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
 
   create_table "notes", force: :cascade do |t|
-    t.text     "body",          limit: 65535
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "post_issue_id", limit: 4,     null: false
+    t.text     "body",          limit: 16777215
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "post_issue_id", limit: 4,        null: false
     t.datetime "deleted_at"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
-    t.integer  "resource_owner_id", limit: 4,     null: false
-    t.integer  "application_id",    limit: 4,     null: false
-    t.string   "token",             limit: 255,   null: false
-    t.integer  "expires_in",        limit: 4,     null: false
-    t.text     "redirect_uri",      limit: 65535, null: false
-    t.datetime "created_at",                      null: false
+    t.integer  "resource_owner_id", limit: 4,        null: false
+    t.integer  "application_id",    limit: 4,        null: false
+    t.string   "token",             limit: 255,      null: false
+    t.integer  "expires_in",        limit: 4,        null: false
+    t.text     "redirect_uri",      limit: 16777215, null: false
+    t.datetime "created_at",                         null: false
     t.datetime "revoked_at"
     t.string   "scopes",            limit: 255
   end
@@ -356,13 +355,13 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "oauth_access_tokens", ["token"], name: "index_oauth_access_tokens_on_token", unique: true, using: :btree
 
   create_table "oauth_applications", force: :cascade do |t|
-    t.string   "name",         limit: 255,                null: false
-    t.string   "uid",          limit: 255,                null: false
-    t.string   "secret",       limit: 255,                null: false
-    t.text     "redirect_uri", limit: 65535,              null: false
-    t.string   "scopes",       limit: 255,   default: "", null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.string   "name",         limit: 255,                   null: false
+    t.string   "uid",          limit: 255,                   null: false
+    t.string   "secret",       limit: 255,                   null: false
+    t.text     "redirect_uri", limit: 16777215,              null: false
+    t.string   "scopes",       limit: 255,      default: "", null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
@@ -384,12 +383,12 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "opinions", ["deleted_at"], name: "index_opinions_on_deleted_at", using: :btree
 
   create_table "options", force: :cascade do |t|
-    t.integer  "survey_id",       limit: 4,                 null: false
-    t.text     "body",            limit: 65535
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.integer  "feedbacks_count", limit: 4,     default: 0
-    t.integer  "user_id",         limit: 4,                 null: false
+    t.integer  "survey_id",       limit: 4,                    null: false
+    t.text     "body",            limit: 16777215
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.integer  "feedbacks_count", limit: 4,        default: 0
+    t.integer  "user_id",         limit: 4,                    null: false
   end
 
   add_index "options", ["survey_id"], name: "index_options_on_survey_id", using: :btree
@@ -539,8 +538,8 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "searches", ["searchable_type", "searchable_id"], name: "index_searches_on_searchable_type_and_searchable_id", using: :btree
 
   create_table "settings", force: :cascade do |t|
-    t.string   "var",        limit: 255,   null: false
-    t.text     "value",      limit: 65535
+    t.string   "var",        limit: 255,      null: false
+    t.text     "value",      limit: 16777215
     t.integer  "thing_id",   limit: 4
     t.string   "thing_type", limit: 30
     t.datetime "created_at"
@@ -717,11 +716,11 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "watches", ["user_id"], name: "index_watches_on_user_id", using: :btree
 
   create_table "wiki_histories", force: :cascade do |t|
-    t.string   "title",      limit: 255,      null: false
-    t.integer  "wiki_id",    limit: 4,        null: false
-    t.integer  "user_id",    limit: 4,        null: false
-    t.text     "body",       limit: 16777215
-    t.string   "code",       limit: 255,      null: false
+    t.string   "title",      limit: 255,        null: false
+    t.integer  "wiki_id",    limit: 4,          null: false
+    t.integer  "user_id",    limit: 4,          null: false
+    t.text     "body",       limit: 4294967295
+    t.string   "code",       limit: 255,        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -730,16 +729,16 @@ ActiveRecord::Schema.define(version: 20171119003600) do
   add_index "wiki_histories", ["wiki_id"], name: "index_wiki_histories_on_wiki_id", using: :btree
 
   create_table "wikis", force: :cascade do |t|
-    t.string   "title",          limit: 255,                         null: false
-    t.text     "body",           limit: 16777215
+    t.string   "title",          limit: 255,                           null: false
+    t.text     "body",           limit: 4294967295
     t.string   "thumbnail",      limit: 255
     t.datetime "deleted_at"
     t.integer  "last_author_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status",         limit: 255,      default: "active", null: false
-    t.integer  "image_width",    limit: 4,        default: 0
-    t.integer  "image_height",   limit: 4,        default: 0
+    t.string   "status",         limit: 255,        default: "active", null: false
+    t.integer  "image_width",    limit: 4,          default: 0
+    t.integer  "image_height",   limit: 4,          default: 0
   end
 
   add_index "wikis", ["last_author_id"], name: "index_wikis_on_last_author_id", using: :btree
