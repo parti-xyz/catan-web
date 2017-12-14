@@ -1,19 +1,10 @@
 .post-card__post.clearfix{ id: pinned_post_dom_id(post), class: ('js-posts-pinned-and-read collapse' if local_assigns[:collapse]) }
-  - if can? :pin, post
-    - if post.pinned_at < 1.week.ago
-      %span.label.unpin-label.action-label
-        = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '공지내림' }, class: post_pin_buttons_dom_class(post) do
-          공지내림
-  - elsif user_signed_in? and !post.read_by?(current_user)
-    %span.label.read-label.action-label.js-read-action-label
-      = link_to [:read, post], method: :put, remote: true, data: { disable_with: '확인완료' }, class: post_pin_buttons_dom_class(post) do
-        확인완료
-  = link_to post do
-    .read-mark.js-read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
-      &middot;
-    .desc
-      .issue-meta
-        - if local_assigns[:show_issue]
+  .read-mark.js-read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
+    &middot;
+  .desc
+    .issue-meta
+      - if local_assigns[:show_issue]
+        = link_to post.issue do
           %span.issue-and-group
             %span.issue-title
               = post.issue.title
@@ -23,8 +14,24 @@
               %span.issue-group
                 = post.issue.group.title_basic_format
                 = security_icon(post.issue.group)
+      = link_to post do
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
+
+      - if can? :pin, post
+        - if post.pinned_at < 1.week.ago
+          - action_label = capture do
+            %span.label.unpin-label.action-label
+              공지내림
+          = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: action_label }, class: post_pin_buttons_dom_class(post) do
+            = action_label
+      - elsif user_signed_in? and post.issue.member?(current_user) and !post.read_by?(current_user)
+        - action_label = capture do
+          %span.label.read-label.action-label.js-read-action-label
+            확인완료
+        = link_to [:read, post], method: :put, remote: true, data: { disable_with: action_label }, class: post_pin_buttons_dom_class(post) do
+          = action_label
+    = link_to post do
       = post.specific_desc_striped_tags(120)
   - chevron_dropdown = capture do
     - if can? :pin, post

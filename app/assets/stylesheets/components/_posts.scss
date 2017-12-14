@@ -270,6 +270,7 @@ section#posts {
       .issue-meta {
         color: $brand-primary;
         display: block;
+        max-width: 90%;
       }
       .show-all {
         color: $gray-light;
@@ -294,6 +295,7 @@ section#posts {
       }
       .issue-and-group {
         margin-right: 6px;
+        color: $gray;
       }
       .pin-buttons {
         position: absolute;
@@ -304,25 +306,22 @@ section#posts {
         }
       }
       .action-label{
-        position: absolute;
-        right: 60px;
         font-weight: 400;
-        a{
-          color: #fff;
-          position: relative;
-          bottom: -1px;
-        }
+        padding-bottom: 0.1em;
+        vertical-align: middle;
       }
       .unpin-label{
-        background-color: $brand-danger-light;
+        opacity: 0.8;
+        background-color: $brand-danger;
         &:hover{
-          background-color: $brand-danger;
+          opacity: 1;
         }
       }
       .read-label{
-        background-color: $brand-primary-light;
+        background-color: $brand-primary;
+        opacity: 0.8;
         &:hover{
-          background-color: $brand-primary;
+          opacity: 1;
         }
       }
     }
