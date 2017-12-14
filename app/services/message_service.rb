@@ -18,15 +18,17 @@ class MessageService
       return if @source.issue.blind_user? @source.user
 
       previous_mentioned_users = @options[:previous_mentioned_users] || []
+      mentioned_users = []
       @source.mentions.each do |mention|
         next if previous_mentioned_users.include?(mention.user) or @source.messages.exists?(user: mention.user)
+        mentioned_users << mention.user
         send_messages(
           sender: mention.mentionable.user, users: [mention.user],
           messagable: mention.mentionable)
       end
 
-      users = @source.post.messagable_users
-      users = users - @source.messages.map(&:user)
+      users = @source.post.messagable_users.reject{ |user| user == @source.user }
+      users = users - mentioned_users
       send_messages(
         sender: @source.user, users: users,
         messagable: @source)
