@@ -559,11 +559,11 @@ class Post < ActiveRecord::Base
   end
 
   def sanitize_html text
-    HTMLEntities.new.decode Catan::SpaceSanitizer.new.do(text)
+    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
   end
 
   def self.to_ngram(data)
-    @ngram ||= Catan::Search::NGram.new(min_size: 2, word_separator: " ")
+    @ngram ||= ::Catan::NGram.new(min_size: 2, word_separator: " ")
     @ngram.parse(data)
   end
 end
