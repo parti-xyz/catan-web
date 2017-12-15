@@ -17,20 +17,15 @@ class MessageService
     when Comment
       return if @source.issue.blind_user? @source.user
 
-      previous_mentioned_users = @options[:previous_mentioned_users] || []
-      mentioned_users = []
-      @source.mentions.each do |mention|
-        next if previous_mentioned_users.include?(mention.user) or @source.messages.exists?(user: mention.user)
-        mentioned_users << mention.user
-        send_messages(
-          sender: mention.mentionable.user, users: [mention.user],
-          messagable: mention.mentionable)
-      end
+      messagable_users = []
+      messagable_users += @source.mentions.map(&:user)
+      messagable_users += @source.post.messagable_users
+      messagable_users.reject!{ |user| user == @source.user }
+      messagable_users.reject!{ |user| @source.messages.select(:user_id).map(&:user_id).include?(user.id) }
+      messagable_users.uniq!
 
-      users = @source.post.messagable_users.reject{ |user| user == @source.user }
-      users = users - mentioned_users
       send_messages(
-        sender: @source.user, users: users,
+        sender: @source.user, users: messagable_users,
         messagable: @source)
     when Post
       if @action == :pinned
@@ -41,14 +36,15 @@ class MessageService
       else
         return if @source.issue.blind_user? @source.user
 
-        previous_mentioned_users = @options[:previous_mentioned_users] || []
+        messagable_users = []
+        messagable_users += @source.mentions.map(&:user)
+        messagable_users.reject!{ |user| user == @source.user }
+        messagable_users.reject!{ |user| @source.messages.select(:user_id).map(&:user_id).include?(user.id) }
+        messagable_users.uniq!
 
-        @source.mentions.each do |mention|
-          next if previous_mentioned_users.include?(mention.user)
-          send_messages(
-            sender: mention.mentionable.user, users: [mention.user],
-            messagable: mention.mentionable)
-        end
+        send_messages(
+          sender: @source.user, users: messagable_users,
+          messagable: @source)
       end
     when Issue
       if @source.previous_changes["title"].present?
@@ -113,15 +109,9 @@ class MessageService
   private
 
   def send_messages(sender:, users:, messagable:, action: nil, action_params: nil)
-    data = users.map do |user|
-      {messagable: messagable, sender: sender, user: user, action: action, action_params: action_params.try(:to_json)}
-    end
-    messages = Message.create(data)
-    send_fcm(messages)
-  end
-
-  def send_fcm(messages)
-    messages.each do |message|
+    users.each do |user|
+      row = { messagable: messagable, sender: sender, user: user, action: action, action_params: action_params.try(:to_json) }
+      message = Message.create(row)
       FcmJob.perform_async(message.id)
     end
   end

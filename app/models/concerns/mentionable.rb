@@ -25,12 +25,11 @@ module Mentionable
   def perform_mentions_now
     return if self.try(:issue).try(:blind_user?, self.user)
 
-    previous_mentioned_users = self.mentioned_users.to_a
     # Transaction을 걸지 않습니다
     set_mentions
     mention_mail_limit = 500
-    send_mention_emails(previous_mentioned_users) if self.mentions.count <= mention_mail_limit
-    MessageService.new(self).call(previous_mentioned_users: previous_mentioned_users)
+    send_mention_emails if self.mentions.count <= mention_mail_limit
+    MessageService.new(self).call()
   end
 
   private
@@ -43,14 +42,17 @@ module Mentionable
     self.save
   end
 
-  def send_mention_emails(previous_mentioned_users)
+  def send_mention_emails
     return if self.try(:issue).try(:blind_user?, self.user)
 
-    self.mentions.each do |mention|
-      mentioned_user = mention.user
-      unless previous_mentioned_users.include? mentioned_user
-        MentionMailer.notify(self.user.id, mentioned_user.id, self.id, self.class.model_name.to_s).deliver_later
-      end
+    mailing_users = []
+    mailing_users += self.mentions.map(&:user)
+    mailing_users.reject!{ |user| user == self.user }
+    mailing_users.reject!{ |user| self.messages.select(:user_id).map(&:user_id).include?(user.id) }
+    mailing_users.uniq!
+
+    mailing_users.each do |mentioned_user|
+      MentionMailer.notify(self.user.id, mentioned_user.id, self.id, self.class.model_name.to_s).deliver_later
     end
   end
 
