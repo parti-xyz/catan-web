@@ -514,7 +514,7 @@ class Post < ActiveRecord::Base
   private
 
   def reindex_for_search
-    self.body_ngram = make_index
+    self.body_ngram = make_index if body_changed?
   end
 
   def make_index
