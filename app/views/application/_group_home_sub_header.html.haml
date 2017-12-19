@@ -15,6 +15,9 @@
         - if current_group.private?
           %li{ class: ('active' if current_page?('/group/members')) }
             = link_to '멤버', group_members_path
+        - if current_group.organized_by?(current_user)
+          %li{ class: ('active' if local_assigns[:active] == 'manage') }
+            = link_to '그룹 관리', group_manage_path(current_group)
       %ul.list-inline.pull-right
         %li
           = link_to new_issue_path do
