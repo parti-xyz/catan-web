@@ -27,7 +27,7 @@ class IssuesController < ApplicationController
 
   def index
     if current_group.blank?
-      index_issues(Group.indie, params[:keyword])
+      index_issues(nil, params[:keyword])
       render 'index'
     else
       group_issues(current_group, params[:category_slug])
@@ -215,14 +215,13 @@ class IssuesController < ApplicationController
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
   end
 
+  #Group.indie 혹은 nil 만 group 에 넣어주세요
   def index_issues(group, keyword, item_a_row = nil)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
 
     @issues = Issue.displayable_in_current_group(group)
-    if group.blank? or !host_group.organized_by?(current_user)
-      @issues = @issues.where.any_of(
-        *[Issue.only_public_in_current_group(group),
-        (Issue.where(id: current_user.member_issues) if user_signed_in?)].compact)
+    if group.blank?
+      @issues = Issue.searchable_issues(current_user)
     end
     @issues = @issues.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
 

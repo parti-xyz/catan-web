@@ -8,7 +8,7 @@
   - else
     - data_params = { action: 'parti-filter-parties', 'search-category': '', 'search-form': '#js-search-parties-form', 'search-sort': 'hottest'}
     %ul.list-inline
-      %li= link_to '인기순', '#', data: data_params.merge('search-sort': 'hottest'), class: ('active' if params['sort'] == 'hottest' or params['sort'].blank?)
+      %li= link_to '인기순', indies_issues_path, data: data_params.merge('search-sort': 'hottest'), class: ('active' if params['sort'] == 'hottest' or params['sort'].blank?)
       %li= link_to '업데이트순', '#', data: data_params.merge('search-sort': 'recent_touched'), class: ('active' if params['sort'] == 'recent_touched')
       %li= link_to '이름순', '#', data: data_params.merge('search-sort': 'name'), class: ('active' if params['sort'] == 'name')
-      %li= link_to '최신순', '#', data: data_params.merge('search-sort': 'recent'), class: ('active' if params['sort'] == 'recent')
+      %li= link_to '최신순', indies_issues_path, data: data_params.merge('search-sort': 'recent'), class: ('active' if params['sort'] == 'recent')

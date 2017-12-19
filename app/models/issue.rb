@@ -147,7 +147,9 @@ class Issue < ActiveRecord::Base
   scope :of_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: Group.default_slug(group)) if group.present? }
-  scope :not_private_blocked, ->(current_user) { where.any_of(where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id')), where.not(private: true)) }
+  scope :not_private_blocked, ->(current_user) { where.any_of(
+                                                    where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id')),
+                                                    where.not(private: true)) }
   scope :hottest_not_private_blocked_of_group, ->(group, someone, count = 10) {
     of_group(group).not_private_blocked(someone).hottest.limit(count)
   }
@@ -157,6 +159,14 @@ class Issue < ActiveRecord::Base
     .where.not(private: true)
     .hottest
     .limit(count)
+  }
+  scope :searchable_issues, ->(current_user) {
+    where.any_of(
+                  where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true),
+                  where(group_slug: 'indie').where.not(private: true),
+                  where(id: current_user.member_issues.select("members.joinable_id"))
+                )
+
   }
 
   # search
