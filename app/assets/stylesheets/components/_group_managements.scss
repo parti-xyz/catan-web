@@ -1,0 +1,36 @@
+.page-gorup-managements-sidebar {
+  /* 사이드 바를 세로로 세웁니다 */
+  @media (min-width: $screen-sm-min) {
+    .sidebar-nav {
+      .navbar {
+        .navbar-collapse {
+          padding: 0;
+          max-height: none;
+        }
+        ul {
+          float: none;
+          &:not {
+            display: block;
+          }
+        }
+        li {
+          float: none;
+          display: block;
+          a {
+            padding-top: 12px;
+            padding-bottom: 12px;
+          }
+          &.active > a,
+          a:hover,
+          a:focus {
+            background-color: $gray-more-lightest;
+          }
+          &.active > a,
+          a:hover {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
