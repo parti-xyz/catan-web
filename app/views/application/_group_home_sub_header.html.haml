@@ -2,7 +2,7 @@
   .container
     %nav.clearfix
       %ul.list-inline.pull-left
-        %li{ class: ('active' if local_assigns[:active] == 'home') }
+        %li.hidden-xs{ class: ('active' if local_assigns[:active] == 'home') }
           = link_to '홈', root_path
         %li{ class: ('active' if local_assigns[:active] == 'issues') }
           = link_to '빠띠', issues_path
@@ -16,7 +16,7 @@
           %li{ class: ('active' if current_page?('/group/members')) }
             = link_to '멤버', group_members_path
         - if current_group.organized_by?(current_user)
-          %li{ class: ('active' if local_assigns[:active] == 'management') }
+          %li.hidden-xs{ class: ('active' if local_assigns[:active] == 'management') }
             = link_to '그룹 관리', group_managements_path
       %ul.list-inline.pull-right
         %li
