@@ -102,8 +102,12 @@ section#wiki-histories {
   border-radius: $border-radius-base;
   padding: 12px;
   background-color: #fff;
+  .wiki-title{
+    line-height: 25px;
+  }
   .wiki-body {
     min-height: 70px;
+    opacity: 0.4;
     img {
       width: 100%;
     }
