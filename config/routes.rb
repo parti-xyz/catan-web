@@ -182,7 +182,7 @@ Rails.application.routes.draw do
       post :accept, on: :collection
       delete :reject, on: :collection
     end
-    resources :manage
+    resources :managements
 
     namespace :eduhope do
       resources :members do
