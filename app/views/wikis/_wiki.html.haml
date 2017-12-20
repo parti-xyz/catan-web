@@ -15,12 +15,11 @@
         - issue = post.issue
         .wiki-card-meta
           - if local_assigns[:show_issue] == true
-            = link_to smart_issue_home_path_or_url(issue) do
-              - unless post.issue.displayable_group? current_group
-                .wiki-card__group
-                  = post.issue.group.head_title
-              .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-                = post.issue.title.truncate(10)
+            - unless post.issue.displayable_group? current_group
+              .wiki-card__group
+                = post.issue.group.head_title
+            .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
+              = post.issue.title.truncate(10)
         .wiki-card-body
           %h4.wiki-title= post.wiki.title
           .wiki-body
