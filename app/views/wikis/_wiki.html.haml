@@ -10,25 +10,26 @@
           %strong<> 오거나이저의 가입승인
           을 기다려주세요.
   - else
-    .wiki-card.clearfix
-      = link_to wiki_post_path(post), target: '_blank' do
-        - issue = post.issue
-        .wiki-card-meta
-          - if local_assigns[:show_issue] == true
+    .wiki-card.clearfix.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post) }
+      - issue = post.issue
+      .wiki-card-meta
+        - if local_assigns[:show_issue] == true
+          = link_to smart_issue_home_path_or_url(issue) do
             - unless post.issue.displayable_group? current_group
               .wiki-card__group
                 = post.issue.group.head_title
             .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
               = post.issue.title.truncate(10)
+      = link_to wiki_post_path(post) do
         .wiki-card-body
           %h4.wiki-title= post.wiki.title
           .wiki-body
             - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
               = image_tag post.wiki.thumbnail.lg.url
           .shadow
-      - if post.wiki.wiki_histories.any?
-        - text = post.wiki.latest_activity { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
-      - if text.present?
-        .post-card__last-stroked
-          != text
-          %span.date= date_f(post.wiki.latest_history.created_at)
+        - if post.wiki.wiki_histories.any?
+          - text = post.wiki.latest_activity { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
+        - if text.present?
+          .post-card__last-stroked
+            != text
+            %span.date= date_f(post.wiki.latest_history.created_at)
