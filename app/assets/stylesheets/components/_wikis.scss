@@ -190,6 +190,12 @@ section#wiki-histories {
     @media (max-width: $screen-xs-max) {
       border-radius: 0;
     }
+    a.auto_link{
+      color: $brand-primary;
+      &:hover{
+        color: $brand-primary-light;
+      }
+    }
   }
 
   .wiki-issue {
