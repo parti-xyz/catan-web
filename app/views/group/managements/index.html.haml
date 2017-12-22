@@ -12,10 +12,9 @@
             %span{ style: 'font-weight: 400' }#{current_user.nickname}
             %span<> 님 환영합니다.
           %br
-          %h4.group-heading
-            오거나이저를 위한 새소식
-            %a{ href: "http://organizer.parti.xyz", target: "_blank" }
-              오거나이저 커뮤니티 바로가기
+          %a{ href: "http://organizer.parti.xyz", target: "_blank" }
+            %h4.group-heading
+              오거나이저를 위한 새소식
           .post-card.summary
             - @posts_pinned.each do |post|
               .post-card__post
