@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171214142816) do
+ActiveRecord::Schema.define(version: 20171222073736) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -448,7 +448,6 @@ ActiveRecord::Schema.define(version: 20171214142816) do
     t.text     "decision",                  limit: 65535
   end
 
-  add_index "posts", ["body_ngram"], name: "index_posts_on_body_ngram", type: :fulltext
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
   add_index "posts", ["issue_id"], name: "index_posts_on_issue_id", using: :btree
   add_index "posts", ["last_stroked_user_id"], name: "index_posts_on_last_stroked_user_id", using: :btree

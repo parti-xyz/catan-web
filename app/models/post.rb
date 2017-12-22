@@ -496,11 +496,12 @@ class Post < ActiveRecord::Base
   end
 
   def self.search(key)
-    sanitized_key = Post.sanitize_search_key(key)
-    return all if sanitized_key.blank?
+    # sanitized_key = Post.sanitize_search_key(key)
+    # return all if sanitized_key.blank?
 
-    fulltext_query = sanitized_key.split.map { |w| "+(\"#{w}\")" }.join(' ')
-    where("match(body_ngram) against (? in boolean mode)", fulltext_query)
+    # fulltext_query = sanitized_key.split.map { |w| "+(\"#{w}\")" }.join(' ')
+    # where("match(body_ngram) against (? in boolean mode)", fulltext_query)
+    all
   end
 
   def reindex_for_search!
