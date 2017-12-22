@@ -161,11 +161,14 @@ class Issue < ActiveRecord::Base
     .limit(count)
   }
   scope :searchable_issues, ->(current_user) {
-    where.any_of(
-                  where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true),
-                  where(group_slug: 'indie').where.not(private: true),
-                  where(id: current_user.member_issues.select("members.joinable_id"))
-                )
+    public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
+    indie_public_issues = where(group_slug: 'indie').where.not(private: true)
+    if current_user.present?
+      where.any_of(public_group_public_issues, indie_public_issues,
+                   where(id: current_user.member_issues.select("members.joinable_id")))
+    else
+      where.any_of(public_group_public_issues, indie_public_issues)
+    end
 
   }
 
