@@ -10,7 +10,8 @@
     .navbar-collapse.collapse.sidebar-navbar-collapse
       %ul.nav.navbar-nav
         %li{ class: "#{'active' if local_assigns[:active] == 'dashboard'}" }= link_to '대시보드', group_managements_path
-        - if can? :admit, current_group
-          %li{ class: "#{'active' if local_assigns[:active] == 'admit'}" }= link_to '멤버 추가', new_admit_group_members_path
-        - if can? :magic_link, current_group
-          %li{ class: "#{'active' if local_assigns[:active] == 'magic_link'}" }= link_to '초대링크', edit_magic_link_group_members_path
+        - if current_group.private?
+          - if can? :admit, current_group
+            %li{ class: "#{'active' if local_assigns[:active] == 'admit'}" }= link_to '멤버 추가', new_admit_group_members_path
+          - if can? :magic_link, current_group
+            %li{ class: "#{'active' if local_assigns[:active] == 'magic_link'}" }= link_to '초대링크', edit_magic_link_group_members_path
