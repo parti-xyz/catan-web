@@ -1044,6 +1044,7 @@ $(function(){
         insert_toolbar: setting.insert_toolbar,
         selection_toolbar: setting.selection_toolbar,
         paste_data_images: true,
+        document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
         relative_urls: false,
         remove_script_host : false,
