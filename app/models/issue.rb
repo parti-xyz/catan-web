@@ -169,7 +169,6 @@ class Issue < ActiveRecord::Base
     else
       where.any_of(public_group_public_issues, indie_public_issues)
     end
-
   }
 
   # search

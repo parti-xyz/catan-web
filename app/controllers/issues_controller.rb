@@ -27,7 +27,10 @@ class IssuesController < ApplicationController
 
   def index
     if current_group.blank?
-      index_issues(nil, params[:keyword])
+      if params[:keyword].present?
+        params[:sort] ||= 'hottest'
+        @issues = search_and_sort_issues(Issue.searchable_issues(current_user), params[:keyword], params[:sort])
+      end
       render 'index'
     else
       group_issues(current_group, params[:category_slug])
@@ -36,7 +39,8 @@ class IssuesController < ApplicationController
   end
 
   def indies
-    index_issues(Group.indie, params[:keyword], 3)
+    params[:sort] ||= 'recent_touched'
+    @issues = search_and_sort_issues(Group.indie.issues.not_private_blocked(current_user), params[:keyword], params[:sort], 3)
   end
 
   def search_by_tags
@@ -215,31 +219,26 @@ class IssuesController < ApplicationController
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
   end
 
-  #Group.indie 혹은 nil 만 group 에 넣어주세요
-  def index_issues(group, keyword, item_a_row = nil)
+  def search_and_sort_issues(issue, keyword, sort, item_a_row = nil)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
+    result = issue.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
 
-    @issues = Issue.displayable_in_current_group(group)
-    if group.blank?
-      @issues = Issue.searchable_issues(current_user)
-    end
-    @issues = @issues.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
-
-    params[:sort] ||= (group.blank? or group.indie? ? 'hottest' : 'recent_touched')
-    case (params[:sort])
+    case sort
     when 'recent'
-      @issues = @issues.recent
+      result = result.recent
     when 'name'
-      @issues = @issues.sort_by_name
+      result = result.sort_by_name
     when 'recent_touched'
-      @issues = @issues.recent_touched
+      result = result.recent_touched
     else
-      @issues = @issues.hottest
+      result = result.hottest
     end
 
-    @issues = @issues.categorized_with(params[:category]) if params[:category].present?
-    @issues = @issues.page(params[:page]).per(4 * 10)
-    @issues = @issues.page(params[:page]).per(item_a_row * 10) if item_a_row.present?
+    result = result.categorized_with(params[:category]) if params[:category].present?
+    result = result.page(params[:page]).per(4 * 10)
+    result.page(params[:page]).per(item_a_row * 10) if item_a_row.present?
+
+    result
   end
 
   def fetch_issue_by_slug
