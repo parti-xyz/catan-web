@@ -25,7 +25,7 @@
                   %i.fa.fa-info-circle
                   검색 결과가 없습니다.
         - if params[:keyword].blank?
-          = render Group.all[0..2]
+          = render Group.all[0..4]
           .panel.panel-primary.panel-group-info
             .panel-body
               %p
@@ -33,6 +33,6 @@
               %p
                 = link_to '그룹 개설을 신청합니다', 'https://goo.gl/forms/ldIKoqbRkUefqpgU2', class: 'btn btn-primary', target: '_blank'
                 = link_to '가격 정책 안내', '/service', style:"text-decoration:underline;margin-left:10px;", target: '_blank'
-          = render Group.all[3..-1]
+          = render Group.all[5..-1]
       - unless is_small_screen?
         = render 'application/aside'

@@ -1,6 +1,3 @@
 - content_for :header do
-  - if content_for?(:group_header)
-    = yield :group_header
-  - else
-    = render 'application/mobile_group_header'
+  = render 'application/mobile_header'
 = render file: 'layouts/application'

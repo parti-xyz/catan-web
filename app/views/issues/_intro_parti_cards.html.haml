@@ -4,13 +4,12 @@
     - grouping_issues.sort_by { |group,_| group.id }.each do |group, issues|
       .row
         .col-sm-12.col-xs-12
-          - unless group.indie?
-            .group-heading
-              %h4
-                #{group.head_title}
-              - unless group.site_description.nil?
-                .group-desc
-                  #{group.site_description}
+          .group-heading
+            %h4
+              #{group_parties_section_title(group)}
+            - unless group.site_description.nil?
+              .group-desc
+                #{group.site_description}
           .row
             - issues.each do |issue|
               .col-sm-3.col-xs-6#groups-all

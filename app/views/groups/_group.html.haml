@@ -3,8 +3,7 @@
     .group-heading
       = link_to smart_group_url(group) do
         %h4
-          = group.title_basic_format
-          = security_icon(group)
+          = group_parties_section_title(group)
           %span.partis-count.badge
             #{Issue.of_group(group).count}개의 빠띠
       - unless group.site_description.nil?
@@ -20,3 +19,4 @@
           .col-sm-4.col-xs-6
             .issue-card-wrapper
               = render 'issues/card', issue: issue
+

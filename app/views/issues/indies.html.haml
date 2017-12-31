@@ -5,8 +5,7 @@
         - group = Group.indie
         .group-heading.margin-bottom-default
           %h4
-            = group.title_basic_format
-            = security_icon(group)
+            = group_parties_section_title(group)
             %span.partis-count.badge
               #{Issue.of_group(group).count}개의 빠띠
           - unless group.site_description.nil?

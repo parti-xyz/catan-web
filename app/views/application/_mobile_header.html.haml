@@ -50,14 +50,14 @@
         - if current_user.member_issues.only_alive_of_group(host_group).any?
           %li.group-line
             = link_to (current_group.present? ? root_path : indies_issues_url(subdomain: nil)) do
-              #{host_group.title_basic_format}
+              #{group_parties_section_title(host_group)}
         - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
           = render 'issues/issue_line', issue: issue
 
         - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
           %li.group-line
             = link_to smart_group_url(group) do
-              #{group.title_basic_format}
+              #{group_parties_section_title(group)}
           - current_user.member_issues.only_alive_of_group(group).each do |issue|
             = render 'issues/issue_line', issue: issue
         %li.divider.large

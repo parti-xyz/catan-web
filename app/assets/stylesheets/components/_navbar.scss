@@ -1,7 +1,3 @@
-/////////////////////////////////////////////
-// renewal style
-//
-
 #site-header {
   $site-header-brand-image-width: 60px;
   $site-header-brand-image-width-xs: 60px;
@@ -320,6 +316,17 @@
           }
           &-starter {
             border-top: 1px solid $brand-primary-light;
+          }
+          .group-parties-section-title {
+            word-break: keep-all;
+            .group-title {
+              color: $brand-primary;
+              font-weight: 600;
+            }
+            color: $gray;
+            &:hover {
+              color: $brand-primary;
+            }
           }
         }
         &.category-line {
