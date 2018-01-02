@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
     redirect_to root_url and return if current_group.present?
 
     if params[:q].present?
-      @search_q = Post.sanitize_search_key params[:q]
+      @search_q = PostSearchableIndex.sanitize_search_key params[:q]
     end
 
     if request.format.js?

@@ -140,6 +140,7 @@ class Post < ActiveRecord::Base
   has_many :file_sources, dependent: :destroy
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :decision_histories, dependent: :destroy
+  has_one :post_searchable_index, dependent: :destroy, autosave: true
 
   belongs_to :postable, polymorphic: true
   belongs_to :last_stroked_user, class_name: User
@@ -486,26 +487,18 @@ class Post < ActiveRecord::Base
     self.link_source = self.link_source.unify if self.link_source.present?
   end
 
-  def self.sanitize_search_key(key)
-    result = key.split.compact.map do |w|
-      w.gsub(/[^ㄱ-ㅎ가-힣a-z0-9]/i, '')
-    end.compact
-
-    return nil if result.any? { |w| w.length < 2 }
-    result.join(' ')
-  end
-
   def self.search(key)
-    # sanitized_key = Post.sanitize_search_key(key)
-    # return all if sanitized_key.blank?
-
-    # fulltext_query = sanitized_key.split.map { |w| "+(\"#{w}\")" }.join(' ')
-    # where("match(body_ngram) against (? in boolean mode)", fulltext_query)
-    all
+    indices = PostSearchableIndex.search(key)
+    if indices == PostSearchableIndex.all
+      all
+    else
+      where(id: indices.select(:post_id))
+    end
   end
 
   def reindex_for_search!
-    update_columns(body_ngram: make_index)
+    self.create_post_searchable_index if self.post_searchable_index.blank?
+    self.post_searchable_index.reindex!
   end
 
   def decision_authors
@@ -515,14 +508,8 @@ class Post < ActiveRecord::Base
   private
 
   def reindex_for_search
-    self.body_ngram = make_index if body_changed?
-  end
-
-  def make_index
-    max = 16777215 / 3
-    [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
-      Post.to_ngram(sanitize_html(text))
-    end.flatten.uniq.join(' ').strip[0..max]
+    self.build_post_searchable_index if self.post_searchable_index.blank?
+    self.post_searchable_index.reindex if body_changed?
   end
 
   def send_notifiy_pinned_emails(someone)
@@ -561,10 +548,5 @@ class Post < ActiveRecord::Base
 
   def sanitize_html text
     HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
-  end
-
-  def self.to_ngram(data)
-    @ngram ||= ::Catan::NGram.new(min_size: 2, word_separator: " ")
-    @ngram.parse(data)
   end
 end

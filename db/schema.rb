@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222073736) do
+ActiveRecord::Schema.define(version: 20180102230002) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -415,6 +415,16 @@ ActiveRecord::Schema.define(version: 20171222073736) do
     t.datetime "updated_at",                            null: false
     t.integer  "votings_count", limit: 4,   default: 0
   end
+
+  create_table "post_searchable_indices", force: :cascade do |t|
+    t.integer  "post_id",    limit: 4,        null: false
+    t.text     "ngram",      limit: 16777215
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "post_searchable_indices", ["ngram"], name: "index_post_searchable_indices_on_ngram", type: :fulltext
+  add_index "post_searchable_indices", ["post_id"], name: "index_post_searchable_indices_on_post_id", using: :btree
 
   create_table "posts", force: :cascade do |t|
     t.integer  "issue_id",                  limit: 4,                        null: false
