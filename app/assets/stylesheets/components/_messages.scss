@@ -20,6 +20,13 @@
       font-weight: bold;
     }
   }
+  &__parti {
+    display: inline-block;
+  }
+  &__date.date-wrapper {
+    font-size: $font-size-base;
+    display: inline-block;
+  }
   &__parti,
   &__parti a {
     color: $brand-primary;

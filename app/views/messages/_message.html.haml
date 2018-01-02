@@ -1,6 +1,6 @@
 .message.clearfix[message]{ data: {action: 'parti-message-link', base: "##{dom_id(message)}-url-source" } }
-  .message__header.clearfix
-    .message__parti.pull-left
+  .message__header
+    .message__parti
       - if message.issue.present?
         = link_to "#{message.issue.title} 빠띠", smart_issue_home_url(message.issue)
         - unless message.issue.displayable_group?(current_group)
@@ -8,8 +8,8 @@
           = link_to message.issue.group.title_basic_format, root_url(subdomain: message.issue.group_subdomain)
       - elsif message.group.present?
         = link_to message.group.title_basic_format, smart_group_url(message.group)
-
-    .message__date.date-wrapper.pull-right
+    .message__date.date-wrapper
+      &middot;
       = date_f message.created_at
   .message__messagable
     = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message
