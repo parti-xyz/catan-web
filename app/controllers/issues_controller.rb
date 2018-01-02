@@ -30,7 +30,11 @@ class IssuesController < ApplicationController
       if params[:keyword].present?
         params[:sort] ||= 'hottest'
         @issues = search_and_sort_issues(Issue.searchable_issues(current_user), params[:keyword], params[:sort])
+      else
+        @groups = Group.not_private_blocked(current_user)
+        @groups = @groups.to_a.reject { |group| group.issues.count <= 0 }
       end
+
       render 'index'
     else
       group_issues(current_group, params[:category_slug])

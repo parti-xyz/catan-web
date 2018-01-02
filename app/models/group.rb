@@ -21,6 +21,10 @@ class Group < ActiveRecord::Base
 
   default_scope -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
   scope :but, ->(group) { where.not(id: group) }
+  scope :not_private_blocked, ->(current_user) { where.any_of(
+                                                    where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id')),
+                                                    where.not(private: true)) }
+
   def find_category_by_slug(slug)
     categories.detect { |c| c.slug == slug }
   end

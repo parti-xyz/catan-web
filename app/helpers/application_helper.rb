@@ -213,7 +213,7 @@ module ApplicationHelper
         concat s_icon
         concat raw('&nbsp;')
       end
-      concat content_tag("span", "#{smart_postposition(title, '이', '가')} 오거나이즈하는 빠띠", class: ["group-helptext"])
+      concat content_tag("span", "#{smart_postposition(title, '이', '가')} 오거나이징하는 빠띠", class: ["group-helptext"])
     end
   end
 
