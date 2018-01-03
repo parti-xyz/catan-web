@@ -1,11 +1,11 @@
 .decision-panel
   - if post.decision.blank?
     - if post.issue.safe_postable?(current_user)
-      %sapn.text-muted 어느 정도 결론이 지어졌나요?
+      %sapn.text-muted 어느 정도 결론이 내려졌나요?
       = link_to '기록하기', edit_decision_post_path(post), class: 'text-primary text-nowrap'
     - elsif
       %h5 결론
-      %sapn.text-muted 결론이 없습니다.
+      %sapn.text-muted 아직 정해진 결론이 없습니다.
   - else
     %h5 결론
     = decision_body_format(post.decision.strip)

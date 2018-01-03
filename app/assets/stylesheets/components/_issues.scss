@@ -719,15 +719,16 @@ section#issues {
   }
   .btn-xs.btn-join {
     font-size: 10px;
-    line-height: 1.3em;
     height: 1.5em;
     vertical-align: text-top;
-    padding: 0 5px !important;
+    padding: 1px 3px 0 !important;
+    line-height: 15px;
   }
   .btn-join-sign {
     position: absolute;
     top: 0;
     left: 0;
+    line-height: 15px;
   }
   &__thumb {
     width: 20px;
@@ -745,7 +746,13 @@ section#issues {
     word-break: keep-all;
     word-wrap: break-word;
     .after-block {
+      font-size: $font-size-small;
       position: relative;
+      .join-button {
+        display: inline-block;
+        width: 60px;
+        height: 1em;
+      }
     }
   }
   &__title {

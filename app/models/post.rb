@@ -200,8 +200,14 @@ class Post < ActiveRecord::Base
   scope :watched_by, ->(someone) { where(issue_id: someone.member_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :latest, -> { after(1.day.ago) }
-  scope :displayable_in_current_group, ->(group) { joins(:issue).where('issues.group_slug' => group.slug) if group.present? }
-  scope :not_private_blocked_of_group, ->(group, someone) { displayable_in_current_group(group).where(issue_id: Issue.not_private_blocked(someone))  }
+  scope :not_private_blocked_of_group, ->(group, someone) {
+    group ||= Group.indie
+    where(issue_id: group.issues.not_private_blocked(someone))
+  }
+  scope :not_in_dashboard_of_group, ->(group, someone) {
+    group ||= Group.indie
+    where(issue_id: group.issues.not_in_dashboard(someone))
+  }
   scope :having_link_or_file, -> { where.any_of(where.not(link_source: nil), where('file_sources_count > 0')) }
   scope :having_wiki, ->(status = nil) {
     condition = where.not(wiki: nil)
@@ -503,6 +509,10 @@ class Post < ActiveRecord::Base
 
   def decision_authors
     User.where(id: decision_histories.select(:user_id).distinct)
+  end
+
+  def last_stroked_days_from_today
+    (Date.today - self.last_stroked_at.to_date).to_i
   end
 
   private

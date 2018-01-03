@@ -132,6 +132,10 @@ class Group < ActiveRecord::Base
     issues.where(is_default: true)
   end
 
+  def is_light_theme?
+    !%(indie).include?(self.slug)
+  end
+
   def self.comprehensive_joined_by(someone)
     self.where(slug: (someone.member_issues.select(:group_slug).distinct))
         .or(self.where(id: someone.member_groups))

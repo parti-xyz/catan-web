@@ -15,20 +15,18 @@
         을 기다려주세요.
   - else
     .survey-card__meta.clearfix
-      .pull-left
-        .survey-card__issue
-          = link_to smart_issue_home_path_or_url(issue) do
-            - unless post.issue.displayable_group? current_group
-              .survey-card__group
-                = post.issue.group.head_title
-            .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-              = post.issue.title.truncate(6)
-      .pull-right
-        .survey-card__date.date-wrapper.survey-card__date--with-issue
-          %span= date_f post.created_at
+      .survey-card__issue
+        = link_to smart_issue_home_path_or_url(issue) do
+          - unless post.issue.displayable_group? current_group
+            .survey-card__group
+              = post.issue.group.head_title
+          .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
+            = post.issue.title
+      .survey-card__date.date-wrapper.survey-card__date--with-issue
+        %span= date_f post.created_at
     %h4.survey-card__title
       “#{survey.post.specific_desc_striped_tags(50)}”
-
-    = render 'surveys/card', local_assigns
+    - if local_assigns[:compact] != true
+      = render 'surveys/card', local_assigns
   - if local_assigns[:show_decision]
     = render 'posts/decision', local_assigns.merge(post: post)

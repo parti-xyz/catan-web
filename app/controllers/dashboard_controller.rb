@@ -3,7 +3,7 @@ class DashboardController < ApplicationController
   respond_to :js, :html
 
   def index
-    redirect_to root_url and return if current_group.present?
+    redirect_to root_url and return if current_group.present? and !request.format.js?
 
     if params[:q].present?
       @search_q = PostSearchableIndex.sanitize_search_key params[:q]

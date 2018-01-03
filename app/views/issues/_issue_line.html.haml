@@ -7,14 +7,14 @@
     - if user_signed_in? and !issue.private_blocked?(current_user) && !issue.member?(current_user)
       - issue_line_join_button_id = "issue-line-join-btn-#{SecureRandom.uuid}"
       - issue_line_join_sign_id = "issue-line-join-sign-#{SecureRandom.uuid}"
-      = link_to issue_members_path(issue, partial: :issue_line, button_id: issue_line_join_button_id, sign_id: issue_line_join_sign_id), id: issue_line_join_button_id, method: :post, remote: true, 'data-disable-with': '처리 중...', 'data-completed-with': '가입완료 <i class="fa fa-check"/>', class: 'btn btn-primary btn-xs btn-join js-join-button invisible' do
-        %i.fa.fa-user-o
-        %i.fa.fa-plus
-        %span.js-join-button-label
-          = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
-      %span.issue-line__meta.btn-join-sign.js-join-sign{id: issue_line_join_sign_id}
-        %i.fa.fa-user-o
-        %i.fa.fa-plus
+      %span.join-button
+        %span>
+          = link_to issue_members_path(issue, partial: :issue_line, button_id: issue_line_join_button_id, sign_id: issue_line_join_sign_id), id: issue_line_join_button_id, method: :post, remote: true, 'data-disable-with': '처리 중...', 'data-completed-with': '가입완료 <i class="fa fa-check"/>', class: 'btn btn-primary btn-xs btn-join js-join-button collapse' do
+            %i.fa.fa-sign-in
+            %span.js-join-button-label
+              = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
+        %span.issue-line__meta.btn-join-sign.js-join-sign{id: issue_line_join_sign_id}
+          %i.fa.fa-sign-in
 %li.issue-line
   .media.js-issue-line-hover{ 'data-action': "parti-link", 'data-url': smart_issue_home_path_or_url(issue) }
     .media-left

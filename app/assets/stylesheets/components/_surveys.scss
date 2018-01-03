@@ -181,6 +181,8 @@
     color: $gray;
   }
   &__issue {
+    max-width: 40%;
+    float: left;
     text-align: left;
   }
   .thumb--issue {
@@ -197,6 +199,11 @@
     padding-left: 35px;
     background-repeat: no-repeat;
     border: 1px solid rgba(1, 1, 1, 0.1);
+    background-clip: padding-box;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__group {
     background-color: rgba(150,111,214,0.9);
@@ -210,6 +217,7 @@
     display: inline-block;
   }
   &__date--with-issue {
+    float: right;
     line-height: 35px;
     span {
       vertical-align: bottom;

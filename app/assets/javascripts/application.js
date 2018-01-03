@@ -580,12 +580,12 @@ $(function(){
 
   // 빠띠 사이드바 hover 할때 가입 버튼 보이기
   $('.js-issue-line-hover').on('mouseenter', function(elm) {
-    $(this).find('.js-join-button').visible();
-    $(this).find('.js-join-sign').invisible();
+    $(this).find('.js-join-sign').hide();
+    $(this).find('.js-join-button').show();
   });
   $('.js-issue-line-hover').on('mouseleave', function(elm) {
-    $(this).find('.js-join-button').invisible();
-    $(this).find('.js-join-sign').visible();
+    $(this).find('.js-join-button').hide();
+    $(this).find('.js-join-sign').show();
   });
 
   $('.js-post-wiki-btn').on('click', function(e) {

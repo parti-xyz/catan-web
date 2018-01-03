@@ -588,6 +588,12 @@ strong.upvoted {
   margin-bottom: 10px;
 }
 
+.posts-group-root {
+  @media (max-width: $screen-xs-max) {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+}
 
 .post-data-divider {
   margin: 24px 0 12px;
@@ -595,5 +601,8 @@ strong.upvoted {
   color: $gray-light;
   @media (max-width: $screen-xs-max) {
     padding: 0px 15px;
+  }
+  .posts-group-root &:nth-child(2) {
+    margin-top: 0;
   }
 }

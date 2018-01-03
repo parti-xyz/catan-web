@@ -150,6 +150,8 @@ class Issue < ActiveRecord::Base
   scope :not_private_blocked, ->(current_user) { where.any_of(
                                                     where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id')),
                                                     where.not(private: true)) }
+  scope :not_in_dashboard, ->(current_user) { where.not(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
+                                             .where.not('issues.private': true) }
   scope :hottest_not_private_blocked_of_group, ->(group, someone, count = 10) {
     of_group(group).not_private_blocked(someone).hottest.limit(count)
   }

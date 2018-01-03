@@ -15,19 +15,18 @@
         을 기다려주세요.
   - else
     .poll-card__meta.clearfix
-      .pull-left
-        .poll-card__issue
-          = link_to smart_issue_home_path_or_url(issue) do
-            - unless post.issue.displayable_group? current_group
-              .poll-card__group
-                = post.issue.group.head_title
-            .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-              = post.issue.title.truncate(10)
-      .pull-right
-        .poll-card__date.date-wrapper.poll-card__date--with-issue
-          %span= date_f post.created_at
+      .poll-card__issue
+        = link_to smart_issue_home_path_or_url(issue) do
+          - unless post.issue.displayable_group? current_group
+            .poll-card__group
+              = post.issue.group.head_title
+          .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
+            = post.issue.title
+      .poll-card__date.date-wrapper.poll-card__date--with-issue
+        %span= date_f post.created_at
     %h4.poll-card__title
       “#{poll.title}”
-    = render 'votings/voting', local_assigns
+    - if local_assigns[:compact] != true
+      = render 'votings/voting', local_assigns
   - if local_assigns[:show_decision]
     = render 'posts/decision', local_assigns.merge(post: post)
