@@ -43,7 +43,7 @@ class IssuesController < ApplicationController
   end
 
   def indies
-    params[:sort] ||= 'recent_touched'
+    params[:sort] ||= 'hottest'
     @issues = search_and_sort_issues(Group.indie.issues.not_private_blocked(current_user), params[:keyword], params[:sort], 3)
   end
 
@@ -225,7 +225,8 @@ class IssuesController < ApplicationController
 
   def search_and_sort_issues(issue, keyword, sort, item_a_row = nil)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
-    result = issue.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
+    result = issue
+    result = result.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
 
     case sort
     when 'recent'
