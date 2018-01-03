@@ -218,7 +218,6 @@ Rails.application.routes.draw do
 
   get '/u/:slug', to: "users#posts", as: 'slug_user'
 
-  get '/welcome', to: "pages#welcome", as: 'welcome'
   get '/about', to: "pages#about", as: 'about'
   get '/privacy', to: "pages#privacy", as: 'privacy'
   get '/service', to: "pages#service", as: 'service'
