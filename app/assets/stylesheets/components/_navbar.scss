@@ -279,10 +279,10 @@
       li {
         padding-left: 20px;
         &.divider {
-          border-bottom: 1px solid $brand-primary-light;
-          &.large {
-            margin-top: 15px;
-          }
+          padding-top: 15px;
+          border-bottom: none;
+          border-top: 1px solid $gray-lightest;
+          margin-top: 15px;
         }
         a {
           color: $gray-dark;

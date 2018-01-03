@@ -1,4 +1,4 @@
-= link_to smart_user_gallery_path(user), class: 'text-nowrap user-byline' do
+= link_to smart_user_gallery_path(user), class: "text-nowrap user-byline #{'user-byline-no-image' if local_assigns[:hide_image]}" do
   - unless local_assigns[:hide_image]
     .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
   - else

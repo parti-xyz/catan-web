@@ -552,6 +552,9 @@ section#user-gallery{
   font-weight: bold;
   height: 30px;
   line-height: 30px;
+  &-no-image {
+    line-height: 1em;
+  }
 
   .user-image {
     width: 30px;

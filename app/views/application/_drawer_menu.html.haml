@@ -58,15 +58,15 @@
     %li{style:"padding-left: 0;"}
       %hr
     %li
-      = link_to root_path do
+      = link_to root_url(subdomain: nil) do
         %div
           %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
         %span{style:"font-size:12px;color:dimgray;font-weight:bold;line-height:30px;"}
           민주적 일상 커뮤니티 '빠띠'
-    %li= link_to '빠띠 소개', '/about'
-    %li= link_to '이용약관', '/terms'
-    %li= link_to '그룹 개설 안내', '/service'
-    %li= link_to '개인정보취급정책', '/privacy'
+    %li= link_to '빠띠 소개', about_url(subdomain: nil)
+    %li= link_to '이용약관', terms_url(subdomain: nil)
+    %li= link_to '그룹 개설 안내', service_url(subdomain: nil)
+    %li= link_to '개인정보취급정책', privacy_url(subdomain: nil)
     %li
       %a(href='mailto:help@parti.xyz')
         오류 및 버그 신고
