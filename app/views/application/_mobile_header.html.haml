@@ -3,11 +3,18 @@
     .container.clearfix
       .navbar-header.navbar-header-center
         %a.navbar-brand{ href: root_path }
-          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+          - if host_group.indie?
+            %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+          - else
+            #{host_group.head_title}
+
       %ul.nav.navbar-nav.navbar-left
         %li
           %a.btn-drawer-menu{ href: '#'}
-            = image_tag 'btn_mobile_menu.png'
+            - if host_group.try(:is_light_theme?)
+              = image_tag 'btn_mobile_menu_white.png'
+            - else
+              = image_tag 'btn_mobile_menu.png'
 
   .drawer-list#drawer-list
     %i.fa.fa-close.drawer-list__close{style:"font-size:24px;color:white"}
@@ -35,8 +42,7 @@
           .parties-all
             .parties-filter
               .parties-search-form
-                = form_tag issues_path, method: :get do
-                  = hidden_field_tag :sort
+                = form_tag issues_url(subdomain: nil), method: :get do
                   .input-group.input-group-lg.input-group-keyword
                     %input.form-control{name: "keyword", placeholder: "빠띠 찾기", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
                     %span.input-group-btn
@@ -49,10 +55,17 @@
             내 피드
         - if current_user.member_issues.only_alive_of_group(host_group).any?
           %li.group-line
-            = link_to (current_group.present? ? root_path : indies_issues_url(subdomain: nil)) do
+            = link_to (host_group.indie? ? indies_issues_url(subdomain: nil) : root_path) do
               #{group_parties_section_title(host_group)}
         - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
           = render 'issues/issue_line', issue: issue
+        - if !host_group.private_blocked?(current_user) and host_group.categories.try(:any?)
+          %li.category-line
+            주제별 빠띠
+          - host_group.categories.each do |category|
+            %li.issue-line
+              = link_to issues_path(category_slug: category.slug) do
+                = category.name
 
         - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
           %li.group-line
@@ -62,7 +75,7 @@
             = render 'issues/issue_line', issue: issue
         %li.divider.large
       - if user_signed_in?
-        %li.divider
+        %li= byline current_user, hide_image: true
         %li= link_to '프로필 수정', edit_user_registration_path
         %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
         %li.divider
@@ -79,7 +92,7 @@
             = render 'issues/issue_line', issue: hottest_issue
           %br
       %li
-        = link_to root_path do
+        = link_to root_url(subdomain: nil) do
           %div
             %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
           %span{style:"font-size:12px;color:dimgray;font-weight:bold;line-height:30px;"}
@@ -87,6 +100,7 @@
       %li= link_to '빠띠 소개', '/about'
       %li= link_to '이용약관', '/terms'
       %li= link_to '개인정보취급정책', '/privacy'
+      %li= link_to '그룹 개설 안내', '/service'
       %li
         %a(href='mailto:help@parti.xyz')
           오류 및 버그 신고
