@@ -16,10 +16,9 @@
         .parties-all
           .parties-filter
             .parties-search-form
-              = form_tag issues_url(subdomain: nil), method: :get, id: 'js-search-parties-form' do
-                = hidden_field_tag :sort
+              = form_tag issues_url(subdomain: nil), method: :get do
                 .input-group.input-group-lg.input-group-keyword
-                  %input.form-control{name: "keyword", placeholder: "빠띠 찾기", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
+                  %input.form-control{name: "keyword", placeholder: "빠띠 찾기", type: "search" }
                   %span.input-group-btn
                     %button.btn.btn-group-default
                       %i.fa.fa-search
