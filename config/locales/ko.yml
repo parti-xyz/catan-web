@@ -265,6 +265,7 @@ ko:
         voting: "%{user}님이 투표했습니다."
         feedback: "%{user}님이 투표했습니다."
         option: "%{user}님이 새 제안을 올렸습니다."
+        comment: "%{user}님이 댓글을 달았습니다."
     wiki:
       history:
         create: "%{user}님이 위키를 게시했습니다."

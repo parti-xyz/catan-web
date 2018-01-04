@@ -250,13 +250,14 @@ var parti_prepare = function($base) {
     return;
   }
 
-  parti_prepare_masonry($base);
   parti_prepare_form_validator($base);
 
   //timeago
   $.parti_apply($base, 'time[data-time-ago]', function(elm) {
     $(elm).timeago();
   });
+  //timeago 다음에 masonry를 적용
+  parti_prepare_masonry($base);
 
   //clipboard
   $.parti_apply($base, '.js-clipboard', function(elm) {

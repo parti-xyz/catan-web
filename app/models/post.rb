@@ -443,8 +443,9 @@ class Post < ActiveRecord::Base
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone, last_stroked_for: subject)
   end
 
-  def latest_stroked_activity
-    if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present? and last_stroked_at > 24.hours.ago
+  def latest_stroked_activity(valid_time = nil)
+    valid_time ||= 24.hours.ago
+    if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present? and last_stroked_at > valid_time
       user = if block_given?
         yield last_stroked_user
       else
