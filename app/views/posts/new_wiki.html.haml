@@ -1,4 +1,4 @@
-%section#post-form.wiki-form
+%section#post-form.wiki-form.wiki-form-new
   .container
     = form_for @post, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form form input[type=submit]' } } do |f|
       - controls = capture do

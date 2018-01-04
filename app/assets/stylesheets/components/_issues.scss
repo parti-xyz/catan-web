@@ -7,6 +7,15 @@ section#issues {
   }
 }
 
+section#issues-group-index {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  @media (max-width: $screen-xs-max) {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+}
+
 .issue-header-actions {
   i {
     font-size: $font-size-large;
@@ -941,18 +950,24 @@ body.app-issues-new, .bs-component{
   }
 }
 .slick-arrow{
-  width: 20px;
-  height: 20px;
+  width: 1em;
+  height: 1em;
   font-size: 50px !important;
   color: lightgray;
   position: absolute;
-  top: 45%;
+  top: 35%;
   cursor: pointer;
-  z-index:99;
+  z-index: 99;
 }
 .slick-custom-prev{
-  left: -10px;
+  left: -40px;
+  @media (max-width: $screen-xs-max){
+    left: -30px;
+  }
 }
 .slick-custom-next{
   right: 10px;
+  @media (max-width: $screen-xs-max){
+    right: 20px;
+  }
 }

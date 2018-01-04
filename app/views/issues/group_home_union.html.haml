@@ -40,7 +40,7 @@
               = link_to '가입하기', '#', data: {toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.id}.to_json) }, class: 'btn btn-md btn-primary'
 - else
   = render 'application/group_home_sub_header', active: 'home'
-  %section#root
+  %section#home
     .container
       .row
         .col-xs-12.col-sm-8
@@ -122,7 +122,7 @@
             %section#posts
               %h4.group-heading
                 내 #{current_group.title_basic_format} 피드
-              .posts.posts-group-root{data: {last_id: -1, is_last: 'false'}}
+              .posts.posts-home{data: {last_id: -1, is_last: 'false'}}
                 #no-data.text-center.alert{ style: 'display: none;' }
                   %i.fa.fa-info-circle
                     아직 글이 없습니다.

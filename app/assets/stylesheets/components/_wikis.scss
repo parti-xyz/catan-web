@@ -98,7 +98,7 @@ section#wiki-histories {
 }
 
 .wiki-card {
-  margin-top: 24px;
+  margin-bottom: 15px;
   border-radius: $border-radius-base;
   padding: 12px;
   background-color: #fff;
@@ -179,6 +179,17 @@ section#wiki-histories {
       padding: 20px;
     }
   }
+  hr.wiki-authors-hr {
+    border: 0;
+    height: 1px;
+    background-color: $gray-lighter;
+    margin: 14px 0 4px;
+  }
+  .wiki-authors {
+    margin-top: 6px;
+    color: $gray-light;
+    float: right;
+  }
   .post-card {
     margin-top: 12px;
     .post-card__footer {
@@ -210,7 +221,6 @@ section#wiki-histories {
 
   #post_wiki_attributes_title {
     margin-bottom: 20px;
-    margin-top: 20px;
     border: none;
     border-bottom: 1px solid $gray-light;
     border-radius: 0;
@@ -233,3 +243,8 @@ section#wiki-histories {
   }
 }
 
+#post-form.wiki-form.wiki-form-new {
+  #post_wiki_attributes_title {
+    margin-top: 20px;
+  }
+}

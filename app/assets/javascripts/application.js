@@ -49,8 +49,8 @@ lightbox.option({
 $('.slick-slider').slick({
   slidesToShow: 5,
   slidesToScroll: 5,
-  nextArrow: '<i class="fa fa-chevron-circle-right slick-custom-next"></i>',
-  prevArrow: '<i class="fa fa-chevron-circle-left slick-custom-prev"></i>',
+  nextArrow: '<span class="slick-custom-next"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-right fa-stack-1x"></i></span></span>',
+  prevArrow: '<span class="slick-custom-prev"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-left fa-stack-1x"></i></span></span>',
   responsive: [
     {
       breakpoint: 960,

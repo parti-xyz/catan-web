@@ -367,7 +367,7 @@ section#posts {
       max-width: 100%;
       height: auto !important;
     }
-    a {
+    a:not(.btn-force) {
       color: $brand-primary;
     }
   }
@@ -554,6 +554,9 @@ section#posts {
       line-height: 40px;
     }
   }
+  @media (max-width: $screen-xs-max) {
+    margin-bottom: 14px;
+  }
 }
 
 .webui-popover {
@@ -588,7 +591,7 @@ strong.upvoted {
   margin-bottom: 10px;
 }
 
-.posts-group-root {
+.posts.posts-home {
   @media (max-width: $screen-xs-max) {
     margin-left: -15px;
     margin-right: -15px;
@@ -602,7 +605,7 @@ strong.upvoted {
   @media (max-width: $screen-xs-max) {
     padding: 0px 15px;
   }
-  .posts-group-root &:nth-child(2) {
+  .posts.posts-home &:nth-child(2) {
     margin-top: 0;
   }
 }

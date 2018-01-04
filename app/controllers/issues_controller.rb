@@ -5,7 +5,7 @@ class IssuesController < ApplicationController
   before_action :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
   before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
-  def root
+  def home
     if current_group.blank?
       index
     else
@@ -16,13 +16,13 @@ class IssuesController < ApplicationController
       @polls_and_surveys = @polls_and_surveys.order_by_stroked_at.limit(7)
       @recent_posts = Post.not_in_dashboard_of_group(current_group, current_user).order_by_stroked_at.limit(4)
       if %w(union).include? current_group.slug
-        render 'group_root_union'
+        render 'group_home_union'
       elsif %w(greenpartyjeju eduhope slowalk).include? current_group.slug
-        render 'group_root_compact'
+        render 'group_home_compact'
       elsif %w(youthmango).include? current_group.slug
-        render 'group_root_parties_first'
+        render 'group_home_parties_first'
       else
-        render 'group_root'
+        render 'group_home'
       end
     end
   end

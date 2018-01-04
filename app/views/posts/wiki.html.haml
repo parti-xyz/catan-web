@@ -41,7 +41,6 @@
               .post-card__last-stroked
                 != last_history_text
                 %span.date= date_f(@post.wiki.latest_history.created_at)
-
           - if can? :update, @post.wiki
             = form_for @post, url: wiki_post_path(@post), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
               - controls = capture do
@@ -59,11 +58,22 @@
                     = read_only_wiki_content
               .submit-box.clearfix{ style: 'margin-top: 12px' }
                 = controls
+              %hr.wiki-authors-hr
+              .clearfix
+                .wiki-authors.tooltip-no-wrap
+                  작성
+                  - @post.wiki.authors.each do |user|
+                    = link_to smart_user_gallery_path(user) do
+                      .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
           - else
             .wik-content.wiki-content--read-only
-              .row
-                .col-xs-12
-                  = read_only_wiki_content
+              = read_only_wiki_content
+              .clearfix
+                .wiki-authors.tooltip-no-wrap
+                  작성
+                  - @post.wiki.authors.each do |user|
+                    = link_to smart_user_gallery_path(user) do
+                      .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
           .post-card
             .post-card__content
               .post-card__footer.clearfix

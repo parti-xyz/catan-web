@@ -8,6 +8,9 @@
         가장 먼저 위키를 올려보세요.
     - else
       .posts-header
+        %h4.posts-header__title
+          위키
+          %small 함께 작성해 보세요.
         .posts-filter-select
           .btn-group
             = link_to "게시 중인 위키 (#{@issue.active_wiki_count})", {status: 'active'}, class: "btn btn-default #{('active' if params['status'] == 'active' or params['status'].nil?)}"

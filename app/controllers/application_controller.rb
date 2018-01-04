@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
 
     if current_group.private_blocked? current_user and
     !(
-      (controller_name == 'issues' and action_name == 'root') or
+      (controller_name == 'issues' and action_name == 'home') or
       (controller_name == 'issues' and action_name == 'index') or
       (controller_name == 'member_requests' and action_name == 'create') or
       (controller_name == 'sessions') or

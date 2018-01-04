@@ -10,7 +10,7 @@
   }
 }
 
-.app-issues-root.in-group {
+.app-issues-home.in-group {
   .slick-list {
     .issue-card-wrapper .issue-card {
       margin: 0;
@@ -31,6 +31,11 @@
   }
 }
 body.in-group {
+  #site-header {
+    .navbar-fixed-top {
+      background-color: $brand-primary;
+    }
+  }
   @media (min-width: $screen-sm-min) {
     #group-key-visual-bg {
       height: 500px;

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:kill_me, :toggle_root_page, :access_token, :valid_email, :invalid_email]
+  before_action :authenticate_user!, only: [:kill_me, :access_token, :valid_email, :invalid_email]
 
   def posts
     fetch_user

@@ -40,13 +40,12 @@ Rails.application.routes.draw do
       root 'dashboard#index', as: :dashboard_root
     end
   end
-  root 'issues#root'
+  root 'issues#home'
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
   get '/robots.:format', to: 'pages#robots'
 
   resources :users, except: :show do
     collection do
-      post 'toggle_root_page'
       get 'access_token'
       get 'pre_sign_up'
       get 'email_sign_in'

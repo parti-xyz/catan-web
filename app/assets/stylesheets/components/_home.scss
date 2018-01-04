@@ -28,10 +28,6 @@ section#home {
     }
   }
 
-  section#recommend-posts {
-    margin-bottom: 40px;
-  }
-
   section#parties-all {
     form {
       .input-group .form-control:not(:first-child):not(:last-child) {
@@ -155,4 +151,12 @@ section#group-home-submenu {
       }
     }
   }
+
+  @media (max-width: $screen-xs-max){
+    .row.slick-slider {
+      margin-left: -7.5px;
+      margin-right: -7.5px;
+    }
+  }
 }
+
