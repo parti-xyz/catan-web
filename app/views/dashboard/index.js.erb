@@ -13,6 +13,7 @@ var $posts_doms = $("<%= escape_javascript(render 'posts/page', show_issue: true
 $('#posts .posts').append($posts_doms);
 parti_partial$($posts_doms);
 
+<% if @posts.last.present? %>
 if($('#js-posts-inject').length > 0 && $posts_doms.filter('.js-post-data-divider').length > 0) {
   var $inject = $('#js-posts-inject');
   var days_from_today = $inject.data('days-from-today');
@@ -26,3 +27,4 @@ if($('#js-posts-inject').length > 0 && $posts_doms.filter('.js-post-data-divider
     $inject.remove();
   }
 }
+<% end %>
