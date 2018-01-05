@@ -261,11 +261,11 @@ ko:
         closed: "마감"
     post:
       last_stroked_for:
-        decision: "%{user}님이 결론을 업데이트했습니다."
-        voting: "%{user}님이 투표했습니다."
-        feedback: "%{user}님이 투표했습니다."
-        option: "%{user}님이 새 제안을 올렸습니다."
-        comment: "%{user}님이 댓글을 달았습니다."
+        decision: "%{user_word} 결론을 업데이트했습니다."
+        voting: "%{user_word} 투표했습니다."
+        feedback: "%{user_word} 투표했습니다."
+        option: "%{user_word} 새 제안을 올렸습니다."
+        comment: "%{user_word} 댓글을 달았습니다."
     wiki:
       history:
         create: "%{user}님이 위키를 게시했습니다."

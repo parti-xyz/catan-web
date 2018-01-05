@@ -1,7 +1,6 @@
 - if post.present?
-  - text = post.latest_stroked_activity(local_assigns[:latest_stroked_valid_time]) { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
+  - text = post.latest_stroked_activity(local_assigns[:latest_stroked_valid_time]) { |user| link_to((user == current_user ? "내가" : "@#{user.nickname}님이"), smart_user_gallery_path(user)) }
   - if text.present?
     .post-card__last-stroked
       != text
       %span.date= date_f(post.last_stroked_at)
-

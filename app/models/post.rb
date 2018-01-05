@@ -446,12 +446,12 @@ class Post < ActiveRecord::Base
   def latest_stroked_activity(valid_time = nil)
     valid_time ||= 24.hours.ago
     if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present? and last_stroked_at > valid_time
-      user = if block_given?
+      user_word = if block_given?
         yield last_stroked_user
       else
         last_stroked_user.nickname
       end
-      I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user: user)
+      I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user_word: user_word)
     end
   end
 
