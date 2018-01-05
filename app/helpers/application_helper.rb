@@ -216,4 +216,8 @@ module ApplicationHelper
       concat content_tag("span", "#{Catan::SmartPostposition.new(title).adjust('이')} 오거나이징하는 빠띠", class: ["group-helptext"])
     end
   end
+
+  def user_subject_word(user)
+    (user == current_user ? "내가" : "@#{user.nickname}님이")
+  end
 end

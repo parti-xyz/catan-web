@@ -449,7 +449,7 @@ class Post < ActiveRecord::Base
       user_word = if block_given?
         yield last_stroked_user
       else
-        last_stroked_user.nickname
+        "@#{last_stroked_user.nickname}님이"
       end
       I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user_word: user_word)
     end

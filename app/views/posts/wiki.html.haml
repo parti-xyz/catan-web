@@ -36,7 +36,7 @@
                 != @post.wiki.body
 
           - if @post.wiki.wiki_histories.any?
-            - last_history_text = @post.wiki.latest_activity { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user)) }
+            - last_history_text = @post.wiki.latest_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
             - if last_history_text.present?
               .post-card__last-stroked
                 != last_history_text

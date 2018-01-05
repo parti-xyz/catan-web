@@ -268,13 +268,13 @@ ko:
         comment: "%{user_word} 댓글을 달았습니다."
     wiki:
       history:
-        create: "%{user}님이 위키를 게시했습니다."
-        activate: "%{user}님이 위키를 다시 게시했습니다."
-        inactivate: "%{user}님이 위키를 아카이브했습니다."
-        purge: "%{user}님이 위키를 지웠습니다."
-        update_title: "%{user}님이 위키 제목을 고쳤습니다."
-        update_body: "%{user}님이 위키 내용을 고쳤습니다."
-        update_title_and_body: "%{user}님이 위키 제목과 내용을 고쳤습니다."
+        create: "%{user_word} 위키를 게시했습니다."
+        activate: "%{user_word} 위키를 다시 게시했습니다."
+        inactivate: "%{user_word} 위키를 아카이브했습니다."
+        purge: "%{user_word} 위키를 지웠습니다."
+        update_title: "%{user_word} 위키 제목을 고쳤습니다."
+        update_body: "%{user_word} 위키 내용을 고쳤습니다."
+        update_title_and_body: "%{user_word} 위키 제목과 내용을 고쳤습니다."
   unauthorized:
     default: "권한이 없습니다."
   group:

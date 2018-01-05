@@ -5,17 +5,17 @@ class WikiHistory < ActiveRecord::Base
   scope :recent, -> { order(created_at: :desc).order(id: :desc) }
 
   def activity
-    user_text = if user.present?
+    user_word = if user.present?
       if block_given?
         yield user
       else
-        "@#{user.nickname}"
+        "@#{user.nickname}님이"
       end
     else
       I18n.t("views.user.anonymous")
     end
 
-    I18n.t("views.wiki.history.#{code}", default: nil, user: user_text)
+    I18n.t("views.wiki.history.#{code}", default: nil, user_word: user_word)
   end
 
   def touched_body?
