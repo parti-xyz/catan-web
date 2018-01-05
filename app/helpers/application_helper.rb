@@ -213,25 +213,7 @@ module ApplicationHelper
         concat s_icon
         concat raw('&nbsp;')
       end
-      concat content_tag("span", "#{smart_postposition(title, '이', '가')} 오거나이징하는 빠띠", class: ["group-helptext"])
+      concat content_tag("span", "#{Catan::SmartPostposition.new(title).adjust('이')} 오거나이징하는 빠띠", class: ["group-helptext"])
     end
-  end
-
-  def smart_postposition!(text, yes_stop_consonant, no_stop_consonant)
-    return text if text.try(:strip).blank?
-
-    "#{text.strip}#{smart_postposition(text, yes_stop_consonant, no_stop_consonant)}"
-  end
-
-  def smart_postposition(text, yes_stop_consonant, no_stop_consonant)
-    return text if text.try(:strip).blank?
-
-    stop_consonant?(text) ? yes_stop_consonant : no_stop_consonant
-  end
-
-  def stop_consonant?(text)
-    return false if text.try(:strip).blank?
-
-    return (text.last.ord - 0xAC00) % 28 > 0
   end
 end
