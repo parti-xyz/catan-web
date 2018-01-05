@@ -11,6 +11,7 @@ if upvote.upvotable.is_a? Comment
     json.title "#{comment.issue.title} #{Issue.model_name.human}"
     json.body body
     json.type "comment"
+    json.url smart_post_url(post)
     json.param comment.id
   end
 else
@@ -22,6 +23,7 @@ else
     json.title "#{issue.title} #{Issue.model_name.human}"
     json.body body
     json.type "post"
+    json.url smart_post_url(post)
     json.param post.id
   end
 end
