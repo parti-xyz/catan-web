@@ -1,0 +1,40 @@
+<%= form_tag mobile_app_restore_sessions_path, name: :f1 do %>
+  <%= hidden_field_tag :access_token %>
+<% end %>
+
+<%= javascript_include_tag 'mobile_app' %>
+<script>
+  function gotoMain() {
+    document.location.href = "<%= root_url(subdomain: nil) %>";
+  }
+
+  // 이 함수는 App에서 호출합니다.
+  // 만약 authkey가 빈값이라면 앱도 인증정보를 안가지고 있는 것 입니다. (예: 인스톨 후 처음 사용)
+  function restoreAuth(authkey) {
+    if (!authkey) {
+      // 할 수 있는게 없죠. 그냥 초기 페이지로 이동시킵니다.
+      gotoMain();
+      return;
+    }
+
+    // 서버에서 처리 후, 원하는 URL로 redirection 시키세요.
+    document.f1.access_token.value = authkey;
+    document.f1.submit();
+  }
+
+  window.onload = function() {
+    if (!ufo.isApp()) {
+      return;
+    }
+
+    // 서버사이드에서 세션체크 후 로그인 상태에 따라 아래와 같이 분기처리합니다:
+
+    <% if user_signed_in? %>
+    // 로그인된 상태입니다. 초기페이지 URL 로 바로 이동합니다.
+    gotoMain();
+    <% else %>
+    // 로그인이 안된 상태입니다. 앱이 restoreAuth() 를 호출할 것입니다.
+    ufo.post("noAuth");
+    <% end %>
+  }
+</script>

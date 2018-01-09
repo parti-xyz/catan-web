@@ -25,8 +25,8 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :letter_opener_web
-  config.action_mailer.default_url_options = { :host => 'parti.dev', :protocol => 'https' }
-  config.action_mailer.asset_host =  'http://parti.dev'
+  config.action_mailer.default_url_options = { :host => 'parti.test', :protocol => 'https' }
+  config.action_mailer.asset_host =  'http://parti.test'
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -53,4 +53,4 @@ Rails.application.configure do
 
 end
 
-Rails.application.routes.default_url_options[:host] = 'parti.dev'
+Rails.application.routes.default_url_options[:host] = 'parti.test'

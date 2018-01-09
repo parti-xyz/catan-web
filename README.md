@@ -54,7 +54,7 @@ https://console.firebase.google.com/project/{구글 프로젝트 이름}/setting
 
 기본적인 Rail 개발 환경에 rbenv, puma-dev를 이용합니다.
 
-### rbenv 설정 
+### rbenv 설정
 
 ```
 $ rbenv install 2.3.1
@@ -120,7 +120,7 @@ mysql > create database catan_development_브랜치명 CHARACTER SET utf8mb4 COL
 db:setup으로 스키마를 생성합니다.
 
 ```
-$ bin/rake db:setup 
+$ bin/rake db:setup
 ```
 
 #### 초기 데이터 추가
@@ -170,17 +170,17 @@ export FILENAME_ENCODING="ISO-8859-1"
 
 ### 메일 확인
 
-https://parti.dev/devel/emails 에서 메일 발송을 확인 할 수 있습니다.
+https://parti.test/devel/emails 에서 메일 발송을 확인 할 수 있습니다.
 
 ### 인기글 업데이트
 
-https://parti.dev/score
+https://parti.test/score
 
 위 주소에 접근하면 업데이트 됩니다.
 
 ### 페이스북 로그인
 
-페이스북에 https://parti.dev와 연결된 앱의 정보를 아래와 같이 .powenv에 설정합니다.
+페이스북에 https://parti.test와 연결된 앱의 정보를 아래와 같이 .powenv에 설정합니다.
 ```
 export FACEBOOK_APP_ID="키값"
 export FACEBOOK_APP_SECRET="키값"
@@ -196,9 +196,9 @@ export POSTMARKER_API_KEY="키값"
 ### 사용자 임시 삭제
 
 ```
-https://parti.dev/kill_me
+https://parti.test/kill_me
 ```
- 
+
 ## 빠띠 테스트서버 관리
 
 주의 : 아래 관리 방법은 parti.xyz에서 테스트서버를 관리하는 팁입니다.
@@ -244,13 +244,13 @@ $ bundle exec rake crawling:reload_all
 
 아래 주소에서 oauth application 정보 관리할 수 있다.
 
-https://parti.dev/oauth/applications
+https://parti.test/oauth/applications
 
 로컬에서 아래 명령을 수행하면 로그인한 사용자의 최근 access token정보를 알 수 있다
 
-https://parti.dev/users/access_token?app=어플리케이션이름
+https://parti.test/users/access_token?app=어플리케이션이름
 
-## 로컬 환경에서도 사용자 프로필 사진, 빠띠 대문 이미지 등을 보이게 하는 법 
+## 로컬 환경에서도 사용자 프로필 사진, 빠띠 대문 이미지 등을 보이게 하는 법
 
 .powenv 파일에 아래 변수를 추가합니다.
 

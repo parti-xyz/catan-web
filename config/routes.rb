@@ -239,6 +239,11 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/devel/emails"
   end
 
+  namespace :'mobile_app' do
+    get 'start', to: 'pages#start'
+    post 'sessions/restore', to: 'sessions#restore', as: :restore_sessions
+  end
+
   namespace :admin do
     root to: 'monitors#index'
     resources :issues do

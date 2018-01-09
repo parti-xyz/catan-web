@@ -30,7 +30,7 @@ module CatanWeb
     config.active_job.queue_adapter = ((!ENV['SIDEKIQ'] and (Rails.env.test? or Rails.env.development?)) ? :inline : :sidekiq)
 
     if Rails.env.test? || Rails.env.development?
-        config.asset_host = 'https://parti.dev'
+        config.asset_host = 'https://parti.test'
     elsif Rails.env.staging?
         config.asset_host = 'https://dev.parti.xyz'
     else
