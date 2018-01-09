@@ -1,4 +1,4 @@
-<%= form_tag mobile_app_restore_sessions_path, name: :f1 do %>
+<%= form_tag mobile_app_restore_sessions_path, name: :f1, method: :get do %>
   <%= hidden_field_tag :access_token %>
 <% end %>
 
@@ -17,7 +17,6 @@
       return;
     }
 
-    // 서버에서 처리 후, 원하는 URL로 redirection 시키세요.
     document.f1.access_token.value = authkey;
     document.f1.submit();
   }

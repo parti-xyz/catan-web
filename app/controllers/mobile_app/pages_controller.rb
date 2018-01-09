@@ -1,6 +1,4 @@
-class MobileApp::PagesController < ApplicationController
-  layout 'mobile_app'
-
+class MobileApp::PagesController < MobileApp::BaseController
   def start
   end
 end

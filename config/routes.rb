@@ -241,7 +241,9 @@ Rails.application.routes.draw do
 
   namespace :'mobile_app' do
     get 'start', to: 'pages#start'
-    post 'sessions/restore', to: 'sessions#restore', as: :restore_sessions
+    get 'sessions/restore', to: 'sessions#restore', as: :restore_sessions
+    get 'sessions/setup', to: 'sessions#setup', as: :setup_sessions
+    get 'sessions/teardown', to: 'sessions#teardown', as: :teardown_sessions
   end
 
   namespace :admin do

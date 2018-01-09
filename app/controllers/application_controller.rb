@@ -1,12 +1,14 @@
 class ApplicationController < ActionController::Base
   include PartiUrlHelper
   include GroupHelper
+  include MobileAppHelper
   include StoreLocation
 
   protect_from_forgery with: :exception
   before_action :prepare_meta_tags, if: "request.get?"
   before_action :set_device_type
   before_action :blocked_private_group
+
   after_action :prepare_unobtrusive_flash
   after_action :prepare_store_location
 
@@ -45,13 +47,23 @@ class ApplicationController < ActionController::Base
 
     result = stored_location(group) || '/'
     result = URI.join(root_url(subdomain: group.subdomain), result).to_s if group.present?
-    result
+
+    if is_mobile_app?(request)
+      mobile_app_setup_sessions_path(after_sign_in_path: result)
+    else
+      result
+    end
   end
 
   def after_sign_out_path_for(resource_or_scope)
     result = super
-    return root_url(subdomain: params['group_slug']) if params['group_slug'].present?
-    result
+    result = root_url(subdomain: params['group_slug']) if params['group_slug'].present?
+
+    if is_mobile_app?(request)
+      mobile_app_teardown_sessions_path(after_sign_out_path: result)
+    else
+      result
+    end
   end
 
   helper_method :current_group

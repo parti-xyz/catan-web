@@ -1,0 +1,7 @@
+<%= javascript_include_tag 'mobile_app' %>
+<script>
+<% if !user_signed_in? %>
+ufo.post("logout");
+<% end %>
+document.location.href = "<%= root_url(subdomain: nil) %>";
+</script>

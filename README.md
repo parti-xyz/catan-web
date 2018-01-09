@@ -44,6 +44,7 @@ production:
   S3_BUCKET: xx
   PARTI_ADMIN_PASSWORD: xx
   FCM_KEY: xx
+  MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android: xx
 ```
 
 firebase realtime database와 연결합니다.
@@ -274,4 +275,12 @@ export FIREBASE_BUCKETNAME="dalikim"
 개발 환경에서 firebase와 연결을 하려면 아래 설정을 해야 합니다. 아래 설정이 없으면 firebase에 연결하지 않고서도 개발이 가능합니다.
 ```
 export FIREBASE=true
+```
+
+## 스파크 앱과 연결
+
+doorkeeper에 등록된 어플리케이션 중에 테스트할 어플리케이션의 uid를 등록한다.
+
+```
+export MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android=키값
 ```
