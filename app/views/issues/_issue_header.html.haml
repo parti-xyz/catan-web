@@ -52,11 +52,11 @@
               .parti-buttons
                 - if !issue.private and issue.of_public_group?
                   %span.parti-admin-buttons
-                    %div.btn.btn-xs.btn-ghost{"data-url": "#invite-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
+                    %div.btn.btn-xs.btn-ghost{"data-url": "#advert-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
                       %i.fa.fa-bullhorn
                       빠띠 알리기
                       .hidden
-                        .invite-info{id: "invite-info-#{dom_id(issue)}"}
+                        .advert-info{id: "advert-info-#{dom_id(issue)}"}
                           = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
                 - if issue.organized_by? current_user
                   %span.parti-organizer-button
