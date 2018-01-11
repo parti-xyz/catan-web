@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
     result = stored_location(group) || '/'
     result = URI.join(root_url(subdomain: group.subdomain), result).to_s if group.present?
 
-    if is_mobile_app?(request)
+    if is_mobile_app_get_request?(request)
       mobile_app_setup_sessions_path(after_sign_in_path: result)
     else
       result
@@ -59,11 +59,7 @@ class ApplicationController < ActionController::Base
     result = super
     result = root_url(subdomain: params['group_slug']) if params['group_slug'].present?
 
-    if is_mobile_app?(request)
-      mobile_app_teardown_sessions_path(after_sign_out_path: result)
-    else
-      result
-    end
+    after_sign_out_path(after_sign_out_path: result)
   end
 
   helper_method :current_group

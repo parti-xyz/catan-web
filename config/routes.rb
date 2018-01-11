@@ -1,4 +1,5 @@
 include GroupHelper
+include MobileAppHelper
 
 Rails.application.routes.draw do
   class IndieGroupRouteConstraint
@@ -17,6 +18,13 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks',
     passwords: 'users/passwords',
     sessions: 'users/sessions'
+  }
+  get 'after_sign_out', to: redirect { |path_params, request|
+    if is_mobile_app_get_request?(request)
+      Rails.application.routes.url_helpers.mobile_app_teardown_sessions_path(after_sign_out_path: request.params[:after_sign_out_path])
+    else
+      request.params[:after_sign_out_path]
+    end
   }
 
   ## 그룹
@@ -66,11 +74,11 @@ Rails.application.routes.draw do
   end
 
   # 통합 빠띠
-  get '/p/:slug/', to: redirect { |params, request|
+  get '/p/:slug/', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.indie
     "/p/#{MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug).issue.slug}"
   }, constraints: MergedIssueRouteConstraint.new
-  get '/p/:slug/*path', to: redirect { |params, request|
+  get '/p/:slug/*path', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.indie
     merged_issue = MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug)
     "/p/#{merged_issue.issue.slug}/#{params[:path]}"
