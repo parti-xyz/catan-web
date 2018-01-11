@@ -42,7 +42,7 @@
                 != last_history_text
                 %span.date= date_f(@post.wiki.latest_history.created_at)
           - if can? :update, @post.wiki
-            = form_for @post, url: wiki_post_path(@post), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
+            = form_for @post, url: smart_wiki_url(@post.wiki), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
               - controls = capture do
                 - if @post.wiki.activate?
                   = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
