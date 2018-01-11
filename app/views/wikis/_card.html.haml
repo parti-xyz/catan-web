@@ -16,15 +16,14 @@
       != text
       %span.date= date_f(post.wiki.latest_history.created_at)
 
-  = link_to wiki_post_path(post), target: '_blank' do
-    .wiki-line-body
-      %h4.wiki-title= post.wiki.title
-      .wiki-body
-        - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
-          = image_tag post.wiki.thumbnail.lg.url
-      .shadow
-      .wiki-button
-        = link_to (post.issue.postable?(current_user) ? '편집' : '읽기'), [:wiki, post], class: 'btn btn-xs btn-primary btn-primary-light btn-force', style: 'border-radius: 4px'
+  .wiki-line-body{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post), 'data-link-target': '_blank' }
+    %h4.wiki-title= post.wiki.title
+    .wiki-body
+      - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
+        = image_tag post.wiki.thumbnail.lg.url
+    .shadow
+    .wiki-button
+      = link_to (post.issue.postable?(current_user) ? '편집' : '읽기'), [:wiki, post], class: 'btn btn-xs btn-primary btn-primary-light btn-force', style: 'border-radius: 4px'
   .wiki-authors.tooltip-no-wrap
     작성
     - post.wiki.authors.each do |user|

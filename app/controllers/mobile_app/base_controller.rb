@@ -6,7 +6,6 @@ class MobileApp::BaseController < ApplicationController
 
   def should_be_mobile_app
     unless is_mobile_app?(request)
-      abort('test')
       redirect_to root_url and return
     end
   end
