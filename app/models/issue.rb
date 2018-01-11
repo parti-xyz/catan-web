@@ -380,10 +380,6 @@ class Issue < ActiveRecord::Base
     true
   end
 
-  def of_public_group?
-    return true if group.indie? or !group.private
-  end
-
   private
 
   def downcase_slug

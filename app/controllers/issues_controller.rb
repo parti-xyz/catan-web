@@ -216,6 +216,10 @@ class IssuesController < ApplicationController
     end
   end
 
+  def new_admit_members
+    
+  end
+
   private
 
   def group_issues(group, category_slug = nil)

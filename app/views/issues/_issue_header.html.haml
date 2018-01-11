@@ -50,12 +50,12 @@
               .parti-body
                 = issue.body
               .parti-buttons
-                - if issue.of_public_group?
+                - if !issue.group.private? and can?(:new_admit_members, issue)
                   %span.parti-admin-buttons
-                    = link_to '#', class: 'btn btn-xs btn-ghost' do
+                    = link_to new_admit_members_issue_path(issue), class: 'btn btn-xs btn-ghost' do
                       %i.fa.fa-user-plus
                       빠띠 초대하기
-                - if !issue.private and issue.of_public_group?
+                - if !issue.private and !issue.group.private?
                   %span.parti-admin-buttons
                     %div.btn.btn-xs.btn-ghost{"data-url": "#advert-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
                       %i.fa.fa-bullhorn
@@ -112,4 +112,3 @@
 
 - if !local_assigns[:simple]
   = render 'issues/bottom_banner'
-
