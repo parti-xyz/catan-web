@@ -78,7 +78,7 @@ class IssuesController < ApplicationController
       issue_posts = @issue.posts.order(last_stroked_at: :desc)
       issue_posts = issue_posts.search(@search_q) if @search_q.present?
 
-      limit_count = ( @previous_last_post.blank? ? 5 : 25 )
+      limit_count = ( @previous_last_post.blank? ? 10 : 20 )
       @posts = issue_posts.limit(limit_count).previous_of_post(@previous_last_post)
 
       current_last_post = @posts.last

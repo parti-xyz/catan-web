@@ -16,7 +16,7 @@ class DashboardController < ApplicationController
       watched_posts = watched_posts.order(last_stroked_at: :desc)
       watched_posts = watched_posts.search(@search_q) if @search_q.present?
 
-      limit_count = (@previous_last_post.blank? ? 5 : 25)
+      limit_count = (@previous_last_post.blank? ? 10 : 20)
       @posts = watched_posts.limit(limit_count).previous_of_post(@previous_last_post)
 
       current_last_post = @posts.last
