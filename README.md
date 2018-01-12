@@ -284,3 +284,12 @@ doorkeeper에 등록된 어플리케이션 중에 테스트할 어플리케이�
 ```
 export MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android=키값
 ```
+
+## 트러블슈팅
+
+### 웹 주소가 바뀌고 난 뒤에 에디터가 말썽일 경우
+
+아래 명령을 수행합니다. https://github.com/spohlenz/tinymce-rails/pull/182
+```
+$ rake tmp:cache:clear
+```
