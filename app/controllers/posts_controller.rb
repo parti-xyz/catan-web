@@ -63,12 +63,20 @@ class PostsController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
     render_404 and return if @post.wiki.blank?
 
+    if @post.wiki.updated_at.to_i != params[:updated_at_timestamp].try(:to_i)
+      @post.wiki.conflicted_body = @post.wiki.body
+    end
+
     @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
     if @post.wiki.changed?
       @post.wiki.format_body
       @post.strok_by(current_user)
       @post.wiki.last_author = @current_user
-      if @post.save
+
+      if @post.wiki.conflicted_body.present?
+        flash[:error] = I18n.t('activerecord.successful.messages.conflicted_wiki')
+        render :wiki
+      elsif @post.save
         @post.issue.strok_by!(current_user, @post)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
         redirect_to params[:back_url].presence || smart_wiki_url(@post.wiki)

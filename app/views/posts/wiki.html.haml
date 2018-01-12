@@ -15,7 +15,7 @@
                 을 기다려주세요.
     - else
       .row
-        .col-xs-12.col-sm-8
+        .col-xs-12.col-sm-8{ class: ('col-lg-12' if @post.wiki.conflict?) }
           - dropdown_dom_id = "#{dom_id(@post)}__chevron-buttons"
           - chevron_dropdown = capture do
             .post-card__buttons
@@ -35,36 +35,29 @@
               - else
                 != @post.wiki.body
 
-          - if @post.wiki.wiki_histories.any?
+          - if @post.wiki.wiki_histories.any? and !@post.wiki.conflict?
             - last_history_text = @post.wiki.latest_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
             - if last_history_text.present?
               .post-card__last-stroked
                 != last_history_text
                 %span.date= date_f(@post.wiki.latest_history.created_at)
           - if can? :update, @post.wiki
-            = form_for @post, url: smart_wiki_url(@post.wiki), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
-              - controls = capture do
-                - if @post.wiki.activate?
-                  = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
-                = chevron_dropdown
-              - if @post.wiki.body.length > 2000
-                .submit-box{ style: 'margin-bottom: 20px' }
-                  = controls
-              - if @post.wiki.activate?
-                =  render 'posts/wiki_form', f: f
-              - else
-                .row
-                  .col-xs-12
+            - unless @post.wiki.conflict?
+              = render 'wikis/form', post: @post, chevron_dropdown: chevron_dropdown
+            - else
+              .row
+                .col-sm-12.col-lg-6
+                  .post-card__last-stroked
+                    %stong 방금 내가 고치던 내용입니다. 아직 저장 전입니다.
+                  = render 'wikis/form', post: @post, chevron_dropdown: chevron_dropdown
+                .col-sm-12.col-lg-6
+                  %hr.hidden-lg
+                  .post-card__last-stroked
+                    %stong @#{user_subject_word(@post.wiki.last_history.user)} 고친 내용입니다.
+                    %span.date= date_f(@post.wiki.latest_history.created_at)
+                  .wik-content.wiki-content--read-only
                     = read_only_wiki_content
-              .submit-box.clearfix{ style: 'margin-top: 12px' }
-                = controls
-              %hr.wiki-authors-hr
-              .clearfix
-                .wiki-authors.tooltip-no-wrap
-                  작성
-                  - @post.wiki.authors.each do |user|
-                    = link_to smart_user_gallery_path(user) do
-                      .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
+                  %hr.hidden-lg
           - else
             .wik-content.wiki-content--read-only
               = read_only_wiki_content
@@ -97,4 +90,5 @@
               .post-reaction{class: "#{dom_id(@post)}-post-reaction"}
                 = render 'posts/comments', local_assigns.merge(post: @post)
         - unless is_small_screen?
-          = render 'issues/aside'
+          .col-sm-4{ class: ('hidden-xs visible-block-md hidden-lg' if @post.wiki.conflict?) }
+            = render 'issues/aside'

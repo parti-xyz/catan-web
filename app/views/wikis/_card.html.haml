@@ -16,7 +16,7 @@
       != text
       %span.date= date_f(post.wiki.latest_history.created_at)
 
-  .wiki-line-body{ 'data-action': 'parti-link', 'data-url': smart_wiki_url(post.wiki), 'data-link-target': '_blank' }
+  .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_wiki_url(post.wiki), 'data-link-target': '_blank' }
     %h4.wiki-title= post.wiki.title
     .wiki-body
       - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?

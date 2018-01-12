@@ -46,7 +46,7 @@ class Wiki < ActiveRecord::Base
   # fulltext serch
   after_save :reindex_for_search!
 
-  attr_accessor :skip_capture, :skip_history, :reserved_capture
+  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_body
 
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
@@ -144,6 +144,10 @@ class Wiki < ActiveRecord::Base
     @last_history ||= wiki_histories.order(created_at: :desc).first
   end
 
+  def conflict?
+    conflicted_body.present?
+  end
+
   def activate?
     'active' == status
   end
@@ -177,6 +181,3 @@ class Wiki < ActiveRecord::Base
     post.try(:reindex_for_search!)
   end
 end
-
-
-

@@ -173,9 +173,7 @@ section#wiki-histories {
   .wiki-content {
     &--read-only {
       background-color: #fff;
-      @media (max-width: $screen-xs-max) {
-        border-radius: 0;
-      }
+      border-radius: $border-radius-base;
       padding: 20px;
     }
   }

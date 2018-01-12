@@ -1,4 +1,6 @@
 = hidden_field_tag :back_url, @list_url || request.original_url
+- if f.object.wiki.present?
+  = hidden_field_tag :updated_at_timestamp, f.object.wiki.updated_at.to_i
 = f.hidden_field :has_poll, value: false
 = f.hidden_field :has_survey, value: false
 .row
