@@ -90,5 +90,4 @@
               .post-reaction{class: "#{dom_id(@post)}-post-reaction"}
                 = render 'posts/comments', local_assigns.merge(post: @post)
         - unless is_small_screen?
-          .col-sm-4{ class: ('hidden-xs visible-block-md hidden-lg' if @post.wiki.conflict?) }
-            = render 'issues/aside'
+          = render 'issues/aside', wrapper_class: "col-sm-4 #{'hidden-xs visible-block-md hidden-lg' if @post.wiki.conflict?}"
