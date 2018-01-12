@@ -8,7 +8,7 @@ class Ability
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new], Issue
     can [:images, :more_comments, :wiki], Post
     if user
-      can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members], Issue do |issue|
+      can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
         user.is_organizer?(issue)
       end
       can [:create, :new_intro, :search_by_tags], [Issue]

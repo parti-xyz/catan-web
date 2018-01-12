@@ -144,6 +144,7 @@ ko:
     successful:
       messages:
         created: 저장되었습니다.
+        invited: 성공적으로 초대했습니다.
     errors:
       messages:
         record_invalid: "오류가 있습니다: %{errors}"

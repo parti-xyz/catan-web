@@ -77,6 +77,7 @@ class Issue < ActiveRecord::Base
 
   SLUG_OF_PARTI_PARTI = 'parti'
 
+  include Invitable
   # relations
   belongs_to :last_stroked_user, class_name: User
   has_many :merged_issues, dependent: :destroy
@@ -101,6 +102,7 @@ class Issue < ActiveRecord::Base
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :blind_users, through: :blinds, source: :user
   has_many :messages, as: :messagable, dependent: :destroy
+  has_many :invitations, as: :joinable, dependent: :destroy
   belongs_to :destroyer, class_name: User
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug
 
