@@ -1,10 +1,9 @@
-.post-card__post.clearfix{ id: pinned_post_dom_id(post), class: ('js-posts-pinned-and-read collapse' if local_assigns[:collapse]) }
+.post-card__post.clearfix.cursor-pointer{ id: pinned_post_dom_id(post), class: "#{('js-posts-pinned-and-read collapse' if local_assigns[:collapse])} #{'unread' unless post.read_by?(current_user)}", 'data-action': "parti-link", 'data-url': smart_post_url(post) }
   .read-mark.js-read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
-    &middot;
   .desc
-    .issue-meta
-      - if local_assigns[:show_issue]
-        = link_to post.issue do
+    - if local_assigns[:show_issue]
+      .issue-meta.issue-meta-header{ class: ('issue-meta-pinnable' if can?(:pin, post)) }
+        = link_to smart_issue_home_url(post.issue) do
           %span.issue-and-group
             %span.issue-title
               = post.issue.title
@@ -14,41 +13,49 @@
               %span.issue-group
                 = post.issue.group.title_basic_format
                 = security_icon(post.issue.group)
-      = link_to post do
+
+    .body<>
+      = link_to smart_post_url(post) do
+        = post.specific_desc_striped_tags(120)
+
+    .issue-meta.issue-meta-footer
+      = link_to "@#{post.user.nickname}", post.user
+      &middot;
+      = link_to smart_post_url(post) do
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
 
       - if can? :pin, post
-        - if post.pinned_at < 1.week.ago
-          - action_label = capture do
-            %span.label.unpin-label.action-label
-              공지내림
-          = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: action_label }, class: post_pin_buttons_dom_class(post) do
-            = action_label
-      - elsif user_signed_in? and post.issue.member?(current_user) and !post.read_by?(current_user)
         - action_label = capture do
-          %span.label.read-label.action-label.js-read-action-label
-            확인완료
-        = link_to [:read, post], method: :put, remote: true, data: { disable_with: action_label }, class: post_pin_buttons_dom_class(post) do
-          = action_label
-    = link_to post do
-      = post.specific_desc_striped_tags(120)
-  - chevron_dropdown = capture do
+          %span.action-btn{ class: ('action-btn-fixed' if post.careful_pin_by?(current_user)) }
+            &middot;
+            = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '처리 중...', confirm: '이 공지를 내리시겠습니까?' }, class: "#{post_pin_buttons_dom_class(post)} btn btn-danger btn-xs" do
+              공지를 내립니다
+        = action_label
+      - if !post.read_by?(current_user) and !post.private_blocked?(current_user)
+        - action_label = capture do
+          %span.action-btn.js-read-action-btn
+            &middot;
+            = link_to [:read, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{post_pin_buttons_dom_class(post)} btn btn-default btn-xs" do
+              확인 상태로 표시합니다
+        = action_label
+
+  - pin_buttons = capture do
+    - dropdown_dom_id = "#{dom_id(post)}__pinned_chevron-buttons"
     - if can? :pin, post
-      %li
-        = render 'posts/pin_buttons', post: post
-      - if post.pinned?
-        %li
-          = link_to [:readers, post], target: '_blank' do
-            확인한 가입멤버 보기 (#{post.readers_count})
-        %li
-          = link_to [:unreaders, post], target: '_blank' do
-            확인하지 않은 가입멤버 보기
-  - dropdown_dom_id = "#{dom_id(post)}__pinned_chevron-buttons"
-  - if chevron_dropdown.try(:strip).present?
-    .pin-buttons
       %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
         %i.fa.fa-chevron-down
       %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-        = chevron_dropdown
+        %li
+          = render 'posts/pin_buttons', post: post
+        - if post.pinned?
+          %li
+            = link_to [:readers, post], target: '_blank' do
+              확인한 가입멤버 보기 (#{post.readers_count})
+          %li
+            = link_to [:unreaders, post], target: '_blank' do
+              확인하지 않은 가입멤버 보기
 
+  - if pin_buttons.try(:strip).present?
+    .pin-buttons
+      = pin_buttons

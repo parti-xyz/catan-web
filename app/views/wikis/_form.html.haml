@@ -1,7 +1,7 @@
 = form_for post, url: smart_wiki_url(post.wiki), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
   - controls = capture do
     - if post.wiki.activate?
-      = f.submit '저장', class: 'btn btn-primary btn-ghost', data: { disable_with: "저장 중..." }
+      = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
     = chevron_dropdown
   - if post.wiki.body.length > 2000
     .submit-box{ style: 'margin-bottom: 20px' }

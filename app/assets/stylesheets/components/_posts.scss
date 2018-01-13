@@ -269,33 +269,50 @@ section#posts {
       position: relative;
 
       .issue-meta {
-        color: $brand-primary;
         display: block;
-        max-width: 90%;
+        &-pinnable {
+          max-width: 90%;
+        }
+        a {
+          color: $gray;
+        }
+        &-header {
+          margin-bottom: 4px;
+        }
       }
       .show-all {
         color: $gray-light;
         cursor: pointer;
+        .collapsed_but_unread_posts_count {
+          color: $brand-primary;
+          font-weight: bold;
+        }
       }
       .desc {
         margin-bottom: 0;
         margin-left: 12px;
+        .body {
+          a {
+            color: $text-color;
+          }
+        }
       }
       .read-mark {
-        float: left;
-        font-weight: 900;
-        font-size: 2em;
-        line-height: 0.8em;
+        font-size: 18px;
+        line-height: 18px;
+        position: absolute;
         color: $brand-primary;
         &--read {
-          color: $gray-lighter;
+          color: $gray-light;
         }
+        display: list-item;
+        list-style-type: disc;
+        list-style-position: inside;
       }
       .date {
         color: $gray;
       }
       .issue-and-group {
-        margin-right: 6px;
         color: $gray;
       }
       .pin-buttons {
@@ -306,28 +323,43 @@ section#posts {
           color: $gray-light;
         }
       }
-      .action-label{
-        font-weight: 400;
-        padding-bottom: 0.1em;
-        vertical-align: middle;
-      }
-      .unpin-label{
-        opacity: 0.8;
-        background-color: $brand-danger;
-        &:hover{
-          opacity: 1;
-        }
-      }
-      .read-label{
-        background-color: $brand-primary;
-        opacity: 0.8;
-        &:hover{
-          opacity: 1;
-        }
-      }
     }
     .post-card__post + .post-card__post {
       border-top: 1px solid $gray-lightest;
+    }
+    .post-card__post.unread + .post-card__post,
+    .post-card__post + .post-card__post.unread,
+    .post-card__post.unread + .post-card__post.unread {
+      border-color: $gray-lighter;
+    }
+    .post-card__post {
+      .action-btn {
+        color: #777777;
+        font-size: 14px;
+        display: none;
+        &-fixed {
+          display: inline-block;
+        }
+        .btn {
+          line-height: 12px;
+          font-size: 10px;
+          &-danger {
+            color: white;
+          }
+        }
+      }
+    }
+    .post-card__post.unread {
+      background-color: lighten($brand-primary-lighter, 3%)
+    }
+    .post-card__post:hover {
+      background-color: $gray-more-lightest;
+      &.unread {
+        background-color: $brand-primary-lighter;
+      }
+      .action-btn {
+        display: inline-block;
+      }
     }
   }
 }

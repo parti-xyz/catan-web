@@ -432,6 +432,14 @@ class Post < ActiveRecord::Base
     MessageService.new(self, sender: someone, action: :pinned).call()
   end
 
+  def careful_pin_by?(someone)
+    return false if someone.blank?
+    return false if pinned_at.blank?
+    return false unless issue.organized_by?(someone)
+
+    pinned_at < 1.week.ago
+  end
+
   def strok_by(someone, subject = nil)
     self.last_stroked_at = DateTime.now
     self.last_stroked_user = someone || self.user

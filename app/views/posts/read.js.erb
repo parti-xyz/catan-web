@@ -1,7 +1,8 @@
 setTimeout(function() {
 var $item = $("<%= pinned_post_dom_selector(@post) %>");
 $item.find('.js-read-mark').addClass('read-mark--read')
-$item.find('.js-read-action-label').remove();
+$item.find('.js-read-action-btn').remove();
+$item.removeClass('unread')
 
 UnobtrusiveFlash.showFlashMessage("<%= t('views.read') %>", {type: 'notice'});
 }, 100);
