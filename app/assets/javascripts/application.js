@@ -765,6 +765,8 @@ $(function(){
 
     if($.is_present($(this).data('link-target'))) {
       window.open(url, $(this).data('link-target'));
+    } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      window.open(url, '_blank');
     } else {
       window.location.href  = url;
     }
