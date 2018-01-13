@@ -89,6 +89,9 @@
           - if recent_polls_and_surveys.empty?
             - recent_polls_and_surveys = @polls_and_surveys.to_a.reject{ |post| post.last_stroked_at < 1.month.ago }
             - recent_polls_and_surveys = recent_polls_and_surveys.sample(2)
+          - if recent_polls_and_surveys.count == 1
+            - recent_polls_and_surveys << @polls_and_surveys.where.not(id: recent_polls_and_surveys).first
+
           - if recent_polls_and_surveys.any?
             %section{style:"margin-top:20px;"}
               = link_to polls_or_surveys_path do
