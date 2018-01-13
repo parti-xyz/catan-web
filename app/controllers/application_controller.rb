@@ -78,6 +78,8 @@ class ApplicationController < ActionController::Base
       (controller_name == 'sessions') or
       (controller_name == 'users' and action_name == 'pre_sign_up') or
       (controller_name == 'users' and action_name == 'email_sign_in') or
+      (controller_name == 'users' and action_name == 'valid_email') or
+      (controller_name == 'users' and action_name == 'invalid_email') or
       (controller_name == 'passwords') or
       (controller_name == 'members' and action_name == 'magic_join') or
       (controller_name == 'members' and action_name == 'magic_form') or
