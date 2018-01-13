@@ -958,16 +958,23 @@ body.app-issues-new, .bs-component{
   top: 35%;
   cursor: pointer;
   z-index: 99;
+
+  .fa-stack {
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    vertical-align: initial;
+  }
 }
 .slick-custom-prev{
-  left: -40px;
+  left: -10px;
   @media (max-width: $screen-xs-max){
-    left: -30px;
+    left: -5px;
   }
 }
 .slick-custom-next{
-  right: 10px;
+  right: -5px;
   @media (max-width: $screen-xs-max){
-    right: 20px;
+    right: -5px;
   }
 }

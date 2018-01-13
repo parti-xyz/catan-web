@@ -90,9 +90,9 @@
             - recent_polls_and_surveys = recent_polls_and_surveys.sample(2)
           - if recent_polls_and_surveys.count == 1
             - recent_polls_and_surveys << @polls_and_surveys.where.not(id: recent_polls_and_surveys).first
-
+            - recent_polls_and_surveys.compact!
           - if recent_polls_and_surveys.any?
-            %section{style:"margin-top:20px;"}
+            %section{ style:"margin-top:20px;" }
               = link_to polls_or_surveys_path do
                 %h4.group-heading
                   진행 중인 토론
@@ -102,17 +102,17 @@
               .row.masonry-container
                 = render 'polls_or_surveys/page', posts: recent_polls_and_surveys, sm_columns_count: 2, compact: true, show_last_stroked_for: true, latest_stroked_valid_time: 1_000_000.years.ago
 
-          %section.hidden-sm.visible-xs-block{style:"margin-top:20px; padding-bottom: 10px;"}
+          %section.hidden-sm.visible-xs-block{style:"margin-top:20px; padding-bottom: 20px;"}
+            = link_to issues_path do
+              %h4.group-heading
+                빠띠
+                %small
+                  모두 보기
+                  %i.fa.fa-angle-double-right
             .row
               .col-sm-12.col-md-12
                 %section#parties-all
                   .parties-all
-                    = link_to issues_path do
-                      %h4.group-heading
-                        빠띠
-                        %small
-                          모두 보기
-                          %i.fa.fa-angle-double-right
                     .parties-all-list
                       .row.slick-slider
                         - @issues.each do |issue|
@@ -121,7 +121,7 @@
                               = render 'issues/card', issue: issue
 
           - if user_signed_in? and current_group.member?(current_user)
-            %section#posts
+            %section#posts{style:"margin-top:20px; padding-bottom: 10px;"}
               %h4.group-heading
                 내 #{current_group.title_basic_format} 피드
 
