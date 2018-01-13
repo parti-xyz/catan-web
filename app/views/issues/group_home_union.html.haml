@@ -122,6 +122,10 @@
             %section#posts
               %h4.group-heading
                 내 #{current_group.title_basic_format} 피드
+
+              - if params[:q].blank?
+                = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(last_time: DateTime.now.to_i)
+
               .posts.posts-home{data: {last_id: -1, is_last: 'false'}}
                 #no-data.text-center.alert{ style: 'display: none;' }
                   %i.fa.fa-info-circle
