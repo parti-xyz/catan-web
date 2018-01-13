@@ -283,7 +283,7 @@ section#posts {
       .show-all {
         color: $gray-light;
         cursor: pointer;
-        .collapsed_but_unread_posts_count {
+        .collapsed-and-need-to-read-posts-count {
           color: $brand-primary;
           font-weight: bold;
         }
@@ -301,9 +301,9 @@ section#posts {
         font-size: 18px;
         line-height: 18px;
         position: absolute;
-        color: $brand-primary;
-        &--read {
-          color: $gray-light;
+        color: $gray-light;
+        &--need-to-read {
+          color: $brand-primary;
         }
         display: list-item;
         list-style-type: disc;
@@ -327,14 +327,14 @@ section#posts {
     .post-card__post + .post-card__post {
       border-top: 1px solid $gray-lightest;
     }
-    .post-card__post.unread + .post-card__post,
-    .post-card__post + .post-card__post.unread,
-    .post-card__post.unread + .post-card__post.unread {
+    .post-card__post.need-to-read + .post-card__post,
+    .post-card__post + .post-card__post.need-to-read,
+    .post-card__post.need-to-read + .post-card__post.need-to-read {
       border-color: $gray-lighter;
     }
     .post-card__post {
       .action-btn {
-        color: #777777;
+        color: $gray;
         font-size: 14px;
         display: none;
         &-fixed {
@@ -349,12 +349,12 @@ section#posts {
         }
       }
     }
-    .post-card__post.unread {
-      background-color: lighten($brand-primary-lighter, 3%)
+    .post-card__post.need-to-read {
+      background-color: mix(white, $brand-primary-lighter, 50%);
     }
     .post-card__post:hover {
       background-color: $gray-more-lightest;
-      &.unread {
+      &.need-to-read {
         background-color: $brand-primary-lighter;
       }
       .action-btn {

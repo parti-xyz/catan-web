@@ -426,6 +426,14 @@ class Post < ActiveRecord::Base
     readers.includes(:member).exists?('members.user_id': someone)
   end
 
+  def can_be_reader?(someone)
+    issue.member? someone
+  end
+
+  def need_to_read?(someone)
+    can_be_reader?(someone) and !read_by?(someone)
+  end
+
   def notifiy_pinned_now(someone)
     # Transaction을 걸지 않습니다
     send_notifiy_pinned_emails(someone)

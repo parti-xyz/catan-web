@@ -70,8 +70,7 @@
               .post-card.summary
                 - @recent_posts.each do |post|
                   .post-card__post
-                    .read-mark{ class: ('read-mark--read' if post.read_by?(current_user)) }
-                      &middot;
+                    .read-mark
                     .desc
                       .issue-meta
                         %span.issue-and-group
@@ -111,4 +110,3 @@
                       .col-xs-6.col-sm-4.col-md-4.col-lg-3
                         .issue-card-wrapper
                           = render 'issues/card', issue: issue
-
