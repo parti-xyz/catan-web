@@ -1,5 +1,6 @@
 setTimeout(function() {
-$("<%= post_pin_buttons_dom_selector(@post) %>").html("<%= j render('posts/pin_buttons', post: @post) %>");
-$("<%= pinned_post_dom_selector(@post) %>").remove();
+$("<%= switchable_post_pin_buttons_dom_selector(@post) %>").replaceWith("<%= j render('posts/pin_buttons', post: @post) %>");
+$("<%= post_pin_button_dom_selector(@post) %>").remove()
+$("<%= pinned_post_dom_selector(@post) %>").fadeOut();
 UnobtrusiveFlash.showFlashMessage("<%= t('views.unpin') %>", {type: 'notice'});
 }, 100);

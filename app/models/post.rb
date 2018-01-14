@@ -427,7 +427,7 @@ class Post < ActiveRecord::Base
   end
 
   def can_be_reader?(someone)
-    issue.member? someone
+    issue.member?(someone) and !private_blocked?(someone)
   end
 
   def need_to_read?(someone)

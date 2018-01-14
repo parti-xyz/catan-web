@@ -75,12 +75,20 @@ module DomHelper
     ".survey-options.#{survey_options_dom_class(post)}"
   end
 
-  def post_pin_buttons_dom_class(post)
-    "#{dom_id(post)}-pin-buttons"
+  def switchable_post_pin_buttons_dom_class(post)
+    "#{dom_id(post)}-switchable-pin-buttons"
   end
 
-  def post_pin_buttons_dom_selector(post)
-    ".#{post_pin_buttons_dom_class(post)}"
+  def switchable_post_pin_buttons_dom_selector(post)
+    ".#{switchable_post_pin_buttons_dom_class(post)}"
+  end
+
+  def post_pin_button_dom_class(post)
+    "#{dom_id(post)}-pin-button"
+  end
+
+  def post_pin_button_dom_selector(post)
+    ".#{post_pin_button_dom_class(post)}"
   end
 
   def user_chevron_dom_id(user)
@@ -93,5 +101,13 @@ module DomHelper
 
   def pinned_post_dom_id(post)
     "#{dom_id(post)}--list-pinned"
+  end
+
+  def read_button_dom_selector(post)
+    ".#{read_button_dom_class(post)}"
+  end
+
+  def read_button_dom_class(post)
+    "#{dom_id(post)}-read-button"
   end
 end

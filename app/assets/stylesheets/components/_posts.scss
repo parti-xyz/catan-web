@@ -275,7 +275,13 @@ section.posts-page {
         }
         a {
           color: $gray;
-        }
+          &.primary {
+            color: $brand-primary;
+          }
+          &.secondary {
+            color: $brand-danger;
+          }
+       }
         &-header {
           margin-bottom: 4px;
         }
