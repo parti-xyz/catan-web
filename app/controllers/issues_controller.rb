@@ -15,9 +15,7 @@ class IssuesController < ApplicationController
       @polls_and_surveys = Post.having_poll.or(Post.having_survey).not_private_blocked_of_group(current_group, current_user)
       @polls_and_surveys = @polls_and_surveys.order_by_stroked_at.limit(7)
       @recent_posts = Post.not_in_dashboard_of_group(current_group, current_user).order_by_stroked_at.limit(4)
-      if %w(youthpolicynet).include? current_group.slug
-        render 'group_home'
-      elsif %w(youthmango).include? current_group.slug
+      if %w(youthmango).include? current_group.slug
         render 'group_home_parties_first'
       else
         render 'group_home_union'
