@@ -133,7 +133,7 @@ namespace :data do
         title: '빠띠 오거나이저 커뮤니티',
         site_title: '커뮤니티를 만들고 돌보는 - 빠띠 오거나이저 커뮤니티',
         site_description: "빠띠 오거나이저이신가요? 여기서 ‘빠띠 오거나이징 하는 법’에 대해 같이 이야기해보아요! 빠띠를 통해 조직, 커뮤니티를 더 민주적으로 만들어나가는 오거나이저들의 커뮤니티입니다.",
-        head_title: '빠-오',
+        head_title: '오거나이저',
         private: false)
 
       seed_group(user, 'youthmango', ['하늬커'],
@@ -147,7 +147,7 @@ namespace :data do
         title: '양명고등학교 공감혁신부',
         site_title: '우리부터 시작되는 체인지메이킹 - 양명고등학교 공감혁신부',
         site_description: "저희는 나로부터 시작되는 사회적 이슈를 발견, 해결해나가는 체인지메이커 팀들의 동아리입니다. 저희는 비영리법인 유스망고, 사단법인 아쇼카 한국과 함께 하고 있습니다.",
-        head_title: '양명고',
+        head_title: '공감혁신부',
         private: false)
 
       seed_group(user, 'cairos', ['현준, 갱'],
