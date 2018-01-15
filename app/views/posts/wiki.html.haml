@@ -33,7 +33,7 @@
               - if @post.wiki.purged?
                 .text-muted 삭제되었습니다
               - else
-                != @post.wiki.body
+                != (@post.wiki.conflicted_body || @post.wiki.body)
 
           - if @post.wiki.wiki_histories.any? and !@post.wiki.conflict?
             - last_history_text = @post.wiki.latest_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
@@ -48,13 +48,13 @@
               .row
                 .col-sm-12.col-lg-6
                   .post-card__last-stroked
-                    %stong 방금 내가 고치던 내용입니다. 아직 저장 전입니다.
+                    %stong @#{user_subject_word(@post.wiki.last_history.user)} 고친 내용입니다.
+                    %span.date= date_f(@post.wiki.latest_history.created_at)
                   = render 'wikis/form', post: @post, chevron_dropdown: chevron_dropdown
                 .col-sm-12.col-lg-6
                   %hr.hidden-lg
                   .post-card__last-stroked
-                    %stong @#{user_subject_word(@post.wiki.last_history.user)} 고친 내용입니다.
-                    %span.date= date_f(@post.wiki.latest_history.created_at)
+                    %stong 방금 내가 고치던 내용입니다. 아직 저장 전입니다.
                   .wik-content.wiki-content--read-only
                     = read_only_wiki_content
                   %hr.hidden-lg

@@ -62,10 +62,7 @@ class PostsController < ApplicationController
   def update_wiki
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
     render_404 and return if @post.wiki.blank?
-
-    if @post.wiki.updated_at.to_i != params[:updated_at_timestamp].try(:to_i)
-      @post.wiki.conflicted_body = @post.wiki.body
-    end
+    conflict = @post.wiki.wiki_histories.last.try(:id) != params[:last_wiki_history_id].try(:to_i)
 
     @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
     if @post.wiki.changed?
@@ -73,7 +70,9 @@ class PostsController < ApplicationController
       @post.strok_by(current_user)
       @post.wiki.last_author = @current_user
 
-      if @post.wiki.conflicted_body.present?
+      if conflict
+        @post.wiki.conflicted_body = @post.wiki.body
+        @post.wiki.body = @post.wiki.body_was
         flash[:error] = I18n.t('activerecord.successful.messages.conflicted_wiki')
         render :wiki
       elsif @post.save
