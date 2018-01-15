@@ -3,10 +3,10 @@ class MemberIssueService
   attr_accessor :issue
   attr_accessor :user
 
-  def initialize(issue:, user:, is_auto: false, is_force_default: false, organizer_user: nil)
+  def initialize(issue:, user:, need_to_message_organizer: true, is_force_default: false, organizer_user: nil)
     @issue = issue
     @user = user
-    @is_auto = is_auto
+    @need_to_message_organizer = need_to_message_organizer
     @is_force_default = is_force_default
     @organizer_user = organizer_user
   end
@@ -27,7 +27,7 @@ class MemberIssueService
         MemberGroupService.new(group: @issue.group, user: @user).call
       end
     end
-    if @member.persisted? and !@is_auto
+    if @member.persisted? and @need_to_message_organizer
       MessageService.new(@member).call
       MemberMailer.deliver_all_later_on_create(@member)
     end

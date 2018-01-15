@@ -268,8 +268,14 @@ class User < ActiveRecord::Base
     ActiveRecord::Base.transaction do
       invitations = Invitation.where(recipient_email: self.email)
       invitations.each do |invitation|
-        member = MemberGroupService.new(group: invitation.joinable, user: self).call
-        if member.persisted?
+        if invitation.joinable_type == 'Issue'
+          member = MemberIssueService.new(issue: invitation.joinable, user: self).call
+        elsif invitation.joinable_type == 'Group'
+          member = MemberGroupService.new(group: invitation.joinable, user: self).call
+        else
+          member = nil
+        end
+        if member.try(:persisted?)
           MessageService.new(member, sender: invitation.user, action: :admit).call
         end
       end
