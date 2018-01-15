@@ -33,12 +33,11 @@
         .caption-images-no-icon{ style: 'height: 50px' }
     - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
       .caption-file
-        .title.title--file-source.clearfix
-          = link_to file_source.url, target: '_blank' do
-            .file-icon
-              = (File.extname(file_source.name) || "FILE").gsub(".", "").upcase
-            .file-name
-              = truncate(file_source.name, length: 100)
+        .title.title--file-source.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
+          .file-icon
+            = (File.extname(file_source.name) || "FILE").gsub(".", "").upcase
+          .file-name
+            = truncate(file_source.name, length: 100)
     .caption
       .body
         %p

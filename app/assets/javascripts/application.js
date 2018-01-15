@@ -33,6 +33,7 @@
 //= require tinymce-jquery
 //= require Chart.bundle
 //= require chartkick
+//= require mobile_app
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
@@ -769,6 +770,30 @@ $(function(){
       window.open(url, '_blank');
     } else {
       window.location.href  = url;
+    }
+  });
+
+  $(document).on('click', '.js-download', function(e) {
+    var href = $(e.target).closest('a').attr('href')
+    if (href && href != "#") {
+      return true;
+    }
+
+    var $no_parti_link = $(e.target).closest('[data-no-parti-link="no"]')
+    if ($no_parti_link.length) {
+      return true;
+    }
+
+    e.preventDefault();
+    var url = $(e.currentTarget).data("url");
+    var post_id = $(e.currentTarget).data("post-id");
+    var file_source_id = $(e.currentTarget).data("file-source-id");
+    var file_name = $(e.currentTarget).data("file-name");
+
+    if(ufo.isApp()) {
+      ufo.post("download", { post: post_id, file: file_source_id, name: file_name });
+    } else {
+      window.location.href = url;
     }
   });
 
