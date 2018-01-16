@@ -24,16 +24,6 @@
                 %i.fa.fa-chevron-down
               %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
                 = render 'posts/chevron_menu', post: @post
-          - read_only_wiki_content = capture do
-            %h4.wiki-title
-              = @post.wiki.title
-              - if !@post.wiki.status.active?
-                %span.label.label-default= @post.wiki.status_text
-            .wiki-body
-              - if @post.wiki.purged?
-                .text-muted 삭제되었습니다
-              - else
-                != (@post.wiki.conflicted_body || @post.wiki.body)
 
           - if @post.wiki.wiki_histories.any? and !@post.wiki.conflict?
             - last_history_text = @post.wiki.latest_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
@@ -56,11 +46,11 @@
                   .post-card__last-stroked
                     %stong 방금 내가 고치던 내용입니다. 아직 저장 전입니다.
                   .wik-content.wiki-content--read-only
-                    = read_only_wiki_content
+                    = render 'wikis/read_only_wiki_content', wiki: @post.wiki, for_conflict: true
                   %hr.hidden-lg
           - else
             .wik-content.wiki-content--read-only
-              = read_only_wiki_content
+              = render 'wikis/read_only_wiki_content', wiki: @post.wiki
               .clearfix
                 .wiki-authors.tooltip-no-wrap
                   작성

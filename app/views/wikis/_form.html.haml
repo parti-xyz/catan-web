@@ -11,7 +11,7 @@
   - else
     .row
       .col-xs-12
-        = read_only_wiki_content
+        = render 'wikis/read_only_wiki_content', wiki: post.wiki
   .submit-box.clearfix{ style: 'margin-top: 12px' }
     = controls
   %hr.wiki-authors-hr
