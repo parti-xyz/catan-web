@@ -265,12 +265,10 @@ class IssuesController < ApplicationController
       end
 
       if @success
-        # new_members.each do |member|
-        #   # 그룹이 아닌 빠띠에 초대 할 경우 적당한 메일 처리가 안되어 있을 것도 같아서 확인이 필요함
-        #   MemberMailer.on_admit(member.id, current_user.id).deliver_late
-        #   # 그룹이 아닌 빠띠에 초대 할 경우 적당한 메시지 처리가 안되어 있을 것도 같아서 확인이 필요함
-        #   MessageService.new(member, sender: current_user, action: :admit).call
-        # end
+        new_members.each do |member|
+          MemberMailer.on_admit(member.id, current_user.id).deliver_later
+          MessageService.new(member, sender: current_user, action: :admit).call
+        end
         new_invitations.each do |invitation|
           InvitationMailer.invite(invitation.id).deliver_later
         end
