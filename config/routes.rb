@@ -95,6 +95,8 @@ Rails.application.routes.draw do
       delete :remove_logo
       delete :remove_cover
       get :destroy_form
+      get :new_admit_members
+      post :admit_members
     end
     collection do
       get :indies

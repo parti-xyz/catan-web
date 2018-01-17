@@ -15,7 +15,7 @@ class MemberGroupService
       @member = @group.members.create(user: @user, description: @description)
       return if @member.blank?
       (group.default_issues || []).each do |issue|
-        MemberIssueService.new(issue: issue, user: @user, is_auto: true).call
+        MemberIssueService.new(issue: issue, user: @user, need_to_message_organizer: false).call
       end
       member_requests = @group.member_requests.where(user_id: @user.id)
       if member_requests.any?

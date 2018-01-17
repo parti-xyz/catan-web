@@ -5,6 +5,8 @@ class Group < ActiveRecord::Base
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
+  include Invitable
+
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
 
@@ -113,15 +115,6 @@ class Group < ActiveRecord::Base
 
   def out_of_member_users member_users
     member_users.to_a.select { |user| !member?(user) }
-  end
-
-  def invited?(recipient)
-    case recipient
-    when User
-      invitations.exists?(recipient: recipient)
-    else
-      invitations.exists?(recipient_email: recipient)
-    end
   end
 
   def comprehensive_joined_by?(someone)

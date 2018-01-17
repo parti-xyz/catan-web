@@ -97,7 +97,7 @@ class Group::MembersController < GroupBaseController
           current_group.invitations.where(recipient_email: new_members.map(&:user).map(&:email)).destroy_all
           current_group.default_issues.each do |issue|
             new_members.each do |member|
-              MemberIssueService.new(issue: issue, user: member.user, is_auto: true).call
+              MemberIssueService.new(issue: issue, user: member.user, need_to_message_organizer: false).call
             end
           end
           @success = true

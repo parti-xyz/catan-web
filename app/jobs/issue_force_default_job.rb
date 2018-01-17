@@ -9,7 +9,7 @@ class IssueForceDefaultJob
     return if user.blank?
 
     issue.group.members.each do |member|
-      MemberIssueService.new(issue: issue, user: member.user, is_auto: true, is_force_default: true, organizer_user: user).call
+      MemberIssueService.new(issue: issue, user: member.user, need_to_message_organizer: false, is_force_default: true, organizer_user: user).call
     end
   end
 end

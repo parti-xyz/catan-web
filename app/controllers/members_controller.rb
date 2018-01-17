@@ -5,7 +5,7 @@ class MembersController < ApplicationController
 
   def create
     render_404 and return if @issue.private_blocked?(current_user) or @issue.frozen?
-    @member = MemberIssueService.new(issue: @issue, user: current_user, is_auto: false).call
+    @member = MemberIssueService.new(issue: @issue, user: current_user, need_to_message_organizer: true).call
 
     respond_to do |format|
       format.js

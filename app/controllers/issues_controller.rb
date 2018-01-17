@@ -212,6 +212,74 @@ class IssuesController < ApplicationController
     end
   end
 
+  def admit_members
+
+    @not_found_recipient_codes = []
+    @ambiguous_recipient_codes = []
+    @has_error_recipient_codes = false
+    new_members = []
+    new_invitations = []
+
+    params[:recipients].split(/[,\s]+/).map(&:strip).reject(&:blank?).each do |recipient_code|
+      recipient = nil
+      if recipient_code.match /@/
+        recipients = User.where(email: recipient_code)
+        if recipients.count > 1
+          @ambiguous_recipient_codes << recipient_code
+          @has_error_recipient_codes = true
+          next
+        else recipients.count == 1
+          recipient = recipients.first
+        end
+      else
+        recipient = User.find_by(nickname: recipient_code)
+      end
+
+      next if @issue.invited?(recipient || recipient_code)
+      next if @issue.member?(recipient)
+
+      if recipient.present?
+        new_members << @issue.members.build(user: recipient, admit_message: params[:message])
+      elsif recipient_code.match /@/
+        new_invitations << @issue.invitations.build(user: current_user, recipient_email: recipient_code, message: params[:message])
+      else
+        @not_found_recipient_codes << recipient_code
+        @has_error_recipient_codes = true
+      end
+    end
+
+    unless @has_error_recipient_codes
+      @success = false
+      ActiveRecord::Base.transaction do
+        if @issue.save and
+          @issue.invitations.where(recipient: new_members.map(&:user)).destroy_all and
+          @issue.invitations.where(recipient_email: new_members.map(&:user).map(&:email)).destroy_all
+          @success = true
+        else
+          raise ActiveRecord::Rollback
+        end
+      end
+
+      if @success
+        new_members.each do |member|
+          MemberMailer.on_admit(member.id, current_user.id).deliver_later
+          MessageService.new(member, sender: current_user, action: :admit).call
+        end
+        new_invitations.each do |invitation|
+          InvitationMailer.invite(invitation.id).deliver_later
+        end
+        flash[:success] = I18n.t('activerecord.successful.messages.invited')
+        redirect_to new_admit_members_issue_path
+      else
+        errors_to_flash(current_group)
+        render 'new_admit_members'
+      end
+    else
+      flash[:error] = t('errors.messages.invitation.recipient_codes')
+      render 'new_admit_members'
+    end
+  end
+
   private
 
   def group_issues(group, category_slug = nil)
