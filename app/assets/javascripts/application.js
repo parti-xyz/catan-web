@@ -332,6 +332,11 @@ var parti_prepare = function($base) {
   });
 
   //share
+  jsSocials.shares["telegram"]["shareUrl"] = function() {
+    return this.url;
+  };
+  jsSocials.shares["telegram"]["shareIn"] = "blank";
+
   $.parti_apply($base, '[data-action="parti-share"]', function(elm) {
     var $elm = $(elm);
 

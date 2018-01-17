@@ -20,5 +20,7 @@ class PagesController < ApplicationController
   def components
   end
 
-
+  def share_telegram
+    render layout: false
+  end
 end

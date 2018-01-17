@@ -8,8 +8,9 @@
           - data = data.merge('share-image': "#{poll_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158')
         - elsif @post.try(:survey).present?
           - data = data.merge('share-image': "#{survey_social_card_post_url(@post, format: :png)}", 'share-image-width': '300', 'share-image-height': '158')
-
-      - next if provider == 'telegram' and !is_telegram_talkable?
+      - if provider == 'telegram'
+        - next unless is_telegram_talkable?
+        - data[:'share-url'] = share_telegram_path(url: data[:'share-url'], text: data[:'share-text'])
 
       %span.pull-left{class: "share-item share-#{provider}#{hide_kakao_link}", data: data }
         - if provider == 'kakao-story'
@@ -27,4 +28,3 @@
           %span.input-group-btn.tooltip-no-wrap
             %button.btn.btn-default.js-clipboard{ 'data-clipboard-target': "##{copy_id}", 'data-toggle': 'tooltip', 'data-trigger': 'manual', 'data-title': '복사완료!' }
               %i.fa.fa-clipboard
-

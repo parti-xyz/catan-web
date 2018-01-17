@@ -235,6 +235,7 @@ Rails.application.routes.draw do
     get '/score', to: "pages#score"
     get '/analyze', to: "pages#analyze"
   end
+  get '/share_telegram', to: "pages#share_telegram", as: :share_telegram
 
   get '/tags/:name', to: "tags#show", as: :tag
   get '/categories/:slug', to: "categories#show", as: :category
