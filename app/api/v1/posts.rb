@@ -107,7 +107,6 @@ module V1
       end
 
       desc '파일을 다운로드합니다'
-      oauth2
       params do
         requires :id, type: Integer, desc: '글 번호'
         requires :file_source_id, type: Integer, desc: '파일번호'
