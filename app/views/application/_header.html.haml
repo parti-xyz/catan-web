@@ -1,69 +1,68 @@
-#site-header.main-site-header
-  %nav.navbar.navbar-default.navbar-fixed-top
-    .container-fluid
-      .navbar-header.navbar-header-center
-        %ul.nav.navbar-nav.navbar-left
+%nav#site-header.navbar.navbar-default.navbar-fixed-top.root-site-header.js-fixed-header
+  .container-fluid
+    .navbar-header.navbar-header-center
+      %ul.nav.navbar-nav.navbar-left
+        %li
+          %a.btn-drawer-menu.js-slideout-toggle{ href: '#'}
+            %i.fa.fa-bars{style:"font-size:18px;"}
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
           %li
-            %a.btn-drawer-menu{ href: '#'}
-              %i.fa.fa-bars{style:"font-size:18px;"}
-        %ul.nav.navbar-nav.navbar-right
-          - if user_signed_in?
-            %li
-              = link_to root_path, class: "#{'active' if current_page?('/') or current_page?('/dashboard')}" do
-                %i.fa.fa-th-list
-                내 피드
-            - if current_user.member_groups.any?
-              %li.my-group.dropdown
-                %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                  %i.fa.fa-cube
-                  내 그룹
-                %ul.dropdown-menu
-                  - current_user.member_groups.each do |group|
-                    %li= link_to group.title_short_format, smart_group_url(group)
-          - if user_signed_in?
-            - if current_user.messages.empty?
-              %li.notification
-                = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
-                  %i.fa.fa-bell
-                  알림
-            - else
-              %li.notification.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
-                %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}"}
-                  %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
-                    %span.icon-bell-stack
-                      %i.fa.fa-circle.fa-stack-1x
-                      %i.fa.fa-bell.fa-stack-1x.fa-inverse
-                    %span.label.label-danger= trim_count current_user.unread_messages_count
-                  %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
-                    %i.fa.fa-bell
-
-                %ul.dropdown-menu.js-notification-dropdown-menu
-
-
-          - if user_signed_in?
-            %li.dropdown
-              %a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#" }
-                #my-profile-image.thumb.circle-20.img-circle{ style: "background-image: url(#{current_user.image.sm.url});" }
-                %span.caret
+            = link_to root_path, class: "#{'active' if current_page?('/') or current_page?('/dashboard')}" do
+              %i.fa.fa-th-list
+              내 피드
+          - if current_user.member_groups.any?
+            %li.my-group.dropdown
+              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+                %i.fa.fa-cube
+                내 그룹
               %ul.dropdown-menu
-                %li
-                  = link_to smart_user_gallery_path(current_user) do
-                    %strong= current_user.nickname
-                    프로필
-                %li.divider
-                %li= link_to '설정', edit_user_registration_path
-                %li= link_to '로그아웃', destroy_user_session_path, method: :delete
-
+                - current_user.member_groups.each do |group|
+                  %li= link_to group.title_short_format, smart_group_url(group)
+        - if user_signed_in?
+          - if current_user.messages.empty?
+            %li.notification
+              = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
+                %i.fa.fa-bell
+                알림
           - else
-            %li.sign-up
-              = link_to '회원가입', pre_sign_up_users_path
-            %li.sign-up
-              = link_to '로그인', new_user_session_path
-        %button.navbar-toggle.collapsed{"data-target": "#collapsable", "data-toggle": "collapse", type: "button"}
-          %span.icon-bar
-          %span.icon-bar
-          %span.icon-bar
-        %a.navbar-brand{ href: issues_path }
-          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-  = render 'drawer_menu'
-  = render 'application/check_real_email'
+            %li.notification.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
+              %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}"}
+                %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
+                  %span.icon-bell-stack
+                    %i.fa.fa-circle.fa-stack-1x
+                    %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                  %span.label.label-danger= trim_count current_user.unread_messages_count
+                %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
+                  %i.fa.fa-bell
+
+              %ul.dropdown-menu.js-notification-dropdown-menu
+
+
+        - if user_signed_in?
+          %li.dropdown
+            %a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#" }
+              #my-profile-image.thumb.circle-20.img-circle{ style: "background-image: url(#{current_user.image.sm.url});" }
+              %span.caret
+            %ul.dropdown-menu
+              %li
+                = link_to smart_user_gallery_path(current_user) do
+                  %strong= current_user.nickname
+                  프로필
+              %li.divider
+              %li= link_to '설정', edit_user_registration_path
+              %li= link_to '로그아웃', destroy_user_session_path, method: :delete
+
+        - else
+          %li.sign-up
+            = link_to '회원가입', pre_sign_up_users_path
+          %li.sign-up
+            = link_to '로그인', new_user_session_path
+      %button.navbar-toggle.collapsed{"data-target": "#collapsable", "data-toggle": "collapse", type: "button"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      %a.navbar-brand{ href: issues_path }
+        %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+= render 'application/check_real_email'
+= render 'drawer_menu'

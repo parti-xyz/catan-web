@@ -1,10 +1,8 @@
 @import "application";
 
-#site-header {
-  nav.navbar {
-    box-shadow: inset 2000px 0 0 0 rgba(25,173,94, 0.9);
-    background-color: $brand-primary;
-  }
+#site-header.navbar {
+  box-shadow: inset 2000px 0 0 0 rgba(25,173,94, 0.9);
+  background-color: $brand-primary;
 }
 .key-page{
   height:350px;

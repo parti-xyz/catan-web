@@ -1,10 +1,9 @@
 - if !is_small_screen?
   %section#issue-bottom-banner
-    .bottom-banner.nav-up
+    .bottom-banner
       %div.description
         - if current_group.present?
           함께 만드는 '#{current_group.title_basic_format}', 이렇게 참여해보세요
         - else
           함께 만드는 빠띠, 이렇게 참여해보세요
         = link_to '활용 가이드', host_group.guide_link, target: '_blank', class: 'btn bottom-banner-btn'
-

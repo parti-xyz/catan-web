@@ -1,0 +1,10 @@
+%li#parties-all{ style: "margin-top: 10px; padding: 0px 10px;"}
+  .parties-all
+    .parties-filter
+      .parties-search-form
+        = form_tag issues_url(subdomain: nil), method: :get do
+          .input-group.input-group-lg.input-group-keyword
+            %input.form-control{ name: "keyword", placeholder: "빠띠 찾기", type: "search" }
+            %span.input-group-btn
+              %button.btn.btn-group-default
+                %i.fa.fa-search

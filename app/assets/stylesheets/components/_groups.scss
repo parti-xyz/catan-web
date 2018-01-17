@@ -31,10 +31,8 @@
   }
 }
 body.in-group {
-  #site-header {
-    .navbar-fixed-top {
-      background-color: $brand-primary;
-    }
+  #site-header.navbar-fixed-top {
+    background-color: $brand-primary;
   }
   @media (min-width: $screen-sm-min) {
     #group-key-visual-bg {
@@ -44,10 +42,8 @@ body.in-group {
       background-size: cover;
     }
 
-    #site-header {
-      .navbar-fixed-top {
-        border-bottom: 1px solid $brand-primary-darker;
-      }
+    #site-header.navbar-fixed-top {
+      border-bottom: 1px solid $brand-primary-darker;
 
       .container {
         position: relative;
@@ -87,26 +83,13 @@ body.in-group {
       .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
         background: none;
       }
-
-      .navbar-bottom {
-        position: absolute;
-        width: 90%;
-        bottom: 0;
-        left: 7px;
-      }
     }
 
     &.in-parti {
       padding-top: 50px;
 
-      #site-header {
-        .navbar-fixed-top {
-          height: 50px;
-        }
-      }
-
-      .navbar-bottom {
-        display: none;
+      #site-header.navbar-fixed-top {
+        height: 50px;
       }
     }
   }

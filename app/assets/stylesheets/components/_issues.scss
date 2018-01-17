@@ -806,16 +806,9 @@ section#issues-group-index {
 
 section#issue-bottom-banner {
   .bottom-banner {
-    z-index: 10000;
     width: 100%;
-    position: fixed;
-    bottom: 0;
-    transition: bottom 0.2s ease-in-out;
     border-top: 1px solid $brand-primary-dark;
 
-    &.nav-down {
-        bottom: -65px;
-    }
     @media (min-width: $screen-sm-min) {
       text-align: center;
     }

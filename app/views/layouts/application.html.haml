@@ -32,7 +32,8 @@
       = yield :header
     - else
       = render 'application/header'
-    = yield
+    %main#js-main.main-panel
+      = yield
 
     - unless is_small_screen?
       = render 'messenger'
@@ -40,7 +41,6 @@
     :javascript
       window.FileAPI = { staticPath: '/images/file-api/', debug: true };
     = javascript_include_tag 'application'
-    = javascript_include_tag 'mobile'
     = yield :script if content_for?(:script)
 
     #fb-root

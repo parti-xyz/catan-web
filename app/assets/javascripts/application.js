@@ -34,6 +34,7 @@
 //= require Chart.bundle
 //= require chartkick
 //= require mobile_app
+//= require slideout
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
@@ -952,7 +953,6 @@ $(function(){
     });
   });
 
-
   $('[data-action="parti-post-editor-spotlight"]').each(function(index, elm){
     $(elm).on('click',function (e){
       $(document).trigger('parti-post-editor-spotlight');
@@ -965,68 +965,79 @@ $(function(){
       $('body').removeClass('editor-spotlight');
     });
   });
-});
 
-// fixed section#issue-bottom-banner
-$(function(){
-  // Hide Header on on scroll down
-  var did_scroll;
-  var last_scroll_top = 0;
-  var delta = 5;
-  var $footer_element = $('section#issue-bottom-banner .bottom-banner');
-  var navbar_height = $footer_element.outerHeight();
-
-  $(window).scroll(function(e){
-      did_scroll = true;
-  });
-
-
-  if ($("body").height() > $(window).height()) {
-    setInterval(function() {
-      if (did_scroll) {
-        has_scrolled();
-        did_scroll = false;
-      }
-    }, 250);
-  }
-  else {
-    $('body').css('padding-bottom',
-      parseInt($('body').css('padding-bottom')) + 60 + 'px');
-    $footer_element.removeClass('nav-down').addClass('nav-up');
-  }
-
-  function has_scrolled() {
-    var st = $(this).scrollTop();
-
-    if(Math.abs(last_scroll_top - st) <= delta)
+  // drawer
+  (function() {
+    if($('#js-drawer').length <= 0 && $('#js-main').length <= 0) {
       return;
+    }
+    var slideout = new Slideout({
+      'panel': $('#js-main')[0],
+      'menu': $('#js-drawer')[0],
+      'padding': 256,
+      'tolerance': 70
+    });
 
-    if (st > last_scroll_top && st > navbar_height){
-      // Scroll Up
-      if(st + $(window).height() <= $(document).height()) {
-        $footer_element.removeClass('nav-up').addClass('nav-down');
-      }
-    } else {
-      $footer_element.removeClass('nav-down').addClass('nav-up');
+    $('.js-slideout-toggle').on('click', function(e) {
+      e.preventDefault();
+      slideout.toggle();
+    });
+
+    var $fixed = $('.js-fixed-header');
+    function close(e) {
+      e.preventDefault();
+      slideout.close();
     }
 
-    last_scroll_top = st;
-  }
+    slideout.on('translate', function(translated) {
+      if($fixed.length > 0) {
+        $fixed.css('transform', 'translateX(' + translated + 'px)');
+      }
+      $(this.panel).addClass('main-panel-translate');
+    });
 
-  if(($('#post-modal').data('bs.modal') || {}).isShown) {
-    $footer_element.removeClass('nav-up').addClass('nav-down');
-    $('#post-modal').data('bs.modal').$backdrop.addClass('post-backdrop');
-  }
-  $('#post-modal').on('shown.bs.modal', function (e) {
-    $footer_element.removeClass('nav-up').addClass('nav-down');
-    $('#post-modal').data('bs.modal').$backdrop.addClass('post-backdrop');
-  });
-  $('#post-modal').on('hidden.bs.modal', function (e) {
-    $footer_element.removeClass('nav-down').addClass('nav-up');
-  });
+    slideout.on('beforeopen', function () {
+      if($fixed.length > 0) {
+        $fixed.css('transition', 'transform 300ms ease');
+        $fixed.css('transform', 'translateX(256px)');
+        $fixed.addClass('site-header-open');
+      } else {
+        $(this.panel).addClass('main-panel-open');
+      }
+    });
 
+    slideout.on('beforeclose', function () {
+      if($fixed.length > 0) {
+        $fixed.css('transition', 'transform 300ms ease');
+        $fixed.css('transform', 'translateX(0px)');
+        $fixed.off('click', close);
+        $fixed.removeClass('site-header-open');
+      } else {
+        $(this.panel).removeClass('main-panel-open');
+        $(this.panel).off('click', close);
+      }
+    });
+
+    slideout.on('open', function () {
+      if($fixed.length > 0) {
+        $fixed.css('transition', '');
+        $fixed.on('click', close);
+      } else {
+        $(this.panel).on('click', close);
+      }
+      $(this.panel).removeClass('main-panel-translate');
+    });
+
+    slideout.on('close', function () {
+      if($fixed.length > 0) {
+        $fixed.css('transition', '');
+      }
+      $(this.panel).removeClass('main-panel-translate');
+    });
+  })();
+
+  // editor
   (function() {
-
     var setPlaceholder = function(editor, placeholder) {
       editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
     };

@@ -1,7 +1,5 @@
 @import "application";
 
-#site-header {
-  .navbar-fixed-top {
-    background-image: image_url('groups/change_thumb_main_banner.png');
-  }
+#site-header.navbar-fixed-top {
+  background-image: image_url('groups/change_thumb_main_banner.png');
 }

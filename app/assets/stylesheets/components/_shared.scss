@@ -296,13 +296,6 @@ label.required:after {
 }
 
 @media (max-width: $screen-xs-max) {
-  body {
-    padding-top: 56px;
-  }
-  body, .container, #aside, .col-xs-9 {
-    width: 100% !important;
-    min-width: 100%;
-  }
   .aside_hottest_posts, .aside_issue, #aside hr {
     display: none;
   }

@@ -2,6 +2,14 @@
   - if user_signed_in?
     .drawer-list__profile
       = byline current_user
+      .drawer-list__messages
+        = link_to messages_path do
+          - if current_user.unread_messages_count > 0
+            %span.fa-stack
+              %i.fa.fa-bell.fa-stack-1x{style: 'color: white'}
+              %i.icon-dot-corner.fa-stack-1x
+          - else
+            %i.fa.fa-bell{style: 'color: white'}
   - else
     .drawer-list__profile
       = image_tag 'img_default_profile.png', class: 'default-profile'
@@ -12,7 +20,16 @@
   %ul.drawer-list__menu.list-unstyled
     - if user_signed_in?
       = render 'application/drawer_search'
+      %li.home-line
+        = link_to dashboard_url(subdomain: '') do
+          %i.fa.fa-th-list
+          내 피드
       = render 'application/drawer_issues'
+      %li.divider
+    - if user_signed_in?
+      %li= byline current_user, hide_image: true
+      %li= link_to '프로필 수정', edit_user_registration_path
+      %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
     - else
       %li{ style: "margin-top: 10px;"}
         = link_to issues_url(subdomain: nil), class: 'action-link' do
@@ -24,9 +41,7 @@
         - @hottest_issues = Issue.only_public_hottest(5)
         - @hottest_issues.each do |hottest_issue|
           = render 'issues/issue_line', issue: hottest_issue
-        %br
-    %li{style:"padding-left: 0;"}
-      %hr
+    %li.divider
     %li
       = link_to root_url(subdomain: nil) do
         %div
@@ -43,3 +58,7 @@
     %li
       = link_to smart_issue_home_url(Issue.parti_parti) do
         제안 및 의견 &middot; 빠띠만든당
+  - if is_kakao_talkable?
+    .drawer-list__yellow
+      %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
+        = image_tag 'icon_yellow.png', alt: 'btn-yellow'

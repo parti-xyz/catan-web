@@ -8,10 +8,30 @@ html {
 }
 
 body {
-  padding-top: 50px;
+  padding-top: $header-menu-height;
   background-color: $background-color;
   width: 100%;
   min-width: 970px;
+  height: 100%;
+}
+
+.container {
+  max-width: 970px !important;
+  width: 970px !important;
+}
+
+@media (max-width: $screen-xs-max) {
+  body {
+    padding-top: $header-menu-height-mobile;
+  }
+  body, .container, #aside {
+    width: 100% !important;
+    min-width: 100%;
+  }
+}
+
+main {
+  background-color: $background-color;
 }
 
 h1 {
@@ -52,11 +72,6 @@ a {
   h2 {
     margin-top: 10px;
   }
-}
-
-.container {
-  max-width: 970px !important;
-  width: 970px !important;
 }
 
 .panel {
@@ -105,4 +120,3 @@ body.editor-spotlight {
     padding: 0;
   }
 }
-

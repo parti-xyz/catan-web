@@ -1,114 +1,17 @@
-#site-header
-  %nav.navbar.navbar-default.navbar-fixed-top
-    .container.clearfix
-      .navbar-header.navbar-header-center
-        %a.navbar-brand{ href: root_path }
-          - if host_group.indie?
-            %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+%nav#site-header.navbar.navbar-default.navbar-fixed-top.js-fixed-header
+  .container.clearfix
+    .navbar-header.navbar-header-center
+      %a.navbar-brand{ href: root_path }
+        - if host_group.indie?
+          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+        - else
+          #{host_group.head_title}
+
+    %ul.nav.navbar-nav.navbar-left
+      %li
+        %a.btn-drawer-menu.js-slideout-toggle{ href: '#'}
+          - if host_group.try(:is_light_theme?)
+            = image_tag 'btn_mobile_menu_white.png'
           - else
-            #{host_group.head_title}
-
-      %ul.nav.navbar-nav.navbar-left
-        %li
-          %a.btn-drawer-menu{ href: '#'}
-            - if host_group.try(:is_light_theme?)
-              = image_tag 'btn_mobile_menu_white.png'
-            - else
-              = image_tag 'btn_mobile_menu.png'
-
-  .drawer-list#drawer-list
-    %i.fa.fa-close.drawer-list__close{style:"font-size:24px;color:white"}
-    - if user_signed_in?
-      .drawer-list__profile
-        = byline current_user
-        .drawer-list__messages
-          = link_to messages_path do
-            - if current_user.unread_messages_count > 0
-              %span.fa-stack
-                %i.fa.fa-bell.fa-stack-1x{style: 'color: white'}
-                %i.icon-dot-corner.fa-stack-1x
-            - else
-              %i.fa.fa-bell{style: 'color: white'}
-    - else
-      .drawer-list__profile
-        = image_tag 'img_default_profile.png', class: 'default-profile'
-        .btn-new-user
-          = link_to '회원가입', pre_sign_up_users_path
-          \|
-          = link_to '로그인', new_user_session_path
-    %ul.drawer-list__menu.list-unstyled
-      - if user_signed_in?
-        %li#parties-all{ style: "margin-top: 10px; padding: 0px 10px;"}
-          .parties-all
-            .parties-filter
-              .parties-search-form
-                = form_tag issues_url(subdomain: nil), method: :get do
-                  .input-group.input-group-lg.input-group-keyword
-                    %input.form-control{name: "keyword", placeholder: "빠띠 찾기", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
-                    %span.input-group-btn
-                      %button.btn.btn-group-default
-                        %i.fa.fa-search
-
-        %li.home-line
-          = link_to dashboard_url(subdomain: '') do
-            %i.fa.fa-th-list
-            내 피드
-        - if current_user.member_issues.only_alive_of_group(host_group).any?
-          %li.group-line
-            = link_to (host_group.indie? ? indies_issues_url(subdomain: nil) : root_path) do
-              #{group_parties_section_title(host_group)}
-        - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
-          = render 'issues/issue_line', issue: issue
-        - if !host_group.private_blocked?(current_user) and host_group.categories.try(:any?)
-          %li.category-line
-            주제별 빠띠
-          - host_group.categories.each do |category|
-            %li.issue-line
-              = link_to issues_path(category_slug: category.slug) do
-                = category.name
-
-        - Group.comprehensive_joined_by(current_user).but(host_group).each do |group|
-          %li.group-line
-            = link_to smart_group_url(group) do
-              #{group_parties_section_title(group)}
-          - current_user.member_issues.only_alive_of_group(group).each do |issue|
-            = render 'issues/issue_line', issue: issue
-        %li.divider
-      - if user_signed_in?
-        %li= byline current_user, hide_image: true
-        %li= link_to '프로필 수정', edit_user_registration_path
-        %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
-      - else
-        %li{ style: "margin-top: 10px;"}
-          = link_to issues_url(subdomain: nil), class: 'action-link' do
-            %i.fa.fa-search
-            관심있는 빠띠를 찾아보세요
-        %li.group-line
-          %span{ style: "color: #271f44; line-height: 30px; font-weight: bold" }
-            지금 가장 인기있는 빠띠
-          - @hottest_issues = Issue.only_public_hottest(5)
-          - @hottest_issues.each do |hottest_issue|
-            = render 'issues/issue_line', issue: hottest_issue
-      %li.divider
-      %li
-        = link_to root_url(subdomain: nil) do
-          %div
-            %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
-          %span{style:"font-size:12px;color:dimgray;font-weight:bold;line-height:30px;"}
-            민주적 일상 커뮤니티 '빠띠'
-      %li= link_to '빠띠 소개', about_url(subdomain: nil)
-      %li= link_to '이용약관', terms_url(subdomain: nil)
-      %li= link_to '그룹 개설 안내', service_url(subdomain: nil)
-      %li= link_to '개인정보취급정책', privacy_url(subdomain: nil)
-      %li
-        %a(href='mailto:help@parti.xyz')
-          오류 및 버그 신고
-      %li
-        = link_to smart_issue_home_url(Issue.parti_parti) do
-          제안 및 의견 &middot; 빠띠만든당
-    - if is_kakao_talkable?
-      .drawer-list__yellow
-        %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
-          = image_tag 'icon_yellow.png', alt: 'btn-yellow'
-
-
+            = image_tag 'btn_mobile_menu.png'
+= render 'application/mobile_drawer_menu'
