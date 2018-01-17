@@ -1,0 +1,7 @@
+%section
+  %h4{ style: "margin: 20px 0px; "}
+    최근 빠띠 게시글 (사진 + 텍스트)
+  .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
+    - @posts.each do |post|
+      .grid-sizer.col-sm-6
+        = render 'posts/post', post: post, show_issue: true

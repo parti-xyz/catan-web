@@ -276,6 +276,7 @@ Rails.application.routes.draw do
     resources :groups
     resources :blinds
     resources :active_issue_stats
+    resources :manage_landing_pages
 
     get :new_notice_email, to: 'notice_email#new'
     post :deliver_notice_email, to: 'notice_email#deliver'
