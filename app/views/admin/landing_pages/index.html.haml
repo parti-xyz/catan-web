@@ -1,14 +1,22 @@
 %section
   %h4
-    test
-
+    랜딩 페이지 관리
+  %hr
   = form_tag save_admin_landing_pages_path, method: :post do
+    .form-group
+      %label 최근 빠띠 게시글 (사진 + 텍스트)
+      = text_field_tag :recent_posts, nil, class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
     .form-group
+      %label 최근 토론
+      = text_field_tag :discusstions, nil, class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
-      %label 최근 게시물
-      = text_field_tag :recent_posts, nil, class: 'form-control'
+    .form-group
+      %label 최근 위키
+      = text_field_tag :wikis, nil, class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
+    .form-group
+      = submit_tag '저장하기', class: 'btn btn-default btn-primary', data: { confirm: '정말 저장하시겠습니까?', disable_with: "처리 중..." }
 
 
   %h4{ style: "margin: 20px 0px; "}

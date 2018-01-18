@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180102230002) do
+ActiveRecord::Schema.define(version: 20180118060015) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -205,6 +205,13 @@ ActiveRecord::Schema.define(version: 20180102230002) do
   add_index "issues", ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true, using: :btree
   add_index "issues", ["group_slug", "title", "active"], name: "index_issues_on_group_slug_and_title_and_active", unique: true, using: :btree
   add_index "issues", ["last_stroked_user_id"], name: "index_issues_on_last_stroked_user_id", using: :btree
+
+  create_table "landing_pages", force: :cascade do |t|
+    t.string   "body",       limit: 255, null: false
+    t.string   "section",    limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id",    limit: 4, null: false
@@ -417,8 +424,8 @@ ActiveRecord::Schema.define(version: 20180102230002) do
   end
 
   create_table "post_searchable_indices", force: :cascade do |t|
-    t.integer  "post_id",    limit: 4,        null: false
-    t.text     "ngram",      limit: 16777215
+    t.integer  "post_id",    limit: 4,          null: false
+    t.text     "ngram",      limit: 4294967295
     t.datetime "created_at"
     t.datetime "updated_at"
   end
