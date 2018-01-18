@@ -15,9 +15,14 @@ class IssuesController < ApplicationController
       @polls_and_surveys = Post.having_poll.or(Post.having_survey).not_private_blocked_of_group(current_group, current_user)
       @polls_and_surveys = @polls_and_surveys.order_by_stroked_at.limit(7)
       @recent_posts = Post.not_in_dashboard_of_group(current_group, current_user).order_by_stroked_at.limit(4)
+
       if %w(youthmango).include? current_group.slug
         render 'group_home_parties_first'
       else
+        unless view_context.is_infinite_scrollable?
+          @posts = watched_posts.page(params[:page])
+        end
+
         render 'group_home_union'
       end
     end
@@ -68,21 +73,22 @@ class IssuesController < ApplicationController
       @search_q = PostSearchableIndex.sanitize_search_key params[:q]
     end
 
-    if request.format.js?
-      @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
+    issue_posts = @issue.posts.order(last_stroked_at: :desc)
+    issue_posts = issue_posts.search(@search_q) if @search_q.present?
+    @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
 
-      issue_posts = @issue.posts.order(last_stroked_at: :desc)
-      issue_posts = issue_posts.search(@search_q) if @search_q.present?
+    if view_context.is_infinite_scrollable?
+      if request.format.js?
+        @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
 
-      limit_count = ( @previous_last_post.blank? ? 10 : 20 )
-      @posts = issue_posts.limit(limit_count).previous_of_post(@previous_last_post)
+        limit_count = ( @previous_last_post.blank? ? 10 : 20 )
+        @posts = issue_posts.limit(limit_count).previous_of_post(@previous_last_post)
 
-      current_last_post = @posts.last
-      @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
-    end
-
-    if params[:last_id].blank?
-      @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
+        current_last_post = @posts.last
+        @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
+      end
+    else
+      @posts = issue_posts.page(params[:page])
     end
   end
 
@@ -342,5 +348,12 @@ class IssuesController < ApplicationController
 
   def private_blocked?(issue)
     issue.private_blocked?(current_user) and !current_user.try(:admin?)
+  end
+
+  def watched_posts
+    watched_posts = current_user.watched_posts(current_group)
+    watched_posts = watched_posts.order(last_stroked_at: :desc)
+    # watched_posts = watched_posts.search(search_q) if search_q.present?
+    watched_posts
   end
 end

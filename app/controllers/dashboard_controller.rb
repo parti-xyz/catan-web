@@ -9,22 +9,20 @@ class DashboardController < ApplicationController
       @search_q = PostSearchableIndex.sanitize_search_key params[:q]
     end
 
-    if request.format.js?
-      @previous_last_post = Post.find_by(id: params[:last_id])
+    watched_posts = watched_posts(@search_q)
+    @posts_pinned = current_user.watched_posts(current_group).pinned.order('pinned_at desc')
 
-      watched_posts = current_user.watched_posts(current_group)
-      watched_posts = watched_posts.order(last_stroked_at: :desc)
-      watched_posts = watched_posts.search(@search_q) if @search_q.present?
+    if view_context.is_infinite_scrollable?
+      if request.format.js?
+        @previous_last_post = Post.find_by(id: params[:last_id])
+        limit_count = (@previous_last_post.blank? ? 10 : 20)
+        @posts = watched_posts.limit(limit_count).previous_of_post(@previous_last_post)
 
-      limit_count = (@previous_last_post.blank? ? 10 : 20)
-      @posts = watched_posts.limit(limit_count).previous_of_post(@previous_last_post)
-
-      current_last_post = @posts.last
-      @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
-    end
-
-    if params[:last_id].blank?
-      @posts_pinned = current_user.watched_posts(current_group).pinned.order('pinned_at desc')
+        current_last_post = @posts.last
+        @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+      end
+    else
+      @posts = watched_posts.page(params[:page])
     end
   end
 
@@ -46,5 +44,14 @@ class DashboardController < ApplicationController
     respond_to do |format|
       format.js { render 'posts/new_posts_count' }
     end
+  end
+
+  private
+
+  def watched_posts search_q
+    watched_posts = current_user.watched_posts(current_group)
+    watched_posts = watched_posts.order(last_stroked_at: :desc)
+    watched_posts = watched_posts.search(search_q) if search_q.present?
+    watched_posts
   end
 end
