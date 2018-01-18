@@ -24,4 +24,4 @@
   .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
     - @posts.each do |post|
       .grid-sizer.col-sm-6
-        = render 'posts/post', post: post, show_issue: true
+        = render 'posts/admin_post', post: post, show_issue: true
