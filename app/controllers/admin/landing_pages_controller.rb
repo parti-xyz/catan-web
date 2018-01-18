@@ -6,13 +6,19 @@ class Admin::LandingPagesController < AdminController
 
   def save
     sections = ['recent_posts', 'discusstions', 'wikis']
+
     sections.each do |section|
       landingPage = LandingPage.new
-      landingPage.assign_attributes({ :section => section, :body => params[section].to_json })
-      landingPage.save!
+      if params[section].present?
+        LandingPage.where(section: section).destroy_all
+        landingPage.assign_attributes({ :section => section, :body => params[section].to_json })
+        landingPage.save!
+      end
     end
+
     flash[:success] = I18n.t('activerecord.successful.messages.created')
     redirect_to admin_landing_pages_path and return
+
   end
 
 end
