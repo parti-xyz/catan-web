@@ -5,23 +5,23 @@
   = form_tag save_admin_landing_pages_path, method: :post do
     .form-group
       %label 최근 빠띠 게시글 (사진 + 텍스트)
+      = link_to '/admin/fetch_posts#anchor-recent-posts', target: '_blank', class: 'btn btn-default btn-sm' do
+        대상 포스트 보기
       = text_field_tag :recent_posts, nil, class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
     .form-group
       %label 최근 토론
+      = link_to '/admin/fetch_posts#anchor-polls-or-surveys', target: '_blank', class: 'btn btn-default btn-sm' do
+        대상 포스트 보기
       = text_field_tag :discusstions, nil, class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
     .form-group
       %label 최근 위키
+      = link_to '/admin/fetch_posts#anchor-wikis', target: '_blank', class: 'btn btn-default btn-sm' do
+        대상 포스트 보기
       = text_field_tag :wikis, nil, class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
     .form-group
-      = submit_tag '저장하기', class: 'btn btn-default btn-primary', data: { confirm: '정말 저장하시겠습니까?', disable_with: "처리 중..." }
+      = submit_tag '저장하기', class: 'btn btn-primary', data: { confirm: '정말 저장하시겠습니까?', disable_with: "처리 중..." }
 
 
-  %h4{ style: "margin: 20px 0px; "}
-    최근 빠띠 게시글 (사진 + 텍스트)
-  .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
-    - @posts.each do |post|
-      .grid-sizer.col-sm-6
-        = render 'posts/admin_post', post: post, show_issue: true

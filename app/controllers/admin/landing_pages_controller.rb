@@ -1,7 +1,6 @@
 class Admin::LandingPagesController < AdminController
   def index
-    @posts = Post.of_public_issues_of_public_group
-                 .where('posts.created_at > ? and posts.file_sources_count > 0', (Date.today - 15))
+
   end
 
   def save
@@ -18,7 +17,14 @@ class Admin::LandingPagesController < AdminController
 
     flash[:success] = I18n.t('activerecord.successful.messages.created')
     redirect_to admin_landing_pages_path and return
+  end
 
+  def fetch_posts
+    public_recent_posts = Post.of_public_issues_of_public_group.where('posts.created_at > ?', (Date.today - 15))
+
+    @recent_posts = public_recent_posts.where('posts.file_sources_count > 0')
+    @wikis = public_recent_posts.having_wiki
+    @polls_or_surveys = public_recent_posts.having_poll.or(public_recent_posts.having_survey)
   end
 
 end

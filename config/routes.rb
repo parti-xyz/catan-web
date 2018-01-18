@@ -283,6 +283,7 @@ Rails.application.routes.draw do
       post :save, on: :collection
     end
 
+    get :fetch_posts, to: 'landing_pages#fetch_posts'
     get :new_notice_email, to: 'notice_email#new'
     post :deliver_notice_email, to: 'notice_email#deliver'
   end
