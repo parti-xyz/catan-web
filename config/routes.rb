@@ -279,7 +279,9 @@ Rails.application.routes.draw do
     resources :groups
     resources :blinds
     resources :active_issue_stats
-    resources :manage_landing_pages
+    resources :landing_pages do
+      post :save, on: :collection
+    end
 
     get :new_notice_email, to: 'notice_email#new'
     post :deliver_notice_email, to: 'notice_email#deliver'

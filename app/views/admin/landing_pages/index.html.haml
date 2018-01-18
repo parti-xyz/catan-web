@@ -1,4 +1,16 @@
 %section
+  %h4
+    test
+
+  = form_tag save_admin_landing_pages_path, method: :post do
+
+    .form-group
+
+      %label 최근 게시물
+      = text_field_tag :recent_posts, nil, class: 'form-control'
+
+
+
   %h4{ style: "margin: 20px 0px; "}
     최근 빠띠 게시글 (사진 + 텍스트)
   .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
