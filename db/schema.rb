@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118060015) do
+ActiveRecord::Schema.define(version: 20180119020744) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -207,10 +207,10 @@ ActiveRecord::Schema.define(version: 20180118060015) do
   add_index "issues", ["last_stroked_user_id"], name: "index_issues_on_last_stroked_user_id", using: :btree
 
   create_table "landing_pages", force: :cascade do |t|
-    t.string   "body",       limit: 255, null: false
-    t.string   "section",    limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.text     "body",       limit: 65535, null: false
+    t.string   "section",    limit: 255,   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "likes", force: :cascade do |t|
