@@ -1,6 +1,6 @@
 class Admin::LandingPagesController < AdminController
   def index
-
+    @sections = LandingPage.all_data
   end
 
   def save
@@ -9,8 +9,10 @@ class Admin::LandingPagesController < AdminController
     sections.each do |section|
       landingPage = LandingPage.new
       if params[section].present?
-        LandingPage.where(section: section).destroy_all
-        landingPage.assign_attributes({ :section => section, :body => params[section].to_json })
+        LandingPage.find_by(section: section).try(:destroy)
+
+        section_body = params[section].split(',').compact.to_json
+        landingPage.assign_attributes(section: section, body: section_body)
         landingPage.save!
       end
     end
