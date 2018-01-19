@@ -28,23 +28,24 @@
           .issue-tag.btn.btn-primary{data: {action: 'parti-select-interested-tag'}}
             = tag
 
-.modal.fade.in.parti-member-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
-  .modal-dialog
-    .modal-content(style="background: transparent; border: none; box-shadow: none; -webkit-box-shadow: none;")
-      .modal-body.text-center
-        %h2.text-primary
-          %b<>
-            #{current_user.nickname}
-          님 만나서 반가워요.
-        %p
-          민주적 일상 커뮤니티 '빠띠'!
-          %br
-          내가 관심있는 이슈로 파티하듯 수다를 떠는 곳입니다.
-          %br
-          관심사를 알려주시면 설정을 도와드릴게요!
+- content_for :footer do
+  .modal.fade.in.parti-member-recommend--modal#parti-intro{:role => "dialog", :tabindex => "-1"}
+    .modal-dialog
+      .modal-content(style="background: transparent; border: none; box-shadow: none; -webkit-box-shadow: none;")
+        .modal-body.text-center
+          %h2.text-primary
+            %b<>
+              #{current_user.nickname}
+            님 만나서 반가워요.
+          %p
+            민주적 일상 커뮤니티 '빠띠'!
+            %br
+            내가 관심있는 이슈로 파티하듯 수다를 떠는 곳입니다.
+            %br
+            관심사를 알려주시면 설정을 도와드릴게요!
 
-        %button.btn.btn-primary.btn-lg{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-          시작해볼까요?
+          %button.btn.btn-primary.btn-lg{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            시작해볼까요?
 
 - content_for :script do
   :javascript
