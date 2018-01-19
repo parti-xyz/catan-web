@@ -1,7 +1,7 @@
 module MobileAppHelper
   def is_mobile_app_get_request? request
     return false if request.headers["catan-agent"].blank?
-    request.headers["catan-agent"] == 'catan-spark-android'
+    %w(catan-spark-android catan-spark-ios).include? request.headers["catan-agent"]
   end
 
   def current_mobile_app_agent request
