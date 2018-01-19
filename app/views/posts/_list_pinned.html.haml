@@ -1,7 +1,7 @@
 - not_need_header ||= local_assigns['not_need_header']
+- posts = posts.to_a.reject { |post| post.blinded?(current_user) or post.private_blocked?(current_user) }
 - if posts.try(:any?)
   - collapsed_posts_new_pinned = []
-  - posts = posts.to_a.reject { |post| post.blinded?(current_user) or post.private_blocked?(current_user) }
   - unread_posts = posts.select { |post| !post.read_by?(current_user) and post.can_be_reader?(current_user) }
   - careful_posts = posts.select { |post| post.careful_pin_by?(current_user) }
 
@@ -12,7 +12,7 @@
     - if uncollapsed_posts.empty?
       - uncollapsed_posts = [posts.sample()]
 
-    - uncollapsed_posts = uncollapsed_posts[0..1]
+    - uncollapsed_posts = uncollapsed_posts[0..1].compact
     - collapsed_posts = posts - uncollapsed_posts
   - else
     - collapsed_posts = []
