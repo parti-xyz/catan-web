@@ -980,7 +980,8 @@ $(function(){
       'panel': $('#js-main')[0],
       'menu': $('#js-drawer')[0],
       'padding': 256,
-      'tolerance': 70
+      'tolerance': 70,
+      'touch': false
     });
 
     $('.js-slideout-toggle').on('click', function(e) {
