@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @posts = @user.posts.order(last_stroked_at: :desc)
 
     if view_context.is_infinite_scrollable?
-      @previous_last_post = @user.posts.find_by(id: params[:last_id])
+      @previous_last_post = @user.posts.with_deleted.find_by(id: params[:last_id])
       @posts = @posts.previous_of_post(@previous_last_post).limit(20)
       current_last_post = @posts.last
       @is_last_page = (@user.posts.empty? or @user.posts.order(last_stroked_at: :desc).previous_of_post(current_last_post).empty?)
