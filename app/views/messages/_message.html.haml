@@ -1,4 +1,4 @@
-.message.clearfix[message]{ data: {action: 'parti-message-link', base: "##{dom_id(message)}-url-source" } }
+.message.clearfix[message]{ data: {action: 'parti-link', 'url-source': "##{dom_id(message)}-url-source" } }
   .message__header
     .message__parti
       - if message.issue.present?

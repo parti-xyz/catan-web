@@ -769,6 +769,12 @@ $(function(){
 
     e.preventDefault();
     var url = $(e.currentTarget).data("url");
+    if(!url) {
+      var $url_source = $($(e.currentTarget).data("url-source"));
+      if($url_source.length > 0) {
+        url = $url_source.data("url");
+      }
+    }
 
     if($.is_present($(this).data('link-target'))) {
       window.open(url, $(this).data('link-target'));
@@ -802,16 +808,6 @@ $(function(){
       window.location.href = url;
     }
   });
-
-  (function() {
-    var callback = function(e) {
-      e.preventDefault();
-      var $url_source = $($(e.currentTarget).data("base"));
-      var url = $url_source.data("url");
-      if(url) { window.location.href  = url; }
-    }
-    $('#site-header, section#posts').on('click', '[data-action="parti-message-link"]', callback);
-  })();
 
   (function() {
     var is_first_loaded = false
