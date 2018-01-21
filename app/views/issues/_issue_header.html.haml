@@ -10,7 +10,7 @@
         %filter#parti-header-blur-background
           %fegaussianblur{in: "SourceGraphic", stdDeviation: "20"}
         %image{externalResourcesRequired: "true", height: "100%", width: "100%", preserveAspectRatio: "xMidYMid slice", style: "filter:url(#parti-header-blur-background)", x: "0", y: "0", "xlink:href": issue.logo.md.url, "xmlns:xlink": "http://www.w3.org/1999/xlink"}
-  - if issue.logo.present? and (browser.ie?(">9") or !browser.ie?)
+  - if (issue.read_attribute(:logo).present?) and (browser.ie?(">9") or !browser.ie?)
     = logo_background
   - else
     = geo_pattern_background
