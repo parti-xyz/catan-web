@@ -73,8 +73,14 @@ body.in-group {
           margin: 1px 0 0 0;
         }
       }
-
-      .navbar-nav > li.member-parties .dropdown-toggle, .navbar-nav > li.parti-tags .dropdown-toggle, .navbar-nav > li.all-posts .dropdown-toggle {
+      &.navbar-default .navbar-nav > .open > a,
+      &.navbar-default .navbar-nav > .open > a:hover,
+      &.navbar-default .navbar-nav > .open > a:focus {
+        background: none;
+      }
+      .navbar-nav > li.member-parties .dropdown-toggle,
+      .navbar-nav > li.parti-tags .dropdown-toggle,
+      .navbar-nav > li.all-posts .dropdown-toggle {
         background: none;
         &:hover {
           color: white;

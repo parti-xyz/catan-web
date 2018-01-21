@@ -1,4 +1,4 @@
-.drawer-list#js-drawer
+.drawer-list.drawer-list-mobile#js-drawer
   - if user_signed_in?
     .drawer-list__profile
       = byline current_user
@@ -20,33 +20,30 @@
   %ul.drawer-list__menu.list-unstyled
     - if user_signed_in?
       = render 'application/drawer_search'
-      %li.home-line
-        = link_to dashboard_url(subdomain: '') do
-          %i.fa.fa-th-list
-          내 피드
       = render 'application/drawer_issues'
       %li.divider
     - if user_signed_in?
-      %li= byline current_user, hide_image: true
-      %li= link_to '프로필 수정', edit_user_registration_path
-      %li= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
+      %li.menu-line= byline current_user, hide_image: true
+      %li.menu-line= link_to '프로필 수정', edit_user_registration_path
+      %li.menu-line= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
     - else
-      %li{ style: "margin-top: 10px;"}
+      %li.menu-line
         = link_to issues_url(subdomain: nil), class: 'action-link' do
           %i.fa.fa-search
           관심있는 빠띠를 찾아보세요
-      %li.group-line
-        %span{ style: "color: #271f44; line-height: 30px; font-weight: bold" }
-          지금 가장 인기있는 빠띠
-        - @hottest_issues = Issue.only_public_hottest(5)
-        - @hottest_issues.each do |hottest_issue|
-          = render 'issues/issue_line', issue: hottest_issue
+      %li.divider
+      %li.group-issues-line
+        .title 지금 가장 인기있는 빠띠
+        %ul.sub.list-unstyled
+          - @hottest_issues = Issue.only_public_hottest(5)
+          - @hottest_issues.each do |hottest_issue|
+            = render 'issues/issue_line', issue: hottest_issue
     %li.divider
-    %li
+    %li.logo
       = link_to root_url(subdomain: nil) do
         %div
           %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
-        %span{style:"font-size:12px;color:dimgray;font-weight:bold;line-height:30px;"}
+        .slogan
           민주적 일상 커뮤니티 '빠띠'
     %li= link_to '빠띠 소개', about_url(subdomain: nil)
     %li= link_to '이용약관', terms_url(subdomain: nil)

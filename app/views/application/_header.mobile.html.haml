@@ -1,7 +1,7 @@
 %nav#site-header.navbar.navbar-default.navbar-fixed-top.js-fixed-header
   .container.clearfix
     .navbar-header.navbar-header-center
-      %a.navbar-brand{ href: root_path }
+      %a.navbar-brand.cursor-pointer
         - if host_group.indie?
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
         - else
@@ -14,4 +14,4 @@
             = image_tag 'btn_mobile_menu_white.png'
           - else
             = image_tag 'btn_mobile_menu.png'
-= render 'application/mobile_drawer_menu'
+= render 'application/drawer_menu.mobile'

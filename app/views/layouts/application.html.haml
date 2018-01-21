@@ -20,7 +20,7 @@
 
     = csrf_meta_tags
 
-  %body{class: body_class }
+  %body.js-menu-slideout-lg{ class: body_class }
     %section(style='position: fixed; z-index: 10000; width: 100%')
       .container
         .unobtrusive-flash-container
@@ -32,8 +32,13 @@
       = yield :header
     - else
       = render 'application/header'
-    %main#js-main.main-panel
-      = yield
+
+    %main.main-panel#js-main-panel.large-main-panel.clearfix{ class: ('sidebar-open-in-advance' if sidebar_opened?) }
+      .sidebar-wrapper
+        = render 'drawer_menu'
+      .content-wrapper
+        = yield
+
     - if content_for?(:footer)
       = yield :footer
 

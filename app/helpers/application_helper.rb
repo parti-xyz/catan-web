@@ -3,8 +3,11 @@ require 'htmlentities'
 module ApplicationHelper
   def body_class
     arr = ["app-#{params[:controller]}", "app-#{params[:controller]}-#{params[:action]}"]
-    arr << "in-group" if current_group.present?
     arr << "in-parti" if @issue.present?
+    if current_group.present?
+      arr << "in-group"
+      arr << current_group.is_light_theme? ? "light-theme" : "dark-theme"
+    end
     arr.join(' ')
   end
 
@@ -223,5 +226,13 @@ module ApplicationHelper
 
   def user_subject_word(user)
     (user == current_user ? "내가" : "@#{user.nickname}님이")
+  end
+
+  def sidebar_opened?
+    cookies[:'sidebar-open'] == "true"
+  end
+
+  def root_domain
+    URI(root_url(subdomain: nil)).host
   end
 end

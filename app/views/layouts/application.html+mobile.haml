@@ -21,7 +21,7 @@
 
     = csrf_meta_tags
 
-  %body{class: body_class }
+  %body.js-menu-slideout{class: body_class }
     %section(style='position: fixed; z-index: 10000; width: 100%')
       .container
         .unobtrusive-flash-container
@@ -32,12 +32,9 @@
     - if content_for?(:header)
       = yield :header
     - else
-      = render 'application/mobile_header'
+      = render 'application/header.mobile'
     %main#js-main.main-panel
       = yield
-
-    - unless is_small_screen?
-      = render 'messenger'
 
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)

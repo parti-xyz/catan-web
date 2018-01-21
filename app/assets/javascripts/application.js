@@ -35,7 +35,8 @@
 //= require chartkick
 //= require mobile_app
 //= require slideout
-
+//= require js.cookie
+//
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
   'resizeDuration': 200,
@@ -968,10 +969,12 @@ $(function(){
   });
 
   // drawer
+  // 1. mobile
   (function() {
-    if($('#js-drawer').length <= 0 && $('#js-main').length <= 0) {
+    if($('body.js-menu-slideout').length <= 0 || $('#js-drawer').length <= 0 || $('#js-main').length <= 0) {
       return;
     }
+
     var slideout = new Slideout({
       'panel': $('#js-main')[0],
       'menu': $('#js-drawer')[0],
@@ -1035,6 +1038,26 @@ $(function(){
         $fixed.css('transition', '');
       }
       $(this.panel).removeClass('main-panel-translate');
+    });
+  })();
+
+  // 2. large screen
+  (function() {
+    if($('body.js-menu-slideout-lg').length <= 0 || $('#js-main-panel').length <= 0 || $('#js-drawer').length <= 0) {
+      return;
+    }
+
+    $('.js-slideout-toggle').on('click', function(e) {
+      e.preventDefault();
+      var root_domain = $('.js-slideout-toggle').data('root-domain');
+      if($('#js-drawer').is(':visible')) {
+        $('#js-main-panel').removeClass('sidebar-open');
+        Cookies.set('sidebar-open', false, { domain: root_domain });
+      } else {
+        $('#js-main-panel').addClass('sidebar-open');
+        Cookies.set('sidebar-open', true, { domain: root_domain });
+      }
+      $('#js-main-panel').removeClass('sidebar-open-in-advance');
     });
   })();
 

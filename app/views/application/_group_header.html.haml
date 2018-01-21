@@ -6,15 +6,11 @@
         = security_icon(current_group)
     %ul.nav.navbar-nav.navbar-left
       %li
-        %a.btn-drawer-menu.js-slideout-toggle{ href: '#'}
+        %a.btn-drawer-menu.js-slideout-toggle.cursor-pointer{ 'data-root-domain': root_domain }
           %i.fa.fa-bars{style:"font-size:18px;"}
     #collapsable.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
-          %li
-            = link_to dashboard_url(subdomain: '') do
-              %i.fa.fa-th-list
-              내 피드
           - if current_user.member_groups.any?
             %li.my-group.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
@@ -57,4 +53,3 @@
           %li.sign-up
             = link_to '로그인', new_user_session_path
 = render 'application/check_real_email'
-= render 'drawer_menu'

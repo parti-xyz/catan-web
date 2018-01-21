@@ -34,7 +34,7 @@ module PartiUrlHelper
   end
 
   def smart_user_gallery_url(user, options = {})
-    slug_user_url(options.merge(slug: user.slug))
+    slug_user_url(options.merge(subdomain: nil, slug: user.slug))
   end
 
   def smart_post_path_or_url(post, options = {})
