@@ -27,14 +27,15 @@
   - if current_group.present? and current_group.categories.try(:any?) and current_group.member?(current_user)
     %li.divider.divider-light
     %li.category-line
-      .title 주제별 빠띠
+      = link_to issues_path, class: 'title' do
+        = group_category_section_title(current_group)
       %ul.sub.list-unstyled
         - current_group.categories.each do |category|
           %li.issue-line
             = link_to issues_path(category_slug: category.slug) do
               = category.name
   - Group.comprehensive_joined_by(current_user).but(host_group).each_with_index do |group, index|
-    %li.divider{ class: ('divider-thick' if (any_content and index == 0)) }
+    %li.divider
     %li.group-issues-line
       .title
         = link_to smart_group_url(group) do

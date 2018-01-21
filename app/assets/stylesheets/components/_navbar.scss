@@ -218,6 +218,8 @@
 
 // drawer
 
+$drawer-default-space: 6px;
+
 .drawer-list {
   &:not(.slideout-menu) {
     display: none;
@@ -269,7 +271,7 @@
       padding-left: 18px;
       a {
         color: $gray-dark;
-        padding: 3px 0;
+        padding: 0;
         display: block;
       }
       .action-link{
@@ -277,8 +279,7 @@
         font-weight:bold;
       }
       &.menu-line {
-        margin-top: 12px;
-        margin-bottom: 12px;
+        margin: $drawer-default-space 0;
         > a:not(.action-link) {
           padding: 0;
           color: $gray;
@@ -286,10 +287,13 @@
         > a.user-byline-no-image {
           line-height: 2em;
         }
+        &.large-menu-line {
+          margin-top: 24px;
+        }
       }
       &.issue-line,
       &.group-line {
-        margin: 3px 0;
+        margin: $drawer-default-space 0;
         a {
           color: $gray;
         }
@@ -297,12 +301,15 @@
           color: $brand-primary;
         }
       }
+      &.group-line {
+        font-weight: 200;
+      }
       &.group-issues-line,
       &.category-line {
         .title {
           font-weight: 200;
         }
-        margin: 18px;
+        margin: 12px 18px;
         padding: 0;
         &:first-child {
           margin-top: 0;
@@ -319,9 +326,10 @@
           }
         }
         .sub {
-          margin-top: 16px;
+          margin-top: 12px;
           .issue-line {
-            padding-left: 0;
+            padding: 0;
+            border: none;
           }
         }
       }
@@ -329,7 +337,7 @@
         .drawer-list-mobile & {
           background-color: white;
         }
-        padding: 18px 18px 0;
+        padding: 24px 18px ($drawer-default-space + 6px);
         a {
           color: white;
         }
@@ -345,11 +353,15 @@
             position: absolute;
             top: 0;
             right: 0;
+            i {
+              color: $brand-primary;
+            }
           }
         }
       }
       &.divider {
         height: 1px;
+        margin: 24px 0;
         background-color: $gray-lighter;
         &-light {
           background-color: $gray-lightest;
@@ -359,7 +371,6 @@
         }
       }
       &.logo {
-        padding-top: 24px;
         padding-bottom: 12px;
         .slogan {
           font-size: $font-size-small;
@@ -485,7 +496,7 @@ $side-menu-width: 256px;
     width: $side-menu-width;
     min-height: 100vh;
     overflow-y: scroll;
-    box-shadow:0px 0px 15px $gray-light;
+    box-shadow:0px 5px 15px $gray-light;
 
     .drawer-list {
       display: block;

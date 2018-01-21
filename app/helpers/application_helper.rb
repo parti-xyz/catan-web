@@ -220,7 +220,23 @@ module ApplicationHelper
         concat s_icon
         concat raw('&nbsp;')
       end
-      concat content_tag("span", "#{Catan::SmartPostposition.new(title).adjust('이')} 오거나이징하는 빠띠", class: ["group-helptext"])
+      concat(content_tag("span", class: ["group-helptext"]) do
+        concat content_tag("span", "#{Catan::SmartPostposition.new(title).adjust('이')} 오거나이징하는 ")
+        concat content_tag("span", "내 빠띠", class: ["text-nowrap"])
+      end)
+    end
+  end
+
+  def group_category_section_title(group)
+    content_tag :span, class: ["group-parties-section-title"] do
+      title = group.indie? ? "개인" : group.title_basic_format
+      concat content_tag("span", title, class: ["group-title"])
+      s_icon = security_icon(group)
+      if s_icon.present?
+        concat s_icon
+        concat raw('&nbsp;')
+      end
+      concat content_tag("span", "의 주제별 빠띠", class: ["group-helptext"])
     end
   end
 

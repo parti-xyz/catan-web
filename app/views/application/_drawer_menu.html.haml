@@ -4,7 +4,7 @@
       = render 'application/drawer_search'
       = render 'application/drawer_issues'
     - else
-      %li.menu-line
+      %li.menu-line.large-menu-line
         = link_to issues_url(subdomain: nil), class: 'action-link' do
           %i.fa.fa-search
           관심있는 빠띠를 찾아보세요
@@ -21,13 +21,13 @@
           %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
         %span.slogan
           민주적 일상 커뮤니티 '빠띠'
-    %li= link_to '빠띠 소개', about_url(subdomain: nil)
-    %li= link_to '이용약관', terms_url(subdomain: nil)
-    %li= link_to '그룹 개설 안내', service_url(subdomain: nil)
-    %li= link_to '개인정보취급정책', privacy_url(subdomain: nil)
-    %li
+    %li.menu-line= link_to '빠띠 소개', about_url(subdomain: nil)
+    %li.menu-line= link_to '이용약관', terms_url(subdomain: nil)
+    %li.menu-line= link_to '그룹 개설 안내', service_url(subdomain: nil)
+    %li.menu-line= link_to '개인정보취급정책', privacy_url(subdomain: nil)
+    %li.menu-line
       %a(href='mailto:help@parti.xyz')
         오류 및 버그 신고
-    %li
+    %li.menu-line
       = link_to smart_issue_home_url(Issue.parti_parti) do
         제안 및 의견 &middot; 빠띠만든당
