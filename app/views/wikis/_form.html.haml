@@ -14,10 +14,11 @@
         = render 'wikis/read_only_wiki_content', wiki: post.wiki
   .submit-box.clearfix{ style: 'margin-top: 12px' }
     = controls
-  %hr.wiki-authors-hr
-  .clearfix
-    .wiki-authors.tooltip-no-wrap
-      작성
-      - post.wiki.authors.each do |user|
-        = link_to smart_user_gallery_path(user) do
-          .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
+  - unless local_assigns[:hidden_authors]
+    %hr.wiki-authors-hr
+    .clearfix
+      .wiki-authors.tooltip-no-wrap
+        작성
+        - post.wiki.authors.each do |user|
+          = link_to smart_user_gallery_path(user) do
+            .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}

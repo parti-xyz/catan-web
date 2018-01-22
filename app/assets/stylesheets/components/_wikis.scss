@@ -177,6 +177,13 @@ section#wiki-histories {
       padding: 20px;
     }
   }
+  .conflict-target-editor{
+    border: 3px solid rgba(89, 186, 163, 0.3);
+
+  }
+  .conflict-content{
+    border: 3px solid rgba(240, 100, 109, 0.3);
+  }
   hr.wiki-authors-hr {
     border: 0;
     height: 1px;
