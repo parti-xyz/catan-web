@@ -1148,4 +1148,8 @@ $(function(){
     });
   })();
 
+  // 스파크앱의 로딩 화면을 없앱니다
+  if(ufo.isApp()) {
+    ufo.hideWait()
+  }
 });
