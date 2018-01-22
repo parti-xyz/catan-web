@@ -11,14 +11,6 @@
     #collapsable.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
-          - if current_user.member_groups.any?
-            %li.my-group.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                %i.fa.fa-cube
-                내 그룹
-              %ul.dropdown-menu
-                - current_user.member_groups.each do |group|
-                  %li= link_to group.title_short_format, smart_group_url(group)
           - if current_user.messages.empty?
             %li.notification
               = link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
