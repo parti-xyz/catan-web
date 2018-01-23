@@ -42,6 +42,9 @@ section#issues-group-index {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    .bg-blur {
+      opacity: 0.6;
+    }
   }
 
   .parti-logo {
