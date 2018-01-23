@@ -132,6 +132,21 @@
     }
   }
 
+  // history-back
+  .history-back {
+    @media (max-width: $screen-xs-max) {
+      a i {
+        font-size: $font-size-large;
+      }
+      body.dark-theme & a {
+        color: white;
+      }
+      body.light-theme & a {
+        color: $gray-dark;
+      }
+    }
+  }
+
   // messages bell button
   .notification {
     @media (max-width: $screen-xs-max) {

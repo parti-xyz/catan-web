@@ -211,6 +211,17 @@ module ApplicationHelper
     '.webp' == File.extname(URI.parse(url).path)
   end
 
+  def history_backable_in_mobile?
+    return false if request.referer.blank?
+
+    !(
+      (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
+      (request.params[:controller] == 'issues' and request.params[:action] == 'home') or
+      (request.params[:controller] == 'issues' and request.params[:action] == 'slug_home') or
+      (request.params[:controller] == 'messages' and request.params[:action] == 'index')
+    )
+  end
+
   def group_parties_section_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
       title = group.indie? ? "개인" : group.title_basic_format

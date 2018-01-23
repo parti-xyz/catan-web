@@ -968,6 +968,12 @@ $(function(){
     });
   });
 
+  // history back
+  $('.js-history-back').on('click', function(e) {
+    event.preventDefault();
+    history.back(1);
+  });
+
   // drawer
   // 1. mobile
   (function() {
