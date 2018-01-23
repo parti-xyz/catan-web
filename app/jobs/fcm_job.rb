@@ -45,6 +45,7 @@ class FcmJob
 
     result = JSON.parse(json)
     result['data'].merge!({ 'user_id' => user.id })
+    result['notification'] = { 'title' => result['title'], 'body' => result['body'], 'sound' => 'default' }
     result
   end
 end
