@@ -554,3 +554,68 @@ $side-menu-width: 256px;
     }
   }
 }
+
+body.in-group {
+  #site-header.navbar-fixed-top {
+    background-color: $brand-primary;
+  }
+  @media (min-width: $screen-sm-min) {
+    #site-header.navbar-fixed-top {
+      border-bottom: 1px solid $brand-primary-darker;
+
+      .container {
+        position: relative;
+        height: 100%;
+      }
+
+      .navbar-header {
+        .navbar-brand {
+          font-weight: 600;
+          color: white;
+        }
+      }
+
+      .nav > li > a {
+        color: $gray-lighter;
+        font-weight: normal;
+        &.group-title {
+          padding-left: 0;
+          color: white;
+        }
+        &.active,
+        &:hover {
+          color: white;
+        }
+        h4 {
+          font-weight: 400;
+          margin: 1px 0 0 0;
+        }
+      }
+      &.navbar-default .navbar-nav > .open > a,
+      &.navbar-default .navbar-nav > .open > a:hover,
+      &.navbar-default .navbar-nav > .open > a:focus {
+        background: none;
+      }
+      .navbar-nav > li.member-parties .dropdown-toggle,
+      .navbar-nav > li.parti-tags .dropdown-toggle,
+      .navbar-nav > li.all-posts .dropdown-toggle {
+        background: none;
+        &:hover {
+          color: white;
+        }
+      }
+      .navbar-default .navbar-nav > .open > a,
+      .navbar-default .navbar-nav > .open > a:hover,
+      .navbar-default .navbar-nav > .open > a:focus {
+        background: none;
+      }
+    }
+
+    &.in-parti {
+      padding-top: $header-menu-height;
+      #site-header.navbar-fixed-top {
+        height: $header-menu-height;
+      }
+    }
+  }
+}
