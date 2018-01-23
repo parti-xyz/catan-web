@@ -41,15 +41,14 @@
                     %span.hidden-xs
                       @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{@post.wiki.last_history.user.nickname} 님이 내용을 고쳤습니다. 오른쪽의 내용을 왼쪽 편집창에 적절히 합쳐주시기 바랍니다.
                     %span.visible-xs-block
-                      @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{@post.wiki.last_history.user.nickname} 님이 내용을 고쳤습니다. 아래의 내용을 위쪽 편집창에 적절히 합쳐주시기 바랍니다.
+                      @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{@post.wiki.last_history.user.nickname} 님이 내용을 고쳤습니다. 아래쪽 내용을 위쪽 편집창에 적절히 합쳐주시기 바랍니다.
               .row
                 .col-sm-12.col-lg-6
                   .post-card__last-stroked
                     .media
                       .media-left
-                        - @post.wiki.authors.each do |user|
-                          = link_to smart_user_gallery_path(user) do
-                            .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
+                        = link_to smart_user_gallery_path(@post.wiki.last_history.user) do
+                          .thumb.img-circle.circle-30{style: "background-image: url(#{@post.wiki.last_history.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{@post.wiki.last_history.user.nickname}", :type => "button"}
                       .media-body
                         %strong.nickname
                           #{@post.wiki.last_history.user.nickname}
