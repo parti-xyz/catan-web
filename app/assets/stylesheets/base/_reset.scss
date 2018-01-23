@@ -120,3 +120,7 @@ body.editor-spotlight {
     padding: 0;
   }
 }
+
+.focusable-column {
+  z-index: $zindex-focusable-column !important;
+}

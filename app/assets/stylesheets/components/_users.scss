@@ -381,7 +381,7 @@ section#user-gallery{
   right: 0;
   margin: auto;
   background-color: rgba(83,83,86,0.8);
-  z-index: 9999;
+  z-index: $zindex-login-overlay;
   .devider span {
     background-color: #fff;
   }

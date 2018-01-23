@@ -852,7 +852,7 @@ label.required:after {
       color: $brand-primary;
     }
     .dropdown-menu.open {
-      z-index: 10000;
+      z-index: $zindex-parti-select-in-post-form;
     }
   }
 
