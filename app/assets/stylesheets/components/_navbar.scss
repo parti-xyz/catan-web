@@ -219,6 +219,7 @@
 // drawer
 
 $drawer-default-space: 6px;
+$drawer-default-space-mobile: 12px;
 
 .drawer-list {
   &:not(.slideout-menu) {
@@ -278,8 +279,15 @@ $drawer-default-space: 6px;
         color: $brand-primary;
         font-weight:bold;
       }
+      &.issue-line,
+      &.group-line,
       &.menu-line {
         margin: $drawer-default-space 0;
+        @media (max-width: $screen-xs-max) {
+          margin: $drawer-default-space-mobile 0;
+        }
+      }
+      &.menu-line {
         > a:not(.action-link) {
           padding: 0;
           color: $gray;
@@ -293,7 +301,6 @@ $drawer-default-space: 6px;
       }
       &.issue-line,
       &.group-line {
-        margin: $drawer-default-space 0;
         a {
           color: $gray;
         }
@@ -338,6 +345,9 @@ $drawer-default-space: 6px;
           background-color: white;
         }
         padding: 24px 18px ($drawer-default-space + 6px);
+        @media (max-width: $screen-xs-max) {
+          padding: 24px 18px ($drawer-default-space-mobile + 6px);
+        }
         a {
           color: white;
         }
