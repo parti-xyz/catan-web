@@ -1,7 +1,7 @@
 %nav#site-header.navbar.navbar-default.navbar-fixed-top.js-fixed-header
   .container.clearfix
     .navbar-header.navbar-header-center
-      %a.navbar-brand.cursor-pointer
+      %a.navbar-brand{ href: root_path }
         - if host_group.indie?
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
         - else
@@ -25,9 +25,9 @@
 
     %ul.nav.navbar-nav.navbar-left
       %li
-        %a.btn-drawer-menu.js-slideout-toggle{ href: '#'}
+        %a.btn-drawer-menu.js-slideout-toggle
           - if host_group.try(:is_light_theme?)
-            = image_tag 'btn_mobile_menu_white.png'
-          - else
             = image_tag 'btn_mobile_menu.png'
+          - else
+            = image_tag 'btn_mobile_menu_white.png'
 = render 'application/drawer_menu.mobile'

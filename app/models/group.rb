@@ -126,7 +126,7 @@ class Group < ActiveRecord::Base
   end
 
   def is_light_theme?
-    !%(indie).include?(self.slug)
+    %(indie).include?(self.slug)
   end
 
   def self.comprehensive_joined_by(someone)

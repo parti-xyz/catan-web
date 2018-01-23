@@ -20,6 +20,12 @@
           width: $site-header-brand-image-width-xs;
           margin: 0 auto;
         }
+        body.light-theme & {
+          color: $gray-dark;
+        }
+        body.dark-theme & {
+          color: white;
+        }
       }
     }
     &.navbar-header-center {
@@ -117,6 +123,12 @@
       a {
         font-size: $font-size-large;
       }
+      body.dark-theme & a {
+        color: white;
+      }
+      body.light-theme & a {
+        color: $gray-dark;
+      }
     }
   }
 
@@ -125,6 +137,12 @@
     @media (max-width: $screen-xs-max) {
       a {
         font-size: $font-size-large;
+      }
+      body.dark-theme & a {
+        color: white;
+      }
+      body.light-theme & a {
+        color: $gray-dark;
       }
     }
     .icon-bell-stack{
@@ -170,7 +188,6 @@
     }
   }
 
-  body.in-group & .navbar-header-center .navbar-brand,
   body.in-group & > li > a:hover,
   body.in-group & > li > a {
     color: white;

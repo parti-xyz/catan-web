@@ -6,7 +6,7 @@ module ApplicationHelper
     arr << "in-parti" if @issue.present?
     if current_group.present?
       arr << "in-group"
-      arr << current_group.is_light_theme? ? "light-theme" : "dark-theme"
+      arr << (current_group.is_light_theme? ? "light-theme" : "dark-theme")
     end
     arr.join(' ')
   end
