@@ -95,38 +95,6 @@
     }
   }
 
-  // dropdown styles
-  &.navbar-nav {
-    & > li.dropdown {
-      & > ul.dropdown-menu {
-        & > li {
-          &.issue-line,
-          &.dropdown-header,
-          &.dropdown-filter {
-            padding: 3px 20px;
-            border-color: transparent;
-          }
-          &.dropdown-header {
-            padding-top: 12px;
-          }
-        }
-      }
-      &.member-parties {
-        & > ul.dropdown-menu {
-          min-width: 300px;
-        }
-      }
-      &.general-parties {
-        & > ul.dropdown-menu {
-          min-width: 240px;
-          max-height: 400px;
-          overflow: hidden;
-          overflow-y: auto;
-        }
-      }
-    }
-  }
-
   // collapse styles
   .collapse-toggle {
     &:not(.collapsed) .caret {
@@ -143,9 +111,22 @@
     }
   }
 
-  // messages bell button
+  // sign in
+  .sign-up {
+    @media (max-width: $screen-xs-max) {
+      a {
+        font-size: $font-size-large;
+      }
+    }
+  }
 
+  // messages bell button
   .notification {
+    @media (max-width: $screen-xs-max) {
+      a {
+        font-size: $font-size-large;
+      }
+    }
     .icon-bell-stack{
       position: relative;
       display: inline-block;
@@ -200,6 +181,16 @@
     > li.parti-tags .dropdown-toggle:hover,
     > li.all-posts .dropdown-toggle:hover {
       color: white;
+    }
+  }
+
+  // mobile right menus
+  @media (max-width: $screen-xs-max) {
+    .nav.navbar-right {
+      float: right;
+      & > li {
+        float: left;
+      }
     }
   }
 }

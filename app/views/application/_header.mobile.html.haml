@@ -7,6 +7,22 @@
         - else
           #{host_group.head_title}
 
+    %ul.nav.navbar-nav.navbar-right
+      - if user_signed_in?
+        %li.notification
+          = link_to messages_url(subdomain: nil), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
+            %span.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
+              %span.icon-bell-stack
+                %i.fa.fa-circle.fa-stack-1x
+                %i.fa.fa-bell.fa-stack-1x.fa-inverse
+              %span.label.label-danger= trim_count current_user.unread_messages_count
+            %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
+              %i.fa.fa-bell
+      - else
+        %li.sign-up
+          = link_to new_user_session_path do
+            %i.fa.fa-sign-in
+
     %ul.nav.navbar-nav.navbar-left
       %li
         %a.btn-drawer-menu.js-slideout-toggle{ href: '#'}

@@ -2,14 +2,6 @@
   - if user_signed_in?
     .drawer-list__profile
       = byline current_user
-      .drawer-list__messages
-        = link_to messages_path do
-          - if current_user.unread_messages_count > 0
-            %span.fa-stack
-              %i.fa.fa-bell.fa-stack-1x{style: 'color: white'}
-              %i.icon-dot-corner.fa-stack-1x
-          - else
-            %i.fa.fa-bell{style: 'color: white'}
   - else
     .drawer-list__profile
       = image_tag 'img_default_profile.png', class: 'default-profile'
