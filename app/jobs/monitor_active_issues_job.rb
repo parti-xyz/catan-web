@@ -3,7 +3,6 @@ class MonitorActiveIssuesJob
   sidekiq_options unique: :while_executing
 
   def perform(stat_at = Date.yesterday)
-
     active_post_issue = Issue.where(id: Post.by_day(stat_at).select('issue_id'))
     active_comment_issue_ids = Comment.by_day(stat_at).joins(:post).group('posts.issue_id').select('posts.issue_id').having('count(posts.issue_id) >= 3')
     active_comment_issue = Issue.where(id: active_comment_issue_ids)

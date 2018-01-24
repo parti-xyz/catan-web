@@ -5,4 +5,24 @@ class Group::ManagementsController < GroupBaseController
     organizer_group = Group.find_by(slug: 'organizer')
     @posts_pinned = organizer_group.pinned_posts(current_user)
   end
+
+  def statistics
+    #그룹에 있는 이슈의 포스트의 group by 작성자 count 의
+    group_issues = Issue.where(group_slug: current_group.slug)
+    group_posts = Post.where(issue: group_issues)
+    @active_users_by_posts = group_posts.group('posts.user_id')
+                            .order('count_id desc')
+                            .count('id').first(10)
+
+    @active_users_by_comments = Comment.where(post: group_posts)
+                                .group('comments.user_id')
+                                .order('count_id desc')
+                                .count('id').first(10)
+
+    @active_users_by_upvotes = Upvote.where(issue: group_issues)
+                          .group('upvotes.user_id')
+                          .order('count_id desc')
+                          .count('id').first(10)
+
+  end
 end
