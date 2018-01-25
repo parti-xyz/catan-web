@@ -165,7 +165,6 @@
       display: inline-block;
       width: 24px;
       vertical-align: top;
-      color: $brand-primary;
       .fa-circle {
         font-size: 26px;
       }
@@ -175,6 +174,9 @@
       display: inline-block;
       height: 12px;
       vertical-align: text-top;
+    }
+    .active-bell {
+      color: $brand-primary;
     }
     &.dropdown .dropdown-menu {
       width: 420px;
