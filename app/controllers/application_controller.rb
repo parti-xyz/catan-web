@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :prepare_meta_tags, if: "request.get?"
   before_action :set_device_type
   before_action :blocked_private_group
+  before_action :logging_mobile_app
 
   after_action :prepare_unobtrusive_flash
   after_action :prepare_store_location
@@ -188,5 +189,13 @@ class ApplicationController < ActionController::Base
     return model.search_for(q, options) if q.blank?
 
     model.search_for q.split.map { |t| "\"#{t}\"" }.join(" OR "), options
+  end
+
+  def logging_mobile_app
+    if is_mobile_app_get_request? request
+      Rails.logger.info "SPARK APP - catan-agent : #{request.headers["catan-agent"]}"
+    else
+      Rails.logger.info "SPARK APP - NO "
+    end
   end
 end
