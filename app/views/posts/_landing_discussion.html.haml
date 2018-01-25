@@ -1,0 +1,119 @@
+- comment_style = local_assigns[:mode] || 'in-list'
+.landing-discussion-card.post-card{class: "post-card--#{comment_style} #{dom_id(post)} #{ 'post-card--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}"}
+  .post-card__content
+    .row.post-card__post
+      - if post.poll.present?
+        .col-md-6
+          .post-card__header{ style: "border-top: 0px;"}
+            .media
+              .media-left
+                = link_to smart_issue_home_path_or_url(post.issue) do
+                  .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
+              .media-body
+                = link_to smart_issue_home_path_or_url(post.issue) do
+                  %span.issue-title
+                    = post.issue.title
+                    = security_icon(post.issue)
+          %h4.poll-card__title “#{post.poll.title}”
+        .col-md-6.voting-area
+          = render 'votings/voting', compact: true, poll: post.poll
+      - elsif post.survey.present?
+        .col-md-6
+          .post-card__header{ style: "border-top: 0px;"}
+            .media
+              .media-left
+                = link_to smart_issue_home_path_or_url(post.issue) do
+                  .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
+              .media-body
+                = link_to smart_issue_home_path_or_url(post.issue) do
+                  %span.issue-title
+                    = post.issue.title
+                    = security_icon(post.issue)
+          = link_to post do
+            %h4.survey-card__title
+              != smart_truncate_html(post.body, length: 30)
+        .col-md-6
+          - popover_placement = browser.device.mobile? ? 'auto' : 'right'
+          - class_check = post.survey.multiple_select? ? 'fa-check-square-o' : 'fa-check-circle-o'
+          .survey-options{ class: survey_options_dom_class(post) }
+            .survey-options--body{ class: ('survey-options--body--no-checkbox' if (!post.survey.feedbacked?(current_user) or !post.survey.mvp_options.any?) and !post.survey.open?) }
+              - survey_options = post.survey.options.count > 3 ? post.survey.options.limit(3) : post.survey.options
+              - survey_options.each do |option|
+                .option.clearfix[option]
+                  - if !user_signed_in?
+                    .checkbox-btn
+                      %span.cursor-pointer{ data: { toggle: 'parti-login-overlay', 'no-parti-link': 'no' } }
+                        %i.fa{ class:  class_check }
+                  - else
+                    .checkbox-btn
+                      - if post.survey.open?
+                        = link_to post, target: "_blank" do
+                          - if option.selected?(current_user)
+                            %i.fa.active{ class:  class_check }
+                          - else
+                            %i.fa{ class:  class_check }
+                      - else
+                        %span.closed
+                          - if option.selected?(current_user)
+                            %i.fa.active{ class:  class_check }
+                  .body
+                    - if post.survey.visible_feedbacks?(current_user)
+                      - option_body = capture do
+                        %span.text-basic-wrap.chart__label= option.body
+                      - if post.survey.open?
+                        = link_to option_body, post, target: "_blank"
+                      - else
+                        = option_body
+                      .webui-popover-content
+                        .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users"}
+                          - option.feedback_users.each do |user|
+                            = link_to smart_user_gallery_path(user), target: '_blank' do
+                              .user-info
+                                .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+                                = user.nickname
+                    - else
+                      - option_body = capture do
+                        .no-chart__label.text-basic-wrap
+                          = option.body
+                      - unless user_signed_in?
+                        %span.cursor-pointer{ data: { toggle: 'parti-login-overlay', 'no-parti-link': 'no' } }
+                          = option.body
+                      - else
+
+                        - if post.survey.open?
+                          = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
+                        - else
+                          = option_body
+                  .feedbacks-count
+                    - if can? :destroy, option
+                      = link_to '삭제', option, method: :delete, remote: true, 'data-confirm': '정말 삭제하시겠습니까?'
+              .survey-options--footer.clearfix
+                = post.survey.remain_time_human
+
+                - if post.survey.open? and post.survey.feedbacks.any? and !post.survey.feedbacked?(current_user)
+                  %div.text-basic-wrap
+                    현재
+                    %strong.text-primary #{post.survey.feedback_users_count}
+                    명이 투표했습니다.
+                - else
+                  - if post.survey.feedbacks_count > 0
+                    %span.hidden-xs &middot;
+                    %br.visible-xs-block
+                    %span.survey-options--count.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
+                      총투표 #{post.survey.feedback_users_count}명
+                    .webui-popover-content
+                      .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
+                        - post.survey.feedback_users.each do |user|
+                          = link_to smart_user_gallery_path(user), target: '_blank' do
+                            .user-info
+                              .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+                              = user.nickname
+                    - if post.survey.multiple_select?
+                      %span.survey-options--mulitple-select
+                        &middot;
+                        중복 투표 가능
+
+
+
+
+

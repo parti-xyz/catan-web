@@ -977,3 +977,139 @@ body.app-issues-new, .bs-component{
     right: -5px;
   }
 }
+
+section#landing-page{
+  h4.group-heading{
+    margin: 20px 0px;
+  }
+  .post-card{
+    &__header{
+      height: 55px;
+      margin: 10px 0px;
+      border-top: 1px solid #eeeeee;
+      border-bottom: 0px;
+    }
+  }
+  section#landing-header{
+    background-color: #7b5fa8;
+    padding: 100px 0px;
+    h1{
+      color: white;
+      line-height: 50px;
+      font-weight: 500;
+      small{
+        color: white;
+        font-weight: 100;
+      }
+    }
+  }
+  .recent-post-card{
+    border-radius: 0px;
+    .post-card{
+      &__post{
+        padding: 0px;
+        .truncated-body{
+          height: 100px;
+          overflow: hidden;
+        }
+      }
+    }
+    .post-parsed-body{
+      padding: 20px;
+    }
+    .post-reference-line{
+      &__file-content--image{
+        border: 0px;
+        height: 200px;
+      }
+    }
+  }
+  .landing-discussion-card{
+    border-radius: 0px;
+    height: 232px;
+    margin-bottom: 30px;
+    .post-card{
+      &__header{
+        padding: 0px;
+        border-bottom: 0px;
+        margin-bottom: 10px;
+      }
+      &__content, &__post{
+        height: 100%;
+        .voting-area{
+          padding: 35px 5px;
+          text-align: center;
+        }
+      }
+    }
+    .option .body{
+      margin-left: 15px;
+    }
+  }
+  section#banner{
+    background: #75a6d8; /* Old browsers */
+    background: -moz-linear-gradient(left, #2cb09c 0%, #877fba 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #2cb09c 0% ,#877fba 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #2cb09c 0%, #877fba 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2cb09c', endColorstr='#877fba',GradientType=1 ); /* IE6-9 */
+    color: white;
+    padding: 50px 0px;
+    h3{
+      line-height: 33px;
+    }
+    a{
+      color: white;
+      &:hover{
+        color: $brand-primary-light;
+      }
+    }
+    .tip-title{
+      text-align: center;
+      font-size: 18px;
+      i{
+        font-size: 36px;
+        margin: 15px;
+      }
+    }
+    margin: 20px 0px;
+    button{
+      border-radius: 0px;
+      padding: 10px 20px;
+      border: 0px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    #join-btn{
+      color: $brand-primary;
+      &:hover{
+        font-weight: bold;
+      }
+    }
+  }
+  section#wikis{
+    .landing-wiki-card{
+      background-color: white;
+      height: 330px;
+      .wiki-content{
+        padding: 10px;
+        overflow: hidden;
+        height: 180px;
+        font-size: 14px;
+        background-color: #eeeeee;
+        margin: 20px;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  section#footer{
+    height: 60px;
+    padding-top: 10px;
+    li a{
+      color: dimgray;
+      &:hover{
+        color: black;
+      }
+    }
+  }
+}
