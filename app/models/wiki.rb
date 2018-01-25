@@ -52,6 +52,9 @@ class Wiki < ActiveRecord::Base
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
 
   scope :with_status, ->(status) { where(status: status) }
+  scope :recent, -> { order(created_at: :desc) }
+  scope :order_by_updated_at, -> { order(updated_at: :desc).recent }
+
 
   def last_history
     wiki_histories.newest

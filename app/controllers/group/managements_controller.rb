@@ -29,7 +29,6 @@ class Group::ManagementsController < GroupBaseController
                           .order('count_id desc')
                           .count('id').first(10)
 
-
   end
 
   def statistics

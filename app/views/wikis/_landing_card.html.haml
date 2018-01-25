@@ -1,0 +1,16 @@
+= link_to post, target: "_blank" do
+  .landing-wiki-card.wiki-line.clearfix
+    %h4.wiki-title
+      = HTML_Truncator.truncate(post.wiki.title, 4)
+    .wiki-content
+      != smart_truncate_html(post.wiki.body, length: 120)
+    .post-card__header{ style: "position:absolute; bottom: 0;" }
+      .media{style: "margin-top: 0px;"}
+        .media-left
+          = link_to smart_issue_home_path_or_url(post.issue) do
+            .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
+        .media-body
+          = link_to smart_issue_home_path_or_url(post.issue) do
+            %span.issue-title
+              = post.issue.title
+              = security_icon(post.issue)

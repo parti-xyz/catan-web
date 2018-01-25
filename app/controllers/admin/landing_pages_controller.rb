@@ -4,14 +4,14 @@ class Admin::LandingPagesController < AdminController
   end
 
   def save
-    sections = ['recent_posts', 'discusstions', 'wikis']
+    sections = ['recent_posts', 'discussions', 'wikis']
 
     sections.each do |section|
       landingPage = LandingPage.new
       if params[section].present?
         LandingPage.find_by(section: section).try(:destroy)
 
-        section_body = params[section].split(',').compact.to_json
+        section_body = params[section].gsub(/\s+/, "").split(',').compact.to_json
         landingPage.assign_attributes(section: section, body: section_body)
         landingPage.save!
       end

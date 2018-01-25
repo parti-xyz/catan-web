@@ -1,0 +1,114 @@
+%section#landing-page
+  %section#landing-header
+    .container.text-center
+      %h1
+        당신은 무엇에 관심이 있나요?
+      .drawer-list__menu{ style: "max-width: 450px; margin: 0 auto; margin-top: -20px;"}
+        %ul.list-unstyled
+          = render 'drawer_search'
+
+  %section#recent-posts
+    .container
+      %h4.group-heading{ style: "margin: 20px 0px;" }
+        최근 빠띠 게시글
+      - posts = @sections[:recent_posts].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - if posts.try(:any?)
+        .row
+          - posts.each do |post|
+            .grid-sizer.col-sm-4
+              = render 'posts/landing_post', post: post, show_issue: true
+
+  %section#discussions
+    .container
+      %h4.group-heading{ style: "margin: 20px 0px;"}
+        진행 중인 토론
+      - discussions = @sections[:discussions].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - if discussions.try(:any?)
+        .row
+          - discussions.each do |discussion|
+            .grid-sizer.col-sm-6
+              = render 'posts/landing_discussion', post: discussion, show_issue: true
+
+  %section#banner
+    .container
+      %h3.text-center{ style: "margin-bottom: 30px;" }
+        %span{ style: "font-weight: 100" }
+          팀과 커뮤니티를 위한 민주적 플랫폼,빠띠
+        %br
+        빠띠로 이렇게, 함께 해보세요
+        %br
+      .row
+        = link_to 'https://organizer.parti.xyz/posts/18286', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-users
+            %br
+            민주적으로 회의하기
+        = link_to 'https://organizer.parti.xyz/posts/18574', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-gavel
+            %br
+            워크숍에서 함께 결정하기
+        = link_to 'https://organizer.parti.xyz/posts/18400', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-comments
+            %br
+            의견 나누기
+        = link_to 'https://organizer.parti.xyz/posts/18575', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-coffee
+            %br
+            조직문화 공유하기
+
+
+
+  %section#wikis
+    .container
+      %h4.group-heading
+        최근 편집된 위키
+      - wikis = @sections[:wikis].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - if wikis.try(:any?)
+        .row
+          - wikis.each do |wiki|
+            .grid-sizer.col-sm-4
+              = render 'wikis/landing_card', post: wiki, show_issue: true
+
+  %section#issues
+    .container
+      %h4.group-heading
+        최근 업데이트된 빠띠
+      .row
+        - Issue.only_public_hottest(4).each do |issue|
+          .col-sm-3.col-xs-6
+            .issue-card-wrapper
+              = render 'issues/card', issue: issue
+
+
+  %section#banner
+    .container
+      %h3.pull-left
+        Platforms for democratic life and culture
+        %br
+        빠띠는 민주적인 삶과 문화를 만듭니다.
+      .pull-right{ style: "margin-top: 25px"}
+        = link_to 'http://partiunion.org', target: "_blank" do
+          %button.btn.btn-default
+            빠띠 팀에 대해
+
+  %section#footer
+    .container
+      %ul.list-unstyled.list-inline
+        %li.logo.pull-right
+          = link_to root_url(subdomain: nil) do
+            %div
+              %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+        %li.menu-line= link_to '빠띠 소개', about_url(subdomain: nil), target: "_blank"
+        %li.menu-line= link_to '이용약관', terms_url(subdomain: nil), target: "_blank"
+        %li.menu-line= link_to '그룹 개설 안내', service_url(subdomain: nil), target: "_blank"
+        %li.menu-line= link_to '개인정보취급정책', privacy_url(subdomain: nil), target: "_blank"
+        %li.menu-line
+          %a(href='mailto:help@parti.xyz')
+            오류 및 버그 신고
+        %li.menu-line
+          = link_to smart_issue_home_url(Issue.parti_parti),   target: "_blank" do
+            제안 및 의견 &middot; 빠띠만든당
+
