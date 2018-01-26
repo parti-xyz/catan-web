@@ -22,7 +22,7 @@ class Admin::LandingPagesController < AdminController
   end
 
   def fetch_posts
-    public_recent_posts = Post.of_public_issues_of_public_group.where('posts.created_at > ?', (Date.today - 15))
+    public_recent_posts = Post.of_searchable_issues.where('posts.created_at > ?', (Date.today - 15))
 
     @recent_posts = public_recent_posts.where('posts.file_sources_count > 0')
     @wikis = public_recent_posts.having_wiki

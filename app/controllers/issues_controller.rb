@@ -89,6 +89,7 @@ class IssuesController < ApplicationController
       end
     else
       @posts = issue_posts.page(params[:page])
+      @recommend_posts = Post.of_undiscovered_issues(current_user).where.not(issue_id: @issue.id).after(1.month.ago).hottest.order_by_stroked_at
     end
   end
 

@@ -204,8 +204,11 @@ class Post < ActiveRecord::Base
     group ||= Group.indie
     where(issue_id: group.issues.not_private_blocked(someone))
   }
-  scope :of_public_issues_of_public_group, -> {
-    where(issue_id: Issue.searchable_issues(nil))
+  scope :of_searchable_issues, ->(current_user = nil) {
+    where(issue_id: Issue.searchable_issues(current_user))
+  }
+  scope :of_undiscovered_issues, ->(current_user = nil) {
+    where(issue_id: Issue.undiscovered_issues(current_user))
   }
   scope :not_in_dashboard_of_group, ->(group, someone) {
     group ||= Group.indie

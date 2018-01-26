@@ -164,7 +164,7 @@ class Issue < ActiveRecord::Base
     .hottest
     .limit(count)
   }
-  scope :searchable_issues, ->(current_user) {
+  scope :searchable_issues, ->(current_user = nil) {
     public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
     indie_public_issues = where(group_slug: 'indie').where.not(private: true)
     if current_user.present?
@@ -173,6 +173,15 @@ class Issue < ActiveRecord::Base
     else
       where.any_of(public_group_public_issues, indie_public_issues)
     end
+  }
+  scope :undiscovered_issues, ->(current_user = nil) {
+    public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
+    indie_public_issues = where(group_slug: 'indie').where.not(private: true)
+    conditions = where.any_of(public_group_public_issues, indie_public_issues)
+    if current_user.present?
+      conditions = conditions.where.not(id: current_user.member_issues.select("members.joinable_id"))
+    end
+    conditions
   }
 
   # search

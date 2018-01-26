@@ -85,28 +85,4 @@
               .visible-xs-block{style:"margin-top:40px;"}
               %h4.group-heading
                 최근 업데이트
-              .post-card.summary
-                - @recent_posts.each do |post|
-                  .post-card__post
-                    .read-mark
-                    .desc
-                      .issue-meta
-                        %span.issue-and-group
-                          %span.issue-title
-                            = post.issue.title
-                            = security_icon(post.issue)
-                        - created_at = post.try(:created_at)
-                        %span.date= created_at.nil? ? '지금' : date_f(created_at)
-                      - if !post.blinded?(current_user)
-                        = link_to post do
-                          = post.specific_desc_striped_tags(120)
-                      - else
-                        .text-muted= t('labels.post_blind_info')
-                    - if !post.blinded?(current_user)
-                      .media-right
-                        - if post.survey.present?
-                          .label.label-default
-                            설문
-                        - elsif post.poll.present?
-                          .label.label-default
-                            찬반
+              = render 'posts/list_card', posts: @recent_posts

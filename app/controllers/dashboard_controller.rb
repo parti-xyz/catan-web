@@ -23,6 +23,7 @@ class DashboardController < ApplicationController
       end
     else
       @posts = watched_posts.page(params[:page])
+      @recommend_posts = Post.of_undiscovered_issues(current_user).after(1.month.ago).hottest.order_by_stroked_at
     end
   end
 

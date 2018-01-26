@@ -1,5 +1,5 @@
 /*!
-  Autosize 3.0.20
+  Autosize 4.0.0
   license: MIT
   http://www.jacklmoore.com/autosize
 */
@@ -126,7 +126,7 @@
       var overflows = getParentOverflows(ta);
       var docTop = document.documentElement && document.documentElement.scrollTop; // Needed for Mobile IE (ticket #240)
 
-      ta.style.height = 'auto';
+      ta.style.height = '';
 
       var endHeight = ta.scrollHeight + heightOffset;
 
@@ -156,22 +156,24 @@
 
       var styleHeight = Math.round(parseFloat(ta.style.height));
       var computed = window.getComputedStyle(ta, null);
-      var actualHeight = Math.round(parseFloat(computed.height));
+
+      // Using offsetHeight as a replacement for computed.height in IE, because IE does not account use of border-box
+      var actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(computed.height)) : ta.offsetHeight;
 
       // The actual height not matching the style height (set via the resize method) indicates that
-      // the max-height has been exceeded, in which case the overflow should be set to visible.
+      // the max-height has been exceeded, in which case the overflow should be allowed.
       if (actualHeight !== styleHeight) {
-        if (computed.overflowY !== 'visible') {
-          changeOverflow('visible');
+        if (computed.overflowY === 'hidden') {
+          changeOverflow('scroll');
           resize();
-          actualHeight = Math.round(parseFloat(window.getComputedStyle(ta, null).height));
+          actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(window.getComputedStyle(ta, null).height)) : ta.offsetHeight;
         }
       } else {
         // Normally keep overflow set to hidden, to avoid flash of scrollbar as the textarea expands.
         if (computed.overflowY !== 'hidden') {
           changeOverflow('hidden');
           resize();
-          actualHeight = Math.round(parseFloat(window.getComputedStyle(ta, null).height));
+          actualHeight = computed.boxSizing === 'content-box' ? Math.round(parseFloat(window.getComputedStyle(ta, null).height)) : ta.offsetHeight;
         }
       }
 
