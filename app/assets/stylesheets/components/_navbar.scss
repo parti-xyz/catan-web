@@ -177,6 +177,12 @@
     }
     .active-bell {
       color: $brand-primary;
+      body.light-theme.in-group & {
+        color: $gray-dark;
+      }
+      body.dark-theme.in-group & {
+        color: white;
+      }
     }
     &.dropdown .dropdown-menu {
       width: 420px;
