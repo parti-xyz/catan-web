@@ -1,7 +1,7 @@
 - before_post = @previous_last_post
 - posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
-    - if local_assigns[:show_today] and post.last_stroked_at.present? and before_post.try(:last_stroked_at).try(:to_date) != post.last_stroked_at.to_date
+    - if local_assigns[:show_day_section] and post.last_stroked_at.present? and before_post.try(:last_stroked_at).try(:to_date) != post.last_stroked_at.to_date
       .post-data-divider.js-post-data-divider
         - if local_assigns[:first_today_text].present? and before_post.blank?
           = local_assigns[:first_today_text]

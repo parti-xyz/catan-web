@@ -24,6 +24,9 @@
   background-color: #fff;
   border: 1px solid #fff;
   border-radius: $border-radius-base;
+  @media (max-width: $screen-xs-max) {
+    border-radius: 0;
+  }
   &:hover {
     border: 1px solid $brand-primary-light;
     -webkit-box-shadow: 4px 4px 4px 0px #deddda;

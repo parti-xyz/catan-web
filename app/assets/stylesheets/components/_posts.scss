@@ -21,10 +21,13 @@
 
 section.posts-page {
   padding: 20px 0;
-
   @media (max-width: $screen-xs-max) {
-    .app-posts-show &,
-    .app-posts-images & {
+    body.app-dashboard-index & {
+      padding-top: 0;
+    }
+
+    body.app-posts-show &,
+    body.app-posts-images & {
       padding: 0;
     }
   }

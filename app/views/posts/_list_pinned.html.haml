@@ -18,10 +18,10 @@
     - collapsed_posts = []
     - uncollapsed_posts = posts
 
+  - unless not_need_header
+    .post-data-divider
+      공지 게시글
   .post-card.summary.pinned
-    - unless not_need_header
-      .post-card__header.clearfix.js-posts-pinned-and-read
-        공지
     - uncollapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post)
 
