@@ -805,6 +805,10 @@ $(function(){
 
     if(ufo.isApp()) {
       ufo.post("download", { post: post_id, file: file_source_id, name: file_name });
+    } else if($.is_present($(this).data('link-target'))) {
+      window.open(url, $(this).data('link-target'));
+    } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      window.open(url, '_blank');
     } else {
       window.location.href = url;
     }

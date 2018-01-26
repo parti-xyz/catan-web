@@ -10,7 +10,7 @@
       - if post.file_sources.only_image.any?
         .post-reference-line-file-content-wrapper--image<>
           - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
-            %a.post-reference-line__file-content--image{ href: file_source.attachment.url, class: 'single' }<>
+            .post-reference-line__file-content--image.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name, 'data-link-target': '_blank', class: 'single' }<>
               = image_tag file_source.attachment.md.url
     - else
       .post-parsed-body{'data-action': 'parti-link-target-blank'}
