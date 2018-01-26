@@ -974,6 +974,22 @@ $(function(){
     history.back(1);
   });
 
+  // 내 그룹 토글
+  $('#js-my-groups-toggle').on('click', function(e) {
+    event.preventDefault();
+    $('#js-drawer-my-groups').slideToggle();
+  });
+
+  (function() {
+    var history_back_btn = $('.js-btn-history-back');
+    if(history_back_btn.length > 0 && history.length > 1) {
+      history_back_btn.removeClass('hide');
+    } else {
+      $('.js-btn-drawer').removeClass('hide');
+    }
+
+  })();
+
   // drawer
   // 1. mobile
   (function() {

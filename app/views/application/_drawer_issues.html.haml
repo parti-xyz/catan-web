@@ -4,11 +4,11 @@
     내 피드
 - if current_user.member_groups.any?
   %li.menu-line
-    %a.dropdown-toggle.title{"data-toggle" => "collapse", :href => "#", :"data-target" => "#drawer-my-groups"}
+    %a.dropdown-toggle.title#js-my-groups-toggle{ href: "#" }
       %i.fa.fa-cube
       내 그룹
       %i.fa.fa-caret-down
-    %ul#drawer-my-groups.sub.list-unstyled.collapse
+    %ul#js-drawer-my-groups.sub.list-unstyled.collapse
       - current_user.member_groups.each do |group|
         %li.group-line= link_to group.title_short_format, smart_group_url(group)
 
