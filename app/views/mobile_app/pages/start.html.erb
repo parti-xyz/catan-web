@@ -1,39 +1,102 @@
-<%= form_tag mobile_app_restore_sessions_path, name: :f1, method: :get do %>
-  <%= hidden_field_tag :access_token %>
-<% end %>
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+  <meta charset='utf-8'>
+  <meta content='IE=edge' http-equiv='X-UA-Compatible'>
+  <meta content='width=device-width, initial-scale=1' name='viewport'>
+  <title>빠띠</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style type='text/css'>
+    .spinner {
+      margin: 100px auto 0;
+      width: 70px;
+      text-align: center;
+    }
 
-<%= javascript_include_tag 'mobile_app' %>
-<script>
-  function gotoMain() {
-    document.location.href = "<%= root_url(subdomain: nil) %>";
-  }
+    .spinner > div {
+      width: 18px;
+      height: 18px;
+      background-color: #966fd6;
 
-  // 이 함수는 App에서 호출합니다.
-  // 만약 authkey가 빈값이라면 앱도 인증정보를 안가지고 있는 것 입니다. (예: 인스톨 후 처음 사용)
-  function restoreAuth(authkey) {
-    if (!authkey) {
-      // 할 수 있는게 없죠. 그냥 초기 페이지로 이동시킵니다.
+      border-radius: 100%;
+      display: inline-block;
+      -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+      animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
+
+    .spinner .bounce1 {
+      -webkit-animation-delay: -0.32s;
+      animation-delay: -0.32s;
+    }
+
+    .spinner .bounce2 {
+      -webkit-animation-delay: -0.16s;
+      animation-delay: -0.16s;
+    }
+
+    @-webkit-keyframes sk-bouncedelay {
+      0%, 80%, 100% { -webkit-transform: scale(0) }
+      40% { -webkit-transform: scale(1.0) }
+    }
+
+    @keyframes sk-bouncedelay {
+      0%, 80%, 100% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+      } 40% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+      }
+    }
+  </style>
+  <%= javascript_include_tag 'mobile_app' %>
+  <script>
+    function gotoMain() {
+      document.location.href = "<%= root_url(subdomain: nil) %>";
+    }
+
+    // 이 함수는 App에서 호출합니다.
+    // 만약 authkey가 빈값이라면 앱도 인증정보를 안가지고 있는 것 입니다. (예: 인스톨 후 처음 사용)
+    function restoreAuth(authkey) {
+      if (!authkey) {
+        // 할 수 있는게 없죠. 그냥 초기 페이지로 이동시킵니다.
+        gotoMain();
+        return;
+      }
+
+      document.f1.access_token.value = authkey;
+      document.f1.submit();
+    }
+
+    window.onload = function() {
+      if (!ufo.isApp()) {
+        return;
+      }
+
+      // 서버사이드에서 세션체크 후 로그인 상태에 따라 아래와 같이 분기처리합니다:
+
+      <% if user_signed_in? %>
+      // 로그인된 상태입니다. 초기페이지 URL 로 바로 이동합니다.
       gotoMain();
-      return;
+      <% else %>
+      // 로그인이 안된 상태입니다. 앱이 restoreAuth() 를 호출할 것입니다.
+      ufo.post("noAuth");
+      <% end %>
     }
+  </script>
+</head>
 
-    document.f1.access_token.value = authkey;
-    document.f1.submit();
-  }
+<body>
+  <div class="container" style="max-width: 100%; text-align: center; padding-top: 2em;">
+    <div class="spinner">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+  </div>
 
-  window.onload = function() {
-    if (!ufo.isApp()) {
-      return;
-    }
-
-    // 서버사이드에서 세션체크 후 로그인 상태에 따라 아래와 같이 분기처리합니다:
-
-    <% if user_signed_in? %>
-    // 로그인된 상태입니다. 초기페이지 URL 로 바로 이동합니다.
-    gotoMain();
-    <% else %>
-    // 로그인이 안된 상태입니다. 앱이 restoreAuth() 를 호출할 것입니다.
-    ufo.post("noAuth");
-    <% end %>
-  }
-</script>
+  <%= form_tag mobile_app_restore_sessions_path, name: :f1, method: :get do %>
+    <%= hidden_field_tag :access_token %>
+  <% end %>
+</body>
+</html>
