@@ -212,9 +212,9 @@ module ApplicationHelper
   end
 
   def history_backable_in_mobile?
-    return false if request.referer.blank?
-
     !(
+      controller_path.start_with?('mobile_app/') or
+      (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
       (request.params[:controller] == 'issues' and request.params[:action] == 'home') or
       (request.params[:controller] == 'issues' and request.params[:action] == 'slug_home') or

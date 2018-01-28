@@ -975,7 +975,11 @@ $(function(){
   // history back
   $('.js-history-back').on('click', function(e) {
     event.preventDefault();
-    history.back(1);
+    if(ufo.isApp()) {
+      ufo.goBack();
+    } else {
+      history.back(-1);
+    }
   });
 
   // 내 그룹 토글
@@ -985,13 +989,18 @@ $(function(){
   });
 
   (function() {
-    var history_back_btn = $('.js-btn-history-back');
-    if(history_back_btn.length > 0 && history.length > 1) {
-      history_back_btn.removeClass('hide');
-    } else {
-      $('.js-btn-drawer').removeClass('hide');
-    }
+    if(!ufo.isApp()) return;
 
+    var history_back_btn = $('.js-btn-history-back');
+    ufo.callback.canGoBack = function(canGoBack) {
+      console.log(canGoBack);
+      if(history_back_btn.length > 0 && canGoBack) {
+        history_back_btn.removeClass('hide');
+      } else {
+        $('.js-btn-drawer').removeClass('hide');
+      }
+    }
+    ufo.canGoBack();
   })();
 
   // drawer

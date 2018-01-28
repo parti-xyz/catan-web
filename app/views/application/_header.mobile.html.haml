@@ -27,7 +27,7 @@
           %a.js-history-back(href="#")
             %i.fa.fa-chevron-left
             뒤로
-      %li.btn-drawer.js-btn-drawer.hide
+      %li.btn-drawer.js-btn-drawer{ class: ('hide' if history_backable_in_mobile? ) }
         %a.btn-drawer-menu.js-slideout-toggle
           - if host_group.try(:is_light_theme?)
             = image_tag 'btn_mobile_menu.png'
