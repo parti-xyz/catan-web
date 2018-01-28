@@ -22,15 +22,16 @@
             %i.fa.fa-sign-in
 
     %ul.nav.navbar-nav.navbar-left
-      - if history_backable_in_mobile?
-        %li.history-back.js-btn-history-back.hide
+      - if history_backable_in_mobile_app?
+        %li.history-back.js-btn-history-back-in-mobile-app
           %a.js-history-back(href="#")
             %i.fa.fa-chevron-left
             뒤로
-      %li.btn-drawer.js-btn-drawer{ class: ('hide' if history_backable_in_mobile? ) }
-        %a.btn-drawer-menu.js-slideout-toggle
-          - if host_group.try(:is_light_theme?)
-            = image_tag 'btn_mobile_menu.png'
-          - else
-            = image_tag 'btn_mobile_menu_white.png'
+      - else
+        %li.btn-drawer.js-btn-drawer
+          %a.btn-drawer-menu.js-slideout-toggle
+            - if host_group.try(:is_light_theme?)
+              = image_tag 'btn_mobile_menu.png'
+            - else
+              = image_tag 'btn_mobile_menu_white.png'
 = render 'application/drawer_menu.mobile'

@@ -211,7 +211,9 @@ module ApplicationHelper
     '.webp' == File.extname(URI.parse(url).path)
   end
 
-  def history_backable_in_mobile?
+  def history_backable_in_mobile_app?
+    return false unless is_mobile_app_get_request?(request)
+
     !(
       controller_path.start_with?('mobile_app/') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or

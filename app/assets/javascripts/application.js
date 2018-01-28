@@ -973,12 +973,10 @@ $(function(){
   });
 
   // history back
-  $('.js-history-back').on('click', function(e) {
+  $('.js-btn-history-back-in-mobile-app').on('click', function(e) {
     event.preventDefault();
     if(ufo.isApp()) {
       ufo.goBack();
-    } else {
-      history.back(-1);
     }
   });
 
@@ -987,21 +985,6 @@ $(function(){
     event.preventDefault();
     $('#js-drawer-my-groups').slideToggle();
   });
-
-  (function() {
-    if(!ufo.isApp()) return;
-
-    var history_back_btn = $('.js-btn-history-back');
-    ufo.callback.canGoBack = function(canGoBack) {
-      console.log(canGoBack);
-      if(history_back_btn.length > 0 && canGoBack) {
-        history_back_btn.removeClass('hide');
-      } else {
-        $('.js-btn-drawer').removeClass('hide');
-      }
-    }
-    ufo.canGoBack();
-  })();
 
   // drawer
   // 1. mobile
