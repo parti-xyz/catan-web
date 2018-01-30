@@ -20,7 +20,7 @@ class IssuesController < ApplicationController
         render 'group_home_parties_first'
       else
         unless view_context.is_infinite_scrollable?
-          @posts = watched_posts.page(params[:page])
+          @posts = watched_posts(params[:page])
         end
 
         render 'group_home_union'
@@ -351,10 +351,10 @@ class IssuesController < ApplicationController
     issue.private_blocked?(current_user) and !current_user.try(:admin?)
   end
 
-  def watched_posts
+  def watched_posts(page)
+    return unless user_signed_in?
     watched_posts = current_user.watched_posts(current_group)
     watched_posts = watched_posts.order(last_stroked_at: :desc)
-    # watched_posts = watched_posts.search(search_q) if search_q.present?
-    watched_posts
+    watched_posts.page(page)
   end
 end
