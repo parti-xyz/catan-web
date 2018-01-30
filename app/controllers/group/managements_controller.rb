@@ -13,10 +13,11 @@ class Group::ManagementsController < GroupBaseController
              ["공감",Upvote.where(issue: group_issues).group_by_month('upvotes.created_at').count],
              ["댓글", Comment.where(post: group_posts).group_by_month('comments.created_at').count]]
 
+    @hottest_posts = group_posts.hottest.limit(5)
+
   end
 
   def statistics
-
     group_issues = Issue.where(group_slug: current_group.slug)
     group_posts = Post.where(issue: group_issues)
     @active_users_by_posts = group_posts.group('posts.user_id')
@@ -32,9 +33,6 @@ class Group::ManagementsController < GroupBaseController
                           .group('upvotes.user_id')
                           .order('count_id desc')
                           .count('id').first(10)
-
-    #recent
-
 
   end
 

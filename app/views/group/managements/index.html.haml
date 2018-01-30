@@ -12,13 +12,16 @@
             %span{ style: 'font-weight: 400' }#{current_user.nickname}
             %span<> 님 환영합니다.
           %br
-          %h4.group-heading
-            #{current_group.title} 의 탄생부터 지금까지
-          %div
-            = line_chart @data.map { |r| { name: r[0], data: r[1] } }, defer: true, points: false, download: true
-          %br
           %a{ href: "http://organizer.parti.xyz", target: "_blank" }
             %h4.group-heading
               오거나이저를 위한 새소식
           = render 'posts/list_card', posts: @posts_pinned
-
+          %br
+          %h4.group-heading
+            #{current_group.title}의 탄생부터 지금까지의 동향
+          %div
+            = line_chart @data.map { |r| { name: r[0], data: r[1] } }, defer: true, points: false, download: true
+          %br
+          %h4.group-heading
+            최근 인기 게시글
+          = render 'posts/list_card', posts: @hottest_posts
