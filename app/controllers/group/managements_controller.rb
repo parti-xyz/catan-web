@@ -4,10 +4,19 @@ class Group::ManagementsController < GroupBaseController
   def index
     organizer_group = Group.find_by(slug: 'organizer')
     @posts_pinned = organizer_group.pinned_posts(current_user)
+
+    group_issues = Issue.where(group_slug: current_group.slug)
+    group_posts = Post.where(issue: group_issues)
+
+    #total
+    @data = [["게시글", group_posts.group_by_month('posts.created_at').count],
+             ["공감",Upvote.where(issue: group_issues).group_by_month('upvotes.created_at').count],
+             ["댓글", Comment.where(post: group_posts).group_by_month('comments.created_at').count]]
+
   end
 
   def statistics
-    #그룹에 있는 이슈의 포스트의 group by 작성자 count 의
+
     group_issues = Issue.where(group_slug: current_group.slug)
     group_posts = Post.where(issue: group_issues)
     @active_users_by_posts = group_posts.group('posts.user_id')
@@ -24,5 +33,9 @@ class Group::ManagementsController < GroupBaseController
                           .order('count_id desc')
                           .count('id').first(10)
 
+    #recent
+
+
   end
+
 end
