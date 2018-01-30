@@ -14,7 +14,6 @@ class Group::ManagementsController < GroupBaseController
              ["댓글", Comment.where(post: group_posts).group_by_month('comments.created_at').count]]
 
     @hottest_posts = group_posts.hottest.limit(5)
-
     @active_users_by_posts = group_posts.group('posts.user_id')
                             .order('count_id desc')
                             .count('id').first(10)
