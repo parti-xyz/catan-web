@@ -13,6 +13,9 @@ var ufo = (function() {
             'setAutoWait': function(s) {
                 handler.postMessage({'method':'setAutoWait', 'arg0':(s?'1':'')});
             },
+            'addOnlineUrl': function(s) {
+                handler.postMessage({'method':'addOnlineUrl', 'arg0':s});
+            },
             'goBack': function() {
                 handler.postMessage({'method':'goBack'});
             },
@@ -43,6 +46,9 @@ var ufo = (function() {
             },
             "goBack": function() {
                 console.log("goBack()");
+            },
+            'addOnlineUrl': function(s) {
+                console.log("addOnlineUrl()");
             },
             'canGoBack': function() {
                 console.log("canGoBack()");

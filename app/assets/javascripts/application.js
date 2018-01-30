@@ -36,7 +36,7 @@
 //= require mobile_app
 //= require slideout
 //= require js.cookie
-//
+
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
   'resizeDuration': 200,
@@ -1171,3 +1171,7 @@ $(function(){
     ufo.hideWait()
   }
 });
+
+if(ufo.isApp()) {
+  ufo.addOnlineUrl(window.location.href);
+}
