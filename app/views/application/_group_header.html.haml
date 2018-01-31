@@ -21,8 +21,8 @@
               %a.dropdown-toggle.js-notification-dropdown{"data-toggle" => "dropdown", :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}"}
                 %span.active-bell.js-active-bell{ class: ('collapse' if current_user.unread_messages_count <= 0) }
                   %span.icon-bell-stack
-                    %i.fa.fa-circle.fa-stack-1x
-                    %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                    %i.fa.fa-circle.fa-stack-1x.fa-inverse
+                    %i.fa.fa-bell.fa-stack-1x.text-primary
                   %span.label.label-danger= trim_count current_user.unread_messages_count
                 %span.js-inactive-bell{ class: ('collapse' if current_user.unread_messages_count > 0) }
                   %i.fa.fa-bell
