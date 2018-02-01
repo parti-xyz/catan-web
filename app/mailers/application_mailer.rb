@@ -8,6 +8,6 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def build_from(user)
-    "#{"#{user.nickname} via 빠띠" if user.present?}<feed@parti.xyz>"
+    "#{"#{user.nickname} - 빠띠" if user.present?}<feed@parti.xyz>"
   end
 end
