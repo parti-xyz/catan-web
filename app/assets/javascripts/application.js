@@ -1146,7 +1146,9 @@ $(function(){
             editor.on('focus', function (e) {
               if(removePlaceholder(editor)) {
                 editor.execCommand('mceFocus', false);
-                $(document).trigger('parti-post-editor-spotlight');
+                if(!ufo.isApp()) {
+                  $(document).trigger('parti-post-editor-spotlight');
+                }
               }
             });
             editor.on('KeyDown', function (e) {
@@ -1159,17 +1161,14 @@ $(function(){
             tinymce.triggerSave();
             var $input_elm = $(':input[name="' + editor.id + '"]');
             $input_elm.trigger('parti-need-to-validate');
-            $(document).trigger('parti-post-editor-spotlight');
+            if(!ufo.isApp()) {
+              $(document).trigger('parti-post-editor-spotlight');
+            }
           });
         }
       });
     });
   })();
-
-  // 스파크앱의 로딩 화면을 없앱니다
-  if(ufo.isApp()) {
-    ufo.hideWait()
-  }
 });
 
 if(ufo.isApp()) {
