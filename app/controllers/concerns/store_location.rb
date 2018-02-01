@@ -19,6 +19,12 @@ module StoreLocation
     end
   end
 
+  def store_location_force(url)
+    return unless request.get?
+    return if request.xhr?
+    session[stored_location_key(nil)] = url
+  end
+
   private
 
   def parse_uri(location)

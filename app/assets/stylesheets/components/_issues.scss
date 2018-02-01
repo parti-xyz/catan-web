@@ -1005,6 +1005,7 @@ section#landing-page{
   }
   .recent-post-card{
     border-radius: 0px;
+    margin-bottom: 30px;
     .post-card{
       &__post{
         padding: 0px;
@@ -1028,6 +1029,9 @@ section#landing-page{
     border-radius: 0px;
     height: 232px;
     margin-bottom: 30px;
+    @media (max-width: $screen-xs-max) {
+      height: 100%
+    }
     .post-card{
       &__header{
         padding: 0px;
@@ -1090,6 +1094,9 @@ section#landing-page{
     .landing-wiki-card{
       background-color: white;
       height: 330px;
+      @media (max-width: $screen-xs-max) {
+        margin-bottom: 30px;
+      }
       .wiki-content{
         padding: 10px;
         overflow: hidden;
@@ -1105,6 +1112,9 @@ section#landing-page{
   section#footer{
     height: 60px;
     padding-top: 10px;
+    @media (max-width: $screen-xs-max) {
+      height: 100px;
+    }
     li a{
       color: dimgray;
       &:hover{
