@@ -11,11 +11,15 @@
               #{current_group.title} 오거나이저
               %span{ style: 'font-weight: 400' }#{current_user.nickname}
               %span<> 님 환영합니다.
-            %br
-            %a{ href: "http://organizer.parti.xyz", target: "_blank" }
-              %h4.group-heading
-                오거나이저를 위한 새소식
-            = render 'posts/list_card', posts: @posts_pinned
+            .panel.panel-default{ style: "width: 450px;" }
+              .panel-body{ style: "line-height: 25px;" }
+                #{current_user.nickname} 님! 어떻게 #{current_group.title} 그룹을 운영할지 고민 중이신가요?
+                %br
+                빠띠를 만들고 돌보고 있는 오거나이저들과 이야기 나눠보세요!
+                %br
+                = link_to 'http://organizer.parti.xyz', target: "_blank", class: "btn btn-primary", style: "margin-top: 10px;" do
+                  오거나이저 커뮤니티 바로가기
+                  %i.fa.fa-chevron-right
 
           %section#anchor-group-graph
             %h4.group-heading
