@@ -79,9 +79,8 @@
                         %span.cursor-pointer{ data: { toggle: 'parti-login-overlay', 'no-parti-link': 'no' } }
                           = option.body
                       - else
-
                         - if post.survey.open?
-                          = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
+                          = link_to option_body, post, target: "_blank"
                         - else
                           = option_body
                   .feedbacks-count
