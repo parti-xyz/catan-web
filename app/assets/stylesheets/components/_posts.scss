@@ -526,19 +526,20 @@ section.posts-page {
 
 #new-posts {
   display: none;
-  color: $gray;
   .post-card {
+    background: $brand-primary;
+    color: $gray-lightest;
     text-align: center;
     font-size: 16px;
     .new-posts__count {
       margin-right: 3px;
     }
     .new-posts__count, .text-primary {
-      color: $brand-primary;
+      color: $brand-warning;
       font-weight: bold;
     }
     a {
-      color: $gray;
+      color: $gray-light;
     }
   }
 }
