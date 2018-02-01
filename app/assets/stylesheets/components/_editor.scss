@@ -410,6 +410,24 @@
   }
 }
 
+#post-form {
+  .form-control-tinymce {
+    h1 {
+      font-size: $font-size-base * 1.5;
+    }
+    h2 {
+      font-size: $font-size-base * 1.25;
+    }
+    h3 {
+      font-size: $font-size-base * 1.125;
+    }
+    blockquote {
+      border: none;
+      background-color: $gray-lightest;
+    }
+  }
+}
+
 #post-form .post-edit-form {
   .form-control-tinymce {
     height: auto;
