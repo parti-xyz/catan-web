@@ -10,7 +10,7 @@
       %div{:style => "padding: 0 10px;"}
         %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: left;"}
           %span{:style => "color: rgb(99, 60, 163); font-size: 16px;"}
-            #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에 가입시켰습니다.
+            #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에 초대했습니다.
 
 - if @member.admit_message.present?
   %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}

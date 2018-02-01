@@ -21,7 +21,7 @@ class MemberMailer < ApplicationMailer
     return if @user.blank?
 
     mail(to: @member.user.email,
-         subject: "[빠띠] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에서 가입시켰습니다.")
+         subject: "[빠띠] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에 초대했습니다.")
   end
 
   def on_create(organizer_id, member_id)
