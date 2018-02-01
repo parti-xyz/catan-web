@@ -47,6 +47,7 @@ Rails.application.routes.draw do
     authenticated :user do
       root 'dashboard#index', as: :dashboard_root
     end
+    root 'pages#discover', as: :discover_root
   end
   root 'issues#home'
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
@@ -232,6 +233,7 @@ Rails.application.routes.draw do
   get '/u/:slug', to: "users#posts", as: 'slug_user'
 
   get '/about', to: "pages#about", as: 'about'
+  get '/discover', to: "pages#discover", as: 'discover'
   get '/privacy', to: "pages#privacy", as: 'privacy'
   get '/service', to: "pages#service", as: 'service'
   get '/terms', to: "pages#terms", as: 'terms'

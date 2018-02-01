@@ -17,6 +17,10 @@ class PagesController < ApplicationController
     redirect_to root_path
   end
 
+  def discover
+    @sections = LandingPage.all_data
+  end
+
   def components
   end
 
