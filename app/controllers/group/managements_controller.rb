@@ -15,11 +15,6 @@ class Group::ManagementsController < GroupBaseController
 
     @hottest_posts = group_posts.hottest.limit(5)
 
-  end
-
-  def statistics
-    group_issues = Issue.where(group_slug: current_group.slug)
-    group_posts = Post.where(issue: group_issues)
     @active_users_by_posts = group_posts.group('posts.user_id')
                             .order('count_id desc')
                             .count('id').first(10)
@@ -34,6 +29,10 @@ class Group::ManagementsController < GroupBaseController
                           .order('count_id desc')
                           .count('id').first(10)
 
+
+  end
+
+  def statistics
   end
 
 end

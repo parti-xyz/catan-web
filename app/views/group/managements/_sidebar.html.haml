@@ -1,4 +1,4 @@
-.sidebar-nav
+.sidebar-nav{ style: "width: 200px; position: fixed" }
   .navbar.navbar-default(role="navigation")
     .navbar-header
       %button.navbar-toggle{ "data-target": ".sidebar-navbar-collapse", "data-toggle": "collapse", type: "button" }
@@ -9,11 +9,16 @@
       %span.visible-xs.navbar-brand 관리 메뉴
     .navbar-collapse.collapse.sidebar-navbar-collapse
       %ul.nav.navbar-nav
-        %li{ class: "#{'active' if local_assigns[:active] == 'dashboard'}" }= link_to '대시보드', group_managements_path
-        - if current_group.private?
-          - if can? :admit, current_group
-            %li{ class: "#{'active' if local_assigns[:active] == 'admit'}" }= link_to '멤버 추가', new_admit_group_members_path
-          - if can? :magic_link, current_group
-            %li{ class: "#{'active' if local_assigns[:active] == 'magic_link'}" }= link_to '초대링크', edit_magic_link_group_members_path
-        %li{ class: "#{'active' if local_assigns[:active] == 'statistics'}" }
-          = link_to '통계', statistics_group_managements_path
+        %li
+          = link_to '관리 홈', '#anchor-home'
+        %li
+          = link_to '#anchor-group-graph' do
+            #{current_group.title}의 탄생부터 지금까지의 동향
+        %li
+          = link_to '최근 인기게시글', '#anchor-hottest-posts'
+        %li
+          = link_to '활발히 글을 쓴 사용자', '#anchor-active-post-users'
+        %li
+          = link_to '활발히 댓글을 단 사용자', '#anchor-active-comment-users'
+        %li
+          = link_to '활발히 공감한 사용자', '#anchor-active-upvote-users'
