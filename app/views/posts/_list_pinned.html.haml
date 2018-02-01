@@ -20,7 +20,7 @@
 
   - unless not_need_header
     .post-data-divider
-      공지 게시글
+      공지
   .post-card.summary.pinned
     - uncollapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post)

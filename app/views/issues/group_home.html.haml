@@ -57,11 +57,11 @@
         %section{style:"margin-top:20px;"}
           .row
             .col-sm-12.col-md-6
-              %h4.group-heading 공지사항
+              %h4.group-heading 공지
               - if @posts_pinned.try(:any?)
                 = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: false, not_need_header: true
               - else
-                공지사항이 없습니다
+                공지가 없습니다
 
             .col-sm-12.col-md-6
               .visible-xs-block{style:"margin-top:40px;"}

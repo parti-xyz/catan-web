@@ -49,7 +49,7 @@
           - if is_first_page_in_paging or !paging
             - if @posts_pinned.try(:any?)
               %section{style:"margin-top:20px; padding-bottom: 10px"}
-                %h4.group-heading 공지사항
+                %h4.group-heading 공지
                 = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true, not_need_header: true
 
             - if @recent_posts.try(:any?)
