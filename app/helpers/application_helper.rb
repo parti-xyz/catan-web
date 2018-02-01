@@ -216,6 +216,7 @@ module ApplicationHelper
 
     !(
       controller_path.start_with?('mobile_app/') or
+      (request.params[:controller] == 'pages' and request.params[:action] == 'discover') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
       (request.params[:controller] == 'issues' and request.params[:action] == 'home') or
