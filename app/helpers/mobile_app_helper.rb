@@ -9,6 +9,11 @@ module MobileAppHelper
     request.headers["catan-agent"]
   end
 
+  def current_mobile_app_verion request
+    return unless is_mobile_app_get_request? request
+    request.headers["catan-version"]
+  end
+
   def doorkeeper_application_uid_of_current_mobile_app_agent request
     return unless is_mobile_app_get_request? request
     ENV["MOBILE_APP_DOORKEEPER_APPLICATION_UID_#{current_mobile_app_agent(request).underscore}"]
