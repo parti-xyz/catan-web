@@ -1503,8 +1503,14 @@
         }
 
         that.$lis.filter('.active').removeClass('active');
-        if (that.$searchbox.val()) that.$lis.not('.hidden, .divider, .dropdown-header').eq(0).addClass('active').children('a').focus();
-        $(this).focus();
+        if (that.$searchbox.val()) {
+          // 수정 후
+          that.$lis.not('.hidden, .divider, .dropdown-header').eq(0).addClass('active');
+          // 수정 전
+          // that.$lis.not('.hidden, .divider, .dropdown-header').eq(0).addClass('active').children('a').focus();
+        }
+        // 주석 처리
+        // $(this).focus();
       });
     },
 
