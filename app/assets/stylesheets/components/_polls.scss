@@ -121,6 +121,7 @@
     -moz-box-shadow:    0px 2px 0px 0px rgba(215, 213, 210, 0.8);
     box-shadow:         0px 2px 0px 0px rgba(215, 213, 210, 0.8);
     margin: 0 2px;
+    min-width: 68px;
 
     span {
       font-weight: bold;
@@ -131,9 +132,6 @@
     &:hover {
       background: whitesmoke;
     }
-  }
-  .btn-danger {
-    margin-left: 6px;
   }
   .btn-success-dark {
     background-color: $brand-success-dark;
@@ -204,7 +202,7 @@
     }
   }
   .vote__results__agree, .vote__results__neutral, .vote__results__disagree {
-    display: inline;
+    display: inline-block;
   }
   .vote__results__voters {
     display: none;
