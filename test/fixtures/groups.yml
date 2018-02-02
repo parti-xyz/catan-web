@@ -13,9 +13,9 @@ indie:
 union:
   slug: union
   user: admin
-  title: '민주주의 벤처'
-  site_title: '빠띠유니온'
-  head_title: '빠띠유니온'
+  title: '민주주의 활동가 그룹'
+  site_title: '빠띠 유니온'
+  head_title: '빠띠 유니온'
 merge_target_issue:
   slug: merge_target_issue
   user: admin

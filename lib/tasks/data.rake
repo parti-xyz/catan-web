@@ -55,7 +55,7 @@ namespace :data do
       seed_group(user, Group::SLUG_OF_UNION, [],
         title: '빠띠',
         site_title: '민주주의 활동가 그룹 - 빠띠',
-        site_description: '일상을 더 민주적으로! 민주주의 벤처 빠띠는 우리 사회 곳곳에 민주주의를 확산시키기 위해 노력합니다.',
+        site_description: '빠띠는 민주적인 삶과 문화를 만듭니다. platforms for democratic life and culture',
         head_title: '빠띠',
         private: false)
 
