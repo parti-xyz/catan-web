@@ -55,6 +55,11 @@ section#comments {
       font-family: "FontAwesome";
       color: #f0646d;
     }
+    &--neutral > span:first-child:before {
+      content: '중립 ';
+      font-family: "FontAwesome";
+      color: $brand-primary;
+    }
     .comment-truncatable-body {
       .btn-more {
         color: $gray-light;

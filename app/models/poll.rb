@@ -59,8 +59,12 @@ class Poll < ActiveRecord::Base
     votings.exists? user: voter, choice: 'disagree'
   end
 
+  def neutral_by? voter
+    votings.exists? user: voter, choice: 'neutral'
+  end
+
   def sured_by? voter
-    votings.exists? user: voter, choice: ['agree', 'disagree']
+    votings.exists? user: voter, choice: ['agree', 'disagree', 'neutral']
   end
 
   def unsured_by? voter

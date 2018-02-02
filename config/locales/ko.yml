@@ -256,6 +256,7 @@ ko:
     voting:
       cancel_agree: "찬성투표를 취소하시겠습니까?"
       cancel_disagree: "반대투표를 취소하시겠습니까?"
+      cancel_neutral: "중립투표를 취소하시겠습니까?"
     survey:
       remain_time:
         undefined: "마감까지 계속"

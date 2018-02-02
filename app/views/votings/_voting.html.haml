@@ -8,6 +8,8 @@
       = link_to '#', class: 'btn btn-default btn-ghost btn-success', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
         %i.fa.fa-thumbs-up
         찬성
+      = link_to '#', class: 'btn btn-default btn-ghost btn-primary', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
+        중립
       = link_to '#', class: 'btn btn-default btn-ghost btn-danger', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_disagree, id: poll.id}.to_json) } do
         %i.fa.fa-thumbs-down
         반대
@@ -32,8 +34,26 @@
           %i.fa.fa-thumbs-up
           %span 찬성
           %p.count= poll.votings.with_choice(:agree).count
-        .vote__results__voters
+        .vote__results__voters.hidden
           - poll.votings.with_choice(:agree).partial_included_with(current_user).each do |voting|
+            = link_to smart_user_gallery_path(voting.user), class: 'text-nowrap' do
+              .thumb.img-circle.circle-30{style: "background-image: url(#{voting.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{voting.user.nickname}", :type => "button"}
+
+      .vote__results__neutral
+        - if poll.neutral_by?(current_user)
+          - neutral_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
+          - neutral_btn_classes = { class: 'btn btn-primary btn-primary-dark' }
+          - neutral_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_neutral') }.merge neutral_btn_classes
+        - else
+          - neutral_btn_link = poll_votings_path(poll, voting: {choice: :neutral})
+          - neutral_btn_classes = { class: 'btn btn-default btn-ghost btn-primary' }
+          - neutral_btn_options = { method: :post, remote: true }.merge neutral_btn_classes
+
+        = link_to neutral_btn_link, neutral_btn_options do
+          %span 중립
+          %p.count= poll.votings.with_choice(:neutral).count
+        .vote__results__voters.hidden
+          - poll.votings.with_choice(:neutral).partial_included_with(current_user).each do |voting|
             = link_to smart_user_gallery_path(voting.user), class: 'text-nowrap' do
               .thumb.img-circle.circle-30{style: "background-image: url(#{voting.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{voting.user.nickname}", :type => "button"}
 
@@ -51,16 +71,19 @@
           %i.fa.fa-thumbs-down
           %span 반대
           %p.count= poll.votings.with_choice(:disagree).count
-        .vote__results__voters
+        .vote__results__voters.hidden
           - poll.votings.with_choice(:disagree).partial_included_with(current_user).each do |voting|
             = link_to smart_user_gallery_path(voting.user), class: 'text-nowrap' do
               .thumb.img-circle.circle-30{style: "background-image: url(#{voting.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{voting.user.nickname}", :type => "button"}
+
   - else
     .vote__buttons
       / 로그인 & 투표 전
       = link_to poll_votings_path(poll, voting: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-success' do
         %i.fa.fa-thumbs-up
         찬성
+      = link_to poll_votings_path(poll, voting: {choice: :neutral}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-primary' do
+        중립
       = link_to poll_votings_path(poll, voting: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-danger' do
         %i.fa.fa-thumbs-down
         반대

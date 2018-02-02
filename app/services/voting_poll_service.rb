@@ -38,6 +38,21 @@ class VotingPollService
     voting
   end
 
+  def neutral
+    previous_voting = self.poll.voting_by current_user
+    if previous_voting.present?
+      voting = previous_voting
+    else
+      voting = poll.votings.build
+      voting.user = current_user
+    end
+    voting.choice = 'neutral'
+    if voting.save
+      strok_post
+    end
+    voting
+  end
+
   def unsure
     previous_voting = self.poll.voting_by current_user
     if previous_voting.present?

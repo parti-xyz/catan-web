@@ -111,12 +111,12 @@
 
 .poll__vote-section {
   .btn {
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-color: $brand-primary;
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
-    font-size: 16px;
+    font-size: $font-size-base;
     -webkit-box-shadow: 0px 2px 0px 0px rgba(215, 213, 210, 0.8);
     -moz-box-shadow:    0px 2px 0px 0px rgba(215, 213, 210, 0.8);
     box-shadow:         0px 2px 0px 0px rgba(215, 213, 210, 0.8);
@@ -144,13 +144,13 @@
     border-color: $brand-danger-dark;
   }
   .count {
-    font-size: 20px;
+    font-size: $font-size-large;
     font-weight: bold;
     margin: 3px 0 0;
     line-height: 1;
   }
   .vote__buttons--unsure {
-    font-size: 12px;
+    font-size: $font-size-base;
     text-decoration: underline;
     margin-top: 12px;
     a {
@@ -203,17 +203,8 @@
       margin-top: -21px;
     }
   }
-  .vote__results__agree {
-    float: left;
-    width: 50%;
-    text-align: right;
-    padding-right: 2.5px;
-  }
-  .vote__results__disagree {
-    float: right;
-    width: 50%;
-    text-align: left;
-    padding-left: 2.5px;
+  .vote__results__agree, .vote__results__neutral, .vote__results__disagree {
+    display: inline;
   }
   .vote__results__voters {
     display: none;
