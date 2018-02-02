@@ -11,7 +11,7 @@
   padding: 25px 20px;
   margin-bottom: 15px;
   text-align: center;
-  border: 1px solid #f1f1f1;
+  border: 1px solid $gray-less-lighter;
   border-radius: $border-radius-base;
   &--voted {
     background-color: $gray-more-lightest;
@@ -37,30 +37,19 @@
       text-decoration: underline;
     }
   }
+  &__meta {
+    margin-bottom: 10px;
+  }
   &__issue {
-    max-width: 40%;
+    max-width: 60%;
     float: left;
     text-align: left;
-  }
-  .thumb--issue {
-    border-radius: $border-radius-base;
-    height: 30px;
-    color: $gray-light;
-    font-weight: 400;
-    display: inline-block;
-    line-height: 30px;
-    padding: 0 5px;
-    box-shadow: inset 2000px 0 0 0 rgba(255, 255, 255, 0.2);
-    background-size: 30px 100%;
-    background-position: left;
-    padding-left: 35px;
-    background-repeat: no-repeat;
-    border: 1px solid rgba(1, 1, 1, 0.1);
-    background-clip: padding-box;
-    white-space: nowrap;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    a {
+      display: block;
+      color: #aaaaaf;
+      font-size: $font-size-small;
+      text-overflow: ellipsis;
+    }
   }
   &__group {
     background-color: rgba(150,111,214,0.9);
@@ -75,7 +64,6 @@
   }
   &__date--with-issue {
     float: right;
-    line-height: 35px;
     span {
       vertical-align: bottom;
     }

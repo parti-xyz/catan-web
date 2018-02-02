@@ -22,8 +22,7 @@
           - unless post.issue.displayable_group? current_group
             .survey-card__group
               = post.issue.group.head_title
-          .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-            = post.issue.title
+          = post.issue.title
       .survey-card__date.date-wrapper.survey-card__date--with-issue
         %span= date_f post.created_at
     %h4.survey-card__title

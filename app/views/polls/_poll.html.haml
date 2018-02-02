@@ -23,8 +23,7 @@
             - unless post.issue.displayable_group? current_group
               .poll-card__group
                 = post.issue.group.head_title
-            .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-              = post.issue.title
+            = post.issue.title
         .poll-card__date.date-wrapper.poll-card__date--with-issue
           %span= date_f post.created_at
     %h4.poll-card__title
