@@ -1,6 +1,7 @@
 .survey-options {
   text-align: left;
   $padding-side: 18px;
+  margin-top: 4px;
   border: 1px solid $gray-lighter;
   border-radius: 4px;
 
@@ -97,8 +98,8 @@
         overflow: hidden;
         border-radius: 4px;
         border: 1px solid $gray-lighter;
-        margin-bottom: 16px;
-        margin-top: 6px;
+        margin-bottom: 7px;
+        margin-top: 2px;
         &.active {
           border-color: $brand-primary;
         }
@@ -107,11 +108,23 @@
           border-top-left-radius: 4px;
           border-bottom-left-radius: 4px;
           background-color: $brand-primary-light;
-          .count {
-            white-space: nowrap;
-            padding-left: 6px;
-            font-size: $font-size-small;
-            color: $gray;
+        }
+        .chart__body__text {
+          width: 80%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .chart__count {
+          position: absolute;
+          top: 2px;
+          right: 4px;
+          white-space: nowrap;
+          padding-left: 6px;
+          font-size: $font-size-small;
+          color: $gray;
+          &--mvp {
+            color: $brand-primary;
+            font-weight: bold;
           }
         }
 

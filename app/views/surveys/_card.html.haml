@@ -22,19 +22,18 @@
                   %i.fa.active{ class:  class_check }
         .body
           - if post.survey.visible_feedbacks?(current_user)
-            - option_body = capture do
-              %span.text-basic-wrap.chart__label= option.body
-            - if post.survey.open?
-              = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
-            - else
-              = option_body
             .chart{ style: 'position: relative', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users", trigger: 'hover', placement: popover_placement } }
-              .chart__bar{ style: "width: #{post.survey.percentage(option)}%"}
-                %span.count
+              .chart__bar{ style: "width: #{post.survey.percentage(option)}%; height: 20px;"}
+              .chart__body{ style: "position: absolute; top: 1px; left: -1px; width: 100%;"}
+                .chart__body__text
+                  - option_body = capture do
+                    %span.text-basic-wrap.chart__label= option.body
+                  - if post.survey.open?
+                    = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
+                  - else
+                    = option_body
+                %span.chart__count{ class: post.survey.mvp_option?(option) ? 'chart__count--mvp' : '' }
                   #{option.feedbacks_count}명
-              - if post.survey.mvp_option?(option)
-                %span.label.label-primary{ style: 'position: absolute;padding: 0.3em;bottom: 2px;right: 2px;'}<>
-                  최다득표
             .webui-popover-content
               .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users"}
                 - option.feedback_users.each do |user|
