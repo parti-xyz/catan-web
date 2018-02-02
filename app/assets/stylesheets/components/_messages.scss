@@ -21,14 +21,21 @@
     }
   }
   &__parti {
+    color: $gray;
     display: inline-block;
+    a {
+      color: $gray;
+      &:hover{
+        color: $link-hover-color;
+      }
+    }
   }
   &__date.date-wrapper {
+    color: $gray;
     font-size: $font-size-base;
     display: inline-block;
   }
-  &__parti,
-  &__parti a {
-    color: $brand-primary;
+  strong {
+
   }
 }

@@ -18,5 +18,4 @@
       = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
       #{member_request.joinable.model_name.human} 가입요청을 거절합니다.
   - if member_request.reject_message?
-    %br
     = member_request.reject_message

@@ -4,7 +4,7 @@
       - if message.issue.present?
         = link_to "#{message.issue.title} 빠띠", smart_issue_home_url(message.issue)
         - unless message.issue.displayable_group?(current_group)
-          &gt;
+          &middot;
           = link_to message.issue.group.title_basic_format, root_url(subdomain: message.issue.group_subdomain)
       - elsif message.group.present?
         = link_to message.group.title_basic_format, smart_group_url(message.group)
