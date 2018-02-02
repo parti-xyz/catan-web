@@ -127,8 +127,8 @@ class ApplicationController < ActionController::Base
 
   def default_meta_options
     {
-      title: current_group.try(:site_title) || "민주적 일상 커뮤니티, 빠띠",
-      description: current_group.try(:site_description) || "일상을 더 민주적으로 만드는 커뮤니티",
+      title: current_group.try(:site_title) || "팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠",
+      description: current_group.try(:site_description) || "빠띠로 더 민주적인 일상을 만들어요",
       keywords: current_group.try(:site_keywords) || "정치, 민주주의, 조직, 투표, 모임, 의사결정, 일상 민주주의, 토의, 토론, 논쟁, 논의, 회의",
       image: view_context.asset_url(current_group.try(:seo_image) || "parti_seo.png"),
       twitter_card_type: "summary_card"
