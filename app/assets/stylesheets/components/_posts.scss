@@ -556,45 +556,16 @@ section.posts-page {
   }
 }
 
-.posts-filter-select {
-  vertical-align: bottom;
-  ul {
-    display: inline-block;
-    margin: 0;
-    li {
-      padding: 0;
-      a {
-        color: $gray;
-        &:hover,
-        &.active {
-          color: $brand-primary;
-          text-decoration: underline;
-        }
-      }
-    }
-    li + li:before {
-      content: '|';
-      color: $gray;
-      margin: 0 5px;
-    }
-  }
-}
-
 .posts-header {
   @extend .clearfix;
   @media (min-width: $screen-sm-min) {
     &__title {
-      float: left;
       padding: 10px 0px;
-    letter-spacing:  $headings-letter-spacing;
+      letter-spacing:  $headings-letter-spacing;
       font-weight: $headings-font-weight;
       small{
         font-weight: $small-in-headings-font-weight;
       }
-    }
-    .posts-filter-select {
-      float: right;
-      line-height: 40px;
     }
   }
   @media (max-width: $screen-xs-max) {

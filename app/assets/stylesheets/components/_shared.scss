@@ -27,10 +27,10 @@
   .nav-tabs {
     border-color: #d2d2d2;
     li {
-      margin: 0 20px;
+      margin: 0;
       a {
-        color: $gray;
-        padding: 0px 10px;
+        font-weight: bold;
+        padding: 5px 20px;
         border: none;
         &:hover {
           background-color: transparent;

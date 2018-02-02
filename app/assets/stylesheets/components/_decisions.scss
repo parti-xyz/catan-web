@@ -1,8 +1,13 @@
 .decision-panel {
+  font-size: $font-size-small;
   margin-top: 14px;
   padding: 14px;
-  background-color: $gray-more-lightest;
-  border: 1px solid $gray-lighter;
+  background-color: $gray-lightest;
+  border: 0 solid $gray-lighter;
   border-radius: $border-radius-base;
   text-align: left;
+  h6 {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
 }
