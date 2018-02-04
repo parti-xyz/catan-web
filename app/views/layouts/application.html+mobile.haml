@@ -47,9 +47,16 @@
         (function() {
           if(ufo.isApp()) {
             ufo.agent = '#{current_mobile_app_agent(request)}';
-            ufo.version = '#{current_mobile_app_verion(request)}';
+            ufo.version = '#{current_mobile_app_version(request)}';
           }
         })();
+      - if request.get?
+        :javascript
+          (function() {
+            if(ufo.isApp()) {
+              ufo.addOnlineUrl(window.location.href);
+            }
+          })();
     :javascript
       (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];

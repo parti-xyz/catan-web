@@ -200,7 +200,7 @@ class ApplicationController < ActionController::Base
 
   def logging_mobile_app
     if is_mobile_app_get_request? request
-      Rails.logger.info "SPARK APP - catan-agent : #{request.headers["catan-agent"]}"
+      Rails.logger.info "SPARK APP - catan-agent : #{current_mobile_app_agent(request)} #{current_mobile_app_version(request)}"
     else
       Rails.logger.info "SPARK APP - NO "
     end

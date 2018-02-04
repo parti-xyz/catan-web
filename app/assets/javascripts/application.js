@@ -1171,6 +1171,3 @@ $(function(){
   })();
 });
 
-if(ufo.isApp()) {
-  ufo.addOnlineUrl(window.location.href);
-}

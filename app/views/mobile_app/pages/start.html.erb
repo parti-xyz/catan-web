@@ -52,7 +52,7 @@
   <%= javascript_include_tag 'mobile_app' %>
   <script>
     function gotoMain() {
-      document.location.href = "<%= root_url(subdomain: nil) %>";
+      document.location.href = "<%= params[:after] || root_url(subdomain: nil) %>";
     }
 
     // 이 함수는 App에서 호출합니다.

@@ -48,4 +48,12 @@ class FcmJob
     result['notification'] = { 'title' => result['data']['title'], 'body' => result['data']['body'], 'sound' => 'default' }
     result
   end
+
+  def self.test(user, id = nil)
+    job = FcmJob.new
+    fcm = job.fcm
+    last_message = user.messages.last
+    ids = (id.nil? ? DeviceToken.where(user_id: user.id).map(&:registration_id) : [id])
+    fcm.send(ids, job.fcm_message(user, last_message))
+  end
 end
