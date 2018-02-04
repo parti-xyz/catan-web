@@ -1,4 +1,4 @@
-- paging = (@posts.present? and @posts.try(:current_page).present?)
+- paging = (!@posts.nil? and @posts.try(:current_page).present?)
 
 %section.posts-page#posts
   .container

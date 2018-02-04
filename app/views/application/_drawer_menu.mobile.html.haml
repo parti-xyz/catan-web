@@ -10,10 +10,21 @@
         \|
         = link_to '로그인', new_user_session_path
   %ul.drawer-list__menu.list-unstyled
-    - if user_signed_in?
+    - if user_signed_in? and current_user.member_issues.any?
       = render 'application/drawer_search'
       = render 'application/drawer_issues'
       %li.divider
+    - else
+      %li.menu-line.large-menu-line
+        = link_to issues_url(subdomain: nil), class: 'action-link' do
+          %i.fa.fa-search
+          관심있는 빠띠를 찾아보세요
+      %li.divider
+      %li.group-issues-line
+        .title 지금 가장 인기있는 빠띠
+        %ul.sub.list-unstyled
+          - Issue.only_public_hottest(5).each do |issue|
+            = render 'issues/issue_line', issue: issue, show_after_block: false
     - if user_signed_in?
       %li.menu-line= byline current_user, hide_image: true
       %li.menu-line= link_to '프로필 수정', edit_user_registration_path

@@ -1,4 +1,4 @@
-- paging = (@posts.present? and @posts.try(:current_page).present?)
+- paging = (!@posts.nil? and @posts.try(:current_page).present?)
 
 = render 'issues/issue_header', active_tab: :home, simple: (paging and !@posts.first_page?)
 

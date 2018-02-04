@@ -1,6 +1,6 @@
 .drawer-list#js-drawer
   %ul.drawer-list__menu.list-unstyled
-    - if user_signed_in?
+    - if user_signed_in? and current_user.member_issues.any?
       = render 'application/drawer_search'
       = render 'application/drawer_issues'
     - else
@@ -13,7 +13,7 @@
         .title 지금 가장 인기있는 빠띠
         %ul.sub.list-unstyled
           - Issue.only_public_hottest(5).each do |issue|
-            = render 'issues/issue_line', issue: issue
+            = render 'issues/issue_line', issue: issue, show_after_block: false
     %li.divider
     %li.logo
       = link_to root_url(subdomain: nil) do

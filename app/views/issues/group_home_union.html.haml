@@ -14,7 +14,7 @@
   - if lookup_context.exists?("issues/#{host_group.slug}/_key_page")
     = render "issues/#{host_group.slug}/key_page"
 
-- paging = (@posts.present? and @posts.try(:current_page).present?)
+- paging = (!@posts.nil? and @posts.try(:current_page).present?)
 - is_first_page_in_paging = (paging and @posts.first_page?)
 - if current_group.private_blocked? current_user
   %section
