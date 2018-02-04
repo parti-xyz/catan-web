@@ -147,6 +147,7 @@ class User < ActiveRecord::Base
       enable_mailing_pin: true,
       enable_mailing_mention: true,
       enable_mailing_poll_or_survey: true,
+      enable_push_notification: true,
       nickname: nickname,
       remote_image_url: external_auth.image_url
   end
@@ -212,10 +213,10 @@ class User < ActiveRecord::Base
   end
 
   def current_device_tokens
-    application_id = { 'production' => 'xyz.parti.catan', 'development' => 'xyz.parti.catan.debug' }[Rails.env]
-    return [] if application_id.blank?
+    application_ids = { 'production' => %w(xyz.parti.catan.ios xyz.parti.catan.android), 'development' => %w(xyz.parti.catan.ios.debug xyz.parti.catan.android.debug) }[Rails.env]
+    return [] if application_ids.blank?
 
-    device_tokens.where(application_id: application_id)
+    device_tokens.where(application_id: application_ids)
   end
 
   def update_last_read_message(messages)
