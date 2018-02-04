@@ -22,25 +22,29 @@
                   %i.fa.active{ class:  class_check }
         .body
           - if post.survey.visible_feedbacks?(current_user)
-            .chart{ style: 'position: relative', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users", trigger: 'hover', placement: popover_placement } }
-              .chart__bar{ style: "width: #{post.survey.percentage(option)}%; height: 20px;"}
-              .chart__body{ style: "position: absolute; top: 1px; left: -1px; width: 100%;"}
-                .chart__body__text
-                  - option_body = capture do
-                    %span.text-basic-wrap.chart__label= option.body
-                  - if post.survey.open?
-                    = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
-                  - else
-                    = option_body
-                %span.chart__count{ class: post.survey.mvp_option?(option) ? 'chart__count--mvp' : '' }
-                  #{option.feedbacks_count}명
+            - option_body = capture do
+              %span.text-basic-wrap.chart__label= option.body
+            - if post.survey.open?
+              = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
+            - else
+              = option_body
+            - if option.feedbacks_count > 0
+              %span.count.text-nowrap.cursor-pointer{ data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-0", trigger: 'hover', placement: popover_placement } } #{option.feedbacks_count}명
+            - if post.survey.mvp_option?(option)
+              - if option.feedbacks_count > 0
+                &middot;
+              %span.mvp.text-nowrap<>
+                최다득표
+            .chart{ style: 'position: relative;', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-1", trigger: 'hover', placement: popover_placement } }
+              .chart__bar{ style: "height: 100%; width: #{post.survey.percentage(option)}%"}
             .webui-popover-content
-              .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users"}
-                - option.feedback_users.each do |user|
-                  = link_to smart_user_gallery_path(user), target: '_blank' do
-                    .user-info
-                      .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
-                      = user.nickname
+              - 2.times do |i|
+                .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-#{i}"}
+                  - option.feedback_users.each do |user|
+                    = link_to smart_user_gallery_path(user), target: '_blank' do
+                      .user-info
+                        .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+                        = user.nickname
           - else
             - option_body = capture do
               .no-chart__label.text-basic-wrap
