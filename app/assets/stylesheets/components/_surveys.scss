@@ -32,10 +32,10 @@
       width: 8%;
     }
     .body {
-      width: 72%;
+      width: 82%;
     }
     .feedbacks-count {
-      width: 20%;
+      width: 10%;
     }
   }
   &--body--no-checkbox > .option {
@@ -43,10 +43,10 @@
       display: none;
     }
     .body {
-      width: 80%;
+      width: 90%;
     }
     .feedbacks-count {
-      width: 20%;
+      width: 10%;
     }
   }
   &--body {
@@ -78,8 +78,8 @@
         }
       }
       .feedbacks-count {
-        width: 20%;
-        text-align: right;
+        width: 10%;
+        padding-left: 10px;
         a,
         input.btn.btn-link {
           color: $brand-primary;

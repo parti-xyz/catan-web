@@ -13,7 +13,7 @@
         font-weight: bold
       }
       .date {
-        color: $gray;
+        color: $gray-a;
       }
     }
   }
@@ -101,7 +101,7 @@ section.posts-page {
     position: relative;
     float: right;
     button.dropdown-toggle i {
-      color: $gray-light;
+      color: $gray-a;
     }
   }
   &__last-stroked {
@@ -183,7 +183,7 @@ section.posts-page {
     margin-left: 14px;
     margin-right: 14px;
     border-top: 1px solid $gray-lighter;
-    color: $gray-light;
+    color: $gray-a;
     font-size: $font-size-base;
     &__upvote .upvote,
     &__link-to-modal,
@@ -216,7 +216,7 @@ section.posts-page {
   }
   .more {
     margin-top: 10px;
-    color: $gray-light;
+    color: $gray-a;
     cursor: pointer;
     font-size: $font-size-base;
   }
@@ -291,7 +291,7 @@ section.posts-page {
         }
       }
       .show-all {
-        color: $gray-light;
+        color: $gray-a;
         cursor: pointer;
         .collapsed-and-need-to-read-posts-count {
           color: $brand-primary;
@@ -311,7 +311,7 @@ section.posts-page {
         font-size: 18px;
         line-height: 18px;
         position: absolute;
-        color: $gray-light;
+        color: $gray-a;
         &--need-to-read {
           color: $brand-primary;
         }
@@ -320,17 +320,17 @@ section.posts-page {
         list-style-position: inside;
       }
       .date {
-        color: $gray;
+        color: $gray-a;
       }
       .issue-and-group {
-        color: $gray;
+        color: $gray-a;
       }
       .pin-buttons {
         position: absolute;
         top: 6px;
         right: 24px;
         button.dropdown-toggle i {
-          color: $gray-light;
+          color: $gray-a;
         }
       }
     }
@@ -391,7 +391,7 @@ section.posts-page {
 
       &.post-line__issue__post-type {
         font-weight: normal;
-        color: $gray-light;
+        color: $gray-a;
       }
     }
   }
@@ -416,7 +416,7 @@ section.posts-page {
   }
   .truncated-body {
     .btn-more {
-      color: $gray-light;
+      color: $gray-a;
     }
   }
   .media {
@@ -540,7 +540,7 @@ section.posts-page {
       font-weight: bold;
     }
     a {
-      color: $gray-light;
+      color: $gray-a;
     }
   }
 }
