@@ -14,7 +14,7 @@
                   %span.issue-title
                     = post.issue.title
                     = security_icon(post.issue)
-          %h4.poll-card__title “#{post.poll.title}”
+          %h4.poll-card__title “#{HTML_Truncator.truncate(post.poll.title, 12)}”
         .col-md-6.voting-area
           = render 'votings/voting', compact: true, poll: post.poll
       - elsif post.survey.present?
@@ -31,7 +31,7 @@
                     = security_icon(post.issue)
           = link_to post do
             %h4.survey-card__title
-              != smart_truncate_html(post.body, length: 30)
+              != HTML_Truncator.truncate(post.body, 10)
         .col-md-6
           - popover_placement = browser.device.mobile? ? 'auto' : 'right'
           - class_check = post.survey.multiple_select? ? 'fa-check-square-o' : 'fa-check-circle-o'
