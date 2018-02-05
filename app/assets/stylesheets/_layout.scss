@@ -17,11 +17,11 @@ footer {
   &__txt {
     color: #757375;
     float: right;
-    font-size: 12px;
+    font-size: $font-size-small;
     font-weight: bold;
     position: absolute;
-    top: 7px;
-    right: 28px;
+    top: -2px;
+    left: 74px;
   }
   &.footer-logo--group {
     .footer-logo__txt {
