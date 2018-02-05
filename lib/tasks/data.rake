@@ -150,12 +150,20 @@ namespace :data do
         head_title: '공감혁신부',
         private: false)
 
-      seed_group(user, 'cairos', ['현준, 갱'],
+      seed_group(user, 'cairos', ['먹보에술꾼', '갱'],
         title: '연구집단 카이로스',
         site_title: '연구집단 카이로스',
         site_description: "인문사회과학 연구자들의 모임입니다.",
         head_title: '카이로스',
         private: false)
+
+      seed_group(user, 'blu-bundang', ['gongwon_park'],
+        title: '분당지역고등학교학생회연합 BLU',
+        site_title: '분당지역고등학교학생회연합 BLU',
+        site_description: "성남시청소년재단 분당정자청소년수련관 산하 자치기구입니다. 현재 분당지역 전 고등학교 학생회가 가입되어 있으며, 정자청소년수련관에서 매달 정기모임을 가집니다. 매년 5월에 청소년동아리연합축제 '차오름제'를 주관합니다.",
+        head_title: 'BLU',
+        private: false)
+
 
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
