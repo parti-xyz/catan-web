@@ -11,14 +11,14 @@
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
           .media-body
             = link_to smart_issue_home_path_or_url(post.issue) do
-              %span.issue-title
-                = post.issue.title
-                = security_icon(post.issue)
               - unless post.issue.displayable_group? current_group
-                %i.fa.fa-angle-left
                 %span.issue-group
                   = post.issue.group.title_basic_format
                   = security_icon(post.issue.group)
+                %span.issue-separator /
+              %span.issue-title
+                = post.issue.title
+                = security_icon(post.issue)
           - if local_assigns[:mode] == 'modal'
             .media-right( style='vertical-align: middle;' )
               %button(type="button" class="close" data-dismiss="modal") &times;

@@ -57,8 +57,10 @@ section.posts-page {
   border: 1px solid #fff;
   border-radius: $border-radius-base;
   &__header {
+    color: $gray;
     border-bottom: 1px solid $gray-less-lighter;
-    padding: 12px 18px;
+    font-size: $font-size-base;
+    padding: 8px 18px 4px;
     &.hide {
       border-bottom: none;
       padding: 0;
@@ -67,28 +69,22 @@ section.posts-page {
       border-bottom: none;
     }
     .issue-logo {
-      width: 30px;
-      height: 30px;
+      width: 20px;
+      height: 20px;
       background-size: cover;
       background-position: center;
       border-radius: $border-radius-base;
     }
     .media-body {
       vertical-align: middle;
-
       .issue-title {
         color: $brand-primary;
-        font-size: $font-size-base;
       }
       .issue-group {
         color: $brand-primary;
-        font-size: $font-size-base;
       }
-      .fa-angle-left {
-        color: $brand-primary;
-        font-size: $font-size-large;
-        padding-left: 3px;
-        padding-right: 3px;
+      .issue-separator {
+        padding: 0 4px;
       }
     }
     .media-right {
