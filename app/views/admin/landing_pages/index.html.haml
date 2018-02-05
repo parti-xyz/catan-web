@@ -1,7 +1,7 @@
 %section
   %h4
     랜딩 페이지 관리
-  = link_to '적용 화면 보기', issues_path, class: 'btn btn-default', target: "_blank"
+  = link_to '적용 화면 보기', discover_url(subdomain: nil), class: 'btn btn-default', target: "_blank"
   %hr
   = form_tag save_admin_landing_pages_path, method: :post do
     .form-group.clearfix
