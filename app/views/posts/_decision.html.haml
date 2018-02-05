@@ -7,17 +7,19 @@
       %h6 결론
       %sapn.text-muted 아직 정해진 결론이 없습니다.
   - else
-    %h6 결론
-    = decision_body_format(post.decision.strip)
-    - if post.issue.safe_postable?(current_user)
-      .control
-        - if post.decision_authors.any?
-          %span.writer.text-muted
-            %span<>
-              != post.decision_authors.map { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user), class: 'text-muted') }.join(", ")
-            %span<> 님이 작성했습니다
+    %h6
+      결론
+      - if post.issue.safe_postable?(current_user)
+        %span.control
           &middot;
-        = link_to '수정', edit_decision_post_path(post), class: 'text-primary'
-        &middot;
-        = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
+          - if post.decision_authors.any?
+            %span.writer
+              %span<>
+                != post.decision_authors.map { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user), class: 'text-muted') }.join(", ")
+              %span<> 님이 작성했습니다
+            &middot;
+          = link_to '수정', edit_decision_post_path(post), class: 'text-primary'
+          &middot;
+          = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
 
+    = decision_body_format(post.decision.strip)
