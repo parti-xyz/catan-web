@@ -57,10 +57,9 @@ section.posts-page {
   border: 1px solid #fff;
   border-radius: $border-radius-base;
   &__header {
-    color: $gray;
     border-bottom: 1px solid $gray-less-lighter;
     font-size: $font-size-base;
-    padding: 8px 18px 4px;
+    padding: 10px 18px 8px;
     &.hide {
       border-bottom: none;
       padding: 0;
@@ -69,8 +68,8 @@ section.posts-page {
       border-bottom: none;
     }
     .issue-logo {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       background-size: cover;
       background-position: center;
       border-radius: $border-radius-base;
@@ -84,6 +83,7 @@ section.posts-page {
         color: $brand-primary;
       }
       .issue-separator {
+        color: $gray-a;
         padding: 0 4px;
       }
     }
@@ -432,11 +432,6 @@ section.posts-page {
   .post-card {
     border-radius: 0;
     padding: 0;
-    &__header {
-      .issue-title {
-        font-size: $font-size-small;
-      }
-    }
     &__comments {
       .more {
         font-size: $font-size-small;
@@ -611,7 +606,6 @@ strong.upvoted {
 
 .post-data-divider {
   margin: 24px 0 12px;
-  font-weight: 200;
   color: $gray;
   @media (max-width: $screen-xs-max) {
     padding: 0px 15px;
