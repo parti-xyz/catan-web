@@ -7,6 +7,6 @@
   .col-xs-12
     = f.fields_for :wiki do |ff|
       = ff.text_field :title, placeholder: '제목을 넣어주세요...', class: "form-control", data: { 'rule-required': true }
-      .js-tinymce.form-control.form-control-tinymce{ id: "post[wiki_attributes][body]", 'data-placeholder': ("내용..." if ff.object.body.blank?), 'data-tinymce-setting': 'wiki' }
+      .js-tinymce.form-control.form-control-tinymce{ id: "post[wiki_attributes][body]", 'data-placeholder': ("내용..." if ff.object.body.blank?), 'data-tinymce-setting': 'wiki', class: ('js-tinymce-mobile' if is_small_screen?) }
         != ff.object.body
       = ff.hidden_field :body, class: 'validate', data: { 'rule-required': true }

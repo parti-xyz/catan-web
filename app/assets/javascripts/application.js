@@ -1107,7 +1107,7 @@ $(function(){
       },
     };
 
-    $.each($('.js-tinymce'), function(i, elm){
+    $.each($('.js-tinymce:not(.js-tinymce-mobile)'), function(i, elm){
       var setting_name = $(elm).data('tinymce-setting');
       var setting = settings.default;
       if(setting_name) {
@@ -1165,6 +1165,134 @@ $(function(){
         }
       });
     });
+
+    $.each($('.js-tinymce.js-tinymce-mobile'), function(i, elm){
+      var setting_name = $(elm).data('tinymce-setting');
+      var setting = settings.default;
+      if(setting_name) {
+        setting = settings[setting_name];
+      }
+
+
+      $(elm).tinymce({
+        force_br_newlines : true,
+        force_p_newlines : false,
+        forced_root_block : '',
+        language: 'ko_KR',
+        plugins: setting.plugins + ' autoresize stickytoolbar',
+        menubar: false,
+        autoresize_bottom_margin: 0,
+        statusbar: false,
+        toolbar: 'bold italic strikethrough | quicklink blockquote | bullist numlist | outdent indent',
+        paste_data_images: true,
+        document_base_url: 'https://parti.xyz/',
+        link_context_toolbar: true,
+        relative_urls: false,
+        remove_script_host : false,
+        hidden_input: false,
+        uploadimage_default_img_class: 'tinymce-content-image',
+        init_instance_callback: function (editor) {
+          editor.on('change', function (e) {
+            tinymce.triggerSave();
+            var $input_elm = $(':input[name="' + editor.id + '"]');
+            $input_elm.trigger('parti-need-to-validate');
+            if(!ufo.isApp()) {
+              $(document).trigger('parti-post-editor-spotlight');
+            }
+          });
+        }
+      });
+    });
+
+    tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
+      var inited = false;
+      editor.on('focus', function() {
+        console.log("init stick")
+        inited = true;
+        setSticky();
+      });
+
+      $(window).on('scroll', function() {
+        setSticky();
+      });
+
+      var headerHeight = 56;
+
+      function setSticky() {
+        if(!inited) {
+          return;
+        }
+        var container = editor.editorContainer;
+        var toolbars = $(container).find('.mce-toolbar-grp');
+        var statusbar = $(container).find('.mce-statusbar');
+
+        if (isSticky()) {
+          console.log("isSticky")
+          $(container).css({
+            paddingTop: toolbars.outerHeight()
+          });
+
+          if (isAtBottom()) {
+            console.log("isAtBottom")
+            toolbars.css({
+              top: 'auto',
+              bottom: statusbar.outerHeight(),
+              position: 'absolute',
+              width: '100%',
+              borderBottom: 'none'
+            });
+          } else {
+            console.log("not bottm")
+            toolbars.css({
+              top: headerHeight,
+              position: 'fixed',
+              width: $(container).width(),
+              borderBottom: '1px solid rgba(0,0,0,0.2)'
+            });
+          }
+        } else {
+          console.log("not isSticky")
+          $(container).css({
+            paddingTop: 0
+          });
+
+          toolbars.css({
+            position: 'relative',
+            top: 0,
+            width: 'auto',
+            borderBottom: 'none'
+          });
+        }
+      }
+
+      function isSticky() {
+        var container = editor.editorContainer,
+          editorTop = container.getBoundingClientRect().top;
+
+        if (editorTop > headerHeight) {
+          return false;
+        }
+
+        return true;
+      }
+
+      function isAtBottom() {
+        var container = editor.editorContainer,
+          editorTop = container.getBoundingClientRect().top;
+
+        var toolbarHeight = $(container).find('.mce-toolbar-grp').outerHeight();
+        var footerHeight = $(container).find('.mce-statusbar').outerHeight();
+
+        var hiddenHeight = -($(container).outerHeight() - toolbarHeight - footerHeight);
+
+        if (editorTop < hiddenHeight + headerHeight) {
+          return true;
+        }
+
+        return false;
+      }
+    });
+
   })();
 });
 
