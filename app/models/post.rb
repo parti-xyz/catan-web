@@ -320,6 +320,7 @@ class Post < ActiveRecord::Base
     title
   end
 
+  # DEPRECATED
   def parsed_body
     _, body = parsed_title_and_body
    body
@@ -352,15 +353,7 @@ class Post < ActiveRecord::Base
   end
 
   def meta_tag_title
-    post_title = if poll.present?
-      sanitize_html poll.title
-    elsif parsed_title.present?
-      sanitize_html parsed_title
-    else
-      sanitize_html(parsed_body).gsub('\n', '').truncate(13)
-    end
-
-    post_title.present? ? "#{post_title.truncate(15)} | #{issue.title} 빠띠" : "#{issue.title} 빠띠"
+    body.present? ? "#{sanitize_html(body).truncate(15)} | #{issue.title} 빠띠" : "#{issue.title} 빠띠"
   end
 
   def meta_tag_description
@@ -552,6 +545,7 @@ class Post < ActiveRecord::Base
     end
   end
 
+  # DEPRECATED
   def parsed_title_and_body
     strip_body = body.try(:strip)
     strip_body = '' if strip_body.nil?
