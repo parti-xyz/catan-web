@@ -11,9 +11,6 @@
         개
 
     .post-card__comments--hidden.collapse{ id: comments_more_dom_id(post) }
-    /   - hidden_comments.each do |comment|
-    /     = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
-
 
   - showing_comments.each do |comment|
     = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))

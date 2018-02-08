@@ -25,9 +25,6 @@ section#comments {
   &:last-child {
     border-bottom: none;
   }
-  .post-card__comments--hidden &:last-child {
-    border-bottom: 1px solid $gray-lighter;
-  }
   .media-left {
     padding-top: 4px;
   }
