@@ -26,16 +26,6 @@
             = link_to smart_issue_home_path_or_url(issue) do
               = issue.title
               %small= security_icon(issue)
-            .parti-buttons
-              - if issue.organized_by? current_user
-                %span.parti-organizer-button
-                  %div.btn.btn-xs.btn-ghost{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
-                    오거나이저
-                  .hidden
-                    .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
-                      #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.
-              %span.parti-member-button
-                = render 'members/member', issue: issue
         - else
           %h2.parti-title
             = issue.title
@@ -45,43 +35,35 @@
                 %span.parti-users-label 가입회원
                 %span.parti-users-count
                   #{issue.member_users.count}명
-          .row
-            .col-xs-12.col-sm-9
-              .parti-body
-                = issue.body
-              .parti-buttons
-                - if !issue.group.private? and can?(:new_admit_members, issue)
-                  %span.parti-admin-buttons
-                    = link_to new_admit_members_issue_path(issue), class: 'btn btn-xs btn-ghost' do
-                      %i.fa.fa-user-plus
-                      빠띠 초대하기
-                - if !issue.private and !issue.group.private?
-                  %span.parti-admin-buttons
-                    %div.btn.btn-xs.btn-ghost{"data-url": "#advert-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
-                      %i.fa.fa-bullhorn
-                      빠띠 알리기
-                      .hidden
-                        .advert-info{id: "advert-info-#{dom_id(issue)}"}
-                          = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
-                - if issue.organized_by? current_user
-                  %span.parti-organizer-button
-                    %div.btn.btn-xs.btn-ghost{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "hover"}
-                      빠띠 오거나이저
-                    .hidden
-                      .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
-                        #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.
-                %span.parti-member-button
-                  = render 'members/member', issue: issue
-                %span.parti-admin-buttons
-                  - if can? :update, issue
-                    = link_to '관리', [:edit, issue], class: 'btn btn-ghost btn-xs'
-                - if issue.telegram_link.present?
-                  %span.parti-telegram-button
-                    = link_to issue.telegram_link, target: '_blank' do
-                      = image_tag 'telegram_icon.png'
-                      메신저 열기
-            .col-sm-3.text-right.hidden-xs
-              = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
+          .parti-body
+            = issue.body
+          - if issue.frozen?
+            .parti-buttons
+              %span.parti-admin-button.cursor-pointer
+                z
+                %sup
+                  z
+                  %sup z
+                휴면 중
+          - else
+            .parti-buttons
+              - if !issue.group.private? and can?(:new_admit_members, issue)
+                = link_to new_admit_members_issue_path(issue), class: 'parti-admin-button' do
+                  %i.fa.fa-user-plus
+                  초대
+              - if !issue.private and !issue.group.private?
+                %span.parti-admin-button.cursor-pointer{"data-url": "#advert-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
+                  %i.fa.fa-share-alt
+                  공유
+                  .hidden
+                    .advert-info{id: "advert-info-#{dom_id(issue)}"}
+                      = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
+              = render 'members/member_button', issue: issue
+              - if issue.telegram_link.present?
+                %span.parti-telegram-button
+                  = link_to issue.telegram_link, target: '_blank' do
+                    = image_tag 'telegram_icon.png'
+                    메신저 열기
 
   - if !local_assigns[:simple] and !blocked
     .parti-menu

@@ -62,7 +62,10 @@ section#issues-group-index {
     margin: 0;
     &.parti-title {
       margin-bottom: 5px;
-      text-shadow: 1px 1px #333;
+      text-shadow: 1px 1px $gray-dark;
+      font-weight: 400;
+      word-break: keep-all;
+      overflow-wrap: break-word;
       small {
         color: white;
       }
@@ -72,35 +75,12 @@ section#issues-group-index {
     }
   }
   .parti-body {
-    color: $gray-lighter;
-    text-shadow: 1px 1px #333;
+    color: white;
+    text-shadow: 1px 1px $gray-dark;
+    font-weight: 200;
   }
   .parti-buttons {
     margin-top: 15px;
-    .parti-organizer-button,
-    .parti-member-button {
-      margin-top: 10px;
-      padding-bottom: 3px;
-      .btn {
-        min-width: 110px;
-        &.btn-primary {
-          -moz-box-shadow: none;
-          -webkit-box-shadow: none;
-          box-shadow: none;
-          &:hover {
-            transform: none;
-          }
-        }
-        &.btn-ghost {
-          color: $gray-lighter;
-          border: 1px solid $gray-lighter;
-          &:hover {
-            background: transparent;
-            font-weight: bold;
-          }
-        }
-      }
-    }
     .parti-telegram-button {
       margin-left: 10px;
       a {
@@ -120,7 +100,14 @@ section#issues-group-index {
         margin-top: 12px;
       }
     }
-    .parti-admin-buttons {
+    .parti-admin-button {
+      color: white;
+      text-shadow: 1px 1px $gray-dark;
+      font-weight: 200;
+      margin-right: 6px;
+      &:hover {
+        color: $gray-lightest;
+      }
       .btn {
         color: $gray-lighter;
         border: 1px solid $gray-lighter;
@@ -133,7 +120,7 @@ section#issues-group-index {
   }
   .parti-info {
     margin-bottom: 10px;
-    text-shadow: 1px 1px #333;
+    text-shadow: 1px 1px $gray-dark;
     .parti-users-label,
     .parti-users-count {
       font-size: $font-size-base;
@@ -191,6 +178,8 @@ section#issues-group-index {
     .parti-title {
       a, small {
         color: #fff;
+        text-shadow: 1px 1px $gray-dark;
+        font-weight: 200;
       }
     }
     > .container > .media {
@@ -206,8 +195,8 @@ section#issues-group-index {
       }
       > .media-body {
         .parti-buttons {
-          margin-left: 12px;
-          display: inline;
+          display: inline-block;
+          margin: 10px;
         }
       }
     }
@@ -638,7 +627,7 @@ section#issues-group-index {
     }
     h2.parti-title {
       font-size: $font-size-h3;
-      font-weight: 400;
+      font-weight: 200;
       text-align: left;
       margin-top: 0;
       margin-bottom: 0;

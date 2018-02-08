@@ -37,7 +37,7 @@
     UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
   <% end %>
 <% else %>
-  var $member = $("<%= escape_javascript(render 'members/member', issue: @issue) %>");
+  var $member = $("<%= escape_javascript(render 'members/member_button', issue: @issue) %>");
   $('.<%= dom_id(@member.issue) %>-member').replaceWith($member);
   parti_partial$($member);
 <% end %>
