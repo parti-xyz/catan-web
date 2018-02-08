@@ -2,7 +2,7 @@
   .media
     .media-left
       = link_to smart_user_gallery_path(comment.user) do
-        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url}); background: black;"}
+        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
     .media-body
       .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
         = render 'comments/body', local_assigns
