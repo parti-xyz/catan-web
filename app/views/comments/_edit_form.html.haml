@@ -1,6 +1,6 @@
 = form_for @comment, remote: true, html: {class: 'update-form'} do |f|
   .form-group
-    = f.text_area :body, class: 'form-control'
+    = f.text_area :body, class: 'form-control', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 3
   = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
   = f.button type: 'submit', name: 'cancel', value: true, remote: true, class: 'btn btn-default' do
     취소

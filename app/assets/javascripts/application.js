@@ -443,13 +443,7 @@ var parti_prepare = function($base) {
 
   // autoresize toggle
   $.parti_apply($base, '[data-ride="parti-autoresize"]', function(elm) {
-    if($(elm).data('in-post-modal')) {
-      $(elm).on('focus', function(e) {
-        $(elm).height('120');
-      });
-    } else {
-      autosize($(elm));
-    }
+    autosize($(elm));
   });
 
   // mention
