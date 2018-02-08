@@ -7,19 +7,20 @@ section#comments {
 }
 
 .comment-blind-info {
-  color: $gray-light
+  color: $gray-light;
 }
 
 .comment-line {
-  padding: 12px 0;
-  border-bottom: 1px solid $gray-lighter;
+  padding: $font-size-base*0.5 0;
   position: relative;
-  padding-right: 24px;
   &.post-card__comment-form {
     padding-right: 0;
   }
   @media (max-width: $screen-xs-max) {
     padding-bottom: 10px;
+  }
+  &:first-child {
+    margin-top: $font-size-base*0.5;
   }
   &:last-child {
     border-bottom: none;
@@ -27,30 +28,29 @@ section#comments {
   .post-card__comments--hidden &:last-child {
     border-bottom: 1px solid $gray-lighter;
   }
-  .date-wrapper {
-    color: $gray-light;
-    font-size: $font-size-base;
-    margin-left: 12px;
+  .media-left {
+    padding-top: 4px;
+  }
+  .user-image {
+    width: 30px;
+    height: 30px;
   }
   .nickname {
     font-weight: bold;
     color: $brand-primary-dark;
   }
   .body {
-    display: inline;
+    background: white;
+    border-radius: $font-size-base;
     color: $gray;
-    padding-left: 6px;
-    p {
-    }
-    @media (max-width: $screen-xs-max) {
-      padding-left: 0;
-    }
+    padding: 8px 12px;
+    margin-bottom: 4px;
     &--agree > span:first-child:before {
       content: '\f164  찬성 ';
       font-family: "FontAwesome";
       color: #59baa3;
     }
-    &--disagree > span:first-child:before {
+    &--disagree > span:before {
       content: '\f165  반대 ';
       font-family: "FontAwesome";
       color: #f0646d;
@@ -66,25 +66,20 @@ section#comments {
       }
     }
   }
-  .user-image {
-    width: 30px;
-    height: 30px;
-  }
   .comment__mention {
     float: none;
     margin-left: 12px;
     color: $brand-primary;
   }
-  .comment__btn {
-    position: absolute;
-    top: 6px;
-    right: 0;
-    button {
-      color: $gray-light;
-    }
+  .footer {
+    padding-left: 14px;
+  }
+  .date-wrapper {
+    color: $gray-a;
+    font-size: $font-size-base;
+    margin-left: 12px;
   }
   .upvote {
-    margin-bottom: 2px;
     color: $brand-primary;
   }
   .upvote-liked {
@@ -98,6 +93,13 @@ section#comments {
     }
     &.add-margin-left {
       margin-left: 12px;
+    }
+  }
+  .link-edit, .link-destroy {
+    margin-left: 12px;
+    color: $gray-a;
+    &:hover {
+      color: $brand-primary;
     }
   }
   .update-form {

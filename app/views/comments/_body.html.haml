@@ -1,3 +1,5 @@
+= link_to smart_user_gallery_path(comment.user) do
+  %span.nickname= comment.user.nickname
 - unless comment.blinded? current_user
   - wrapper_id = "#{dom_id(comment)}-truncatable-body"
   %span.comment-truncatable-body{ id: wrapper_id }
@@ -9,3 +11,4 @@
       = comment_format(h(comment.body))
 - else
   %span.comment-blind-info= t('labels.comment_blind_info')
+

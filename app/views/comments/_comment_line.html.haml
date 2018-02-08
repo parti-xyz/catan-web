@@ -2,10 +2,8 @@
   .media
     .media-left
       = link_to smart_user_gallery_path(comment.user) do
-        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
+        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url}); background: black;"}
     .media-body
-      = link_to smart_user_gallery_path(comment.user) do
-        %span.nickname= comment.user.nickname
       .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
         = render 'comments/body', local_assigns
       .footer
@@ -16,26 +14,13 @@
               댓글달기
         .upvote-count
           = render 'upvotes/upvote_count', upvotable: comment
+
         %span.date-wrapper= date_f comment.created_at
 
-    - chevron_dropdown = capture do
-      - if can? :update, comment
-        %li
-          = link_to edit_comment_path(comment), remote: true do
+
+        - if can? :update, comment
+          = link_to edit_comment_path(comment), remote: true, class: 'link-edit' do
             수정
-      - if can? :destroy, comment
-        %li
-          = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' } do
+        - if can? :destroy, comment
+          = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'link-destroy' do
             삭제
-
-    - dropdown_dom_id = "#{dom_id(comment)}__chevron-buttons"
-    - if chevron_dropdown.try(:strip).present?
-      .comment__btn
-        %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-          %i.fa.fa-chevron-down
-        %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-          = chevron_dropdown
-
-
-
-
