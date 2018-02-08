@@ -124,3 +124,7 @@ body.editor-spotlight {
 .focusable-column {
   z-index: $zindex-focusable-column !important;
 }
+
+body .webui-popover {
+  z-index: $zindex-webui-popover;
+}

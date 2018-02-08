@@ -203,6 +203,45 @@
   }
 }
 
+.webui-popover-voting-result  {
+  .voting-users {
+    @extend .list-inline;
+    .choice-title {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .section {
+      width: 250px;
+      background-color: #f9f9f9;
+      padding: 12px 24px;
+      vertical-align: top;
+      @media (max-width: $screen-xs-max) {
+        display: block;
+      }
+    }
+    .choice-title {
+      text-align: center;
+    }
+    .agree .choice-title {
+      color: $brand-success;
+    }
+    .neutral .choice-title {
+      color: $brand-primary;
+    }
+    .disagree .choice-title {
+      color: $brand-danger;
+    }
+    .section + .section {
+      @media (min-width: $screen-sm-min) {
+        margin-left: 12px;
+      }
+      @media (max-width: $screen-xs-max) {
+        margin-top: 12px;
+      }
+    }
+  }
+}
+
 .vote__results, .vote__buttons {
   img {
     width: 20px;

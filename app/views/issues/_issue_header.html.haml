@@ -52,13 +52,13 @@
                   %i.fa.fa-user-plus
                   초대
               - if !issue.private and !issue.group.private?
-                %span.parti-admin-button.cursor-pointer{"data-url": "#advert-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
+                %span.parti-admin-button.cursor-pointer{"data-url": "#advert-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "auto-bottom", "data-trigger": "click"}
                   %i.fa.fa-share-alt
                   공유
                   .hidden
                     .advert-info{id: "advert-info-#{dom_id(issue)}"}
                       = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
-              = render 'members/member_button', issue: issue
+              = render 'issues/header_buttons', issue: issue
               - if issue.telegram_link.present?
                 %span.parti-telegram-button
                   = link_to issue.telegram_link, target: '_blank' do
