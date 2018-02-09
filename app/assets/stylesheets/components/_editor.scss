@@ -410,7 +410,8 @@
   }
 }
 
-#post-form {
+#post-form,
+.wiki-preview {
   .form-control-tinymce {
     h1 {
       font-size: $font-size-base * 1.5;

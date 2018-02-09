@@ -699,7 +699,8 @@ label.required:after {
   }
   input[type=text],
   input[type=file],
-  textarea {
+  textarea,
+  .form-control-tinymce, {
     border: none;
     box-shadow: none;
     -webkit-box-shadow: none;

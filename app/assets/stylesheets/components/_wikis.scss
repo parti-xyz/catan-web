@@ -55,6 +55,8 @@ section#wiki-histories {
     border: 1px solid $gray-lighter;
     border-radius: $border-radius-base;
     position: relative;
+    max-height: 300px;
+    overflow: hidden;
     .shadow {
       position: absolute;
       width: 100%;
@@ -70,19 +72,17 @@ section#wiki-histories {
     color: $gray-dark;
     line-height: 1.4em;
     word-break: keep-all;
-    padding-left: 12px;
-    padding-right: 12px;
-    margin-bottom: 0;
-    margin-top: 20px;
+    font-weight: 400;
+    border: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    text-align: center;
   }
   .wiki-body {
     min-height: 70px;
-    padding-left: 8px;
-    padding-right: 8px;
     img {
-      width: 100%;
-      background-repeat: repeat;
-      background-size: cover;
+      max-width: 100%;
     }
   }
   .wiki-authors {
@@ -226,12 +226,11 @@ section#wiki-histories {
 
   #post_wiki_attributes_title {
     margin-bottom: 20px;
-    border: none;
-    border-bottom: 1px solid $gray-light;
-    border-radius: 0;
     padding: 0;
     font-size: $font-size-large;
-    font-weight: 600;
+    text-align: center;
+    border-radius: $border-radius-base;
+    font-weight: 400;
   }
 
   .parti-select {
