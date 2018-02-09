@@ -302,6 +302,9 @@ section.posts-page {
             color: $text-color;
           }
         }
+        &.desc_without_issue {
+          width: 92%;
+        }
       }
       .read-mark {
         font-size: 18px;

@@ -42,7 +42,7 @@ section#comments {
     color: $gray;
     padding: 8px 12px;
     margin-bottom: 4px;
-    &--agree > span:first-child:before {
+    &--agree > span:before {
       content: '\f164  찬성 ';
       font-family: "FontAwesome";
       color: #59baa3;
@@ -52,7 +52,7 @@ section#comments {
       font-family: "FontAwesome";
       color: #f0646d;
     }
-    &--neutral > span:first-child:before {
+    &--neutral > span:before {
       content: '중립 ';
       font-family: "FontAwesome";
       color: $brand-primary;
