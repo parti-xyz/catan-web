@@ -7,14 +7,6 @@
 
 .card{ class: "#{wrapper_class} #{removable_with_post_dom_class(post)}" }
   .reference-card.reference-card--files-sources[post]{ class: card_class, data: modal_data }
-    - if local_assigns[:show_issue]
-      .reference-card__group-and-issue
-        - unless post.issue.displayable_group? current_group
-          .reference-card__group
-            = post.issue.group.head_title
-            = security_icon(post.issue.group)
-        .thumb.thumb--issue-with-title{ style: "background-image: url(#{post.issue.logo.sm.url})", class: ('thumb--issue-with-title--no-image' unless post.file_sources.only_image.any?) }
-          = post.issue.title.truncate(10)
     - if post.file_sources.only_image.any?
       .caption-images<>
         - odd = post.file_sources.only_image.count.odd?
@@ -28,16 +20,23 @@
             - current_style = 'left'
           .thumb.thumb--reference{ class: current_style, style: "background-image: url(#{file_source.attachment.sm.url})" }<>
           - previous_style = current_style
-    - else
-      - if local_assigns[:show_issue]
-        .caption-images-no-icon{ style: 'height: 50px' }
-    - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
-      .caption-file
-        .title.title--file-source.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
-          .file-icon
-            = (File.extname(file_source.name) || "FILE").gsub(".", "").upcase
-          .file-name
-            = truncate(file_source.name, length: 100)
+    .reference-card__meta.clearfix
+      .reference-card__issue
+        = link_to smart_issue_home_path_or_url(post.issue) do
+          - unless post.issue.displayable_group? current_group
+            .reference-card__group
+              = post.issue.group.head_title
+          = post.issue.title
+      .reference-card__date.date-wrapper.reference-card__date--with-issue
+        %span= date_f post.created_at
+    .caption-files
+      - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+        .caption-file
+          .title.title--file-source.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
+            .file-icon
+              = (File.extname(file_source.name) || "FILE").gsub(".", "").upcase
+            .file-name
+              = truncate(file_source.name, length: 100)
     .caption
       .body
         %p
@@ -48,10 +47,10 @@
             .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
             %span.nickname= post.user.nickname
             %span.date= date_f post.created_at
-      - if post.comments_count > 0
-        .more
-          %span.comments-count
-            %sapn
-              %i.fa.fa-comment-o
-              %b> #{post.comments_count}개
-              의 댓글
+        - if post.comments_count > 0
+          .more
+            %span.comments-count
+              %sapn
+                %i.fa.fa-comment-o
+                %b> #{post.comments_count}개
+                의 댓글

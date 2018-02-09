@@ -1,50 +1,25 @@
 - modal_data = { 'action': "parti-link", 'url': smart_post_path_or_url(post) }
-
-- if post.comments_count >= 10
-  - template_by_post = 'best'
-- elsif post.comments_count >= 5
-  - template_by_post = 'popular'
-- else
-  - template_by_post = 'default'
-
-- template ||= (local_assigns[:template] || template_by_post)
-- if post.link_source.has_image?
-  - if template == 'best'
-    - wrapper_class = 'col-xs-12 col-sm-4'
-    - card_class = template
-  - elsif template == 'popular'
-    - wrapper_class = 'col-xs-12 col-sm-4'
-    - card_class = template
-  - else
-    - wrapper_class = 'col-xs-12 col-sm-4'
-    - card_class = 'default'
-- else
-  - wrapper_class = 'col-xs-12 col-sm-4'
-  - card_class = 'default'
+- wrapper_class = 'col-xs-12 col-sm-4'
 
 - wrapper_class = (local_assigns[:wrapper_class] || wrapper_class)
 
 .card{ class: "#{wrapper_class} #{removable_with_post_dom_class(post)}" }
-  .reference-card[post]{ class: card_class, data: modal_data }
+  .reference-card[post]{ class: 'default', data: modal_data }
     - if post.link_source.has_image?
       - capture_thumb = capture do
         .thumb.thumb--reference{ style: "background-image: url(#{post.link_source.image.md.url})" }
-      = link_to_if (card_class == 'default'), capture_thumb, post.link_source.url, target: '_blank'
-    - else
-      - if local_assigns[:show_issue]
-        .caption-images-no-icon{ style: 'height: 50px' }
-    - if local_assigns[:show_issue]
-      .reference-card__group-and-issue
-        - unless post.issue.displayable_group? current_group
-          .reference-card__group
-            = post.issue.group.head_title
-            = security_icon(post.issue.group)
-        .thumb.thumb--issue-with-title{ style: "background-image: url(#{post.issue.logo.sm.url})", class: ('thumb--issue-with-title--no-image' unless post.link_source.has_image?) }
-          = post.issue.title.truncate(10)
+      = link_to capture_thumb, post.link_source.url, target: '_blank', class: 'thumb-link'
+    .reference-card__meta.clearfix
+      .reference-card__issue
+        = link_to smart_issue_home_path_or_url(post.issue) do
+          - unless post.issue.displayable_group? current_group
+            .reference-card__group
+              = post.issue.group.head_title
+          = post.issue.title
+      .reference-card__date.date-wrapper.reference-card__date--with-issue
+        %span= date_f post.created_at
     .caption
       - capture_source = capture do
-        .date= date_f post.created_at
-
         %h4.title
           - if post.video_source?
             %i.fa.fa-play-circle
@@ -56,7 +31,7 @@
             .source-url
               원글보기
               %i.fa.fa-external-link
-      = link_to_if (card_class == 'default'), capture_source, post.link_source.url, target: '_blank', class: 'link-source'
+      = link_to capture_source, post.link_source.url, target: '_blank', class: 'link-source'
       .body
         %p
           = post.specific_desc_striped_tags(215)
@@ -65,10 +40,9 @@
           = link_to smart_user_gallery_path(post.user) do
             .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
             %span.nickname= post.user.nickname
-      - if post.comments_count > 0
-        .more
-          %span.comments-count
-            %sapn
-              %i.fa.fa-comment-o
-              %b> #{post.comments_count}개
-              의 댓글
+        - if post.comments_count > 0
+          .more
+            %span.comments-count
+              %sapn
+                %i.fa.fa-comment-o
+                #{post.comments_count}개의 댓글

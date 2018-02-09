@@ -48,51 +48,40 @@ section#references {
       height: 150px;
     }
   }
-  &__group-and-issue {
-    position: absolute;
-    top: 20px;
-    left: 15px;
-    .thumb--issue {
-      border-radius: $border-radius-base;
-      width: 30px;
-      height: 30px;
-      box-shadow: 0 1px 5px $gray;
-      display: inline-block;
+  &__meta {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .caption-images + &__meta,
+  .thumb-link + &__meta {
+    margin-top: 10px;
+  }
+  &__issue {
+    max-width: 60%;
+    float: left;
+    text-align: left;
+    a {
+      color: #aaaaaf;
+      font-size: $font-size-small;
+      text-overflow: ellipsis;
     }
-    .thumb--issue-with-title {
-      border-radius: $border-radius-base;
-      height: 30px;
-      color: #fff;
-      display: inline-block;
-      line-height: 30px;
-      padding: 0 5px;
-      text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.9);
-      box-shadow: inset 2000px 0 0 0 rgba(255, 255, 255, 0.2);
-      background-size: 30px 100%;
-      background-position: left;
-      padding-left: 35px;
-      background-repeat: no-repeat;
+  }
+  &__group {
+    display: inline-block;
+    &:after {
+      content: '/'
     }
-    .thumb--issue-with-title--no-image {
-      text-shadow: none;
-      color: $gray-light;
-      font-weight: 400;
-      border: 1px solid rgba(1, 1, 1, 0.1);
-    }
-    .reference-card__group {
-      background-color: rgba(150,111,214,0.9);
-      color: #fff;
-      border-radius: $border-radius-base;
-      border: 2px solid rgb(150,111,214);
-      padding: 3px;
-      height: 30px;
-      vertical-align: top;
-      line-height: 20px;
-      display: inline-block;
+  }
+  &__date--with-issue {
+    float: right;
+    span {
+      vertical-align: bottom;
     }
   }
   .caption-file {
-    margin-top: 24px;
+    margin-bottom: 14px;
     padding-right: 14px;
     padding-left: 14px;
     .file-icon {
@@ -116,7 +105,6 @@ section#references {
     line-height: 0;
   }
   .caption {
-    padding-top: 14px;
     .link-source:hover {
       .title {
         color: $brand-primary;
@@ -128,21 +116,26 @@ section#references {
     .date,
     .title,
     .source-body,
-    .body,
-    .more {
-      padding-left: 14px;
-      padding-right: 14px;
+    .body {
+      padding-left: 20px;
+      padding-right: 20px;
     }
-    .date,
-    .source-url {
-      color: $gray-light;
+    .source-url,
+    .more {
+      color: #aaaaaf;
+      font-size: $font-size-small;
+      text-overflow: ellipsis;
+      font-weight: normal;
     }
     .title {
       color: $gray-base;
       margin-top: 5px;
       &--file-source {
-        word-break: break-all;
+        word-break: keep-all;
+        word-wrap: break-word;
       }
+      word-break: keep-all;
+      word-wrap: break-word;
     }
     .source-body {
       color: $text-muted;
@@ -153,10 +146,15 @@ section#references {
     .body {
       border-top: 2px solid $gray-lightest;
       padding-top: 14px;
-      padding-bottom: 14px;
+      &:first-child {
+        padding-top: 0;
+      }
+      padding-bottom: 25px;
       color: $text-muted;
       font-size: $font-size-base;
       line-height: $line-height-base;
+      word-break: keep-all;
+      word-wrap: break-word;
       .user-image {
         width: 20px;
         height: 20px;
@@ -169,21 +167,7 @@ section#references {
       margin: 0 14px 14px;
     }
     .more {
-      color: $gray-light;
-      padding-bottom: 14px;
-      .comments-count,
-      .link-to-modal,
-      .link-to-login {
-        &:hover {
-          color: $gray;
-        }
-      }
-      .link-to-more {
-        color: $brand-primary;
-        &:hover {
-          color: $brand-primary-dark;
-        }
-      }
+      padding-top: 10px;
       .fa {
         padding-right: 5px;
       }
