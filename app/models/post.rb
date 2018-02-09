@@ -202,7 +202,11 @@ class Post < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :not_private_blocked_of_group, ->(group, someone) {
     group ||= Group.indie
-    where(issue_id: group.issues.not_private_blocked(someone))
+    if group.indie?
+      of_undiscovered_issues(someone)
+    else
+      where(issue_id: group.issues.not_private_blocked(someone))
+    end
   }
   scope :of_searchable_issues, ->(current_user = nil) {
     where(issue_id: Issue.searchable_issues(current_user))

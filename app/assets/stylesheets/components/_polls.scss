@@ -45,22 +45,16 @@
     float: left;
     text-align: left;
     a {
-      display: block;
       color: #aaaaaf;
       font-size: $font-size-small;
       text-overflow: ellipsis;
     }
   }
   &__group {
-    background-color: rgba(150,111,214,0.9);
-    color: #fff;
-    border-radius: $border-radius-base;
-    border: 2px solid rgb(150,111,214);
-    padding: 3px;
-    height: 30px;
-    vertical-align: top;
-    line-height: 20px;
     display: inline-block;
+    &:after {
+      content: "/";
+    }
   }
   &__date--with-issue {
     float: right;
@@ -346,9 +340,28 @@
       }
     }
   }
-  .poll-card {
-    &__date--with-issue {
-      display: none;
+}
+
+.poll-card {
+  padding: 10px;
+  &__title {
+    margin: 15px 0;
+    font-size: 16px;
+  }
+}
+
+.vote__new {
+  font-size: 14px;
+  .btn-vote {
+    padding: 10px;
+    img {
+      zoom: 0.5;
+      margin-right: 10px;
+      margin-left: 0;
     }
+  }
+  .vote__new-img {
+    display: block;
+    margin-top: 10px;
   }
 }

@@ -188,22 +188,16 @@
     float: left;
     text-align: left;
     a {
-      display: block;
       color: #aaaaaf;
       font-size: $font-size-small;
       text-overflow: ellipsis;
     }
   }
   &__group {
-    background-color: rgba(150,111,214,0.9);
-    color: #fff;
-    border-radius: $border-radius-base;
-    border: 2px solid rgb(150,111,214);
-    padding: 3px;
-    height: 30px;
-    vertical-align: top;
-    line-height: 20px;
     display: inline-block;
+    &:after {
+      content: '/'
+    }
   }
   &__date--with-issue {
     float: right;
@@ -219,16 +213,9 @@
     .survey-card__issue {
       display: none;
     }
-    .survey-card__date--with-issue {
+    .survey-card__date {
       line-height: initial;
     }
   }
 }
 
-@media (max-width: $screen-xs-max) {
-  .survey-card {
-    &__date--with-issue {
-      display: none;
-    }
-  }
-}

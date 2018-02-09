@@ -23,7 +23,7 @@
             .survey-card__group
               = post.issue.group.head_title
           = post.issue.title
-      .survey-card__date.date-wrapper.survey-card__date--with-issue
+      .survey-card__date.date-wrapper
         %span= date_f post.created_at
     %h4.survey-card__title
       “#{survey.post.specific_desc_striped_tags(50)}”

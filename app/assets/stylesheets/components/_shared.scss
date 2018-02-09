@@ -485,35 +485,6 @@ label.required:after {
     display: none;
   }
 
-  /* vote */
-  .poll-card {
-    padding: 10px;
-    &__title {
-      margin: 15px 0;
-      font-size: 16px;
-    }
-  }
-  .poll__vote-section {
-    .btn {
-      min-width: 110px;
-    }
-  }
-  .vote__new {
-    font-size: 14px;
-    .btn-vote {
-      padding: 10px;
-      img {
-        zoom: 0.5;
-        margin-right: 10px;
-        margin-left: 0;
-      }
-    }
-    .vote__new-img {
-      display: block;
-      margin-top: 10px;
-    }
-  }
-
   /* editor */
   .textarea-box {
     .icon-tooltip {
