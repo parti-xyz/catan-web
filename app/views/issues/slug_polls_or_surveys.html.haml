@@ -2,18 +2,19 @@
 
 %section#polls_or_surveys.polls_or_surveys--issue
   .container
-    .editors-panel.hidden-xs
-      .media
-        .media-body
-          %h4
-            #{Poll.model_name.human}나 #{Survey.model_name.human}을 여세요
-            %small 서로의 생각을 토론해 보세요.
     - if @posts.empty?
       .posts
         .bg-default.text-center
           %i.fa.fa-info-circle
           가장 먼저 #{Poll.model_name.human}나 #{Survey.model_name.human}을 열어 보세요.
+          %br
+          = link_to smart_issue_home_url(@issue) do
+            전체글로 이동해서 토론하기
+            %i.fa.fa-arrow-right
     - else
+      .posts-header
+        .posts-filter-select
+          = render 'posts/sort_select'
       .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}
         = render 'polls_or_surveys/page', posts: @posts
 

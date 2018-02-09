@@ -5,16 +5,20 @@
     - unless @issue.exists_wiki?
       .bg-default.text-center
         %i.fa.fa-info-circle
-        가장 먼저 위키를 올려보세요.
+        가장 먼저 위키를 작성를 열어보세요.
+        %br
+          = link_to new_wiki_posts_path(issue_id: @issue.id) do
+            위키 작성하기
+            %i.fa.fa-arrow-right
     - else
       .posts-header
-        %h4.posts-header__title
-          위키
-          %small 함께 작성해 보세요.
         .posts-filter-select
-          .btn-group
-            = link_to "게시 중인 위키 (#{@issue.active_wiki_count})", {status: 'active'}, class: "btn btn-default #{('active' if params['status'] == 'active' or params['status'].nil?)}"
-            = link_to "아카이브된 위키 (#{@issue.inactive_wiki_count})", {status: 'inactive'}, class: "btn btn-default #{('active' if params['status'] == 'inactive')}"
+          #content-tab-section
+            %ul.nav.nav-tabs{ style: 'margin-bottom: 14px;' }
+              %li{ class: "#{('active' if params['filter'] == 'active'  or params['filter'].nil?)}" }
+                = link_to '게시 중', {sort: 'active'}
+              %li{ class: "#{('active' if params['filter'] == 'inactive')}" }
+                = link_to '아카이브된', {filter: 'inactive'}
       - if @posts.any?
         .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
           .grid-sizer.col-sm-4.col-xs-6
@@ -22,8 +26,7 @@
       - else
         .bg-default.text-center
           %i.fa.fa-info-circle
-          위키가 없습니다.
-
+          해당 위키가 없습니다.
     = paginate @posts, theme: 'catan'
 
 = render 'issues/bottom_banner'

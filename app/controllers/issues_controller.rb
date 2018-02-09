@@ -95,12 +95,14 @@ class IssuesController < ApplicationController
 
   def slug_polls_or_surveys
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-    @posts = Post.having_poll.or(Post.having_survey).of_issue(@issue).order_by_stroked_at.page(params[:page]).per(3*5)
+    how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
+    @posts = Post.having_poll.or(Post.having_survey).of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
   end
 
   def slug_wikis
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-    @posts = Post.having_wiki(params[:status] || 'active').of_issue(@issue).order_by_stroked_at.page(params[:page]).per(3*5)
+    how_to = params[:filter] == 'inactive' ? :inactive : :active
+    @posts = Post.having_wiki(how_to.to_s).of_issue(@issue).order_by_stroked_at.order_by_stroked_at.page(params[:page]).per(3*5)
   end
 
   def slug_members
@@ -113,7 +115,8 @@ class IssuesController < ApplicationController
 
   def slug_links_or_files
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-    @posts = Post.having_link_or_file.of_issue(@issue).order_by_stroked_at.page(params[:page]).per(3*5)
+    how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
+    @posts = Post.having_link_or_file.of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
   end
 
   def create

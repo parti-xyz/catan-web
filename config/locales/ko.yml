@@ -90,6 +90,8 @@ ko:
       comment: 댓글
       related: 관련빠띠
       section: 주제
+      link_source: 링크
+      file_source: 파일
       poll: 찬반투표
       post: 게시글
       survey: 설문
