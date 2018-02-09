@@ -101,7 +101,7 @@ class IssuesController < ApplicationController
 
   def slug_wikis
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-    how_to = params[:filter] == 'inactive' ? :inactive : :active
+    how_to = params[:status] == 'inactive' ? :inactive : :active
     @posts = Post.having_wiki(how_to.to_s).of_issue(@issue).order_by_stroked_at.order_by_stroked_at.page(params[:page]).per(3*5)
   end
 

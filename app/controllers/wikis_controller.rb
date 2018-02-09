@@ -4,7 +4,8 @@ class WikisController < ApplicationController
   before_action :load_post_and_wiki, except: [:index]
 
   def index
-    @posts = Post.having_wiki(params[:status] || 'active').not_private_blocked_of_group(current_group, current_user).order_by_stroked_at.page(params[:page]).per(3*5)
+    how_to = params[:status] == 'inactive' ? :inactive : :active
+    @posts = Post.having_wiki(how_to.to_s).not_private_blocked_of_group(current_group, current_user).order_by_stroked_at.page(params[:page]).per(3*5)
   end
 
   def activate

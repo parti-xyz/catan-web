@@ -15,10 +15,10 @@
         .posts-filter-select
           #content-tab-section
             %ul.nav.nav-tabs{ style: 'margin-bottom: 14px;' }
-              %li{ class: "#{('active' if params['filter'] == 'active'  or params['filter'].nil?)}" }
-                = link_to '게시 중', {sort: 'active'}
-              %li{ class: "#{('active' if params['filter'] == 'inactive')}" }
-                = link_to '아카이브된', {filter: 'inactive'}
+              %li{ class: "#{('active' if params['status'] == 'active'  or params['status'].nil?)}" }
+                = link_to '게시 중', {status: 'active'}
+              %li{ class: "#{('active' if params['status'] == 'inactive')}" }
+                = link_to '아카이브된', {status: 'inactive'}
       - if @posts.any?
         .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
           .grid-sizer.col-sm-4.col-xs-6

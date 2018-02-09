@@ -153,9 +153,6 @@ section#wiki-histories {
 #post-form.wiki-form {
   margin-top: 20px;
   margin-bottom: 20px;
-  .container {
-    padding: 0;
-  }
   textarea {
     min-height: auto;
   }
@@ -249,6 +246,10 @@ section#wiki-histories {
       box-shadow: none;
       -webkit-box-shadow: none;
     }
+  }
+
+  .form-control-tinymce {
+    min-height: 200px;
   }
 }
 
