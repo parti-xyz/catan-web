@@ -9,6 +9,20 @@
       - capture_thumb = capture do
         .thumb.thumb--reference{ style: "background-image: url(#{post.link_source.image.md.url})" }
       = link_to capture_thumb, post.link_source.url, target: '_blank', class: 'thumb-link'
+    .caption.caption-link
+      - capture_source = capture do
+        %h4.title
+          - if post.video_source?
+            %i.fa.fa-play-circle
+          = truncate(post.link_source.title_or_url, length: 100)
+
+        .source-body
+          %p= excerpt(post.link_source.body, length: 55)
+          .source-url
+            원글보기
+            %i.fa.fa-external-link
+      = link_to capture_source, post.link_source.url, target: '_blank', class: 'link-source'
+
     .reference-card__meta.clearfix
       .reference-card__issue
         = link_to smart_issue_home_path_or_url(post.issue) do
@@ -19,19 +33,6 @@
       .reference-card__date.date-wrapper.reference-card__date--with-issue
         %span= date_f post.created_at
     .caption
-      - capture_source = capture do
-        %h4.title
-          - if post.video_source?
-            %i.fa.fa-play-circle
-          = truncate(post.link_source.title_or_url, length: 100)
-
-        .source-body
-          %p
-            = excerpt(post.link_source.body, length: 55)
-            .source-url
-              원글보기
-              %i.fa.fa-external-link
-      = link_to capture_source, post.link_source.url, target: '_blank', class: 'link-source'
       .body
         %p
           = post.specific_desc_striped_tags(215)

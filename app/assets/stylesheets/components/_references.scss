@@ -55,7 +55,8 @@ section#references {
     padding-right: 20px;
   }
   .caption-images + &__meta,
-  .thumb-link + &__meta {
+  .thumb-link + &__meta,
+  .caption-link + &__meta {
     margin-top: 10px;
   }
   &__issue {
@@ -105,6 +106,10 @@ section#references {
     line-height: 0;
   }
   .caption {
+    &.caption-link {
+      border-bottom: 1px solid $gray-lighter;
+      padding: 10px 0;
+    }
     .link-source:hover {
       .title {
         color: $brand-primary;
@@ -144,7 +149,6 @@ section#references {
       font-weight: 200;
     }
     .body {
-      border-top: 2px solid $gray-lightest;
       padding-top: 14px;
       &:first-child {
         padding-top: 0;
@@ -171,14 +175,6 @@ section#references {
       .fa {
         padding-right: 5px;
       }
-    }
-  }
-}
-
-.reference-card.reference-card--files-sources {
-  .caption {
-    .body {
-      border-top: none;
     }
   }
 }
