@@ -17,7 +17,8 @@
           .truncated-body
             - more_button = capture do
               %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더보기
-            != smart_truncate_html(post_body_format(post.body), length: 500, ellipsis: more_button)
+            - body_length_limit = (post.reviewed_by?(current_user) ? 200 : 500)
+            != smart_truncate_html(post_body_format(post.body), length: body_length_limit, ellipsis: more_button)
           .original-body{ style: 'display: none;' }
             = post_body_format post.body
       - if post.video_source?

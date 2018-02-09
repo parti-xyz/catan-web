@@ -42,6 +42,7 @@ section#comments {
     color: $gray;
     padding: 8px 12px;
     margin-bottom: 4px;
+    word-break: keep-all;
     &--agree > span:before {
       content: '\f164  찬성 ';
       font-family: "FontAwesome";

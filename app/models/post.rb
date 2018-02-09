@@ -258,6 +258,11 @@ class Post < ActiveRecord::Base
     [300, 158]
   end
 
+  def reviewed_by?(someone)
+    return true if upvotes.exists?(user: someone)
+    messagable_users.include? someone
+  end
+
   def messagable_users
     result = [user]
     result += comments.users
