@@ -12,14 +12,15 @@
   - else
     .wiki-card.clearfix.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_wiki_url(post.wiki) }
       - issue = post.issue
-      .wiki-card-meta
-        - if local_assigns[:show_issue] == true
-          = link_to smart_issue_home_path_or_url(issue) do
+      .wiki-card__meta.clearfix
+        .wiki-card__issue
+          = link_to smart_issue_home_path_or_url(post.issue) do
             - unless post.issue.displayable_group? current_group
               .wiki-card__group
                 = post.issue.group.head_title
-            .thumb.thumb--issue{ style: "background-image: url(#{issue.logo.sm.url})" }
-              = post.issue.title.truncate(10)
+            = post.issue.title
+        .wiki-card__date.date-wrapper.wiki-card__date--with-issue
+          %span= date_f post.created_at
       .wiki-card-body
         %h4.wiki-title= post.wiki.title
         .wiki-body
