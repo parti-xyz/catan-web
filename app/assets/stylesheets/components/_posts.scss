@@ -271,11 +271,13 @@ section.posts-page {
 
       .issue-meta {
         display: block;
+        font-size: $font-size-small;
+        line-height: 1.4em;
         &-pinnable {
           max-width: 90%;
         }
         a {
-          color: $gray;
+          color: $gray-a;
           &.primary {
             color: $brand-primary;
           }
@@ -308,8 +310,8 @@ section.posts-page {
         }
       }
       .read-mark {
-        font-size: 18px;
-        line-height: 18px;
+        font-size: 12px;
+        line-height: 1.2em;
         position: absolute;
         color: $gray-a;
         &--need-to-read {
@@ -344,19 +346,7 @@ section.posts-page {
     }
     .post-card__post {
       .action-btn {
-        color: $gray;
-        font-size: 14px;
-        display: none;
-        &-fixed {
-          display: inline-block;
-        }
-        .btn {
-          line-height: 12px;
-          font-size: 10px;
-          &-danger {
-            color: white;
-          }
-        }
+        color: $brand-primary;
       }
     }
     .post-card__post.need-to-read {
@@ -366,9 +356,6 @@ section.posts-page {
       background-color: $gray-more-lightest;
       &.need-to-read {
         background-color: $brand-primary-lighter;
-      }
-      .action-btn {
-        display: inline-block;
       }
     }
   }

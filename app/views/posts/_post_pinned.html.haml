@@ -5,14 +5,15 @@
       .issue-meta.issue-meta-header{ class: ('issue-meta-pinnable' if can?(:pin, post)) }
         = link_to smart_issue_home_url(post.issue) do
           %span.issue-and-group
-            %span.issue-title
-              = post.issue.title
-              = security_icon(post.issue)
             - if post.issue.group != host_group
-              %i.fa.fa-angle-left
               %span.issue-group
                 = post.issue.group.title_basic_format
                 = security_icon(post.issue.group)
+              \/
+            %span.issue-title
+              = post.issue.title
+              = security_icon(post.issue)
+
 
     .body<>
       = link_to smart_post_url(post) do
@@ -20,7 +21,7 @@
 
     .issue-meta.issue-meta-footer
       = link_to "@#{post.user.nickname}", post.user
-      &middot;
+      &nbsp;
       = link_to smart_post_url(post) do
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
@@ -28,14 +29,14 @@
       - if can? :pin, post
         - action_label = capture do
           %span.action-btn{ class: ('action-btn-fixed' if post.careful_pin_by?(current_user)) }
-            &middot;
+            &nbsp;
             = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '처리 중...', confirm: '이 공지를 내리시겠습니까?' }, class: "#{post_pin_button_dom_class(post)} secondary" do
-              공지를 내립니다
+              공지에서 내립니다
         = action_label
       - if post.need_to_read?(current_user)
         - action_label = capture do
           %span.action-btn.js-read-action-btn
-            &middot;
+            &nbsp;
             = link_to [:read, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{read_button_dom_class(post)} primary", 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
               확인 상태로 표시합니다
         = action_label
