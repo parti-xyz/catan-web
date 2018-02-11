@@ -23,6 +23,9 @@ body {
 @media (max-width: $screen-xs-max) {
   body {
     padding-top: $header-menu-height-mobile;
+    &.view-with-ios-virtual-keyboard {
+      padding-top: 0;
+    }
   }
   body, .container, #aside {
     width: 100% !important;

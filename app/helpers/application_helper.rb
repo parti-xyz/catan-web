@@ -8,6 +8,8 @@ module ApplicationHelper
       arr << "in-group"
       arr << (current_group.is_light_theme? ? "light-theme" : "dark-theme")
     end
+    arr << 'virtual-keyboard' if is_virtaul_keyboard?
+    arr << 'ios' if browser.platform.ios?
     arr.join(' ')
   end
 
@@ -154,6 +156,10 @@ module ApplicationHelper
 
   def is_infinite_scrollable?
     !is_mobile_app_get_request?(request)
+  end
+
+  def is_virtaul_keyboard?
+    browser.device.mobile? || browser.device.tablet?
   end
 
   def has_error_attr?(object, name)

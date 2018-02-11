@@ -287,28 +287,6 @@ var parti_prepare = function($base) {
     $(elm).webuiPopover(options);
   });
 
-  // show
-  $.parti_apply($base, '[data-action="parti-show"]', function(elm) {
-    $(elm).on('click', function(e) {
-      $.prevent_click_exclude_parti(e);
-      var $elm = $(e.currentTarget);
-
-      var $target = $($elm.data('show-target'));
-      $target.show({ duration: 1, complete: function() {
-        if($elm.data('self-hide')) {
-          $elm.hide({ duration: 1, complete: function() {
-            if($elm.data('spotlight-post-editor')) {
-              $(document).trigger('parti-post-editor-spotlight');
-            }
-            var focus_id = $elm.data('focus');
-            $focus = $(focus_id);
-            $focus.focus();
-          }});
-        }
-      }});
-    });
-  });
-
   //hide
   $.parti_apply($base, '[data-action="parti-hide"]', function(elm) {
     $(elm).on('click', function(e) {
@@ -1092,12 +1070,12 @@ $(function(){
       default: {
         plugins: 'link paste autolink lists advlist',
         insert_toolbar: '',
-        selection_toolbar: 'bold italic strikethrough | quicklink blockquote | bullist numlist | outdent indent',
+        selection_toolbar: 'bold italic strikethrough | quicklink blockquote | bullist numlist outdent indent',
       },
       wiki: {
         plugins: 'image media link paste autolink uploadimage lists advlist',
         insert_toolbar: '',
-        selection_toolbar: 'bold italic strikethrough | quicklink h1 h2 h3 blockquote | bullist numlist | outdent indent | uploadimage',
+        selection_toolbar: 'bold italic strikethrough | quicklink h1 h2 h3 blockquote | bullist numlist outdent indent | uploadimage',
       },
     };
 
@@ -1160,13 +1138,13 @@ $(function(){
       });
     });
 
+    // Tinymce on mobile
     $.each($('.js-tinymce.js-tinymce-mobile'), function(i, elm){
       var setting_name = $(elm).data('tinymce-setting');
       var setting = settings.default;
       if(setting_name) {
         setting = settings[setting_name];
       }
-
 
       $(elm).tinymce({
         force_br_newlines : true,
@@ -1175,9 +1153,10 @@ $(function(){
         language: 'ko_KR',
         plugins: setting.plugins + ' autoresize stickytoolbar',
         menubar: false,
+        autoresize_min_height: 100,
         autoresize_bottom_margin: 0,
         statusbar: false,
-        toolbar: 'bold italic strikethrough | quicklink blockquote | bullist numlist | outdent indent',
+        toolbar: 'bold italic strikethrough quicklink blockquote | bullist numlist outdent indent',
         paste_data_images: true,
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
@@ -1185,6 +1164,11 @@ $(function(){
         remove_script_host : false,
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
+        setup: function (editor) {
+          editor.on('blur', function (e) {
+            $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
+          });
+        },
         init_instance_callback: function (editor) {
           editor.on('change', function (e) {
             tinymce.triggerSave();
@@ -1198,79 +1182,107 @@ $(function(){
       });
     });
 
+    // close mobile editor
+    $('.js-close-editor-in-mobile-app').on('click', function(e) {
+      $('.js-btn-history-back-in-mobile-app').show();
+      $('.js-btn-drawer').show();
+      $('.js-close-editor-in-mobile-app').addClass('hidden');
+
+      $('.js-unified-editor-intro').show();
+      $('.js-unified-editor').hide();
+
+      $('.js-invisible-on-mobile-editing').slideDown();
+      $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
+    });
+
+    // editor intro
+    $('.js-unified-editor-intro').on('click', function(e) {
+      $.prevent_click_exclude_parti(e);
+      var $elm = $(e.currentTarget);
+
+      var $target = $('.js-unified-editor');
+      $target.show({ duration: 1, complete: function() {
+        $elm.hide({ duration: 1, complete: function() {
+          $(document).trigger('parti-post-editor-spotlight');
+          var focus_id = $elm.data('focus');
+          $focus = $(focus_id);
+          $focus.focus();
+        }});
+      }});
+
+      // 가상키보드를 쓰는 환경이면
+      if($('body').hasClass('virtual-keyboard')) {
+        $('.js-invisible-on-mobile-editing').slideUp();
+        $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
+        $('.js-btn-history-back-in-mobile-app').hide();
+        $('.js-btn-drawer').hide();
+        $('.js-close-editor-in-mobile-app').removeClass('hidden');
+      }
+    });
+
+    // 툴바 위치 고정
     tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
       var inited = false;
       editor.on('focus', function() {
-        console.log("init stick")
         inited = true;
         setSticky();
       });
 
-      $(window).on('scroll', function() {
-        setSticky();
-      });
-
-      var headerHeight = 56;
+      $(window).on('scroll', setSticky);
 
       function setSticky() {
         if(!inited) {
           return;
         }
+
         var container = editor.editorContainer;
-        var toolbars = $(container).find('.mce-toolbar-grp');
-        var statusbar = $(container).find('.mce-statusbar');
+        var $toolbars = $(container).find('.mce-toolbar-grp');
+        var $statusbar = $(container).find('.mce-statusbar');
 
-        if (isSticky()) {
-          console.log("isSticky")
+
+        var viewportTopDelta = 0;
+        if($('#site-header').css('position') == 'fixed') {
+          viewportTopDelta = $('#site-header').outerHeight();
+        }
+        if (isSticky(viewportTopDelta)) {
           $(container).css({
-            paddingTop: toolbars.outerHeight()
+            paddingTop: $toolbars.outerHeight()
           });
-
-          if (isAtBottom()) {
-            console.log("isAtBottom")
-            toolbars.css({
-              top: 'auto',
-              bottom: statusbar.outerHeight(),
-              position: 'absolute',
-              width: '100%',
-              borderBottom: 'none'
-            });
-          } else {
-            console.log("not bottm")
-            toolbars.css({
-              top: headerHeight,
-              position: 'fixed',
-              width: $(container).width(),
-              borderBottom: '1px solid rgba(0,0,0,0.2)'
-            });
-          }
+          $toolbars.css({
+            position: 'absolute',
+            top: -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta,
+            borderBottom: '1px solid rgba(0,0,0,0.2)',
+            width: '100%'
+          });
         } else {
-          console.log("not isSticky")
           $(container).css({
             paddingTop: 0
           });
-
-          toolbars.css({
+          $toolbars.css({
             position: 'relative',
             top: 0,
-            width: 'auto',
-            borderBottom: 'none'
+            borderBottom: 'none',
+            width: '100%'
           });
         }
       }
 
-      function isSticky() {
+      function isSticky(viewportTopDelta) {
+        return isOverViewportTop(viewportTopDelta) && !isCompletedOverViewportTop(viewportTopDelta);
+      }
+
+      function isOverViewportTop(viewportTopDelta) {
         var container = editor.editorContainer,
           editorTop = container.getBoundingClientRect().top;
 
-        if (editorTop > headerHeight) {
+        if (editorTop > viewportTopDelta) {
           return false;
         }
 
         return true;
       }
 
-      function isAtBottom() {
+      function isCompletedOverViewportTop(viewportTopDelta) {
         var container = editor.editorContainer,
           editorTop = container.getBoundingClientRect().top;
 
@@ -1279,7 +1291,7 @@ $(function(){
 
         var hiddenHeight = -($(container).outerHeight() - toolbarHeight - footerHeight);
 
-        if (editorTop < hiddenHeight + headerHeight) {
+        if (editorTop < hiddenHeight + viewportTopDelta) {
           return true;
         }
 
@@ -1288,5 +1300,31 @@ $(function(){
     });
 
   })();
+
+  // ios에서 가상 키보드에 따른 사이트 헤더 조정
+  if($('body').hasClass('virtual-keyboard') && $('body').hasClass('ios')) {
+    (function() {
+      $('#js-main').append('<input type="text" id="js-virtaul-keyboard-faker">');
+      var $fake_input = $('#js-virtaul-keyboard-faker').css('position', 'fixed').css('top', '0').css('height', '0').css('width', 0).css('opacity', '0');
+
+      function eventHandler(e) {
+        var nowWithKeyboard = (e.type == 'focusin');
+        $('body').toggleClass('view-with-ios-virtual-keyboard', nowWithKeyboard);
+      }
+
+      function eventHandlerForTinymce(e) {
+        var nowWithKeyboard = (e.type == 'parti-ios-virtaul-keyboard-open-for-tinymce');
+        if (nowWithKeyboard) {
+          $('body').toggleClass('view-with-ios-virtual-keyboard', nowWithKeyboard);
+        } else {
+          $fake_input.focus().blur();
+        }
+      }
+
+      $(document).on('focus blur', '#js-main select, #js-main textarea, #js-main input[type=text], #js-main input[type=date], #js-main input[type=password], #js-main input[type=email], #js-main input[type=number], #js-main div[contenteditable=true]', eventHandler);
+      $(document).on('parti-ios-virtaul-keyboard-open-for-tinymce parti-ios-virtaul-keyboard-close-for-tinymce', eventHandlerForTinymce);
+    })();
+  }
 });
+
 
