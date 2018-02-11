@@ -182,6 +182,11 @@ section#landing-page{
       @media (max-width: $screen-xs-max) {
         margin-bottom: 14px;
       }
+      .wiki-title {
+        text-align: center;
+        font-size: $font-size-large;
+        font-weight: 400;
+      }
       .wiki-content{
         margin: 10px;
         border: 1px solid $gray-lighter;

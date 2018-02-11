@@ -68,11 +68,11 @@ section#wiki-histories {
     }
   }
   .wiki-title {
-    font-size: $font-size-large;
+    font-size: 24px;
+    font-weight: 200;
     color: $gray-dark;
     line-height: 1.4em;
     word-break: keep-all;
-    font-weight: 400;
     border: 0;
     padding-left: 0;
     padding-right: 0;
@@ -163,8 +163,8 @@ section#wiki-histories {
     margin-bottom: 40px;
     border: none;
     padding: 0;
-    font-size: $font-size-large;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: 200;
     text-align: center;
     .label {
       font-size: $font-size-small;

@@ -3,7 +3,8 @@
   - if !wiki.status.active?
     %span.label.label-default= wiki.status_text
 .wiki-body
-  - if wiki.purged?
-    .text-muted 삭제되었습니다
-  - else
-    != (local_assigns[:for_conflict] ? @post.wiki.conflicted_body : @post.wiki.body)
+  .form-control-tinymce.mce-content-body
+    - if wiki.purged?
+      .text-muted 삭제되었습니다
+    - else
+      != (local_assigns[:for_conflict] ? @post.wiki.conflicted_body : @post.wiki.body)

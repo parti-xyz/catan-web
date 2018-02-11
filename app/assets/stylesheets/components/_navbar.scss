@@ -126,7 +126,7 @@
   .sign-up {
     @media (max-width: $screen-xs-max) {
       a {
-        font-size: $font-size-large;
+        font-size: $font-size-base;
       }
       body.dark-theme & a {
         color: white;
