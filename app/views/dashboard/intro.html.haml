@@ -1,4 +1,4 @@
-#main.collapse
+%section#js-main.intro-page.collapse
   %section.parti-member-recommend--header
     .container
       #header-before-select-tags
@@ -22,7 +22,7 @@
   %section.parti-member-recommend--select-interest
     .container
       %h3.parti-member-recommend-title
-        내 관심사는 무엇인가요?
+        #{current_user.nickname}님 관심사는 무엇인가요?
       .issue-tag-list
         - @issue_tag_names.each do |tag|
           .issue-tag.btn.btn-primary{data: {action: 'parti-select-interested-tag'}}
@@ -52,6 +52,6 @@
     $(function(){
       $('#parti-intro').modal();
       $('#parti-intro').on('hide.bs.modal', function () {
-        $('#main').show();
+        $('#js-main').show();
       });
     });

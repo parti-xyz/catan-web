@@ -362,8 +362,8 @@ section#issues-group-index {
     }
     .issue-card__join {
       position: absolute;
-      top: 30px;
-      right: 30px;
+      top: 15px;
+      right: 15px;
       @media(max-width: $screen-xs-max) {
         position: static;
         margin-top: 5px;
@@ -469,215 +469,27 @@ section#issues-group-index {
   .issue-card.issue-card--intro {
     cursor: pointer;
     position: relative;
-    .issue-card-cover {
-      display: none;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #444;
-      opacity: .3;
-    }
     .issue-card__thumb .issue-card__thumb__btn {
       background-image: asset_url('btn_intro_check_normal.png');
+      opacity: 0.3;
       width: 48px;
       height: 48px;
       margin-left: auto;
-      margin-right: auto;
+      margin-right: 10px;
+      margin-top: 10px;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      margin-top: 80px;
-    }
-    &:hover {
-      @media (min-width: $screen-sm-min) {
-        .issue-card-cover {
-          display: block;
-        }
-      }
-      .issue-card__thumb .issue-card__thumb__btn {
-        background-image: asset_url('btn_intro_check_hover.png');
-      }
     }
     &.issue-card--member {
       border: 1px solid $brand-primary-light;
-      .issue-card-cover {
-        background-color: $brand-primary;
-        display: block;
-      }
       .issue-card__thumb .issue-card__thumb__btn {
         background-image: asset_url('btn_intro_check_active.png');
+        opacity: 1;
       }
     }
   }
 
-}
-/* dashboard/intro body */
-.app-dashboard-intro{
-  background-color:#fff;
-}
-
-.parti-member-recommend--header {
-  padding: 50px;
-  color: $gray;
-  background-color: $brand-light;
-  position: fixed;
-  right: 0;
-  left: 0;
-  z-index: 1029;
-  opacity: 0.9;
-  word-break: keep-all;
-
-}
-
-.parti-member-recommend--issues {
-  padding-top: 230px;
-  @media (max-width: $screen-xs-max){
-    .col-xs-6:nth-child(2n) {
-      padding-right: 15px;
-      padding-left: 7.5px;
-    }
-    .col-xs-6:nth-child(2n+1) {
-      padding-left: 15px;
-      padding-right: 7.5px;
-    }
-  }
-}
-
-.parti-member-recommend--select-interest {
-  padding-top: 230px;
-  .parti-member-recommend-title {
-    margin-left: 10px;
-    word-break: keep-all;
-  }
-  .issue-tag-list {
-    .issue-tag {
-      margin: 6px 6px;
-      background-color: $brand-primary-light;
-      color: $brand-primary;
-    }
-    .selected-tag {
-      background-color: $brand-primary-dark;
-      color: #fff;
-    }
-  }
-  @media (max-width: $screen-xs-max){
-    padding-top: 190px;
-  }
-}
-
-.parti-member-recommend--modal {
-  color: $gray;
-  font-size: 1.3em;
-  line-height: 1.7em;
-  h2 {
-    line-height: 1.5em;
-  }
-  p {
-    padding-top: 15px;
-    padding-bottom: 25px;
-  }
-}
-.parti-member-recommend--modal ~ .modal-backdrop.fade.in {
-  opacity: 1;
-  background-color: #fff;
-}
-
-@media (max-width: $screen-xs-max) {
-  .parti-member-recommend--header {
-    padding: 20px;
-  }
-  .parti-member-recommend--issues {
-    padding-top: 180px;
-  }
-  .parti-member-recommend--modal {
-    h2 {
-      font-size: $font-size-large;
-    }
-    p {
-      font-size: $font-size-base;
-    }
-  }
-  .parti-member-recommend--header{
-    #btn-continue {
-      float: none;
-    }
-    h2 {
-      font-size: $font-size-large;
-    }
-  }
-  .parti-header-section {
-    height: auto;
-    padding-top: 100px;
-
-    .parti-logo {
-      float: none;
-      clear: both;
-      margin: 0;
-      .thumb {
-        width: 73px;
-        height: 73px;
-        border-radius: $border-radius-base;
-        margin: 0 auto;
-      }
-    }
-    h2.parti-title {
-      font-size: $font-size-h3;
-      font-weight: 200;
-      text-align: left;
-      margin-top: 0;
-      margin-bottom: 0;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
-    }
-    .parti-body {
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 1);
-      margin-bottom: 5px;
-    }
-    .parti-buttons {
-      margin-top: 5px;
-      display: block;
-      margin-left: 0;
-    }
-    .parti-menu {
-      background: rgba(0,0,0,0.2);
-      width: 100%;
-      border-bottom: 4px solid $brand-primary;
-      & > .container {
-        padding: 0;
-      }
-      .row {
-        border-color: #d2d2d2;
-        text-align: center;
-        padding: 0;
-        margin: 0;
-        h5 {
-          font-size: $font-size-base;
-          font-weight: normal;
-          line-height: 24px;
-          padding-top: 3px;
-          height: auto;
-          font-weight: 100;
-          a {
-            height: auto;
-          }
-        }
-        .count-label {
-          position: static;
-          display: inline-block;
-          padding: 1px 5px 0px;
-          font-size: $font-size-small;
-          font-weight: 100;
-        }
-      }
-    }
-    &--simple {
-      padding-top: 12px;
-      padding-bottom: 12px;
-    }
-  }
 }
 
 .aside_issue {

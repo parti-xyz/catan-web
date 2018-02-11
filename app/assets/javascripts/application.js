@@ -903,6 +903,8 @@ $(function(){
 
   $('[data-action="parti-select-parties"]').each(function(index, elm){
     $(this).on('click',function (e){
+      $(e.target).html('추천 중...');
+      $(e.target).prop('disabled', true);
       $.ajax({
         url: '/parties/search_by_tags.js',
         type: "get",

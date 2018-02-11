@@ -2,16 +2,14 @@
   .container
     - grouping_issues = issues.group_by { |i| i.group }
     - grouping_issues.sort_by { |group,_| group.id }.each do |group, issues|
+      .group-heading{ style: 'margin-top: 24px;' }
+        %h4
+          #{group_parties_section_title(group)}
+        - unless group.site_description.nil?
+          .group-desc
+            #{group.site_description}
       .row
-        .col-sm-12.col-xs-12
-          .group-heading
-            %h4
-              #{group_parties_section_title(group)}
-            - unless group.site_description.nil?
-              .group-desc
-                #{group.site_description}
-          .row
-            - issues.each do |issue|
-              .col-sm-3.col-xs-6#groups-all
-                .issue-card-wrapper
-                  = render 'issues/card_in_intro', issue: issue
+        - issues.each do |issue|
+          .col-sm-3.col-xs-6.groups-all
+            .issue-card-wrapper
+              = render 'issues/card_in_intro', issue: issue

@@ -1,15 +1,3 @@
-#groups-all {
-  .group-title {
-    color: white;
-  }
-  .issue-card-wrapper .issue-card {
-    border: 1px solid $gray-lighter;
-    &:hover {
-      border: 1px solid $brand-primary-light;
-    }
-  }
-}
-
 .app-issues-home.in-group {
   .slick-list {
     .issue-card-wrapper .issue-card {

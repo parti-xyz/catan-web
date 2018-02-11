@@ -7,7 +7,6 @@
   - action_method = :post
 .issue-card.issue-card--intro{class: "#{dom_id(issue)}-card #{'issue-card--member' if issue.member?(current_user)}"}
   = link_to action_link, method: action_method, remote: true, data: { disable_with: '<div class="issue-card__thumb loading"><p>처리 중...</p></div><div class="issue-card__content"></div>' } do
-    .issue-card-cover
     .issue-card__thumb.img-circle{ style: "background-image: url(#{issue.logo.sm.url});" }
       - unless issue.displayable_group?(current_group)
         .issue-card__group
