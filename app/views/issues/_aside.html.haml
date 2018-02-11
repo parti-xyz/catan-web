@@ -16,7 +16,7 @@
             %span.text-primary<> #{@issue.members.count}명
         - if @issue.member_users.count > prevew_count
           = link_to smart_issue_members_path(@issue), class: 'more' do
-            더보기
+            더 보기
             %i.fa.fa-angle-double-right
       - @issue.member_users.recent.limit(prevew_count).each do |user|
         = byline user, hide_nickname: true

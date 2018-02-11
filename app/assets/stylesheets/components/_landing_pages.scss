@@ -1,0 +1,225 @@
+section#landing-page{
+  h4.group-heading{
+    margin: 20px 0;
+  }
+  section#issues h4.group-heading {
+    margin-bottom: 0;
+  }
+  section#landing-header{
+    background-color: #7b5fa8;
+    padding: 100px 0px;
+    h1{
+      color: white;
+      line-height: 50px;
+      font-weight: 500;
+      small{
+        color: white;
+        font-weight: 100;
+      }
+    }
+  }
+  section#recent-posts .post-card {
+    background-color: #fff;
+    border: 1px solid #fff;
+    margin-bottom: 28px;
+    @media (max-width: $screen-xs-max) {
+      margin-bottom: 14px;
+    }
+    &:hover {
+      border-color: $brand-primary-light;
+    }
+    &__post {
+      padding: 0px;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      .truncated-body {
+        height: 100px;
+        overflow: hidden;
+      }
+    }
+    &__header {
+      border-top: 1px solid #eeeeee;
+      border-bottom: 0px;
+      .media-body {
+        vertical-align: middle;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 230px;
+        color: $brand-primary;
+      }
+    }
+    .post-parsed-body {
+      margin: 20px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      line-height: 1.3em;
+      height: 3.6em;
+      font-size: 1em;
+      p {
+        margin: 0 0 1.2em;
+      }
+    }
+    .post-reference-line{
+      &__file-content--image{
+        border: 0px;
+        height: 200px;
+      }
+    }
+  }
+  section#discussions {
+    .post-card{
+      border-radius: 0px;
+      margin-bottom: 28px;
+      @media (max-width: $screen-xs-max) {
+        margin-bottom: 14px;
+      }
+      .poll-card {
+        &__title {
+          .wrapper {
+            vertical-align: middle;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            height: 2.8em;
+            width: 100%;
+            > span {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              line-height: 1.4em;
+              max-height: 100%;
+              width: 100%;
+              overflow-wrap: break-word;
+              word-break: keep-all;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+          }
+        }
+      }
+      &__header{
+        padding: 0px;
+        border-bottom: 0px;
+        margin-bottom: 10px;
+      }
+      &__content, &__post{
+        height: 100%;
+        .voting-area{
+          text-align: center;
+        }
+      }
+    }
+    .survey-card {
+      &__title {
+        font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
+        line-height: 1.4em;
+        max-height: 9.8em;
+        word-break: keep-all;
+        overflow-wrap: break-word;
+      }
+    }
+    .option .body{
+      margin-left: 15px;
+    }
+  }
+  section#banner{
+    background: #75a6d8; /* Old browsers */
+    background: -moz-linear-gradient(left, #2cb09c 0%, #877fba 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #2cb09c 0% ,#877fba 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #2cb09c 0%, #877fba 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2cb09c', endColorstr='#877fba',GradientType=1 ); /* IE6-9 */
+    color: white;
+    padding: 50px 0px;
+    h3{
+      line-height: 33px;
+    }
+    a{
+      color: white;
+      &:hover{
+        color: $brand-primary-light;
+      }
+    }
+    .tip-title{
+      text-align: center;
+      font-size: $font-size-large;
+      i{
+        font-size: 36px;
+        margin: 15px;
+      }
+    }
+    margin: 20px 0px;
+    button{
+      border-radius: 0px;
+      padding: 10px 20px;
+      border: 0px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    #join-btn{
+      color: $brand-primary;
+      &:hover{
+        font-weight: bold;
+      }
+    }
+  }
+  section#wikis{
+    .landing-wiki-card{
+      background-color: white;
+      margin-bottom: 28px;
+      @media (max-width: $screen-xs-max) {
+        margin-bottom: 14px;
+      }
+      .wiki-content{
+        margin: 10px;
+        border: 1px solid $gray-lighter;
+        border-radius: $border-radius-base;
+        position: relative;
+        max-height: 240px;
+        overflow: hidden;
+        .shadow {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          box-shadow: inset 0px -40px 50px 0px rgba(236, 236, 236, 0.9);
+          -webkit-box-shadow: inset 0px -40px 50px 0px rgba(236, 236, 236, 0.9);
+          top: 0;
+          left: 0;
+        }
+      }
+      .post-card__header {
+        border: none;
+        padding: 0 10px 10px;
+        .media {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  section#footer{
+    height: 60px;
+    padding-top: 10px;
+    @media (max-width: $screen-xs-max) {
+      height: 100px;
+    }
+    li a{
+      color: dimgray;
+      &:hover{
+        color: black;
+      }
+    }
+  }
+}

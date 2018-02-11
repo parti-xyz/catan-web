@@ -44,7 +44,7 @@
     .container
       - if @polls_and_surveys.try(:any?)
         %section{style:"margin-top:20px;"}
-          = link_to polls_or_surveys_path, class: "#{'active' if current_page?(controller: "/polls_or_surveys", action: :index)}" do
+          = link_to polls_or_surveys_path do
             %h4.group-heading
               진행 중인 토론
               %small

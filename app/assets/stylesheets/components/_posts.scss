@@ -141,7 +141,8 @@ section.posts-page {
     }
     .post-body {
       p {
-        word-break: break-word;
+        word-break: keep-all;
+        overflow-wrap: break-word;
       }
       .post-parsed-body > p:last-child {
         margin-bottom: 0;

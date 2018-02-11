@@ -7,7 +7,7 @@
 - if can? :destroy, post
   - need_wiki_divider = true
   %li
-    = link_to post_path(post, mode: local_assigns[:mode]), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
+    = link_to post_path(post), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
       삭제
 - if can? :pin, post
   - need_wiki_divider = true
@@ -29,6 +29,10 @@
 - if post.wiki.present?
   - if need_wiki_divider
     %li.divider
+  - if post.wiki.purgeable?
+    %li
+      = link_to '위키 이력보기', histories_wiki_post_path(post)
+  %li.divider
   - if post.wiki.activatable?
     %li
       = link_to '다시 위키 게시하기', activate_wiki_post_path(post), method: :patch
@@ -38,7 +42,4 @@
   - if post.wiki.purgeable?
     %li
       = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch
-  - if post.wiki.purgeable?
-    %li.divider
-    %li
-      = link_to '위키 이력보기', histories_wiki_post_path(post)
+

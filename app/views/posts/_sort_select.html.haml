@@ -1,6 +1,6 @@
 #content-tab-section
   %ul.nav.nav-tabs{ style: 'margin-bottom: 14px;' }
-    %li{ class: "#{('active' if params['sort'] == 'hottest')}" }
+    %li{ class: "#{('active' if params['sort'] == 'hottest' or params['sort'].nil?)}" }
       = link_to '인기글', {sort: 'hottest'}
-    %li{ class: "#{('active' if params['sort'] == 'recent' or params['sort'].nil?)}" }
+    %li{ class: "#{('active' if params['sort'] == 'recent')}" }
       = link_to '최신글', {sort: 'recent'}

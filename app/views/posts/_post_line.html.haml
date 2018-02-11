@@ -1,4 +1,3 @@
-- local_assigns[:mode] ||= 'in-list'
 - post = post
 - issue = post.issue
 .post-line.post-line[post]
@@ -11,12 +10,12 @@
               = image_tag file_source.attachment.md.url
     - else
       .post-parsed-body{'data-action': 'parti-link-target-blank'}
-        - if %w(modal detail).include? local_assigns[:mode]
+        - if local_assigns[:mode] == 'detail'
           = post_body_format post.body
         - else
           .truncated-body
             - more_button = capture do
-              %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더보기
+              %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더 보기
             - body_length_limit = (post.reviewed_by?(current_user) ? 200 : 500)
             != smart_truncate_html(post_body_format(post.body), length: body_length_limit, ellipsis: more_button)
           .original-body{ style: 'display: none;' }

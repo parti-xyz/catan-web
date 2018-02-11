@@ -203,7 +203,7 @@ class Post < ActiveRecord::Base
   scope :not_private_blocked_of_group, ->(group, someone) {
     group ||= Group.indie
     if group.indie?
-      of_undiscovered_issues(someone)
+      of_searchable_issues(someone)
     else
       where(issue_id: group.issues.not_private_blocked(someone))
     end

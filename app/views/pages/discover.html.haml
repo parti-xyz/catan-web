@@ -11,8 +11,12 @@
 
   %section#recent-posts
     .container
-      %h4.group-heading{ style: "margin: 20px 0px;" }
-        최근 빠띠 게시글
+      = link_to links_or_files_path do
+        %h4.group-heading{ style: "margin: 20px 0px;"}
+          최근 빠띠 게시물
+          %small
+            더 보기
+            %i.fa.fa-angle-double-right
       - posts = @sections[:recent_posts].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
       - if posts.try(:any?)
         .row
@@ -22,13 +26,18 @@
 
   %section#discussions
     .container
-      %h4.group-heading{ style: "margin: 20px 0px;"}
-        진행 중인 토론
+      = link_to polls_or_surveys_path do
+        %h4.group-heading{ style: "margin: 20px 0px;"}
+          진행 중인 토론
+          %small
+            더 보기
+            %i.fa.fa-angle-double-right
       - discussions = @sections[:discussions].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
       - if discussions.try(:any?)
-        .row
+        .row.masonry-container{ 'data-masonry-grid-sizer': '.grid-sizer' }
           - discussions.each do |discussion|
-            .grid-sizer.col-sm-6
+            - col_sm = ( discussion.poll.present? ? 'col-sm-4' : 'col-sm-6' )
+            .grid-sizer.card{ class: col_sm }
               = render 'posts/landing_discussion', post: discussion, show_issue: true
 
   %section#banner
@@ -67,8 +76,12 @@
 
   %section#wikis
     .container
-      %h4.group-heading
-        최근 편집된 위키
+      = link_to wikis_path do
+        %h4.group-heading{ style: "margin: 20px 0px;"}
+          최근 편집된 위키
+          %small
+            더 보기
+            %i.fa.fa-angle-double-right
       - wikis = @sections[:wikis].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
       - if wikis.try(:any?)
         .row

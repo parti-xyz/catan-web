@@ -10,9 +10,9 @@
       .posts-filter-select
         #content-tab-section
           %ul.nav.nav-tabs{ style: 'margin-bottom: 14px;' }
-            %li{ class: "#{('active' if params['filter'] == 'active'  or params['filter'].nil?)}" }
+            %li{ class: "#{('active' if params['status'] == 'active'  or params['status'].nil?)}" }
               = link_to '게시 중', {status: 'active'}
-            %li{ class: "#{('active' if params['filter'] == 'inactive')}" }
+            %li{ class: "#{('active' if params['status'] == 'inactive')}" }
               = link_to '아카이브된', {status: 'inactive'}
     .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
       - if @posts.empty?

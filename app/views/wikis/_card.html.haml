@@ -1,6 +1,6 @@
 .wiki-line.clearfix
   - chevron_dropdown = capture do
-    = render 'posts/chevron_menu', post: post
+    = render 'posts/chevron_menu', local_assigns.merge(post: post)
   - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
   - if chevron_dropdown.try(:strip).present?
     .post-card__buttons
