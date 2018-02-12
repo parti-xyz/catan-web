@@ -44,8 +44,8 @@ section#wiki-histories {
     margin-bottom: 20px;
     border: none;
     padding: 0;
-    font-size: $font-size-large;
-    font-weight: 600;
+    font-size: 24px;
+    font-weight: bold;
   }
 }
 
@@ -69,12 +69,13 @@ section#wiki-histories {
   }
   .wiki-title {
     font-size: 24px;
-    font-weight: 200;
+    font-weight: bold;
     color: $gray-dark;
     line-height: 1.4em;
     word-break: keep-all;
     overflow-wrap: break-word;
     border: 0;
+    margin: 30px 0 20px;
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
@@ -165,7 +166,7 @@ section#wiki-histories {
     border: none;
     padding: 0;
     font-size: 24px;
-    font-weight: 200;
+    font-weight: bold;
     text-align: center;
     .label {
       font-size: $font-size-small;
@@ -227,12 +228,17 @@ section#wiki-histories {
   }
 
   #post_wiki_attributes_title {
+    color: $gray-dark;
+    height: 100%;
     margin-bottom: 20px;
-    padding: 0;
-    font-size: $font-size-large;
+    padding: 14px 12px 10px;
+    font-size: 24px;
+    font-weight: bold;
     text-align: center;
     border-radius: $border-radius-base;
-    font-weight: 400;
+    &:focus {
+      background: $gray-lightest;
+    }
   }
 
   .parti-select {
