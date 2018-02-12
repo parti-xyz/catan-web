@@ -36,6 +36,7 @@
 //= require mobile_app
 //= require slideout
 //= require js.cookie
+//= require pulltorefresh
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
@@ -1327,6 +1328,15 @@ $(function(){
       $(document).on('parti-ios-virtaul-keyboard-open-for-tinymce parti-ios-virtaul-keyboard-close-for-tinymce', eventHandlerForTinymce);
     })();
   }
+
+  // pull to refresh
+  var ptr = PullToRefresh.init({
+    mainElement: '#js-main',
+    instructionsPullToRefresh: '다시 로딩하려면 잡아당겨 주세요',
+    instructionsReleaseToRefresh: '다시 로딩하려면 놓아주세요',
+    instructionsRefreshing: '다시 로딩 중',
+    onRefresh: function(){ window.location.reload(); }
+  });
 });
 
 
