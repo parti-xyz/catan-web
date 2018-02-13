@@ -3,20 +3,20 @@
     - if post.issue.safe_postable?(current_user)
       %sapn.text-muted 어느 정도 결론이 내려졌나요?
       = link_to '기록하기', edit_decision_post_path(post), class: 'text-primary text-nowrap'
-    - elsif
-      %h6 결론
-      %sapn.text-muted 아직 정해진 결론이 없습니다.
   - else
     %h6
       결론
       - if post.issue.safe_postable?(current_user)
         %span.control
           &middot;
-          - if post.decision_authors.any?
+          - if post.decision_histories.any?
+            - latest_history = post.decision_histories.recent.first
+            - latest_history_user = latest_history.user
             %span.writer
-              %span<>
-                != post.decision_authors.map { |user| link_to("@#{user.nickname}", smart_user_gallery_path(user), class: 'text-muted') }.join(", ")
-              %span<> 님이 작성했습니다
+              %span
+                = link_to "@#{latest_history_user.nickname}", smart_user_gallery_path(latest_history_user), class: 'text-muted'
+              - if post.decision_authors_count > 1
+                외 #{post.decision_authors_count - 1}명
             &middot;
           = link_to '수정', edit_decision_post_path(post), class: 'text-primary'
           &middot;

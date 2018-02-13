@@ -33,6 +33,17 @@ class MessageService
         send_messages(
           sender: @sender, users: users,
           messagable: @source, action: @action)
+      elsif @action == :decision
+        return if @source.issue.blind_user? @source.user
+
+        messagable_users = []
+        messagable_users += @source.mentions.map(&:user)
+        messagable_users += @source.messagable_users
+        messagable_users.reject!{ |user| user == @sender }
+        messagable_users.uniq!
+        send_messages(
+          sender: @sender, users: messagable_users,
+          messagable: @source, action: @action, action_params: options)
       else
         return if @source.issue.blind_user? @source.user
 
@@ -41,7 +52,6 @@ class MessageService
         messagable_users.reject!{ |user| user == @source.user }
         messagable_users.reject!{ |user| @source.messages.select(:user_id).map(&:user_id).include?(user.id) }
         messagable_users.uniq!
-
         send_messages(
           sender: @source.user, users: messagable_users,
           messagable: @source)

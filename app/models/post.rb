@@ -532,8 +532,8 @@ class Post < ActiveRecord::Base
     self.post_searchable_index.reindex!
   end
 
-  def decision_authors
-    User.where(id: decision_histories.select(:user_id).distinct)
+  def decision_authors_count
+    decision_histories.select(:user_id).distinct.count
   end
 
   def last_stroked_days_from_today

@@ -1,6 +1,11 @@
 post = message.messagable
 issue = post.issue
-body = message.action.to_s == 'pinned' ? "@#{message.sender.nickname}님이 게시글을 공지했습니다. \"#{post.specific_desc_striped_tags(100)}\"" : "#{post.user.nickname}: #{post.specific_desc_striped_tags(100)}"
+if message.action.to_s == 'pinned'
+  body = "@#{message.sender.nickname}님이 게시글을 공지했습니다. \"#{post.specific_desc_striped_tags(100)}\""
+elsif message.action.to_s == 'decision'
+  body = "@#{message.sender.nickname}님이 결론을 업데이트 했습니다. \"#{message.action_params_hash["decision_body"].try(:truncate, 100)}\""
+else
+  body = "#{post.user.nickname}: #{post.specific_desc_striped_tags(100)}"
 
 json.data do
   json.id message.id

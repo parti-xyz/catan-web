@@ -3,11 +3,11 @@
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
     %strong
       #{message.sender.nickname}님이 내 댓글에 공감합니다.
-    = link_to excerpt(upvote.upvotable.body, length: 100), post
+    = link_to excerpt(upvote.upvotable.body, length: 100), smart_post_url(post)
 - else
   - post = upvote.upvotable
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
     %strong
       #{message.sender.nickname}님이 내 게시글을 공감합니다.
-    = link_to upvote.upvotable.specific_desc_striped_tags(120), post
+    = link_to upvote.upvotable.specific_desc_striped_tags(120), smart_post_url(post)
 
