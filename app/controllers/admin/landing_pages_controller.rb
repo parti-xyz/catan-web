@@ -4,7 +4,7 @@ class Admin::LandingPagesController < AdminController
   end
 
   def save
-    sections = ['recent_posts', 'discussions', 'wikis']
+    sections = ['recent_posts', 'polls', 'surveys', 'wikis']
 
     sections.each do |section|
       landingPage = LandingPage.new

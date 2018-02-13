@@ -32,13 +32,19 @@
           %small
             더 보기
             %i.fa.fa-angle-double-right
-      - discussions = @sections[:discussions].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
-      - if discussions.try(:any?)
+      - poll_posts = @sections[:polls].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - if poll_posts.try(:any?)
         .row.masonry-container{ 'data-masonry-grid-sizer': '.grid-sizer' }
-          - discussions.each do |discussion|
-            - col_sm = ( discussion.poll.present? ? 'col-sm-4' : 'col-sm-6' )
-            .grid-sizer.card{ class: col_sm }
-              = render 'posts/landing_discussion', post: discussion, show_issue: true
+          - poll_posts.each do |poll_post|
+            .grid-sizer.card{ class: 'col-sm-4' }
+              = render 'posts/landing_discussion', post: poll_post, show_issue: true
+
+      - survey_posts = @sections[:surveys].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - if survey_posts.try(:any?)
+        .row.masonry-container{ 'data-masonry-grid-sizer': '.grid-sizer' }
+          - survey_posts.each do |survey_post|
+            .grid-sizer.card{ class: 'col-sm-6' }
+              = render 'posts/landing_discussion', post: survey_post, show_issue: true
 
   %section#banner
     .container

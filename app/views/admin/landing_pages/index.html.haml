@@ -11,10 +11,15 @@
       = text_field_tag :recent_posts, @sections[:recent_posts].try(:body_in_form), class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
     .form-group.clearfix
-      %label 최근 토론
+      %label 최근 투표
       = link_to '/admin/fetch_posts#anchor-polls-or-surveys', target: '_blank', class: 'btn btn-default btn-sm' do
         대상 포스트 찾기
-      = text_field_tag :discussions, @sections[:discussions].try(:body_in_form), class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
+      = text_field_tag :polls, @sections[:polls].try(:body_in_form), class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
+
+      %label 최근 설문
+      = link_to '/admin/fetch_posts#anchor-polls-or-surveys', target: '_blank', class: 'btn btn-default btn-sm' do
+        대상 포스트 찾기
+      = text_field_tag :surveys, @sections[:surveys].try(:body_in_form), class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
 
     .form-group.clearfix
       %label 최근 위키
