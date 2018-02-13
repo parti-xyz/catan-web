@@ -414,20 +414,20 @@
 .wiki-preview {
   .form-control-tinymce {
     h1 {
-      font-size: $font-size-base * 1.5;
+      font-size: $font-size-base * 1.8;
     }
     h2 {
-      font-size: $font-size-base * 1.25;
+      font-size: $font-size-base * 1.4;
     }
     h3 {
-      font-size: $font-size-base * 1.125;
+      font-size: $font-size-base * 1.2;
     }
     blockquote {
       border: none;
       background-color: $gray-lightest;
     }
     ul {
-      padding-left: 15px;
+      padding-left: 24px;
     }
   }
 }
