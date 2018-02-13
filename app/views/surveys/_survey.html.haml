@@ -25,8 +25,8 @@
           = post.issue.title
       .survey-card__date.date-wrapper
         %span= date_f post.created_at
-    %h4.survey-card__title
-      “#{survey.post.specific_desc_striped_tags(50)}”
+    %h4.survey-card__title{ style: "overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; line-height: 1.4em; max-height: 4.2em; word-break: keep-all; overflow-wrap: break-word;" }
+      “#{survey.post.specific_desc_striped_tags(100)}”
     - if local_assigns[:compact] != true
       = render 'surveys/card', local_assigns
   - if local_assigns[:show_decision]

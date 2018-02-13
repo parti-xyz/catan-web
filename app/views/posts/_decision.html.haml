@@ -1,9 +1,11 @@
-.decision-panel
-  - if post.decision.blank?
-    - if post.issue.safe_postable?(current_user)
-      %sapn.text-muted 어느 정도 결론이 내려졌나요?
-      = link_to '기록하기', edit_decision_post_path(post), class: 'text-primary text-nowrap'
-  - else
+- if post.decision.blank?
+  - if post.issue.safe_postable?(current_user) and !local_assigns[:compact]
+    .decision-panel.decision-panel-blank
+      .help-text
+        %sapn.text-muted 어느 정도 결론이 내려졌나요?
+        = link_to '기록하기', edit_decision_post_path(post), class: 'text-primary text-nowrap'
+- else
+  .decision-panel
     %h6
       결론
       - if post.issue.safe_postable?(current_user)
