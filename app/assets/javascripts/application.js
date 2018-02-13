@@ -1340,7 +1340,8 @@ $(function(){
     instructionsPullToRefresh: '다시 로딩하려면 잡아당겨 주세요',
     instructionsReleaseToRefresh: '다시 로딩하려면 놓아주세요',
     instructionsRefreshing: '다시 로딩 중',
-    onRefresh: function(){ window.location.reload(); }
+    onRefresh: function(){ window.location.reload(); },
+    shouldPullToRefresh: function(){ return (!window.scrollY && !$('#js-drawer').is(':visible')) }
   });
 });
 
