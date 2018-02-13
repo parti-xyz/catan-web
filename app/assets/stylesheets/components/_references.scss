@@ -331,6 +331,8 @@ section#references {
     display: inline-block;
     background-size: cover;
     background-position: top;
+    background-repeat: no-repeat;
+    background-color: $gray-lightest;
     cursor: pointer;
     border: 1px solid $gray-lighter;
     &.single {
@@ -349,6 +351,15 @@ section#references {
     }
     &.right {
       margin-left: 0.5%;
+    }
+  }
+  &__small-image-wrapper {
+    text-align: center;
+  }
+  &__small-image-wrapper &__file-content--image {
+    background: $gray-lightest;
+    img {
+      width: auto;
     }
   }
   &__video-container {

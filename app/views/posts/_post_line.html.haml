@@ -1,13 +1,28 @@
 - post = post
 - issue = post.issue
+- single_image_breakpoint = 700
+- if is_small_screen?
+  - single_image_breakpoint = 270
+- secondary_image_breakpoint = 400
+- if is_small_screen?
+  - secondary_image_breakpoint = 120
 .post-line.post-line[post]
   .post-body
     - if local_assigns[:post_line]
       - if post.file_sources.only_image.any?
         .post-reference-line-file-content-wrapper--image<>
           - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
-            .post-reference-line__file-content--image.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name, 'data-link-target': '_blank', class: 'single' }<>
-              = image_tag file_source.attachment.md.url
+            - image_url = file_source.attachment.md.url
+            - if file_source.image_width < single_image_breakpoint
+              - image_url = file_source.attachment.url
+
+            - if file_source.image_width < 400
+              .post-reference-line__small-image-wrapper<>
+                .post-reference-line__file-content--image.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name, 'data-link-target': '_blank', class: 'single' }<>
+                  = image_tag image_url
+            - else
+              .post-reference-line__file-content--image.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name, 'data-link-target': '_blank', class: 'single' }<>
+                = image_tag image_url
     - else
       .post-parsed-body{'data-action': 'parti-link-target-blank'}
         - if local_assigns[:mode] == 'detail'
@@ -48,10 +63,19 @@
                 - current_style = 'right'
               - else
                 - current_style = 'left'
+
+              - image_url = file_source.attachment.md.url
+              - if file_source.image_width < single_image_breakpoint
+                - image_url = file_source.attachment.url
+
               - if current_style == 'single'
-                %a.post-reference-line__file-content--image{ action_options, class: current_style }<>= image_tag file_source.attachment.md.url, style: 'display: block'
+                - if file_source.image_width < 400
+                  .post-reference-line__small-image-wrapper<>
+                    %a.post-reference-line__file-content--image{ action_options, class: current_style }<>= image_tag image_url
+                - else
+                  %a.post-reference-line__file-content--image{ action_options, class: current_style }<>= image_tag image_url, style: 'display: block'
               - else
-                %a.post-reference-line__file-content--image{ action_options, class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
+                %a.post-reference-line__file-content--image{ action_options, class: current_style, style: "background-image: url(#{file_source.attachment.md.url}); #{("background-size: #{file_source.image_width}px;") if file_source.image_width < secondary_image_breakpoint}" }<>
               - previous_style = current_style
 
         - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
