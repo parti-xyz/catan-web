@@ -362,8 +362,8 @@ section#issues-group-index {
     }
     .issue-card__join {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 30px;
+      right: 30px;
       @media(max-width: $screen-xs-max) {
         position: static;
         margin-top: 5px;
