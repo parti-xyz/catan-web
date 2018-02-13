@@ -222,7 +222,7 @@
     }
     .about-parti-box.odd .container#use-parti{
       .use-parti {
-        font-size: 24px;
+        font-size: $font-size-xlarge;
       }
     }
     .about-parti-box.even
@@ -247,7 +247,7 @@
   }
   h5 {
     color: $gray;
-    font-size: 16px;
+    font-size: $font-size-medium;
   }
   .help-block a {
     color: $gray;

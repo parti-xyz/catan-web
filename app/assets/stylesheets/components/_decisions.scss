@@ -1,7 +1,10 @@
 .decision-panel {
   font-size: $font-size-base;
   margin-top: 14px;
-  padding: 18px;
+  padding: 12px;
+  &-blank {
+    padding: 6px 12px;
+  }
   background-color: $gray-lightest;
   border: 0 solid $gray-lighter;
   border-radius: $border-radius-base;
@@ -16,5 +19,8 @@
   }
   p {
     margin:0;
+  }
+  .help-text {
+    font-size: $font-size-small;
   }
 }

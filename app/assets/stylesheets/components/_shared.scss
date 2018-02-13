@@ -385,7 +385,7 @@ label.required:after {
     margin: 0 auto;
     &__txt {
       margin: 30px 0;
-      font-size: 24px;
+      font-size: $font-size-xlarge;
     }
     &__content {
       padding-top: 30px;
@@ -395,10 +395,10 @@ label.required:after {
     width: 90%;
     margin: 40px auto;
     h1, h2 {
-      font-size: 24px;
+      font-size: $font-size-xlarge;
     }
     h4 {
-      font-size: 16px;
+      font-size: $font-size-medium;
     }
   }
   .sign-up {
@@ -505,7 +505,7 @@ label.required:after {
   /* message */
 
   #messages-header-section {
-    font-size: 16px;
+    font-size: $font-size-medium;
   }
 
   /* user */
@@ -595,7 +595,7 @@ label.required:after {
     padding-top: 20px;
     padding: 20px 10px 0;
     h3 {
-      font-size: 16px;
+      font-size: $font-size-medium;
     }
     h4 {
       font-size: 13px;

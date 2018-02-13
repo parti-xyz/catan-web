@@ -121,7 +121,7 @@ section#landing-page{
     }
     .survey-card {
       &__title {
-        font-size: 16px;
+        font-size: $font-size-medium;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -168,7 +168,7 @@ section#landing-page{
       padding: 10px 20px;
       border: 0px;
       margin: 5px;
-      font-size: 16px;
+      font-size: $font-size-medium;
     }
     #join-btn{
       color: $brand-primary;

@@ -513,7 +513,7 @@ section.posts-page {
     background: $brand-primary;
     color: $gray-lightest;
     text-align: center;
-    font-size: 16px;
+    font-size: $font-size-medium;
     .new-posts__count {
       margin-right: 3px;
     }

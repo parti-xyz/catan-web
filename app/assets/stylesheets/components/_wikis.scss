@@ -44,7 +44,7 @@ section#wiki-histories {
     margin-bottom: 20px;
     border: none;
     padding: 0;
-    font-size: 24px;
+    font-size: $font-size-xlarge;
     font-weight: bold;
   }
 }
@@ -68,7 +68,7 @@ section#wiki-histories {
     }
   }
   .wiki-title {
-    font-size: 24px;
+    font-size: $font-size-xlarge;
     font-weight: bold;
     color: $gray-dark;
     line-height: 1.4em;
@@ -165,7 +165,7 @@ section#wiki-histories {
     margin-bottom: 40px;
     border: none;
     padding: 0;
-    font-size: 24px;
+    font-size: $font-size-xlarge;
     font-weight: bold;
     text-align: center;
     .label {
@@ -232,7 +232,7 @@ section#wiki-histories {
     height: 100%;
     margin-bottom: 20px;
     padding: 14px 12px 10px;
-    font-size: 24px;
+    font-size: $font-size-xlarge;
     font-weight: bold;
     text-align: center;
     border-radius: $border-radius-base;
