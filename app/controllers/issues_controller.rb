@@ -148,17 +148,21 @@ class IssuesController < ApplicationController
       render 'warning_out_of_members_notice' and return
     end
 
+    new_organizer_members = []
     ActiveRecord::Base.transaction do
       if params[:issue].has_key?(:organizer_nicknames)
-        organizer_nicknames = (@issue.organizer_nicknames.try(:split, ",") || []).map(&:strip).uniq.compact
-        organizer_nicknames.each do |nickname|
-          user = User.find_by(nickname: nickname)
+        organizer_users = Issue.parse_organizer_nicknames(@issue.organizer_nicknames)
+        organizer_users.each do |user|
           member = @issue.members.find_by(user: user)
-          next if user.blank? or member.blank?
-          member.update_attributes(is_organizer: true)
+          next if member.blank?
+
+          unless member.is_organizer?
+            member.update_attributes(is_organizer: true)
+            new_organizer_members << member
+          end
         end
         @issue.organizer_members.each do |member|
-          member.update_attributes(is_organizer: false) unless organizer_nicknames.include? member.user.nickname
+          member.update_attributes(is_organizer: false) unless organizer_users.include? member.user
         end
       end
       if params[:issue].has_key?(:blinds_nickname)
@@ -175,6 +179,12 @@ class IssuesController < ApplicationController
           IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
         end
         MessageService.new(@issue, sender: current_user).call
+        old_organizer_members = @issue.organizer_members.to_a - new_organizer_members
+        new_organizer_members.each do |member|
+          MessageService.new(member, sender: current_user, action: :new_organizer).call(old_organizer_members: old_organizer_members)
+          MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
+        end
+        flash[:success] = t('activerecord.successful.messages.created')
         redirect_to smart_issue_home_url(@issue)
       else
         errors_to_flash @issue

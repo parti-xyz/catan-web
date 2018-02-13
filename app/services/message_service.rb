@@ -69,6 +69,24 @@ class MessageService
           sender: @sender, users: [@source.user],
           messagable: @source,
           action: @action)
+      elsif @action == :new_organizer
+        send_messages(
+          sender: @sender, users: [@source.user],
+          messagable: @source,
+          action: @action)
+
+        if (@options[:old_organizer_members] || []).any?
+          send_messages(
+            sender: @sender,
+            users: @options[:old_organizer_members].reject{ |member| member.user == @sender }.map(&:user),
+            messagable: @source,
+            action: :welcome_organizer,
+            action_params: {
+              new_organizer_user_id: @source.user.id,
+              new_organizer_user_nickname: @source.user.nickname
+            }
+          )
+        end
       else
         users = @source.joinable.organizer_members.map &:user
         send_messages(

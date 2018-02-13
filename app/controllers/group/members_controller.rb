@@ -45,6 +45,10 @@ class Group::MembersController < GroupBaseController
     @user = User.find_by id: params[:user_id]
     @member = current_group.members.find_by user: @user
     @member.update_attributes(is_organizer: request.put?) if @member.present?
+    if @member.previous_changes["is_organizer"].present? and @member.is_organizer?
+      MessageService.new(@member, sender: current_user, action: :new_organizer).call
+      MemberMailer.on_new_organizer(@member.id, current_user.id).deliver_later
+    end
 
     respond_to do |format|
       format.js

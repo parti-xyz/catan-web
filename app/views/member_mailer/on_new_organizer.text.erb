@@ -1,0 +1,6 @@
+안녕하세요. <%= @member.user.nickname %>님!
+
+<%= @user.nickname %>님이 <%= @member.joinable.title %> <%= @member.joinable.model_name.human %> 오거나이징을 부탁했습니다.
+---------------------------------------------------------
+
+* 주소 : <%= smart_joinable_url(@member.joinable) %>

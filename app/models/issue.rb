@@ -391,6 +391,13 @@ class Issue < ActiveRecord::Base
     true
   end
 
+  def self.parse_organizer_nicknames organizer_nicknames
+    return [] if organizer_nicknames.blank?
+    (organizer_nicknames.split(",") || []).map(&:strip).uniq.compact.map do |nickname|
+      User.find_by(nickname: nickname)
+    end.compact
+  end
+
   private
 
   def downcase_slug
