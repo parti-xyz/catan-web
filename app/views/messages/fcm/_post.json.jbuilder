@@ -6,6 +6,7 @@ elsif message.action.to_s == 'decision'
   body = "@#{message.sender.nickname}님이 결론을 업데이트 했습니다. \"#{message.action_params_hash["decision_body"].try(:truncate, 100)}\""
 else
   body = "#{post.user.nickname}: #{post.specific_desc_striped_tags(100)}"
+end
 
 json.data do
   json.id message.id
