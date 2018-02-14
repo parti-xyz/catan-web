@@ -194,7 +194,7 @@ Rails.application.routes.draw do
     end
     resources :managements do
       collection do
-        get :statistics
+        post :suggest
       end
     end
 

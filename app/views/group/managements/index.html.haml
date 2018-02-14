@@ -102,3 +102,20 @@
                           %span= active_user.nickname
                     %td
                       #{user_array[1]} 건의 공감
+
+            %section#anchor-suggest-to-parti{ style: "height: 300px;" }
+              %h4.sub-title
+                빠띠에 제안을 보내세요
+                %small
+                  기능 개선, 이벤트 기획, 콜라보레이션 제안 등 어떤 것이든 환영합니다.
+              = form_tag suggest_group_managements_path, method: :post do
+                .form-widget
+                  .form-widget-content
+                    .form-group.textarea-box
+                      .js-tinymce.form-control.form-control-tinymce{ id: "suggest", 'data-placeholder': "#{current_user.nickname} 오거나이저님, 빠띠 팀에 제안하고 싶은 것이 있으신가요? ", class: ('js-tinymce-mobile' if is_small_screen?) }
+                      = hidden_field_tag :suggest, class: 'validate', data: { 'rule-required': true }
+                      = hidden_field_tag :is_html_body, value: true
+
+                  .form-widget-btns.clearfix
+                    .submit-box
+                      = submit_tag '보내기', class: 'btn btn-primary', data: { disable_with: "게시 중..." }

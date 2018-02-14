@@ -30,7 +30,10 @@ class Group::ManagementsController < GroupBaseController
 
   end
 
-  def statistics
+  def suggest
+    ToAdminMailer.suggest(params[:suggest], current_user.id).deliver_later
+    flash[:success] = "요청을 성공적으로 보냈습니다"
+    redirect_to group_managements_path
   end
 
 end
