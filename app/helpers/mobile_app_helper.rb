@@ -1,4 +1,9 @@
 module MobileAppHelper
+  def only_mobile_app(request, text)
+    is_mobile_app_get_request?(request) ? text : nil
+    text
+  end
+
   def is_mobile_app_get_request? request
     MobileAppHelper::matcher.match(request.user_agent).present?
   end

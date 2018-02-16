@@ -11,5 +11,5 @@
     %span.nickname
       = local_assigns[:post].present? ? link_to(user.nickname, smart_user_gallery_path(user)) : user.nickname
     %br
-    = local_assigns[:post].present? ? link_to(date, post) : date
+    = local_assigns[:post].present? ? link_to(date, smart_post_url(post), 'aria-label': only_mobile_app(request, "date-post-#{post.id}")) : date
 

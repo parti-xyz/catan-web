@@ -16,7 +16,7 @@
 
 
     .body<>
-      = link_to smart_post_url(post) do
+      = link_to smart_post_url(post), 'aria-label': only_mobile_app(request, "post-pinned") do
         = post.specific_desc_striped_tags(120)
 
     .issue-meta.issue-meta-footer

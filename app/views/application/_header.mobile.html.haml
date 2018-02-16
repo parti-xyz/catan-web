@@ -1,7 +1,7 @@
 %nav#site-header.navbar.navbar-default.navbar-fixed-top.js-fixed-header
   .container.clearfix
     .navbar-header.navbar-header-center
-      %a.navbar-brand{ href: root_path }
+      %a.navbar-brand{ href: root_path, 'aria-label': only_mobile_app(request, 'header-brand') }
         - if host_group.indie?
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
         - else
@@ -18,25 +18,25 @@
               %i.fa.fa-bell
       - else
         %li.sign-up
-          = link_to new_user_session_path do
+          = link_to new_user_session_path, 'aria-label': only_mobile_app(request, 'header-login') do
             로그인
             %i.fa.fa-sign-in
 
     %ul.nav.navbar-nav.navbar-left
       - if history_backable_in_mobile_app?
         %li.history-back.js-btn-history-back-in-mobile-app
-          %a.js-history-back(href="#")
+          %a.js-history-back{ href: "#", 'aria-label': only_mobile_app(request, 'header-back') }
             %i.fa.fa-chevron-left
             뒤로
       - else
         %li.btn-drawer.js-btn-drawer
           %a.btn-drawer-menu.js-slideout-toggle
             - if host_group.try(:is_light_theme?)
-              = image_tag 'btn_mobile_menu.png'
+              = image_tag 'btn_mobile_menu.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
             - else
-              = image_tag 'btn_mobile_menu_white.png'
+              = image_tag 'btn_mobile_menu_white.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
       %li.history-back.js-close-editor-in-mobile-app.hidden
-        %a(href="#")
+        %a{ href: '#' }
           %i.fa.fa-chevron-left
           뒤로
 = render 'application/drawer_menu.mobile'

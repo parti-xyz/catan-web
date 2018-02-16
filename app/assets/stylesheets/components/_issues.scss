@@ -569,6 +569,9 @@ section#issues-group-index {
         height: 1em;
       }
     }
+    > a.issue-line__title {
+      display: inline;
+    }
   }
   &__title {
     color: $gray;

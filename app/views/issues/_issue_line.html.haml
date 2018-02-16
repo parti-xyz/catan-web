@@ -22,7 +22,7 @@
       .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
     .media-body
       .issue-line-body-wraper
-        %span.issue-line__title
+        %a.span.issue-line__title{ href: smart_issue_home_path_or_url(issue), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}") }
           = issue.title
           = security_icon(issue)
         - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds,  expires_in: 1.hours do

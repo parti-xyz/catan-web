@@ -1,6 +1,6 @@
 - if user_signed_in?
   %li.menu-line
-    = link_to discover_url(subdomain: nil), class: "#{'active' if current_page?('/discover')}", style: "color: #7b5fa8" do
+    = link_to discover_url(subdomain: nil), 'aria-label': only_mobile_app(request, 'drawer-discover'), class: "#{'active' if current_page?('/discover')}", style: "color: #7b5fa8" do
       %i.fa.fa-fort-awesome
       새로운 발견
 %li.menu-line
@@ -15,7 +15,8 @@
       %i.fa.fa-caret-down
     %ul#js-drawer-my-groups.sub.list-unstyled.collapse
       - current_user.member_groups.each do |group|
-        %li.group-line= link_to group.title_short_format, smart_group_url(group)
+        %li.group-line
+          = link_to group.title_short_format, smart_group_url(group)
 
 - if Group.comprehensive_joined_by(current_user).any?
   - any_content = false
@@ -43,7 +44,7 @@
     %li.divider
     %li.group-issues-line
       .title
-        = link_to smart_group_url(group) do
+        = link_to smart_group_url(group), 'aria-label': only_mobile_app(request, "drawer-group-#{group.slug}") do
           #{group_parties_section_title(group)}
       %ul.sub.list-unstyled
         - current_user.member_issues.only_alive_of_group(group).each do |issue|
