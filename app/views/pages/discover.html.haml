@@ -5,9 +5,12 @@
         당신은 무엇에
         %span.visible-xs-block
         관심이 있나요?
-      .drawer-list__menu{ style: "max-width: 450px; margin: 0 auto; margin-top: -20px;"}
-        %ul.list-unstyled
-          = render 'drawer_search'
+      = form_tag issues_url(subdomain: nil), method: :get, class: 'parti-search-form' do
+        .form-group
+          %input.form-control{ name: "keyword", placeholder: "빠띠 찾기", type: "search" }
+          %span.btn-wrapper
+            %button.btn.btn-link
+              %i.fa.fa-search
 
   %section#recent-posts
     .container

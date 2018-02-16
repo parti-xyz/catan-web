@@ -16,7 +16,7 @@
                 = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
           %span.issue-line__meta.btn-join-sign.js-join-sign{id: issue_line_join_sign_id}
             %i.fa.fa-sign-in
-%li.issue-line
+%li.issue-line.js-issue-line
   .media.js-issue-line-hover{ 'data-action': "parti-link", 'data-url': smart_issue_home_path_or_url(issue) }
     .media-left
       .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }

@@ -37,6 +37,7 @@
 //= require slideout
 //= require js.cookie
 //= require pulltorefresh
+//= require bindWithDelay
 
 lightbox.option({
   'albumLabel': '이미지 %1 / %2',
@@ -403,7 +404,9 @@ var parti_prepare = function($base) {
       var $elm = $(e.currentTarget);
       var $form = $($elm.data('form-target'));
       var url = $elm.data('form-url');
-      $form.attr('action', url);
+      if(url) {
+        $form.attr('action', url);
+      }
       $form.submit();
     });
   });
@@ -1051,6 +1054,66 @@ $(function(){
       $('#js-main-panel').removeClass('sidebar-open-in-advance');
     });
   })();
+
+  // drawer search
+  if ($('.js-filterable-by-drawer-filter').length > 0) {
+    $('.js-drawer-filter-more').appendTo('.js-filterable-by-drawer-filter').hide().removeClass('hidden');
+  } else {
+    $('.js-drawer-filter-more').remove();
+  }
+
+  $(".js-drawer-filter").addClear({
+    onClear: function(){
+      $(this).val('');
+      $(".js-drawer-filter").trigger('keyup');
+    }
+  });
+
+  $(".js-drawer-filter").bindWithDelay("keyup", function(){
+    if ($('.js-filterable-by-drawer-filter .js-drawer-filter-group').length <= 0) {
+      return;
+    }
+
+    // Retrieve the input field text and reset the count to zero
+    var filter = $(this).val();
+
+    if ($.is_blank(filter)) {
+      $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item').show();
+      $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden').show().removeClass('js-drawer-filter-item-hidden');
+      $('.js-drawer-filter-more').fadeOut();
+    } else {
+      // Loop through the comment list
+      $('.js-filterable-by-drawer-filter').find('> :not(.js-drawer-filter-item)').addClass('js-drawer-filter-item-hidden');
+
+      $('.js-filterable-by-drawer-filter .js-drawer-filter-group').each(function(){
+        var has_shown_issue_in_group = false;
+
+        $(this).find('.js-issue-line').each(function() {
+          // If the list item does not contain the text phrase fade it out
+          if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+            $(this).addClass('js-drawer-filter-item-hidden');
+            has_hidden_issue = true;
+          } else {
+            // Show the list item if the phrase matches and increase the count by 1
+            $(this).show().removeClass('js-drawer-filter-item-hidden');
+            has_shown_issue_in_group = true;
+          }
+        });
+
+        if (has_shown_issue_in_group) {
+          $(this).show().removeClass('js-drawer-filter-item-hidden');
+          if ($(this).prev().hasClass('divider')) {
+            $(this).prev().show().removeClass('js-drawer-filter-item-hidden');
+          }
+        } else {
+          $(this).addClass('js-drawer-filter-item-hidden');
+        }
+      });
+
+      $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden').fadeOut();
+      $('.js-drawer-filter-more').show();
+    }
+  }, 300);
 
   // editor
   (function() {

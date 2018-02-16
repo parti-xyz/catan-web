@@ -17,6 +17,25 @@ section#landing-page{
         font-weight: 100;
       }
     }
+
+    .parti-search-form {
+      max-width: 450px;
+      margin: 0 auto;
+      .form-group {
+        position: relative;
+        .form-control {
+          padding-right: 2.5em;
+        }
+        .btn-wrapper {
+          position: absolute;
+          top: 0;
+          right: 0;
+          .btn {
+            color: $brand-primary;
+          }
+        }
+      }
+    }
   }
   section#recent-posts .post-card {
     background-color: #fff;
