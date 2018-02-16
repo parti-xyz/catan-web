@@ -131,3 +131,15 @@ body.editor-spotlight {
 body .webui-popover {
   z-index: $zindex-webui-popover;
 }
+
+
+@media (max-width: $screen-xs-max) {
+  .row.row-xs-full-width {
+    margin-left: 0;
+    margin-right: 0;
+    > .col-xs-12 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
