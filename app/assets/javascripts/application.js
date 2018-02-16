@@ -1019,6 +1019,7 @@ $(function(){
     });
 
     slideout.on('open', function () {
+      $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
       if($fixed.length > 0) {
         $fixed.css('transition', '');
         $fixed.on('click', close);
@@ -1173,8 +1174,8 @@ $(function(){
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         setup: function (editor) {
-          editor.on('blur', function (e) {
-            $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
+          editor.on('focus', function (e) {
+            $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
           });
         },
         init_instance_callback: function (editor) {
@@ -1221,7 +1222,6 @@ $(function(){
       // 가상키보드를 쓰는 환경이면
       if($('body').hasClass('virtual-keyboard')) {
         $('.js-invisible-on-mobile-editing').slideUp();
-        $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
         $('.js-btn-history-back-in-mobile-app').hide();
         $('.js-btn-drawer').hide();
         $('.js-close-editor-in-mobile-app').removeClass('hidden');
@@ -1244,15 +1244,22 @@ $(function(){
         }
 
         var container = editor.editorContainer;
+        if(!$(container).is(':visible')) {
+          return;
+        }
+
         var $toolbars = $(container).find('.mce-toolbar-grp');
         var $statusbar = $(container).find('.mce-statusbar');
 
 
         var viewportTopDelta = 0;
-        if($('#site-header').css('position') == 'fixed') {
+        if($('#site-header').css('position') == 'fixed' && !$('body').hasClass('ios')) {
           viewportTopDelta = $('#site-header').outerHeight();
         }
         if (isSticky(viewportTopDelta)) {
+          if($('body').hasClass('ios')) {
+            $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
+          }
           $(container).css({
             paddingTop: $toolbars.outerHeight()
           });
@@ -1322,9 +1329,8 @@ $(function(){
 
       function eventHandlerForTinymce(e) {
         var nowWithKeyboard = (e.type == 'parti-ios-virtaul-keyboard-open-for-tinymce');
-        if (nowWithKeyboard) {
-          $('body').toggleClass('view-with-ios-virtual-keyboard', nowWithKeyboard);
-        } else {
+        $('body').toggleClass('view-with-ios-virtual-keyboard', nowWithKeyboard);
+        if (!nowWithKeyboard) {
           $fake_input.focus().blur();
         }
       }
