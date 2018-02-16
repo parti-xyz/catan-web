@@ -355,9 +355,6 @@ label.required:after {
   .bg-line {
     background-position: 9px;
   }
-  .form-widget {
-    margin-top: 5px;
-  }
   .share-box {
     float: none;
   }
@@ -630,73 +627,7 @@ label.required:after {
       height: auto;
     }
   }
-
-  /* editor */
-
-  #post-form{
-    .container {
-      padding: 5px;
-    }
-    .page-wrapper {
-      width: 100%;
-      &__title {
-        margin-bottom: 30px;
-      }
-    }
-    .well {
-      padding: 15px;
-    }
-    .editor-btn {
-      .btn-primary {
-        width: 100px;
-      }
-    }
-  }
 }
-
-
-.form-widget {
-  background-color: #fff;
-  border-radius: $border-radius-base;
-  padding: 30px 30px 15px;
-  position: relative;
-  &__arrow {
-    position: absolute;
-    left: -19px;
-    top: 25px;
-  }
-  .input-group {
-    width: 100%;
-  }
-  input[type=text],
-  input[type=file],
-  textarea,
-  .form-control-tinymce, {
-    border: none;
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    border: 1px solid #d2d2d2;
-  }
-  a {
-    color: $gray;
-    &:hover {
-      color: $brand-primary;
-    }
-  }
-  .btn-primary {
-    min-width: 130px;
-  }
-  .btn-default {
-    margin-left: 0;
-  }
-  hr {
-    border-top: 4px solid $gray-light;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-}
-
 
 .parties-filter {
   .parties-filter-select {
@@ -747,51 +678,6 @@ label.required:after {
       }
     }
   }
-}
-
-.mce-content-body {
-  height: auto;
-  padding: 0 14px;
-  p {
-    margin: 14px 0;
-  }
-
-  .tinymce-placeholder {
-    color: $gray-light;
-  }
-
-  .tinymce-content-image {
-    max-width: 100%;
-  }
-
-  blockquote {
-    p:first-child,
-    ul:first-child,
-    ol:first-child {
-      margin-top: 0;
-    }
-    font-size: $font-size-base;
-    margin: 12px 0;
-  }
-
-  & > ul:first-child,
-  & > ol:first-child {
-    margin-top: 14px;
-  }
-
-  .mce-item-table,
-  .mce-item-table td,
-  .mce-item-table th,
-  .mce-item-table caption {
-    border: 1px solid $gray-light;
-    padding: 4px;
-  }
-
-}
-
-.mce-primary {
-  border-color: transparent;
-  background-color: $brand-primary;
 }
 
 // 폼에서 빠띠 선택

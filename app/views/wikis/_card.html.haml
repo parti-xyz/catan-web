@@ -21,7 +21,7 @@
 
   .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_wiki_url(post.wiki), 'data-link-target': '_blank' }
     .wiki-body.wiki-preview
-      .form-control-tinymce.mce-content-body
+      .mce-content-body
         != smart_truncate_html(post.wiki.body, length: 1000)
     .shadow
     .wiki-button

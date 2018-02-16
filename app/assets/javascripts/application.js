@@ -503,11 +503,6 @@ var parti_prepare = function($base) {
     });
   });
 
-  $base.data('parti-prepare-arel', 'completed');
-}
-
-//parti-post-modal
-var parti_prepare_post_modal = function($base) {
   $.parti_apply($base, '[data-action="parti-filter-parties"]', function(elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {
@@ -522,7 +517,9 @@ var parti_prepare_post_modal = function($base) {
       return false;
     });
   });
-};
+
+  $base.data('parti-prepare-arel', 'completed');
+}
 
 $('[data-action="parti-clearable-search"]').each(function(i, elm) {
   if($.is_present($(elm).val())) {
@@ -537,7 +534,6 @@ $('[data-action="parti-clearable-search"]').each(function(i, elm) {
 });
 
 var parti_partial$ = function($partial) {
-  parti_prepare_post_modal($partial);
   parti_prepare($partial);
 
   return $partial;
@@ -554,7 +550,6 @@ var parti_ellipsis = function($partial) {
 
 $(function(){
   parti_prepare($('body'));
-  parti_prepare_post_modal($('body'));
   parti_ellipsis($('body'));
 
   // 빠띠 사이드바 hover 할때 가입 버튼 보이기
@@ -1095,6 +1090,7 @@ $(function(){
         setting = settings[setting_name];
       }
       var placeholder = $(elm).data('placeholder');
+      var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
         theme: 'inlite',
@@ -1110,6 +1106,7 @@ $(function(){
         remove_script_host : false,
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
+        content_css: content_css,
         setup: function (editor) {
           if(placeholder) {
             editor.on('init', function(){
@@ -1150,22 +1147,39 @@ $(function(){
     // Tinymce on mobile
     $.each($('.js-tinymce.js-tinymce-mobile'), function(i, elm){
       var setting_name = $(elm).data('tinymce-setting');
+
+      //plugins: 'image media link paste contextmenu textpattern autolink',
+      var settings = {
+        default: {
+          plugins: 'link paste autolink lists advlist',
+          toolbar1: 'bold italic strikethrough blockquote',
+          toolbar2: 'bullist numlist outdent indent',
+        },
+        wiki: {
+          plugins: 'link paste autolink lists advlist',
+          toolbar1: 'bold italic strikethrough blockquote style-h1 style-h2 style-h3',
+          toolbar2: 'bullist numlist outdent indent',
+        },
+      };
+
       var setting = settings.default;
       if(setting_name) {
         setting = settings[setting_name];
       }
+      var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
         force_br_newlines : true,
         force_p_newlines : false,
         forced_root_block : '',
         language: 'ko_KR',
-        plugins: setting.plugins + ' autoresize stickytoolbar',
+        plugins: setting.plugins + ' autoresize stickytoolbar stylebuttons',
         menubar: false,
         autoresize_min_height: 100,
         autoresize_bottom_margin: 0,
         statusbar: false,
-        toolbar: 'bold italic strikethrough quicklink blockquote | bullist numlist outdent indent',
+        toolbar1: setting.toolbar1,
+        toolbar2: setting.toolbar2,
         paste_data_images: true,
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
@@ -1173,6 +1187,7 @@ $(function(){
         remove_script_host : false,
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
+        content_css: content_css,
         setup: function (editor) {
           editor.on('focus', function (e) {
             $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
@@ -1312,6 +1327,25 @@ $(function(){
 
         return false;
       }
+    });
+
+    // h1 h2 h3 툴바
+    tinyMCE.PluginManager.add('stylebuttons', function(editor, url) {
+      ['h1', 'h2', 'h3'].forEach(function(name){
+        editor.addButton("style-" + name, {
+          tooltip: "Toggle " + name,
+          text: name.toUpperCase(),
+          onClick: function() { editor.execCommand('mceToggleFormat', false, name); },
+          onPostRender: function() {
+            var self = this, setup = function() {
+              editor.formatter.formatChanged(name, function(state) {
+                self.active(state);
+              });
+            };
+            editor.formatter ? setup() : editor.on('init', setup);
+          }
+        })
+      });
     });
 
   })();

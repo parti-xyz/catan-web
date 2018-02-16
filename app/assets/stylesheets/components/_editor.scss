@@ -291,12 +291,6 @@
     vertical-align: bottom;
     padding: 7px;
   }
-
-  .mce-content-body {
-    padding: 0;
-    outline: none;
-    min-height: 100px;
-  }
 }
 
 
@@ -410,28 +404,6 @@
   }
 }
 
-#post-form,
-.wiki-preview {
-  .form-control-tinymce {
-    h1 {
-      font-size: $font-size-base * 1.8;
-    }
-    h2 {
-      font-size: $font-size-base * 1.4;
-    }
-    h3 {
-      font-size: $font-size-base * 1.2;
-    }
-    blockquote {
-      border: none;
-      background-color: $gray-lightest;
-    }
-    ul {
-      padding-left: 24px;
-    }
-  }
-}
-
 #post-form .post-edit-form {
   .form-control-tinymce {
     height: auto;
@@ -514,6 +486,118 @@
         .size {
           color: $gray-light;
         }
+      }
+    }
+  }
+}
+
+
+.form-widget {
+  background-color: #fff;
+  border-radius: $border-radius-base;
+  padding: 30px 30px 15px;
+  @media (max-width: $screen-xs-max) {
+    padding: 30px 15px 15px;
+  }
+  position: relative;
+  &__arrow {
+    position: absolute;
+    left: -19px;
+    top: 25px;
+  }
+  .input-group {
+    width: 100%;
+  }
+  input[type=text],
+  input[type=file],
+  textarea,
+  .form-control-tinymce, {
+    border: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border: 1px solid #d2d2d2;
+  }
+  a {
+    color: $gray;
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+  .btn-primary {
+    min-width: 130px;
+  }
+  .btn-default {
+    margin-left: 0;
+  }
+  hr {
+    border-top: 4px solid $gray-light;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+#post-form {
+  .page-wrapper {
+    width: 670px;
+  }
+  .well {
+    background-color: #fff;
+    border-color: $brand-primary;
+    padding: 40px;
+  }
+  h5 {
+    color: $gray;
+    font-size: $font-size-medium;
+  }
+  .help-block a {
+    color: $gray;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  .btn-editor {
+    margin-top: 25px;
+    .btn-primary {
+      padding: 10px 35px;
+      width: 160px;
+      text-align: center;
+      border-radius: 50px;
+      margin-left: 10px;
+    }
+    .btn-default {
+      padding: 10px 9px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: normal;
+      text-decoration: none;
+    }
+  }
+  textarea {
+    min-height: 150px;
+    color: $gray;
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  .form-widget {
+    margin-top: 0;
+  }
+  #post-form{
+    .container {
+      padding: 0;
+    }
+    .page-wrapper {
+      width: 100%;
+      &__title {
+        margin-bottom: 30px;
+      }
+    }
+    .well {
+      padding: 15px;
+    }
+    .editor-btn {
+      .btn-primary {
+        width: 100px;
       }
     }
   }

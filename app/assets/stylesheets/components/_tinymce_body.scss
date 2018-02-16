@@ -1,0 +1,63 @@
+.mce-content-body {
+  h1 {
+  font-size: $font-size-base * 1.4;
+  }
+  h2 {
+    font-size: $font-size-base * 1.2;
+  }
+  h3 {
+    font-size: $font-size-base;
+  }
+
+  ul {
+    padding-left: 24px;
+  }
+
+  outline: none;
+  min-height: 100px;
+  height: auto;
+  padding: 12px;
+
+  p {
+    margin: 14px 0;
+  }
+
+  .tinymce-placeholder {
+    color: $gray-light;
+  }
+
+  .tinymce-content-image {
+    max-width: 100%;
+  }
+
+  blockquote {
+    border: none;
+    padding: 12px;
+    background-color: $gray-lightest;
+    p:first-child,
+    ul:first-child,
+    ol:first-child {
+      margin-top: 0;
+    }
+    p:last-child,
+    ul:last-child,
+    ol:last-child {
+      margin-bottom: 0;
+    }
+    font-size: $font-size-base;
+    margin: 12px 0;
+  }
+
+  & > ul:first-child,
+  & > ol:first-child {
+    margin-top: 14px;
+  }
+
+  .mce-item-table,
+  .mce-item-table td,
+  .mce-item-table th,
+  .mce-item-table caption {
+    border: 1px solid $gray-light;
+    padding: 4px;
+  }
+}

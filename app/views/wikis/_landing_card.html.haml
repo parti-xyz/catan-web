@@ -5,7 +5,7 @@
         = HTML_Truncator.truncate(post.wiki.title, 4)
       .wiki-content
         .wiki-body.wiki-preview
-          .form-control-tinymce.mce-content-body
+          .mce-content-body
             != smart_truncate_html(post.wiki.body, length: 1000)
         .shadow
       .post-card__header

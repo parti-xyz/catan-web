@@ -153,6 +153,9 @@ section#wiki-histories {
 
 #post-form.wiki-form {
   margin-top: 20px;
+  @media (max-width: $screen-xs-max) {
+    margin-top: 0;
+  }
   margin-bottom: 20px;
   textarea {
     min-height: auto;
@@ -237,7 +240,11 @@ section#wiki-histories {
     text-align: center;
     border-radius: $border-radius-base;
     border: none;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    -webkit-appearance: none;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
     transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
 
     &:focus {
@@ -261,7 +268,10 @@ section#wiki-histories {
   .form-control-tinymce {
     min-height: 200px;
     border: none;
+    border-radius: $border-radius-base;
+    -webkit-appearance: none;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+    -webkiet-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
     transition: box-shadow 200ms cubic-bezier(0.4, 0.0, 0.2, 1);
 
     &:focus {
