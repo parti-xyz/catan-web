@@ -1,16 +1,49 @@
-= render 'issues/issue_header', active_tab: :wikis, issue: @wiki_history.wiki.issue
+= render 'issues/issue_header', issue: @issue, simple: true
 
-%section#wikis-page
-  .container
-    %section#wiki-history
-      %h3.page-title
-        #{static_date_f @wiki_history.created_at} 버전
-        %small
-          = link_to smart_issue_wikis_path(@wiki.issue) do
-            현재 버전 보기
-            %i.fa.fa-arrow-right
-      .body
-        = raw render_markdown_to_html(@wiki_history.body)
-    %section#wiki-history-list
-      = render 'list'
+%section.wiki-history-page
+  .container.container-xs-full-width
+    %h4.wiki-title{style:'padding:10px 10px 0;'}
+      = link_to @wiki_history.wiki.title, smart_wiki_url(@wiki_history.wiki), class: 'text-primary'
+    %h5{style:'padding: 5px 10px 10px;'}
+      = link_to histories_wiki_post_path(@wiki_history.wiki.post), class: 'text-nowrap' do
+        위키 이력
+      &gt;
+      %span.text-nowrap #{@wiki_history.user.nickname}님 #{static_date_f(@wiki_history.created_at)} 변경사항
 
+    .row
+      .col-xs-12
+        = render @wiki_history
+
+    - if is_small_screen?
+      .row
+        .col-xs-12
+          .wiki-content
+            = render 'wikis/read_only_wiki_content', wiki_history: @wiki_history, diff: :merged
+    - else
+      .row.row-diff
+        .col-sm-12.col-lg-6
+          .post-card__last-stroked
+            .media
+              .media-left
+                = link_to smart_user_gallery_path(@wiki_history.previous.user) do
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{@wiki_history.previous.user.image.sm.url});"}
+              .media-body
+                %strong.nickname
+                  = @wiki_history.previous.user.nickname
+                %br
+                %span.date= static_date_f(@wiki_history.previous.created_at)
+          .wiki-content
+            = render 'wikis/read_only_wiki_content', wiki_history: @wiki_history, diff: :removed
+        .col-sm-12.col-lg-6
+          .post-card__last-stroked
+            .media
+              .media-left
+                = link_to smart_user_gallery_path(@wiki_history.user) do
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{@wiki_history.user.image.sm.url});"}
+              .media-body
+                %strong.nickname
+                  = @wiki_history.user.nickname
+                %br
+                %span.date= static_date_f(@wiki_history.created_at)
+          .wiki-content
+            = render 'wikis/read_only_wiki_content', wiki_history: @wiki_history, diff: :added

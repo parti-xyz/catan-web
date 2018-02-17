@@ -27,17 +27,46 @@ section#wikis-page {
 
 }
 
+section.wiki-histories-page,
+section.wiki-history-page {
+  padding: 20px;
+  @media (max-width: $screen-xs-max) {
+    padding: 0 0 20px;
+  }
+  .wiki-content {
+    background-color: #fff;
+    border-radius: $border-radius-base;
+    padding: 20px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    .diff-removed {
+      background-color: lighten($brand-danger, 25%);
+    }
+    .diff-added {
+      background-color: lighten($brand-success, 25%);
+    }
+    .diff-touched {
+      background-color: lighten($brand-warning, 25%);
+    }
+  }
+  .row-diff {
+    margin-top: 20px;
+    .post-card__last-stroked {
+      margin-bottom: 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+  .wiki-content {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
 section#wiki-histories {
   padding: 20px;
   @media (max-width: $screen-xs-max) {
     background-color: #fff;
-  }
-  .wiki-history-page {
-    background-color: #fff;
-    @media (min-width: $screen-sm-min) {
-      padding: 20px;
-      border-radius: $border-radius-base;
-    }
   }
   .wiki-title {
     margin-top: 20px;
@@ -146,12 +175,44 @@ section#wiki-histories {
 }
 
 .wiki-history {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  border-top: 1px solid $gray-lighter;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom:1px solid $gray-lighter;
+  margin-top: 0;
+  padding: 12px;
+  &__link {
+    display: inline-block;
+    float: left;
+    .profile {
+      margin-right: 5px;
+      float: left;
+    }
+    .nickname {
+      height: 30px;;
+      line-height: 30px;
+      float: left;
+      color: $brand-primary;
+      font-weight: bold;
+    }
+  }
+  &__parti {
+    color: $gray;
+    display: inline-block;
+    a {
+      color: $gray;
+      &:hover{
+        color: $link-hover-color;
+      }
+    }
+  }
+  &__date.date-wrapper {
+    color: $gray;
+    font-size: $font-size-base;
+    display: inline-block;
+  }
 }
 
-#post-form.wiki-form {
+.wiki-form {
   margin-top: 20px;
   @media (max-width: $screen-xs-max) {
     margin-top: 0;
@@ -164,6 +225,7 @@ section#wiki-histories {
     line-height: 24px;
   }
   .wiki-title {
+    @include word-wrap();
     margin-top: 20px;
     margin-bottom: 40px;
     border: none;
@@ -264,7 +326,15 @@ section#wiki-histories {
       -webkit-box-shadow: none;
     }
   }
+}
 
+.wiki-form.wiki-form-new {
+  #post_wiki_attributes_title {
+    margin-top: 20px;
+  }
+}
+
+.wiki-form {
   .form-control-tinymce {
     min-height: 200px;
     border: none;
@@ -277,11 +347,5 @@ section#wiki-histories {
     &:focus {
       box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
     }
-  }
-}
-
-#post-form.wiki-form.wiki-form-new {
-  #post_wiki_attributes_title {
-    margin-top: 20px;
   }
 }

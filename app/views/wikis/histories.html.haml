@@ -1,11 +1,15 @@
 = render 'issues/issue_header', issue: @post.issue, simple: true
 
-%section#wiki-histories
-  .container.container-xs-no-padding
-    .wiki-history-page
-      %h4.wiki-title
-        = link_to @post.wiki.title, smart_wiki_url(@post.wiki)
-        이력
-      .history-list
-        = render @history_page
-      = paginate @history_page, theme: 'catan'
+%section.wiki-histories-page
+  .container.container-xs-full-width
+    .row
+      .col-xs-12.col-sm-8
+        %h4.wiki-title{style:'padding:10px 10px 0;'}
+          = link_to @post.wiki.title, smart_wiki_url(@post.wiki), class: 'text-primary'
+        %h5{style:'padding: 5px 10px 10px;'}
+          %span.text-nowrap 위키 이력
+        .history-list
+          = render @history_page
+        = paginate @history_page, theme: 'catan'
+      .hidden-xs
+        = render 'issues/aside', issue: @post.issue

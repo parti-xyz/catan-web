@@ -96,6 +96,7 @@ gem 'rb-readline'
 gem 'browsernizer'
 gem 'rails-settings-cached'
 gem 'diffy'
+gem 'nokogiri-diff'
 gem 'rack-cors', :require => 'rack/cors'
 
 # crawling

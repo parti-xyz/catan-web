@@ -1,7 +1,7 @@
 = render 'issues/issue_header', simple: true, issue: @post.issue
 
 %section#post-form.wiki-form
-  .container
+  .container.container-xs-full-width
     - if @post.private_blocked?(current_user)
       .post-card
         .post-card__content
@@ -14,7 +14,7 @@
                 %strong<> 오거나이저의 가입승인
                 을 기다려주세요.
     - else
-      .row.row-xs-full-width
+      .row
         .col-xs-12.col-sm-8{ class: ('col-lg-12' if @post.wiki.conflict?) }
           - dropdown_dom_id = "#{dom_id(@post)}__chevron-buttons"
           - chevron_dropdown = capture do

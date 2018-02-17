@@ -46,7 +46,7 @@ class Wiki < ActiveRecord::Base
   # fulltext serch
   after_save :reindex_for_search!
 
-  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_body
+  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_title, :conflicted_body
 
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
@@ -148,7 +148,7 @@ class Wiki < ActiveRecord::Base
   end
 
   def conflict?
-    conflicted_body.present?
+    conflicted_body.present? or conflicted_title.present?
   end
 
   def activate?

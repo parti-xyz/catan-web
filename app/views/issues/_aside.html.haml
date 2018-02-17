@@ -1,32 +1,33 @@
 - wrapper_class ||= "col-sm-4 hidden-xs"
+- issue ||= @issue
 %div{ class: wrapper_class }
   .aside_issue#aside
     %section
       %h5.aside-title 오거나이저
       %ul.list-unstyled.parti-organizers
-        - @issue.fallbackable_organizer_member_users.each do |user|
+        - issue.fallbackable_organizer_member_users.each do |user|
           %li= byline user
 
     %section.aside-users
       - prevew_count = 6 * 4 - 1
       %h5.aside-title
-        = link_to smart_issue_members_path(@issue) do
+        = link_to smart_issue_members_path(issue) do
           가입멤버
           %span
-            %span.text-primary<> #{@issue.members.count}명
-        - if @issue.member_users.count > prevew_count
-          = link_to smart_issue_members_path(@issue), class: 'more' do
+            %span.text-primary<> #{issue.members.count}명
+        - if issue.member_users.count > prevew_count
+          = link_to smart_issue_members_path(issue), class: 'more' do
             더 보기
             %i.fa.fa-angle-double-right
-      - @issue.member_users.recent.limit(prevew_count).each do |user|
+      - issue.member_users.recent.limit(prevew_count).each do |user|
         = byline user, hide_nickname: true
-      - if @issue.member_users.count > prevew_count
-        = link_to smart_issue_members_path(@issue), class: 'more' do
+      - if issue.member_users.count > prevew_count
+        = link_to smart_issue_members_path(issue), class: 'more' do
           %i.fa.fa-ellipsis-h
 
     %section
       .aside_search
-        = form_tag smart_issue_home_path_or_url(@issue), method: :get do
+        = form_tag smart_issue_home_path_or_url(issue), method: :get do
           .form-group.has-feedback
             = search_field_tag :q, params[:q], placeholder: '게시글 찾기...', class: 'form-control'
             %span.form-control-feedback{ style: 'pointer-events: initial;' }
@@ -34,29 +35,29 @@
                 %i.fa.fa-search.text-muted
 
 
-    - unless @issue.indie_group?
+    - unless issue.indie_group?
       %section.aside-relate-issues
-        %h5.aside-title= @issue.group.title_basic_format
+        %h5.aside-title= issue.group.title_basic_format
         %ul.list-unstyled.aside-issues
-          - Issue.only_alive_of_group(@issue.group).sort_by_name.each do |issue|
+          - Issue.only_alive_of_group(issue.group).sort_by_name.each do |issue|
             - next if issue.private_blocked?(current_user)
             = render customize_partial_path(issue, 'issue_line')
 
 
-    - if @issue.related_issues.present? or can? :update, @issue
+    - if issue.related_issues.present? or can? :update, issue
       %section.aside-relate-issues
         %h5.aside-title
           관련빠띠
-          - if can? :update, @issue
-            = link_to new_related_path(issue_id: @issue), class: 'add-link' do
+          - if can? :update, issue
+            = link_to new_related_path(issue_id: issue), class: 'add-link' do
               추가
               %i.fa.fa-plus
         %ul.list-unstyled.aside-issues
-          - @issue.relateds.each do |related|
+          - issue.relateds.each do |related|
             - related_target_issue = related.target
             - next if related_target_issue.private_blocked?(current_user)
             - remove_button = capture do
-              - if can? :update, @issue
+              - if can? :update, issue
                 = link_to related, method: :delete do
                   %i.fa.fa-trash-o
             = render customize_partial_path(related_target_issue, 'issue_line'), after_block: remove_button

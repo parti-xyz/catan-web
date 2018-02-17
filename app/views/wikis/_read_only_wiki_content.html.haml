@@ -1,10 +1,29 @@
+- if local_assigns[:wiki_history].present?
+  - wiki ||= local_assigns[:wiki_history].wiki
+  - if local_assigns[:diff] == :removed
+    - title = "<span class='#{WikiHistory::CSS_CLASS_REMOVED if local_assigns[:wiki_history].touched_title?}'>#{local_assigns[:wiki_history].previous.title}</span>"
+    - body = local_assigns[:wiki_history].diff_removed_body
+  - elsif local_assigns[:diff] == :added
+    - title = "<span class='#{WikiHistory::CSS_CLASS_ADDED if local_assigns[:wiki_history].touched_title?}'>#{local_assigns[:wiki_history].title}</span>"
+    - body = local_assigns[:wiki_history].diff_added_body
+  - else
+    - if local_assigns[:wiki_history].touched_title?
+      - title = "<span class='#{WikiHistory::CSS_CLASS_REMOVED}'>#{local_assigns[:wiki_history].previous.title}</span>"
+      - title += "<br><span class='#{WikiHistory::CSS_CLASS_ADDED}'>#{local_assigns[:wiki_history].title}</span>"
+    - else
+      - title = "<span>#{local_assigns[:wiki_history].title}</span>"
+    - body = local_assigns[:wiki_history].diff_body
+- else
+  - title = (local_assigns[:for_conflict] ? @post.wiki.conflicted_title : "<span>#{@post.wiki.title}</span>")
+  - body = (local_assigns[:for_conflict] ? @post.wiki.conflicted_body : @post.wiki.body)
 %h4.wiki-title
-  = wiki.title
+  != title
   - if !wiki.status.active?
     %span.label.label-default= wiki.status_text
-.wiki-body
-  .form-control-tinymce.mce-content-body
-    - if wiki.purged?
-      .text-muted 삭제되었습니다
-    - else
-      != (local_assigns[:for_conflict] ? @post.wiki.conflicted_body : @post.wiki.body)
+- if (local_assigns[:wiki_history].present? and local_assigns[:wiki_history].touched_body?) or local_assigns[:wiki_history].blank?
+  .wiki-body.wiki-form
+    .form-control-tinymce.mce-content-body
+      - if wiki.purged?
+        .text-muted 삭제되었습니다
+      - else
+        != body

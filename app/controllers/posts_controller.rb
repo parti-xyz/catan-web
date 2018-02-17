@@ -72,6 +72,8 @@ class PostsController < ApplicationController
 
       if conflict
         @post.wiki.conflicted_body = @post.wiki.body
+        @post.wiki.conflicted_title = @post.wiki.title
+        @post.wiki.title = @post.wiki.title_was
         @post.wiki.body = @post.wiki.body_was
         render :wiki
       elsif @post.save

@@ -155,6 +155,7 @@ Rails.application.routes.draw do
       get 'new_wiki'
     end
   end
+  resources 'wiki_histories'
   post 'feedbacks', to: 'feedbacks#create'
   resources :options
 
