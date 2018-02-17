@@ -141,7 +141,7 @@ ko:
         title: 찬반투표 제목
       post:
         body: 내용
-        decision: 결론
+        decision: 토론 정리
       survey:
         duration_days: 기간
     successful:
@@ -267,7 +267,7 @@ ko:
         closed: "마감"
     post:
       last_stroked_for:
-        decision: "%{user_word} 결론을 업데이트했습니다."
+        decision: "%{user_word} 게시글 토론을 정리했습니다."
         voting: "%{user_word} 투표했습니다."
         feedback: "%{user_word} 투표했습니다."
         option: "%{user_word} 새 제안을 올렸습니다."

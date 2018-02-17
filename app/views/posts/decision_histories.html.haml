@@ -5,7 +5,7 @@
     .wiki-history-page
       %h4.wiki-title
         = link_to @post.specific_desc_striped_tags(20), smart_post_url(@post)
-        결론 이력
+        토론 정리 이력
       %ul.list-unstyled.history-list
         = render @history_page
       = paginate @history_page, theme: 'catan'

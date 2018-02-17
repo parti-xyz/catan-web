@@ -10,9 +10,9 @@
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
     %strong
       %span
-        #{message.sender.nickname}님이 결론을
+        #{message.sender.nickname}님이 게시글 토론을
       %span
-        업데이트했습니다
+        정리했습니다
   = link_to message.action_params_hash["decision_body"].try(:truncate, 100), smart_post_url(post)
 - else
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }

@@ -2,7 +2,7 @@
 - if message.action.to_s == 'pinned'
   #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 게시글을 공지했습니다.
 - if message.action.to_s == 'decision'
-  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 결론을 업데이트했습니다.
+  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 게시글 토론을 정리했습니다.
 - else
   #{link_to post.user.nickname, smart_user_gallery_url(post.user)}님이 게시글에서 나를 언급했습니다
 
