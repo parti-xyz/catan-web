@@ -3,7 +3,7 @@
     .navbar-header.navbar-header-center
       %a.navbar-brand{ href: root_path }
         #{current_group.site_title}
-        = security_icon(current_group)
+        = meta_icons(current_group)
     %ul.nav.navbar-nav.navbar-left
       %li
         %a.btn-drawer-menu.js-slideout-toggle.cursor-pointer{ 'data-root-domain': root_domain }

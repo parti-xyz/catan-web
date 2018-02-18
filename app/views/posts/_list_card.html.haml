@@ -7,12 +7,12 @@
           %span.issue-and-group
             %span.issue-title
               = post.issue.title
-              = security_icon(post.issue)
+              = meta_icons(post.issue)
             - if post.issue.group != host_group
               \/
               %span.issue-group
                 = post.issue.group.title_basic_format
-                = security_icon(post.issue.group)
+                = meta_icons(post.issue.group)
 
           &nbsp;
           - created_at = post.try(:created_at)

@@ -16,7 +16,9 @@
     %ul#js-drawer-my-groups.sub.list-unstyled.collapse
       - current_user.member_groups.each do |group|
         %li.group-line
-          = link_to group.title_short_format, smart_group_url(group)
+          = link_to smart_group_url(group) do
+            = group.title_short_format
+            = meta_icons(group)
 
 - if Group.comprehensive_joined_by(current_user).any?
   - any_content = false
@@ -26,7 +28,7 @@
     %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
       .title
         = link_to (host_group.indie? ? indies_issues_url(subdomain: nil) : root_path) do
-          #{group_parties_section_title(host_group)}
+          #{group_my_parties_section_title(host_group)}
       %ul.sub.list-unstyled
         - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
           = render 'issues/issue_line', issue: issue
@@ -45,7 +47,7 @@
     %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
       .title
         = link_to smart_group_url(group), 'aria-label': only_mobile_app(request, "drawer-group-#{group.slug}") do
-          #{group_parties_section_title(group)}
+          #{group_my_parties_section_title(group)}
       %ul.sub.list-unstyled
         - current_user.member_issues.only_alive_of_group(group).each do |issue|
           = render 'issues/issue_line', issue: issue

@@ -11,7 +11,7 @@
               = link_to smart_issue_home_path_or_url(post.issue) do
                 %span.issue-title
                   = post.issue.title
-                  = security_icon(post.issue)
+                  = meta_icons(post.issue)
         %h4.poll-card__title
           %span.wrapper
             %span #{post.poll.title}
@@ -29,7 +29,7 @@
                   = link_to smart_issue_home_path_or_url(post.issue) do
                     %span.issue-title
                       = post.issue.title
-                      = security_icon(post.issue)
+                      = meta_icons(post.issue)
             = link_to post do
               %h4.survey-card__title
                 != post.body

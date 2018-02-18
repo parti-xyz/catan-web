@@ -25,11 +25,11 @@
           %h4.parti-title
             = link_to smart_issue_home_path_or_url(issue) do
               = issue.title
-              %small= security_icon(issue)
+              %small= meta_icons(issue)
         - else
           %h2.parti-title
             = issue.title
-            %small= security_icon(issue)
+            %small= meta_icons(issue)
             .parti-info.visible-xs-block
               = link_to smart_issue_members_path(issue) do
                 %span.parti-users-label 가입회원

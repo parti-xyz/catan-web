@@ -16,11 +16,11 @@
               - unless post.issue.displayable_group? current_group
                 %span.issue-group
                   = post.issue.group.title_basic_format
-                  = security_icon(post.issue.group)
+                  = meta_icons(post.issue.group)
                 \/
               %span.issue-title
                 = post.issue.title
-                = security_icon(post.issue)
+                = meta_icons(post.issue)
 
 
     - if post.private_blocked?(current_user)

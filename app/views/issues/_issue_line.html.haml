@@ -24,20 +24,20 @@
       .issue-line-body-wraper
         %a.span.issue-line__title{ href: smart_issue_home_path_or_url(issue), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}") }
           = issue.title
-          = security_icon(issue)
+          = meta_icons(issue, (['star', '오거나징하는 빠띠'] if issue.organized_by?(current_user)))
         - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds,  expires_in: 1.hours do
           %span.issue-line__meta
             - if issue.members.latest.count > 0
               .users-count
-                %i.fa.fa-user
+                %i.fa.fa-user(title='최근 가입한 멤버')
                 %b= issue.members.latest.count
             - if issue.posts.latest.count > 0
               .posts-count
-                %i.fa.fa-file-text
+                %i.fa.fa-file-text(title='최근 게시물')
                 %b= issue.posts.latest.count
             - if issue.comments.latest.count > 0
               .comments-count
-                %i.fa.fa-comment
+                %i.fa.fa-comment(title='최근 댓글')
                 %b= issue.comments.latest.count
         %span.after-block
           = after_block

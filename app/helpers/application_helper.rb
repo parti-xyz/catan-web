@@ -194,12 +194,19 @@ module ApplicationHelper
     result = HTML_Truncator.truncate(text, max_length, options.merge(length_in_chars: true))
   end
 
-  def security_icon(model)
-    return '' if !model.try(:private?) and !model.try(:notice_only?)
+  def meta_icons(model, *extras)
+    tags = []
+    tags << content_tag("i", '', class: ["fa", "fa-lock"], title: '비공개') if model.try(:private?)
+    tags << content_tag("i", '', class: ["fa", "fa-bullhorn"], title: '오거나이저만 게시') if model.try(:notice_only?)
+    extras.compact.each do |icon_name, title|
+      tags << content_tag("i", '', class: ["fa", "fa-#{icon_name}"], title: title)
+    end
+
+    return '' if tags.empty?
     content_tag :span do
-      concat content_tag("i", '', class: ["fa", "fa-lock"]) if model.try(:private?)
-      concat raw('&nbsp;') if model.try(:private?) and model.try(:notice_only?)
-      concat content_tag("i", '', class: ["fa", "fa-bullhorn"]) if model.try(:notice_only?)
+      tags.map { |tag| [tag, raw('&nbsp;')] }.flatten[0...-1].each do |tag|
+        concat tag
+      end
     end
   end
 
@@ -231,12 +238,13 @@ module ApplicationHelper
     )
   end
 
-  def group_parties_section_title(group)
+  def group_my_parties_section_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
       title = group.indie? ? "개인" : group.title_basic_format
       concat content_tag("span", title, class: ["group-title"])
-      s_icon = security_icon(group)
+      s_icon = meta_icons(group, (['star', '오거나이징하는 그룹'] if group.organized_by?(current_user)))
       if s_icon.present?
+        concat raw('&nbsp;')
         concat s_icon
         concat raw('&nbsp;')
       end
@@ -247,11 +255,24 @@ module ApplicationHelper
     end
   end
 
+  def group_parties_section_title(group)
+    content_tag :span, class: ["group-parties-section-title"] do
+      title = group.indie? ? "개인" : group.title_basic_format
+      concat content_tag("span", title, class: ["group-title"])
+      s_icon = meta_icons(group)
+      if s_icon.present?
+        concat s_icon
+        concat raw('&nbsp;')
+      end
+      concat content_tag("span", "#{Catan::SmartPostposition.new(title).adjust('이')} 오거나이징하는 빠띠", class: ["group-helptext"])
+    end
+  end
+
   def group_category_section_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
       title = group.indie? ? "개인" : group.title_basic_format
       concat content_tag("span", title, class: ["group-title"])
-      s_icon = security_icon(group)
+      s_icon = meta_icons(group)
       if s_icon.present?
         concat s_icon
         concat raw('&nbsp;')
