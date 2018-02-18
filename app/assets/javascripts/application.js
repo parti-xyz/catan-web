@@ -479,6 +479,56 @@ var parti_prepare = function($base) {
     });
   });
 
+  // mention
+  $.parti_apply($base, '.js-mention:hidden', function(elm) {
+    var $control = $($(elm).data('mention-form-control'));
+    if ($control.length > 0) {
+      $(elm).show();
+    }
+  });
+
+  $.parti_apply($base, '.js-mention', function(elm) {
+    var $elm = $(elm);
+    $elm.on('click', function(e) {
+      $.prevent_click_exclude_parti(e);
+      var $target = $(e.currentTarget);
+      var $control = $($target.data('mention-form-control'));
+      if ($control.length <= 0) {
+        return;
+      }
+
+      var adding = '';
+
+      var nickname = $target.data('mention-nickname');
+      if ($.is_present(nickname)) {
+        adding = '@' + nickname;
+      }
+
+      var text = $target.data('mention-text');
+      if ($.is_present(text)) {
+        adding += ' ' + text;
+      }
+
+      var original_value = $control.val();
+
+      if($.is_present(adding) && !$.is_blank(original_value)) {
+        var escaped_adding = $.escape_regexp(adding);
+        if(new RegExp('(^|\\s)' + escaped_adding + '($|\\s)').test(original_value)) {
+          adding = '';
+        }
+      }
+
+      if($.is_present(adding)) {
+        var adding = adding + ' ';
+      }
+      $control.val('');
+      $control.focus();
+      $control.val(adding + original_value);
+
+      autosize.update(document.querySelectorAll($target.data('mention-form-control')));
+    });
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 
@@ -534,52 +584,6 @@ $(function(){
         }
       }
     ]
-  });
-
-  // mention
-  $('.js-mention:hidden').each(function(index, elm) {
-    var $control = $($(elm).data('mention-form-control'));
-    if ($control.length > 0) {
-      $(elm).show();
-    }
-  });
-  $('.js-mention').on('click', function(e) {
-    $.prevent_click_exclude_parti(e);
-    var $target = $(e.currentTarget);
-    var $control = $($target.data('mention-form-control'));
-    if ($control.length <= 0) {
-      return;
-    }
-
-    var adding = '';
-
-    var nickname = $target.data('mention-nickname');
-    if ($.is_present(nickname)) {
-      adding = '@' + nickname;
-    }
-
-    var text = $target.data('mention-text');
-    if ($.is_present(text)) {
-      adding += ' ' + text;
-    }
-
-    var original_value = $control.val();
-
-    if($.is_present(adding) && !$.is_blank(original_value)) {
-      var escaped_adding = $.escape_regexp(adding);
-      if(new RegExp('(^|\\s)' + escaped_adding + '($|\\s)').test(original_value)) {
-        adding = '';
-      }
-    }
-
-    if($.is_present(adding)) {
-      var adding = adding + ' ';
-    }
-    $control.val('');
-    $control.focus();
-    $control.val(adding + original_value);
-
-    autosize.update(document.querySelectorAll($target.data('mention-form-control')));
   });
 
   // 빠띠 사이드바 hover 할때 가입 버튼 보이기
@@ -863,15 +867,6 @@ $(function(){
     listen_waypoint($('.js-page-waypoint'));
     load_page($('.js-page-waypoint-onload'));
   })();
-
-  $('[data-action="parti-home-slide"] a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-    var hash = $(e.target).attr('href');
-    var $containers = $($(e.target).data('slide-target'));
-    var $all_tab_panes = $($containers.find('.tab-pane'))
-    var $target_tab_panes = $($containers.find('.tab-pane' + hash))
-    $all_tab_panes.removeClass('active');
-    $target_tab_panes.addClass('active');
-  })
 
   if ( $('#wikis .body .wiki_content a').length ){
     $('#wikis .body .wiki_content a').attr('target', '_blank');

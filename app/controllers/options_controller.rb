@@ -28,6 +28,36 @@ class OptionsController < ApplicationController
     @option.destroy! if @option.user == current_user
   end
 
+  def cancel
+    @option = Option.find(params[:id])
+
+    survey = @option.survey
+    @post = Post.find_by survey: survey
+    if @post.blank? or @post.private_blocked?(current_user)
+      render_404 and return
+    end
+
+    if @option.user == current_user
+      @option.canceled_at = DateTime.now
+      @option.save
+    end
+  end
+
+  def reopen
+    @option = Option.find(params[:id])
+
+    survey = @option.survey
+    @post = Post.find_by survey: survey
+    if @post.blank? or @post.private_blocked?(current_user)
+      render_404 and return
+    end
+
+    if @option.user == current_user
+      @option.canceled_at = nil
+      @option.save
+    end
+  end
+
   private
 
   def options_params

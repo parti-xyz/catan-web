@@ -11,11 +11,14 @@
         - else
           .checkbox-btn
             - if post.survey.open?
-              = link_to feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post do
-                - if option.selected?(current_user)
-                  %i.fa.active{ class:  class_check }
-                - else
-                  %i.fa{ class:  class_check }
+              - if !option.canceled?
+                = link_to feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post do
+                  - if option.selected?(current_user)
+                    %i.fa.active{ class:  class_check }
+                  - else
+                    %i.fa{ class:  class_check }
+              - else
+                %span.closed
             - else
               %span.closed
                 - if option.selected?(current_user)
@@ -24,18 +27,23 @@
           - if post.survey.visible_feedbacks?(current_user)
             - option_body = capture do
               %span.text-basic-wrap.chart__label= option.body
-            - if post.survey.open?
+            - if post.survey.open? and !option.canceled?
               = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
             - else
-              = option_body
+              - if option.canceled?
+                %del= option_body
+              - else
+                = option_body
             %span.meta-wrapper<
               - if option.feedbacks_count > 0
                 %span.count.text-nowrap.cursor-pointer.meta{ data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-0", trigger: 'hover', placement: popover_placement } }<> #{option.feedbacks_count}명
                 - if post.survey.mvp_option?(option)
                   %span.mvp.text-nowrap.meta<> 최다득표
+              - if option.canceled?
+                %span.canceled.text-nowrap.meta<> 제안철회
               %span.commenting.text-nowrap.cursor-pointer.js-mention.collapse.meta.action-button{ data: { mention_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': option.user.nickname, 'mention-text': "제안 '#{option.body}'" } }<> 댓글달기
             .chart{ style: 'position: relative;', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-1", trigger: 'hover', placement: popover_placement } }
-              .chart__bar{ style: "height: 100%; width: #{post.survey.percentage(option)}%" }
+              .chart__bar{ class: ('chart__bar-canceled' if option.canceled?), style: "height: 100%; width: #{post.survey.percentage(option)}%" }
             .webui-popover-content
               - 2.times do |i|
                 .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-#{i}"}
@@ -52,14 +60,20 @@
               %span.cursor-pointer{ data: { toggle: 'parti-login-overlay', 'no-parti-link': 'no' } }
                 = option.body
             - else
-
-              - if post.survey.open?
+              - if post.survey.open? and !option.canceled?
                 = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
               - else
-                = option_body
+                - if option.canceled?
+                  %del= option_body
+                - else
+                  = option_body
         .feedbacks-count
           - if can? :destroy, option
             = link_to '삭제', option, method: :delete, remote: true, 'data-confirm': '정말 삭제하시겠습니까?', class: "btn"
+          - if can? :cancel, option
+            = link_to '제안철회', [:cancel, option], method: :put, remote: true, 'data-confirm': '정말 철회하시겠습니까?', class: "btn"
+          - if can? :reopen, option
+            = link_to '제안재개', [:reopen, option], method: :put, remote: true, 'data-confirm': '정말 재개하시겠습니까?', class: "btn"
     - if post.survey.options.blank?
       - if post.survey.open? and post.issue.member?(current_user)
         .help-block

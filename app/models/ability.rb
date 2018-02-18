@@ -41,6 +41,12 @@ class Ability
       can :destroy, Option do |option|
         option.user == user and option.feedbacks_count == 0 and option.survey.open?
       end
+      can :reopen, Option do |option|
+        option.user == user and option.canceled?
+      end
+      can :cancel, Option do |option|
+        option.user == user and option.feedbacks_count != 0 and option.survey.open? and !option.canceled?
+      end
       can :destroy, Invitation do |invitation|
         invitation.joinable.organized_by? user
       end

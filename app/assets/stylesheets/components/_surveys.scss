@@ -120,6 +120,9 @@
           border-top-left-radius: 4px;
           border-bottom-left-radius: 4px;
           background-color: $brand-primary-light;
+          &-canceled {
+            background-color: $gray-lighter;
+          }
         }
 
         .chart__label {

@@ -22,6 +22,10 @@ class Option < ActiveRecord::Base
     feedbacks.exists? user: someone
   end
 
+  def canceled?
+    canceled_at.present?
+  end
+
   def post_for_message
     survey.post
   end

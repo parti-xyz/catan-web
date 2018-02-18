@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204101515) do
+ActiveRecord::Schema.define(version: 20180218124107) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -396,6 +396,7 @@ ActiveRecord::Schema.define(version: 20180204101515) do
     t.datetime "updated_at",                                   null: false
     t.integer  "feedbacks_count", limit: 4,        default: 0
     t.integer  "user_id",         limit: 4,                    null: false
+    t.datetime "canceled_at"
   end
 
   add_index "options", ["survey_id"], name: "index_options_on_survey_id", using: :btree

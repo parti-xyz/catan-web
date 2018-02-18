@@ -157,7 +157,12 @@ Rails.application.routes.draw do
   end
   resources 'wiki_histories'
   post 'feedbacks', to: 'feedbacks#create'
-  resources :options
+  resources :options do
+    member do
+      put :cancel
+      put :reopen
+    end
+  end
 
   resources :polls do
     shallow do
