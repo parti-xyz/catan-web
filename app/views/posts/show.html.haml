@@ -11,14 +11,37 @@
                 = t('labels.post_blind_info')
           - else
             = render @post, mode: 'detail', additional_buttons_partial: 'posts/modal_buttons'
-        .another-post
-          - anothers = @post.issue.not_blind_hottest_posts(10, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }
-          - if anothers.empty?
-            - anothers = @post.issue.not_blind_recent_posts(20, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }
-          - if anothers.any?
-            %p.title
-              %strong #{@post.issue.title}
-              빠띠의 다른글
-              = render 'posts/card', post: anothers.sample(1).first
+        - if !@post.issue.frozen?
+          .another-post
+            - anothers = @post.issue.not_blind_hottest_posts(10, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }
+            - if anothers.empty?
+              - anothers = @post.issue.not_blind_recent_posts(20, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }
+            - if anothers.any?
+              %h5
+                = link_to smart_issue_home_url(@post.issue) do
+                  %span.text-primary #{@post.issue.title}
+                  빠띠의 다른 게시글
+                  %small.text-muted
+                    더 보기
+                    %i.fa.fa-angle-double-right
+              - another_blocks = anothers.sample(3).map do |post|
+                - capture do
+                  = render 'posts/card', post: post
+              - intro = capture do
+                .post-card{ style: "border-color: #ded2f2; border-width: 4px;" }
+                  .post-card__post
+                    = link_to smart_issue_home_url(@post.issue) do
+                      %p
+                        %strong
+                          %span.text-primary #{@post.issue.title}
+                          빠띠는?
+                        %small.text-muted
+                          자세히 보기
+                          %i.fa.fa-angle-double-right
+                      %div
+                        = @post.issue.body
+              - another_blocks.insert(1, intro)
+              - another_blocks.each do |block|
+                != block
       - unless is_small_screen?
         = render 'issues/aside'
