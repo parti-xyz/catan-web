@@ -28,15 +28,14 @@
               = link_to option_body, feedbacks_path(post_id: post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post
             - else
               = option_body
-            - if option.feedbacks_count > 0
-              %span.count.text-nowrap.cursor-pointer{ data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-0", trigger: 'hover', placement: popover_placement } } #{option.feedbacks_count}명
-            - if post.survey.mvp_option?(option)
+            %span.meta-wrapper<
               - if option.feedbacks_count > 0
-                &middot;
-              %span.mvp.text-nowrap<>
-                최다득표
+                %span.count.text-nowrap.cursor-pointer.meta{ data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-0", trigger: 'hover', placement: popover_placement } }<> #{option.feedbacks_count}명
+                - if post.survey.mvp_option?(option)
+                  %span.mvp.text-nowrap.meta<> 최다득표
+              %span.commenting.text-nowrap.cursor-pointer.js-mention.collapse.meta.action-button{ data: { mention_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': option.user.nickname, 'mention-text': "제안 '#{option.body}'" } }<> 댓글달기
             .chart{ style: 'position: relative;', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-1", trigger: 'hover', placement: popover_placement } }
-              .chart__bar{ style: "height: 100%; width: #{post.survey.percentage(option)}%"}
+              .chart__bar{ style: "height: 100%; width: #{post.survey.percentage(option)}%" }
             .webui-popover-content
               - 2.times do |i|
                 .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-#{i}"}

@@ -64,7 +64,7 @@ section#references {
     float: left;
     text-align: left;
     a {
-      color: #aaaaaf;
+      color: $gray-a;
       font-size: $font-size-small;
       text-overflow: ellipsis;
     }
@@ -127,7 +127,7 @@ section#references {
     }
     .source-url,
     .more {
-      color: #aaaaaf;
+      color: $gray-a;
       font-size: $font-size-small;
       text-overflow: ellipsis;
       font-weight: normal;

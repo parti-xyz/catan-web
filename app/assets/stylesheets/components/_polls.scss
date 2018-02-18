@@ -45,7 +45,7 @@
     float: left;
     text-align: left;
     a {
-      color: #aaaaaf;
+      color: $gray-a;
       font-size: $font-size-small;
       text-overflow: ellipsis;
     }
@@ -134,7 +134,7 @@
     text-decoration: underline;
     margin-top: 12px;
     a {
-      color: #aaaaaf;
+      color: $gray-a;
     }
   }
   .text-muted {

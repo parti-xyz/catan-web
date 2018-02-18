@@ -70,10 +70,16 @@
         input {
           width: 100%;
         }
-        .count,
-        .mvp {
-          color: $brand-primary;
+        .meta {
+          color: $gray-a;
           font-size: $font-size-small;
+          &.action-button {
+            color: $brand-primary;
+          }
+        }
+        .meta + .meta:before {
+          content:"\00a0\00b7\00a0";
+          color: $gray-a;
         }
       }
       .feedbacks-count {
@@ -188,7 +194,7 @@
     float: left;
     text-align: left;
     a {
-      color: #aaaaaf;
+      color: $gray-a;
       font-size: $font-size-small;
       text-overflow: ellipsis;
     }

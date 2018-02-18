@@ -51,29 +51,6 @@ lightbox.option({
   maxWidth: 500
 })
 
-$('.slick-slider').slick({
-  slidesToShow: 5,
-  slidesToScroll: 5,
-  nextArrow: '<span class="slick-custom-next"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-right fa-stack-1x"></i></span></span>',
-  prevArrow: '<span class="slick-custom-prev"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-left fa-stack-1x"></i></span></span>',
-  responsive: [
-    {
-      breakpoint: 960,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 3
-      }
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1
-      }
-    }
-  ]
-});
-
 // blank
 $.is_blank = function (obj) {
   if (!obj || $.trim(obj) === "") return true;
@@ -89,12 +66,8 @@ $.is_present = function(obj) {
   return ! $.is_blank(obj);
 }
 
-$.parseDiv$ = function(str) {
-  return $($.parseHTML('<div>' + $.trim(str) + '</div>'));
-}
-
-$.parse$ = function(str) {
-  return $($.parseHTML($.trim(str)));
+$.escape_regexp = function(str) {
+  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
 $.prevent_click_exclude_parti = function(e) {
@@ -428,21 +401,6 @@ var parti_prepare = function($base) {
     autosize($(elm));
   });
 
-  // mention
-  $.parti_apply($base, '[data-action="parti-mention"]', function(elm) {
-    $(elm).on('click', function(e) {
-      $.prevent_click_exclude_parti(e);
-      var $target = $(e.currentTarget);
-      var $control = $($target.data('mention-form-control'));
-      var nickname = $target.data('mention-nickname');
-      var value = $control.val();
-      if(nickname) {
-        $control.val('@' + nickname + ' ' + value);
-      }
-      $control.focus();
-    });
-  });
-
   // cancel form on blur
   $.parti_apply($base, '[data-action="parti-cancel-form-on-blur"]', function(elm) {
     var $elm = $(elm);
@@ -554,6 +512,75 @@ var parti_ellipsis = function($partial) {
 $(function(){
   parti_prepare($('body'));
   parti_ellipsis($('body'));
+
+  $('.slick-slider').slick({
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    nextArrow: '<span class="slick-custom-next"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-right fa-stack-1x"></i></span></span>',
+    prevArrow: '<span class="slick-custom-prev"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-left fa-stack-1x"></i></span></span>',
+    responsive: [
+      {
+        breakpoint: 960,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  });
+
+  // mention
+  $('.js-mention:hidden').each(function(index, elm) {
+    var $control = $($(elm).data('mention-form-control'));
+    if ($control.length > 0) {
+      $(elm).show();
+    }
+  });
+  $('.js-mention').on('click', function(e) {
+    $.prevent_click_exclude_parti(e);
+    var $target = $(e.currentTarget);
+    var $control = $($target.data('mention-form-control'));
+    if ($control.length <= 0) {
+      return;
+    }
+
+    var adding = '';
+
+    var nickname = $target.data('mention-nickname');
+    if ($.is_present(nickname)) {
+      adding = '@' + nickname;
+    }
+
+    var text = $target.data('mention-text');
+    if ($.is_present(text)) {
+      adding += ' ' + text;
+    }
+
+    var original_value = $control.val();
+
+    if($.is_present(adding) && !$.is_blank(original_value)) {
+      var escaped_adding = $.escape_regexp(adding);
+      if(new RegExp('(^|\\s)' + escaped_adding + '($|\\s)').test(original_value)) {
+        adding = '';
+      }
+    }
+
+    if($.is_present(adding)) {
+      var adding = adding + ' ';
+    }
+    $control.val('');
+    $control.focus();
+    $control.val(adding + original_value);
+
+    autosize.update(document.querySelectorAll($target.data('mention-form-control')));
+  });
 
   // 빠띠 사이드바 hover 할때 가입 버튼 보이기
   $('.js-issue-line-hover').on('mouseenter', function(elm) {
