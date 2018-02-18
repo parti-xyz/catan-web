@@ -555,27 +555,6 @@
     font-weight: bold;
     text-decoration: underline;
   }
-  .btn-editor {
-    margin-top: 25px;
-    .btn-primary {
-      padding: 10px 35px;
-      width: 160px;
-      text-align: center;
-      border-radius: 50px;
-      margin-left: 10px;
-    }
-    .btn-default {
-      padding: 10px 9px;
-      border-radius: 50px;
-      font-size: 14px;
-      font-weight: normal;
-      text-decoration: none;
-    }
-  }
-  textarea {
-    min-height: 150px;
-    color: $gray;
-  }
 }
 
 @media (max-width: $screen-xs-max) {
