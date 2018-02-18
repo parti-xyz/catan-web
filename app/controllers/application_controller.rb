@@ -162,7 +162,7 @@ class ApplicationController < ActionController::Base
     #랜딩 페이지를 볼 떄는 랜딩 페이지를 저장하게 하자.
     #비로그인 회원이 랜딩페이지를 볼때는 랜딩페이지가 / 인데
     #로그인 후에는 /discover 로 바꿔야 하는. discover_root_path
-    if !user_signed_in? and request.fullpath.match("/") and current_group.nil?
+    if !user_signed_in? and request.fullpath == "/" and current_group.nil?
       store_location_force(discover_url(subdomain: nil))
     else
       store_location(current_group)
