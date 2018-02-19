@@ -1,3 +1,8 @@
+body.mce-content-body {
+  width: 95vw;
+  padding: 2.5vw;
+}
+
 .mce-content-body {
   h1 {
   font-size: $font-size-base * 1.4;
@@ -12,6 +17,7 @@
   ul {
     padding-left: 24px;
   }
+
 
   outline: none;
   min-height: 100px;

@@ -9,7 +9,7 @@
         = f.hidden_field :has_survey, value: false
 
         .form-group.textarea-box
-          .js-tinymce{ id: "post[body]", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content', subdomain: nil) }
+          .js-tinymce{ id: "post[body]", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
           = f.hidden_field :body, class: 'validate', data: { 'rule-required': true }
 
           = f.hidden_field :is_html_body, value: true

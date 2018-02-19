@@ -5,7 +5,7 @@
 
     .form-group
       = f.label :body
-      .js-tinymce.form-control.form-control-tinymce{ id: "post[body]",  class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content', subdomain: nil) }
+      .js-tinymce.form-control.form-control-tinymce{ id: "post[body]",  class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
         != @post.body
       = f.hidden_field :body, class: 'validate', data: { 'rule-required': true }
       = f.hidden_field :is_html_body, value: true
