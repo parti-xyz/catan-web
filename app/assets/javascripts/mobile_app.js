@@ -13,8 +13,11 @@ var ufo = (function() {
             'setAutoWait': function(s) {
                 handler.postMessage({'method':'setAutoWait', 'arg0':(s?'1':'')});
             },
-            'addOnlineUrl': function(s) {
-                handler.postMessage({'method':'addOnlineUrl', 'arg0':s});
+            'changeCurrentUrl': function(s) {
+                handler.postMessage({'method':'changeCurrentUrl', 'arg0':s});
+            },
+            'changeBasePageUrl': function(s) {
+                handler.postMessage({'method':'changeBasePageUrl', 'arg0':s});
             },
             'goBack': function() {
                 handler.postMessage({'method':'goBack'});
@@ -47,8 +50,11 @@ var ufo = (function() {
             "goBack": function() {
                 console.log("goBack()");
             },
-            'addOnlineUrl': function(s) {
-                console.log("addOnlineUrl()");
+            'changeCurrentUrl': function(s) {
+                console.log("changeCurrentUrl()");
+            },
+            'changeBasePageUrl': function(s) {
+                console.log("changeBasePageUrl()");
             },
             'canGoBack': function() {
                 console.log("canGoBack()");

@@ -226,15 +226,17 @@ module ApplicationHelper
 
   def history_backable_in_mobile_app?
     return false unless is_mobile_app_get_request?(request)
+    return false if history_base_page_in_mobile_app?
+    !controller_path.start_with?('mobile_app/')
+  end
 
-    !(
-      controller_path.start_with?('mobile_app/') or
+  def history_base_page_in_mobile_app?
+    return false unless is_mobile_app_get_request?(request)
+    (
       (request.params[:controller] == 'pages' and request.params[:action] == 'discover') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
-      (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
       (request.params[:controller] == 'issues' and request.params[:action] == 'home') or
-      (request.params[:controller] == 'issues' and request.params[:action] == 'slug_home') or
-      (request.params[:controller] == 'messages' and request.params[:action] == 'index')
+      (request.params[:controller] == 'issues' and request.params[:action] == 'slug_home')
     )
   end
 
