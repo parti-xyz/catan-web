@@ -576,10 +576,14 @@ strong.upvoted {
 .another-post {
   margin-top: 48px;
   @media (max-width: $screen-xs-max) {
-    & > p.title {
-      margin-left: 12px;
-      margin-right: 12px;
+    .title {
+      margin-left: 18px;
+      margin-right: 18px;
     }
+  }
+  .post-card-for-parti {
+    border-width: 0;
+    background-color: $brand-primary-lighter;
   }
 }
 

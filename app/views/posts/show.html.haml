@@ -17,7 +17,7 @@
             - if anothers.empty?
               - anothers = @post.issue.not_blind_recent_posts(20, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }
             - if anothers.any?
-              %h5
+              %h5.title
                 = link_to smart_issue_home_url(@post.issue) do
                   %span.text-primary #{@post.issue.title}
                   빠띠의 다른 게시글
@@ -28,12 +28,12 @@
                 - capture do
                   = render 'posts/card', post: post
               - intro = capture do
-                .post-card{ style: "border-color: #ded2f2; border-width: 4px;" }
+                .post-card.post-card-for-parti
                   .post-card__post
                     = link_to smart_issue_home_url(@post.issue) do
                       %p
                         %strong
-                          %span.text-primary #{@post.issue.title}
+                          %span.text-primary-dark #{@post.issue.title}
                           빠띠는?
                         %small.text-muted
                           자세히 보기
