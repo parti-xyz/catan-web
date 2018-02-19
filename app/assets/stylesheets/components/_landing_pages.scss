@@ -94,6 +94,9 @@ section#landing-page{
       border-radius: 0px;
       margin-bottom: 28px;
       height: 250px;
+      &.survey {
+        height: auto;
+      }
       @media (max-width: $screen-xs-max) {
         margin-bottom: 14px;
         height: 100%;
@@ -141,13 +144,6 @@ section#landing-page{
     .survey-card {
       &__title {
         font-size: $font-size-medium;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 7;
-        -webkit-box-orient: vertical;
-        line-height: 1.4em;
-        max-height: 9.8em;
         word-break: keep-all;
         overflow-wrap: break-word;
       }

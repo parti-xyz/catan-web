@@ -1,4 +1,4 @@
-.post-card.cursor-pointer{class: "#{dom_id(post)}", 'data-action': "parti-link", 'data-url': smart_post_path_or_url(post) }
+.post-card.cursor-pointer{class: "#{dom_id(post)} #{('survey' if post.survey.present?)}", 'data-action': "parti-link", 'data-url': smart_post_path_or_url(post) }
   .post-card__content
     .post-card__post
       - if post.poll.present?
@@ -32,7 +32,7 @@
                       = meta_icons(post.issue)
             = link_to post do
               %h4.survey-card__title
-                != post.body
+                != smart_truncate_html(post.body, length: 100, offset: 0, ellipsis: "...")
           .col-md-6
             - popover_placement = is_small_screen? ? 'auto' : 'right'
             - class_check = post.survey.multiple_select? ? 'fa-check-square-o' : 'fa-check-circle-o'
