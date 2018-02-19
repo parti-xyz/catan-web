@@ -13,6 +13,16 @@ section#comments {
 .comment-line {
   padding: $font-size-base*0.5 0;
   position: relative;
+
+  .comment-user {
+    padding-top: 4px;
+    width: 40px;
+    float: left;
+  }
+  .comment-content {
+    margin-left: 40px;
+  }
+
   &.post-card__comment-form {
     padding-right: 0;
   }
@@ -24,9 +34,6 @@ section#comments {
   }
   &:last-child {
     border-bottom: none;
-  }
-  .media-left {
-    padding-top: 4px;
   }
   .user-image {
     width: 30px;
@@ -42,7 +49,7 @@ section#comments {
     color: $gray;
     padding: 8px 12px;
     margin-bottom: 4px;
-    word-break: keep-all;
+    @include word-wrap();
     &--agree > span:before {
       content: '\f164  찬성 ';
       font-family: "FontAwesome";

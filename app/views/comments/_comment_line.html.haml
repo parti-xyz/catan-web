@@ -1,9 +1,9 @@
 .comment-line{class: dom_id(comment)}
-  .media
-    .media-left
+  .clearfix
+    .comment-user
       = link_to smart_user_gallery_path(comment.user) do
         .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
-    .media-body
+    .comment-content
       .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
         = render 'comments/body', local_assigns
       .footer
@@ -16,7 +16,6 @@
           = render 'upvotes/upvote_count', upvotable: comment
 
         %span.date-wrapper= date_f comment.created_at
-
 
         - if can? :update, comment
           = link_to edit_comment_path(comment), remote: true, class: 'link-edit' do
