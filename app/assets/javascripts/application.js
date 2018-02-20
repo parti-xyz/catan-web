@@ -247,20 +247,39 @@ var parti_prepare = function($base) {
     });
   });
 
-  $.parti_apply($base, '[data-action="parti-popover"]', function(elm) {
-    var options = {};
-    var style = $(elm).data('style');
-    if(style) {
-      options['style'] = style;
+  (function() {
+    var setup_webui_popover = function(elm) {
+      var options = {};
+      var style = $(elm).data('style');
+      if(style) {
+        options['style'] = style;
+      }
+
+      var backdrop = $(elm).data('backdrop');
+      if(backdrop) {
+        options['backdrop'] = backdrop;
+      }
+
+      $(elm).webuiPopover(options);
     }
 
-    var backdrop = $(elm).data('backdrop');
-    if(backdrop) {
-      options['backdrop'] = backdrop;
-    }
+    $.parti_apply($base, '[data-action="parti-share-popover"]', function(elm) {
+      if(ufo.isApp()) {
+        $(elm).on('click', function(e) {
+          $.prevent_click_exclude_parti(e);
 
-    $(elm).webuiPopover(options);
-  });
+          var $elm = $(e.currentTarget);
+          var shareUrl = $elm.data('share-url');
+          var shareText = $elm.data('share-text');
+          ufo.post("share", { text: shareUrl + ' ' + shareText });
+        });
+      } else {
+        setup_webui_popover(elm);
+      }
+    });
+
+    $.parti_apply($base, '[data-action="parti-popover"]', setup_webui_popover);
+  })();
 
   //hide
   $.parti_apply($base, '[data-action="parti-hide"]', function(elm) {

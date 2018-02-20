@@ -52,12 +52,13 @@
                   %i.fa.fa-user-plus
                   초대
               - if !issue.private and !issue.group.private?
-                %span.parti-admin-button.cursor-pointer{"data-url": "#advert-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "auto-bottom", "data-trigger": "click"}
+                - share_content = { 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
+                %span.parti-admin-button.cursor-pointer{ data: { url: "#advert-info-#{dom_id(issue)}", action: "parti-share-popover", placement: "auto-bottom", data: "click" }.merge(share_content) }
                   %i.fa.fa-share-alt
                   공유
                   .hidden
                     .advert-info{id: "advert-info-#{dom_id(issue)}"}
-                      = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share', 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
+                      = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share' }.merge(share_content)
               = render 'issues/header_buttons', issue: issue
               - if issue.telegram_link.present?
                 %span.parti-telegram-button
