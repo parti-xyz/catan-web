@@ -11,20 +11,51 @@ class ScoreJob
 
   def for_post
     result = Comment.past_week.group(:post_id).count
-    Upvote.past_week.where(upvotable_type:'Post').group(:upvotable_id).count.each do |post_id, upvotes_counts|
-      result[post_id] = (result[post_id] || 0) + upvotes_counts
+
+    # 여러번해도 같은 무게를 가진 액션
+    DecisionHistory.past_week.group(:post_id).count.each do |post_id, _|
+      result[post_id] = (result[post_id] || 0) + 1
     end
 
-    Voting.past_week.group(:poll_id).count.each do |poll_id, votes_counts|
+    # 가벼운 액션
+    Upvote.past_week.where(upvotable_type:'Post').group(:upvotable_id).count.each do |post_id, upvote_count|
+      result[post_id] = (result[post_id] || 0) + (upvote_count*0.1).ceil
+    end
+
+    Voting.past_week.group(:poll_id).count.each do |poll_id, voting_count|
       post = Post.find_by poll_id: poll_id
       next if post.blank?
-      result[post.id] = (result[post.id] || 0) + votes_counts
+      result[post.id] = (result[post.id] || 0) + (voting_count*0.1).ceil
     end
+
+    Feedback.past_week.group(:survey_id).count.each do |survey_id, feedback_count|
+      post = Post.find_by survey_id: survey_id
+      next if post.blank?
+      result[post.id] = (result[post.id] || 0) + (feedback_count*0.1).ceil
+    end
+
+    # 꽤 적극적인 액션
+    Option.past_week.group(:survey_id).count.each do |survey_id, option_count|
+      post = Post.find_by survey_id: survey_id
+      next if post.blank?
+      result[post.id] = (result[post.id] || 0) + (option_count*0.2).ceil
+    end
+
+    # 많이 적극적인 액션
+    WikiHistory.past_week.group(:wiki_id).count.each do |wiki_id, wikihistory_count|
+      post = Post.find_by wiki_id: wiki_id
+      next if post.blank?
+      result[post.id] = (result[post.id] || 0) + (wikihistory_count*0.5).ceil
+    end
+
+
 
     result.each do |post_id, recommend_score|
       post = Post.find post_id
       post.update_columns(recommend_score: recommend_score, recommend_score_datestamp: Date.today.strftime('%Y%m%d'))
     end
+
+
   end
 
   def for_issue
