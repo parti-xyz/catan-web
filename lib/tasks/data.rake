@@ -164,6 +164,13 @@ namespace :data do
         head_title: 'BLU',
         private: false)
 
+      seed_group(user, 'zero-waste', ['씽, 그림'],
+        title: '쓰레기덕질',
+        site_title: '쓰레기덕후의 가상마을 - 쓰레기덕질',
+        site_description: "쓰레기 줄이기에 관심이 있으세요? 쓰레기덕후 가상마을에서 같이 할래요?",
+        head_title: '쓰레기덕질',
+        private: false)
+
 
       Issue.where(group_slug: 'duckup').update_all(group_slug: 'indie')
       GroupDestroyService.new('duckup').call
