@@ -24,7 +24,7 @@
 
     %ul.nav.navbar-nav.navbar-left
       - if history_backable_in_mobile_app?
-        %li.history-back.js-btn-history-back-in-mobile-app
+        %li.history-back.js-btn-history-back-in-mobile-app{ data: { 'back-to-url': fixed_history_back_url_in_mobile_app } }
           %a.js-history-back{ href: "#", 'aria-label': only_mobile_app(request, 'header-back') }
             %i.fa.fa-chevron-left
             뒤로

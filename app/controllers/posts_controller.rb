@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :wiki, :poll_social_card, :survey_social_card, :modal]
   load_and_authorize_resource
+  before_action :set_current_history_back_post
 
   def index
     redirect_to root_path
@@ -297,5 +298,15 @@ class PostsController < ApplicationController
     return if member.blank?
 
     post.readers.find_or_create_by(member: member)
+  end
+
+  def set_current_history_back_post
+    @current_history_back_post = @post
+  end
+
+  def fixed_history_back_url_in_mobile_app
+    if !%w(index show wiki).include?(action_name)
+      smart_post_url(@post)
+    end
   end
 end

@@ -230,16 +230,6 @@ module ApplicationHelper
     !controller_path.start_with?('mobile_app/')
   end
 
-  def history_base_page_in_mobile_app?
-    return false unless is_mobile_app_get_request?(request)
-    (
-      (request.params[:controller] == 'pages' and request.params[:action] == 'discover') or
-      (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
-      (request.params[:controller] == 'issues' and request.params[:action] == 'home') or
-      (request.params[:controller] == 'issues' and request.params[:action] == 'slug_home')
-    )
-  end
-
   def group_my_parties_section_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
       title = group.indie? ? "개인" : group.title_basic_format

@@ -35,6 +35,7 @@ class WikisController < ApplicationController
   def histories
     render_404 and return if @wiki.blank?
     @history_page = @wiki.wiki_histories.recent.page params[:page]
+    @current_history_back_post = @wiki.post
   end
 
   private
@@ -43,5 +44,11 @@ class WikisController < ApplicationController
     @post ||= Post.find_by id: params[:id]
     @post = nil if @post.private_blocked?(current_user)
     @wiki ||= @post.try(:wiki)
+  end
+
+  def fixed_history_back_url_in_mobile_app
+    if action_name == 'histories'
+      smart_wiki_url(@wiki)
+    end
   end
 end
