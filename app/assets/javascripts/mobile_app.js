@@ -39,31 +39,23 @@ var ufo = (function() {
         // 테스트 완료 후 console.log 지워주세요.
         return {
             "showWait": function() {
-                console.log("showWait()");
             },
             "hideWait": function() {
-                console.log("hideWait()");
             },
             "setAutoWait": function(s) {
-                console.log("setAutoWait(%s)",s);
             },
             "goBack": function() {
-                console.log("goBack()");
             },
             'changeCurrentUrl': function(s) {
-                console.log("changeCurrentUrl()");
             },
             'changeBasePageUrl': function(s) {
-                console.log("changeBasePageUrl()");
             },
             'canGoBack': function() {
-                console.log("canGoBack()");
             },
             'callback': {
                 'canGoBack': function(canGoBack) {}
             },
             "post": function(action,json) {
-                console.log("UfoPost(%s,%s)", action, JSON.stringify(json));
             },
             'isApp': function() { return false; },
         };
