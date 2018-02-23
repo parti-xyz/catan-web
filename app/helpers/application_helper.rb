@@ -285,4 +285,42 @@ module ApplicationHelper
   def root_domain
     URI(root_url(subdomain: nil)).host
   end
+
+  def render_group_only_exist(path)
+    return if host_group.blank? and path.blank?
+
+    subpath = to_subpath(path)
+    if exists_group_partial?(subpath)
+      render "group_views/#{host_group.slug}#{subpath}"
+    end
+  end
+
+  def render_group(path)
+    return if host_group.blank? and path.blank?
+
+    subpath = to_subpath(path)
+    if exists_group_partial?(subpath)
+      render "group_views/#{host_group.slug}#{subpath}"
+    else
+      path
+    end
+  end
+
+  private
+
+  def to_subpath(path)
+    return path if path.blank?
+    (path[0] == '/' ? path : "/#{path}")
+  end
+
+  def partial_lookup_path(path)
+    items = path.split('/')
+    items[-1] = "_#{items[-1]}"
+    items.join('/')
+  end
+
+  def exists_group_partial?(path)
+    return false if host_group.blank?
+    lookup_context.exists?("group_views/#{host_group.slug}/#{partial_lookup_path(path)}")
+  end
 end

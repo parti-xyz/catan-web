@@ -11,8 +11,7 @@
         = image_tag bg_path, style: "width: 100%"
       - break
 
-  - if lookup_context.exists?("issues/#{host_group.slug}/_key_page")
-    = render "issues/#{host_group.slug}/key_page"
+  = render_group_only_exist "key_page"
 
 - paging = (!@posts.nil? and @posts.try(:current_page).present?)
 - is_first_page_in_paging = (paging and @posts.first_page?)
@@ -34,10 +33,7 @@
             - if user_signed_in?
               %button.btn.btn-md.btn-primary{"data-toggle": "modal", "data-target": "#join-modal"}
                 가입 신청하기
-              - if File.exist? "app/views/group/#{current_group.slug}/issues/_join_group_modal.html.haml"
-                = render "group/#{current_group.slug}/issues/join_group_modal"
-              - else
-                = render "issues/join_group_modal"
+              = render_group "issues/join_group_modal"
             - else
               = link_to '가입하기', '#', data: {toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.id}.to_json) }, class: 'btn btn-md btn-primary'
 - else
