@@ -12,5 +12,110 @@
   > .mce-toolbar.mce-stack-layout-item {
     float: left;
   }
+}
 
+.mce-tinymce.mce-container.mce-panel {
+  .tinymce-catan-link-opener  {
+    height: 24px;
+    background-color: white;
+    padding: 8px;
+    border-top: 1px solid $gray-light;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+    i.fa {
+      font-family: 'FontAwesome';
+      line-height: 24px;
+    }
+    a {
+      line-height: 24px;
+    }
+  }
+}
+
+
+@media only screen and (max-device-width: 549px) {
+  .mce-window {
+    width: auto !important;
+    height: initial !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: white !important;
+
+    .mce-window-head {
+      background: #fff !important;
+    }
+
+    .mce-window-body {
+      background: #fff !important;
+    }
+
+    .mce-foot {
+      border-width: 0 !important;
+      & > .mce-container-body {
+        padding: 10px !important;
+      }
+    }
+
+    .mce-panel {
+      max-width: 100% !important;
+    }
+
+    .mce-container {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+
+    .mce-container-body {
+      max-width: 100% !important;
+      height: auto !important;
+    }
+
+    .mce-form {
+      padding: 10px !important;
+    }
+
+    .mce-tabs {
+      max-width: 100% !important;
+    }
+
+    .mce-formitem {
+      margin: 10px 0 !important;
+    }
+
+    .mce-btn + .mce-btn {
+      margin-left: 10px;
+    }
+
+    .mce-abs-layout-item {
+      position: static !important;
+      width: auto !important;
+    }
+
+    .mce-abs-layout-item.mce-label {
+      display: block !important;
+    }
+
+    .mce-abs-layout-item.mce-textbox {
+      -webkit-box-sizing: border-box !important;
+      -moz-box-sizing: border-box !important;
+      box-sizing: border-box !important;
+      display: block !important;
+      width: 100% !important;
+    }
+
+    .mce-abs-layout-item.mce-combobox {
+      display: flex !important;
+    }
+
+    .mce-abs-layout-item.mce-combobox > .mce-textbox {
+      -ms-flex: 1 1 auto;
+      -webkit-flex: 1 1 auto;
+      flex: 1 1 auto;
+      height: 29px !important;
+    }
+  }
 }

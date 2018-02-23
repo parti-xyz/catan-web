@@ -1211,6 +1211,7 @@ $(function(){
         paste_data_images: true,
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
+        target_list: false,
         relative_urls: false,
         remove_script_host : false,
         hidden_input: false,
@@ -1262,12 +1263,12 @@ $(function(){
         default: {
           plugins: 'link paste autolink lists advlist',
           toolbar1: 'bold italic strikethrough blockquote',
-          toolbar2: 'bullist numlist outdent indent',
+          toolbar2: 'bullist numlist outdent indent link',
         },
         wiki: {
           plugins: 'link paste autolink lists advlist',
           toolbar1: 'bold italic strikethrough blockquote style-h1 style-h2 style-h3',
-          toolbar2: 'bullist numlist outdent indent',
+          toolbar2: 'bullist numlist outdent indent link',
         },
       };
 
@@ -1291,7 +1292,8 @@ $(function(){
         toolbar2: setting.toolbar2,
         paste_data_images: true,
         document_base_url: 'https://parti.xyz/',
-        link_context_toolbar: true,
+        link_context_toolbar: false,
+        target_list: false,
         relative_urls: false,
         remove_script_host : false,
         hidden_input: false,
@@ -1301,6 +1303,28 @@ $(function(){
           editor.on('focus', function (e) {
             $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
           });
+          editor.on('init', function(){
+            var $link_opener = $('<div class="js-tinymce-catan-link-opener tinymce-catan-link-opener"></div>');
+            var container = editor.editorContainer;
+            var $toolbars = $(container).find('.mce-toolbar-grp');
+            $toolbars.append($link_opener);
+            $link_opener.hide();
+          });
+          var oldScrollTop;
+          editor.on('OpenWindow', function(){
+            oldScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            setTimeout(function() {
+              $('body').scrollTop(0);
+            }, 500);
+          });
+          editor.on('CloseWindow', function(){
+            if (oldScrollTop) {
+              setTimeout(function() {
+                $('body').scrollTop(oldScrollTop);
+                oldScrollTop = null;
+              }, 500);
+            }
+          });
         },
         init_instance_callback: function (editor) {
           editor.on('change', function (e) {
@@ -1309,6 +1333,21 @@ $(function(){
             $input_elm.trigger('parti-need-to-validate');
             if(!ufo.isApp()) {
               $(document).trigger('parti-post-editor-spotlight');
+            }
+          });
+          editor.on('NodeChange', function (e) {
+            var container = editor.editorContainer;
+            var $toolbars = $(container).find('.mce-toolbar-grp');
+            var $link_opener = $toolbars.find('.js-tinymce-catan-link-opener');
+
+            var node = tinyMCE.activeEditor.selection.getNode();
+            var href = $(node).attr('href');
+            if($.is_blank(href)) {
+              $link_opener.html('');
+              $link_opener.hide();
+            } else {
+              $link_opener.html('<a href="' + href + '" target="_blank"><i class="fa fa-external-link" /> ' + href + '</a>');
+              $link_opener.show();
             }
           });
         }
