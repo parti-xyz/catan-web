@@ -64,6 +64,13 @@
                 ufo.changeBasePageUrl(window.location.href);
               }
             })();
+        - elsif push_notified_page_in_mobile_app?
+          :javascript
+            (function() {
+              if(ufo.isApp()) {
+                ufo.changeBasePageUrl('#{ messages_url(subdomain: nil) }');
+              }
+            })();
     :javascript
       (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];

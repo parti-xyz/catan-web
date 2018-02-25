@@ -73,6 +73,11 @@
         return;
       }
 
+      // 푸시 노티피케이션으로 표시된 경우 베이스 주소를 메시지로 바꿉니다.
+      <% if push_notified_page_in_mobile_app? %>
+        ufo.changeBasePageUrl('<%= messages_url(subdomain: nil) %>');
+      <% end %>
+
       // 서버사이드에서 세션체크 후 로그인 상태에 따라 아래와 같이 분기처리합니다:
 
       <% if user_signed_in? %>

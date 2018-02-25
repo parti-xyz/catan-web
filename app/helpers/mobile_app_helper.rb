@@ -44,6 +44,11 @@ module MobileAppHelper
     )
   end
 
+  def push_notified_page_in_mobile_app?
+    return false unless is_mobile_app_get_request?(request)
+    request.headers["X-Catan-Push-Notified"] == "true"
+  end
+
   private
 
   def self.matcher
