@@ -28,6 +28,8 @@ module MobileAppHelper
     (
       (request.params[:controller] == 'pages' and request.params[:action] == 'discover') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
+      (request.params[:controller] == 'messages' and request.params[:action] == 'index') or
+      (request.params[:controller] == 'posts' and request.params[:action] == 'pinned') or
       (request.params[:controller] == 'issues' and request.params[:action] == 'home') or
       (request.params[:controller] == 'issues' and request.params[:action] == 'slug_home')
     )
