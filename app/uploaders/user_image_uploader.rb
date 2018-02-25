@@ -5,13 +5,31 @@ class UserImageUploader < CarrierWave::Uploader::Base
 
   def self.env_storage
     if Rails.env.production?
-      :fog
+      :aws
     else
       :file
     end
   end
 
   storage env_storage
+
+  def initialize(*)
+    super
+
+    if Rails.env.production?
+      self.aws_credentials = {
+        access_key_id: ENV["S3_ACCESS_KEY"],
+        secret_access_key: ENV["S3_SECRET_KEY"],
+        region: ENV["S3_REGION"]
+      }
+      self.aws_bucket = ENV["S3_BUCKET"]
+      self.aws_acl = 'public-read'
+      self.aws_attributes = {
+        expires: 1.week.from_now.httpdate,
+        cache_control: 'max-age=604800'
+      }
+    end
+  end
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:

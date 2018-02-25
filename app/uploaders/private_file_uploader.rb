@@ -2,10 +2,11 @@
 
 class PrivateFileUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
+  AWS_AUTHENTICATED_URL_EXPIRATION = 60 * 60 * 24
 
   def self.env_storage
     if Rails.env.production?
-      :fog
+      :aws
     else
      :file
     end
@@ -17,22 +18,24 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
     super
 
     if Rails.env.production?
-      self.fog_credentials = {
-        provider:              'AWS',
-        aws_access_key_id:     ENV["PRIVATE_S3_ACCESS_KEY"],
-        aws_secret_access_key: ENV["PRIVATE_S3_SECRET_KEY"],
-        region:                ENV["PRIVATE_S3_REGION"]
+      self.aws_credentials = {
+        access_key_id: ENV["PRIVATE_S3_ACCESS_KEY"],
+        secret_access_key: ENV["PRIVATE_S3_SECRET_KEY"],
+        region: ENV["PRIVATE_S3_REGION"]
       }
-      self.fog_directory = ENV["PRIVATE_S3_BUCKET"]
-      self.fog_authenticated_url_expiration = 60 * 60 * 24
-      self.fog_public = false
+      self.aws_bucket = ENV["PRIVATE_S3_BUCKET"]
+      self.aws_acl = 'private'
+      self.aws_attributes = {
+        expires: 1.week.from_now.httpdate,
+        cache_control: 'max-age=604800'
+      }
+      self.aws_authenticated_url_expiration = AWS_AUTHENTICATED_URL_EXPIRATION
     else
-      @production_storage = Fog::Storage.new(
-        provider:              'AWS',
-        aws_access_key_id:     ENV["PRIVATE_S3_ACCESS_KEY"],
-        aws_secret_access_key: ENV["PRIVATE_S3_SECRET_KEY"],
-        region:                ENV["PRIVATE_S3_REGION"])
-      self.fog_authenticated_url_expiration = 60 * 60 * 24
+      s3 = Aws::S3::Resource.new(
+        access_key_id: ENV["PRIVATE_S3_ACCESS_KEY"],
+        secret_access_key: ENV["PRIVATE_S3_SECRET_KEY"],
+        region: ENV["PRIVATE_S3_REGION"])
+      @production_s3_bucket = s3.bucket(ENV["PRIVATE_S3_BUCKET"])
     end
   end
 
@@ -107,14 +110,10 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
     else
       super_result = super
       return super_result if super_result.nil?
-      if self.file.try(:exists?) or @production_storage.blank?
+      if self.file.try(:exists?) or @production_s3_bucket.blank?
         ActionController::Base.helpers.asset_url(super_result)
       else
-        if self.fog_authenticated_url_expiration > 60
-          Rails.cache.fetch(super_result, expires_in: ((self.fog_authenticated_url_expiration || 600) - 60)) do
-            production_s3_url super_result
-          end
-        else
+        Rails.cache.fetch(super_result, expires_in: (AWS_AUTHENTICATED_URL_EXPIRATION - 60)) do
           production_s3_url super_result
         end
       end
@@ -122,8 +121,8 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   end
 
   def production_s3_url super_result
-    @production_s3_bucket ||= @production_storage.directories.new(key: ENV["PRIVATE_S3_BUCKET"])
-    @production_s3_bucket.files.new(key: super_result[1..-1]).try(:url, ::Fog::Time.now.to_i + self.fog_authenticated_url_expiration)
+    path_removed_first_slash = super_result[1..-1]
+    @production_s3_bucket.object(path_removed_first_slash).try(:presigned_url, :get, { expires_in: 60*60*24 })
   end
 
   def fix_exif_rotation

@@ -31,8 +31,9 @@ gem 'chartkick'
 
 # file upload
 gem 'carrierwave', '~> 1.1'
-gem "mini_magick"
-gem "fog"
+gem 'mini_magick'
+gem 'carrierwave-aws'
+gem 'aws-sdk-s3'
 gem 'file_validators', '~> 2.1'
 gem 'carrierwave-base64', '~> 2.3', '>= 2.3.3'
 
