@@ -4,13 +4,13 @@
       %i.fa.fa-fort-awesome
       새로운 발견
 %li.menu-line
-  = link_to dashboard_url(subdomain: ''), class: "#{'active' if current_page?('/') or current_page?('/dashboard')}" do
-    %i.fa.fa-th-list
-    내 피드
+  = link_to dashboard_url(subdomain: ''), class: "#{'active' if current_page?('/') or current_page?('/dashboard') or current_page?('/messages') or current_page?('/posts/pinned')}" do
+    %i.fa.fa-home
+    내 홈
 - if current_user.member_groups.any?
   %li.menu-line
     %a.dropdown-toggle.title#js-my-groups-toggle{ href: "#" }
-      %i.fa.fa-cube
+      %i.fa.fa-group
       내 그룹
       %i.fa.fa-caret-down
     %ul#js-drawer-my-groups.sub.list-unstyled.collapse

@@ -10,7 +10,6 @@ class DashboardController < ApplicationController
     end
 
     watched_posts = watched_posts(@search_q)
-    @posts_pinned = current_user.watched_posts(current_group).pinned.order('pinned_at desc')
 
     if view_context.is_infinite_scrollable?
       if request.format.js?

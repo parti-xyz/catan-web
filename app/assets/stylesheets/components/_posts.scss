@@ -22,14 +22,12 @@
 section.posts-page {
   padding: 20px 0;
   @media (max-width: $screen-xs-max) {
-    body.app-dashboard-index & {
+    body.app-posts-show &,
+    body.app-posts-images &,
+    body.app-issues-slug_home & {
       padding-top: 0;
     }
-
-    body.app-posts-show &,
-    body.app-posts-images & {
-      padding: 0;
-    }
+    padding: 10px 0;
   }
   @media (max-width: $screen-xs-max) {
     .page-title {
@@ -606,5 +604,9 @@ strong.upvoted {
   }
   .posts.posts-home &:nth-child(2) {
     margin-top: 0;
+  }
+  &.primary {
+    color: #956fd7;
+    font-weight: bold;
   }
 }

@@ -250,6 +250,14 @@ class User < ActiveRecord::Base
     email_verified_at.present?
   end
 
+  def pinned_posts
+    watched_posts.pinned.order('pinned_at desc')
+  end
+
+  def unread_pinned_posts
+    pinned_posts.where.not(id: Reader.where(member: self.members).select(:post_id))
+  end
+
   private
 
   def downcase_nickname

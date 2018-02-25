@@ -1,4 +1,4 @@
-.post-card__post.clearfix.cursor-pointer{ id: pinned_post_dom_id(post), class: "#{('js-posts-pinned-and-read collapse' if local_assigns[:collapse])} #{'need-to-read' if post.need_to_read?(current_user)}", 'data-action': "parti-link", 'data-url': smart_post_url(post) }
+.post-card__post.clearfix.cursor-pointer{ class: "#{pinned_post_dom_class(post)} #{('js-posts-pinned-and-read collapse' if local_assigns[:collapse])} #{'need-to-read' if post.need_to_read?(current_user)}", 'data-action': "parti-link", 'data-url': smart_post_url(post) }
   .read-mark.js-read-mark{ class: ('read-mark--need-to-read' if post.need_to_read?(current_user)) }
   .desc{ class: ('desc_without_issue' unless local_assigns[:show_issue]) }
     - if local_assigns[:show_issue]
@@ -31,14 +31,14 @@
           %span.action-btn{ class: ('action-btn-fixed' if post.careful_pin_by?(current_user)) }
             &nbsp;
             = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '처리 중...', confirm: '이 공지를 내리시겠습니까?' }, class: "#{post_pin_button_dom_class(post)} secondary" do
-              공지에서 내립니다
+              공지 내리기
         = action_label
       - if post.need_to_read?(current_user)
         - action_label = capture do
           %span.action-btn.js-read-action-btn
             &nbsp;
-            = link_to [:read, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{read_button_dom_class(post)} primary", 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
-              확인 상태로 표시합니다
+            = link_to [:read, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{read_button_dom_class(post)} primary", 'data-completed-with': '읽음 표시 완료 <i class="fa fa-check"/>' do
+              읽음 표시하기
         = action_label
 
   - pin_buttons = capture do

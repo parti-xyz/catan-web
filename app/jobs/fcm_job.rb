@@ -2,6 +2,7 @@ class FcmJob
   include Sidekiq::Worker
 
   def perform(id)
+    return unless Rails.env.production?
     message = Message.find_by(id: id)
     if message.present? and
         message.user.enable_push_notification? and

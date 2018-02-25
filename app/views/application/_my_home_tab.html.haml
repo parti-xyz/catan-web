@@ -1,0 +1,19 @@
+#content-tab-section
+  %ul.nav.nav-tabs.my-home-tabs
+    %li{ class: "#{('active' if current_page?('/') or current_page?('/dashboard'))}" }
+      = link_to '내 피드', dashboard_url(subdomain: nil)
+    %li{ class: "#{('active' if current_page?('/posts/pinned'))}" }
+      = link_to pinned_posts_url(subdomain: nil) do
+        공지
+        - if current_user.unread_pinned_posts.any?
+          .count-label-wrapper.small
+            .count-label
+              +#{current_user.unread_pinned_posts.count}
+
+    %li{ class: "#{('active' if current_page?('/messages'))}" }
+      = link_to messages_url(subdomain: nil) do
+        알림
+        - if current_user.messages.latest.any?
+          .count-label-wrapper.small
+            .count-label
+              +#{current_user.messages.latest.count}

@@ -96,10 +96,10 @@ module DomHelper
   end
 
   def pinned_post_dom_selector(post)
-    "##{pinned_post_dom_id(post)}"
+    ".#{pinned_post_dom_class(post)}"
   end
 
-  def pinned_post_dom_id(post)
+  def pinned_post_dom_class(post)
     "#{dom_id(post)}--list-pinned"
   end
 

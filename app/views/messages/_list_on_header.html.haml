@@ -1,9 +1,9 @@
 %li.show-all
-  =link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
+  =link_to messages_url(subdomain: nil), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
     더 많은 알림 보기
 - current_user.messages.recent.limit(20).each do |message|
   %li
     = render message
 %li.show-all
-  =link_to messages_path, class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
+  =link_to messages_url(subdomain: nil), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
     더 많은 알림 보기

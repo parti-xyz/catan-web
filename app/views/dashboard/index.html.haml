@@ -4,6 +4,8 @@
   .container
     .row
       .col-xs-12.col-sm-8
+        = render 'application/my_home_tab'
+
         - if current_user.need_to_more_member?(current_group)
           .unified-editor.unified-editor-intro.cursor-default
             .text-muted
@@ -47,8 +49,7 @@
                           = button_tag class: 'btn btn-link btn-xs' do
                             %i.fa.fa-search.text-muted
                     각 단어가 두 글자 이상은 되어야 검색됩니다. 검색할 키워드를 다시 입력하세요.
-            - if @search_q.present? or !paging or @posts.try(:first_page?)
-              = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true
+
             #no-data.text-center.alert{ style: 'display: none;' }
               %i.fa.fa-info-circle
                 - if params[:q].blank?

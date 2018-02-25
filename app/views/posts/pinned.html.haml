@@ -1,0 +1,25 @@
+%section.posts-page#posts
+  .container
+    .row
+      .col-xs-12.col-sm-8
+        = render 'application/my_home_tab'
+
+        - if @unread_pinned_posts.any?
+          .post-data-divider.primary
+            새 공지
+          .post-card.summary.pinned
+            - @unread_pinned_posts.each do |post|
+              = render 'posts/post_pinned', post: post, show_issue: true
+
+        - @pinned_posts.each do |issue, posts|
+          .post-data-divider
+            = link_to smart_issue_home_url(issue) do
+              - unless issue.group.indie?
+                = issue.group.head_title
+                \/
+              = issue.title
+          .post-card.summary.pinned
+            - posts.each do |post|
+              = render 'posts/post_pinned', post: post
+      .hidden-xs
+        = render 'application/aside'

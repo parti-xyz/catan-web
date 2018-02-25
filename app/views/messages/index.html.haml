@@ -2,15 +2,8 @@
   .container
     .row
       .col-xs-12.col-sm-8
-        %h4{style:'padding:10px;'}
-          %span.text-primary<> #{current_user.nickname}
-          님의 알림
-          .count-label-wrapper
-            .count-label
-              = current_user.messages.count
-              - if current_user.messages.latest.any?
-                %small.text-primary
-                  +#{current_user.messages.latest.count}
+        = render 'application/my_home_tab'
+
         .message-list
           = render @messages
         = paginate @messages, theme: 'catan'
