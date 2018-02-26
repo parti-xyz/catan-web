@@ -19,6 +19,15 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:post).last_stroked_user
   end
 
+  test '게시물 본문 맨 끝문장에 태그가 없을 때도 잘 만들어요' do
+    sign_in(users(:one))
+
+    post posts_path, post: { body: '<p>body</p>ok', issue_id: issues(:issue2).id }
+
+    assert assigns(:post).persisted?
+    assert_equal '<p>body</p>ok', assigns(:post).body
+  end
+
   test '그룹에 속하지 않은 빠띠는 멤버가 아니면 못 만들어요' do
     assert issues(:issue2).indie_group?
     refute issues(:issue2).member? users(:two)

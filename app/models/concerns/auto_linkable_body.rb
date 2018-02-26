@@ -48,7 +48,7 @@ module AutoLinkableBody
 
   def strip_empty_tags
     doc = Nokogiri::HTML self.body
-    ps = doc.xpath '/html/body/*'
+    ps = doc.xpath('/html/body').children
     first_text = -1
     last_text = 0
     ps.each_with_index do |p, i|
