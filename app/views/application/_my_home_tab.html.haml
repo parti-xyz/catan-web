@@ -13,7 +13,7 @@
     %li{ class: "#{('active' if current_page?('/messages'))}" }
       = link_to messages_url(subdomain: nil) do
         알림
-        - if current_user.messages.latest.any?
+        - if current_user.unread_messages_count > 0
           .count-label-wrapper.small
             .count-label
-              +#{current_user.messages.latest.count}
+              +#{current_user.unread_messages_count}
