@@ -30,11 +30,11 @@ class MembersTest < ActionDispatch::IntegrationTest
   test '그룹이 아닌 빠띠에 가입해요' do
     assert issues(:issue2).indie_group?
 
-    sign_in(users(:one))
+    sign_in(users(:three))
 
     post issue_members_path(issue_id: issues(:issue2).id)
 
-    assert issues(:issue2).member?(users(:one))
+    assert issues(:issue2).member?(users(:three))
   end
 
   test '빠띠를 탈퇴해요' do
@@ -63,7 +63,7 @@ class MembersTest < ActionDispatch::IntegrationTest
 
     assert_equal issues(:issue1).posts.count, Post.watched_by(users(:three)).count
 
-    post issue_members_path(issue_id: issues(:issue1).id)
+    assert issues(:issue1).member?(users(:three))
     assert_equal issues(:issue1).posts.count, Post.watched_by(users(:three)).count
 
     post issue_members_path(issue_id: issues(:issue2).id)
