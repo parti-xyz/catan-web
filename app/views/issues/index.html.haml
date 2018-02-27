@@ -16,7 +16,7 @@
                     %span.input-group-btn
                       %button.btn.btn-group-default
                         %i.fa.fa-search
-            - if params[:keyword].present?
+            - if params[:keyword].present? or params[:subject].present?
               - if @issues.any?
                 .parties-all-list
                   = render 'issues/page', issues: @issues, has_aside: true
@@ -24,7 +24,7 @@
                 .bg-default
                   %i.fa.fa-info-circle
                   검색 결과가 없습니다.
-        - if params[:keyword].blank?
+        - if params[:keyword].blank? and params[:subject].blank?
           = render @groups[0..4]
           .panel.panel-primary.panel-group-info
             .panel-body

@@ -33,6 +33,9 @@ class IssuesController < ApplicationController
       if params[:keyword].present?
         params[:sort] ||= 'hottest'
         @issues = search_and_sort_issues(Issue.searchable_issues(current_user), params[:keyword], params[:sort])
+      elsif params[:subject].present?
+        issue_slugs = LandingPage.where("title like '#{params[:subject]}'")[0].try(:parsed_body).try(:map).to_a
+        @issues = Issue.where(:slug => issue_slugs)
       else
         @groups = Group.not_private_blocked(current_user)
         @groups = @groups.to_a.reject { |group| group.issues.count <= 0 }
