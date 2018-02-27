@@ -756,3 +756,7 @@ label.required:after {
 .webui-popover-content p:last-child {
     margin-bottom: 0;
 }
+
+.nav > li.collapse {
+  display: none;
+}

@@ -22,12 +22,6 @@ var ufo = (function() {
             'goBack': function() {
                 handler.postMessage({'method':'goBack'});
             },
-            'canGoBack': function() {
-                handler.postMessage({'method':'canGoBack'});
-            },
-            'callback': {
-                'canGoBack': function(canGoBack) {}
-            },
             'post': function(action,json) {
                 handler.postMessage({'method':'post', 'arg0':action, 'arg1':JSON.stringify(json)});
             },
@@ -49,11 +43,6 @@ var ufo = (function() {
             'changeCurrentUrl': function(s) {
             },
             'changeBasePageUrl': function(s) {
-            },
-            'canGoBack': function() {
-            },
-            'callback': {
-                'canGoBack': function(canGoBack) {}
             },
             "post": function(action,json) {
             },

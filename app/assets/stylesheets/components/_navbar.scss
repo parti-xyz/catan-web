@@ -92,7 +92,7 @@
         }
       }
     }
-    & > li > a.btn-drawer-menu {
+    & > li > a.btn-header {
       color: $brand-primary;
       body.in-group.dark-theme & {
         color: white;
@@ -141,7 +141,9 @@
   .history-back {
     @media (max-width: $screen-xs-max) {
       a i {
-        font-size: $font-size-large;
+        position: absolute;
+        top: 6px;
+        font-size: 27px;
       }
       body.dark-theme & a {
         color: white;

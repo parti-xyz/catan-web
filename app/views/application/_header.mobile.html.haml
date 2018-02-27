@@ -26,17 +26,15 @@
       - if history_backable_in_mobile_app?
         %li.history-back.js-btn-history-back-in-mobile-app{ data: { 'back-to-url': fixed_history_back_url_in_mobile_app } }
           %a.js-history-back{ href: "#", 'aria-label': only_mobile_app(request, 'header-back') }
-            %i.fa.fa-chevron-left
-            뒤로
+            %i.fa.fa-angle-left
       - else
-        %li.btn-drawer.js-btn-drawer
-          %a.btn-drawer-menu.js-slideout-toggle
+        %li.js-btn-drawer
+          %a.btn-header.js-slideout-toggle
             - if host_group.try(:is_light_theme?)
               = image_tag 'btn_mobile_menu.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
             - else
               = image_tag 'btn_mobile_menu_white.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
       %li.history-back.js-close-editor-in-mobile-app.hidden
         %a{ href: '#' }
-          %i.fa.fa-chevron-left
-          뒤로
+          %i.fa.fa-angle-left
 = render 'application/drawer_menu.mobile'
