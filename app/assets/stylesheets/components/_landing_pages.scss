@@ -2,6 +2,15 @@ section#landing-page{
   h4.group-heading{
     margin: 20px 0;
   }
+  .subject-link{
+    padding: 5px 10px;
+    color: $brand-primary-light;
+    border-radius: 10px;
+    border: 1px solid #ded2f2;
+    &:hover{
+      font-weight: bold;
+    }
+  }
   section#issues h4.group-heading {
     margin-bottom: 0;
   }

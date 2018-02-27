@@ -19,6 +19,7 @@ class PagesController < ApplicationController
 
   def discover
     @sections = LandingPage.all_data
+    @subjects = LandingPage.where("section like 'subject%'").to_a
   end
 
   def components

@@ -5,12 +5,9 @@
         당신은 무엇에
         %span.visible-xs-block
         관심이 있나요?
-      = form_tag issues_url(subdomain: nil), method: :get, class: 'parti-search-form' do
-        .form-group
-          %input.form-control{ name: "keyword", placeholder: "빠띠 찾기", type: "search" }
-          %span.btn-wrapper
-            %button.btn.btn-link
-              %i.fa.fa-search
+      .btn-wrapper
+        - @subjects.sample(5).each do |subject|
+          = link_to subject.title, '#', class: 'subject-link'
 
   %section#recent-posts
     .container
