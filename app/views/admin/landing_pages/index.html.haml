@@ -26,6 +26,89 @@
       = link_to '/admin/fetch_posts#anchor-wikis', target: '_blank', class: 'btn btn-default btn-sm' do
         대상 포스트 찾기
       = text_field_tag :wikis, @sections[:wikis].try(:body_in_form), class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'
+    %br
+    %hr{ style: "border-color: white;" }
+    %br
+    .form-group.clearfix
+      %label 주제 별 빠띠 1
+      .row
+        .col-md-3
+          = text_field_tag :subject1_title, @sections[:subject1].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요.'
+        .col-md-9
+          = text_field_tag :subject1, @sections[:subject1].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 2
+      .row
+        .col-md-3
+          = text_field_tag :subject2_title, @sections[:subject2].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject2, @sections[:subject2].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 3
+      .row
+        .col-md-3
+          = text_field_tag :subject3_title, @sections[:subject3].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject3, @sections[:subject3].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 4
+      .row
+        .col-md-3
+          = text_field_tag :subject4_title, @sections[:subject4].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject4, @sections[:subject4].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 5
+      .row
+        .col-md-3
+          = text_field_tag :subject5_title, @sections[:subject5].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject5, @sections[:subject5].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 6
+      .row
+        .col-md-3
+          = text_field_tag :subject6_title, @sections[:subject6].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject6, @sections[:subject6].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 7
+      .row
+        .col-md-3
+          = text_field_tag :subject7_title, @sections[:subject7].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject7, @sections[:subject7].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 8
+      .row
+        .col-md-3
+          = text_field_tag :subject8_title, @sections[:subject8].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject8, @sections[:subject8].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 9
+      .row
+        .col-md-3
+          = text_field_tag :subject9_title, @sections[:subject9].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject9, @sections[:subject9].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
+    .form-group.clearfix
+      %label 주제 별 빠띠 10
+      .row
+        .col-md-3
+          = text_field_tag :subject10_title, @sections[:subject10].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
+        .col-md-9
+          = text_field_tag :subject10, @sections[:subject10].try(:body_in_form), class: 'form-control', placeholder: '개별 빠띠의 slug 를 붙여서 써주세요 ex) remote-worker, catnip, no-work'
+
 
     .form-group.clearfix
       = submit_tag '저장하기', class: 'btn btn-primary', data: { confirm: '정말 저장하시겠습니까?', disable_with: "처리 중..." }

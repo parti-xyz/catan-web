@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180218124107) do
+ActiveRecord::Schema.define(version: 20180227043609) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -211,6 +211,7 @@ ActiveRecord::Schema.define(version: 20180218124107) do
     t.string   "section",    limit: 255,   null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "title",      limit: 255
   end
 
   create_table "likes", force: :cascade do |t|
