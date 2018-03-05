@@ -46,28 +46,55 @@ module ApplicationHelper
     date.strftime("%Y.%m.%d")
   end
 
-  def comment_format(text, html_options = {}, options = {})
+  def comment_format(issue, text, html_options = {}, options = {})
     options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
     parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line'), options).to_str
+    parsed_text = parse_hashtags(issue, parsed_text)
     parsed_text = parse_mentions(parsed_text)
     Rinku.auto_link(parsed_text, :all,
       "class='auto_link' target='_blank'",
       nil).html_safe()
   end
 
-  def post_body_format(text)
+  def post_body_format(issue, text)
     return text if text.blank?
-    text = parse_mentions(text)
-    raw(text)
+    parsed_text = parse_hashtags(issue, text)
+    parsed_text = parse_mentions(parsed_text)
+    raw(parsed_text)
   end
 
-  def decision_body_format(text)
+  def decision_body_format(issue, text)
     return text if text.blank?
     parsed_text = simple_format(h(text)).to_str
+    parsed_text = parse_hashtags(issue, parsed_text)
     parsed_text = parse_mentions(parsed_text)
     Rinku.auto_link(parsed_text, :all,
       "class='auto_link' target='_blank'",
       nil).html_safe()
+  end
+
+  HTML_AT_HASHTAG_REGEX = /(?:^|[[:space:]]|>|&nbsp;)(#[ㄱ-ㅎ가-힣a-z0-9_]+)/
+
+  def parse_hashtags(issue, text)
+    text.gsub(HTML_AT_HASHTAG_REGEX) do |m|
+      hashtag = Regexp.last_match[1]
+      tag = hashtag[1..-1]
+
+      xhr_dashboard = begin
+        (request.referer.present? and request.xhr? and URI(request.referer).path == '/dashboard')
+      rescue
+        false
+      end
+
+      in_dashboard = xhr_dashboard or
+        (request.params[:controller] == 'dashboard' and request.params[:action] == 'index')
+      url = if issue.present? and in_dashboard
+        dashboard_url(subdomain: nil, hashtag: tag)
+      else
+        smart_issue_home_url(issue, hashtag: tag)
+      end
+      m.gsub(hashtag, link_to(hashtag, url, class: 'user__nickname--mentioned'))
+    end
   end
 
   def parse_mentions(text)
@@ -85,8 +112,8 @@ module ApplicationHelper
           else
             at_nickname
           end
-       end
-       m.gsub(at_nickname, parsed)
+        end
+        m.gsub(at_nickname, parsed)
       end
     end
   end

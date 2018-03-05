@@ -49,6 +49,19 @@
                           = button_tag class: 'btn btn-link btn-xs' do
                             %i.fa.fa-search.text-muted
                     각 단어가 두 글자 이상은 되어야 검색됩니다. 검색할 키워드를 다시 입력하세요.
+            - if @hashtag.present?
+              .post-card.summary
+                .post-card__post
+                  내 피드에서
+                  %strong "##{@hashtag}"
+                  해시태그된 게시물입니다.
+                  %span.text-nowrap
+                    = link_to '취소', dashboard_path, class: 'btn btn-sm btn-default'
+                    = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'btn btn-sm btn-default' do
+                      모든
+                      %strong "##{@hashtag}"
+                      해시태그 게시물 보기
+                      %i.fa.fa-arrow-right
 
             #no-data.text-center.alert{ style: 'display: none;' }
               %i.fa.fa-info-circle
@@ -70,7 +83,7 @@
 
 
           - else
-            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js, q: @search_q)}
+            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js, q: @search_q, hashtag: @hashtag)}
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
       - unless is_small_screen?

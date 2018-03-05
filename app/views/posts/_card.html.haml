@@ -19,4 +19,4 @@
             - if post.wiki.present?
               = render 'wikis/card', local_assigns.merge(post: post)
             - else
-              != smart_truncate_html(post_body_format(post.specific_desc), length: 100, ellipsis: '...')
+              != smart_truncate_html(post_body_format(post.issue, post.specific_desc), length: 100, ellipsis: '...')

@@ -76,8 +76,13 @@ class IssuesController < ApplicationController
       @search_q = PostSearchableIndex.sanitize_search_key params[:q]
     end
 
+    if params[:hashtag].present?
+      @hashtag = params[:hashtag].strip.gsub(/( )/, '_').downcase
+    end
+
     issue_posts = @issue.posts.order(last_stroked_at: :desc)
     issue_posts = issue_posts.search(@search_q) if @search_q.present?
+    issue_posts = issue_posts.tagged_with(@hashtag) if @hashtag.present?
     @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
 
     if view_context.is_infinite_scrollable?

@@ -9,7 +9,11 @@ class DashboardController < ApplicationController
       @search_q = PostSearchableIndex.sanitize_search_key params[:q]
     end
 
-    watched_posts = watched_posts(@search_q)
+    if params[:hashtag].present?
+      @hashtag = params[:hashtag].strip.gsub(/( )/, '_').downcase
+    end
+
+    watched_posts = fetch_watched_posts(@search_q, @hashtag)
 
     if view_context.is_infinite_scrollable?
       if request.format.js?
@@ -48,10 +52,11 @@ class DashboardController < ApplicationController
 
   private
 
-  def watched_posts search_q
+  def fetch_watched_posts search_q, hashtag
     watched_posts = current_user.watched_posts(current_group)
     watched_posts = watched_posts.order(last_stroked_at: :desc)
     watched_posts = watched_posts.search(search_q) if search_q.present?
+    watched_posts = watched_posts.tagged_with(hashtag) if hashtag.present?
     watched_posts
   end
 end

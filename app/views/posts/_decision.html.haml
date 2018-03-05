@@ -24,4 +24,4 @@
           &middot;
           = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
 
-    = decision_body_format(post.decision.strip)
+    = decision_body_format(post.issue, post.decision.strip)

@@ -26,15 +26,15 @@
     - else
       .post-parsed-body{'data-action': 'parti-link-target-blank'}
         - if local_assigns[:mode] == 'detail'
-          = post_body_format post.body
+          = post_body_format post.issue, post.body
         - else
           .truncated-body
             - more_button = capture do
               %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더 보기
             - body_length_limit = (post.reviewed_by?(current_user) ? 200 : 500)
-            != smart_truncate_html(post_body_format(post.body), length: body_length_limit, ellipsis: more_button)
+            != smart_truncate_html(post_body_format(post.issue, post.body), length: body_length_limit, ellipsis: more_button)
           .original-body{ style: 'display: none;' }
-            = post_body_format post.body
+            = post_body_format post.issue, post.body
       - if post.video_source?
         .post-reference-line.post-line
           .post-reference-line__link-content.post-reference-line__link-content--video

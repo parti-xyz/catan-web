@@ -17,13 +17,13 @@ class Post < ActiveRecord::Base
       end
     end
     expose :parsed_title do |instance|
-      view_helpers.post_body_format(instance.parsed_title)
+      view_helpers.post_body_format(instance.issue, instance.parsed_title)
     end
     expose :parsed_body do |instance|
-      view_helpers.post_body_format(instance.parsed_body)
+      view_helpers.post_body_format(instance.issue, instance.parsed_body)
     end
     expose :truncated_parsed_body do |instance|
-      parsed_body = view_helpers.post_body_format(instance.parsed_body)
+      parsed_body = view_helpers.post_body_format(instance.issue, instance.parsed_body)
       result = view_helpers.smart_truncate_html(parsed_body, length: 220, ellipsis: "... <read-more></read-more>")
       (result == parsed_body ? nil : result)
     end
@@ -129,6 +129,7 @@ class Post < ActiveRecord::Base
   mentionable :body
 
   acts_as_paranoid
+  acts_as_taggable
   paginates_per 20
 
   belongs_to :issue, counter_cache: true
@@ -240,6 +241,8 @@ class Post < ActiveRecord::Base
 
   # fulltext serch
   before_save :reindex_for_search
+  # hashtagging
+  before_save :reindex_hashtag
 
   def specific_desc
     self.parsed_title.presence || self.body.presence ||
@@ -545,6 +548,20 @@ class Post < ActiveRecord::Base
   def reindex_for_search
     self.build_post_searchable_index if self.post_searchable_index.blank?
     self.post_searchable_index.reindex if body_changed?
+  end
+
+  def reindex_hashtag
+    if self.body_changed? or (self.wiki.present? and (self.wiki.body_changed? or self.wiki.title_changed?))
+      self.tag_list.clear
+
+      words = [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
+        HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
+      end.flatten.uniq.join(' ').split
+
+      words.select { |w| w.starts_with?('#') }.map { |w| w[1..-1] }.each do |hashtag|
+        self.tag_list.add(hashtag)
+      end
+    end
   end
 
   def send_notifiy_pinned_emails(someone)

@@ -1,7 +1,6 @@
-.post-card__comments
-  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments : post.comments)
-  - has_hidden_comments = (local_assigns[:mode] == 'list' and  post.too_many_comments?)
-
+- showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments : post.comments)
+- has_hidden_comments = (local_assigns[:mode] == 'list' and  post.too_many_comments?)
+- comment_capture = capture do
   - if has_hidden_comments
     = link_to more_comments_post_path(post), remote: true, id: comments_more_button_dom_id(post), 'data-disable-with': '<div class="more">가져오는 중...</div>', class: 'post-card__count' do
       .more
@@ -14,8 +13,8 @@
 
   - showing_comments.each do |comment|
     = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
-  .post-card__comment-form.comment-line
-    - if user_signed_in?
+  - if user_signed_in?
+    .post-card__comment-form.comment-line
       = form_for [post, Comment.new], remote: true, class: 'comment-form', html: { id: new_comment_form_dom_id(post)}, data: {action: 'parti-form-validation', 'submit-form-control': new_comment_form_submit_dom_selector(post) } do |f|
         .media{ style: 'margin-top: 0;' }
           .media-left
@@ -24,9 +23,7 @@
             .comment-form__area
               = f.text_area :body, class: "form-control comment-body", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, id: new_comment_form_body_input_dom_id(post)
             = f.submit '게시', class: 'btn btn-primary comment-form__btn', data: { disable_with: "게시 중..." }
-    - else
-      .post-card__footer--need-to-login
-        %span.text-muted 가볍게 댓글을 작성해 보세요.
-        = link_to '#', data: { toggle: 'parti-login-overlay', label: '수다작성' }, class: 'btn btn-default btn-new-comment'  do
-          %i.fa.fa-comment-o
-          게시
+
+- if comment_capture.present?
+  .post-card__comments
+    = comment_capture

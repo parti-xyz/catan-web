@@ -6,9 +6,9 @@
     %span.truncated-body
       - more_button = capture do
         %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{wrapper_id}" } ... 더 보기
-      != smart_truncate_html(comment_format(h(comment.body)), length: 400, ellipsis: more_button)
+      != smart_truncate_html(comment_format(comment.issue, comment.body), length: 400, ellipsis: more_button)
     %span.original-body{ style: 'display: none;' }
-      = comment_format(h(comment.body))
+      = comment_format(comment.issue, comment.body)
 - else
   %span.comment-blind-info= t('labels.comment_blind_info')
 

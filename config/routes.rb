@@ -250,7 +250,7 @@ Rails.application.routes.draw do
   end
   get '/share_telegram', to: "pages#share_telegram", as: :share_telegram
 
-  get '/tags/:name', to: "tags#show", as: :tag
+  get '/hashtags/:hashtag', to: "hashtags#show", as: :hashtag
   get '/categories/:slug', to: "categories#show", as: :category
 
   authenticate :user, lambda { |u| u.admin? } do

@@ -1,2 +1,2 @@
 - post = message.messagable
-!= smart_truncate_html(post_body_format(post.specific_desc), length: 300, ellipsis: '...')
+!= smart_truncate_html(post_body_format(post.issue, post.specific_desc), length: 300, ellipsis: '...')
