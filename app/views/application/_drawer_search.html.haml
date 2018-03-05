@@ -1,7 +1,7 @@
 %li.head-line.parti-search-form.js-drawer-filter-item.js-drawer-filter-form
   = form_tag issues_url(subdomain: nil), method: :get, id: 'drawer-search' do
     .form-group
-      %input.form-control.form-control-drawer-filter.js-drawer-filter{ name: "keyword", placeholder: "빠띠 찾기", type: "search", 'data-action': 'parti-clearable-search' }
+      %input.form-control.form-control-drawer-filter.js-drawer-filter{ name: "keyword", placeholder: "빠띠 바로가기", type: "search", 'data-action': 'parti-clearable-search' }
       %span.btn-wrapper
         %button.btn.btn-link
           %i.fa.fa-search
