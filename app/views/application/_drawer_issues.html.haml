@@ -38,7 +38,7 @@
         = link_to (host_group.indie? ? indies_issues_url(subdomain: nil) : root_path) do
           #{group_my_parties_section_title(host_group)}
       %ul.sub.list-unstyled
-        - current_user.member_issues.only_alive_of_group(host_group).each do |issue|
+        - current_user.member_issues.only_alive_of_group(host_group).sort_by_name.each do |issue|
           = render 'issues/issue_line', issue: issue
   - if current_group.present? and current_group.categories.try(:any?) and current_group.member?(current_user)
     %li.divider.divider-light
@@ -57,5 +57,5 @@
         = link_to smart_group_url(group), 'aria-label': only_mobile_app(request, "drawer-group-#{group.slug}") do
           #{group_my_parties_section_title(group)}
       %ul.sub.list-unstyled
-        - current_user.member_issues.only_alive_of_group(group).each do |issue|
+        - current_user.member_issues.only_alive_of_group(group).sort_by_name.each do |issue|
           = render 'issues/issue_line', issue: issue
