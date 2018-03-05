@@ -20,6 +20,14 @@
             = group.title_short_format
             = meta_icons(group)
 
+- if current_user.bookmarks.any?
+  %li.divider.divider-thick
+  %li.bookmark-head-line
+    북마크된 빠띠
+    %ul.sub.list-unstyled
+      - current_user.bookmark_issues.sort_by_name.each do |issue|
+        = render 'issues/issue_line', issue: issue, show_group: true
+
 - if Group.comprehensive_joined_by(current_user).any?
   - any_content = false
   - if current_user.member_issues.only_alive_of_group(host_group).any?

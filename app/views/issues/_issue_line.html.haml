@@ -24,6 +24,9 @@
       .issue-line-body-wraper
         %a.span.issue-line__title{ href: smart_issue_home_path_or_url(issue), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}") }
           = issue.title
+          - if local_assigns[:show_group] and !issue.group.indie?
+            \/
+            = issue.group.title_short_format
           = meta_icons(issue, (['star', '오거나징하는 빠띠'] if issue.organized_by?(current_user)))
         - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds,  expires_in: 1.hours do
           %span.issue-line__meta

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227043609) do
+ActiveRecord::Schema.define(version: 20180305114943) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -58,6 +58,17 @@ ActiveRecord::Schema.define(version: 20180227043609) do
 
   add_index "blinds", ["issue_id"], name: "index_blinds_on_issue_id", using: :btree
   add_index "blinds", ["user_id"], name: "index_blinds_on_user_id", using: :btree
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "issue_id",   limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "bookmarks", ["issue_id"], name: "index_bookmarks_on_issue_id", using: :btree
+  add_index "bookmarks", ["user_id", "issue_id"], name: "index_bookmarks_on_user_id_and_issue_id", unique: true, using: :btree
+  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",       limit: 4,                    null: false

@@ -1,43 +1,54 @@
 - issue = local_assigns[:issue]
-%span(class="#{dom_id(issue)}-member")
-  - if user_signed_in?
-    - if issue.member?(current_user)
-      - unless local_assigns[:simple]
-        - if can? :update, issue
-          = link_to [:edit, issue], class: 'parti-admin-button' do
-            %i.fa.fa-gear
-            설정
-          - if issue.organized_by? current_user
-            %span.parti-admin-button.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
-              %i.fa.fa-star
-              오거나이저
-              .hidden
-                .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
-                  #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.
-          - else
-            %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-              %i.fa.fa-user-secret
-              운영자
-              .hidden
-                .reject-member{id: "reject-member-#{dom_id(issue)}"}
-                  = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
-                    빠띠 나가기
+- if user_signed_in?
+  - if issue.member?(current_user)
+    - unless local_assigns[:simple]
+      - if can? :update, issue
+        = link_to [:edit, issue], class: 'parti-admin-button' do
+          %i.fa.fa-gear
+          설정
+        - if issue.organized_by? current_user
+          %span.parti-admin-button.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
+            %i.fa.fa-star
+            오거나이저
+            .hidden
+              .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
+                #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.
         - else
           %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-            %i.fa.fa-gear
-            설정
-          .hidden
-            .reject-member{id: "reject-member-#{dom_id(issue)}"}
-              = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
-                빠띠 나가기
-    - elsif issue.member_requested?(current_user)
-      %i.fa.fa-warning.parti-admin-button
-        가입요청 중
-    - else
-      = link_to smart_members_or_member_requests_parti_path(issue), method: :post, 'data-disable-with': '처리 중...', class: 'parti-admin-button' do
-        %i.fa.fa-sign-in
-        = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
+            %i.fa.fa-user-secret
+            운영자
+            .hidden
+              .reject-member{id: "reject-member-#{dom_id(issue)}"}
+                = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
+                  빠띠 나가기
+      - else
+        %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
+          %i.fa.fa-gear
+          설정
+        .hidden
+          .reject-member{id: "reject-member-#{dom_id(issue)}"}
+            = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
+              빠띠 나가기
+  - elsif issue.member_requested?(current_user)
+    %i.fa.fa-warning.parti-admin-button
+      가입요청 중
   - else
-    %span.parti-admin-button.cursor-pointer{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }
+    = link_to smart_members_or_member_requests_parti_path(issue), method: :post, 'data-disable-with': '처리 중...', class: 'parti-admin-button' do
       %i.fa.fa-sign-in
       = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
+  - unless current_user.bookmarked?(issue)
+    = link_to [:add_bookmark, issue], method: :put, class: 'parti-admin-button' do
+      %i.fa.fa-bookmark-o
+      북마크하기
+  - else
+    %span.parti-admin-button.cursor-pointer{"data-url": "#remove-bookmark-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
+      %i.fa.fa-bookmark
+      북마크 중
+    .hidden
+      .bookmark-issue{id: "remove-bookmark-#{dom_id(issue)}"}
+        = link_to [:remove_bookmark, issue], method: :delete, 'data-disable-with': '처리 중...' do
+          북마크 삭제
+- else
+  %span.parti-admin-button.cursor-pointer{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }
+    %i.fa.fa-sign-in
+    = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)

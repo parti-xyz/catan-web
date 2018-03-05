@@ -308,6 +308,18 @@ class IssuesController < ApplicationController
     end
   end
 
+  def add_bookmark
+    unless current_user.bookmarked?(@issue)
+      current_user.bookmarks.create(issue: @issue)
+    end
+    redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
+  end
+
+  def remove_bookmark
+    current_user.bookmarks.where(issue: @issue).destroy_all
+    redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
+  end
+
   private
 
   def group_issues(group, category_slug = nil)

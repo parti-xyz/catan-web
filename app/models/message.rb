@@ -39,7 +39,7 @@ class Message < ActiveRecord::Base
         if instance.issue.blank?
           instance.group.title_short_format
         else
-          "#{instance.issue.title} < #{instance.issue.group.title_short_format}"
+          "#{instance.issue.group.title_short_format} / #{instance.issue.title}"
         end
       end
     end

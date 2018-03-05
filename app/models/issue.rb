@@ -105,6 +105,7 @@ class Issue < ActiveRecord::Base
   has_many :invitations, as: :joinable, dependent: :destroy
   belongs_to :destroyer, class_name: User
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug
+  has_many :bookmarks, dependent: :destroy
 
   # validations
   validates :title,

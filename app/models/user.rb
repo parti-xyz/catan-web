@@ -86,6 +86,8 @@ class User < ActiveRecord::Base
   has_many :last_touched_wiki, dependent: :nullify, class_name: Wiki, foreign_key: :last_author_id
   has_many :wiki_histories, dependent: :nullify
   has_many :decision_histories, dependent: :nullify
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmark_issues, through: :bookmarks, source: :issue
 
   ## uploaders
   # mount
@@ -256,6 +258,10 @@ class User < ActiveRecord::Base
 
   def unread_pinned_posts
     pinned_posts.where.not(id: Reader.where(member: self.members).select(:post_id))
+  end
+
+  def bookmarked?(issue)
+    bookmarks.exists?(issue_id: issue)
   end
 
   private

@@ -349,6 +349,10 @@ $drawer-default-space-mobile: 12px;
           color: $brand-primary;
         }
       }
+      &.bookmark-head-line {
+        color: $gray;
+      }
+      &.bookmark-head-line,
       &.group-issues-line,
       &.category-line {
         margin: 12px 18px;

@@ -98,6 +98,8 @@ Rails.application.routes.draw do
       get :destroy_form
       get :new_admit_members
       post :admit_members
+      put :add_bookmark
+      delete :remove_bookmark
     end
     collection do
       get :indies

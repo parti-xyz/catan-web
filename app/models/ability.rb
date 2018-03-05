@@ -11,7 +11,7 @@ class Ability
       can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
         user.is_organizer?(issue)
       end
-      can [:create, :new_intro, :search_by_tags], [Issue]
+      can [:create, :new_intro, :search_by_tags, :add_bookmark, :remove_bookmark], [Issue]
 
       can [:pinned], [Post]
       can [:update, :destroy, :edit_decision, :update_decision, :decision_histories], [Post], user_id: user.id
