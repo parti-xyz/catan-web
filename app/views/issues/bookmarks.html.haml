@@ -1,0 +1,24 @@
+%section.posts-page#posts
+  .container
+    .row
+      .col-xs-12.col-sm-8
+        %h4.group-heading
+          = group_my_parties_section_title(@group)
+          메뉴 설정
+        .panel.panel-default
+          .panel-body
+            %ul.list-unstyled
+              - @issues.each do |issue|
+                - bookmark_control = capture do
+                  .bookmark-control
+                    - if current_user.bookmarked?(issue)
+                      = link_to [:remove_bookmark, issue], method: :delete, class: 'btn btn-primary btn-sm btn-bookmark-btn' do
+                        %i.fa.fa-thumb-tack
+                        고정됨
+                    - else
+                      = link_to [:add_bookmark, issue], method: :put, class: 'btn btn-default btn-sm btn-bookmark-btn' do
+                        %i.fa.fa-cogs
+                        자동
+                = render 'issues/issue_line', issue: issue, after_block: bookmark_control
+      - unless is_small_screen?
+        = render 'application/aside'

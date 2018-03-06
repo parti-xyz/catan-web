@@ -16,7 +16,7 @@
                 = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
           %span.issue-line__meta.btn-join-sign.js-join-sign{id: issue_line_join_sign_id}
             %i.fa.fa-sign-in
-%li.issue-line.js-issue-line
+%li.issue-line.js-issue-line{ class: ('collapse js-more-sidemenu-collapse' if local_assigns[:collapse]) }
   .media.js-issue-line-hover{ 'data-action': "parti-link", 'data-url': smart_issue_home_path_or_url(issue) }
     .media-left
       .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
@@ -26,20 +26,21 @@
           = issue.title
           - if local_assigns[:show_group] and !issue.group.indie?
             \/
-            = issue.group.title_short_format
+            %span.text-nowrap
+              = issue.group.title_short_format
           = meta_icons(issue, (['star', '오거나징하는 빠띠'] if issue.organized_by?(current_user)))
-        - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds,  expires_in: 1.hours do
+        - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
           %span.issue-line__meta
             - if issue.members.latest.count > 0
-              .users-count
+              .users-count.meta-item
                 %i.fa.fa-user(title='최근 가입한 멤버')
                 %b= issue.members.latest.count
             - if issue.posts.latest.count > 0
-              .posts-count
+              .posts-count.meta-item
                 %i.fa.fa-file-text(title='최근 게시물')
                 %b= issue.posts.latest.count
             - if issue.comments.latest.count > 0
-              .comments-count
+              .comments-count.meta-item
                 %i.fa.fa-comment(title='최근 댓글')
                 %b= issue.comments.latest.count
         %span.after-block

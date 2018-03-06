@@ -36,18 +36,6 @@
     = link_to smart_members_or_member_requests_parti_path(issue), method: :post, 'data-disable-with': '처리 중...', class: 'parti-admin-button' do
       %i.fa.fa-sign-in
       = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
-  - unless current_user.bookmarked?(issue)
-    = link_to [:add_bookmark, issue], method: :put, class: 'parti-admin-button' do
-      %i.fa.fa-bookmark-o
-      북마크하기
-  - else
-    %span.parti-admin-button.cursor-pointer{"data-url": "#remove-bookmark-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-      %i.fa.fa-bookmark
-      북마크 중
-    .hidden
-      .bookmark-issue{id: "remove-bookmark-#{dom_id(issue)}"}
-        = link_to [:remove_bookmark, issue], method: :delete, 'data-disable-with': '처리 중...' do
-          북마크 삭제
 - else
   %span.parti-admin-button.cursor-pointer{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }
     %i.fa.fa-sign-in

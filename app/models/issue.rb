@@ -184,6 +184,9 @@ class Issue < ActiveRecord::Base
     end
     conditions
   }
+  scope :bookmarked_by, ->(someone) {
+    where(id: Bookmark.where(user: someone).select(:issue_id))
+  }
 
   # search
   scoped_search on: [:title, :body]

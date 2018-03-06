@@ -781,3 +781,12 @@ body.app-issues-new, .bs-component{
   }
 }
 
+body.app-issues-bookmarks {
+  .bookmark-control {
+    display: inline-block;
+    float: right;
+    .btn-bookmark-btn {
+      width: 80px;
+    }
+  }
+}

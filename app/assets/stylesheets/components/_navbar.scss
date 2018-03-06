@@ -1,3 +1,5 @@
+$side-menu-width: 256px;
+
 #site-header {
   $site-header-brand-image-width: 60px;
   $site-header-brand-image-width-xs: 60px;
@@ -353,8 +355,7 @@ $drawer-default-space-mobile: 12px;
         color: $gray;
       }
       &.bookmark-head-line,
-      &.group-issues-line,
-      &.category-line {
+      &.group-issues-line {
         margin: 12px 18px;
         padding: 0;
         &:first-child {
@@ -373,19 +374,27 @@ $drawer-default-space-mobile: 12px;
         }
         .sub {
           margin-top: 12px;
+          .issue-more,
           .issue-line {
             padding: 0;
             border: none;
           }
+          .issue-more {
+            font-size: $font-size-small;
+            color: $gray-light;
+            a {
+              color: $gray-light;
+            }
+          }
         }
       }
       &.head-line {
+        padding: 12px 18px 0;
         .drawer-list-mobile & {
           background-color: white;
         }
-        padding: 24px 18px 0;
         & + li.menu-line {
-          margin-top: 24px;
+          margin-top: 12px;
         }
         a {
           color: white;
@@ -418,8 +427,8 @@ $drawer-default-space-mobile: 12px;
         &-light {
           background-color: $gray-lightest;
         }
-        &-thick {
-          background-color: $gray-light;
+        &-small {
+          margin: 12px 0;
         }
       }
       &.logo {
@@ -457,8 +466,6 @@ $drawer-default-space-mobile: 12px;
 }
 
 // mobile drawer
-
-$side-menu-width: 256px;
 
 .slideout-menu {
   position: fixed;
@@ -581,7 +588,7 @@ $side-menu-width: 256px;
   }
 
   // sm사이즈까지는 미리 열어 놓지 않습니다
-  @media (max-width: $screen-sm-max) {
+  @media (max-width: 1250px) {
     &.sidebar-open-in-advance {
       .sidebar-wrapper {
         display: none;

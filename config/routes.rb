@@ -105,6 +105,7 @@ Rails.application.routes.draw do
       get :indies
       get :exist
       get :search_by_tags
+      get :bookmarks
       post :merge
     end
     resources :members do

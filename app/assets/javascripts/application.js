@@ -1001,12 +1001,6 @@ $(function(){
     }
   });
 
-  // 내 그룹 토글
-  $('#js-my-groups-toggle').on('click', function(e) {
-    event.preventDefault();
-    $('#js-drawer-my-groups').slideToggle();
-  });
-
   // drawer
   // 1. mobile
   (function() {
@@ -1101,7 +1095,15 @@ $(function(){
     });
   })();
 
-  // drawer search
+  // 햄버거 사이드메뉴 토글
+  $('.js-show-more-sidemenu-issues').on('click', function(e) {
+    event.preventDefault();
+    var $target = $(e.currentTarget);
+    $target.parent().nextAll().show().removeClass('js-more-sidemenu-collapse');
+    $target.parent().remove();
+  });
+
+  // 햄버거 사이드메뉴 search
   if ($('.js-filterable-by-drawer-filter').length > 0) {
     $('.js-drawer-filter-more').appendTo('.js-filterable-by-drawer-filter').hide().removeClass('hidden');
   } else {
@@ -1125,7 +1127,10 @@ $(function(){
 
     if ($.is_blank(filter)) {
       $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item').show();
-      $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden').show().removeClass('js-drawer-filter-item-hidden');
+      var $hidden = $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden')
+      $hidden.removeClass('js-drawer-filter-item-hidden');
+      $hidden.not('.js-more-sidemenu-collapse').show();
+      $('.js-filterable-by-drawer-filter .js-more-sidemenu-collapse').css('display', '');
       $('.js-drawer-filter-more').fadeOut();
     } else {
       // Loop through the comment list
@@ -1135,14 +1140,17 @@ $(function(){
         var has_shown_issue_in_group = false;
 
         $(this).find('.js-issue-line').each(function() {
-          // If the list item does not contain the text phrase fade it out
-          if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+          if($(this).hasClass('js-issue-line-control')) {
             $(this).addClass('js-drawer-filter-item-hidden');
-            has_hidden_issue = true;
           } else {
-            // Show the list item if the phrase matches and increase the count by 1
-            $(this).show().removeClass('js-drawer-filter-item-hidden');
-            has_shown_issue_in_group = true;
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+              $(this).addClass('js-drawer-filter-item-hidden');
+            } else {
+              // Show the list item if the phrase matches and increase the count by 1
+              $(this).show().removeClass('js-drawer-filter-item-hidden');
+              has_shown_issue_in_group = true;
+            }
           }
         });
 

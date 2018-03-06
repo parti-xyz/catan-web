@@ -7,55 +7,69 @@
   = link_to dashboard_url(subdomain: ''), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard') or current_page?('/messages') or current_page?('/posts/pinned')}" do
     %i.fa.fa-home
     내 홈
-- if current_user.member_groups.any?
-  %li.menu-line
-    %a.dropdown-toggle.title#js-my-groups-toggle{ href: "#" }
-      %i.fa.fa-group
-      내 그룹
-      %i.fa.fa-caret-down
-    %ul#js-drawer-my-groups.sub.list-unstyled.collapse
-      - current_user.member_groups.each do |group|
-        %li.group-line
-          = link_to smart_group_url(group) do
-            = group.title_short_format
-            = meta_icons(group)
+/ - if current_user.member_groups.any?
+/   %li.menu-line
+/     %a.dropdown-toggle.title#js-my-groups-toggle{ href: "#" }
+/       %i.fa.fa-group
+/       내 그룹
+/       %i.fa.fa-caret-down
+/     %ul#js-drawer-my-groups.sub.list-unstyled.collapse
+/       - current_user.member_groups.each do |group|
+/         %li.group-line
+/           = link_to smart_group_url(group) do
+/             = group.title_short_format
+/             = meta_icons(group)
 
-- if current_user.bookmarks.any?
-  %li.divider.divider-thick
-  %li.bookmark-head-line
-    북마크된 빠띠
-    %ul.sub.list-unstyled
-      - current_user.bookmark_issues.sort_by_name.each do |issue|
-        = render 'issues/issue_line', issue: issue, show_group: true
+/ - if current_user.bookmarks.any?
+/   %li.divider.divider-thick
+/   %li.bookmark-head-line
+/     즐겨찾는 빠띠
+/     %ul.sub.list-unstyled
+/       - current_user.bookmark_issues.sort_by_name.each do |issue|
+/         = render 'issues/issue_line', issue: issue, show_group: true
 
 - if Group.comprehensive_joined_by(current_user).any?
-  - any_content = false
-  - if current_user.member_issues.only_alive_of_group(host_group).any?
-    - any_content = true
-    %li.divider.divider-thick
-    %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
-      .title
-        = link_to (host_group.indie? ? indies_issues_url(subdomain: nil) : root_path) do
-          #{group_my_parties_section_title(host_group)}
-      %ul.sub.list-unstyled
-        - current_user.member_issues.only_alive_of_group(host_group).sort_by_name.each do |issue|
-          = render 'issues/issue_line', issue: issue
-  - if current_group.present? and current_group.categories.try(:any?) and current_group.member?(current_user)
-    %li.divider.divider-light
-    %li.category-line
-      = link_to issues_path, class: 'title' do
-        = group_category_section_title(current_group)
-      %ul.sub.list-unstyled
-        - current_group.categories.each do |category|
-          %li.issue-line
-            = link_to issues_path(category_slug: category.slug) do
-              = category.name
-  - Group.comprehensive_joined_by(current_user).but(host_group).each_with_index do |group, index|
-    %li.divider
-    %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
-      .title
-        = link_to smart_group_url(group), 'aria-label': only_mobile_app(request, "drawer-group-#{group.slug}") do
-          #{group_my_parties_section_title(group)}
-      %ul.sub.list-unstyled
-        - current_user.member_issues.only_alive_of_group(group).sort_by_name.each do |issue|
-          = render 'issues/issue_line', issue: issue
+  - ([host_group] + Group.comprehensive_joined_by(current_user).but(host_group).to_a).each do |menu_group|
+    - if current_user.member_issues.only_alive_of_group(menu_group).any?
+      %li.divider.divider-small
+      %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
+        .title
+          = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
+            #{group_my_parties_section_title(menu_group)}
+        %ul.sub.list-unstyled
+          - magic_count = 2
+          - issues = current_user.member_issues.only_alive_of_group(menu_group)
+
+          - if issues.count < magic_count * 2
+            - issues.sort_by_name.each do |issue|
+              = render 'issues/issue_line', issue: issue
+          - else
+            - fixed_issues = []
+
+            - fixed_issues = issues.bookmarked_by(current_user).to_a
+            - issues = issues.where.not(id: fixed_issues)
+
+            - if fixed_issues.count < magic_count
+              - recent_joined_issues = issues.where(id: current_user.issue_members.past_week.recent.limit(magic_count).to_a)
+              - fixed_issues = fixed_issues + recent_joined_issues.to_a
+              - issues = issues.where.not(id: recent_joined_issues)
+
+            - if fixed_issues.count < magic_count
+              - hot_issues = issues.hottest.limit(magic_count)
+              - fixed_issues = fixed_issues + hot_issues.to_a
+              - issues = issues.where.not(id: hot_issues.to_a)
+
+            - Issue.where(id: fixed_issues).sort_by_name.each do |issue|
+              = render 'issues/issue_line', issue: issue
+
+            - if issues.any?
+              %li.js-issue-line.js-issue-line-control.issue-more
+                %a.js-show-more-sidemenu-issues(href="#")
+                  %i.fa.fa-caret-down
+                  더 보기
+                &middot;
+                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug) do
+                  설정
+
+              - issues.sort_by_name.each do |issue|
+                = render 'issues/issue_line', issue: issue, collapse: true

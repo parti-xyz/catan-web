@@ -308,6 +308,14 @@ class IssuesController < ApplicationController
     end
   end
 
+  def bookmarks
+    @group = Group.find_by(slug: params[:group_slug])
+    render_404 and return if @group.blank?
+
+    @issues = current_user.member_issues.alive.sort_by_name
+    @issues = @issues.of_group(@group)
+  end
+
   def add_bookmark
     unless current_user.bookmarked?(@issue)
       current_user.bookmarks.create(issue: @issue)

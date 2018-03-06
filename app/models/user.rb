@@ -72,6 +72,7 @@ class User < ActiveRecord::Base
   has_many :organizing_groups, through: :group_organizer_members, source: :joinable, source_type: Group
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
+  has_many :issue_members, -> { where(joinable_type: 'Issue') }, class_name: Member
   has_many :member_request, dependent: :destroy
   has_many :member_issues, through: :members, source: :joinable, source_type: Issue
   has_many :member_groups, through: :members, source: :joinable, source_type: Group
