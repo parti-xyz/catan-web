@@ -86,8 +86,12 @@ module ApplicationHelper
         false
       end
 
-      in_dashboard = xhr_dashboard or
+      in_dashboard = begin xhr_dashboard or
         (request.params[:controller] == 'dashboard' and request.params[:action] == 'index')
+      rescue
+        false
+      end
+
       url = if issue.present? and in_dashboard
         dashboard_url(subdomain: nil, hashtag: tag)
       else
