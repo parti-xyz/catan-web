@@ -1,10 +1,10 @@
-%section.posts-page#posts
+%section.page-base
   .container
     .row
       .col-xs-12.col-sm-8
         %h4.group-heading
           = group_my_parties_section_title(@group)
-          메뉴 설정
+          %span.text-nowrap 메뉴 설정
         .panel.panel-default
           .panel-body
             %ul.list-unstyled
@@ -12,13 +12,13 @@
                 - bookmark_control = capture do
                   .bookmark-control
                     - if current_user.bookmarked?(issue)
-                      = link_to [:remove_bookmark, issue], method: :delete, class: 'btn btn-primary btn-sm btn-bookmark-btn' do
+                      = link_to [:remove_bookmark, issue], method: :delete, 'data-disable-with': '처리 중', class: 'btn btn-primary btn-sm btn-bookmark-btn' do
                         %i.fa.fa-thumb-tack
                         고정됨
                     - else
-                      = link_to [:add_bookmark, issue], method: :put, class: 'btn btn-default btn-sm btn-bookmark-btn' do
+                      = link_to [:add_bookmark, issue], method: :put, 'data-disable-with': '처리 중', class: 'btn btn-default btn-sm btn-bookmark-btn' do
                         %i.fa.fa-cogs
                         자동
-                = render 'issues/issue_line', issue: issue, after_block: bookmark_control
+                = render 'issues/issue_line', issue: issue, right_block: bookmark_control
       - unless is_small_screen?
         = render 'application/aside'

@@ -45,5 +45,7 @@
                 %b= issue.comments.latest.count
         %span.after-block
           = after_block
-
+    - if local_assigns[:right_block].present?
+      .media-right
+        = right_block
 
