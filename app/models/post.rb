@@ -556,10 +556,10 @@ class Post < ActiveRecord::Base
 
       words = [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
         HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
-      end.flatten.uniq.join(' ').split
+      end.flatten.join(' ').split(/[[:space:]]/).uniq
 
       words.select { |w| w.starts_with?('#') }.map { |w| w[1..-1] }.each do |hashtag|
-        self.tag_list.add(hashtag)
+        self.tag_list.add(hashtag.gsub(/\A[[:space:]]+|[[:space:]]+\z/, ''))
       end
     end
   end
