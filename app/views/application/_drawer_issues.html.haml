@@ -69,6 +69,7 @@
                   더 보기
                 &middot;
                 = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug) do
+                  %i.fa.fa-gear
                   설정
 
               - issues.sort_by_name.each do |issue|

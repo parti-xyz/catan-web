@@ -306,12 +306,20 @@ class IssuesController < ApplicationController
     unless current_user.bookmarked?(@issue)
       current_user.bookmarks.create(issue: @issue)
     end
-    redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
+    if request.format.js?
+      render 'issues/add_or_remove_bookmark'
+    else
+      redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
+    end
   end
 
   def remove_bookmark
     current_user.bookmarks.where(issue: @issue).destroy_all
-    redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
+    if request.format.js?
+      render 'issues/add_or_remove_bookmark'
+    else
+      redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
+    end
   end
 
   private

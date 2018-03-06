@@ -1,0 +1,21 @@
+.bookmark-control{ class: issue_line_bookmark_dom_class(issue) }
+  - popover_dom_id = SecureRandom.uuid
+  - if current_user.bookmarked?(issue)
+    %button.btn.btn-primary.btn-xs.btn-bookmark-btn{"data-url": "##{popover_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}
+      %i.fa.fa-thumb-tack
+      고정됨
+      %i.fa.fa-caret-down
+      .hidden
+        .bookmark-btn{id: popover_dom_id}
+          = link_to [:remove_bookmark, issue], method: :delete, remote: true, 'data-disable-with': '처리 중...' do
+            자동으로 정렬하기
+  - else
+    %button.btn.btn-default.btn-xs.btn-bookmark-btn{"data-url": "##{popover_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}
+      %i.fa.fa-cogs
+      자동정렬
+      %i.fa.fa-caret-down
+      .hidden
+        .bookmark-btn{id: popover_dom_id}
+          = link_to [:add_bookmark, issue], method: :put, remote: true, 'data-disable-with': '처리 중...' do
+            상단에 고정하기
+

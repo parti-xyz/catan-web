@@ -110,4 +110,12 @@ module DomHelper
   def read_button_dom_class(post)
     "#{dom_id(post)}-read-button"
   end
+
+  def issue_line_bookmark_dom_selector(issue)
+    ".#{issue_line_bookmark_dom_class(issue)}"
+  end
+
+  def issue_line_bookmark_dom_class(issue)
+    "#{dom_id(issue)}-js-issue-line-bookmark-btn"
+  end
 end

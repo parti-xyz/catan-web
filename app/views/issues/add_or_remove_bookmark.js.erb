@@ -1,0 +1,4 @@
+$('[data-action=parti-popover]').webuiPopover('hide');
+var $target = $('<%= issue_line_bookmark_dom_selector(@issue) %>');
+$target.replaceWith('<%= j(render 'issues/bookmark_button', issue: @issue) %>');
+parti_partial$($target);

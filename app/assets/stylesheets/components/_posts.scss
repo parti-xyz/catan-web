@@ -557,6 +557,9 @@ section.posts-page {
         padding-bottom: 0;
         margin-bottom: 0;
       }
+      &.vertical-shrinking-top {
+        padding-top: 0;
+      }
       letter-spacing:  $headings-letter-spacing;
       font-weight: $headings-font-weight;
       small{

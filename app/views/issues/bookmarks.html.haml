@@ -2,23 +2,18 @@
   .container
     .row
       .col-xs-12.col-sm-8
-        %h4.group-heading
-          = group_my_parties_section_title(@group)
+        %h4.posts-header__title.vertical-shrinking-top
+          = (@group.indie? ? "개인 빠띠" : @group.title_basic_format)
           %span.text-nowrap 메뉴 설정
+          %small
+            = group_my_parties_section_title(@group)
+            메뉴의 순서를 정합니다
         .panel.panel-default
           .panel-body
             %ul.list-unstyled
               - @issues.each do |issue|
                 - bookmark_control = capture do
-                  .bookmark-control
-                    - if current_user.bookmarked?(issue)
-                      = link_to [:remove_bookmark, issue], method: :delete, 'data-disable-with': '처리 중', class: 'btn btn-primary btn-sm btn-bookmark-btn' do
-                        %i.fa.fa-thumb-tack
-                        고정됨
-                    - else
-                      = link_to [:add_bookmark, issue], method: :put, 'data-disable-with': '처리 중', class: 'btn btn-default btn-sm btn-bookmark-btn' do
-                        %i.fa.fa-cogs
-                        자동
+                  = render 'issues/bookmark_button', issue: issue
                 = render 'issues/issue_line', issue: issue, right_block: bookmark_control
       - unless is_small_screen?
         = render 'application/aside'
