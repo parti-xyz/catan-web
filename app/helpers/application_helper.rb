@@ -77,27 +77,11 @@ module ApplicationHelper
 
   def parse_hashtags(issue, text)
     text.gsub(HTML_AT_HASHTAG_REGEX) do |m|
-      hashtag = Regexp.last_match[1]
-      tag = hashtag[1..-1]
+      hashtag_with_hash = Regexp.last_match[1]
+      hashtag = hashtag_with_hash[1..-1]
 
-      xhr_dashboard = begin
-        (request.referer.present? and request.xhr? and URI(request.referer).path == '/dashboard')
-      rescue
-        false
-      end
-
-      in_dashboard = begin xhr_dashboard or
-        (request.params[:controller] == 'dashboard' and request.params[:action] == 'index')
-      rescue
-        false
-      end
-
-      url = if issue.present? and in_dashboard
-        dashboard_url(subdomain: nil, hashtag: tag)
-      else
-        smart_issue_home_url(issue, hashtag: tag)
-      end
-      m.gsub(hashtag, link_to(hashtag, url, class: 'user__nickname--mentioned'))
+      url = smart_issue_hashtag_url(issue, hashtag)
+      m.gsub(hashtag_with_hash, link_to(hashtag_with_hash, url, class: 'hashtag'))
     end
   end
 

@@ -1,0 +1,48 @@
+- paging = (!@posts.nil? and @posts.try(:current_page).present?)
+
+= render 'issues/issue_header', issue: @issue, simple: true
+
+%section.posts-page#posts
+  .container
+    .row
+      .col-xs-12.col-sm-8
+        .posts{data: {last_id: -1, is_last: 'false'}}
+          .posts-header.horizontal-padding
+            %h4.posts-header__title.vertical-shrinking
+              \##{@hashtag}
+              %small
+                해시태그된 게시물입니다.
+                %span{ style: 'position: relative;'}
+                  %i.fa.fa-chevron-down.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                  %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
+                    - unless @issue.group.indie?
+                      %li
+                        = link_to hashtag_url(subdomain: @issue.group.subdomain, hashtag: @hashtag), class: 'text-nowrap' do
+                          #{@issue.group.title_basic_format}이 오거나이징하는 빠띠에서 찾아보기
+                    %li
+                      = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'text-nowrap' do
+                        모든 빠띠에서 찾아보기
+          #no-data.text-center.alert{ style: 'display: none;' }
+            %i.fa.fa-info-circle
+              게시글이 없습니다.
+          - if paging
+            - if @posts.any?
+              = render 'posts/page', posts: @posts, show_issue: false, show_day_section: true, first_today_text: ("게시물 #{number_with_delimiter @posts.total_count}개 중에 #{@posts.current_page}페이지를 표시합니다" unless @posts.first_page?)
+            - else
+              #no-data.text-center.alert
+                %i.fa.fa-info-circle
+                  게시글이 없습니다.
+        - if paging
+          = paginate @posts, theme: 'catan'
+
+          - if @recommend_posts.any?
+            %hr
+
+            .post-data-divider 다른 빠띠에선 이런 이야기를 나누고 있어요
+            = render 'posts/list_card', posts: @recommend_posts.limit(30).to_a.sample(3)
+        - else
+          .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': smart_issue_hashtag_url(@issue, @hashtag, format: :js)}
+            .page-waypoint-loading.js-page-waypoint-loading
+              %i.fa.fa-2x.fa-spinner.fa-pulse
+      - unless is_small_screen?
+        = render 'issues/aside'

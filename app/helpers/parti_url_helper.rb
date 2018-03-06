@@ -29,6 +29,10 @@ module PartiUrlHelper
     slug_issue_users_path(options.merge(slug: issue.slug))
   end
 
+  def smart_issue_hashtag_url(issue, hashtag, options = {})
+    slug_issue_hashtags_url(options.merge(slug: issue.slug, hashtag: hashtag, subdomain: issue.group.try(:subdomain)))
+  end
+
   def smart_user_gallery_path(user)
     slug_user_path(slug: user.slug)
   end

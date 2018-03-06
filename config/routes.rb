@@ -239,7 +239,7 @@ Rails.application.routes.draw do
   get '/p/:slug/polls_or_surveys', to: "issues#slug_polls_or_surveys", as: 'slug_issue_polls_or_surveys'
   get '/p/:slug/members', to: "issues#slug_members", as: 'slug_issue_users'
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
-
+  get '/p/:slug/hashtags/:hashtag', to: "issues#slug_hashtag", as: :slug_issue_hashtags
   get '/u/:slug', to: "users#posts", as: 'slug_user'
 
   get '/about', to: "pages#about", as: 'about'

@@ -4,13 +4,25 @@
   .container
     .row
       .col-xs-12.col-sm-8
+        .posts-header.horizontal-padding
+          %h4.posts-header__title.vertical-shrinking
+            \##{@hashtag}
+            %small
+              해시태그된
+              %br.visible-xs
+              - if current_group.present?
+                #{current_group.title_basic_format}이 오거나징하는
+              - else
+                모든
+              빠띠 게시물입니다.
+              - if current_group.present?
+                %span{ style: 'position: relative;'}
+                  %i.fa.fa-chevron-down.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                  %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
+                    %li
+                      = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'text-nowrap' do
+                        모든 빠띠에서 찾아보기
         .posts{data: {last_id: -1, is_last: 'false'}}
-          .post-card.summary
-            .post-card__post
-              모든
-              %strong "##{@hashtag}"
-              해시태그된 게시물입니다.
-
           #no-data.text-center.alert{ style: 'display: none;' }
             %i.fa.fa-info-circle
               해당 게시글이 없습니다.

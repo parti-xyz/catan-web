@@ -538,9 +538,25 @@ section.posts-page {
 
 .posts-header {
   @extend .clearfix;
+  @extend .text-basic-wrap;
+  &__title {
+    small{
+      a {
+        color: $gray;
+        &:hover {
+          color: $brand-primary;
+        }
+      }
+    }
+  }
   @media (min-width: $screen-sm-min) {
     &__title {
       padding: 10px 0px;
+      &.vertical-shrinking {
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
       letter-spacing:  $headings-letter-spacing;
       font-weight: $headings-font-weight;
       small{
@@ -550,6 +566,15 @@ section.posts-page {
   }
   @media (max-width: $screen-xs-max) {
     margin-bottom: 14px;
+    &.horizontal-padding {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    &__title {
+      &.vertical-shrinking {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 

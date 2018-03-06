@@ -782,12 +782,6 @@ body.app-issues-new, .bs-component{
 }
 
 body.app-issues-bookmarks {
-  .page-base {
-    padding: 20px 0;
-    @media (max-width: $screen-xs-max){
-      padding: 10px 0;
-    }
-  }
   .issue-line {
     .bookmark-control {
       .btn-bookmark-btn {

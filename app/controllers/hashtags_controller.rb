@@ -1,8 +1,7 @@
 class HashtagsController < ApplicationController
   def show
-    redirect_to root_url and return if current_group.present?
-
     @hashtag = params[:hashtag].strip.gsub(/( )/, '_').downcase
+
     watched_posts = Post.tagged_with(@hashtag).not_private_blocked_of_group(current_group, current_user).order_by_stroked_at
 
     if view_context.is_infinite_scrollable?

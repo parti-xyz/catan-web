@@ -1,9 +1,9 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
-  before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis]
+  before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis]
   load_and_authorize_resource
-  before_action :verify_issue_group, only: [:slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
-  before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
+  before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :edit]
+  before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members]
 
   def home
     if current_group.blank?
@@ -75,30 +75,16 @@ class IssuesController < ApplicationController
     if params[:q].present?
       @search_q = PostSearchableIndex.sanitize_search_key params[:q]
     end
-
-    if params[:hashtag].present?
-      @hashtag = params[:hashtag].strip.gsub(/( )/, '_').downcase
-    end
-
-    issue_posts = @issue.posts.order(last_stroked_at: :desc)
-    issue_posts = issue_posts.search(@search_q) if @search_q.present?
-    issue_posts = issue_posts.tagged_with(@hashtag) if @hashtag.present?
     @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
 
-    if view_context.is_infinite_scrollable?
-      if request.format.js?
-        @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
+    prepare_posts_page
+  end
 
-        limit_count = ( @previous_last_post.blank? ? 10 : 20 )
-        @posts = issue_posts.limit(limit_count).previous_of_post(@previous_last_post)
+  def slug_hashtag
+    render 'slug_home_blocked' and return if private_blocked?(@issue)
 
-        current_last_post = @posts.last
-        @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
-      end
-    else
-      @posts = issue_posts.page(params[:page])
-      @recommend_posts = Post.of_undiscovered_issues(current_user).where.not(issue_id: @issue.id).after(1.month.ago).hottest.order_by_stroked_at
-    end
+    @hashtag = params[:hashtag].strip.gsub(/( )/, '_').downcase
+    prepare_posts_page
   end
 
   def slug_polls_or_surveys
@@ -329,6 +315,27 @@ class IssuesController < ApplicationController
   end
 
   private
+
+  def prepare_posts_page
+    issue_posts = @issue.posts.order(last_stroked_at: :desc)
+    issue_posts = issue_posts.search(@search_q) if @search_q.present?
+    issue_posts = issue_posts.tagged_with(@hashtag) if @hashtag.present?
+
+    if view_context.is_infinite_scrollable?
+      if request.format.js?
+        @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
+
+        limit_count = ( @previous_last_post.blank? ? 10 : 20 )
+        @posts = issue_posts.limit(limit_count).previous_of_post(@previous_last_post)
+
+        current_last_post = @posts.last
+        @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
+      end
+    else
+      @posts = issue_posts.page(params[:page])
+      @recommend_posts = Post.of_undiscovered_issues(current_user).where.not(issue_id: @issue.id).after(1.month.ago).hottest.order_by_stroked_at
+    end
+  end
 
   def group_issues(group, category_slug = nil)
     @issues = Issue.displayable_in_current_group(group)
