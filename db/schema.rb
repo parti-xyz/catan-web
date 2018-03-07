@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180305114943) do
+ActiveRecord::Schema.define(version: 20180307150848) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -684,7 +684,6 @@ ActiveRecord::Schema.define(version: 20180305114943) do
     t.string   "provider",                      limit: 255
     t.string   "uid",                           limit: 255
     t.datetime "deleted_at"
-    t.integer  "unread_messages_count",         limit: 4,   default: 0
     t.string   "active",                        limit: 255, default: "on"
     t.boolean  "enable_mailing_summary",                    default: true
     t.date     "sent_new_posts_email_at"
