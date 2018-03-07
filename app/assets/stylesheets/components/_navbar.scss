@@ -352,15 +352,18 @@ $drawer-default-space-mobile: 12px;
         }
       }
       .issue-line {
-        .issue-line__title .title {
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          word-wrap: normal;
-          max-width: 130px;
-          overflow: hidden;
-          display: inline-block;
-          line-height: 1em;
-          vertical-align: middle;
+        .issue-line__title {
+          margin-right: 0;
+          .title {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+            max-width: 130px;
+            overflow: hidden;
+            display: inline-block;
+            line-height: 1em;
+            vertical-align: middle;
+          }
         }
       }
       &.group-issues-line {
