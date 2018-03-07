@@ -139,7 +139,12 @@ class IssuesController < ApplicationController
     if @issue.group_slug_changed? and !@issue.movable_to_group?(target_group)
       @target_group = target_group
       @out_of_member_users = @target_group.out_of_member_users(@issue.member_users)
-      render 'warning_out_of_members_notice' and return
+
+      if target_group.private? or target_group.private_blocked?(current_user)
+        render 'warning_out_of_members_notice' and return
+      else
+        GroupMemberJob.perform_async(target_group.id, @out_of_member_users.map(&:id))
+      end
     end
 
     new_organizer_members = []

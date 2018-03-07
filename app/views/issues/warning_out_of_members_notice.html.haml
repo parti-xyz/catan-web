@@ -7,21 +7,18 @@
           #{@target_group.title}
         그룹빠띠에
         소속되지 않아 빠띠를 이동할 수 없습니다.
-      %br
-      %br
-      %div{style:"width:400px;margin:0 auto;"}
-        - @issue_url = smart_issue_home_url(@origin_issue)
         %button.btn.btn-default{onclick:"window.open('#{@issue_url}/members')"}
           멤버 페이지로 이동
+          %i.fa.fa-arrow
+      %div{style:"width:400px;margin:0 auto;"}
+        - @issue_url = smart_issue_home_url(@origin_issue)
         %table.table
           %tr
-            %th
             %th.text-center
               닉네임
             %th.text-center
               이메일
           - @out_of_member_users.each_with_index do |user, idx|
             %tr
-              %td.text-center= idx + 1
-              %td.text-center= user.nickname
-              %td.text-center= user.email
+              %td.text= user.nickname
+              %td.text= user.email
