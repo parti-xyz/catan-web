@@ -3,8 +3,18 @@
     %section
       %h5.aside-title
         모든 빠띠
-      %ul.list-unstyled.aside-issues
-        - Issue.only_alive_of_group(current_group).sort_by_name.each do |issue|
-          - next if issue.private_blocked?(current_user)
-          = render customize_partial_path(issue, 'issue_line')
+      - current_group.categories.push(nil).each do |category|
+        - issues = current_group.categorized_issues(category)
+
+        - if category.present?
+          %h6= category.name
+        - else
+          - if current_group.categories.any?
+            %h6.aside-title 이외
+
+        %ul.list-unstyled.aside-issues
+          - Issue.only_alive_of_group(current_group).sort_by_name.each do |issue|
+            - next if issue.private_blocked?(current_user)
+            = render customize_partial_path(issue, 'issue_line')
+
     = render 'application/footer'

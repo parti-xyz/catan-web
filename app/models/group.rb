@@ -43,6 +43,10 @@ class Group < ActiveRecord::Base
     indie? ? "빠띠" : title
   end
 
+  def categorized_issues(category = nil)
+    issues.categorized_with(category.try(:slug))
+  end
+
   def categories
     if slug == 'gwangju'
       [
