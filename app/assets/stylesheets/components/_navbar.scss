@@ -351,10 +351,18 @@ $drawer-default-space-mobile: 12px;
           color: $brand-primary;
         }
       }
-      &.bookmark-head-line {
-        color: $gray;
+      .issue-line {
+        .issue-line__title .title {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+          max-width: 130px;
+          overflow: hidden;
+          display: inline-block;
+          line-height: 1em;
+          vertical-align: middle;
+        }
       }
-      &.bookmark-head-line,
       &.group-issues-line {
         margin: 12px 18px;
         padding: 0;

@@ -584,10 +584,7 @@ section#issues-group-index {
   &__meta {
     color: $brand-primary;
     font-size: $font-size-small;
-    font-weight: bold;
-    .users-count,
-    .posts-count,
-    .comments-count {
+    .posts-count {
       display: inline-block;
       white-space: nowrap;
     }

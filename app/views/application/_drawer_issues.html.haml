@@ -7,26 +7,6 @@
   = link_to dashboard_url(subdomain: ''), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard') or current_page?('/messages') or current_page?('/posts/pinned')}" do
     %i.fa.fa-home
     내 홈
-/ - if current_user.member_groups.any?
-/   %li.menu-line
-/     %a.dropdown-toggle.title#js-my-groups-toggle{ href: "#" }
-/       %i.fa.fa-group
-/       내 그룹
-/       %i.fa.fa-caret-down
-/     %ul#js-drawer-my-groups.sub.list-unstyled.collapse
-/       - current_user.member_groups.each do |group|
-/         %li.group-line
-/           = link_to smart_group_url(group) do
-/             = group.title_short_format
-/             = meta_icons(group)
-
-/ - if current_user.bookmarks.any?
-/   %li.divider.divider-thick
-/   %li.bookmark-head-line
-/     즐겨찾는 빠띠
-/     %ul.sub.list-unstyled
-/       - current_user.bookmark_issues.sort_by_name.each do |issue|
-/         = render 'issues/issue_line', issue: issue, show_group: true
 
 - if Group.comprehensive_joined_by(current_user).any?
   - ([host_group] + Group.comprehensive_joined_by(current_user).but(host_group).to_a).each do |menu_group|

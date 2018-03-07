@@ -22,27 +22,21 @@
       .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
     .media-body
       .issue-line-body-wraper
-        %a.span.issue-line__title{ href: smart_issue_home_path_or_url(issue), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}") }
-          = issue.title
+        %a.span.issue-line__title{ href: smart_issue_home_path_or_url(issue), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}"), title: issue.title }
+          %span.title= issue.title
           - if local_assigns[:show_group] and !issue.group.indie?
             \/
             %span.text-nowrap
               = issue.group.title_short_format
           = meta_icons(issue, (['star', '오거나징하는 빠띠'] if issue.organized_by?(current_user)))
         - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
-          %span.issue-line__meta
-            - if issue.members.latest.count > 0
-              .users-count.meta-item
-                %i.fa.fa-user(title='최근 가입한 멤버')
-                %b= issue.members.latest.count
-            - if issue.posts.latest.count > 0
+          - last_stroked_count = issue.posts.after(1.days.ago, field: 'posts.last_stroked_at').count
+          - if last_stroked_count > 0
+            %span.issue-line__meta
               .posts-count.meta-item
-                %i.fa.fa-file-text(title='최근 게시물')
-                %b= issue.posts.latest.count
-            - if issue.comments.latest.count > 0
-              .comments-count.meta-item
-                %i.fa.fa-comment(title='최근 댓글')
-                %b= issue.comments.latest.count
+                %i.fa.fa-file-text(title='최근 업데이트')
+                = last_stroked_count
+
         %span.after-block
           = after_block
     - if local_assigns[:right_block].present?
