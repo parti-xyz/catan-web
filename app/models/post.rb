@@ -242,7 +242,7 @@ class Post < ActiveRecord::Base
   # fulltext serch
   before_save :reindex_for_search
   # hashtagging
-  before_save :reindex_hashtag
+  before_save :reindex_hashtags
 
   def specific_desc
     self.parsed_title.presence || self.body.presence ||
@@ -535,6 +535,11 @@ class Post < ActiveRecord::Base
     self.post_searchable_index.reindex!
   end
 
+  def reindex_for_hashtags!
+    reindex_hashtags(force: true)
+    self.save_tags
+  end
+
   def decision_authors_count
     decision_histories.select(:user_id).distinct.count
   end
@@ -550,8 +555,10 @@ class Post < ActiveRecord::Base
     self.post_searchable_index.reindex if body_changed?
   end
 
-  def reindex_hashtag
-    if self.body_changed? or (self.wiki.present? and (self.wiki.body_changed? or self.wiki.title_changed?))
+  def reindex_hashtags(force: false)
+    return if issue.private_blocked?(self.user)
+
+    if force or self.body_changed? or (self.wiki.present? and (self.wiki.body_changed? or self.wiki.title_changed?))
       self.tag_list.clear
 
       words = [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
