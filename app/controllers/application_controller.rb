@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :prepare_meta_tags, if: "request.get?"
   before_action :set_device_type
+  before_action :block_not_exists_group
   before_action :blocked_private_group
   before_action :logging_mobile_app
 
@@ -68,6 +69,12 @@ class ApplicationController < ActionController::Base
   helper_method :fixed_history_back_url_in_mobile_app
 
   private
+
+  def block_not_exists_group
+    if current_group.blank? and request.subdomain.present?
+      redirect_to root_url(subdomain: nil)
+    end
+  end
 
   def blocked_private_group
     return if current_group.blank? or current_user.try(:admin?)

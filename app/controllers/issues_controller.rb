@@ -7,7 +7,11 @@ class IssuesController < ApplicationController
 
   def home
     if current_group.blank?
-      index
+      if request.subdomain.present?
+        redirect_to root_url(subdomain: nil)
+      else
+        index
+      end
     else
       group_issues(current_group)
       @posts_pinned = current_group.pinned_posts(current_user)
