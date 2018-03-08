@@ -7,7 +7,7 @@
 
     = render 'favicons'
 
-    - if current_group.present?
+    - if current_group.present? and CatanWeb::Application.assets.find_asset("groups/#{current_group.slug}/#{current_group.slug}_default")
       = stylesheet_link_tag "groups/#{current_group.slug}/#{current_group.slug}_default", media: 'all'
     - else
       = stylesheet_link_tag 'application_default', media: 'all'
