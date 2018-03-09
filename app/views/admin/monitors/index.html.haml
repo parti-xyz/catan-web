@@ -23,10 +23,3 @@
           %td= data.comments_count
           %td= data.upvotes_count
 
-%section#counts
-  %h4 빠띠 태그
-  - @issue_tags.each do |tag|
-    %h5= tag
-    %ul.list-unstyled
-      - Issue.tagged_with(tag).each do |issue|
-        = render 'issues/issue_line', issue: issue
