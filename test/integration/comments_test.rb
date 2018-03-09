@@ -22,7 +22,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
   test '댓글을 달면 메시지가 보내져요' do
     comment = comments(:comment1)
-    assert comment.post.comments.users.include?(users(:one))
+    assert User.where(id: comment.post.comments.select(:user_id)).include?(users(:one))
 
     sign_in(users(:two))
     Sidekiq::Testing.inline! do

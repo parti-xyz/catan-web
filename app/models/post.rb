@@ -153,12 +153,7 @@ class Post < ActiveRecord::Base
   accepts_nested_attributes_for :poll
   accepts_nested_attributes_for :survey
 
-  has_many :comments, dependent: :destroy do
-    def users
-      self.map(&:user).uniq
-    end
-  end
-
+  has_many :comments, dependent: :destroy
   has_many :readers, dependent: :destroy
 
   # validations
@@ -272,7 +267,7 @@ class Post < ActiveRecord::Base
 
   def messagable_users
     result = [user]
-    result += comments.users
+    result += User.where(id: comments.select(:user_id))
 
     if poll.present?
       result += User.where(id: poll.votings.select(:user_id))

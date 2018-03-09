@@ -134,7 +134,7 @@ class Group < ActiveRecord::Base
   end
 
   def self.comprehensive_joined_by(someone)
-    self.where(slug: (someone.member_issues.select(:group_slug).distinct))
+    self.where(slug: (someone.member_issues.select(:group_slug)))
         .or(self.where(id: someone.member_groups))
   end
 
