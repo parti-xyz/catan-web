@@ -1,4 +1,4 @@
-class GroupBaseController < ApplicationController
+class Group::BaseController < ApplicationController
   before_action :verify_current_group
 
 

@@ -1,4 +1,4 @@
-class Admin::BlindsController < AdminController
+class Admin::BlindsController < Admin::BaseController
   load_and_authorize_resource
 
   def index

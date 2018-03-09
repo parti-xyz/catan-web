@@ -1,4 +1,4 @@
-class Admin::UsersController < AdminController
+class Admin::UsersController < Admin::BaseController
   def all_email
     @results = User.pluck(:email).uniq.map{|email| [User.find_by(email: email).nickname, email] }
     respond_to do |format|

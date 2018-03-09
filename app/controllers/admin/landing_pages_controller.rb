@@ -1,4 +1,4 @@
-class Admin::LandingPagesController < AdminController
+class Admin::LandingPagesController < Admin::BaseController
   def index
     @sections = LandingPage.all_data
   end

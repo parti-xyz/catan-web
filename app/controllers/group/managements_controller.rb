@@ -1,4 +1,4 @@
-class Group::ManagementsController < GroupBaseController
+class Group::ManagementsController < Group::BaseController
   before_action :only_organizer, only: [:index]
 
   def index

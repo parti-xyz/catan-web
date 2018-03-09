@@ -1,4 +1,4 @@
-class Group::Eduhope::MembersController < GroupBaseController
+class Group::Eduhope::MembersController < Group::BaseController
   before_filter :authenticate_user!
 
   def admit

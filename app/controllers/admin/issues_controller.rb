@@ -1,4 +1,4 @@
-class Admin::IssuesController < AdminController
+class Admin::IssuesController < Admin::BaseController
   def merge
     group = Group.find_by slug: params[:group_slug]
     if group.blank?

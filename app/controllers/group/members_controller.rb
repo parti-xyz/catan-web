@@ -1,4 +1,4 @@
-class Group::MembersController < GroupBaseController
+class Group::MembersController < Group::BaseController
   load_and_authorize_resource
   before_action :only_organizer, only: [:ban, :organizer, :new_admit, :admit]
   before_action :authenticate_user!, except: [:magic_form]
