@@ -16,9 +16,9 @@
 
     .form-group{class: error_class_str(@group, :site_title)}
       = f.label :site_title, t("labels.group.form.site_title")
-      = f.text_field :site_title, class: 'form-control'
+      = f.text_field :site_title, class: 'form-control input-lg'
       %p.help-block
-        그룹의 제목입니다. 그룹 화면 맨 위에 표시됩니다. 그리고 소셜네트워크나 다른 서비스에 공유할 때도 쓰입니다. 쵀대 50자까지 한 줄 설명을 넣어 주세요. 입력하지 않으시면 그룹의 이름이 사용됩니다.
+        그룹의 제목입니다. 그룹 화면 맨 위에 표시됩니다. 그리고 소셜네트워크나 다른 서비스에 공유할 때도 쓰입니다. 최대 50자까지 한 줄 설명을 넣어 주세요. 입력하지 않으시면 그룹의 이름이 사용됩니다.
 
     - if @group.persisted?
       .form-group
@@ -51,7 +51,7 @@
     - if @group.persisted?
       .form-group{class: ('has-error' if has_error_attr?(@group, :organizer_nicknames))}
         = f.label :organizer_nicknames
-        = f.text_field :organizer_nicknames, value: @group.organizer_members.merge_nickname, class: 'form-control'
+        = f.text_field :organizer_nicknames, value: @group.organizer_members.merge_nickname, class: 'form-control input-lg'
         %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 그룹의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
     - else
       .form-group
@@ -61,7 +61,7 @@
 
     .form-group{class: error_class_str(@group, :site_keywords)}
       = f.label :site_keywords, t("labels.group.form.site_keywords")
-      = f.text_field :site_keywords, class: 'form-control'
+      = f.text_field :site_keywords, class: 'form-control input-lg'
       %p.help-block
         키워드를 쉼표로 구분해서 넣어 주세요. 검색해서 그룹을 찾아오기 쉬워집니다. #는 붙이실 필요 없어요.
 

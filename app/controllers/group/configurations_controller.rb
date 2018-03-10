@@ -1,5 +1,26 @@
 class Group::ConfigurationsController < Group::BaseController
-  before_action :only_organizer
+  skip_before_action :verify_current_group, only: [:new, :create]
+  before_action :authenticate_user!
+  before_action :only_organizer, only: [:edit, :update]
+
+  def new
+    @group = Group.new
+    @group.user = current_user
+    @group.members.build(user: current_user, is_organizer: true)
+  end
+
+  def create
+    @group = Group.new(group_params)
+    @group.user = current_user
+    @group.slug = params[:group][:slug]
+    @group.members.build(user: current_user, is_organizer: true)
+
+    if @group.save
+      redirect_to root_url(subdomain: @group.subdomain)
+    else
+      render 'new'
+    end
+  end
 
   def edit
     @group = current_group

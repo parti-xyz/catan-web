@@ -30,13 +30,13 @@
         = render 'drawer_menu'
       .content-wrapper
         %section#admin
-          .container
+          .container-fluid
             .row
               - if content_for?(:sidebar)
                 = yield :sidebar
               - else
-                .col-sm-3
-                  %ul.nav.nav-stacked.affix(style="background-color: #fff")
+                .col-sm-2
+                  %ul.nav.nav-stacked.affix(style="background-color: #fff; z-index: 10;")
                     %li= link_to '관리 홈', admin_root_path, class: "#{current_page?(admin_root_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '랜딩페이지 운영', admin_landing_pages_path, class: "#{current_page?(admin_landing_pages_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '활성 빠띠 조회', admin_active_issue_stats_path, class: "#{current_page?(admin_active_issue_stats_path) ? 'text-primary' : 'text-default'}"
@@ -47,7 +47,7 @@
                     %li= link_to '빠띠 관리', admin_issues_path, class: "#{current_page?(admin_issues_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '운영자 관리', admin_roles_path, class: "#{current_page?(admin_roles_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '전체 공지 메일 발송', admin_new_notice_email_path, class: "#{current_page?(admin_new_notice_email_path) ? 'text-primary' : 'text-default'}"
-              .col-sm-9
+              .col-sm-10
                 = yield
 
     = javascript_include_tag 'application'
