@@ -182,6 +182,7 @@ Rails.application.routes.draw do
   resources :invitations
 
   namespace :group do
+    resource :configuration
     resources :members do
       collection do
         put :organizer

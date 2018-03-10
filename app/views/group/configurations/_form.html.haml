@@ -1,0 +1,78 @@
+.well
+  - if @group.errors.any?
+    .alert.alert-danger{:role => "alert"}
+      - @group.errors.full_messages.each do |msg|
+        %div
+          %span.glyphicon.glyphicon-exclamation-sign{"aria-hidden" => "true"}
+          %span.sr-only 오류 :
+          = msg
+
+  = form_for @group, url: [:group, :configuration] do |f|
+    .form-group{class: error_class_str(@group, :title)}
+      = f.label :title
+      = f.text_field :title, class: 'form-control input-lg'
+      %p.help-block
+        그룹의 이름을 정해주세요. 최대 20자까지 넣을 수 있습니다.
+
+    .form-group{class: error_class_str(@group, :site_title)}
+      = f.label :site_title, t("labels.group.form.site_title")
+      = f.text_field :site_title, class: 'form-control'
+      %p.help-block
+        그룹의 제목입니다. 그룹 화면 맨 위에 표시됩니다. 그리고 소셜네트워크나 다른 서비스에 공유할 때도 쓰입니다. 쵀대 50자까지 한 줄 설명을 넣어 주세요. 입력하지 않으시면 그룹의 이름이 사용됩니다.
+
+    - if @group.persisted?
+      .form-group
+        = f.label :slug, t("labels.group.form.slug")
+        %p
+          %strong= root_url(subdomain: @group.subdomain)
+        %p.help-block 그룹 주소를 변경하려면 #{link_to 'help@parti.xyz', 'mailto:help@parti.xyz'}로 메일을 보내주세요.
+    - else
+      .form-group{class: ('has-error' if has_error_attr?(@group, :slug))}
+        = f.label :slug, t("labels.group.form.slug")
+        .input-group
+          = f.text_field :slug, class: 'form-control input-lg'
+          .input-group-addon
+            \.parti.xyz
+        %p.help-block
+          그룹의 인터넷 주소를 만들어 보세요. 반드시 영문자로 시작해야 합니다. 영문자와 숫자, -만 넣어주세요. 이미 등록된 주소는 사용할 수 없습니다.
+
+    .form-group{class: error_class_str(@group, :site_description)}
+      = f.label :site_description
+      = f.text_area :site_description, class: 'form-control input-lg'
+      %p.help-block
+        그룹을 쉽고 재미있게 설명해보세요.
+
+    .form-group{class: error_class_str(@group, :head_title)}
+      = f.label :head_title
+      = f.text_field :head_title, class: 'form-control input-lg'
+      %p.help-block
+        제목을 다섯 글자로 줄인다면 어떻게 되나요? 그룹을 간단 명료하게 표시해 보세요. 모바일 기기나 좁은 화면에 그룹을 표시할 때 사용합니다.
+
+    - if @group.persisted?
+      .form-group{class: ('has-error' if has_error_attr?(@group, :organizer_nicknames))}
+        = f.label :organizer_nicknames
+        = f.text_field :organizer_nicknames, value: @group.organizer_members.merge_nickname, class: 'form-control'
+        %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 그룹의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
+    - else
+      .form-group
+        = f.label :organizer_nicknames
+        %p= current_user.nickname
+        %p.help-block 그룹을 만든 후에 오거나이저를 고칠 수 있습니다.
+
+    .form-group{class: error_class_str(@group, :site_keywords)}
+      = f.label :site_keywords, t("labels.group.form.site_keywords")
+      = f.text_field :site_keywords, class: 'form-control'
+      %p.help-block
+        키워드를 쉼표로 구분해서 넣어 주세요. 검색해서 그룹을 찾아오기 쉬워집니다. #는 붙이실 필요 없어요.
+
+    .form-group{class: ('has-error' if has_error_attr?(@group, :private))}
+      = f.label :private
+      .checkbox
+        %label
+          = f.check_box :private
+          비공개로 설정하면 이 그룹에 가입한 멤버만 게시글을 볼 수 있습니다.
+
+    .form-group
+      = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
+      = link_to root_url(subdomain: @group.try(:subdomain)), class: 'btn btn-default' do
+        취소

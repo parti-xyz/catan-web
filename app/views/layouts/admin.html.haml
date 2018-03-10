@@ -43,6 +43,7 @@
                     %li= link_to '사용자 이메일 다운로드', all_email_admin_users_path(format: :xlsx)
                     %li= link_to '사용자 통계', stat_admin_users_path, class: "#{current_page?(stat_admin_users_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '블랙리스트 유저 관리', admin_blinds_path, class: "#{current_page?(admin_blinds_path) ? 'text-primary' : 'text-default'}"
+                    %li= link_to '그룹 관리', admin_groups_path, class: "#{current_page?(admin_groups_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '빠띠 관리', admin_issues_path, class: "#{current_page?(admin_issues_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '운영자 관리', admin_roles_path, class: "#{current_page?(admin_roles_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '전체 공지 메일 발송', admin_new_notice_email_path, class: "#{current_page?(admin_new_notice_email_path) ? 'text-primary' : 'text-default'}"

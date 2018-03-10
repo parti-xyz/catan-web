@@ -265,6 +265,13 @@ class User < ActiveRecord::Base
     bookmarks.exists?(issue_id: issue)
   end
 
+  def self.parse_nicknames nicknames
+    return [] if nicknames.blank?
+    (nicknames.split(",") || []).map(&:strip).uniq.compact.map do |nickname|
+      self.find_by(nickname: nickname)
+    end.compact
+  end
+
   private
 
   def downcase_nickname

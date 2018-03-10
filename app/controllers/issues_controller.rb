@@ -154,7 +154,7 @@ class IssuesController < ApplicationController
     new_organizer_members = []
     ActiveRecord::Base.transaction do
       if params[:issue].has_key?(:organizer_nicknames)
-        organizer_users = Issue.parse_organizer_nicknames(@issue.organizer_nicknames)
+        organizer_users = User.parse_nicknames(@issue.organizer_nicknames)
         organizer_users.each do |user|
           member = @issue.members.find_by(user: user)
           next if member.blank?

@@ -1,4 +1,6 @@
 class Group < ActiveRecord::Base
+  attr_accessor :organizer_nicknames
+
   include Grape::Entity::DSL
   entity :title, :slug
 
@@ -15,7 +17,11 @@ class Group < ActiveRecord::Base
   belongs_to :user
   has_many :invitations, as: :joinable, dependent: :destroy
   has_many :members, as: :joinable, dependent: :destroy
-  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member
+  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member do
+    def merge_nickname
+      self.map { |m| m.user.nickname }.join(',')
+    end
+  end
   has_many :member_users, through: :members, source: :user
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
@@ -26,6 +32,28 @@ class Group < ActiveRecord::Base
   scope :not_private_blocked, ->(current_user) { where.any_of(
                                                     where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id')),
                                                     where.not(private: true)) }
+  mount_uploader :logo, ImageUploader
+
+  validates :title,
+    presence: true,
+    length: { maximum: 20 },
+    uniqueness: { case_sensitive: false }
+  validates :site_description,
+    length: { maximum: 200 }
+  VALID_SLUG = /\A[a-z][a-z0-9_-]+\z/i
+  validates :slug,
+    presence: true,
+    format: { with: VALID_SLUG },
+    uniqueness: { case_sensitive: false },
+    length: { maximum: 20 }
+  validate :not_predefined_slug
+  validates :head_title,
+    presence: true,
+    uniqueness: { case_sensitive: false },
+    length: { maximum: 5 }
+  validates :site_title,
+    presence: true,
+    length: { maximum: 50 }
 
   def find_category_by_slug(slug)
     categories.detect { |c| c.slug == slug }
@@ -93,8 +121,8 @@ class Group < ActiveRecord::Base
     end
   end
 
-  def title
-    read_attribute(:title) || read_attribute(:name)
+  def site_title
+    read_attribute(:site_title) || read_attribute(:title)
   end
 
   def member_requested?(someone)
@@ -183,5 +211,17 @@ class Group < ActiveRecord::Base
 
   def member_requests_with_deleted
     MemberRequest.with_deleted.where(joinable: self)
+  end
+
+  private
+
+  def not_predefined_slug
+    return if user.admin?
+
+    if %w(all app new edit index session login logout
+        users admin stylesheets assets javascripts
+        images parti dev).include? self.slug
+      errors.add(:slug, I18n.t('errors.messages.taken'))
+    end
   end
 end

@@ -1,0 +1,12 @@
+.bs-component
+  %section#post-form
+    .container
+      %h2.page-header 그룹수정
+      = render 'form'
+
+  %section#post-form
+    .container
+      %h2.page-header 그룹삭제
+      .well
+        .help-block
+          그룹을 삭제하려면 #{link_to 'help@parti.xyz', 'mailto:help@parti.xyz'}로 메일을 보내주세요.

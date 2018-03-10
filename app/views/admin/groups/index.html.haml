@@ -1,0 +1,28 @@
+%section#counts
+  %h4 그룹 관리
+  %table.table(style="width: 1000px")
+    %thead
+      %tr
+        %th.text-nowrap 이름
+        %th.text-nowrap 소셜공유 제목
+        %th.text-nowrap 다섯 글자 제목
+        %th.text-nowrap 주소 &middot; 슬러그
+        %th.text-nowrap 태그
+        %th.text-nowrap 오거나이저
+        %th.text-nowrap 공개/비공개 여부
+        %th.text-nowrap 개설회원
+    %tbody
+      - @groups.each do |group|
+        %tr
+          %td.text-nowrap
+            = link_to group.title, edit_group_configuration_url(subdomain: group.subdomain)
+          %td= group.site_title
+          %td.text-nowrap= group.head_title
+          %td= group.slug
+          %td= group.site_keywords
+          %td
+            - group.organizer_members.map(&:user).each do |user|
+              = byline(user)
+          %td= ('비공개' if group.private?)
+          %td.text-nowrap= byline(group.user)
+  = paginate @groups, theme: 'catan'
