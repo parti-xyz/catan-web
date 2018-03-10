@@ -8,7 +8,7 @@
 
     = render 'favicons'
 
-    - if current_group.present? and CatanWeb::Application.assets.find_asset("groups/#{current_group.slug}/#{current_group.slug}_default")
+    - if current_group.present? and Sprockets::Railtie.build_environment(Rails.application, true)["groups/#{current_group.slug}/#{current_group.slug}_xs"].present?
       = stylesheet_link_tag "groups/#{current_group.slug}/#{current_group.slug}_xs", media: 'all'
     - else
       = stylesheet_link_tag 'application_xs', media: 'all'
