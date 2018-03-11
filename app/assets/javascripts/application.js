@@ -800,6 +800,10 @@ $(function(){
       }
     }
 
+    if(!url) {
+      return;
+    }
+
     if($.is_present($(this).data('link-target'))) {
       window.open(url, $(this).data('link-target'));
     } else if (e.shiftKey || e.ctrlKey || e.metaKey) {

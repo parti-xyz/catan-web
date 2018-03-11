@@ -14,6 +14,6 @@
               - @issues.each do |issue|
                 - bookmark_control = capture do
                   = render 'issues/bookmark_button', issue: issue
-                = render 'issues/issue_line', issue: issue, right_block: bookmark_control
+                = render 'issues/issue_line', issue: issue, right_block: bookmark_control, no_link: true
       - unless is_small_screen?
         = render 'application/aside'
