@@ -386,11 +386,13 @@ $drawer-default-space-mobile: 12px;
         .sub {
           margin-top: 12px;
           .issue-more,
+          .issue-less,
           .issue-line {
             padding: 0;
             border: none;
           }
-          .issue-more {
+          .issue-more,
+          .issue-less {
             font-size: $font-size-small;
             color: $gray-light;
             a {

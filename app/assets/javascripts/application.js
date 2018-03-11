@@ -1099,8 +1099,34 @@ $(function(){
   $('.js-show-more-sidemenu-issues').on('click', function(e) {
     event.preventDefault();
     var $target = $(e.currentTarget);
+
+    $target.parent().hide().addClass('js-more-sidemenu-collapse');
     $target.parent().nextAll().show().removeClass('js-more-sidemenu-collapse');
-    $target.parent().remove();
+
+    var $show_less = $target.parent().parent().find('.js-show-less-sidemenu-issues').eq(0);
+    $show_less.parent().show().removeClass('js-more-sidemenu-collapse');
+  });
+
+  $('.js-show-less-sidemenu-issues').on('click', function(e) {
+    event.preventDefault();
+    var $target = $(e.currentTarget);
+
+    var old_scroll_top = $('#js-drawer').parent().scrollTop();
+    var old_height = $target.parent().parent().outerHeight();
+
+    var $show_more = $target.parent().parent().find('.js-show-more-sidemenu-issues').eq(0);
+    $show_more.parent().show().removeClass('js-more-sidemenu-collapse');
+    $show_more.parent().nextAll().hide().addClass('js-more-sidemenu-collapse');
+
+    $target.parent().hide().addClass('js-more-sidemenu-collapse');
+
+    setTimeout(function() {
+      var new_height = $target.parent().parent().outerHeight();
+      var delta = old_height - new_height;
+      $('#js-drawer').parent().stop().animate({
+        scrollTop: old_scroll_top - delta
+      }, 200);
+    }, 140);
   });
 
   // 햄버거 사이드메뉴 search
@@ -1130,7 +1156,7 @@ $(function(){
       var $hidden = $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden')
       $hidden.removeClass('js-drawer-filter-item-hidden');
       $hidden.not('.js-more-sidemenu-collapse').show();
-      $('.js-filterable-by-drawer-filter .js-more-sidemenu-collapse').css('display', '');
+      $('.js-filterable-by-drawer-filter .js-more-sidemenu-collapse').css('display', 'none');
       $('.js-drawer-filter-more').fadeOut();
     } else {
       // Loop through the comment list

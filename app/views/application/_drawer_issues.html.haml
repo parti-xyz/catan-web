@@ -54,3 +54,12 @@
 
               - issues.sort_by_name.each do |issue|
                 = render 'issues/issue_line', issue: issue, collapse: true
+
+              %li.js-issue-line.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse
+                %a.js-show-less-sidemenu-issues(href="#")
+                  %i.fa.fa-caret-up
+                  줄여보기
+                &middot;
+                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug) do
+                  %i.fa.fa-gear
+                  설정
