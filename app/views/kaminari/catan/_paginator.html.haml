@@ -30,7 +30,8 @@
     %ul{:class => "pagination #{pagination_class}"}
       = prev_page_tag unless current_page.first?
       - if is_small_screen?
-        %li #{current_page}/#{num_pages}
+        - if current_page > 1
+          %li #{current_page}페이지
       - else
         - each_page do |page|
           - if page.left_outer? || page.right_outer? || page.inside_window?
