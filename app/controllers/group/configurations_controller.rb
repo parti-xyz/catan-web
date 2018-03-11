@@ -59,6 +59,7 @@ class Group::ConfigurationsController < Group::BaseController
         #MessageService.new(@group, sender: current_user).call
         old_organizer_members = @group.organizer_members.to_a - new_organizer_members
         new_organizer_members.each do |member|
+          next if member.user == current_user
           MessageService.new(member, sender: current_user, action: :new_organizer).call(old_organizer_members: old_organizer_members)
           MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
         end
