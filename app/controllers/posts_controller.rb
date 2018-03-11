@@ -199,7 +199,7 @@ class PostsController < ApplicationController
   def pinned
     group_grouping_pinned_posts = current_user.pinned_posts.to_a.group_by { |post| post.issue.group }
     @pinned_posts = []
-    Group.where(id: group_grouping_pinned_posts.keys).each do |group|
+    Group.where(id: group_grouping_pinned_posts.keys).sort_by_name.each do |group|
       parti_grouping_pinned_posts = group_grouping_pinned_posts[group].to_a.group_by { |post| post.issue }
       Issue.where(id: parti_grouping_pinned_posts.keys).sort_by_name.each do |issue|
         @pinned_posts << [issue, parti_grouping_pinned_posts[issue]]

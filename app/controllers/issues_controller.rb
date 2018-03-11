@@ -41,7 +41,7 @@ class IssuesController < ApplicationController
         issue_slugs = LandingPage.where("title like '#{params[:subject]}'")[0].try(:parsed_body).try(:map).to_a
         @issues = Issue.where(:slug => issue_slugs)
       else
-        @groups = Group.not_private_blocked(current_user)
+        @groups = Group.not_private_blocked(current_user).sort_by_name
         @groups = @groups.to_a.reject { |group| group.issues.count <= 0 }
       end
 

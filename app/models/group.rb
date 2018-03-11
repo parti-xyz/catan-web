@@ -27,7 +27,7 @@ class Group < ActiveRecord::Base
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :issues, dependent: :restrict_with_error, primary_key: :slug, foreign_key: :group_slug
 
-  default_scope -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
+  scope :sort_by_name, -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
   scope :but, ->(group) { where.not(id: group) }
   scope :not_private_blocked, ->(current_user) { where.any_of(
                                                     where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id')),

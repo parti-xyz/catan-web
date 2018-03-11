@@ -8,7 +8,7 @@ module V1
       desc '내가 가입한 빠띠의 그룹 목록을 반환합니다'
       oauth2
       get :joined do
-        present Group.comprehensive_joined_by(resource_owner), base_options
+        present Group.comprehensive_joined_by(resource_owner).sort_by_name, base_options
       end
 
       desc '각 그룹에 속한 빠띠목록을 반환합니다'
