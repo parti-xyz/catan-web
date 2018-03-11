@@ -22,7 +22,9 @@ class Admin::IssuesController < Admin::BaseController
       begin
         source.members.each do |member|
           user = member.user
-          target.members.build(user: user, updated_at: member.updated_at, created_at: member.created_at) unless target.member_users.exists?(id: user.id)
+          unless target.member_users.exists?(id: user.id)
+            MemberIssueService.new(issue: target, user: user, updated_at: member.updated_at, created_at: member.created_at, need_to_message_organizer: false).call
+          end
         end
       ensure
         ActiveRecord::Base.record_timestamps = true

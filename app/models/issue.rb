@@ -86,6 +86,9 @@ class Issue < ActiveRecord::Base
   has_many :relatings, class_name: Related, foreign_key: :target_id, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
+  #**
+  #** 중요 : 아래 members를 이용하지 말고 MemberIssueService를 이용하여 가입처리를 해야합니다
+  #**
   has_many :members, as: :joinable, dependent: :destroy
   has_many :member_users, through: :members, source: :user
   has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member do

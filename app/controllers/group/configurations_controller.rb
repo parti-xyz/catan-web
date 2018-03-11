@@ -36,7 +36,13 @@ class Group::ConfigurationsController < Group::BaseController
         organizer_users = User.parse_nicknames(@group.organizer_nicknames)
         organizer_users.each do |user|
           member = @group.members.find_by(user: user)
-          next if member.blank?
+          if member.blank?
+            if @group.comprehensive_joined_by?(user)
+              member = MemberGroupService.new(group: @group, user: user).call
+            else
+              next
+            end
+          end
 
           unless member.is_organizer?
             member.update_attributes(is_organizer: true)

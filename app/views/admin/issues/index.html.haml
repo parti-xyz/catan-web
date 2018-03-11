@@ -2,19 +2,13 @@
 = form_tag merge_admin_issues_path, method: :post do
   .form-group
     = text_field_tag :group_slug, nil, class: 'form-control'
-    그룹의(일반 빠띠 그룹의 slug은 indie입니다)
+    그룹의 slug. 일반 빠띠 그룹의 slug은 indie입니다.
   .form-group
     = text_field_tag :source_slug, nil, class: 'form-control'
-    빠띠를 지우고
+    slug의 빠띠를 지우고
   .form-group
     = text_field_tag :issue_slug, nil, class: 'form-control'
-    빠띠로 통합합니다.
-  .help-block
-    위키의 경우, 합해지고 남는 빠띠의 위키만 남고 지워지니 미리 수동으로 옮기고 합쳐주세요.
-    %br
-    위키탭이 보이지 않을 경우 아래의 url처럼 개별빠띠홈에 '/wikis'를 추가해서 접근가능합니다.
-    %br
-    ( ex. https://parti.xyz/p/assembly/wikis )
+    slug의 빠띠로 통합합니다.
   .form-group
     = submit_tag '합하기', data: { action: 'parti-confirm-merge', source: '#source_slug', target: '#issue_slug', disable_with: "처리 중..." }
 

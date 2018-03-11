@@ -161,6 +161,10 @@ class Group < ActiveRecord::Base
     %(indie).include?(self.slug)
   end
 
+  def comprehensive_joined_users
+    User.where(id: Member.where(joinable: self.issues).select(:user_id))
+  end
+
   def self.comprehensive_joined_by(someone)
     self.where(slug: (someone.member_issues.select(:group_slug)))
         .or(self.where(id: someone.member_groups))

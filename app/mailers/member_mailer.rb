@@ -57,7 +57,7 @@ class MemberMailer < ApplicationMailer
     return if @user.blank?
 
     mail(to: @member.user.email,
-         subject: "[빠띠] #{@user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human}를 자동으로 가입되도록 설정했습니다. 해당 #{@member.joinable.model_name.human}에 가입되셨습니다.")
+         subject: "[빠띠] #{@user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human}를 자동가입되도록 설정했습니다. 해당 #{@member.joinable.model_name.human}에 가입되셨습니다.")
   end
 
   def on_new_organizer(member_id, organizer_user_id)

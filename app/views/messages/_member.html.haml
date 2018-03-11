@@ -22,7 +22,7 @@
     %strong
       #{message.sender.nickname}님이
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
-      #{member.joinable.model_name.human}를 자동으로 가입되도록 설정했습니다. 해당 #{member.joinable.model_name.human}에 가입되었습니다.
+      #{member.joinable.model_name.human}를 자동가입되도록 설정했습니다. 해당 #{member.joinable.model_name.human}에 가입되었습니다.
 - elsif message.action.to_s == 'new_organizer'
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
     %strong

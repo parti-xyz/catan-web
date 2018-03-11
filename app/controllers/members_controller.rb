@@ -9,7 +9,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to(request.referrer || smart_issue_home_path_or_url(@member.issue)) }
+      format.html { redirect_to(request.referrer || (@member.present? ? smart_issue_home_path_or_url(@member.issue) : root_url) }
     end
   end
 

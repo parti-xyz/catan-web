@@ -118,11 +118,11 @@ class IssuesController < ApplicationController
   end
 
   def create
-    @issue.members.build(user: current_user, is_organizer: true)
     @issue.group_slug = Group.default_slug(current_group)
     @issue.strok_by(current_user)
 
     if @issue.save
+      MemberIssueService.new(issue: @issue, user: current_user, is_organizer: true, need_to_message_organizer: false).call
       if @issue.is_default?
           IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
         end
@@ -262,7 +262,7 @@ class IssuesController < ApplicationController
       next if @issue.member?(recipient)
 
       if recipient.present?
-        new_members << @issue.members.build(user: recipient, admit_message: params[:message])
+        new_members << MemberIssueService.new(issue: @issue, user: recipient, admit_message: params[:message], need_to_message_organizer: false).call
       elsif recipient_code.match /@/
         new_invitations << @issue.invitations.build(user: current_user, recipient_email: recipient_code, message: params[:message])
       else
@@ -270,6 +270,7 @@ class IssuesController < ApplicationController
         @has_error_recipient_codes = true
       end
     end
+    new_members.compact!
 
     unless @has_error_recipient_codes
       @success = false

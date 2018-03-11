@@ -133,8 +133,7 @@ module V1
         @issue = Issue.find_by(slug: params[:slug], group_slug: params[:group_slug])
 
         return_no_content and return if @issue.member?(resource_owner)
-        @issue.members.build(user: resource_owner)
-        @issue.save!
+        MemberIssueService.new(issue: @issue, user: resource_owner, need_to_message_organizer: true).call
       end
 
       desc '탈퇴했습니다'
