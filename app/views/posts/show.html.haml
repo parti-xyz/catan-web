@@ -27,25 +27,28 @@
                   %small.text-muted
                     더 보기
                     %i.fa.fa-angle-double-right
-              - another_blocks = anothers.sample(3).map do |post|
-                - capture do
-                  = render 'posts/card', post: post
-              - intro = capture do
-                .post-card.post-card-for-parti
+              = render 'posts/page', posts: anothers.sample(3)
+              .help-text
+                = link_to smart_issue_home_url(@post.issue), class: 'text-muted' do
+                  #{@post.issue.title}
+                  빠띠의 다른 게시글 더 보기
+                  %i.fa.fa-angle-double-right
+
+
+            - if @post.issue.body.present?
+              .another-post
+                %h5.title
+                  = link_to smart_issue_home_url(@post.issue) do
+                    %span.text-primary #{@post.issue.title}
+                    빠띠는?
+                    %small.text-muted
+                      자세히 보기
+                      %i.fa.fa-angle-double-right
+                .post-card
                   .post-card__post
                     = link_to smart_issue_home_url(@post.issue) do
-                      %p
-                        %strong
-                          %span.text-primary-dark #{@post.issue.title}
-                          빠띠는?
-                        %small.text-muted
-                          자세히 보기
-                          %i.fa.fa-angle-double-right
-                      %div
-                        = @post.issue.body
-              - another_blocks.insert(1, intro)
-              - another_blocks.each do |block|
-                != block
+                      = @post.issue.body
+
       - unless is_small_screen?
         = render 'issues/aside', wrapper_class: "col-sm-4 #{'hidden-xs visible-block-md hidden-lg' if @post.try(:wiki).try(:conflict?)}"
 
