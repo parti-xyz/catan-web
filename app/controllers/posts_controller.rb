@@ -169,13 +169,6 @@ class PostsController < ApplicationController
     end
   end
 
-  def images
-    @issue = @post.issue
-    prepare_meta_tags title: @post.meta_tag_title,
-      image: @post.meta_tag_image,
-      description: @post.meta_tag_description
-  end
-
   def poll_social_card
     social_card
   end

@@ -75,6 +75,18 @@ class FileSource < ActiveRecord::Base
     image_width / image_height.to_f
   end
 
+  IMAGE_WIDTH_MAX_LG = 700
+  def image_width_lg
+    return 0 unless image?
+    return IMAGE_WIDTH_MAX_LG
+  end
+
+  def image_height_lg
+    return 0 unless image?
+    return 0 if image_width_lg == 0 or image_height == 0 or image_width == 0
+    (image_width_lg * image_height / image_width.to_f).ceil
+  end
+
   def self.require_attrbutes
     [:id, :seq_no, :attachment, :attachemnt_cache, :_destroy]
   end

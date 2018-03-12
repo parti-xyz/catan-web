@@ -49,14 +49,9 @@
       - elsif post.file_sources.any?
         - if post.file_sources.only_image.any?
           - odd = post.file_sources.only_image.count.odd?
-          - image_id = "image-#{SecureRandom.uuid}"
-          .post-reference-line-file-content-wrapper--image<>
+          .post-reference-line-file-content-wrapper--image.js-photoswipe<>
             - previous_style = nil
             - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
-              - if is_small_screen?
-                - action_options = { 'data-action': 'parti-link', 'data-url': images_post_path(post), 'data-link-target': '_blank' }
-              - else
-                - action_options = { href: file_source.attachment.lg.url, 'data-lightbox': "image-#{image_id}", 'data-title': post.specific_desc_striped_tags(100) }
               - if index == 0 and odd == true
                 - current_style = 'single'
               - elsif previous_style == 'left'
@@ -64,18 +59,32 @@
               - else
                 - current_style = 'left'
 
-              - image_url = file_source.attachment.md.url
+              - image_single_url = file_source.attachment.lg.url
+              - image_secondary_url = file_source.attachment.md.url
+
+              - image_photoswipe_width = file_source.image_width_lg
+              - image_photoswipe_heigh = file_source.image_height_lg
+
               - if file_source.image_width < single_image_breakpoint
-                - image_url = file_source.attachment.url
+                - image_single_url = file_source.attachment.url
+                - image_photoswipe_width = file_source.image_width
+                - image_photoswipe_heigh = file_source.image_height
+
+              - if file_source.image_width < secondary_image_breakpoint
+                - image_secondary_url = file_source.attachment.url
+
+              - image_photoswipe_url = image_single_url
+
+              - action_options = { 'data-url': image_photoswipe_url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': post.specific_desc_striped_tags(100), 'data-index': index }
 
               - if current_style == 'single'
                 - if file_source.image_width < 400
                   .post-reference-line__small-image-wrapper<>
-                    %a.post-reference-line__file-content--image{ action_options, class: current_style }<>= image_tag image_url
+                    .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style }<>= image_tag image_single_url
                 - else
-                  %a.post-reference-line__file-content--image{ action_options, class: current_style }<>= image_tag image_url, style: 'display: block'
+                  .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style }<>= image_tag image_single_url, style: 'display: block'
               - else
-                %a.post-reference-line__file-content--image{ action_options, class: current_style, style: "background-image: url(#{file_source.attachment.md.url}); #{("background-size: #{file_source.image_width}px;") if file_source.image_width < secondary_image_breakpoint}" }<>
+                .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style, style: "background-image: url(#{image_secondary_url}); background-size: #{(file_source.image_width < secondary_image_breakpoint ? "#{file_source.image_width}px;" : 'contain')}; background-position: center;" }<>
               - previous_style = current_style
 
         - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|

@@ -45,6 +45,8 @@
     - unless is_small_screen?
       = render 'messenger'
 
+    = render 'application/photoswipe'
+
     :javascript
       window.FileAPI = { staticPath: '/images/file-api/', debug: true };
     = javascript_include_tag 'application'

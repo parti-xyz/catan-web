@@ -4,78 +4,15 @@
 @import "jssocials";
 @import "jquery.webui-popover";
 @import "bootstrap-select";
-@import "lightbox";
 @import "bootstrap-5-columns";
 @import "slick";
 @import "slick-theme";
+@import "photoswipe/photoswipe";
+@import "photoswipe/default-skin/default-skin";
 
-// lightbox
-
-body {
-  #lightboxOverlay {
-    position: fixed !important;
-    top: 0; left: 0;
-    height: 100% !important;
-    width: 100% !important;
-  }
-
-  #lightbox {
-    position: fixed !important;
-    top: 50% !important;
-    transform: translateY(-50%);
-    max-width: 650px;
-    margin-right: auto;
-    margin-left: auto;
-    left: 0;
-    right: 0;
-    background-color: black;
-    min-height: 600px;
-  }
-
-  .lb-nav a.lb-next {
-    position: absolute;
-    opacity: 1;
-  }
-  .lb-nav a.lb-prev {
-    position: absolute;
-    opacity: 1;
-  }
-
-  .lb-dataContainer {
-    left: 50%;
-    position: absolute;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-    width: 95%!important;
-    top: 6px;
-    position: absolute;
-  }
-
-  .lb-outerContainer {
-    position: absolute;
-    top: 50% !important;
-    left: 50% !important;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    width: 100%!important;
-    background: black;
-  }
-
-  .lb-image {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .lb-data .lb-caption {
-    word-break: keep-all;
-    overflow-wrap: break-word;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    display: inline-block!important;
-    width: 100%;
-    line-height: 1.2em;
-  }
+// photoswipe
+.pswp {
+  z-index: $zindex-pswp;
 }
 
 .tooltip-no-wrap .tooltip{
