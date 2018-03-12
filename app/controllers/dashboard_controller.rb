@@ -21,6 +21,7 @@ class DashboardController < ApplicationController
         @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
       end
     else
+      @list_url = dashboard_path
       @posts = watched_posts.page(params[:page])
       @recommend_posts = Post.of_undiscovered_issues(current_user).after(1.month.ago).hottest.order_by_stroked_at
     end

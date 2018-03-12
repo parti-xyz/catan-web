@@ -351,6 +351,7 @@ class IssuesController < ApplicationController
         @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
       end
     else
+      @list_url = smart_issue_home_path_or_url(@issue)
       @posts = issue_posts.page(params[:page])
       @recommend_posts = Post.of_undiscovered_issues(current_user).where.not(issue_id: @issue.id).after(1.month.ago).hottest.order_by_stroked_at
     end
