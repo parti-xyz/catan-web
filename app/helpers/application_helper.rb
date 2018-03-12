@@ -73,7 +73,7 @@ module ApplicationHelper
       nil).html_safe()
   end
 
-  HTML_AT_HASHTAG_REGEX = /(?:^|[[:space:]]|>|&nbsp;)(#[ㄱ-ㅎ가-힣a-z0-9_]+)/
+  HTML_AT_HASHTAG_REGEX = /(?:^|[[:space:]]|>|&nbsp;)(#[ㄱ-ㅎ가-힣a-z0-9_]+)/i
 
   def parse_hashtags(issue, text)
     text.gsub(HTML_AT_HASHTAG_REGEX) do |m|
