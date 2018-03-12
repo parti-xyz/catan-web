@@ -9,7 +9,7 @@
           설정
 
       - if current_user.bookmarked?(issue)
-        %span.parti-admin-button.cursor-pointer{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
+        %span.parti-admin-button.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
           %i.fa.fa-thumb-tack
           내 메뉴에 고정노출
         .hidden
@@ -17,7 +17,7 @@
             = link_to [:remove_bookmark, issue], method: :delete, 'data-disable-with': '자동으로 노출하기 처리 중...' do
               내 메뉴에 자동으로 노출하기
       - else
-        %span.parti-admin-button.cursor-pointer{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
+        %span.parti-admin-button.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
           %i.fa.fa-sliders
           내 메뉴에 자동노출
         .hidden
