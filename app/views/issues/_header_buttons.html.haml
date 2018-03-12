@@ -2,33 +2,49 @@
 - if user_signed_in?
   - if issue.member?(current_user)
     - unless local_assigns[:simple]
+
       - if can? :update, issue
         = link_to [:edit, issue], class: 'parti-admin-button' do
           %i.fa.fa-gear
           설정
-        - if issue.organized_by? current_user
-          %span.parti-admin-button.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
-            %i.fa.fa-star
-            오거나이저
-            .hidden
-              .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
-                #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.
-        - else
-          %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-            %i.fa.fa-user-secret
-            운영자
-            .hidden
-              .reject-member{id: "reject-member-#{dom_id(issue)}"}
-                = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
-                  빠띠 나가기
+
+      - if current_user.bookmarked?(issue)
+        %span.parti-admin-button.cursor-pointer{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
+          %i.fa.fa-thumb-tack
+          메뉴 고정노출
+        .hidden
+          .setting-menu{id: "setting-menu-#{dom_id(issue)}"}
+            = link_to [:remove_bookmark, issue], method: :delete, 'data-disable-with': '자동으로 노출하기 처리 중...' do
+              메뉴에 자동으로 노출하기
+      - else
+        %span.parti-admin-button.cursor-pointer{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
+          %i.fa.fa-sliders
+          메뉴 자동노출
+        .hidden
+          .setting-menu{id: "setting-menu-#{dom_id(issue)}"}
+            = link_to [:add_bookmark, issue], method: :post, 'data-disable-with': '고정으로 노출처리 중...' do
+              메뉴에 고정으로 노출하기
+
+      - if issue.organized_by? current_user
+        %span.parti-admin-button.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
+          %i.fa.fa-star
+          오거나이저
+          .hidden
+            .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
+              #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.
       - else
         %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-          %i.fa.fa-gear
-          설정
-        .hidden
-          .reject-member{id: "reject-member-#{dom_id(issue)}"}
-            = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
-              빠띠 나가기
+          - if current_user.admin?
+            %i.fa.fa-user-secret
+            운영자
+          - else
+            %i.fa.fa-user
+            멤버
+          .hidden
+            .reject-member{id: "reject-member-#{dom_id(issue)}"}
+              = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
+                빠띠 나가기
+
   - elsif issue.member_requested?(current_user)
     %i.fa.fa-warning.parti-admin-button
       가입요청 중
