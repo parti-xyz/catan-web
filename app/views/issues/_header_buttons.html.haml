@@ -11,19 +11,19 @@
       - if current_user.bookmarked?(issue)
         %span.parti-admin-button.cursor-pointer{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
           %i.fa.fa-thumb-tack
-          메뉴 고정노출
+          내 메뉴에 고정노출
         .hidden
           .setting-menu{id: "setting-menu-#{dom_id(issue)}"}
             = link_to [:remove_bookmark, issue], method: :delete, 'data-disable-with': '자동으로 노출하기 처리 중...' do
-              메뉴에 자동으로 노출하기
+              내 메뉴에 자동으로 노출하기
       - else
         %span.parti-admin-button.cursor-pointer{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
           %i.fa.fa-sliders
-          메뉴 자동노출
+          내 메뉴에 자동노출
         .hidden
           .setting-menu{id: "setting-menu-#{dom_id(issue)}"}
             = link_to [:add_bookmark, issue], method: :post, 'data-disable-with': '고정으로 노출처리 중...' do
-              메뉴에 고정으로 노출하기
+              내 메뉴에 고정으로 노출하기
 
       - if issue.organized_by? current_user
         %span.parti-admin-button.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}

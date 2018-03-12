@@ -82,7 +82,7 @@
           %button{ class: 'btn btn-xs btn-link editor-btn post-survey-btn', data: open_btn_data.merge('reference-field': '.post-survey-field') }
             %i.fa.fa-list-ul
             = t('labels.new_post_survey_button')
-          = link_to new_wiki_posts_path(issue_id: @issue.try(:id)), target: '_blank', class: 'btn btn-xs btn-link editor-btn post-wiki-btn js-post-wiki-btn' do
+          = link_to new_wiki_posts_path, target: '_blank', class: 'btn btn-xs btn-link editor-btn post-wiki-btn js-post-wiki-btn', 'data-wiki-issue-param-name': 'issue_id' do
             %i.fa.fa-file-word-o
             = t('labels.new_post_wiki_button')
         .submit-box

@@ -25,7 +25,7 @@ class Wiki < ActiveRecord::Base
       instance.last_history.try(:created_at)
     end
     expose :url do |instance|
-      smart_wiki_url(instance)
+      smart_post_url(instance.post)
     end
   end
 

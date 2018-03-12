@@ -617,8 +617,26 @@ $(function(){
 
   $('.js-post-wiki-btn').on('click', function(e) {
     Focusable.hide();
-    return true;
+
+    var url = $(e.currentTarget).attr('href');
+    var param_name = $(e.currentTarget).data('wiki-issue-param-name');
+    var $input_elm = $('form.form-widget input[name*="[issue_id]"]');
+
+    if($input_elm && $input_elm.val()) {
+      url = url + '?' + param_name + '=' + $input_elm.val();
+    }
+
+    if($.is_present($(e.currentTarget).attr('target'))) {
+      window.open(url, $(e.currentTarget).attr('target'));
+    } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
+      window.open(url, '_blank');
+    } else {
+      window.location.href  = url;
+    }
+
+    $.prevent_click_exclude_parti(e);
   });
+
   (function() {
     if($('#js-form-group-images').length > 0) {
       Sortable.create($('#js-form-group-images')[0]);
@@ -1259,6 +1277,7 @@ $(function(){
           if(placeholder) {
             editor.on('init', function(){
               setPlaceholder(editor, placeholder);
+              Focusable.refresh();
             });
             editor.on('blur', function (e) {
               var $input_elm = $(':input[name="' + editor.id + '"]');

@@ -1,4 +1,4 @@
-= form_for post, url: smart_wiki_url(post.wiki), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
+= form_for post, url: wiki_post_url(post, subdomain: post.issue.group.try(:subdomain)), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
   - controls = capture do
     - if post.wiki.activate?
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }

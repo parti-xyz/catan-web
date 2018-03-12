@@ -34,6 +34,10 @@ class WikiHistory < ActiveRecord::Base
     @previous ||= wiki.wiki_histories.recent.where('created_at < ?', self.created_at).where('id < ?', self.id).first
   end
 
+  def has_previous?
+    previous.present?
+  end
+
   def diff_body_count
     return [0, 0] unless touched_body?
 

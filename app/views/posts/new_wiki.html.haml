@@ -1,20 +1,30 @@
-%section#post-form.wiki-form.wiki-form-new
+- if @post.issue.present?
+  = render 'issues/issue_header', simple: true, issue: @post.issue
+
+%section.contents-page
   .container
-    = form_for @post, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form form input[type=submit]' } } do |f|
-      - controls = capture do
-        = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (@issue.id if @issue.present?)
-        = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
-      .row
-        .col-xs-12.col-sm-6
-          - if @post.issue.present?
-            .wiki-issue
-              = render 'posts/wiki_issue_line', issue: @post.issue
-          - else
-            = render 'posts/issue_selector'
-        .hidden-xs
-          .col-xs-12.col-sm-6
-            .submit-box.pull-right
+    .row
+      .col-xs-12.col-sm-8
+        .posts-header.horizontal-padding
+          %h4.posts-header__title.vertical-shrinking
+            #{Wiki.model_name.human} 작성
+            %small
+              협업을 통해 문서를 함께 만들어 보세요
+        #post-form.wiki-form.wiki-form-new
+          = form_for @post, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form form input[type=submit]' } } do |f|
+            - controls = capture do
+              = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (@issue.id if @issue.present?)
+              = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
+            - if @post.issue.blank?
+              .wiki-issue-selector
+                .row
+                  .col-xs-12.col-sm-6
+                    = render 'posts/issue_selector'
+            =  render 'posts/wiki_form', f: f
+            %div{ style: 'margin-top: 12px' }
               = controls
-      =  render 'posts/wiki_form', f: f
-      .visible-xs-block.hidden-sm{ style: 'margin-top: 12px' }
-        = controls
+      - unless is_small_screen?
+        - if @post.issue.present?
+          = render 'issues/aside'
+        - else
+          = render 'application/aside'

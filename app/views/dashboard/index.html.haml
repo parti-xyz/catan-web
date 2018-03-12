@@ -1,6 +1,6 @@
 - paging = (!@posts.nil? and @posts.try(:current_page).present?)
 
-%section.posts-page#posts
+%section.contents-page#posts
   .container
     .row
       .col-xs-12.col-sm-8
@@ -22,7 +22,7 @@
               = byline current_user, hide_nickname: true
               .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
 
-        .unified-editor.unified-editor--hidden.js-unified-editor
+        .unified-editor.unified-editor--hidden.js-unified-editor{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
           = render 'posts/issue_selector'
 
           - unless current_user.need_to_more_member?(current_group)

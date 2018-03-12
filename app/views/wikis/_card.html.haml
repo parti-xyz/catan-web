@@ -17,9 +17,9 @@
       %span.date= date_f(post.wiki.latest_history.created_at)
 
   %h4.wiki-title
-    = link_to post.wiki.title, smart_wiki_url(post.wiki), target: '_blank'
+    = link_to post.wiki.title, smart_post_url(post), target: '_blank'
 
-  .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_wiki_url(post.wiki), 'data-link-target': '_blank' }
+  .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_post_url(post), 'data-link-target': '_blank' }
     .wiki-body.wiki-preview
       .mce-content-body
         != smart_truncate_html(post.wiki.body, length: 1000)

@@ -1,13 +1,14 @@
-%section.default-page
+%section.contents-page
   .container
     .row
       .col-xs-12.col-sm-8
-        %h4.posts-header__title.vertical-shrinking-top
-          = (@group.indie? ? "개인 빠띠" : @group.title_basic_format)
-          %span.text-nowrap 메뉴 설정
-          %small
-            = group_my_parties_section_title(@group)
-            메뉴의 순서를 정합니다
+        .posts-header.horizontal-padding
+          %h4.posts-header__title.vertical-shrinking
+            = (@group.indie? ? "개인 빠띠" : @group.title_basic_format)
+            %span.text-nowrap 메뉴 설정
+            %small
+              = group_my_parties_section_title(@group)
+              메뉴의 순서를 정합니다
         .panel.panel-default
           .panel-body
             %ul.list-unstyled

@@ -13,7 +13,7 @@ class WikisController < ApplicationController
     @wiki.update_attributes(status: 'active')
 
     errors_to_flash(@post)
-    redirect_to smart_wiki_url(@post.wiki)
+    redirect_to smart_post_url(@post)
   end
 
   def inactivate
@@ -21,7 +21,7 @@ class WikisController < ApplicationController
     @wiki.update_attributes(status: 'inactive')
 
     errors_to_flash(@post)
-    redirect_to smart_wiki_url(@post.wiki)
+    redirect_to smart_post_url(@post)
   end
 
   def purge
@@ -29,7 +29,7 @@ class WikisController < ApplicationController
     @wiki.update_attributes(status: 'purge')
 
     errors_to_flash(@post)
-    redirect_to smart_wiki_url(@post.wiki)
+    redirect_to smart_post_url(@post)
   end
 
   def histories
@@ -47,8 +47,8 @@ class WikisController < ApplicationController
   end
 
   def fixed_history_back_url_in_mobile_app
-    if action_name == 'histories'
-      smart_wiki_url(@wiki)
+    if action_name == 'histories' and @wiki.present?
+      smart_post_url(@wiki.post)
     end
   end
 end

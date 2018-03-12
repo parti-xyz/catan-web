@@ -19,27 +19,6 @@
   }
 }
 
-section.posts-page {
-  padding: 20px 0;
-  @media (max-width: $screen-xs-max) {
-    body.app-posts-show &,
-    body.app-posts-images &,
-    body.app-issues-slug_home & {
-      padding-top: 0;
-    }
-    padding: 10px 0;
-  }
-  @media (max-width: $screen-xs-max) {
-    .page-title {
-      margin-left: 15px;
-    }
-    & > .container > .row > .col-xs-12 {
-      padding-left: 0;
-      padding-right: 0;
-    }
-  }
-}
-
 .post-card {
   &__count {
   }

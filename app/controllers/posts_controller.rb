@@ -18,7 +18,7 @@ class PostsController < ApplicationController
     if @post.wiki.present? and @post.errors.blank?
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       @post.wiki.reload
-      redirect_to smart_wiki_url(@post.wiki)
+      redirect_to smart_post_url(@post)
     else
       redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)
     end
@@ -53,17 +53,11 @@ class PostsController < ApplicationController
     @post.issue = @issue
   end
 
-  def wiki
-    @issue = @post.issue
-    verify_group(@issue)
-
-    render_404 and return if @post.wiki.blank?
-  end
-
   def update_wiki
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
     render_404 and return if @post.wiki.blank?
     conflict = @post.wiki.wiki_histories.last.try(:id) != params[:last_wiki_history_id].try(:to_i)
+    @list_url = smart_post_url(@post)
 
     @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
     if @post.wiki.changed?
@@ -76,18 +70,18 @@ class PostsController < ApplicationController
         @post.wiki.conflicted_title = @post.wiki.title
         @post.wiki.title = @post.wiki.title_was
         @post.wiki.body = @post.wiki.body_was
-        render :wiki
+        render :show
       elsif @post.save
         @post.issue.strok_by!(current_user, @post)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
-        redirect_to params[:back_url].presence || smart_wiki_url(@post.wiki)
+        redirect_to params[:back_url].presence || smart_post_url(@post)
       else
         errors_to_flash @post
-        render :wiki
+        render :show
       end
     else
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to params[:back_url].presence || smart_wiki_url(@post.wiki)
+      redirect_to params[:back_url].presence || smart_post_url(@post)
     end
   end
 
@@ -160,6 +154,7 @@ class PostsController < ApplicationController
     add_reader(@post) if @post.pinned?
     verify_group(@post.issue)
     @issue = @post.issue
+    @list_url = smart_post_url(@post)
 
     return if @post.private_blocked?(current_user)
     if @post.poll.present?
@@ -193,7 +188,6 @@ class PostsController < ApplicationController
   end
 
   def edit
-    redirect_to smart_wiki_url(@post.wiki) and return if @post.wiki.present?
   end
 
   def pinned

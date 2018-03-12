@@ -114,6 +114,9 @@
   }
 
   function hide() {
+    if(!$element) {
+      return;
+    }
     $element.trigger('focusable.hide');
     var $oldElement = $element;
 

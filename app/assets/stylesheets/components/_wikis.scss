@@ -217,7 +217,7 @@ section#wiki-histories {
 }
 
 .wiki-form {
-  margin-top: 20px;
+  margin-top: 10px;
   @media (max-width: $screen-xs-max) {
     margin-top: 0;
   }
@@ -333,8 +333,14 @@ section#wiki-histories {
 }
 
 .wiki-form.wiki-form-new {
+  .form-widget {
+    padding-top: 0;
+  }
   #post_wiki_attributes_title {
     margin-top: 20px;
+  }
+  .wiki-issue-selector {
+    padding-top: 20px;
   }
 }
 

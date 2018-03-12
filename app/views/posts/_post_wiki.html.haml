@@ -1,0 +1,104 @@
+#post-form.wiki-form
+  - if post.private_blocked?(current_user)
+    .post-card
+      .post-card__content
+        .post-card__post
+          %strong 비공개 빠띠 게시글입니다.
+          - if post.issue.member_requested? current_user
+            %br
+            비공개 빠띠를 보시려면 먼저 가입승인 받아야합니다.
+            %span
+              %strong<> 오거나이저의 가입승인
+              을 기다려주세요.
+  - else
+    - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
+    - chevron_dropdown = capture do
+      .post-card__buttons
+        %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", style: 'color: #ccc;' }
+          관리
+          %i.fa.fa-chevron-down
+        %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+          = render 'posts/chevron_menu', local_assigns.merge(post: post)
+
+    - if post.wiki.wiki_histories.any? and !post.wiki.conflict?
+      - last_history_text = post.wiki.latest_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+      - if last_history_text.present?
+        .post-card__last-stroked
+          != last_history_text
+          %span.date= date_f(post.wiki.latest_history.created_at)
+    - if can? :update, post.wiki
+      - unless post.wiki.conflict?
+        = render 'wikis/form', post: post, chevron_dropdown: chevron_dropdown
+      - else
+        .row
+          .col-sm-12.col-lg-12
+            .alert.alert-danger
+              %span.hidden-xs
+                @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{post.wiki.last_history.user.nickname} 님이 내용을 고쳤습니다. 오른쪽의 내용을 왼쪽 편집창에 적절히 합쳐주시기 바랍니다.
+              %span.visible-xs-block
+                @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{post.wiki.last_history.user.nickname} 님이 내용을 고쳤습니다. 아래쪽 내용을 위쪽 편집창에 적절히 합쳐주시기 바랍니다.
+        .row
+          .col-sm-12.col-lg-6
+            .post-card__last-stroked
+              .media
+                .media-left
+                  = link_to smart_user_gallery_path(post.wiki.last_history.user) do
+                    .thumb.img-circle.circle-30{style: "background-image: url(#{post.wiki.last_history.user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{post.wiki.last_history.user.nickname}", :type => "button"}
+                .media-body
+                  %strong.nickname
+                    #{post.wiki.last_history.user.nickname}
+                  님이 저장한 문서입니다.
+                  %br
+                  %span.date= date_f(post.wiki.latest_history.created_at)
+            .conflict-target-editor
+              = render 'wikis/form', post: post, chevron_dropdown: chevron_dropdown, hidden_authors: true
+          .col-sm-12.col-lg-6
+            %hr.hidden-lg
+            .post-card__last-stroked
+              .media
+                .media-left
+                  = link_to smart_user_gallery_path(current_user) do
+                    .thumb.img-circle.circle-30{style: "background-image: url(#{current_user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{current_user.nickname}", :type => "button"}
+                .media-body
+                  %strong.nickname
+                    #{@current_user.nickname}
+                  님이 방금 작성 중이었던 내용입니다. 내용이 저장되지 않았으니, 초록색 편집창에 반영한 후 저장해주세요.
+            .wik-content.wiki-content--read-only.conflict-content
+              = render 'wikis/read_only_wiki_content', wiki: post.wiki, for_conflict: true
+            %hr.hidden-lg
+    - else
+      .wik-content.wiki-content--read-only
+        = render 'wikis/read_only_wiki_content', wiki: post.wiki
+        .clearfix
+          .wiki-authors.tooltip-no-wrap
+            작성
+            - post.wiki.authors.each do |user|
+              = link_to smart_user_gallery_path(user) do
+                .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
+    - unless post.wiki.conflict?
+      .post-card
+        .post-card__content
+          .post-card__footer.clearfix
+            %span.post-card__footer__upvote
+              .post-upvote
+                = render 'upvotes/upvote', upvotable: post
+
+            - if user_signed_in?
+              %span.post-card__footer__link-to-modal.cursor-pointer{data: { action: 'parti-focus', 'focus-target': new_comment_form_body_input_dom_selector(post)}}
+                댓글달기
+            - else
+              %span.post-card__footer__link-to-login.cursor-pointer{data: { toggle: 'parti-login-overlay', label: '댓글달기' }}
+                댓글달기
+
+            - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || "빠띠"}" }
+            - share_partial = capture do
+              = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-image': "#{post.meta_tag_image}" }.merge(share_content)
+            %span.post-card__footer__share-modal.cursor-pointer{ data: { url: "#share-partial-#{dom_id(post)}", action: "parti-share-popover", placement: "top" }.merge(share_content) }
+              공유하기
+            %span.post-card__footer__upvote-count
+              = render 'upvotes/upvote_count', upvotable: post
+            .hidden
+              .share-partial{id: "share-partial-#{dom_id(post)}"}
+                = share_partial
+          .post-reaction{class: "#{dom_id(post)}-post-reaction"}
+            = render 'posts/comments', local_assigns.merge(post: post)
