@@ -435,11 +435,17 @@ var parti_prepare = function($base) {
   $.parti_apply($base, '[data-action="parti-polling"]', function(elm) {
     var $elm = $(elm);
     var polling_url = $(elm).data("polling-url");
-    var polling_interval = $(elm).data("polling-interval");
-    var count = 0;
+    var polling_interval_initial = $(elm).data("polling-interval-initial");
+    var polling_interval_increment = $(elm).data("polling-interval-increment");
+
+    var polling_interval = parseInt(polling_interval_initial) || 5 * 60 * 1000;
+
     var update_new_comments = function() {
-      if(count > 20) { return; }
-      count += 1;
+      if($elm.is(':visible')) {
+        polling_interval += parseInt(polling_interval_increment) || 5 * 60 * 1000;
+        polling_interval = Math.min(polling_interval, 60 * 60 * 1000);
+      }
+
       $.getScript(polling_url);
       setTimeout(update_new_comments, polling_interval);
     }
