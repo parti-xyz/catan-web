@@ -32,14 +32,15 @@
   - if post.wiki.purgeable?
     %li
       = link_to '위키 이력보기', histories_wiki_post_path(post)
-  %li.divider
-  - if post.wiki.activatable?
-    %li
-      = link_to '다시 위키 게시하기', activate_wiki_post_path(post), method: :patch
-  - if post.wiki.inactivatable?
-    %li
-      = link_to '위키 아카이브하기', inactivate_wiki_post_path(post), method: :patch
-  - if post.wiki.purgeable?
-    %li
-      = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch
+  - if can? :update, post.wiki
+    %li.divider
+    - if post.wiki.activatable?
+      %li
+        = link_to '다시 위키 게시하기', activate_wiki_post_path(post), method: :patch
+    - if post.wiki.inactivatable?
+      %li
+        = link_to '위키 아카이브하기', inactivate_wiki_post_path(post), method: :patch
+    - if post.wiki.purgeable?
+      %li
+        = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch
 
