@@ -41,6 +41,13 @@
                     - if @search_q != params[:q]
                       영문과 한글만 검색합니다.
                     = link_to '취소', dashboard_path, class: 'btn btn-sm btn-default'
+                  - elsif @hashtag.present?
+                    내 피드에서 "##{@hashtag}" 해시태그된 게시물입니다.
+                    %span.text-nowrap
+                      = link_to '취소', dashboard_path, class: 'btn btn-sm btn-default'
+                      = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'btn btn-sm btn-default' do
+                        모든 빠띠에서 찾아보기
+                        %i.fa.fa-arrow-right
                   - else
                     = form_tag dashboard_path, method: :get do
                       .form-group.has-feedback
@@ -53,7 +60,7 @@
             #no-data.text-center.alert{ style: ('display: none;' if !paging or @posts.any?) }
               %i.fa.fa-info-circle
                 - if params[:q].blank?
-                  아직 글이 없습니다.
+                  게시글이 없습니다.
                 - else
                   검색 결과가 없습니다.
             - if paging
@@ -70,7 +77,7 @@
 
 
           - else
-            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js, q: @search_q)}
+            .page-waypoint.js-page-waypoint-onload.text-center{ 'data-target': '.posts', 'data-url': dashboard_path(format: :js, q: params[:q]) }
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
       - unless is_small_screen?
