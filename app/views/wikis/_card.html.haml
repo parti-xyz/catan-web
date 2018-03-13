@@ -9,8 +9,7 @@
       %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
         = chevron_dropdown
     %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-  - if post.wiki.wiki_histories.any?
-    - text = post.wiki.latest_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+  - text = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
   - if text.present?
     .post-card__last-stroked
       != text

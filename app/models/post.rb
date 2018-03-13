@@ -31,8 +31,10 @@ class Post < ActiveRecord::Base
     with_options(format_with: lambda { |dt| dt.iso8601 }) do
       expose :created_at, :last_stroked_at
     end
+    # 외부에 오픈된 API라 쉽게 바꾸지 못함
+    # 추후 새로운 앱이 릴리즈되면 변경할 예정
     expose :latest_stroked_activity do |instance|
-      instance.latest_stroked_activity do |user|
+      instance.last_stroked_activity do |user|
         "<a href='#{smart_user_gallery_url(user)}'>@#{user.nickname}</a>"
       end
     end
@@ -465,9 +467,14 @@ class Post < ActiveRecord::Base
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone, last_stroked_for: subject)
   end
 
-  def latest_stroked_activity(valid_time = nil)
-    valid_time ||= 24.hours.ago
-    if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present? and last_stroked_at > valid_time
+  def last_stroked_activity(&block)
+    if wiki.present? and wiki.wiki_histories.any?
+      if last_stroked_at.blank? or wiki.latest_history.created_at >= last_stroked_at
+        return wiki.latest_activity(&block)
+      end
+    end
+
+    if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present?
       user_word = if block_given?
         yield last_stroked_user
       else

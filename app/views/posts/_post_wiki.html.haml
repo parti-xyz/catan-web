@@ -20,8 +20,8 @@
         %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
           = render 'posts/chevron_menu', local_assigns.merge(post: post)
 
-    - if post.wiki.wiki_histories.any? and !post.wiki.conflict?
-      - last_history_text = post.wiki.latest_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+    - if !post.wiki.conflict?
+      - last_history_text = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
       - if last_history_text.present?
         .post-card__last-stroked
           != last_history_text
