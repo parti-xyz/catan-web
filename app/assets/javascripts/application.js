@@ -157,13 +157,18 @@ var parti_prepare_form_validator = function($base) {
       }
     });
 
-    if($form.valid()) {
+    var enabling_callback = function() {
       $submit.prop('disabled', false);
+      $submit.removeClass('collapse');
+    }
+
+    if($form.valid()) {
+      enabling_callback();
     }
 
     $elm.find(':input').on('input', function(e) {
       if($form.valid()) {
-        $submit.prop('disabled', false);
+        enabling_callback();
       } else {
         $submit.prop('disabled', true);
       }
@@ -171,7 +176,7 @@ var parti_prepare_form_validator = function($base) {
 
     $elm.find(':input').on('change', function(e) {
       if($form.valid()) {
-        $submit.prop('disabled', false);
+        enabling_callback();
       } else {
         $submit.prop('disabled', true);
       }
@@ -179,7 +184,7 @@ var parti_prepare_form_validator = function($base) {
 
     $elm.find('select').on('change', function(e) {
       if($form.valid()) {
-        $submit.prop('disabled', false);
+        enabling_callback();
       } else {
         $submit.prop('disabled', true);
       }
@@ -187,7 +192,7 @@ var parti_prepare_form_validator = function($base) {
 
     $elm.find(':input').on('parti-need-to-validate', function(e) {
       if($form.valid()) {
-        $submit.prop('disabled', false);
+        enabling_callback();
       } else {
         $submit.prop('disabled', true);
       }
@@ -195,7 +200,7 @@ var parti_prepare_form_validator = function($base) {
 
     $elm.on('parti-need-to-validate', function(e) {
       if($form.valid()) {
-        $submit.prop('disabled', false);
+        enabling_callback();
       } else {
         $submit.prop('disabled', true);
       }
@@ -203,7 +208,7 @@ var parti_prepare_form_validator = function($base) {
 
     $elm.find('.js-tinymce').on('change', function() {
       if($form.valid()) {
-        $submit.prop('disabled', false);
+        enabling_callback();
       } else {
         $submit.prop('disabled', true);
       }
