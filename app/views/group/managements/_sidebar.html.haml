@@ -24,3 +24,6 @@
           = link_to '활발히 공감한 사용자', '#anchor-active-upvote-users'
         %li
           = link_to '빠띠에 제안을 보내세요', '#anchor-suggest-to-parti'
+        - if current_group.organized_by?(current_user)
+          %li
+            = link_to '설정', edit_group_configuration_path
