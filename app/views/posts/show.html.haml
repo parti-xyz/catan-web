@@ -3,7 +3,7 @@
 %section.contents-page
   .container.container-xs-full-width
     .row
-      .col-xs-12.col-sm-8{ class: ('col-lg-12' if @post.try(:wiki).try(:conflict?)) }
+      = main_column_tag(('col-lg-12' if @post.try(:wiki).try(:conflict?))) do
         .posts
           - if @post.blinded?(current_user)
             .alert.alert-danger
@@ -50,5 +50,5 @@
                       = @post.issue.body
 
       - unless is_small_screen?
-        = render 'issues/aside', wrapper_class: "col-sm-4 #{'hidden-xs visible-block-md hidden-lg' if @post.try(:wiki).try(:conflict?)}"
+        = render 'issues/aside', additional_classes: (%w(visible-block-md hidden-lg) if @post.try(:wiki).try(:conflict?))
 

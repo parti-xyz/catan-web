@@ -3,7 +3,7 @@
 %section#issue-users
   .container
     .row
-      .col-sm-8.col-xs-12
+      = main_column_tag do
         - if @issue.member_request_users.any?
           %section#content-tab-section
             .nav-tabs.message-tab

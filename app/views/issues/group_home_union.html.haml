@@ -41,7 +41,7 @@
   %section#home
     .container
       .row
-        .col-xs-12.col-sm-8
+        = main_column_tag do
           - if is_first_page_in_paging or !paging
             - if @posts_pinned.try(:any?)
               %section{style:"margin-top:20px; padding-bottom: 10px"}

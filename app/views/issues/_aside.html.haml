@@ -1,6 +1,5 @@
-- wrapper_class ||= "col-sm-4 hidden-xs"
 - issue ||= @issue
-%div{ class: wrapper_class }
+= aside_column_tag(local_assigns[:additional_classes]) do
   .aside_issue#aside
     %section
       %h5.aside-title 오거나이저

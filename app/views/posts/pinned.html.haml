@@ -1,7 +1,7 @@
 %section.contents-page
   .container
     .row
-      .col-xs-12.col-sm-8
+      = main_column_tag do
         = render 'application/my_home_tab'
 
         - if @unread_pinned_posts.any?

@@ -338,4 +338,20 @@ module ApplicationHelper
     return false if host_group.blank?
     lookup_context.exists?("group_views/#{host_group.slug}/#{partial_lookup_path(path)}")
   end
+
+  def main_column_tag(*additional_classes)
+    content_tag :div, class: ((%w(col-xs-12 col-sm-7) << additional_classes).flatten.compact.uniq) do
+      if block_given?
+        yield
+      end
+    end
+  end
+
+  def aside_column_tag(*additional_classes)
+    content_tag :div, class: ((%w(hidden-xs col-sm-5) << additional_classes).flatten.compact.uniq) do
+      if block_given?
+        yield
+      end
+    end
+  end
 end

@@ -160,7 +160,6 @@ class User < ActiveRecord::Base
     counts.parties_count = member_issues.count
     counts.posts_count = posts.count
     counts.comments_count = comments.count
-    counts.latest_posts_count = posts.latest.count
     counts
   end
 

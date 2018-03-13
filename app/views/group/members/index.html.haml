@@ -3,7 +3,7 @@
 %section#issue-users
   .container
     .row
-      .col-sm-8.col-xs-12
+      = main_column_tag do
         - if can?(:admit, current_group) or can?(:magic_link, current_group)
           %ul.list-inline.controls-group-members<>
             - if can? :admit, current_group

@@ -1,7 +1,7 @@
 %section.contents-page
   .container
     .row
-      .col-xs-12.col-sm-8
+      = main_column_tag do
         .posts-header.horizontal-padding
           %h4.posts-header__title.vertical-shrinking
             = (@group.indie? ? "개인 빠띠" : @group.title_basic_format)
