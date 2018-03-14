@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307150848) do
+ActiveRecord::Schema.define(version: 20180314022028) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -165,6 +165,7 @@ ActiveRecord::Schema.define(version: 20180307150848) do
     t.boolean  "private",                           default: false, null: false
     t.integer  "members_count",    limit: 4,        default: 0,     null: false
     t.string   "magic_key",        limit: 255
+    t.string   "plan",             limit: 255,                      null: false
   end
 
   add_index "groups", ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true, using: :btree

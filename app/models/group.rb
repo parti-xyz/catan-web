@@ -9,6 +9,9 @@ class Group < ActiveRecord::Base
 
   include Invitable
 
+  extend Enumerize
+  enumerize :plan, in: [:premium, :lite], predicates: true, scope: true
+
   mount_uploader :logo, ImageUploader
   mount_uploader :cover, ImageUploader
 
@@ -215,6 +218,24 @@ class Group < ActiveRecord::Base
 
   def member_requests_with_deleted
     MemberRequest.with_deleted.where(joinable: self)
+  end
+
+  PRIVATE_ISSUE_QUOTA_FOR_LITE_PLAN = 5
+  def met_private_issues_quota?
+    return false unless has_private_issues_quota?
+    issues.only_private.count >= Group::PRIVATE_ISSUE_QUOTA_FOR_LITE_PLAN
+  end
+
+  def has_private_issues_quota?
+    return false if indie?
+    plan == :lite
+  end
+
+  def changable_private_for_issue?(issue)
+    return true unless has_private_issues_quota?
+    return true if issue.private?
+
+    !met_private_issues_quota?
   end
 
   private

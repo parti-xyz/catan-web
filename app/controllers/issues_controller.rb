@@ -122,11 +122,16 @@ class IssuesController < ApplicationController
   end
 
   def create
+    if @issue.private? and current_group.try(:met_private_issues_quota?)
+      flash[:notice] = t('labels.group.met_private_issues_quota')
+      render 'new' and return
+    end
+
     @issue.group_slug = Group.default_slug(current_group)
     @issue.strok_by(current_user)
 
     if @issue.save
-      MemberIssueService.new(issue: @issue, user: current_user, is_organizer: true, need_to_message_organizer: false).call
+      MemberIssueService.new(issue: @issue, user: current_user, is_organizer: true, need_to_message_organizer: false, is_force: true).call
       if @issue.is_default?
           IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
         end
@@ -138,6 +143,10 @@ class IssuesController < ApplicationController
 
   def update
     @issue.assign_attributes(issue_params)
+    if @issue.private_changed? and @issue.private? and current_group.try(:met_private_issues_quota?)
+      flash[:notice] = t('labels.group.met_private_issues_quota')
+      render 'new' and return
+    end
     if @issue.group_slug_changed? and !current_user.admin?
       flash[:notice] = t('unauthorized.default')
       render 'edit' and return
@@ -267,7 +276,7 @@ class IssuesController < ApplicationController
       next if @issue.member?(recipient)
 
       if recipient.present?
-        new_members << MemberIssueService.new(issue: @issue, user: recipient, admit_message: params[:message], need_to_message_organizer: false).call
+        new_members << MemberIssueService.new(issue: @issue, user: recipient, admit_message: params[:message], need_to_message_organizer: false, is_force: true).call
       elsif recipient_code.match /@/
         new_invitations << @issue.invitations.build(user: current_user, recipient_email: recipient_code, message: params[:message])
       else

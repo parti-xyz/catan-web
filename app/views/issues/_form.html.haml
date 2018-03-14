@@ -90,10 +90,24 @@
 
         .form-group{class: ('has-error' if has_error_attr?(@issue, :private))}
           = f.label :private
-          .checkbox
-            %label
-              = f.check_box :private
-              비공개로 설정하면 이 빠띠에 가입한 멤버만 게시글을 볼 수 있습니다.
+          - if current_group.blank? or current_group.try(:changable_private_for_issue?, @issue)
+            .checkbox
+              %label
+                = f.check_box :private
+                비공개로 설정하면 이 빠띠에 가입한 멤버만 게시글을 볼 수 있습니다.
+          - if current_group.try(:has_private_issues_quota?)
+            .alert.alert-danger
+              %p
+                #{current_group.title}그룹은
+                = link_to pricing_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
+                  #{current_group.plan_text} 그룹
+                입니다. 최대
+                %stong #{Group::PRIVATE_ISSUE_QUOTA_FOR_LITE_PLAN}개
+                비공개 빠띠를 만들 수 있습니다.
+              %p
+                현재 #{current_group.issues.only_private.count}개 비공개 빠띠를 사용 중입니다. 무제한 비공개 빠띠를 만들려면 지금 업그레이드해 보세요.
+              %p
+                = link_to '업그레이드 하기', pricing_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
 
         .form-group{class: ('has-error' if has_error_attr?(@issue, :notice_only))}
           = f.label :notice_only

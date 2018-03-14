@@ -190,6 +190,7 @@ class Issue < ActiveRecord::Base
   scope :bookmarked_by, ->(someone) {
     where(id: Bookmark.where(user: someone).select(:issue_id))
   }
+  scope :only_private, -> { where(private: true) }
 
   # search
   scoped_search on: [:title, :body]

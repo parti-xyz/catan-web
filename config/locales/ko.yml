@@ -237,6 +237,7 @@ ko:
         syp:
           public_join: 함께하기
     group:
+      met_private_issues_quota: 만들 수 있는 비공개 빠띠 갯수를 초과했습니다. 업그레이드해 보세요.
       form:
         slug: 그룹 주소
         site_title: 제목(선택)
@@ -252,6 +253,10 @@ ko:
         active:
         inactive: 아카이브
         purge: 삭제
+    group:
+      plan:
+        premium: 프리미엄
+        lite: 라이트
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지에서 내렸습니다.
