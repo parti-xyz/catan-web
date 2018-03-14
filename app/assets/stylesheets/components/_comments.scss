@@ -46,7 +46,7 @@ section#comments {
   .body {
     background: white;
     border-radius: $font-size-base;
-    color: $gray;
+    color: $gray-darker;
     padding: 8px 12px;
     margin-bottom: 4px;
     @include word-wrap();
