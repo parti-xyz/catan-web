@@ -42,7 +42,7 @@ class WikisController < ApplicationController
 
   def load_post_and_wiki
     @post ||= Post.find_by id: params[:id]
-    @post = nil if @post.private_blocked?(current_user)
+    @post = nil if @post.present? and @post.private_blocked?(current_user)
     @wiki ||= @post.try(:wiki)
   end
 
