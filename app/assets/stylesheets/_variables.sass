@@ -367,7 +367,7 @@ $dropdown-fallback-border:       $gray-light
 //** Number of columns in the grid.
 // $grid-columns:              12
 //** Padding between columns. Gets divided in half for the left and right.
-// $grid-gutter-width:         30px
+$grid-gutter-width:         30px
 // Navbar collapse
 //** Point at which the navbar becomes uncollapsed.
 // $grid-float-breakpoint:     $screen-sm-min
@@ -381,16 +381,19 @@ $dropdown-fallback-border:       $gray-light
 
 // Small screen / tablet
 // $container-tablet:             (720px + $grid-gutter-width)
+$container-tablet:             (860px + $grid-gutter-width)
 //** For `$screen-sm-min` and up.
 // $container-sm:                 $container-tablet
 
 // Medium screen / desktop
 // $container-desktop:            (940px + $grid-gutter-width)
+$container-desktop:            $container-tablet
 //** For `$screen-md-min` and up.
 // $container-md:                 $container-desktop
 
 // Large screen / wide desktop
 // $container-large-desktop:      (1140px + $grid-gutter-width)
+$container-large-desktop:      $container-tablet
 //** For `$screen-lg-min` and up.
 // $container-lg:                 $container-large-desktop
 

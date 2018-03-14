@@ -340,7 +340,7 @@ module ApplicationHelper
   end
 
   def main_column_tag(*additional_classes)
-    content_tag :div, class: ((%w(col-xs-12 col-sm-7) << additional_classes).flatten.compact.uniq) do
+    content_tag :div, class: ((%w(col-xs-12 col-sm-8) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
       end
@@ -348,7 +348,7 @@ module ApplicationHelper
   end
 
   def aside_column_tag(*additional_classes)
-    content_tag :div, class: ((%w(hidden-xs col-sm-5) << additional_classes).flatten.compact.uniq) do
+    content_tag :div, class: ((%w(hidden-xs col-sm-4) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
       end

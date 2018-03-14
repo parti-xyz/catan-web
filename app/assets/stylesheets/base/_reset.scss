@@ -36,11 +36,6 @@ section.contents-page {
   }
 }
 
-.container {
-  max-width: 970px !important;
-  width: 970px !important;
-}
-
 @media (max-width: $screen-xs-max) {
   body {
     padding-top: $header-menu-height-mobile;
