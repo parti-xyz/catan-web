@@ -1,38 +1,83 @@
-.service-card{
-  display:inline-block;
-  background-color:#ffffff;
-  padding:10px;
-  width:250px;
-  margin:30px 5px;
-  box-shadow:0px 1px 1px $gray-light;
-  .price-header{
-    padding:10px;
-    background-color:$brand-primary;
-    color:#ffffff;
-    width:100%;
-    text-align:center;
-    font-weight:600;
-    font-size:14px;
+body.app-pages-pricing {
+  .subtitle {
+    color: $gray-light;
   }
-  .price-desc{
-    font-size:12.5px;
-    font-weight:200;
-    margin:10px 0px !important;
-    text-align:left;
-    color:$brand-primary;
-  }
-  span.title{
-    color:$gray;
-  }
-  p{
-    font-weight:600;
-    font-size:15px;
-    padding:5px;
-  }
+  .service-card-wrapper {
+    padding: 3px;
+    float: left;
+    width: 32%;
+    position: relative;
 
-}
-p.service-info{
-  font-weight:300;
-  line-height:25px;
-  padding:0px 50px;
+    @media (max-width: $screen-xs-max) {
+      width: 100%;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      &.divider {
+        margin-right: 4%;
+      }
+      &.divider:after {
+        content: ' ';
+        background-color: #e3e3e7;
+        position: absolute;
+        width: 2px;
+        height: 100%;
+        top: 0;
+        right: -20px;
+        display: block;
+      }
+    }
+  }
+  .service-card {
+    display: inline-block;
+    background-color: #ffffff;
+    padding: 30px 10px;
+    width: 100%;
+    border: 1px solid $gray-lighter;
+
+    &.indie {
+      .price-header{
+        color: $brand-success;
+      }
+    }
+    &.group {
+      .price-header{
+        color: $brand-info;
+      }
+    }
+    &.premium-group {
+      .price-header{
+        color: $brand-danger;
+      }
+    }
+    .price-header{
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+      font-size: 24px;
+    }
+    .price-desc{
+      margin: 10px 0px !important;
+      text-align: center;
+      color: $brand-primary;
+
+      strong {
+        color: $brand-danger;
+      }
+    }
+    span.title{
+      color: $gray;
+    }
+    p{
+      font-weight: 600;
+      font-size: 15px;
+      padding: 5px;
+    }
+
+  }
+  .service-info{
+    line-height:25px;
+    display: inline-block;
+    text-align: left;
+  }
 }

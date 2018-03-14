@@ -1,7 +1,5 @@
 .bs-component
-  - shown_intro = false
   - if @issue.errors.blank? and @issue.new_record?
-    - shown_intro = true
     - new_guide = "issues/new_guide"
     - new_guide = "issues/#{host_group.slug}/new_guide" if lookup_context.exists?("issues/#{host_group.slug}/_new_guide")
     = render new_guide
@@ -9,8 +7,7 @@
   - if user_signed_in?
     %section#form
       .container
-        - if !shown_intro
-          %h2.page-header 빠띠 만들기
+        %h2.page-header 빠띠 만들기
         = render 'form'
   - else
     %section

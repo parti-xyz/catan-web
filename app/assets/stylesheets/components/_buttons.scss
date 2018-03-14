@@ -140,6 +140,11 @@
       background-color: $brand-primary !important;
       color: #fff !important;
     }
+    &.btn-primary-ghost:hover {
+      background-color: transparent !important;
+      border: 1px solid $brand-primary-dark !important;
+      color: $brand-primary-dark !important;
+    }
   }
   &.btn-success {
     border: 1px solid $brand-success !important;

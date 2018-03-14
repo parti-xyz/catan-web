@@ -1,13 +1,10 @@
-- shown_intro = false
 - if @group.errors.blank? and @group.new_record?
-  - shown_intro = true
   = render "group/configurations/new_guide"
 
 - if user_signed_in?
   %section#form
     .container
-      - if !shown_intro
-        %h2.page-header 그룹 만들기
+      %h2.page-header 그룹 만들기
       = render 'form'
 - else
   %section

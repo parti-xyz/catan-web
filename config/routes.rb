@@ -245,7 +245,7 @@ Rails.application.routes.draw do
   get '/about', to: "pages#about", as: 'about'
   get '/discover', to: "pages#discover", as: 'discover'
   get '/privacy', to: "pages#privacy", as: 'privacy'
-  get '/service', to: "pages#service", as: 'service'
+  get '/pricing', to: "pages#pricing", as: 'pricing'
   get '/terms', to: "pages#terms", as: 'terms'
   if Rails.env.development?
     get '/score', to: "pages#score"
