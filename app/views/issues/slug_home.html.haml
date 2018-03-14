@@ -52,7 +52,7 @@
                       영문과 한글만 검색합니다.
                     = link_to '취소', smart_issue_home_path_or_url(@issue), class: 'btn btn-sm btn-default'
                   - else
-                    = form_tag smart_issue_home_path_or_url, method: :get do
+                    = form_tag smart_issue_home_path_or_url(@issue), method: :get do
                       .form-group.has-feedback
                         = search_field_tag :q, params[:q], placeholder: '게시글 찾기...', class: 'form-control'
                         %span.form-control-feedback{ style: 'pointer-events: initial;' }
