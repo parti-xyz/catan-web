@@ -25,7 +25,7 @@ class MemberRequestsController < ApplicationController
     @member_request = @issue.member_requests.find_by(user: @user)
     render_404 and return if @member_request.blank?
 
-    @member = MemberIssueService.new(issue: @issue, user: @member_request.user, need_to_message_organizer: true).call
+    @member = MemberIssueService.new(issue: @issue, user: @member_request.user, need_to_message_organizer: true, is_force: true).call
     if @member.try(:persisted?)
       @member_request.try(:destroy)
       MessageService.new(@member_request, sender: current_user, action: :accept).call

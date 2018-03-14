@@ -291,7 +291,7 @@ class User < ActiveRecord::Base
       invitations = Invitation.where(recipient_email: self.email)
       invitations.each do |invitation|
         if invitation.joinable_type == 'Issue'
-          member = MemberIssueService.new(issue: invitation.joinable, user: self).call
+          member = MemberIssueService.new(issue: invitation.joinable, user: self, is_force: true).call
         elsif invitation.joinable_type == 'Group'
           member = MemberGroupService.new(group: invitation.joinable, user: self).call
         else

@@ -23,7 +23,7 @@ class Admin::IssuesController < Admin::BaseController
         source.members.each do |member|
           user = member.user
           unless target.member_users.exists?(id: user.id)
-            MemberIssueService.new(issue: target, user: user, updated_at: member.updated_at, created_at: member.created_at, need_to_message_organizer: false).call
+            MemberIssueService.new(issue: target, user: user, updated_at: member.updated_at, created_at: member.created_at, need_to_message_organizer: false, is_force: true).call
           end
         end
       ensure

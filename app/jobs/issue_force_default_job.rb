@@ -9,7 +9,7 @@ class IssueForceDefaultJob
     return if organizer_user.blank?
 
     issue.group.members.each do |group_member|
-      new_member = MemberIssueService.new(issue: issue, user: group_member.user, need_to_message_organizer: false).call
+      new_member = MemberIssueService.new(issue: issue, user: group_member.user, need_to_message_organizer: false, is_force: true).call
       if new_member.try(:persisted?)
         MessageService.new(new_member, sender: organizer_user, action: :force_default).call
         MemberMailer.deliver_all_later_on_force_default(new_member, organizer_user)
