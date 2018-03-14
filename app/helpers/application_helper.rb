@@ -317,7 +317,7 @@ module ApplicationHelper
     if exists_group_partial?(subpath)
       render "group_views/#{host_group.slug}#{subpath}"
     else
-      path
+      render path
     end
   end
 
