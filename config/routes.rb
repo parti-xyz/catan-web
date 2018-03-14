@@ -77,12 +77,12 @@ Rails.application.routes.draw do
   # 통합 빠띠
   get '/p/:slug/', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.indie
-    "/p/#{MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug).issue.slug}"
+    "/p/#{MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug).issue.slug}"
   }, constraints: MergedIssueRouteConstraint.new
   get '/p/:slug/*path', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.indie
     merged_issue = MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug)
-    "/p/#{merged_issue.issue.slug}/#{params[:path]}"
+    "/p/#{merged_issue.issue.slug}/#{path_params[:path]}"
   }, constraints: MergedIssueRouteConstraint.new
 
   # 구 talk/opinion/note/article 주소를 신 post로 이동
