@@ -2,7 +2,7 @@
 - has_hidden_comments = (local_assigns[:mode] == 'list' and  post.too_many_comments?)
 - comment_capture = capture do
   - if has_hidden_comments
-    = link_to more_comments_post_path(post), remote: true, id: comments_more_button_dom_id(post), 'data-disable-with': '<div class="more">가져오는 중...</div>', class: 'post-card__count' do
+    = link_to more_comments_post_path(post, format: :js), remote: true, id: comments_more_button_dom_id(post), 'data-disable-with': '<div class="more">가져오는 중...</div>', class: 'post-card__count', rel: :nofollow do
       .more
         %span{id: comments_more_label_dom_id(post)} 이전 댓글 보기
         &middot;&nbsp;
