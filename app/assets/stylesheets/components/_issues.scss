@@ -104,6 +104,7 @@ section#issues-group-index {
       text-shadow: 1px 1px $gray-dark;
       font-weight: 200;
       margin-right: 6px;
+      white-space: nowrap;
       &:hover {
         color: $gray-lightest;
       }
