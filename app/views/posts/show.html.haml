@@ -28,11 +28,12 @@
                     더 보기
                     %i.fa.fa-angle-double-right
               = render 'posts/page', posts: anothers.sample(3)
-              .help-text
-                = link_to smart_issue_home_url(@post.issue), class: 'text-muted' do
-                  #{@post.issue.title}
-                  빠띠의 다른 게시글 더 보기
-                  %i.fa.fa-angle-double-right
+              .post-card
+                .post-card__post.text-center
+                  = link_to smart_issue_home_url(@post.issue), class: 'text-muted' do
+                    #{@post.issue.title}
+                    빠띠의 다른 게시글 더 보기
+                    %i.fa.fa-angle-double-right
 
 
             - if @post.issue.body.present?
