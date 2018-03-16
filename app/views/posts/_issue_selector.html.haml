@@ -1,8 +1,8 @@
 - selected_parti = nil
 .parti-select
   %select.js-parti-editor-selectpicker.collapse(data-live-search="true" data-width="100%" title="게시할 빠띠를 골라 주세요")
-    - Group.all.each do |group|
-      - issues = sort_issues_by_title(current_user.member_issues.only_alive_of_group(group))
+    - current_user.member_groups.sort_by_name.each do |group|
+      - issues = current_user.member_issues.only_alive_of_group(group).sort_by_name
       - if issues.any?
         %optgroup{label: group.title_basic_format}
           - issues.each do |issue|
