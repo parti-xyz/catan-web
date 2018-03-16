@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180314022028) do
+ActiveRecord::Schema.define(version: 20180316130537) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -188,29 +188,31 @@ ActiveRecord::Schema.define(version: 20180314022028) do
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
 
   create_table "issues", force: :cascade do |t|
-    t.string   "title",                limit: 255
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
-    t.text     "body",                 limit: 16777215
-    t.string   "logo",                 limit: 255
-    t.integer  "watches_count",        limit: 4,        default: 0
-    t.string   "slug",                 limit: 255
-    t.integer  "posts_count",          limit: 4,        default: 0
+    t.string   "title",                              limit: 255
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
+    t.text     "body",                               limit: 16777215
+    t.string   "logo",                               limit: 255
+    t.integer  "watches_count",                      limit: 4,        default: 0
+    t.string   "slug",                               limit: 255
+    t.integer  "posts_count",                        limit: 4,        default: 0
     t.datetime "deleted_at"
-    t.string   "active",               limit: 255,      default: "on"
-    t.string   "group_slug",           limit: 255,                      null: false
-    t.string   "telegram_link",        limit: 255
+    t.string   "active",                             limit: 255,      default: "on"
+    t.string   "group_slug",                         limit: 255,                      null: false
+    t.string   "telegram_link",                      limit: 255
     t.datetime "last_stroked_at"
-    t.string   "category_slug",        limit: 255
-    t.integer  "members_count",        limit: 4,        default: 0
-    t.integer  "hot_score",            limit: 4,        default: 0
-    t.string   "hot_score_datestamp",  limit: 255
+    t.string   "category_slug",                      limit: 255
+    t.integer  "members_count",                      limit: 4,        default: 0
+    t.integer  "hot_score",                          limit: 4,        default: 0
+    t.string   "hot_score_datestamp",                limit: 255
     t.datetime "freezed_at"
-    t.boolean  "private",                               default: false, null: false
-    t.integer  "last_stroked_user_id", limit: 4
-    t.boolean  "notice_only",                           default: false
-    t.boolean  "is_default",                            default: false
-    t.integer  "destroyer_id",         limit: 4
+    t.boolean  "private",                                             default: false, null: false
+    t.integer  "last_stroked_user_id",               limit: 4
+    t.boolean  "notice_only",                                         default: false
+    t.boolean  "is_default",                                          default: false
+    t.integer  "destroyer_id",                       limit: 4
+    t.integer  "latest_stroked_posts_count",         limit: 4
+    t.integer  "latest_stroked_posts_count_version", limit: 4
   end
 
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree

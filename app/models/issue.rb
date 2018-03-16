@@ -71,6 +71,8 @@ class Issue < ActiveRecord::Base
     # end
   end
 
+  include LatestStrokedPostsCountHelper
+
   include UniqueSoftDeletable
   acts_as_unique_paranoid
   acts_as_taggable
@@ -397,6 +399,11 @@ class Issue < ActiveRecord::Base
       return false if !target_group.member?(user)
     end
     true
+  end
+
+  def valid_latest_stroked_posts_count
+    LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ?
+      latest_stroked_posts_count : 0
   end
 
   private

@@ -33,13 +33,12 @@
             %span.text-nowrap
               = issue.group.title_short_format
           = meta_icons(issue, (['star', '오거나징하는 빠띠'] if issue.organized_by?(current_user)))
-        - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
-          - last_stroked_count = issue.posts.after(1.days.ago, field: 'posts.last_stroked_at').count
-          - if last_stroked_count > 0
-            %span.issue-line__meta{ data: (link_to_parti unless local_assigns[:link_whole_line]), class: "#{('cursor-pointer' if link_to_parti.any?)}" }
-              .posts-count.meta-item
-                %i.fa.fa-file-text(title='최근 업데이트')
-                = last_stroked_count
+        - latest_stroked_posts_count = issue.valid_latest_stroked_posts_count
+        - if latest_stroked_posts_count > 0
+          %span.issue-line__meta{ data: (link_to_parti unless local_assigns[:link_whole_line]), class: "#{('cursor-pointer' if link_to_parti.any?)}" }
+            .posts-count.meta-item
+              %i.fa.fa-file-text(title='최근 업데이트')
+              = latest_stroked_posts_count
 
         %span.after-block
           = after_block
