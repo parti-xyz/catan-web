@@ -522,7 +522,6 @@ section#issues-group-index {
   margin-bottom: 0;
   border: 1px solid transparent;
   padding: 3px 0;
-  cursor: pointer;
   .media {
     margin-top: 0;
     display: table;
@@ -578,7 +577,6 @@ section#issues-group-index {
   &__title {
     color: $gray;
     font-size: $font-size-base;
-    margin-right: 5px;
     &:hover {
       color: $brand-primary;
     }

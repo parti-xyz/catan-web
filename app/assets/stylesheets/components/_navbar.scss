@@ -322,9 +322,10 @@ $drawer-default-space-mobile: 12px;
       &.issue-line,
       &.group-line,
       &.menu-line {
-        margin: $drawer-default-space 0;
+        margin: 0;
+        padding: $drawer-default-space/2 18px;
         @media (max-width: $screen-xs-max) {
-          margin: $drawer-default-space-mobile 0;
+          padding: $drawer-default-space-mobile/2 18px;
         }
       }
       &.menu-line {
@@ -358,17 +359,26 @@ $drawer-default-space-mobile: 12px;
             text-overflow: ellipsis;
             white-space: nowrap;
             word-wrap: normal;
-            max-width: 130px;
+            max-width: 150px;
             overflow: hidden;
             display: inline-block;
             line-height: 1em;
             vertical-align: middle;
+            &:hover {
+              color: $gray-dark;
+            }
           }
+        }
+        > .media > .media-left {
+          padding-right: 0;
         }
       }
       &.group-issues-line {
-        margin: 12px 18px;
-        padding: 0;
+        margin: 0;
+        padding: $drawer-default-space 0;
+        @media (max-width: $screen-xs-max) {
+          padding: 0;
+        }
         &:first-child {
           margin-top: 0;
         }
@@ -380,16 +390,31 @@ $drawer-default-space-mobile: 12px;
           }
           color: $gray;
           &:hover {
-            color: $brand-primary;
+            color: $gray-dark;
+          }
+        }
+        > .title {
+          padding: $drawer-default-space/2 18px;
+          @media (max-width: $screen-xs-max) {
+            padding: $drawer-default-space-mobile/2 18px;
+          }
+          &:hover {
+            background-color: $gray-lightest;
           }
         }
         .sub {
-          margin-top: 12px;
+          margin-top: 0;
           .issue-more,
           .issue-less,
           .issue-line {
-            padding: 0;
+            padding: $drawer-default-space/2 18px;
+            @media (max-width: $screen-xs-max) {
+              padding: $drawer-default-space-mobile/2 18px;
+            }
             border: none;
+          }
+          .issue-line:hover {
+            background-color: $gray-lightest;
           }
           .issue-more,
           .issue-less {
@@ -407,7 +432,10 @@ $drawer-default-space-mobile: 12px;
           background-color: white;
         }
         & + li.menu-line {
-          margin-top: 12px;
+          margin-top: $drawer-default-space;
+          @media (max-width: $screen-xs-max) {
+            margin-top: $drawer-default-space-mobile;
+          }
         }
         a {
           color: white;
@@ -441,7 +469,10 @@ $drawer-default-space-mobile: 12px;
           background-color: $gray-lightest;
         }
         &-small {
-          margin: 12px 0;
+          margin: $drawer-default-space 0;
+          @media (max-width: $screen-xs-max) {
+            margin: $drawer-default-space-mobile/2 0;
+          }
         }
       }
       &.logo {

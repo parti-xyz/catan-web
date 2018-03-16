@@ -16,9 +16,13 @@
                 = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
           %span.issue-line__meta.btn-join-sign.js-join-sign{id: issue_line_join_sign_id}
             %i.fa.fa-sign-in
-%li.issue-line.js-issue-line{ class: "#{('collapse js-more-sidemenu-collapse' if local_assigns[:collapse])} #{('cursor-default' if local_assigns[:no_link])}" }
-  .media.js-issue-line-hover{ 'data-action': "parti-link", 'data-url': (smart_issue_home_path_or_url(issue) unless local_assigns[:no_link]) }
-    .media-left
+- link_to_parti = if local_assigns[:no_link]
+  - {}
+- else
+  - { 'action': "parti-link", 'url': (smart_issue_home_path_or_url(issue) unless local_assigns[:no_link]) }
+%li.issue-line.js-issue-line{ data: (link_to_parti if local_assigns[:link_whole_line]), class: "#{('collapse js-more-sidemenu-collapse' if local_assigns[:collapse])} #{('cursor-pointer' if (link_to_parti.any? and local_assigns[:link_whole_line]))}" }
+  .media.js-issue-line-hover
+    .media-left{ data: (link_to_parti unless local_assigns[:link_whole_line]), class: "#{('cursor-pointer' if link_to_parti.any?)}" }
       .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
     .media-body
       .issue-line-body-wraper
@@ -32,7 +36,7 @@
         - cache ["#{host_group.slug}-issues-issue_line-meta", issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
           - last_stroked_count = issue.posts.after(1.days.ago, field: 'posts.last_stroked_at').count
           - if last_stroked_count > 0
-            %span.issue-line__meta
+            %span.issue-line__meta{ data: (link_to_parti unless local_assigns[:link_whole_line]), class: "#{('cursor-pointer' if link_to_parti.any?)}" }
               .posts-count.meta-item
                 %i.fa.fa-file-text(title='최근 업데이트')
                 = last_stroked_count

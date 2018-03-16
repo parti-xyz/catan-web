@@ -9,11 +9,21 @@
           %i.fa.fa-search
           관심있는 빠띠를 찾아보세요
       %li.divider
-      %li.group-issues-line
-        .title 지금 가장 인기있는 빠띠
+      %li.menu-line
+        = link_to discover_url(subdomain: nil), 'aria-label': only_mobile_app(request, 'drawer-discover'), class: "#{'active' if current_page?('/discover')}" do
+          %i.fa.fa-fort-awesome
+          새로운 발견
+      %li.group-issues-line.menu-line
+        = link_to issues_url(subdomain: nil), class: 'title' do
+          %i.fa.fa-flash
+          지금 가장 인기있는 빠띠
         %ul.sub.list-unstyled
           - Issue.only_public_hottest(5).each do |issue|
             = render 'issues/issue_line', issue: issue, show_after_block: false
+          %li.issue-more
+            = link_to issues_url(subdomain: nil) do
+              더 보기
+              %i.fa.fa-angle-double-right
     %li.divider
     %li.logo
       = link_to root_url(subdomain: nil) do

@@ -13,7 +13,7 @@
     - if current_user.member_issues.only_alive_of_group(menu_group).any?
       %li.divider.divider-small
       %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
-        .title
+        .title.cursor-pointer{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
           = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
             #{group_my_parties_section_title(menu_group)}
         %ul.sub.list-unstyled
@@ -22,7 +22,8 @@
 
           - if issues.count < magic_count * 2
             - issues.sort_by_name.each do |issue|
-              = render 'issues/issue_line', issue: issue
+              = render 'issues/issue_line', issue: issue, link_whole_line: true
+
           - else
             - fixed_issues = []
 
@@ -40,26 +41,24 @@
               - issues = issues.where.not(id: hot_issues.to_a)
 
             - Issue.where(id: fixed_issues).sort_by_name.each do |issue|
-              = render 'issues/issue_line', issue: issue
+              = render 'issues/issue_line', issue: issue, link_whole_line: true
 
             - if issues.any?
-              %li.js-issue-line.js-issue-line-control.issue-more
+              %li.js-issue-line.js-issue-line-control.issue-more.clearfix
                 %a.js-show-more-sidemenu-issues(href="#")
                   %i.fa.fa-caret-down
                   더 보기
-                &middot;
-                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug) do
+                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
                   %i.fa.fa-gear
                   설정
 
               - issues.sort_by_name.each do |issue|
-                = render 'issues/issue_line', issue: issue, collapse: true
+                = render 'issues/issue_line', issue: issue, collapse: true, link_whole_line: true
 
-              %li.js-issue-line.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse
+              %li.js-issue-line.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse.clearfix
                 %a.js-show-less-sidemenu-issues(href="#")
                   %i.fa.fa-caret-up
                   줄여보기
-                &middot;
-                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug) do
+                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
                   %i.fa.fa-gear
                   설정

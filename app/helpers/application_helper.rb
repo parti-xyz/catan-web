@@ -256,8 +256,8 @@ module ApplicationHelper
         concat raw('&nbsp;')
       end
       concat(content_tag("span", class: ["group-helptext"]) do
-        concat content_tag("span", "#{Catan::SmartPostposition.new(title).adjust('이')} 오거나이징하는 ")
-        concat content_tag("span", "내 빠띠", class: ["text-nowrap"])
+        concat content_tag("span", "이 오거나이징하는 ") if group.indie?
+        concat content_tag("span", " 내 빠띠", class: ["text-nowrap"])
       end)
     end
   end
