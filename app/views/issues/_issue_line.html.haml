@@ -33,8 +33,8 @@
             %span.text-nowrap
               = issue.group.title_short_format
           = meta_icons(issue, (['star', '오거나징하는 빠띠'] if issue.organized_by?(current_user)))
-        - latest_stroked_posts_count = issue.valid_latest_stroked_posts_count
-        - if latest_stroked_posts_count > 0
+        - latest_stroked_posts_count = issue.visiable_latest_stroked_posts_count
+        - if !latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0
           %span.issue-line__meta{ data: (link_to_parti unless local_assigns[:link_whole_line]), class: "#{('cursor-pointer' if link_to_parti.any?)}" }
             .posts-count.meta-item
               %i.fa.fa-file-text(title='최근 업데이트')

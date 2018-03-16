@@ -1,7 +1,7 @@
 module LatestStrokedPostsCountHelper
   def self.current_version
     store = Moneta.new(:File, dir: 'moneta')
-    return store['last_stroked_version']
+    return store['last_stroked_version'] || 0
   ensure
     store.try(:close)
   end

@@ -401,9 +401,8 @@ class Issue < ActiveRecord::Base
     true
   end
 
-  def valid_latest_stroked_posts_count
-    LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ?
-      latest_stroked_posts_count : 0
+  def visiable_latest_stroked_posts_count
+    (LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ? latest_stroked_posts_count : 0)
   end
 
   private

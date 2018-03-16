@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316130537) do
+ActiveRecord::Schema.define(version: 20180316143742) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -211,7 +211,7 @@ ActiveRecord::Schema.define(version: 20180316130537) do
     t.boolean  "notice_only",                                         default: false
     t.boolean  "is_default",                                          default: false
     t.integer  "destroyer_id",                       limit: 4
-    t.integer  "latest_stroked_posts_count",         limit: 4
+    t.integer  "latest_stroked_posts_count",         limit: 4,        default: 0
     t.integer  "latest_stroked_posts_count_version", limit: 4
   end
 

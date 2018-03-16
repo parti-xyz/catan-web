@@ -3,7 +3,7 @@ class LastStrokedPostsCountJob
   include LatestStrokedPostsCountHelper
 
   def perform
-    version = LatestStrokedPostsCountHelper.current_version || 0
+    version = LatestStrokedPostsCountHelper.current_version
     version = version + 1
     Post.after(1.days.ago, field: 'posts.last_stroked_at').group(:issue_id).count.each do |issue_id, count|
       issue = Issue.find_by(id: issue_id)
