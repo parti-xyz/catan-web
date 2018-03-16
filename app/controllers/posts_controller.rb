@@ -178,6 +178,7 @@ class PostsController < ApplicationController
   end
 
   def more_comments
+    render_404 and return unless request.format.js?
   end
 
   def edit
