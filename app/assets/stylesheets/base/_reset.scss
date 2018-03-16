@@ -108,7 +108,7 @@ a {
 // focusable
 
 body.editor-spotlight {
-  overflow-y: initial !important;
+  overflow-y: hidden !important;
   padding-top: 0 !important;
 
   .navbar-fixed-top {

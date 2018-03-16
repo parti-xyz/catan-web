@@ -764,15 +764,15 @@ $(function(){
       $('#site-header').find('.collapse.in').collapse('hide');
   });
 
-  $('.js-parti-editor-selectpicker').selectpicker('render');
-  $('.js-parti-editor-selectpicker').on('hide.bs.select', function(e) {
+  $('.js-parti-editor-selector').selectpicker('render');
+  $('.js-parti-editor-selector').on('hide.bs.select', function(e) {
     var select_value = $(this).val();
     var $input_elm = $('form.form-widget input[name*="[issue_id]"]');
 
     $input_elm.val(select_value);
     $input_elm.trigger('parti-need-to-validate');
   });
-  $('.js-parti-editor-selectpicker').on('loaded.bs.select', function(e) {
+  $('.js-parti-editor-selector').on('loaded.bs.select', function(e) {
     $(this).show();
   });
 
