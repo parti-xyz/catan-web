@@ -11,6 +11,7 @@ class Group::ConfigurationsController < Group::BaseController
 
   def create
     @group = Group.new(group_params)
+    @group.plan = Group.plan.lite
     @group.user = current_user
     @group.slug = params[:group][:slug]
     @group.members.build(user: current_user, is_organizer: true)

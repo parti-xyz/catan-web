@@ -4,30 +4,35 @@ gwanju:
   title: '광주'
   site_title: '광주'
   head_title: '광주'
+  plan: lite
 indie:
   slug: indie
   user: admin
   title: '일반'
   site_title: '일반'
   head_title: '일반'
+  plan: lite
 union:
   slug: union
   user: admin
   title: '민주주의 활동가 그룹'
   site_title: '빠띠 유니온'
   head_title: '빠띠 유니온'
+  plan: lite
 merge_target_issue:
   slug: merge_target_issue
   user: admin
   title: '대상'
   site_title: '대상'
   head_title: '대상'
+  plan: lite
 merge_source_issue:
   slug: merge_source_issue
   user: admin
   title: '소스'
   site_title: '소스'
   head_title: '소스'
+  plan: lite
 private_group:
   slug: private
   user: admin
@@ -35,3 +40,4 @@ private_group:
   site_title: '비공개'
   head_title: '비공개'
   private: true
+  plan: lite

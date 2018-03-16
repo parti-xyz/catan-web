@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class GruopsTest < ActionDispatch::IntegrationTest
+  test '그룹을 열어요' do
+    sign_in(users(:one))
+
+    post group_configuration_path(group: { title: '테스트', slug: 'test', site_description: 'desc', site_title: 'title',
+      head_title: '123', private: true, organizer_nicknames: "#{users(:one).nickname}, #{users(:two).nickname}" } )
+    assert_equal assigns(:group).title, '테스트'
+  end
+
   test '인디빠띠를 그룹빠띠로 바꿔요' do
     issue = issues(:issue1)
 

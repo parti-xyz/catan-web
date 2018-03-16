@@ -95,3 +95,10 @@ class ActionController::TestCase
   include Devise::Test::ControllerHelpers
 end
 
+class ActionDispatch::IntegrationTest
+  setup do
+    host! 'example.com'
+  end
+end
+
+
