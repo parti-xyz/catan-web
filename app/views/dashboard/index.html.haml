@@ -22,7 +22,7 @@
               = byline current_user, hide_nickname: true
               .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
 
-        .unified-editor.unified-editor--hidden.js-unified-editor.js-parti-editor-selector-wrapper{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
+        .unified-editor.unified-editor--hidden.js-unified-editor.js-parti-editor-selector-wrapper
           = render 'posts/issue_selector'
 
           - unless current_user.need_to_more_member?(current_group)

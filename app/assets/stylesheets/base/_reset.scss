@@ -105,27 +105,6 @@ a {
   color: $gray-darker;
 }
 
-// focusable
-
-body.editor-spotlight {
-  overflow-y: hidden !important;
-  padding-top: 0 !important;
-
-  .navbar-fixed-top {
-    position: inherit !important;
-    margin-bottom: 0 !important;
-  }
-
-  .unified-editor {
-    &:hover {
-      border: 1px solid #fff;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-    }
-  }
-}
-
 .text-basic-wrap {
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -140,14 +119,9 @@ body.editor-spotlight {
   }
 }
 
-.focusable-column {
-  z-index: $zindex-focusable-column !important;
-}
-
 body .webui-popover {
   z-index: $zindex-webui-popover;
 }
-
 
 @media (max-width: $screen-xs-max) {
   .container.container-xs-full-width {

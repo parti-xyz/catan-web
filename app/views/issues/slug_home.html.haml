@@ -14,7 +14,7 @@
                   .text-muted
                     = byline current_user, hide_nickname: true
                     .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
-                .unified-editor.unified-editor--hidden.js-unified-editor{ data: { action: ('parti-post-editor-spotlight' if !is_small_screen?) } }
+                .unified-editor.unified-editor--hidden.js-unified-editor
                   = render 'posts/new_form', issue: @issue
             - elsif @issue.member_requested?(current_user)
               .unified-editor.unified-editor--join

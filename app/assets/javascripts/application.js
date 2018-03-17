@@ -24,7 +24,6 @@
 //= require bootstrap-select/defaults-ko_KR.js
 //= require jquery.viewport
 //= require cocoon
-//= require focus-element-overlay
 //= require clipboard
 //= require Sortable
 //= require webp-check
@@ -76,22 +75,6 @@ $.fn.visibilityToggle = function() {
         return (visibility == 'visible') ? 'hidden' : 'visible';
     });
 };
-
-// fucusable
-var parti_post_editor_spotlight = function(e) {
-  var focusableOptions = { fadeDuration: 200, hideOnClick: true, hideOnESC: true, findOnResize: true }
-  if(!$('[data-action="parti-post-editor-spotlight"]').length) {
-    return;
-  }
-  if(!Focusable.getActiveElement()) {
-    Focusable.setFocus($('[data-action="parti-post-editor-spotlight"]'), focusableOptions);
-  } else {
-    setTimeout(function() {
-      Focusable.refresh();
-    }, 10);
-  }
-}
-$(document).on('parti-post-editor-spotlight', parti_post_editor_spotlight);
 
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 5000;
@@ -615,8 +598,6 @@ $(function(){
   });
 
   $('.js-post-wiki-btn').on('click', function(e) {
-    Focusable.hide();
-
     var url = $(e.currentTarget).attr('href');
     var param_name = $(e.currentTarget).data('wiki-issue-param-name');
     var $input_elm = $('form.form-widget input[name*="[issue_id]"]');
@@ -685,7 +666,6 @@ $(function(){
           //   $form_group.find('.js-upload-image').removeClass('collapse');
           //   $form_group.css('display', 'inline-block');
           //   $('#js-form-group-images').addClass('js-any');
-          //   $(document).trigger('parti-post-editor-spotlight');
           //   check_to_hide_or_show_add_link();
           // }
           // reader.readAsDataURL(current_file);
@@ -693,7 +673,6 @@ $(function(){
           $form_group.find('.js-upload-image').removeClass('collapse');
           $form_group.css('display', 'inline-block');
           $('#js-form-group-images').addClass('js-any');
-          $(document).trigger('parti-post-editor-spotlight');
           check_to_hide_or_show_add_link();
         } else {
           $form_group.find('.js-upload-doc .name').text(current_file.name);
@@ -701,7 +680,6 @@ $(function(){
           $form_group.find('.js-upload-doc').removeClass('collapse');
           $form_group.css('display', 'block');
           $('#js-form-group-files').addClass('js-any');
-          $(document).trigger('parti-post-editor-spotlight');
           $form_group.detach().appendTo('#js-form-group-files');
         }
       }
@@ -948,7 +926,6 @@ $(function(){
 
       $(reference_field).addClass('hidden');
       $(show_target).show();
-      $(document).trigger('parti-post-editor-spotlight');
       $(has_poll).val(false);
       $(has_survey).val(false);
 
@@ -994,19 +971,6 @@ $(function(){
       var source = $($(this).data('source')).val()
       var target = $($(this).data('target')).val()
       return confirm( '----------------------------------------\n지워지는 빠띠와 위키: ' + source + '\n합해지는 빠띠: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n----------------------------------------')
-    });
-  });
-
-  $('[data-action="parti-post-editor-spotlight"]').each(function(index, elm){
-    $(elm).on('click',function (e){
-      $(document).trigger('parti-post-editor-spotlight');
-    });
-    $(elm).on('focusable.focused', function(e) {
-      $('body').addClass('editor-spotlight');
-    });
-    $(elm).on('focusable.hidden', function(e) {
-      $('#site-header > nav').addClass('navbar-fixed-top');
-      $('body').removeClass('editor-spotlight');
     });
   });
 
@@ -1277,7 +1241,6 @@ $(function(){
           if(placeholder) {
             editor.on('init', function(){
               setPlaceholder(editor, placeholder);
-              Focusable.refresh();
             });
             editor.on('blur', function (e) {
               var $input_elm = $(':input[name="' + editor.id + '"]');
@@ -1288,9 +1251,6 @@ $(function(){
             editor.on('focus', function (e) {
               if(removePlaceholder(editor)) {
                 editor.execCommand('mceFocus', false);
-                if(!ufo.isApp()) {
-                  $(document).trigger('parti-post-editor-spotlight');
-                }
               }
             });
             editor.on('KeyDown', function (e) {
@@ -1303,9 +1263,6 @@ $(function(){
             tinymce.triggerSave();
             var $input_elm = $(':input[name="' + editor.id + '"]');
             $input_elm.trigger('parti-need-to-validate');
-            if(!ufo.isApp()) {
-              $(document).trigger('parti-post-editor-spotlight');
-            }
           });
         }
       });
@@ -1388,9 +1345,6 @@ $(function(){
             tinymce.triggerSave();
             var $input_elm = $(':input[name="' + editor.id + '"]');
             $input_elm.trigger('parti-need-to-validate');
-            if(!ufo.isApp()) {
-              $(document).trigger('parti-post-editor-spotlight');
-            }
           });
           editor.on('NodeChange', function (e) {
             var container = editor.editorContainer;
@@ -1432,7 +1386,6 @@ $(function(){
       var $target = $('.js-unified-editor');
       $target.show({ duration: 1, complete: function() {
         $elm.hide({ duration: 1, complete: function() {
-          $(document).trigger('parti-post-editor-spotlight');
           var focus_id = $elm.data('focus');
           $focus = $(focus_id);
           $focus.focus();
