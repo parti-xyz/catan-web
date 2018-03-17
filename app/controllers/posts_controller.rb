@@ -305,7 +305,7 @@ class PostsController < ApplicationController
   end
 
   def fixed_history_back_url_in_mobile_app
-    if !%w(index show wiki).include?(action_name)
+    if !%w(index show wiki new_wiki).include?(action_name) and (@post.present? and @post.persisted?)
       smart_post_url(@post)
     end
   end
