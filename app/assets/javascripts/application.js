@@ -766,8 +766,9 @@ $(function(){
 
   $('.js-parti-editor-selector').selectpicker('render');
   $('.js-parti-editor-selector').on('hide.bs.select', function(e) {
-    var select_value = $(this).val();
-    var $input_elm = $('form.form-widget input[name*="[issue_id]"]');
+    var select_value = $(e.target).find('select').andSelf().val();
+    var $form = $(e.target).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form')
+    var $input_elm = $form.find('input[name*="[issue_id]"]');
 
     $input_elm.val(select_value);
     $input_elm.trigger('parti-need-to-validate');
