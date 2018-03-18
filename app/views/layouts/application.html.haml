@@ -34,7 +34,7 @@
       = render 'application/header'
 
     %main.main-panel#js-main-panel.large-main-panel.clearfix{ class: ('sidebar-open-in-advance' if sidebar_opened?) }
-      .sidebar-wrapper
+      .sidebar-wrapper.js-show-less-sidemenu-scroll
         = render 'drawer_menu'
       .content-wrapper
         = yield

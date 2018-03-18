@@ -1098,7 +1098,7 @@ $(function(){
     event.preventDefault();
     var $target = $(e.currentTarget);
 
-    var old_scroll_top = $('#js-drawer').parent().scrollTop();
+    var old_scroll_top = $('.js-show-less-sidemenu-scroll').scrollTop();
     var old_height = $target.parent().parent().outerHeight();
 
     var $show_more = $target.parent().parent().find('.js-show-more-sidemenu-issues').eq(0);
@@ -1110,8 +1110,8 @@ $(function(){
     var divider_dom_id = $target.attr('href');
     console.log(divider_dom_id);
     setTimeout(function() {
-      if($('#js-drawer').parent().offset().top > $(divider_dom_id).first().offset().top) {
-        $('#js-drawer').scrollTo($(divider_dom_id).first(), 200);
+      if($('.js-show-less-sidemenu-scroll').offset().top > $(divider_dom_id).first().offset().top) {
+        $('.js-show-less-sidemenu-scroll').scrollTo($(divider_dom_id).first(), 200);
       }
     }, 140);
   });
