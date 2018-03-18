@@ -60,6 +60,7 @@ Rails.application.routes.draw do
       get 'email_sign_in'
       put 'valid_email'
       put 'invalid_email'
+      put 'notification'
     end
   end
   unless Rails.env.production?

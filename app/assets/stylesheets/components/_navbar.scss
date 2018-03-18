@@ -285,11 +285,18 @@ $drawer-default-space-mobile: 12px;
     background-color: $brand-primary;
     text-align: center;
     padding: 10px 0;
+    .user-byline {
+      height: auto;
+    }
     .user-byline .user-image, .default-profile {
       width: 60px;
       height: 60px;
       display: block;
       margin: 10px auto;
+      display: inline-block;
+    }
+    .nickname {
+      color: white;
     }
     .text-nowrap {
       font-size: 18px;
@@ -306,6 +313,18 @@ $drawer-default-space-mobile: 12px;
       -moz-border-radius: 50px;
       display: inline-block;
       margin-top: 10px;
+    }
+    .notification-menu {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      > a.dropdown-toggle {
+        color: white;
+        font-weight: 200;
+      }
+      .dropdown-menu {
+        width: 200px;
+      }
     }
   }
   &__messages {

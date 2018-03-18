@@ -1,7 +1,13 @@
 .drawer-list.drawer-list-mobile#js-drawer.js-show-less-sidemenu-scroll
   - if user_signed_in?
     .drawer-list__profile
-      = byline current_user
+      .user-byline
+        = link_to smart_user_gallery_url(current_user) do
+          .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
+          .nickname
+            = current_user.nickname
+      = render 'application/notification_menu'
+
   - else
     .drawer-list__profile
       = image_tag 'img_default_profile.png', class: 'default-profile'

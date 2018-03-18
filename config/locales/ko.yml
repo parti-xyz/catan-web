@@ -137,7 +137,7 @@ ko:
         remember_me: 로그인 상태를 유지
         current_password: 현재 비밀번호
         enable_mailing: 메일수신 여부
-        enable_push_notification: 앱 알림
+        push_notification_mode: 앱 알림
       comment:
         body: 내용
       related:
@@ -257,6 +257,11 @@ ko:
       plan:
         premium: 프리미엄
         lite: 라이트
+    user:
+      push_notification_mode:
+        'on': 알림 켜기
+        'off': 알림 끄기
+        no_sound: 알림 소리만 끄기
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지에서 내렸습니다.

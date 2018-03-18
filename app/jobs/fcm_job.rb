@@ -49,7 +49,8 @@ class FcmJob
     result = JSON.parse(json)
     result['time_to_live'] = 24.hours.to_i
     result['data'].merge!({ 'user_id' => user.id })
-    result['notification'] = { 'title' => result['data']['title'], 'body' => result['data']['body'], 'sound' => 'default' }
+    result['notification'] = { 'title' => result['data']['title'], 'body' => result['data']['body'] }
+    result['notification'].merge!('sound' => 'default') if user.push_notification_mode == :on
     result
   end
 

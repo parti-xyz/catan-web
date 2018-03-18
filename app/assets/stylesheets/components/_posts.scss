@@ -606,6 +606,7 @@ strong.upvoted {
   }
 }
 
+
 .post-data-divider {
   margin: 24px 0 12px;
   color: $gray;
@@ -618,5 +619,38 @@ strong.upvoted {
   &.primary {
     color: #956fd7;
     font-weight: bold;
+  }
+
+  &.post-data-divider-notification {
+    position: relative;
+    text-align: center;
+    margin: 12px 0;
+    .divider-text {
+      background-color: $gray-a;
+      border-radius: 1em;
+      position: relative;
+      color: white;
+      padding: 4px 12px;
+      font-size: $font-size-small;
+      font-weight: 100;
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      height: 2px;
+      background: $gray-a;
+      width: 100%;
+      top: 50%;
+      left: 0;
+    }
+  }
+}
+
+// 빠띠 선택할 때 그룹을 숨깁니다.
+.parti-select {
+  .hidden-group-title {
+    .group-title {
+      display: none;
+    }
   }
 }

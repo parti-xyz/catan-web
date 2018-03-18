@@ -1,0 +1,41 @@
+.dropdown.notification-menu.js-notification-menu
+  %a.dropdown-toggle.js-notification-menu-dropdown-toggle{ "href" => "#", "data-toggle" => "dropdown" }
+    - if current_user.push_notification_mode == :on
+      %i.fa.fa-bell
+    - elsif current_user.push_notification_mode == :off
+      %i.fa.fa-bell-slash
+    - elsif current_user.push_notification_mode == :no_sound
+      %span{ style: 'position: relative; width: 1.2em; display: inline-block; height: 1em;' }
+        %i.fa.fa-volume-off{ style: 'font-size: 20px; position: absolute; top: 0; left: -1px;' }
+        %i.fa.fa-times{ style: 'position: absolute; line-height: inherit; right: -2px;' }
+    알림설정
+  %ul.dropdown-menu.pull-right.js-notification-menu-dropdown-menu
+    %li
+      = link_to notification_users_path(push_notification_mode: :on), method: :put, remote: true, data: { disable_with: '저장 중...' } do
+        - if current_user.push_notification_mode == :on
+          %i.fa.fa-check-square-o
+        - else
+          %i.fa.fa-square-o
+        &nbsp;
+        %i.fa.fa-bell
+        알림 켜기
+    %li
+      = link_to notification_users_path(push_notification_mode: :off), method: :put, remote: true, data: { disable_with: '저장 중...' } do
+        - if current_user.push_notification_mode == :off
+          %i.fa.fa-check-square-o
+        - else
+          %i.fa.fa-square-o
+        &nbsp;
+        %i.fa.fa-bell-slash
+        알림 끄기
+    %li
+      = link_to notification_users_path(push_notification_mode: :no_sound), method: :put, remote: true, data: { disable_with: '저장 중...' } do
+        - if current_user.push_notification_mode == :no_sound
+          %i.fa.fa-check-square-o
+        - else
+          %i.fa.fa-square-o
+        &nbsp;
+        %span{ style: 'position: relative; width: 1.2em; display: inline-block; height: 1em;' }
+          %i.fa.fa-volume-off{ style: 'font-size: 20px; position: absolute; top: 0; left: -1px;' }
+          %i.fa.fa-times{ style: 'position: absolute; line-height: inherit; right: -2px;' }
+        알림 소리만 끄기

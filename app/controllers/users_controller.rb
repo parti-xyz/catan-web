@@ -48,6 +48,11 @@ class UsersController < ApplicationController
     redirect_to edit_user_registration_url(subdomain: nil)
   end
 
+  def notification
+    render_404 and return if params[:push_notification_mode].blank?
+    current_user.update_attributes(push_notification_mode: params[:push_notification_mode])
+  end
+
   protected
 
   def mobile_navbar_title_posts

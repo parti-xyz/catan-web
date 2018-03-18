@@ -13,6 +13,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  extend Enumerize
+  enumerize :push_notification_mode, in: [:on, :no_sound, :off], predicates: true, scope: true
+
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
@@ -53,6 +56,7 @@ class User < ActiveRecord::Base
   before_save :downcase_nickname
   before_save :set_uid
   before_validation :strip_whitespace, only: :nickname
+  before_update :process_push_notification_mode_updated_at
   after_create :default_member_issues
   after_create :check_invitations, :if => "email.present? && confirmed_at.present?"
 
@@ -150,7 +154,7 @@ class User < ActiveRecord::Base
       enable_mailing_pin: true,
       enable_mailing_mention: true,
       enable_mailing_poll_or_survey: true,
-      enable_push_notification: true,
+      push_notification_mode: :on,
       nickname: nickname,
       remote_image_url: external_auth.image_url
   end
@@ -264,6 +268,14 @@ class User < ActiveRecord::Base
     bookmarks.exists?(issue_id: issue)
   end
 
+  def enable_push_notification?
+    User.enable_push_notification?(self.push_notification_mode)
+  end
+
+  def self.enable_push_notification?(push_notification_mode)
+    %i(on no_sound).include? push_notification_mode.to_sym
+  end
+
   def self.parse_nicknames nicknames
     return [] if nicknames.blank?
     (nicknames.split(",") || []).map(&:strip).uniq.compact.map do |nickname|
@@ -317,5 +329,19 @@ class User < ActiveRecord::Base
 
   def strip_whitespace
     self.nickname = self.nickname.strip unless self.nickname.nil?
+  end
+
+  def process_push_notification_mode_updated_at
+    return unless self.push_notification_mode_changed?
+
+    enable_push_notification_was = User.enable_push_notification?(self.push_notification_mode_was)
+    enable_push_notification = User.enable_push_notification?(self.push_notification_mode)
+    return if enable_push_notification == enable_push_notification_was
+
+    if enable_push_notification
+      self.push_notification_enabled_at = DateTime.now
+    else
+      self.push_notification_disabled_at = DateTime.now
+    end
   end
 end

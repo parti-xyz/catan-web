@@ -1,0 +1,8 @@
+var $notification_menu = $("<%= escape_javascript(render 'application/notification_menu') %>");
+var $new_toggle = $notification_menu.find('.js-notification-menu-dropdown-toggle');
+var $new_menu = $notification_menu.find('.js-notification-menu-dropdown-menu');
+
+$(".js-notification-menu .js-notification-menu-dropdown-toggle").replaceWith($new_toggle);
+$(".js-notification-menu .js-notification-menu-dropdown-menu").replaceWith($new_menu);
+
+parti_partial$($('.js-notification-menu'));

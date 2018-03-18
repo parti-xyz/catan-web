@@ -48,11 +48,8 @@
               구독하는 빠띠의 소식을
               이메일로 받습니다.
         .form-group
-          = f.label :enable_push_notification
-          .checkbox
-            %label
-              = f.check_box :enable_push_notification
-              앱에서 알림을 받습니다.
+          = f.label :push_notification_mode
+          = f.select :push_notification_mode, User.push_notification_mode.options, {}, class: 'form-control'
 
         %hr
         - if resource.provider == 'email'
