@@ -1631,6 +1631,10 @@ $(function(){
       }
     }
   });
+
+  $('.js-scroll-top').on('click', function(e) {
+    $.scrollTo(0, 200);
+  });
 });
 
 
