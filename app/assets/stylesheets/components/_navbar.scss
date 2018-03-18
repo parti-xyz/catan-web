@@ -27,11 +27,15 @@ $side-menu-width: 256px;
           width: $site-header-brand-image-width-xs;
           margin: 0 auto;
         }
-        body.light-theme & {
+        body.light-theme &,
+        body.light-theme & a {
           color: $gray-dark;
+          overflow: visible;
         }
-        body.dark-theme & {
+        body.dark-theme &,
+        body.dark-theme & a {
           color: white;
+          overflow: visible;
         }
       }
     }
@@ -144,16 +148,18 @@ $side-menu-width: 256px;
 
   // history-back
   .history-back {
+    position: absolute;
+    left: -1.5em;
+
+    > i {
+      font-size:  26px;
+    }
+
     @media (max-width: $screen-xs-max) {
-      a i {
-        position: absolute;
-        top: 6px;
-        font-size: 27px;
-      }
-      body.dark-theme & a {
+      body.dark-theme & i {
         color: white;
       }
-      body.light-theme & a {
+      body.light-theme & i {
         color: $gray-dark;
       }
     }

@@ -1,14 +1,24 @@
 %nav#site-header.navbar.navbar-default.navbar-fixed-top.js-fixed-header
   .container.clearfix
     .navbar-header.navbar-header-center.js-navbar-header
-      %a.navbar-brand.js-navbar-header-title-default{ href: root_path, 'aria-label': only_mobile_app(request, 'header-brand') }
-        - if host_group.indie?
-          %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
-        - else
-          = host_group.head_title
-      - if mobile_navbar_title.present?
-        %a.navbar-brand.js-navbar-header-title-page.collapse
-          = mobile_navbar_title
+      .navbar-brand
+        - back_buttons = capture do
+          - if history_backable_in_mobile_app?
+            %a.history-back.js-btn-history-back-in-mobile-app{ href: "#", 'aria-label': only_mobile_app(request, 'header-back'), data: { 'back-to-url': fixed_history_back_url_in_mobile_app } }
+              %i.fa.fa-angle-left
+          %a.history-back.js-close-editor-in-mobile-app.hidden{ href: '#' }
+            %i.fa.fa-angle-left
+        .js-navbar-header-title-default
+          = back_buttons
+          %a{ href: root_path, 'aria-label': only_mobile_app(request, 'header-brand') }
+            - if host_group.indie?
+              %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
+            - else
+              = host_group.head_title
+        - if mobile_navbar_title.present?
+          .js-navbar-header-title-page.collapse
+            = back_buttons
+            %a= mobile_navbar_title
 
 
     %ul.nav.navbar-nav.navbar-right
@@ -27,18 +37,10 @@
             %i.fa.fa-sign-in
 
     %ul.nav.navbar-nav.navbar-left
-      - if history_backable_in_mobile_app?
-        %li.history-back.js-btn-history-back-in-mobile-app{ data: { 'back-to-url': fixed_history_back_url_in_mobile_app } }
-          %a.js-history-back{ href: "#", 'aria-label': only_mobile_app(request, 'header-back') }
-            %i.fa.fa-angle-left
-      - else
-        %li.js-btn-drawer
-          %a.btn-header.js-slideout-toggle
-            - if host_group.try(:is_light_theme?)
-              = image_tag 'btn_mobile_menu.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
-            - else
-              = image_tag 'btn_mobile_menu_white.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
-      %li.history-back.js-close-editor-in-mobile-app.hidden
-        %a{ href: '#' }
-          %i.fa.fa-angle-left
+      %li.js-btn-drawer
+        %a.btn-header.js-slideout-toggle
+          - if host_group.try(:is_light_theme?)
+            = image_tag 'btn_mobile_menu.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
+          - else
+            = image_tag 'btn_mobile_menu_white.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
 = render 'application/drawer_menu.mobile'
