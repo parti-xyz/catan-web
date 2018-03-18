@@ -1453,7 +1453,7 @@
       });
 
       this.$searchbox.on('input propertychange', function () {
-        if (that.$searchbox.val()) {
+        if (that.$searchbox.val() && $.trim(that.$searchbox.val())) {
           var $searchBase = that.$lis.not('.is-hidden').removeClass('hidden').children('a');
           if (that.options.liveSearchNormalize) {
             $searchBase = $searchBase.not(':a' + that._searchStyle() + '("' + normalizeToBase(that.$searchbox.val()) + '")');

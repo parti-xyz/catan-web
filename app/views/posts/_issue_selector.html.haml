@@ -1,19 +1,37 @@
-- selected_parti = nil
 .parti-select
   %select.js-parti-editor-selector.collapse(data-live-search="true" data-width="100%" title="게시할 빠띠를 골라 주세요")
+    - latest_issue_ids = current_user.latest_posted_issues(5)
+    - if latest_issue_ids.any?
+      %optgroup{label: '최근 게시한 빠띠'}
+        - latest_issue_ids.each do |issue|
+          - issue_content = capture do
+            .parti-option
+              .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+              %span.issue-line__title
+                - unless issue.group.indie?
+                  = issue.group.title_basic_format
+                  \/
+                = issue.title
+                = meta_icons(issue)
+          %option{ value: issue.id, 'data-content': issue_content, 'data-tokens': ' ' }
+            = issue.title
+
     - all_issues = current_user.member_issues.alive.sort_by_name.to_a
-    - current_user.member_groups.sort_by_name.each do |group|
-      - issues = all_issues.select { |issue| issue.group_slug == group.slug }
+    - groups = [Group.indie] + current_user.member_groups.sort_by_name
+    - groups.each do |group|
+      - issues = all_issues.select { |issue| issue.group_slug == group.slug and issue.postable?(current_user) }
       - if issues.any?
         %optgroup{label: group.title_basic_format}
           - issues.each do |issue|
-            - selected_parti = issue if selected_parti.blank?
             - issue_content = capture do
               .parti-option
                 .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
                 %span.issue-line__title
+                  - unless issue.group.indie?
+                    %span.group-title
+                      = issue.group.title_basic_format
+                      \/
                   = issue.title
                   = meta_icons(issue)
-            %option{value: issue.id, 'data-content': issue_content}
+            %option.hidden-group-title{value: issue.id, 'data-content': issue_content, 'data-tokens': issue.title }
               = issue.title
-              = meta_icons(issue)
