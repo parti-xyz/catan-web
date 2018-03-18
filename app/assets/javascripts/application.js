@@ -1397,7 +1397,6 @@ $(function(){
       if($('body').hasClass('virtual-keyboard')) {
         $('.js-invisible-on-mobile-editing').slideUp();
         $('.js-btn-history-back-in-mobile-app').hide();
-        $('.js-btn-drawer').hide();
         $('.js-close-editor-in-mobile-app').removeClass('hidden');
       }
     });
