@@ -6,8 +6,10 @@ module ApplicationHelper
     arr << "in-parti" if @issue.present?
     if current_group.present?
       arr << "in-group"
-      arr << (current_group.is_light_theme? ? "light-theme" : "dark-theme")
+    else
+      arr << "in-indie"
     end
+    arr << (host_group.is_light_theme? ? "light-theme" : "dark-theme")
     arr << 'virtual-keyboard' if is_virtaul_keyboard?
     arr << 'ios' if browser.platform.ios?
     arr.join(' ')

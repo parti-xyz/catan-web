@@ -3,6 +3,9 @@ class MembersController < ApplicationController
   load_resource :issue
   load_and_authorize_resource :member, through: :issue, shallow: true
 
+  def index
+  end
+
   def create
     render_404 and return if @issue.private_blocked?(current_user) or @issue.frozen?
     @member = MemberIssueService.new(issue: @issue, user: current_user, need_to_message_organizer: true).call

@@ -18,4 +18,10 @@ class HashtagsController < ApplicationController
       @recommend_posts = Post.of_undiscovered_issues(current_user).after(1.month.ago).hottest.order_by_stroked_at
     end
   end
+
+  protected
+
+  def mobile_navbar_title_show
+    "##{@hashtag}" if @hashtag.present?
+  end
 end

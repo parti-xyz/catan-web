@@ -58,6 +58,9 @@ $side-menu-width: 256px;
         @media (min-width: $screen-sm-max) {
           top: -4px;
         }
+        body.light-theme.in-indie & {
+          color: $brand-primary;
+        }
       }
     }
   }

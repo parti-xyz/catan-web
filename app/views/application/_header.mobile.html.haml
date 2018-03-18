@@ -1,11 +1,15 @@
 %nav#site-header.navbar.navbar-default.navbar-fixed-top.js-fixed-header
   .container.clearfix
-    .navbar-header.navbar-header-center
-      %a.navbar-brand{ href: root_path, 'aria-label': only_mobile_app(request, 'header-brand') }
+    .navbar-header.navbar-header-center.js-navbar-header
+      %a.navbar-brand.js-navbar-header-title-default{ href: root_path, 'aria-label': only_mobile_app(request, 'header-brand') }
         - if host_group.indie?
           %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
         - else
-          #{host_group.head_title}
+          = host_group.head_title
+      - if mobile_navbar_title.present?
+        %a.navbar-brand.js-navbar-header-title-page.collapse
+          = mobile_navbar_title
+
 
     %ul.nav.navbar-nav.navbar-right
       - if user_signed_in?

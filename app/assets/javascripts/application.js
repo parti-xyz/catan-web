@@ -1595,6 +1595,41 @@ $(function(){
     gallery = new PhotoSwipe(pswp_element, PhotoSwipeUI_Default, items, options);
     gallery.init();
   });
+
+  // 모바일에서 상단 메뉴에 현 페이지 제목을 보여 줍니다
+  $(window).scroll(function() {
+    var $el = $('.js-navbar-header');
+    if(!$el.length) {
+      return;
+    }
+
+    var $default = $el.find('.js-navbar-header-title-default');
+    var $page = $el.find('.js-navbar-header-title-page');
+    if(!$default.length || !$page.length) {
+      return;
+    }
+    if($default.is(':animated') || $page.is(':animated')) {
+      return;
+    }
+
+    if($(this).scrollTop() >= 100) {
+      if($default.is(':visible')) {
+        $default.stop().fadeOut(500, function() {
+          if(!$page.is(':visible')) {
+            $page.stop().fadeIn(500);
+          }
+        });
+      }
+    } else {
+      if($page.is(':visible')) {
+        $page.stop().fadeOut(500, function() {
+          if(!$default.is(':visible')) {
+            $default.stop().fadeIn(500);
+          }
+        });
+      }
+    }
+  });
 });
 
 

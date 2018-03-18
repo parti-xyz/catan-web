@@ -103,7 +103,6 @@ Rails.application.routes.draw do
     end
     collection do
       get :indies
-      get :exist
       get :search_by_tags
       get :bookmarks
       post :merge
@@ -129,19 +128,16 @@ Rails.application.routes.draw do
   resources :posts, concerns: :upvotable do
     shallow do
       resources :comments, concerns: :upvotable
-      resources :votes
     end
     member do
       get 'poll_social_card'
       get 'survey_social_card'
-      get 'modal'
       post 'pin'
       delete 'unpin'
       get 'readers'
       get 'unreaders'
       put 'read'
       get 'more_comments'
-      get 'wiki'
       patch 'wiki', to: 'posts#update_wiki'
       get 'edit_decision'
       patch 'update_decision'
@@ -254,7 +250,6 @@ Rails.application.routes.draw do
   get '/share_telegram', to: "pages#share_telegram", as: :share_telegram
 
   get '/hashtags/:hashtag', to: "hashtags#show", as: :hashtag
-  get '/categories/:slug', to: "categories#show", as: :category
 
   authenticate :user, lambda { |u| u.admin? } do
     get '/test/summary', to: "users#summary_test"

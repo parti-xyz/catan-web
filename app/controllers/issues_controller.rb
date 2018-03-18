@@ -121,6 +121,12 @@ class IssuesController < ApplicationController
     @posts = Post.having_link_or_file.of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
   end
 
+  def new
+  end
+
+  def edit
+  end
+
   def create
     if @issue.private? and current_group.try(:met_private_issues_quota?)
       flash[:notice] = t('labels.group.met_private_issues_quota')
@@ -226,12 +232,6 @@ class IssuesController < ApplicationController
     @issue.remove_cover!
     @issue.save
     redirect_to [:edit, @issue]
-  end
-
-  def exist
-    respond_to do |format|
-      format.json { render json: Issue.exists?(title: params[:title]) }
-    end
   end
 
   def new_posts_count
@@ -344,6 +344,16 @@ class IssuesController < ApplicationController
     else
       redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
     end
+  end
+
+  protected
+
+  def mobile_navbar_title_slug_home
+    @issue.title
+  end
+
+  def mobile_navbar_title_slug_hashtag
+    "##{@hashtag}" if @hashtag.present?
   end
 
   private

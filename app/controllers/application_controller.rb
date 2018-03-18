@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action :prepare_meta_tags, if: "request.get?"
+
   before_action :set_device_type
   before_action :block_not_exists_group
   before_action :blocked_private_group
@@ -67,6 +68,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_group
   helper_method :host_group
   helper_method :fixed_history_back_url_in_mobile_app
+  helper_method :mobile_navbar_title
 
   private
 
@@ -130,7 +132,7 @@ class ApplicationController < ActionController::Base
         description: og_description,
         type: 'website'
       }
-    }
+    }.reject{ |_,v| v.nil? }
   end
 
   def default_meta_options
@@ -156,6 +158,71 @@ class ApplicationController < ActionController::Base
 
   def meta_issue_title(issue)
     issue.title
+  end
+
+  MOBILE_NAVBAR_TITLE = {
+    "users#posts" => :dynamic,
+    "users#pre_sign_up" => "가입",
+    "users#email_sign_in" => "로그인",
+    "users/sessions#new" => "가입",
+    "users/registrations#edit" => "설정",
+    "dashboard#index" => "내 홈",
+    "dashboard#intro" => "시작",
+    "pages#discover" => "새로운 발견",
+    "pages#about" => "소개",
+    "pages#privacy" => "방침",
+    "pages#pricing" => "가격 책정",
+    "pages#terms" => "약관",
+    "issues#home" => nil,
+    "issues#destroy_form" => "빠띠 삭제",
+    "issues#new_admit_members" => "초대",
+    "issues#indies" => "빠띠",
+    "issues#bookmarks" => "내 메뉴",
+    "issues#index" => "빠띠",
+    "issues#new" => "빠띠 만들기",
+    "issues#edit" => "설정",
+    "issues#slug_home" => :dynamic,
+    "issues#slug_links_or_files" => "자료",
+    "issues#slug_wikis" => "위키",
+    "issues#slug_polls_or_surveys" => "토론",
+    "issues#slug_members" => "멤버",
+    "issues#slug_hashtag" => :dynamic,
+    "members#index" => "멤버",
+    "posts#readers" => "확인 회원",
+    "posts#unreaders" => "미확인 회원",
+    "posts#edit_decision" => "토론 정리",
+    "posts#decision_histories" => "토론 이력",
+    "wikis#histories" => "위키 이력",
+    "posts#new_wiki" => "위키 게시",
+    "posts#pinned" => "내 홈",
+    "posts#edit" => "게시글 수정",
+    "posts#show" => "게시글 상세",
+    "wiki_histories#show" => "위키 이력",
+    "links_or_files#index" => "자료",
+    "polls_or_surveys#index" => "토론",
+    "wikis#index" => "위키",
+    "relateds#new" => "관련 빠띠",
+    "messages#index" => "내 홈",
+    "group/configurations#new" => "그룹 만들기",
+    "group/configurations#edit" => "설정",
+    "group/members#new_admit" => "멤버 추가",
+    "group/members#edit_magic_link" => "초대 링크",
+    "group/members#magic_form" => "초대",
+    "group/members#index" => "멤버",
+    "group/managements#index" => "관리",
+    "hashtags#show" => :dynamic
+  }
+  def mobile_navbar_title
+    key = "#{controller_name}##{action_name}"
+    result = ApplicationController::MOBILE_NAVBAR_TITLE[key]
+    if :dynamic == result
+      if self.methods.include?(:"mobile_navbar_title_#{action_name}")
+        result = send(:"mobile_navbar_title_#{action_name}")
+      else
+        result = nil
+      end
+    end
+    result
   end
 
   def errors_to_flash(model)

@@ -48,6 +48,13 @@ class UsersController < ApplicationController
     redirect_to edit_user_registration_url(subdomain: nil)
   end
 
+  protected
+
+  def mobile_navbar_title_posts
+    fetch_user
+    @user.nickname
+  end
+
   private
 
   def fetch_user
