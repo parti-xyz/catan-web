@@ -37,6 +37,7 @@
 //= require pulltorefresh
 //= require bindWithDelay
 //= require photoswipe
+//= require jquery.scrollTo
 
 // blank
 $.is_blank = function (obj) {
@@ -1106,12 +1107,12 @@ $(function(){
 
     $target.parent().hide().addClass('js-more-sidemenu-collapse');
 
+    var divider_dom_id = $target.attr('href');
+    console.log(divider_dom_id);
     setTimeout(function() {
-      var new_height = $target.parent().parent().outerHeight();
-      var delta = old_height - new_height;
-      $('#js-drawer').parent().stop().animate({
-        scrollTop: old_scroll_top - delta
-      }, 200);
+      if($('#js-drawer').parent().offset().top > $(divider_dom_id).first().offset().top) {
+        $('#js-drawer').scrollTo($(divider_dom_id).first(), 200);
+      }
     }, 140);
   });
 

@@ -11,7 +11,8 @@
 - if Group.comprehensive_joined_by(current_user).any?
   - ([host_group] + Group.sort_by_name.comprehensive_joined_by(current_user).but(host_group).to_a).each do |menu_group|
     - if current_user.member_issues.only_alive_of_group(menu_group).any?
-      %li.divider.divider-small
+      - divider_dom_id = "js-more-sidemenu-divider-#{SecureRandom.uuid}"
+      %li.divider.divider-small{ id: divider_dom_id }
       %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
         .title.cursor-pointer{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
           = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
@@ -56,9 +57,9 @@
                 = render 'issues/issue_line', issue: issue, collapse: true, link_whole_line: true
 
               %li.js-issue-line.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse.clearfix
-                %a.js-show-less-sidemenu-issues(href="#")
+                %a.js-show-less-sidemenu-issues{ href: "##{divider_dom_id}" }
                   %i.fa.fa-caret-up
-                  줄여보기
+                  접기
                 = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
                   %i.fa.fa-gear
                   설정
