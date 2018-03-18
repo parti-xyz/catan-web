@@ -485,7 +485,12 @@ $drawer-default-space-mobile: 12px;
         }
       }
       &.logo {
-        padding-bottom: 12px;
+        padding-top: $drawer-default-space*2;
+        padding-bottom: $drawer-default-space*2;
+        @media (max-width: $screen-xs-max) {
+          padding-top: $drawer-default-space-mobile*2;
+          padding-bottom: $drawer-default-space-mobile*2;
+        }
         .slogan {
           font-size: $font-size-small;
           color: $gray-dark;

@@ -25,11 +25,8 @@ class Poll < ActiveRecord::Base
   has_many :votings, dependent: :destroy do
     def partial_included_with(someone)
       partial = recent.limit(100)
-      if !partial.map(&:user).include?(someone)
-        (partial.all << find_by(user: someone)).compact
-      else
-        partial.all
-      end
+      partial.all << find_by(user: someone)
+      partial.compact.uniq
     end
 
     def point

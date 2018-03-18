@@ -13,7 +13,7 @@
     - if user_signed_in? and current_user.member_issues.any?
       = render 'application/drawer_search'
       = render 'application/drawer_issues'
-      %li.divider
+      %li.divider.divider-small
     - else
       %li.menu-line.large-menu-line
         = link_to issues_url(subdomain: nil), class: 'action-link' do
@@ -41,7 +41,7 @@
           - @hottest_issues = Issue.only_public_hottest(5)
           - @hottest_issues.each do |hottest_issue|
             = render 'issues/issue_line', issue: hottest_issue
-    %li.divider
+    %li.divider.divider-small
     %li.logo
       = link_to root_url(subdomain: nil) do
         %div
