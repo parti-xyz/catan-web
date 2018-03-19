@@ -1,6 +1,7 @@
 body.app-pages-pricing {
   .subtitle {
-    color: $gray-light;
+    color: $gray;
+    font-size: 14px;
   }
   .service-card-wrapper {
     padding: 3px;
@@ -54,7 +55,13 @@ body.app-pages-pricing {
       width: 100%;
       text-align: center;
       font-weight: 600;
+      font-size: 18px;
+    }
+    .price-text {
       font-size: 24px;
+      &.price-text-paid {
+        font-weight: 200;
+      }
     }
     .price-desc{
       margin: 10px 0px !important;
