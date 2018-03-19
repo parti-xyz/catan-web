@@ -12,10 +12,10 @@
           %option{ value: issue.id, 'data-content': issue_content, 'data-tokens': ' ' }
             = issue.title
 
-    - all_issues = current_user.member_issues.alive.sort_by_name.to_a
+    - all_issues = Issue.postable(current_user).alive.sort_by_name.to_a
     - groups = [Group.indie] + current_user.member_groups.sort_by_name
     - groups.each do |group|
-      - issues = all_issues.select { |issue| issue.group_slug == group.slug and issue.postable?(current_user) }
+      - issues = all_issues.select { |issue| issue.group_slug == group.slug }
       - if issues.any?
         %optgroup{label: group.title_basic_format}
           - issues.each do |issue|

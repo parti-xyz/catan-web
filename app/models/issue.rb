@@ -193,6 +193,9 @@ class Issue < ActiveRecord::Base
     where(id: Bookmark.where(user: someone).select(:issue_id))
   }
   scope :only_private, -> { where(private: true) }
+  scope :postable, ->(someone) {
+    where.any_of(where(id: someone.organizing_issues), where(id: someone.member_issues, notice_only: false))
+  }
 
   # search
   scoped_search on: [:title, :body]
