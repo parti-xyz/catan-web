@@ -12,7 +12,7 @@
           %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: left;"}
             - unless hide_issue_title
               %span{:style => "color: rgb(150, 111, 214); font-size: 14px;"}
-                = issue_tag(post.issue)
+                = issue_tag_ignored_current_group(post.issue, show_group: !post.issue.group.indie?)
             %div
               .user-image{style: "background-image: url(#{post.user.image.sm.url}); width: 16px; height: 16px; display: inline-block; vertical-align: sub; border-radius: 50%; background-size: cover; background-position: center; background-repeat: no-repeat;"}
               %span{:style => "font-weight: bold;"}
