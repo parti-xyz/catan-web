@@ -5,15 +5,7 @@
       .issue-meta.issue-meta-header{ class: ('issue-meta-pinnable' if can?(:pin, post)) }
         = link_to smart_issue_home_url(post.issue) do
           %span.issue-and-group
-            - if post.issue.group != host_group
-              %span.issue-group
-                = post.issue.group.title_basic_format
-                = meta_icons(post.issue.group)
-              \/
-            %span.issue-title
-              = post.issue.title
-              = meta_icons(post.issue)
-
+            = issue_tag(post.issue, issue_classes: 'issue-title', group_classes: 'issue-group')
 
     .body<>
       = link_to smart_post_url(post), 'aria-label': only_mobile_app(request, "post-pinned") do

@@ -6,10 +6,8 @@
       .message__header
         .message__parti
           - if message.issue.present?
-            = link_to "#{message.issue.title} 빠띠", smart_issue_home_url(message.issue)
-            - unless message.issue.displayable_group?(current_group)
-              \/
-              = link_to message.issue.group.title_basic_format, root_url(subdomain: message.issue.group_subdomain)
+            = link_to smart_issue_home_url(message.issue) do
+              = issue_tag(message.issue)
           - elsif message.group.present?
             = link_to message.group.title_basic_format, smart_group_url(message.group)
         .message__date.date-wrapper

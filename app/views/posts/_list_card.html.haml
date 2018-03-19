@@ -5,14 +5,7 @@
       .desc
         .issue-meta
           %span.issue-and-group
-            %span.issue-title
-              = post.issue.title
-              = meta_icons(post.issue)
-            - if post.issue.group != host_group
-              \/
-              %span.issue-group
-                = post.issue.group.title_basic_format
-                = meta_icons(post.issue.group)
+            = issue_tag(post.issue, issue_classes: 'issue-title', group_classes: 'issue-group')
 
           &nbsp;
           - created_at = post.try(:created_at)

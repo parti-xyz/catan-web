@@ -14,10 +14,7 @@
         - @pinned_posts.each do |issue, posts|
           .post-data-divider
             = link_to smart_issue_home_url(issue) do
-              - unless issue.group.indie?
-                = issue.group.head_title
-                \/
-              = issue.title
+              = issue_tag(issue)
           .post-card.summary.pinned
             - posts.each do |post|
               = render 'posts/post_pinned', post: post

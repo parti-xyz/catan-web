@@ -23,11 +23,7 @@
     .reference-card__meta.clearfix
       .reference-card__issue
         = link_to smart_issue_home_path_or_url(post.issue) do
-          - unless post.issue.displayable_group? current_group
-            .reference-card__group
-              = post.issue.group.head_title
-            \/
-          = post.issue.title
+          = issue_tag(post.issue, group_classes: 'reference-card__group', group_short: true)
       .reference-card__date.date-wrapper.reference-card__date--with-issue
         %span= date_f post.created_at
     .caption-files

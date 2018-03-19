@@ -73,12 +73,6 @@ section#references {
       text-overflow: ellipsis;
     }
   }
-  &__group {
-    display: inline-block;
-    &:after {
-      content: '/'
-    }
-  }
   &__date--with-issue {
     float: right;
     span {

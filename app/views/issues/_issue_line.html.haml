@@ -27,12 +27,7 @@
     .media-body
       .issue-line-body-wraper
         %a.span.issue-line__title{ href: smart_issue_home_path_or_url(issue), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}"), title: issue.title }
-          %span.title= issue.title
-          - if local_assigns[:show_group] and !issue.group.indie?
-            \/
-            %span.text-nowrap
-              = issue.group.title_short_format
-          = meta_icons(issue, (['star', '오거나징하는 빠띠'] if issue.organized_by?(current_user)))
+          = issue_tag(issue, show_group: local_assigns[:show_group], group_classes: 'text-nowrap')
         - latest_stroked_posts_count = issue.visiable_latest_stroked_posts_count
         - if !latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0
           %span.issue-line__meta{ data: (link_to_parti unless local_assigns[:link_whole_line]), class: "#{('cursor-pointer' if link_to_parti.any?)}" }

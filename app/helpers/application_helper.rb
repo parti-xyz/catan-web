@@ -357,4 +357,33 @@ module ApplicationHelper
       end
     end
   end
+
+  def issue_tag(issue, show_group: true, group_classes: nil, divider_classes: nil, group_short: false, issue_classes: nil)
+    show_group = (show_group and !issue.displayable_group?(current_group))
+    issue_tag_ignored_current_group(issue, show_group: show_group, group_classes: group_classes, divider_classes: divider_classes, group_short: group_short, issue_classes: issue_classes)
+  end
+
+  def issue_tag_ignored_current_group(issue, show_group: true, group_classes: nil, divider_classes: nil, group_short: false, issue_classes: nil)
+    content_tag :span do
+      if show_group
+        group_title = (group_short ? issue.group.head_title : issue.group.title )
+        group_title = '개인이 오거나이즈하는 빠띠' if issue.group.indie?
+        concat(content_tag :span, group_title, class: group_classes)
+        g_icon = meta_icons(issue.group)
+        if g_icon.present?
+          concat raw('&nbsp;')
+          concat g_icon
+        end
+        concat(content_tag :span, ' / ')
+      end
+      concat(content_tag :span, issue.title, class: issue_classes)
+
+      i_icon = meta_icons(issue, (['star', '오거나징하는 빠띠'] if user_signed_in? and issue.organized_by?(current_user)))
+      if i_icon.present?
+        concat raw('&nbsp;')
+        concat i_icon
+      end
+    end
+  end
+
 end

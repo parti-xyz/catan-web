@@ -13,15 +13,7 @@
 
           .media-body
             = link_to smart_issue_home_path_or_url(post.issue) do
-              - unless post.issue.displayable_group? current_group
-                %span.issue-group
-                  = post.issue.group.title_basic_format
-                  = meta_icons(post.issue.group)
-                \/
-              %span.issue-title
-                = post.issue.title
-                = meta_icons(post.issue)
-
+              = issue_tag(post.issue, group_classes: 'issue-group')
 
     - if post.private_blocked?(current_user)
       .post-card__post

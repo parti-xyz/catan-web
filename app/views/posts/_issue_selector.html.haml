@@ -6,13 +6,9 @@
         - latest_issue_ids.each do |issue|
           - issue_content = capture do
             .parti-option
-              .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+              .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url}, show_group: !issue.group.indie?);" }
               %span.issue-line__title
-                - unless issue.group.indie?
-                  = issue.group.title_basic_format
-                  \/
-                = issue.title
-                = meta_icons(issue)
+                = issue_tag_ignored_current_group(issue)
           %option{ value: issue.id, 'data-content': issue_content, 'data-tokens': ' ' }
             = issue.title
 
@@ -27,11 +23,6 @@
               .parti-option
                 .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
                 %span.issue-line__title
-                  - unless issue.group.indie?
-                    %span.group-title
-                      = issue.group.title_basic_format
-                      \/
-                  = issue.title
-                  = meta_icons(issue)
+                  = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title')
             %option.hidden-group-title{value: issue.id, 'data-content': issue_content, 'data-tokens': issue.title }
               = issue.title
