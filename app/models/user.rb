@@ -270,8 +270,8 @@ class User < ActiveRecord::Base
 
   def latest_posted_issues(count)
     return [] if self.member_issues.count < count * 1.5
-    latest_issue_ids = self.posts.recent.limit(count).group(:issue_id).select(:issue_id)
-    Issue.where(id: latest_issue_ids.to_a.map(&:issue_id)).to_a.select { |issue| issue.postable?(self) }
+    latest_issue_ids = self.posts.recent.limit(10).to_a.group_by(&:issue_id).map(&:first)
+    Issue.where(id: latest_issue_ids).postable(self)
   end
 
   def enable_push_notification?

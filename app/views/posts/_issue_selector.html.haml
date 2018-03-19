@@ -6,9 +6,9 @@
         - latest_issue_ids.each do |issue|
           - issue_content = capture do
             .parti-option
-              .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url}, show_group: !issue.group.indie?);" }
+              .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
               %span.issue-line__title
-                = issue_tag_ignored_current_group(issue)
+                = issue_tag_ignored_current_group(issue, show_group: !issue.group.indie?)
           %option{ value: issue.id, 'data-content': issue_content, 'data-tokens': ' ' }
             = issue.title
 
@@ -23,6 +23,6 @@
               .parti-option
                 .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
                 %span.issue-line__title
-                  = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title')
+                  = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title', divider_classes: 'group-title')
             %option.hidden-group-title{value: issue.id, 'data-content': issue_content, 'data-tokens': issue.title }
               = issue.title

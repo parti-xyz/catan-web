@@ -374,7 +374,7 @@ module ApplicationHelper
           concat raw('&nbsp;')
           concat g_icon
         end
-        concat(content_tag :span, ' / ')
+        concat(content_tag :span, ' / ', class: divider_classes)
       end
       concat(content_tag :span, issue.title, class: issue_classes)
 
