@@ -10,44 +10,40 @@
 
   - else
     .drawer-list__profile
-      = image_tag 'img_default_profile.png', class: 'default-profile'
       .btn-new-user
         = link_to '회원가입', pre_sign_up_users_path
         \|
         = link_to '로그인', new_user_session_path
   %ul.drawer-list__menu.list-unstyled.js-filterable-by-drawer-filter
-    - if user_signed_in? and current_user.member_issues.any?
-      = render 'application/drawer_search'
-      = render 'application/drawer_issues'
+    - if user_signed_in?
+      - if current_user.member_issues.any?
+        = render 'application/drawer_search'
+        = render 'application/drawer_issues'
+        %li.divider.divider-small
+      %li.menu-line= byline current_user, hide_image: true
+      %li.menu-line= link_to '프로필 수정', edit_user_registration_path
+      %li.menu-line= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
       %li.divider.divider-small
     - else
       %li.menu-line.large-menu-line
         = link_to issues_url(subdomain: nil), class: 'action-link' do
           %i.fa.fa-search
           관심있는 빠띠를 찾아보세요
+      %li.menu-line
+        = link_to discover_url(subdomain: nil), 'aria-label': only_mobile_app(request, 'drawer-discover'), class: "#{'active' if current_page?('/discover')}" do
+          %i.fa.fa-fort-awesome
+          새로운 발견
       %li.divider
       %li.group-issues-line
-        .title 지금 가장 인기있는 빠띠
+        .title.cursor-pointer{ data: { 'action': "parti-link", 'url': issues_url(subdomain: nil) } }
+          .group-parties-section-title
+            %i.fa.fa-flash
+            지금 가장 인기있는 빠띠
         %ul.sub.list-unstyled
           - Issue.only_public_hottest(5).each do |issue|
             = render 'issues/issue_line', issue: issue, show_after_block: false
-    - if user_signed_in?
-      %li.menu-line= byline current_user, hide_image: true
-      %li.menu-line= link_to '프로필 수정', edit_user_registration_path
-      %li.menu-line= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
-    - else
-      %li.menu-line.large-menu-line
-        = link_to issues_url(subdomain: nil), class: 'action-link' do
-          %i.fa.fa-search
-          관심있는 빠띠를 찾아보세요
       %li.divider
-      %li.group-issues-line
-        .title 지금 가장 인기있는 빠띠
-        %ul.sub.list-unstyled
-          - @hottest_issues = Issue.only_public_hottest(5)
-          - @hottest_issues.each do |hottest_issue|
-            = render 'issues/issue_line', issue: hottest_issue
-    %li.divider.divider-small
+
     %li.logo
       = link_to root_url(subdomain: nil) do
         %div
