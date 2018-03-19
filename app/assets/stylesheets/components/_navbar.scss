@@ -65,6 +65,13 @@ $side-menu-width: 256px;
         body.light-theme.in-indie & {
           color: $brand-primary;
         }
+        .navbar-header-title {
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+          max-width: 130px;
+          overflow: hidden;
+        }
       }
     }
   }
