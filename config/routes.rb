@@ -122,7 +122,10 @@ Rails.application.routes.draw do
 
   concern :upvotable do
     resources :upvotes do
-      delete :cancel, on: :collection
+      collection do
+        delete :cancel
+        get :users
+      end
     end
   end
 
@@ -157,6 +160,8 @@ Rails.application.routes.draw do
   end
   resources 'wiki_histories'
   post 'feedbacks', to: 'feedbacks#create'
+  get '/feedbacks/all_users', to: 'feedbacks#all_users', as: :all_users_feedbacks
+  get '/feedbacks/users', to: 'feedbacks#users', as: :users_feedbacks
   resources :options do
     member do
       put :cancel
@@ -166,7 +171,9 @@ Rails.application.routes.draw do
 
   resources :polls do
     shallow do
-      resources :votings
+      resources :votings do
+        get :users, on: :collection
+      end
     end
   end
   get 'links_or_files', to: 'links_or_files#index'

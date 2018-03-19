@@ -1,5 +1,5 @@
 class FeedbacksController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: :create
 
   def create
     @post = Post.find params[:post_id]
@@ -15,6 +15,21 @@ class FeedbacksController < ApplicationController
     end
 
     FeedbackSurveyService.new(option: @option, current_user: current_user, selected: params[:selected] == "true").feedback
+  end
+
+  def all_users
+    @survey = Survey.find_by id: params[:survey_id]
+    return if @survey.blank? and @survey.post.blank?
+    @post = @survey.post
+
+    render layout: nil
+  end
+
+  def users
+    @option = Option.find_by id: params[:option_id]
+    return if @option.blank?
+
+    render layout: nil
   end
 
   private

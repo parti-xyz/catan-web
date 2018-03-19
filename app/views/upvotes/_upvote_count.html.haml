@@ -1,14 +1,8 @@
 - popover_placement = browser.device.mobile? ? 'auto' : 'right'
-.post-upvote-count{class: "#{dom_id(upvotable)}-upvote-counts #{'post-upvote-count--any' if upvotable.upvotes_count > 0}", data: { action: 'parti-popover', url: "##{dom_id(upvotable)}-upvoted-users", trigger: 'hover', placement: popover_placement } }
+.post-upvote-count{class: "#{dom_id(upvotable)}-upvote-counts #{'post-upvote-count--any' if upvotable.upvotes_count > 0}", data: { action: 'parti-popover', type: 'async', url: polymorphic_path([:users, upvotable, :upvotes]), trigger: 'hover', placement: popover_placement } }
   - if upvotable.upvotes_count > 0
     %span.cursor-pointer{class: "#{'upvoted' if upvotable.upvoted_by? (current_user)}"}
       %i.fa.fa-heart
       #{upvotable.upvotes_count}
-    .webui-popover-content
-      .upvoted-users{id: "#{dom_id(upvotable)}-upvoted-users"}
-        - upvotable.upvote_users.each do |user|
-          = link_to smart_user_gallery_path(user), target: '_blank' do
-            .user-info
-              .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
-              = user.nickname
+
 

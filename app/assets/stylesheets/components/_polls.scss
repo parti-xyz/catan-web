@@ -81,6 +81,11 @@
   .post-modal & .poll-card__meta {
     display: none;
   }
+  .vote-count {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    display: inline-block;
+  }
 }
 
 .poll__body {

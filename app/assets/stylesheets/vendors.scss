@@ -44,3 +44,19 @@
     }
   }
 }
+
+//webui-popover
+
+.webui-popover i.icon-refresh:before {
+  content: '\f141';
+  font-family: "FontAwesome";
+  color: #44444a;
+  font-size: 12px;
+  position: absolute;
+  top: -6px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  bottom: 0;
+  font-style: normal;
+}

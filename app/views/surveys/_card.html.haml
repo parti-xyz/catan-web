@@ -36,22 +36,15 @@
                 = option_body
             %span.meta-wrapper<
               - if option.feedbacks_count > 0
-                %span.count.text-nowrap.cursor-pointer.meta{ data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-0", trigger: 'hover', placement: popover_placement } }<> #{option.feedbacks_count}명
+                %span.count.text-nowrap.cursor-pointer.meta{ data: { action: ('parti-popover' if option.feedbacks_count > 0), type: :async, url: users_feedbacks_path(option_id: option.id), trigger: 'hover', placement: popover_placement } }<> #{option.feedbacks_count}명
                 - if post.survey.mvp_option?(option)
                   %span.mvp.text-nowrap.meta<> 최다득표
               - if option.canceled?
                 %span.canceled.text-nowrap.meta<> 제안철회
               %span.commenting.text-nowrap.cursor-pointer.js-mention.collapse.meta.action-button{ data: { mention_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': option.user.nickname, 'mention-text': "제안 '#{option.body}'" } }<> 댓글달기
-            .chart{ style: 'position: relative;', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), url: "##{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-1", trigger: 'hover', placement: popover_placement } }
+            .chart{ style: 'position: relative;', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), type: :async, url: users_feedbacks_path(option_id: option.id), trigger: 'hover', placement: popover_placement } }
               .chart__bar{ class: ('chart__bar-canceled' if option.canceled?), style: "height: 100%; width: #{post.survey.percentage(option)}%" }
-            .webui-popover-content
-              - 2.times do |i|
-                .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users-#{i}"}
-                  - option.feedback_users.each do |user|
-                    = link_to smart_user_gallery_path(user), target: '_blank' do
-                      .user-info
-                        .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
-                        = user.nickname
+
           - else
             - option_body = capture do
               .no-chart__label.text-basic-wrap
@@ -106,15 +99,9 @@
         - if post.survey.feedbacks_count > 0
           %span.hidden-xs &middot;
           %br.visible-xs-block
-          %span.survey-options--count.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
+          %span.survey-options--count.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), type: 'async', url: all_users_feedbacks_path(survey_id: post.survey.id), trigger: 'hover', placement: popover_placement } }
             총투표 #{post.survey.feedback_users_count}명
-          .webui-popover-content
-            .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
-              - post.survey.feedback_users.each do |user|
-                = link_to smart_user_gallery_path(user), target: '_blank' do
-                  .user-info
-                    .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
-                    = user.nickname
+
           - if post.survey.multiple_select?
             %span.survey-options--mulitple-select
               &middot;

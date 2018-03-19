@@ -1,5 +1,5 @@
 class UpvotesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:users]
   load_and_authorize_resource :comment
   load_and_authorize_resource :post
   load_and_authorize_resource :upvote, through: [:comment, :post], shallow: true
@@ -23,5 +23,10 @@ class UpvotesController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def users
+    @upvotable = (@comment || @post)
+    render layout: false
   end
 end
