@@ -1,14 +1,30 @@
 - before_post = @previous_last_post
+- disabled_push_notification_period = current_user.try(:disabled_push_notification_period)
 - posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
 
-    - if user_signed_in?
-      - if (current_user.enable_push_notification? and current_user.push_notification_disabled_at.present? and current_user.push_notification_enabled_at.present? and current_user.push_notification_enabled_at > current_user.push_notification_disabled_at) or (!current_user.enable_push_notification? and current_user.push_notification_disabled_at.present?)
-        - if (before_post.present? and before_post.last_stroked_at >= current_user.push_notification_disabled_at and post.last_stroked_at < current_user.push_notification_disabled_at)
+    - if disabled_push_notification_period.present?
+      - started_at, ended_at = disabled_push_notification_period
+
+      - divider_notification_up = capture do
+        - if started_at > post.last_stroked_at and (before_post.blank? or started_at <before_post.last_stroked_at)
           .post-data-divider.post-data-divider-notification
             %span.divider-text
               앱 알람이 꺼진 동안 업데이트된 게시글
               %i.fa.fa-arrow-up
+
+      - divider_notification_down = capture do
+        - if ended_at > post.last_stroked_at and (before_post.blank? or ended_at <before_post.last_stroked_at)
+          .post-data-divider.post-data-divider-notification
+            %span.divider-text
+              앱 알람이 꺼진 동안 업데이트된 게시글
+              %i.fa.fa-arrow-down
+
+      - if divider_notification_up.present? and divider_notification_down.present?
+        - divider_notification_up = nil
+        - divider_notification_down = nil
+
+    = divider_notification_up
 
     - if local_assigns[:show_day_section] and post.last_stroked_at.present? and before_post.try(:last_stroked_at).try(:to_date) != post.last_stroked_at.to_date
       .post-data-divider.js-post-data-divider
@@ -17,13 +33,7 @@
         - else
           #{post.last_stroked_at.to_date.today? ? '오늘' : (post.last_stroked_at.to_date == (Time.current - 1.day).to_date ? "어제" : static_day_f(post.last_stroked_at))} 업데이트된 게시글
 
-    - if user_signed_in?
-      - if (current_user.enable_push_notification? and current_user.push_notification_disabled_at.present? and current_user.push_notification_enabled_at.present? and current_user.push_notification_enabled_at > current_user.push_notification_disabled_at) or (!current_user.enable_push_notification? and current_user.push_notification_disabled_at.present?)
-        - if ((!current_user.enable_push_notification? and before_post.blank?) or (current_user.enable_push_notification? and (before_post.blank? or before_post.last_stroked_at >= current_user.push_notification_enabled_at) and post.last_stroked_at < current_user.push_notification_enabled_at))
-          .post-data-divider.post-data-divider-notification
-            %span.divider-text
-              앱 알람이 꺼진 동안 업데이트된 게시글
-              %i.fa.fa-arrow-down
+    = divider_notification_down
 
     .post-card__content
       = render post, local_assigns.merge(mode: 'list')

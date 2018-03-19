@@ -278,6 +278,18 @@ class User < ActiveRecord::Base
     User.enable_push_notification?(self.push_notification_mode)
   end
 
+  def disabled_push_notification_period
+    return nil if self.push_notification_disabled_at.blank?
+
+    if self.enable_push_notification? and self.push_notification_enabled_at.present? and self.push_notification_enabled_at > self.push_notification_disabled_at
+      [self.push_notification_disabled_at, self.push_notification_enabled_at]
+    elsif !self.enable_push_notification?
+      [self.push_notification_disabled_at, 1_000_000.years.from_now]
+    else
+      nil
+    end
+  end
+
   def self.enable_push_notification?(push_notification_mode)
     %i(on no_sound).include? push_notification_mode.to_sym
   end
