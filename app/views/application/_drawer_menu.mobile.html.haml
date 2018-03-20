@@ -6,8 +6,6 @@
           .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
           .nickname
             = current_user.nickname
-      = render 'application/notification_menu'
-
   - else
     .drawer-list__profile
       .btn-new-user

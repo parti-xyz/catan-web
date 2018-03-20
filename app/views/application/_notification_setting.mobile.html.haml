@@ -1,0 +1,34 @@
+%a.dropdown-toggle{ "href" => "#", "data-toggle" => "dropdown" }
+  %i.fa.fa-ellipsis-v
+%ul.dropdown-menu.notification-setting-dropdown-menu.pull-right
+  %li
+    = link_to notification_users_path(push_notification_mode: :on), method: :put, remote: true, data: { disable_with: '저장 중...' } do
+      - if current_user.push_notification_mode == :on
+        %i.fa.fa-check-square-o
+      - else
+        %i.fa.fa-square-o
+      &nbsp;
+      %i.fa.fa-bell
+      알림 켜기
+  %li
+    = link_to notification_users_path(push_notification_mode: :off), method: :put, remote: true, data: { disable_with: '저장 중...' } do
+      - if current_user.push_notification_mode == :off
+        %i.fa.fa-check-square-o
+      - else
+        %i.fa.fa-square-o
+      &nbsp;
+      %i.fa.fa-bell-slash
+      %sup
+        z
+        %sup
+          z
+      알림 끄기
+  %li
+    = link_to notification_users_path(push_notification_mode: :no_sound), method: :put, remote: true, data: { disable_with: '저장 중...' } do
+      - if current_user.push_notification_mode == :no_sound
+        %i.fa.fa-check-square-o
+      - else
+        %i.fa.fa-square-o
+      &nbsp;
+      %i.fa.fa-bell-slash
+      알림 소리만 끄기

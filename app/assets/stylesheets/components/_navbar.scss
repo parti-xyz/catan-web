@@ -120,6 +120,10 @@ $side-menu-width: 256px;
         height: 20px;
       }
     }
+
+    .navbar-fa {
+      font-size: 20px;
+    }
   }
 
   // collapse styles
@@ -236,6 +240,22 @@ $side-menu-width: 256px;
     }
   }
 
+  @media (max-width: $screen-xs-max) {
+    .notification-setting {
+      position: relative;
+      .notification-setting-dropdown-menu {
+        position: absolute;
+        background-color: white;
+        border: 1px solid $gray-light;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+        min-width: 200px;
+      }
+    }
+  }
+
   body.in-group & > li > a:hover,
   body.in-group & > li > a {
     color: white;
@@ -320,18 +340,6 @@ $drawer-default-space-mobile: 12px;
       -moz-border-radius: 50px;
       display: inline-block;
       margin: 20px 0;
-    }
-    .notification-menu {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      > a.dropdown-toggle {
-        color: white;
-        font-weight: 200;
-      }
-      .dropdown-menu {
-        width: 200px;
-      }
     }
   }
   &__messages {

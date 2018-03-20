@@ -1,8 +1,9 @@
-var $notification_menu = $("<%= escape_javascript(render 'application/notification_menu') %>");
-var $new_toggle = $notification_menu.find('.js-notification-menu-dropdown-toggle');
-var $new_menu = $notification_menu.find('.js-notification-menu-dropdown-menu');
-
-$(".js-notification-menu .js-notification-menu-dropdown-toggle").replaceWith($new_toggle);
-$(".js-notification-menu .js-notification-menu-dropdown-menu").replaceWith($new_menu);
+var notification_menu_html = "<%= escape_javascript(render 'application/notification_menu.mobile') %>";
+$(".js-notification-menu").html(notification_menu_html);
 
 parti_partial$($('.js-notification-menu'));
+
+
+var notification_setting_html = "<%= escape_javascript(render 'application/notification_setting.mobile') %>";
+$(".js-notification-setting").html(notification_setting_html);
+parti_partial$($('.js-notification-setting'));

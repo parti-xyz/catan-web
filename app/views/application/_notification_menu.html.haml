@@ -3,11 +3,14 @@
     - if current_user.push_notification_mode == :on
       %i.fa.fa-bell
     - elsif current_user.push_notification_mode == :off
+      %i.fa.fa-bell
+      %sup
+        z
+        %sup
+          z
       %i.fa.fa-bell-slash
     - elsif current_user.push_notification_mode == :no_sound
-      %span{ style: 'position: relative; width: 1.2em; display: inline-block; height: 1em;' }
-        %i.fa.fa-volume-off{ style: 'font-size: 20px; position: absolute; top: 0; left: -1px;' }
-        %i.fa.fa-times{ style: 'position: absolute; line-height: inherit; right: -2px;' }
+      %i.fa.fa-bell-slash
     알림설정
   %ul.dropdown-menu.pull-right.js-notification-menu-dropdown-menu
     %li
