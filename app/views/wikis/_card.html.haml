@@ -24,7 +24,7 @@
         != smart_truncate_html(post.wiki.body, length: 1000)
     .shadow
     .wiki-button
-      = link_to (post.issue.postable?(current_user) ? '편집' : '읽기'), [:wiki, post], class: 'btn btn-xs btn-primary btn-primary-light btn-force', style: 'border-radius: 4px'
+      = link_to (post.issue.postable?(current_user) ? '편집' : '읽기'), smart_post_url(post), class: 'btn btn-xs btn-primary btn-primary-light btn-force', style: 'border-radius: 4px'
   .wiki-authors.tooltip-no-wrap
     작성
     - post.wiki.authors.each do |user|

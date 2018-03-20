@@ -468,13 +468,7 @@ class Post < ActiveRecord::Base
   end
 
   def last_stroked_activity(&block)
-    if wiki.present? and wiki.wiki_histories.any?
-      if last_stroked_at.blank? or wiki.latest_history.created_at >= last_stroked_at
-        return wiki.latest_activity(&block)
-      end
-    end
-
-    if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present?
+    result = if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present?
       user_word = if block_given?
         yield last_stroked_user
       else
@@ -482,6 +476,14 @@ class Post < ActiveRecord::Base
       end
       I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user_word: user_word)
     end
+
+    if wiki.present? and wiki.wiki_histories.any?
+      if result.blank? or wiki.latest_history.created_at >= last_stroked_at
+        return wiki.latest_activity(&block)
+      end
+    end
+
+    result
   end
 
   def generous_strok_by!(someone, subject)
