@@ -384,25 +384,12 @@ $drawer-default-space-mobile: 12px;
           color: $gray;
         }
         a:hover {
-          color: $brand-primary;
+          color: $gray;
         }
       }
       .issue-line {
         .issue-line__title {
           margin-right: 0;
-          .title {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            word-wrap: normal;
-            max-width: 150px;
-            overflow: hidden;
-            display: inline-block;
-            line-height: 1em;
-            vertical-align: middle;
-            &:hover {
-              color: $gray-dark;
-            }
-          }
         }
         > .media > .media-left {
           padding-right: 0;

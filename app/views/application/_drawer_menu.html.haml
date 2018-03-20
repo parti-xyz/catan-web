@@ -20,7 +20,7 @@
             지금 가장 인기있는 빠띠
         %ul.sub.list-unstyled
           - Issue.only_public_hottest(5).each do |issue|
-            = render 'issues/issue_line', issue: issue, show_after_block: false
+            = render 'issues/issue_line', issue: issue, show_after_block: false, link_whole_line: true
           %li.issue-more
             = link_to issues_url(subdomain: nil) do
               더 보기
