@@ -18,7 +18,7 @@ class MembersController < ApplicationController
 
   def cancel
     @member = @issue.members.find_by user: current_user
-    if @member.present? and !@member.issue.organized_by?(current_user)
+    if @member.present?
       ActiveRecord::Base.transaction do
         @member.destroy
         current_user.update_attributes(member_issues_changed_at: DateTime.now)
@@ -61,6 +61,7 @@ class MembersController < ApplicationController
 
     respond_to do |format|
       format.js
+      format.html { redirect_to(request.referrer || smart_issue_home_path_or_url(@member.issue)) }
     end
   end
 end

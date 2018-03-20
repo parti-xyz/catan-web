@@ -31,7 +31,8 @@
           오거나이저
           .hidden
             .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
-              #{current_user.nickname}님은 #{issue.title} 빠띠의 오거나이저입니다.
+              = link_to organizer_issue_members_path(issue, user_id: current_user.id), method: :delete, data: { 'disable-with': '오거나이징 취소 처리 중...' } do
+                오거나이징 그만두기
       - else
         %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
           - if current_user.admin?
