@@ -1,7 +1,7 @@
 - if local_assigns[:issue].present? and local_assigns[:issue].organized_by?(current_user)
   = link_to accept_issue_member_requests_path(issue_id: local_assigns[:issue].id, user_id: user.id), method: :post, class: 'btn btn-sm btn-default', "data-disable-with": '처리 중...' do
     가입승인
-  %button.btn.btn-sm.btn-default{"data-url": "##{dom_id(user)}__reject-member-request", "data-action": "parti-popover", "data-placement": "bottom", "data-backdrop": "true"}
+  %button.btn.btn-sm.btn-default{"data-url": "##{dom_id(user)}__reject-member-request", "data-action": "parti-popover", "data-placement": "bottom"}
     요청거절
   .hidden
     %div{ id: "#{dom_id(user)}__reject-member-request" }

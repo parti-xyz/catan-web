@@ -408,6 +408,10 @@ class Issue < ActiveRecord::Base
     (LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ? latest_stroked_posts_count : 0)
   end
 
+  def member_of someone
+    members.find_by(user: someone)
+  end
+
   private
 
   def downcase_slug

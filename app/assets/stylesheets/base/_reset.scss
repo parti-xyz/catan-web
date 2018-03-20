@@ -102,6 +102,10 @@ body .webui-popover {
   z-index: $zindex-webui-popover;
 }
 
+body .webui-popover-backdrop {
+  z-index: $zindex-webui-popover - 1;
+}
+
 @media (max-width: $screen-xs-max) {
   .container.container-xs-full-width {
     padding: 0;
