@@ -217,10 +217,6 @@ section#wiki-histories {
 }
 
 .wiki-form {
-  margin-top: 10px;
-  @media (max-width: $screen-xs-max) {
-    margin-top: 0;
-  }
   margin-bottom: 20px;
   textarea {
     min-height: auto;

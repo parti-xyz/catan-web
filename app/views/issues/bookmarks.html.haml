@@ -2,10 +2,11 @@
   .container
     .row
       = main_column_tag do
-        .posts-header.horizontal-padding
-          %h4.posts-header__title.vertical-shrinking
+        .contents-header.xs-horizontal-padding
+          %h4.contents-header__title
             = (@group.indie? ? "개인 빠띠" : @group.title_basic_format)
             %span.text-nowrap 메뉴 설정
+            %br.visiable-xs
             %small
               = group_my_parties_section_title(@group)
               메뉴의 순서를 정합니다

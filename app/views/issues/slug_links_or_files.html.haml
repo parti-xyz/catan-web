@@ -11,7 +11,7 @@
           전체글로 이동해서 자료 올리기
           %i.fa.fa-arrow-right
     - else
-      .posts-header
+      .contents-header
         .posts-filter-select
           = render 'posts/sort_select'
       .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}

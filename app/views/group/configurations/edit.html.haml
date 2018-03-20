@@ -1,12 +1,14 @@
-.bs-component
+%section.contents-page
   %section
-    .container
-      %h2.page-header 그룹수정
+    .container.container-xs-full-width
+      .contents-header.xs-horizontal-padding
+        %h4.contents-header__title 그룹수정
       = render 'form'
 
   %section
-    .container
-      %h2.page-header 그룹삭제
+    .container.container-xs-full-width
+      .contents-header.xs-horizontal-padding
+        %h4.contents-header__title 그룹삭제
       .well
         .help-block
           그룹을 삭제하려면 #{link_to 'help@parti.xyz', 'mailto:help@parti.xyz'}로 메일을 보내주세요.

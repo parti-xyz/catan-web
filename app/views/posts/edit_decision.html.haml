@@ -1,10 +1,10 @@
-.bs-component.page-bg
-  %section#post-form
-    .container
-      .page-wrapper
-        %h3.page-wrapper__title
-          #{Post.model_name.human} 토론 정리하기
-        = render 'form_decision'
-        %h5
-          대상 게시글
-        = render @post
+%section.contents-page
+  .container.container-xs-full-width
+    .contents-header.xs-horizontal-padding
+      %h4.contents-header__title
+        #{Post.model_name.human} 토론 정리하기
+    = render 'form_decision'
+    .contents-header.xs-horizontal-padding
+      %h5.contents-header__title
+        대상 게시글
+    = render @post

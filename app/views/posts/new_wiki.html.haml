@@ -5,11 +5,11 @@
   .container
     .row
       = main_column_tag do
-        .posts-header.horizontal-padding
-          %h4.posts-header__title.vertical-shrinking
+        .contents-header.xs-horizontal-padding
+          %h4.contents-header__title
             #{Wiki.model_name.human} 작성
             %small
-              협업을 통해 문서를 함께 만들어 보세요
+              협업을 통해 함께 문서를 만들어 보세요
         #post-form.wiki-form.wiki-form-new.js-parti-editor-selector-wrapper
           = form_for @post, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form form input[type=submit]' } } do |f|
             - controls = capture do

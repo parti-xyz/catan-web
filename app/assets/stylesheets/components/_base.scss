@@ -769,3 +769,60 @@ label.required:after {
 .nav > li.collapse {
   display: none;
 }
+
+section.contents-page {
+  padding: 20px 0;
+  @media (max-width: $screen-xs-max) {
+    body.app-posts-show &,
+    body.app-posts-images &,
+    body.app-issues-slug_home & {
+      padding-top: 0;
+    }
+    padding: 10px 0;
+  }
+  @media (max-width: $screen-xs-max) {
+    & > .container > .row > .col-xs-12 {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+.contents-header {
+  @extend .clearfix;
+  @extend .text-basic-wrap;
+  &__title {
+    &.vertical-shrinking {
+      margin-bottom: 0;
+    }
+    small{
+      a {
+        color: $gray;
+        &:hover {
+          color: $brand-primary;
+        }
+      }
+    }
+  }
+  @media (min-width: $screen-sm-min) {
+    &__title {
+      letter-spacing:  $headings-letter-spacing;
+      font-weight: $headings-font-weight;
+      small{
+        font-weight: $small-in-headings-font-weight;
+      }
+    }
+  }
+  @media (max-width: $screen-xs-max) {
+    &.xs-horizontal-padding {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    &__title {
+      &.vertical-shrinking {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+

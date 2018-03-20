@@ -4,12 +4,12 @@
   .container
     .row
       = main_column_tag do
-        .posts-header.horizontal-padding
-          %h4.posts-header__title.vertical-shrinking
+        .contents-header.xs-horizontal-padding
+          %h4.contents-header__title.vertical-shrinking
             \##{@hashtag}
+            %br.visible-xs
             %small
               해시태그된
-              %br.visible-xs
               - if current_group.present?
                 #{current_group.title_basic_format}이 오거나징하는
               - else
