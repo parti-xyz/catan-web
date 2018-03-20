@@ -23,9 +23,9 @@
 
     %ul.nav.navbar-nav.navbar-right
       - if user_signed_in?
-        %li.notification.navbar-fa.js-notification-menu
+        %li.notification-menu.js-notification-menu
           = render 'application/notification_menu.mobile'
-        %li.notification-menu.navbar-fa.dropdown.notification-setting.js-notification-setting
+        %li.notification-setting.dropdown.js-notification-setting
           = render 'application/notification_setting.mobile'
       - else
         %li.sign-up

@@ -120,10 +120,6 @@ $side-menu-width: 256px;
         height: 20px;
       }
     }
-
-    .navbar-fa {
-      font-size: 20px;
-    }
   }
 
   // collapse styles
@@ -177,18 +173,23 @@ $side-menu-width: 256px;
   }
 
   // messages bell button
-  .notification {
+
+  .notification-setting,
+  .notification-menu {
     @media (max-width: $screen-xs-max) {
-      a {
-        font-size: $font-size-large;
+      > a {
+        font-size: 20px;
       }
-      body.dark-theme & a {
+      body.dark-theme & > a {
         color: white;
       }
-      body.light-theme & a {
+      body.light-theme & > a {
         color: $gray-dark;
       }
     }
+  }
+
+  .notification-menu {
     .icon-bell-stack{
       position: relative;
       display: inline-block;
