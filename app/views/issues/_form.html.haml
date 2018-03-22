@@ -128,8 +128,8 @@
         - if current_user.admin? and f.object.persisted?
           .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
             = f.label :group_slug
-            = f.select :group_slug, current_user.member_groups.map { |g| [ g.form_select_title, g.slug] }, {}, class: 'form-control'
-            %p.help-block 이 빠띠가 속할 그룹을 선택해 주세요.
+            = f.text_field :group_slug, class: 'form-control'
+            %p.help-block 이 빠띠가 속할 그룹의 slug을 기입하세요. 개인이 오거나이즈하는 빠띠일 경우 'indie'를 넣어 주세요.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }

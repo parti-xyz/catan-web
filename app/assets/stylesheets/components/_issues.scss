@@ -731,7 +731,8 @@ section#parti-organizing {
   }
 }
 /* 고급설정 접었다 펼치기 */
-body.app-issues-new, .bs-component{
+body.app-issues-new,
+body.app-issues-edit {
   .advanced-option{
     margin:20px 0px;
   }
