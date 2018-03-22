@@ -47,7 +47,7 @@ class MembersTest < ActionDispatch::IntegrationTest
     refute issues(:issue1).member? users(:one)
   end
 
-  test '오거나이저는 탈퇴 못해요' do
+  test '오거나이저도 쉽게 탈퇴해요' do
     assert issues(:issue1).member? users(:organizer)
     assert issues(:issue1).organized_by? users(:organizer)
 
@@ -55,7 +55,7 @@ class MembersTest < ActionDispatch::IntegrationTest
 
     delete cancel_issue_members_path(issue_id: issues(:issue1).id)
 
-    assert issues(:issue1).member? users(:organizer)
+    refute issues(:issue1).member? users(:organizer)
   end
 
   test '멤버인 빠띠 글만 구경해요' do
