@@ -35,9 +35,9 @@
 //= require slideout
 //= require js.cookie
 //= require pulltorefresh
-//= require bindWithDelay
 //= require photoswipe
 //= require jquery.scrollTo
+//= require loadash
 
 // blank
 $.is_blank = function (obj) {
@@ -1138,7 +1138,7 @@ $(function(){
     }
   });
 
-  $(".js-drawer-filter").bindWithDelay("keyup", function(){
+  $(".js-drawer-filter").on("keyup", _.debounce(function(){
     if ($('.js-filterable-by-drawer-filter .js-drawer-filter-group').length <= 0) {
       return;
     }
@@ -1188,7 +1188,7 @@ $(function(){
       $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden').fadeOut();
       $('.js-drawer-filter-more').show();
     }
-  }, 300);
+  }, 300));
 
   // editor
   (function() {
