@@ -1211,11 +1211,11 @@ $(function(){
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
         toolbar: 'bold italic strikethrough | link blockquote style-br | bullist numlist outdent indent'
       },
       wiki: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
         toolbar: 'bold italic strikethrough | link blockquote style-br | style-h1 style-h2 style-h3 | bullist numlist outdent indent'
       },
     };
@@ -1280,12 +1280,12 @@ $(function(){
       //plugins: 'image media link paste contextmenu textpattern autolink',
       var settings = {
         default: {
-          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
           toolbar1: 'bold italic strikethrough blockquote style-br',
           toolbar2: 'bullist numlist outdent indent link',
         },
         wiki: {
-          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
           toolbar1: 'bold italic strikethrough blockquote style-br style-h1 style-h2 style-h3',
           toolbar2: 'bullist numlist outdent indent link',
         },
@@ -1428,6 +1428,22 @@ $(function(){
       }
     });
 
+    // 토글 툴바
+    tinymce.PluginManager.add('toggletoolbar', function(editor, url) {
+      editor.on('init', function(){
+        var $toggle_handler = $('<div class="js-tinymce-catan-toolbar-handle tinymce-catan-toolbar-handle"><i class="fa fa-paint-brush" style="font-family: \'FontAwesome\';"></div>');
+        var container = editor.editorContainer;
+        var $toolbars = $(container).find('.mce-toolbar-grp');
+        $toolbars.append($toggle_handler);
+        $toolbars.find('> .mce-container-body').hide().addClass('mce-container-body-toggletoolbar').addClass('js-mce-container-body-toggletoolbar');
+
+        $toggle_handler.on('click', function(e) {
+          $toolbars.find('.js-mce-container-body-toggletoolbar').slideToggle();
+        });
+      });
+    });
+
+
     // 툴바 위치 고정
     tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
       var inited = false;
@@ -1451,7 +1467,6 @@ $(function(){
         var $toolbars = $(container).find('.mce-toolbar-grp');
         var $statusbar = $(container).find('.mce-statusbar');
 
-
         var viewportTopDelta = 0;
         if($('#site-header').css('position') == 'fixed' && !$('body').hasClass('ios')) {
           viewportTopDelta = $('#site-header').outerHeight();
@@ -1466,10 +1481,9 @@ $(function(){
           $toolbars.css({
             position: 'absolute',
             top: (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta,
-            borderBottom: '1px solid rgba(0,0,0,0.2)',
-            borderTop: '1px solid rgba(0,0,0,0.2)',
             width: '100%'
           });
+          $toolbars.find('> .mce-container-body').addClass('mce-container-body-sticky');
         } else {
           $(container).css({
             paddingTop: 0
@@ -1477,10 +1491,9 @@ $(function(){
           $toolbars.css({
             position: 'relative',
             top: 0,
-            borderBottom: 'none',
-            borderTop: 'none',
             width: '100%'
           });
+          $toolbars.find('> .mce-container-body').removeClass('mce-container-body-sticky');
         }
       }
 

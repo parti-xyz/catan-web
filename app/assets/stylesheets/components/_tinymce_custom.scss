@@ -15,6 +15,7 @@
 }
 
 .mce-tinymce.mce-panel {
+  border-top: 0;
   background-color: $gray-more-lightest;
 }
 
@@ -35,6 +36,40 @@
     a {
       line-height: 24px;
     }
+  }
+  .tinymce-catan-toolbar-handle  {
+    display: inline-block;
+    position: absolute;
+    border: 1px solid #c0c0c2;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    padding: 6px;
+    @media (max-width: $screen-xs-max) {
+      padding: 1px;
+    }
+    background: white;
+    font-size: 8px;
+    top: 0;
+    right: 100%;
+    cursor: pointer;
+    i {
+      font-family: 'FontAwesome';
+      font-size: 4px;
+      padding: 6px;
+      @media (max-width: $screen-xs-max) {
+        padding: 1px;
+        line-height: 30px;
+      }
+    }
+  }
+}
+
+.mce-tinymce {
+  .mce-container-body-toggletoolbar {
+    border-top: 1px solid rgba(0,0,0,0.2);
+  }
+  .mce-container-body-sticky {
+    border-bottom: 1px solid rgba(0,0,0,0.2);
   }
 }
 

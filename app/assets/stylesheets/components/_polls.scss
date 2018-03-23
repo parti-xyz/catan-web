@@ -251,24 +251,6 @@
   }
 }
 
-.vote__new {
-  #poll-form-widget .form-widget {
-    border-left: 1px solid #bfa5eb;
-    margin: 0;
-    .textarea-box textarea {
-      width: 86%;
-      margin-left: 14%;
-    }
-    .textarea-box .icon-tooltip {
-      left: 14%;
-    }
-    .help-block {
-      font-size: 14px;
-      text-align: left;
-    }
-  }
-}
-
 .poll-social-card-section,
 .survey-social-card-section,{
   background-size: cover;
