@@ -16,8 +16,9 @@
 
 .mce-tinymce.mce-container.mce-panel {
   .tinymce-catan-link-opener  {
+    color: white;
     height: 24px;
-    background-color: white;
+    background-color: $base-brand-primary;
     padding: 8px;
     border-top: 1px solid $gray-light;
     text-overflow: ellipsis;

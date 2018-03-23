@@ -5,9 +5,9 @@
 
     .form-group
       = f.label :body
-      .js-tinymce.form-control.form-control-tinymce{ id: "post[body]",  class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+      .js-tinymce.form-control.form-control-tinymce{ id: "post[body]", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
         != @post.body
-      = f.hidden_field :body, class: 'validate', data: { 'rule-required': true }
+      = f.hidden_field :body, class: 'validate', data: { 'rule-extern': true, 'rule-extern-value': @post.body.present? }
       = f.hidden_field :is_html_body, value: true
 
     - if @post.poll.present?

@@ -85,7 +85,7 @@ Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
 
 // form validation by extern
 $.validator.addMethod("extern", function(value, element) {
-  return this.optional(element) || $(element).data('rule-extern-value');
+  return $(element).data('rule-extern-value');
 }, "");
 
 // form validation by http_url
@@ -859,6 +859,10 @@ $(function(){
       if($waypoint_element.length <= 0) {
         return;
       }
+      if(!$waypoint_element.is(':visible')) {
+        return;
+      }
+
       var $container = $($waypoint_element.data('target'));
       if($container.data('is-last')) {
         return;
@@ -1113,7 +1117,6 @@ $(function(){
     $target.parent().hide().addClass('js-more-sidemenu-collapse');
 
     var divider_dom_id = $target.attr('href');
-    console.log(divider_dom_id);
     setTimeout(function() {
       if($('.js-show-less-sidemenu-scroll').offset().top > $(divider_dom_id).first().offset().top) {
         $('.js-show-less-sidemenu-scroll').scrollTo($(divider_dom_id).first(), 200);
@@ -1190,11 +1193,12 @@ $(function(){
   // editor
   (function() {
     var setPlaceholder = function(editor, placeholder) {
+      if(!$.is_blank(editor.getContent())) { return; }
       editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
     };
 
     var removePlaceholder = function(editor, placeholder) {
-      $placeholder = $("#js-tinymce-placeholder");
+      $placeholder = $(editor.getBody()).find("#js-tinymce-placeholder");
       if($placeholder.length) {
         $placeholder.remove();
         editor.setContent("<p></p>");
@@ -1224,7 +1228,7 @@ $(function(){
       if(setting_name) {
         setting = settings[setting_name];
       }
-      var placeholder = $(elm).data('placeholder');
+      var placeholder = $(elm).data('placeholder') || "";
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
@@ -1244,30 +1248,26 @@ $(function(){
         uploadimage_default_img_class: 'tinymce-content-image',
         content_css: content_css,
         setup: function (editor) {
-          if(placeholder) {
-            editor.on('init', function(){
-              setPlaceholder(editor, placeholder);
-            });
-            editor.on('blur', function (e) {
-              var $input_elm = $(':input[name="' + editor.id + '"]');
-              if($input_elm.val() == "") {
-                setPlaceholder(editor, placeholder);
-              }
-            });
-            editor.on('focus', function (e) {
-              if(removePlaceholder(editor)) {
-                editor.execCommand('mceFocus', false);
-              }
-            });
-            editor.on('KeyDown', function (e) {
-              removePlaceholder(editor);
-            });
-          }
-        },
-        init_instance_callback: function (editor) {
-          editor.on('change', function (e) {
-            tinymce.triggerSave();
+          editor.on('init', function(){
+            setPlaceholder(editor, placeholder);
+          });
+          editor.on('blur', function (e) {
+            setPlaceholder(editor, placeholder);
+          });
+          editor.on('focus', function (e) {
+            if(removePlaceholder(editor)) {
+              editor.execCommand('mceFocus', false);
+            }
+          });
+          editor.on('KeyUp', function (e) {
+            removePlaceholder(editor);
+
             var $input_elm = $(':input[name="' + editor.id + '"]');
+            var old_extern_value = $input_elm.data('rule-extern-value');
+            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
+            if(old_extern_value == new_extern_value) { return; }
+
+            $input_elm.data('rule-extern-value', new_extern_value);
             $input_elm.trigger('parti-need-to-validate');
           });
         }
@@ -1281,13 +1281,13 @@ $(function(){
       //plugins: 'image media link paste contextmenu textpattern autolink',
       var settings = {
         default: {
-          plugins: 'link paste autolink lists advlist',
-          toolbar1: 'bold italic strikethrough blockquote',
+          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+          toolbar1: 'bold italic strikethrough blockquote style-br',
           toolbar2: 'bullist numlist outdent indent link',
         },
         wiki: {
-          plugins: 'link paste autolink lists advlist',
-          toolbar1: 'bold italic strikethrough blockquote style-h1 style-h2 style-h3',
+          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+          toolbar1: 'bold italic strikethrough blockquote style-br style-h1 style-h2 style-h3',
           toolbar2: 'bullist numlist outdent indent link',
         },
       };
@@ -1296,14 +1296,12 @@ $(function(){
       if(setting_name) {
         setting = settings[setting_name];
       }
+      var placeholder = $(elm).data('placeholder') || "";
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
-        force_br_newlines : true,
-        force_p_newlines : false,
-        forced_root_block : '',
         language: 'ko_KR',
-        plugins: setting.plugins + ' autoresize stickytoolbar stylebuttons',
+        plugins: setting.plugins,
         menubar: false,
         autoresize_min_height: 100,
         autoresize_bottom_margin: 0,
@@ -1320,15 +1318,45 @@ $(function(){
         uploadimage_default_img_class: 'tinymce-content-image',
         content_css: content_css,
         setup: function (editor) {
-          editor.on('focus', function (e) {
-            $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
-          });
+          // link opender
           editor.on('init', function(){
             var $link_opener = $('<div class="js-tinymce-catan-link-opener tinymce-catan-link-opener"></div>');
             var container = editor.editorContainer;
             var $toolbars = $(container).find('.mce-toolbar-grp');
             $toolbars.append($link_opener);
             $link_opener.hide();
+          });
+
+          // placeholder
+          editor.on('init', function(){
+            setPlaceholder(editor, placeholder);
+          });
+          editor.on('blur', function (e) {
+            setPlaceholder(editor, placeholder);
+          });
+          editor.on('focus', function (e) {
+            if(removePlaceholder(editor)) {
+              editor.execCommand('mceFocus', false);
+            }
+          });
+          editor.on('KeyUp', function (e) {
+            removePlaceholder(editor);
+          });
+
+          // form validation
+          editor.on('KeyUp', function (e) {
+            var $input_elm = $(':input[name="' + editor.id + '"]');
+            var old_extern_value = $input_elm.data('rule-extern-value');
+            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
+            if(old_extern_value == new_extern_value) { return; }
+
+            $input_elm.data('rule-extern-value', new_extern_value);
+            $input_elm.trigger('parti-need-to-validate');
+          });
+
+          // virtual keyboard
+          editor.on('focus', function (e) {
+            $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
           });
           var oldScrollTop;
           editor.on('OpenWindow', function(){
@@ -1347,11 +1375,6 @@ $(function(){
           });
         },
         init_instance_callback: function (editor) {
-          editor.on('change', function (e) {
-            tinymce.triggerSave();
-            var $input_elm = $(':input[name="' + editor.id + '"]');
-            $input_elm.trigger('parti-need-to-validate');
-          });
           editor.on('NodeChange', function (e) {
             var container = editor.editorContainer;
             var $toolbars = $(container).find('.mce-toolbar-grp');
@@ -1364,7 +1387,7 @@ $(function(){
               $link_opener.hide();
             } else {
               $link_opener.html('<a href="' + href + '" target="_blank"><i class="fa fa-external-link" /> ' + href + '</a>');
-              $link_opener.show();
+              $link_opener.stop().slideDown();
             }
           });
         }
@@ -1380,7 +1403,7 @@ $(function(){
       $('.js-unified-editor-intro').show();
       $('.js-unified-editor').hide();
 
-      $('.js-invisible-on-mobile-editing').slideDown();
+      $('.js-invisible-on-mobile-editing').stop().slideDown();
       $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
     });
 
@@ -1496,7 +1519,7 @@ $(function(){
     tinyMCE.PluginManager.add('stylebuttons', function(editor, url) {
       ['h1', 'h2', 'h3'].forEach(function(name){
         editor.addButton("style-" + name, {
-          tooltip: "Toggle " + name,
+          tooltip: "제목 " + name,
           text: name.toUpperCase(),
           onClick: function() { editor.execCommand('mceToggleFormat', false, name); },
           onPostRender: function() {
@@ -1508,6 +1531,20 @@ $(function(){
             editor.formatter ? setup() : editor.on('init', setup);
           }
         })
+      });
+      $.each({br: '줄바꿈'}, function(name, display) {
+        editor.addButton("style-" + name, {
+          tooltip: display,
+          text: display,
+          onClick: function() {
+            // editor.execCommand('mceInsertContent', false, "<br/>");
+            uniqueId = "___cursor___" + Math.random().toString(36).substr(2, 16);
+            editor.execCommand('mceInsertContent', false, "<br/><span id=" + uniqueId + "> </span> ");
+            editor.selection.select(editor.dom.select('#' + uniqueId)[0]);
+            editor.selection.collapse(0);
+            editor.dom.remove(uniqueId);
+          },
+        });
       });
     });
 
