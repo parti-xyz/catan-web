@@ -1211,14 +1211,12 @@ $(function(){
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
-        plugins: 'link paste autolink lists advlist',
-        insert_toolbar: '',
-        selection_toolbar: 'bold italic strikethrough | quicklink blockquote | bullist numlist outdent indent',
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | bullist numlist outdent indent'
       },
       wiki: {
-        plugins: 'image media link paste autolink uploadimage lists advlist',
-        insert_toolbar: '',
-        selection_toolbar: 'bold italic strikethrough | quicklink h1 h2 h3 blockquote | bullist numlist outdent indent | uploadimage',
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | style-h1 style-h2 style-h3 | bullist numlist outdent indent'
       },
     };
 
@@ -1232,12 +1230,13 @@ $(function(){
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
-        theme: 'inlite',
-        inline: true,
         language: 'ko_KR',
         plugins: setting.plugins,
-        insert_toolbar: setting.insert_toolbar,
-        selection_toolbar: setting.selection_toolbar,
+        menubar: false,
+        autoresize_min_height: 100,
+        autoresize_bottom_margin: 0,
+        statusbar: false,
+        toolbar: setting.toolbar,
         paste_data_images: true,
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
@@ -1437,7 +1436,7 @@ $(function(){
         setSticky();
       });
 
-      $(window).on('scroll', setSticky);
+      $(window).on('scroll', _.debounce(setSticky, 300));
 
       function setSticky() {
         if(!inited) {
@@ -1466,8 +1465,9 @@ $(function(){
           });
           $toolbars.css({
             position: 'absolute',
-            top: -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta,
+            top: (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta,
             borderBottom: '1px solid rgba(0,0,0,0.2)',
+            borderTop: '1px solid rgba(0,0,0,0.2)',
             width: '100%'
           });
         } else {
@@ -1478,6 +1478,7 @@ $(function(){
             position: 'relative',
             top: 0,
             borderBottom: 'none',
+            borderTop: 'none',
             width: '100%'
           });
         }

@@ -14,6 +14,10 @@
   }
 }
 
+.mce-tinymce.mce-panel {
+  background-color: $gray-more-lightest;
+}
+
 .mce-tinymce.mce-container.mce-panel {
   .tinymce-catan-link-opener  {
     color: white;
