@@ -714,12 +714,19 @@ label.required:after {
   max-width: 100%;
   .bootstrap-select {
     .issue-line__title {
-      display: inline-block;
+      display: table-cell;
       white-space: normal;
       word-break: keep-all;
+      vertical-align: top;
+    }
+    .issue-line__thumb {
+      display: table-cell;
     }
     .parti-thumb {
       vertical-align: top;
+    }
+    .dropdown-menu {
+      -webkit-overflow-scrolling: touch;
     }
     .dropdown-toggle.btn-default {
       border: 1px solid $brand-primary;
@@ -747,6 +754,7 @@ label.required:after {
   }
   .parti-option {
     margin: 3px 0;
+    display: table;
   }
   .parti-thumb {
     width: 20px;

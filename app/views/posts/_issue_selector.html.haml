@@ -20,8 +20,9 @@
         %optgroup{label: group.title_basic_format}
           - issues.each do |issue|
             - issue_content = capture do
-              .parti-option
-                .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
+              .parti-option.clearfix
+                %span.issue-line__thumb
+                  .parti-thumb.pull-left{ style: "background-image: url(#{issue.logo.sm.url});" }
                 %span.issue-line__title
                   = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title', divider_classes: 'group-title')
             %option.hidden-group-title{value: issue.id, 'data-content': issue_content, 'data-tokens': issue.title }

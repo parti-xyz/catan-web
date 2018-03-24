@@ -1190,6 +1190,22 @@ $(function(){
     }
   }, 300));
 
+
+  // pull to refresh
+  (function() {
+    var ptr = PullToRefresh.init({
+      mainElement: '#js-main',
+      instructionsPullToRefresh: '다시 로딩하려면 잡아당겨 주세요',
+      instructionsReleaseToRefresh: '다시 로딩하려면 놓아주세요',
+      instructionsRefreshing: '다시 로딩 중',
+      onRefresh: function(){ window.location.reload(); },
+      shouldPullToRefresh: function(){
+        console.log($('body').hasClass('js-no-pull-to-refresh'));
+        return (!window.scrollY && !$('#js-drawer').is(':visible') && !$('body').hasClass('js-no-pull-to-refresh'));
+      }
+    });
+  })();
+
   // editor
   (function() {
     var setPlaceholder = function(editor, placeholder) {
@@ -1295,7 +1311,6 @@ $(function(){
       if(setting_name) {
         setting = settings[setting_name];
       }
-      var placeholder = $(elm).data('placeholder') || "";
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
@@ -1324,22 +1339,6 @@ $(function(){
             var $toolbars = $(container).find('.mce-toolbar-grp');
             $toolbars.append($link_opener);
             $link_opener.hide();
-          });
-
-          // placeholder
-          editor.on('init', function(){
-            setPlaceholder(editor, placeholder);
-          });
-          editor.on('blur', function (e) {
-            setPlaceholder(editor, placeholder);
-          });
-          editor.on('focus', function (e) {
-            if(removePlaceholder(editor)) {
-              editor.execCommand('mceFocus', false);
-            }
-          });
-          editor.on('KeyUp', function (e) {
-            removePlaceholder(editor);
           });
 
           // form validation
@@ -1404,9 +1403,11 @@ $(function(){
 
       $('.js-invisible-on-mobile-editing').stop().slideDown();
       $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
+
+      $('body').removeClass('js-no-pull-to-refresh');
     });
 
-    // editor intro
+    // open mobile editor
     $('.js-unified-editor-intro').on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $elm = $(e.currentTarget);
@@ -1426,6 +1427,8 @@ $(function(){
         $('.js-btn-history-back-in-mobile-app').hide();
         $('.js-close-editor-in-mobile-app').removeClass('hidden');
       }
+
+      $('body').addClass('js-no-pull-to-refresh');
     });
 
     // 토글 툴바
@@ -1591,16 +1594,6 @@ $(function(){
       $(document).on('parti-ios-virtaul-keyboard-open-for-tinymce parti-ios-virtaul-keyboard-close-for-tinymce', eventHandlerForTinymce);
     })();
   }
-
-  // pull to refresh
-  var ptr = PullToRefresh.init({
-    mainElement: '#js-main',
-    instructionsPullToRefresh: '다시 로딩하려면 잡아당겨 주세요',
-    instructionsReleaseToRefresh: '다시 로딩하려면 놓아주세요',
-    instructionsRefreshing: '다시 로딩 중',
-    onRefresh: function(){ window.location.reload(); },
-    shouldPullToRefresh: function(){ return (!window.scrollY && !$('#js-drawer').is(':visible')) }
-  });
 
   // photoswipe
   $('body').on('click', '.js-photoswipe .js-photoswipe-image', function(e) {
