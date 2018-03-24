@@ -284,21 +284,26 @@ class Post < ActiveRecord::Base
   end
 
   LATEST_COMMENTS_LIMNIT_COUNT = 2
-  def latest_comments
-    if too_many_comments?
-      comments.recent.limit(Post::LATEST_COMMENTS_LIMNIT_COUNT).reverse
-    else
-      comments.recent.reverse
+  def latest_base_comments
+    @_latest_base_comments if @_latest_base_comments.present?
+    result = comments.recent.after(1.weeks.ago).limit(Post::LATEST_COMMENTS_LIMNIT_COUNT)
+    if last_stroked_for == 'comment' and result.empty?
+      result = comments.recent.limit(1)
     end
+    @_latest_base_comments = result
+    @_latest_base_comments
   end
 
-  def not_latest_comments(limit)
-    return [Comment.none, false] unless too_many_comments?
-    [comments.recent.limit(limit).offset(Post::LATEST_COMMENTS_LIMNIT_COUNT).reverse, comments_count > limit + Post::LATEST_COMMENTS_LIMNIT_COUNT]
+  def latest_comments
+    latest_base_comments.reverse
+  end
+
+  def more_latest_comments(limit)
+    [comments.recent.limit(limit).where.not(id: latest_comments).reverse, comments_count > limit + latest_base_comments.count]
   end
 
   def too_many_comments?
-    comments_count > (Post::LATEST_COMMENTS_LIMNIT_COUNT + 1)
+    comments_count > latest_base_comments.count
   end
 
   def blinded? someone = nil

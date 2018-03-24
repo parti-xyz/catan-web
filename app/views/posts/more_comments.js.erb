@@ -1,11 +1,14 @@
 <% limit = 30 %>
 
-<% not_latest_comments, has_more = @post.not_latest_comments(limit) %>
+<% more_latest_comments, has_more = @post.more_latest_comments(limit) %>
 var $comment = null;
-<% not_latest_comments.each do |comment| %>
-  $comment = $("<%= j(render 'comments/comment_line', comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(@post)) %>");
-  parti_partial$($comment);
-  $('<%= comments_more_dom_selector(@post) %>').append($comment);
+<% more_latest_comments.each do |comment| %>
+  $comment = $('<%= comments_latest_dom_selector(@post) %>').find('<%= comment_line_dom_selector(comment) %>');
+  if($comment.length <= 0) {
+    $comment = $("<%= j(render 'comments/comment_line', comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(@post)) %>");
+    parti_partial$($comment);
+    $('<%= comments_more_dom_selector(@post) %>').append($comment);
+  }
 <% end %>
 
 <% if has_more %>
@@ -17,6 +20,6 @@ var $comment = null;
   $('<%= comments_more_button_dom_selector(@post) %>').remove();
 <% end %>
 
-<% if not_latest_comments.any? %>
+<% if more_latest_comments.any? %>
 $('<%= comments_more_dom_selector(@post) %>').show();
 <% end %>

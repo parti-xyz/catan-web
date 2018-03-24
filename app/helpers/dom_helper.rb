@@ -35,6 +35,22 @@ module DomHelper
     "##{comments_more_dom_id(post)}"
   end
 
+  def comments_latest_dom_id(post)
+    "#{dom_id(post)}-comments-latest"
+  end
+
+  def comments_latest_dom_selector(post)
+    "##{comments_latest_dom_id(post)}"
+  end
+
+  def comment_line_dom_id(comment)
+    dom_id(comment)
+  end
+
+  def comment_line_dom_selector(comment)
+    "##{dom_id(comment)}"
+  end
+
   def comments_more_button_dom_id(post)
     "#{dom_id(post)}-comments-more-btn"
   end

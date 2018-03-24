@@ -4,18 +4,22 @@
   - if has_hidden_comments
     = link_to more_comments_post_path(post, format: :js), remote: true, id: comments_more_button_dom_id(post), 'data-disable-with': '<div class="more">가져오는 중...</div>', class: 'post-card__count', rel: :nofollow do
       .more
-        %span{id: comments_more_label_dom_id(post)} 이전 댓글 보기
+        %span{id: comments_more_label_dom_id(post)}
+          - if showing_comments.any?
+            이전
+          댓글 보기
         &middot;&nbsp;
         %span{id: comments_count_dom_id(post)}<>= post.comments_count
         개
 
     .post-card__comments--hidden.collapse{ id: comments_more_dom_id(post) }
 
-  - showing_comments.each do |comment|
-    = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
+  .post-card__comments--latest{ id: comments_latest_dom_id(post) }
+    - showing_comments.each do |comment|
+      = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
   - if user_signed_in?
     .post-card__comment-form.comment-line
-      = form_for [post, Comment.new], remote: true, class: 'comment-form', html: { id: new_comment_form_dom_id(post)}, data: {action: 'parti-form-validation', 'submit-form-control': new_comment_form_submit_dom_selector(post) } do |f|
+      = form_for [post, Comment.new], remote: true, html: { class: 'comment-form', id: new_comment_form_dom_id(post)}, data: {action: 'parti-form-validation', 'submit-form-control': new_comment_form_submit_dom_selector(post) } do |f|
         .media{ style: 'margin-top: 0;' }
           .media-left
             .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}

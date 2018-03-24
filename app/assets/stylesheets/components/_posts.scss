@@ -188,8 +188,8 @@
     }
   }
   .more {
-    margin-top: 10px;
-    color: $gray-a;
+    margin-top: $comment-line-space;
+    color: $gray;
     cursor: pointer;
     font-size: $font-size-base;
   }
@@ -405,7 +405,6 @@
     &__comments {
       .more {
         font-size: $font-size-small;
-        margin-bottom: 5px;
       }
     }
     &--hidden-issue {
