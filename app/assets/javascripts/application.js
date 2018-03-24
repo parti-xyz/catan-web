@@ -1431,7 +1431,7 @@ $(function(){
     // 토글 툴바
     tinymce.PluginManager.add('toggletoolbar', function(editor, url) {
       editor.on('init', function(){
-        var $toggle_handler = $('<div class="js-tinymce-catan-toolbar-handle tinymce-catan-toolbar-handle"><i class="fa fa-paint-brush" style="font-family: \'FontAwesome\';"></div>');
+        var $toggle_handler = $('<div class="js-tinymce-catan-toolbar-handle js-mce-catan-sticky-toolbar tinymce-catan-toolbar-handle"><i class="fa fa-paint-brush" style="font-family: \'FontAwesome\';"></div>');
         var container = editor.editorContainer;
         var $toolbars = $(container).find('.mce-toolbar-grp');
         $toolbars.append($toggle_handler);
@@ -1483,7 +1483,9 @@ $(function(){
             top: (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta,
             width: '100%'
           });
-          $toolbars.find('> .mce-container-body').addClass('mce-container-body-sticky');
+          $(container).addClass('mce-catan-tinymce-sticky');
+          $toolbars.find('> .mce-container-body').addClass('mce-catan-container-body-sticky');
+          $toolbars.find('> .js-mce-catan-sticky-toolbar').addClass('mce-catan-toolbar-sticky');
         } else {
           $(container).css({
             paddingTop: 0
@@ -1493,12 +1495,14 @@ $(function(){
             top: 0,
             width: '100%'
           });
-          $toolbars.find('> .mce-container-body').removeClass('mce-container-body-sticky');
+          $(container).removeClass('mce-catan-tinymce-sticky');
+          $toolbars.find('> .mce-container-body').removeClass('mce-catan-container-body-sticky');
+          $toolbars.find('> .js-mce-catan-sticky-toolbar').removeClass('mce-catan-toolbar-sticky');
         }
       }
 
       function isSticky(viewportTopDelta) {
-        return isOverViewportTop(viewportTopDelta) && !isCompletedOverViewportTop(viewportTopDelta);
+        return isOverViewportTop(viewportTopDelta) && !isCompletedOverViewportTop(viewportTopDelta, 100);
       }
 
       function isOverViewportTop(viewportTopDelta) {
@@ -1512,7 +1516,7 @@ $(function(){
         return true;
       }
 
-      function isCompletedOverViewportTop(viewportTopDelta) {
+      function isCompletedOverViewportTop(viewportTopDelta, buffterHeight) {
         var container = editor.editorContainer,
           editorTop = container.getBoundingClientRect().top;
 
@@ -1521,7 +1525,7 @@ $(function(){
 
         var hiddenHeight = -($(container).outerHeight() - toolbarHeight - footerHeight);
 
-        if (editorTop < hiddenHeight + viewportTopDelta) {
+        if (editorTop < hiddenHeight + viewportTopDelta + buffterHeight) {
           return true;
         }
 

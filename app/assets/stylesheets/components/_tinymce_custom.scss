@@ -16,6 +16,9 @@
 
 .mce-tinymce.mce-panel {
   border-top: 0;
+  &.mce-catan-tinymce-sticky {
+    border-top: 1px solid #c5c5c5;
+  }
   background-color: $gray-more-lightest;
 }
 
@@ -37,21 +40,27 @@
       line-height: 24px;
     }
   }
-  .tinymce-catan-toolbar-handle  {
-    display: inline-block;
+
+  .tinymce-catan-toolbar-handle {
     position: absolute;
     border: 1px solid #c0c0c2;
-    border-bottom-left-radius: 4px;
-    border-top-left-radius: 4px;
-    padding: 6px;
-    @media (max-width: $screen-xs-max) {
-      padding: 1px;
-    }
     background: white;
-    font-size: 8px;
-    top: 0;
-    right: 100%;
+    top: -1em;
+    &.mce-catan-toolbar-sticky {
+      top: 6px;
+    }
+    right: -1em;
     cursor: pointer;
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    color: white;
+    text-decoration: none;
     i {
       font-family: 'FontAwesome';
       font-size: 4px;
@@ -68,7 +77,7 @@
   .mce-container-body-toggletoolbar {
     border-top: 1px solid rgba(0,0,0,0.2);
   }
-  .mce-container-body-sticky {
+  .mce-catan-container-body-sticky {
     border-bottom: 1px solid rgba(0,0,0,0.2);
   }
 }
