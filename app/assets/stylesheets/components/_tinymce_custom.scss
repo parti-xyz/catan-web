@@ -58,12 +58,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 10px;
     color: white;
     text-decoration: none;
     i {
       font-family: 'FontAwesome';
-      font-size: 4px;
+      font-size: 10px;
       padding: 6px;
       @media (max-width: $screen-xs-max) {
         padding: 1px;
