@@ -580,18 +580,18 @@ strong.upvoted {
     text-align: center;
     margin: 12px 0;
     .divider-text {
-      background-color: $gray-a;
+      background-color: $background-color;
       border-radius: 1em;
       position: relative;
-      color: white;
-      padding: 4px 12px;
+      color: #aaa;
+      padding: 4px 6px;
       font-size: $font-size-small;
     }
     &:before {
       content: '';
       position: absolute;
-      height: 2px;
-      background: $gray-a;
+      height: 1px;
+      background: $gray-light;
       width: 100%;
       top: 50%;
       left: 0;
