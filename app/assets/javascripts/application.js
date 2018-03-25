@@ -1384,6 +1384,9 @@ $(function(){
   (function() {
     var ptr = PullToRefresh.init({
       mainElement: '#js-main',
+      distThreshold: 90,
+      distMax: 110,
+      distReload: 50,
       instructionsPullToRefresh: '다시 로딩하려면 잡아당겨 주세요',
       instructionsReleaseToRefresh: '다시 로딩하려면 놓아주세요',
       instructionsRefreshing: '다시 로딩 중',
