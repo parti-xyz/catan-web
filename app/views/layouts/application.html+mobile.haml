@@ -59,7 +59,7 @@
               ufo.changeCurrentUrl(window.location.href);
             }
           })();
-        - if history_base_page_in_mobile_app?
+        - if history_base_page_in_mobile_app?(current_group)
           :javascript
             (function() {
               if(ufo.isApp()) {

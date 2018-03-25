@@ -45,10 +45,4 @@ class WikisController < ApplicationController
     @post = nil if @post.present? and @post.private_blocked?(current_user)
     @wiki ||= @post.try(:wiki)
   end
-
-  def fixed_history_back_url_in_mobile_app
-    if action_name == 'histories' and @wiki.present?
-      smart_post_url(@wiki.post)
-    end
-  end
 end

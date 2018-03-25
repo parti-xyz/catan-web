@@ -1178,12 +1178,7 @@ $(function(){
   $('.js-btn-history-back-in-mobile-app').on('click', function(e) {
     event.preventDefault();
     if(ufo.isApp()) {
-      var back_to_url = $(e.currentTarget).data('back-to-url');
-      if($.is_present(back_to_url)) {
-        window.location.href = back_to_url;
-      } else {
-        ufo.goBack();
-      }
+      ufo.goBack();
     }
   });
 

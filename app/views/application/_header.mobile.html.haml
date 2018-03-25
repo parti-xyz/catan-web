@@ -4,7 +4,7 @@
       .navbar-brand
         - back_buttons = capture do
           - if history_backable_in_mobile_app?
-            %a.history-back.js-btn-history-back-in-mobile-app{ href: "#", 'aria-label': only_mobile_app(request, 'header-back'), data: { 'back-to-url': fixed_history_back_url_in_mobile_app } }
+            %a.history-back.js-btn-history-back-in-mobile-app{ href: "#", 'aria-label': only_mobile_app(request, 'header-back') }
               %i.fa.fa-angle-left
           %a.history-back.js-close-editor-in-mobile-app.hidden{ href: '#' }
             %i.fa.fa-angle-left

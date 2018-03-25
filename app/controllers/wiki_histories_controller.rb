@@ -18,11 +18,4 @@ class WikiHistoriesController < ApplicationController
     @issue = @wiki.post.issue if @wiki.present?
     @issue ||= @wiki_history.wiki.post.issue if @wiki_history.present?
   end
-
-  def fixed_history_back_url_in_mobile_app
-    if action_name == 'show'
-      histories_wiki_post_path(@wiki.post)
-    end
-  end
-
 end

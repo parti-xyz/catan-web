@@ -243,7 +243,7 @@ module ApplicationHelper
 
   def history_backable_in_mobile_app?
     return false unless is_mobile_app_get_request?(request)
-    return false if history_base_page_in_mobile_app?
+    return false if history_base_page_in_mobile_app?(current_group)
     !controller_path.start_with?('mobile_app/')
   end
 

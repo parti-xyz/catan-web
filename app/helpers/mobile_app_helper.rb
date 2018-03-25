@@ -23,24 +23,14 @@ module MobileAppHelper
     ENV["MOBILE_APP_DOORKEEPER_APPLICATION_UID_#{current_mobile_app_agent(request).underscore.downcase}"]
   end
 
-  def history_base_page_in_mobile_app?
+  def history_base_page_in_mobile_app?(current_group)
     return false unless is_mobile_app_get_request?(request)
     (
       (request.params[:controller] == 'pages' and request.params[:action] == 'discover') or
       (request.params[:controller] == 'dashboard' and request.params[:action] == 'index') or
       (request.params[:controller] == 'messages' and request.params[:action] == 'index') or
       (request.params[:controller] == 'posts' and request.params[:action] == 'pinned') or
-      (request.params[:controller] == 'issues' and request.params[:action] == 'home') or
-      (request.params[:controller] == 'issues' and request.params[:action] == 'slug_home')
-    )
-  end
-
-  def history_back_to_post_in_mobile_app?
-    return false unless is_mobile_app_get_request?(request)
-    (
-      (request.params[:controller] == 'wiki_histories' and request.params[:action] == 'show') or
-      (request.params[:controller] == 'wikis' and request.params[:action] == 'histories') or
-      (request.params[:controller] == 'posts' and !%w(index show wiki).include?(request.params[:action]))
+      (request.params[:controller] == 'issues' and request.params[:action] == 'home' and current_group.present?)
     )
   end
 

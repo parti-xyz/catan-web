@@ -67,7 +67,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_group
   helper_method :host_group
-  helper_method :fixed_history_back_url_in_mobile_app
   helper_method :mobile_navbar_title
 
   private
@@ -279,9 +278,5 @@ class ApplicationController < ActionController::Base
     else
       Rails.logger.info "SPARK APP - NO "
     end
-  end
-
-  def fixed_history_back_url_in_mobile_app
-    nil
   end
 end
