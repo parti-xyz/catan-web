@@ -72,6 +72,10 @@ class LinkSource < ActiveRecord::Base
     title || url
   end
 
+  def no_title?
+    title.blank?
+  end
+
   def self.require_attrbutes
     [:url]
   end

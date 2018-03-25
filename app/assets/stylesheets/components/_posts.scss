@@ -116,6 +116,9 @@
         font-size: initial;
       }
     }
+    .post-line-reference__title.post-line-reference__url {
+      word-break: break-all;
+    }
     .post-body {
       p {
         word-break: keep-all;
