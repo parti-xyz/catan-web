@@ -17,6 +17,14 @@ body {
 
 @media (max-width: $screen-xs-max) {
   body {
+    -webkit-tap-highlight-color:rgba(0, 0, 0, 0);
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  body {
     padding-top: $header-menu-height-mobile;
     &.view-with-ios-virtual-keyboard {
       padding-top: 0;
