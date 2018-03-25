@@ -1,46 +1,51 @@
-- need_wiki_divider = false
-- if can?:update, post
-  - need_wiki_divider = true
-  %li
-    = link_to [:edit, post] do
-      수정
-- if can? :destroy, post
-  - need_wiki_divider = true
-  %li
-    = link_to post_path(post), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
-      삭제
-- if can? :pin, post
-  - need_wiki_divider = true
-  %li
-    = render 'posts/pin_buttons', post: post
-  - if post.pinned?
-    %li
-      = link_to [:readers, post], target: '_blank' do
-        확인한 가입멤버 보기 (#{post.readers_count})
-    %li
-      = link_to [:unreaders, post], target: '_blank' do
-        확인하지 않은 가입멤버 보기
-- additional_buttons = capture do
-  - if local_assigns[:additional_buttons_partial].present?
-    = render additional_buttons_partial, local_assigns
-- if additional_buttons.try(:strip).present?
-  - need_wiki_divider = true
-  %li= additional_buttons
+- button_groups = []
 - if post.wiki.present?
-  - if need_wiki_divider
-    %li.divider
   - if post.wiki.purgeable?
-    %li
-      = link_to '위키 이력보기', histories_wiki_post_path(post)
+    - button_groups << capture do
+      %li
+        = link_to '위키 이력보기', histories_wiki_post_path(post)
   - if can? :update, post.wiki
-    %li.divider
-    - if post.wiki.activatable?
-      %li
-        = link_to '다시 위키 게시하기', activate_wiki_post_path(post), method: :patch
-    - if post.wiki.inactivatable?
-      %li
-        = link_to '위키 아카이브하기', inactivate_wiki_post_path(post), method: :patch
-    - if post.wiki.purgeable?
-      %li
-        = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch
+    - button_groups << capture do
+      - if post.wiki.activatable?
+        %li
+          = link_to '다시 위키 게시하기', activate_wiki_post_path(post), method: :patch
+      - if post.wiki.inactivatable?
+        %li
+          = link_to '위키 아카이브하기', inactivate_wiki_post_path(post), method: :patch
+      - if post.wiki.purgeable?
+        %li
+          = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch
 
+- button_groups << capture do
+  - if can?(:update, post) and post.wiki.blank?
+    %li
+      = link_to [:edit, post] do
+        수정
+  - if can? :destroy, post
+    %li
+      = link_to post_path(post), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
+        삭제
+
+- button_groups << capture do
+  - if can? :pin, post
+    %li
+      = render 'posts/pin_buttons', post: post
+    - if post.pinned?
+      %li
+        = link_to [:readers, post], target: '_blank' do
+          확인한 가입멤버 보기 (#{post.readers_count})
+      %li
+        = link_to [:unreaders, post], target: '_blank' do
+          확인하지 않은 가입멤버 보기
+
+- button_groups << capture do
+  - additional_buttons = capture do
+    - if local_assigns[:additional_buttons_partial].present?
+      = render additional_buttons_partial, local_assigns
+  - if additional_buttons.try(:strip).present?
+    %li= additional_buttons
+
+- button_groups.reject { |button_group| button_group.blank? }.each_with_index do |button_group, index|
+  - if index != 0
+    %li.divider
+  = button_group
