@@ -8,19 +8,32 @@ class PostsController < ApplicationController
   end
 
   def create
-    redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
+    if fetch_issue.blank? or private_blocked?(@issue)
+      render_404 and return
+    end
 
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
       errors_to_flash(@post)
     end
 
-    if @post.wiki.present? and @post.errors.blank?
+    if @post.errors.blank?
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      @post.wiki.reload
-      redirect_to smart_post_url(@post)
-    else
-      redirect_to params[:back_url].presence || smart_issue_home_path_or_url(@issue)
+    end
+
+    back_url = params[:back_url].presence || smart_issue_home_path_or_url(@issue)
+    @current_issue = @post.issue if back_url == smart_issue_home_url(@issue)
+
+    respond_to do |format|
+      format.html {
+        if @post.wiki.present?
+          @post.wiki.reload
+          redirect_to smart_post_url(@post)
+        else
+          redirect_to back_url
+        end
+      }
+      format.js
     end
   end
 

@@ -4,10 +4,11 @@
   .container
     .row
       = main_column_tag do
-        = render 'application/my_home_tab'
+        .js-invisible-on-mobile-editing
+          = render 'application/my_home_tab'
 
         - if current_user.need_to_more_member?(current_group)
-          .unified-editor.unified-editor-intro.cursor-default
+          .post-editor.post-editor-intro.cursor-default
             .text-muted
               .media
                 .media-left
@@ -17,16 +18,13 @@
                   = link_to '시작하기', dashboard_intro_path, class: 'btn btn-primary'
         - else
           - member_issues = current_user.member_issues.order(:title)
-          .unified-editor.unified-editor-intro.js-unified-editor-intro
+          .post-editor.post-editor-intro.js-post-editor-intro
             .text-muted
               = byline current_user, hide_nickname: true
               .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
 
-        .unified-editor.unified-editor--hidden.js-unified-editor.js-parti-editor-selector-wrapper
-          = render 'posts/issue_selector'
-
-          - unless current_user.need_to_more_member?(current_group)
-            = render 'posts/new_form', issue: nil
+          .post-editor.post-editor--hidden.js-post-editor.js-parti-editor-selector-wrapper
+            = render 'posts/post_editor', current_issue: nil
 
         .js-invisible-on-mobile-editing
           - if params[:q].blank?

@@ -10,31 +10,31 @@
           - if user_signed_in?
             - if @issue.member?(current_user)
               - if @issue.postable?(current_user)
-                .unified-editor.unified-editor-intro.js-unified-editor-intro
+                .post-editor.post-editor-intro.js-post-editor-intro
                   .text-muted
                     = byline current_user, hide_nickname: true
                     .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
-                .unified-editor.unified-editor--hidden.js-unified-editor
-                  = render 'posts/new_form', issue: @issue
+                .post-editor.post-editor--hidden.js-post-editor
+                  = render 'posts/post_editor', current_issue: @issue
             - elsif @issue.member_requested?(current_user)
-              .unified-editor.unified-editor--join
+              .post-editor.post-editor--join
                 오거나이저의 가입승인을 기다려주세요.
             - else
               - if @issue.notice_only?
-                .unified-editor.unified-editor--join
+                .post-editor.post-editor--join
                   이 빠띠에 가입하여 새소식을 들어보세요.
                   = render 'issues/join_button'
               - else
-                .unified-editor.unified-editor--join
+                .post-editor.post-editor--join
                   이 빠띠에 가입하여 게시물을 올려보세요.
                   = render 'issues/join_button'
           - else
-            .unified-editor.unified-editor-intro{data: { toggle: 'parti-login-overlay' }}
+            .post-editor.post-editor-intro{data: { toggle: 'parti-login-overlay' }}
               .text-muted
                 지금 이야기를 시작해 보세요.
                 %i.fa.fa-sign-in
         - else
-          .unified-editor.unified-editor-intro
+          .post-editor.post-editor-intro
             .text-muted.text-primary
               휴면 중인 빠띠입니다.
 

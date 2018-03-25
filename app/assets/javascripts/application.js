@@ -29,6 +29,7 @@
 //= require webp-check
 //= require slick
 //= require tinymce-jquery
+//= require tinymce/plugins/catan
 //= require Chart.bundle
 //= require chartkick
 //= require mobile_app
@@ -200,8 +201,8 @@ var parti_prepare_form_validator = function($base) {
   });
 }
 
-var parti_prepare = function($base) {
-  if($base.data('parti-prepare-arel') == 'completed') {
+var parti_prepare = function($base, force) {
+  if(!force && $base.data('parti-prepare-arel') == 'completed') {
     return;
   }
 
@@ -420,7 +421,7 @@ var parti_prepare = function($base) {
     $(document).on('parti-click', close_form);
   });
 
-  //new comments count
+  //new posts count
   $.parti_apply($base, '[data-action="parti-polling"]', function(elm) {
     var $elm = $(elm);
     var polling_url = $(elm).data("polling-url");
@@ -429,16 +430,16 @@ var parti_prepare = function($base) {
 
     var polling_interval = parseInt(polling_interval_initial) || 5 * 60 * 1000;
 
-    var update_new_comments = function() {
+    var updated_posts = function() {
       if($elm.is(':visible')) {
         polling_interval += parseInt(polling_interval_increment) || 5 * 60 * 1000;
         polling_interval = Math.min(polling_interval, 60 * 60 * 1000);
       }
 
       $.getScript(polling_url);
-      setTimeout(update_new_comments, polling_interval);
+      setTimeout(updated_posts, polling_interval);
     }
-    setTimeout(update_new_comments, polling_interval);
+    setTimeout(updated_posts, polling_interval);
   });
 
   // modal tooltip
@@ -493,6 +494,208 @@ var parti_prepare = function($base) {
       $(elm).show();
     }
   });
+
+  // 글쓸 때 빠띠 선택하기
+  $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
+    $(elm).selectpicker('render');
+    $(elm).on('hide.bs.select', function(e) {
+      var select_value = $(e.target).find('select').andSelf().val();
+      var $form = $(e.target).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form')
+      var $input_elm = $form.find('input[name*="[issue_id]"]');
+
+      $input_elm.val(select_value);
+      $input_elm.trigger('parti-need-to-validate');
+    });
+    $(elm).on('loaded.bs.select', function(e) {
+      $(this).show();
+    });
+  });
+
+  // 에디터
+
+  // editor
+  (function() {
+    var setPlaceholder = function(editor, placeholder) {
+      if(!$.is_blank(editor.getContent())) { return; }
+      editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
+    };
+
+    var removePlaceholder = function(editor, placeholder) {
+      $placeholder = $(editor.getBody()).find("#js-tinymce-placeholder");
+      if($placeholder.length) {
+        $placeholder.remove();
+        editor.setContent("<p></p>");
+        return true;
+      }
+
+      return false
+    };
+
+    //plugins: 'image media link paste contextmenu textpattern autolink',
+    var settings = {
+      default: {
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | bullist numlist outdent indent'
+      },
+      wiki: {
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | style-h1 style-h2 style-h3 | bullist numlist outdent indent'
+      },
+    };
+    $.parti_apply($base, '.js-tinymce:not(.js-tinymce-mobile)', function(elm) {
+      var setting_name = $(elm).data('tinymce-setting');
+      var setting = settings.default;
+      if(setting_name) {
+        setting = settings[setting_name];
+      }
+      var placeholder = $(elm).data('placeholder') || "";
+      var content_css = $(elm).data('content-css');
+
+      $(elm).tinymce({
+        language: 'ko_KR',
+        plugins: setting.plugins,
+        menubar: false,
+        autoresize_min_height: 100,
+        autoresize_bottom_margin: 0,
+        statusbar: false,
+        toolbar: setting.toolbar,
+        paste_data_images: true,
+        document_base_url: 'https://parti.xyz/',
+        link_context_toolbar: true,
+        target_list: false,
+        relative_urls: false,
+        remove_script_host : false,
+        hidden_input: false,
+        uploadimage_default_img_class: 'tinymce-content-image',
+        content_css: content_css,
+        setup: function (editor) {
+          editor.on('init', function(){
+            setPlaceholder(editor, placeholder);
+          });
+          editor.on('blur', function (e) {
+            setPlaceholder(editor, placeholder);
+          });
+          editor.on('focus', function (e) {
+            if(removePlaceholder(editor)) {
+              editor.execCommand('mceFocus', false);
+            }
+          });
+          editor.on('KeyUp', function (e) {
+            removePlaceholder(editor);
+
+            var $input_elm = $(':input[name="' + editor.id + '"]');
+            var old_extern_value = $input_elm.data('rule-extern-value');
+            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
+            if(old_extern_value == new_extern_value) { return; }
+
+            $input_elm.data('rule-extern-value', new_extern_value);
+            $input_elm.trigger('parti-need-to-validate');
+          });
+        }
+      });
+    });
+    settings = {
+      default: {
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        toolbar1: 'bold italic strikethrough blockquote style-br',
+        toolbar2: 'bullist numlist outdent indent link',
+      },
+      wiki: {
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        toolbar1: 'bold italic strikethrough blockquote style-br style-h1 style-h2 style-h3',
+        toolbar2: 'bullist numlist outdent indent link',
+      },
+    };
+
+    // Tinymce on mobile
+    $.parti_apply($base, '.js-tinymce.js-tinymce-mobile', function(elm) {
+      var setting_name = $(elm).data('tinymce-setting');
+
+      var setting = settings.default;
+      if(setting_name) {
+        setting = settings[setting_name];
+      }
+      var content_css = $(elm).data('content-css');
+
+      $(elm).tinymce({
+        language: 'ko_KR',
+        plugins: setting.plugins,
+        menubar: false,
+        autoresize_min_height: 100,
+        autoresize_bottom_margin: 0,
+        statusbar: false,
+        toolbar1: setting.toolbar1,
+        toolbar2: setting.toolbar2,
+        paste_data_images: true,
+        document_base_url: 'https://parti.xyz/',
+        link_context_toolbar: false,
+        target_list: false,
+        relative_urls: false,
+        remove_script_host : false,
+        hidden_input: false,
+        uploadimage_default_img_class: 'tinymce-content-image',
+        content_css: content_css,
+        setup: function (editor) {
+          // link opender
+          editor.on('init', function(){
+            var $link_opener = $('<div class="js-tinymce-catan-link-opener tinymce-catan-link-opener"></div>');
+            var container = editor.editorContainer;
+            var $toolbars = $(container).find('.mce-toolbar-grp');
+            $toolbars.append($link_opener);
+            $link_opener.hide();
+          });
+
+          // form validation
+          editor.on('KeyUp', function (e) {
+            var $input_elm = $(':input[name="' + editor.id + '"]');
+            var old_extern_value = $input_elm.data('rule-extern-value');
+            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
+            if(old_extern_value == new_extern_value) { return; }
+
+            $input_elm.data('rule-extern-value', new_extern_value);
+            $input_elm.trigger('parti-need-to-validate');
+          });
+
+          // virtual keyboard
+          editor.on('focus', function (e) {
+            $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
+          });
+          var oldScrollTop;
+          editor.on('OpenWindow', function(){
+            oldScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            setTimeout(function() {
+              $('body').scrollTop(0);
+            }, 500);
+          });
+          editor.on('CloseWindow', function(){
+            if (oldScrollTop) {
+              setTimeout(function() {
+                $('body').scrollTop(oldScrollTop);
+                oldScrollTop = null;
+              }, 500);
+            }
+          });
+        },
+        init_instance_callback: function (editor) {
+          editor.on('NodeChange', function (e) {
+            var container = editor.editorContainer;
+            var $toolbars = $(container).find('.mce-toolbar-grp');
+            var $link_opener = $toolbars.find('.js-tinymce-catan-link-opener');
+
+            var node = tinyMCE.activeEditor.selection.getNode();
+            var href = $(node).attr('href');
+            if($.is_blank(href)) {
+              $link_opener.html('');
+              $link_opener.hide();
+            } else {
+              $link_opener.html('<a href="' + href + '" target="_blank"><i class="fa fa-external-link" /> ' + href + '</a>');
+              $link_opener.stop().slideDown();
+            }
+          });
+        }
+      });
+    });
+  })();
 
   $.parti_apply($base, '.js-mention', function(elm) {
     var $elm = $(elm);
@@ -551,8 +754,8 @@ $('[data-action="parti-clearable-search"]').each(function(i, elm) {
   }
 });
 
-var parti_partial$ = function($partial) {
-  parti_prepare($partial);
+var parti_partial$ = function($partial, force) {
+  parti_prepare($partial, force);
 
   return $partial;
 }
@@ -746,19 +949,6 @@ $(function(){
 
   $('#site-header').on('show.bs.collapse','.collapse', function() {
       $('#site-header').find('.collapse.in').collapse('hide');
-  });
-
-  $('.js-parti-editor-selector').selectpicker('render');
-  $('.js-parti-editor-selector').on('hide.bs.select', function(e) {
-    var select_value = $(e.target).find('select').andSelf().val();
-    var $form = $(e.target).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form')
-    var $input_elm = $form.find('input[name*="[issue_id]"]');
-
-    $input_elm.val(select_value);
-    $input_elm.trigger('parti-need-to-validate');
-  });
-  $('.js-parti-editor-selector').on('loaded.bs.select', function(e) {
-    $(this).show();
   });
 
   $(document).ajaxError(function (e, xhr, settings) {
@@ -1190,7 +1380,6 @@ $(function(){
     }
   }, 300));
 
-
   // pull to refresh
   (function() {
     var ptr = PullToRefresh.init({
@@ -1200,376 +1389,49 @@ $(function(){
       instructionsRefreshing: '다시 로딩 중',
       onRefresh: function(){ window.location.reload(); },
       shouldPullToRefresh: function(){
-        console.log($('body').hasClass('js-no-pull-to-refresh'));
         return (!window.scrollY && !$('#js-drawer').is(':visible') && !$('body').hasClass('js-no-pull-to-refresh'));
       }
     });
   })();
 
-  // editor
-  (function() {
-    var setPlaceholder = function(editor, placeholder) {
-      if(!$.is_blank(editor.getContent())) { return; }
-      editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
-    };
+  // close mobile editor
+  $('.js-close-editor-in-mobile-app').on('click', function(e) {
+    $('.js-btn-history-back-in-mobile-app').show();
+    $('.js-btn-drawer').show();
+    $('.js-close-editor-in-mobile-app').addClass('hidden');
 
-    var removePlaceholder = function(editor, placeholder) {
-      $placeholder = $(editor.getBody()).find("#js-tinymce-placeholder");
-      if($placeholder.length) {
-        $placeholder.remove();
-        editor.setContent("<p></p>");
-        return true;
-      }
+    $('.js-post-editor-intro').show();
+    $('.js-post-editor').hide();
 
-      return false
-    };
+    $('.js-invisible-on-mobile-editing').stop().slideDown();
+    $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
 
-    //plugins: 'image media link paste contextmenu textpattern autolink',
-    var settings = {
-      default: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | bullist numlist outdent indent'
-      },
-      wiki: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | style-h1 style-h2 style-h3 | bullist numlist outdent indent'
-      },
-    };
+    $('body').removeClass('js-no-pull-to-refresh');
+  });
 
-    $.each($('.js-tinymce:not(.js-tinymce-mobile)'), function(i, elm){
-      var setting_name = $(elm).data('tinymce-setting');
-      var setting = settings.default;
-      if(setting_name) {
-        setting = settings[setting_name];
-      }
-      var placeholder = $(elm).data('placeholder') || "";
-      var content_css = $(elm).data('content-css');
+  // open mobile editor
+  $('.js-post-editor-intro').on('click', function(e) {
+    $.prevent_click_exclude_parti(e);
+    var $elm = $(e.currentTarget);
 
-      $(elm).tinymce({
-        language: 'ko_KR',
-        plugins: setting.plugins,
-        menubar: false,
-        autoresize_min_height: 100,
-        autoresize_bottom_margin: 0,
-        statusbar: false,
-        toolbar: setting.toolbar,
-        paste_data_images: true,
-        document_base_url: 'https://parti.xyz/',
-        link_context_toolbar: true,
-        target_list: false,
-        relative_urls: false,
-        remove_script_host : false,
-        hidden_input: false,
-        uploadimage_default_img_class: 'tinymce-content-image',
-        content_css: content_css,
-        setup: function (editor) {
-          editor.on('init', function(){
-            setPlaceholder(editor, placeholder);
-          });
-          editor.on('blur', function (e) {
-            setPlaceholder(editor, placeholder);
-          });
-          editor.on('focus', function (e) {
-            if(removePlaceholder(editor)) {
-              editor.execCommand('mceFocus', false);
-            }
-          });
-          editor.on('KeyUp', function (e) {
-            removePlaceholder(editor);
-
-            var $input_elm = $(':input[name="' + editor.id + '"]');
-            var old_extern_value = $input_elm.data('rule-extern-value');
-            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
-            if(old_extern_value == new_extern_value) { return; }
-
-            $input_elm.data('rule-extern-value', new_extern_value);
-            $input_elm.trigger('parti-need-to-validate');
-          });
-        }
-      });
-    });
-
-    // Tinymce on mobile
-    $.each($('.js-tinymce.js-tinymce-mobile'), function(i, elm){
-      var setting_name = $(elm).data('tinymce-setting');
-
-      //plugins: 'image media link paste contextmenu textpattern autolink',
-      var settings = {
-        default: {
-          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
-          toolbar1: 'bold italic strikethrough blockquote style-br',
-          toolbar2: 'bullist numlist outdent indent link',
-        },
-        wiki: {
-          plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
-          toolbar1: 'bold italic strikethrough blockquote style-br style-h1 style-h2 style-h3',
-          toolbar2: 'bullist numlist outdent indent link',
-        },
-      };
-
-      var setting = settings.default;
-      if(setting_name) {
-        setting = settings[setting_name];
-      }
-      var content_css = $(elm).data('content-css');
-
-      $(elm).tinymce({
-        language: 'ko_KR',
-        plugins: setting.plugins,
-        menubar: false,
-        autoresize_min_height: 100,
-        autoresize_bottom_margin: 0,
-        statusbar: false,
-        toolbar1: setting.toolbar1,
-        toolbar2: setting.toolbar2,
-        paste_data_images: true,
-        document_base_url: 'https://parti.xyz/',
-        link_context_toolbar: false,
-        target_list: false,
-        relative_urls: false,
-        remove_script_host : false,
-        hidden_input: false,
-        uploadimage_default_img_class: 'tinymce-content-image',
-        content_css: content_css,
-        setup: function (editor) {
-          // link opender
-          editor.on('init', function(){
-            var $link_opener = $('<div class="js-tinymce-catan-link-opener tinymce-catan-link-opener"></div>');
-            var container = editor.editorContainer;
-            var $toolbars = $(container).find('.mce-toolbar-grp');
-            $toolbars.append($link_opener);
-            $link_opener.hide();
-          });
-
-          // form validation
-          editor.on('KeyUp', function (e) {
-            var $input_elm = $(':input[name="' + editor.id + '"]');
-            var old_extern_value = $input_elm.data('rule-extern-value');
-            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
-            if(old_extern_value == new_extern_value) { return; }
-
-            $input_elm.data('rule-extern-value', new_extern_value);
-            $input_elm.trigger('parti-need-to-validate');
-          });
-
-          // virtual keyboard
-          editor.on('focus', function (e) {
-            $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
-          });
-          var oldScrollTop;
-          editor.on('OpenWindow', function(){
-            oldScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            setTimeout(function() {
-              $('body').scrollTop(0);
-            }, 500);
-          });
-          editor.on('CloseWindow', function(){
-            if (oldScrollTop) {
-              setTimeout(function() {
-                $('body').scrollTop(oldScrollTop);
-                oldScrollTop = null;
-              }, 500);
-            }
-          });
-        },
-        init_instance_callback: function (editor) {
-          editor.on('NodeChange', function (e) {
-            var container = editor.editorContainer;
-            var $toolbars = $(container).find('.mce-toolbar-grp');
-            var $link_opener = $toolbars.find('.js-tinymce-catan-link-opener');
-
-            var node = tinyMCE.activeEditor.selection.getNode();
-            var href = $(node).attr('href');
-            if($.is_blank(href)) {
-              $link_opener.html('');
-              $link_opener.hide();
-            } else {
-              $link_opener.html('<a href="' + href + '" target="_blank"><i class="fa fa-external-link" /> ' + href + '</a>');
-              $link_opener.stop().slideDown();
-            }
-          });
-        }
-      });
-    });
-
-    // close mobile editor
-    $('.js-close-editor-in-mobile-app').on('click', function(e) {
-      $('.js-btn-history-back-in-mobile-app').show();
-      $('.js-btn-drawer').show();
-      $('.js-close-editor-in-mobile-app').addClass('hidden');
-
-      $('.js-unified-editor-intro').show();
-      $('.js-unified-editor').hide();
-
-      $('.js-invisible-on-mobile-editing').stop().slideDown();
-      $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
-
-      $('body').removeClass('js-no-pull-to-refresh');
-    });
-
-    // open mobile editor
-    $('.js-unified-editor-intro').on('click', function(e) {
-      $.prevent_click_exclude_parti(e);
-      var $elm = $(e.currentTarget);
-
-      var $target = $('.js-unified-editor');
-      $target.show({ duration: 1, complete: function() {
-        $elm.hide({ duration: 1, complete: function() {
-          var focus_id = $elm.data('focus');
-          $focus = $(focus_id);
-          $focus.focus();
-        }});
+    var $target = $('.js-post-editor');
+    $target.show({ duration: 1, complete: function() {
+      $elm.hide({ duration: 1, complete: function() {
+        var focus_id = $elm.data('focus');
+        $focus = $(focus_id);
+        $focus.focus();
       }});
+    }});
 
-      // 가상키보드를 쓰는 환경이면
-      if($('body').hasClass('virtual-keyboard')) {
-        $('.js-invisible-on-mobile-editing').slideUp();
-        $('.js-btn-history-back-in-mobile-app').hide();
-        $('.js-close-editor-in-mobile-app').removeClass('hidden');
-      }
+    // 가상키보드를 쓰는 환경이면
+    if($('body').hasClass('virtual-keyboard')) {
+      $('.js-invisible-on-mobile-editing').slideUp();
+      $('.js-btn-history-back-in-mobile-app').hide();
+      $('.js-close-editor-in-mobile-app').removeClass('hidden');
+    }
 
-      $('body').addClass('js-no-pull-to-refresh');
-    });
-
-    // 토글 툴바
-    tinymce.PluginManager.add('toggletoolbar', function(editor, url) {
-      editor.on('init', function(){
-        var $toggle_handler = $('<div class="js-tinymce-catan-toolbar-handle js-mce-catan-sticky-toolbar tinymce-catan-toolbar-handle"><i class="fa fa-paint-brush" style="font-family: \'FontAwesome\';"></div>');
-        var container = editor.editorContainer;
-        var $toolbars = $(container).find('.mce-toolbar-grp');
-        $toolbars.append($toggle_handler);
-        $toolbars.find('> .mce-container-body').hide().addClass('mce-container-body-toggletoolbar').addClass('js-mce-container-body-toggletoolbar');
-
-        $toggle_handler.on('click', function(e) {
-          $toolbars.find('.js-mce-container-body-toggletoolbar').slideToggle();
-        });
-      });
-    });
-
-
-    // 툴바 위치 고정
-    tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
-      var inited = false;
-      editor.on('focus', function() {
-        inited = true;
-        setSticky();
-      });
-
-      $(window).on('scroll', _.debounce(setSticky, 300));
-
-      function setSticky() {
-        if(!inited) {
-          return;
-        }
-
-        var container = editor.editorContainer;
-        if(!$(container).is(':visible')) {
-          return;
-        }
-
-        var $toolbars = $(container).find('.mce-toolbar-grp');
-        var $statusbar = $(container).find('.mce-statusbar');
-
-        var viewportTopDelta = 0;
-        if($('#site-header').css('position') == 'fixed' && !$('body').hasClass('ios')) {
-          viewportTopDelta = $('#site-header').outerHeight();
-        }
-        if (isSticky(viewportTopDelta)) {
-          if($('body').hasClass('ios')) {
-            $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
-          }
-          $(container).css({
-            paddingTop: $toolbars.outerHeight()
-          });
-          $toolbars.css({
-            position: 'absolute',
-            top: (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta,
-            width: '100%'
-          });
-          $(container).addClass('mce-catan-tinymce-sticky');
-          $toolbars.find('> .mce-container-body').addClass('mce-catan-container-body-sticky');
-          $toolbars.find('> .js-mce-catan-sticky-toolbar').addClass('mce-catan-toolbar-sticky');
-        } else {
-          $(container).css({
-            paddingTop: 0
-          });
-          $toolbars.css({
-            position: 'relative',
-            top: 0,
-            width: '100%'
-          });
-          $(container).removeClass('mce-catan-tinymce-sticky');
-          $toolbars.find('> .mce-container-body').removeClass('mce-catan-container-body-sticky');
-          $toolbars.find('> .js-mce-catan-sticky-toolbar').removeClass('mce-catan-toolbar-sticky');
-        }
-      }
-
-      function isSticky(viewportTopDelta) {
-        return isOverViewportTop(viewportTopDelta) && !isCompletedOverViewportTop(viewportTopDelta, 100);
-      }
-
-      function isOverViewportTop(viewportTopDelta) {
-        var container = editor.editorContainer,
-          editorTop = container.getBoundingClientRect().top;
-
-        if (editorTop > viewportTopDelta) {
-          return false;
-        }
-
-        return true;
-      }
-
-      function isCompletedOverViewportTop(viewportTopDelta, buffterHeight) {
-        var container = editor.editorContainer,
-          editorTop = container.getBoundingClientRect().top;
-
-        var toolbarHeight = $(container).find('.mce-toolbar-grp').outerHeight();
-        var footerHeight = $(container).find('.mce-statusbar').outerHeight();
-
-        var hiddenHeight = -($(container).outerHeight() - toolbarHeight - footerHeight);
-
-        if (editorTop < hiddenHeight + viewportTopDelta + buffterHeight) {
-          return true;
-        }
-
-        return false;
-      }
-    });
-
-    // h1 h2 h3 툴바
-    tinyMCE.PluginManager.add('stylebuttons', function(editor, url) {
-      ['h1', 'h2', 'h3'].forEach(function(name){
-        editor.addButton("style-" + name, {
-          tooltip: "제목 " + name,
-          text: name.toUpperCase(),
-          onClick: function() { editor.execCommand('mceToggleFormat', false, name); },
-          onPostRender: function() {
-            var self = this, setup = function() {
-              editor.formatter.formatChanged(name, function(state) {
-                self.active(state);
-              });
-            };
-            editor.formatter ? setup() : editor.on('init', setup);
-          }
-        })
-      });
-      $.each({br: '줄바꿈'}, function(name, display) {
-        editor.addButton("style-" + name, {
-          tooltip: display,
-          text: display,
-          onClick: function() {
-            // editor.execCommand('mceInsertContent', false, "<br/>");
-            uniqueId = "___cursor___" + Math.random().toString(36).substr(2, 16);
-            editor.execCommand('mceInsertContent', false, "<br/><span id=" + uniqueId + "> </span> ");
-            editor.selection.select(editor.dom.select('#' + uniqueId)[0]);
-            editor.selection.collapse(0);
-            editor.dom.remove(uniqueId);
-          },
-        });
-      });
-    });
-
-  })();
+    $('body').addClass('js-no-pull-to-refresh');
+  });
 
   // ios에서 가상 키보드에 따른 사이트 헤더 조정
   if($('body').hasClass('virtual-keyboard') && $('body').hasClass('ios')) {

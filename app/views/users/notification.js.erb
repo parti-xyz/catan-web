@@ -1,9 +1,9 @@
 var notification_menu_html = "<%= escape_javascript(render 'application/notification_menu.mobile') %>";
 $(".js-notification-menu").html(notification_menu_html);
 
-parti_partial$($('.js-notification-menu'));
+parti_partial$($('.js-notification-menu'), true);
 
 
 var notification_setting_html = "<%= escape_javascript(render 'application/notification_setting.mobile') %>";
 $(".js-notification-setting").html(notification_setting_html);
-parti_partial$($('.js-notification-setting'));
+parti_partial$($('.js-notification-setting'), true);

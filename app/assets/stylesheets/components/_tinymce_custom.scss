@@ -14,6 +14,11 @@
   }
 }
 
+// 토글 툴바
+.mce-toolbar-grp > .mce-container-body {
+  display: none;
+}
+
 .mce-tinymce.mce-panel {
   border-top: 0;
   &.mce-catan-tinymce-sticky {

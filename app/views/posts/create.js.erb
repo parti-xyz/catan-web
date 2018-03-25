@@ -1,0 +1,19 @@
+<% if !@post.blank? and !@post.errors.any? %>
+  var $new_divider = $('#posts .posts').find('.js-new-post-data-divider');
+  if($new_divider.length > 0) {
+    var $posts_doms = $("<%= escape_javascript(render 'posts/new_post', post: @post, show_issue: true, show_divider: false) %>");
+    $new_divider.after($posts_doms);
+  } else {
+    var $posts_doms = $("<%= escape_javascript(render 'posts/new_post', post: @post, show_issue: true, show_divider: true) %>");
+    $('#posts .posts').prepend($posts_doms);
+  }
+  parti_partial$($posts_doms);
+
+  $('.js-post-editor').html("<%= escape_javascript(render 'posts/post_editor', current_issue: @current_issue) %>");
+  tinyMCE.EditorManager.execCommand('mceRemoveEditor', true, 'post[body]');
+  $('.js-close-editor-in-mobile-app').trigger('click');
+  parti_partial$($('.js-post-editor'), true);
+
+  $('.js-post-editor-intro').show();
+  $('.js-post-editor').hide();
+<% end %>

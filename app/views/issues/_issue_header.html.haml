@@ -1,7 +1,7 @@
 - issue ||= @issue
 - active_tab ||= nil
 - blocked ||= false
-%section.parti-header-section{ class: ('parti-header-section--simple' if local_assigns[:simple]) }
+%section.parti-header-section.js-invisible-on-mobile-editing{ class: ('parti-header-section--simple' if local_assigns[:simple]) }
   - geo_pattern_background = capture do
     .parti-black-layer{ style: "background-image: #{GeoPattern.generate(issue.title, base_color: '#2a164b').to_data_uri};" }
   - logo_background = capture do

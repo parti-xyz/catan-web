@@ -18,7 +18,7 @@
   }
 }
 
-.unified-editor {
+.post-editor {
   padding-top: 2px;
   margin-bottom: 10px;
   background-color: #fff;
@@ -153,7 +153,7 @@
       color: #f0646d;
   }
 
-  .unified-editor & {
+  .post-editor & {
     display: block;
     .form-widget {
       padding: 0;
@@ -345,7 +345,7 @@
 
 
 .editors-panel,
-.unified-editor {
+.post-editor {
   .bootstrap-select > .dropdown-toggle, .bootstrap-select > .dropdown-toggle:hover, .bootstrap-select > .dropdown-toggle:focus, .bootstrap-select > .dropdown-toggle:active {
     background-color: #fff;
     -webkit-box-shadow: none;
