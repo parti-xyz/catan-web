@@ -1515,7 +1515,7 @@ $(function(){
   });
 
   // 모바일에서 상단 메뉴에 현 페이지 제목을 보여 줍니다
-  $(window).scroll(function() {
+  $(window).on('scroll', _.debounce(function() {
     var $el = $('.js-navbar-header');
     if(!$el.length) {
       return;
@@ -1547,7 +1547,7 @@ $(function(){
         });
       }
     }
-  });
+  }, 500));
 
   $('.js-scroll-top').on('click', function(e) {
     $.scrollTo(0, 200);
