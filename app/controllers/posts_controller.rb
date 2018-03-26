@@ -33,7 +33,11 @@ class PostsController < ApplicationController
           redirect_to back_url
         end
       }
-      format.js
+      format.js {
+        # 이미지 로딩
+        @post.reload
+        render layout: nil
+      }
     end
   end
 

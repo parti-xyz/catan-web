@@ -8,6 +8,7 @@
 //= require unobtrusive_flash_bootstrap
 //= require jquery.timeago
 //= require locales/jquery.timeago.ko
+//= require jquery.remotipart
 //= require autoresize
 //= require jquery.validate
 //= require additional-methods
@@ -495,7 +496,7 @@ var parti_prepare = function($base, force) {
     }
   });
 
-  // 글쓸 때 빠띠 선택하기
+  // 게시글 쓸때 빠띠 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
     $(elm).on('hide.bs.select', function(e) {
@@ -510,6 +511,54 @@ var parti_prepare = function($base, force) {
       $(this).show();
     });
   });
+
+  // 게시글 쓸때 투표 등을 선택하기
+
+  $.parti_apply($base, '[data-action="parti-post-select-subform"]', function(elm) {
+    var hidden_target = $(elm).data('hidden-target');
+    var reference_field = $(elm).data('reference-field');
+    var has_poll = $(elm).data('has-poll');
+    var has_survey = $(elm).data('has-survey');
+    var file_input = $(elm).data('file-input');
+    $(elm).on('click',function (e){
+      e.preventDefault();
+      $(hidden_target).hide();
+      if($(reference_field).hasClass('hidden')){
+        $(reference_field).removeClass('hidden');
+      }
+      if($(this).hasClass('post-poll-btn')){
+        $(has_poll).val(true);
+      } else if($(this).hasClass('post-survey-btn')){
+        $(has_survey).val(true);
+      } else if($(this).hasClass('post-file-btn')) {
+        if($.is_blank($(file_input).val())) {
+          $(file_input).trigger('click');
+        }
+      }
+      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
+    })
+  });
+
+  $.parti_apply($base, '[data-action="parti-post-cancel-subform"]', function(elm) {
+    var reference_field = $(elm).data('reference-field');
+    var show_target = $(elm).data('show-target');
+    var has_poll = $(elm).data('has-poll');
+    var has_survey = $(elm).data('has-survey');
+    $(elm).on('click',function(e){
+      e.preventDefault();
+
+      $(reference_field).addClass('hidden');
+      $(show_target).show();
+      $(has_poll).val(false);
+      $(has_survey).val(false);
+
+      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
+
+      return false;
+    });
+  });
+
+
 
   // 에디터
 
@@ -826,6 +875,7 @@ $(function(){
     $.prevent_click_exclude_parti(e);
   });
 
+  // editor subforms
   (function() {
     if($('#js-form-group-images').length > 0) {
       Sortable.create($('#js-form-group-images')[0]);
@@ -896,10 +946,10 @@ $(function(){
       check_to_hide_or_show_add_link();
     });
 
-    $('#js-post-editor-file_sources-wrapper').on('cocoon:after-insert', function(e, item) {
+    $('body').on('cocoon:after-insert', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
       item.find("input[type='file']").trigger('click');
     });
-    $('#js-post-editor-file_sources-wrapper').on('cocoon:after-remove', function(e, item) {
+    $('body').on('cocoon:after-remove', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
       var has_image = false;
       $("#js-form-group-images input[type='file']").each(function(index, elm) {
         if($.is_present($(elm).val())) { has_image = true; }
@@ -1086,54 +1136,6 @@ $(function(){
     listen_waypoint($('.js-page-waypoint'));
     load_page($('.js-page-waypoint-onload'));
   })();
-
-  if ( $('#wikis .body .wiki_content a').length ){
-    $('#wikis .body .wiki_content a').attr('target', '_blank');
-  }
-
-  $('[data-action="parti-post-select-subform"]').each(function(index,elm){
-    var hidden_target = $(elm).data('hidden-target');
-    var reference_field = $(elm).data('reference-field');
-    var has_poll = $(elm).data('has-poll');
-    var has_survey = $(elm).data('has-survey');
-    var file_input = $(elm).data('file-input');
-    $(this).on('click',function (e){
-      e.preventDefault();
-      $(hidden_target).hide();
-      if($(reference_field).hasClass('hidden')){
-        $(reference_field).removeClass('hidden');
-      }
-      if($(this).hasClass('post-poll-btn')){
-        $(has_poll).val(true);
-      } else if($(this).hasClass('post-survey-btn')){
-        $(has_survey).val(true);
-      } else if($(this).hasClass('post-file-btn')) {
-        if($.is_blank($(file_input).val())) {
-          $(file_input).trigger('click');
-        }
-      }
-      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
-    })
-  });
-
-  $('[data-action="parti-post-cancel-subform"]').each(function(index,elm){
-    var reference_field = $(elm).data('reference-field');
-    var show_target = $(elm).data('show-target');
-    var has_poll = $(elm).data('has-poll');
-    var has_survey = $(elm).data('has-survey');
-    $(this).on('click',function(e){
-      e.preventDefault();
-
-      $(reference_field).addClass('hidden');
-      $(show_target).show();
-      $(has_poll).val(false);
-      $(has_survey).val(false);
-
-      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
-
-      return false;
-    });
-  });
 
   $('[data-action="parti-select-interested-tag"]').each(function(index, elm){
     $(this).on('click',function (e){

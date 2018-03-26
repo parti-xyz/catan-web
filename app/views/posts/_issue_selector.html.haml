@@ -5,12 +5,12 @@
       %optgroup{label: '최근 게시한 빠띠'}
         - latest_issue_ids.each do |issue|
           - issue_content = capture do
-            .parti-option.clearfix
-              %span.issue-line__thumb
-                .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-              %span.issue-line__title
+            .parti-option.clearfix<>
+              %span.issue-line__thumb<>
+                .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
+              %span.issue-line__title<>
                 = issue_tag_ignored_current_group(issue, show_group: !issue.group.indie?)
-          %option{ value: issue.id, 'data-content': issue_content, 'data-tokens': ' ' }
+          %option{ value: issue.id, 'data-content': h(issue_content), 'data-tokens': ' ' }<>
             = issue.title
 
     - all_issues = Issue.postable(current_user).alive.sort_by_name.to_a
@@ -21,10 +21,10 @@
         %optgroup{label: group.title_basic_format}
           - issues.each do |issue|
             - issue_content = capture do
-              .parti-option.clearfix
-                %span.issue-line__thumb
-                  .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-                %span.issue-line__title
+              .parti-option.clearfix<>
+                %span.issue-line__thumb<>
+                  .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
+                %span.issue-line__title<>
                   = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title', divider_classes: 'group-title')
             %option.hidden-group-title{value: issue.id, 'data-content': issue_content, 'data-tokens': issue.title }
               = issue.title

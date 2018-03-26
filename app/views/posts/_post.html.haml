@@ -1,6 +1,6 @@
 - if post.issue.blank?
   - return
-.post-card{class: "#{dom_id(post)} #{'post-card--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post)} if local_assigns[:mode] == 'list'"}
+.post-card{class: "#{dom_id(post)} #{'post-card--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}"}
   .post-card__content
     - if local_assigns[:show_issue]
       .post-card__header

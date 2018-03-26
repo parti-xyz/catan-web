@@ -1,6 +1,6 @@
 - if user_signed_in?
   #post-form-widget.form-widget-container
-    = form_for Post.new, remote: true, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
+    = form_for Post.new, format: :js, remote: true, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
       .form-widget-content
         .user-info
           = render 'users/post_byline', user: current_user

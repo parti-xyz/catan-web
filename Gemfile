@@ -37,6 +37,7 @@ gem 'carrierwave-aws'
 gem 'aws-sdk-s3'
 gem 'file_validators', '~> 2.1'
 gem 'carrierwave-base64', '~> 2.3', '>= 2.3.3'
+gem 'remotipart'
 
 # auth
 gem 'cancancan', '~> 1.10'
