@@ -532,7 +532,6 @@ var parti_prepare = function($base, force) {
         $(has_survey).val(true);
       } else if($(this).hasClass('post-file-btn')) {
         if($.is_blank($(file_input).val())) {
-          alert('test');
           $(file_input).trigger('click');
         }
       }
@@ -948,7 +947,6 @@ $(function(){
     });
 
     $('body').on('cocoon:after-insert', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
-      alert('test');
       item.find("input[type='file']").trigger('click');
     });
     $('body').on('cocoon:after-remove', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
