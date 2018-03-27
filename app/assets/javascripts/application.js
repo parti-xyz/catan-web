@@ -532,6 +532,7 @@ var parti_prepare = function($base, force) {
         $(has_survey).val(true);
       } else if($(this).hasClass('post-file-btn')) {
         if($.is_blank($(file_input).val())) {
+          alert('test');
           $(file_input).trigger('click');
         }
       }
@@ -947,6 +948,7 @@ $(function(){
     });
 
     $('body').on('cocoon:after-insert', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
+      alert('test');
       item.find("input[type='file']").trigger('click');
     });
     $('body').on('cocoon:after-remove', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
@@ -1187,12 +1189,12 @@ $(function(){
   // drawer
   // 1. mobile
   (function() {
-    if($('body.js-menu-slideout').length <= 0 || $('#js-drawer').length <= 0 || $('#js-main').length <= 0) {
+    if($('body.js-menu-slideout').length <= 0 || $('#js-drawer').length <= 0 || $('#js-main-panel').length <= 0) {
       return;
     }
 
     var slideout = new Slideout({
-      'panel': $('#js-main')[0],
+      'panel': $('#js-main-panel')[0],
       'menu': $('#js-drawer')[0],
       'padding': 256,
       'tolerance': 70,
@@ -1380,7 +1382,7 @@ $(function(){
   // pull to refresh
   (function() {
     var ptr = PullToRefresh.init({
-      mainElement: '#js-main',
+      mainElement: '#js-main-panel',
       distThreshold: 90,
       distMax: 110,
       distReload: 50,
@@ -1436,7 +1438,7 @@ $(function(){
   // ios에서 가상 키보드에 따른 사이트 헤더 조정
   if($('body').hasClass('virtual-keyboard') && $('body').hasClass('ios')) {
     (function() {
-      $('#js-main').append('<input type="text" id="js-virtaul-keyboard-faker">');
+      $('#js-main-panel').append('<input type="text" id="js-virtaul-keyboard-faker">');
       var $fake_input = $('#js-virtaul-keyboard-faker').css('position', 'fixed').css('top', '0').css('height', '0').css('width', 0).css('opacity', '0');
 
       function eventHandler(e) {
@@ -1452,7 +1454,7 @@ $(function(){
         }
       }
 
-      $(document).on('focus blur', '#js-main select, #js-main textarea, #js-main input[type=text], #js-main input[type=date], #js-main input[type=password], #js-main input[type=email], #js-main input[type=number], #js-main div[contenteditable=true]', eventHandler);
+      $(document).on('focus blur', '#js-main-panel select, #js-main-panel textarea, #js-main-panel input[type=text], #js-main-panel input[type=date], #js-main-panel input[type=password], #js-main-panel input[type=email], #js-main-panel input[type=number], #js-main-panel div[contenteditable=true]', eventHandler);
       $(document).on('parti-ios-virtaul-keyboard-open-for-tinymce parti-ios-virtaul-keyboard-close-for-tinymce', eventHandlerForTinymce);
     })();
   }
