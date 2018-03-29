@@ -268,19 +268,18 @@ class Post < ActiveRecord::Base
   end
 
   def messagable_users
-    result = [user]
-    result += User.where(id: comments.select(:user_id))
+    result = [User.where(id: user)]
+    result << User.where(id: comments.select(:user_id))
 
     if poll.present?
-      result += User.where(id: poll.votings.select(:user_id))
+      result << User.where(id: poll.votings.select(:user_id))
     end
 
     if survey.present?
-      result += User.where(id: survey.feedbacks.select(:user_id))
-      result += User.where(id: survey.options.select(:user_id))
+      result << User.where(id: survey.feedbacks.select(:user_id))
+      result << User.where(id: survey.options.select(:user_id))
     end
-
-    result.uniq
+    User.where.any_of(*result).where(id: Member.where(joinable: self.issue).select(:user_id))
   end
 
   LATEST_COMMENTS_LIMNIT_COUNT = 2

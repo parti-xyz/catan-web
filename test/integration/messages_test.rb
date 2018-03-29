@@ -75,8 +75,6 @@ class MessagesTest < ActionDispatch::IntegrationTest
     member_request = assigns(:member_request)
     assert issues(:private_issue).member_requested? users(:two)
 
-    sign_out
-
     # 거절
     sign_in(users(:admin))
     delete reject_issue_member_requests_path(issue_id: issues(:private_issue).id), { user_id: users(:two).id  }
@@ -101,7 +99,6 @@ class MessagesTest < ActionDispatch::IntegrationTest
       survey_attributes: { title: 'survey_title', duration: 3 } })
 
     post = assigns(:post)
-    sign_out
 
     # 옵션 만들기
     sign_in(users(:recipient))
@@ -124,7 +121,6 @@ class MessagesTest < ActionDispatch::IntegrationTest
 
     post = assigns(:post)
     survey = post.survey
-    sign_out
 
     # 옵션 만들기
     sign_in(users(:recipient))
@@ -132,12 +128,54 @@ class MessagesTest < ActionDispatch::IntegrationTest
 
     option = assigns(:option)
     assert users(:one).reload.messages.exists?(messagable: option)
-    sign_out
 
     # 설문 지우기
     sign_in(users(:one))
     delete post_path(post)
 
     refute users(:one).reload.messages.exists?(messagable: option)
+  end
+
+  test '해당 게시물의 알림을 받을 사람 중에 해당 빠띠에 가입 중인 사람에게만 알림이 갑니다' do
+    sign_in(users(:two))
+
+    # post_talk3의 빠띠에 two가 가입합니다.
+    post issue_members_path(issue_id: posts(:post_talk3).issue.id)
+    assert posts(:post_talk3).issue.member?(users(:two))
+
+    # post_talk3에 two가 댓글 답니다
+    post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body1' }), format: :js
+
+    # two의 이전 메시지 숫자를 가져 옵니다.
+    previous_messages_count = users(:two).messages.count
+
+    # post_talk3에 three가 댓글 달았다
+    sign_in(users(:three))
+    Sidekiq::Testing.inline! do
+      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body2' }), format: :js
+    end
+
+    # two 이전의 알람갯수보다 현재 알람갯수는 하나 증가됩니다
+    assert_equal previous_messages_count + 1, users(:two).reload.messages.count
+
+    # post_talk3의 빠띠에 two가 탈퇴합니다.
+    sign_in(users(:two))
+    Sidekiq::Testing.inline! do
+      delete cancel_issue_members_path(issue_id: posts(:post_talk3).issue.id)
+    end
+
+    refute posts(:post_talk3).issue.member? users(:two)
+
+    # two 이전의 알람갯수를 다시 가져옵니다
+    previous_messages_count = users(:two).reload.messages.count
+
+    # post_talk3에 three가 댓글을 또 달았다
+    sign_in(users(:three))
+    Sidekiq::Testing.inline! do
+      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body3' }), format: :js
+    end
+
+    # two 이전의 알람갯수보다 현재 알람갯수는 동일합니다
+    assert_equal previous_messages_count, users(:two).reload.messages.count
   end
 end

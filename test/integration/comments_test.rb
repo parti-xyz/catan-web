@@ -46,6 +46,9 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '찬반투표한 경우 댓글을 달면 메시지가 보내져요' do
+    sign_in(users(:two))
+    post issue_members_path(issue_id: posts(:post_talk4).issue.id)
+    assert posts(:post_talk4).issue.member?(users(:two))
     assert posts(:post_talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:one))

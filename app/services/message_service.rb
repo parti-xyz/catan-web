@@ -16,10 +16,9 @@ class MessageService
         messagable: @source)
     when Comment
       return if @source.issue.blind_user? @source.user
-
       messagable_users = []
       messagable_users += @source.mentions.map(&:user)
-      messagable_users += @source.post.messagable_users
+      messagable_users += @source.post.messagable_users.to_a
       messagable_users.reject!{ |user| user == @source.user }
       messagable_users.reject!{ |user| @source.messages.select(:user_id).map(&:user_id).include?(user.id) }
       messagable_users.uniq!
@@ -38,7 +37,7 @@ class MessageService
 
         messagable_users = []
         messagable_users += @source.mentions.map(&:user)
-        messagable_users += @source.messagable_users
+        messagable_users += @source.messagable_users.to_a
         messagable_users.reject!{ |user| user == @sender }
         messagable_users.uniq!
         send_messages(
@@ -121,13 +120,13 @@ class MessageService
           action: @action)
       end
     when Option
-      users = @source.survey.post.messagable_users.reject{ |user| user == @source.user }
+      users = @source.survey.post.messagable_users.to_a.reject{ |user| user == @source.user }
       send_messages(
         sender: @source.user, users: users,
         messagable: @source)
     when Survey
       return if @source.post.blank?
-      users = @source.post.messagable_users
+      users = @source.post.messagable_users.to_a
       send_messages(
         sender: @source.post.user, users: users,
         messagable: @source, action: @action)
