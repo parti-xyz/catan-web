@@ -111,6 +111,7 @@ class Issue < ActiveRecord::Base
   belongs_to :destroyer, class_name: User
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug
   has_many :bookmarks, dependent: :destroy
+  has_many :active_issue_stats, dependent: :destroy
 
   # validations
   validates :title,
