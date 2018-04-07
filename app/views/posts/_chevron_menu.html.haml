@@ -25,6 +25,10 @@
     %li
       = link_to post_path(post), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
         삭제
+  - if can?(:move, post)
+    %li
+      = link_to [:move_form, post] do
+        이동
 
 - button_groups << capture do
   - if can? :pin, post

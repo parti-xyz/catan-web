@@ -768,6 +768,11 @@ label.required:after {
     vertical-align: middle;
     margin-right: 2px;
   }
+
+  body.app-posts-move_form & {
+    padding: 18px 0;
+    border-bottom: 0;
+  }
 }
 
 .webui-popover-content p:last-child {

@@ -52,7 +52,7 @@ class PostsController < ApplicationController
       crawling_after_updating_post
       @post.perform_mentions_async
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to params[:back_url].presence || @post
+      redirect_to params[:back_url].presence || smart_post_url(@post)
     else
       errors_to_flash @post
       render 'edit'
@@ -109,7 +109,7 @@ class PostsController < ApplicationController
     @post.strok_by(current_user, :decision)
 
     unless @post.decision_changed?
-      redirect_to(params[:back_url].presence || @post) and return
+      redirect_to(params[:back_url].presence || smart_post_url(@post)) and return
     end
 
     if @post.save
@@ -118,7 +118,7 @@ class PostsController < ApplicationController
       DecisionNotificationJob.perform_async(current_user.id, @decision_history.id)
 
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to params[:back_url].presence || @post
+      redirect_to params[:back_url].presence || smart_post_url(@post)
     else
       errors_to_flash @post
       render edit_decision_post_path(@post)
@@ -199,6 +199,21 @@ class PostsController < ApplicationController
   end
 
   def edit
+  end
+
+  def move_form
+  end
+
+  def move
+    issue_id = params[:post][:issue_id]
+    render_404 and return if issue_id.blank?
+
+    if @post.update_attributes(issue_id: issue_id)
+      @post.upvotes.update_all(issue_id: issue_id)
+      Upvote.where(upvotable: @post.comments).update_all(issue_id: issue_id)
+    end
+
+    redirect_to params[:back_url].presence || smart_post_url(@post)
   end
 
   def pinned
