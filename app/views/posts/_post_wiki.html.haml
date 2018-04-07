@@ -21,11 +21,11 @@
           = render 'posts/chevron_menu', local_assigns.merge(post: post)
 
     - if !post.wiki.conflict?
-      - last_history_text = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+      - last_history_text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
       - if last_history_text.present?
         .post-card__last-stroked
           != last_history_text
-          %span.date= date_f(post.wiki.latest_history.created_at)
+          %span.date= date_f(last_stroked_at)
     - if can? :update, post.wiki
       - unless post.wiki.conflict?
         = render 'wikis/form', post: post, chevron_dropdown: chevron_dropdown

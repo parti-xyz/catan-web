@@ -478,12 +478,12 @@ class Post < ActiveRecord::Base
       else
         "@#{last_stroked_user.nickname}님이"
       end
-      I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user_word: user_word)
+      [I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user_word: user_word), self.last_stroked_at]
     end
 
     if wiki.present? and wiki.wiki_histories.any?
       if result.blank? or wiki.latest_history.created_at >= last_stroked_at
-        return wiki.latest_activity(&block)
+        return wiki.last_activity(&block)
       end
     end
 

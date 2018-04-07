@@ -13,13 +13,13 @@ class Wiki < ActiveRecord::Base
       instance.authors.limit(5)
     end
     expose :latest_activity_body do |instance|
-      instance.latest_activity do |user|
+      instance.last_activity do |user|
         if user.present?
           "<a href='#{smart_user_gallery_url(user)}'>@#{user.nickname}</a>"
         else
           I18n.t("views.user.anonymous")
         end
-      end
+      end.try(:[], 0)
     end
     expose :latest_activity_at do |instance|
       instance.last_history.try(:created_at)
@@ -137,10 +137,10 @@ class Wiki < ActiveRecord::Base
     wiki_histories.create(title: title, body: body, user: last_author, wiki: self, code: code)
   end
 
-  def latest_activity(&block)
+  def last_activity(&block)
     return if last_history.blank?
 
-    last_history.activity(&block)
+    [last_history.activity(&block), last_history.created_at]
   end
 
   def latest_history

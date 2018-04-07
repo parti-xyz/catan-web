@@ -27,8 +27,8 @@
           - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
             = image_tag post.wiki.thumbnail.lg.url
         .shadow
-      - text = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+      - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
       - if text.present?
         .post-card__last-stroked
           != text
-          %span.date= date_f(post.wiki.latest_history.created_at)
+          %span.date= date_f(last_stroked_at)

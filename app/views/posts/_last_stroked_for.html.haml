@@ -1,6 +1,6 @@
 - if post.present?
-  - text = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+  - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
   - if text.present?
     .post-card__last-stroked
       != text
-      %span.date= date_f(post.last_stroked_at)
+      %span.date= date_f(last_stroked_at)

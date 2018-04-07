@@ -9,12 +9,11 @@
       %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
         = chevron_dropdown
     %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-  - text = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+  - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
   - if text.present?
     .post-card__last-stroked
       != text
-      %span.date= date_f(post.wiki.latest_history.created_at)
-
+      %span.date= date_f(last_stroked_at)
   %h4.wiki-title
     = link_to post.wiki.title, smart_post_url(post), target: '_blank'
 
