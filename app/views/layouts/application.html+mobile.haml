@@ -21,7 +21,7 @@
 
     = csrf_meta_tags
 
-  %body.js-menu-slideout{class: body_class }
+  %body.js-menu-slideout{ class: "#{body_class} #{'with-bottom-banner' if content_for?(:bottom_banner)}" }
     %section(style='position: fixed; z-index: 10000; width: 100%')
       .container
         .unobtrusive-flash-container
@@ -36,8 +36,9 @@
     %main#js-main-panel.main-panel
       = yield
 
-    - if content_for?(:footer)
-      = yield :footer
+      - if content_for?(:bottom_banner)
+        .bottom-banner-wrapper.js-bottom-banner-wrapper
+          = yield :bottom_banner
 
     = render 'application/photoswipe'
 

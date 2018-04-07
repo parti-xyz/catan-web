@@ -274,6 +274,7 @@ ko:
       welcome: '그룹에 가입되었습니다'
     issue:
       welcome: '빠띠에 가입되었습니다'
+      goodbye: '탈퇴했습니다'
       requested: '빠띠에 가입요청되었습니다'
     pagination:
       first: "&laquo; 처음"

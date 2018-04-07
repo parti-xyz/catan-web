@@ -65,7 +65,6 @@
                   = link_to issue.telegram_link, target: '_blank' do
                     = image_tag 'telegram_icon.png'
                     메신저 열기
-
   - if !local_assigns[:simple] and !blocked
     .parti-menu
       - counts_container = issue.counts_container

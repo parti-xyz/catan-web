@@ -1549,6 +1549,10 @@ $(function(){
   $('.js-scroll-top').on('click', function(e) {
     $.scrollTo(0, 200);
   });
+
+  $(".js-bottom-banner-wrapper").each(function(index, elm) {
+    $(elm).parent().css('margin-bottom', $(elm).outerHeight());
+  });
 });
 
 

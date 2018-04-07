@@ -20,7 +20,7 @@
 
     = csrf_meta_tags
 
-  %body.js-menu-slideout-lg{ class: body_class }
+  %body.js-menu-slideout-lg{ class: "#{body_class} #{'with-bottom-banner' if content_for?(:bottom_banner)}" }
     %section(style='position: fixed; z-index: 10000; width: 100%')
       .container
         .unobtrusive-flash-container
@@ -39,8 +39,9 @@
       .content-wrapper
         = yield
 
-    - if content_for?(:footer)
-      = yield :footer
+      - if content_for?(:bottom_banner)
+        .bottom-banner-wrapper.js-bottom-banner-wrapper
+          = yield :bottom_banner
 
     - unless is_small_screen?
       = render 'messenger'

@@ -2,6 +2,9 @@
   position: fixed;
   right: 15px;
   bottom: 20px;
+  body.with-bottom-banner & {
+    bottom: 80px;
+  }
   a {
     display: block;
     &:hover {
@@ -14,3 +17,4 @@
     height: 40px;
   }
 }
+

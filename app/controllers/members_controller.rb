@@ -10,6 +10,8 @@ class MembersController < ApplicationController
     render_404 and return if @issue.private_blocked?(current_user) or @issue.frozen?
     @member = MemberIssueService.new(issue: @issue, user: current_user, need_to_message_organizer: true).call
 
+    flash[:success] = t('views.issue.welcome')
+
     respond_to do |format|
       format.js
       format.html { redirect_to(request.referrer || (@member.present? ? smart_issue_home_path_or_url(@member.issue) : root_url)) }
@@ -24,6 +26,9 @@ class MembersController < ApplicationController
         current_user.update_attributes(member_issues_changed_at: DateTime.now)
       end
     end
+
+    flash[:success] = t('views.issue.goodbye')
+
     respond_to do |format|
       format.js
       format.html { redirect_to(request.referrer || smart_issue_home_path_or_url(@member.issue)) }

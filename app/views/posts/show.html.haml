@@ -29,11 +29,13 @@
                     %i.fa.fa-angle-double-right
               = render 'posts/page', posts: anothers.sample(3)
               .post-card
-                .post-card__post.text-center
+                .post-card__post.text-center.text-basic-wrap
                   = link_to smart_issue_home_url(@post.issue), class: 'text-muted' do
                     #{@post.issue.title}
-                    빠띠의 다른 게시글 더 보기
-                    %i.fa.fa-angle-double-right
+                    빠띠의 다른 게시글
+                    %span.text-nowrap
+                      더 보기
+                      %i.fa.fa-angle-double-right
 
 
             - if @post.issue.body.present?
@@ -53,3 +55,4 @@
       - unless is_small_screen?
         = render 'issues/aside', additional_classes: (%w(visible-block-md hidden-lg) if @post.try(:wiki).try(:conflict?))
 
+= render 'issues/bottom_banner', issue: @post.issue

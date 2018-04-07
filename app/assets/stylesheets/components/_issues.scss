@@ -610,41 +610,41 @@ section#issues-group-index {
   }
 }
 
-section#issue-bottom-banner {
-  .bottom-banner {
-    width: 100%;
-    border-top: 1px solid $brand-primary-dark;
+section.issue-bottom-banner {
+  border-top: 1px solid $brand-primary-dark;
 
-    @media (min-width: $screen-sm-min) {
+  @media (min-width: $screen-sm-min) {
+    text-align: center;
+  }
+  padding: 10px 0;
+  background-color: $brand-primary;
+
+  .description {
+    position: relative;
+    &, a {
+      color: #fff;
+    }
+    font-weight: 200;
+    padding: 5px;
+    @media (max-width: $screen-xs-max) {
       text-align: center;
     }
-    padding: 10px 0;
-    background-color: $brand-primary;
-
-    .description {
-      position: relative;
-      color: #fff;
-      font-size: 1.2em;
-      font-weight: 200;
-      padding: 5px;
-      @media (min-width: $screen-sm-min) {
-        font-size: $font-size-large;
-        font-weight: 100;
-      }
+    @media (min-width: $screen-sm-min) {
+      font-size: $font-size-large;
     }
-    .bottom-banner-btn {
-      @media (max-width: $screen-xs-max) {
-        margin-top: 10px
-      }
-      @include btn-push($brand-primary-dark, #ffde00, $brand-primary-dark, #ffde00);
-      margin-left: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      color: $brand-primary-dark;
+  }
+  a.bottom-banner-btn {
+    @media (max-width: $screen-xs-max) {
+      margin-top: 10px
+    }
+    @include btn-push($brand-primary-dark, #ffde00, $brand-primary-dark, #ffde00);
+    margin: 15px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: $brand-primary-dark;
+    background-color: #ffde00;
+    &:hover, &:active, &:focus {
       background-color: #ffde00;
-      &:hover, &:active, &:focus {
-        background-color: #ffde00;
-      }
     }
   }
 }
