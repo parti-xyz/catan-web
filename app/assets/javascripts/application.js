@@ -1553,6 +1553,31 @@ $(function(){
   $(".js-bottom-banner-wrapper").each(function(index, elm) {
     $(elm).parent().css('margin-bottom', $(elm).outerHeight());
   });
+
+  // 빠띠 생성 폼에서 그룹 선택하기
+  (function() {
+    function change_subdomain(subdomain) {
+      if(subdomain.length > 0) {
+        subdomain = subdomain + ".";
+      }
+      $('.js-form-issue-subdomain').text(subdomain);
+    }
+
+    $(".js-form-issue-select-group").on('change', function(e) {
+      var $selected_option = $(e.currentTarget).find('option:selected');
+      if($selected_option.length > 0) {
+        change_subdomain($selected_option.data('subdomain'));
+      }
+    });
+    $(".js-issue-form-group-toggle").on('change', function(e) {
+      $('.js-issue-form-group-toggle-target').toggle($(e.currentTarget).is(":checked"));
+      if(!$(e.currentTarget).is(":checked")) {
+        $(".js-form-issue-select-group").find('option').prop("selected", false);
+        $(".js-form-issue-select-group").find('option.js-issue-form-group-toggle-default').prop("selected", true);
+        change_subdomain('');
+      }
+    });
+  })();
 });
 
 

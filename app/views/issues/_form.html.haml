@@ -14,11 +14,30 @@
       %p.help-block
         = t("labels.issue.form.groups.#{host_group.slug}.title_help", cascade: true)
 
+    - if current_group.blank? and !f.object.persisted? and current_user.member_groups.any?
+      .form-group{class: error_class_str(@issue, :group_slug)}
+        = f.label :group_slug
+        .checkbox
+          %label
+            = check_box_tag(:in_group, "1", false, class: 'js-issue-form-group-toggle')
+            내 그룹과 함께 이 빠띠를 오거나이징합니다.
+        .collapse.js-issue-form-group-toggle-target
+          = f.select :group_slug, [], {}, class: 'form-control input-lg js-form-issue-select-group' do
+            %option.js-issue-form-group-toggle-default{ value: 'indie', 'data-subdomain': '', disabled: true, selected: "true" } 그룹을 선택하세요
+            - current_user.member_groups.sort_by_name.each do |group|
+              %option{ value: group.slug, 'data-subdomain': group.subdomain }= group.title_basic_format
+        %p.help-block
+          = t("labels.issue.form.groups.#{host_group.slug}.group_help", cascade: true)
+
     .form-group{class: ('has-error' if has_error_attr?(@issue, :slug))}
       = f.label :slug, t("labels.issue.form.groups.#{host_group.slug}.slug", cascade: true)
       .input-group
-        .input-group-addon
-          #{request.base_url}/p/
+        .input-group-addon<>
+          https://
+          %span.js-form-issue-subdomain<>
+            - if current_group.present?
+              #{current_group.subdomain}.
+          parti.xyz/p/
         = f.text_field :slug, class: 'form-control input-lg'
       %p.help-block
         = t("labels.issue.form.groups.#{host_group.slug}.slug_help", cascade: true)
@@ -123,7 +142,6 @@
               %label
                 = f.check_box :is_default
                 그룹에 가입하는 멤버는 자동가입되는 빠띠가 됩니다.
-
 
         - if current_user.admin? and f.object.persisted?
           .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}

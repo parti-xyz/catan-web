@@ -133,7 +133,11 @@ class IssuesController < ApplicationController
       render 'new' and return
     end
 
-    @issue.group_slug = Group.default_slug(current_group)
+    @issue.group_slug ||= Group.default_slug(current_group)
+    if @issue.group.private_blocked?(current_user)
+      redirect_to smart_group_url(@issue.group) and return
+    end
+
     @issue.strok_by(current_user)
 
     if @issue.save
