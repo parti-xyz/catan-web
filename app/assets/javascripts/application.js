@@ -65,6 +65,33 @@ $.prevent_click_exclude_parti = function(e) {
   $(e.currentTarget).trigger('parti-click');
 }
 
+$.scroll_detection = function(options) {
+    var settings = $.extend({
+        scroll_up: function() {},
+        scroll_down: function() {},
+        scroll_bottom: null
+    }, options);
+
+    var scrollPosition = 0;
+    $(window).on('scroll', _.debounce(function () {
+      var is_bottom = false;
+      if(settings.scroll_bottom) {
+        is_bottom = ($(window).scrollTop() + $(window).height() == $(document).height());
+      }
+
+      var cursorPosition = $(this).scrollTop();
+      if(is_bottom) {
+        settings.scroll_bottom();
+      } else if (cursorPosition > scrollPosition) {
+        settings.scroll_down();
+      } else if (cursorPosition < scrollPosition) {
+        settings.scroll_up();
+      }
+
+      scrollPosition = cursorPosition;
+    }, 300));
+};
+
 $.fn.visible = function() {
     return this.css('visibility', 'visible');
 };
@@ -1550,8 +1577,22 @@ $(function(){
     $.scrollTo(0, 200);
   });
 
+  // 빠띠 하단에 가입 이나 소개 배너 붙박이
   $(".js-bottom-banner-wrapper").each(function(index, elm) {
     $(elm).parent().css('margin-bottom', $(elm).outerHeight());
+  });
+  $.scroll_detection({
+    scroll_up: function() {
+      $(".js-bottom-banner-wrapper").stop().slideDown();
+    },
+    scroll_down: function() {
+      $(".js-bottom-banner-wrapper").stop().slideUp();
+    },
+    scroll_bottom: function() {
+      if(!$(".js-bottom-banner-wrapper").is(':visible')) {
+        $(".js-bottom-banner-wrapper").stop().slideDown();
+      }
+    }
   });
 
   // 빠띠 생성 폼에서 그룹 선택하기
