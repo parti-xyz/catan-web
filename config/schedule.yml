@@ -27,6 +27,6 @@ monitor_posts_error_job:
   class: "MonitorPostsErrorJob"
   queue: default
 last_stroked_posts_count_job:
-  cron: "*/45 * * * Asia/Seoul"
+  cron: "*/45 * * * * Asia/Seoul"
   class: "LastStrokedPostsCountJob"
   queue: default
