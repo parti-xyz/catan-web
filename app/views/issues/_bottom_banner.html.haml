@@ -1,5 +1,5 @@
 - please_join = (!user_signed_in? or (!issue.member?(current_user) and !issue.member_requested?(current_user)))
-- if !is_small_screen? or please_join
+- if please_join or (params[:controller] == 'issues')
   - content_for :bottom_banner do
     %section.issue-bottom-banner.js-invisible-on-mobile-editing
       %div.description.text-basic-wrap
