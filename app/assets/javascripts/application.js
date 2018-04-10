@@ -271,6 +271,14 @@ var parti_prepare = function($base, force) {
         options['backdrop'] = backdrop;
       }
 
+      options['maxHeight'] = '50vh';
+
+      var width = $(elm).data('width');
+      if(width) {
+        console.log(width);
+        options['width'] = width;
+      }
+
       $(elm).webuiPopover(options);
     }
 

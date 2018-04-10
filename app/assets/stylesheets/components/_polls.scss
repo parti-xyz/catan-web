@@ -1,5 +1,4 @@
 .poll-card {
-  cursor: pointer;
   .post-modal & {
     cursor: initial;
   }
@@ -218,6 +217,7 @@
       padding: 12px 24px;
       vertical-align: top;
       @media (max-width: $screen-xs-max) {
+        width: auto;
         display: block;
       }
     }
