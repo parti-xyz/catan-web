@@ -10,16 +10,18 @@
 
 - if Group.comprehensive_joined_by(current_user).any?
   - ([host_group] + Group.sort_by_name.comprehensive_joined_by(current_user).but(host_group).to_a).each do |menu_group|
-    - if current_user.member_issues.only_alive_of_group(menu_group).any?
-      - divider_dom_id = "js-more-sidemenu-divider-#{SecureRandom.uuid}"
-      %li.divider.divider-small{ id: divider_dom_id }
-      %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
-        .title.cursor-pointer{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
-          = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
-            #{group_my_parties_section_title(menu_group)}
+    - divider_dom_id = "js-more-sidemenu-divider-#{SecureRandom.uuid}"
+    %li.divider.divider-small{ id: divider_dom_id }
+    %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
+      .title.cursor-pointer{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
+        = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
+          #{group_my_parties_section_title(menu_group)}
+
+      - issues = current_user.member_issues.only_alive_of_group(menu_group)
+
+      - if issues.any?
         %ul.sub.list-unstyled
           - magic_count = 2
-          - issues = current_user.member_issues.only_alive_of_group(menu_group)
 
           - if issues.count < magic_count * 2
             - issues.sort_by_name.each do |issue|
@@ -63,3 +65,12 @@
                 = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
                   %i.fa.fa-gear
                   설정
+      - else
+        %ul.sub.list-unstyled
+          %li.js-issue-line.js-issue-line-control
+            = link_to smart_group_issues_url(menu_group), style: 'color: #c0c0c2' do
+              %span.text-nowrap
+                내 빠띠가 없습니다.
+              %span.text-nowrap
+                가입하기
+                %i.fa.fa-arrow-right

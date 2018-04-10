@@ -80,6 +80,14 @@ module PartiUrlHelper
     end
   end
 
+  def smart_group_issues_url(group, options = {})
+    if group.slug == 'indie'
+      return issues_url(options.merge(subdomain: nil))
+    else
+      return issues_url(options.merge(subdomain: group.subdomain))
+    end
+  end
+
   def smart_joinable_members_url(joinable, options = {})
     case joinable
     when Group
