@@ -367,7 +367,7 @@ module ApplicationHelper
     content_tag :span do
       if show_group
         group_title = (group_short ? issue.group.head_title : issue.group.title )
-        group_title = '개인이 오거나이즈하는 빠띠' if issue.group.indie?
+        group_title = '개인이 오거나이징하는 빠띠' if issue.group.indie?
         concat(content_tag :span, group_title, class: group_classes)
         g_icon = meta_icons(issue.group)
         if g_icon.present?
