@@ -18,4 +18,12 @@
                     = link_to issues_path(category_slug: category.slug), class: ('active' if params['category_slug'] == category.slug) do
                       = category.name
     .parties-all-list
-      = render 'issues/page', issues: @issues
+      - if @issues.any?
+        = render 'issues/page', issues: @issues
+      - else
+        .bg-default
+          .fa.fa-info-circle
+          해당 빠띠가 없습니다.
+          = link_to new_issue_path, class: 'text-primary' do
+            빠띠 만들기
+            %i.fa.fa-arrow-right

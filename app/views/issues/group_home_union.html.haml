@@ -38,95 +38,112 @@
               = link_to '가입하기', '#', data: {toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.id}.to_json) }, class: 'btn btn-md btn-primary'
 - else
   = render 'application/group_home_sub_header', active: 'home'
-  %section#home
-    .container
-      .row
-        = main_column_tag do
-          - if is_first_page_in_paging or !paging
-            - if @posts_pinned.try(:any?)
-              %section{style:"margin-top:20px; padding-bottom: 10px"}
-                %h4.group-heading 공지
-                = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true, not_need_header: true
+  - if Issue.only_alive_of_group(current_group).any?
+    %section#home
+      .container
+        .row
+          = main_column_tag do
+            - if is_first_page_in_paging or !paging
+              - if @posts_pinned.try(:any?)
+                %section{style:"margin-top:20px; padding-bottom: 10px"}
+                  %h4.group-heading 공지
+                  = render 'posts/list_pinned', posts: @posts_pinned, show_issue: true, compact: true, not_need_header: true
 
-            - if @recent_posts.try(:any?)
-              - recent_posts_partial = capture do
-                = render 'posts/list_card', posts: @recent_posts
-              - recent_posts_partial = recent_posts_partial.strip
+              - if @recent_posts.try(:any?)
+                - recent_posts_partial = capture do
+                  = render 'posts/list_card', posts: @recent_posts
+                - recent_posts_partial = recent_posts_partial.strip
 
-            - if recent_posts_partial.present? and (!user_signed_in? or !current_group.member?(current_user))
-              %section{style:"margin-top:20px; padding-bottom: 10px;"}
-                %h4.group-heading
-                  최근 업데이트
-                != recent_posts_partial
-
-            - recent_polls_and_surveys = @polls_and_surveys.to_a.reject{ |post| post.last_stroked_at < 2.week.ago }
-            - if recent_polls_and_surveys.empty?
-              - recent_polls_and_surveys = @polls_and_surveys.to_a.reject{ |post| post.last_stroked_at < 1.month.ago }
-              - recent_polls_and_surveys = recent_polls_and_surveys.sample(2)
-            - if recent_polls_and_surveys.count == 1
-              - recent_polls_and_surveys << @polls_and_surveys.where.not(id: recent_polls_and_surveys).first
-              - recent_polls_and_surveys.compact!
-            - if recent_polls_and_surveys.any?
-              %section{ style:"margin-top:20px;" }
-                = link_to polls_or_surveys_path do
+              - if recent_posts_partial.present? and (!user_signed_in? or !current_group.member?(current_user))
+                %section{style:"margin-top:20px; padding-bottom: 10px;"}
                   %h4.group-heading
-                    진행 중인 토론
+                    최근 업데이트
+                  != recent_posts_partial
+
+              - recent_polls_and_surveys = @polls_and_surveys.to_a.reject{ |post| post.last_stroked_at < 2.week.ago }
+              - if recent_polls_and_surveys.empty?
+                - recent_polls_and_surveys = @polls_and_surveys.to_a.reject{ |post| post.last_stroked_at < 1.month.ago }
+                - recent_polls_and_surveys = recent_polls_and_surveys.sample(2)
+              - if recent_polls_and_surveys.count == 1
+                - recent_polls_and_surveys << @polls_and_surveys.where.not(id: recent_polls_and_surveys).first
+                - recent_polls_and_surveys.compact!
+              - if recent_polls_and_surveys.any?
+                %section{ style:"margin-top:20px;" }
+                  = link_to polls_or_surveys_path do
+                    %h4.group-heading
+                      진행 중인 토론
+                      %small
+                        더 보기
+                        %i.fa.fa-angle-double-right
+                  .row.masonry-container
+                    = render 'polls_or_surveys/page', posts: recent_polls_and_surveys, sm_columns_count: 2, compact: true, show_last_stroked_for: true
+
+              %section.hidden-sm.visible-xs-block{style:"margin-top:20px; padding-bottom: 20px;"}
+                = link_to issues_path do
+                  %h4.group-heading
+                    빠띠
                     %small
-                      더 보기
+                      모두 보기
                       %i.fa.fa-angle-double-right
-                .row.masonry-container
-                  = render 'polls_or_surveys/page', posts: recent_polls_and_surveys, sm_columns_count: 2, compact: true, show_last_stroked_for: true
+                .row
+                  .col-sm-12.col-md-12
+                    %section#parties-all
+                      .parties-all
+                        .parties-all-list
+                          .row.slick-slider
+                            - @issues.each do |issue|
+                              .col-xs-6.col-sm-4.col-md-4.col-lg-3
+                                .issue-card-wrapper
+                                  = render 'issues/card', issue: issue
 
-            %section.hidden-sm.visible-xs-block{style:"margin-top:20px; padding-bottom: 20px;"}
-              = link_to issues_path do
+            - if user_signed_in? and current_group.member?(current_user)
+              %section#posts{style:"margin-top:20px; padding-bottom: 10px;"}
                 %h4.group-heading
-                  빠띠
-                  %small
-                    모두 보기
-                    %i.fa.fa-angle-double-right
-              .row
-                .col-sm-12.col-md-12
-                  %section#parties-all
-                    .parties-all
-                      .parties-all-list
-                        .row.slick-slider
-                          - @issues.each do |issue|
-                            .col-xs-6.col-sm-4.col-md-4.col-lg-3
-                              .issue-card-wrapper
-                                = render 'issues/card', issue: issue
+                  내 #{current_group.title_basic_format} 피드
 
-          - if user_signed_in? and current_group.member?(current_user)
-            %section#posts{style:"margin-top:20px; padding-bottom: 10px;"}
-              %h4.group-heading
-                내 #{current_group.title_basic_format} 피드
+                - if params[:q].blank?
+                  = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(last_time: DateTime.now.to_i)
 
-              - if params[:q].blank?
-                = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(last_time: DateTime.now.to_i)
+                - recent_posts_other_parties_partial = capture do
+                  .post-data-divider
+                    %i.fa.fa-info-circle
+                    가입하지 않은 빠띠의 최근 업데이트된 게시글
+                  != recent_posts_partial
 
-              - recent_posts_other_parties_partial = capture do
-                .post-data-divider
-                  %i.fa.fa-info-circle
-                  가입하지 않은 빠띠의 최근 업데이트된 게시글
-                != recent_posts_partial
+                .posts.posts-home{data: {last_id: -1, is_last: 'false'}}
+                  #no-data.text-center.alert{ style: 'display: none;' }
+                    %i.fa.fa-info-circle
+                      게시글이 없습니다.
+                  - if paging
+                    = render 'posts/page', posts: @posts, show_issue: true, show_today: true, first_today_text: ("게시물 #{number_with_delimiter @posts.total_count}개 중에 #{@posts.current_page}페이지를 표시합니다" unless @posts.first_page?)
+                    - if recent_posts_partial.present? and @posts.first_page?
+                      = recent_posts_other_parties_partial
 
-              .posts.posts-home{data: {last_id: -1, is_last: 'false'}}
-                #no-data.text-center.alert{ style: 'display: none;' }
-                  %i.fa.fa-info-circle
-                    게시글이 없습니다.
-                - if paging
-                  = render 'posts/page', posts: @posts, show_issue: true, show_today: true, first_today_text: ("게시물 #{number_with_delimiter @posts.total_count}개 중에 #{@posts.current_page}페이지를 표시합니다" unless @posts.first_page?)
-                  - if recent_posts_partial.present? and @posts.first_page?
+                - if recent_posts_partial.present? and !paging
+                  #js-posts-inject.hidden{ 'data-days-from-today': 0 }
                     = recent_posts_other_parties_partial
 
-              - if recent_posts_partial.present? and !paging
-                #js-posts-inject.hidden{ 'data-days-from-today': 0 }
-                  = recent_posts_other_parties_partial
+                - if paging
+                  = paginate @posts, theme: 'catan'
+                - else
+                  .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js)}
+                    .page-waypoint-loading.js-page-waypoint-loading
+                      %i.fa.fa-2x.fa-spinner.fa-pulse
 
-              - if paging
-                = paginate @posts, theme: 'catan'
-              - else
-                .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': dashboard_path(format: :js)}
-                  .page-waypoint-loading.js-page-waypoint-loading
-                    %i.fa.fa-2x.fa-spinner.fa-pulse
+          = render 'issues/group_home_aside'
+  - else
 
-        = render 'issues/group_home_aside'
+    %section#home
+      .container
+        .row
+          = main_column_tag do
+            %section{style:"margin-top:20px; padding-bottom: 10px"}
+              %h4.group-heading #{current_group.title} 그룹에 오신 것을 환영합니다.
+            .bg-default
+              %p 가장 먼저 빠띠를 개설해 보세요.
+
+              .fa.fa-info-circle
+              = link_to new_issue_path, class: 'text-primary' do
+                빠띠 만들기
+                %i.fa.fa-arrow-right
+          = render 'issues/group_home_aside'
