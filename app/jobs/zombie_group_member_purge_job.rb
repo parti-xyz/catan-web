@@ -10,7 +10,7 @@ class ZombieGroupMemberPurgeJob
       issue = Issue.with_deleted.find_by(id: member.joinable_id)
 
       group = issue.try(:group)
-      next if group == nil or group.private?
+      next if group == nil or group.private? or group.organized_by?(user)
 
       issues = group.issues
       if !issues.any? { |issue| issue.member?(user) }
