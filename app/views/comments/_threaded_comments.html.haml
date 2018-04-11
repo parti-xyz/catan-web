@@ -1,0 +1,11 @@
+- post = parent_comment.post
+- child_comments ||= []
+= render 'comments/comment_line', comment: parent_comment, comment_form_control: new_comment_form_body_input_dom_selector(post, parent_comment)
+- if child_comments.length < parent_comment.children.count
+  = link_to more_comments_post_path(post, parent_comment_id: parent_comment.id, format: :js), remote: true, id: comments_more_children_button_dom_id(parent_comment), 'data-disable-with': '<div class="more" style="margin-left: 40px;">가져오는 중...</div>', class: 'post-card__count', rel: :nofollow do
+    .more{ style: 'margin-left: 40px' }
+      %span{id: comments_more_children_label_dom_id(parent_comment)}
+        이전 댓글 #{parent_comment.children.count - child_comments.length}개...
+%div{ id: comments_children_dom_id(parent_comment), style: 'margin-left: 40px '}
+  = render 'comments/child_comments', parent_comment: parent_comment, child_comments: child_comments
+

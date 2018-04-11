@@ -1,0 +1,4 @@
+- child_comments.each do |child_comment|
+  = render 'comments/comment_line', comment: child_comment, comment_form_control: new_comment_form_body_input_dom_selector(parent_comment.post, parent_comment)
+- if user_signed_in?
+  = render 'comments/new_form', post: parent_comment.post, parent_comment: parent_comment

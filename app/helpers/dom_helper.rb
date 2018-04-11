@@ -1,22 +1,22 @@
 module DomHelper
-  def new_comment_form_dom_id(post)
-    "#{dom_id(post)}--new-comment"
+  def new_comment_form_dom_id(post, comment)
+    [dom_id(post), ("-#{dom_id(comment)}" if comment.present?), "--new-comment"].compact.join('')
   end
 
-  def new_comment_form_dom_selector(post)
-    "form##{new_comment_form_dom_id(post)}"
+  def new_comment_form_dom_selector(post, comment)
+    "form##{new_comment_form_dom_id(post, comment)}"
   end
 
-  def new_comment_form_body_input_dom_id(post)
-    "#{dom_id(post)}--new-comment--body-input"
+  def new_comment_form_body_input_dom_id(post, comment)
+    [dom_id(post), ("-#{dom_id(comment)}" if comment.present?), "--new-comment--body-input"].compact.join('')
   end
 
-  def new_comment_form_body_input_dom_selector(post)
-    "#{new_comment_form_dom_selector(post)} ##{new_comment_form_body_input_dom_id(post)}"
+  def new_comment_form_body_input_dom_selector(post, comment = nil)
+    "#{new_comment_form_dom_selector(post, comment)} ##{new_comment_form_body_input_dom_id(post, comment)}"
   end
 
-  def new_comment_form_submit_dom_selector(post)
-    "#{new_comment_form_dom_selector(post)} input[type=submit]"
+  def new_comment_form_submit_dom_selector(post, comment)
+    "#{new_comment_form_dom_selector(post, comment)} input[type=submit]"
   end
 
   def comments_count_dom_id(post)
@@ -27,20 +27,20 @@ module DomHelper
     "##{comments_count_dom_id(post)}"
   end
 
-  def comments_more_dom_id(post)
-    "#{dom_id(post)}-comments-more"
-  end
-
-  def comments_more_dom_selector(post)
-    "##{comments_more_dom_id(post)}"
-  end
-
   def comments_latest_dom_id(post)
     "#{dom_id(post)}-comments-latest"
   end
 
   def comments_latest_dom_selector(post)
     "##{comments_latest_dom_id(post)}"
+  end
+
+  def comments_children_dom_id(comment)
+    "#{dom_id(comment.post)}-#{dom_id(comment)}-comments-children"
+  end
+
+  def comments_children_dom_selector(comment)
+    "##{comments_children_dom_id(comment)}"
   end
 
   def comment_line_dom_id(comment)
@@ -65,6 +65,22 @@ module DomHelper
 
   def comments_more_label_dom_selector(post)
     "##{comments_more_label_dom_id(post)}"
+  end
+
+  def comments_more_children_button_dom_id(comment)
+    "#{dom_id(comment.post)}-#{dom_id(comment)}-comments-more-children-btn"
+  end
+
+  def comments_more_children_button_dom_selector(comment)
+    "##{comments_more_children_button_dom_id(comment)}"
+  end
+
+  def comments_more_children_label_dom_id(comment)
+    "#{dom_id(comment.post)}-#{dom_id(comment)}-comments-more-children-label"
+  end
+
+  def comments_more_children_label_dom_selector(comment)
+    "##{comments_more_children_label_dom_id(comment)}"
   end
 
   def removable_with_post_dom_class(post)

@@ -40,6 +40,9 @@ class Comment < ActiveRecord::Base
   include Upvotable
   mentionable :body
 
+  belongs_to :parent, class_name: Comment, foreign_key: :parent_id
+  has_many :children, class_name: Comment, foreign_key: :parent_id
+
   belongs_to :user
   belongs_to :post, counter_cache: true
   has_one :issue, through: :post
@@ -65,6 +68,7 @@ class Comment < ActiveRecord::Base
       where('comments.created_at <= ?', with_deleted.find(id).created_at).where('comments.id < ?', id)
     end
   }
+  scope :only_parent, -> { where(parent: nil) }
 
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_stroked_at_of_posts
@@ -116,6 +120,16 @@ class Comment < ActiveRecord::Base
 
   def private_blocked?(someone = nil)
     post.private_blocked? someone
+  end
+
+  def parent_or_self
+    parent || self
+  end
+
+  def self.group_by_thread(comments)
+    result = comments.to_a.group_by { |comment| comment.parent_or_self }.to_a.sort_by { |item| item[0].created_at }
+    result.each { |item| item[1].reject! { |comment| comment.parent.blank? } }
+    result
   end
 
   private

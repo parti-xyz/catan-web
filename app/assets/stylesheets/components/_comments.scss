@@ -201,6 +201,7 @@ section#comments {
       width: 100%;
       height: 35px;
       display: block;
+      border-radius: 14px;
       &:focus, &:active {
         border: 1px solid $brand-primary;
       }
@@ -222,9 +223,10 @@ section#comments {
     }
     .comment-form__btn--file-source {
       margin-right: 10px;
+      color: $gray-a;
       i {
         line-height: 33px;
-        color: $gray;
+        color: $gray-a;
       }
     }
   }

@@ -1,11 +1,18 @@
 <% if @comment.persisted? %>
-  $("<%= raw new_comment_form_dom_selector(@comment.post) %>").find('.js-post-editor-file_sources-wrapper .nested-fields').remove();
-  $("<%= raw new_comment_form_dom_selector(@comment.post) %>").find('.js-file-source-form').addClass('collapse').hide();
-  $("<%= raw new_comment_form_body_input_dom_selector(@comment.post) %>").val('');
-  $("<%= raw new_comment_form_submit_dom_selector(@comment.post) %>").addClass('collapse');
-  autosize.update($("<%= raw new_comment_form_body_input_dom_selector(@comment.post) %>"))
-  var $comment = $("<%= escape_javascript(render 'comments/comment_line', comment: @comment) %>");
-  $comment.insertBefore($("<%= raw new_comment_form_dom_selector(@comment.post) %>").closest('.comment-line'));
+  $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").find('.js-post-editor-file_sources-wrapper .nested-fields').remove();
+  $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").find('.js-file-source-form').addClass('collapse').hide();
+  $("<%= raw new_comment_form_body_input_dom_selector(@comment.post, @comment.parent) %>").val('');
+  $("<%= raw new_comment_form_submit_dom_selector(@comment.post, @comment.parent) %>").addClass('collapse');
+  autosize.update($("<%= raw new_comment_form_body_input_dom_selector(@comment.post, @comment.parent) %>"));
+  <% if @comment.parent.present? %>
+    var $comment = $("<%= escape_javascript(render 'comments/comment_line', comment: @comment, comment_form_control: new_comment_form_body_input_dom_selector(@comment.post, @comment.parent_or_self)) %>");
+    $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").closest('.js-comment-form-wrapper').hide();
+  <% else %>
+    var $comment = $("<%= escape_javascript(render 'comments/threaded_comments', parent_comment: @comment) %>");
+  <% end %>
+  $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").find('.js-current-count').text('0');
+
+  $comment.insertBefore($("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").closest('.comment-line'));
   parti_partial$($comment);
   $("<%= raw comments_count_dom_selector(@comment.post) %>").text("<%= @comment.post.reload.comments_count %>");
 <% end %>

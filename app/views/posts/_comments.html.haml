@@ -1,52 +1,32 @@
 - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments : post.comments)
-- has_hidden_comments = (local_assigns[:mode] == 'list' and  post.too_many_comments?)
+- has_hidden_comments = (local_assigns[:mode] == 'list' and  post.any_not_latest_comments?)
 - comment_capture = capture do
   - if has_hidden_comments
     = link_to more_comments_post_path(post, format: :js), remote: true, id: comments_more_button_dom_id(post), 'data-disable-with': '<div class="more">가져오는 중...</div>', class: 'post-card__count', rel: :nofollow do
       .more
         %span{id: comments_more_label_dom_id(post)}
-          - if showing_comments.any?
-            이전
-          댓글 보기
+          - case post.more_comments_mode
+          - when :past_day
+            하루 사이 댓글 보기
+          - when :past_day_limited
+            최근 몇 시간 댓글 보기
+            - if showing_comments.any?
+              이전
+            댓글 보기
+          - when :limit, :all
+            - if showing_comments.any?
+              이전
+            댓글 보기
         &middot;&nbsp;
-        %span{id: comments_count_dom_id(post)}<>= post.comments_count
+        %span{id: comments_count_dom_id(post)}<>
+          = post.comments_count
         개
 
-    .post-card__comments--hidden.collapse{ id: comments_more_dom_id(post) }
-
   .post-card__comments--latest{ id: comments_latest_dom_id(post) }
-    - showing_comments.each do |comment|
-      = render 'comments/comment_line', local_assigns.merge(comment: comment, mention_form_control: new_comment_form_body_input_dom_selector(post))
+    - Comment.group_by_thread(showing_comments).each do |parent_comment, child_comments|
+      = render 'comments/threaded_comments', local_assigns.merge(parent_comment: parent_comment, child_comments: child_comments)
   - if user_signed_in?
-    .post-card__comment-form.comment-line
-      = form_for [post, Comment.new], remote: true, html: { class: 'comment-form', id: new_comment_form_dom_id(post)}, data: {action: 'parti-form-validation', 'submit-form-control': new_comment_form_submit_dom_selector(post) } do |f|
-        .media{ style: 'margin-top: 0;' }
-          .media-left
-            .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-          .media-body
-            .comment-form__area
-              = f.text_area :body, class: "form-control comment-body validate", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, id: new_comment_form_body_input_dom_id(post)
-            .comment-form__file-source.js-file-source-form.collapse
-              .help-block.clearfix
-                %span.label.label-default TIP
-                최대 10M까지 업로드되며 이미지는 드래그해서 순서를 조정할 수 있습니다.
-              - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"
-              .form-groups.js-post-editor-file_sources-wrapper<>
-                .js-form-group-images.form-group-images{ id: form_group_images_dom_id }<>
-                  = f.fields_for :file_sources, FileSource.new do |ff|
-                    = render 'comments/file_source_fields', f: ff
-                  .js-last-position
-                .js-form-group-files.form-group-files<>
-              .add-form-group-btn.js-post-editor-file_sources-add-btn
-                = link_to_add_association '+ 추가', f, :file_sources, partial: 'comments/file_source_fields', 'data-association-insertion-node': "##{form_group_images_dom_id} .js-last-position"
-                %span.count
-                  (
-                  %span.js-current-count<> 0
-                  \/20)
-            .comment-form__control.collapse
-              = f.submit '게시', class: 'btn btn-primary comment-form__btn', data: { disable_with: "게시 중..." }
-              .comment-form__btn--file-source.js-show-comment-file-source-form{ data: { trigger: 'hover', action: 'parti-popover', content: t('labels.new_post_file_source_button'), style: 'inverse' } }
-                %i.fa.fa-cloud-upload
+    = render 'comments/new_form', post: post
 
   - elsif post.comments.any?
     .post-card__comment-form.comment-line

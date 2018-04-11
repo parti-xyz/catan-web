@@ -56,7 +56,7 @@ class CommentsController < ApplicationController
       end
     end
 
-    params.require(:comment).permit(:body, file_sources_attributes: file_sources_attributes,)
+    params.require(:comment).permit(:body, :parent_id, file_sources_attributes: file_sources_attributes,)
   end
 
   def set_choice

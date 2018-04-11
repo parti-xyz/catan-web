@@ -26,8 +26,8 @@
           - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"
           .form-groups.js-post-editor-file_sources-wrapper<>
             .js-form-group-images.form-group-images{ id: form_group_images_dom_id }<>
-              = f.fields_for :file_sources, FileSource.new do |ff|
-                = render 'posts/file_source_fields', f: ff
+              / = f.fields_for :file_sources, FileSource.new do |ff|
+              /   = render 'posts/file_source_fields', f: ff
               .js-last-position
             .js-form-group-files.form-group-files<>
           .add-form-group-btn.js-post-editor-file_sources-add-btn
@@ -74,7 +74,7 @@
       .form-widget-btns.clearfix
         .post-reference-btns
           - open_btn_data = {action: 'parti-post-select-subform', 'hidden-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
-          %button{ class: 'btn btn-xs btn-link editor-btn post-file-btn', data: open_btn_data.merge('reference-field': '.post-file-field', 'file-input': '#post_file_sources_attributes_0_attachment') }
+          %button{ class: 'btn btn-xs btn-link editor-btn post-file-btn', data: open_btn_data.merge('reference-field': '.post-file-field') }
             %i.fa.fa-cloud-upload
             = t('labels.new_post_file_source_button')
           %button{ class: 'btn btn-xs btn-link editor-btn post-poll-btn', data: open_btn_data.merge('reference-field': '.post-poll-field') }

@@ -285,7 +285,9 @@ class Post < ActiveRecord::Base
 
   LATEST_COMMENTS_LIMNIT_COUNT = 2
   def latest_base_comments
-    @_latest_base_comments if @_latest_base_comments.present?
+    return @_latest_base_comments if @_latest_base_comments.present? and comments_count == @_cached_comment_count_for_latest_base_comments
+    @_cached_comment_count_for_latest_base_comments = comments_count
+
     result = comments.recent.after(1.weeks.ago).limit(Post::LATEST_COMMENTS_LIMNIT_COUNT)
     if last_stroked_for == 'comment' and result.empty?
       result = comments.recent.limit(1)
@@ -298,12 +300,63 @@ class Post < ActiveRecord::Base
     latest_base_comments.reverse
   end
 
-  def more_latest_comments(limit)
-    [comments.recent.limit(limit).where.not(id: latest_comments).reverse, comments_count > limit + latest_base_comments.count]
+  MORE_COMMENTS_LIMNIT_COUNT = 20
+  def more_comments_mode
+    return @_more_comments_mode if @_more_comments_mode.present? and comments_count == @_cached_comment_count_for_more_comments_mode
+    @_cached_comment_count_for_more_comments_mode = comments_count
+
+    unless any_not_latest_comments?
+      @_more_comments_mode = :empty
+      return @_more_comments_mode
+    end
+
+    if too_many_today_comments?
+      @_more_comments_mode = :past_day_limited
+    elsif too_few_today_comments?
+      if comments_count > Post::MORE_COMMENTS_LIMNIT_COUNT
+        @_more_comments_mode = :limit
+      else
+        @_more_comments_mode = :all
+      end
+    else
+      @_more_comments_mode = :past_day
+    end
+
+    @_more_comments_mode
   end
 
-  def too_many_comments?
+  def more_comments
+    return @_more_comments if @_more_comments.present? and comments_count == @_cached_comment_count_for_more_comments
+    @_cached_comment_count_for_more_comments = comments_count
+
+    @_more_comments = case more_comments_mode
+    when :empty
+      Comment.none
+    when :past_day
+      comments.past_day
+    when :past_day_limited, :limit
+      comments.recent.limit(Post::MORE_COMMENTS_LIMNIT_COUNT).reverse
+    when :all
+      comments
+    end
+
+    return @_more_comments
+  end
+
+  def any_not_latest_comments?
     comments_count > latest_base_comments.count
+  end
+
+  def any_not_more_comments?
+    comments_count > more_comments.count
+  end
+
+  def too_many_today_comments?
+    comments.past_day.count > Post::MORE_COMMENTS_LIMNIT_COUNT
+  end
+
+  def too_few_today_comments?
+    comments.past_day.count <= latest_base_comments.count
   end
 
   def blinded? someone = nil

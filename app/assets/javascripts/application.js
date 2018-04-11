@@ -178,7 +178,7 @@ var parti_prepare_form_validator = function($base) {
     }
 
     if($form.valid()) {
-      enabling_callback();
+      enabling_callback($submit);
     }
 
     $elm.find(':input').on('input', function(e) {
@@ -525,14 +525,6 @@ var parti_prepare = function($base, force) {
     });
   });
 
-  // mention
-  $.parti_apply($base, '.js-mention:hidden', function(elm) {
-    var $control = $($(elm).data('mention-form-control'));
-    if ($control.length > 0) {
-      $(elm).show();
-    }
-  });
-
   // 게시글 쓸때 빠띠 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
@@ -556,7 +548,7 @@ var parti_prepare = function($base, force) {
     var reference_field = $(elm).data('reference-field');
     var has_poll = $(elm).data('has-poll');
     var has_survey = $(elm).data('has-survey');
-    var file_input = $(elm).data('file-input');
+    var $form = $(elm).closest('form');
     $(elm).on('click',function (e){
       e.preventDefault();
       $(hidden_target).hide();
@@ -568,9 +560,7 @@ var parti_prepare = function($base, force) {
       } else if($(this).hasClass('post-survey-btn')){
         $(has_survey).val(true);
       } else if($(this).hasClass('post-file-btn')) {
-        if($.is_blank($(file_input).val())) {
-          $(file_input).trigger('click');
-        }
+        $form.find('.js-post-editor-file_sources-add-btn > a').trigger('click');
       }
       $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
     })
@@ -793,15 +783,26 @@ var parti_prepare = function($base, force) {
     });
   })();
 
+
+  // mention
+  $.parti_apply($base, '.js-mention:hidden', function(elm) {
+    var $control = $($(elm).data('comment-form-control'));
+    if ($control.length > 0) {
+      $(elm).show();
+    }
+  });
+
   $.parti_apply($base, '.js-mention', function(elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $target = $(e.currentTarget);
-      var $control = $($target.data('mention-form-control'));
+      var $control = $($target.data('comment-form-control'));
       if ($control.length <= 0) {
         return;
       }
+
+      $control.closest('.js-comment-form-wrapper').show();
 
       var adding = '';
 
@@ -831,8 +832,16 @@ var parti_prepare = function($base, force) {
       $control.focus();
       $control.val(adding + original_value);
 
-      autosize.update(document.querySelectorAll($target.data('mention-form-control')));
+      autosize.update(document.querySelectorAll($target.data('comment-form-control')));
     });
+  });
+
+  // file upload form sortable
+  $.parti_apply($base, '.js-form-group-images', function(elm) {
+    Sortable.create(elm);
+  });
+  $.parti_apply($base, '.js-form-group-files', function(elm) {
+    Sortable.create(elm);
   });
 
   $base.data('parti-prepare-arel', 'completed');
@@ -930,12 +939,6 @@ $(function(){
 
   // editor subforms
   (function() {
-    $('.js-form-group-images').each(function(index, elm) {
-      Sortable.create(elm);
-    });
-    $('.js-form-group-files').each(function(index, elm) {
-      Sortable.create(elm);
-    });
     var formatBytes = function(bytes,decimals) {
        if(bytes == 0) return '0 Bytes';
        var k = 1000,
@@ -1664,7 +1667,7 @@ $(function(){
   $(document).on('click', '.js-show-comment-file-source-form', function(e) {
     var $form = $(e.currentTarget).closest('form');
     $form.find('.js-file-source-form').show();
-    $form.find("input[name='comment[file_sources_attributes][0][attachment]']" ).trigger('click');
+    $form.find('.js-post-editor-file_sources-add-btn > a').trigger('click');
   });
 });
 

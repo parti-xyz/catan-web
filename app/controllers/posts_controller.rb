@@ -196,6 +196,10 @@ class PostsController < ApplicationController
 
   def more_comments
     render_404 and return unless request.format.js?
+    if params[:parent_comment_id].present?
+      @parent_comment = @post.comments.find_by(id: params[:parent_comment_id])
+      render_404 and return if @parent_comment.blank?
+    end
   end
 
   def edit

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class CommentsTest < ActionDispatch::IntegrationTest
-  test '글에 만들어요' do
+  test '댓글을 만들어요' do
     sign_in(users(:one))
 
     post post_comments_path(post_id: posts(:post_talk1).id, comment: { body: 'body' }), format: :js
@@ -9,6 +9,26 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert assigns(:comment).persisted?
     assert_equal 'body', assigns(:comment).body
     assert_equal users(:one), assigns(:comment).user
+  end
+
+  test '댓글 아래 댓글을 답니다' do
+    sign_in(users(:one))
+
+    # /post/30/comments
+    # comment[body]
+    # comment[parent_id] : 부모 댓글 번호
+    post post_comments_path(post_id: posts(:post_talk1).id, comment: { body: 'body x', parent_id: comments(:comment1).id }), format: :js
+
+    refute assigns(:comment).errors.any?
+    assert_equal 'body x', assigns(:comment).body
+    assert_equal comments(:comment1).id, assigns(:comment).parent.id
+
+    comments(:comment1).reload
+    assert comments(:comment1).children.include? (assigns(:comment))
+
+    posts(:post_talk1).reload
+    assert posts(:post_talk1).comments.only_basis.include? (comments(:comment1))
+    refute posts(:post_talk1).comments.only_basis.include? (assigns(:comment))
   end
 
   test '내용을 수정해요' do

@@ -31,10 +31,9 @@
                 = truncate(file_source.name, length: 100)
       .footer
         = render 'upvotes/upvote', upvotable: comment
-        - if comment.mentionable?(current_user)
-          - if local_assigns[:mention_form_control]
-            %a.comment__mention.cursor-pointer.js-mention{ href: '#', data: { 'mention-nickname': comment.user.nickname, 'mention-form-control': mention_form_control } }
-              댓글달기
+        - if local_assigns[:comment_form_control]
+          %a.comment__mention.cursor-pointer.js-mention{ href: '#', data: { 'comment-form-control': comment_form_control } }
+            댓글달기
         .upvote-count
           = render 'upvotes/upvote_count', upvotable: comment
 
