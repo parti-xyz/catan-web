@@ -495,14 +495,14 @@ $drawer-default-space-mobile: 12px;
       &.divider {
         height: 1px;
         margin: 24px 0;
-        background-color: $gray-lighter;
+        background-color: transparent;
         &-light {
-          background-color: $gray-lightest;
+          background-color: transparent;
         }
         &-small {
           margin: $drawer-default-space 0;
           @media (max-width: $screen-xs-max) {
-            margin: $drawer-default-space-mobile/2 0;
+            margin: $drawer-default-space-mobile 0;
           }
         }
       }
