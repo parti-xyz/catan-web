@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.10'
 gem 'unicorn'
 gem 'bundler', '~> 1.14', '>= 1.14.5'
 
@@ -20,6 +20,7 @@ gem 'activerecord_any_of', '~> 1.3'
 gem 'active_record_union', '~> 1.2'
 gem 'scoped_search', '~> 4.1'
 gem 'search_cop'
+gem 'treetop', '~> 1.6', '>= 1.6.10'
 gem 'acts-as-taggable-on', '~> 4.0'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: '776037c0fc799bb09da8c9ea47980bd3bf296874'
 gem 'axlsx_rails', '~> 0.5.0'
