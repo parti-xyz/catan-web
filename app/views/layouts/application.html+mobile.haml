@@ -40,6 +40,9 @@
         .bottom-banner-wrapper.js-bottom-banner-wrapper
           = yield :bottom_banner
 
+    - if content_for?(:footer)
+      = yield :footer
+
     = render 'application/photoswipe'
 
     = javascript_include_tag 'application'
