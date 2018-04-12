@@ -249,7 +249,7 @@ module ApplicationHelper
 
   def group_my_parties_section_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
-      title = group.indie? ? "개인" : group.title_basic_format
+      title = group.indie? ? "개인 커뮤니티" : group.title_basic_format
       concat content_tag("span", title, class: ["group-title"])
       s_icon = meta_icons(group, (['star', '오거나이징하는 그룹'] if group.organized_by?(current_user)))
       if s_icon.present?
@@ -257,36 +257,18 @@ module ApplicationHelper
         concat s_icon
         concat raw('&nbsp;')
       end
-      concat(content_tag("span", class: ["group-helptext"]) do
-        # concat content_tag("span", "이 오거나이징하는 ") if group.indie?
-        # concat content_tag("span", "", class: ["text-nowrap"])
-      end)
     end
   end
 
   def group_parties_section_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
-      title = group.indie? ? "개인" : group.title_basic_format
+      title = group.indie? ? "개인 커뮤니티" : group.title_basic_format
       concat content_tag("span", title, class: ["group-title"])
       s_icon = meta_icons(group)
       if s_icon.present?
         concat s_icon
         concat raw('&nbsp;')
       end
-      concat content_tag("span", "#{Catan::SmartPostposition.new(title).adjust('이')} 오거나이징하는 빠띠", class: ["group-helptext"])
-    end
-  end
-
-  def group_category_section_title(group)
-    content_tag :span, class: ["group-parties-section-title"] do
-      title = group.indie? ? "개인" : group.title_basic_format
-      concat content_tag("span", title, class: ["group-title"])
-      s_icon = meta_icons(group)
-      if s_icon.present?
-        concat s_icon
-        concat raw('&nbsp;')
-      end
-      concat content_tag("span", "의 주제별 빠띠", class: ["group-helptext"])
     end
   end
 
@@ -367,7 +349,7 @@ module ApplicationHelper
     content_tag :span do
       if show_group
         group_title = (group_short ? issue.group.head_title : issue.group.title )
-        group_title = '개인이 오거나이징하는 빠띠' if issue.group.indie?
+        group_title = '개인 커뮤니티' if issue.group.indie?
         concat(content_tag :span, group_title, class: group_classes)
         g_icon = meta_icons(issue.group)
         if g_icon.present?

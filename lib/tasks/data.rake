@@ -4,9 +4,9 @@ namespace :data do
     user = User.find_by(nickname: 'parti')
     Group.transaction do
       seed_group(user, 'indie', [],
-        title: '개인빠띠',
-        site_title: '개인이 오거나이징하는 빠띠',
-        head_title: '개인빠띠')
+        title: '개인 커뮤니티',
+        site_title: '개인 커뮤니티',
+        head_title: '개인')
     end
   end
 

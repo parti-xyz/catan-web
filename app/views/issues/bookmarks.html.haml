@@ -4,12 +4,11 @@
       = main_column_tag do
         .contents-header.xs-horizontal-padding
           %h4.contents-header__title
-            = (@group.indie? ? "개인 빠띠" : @group.title_basic_format)
+            = group_my_parties_section_title(@group)
             %span.text-nowrap 메뉴 설정
             %br.visiable-xs
             %small
-              = group_my_parties_section_title(@group)
-              메뉴의 순서를 정합니다
+              내 메뉴에 노출 여부을 설정합니다
         .panel.panel-default
           .panel-body
             %ul.list-unstyled
