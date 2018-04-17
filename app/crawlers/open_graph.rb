@@ -9,7 +9,7 @@ class OpenGraph
 
   def initialize(src)
     @agent = Mechanize.new
-    @agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if (Rails.env.production? or Rails.env.staging?)
+    @agent.set_proxy ENV['CRAWLING_PROXY_HOST'], ENV['CRAWLING_PROXY_PORT'] if ((Rails.env.production? or Rails.env.staging?) or (ENV['CRAWLING_PROXY_HOST'].present? and ENV['CRAWLING_PROXY_PORT'].present?))
     @agent.user_agent_alias = 'Windows Chrome'
     @agent.follow_meta_refresh = false
     @agent.redirect_ok = :all
