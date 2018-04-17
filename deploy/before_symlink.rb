@@ -2,6 +2,8 @@
     run "ln -nfs #{config.shared_path}/public/#{folder} #{config.release_path}/public/#{folder}"
 end
 
-%w(moneta).each do |folder|
-    run "ln -nfs #{config.shared_path}/#{folder} #{config.release_path}/#{folder}"
+if 'production' != config.framework_env
+  %w(moneta).each do |folder|
+      run "ln -nfs #{config.shared_path}/#{folder} #{config.release_path}/#{folder}"
+  end
 end
