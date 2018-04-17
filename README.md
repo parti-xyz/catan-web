@@ -13,6 +13,11 @@ mysql my.cnf
 [mysqld]
 innodb_file_format=Barracuda
 innodb_large_prefix = ON
+innodb_ft_min_token_size = 1
+innodb_ft_enable_stopword = OFF
+
+[mysqldump]
+default-character-set = utf8mb4
 ```
 
 database.yml
