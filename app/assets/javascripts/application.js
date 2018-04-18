@@ -1314,7 +1314,7 @@ $(function(){
   })();
 
   // 햄버거 사이드메뉴 토글
-  $('.js-show-more-sidemenu-issues').on('click', function(e) {
+  $(document).on('click', '.js-show-more-sidemenu-issues', function(e) {
     event.preventDefault();
     var $target = $(e.currentTarget);
 
@@ -1325,7 +1325,7 @@ $(function(){
     $show_less.parent().show().removeClass('js-more-sidemenu-collapse');
   });
 
-  $('.js-show-less-sidemenu-issues').on('click', function(e) {
+  $(document).on('click', '.js-show-less-sidemenu-issues', function(e) {
     event.preventDefault();
     var $target = $(e.currentTarget);
 
@@ -1627,6 +1627,13 @@ $(function(){
       }
     });
   })();
+
+  $('.js-lazy-partal-load').each(function(i, elm) {
+    $.ajax({
+      url: $(elm).data('url'),
+      type: "get"
+    });
+  });
 });
 
 

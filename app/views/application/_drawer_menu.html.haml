@@ -2,7 +2,7 @@
   %ul.drawer-list__menu.list-unstyled.js-filterable-by-drawer-filter
     - if user_signed_in? and current_user.member_issues.any?
       = render 'application/drawer_search'
-      = render 'application/drawer_issues'
+      = render 'application/drawer_issues_lazy'
     - else
       %li.menu-line.large-menu-line
         = link_to issues_url(subdomain: nil), class: 'action-link' do

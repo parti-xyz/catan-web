@@ -225,6 +225,7 @@ Rails.application.routes.draw do
 
   get 'file_source/:id/download', to: "file_sources#download", as: :download_file_source
 
+  get 'my_menus', to: "my_menus#index"
   get '/dashboard', to: "dashboard#index", as: 'dashboard'
   get '/dashboard/intro', to: "dashboard#intro", as: 'dashboard_intro'
   get '/dashboard/new_posts_count', to: "dashboard#new_posts_count", as: 'new_dashboard_posts_count'

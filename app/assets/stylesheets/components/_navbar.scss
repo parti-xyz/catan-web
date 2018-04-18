@@ -543,6 +543,40 @@ $drawer-default-space-mobile: 12px;
     cursor: pointer;
     background-color: #271e44;
   }
+
+  .skeletons {
+    margin: 1em 0;
+    .skeleton-title {
+      height: 1em;
+      width: 50%;
+      background-color: $gray-light;
+    }
+    .skeleton-item {
+      height: 1em;
+      background-color: $gray-light;
+      margin: 3px 0;
+    }
+    .skeleton-title,
+    .skeleton-item {
+      animation-name: shimmer-animate;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      background: -webkit-gradient(linear, left top, right top, color-stop(8%, $gray-lighter), color-stop(18%, $gray-less-lighter), color-stop(33%, $gray-lighter));
+      background: -webkit-linear-gradient(left, $gray-lighter 8%, $gray-less-lighter 18%, $gray-lighter 33%);
+      background: linear-gradient(to right, $gray-lighter 8%, $gray-less-lighter 18%, $gray-lighter 33%);
+      -webkit-background-size: 800px 104px;
+    }
+  }
+}
+
+@keyframes shimmer-animate {
+     0% {
+     background-position: -468px 0
+   }
+   100% {
+     background-position: 468px 0
+   }
 }
 
 // mobile drawer

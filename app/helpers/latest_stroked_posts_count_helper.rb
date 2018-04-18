@@ -1,5 +1,7 @@
 module LatestStrokedPostsCountHelper
-  @@stroked_count_redis_config = YAML.load_file(Rails.root + 'config/redis.yml')[Rails.env]
+  if Rails.env.production?
+    @@stroked_count_redis_config = YAML.load_file(Rails.root + 'config/redis.yml')[Rails.env]
+  end
 
   def self.current_version
     store = current_store
