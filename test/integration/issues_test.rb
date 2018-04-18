@@ -59,13 +59,6 @@ class IssuesTest < ActionDispatch::IntegrationTest
     refute assigns(:issue).persisted?
   end
 
-  test 'union그룹에만 parti빠띠를 만들어요' do
-    sign_in(users(:one))
-
-    post issues_path, issue: { title: 'title', slug: Issue::SLUG_OF_PARTI_PARTI, body: 'body', group_slug: 'xx' }
-    refute assigns(:issue).persisted?
-  end
-
   test '대소문자를 안가려요' do
     sign_in(users(:one))
 
