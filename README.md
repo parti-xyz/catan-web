@@ -26,10 +26,9 @@ database.yml
   collation: utf8mb4_unicode_ci
 ```
 
-환경변수값은 설정 [philnash/envyable](https://github.com/philnash/envyable) gem을 통해 설정합니다.
+환경변수값을 설정합니다.
 
 ```
-production:
   SECRET_KEY_BASE: xx
   GOOGLE_OAUTH2_APP_ID: xx
   GOOGLE_OAUTH2_APP_SECRET: xx

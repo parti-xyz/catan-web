@@ -85,7 +85,7 @@ gem 'cocoon', '~> 1.2', '>= 1.2.9'
 gem 'photoswipe-rails'
 
 # tool
-gem 'envyable', '~> 0.2.0'
+gem 'dotenv'
 gem 'jbuilder', '~> 2.0'
 gem 'seed-fu', '~> 2.3', '>= 2.3.5'
 gem 'nokogiri', '~> 1.6', '>= 1.6.7.2'
