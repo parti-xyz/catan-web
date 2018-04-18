@@ -1,4 +1,4 @@
-on_app_master do
+on_utilities do
   worker_count = 1 # change as needed
   (0...worker_count).each do |i|
     sudo "monit stop all -g #{config.app}_sidekiq"
