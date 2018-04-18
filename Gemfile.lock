@@ -7,15 +7,6 @@ GIT
       railties (>= 3.1)
 
 GIT
-  remote: git://github.com/parti-xyz/firebase-admin-ruby.git
-  revision: cfe52eb5013e0f157d8ef5b41b74d991aa422315
-  tag: v0.2.7-catan
-  specs:
-    firebase (0.2.7)
-      httpclient
-      json
-
-GIT
   remote: git://github.com/parti-xyz/twitter.git
   revision: 7ad6c2a27e8c58c58c2558681e1ec35db130d217
   branch: feature/user-email
@@ -675,7 +666,6 @@ DEPENDENCIES
   fastimage (~> 2.1)
   fcm (~> 0.0.2)
   file_validators (~> 2.1)
-  firebase!
   geo_pattern (~> 1.4)
   google-api-client (~> 0.11)
   grape (~> 0.19.0)

@@ -31,8 +31,6 @@ test_env.yml
 
 .DS_Store
 
-config/firebase-serviceAccountCredentials.json
-
 .floo
 .flooignore
 

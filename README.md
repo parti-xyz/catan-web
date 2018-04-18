@@ -52,10 +52,6 @@ production:
   MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android: xx
 ```
 
-firebase realtime database와 연결합니다.
-
-https://console.firebase.google.com/project/{구글 프로젝트 이름}/settings/serviceaccounts/adminsdk 에서 "새 비공개 키 생성" 버튼을 클릭하여 계정 파일을 다운로드 받습니다. 이 파일을 config아래에 복사해 둡니다
-
 ## 로컬 개발 환경 구축 방법
 
 기본적인 Rail 개발 환경에 rbenv, puma-dev를 이용합니다.
@@ -266,20 +262,6 @@ export PRIVATE_S3_SECRET_KEY="xx"
 export PRIVATE_S3_REGION="xx"
 export PRIVATE_S3_BUCKET="xx"
 export S3_BUCKET="xx"
-```
-
-## firebase realtime database와 연결
-
-https://console.firebase.google.com/project/{구글 프로젝트 이름}/settings/serviceaccounts/adminsdk 에서 "새 비공개 키 생성" 버튼을 클릭하여 계정 파일을 다운로드 받습니다. 이 파일을 config아래에 복사해 둡니다
-
-.powenv 파일에 개발자마다 유일한 키를 등록합니다
-```
-export FIREBASE_BUCKETNAME="dalikim"
-```
-
-개발 환경에서 firebase와 연결을 하려면 아래 설정을 해야 합니다. 아래 설정이 없으면 firebase에 연결하지 않고서도 개발이 가능합니다.
-```
-export FIREBASE=true
 ```
 
 ## 스파크 앱과 연결
