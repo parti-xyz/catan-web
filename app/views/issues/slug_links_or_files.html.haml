@@ -16,7 +16,7 @@
           = render 'posts/sort_select'
       .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
         .grid-sizer.col-sm-4.col-xs-6
-        = render 'links_or_files/page'
+        = render 'posts/page_card', posts: @posts
 
     = paginate @posts, theme: 'catan'
 

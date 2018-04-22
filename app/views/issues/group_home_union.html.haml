@@ -76,7 +76,7 @@
                         더 보기
                         %i.fa.fa-angle-double-right
                   .row.masonry-container
-                    = render 'polls_or_surveys/page', posts: recent_polls_and_surveys, sm_columns_count: 2, compact: true, show_last_stroked_for: true
+                    = render 'posts/page_card', posts: recent_polls_and_surveys, sm_columns_count: 2, compact: true, show_last_stroked_for: true
 
               %section.hidden-sm.visible-xs-block{style:"margin-top:20px; padding-bottom: 20px;"}
                 = link_to issues_path do

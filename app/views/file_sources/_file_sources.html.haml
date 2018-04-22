@@ -1,53 +1,47 @@
 - modal_data = { 'action': "parti-link", 'url': smart_post_path_or_url(post) }
 
-- wrapper_class = 'col-xs-12 col-sm-4'
-- card_class = 'default'
+.reference-card.reference-card--files-sources.default[post]{ data: modal_data }
+  - if post.file_sources.only_image.any?
+    .caption-images<>
+      - odd = post.file_sources.only_image.count.odd?
+      - previous_style = nil
+      - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
+        - if index == 0 and odd == true
+          - current_style = 'single'
+        - elsif previous_style == 'left'
+          - current_style = 'right'
+        - else
+          - current_style = 'left'
+        .thumb.thumb--reference{ class: current_style, style: "background-image: url(#{file_source.attachment.sm.url})" }<>
+        - previous_style = current_style
+  .reference-card__meta.clearfix
+    .reference-card__issue
+      = link_to smart_issue_home_path_or_url(post.issue) do
+        = issue_tag(post.issue, group_classes: 'reference-card__group', group_short: true)
+    .reference-card__date.date-wrapper.reference-card__date--with-issue
+      %span= date_f post.created_at
+  .caption-files
+    - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+      .caption-file
+        .title.title--file-source.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
+          .file-icon
+            = (File.extname(file_source.name) || "FILE").gsub(".", "").upcase
+          .file-name
+            = truncate(file_source.name, length: 100)
+  .caption
+    .body
+      %p
+        = post.specific_desc_striped_tags(215)
 
-- wrapper_class = (local_assigns[:wrapper_class] || wrapper_class)
-
-.card{ class: "#{wrapper_class} #{removable_with_post_dom_class(post)}" }
-  .reference-card.reference-card--files-sources[post]{ class: card_class, data: modal_data }
-    - if post.file_sources.only_image.any?
-      .caption-images<>
-        - odd = post.file_sources.only_image.count.odd?
-        - previous_style = nil
-        - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
-          - if index == 0 and odd == true
-            - current_style = 'single'
-          - elsif previous_style == 'left'
-            - current_style = 'right'
-          - else
-            - current_style = 'left'
-          .thumb.thumb--reference{ class: current_style, style: "background-image: url(#{file_source.attachment.sm.url})" }<>
-          - previous_style = current_style
-    .reference-card__meta.clearfix
-      .reference-card__issue
-        = link_to smart_issue_home_path_or_url(post.issue) do
-          = issue_tag(post.issue, group_classes: 'reference-card__group', group_short: true)
-      .reference-card__date.date-wrapper.reference-card__date--with-issue
-        %span= date_f post.created_at
-    .caption-files
-      - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
-        .caption-file
-          .title.title--file-source.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
-            .file-icon
-              = (File.extname(file_source.name) || "FILE").gsub(".", "").upcase
-            .file-name
-              = truncate(file_source.name, length: 100)
-    .caption
-      .body
-        %p
-          = post.specific_desc_striped_tags(215)
-
-        .reference-info
-          = link_to smart_user_gallery_path(post.user) do
-            .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
-            %span.nickname= post.user.nickname
-            %span.date= date_f post.created_at
-        - if post.comments_count > 0
-          .more
-            %span.comments-count
-              %sapn
-                %i.fa.fa-comment-o
-                %b> #{post.comments_count}개
-                의 댓글
+      .reference-info
+        = link_to smart_user_gallery_path(post.user) do
+          .thumb.user-image.img-circle{style: "background-image: url(#{post.user.image.sm.url});"}
+          %span.nickname= post.user.nickname
+          %span.date= date_f post.created_at
+      - if post.comments_count > 0
+        .more
+          %span.comments-count
+            %sapn
+              %i.fa.fa-comment-o
+              %b> #{post.comments_count}개
+              의 댓글

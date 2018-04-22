@@ -47,7 +47,7 @@
                 더 보기
                 %i.fa.fa-angle-double-right
           .row.masonry-container
-            = render 'polls_or_surveys/page', posts: @polls_and_surveys
+            = render 'posts/page_card', posts: @polls_and_surveys
 
       - if @posts_pinned.try(:any?) or @recent_posts.try(:any?)
         %section{style:"margin-top:20px;"}

@@ -16,6 +16,6 @@
             %i.fa.fa-info-circle
             해당되는 글이 없습니다.
       - else
-        = render 'polls_or_surveys/page', posts: @posts, show_issue: true
+        = render 'posts/page_card', posts: @posts, show_issue: true
 
     = paginate @posts, theme: 'catan'

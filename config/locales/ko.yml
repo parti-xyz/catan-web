@@ -219,6 +219,7 @@ ko:
     show_history_button: 역사
     polls_or_surveys: 토론
     links_or_files: 자료
+    private_blocked_info: 필요한 권한이 없어서 일부 숨겨진 글이 있습니다.
     blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 일부 숨겨진 글이 있습니다.
     post_blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 숨겨진 글입니다.
     comment_blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 숨겨진 댓글입니다.

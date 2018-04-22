@@ -1,34 +1,33 @@
-.card.col-xs-12.col-sm-4{ class: removable_with_post_dom_class(post) }
-  - if post.private_blocked?(current_user)
-    .wiki-card
-      %strong 비공개 빠띠 게시글입니다.
-      - if post.issue.member_requested? current_user
-        %br
-        %span.text-basic-wrap
-          비공개 빠띠를 보시려면 먼저 가입승인 받아야합니다.
-        %span.text-basic-wrap
-          %strong<> 오거나이저의 가입승인
-          을 기다려주세요.
-  - else
-    .wiki-card.clearfix.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_post_url(post) }
-      - issue = post.issue
-      .wiki-card__meta.clearfix
-        .wiki-card__issue
-          = link_to smart_issue_home_path_or_url(post.issue) do
-            - unless post.issue.displayable_group? current_group
-              .wiki-card__group
-                = post.issue.group.head_title
-            = post.issue.title
-        .wiki-card__date.date-wrapper.wiki-card__date--with-issue
-          %span= date_f post.created_at
-      .wiki-card-body
-        %h4.wiki-title= post.wiki.title
-        .wiki-body
-          - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
-            = image_tag post.wiki.thumbnail.lg.url
-        .shadow
-      - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-      - if text.present?
-        .post-card__last-stroked
-          != text
-          %span.date= date_f(last_stroked_at)
+- if post.private_blocked?(current_user)
+  .wiki-card
+    %strong 비공개 빠띠 게시글입니다.
+    - if post.issue.member_requested? current_user
+      %br
+      %span.text-basic-wrap
+        비공개 빠띠를 보시려면 먼저 가입승인 받아야합니다.
+      %span.text-basic-wrap
+        %strong<> 오거나이저의 가입승인
+        을 기다려주세요.
+- else
+  .wiki-card.clearfix.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_post_url(post) }
+    - issue = post.issue
+    .wiki-card__meta.clearfix
+      .wiki-card__issue
+        = link_to smart_issue_home_path_or_url(post.issue) do
+          - unless post.issue.displayable_group? current_group
+            .wiki-card__group
+              = post.issue.group.head_title
+          = post.issue.title
+      .wiki-card__date.date-wrapper.wiki-card__date--with-issue
+        %span= date_f post.created_at
+    .wiki-card-body
+      %h4.wiki-title= post.wiki.title
+      .wiki-body
+        - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
+          = image_tag post.wiki.thumbnail.lg.url
+      .shadow
+    - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+    - if text.present?
+      .post-card__last-stroked
+        != text
+        %span.date= date_f(last_stroked_at)

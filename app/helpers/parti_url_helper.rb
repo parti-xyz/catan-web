@@ -25,6 +25,14 @@ module PartiUrlHelper
     slug_issue_wikis_path(options.merge(slug: issue.slug))
   end
 
+  def smart_issue_folders_path(issue, options = {})
+    slug_issue_folders_path(options.merge(slug: issue.slug))
+  end
+
+  def smart_folder_path(folder, options = {})
+    slug_issue_folder_path(options.merge(slug: folder.issue.slug, folder_id: folder.id))
+  end
+
   def smart_issue_members_path(issue, options = {})
     slug_issue_users_path(options.merge(slug: issue.slug))
   end

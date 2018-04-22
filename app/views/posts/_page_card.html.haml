@@ -1,0 +1,38 @@
+- sm_columns_count = local_assigns[:sm_columns_count] || 3
+- col_sm = "col-sm-#{12/sm_columns_count}"
+- has_blinds = false
+- has_private_blocked = false
+- posts.each do |post|
+  - if post.blinded?(current_user)
+    - has_private_blocked = true
+  - elsif post.private_blocked?(current_user)
+    - has_blinds = true
+  - else
+    .card.col-xs-12.card--hover-grow{ class: "#{removable_with_post_dom_class(post)} #{col_sm}" }
+      - if post.poll.present?
+        = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post, show_decision: true)
+      - elsif post.survey.present?
+        = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post, show_decision: true)
+      - elsif post.wiki.present?
+        = render 'wikis/wiki', local_assigns.merge(post: post)
+      - elsif post.file_sources.any?
+        = render 'file_sources/file_sources', local_assigns.merge(post: post)
+      - elsif post.link_source.present?
+        = render 'link_sources/link_source', local_assigns.merge(post: post)
+      - else
+        = render 'file_sources/file_sources', local_assigns.merge(post: post)
+  - has_blinds = post.blinded?(current_user)
+- if has_blinds
+  .card.col-xs-12
+    .reference-card
+      .caption
+        .info-body
+          %i.fa.fa-info-circle
+          = t('labels.blind_info')
+- if has_private_blocked
+  .card.col-xs-12
+    .reference-card
+      .caption
+        .info-body
+          %i.fa.fa-info-circle
+          = t('labels.private_blocked_info')

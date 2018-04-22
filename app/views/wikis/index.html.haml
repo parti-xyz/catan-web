@@ -22,6 +22,6 @@
             해당되는 글이 없습니다.
       - else
         .grid-sizer.col-sm-4.col-xs-6
-        = render 'wikis/page', show_issue: true
+        = render 'posts/page_card', show_issue: true, posts: @posts
 
     = paginate @posts, theme: 'catan'

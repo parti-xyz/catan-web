@@ -5,7 +5,7 @@
     - unless @issue.exists_wiki?
       .bg-default.text-center
         %i.fa.fa-info-circle
-        가장 먼저 위키를 작성를 열어보세요.
+        가장 먼저 위키를 작성해 보세요.
         %br
           = link_to new_wiki_posts_path(issue_id: @issue.id) do
             위키 작성하기
@@ -22,7 +22,7 @@
       - if @posts.any?
         .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
           .grid-sizer.col-sm-4.col-xs-6
-          = render 'wikis/page'
+          = render 'posts/page_card', posts: @posts
       - else
         .bg-default.text-center
           %i.fa.fa-info-circle

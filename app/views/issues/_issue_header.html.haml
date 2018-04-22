@@ -72,22 +72,26 @@
         .row
           .col-sm-8.col-xs-12
             .row
-              .col-xs-5th-1{ class: ('active' if active_tab.nil? || active_tab == :home) }
+              .col-xs-custom-1{ class: ('active' if active_tab.nil? || active_tab == :home) }
                 = link_to smart_issue_home_path_or_url(issue) do
                   %h5 전체글
 
-              .col-xs-5th-1{class: ('active' if active_tab == :polls)}
+              .col-xs-custom-1{class: ('active' if active_tab == :polls)}
                 = link_to smart_issue_polls_or_surveys_path(issue) do
                   %h5= t('labels.polls_or_surveys')
 
-              .col-xs-5th-1{class: ('active' if active_tab == :links_or_files)}
+              .col-xs-custom-1{class: ('active' if active_tab == :links_or_files)}
                 = link_to smart_issue_links_or_files_path(issue) do
                   %h5 자료
 
-              .col-xs-5th-1{class: ('active' if active_tab == :wikis)}
+              .col-xs-custom-1{class: ('active' if active_tab == :wikis)}
                 = link_to smart_issue_wikis_path(issue) do
                   %h5 위키
 
-              .col-xs-5th-1{class: ('active' if active_tab == :users)}
+              .col-xs-custom-1{class: ('active' if active_tab == :folders)}
+                = link_to smart_issue_folders_path(issue) do
+                  %h5 폴더
+
+              .col-xs-custom-1{class: ('active' if active_tab == :users)}
                 = link_to smart_issue_members_path(issue) do
                   %h5 멤버

@@ -1,0 +1,69 @@
+= render 'issues/issue_header', active_tab: :folders
+
+%section#folders
+  .container
+    - unless @issue.exists_wiki?
+      .bg-default.text-center
+        %i.fa.fa-info-circle
+        폴더를 만들어 게시글을 정리해 보세요.
+        %br
+          = link_to '#' do
+            폴더 만들기
+            %i.fa.fa-arrow-right
+    - else
+      - if @current_folder.blank?
+        .contents-header
+          %h4.contents-header__title
+            %i.fa.fa-folder-o
+            폴더
+            %small 빠띠의 모든 폴더입니다.
+        - @folders.each do |folder|
+          %ul.list-unstyled
+            %li
+              = link_to smart_folder_path(folder) do
+                %i.fa.fa-folder-o
+                = folder.title
+      - else
+        .contents-header
+          %h4.contents-header__title
+            = link_to smart_issue_folders_path(@issue) do
+              %i.fa.fa-folder-o
+              폴더
+            \/
+            %span.dropdown{ style: 'position: relative;'}
+              %span.dropdown-toggle.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                = @current_folder.title
+                %small
+                  (#{@current_folder.posts.count})
+                  %i.fa.fa-chevron-down.cursor-pointer
+              %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
+                - if @issue.folders.where.not(id: @current_folder.id).any?
+                  %li.dropdown-header 다른 폴더로 이동
+                  - @issue.folders.each do |folder|
+                    %li.clearfix
+                      = link_to smart_folder_path(folder) do
+                        = folder.title
+                        - if folder == @current_folder
+                          %i.fa.fa-check.pull-right
+                %li.divider
+                %li.dropdown-header "#{@current_folder.title}" 폴더 관리
+                %li
+                  = link_to '#', class: 'text-nowrap' do
+                    수정
+                %li
+                  = link_to '#', class: 'text-nowrap' do
+                    삭제
+          .posts-filter-select
+            = render 'posts/sort_select'
+        - if @posts.any?
+          .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer' } }
+            .grid-sizer.col-sm-4.col-xs-6
+            = render 'posts/page_card', posts: @posts
+        - else
+          .bg-default.text-center
+            %i.fa.fa-info-circle
+            해당 폴더는 비었습니다.
+
+        = paginate @posts, theme: 'catan'
+
+= render 'issues/bottom_banner', issue: @issue
