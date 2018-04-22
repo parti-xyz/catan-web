@@ -134,8 +134,8 @@ Rails.application.routes.draw do
       resources :comments, concerns: :upvotable
     end
     member do
-      get 'move_form'
-      patch 'move'
+      get 'move_to_issue_form'
+      patch 'move_to_issue'
       get 'poll_social_card'
       get 'survey_social_card'
       post 'pin'

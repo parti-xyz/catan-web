@@ -201,10 +201,10 @@ class PostsController < ApplicationController
   def edit
   end
 
-  def move_form
+  def move_to_issue_form
   end
 
-  def move
+  def move_to_issue
     issue_id = params[:post][:issue_id]
     render_404 and return if issue_id.blank?
 

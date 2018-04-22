@@ -4,7 +4,7 @@
       %h4.contents-header__title
         #{Post.model_name.human} 이동하기
     .post-move-form#post-move-form.js-parti-editor-selector-wrapper
-      = form_for [:move, @post], method: :patch, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-move-form form input[type=submit]' } } do |f|
+      = form_for [:move_to_issue, @post], method: :patch, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-move-form form input[type=submit]' } } do |f|
         = render 'posts/issue_selector'
         = f.hidden_field :issue_id, data:{ 'rule-required': true }, value: @post.issue.id
 

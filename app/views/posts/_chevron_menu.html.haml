@@ -28,9 +28,9 @@
     %li
       = link_to folder_form_post_path(post), remote: true do
         폴더 이동
-  - if can?(:move, post)
+  - if can?(:move_to_issue, post)
     %li
-      = link_to [:move_form, post] do
+      = link_to [:move_to_issue_form, post] do
         빠띠 이동
   - elsif post.issue.member?(current_user)
     - if post.private_blocked?(post.user)
