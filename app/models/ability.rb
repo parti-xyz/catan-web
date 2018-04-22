@@ -14,7 +14,7 @@ class Ability
       end
       can [:create, :new_intro, :search_by_tags, :bookmarks, :add_bookmark, :remove_bookmark], [Issue]
 
-      can [:create, :destroy], [Folder] do |folder|
+      can [:create, :destroy, :update], [Folder] do |folder|
         folder.issue.present? and !folder.issue.try(:private_blocked?, user) && folder.issue.try(:postable?, user)
       end
 

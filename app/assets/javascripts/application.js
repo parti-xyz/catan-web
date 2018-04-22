@@ -1656,11 +1656,15 @@ $(function(){
     }
     $select_control.trigger('parti-need-to-validate');
   });
+});
 
-  // 공통 모달 열고 닫을 때 화면 정리
+
+// 공통 모달
+$(function(){
   $(document).on('shown.bs.modal', '#js-modal-placeholder > .modal', function(e) {
     $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('collapse');
     $('#js-modal-placeholder .js-modal-placeholder-action-dialog').removeClass('collapse');
+    parti_partial$($('#js-modal-placeholder .js-modal-placeholder-action-dialog'), true);
   });
 
   $(document).on('hidden.bs.modal', '#js-modal-placeholder > .modal', function(e) {
@@ -1674,5 +1678,12 @@ $(function(){
     $loading_dialog.addClass('modal-dialog js-modal-placeholder-loading-dialog');
   });
 });
+
+var parti_show_modal$ = function($partial) {
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').addClass('modal-dialog-folder-form');
+  $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-folder-form');
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
+  $('#js-modal-placeholder > .modal').modal("show");
+}
 
 

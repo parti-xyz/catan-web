@@ -1,7 +1,6 @@
 .modal-content
   .modal-body
     - new_folder_form = capture do
-      %p.help-text
       .form-group
         %label 새 폴더 이름
         = text_field_tag 'folder[title]', nil, class: 'form-control', data: { 'rule-required': true }

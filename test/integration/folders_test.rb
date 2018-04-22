@@ -1,18 +1,6 @@
 require 'test_helper'
 
 class FolderTest < ActionDispatch::IntegrationTest
-  focus
-  test 'folder를 만듭니다' do
-    assert issues(:issue2).member? users(:one)
-    sign_in(users(:one))
-
-    post folders_path(format: :js), folder: { title: 'folder1', issue_id: issues(:issue2).id }
-
-    assert issues(:issue2), assigns(:folder).issue
-    assert 'folder1', assigns(:folder).title
-  end
-
-  focus
   test '게시글을 folder에 넣습니다' do
     #patch post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id }
 
@@ -27,7 +15,6 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert folders(:folder1), assigns(:post).folder
   end
 
-  focus
   test '게시글을 새로운 folder에 넣습니다' do
     #patch post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id }
 
@@ -43,7 +30,6 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert assigns(:folder).persisted?
   end
 
-  focus
   test '다른 빠띠의 folder는 못 붙여요' do
     assert issues(:issue2), posts(:post_talk2).issue
     assert issues(:issue1), folders(:folder1).issue
@@ -56,7 +42,6 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert_nil assigns(:post).folder
   end
 
-  focus
   test 'folder에서 꺼내요' do
     assert issues(:issue1), posts(:post_talk5).issue
     assert issues(:issue1), folders(:folder1).issue
@@ -69,7 +54,6 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert_nil assigns(:post).folder
   end
 
-  focus
   test 'folder 지워요' do
     assert issues(:issue1), posts(:post_talk1).issue
     assert issues(:issue1), folders(:folder1).issue

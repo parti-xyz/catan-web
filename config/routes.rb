@@ -162,11 +162,7 @@ Rails.application.routes.draw do
       get 'pinned'
     end
   end
-  resources :folders do
-    put 'add_post', on: :member
-    delete 'remove_post', on: :member
-  end
-
+  resources :folders
   resources 'wiki_histories'
   post 'feedbacks', to: 'feedbacks#create'
   get '/feedbacks/all_users', to: 'feedbacks#all_users', as: :all_users_feedbacks

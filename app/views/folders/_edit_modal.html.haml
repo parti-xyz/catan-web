@@ -1,0 +1,15 @@
+.modal-content
+  .modal-body
+    - form_id = "folder-form-#{SecureRandom.uuid}"
+    = form_for folder, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
+      .form-group
+        %p.help-text
+          %strong "#{folder.title}"
+          폴더의 새 이름을 입력하세요.
+        .form-group
+          %label 새 이름
+          = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
+
+      .form-group
+        = f.submit '저장', class: 'btn btn-primary'
+        %span.button.btn.btn-default.btn-xs{ 'data-dismiss': 'modal', 'aria-label': '닫기' } 취소

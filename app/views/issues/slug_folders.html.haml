@@ -23,6 +23,10 @@
               = link_to smart_folder_path(folder) do
                 %i.fa.fa-folder-o
                 = folder.title
+        - if @folders.blank?
+          .bg-default.text-center
+            %i.fa.fa-info-circle
+            폴더가 없습니다.
       - else
         .contents-header
           %h4.contents-header__title
@@ -45,13 +49,13 @@
                         = folder.title
                         - if folder == @current_folder
                           %i.fa.fa-check.pull-right
-                %li.divider
+                  %li.divider
                 %li.dropdown-header "#{@current_folder.title}" 폴더 관리
                 %li
-                  = link_to '#', class: 'text-nowrap' do
+                  = link_to [:edit, @current_folder], remote: true, class: 'text-nowrap' do
                     수정
                 %li
-                  = link_to '#', class: 'text-nowrap' do
+                  = link_to @current_folder, method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'text-nowrap' do
                     삭제
           .posts-filter-select
             = render 'posts/sort_select'
