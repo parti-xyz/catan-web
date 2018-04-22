@@ -208,7 +208,7 @@ class PostsController < ApplicationController
     issue_id = params[:post][:issue_id]
     render_404 and return if issue_id.blank?
 
-    if @post.update_attributes(issue_id: issue_id)
+    if @post.update_attributes(issue_id: issue_id, folder: nil)
       @post.upvotes.update_all(issue_id: issue_id)
       Upvote.where(upvotable: @post.comments).update_all(issue_id: issue_id)
     end
