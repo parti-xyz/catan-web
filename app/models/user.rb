@@ -93,6 +93,7 @@ class User < ActiveRecord::Base
   has_many :decision_histories, dependent: :nullify
   has_many :bookmarks, dependent: :destroy
   has_many :bookmark_issues, through: :bookmarks, source: :issue
+  has_many :folders, dependent: :nullify
 
   ## uploaders
   # mount

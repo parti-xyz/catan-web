@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   include StoreLocation
 
   protect_from_forgery with: :exception
-  before_action :prepare_meta_tags, if: "request.get?"
+  before_action :prepare_meta_tags, if: "request.get? and !Rails.env.test?"
 
   before_action :set_device_type
   before_action :block_not_exists_group

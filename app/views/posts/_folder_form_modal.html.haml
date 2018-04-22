@@ -1,0 +1,34 @@
+.modal-content
+  .modal-body
+    - new_folder_form = capture do
+      %p.help-text
+      .form-group
+        %label 새 폴더 이름
+        = text_field_tag 'folder[title]', nil, class: 'form-control', data: { 'rule-required': true }
+    - form_id = "folder-form-#{SecureRandom.uuid}"
+    = form_for [:add_to_folder, post], remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
+      .form-group
+        %p.help-text
+          %strong "#{post.specific_desc_striped_tags(25)}"
+          게시글이 이동할 폴더를
+          - if post.issue.folders.any?
+            선택하거나
+          새로 만드세요.
+        - if post.issue.folders.any?
+          .js-folder-selector
+            = f.select :folder_id, [], {}, class: 'form-control icon-select js-parti-bootstrap-select', data: { 'show-tick': 'true' } do
+              - post.issue.folders.each do |folder|
+                %option{ value: folder.id, selected: folder == post.folder }
+                  = folder.title
+              %option{ 'data-divider': "true" }
+              - if post.folder.present?
+                %option{ value: '', 'data-content': "<span><i class='fa fa-share fa-rotate-270'></i></i> \"#{post.folder.title}\" 폴더에서 꺼내기</span>" }
+              %option{ value: '-1', 'data-content': "<span><i class='fa fa-plus'></i> 새로운 폴더 만들기</span>"  }
+            .js-new-folder.collapse
+              = new_folder_form
+        - else
+          = f.hidden_field :folder_id, value: '-1'
+          = new_folder_form
+
+      .form-group
+        = f.submit '이동', class: 'btn btn-primary'

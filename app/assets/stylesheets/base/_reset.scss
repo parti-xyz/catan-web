@@ -138,3 +138,12 @@ body .webui-popover-backdrop {
 .text-primary-dark {
   color: $brand-primary-dark;
 }
+
+.modal-placeholder {
+  .modal {
+    z-index: $zindex-modal-placeholder-modal;
+  }
+  ~ .modal-backdrop.fade.in {
+    z-index: $zindex-modal-placeholder-backdrop;
+  }
+}

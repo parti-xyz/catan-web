@@ -53,7 +53,8 @@
     }
     .media-body {
       vertical-align: middle;
-      .issue-title {
+      .issue-title,
+      .post-line-folder {
         color: $brand-primary;
       }
       .issue-group {
@@ -399,11 +400,7 @@
   }
 }
 
-#post-modal.post-modal {
-  .modal-dialog {
-    width: 745px;
-  }
-}
+
 @media (max-width: $screen-xs-max) {
   .post-card {
     border-radius: 0;
@@ -432,61 +429,6 @@
     .thumb {
       width: 90px;
       height: 60px;
-    }
-  }
-
-  #post-modal.post-modal {
-    // z-index: 1028;
-    .modal-dialog {
-      // margin: 0 auto;
-      width: 95%;
-    }
-    .modal-footer {
-      margin-top: 8px;
-      color: $gray;
-      background: #fff;
-    }
-    .modal__top {
-      padding: 10px;
-      font-size: 12px;
-      .modal__btn {
-        width: 50px;
-        height: 50px;
-        img {
-          zoom: 0.8;
-        }
-      }
-    }
-    .modal__content {
-      padding: 20px;
-      h2 {
-        font-size: 20px;
-        margin-bottom: 10px;
-        margin-top: 40px;
-      }
-    }
-    .modal__comment {
-      padding: 20px 10px;
-      .comments--count {
-        left: 70px;
-        font-size: 10px;
-        padding: 2px 6px 0px;
-      }
-    }
-
-    .modal-content {
-      border: none;
-      -webkit-box-shadow: none;
-      box-shadow: none;
-    }
-    &__content {
-      padding: 20px;
-    }
-    &__comment {
-      padding: 20px;
-    }
-    &__title {
-      font-size: $font-size-large;
     }
   }
 }

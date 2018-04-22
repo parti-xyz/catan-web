@@ -18,6 +18,9 @@
               %span.issue-title
                 = post.issue.title
                 = meta_icons(post.issue)
+              %span{ class: post_folder_dom_class(post) }
+                = render 'posts/post_card_folder', post: post
+
 
     - if post.private_blocked?(current_user)
       .post-card__post

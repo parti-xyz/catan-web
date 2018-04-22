@@ -8,123 +8,107 @@
   - secondary_image_breakpoint = 120
 .post-line.post-line[post]
   .post-body
-    - if local_assigns[:post_line]
-      - if post.file_sources.only_image.any?
-        .post-reference-line-file-content-wrapper--image<>
-          - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
-            - image_url = file_source.attachment.md.url
-            - if file_source.image_width < single_image_breakpoint
-              - image_url = file_source.attachment.url
-
-            - if file_source.image_width < 400
-              .post-reference-line__small-image-wrapper<>
-                .post-reference-line__file-content--image.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name, 'data-link-target': '_blank', class: 'single' }<>
-                  = image_tag image_url
-            - else
-              .post-reference-line__file-content--image.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name, 'data-link-target': '_blank', class: 'single' }<>
-                = image_tag image_url
-    - else
-      .post-parsed-body{'data-action': 'parti-link-target-blank'}
-        - if local_assigns[:mode] == 'detail'
+    .post-parsed-body{'data-action': 'parti-link-target-blank'}
+      - if local_assigns[:mode] == 'detail'
+        = post_body_format post.issue, post.body
+      - else
+        .truncated-body
+          - more_button = capture do
+            %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더 보기
+          - body_length_limit = (post.reviewed_by?(current_user) ? 200 : 500)
+          != smart_truncate_html(post_body_format(post.issue, post.body), length: body_length_limit, ellipsis: more_button)
+        .original-body{ style: 'display: none;' }
           = post_body_format post.issue, post.body
-        - else
-          .truncated-body
-            - more_button = capture do
-              %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더 보기
-            - body_length_limit = (post.reviewed_by?(current_user) ? 200 : 500)
-            != smart_truncate_html(post_body_format(post.issue, post.body), length: body_length_limit, ellipsis: more_button)
-          .original-body{ style: 'display: none;' }
-            = post_body_format post.issue, post.body
-      - if post.video_source?
-        .post-reference-line.post-line
-          .post-reference-line__link-content.post-reference-line__link-content--video
-            .post-reference-line__video-container
-              .post-reference-line__video-content
-                = video_embed_code(post)
-            .post-reference-line__site-name
-              %a{href: post.link_source.url, target: '_blank'}
-                = post.link_source.site_name.try(:upcase)
-                원글보기
-                %i.fa.fa-external-link
-      - elsif post.file_sources.any?
-        - if post.file_sources.only_image.any?
-          - odd = post.file_sources.only_image.count.odd?
-          .post-reference-line-file-content-wrapper--image.js-photoswipe<>
-            - previous_style = nil
-            - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
-              - if index == 0 and odd == true
-                - current_style = 'single'
-              - elsif previous_style == 'left'
-                - current_style = 'right'
+    - if post.video_source?
+      .post-reference-line.post-line
+        .post-reference-line__link-content.post-reference-line__link-content--video
+          .post-reference-line__video-container
+            .post-reference-line__video-content
+              = video_embed_code(post)
+          .post-reference-line__site-name
+            %a{href: post.link_source.url, target: '_blank'}
+              = post.link_source.site_name.try(:upcase)
+              원글보기
+              %i.fa.fa-external-link
+    - elsif post.file_sources.any?
+      - if post.file_sources.only_image.any?
+        - odd = post.file_sources.only_image.count.odd?
+        .post-reference-line-file-content-wrapper--image.js-photoswipe<>
+          - previous_style = nil
+          - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
+            - if index == 0 and odd == true
+              - current_style = 'single'
+            - elsif previous_style == 'left'
+              - current_style = 'right'
+            - else
+              - current_style = 'left'
+
+            - image_single_url = file_source.attachment.lg.url
+            - image_secondary_url = file_source.attachment.md.url
+
+            - image_photoswipe_width = file_source.image_width_lg
+            - image_photoswipe_heigh = file_source.image_height_lg
+
+            - if file_source.image_width < single_image_breakpoint
+              - image_single_url = file_source.attachment.url
+              - image_photoswipe_width = file_source.image_width
+              - image_photoswipe_heigh = file_source.image_height
+
+            - if file_source.image_width < secondary_image_breakpoint
+              - image_secondary_url = file_source.attachment.url
+
+            - image_photoswipe_url = image_single_url
+
+            - action_options = { 'data-url': image_photoswipe_url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': post.specific_desc_striped_tags(100), 'data-index': index }
+
+            - if current_style == 'single'
+              - if file_source.image_width < 400
+                .post-reference-line__small-image-wrapper<>
+                  .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style }<>= image_tag image_single_url
               - else
-                - current_style = 'left'
+                .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style }<>= image_tag image_single_url, style: 'display: block'
+            - else
+              .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style, style: "background-image: url(#{image_secondary_url}); background-size: #{(file_source.image_width < secondary_image_breakpoint ? "#{file_source.image_width}px;" : 'contain')}; background-position: center;" }<>
+            - previous_style = current_style
 
-              - image_single_url = file_source.attachment.lg.url
-              - image_secondary_url = file_source.attachment.md.url
-
-              - image_photoswipe_width = file_source.image_width_lg
-              - image_photoswipe_heigh = file_source.image_height_lg
-
-              - if file_source.image_width < single_image_breakpoint
-                - image_single_url = file_source.attachment.url
-                - image_photoswipe_width = file_source.image_width
-                - image_photoswipe_heigh = file_source.image_height
-
-              - if file_source.image_width < secondary_image_breakpoint
-                - image_secondary_url = file_source.attachment.url
-
-              - image_photoswipe_url = image_single_url
-
-              - action_options = { 'data-url': image_photoswipe_url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': post.specific_desc_striped_tags(100), 'data-index': index }
-
-              - if current_style == 'single'
-                - if file_source.image_width < 400
-                  .post-reference-line__small-image-wrapper<>
-                    .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style }<>= image_tag image_single_url
-                - else
-                  .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style }<>= image_tag image_single_url, style: 'display: block'
-              - else
-                .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style, style: "background-image: url(#{image_secondary_url}); background-size: #{(file_source.image_width < secondary_image_breakpoint ? "#{file_source.image_width}px;" : 'contain')}; background-position: center;" }<>
-              - previous_style = current_style
-
-        - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
-          .post-reference-line.post-line
-            .post-reference-line__file-content
-              .cursor-pointer.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
-                .media
-                  .media-left.hidden-xs
-                    %i.fa.fa-floppy-o
-                  .media-body
-                    %span
-                      = file_source.name
-                    %br.visible-xs
-                    %span.post-reference-line__file-content__file-size
-                      = number_to_human_size(file_source.file_size)
-                  .media-right
-                    .post-reference-line__file-content__download
-                      다운로드
-      - elsif post.link_source.present?
+      - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
         .post-reference-line.post-line
-          %a{href: post.link_source.url, target: '_blank'}
-            .post-reference-line__link-content
-              - if post.link_source.has_image?
-                .post-reference-line__link-content__big-thumb.visible-xs-block{style: "background-image: url(#{post.link_source.image.md.url});", class: ('webp' if is_webp?(post.link_source.image.url))}
+          .post-reference-line__file-content
+            .cursor-pointer.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
               .media
+                .media-left.hidden-xs
+                  %i.fa.fa-floppy-o
                 .media-body
-                  %h4.post-line-reference__title{ class: ('post-line-reference__url' if post.link_source.no_title?) }= post.link_source.title_or_url
-                  .post-reference-line__source-body= excerpt(post.link_source.body, length: (is_small_screen? ? 45 : 130))
-                  .post-reference-line__site-name
-                    %a{href: post.link_source.url, target: '_blank'}
-                      = post.link_source.site_name.try(:upcase)
-                      원글보기
-                      %i.fa.fa-external-link
-                - if (post.link_source.has_image?)
-                  .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})", 'data-action': 'parti-link', 'data-url': post.link_source.url, 'data-link-target': '_blank', class: ('webp' if is_webp?(post.link_source.image.url)) }
-      - elsif post.poll.present?
-        = render 'polls/poll', local_assigns.merge(poll: post.poll, in_post: true)
-        = render 'posts/decision', local_assigns.merge(in_post: true)
-      - elsif post.survey.present?
-        = render 'surveys/card', local_assigns
-        = render 'posts/decision', local_assigns.merge(in_post: true)
-      - elsif post.wiki.present?
-        = render 'wikis/card', local_assigns
+                  %span
+                    = file_source.name
+                  %br.visible-xs
+                  %span.post-reference-line__file-content__file-size
+                    = number_to_human_size(file_source.file_size)
+                .media-right
+                  .post-reference-line__file-content__download
+                    다운로드
+    - elsif post.link_source.present?
+      .post-reference-line.post-line
+        %a{href: post.link_source.url, target: '_blank'}
+          .post-reference-line__link-content
+            - if post.link_source.has_image?
+              .post-reference-line__link-content__big-thumb.visible-xs-block{style: "background-image: url(#{post.link_source.image.md.url});", class: ('webp' if is_webp?(post.link_source.image.url))}
+            .media
+              .media-body
+                %h4.post-line-reference__title{ class: ('post-line-reference__url' if post.link_source.no_title?) }= post.link_source.title_or_url
+                .post-reference-line__source-body= excerpt(post.link_source.body, length: (is_small_screen? ? 45 : 130))
+                .post-reference-line__site-name
+                  %a{href: post.link_source.url, target: '_blank'}
+                    = post.link_source.site_name.try(:upcase)
+                    원글보기
+                    %i.fa.fa-external-link
+              - if (post.link_source.has_image?)
+                .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})", 'data-action': 'parti-link', 'data-url': post.link_source.url, 'data-link-target': '_blank', class: ('webp' if is_webp?(post.link_source.image.url)) }
+    - elsif post.poll.present?
+      = render 'polls/poll', local_assigns.merge(poll: post.poll, in_post: true)
+      = render 'posts/decision', local_assigns.merge(in_post: true)
+    - elsif post.survey.present?
+      = render 'surveys/card', local_assigns
+      = render 'posts/decision', local_assigns.merge(in_post: true)
+    - elsif post.wiki.present?
+      = render 'wikis/card', local_assigns

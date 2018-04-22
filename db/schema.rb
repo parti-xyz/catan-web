@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407063838) do
+ActiveRecord::Schema.define(version: 20180421021141) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -147,6 +147,19 @@ ActiveRecord::Schema.define(version: 20180407063838) do
   end
 
   add_index "file_sources", ["post_id"], name: "index_file_sources_on_post_id", using: :btree
+
+  create_table "folders", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.integer  "issue_id",   limit: 4,   null: false
+    t.string   "title",      limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "folders", ["issue_id", "title"], name: "index_folders_on_issue_id_and_title", unique: true, using: :btree
+  add_index "folders", ["issue_id"], name: "index_folders_on_issue_id", using: :btree
+  add_index "folders", ["title"], name: "index_folders_on_title", using: :btree
+  add_index "folders", ["user_id"], name: "index_folders_on_user_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
     t.integer  "user_id",          limit: 4,                        null: false
@@ -479,9 +492,11 @@ ActiveRecord::Schema.define(version: 20180407063838) do
     t.integer  "wiki_id",                   limit: 4
     t.text     "body_ngram",                limit: 16777215
     t.text     "decision",                  limit: 65535
+    t.integer  "folder_id",                 limit: 4
   end
 
   add_index "posts", ["deleted_at"], name: "index_posts_on_deleted_at", using: :btree
+  add_index "posts", ["folder_id"], name: "index_posts_on_folder_id", using: :btree
   add_index "posts", ["issue_id"], name: "index_posts_on_issue_id", using: :btree
   add_index "posts", ["last_stroked_user_id"], name: "index_posts_on_last_stroked_user_id", using: :btree
   add_index "posts", ["link_source_id"], name: "index_posts_on_reference_type_and_reference_id", using: :btree

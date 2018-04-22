@@ -593,7 +593,10 @@ var parti_prepare = function($base, force) {
     });
   });
 
-
+  // bootstrap select
+  $.parti_apply($base, '.js-parti-bootstrap-select', function(elm) {
+    $(elm).selectpicker('render');
+  });
 
   // 에디터
 
@@ -837,6 +840,12 @@ $('[data-action="parti-clearable-search"]').each(function(i, elm) {
     });
   }
 });
+
+var parti_partial$ = function($partial, force) {
+  parti_prepare($partial, force);
+
+  return $partial;
+}
 
 var parti_partial$ = function($partial, force) {
   parti_prepare($partial, force);
@@ -1633,6 +1642,36 @@ $(function(){
       url: $(elm).data('url'),
       type: "get"
     });
+  });
+
+  // 게시물 폴더 선택
+  $(document).on('hidden.bs.select', '.js-folder-selector .bootstrap-select.js-parti-bootstrap-select', function(e) {
+    var $bs_select_control = $(e.currentTarget);
+    var $select_control = $bs_select_control.find('select');
+    var select_value = $select_control.val();
+    if(select_value == "-1") {
+      $('.js-new-folder').show();
+    } else {
+      $('.js-new-folder').hide();
+    }
+    $select_control.trigger('parti-need-to-validate');
+  });
+
+  // 공통 모달 열고 닫을 때 화면 정리
+  $(document).on('shown.bs.modal', '#js-modal-placeholder > .modal', function(e) {
+    $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('collapse');
+    $('#js-modal-placeholder .js-modal-placeholder-action-dialog').removeClass('collapse');
+  });
+
+  $(document).on('hidden.bs.modal', '#js-modal-placeholder > .modal', function(e) {
+    var $action_dialog = $('#js-modal-placeholder .js-modal-placeholder-action-dialog')
+    $action_dialog.removeClass();
+    $action_dialog.addClass('modal-dialog js-modal-placeholder-action-dialog collapse');
+    $action_dialog.html('');
+
+    var $loading_dialog = $('#js-modal-placeholder .js-modal-placeholder-loading-dialog')
+    $loading_dialog.removeClass();
+    $loading_dialog.addClass('modal-dialog js-modal-placeholder-loading-dialog');
   });
 });
 

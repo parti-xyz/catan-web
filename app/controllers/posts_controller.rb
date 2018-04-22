@@ -228,6 +228,38 @@ class PostsController < ApplicationController
     @unread_pinned_posts = current_user.unread_pinned_posts
   end
 
+  def folder_form
+  end
+
+  def add_to_folder
+    param_folder_id = params[:post][:folder_id]
+    if param_folder_id.blank?
+      @folder = nil
+    elsif param_folder_id == "-1"
+      @folder = Folder.new(title: params[:folder][:title], issue: @post.issue)
+    else
+      @folder = Folder.find_by(id: param_folder_id)
+      render_404 and return if @folder.blank?
+
+      if @post.issue != @folder.issue
+        flash[:error] = t('errors.messages.folder.bad_issue')
+        return
+      end
+    end
+
+    @post.folder = @folder
+    ActiveRecord::Base.transaction do
+      @folder.save if !@folder.nil? and !@folder.persisted?
+      unless @post.save
+        errors_to_flash @post
+      end
+    end
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
 
   def social_card

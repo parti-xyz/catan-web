@@ -17,6 +17,7 @@ post_talk5:
   user: one
   issue: issue1
   body: 'talk5'
+  folder: folder1
   last_stroked_at: <%= 3.day.ago.to_s(:db) %>
 post_survey1:
   user: one

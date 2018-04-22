@@ -73,6 +73,8 @@ ko:
       mini_magick_processing_error: "이미지 파일이 아니거나 처리할 수 없는 파일입니다."
       min_size_error: "파일사이즈가 너무 작습니다."
       max_size_error: "파일사이즈가 너무 큽니다."
+      label:
+        bad_issue: "다른 빠띠 폴더로는 옮길 수 없습니다."
     models:
       user:
         attributes:

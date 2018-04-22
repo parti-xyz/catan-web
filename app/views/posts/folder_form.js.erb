@@ -1,0 +1,8 @@
+var $modal = $('<%= j(render 'posts/folder_form_modal', post: @post) %>');
+$('#js-modal-placeholder .js-modal-placeholder-action-dialog').addClass('modal-dialog-folder-form');
+$('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-folder-form');
+$('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($modal);
+$('#js-modal-placeholder > .modal').modal("show");
+$(document).on('shown.bs.modal', '#js-modal-placeholder > .modal', function(e) {
+  parti_partial$($('#js-modal-placeholder .js-modal-placeholder-action-dialog'), true);
+});

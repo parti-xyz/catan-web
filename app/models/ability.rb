@@ -14,9 +14,14 @@ class Ability
       end
       can [:create, :new_intro, :search_by_tags, :bookmarks, :add_bookmark, :remove_bookmark], [Issue]
 
+      can [:create, :destroy], [Folder] do |folder|
+        folder.issue.present? and !folder.issue.try(:private_blocked?, user) && folder.issue.try(:postable?, user)
+      end
+
+
       can [:pinned], [Post]
       can [:update, :destroy, :edit_decision, :update_decision, :decision_histories, :move, :move_form], [Post], user_id: user.id
-      can [:create], [Post] do |post|
+      can [:create, :folder_form, :add_to_folder, :remove_from_folder], [Post] do |post|
         post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
       end
       can [:new_wiki, :update_wiki, :edit_decision, :update_decision, :decision_histories], [Post] do |post|

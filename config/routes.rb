@@ -148,6 +148,8 @@ Rails.application.routes.draw do
       get 'edit_decision'
       patch 'update_decision'
       get 'decision_histories'
+      get 'folder_form'
+      patch 'add_to_folder'
       namespace :wiki, module: nil, controller: "wikis" do
         patch 'purge'
         patch 'activate'
@@ -160,6 +162,11 @@ Rails.application.routes.draw do
       get 'pinned'
     end
   end
+  resources :folders do
+    put 'add_post', on: :member
+    delete 'remove_post', on: :member
+  end
+
   resources 'wiki_histories'
   post 'feedbacks', to: 'feedbacks#create'
   get '/feedbacks/all_users', to: 'feedbacks#all_users', as: :all_users_feedbacks
