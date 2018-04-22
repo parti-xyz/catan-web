@@ -11,20 +11,10 @@
           = link_to '다시 위키 게시하기', activate_wiki_post_path(post), method: :patch
       - if post.wiki.inactivatable?
         %li
-          = link_to '위키 아카이브하기', inactivate_wiki_post_path(post), method: :patch
+          = link_to '위키 아카이브하기', inactivate_wiki_post_path(post), method: :patch, data: { confirm: '정말 아카이브하시겠습니까?' }
       - if post.wiki.purgeable?
         %li
-          = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch
-      - if user_signed_in? and !can?(:move, post)
-        - if post.private_blocked?(post.user)
-          %li
-            %a{ data: { trigger: 'hover', action: 'parti-popover', content: "위키를 작성한 @#{post.user.nickname}님이 이 빠띠를 탈퇴하였거나 접근할 수 없습니다.", style: 'inverse', target: 'messenger-balloon'} }
-              %span.text-muted
-                빠띠이동 불가
-              %i.fa.fa-ban
-        - else
-          %li
-            %a.cursor-pointer.js-mention{ href: '#', data: { mention_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': post.user.nickname, 'mention-text': "게시글 이동을 부탁드려요." } }<> 빠띠 이동요청
+          = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch, data: { confirm: '정말 지우시겠습니까?' }
 - button_groups << capture do
   - if can?(:update, post) and post.wiki.blank?
     %li
@@ -42,7 +32,16 @@
     %li
       = link_to [:move_form, post] do
         빠띠 이동
-
+  - elsif post.issue.member?(current_user)
+    - if post.private_blocked?(post.user)
+      %li
+        %a{ data: { trigger: 'hover', action: 'parti-popover', content: "위키를 작성한 @#{post.user.nickname}님이 이 빠띠를 탈퇴하였거나 접근할 수 없습니다.", style: 'inverse', target: 'messenger-balloon'} }
+          %span.text-muted
+            빠띠이동 불가
+          %i.fa.fa-ban
+    - else
+      %li
+        %a.cursor-pointer.js-mention{ href: '#', data: { mention_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': post.user.nickname, 'mention-text': "게시글 이동을 부탁드려요." } }<> 빠띠 이동요청
 - button_groups << capture do
   - if can? :pin, post
     %li
