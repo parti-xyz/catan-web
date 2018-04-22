@@ -151,6 +151,8 @@ group :development, :test do
   gem 'spring'
   gem 'mocha', '~> 1.1'
   gem 'puma'
+  gem 'quiet_assets'
+  gem 'sassc-rails'
 end
 
 group :development do

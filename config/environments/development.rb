@@ -51,6 +51,8 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
+  config.sass.inline_source_maps = true
+  config.assets.quiet = true
 end
 
 Rails.application.routes.default_url_options[:host] = 'parti.test'

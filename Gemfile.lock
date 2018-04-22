@@ -448,6 +448,8 @@ GEM
       method_source (~> 0.9.0)
     public_suffix (3.0.1)
     puma (3.11.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.9)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -535,6 +537,17 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (1.11.4)
+      bundler
+      ffi (~> 1.9.6)
+      sass (>= 3.3.0)
+    sassc-rails (1.3.0)
+      railties (>= 4.0.0)
+      sass
+      sassc (~> 1.9)
+      sprockets (> 2.11)
+      sprockets-rails
+      tilt
     scoped_search (4.1.2)
       activerecord (>= 4.2.0)
     search_cop (1.0.9)
@@ -708,6 +721,7 @@ DEPENDENCIES
   postmark-rails (~> 0.12.0)
   premailer-rails (~> 1.9)
   puma
+  quiet_assets
   rack-cors
   rack-mini-profiler
   rails (= 4.2.10)
@@ -725,6 +739,7 @@ DEPENDENCIES
   rolify
   rubyzip (>= 1.2.1)
   sass-rails (~> 5.0)
+  sassc-rails
   scoped_search (~> 4.1)
   search_cop
   seed-fu (~> 2.3, >= 2.3.5)
