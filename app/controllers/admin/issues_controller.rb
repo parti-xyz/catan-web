@@ -66,11 +66,23 @@ class Admin::IssuesController < Admin::BaseController
         ActiveRecord::Base.record_timestamps = true
       end
 
+      # folders
+      ActiveRecord::Base.record_timestamps = false
+      begin
+        source.folders.each do |source_folder|
+          if target.folders.exists?(title: source_folder.title)
+            source_folder.update(title: "#{source_folder.title}-복사됨")
+          end
+          source_folder.update(issue_id: target.id)
+        end
+      ensure
+        ActiveRecord::Base.record_timestamps = true
+      end
+
       # posts : issue_id
       ActiveRecord::Base.record_timestamps = false
       begin
         source.posts.update_all(issue_id: target.id)
-
 
         # upvotes : issue_id
         Upvote.where(issue: source).each do |upvote|
