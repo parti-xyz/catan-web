@@ -20,7 +20,6 @@
 //= require jquery.webui-popover
 //= require bootstrap-add-clear
 //= require diacritics
-//= require bootstrap-dropdown-filter
 //= require bootstrap-select
 //= require bootstrap-select/defaults-ko_KR.js
 //= require jquery.viewport
