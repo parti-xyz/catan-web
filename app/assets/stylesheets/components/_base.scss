@@ -18,6 +18,9 @@
 .cursor-pointer {
   cursor: pointer;
 }
+.hover-text-primary:hover {
+  color: $brand-primary
+}
 .margin-bottom-default {
   margin-bottom: 12px;
 }
