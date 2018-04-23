@@ -20,7 +20,7 @@ class FoldersController < ApplicationController
       errors_to_flash(@folder)
     end
 
-    redirect_to smart_folder_path(@folder)
+    redirect_to smart_folder_url(@folder)
   end
 
   private

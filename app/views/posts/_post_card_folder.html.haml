@@ -1,5 +1,6 @@
-- if post.folder.present?
-  %span.issue-separator /
-  %span.post-line-folder
-    %i.fa.fa-folder-o
-    = post.folder.title
+%span{ class: "#{post_folder_dom_class(post)} #{'header-separator-item' if post.folder.present?}" }
+  - if post.folder.present?
+    = link_to smart_folder_url(post.folder) do
+      %span.post-line-folder
+        %i.fa.fa-folder-o
+        = post.folder.title

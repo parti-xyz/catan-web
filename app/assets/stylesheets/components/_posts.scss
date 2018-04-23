@@ -53,21 +53,24 @@
     }
     .media-body {
       vertical-align: middle;
-      .issue-title,
-      .post-line-folder {
-        color: $brand-primary;
-      }
-      .issue-group {
-        color: $brand-primary;
-      }
-      .issue-separator {
-        color: $gray-a;
-        padding: 0 4px;
-      }
     }
     .media-right {
       text-align: right;
       .post-modal__btn {
+      }
+    }
+    .issue-title,
+    .post-line-folder {
+      color: $brand-primary;
+    }
+    .issue-group {
+      color: $brand-primary;
+    }
+    .header-separator-item + .header-separator-item {
+      &:before {
+        content: '/';
+        color: $gray-a;
+        padding: 0 4px;
       }
     }
   }

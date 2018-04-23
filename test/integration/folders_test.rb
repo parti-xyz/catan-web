@@ -9,7 +9,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert issues(:issue1).member? users(:three)
     sign_in(users(:three))
 
-    patch add_to_folder_post_path(id: posts(:post_talk1).id, format: :js),
+    patch update_folder_post_path(id: posts(:post_talk1).id, format: :js),
       { post: { folder_id: folders(:folder1).id } }
 
     assert folders(:folder1), assigns(:post).folder
@@ -23,7 +23,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert issues(:issue1).member? users(:three)
     sign_in(users(:three))
 
-    patch add_to_folder_post_path(id: posts(:post_talk1).id, format: :js),
+    patch update_folder_post_path(id: posts(:post_talk1).id, format: :js),
       { post: { folder_id: -1 }, folder: { title: '새폴더' } }
 
     assert assigns(:folder), assigns(:post).folder
@@ -36,7 +36,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert issues(:issue1).member? users(:one)
     sign_in(users(:one))
 
-    patch add_to_folder_post_path(id: posts(:post_talk2).id, format: :js),
+    patch update_folder_post_path(id: posts(:post_talk2).id, format: :js),
       { post: { folder_id: folders(:folder1).id } }
 
     assert_nil assigns(:post).folder
@@ -48,7 +48,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert issues(:issue1).member? users(:three)
     sign_in(users(:three))
 
-    patch add_to_folder_post_path(id: posts(:post_talk5).id, format: :js),
+    patch update_folder_post_path(id: posts(:post_talk5).id, format: :js),
       { post: { folder_id: '' } }
 
     assert_nil assigns(:post).folder
@@ -60,7 +60,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     assert issues(:issue1).member? users(:three)
     sign_in(users(:three))
 
-    patch add_to_folder_post_path(id: posts(:post_talk1).id, format: :js),
+    patch update_folder_post_path(id: posts(:post_talk1).id, format: :js),
       { post: { folder_id: folders(:folder1).id } }
 
     delete folder_path(id: folders(:folder1), format: :js)

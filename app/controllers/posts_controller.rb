@@ -228,10 +228,10 @@ class PostsController < ApplicationController
     @unread_pinned_posts = current_user.unread_pinned_posts
   end
 
-  def folder_form
+  def edit_folder
   end
 
-  def add_to_folder
+  def update_folder
     param_folder_id = params[:post][:folder_id]
     if param_folder_id.blank?
       @folder = nil

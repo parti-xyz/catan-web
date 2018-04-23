@@ -91,6 +91,14 @@ module DomHelper
     ".#{post_folder_dom_class(post)}"
   end
 
+  def post_folder_wrapper_dom_class(post)
+    "#{dom_id(post)}-folder-wrapper"
+  end
+
+  def post_folder_wrapper_dom_selector(post)
+    ".#{post_folder_wrapper_dom_class(post)}"
+  end
+
   def survey_options_dom_class(post)
     dom_id(post.survey)
   end

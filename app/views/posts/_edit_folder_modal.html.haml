@@ -5,7 +5,7 @@
         %label 새 폴더 이름
         = text_field_tag 'folder[title]', nil, class: 'form-control', data: { 'rule-required': true }
     - form_id = "folder-form-#{SecureRandom.uuid}"
-    = form_for [:add_to_folder, post], remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
+    = form_for [:update_folder, post], remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
       .form-group
         %p.help-text
           %strong "#{post.specific_desc_striped_tags(25)}"

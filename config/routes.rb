@@ -148,8 +148,8 @@ Rails.application.routes.draw do
       get 'edit_decision'
       patch 'update_decision'
       get 'decision_histories'
-      get 'folder_form'
-      patch 'add_to_folder'
+      get 'edit_folder'
+      patch 'update_folder'
       namespace :wiki, module: nil, controller: "wikis" do
         patch 'purge'
         patch 'activate'

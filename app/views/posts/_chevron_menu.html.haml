@@ -24,9 +24,9 @@
     %li
       = link_to post_path(post), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
         삭제
-  - if can? :folder_form, post
+  - if can? :edit_folder, post
     %li
-      = link_to folder_form_post_path(post), remote: true do
+      = link_to edit_folder_post_path(post), remote: true do
         폴더 이동
   - if can?(:move_to_issue, post)
     %li

@@ -21,7 +21,7 @@ class Ability
 
       can [:pinned], [Post]
       can [:update, :destroy, :edit_decision, :update_decision, :decision_histories, :move_to_issue, :move_to_issue_form], [Post], user_id: user.id
-      can [:create, :folder_form, :add_to_folder, :remove_from_folder], [Post] do |post|
+      can [:create, :edit_folder, :update_folder], [Post] do |post|
         post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
       end
       can [:new_wiki, :update_wiki, :edit_decision, :update_decision, :decision_histories], [Post] do |post|
