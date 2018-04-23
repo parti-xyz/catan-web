@@ -21,7 +21,7 @@
           %ul.list-unstyled
             %li
               = link_to smart_folder_url(folder) do
-                %i.fa.fa-folder-o
+                \/
                 = folder.title
         - if @folders.blank?
           .bg-default.text-center
@@ -43,7 +43,7 @@
               %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
                 - if @issue.folders.where.not(id: @current_folder.id).any?
                   %li.dropdown-header 다른 폴더로 이동
-                  - @issue.folders.each do |folder|
+                  - @issue.folders.sort_by_name.each do |folder|
                     %li.clearfix
                       = link_to smart_folder_url(folder) do
                         = folder.title

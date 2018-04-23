@@ -110,7 +110,7 @@ class IssuesController < ApplicationController
   def slug_folders
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
     how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
-    @folders = @issue.folders
+    @folders = @issue.folders.sort_by_name
     @current_folder = Folder.find_by(id: params[:folder_id])
     @posts = Post.none
     @posts = Post.where(folder: @current_folder).send(how_to).page(params[:page]).per(3*5) if @current_folder.present?

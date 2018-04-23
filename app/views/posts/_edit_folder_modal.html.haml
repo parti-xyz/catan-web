@@ -16,7 +16,7 @@
         - if post.issue.folders.any?
           .js-folder-selector
             = f.select :folder_id, [], {}, class: 'form-control icon-select js-parti-bootstrap-select', data: { 'show-tick': 'true' } do
-              - post.issue.folders.each do |folder|
+              - post.issue.folders.sort_by_name.each do |folder|
                 %option{ value: folder.id, selected: folder == post.folder }
                   = folder.title
               %option{ 'data-divider': "true" }
