@@ -5,7 +5,8 @@ class Ability
     can [:read, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form], :all
     can [:home, :indies, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
-      :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag], Issue
+      :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag,
+      :slug_folders], Issue
     can [:more_comments, :wiki], Post
     can [:users], [Upvote]
     if user
@@ -15,14 +16,25 @@ class Ability
       can [:create, :new_intro, :search_by_tags, :bookmarks, :add_bookmark, :remove_bookmark], [Issue]
 
       can [:create, :destroy, :update], [Folder] do |folder|
-        folder.issue.present? and !folder.issue.try(:private_blocked?, user) && folder.issue.try(:postable?, user)
+        if Folder.tryable?(folder.issue)
+          folder.issue.present? and !folder.issue.try(:private_blocked?, user) && folder.issue.try(:postable?, user)
+        else
+          false
+        end
       end
 
 
       can [:pinned], [Post]
       can [:update, :destroy, :edit_decision, :update_decision, :decision_histories, :move_to_issue, :move_to_issue_form], [Post], user_id: user.id
-      can [:create, :edit_folder, :update_folder], [Post] do |post|
+      can [:create], [Post] do |post|
         post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+      end
+      can [:edit_folder, :update_folder], [Post] do |post|
+        if Folder.tryable?(post.issue)
+          post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+        else
+          false
+        end
       end
       can [:new_wiki, :update_wiki, :edit_decision, :update_decision, :decision_histories], [Post] do |post|
         post.issue.present? and !post.issue.blind_user?(user) and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)

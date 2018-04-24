@@ -88,9 +88,10 @@
                 = link_to smart_issue_wikis_path(issue) do
                   %h5 위키
 
-              .col-xs-custom-1{class: ('active' if active_tab == :folders)}
-                = link_to smart_issue_folders_path(issue) do
-                  %h5 폴더
+              - if Folder.tryable?(issue)
+                .col-xs-custom-1{class: ('active' if active_tab == :folders)}
+                  = link_to smart_issue_folders_path(issue) do
+                    %h5 폴더
 
               .col-xs-custom-1{class: ('active' if active_tab == :users)}
                 = link_to smart_issue_members_path(issue) do
