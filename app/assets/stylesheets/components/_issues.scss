@@ -136,6 +136,8 @@ section#issues-group-index {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.2);
     width: 100%;
+
+    $parti-menu-height: 40px;
     .row {
       border-color: #d2d2d2;
       text-align: center;
@@ -144,12 +146,12 @@ section#issues-group-index {
       div[class*='col-'] {
         position: relative;
         padding: 0;
-        a {
+        a.parti-menu-a {
           display: block;
           color: #fff;
           border: none;
           width: 100%;
-          height: 40px;
+          height: $parti-menu-height;
           &:hover {
             background-color: $brand-primary;
           }
@@ -157,11 +159,14 @@ section#issues-group-index {
             color: #be97ff;
           }
         }
-        &.active > a {
+        &.active > a.parti-menu-a {
           background-color: $brand-primary;
         }
+        .parti-menu-dropdownp-icon {
+          line-height: $parti-menu-height;
+        }
         h5 {
-          line-height: 40px;
+          line-height: $parti-menu-height;
           margin: 0;
         }
         .count {

@@ -73,26 +73,37 @@
           .col-sm-8.col-xs-12
             .row
               .col-xs-custom-1{ class: ('active' if active_tab.nil? || active_tab == :home) }
-                = link_to smart_issue_home_path_or_url(issue) do
+                = link_to smart_issue_home_path_or_url(issue), class: 'parti-menu-a' do
                   %h5 전체글
 
               .col-xs-custom-1{class: ('active' if active_tab == :polls)}
-                = link_to smart_issue_polls_or_surveys_path(issue) do
+                = link_to smart_issue_polls_or_surveys_path(issue), class: 'parti-menu-a' do
                   %h5= t('labels.polls_or_surveys')
 
               .col-xs-custom-1{class: ('active' if active_tab == :links_or_files)}
-                = link_to smart_issue_links_or_files_path(issue) do
+                = link_to smart_issue_links_or_files_path(issue), class: 'parti-menu-a' do
                   %h5 자료
 
               .col-xs-custom-1{class: ('active' if active_tab == :wikis)}
-                = link_to smart_issue_wikis_path(issue) do
+                = link_to smart_issue_wikis_path(issue), class: 'parti-menu-a' do
                   %h5 위키
 
               - if Folder.tryable?(issue)
                 .col-xs-custom-1{class: ('active' if active_tab == :folders)}
-                  = link_to smart_issue_folders_path(issue) do
+                  = link_to smart_issue_folders_path(issue), class: 'parti-menu-a' do
                     %h5 폴더
+                  - if @issue.folders.any?
+                    .hidden-xs
+                      %span.dropdown{ style: 'position: absolute; top: 0; right: 0.8em;'}
+                        %span.dropdown-toggle.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                          %i.fa.fa-chevron-down.parti-menu-dropdownp-icon
+                        %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
+                          %li.dropdown-header 폴더로 이동
+                          - @issue.folders.sort_by_name.each do |folder|
+                            %li
+                              = link_to smart_folder_url(folder) do
+                                = folder.title
 
               .col-xs-custom-1{class: ('active' if active_tab == :users)}
-                = link_to smart_issue_members_path(issue) do
+                = link_to smart_issue_members_path(issue), class: 'parti-menu-a' do
                   %h5 멤버
