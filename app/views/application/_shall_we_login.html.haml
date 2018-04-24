@@ -4,7 +4,7 @@
       %h3 로그인
       %a.login-box__close{href: "#", "data-dismiss": "parti-login-overlay", type: "button"}
         = image_tag 'icon_close.png'
-    %h1.login-box__txt.hidden-xs
+    %h2.login-box__txt.hidden-xs
       팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠
     .login-box__content
       = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) } do
