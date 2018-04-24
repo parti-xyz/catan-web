@@ -195,7 +195,11 @@ class Issue < ActiveRecord::Base
   }
   scope :only_private, -> { where(private: true) }
   scope :postable, ->(someone) {
-    where.any_of(where(id: someone.organizing_issues), where(id: someone.member_issues, notice_only: false))
+    if someone.present?
+      where.any_of(where(id: someone.organizing_issues), where(id: someone.member_issues, notice_only: false))
+    else
+      where(id: nil)
+    end
   }
 
   # search
