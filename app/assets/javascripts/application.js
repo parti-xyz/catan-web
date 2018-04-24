@@ -39,6 +39,8 @@
 //= require photoswipe
 //= require jquery.scrollTo
 //= require loadash
+//= require bootstrap-datepicker
+//= require bootstrap-datepicker.kr.min
 
 // blank
 $.is_blank = function (obj) {

@@ -1,7 +1,13 @@
 %section#counts
   %h4 활성 빠띠 조회
   .well
-    어제 일 기준으로 포스팅 1건 이상, 댓글 3건 이상이 올라온 빠띠를 활성 빠띠로 산정하여 조회합니다.
+    %p 일 기준으로 포스팅 1건 이상, 댓글 3건 이상이 올라온 빠띠를 활성 빠띠로 산정하여 조회합니다.
+    = form_tag nil, method: :get, class: 'form-inline' do
+      .form-group
+        = text_field_tag :stat_at, params[:stat_at], id: 'js-active-issue-stat-at-input', class: 'form-control'
+      = submit_tag '조회'
+
+  %h5= params[:stat_at]
   %table.table
     %thead
       %tr
@@ -9,11 +15,12 @@
         %th 빠띠 이름
         %th 신규 포스팅 수
         %th 신규 댓글 수
+        %th 신규 가입자 수
     %tbody
       - @active_issue_stats.each do |group_slug, active_issues|
         %tr{ style: 'background-color: #f5f5f5' }
           - group = Group.find_by(slug: group_slug)
-          %td{colspan: 4}= link_to group.title_basic_format, smart_group_url(group)
+          %td{colspan: 5}= link_to group.title_basic_format, smart_group_url(group)
         - active_issues.each do |active_issue|
           %tr
             %td= active_issue.stat_at
@@ -22,3 +29,17 @@
               = link_to issue.title, smart_issue_home_path_or_url(issue)
             %td= active_issue.new_posts_count
             %td= active_issue.new_comments_count
+            %td= active_issue.new_members_count
+
+- content_for :script do
+  :javascript
+    $(function(){
+      $('#js-active-issue-stat-at-input').datepicker({
+        format: "yyyy-mm-dd",
+        endDate: "0d",
+        maxViewMode: 2,
+        language: "kr",
+        autoclose: true,
+        todayHighlight: true
+      });
+    });
