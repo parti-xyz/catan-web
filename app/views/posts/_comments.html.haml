@@ -27,7 +27,8 @@
             .comment-form__area
               = f.text_area :body, class: "form-control comment-body validate", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, id: new_comment_form_body_input_dom_id(post)
             = f.submit '게시', class: 'btn btn-primary comment-form__btn collapse', data: { disable_with: "게시 중..." }
-
+  - elsif post.comments.any?
+    .post-card__comment-form.comment-line
 - if comment_capture.present?
   .post-card__comments
     = comment_capture

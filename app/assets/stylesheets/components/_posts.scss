@@ -131,6 +131,9 @@
   }
   &__comments {
     padding: 0 18px;
+    &.sign-out {
+      padding-bottom: 12px;
+    }
     border-top: 1px solid $gray-less-lighter;
     background-color: $gray-lightest;
     border-bottom-left-radius: 4px;
