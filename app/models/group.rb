@@ -169,7 +169,7 @@ class Group < ActiveRecord::Base
   end
 
   def self.comprehensive_joined_by(someone)
-    Group.none if someone.blank?
+    return Group.none if someone.blank?
     self.where(slug: (someone.member_issues.select(:group_slug)))
         .or(self.where(id: someone.member_groups))
   end
