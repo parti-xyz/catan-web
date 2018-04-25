@@ -10,12 +10,12 @@
     .post-line.post-line[post]
       .post-body
         - if post.file_sources.only_image.any?
-          - odd = post.file_sources.only_image.count.odd?
+          - multi = post.file_sources.count > 1
           - image_id = "image-#{SecureRandom.uuid}"
           .post-reference-line-file-content-wrapper--image<>
             - previous_style = nil
             - post.file_sources.only_image.sort_by_seq_no.limit(2).each_with_index do |file_source, index|
-              - if index == 0 and odd == true
+              - if index == 0 and multi == false
                 - current_style = 'single'
               - elsif previous_style == 'left'
                 - current_style = 'right'
