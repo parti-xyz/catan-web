@@ -1,6 +1,6 @@
 .upvoted-users{id: "#{dom_id(upvotable)}-upvoted-users"}
   - upvotable.upvote_users.each do |user|
     = link_to smart_user_gallery_path(user), target: '_blank' do
-      .user-info
+      .user-info.text-nowrap
         .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
         = user.nickname

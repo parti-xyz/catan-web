@@ -68,7 +68,7 @@
                           .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users"}
                             - option.feedback_users.each do |user|
                               = link_to smart_user_gallery_path(user), target: '_blank' do
-                                .user-info
+                                .user-info.text-nowrap
                                   .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
                                   = user.nickname
                       - else
@@ -101,7 +101,7 @@
                         .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
                           - post.survey.feedback_users.each do |user|
                             = link_to smart_user_gallery_path(user), target: '_blank' do
-                              .user-info
+                              .user-info.text-nowrap
                                 .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
                                 = user.nickname
                       - if post.survey.multiple_select?
