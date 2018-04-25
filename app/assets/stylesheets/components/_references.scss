@@ -311,6 +311,7 @@ section#references {
     &__file-size {
       font-size: $font-size-base;
       color: $gray-light;
+      white-space: nowrap;
     }
     &__file-image {
       a {
