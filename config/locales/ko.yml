@@ -106,7 +106,7 @@ ko:
         site_description: 설명
         slug: 주소
         private: 비공개
-        head_title: 다섯 글자 이름
+        head_title: 짧은 제목
         site_keywords: 키워드
         organizer_nicknames: 오거나이저
         key_visual_foreground_image: 그룹홈 상단 이미지

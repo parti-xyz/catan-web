@@ -51,7 +51,7 @@ class Group < ActiveRecord::Base
   validates :head_title,
     presence: true,
     uniqueness: { case_sensitive: false },
-    length: { maximum: 5 }
+    length: { maximum: 10 }
   validates :site_title,
     presence: true,
     length: { maximum: 50 }
