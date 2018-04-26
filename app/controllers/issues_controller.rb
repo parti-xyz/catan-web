@@ -331,7 +331,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def bookmarks
+  def my_menus
     @group = Group.find_by(slug: params[:group_slug])
     render_404 and return if @group.blank?
 
@@ -339,21 +339,21 @@ class IssuesController < ApplicationController
     @issues = @issues.of_group(@group)
   end
 
-  def add_bookmark
-    unless current_user.bookmarked?(@issue)
-      current_user.bookmarks.create(issue: @issue)
+  def add_my_menu
+    unless current_user.my_menu?(@issue)
+      current_user.my_menus.create(issue: @issue)
     end
     if request.format.js?
-      render 'issues/add_or_remove_bookmark'
+      render 'issues/add_or_remove_my_menu'
     else
       redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
     end
   end
 
-  def remove_bookmark
-    current_user.bookmarks.where(issue: @issue).destroy_all
+  def remove_my_menu
+    current_user.my_menus.where(issue: @issue).destroy_all
     if request.format.js?
-      render 'issues/add_or_remove_bookmark'
+      render 'issues/add_or_remove_my_menu'
     else
       redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
     end

@@ -110,7 +110,7 @@ class Issue < ActiveRecord::Base
   has_many :invitations, as: :joinable, dependent: :destroy
   belongs_to :destroyer, class_name: User
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug
-  has_many :bookmarks, dependent: :destroy
+  has_many :my_menus, dependent: :destroy
   has_many :active_issue_stats, dependent: :destroy
   has_many :folders, dependent: :destroy
 
@@ -191,8 +191,8 @@ class Issue < ActiveRecord::Base
     end
     conditions
   }
-  scope :bookmarked_by, ->(someone) {
-    where(id: Bookmark.where(user: someone).select(:issue_id))
+  scope :only_my_menu, ->(someone) {
+    where(id: MyMenu.where(user: someone).select(:issue_id))
   }
   scope :only_private, -> { where(private: true) }
   scope :postable, ->(someone) {

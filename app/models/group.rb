@@ -12,9 +12,6 @@ class Group < ActiveRecord::Base
   extend Enumerize
   enumerize :plan, in: [:premium, :lite], predicates: true, scope: true
 
-  mount_uploader :logo, ImageUploader
-  mount_uploader :cover, ImageUploader
-
   SLUG_OF_UNION = 'union'
 
   belongs_to :user
@@ -35,7 +32,8 @@ class Group < ActiveRecord::Base
   scope :not_private_blocked, ->(current_user) { where.any_of(
                                                     where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id')),
                                                     where.not(private: true)) }
-  mount_uploader :logo, ImageUploader
+  mount_uploader :key_visual_foreground_image, ImageUploader
+  mount_uploader :key_visual_background_image, ImageUploader
 
   validates :title,
     presence: true,

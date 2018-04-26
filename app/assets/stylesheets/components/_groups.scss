@@ -19,16 +19,16 @@
   }
 }
 body.in-group {
-  @media (min-width: $screen-sm-min) {
-    #group-key-visual-bg {
-      height: 500px;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
+  .group-key-visual {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .group-key-visual-only-bg {
+    height: 500px;
   }
   @media (max-width: $screen-xs-max) {
-    #group-key-visual {
+    .group-key-visual {
       display: none;
     }
   }
@@ -58,7 +58,13 @@ body.in-group {
     }
   }
 }
-
+/* 고급설정 접었다 펼치기 */
+body.app-group--configurations-new,
+body.app-group--configurations-create,
+body.app-group--configurations-edit,
+body.app-group--configurations-update {
+  @include form-advanced-option;
+}
 .group-modal-dialog{
   width: 600px;
   margin: 30px auto;

@@ -99,13 +99,13 @@ Rails.application.routes.draw do
       get :destroy_form
       get :new_admit_members
       post :admit_members
-      put :add_bookmark
-      delete :remove_bookmark
+      put :add_my_menu
+      delete :remove_my_menu
     end
     collection do
       get :indies
       get :search_by_tags
-      get :bookmarks
+      get :my_menus
       post :merge
     end
     resources :members do
@@ -190,7 +190,12 @@ Rails.application.routes.draw do
   resources :invitations
 
   namespace :group do
-    resource :configuration
+    resource :configuration do
+      member do
+        delete :remove_key_visual_foreground_image
+        delete :remove_key_visual_background_image
+      end
+    end
     resources :members do
       collection do
         put :organizer

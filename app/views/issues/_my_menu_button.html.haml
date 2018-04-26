@@ -1,0 +1,21 @@
+.my-menu-control{ class: issue_line_my_menu_dom_class(issue) }
+  - popover_dom_id = SecureRandom.uuid
+  - if current_user.my_menu?(issue)
+    %button.btn.btn-primary.btn-xs.btn-my-menu-btn{"data-url": "##{popover_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}
+      %i.fa.fa-thumb-tack
+      고정노출
+      %i.fa.fa-caret-down
+      .hidden
+        .my-menu-btn{id: popover_dom_id}
+          = link_to [:remove_my_menu, issue], method: :delete, remote: true, 'data-disable-with': '처리 중...' do
+            자동으로 노출하기
+  - else
+    %button.btn.btn-default.btn-xs.btn-my-menu-btn{"data-url": "##{popover_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}
+      %i.fa.fa-sliders
+      자동노출
+      %i.fa.fa-caret-down
+      .hidden
+        .my-menu-btn{id: popover_dom_id}
+          = link_to [:add_my_menu, issue], method: :put, remote: true, 'data-disable-with': '처리 중...' do
+            고정으로 노출하기
+

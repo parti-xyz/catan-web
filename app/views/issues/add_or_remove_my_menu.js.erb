@@ -1,0 +1,4 @@
+$('[data-action=parti-popover]').webuiPopover('hide');
+var $target = $('<%= issue_line_my_menu_dom_selector(@issue) %>');
+$target.replaceWith('<%= j(render 'issues/my_menu_button', issue: @issue) %>');
+parti_partial$($target);

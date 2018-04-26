@@ -91,8 +91,8 @@ class User < ActiveRecord::Base
   has_many :last_touched_wiki, dependent: :nullify, class_name: Wiki, foreign_key: :last_author_id
   has_many :wiki_histories, dependent: :nullify
   has_many :decision_histories, dependent: :nullify
-  has_many :bookmarks, dependent: :destroy
-  has_many :bookmark_issues, through: :bookmarks, source: :issue
+  has_many :my_menus, dependent: :destroy
+  has_many :my_menu_issues, through: :my_menus, source: :issue
   has_many :folders, dependent: :nullify
 
   ## uploaders
@@ -265,8 +265,8 @@ class User < ActiveRecord::Base
     pinned_posts.where.not(id: Reader.where(member: self.members).select(:post_id))
   end
 
-  def bookmarked?(issue)
-    bookmarks.exists?(issue_id: issue)
+  def my_menu?(issue)
+    my_menus.exists?(issue_id: issue)
   end
 
   def latest_posted_issues(count)

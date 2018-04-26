@@ -33,7 +33,7 @@
           - else
             - fixed_issues = []
 
-            - fixed_issues = issues.bookmarked_by(current_user).to_a
+            - fixed_issues = issues.only_my_menu(current_user).to_a
             - issues = issues.where.not(id: fixed_issues)
 
             - if fixed_issues.count < magic_count
@@ -54,7 +54,7 @@
                 %a.js-show-more-sidemenu-issues(href="#")
                   %i.fa.fa-caret-down
                   더 보기
-                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
+                = link_to my_menus_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
                   %i.fa.fa-gear
                   설정
 
@@ -65,7 +65,7 @@
                 %a.js-show-less-sidemenu-issues{ href: "##{divider_dom_id}" }
                   %i.fa.fa-caret-up
                   접기
-                = link_to bookmarks_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
+                = link_to my_menus_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
                   %i.fa.fa-gear
                   설정
       - else

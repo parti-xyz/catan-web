@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180424150601) do
+ActiveRecord::Schema.define(version: 20180425155941) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -59,17 +59,6 @@ ActiveRecord::Schema.define(version: 20180424150601) do
 
   add_index "blinds", ["issue_id"], name: "index_blinds_on_issue_id", using: :btree
   add_index "blinds", ["user_id"], name: "index_blinds_on_user_id", using: :btree
-
-  create_table "bookmarks", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4, null: false
-    t.integer  "issue_id",   limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "bookmarks", ["issue_id"], name: "index_bookmarks_on_issue_id", using: :btree
-  add_index "bookmarks", ["user_id", "issue_id"], name: "index_bookmarks_on_user_id_and_issue_id", unique: true, using: :btree
-  add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",       limit: 4,                    null: false
@@ -163,23 +152,23 @@ ActiveRecord::Schema.define(version: 20180424150601) do
   add_index "folders", ["user_id"], name: "index_folders_on_user_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.integer  "user_id",          limit: 4,                        null: false
-    t.string   "title",            limit: 255,                      null: false
-    t.string   "site_title",       limit: 255,                      null: false
-    t.string   "head_title",       limit: 255,                      null: false
-    t.text     "site_description", limit: 16777215
-    t.text     "site_keywords",    limit: 16777215
-    t.string   "slug",             limit: 255,                      null: false
-    t.string   "logo",             limit: 255
-    t.string   "cover",            limit: 255
+    t.integer  "user_id",                     limit: 4,                        null: false
+    t.string   "title",                       limit: 255,                      null: false
+    t.string   "site_title",                  limit: 255,                      null: false
+    t.string   "head_title",                  limit: 255,                      null: false
+    t.text     "site_description",            limit: 16777215
+    t.text     "site_keywords",               limit: 16777215
+    t.string   "slug",                        limit: 255,                      null: false
     t.datetime "deleted_at"
-    t.string   "active",           limit: 255,      default: "on"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.boolean  "private",                           default: false, null: false
-    t.integer  "members_count",    limit: 4,        default: 0,     null: false
-    t.string   "magic_key",        limit: 255
-    t.string   "plan",             limit: 255,                      null: false
+    t.string   "active",                      limit: 255,      default: "on"
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
+    t.boolean  "private",                                      default: false, null: false
+    t.integer  "members_count",               limit: 4,        default: 0,     null: false
+    t.string   "magic_key",                   limit: 255
+    t.string   "plan",                        limit: 255,                      null: false
+    t.string   "key_visual_foreground_image", limit: 255
+    t.string   "key_visual_background_image", limit: 255
   end
 
   add_index "groups", ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true, using: :btree
@@ -350,6 +339,17 @@ ActiveRecord::Schema.define(version: 20180424150601) do
   add_index "messages", ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id", using: :btree
   add_index "messages", ["sender_id"], name: "index_messages_on_sender_id", using: :btree
   add_index "messages", ["user_id"], name: "index_messages_on_user_id", using: :btree
+
+  create_table "my_menus", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4, null: false
+    t.integer  "issue_id",   limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "my_menus", ["issue_id"], name: "index_my_menus_on_issue_id", using: :btree
+  add_index "my_menus", ["user_id", "issue_id"], name: "index_my_menus_on_user_id_and_issue_id", unique: true, using: :btree
+  add_index "my_menus", ["user_id"], name: "index_my_menus_on_user_id", using: :btree
 
   create_table "notes", force: :cascade do |t|
     t.text     "body",          limit: 16777215

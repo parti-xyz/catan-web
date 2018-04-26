@@ -1,4 +1,28 @@
 namespace :migrate do
+  desc "기존에 소스로 관리하던 그룹홈 키비주얼 이미지를 DB에 넣습니다"
+  task :db_group_key_visual_images => :environment do
+    ActiveRecord::Base.transaction do
+      Group.all.each do |group|
+        ['jpg', 'gif', 'png'].each do |ext|
+          image_file_path = Rails.root.join("app/assets/images/groups/#{group.slug}_thumb_main_keyvisual_bg.#{ext}")
+          if image_file_path.exist?
+            group.key_visual_background_image = image_file_path.open
+            break
+          end
+        end
+        ['jpg', 'gif', 'png'].each do |ext|
+          image_file_path = Rails.root.join("app/assets/images/groups/#{group.slug}_thumb_main_keyvisual.#{ext}")
+          if image_file_path.exist?
+            group.key_visual_foreground_image = image_file_path.open
+            break
+          end
+        end
+
+        group.save!
+      end
+    end
+  end
+
   desc "발제수다를 논의의 본문으로 옮깁니다"
   task :presetation_comment_to_talk_body => :environment do
     ActiveRecord::Base.transaction do

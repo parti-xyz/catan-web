@@ -35,3 +35,22 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+
+
+@mixin form-advanced-option {
+  .advanced-option{
+    margin:20px 0px;
+  }
+  .toggle-option{
+    display:inline-block;
+    width:80px;
+    padding: 6px;
+    border: 1px solid $gray-light;
+    margin-bottom: 12px;
+    cursor: pointer;
+    color: #ffffff;
+    font-weight: 600;
+    background-color: $gray-light;
+    border-radius: $border-radius-base;
+  }
+}

@@ -17,7 +17,7 @@ class Group::ConfigurationsController < Group::BaseController
     @group.members.build(user: current_user, is_organizer: true)
 
     if @group.save
-      redirect_to root_url(subdomain: @group.subdomain)
+      redirect_to smart_group_url(@group)
     else
       render 'new'
     end
@@ -65,7 +65,7 @@ class Group::ConfigurationsController < Group::BaseController
           MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
         end
         flash[:success] = t('activerecord.successful.messages.created')
-        redirect_to root_url(subdomain: @group.subdomain)
+        redirect_to smart_group_url(@group)
       else
         errors_to_flash @group
         render 'edit'
@@ -73,11 +73,27 @@ class Group::ConfigurationsController < Group::BaseController
     end
   end
 
+  def remove_key_visual_foreground_image
+    @group = current_group
+    @group.remove_key_visual_foreground_image!
+    @group.save
+    flash[:success] = t('activerecord.successful.messages.deleted')
+    redirect_to edit_group_configuration_path
+  end
+
+  def remove_key_visual_background_image
+    @group = current_group
+    @group.remove_key_visual_background_image!
+    @group.save
+    flash[:success] = t('activerecord.successful.messages.deleted')
+    redirect_to edit_group_configuration_path
+  end
+
   private
 
   def group_params
     # 민감한 정보인 slug은 따로 받습니다
     params.require(:group).permit(:title, :site_description, :site_title,
-      :head_title, :site_keywords, :private, :organizer_nicknames)
+      :head_title, :site_keywords, :private, :organizer_nicknames, :key_visual_foreground_image, :key_visual_background_image)
   end
 end

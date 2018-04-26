@@ -143,11 +143,11 @@ module DomHelper
     "#{dom_id(post)}-read-button"
   end
 
-  def issue_line_bookmark_dom_selector(issue)
-    ".#{issue_line_bookmark_dom_class(issue)}"
+  def issue_line_my_menu_dom_selector(issue)
+    ".#{issue_line_my_menu_dom_class(issue)}"
   end
 
-  def issue_line_bookmark_dom_class(issue)
-    "#{dom_id(issue)}-js-issue-line-bookmark-btn"
+  def issue_line_my_menu_dom_class(issue)
+    "#{dom_id(issue)}-js-issue-line-my-menu-btn"
   end
 end

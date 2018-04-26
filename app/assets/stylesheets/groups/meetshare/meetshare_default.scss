@@ -2,7 +2,7 @@
 @import "groups/meetshare/variables_meetshare";
 @import "groups/meetshare/meetshare";
 
-body.in-group #group-key-visual-bg {
+body.in-group .group-key-visual {
   height: 345px;
   background-position: bottom;
   @media (max-width: $screen-md-max) {

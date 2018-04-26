@@ -109,6 +109,8 @@ ko:
         head_title: 다섯 글자 이름
         site_keywords: 키워드
         organizer_nicknames: 오거나이저
+        key_visual_foreground_image: 그룹홈 상단 이미지
+        key_visual_background_image: 그룹홈 상단 배경 이미지
       issue:
         title: 제목
         body: 설명
@@ -159,6 +161,7 @@ ko:
     successful:
       messages:
         created: 저장되었습니다.
+        deleted: 삭제되었습니다.
         conflicted_wiki: 방금 다른 멤버가 위키를 업데이트해서 저장하지 않았습니다. 무엇을 고쳤는지 살펴보고 다시 저장해 주세요.
         invited: 성공적으로 초대했습니다.
     errors:
@@ -234,7 +237,7 @@ ko:
         body_help: 빠띠를 쉽고 재미있게 설명해보세요.
         category_slug: 주제
         logo: 대표 이미지(선택)
-        logo_help: 권장 이미지사이즈는 가로(800px) * 세로(800px) 입니다.
+        logo_help: 권장 이미지 사이즈는 가로(800px) * 세로(800px) 입니다.
         tag_list: 태그(선택)
       public_join: 가입하기
       groups:
@@ -246,6 +249,8 @@ ko:
         slug: 그룹 주소
         site_title: 제목(선택)
         site_keywords: 태그(선택)
+        key_visual_foreground_image: 그룹홈 상단 이미지(선택)
+        key_visual_background_image: 그룹홈 상단 배이미지(선택)
   enumerize:
     defaults:
       choice:

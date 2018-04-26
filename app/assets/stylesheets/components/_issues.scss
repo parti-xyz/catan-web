@@ -736,22 +736,10 @@ section#parti-organizing {
 }
 /* 고급설정 접었다 펼치기 */
 body.app-issues-new,
-body.app-issues-edit {
-  .advanced-option{
-    margin:20px 0px;
-  }
-  .toggle-option{
-    display:inline-block;
-    width:80px;
-    padding: 6px;
-    border: 1px solid $gray-light;
-    margin-bottom: 12px;
-    cursor: pointer;
-    color: #ffffff;
-    font-weight: 600;
-    background-color: $gray-light;
-    border-radius: $border-radius-base;
-  }
+body.app-issues-create,
+body.app-issues-edit,
+body.app-issues-update {
+  @include form-advanced-option;
 }
 .slick-arrow{
   width: 1em;
@@ -783,10 +771,10 @@ body.app-issues-edit {
   }
 }
 
-body.app-issues-bookmarks {
+body.app-issues-my-menus {
   .issue-line {
-    .bookmark-control {
-      .btn-bookmark-btn {
+    .my-menu-control {
+      .btn-my-menu-btn {
         width: 80px;
       }
     }
