@@ -1,7 +1,8 @@
 - if request.query_string.blank?
-  %section.group-key-visual{ class: ('group-key-visual-only-bg' if (current_group.key_visual_background_image.present? and current_group.key_visual_foreground_image.blank?)), style: ("background-image: url(#{asset_url(current_group.key_visual_background_image)});" if current_group.key_visual_background_image.present?) }
-    - if current_group.key_visual_foreground_image.present?
-      = image_tag current_group.key_visual_foreground_image, style: "width: 100%"
+  - if current_group.key_visual_background_image.present? or current_group.key_visual_foreground_image.present?
+    %section.group-key-visual{ class: ('group-key-visual-only-bg' if (current_group.key_visual_background_image.present? and current_group.key_visual_foreground_image.blank?)), style: ("background-image: url(#{asset_url(current_group.key_visual_background_image)});" if current_group.key_visual_background_image.present?) }
+      - if current_group.key_visual_foreground_image.present?
+        = image_tag current_group.key_visual_foreground_image, style: "width: 100%"
 
   = render_group_only_exist "key_page"
 
