@@ -8,6 +8,6 @@ class Folder < ActiveRecord::Base
   def self.tryable?(issue)
     return true unless Rails.env.production?
     return false if issue.blank?
-    issue.group.slug == 'union'
+    %w(union zero-waste).include? issue.group.slug
   end
 end
