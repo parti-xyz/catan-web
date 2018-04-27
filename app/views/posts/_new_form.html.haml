@@ -14,23 +14,24 @@
 
           = f.hidden_field :is_html_body, value: true
 
-          - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
+          - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'file_sources': '#post-form-widget .js-post-editor-file_sources-wrapper .nested-fields'}
 
-      .form-widget-references
+      .form-widget-file-sources
         .post-file-field.hidden
           .help-block.clearfix
             %span.label.label-default TIP
             최대 10M까지 업로드되며 이미지는 드래그해서 순서를 조정할 수 있습니다.
             .pull-right
               %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-file-field') } 업로드 취소
-          .form-groups#js-post-editor-file_sources-wrapper<>
-            #js-form-group-images.form-group-images<>
+          - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"
+          .form-groups.js-post-editor-file_sources-wrapper<>
+            .js-form-group-images.form-group-images{ id: form_group_images_dom_id }<>
               = f.fields_for :file_sources, FileSource.new do |ff|
                 = render 'posts/file_source_fields', f: ff
               .js-last-position
-            #js-form-group-files.form-group-files<>
-          .add-form-group-btn#js-post-editor-file_sources-add-btn
-            = link_to_add_association '+ 추가', f, :file_sources, partial: 'posts/file_source_fields', 'data-association-insertion-node': '.post-file-field .form-groups #js-form-group-images .js-last-position'
+            .js-form-group-files.form-group-files<>
+          .add-form-group-btn.js-post-editor-file_sources-add-btn
+            = link_to_add_association '+ 추가', f, :file_sources, partial: 'posts/file_source_fields', 'data-association-insertion-node': "##{form_group_images_dom_id} .js-last-position"
             %span.count
               (
               %span.js-current-count<> 0

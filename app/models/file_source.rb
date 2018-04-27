@@ -17,7 +17,7 @@ class FileSource < ActiveRecord::Base
     end
   end
 
-  belongs_to :post, counter_cache: true
+  belongs_to :file_sourceable, counter_cache: true, polymorphic: true
 
   ## uploaders
   # mount

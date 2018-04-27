@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180425155941) do
+ActiveRecord::Schema.define(version: 20180427025714) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -61,14 +61,15 @@ ActiveRecord::Schema.define(version: 20180425155941) do
   add_index "blinds", ["user_id"], name: "index_blinds_on_user_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "user_id",       limit: 4,                    null: false
-    t.integer  "post_id",       limit: 4,                    null: false
-    t.text     "body",          limit: 16777215
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.string   "choice",        limit: 255
+    t.integer  "user_id",            limit: 4,                    null: false
+    t.integer  "post_id",            limit: 4,                    null: false
+    t.text     "body",               limit: 16777215
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "choice",             limit: 255
     t.datetime "deleted_at"
-    t.integer  "upvotes_count", limit: 4,        default: 0
+    t.integer  "upvotes_count",      limit: 4,        default: 0
+    t.integer  "file_sources_count", limit: 4,        default: 0
   end
 
   add_index "comments", ["deleted_at"], name: "index_comments_on_deleted_at", using: :btree
@@ -134,8 +135,11 @@ ActiveRecord::Schema.define(version: 20180425155941) do
     t.string   "attachment",            limit: 255,             null: false
     t.integer  "image_width",           limit: 4,   default: 0
     t.integer  "image_height",          limit: 4,   default: 0
+    t.integer  "file_sourceable_id",    limit: 4,               null: false
+    t.string   "file_sourceable_type",  limit: 255,             null: false
   end
 
+  add_index "file_sources", ["file_sourceable_type", "file_sourceable_id"], name: "file_sourceable_index", using: :btree
   add_index "file_sources", ["post_id"], name: "index_file_sources_on_post_id", using: :btree
 
   create_table "folders", force: :cascade do |t|

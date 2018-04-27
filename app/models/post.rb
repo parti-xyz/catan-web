@@ -140,7 +140,7 @@ class Post < ActiveRecord::Base
   belongs_to :survey
   belongs_to :link_source
   belongs_to :wiki
-  has_many :file_sources, dependent: :destroy
+  has_many :file_sources, dependent: :destroy, as: :file_sourceable
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :decision_histories, dependent: :destroy
   has_one :post_searchable_index, dependent: :destroy, autosave: true

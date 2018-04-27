@@ -45,6 +45,10 @@ class Comment < ActiveRecord::Base
   has_one :issue, through: :post
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :mentions, as: :mentionable, dependent: :destroy
+  has_many :file_sources, dependent: :destroy, as: :file_sourceable
+  accepts_nested_attributes_for :file_sources, allow_destroy: true, reject_if: proc { |attributes|
+    attributes['attachment'].blank? and attributes['attachment_cache'].blank? and attributes['id'].blank?
+  }
 
   validates :user, presence: true
   validates :post, presence: true

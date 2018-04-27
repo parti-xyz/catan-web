@@ -6,6 +6,29 @@
     .comment-content.js-comment-edit-form-target
       .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
         = render 'comments/body', local_assigns
+      - if comment.file_sources.any?
+        .file-sources.js-photoswipe
+          - single_image_breakpoint = 700
+          - if is_small_screen?
+            - single_image_breakpoint = 270
+
+          - comment.file_sources.only_image.each_with_index do |file_source, index|
+            - image_photoswipe_width = file_source.image_width_lg
+            - image_photoswipe_heigh = file_source.image_height_lg
+
+            - if file_source.image_width < single_image_breakpoint
+              - image_single_url = file_source.attachment.url
+              - image_photoswipe_width = file_source.image_width
+              - image_photoswipe_heigh = file_source.image_height
+
+            - action_options = { 'data-url': file_source.attachment.lg.url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': comment.body.try(:truncate, 100), 'data-index': index }
+            .file-source-image.js-photoswipe-image.cursor-pointer{ action_options }
+              %img{ src: file_source.attachment.xs.url }
+          - comment.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+            .file-source-doc
+              .file-title.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': comment.post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
+                %i.fa.fa-floppy-o
+                = truncate(file_source.name, length: 100)
       .footer
         = render 'upvotes/upvote', upvotable: comment
         - if comment.mentionable?(current_user)

@@ -1,6 +1,30 @@
 = form_for @comment, remote: true, html: {class: 'update-form'} do |f|
   .form-group
     = f.text_area :body, class: 'form-control', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 3
+
+  - if @comment.file_sources.any?
+    .comment-form__file-source.js-file-source-form
+      .help-block.clearfix
+        %span.label.label-default TIP
+        최대 10M까지 업로드되며 이미지는 드래그해서 순서를 조정할 수 있습니다.
+      - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"
+      .form-groups.js-post-editor-file_sources-wrapper<>
+        .js-form-group-images.form-group-images{ id: form_group_images_dom_id, class: ('js-any' if @comment.file_sources.only_image.any?) }<>
+          - @comment.file_sources.only_image.sort_by_seq_no.each do |file_source|
+            = f.fields_for :file_sources, file_source do |ff|
+              = render 'comments/file_source_fields', f: ff
+          .js-last-position
+        .js-form-group-files.form-group-files{ class: ('js-any' if @comment.file_sources.only_doc.any?) }<>
+          - @comment.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+            = f.fields_for :file_sources, file_source do |ff|
+              = render 'posts/file_source_fields', f: ff
+      .add-form-group-btn.js-post-editor-file_sources-add-btn
+        = link_to_add_association '+ 추가', f, :file_sources, partial: 'comments/file_source_fields', 'data-association-insertion-node': "##{form_group_images_dom_id} .js-last-position"
+        %span.count
+          (
+          %span.js-current-count<> 0
+          \/20)
+
   = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
   = f.button type: 'submit', name: 'cancel', value: true, remote: true, class: 'btn btn-default' do
     취소

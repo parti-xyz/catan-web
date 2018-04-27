@@ -63,7 +63,7 @@ body.app-group--configurations-new,
 body.app-group--configurations-create,
 body.app-group--configurations-edit,
 body.app-group--configurations-update {
-  @include form-advanced-option;
+  @include form-advanced-option();
 }
 .group-modal-dialog{
   width: 600px;

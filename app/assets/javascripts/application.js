@@ -174,6 +174,7 @@ var parti_prepare_form_validator = function($base) {
     var enabling_callback = function() {
       $submit.prop('disabled', false);
       $submit.removeClass('collapse');
+      $submit.parent().removeClass('collapse');
     }
 
     if($form.valid()) {
@@ -576,19 +577,26 @@ var parti_prepare = function($base, force) {
   });
 
   $.parti_apply($base, '[data-action="parti-post-cancel-subform"]', function(elm) {
-    var reference_field = $(elm).data('reference-field');
-    var show_target = $(elm).data('show-target');
-    var has_poll = $(elm).data('has-poll');
-    var has_survey = $(elm).data('has-survey');
     $(elm).on('click',function(e){
       e.preventDefault();
+
+      $target = $(e.currentTarget);
+
+      var reference_field = $target.data('reference-field');
+      var show_target = $target.data('show-target');
+      var has_poll = $target.data('has-poll');
+      var has_survey = $target.data('has-survey');
+      var $file_sources = $($target.data('file-sources'));
 
       $(reference_field).addClass('hidden');
       $(show_target).show();
       $(has_poll).val(false);
       $(has_survey).val(false);
+      $file_sources.remove();
+      var $form = $target.closest('form');
+      $form.find('.js-post-editor-file_sources-add-btn .js-current-count').text('0');
 
-      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
+      $target.closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
 
       return false;
     });
@@ -922,12 +930,12 @@ $(function(){
 
   // editor subforms
   (function() {
-    if($('#js-form-group-images').length > 0) {
-      Sortable.create($('#js-form-group-images')[0]);
-    }
-    if($('#js-form-group-files').length > 0) {
-      Sortable.create($('#js-form-group-files')[0]);
-    }
+    $('.js-form-group-images').each(function(index, elm) {
+      Sortable.create(elm);
+    });
+    $('.js-form-group-files').each(function(index, elm) {
+      Sortable.create(elm);
+    });
     var formatBytes = function(bytes,decimals) {
        if(bytes == 0) return '0 Bytes';
        var k = 1000,
@@ -937,15 +945,15 @@ $(function(){
        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
-    function check_to_hide_or_show_add_link() {
-      var count = $('#js-post-editor-file_sources-wrapper .nested-fields:visible').length;
+    function check_to_hide_or_show_add_link($form) {
+      var count = $form.find('.js-post-editor-file_sources-wrapper .nested-fields:visible').length;
       if (count >= 20) {
-        $('#js-post-editor-file_sources-add-btn').hide();
+        $form.find('.js-post-editor-file_sources-add-btn').hide();
       } else {
-        $('#js-post-editor-file_sources-add-btn').show();
+        $form.find('.js-post-editor-file_sources-add-btn').show();
       }
 
-      $('#js-post-editor-file_sources-add-btn .js-current-count').text(count);
+      $form.find('.js-post-editor-file_sources-add-btn .js-current-count').text(count);
     }
 
     $('body').on('change', '.js-editor-file_source-attachment-input', function(e) {
@@ -953,73 +961,67 @@ $(function(){
         return;
       }
 
+      var $target = $(e.currentTarget);
       var current_file = this.files[0];
       var current_input = $(this);
+      var $form = $(this).closest('form');
       var object_name = $(this).closest('.form-group').data('object-name')
-      var $form_group = $(".js-editor-file_source-form-group[data-object-name='" + object_name + "']");
-      var $all_form_groups = $(".js-editor-file_source-form-group");
+      var $form_group = $form.find(".js-editor-file_source-form-group[data-object-name='" + object_name + "']");
+      var $all_form_groups = $form.find(".js-editor-file_source-form-group");
 
       if(parseInt($(this).data('rule-filesize')) < current_file.size) {
         UnobtrusiveFlash.showFlashMessage('10MB이하의 파일만 업로드 가능합니다', {type: 'error'})
         $form_group.remove();
       } else {
         if( typeof(URL.createObjectURL) === "function" && /^image/.test(current_file.type) ){
-          // var reader = new FileReader();
-          // reader.onload = function (e) {
-          //   $form_group.find('.js-upload-image img').attr('src', e.target.result);
-          //   $form_group.find('.js-upload-image').removeClass('collapse');
-          //   $form_group.css('display', 'inline-block');
-          //   $('#js-form-group-images').addClass('js-any');
-          //   check_to_hide_or_show_add_link();
-          // }
-          // reader.readAsDataURL(current_file);
           $form_group.find('.js-upload-image img').attr('src', URL.createObjectURL(current_file));
           $form_group.find('.js-upload-image').removeClass('collapse');
           $form_group.css('display', 'inline-block');
-          $('#js-form-group-images').addClass('js-any');
-          check_to_hide_or_show_add_link();
+          $form.find('.js-form-group-images').addClass('js-any');
+          check_to_hide_or_show_add_link($form);
         } else {
           $form_group.find('.js-upload-doc .name').text(current_file.name);
           $form_group.find('.js-upload-doc .size').text(formatBytes(current_file.size));
           $form_group.find('.js-upload-doc').removeClass('collapse');
           $form_group.css('display', 'block');
-          $('#js-form-group-files').addClass('js-any');
-          $form_group.detach().appendTo('#js-form-group-files');
+          $form.find('.js-form-group-files').addClass('js-any');
+          $form_group.detach().appendTo($form.find('.js-form-group-files'));
         }
       }
 
-      check_to_hide_or_show_add_link();
+      check_to_hide_or_show_add_link($form);
     });
 
-    $('body').on('cocoon:after-insert', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
+    $('body').on('cocoon:after-insert', '.js-post-editor-file_sources-wrapper', function(e, item) {
       item.find("input[type='file']").trigger('click');
     });
-    $('body').on('cocoon:after-remove', $('#js-post-editor-file_sources-wrapper'), function(e, item) {
+    $('body').on('cocoon:after-remove', '.js-post-editor-file_sources-wrapper', function(e, item) {
+      var $form = $(e.currentTarget).closest('form');
       var has_image = false;
-      $("#js-form-group-images input[type='file']").each(function(index, elm) {
+      $form.find(".js-form-group-images input[type='file']").each(function(index, elm) {
         if($.is_present($(elm).val())) { has_image = true; }
       });
-      $("#js-form-group-images input.js-id").each(function(index, elm) {
+      $form.find(".js-form-group-images input.js-id").each(function(index, elm) {
         if($.is_present($(elm).val())) { has_image = true; }
       });
 
       if(!has_image) {
-        $('#js-form-group-images').removeClass('js-any');
+        $form.find('.js-form-group-images').removeClass('js-any');
       }
 
       var has_file = false;
-      $("#js-form-group-files input[type='file']").each(function(index, elm) {
+      $form.find(".js-form-group-files input[type='file']").each(function(index, elm) {
         if($.is_present($(elm).val())) { has_file = true; }
       });
-      $("#js-form-group-files input.js-id").each(function(index, elm) {
+      $form.find(".js-form-group-files input.js-id").each(function(index, elm) {
         if($.is_present($(elm).val())) { has_file = true; }
       });
 
       if(!has_file) {
-        $('#js-form-group-files').removeClass('js-any');
+        $form.find(".js-form-group-files").removeClass('js-any');
       }
 
-      check_to_hide_or_show_add_link();
+      check_to_hide_or_show_add_link($form);
     });
   })();
 
@@ -1656,6 +1658,13 @@ $(function(){
       $('.js-new-folder').hide();
     }
     $select_control.trigger('parti-need-to-validate');
+  });
+
+  // 댓글 파일 업로드 폼 보이기
+  $(document).on('click', '.js-show-comment-file-source-form', function(e) {
+    var $form = $(e.currentTarget).closest('form');
+    $form.find('.js-file-source-form').show();
+    $form.find("input[name='comment[file_sources_attributes][0][attachment]']" ).trigger('click');
   });
 });
 

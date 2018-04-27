@@ -1,5 +1,7 @@
 <% if @comment.persisted? %>
-  $("<%= raw new_comment_form_body_input_dom_selector(@comment.post) %>").val('')
+  $("<%= raw new_comment_form_dom_selector(@comment.post) %>").find('.js-post-editor-file_sources-wrapper .nested-fields').remove();
+  $("<%= raw new_comment_form_dom_selector(@comment.post) %>").find('.js-file-source-form').addClass('collapse').hide();
+  $("<%= raw new_comment_form_body_input_dom_selector(@comment.post) %>").val('');
   $("<%= raw new_comment_form_submit_dom_selector(@comment.post) %>").addClass('collapse');
   autosize.update($("<%= raw new_comment_form_body_input_dom_selector(@comment.post) %>"))
   var $comment = $("<%= escape_javascript(render 'comments/comment_line', comment: @comment) %>");

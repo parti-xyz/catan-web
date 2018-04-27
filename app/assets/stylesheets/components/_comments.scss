@@ -70,6 +70,23 @@ section#comments {
     margin-left: 12px;
     color: $brand-primary;
   }
+  .file-sources {
+    margin: 6px 0;
+    .file-source-image {
+      display: inline-block;
+      img {
+        max-height: 50px;
+        width: auto;
+      }
+    }
+    .file-source-doc {
+      .file-title {
+        display: inline-block;
+        color: $gray;
+      }
+    }
+  }
+  .file-sources,
   .footer {
     padding-left: 14px;
   }
@@ -189,12 +206,32 @@ section#comments {
       }
     }
   }
-  &__btn {
-    margin-top: $comment-line-space * 0.5;
-    float: right;
-    width: 80px;
-    @media (max-width: $screen-xs-max) {
-      width: 70px;
+  &__control {
+    .comment-form__btn--file-source,
+    .comment-form__btn {
+      cursor: pointer;
+      margin-top: $comment-line-space * 0.5;
+      float: right;
+      display: inline-block;
+    }
+    .comment-form__btn {
+      width: 80px;
+      @media (max-width: $screen-xs-max) {
+        width: 70px;
+      }
+    }
+    .comment-form__btn--file-source {
+      margin-right: 10px;
+      i {
+        line-height: 33px;
+        color: $gray;
+      }
+    }
+  }
+  &__file-source {
+    @include form-file-sources();
+    .form-groups {
+      border-top: none;
     }
   }
 }

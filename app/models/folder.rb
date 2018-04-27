@@ -6,6 +6,7 @@ class Folder < ActiveRecord::Base
   scope :sort_by_name, -> { order("if(ascii(substring(title, 1)) < 128, 1, 0)").order('title') }
 
   def self.tryable?(issue)
+    return true unless Rails.env.production?
     return false if issue.blank?
     issue.group.slug == 'union'
   end
