@@ -1,11 +1,30 @@
 .comment-line{class: comment_line_dom_id(comment)}
   .clearfix
-    .comment-user
+    .comment-user{ class: ('comment-user-child' if comment.parent.present?) }
       = link_to smart_user_gallery_path(comment.user) do
-        .thumb.user-image.img-circle{style: "background-image: url(#{comment.user.image.sm.url});"}
-    .comment-content.js-comment-edit-form-target
-      .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
-        = render 'comments/body', local_assigns
+        .thumb.user-image.img-circle{ class: ('user-image-small' if comment.parent.present?), style: "background-image: url(#{comment.user.image.sm.url});" }
+    .comment-content.js-comment-edit-form-target{ class: ('comment-content-child' if comment.parent.present?) }
+      - chevron_menu = capture do
+        - if can? :update, comment
+          %li
+            = link_to edit_comment_path(comment), remote: true, class: 'link-edit' do
+              수정
+        - if can? :destroy, comment
+          %li
+            = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'link-destroy' do
+              삭제
+
+      .body-wrapper{ class: ('body-wrapper--with-chevron_menu' if chevron_menu.present?) }
+        .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
+          = render 'comments/body', local_assigns
+          - dropdown_dom_id = "#{dom_id(comment)}__chevron-buttons"
+          - if chevron_menu.present?
+            .comment__chevron-buttons
+              %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                %i.fa.fa-chevron-down
+              %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+                = chevron_menu
+
       - if comment.file_sources.any?
         .file-sources.js-photoswipe
           - single_image_breakpoint = 700
@@ -39,9 +58,3 @@
 
         %span.date-wrapper= date_f comment.created_at
 
-        - if can? :update, comment
-          = link_to edit_comment_path(comment), remote: true, class: 'link-edit' do
-            수정
-        - if can? :destroy, comment
-          = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'link-destroy' do
-            삭제

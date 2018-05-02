@@ -147,9 +147,6 @@
       &--any {
         margin-left: 12px;
       }
-      @media (max-width: $screen-xs-max) {
-        font-size: $font-size-small;
-      }
       .upvoted {
         color: $brand-primary;
       }

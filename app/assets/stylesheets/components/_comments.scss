@@ -11,16 +11,28 @@ section#comments {
 }
 
 .comment-line {
+  $comment-user-image-size: 30px;
+  $comment-user-image-size-child: 20px;
+  $comment-user-column-width: 40px;
+  $comment-user-column-width-child: 30px;
+
   padding: $comment-line-space 0 0;
   position: relative;
 
   .comment-user {
-    padding-top: 4px;
-    width: 40px;
+    padding-top: (35px - $comment-user-image-size) / 2;
     float: left;
+    width: $comment-user-column-width;
+    &.comment-user-child {
+      padding-top: (35px - $comment-user-image-size-child) / 2;
+      width: $comment-user-column-width-child;
+    }
   }
   .comment-content {
-    margin-left: 40px;
+    margin-left: $comment-user-column-width;
+    &.comment-content-child {
+      margin-left: $comment-user-column-width-child;
+    }
   }
 
   &.post-card__comment-form {
@@ -30,12 +42,22 @@ section#comments {
     border-bottom: none;
   }
   .user-image {
-    width: 30px;
-    height: 30px;
+    width: $comment-user-image-size;
+    height: $comment-user-image-size;
+    &.user-image-small {
+      width: $comment-user-image-size-child;
+      height: $comment-user-image-size-child;
+    }
   }
   .nickname {
     font-weight: bold;
     color: $brand-primary-dark;
+  }
+  .body-wrapper--with-chevron_menu {
+    margin-right: 24px;
+    > .body {
+      position: relative;
+    }
   }
   .body {
     background: white;
@@ -43,6 +65,8 @@ section#comments {
     color: $gray-darker;
     padding: 8px 12px;
     margin-bottom: 4px;
+    display: inline-block;
+    max-width: 100%;
     @include word-wrap();
     &--agree > span:before {
       content: '\f164  찬성 ';
@@ -70,6 +94,14 @@ section#comments {
     margin-left: 12px;
     color: $brand-primary;
   }
+  .comment__chevron-buttons {
+    position: absolute;
+    top: 0;
+    right: -2.5em;
+    button {
+      color: $gray-a;
+    }
+  }
   .file-sources {
     margin: 6px 0;
     .file-source-image {
@@ -89,10 +121,17 @@ section#comments {
   .file-sources,
   .footer {
     padding-left: 14px;
+    white-space: nowrap;
+    @media (max-width: $screen-xs-max) {
+      font-size: $font-size-small;
+    }
   }
   .date-wrapper {
     color: $gray-a;
     font-size: $font-size-base;
+    @media (max-width: $screen-xs-max) {
+      font-size: $font-size-small;
+    }
     margin-left: 12px;
   }
   .upvote {
@@ -112,8 +151,6 @@ section#comments {
     }
   }
   .link-edit, .link-destroy {
-    margin-left: 12px;
-    color: $gray-a;
     &:hover {
       color: $brand-primary;
     }
