@@ -39,7 +39,7 @@
                 = @current_folder.title
                 %small
                   (#{@current_folder.posts.count})
-                  %i.fa.fa-chevron-down
+                  %i.fa.fa-ellipsis-v
               %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
                 - if @issue.folders.where.not(id: @current_folder.id).any?
                   %li.dropdown-header 다른 폴더로 이동

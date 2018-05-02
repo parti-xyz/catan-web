@@ -13,7 +13,7 @@
               %small
                 해시태그된 게시물입니다.
                 %span{ style: 'position: relative;'}
-                  %i.fa.fa-chevron-down.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                  %i.fa.fa-ellipsis-v.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
                   %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
                     - unless @issue.group.indie?
                       %li

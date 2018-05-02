@@ -54,7 +54,7 @@ section#comments {
     color: $brand-primary-dark;
   }
   .body-wrapper--with-chevron_menu {
-    margin-right: 24px;
+    margin-right: 18px;
     > .body {
       position: relative;
     }
@@ -96,8 +96,8 @@ section#comments {
   }
   .comment__chevron-buttons {
     position: absolute;
-    top: 0;
-    right: -2.5em;
+    top: 0.25em;
+    right: -1.5em;
     button {
       color: $gray-a;
     }

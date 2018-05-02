@@ -34,7 +34,7 @@
             #{collapsed_posts.count}
             - if collapsed_and_need_to_read_posts.any?
               %small.collapsed-and-need-to-read-posts-count<> +#{collapsed_and_need_to_read_posts.count}
-          %i.fa.fa-chevron-down
+          %i.fa.fa-ellipsis-v
 
     - collapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post, collapse: true)

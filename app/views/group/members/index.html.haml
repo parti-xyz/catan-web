@@ -37,7 +37,7 @@
                   .user-card__chevron_buttons
                     - invitation_chevron_dom_id = "#{dom_id(invitation)}-dropdown"
                     %button.btn.btn-link.btn-sm.dropdown-toggle{ id: invitation_chevron_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-                      %i.fa.fa-chevron-down
+                      %i.fa.fa-ellipsis-v
                     %ul.dropdown-menu.pull-right{ "aria-labelledby": invitation_chevron_dom_id }
                       %li
                         %a(href="mailto:#{invitation.recipient_email}") 메일보내기

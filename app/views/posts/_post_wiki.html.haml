@@ -16,7 +16,7 @@
       .post-card__buttons
         %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", style: 'color: #ccc;' }
           관리
-          %i.fa.fa-chevron-down
+          %i.fa.fa-ellipsis-v
         %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
           = render 'posts/chevron_menu', local_assigns.merge(post: post)
 
