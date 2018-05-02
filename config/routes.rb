@@ -82,7 +82,7 @@ Rails.application.routes.draw do
   }, constraints: MergedIssueRouteConstraint.new
   get '/p/:slug/*path', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.indie
-    merged_issue = MergedIssue.find_by(source_slug: params[:slug], source_group_slug: group.slug)
+    merged_issue = MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug)
     "/p/#{merged_issue.issue.slug}/#{path_params[:path]}"
   }, constraints: MergedIssueRouteConstraint.new
 
