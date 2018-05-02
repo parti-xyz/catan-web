@@ -417,6 +417,14 @@ class Issue < ActiveRecord::Base
     members.find_by(user: someone)
   end
 
+  def experimental?
+    group_slug == 'union' and slug == 'test'
+  end
+
+  def comment_thread_experimental?
+    experimental?
+  end
+
   private
 
   def downcase_slug
