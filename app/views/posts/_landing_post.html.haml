@@ -28,7 +28,7 @@
               - previous_style = current_style
 
         - elsif post.link_source.present?
-          .post-reference-line.post-line
+          .post-reference-line.post-reference-line-link-source.post-line
             %a{href: post.link_source.url, target: '_blank'}
               .post-reference-line__link-content
                 .post-reference-line__link-content__big-thumb{style: "background-image: url(#{post.link_source.image.md.url});", class: ('webp' if is_webp?(post.link_source.image.url))}

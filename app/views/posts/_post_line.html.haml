@@ -88,7 +88,7 @@
                   .post-reference-line__file-content__download.text-nowrap
                     다운로드
     - elsif post.link_source.present?
-      .post-reference-line.post-line
+      .post-reference-line.post-reference-line-link-source.post-line
         %a{href: post.link_source.url, target: '_blank'}
           .post-reference-line__link-content
             - if post.link_source.has_image?
