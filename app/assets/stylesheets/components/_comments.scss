@@ -115,6 +115,9 @@ section#comments {
       .file-title {
         display: inline-block;
         color: $gray;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
   }
@@ -264,6 +267,9 @@ section#comments {
       i {
         line-height: 33px;
         color: $gray-a;
+      }
+      @media (max-width: $screen-xs-max) {
+        font-size: $font-size-small;
       }
     }
   }

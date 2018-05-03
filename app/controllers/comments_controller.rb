@@ -34,6 +34,7 @@ class CommentsController < ApplicationController
         end
       end
     end
+    @comment.reload if @comment.persisted?
   end
 
   def destroy
