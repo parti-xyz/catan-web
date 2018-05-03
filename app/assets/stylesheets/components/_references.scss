@@ -250,6 +250,8 @@ section#references {
   cursor: pointer;
   border: 1px solid $gray-lighter;
   border-radius: $border-radius-base;
+  display: inline-block;
+  overflow: hidden;
   width: 100%;
   &__link-content {
     display: table-cell;
