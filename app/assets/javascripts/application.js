@@ -1328,7 +1328,7 @@ $(function(){
     });
   })();
 
-  // 햄버거 사이드메뉴 토글
+  // 내 메뉴 토글
   $(document).on('click', '.js-show-more-sidemenu-issues', function(e) {
     event.preventDefault();
     var $target = $(e.currentTarget);
@@ -1361,7 +1361,7 @@ $(function(){
     }, 140);
   });
 
-  // 햄버거 사이드메뉴 search
+  // 내 메뉴 search
   if ($('.js-filterable-by-drawer-filter').length > 0) {
     $('.js-drawer-filter-more').appendTo('.js-filterable-by-drawer-filter').hide().removeClass('hidden');
   } else {
@@ -1397,18 +1397,22 @@ $(function(){
       $('.js-filterable-by-drawer-filter .js-drawer-filter-group').each(function(){
         var has_shown_issue_in_group = false;
 
-        $(this).find('.js-issue-line').each(function() {
-          if($(this).hasClass('js-issue-line-control')) {
+        $(this).find('js-issue-line-control').addClass('js-drawer-filter-item-hidden');
+        $(this).find('.js-my-menu-seachable-line').each(function() {
+          // If the list item does not contain the text phrase fade it out
+          if ($(this).text().search(new RegExp(filter, "i")) < 0) {
             $(this).addClass('js-drawer-filter-item-hidden');
           } else {
-            // If the list item does not contain the text phrase fade it out
-            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-              $(this).addClass('js-drawer-filter-item-hidden');
-            } else {
-              // Show the list item if the phrase matches and increase the count by 1
-              $(this).show().removeClass('js-drawer-filter-item-hidden');
-              has_shown_issue_in_group = true;
-            }
+            // Show the list item if the phrase matches and increase the count by 1
+            $(this).show().removeClass('js-drawer-filter-item-hidden');
+            has_shown_issue_in_group = true;
+          }
+        });
+
+        $(this).find('.js-my-menu-seachable-group-line').each(function() {
+          // If the list item does not contain the text phrase fade it out
+          if ($(this).text().search(new RegExp(filter, "i")) >= 0) {
+            has_shown_issue_in_group = true;
           }
         });
 

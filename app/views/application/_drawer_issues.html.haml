@@ -16,7 +16,7 @@
     - divider_dom_id = "js-more-sidemenu-divider-#{SecureRandom.uuid}"
     %li.divider.divider-small{ id: divider_dom_id }
     %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
-      .title.cursor-pointer{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
+      .title.cursor-pointer.js-my-menu-seachable-group-line{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
         = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
           #{group_my_parties_section_title(menu_group)}
 
@@ -50,7 +50,7 @@
               = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false
 
             - if issues.any?
-              %li.js-issue-line.js-issue-line-control.issue-more.clearfix
+              %li.js-my-menu-seachable-line.js-issue-line-control.issue-more.clearfix
                 %a.js-show-more-sidemenu-issues(href="#")
                   %i.fa.fa-caret-down
                   더 보기
@@ -61,7 +61,7 @@
               - issues.sort_by_name.each do |issue|
                 = render 'issues/issue_line', issue: issue, collapse: true, link_whole_line: true, show_after_block: false
 
-              %li.js-issue-line.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse.clearfix
+              %li.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse.clearfix
                 %a.js-show-less-sidemenu-issues{ href: "##{divider_dom_id}" }
                   %i.fa.fa-caret-up
                   접기
