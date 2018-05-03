@@ -2,14 +2,14 @@
 
 %section#folders
   .container
-    - unless @issue.exists_wiki?
+    - if @folders.blank?
       .bg-default.text-center
         %i.fa.fa-info-circle
-        폴더를 만들어 게시글을 정리해 보세요.
+        폴더로 게시글을 정리해 보세요.
         %br
-          = link_to '#' do
-            폴더 만들기
-            %i.fa.fa-arrow-right
+          각 게시글 상세 메뉴
+          %i.fa.fa-ellipsis-v
+          에서 폴더를 만들 수 있습니다.
     - else
       - if @current_folder.blank?
         .contents-header
