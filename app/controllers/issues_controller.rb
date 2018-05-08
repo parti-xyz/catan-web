@@ -4,6 +4,7 @@ class IssuesController < ApplicationController
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
   before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members, :slug_folders]
+  before_action :noindex_meta_tag, except: [:indies]
 
   def home
     if current_group.blank?
@@ -460,5 +461,17 @@ class IssuesController < ApplicationController
     watched_posts = current_user.watched_posts(current_group)
     watched_posts = watched_posts.order(last_stroked_at: :desc)
     watched_posts.page(page)
+  end
+
+  def noindex_meta_tag
+    if current_group.present? and current_group.private?
+      set_meta_tags noindex: true
+      return
+    end
+
+    if @issue.present? and @issue.private?
+      set_meta_tags noindex: true
+      return
+    end
   end
 end

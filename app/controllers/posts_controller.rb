@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show, :wiki, :poll_social_card, :survey_social_card, :modal, :more_comments]
   load_and_authorize_resource
   before_action :set_current_history_back_post
+  before_action :noindex_meta_tag, except: [:index ]
 
   def index
     redirect_to root_path
@@ -370,5 +371,17 @@ class PostsController < ApplicationController
 
   def set_current_history_back_post
     @current_history_back_post = @post
+  end
+
+  def noindex_meta_tag
+    if current_group.present? and current_group.private?
+      set_meta_tags noindex: true
+      return
+    end
+
+    if @post.present? and @post.issue.try(:private?)
+      set_meta_tags noindex: true
+      return
+    end
   end
 end
