@@ -15,12 +15,6 @@
           %a.btn.bottom-banner-btn
             %i.fa.fa-sign-in
             = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
-    - elsif user_signed_in? and !is_small_screen?
-      - if current_group.present?
-        함께 만드는 '#{current_group.title_basic_format}', 이렇게 참여해보세요
-      - else
-        함께 만드는 빠띠, 이렇게 참여해보세요
-      = link_to '활용 가이드', host_group.guide_link, target: '_blank', class: 'btn bottom-banner-btn'
 
   - if content.present?
     - content_for :bottom_banner do
