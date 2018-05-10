@@ -108,12 +108,13 @@
                 빠띠에 제안을 보내세요
                 %small
                   기능 개선, 이벤트 기획, 콜라보레이션 제안 등 어떤 것이든 환영합니다.
-              = form_tag suggest_group_managements_path, method: :post do
+              = form_tag suggest_group_managements_path, method: :post, novalidate: true, data: { action: 'parti-form-validation' } do
                 .form-widget
                   .form-widget-content
-                    .form-group.textarea-box
+                    - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
+                    .form-group.textarea-box{ id: textarea_error_id }
                       .js-tinymce.form-control.form-control-tinymce{ id: "suggest", 'data-placeholder': "#{current_user.nickname} 오거나이저님, 빠띠 팀에 제안하고 싶은 것이 있으신가요? ", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
-                      = hidden_field_tag :suggest, class: 'validate', data: { 'rule-extern': true }
+                      = hidden_field_tag :suggest, nil, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'error-popover-target': "##{textarea_error_id}" }
                       = hidden_field_tag :is_html_body, value: true
 
                   .form-widget-btns.clearfix

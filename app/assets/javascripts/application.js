@@ -162,12 +162,52 @@ var parti_prepare_form_validator = function($base) {
     var $elm = $(elm);
     var $form = $(elm);
     var $submit = $($elm.data("submit-form-control"));
-    $submit.prop('disabled', true);
+    var $tinymce = $form.find('.js-tinymce');
+    var has_tinymce = ($tinymce.length > 0);
+
+    if(has_tinymce) {
+      $form.on('submit', function(e) {
+        tinyMCE.triggerSave();
+      });
+    } else {
+      $submit.prop('disabled', true);
+    }
 
     $form.validate({
       ignore: ':hidden:not(.validate)',
       errorPlacement: function(error, element) {
         return true;
+      },
+      showErrors: function(errorMap, errorList) {
+        if(!has_tinymce) {
+          return true;
+        } else {
+          $.each(this.successList, function(index, element) {
+            var _popover;
+            var $popover_target = $($(element).data('error-popover-target'));
+            if($popover_target.length <= 0) {
+              $popover_target = $(element);
+            }
+            return $popover_target.popover("hide");
+          });
+          return $.each(errorList, function(index, value) {
+            var _popover;
+            var $popover_target = $($(value.element).data('error-popover-target'));
+            if($popover_target.length <= 0) {
+              $popover_target = $(value.element);
+            }
+            _popover = $popover_target.popover({
+              trigger: "manual",
+              placement: "bottom",
+              content: value.message,
+              template: "<div class=\"popover error-popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
+            });
+            _popover.data("bs.popover").options.content = value.message;
+
+            setTimeout(function() { $popover_target.popover("hide"); }, 3000);
+            return $popover_target.popover("show");
+          });
+        }
       }
     });
 
@@ -177,57 +217,51 @@ var parti_prepare_form_validator = function($base) {
       $submit.parent().removeClass('collapse');
     }
 
-    if($form.valid()) {
-      enabling_callback($submit);
+    if(!has_tinymce) {
+      if($form.valid()) {
+        enabling_callback($submit);
+      }
+
+      $elm.find(':input').on('input', function(e) {
+        if($form.valid()) {
+          enabling_callback();
+        } else {
+          $submit.prop('disabled', true);
+        }
+      });
+
+      $elm.find(':input').on('change', function(e) {
+        if($form.valid()) {
+          enabling_callback();
+        } else {
+          $submit.prop('disabled', true);
+        }
+      });
+
+      $elm.find('select').on('change', function(e) {
+        if($form.valid()) {
+          enabling_callback();
+        } else {
+          $submit.prop('disabled', true);
+        }
+      });
+
+      $elm.find(':input').on('parti-need-to-validate', function(e) {
+        if($form.valid()) {
+          enabling_callback();
+        } else {
+          $submit.prop('disabled', true);
+        }
+      });
+
+      $elm.on('parti-need-to-validate', function(e) {
+        if($form.valid()) {
+          enabling_callback();
+        } else {
+          $submit.prop('disabled', true);
+        }
+      });
     }
-
-    $elm.find(':input').on('input', function(e) {
-      if($form.valid()) {
-        enabling_callback();
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find(':input').on('change', function(e) {
-      if($form.valid()) {
-        enabling_callback();
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find('select').on('change', function(e) {
-      if($form.valid()) {
-        enabling_callback();
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find(':input').on('parti-need-to-validate', function(e) {
-      if($form.valid()) {
-        enabling_callback();
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.on('parti-need-to-validate', function(e) {
-      if($form.valid()) {
-        enabling_callback();
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
-
-    $elm.find('.js-tinymce').on('change', function() {
-      if($form.valid()) {
-        enabling_callback();
-      } else {
-        $submit.prop('disabled', true);
-      }
-    });
   });
 }
 
@@ -606,7 +640,7 @@ var parti_prepare = function($base, force) {
       editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
     };
 
-    var removePlaceholder = function(editor, placeholder) {
+    var removePlaceholder = function(editor) {
       $placeholder = $(editor.getBody()).find("#js-tinymce-placeholder");
       if($placeholder.length) {
         $placeholder.remove();
@@ -658,24 +692,13 @@ var parti_prepare = function($base, force) {
           editor.on('init', function(){
             setPlaceholder(editor, placeholder);
           });
-          editor.on('blur', function (e) {
-            setPlaceholder(editor, placeholder);
-          });
           editor.on('focus', function (e) {
             if(removePlaceholder(editor)) {
               editor.execCommand('mceFocus', false);
             }
           });
-          editor.on('KeyUp', function (e) {
+          editor.on('GetContent', function (e) {
             removePlaceholder(editor);
-
-            var $input_elm = $(':input[name="' + editor.id + '"]');
-            var old_extern_value = $input_elm.data('rule-extern-value');
-            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
-            if(old_extern_value == new_extern_value) { return; }
-
-            $input_elm.data('rule-extern-value', new_extern_value);
-            $input_elm.trigger('parti-need-to-validate');
           });
         }
       });
@@ -729,17 +752,6 @@ var parti_prepare = function($base, force) {
             var $toolbars = $(container).find('.mce-toolbar-grp');
             $toolbars.append($link_opener);
             $link_opener.hide();
-          });
-
-          // form validation
-          editor.on('KeyUp', function (e) {
-            var $input_elm = $(':input[name="' + editor.id + '"]');
-            var old_extern_value = $input_elm.data('rule-extern-value');
-            var new_extern_value = $.is_blank(editor.getContent()) ? null : "true";
-            if(old_extern_value == new_extern_value) { return; }
-
-            $input_elm.data('rule-extern-value', new_extern_value);
-            $input_elm.trigger('parti-need-to-validate');
           });
 
           // virtual keyboard

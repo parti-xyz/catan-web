@@ -101,6 +101,10 @@ section#comments {
     button {
       color: $gray-a;
     }
+    > .dropdown-menu {
+      width: auto;
+      min-width: 80px;
+    }
   }
   .file-sources {
     margin: 6px 0;

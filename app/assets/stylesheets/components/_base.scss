@@ -857,3 +857,8 @@ select.icon-select option {
     width: 16.6%;
   }
 }
+
+.error-popover {
+  z-index: $zindex-error-popover;
+  color: $base-brand-primary;
+}
