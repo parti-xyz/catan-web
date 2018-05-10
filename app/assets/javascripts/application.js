@@ -167,6 +167,7 @@ var parti_prepare_form_validator = function($base) {
 
     if(has_tinymce) {
       $form.on('submit', function(e) {
+        tinyMCE.get($tinymce.attr('id')).getContent();
         tinyMCE.triggerSave();
       });
     } else {
