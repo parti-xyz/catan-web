@@ -94,6 +94,7 @@ class PostsController < ApplicationController
         flash[:success] = I18n.t('activerecord.successful.messages.created')
         redirect_to params[:back_url].presence || smart_post_url(@post)
       else
+        errors_to_flash @post.wiki
         errors_to_flash @post
         render :show
       end

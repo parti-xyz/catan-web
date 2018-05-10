@@ -200,7 +200,7 @@ var parti_prepare_form_validator = function($base) {
               trigger: "manual",
               placement: "bottom",
               content: value.message,
-              template: "<div class=\"popover error-popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content\"><p></p></div></div></div>"
+              template: "<div class=\"popover error-popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content text-basic-wrap\"><p></p></div></div></div>"
             });
             _popover.data("bs.popover").options.content = value.message;
 
