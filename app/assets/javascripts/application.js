@@ -327,7 +327,7 @@ var parti_prepare = function($base, force) {
           var $elm = $(e.currentTarget);
           var shareUrl = $elm.data('share-url');
           var shareText = $elm.data('share-text');
-          ufo.post("share", { text: shareUrl + ' ' + shareText });
+          ufo.post("share", { text: shareUrl + ' ' + shareText, url: shareUrl });
         });
       } else {
         setup_webui_popover(elm);
