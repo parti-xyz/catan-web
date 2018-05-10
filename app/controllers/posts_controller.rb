@@ -89,7 +89,7 @@ class PostsController < ApplicationController
         @post.wiki.title = @post.wiki.title_was
         @post.wiki.body = @post.wiki.body_was
         render :show
-      elsif @post.save
+      elsif @post.wiki.save and @post.save
         @post.issue.strok_by!(current_user, @post)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
         redirect_to params[:back_url].presence || smart_post_url(@post)
