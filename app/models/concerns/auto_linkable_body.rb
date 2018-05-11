@@ -52,7 +52,8 @@ module AutoLinkableBody
     first_text = -1
     last_text = 0
     ps.each_with_index do |p, i|
-      next unless p.enum_for(:traverse).map.to_a.select(&:text?).map(&:text).map(&:strip).any?(&:present?)
+      next if !p.enum_for(:traverse).map.to_a.select(&:text?).map(&:text).map(&:strip).any?(&:present?) and
+        !p.enum_for(:traverse).map.to_a.any?{ |tp| tp.name.try(:downcase) == 'img' }
 
       #found some text
       first_text = i if first_text == -1
