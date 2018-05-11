@@ -80,6 +80,9 @@
     button.dropdown-toggle i {
       color: $gray-a;
     }
+    .bookmark a:not(.text-primary) {
+      color: $gray-a;
+    }
   }
   &__last-stroked {
     color: $gray;
