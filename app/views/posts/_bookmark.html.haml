@@ -1,0 +1,6 @@
+- if post.bookmarked?(current_user)
+  = link_to bookmark_path(post.bookmark_by(current_user), post_id: post.id), method: :delete, remote: true, class: 'text-primary', data: { trigger: 'hover', action: 'parti-popover', content: "북마크", disable_with: '...' } do
+    %i.fa.fa-bookmark
+- else
+  = link_to bookmarks_path('bookmark[post_id]': post), method: :post, remote: true, data: { trigger: 'hover', action: 'parti-popover', content: "북마크", disable_with: '...' } do
+    %i.fa.fa-bookmark-o

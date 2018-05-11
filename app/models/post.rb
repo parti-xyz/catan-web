@@ -158,6 +158,7 @@ class Post < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :readers, dependent: :destroy
   belongs_to :folder
+  has_many :bookmarks, dependent: :destroy
 
   # validations
   validates :issue, presence: true
@@ -608,6 +609,14 @@ class Post < ActiveRecord::Base
 
   def last_stroked_days_from_today
     (Date.today - self.last_stroked_at.to_date).to_i
+  end
+
+  def bookmarked?(someone)
+    bookmarks.exists?(user: someone)
+  end
+
+  def bookmark_by(someone)
+    bookmarks.find_by(user: someone)
   end
 
   private

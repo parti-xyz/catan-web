@@ -1,0 +1,6 @@
+<% if @bookmark.present? and @bookmark.errors.any? %>
+UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+<% post = @bookmark.try(:post) || @post %>
+$('<%= bookmark_post_dom_selector(post) %>').html('<%= j(render 'posts/bookmark', post: post) %>');
+<% end %>

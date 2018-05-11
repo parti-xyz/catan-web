@@ -151,6 +151,14 @@ module DomHelper
     "#{dom_id(post)}--list-pinned"
   end
 
+  def bookmark_post_dom_selector(post)
+    ".#{bookmark_post_dom_class(post)}"
+  end
+
+  def bookmark_post_dom_class(post)
+    "#{dom_id(post)}--bookmark"
+  end
+
   def read_button_dom_selector(post)
     ".#{read_button_dom_class(post)}"
   end

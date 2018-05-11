@@ -1,0 +1,23 @@
+- paging = (!@posts.nil? and @posts.try(:current_page).present?)
+
+%section.contents-page#posts
+  .container
+    .row
+      = main_column_tag do
+        = render 'application/my_home_tab'
+
+        .posts{data: {last_id: -1, is_last: 'false'}}
+          #no-data.text-center.alert{ style: ('display: none;' if !paging or @posts.any?) }
+            %i.fa.fa-info-circle
+              북마크한 게시물이 없습니다.
+          - if paging
+            = render 'posts/page', posts: @posts, show_issue: true, show_day_section: true, first_today_text: ("북마크한 게시물 #{number_with_delimiter @posts.total_count}개 중에 #{@posts.current_page}페이지를 표시합니다" unless @posts.first_page?)
+
+        - if paging
+          = paginate @posts, theme: 'catan'
+        - else
+          .page-waypoint.js-page-waypoint-onload.text-center{ 'data-target': '.posts', 'data-url': bookmarks_path(format: :js, q: params[:q]), style: 'margin-top: 24px;' }
+            .page-waypoint-loading.js-page-waypoint-loading
+              %i.fa.fa-2x.fa-spinner.fa-pulse
+      - unless is_small_screen?
+        = render 'application/aside'

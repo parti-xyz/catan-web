@@ -167,6 +167,7 @@ class ApplicationController < ActionController::Base
     "users/registrations#edit" => "설정",
     "dashboard#index" => "내 피드",
     "dashboard#intro" => "시작",
+    "bookmark#index" => "북마크",
     "pages#discover" => "새로운 발견",
     "pages#about" => "소개",
     "pages#privacy" => "방침",

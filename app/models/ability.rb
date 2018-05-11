@@ -37,6 +37,10 @@ class Ability
         user.is_organizer?(post.issue)
       end
 
+      can [:manage], [Bookmark] do |bookmark|
+        !bookmark.persisted? or bookmark.user == user
+      end
+
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
       can [:destroy], Member do |member|
         member.user == user or user.is_organizer?(member.joinable)

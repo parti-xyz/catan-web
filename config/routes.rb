@@ -173,6 +173,7 @@ Rails.application.routes.draw do
       put :reopen
     end
   end
+  resources :bookmarks
 
   resources :polls do
     shallow do
