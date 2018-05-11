@@ -1,6 +1,6 @@
 - post = parent_comment.post
 - child_comments ||= []
-- comment_form_control = new_comment_form_body_input_dom_selector(post, (parent_comment if post.issue.comment_thread_experimental?))
+- comment_form_control = new_comment_form_body_input_dom_selector(post, parent_comment)
 = render 'comments/comment_line', comment: parent_comment, comment_form_control: comment_form_control
 - if child_comments.length < parent_comment.children.count
   = link_to more_comments_post_path(post, parent_comment_id: parent_comment.id, format: :js), remote: true, id: comments_more_children_button_dom_id(parent_comment), 'data-disable-with': '<div class="more" style="margin-left: 40px;">가져오는 중...</div>', class: 'post-card__count', rel: :nofollow do

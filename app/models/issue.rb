@@ -421,10 +421,6 @@ class Issue < ActiveRecord::Base
     group_slug == 'union' and slug == 'test'
   end
 
-  def comment_thread_experimental?
-    experimental?
-  end
-
   private
 
   def downcase_slug

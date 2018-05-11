@@ -16,13 +16,8 @@ class Ability
       can [:create, :new_intro, :search_by_tags, :my_menus, :add_my_menu, :remove_my_menu], [Issue]
 
       can [:create, :destroy, :update], [Folder] do |folder|
-        if Folder.tryable?(folder.issue)
-          folder.issue.present? and !folder.issue.try(:private_blocked?, user) && folder.issue.try(:postable?, user)
-        else
-          false
-        end
+        folder.issue.present? and !folder.issue.try(:private_blocked?, user) && folder.issue.try(:postable?, user)
       end
-
 
       can [:pinned], [Post]
       can [:update, :destroy, :edit_decision, :update_decision, :decision_histories, :move_to_issue, :move_to_issue_form], [Post], user_id: user.id
@@ -30,11 +25,7 @@ class Ability
         post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
       end
       can [:edit_folder, :update_folder], [Post] do |post|
-        if Folder.tryable?(post.issue)
-          post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
-        else
-          false
-        end
+        post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
       end
       can [:new_wiki, :update_wiki, :edit_decision, :update_decision, :decision_histories], [Post] do |post|
         post.issue.present? and !post.issue.blind_user?(user) and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
