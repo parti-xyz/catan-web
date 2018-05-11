@@ -71,16 +71,6 @@ ActiveRecord::Schema.define(version: 20180511212241) do
   add_index "bookmarks", ["user_id", "post_id"], name: "index_bookmarks_on_user_id_and_post_id", unique: true, using: :btree
   add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
 
-  create_table "bookmarks_for_posts", force: :cascade do |t|
-    t.integer  "post_id",    limit: 4, null: false
-    t.integer  "user_id",    limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
-  end
-
-  add_index "bookmarks_for_posts", ["post_id"], name: "index_bookmarks_for_posts_on_post_id", using: :btree
-  add_index "bookmarks_for_posts", ["user_id"], name: "index_bookmarks_for_posts_on_user_id", using: :btree
-
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",            limit: 4,                    null: false
     t.integer  "post_id",            limit: 4,                    null: false
