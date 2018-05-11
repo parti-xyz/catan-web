@@ -17,7 +17,7 @@
           .count-label-wrapper.small
             .count-label
               +#{current_user.unread_messages_count}
-    %li{ class: "#{('active' if current_page?('/') or current_page?('/bookmarks'))}" }
+    %li{ class: "#{('active' if current_page?('/bookmarks'))}" }
       = link_to bookmarks_url(subdomain: nil) do
         북마크
         %i.fa.fa-bookmark-o
