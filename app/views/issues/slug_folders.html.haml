@@ -7,21 +7,22 @@
         %i.fa.fa-info-circle
         폴더로 게시글을 정리해 보세요.
         %br
-          각 게시글 상세 메뉴
+          각 게시글
+          "상세 메뉴
           %i.fa.fa-ellipsis-v
-          에서 폴더를 만들 수 있습니다.
+          "에서 폴더를 만들 수 있습니다.
     - else
       - if @current_folder.blank?
         .contents-header
           %h4.contents-header__title
-            %i.fa.fa-folder-o
+            %i.fa.fa-folder-open-o
             모든 폴더
             %small 빠띠의 모든 폴더입니다.
         - @folders.each do |folder|
           %ul.list-unstyled
             %li
               = link_to smart_folder_url(folder) do
-                \/
+                %i.fa.fa-folder-o
                 = folder.title
         - if @folders.blank?
           .bg-default.text-center
@@ -39,7 +40,7 @@
                 = @current_folder.title
                 %small
                   (#{@current_folder.posts.count})
-                  %i.fa.fa-ellipsis-v
+                  %i.fa.fa-chevron-down
               %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
                 - if @issue.folders.where.not(id: @current_folder.id).any?
                   %li.dropdown-header 다른 폴더로 이동
