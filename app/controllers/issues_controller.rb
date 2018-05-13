@@ -37,7 +37,7 @@ class IssuesController < ApplicationController
     if current_group.blank?
       if params[:keyword].present?
         params[:sort] ||= 'hottest'
-        @issues = search_and_sort_issues(Issue.searchable_issues(current_user), params[:keyword], params[:sort])
+        @issues = search_and_sort_issues(Issue.searchable_issues(current_user), params[:keyword], params[:sort], 3)
       elsif params[:subject].present?
         issue_slugs = LandingPage.where("title like '#{params[:subject]}'")[0].try(:parsed_body).try(:map).to_a
         @issues = Issue.where(:slug => issue_slugs)
@@ -402,7 +402,7 @@ class IssuesController < ApplicationController
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
   end
 
-  def search_and_sort_issues(issue, keyword, sort, item_a_row = nil)
+  def search_and_sort_issues(issue, keyword, sort, item_a_row = 4)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
     result = issue
     result = result.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
@@ -419,9 +419,7 @@ class IssuesController < ApplicationController
     end
 
     result = result.categorized_with(params[:category]) if params[:category].present?
-    result = result.page(params[:page]).per(4 * 10)
-    result.page(params[:page]).per(item_a_row * 10) if item_a_row.present?
-
+    result = result.page(params[:page]).per(item_a_row * 10)
     result
   end
 
