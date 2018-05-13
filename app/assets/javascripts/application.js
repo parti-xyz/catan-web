@@ -1695,6 +1695,7 @@ $(function(){
     $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('collapse');
     $('#js-modal-placeholder .js-modal-placeholder-action-dialog').removeClass('collapse');
     parti_partial$($('#js-modal-placeholder .js-modal-placeholder-action-dialog'), true);
+    $('body').addClass('shown-modal-placeholder');
   });
 
   $(document).on('hidden.bs.modal', '#js-modal-placeholder > .modal', function(e) {
@@ -1706,6 +1707,7 @@ $(function(){
     var $loading_dialog = $('#js-modal-placeholder .js-modal-placeholder-loading-dialog')
     $loading_dialog.removeClass();
     $loading_dialog.addClass('modal-dialog js-modal-placeholder-loading-dialog');
+    $('body').removeClass('shown-modal-placeholder');
   });
 });
 

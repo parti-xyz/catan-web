@@ -143,9 +143,10 @@ body .webui-popover-backdrop {
   .modal {
     z-index: $zindex-modal-placeholder-modal;
   }
-  ~ .modal-backdrop.fade.in {
-    z-index: $zindex-modal-placeholder-backdrop;
-  }
+}
+
+body.shown-modal-placeholder .modal-backdrop.fade.in {
+  z-index: $zindex-modal-placeholder-backdrop;
 }
 
 body.in-group {

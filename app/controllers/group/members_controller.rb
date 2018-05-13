@@ -184,4 +184,8 @@ class Group::MembersController < Group::BaseController
     end
     redirect_to group_members_path
   end
+
+  def join_group_modal
+    render group_action_viewable_path
+  end
 end

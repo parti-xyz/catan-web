@@ -295,14 +295,14 @@ module ApplicationHelper
     end
   end
 
-  def render_group(path)
+  def render_group(path, options = {})
     return if host_group.blank? and path.blank?
 
     subpath = to_subpath(path)
     if exists_group_partial?(subpath)
-      render "group_views/#{host_group.slug}#{subpath}"
+      render "group_views/#{host_group.slug}#{subpath}", options
     else
-      render path
+      render path, options
     end
   end
 

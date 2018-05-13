@@ -93,6 +93,7 @@ class ApplicationController < ActionController::Base
       (controller_name == 'passwords') or
       (controller_name == 'members' and action_name == 'magic_join') or
       (controller_name == 'members' and action_name == 'magic_form') or
+      (controller_name == 'members' and action_name == 'join_group_form') or
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit')
     )
 
