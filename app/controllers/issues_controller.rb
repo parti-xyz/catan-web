@@ -153,8 +153,9 @@ class IssuesController < ApplicationController
     if @issue.save
       MemberIssueService.new(issue: @issue, user: current_user, is_organizer: true, need_to_message_organizer: false, is_force: true).call
       if @issue.is_default?
-          IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
-        end
+        IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
+      end
+      IssueCreateNotificationJob.perform_async(@issue.id, current_user.id)
       redirect_to smart_issue_home_url(@issue)
     else
       render 'new'

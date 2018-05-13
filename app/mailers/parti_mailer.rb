@@ -25,9 +25,25 @@ class PartiMailer < ApplicationMailer
     end
   end
 
+  def on_create(organizer_id, user_id, issue_id)
+    @organizer = User.find_by(id: organizer_id)
+    @user = User.find_by(id: user_id)
+    return unless @user.enable_mailing_summary?
+    return if @organizer == @user
+
+    @issue = Issue.with_deleted.find_by(id: issue_id)
+    return if @user.blank? or @issue.blank? or @organizer.blank?
+
+    mail(to: @user.email,
+         subject: "[빠띠] #{@organizer.nickname}님이 #{@issue.title} 빠띠를 열었습니다.")
+  end
+
   def on_destroy(organizer_id, user_id, issue_id, message)
     @organizer = User.find_by(id: organizer_id)
     @user = User.find_by(id: user_id)
+    return unless @user.enable_mailing_summary?
+    return if @organizer == @user
+
     @issue = Issue.with_deleted.find_by(id: issue_id)
     return if @user.blank? or @issue.blank?
 

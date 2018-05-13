@@ -1,0 +1,31 @@
+- content_for(:head) do
+  %div{:style => "text-align: center;"}
+    %span{:style => "color: rgb(255, 255, 255); font-size: 14px;"}
+      안녕하세요. #{@user.nickname}님!
+      %span{:style => "color: rgb(255, 255, 255);"} #{@issue.group.title_basic_format}의 #{@issue.title} 빠띠가 새로 열렸습니다.
+
+%div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+  %div{:style => "background-color: rgb(255, 255, 255); padding: 5px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;"}
+    %div{:style => "padding: 0px 5px;"}
+      %div{:style => "padding: 0 10px;"}
+        %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: center;"}
+          %span{:style => "color: rgb(99, 60, 163); font-size: 16px;"}
+            \#{@organizer.nickname}님이 #{@issue.title} 빠띠를 새로 열었습니다.
+
+- if @issue.body.present?
+  %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+    %div{:style => "background: rgb(255, 255, 255); padding: 15px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px; border-color: rgb(255, 255, 255);"}
+      %div{:style => "padding: 0px 5px;"}
+        %div{:style => "padding: 0 10px;"}
+          %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: left;"}
+            %div
+              %span
+                = simple_format h(@issue.body)
+
+%div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+  %div{:style => "background: rgb(255, 255, 255); padding: 5px 0px; text-align: center; line-height: 1.8; border-style: solid; border-width: 0px; border-color: rgb(150, 111, 214);"}
+    %div{:style => "padding: 0px 5px;"}
+      %div{:style => "padding: 16px 0px; margin: 0px 10px;"}
+        %p{:style => "margin: 0px;"}
+          %a{:href => root_url, :style => "font-size: 14px; display: inline-block; color: rgb(150, 111, 214); background: none; border-radius: 3px; padding: 16px 20px; text-decoration: none; outline: 0px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; border-width: 2px; border-style: solid; border-color: rgb(150, 111, 214);_display:inline", :target => "_blank"} 빠띠에서 확인하기
+

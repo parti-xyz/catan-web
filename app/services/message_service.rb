@@ -56,7 +56,12 @@ class MessageService
           messagable: @source)
       end
     when Issue
-      if @source.previous_changes["title"].present?
+      if @action == :create and !@source.group.indie?
+        users = @source.group.member_users.where.not(id: @sender.id)
+        send_messages(
+          sender: @sender, users: users, messagable: @source,
+          action: :create)
+      elsif @source.previous_changes["title"].present?
         users = @source.member_users.where.not(id: @sender.id)
         send_messages(
           sender: @sender, users: users, messagable: @source,

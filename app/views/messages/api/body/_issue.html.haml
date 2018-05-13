@@ -1,6 +1,13 @@
 - issue = message.messagable
-#{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이
-= message.action_params_hash["previous_title"]
-빠띠 이름을
-= issue.title
-빠띠로 수정했습니다
+- if message.action.to_s == 'edit_title'
+  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이
+  = message.action_params_hash["previous_title"]
+  빠띠 이름을
+  = issue.title
+  빠띠로 수정했습니다
+- elsif message.action.to_s == 'create'
+  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이
+  #{issue.group.title_basic_format}
+  = issue.title
+  빠띠를 새로 열었습니다
+
