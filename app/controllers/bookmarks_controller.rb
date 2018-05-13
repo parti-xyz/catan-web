@@ -2,6 +2,7 @@ class BookmarksController < ApplicationController
   load_and_authorize_resource except: :destroy
 
   def index
+    authenticate_user!
     bookmarked_posts = Post.where(id: Bookmark.where(user: current_user).select(:post_id)).order_by_stroked_at
 
     if view_context.is_infinite_scrollable?
