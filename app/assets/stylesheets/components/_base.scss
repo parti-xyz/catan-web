@@ -87,6 +87,9 @@
       margin-left: 0;
       margin-right: 0;
       margin-bottom: 0;
+      > li > a {
+        padding: 5px 10px;
+      }
     }
     &.message-tab {
       padding-left: 20px;
