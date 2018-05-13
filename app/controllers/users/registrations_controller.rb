@@ -16,6 +16,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def after_inactive_sign_up_path_for(resource)
+    root_path
+  end
+
   private
 
   def sign_up_params
@@ -28,6 +32,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
       :push_notification_mode)
   end
 
+  def after_inactive_sign_up_path_for(resource)
+    inactive_sign_up_users_path
+  end
+
   def after_sign_up_path_for(resource)
     omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
 
@@ -38,10 +46,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       dashboard_intro_path
     end
-  end
-
-  def after_inactive_sign_up_path_for(resource)
-    root_path
   end
 
   def send_welcome_mail

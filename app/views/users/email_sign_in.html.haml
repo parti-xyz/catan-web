@@ -1,8 +1,9 @@
 .bs-component
   %section#sign-up
-    %h4.sign-up__title 로그인
-    %h1.text-center.sign-up__txt.hidden-xs
-      팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠
+    %h4.sign-up__title 팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠
+    %h1.text-center.sign-up__txt
+      %i.fa.fa-sign-in
+      이메일 로그인
     .sign-up__form
       .email-login-form.panel
         .panel-body
@@ -20,6 +21,9 @@
 
   %section#sign-up-links
     .text-center
+      %p
+        다른 방법으로 로그인하시겠어요?
+        = link_to '다른 방법으로 로그인', new_user_session_path
       %p
         비밀번호를 잊으셨나요?
         = link_to '비밀번호 재설정', new_password_path(:user)

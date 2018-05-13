@@ -53,6 +53,9 @@ class UsersController < ApplicationController
     current_user.update_attributes(push_notification_mode: params[:push_notification_mode])
   end
 
+  def inactive_sign_up
+  end
+
   protected
 
   def mobile_navbar_title_posts

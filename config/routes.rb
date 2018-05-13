@@ -61,6 +61,7 @@ Rails.application.routes.draw do
       put 'valid_email'
       put 'invalid_email'
       put 'notification'
+      get 'inactive_sign_up'
     end
   end
   unless Rails.env.production?
