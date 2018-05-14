@@ -41,6 +41,7 @@
 //= require loadash
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker.kr.min
+//= require jquery.dirrty
 
 // blank
 $.is_blank = function (obj) {
@@ -810,42 +811,8 @@ var parti_prepare = function($base, force) {
     $elm.on('click', function(e) {
       $.prevent_click_exclude_parti(e);
       var $target = $(e.currentTarget);
-      var $control = $($target.data('comment-form-control'));
-      if ($control.length <= 0) {
-        return;
-      }
 
-      $control.closest('.js-comment-form-wrapper').show();
-
-      var adding = '';
-
-      var nickname = $target.data('mention-nickname');
-      if ($.is_present(nickname)) {
-        adding = '@' + nickname;
-      }
-
-      var text = $target.data('mention-text');
-      if ($.is_present(text)) {
-        adding += ' ' + text;
-      }
-
-      var original_value = $control.val();
-
-      if($.is_present(adding) && !$.is_blank(original_value)) {
-        var escaped_adding = $.escape_regexp(adding);
-        if(new RegExp('(^|\\s)' + escaped_adding + '($|\\s)').test(original_value)) {
-          adding = '';
-        }
-      }
-
-      if($.is_present(adding)) {
-        var adding = adding + ' ';
-      }
-      $control.val('');
-      $control.focus();
-      $control.val(adding + original_value);
-
-      autosize.update(document.querySelectorAll($target.data('comment-form-control')));
+      parti_prepare_comment($target.data('comment-form-control'), $target.data('mention-nickname'), $target.data('mention-text'));
     });
   });
 
@@ -857,7 +824,50 @@ var parti_prepare = function($base, force) {
     Sortable.create(elm);
   });
 
+  // form dirty check
+  $.parti_apply($base, '.js-dirty-form', function(elm) {
+    $(elm).dirrty();
+  });
+
   $base.data('parti-prepare-arel', 'completed');
+}
+
+function parti_prepare_comment(comment_form_control_selector, nickname, text) {
+  var $control = $(comment_form_control_selector);
+  if ($control.length <= 0) {
+    return;
+  }
+  $control.closest('.js-comment-form-wrapper').show();
+
+  var adding = '';
+
+  if ($.is_present(nickname)) {
+    adding = '@' + nickname;
+  }
+
+  if ($.is_present(text)) {
+    adding += ' ' + text;
+  }
+
+  var original_value = $control.val();
+
+  if($.is_present(adding) && !$.is_blank(original_value)) {
+    var escaped_adding = $.escape_regexp(adding);
+    if(new RegExp('(^|\\s)' + escaped_adding + '($|\\s)').test(original_value)) {
+      adding = '';
+    }
+  }
+
+  if($.is_present(adding)) {
+    var adding = adding + ' ';
+  }
+  $control.val('');
+  $control.focus();
+  $control.val(adding + original_value);
+
+  autosize.update(document.querySelectorAll(comment_form_control_selector));
+
+  $control.trigger('parti-need-to-validate')
 }
 
 $('[data-action="parti-clearable-search"]').each(function(i, elm) {

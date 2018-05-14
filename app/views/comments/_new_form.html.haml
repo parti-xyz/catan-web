@@ -1,6 +1,6 @@
 - parent_comment ||= local_assigns[:parent_comment]
 .post-card__comment-form.comment-line.js-comment-form-wrapper{ class: ('collapse' if parent_comment.present?) }
-  = form_for [post, Comment.new], remote: true, html: { class: 'comment-form', id: new_comment_form_dom_id(post, parent_comment)}, data: {action: 'parti-form-validation', 'submit-form-control': new_comment_form_submit_dom_selector(post, parent_comment) } do |f|
+  = form_for [post, Comment.new], remote: true, html: { class: 'comment-form js-dirty-form', id: new_comment_form_dom_id(post, parent_comment)}, data: {action: 'parti-form-validation', 'submit-form-control': new_comment_form_submit_dom_selector(post, parent_comment) } do |f|
     - if parent_comment.present?
       = f.hidden_field :parent_id, value: parent_comment.id
     .media{ style: 'margin-top: 0;' }
@@ -8,7 +8,7 @@
         .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
       .media-body
         .comment-form__area
-          = f.text_area :body, class: "form-control comment-body validate", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, id: new_comment_form_body_input_dom_id(post, parent_comment)
+          = f.text_area :body, class: "form-control comment-body validate js-preserve-comment-input", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, id: new_comment_form_body_input_dom_id(post, parent_comment)
         .comment-form__file-source.js-file-source-form.collapse
           .help-block.clearfix
             %span.label.label-default TIP

@@ -1,3 +1,14 @@
+var $old_inputs = $('<%= comments_threads_dom_selector(@post) %>').find('.js-preserve-comment-input');
+
+var preserve_comments_inputs = {};
+$.each($old_inputs, function(i, elm) {
+  if($(elm).is(':visible')) {
+    preserve_comments_inputs[$(elm).attr('id')] = $(elm).val();
+  }
+});
+
+console.log(preserve_comments_inputs);
+
 <% if @parent_comment.blank? %>
   <% more_latest_comments = @post.more_comments %>
   <% has_more = @post.any_not_more_comments? %>
@@ -42,3 +53,7 @@
     $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').remove();
   <% end %>
 <% end %>
+
+$.each(preserve_comments_inputs, function(input_id, input_value) {
+  parti_prepare_comment('#' +  input_id, null, input_value);
+});
