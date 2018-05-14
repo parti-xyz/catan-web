@@ -143,6 +143,12 @@ body .webui-popover-backdrop {
   .modal {
     z-index: $zindex-modal-placeholder-modal;
   }
+  @media (max-width: $screen-xs-max) {
+    .modal-content {
+      border-radius: 0;
+      max-width: 100%;
+    }
+  }
 }
 
 body.shown-modal-placeholder .modal-backdrop.fade.in {
