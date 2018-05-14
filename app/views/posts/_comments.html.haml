@@ -22,7 +22,7 @@
           = post.comments_count
         개
 
-  .post-card__comments--latest{ id: comments_latest_dom_id(post) }
+  .post-card__comments--threads.js-target-new-comment{ id: comments_threads_dom_id(post) }
     - Comment.group_by_thread(showing_comments).each do |parent_comment, child_comments|
       = render 'comments/threaded_comments', local_assigns.merge(parent_comment: parent_comment, child_comments: child_comments)
   - if user_signed_in?

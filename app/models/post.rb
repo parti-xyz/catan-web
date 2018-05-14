@@ -314,7 +314,8 @@ class Post < ActiveRecord::Base
     if too_many_today_comments?
       @_more_comments_mode = :past_day_limited
     elsif too_few_today_comments?
-      if comments_count > Post::MORE_COMMENTS_LIMNIT_COUNT
+      buffer = Post::MORE_COMMENTS_LIMNIT_COUNT / 4
+      if comments_count > Post::MORE_COMMENTS_LIMNIT_COUNT + buffer
         @_more_comments_mode = :limit
       else
         @_more_comments_mode = :all
@@ -353,11 +354,13 @@ class Post < ActiveRecord::Base
   end
 
   def too_many_today_comments?
-    comments.past_day.count > Post::MORE_COMMENTS_LIMNIT_COUNT
+    buffer = Post::MORE_COMMENTS_LIMNIT_COUNT / 4
+    comments.past_day.count > Post::MORE_COMMENTS_LIMNIT_COUNT + buffer
   end
 
   def too_few_today_comments?
-    comments.past_day.count <= latest_base_comments.count
+    buffer = Post::MORE_COMMENTS_LIMNIT_COUNT / 4
+    comments.past_day.count <= latest_base_comments.count + buffer
   end
 
   def blinded? someone = nil

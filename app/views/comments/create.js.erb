@@ -12,7 +12,7 @@
   <% end %>
   $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").find('.js-current-count').text('0');
 
-  $comment.insertBefore($("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").closest('.comment-line'));
+  ($("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").closest('.js-comment-form-wrapper').siblings('.js-target-new-comment')).append($comment);
   parti_partial$($comment);
   $("<%= raw comments_count_dom_selector(@comment.post) %>").text("<%= @comment.post.reload.comments_count %>");
 <% end %>

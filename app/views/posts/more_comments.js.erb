@@ -7,8 +7,8 @@
     comments_html += "<%= j(render 'comments/threaded_comments', parent_comment: parent_comment, child_comments: child_comments) %>";
   <% end %>
   var $comments_html = $(comments_html);
-  $('<%= comments_latest_dom_selector(@post) %>').html($comments_html);
-  parti_partial$($('<%= comments_latest_dom_selector(@post) %>'), true);
+  $('<%= comments_threads_dom_selector(@post) %>').html($comments_html);
+  parti_partial$($('<%= comments_threads_dom_selector(@post) %>'), true);
 
   <% if has_more %>
     $('<%= comments_more_button_dom_selector(@post) %>').attr('href', "<%= smart_post_path_or_url(@post) %>");

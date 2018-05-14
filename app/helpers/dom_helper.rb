@@ -27,12 +27,12 @@ module DomHelper
     "##{comments_count_dom_id(post)}"
   end
 
-  def comments_latest_dom_id(post)
-    "#{dom_id(post)}-comments-latest"
+  def comments_threads_dom_id(post)
+    "#{dom_id(post)}-comments-threads"
   end
 
-  def comments_latest_dom_selector(post)
-    "##{comments_latest_dom_id(post)}"
+  def comments_threads_dom_selector(post)
+    "##{comments_threads_dom_id(post)}"
   end
 
   def comments_children_dom_id(comment)
