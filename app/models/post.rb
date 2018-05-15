@@ -293,7 +293,7 @@ class Post < ActiveRecord::Base
     if last_stroked_for == 'comment' and result.empty?
       result = comments.recent.limit(1)
     end
-    @_latest_base_comments = result
+    @_latest_base_comments = Comment.group_by_thread(result).flatten
     @_latest_base_comments
   end
 
