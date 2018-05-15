@@ -16,6 +16,7 @@
 //= require kakao
 //= require jquery.history
 //= require jquery.waypoints
+//= require sticky.js
 //= require jquery.dotdotdot
 //= require jquery.webui-popover
 //= require bootstrap-add-clear
@@ -1696,6 +1697,11 @@ $(function(){
     $form.find('.js-file-source-form').show();
     $form.find('.js-post-editor-file_sources-add-btn > a').trigger('click');
   });
+
+  // 내 홈 탭
+  var sticky = new Waypoint.Sticky({
+    element: $('.js-my-home-tab-sticky')[0]
+  })
 });
 
 

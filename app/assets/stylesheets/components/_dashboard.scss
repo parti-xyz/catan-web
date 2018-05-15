@@ -184,6 +184,24 @@ section.intro-page {
     }
   }
 }
+
+@media (max-width: $screen-xs-max) {
+  #content-tab-section.content-tab-section-my-home {
+    overflow-y: scroll;
+  }
+}
+
+@media (min-width: $screen-sm-min) {
+  #content-tab-section.content-tab-section-my-home.stuck {
+    position: fixed;
+    width: inherit;
+    top: 52px;
+    z-index: $zindex-fixed-my-home-tab;
+    background-color: $background-color;
+    box-shadow: 0px 5px 15px $gray-light;
+  }
+}
+
 #content-tab-section > .my-home-tabs {
   .dropdown-wrapper {
     > a {
