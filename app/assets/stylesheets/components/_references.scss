@@ -84,8 +84,8 @@ section#references {
     padding-right: 14px;
     padding-left: 14px;
     .file-icon {
-      width: 70px;
-      padding: 20px 0;
+      width: 25%;
+      padding: 5% 0;
       float: left;
       margin-right: 6px;
       border: 1px solid $brand-primary;
@@ -97,7 +97,10 @@ section#references {
     }
     .file-name {
       font-size: $font-size-large;
-     font-weight: 200;
+      font-weight: 200;
+      width: 70%;
+      float: right;
+      word-wrap: break-word;
     }
   }
   .caption-images {
