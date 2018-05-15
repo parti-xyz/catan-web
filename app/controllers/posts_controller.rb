@@ -254,9 +254,11 @@ class PostsController < ApplicationController
 
     @post.folder = @folder
     ActiveRecord::Base.transaction do
-      @folder.save if !@folder.nil? and !@folder.persisted?
-      unless @post.save
-        errors_to_flash @post
+      if !@folder.nil? and !@folder.persisted?
+        if !@folder.save or !@post.save
+          errors_to_flash @folder
+          errors_to_flash @post
+        end
       end
     end
 

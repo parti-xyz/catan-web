@@ -1,10 +1,12 @@
 $('#js-modal-placeholder > .modal').modal("hide");
-$post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');
-parti_partial$($post_line_folder);
-$('<%= post_folder_dom_selector(@post) %>').replaceWith($post_line_folder);
+<% if !@folder.blank? and @folder.errors.empty? %>
+  $post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');
+  parti_partial$($post_line_folder);
+  $('<%= post_folder_dom_selector(@post) %>').replaceWith($post_line_folder);
 
-<% if @post.folder.present? %>
-$('<%= post_folder_wrapper_dom_selector(@post) %>').show();
-<% else %>
-$('<%= post_folder_wrapper_dom_selector(@post) %>').hide();
+  <% if @post.folder.present? %>
+  $('<%= post_folder_wrapper_dom_selector(@post) %>').show();
+  <% else %>
+  $('<%= post_folder_wrapper_dom_selector(@post) %>').hide();
+  <% end %>
 <% end %>

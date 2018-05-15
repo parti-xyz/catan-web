@@ -99,6 +99,7 @@ ko:
       post: 게시글
       survey: 설문
       group: 그룹
+      folder: 폴더
     attributes:
       group:
         title: 이름
@@ -158,6 +159,8 @@ ko:
         decision: 토론 정리
       survey:
         duration_days: 기간
+      folder:
+        title: 이름
     successful:
       messages:
         created: 저장되었습니다.
