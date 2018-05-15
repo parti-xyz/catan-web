@@ -15,6 +15,9 @@
 .cursor-default {
   cursor: default;
 }
+.cursor-pointer-important {
+  cursor: pointer !important;
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -36,9 +39,9 @@
 #content-tab-section {
   .nav-tabs {
     border-color: #d2d2d2;
-    li {
+    > li {
       margin: 0;
-      a {
+      > a {
         font-weight: bold;
         padding: 5px 20px;
         border: none;
@@ -49,10 +52,13 @@
           color: #be97ff;
         }
       }
+      &.active,
       &.active > a {
         color: $brand-primary;
-        border-bottom: 2px solid $brand-primary;
         background: transparent;
+      }
+      &.active {
+        border-bottom: 2px solid $brand-primary;
       }
     }
     &__count {
@@ -83,21 +89,14 @@
     padding-left: 0;
     margin-left: -15px;
     margin-right: -15px;
-    &.my-home-tabs {
-      margin-left: 0;
-      margin-right: 0;
-      margin-bottom: 0;
-      > li > a {
-        padding: 5px 10px;
-      }
-    }
+
     &.message-tab {
       padding-left: 20px;
     }
-    li {
+    > li {
       margin: 0;
       text-align: center;
-      a {
+      > a {
         h4 {
           font-size: 15px;
           margin-top: 5px;
@@ -105,6 +104,10 @@
         }
       }
     }
+  }
+
+  #content-tab-section.content-tab-section-my-home {
+    overflow-y: scroll;
   }
 }
 

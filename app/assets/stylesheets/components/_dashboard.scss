@@ -184,3 +184,101 @@ section.intro-page {
     }
   }
 }
+#content-tab-section > .my-home-tabs {
+  .dropdown-wrapper {
+    > a {
+      display: inline-block;
+      padding-right: 0;
+    }
+    > a + a {
+      padding-left: 0;
+    }
+    & > .dropdown {
+      padding: 5px 20px;
+      padding-left: 0;
+    }
+    &.active > .dropdown {
+      .dropdown-toggle {
+        color: $brand-primary;
+      }
+    }
+    .dropdown-toggle {
+      .group-parties-section-title {
+        font-weight: bold;
+      }
+    }
+    .dropdown-menu.dropdown-menu-dashboard-group {
+      max-height: 320px;
+      overflow-y: scroll;
+      > li > a {
+        font-weight: normal;
+      }
+      > li.selected > a {
+        color: $brand-primary;
+      }
+    }
+    .dashboard-group-menu .group-title {
+      display: inline-block;
+      max-width: 75px;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      word-wrap:normal;
+      overflow:hidden;
+    }
+    > a > .group-parties-section-title > .group-title {
+      max-width: 150px;
+      display: inline-block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    white-space: nowrap;
+
+    > li {
+      display: inline-block;
+      float: none;
+    }
+
+    > li.dropdown-wrapper,
+    > li.dropdown-wrapper > .dropdown {
+      position: static;
+    }
+
+    > li.dropdown-wrapper > .dropdown {
+      > ul.dropdown-menu {
+        top: 3rem;
+        left: 1rem;
+      }
+      > a {
+        padding-right: 0;
+      }
+      > .dropdown-toggle > .group-parties-section-title > .group-title {
+        max-width: 150px;
+        display: inline-block;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        vertical-align: middle;
+      }
+    }
+
+    > li.dropdown-wrapper > .dropdown,
+    > li > a {
+      padding: 5px 10px;
+      display: inline-block;
+    }
+
+    > li.dropdown-wrapper > .dropdown {
+      padding-left: 0;
+    }
+  }
+}

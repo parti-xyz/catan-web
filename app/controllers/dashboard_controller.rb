@@ -1,6 +1,7 @@
 class DashboardController < ApplicationController
   before_action :authenticate_user!
   respond_to :js, :html
+  include DashboardGroupHelper
 
   def index
     redirect_to root_url and return if current_group.present? and !request.format.js?
@@ -14,7 +15,17 @@ class DashboardController < ApplicationController
       end
     end
 
-    watched_posts = fetch_watched_posts(@search_q, @hashtag)
+    if params[:group_slug].present?
+      if params[:group_slug] == 'all'
+        @dashboard_group = nil
+        save_current_dashboard_group(nil)
+      else
+        @dashboard_group = Group.find_by(slug: params[:group_slug])
+        save_current_dashboard_group(@dashboard_group)
+      end
+    end
+
+    watched_posts = fetch_watched_posts(@dashboard_group, @search_q, @hashtag)
 
     if view_context.is_infinite_scrollable?
       if request.format.js?
@@ -42,7 +53,11 @@ class DashboardController < ApplicationController
     if params[:last_time].blank?
       @count = 0
     else
-      @countable_issues = current_user.watched_posts(current_group).next_of_time(params[:last_time])
+      if params[:group_slug].present?
+        @dashboard_group = Group.find_by(slug: params[:group_slug])
+      end
+
+      @countable_issues = current_user.watched_posts(@dashboard_group || current_group).next_of_time(params[:last_time])
       @countable_issues = @countable_issues.where.not(last_stroked_user: current_user) if user_signed_in?
       @count = @countable_issues.count
     end
@@ -54,8 +69,8 @@ class DashboardController < ApplicationController
 
   private
 
-  def fetch_watched_posts search_q, hashtag
-    watched_posts = current_user.watched_posts(current_group)
+  def fetch_watched_posts group, search_q, hashtag
+    watched_posts = current_user.watched_posts(group || current_group)
     watched_posts = watched_posts.order(last_stroked_at: :desc)
     watched_posts = watched_posts.search(search_q) if search_q.present?
     watched_posts = watched_posts.tagged_with(hashtag) if hashtag.present?
