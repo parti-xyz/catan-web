@@ -8,7 +8,7 @@
       = f.label :body
       .js-tinymce.form-control.form-control-tinymce{ id: "post[body]", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
         != @post.body
-      = f.hidden_field :body, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '65535', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
+      = f.hidden_field :body, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
       = f.hidden_field :is_html_body, value: true
 
     - if @post.poll.present?

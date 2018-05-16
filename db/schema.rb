@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180511212241) do
+ActiveRecord::Schema.define(version: 20180516223831) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -497,7 +497,7 @@ ActiveRecord::Schema.define(version: 20180511212241) do
     t.datetime "last_commented_at"
     t.datetime "last_stroked_at"
     t.integer  "upvotes_count",             limit: 4,        default: 0
-    t.text     "body",                      limit: 65535
+    t.text     "body",                      limit: 16777215
     t.integer  "link_source_id",            limit: 4
     t.integer  "poll_id",                   limit: 4
     t.integer  "survey_id",                 limit: 4
