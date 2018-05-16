@@ -1699,9 +1699,11 @@ $(function(){
   });
 
   // 내 홈 탭
-  var sticky = new Waypoint.Sticky({
-    element: $('.js-my-home-tab-sticky')[0]
-  })
+  if($('.js-my-home-tab-sticky').length > 0){
+    var sticky = new Waypoint.Sticky({
+      element: $('.js-my-home-tab-sticky')[0]
+    })
+  }
 });
 
 
