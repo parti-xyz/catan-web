@@ -657,11 +657,11 @@ var parti_prepare = function($base, force) {
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        plugins: 'link paste autolink autosave lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
         toolbar: 'bold italic strikethrough | link blockquote style-br | bullist numlist outdent indent'
       },
       wiki: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        plugins: 'link paste autolink autosave lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
         toolbar: 'bold italic strikethrough | link blockquote style-br | style-h1 style-h2 style-h3 | bullist numlist outdent indent'
       },
     };
