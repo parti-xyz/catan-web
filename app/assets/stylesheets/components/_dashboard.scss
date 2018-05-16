@@ -235,13 +235,14 @@ section.intro-page {
         color: $brand-primary;
       }
     }
-    .dashboard-group-menu .group-title {
+    > .dropdown > .dropdown-toggle .group-title {
       display: inline-block;
-      max-width: 75px;
+      max-width: 180px;
       text-overflow:ellipsis;
       white-space:nowrap;
       word-wrap:normal;
-      overflow:hidden;
+      overflow: hidden;
+      vertical-align: middle;
     }
     > a > .group-parties-section-title > .group-title {
       max-width: 150px;
