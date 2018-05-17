@@ -24,3 +24,86 @@
     font-size: $font-size-small;
   }
 }
+
+
+section#decision-histories {
+  padding: 20px;
+  @media (max-width: $screen-xs-max) {
+    background-color: #fff;
+  }
+}
+
+
+section.decision-histories-page,
+section.decision-history-page {
+  padding: 20px;
+  @media (max-width: $screen-xs-max) {
+    padding: 0 0 20px;
+  }
+  .decision-content {
+    background-color: #fff;
+    border-radius: $border-radius-base;
+    padding: 20px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    .diff-removed {
+      background-color: lighten($brand-danger, 25%);
+    }
+    .diff-added {
+      background-color: lighten($brand-success, 25%);
+    }
+    .diff-touched {
+      background-color: lighten($brand-warning, 25%);
+    }
+  }
+  .row-diff {
+    margin-top: 20px;
+    .post-card__last-stroked {
+      margin-bottom: 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+  .decision-content {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+
+.decision-history {
+  background-color: #fff;
+  border-bottom:1px solid $gray-lighter;
+  margin-top: 0;
+  padding: 12px;
+  &__link {
+    display: inline-block;
+    float: left;
+    .profile {
+      margin-right: 5px;
+      float: left;
+    }
+    .nickname {
+      height: 30px;;
+      line-height: 30px;
+      float: left;
+      color: $brand-primary;
+      font-weight: bold;
+    }
+  }
+  &__parti {
+    color: $gray;
+    display: inline-block;
+    a {
+      color: $gray;
+      &:hover{
+        color: $link-hover-color;
+      }
+    }
+  }
+  &__date.date-wrapper {
+    color: $gray;
+    font-size: $font-size-base;
+    display: inline-block;
+  }
+}

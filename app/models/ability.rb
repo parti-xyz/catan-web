@@ -37,6 +37,11 @@ class Ability
         user.is_organizer?(post.issue)
       end
 
+      can [:read], DecisionHistory do |decision_history|
+        post = decision_history.post
+        post.present? and post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+      end
+
       can [:manage], [Bookmark] do |bookmark|
         !bookmark.persisted? or bookmark.user == user
       end

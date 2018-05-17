@@ -1,11 +1,18 @@
 = render 'issues/issue_header', issue: @post.issue, simple: true
 
-%section#wiki-histories
-  .container.container-xs-no-padding
-    .wiki-history-page
-      %h4.wiki-title
-        = link_to @post.specific_desc_striped_tags(20), smart_post_url(@post)
-        토론 정리 이력
-      %ul.list-unstyled.history-list
-        = render @history_page
-      = paginate @history_page, theme: 'catan'
+%section#decision-histories
+  .container.container-xs-full-width
+    .row
+      = main_column_tag do
+        .contents-header.xs-horizontal-padding
+          %h4.contents-header__title
+            = link_to @post.specific_desc_striped_tags(20), smart_post_url(@post), class: 'text-primary'
+          %h5
+            토론 정리 이력
+
+        .decision-history-page
+          .history-list
+            = render @history_page
+          = paginate @history_page, theme: 'catan'
+      .hidden-xs
+        = render 'issues/aside', issue: @post.issue

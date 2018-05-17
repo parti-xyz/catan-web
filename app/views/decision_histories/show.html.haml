@@ -1,0 +1,50 @@
+= render 'issues/issue_header', issue: @issue, simple: true
+
+%section.decision-history-page
+  .container.container-xs-full-width
+    %h4.decision-title
+      %h4.contents-header__title
+        = link_to @post.specific_desc_striped_tags(20), smart_post_url(@post), class: 'text-primary'
+      %h5
+        = link_to decision_histories_post_path(@post) do
+          토론 정리 이력
+        &gt;
+        %span.text-nowrap #{@decision_history.user.nickname}님 #{static_date_f(@decision_history.created_at)} 변경사항
+
+    .row
+      .col-xs-12
+        = render @decision_history
+
+    - if is_small_screen?
+      .row
+        .col-xs-12
+          .decision-content
+            = render 'decision_histories/read_only_decision_content', decision_history: @decision_history, diff: :merged
+    - else
+      .row.row-diff
+        .col-sm-12.col-lg-6
+          .post-card__last-stroked
+            .media
+              .media-left
+                = link_to smart_user_gallery_path(@decision_history.previous.user) do
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{@decision_history.previous.user.image.sm.url});"}
+              .media-body
+                %strong.nickname
+                  = @decision_history.previous.user.nickname
+                %br
+                %span.date= static_date_f(@decision_history.previous.created_at)
+          .decision-content
+            = render 'decision_histories/read_only_decision_content', decision_history: @decision_history, diff: :removed
+        .col-sm-12.col-lg-6
+          .post-card__last-stroked
+            .media
+              .media-left
+                = link_to smart_user_gallery_path(@decision_history.user) do
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{@decision_history.user.image.sm.url});"}
+              .media-body
+                %strong.nickname
+                  = @decision_history.user.nickname
+                %br
+                %span.date= static_date_f(@decision_history.created_at)
+          .decision-content
+            = render 'decision_histories/read_only_decision_content', decision_history: @decision_history, diff: :added

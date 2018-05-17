@@ -28,7 +28,7 @@
   - if post.issue.safe_postable?(current_user)
     %li
       = link_to edit_decision_post_path(post), target: '_blank' do
-        토론 함께 정리하기
+        토론 정리하기
   - if can? :edit_folder, post
     %li
       = link_to edit_folder_post_path(post), remote: true do

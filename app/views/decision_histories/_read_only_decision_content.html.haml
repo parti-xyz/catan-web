@@ -1,0 +1,10 @@
+- if local_assigns[:diff] == :removed
+  - body = local_assigns[:decision_history].diff_removed_body
+- elsif local_assigns[:diff] == :added
+  - body = local_assigns[:decision_history].diff_added_body
+- else
+  - body = local_assigns[:decision_history].diff_body
+- if local_assigns[:decision_history].touched_body?
+  .decision-body.decision-form
+    .form-control-tinymce.mce-content-body
+      != body

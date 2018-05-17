@@ -1,10 +1,16 @@
+= render 'issues/issue_header', issue: @post.issue, simple: true
+
 %section.contents-page
   .container.container-xs-full-width
-    .contents-header.xs-horizontal-padding
-      %h4.contents-header__title
-        #{Post.model_name.human} 토론 함께 정리하기
-    = render 'form_decision'
-    .contents-header.xs-horizontal-padding
-      %h5.contents-header__title
-        대상 게시글
-    = render @post, show_issue: true
+    .row
+      = main_column_tag do
+        .contents-header.xs-horizontal-padding
+          %h4.contents-header__title
+            #{Post.model_name.human} 토론 정리하기
+        = render 'form_decision'
+        .contents-header.xs-horizontal-padding
+          %h5.contents-header__title
+            대상 게시글
+        = render @post, show_issue: true
+      .hidden-xs
+        = render 'issues/aside', issue: @post.issue

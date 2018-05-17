@@ -165,6 +165,8 @@ Rails.application.routes.draw do
   end
   resources :folders
   resources 'wiki_histories'
+  resources 'decision_histories'
+
   post 'feedbacks', to: 'feedbacks#create'
   get '/feedbacks/all_users', to: 'feedbacks#all_users', as: :all_users_feedbacks
   get '/feedbacks/users', to: 'feedbacks#users', as: :users_feedbacks
