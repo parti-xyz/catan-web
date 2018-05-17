@@ -151,7 +151,15 @@ body .webui-popover-backdrop {
   }
 }
 
+#subscribe-email-modal {
+  z-index: $zindex-modal-placeholder-modal;
+}
+
 body.shown-modal-placeholder .modal-backdrop.fade.in {
+  z-index: $zindex-modal-placeholder-backdrop;
+}
+
+.modal-backdrop.fade.in {
   z-index: $zindex-modal-placeholder-backdrop;
 }
 

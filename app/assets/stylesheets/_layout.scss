@@ -98,8 +98,32 @@ footer {
     }
   }
 }
-
-
+.subscribe-button {
+  color: #757375 !important;
+  &:hover {
+    color: $brand-primary !important;
+    cursor: pointer;
+  }
+}
+.subscribe-button-mobile {
+  color: $gray
+}
+.subscribe-modal {
+  margin-left: 20%;
+  margin-right: 20%;
+  width: 60%;
+  @media (max-width: 420px) {
+      margin-left: 10%;
+      margin-right: 10%;
+      width: 80%;
+    }
+  align-content: center;
+  .modal-body {
+    .btn-primary {
+      margin-top: 10px;
+    }
+  }
+}
 
 
 

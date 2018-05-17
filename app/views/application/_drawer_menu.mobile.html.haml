@@ -57,8 +57,24 @@
         오류 및 버그 신고
     %li.menu-line
       = link_to smart_issue_home_url(Issue.parti_parti) do
-        제안 및 의견 &middot; 빠띠만든당
+        제안 및 의견
+    %li.menu-line.subscribe-button-mobile{'data-toggle': "modal", 'data-target': "#subscribe-email-modal"} 빠띠 민주주의 리포트 받아보기
     - if is_kakao_talkable?
       %li.menu-line.drawer-list__yellow
         %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
           = image_tag 'icon_yellow.png', alt: 'btn-yellow'
+#subscribe-email-modal.modal.fade{:role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content.subscribe-modal
+      .modal-body
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &#215;
+        %form.text-center{:action => "https://stibee.com/api/v1.0/lists/SZBNbO-_brk8tbU-Xf-LI30WjGA=/public/subscribers", :method => "POST"}
+          %h4.email-guide
+            빠띠의 민주주의 리포트를
+            %br.visible-xs
+            월간 뉴스레터로 받아보세요.
+          .email-input
+            %label{:for => "email", class: ''} 이메일 주소
+            %input#email{:name => "email", :id => "email", :type => "email", class: 'form-control'}/
+            %button{class: 'btn btn-wire device-bloc-button btn-primary', :type => "submit"} 구독신청
