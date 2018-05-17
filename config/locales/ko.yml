@@ -253,7 +253,7 @@ ko:
         site_title: 제목(선택)
         site_keywords: 태그(선택)
         key_visual_foreground_image: 그룹홈 상단 이미지(선택)
-        key_visual_background_image: 그룹홈 상단 배이미지(선택)
+        key_visual_background_image: 그룹홈 상단 배경 이미지(선택)
   enumerize:
     defaults:
       choice:
