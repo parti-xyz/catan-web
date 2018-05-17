@@ -1,10 +1,4 @@
-- if post.decision.blank?
-  - if post.issue.safe_postable?(current_user) and !local_assigns[:compact]
-    .decision-panel.decision-panel-blank
-      .help-text
-        %sapn.text-muted 어느 정도 토론이 진행되었나요?
-        = link_to '토론 정리하기', edit_decision_post_path(post), class: 'text-primary text-nowrap'
-- else
+- if post.decision.present?
   .decision-panel
     %h6
       %span.text-nowrap 토론 정리

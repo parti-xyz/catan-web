@@ -45,3 +45,4 @@
               %i.fa.fa-comment-o
               %b> #{post.comments_count}개
               의 댓글
+      = render 'posts/decision', local_assigns.merge(post: post)

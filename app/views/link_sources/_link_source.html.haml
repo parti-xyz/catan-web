@@ -42,3 +42,4 @@
             %sapn
               %i.fa.fa-comment-o
               #{post.comments_count}개의 댓글
+      = render 'posts/decision', local_assigns.merge(post: post)

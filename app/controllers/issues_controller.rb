@@ -17,7 +17,8 @@ class IssuesController < ApplicationController
       group_issues(current_group)
       @posts_pinned = current_group.pinned_posts(current_user)
 
-      @polls_and_surveys = Post.having_poll.or(Post.having_survey).not_private_blocked_of_group(current_group, current_user)
+      @polls_and_surveys = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
+      @polls_and_surveys = @polls_and_surveys.not_private_blocked_of_group(current_group, current_user)
       @polls_and_surveys = @polls_and_surveys.order_by_stroked_at.limit(7)
       @recent_posts = Post.not_in_dashboard_of_group(current_group, current_user).order_by_stroked_at.limit(4)
 
@@ -99,7 +100,8 @@ class IssuesController < ApplicationController
   def slug_polls_or_surveys
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
     how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
-    @posts = Post.having_poll.or(Post.having_survey).of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
+    @posts = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
+    @posts = @posts.of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
   end
 
   def slug_wikis

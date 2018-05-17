@@ -24,6 +24,11 @@
     %li
       = link_to post_path(post), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do
         삭제
+- button_groups << capture do
+  - if post.issue.safe_postable?(current_user)
+    %li
+      = link_to edit_decision_post_path(post), target: '_blank' do
+        토론 함께 정리하기
   - if can? :edit_folder, post
     %li
       = link_to edit_folder_post_path(post), remote: true do
