@@ -7,6 +7,10 @@ class DecisionHistory < ActiveRecord::Base
     post.decision_histories
   end
 
+  def diffable_body
+    ActionController::Base.helpers.simple_format(body)
+  end
+
   def touched_body?
     previous_of_current_post.present?
   end

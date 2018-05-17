@@ -237,6 +237,7 @@ class Post < ActiveRecord::Base
   attr_accessor :has_poll
   attr_accessor :has_survey
   attr_accessor :is_html_body
+  attr_accessor :conflicted_decision
 
   # fulltext serch
   before_save :reindex_for_search

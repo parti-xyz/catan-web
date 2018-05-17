@@ -106,6 +106,8 @@ class PostsController < ApplicationController
   def update_decision
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
 
+    conflict = (@post.decision_histories.any? and (@post.decision_histories.last.try(:id) != params[:last_decision_history_id].try(:to_i)))
+
     @post.assign_attributes(decision: params[:post][:decision])
     @post.strok_by(current_user, :decision)
 
@@ -113,7 +115,11 @@ class PostsController < ApplicationController
       redirect_to(params[:back_url].presence || smart_post_url(@post)) and return
     end
 
-    if @post.save
+    if conflict
+      @post.conflicted_decision = @post.decision
+      @post.decision = @post.decision_was
+      render :edit_decision
+    elsif @post.save
       @post.issue.strok_by!(current_user, @post)
       @decision_history = @post.decision_histories.create(body: @post.decision, user: current_user)
       DecisionNotificationJob.perform_async(current_user.id, @decision_history.id)

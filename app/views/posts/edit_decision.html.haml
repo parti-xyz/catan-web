@@ -7,7 +7,46 @@
         .contents-header.xs-horizontal-padding
           %h4.contents-header__title
             #{Post.model_name.human} 토론 정리하기
+
+        - if @post.conflicted_decision.present?
+          - last_history = @post.decision_histories.last
+          - last_editor = last_history.try(:user)
+          .alert.alert-danger
+            @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{last_editor.nickname} 님이 내용을 고쳤습니다. 아래쪽 내용을 위쪽 편집창에 적절히 합쳐주시기 바랍니다.
+
+          .post-card__last-stroked
+            .media
+              .media-left
+                = link_to smart_user_gallery_path(last_editor) do
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{last_editor.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{last_editor.nickname}", :type => "button"}
+              .media-body
+                %strong.nickname
+                  #{last_editor.nickname}
+                님이 저장한 문서입니다.
+                %br
+                %span.date= date_f(last_history.created_at)
+
         = render 'form_decision'
+
+        - if @post.conflicted_decision.present?
+
+          %hr
+          .decision-conflict
+            .post-card__last-stroked
+              .media
+                .media-left
+                  = link_to smart_user_gallery_path(current_user) do
+                    .thumb.img-circle.circle-30{style: "background-image: url(#{current_user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{current_user.nickname}", :type => "button"}
+                .media-body
+                  %strong.nickname
+                    #{@current_user.nickname}
+                  님이 방금 작성 중이었던 내용입니다. 내용이 저장되지 않았으니, 위의 편집창에 반영한 후 저장해주세요.
+            .decision-content.decision-content--read-only.conflict-content
+              .decision-body.decision-form
+                .form-control-tinymce.mce-content-body
+                  = decision_body_format(@post.issue, @post.conflicted_decision)
+          %hr
+
         .contents-header.xs-horizontal-padding
           %h5.contents-header__title
             대상 게시글

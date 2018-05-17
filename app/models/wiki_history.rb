@@ -7,6 +7,10 @@ class WikiHistory < ActiveRecord::Base
     wiki.wiki_histories
   end
 
+  def diffable_body
+    body
+  end
+
   def activity
     user_word = if user.present?
       if block_given?

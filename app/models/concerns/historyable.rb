@@ -181,8 +181,8 @@ module Historyable
     end
 
     def build_diffs
-      current_doc = Nokogiri::HTML(body.try(:strip) || "")
-      previous_doc = Nokogiri::HTML(previous.try(:body).try(:strip) || "")
+      current_doc = Nokogiri::HTML(diffable_body.try(:strip) || "")
+      previous_doc = Nokogiri::HTML(previous.try(:diffable_body).try(:strip) || "")
       [previous_doc.diff(current_doc, added: true, removed: true).to_a, current_doc, previous_doc]
     end
 

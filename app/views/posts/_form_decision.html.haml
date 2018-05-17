@@ -4,7 +4,7 @@
       = f.label :decision
       %div
         = f.text_area :decision, class: "form-control", data: {ride: 'parti-autoresize'}
-
+        = hidden_field_tag :last_decision_history_id, f.object.decision_histories.last.try(:id)
     .editor-btn.text-right
       = link_to '취소', @post, class: 'btn btn-default'
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }

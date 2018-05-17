@@ -34,6 +34,16 @@ section#decision-histories {
 }
 
 
+.decision-conflict {
+  .decision-content {
+    &--read-only {
+      background-color: #fff;
+      border-radius: $border-radius-base;
+      padding: 20px;
+    }
+  }
+}
+
 section.decision-histories-page,
 section.decision-history-page {
   padding: 20px;
