@@ -6,7 +6,7 @@
           Powered by
         %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
   - else
-    .footer-logo.footer-logo.clearfix.modal-placeholder
+    .footer-logo.footer-logo.clearfix
       = link_to root_path do
         %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
         %span.footer-logo__txt
@@ -24,23 +24,25 @@
     %li
       = link_to smart_issue_home_url(Issue.parti_parti) do
         제안 및 의견
-    %li{class: "subscribe-button", 'data-toggle': "modal", 'data-target': "#subscribe-email-modal"}
+    %li{class: "subscribe-button", 'data-toggle': "modal", 'data-target': "#js-subscribe-email-modal"}
       빠띠 민주주의 리포트 받아보기
-    #subscribe-email-modal.modal.fade{:role => "dialog", :tabindex => "-1"}
-      .modal-dialog{:role => "document"}
-        .modal-content.subscribe-modal
-          .modal-body
-            %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
-              %span{"aria-hidden" => "true"} &#215;
-            %form.text-center{:action => "https://stibee.com/api/v1.0/lists/SZBNbO-_brk8tbU-Xf-LI30WjGA=/public/subscribers", :method => "POST"}
-              %h4.email-guide
-                빠띠의 민주주의 리포트를
-                %br.visible-xs
-                월간 뉴스레터로 받아보세요.
-              .email-input
-                %label{:for => "email", class: ''} 이메일 주소
-                %input#email{:name => "email", :id => "email", :type => "email", class: 'form-control'}/
-                %button{class: 'btn btn-wire device-bloc-button btn-primary', :type => "submit"} 구독신청
+    .modal-placeholder
+      #js-subscribe-email-modal.modal.fade{:role => "dialog", :tabindex => "-1"}
+        .modal-dialog{:role => "document", style: 'max-width: 1000px'}
+          .modal-content.subscribe-modal
+            .modal-body
+              %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                %span{"aria-hidden" => "true"} &#215;
+              %form.text-center.form-inline{:action => "https://stibee.com/api/v1.0/lists/SZBNbO-_brk8tbU-Xf-LI30WjGA=/public/subscribers", :method => "POST"}
+                %h4.email-guide{ style: 'margin: 2rem 0 3rem'}
+                  빠띠의 민주주의 리포트를
+                  %br.visible-xs
+                  월간 뉴스레터로 받아보세요.
+                .email-input.form-group
+                  %label{:for => "email", class: ''} 이메일 주소
+                  %input#email{:name => "email", :id => "email", :type => "email", class: 'form-control'}/
+                .form-submit
+                  %button{class: 'btn btn-wire device-bloc-button btn-primary', :type => "submit"} 구독신청
   - unless current_group.present?
     .footer-sns
       %a{href: 'http://partiunion.org', target: '_blank'}
