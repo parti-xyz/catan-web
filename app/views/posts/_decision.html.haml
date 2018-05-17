@@ -2,7 +2,7 @@
   .decision-panel
     %h6
       %span.text-nowrap 토론 정리
-      - if post.issue.safe_postable?(current_user)
+      - if post.decisionable?(current_user)
         %span.control
           &middot;
           - if post.decision_histories.any?

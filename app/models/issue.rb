@@ -284,17 +284,14 @@ class Issue < ActiveRecord::Base
   end
 
   def postable? someone
+    return false if blind_user?(someone)
+    return false if private_blocked?(someone)
     return true if organized_by?(someone)
     member?(someone) and !notice_only
   end
 
   def blind_user? someone
     blinds.exists?(user: someone) or Blind.site_wide?(someone)
-  end
-
-  def safe_postable? someone
-    return false if blind_user?(someone)
-    postable? someone
   end
 
   def sender_of_message(message)

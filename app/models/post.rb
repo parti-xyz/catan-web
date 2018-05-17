@@ -611,6 +611,10 @@ class Post < ActiveRecord::Base
     decision_histories.select(:user_id).distinct.count
   end
 
+  def decisionable? someone = nil
+    wiki.blank? and issue.try(:postable?, someone)
+  end
+
   def last_stroked_days_from_today
     (Date.today - self.last_stroked_at.to_date).to_i
   end

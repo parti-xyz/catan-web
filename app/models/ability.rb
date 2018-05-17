@@ -16,30 +16,38 @@ class Ability
       can [:create, :new_intro, :search_by_tags, :my_menus, :add_my_menu, :remove_my_menu], [Issue]
 
       can [:create, :destroy, :update], [Folder] do |folder|
-        folder.issue.present? and !folder.issue.try(:private_blocked?, user) && folder.issue.try(:postable?, user)
+        folder.issue.present? and folder.issue.try(:postable?, user)
       end
 
       can [:pinned], [Post]
-      can [:update, :destroy, :edit_decision, :update_decision, :decision_histories, :move_to_issue, :move_to_issue_form], [Post], user_id: user.id
+      can [:update, :destroy, :move_to_issue, :move_to_issue_form], [Post], user_id: user.id
       can [:create], [Post] do |post|
-        post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+        post.issue.present? and post.issue.try(:postable?, user)
       end
       can [:edit_folder, :update_folder], [Post] do |post|
-        post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+        post.issue.present? and post.issue.try(:postable?, user)
       end
-      can [:new_wiki, :update_wiki, :edit_decision, :update_decision, :decision_histories], [Post] do |post|
-        post.issue.present? and !post.issue.blind_user?(user) and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+      can [:new_wiki, :update_wiki], [Post] do |post|
+        post.issue.present? and post.issue.try(:postable?, user)
       end
       can [:update, :activate, :inactivate, :purge, :histories], Wiki do |wiki|
-        !wiki.try(:post).issue.blind_user?(user) and !wiki.try(:post).issue.try(:private_blocked?, user) && wiki.try(:post).issue.try(:postable?, user)
+        wiki.try(:post).issue.try(:postable?, user)
       end
       can [:pin, :unpin, :readers, :unreaders], Post do |post|
         user.is_organizer?(post.issue)
       end
 
+      can [:edit_decision, :update_decision, :decision_histories], [Post] do |post|
+        if post.decisionable?
+          (post.user_id == user.id) or
+          (post.issue.present? and !post.issue.blind_user?(user) and !post.issue.try(:private_blocked?, user))
+        else
+          false
+        end
+      end
       can [:read], DecisionHistory do |decision_history|
         post = decision_history.post
-        post.present? and post.issue.present? and !post.issue.try(:private_blocked?, user) && post.issue.try(:postable?, user)
+        post.present? and post.issue.present? and post.issue.try(:postable?, user)
       end
 
       can [:manage], [Bookmark] do |bookmark|

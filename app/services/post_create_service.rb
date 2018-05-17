@@ -6,7 +6,7 @@ class PostCreateService
 
   def call
     return false if @post.issue.blank?
-    return false unless @post.issue.safe_postable?(@current_user)
+    return false unless @post.issue.postable?(@current_user)
 
     @post.user = @current_user
     if @post.wiki.present?
