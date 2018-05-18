@@ -827,7 +827,22 @@ var parti_prepare = function($base, force) {
 
   // form dirty check
   $.parti_apply($base, '.js-dirty-form', function(elm) {
-    $(elm).dirrty();
+    var $elm = $(elm);
+    $elm.dirrty();
+
+    $(document).on('submit.rails', $.rails.formSubmitSelector, function(e) {
+      var $form = $(this);
+      if ($elm != $form && !$.rails.isRemote($form)) {
+        $elm.dirrty("setClean");
+      }
+    });
+
+    $(document).on('click.rails', $.rails.linkClickSelector, function(e) {
+      var $link = $(this);
+      if (!$.rails.isRemote($link)) {
+        $(elm).dirrty("setClean");
+      }
+    });
   });
 
   $base.data('parti-prepare-arel', 'completed');
