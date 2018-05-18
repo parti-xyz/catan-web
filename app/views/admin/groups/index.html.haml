@@ -19,9 +19,12 @@
       - @groups.each do |group|
         %tr
           %td.text-nowrap
-            = link_to group.title, edit_group_configuration_url(subdomain: group.subdomain)
+            = link_to group.title, root_url(subdomain: group.subdomain)
             %br
             = group.site_title
+            %br
+            = link_to '수정', edit_group_configuration_url(subdomain: group.subdomain), class: 'btn btn-default'
+            = link_to '삭제', admin_group_path(group), method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-default'
           %td.text-nowrap= group.head_title
           %td= root_url(subdomain: group.slug)
           %td= group.site_keywords

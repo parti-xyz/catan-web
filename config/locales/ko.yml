@@ -172,6 +172,11 @@ ko:
         record_invalid: "오류가 있습니다: %{errors}"
         not_found_parti: 입력하신 빠띠가 없거나 비공개입니다.
       models:
+        group:
+          attributes:
+            base:
+              restrict_dependent_destroy:
+                many: 아직 지워지지 않은 빠띠가 있습니다. 해당 그룹의 모든 빠띠를 삭제한 후 다시 시도해 주세요.
         issue:
           attributes:
             title:
