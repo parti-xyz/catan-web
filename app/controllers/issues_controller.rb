@@ -40,8 +40,7 @@ class IssuesController < ApplicationController
         params[:sort] ||= 'hottest'
         @issues = search_and_sort_issues(Issue.searchable_issues(current_user), params[:keyword], params[:sort], 3)
       elsif params[:subject].present?
-        issue_slugs = LandingPage.where("title like '#{params[:subject]}'")[0].try(:parsed_body).try(:map).to_a
-        @issues = Issue.where(:slug => issue_slugs)
+        @issues = LandingPage.section_for_issue_subject.find_by(title: params[:subject]).try(:parsed_section_for_issue_subject)
       else
         @groups = Group.not_private_blocked(current_user).sort_by_name
         @groups = @groups.to_a.reject { |group| group.issues.count <= 0 }
@@ -65,7 +64,14 @@ class IssuesController < ApplicationController
       @issues = @issues.hottest
       @no_tags_selected = 'yes'
     else
-      @issues = @issues.tagged_with(params[:selected_tags], :any => true)
+      conditions = []
+      conditions << Issue.tagged_with(params[:selected_tags], :any => true)
+
+      LandingPage.section_for_issue_subject.where(title: params[:selected_tags]).each do |landing_page|
+        conditions << landing_page.parsed_section_for_issue_subject
+      end
+
+      @issues = @issues.where.any_of(*conditions)
     end
     @issues = @issues.to_a.reject { |i| i.private_blocked?(current_user) }
   end
