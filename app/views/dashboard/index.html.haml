@@ -30,6 +30,8 @@
           - if params[:q].blank?
             = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(group_slug: current_dashboard_group.try(:slug), last_time: DateTime.now.to_i)
 
+          .js-my-home-tab-sticky-offset
+
           .posts{data: {last_id: -1, is_last: 'false'}}
             - if params[:q].present?
               .post-card.summary

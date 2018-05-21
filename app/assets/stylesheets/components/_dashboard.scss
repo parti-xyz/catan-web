@@ -200,6 +200,10 @@ section.intro-page {
     z-index: $zindex-fixed-my-home-tab;
     background-color: $background-color;
     box-shadow: 0px 5px 15px $gray-light;
+    border-top: 1px solid $background-color;
+    &.content-tab-section-my-home-with-count-label {
+      padding-top: 12px;
+    }
   }
 }
 

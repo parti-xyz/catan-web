@@ -1,4 +1,4 @@
-#content-tab-section.content-tab-section-my-home.js-my-home-tab-sticky
+#content-tab-section.content-tab-section-my-home.js-my-home-tab-sticky{ class: ('content-tab-section-my-home-with-count-label' if current_user.unread_pinned_posts.any? or current_user.unread_messages_count > 0) }
   %div.hidden-sm.visible-xs-block{ style: "height: 40px; width: 3rem; position: absolute; right: 0; top: -10px; z-index: 1;" }
     %div{ style: "background:-webkit-linear-gradient(right, #e7eaeb, rgba(255,255,255,0.0)); height: 100%; width: 100%;" }
   %ul.nav.nav-tabs.my-home-tabs
