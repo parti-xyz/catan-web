@@ -1466,6 +1466,11 @@ $(function(){
     $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
 
     $('body').removeClass('js-no-pull-to-refresh');
+
+    // 가상키보드를 쓰는 환경이면
+    if($('body').hasClass('virtual-keyboard')) {
+      $('.js-navbar-header').trigger('parti-navbar-header-ease');
+    }
   });
 
   // open editor
@@ -1488,6 +1493,7 @@ $(function(){
       $('.js-invisible-on-mobile-editing').slideUp();
       $('.js-btn-history-back-in-mobile-app').hide();
       $('.js-close-editor-in-mobile-app').removeClass('hidden');
+      $('.js-navbar-header').trigger('parti-navbar-header-fix');
     }
 
     $('body').addClass('js-no-pull-to-refresh');
@@ -1572,9 +1578,38 @@ $(function(){
   });
 
   // 모바일에서 상단 메뉴에 현 페이지 제목을 보여 줍니다
+  $('.js-navbar-header').on('parti-navbar-header-fix', function(e) {
+    var $el = $(e.currentTarget);
+    if($el.hasClass('js-navbar-header-fixed')) {
+      return;
+    }
+    $el.addClass('js-navbar-header-fixed');
+    var $default = $el.find('.js-navbar-header-title-default');
+    var $page = $el.find('.js-navbar-header-title-page');
+    if(!$default.length || !$page.length) {
+      return;
+    }
+    $default.stop().fadeOut(500, function() {
+      if(!$page.is(':visible')) {
+        $page.stop().fadeIn(500);
+      }
+    });
+  });
+
+  $('.js-navbar-header').on('parti-navbar-header-ease', function(e) {
+    var $el = $(e.currentTarget);
+    if(!$el.hasClass('js-navbar-header-fixed')) {
+      return;
+    }
+    $el.removeClass('js-navbar-header-fixed');
+  });
+
   $(window).on('scroll', _.debounce(function() {
     var $el = $('.js-navbar-header');
     if(!$el.length) {
+      return;
+    }
+    if($el.hasClass('js-navbar-header-fixed')) {
       return;
     }
 
