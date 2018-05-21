@@ -27,6 +27,10 @@
       display: none;
     }
   }
+  .survey-card & .option > .new_option {
+    display: none;
+  }
+
   &--body > .option {
     .checkbox-btn {
       width: 8%;
