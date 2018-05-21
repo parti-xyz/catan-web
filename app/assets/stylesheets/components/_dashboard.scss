@@ -85,6 +85,7 @@ section.intro-page {
     padding-top: 15px;
     padding-bottom: 25px;
   }
+  z-index: $zindex-modal-recommend-modal;
 }
 .parti-member-recommend--modal ~ .modal-backdrop.fade.in {
   opacity: 1;
