@@ -3,7 +3,7 @@ class Survey < ActiveRecord::Base
 
   include Grape::Entity::DSL
   entity do
-    expose :id, :remain_time_human, :feedbacks_count, :feedback_users_count, :expires_at, :multiple_select
+    expose :id, :remain_time_human, :feedbacks_count, :feedback_users_count, :expires_at, :multiple_select, :hidden_intermediate_result, :hidden_option_voters
     expose :options, using: Option::Entity
     expose :is_open do |instance, options|
       instance.open?
@@ -59,7 +59,7 @@ class Survey < ActiveRecord::Base
   end
 
   def visible_feedbacks?(someone)
-    feedbacked?(someone) or !open?
+    (feedbacked?(someone) and !hidden_intermediate_result?) or !open?
   end
 
   def percentage(option)

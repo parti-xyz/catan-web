@@ -319,7 +319,7 @@ class PostsController < ApplicationController
 
     survey = params[:post][:survey_attributes]
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
-    survey_attributes = [:duration_days, :multiple_select, options_attributes: options_attributes] if survey.present?
+    survey_attributes = [:duration_days, :multiple_select, :hidden_intermediate_result, :hidden_option_voters, options_attributes: options_attributes] if survey.present?
 
     wiki = params[:post][:wiki_attributes]
     wiki_attributes = [:id, :title, :body] if wiki.present?

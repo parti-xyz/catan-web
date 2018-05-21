@@ -83,27 +83,35 @@
           .body
             .form-group
               = f.text_area :body, class: 'form-control',  data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, placeholder: 'ex. 짜장면'
-
           .feedbacks-count
             .form-group
               = f.submit '추가', class: 'btn btn-link'
     .survey-options--footer.clearfix
-      = post.survey.remain_time_human
+      %span.survey-options--footer-item
+        = post.survey.remain_time_human
 
       - if post.survey.open? and post.survey.feedbacks.any? and !post.survey.feedbacked?(current_user)
         %div.text-basic-wrap
           현재
           %strong.text-primary #{post.survey.feedback_users_count}
-          명이 투표했습니다. 투표하면 결과를 볼 수 있습니다.
+          명이 투표했습니다. 투표하면 상세한 상황을 볼 수 있습니다.
       - else
         - if post.survey.feedbacks_count > 0
-          %span.hidden-xs &middot;
-          %br.visible-xs-block
-          %span.survey-options--count.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), type: 'async', url: all_users_feedbacks_path(survey_id: post.survey.id), trigger: 'hover', placement: popover_placement } }
+          %span &middot;
+          %span.survey-options--count.survey-options--footer-item.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), type: 'async', url: all_users_feedbacks_path(survey_id: post.survey.id), trigger: 'hover', placement: popover_placement } }
             총투표 #{post.survey.feedback_users_count}명
 
-          - if post.survey.multiple_select?
-            %span.survey-options--mulitple-select
-              &middot;
-              중복 투표 가능
+        - if post.survey.multiple_select?
+          %span &middot;
+          %span.survey-options--footer-item.survey-options--mulitple-select
+            중복 투표 가능
 
+        - if post.survey.hidden_intermediate_result?
+          %span &middot;
+          %span.survey-options--footer-item.survey-options--hidden-intermediate-result
+            중간 집계 숨김
+
+        - if post.survey.hidden_option_voters
+          %span &middot;
+          %span.survey-options--footer-item.survey-options--hidden-option-voters
+            비밀 투표

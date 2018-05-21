@@ -51,6 +51,7 @@
   }
   &--body {
     padding: $padding-side;
+    padding-bottom: 12px;
     > .option {
       .checkbox-btn {
         span.closed {
@@ -145,6 +146,11 @@
     padding-top: 12px;
     border-top: 1px solid $gray-lighter;
     margin-top: 12px;
+    font-size: $font-size-small;
+    color: $gray;
+    .survey-options--footer-item {
+      white-space: nowrap;
+    }
   }
 }
 

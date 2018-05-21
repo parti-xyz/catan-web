@@ -72,6 +72,18 @@
                   %label
                     = ff.check_box :multiple_select
                     제안 항목을 여러개 선택할 수 있습니다.
+              .form-inline
+                .checkbox
+                  %label
+                    = ff.check_box :hidden_intermediate_result
+                    종료 될 때까지 중간 투표 집계를 숨깁니다.
+
+              .form-inline
+                .checkbox
+                  %label
+                    = ff.check_box :hidden_option_voters
+                    제안에 누가 투표했는지 비밀로 합니다.
+
       .form-widget-btns.clearfix
         .post-reference-btns
           - open_btn_data = {action: 'parti-post-select-subform', 'hidden-target': '.post-reference-btns', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}

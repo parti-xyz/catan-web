@@ -28,6 +28,7 @@ class FeedbacksController < ApplicationController
   def users
     @option = Option.find_by id: params[:option_id]
     return if @option.blank?
+    return unless @option.survey.visible_feedbacks?(current_user)
 
     render layout: nil
   end
