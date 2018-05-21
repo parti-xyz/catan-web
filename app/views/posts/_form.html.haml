@@ -4,7 +4,7 @@
     = f.hidden_field :has_survey, value: "#{ 'true' if @post.survey.present? }"
 
     - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
-    .form-group{ id: textarea_error_id }
+    .form-group.tinymce-wrapper-toggletoolbar{ id: textarea_error_id }
       = f.label :body
       .js-tinymce.form-control.form-control-tinymce{ id: "post[body]", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
         != @post.body

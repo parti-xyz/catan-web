@@ -619,7 +619,7 @@ var parti_prepare = function($base, force) {
         toolbar: 'bold italic strikethrough | link blockquote style-br | bullist numlist outdent indent'
       },
       wiki: {
-        plugins: 'link paste autolink autosave lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        plugins: 'link paste autolink autosave lists advlist autoresize stickytoolbar stylebuttons',
         toolbar: 'bold italic strikethrough | link blockquote style-br | style-h1 style-h2 style-h3 | bullist numlist outdent indent'
       },
     };
@@ -677,7 +677,7 @@ var parti_prepare = function($base, force) {
         toolbar2: 'bullist numlist outdent indent link',
       },
       wiki: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
         toolbar1: 'bold italic strikethrough blockquote style-br style-h1 style-h2 style-h3',
         toolbar2: 'bullist numlist outdent indent link',
       },

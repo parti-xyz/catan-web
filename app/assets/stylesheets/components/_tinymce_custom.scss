@@ -15,8 +15,15 @@
 }
 
 // 토글 툴바
+.tinymce-wrapper-toggletoolbar {
+  .mce-toolbar-grp > .mce-container-body {
+    display: none;
+  }
+}
+
+// sticky
 .mce-toolbar-grp > .mce-container-body {
-  display: none;
+  border-top: 1px solid rgba(0,0,0,0.2);
 }
 
 .mce-tinymce.mce-panel {
@@ -80,9 +87,6 @@
 }
 
 .mce-tinymce {
-  .mce-container-body-toggletoolbar {
-    border-top: 1px solid rgba(0,0,0,0.2);
-  }
   .mce-catan-container-body-sticky {
     border-bottom: 1px solid rgba(0,0,0,0.2);
   }
