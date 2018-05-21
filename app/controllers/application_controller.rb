@@ -188,6 +188,7 @@ class ApplicationController < ActionController::Base
     "issues#slug_polls_or_surveys" => "토론",
     "issues#slug_members" => "멤버",
     "issues#slug_hashtag" => :dynamic,
+    "issues#slug_folders" => "폴더",
     "members#index" => "멤버",
     "posts#readers" => "확인 회원",
     "posts#unreaders" => "미확인 회원",
