@@ -20,6 +20,12 @@ class Upvote < ActiveRecord::Base
   scope :latest, -> { after(1.day.ago) }
   scope :by_issue, ->(issue) { where(issue: issue) }
   scope :comment_only, -> { where(upvotable_type: 'Comment') }
+  scope :of_group, -> (group) {
+    where.any_of(
+      Upvote.where(upvotable_type: 'Comment', upvotable_id: Comment.of_group(group)),
+      Upvote.where(upvotable_type: 'Post', upvotable_id: Post.of_group(group))
+    )
+  }
 
   after_create :send_message
   before_save :set_issue
@@ -46,6 +52,10 @@ class Upvote < ActiveRecord::Base
 
   def group_for_message
     self.issue.group
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 
   private

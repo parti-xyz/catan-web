@@ -83,6 +83,12 @@ class Message < ActiveRecord::Base
   scope :recent, -> { order(id: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :only_upvote, -> { where(messagable_type: Upvote.to_s) }
+  scope :of_group, -> (group) {
+    conditions = all_messagable_types.map do |klass|
+      Message.where(messagable_type: klass.to_s).where(messagable_id: klass.send(klass.send(:messagable_group_method), group))
+    end
+    where.any_of(*conditions)
+  }
 
   def post
     messagable.try(:post)
@@ -98,5 +104,20 @@ class Message < ActiveRecord::Base
 
   def action_params_hash
     JSON.parse(action_params)
+  end
+
+
+  def self.all_messagable_types
+    @_poly_hash ||= [].tap do |array|
+      Dir.glob(File.join(Rails.root, "app", "models", "**", "*.rb")).each do |file|
+        klass = (File.basename(file, ".rb").camelize.constantize rescue nil)
+        next if klass.nil? or !klass.ancestors.include?(ActiveRecord::Base)
+        reflection = klass.reflect_on_association(:messages)
+        if reflection.present? and reflection.options[:as] == :messagable
+          array << klass
+        end
+      end
+    end
+    @_poly_hash
   end
 end

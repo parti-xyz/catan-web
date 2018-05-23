@@ -2,7 +2,6 @@ class Note < ActiveRecord::Base
   MAX_BODY_LENGTH = 250
 
   acts_as_paranoid
-  acts_as :post, as: :postable
 
   validates :body, presence: true
   validate :check_body_length

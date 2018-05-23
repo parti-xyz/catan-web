@@ -23,6 +23,8 @@ class DashboardController < ApplicationController
         @dashboard_group = Group.find_by(slug: params[:group_slug])
         save_current_dashboard_group(@dashboard_group)
       end
+    else
+      @dashboard_group = current_dashboard_group
     end
 
     watched_posts = fetch_watched_posts(@dashboard_group, @search_q, @hashtag)

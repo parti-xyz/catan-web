@@ -1,6 +1,5 @@
 class Talk < ActiveRecord::Base
   acts_as_paranoid
-  acts_as :post, as: :postable
 
   belongs_to :poll
   accepts_nested_attributes_for :poll

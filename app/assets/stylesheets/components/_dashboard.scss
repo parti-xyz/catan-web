@@ -193,7 +193,7 @@ section.intro-page {
 }
 
 @media (min-width: $screen-sm-min) {
-  #content-tab-section.content-tab-section-my-home.stuck {
+  .my-home-tab-sticky.stuck {
     position: fixed;
     width: inherit;
     top: 52px;
@@ -204,62 +204,13 @@ section.intro-page {
     &.content-tab-section-my-home-with-count-label {
       padding-top: 12px;
     }
+    .contents-header__title {
+      margin-left: 1rem;
+    }
   }
 }
 
 #content-tab-section > .my-home-tabs {
-  .dropdown-wrapper {
-    > a {
-      display: inline-block;
-      padding-right: 0;
-    }
-    > a + a {
-      padding-left: 0;
-    }
-    & > .dropdown {
-      padding: 5px 20px;
-      padding-left: 0;
-    }
-    &.active > .dropdown {
-      .dropdown-toggle {
-        color: $brand-primary;
-      }
-    }
-    .dropdown-toggle {
-      .group-parties-section-title {
-        font-weight: bold;
-      }
-    }
-    .dropdown-menu.dropdown-menu-dashboard-group {
-      max-height: 320px;
-      overflow-y: scroll;
-      > li > a {
-        font-weight: normal;
-      }
-      > li.selected > a {
-        color: $brand-primary;
-      }
-    }
-    > .dropdown > .dropdown-toggle .group-title {
-      display: inline-block;
-      max-width: 180px;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-      word-wrap:normal;
-      overflow: hidden;
-      vertical-align: middle;
-    }
-    > a > .group-parties-section-title > .group-title {
-      max-width: 150px;
-      display: inline-block;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-      vertical-align: middle;
-    }
-  }
-
   @media (max-width: $screen-xs-max) {
     margin-left: 0;
     margin-right: 0;
@@ -269,40 +220,6 @@ section.intro-page {
     > li {
       display: inline-block;
       float: none;
-    }
-
-    > li.dropdown-wrapper,
-    > li.dropdown-wrapper > .dropdown {
-      position: static;
-    }
-
-    > li.dropdown-wrapper > .dropdown {
-      > ul.dropdown-menu {
-        top: 3rem;
-        left: 1rem;
-      }
-      > a {
-        padding-right: 0;
-      }
-      > .dropdown-toggle > .group-parties-section-title > .group-title {
-        max-width: 150px;
-        display: inline-block;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        vertical-align: middle;
-      }
-    }
-
-    > li.dropdown-wrapper > .dropdown,
-    > li > a {
-      padding: 5px 10px;
-      display: inline-block;
-    }
-
-    > li.dropdown-wrapper > .dropdown {
-      padding-left: 0;
     }
   }
 }

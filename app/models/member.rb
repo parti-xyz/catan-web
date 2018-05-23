@@ -37,6 +37,12 @@ class Member < ActiveRecord::Base
     base = base.where('id < ?', member.id) if member.present?
     base
   }
+  scope :of_group, -> (group) {
+    where.any_of(
+      Member.where(joinable_type: 'Issue', joinable_id: Issue.of_group(group)),
+      Member.where(joinable_type: 'Group', joinable_id: group.id)
+    )
+  }
 
   scoped_search relation: :user, on: [:nickname]
   scoped_search relation: :user, on: [:nickname, :email], profile: :admin
@@ -51,5 +57,9 @@ class Member < ActiveRecord::Base
 
   def group_for_message
     joinable if joinable_type == 'Group'
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 end

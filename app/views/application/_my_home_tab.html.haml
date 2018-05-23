@@ -1,72 +1,72 @@
-#content-tab-section.content-tab-section-my-home.js-my-home-tab-sticky{ class: ('content-tab-section-my-home-with-count-label' if current_user.unread_pinned_posts.any? or current_user.unread_messages_count > 0) }
-  %div.hidden-sm.visible-xs-block{ style: "height: 40px; width: 3rem; position: absolute; right: 0; top: -10px; z-index: 1;" }
-    %div{ style: "background:-webkit-linear-gradient(right, #e7eaeb, rgba(255,255,255,0.0)); height: 100%; width: 100%;" }
-  %ul.nav.nav-tabs.my-home-tabs
-    - is_current_dashboard_page = (current_page?('/') or current_page?('/dashboard'))
-    - if is_small_screen? and false
-      %li.dropdown
+- is_current_dashboard_page = (current_page?('/') or current_page?('/dashboard'))
+- is_current_pinnde_page = current_page?('/posts/pinned')
+- is_current_messages_page = current_page?('/messages')
+- is_current_bookmarks_page = current_page?('/bookmarks')
+
+- dropdown_url = if is_current_dashboard_page
+  - :dashboard_url
+- elsif is_current_pinnde_page
+  - :pinned_posts_url
+- elsif is_current_messages_page
+  - :messages_url
+- elsif is_current_bookmarks_page
+  - :bookmarks_url
+- else
+  - :dashboard_url
+
+.my-home-tab-sticky.js-my-home-tab-sticky
+  .contents-header.xs-horizontal-padding
+    %h4.contents-header__title
+      내 홈
+      %span.dropdown{ style: 'margin-right: 12px;' }
         %a.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
-          - if current_dashboard_group.blank?
-            내 피드
-          - else
+          - if current_dashboard_group.present?
+            \/
             = group_my_parties_section_title(current_dashboard_group)
-          %i.fa.fa-chevron-down
+          %small
+            %i.fa.fa-chevron-down
         %ul.dropdown-menu.dropdown-menu-dashboard-group{ "aria-labelledby": 'more-hashtag' }
           - if current_dashboard_group.present?
             %li
-              = link_to dashboard_url(subdomain: nil, group_slug: :all) do
+              = link_to send(dropdown_url, subdomain: nil, group_slug: :all) do
                 전체
             %li.divider
           - Group.comprehensive_joined_by(current_user).each do |group|
             %li{ class: ('selected' if current_dashboard_group == group) }
-              = link_to dashboard_url(subdomain: nil, group_slug: group.slug)  do
+              = link_to send(dropdown_url, subdomain: nil, group_slug: group.slug)  do
                 = group_my_parties_section_title(group)
                 - if current_dashboard_group == group
                   %i.fa.fa-check
-    - else
-      %li.dropdown-wrapper{ class: (' active' if is_current_dashboard_page) }
-        = link_to dashboard_url(subdomain: nil, group_slug: :all), class: 'cursor-pointer-important' do
-          내 피드
-        - if !is_current_dashboard_page and current_dashboard_group.present?
-          = link_to dashboard_url(subdomain: nil, group_slug: current_dashboard_group.try(:slug)) do
-            \/
-            = group_my_parties_section_title(current_dashboard_group)
 
-        %span.dropdown
-          %a.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
-            - if is_current_dashboard_page and current_dashboard_group.present?
-              \/
-              = group_my_parties_section_title(current_dashboard_group)
-            %i.fa.fa-chevron-down
-          %ul.dropdown-menu.dropdown-menu-dashboard-group{ "aria-labelledby": 'more-hashtag' }
-            - if current_dashboard_group.present?
-              %li
-                = link_to dashboard_url(subdomain: nil, group_slug: :all) do
-                  전체
-              %li.divider
-            - Group.comprehensive_joined_by(current_user).each do |group|
-              %li{ class: ('selected' if current_dashboard_group == group) }
-                = link_to dashboard_url(subdomain: nil, group_slug: group.slug)  do
-                  = group_my_parties_section_title(group)
-                  - if current_dashboard_group == group
-                    %i.fa.fa-check
+      %small.text-nowrap
+        - if current_dashboard_group.present?
+          #{group_my_parties_section_title(current_dashboard_group)}에서 오거나이즈하는 내 빠띠 최신 소식입니다.
+        - else
+          내가 가입한 빠띠와 그룹의 최근 소식입니다.
 
-    %li{ class: "#{('active' if current_page?('/posts/pinned'))}" }
-      = link_to pinned_posts_url(subdomain: nil) do
-        공지
-        - if current_user.unread_pinned_posts.any?
-          .count-label-wrapper.small
-            .count-label
-              +#{current_user.unread_pinned_posts.count}
+  #content-tab-section.content-tab-section-my-home{ class: ('content-tab-section-my-home-with-count-label' if current_user.unread_pinned_posts.any? or current_user.unread_messages_count > 0) }
+    %div.hidden-sm.visible-xs-block{ style: "height: 40px; width: 3rem; position: absolute; right: 0; top: -10px; z-index: 1;" }
+      %div{ style: "background:-webkit-linear-gradient(right, #e7eaeb, rgba(255,255,255,0.0)); height: 100%; width: 100%;" }
+    %ul.nav.nav-tabs.my-home-tabs
+      %li{ class: (' active' if is_current_dashboard_page) }
+        = link_to dashboard_url(subdomain: nil), class: 'cursor-pointer-important' do
+          게시글
+      %li{ class: "#{('active' if is_current_pinnde_page)}" }
+        = link_to pinned_posts_url(subdomain: nil) do
+          공지
+          - if current_user.unread_pinned_posts.any?
+            .count-label-wrapper.small
+              .count-label
+                +#{current_user.unread_pinned_posts.count}
 
-    %li{ class: "#{('active' if current_page?('/messages'))}" }
-      = link_to messages_url(subdomain: nil) do
-        알림
-        - if current_user.unread_messages_count > 0
-          .count-label-wrapper.small
-            .count-label
-              +#{current_user.unread_messages_count}
-    %li{ class: "#{('active' if current_page?('/bookmarks'))}" }
-      = link_to bookmarks_url(subdomain: nil) do
-        북마크
-        %i.fa.fa-bookmark-o
+      %li{ class: "#{('active' if is_current_messages_page)}" }
+        = link_to messages_url(subdomain: nil) do
+          알림
+          - if current_user.unread_messages_count > 0
+            .count-label-wrapper.small
+              .count-label
+                +#{current_user.unread_messages_count}
+      %li{ class: "#{('active' if is_current_bookmarks_page)}" }
+        = link_to bookmarks_url(subdomain: nil) do
+          북마크
+          %i.fa.fa-bookmark-o

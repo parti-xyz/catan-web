@@ -23,6 +23,12 @@ class MemberRequest < ActiveRecord::Base
   validates :joinable, presence: true
   validates :user, uniqueness: {scope: [:joinable_id, :joinable_type]}
   scope :recent, -> { order(id: :desc) }
+  scope :of_group, -> (group) {
+    where.any_of(
+      MemberRequest.where(joinable_type: 'Issue', joinable_id: Issue.of_group(group)),
+      MemberRequest.where(joinable_type: 'Group', joinable_id: group.id)
+    )
+  }
 
   def issue_for_message
     joinable if joinable_type == 'Issue'
@@ -30,5 +36,9 @@ class MemberRequest < ActiveRecord::Base
 
   def group_for_message
     joinable if joinable_type == 'Group'
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 end

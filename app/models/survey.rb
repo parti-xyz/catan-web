@@ -32,6 +32,8 @@ class Survey < ActiveRecord::Base
   scope :need_to_send_closed_message, -> {
     finite.where('? > expires_at', DateTime.now).where(sent_closed_message_at: nil)
   }
+  scope :of_group, -> (group) { where(id: Post.of_group(group).select(:survey_id)) }
+
 
   def feedbacked?(someone)
     feedbacks.exists? user: someone
@@ -114,5 +116,9 @@ class Survey < ActiveRecord::Base
   def changable_multiple_select?
     return true unless multiple_select?
     feedbacks.group(:user_id).having('count(id) > 1').empty?
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 end

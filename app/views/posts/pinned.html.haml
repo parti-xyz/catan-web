@@ -18,5 +18,9 @@
           .post-card.summary.pinned
             - posts.each do |post|
               = render 'posts/post_pinned', post: post
+        - if @pinned_posts.empty?
+          .text-center.alert
+            %i.fa.fa-info-circle
+              공지된 게시물이 없습니다.
       .hidden-xs
         = render 'application/aside'

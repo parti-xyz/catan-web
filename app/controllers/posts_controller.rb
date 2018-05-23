@@ -4,6 +4,8 @@ class PostsController < ApplicationController
   before_action :set_current_history_back_post
   before_action :noindex_meta_tag, except: [:index ]
 
+  include DashboardGroupHelper
+
   def index
     redirect_to root_path
   end
@@ -228,7 +230,24 @@ class PostsController < ApplicationController
   end
 
   def pinned
-    group_grouping_pinned_posts = current_user.pinned_posts.to_a.group_by { |post| post.issue.group }
+    if params[:group_slug].present?
+      if params[:group_slug] == 'all'
+        @dashboard_group = nil
+        save_current_dashboard_group(nil)
+      else
+        @dashboard_group = Group.find_by(slug: params[:group_slug])
+        save_current_dashboard_group(@dashboard_group)
+      end
+    else
+      @dashboard_group = current_dashboard_group
+    end
+
+    if @dashboard_group.present?
+      group_grouping_pinned_posts = { @dashboard_group => current_user.pinned_posts.where(issue: @dashboard_group.issues) }
+    else
+      group_grouping_pinned_posts = current_user.pinned_posts.to_a.group_by { |post| post.issue.group }
+    end
+
     @pinned_posts = []
     Group.where(id: group_grouping_pinned_posts.keys).sort_by_name.each do |group|
       parti_grouping_pinned_posts = group_grouping_pinned_posts[group].to_a.group_by { |post| post.issue }

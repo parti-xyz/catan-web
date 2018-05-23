@@ -69,6 +69,7 @@ class Comment < ActiveRecord::Base
     end
   }
   scope :only_parent, -> { where(parent: nil) }
+  scope :of_group, -> (group) { where(post_id: Post.of_group(group)) }
 
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_stroked_at_of_posts
@@ -130,6 +131,10 @@ class Comment < ActiveRecord::Base
     result = comments.to_a.group_by { |comment| comment.parent_or_self }.to_a.sort_by { |item| item[0].created_at }
     result.each { |item| item[1].reject! { |comment| comment.parent.blank? } }
     result
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 
   private

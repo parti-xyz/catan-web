@@ -418,6 +418,10 @@ class Issue < ActiveRecord::Base
     group_slug == 'union' and slug == 'test'
   end
 
+  def self.messagable_group_method
+    :of_group
+  end
+
   private
 
   def downcase_slug

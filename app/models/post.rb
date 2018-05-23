@@ -227,6 +227,7 @@ class Post < ActiveRecord::Base
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :having_survey, -> { where.not(survey_id: nil) }
   scope :of_issue, ->(issue) { where(issue_id: issue) }
+  scope :of_group, ->(group) { where(issue_id: group.issues) }
   scope :pinned, -> { where(pinned: true) }
   scope :unpinned, -> { where.not(pinned: true) }
 
@@ -625,6 +626,10 @@ class Post < ActiveRecord::Base
 
   def bookmark_by(someone)
     bookmarks.find_by(user: someone)
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 
   private

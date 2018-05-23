@@ -1,9 +1,24 @@
 class BookmarksController < ApplicationController
   load_and_authorize_resource except: :destroy
+  include DashboardGroupHelper
 
   def index
     authenticate_user!
     bookmarked_posts = Post.where(id: Bookmark.where(user: current_user).select(:post_id)).order_by_stroked_at
+
+    if params[:group_slug].present?
+      if params[:group_slug] == 'all'
+        @dashboard_group = nil
+        save_current_dashboard_group(nil)
+      else
+        @dashboard_group = Group.find_by(slug: params[:group_slug])
+        save_current_dashboard_group(@dashboard_group)
+      end
+    else
+      @dashboard_group = current_dashboard_group
+    end
+
+    bookmarked_posts = bookmarked_posts.of_group(@dashboard_group) if @dashboard_group.present?
 
     if view_context.is_infinite_scrollable?
       if request.format.js?

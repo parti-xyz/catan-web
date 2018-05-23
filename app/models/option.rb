@@ -17,6 +17,7 @@ class Option < ActiveRecord::Base
   belongs_to :survey
   has_many :feedbacks, dependent: :destroy
   has_many :messages, as: :messagable, dependent: :destroy
+  scope :of_group, -> (group) { where(survey_id: Survey.of_group(group)) }
 
   def selected? someone
     feedbacks.exists? user: someone
@@ -48,5 +49,9 @@ class Option < ActiveRecord::Base
 
   def mvp?
     survey.mvp_option?(self)
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 end
