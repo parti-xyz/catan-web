@@ -38,7 +38,7 @@ class Ability
       end
 
       can [:edit_decision, :update_decision, :decision_histories], [Post] do |post|
-        if post.decisionable?
+        if post.decisionable?(user)
           (post.user_id == user.id) or
           (post.issue.present? and !post.issue.blind_user?(user) and !post.issue.try(:private_blocked?, user))
         else
