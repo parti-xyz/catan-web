@@ -89,6 +89,7 @@ class Message < ActiveRecord::Base
     end
     where.any_of(*conditions)
   }
+  scope :unread, -> { where(read_at: nil) }
 
   def post
     messagable.try(:post)

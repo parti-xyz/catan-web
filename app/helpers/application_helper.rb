@@ -369,4 +369,11 @@ module ApplicationHelper
     end
   end
 
+  def max_counter(count, max)
+    if count > max
+      raw("#{max}" + raw('&nbsp;') + content_tag(:i, nil, { class: "fa fa-caret-up" }))
+    else
+      count
+    end
+  end
 end

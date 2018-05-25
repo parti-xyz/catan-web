@@ -19,9 +19,10 @@ class MessagesController < ApplicationController
       @user = User.find_by(nickname: params[:user])
     end
     @user ||= current_user
-    @messages = @user.messages.recent.page(params[:page])
+    @messages = @user.messages
     @messages = @messages.of_group(@dashboard_group) if @dashboard_group.present?
+    @messages.unread.update_all(read_at: Time.now)
 
-    @user.update_last_read_message(@messages)
+    @messages = @messages.recent.page(params[:page])
   end
 end
