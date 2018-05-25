@@ -22,10 +22,6 @@ zombie_group_member_purge_job:
   cron: "30 * * * * Asia/Seoul"
   class: "ZombieGroupMemberPurgeJob"
   queue: default
-monitor_posts_error_job:
-  cron: "5 * * * * Asia/Seoul"
-  class: "MonitorPostsErrorJob"
-  queue: default
 last_stroked_posts_count_job:
   cron: "*/45 * * * * Asia/Seoul"
   class: "LastStrokedPostsCountJob"
