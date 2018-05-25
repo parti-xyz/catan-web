@@ -2,7 +2,7 @@ class SummaryJob
   include Sidekiq::Worker
 
   def perform
-    User.need_to_delivery(SummaryEmail::SITE_WEEKLY).limit(300).each do |user|
+    User.need_to_delivery(SummaryEmail::SITE_WEEKLY).before(7.days.ago, field: :last_sign_in_at).limit(300).each do |user|
       summary(user)
     end
   end
