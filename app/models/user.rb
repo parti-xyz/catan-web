@@ -262,8 +262,10 @@ class User < ActiveRecord::Base
     watched_posts.pinned.order('pinned_at desc')
   end
 
-  def unread_pinned_posts
-    pinned_posts.where.not(id: Reader.where(member: self.members).select(:post_id))
+  def unread_pinned_posts(group = nil)
+    result = pinned_posts.where.not(id: Reader.where(member: self.members).select(:post_id))
+    result = result.of_group(group) if group.present?
+    result
   end
 
   def my_menu?(issue)

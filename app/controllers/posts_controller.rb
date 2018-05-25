@@ -255,7 +255,6 @@ class PostsController < ApplicationController
         @pinned_posts << [issue, parti_grouping_pinned_posts[issue]]
       end
     end
-    @unread_pinned_posts = current_user.unread_pinned_posts
   end
 
   def edit_folder
