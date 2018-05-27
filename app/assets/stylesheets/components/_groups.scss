@@ -69,3 +69,50 @@ body.app-group--configurations-update {
   width: 600px;
   margin: 30px auto;
 }
+
+
+body.app-group--categories-index,
+body.app-group--categories-edit {
+  .list-categories {
+    margin-bottom: 0;
+
+    > li {
+      .category-name > .menu-button {
+        color: $gray-a;
+        font-weight: normal;
+        margin-left: 1rem;
+      }
+    }
+    .empty-info {
+      color: $gray-a;
+    }
+  }
+  .btn-category-btn {
+    width: 80px;
+  }
+  .issue-line {
+    .category-control {
+      margin-left: 1rem;
+      @media (min-width: $screen-sm-min) {
+        .dropdown-toggle {
+          display: none;
+        }
+      }
+      a.dropdown-toggle {
+        color: $gray-a;
+      }
+    }
+    &:hover .category-control .dropdown-toggle {
+      display: inline;
+    }
+
+    .after-block {
+      position: absolute;
+      .category-control {
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
+
+}

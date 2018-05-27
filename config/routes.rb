@@ -102,6 +102,8 @@ Rails.application.routes.draw do
       post :admit_members
       put :add_my_menu
       delete :remove_my_menu
+      put :update_category
+      delete :destroy_category
     end
     collection do
       get :indies
@@ -226,7 +228,7 @@ Rails.application.routes.draw do
         post :suggest
       end
     end
-
+    resources :categories
     namespace :eduhope do
       resources :members do
         collection do

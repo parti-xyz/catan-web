@@ -14,6 +14,9 @@ class Ability
         user.is_organizer?(issue)
       end
       can [:create, :new_intro, :search_by_tags, :my_menus, :add_my_menu, :remove_my_menu], [Issue]
+      can [:update_category, :destroy_category], Issue do |issue|
+        user.is_organizer?(issue.group)
+      end
 
       can [:create, :destroy, :update], [Folder] do |folder|
         folder.issue.present? and folder.issue.try(:postable?, user)
@@ -80,8 +83,12 @@ class Ability
       can [:admit, :magic_link], Group do |group|
         group.organized_by?(user)
       end
+      can [:manage], Category do |category|
+        category.group.blank? or category.group.organized_by?(user)
+      end
+
       if user.admin?
-        can :manage, [Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation]
+        can :manage, [Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
       end
     end
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180525084533) do
+ActiveRecord::Schema.define(version: 20180527022901) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -70,6 +70,16 @@ ActiveRecord::Schema.define(version: 20180525084533) do
   add_index "bookmarks", ["post_id"], name: "index_bookmarks_on_post_id", using: :btree
   add_index "bookmarks", ["user_id", "post_id"], name: "index_bookmarks_on_user_id_and_post_id", unique: true, using: :btree
   add_index "bookmarks", ["user_id"], name: "index_bookmarks_on_user_id", using: :btree
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.string   "group_slug", limit: 255, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "categories", ["group_slug", "name"], name: "categories_uniq", unique: true, using: :btree
+  add_index "categories", ["group_slug"], name: "index_categories_on_group_slug", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",            limit: 4,                    null: false
@@ -221,7 +231,6 @@ ActiveRecord::Schema.define(version: 20180525084533) do
     t.string   "group_slug",                         limit: 255,                      null: false
     t.string   "telegram_link",                      limit: 255
     t.datetime "last_stroked_at"
-    t.string   "category_slug",                      limit: 255
     t.integer  "members_count",                      limit: 4,        default: 0
     t.integer  "hot_score",                          limit: 4,        default: 0
     t.string   "hot_score_datestamp",                limit: 255
@@ -233,8 +242,10 @@ ActiveRecord::Schema.define(version: 20180525084533) do
     t.integer  "destroyer_id",                       limit: 4
     t.integer  "latest_stroked_posts_count",         limit: 4,        default: 0
     t.integer  "latest_stroked_posts_count_version", limit: 4
+    t.integer  "category_id",                        limit: 4
   end
 
+  add_index "issues", ["category_id"], name: "index_issues_on_category_id", using: :btree
   add_index "issues", ["deleted_at"], name: "index_issues_on_deleted_at", using: :btree
   add_index "issues", ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true, using: :btree
   add_index "issues", ["group_slug", "title", "active"], name: "index_issues_on_group_slug_and_title_and_active", unique: true, using: :btree

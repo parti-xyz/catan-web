@@ -26,4 +26,6 @@
           = link_to '빠띠에 제안을 보내세요', '#anchor-suggest-to-parti'
         - if current_group.organized_by?(current_user)
           %li
-            = link_to '설정', edit_group_configuration_path
+            = link_to '그룹 설정', edit_group_configuration_path
+          %li
+            = link_to '빠띠 주제', group_categories_path

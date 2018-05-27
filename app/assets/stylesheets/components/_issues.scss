@@ -59,7 +59,8 @@ section#issues-group-index {
   }
   h2 {
     margin: 0;
-    &.parti-title {
+    &.parti-title,
+    &.parti-title a {
       margin-bottom: 5px;
       text-shadow: 1px 1px $gray-dark;
       font-weight: 400;
@@ -533,7 +534,6 @@ section#issues-group-index {
   }
   a {
     overflow: auto;
-    padding: 0 !important;
     &:hover .issue-card__title {
       color: $brand-primary;
     }

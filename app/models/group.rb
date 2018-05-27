@@ -26,6 +26,7 @@ class Group < ActiveRecord::Base
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :issues, dependent: :restrict_with_error, primary_key: :slug, foreign_key: :group_slug
+  has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
 
   scope :sort_by_name, -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
   scope :but, ->(group) { where.not(id: group) }
@@ -56,10 +57,6 @@ class Group < ActiveRecord::Base
     presence: true,
     length: { maximum: 50 }
 
-  def find_category_by_slug(slug)
-    categories.detect { |c| c.slug == slug }
-  end
-
   def title_share_format
     indie? ? nil : "#{title} 빠띠"
   end
@@ -70,32 +67,6 @@ class Group < ActiveRecord::Base
 
   def title_short_format
     indie? ? "빠띠" : title
-  end
-
-  def categorized_issues(category = nil)
-    issues.categorized_with(category.try(:slug))
-  end
-
-  def categories
-    if slug == 'gwangju'
-      [
-        Category::GWANGJU_AGENDA,
-        Category::GWANGJU_COMMUNITY,
-        Category::GWANGJU_PROJECT,
-        Category::GWANGJU_STATESMAN,
-      ]
-    elsif slug == 'meetshare'
-      [
-        Category::MEETSHARE_WORK,
-        Category::MEETSHARE_GENDER,
-        Category::MEETSHARE_CULTURE,
-        Category::MEETSHARE_GREEN,
-        Category::MEETSHARE_LIFE,
-        Category::MEETSHARE_ACTIVIST
-      ]
-    else
-      []
-    end
   end
 
   def private_blocked?(someone = nil)

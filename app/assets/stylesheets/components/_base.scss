@@ -864,3 +864,20 @@ select.icon-select option {
   z-index: $zindex-error-popover;
   color: $base-brand-primary;
 }
+
+@media (max-width: $screen-xs-max) {
+  .dropdown-xs-actionsheet {
+    .dropdown-backdrop {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .dropdown-menu {
+      bottom: 20px;
+      position: fixed;
+      left: 10px;
+      right: 10px;
+      top: auto;
+      max-height: 50vh;
+      overflow-x: scroll;
+    }
+  }
+}

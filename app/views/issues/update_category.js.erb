@@ -1,0 +1,14 @@
+<% if @issue.blank? or @issue.errors.any? %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+$('<%= issue_line_category_dom_selector(@issue) %>').fadeOut("normal", function() {
+  if($(this).siblings().length <= 0) {
+    $('<%= group_category_issue_list_dom_selector(@previous_category) %>').append('<%= j(render 'group/categories/issue_line_empty') %>');
+  }
+  $(this).remove();
+
+  $('<%= group_category_issue_list_dom_selector(@category) %>').append('<%= j(render 'group/categories/issue_line', issue: @issue) %>');
+  $('<%= group_category_issue_list_dom_selector(@category) %>').find('.js-category-issue-line-empty').remove();
+
+});
+<% end %>

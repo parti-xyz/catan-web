@@ -1,0 +1,18 @@
+%section.contents-page
+  .container
+    .contents-header
+      %h4.contents-header__title
+        빠띠 주제 설정
+
+    %section#content-tab-section
+      %h5
+        새로 만들기
+      .row
+        .col-md-5
+          = form_for [:group, Category.new] do |f|
+            .input-group
+              = f.text_field :name, class: 'form-control'
+              %span.input-group-btn
+                = submit_tag '저장', class: 'btn btn-default btn-primary', data: { disable_with: "저장 중..." }
+
+    = render 'group/categories/list'

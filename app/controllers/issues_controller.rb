@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :update_category, :destroy_category]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
@@ -48,7 +48,7 @@ class IssuesController < ApplicationController
 
       render 'index'
     else
-      group_issues(current_group, params[:category_slug])
+      group_issues(current_group, params[:category_id])
       render 'group_index'
     end
   end
@@ -369,6 +369,19 @@ class IssuesController < ApplicationController
     end
   end
 
+  def update_category
+    @previous_category = @issue.category
+    @category = Category.find_by(id: params[:category_id])
+    @issue.update_attributes(category: @category)
+    errors_to_flash(@issue)
+  end
+
+  def destroy_category
+    @previous_category = @issue.category
+    @issue.update_attributes(category: nil)
+    errors_to_flash(@issue)
+  end
+
   protected
 
   def mobile_navbar_title_slug_home
@@ -403,10 +416,10 @@ class IssuesController < ApplicationController
     end
   end
 
-  def group_issues(group, category_slug = nil)
+  def group_issues(group, category_id = nil)
     @issues = Issue.displayable_in_current_group(group)
     @issues = @issues.hottest
-    @issues = @issues.categorized_with(category_slug) if category_slug.present?
+    @issues = @issues.categorized_with(category_id) if category_id.present?
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
   end
 
@@ -426,7 +439,7 @@ class IssuesController < ApplicationController
       result = result.hottest
     end
 
-    result = result.categorized_with(params[:category]) if params[:category].present?
+    result = result.categorized_with(params[:category_id]) if params[:category_id].present?
     result = result.page(params[:page]).per(item_a_row * 10)
     result
   end
@@ -445,7 +458,7 @@ class IssuesController < ApplicationController
 
   def issue_params
     params.require(:issue).permit(:title, :body, :logo, :cover, :slug,
-      :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_slug,
+      :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_id,
       :private, :notice_only, :is_default, :group_slug)
   end
 

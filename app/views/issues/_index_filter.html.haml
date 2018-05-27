@@ -1,12 +1,12 @@
 %nav
   - if current_group.try(:categories).try(:any?)
-    - data_params = { action: 'parti-filter-parties', 'search-category': '', 'search-sort': 'name', 'search-form': '#js-search-parties-form'}
+    - data_params = { action: 'parti-filter-parties', 'search-category-id': '', 'search-sort': 'name', 'search-form': '#js-search-parties-form'}
     %ul.list-inline
-      %li= link_to '전체', '#', data: data_params, class: ('active' if params['category'].blank?)
+      %li= link_to '전체', '#', data: data_params, class: ('active' if params['category_id'].blank?)
       - current_group.categories.each do |category|
-        %li= link_to "#{category.name}", '#', data: data_params.merge('search-category': category.slug), class: ('active' if params['category'] == category.slug)
+        %li= link_to "#{category.name}", '#', data: data_params.merge('search-category-id': category.id), class: ('active' if params['category_id'] == category.id)
   - else
-    - data_params = { action: 'parti-filter-parties', 'search-category': '', 'search-form': '#js-search-parties-form', 'search-sort': 'hottest'}
+    - data_params = { action: 'parti-filter-parties', 'search-category-id': '', 'search-form': '#js-search-parties-form', 'search-sort': 'hottest'}
     %ul.list-inline
       %li= link_to '인기순', indies_issues_path, data: data_params.merge('search-sort': 'hottest'), class: ('active' if params['sort'] == 'hottest' or params['sort'].blank?)
       %li= link_to '업데이트순', '#', data: data_params.merge('search-sort': 'recent_touched'), class: ('active' if params['sort'] == 'recent_touched')

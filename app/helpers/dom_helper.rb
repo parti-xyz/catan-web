@@ -174,4 +174,20 @@ module DomHelper
   def issue_line_my_menu_dom_class(issue)
     "#{dom_id(issue)}-js-issue-line-my-menu-btn"
   end
+
+  def issue_line_category_dom_selector(issue)
+    ".#{issue_line_category_dom_class(issue)}"
+  end
+
+  def issue_line_category_dom_class(issue)
+    "#{dom_id(issue)}-js-issue-line-category"
+  end
+
+  def group_category_issue_list_dom_selector(category)
+    ".#{group_category_issue_list_dom_class(category)}"
+  end
+
+  def group_category_issue_list_dom_class(category)
+    "#{category.present? ? dom_id(category) : 'category-nil'}-js-category-issue-list"
+  end
 end

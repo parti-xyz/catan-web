@@ -28,7 +28,7 @@
 
           - if issues.count < magic_count * 2
             - issues.sort_by_name.each do |issue|
-              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false
+              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-seachable-line"
 
           - else
             - fixed_issues = []
@@ -47,7 +47,7 @@
               - issues = issues.where.not(id: hot_issues.to_a)
 
             - Issue.where(id: fixed_issues).sort_by_name.each do |issue|
-              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false
+              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-seachable-line"
 
             - if issues.any?
               %li.js-my-menu-seachable-line.js-issue-line-control.issue-more.clearfix
@@ -59,7 +59,7 @@
                   설정
 
               - issues.sort_by_name.each do |issue|
-                = render 'issues/issue_line', issue: issue, collapse: true, link_whole_line: true, show_after_block: false
+                = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-seachable-line collapse js-more-sidemenu-collapse"
 
               %li.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse.clearfix
                 %a.js-show-less-sidemenu-issues{ href: "##{divider_dom_id}" }

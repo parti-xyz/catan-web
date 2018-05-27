@@ -49,14 +49,16 @@
         = t("labels.issue.form.groups.#{host_group.slug}.body_help", cascade: true)
 
     - if current_group.try(:categories).try(:any?)
-      - @issue.category_slug ||= current_group.categories.first.slug
-      .form-group{class: error_class_str(@issue, :category_slug)}
-        = f.label :category_slug, t("labels.issue.form.groups.#{host_group.slug}.category_slug", cascade: true)
+      .form-group{class: error_class_str(@issue, :category_id)}
+        = f.label :category_id, t("labels.issue.form.groups.#{host_group.slug}.category_id", cascade: true)
         .radio-group
           - current_group.categories.each do |category|
             %label.radio-inline
-              = f.radio_button :category_slug, category.slug
+              = f.radio_button :category_id, category.id
               = category.name
+          %label.radio-inline
+            = radio_button_tag 'issue[category_id]', nil, @issue.category.blank?
+            이외 주제
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :logo))}
       = f.label :logo, t("labels.issue.form.groups.#{host_group.slug}.logo", cascade: true)

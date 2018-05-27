@@ -25,7 +25,7 @@
             = group_my_parties_section_title(current_dashboard_group)
           %small
             %i.fa.fa-chevron-down
-        %ul.dropdown-menu.dropdown-menu-dashboard-group{ "aria-labelledby": 'more-hashtag' }
+        %ul.dropdown-menu.dropdown-menu-dashboard-group
           - if current_dashboard_group.present?
             %li
               = link_to send(dropdown_url, subdomain: nil, group_slug: :all) do

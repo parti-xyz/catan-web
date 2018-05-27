@@ -12,10 +12,10 @@
           .parties-filter-select.pull-left
             %nav
               %ul.list-inline
-                %li= link_to '전체', issues_path, class: ('active' if params['category_slug'].blank?)
+                %li= link_to '전체', issues_path, class: ('active' if params['category_id'].blank?)
                 - current_group.categories.each do |category|
                   %li
-                    = link_to issues_path(category_slug: category.slug), class: ('active' if params['category_slug'] == category.slug) do
+                    = link_to issues_path(category_id: category.id), class: ('active' if params['category_id'] == category.id) do
                       = category.name
     .parties-all-list
       - if @issues.any?

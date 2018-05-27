@@ -119,7 +119,7 @@ ko:
         cover: 커버 이미지
         slug: 주소
         blinds: 블랙리스트 회원
-        category_slug: 주제
+        category_id: 주제
         telegram_link: 메신저 열기
         tag_list: 태그
         private: 비공개
@@ -127,6 +127,8 @@ ko:
         is_default: 자동가입되는 빠띠
         organizer_nicknames: 오거나이저
         group_slug: 그룹
+      category:
+        name: 이름
       talk:
         issue: 빠띠
         issue_id: 빠띠
@@ -243,7 +245,7 @@ ko:
         slug_help: 빠띠의 인터넷 주소를 만들어 보세요. 영문자와 숫자, -만 넣어주세요. 이미 등록된 주소는 사용할 수 없습니다.
         body: 설명(선택)
         body_help: 빠띠를 쉽고 재미있게 설명해보세요.
-        category_slug: 주제
+        category_id: 주제
         logo: 대표 이미지(선택)
         logo_help: 권장 이미지 사이즈는 가로(800px) * 세로(800px) 입니다.
         tag_list: 태그(선택)

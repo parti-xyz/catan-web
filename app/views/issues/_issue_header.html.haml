@@ -30,6 +30,9 @@
           %h2.parti-title
             = issue.title
             %small= meta_icons(issue)
+            - if issue.category.present?
+              = link_to issues_path(category_id: issue.category.id) do
+                %small= issue.category.name
             .parti-info.visible-xs-block
               = link_to smart_issue_members_path(issue) do
                 %span.parti-users-label 가입회원

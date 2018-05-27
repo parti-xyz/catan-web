@@ -511,11 +511,11 @@ var parti_prepare = function($base, force) {
     $elm.on('click', function(e) {
       var search_form = $(this).data('search-form');
       var sort = $(this).data('search-sort');
-      var category = $(this).data('search-category');
+      var category_id = $(this).data('search-category-id');
       var $elm = $(this);
 
       $(search_form).find("input[name='sort']").val(sort);
-      $(search_form).find("input[name='category']").val(category);
+      $(search_form).find("input[name='category_id']").val(category_id);
       $(search_form).submit();
       return false;
     });
@@ -1731,6 +1731,15 @@ $(function(){
       }
     })
   }
+
+  // 액션시트
+  $('.js-dropdown-xs-actionsheet').on('show.bs.dropdown', function(e) {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown(400);
+  });
+
+  $('.js-dropdown-xs-actionsheet').on('hide.bs.dropdown', function(e) {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
+  });
 });
 
 

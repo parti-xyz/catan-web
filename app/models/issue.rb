@@ -113,6 +113,7 @@ class Issue < ActiveRecord::Base
   has_many :my_menus, dependent: :destroy
   has_many :active_issue_stats, dependent: :destroy
   has_many :folders, dependent: :destroy
+  belongs_to :category
 
   # validations
   validates :title,
@@ -153,7 +154,7 @@ class Issue < ActiveRecord::Base
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
-  scope :categorized_with, ->(slug) { where(category_slug: slug) }
+  scope :categorized_with, ->(category) { where(category_id: category.try(:id) || category) }
   scope :of_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: Group.default_slug(group)) if group.present? }
