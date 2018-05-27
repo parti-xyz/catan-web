@@ -913,6 +913,7 @@ $(function(){
       }
     ]
   });
+  $('.slick-slider').show();
 
   // 빠띠 사이드바 hover 할때 가입 버튼 보이기
   $('.js-issue-line-hover').on('mouseenter', function(elm) {

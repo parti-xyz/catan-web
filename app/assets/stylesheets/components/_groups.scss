@@ -1,7 +1,13 @@
 .app-issues-home.in-group {
-  .slick-list {
-    .issue-card-wrapper .issue-card {
-      margin: 0;
+  .slick-slider {
+    display: none;
+    .slick-list {
+      .issue-card-wrapper .issue-card {
+        margin: 0;
+      }
+      .slick-track {
+        margin-left:0;
+      }
     }
   }
 
