@@ -1,8 +1,10 @@
+= render 'application/group_home_sub_header', active: 'management'
+
 %section.contents-page
   %section
-    .container.container-xs-full-width
-      .contents-header.xs-horizontal-padding
-        %h4.contents-header__title 그룹수정
+    .container
+      = render 'group/tab_menu', active: 'management'
+
       = render 'form'
 
   %section

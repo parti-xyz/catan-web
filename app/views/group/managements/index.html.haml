@@ -1,122 +1,120 @@
 = render 'application/group_home_sub_header', active: 'management'
-.page-gorup-managements.page-gorup-managements-sidebar
-  %section
-    .container
-      .row
-        .col-sm-3
-          = render 'group/managements/sidebar', active: 'dashboard'
-        .col-sm-9
-          %section#anchor-home{ style: "padding-top: 15px;" }
-            %h3{ style: 'font-weight: 200' }
-              #{current_group.title} 오거나이저
-              %span{ style: 'font-weight: 400' }#{current_user.nickname}
-              %span<> 님 환영합니다.
-            .panel.panel-default{ style: "width: 450px;" }
-              .panel-body{ style: "line-height: 25px;" }
-                #{current_user.nickname} 님! 어떻게 #{current_group.title} 그룹을 운영할지 고민 중이신가요?
-                %br
-                빠띠를 만들고 돌보고 있는 오거나이저들과 이야기 나눠보세요!
-                %br
-                = link_to 'http://organizer.parti.xyz', target: "_blank", class: "btn btn-primary", style: "margin-top: 10px;" do
-                  오거나이저 커뮤니티 바로가기
-                  %i.fa.fa-chevron-right
 
-          %section#anchor-group-graph
-            %h4.group-heading
-              #{current_group.title}의 탄생부터 지금까지의 동향
-            %div
-              = line_chart @data.map { |r| { name: r[0], data: r[1] } }, defer: true, points: false, download: true
+%section.contents-page
+  .container
+    = render 'group/tab_menu', active: 'management'
 
-          %section#anchor-hottest-posts
-            %h4.group-heading
-              최근 인기 게시글
-            = render 'posts/list_card', posts: @hottest_posts
+    %section{ style: "padding-top: 20px" }
+      %h3{ style: 'font-weight: 200; margin-top: 0' }
+        #{current_group.title} 오거나이저
+        %span{ style: 'font-weight: 400' }#{current_user.nickname}
+        %span<> 님 환영합니다.
+      .panel.panel-default{ style: "width: 450px;" }
+        .panel-body{ style: "line-height: 25px;" }
+          #{current_user.nickname} 님! 어떻게 #{current_group.title} 그룹을 운영할지 고민 중이신가요?
+          %br
+          빠띠를 만들고 돌보고 있는 오거나이저들과 이야기 나눠보세요!
+          %br
+          = link_to 'http://organizer.parti.xyz', target: "_blank", class: "btn btn-primary", style: "margin-top: 10px;" do
+            오거나이저 커뮤니티 바로가기
+            %i.fa.fa-chevron-right
 
-          %section#anchor-active-post-users
-            %h4.sub-title
-              활발히
-              %span
-                글을 쓴
-              사용자 Top 10
-            %table.table
-              %colgroup
-                %col{width: "20%"}
-                %col{width: "40%"}
-                %col{width: "40%"}
-              - @active_users_by_posts.each_with_index do |user_array, idx|
-                %tr
-                  %td
-                    = idx + 1
-                  %td
-                    - active_user = User.find(user_array[0])
-                    = link_to smart_user_gallery_path(active_user) do
-                      .user-byline
-                        .thumb.user-image.img-circle{style: "background-image: url(#{active_user.image.sm.url});"}
-                        %span= active_user.nickname
-                  %td
-                    #{user_array[1]} 건의 글
-            %section#anchor-active-comment-users
-              %h4.sub-title
-                활발히
-                %span
-                  댓글을 단
-                사용자
-              %table.table
-                %colgroup
-                  %col{width: "20%"}
-                  %col{width: "40%"}
-                  %col{width: "40%"}
-                - @active_users_by_comments.each_with_index do |user_array, idx|
-                  %tr
-                    %td
-                      = idx + 1
-                    %td
-                      - active_user = User.find(user_array[0])
-                      = link_to smart_user_gallery_path(active_user) do
-                        .user-byline
-                          .thumb.user-image.img-circle{style: "background-image: url(#{active_user.image.sm.url});"}
-                          %span= active_user.nickname
-                    %td
-                      #{user_array[1]} 건의 댓글
+    %section{ style: "padding-top: 20px" }
+      %h4.group-heading
+        #{current_group.title}의 탄생부터 지금까지의 동향
+      %div
+        = line_chart @data.map { |r| { name: r[0], data: r[1] } }, defer: true, points: false, download: true
 
-            %section#anchor-active-upvote-users
-              %h4.sub-title
-                활발히
-                %span
-                  공감을 한
-                사용자
-              %table.table
-                %colgroup
-                  %col{width: "20%"}
-                  %col{width: "40%"}
-                  %col{width: "40%"}
-                - @active_users_by_upvotes.each_with_index do |user_array, idx|
-                  %tr
-                    %td
-                      = idx + 1
-                    %td
-                      - active_user = User.find(user_array[0])
-                      = link_to smart_user_gallery_path(active_user) do
-                        .user-byline
-                          .thumb.user-image.img-circle{style: "background-image: url(#{active_user.image.sm.url});"}
-                          %span= active_user.nickname
-                    %td
-                      #{user_array[1]} 건의 공감
+    %section
+      %h4.group-heading
+        최근 인기 게시글
+      = render 'posts/list_card', posts: @hottest_posts
 
-            %section#anchor-suggest-to-parti{ style: "height: 300px;" }
-              %h4.sub-title
-                빠띠에 제안을 보내세요
-                %small
-                  기능 개선, 이벤트 기획, 콜라보레이션 제안 등 어떤 것이든 환영합니다.
-              = form_tag suggest_group_managements_path, method: :post, novalidate: true, data: { action: 'parti-form-validation' } do
-                .form-widget
-                  .form-widget-content
-                    - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
-                    .form-group.textarea-box.tinymce-wrapper-toggletoolbar{ id: textarea_error_id }
-                      .js-tinymce.form-control.form-control-tinymce{ id: "suggest", 'data-placeholder': "#{current_user.nickname} 오거나이저님, 빠띠 팀에 제안하고 싶은 것이 있으신가요? ", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
-                      = hidden_field_tag :suggest, nil, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'rule-maxlength': '65535', 'msg-maxlength': '내용이 너무 깁니다', 'error-popover-target': "##{textarea_error_id}" }
-                      = hidden_field_tag :is_html_body, value: true
+    %section
+      %h4.group-heading
+        활발히
+        %span
+          글을 쓴
+        사용자 Top 10
+      %table.table
+        %colgroup
+          %col{width: "20%"}
+          %col{width: "40%"}
+          %col{width: "40%"}
+        - @active_users_by_posts.each_with_index do |user_array, idx|
+          %tr
+            %td
+              = idx + 1
+            %td
+              - active_user = User.find(user_array[0])
+              = link_to smart_user_gallery_path(active_user) do
+                .user-byline
+                  .thumb.user-image.img-circle{style: "background-image: url(#{active_user.image.sm.url});"}
+                  %span= active_user.nickname
+            %td
+              #{user_array[1]} 건의 글
+      %section
+        %h4.group-heading
+          활발히
+          %span
+            댓글을 단
+          사용자
+        %table.table
+          %colgroup
+            %col{width: "20%"}
+            %col{width: "40%"}
+            %col{width: "40%"}
+          - @active_users_by_comments.each_with_index do |user_array, idx|
+            %tr
+              %td
+                = idx + 1
+              %td
+                - active_user = User.find(user_array[0])
+                = link_to smart_user_gallery_path(active_user) do
+                  .user-byline
+                    .thumb.user-image.img-circle{style: "background-image: url(#{active_user.image.sm.url});"}
+                    %span= active_user.nickname
+              %td
+                #{user_array[1]} 건의 댓글
 
-                  .form-widget-btns.clearfix
-                    .submit-box
-                      = submit_tag '보내기', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
+      %section
+        %h4.group-heading
+          활발히
+          %span
+            공감을 한
+          사용자
+        %table.table
+          %colgroup
+            %col{width: "20%"}
+            %col{width: "40%"}
+            %col{width: "40%"}
+          - @active_users_by_upvotes.each_with_index do |user_array, idx|
+            %tr
+              %td
+                = idx + 1
+              %td
+                - active_user = User.find(user_array[0])
+                = link_to smart_user_gallery_path(active_user) do
+                  .user-byline
+                    .thumb.user-image.img-circle{style: "background-image: url(#{active_user.image.sm.url});"}
+                    %span= active_user.nickname
+              %td
+                #{user_array[1]} 건의 공감
+
+      %section
+        %h4.group-heading
+          빠띠에 제안을 보내세요
+          %small
+            기능 개선, 이벤트 기획, 콜라보레이션 제안 등 어떤 것이든 환영합니다.
+        = form_tag suggest_group_managements_path, method: :post, novalidate: true, data: { action: 'parti-form-validation' } do
+          .form-widget
+            .form-widget-content
+              - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
+              .form-group.textarea-box.tinymce-wrapper-toggletoolbar{ id: textarea_error_id }
+                .js-tinymce.form-control.form-control-tinymce{ id: "suggest", 'data-placeholder': "#{current_user.nickname} 오거나이저님, 빠띠 팀에 제안하고 싶은 것이 있으신가요? ", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+                = hidden_field_tag :suggest, nil, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'rule-maxlength': '65535', 'msg-maxlength': '내용이 너무 깁니다', 'error-popover-target': "##{textarea_error_id}" }
+                = hidden_field_tag :is_html_body, value: true
+
+            .form-widget-btns.clearfix
+              .submit-box
+                = submit_tag '보내기', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
