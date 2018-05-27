@@ -9,6 +9,12 @@
           - issues = Issue.only_alive_of_group(current_group).categorized_with(category)
           - next if issues.empty?
 
+          - issues_list = capture do
+            - issues.sort_by_name.each do |issue|
+              - next if issue.private_blocked?(current_user)
+              = render customize_partial_path(issue, 'issue_line')
+          - next if issues_list.blank?
+
           - if category.present?
             %h6= category.name
             - has_some_issues_categorized = true
@@ -17,8 +23,6 @@
               %h6 이외
 
           %ul.list-unstyled.aside-issues
-            - issues.sort_by_name.each do |issue|
-              - next if issue.private_blocked?(current_user)
-              = render customize_partial_path(issue, 'issue_line')
+            = issues_list
 
     = render 'application/footer'
