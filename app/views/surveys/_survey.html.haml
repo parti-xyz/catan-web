@@ -19,10 +19,7 @@
     .survey-card__meta.clearfix
       .survey-card__issue
         = link_to smart_issue_home_path_or_url(issue) do
-          - unless post.issue.displayable_group? current_group
-            .survey-card__group
-              = post.issue.group.head_title
-          = post.issue.title
+          = issue_tag(post.issue, show_group: true, group_classes: 'survey-card__group', group_short: true)
       .survey-card__date.date-wrapper
         %span= date_f post.created_at
     %h4.survey-card__title{ style: "overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; line-height: 1.4em; max-height: 4.2em; word-break: keep-all; overflow-wrap: break-word;" }

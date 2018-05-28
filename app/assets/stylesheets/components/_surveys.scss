@@ -219,9 +219,6 @@
   }
   &__group {
     display: inline-block;
-    &:after {
-      content: '/'
-    }
   }
   &__date--with-issue {
     float: right;

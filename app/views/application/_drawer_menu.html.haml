@@ -5,9 +5,9 @@
       = render 'application/drawer_issues_lazy'
     - else
       %li.menu-line.large-menu-line
-        = link_to issues_url(subdomain: nil), class: 'action-link' do
+        = link_to issues_url(subdomain: nil), class: "#{'active' if current_page?('/parties')}" do
           %i.fa.fa-search
-          관심있는 빠띠를 찾아보세요
+          빠띠 찾기
       %li.menu-line
         = link_to discover_url(subdomain: nil), 'aria-label': only_mobile_app(request, 'drawer-discover'), class: "#{'active' if current_page?('/discover')}" do
           %i.fa.fa-fort-awesome

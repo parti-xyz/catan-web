@@ -226,6 +226,8 @@ class Post < ActiveRecord::Base
   }
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :having_survey, -> { where.not(survey_id: nil) }
+  scope :having_image_file_sources, -> { where(id: FileSource.only_image.select('post_id')) }
+  scope :having_image_link_sources, -> { where(link_source_id: LinkSource.has_image) }
   scope :of_issue, ->(issue) { where(issue_id: issue) }
   scope :of_group, ->(group) { where(issue_id: group.issues) }
   scope :pinned, -> { where(pinned: true) }

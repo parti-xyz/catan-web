@@ -18,6 +18,8 @@ class LinkSource < ActiveRecord::Base
 
   has_many :posts, dependent: :nullify
 
+  scope :has_image, -> { where.not(image: nil) }
+
   validates :url, uniqueness: {case_sensitive: true}, format: {with: LinkSource::URL_FORMAT, on: [:create, :update] }
   validates :crawling_status, presence: true
   enumerize :crawling_status, in: [:not_yet, :completed], predicates: true, scope: true

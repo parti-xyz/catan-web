@@ -87,7 +87,7 @@
           = link_to poll_votings_path(poll, voting: {choice: :unsure}), method: :post, remote: true do
             잘 모르겠습니다
 
-  .text-muted
+  .text-muted.text-basic-wrap
     - if poll.votings.any?
       .vote-count{ class: (poll.sured_by?(current_user) ? 'cursor-pointer' : 'cursor-default'), data: { action: ('parti-popover' if poll.sured_by?(current_user)), type: 'async', url: users_poll_votings_path(poll_id: poll.id), trigger: 'click', placement: 'auto-bottom', style: 'voting-result', width: (260 if is_small_screen?)} }
         현재

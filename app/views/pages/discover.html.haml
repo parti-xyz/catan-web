@@ -6,18 +6,20 @@
         %span.visible-xs-block
         관심이 있나요?
       .btn-wrapper
-        - @subjects.sample(5).each do |subject|
+        - @subjects.sample(10).each do |subject|
           = link_to subject.title, issues_path(subject: subject.title), class: 'subject-link'
 
   %section#recent-posts
     .container
       = link_to links_or_files_path do
         %h4.group-heading{ style: "margin: 20px 0px;"}
-          최근 빠띠 게시물
+          최근 게시물
           %small
             더 보기
             %i.fa.fa-angle-double-right
-      - posts = @sections[:recent_posts].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      /- posts = @sections[:recent_posts].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - posts = Post.where.any_of(Post.having_image_file_sources, Post.having_image_link_sources).after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(50)
+      - posts = posts.to_a.sample(3).sort_by(&:id)
       - if posts.try(:any?)
         .row
           - posts.each do |post|
@@ -32,52 +34,23 @@
           %small
             더 보기
             %i.fa.fa-angle-double-right
-      - poll_posts = @sections[:polls].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      / - poll_posts = @sections[:polls].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - poll_posts = Post.having_poll.after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(10)
+      - poll_posts = poll_posts.to_a.sample(3).sort_by(&:id)
       - if poll_posts.try(:any?)
         .row.masonry-container{ 'data-masonry-grid-sizer': '.grid-sizer' }
           - poll_posts.each do |poll_post|
             .grid-sizer.card{ class: 'col-sm-4' }
               = render 'posts/landing_discussion', post: poll_post, show_issue: true
 
-      - survey_posts = @sections[:surveys].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      / - survey_posts = @sections[:surveys].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - survey_posts = Post.having_survey.after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(10)
+      - survey_posts = survey_posts.to_a.sample(2).sort_by(&:id)
       - if survey_posts.try(:any?)
         .row.masonry-container{ 'data-masonry-grid-sizer': '.grid-sizer' }
           - survey_posts.each do |survey_post|
             .grid-sizer.card{ class: 'col-sm-6' }
               = render 'posts/landing_discussion', post: survey_post, show_issue: true
-
-  %section#banner
-    .container
-      %h3.text-center{ style: "margin-bottom: 30px;" }
-        %span{ style: "font-weight: 100" }
-          팀과 커뮤니티를 위한
-          %span.visible-xs-block
-          민주주의 플랫폼, 빠띠
-        %br
-        { 빠띠로_이렇게 } 함께 해보세요
-        %br
-      .row
-        = link_to 'https://organizer.parti.xyz/posts/18286', target: '_blank' do
-          .col-xs-6.col-sm-6.col-md-3.tip-title
-            %i.fa.fa-users
-            %br
-            민주적으로 회의하기
-        = link_to 'https://organizer.parti.xyz/posts/18574', target: '_blank' do
-          .col-xs-6.col-sm-6.col-md-3.tip-title
-            %i.fa.fa-gavel
-            %br
-            워크숍에서 함께 결정하기
-        = link_to 'https://organizer.parti.xyz/posts/18400', target: '_blank' do
-          .col-xs-6.col-sm-6.col-md-3.tip-title
-            %i.fa.fa-comments
-            %br
-            의견 나누기
-        = link_to 'https://organizer.parti.xyz/posts/18575', target: '_blank' do
-          .col-xs-6.col-sm-6.col-md-3.tip-title
-            %i.fa.fa-coffee
-            %br
-            조직문화 공유하기
-
 
 
   %section#wikis
@@ -88,27 +61,79 @@
           %small
             더 보기
             %i.fa.fa-angle-double-right
-      - wikis = @sections[:wikis].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      / - wikis = @sections[:wikis].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
+      - wikis = Post.having_wiki.after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(10)
+      - wikis = wikis.to_a.sample(3).sort_by(&:id)
       - if wikis.try(:any?)
         .row
           - wikis.each do |wiki|
             .grid-sizer.col-sm-4
               = render 'wikis/landing_card', post: wiki, show_issue: true
 
+  %section#banner
+    .container
+      %h3.text-center.text-basic-wrap{ style: "margin-bottom: 30px;" }
+        %span{ style: "font-weight: 100" }
+          팀과 커뮤니티를 위한
+          %span.visible-xs-block
+          민주주의 플랫폼, 빠띠
+        %br
+        { 빠띠로_이렇게 } 함께 해보세요
+        %br
+      .row
+        = link_to 'https://union.parti.xyz/posts/18286', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-users
+            %br
+            민주적으로 회의하기
+        = link_to 'https://union.parti.xyz/posts/18574', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-gavel
+            %br
+            워크숍에서 함께 결정하기
+        = link_to 'https://union.parti.xyz/posts/18400', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-comments
+            %br
+            의견 나누기
+        = link_to 'https://union.parti.xyz/posts/18575', target: '_blank' do
+          .col-xs-6.col-sm-6.col-md-3.tip-title
+            %i.fa.fa-coffee
+            %br
+            조직문화 공유하기
+
+
   %section#issues
     .container
-      %h4.group-heading
-        최근 업데이트된 빠띠
+      = link_to issues_path do
+        %h4.group-heading
+          최근 업데이트된 빠띠
+          %small.text-nowrap
+            #{Issue.count}개 빠띠 모두 보기
+            %br.visible-xs
+            %i.fa.fa-angle-double-right
+      .parties-search-form{ style: 'margin-top: 12px; max-width: 300px;' }
+        = form_tag issues_path, method: :get, id: 'js-search-parties-form' do
+          = hidden_field_tag :sort
+          .input-group.input-group.input-group-keyword
+            %input.form-control{name: "keyword", placeholder: "빠띠 찾기", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
+            %span.input-group-btn
+              %button.btn.btn-group-default{ style: 'background-color: #966ed8; color: white;' }
+                %i.fa.fa-search
+
       .row
-        - Issue.only_public_hottest(4).each do |issue|
+        - Issue.undiscovered_issues(current_user).hottest.limit(50).sample(4 * 2).each do |issue|
           .col-sm-3.col-xs-6
             .issue-card-wrapper
               = render 'issues/card', issue: issue
+      = link_to issues_path, class: 'btn btn btn-block btn-primary' do
+        #{Issue.count}개 빠띠 모두 보기
+        %i.fa.fa-angle-double-right
 
 
   %section#banner
     .container
-      %h3.pull-left
+      %h3.pull-left.text-basic-wrap
         Platforms for
         %span.visible-xs-block
         democratic life and culture

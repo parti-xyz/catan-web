@@ -1,6 +1,6 @@
 - if post.issue.blank?
   - return
-- if post.file_sources.only_image.empty? and post.link_source.blank? and !post.link_source.has_image?
+- if post.file_sources.only_image.empty? and post.link_source.blank? and !post.link_source.try(:has_image?)
   - return
 
 .post-card.post-card-recent.cursor-pointer{ class: dom_id(post), 'data-action': "parti-link", 'data-url': smart_post_path_or_url(post) }
@@ -11,7 +11,6 @@
       .post-body
         - if post.file_sources.only_image.any?
           - multi = post.file_sources.count > 1
-          - image_id = "image-#{SecureRandom.uuid}"
           .post-reference-line-file-content-wrapper--image<>
             - previous_style = nil
             - post.file_sources.only_image.sort_by_seq_no.limit(2).each_with_index do |file_source, index|
@@ -22,39 +21,19 @@
               - else
                 - current_style = 'left'
               - if current_style == 'single'
-                %a.post-reference-line__file-content--image{ class: current_style }<>= image_tag file_source.attachment.md.url, style: 'display: block'
+                %span.post-reference-line__file-content--image{ class: current_style, style: "background-image: url(#{file_source.attachment.md.url})" }<>
               - else
-                %a.post-reference-line__file-content--image{ class: current_style, style: "background-image: url(#{file_source.attachment.md.url});" }<>
+                %span.post-reference-line__file-content--image{ class: current_style, style: "background-image: url(#{file_source.attachment.md.url})" }<>
               - previous_style = current_style
-
         - elsif post.link_source.present?
-          .post-reference-line.post-reference-line-link-source.post-line
-            %a{href: post.link_source.url, target: '_blank'}
-              .post-reference-line__link-content
-                .post-reference-line__link-content__big-thumb{style: "background-image: url(#{post.link_source.image.md.url});", class: ('webp' if is_webp?(post.link_source.image.url))}
-                .media
-                  .media-body
-                    %h4.post-line-reference__title{ class: ('post-line-reference__url' if post.link_source.no_title?) }= post.link_source.title_or_url
-                    .post-reference-line__source-body= excerpt(post.link_source.body, length: (is_small_screen? ? 45 : 130))
-                    .post-reference-line__site-name
-                      %a{href: post.link_source.url, target: '_blank'}
-                        = post.link_source.site_name.try(:upcase)
-                        원글보기
-                        %i.fa.fa-external-link
-                  .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})", class: ('webp' if is_webp?(post.link_source.image.url)) }
-        = link_to smart_post_url(post), target: "_blank" do
-          .post-parsed-body
-            != smart_truncate_html(post.parsed_body, length: 85)
+          .post-reference-line-file-content-wrapper--image<>
+            %span.post-reference-line__file-content--image{ class: 'single', style: "background-image: url(#{post.link_source.image.md.url})" }
 
-  .post-card__header
-    .media
-      .media-left
+        .post-parsed-body
+          != smart_truncate_html(post.parsed_body, length: 85)
+
+      .post-card__meta
         = link_to smart_issue_home_path_or_url(post.issue) do
-          .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
-      .media-body
-        = link_to smart_issue_home_path_or_url(post.issue) do
-          %span.issue-title
-            = post.issue.title
-            = meta_icons(post.issue)
+          = issue_tag(post.issue, show_group: true, group_classes: 'issue-group', group_short: true)
 
 

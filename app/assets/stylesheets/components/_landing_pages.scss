@@ -7,6 +7,7 @@ section#landing-page{
     color: $brand-primary-light;
     border-radius: 10px;
     border: 1px solid #ded2f2;
+    line-height: 3em;
     &:hover{
       font-weight: bold;
     }
@@ -157,9 +158,18 @@ section#landing-page{
         overflow-wrap: break-word;
       }
     }
-    .option .body{
-      margin-left: 15px;
+    .survey-options {
+      &--body {
+        .checkbox-btn {
+          width: auto;
+        }
+        .option .body{
+          margin-left: 0.3em;
+          width: 80%;
+        }
+      }
     }
+
   }
   section#banner{
     background: #75a6d8; /* Old browsers */
@@ -254,3 +264,19 @@ section#landing-page{
     }
   }
 }
+
+
+body.app-pages-discover {
+  .post-card__meta {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #aaa;
+    margin: 0 20px 10px;
+    font-size: 12px;
+    > a {
+      color: $gray_a;
+    }
+  }
+}
+
