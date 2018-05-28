@@ -889,3 +889,16 @@ select.icon-select option {
     }
   }
 }
+
+
+.slick-slider.slick-slider-catan {
+  display: none;
+  .slick-list {
+    .issue-card-wrapper .issue-card {
+      margin: 0;
+    }
+    .slick-track {
+      margin-left:0;
+    }
+  }
+}

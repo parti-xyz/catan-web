@@ -891,29 +891,34 @@ $(function(){
   parti_prepare($('body'));
   parti_ellipsis($('body'));
 
-  $('.slick-slider').slick({
-    slidesToShow: 5,
-    slidesToScroll: 5,
-    nextArrow: '<span class="slick-custom-next"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-right fa-stack-1x"></i></span></span>',
-    prevArrow: '<span class="slick-custom-prev"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-left fa-stack-1x"></i></span></span>',
-    responsive: [
-      {
-        breakpoint: 960,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3
+  $.each($('.slick-slider'), function(index, elm) {
+    var lg = $(elm).data('slick-slider-lg') || 5;
+    var md = $(elm).data('slick-slider-md') || 3;
+    var xs = $(elm).data('slick-slider-xs') || 2;
+    $(elm).slick({
+      slidesToShow: lg,
+      slidesToScroll: lg,
+      nextArrow: '<span class="slick-custom-next"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-right fa-stack-1x"></i></span></span>',
+      prevArrow: '<span class="slick-custom-prev"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-left fa-stack-1x"></i></span></span>',
+      responsive: [
+        {
+          breakpoint: 960,
+          settings: {
+            slidesToShow: md,
+            slidesToScroll: md
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: xs,
+            slidesToScroll: xs
+          }
         }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1
-        }
-      }
-    ]
+      ]
+    });
+    $(elm).show();
   });
-  $('.slick-slider').show();
 
   // 빠띠 사이드바 hover 할때 가입 버튼 보이기
   $('.js-issue-line-hover').on('mouseenter', function(elm) {

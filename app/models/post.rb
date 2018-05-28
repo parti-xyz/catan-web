@@ -232,6 +232,7 @@ class Post < ActiveRecord::Base
   scope :of_group, ->(group) { where(issue_id: group.issues) }
   scope :pinned, -> { where(pinned: true) }
   scope :unpinned, -> { where.not(pinned: true) }
+  scope :never_blinded, -> { where.not(user_id: Blind.select(:user_id)) }
 
   ## uploaders
   # mount
