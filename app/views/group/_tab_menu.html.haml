@@ -1,8 +1,14 @@
+.contents-header
+  %h4.contents-header__title
+    그룹 관리
+    %small.hidden-xs
+      #{group_my_parties_section_title(current_group)}을 관리합니다.
+
 #content-tab-section
   %ul.nav.nav-tabs
     %li{ class: "#{('active' if current_page?('/group/managements'))}" }
       = link_to group_managements_path do
-        그룹 관리 홈
+        홈
     %li{ class: "#{('active' if current_page?('/group/configuration/edit') or params[:controller] == 'group/configuration')}" }
       = link_to edit_group_configuration_url(subdomain: current_group.subdomain) do
         그룹 설정

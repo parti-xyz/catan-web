@@ -820,6 +820,7 @@ section.contents-page {
           color: $brand-primary;
         }
       }
+      font-size: small;
     }
   }
   @media (min-width: $screen-sm-min) {
@@ -828,6 +829,13 @@ section.contents-page {
       font-weight: $headings-font-weight;
       small{
         font-weight: $small-in-headings-font-weight;
+        max-width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 2rm;
+        vertical-align: bottom;
+        white-space: nowrap;
       }
     }
   }
