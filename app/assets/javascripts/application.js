@@ -1733,14 +1733,16 @@ $(function(){
     })
   }
 
-  // 액션시트
-  $('.js-dropdown-xs-actionsheet').on('show.bs.dropdown', function(e) {
-    $(this).find('.dropdown-menu').first().stop(true, true).slideDown(400);
-  });
+  if(window.matchMedia("screen and (max-width: 768px)").matches) {
+    // 액션시트
+    $('.js-dropdown-xs-actionsheet').on('show.bs.dropdown', function(e) {
+      $(this).find('.dropdown-menu').first().stop(true, true).slideDown(400);
+    });
 
-  $('.js-dropdown-xs-actionsheet').on('hide.bs.dropdown', function(e) {
-    $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
-  });
+    $('.js-dropdown-xs-actionsheet').on('hide.bs.dropdown', function(e) {
+      $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
+    });
+  }
 });
 
 
