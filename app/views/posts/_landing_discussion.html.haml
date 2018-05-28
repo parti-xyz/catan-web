@@ -37,7 +37,7 @@
             - popover_placement = is_small_screen? ? 'auto' : 'right'
             - class_check = post.survey.multiple_select? ? 'fa-check-square-o' : 'fa-check-circle-o'
             .survey-options{ class: survey_options_dom_class(post) }
-              .survey-options--body{ class: ('survey-options--body--no-checkbox' if (!post.survey.feedbacked?(current_user) or !post.survey.mvp_options.any?) and !post.survey.open?) }
+              .survey-options--body
                 - !post.survey.options.order(feedbacks_count: :desc).limit(3).each do |option|
                   .option.clearfix[option]
                     - if !user_signed_in?
@@ -46,24 +46,16 @@
                           %i.fa{ class:  class_check }
                     - else
                       .checkbox-btn
-                        - if post.survey.open?
-                          = link_to post, target: "_blank" do
-                            - if option.selected?(current_user)
-                              %i.fa.active{ class:  class_check }
-                            - else
-                              %i.fa{ class:  class_check }
-                        - else
-                          %span.closed
-                            - if option.selected?(current_user)
-                              %i.fa.active{ class:  class_check }
+                        = link_to post, target: "_blank" do
+                          - if option.selected?(current_user)
+                            %i.fa.active{ class:  class_check }
+                          - else
+                            %i.fa{ class:  class_check }
                     .body
                       - if post.survey.visible_feedbacks?(current_user)
                         - option_body = capture do
                           %span.text-basic-wrap.chart__label= option.body
-                        - if post.survey.open?
-                          = link_to option_body, post, target: "_blank"
-                        - else
-                          = option_body
+                        = link_to option_body, post, target: "_blank"
                         .webui-popover-content
                           .upvoted-users{id: "#{dom_id(post.survey)}-#{dom_id(option)}-feedback-users"}
                             - option.feedback_users.each do |user|
@@ -76,13 +68,10 @@
                           .no-chart__label.text-basic-wrap
                             = option.body
                         - unless user_signed_in?
-                          %span.cursor-pointer{ data: { toggle: 'parti-login-overlay', 'no-parti-link': 'no' } }
+                          %span.cursor-pointer.text-basic-wrap{ data: { toggle: 'parti-login-overlay', 'no-parti-link': 'no' } }
                             = option.body
                         - else
-                          - if post.survey.open?
-                            = link_to option_body, post, target: "_blank"
-                          - else
-                            = option_body
+                          = link_to option_body, post, target: "_blank"
                 .survey-options--footer.clearfix
                   = post.survey.remain_time_human
 
