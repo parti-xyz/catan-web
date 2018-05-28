@@ -42,8 +42,8 @@ class IssuesController < ApplicationController
       elsif params[:subject].present?
         @issues = LandingPage.section_for_issue_subject.find_by(title: params[:subject]).try(:parsed_section_for_issue_subject)
       else
-        @groups = Group.not_private_blocked(current_user).sort_by_name
-        @groups = @groups.to_a.reject { |group| group.issues.count <= 0 }
+        @groups = Group.not_private_blocked(current_user).hottest.sort_by_name.where(slug: Issue.alive.not_private_blocked(current_user).select(:group_slug))
+        @ready_groups = Group.not_private_blocked(current_user).where('issues_count <= 0')
       end
 
       render 'index'

@@ -109,7 +109,7 @@ class Issue < ActiveRecord::Base
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :invitations, as: :joinable, dependent: :destroy
   belongs_to :destroyer, class_name: User
-  belongs_to :group, foreign_key: :group_slug, primary_key: :slug
+  belongs_to :group, foreign_key: :group_slug, primary_key: :slug, counter_cache: true
   has_many :my_menus, dependent: :destroy
   has_many :active_issue_stats, dependent: :destroy
   has_many :folders, dependent: :destroy
@@ -163,9 +163,6 @@ class Issue < ActiveRecord::Base
                                                     where.not(private: true)) }
   scope :not_in_dashboard, ->(current_user) { where.not(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
                                              .where.not('issues.private': true) }
-  scope :hottest_not_private_blocked_of_group, ->(group, someone, count = 10) {
-    of_group(group).not_private_blocked(someone).hottest.limit(count)
-  }
   scope :notice_only, -> { where(notice_only: true) }
   scope :only_public_hottest, ->(count){
     alive.where.any_of(where(group_slug: Group.where.not(private: true).select(:slug)), where(group_slug: 'indie'))

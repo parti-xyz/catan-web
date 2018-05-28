@@ -1,21 +1,20 @@
 - display_count = is_small_screen? ? 4 : 3
-- issues = Issue.hottest_not_private_blocked_of_group(group, current_user, display_count)
-- all_issues=  Issue.of_group(group).not_private_blocked(current_user)
-.group.margin-bottom-default
-  - unless group.private_blocked?
+- issues = group.issues.hottest.not_private_blocked(current_user).limit(display_count)
+- all_issues=  group.issues.not_private_blocked(current_user)
+- if !group.private_blocked?(current_user)
+  .group.group-card.margin-bottom-default
     .group-heading
       = link_to smart_group_url(group) do
         %h4
           = group_parties_section_title(group)
           - if issues.count < all_issues.count
+            %br.visible-xs
             %small.partis-count.badge
               #{Issue.of_group(group).count}개의 빠띠 모두 보기
               %i.fa.fa-angle-double-right
-      - unless group.site_description.nil?
+      - if !group.site_description.nil? and issues.any?
         .group-desc
-          #{group.site_description}
-          - if Issue.of_group(group).any?
-            %br.visible-xs-block
+          = group.site_description
 
     - if issues.any?
       .row
@@ -23,4 +22,7 @@
           .col-sm-4.col-xs-6
             .issue-card-wrapper
               = render 'issues/card', issue: issue
+    - else
+      .group-desc{ style: 'font-weight: 200; margin-top: 0.5em; padding-bottom: 12px;' }
+        = group.site_description
 

@@ -120,5 +120,15 @@ body.app-group--categories-edit {
       }
     }
   }
+}
 
+@media (max-width: $screen-xs-max) {
+  .group-card {
+    .group-heading {
+      .partis-count {
+        margin-left: 0;
+        margin-top: 3px;
+      }
+    }
+  }
 }

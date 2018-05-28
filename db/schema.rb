@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180527022901) do
+ActiveRecord::Schema.define(version: 20180528124302) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -196,6 +196,9 @@ ActiveRecord::Schema.define(version: 20180527022901) do
     t.string   "plan",                        limit: 255,                      null: false
     t.string   "key_visual_foreground_image", limit: 255
     t.string   "key_visual_background_image", limit: 255
+    t.integer  "hot_score",                   limit: 4,        default: 0
+    t.string   "hot_score_datestamp",         limit: 255
+    t.integer  "issues_count",                limit: 4,        default: 0
   end
 
   add_index "groups", ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true, using: :btree

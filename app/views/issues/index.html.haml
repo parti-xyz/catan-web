@@ -34,5 +34,10 @@
                 = link_to '그룹 만들기', new_group_configuration_url(subdomain: nil), class: 'btn btn-primary'
                 = link_to '가격 정책 안내', pricing_url(subdomain: nil), style:"text-decoration:underline;margin-left:10px;", target: '_blank'
           = render @groups[5..-1]
+
+          %h3 새로운 그룹
+
+          = render @ready_groups
+
       - unless is_small_screen?
         = render 'application/aside'

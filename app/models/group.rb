@@ -29,6 +29,7 @@ class Group < ActiveRecord::Base
   has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
 
   scope :sort_by_name, -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
+  scope :hottest, -> { order("case when slug = 'indie' then 0 else 1 end").order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :but, ->(group) { where.not(id: group) }
   scope :not_private_blocked, ->(current_user) { where.any_of(
                                                     where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id')),

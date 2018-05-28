@@ -362,6 +362,10 @@ section#issues-group-index {
       font-size: $font-size-base;
       text-shadow: 1px 1px 3px rgba(0,0,0,.9);
       font-weight: 400;
+      max-width: 80px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
       @media(max-width: $screen-xs-max) {
         position: static;
         margin-top: 5px;

@@ -6,6 +6,7 @@ class ScoreJob
     ActiveRecord::Base.transaction do
       for_post
       for_issue
+      for_groups
     end
   end
 
@@ -68,6 +69,15 @@ class ScoreJob
       issue = Issue.find_by id: issue_id
       next if issue.blank?
       issue.update_columns(hot_score: hot_score, hot_score_datestamp: Date.today.strftime('%Y%m%d'))
+    end
+  end
+
+  def for_groups
+    Issue.only_public_in_current_group.where('groups.hot_score_datestamp >= ?', 7.days.ago.strftime('%Y%m%d')).group('issues.group_slug').sum('issues.hot_score').each do |group_slug, hot_score|
+      group = Group.find_by(slug: group_slug)
+      next if group.blank?
+
+      group.update_columns(hot_score: hot_score, hot_score_datestamp: Date.today.strftime('%Y%m%d'))
     end
   end
 end

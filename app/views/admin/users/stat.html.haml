@@ -20,4 +20,5 @@
         = render 'users/byline', user: @user
         = line_chart @data.map { |r| { name: r[0].model_name.human, data: r[1] } }, defer: true, points: false, download: true
     - else
-      %i.fa.fa-info-circle 해당 회원을 찾을 수 없습니다.
+      %i.fa.fa-info-circle
+      해당 회원을 찾을 수 없습니다.
