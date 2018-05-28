@@ -1,13 +1,21 @@
-.bs-component
-  %section
-    .container
-      .row
-        .col-md-offset-3.col-md-6
-          %h3.page-header 가입확인 메일 재발송
-          = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-            = devise_error_messages!
-            .form-group
-              = f.label :email
-              = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control'
-            = f.submit "가입확인 메일을 재발송합니다", class: 'btn btn-danger', data: { disable_with: "발송 중..." }
-          = render "devise/shared/links"
+%section#sign-up
+  %h4.sign-up__title 가입 확인 링크가 담긴 이메일을 잊어버리셨나요?
+  %h1.text-center.sign-up__txt
+    가입 확인 메일 재발송
+  = form_for resource, as: resource_name, url: confirmation_path(resource_name), method: :post, html: { class: 'form-horizontal' } do |f|
+    = devise_error_messages!
+    .form-group
+      = f.label :email, class: 'col-sm-2 control-label'
+      .col-sm-10
+        = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control'
+    .form-group.text-center
+      = f.submit "가입확인 메일을 재발송합니다", class: 'btn btn-danger', data: { disable_with: "발송 중..." }
+
+%section#sign-up-links
+  .text-center
+    %p
+      다른 계정으로 로그인하시겠어요?
+      = link_to '로그인', new_user_session_path
+    %p
+      처음 오셨나요?
+      = link_to '가입하기', pre_sign_up_users_path
