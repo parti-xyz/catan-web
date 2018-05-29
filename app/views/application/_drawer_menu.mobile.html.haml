@@ -59,10 +59,7 @@
       = link_to smart_issue_home_url(Issue.parti_parti) do
         제안 및 의견
     %li.menu-line.subscribe-button-mobile{'data-toggle': "modal", 'data-target': "#subscribe-email-modal"} 빠띠 민주주의 리포트 받아보기
-    - if is_kakao_talkable?
-      %li.menu-line.drawer-list__yellow
-        %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
-          = image_tag 'icon_yellow.png', alt: 'btn-yellow'
+
 #subscribe-email-modal.modal.fade{:role => "dialog", :tabindex => "-1"}
   .modal-dialog{:role => "document"}
     .modal-content.subscribe-modal
