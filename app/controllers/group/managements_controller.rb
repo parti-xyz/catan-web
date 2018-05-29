@@ -9,9 +9,20 @@ class Group::ManagementsController < Group::BaseController
     group_posts = Post.where(issue: group_issues)
 
     #total
-    @data = [["게시글", group_posts.group_by_month('posts.created_at').count],
-             ["공감",Upvote.where(issue: group_issues).group_by_month('upvotes.created_at').count],
-             ["댓글", Comment.where(post: group_posts).group_by_month('comments.created_at').count]]
+    oldest_post = group_posts.oldest
+    newest_post = group_posts.newest
+
+    delta = newest_post.created_at - oldest_post.created_at
+    @data = if delta > 6.weeks
+      [["게시글", group_posts.group_by_month('posts.created_at', format: "%Y/%m").count],
+       ["공감",Upvote.where(issue: group_issues).group_by_month('upvotes.created_at', format: "%Y/%m").count],
+       ["댓글", Comment.where(post: group_posts).group_by_month('comments.created_at', format: "%Y/%m").count]]
+    else
+      [["게시글", group_posts.group_by_day('posts.created_at', format: "%Y/%m/%d").count],
+       ["공감",Upvote.where(issue: group_issues).group_by_day('upvotes.created_at', format: "%Y/%m/%d").count],
+       ["댓글", Comment.where(post: group_posts).group_by_day('comments.created_at', format: "%Y/%m/%d").count]]
+    end
+
 
     @hottest_posts = group_posts.hottest.limit(5)
     @active_users_by_posts = group_posts.group('posts.user_id')
