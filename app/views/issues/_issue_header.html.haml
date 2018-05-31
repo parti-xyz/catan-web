@@ -48,6 +48,8 @@
                   z
                   %sup z
                 휴면 중
+              - if issue.organized_by?(current_user) or issue.group.organized_by?(current_user) or current_user.try(:admin?)
+                = render 'issues/header_buttons', issue: issue
           - else
             .parti-buttons
               - if !issue.group.private? and can?(:new_admit_members, issue)

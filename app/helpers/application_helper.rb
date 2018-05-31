@@ -366,6 +366,16 @@ module ApplicationHelper
         concat raw('&nbsp;')
         concat i_icon
       end
+
+      if issue.frozen?
+        concat raw('&nbsp;')
+        concat content_tag :span, nil, class: 'frozen', &-> do
+          capture do
+            concat 'z'
+            concat content_tag :sup, 'z'
+          end
+        end
+      end
     end
   end
 

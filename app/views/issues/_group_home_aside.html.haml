@@ -1,28 +1,33 @@
 = aside_column_tag do
   .aside_issue#aside{ style: 'margin-top:20px; padding-bottom: 10px' }
-    - if Issue.only_alive_of_group(current_group).any?
+
+    - contents = capture do
+      - has_some_issues_categorized = false
+      - (current_group.categories.to_a << nil).each do |category|
+        - issues = current_group.issues.categorized_with(category)
+        - next if issues.empty?
+
+        - issues_list = capture do
+          - issues.sort_by_name.each do |issue|
+            - next if issue.private_blocked?(current_user)
+            - next if !(issue.organized_by?(current_user) or issue.group.organized_by?(current_user) or current_user.try(:admin?)) and issue.frozen?
+            = render customize_partial_path(issue, 'issue_line')
+        - next if issues_list.blank?
+
+        - if category.present?
+          %h6= category.name
+          - has_some_issues_categorized = true
+        - else
+          - if current_group.categories.any? and has_some_issues_categorized
+            %h6 이외
+
+        %ul.list-unstyled.aside-issues
+          = issues_list
+    - if contents.present?
       %section
         %h5.aside-title
           모든 빠띠
-        - has_some_issues_categorized = false
-        - (current_group.categories.to_a << nil).each do |category|
-          - issues = Issue.only_alive_of_group(current_group).categorized_with(category)
-          - next if issues.empty?
+        = contents
 
-          - issues_list = capture do
-            - issues.sort_by_name.each do |issue|
-              - next if issue.private_blocked?(current_user)
-              = render customize_partial_path(issue, 'issue_line')
-          - next if issues_list.blank?
-
-          - if category.present?
-            %h6= category.name
-            - has_some_issues_categorized = true
-          - else
-            - if current_group.categories.any? and has_some_issues_categorized
-              %h6 이외
-
-          %ul.list-unstyled.aside-issues
-            = issues_list
 
     = render 'application/footer'
