@@ -1,0 +1,22 @@
+- can_admin_member = (can?(:admit, current_group) or can?(:magic_link, current_group))
+.contents-header
+  %h4.contents-header__title
+    멤버
+    %small.hidden-xs
+      - if can_admin_member
+        #{group_my_parties_section_title(current_group)}의 멤버를 관리합니다.
+      - else
+        #{group_my_parties_section_title(current_group)}의 멤버입니다.
+
+- if can_admin_member
+  #content-tab-section
+    %ul.nav.nav-tabs
+      %li{ class: "#{('active' if current_page?('/group/members'))}" }
+        = link_to group_members_path do
+          홈
+      - if can? :admit, current_group
+        %li{ class: "#{('active' if current_page?('/group/members/new_admit'))}" }
+          =link_to '멤버추가', new_admit_group_members_path
+      - if can? :magic_link, current_group
+        %li{ class: "#{('active' if current_page?('/group/members/edit_magic_link'))}" }
+          =link_to '초대링크', edit_magic_link_group_members_path

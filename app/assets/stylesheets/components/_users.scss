@@ -26,7 +26,7 @@ section#user-gallery{
 }
 
 .user-card {
-  width: 32%;
+  width: 23%;
   background-color: #fff;
   border-bottom: 1px solid #dddbdc;
   border-left: 1px solid #fff;
@@ -37,7 +37,7 @@ section#user-gallery{
   float: left;
   position: relative;
 
-  &:nth-child(3n+1), &:first-child {
+  &:nth-child(4n+1), &:first-child {
     margin-left: 0;
   }
   &__thumb {

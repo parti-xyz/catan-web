@@ -1,88 +1,72 @@
 = render 'application/group_home_sub_header', active: 'member'
 
-%section#issue-users
+%section.contents-page
   .container
-    .row
-      = main_column_tag do
-        - if can?(:admit, current_group) or can?(:magic_link, current_group)
-          %ul.list-inline.controls-group-members<>
-            - if can? :admit, current_group
-              %li<>
-                .well
-                  %p 이 그룹에 멤버를 추가합니다.
-                  =link_to '멤버 추가하기', new_admit_group_members_path, class: 'btn btn-primary'
-            - if can? :magic_link, current_group
-              %li<>
-                .well
-                  %p 그룹의 초대링크를 관리합니다.
-                  =link_to '초대링크 관리', edit_magic_link_group_members_path, class: 'btn btn-primary'
-        - if (current_user.try(:admin?) or current_group.organized_by?(current_user)) and current_group.invitations.any?
-          %section#content-tab-section
-            .nav-tabs.message-tab
-              %h4
-                초대 중
-                .count-label-wrapper
-                  .count-label= current_group.invitations.count
-            %ul.request-card-wrapper.list-unstyled.clearfix
-              - current_group.invitations.each do |invitation|
-                %li.user-card[invitation]
-                  .user-card__thumb
-                    - if invitation.recipient.present?
-                      = link_to smart_user_gallery_path(invitation.recipient) do
-                        .thumb.img-circle{style: "background-image: url(#{invitation.recipient.image.md.url});"}
-                        %p= invitation.recipient.nickname
-                    - else
-                      .thumb.img-circle
-                      %p= invitation.recipient_email
-                  .user-card__chevron_buttons
-                    - invitation_chevron_dom_id = "#{dom_id(invitation)}-dropdown"
-                    %button.btn.btn-link.btn-sm.dropdown-toggle{ id: invitation_chevron_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-                      %i.fa.fa-ellipsis-v
-                    %ul.dropdown-menu.pull-right{ "aria-labelledby": invitation_chevron_dom_id }
-                      %li
-                        %a(href="mailto:#{invitation.recipient_email}") 메일보내기
-                      %li
-                        = link_to '초대 취소하기', invitation_path(invitation), method: :delete, data: { confirm: '정말 초대를 취소하시겠습니까?', 'disable-with': '취소 중...'},  remote: true
-        - if current_group.member_request_users.any?
-          %section#content-tab-section
-            .nav-tabs.message-tab
-              %h4
-                가입신청
-                .count-label-wrapper
-                  .count-label= current_group.member_requests.count
-            %ul.request-card-wrapper.list-unstyled.clearfix
-              - current_group.member_requests.each do |member_request|
-                - user = member_request.user
-                = render 'users/user', user: user, group: current_group, additional_buttons_partial: 'group/member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons', description: member_request.description
+    = render 'group/members/tab_menu'
 
-        %section#content-tab-section
-          .nav-tabs.message-tab
-            %h4
-              그룹 내 프로필 관리
-          .row
-            .col-md-10
-              = form_tag update_profile_group_members_path, method: :post do
-                .input-group
-                  = text_field_tag :description, nil, class: 'form-control'
-                  %span.input-group-btn
-                    = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
-        %br
-        %section#content-tab-section
-          .nav-tabs.message-tab
-            %h4
-              가입멤버
-              .count-label-wrapper
-                .count-label= current_group.members.count
-          .members-search-form
-            = form_tag group_members_path, method: :get do
-              = hidden_field_tag :sort, params[:sort]
-              .input-group.input-group-keyword
-                %input.form-control{name: "keyword", placeholder: "ex) 닉네임#{(' 이메일' if user_signed_in? and current_user.admin?)}", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
-                  %span.input-group-btn
-                    %button.btn.btn-group-default
-                      %i.fa.fa-search
-          %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
-            = render 'members/members_page', members: @members, group: current_group
-          = paginate @members, theme: 'catan', params: { controller: 'group/members', action: 'index' }
-      - unless is_small_screen?
-        = render 'application/aside'
+    %section{ style: "padding-top: 20px" }
+      %h4.group-heading
+        그룹 내 프로필 관리
+
+      .members-profile-form
+        = form_tag update_profile_group_members_path, method: :post do
+          .input-group
+            = text_field_tag :description, nil, class: 'form-control'
+            %span.input-group-btn
+              = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+
+    - if (current_user.try(:admin?) or current_group.organized_by?(current_user)) and current_group.invitations.any?
+      %section{ style: "padding-top: 20px" }
+        %h4.group-heading
+          초대 중
+          .count-label-wrapper
+            .count-label= current_group.invitations.count
+
+        %ul.request-card-wrapper.list-unstyled.clearfix
+          - current_group.invitations.each do |invitation|
+            %li.user-card[invitation]
+              .user-card__thumb
+                - if invitation.recipient.present?
+                  = link_to smart_user_gallery_path(invitation.recipient) do
+                    .thumb.img-circle{style: "background-image: url(#{invitation.recipient.image.md.url});"}
+                    %p= invitation.recipient.nickname
+                - else
+                  .thumb.img-circle
+                  %p= invitation.recipient_email
+              .user-card__chevron_buttons
+                - invitation_chevron_dom_id = "#{dom_id(invitation)}-dropdown"
+                %button.btn.btn-link.btn-sm.dropdown-toggle{ id: invitation_chevron_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                  %i.fa.fa-ellipsis-v
+                %ul.dropdown-menu.pull-right{ "aria-labelledby": invitation_chevron_dom_id }
+                  %li
+                    %a(href="mailto:#{invitation.recipient_email}") 메일보내기
+                  %li
+                    = link_to '초대 취소하기', invitation_path(invitation), method: :delete, data: { confirm: '정말 초대를 취소하시겠습니까?', 'disable-with': '취소 중...'},  remote: true
+    - if current_group.member_request_users.any?
+      %section{ style: "padding-top: 20px" }
+        %h4.group-heading
+          가입신청
+          .count-label-wrapper
+            .count-label= current_group.member_requests.count
+        %ul.request-card-wrapper.list-unstyled.clearfix
+          - current_group.member_requests.each do |member_request|
+            - user = member_request.user
+            = render 'users/user', user: user, group: current_group, additional_buttons_partial: 'group/member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons', description: member_request.description
+
+    %section{ style: "padding-top: 20px" }
+      %h4.group-heading
+        가입멤버
+        .count-label-wrapper
+          .count-label= current_group.members.count
+
+      .members-search-form
+        = form_tag group_members_path, method: :get do
+          = hidden_field_tag :sort, params[:sort]
+          .input-group.input-group-keyword
+            %input.form-control{name: "keyword", placeholder: "ex) 닉네임#{(' 이메일' if user_signed_in? and current_user.admin?)}", value: params[:keyword], type: "search", 'data-action': 'parti-clearable-search'}
+              %span.input-group-btn
+                %button.btn.btn-group-default
+                  %i.fa.fa-search
+      %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
+        = render 'members/members_page', members: @members, group: current_group
+      = paginate @members, theme: 'catan', params: { controller: 'group/members', action: 'index' }

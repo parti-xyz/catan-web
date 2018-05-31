@@ -6,7 +6,7 @@ class Group::MembersController < Group::BaseController
   def index
     base = current_group.members.recent
     base = smart_search_for(base, params[:keyword], profile: (:admin if user_signed_in? and current_user.admin?)) if params[:keyword].present?
-    @members = base.page(params[:page]).per(3 * 10)
+    @members = base.page(params[:page]).per(4 * 10)
   end
 
   def cancel
