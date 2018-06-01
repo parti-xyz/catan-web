@@ -1394,9 +1394,9 @@ $(function(){
     $elm.siblings('.js-folder-posts').slideToggle(100, function() {
       console.log();
       if($(this).is(':visible')) {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder-o').addClass('fa-folder-open-o');
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
       } else {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open-o').addClass('fa-folder-o');
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
       }
     });
   });

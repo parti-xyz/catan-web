@@ -416,6 +416,10 @@ class Issue < ActiveRecord::Base
     group_slug == 'union' and slug == 'test'
   end
 
+  def wiki_aside_experimental?
+    experimental? or (group_slug == 'union')
+  end
+
   def self.messagable_group_method
     :of_group
   end

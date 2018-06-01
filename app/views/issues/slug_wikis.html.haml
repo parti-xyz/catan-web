@@ -31,7 +31,7 @@
               해당 위키가 없습니다.
         = paginate @posts, theme: 'catan'
       - unless is_small_screen?
-        - if @issue.folders.any?
+        - if @issue.folders.any? and @issue.wiki_aside_experimental?
           = render 'wikis/aside'
         - else
           = render 'issues/aside'

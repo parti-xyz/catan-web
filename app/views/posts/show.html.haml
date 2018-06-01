@@ -53,7 +53,7 @@
                       = @post.issue.body
 
       - unless is_small_screen?
-        - if @post.wiki.present? and @post.issue.folders.any?
+        - if @post.wiki.present? and @post.issue.folders.any? and @post.issue.wiki_aside_experimental?
           = render 'wikis/aside', current_post: @post, additional_classes: (%w(visible-block-md hidden-lg) if @post.try(:wiki).try(:conflict?))
         - else
           = render 'issues/aside', additional_classes: (%w(visible-block-md hidden-lg) if @post.try(:wiki).try(:conflict?))

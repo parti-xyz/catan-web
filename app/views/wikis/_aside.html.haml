@@ -14,9 +14,9 @@
           %li.item-folder
             .folder-title.js-folder-item.cursor-pointer
               - if folder == current_folder
-                %i.fa.fa-folder-open-o.js-folder-item-icon
+                %i.fa.fa-folder-open.js-folder-item-icon
               - else
-                %i.fa.fa-folder-o.js-folder-item-icon
+                %i.fa.fa-folder.js-folder-item-icon
               = folder.title
               - if posts.any?
                 (#{posts.count})
