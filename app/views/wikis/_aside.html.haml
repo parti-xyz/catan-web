@@ -1,0 +1,29 @@
+- issue ||= @issue
+- folders = issue.folders
+- current_post = local_assigns[:current_post]
+- current_folder = current_post.try(:folder)
+- current_wiki = current_post.try(:wiki)
+
+= aside_column_tag(local_assigns[:additional_classes]) do
+  .aside_issue#aside
+    %section
+      %h5.aside-title 폴더
+      %ul.list-unstyled.parti-folders
+        - folders.each do |folder|
+          - posts = folder.posts.having_wiki_sorted_by_title(:active)
+          %li.item-folder
+            .folder-title.js-folder-item.cursor-pointer
+              - if folder == current_folder
+                %i.fa.fa-folder-open-o.js-folder-item-icon
+              - else
+                %i.fa.fa-folder-o.js-folder-item-icon
+              = folder.title
+              - if posts.any?
+                (#{posts.count})
+            %ul.list-unstyled.folder-posts.js-folder-posts{ class: ('collapse' if folder != current_folder) }
+              - posts.each do |post|
+                = link_to smart_post_url(post), class: "item-post-wrapper #{'active' if post == current_post}" do
+                  %li.item-post
+                    = post.wiki.title
+
+    = render 'application/footer'

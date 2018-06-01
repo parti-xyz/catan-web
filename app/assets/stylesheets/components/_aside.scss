@@ -22,6 +22,38 @@
   }
 }
 
+.parti-folders {
+  .item-folder {
+    padding: 4px 0;
+    &:first-child {
+      padding-top: 0;
+    }
+    .folder-title,
+    .folder-title a {
+      color: $gray;
+      &:hover {
+        color: $base-brand-primary;
+      }
+    }
+  }
+  .folder-posts {
+    margin-left: 17px;
+    .item-post-wrapper {
+      color: $gray;
+      &:hover {
+        color: $base-brand-primary;
+      }
+      .item-post {
+        padding: 2px 0;
+      }
+      &.active {
+        color: $base-brand-primary;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
 .aside_issues {
   margin-top: 36px;
 }

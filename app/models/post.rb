@@ -224,6 +224,9 @@ class Post < ActiveRecord::Base
     condition = condition.joins('LEFT OUTER JOIN wikis on wikis.id = posts.wiki_id').where('wikis.status': status) if status.present?
     condition
   }
+  scope :having_wiki_sorted_by_title, ->(status) {
+    having_wiki(status).order('wikis.title asc')
+  }
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :having_survey, -> { where.not(survey_id: nil) }
   scope :having_image_file_sources, -> { where(id: FileSource.only_image.select('post_id')) }

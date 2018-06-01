@@ -1388,6 +1388,19 @@ $(function(){
     }
   });
 
+  // 위키 폴더 목록 클릭
+  $('.js-folder-item').on('click', function(e) {
+    var $elm = $(e.currentTarget);
+    $elm.siblings('.js-folder-posts').slideToggle(100, function() {
+      console.log();
+      if($(this).is(':visible')) {
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder-o').addClass('fa-folder-open-o');
+      } else {
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open-o').addClass('fa-folder-o');
+      }
+    });
+  });
+
   $(".js-drawer-filter").on("keyup", _.debounce(function(){
     if ($('.js-filterable-by-drawer-filter .js-drawer-filter-group').length <= 0) {
       return;
