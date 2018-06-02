@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
     set_choice
     @comment.user = current_user
     if @comment.save
+      @comment.read!(current_user)
       @comment.perform_mentions_async
     end
     @comments_count = @comment.post.comments_count
@@ -39,6 +40,15 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment.destroy!
+  end
+
+  def read
+    if params[:comment_ids].present?
+      @comments = Comment.where(id: params[:comment_ids].split(','))
+      @comments.each { |comment| comment.read!(current_user) }
+    end
+
+    head 200, content_type: "text/html"
   end
 
   private

@@ -165,6 +165,7 @@ Rails.application.routes.draw do
       get 'pinned'
     end
   end
+  post 'comments/read', to: 'comments#read'
   resources :folders
   resources 'wiki_histories'
   resources 'decision_histories'

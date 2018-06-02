@@ -52,6 +52,7 @@ class Comment < ActiveRecord::Base
   accepts_nested_attributes_for :file_sources, allow_destroy: true, reject_if: proc { |attributes|
     attributes['attachment'].blank? and attributes['attachment_cache'].blank? and attributes['id'].blank?
   }
+  has_many :comment_readers, dependent: :destroy
 
   validates :user, presence: true
   validates :post, presence: true
@@ -70,6 +71,9 @@ class Comment < ActiveRecord::Base
   }
   scope :only_parent, -> { where(parent: nil) }
   scope :of_group, -> (group) { where(post_id: Post.of_group(group)) }
+  scope :unread, -> (someone) {
+    after(CommentReader::BEGIN_DATE).where.not(id: CommentReader.where(user_id: someone.id).select(:comment_id))
+  }
 
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_stroked_at_of_posts
@@ -135,6 +139,21 @@ class Comment < ActiveRecord::Base
 
   def self.messagable_group_method
     :of_group
+  end
+
+  def read!(someone)
+    return if someone.blank?
+    return if self.user == someone
+    return if self.created_at < CommentReader::VALID_PERIOD.ago
+    self.comment_readers.find_or_create_by(user: someone)
+  end
+
+  def read?(someone)
+    return true if someone.blank?
+    return true if self.user == someone
+    return true if self.created_at < CommentReader::VALID_PERIOD.ago
+    return true if self.created_at < CommentReader::BEGIN_DATE
+    self.comment_readers.exists?(user: someone)
   end
 
   private

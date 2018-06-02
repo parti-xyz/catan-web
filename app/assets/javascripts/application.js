@@ -813,6 +813,38 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  // 댓글 읽기
+  __cached_comment_reader = [];
+
+  $.parti_apply($base, '.js-comments-reader', function(elm) {
+    var $elm = $(elm);
+    $elm.waypoint({
+      handler: function(direction) {
+        if(direction == 'down') {
+          var comment_ids = [];
+          $elm.find('.js-comment-reader-line').each(function(index) {
+            var comment_id = $(this).data('comment-id');
+            if(comment_id) {
+              if(_.indexOf(__cached_comment_reader, comment_id) == -1) {
+                comment_ids.push(comment_id);
+                __cached_comment_reader.push(comment_id);
+              }
+            }
+          });
+
+          if(comment_ids.length > 0) {
+            $.ajax({
+              url: $elm.data('url'),
+              type: "post",
+              data:{ 'comment_ids': _.join(comment_ids, ',') }
+            });
+          }
+        }
+      },
+    });
+  });
+
+
   $base.data('parti-prepare-arel', 'completed');
 }
 
@@ -1392,7 +1424,6 @@ $(function(){
   $('.js-folder-item').on('click', function(e) {
     var $elm = $(e.currentTarget);
     $elm.siblings('.js-folder-posts').slideToggle(100, function() {
-      console.log();
       if($(this).is(':visible')) {
         $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
       } else {

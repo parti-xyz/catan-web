@@ -95,6 +95,7 @@ class User < ActiveRecord::Base
   has_many :my_menu_issues, through: :my_menus, source: :issue
   has_many :folders, dependent: :nullify
   has_many :bookmarks, dependent: :destroy
+  has_many :comment_readers, dependent: :destroy
 
   ## uploaders
   # mount

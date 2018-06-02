@@ -59,6 +59,11 @@ section#comments {
       position: relative;
     }
   }
+  .body-wrapper--with-unread-circle {
+    > .body {
+      position: relative;
+    }
+  }
   .body {
     background: white;
     border-radius: $font-size-base;
@@ -105,6 +110,13 @@ section#comments {
       width: auto;
       min-width: 80px;
     }
+  }
+  .comment__unread-circle {
+    position: absolute;
+    top: -3px;
+    right: -2px;
+    font-size: 10px;
+    color: $base-brand-primary;
   }
   .file-sources {
     margin: 6px 0;

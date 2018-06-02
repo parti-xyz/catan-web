@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180528124302) do
+ActiveRecord::Schema.define(version: 20180602003907) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -80,6 +80,16 @@ ActiveRecord::Schema.define(version: 20180528124302) do
 
   add_index "categories", ["group_slug", "name"], name: "categories_uniq", unique: true, using: :btree
   add_index "categories", ["group_slug"], name: "index_categories_on_group_slug", using: :btree
+
+  create_table "comment_readers", force: :cascade do |t|
+    t.integer  "comment_id", limit: 4, null: false
+    t.integer  "user_id",    limit: 4, null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "comment_readers", ["comment_id"], name: "index_comment_readers_on_comment_id", using: :btree
+  add_index "comment_readers", ["user_id"], name: "index_comment_readers_on_user_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id",            limit: 4,                    null: false
