@@ -5,5 +5,5 @@ class CommentReader < ActiveRecord::Base
   validates :user, uniqueness: { scope: :comment_id }, presence: true
 
   VALID_PERIOD = 1.month
-  BEGIN_DATE = '2018-06-02'.to_date
+  BEGIN_COMMENT_ID = 27813
 end
