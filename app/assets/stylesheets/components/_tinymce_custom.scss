@@ -76,7 +76,7 @@
     text-decoration: none;
     i {
       font-family: 'FontAwesome';
-      font-size: 10px;
+      font-size: $font-size-xsmall;
       padding: 6px;
       @media (max-width: $screen-xs-max) {
         padding: 1px;

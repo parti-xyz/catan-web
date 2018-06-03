@@ -1,0 +1,10 @@
+%span.comment-hidden-users
+  - limit = 5
+  - Comment.users(hidden_comments, limit).each_with_index do |user, index|
+    - if index == (limit - 1)
+      %span.comment-hidden-more-users
+        %i.fa.fa-ellipsis-h
+      - next
+    %span.comment-hidden-user
+      .thumb.user-image.img-circle{ style: "background-image: url(#{user.image.sm.url});" }
+!= label

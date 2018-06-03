@@ -1,35 +1,24 @@
 %div{ class: ('js-comments-reader' if user_signed_in?), 'data-url': comments_read_path(post_id: post.id) }
-  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments : post.comments)
+  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments_threaded : post.comments)
   - has_hidden_comments = (local_assigns[:mode] == 'list' and  post.any_not_latest_comments?)
   - comment_capture = capture do
     - if has_hidden_comments
       = link_to more_comments_post_path(post, format: :js), remote: true, id: comments_more_button_dom_id(post), 'data-disable-with': '<div class="more">가져오는 중...</div>', class: 'post-card__count', rel: :nofollow do
         .more
           %span{id: comments_more_label_dom_id(post)}
-            - case post.more_comments_mode
-            - when :past_day
-              하루 사이 댓글 보기
-            - when :past_day_limited
-              최근 몇 시간 댓글 보기
-              - if showing_comments.any?
-                이전
-              댓글 보기
-            - when :limit, :all
-              - if showing_comments.any?
-                이전
-              댓글 보기
-          &middot;&nbsp;
-          모두&nbsp;
-          %span{id: comments_count_dom_id(post)}<>
-            = post.comments_count
-          개
+            = render 'comments/more_button', label: "#{('이전 ' if showing_comments.any?)} 댓글 #{('더 ' if showing_comments.any?)}보기", hidden_comments: post.comments.where.not(id: showing_comments.flatten)
+            &middot;&nbsp;
+            모두&nbsp;
+            %span{id: comments_count_dom_id(post)}<>
+              = post.comments_count
+            개
           - if user_signed_in? and post.comments.unread(current_user).any?
             %span.count-label-wrapper.small
               .count-label
                 +#{post.comments.unread(current_user).count}
 
     .post-card__comments--threads.js-target-new-comment{ id: comments_threads_dom_id(post) }
-      - Comment.group_by_thread(showing_comments).each do |parent_comment, child_comments|
+      - showing_comments.each do |parent_comment, child_comments|
         = render 'comments/threaded_comments', local_assigns.merge(parent_comment: parent_comment, child_comments: child_comments)
     - if user_signed_in?
       = render 'comments/new_form', post: post

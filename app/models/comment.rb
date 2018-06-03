@@ -133,7 +133,13 @@ class Comment < ActiveRecord::Base
 
   def self.group_by_thread(comments)
     result = comments.to_a.group_by { |comment| comment.parent_or_self }.to_a.sort_by { |item| item[0].created_at }
-    result.each { |item| item[1].reject! { |comment| comment.parent.blank? } }
+    result.each do |item|
+      item[1].reject! { |comment| comment.parent.blank? }
+      if (item[0].children.count - item[1].length) == 1
+        item[1] = item[0].children.to_a
+      end
+      item[1].sort_by! { |comment| item[0].created_at }
+    end
     result
   end
 
@@ -156,6 +162,10 @@ class Comment < ActiveRecord::Base
     return true if self.id < CommentReader::BEGIN_COMMENT_ID
     return true if self.blinded? someone
     self.comment_readers.exists?(user: someone)
+  end
+
+  def self.users(comments, limit)
+    User.where(id: comments.select(:user_id).distinct).limit(limit)
   end
 
   private

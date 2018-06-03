@@ -171,7 +171,7 @@ section#issues-group-index {
           margin: 0;
         }
         .count {
-          font-size: 10px;
+          font-size: $font-size-xsmall;
         }
       }
     }
@@ -465,7 +465,7 @@ section#issues-group-index {
       }
 
       @media (max-width: $screen-xs-max) {
-        font-size: 10px;
+        font-size: $font-size-xsmall;
       }
     }
     @media (max-width: $screen-xs-max) {
@@ -543,7 +543,7 @@ section#issues-group-index {
     }
   }
   .btn-xs.btn-join {
-    font-size: 10px;
+    font-size: $font-size-xsmall;
     height: 1.5em;
     vertical-align: text-top;
     padding: 1px 3px 0 !important;

@@ -208,6 +208,9 @@ class PostsController < ApplicationController
     if params[:parent_comment_id].present?
       @parent_comment = @post.comments.find_by(id: params[:parent_comment_id])
       render_404 and return if @parent_comment.blank?
+      if params[:child_comment_id].present?
+        @child_comment = @post.comments.find_by(id: params[:child_comment_id])
+      end
     end
   end
 

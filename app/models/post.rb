@@ -293,20 +293,20 @@ class Post < ActiveRecord::Base
   end
 
   LATEST_COMMENTS_LIMNIT_COUNT = 2
-  def latest_base_comments
-    return @_latest_base_comments if @_latest_base_comments.present? and comments_count == @_cached_comment_count_for_latest_base_comments
-    @_cached_comment_count_for_latest_base_comments = comments_count
+  def latest_comments_threaded
+    return @_latest_comments_threaded if @_latest_comments_threaded.present? and comments_count == @_cached_comment_count_for_latest_comments_threaded
+    @_cached_comment_count_for_latest_comments_threaded = comments_count
 
     result = comments.recent.after(1.weeks.ago).limit(Post::LATEST_COMMENTS_LIMNIT_COUNT)
     if last_stroked_for == 'comment' and result.empty?
       result = comments.recent.limit(1)
     end
-    @_latest_base_comments = Comment.group_by_thread(result).flatten
-    @_latest_base_comments
+    @_latest_comments_threaded = Comment.group_by_thread(result)
+    @_latest_comments_threaded
   end
 
-  def latest_comments
-    latest_base_comments.reverse
+  def latest_comments_count
+    latest_comments_threaded.flatten.count
   end
 
   MORE_COMMENTS_LIMNIT_COUNT = 20
@@ -335,11 +335,11 @@ class Post < ActiveRecord::Base
     @_more_comments_mode
   end
 
-  def more_comments
-    return @_more_comments if @_more_comments.present? and comments_count == @_cached_comment_count_for_more_comments
-    @_cached_comment_count_for_more_comments = comments_count
+  def more_comments_threaded
+    return @_more_comments_threaded if @_more_comments_threaded.present? and comments_count == @_cached_comment_count_for_more_comments_threaded
+    @_cached_comment_count_for_more_comments_threaded = comments_count
 
-    @_more_comments = case more_comments_mode
+    result = case more_comments_mode
     when :empty
       Comment.none
     when :past_day
@@ -350,15 +350,20 @@ class Post < ActiveRecord::Base
       comments
     end
 
-    return @_more_comments
+    @_more_comments_threaded = Comment.group_by_thread(result)
+    @_more_comments_threaded
+  end
+
+  def more_comments_count
+    more_comments_threaded.flatten.count
   end
 
   def any_not_latest_comments?
-    comments_count > latest_base_comments.count
+    comments_count > latest_comments_count
   end
 
   def any_not_more_comments?
-    comments_count > more_comments.count
+    comments_count > more_comments_count
   end
 
   def too_many_today_comments?
@@ -368,7 +373,7 @@ class Post < ActiveRecord::Base
 
   def too_few_today_comments?
     buffer = Post::MORE_COMMENTS_LIMNIT_COUNT / 4
-    comments.past_day.count <= latest_base_comments.count + buffer
+    comments.past_day.count <= latest_comments_count + buffer
   end
 
   def blinded? someone = nil
