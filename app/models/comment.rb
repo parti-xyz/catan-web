@@ -72,7 +72,9 @@ class Comment < ActiveRecord::Base
   scope :only_parent, -> { where(parent: nil) }
   scope :of_group, -> (group) { where(post_id: Post.of_group(group)) }
   scope :unread, -> (someone) {
-    where('id >= ?', CommentReader::BEGIN_COMMENT_ID).where.not(id: CommentReader.where(user_id: someone.id).select(:comment_id))
+    where('id >= ?', CommentReader::BEGIN_COMMENT_ID)
+    .where.not(user: someone)
+    .where.not(id: CommentReader.where(user_id: someone.id).select(:comment_id))
   }
 
   after_create :touch_last_commented_at_of_posts

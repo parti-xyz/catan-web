@@ -7,7 +7,6 @@ class CommentsController < ApplicationController
     set_choice
     @comment.user = current_user
     if @comment.save
-      @comment.read!(current_user)
       @comment.perform_mentions_async
     end
     @comments_count = @comment.post.comments_count
