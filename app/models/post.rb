@@ -292,6 +292,14 @@ class Post < ActiveRecord::Base
     User.where.any_of(*result).where(id: Member.where(joinable: self.issue).select(:user_id))
   end
 
+  def comments_threaded
+    return @_comments_threaded if @_comments_threaded.present? and comments_count == @_cached_comment_count_for_comments_threaded
+    @_cached_comment_count_for_comments_threaded = comments_count
+
+    @_comments_threaded = Comment.group_by_thread(self.comments)
+    @_comments_threaded
+  end
+
   LATEST_COMMENTS_LIMNIT_COUNT = 2
   def latest_comments_threaded
     return @_latest_comments_threaded if @_latest_comments_threaded.present? and comments_count == @_cached_comment_count_for_latest_comments_threaded

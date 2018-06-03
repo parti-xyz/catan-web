@@ -1,5 +1,5 @@
 %div{ class: ('js-comments-reader' if user_signed_in?), 'data-url': comments_read_path(post_id: post.id) }
-  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments_threaded : post.comments)
+  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments_threaded : post.comments_threaded)
   - has_hidden_comments = (local_assigns[:mode] == 'list' and  post.any_not_latest_comments?)
   - comment_capture = capture do
     - if has_hidden_comments
