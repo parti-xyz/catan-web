@@ -818,7 +818,7 @@ var parti_prepare = function($base, force) {
 
   $.parti_apply($base, '.js-comments-reader', function(elm) {
     var $elm = $(elm);
-    $elm.waypoint({
+    $elm.find('.js-comments-reader-mark').waypoint({
       handler: function(direction) {
         if(direction == 'down') {
           var comment_ids = [];
@@ -841,6 +841,7 @@ var parti_prepare = function($base, force) {
           }
         }
       },
+      offset: "100%"
     });
   });
 
