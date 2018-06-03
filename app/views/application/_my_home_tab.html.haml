@@ -23,6 +23,9 @@
           - if current_dashboard_group.present?
             \/
             = group_my_parties_section_title(current_dashboard_group)
+          - else
+            \/
+            전체
           %small
             %i.fa.fa-chevron-down
         %ul.dropdown-menu.dropdown-menu-dashboard-group
