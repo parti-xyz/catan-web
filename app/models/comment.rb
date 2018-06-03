@@ -140,7 +140,7 @@ class Comment < ActiveRecord::Base
       if (item[0].children.count - item[1].length) == 1
         item[1] = item[0].children.to_a
       end
-      item[1].sort_by! { |comment| item[0].created_at }
+      item[1].sort_by! { |comment| comment.created_at }
     end
     result
   end
