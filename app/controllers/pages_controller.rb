@@ -31,4 +31,8 @@ class PagesController < ApplicationController
   def share_telegram
     render layout: false
   end
+
+  def report
+    redirect_to "http://partiunion.org/contents"
+  end
 end

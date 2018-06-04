@@ -134,17 +134,17 @@
   %section#banner
     .container
       %h3.pull-left.text-basic-wrap
-        Platforms for
+        We send you our deomcracy report
         %span.visible-xs-block
-        democratic life and culture
+        once a month!
         %br
-        빠띠는
+        한달에 한 번 이메일로
         %span.visible-xs-block
-        민주적인 삶과 문화를 만듭니다.
+        민주주의 리포트를 보내 드립니다!
       .pull-right{ style: "margin-top: 25px"}
-        = link_to 'http://partiunion.org', target: "_blank" do
+        = link_to report_url(subdomain: nil), target: "_blank" do
           %button.btn.btn-default
-            빠띠 팀에 대해
+            더 알아보기
 
   %section#footer
     .container
@@ -154,6 +154,7 @@
             %div
               %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
         %li.menu-line= link_to '빠띠 소개', about_url(subdomain: nil), target: "_blank"
+        %li.menu-line= link_to '팀 소개', 'http://partiunion.org', target: "_blank"
         %li.menu-line= link_to '이용약관', terms_url(subdomain: nil), target: "_blank"
         %li.menu-line= link_to '가격 안내', pricing_url(subdomain: nil), target: "_blank"
         %li.menu-line= link_to '개인정보취급정책', privacy_url(subdomain: nil), target: "_blank"
