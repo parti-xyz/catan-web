@@ -43,12 +43,16 @@ module DomHelper
     "##{comments_children_dom_id(comment)}"
   end
 
+  def comment_line_anchor_dom_id(comment)
+    "anchor_#{dom_id(comment)}"
+  end
+
   def comment_line_dom_id(comment)
     dom_id(comment)
   end
 
   def comment_line_dom_selector(comment)
-    "##{dom_id(comment)}"
+    ".#{dom_id(comment)}"
   end
 
   def comments_more_button_dom_id(post)

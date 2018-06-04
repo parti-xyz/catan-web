@@ -1,3 +1,4 @@
+%a.anchor.js-stress-anchor{ id: comment_line_anchor_dom_id(comment), data: { 'stress-target': "#{comment_line_dom_selector(comment)} .body", 'stress-class': 'body-comment-anchor-stress' } }
 .comment-line{ class: "#{comment_line_dom_id(comment)} #{('js-comment-reader-line' unless comment.read?(current_user))}", data: { 'comment-id': comment.id } }
   .clearfix
     .comment-user{ class: ('comment-user-child' if comment.parent.present?) }
@@ -59,5 +60,6 @@
         .upvote-count
           = render 'upvotes/upvote_count', upvotable: comment
 
-        %span.date-wrapper= date_f comment.created_at
+        = link_to smart_post_url(comment.post, anchor: comment_line_anchor_dom_id(comment)), class: 'date-wrapper' do
+          = date_f comment.created_at
 

@@ -1793,6 +1793,16 @@ $(function(){
       $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
     });
   }
+
+  // 앵커 링크일때 해당 링크를 강조
+  if($(location).attr('hash').length > 0) {
+    var $anchor = $($(location).attr('hash')).first();
+    if($anchor.hasClass('js-stress-anchor')) {
+      var $target = $($anchor.data('stress-target'));
+      $target.addClass($anchor.data('stress-class'));
+      setTimeout(function() { $target.removeClass($anchor.data('stress-class')); }, 3000);
+    }
+  }
 });
 
 

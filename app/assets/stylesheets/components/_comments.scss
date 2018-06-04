@@ -82,7 +82,7 @@ section#comments {
     }
   }
   .body {
-    background: white;
+    background-color: white;
     border-radius: $font-size-base;
     color: $gray-darker;
     padding: 8px 12px;
@@ -109,6 +109,11 @@ section#comments {
       .btn-more {
         color: $gray-light;
       }
+    }
+
+    transition: background-color 1000ms linear;
+    &.body-comment-anchor-stress {
+      background-color: lighten($base-brand-primary, 30%);
     }
   }
   .comment__mention {
