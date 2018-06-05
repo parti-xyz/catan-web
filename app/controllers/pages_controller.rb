@@ -3,7 +3,13 @@ class PagesController < ApplicationController
   end
 
   def pricing
+    redirect_to commons_path
   end
+
+  def commons
+  end
+
+  def
 
   def robots
     respond_to :text

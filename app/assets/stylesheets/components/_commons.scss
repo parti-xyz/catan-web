@@ -1,0 +1,47 @@
+body.app-pages-commons {
+  .subtitle {
+    color: $gray;
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
+  .service-card {
+    display: inline-block;
+    background-color: #ffffff;
+    padding: 30px;
+    width: 100%;
+    border: 1px solid $gray-lighter;
+
+    .commons-header{
+      width: 100%;
+      text-align: center;
+      font-weight: 600;
+    }
+    .commons-text {
+      font-size: 24px;
+      &.commons-text-paid {
+        font-weight: 200;
+      }
+    }
+    .commons-desc{
+      margin: 10px 0px !important;
+      text-align: center;
+      color: $brand-primary;
+
+      strong {
+        color: $brand-danger;
+      }
+    }
+    span.title{
+      color: $gray;
+    }
+    p{
+      padding: 5px;
+    }
+
+  }
+  .service-info{
+    line-height:25px;
+    display: inline-block;
+    text-align: left;
+  }
+}
