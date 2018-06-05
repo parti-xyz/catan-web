@@ -1,79 +1,209 @@
-%section.about-wrapper
-  .about-parti-box.odd
+%section{ style: 'padding: 80px 0; background-color: white' }
+  .container
+    .row
+      .col-sm-4.col-xs-12
+        %h1.text-primary
+          %small
+            팀과 커뮤니티를 위한
+            %br 민주주의 플랫폼
+          %br
+          빠띠
+        %br
+        = link_to issues_path, class: 'btn btn-lg btn-block btn-shadow btn-primary' do
+          #{Issue.count}개 빠띠 보기
+        - unless user_signed_in?
+          = link_to '회원가입', new_user_session_path, class: 'btn btn-danger btn-lg btn-block btn-shadow'
+      .col-sm-8.col-xs-12.text-right{ style: 'margin-top: 20px;' }
+        = image_tag 'img_about_1.png', style: "width: 100%;"
+
+%section.text-basic-wrap{ style: 'margin-top: 80px;' }
+  .container
+    %h2.text-center
+      빠띠는 공공재입니다
+
+    %p.subtitle.text-center
+      %strong 민주주의 문화를 확산
+      %span<> 하기 위해
+      %br.visible-xs-block
+      개인과 팀&middot;커뮤니티에
+      %br.visible-xs-block
+      빠띠를
+      %strong 무료
+      %span<> 로 제공합니다.
+
+    %p.subtitle.text-center
+      = link_to 'https://goo.gl/tLxJ9T', class: 'btn btn-danger btn-lg' do
+        민주주의 플랫폼을 공공재로 만드는
+        %br.visible-xs-block
+        빠띠의 사연을 알고 싶다면
+        %br.visible-xs-block
+        %u 이 글
+        %span<> 을 읽어 보세요
+
+  %section.text-basic-wrap{ style: 'margin-top: 80px;' }
     .container
+      %h2.text-center{ style: 'margin-bottom: 30px;' }
+        빠띠는 누구나 비용 부담없이 사용할 수 있습니다
+
       .row
-        .col-xs-4
-          %span 팀과 커뮤니티를 위한 민주주의 플랫폼
-          %br
-          %span.text-important 빠띠
-          = link_to '전체 빠띠', root_path, class: 'btn btn-about btn-default btn-lg btn-block btn-shadow yellow'
-          = link_to '회원가입', new_user_session_path, class: 'btn btn-about btn-primary btn-lg btn-block btn-shadow'
-        .col-xs-8.text-right
-          = image_tag 'img_about_1.png'
-  .about-parti-box.even
-    .container
-      .row
-        .col-xs-8.text-right
-          = image_tag 'img_about_2.png', {style:''}
-        .col-xs-4#first{style:''}
-          지금 바로
-          %span
-            %span.text-important> 빠띠
-            를
-          %br
-          만들어 보세요
-          - if user_signed_in?
-            = link_to '빠띠 만들기', new_issue_path, class: 'btn btn-about btn-default btn-lg btn-block btn-shadow yellow'
-          - else
-            = link_to '#', class: 'btn btn-about yellow btn-primary btn-lg btn-shadow editor-btn', data: { toggle: 'parti-login-overlay' } do
-              빠띠 만들기
-          %p
-            유기견 입양하기, 재활용 아이디어 공유하기, 기후변화를 늦추기 위한 봉사활동 찾기, 더 나은 민주주의 실험하기 등 내가 관심있는 사회 이슈가 있다면 버튼 하나로 빠띠를 만들거나 이미 있는 빠띠를 가입하거나 구독하세요.
-  .about-parti-box.odd
-    .container
-      .row
-        .col-xs-5#first
-          %span.text-important> 의견
-          을 내고
-          %br
-          %span.text-important> 참여
-          해 보세요.
-          %p
-            웹주소 링크를 공유하고, 생각해 볼 만한
-            %br
-            주제는 토크로, 다른 사람들의 의견은
-            %br
-            쟁점으로 모으고 참여해 보세요.
-        .col-xs-4#second.col-xs-offset-3.text-right
-          = image_tag 'img_about_3.png'
-  .about-parti-box.even
-    .container
-      .row
-        .col-xs-7.text-right
-          = image_tag 'img_about_4.png'
-        .col-xs-5#second
-          %span.text-important> 이슈
-          와 관련된
-          %br
-          %span.text-important> 수다
-          를
-          %br
-          즐겨 보세요.
-          %p
-            의견을 내며 함께 수다하기만 해도,
-            %br
-            빠띠에 자료가 분류별로 정리됩니다.
-  .about-parti-box.odd
-    .container#use-parti
-      .use-parti
-        %span.text-important> 빠띠
-        를 사용해보세요.
-      .parti-button
-        = link_to '전체 빠띠', root_path, class: 'btn btn-about btn-default btn-lg btn-shadow yellow'
-        = link_to '회원가입', new_user_session_path, class: 'btn btn-about btn-primary btn-lg btn-shadow'
-      .img-wrapper
-        = image_tag 'img_about_5.png'
+        .col-sm-6
+          .service-card
+            %h3.about-header
+              이슈 빠띠
+            .about-desc
+              %p.lead
+                사람들과 나누고 싶은
+                %br
+                나만의 관심사가 있습니까?
+              %p
+                빠띠를 개설해서 비슷한 관심을 가진
+                %br
+                사람들을 모으고 이야기를 시작하세요.
+                %br
+                현재
+                %u OO
+                개의 이슈 빠띠가 활동중입니다.
+            %hr
+            .text-center
+              %span.title
+                이슈 빠띠는
+                %br
+                공개, 비공개 여부와 상관없이
+              %p.about-text.text-danger
+                무료입니다
+              %hr
+                = link_to new_issue_url(subdomain: nil), class: 'btn btn-default btn-lg btn-block' do
+                  %span.text-primary
+                    이슈 빠띠 만들기
+        %br.visible-xs-block
+        .col-sm-6
+          .service-card
+            %h3.about-header
+              그룹 빠띠
+            .about-desc
+              %p.lead
+                민주적으로 운영하고 싶은
+                %br
+                팀과 커뮤니티가 있으세요?
+
+              %p
+                동료들과 함께 팀의
+                %br.visible-xs-block
+                %strong 의사 결정 도구
+                로,
+                %br
+                다양한 주제를 이야기하는
+                %br.visible-xs-block
+                %strong 커뮤니티 도구
+                로,
+                %br
+                %strong 프로젝트를 관리하는 도구
+                로
+                %br.visible-xs-block
+                빠띠를 이용해 보세요.
+            %hr
+            .text-center
+              %span.title
+                공개 빠띠는 제한없이
+                %br
+                비공개 빠띠는 5개까지
+
+              %p.about-text.text-danger
+                무료입니다
+              %hr
+                = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-default btn-lg btn-block' do
+                  %span.text-primary
+                    그룹 만들기
 
 
+  %section.text-basic-wrap{ style: 'margin-top: 80px;' }
+    .container
+      %h2.text-center{ style: 'margin-bottom: 30px;' }
+        운영 중인 팀이나 커뮤니티에 맞는 민주주의 플랫폼을 찾으시나요?
 
+      .row
+        .col-sm-6.col-sm-offset-3
+          .service-card
+            %h3.about-header
+              맞춤형 빠띠
+            .about-desc
+              %p.lead
+                민주주의 플랫폼 운영 계획이 있으신가요?
+                빠띠에 필요한 기능이 모두 있습니다.
+              %p
+                민주적인 팀 운영을 위한
+                %br.visible-xs-block
+                %strong 협업 및 의사결정 플랫폼
+                ,
+                %br
+                프로젝트 참여자들과 함께 만드는
+                %br.visible-xs-block
+                %strong 커뮤니티 플랫폼
+                ,
+                %br
+                이해 관계자들이 제안하는
+                %br.visible-xs-block
+                %strong 참여 플랫폼
+                등
+                %br
+                빠띠와 함께 논의하며 만듭니다.
+            %hr
+            .text-center
+              %span.title
+                공개, 비공개 제한없이
+                %br
+                필요한 기능을 추가할 수 있습니다
+
+              %p.about-text.text-danger
+                비용 협의
+
+            %hr
+              = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-lg btn-block' do
+                %span
+                  %i.fa.fa-envelope-o
+                  메일로 문의하기
+
+              = link_to 'mailto:https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block' do
+                %span.text-primary
+                  %i.fa.fa-comment-o
+                  메신저로 문의하기
+
+  %section.text-basic-wrap{ style: 'margin: 80px 0;' }
+    .container
+      .text-center
+        %h2{ style: 'margin-bottom: 30px;' }
+          무료로 제공한다면, 빠띠는 어떻게 운영하나요?
+
+        %p.lead
+          작지만 강한 팀이 효과적으로 빠띠를 운영합니다.
+        %p
+          빠띠의 민주주의 비전을 실현하려는
+          %br.visible-xs-block
+          열정으로 가득찬 소수정예 팀원이
+          %br
+          원격근무, 민주적인 의사결정, 기민한 프로세스 등
+          %br
+          효과적인 팀 문화를 기반으로 빠띠를 운영합니다.
+
+        %p.lead{ style: 'margin-top: 30px;' }
+          공공 자원을 최대한 활용합니다.
+        %p
+          국가나 단체는 공적인 목적을 위해
+          %br
+          각종 지원사업을 벌이거나 제도를 만듭니다.
+          %br
+          빠띠는 이를 최대한 활용하여 운영 자원을 충당합니다.
+
+        %p.lead{ style: 'margin-top: 30px;' }
+          후원을 받습니다.
+        %p
+          시민 혹은 단체 중에
+          %br.visible-xs-block
+          빠띠의 비전과 목표에 공감하시는 분들에게
+          %br
+          후원을 받고 있습니다.
+
+        %p{ style: 'margin-top: 30px;' }
+          = link_to '#', class: 'btn btn-danger btn-lg' do
+            빠띠 응원하기
 

@@ -3,10 +3,7 @@ class PagesController < ApplicationController
   end
 
   def pricing
-    redirect_to commons_path
-  end
-
-  def commons
+    redirect_to about_path
   end
 
   def

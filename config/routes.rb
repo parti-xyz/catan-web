@@ -271,7 +271,6 @@ Rails.application.routes.draw do
   get '/discover', to: "pages#discover", as: 'discover'
   get '/privacy', to: "pages#privacy", as: 'privacy'
   get '/pricing', to: "pages#pricing", as: 'pricing'
-  get '/commons', to: 'pages#commons', as: 'commons'
   get '/terms', to: "pages#terms", as: 'terms'
   get '/report', to: "pages#report", as: 'report'
   if Rails.env.development?

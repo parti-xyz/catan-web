@@ -1,4 +1,4 @@
-body.app-pages-commons {
+body.app-pages-about {
   .subtitle {
     color: $gray;
     font-size: 18px;
@@ -11,18 +11,18 @@ body.app-pages-commons {
     width: 100%;
     border: 1px solid $gray-lighter;
 
-    .commons-header{
+    .about-header{
       width: 100%;
       text-align: center;
       font-weight: 600;
     }
-    .commons-text {
+    .about-text {
       font-size: 24px;
-      &.commons-text-paid {
+      &.about-text-paid {
         font-weight: 200;
       }
     }
-    .commons-desc{
+    .about-desc{
       margin: 10px 0px !important;
       text-align: center;
       color: $brand-primary;

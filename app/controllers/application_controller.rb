@@ -172,7 +172,6 @@ class ApplicationController < ActionController::Base
     "pages#discover" => "새로운 발견",
     "pages#about" => "소개",
     "pages#privacy" => "방침",
-    "pages#commons" => "이용 안내",
     "pages#terms" => "약관",
     "issues#home" => nil,
     "issues#destroy_form" => "빠띠 삭제",
