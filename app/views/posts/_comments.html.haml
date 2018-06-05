@@ -1,6 +1,6 @@
 %div{ class: ('js-comments-reader' if user_signed_in?), 'data-url': comments_read_path(post_id: post.id) }
-  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments_threaded : post.comments_threaded)
-  - has_hidden_comments = (local_assigns[:mode] == 'list' and  post.any_not_latest_comments?)
+  - showing_comments = (local_assigns[:mode] == 'list' ? post.latest_comments_threaded(current_user) : post.comments_threaded)
+  - has_hidden_comments = (local_assigns[:mode] == 'list' and  post.any_not_latest_comments?(current_user))
   - comment_capture = capture do
     - if has_hidden_comments
       = link_to more_comments_post_path(post, format: :js), remote: true, id: comments_more_button_dom_id(post), 'data-disable-with': '<div class="more">가져오는 중...</div>', class: 'post-card__count', rel: :nofollow do

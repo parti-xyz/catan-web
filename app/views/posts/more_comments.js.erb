@@ -8,8 +8,8 @@ $.each($old_inputs, function(i, elm) {
 });
 
 <% if @parent_comment.blank? %>
-  <% more_latest_comments = @post.more_comments_threaded %>
-  <% has_more = @post.any_not_more_comments? %>
+  <% more_latest_comments = @post.more_comments_threaded(current_user) %>
+  <% has_more = @post.any_not_more_comments?(current_user) %>
   var comments_html = "";
 
   <% more_latest_comments.each do |parent_comment, child_comments| %>
