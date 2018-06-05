@@ -7,7 +7,7 @@
         .aside_issue_btn
           = link_to new_issue_path, class: 'btn btn-primary btn-block' do
             - if current_group.blank?
-              %span{ style: 'font-weight: 200' } 이슈와 관심사를 위한
+              %span{ style: 'font-weight: 200' } 이슈와 관심사에 대한
             #{ current_group and "#{current_group.title_short_format}" } 빠띠 만들기
           - if current_group.blank?
             = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-primary btn-primary-ghost btn-ghost btn-block' do

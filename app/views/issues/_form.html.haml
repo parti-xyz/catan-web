@@ -14,21 +14,6 @@
       %p.help-block
         = t("labels.issue.form.groups.#{host_group.slug}.title_help", cascade: true)
 
-    - if current_group.blank? and !f.object.persisted? and current_user.member_groups.any?
-      .form-group{class: error_class_str(@issue, :group_slug)}
-        = f.label :group_slug
-        .checkbox
-          %label
-            = check_box_tag(:in_group, "1", false, class: 'js-issue-form-group-toggle')
-            내 그룹과 함께 이 빠띠를 오거나이징합니다.
-        .collapse.js-issue-form-group-toggle-target
-          = f.select :group_slug, [], {}, class: 'form-control input-lg js-form-issue-select-group' do
-            %option.js-issue-form-group-toggle-default{ value: 'indie', 'data-subdomain': '', disabled: true, selected: "true" } 그룹을 선택하세요
-            - current_user.member_groups.sort_by_name.each do |group|
-              %option{ value: group.slug, 'data-subdomain': group.subdomain }= group.title_basic_format
-        %p.help-block
-          = t("labels.issue.form.groups.#{host_group.slug}.group_help", cascade: true)
-
     .form-group{class: ('has-error' if has_error_attr?(@issue, :slug))}
       = f.label :slug, t("labels.issue.form.groups.#{host_group.slug}.slug", cascade: true)
       .input-group
@@ -149,7 +134,7 @@
           .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
             = f.label :group_slug
             = f.text_field :group_slug, class: 'form-control'
-            %p.help-block 이 빠띠가 속할 그룹의 slug을 기입하세요. 개인 커뮤니티 빠띠일 경우 'indie'를 넣어 주세요.
+            %p.help-block 이 빠띠가 속할 그룹의 slug을 기입하세요. 이슈와 관심사 빠띠일 경우 'indie'를 넣어 주세요.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }

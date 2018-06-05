@@ -49,7 +49,7 @@
         .col-sm-6
           .service-card
             %h3.about-header
-              이슈 빠띠
+              이슈와 관심사 빠띠
             .about-desc
               %p.lead
                 사람들과 나누고 싶은
@@ -61,12 +61,12 @@
                 사람들을 모으고 이야기를 시작하세요.
                 %br
                 현재
-                %u OO
+                %u= Issue.of_group(Group.indie).count
                 개의 이슈 빠띠가 활동중입니다.
             %hr
             .text-center
               %span.title
-                이슈 빠띠는
+                이슈와 관심사에 대한 빠띠는
                 %br
                 공개, 비공개 여부와 상관없이
               %p.about-text.text-danger
@@ -74,17 +74,17 @@
               %hr
                 = link_to new_issue_url(subdomain: nil), class: 'btn btn-default btn-lg btn-block' do
                   %span.text-primary
-                    이슈 빠띠 만들기
+                    빠띠 만들기
         %br.visible-xs-block
         .col-sm-6
           .service-card
             %h3.about-header
-              그룹 빠띠
+              그룹을 위한 빠띠
             .about-desc
               %p.lead
                 민주적으로 운영하고 싶은
                 %br
-                팀과 커뮤니티가 있으세요?
+                팀이나 커뮤니티가 있으세요?
 
               %p
                 동료들과 함께 팀의
