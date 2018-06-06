@@ -134,13 +134,13 @@
   %section#banner
     .container
       %h3.pull-left.text-basic-wrap
-        We send you our deomcracy report
-        %span.visible-xs-block
-        once a month!
+        Democracy Report :
         %br
-        한달에 한 번 이메일로
-        %span.visible-xs-block
-        민주주의 리포트를 보내 드립니다!
+        %span{ style: "font-weight: 100" }
+          한달에 한 번 이메일로
+          %span.visible-xs-block
+          %strong 민주주의 리포트
+          %span<>를 받아 보세요!
       .pull-right{ style: "margin-top: 25px"}
         = link_to report_url(subdomain: nil), target: "_blank" do
           %button.btn.btn-default
