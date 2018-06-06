@@ -32,7 +32,7 @@
       %span<> 로 제공합니다.
 
     %p.subtitle.text-center
-      = link_to 'https://goo.gl/tLxJ9T', class: 'btn btn-danger btn-lg' do
+      = link_to 'https://goo.gl/tLxJ9T', class: 'btn btn-danger btn-lg', target: '_blank' do
         민주주의 플랫폼을 공공재로 만드는
         %br.visible-xs-block
         빠띠의 사연을 알고 싶다면
@@ -163,7 +163,7 @@
                   %i.fa.fa-envelope-o
                   메일로 문의하기
 
-              = link_to 'mailto:https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block' do
+              = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block', target: '_blank' do
                 %span.text-primary
                   %i.fa.fa-comment-o
                   메신저로 문의하기
@@ -174,36 +174,46 @@
         %h2{ style: 'margin-bottom: 30px;' }
           무료로 제공한다면, 빠띠는 어떻게 운영하나요?
 
-        %p.lead
-          작지만 강한 팀이 효과적으로 빠띠를 운영합니다.
-        %p
-          빠띠의 민주주의 비전을 실현하려는
-          %br.visible-xs-block
-          열정으로 가득찬 소수정예 팀원이
-          %br
-          원격근무, 민주적인 의사결정, 기민한 프로세스 등
-          %br
-          효과적인 팀 문화를 기반으로 빠띠를 운영합니다.
+        .row
+          .col-sm-6.col-sm-offset-3
+            %p.lead
+              작지만 강한 팀이 효과적으로 빠띠를 운영합니다.
+            %p
+              빠띠의 민주주의 비전을 실현하려는
+              %br.visible-xs-block
+              열정으로 가득찬 소수정예 팀원이
+              %br
+              원격근무, 민주적인 의사결정, 기민한 프로세스 등
+              %br
+              효과적인 팀 문화를 기반으로 빠띠를 운영합니다.
 
-        %p.lead{ style: 'margin-top: 30px;' }
-          공공 자원을 최대한 활용합니다.
-        %p
-          국가나 단체는 공적인 목적을 위해
-          %br
-          각종 지원사업을 벌이거나 제도를 만듭니다.
-          %br
-          빠띠는 이를 최대한 활용하여 운영 자원을 충당합니다.
+            %p.lead{ style: 'margin-top: 30px;' }
+              공공 자원을 최대한 활용합니다.
+            %p
+              국가나 단체는 공적인 목적을 위해
+              %br
+              각종 지원사업을 벌이거나 제도를 만듭니다.
+              %br
+              빠띠는 이를 최대한 활용하여 운영 자원을 충당합니다.
 
-        %p.lead{ style: 'margin-top: 30px;' }
-          후원을 받습니다.
-        %p
-          시민 혹은 단체 중에
-          %br.visible-xs-block
-          빠띠의 비전과 목표에 공감하시는 분들에게
-          %br
-          후원을 받고 있습니다.
+            %p.lead{ style: 'margin-top: 30px;' }
+              후원을 받습니다.
+            %p
+              시민 혹은 단체 중에
+              %br.visible-xs-block
+              빠띠의 비전과 목표에 공감하시는 분들에게
+              %br
+              후원을 받고 있습니다.
 
-        %p{ style: 'margin-top: 30px;' }
-          = link_to '#', class: 'btn btn-danger btn-lg' do
-            빠띠 응원하기
+            %p{ style: 'margin-top: 30px;' }
+              = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-lg btn-block' do
+                %span
+                  %i.fa.fa-envelope-o
+                  메일로 응원과 후원 문의하기
+
+              = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block', target: '_blank' do
+                %span.text-primary
+                  %i.fa.fa-comment-o
+                  메신저로 응원과 후원 문의하기
+
 
