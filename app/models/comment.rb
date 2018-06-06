@@ -74,7 +74,7 @@ class Comment < ActiveRecord::Base
   scope :unread, -> (someone) {
     where('id >= ?', CommentReader::BEGIN_COMMENT_ID)
     .where.not(user: someone)
-    .where.not(id: CommentReader.where(user_id: someone.id).select(:comment_id))
+    .where.not(id: CommentReader.where(user_id: someone.try(:id) || 0).select(:comment_id))
   }
 
   after_create :touch_last_commented_at_of_posts
