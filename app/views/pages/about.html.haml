@@ -14,11 +14,11 @@
         - unless user_signed_in?
           = link_to '회원가입', new_user_session_path, class: 'btn btn-danger btn-lg btn-block btn-shadow'
       .col-sm-8.col-xs-12.text-right{ style: 'margin-top: 20px;' }
-        = image_tag 'img_about_1.png', style: "width: 100%;"
+        = image_tag 'img_about_1.png', class: 'about-image'
 
 %section.text-basic-wrap{ style: 'margin-top: 80px;' }
   .container
-    %h2.text-center
+    %h2.text-center{ style: 'margin-bottom: 30px;' }
       빠띠는 공공재입니다
 
     %p.subtitle.text-center
@@ -31,8 +31,8 @@
       %strong 무료
       %span<> 로 제공합니다.
 
-    %p.subtitle.text-center
-      = link_to 'https://goo.gl/tLxJ9T', class: 'btn btn-danger btn-lg', target: '_blank' do
+    %p.text-center
+      = link_to 'https://goo.gl/tLxJ9T', class: 'btn btn-danger storytitle', target: '_blank' do
         민주주의 플랫폼을 공공재로 만드는
         %br.visible-xs-block
         빠띠의 사연을 알고 싶다면
@@ -215,5 +215,34 @@
                 %span.text-primary
                   %i.fa.fa-comment-o
                   메신저로 응원과 후원 문의하기
+  %section.text-basic-wrap{ style: 'margin: 80px 0;' }
+    .container
+      .text-center
+        %h2{ style: 'margin-bottom: 30px;' }
+          여러 매체에서 빠띠를 만나 보세요!
+
+        .row
+          .col-sm-6.col-sm-offset-3
+            .col-sm-12
+              .col-xs-3
+                .text-center
+                  %a.social{:href => "http://partiunion.org/", :target => "_blank"}
+                    .social-text
+                      %span.fa.fa-home.icon-md
+              .col-xs-3
+                .text-center
+                  %a.social{:href => "https://www.facebook.com/PartiUnion/ ", :target => "_blank"}
+                    .social-text
+                      %span.fa.fa-facebook.icon-md
+              .col-xs-3
+                .text-center
+                  %a.social{:href => "https://medium.com/parti-xyz-developers", :target => "_blank"}
+                    .social-text
+                      %span.fa.fa-medium.icon-md
+              .col-xs-3
+                .text-center
+                  %a.social{:href => "https://github.com/parti-xyz", :target => "_blank"}
+                    .social-text
+                      %span.fa.fa-github.icon-md
 
 

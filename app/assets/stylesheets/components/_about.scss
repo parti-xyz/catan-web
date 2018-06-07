@@ -2,7 +2,11 @@ body.app-pages-about {
   .subtitle {
     color: $gray;
     font-size: 18px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+  }
+  .storytitle {
+    padding: 10px 16px;
+    font-size: 16px;
   }
   .service-card {
     display: inline-block;
@@ -43,5 +47,17 @@ body.app-pages-about {
     line-height:25px;
     display: inline-block;
     text-align: left;
+  }
+  .social{
+    font-size: 30px !important;
+    color: $gray;
+  }
+  .about-image{
+    margin-left: 30%;
+    margin-right: 10%;
+    width: 60%;
+    @media (max-width: 420px) {
+      width: 100%;
+    }
   }
 }
