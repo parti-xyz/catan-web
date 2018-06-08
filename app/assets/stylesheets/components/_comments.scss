@@ -162,7 +162,7 @@ section#comments {
   .file-sources,
   .footer {
     padding-left: 14px;
-    white-space: nowrap;
+    white-space: normal;
     @media (max-width: $screen-xs-max) {
       font-size: $font-size-small;
     }
