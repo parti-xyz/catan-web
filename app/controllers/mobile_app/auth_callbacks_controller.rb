@@ -16,6 +16,21 @@ class MobileApp::AuthCallbacksController < MobileApp::BaseController
     auth(provider, uid, email, image_url, remember_me)
   end
 
+  def facebook
+    user_data = facebook_user_data(params[:token])
+    if user_data.blank?
+      head 500 and return
+    end
+
+    provider = :facebook
+    uid = user_data['id']
+    email = user_data['email']
+    image_url = user_data['image']
+    remember_me = params[:remember_me]
+
+    auth(provider, uid, email, image_url, remember_me)
+  end
+
   private
 
   def google_user_data(token)
@@ -25,8 +40,24 @@ class MobileApp::AuthCallbacksController < MobileApp::BaseController
       ::Rails.logger.debug "token : #{token}"
       response = RestClient.get("https://www.googleapis.com/oauth2/v3/tokeninfo", {params: {id_token: token}})
       @_google_api_result = JSON.parse(response.body)
-      return @_google_api_result
+      @_google_api_result
     rescue Exception => e
+      ::Rails.logger.info e
+    end
+  end
+
+  def facebook_user_data(token)
+    return @_facebook_api_result if @_facebook_api_result.present?
+
+    begin
+      facebook_api = Koala::Facebook::API.new(token)
+      @_facebook_api_result = facebook_api.get_object("me", {fields: "email"})
+
+      image_url = facebook_api.get_picture_data("me", {type: 'large'}).dig('data', 'url')
+      @_facebook_api_result['image'] = image_url
+
+      @_facebook_api_result
+    rescue Koala::KoalaError => e
       ::Rails.logger.info e
     end
   end

@@ -4,4 +4,7 @@ class MobileApp::PagesController < MobileApp::BaseController
 
   def auth_google
   end
+
+  def auth_facebook
+  end
 end

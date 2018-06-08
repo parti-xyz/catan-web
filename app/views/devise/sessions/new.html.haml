@@ -5,7 +5,7 @@
       %i.fa.fa-sign-in
       로그인
     .sign-up__form
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startFacebookSignIn', 'mobile-app-url': mobile_app_auth_facebook_url(subdomain: nil, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn-sns btn-block' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
         페이스북 아이디로 로그인
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn-sns btn-block' do

@@ -4,7 +4,7 @@ var ufo = (function() {
             return false;
         }
 
-        if(name == 'startGoogleSignIn') {
+        if(name == 'startGoogleSignIn' || name == 'startFacebookSignIn') {
             return this.version >= '3'
         }
 
@@ -37,6 +37,9 @@ var ufo = (function() {
             'startGoogleSignIn': function() {
                 handler.postMessage({'method':'startGoogleSignIn'});
             },
+            'startFacebookSignIn': function() {
+                handler.postMessage({'method':'startFacebookSignIn'});
+            },
             'post': function(action,json) {
                 handler.postMessage({'method':'post', 'arg0':action, 'arg1':JSON.stringify(json)});
             },
@@ -61,6 +64,8 @@ var ufo = (function() {
             'changeBasePageUrl': function(s) {
             },
             'startGoogleSignIn': function() {
+            },
+            'facebookSignIn': function() {
             },
             "post": function(action,json) {
             },

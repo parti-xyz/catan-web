@@ -7,7 +7,7 @@
     %h2.login-box__txt.hidden-xs
       팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠
     .login-box__content
-      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) } do
+      = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startFacebookSignIn', 'mobile-app-url': mobile_app_auth_facebook_url(subdomain: nil, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) } do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
         페이스북 아이디로 빠띠하기
       = link_to '#', class: 'btn-sns btn-block', data: {action: 'parti-form-submit', 'form-target':'#login-overlay form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) } do

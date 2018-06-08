@@ -298,6 +298,8 @@ Rails.application.routes.draw do
     get 'sessions/teardown', to: 'sessions#teardown', as: :teardown_sessions
     get 'auth/google', to: 'pages#auth_google'
     post 'auth/google/callback', to: 'auth_callbacks#google'
+    get 'auth/facebook', to: 'pages#auth_facebook'
+    post 'auth/facebook/callback', to: 'auth_callbacks#facebook'
   end
 
   namespace :admin do
