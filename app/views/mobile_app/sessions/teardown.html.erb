@@ -1,4 +1,4 @@
-<%= javascript_include_tag 'mobile_app' %>
+<%= render 'application/mobile_app_js' %>
 <script>
 ufo.post("logout");
 document.location.href = "<%= params[:after_sign_out_path].presence || root_url(subdomain: nil) %>";

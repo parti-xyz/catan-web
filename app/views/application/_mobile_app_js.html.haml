@@ -1,0 +1,9 @@
+= javascript_include_tag 'mobile_app'
+- if is_mobile_app_get_request?(request)
+  :javascript
+    (function() {
+      if(ufo.isApp()) {
+        ufo.agent = '#{current_mobile_app_agent(request)}';
+        ufo.version = '#{current_mobile_app_version(request)}';
+      }
+    })();

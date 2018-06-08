@@ -1,4 +1,4 @@
-<%= javascript_include_tag 'mobile_app' %>
+<%= render 'application/mobile_app_js' %>
 <script>
 <% if !user_signed_in? %>
 ufo.post("logout");

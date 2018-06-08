@@ -5,20 +5,19 @@
   <%= render 'application/mobile_app_js' %>
   <script>
     function gotoMain() {
-      document.location.href = "<%= params[:after] || root_url(subdomain: nil) %>";
+      document.location.href = "<%= root_url(subdomain: nil) %>";
     }
 
     // 이 함수는 App에서 호출합니다.
-    // 만약 authkey가 빈값이라면 앱도 인증정보를 안가지고 있는 것 입니다. (예: 인스톨 후 처음 사용)
-    function restoreAuth(authkey) {
-      if (!authkey) {
+    function requestGoogleAuth(token) {
+      if (token) {
+        document.f1.token.value = token;
+        document.f1.submit();
+      } else {
         // 할 수 있는게 없죠. 그냥 초기 페이지로 이동시킵니다.
         gotoMain();
         return;
       }
-
-      document.f1.access_token.value = authkey;
-      document.f1.submit();
     }
 
     window.onload = function() {
@@ -26,19 +25,17 @@
         return;
       }
 
-      // 푸시 노티피케이션으로 표시된 경우 베이스 주소를 메시지로 바꿉니다.
-      <% if push_notified_page_in_mobile_app? %>
-        ufo.changeBasePageUrl('<%= messages_url(subdomain: nil) %>');
-      <% end %>
-
       // 서버사이드에서 세션체크 후 로그인 상태에 따라 아래와 같이 분기처리합니다:
-
       <% if user_signed_in? %>
       // 로그인된 상태입니다. 초기페이지 URL 로 바로 이동합니다.
       gotoMain();
       <% else %>
-      // 로그인이 안된 상태입니다. 앱이 restoreAuth() 를 호출할 것입니다.
-      ufo.post("noAuth");
+      // 로그인이 안된 상태입니다. 앱이 requestGoogleAuth() 를 호출할 것입니다.
+      if (ufo.canHandle("startGoogleSignIn")) {
+        ufo.startGoogleSignIn();
+      } else {
+        window.location.href  = "<%= params[:fallback_url] %>";
+      }
       <% end %>
     }
   </script>
@@ -52,8 +49,9 @@
       <div class="bounce3"></div>
     </div>
   </div>
-  <%= form_tag mobile_app_restore_sessions_path, name: :f1, method: :get do %>
-    <%= hidden_field_tag :access_token %>
+  <%= form_tag mobile_app_auth_google_callback_url(subdomain: nil), name: :f1, method: :post do %>
+    <%= hidden_field_tag :token %>
+    <%= hidden_field_tag :remember_me, params[:remember_me] %>
   <% end %>
 </body>
 </html>

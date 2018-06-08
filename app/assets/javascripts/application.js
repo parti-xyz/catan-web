@@ -33,7 +33,6 @@
 //= require tinymce/plugins/catan
 //= require Chart.bundle
 //= require chartkick
-//= require mobile_app
 //= require slideout
 //= require js.cookie
 //= require pulltorefresh
@@ -43,6 +42,7 @@
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker.kr.min
 //= require jquery.dirrty
+//= require jquery.redirect
 
 // blank
 $.is_blank = function (obj) {
@@ -442,17 +442,25 @@ var parti_prepare = function($base, force) {
 
   // form submit by clicking link
   $.parti_apply($base, '[data-action="parti-form-submit"]', function(elm) {
-    $(elm).on('click', function(e) {
-      $('[data-action="parti-form-submit"]').attr('disabled', true);
-      e.preventDefault();
-      var $elm = $(e.currentTarget);
-      var $form = $($elm.data('form-target'));
-      var url = $elm.data('form-url');
-      if(url) {
-        $form.attr('action', url);
-      }
-      $form.submit();
-    });
+    if(ufo.isApp()
+      && $(elm).data('mobile-app-handler') && ufo.canHandle($(elm).data('mobile-app-handler'))
+      && $(elm).data('mobile-app-url')) {
+      $(elm).on('click', function(e) {
+        window.location.href = $(elm).data('mobile-app-url');
+      });
+    } else {
+      $(elm).on('click', function(e) {
+        $('[data-action="parti-form-submit"]').attr('disabled', true);
+        e.preventDefault();
+        var $elm = $(e.currentTarget);
+        var $form = $($elm.data('form-target'));
+        var url = $elm.data('form-url');
+        if(url) {
+          $form.attr('action', url);
+        }
+        $form.submit();
+      });
+    }
   });
 
   // form set value

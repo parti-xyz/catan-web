@@ -53,6 +53,7 @@
 
     :javascript
       window.FileAPI = { staticPath: '/images/file-api/', debug: true };
+    = render 'application/mobile_app_js'
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)
 

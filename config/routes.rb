@@ -296,6 +296,8 @@ Rails.application.routes.draw do
     get 'sessions/restore', to: 'sessions#restore', as: :restore_sessions
     get 'sessions/setup', to: 'sessions#setup', as: :setup_sessions
     get 'sessions/teardown', to: 'sessions#teardown', as: :teardown_sessions
+    get 'auth/google', to: 'pages#auth_google'
+    post 'auth/google/callback', to: 'auth_callbacks#google'
   end
 
   namespace :admin do

@@ -1,4 +1,16 @@
 var ufo = (function() {
+    var canHandle = function(name) {
+        if(this.version == undefined || name == null) {
+            return false;
+        }
+
+        if(name == 'startGoogleSignIn') {
+            return this.version >= '3'
+        }
+
+        return true;
+    }
+
     if (window.webkit)
     {
         var handler = window.webkit.messageHandlers.ufop;
@@ -22,10 +34,14 @@ var ufo = (function() {
             'goBack': function() {
                 handler.postMessage({'method':'goBack'});
             },
+            'startGoogleSignIn': function() {
+                handler.postMessage({'method':'startGoogleSignIn'});
+            },
             'post': function(action,json) {
                 handler.postMessage({'method':'post', 'arg0':action, 'arg1':JSON.stringify(json)});
             },
-            'isApp': function() { return true; }
+            'isApp': function() { return true; },
+            'canHandle': canHandle
         }
     }
     else if (typeof ufo == "undefined")
@@ -44,9 +60,12 @@ var ufo = (function() {
             },
             'changeBasePageUrl': function(s) {
             },
+            'startGoogleSignIn': function() {
+            },
             "post": function(action,json) {
             },
             'isApp': function() { return false; },
+            'canHandle': function(name) { return false; }
         };
     }
     else
@@ -55,6 +74,7 @@ var ufo = (function() {
             ufo.post_(a, JSON.stringify(j));
         };
         ufo.isApp = function() { return true; };
+        ufo.canHandle = canHandle;
         return ufo
     }
 })();
