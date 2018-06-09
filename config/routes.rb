@@ -296,10 +296,9 @@ Rails.application.routes.draw do
     get 'sessions/restore', to: 'sessions#restore', as: :restore_sessions
     get 'sessions/setup', to: 'sessions#setup', as: :setup_sessions
     get 'sessions/teardown', to: 'sessions#teardown', as: :teardown_sessions
-    get 'auth/google', to: 'pages#auth_google'
-    post 'auth/google/callback', to: 'auth_callbacks#google'
-    get 'auth/facebook', to: 'pages#auth_facebook'
-    post 'auth/facebook/callback', to: 'auth_callbacks#facebook'
+    get 'auth/:provider', to: 'auth_callbacks#new', as: :auth
+    get 'auth/:provider/wait', to: 'auth_callbacks#wait', as: :auth_wait
+    get 'auth/:provider/callback', to: 'auth_callbacks#create', as: :auth_callback
   end
 
   namespace :admin do

@@ -104,6 +104,18 @@ $.fn.visibilityToggle = function() {
     });
 };
 
+$.fn.isValidSelector = function(selector) {
+  if (typeof(selector) !== 'string') {
+    return false;
+  }
+  try {
+    var $element = $(selector);
+  } catch(error) {
+    return false;
+  }
+  return true;
+}
+
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 5000;
 
@@ -1804,6 +1816,9 @@ $(function(){
 
   // 앵커 링크일때 해당 링크를 강조
   if($(location).attr('hash').length > 0) {
+    if(!$.isValidSelector($(location).attr('hash'))) {
+      return;
+    }
     var $anchor = $($(location).attr('hash')).first();
     if($anchor.hasClass('js-stress-anchor')) {
       var $target = $($anchor.data('stress-target'));

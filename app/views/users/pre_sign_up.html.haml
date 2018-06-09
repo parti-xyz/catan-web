@@ -5,13 +5,13 @@
       %i.fa.fa-user
       회원가입
     .sign-up__form
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startFacebookSignIn', 'mobile-app-url': mobile_app_auth_facebook_url(subdomain: nil, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn-sns btn-block' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
         페이스북 아이디로 회원가입
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn-sns btn-block' do
         %i.fa.fa-twitter{style: 'font-size: 22px; color: #55acee; vertical-align: top;'}
         트위터 아이디로 회원가입
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false), 'mobile-app-handler': 'startGoogleSignIn', 'mobile-app-url': mobile_app_auth_google_url(subdomain: nil, remember_me: true, fallback_url: omniauth_authorize_url(:user, :google_oauth2, subdomain: false)) }, class: 'btn-sns btn-block' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :google_oauth2, remember_me: true, fallback_url: omniauth_authorize_url(:user, :google_oauth2, subdomain: false)) }, class: 'btn-sns btn-block' do
         %i.fa.fa-google-plus{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
         구글플러스 아이디로 회원가입
       = link_to new_user_registration_url(subdomain: nil), class: 'btn-sns btn-block' do

@@ -1,0 +1,29 @@
+<%
+  force_current_url = mobile_app_auth_wait_url
+  handler = "startSocialSignIn"
+%>
+<%= render 'application/mobile_app_js', force_current_url: force_current_url, force_base_page_url: new_user_session_url %>
+<script>
+function gotoMain() {
+  document.location.href = "<%= root_url(subdomain: nil) %>";
+}
+
+window.onload = function() {
+  if (!ufo.isApp()) {
+    return;
+  }
+
+  // 서버사이드에서 세션체크 후 로그인 상태에 따라 아래와 같이 분기처리합니다:
+  <% if user_signed_in? %>
+  // 로그인된 상태입니다. 초기페이지 URL 로 바로 이동합니다.
+  gotoMain();
+  <% else %>
+  // 로그인이 안된 상태입니다. 페이스북 로그인 후 앱이 force_current_url 를 호출할 것입니다.
+  if (ufo.canHandle("<%= handler %>")) {
+    ufo.<%= handler %>("<%= params[:provider] %>");
+  } else {
+    window.location.href  = "<%= params[:fallback_url] %>";
+  }
+  <% end %>
+}
+</script>

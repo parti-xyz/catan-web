@@ -1,0 +1,38 @@
+<%= render 'application/mobile_app_js', force_current_url: new_user_session_url, force_base_page_url: new_user_session_url %>
+<script>
+  function gotoMain() {
+    document.location.href = "<%= root_url(subdomain: nil) %>";
+  }
+
+  function gotoSignInMenu() {
+    document.location.href = "<%= new_user_session_url %>";
+  }
+
+  var timeout = null;
+
+  window.onload = function() {
+    if (!ufo.isApp()) {
+      return;
+    }
+
+    // 서버사이드에서 세션체크 후 로그인 상태에 따라 아래와 같이 분기처리합니다:
+    <% if user_signed_in? %>
+    // 로그인된 상태입니다. 초기페이지 URL 로 바로 이동합니다.
+    gotoMain();
+    <% else %>
+
+    // 로그인이 안된 상태입니다. 앱이 successAuth()나 failureAuth()를 호출할 것입니다.
+    if (ufo.canHandle("callbackSocialSignIn")) {
+      try {
+        ufo.callbackSocialSignIn("<%= params[:provider] %>");
+      } catch(err) {
+        alert('앗! 뭔가 잘못되었습니다.');
+        gotoSignInMenu();
+      }
+    } else {
+      alert('앗! 뭔가 잘못되었습니다.');
+      gotoSignInMenu();
+    }
+    <% end %>
+  }
+</script>

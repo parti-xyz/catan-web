@@ -1,14 +1,24 @@
 var ufo = (function() {
-    var canHandle = function(name) {
-        if(this.version == undefined || name == null) {
+    var canHandle = function(handlerName) {
+        var handler_versions = {
+            'showWait': -1,
+            'hideWait': -1,
+            'setAutoWait': -1,
+            'changeCurrentUrl': -1,
+            'changeBasePageUrl': -1,
+            'goBack': -1,
+            'post': -1,
+            'isApp': -1,
+            'canHandle': -1,
+            'startSocialSignIn': 3,
+            'callbackSocialSignIn': 3,
+        };
+        var current_version = handler_versions[handlerName];
+        if(current_version == undefined) {
             return false;
         }
 
-        if(name == 'startGoogleSignIn' || name == 'startFacebookSignIn') {
-            return this.version >= '3'
-        }
-
-        return true;
+        return parseInt(this.version) >= current_version;
     }
 
     if (window.webkit)
@@ -34,11 +44,17 @@ var ufo = (function() {
             'goBack': function() {
                 handler.postMessage({'method':'goBack'});
             },
-            'startGoogleSignIn': function() {
-                handler.postMessage({'method':'startGoogleSignIn'});
+            'startSocialSignIn': function(provider) {
+                handler.postMessage({
+                    'method':'startSocialSignIn',
+                    'arg0': provider
+                });
             },
-            'startFacebookSignIn': function() {
-                handler.postMessage({'method':'startFacebookSignIn'});
+            'callbackSocialSignIn': function(provider) {
+                handler.postMessage({
+                    'method':'callbackSocialSignIn',
+                    'arg0': provider
+                });
             },
             'post': function(action,json) {
                 handler.postMessage({'method':'post', 'arg0':action, 'arg1':JSON.stringify(json)});
@@ -63,9 +79,9 @@ var ufo = (function() {
             },
             'changeBasePageUrl': function(s) {
             },
-            'startGoogleSignIn': function() {
+            'startSocialSignIn': function(s) {
             },
-            'facebookSignIn': function() {
+            'callbackSocialSignIn': function(s) {
             },
             "post": function(action,json) {
             },

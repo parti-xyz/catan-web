@@ -46,28 +46,6 @@
     = render 'application/photoswipe'
 
     = render 'application/mobile_app_js'
-    - if is_mobile_app_get_request?(request)
-      - if request.get?
-        :javascript
-          (function() {
-            if(ufo.isApp()) {
-              ufo.changeCurrentUrl(window.location.href);
-            }
-          })();
-        - if history_base_page_in_mobile_app?(current_group)
-          :javascript
-            (function() {
-              if(ufo.isApp()) {
-                ufo.changeBasePageUrl(window.location.href);
-              }
-            })();
-        - elsif push_notified_page_in_mobile_app?
-          :javascript
-            (function() {
-              if(ufo.isApp()) {
-                ufo.changeBasePageUrl('#{ messages_url(subdomain: nil) }');
-              }
-            })();
 
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)

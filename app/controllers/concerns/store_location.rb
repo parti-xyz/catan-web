@@ -9,7 +9,7 @@ module StoreLocation
 
   def store_location(group)
     return unless request.get?
-    return if request.fullpath.match("/users") or request.xhr?
+    return if request.fullpath.match("/users") or request.xhr? or request.fullpath.match("/mobile_app/")
 
     uri = parse_uri(request.fullpath)
     if uri

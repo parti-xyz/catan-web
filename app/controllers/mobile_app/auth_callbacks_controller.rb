@@ -1,25 +1,30 @@
 class MobileApp::AuthCallbacksController < MobileApp::BaseController
-  skip_before_action :verify_authenticity_token, :only => :create
+  skip_before_action :verify_authenticity_token
 
-  def google
-    user_data = google_user_data(params[:token])
-    if user_data.blank?
-      head 500 and return
+  def new
+    render layout: 'mobile_app_loading'
+  end
+
+  def wait
+    render layout: 'mobile_app_loading'
+  end
+
+  def create
+    if params[:provider].blank? or !self.respond_to?(params[:provider], true)
+      flash[:error] = t('errors.messages.unknown')
+      redirect_to new_user_session_url and return
     end
 
-    provider = :google_oauth2
-    uid = user_data['sub']
-    email = user_data['email']
-    image_url = user_data['picture']
-    remember_me = params[:remember_me]
-
-    auth(provider, uid, email, image_url, remember_me)
+    send(params[:provider].to_sym)
   end
+
+  private
 
   def facebook
     user_data = facebook_user_data(params[:token])
     if user_data.blank?
-      head 500 and return
+      flash[:error] = t('errors.messages.unknown')
+      redirect_to new_user_session_url and return
     end
 
     provider = :facebook
@@ -31,7 +36,21 @@ class MobileApp::AuthCallbacksController < MobileApp::BaseController
     auth(provider, uid, email, image_url, remember_me)
   end
 
-  private
+  def google_oauth2
+    user_data = google_user_data(params[:token])
+    if user_data.blank?
+      flash[:error] = t('errors.messages.unknown')
+      redirect_to new_user_session_url and return
+    end
+
+    provider = :google_oauth2
+    uid = user_data['sub']
+    email = user_data['email']
+    image_url = user_data['picture']
+    remember_me = params[:remember_me]
+
+    auth(provider, uid, email, image_url, remember_me)
+  end
 
   def google_user_data(token)
     return @_google_api_result if @_google_api_result.present?
