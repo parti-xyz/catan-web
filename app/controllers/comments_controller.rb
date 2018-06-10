@@ -38,7 +38,14 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment.destroy!
+    if @comment.children.any?
+      @comment.touch(:almost_deleted_at)
+    else
+      @comment.destroy!
+      if @comment.parent.present? and @comment.parent.almost_deleted? and @comment.parent.children.empty?
+        @comment.parent.destroy!
+      end
+    end
   end
 
   def read

@@ -6,14 +6,15 @@
         .thumb.user-image.img-circle{ class: ('user-image-small' if comment.parent.present?), style: "background-image: url(#{comment.user.image.sm.url});" }
     .comment-content.js-comment-edit-form-target{ class: ('comment-content-child' if comment.parent.present?) }
       - chevron_menu = capture do
-        - if can? :update, comment
-          %li
-            = link_to edit_comment_path(comment), remote: true, class: 'link-edit' do
-              수정
-        - if can? :destroy, comment
-          %li
-            = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'link-destroy' do
-              삭제
+        - unless comment.almost_deleted?
+          - if can? :update, comment
+            %li
+              = link_to edit_comment_path(comment), remote: true, class: 'link-edit' do
+                수정
+          - if can? :destroy, comment
+            %li
+              = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'link-destroy' do
+                삭제
 
       .body-wrapper{ class: "#{('body-wrapper--with-chevron_menu' if chevron_menu.present?)} #{('body-wrapper--with-unread-circle' unless comment.read?(current_user))}" }
         .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
@@ -29,37 +30,38 @@
             .comment__unread-circle
               %i.fa.fa-circle
 
-      - if comment.file_sources.any?
-        .file-sources.js-photoswipe
-          - single_image_breakpoint = 700
-          - if is_small_screen?
-            - single_image_breakpoint = 270
+      - unless comment.almost_deleted?
+        - if comment.file_sources.any?
+          .file-sources.js-photoswipe
+            - single_image_breakpoint = 700
+            - if is_small_screen?
+              - single_image_breakpoint = 270
 
-          - comment.file_sources.only_image.each_with_index do |file_source, index|
-            - image_photoswipe_width = file_source.image_width_lg
-            - image_photoswipe_heigh = file_source.image_height_lg
+            - comment.file_sources.only_image.each_with_index do |file_source, index|
+              - image_photoswipe_width = file_source.image_width_lg
+              - image_photoswipe_heigh = file_source.image_height_lg
 
-            - if file_source.image_width < single_image_breakpoint
-              - image_single_url = file_source.attachment.url
-              - image_photoswipe_width = file_source.image_width
-              - image_photoswipe_heigh = file_source.image_height
+              - if file_source.image_width < single_image_breakpoint
+                - image_single_url = file_source.attachment.url
+                - image_photoswipe_width = file_source.image_width
+                - image_photoswipe_heigh = file_source.image_height
 
-            - action_options = { 'data-url': file_source.attachment.lg.url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': comment.body.try(:truncate, 100), 'data-index': index }
-            .file-source-image.js-photoswipe-image.cursor-pointer{ action_options }
-              %img{ src: file_source.attachment.xs.url }
-          - comment.file_sources.only_doc.sort_by_seq_no.each do |file_source|
-            .file-source-doc
-              .file-title.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': comment.post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
-                %i.fa.fa-floppy-o
-                = truncate(file_source.name, length: 100)
-      .footer
-        = render 'upvotes/upvote', upvotable: comment
-        - if local_assigns[:comment_form_control]
-          %a.comment__mention.cursor-pointer.js-mention{ href: '#', data: { 'comment-form-control': comment_form_control, 'mention-nickname': (comment.user.nickname if (comment.parent.present? and comment.user != current_user)) } }
-            댓글달기
-        .upvote-count
-          = render 'upvotes/upvote_count', upvotable: comment
+              - action_options = { 'data-url': file_source.attachment.lg.url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': comment.body.try(:truncate, 100), 'data-index': index }
+              .file-source-image.js-photoswipe-image.cursor-pointer{ action_options }
+                %img{ src: file_source.attachment.xs.url }
+            - comment.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+              .file-source-doc
+                .file-title.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': comment.post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
+                  %i.fa.fa-floppy-o
+                  = truncate(file_source.name, length: 100)
+        .footer
+          = render 'upvotes/upvote', upvotable: comment
+          - if local_assigns[:comment_form_control]
+            %a.comment__mention.cursor-pointer.js-mention{ href: '#', data: { 'comment-form-control': comment_form_control, 'mention-nickname': (comment.user.nickname if (comment.parent.present? and comment.user != current_user)) } }
+              댓글달기
+          .upvote-count
+            = render 'upvotes/upvote_count', upvotable: comment
 
-        = link_to smart_post_url(comment.post, anchor: comment_line_anchor_dom_id(comment)), class: 'date-wrapper' do
-          = date_f comment.created_at
+          = link_to smart_post_url(comment.post, anchor: comment_line_anchor_dom_id(comment)), class: 'date-wrapper' do
+            = date_f comment.created_at
 

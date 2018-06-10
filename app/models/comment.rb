@@ -166,6 +166,10 @@ class Comment < ActiveRecord::Base
     self.comment_readers.exists?(user: someone)
   end
 
+  def almost_deleted?
+    self.almost_deleted_at.present?
+  end
+
   def self.users(comments, limit)
     User.where(id: comments.select(:user_id).distinct).limit(limit)
   end

@@ -1,6 +1,10 @@
 = link_to smart_user_gallery_path(comment.user) do
   %span.nickname= comment.user.nickname
-- unless comment.blinded? current_user
+- if comment.almost_deleted?
+  %span.comment-blind-info= t('labels.almost_deleted')
+- elsif comment.blinded?(current_user)
+  %span.comment-blind-info= t('labels.comment_blind_info')
+- else
   - wrapper_id = "#{dom_id(comment)}-truncatable-body"
   %span.comment-truncatable-body{ id: wrapper_id }
     %span.truncated-body
@@ -9,6 +13,5 @@
       != smart_truncate_html(comment_format(comment.issue, comment.body), length: 400, ellipsis: more_button)
     %span.original-body{ style: 'display: none;' }
       = comment_format(comment.issue, comment.body)
-- else
-  %span.comment-blind-info= t('labels.comment_blind_info')
+
 

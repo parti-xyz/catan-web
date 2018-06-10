@@ -1,2 +1,10 @@
-$('.<%= dom_id(@comment) %>').remove();
-$("<%= raw comments_count_dom_selector(@comment.post) %>").text("<%= @comment.post.reload.comments_count %>");
+<% if @comment.deleted? %>
+  $('.<%= dom_id(@comment) %>').remove();
+  $("<%= raw comments_count_dom_selector(@comment.post) %>").text("<%= @comment.post.reload.comments_count %>");
+<% elsif %>
+  var $comment = $("<%= escape_javascript(render 'comments/comment_line', comment: @comment, comment_form_control: new_comment_form_body_input_dom_selector(@comment.post, @comment.parent_or_self)) %>");
+  $('.<%= dom_id(@comment) %>').replaceWith($comment);
+  parti_partial$($comment);
+<% else %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% end %>
