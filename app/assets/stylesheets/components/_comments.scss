@@ -133,12 +133,18 @@ section#comments {
       min-width: 80px;
     }
   }
-  .comment__unread-circle {
-    position: absolute;
-    top: -3px;
-    right: -2px;
-    font-size: $font-size-xsmall;
-    color: $base-brand-primary;
+  .comment__unread-mark {
+    display: inline-block;
+    height: 14px;
+    padding-top: auto;
+    padding-top: 6px;
+    .mark {
+      background-color: $brand-primary;
+      padding: 0;
+      width: 4px;
+      height: 4px;
+      border-radius: 2px;
+    }
   }
   .file-sources {
     margin: 6px 0;
