@@ -209,6 +209,15 @@ class Group < ActiveRecord::Base
     !met_private_issues_quota?
   end
 
+  def visiable_latest_stroked_posts_count
+    (LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ? latest_stroked_posts_count : 0)
+  end
+
+
+  def visiable_latest_issues_count
+    (LatestStrokedPostsCountHelper.current_version == latest_issues_count_version ? latest_issues_count : 0)
+  end
+
   private
 
   def not_predefined_slug

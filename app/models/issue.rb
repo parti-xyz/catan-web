@@ -152,6 +152,7 @@ class Issue < ActiveRecord::Base
   }
   scope :sort_by_name, -> { order("if(ascii(substring(issues.title, 1)) < 128, 1, 0)").order('issues.title') }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
+  scope :this_week_or_hottest, -> { order("if(issues.created_at < (NOW() - INTERVAL 6 DAY), 1, 0)").order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
   scope :categorized_with, ->(category) { where(category_id: category.try(:id) || category) }
@@ -193,6 +194,7 @@ class Issue < ActiveRecord::Base
     where(id: MyMenu.where(user: someone).select(:issue_id))
   }
   scope :only_private, -> { where(private: true) }
+  scope :not_private, -> { where(private: false) }
   scope :postable, ->(someone) {
     if someone.present?
       where.any_of(where(id: someone.organizing_issues), where(id: someone.member_issues, notice_only: false))
@@ -418,6 +420,10 @@ class Issue < ActiveRecord::Base
 
   def wiki_aside_experimental?
     experimental? or (group_slug == 'union')
+  end
+
+  def rookie?
+    created_at > 1.weeks.ago
   end
 
   def self.messagable_group_method

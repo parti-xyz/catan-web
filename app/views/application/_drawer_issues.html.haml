@@ -18,8 +18,18 @@
     %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
       .title.cursor-pointer.js-my-menu-seachable-group-line{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
         = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
-          #{group_my_parties_section_title(menu_group)}
-
+          .group-parties-section-title-wrapper
+            #{group_my_parties_section_title(menu_group)}
+            - latest_issues_count = menu_group.visiable_latest_issues_count
+            - if !latest_issues_count.nil? and latest_issues_count > 0
+              %span.parties-count
+                %i.fa.fa-flag(title='최근 빠띠')
+                = latest_issues_count
+            - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
+            - if !latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0
+              %span.posts-count
+                %i.fa.fa-file-text(title='최근 업데이트')
+                = latest_stroked_posts_count
       - issues = current_user.member_issues.only_alive_of_group(menu_group)
 
       - if issues.any?

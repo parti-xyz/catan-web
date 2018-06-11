@@ -468,6 +468,11 @@ section#issues-group-index {
         font-size: $font-size-xsmall;
       }
     }
+    &.rookie .issue-card__meta {
+      border-radius: $border-radius-base;
+      background-color: $brand-primary;
+      color: white;
+    }
     @media (max-width: $screen-xs-max) {
       min-height: 200px;
       .issue-card__thumb {

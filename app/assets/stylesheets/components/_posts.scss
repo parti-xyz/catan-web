@@ -517,6 +517,9 @@ strong.upvoted {
 
 .post-data-divider {
   margin: 24px 0 12px;
+  &.first {
+    margin-top: 0;
+  }
   color: $gray;
   @media (max-width: $screen-xs-max) {
     padding: 0px 15px;

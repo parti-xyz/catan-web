@@ -185,7 +185,9 @@ class Post < ActiveRecord::Base
   scope :previous_of_post, ->(post) { where('posts.last_stroked_at < ?', post.last_stroked_at) if post.present? }
   scope :next_of_time, ->(time) { where('posts.last_stroked_at > ?', Time.at(time.to_i).in_time_zone) }
   scope :next_of_post, ->(post) { where('posts.last_stroked_at > ?', post.last_stroked_at) if post.present? }
-  scope :next_of_last_stroked_at, ->(date) { where('posts.last_stroked_at > ?', date) }
+  scope :next_of_last_stroked_at, ->(post) {
+    where('posts.last_stroked_at >= ?', post.last_stroked_at).where.not(id: post.id)
+  }
   scope :previous_of_recent, ->(post) {
     base = recent
     base = base.where('posts.created_at < ?', post.created_at) if post.present?
@@ -236,6 +238,7 @@ class Post < ActiveRecord::Base
   scope :pinned, -> { where(pinned: true) }
   scope :unpinned, -> { where.not(pinned: true) }
   scope :never_blinded, -> { where.not(user_id: Blind.select(:user_id)) }
+  scope :unblinded, -> { where.not(issue_id: (Blind.where("blinds.user_id = posts.user_id").select(:issue_id)))}
 
   ## uploaders
   # mount

@@ -26,5 +26,5 @@
       “#{survey.post.specific_desc_striped_tags(100)}”
     - if local_assigns[:compact] != true
       = render 'surveys/card', local_assigns
-  - if local_assigns[:show_decision]
+  - if local_assigns[:show_decision] != false
     = render 'posts/decision', local_assigns.merge(post: post)

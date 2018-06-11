@@ -2,17 +2,25 @@
 - col_sm = "col-sm-#{12/sm_columns_count}"
 - has_blinds = false
 - has_private_blocked = false
+- before_post = nil
+
 - posts.each do |post|
   - if post.blinded?(current_user)
-    - has_private_blocked = true
-  - elsif post.private_blocked?(current_user)
     - has_blinds = true
+  - elsif post.private_blocked?(current_user)
+    - has_private_blocked = true
   - else
+    - if local_assigns[:show_day_section] and post.last_stroked_at.present? and before_post.try(:last_stroked_at).try(:to_date) != post.last_stroked_at.to_date
+      .card.col-xs-12.post-data-divider{ class: ('first' if before_post == nil), style: 'width: 100%, height: 20px;' }
+        .horizontal-line{ style: 'position: absolute; left: -15px; top: 0.5em;' }
+          %i.fa.fa-circle{ style: 'position: relative; top: -0.5em; left: -0.5em;' }
+        #{post.last_stroked_at.to_date.today? ? '오늘' : (post.last_stroked_at.to_date == (Time.current - 1.day).to_date ? "어제" : static_day_f(post.last_stroked_at))} 업데이트된 게시글
+
     .card.col-xs-12.card--hover-grow{ class: "#{removable_with_post_dom_class(post)} #{col_sm}" }
       - if post.poll.present?
-        = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post, show_decision: true)
+        = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post)
       - elsif post.survey.present?
-        = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post, show_decision: true)
+        = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post)
       - elsif post.wiki.present?
         = render 'wikis/wiki', local_assigns.merge(post: post)
       - elsif post.file_sources.any?
@@ -22,17 +30,19 @@
       - else
         = render 'file_sources/file_sources', local_assigns.merge(post: post)
   - has_blinds = post.blinded?(current_user)
-- if has_blinds
-  .card.col-xs-12
-    .reference-card
-      .caption
-        .info-body
-          %i.fa.fa-info-circle
-          = t('labels.blind_info')
-- if has_private_blocked
-  .card.col-xs-12
-    .reference-card
-      .caption
-        .info-body
-          %i.fa.fa-info-circle
-          = t('labels.private_blocked_info')
+  - before_post = post
+- if local_assigns[:bad_card_info] != false
+  - if has_blinds
+    .card.col-xs-12{ class: col_sm }
+      .reference-card
+        .caption
+          .info-body
+            %i.fa.fa-info-circle
+            = t('labels.blind_info')
+  - if has_private_blocked
+    .card.col-xs-12{ class: col_sm }
+      .reference-card
+        .caption
+          .info-body
+            %i.fa.fa-info-circle
+            = t('labels.private_blocked_info')

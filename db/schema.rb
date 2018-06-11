@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180610214237) do
+ActiveRecord::Schema.define(version: 20180611033328) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -190,26 +190,30 @@ ActiveRecord::Schema.define(version: 20180610214237) do
   add_index "folders", ["user_id"], name: "index_folders_on_user_id", using: :btree
 
   create_table "groups", force: :cascade do |t|
-    t.integer  "user_id",                     limit: 4,                        null: false
-    t.string   "title",                       limit: 255,                      null: false
-    t.string   "site_title",                  limit: 255,                      null: false
-    t.string   "head_title",                  limit: 255,                      null: false
-    t.text     "site_description",            limit: 16777215
-    t.text     "site_keywords",               limit: 16777215
-    t.string   "slug",                        limit: 255,                      null: false
+    t.integer  "user_id",                            limit: 4,                        null: false
+    t.string   "title",                              limit: 255,                      null: false
+    t.string   "site_title",                         limit: 255,                      null: false
+    t.string   "head_title",                         limit: 255,                      null: false
+    t.text     "site_description",                   limit: 16777215
+    t.text     "site_keywords",                      limit: 16777215
+    t.string   "slug",                               limit: 255,                      null: false
     t.datetime "deleted_at"
-    t.string   "active",                      limit: 255,      default: "on"
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
-    t.boolean  "private",                                      default: false, null: false
-    t.integer  "members_count",               limit: 4,        default: 0,     null: false
-    t.string   "magic_key",                   limit: 255
-    t.string   "plan",                        limit: 255,                      null: false
-    t.string   "key_visual_foreground_image", limit: 255
-    t.string   "key_visual_background_image", limit: 255
-    t.integer  "hot_score",                   limit: 4,        default: 0
-    t.string   "hot_score_datestamp",         limit: 255
-    t.integer  "issues_count",                limit: 4,        default: 0
+    t.string   "active",                             limit: 255,      default: "on"
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
+    t.boolean  "private",                                             default: false, null: false
+    t.integer  "members_count",                      limit: 4,        default: 0,     null: false
+    t.string   "magic_key",                          limit: 255
+    t.string   "plan",                               limit: 255,                      null: false
+    t.string   "key_visual_foreground_image",        limit: 255
+    t.string   "key_visual_background_image",        limit: 255
+    t.integer  "hot_score",                          limit: 4,        default: 0
+    t.string   "hot_score_datestamp",                limit: 255
+    t.integer  "issues_count",                       limit: 4,        default: 0
+    t.integer  "latest_stroked_posts_count",         limit: 4,        default: 0
+    t.integer  "latest_stroked_posts_count_version", limit: 4,        default: 0
+    t.integer  "latest_issues_count",                limit: 4,        default: 0
+    t.integer  "latest_issues_count_version",        limit: 4,        default: 0
   end
 
   add_index "groups", ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true, using: :btree

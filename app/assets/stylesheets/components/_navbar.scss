@@ -424,6 +424,14 @@ $drawer-default-space-mobile: 12px;
             color: $gray-dark;
           }
         }
+        .group-parties-section-title-wrapper {
+          .parties-count,
+          .posts-count {
+            color: $brand-primary-dark;
+            font-size: $font-size-small;
+            white-space: nowrap;
+          }
+        }
         > .title {
           padding: $drawer-default-space/2 18px;
           @media (max-width: $screen-xs-max) {

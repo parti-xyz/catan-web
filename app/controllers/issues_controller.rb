@@ -17,18 +17,17 @@ class IssuesController < ApplicationController
       group_issues(current_group)
       @posts_pinned = current_group.pinned_posts(current_user)
 
-      @polls_and_surveys = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
+      @polls_and_surveys = Post.where.any_of(Post.having_poll, Post.having_survey)
       @polls_and_surveys = @polls_and_surveys.not_private_blocked_of_group(current_group, current_user)
       @polls_and_surveys = @polls_and_surveys.order_by_stroked_at.limit(7)
-      @recent_posts = Post.not_in_dashboard_of_group(current_group, current_user).order_by_stroked_at.limit(4)
+      recent_posts_base = Post.unblinded.not_private_blocked_of_group(current_group, current_user)
+      @recent_posts = recent_posts_base.order_by_stroked_at.limit(30)
 
       if %w(youthmango).include? current_group.slug
         render 'group_home_parties_first'
       else
-        unless view_context.is_infinite_scrollable?
-          @posts = watched_posts(params[:page])
-        end
-
+        @recent_posts = @recent_posts.page(params[:page])
+        @previous_last_post =  recent_posts_base.next_of_last_stroked_at(@recent_posts.first).order_by_stroked_at.last if @recent_posts.current_page != 1
         render 'group_home_union'
       end
     end
@@ -425,7 +424,7 @@ class IssuesController < ApplicationController
 
   def group_issues(group, category_id = nil)
     @issues = Issue.displayable_in_current_group(group)
-    @issues = @issues.hottest
+    @issues = @issues.this_week_or_hottest
     @issues = @issues.categorized_with(category_id) if category_id.present?
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
   end
