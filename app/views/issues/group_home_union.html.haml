@@ -70,8 +70,10 @@
           - recent_posts_partial = recent_posts_partial.strip
 
         - if recent_posts_partial.present?
-          %section{style:"margin-top:20px; padding-bottom: 10px;"}
-            %h4.group-heading{style:"margin-top:40px;"}
+          - margin_top = 10
+          - margin_top = 20 if (@recent_posts.try(:current_page) || 0) > 1
+          %section{style:"margin-top:#{margin_top}px; padding-bottom: 10px;"}
+            %h4.group-heading
               최근 게시글
 
             .vertical-line-wrapper{ style: 'border-left: 2px solid #777; left: 15px; padding-left: 30px; padding-top: 1rem;' }
