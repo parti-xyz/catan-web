@@ -25,11 +25,12 @@
               %span.parties-count
                 %i.fa.fa-flag(title='최근 빠띠')
                 = latest_issues_count
-            - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
-            - if !latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0
-              %span.posts-count
-                %i.fa.fa-file-text(title='최근 업데이트')
-                = latest_stroked_posts_count
+            - unless menu_group.indie?
+              - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
+              - if !latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0
+                %span.posts-count
+                  %i.fa.fa-file-text(title='최근 업데이트')
+                  = latest_stroked_posts_count
       - issues = current_user.member_issues.only_alive_of_group(menu_group)
 
       - if issues.any?
