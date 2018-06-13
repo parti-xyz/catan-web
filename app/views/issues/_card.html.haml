@@ -22,8 +22,8 @@
       .issue-card__body.hidden-xs{"data-action": "parti-ellipsis"}= excerpt(issue.body, length: 60)
       .issue-card__meta
         - if issue.rookie?
-          %span.posts-count
-            %i.fa.fa-magic
+          %span.rookie
+            %i.fa.fa-bolt
             신규
         %span.users-count
           %i.fa.fa-user
@@ -42,4 +42,3 @@
               = issue.comments_count
               - if issue.comments.latest.count > 0
                 %small +#{issue.comments.latest.count}
-

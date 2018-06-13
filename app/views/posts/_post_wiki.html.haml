@@ -25,7 +25,8 @@
       - last_history_text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
       - if last_history_text.present?
         .post-card__last-stroked
-          != last_history_text
+          %span.text
+            != last_history_text
           %span.date= date_f(last_stroked_at)
     - if can? :update, post.wiki
       - unless post.wiki.conflict?

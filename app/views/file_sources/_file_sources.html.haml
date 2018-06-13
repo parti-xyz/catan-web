@@ -1,7 +1,9 @@
 - modal_data = { 'action': "parti-link", 'url': smart_post_path_or_url(post) }
+- need_to_short_body = false
 
 .reference-card.reference-card--files-sources.default[post]{ data: modal_data }
   - if post.file_sources.only_image.any?
+    - need_to_short_body = true
     .caption-images<>
       - odd = post.file_sources.only_image.count.odd?
       - previous_style = nil
@@ -22,6 +24,7 @@
       %span= date_f post.created_at
   .caption-files
     - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+      - need_to_short_body = true
       .caption-file
         .title.title--file-source.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
           .file-icon
@@ -31,7 +34,13 @@
   .caption
     .body
       %p
-        = post.specific_desc_striped_tags(215)
+        - if local_assigns[:compact]
+          - if need_to_short_body
+            = post.specific_desc_striped_tags(50)
+          - else
+            = post.specific_desc_striped_tags(100)
+        - else
+          = post.specific_desc_striped_tags(215)
 
       .reference-info
         = link_to smart_user_gallery_path(post.user) do
@@ -47,3 +56,6 @@
               의 댓글
       - if local_assigns[:show_decision] != false
         = render 'posts/decision', local_assigns.merge(post: post)
+      - if local_assigns[:show_last_stroked_for]
+        .post-card__last-stroked-bottom-wrapper
+          = render 'posts/last_stroked_for', local_assigns

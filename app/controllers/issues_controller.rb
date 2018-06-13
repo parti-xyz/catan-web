@@ -15,21 +15,27 @@ class IssuesController < ApplicationController
       end
     else
       group_issues(current_group)
+      @hot_issues = @issues.first(10)
       @posts_pinned = current_group.pinned_posts(current_user)
 
-      @polls_and_surveys = Post.where.any_of(Post.having_poll, Post.having_survey)
-      @polls_and_surveys = @polls_and_surveys.not_private_blocked_of_group(current_group, current_user)
-      @polls_and_surveys = @polls_and_surveys.order_by_stroked_at.limit(7)
-      recent_posts_base = Post.unblinded.not_private_blocked_of_group(current_group, current_user)
-      @recent_posts = recent_posts_base.order_by_stroked_at.limit(30)
+      @debates_all = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
+      @debates_all = @debates_all.not_private_blocked_of_group(current_group, current_user)
+      @debates_all = @debates_all.order_by_stroked_at
+      debates_fresh = @debates_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
 
-      if %w(youthmango).include? current_group.slug
-        render 'group_home_parties_first'
+      if debates_fresh.any? and debates_fresh.count < 3
+        @debates = @debates_all.limit(3)
       else
-        @recent_posts = @recent_posts.page(params[:page])
-        @previous_last_post =  recent_posts_base.next_of_last_stroked_at(@recent_posts.first).order_by_stroked_at.last if @recent_posts.current_page != 1
-        render 'group_home_union'
+        @debates = debates_fresh
       end
+
+      how_to = params[:sort] == 'order_by_stroked_at' ? :order_by_stroked_at : :hottest
+      recent_posts_base = Post.unblinded.not_private_blocked_of_group(current_group, current_user)
+      @recent_posts = recent_posts_base.send(how_to).limit(30)
+
+      @recent_posts = @recent_posts.page(params[:page])
+      @previous_last_post =  recent_posts_base.next_of_last_stroked_at(@recent_posts.first).order_by_stroked_at.last if @recent_posts.current_page != 1
+      render 'group_home'
     end
   end
 

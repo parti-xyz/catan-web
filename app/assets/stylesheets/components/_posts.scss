@@ -96,6 +96,16 @@
     padding: 6px 12px;
     border-radius: 4px;
     text-align: left;
+    > .text {
+      padding: 0;
+    }
+    > .date-last-stroked {
+      padding: 0;
+    }
+  }
+  &__last-stroked-bottom-wrapper > &__last-stroked {
+    margin-bottom: 0px;
+    margin-top: 12px;
   }
   &__post {
     padding: 12px 18px;

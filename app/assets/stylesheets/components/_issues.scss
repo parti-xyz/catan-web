@@ -447,6 +447,12 @@ section#issues-group-index {
       font-size: $font-size-small;
       span {
         padding: 0 6px;
+        &.rookie {
+          border-radius: $border-radius-base;
+          background-color: $brand-primary;
+          color: white;
+        }
+
         & > small {
           position: relative;
           white-space: nowrap;
@@ -467,11 +473,6 @@ section#issues-group-index {
       @media (max-width: $screen-xs-max) {
         font-size: $font-size-xsmall;
       }
-    }
-    &.rookie .issue-card__meta {
-      border-radius: $border-radius-base;
-      background-color: $brand-primary;
-      color: white;
     }
     @media (max-width: $screen-xs-max) {
       min-height: 200px;
@@ -749,35 +750,6 @@ body.app-issues-create,
 body.app-issues-edit,
 body.app-issues-update {
   @include form-advanced-option;
-}
-.slick-arrow{
-  width: 1em;
-  height: 1em;
-  font-size: 50px !important;
-  color: lightgray;
-  position: absolute;
-  top: 35%;
-  cursor: pointer;
-  z-index: 99;
-
-  .fa-stack {
-    width: 1em;
-    height: 1em;
-    line-height: 1em;
-    vertical-align: initial;
-  }
-}
-.slick-custom-prev{
-  left: -10px;
-  @media (max-width: $screen-xs-max){
-    left: -5px;
-  }
-}
-.slick-custom-next{
-  right: -5px;
-  @media (max-width: $screen-xs-max){
-    right: -5px;
-  }
 }
 
 body.app-issues-my-menus {

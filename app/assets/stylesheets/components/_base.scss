@@ -39,6 +39,9 @@
 #content-tab-section {
   .nav-tabs {
     border-color: #d2d2d2;
+    &.nav-tabs-content-heading {
+      margin-bottom: 14px;
+    }
     > li {
       margin: 0;
       > a {
@@ -816,9 +819,9 @@ select.icon-select option {
   }
 }
 
-
+// slick-slider
 .slick-slider.slick-slider-catan {
-  display: none;
+  visibility: hidden;
   .slick-list {
     .issue-card-wrapper .issue-card {
       margin: 0;
@@ -826,5 +829,57 @@ select.icon-select option {
     .slick-track {
       margin-left:0;
     }
+  }
+  @media (max-width: $screen-xs-max) {
+    .slick-dots li {
+      width: 5px;
+      height: 5px;
+      button {
+        width: 10px;
+        height: 10px;
+        padding: 0;
+        &:before {
+          line-height: 10px;
+          font-size: 10px;
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+  }
+}
+
+.slick-arrow{
+  width: 1em;
+  height: 1em;
+  font-size: 50px !important;
+  color: lightgray;
+  position: absolute;
+  top: 35%;
+  cursor: pointer;
+  z-index: 99;
+
+  // 그룹홈 최신토론
+  .slick-slider-recent_polls_and_surveys & {
+    top: 100px;
+  }
+
+  .fa-stack {
+    width: 1em;
+    height: 1em;
+    line-height: 1em;
+    vertical-align: initial;
+  }
+}
+.slick-custom-prev{
+  left: -10px;
+  @media (max-width: $screen-xs-max){
+    left: -5px;
+  }
+}
+.slick-custom-next{
+  right: -5px;
+  @media (max-width: $screen-xs-max){
+    right: -5px;
   }
 }

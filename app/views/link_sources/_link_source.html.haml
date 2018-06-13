@@ -1,4 +1,5 @@
 - modal_data = { 'action': "parti-link", 'url': smart_post_path_or_url(post) }
+
 .reference-card[post]{ class: 'default', data: modal_data }
   - if post.link_source.has_image?
     - capture_thumb = capture do
@@ -12,7 +13,8 @@
         = truncate(post.link_source.title_or_url, length: 100)
 
       .source-body
-        %p= excerpt(post.link_source.body, length: 55)
+        - if local_assigns[:compact] != true
+          %p= excerpt(post.link_source.body, length: 55)
         .source-url
           원글보기
           %i.fa.fa-external-link
@@ -27,7 +29,10 @@
   .caption
     .body
       %p
-        = post.specific_desc_striped_tags(215)
+        - if local_assigns[:compact]
+          = post.specific_desc_striped_tags(100)
+        - else
+          = post.specific_desc_striped_tags(215)
 
       .reference-info
         = link_to smart_user_gallery_path(post.user) do
@@ -41,3 +46,6 @@
               #{post.comments_count}개의 댓글
       - if local_assigns[:show_decision] != false
         = render 'posts/decision', local_assigns.merge(post: post)
+      - if local_assigns[:show_last_stroked_for]
+        .post-card__last-stroked-bottom-wrapper
+          = render 'posts/last_stroked_for', local_assigns

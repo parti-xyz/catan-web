@@ -15,7 +15,7 @@
   - if text.present?
     .post-card__last-stroked
       != text
-      %span.date= date_f(last_stroked_at)
+      %span.last-stroked-date= date_f(last_stroked_at)
   %h4.wiki-title
     = link_to post.wiki.title, smart_post_url(post), target: '_blank'
 

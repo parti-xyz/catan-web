@@ -14,8 +14,6 @@
         %strong<> 오거나이저의 가입승인
         을 기다려주세요.
   - else
-    - if local_assigns[:show_last_stroked_for]
-      = render 'posts/last_stroked_for', local_assigns
     - unless local_assigns[:in_post]
       .poll-card__meta.clearfix
         .poll-card__issue
@@ -27,5 +25,8 @@
       “#{poll.title}”
     - if local_assigns[:compact] != true
       = render 'votings/voting', local_assigns
-  - if local_assigns[:show_decision] != false
-    = render 'posts/decision', local_assigns.merge(post: post)
+    - if local_assigns[:show_decision] != false
+      = render 'posts/decision', local_assigns.merge(post: post)
+    - if local_assigns[:show_last_stroked_for]
+      .post-card__last-stroked-bottom-wrapper
+        = render 'posts/last_stroked_for', local_assigns

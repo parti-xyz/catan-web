@@ -90,21 +90,7 @@ $.scroll_detection = function(options) {
     }, 300));
 };
 
-$.fn.visible = function() {
-    return this.css('visibility', 'visible');
-};
-
-$.fn.invisible = function() {
-    return this.css('visibility', 'hidden');
-};
-
-$.fn.visibilityToggle = function() {
-    return this.css('visibility', function(i, visibility) {
-        return (visibility == 'visible') ? 'hidden' : 'visible';
-    });
-};
-
-$.fn.isValidSelector = function(selector) {
+$.isValidSelector = function(selector) {
   if (typeof(selector) !== 'string') {
     return false;
   }
@@ -948,7 +934,13 @@ $(function(){
     var lg = $(elm).data('slick-slider-lg') || 5;
     var md = $(elm).data('slick-slider-md') || 3;
     var xs = $(elm).data('slick-slider-xs') || 2;
+
+    $(elm).on('init', function(event, slick, currentSlide, nextSlide){
+      $(elm).trigger('parti-need-to-scroll-position');
+    });
+
     $(elm).slick({
+      dots: true,
       slidesToShow: lg,
       slidesToScroll: lg,
       nextArrow: '<span class="slick-custom-next"><span class="fa-stack"><i class="fa fa-circle fa-stack-1x fa-inverse"></i><i class="fa fa-chevron-circle-right fa-stack-1x"></i></span></span>',
@@ -970,7 +962,23 @@ $(function(){
         }
       ]
     });
-    $(elm).show();
+
+    if( $(elm).data('auto-height') ) {
+      var sliderAdaptiveHeight = function() {
+        $(elm).find('.slick-slide').height('0');
+        $(elm).find('.slick-slide.slick-active').height('auto');
+        $(elm).find('.slick-list').height('auto');
+        $(elm).slick('setOption', null, null, true);
+      }
+
+      $(elm).on('afterChange', function(event, slick, currentSlide, nextSlide){
+        sliderAdaptiveHeight();
+      });
+
+      sliderAdaptiveHeight();
+    }
+
+    $(elm).css('visibility',  'visible');
   });
 
   // 빠띠 사이드바 hover 할때 가입 버튼 보이기

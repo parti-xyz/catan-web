@@ -63,6 +63,6 @@
             = date_f comment.created_at
 
           - unless comment.read?(current_user)
-            .comment__unread-mark
-              .mark
+            .comment__unread-mark.text-primary
+              %i.fa.fa-bolt
 

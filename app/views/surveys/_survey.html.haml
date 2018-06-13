@@ -14,8 +14,6 @@
         %strong<> 오거나이저의 가입승인
         을 기다려주세요.
   - else
-    - if local_assigns[:show_last_stroked_for]
-      = render 'posts/last_stroked_for', local_assigns
     .survey-card__meta.clearfix
       .survey-card__issue
         = link_to smart_issue_home_path_or_url(issue) do
@@ -26,5 +24,8 @@
       “#{survey.post.specific_desc_striped_tags(100)}”
     - if local_assigns[:compact] != true
       = render 'surveys/card', local_assigns
-  - if local_assigns[:show_decision] != false
-    = render 'posts/decision', local_assigns.merge(post: post)
+    - if local_assigns[:show_decision] != false
+      = render 'posts/decision', local_assigns.merge(post: post)
+    - if local_assigns[:show_last_stroked_for]
+      .post-card__last-stroked-bottom-wrapper
+        = render 'posts/last_stroked_for', local_assigns

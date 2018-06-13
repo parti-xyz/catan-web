@@ -1,6 +1,32 @@
 .app-issues-home.in-group {
-  section#home section#parties-all .parties-all-list {
-    margin-top: 0;
+  .parties-all-list {
+    @media (min-width: $screen-sm-min) {
+      margin-top: 15px;
+    }
+    @media (max-width: $screen-xs-max){
+      .col-xs-6 {
+        padding-right: 7.5px;
+        padding-left: 7.5px;
+      }
+      margin-left: 7.5px;
+      margin-right: 7.5px;
+    }
+  }
+
+  .debates-all-list {
+    .slick-dots {
+      bottom: -15px;
+    }
+  }
+
+  .posts-container.posts-container-timeline {
+    border-left: 2px solid $gray;
+    left: 15px;
+    padding-left: 30px;
+    padding-top: 1rem;
+    > .row {
+      margin-top: -1.5rem;
+    }
   }
 }
 

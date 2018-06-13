@@ -31,53 +31,61 @@
 - else
   = render 'application/group_home_sub_header', active: 'home'
   - if Issue.only_alive_of_group(current_group).any?
-    %section#home
+    %section#home{ style:"padding-bottom: 40px;" }
       .container
         - if @recent_posts.try(:any?) and (@recent_posts.try(:current_page) || 0) <= 1
-          %section{style:"margin-top:20px;"}
-            .row
-              .col-sm-12.col-md-12
-                %section#parties-all
-                  .parties-all
-                    = link_to issues_path do
-                      %h4.group-heading
-                        빠띠
-                        %small
-                          모두 보기
-                          %i.fa.fa-angle-double-right
-                    .parties-all-list
-                      .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 4, 'slick-slider-md': 4, 'slick-slider-xs': 2 } }
-                        - @issues.each do |issue|
-                          .col-xs-6.col-sm-3.col-md-3.col-lg-3
-                            .issue-card-wrapper
-                              = render 'issues/card', issue: issue
+          %section{ style:"margin-top:20px; margin-bottom: 40px;" }
+            .parties-all
+              = link_to issues_path do
+                %h4.group-heading
+                  최근 활동 중인 빠띠
+                  - if @hot_issues.count != @issues.count
+                    %small
+                      모든 #{number_with_delimiter @issues.count}개 빠띠 보기
+                      %i.fa.fa-angle-double-right
+              .parties-all-list.clearfix
+                .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 4, 'slick-slider-md': 4, 'slick-slider-xs': 2 } }
+                  - @hot_issues.each do |issue|
+                    .col-xs-6.col-sm-3.col-md-3.col-lg-3
+                      .issue-card-wrapper
+                        = render 'issues/card', issue: issue
 
-          - recent_polls_and_surveys = @polls_and_surveys.to_a.reject{ |post| post.last_stroked_at < 2.week.ago }
-          - if recent_polls_and_surveys.any?
-            %section{ style:"margin-top:20px;" }
+          - if @debates.any?
+            %section{ style:"margin-top:20px; margin-bottom: 40px;" }
               = link_to polls_or_surveys_path do
                 %h4.group-heading
                   진행 중인 토론
-                  %small
-                    더 보기
-                    %i.fa.fa-angle-double-right
-              .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1 } }
-                = render 'posts/page_card', posts: recent_polls_and_surveys, sm_columns_count: 3, compact: true, show_last_stroked_for: true, show_decision: false
+                  - if @debates_all.count != @debates.count
+                    %small
+                      모든 #{number_with_delimiter @debates_all.count}개 토론 보기
+                      %i.fa.fa-angle-double-right
+              .debates-all-list.clearfix
+                .row.slick-slider.slick-slider-catan.slick-slider-recent_polls_and_surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+                  = render 'posts/page_card', posts: @debates, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
 
+        - hottest_sort = (params['sort'] == 'hottest' or params['sort'].nil?)
+        - order_by_stroked_at_sort = (params['sort'] == 'order_by_stroked_at')
         - if @recent_posts.try(:any?)
           - recent_posts_partial = capture do
-            = render 'posts/page_card', posts: @recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: true, previous_last_post: @previous_last_post, show_decision: false
+            = render 'posts/page_card', posts: @recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: order_by_stroked_at_sort, previous_last_post: @previous_last_post, show_decision: false
           - recent_posts_partial = recent_posts_partial.strip
 
-        - if recent_posts_partial.present?
-          - margin_top = 10
-          - margin_top = 20 if (@recent_posts.try(:current_page) || 0) > 1
-          %section{style:"margin-top:#{margin_top}px; padding-bottom: 10px;"}
+          %a.anchor#js-group-all-posts
+          %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
             %h4.group-heading
-              최근 게시글
+              모든 게시글
 
-            .vertical-line-wrapper{ style: 'border-left: 2px solid #777; left: 15px; padding-left: 30px; padding-top: 1rem;' }
-              .row.masonry-container{ style: 'margin-top: -1.5rem;', data: { 'masonry-grid-sizer': '.grid-sizer' } }
+            .contents-header
+              .posts-filter-select
+                #content-tab-section
+                  %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
+                    %li{ class: "#{('active' if hottest_sort)}" }
+                      = link_to '인기순', { sort: 'hottest' }
+                    %li{ class: "#{('active' if order_by_stroked_at_sort)}" }
+                      = link_to '최신순', { sort: 'order_by_stroked_at' }
+
+            .posts-container{ class: ('posts-container-timeline' if order_by_stroked_at_sort  and !is_small_screen?) }
+              .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
                 .grid-sizer.col-sm-4
                 != recent_posts_partial
 

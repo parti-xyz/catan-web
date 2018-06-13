@@ -2,20 +2,26 @@
   .decision-panel
     %h6
       %span.text-nowrap 토론 정리
-      - if post.decisionable?(current_user)
-        %span.control
-          &middot;
-          - if post.decision_histories.any?
-            - latest_history = post.decision_histories.recent.first
-            - latest_history_user = latest_history.user
-            %span.writer
-              %span
-                = link_to "@#{latest_history_user.nickname}", smart_user_gallery_path(latest_history_user), class: 'text-muted'
-              - if post.decision_authors_count > 1
-                외 #{post.decision_authors_count - 1}명
+
+      %span.control
+        &middot;
+        - if post.decision_histories.any?
+          - latest_history = post.decision_histories.recent.first
+          - latest_history_user = latest_history.user
+          %span.writer
+            %span
+              = link_to "@#{latest_history_user.nickname}", smart_user_gallery_path(latest_history_user), class: 'text-muted'
+            - if post.decision_authors_count > 1
+              외 #{post.decision_authors_count - 1}명
+          - if post.decisionable?(current_user)
             &middot;
+        - if post.decisionable?(current_user)
           = link_to '수정', edit_decision_post_path(post), class: 'text-primary'
           &middot;
           = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
 
-    = decision_body_format(post.issue, post.decision.strip)
+    - if local_assigns[:compact_decision] == true
+      != smart_truncate_html(decision_body_format(post.issue, post.decision.strip), length: 40, offset: 10, ellipsis: ' ... <span class="more">더 보기</span>')
+    - else
+      = decision_body_format(post.issue, post.decision.strip)
+

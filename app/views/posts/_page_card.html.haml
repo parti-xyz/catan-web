@@ -18,17 +18,17 @@
 
     .card.col-xs-12.card--hover-grow{ class: "#{removable_with_post_dom_class(post)} #{col_sm}" }
       - if post.poll.present?
-        = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post)
+        = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post, compact_decision: true)
       - elsif post.survey.present?
-        = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post)
+        = render 'surveys/survey', local_assigns.merge(survey: post.survey, post: post, compact_decision: true)
       - elsif post.wiki.present?
-        = render 'wikis/wiki', local_assigns.merge(post: post)
+        = render 'wikis/wiki', local_assigns.merge(post: post, compact_decision: true)
       - elsif post.file_sources.any?
-        = render 'file_sources/file_sources', local_assigns.merge(post: post)
+        = render 'file_sources/file_sources', local_assigns.merge(post: post, compact_decision: true)
       - elsif post.link_source.present?
-        = render 'link_sources/link_source', local_assigns.merge(post: post)
+        = render 'link_sources/link_source', local_assigns.merge(post: post, compact_decision: true)
       - else
-        = render 'file_sources/file_sources', local_assigns.merge(post: post)
+        = render 'file_sources/file_sources', local_assigns.merge(post: post, compact_decision: true)
   - has_blinds = post.blinded?(current_user)
   - before_post = post
 - if local_assigns[:bad_card_info] != false

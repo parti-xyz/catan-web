@@ -135,16 +135,7 @@ section#comments {
   }
   .comment__unread-mark {
     display: inline-block;
-    height: 14px;
-    padding-top: auto;
-    padding-top: 6px;
-    .mark {
-      background-color: $brand-primary;
-      padding: 0;
-      width: 4px;
-      height: 4px;
-      border-radius: 2px;
-    }
+    color: $gray-a;
   }
   .file-sources {
     margin: 6px 0;
