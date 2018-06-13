@@ -28,7 +28,7 @@
 //= require clipboard
 //= require Sortable
 //= require webp-check
-//= require slick
+//= require jquery.slick
 //= require tinymce-jquery
 //= require tinymce/plugins/catan
 //= require Chart.bundle
