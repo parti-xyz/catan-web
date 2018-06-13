@@ -18,15 +18,15 @@ class IssuesController < ApplicationController
       @hot_issues = @issues.first(10)
       @posts_pinned = current_group.pinned_posts(current_user)
 
-      @debates_all = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
-      @debates_all = @debates_all.not_private_blocked_of_group(current_group, current_user)
-      @debates_all = @debates_all.order_by_stroked_at
-      debates_fresh = @debates_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
+      @discussions_all = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
+      @discussions_all = @discussions_all.not_private_blocked_of_group(current_group, current_user)
+      @discussions_all = @discussions_all.order_by_stroked_at
+      discussions_fresh = @discussions_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
 
-      if debates_fresh.any? and debates_fresh.count < 3
-        @debates = @debates_all.limit(3)
+      if discussions_fresh.any? and discussions_fresh.count < 3
+        @discussions = @discussions_all.limit(3)
       else
-        @debates = debates_fresh
+        @discussions = discussions_fresh
       end
 
       how_to = params[:sort] == 'order_by_stroked_at' ? :order_by_stroked_at : :hottest

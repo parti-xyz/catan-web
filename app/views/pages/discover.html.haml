@@ -12,23 +12,27 @@
       .btn-wrapper
         - @subjects.sample(10).each do |subject|
           = link_to subject.title, issues_path(subject: subject.title), class: 'subject-link'
+  - base_posts_count = 50
+  - base_posts = Post.where.any_of(Post.having_image_file_sources, Post.having_image_link_sources).after(2.month.ago, field: 'posts.last_stroked_at').hottest
+  - posts = base_posts.of_undiscovered_issues(current_user).limit(base_posts_count).to_a
+  - if user_signed_in?
+    - posts += base_posts.watched_by(current_user).limit(base_posts_count/2).to_a
+  - posts = posts.uniq.sort_by(&:id).reverse.first(base_posts_count)
 
-  %section#recent-posts
-    .container
-      = link_to links_or_files_path do
-        %h4.group-heading{ style: "margin: 20px 0px;"}
-          최근 게시물
-          %small
-            더 보기
-            %i.fa.fa-angle-double-right
-      /- posts = @sections[:recent_posts].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
-      - posts = Post.where.any_of(Post.having_image_file_sources, Post.having_image_link_sources).after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(50)
-      - posts = posts.to_a.sort_by(&:id).reverse
-      - if posts.try(:any?)
-        .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1 } }
-          - posts.each do |post|
-            .col-xs-1.col-sm-4.col-md-4.col-lg-4
-              = render 'posts/landing_post', post: post, show_issue: true
+  - if posts.try(:any?)
+    %section#recent-posts
+      .container
+        = link_to links_or_files_path do
+          %h4.group-heading{ style: "margin: 20px 0px;"}
+            최근 게시물
+            %small
+              더 보기
+              %i.fa.fa-angle-double-right
+        .recent-posts.clearfix
+          .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1 } }
+            - posts.each do |post|
+              .col-xs-1.col-sm-4.col-md-4.col-lg-4
+                = render 'posts/landing_post', post: post, show_issue: true
 
   %section#discussions
     .container
@@ -39,22 +43,32 @@
             더 보기
             %i.fa.fa-angle-double-right
       / - poll_posts = @sections[:polls].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
-      - poll_posts = Post.having_poll.after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(10)
-      - poll_posts = poll_posts.to_a.sort_by(&:id).reverse
-      - if poll_posts.try(:any?)
-        .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1 } }
-          - poll_posts.each do |poll_post|
-            .col-xs-1.col-sm-4.col-md-4.col-lg-4
-              = render 'posts/landing_discussion', post: poll_post, show_issue: true
+      - poll_posts_count = 10
+      - baes_poll_posts = Post.having_poll.after(2.month.ago, field: 'posts.last_stroked_at').hottest
+      - poll_posts = baes_poll_posts.of_undiscovered_issues(current_user).limit(poll_posts_count).to_a
+      - if user_signed_in?
+        - poll_posts += baes_poll_posts.watched_by(current_user).limit(poll_posts_count/2).to_a
+      - poll_posts = poll_posts.uniq.sort_by(&:id).reverse.first(poll_posts_count)
 
-      / - survey_posts = @sections[:surveys].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
-      - survey_posts = Post.having_survey.after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(10)
-      - survey_posts = survey_posts.to_a.sort_by(&:id).reverse
+      - if poll_posts.try(:any?)
+        .recent-polls.clearfix
+          .row.slick-slider.slick-slider-catan.slick-slider-recent-polls{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+            - poll_posts.each do |poll_post|
+              .col-xs-1.col-sm-4.col-md-4.col-lg-4
+                = render 'posts/landing_discussion', post: poll_post, show_issue: true
+
+      - survey_posts_count = 10
+      - base_survey_posts = Post.having_survey.after(2.month.ago, field: 'posts.last_stroked_at').hottest
+      - survey_posts = base_survey_posts.of_undiscovered_issues(current_user).limit(survey_posts_count).to_a
+      - if user_signed_in?
+        - survey_posts += base_survey_posts.watched_by(current_user).limit(survey_posts_count/2).to_a
+      - survey_posts = survey_posts.uniq.sort_by(&:id).reverse.first(survey_posts_count)
       - if survey_posts.try(:any?)
-        .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 2, 'slick-slider-md': 2, 'slick-slider-xs': 1 } }
-          - survey_posts.each do |survey_post|
-            .col-xs-1.col-sm-6.col-md-6.col-lg-6
-              = render 'posts/landing_discussion', post: survey_post, show_issue: true
+        .recent-surveys.clearfix
+          .row.slick-slider.slick-slider-catan.slick-slider-recent-surveys{ data: { 'slick-slider-lg': 2, 'slick-slider-md': 2, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+            - survey_posts.each do |survey_post|
+              .col-xs-1.col-sm-6.col-md-6.col-lg-6
+                = render 'posts/landing_discussion', post: survey_post, show_issue: true
 
 
   %section#wikis
@@ -65,14 +79,18 @@
           %small
             더 보기
             %i.fa.fa-angle-double-right
-      / - wikis = @sections[:wikis].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
-      - wikis = Post.having_wiki.after(2.month.ago, field: 'posts.last_stroked_at').hottest.of_undiscovered_issues(current_user).limit(10)
-      - wikis = wikis.to_a.sort_by(&:id).reverse
+      - wikis_count = 10
+      - base_wikis = Post.having_wiki.after(2.month.ago, field: 'posts.last_stroked_at').hottest
+      - wikis = base_wikis.of_undiscovered_issues(current_user).limit(wikis_count).to_a
+      - if user_signed_in?
+        - wikis += base_wikis.watched_by(current_user).limit(wikis_count/2).to_a
+      - wikis = wikis.uniq.sort_by(&:id).reverse.first(wikis_count)
       - if wikis.try(:any?)
-        .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1 } }
-          - wikis.each do |wiki|
-            .col-xs-1.col-sm-4.col-md-4.col-lg-4
-              = render 'wikis/landing_card', post: wiki, show_issue: true
+        .recent-wikis.clearfix
+          .row.slick-slider.slick-slider-catan.slick-slider-recent-wikis{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+            - wikis.each do |wiki|
+              .col-xs-1.col-sm-4.col-md-4.col-lg-4
+                = render 'wikis/landing_card', post: wiki, show_issue: true
 
   %section#banner
     .container
@@ -111,7 +129,11 @@
     .container
       = link_to issues_path do
         %h4.group-heading
-          최근 업데이트된 빠띠
+          - if user_signed_in?
+            이런 빠띠도 있어요
+          - else
+            최근 업데이트된 빠띠
+
       .parties-search-form{ style: 'margin-top: 12px; max-width: 300px;' }
         = form_tag issues_path, method: :get, id: 'js-search-parties-form' do
           = hidden_field_tag :sort

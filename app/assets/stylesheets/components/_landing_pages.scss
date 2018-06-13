@@ -47,6 +47,17 @@ section#landing-page{
       }
     }
   }
+  section#recent-posts .recent-posts,
+  section#discussions .recent-polls,
+  section#discussions .recent-surveys,
+  section#wikis .recent-wikis {
+    .slick-dots {
+      bottom: -15px;
+      @media (max-width: $screen-xs-max) {
+        visibility: hidden;
+      }
+    }
+  }
   section#recent-posts .post-card {
     background-color: #fff;
     border: 1px solid #fff;
@@ -88,6 +99,7 @@ section#landing-page{
       line-height: 1.3em;
       height: 3.6em;
       font-size: 1em;
+      color: $gray;
       p {
         margin: 0 0 1.2em;
       }
@@ -143,6 +155,14 @@ section#landing-page{
         padding: 0px;
         border-bottom: 0px;
         margin-bottom: 10px;
+        .issue-title {
+          text-overflow:ellipsis;
+          white-space:nowrap;
+          word-wrap:normal;
+          width: 180px;
+          overflow:hidden;
+          display: inline-block;
+        }
       }
       &__content, &__post{
         height: 100%;

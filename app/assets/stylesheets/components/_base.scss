@@ -860,8 +860,23 @@ select.icon-select option {
   z-index: 99;
 
   // 그룹홈 최신토론
-  .slick-slider-recent_polls_and_surveys & {
+  .slick-slider-recent-polls-and-surveys & {
     top: 100px;
+  }
+
+  // 새로운 발견 찬반토론
+  .slick-slider-recent-polls & {
+    top: 100px;
+  }
+
+  // 새로운 발견 설문
+  .slick-slider-recent-surveys & {
+    top: 100px;
+  }
+
+  // 새로운 발견 설문
+  .slick-slider-recent-wikis & {
+    top: 120px;
   }
 
   .fa-stack {

@@ -30,8 +30,7 @@
             %span.post-reference-line__file-content--image{ class: 'single', style: "background-image: url(#{post.link_source.image.md.url})" }
 
         .post-parsed-body
-          != smart_truncate_html(post.parsed_body, length: 85)
-
+          = post.specific_desc_striped_tags(85)
       .post-card__meta
         = link_to smart_issue_home_path_or_url(post.issue) do
           = issue_tag(post.issue, show_group: true, group_classes: 'issue-group', group_short: true)

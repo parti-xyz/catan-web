@@ -38,7 +38,7 @@
             .parties-all
               = link_to issues_path do
                 %h4.group-heading
-                  최근 활동 중인 빠띠
+                  최근 업데이트된 빠띠
                   - if @hot_issues.count != @issues.count
                     %small
                       모든 #{number_with_delimiter @issues.count}개 빠띠 보기
@@ -50,18 +50,18 @@
                       .issue-card-wrapper
                         = render 'issues/card', issue: issue
 
-          - if @debates.any?
+          - if @discussions.any?
             %section{ style:"margin-top:20px; margin-bottom: 40px;" }
               = link_to polls_or_surveys_path do
                 %h4.group-heading
                   진행 중인 토론
-                  - if @debates_all.count != @debates.count
+                  - if @discussions_all.count != @discussions.count
                     %small
-                      모든 #{number_with_delimiter @debates_all.count}개 토론 보기
+                      모든 #{number_with_delimiter @discussions_all.count}개 토론 보기
                       %i.fa.fa-angle-double-right
-              .debates-all-list.clearfix
-                .row.slick-slider.slick-slider-catan.slick-slider-recent_polls_and_surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
-                  = render 'posts/page_card', posts: @debates, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
+              .discussions-all-list.clearfix
+                .row.slick-slider.slick-slider-catan.slick-slider-recent-polls-and-surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+                  = render 'posts/page_card', posts: @discussions, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
 
         - hottest_sort = (params['sort'] == 'hottest' or params['sort'].nil?)
         - order_by_stroked_at_sort = (params['sort'] == 'order_by_stroked_at')
