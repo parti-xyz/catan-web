@@ -115,13 +115,11 @@ section#landing-page{
     .post-card{
       border-radius: 0px;
       margin-bottom: 28px;
-      height: 250px;
       &.survey {
         height: auto;
       }
       @media (max-width: $screen-xs-max) {
         margin-bottom: 14px;
-        height: 100%;
       }
       .poll-card {
         &__title {

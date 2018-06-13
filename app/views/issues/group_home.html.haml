@@ -40,7 +40,7 @@
                 %h4.group-heading
                   최근 업데이트된 빠띠
                   - if @hot_issues.count != @issues.count
-                    %small
+                    %small.text-nowrap
                       모든 #{number_with_delimiter @issues.count}개 빠띠 보기
                       %i.fa.fa-angle-double-right
               .parties-all-list.clearfix
@@ -56,7 +56,7 @@
                 %h4.group-heading
                   진행 중인 토론
                   - if @discussions_all.count != @discussions.count
-                    %small
+                    %small.text-nowrap
                       모든 #{number_with_delimiter @discussions_all.count}개 토론 보기
                       %i.fa.fa-angle-double-right
               .discussions-all-list.clearfix
