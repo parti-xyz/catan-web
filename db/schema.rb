@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180611033328) do
+ActiveRecord::Schema.define(version: 20180614105024) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -177,15 +177,18 @@ ActiveRecord::Schema.define(version: 20180611033328) do
   add_index "file_sources", ["post_id"], name: "index_file_sources_on_post_id", using: :btree
 
   create_table "folders", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.integer  "issue_id",   limit: 4,   null: false
-    t.string   "title",      limit: 255, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "user_id",        limit: 4
+    t.integer  "issue_id",       limit: 4,               null: false
+    t.string   "title",          limit: 255,             null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.integer  "parent_id",      limit: 4
+    t.integer  "children_count", limit: 4,   default: 0
   end
 
   add_index "folders", ["issue_id", "title"], name: "index_folders_on_issue_id_and_title", unique: true, using: :btree
   add_index "folders", ["issue_id"], name: "index_folders_on_issue_id", using: :btree
+  add_index "folders", ["parent_id"], name: "index_folders_on_parent_id", using: :btree
   add_index "folders", ["title"], name: "index_folders_on_title", using: :btree
   add_index "folders", ["user_id"], name: "index_folders_on_user_id", using: :btree
 

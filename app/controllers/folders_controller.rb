@@ -26,6 +26,6 @@ class FoldersController < ApplicationController
   private
 
   def folder_params
-    params.require(:folder).permit(:title)
+    params.require(:folder).permit(:title, :parent_id)
   end
 end

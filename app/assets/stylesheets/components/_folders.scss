@@ -18,3 +18,27 @@ section#folders {
     padding-right: 7px;
   }
 }
+
+.folder-selector {
+  .dropdown-menu > li > .child-folder {
+    padding-left: 40px;
+  }
+}
+
+.threaded-folders {
+  .child-folder > a {
+    padding-left: 20px;
+  }
+  &.dropdown-menu {
+    .child-folder > a {
+      padding-left: 30px;
+    }
+  }
+  .parent-folder-margined {
+    margin-bottom: 10px;
+  }
+  .fa-folder-open,
+  .fa-folder {
+    color: $gray;
+  }
+}

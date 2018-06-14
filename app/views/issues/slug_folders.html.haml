@@ -18,13 +18,23 @@
             %i.fa.fa-folder-open-o
             모든 폴더
             %small 빠띠의 모든 폴더입니다.
-        - @folders.each do |folder|
-          %ul.list-unstyled
-            %li
-              = link_to smart_folder_url(folder) do
-                %i.fa.fa-folder-o
-                = folder.title
-        - if @folders.blank?
+        - unless @folders.blank?
+          %ul.list-unstyled.threaded-folders
+            - Folder.threaded(@folders).each do |parent_folder, child_folders|
+              %li.parent-folder.parent-folder-margined
+                = link_to smart_folder_url(parent_folder) do
+                  - if child_folders.any?
+                    %i.fa.fa-folder-open
+                  - else
+                    %i.fa.fa-folder
+                  = parent_folder.title
+                - child_folders.each do |child_folder|
+                  %ul.list-unstyled.child-folders
+                    %li.child-folder
+                      = link_to smart_folder_url(child_folder) do
+                        %i.fa.fa-folder
+                        = child_folder.title
+        - else @folders.blank?
           .bg-default.text-center
             %i.fa.fa-info-circle
             폴더가 없습니다.
@@ -41,15 +51,21 @@
                 %small
                   (#{@current_folder.posts.count})
                   %i.fa.fa-chevron-down
-              %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
+              %ul.dropdown-menu.threaded-folders.pull-right{ "aria-labelledby": 'more-hashtag' }
                 - if @issue.folders.where.not(id: @current_folder.id).any?
                   %li.dropdown-header 다른 폴더로 이동
-                  - @issue.folders.sort_by_name.each do |folder|
-                    %li.clearfix
-                      = link_to smart_folder_url(folder) do
-                        = folder.title
-                        - if folder == @current_folder
+                  - Folder.threaded(@issue.folders).each do |parent_folder, child_folders|
+                    %li.parent-folder.clearfix
+                      = link_to smart_folder_url(parent_folder) do
+                        = parent_folder.title
+                        - if parent_folder == @current_folder
                           %i.fa.fa-check.pull-right
+                    - child_folders.each do |child_folder|
+                      %li.child-folder.clearfix
+                        = link_to smart_folder_url(child_folder) do
+                          = child_folder.title
+                          - if child_folder == @current_folder
+                            %i.fa.fa-check.pull-right
                   %li.divider
                 %li.dropdown-header "#{@current_folder.title}" 폴더 관리
                 %li

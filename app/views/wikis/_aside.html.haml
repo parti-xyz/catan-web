@@ -8,22 +8,39 @@
   .aside_issue#aside
     %section
       %h5.aside-title 폴더
-      %ul.list-unstyled.parti-folders
-        - folders.each do |folder|
-          - posts = folder.posts.having_wiki_sorted_by_title(:active)
+      %ul.list-unstyled.parti-folders.threaded-folders
+        - Folder.threaded(folders).each do |parent_folder, child_folders|
+          - posts = parent_folder.posts.having_wiki_sorted_by_title(:active)
           %li.item-folder
             .folder-title.js-folder-item.cursor-pointer
-              - if folder == current_folder
+              - if parent_folder == current_folder or child_folders.include?(current_folder)
                 %i.fa.fa-folder-open.js-folder-item-icon
               - else
                 %i.fa.fa-folder.js-folder-item-icon
-              = folder.title
+              = parent_folder.title
               - if posts.any?
                 (#{posts.count})
-            %ul.list-unstyled.folder-posts.js-folder-posts{ class: ('collapse' if folder != current_folder) }
+            %ul.list-unstyled.folder-posts.js-folder-posts{ class: ('collapse' if parent_folder != current_folder and !child_folders.include?(current_folder)) }
+              - child_folders.each do |child_folder|
+                - child_posts = child_folder.posts.having_wiki_sorted_by_title(:active)
+                %li.item-folder
+                  .folder-title.js-folder-item.cursor-pointer
+                    - if child_folder == current_folder
+                      %i.fa.fa-folder-open.js-folder-item-icon
+                    - else
+                      %i.fa.fa-folder.js-folder-item-icon
+                    = child_folder.title
+                    - if child_posts.any?
+                      (#{child_posts.count})
+                  %ul.list-unstyled.folder-posts.js-folder-posts{ class: ('collapse' if child_folder != current_folder) }
+                    - child_posts.each do |post|
+                      = link_to smart_post_url(post), class: "item-post-wrapper #{'active' if post == current_post}" do
+                        %li.item-post
+                          = post.wiki.title
               - posts.each do |post|
                 = link_to smart_post_url(post), class: "item-post-wrapper #{'active' if post == current_post}" do
                   %li.item-post
                     = post.wiki.title
+
 
     = render 'application/footer'
