@@ -106,10 +106,12 @@
                         - Folder.threaded(@issue.folders).each do |parent_folder, child_folders|
                           %li.parent-folder
                             = link_to smart_folder_url(parent_folder) do
+                              %i.fa.fa-folder
                               = parent_folder.title
                           - child_folders.each do |child_folder|
                             %li.child-folder
-                              = link_to smart_folder_url(child_folder) do
+                              = link_to smart_folder_url(child_folder), class: 'child-folder-title' do
+                                %i.fa.fa-folder
                                 = child_folder.title
 
               .col-custom{class: ('active' if active_tab == :users)}

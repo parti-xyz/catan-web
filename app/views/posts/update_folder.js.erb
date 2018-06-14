@@ -13,5 +13,12 @@ $('#js-modal-placeholder > .modal').modal("hide");
 <% end %>
 
 <% if (@folder.try(:errors) || []).any? or (@post.try(:errors) || []).any? %>
-  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+  <%
+  parent_error_message = (@folder.try(:errors) || []).try(:[], :parent_id)
+  if parent_error_message.present?
+  %>
+    UnobtrusiveFlash.showFlashMessage("<%= parent_error_message.join('<br>') %>", {type: 'error'});
+  <% else %>
+    UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+  <% end %>
 <% end %>

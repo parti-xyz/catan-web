@@ -4,10 +4,20 @@
       %hr
       .form-group
         %label 새 폴더 이름
-        = text_field_tag 'folder[title]', nil, class: 'form-control', data: { 'rule-required': true }
+        = text_field_tag 'new_folder[title]', nil, class: 'form-control', data: { 'rule-required': true }
       .form-group
         %label 상위 폴더
-        = select_tag 'folder[parent_id]', options_from_collection_for_select(post.issue.folders.only_parent.sort_by_name, 'id', 'title'), include_blank: '없음', class: 'form-control', data: { 'rule-required': true }
+        = select_tag 'new_folder[parent_id]', options_from_collection_for_select(post.issue.folders.only_parent.sort_by_name, 'id', 'title'), include_blank: '없음', class: 'form-control'
+    - update_folder_form = capture do
+      - if post.folder.present?
+        %hr
+        .form-group
+          %label 폴더 이름
+          = text_field_tag 'update_folder[title]', post.folder.title, class: 'form-control', data: { 'rule-required': true }
+        - if folder.children.empty?
+          .form-group
+            %label 상위 폴더
+            = select_tag 'update_folder[parent_id]', options_from_collection_for_select(post.issue.folders.only_parent.sort_by_name, 'id', 'title', post.folder.parent_id), include_blank: '없음', class: 'form-control'
     - form_id = "folder-form-#{SecureRandom.uuid}"
     - form_id = "folder-form-#{SecureRandom.uuid}"
     = form_for [:update_folder, post], remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
@@ -26,13 +36,19 @@
                   = parent_folder.title
                 - child_folders.each do |child_folder|
                   %option.child-folder{ value: child_folder.id, selected: child_folder == post.folder }
-                    = child_folder.title
+                    %span.child-folder-title
+                      = child_folder.title
               %option{ 'data-divider': "true" }
               - if post.folder.present?
                 %option{ value: '', 'data-content': "<span><i class='fa fa-share fa-rotate-270'></i></i> \"#{post.folder.title}\" 폴더에서 꺼내기</span>" }
+                %option{ value: '-2', 'data-content': "<span><i class='fa fa-edit'></i> \"#{post.folder.title}\" 폴더 수정</span>"  }
+                %option{ 'data-divider': "true" }
               %option{ value: '-1', 'data-content': "<span><i class='fa fa-plus'></i> 새로운 폴더 만들기</span>"  }
             .js-new-folder.collapse
               = new_folder_form
+            - if post.folder.present?
+              .js-update-folder.collapse
+                = update_folder_form
         - else
           = f.hidden_field :folder_id, value: '-1'
           = new_folder_form

@@ -26,7 +26,7 @@ section#folders {
 }
 
 .threaded-folders {
-  .child-folder > a {
+  .child-folder > .child-folder-title {
     padding-left: 20px;
   }
   &.dropdown-menu {
@@ -34,8 +34,14 @@ section#folders {
       padding-left: 30px;
     }
   }
-  .parent-folder-margined {
-    margin-bottom: 10px;
+  &.threaded-folders-margined {
+    .parent-folder,
+    .child-folder {
+      margin-bottom: 6px;
+    }
+    .child-folders {
+      margin-top: 6px;
+    }
   }
   .fa-folder-open,
   .fa-folder {

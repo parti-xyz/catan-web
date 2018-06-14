@@ -12,32 +12,93 @@
           %i.fa.fa-ellipsis-v
           "에서 폴더를 만들 수 있습니다.
     - else
+      / 모든 폴더 리스트업
       - if @current_folder.blank?
-        .contents-header
-          %h4.contents-header__title
-            %i.fa.fa-folder-open-o
-            모든 폴더
-            %small 빠띠의 모든 폴더입니다.
-        - unless @folders.blank?
-          %ul.list-unstyled.threaded-folders
-            - Folder.threaded(@folders).each do |parent_folder, child_folders|
-              %li.parent-folder.parent-folder-margined
-                = link_to smart_folder_url(parent_folder) do
-                  - if child_folders.any?
-                    %i.fa.fa-folder-open
-                  - else
-                    %i.fa.fa-folder
-                  = parent_folder.title
-                - child_folders.each do |child_folder|
+        - if params[:edit].blank?
+          /
+          / 첫 화면
+          /
+          .contents-header
+            %h4.contents-header__title
+              %i.fa.fa-folder-o
+              모든 폴더
+              %span.dropdown{ style: 'position: relative;'}
+                %span.dropdown-toggle.cursor-pointer.hover-text-primary{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                  %small
+                    %i.fa.fa-chevron-down
+                %ul.dropdown-menu
+                  %li
+                    = link_to smart_issue_folders_path(@issue, edit: 1), class: 'text-nowrap' do
+                      폴더 관리
+              %small 빠띠의 모든 폴더입니다.
+          - unless @folders.blank?
+            %ul.list-unstyled.threaded-folders.threaded-folders-margined
+              - Folder.threaded(@folders).each do |parent_folder, child_folders|
+                %li.parent-folder
+                  = link_to smart_folder_url(parent_folder) do
+                    - if child_folders.any?
+                      %i.fa.fa-folder-open
+                    - else
+                      %i.fa.fa-folder
+                    = parent_folder.title
                   %ul.list-unstyled.child-folders
-                    %li.child-folder
-                      = link_to smart_folder_url(child_folder) do
+                    - child_folders.each do |child_folder|
+                      %li.child-folder
+                        = link_to smart_folder_url(child_folder), class: 'child-folder-title' do
+                          %i.fa.fa-folder
+                          = child_folder.title
+          - else @folders.blank?
+            .bg-default.text-center
+              %i.fa.fa-info-circle
+              폴더가 없습니다.
+        - else
+          /
+          / 수정할 폴더 고르는 화면
+          /
+          .contents-header
+            %h4.contents-header__title
+              = link_to smart_issue_folders_path(@issue) do
+                %i.fa.fa-folder-o
+                모든 폴더
+            %h5
+              폴더 관리
+              %small 수정할 폴더를 골라 주세요.
+          - unless @folders.blank?
+            %ul.list-unstyled.threaded-folders.threaded-folders-margined
+              - Folder.threaded(@folders).each do |parent_folder, child_folders|
+                %li.parent-folder.parent-folder
+                  %span.dropdown
+                    %span.dropdown-toggle.cursor-pointer.hover-text-primary{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                      - if child_folders.any?
+                        %i.fa.fa-folder-open
+                      - else
                         %i.fa.fa-folder
-                        = child_folder.title
-        - else @folders.blank?
-          .bg-default.text-center
-            %i.fa.fa-info-circle
-            폴더가 없습니다.
+                      = parent_folder.title
+                    %ul.dropdown-menu.pull-left
+                      %li
+                        = link_to [:edit, parent_folder, back_url: smart_issue_folders_url(@issue, edit: 1)], remote: true do
+                          수정
+                      %li
+                        = link_to [parent_folder, back_url: smart_issue_folders_url(@issue, edit: 1)], method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'text-nowrap' do
+                          삭제
+                  %ul.list-unstyled.child-folders
+                    - child_folders.each do |child_folder|
+                      %li.child-folder
+                        %span.child-folder-title.dropdown
+                          %span.dropdown-toggle.cursor-pointer.hover-text-primary{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                            %i.fa.fa-folder
+                            = child_folder.title
+                          %ul.dropdown-menu.pull-left
+                            %li
+                              = link_to [:edit, child_folder, back_url: smart_issue_folders_url(@issue, edit: 1)], remote: true do
+                                수정
+                            %li
+                              = link_to [child_folder, back_url: smart_issue_folders_url(@issue, edit: 1)], method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'text-nowrap' do
+                                삭제
+          - else @folders.blank?
+            .bg-default.text-center
+              %i.fa.fa-info-circle
+              폴더가 없습니다.
       - else
         .contents-header
           %h4.contents-header__title
@@ -47,22 +108,24 @@
             \/
             %span.dropdown{ style: 'position: relative;'}
               %span.dropdown-toggle.cursor-pointer.hover-text-primary{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-                = @current_folder.title
+                = @current_folder.full_title
                 %small
                   (#{@current_folder.posts.count})
                   %i.fa.fa-chevron-down
-              %ul.dropdown-menu.threaded-folders.pull-right{ "aria-labelledby": 'more-hashtag' }
+              %ul.dropdown-menu.threaded-folders.pull-right
                 - if @issue.folders.where.not(id: @current_folder.id).any?
                   %li.dropdown-header 다른 폴더로 이동
                   - Folder.threaded(@issue.folders).each do |parent_folder, child_folders|
                     %li.parent-folder.clearfix
                       = link_to smart_folder_url(parent_folder) do
+                        %i.fa.fa-folder
                         = parent_folder.title
                         - if parent_folder == @current_folder
                           %i.fa.fa-check.pull-right
                     - child_folders.each do |child_folder|
                       %li.child-folder.clearfix
-                        = link_to smart_folder_url(child_folder) do
+                        = link_to smart_folder_url(child_folder), class: 'child-folder-title' do
+                          %i.fa.fa-folder
                           = child_folder.title
                           - if child_folder == @current_folder
                             %i.fa.fa-check.pull-right

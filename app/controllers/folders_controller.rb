@@ -6,7 +6,11 @@ class FoldersController < ApplicationController
       errors_to_flash @folder
     end
 
-    redirect_to smart_issue_folders_path(@folder.issue)
+    if params[:back_url].present?
+      redirect_to params[:back_url]
+    else
+      redirect_to smart_issue_folders_path(@folder.issue)
+    end
   end
 
   def edit
@@ -20,7 +24,11 @@ class FoldersController < ApplicationController
       errors_to_flash(@folder)
     end
 
-    redirect_to smart_folder_url(@folder)
+    if params[:back_url].present?
+      redirect_to params[:back_url]
+    else
+      redirect_to smart_folder_url(@folder)
+    end
   end
 
   private

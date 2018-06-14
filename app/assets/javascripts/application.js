@@ -1786,6 +1786,11 @@ $(function(){
     } else {
       $('.js-new-folder').hide();
     }
+    if(select_value == "-2") {
+      $('.js-update-folder').show();
+    } else {
+      $('.js-update-folder').hide();
+    }
     $select_control.trigger('parti-need-to-validate');
   });
 

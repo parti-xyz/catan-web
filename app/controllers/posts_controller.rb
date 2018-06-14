@@ -268,7 +268,12 @@ class PostsController < ApplicationController
     if param_folder_id.blank?
       @folder = nil
     elsif param_folder_id == "-1"
-      @folder = Folder.new(title: params[:folder][:title], parent_id: params[:folder][:parent_id], issue: @post.issue)
+      @folder = Folder.new(title: params[:new_folder][:title], parent_id: params[:new_folder][:parent_id], issue: @post.issue)
+    elsif param_folder_id == "-2"
+      @folder = @post.folder
+      render_404 and return if @folder.blank?
+
+      @folder.update_attributes(title: params[:update_folder][:title], parent_id: params[:update_folder][:parent_id])
     else
       @folder = Folder.find_by(id: param_folder_id)
       render_404 and return if @folder.blank?

@@ -3,12 +3,13 @@ class Folder < ActiveRecord::Base
   belongs_to :issue
   has_many :posts, dependent: :nullify
   belongs_to :parent, class_name: Folder, foreign_key: :parent_id, counter_cache: :children_count
-  has_many :children, class_name: Folder, foreign_key: :parent_id
+  has_many :children, class_name: Folder, foreign_key: :parent_id, dependent: :destroy
 
   scope :only_parent, -> { where(parent_id: nil) }
   scope :sort_by_name, -> { order("if(ascii(substring(title, 1)) < 128, 1, 0)").order('title') }
 
   validates :title, uniqueness: {scope: [:issue_id]}
+  validate :check_parent_id
 
   def full_title
     result = ""
@@ -31,5 +32,11 @@ class Folder < ActiveRecord::Base
 
   def parent_or_self
     parent || self
+  end
+
+  def check_parent_id
+    if parent_id.present? and children.any?
+      errors.add(:parent_id, I18n.t('errors.messages.folders.too_deep'))
+    end
   end
 end

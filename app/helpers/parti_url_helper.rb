@@ -29,6 +29,10 @@ module PartiUrlHelper
     slug_issue_folders_path(options.merge(slug: issue.slug))
   end
 
+  def smart_issue_folders_url(issue, options = {})
+    slug_issue_folders_url(options.merge(slug: issue.slug))
+  end
+
   def smart_folder_url(folder, options = {})
     slug_issue_folder_url(options.merge(slug: folder.issue.slug, folder_id: folder.id, subdomain: folder.issue.group.try(:subdomain)))
   end
