@@ -451,6 +451,8 @@ section#issues-group-index {
           border-radius: $border-radius-base;
           background-color: $brand-primary;
           color: white;
+          font-size: $font-size-xsmall;
+          padding: 2px 2px 2px 5px;
         }
 
         & > small {

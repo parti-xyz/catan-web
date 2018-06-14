@@ -645,7 +645,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.focus {
   background: #eeeeee;
 }
 .datepicker .cw {
-  font-size: 10px;
+  font-size: $font-size-xsmall;
   width: 12px;
   padding: 0 2px 0 5px;
   vertical-align: middle;

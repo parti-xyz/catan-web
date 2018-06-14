@@ -840,7 +840,7 @@ select.icon-select option {
         padding: 0;
         &:before {
           line-height: 10px;
-          font-size: 10px;
+          font-size: $font-size-xsmall;
           width: 10px;
           height: 10px;
         }
