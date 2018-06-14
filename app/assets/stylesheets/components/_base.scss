@@ -47,6 +47,9 @@
       > a {
         font-weight: bold;
         padding: 5px 20px;
+        @media (max-width: $screen-xs-max) {
+          padding: 5px 10px;
+        }
         border: none;
         &:hover {
           background-color: transparent;
