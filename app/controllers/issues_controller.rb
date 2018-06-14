@@ -158,8 +158,8 @@ class IssuesController < ApplicationController
   end
 
   def create
-    if @issue.private? and current_group.try(:met_private_issues_quota?)
-      flash[:notice] = t('labels.group.met_private_issues_quota')
+    if current_group.try(:will_violate_issues_quota?, @issue)
+      flash[:notice] = t('labels.group.met_issues_quota')
       render 'new' and return
     end
 
@@ -184,7 +184,7 @@ class IssuesController < ApplicationController
 
   def update
     @issue.assign_attributes(issue_params)
-    if @issue.private_changed? and @issue.private? and current_group.try(:met_private_issues_quota?)
+    if current_group.try(:will_violate_issues_quota?, @issue)
       flash[:notice] = t('labels.group.met_private_issues_quota')
       render 'new' and return
     end

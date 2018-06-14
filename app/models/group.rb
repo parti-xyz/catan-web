@@ -10,7 +10,7 @@ class Group < ActiveRecord::Base
   include Invitable
 
   extend Enumerize
-  enumerize :plan, in: [:premium, :lite], predicates: true, scope: true
+  enumerize :plan, in: [:premium, :lite, :trial], predicates: true, scope: true
 
   SLUG_OF_UNION = 'union'
 
@@ -191,22 +191,50 @@ class Group < ActiveRecord::Base
     MemberRequest.with_deleted.where(joinable: self)
   end
 
-  PRIVATE_ISSUE_QUOTA_FOR_LITE_PLAN = 5
-  def met_private_issues_quota?
-    return false unless has_private_issues_quota?
-    issues.only_private.count >= Group::PRIVATE_ISSUE_QUOTA_FOR_LITE_PLAN
+  ISSUE_QUOTA_FOR_LITE_PLAN = 10
+  def quota_target_issues
+    if private?
+      issues
+    else
+      issues.only_private
+    end
   end
 
-  def has_private_issues_quota?
+  def met_issues_quota?
+    return false unless has_issues_quota?
+    quota_target_issues.count >= Group::ISSUE_QUOTA_FOR_LITE_PLAN
+  end
+
+  def will_violate_issues_quota?(working_issue)
+    return false unless has_issues_quota?
+
+    target_count = quota_target_issues.count
+
+    if quota_target_issues.include?(working_issue)
+      target_count -= 1
+    end
+
+    if private? or working_issue.private?
+      target_count = target_count + 1
+    end
+
+    target_count > Group::ISSUE_QUOTA_FOR_LITE_PLAN
+  end
+
+  def trial?
+    plan == :trial
+  end
+
+  def has_issues_quota?
     return false if indie?
     plan == :lite
   end
 
   def changable_private_for_issue?(issue)
-    return true unless has_private_issues_quota?
+    return true unless has_issues_quota?
     return true if issue.private?
-
-    !met_private_issues_quota?
+    return true if private?
+    !met_issues_quota?
   end
 
   def visiable_latest_stroked_posts_count
