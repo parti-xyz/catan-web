@@ -9,6 +9,7 @@
           = Group.human_attribute_name(:title)
           \/
           = Group.human_attribute_name(:site_title)
+        %th.text-nowrap Plan
         %th.text-nowrap= Group.human_attribute_name(:head_title)
         %th.text-nowrap= Group.human_attribute_name(:slug)
         %th.text-nowrap= Group.human_attribute_name(:site_keywords)
@@ -25,6 +26,12 @@
             %br
             = link_to '수정', edit_group_configuration_url(subdomain: group.subdomain), class: 'btn btn-default'
             = link_to '삭제', admin_group_path(group), method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'btn btn-default'
+          %td.text-nowrap
+            = form_tag update_plan_admin_group_path(group), method: :post, class: 'form-inline' do
+              .form-group
+                = select_tag :plan, options_for_select(Group.plan.options, group.plan), class: 'form-control'
+              .form-group
+                = submit_tag '변경', data: { confirm: '정말 변경하시겠습니까?' }, class: 'btn btn-default'
           %td.text-nowrap= group.head_title
           %td= root_url(subdomain: group.slug)
           %td= group.site_keywords

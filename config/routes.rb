@@ -320,7 +320,11 @@ Rails.application.routes.draw do
         get 'stat'
       end
     end
-    resources :groups
+    resources :groups do
+      member do
+        post :update_plan
+      end
+    end
     resources :blinds
     resources :active_issue_stats
     resources :landing_pages do

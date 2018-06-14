@@ -14,4 +14,16 @@ class Admin::GroupsController < Admin::BaseController
     end
     redirect_to admin_groups_path
   end
+
+  def update_plan
+    @group = Group.find_by(id: params[:id])
+    render_404 and return if @group.blank?
+
+    @group.update_attributes(plan: params[:plan])
+    begin
+      redirect_to :back
+    rescue ActionController::RedirectBackError
+      redirect_to admin_groups_path
+    end
+  end
 end
