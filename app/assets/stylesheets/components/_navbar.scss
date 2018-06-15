@@ -221,6 +221,17 @@ $side-menu-width: 256px;
     }
   }
 
+  .nav > li.my-menu > a,
+  .nav > .my-home-menu > a,
+  .nav > .notification-menu > a {
+    body.light-theme.in-group & {
+      color: $gray-dark;
+    }
+    body.dark-theme.in-group & {
+      color: white;
+    }
+  }
+
   .notification-menu {
     .icon-bell-stack{
       position: relative;

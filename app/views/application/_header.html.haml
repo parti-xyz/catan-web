@@ -8,7 +8,7 @@
               %i.fa.fa-bars{style:"font-size: 18px;"}
               내 메뉴
           %li
-            = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard') or current_page?('/messages') or current_page?('/posts/pinned')}" do
+            = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard')}" do
               %i.fa.fa-home{style:"font-size: 18px;"}
               내 홈
           - if user_signed_in?
