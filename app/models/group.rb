@@ -47,6 +47,7 @@ class Group < ActiveRecord::Base
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
+    exclusion: { in: %w(all app new edit index session login logout users admin stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false },
     length: { maximum: 20 }
   validate :not_predefined_slug

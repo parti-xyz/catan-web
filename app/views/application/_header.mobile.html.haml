@@ -22,6 +22,9 @@
 
 
     %ul.nav.navbar-nav.navbar-right
+      %li.seach-menu
+        = link_to search_url(subdomain: nil) do
+          %i.fa.fa-search
       - if user_signed_in?
         %li.notification-menu.js-notification-menu
           = render 'application/notification_menu.mobile'

@@ -172,6 +172,38 @@ $side-menu-width: 256px;
     }
   }
 
+  // search
+  .seach-menu {
+    > form {
+      padding-top: 8px;
+      .form-group-q {
+        padding-left: 8px;
+        padding-right: 8px;
+        position: relative;
+        .form-control-q {
+          padding-right: 50px;
+        }
+        .btn-wrapper {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+    @media (max-width: $screen-xs-max) {
+      > a {
+        font-size: 20px;
+        body.dark-theme & {
+          color: white;
+        }
+        body.light-theme &{
+          color: $brand-primary;
+        }
+      }
+
+    }
+  }
+
   // messages bell button
 
   .notification-setting,
@@ -254,6 +286,13 @@ $side-menu-width: 256px;
         background-clip: padding-box;
         min-width: 200px;
       }
+    }
+  }
+
+  .profile-menu {
+    a.dropdown-toggle {
+      padding-top: 13px;
+      padding-bottom: 13px;
     }
   }
 
@@ -639,11 +678,12 @@ $drawer-default-space-mobile: 12px;
   top: (-$header-menu-height);
   @media (max-width: $screen-xs-max) {
     top: (-$header-menu-height-mobile);
+    z-index: $zindex-xs-slideout-backdrop;
   }
+  z-index: $zindex-slideout-backdrop;
   bottom: 0;
   width: 100%;
   background-color: rgba(0,0,0,.5);
-  z-index: $zindex-slideout-backdrop;
 }
 
 .main-panel-translate {
@@ -664,6 +704,9 @@ $drawer-default-space-mobile: 12px;
   bottom: 0;
   width: 100%;
   background-color: rgba(0,0,0,.5);
+  @media (max-width: $screen-xs-max) {
+    z-index: $zindex-xs-slideout-backdrop;
+  }
   z-index: $zindex-slideout-backdrop;
   height: 100vh;
 }
@@ -702,6 +745,9 @@ $drawer-default-space-mobile: 12px;
   &.sidebar-open-in-advance {
     .sidebar-wrapper {
       display: block;
+      @media (max-width: $screen-xs-max) {
+        z-index: $zindex-xs-slideout-backdrop;
+      }
       z-index: $zindex-slideout-backdrop;
     }
     .content-wrapper {

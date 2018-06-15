@@ -206,9 +206,9 @@
   height: 20px;
   background-color: #fff;
 }
-.circle-25 {
-  width: 25px;
-  height: 25px;
+.circle-24 {
+  width: 24px;
+  height: 24px;
   background-color: #fff;
 }
 .circle-30 {
@@ -325,6 +325,7 @@ label.required:after {
   &-loading {
     color: $gray;
     display: none;
+    margin-top: 20px;
   }
 }
 
@@ -781,6 +782,13 @@ section.contents-page {
         margin-bottom: 0;
       }
     }
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  .content-section-body.xs-horizontal-padding {
+    padding-left: 15px;
+    padding-right: 15px;
   }
 }
 
