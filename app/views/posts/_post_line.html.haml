@@ -62,7 +62,7 @@
             - action_options = { 'data-url': image_photoswipe_url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': post.specific_desc_striped_tags(100), 'data-index': index }
 
             - if current_style == 'single'
-              - if file_source.image_width < 400
+              - if file_source.image_width < single_image_breakpoint
                 .post-reference-line__small-image-wrapper<>
                   .post-reference-line__file-content--image.js-photoswipe-image{ action_options, class: current_style }<>= image_tag image_single_url
               - else

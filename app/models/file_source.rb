@@ -88,7 +88,7 @@ class FileSource < ActiveRecord::Base
   end
 
   def self.require_attrbutes
-    [:id, :seq_no, :attachment, :attachemnt_cache, :_destroy]
+    [:id, :seq_no, :attachment, :attachment_cache, :_destroy]
   end
 
   private

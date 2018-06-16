@@ -15,6 +15,11 @@ class PostsController < ApplicationController
       render_404 and return
     end
 
+    if 'true' == params[:need_remotipart] and !remotipart_submitted?
+      Rails.logger.info "DOUBLE REMOTIPART!!"
+      head 200 and return
+    end
+
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
       errors_to_flash(@post)

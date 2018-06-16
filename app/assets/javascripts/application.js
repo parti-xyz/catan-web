@@ -1033,6 +1033,21 @@ $(function(){
       $form.find('.js-post-editor-file_sources-add-btn .js-current-count').text(count);
     }
 
+    function check_remotipart($form) {
+      var count = $form.find('.js-post-editor-file_sources-wrapper .nested-fields:visible').length;
+      var $need_remotipart = $form.find("input[name='need_remotipart']");
+      if ($need_remotipart.length <= 0) {
+        $need_remotipart = $('<input type="hidden" name="need_remotipart" />');
+        $form.append($need_remotipart);
+      }
+
+      if (count > 0) {
+        $need_remotipart.val('true');
+      } else {
+        $need_remotipart.val('false');
+      }
+    }
+
     $('body').on('change', '.js-editor-file_source-attachment-input', function(e) {
       if (!(this.files && this.files[0])) {
         return;
@@ -1056,6 +1071,7 @@ $(function(){
           $form_group.css('display', 'inline-block');
           $form.find('.js-form-group-images').addClass('js-any');
           check_to_hide_or_show_add_link($form);
+          check_remotipart($form);
         } else {
           $form_group.find('.js-upload-doc .name').text(current_file.name);
           $form_group.find('.js-upload-doc .size').text(formatBytes(current_file.size));
@@ -1067,6 +1083,7 @@ $(function(){
       }
 
       check_to_hide_or_show_add_link($form);
+      check_remotipart($form);
     });
 
     $('body').on('cocoon:after-insert', '.js-post-editor-file_sources-wrapper', function(e, item) {
@@ -1099,6 +1116,7 @@ $(function(){
       }
 
       check_to_hide_or_show_add_link($form);
+      check_remotipart($form);
     });
   })();
 

@@ -6,6 +6,13 @@ class CommentsController < ApplicationController
   def create
     set_choice
     @comment.user = current_user
+
+    if 'true' == params[:need_remotipart] and !remotipart_submitted?
+      Rails.logger.info "DOUBLE REMOTIPART!!"
+      head 200 and return
+    end
+
+
     if @comment.save
       @comment.perform_mentions_async
     end
