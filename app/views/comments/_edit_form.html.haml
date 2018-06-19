@@ -21,12 +21,12 @@
       = link_to_add_association '+ 추가', f, :file_sources, partial: 'comments/file_source_fields', 'data-association-insertion-node': "##{form_group_images_dom_id} .js-last-position"
       %span.count
         (
-        %span.js-current-count<> 0
+        %span.js-current-count<>= @comment.file_sources.count
         \/20)
 
   .comment-form__control
-    = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
-    = f.button type: 'submit', name: 'cancel', value: true, remote: true, class: 'btn btn-default' do
+    = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "..." }
+    = f.button type: 'submit', name: 'cancel', value: true, remote: true, class: 'btn btn-default', data: { disable_with: "..." } do
       취소
     .comment-form__btn--file-source.js-show-comment-file-source-form
       = t('labels.new_post_file_source_button')
