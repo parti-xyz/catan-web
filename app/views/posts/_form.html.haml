@@ -17,6 +17,38 @@
           = ff.label :title
           = ff.text_field :title, placeholder: '찬반투표 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
 
+        .form-group
+          = ff.label :duration_days do
+            진행 기간을 선택하세요
+          %div
+            - current_duration_day = '0'
+
+            - poll_durationsoptions = []
+            - if @post.poll.expires_at.present? and @post.poll.open?
+              - poll_durationsoptions << ["기간 변경없이 #{l @post.poll.expires_at.to_date}까지 진행", '']
+              - current_duration_day = ''
+
+            - poll_durationsoptions += [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]]
+
+            - poll_durationsoptions << [(@post.poll.open? ? '바로 종료' : '종료 유지'), -1]
+            - unless @post.poll.open?
+              - current_duration_day = '-1'
+
+            = ff.select :duration_days, options_for_select(poll_durationsoptions, current_duration_day), {}, class: 'form-control'
+
+        .form-group
+          .form-inline
+            .checkbox
+              %label.text-muted
+                = ff.check_box :hidden_intermediate_result
+                종료 될 때까지 중간 투표 집계를 숨깁니다.
+
+          .form-inline
+            .checkbox
+              %label.text-muted
+                = ff.check_box :hidden_voters
+                누가 어디에 투표했는지 비밀로 합니다.
+
     - elsif @post.survey.present?
       = f.fields_for :survey do |ff|
         .form-group
@@ -25,11 +57,13 @@
           %div
             - current_duration_day = '0'
 
+            - survey_durationsoptions = []
+
             - if @post.survey.expires_at.present? and @post.survey.open?
-              - survey_durationsoptions = [["기간 변경없이 #{l @post.survey.expires_at.to_date}까지 진행", '']]
+              - survey_durationsoptions << ["기간 변경없이 #{l @post.survey.expires_at.to_date}까지 진행", '']
               - current_duration_day = ''
 
-            - survey_durationsoptions = [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]]
+            - survey_durationsoptions += [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]]
 
             - survey_durationsoptions << [(@post.survey.open? ? '바로 종료' : '종료 유지'), -1]
             - unless @post.survey.open?

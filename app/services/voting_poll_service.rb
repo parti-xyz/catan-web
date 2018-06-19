@@ -9,6 +9,10 @@ class VotingPollService
   end
 
   def agree
+    unless self.poll.open?
+      return
+    end
+
     previous_voting = self.poll.voting_by current_user
     if previous_voting.present?
       voting = previous_voting
@@ -24,6 +28,10 @@ class VotingPollService
   end
 
   def disagree
+    unless self.poll.open?
+      return
+    end
+
     previous_voting = self.poll.voting_by current_user
     if previous_voting.present?
       voting = previous_voting
@@ -39,6 +47,10 @@ class VotingPollService
   end
 
   def neutral
+    unless self.poll.open?
+      return
+    end
+
     previous_voting = self.poll.voting_by current_user
     if previous_voting.present?
       voting = previous_voting
@@ -54,6 +66,10 @@ class VotingPollService
   end
 
   def unsure
+    unless self.poll.open?
+      return
+    end
+
     previous_voting = self.poll.voting_by current_user
     if previous_voting.present?
       voting = previous_voting

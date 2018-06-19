@@ -442,6 +442,7 @@ class Post < ActiveRecord::Base
     else
       self.poll = Poll.new(params) if self.has_poll == 'true'
     end
+    self.poll.try(:setup_expires_at)
   end
 
   def build_survey(params)

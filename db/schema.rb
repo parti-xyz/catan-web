@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180614105024) do
+ActiveRecord::Schema.define(version: 20180619124310) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -496,10 +496,13 @@ ActiveRecord::Schema.define(version: 20180614105024) do
   add_index "parti_sso_client_api_keys", ["user_id", "client"], name: "index_parti_sso_client_api_keys_on_user_id_and_client", unique: true, using: :btree
 
   create_table "polls", force: :cascade do |t|
-    t.string   "title",         limit: 255,             null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.integer  "votings_count", limit: 4,   default: 0
+    t.string   "title",                      limit: 255,                 null: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.integer  "votings_count",              limit: 4,   default: 0
+    t.boolean  "hidden_intermediate_result",             default: false
+    t.boolean  "hidden_voters",                          default: false
+    t.datetime "expires_at"
   end
 
   create_table "post_searchable_indices", force: :cascade do |t|

@@ -62,6 +62,15 @@
       vertical-align: bottom;
     }
   }
+  .poll__vote__footer {
+    padding-top: 12px;
+    border-top: 1px solid #eaeaeb;
+    margin-top: 24px;
+    padding-bottom: 12px;
+    margin-bottom: -24px;
+    font-size: 12px;
+    color: $gray;
+  }
   &:hover {
     border: 1px solid $brand-primary-light;
   }
@@ -141,8 +150,12 @@
       color: $gray-a;
     }
   }
-  .text-muted {
+  .help-text {
+    font-size: $font-size-small;
     margin-top: 14px;
+  }
+  .help-text + .poll-card__footer {
+    margin-top: 20px;
   }
 }
 .text-muted {
@@ -181,16 +194,16 @@
   }
 }
 
-.vote__results {
+.vote__buttons-sured {
   .btn-primary {
     .btn-icon img {
       margin-top: -21px;
     }
   }
-  .vote__results__agree, .vote__results__neutral, .vote__results__disagree {
+  .vote__buttons-sured__agree, .vote__buttons-sured__neutral, .vote__buttons-sured__disagree {
     display: inline-block;
   }
-  .vote__results__voters {
+  .vote__buttons-sured__voters {
     display: none;
     .post-body & {
       display: block;
@@ -241,10 +254,39 @@
   }
 }
 
-.vote__results, .vote__buttons {
+.vote__buttons-sured, .vote__buttons {
   img {
     width: 20px;
     height: auto;
+  }
+}
+.vote__buttons-closed .vote__result {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0px 2px;
+  min-width: 68px;
+  border-radius: $border-radius-base;
+
+  &-agree {
+    color: $brand-success;
+    &.voted {
+      background-color: $brand-success;
+    }
+  }
+  &-neutral {
+    color: $brand-primary;
+    &.voted {
+      background-color: $brand-primary;
+    }
+  }
+  &-disagree {
+    color: $brand-danger;
+    &.voted {
+      background-color: $brand-danger;
+    }
+  }
+  &.voted {
+    color: white;
   }
 }
 
@@ -308,7 +350,7 @@
         text-decoration: none;
       }
     }
-    .vote__results {
+    .vote__buttons-sured {
       .col-xs-6 {
         padding: 0 3px;
       }

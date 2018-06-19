@@ -1,102 +1,139 @@
 - post ||= poll.post
 - poll ||= post.poll
 .poll__vote-section[post]{class: post_votings_dom_class(post) }
-
-  - if !user_signed_in?
-    / 로그인 안함
-    .vote__buttons
-      = link_to '#', class: 'btn btn-default btn-ghost btn-success', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
-        %i.fa.fa-thumbs-up
-        찬성
-      = link_to '#', class: 'btn btn-default btn-ghost btn-primary', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
-        중립
-      = link_to '#', class: 'btn btn-default btn-ghost btn-danger', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_disagree, id: poll.id}.to_json) } do
-        %i.fa.fa-thumbs-down
-        반대
-      .vote__buttons--unsure
-        = link_to '#', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_unsure, id: poll.id}.to_json) } do
-          잘 모르겠습니다
-
-  - elsif poll.sured_by? current_user
-    / 로그인 & 투표완료
-    .vote__results.clearfix
-      .vote__results__agree
-        - if poll.agreed_by?(current_user)
-          - agree_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
-          - agree_btn_classes = { class: 'btn btn-primary btn-success-dark' }
-          - agree_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_agree') }.merge agree_btn_classes
-        - else
-          - agree_btn_link = poll_votings_path(poll, voting: {choice: :agree})
-          - agree_btn_classes = { class: 'btn btn-default btn-ghost btn-success' }
-          - agree_btn_options = { method: :post, remote: true }.merge agree_btn_classes
-
-        = link_to agree_btn_link, agree_btn_options do
+  - if poll.open?
+    - if !user_signed_in?
+      / 로그인 안함
+      .vote__buttons
+        = link_to '#', class: 'btn btn-default btn-ghost btn-success', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
           %i.fa.fa-thumbs-up
-          %span 찬성
-          %p.count= poll.votings.with_choice(:agree).count
-
-      .vote__results__neutral
-        - if poll.neutral_by?(current_user)
-          - neutral_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
-          - neutral_btn_classes = { class: 'btn btn-primary btn-primary-dark' }
-          - neutral_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_neutral') }.merge neutral_btn_classes
-        - else
-          - neutral_btn_link = poll_votings_path(poll, voting: {choice: :neutral})
-          - neutral_btn_classes = { class: 'btn btn-default btn-ghost btn-primary' }
-          - neutral_btn_options = { method: :post, remote: true }.merge neutral_btn_classes
-
-        = link_to neutral_btn_link, neutral_btn_options do
-          %span 중립
-          %p.count= poll.votings.with_choice(:neutral).count
-
-      .vote__results__disagree
-        - if poll.disagreed_by?(current_user)
-          - disagree_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
-          - disagree_btn_classes = { class: 'btn btn-primary btn-danger-dark' }
-          - disagree_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_disagree') }.merge disagree_btn_classes
-        - else
-          - disagree_btn_link = poll_votings_path(poll, voting: {choice: :disagree})
-          - disagree_btn_classes = { class: 'btn btn-default btn-ghost btn-danger' }
-          - disagree_btn_options = { method: :post, remote: true }.merge disagree_btn_classes
-
-        = link_to disagree_btn_link, disagree_btn_options do
+          찬성
+        = link_to '#', class: 'btn btn-default btn-ghost btn-primary', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
+          중립
+        = link_to '#', class: 'btn btn-default btn-ghost btn-danger', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_disagree, id: poll.id}.to_json) } do
           %i.fa.fa-thumbs-down
-          %span 반대
-          %p.count= poll.votings.with_choice(:disagree).count
-
-  - else
-    .vote__buttons
-      / 로그인 & 투표 전
-      = link_to poll_votings_path(poll, voting: {choice: :agree}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-success' do
-        %i.fa.fa-thumbs-up
-        찬성
-      = link_to poll_votings_path(poll, voting: {choice: :neutral}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-primary' do
-        중립
-      = link_to poll_votings_path(poll, voting: {choice: :disagree}), method: :post, remote: true, class: 'btn btn-default btn-ghost btn-danger' do
-        %i.fa.fa-thumbs-down
-        반대
-      .vote__buttons--unsure
-        - if poll.unsured_by? current_user
-          .vote__buttons--unsure--label
-            - if local_assigns[:in_post]
-              댓글로 의견을 나눠 보세요.
-            - else
-              %sapn.text-muted{ data: { data: "parti-link", url: smart_post_path_or_url(post) } }
-                댓글로 의견을 나눠 보세요.
-        - else
-          = link_to poll_votings_path(poll, voting: {choice: :unsure}), method: :post, remote: true do
+          반대
+        .vote__buttons--unsure
+          = link_to '#', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_unsure, id: poll.id}.to_json) } do
             잘 모르겠습니다
 
-  .text-muted.text-basic-wrap
-    - if poll.votings.any?
-      .vote-count{ class: (poll.sured_by?(current_user) ? 'cursor-pointer' : 'cursor-default'), data: { action: ('parti-popover' if poll.sured_by?(current_user)), type: 'async', url: users_poll_votings_path(poll_id: poll.id), trigger: 'click', placement: 'auto-bottom', style: 'voting-result', width: (260 if is_small_screen?)} }
-        현재
+    - elsif poll.sured_by? current_user
+      / 로그인 & 투표완료
+      .vote__buttons-sured.clearfix
+        .vote__buttons-sured__agree
+          - if poll.agreed_by?(current_user)
+            - agree_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
+            - agree_btn_classes = { class: 'btn btn-primary btn-success-dark' }
+            - agree_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_agree'), 'data-disable-with': '...' }.merge agree_btn_classes
+          - else
+            - agree_btn_link = poll_votings_path(poll, voting: {choice: :agree})
+            - agree_btn_classes = { class: 'btn btn-default btn-ghost btn-success' }
+            - agree_btn_options = { method: :post, remote: true, 'data-disable-with': '...' }.merge agree_btn_classes
+
+          = link_to agree_btn_link, agree_btn_options do
+            %i.fa.fa-thumbs-up
+            %span 찬성
+            - unless poll.hidden_intermediate_result?
+              %p.count= poll.votings.with_choice(:agree).count
+
+        .vote__buttons-sured__neutral
+          - if poll.neutral_by?(current_user)
+            - neutral_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
+            - neutral_btn_classes = { class: 'btn btn-primary btn-primary-dark' }
+            - neutral_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_neutral'), 'data-disable-with': '...' }.merge neutral_btn_classes
+          - else
+            - neutral_btn_link = poll_votings_path(poll, voting: {choice: :neutral})
+            - neutral_btn_classes = { class: 'btn btn-default btn-ghost btn-primary' }
+            - neutral_btn_options = { method: :post, remote: true, 'data-disable-with': '...' }.merge neutral_btn_classes
+
+          = link_to neutral_btn_link, neutral_btn_options do
+            %span 중립
+            - unless poll.hidden_intermediate_result?
+              %p.count= poll.votings.with_choice(:neutral).count
+
+        .vote__buttons-sured__disagree
+          - if poll.disagreed_by?(current_user)
+            - disagree_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
+            - disagree_btn_classes = { class: 'btn btn-primary btn-danger-dark' }
+            - disagree_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_disagree'), 'data-disable-with': '...' }.merge disagree_btn_classes
+          - else
+            - disagree_btn_link = poll_votings_path(poll, voting: {choice: :disagree})
+            - disagree_btn_classes = { class: 'btn btn-default btn-ghost btn-danger' }
+            - disagree_btn_options = { method: :post, remote: true, 'data-disable-with': '...' }.merge disagree_btn_classes
+
+          = link_to disagree_btn_link, disagree_btn_options do
+            %i.fa.fa-thumbs-down
+            %span 반대
+            - unless poll.hidden_intermediate_result?
+              %p.count= poll.votings.with_choice(:disagree).count
+
+    - else
+      .vote__buttons
+        / 로그인 & 투표 전
+        = link_to poll_votings_path(poll, voting: {choice: :agree}), method: :post, remote: true, 'data-disable-with': '...', class: 'btn btn-default btn-ghost btn-success' do
+          %i.fa.fa-thumbs-up
+          찬성
+        = link_to poll_votings_path(poll, voting: {choice: :neutral}), method: :post, remote: true, 'data-disable-with': '...', class: 'btn btn-default btn-ghost btn-primary' do
+          중립
+        = link_to poll_votings_path(poll, voting: {choice: :disagree}), method: :post, remote: true, 'data-disable-with': '...', class: 'btn btn-default btn-ghost btn-danger' do
+          %i.fa.fa-thumbs-down
+          반대
+        .vote__buttons--unsure
+          - if poll.unsured_by? current_user
+            .vote__buttons--unsure--label
+              - if local_assigns[:in_post]
+                댓글로 의견을 나눠 보세요.
+              - else
+                %sapn.text-muted{ data: { data: "parti-link", url: smart_post_path_or_url(post) } }
+                  댓글로 의견을 나눠 보세요.
+          - else
+            = link_to poll_votings_path(poll, voting: {choice: :unsure}), method: :post, remote: true, 'data-disable-with': '...' do
+              잘 모르겠습니다
+  - else
+    .vote__buttons.vote__buttons-closed
+      / 종료
+      .vote__result.vote__result-agree{ class: ('voted' if poll.agreed_by?(current_user)) }
+        %i.fa.fa-thumbs-up
+        찬성
+        %p.count= poll.votings.with_choice(:agree).count
+      .vote__result.vote__result-neutral{ class: ('voted' if poll.neutral_by?(current_user)) }
+        중립
+        %p.count= poll.votings.with_choice(:neutral).count
+      .vote__result.vote__result-disagree{ class: ('voted' if poll.disagreed_by?(current_user)) }
+        %i.fa.fa-thumbs-down
+        반대
+        %p.count= poll.votings.with_choice(:disagree).count
+  .help-text.text-muted.text-basic-wrap
+    - if poll.votings.sure.any?
+      .vote-count{ class: (poll.sured_by?(current_user) ? 'cursor-pointer' : 'cursor-default'), data: { action: ('parti-popover' if poll.sured_by?(current_user)), type: 'async', url: users_poll_votings_path(poll_id: poll.id), trigger: 'click', placement: 'bottom', style: 'voting-result', width: (260 if is_small_screen?)} }
         %span
           %strong.text-primary<>
             #{poll.votings.sure.count}
           명이
         %span 찬반 투표했습니다.
 
+        - if poll.sured_by?(current_user)
+          %span
+            자세히 보기
+            %i.fa.fa-angle-double-right
+
     - if !user_signed_in? or !poll.sured_by?(current_user)
       %p
         찬반 투표하면 현재 결과를 볼 수 있습니다.
+
+  - footers = []
+  - remain_time_human = capture do
+    %span.text-basic-wrap= poll.remain_time_human
+  - footers << capture do
+    - if poll.hidden_intermediate_result?
+      %span.text-basic-wrap 중간 집계 숨김
+  - footers << capture do
+    - if poll.hidden_voters?
+      %span.text-basic-wrap 비밀 투표
+  - footers.compact!
+
+  - if footers.any?
+    - footers.unshift(remain_time_human)
+    .poll__vote__footer
+      != footers.join(' &middot; ')
+

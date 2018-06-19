@@ -21,6 +21,8 @@ class Poll < ActiveRecord::Base
     end
   end
 
+  include Expirable
+
   has_one :post, dependent: :destroy
   has_many :votings, dependent: :destroy do
     def partial_included_with(someone)

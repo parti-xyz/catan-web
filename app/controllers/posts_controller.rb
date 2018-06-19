@@ -346,7 +346,7 @@ class PostsController < ApplicationController
     end
 
     poll = params[:post][:poll_attributes]
-    poll_attributes = [:title] if poll.present?
+    poll_attributes = [:title, :duration_days, :hidden_intermediate_result, :hidden_voters] if poll.present?
 
     survey = params[:post][:survey_attributes]
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)

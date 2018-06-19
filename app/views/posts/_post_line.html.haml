@@ -105,7 +105,7 @@
               - if (post.link_source.has_image?)
                 .media-right.hidden-xs.post-reference-line__link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})", 'data-action': 'parti-link', 'data-url': post.link_source.url, 'data-link-target': '_blank', class: ('webp' if is_webp?(post.link_source.image.url)) }
     - elsif post.poll.present?
-      = render 'polls/poll', local_assigns.merge(poll: post.poll, in_post: true)
+      = render 'polls/poll', local_assigns.merge(poll: post.poll, in_post: true, show_decision: false)
     - elsif post.survey.present?
       = render 'surveys/card', local_assigns
     - elsif post.wiki.present?
