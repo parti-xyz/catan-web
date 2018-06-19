@@ -21,7 +21,7 @@
                     = link_to '게시 중', { status: 'active', folder_id: @folder.try(:id) }
                   %li{ class: "#{('active' if params['status'] == 'inactive')}" }
                     = link_to '아카이브된', { status: 'inactive', folder_id: @folder.try(:id) }
-                  .text-right{ style: "font-weight: bold; margin-right: 10px;"}
+                  .new-wiki
                     = link_to new_wiki_posts_path(issue_id: @issue.id) do
                       새로운 위키
                       %i.fa.fa-edit
