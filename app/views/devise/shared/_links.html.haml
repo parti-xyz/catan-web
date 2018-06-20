@@ -3,7 +3,7 @@
   %ul.list-inline
     - if controller_name != 'sessions'
       %li(style='margin-right: 0')
-        = link_to "로그인", new_session_path(:user)
+        = link_to "로그인하기", new_session_path(:user)
     - if Devise.mappings[:user].recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
       %li(style='margin-right: 0')
         = link_to "비밀번호를 잊으셨나요?", new_password_path(:user)
