@@ -9,28 +9,29 @@
             %h4.contents-header__title.vertical-shrinking
               %i.fa.fa-search
               #{@search_q}
-              %span.dropdown{ style: 'margin-right: 12px;' }
-                %a.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
-                  - if @current_search_group.present?
-                    \/
-                    = group_my_parties_section_title(@current_search_group)
-                  - else
-                    \/
-                    전체
-                  %small
-                    %i.fa.fa-chevron-down
-                %ul.dropdown-menu.dropdown-menu-dashboard-group
-                  - if @current_search_group.present?
-                    %li
-                      = link_to search_url(subdomain: nil, nav_q: @search_q, group_slug: :all) do
-                        전체
-                    %li.divider
-                  - Group.comprehensive_joined_by(current_user).each do |group|
-                    %li{ class: ('selected' if @current_search_group == group) }
-                      = link_to search_url(subdomain: nil, nav_q: @search_q, group_slug: group.slug)  do
-                        = group_my_parties_section_title(group)
-                        - if @current_search_group == group
-                          %i.fa.fa-check
+              - if Group.comprehensive_joined_by(current_user).any?
+                %span.dropdown{ style: 'margin-right: 12px;' }
+                  %a.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
+                    - if @current_search_group.present?
+                      \/
+                      = group_my_parties_section_title(@current_search_group)
+                    - else
+                      \/
+                      전체
+                    %small
+                      %i.fa.fa-chevron-down
+                  %ul.dropdown-menu.dropdown-menu-dashboard-group
+                    - if @current_search_group.present?
+                      %li
+                        = link_to search_url(subdomain: nil, nav_q: @search_q, group_slug: :all) do
+                          전체
+                      %li.divider
+                    - Group.comprehensive_joined_by(current_user).each do |group|
+                      %li{ class: ('selected' if @current_search_group == group) }
+                        = link_to search_url(subdomain: nil, nav_q: @search_q, group_slug: group.slug)  do
+                          = group_my_parties_section_title(group)
+                          - if @current_search_group == group
+                            %i.fa.fa-check
 
               %small.hidden-xs
                 - if @current_search_group.present?
