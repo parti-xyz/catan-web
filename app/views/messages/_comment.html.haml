@@ -3,7 +3,7 @@
     %strong
       = message.sender.nickname
       님이 내 게시글에 댓글을 남겼습니다.
-    = link_to excerpt(comment.body, length: 100), smart_post_url(comment.post)
+    = link_to excerpt(comment.body, length: 100), smart_post_url(comment.post, anchor: comment_line_anchor_dom_id(comment))
   - else
     %strong
       - if comment.mentioned?(message.user)
@@ -14,4 +14,4 @@
           #{message.sender.nickname}님이
           #{comment.post.user.nickname}님의 게시글에
           댓글을 남겼습니다.
-    = link_to excerpt(comment.body, length: 100), smart_post_url(comment.post)
+    = link_to excerpt(comment.body, length: 100), smart_post_url(comment.post, anchor: comment_line_anchor_dom_id(comment))

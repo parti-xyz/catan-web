@@ -1,9 +1,10 @@
 - if upvote.upvotable.is_a? Comment
-  - post = upvote.upvotable.post
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
+  - comment = upvote.upvotable
+  - post = comment.post
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post, anchor: comment_line_anchor_dom_id(comment)) } }
     %strong
       #{message.sender.nickname}님이 내 댓글에 공감합니다.
-    = link_to excerpt(upvote.upvotable.body, length: 100), smart_post_url(post)
+    = link_to excerpt(comment.body, length: 100), smart_post_url(post, anchor: comment_line_anchor_dom_id(comment))
 - else
   - post = upvote.upvotable
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
