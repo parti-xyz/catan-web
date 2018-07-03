@@ -1,7 +1,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+  def initialize(user, controller_namespace, current_group)
     can [:read, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form], :all
     can [:home, :indies, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
@@ -58,8 +58,14 @@ class Ability
       end
 
       can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
+
       can [:destroy], Member do |member|
         member.user == user or user.is_organizer?(member.joinable)
+      end
+      if 'Group' == controller_namespace
+        cannot [:invite_issues_form, :invite_issues], Member do |member|
+          current_group.blank? or !current_group.try(:member?, user)
+        end
       end
       can [:create], MemberRequest, user_id: user.id
       can [:accept, :reject], MemberRequest do |request|

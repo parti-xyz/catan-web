@@ -4,16 +4,17 @@
   .container
     = render 'group/members/tab_menu'
 
-    %section{ style: "padding-top: 20px" }
-      %h4.group-heading
-        그룹 내 프로필 관리
+    - if current_group.try(:member?, current_user)
+      %section{ style: "padding-top: 20px" }
+        %h4.group-heading
+          내 프로필 관리
 
-      .members-profile-form
-        = form_tag update_profile_group_members_path, method: :post do
-          .input-group
-            = text_field_tag :description, nil, class: 'form-control'
-            %span.input-group-btn
-              = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+        .members-profile-form
+          = form_tag update_profile_group_members_path, method: :post do
+            .input-group
+              = text_field_tag :description, current_group.member_of(current_user).try(:description) || "#{current_user.nickname}입니다", class: 'form-control'
+              %span.input-group-btn
+                = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
 
     - if (current_user.try(:admin?) or current_group.organized_by?(current_user)) and current_group.invitations.any?
       %section{ style: "padding-top: 20px" }
@@ -55,7 +56,7 @@
 
     %section{ style: "padding-top: 20px" }
       %h4.group-heading
-        가입멤버
+        활동 멤버
         .count-label-wrapper
           .count-label= current_group.members.count
 

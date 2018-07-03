@@ -185,7 +185,30 @@ class Group::MembersController < Group::BaseController
     redirect_to group_members_path
   end
 
-  def join_group_modal
-    render group_action_viewable_path
+  def invite_issues_form
+    @user = User.find_by(id: params[:user_id])
+    render_404 and return if @user.blank?
+  end
+
+  def invite_issues
+    @user = User.find_by(id: params[:user_id])
+    render_404 and return if @user.blank?
+    @issues = Issue.where(id: params[:issue_ids])
+
+    ActiveRecord::Base.transaction do
+      @issues.each do |issue|
+        member = MemberIssueService.new(issue: issue, user: @user, need_to_message_organizer: true, is_force: true).call
+        if !member.try(:persisted?) and !issue.reload.member?(@user)
+          flash[:error] = t('errors.messages.unknown')
+          raise ActiveRecord::Rollback
+          break
+        end
+      end
+    end
+
+    if flash[:error].blank?
+      flash[:success] = '초대했습니다.'
+    end
+    redirect_to group_members_path
   end
 end

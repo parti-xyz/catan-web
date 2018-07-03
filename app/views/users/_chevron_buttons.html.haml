@@ -40,7 +40,7 @@
         %li
           = link_to organizer_group_members_path(user_id: user.id), method: :put, remote: true, data: { 'disable-with': '처리 중...' } do
             오거나이저로 지정
-  - if group.member?(user) and can?(:destroy, current_group.member_of(user))
+  - if group.private? and group.member?(user) and can?(:destroy, current_group.member_of(user))
     %li
       - if user == current_user
         = link_to cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...' } do
@@ -55,4 +55,7 @@
                 = label_tag :ban_message, "#{user.nickname}님에게 이유를 보내주세요."
                 = text_area_tag :ban_message, nil, class: 'form-control'
               = submit_tag '탈퇴시키기', class: 'btn btn-primary'
-
+  - if group.member?(user) and can?(:invite_issues, Member) and user != current_user
+    %li
+      = link_to invite_issues_form_group_members_path(user_id: user.id) do
+        그룹의 빠띠에 초대하기

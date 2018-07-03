@@ -1,0 +1,42 @@
+= render 'application/group_home_sub_header', active: 'member'
+
+%section.contents-page
+  .container
+    = render 'group/members/tab_menu'
+
+    - if Issue.only_alive_of_group(current_group).not_private_blocked(current_user).not_joined_issues(@user).empty?
+      %h5 "#{@user.nickname}"님을 초대할 빠띠가 없습니다.
+
+    - else
+      = form_tag invite_issues_group_members_path do |f|
+        = hidden_field_tag :user_id, @user.id
+        .form-group
+          %h5 "#{@user.nickname}"님을 빠띠에 초대합니다. 초대할 빠띠를 선택해 주세요.
+
+        %ul.list-unstyled.list-categories
+          - (current_group.categories.to_a << nil).each do |category|
+            - issues = Issue.only_alive_of_group(current_group).categorized_with(category).not_private_blocked(current_user).not_joined_issues(@user).sort_by_name
+            - if issues.any?
+              %li
+                - if category.present?
+                  %span.dropdown
+                    %h5.category-name
+                      = category.name
+                - else
+                  %h5.category-name
+                    이외
+
+                .panel.panel-default
+                  .panel-body
+                    %ul.list-unstyled{ class: group_category_issue_list_dom_class(category) }
+                      - issues.each do |issue|
+                        %ul.list-unstyled
+                          - left_block = capture do
+                            = check_box_tag :'issue_ids[]', issue.id
+                          = render 'issues/issue_line', issue: issue, left_block: left_block
+
+
+        .form-group
+          = submit_tag '초대', class: 'btn btn-primary', data: { disable_with: "처리 중..." }
+
+

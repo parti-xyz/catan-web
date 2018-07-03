@@ -220,6 +220,8 @@ Rails.application.routes.draw do
         post :magic_join
         post :update_profile
         get :join_group_form
+        get :invite_issues_form
+        post :invite_issues
       end
     end
     resources :member_requests do
