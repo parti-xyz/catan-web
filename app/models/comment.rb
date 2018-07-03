@@ -41,7 +41,7 @@ class Comment < ActiveRecord::Base
   mentionable :body
 
   belongs_to :parent, class_name: Comment, foreign_key: :parent_id
-  has_many :children, class_name: Comment, foreign_key: :parent_id
+  has_many :children, class_name: Comment, foreign_key: :parent_id, dependent: :destroy
 
   belongs_to :user
   belongs_to :post, counter_cache: true
