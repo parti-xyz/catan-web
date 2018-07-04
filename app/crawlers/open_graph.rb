@@ -200,13 +200,16 @@ class OpenGraph
     imgs = @images.dup
     @images = []
     imgs.each do |img|
-      if Addressable::URI.parse(img).host.nil?
-        full_path = uri.join(img).to_s
-        add_image(full_path)
-      elsif '.webp' == File.extname(Addressable::URI.parse(url).path)
-        next
-      else
-        add_image(img)
+      begin
+        if Addressable::URI.parse(img).host.nil?
+          full_path = uri.join(img).to_s
+          add_image(full_path)
+        elsif '.webp' == File.extname(Addressable::URI.parse(url).path)
+          next
+        else
+          add_image(img)
+        end
+      rescue Addressable::URI::InvalidURIError => e
       end
     end
   end
