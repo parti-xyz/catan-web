@@ -37,6 +37,7 @@ class Member < ActiveRecord::Base
     base = base.where('id < ?', member.id) if member.present?
     base
   }
+  scope :for_issues, -> { where(joinable_type: 'Issue') }
   scope :of_group, -> (group) {
     where.any_of(
       Member.where(joinable_type: 'Issue', joinable_id: Issue.of_group(group)),

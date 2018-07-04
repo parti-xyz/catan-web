@@ -191,7 +191,7 @@ class Issue < ActiveRecord::Base
     conditions
   }
   scope :not_joined_issues, ->(current_user) {
-    where.not(id: current_user.member_issues.select("members.joinable_id")) if current_user.present?
+    where.not(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
   }
   scope :only_my_menu, ->(someone) {
     where(id: MyMenu.where(user: someone).select(:issue_id))

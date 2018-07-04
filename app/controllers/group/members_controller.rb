@@ -214,6 +214,6 @@ class Group::MembersController < Group::BaseController
     if flash[:error].blank?
       flash[:success] = '초대했습니다.'
     end
-    redirect_to group_members_path
+    redirect_to invite_issues_form_group_members_path(user_id: params[:user_id])
   end
 end
