@@ -276,7 +276,6 @@ Rails.application.routes.draw do
   get '/privacy', to: "pages#privacy", as: 'privacy'
   get '/pricing', to: "pages#pricing", as: 'pricing'
   get '/terms', to: "pages#terms", as: 'terms'
-  get '/report', to: "pages#report", as: 'report'
   if Rails.env.development?
     get '/score', to: "pages#score"
     get '/analyze', to: "pages#analyze"
