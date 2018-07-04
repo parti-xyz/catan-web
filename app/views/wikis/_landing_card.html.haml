@@ -5,7 +5,7 @@
         = HTML_Truncator.truncate(post.wiki.title, 4)
       .wiki-content
         .wiki-body.wiki-preview
-          .mce-content-body
+          .mce-content-body.js-emoji
             != smart_truncate_html(post.wiki.body, length: 1000)
         .shadow
       .post-card__header

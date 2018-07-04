@@ -61,6 +61,7 @@ module ApplicationHelper
 
   def post_body_format(issue, text)
     return text if text.blank?
+    # parsed_text = emojify(text)
     parsed_text = parse_hashtags(issue, text)
     parsed_text = parse_mentions(parsed_text)
     raw(parsed_text)
@@ -385,5 +386,9 @@ module ApplicationHelper
     else
       count
     end
+  end
+
+  def emojify(content, **options)
+    Twemoji.parse(h(content), options).html_safe if content.present?
   end
 end

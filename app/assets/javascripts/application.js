@@ -102,6 +102,17 @@ $.isValidSelector = function(selector) {
   return true;
 }
 
+$.twemoji = function(dom) {
+  twemoji.parse(dom, {
+    attributes: function(rawText, iconId) {
+      return {
+        'data-parti-emoji-raw':  rawText,
+        'data-parti-emoji-iconId':  iconId
+      }
+    }
+  })
+}
+
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 5000;
 
@@ -602,6 +613,10 @@ var parti_prepare = function($base, force) {
 
   // editor
   (function() {
+    var setEmoji = function(editor) {
+      $.twemoji(editor.getBody());
+    };
+
     var setPlaceholder = function(editor, placeholder) {
       if(!$.is_blank(editor.getContent())) { return; }
       editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
@@ -659,6 +674,7 @@ var parti_prepare = function($base, force) {
         setup: function (editor) {
           editor.on('init', function(){
             setPlaceholder(editor, placeholder);
+            setEmoji(editor);
           });
           editor.on('focus', function (e) {
             if(removePlaceholder(editor)) {
@@ -726,6 +742,7 @@ var parti_prepare = function($base, force) {
             var $toolbars = $(container).find('.mce-toolbar-grp');
             $toolbars.append($link_opener);
             $link_opener.hide();
+            setEmoji(editor);
           });
 
           // virtual keyboard
@@ -851,6 +868,10 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  // 이모지 이미지로
+  $.parti_apply($base, '.js-emoji', function(elm) {
+    $.twemoji(elm);
+  });
 
   $base.data('parti-prepare-arel', 'completed');
 }

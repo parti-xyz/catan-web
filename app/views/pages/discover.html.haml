@@ -42,7 +42,6 @@
           %small
             더 보기
             %i.fa.fa-angle-double-right
-      / - poll_posts = @sections[:polls].try(:parsed_body).try(:map) { |post_id| Post.find_by(id: post_id) }
       - poll_posts_count = 10
       - baes_poll_posts = Post.having_poll.after(2.month.ago, field: 'posts.last_stroked_at').hottest
       - poll_posts = baes_poll_posts.of_undiscovered_issues(current_user).limit(poll_posts_count).to_a

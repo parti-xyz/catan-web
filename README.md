@@ -279,3 +279,7 @@ export MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android=키값
 ```
 $ rake tmp:cache:clear
 ```
+
+# 법적고지
+
+이모지에 사용된 이미지는 twemoji https://github.com/twitter/twemoji 를 이용합니다.

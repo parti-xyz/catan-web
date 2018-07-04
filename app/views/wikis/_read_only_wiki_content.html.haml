@@ -22,7 +22,7 @@
     %span.label.label-default= wiki.status_text
 - if (local_assigns[:wiki_history].present? and local_assigns[:wiki_history].touched_body?) or local_assigns[:wiki_history].blank?
   .wiki-body.wiki-form
-    .form-control-tinymce.mce-content-body
+    .form-control-tinymce.mce-content-body.js-emoji
       - if wiki.purged?
         .text-muted 삭제되었습니다
       - else

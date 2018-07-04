@@ -44,9 +44,9 @@
       = yield :footer
 
     = render 'application/photoswipe'
-
     = render 'application/mobile_app_js'
 
+    %script{:src => "//twemoji.maxcdn.com/2/twemoji.min.js?11.0"}
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)
     #fb-root
