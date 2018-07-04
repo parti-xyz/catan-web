@@ -188,11 +188,16 @@ class Group::MembersController < Group::BaseController
   def invite_issues_form
     @user = User.find_by(id: params[:user_id])
     render_404 and return if @user.blank?
+
+    authorize! :invite_group_issues, @user
   end
 
   def invite_issues
     @user = User.find_by(id: params[:user_id])
     render_404 and return if @user.blank?
+
+    authorize! :invite_group_issues, @user
+
     @issues = Issue.where(id: params[:issue_ids])
 
     ActiveRecord::Base.transaction do

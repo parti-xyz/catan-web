@@ -55,7 +55,7 @@
                 = label_tag :ban_message, "#{user.nickname}님에게 이유를 보내주세요."
                 = text_area_tag :ban_message, nil, class: 'form-control'
               = submit_tag '탈퇴시키기', class: 'btn btn-primary'
-  - if group.member?(user) and can?(:invite_issues, Member) and user != current_user
+  - if group.member?(user) and can?(:invite_group_issues, user) and user != current_user
     %li
       = link_to invite_issues_form_group_members_path(user_id: user.id) do
         그룹의 빠띠에 초대하기
