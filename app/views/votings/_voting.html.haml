@@ -117,7 +117,7 @@
             자세히 보기
             %i.fa.fa-angle-double-right
 
-    - if !user_signed_in? or !poll.sured_by?(current_user)
+    - if poll.open? and (!user_signed_in? or !poll.sured_by?(current_user))
       %p
         찬반 투표하면 현재 결과를 볼 수 있습니다.
 
@@ -129,7 +129,7 @@
       %span.text-basic-wrap 중간 집계 숨김
   - footers << capture do
     - if poll.hidden_voters?
-      %span.text-basic-wrap 무기명 투표
+      %span.text-basic-wrap 익명 투표
   - footers.compact!
 
   - if footers.any?
