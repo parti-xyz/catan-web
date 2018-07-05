@@ -432,7 +432,7 @@ class IssuesController < ApplicationController
     @issues = Issue.displayable_in_current_group(group)
     @issues = @issues.this_week_or_hottest
     @issues = @issues.categorized_with(category_id) if category_id.present?
-    @issues = @issues.to_a.reject { |issue| private_blocked?(issue) }
+    @issues = @issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }
   end
 
   def search_and_sort_issues(issue, keyword, sort, item_a_row = 4)
@@ -471,7 +471,7 @@ class IssuesController < ApplicationController
   def issue_params
     params.require(:issue).permit(:title, :body, :logo, :cover, :slug,
       :organizer_nicknames, :blinds_nickname, :telegram_link, :tag_list, :category_id,
-      :private, :notice_only, :is_default, :group_slug)
+      :private, :notice_only, :is_default, :group_slug, :listable_even_private)
   end
 
   def prepare_issue_meta_tags

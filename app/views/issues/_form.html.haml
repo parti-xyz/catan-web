@@ -149,6 +149,13 @@
               %p
                 = link_to '업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
 
+        .form-group{class: ('has-error' if has_error_attr?(@issue, :listable_even_private))}
+          = f.label :listable_even_private
+          .checkbox
+            %label
+              = f.check_box :listable_even_private
+              이 빠띠는 비공개라도 빠띠 목록과 그룹홈에 표시됩니다. 검색해서 찾을 수도 있습니다. 비공개 빠띠가 아니라면 이 설정은 무시됩니다.
+
         .form-group{class: ('has-error' if has_error_attr?(@issue, :notice_only))}
           = f.label :notice_only
           .checkbox

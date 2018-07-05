@@ -172,6 +172,18 @@ class Issue < ActiveRecord::Base
     .limit(count)
   }
   scope :searchable_issues, ->(current_user = nil) {
+    public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug))
+      .any_of(Issue.where.not(private: true), Issue.where(listable_even_private: true))
+    indie_public_issues = where(group_slug: 'indie')
+      .any_of(Issue.where.not(private: true), Issue.where(listable_even_private: true))
+    if current_user.present?
+      where.any_of(public_group_public_issues, indie_public_issues,
+                   where(id: current_user.member_issues.select("members.joinable_id")))
+    else
+      where.any_of(public_group_public_issues, indie_public_issues)
+    end
+  }
+  scope :post_searchable_issues, ->(current_user = nil) {
     public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
     indie_public_issues = where(group_slug: 'indie').where.not(private: true)
     if current_user.present?

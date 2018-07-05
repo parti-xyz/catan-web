@@ -211,7 +211,7 @@ class Post < ActiveRecord::Base
     end
   }
   scope :of_searchable_issues, ->(current_user = nil) {
-    where(issue_id: Issue.searchable_issues(current_user))
+    where(issue_id: Issue.post_searchable_issues(current_user))
   }
   scope :of_undiscovered_issues, ->(current_user = nil) {
     where(issue_id: Issue.undiscovered_issues(current_user))

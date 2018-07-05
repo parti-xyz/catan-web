@@ -39,6 +39,10 @@
                     #{group_my_parties_section_title(@current_search_group)} 빠띠에서 찾았습니다.
                   - else
                     #{group_my_parties_section_title(@current_search_group)}이 오거나이징하는 빠띠에서 찾았습니다.
+                  - unless user_signed_in?
+                    = link_to search_url(nav_q: params[:nav_q]), class: 'btn btn-xs btn-default' do
+                      모든 빠띠에서 찾기
+                      %i.fa.fa-arrow-right
                 - else
                   모든 빠띠에서 찾았습니다.
 

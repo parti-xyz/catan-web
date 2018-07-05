@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180619124310) do
+ActiveRecord::Schema.define(version: 20180705101424) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -264,6 +264,7 @@ ActiveRecord::Schema.define(version: 20180619124310) do
     t.integer  "latest_stroked_posts_count",         limit: 4,        default: 0
     t.integer  "latest_stroked_posts_count_version", limit: 4
     t.integer  "category_id",                        limit: 4
+    t.boolean  "listable_even_private",                               default: false
   end
 
   add_index "issues", ["category_id"], name: "index_issues_on_category_id", using: :btree

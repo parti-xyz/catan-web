@@ -129,6 +129,7 @@ ko:
         is_default: 자동가입되는 빠띠
         organizer_nicknames: 오거나이저
         group_slug: 그룹
+        listable_even_private: 이 빠띠가 비공개일 경우라도 목록에 표시하고 검색됩니다
       category:
         name: 이름
       talk:
