@@ -47,7 +47,7 @@
             .checkbox
               %label.text-muted
                 = ff.check_box :hidden_voters
-                누가 어디에 투표했는지 비밀로 합니다.
+                누가 어디에 투표했는지 익명으로 진행합니다.
 
     - elsif @post.survey.present?
       = f.fields_for :survey do |ff|
@@ -89,7 +89,7 @@
             .checkbox
               %label.text-muted
                 = ff.check_box :hidden_option_voters
-                제안에 누가 투표했는지 비밀로 합니다.
+                제안에 누가 투표했는지 익명으로 진행합니다.
 
     - else
       - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"

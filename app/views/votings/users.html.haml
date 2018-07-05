@@ -1,5 +1,5 @@
 - if @poll.hidden_voters?
-  총 #{@poll.votings.count} 명이 비밀 투표 중입니다.
+  총 #{@poll.votings.count} 명이 익명 투표 중입니다.
 
   .upvoted-users
     - @poll.votings.sure.recent.map(&:user).each do |user|
