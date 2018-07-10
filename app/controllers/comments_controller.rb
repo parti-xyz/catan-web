@@ -1,7 +1,14 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_user!
+  include ActionView::RecordIdentifier
+  include DomHelper
+
+  before_action :authenticate_user!, except: :show
   load_and_authorize_resource :post
   load_and_authorize_resource :comment, through: :post, shallow: true
+
+  def show
+    redirect_to smart_post_url(@comment.post, anchor: comment_line_anchor_dom_id(@comment))
+  end
 
   def create
     set_choice

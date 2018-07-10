@@ -11,7 +11,7 @@ if upvote.upvotable.is_a? Comment
     json.title "#{comment.issue.title} #{Issue.model_name.human}"
     json.body body
     json.type "comment"
-    json.url smart_post_url(post, anchor: comment_line_anchor_dom_id(comment))
+    json.url comment_url(comment)
     json.param comment.id
   end
 else

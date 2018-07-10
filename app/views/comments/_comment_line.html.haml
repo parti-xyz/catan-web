@@ -63,7 +63,7 @@
           .upvote-count
             = render 'upvotes/upvote_count', upvotable: comment
 
-          = link_to smart_post_url(comment.post, anchor: comment_line_anchor_dom_id(comment)), class: 'date-wrapper' do
+          = link_to comment_path(comment), class: 'date-wrapper' do
             = date_f comment.created_at
 
           - unless comment.read?(current_user)
