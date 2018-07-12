@@ -98,7 +98,8 @@
       - else
         - if post.survey.feedbacks_count > 0
           %span &middot;
-          %span.survey-options--count.survey-options--footer-item.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), type: 'async', url: all_users_feedbacks_path(survey_id: post.survey.id), trigger: 'hover', placement: popover_placement } }
+          - can_show_voter = !post.survey.hidden_option_voters
+          %span.survey-options--count.survey-options--footer-item{class: "#{dom_id(post.survey)}-feedbacks-count #{('cursor-pointer' if can_show_voter)}", data: { action: ('parti-popover' if can_show_voter), type: 'async', url: all_users_feedbacks_path(survey_id: post.survey.id), trigger: 'hover', placement: popover_placement } }
             총투표 #{post.survey.feedback_users_count}명
 
         - if post.survey.multiple_select?

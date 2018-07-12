@@ -16,7 +16,8 @@
           %span.wrapper
             %span #{post.poll.title}
         .voting-area
-          = render 'votings/voting', compact: true, poll: post.poll
+          .poll-card.poll-card-landing
+            = render 'votings/voting', compact: true, poll: post.poll
       - elsif post.survey.present?
         .row
           .col-md-6
@@ -73,7 +74,7 @@
                         - else
                           = link_to option_body, post, target: "_blank"
                 .survey-options--footer.clearfix
-                  = post.survey.remain_time_human
+                  %span.survey-options--footer-item= post.survey.remain_time_human
 
                   - if post.survey.open? and post.survey.feedbacks.any? and !post.survey.feedbacked?(current_user)
                     %div.text-basic-wrap
@@ -84,21 +85,9 @@
                     - if post.survey.feedbacks_count > 0
                       %span.hidden-xs &middot;
                       %br.visible-xs-block
-                      %span.survey-options--count.cursor-pointer{class: "#{dom_id(post.survey)}-feedbacks-count", data: { action: ('parti-popover' if post.survey.feedbacks_count > 0), url: "##{dom_id(post.survey)}-feedback-users", trigger: 'hover', placement: popover_placement } }
+                      - can_show_voter = !post.survey.hidden_option_voters
+                      %span.survey-options--footer-item.survey-options--count{class: "#{dom_id(post.survey)}-feedbacks-count #{('cursor-pointer' if can_show_voter)}", data: { action: ('parti-popover' if can_show_voter), type: 'async', url: all_users_feedbacks_path(survey_id: post.survey.id), trigger: 'hover', placement: popover_placement } }
                         총투표 #{post.survey.feedback_users_count}명
-                      .webui-popover-content
-                        .upvoted-users{id: "#{dom_id(post.survey)}-feedback-users"}
-                          - post.survey.feedback_users.each do |user|
-                            = link_to smart_user_gallery_path(user), target: '_blank' do
-                              .user-info.text-nowrap
-                                .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
-                                = user.nickname
-                      - if post.survey.multiple_select?
-                        %span.survey-options--mulitple-select
-                          &middot;
-                          중복 투표 가능
-
-
 
 
 

@@ -112,7 +112,7 @@
           명이
         %span 찬반 투표했습니다.
 
-        - if poll.sured_by?(current_user)
+        - if poll.sured_by?(current_user) and !poll.hidden_voters?
           %span
             자세히 보기
             %i.fa.fa-angle-double-right

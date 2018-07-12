@@ -15,6 +15,16 @@
   text-align: center;
   border: 1px solid $gray-lighter;
   border-radius: $border-radius-base;
+
+  &.poll-card-landing,
+  &.poll-card-landing:hover {
+    border: none;
+    padding: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
   &--voted {
     background-color: $gray-more-lightest;
     border: 1px solid $gray-less-lighter;
