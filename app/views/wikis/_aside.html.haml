@@ -7,7 +7,7 @@
 = aside_column_tag(local_assigns[:additional_classes]) do
   .aside_issue#aside
     %section
-      %h5.aside-title 폴더
+      %h5.aside-title 위키
       %ul.list-unstyled.parti-folders.threaded-folders
         - Folder.threaded(folders).each do |parent_folder, child_folders|
           - posts = parent_folder.posts.having_wiki_sorted_by_title(:active)
