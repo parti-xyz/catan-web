@@ -5,12 +5,15 @@
   &:hover {
     @include hover-shadow();
   }
+  .post-poll-card & {
+    margin-top: 4px;
+  }
 
   background-color: #fff;
   padding: 25px 20px;
   margin-bottom: 15px;
   text-align: center;
-  border: 1px solid $gray-less-lighter;
+  border: 1px solid $gray-lighter;
   border-radius: $border-radius-base;
   &--voted {
     background-color: $gray-more-lightest;

@@ -158,6 +158,9 @@
     .form-widget {
       padding: 0;
       &-content,
+      &-extra .help-block,
+      &-extra .form-groups,
+      &-extra .add-form-group-btn,
       &-file-sources .help-block,
       &-file-sources .form-groups,
       &-file-sources .add-form-group-btn,
@@ -167,12 +170,16 @@
       }
       @include form-file-sources();
 
+      &-extra-item {
+        margin-top: 1em;
+        border-bottom: 1px solid $gray-less-lighter;
+      }
+
       &-btns {
         @media (max-width: $screen-xs-max) {
           text-align: center;
         }
         padding-top: 18px;
-        border-top: 1px solid $gray-less-lighter;
       }
       .post-reference-btns {
         margin-top: 14px;
