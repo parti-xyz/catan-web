@@ -1127,9 +1127,11 @@ $(function(){
 
   // 알림드롭다운
   $('#js-notification').on('show.bs.dropdown', function(e) {
-    var $this = $(this);
+    var $elm = $(e.currentTarget);
+    $elm.find('li:not(.js-notification-dropdown-loading)').remove();
+    $elm.find('li.js-notification-dropdown-loading').show();
     $.ajax({
-      url: $this.data('url'),
+      url: $elm.data('url'),
       type: "get"
     });
   });

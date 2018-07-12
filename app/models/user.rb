@@ -229,7 +229,7 @@ class User < ActiveRecord::Base
   end
 
   def unread_messages_count(group = nil)
-    result = messages.unread
+    result = messages.latest.unread
     result = result.of_group(group) if group.present?
     result.count
   end

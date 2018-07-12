@@ -21,8 +21,10 @@ class MessagesController < ApplicationController
     @user ||= current_user
     @messages = @user.messages
     @messages = @messages.of_group(@dashboard_group) if @dashboard_group.present?
-    @messages.unread.update_all(read_at: Time.now)
-
     @messages = @messages.recent.page(params[:page])
+
+    render
+
+    @messages.unread.update_all(read_at: Time.now)
   end
 end

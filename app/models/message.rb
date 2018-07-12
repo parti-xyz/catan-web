@@ -107,6 +107,10 @@ class Message < ActiveRecord::Base
     JSON.parse(action_params)
   end
 
+  def unread?
+    read_at.blank? and created_at > 1.day.ago
+  end
+
 
   def self.all_messagable_types
     @_poly_hash ||= [].tap do |array|
