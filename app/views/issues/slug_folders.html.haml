@@ -41,12 +41,14 @@
                     - else
                       %i.fa.fa-folder
                     = parent_folder.title
+                    = "(#{parent_folder.posts.count})" if Post.where(folder_id: parent_folder.id).present?
                   %ul.list-unstyled.child-folders
                     - child_folders.each do |child_folder|
                       %li.child-folder
                         = link_to smart_folder_url(child_folder), class: 'child-folder-title' do
                           %i.fa.fa-folder
                           = child_folder.title
+                          = "(#{child_folder.posts.count})" if Post.where(folder_id: child_folder.id).present?
           - else @folders.blank?
             .bg-default.text-center
               %i.fa.fa-info-circle
