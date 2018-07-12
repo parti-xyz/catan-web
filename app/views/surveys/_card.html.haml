@@ -42,7 +42,7 @@
               - if option.canceled?
                 %span.canceled.text-nowrap.meta<> 제안철회
               %span.commenting.text-nowrap.cursor-pointer.js-mention.collapse.meta.action-button{ data: { comment_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': option.user.nickname, 'mention-text': "제안 '#{option.body}'" } }<> 댓글달기
-            .chart{ style: 'position: relative;', class: ('active' if option.selected?(current_user)), data: { action: ('parti-popover' if option.feedbacks_count > 0), type: :async, url: users_feedbacks_path(option_id: option.id), trigger: 'hover', placement: popover_placement } }
+            .chart{ style: 'position: relative;', class: ('active' if option.selected?(current_user)), data: { action: 'parti-popover', type: :async, url: users_feedbacks_path(option_id: option.id), trigger: 'hover', placement: popover_placement } }
               .chart__bar{ class: ('chart__bar-canceled' if option.canceled?), style: "height: 100%; width: #{post.survey.percentage(option)}%" }
 
           - else

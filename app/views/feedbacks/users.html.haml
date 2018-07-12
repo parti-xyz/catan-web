@@ -1,9 +1,14 @@
 .upvoted-users
-  - if @option.survey.hidden_option_voters?
-    총 #{@option.feedback_users.count} 명
-  - else
+  - show_voters = (@option.feedback_users.any? and !@option.survey.hidden_option_voters?)
+  - if show_voters
     - @option.feedback_users.each do |user|
       = link_to smart_user_gallery_path(user), target: '_blank' do
         .user-info.text-nowrap
           .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
           = user.nickname
+  %small.text-nowrap{ style: "display: inline-block; #{'margin-top: 12px;' if show_voters}"}
+    제안자
+    &nbsp;
+    %span.user-info.text-nowrap
+      .thumb.user-image.img-circle{style: "background-image: url(#{@option.user.image.sm.url});"}
+      = @option.user.nickname
