@@ -10,10 +10,7 @@
               %p
                 = t('labels.post_blind_info')
           - else
-            - if @post.wiki.blank?
-              = render @post, mode: 'detail', additional_buttons_partial: 'posts/modal_buttons'
-            - else
-              = render 'posts/post_wiki', post: @post, mode: 'detail'
+            = render @post, mode: 'detail', additional_buttons_partial: 'posts/modal_buttons'
         - if !@post.issue.frozen?
           .another-post
             - anothers = @post.issue.not_blind_hottest_posts(10, current_user).reject { |post| @post == post or @post.private_blocked?(current_user) }

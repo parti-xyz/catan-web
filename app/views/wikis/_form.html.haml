@@ -1,10 +1,9 @@
-= form_for post, url: wiki_post_url(post, subdomain: post.issue.group.try(:subdomain)), method: :patch, html: { class: 'form-widget', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
+= form_for post, url: wiki_post_url(post, subdomain: post.issue.group.try(:subdomain)), method: :patch, html: { class: 'form-widget', style: 'padding: 0', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
   - controls = capture do
     - if post.wiki.activate?
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
-    = chevron_dropdown
   - if post.wiki.body.length > 2000
-    .submit-box{ style: 'margin-bottom: 20px' }
+    .submit-box{ style: 'margin-bottom: 12px; margin-top: 18px' }
       = controls
   - if post.wiki.activate?
     =  render 'posts/wiki_form', f: f
@@ -14,11 +13,3 @@
         = render 'wikis/read_only_wiki_content', wiki: post.wiki
   .submit-box.clearfix{ style: 'margin-top: 12px' }
     = controls
-  - unless local_assigns[:hidden_authors]
-    %hr.wiki-authors-hr
-    .clearfix
-      .wiki-authors.tooltip-no-wrap
-        작성
-        - post.wiki.authors.each do |user|
-          = link_to smart_user_gallery_path(user) do
-            .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}

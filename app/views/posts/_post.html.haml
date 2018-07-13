@@ -19,7 +19,7 @@
               %span.issue-title
                 = post.issue.title
                 = meta_icons(post.issue)
-            = render 'posts/post_card_folder', post: post, prepend_slash: true
+            = render 'posts/post_card_folder', post: post
       - else
         = render 'posts/post_card_folder', post: post
 
