@@ -27,8 +27,8 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert comments(:comment1).children.include? (assigns(:comment))
 
     posts(:post_talk1).reload
-    assert posts(:post_talk1).comments.only_basis.include? (comments(:comment1))
-    refute posts(:post_talk1).comments.only_basis.include? (assigns(:comment))
+    assert posts(:post_talk1).comments.only_parent.include? (comments(:comment1))
+    refute posts(:post_talk1).comments.only_parent.include? (assigns(:comment))
   end
 
   test '내용을 수정해요' do

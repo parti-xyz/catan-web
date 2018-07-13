@@ -20,9 +20,9 @@ class IssuesTest < ActionDispatch::IntegrationTest
   test '카테고리 안에 만들어요' do
     sign_in(users(:one))
 
-    post issues_path(issue: { title: 'title', slug: 'title', body: 'body', category_slug: Category::GWANGJU_AGENDA.slug, group_slug: 'gwangju' })
+    post issues_path(issue: { title: 'title', slug: 'title', body: 'body', category_id: categories(:gwangju_category_1).id, group_slug: 'gwangju' })
     assert assigns(:issue).persisted?
-    assert_equal Category::GWANGJU_AGENDA.slug, assigns(:issue).category_slug
+    assert_equal categories(:gwangju_category_1), assigns(:issue).category
   end
 
   test '만든 사람이 오거나이저가 되어요' do

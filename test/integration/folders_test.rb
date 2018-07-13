@@ -24,7 +24,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     sign_in(users(:three))
 
     patch update_folder_post_path(id: posts(:post_talk1).id, format: :js),
-      { post: { folder_id: -1 }, folder: { title: '새폴더' } }
+      { post: { folder_id: -1 }, new_folder: { title: '새폴더' } }
 
     assert assigns(:folder), assigns(:post).folder
     assert assigns(:folder).persisted?
