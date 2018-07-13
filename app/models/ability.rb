@@ -57,7 +57,7 @@ class Ability
         !bookmark.persisted? or bookmark.user == user
       end
 
-      can :manage, [Comment, Vote, Upvote, Member], user_id: user.id
+      can :manage, [Comment, Upvote, Member], user_id: user.id
 
       can [:destroy], Member do |member|
         member.user == user or user.is_organizer?(member.joinable)

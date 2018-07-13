@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180713034540) do
+ActiveRecord::Schema.define(version: 20180713140924) do
 
   create_table "active_issue_stats", force: :cascade do |t|
     t.integer "issue_id",           limit: 4,             null: false
@@ -401,14 +401,6 @@ ActiveRecord::Schema.define(version: 20180713034540) do
   add_index "my_menus", ["user_id", "issue_id"], name: "index_my_menus_on_user_id_and_issue_id", unique: true, using: :btree
   add_index "my_menus", ["user_id"], name: "index_my_menus_on_user_id", using: :btree
 
-  create_table "notes", force: :cascade do |t|
-    t.text     "body",          limit: 16777215
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.integer  "post_issue_id", limit: 4,        null: false
-    t.datetime "deleted_at"
-  end
-
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", limit: 4,        null: false
     t.integer  "application_id",    limit: 4,        null: false
@@ -451,22 +443,6 @@ ActiveRecord::Schema.define(version: 20180713034540) do
   end
 
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
-
-  create_table "opinion_to_talks", force: :cascade do |t|
-    t.integer "opinion_id", limit: 4
-    t.integer "talk_id",    limit: 4
-  end
-
-  create_table "opinions", force: :cascade do |t|
-    t.string   "title",         limit: 255
-    t.text     "body",          limit: 16777215
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.datetime "deleted_at"
-    t.integer  "post_issue_id", limit: 4,        null: false
-  end
-
-  add_index "opinions", ["deleted_at"], name: "index_opinions_on_deleted_at", using: :btree
 
   create_table "options", force: :cascade do |t|
     t.integer  "survey_id",       limit: 4,                    null: false
@@ -559,17 +535,6 @@ ActiveRecord::Schema.define(version: 20180713034540) do
   add_index "posts", ["survey_id"], name: "index_posts_on_survey_id", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
   add_index "posts", ["wiki_id"], name: "index_posts_on_wiki_id", using: :btree
-
-  create_table "proposals", force: :cascade do |t|
-    t.integer  "discussion_id", limit: 4,        null: false
-    t.text     "body",          limit: 16777215
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.datetime "deleted_at"
-  end
-
-  add_index "proposals", ["deleted_at"], name: "index_proposals_on_deleted_at", using: :btree
-  add_index "proposals", ["discussion_id"], name: "index_proposals_on_discussion_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -706,23 +671,6 @@ ActiveRecord::Schema.define(version: 20180713034540) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
 
-  create_table "talks", force: :cascade do |t|
-    t.datetime "deleted_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.text     "body",           limit: 65535
-    t.integer  "post_issue_id",  limit: 4,     null: false
-    t.integer  "section_id",     limit: 4,     null: false
-    t.integer  "reference_id",   limit: 4
-    t.string   "reference_type", limit: 255
-    t.integer  "poll_id",        limit: 4
-  end
-
-  add_index "talks", ["id", "reference_id", "reference_type"], name: "index_talks_on_id_and_reference_id_and_reference_type", unique: true, using: :btree
-  add_index "talks", ["poll_id"], name: "index_talks_on_poll_id", using: :btree
-  add_index "talks", ["reference_type", "reference_id"], name: "index_talks_on_reference_type_and_reference_id", using: :btree
-  add_index "talks", ["section_id"], name: "index_talks_on_section_id", using: :btree
-
   create_table "upvotes", force: :cascade do |t|
     t.integer  "user_id",        limit: 4,   null: false
     t.datetime "created_at",                 null: false
@@ -785,17 +733,6 @@ ActiveRecord::Schema.define(version: 20180713034540) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
-
-  create_table "votes", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4,   null: false
-    t.string   "choice",     limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "post_id",    limit: 4,   null: false
-  end
-
-  add_index "votes", ["post_id", "user_id"], name: "index_votes_on_post_id_and_user_id", unique: true, using: :btree
-  add_index "votes", ["user_id"], name: "index_votes_on_user_id", using: :btree
 
   create_table "votings", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,   null: false

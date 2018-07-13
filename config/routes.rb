@@ -36,13 +36,6 @@ Rails.application.routes.draw do
     match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
   end
 
-  # 덕업넷 그룹은 일반 빠띠로 리다이렉트됩니다
-  constraints(subdomain: 'duckup') do
-    get '/p/:slug/*path', to: redirect(subdomain: '', path: '/p/%{slug}/%{path}')
-    get '/', to: redirect(subdomain: '')
-    match '*path', to: redirect(subdomain: nil, path: '%{path}'), via: :all
-  end
-
   constraints(IndieGroupRouteConstraint.new) do
     authenticated :user do
       root 'dashboard#index', as: :dashboard_root
@@ -86,12 +79,6 @@ Rails.application.routes.draw do
     merged_issue = MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug)
     URI.escape("/p/#{Rack::Utils.escape merged_issue.issue.slug}/#{path_params[:path]}")
   }, constraints: MergedIssueRouteConstraint.new
-
-  # 구 talk/opinion/note/article 주소를 신 post로 이동
-  get 'talks/:id', to: 'redirects#talk'
-  get 'opinions/:id', to: 'redirects#opinion'
-  get 'notes/*path', to: redirect('https://parti.xyz')
-  get 'articles/*path', to: redirect('https://parti.xyz')
 
   get 'search', to: 'search#show', as: 'search'
 

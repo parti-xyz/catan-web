@@ -88,8 +88,6 @@ ko:
   activerecord:
     models:
       issue: 빠띠
-      talk: 게시글
-      proposal: 제안-서명
       wiki: 위키
       user: 회원
       comment: 댓글
@@ -132,12 +130,6 @@ ko:
         listable_even_private: 이 빠띠가 비공개일 경우라도 목록에 표시하고 검색됩니다
       category:
         name: 이름
-      talk:
-        issue: 빠띠
-        issue_id: 빠띠
-        section: 주제
-        title: 제목
-        body: 내용
       user:
         email: 이메일
         image: 프로필 사진
@@ -209,10 +201,6 @@ ko:
           attributes:
             target:
               self_relation: '%{attribute}가 현재 빠띠와 같습니다. 다른 빠띠를 넣어 주세요.'
-        talk:
-          attributes:
-            title:
-              too_long: 게시글 %{attribute}이 너무 깁니다. 180자 이내로 써주세요.
         link_source:
           attributes:
             url:
