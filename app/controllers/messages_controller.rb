@@ -25,6 +25,7 @@ class MessagesController < ApplicationController
 
     render
 
+    current_user.touch(:messages_read_at)
     @messages.unread.update_all(read_at: Time.now)
   end
 end

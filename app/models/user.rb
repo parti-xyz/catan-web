@@ -228,8 +228,9 @@ class User < ActiveRecord::Base
     device_tokens.where(application_id: application_ids)
   end
 
-  def unread_messages_count(group = nil)
-    result = messages.latest.unread
+  def important_messages_count(group = nil)
+    result = messages.unread
+    result = result.where('created_at > ?', self.messages_read_at).where('created_at > ?', 2.day.ago)
     result = result.of_group(group) if group.present?
     result.count
   end

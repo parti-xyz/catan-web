@@ -47,7 +47,7 @@
         - else
           내가 가입한 빠띠와 그룹의 최근 소식입니다.
 
-  #content-tab-section.content-tab-section-my-home{ class: ('content-tab-section-my-home-with-count-label' if current_user.unread_pinned_posts(current_dashboard_group).any? or current_user.unread_messages_count(current_dashboard_group) > 0) }
+  #content-tab-section.content-tab-section-my-home{ class: ('content-tab-section-my-home-with-count-label' if current_user.unread_pinned_posts(current_dashboard_group).any? or current_user.important_messages_count(current_dashboard_group) > 0) }
     %div.hidden-sm.visible-xs-block{ style: "height: 40px; width: 3rem; position: absolute; right: 0; top: -10px; z-index: 1;" }
       %div{ style: "background:-webkit-linear-gradient(right, #e7eaeb, rgba(255,255,255,0.0)); height: 100%; width: 100%;" }
     %ul.nav.nav-tabs.my-home-tabs
@@ -65,10 +65,10 @@
       %li{ class: "#{('active' if is_current_messages_page)}" }
         = link_to messages_url(subdomain: nil) do
           알림
-          - if current_user.unread_messages_count(current_dashboard_group) > 0
+          - if current_user.important_messages_count(current_dashboard_group) > 0
             .count-label-wrapper.small
               .count-label
-                +#{max_counter(current_user.unread_messages_count(current_dashboard_group), 999)}
+                +#{max_counter(current_user.important_messages_count(current_dashboard_group), 999)}
       %li{ class: "#{('active' if is_current_bookmarks_page)}" }
         = link_to bookmarks_url(subdomain: nil) do
           북마크
