@@ -1,10 +1,4 @@
 class Voting < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    expose :id, :poll_id, :choice
-    expose :user, using: User::Entity
-  end
-
   extend Enumerize
   include Choosable
 

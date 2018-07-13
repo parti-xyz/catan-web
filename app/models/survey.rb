@@ -1,18 +1,4 @@
 class Survey < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    expose :id, :remain_time_human, :feedbacks_count, :feedback_users_count, :expires_at, :multiple_select, :hidden_intermediate_result, :hidden_option_voters
-    expose :options, using: Option::Entity
-    expose :is_open do |instance, options|
-      instance.open?
-    end
-    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
-      expose :is_feedbacked_by_me do |instance, options|
-        instance.feedbacked?(options[:current_user])
-      end
-    end
-  end
-
   include Expirable
 
   has_one :post, dependent: :destroy

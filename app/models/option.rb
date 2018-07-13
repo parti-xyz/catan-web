@@ -1,18 +1,4 @@
 class Option < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    expose :id, :feedbacks_count, :body, :percentage
-    expose :user, using: User::Entity
-    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
-      expose :is_my_select do |instance, options|
-        instance.selected?(options[:current_user])
-      end
-      expose :is_mvp do |instance, options|
-        instance.mvp?
-      end
-    end
-  end
-
   belongs_to :user
   belongs_to :survey
   has_many :feedbacks, dependent: :destroy

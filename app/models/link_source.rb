@@ -1,17 +1,4 @@
 class LinkSource < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    expose :url, :title_or_url, :title, :body, :site_name, :page_type
-    expose :image_url, if: lambda { |instance, options| instance.has_image? } do |instance|
-      instance.image.md.url
-    end
-    expose :is_video do |instance|
-      instance.is_video?
-    end
-    with_options(if: lambda { |instance, options| instance.is_video? }) do |instance|
-      expose :video_app_url
-    end
-  end
   extend Enumerize
 
   URL_FORMAT = /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,20}(:[0-9]{1,5})?(\/.*)?\z/ix

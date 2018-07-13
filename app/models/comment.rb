@@ -1,38 +1,4 @@
 class Comment < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    include ApiEntityHelper
-
-    expose :id, :choice, :upvotes_count
-    expose :body do |instance|
-      view_helpers.comment_format(instance.issue, instance.body, {}, { wrapper_tag: 'p' })
-    end
-    expose :truncated_body do |instance|
-      body = view_helpers.comment_format(instance.issue, instance.body, {}, { wrapper_tag: 'p' })
-      result = view_helpers.smart_truncate_html(body, length: 100, ellipsis: "... <read-more></read-more>")
-      (result == body ? nil : result)
-    end
-    expose :user, using: User::Entity
-    expose :created_at, format_with: lambda { |dt| dt.iso8601 }
-    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
-      expose :is_mentionable do |instance, options|
-        instance.mentionable? options[:current_user]
-      end
-      expose :is_upvotable do |instance, options|
-        instance.upvotable? options[:current_user]
-      end
-      expose :is_upvoted_by_me do |instance, options|
-        instance.upvoted_by? options[:current_user]
-      end
-      expose :is_destroyable do |instance, options|
-        instance.user == options[:current_user]
-      end
-      expose :is_blinded do |instance, options|
-        instance.blinded? options[:current_user]
-      end
-    end
-  end
-
   acts_as_paranoid
 
   include Choosable

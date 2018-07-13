@@ -1,17 +1,4 @@
 class MemberRequest < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity :id, :reject_message do
-    expose :user, using: User::Entity
-    { group: Group::Entity,
-      parti: Issue::Entity,
-    }.each do |key, entity|
-      type = ( key == :parti ? 'Issue' : key.to_s.classify)
-      expose :"#{key}_joinable", using: entity, if: lambda { |instance, options| instance.joinable_type == type } do |instance|
-        instance.joinable
-      end
-    end
-  end
-
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 

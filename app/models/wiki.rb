@@ -1,34 +1,4 @@
 class Wiki < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    include Rails.application.routes.url_helpers
-    include PartiUrlHelper
-    include ApiEntityHelper
-
-    expose :id, :title, :image_ratio
-    expose :thumbnail_md_url do |instance|
-      instance.thumbnail.md.url
-    end
-    expose :authors, using: User::Entity do |instance|
-      instance.authors.limit(5)
-    end
-    expose :latest_activity_body do |instance|
-      instance.last_activity do |user|
-        if user.present?
-          "<a href='#{smart_user_gallery_url(user)}'>@#{user.nickname}</a>"
-        else
-          I18n.t("views.user.anonymous")
-        end
-      end.try(:[], 0)
-    end
-    expose :latest_activity_at do |instance|
-      instance.last_history.try(:created_at)
-    end
-    expose :url do |instance|
-      smart_post_url(instance.post)
-    end
-  end
-
   acts_as_paranoid
   include AutoLinkableBody
 

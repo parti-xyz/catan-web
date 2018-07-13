@@ -1,9 +1,6 @@
 class Group < ActiveRecord::Base
   attr_accessor :organizer_nicknames
 
-  include Grape::Entity::DSL
-  entity :title, :slug
-
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 

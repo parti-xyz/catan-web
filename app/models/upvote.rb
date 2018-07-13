@@ -1,10 +1,4 @@
 class Upvote < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    expose :id, :upvotable_type, :upvotable_id
-    expose :user, using: User::Entity
-  end
-
   belongs_to :user
   belongs_to :upvotable, polymorphic: true, counter_cache: true
   belongs_to :issue

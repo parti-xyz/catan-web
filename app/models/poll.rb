@@ -1,26 +1,4 @@
 class Poll < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    expose :id, :title, :votings_count
-    expose :latest_agreed_voting_users, using: User::Entity do |instance|
-      instance.votings.recent.limit(5).agreed.map &:user
-    end
-    expose :latest_disagreed_voting_users, using: User::Entity do |instance|
-      instance.votings.recent.limit(5).disagreed.map &:user
-    end
-    expose :agreed_votings_count do |instance|
-      instance.votings.agreed.count
-    end
-    expose :disagreed_votings_count do |instance|
-      instance.votings.disagreed.count
-    end
-    with_options(if: lambda { |instance, options| options[:current_user].present? }) do
-      expose :my_choice do |instance, options|
-        instance.voting_by(options[:current_user]).try(:choice)
-      end
-    end
-  end
-
   include Expirable
 
   has_one :post, dependent: :destroy

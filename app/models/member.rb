@@ -1,21 +1,4 @@
 class Member < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    { parti: Issue::Entity,
-      group: Group::Entity
-    }.each do |key, entity|
-      type = ( key == :parti ? 'Issue' : key.to_s.classify)
-      expose :"#{key}_joinable", using: entity, if: lambda { |instance, options| instance.joinable_type == type } do |instance|
-        instance.joinable
-      end
-    end
-    expose :id, :joinable_type
-    expose :user, using: User::Entity
-    expose :is_organizer do |instance|
-      instance.is_organizer?
-    end
-  end
-
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 

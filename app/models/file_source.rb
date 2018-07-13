@@ -1,22 +1,4 @@
 class FileSource < ActiveRecord::Base
-  include Grape::Entity::DSL
-  entity do
-    include ActionView::Helpers::NumberHelper
-    expose :id, :attachment_url, :name, :file_type, :file_size, :image_ratio
-    expose :attachment_sm_url do |instance|
-      instance.sm_url
-    end
-    expose :attachment_md_url do |instance|
-      instance.md_url
-    end
-    expose :attachment_lg_url do |instance|
-      instance.lg_url
-    end
-    expose :human_file_size do |instance|
-      number_to_human_size(instance.file_size)
-    end
-  end
-
   belongs_to :file_sourceable, counter_cache: true, polymorphic: true
 
   ## uploaders
