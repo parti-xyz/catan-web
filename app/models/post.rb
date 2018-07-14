@@ -152,7 +152,9 @@ class Post < ActiveRecord::Base
   end
 
   def reviewed_by?(someone)
+    return false if someone.blank?
     return true if upvotes.exists?(user: someone)
+    return true if read_by?(someone)
     messagable_users.include? someone
   end
 

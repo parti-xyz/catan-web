@@ -65,7 +65,15 @@ class CommentsController < ApplicationController
   def read
     if params[:comment_ids].present?
       @comments = Comment.where(id: params[:comment_ids].split(','))
-      @comments.each { |comment| comment.read!(current_user) }
+      @comments.each do |comment|
+        comment.read!(current_user)
+      end
+
+      Post.where(id: @comments.select(:post_id)).each do |post|
+        member = post.issue.members.find_by(user: current_user)
+        next if member.blank?
+        post.readers.find_or_create_by(member: member)
+      end
     end
 
     head 200, content_type: "text/html"

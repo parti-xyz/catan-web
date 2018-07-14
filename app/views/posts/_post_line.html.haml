@@ -16,7 +16,8 @@
           - more_button = capture do
             %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{dom_id(post)}.post-line" } ... 더 보기
           - body_length_limit = (post.reviewed_by?(current_user) ? 200 : 500)
-          != smart_truncate_html(post_body_format(post.issue, post.body), length: body_length_limit, ellipsis: more_button)
+          - body_length_offset = (post.reviewed_by?(current_user) ? 80 : 150)
+          != smart_truncate_html(post_body_format(post.issue, post.body), length: body_length_limit, offset: body_length_offset, ellipsis: more_button)
         .original-body{ style: 'display: none;' }
           = post_body_format post.issue, post.body
     - if post.video_source?
