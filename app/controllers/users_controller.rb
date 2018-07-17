@@ -56,6 +56,18 @@ class UsersController < ApplicationController
   def inactive_sign_up
   end
 
+  def destroy
+    @user = User.find(params[:id])
+
+    if @user.destroy
+      flash[:success] = I18n.t('activerecord.successful.messages.deleted')
+    else
+      errors_to_flash @user
+    end
+
+    redirect_to admin_users_path
+  end
+
   protected
 
   def mobile_navbar_title_posts

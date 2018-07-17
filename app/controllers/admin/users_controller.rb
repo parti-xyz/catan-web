@@ -34,4 +34,16 @@ class Admin::UsersController < Admin::BaseController
       end
     end
   end
+
+  def index
+    if params[:user_nickname].present?
+      @users = User.where(nickname: params[:user_nickname])
+    elsif params[:user_email].present?
+      @users = User.where(email: params[:user_email])
+    else
+      @users = User.page(params[:page])
+    end
+
+  end
+
 end

@@ -1,0 +1,50 @@
+%section#lists
+  %h3 사용자 목록
+
+  .role-form
+    = form_tag admin_users_path, method: :get do |f|
+      = label_tag :user_nickname, '닉네임으로 검색'
+      .input-group
+        = text_field_tag :user_nickname, params[:user_nickname], class: 'form-control'
+        %span.input-group-btn
+          = submit_tag '조회', class: 'btn btn-default'
+  .role-form
+    = form_tag admin_users_path, method: :get do |f|
+      = label_tag :user_email, '이메일로 검색'
+      .input-group
+        = text_field_tag :user_email, params[:user_email], class: 'form-control'
+        %span.input-group-btn
+          = submit_tag '조회', class: 'btn btn-default'
+  - if @users.nil?
+    %p 검색 결과가 없습니다.
+  - else
+    %table.table
+      %thead
+        %tr
+          %th.text-nowrap
+            = User.human_attribute_name(:id)
+          %th.text-nowrap
+            = User.human_attribute_name(:nickname)
+          %th.text-nowrap= User.human_attribute_name(:email)
+          %th.text-nowrap= User.human_attribute_name(:posts)
+          %th.text-nowrap= User.human_attribute_name(:comments)
+          %th.text-nowrap= User.human_attribute_name(:organizing_issues)
+          %th.text-nowrap= User.human_attribute_name(:created_at)
+          %th.text-nowrap 관리
+      %tbody
+        - @users.each do |user|
+          %tr
+            %td
+              = user.id
+            %td.text-nowrap
+              = user.nickname
+            %td.text-nowrap= user.email
+            %td= user.posts.count
+            %td= user.comments.count
+            %td= user.organizing_issues.count
+            %td= date_f user.created_at
+            %td
+              = link_to '삭제', user, method: :delete, data: { confirm: "정말 #{user.nickname} 유저를 삭제하시겠습니까?" }, class: 'btn btn-default'
+
+  = paginate @users, theme: 'catan' if params[:user_nickname].blank? and params[:user_email].blank?
+

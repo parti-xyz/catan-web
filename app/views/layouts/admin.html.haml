@@ -40,6 +40,7 @@
                     %li= link_to '관리 홈', admin_root_path, class: "#{current_page?(admin_root_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '랜딩페이지 운영', admin_landing_pages_path, class: "#{current_page?(admin_landing_pages_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '활성 빠띠 조회', admin_active_issue_stats_path, class: "#{current_page?(admin_active_issue_stats_path) ? 'text-primary' : 'text-default'}"
+                    %li= link_to '사용자 목록', admin_users_path, class: "#{current_page?(admin_users_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '사용자 이메일 다운로드', all_email_admin_users_path(format: :xlsx)
                     %li= link_to '사용자 통계', stat_admin_users_path, class: "#{current_page?(stat_admin_users_path) ? 'text-primary' : 'text-default'}"
                     %li= link_to '블랙리스트 유저 관리', admin_blinds_path, class: "#{current_page?(admin_blinds_path) ? 'text-primary' : 'text-default'}"
