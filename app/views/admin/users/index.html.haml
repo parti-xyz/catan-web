@@ -30,7 +30,6 @@
           %th.text-nowrap= User.human_attribute_name(:comments)
           %th.text-nowrap= User.human_attribute_name(:organizing_issues)
           %th.text-nowrap= User.human_attribute_name(:created_at)
-          %th.text-nowrap 관리
       %tbody
         - @users.each do |user|
           %tr
@@ -43,8 +42,6 @@
             %td= user.comments.count
             %td= user.organizing_issues.count
             %td= date_f user.created_at
-            %td
-              = link_to '삭제', user, method: :delete, data: { confirm: "정말 #{user.nickname} 유저를 삭제하시겠습니까?" }, class: 'btn btn-default'
 
   = paginate @users, theme: 'catan' if params[:user_nickname].blank? and params[:user_email].blank?
 
