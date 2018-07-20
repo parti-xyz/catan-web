@@ -1,4 +1,4 @@
-class Voting < ActiveRecord::Base
+class Voting < ApplicationRecord
   extend Enumerize
   include Choosable
 

@@ -1,4 +1,4 @@
-class Upvote < ActiveRecord::Base
+class Upvote < ApplicationRecord
   belongs_to :user
   belongs_to :upvotable, polymorphic: true, counter_cache: true
   belongs_to :issue
@@ -15,14 +15,12 @@ class Upvote < ActiveRecord::Base
   scope :by_issue, ->(issue) { where(issue: issue) }
   scope :comment_only, -> { where(upvotable_type: 'Comment') }
   scope :of_group, -> (group) {
-    where.any_of(
-      Upvote.where(upvotable_type: 'Comment', upvotable_id: Comment.of_group(group)),
-      Upvote.where(upvotable_type: 'Post', upvotable_id: Post.of_group(group))
-    )
+    where(upvotable_type: 'Comment', upvotable_id: Comment.of_group(group))
+    .or(where(upvotable_type: 'Post', upvotable_id: Post.of_group(group)))
   }
 
   after_create :send_message
-  before_save :set_issue
+  before_validation :set_issue
 
   def sender_of_message(message)
     user

@@ -1,4 +1,4 @@
-class SummaryEmail < ActiveRecord::Base
+class SummaryEmail < ApplicationRecord
   SITE_WEEKLY = 1
 
   belongs_to :user

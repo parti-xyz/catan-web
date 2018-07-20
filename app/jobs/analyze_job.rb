@@ -1,4 +1,4 @@
-class AnalyzeJob
+class AnalyzeJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options unique: :while_executing
 

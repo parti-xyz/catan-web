@@ -1,4 +1,4 @@
-class Poll < ActiveRecord::Base
+class Poll < ApplicationRecord
   include Expirable
 
   has_one :post, dependent: :destroy

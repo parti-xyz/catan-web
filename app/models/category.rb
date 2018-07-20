@@ -1,4 +1,4 @@
-class Category < ActiveRecord::Base
+class Category < ApplicationRecord
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug
   has_many :issues, dependent: :nullify
 

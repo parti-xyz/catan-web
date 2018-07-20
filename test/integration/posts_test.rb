@@ -6,7 +6,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert issues(:issue2).member? users(:one)
     sign_in(users(:one))
 
-    post posts_path, post: { body: 'body', issue_id: issues(:issue2).id }
+    post posts_path, params: { post: { body: 'body', issue_id: issues(:issue2).id } }
 
     assert assigns(:post).persisted?
     assigns(:post).reload
@@ -22,7 +22,7 @@ class PostsTest < ActionDispatch::IntegrationTest
   test '게시물 본문 맨 끝문장에 태그가 없을 때도 잘 만들어요' do
     sign_in(users(:one))
 
-    post posts_path, post: { body: '<p>body</p>ok', issue_id: issues(:issue2).id }
+    post posts_path, params: { post: { body: '<p>body</p>ok', issue_id: issues(:issue2).id } }
 
     assert assigns(:post).persisted?
     assert_equal '<p>body</p>ok', assigns(:post).body
@@ -35,7 +35,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     sign_in(users(:two))
 
     assert_raises CanCan::AccessDenied do
-      post posts_path, post: { body: 'body', issue_id: issues(:issue2).id }
+      post posts_path, params: { post: { body: 'body', issue_id: issues(:issue2).id } }
     end
   end
 
@@ -45,7 +45,7 @@ class PostsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
 
-    post posts_path, post: { body: 'body', issue_id: issues(:issue1).id }
+    post posts_path, params: { post: { body: 'body', issue_id: issues(:issue1).id } }
     assert assigns(:post).persisted?
   end
 
@@ -81,7 +81,7 @@ class PostsTest < ActionDispatch::IntegrationTest
 
   test '고쳐요' do
     sign_in(users(:one))
-    put post_path(posts(:post_talk1)), post: { body: 'body x', issue_id: issues(:issue2).id }
+    put post_path(posts(:post_talk1)), params: { post: { body: 'body x', issue_id: issues(:issue2).id } }
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
@@ -96,7 +96,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     previous_count = Post.count
 
     assert_raises CanCan::AccessDenied do
-      post posts_path, post: { link: 'link', body: 'body', issue_id: -1 }
+      post posts_path, params: { post: { link: 'link', body: 'body', issue_id: -1 } }
     end
     assert_equal previous_count, Post.count
   end
@@ -104,7 +104,7 @@ class PostsTest < ActionDispatch::IntegrationTest
   test '내용 없이 만들수 있어요' do
     sign_in(users(:one))
 
-    post posts_path, post: { issue_id: issues(:issue2).id }
+    post posts_path, params: { post: { issue_id: issues(:issue2).id } }
 
     assert assigns(:post).persisted?
   end

@@ -1,4 +1,4 @@
-class LandingPage < ActiveRecord::Base
+class LandingPage < ApplicationRecord
   scope :section_for_issue_subject, ->{ where("section like 'subject%'") }
   def parsed_body
     return if body.blank?
@@ -18,7 +18,8 @@ class LandingPage < ActiveRecord::Base
     return [] unless section.starts_with?("subject")
     return [] if parsed_body.blank?
 
-    conditions = parsed_body.map do |item|
+    result = Issue.none
+    parsed_body.each do |item|
       if item.include? "/"
         group_slug, issue_slug = item.split('/')
       else
@@ -26,8 +27,8 @@ class LandingPage < ActiveRecord::Base
         group_slug = 'indie'
       end
 
-      {slug: issue_slug, group_slug: group_slug}
+      result = result.or(Issue.where(slug: issue_slug, group_slug: group_slug))
     end
-    Issue.where.any_of(*conditions)
+    result
   end
 end

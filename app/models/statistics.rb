@@ -1,3 +1,3 @@
-class Statistics < ActiveRecord::Base
+class Statistics < ApplicationRecord
   scope :recent, -> { order(when: :desc) }
 end

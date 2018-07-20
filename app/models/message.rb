@@ -1,16 +1,17 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   belongs_to :user
-  belongs_to :sender, class_name: User
+  belongs_to :sender, class_name: "User"
   belongs_to :messagable, -> { try(:with_deleted) || all }, polymorphic: true
 
   scope :recent, -> { order(id: :desc) }
   scope :latest, -> { after(1.day.ago) }
   scope :only_upvote, -> { where(messagable_type: Upvote.to_s) }
   scope :of_group, -> (group) {
-    conditions = all_messagable_types.map do |klass|
-      Message.where(messagable_type: klass.to_s).where(messagable_id: klass.send(klass.send(:messagable_group_method), group))
+    condition = none
+    all_messagable_types.each do |klass|
+      condition = condition.or(where(messagable_type: klass.to_s).where(messagable_id: klass.send(klass.send(:messagable_group_method), group)))
     end
-    where.any_of(*conditions)
+    condition
   }
   scope :unread, -> { where(read_at: nil) }
 

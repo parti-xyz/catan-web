@@ -1,4 +1,4 @@
-class PostSearchableIndex < ActiveRecord::Base
+class PostSearchableIndex < ApplicationRecord
   belongs_to :post
 
   def reindex

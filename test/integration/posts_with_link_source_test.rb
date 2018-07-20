@@ -13,7 +13,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl do
       sign_in(users(:one))
 
-      post posts_path, post: { issue_id: issues(:issue2).id, body: 'body http://link.xx', is_html_body: 'false' }
+      post posts_path, params: { post: { issue_id: issues(:issue2).id, body: 'body http://link.xx', is_html_body: 'false' } }
       assert assigns(:post).persisted?
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).link_source.title
@@ -31,7 +31,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
       sign_in(users(:one))
 
       post_talk3_link = posts(:post_talk3).link_source.url
-      post posts_path, post: { issue_id: issues(:issue2).id, body: "body #{post_talk3_link}", is_html_body: 'false' }
+      post posts_path, params: { post: { issue_id: issues(:issue2).id, body: "body #{post_talk3_link}", is_html_body: 'false' } }
       assert assigns(:post).persisted?
       assigns(:post).reload
 
@@ -50,7 +50,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl 'http://link.xx' do
       sign_in(users(:one))
 
-      put post_path(posts(:post_talk1)), post: { body: 'body http://link.xx', issue_id: issues(:issue1).id, is_html_body: 'false' }
+      put post_path(posts(:post_talk1)), params: { post: { body: 'body http://link.xx', issue_id: issues(:issue1).id, is_html_body: 'false' } }
       refute assigns(:post).errors.any?
       assigns(:post).reload
       assert_equal 'page title', assigns(:post).link_source.title
@@ -70,7 +70,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl old_link.url do
       sign_in(users(:one))
 
-      put post_path(posts(:post_talk1)), post: { body: 'body text', issue_id: issues(:issue1).id, is_html_body: 'false' }
+      put post_path(posts(:post_talk1)), params: { post: { body: 'body text', issue_id: issues(:issue1).id, is_html_body: 'false' } }
 
       refute assigns(:post).errors.any?
       assigns(:post).reload
@@ -90,7 +90,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
 
-    put post_path(posts(:post_talk3)), post: { body: 'body text', issue_id: issues(:issue1).id, is_html_body: 'false' }
+    put post_path(posts(:post_talk3)), params: { post: { body: 'body text', issue_id: issues(:issue1).id, is_html_body: 'false' } }
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
@@ -105,7 +105,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl(post_talk3_link) do
       sign_in(users(:one))
 
-      put post_path(posts(:post_talk1)), post: { body: "body #{post_talk3_link}", is_html_body: 'false' }
+      put post_path(posts(:post_talk1)), params: { post: { body: "body #{post_talk3_link}", is_html_body: 'false' } }
       refute assigns(:post).errors.any?
       assert_equal posts(:post_talk3).link_source, assigns(:post).link_source
       assert Post.exists?(id: posts(:post_talk1).id)
@@ -117,7 +117,7 @@ class PostsWithLinkSourceTest < ActionDispatch::IntegrationTest
     stub_crawl(post_talk1_link) do
       sign_in(users(:one))
 
-      put post_path(posts(:post_talk3)), post: { body: "body #{post_talk1_link}", is_html_body: 'false' }
+      put post_path(posts(:post_talk3)), params: { post: { body: "body #{post_talk1_link}", is_html_body: 'false' } }
       refute assigns(:post).errors.any?
       assert_equal posts(:post_talk3), assigns(:post)
       assert_equal posts(:post_talk1).link_source, posts(:post_talk3).reload.link_source

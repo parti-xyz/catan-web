@@ -1,4 +1,4 @@
-class FcmJob
+class FcmJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform(id)

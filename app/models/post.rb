@@ -1,4 +1,4 @@
-class Post < ActiveRecord::Base
+class Post < ApplicationRecord
   HOT_LIKES_COUNT = 3
 
   include AutoLinkableBody
@@ -12,17 +12,16 @@ class Post < ActiveRecord::Base
 
   belongs_to :issue, counter_cache: true
   belongs_to :user
-  belongs_to :poll
-  belongs_to :survey
-  belongs_to :link_source
-  belongs_to :wiki
+  belongs_to :poll, optional: true
+  belongs_to :survey, optional: true
+  belongs_to :link_source, optional: true
+  belongs_to :wiki, optional: true
   has_many :file_sources, dependent: :destroy, as: :file_sourceable
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :decision_histories, dependent: :destroy
   has_one :post_searchable_index, dependent: :destroy, autosave: true
 
-  belongs_to :postable, polymorphic: true
-  belongs_to :last_stroked_user, class_name: User
+  belongs_to :last_stroked_user, class_name: "User", optional: true
   accepts_nested_attributes_for :link_source
   accepts_nested_attributes_for :wiki
   accepts_nested_attributes_for :file_sources, allow_destroy: true, reject_if: proc { |attributes|
@@ -33,7 +32,7 @@ class Post < ActiveRecord::Base
 
   has_many :comments, dependent: :destroy
   has_many :readers, dependent: :destroy
-  belongs_to :folder
+  belongs_to :folder, optional: true
   has_many :bookmarks, dependent: :destroy
 
   # validations
@@ -49,13 +48,11 @@ class Post < ActiveRecord::Base
     base = hottest.order(id: :desc)
     base = base.where('posts.recommend_score > 0')
     base = base.where.not(recommend_score_datestamp: nil)
-    base = base.where.any_of(
-      ['posts.recommend_score < ?', post.recommend_score],
-      where('posts.recommend_score = ? and posts.recommend_score_datestamp < ?',
-        post.recommend_score, post.recommend_score_datestamp),
-      where('posts.recommend_score = ? and posts.recommend_score_datestamp = ? and posts.id < ?',
-        post.recommend_score, post.recommend_score_datestamp, post.id)
-    ) if post.present?
+    base = base.where('posts.recommend_score < ?', post.recommend_score)
+      .or(base.where('posts.recommend_score = ? and posts.recommend_score_datestamp < ?',
+        post.recommend_score, post.recommend_score_datestamp))
+      .or(base.where('posts.recommend_score = ? and posts.recommend_score_datestamp = ? and posts.id < ?',
+        post.recommend_score, post.recommend_score_datestamp, post.id)) if post.present?
     base
   }
   scope :previous_of_post, ->(post) { where('posts.last_stroked_at < ?', post.last_stroked_at) if post.present? }
@@ -96,7 +93,9 @@ class Post < ActiveRecord::Base
     group ||= Group.indie
     where(issue_id: group.issues.not_in_dashboard(someone))
   }
-  scope :having_link_or_file, -> { where.any_of(where.not(link_source: nil), where('file_sources_count > 0')) }
+  scope :having_link_or_file, -> {
+    where.not(link_source: nil).or(where('file_sources_count > 0'))
+  }
   scope :having_wiki, ->(status = nil) {
     condition = where.not(wiki: nil)
     condition = condition.joins('LEFT OUTER JOIN wikis on wikis.id = posts.wiki_id').where('wikis.status': status) if status.present?
@@ -159,18 +158,25 @@ class Post < ActiveRecord::Base
   end
 
   def messagable_users
-    result = [User.where(id: user)]
-    result << User.where(id: comments.select(:user_id))
+    result = User.where(id: user)
+    result = result.or(User.where(id: comments.select(:user_id)))
+    result = result.or(User.where(id: bookmarks.select(:user_id)))
 
     if poll.present?
-      result << User.where(id: poll.votings.select(:user_id))
+      result = result.or(User.where(id: poll.votings.select(:user_id)))
     end
 
     if survey.present?
-      result << User.where(id: survey.feedbacks.select(:user_id))
-      result << User.where(id: survey.options.select(:user_id))
+      result = result.or(User.where(id: survey.feedbacks.select(:user_id)))
+      result = result.or(User.where(id: survey.options.select(:user_id)))
     end
-    User.where.any_of(*result).where(id: Member.where(joinable: self.issue).select(:user_id))
+
+    if wiki.present?
+      result = result.or(User.where(id: wiki.authors))
+    end
+
+    result = result.where(id: Member.where(joinable: self.issue).select(:user_id))
+    result
   end
 
   def comments_threaded
@@ -402,7 +408,7 @@ class Post < ActiveRecord::Base
   end
 
   def read_by?(someone)
-    readers.includes(:member).exists?('members.user_id': someone)
+    readers.joins(:member).exists?('members.user_id': someone)
   end
 
   def can_be_reader?(someone)

@@ -1,4 +1,4 @@
-class Option < ActiveRecord::Base
+class Option < ApplicationRecord
   belongs_to :user
   belongs_to :survey
   has_many :feedbacks, dependent: :destroy

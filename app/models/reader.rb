@@ -1,4 +1,4 @@
-class Reader < ActiveRecord::Base
+class Reader < ApplicationRecord
   belongs_to :member
   belongs_to :post, counter_cache: true
 

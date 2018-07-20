@@ -1,4 +1,4 @@
-class Group < ActiveRecord::Base
+class Group < ApplicationRecord
   attr_accessor :organizer_nicknames
 
   include UniqueSoftDeletable
@@ -11,10 +11,10 @@ class Group < ActiveRecord::Base
 
   SLUG_OF_UNION = 'union'
 
-  belongs_to :user
+  belongs_to :user, optional: true
   has_many :invitations, as: :joinable, dependent: :destroy
   has_many :members, as: :joinable, dependent: :destroy
-  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member do
+  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: "Member" do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
     end
@@ -25,12 +25,13 @@ class Group < ActiveRecord::Base
   has_many :issues, dependent: :restrict_with_error, primary_key: :slug, foreign_key: :group_slug
   has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
 
-  scope :sort_by_name, -> { order("case when slug = 'indie' then 0 else 1 end").order("if(ascii(substring(title, 1)) < 128, 1, 0)").order(:title) }
-  scope :hottest, -> { order("case when slug = 'indie' then 0 else 1 end").order(hot_score_datestamp: :desc, hot_score: :desc) }
+  scope :sort_by_name, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
+  scope :hottest, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :but, ->(group) { where.not(id: group) }
-  scope :not_private_blocked, ->(current_user) { where.any_of(
-                                                    where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id')),
-                                                    where.not(private: true)) }
+  scope :not_private_blocked, ->(current_user) {
+    where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
+    .or(where.not(private: true))
+  }
   mount_uploader :key_visual_foreground_image, ImageUploader
   mount_uploader :key_visual_background_image, ImageUploader
 

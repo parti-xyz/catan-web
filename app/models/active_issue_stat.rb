@@ -1,3 +1,3 @@
-class ActiveIssueStat < ActiveRecord::Base
-  belongs_to :issue
+class ActiveIssueStat < ApplicationRecord
+  belongs_to :issue, optional: true
 end

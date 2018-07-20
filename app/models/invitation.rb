@@ -1,17 +1,15 @@
-class Invitation < ActiveRecord::Base
+class Invitation < ApplicationRecord
   belongs_to :user
-  belongs_to :recipient, class_name: User
+  belongs_to :recipient, class_name: "User", optional: true
   belongs_to :joinable, polymorphic: true
   has_many :messages, as: :messagable, dependent: :destroy
 
-  validates :recipient, uniqueness: { scope: [:joinable_id, :joinable_type] }, if: 'recipient.present?'
+  validates :recipient, uniqueness: { scope: [:joinable_id, :joinable_type] }, if: ->{ recipient.present? }
   validates :joinable, presence: true
   validates :user, presence: true
   scope :of_group, -> (group) {
-    where.any_of(
-      Invitation.where(joinable_type: 'Issue', joinable_id: Issue.of_group(group)),
-      Invitation.where(joinable_type: 'Group', joinable_id: group.id)
-    )
+    where(joinable_type: 'Issue', joinable_id: Issue.of_group(group))
+    .or(where(joinable_type: 'Group', joinable_id: group.id))
   }
 
   def issue

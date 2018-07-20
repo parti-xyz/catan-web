@@ -8,6 +8,9 @@ Bundler.require(*Rails.groups)
 
 module CatanWeb
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.0
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -24,9 +27,6 @@ module CatanWeb
     config.i18n.available_locales = [:en, :ko]
     config.i18n.default_locale = :ko
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     config.active_job.queue_adapter = ((!ENV['SIDEKIQ'] and (Rails.env.test? or Rails.env.development?)) ? :inline : :sidekiq)
 
     if Rails.env.test? || Rails.env.development?
@@ -41,7 +41,7 @@ module CatanWeb
 
     config.tinymce.install = :compile
 
-    config.middleware.insert_before 0, "Rack::Cors" do
+    config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
         resource '/assets/*', :headers => :any, :methods => :get

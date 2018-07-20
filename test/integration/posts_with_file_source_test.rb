@@ -4,7 +4,7 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
   test '만들어요' do
     sign_in(users(:one))
 
-    post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', file_sources_attributes: {'0': { attachment: fixture_file('files/sample.pdf')} } }
+    post posts_path, params: { post: { issue_id: issues(:issue2).id, body: 'body', file_sources_attributes: {'0': { attachment: fixture_file('files/sample.pdf')} } } }
 
     assert assigns(:post).persisted?
     assigns(:post).reload
@@ -20,7 +20,7 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
   test '10mb초과하는 파일은 업로드할 수 없어요' do
     sign_in(users(:one))
 
-    post posts_path, post: { issue_id: issues(:issue2).id, body: 'body', file_sources_attributes: { '0': { attachment: fixture_file('files/sample_over_10mb.pdf') } } }
+    post posts_path, params: { post: { issue_id: issues(:issue2).id, body: 'body', file_sources_attributes: { '0': { attachment: fixture_file('files/sample_over_10mb.pdf') } } } }
 
     refute assigns(:post).persisted?
   end
@@ -29,10 +29,12 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     put post_path(posts(:post_talk5)),
-      post: {
-        body: 'body',
-        issue_id: issues(:issue1).id,
-        file_sources_attributes: { '0': { id: posts(:post_talk5).file_sources.first.id, _destroy: '1' }, '1': { attachment: fixture_file('files/sample.pdf') } } }
+      params: {
+        post: {
+          body: 'body',
+          issue_id: issues(:issue1).id,
+          file_sources_attributes: { '0': { id: posts(:post_talk5).file_sources.first.id, _destroy: '1' }, '1': { attachment: fixture_file('files/sample.pdf') } } }
+      }
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
@@ -47,7 +49,7 @@ class PostsWithFileSourceTest < ActionDispatch::IntegrationTest
 
     original_name = posts(:post_talk5).reload.file_sources.first.name
 
-    put post_path(posts(:post_talk5)), post: { body: 'new body', file_sources_attributes: { '0': { id: posts(:post_talk5).file_sources.first.id } } }
+    put post_path(posts(:post_talk5)), params: { post: { body: 'new body', file_sources_attributes: { '0': { id: posts(:post_talk5).file_sources.first.id } } } }
     refute assigns(:post).errors.any?
     assigns(:post).reload
     assert_equal '<p>new body</p>', assigns(:post).body

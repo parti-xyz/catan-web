@@ -1,4 +1,4 @@
-class SiteNoticeJob
+class SiteNoticeJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform(title, body, test_user_id = nil)

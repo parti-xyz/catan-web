@@ -1,4 +1,4 @@
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
@@ -6,7 +6,7 @@ class Member < ActiveRecord::Base
   belongs_to :joinable, counter_cache: true, polymorphic: true
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :readers, dependent: :destroy
-  belongs_to :admit_user
+  belongs_to :admit_user, optional: true
 
   validates :user, presence: true
   validates :joinable, presence: true, on: :update
@@ -22,10 +22,8 @@ class Member < ActiveRecord::Base
   }
   scope :for_issues, -> { where(joinable_type: 'Issue') }
   scope :of_group, -> (group) {
-    where.any_of(
-      Member.where(joinable_type: 'Issue', joinable_id: Issue.of_group(group)),
-      Member.where(joinable_type: 'Group', joinable_id: group.id)
-    )
+    where(joinable_type: 'Issue', joinable_id: Issue.of_group(group))
+    .or(where(joinable_type: 'Group', joinable_id: group.id))
   }
 
   scoped_search relation: :user, on: [:nickname]

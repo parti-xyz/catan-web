@@ -1,4 +1,4 @@
-class IssueForceDefaultJob
+class IssueForceDefaultJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform(issue_id, organizer_user_id)

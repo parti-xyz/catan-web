@@ -5,8 +5,7 @@ class ApplicationController < ActionController::Base
   include StoreLocation
 
   protect_from_forgery with: :exception
-  before_action :prepare_meta_tags, if: "request.get? and !Rails.env.test?"
-
+  before_action :prepare_meta_tags, if: -> { request.get? and !Rails.env.test? }
   before_action :set_device_type
   before_action :block_not_exists_group
   before_action :blocked_private_group
@@ -273,7 +272,13 @@ class ApplicationController < ActionController::Base
   def smart_search_for(model, q, options = {})
     return model.search_for(q, options) if q.blank?
 
-    model.search_for q.split.map { |t| "\"#{t}\"" }.join(" OR "), options
+    model.search_for smart_search_keyword(q), options
+  end
+
+  def smart_search_keyword(q)
+    return if q.blank?
+
+    q.split.map { |t| "\"#{t}\"" }.join(" OR ")
   end
 
   def logging_mobile_app

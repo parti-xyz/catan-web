@@ -1,0 +1,2 @@
+class ApplicationJob
+end

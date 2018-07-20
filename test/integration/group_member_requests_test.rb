@@ -7,7 +7,7 @@ class GroupMemberRequestsTest < ActionDispatch::IntegrationTest
     sign_in(users(:admin))
 
     host! "private.example.com"
-    post accept_group_member_requests_path(group_id: groups(:private_group).id), { user_id: users(:member_request_to_private_group).id  }
+    post accept_group_member_requests_path(group_id: groups(:private_group).id), params: { user_id: users(:member_request_to_private_group).id  }
 
     users(:member_request_to_private_group).reload
 

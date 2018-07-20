@@ -18,7 +18,7 @@ class IssuesController < ApplicationController
       @hot_issues = @issues.first(10)
       @posts_pinned = current_group.pinned_posts(current_user)
 
-      @discussions_all = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
+      @discussions_all = Post.having_poll.or(Post.having_survey).or(Post.where.not(decision: nil))
       @discussions_all = @discussions_all.not_private_blocked_of_group(current_group, current_user)
       @discussions_all = @discussions_all.order_by_stroked_at
       discussions_fresh = @discussions_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
@@ -69,14 +69,12 @@ class IssuesController < ApplicationController
       @issues = @issues.hottest
       @no_tags_selected = 'yes'
     else
-      conditions = []
-      conditions << Issue.tagged_with(params[:selected_tags], :any => true)
-
+      base = Issue.tagged_with(params[:selected_tags], any: true).except(:select).select(:id).union(Issue.search_for(params[:selected_tags].join(' OR ')).select(:id))
       LandingPage.section_for_issue_subject.where(title: params[:selected_tags]).each do |landing_page|
-        conditions << landing_page.parsed_section_for_issue_subject
+        base = base.union(landing_page.parsed_section_for_issue_subject.select(:id))
       end
 
-      @issues = @issues.where.any_of(*conditions)
+      @issues = @issues.where(id: base)
     end
     @issues = @issues.to_a.reject { |i| i.private_blocked?(current_user) }
   end
@@ -111,7 +109,7 @@ class IssuesController < ApplicationController
   def slug_polls_or_surveys
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
     how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
-    @posts = Post.where.any_of(Post.having_poll, Post.having_survey, Post.where.not(decision: nil))
+    @posts = Post.having_poll.or(Post.having_survey).or(Post.where.not(decision: nil))
     @posts = @posts.of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
   end
 
@@ -435,10 +433,10 @@ class IssuesController < ApplicationController
     @issues = @issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }
   end
 
-  def search_and_sort_issues(issue, keyword, sort, item_a_row = 4)
+  def search_and_sort_issues(issues, keyword, sort, item_a_row = 4)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
-    result = issue
-    result = result.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
+    result = issues.where(id: Issue.tagged_with(tags, any: true).except(:select).select(:id).union(Issue.search_for((smart_search_keyword(keyword))).select(:id))) if keyword.present?
+    result = result.alive
 
     case sort
     when 'recent'

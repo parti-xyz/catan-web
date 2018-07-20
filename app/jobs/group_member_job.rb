@@ -1,4 +1,4 @@
-class GroupMemberJob
+class GroupMemberJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform(group_id, user_ids)

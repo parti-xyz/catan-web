@@ -6,7 +6,7 @@ class MemberRequestsTest < ActionDispatch::IntegrationTest
     assert issues(:private_issue).member_requested?(users(:one))
 
     sign_in(users(:admin))
-    post accept_issue_member_requests_path(issue_id: issues(:private_issue).id), { user_id: users(:one).id  }
+    post accept_issue_member_requests_path(issue_id: issues(:private_issue).id), params: { user_id: users(:one).id  }
 
     users(:one).reload
 
@@ -20,7 +20,7 @@ class MemberRequestsTest < ActionDispatch::IntegrationTest
     assert issues(:private_issue).member_requested?(users(:one))
 
     sign_in(users(:admin))
-    delete reject_issue_member_requests_path(issue_id: issues(:private_issue).id), { user_id: users(:one).id  }
+    delete reject_issue_member_requests_path(issue_id: issues(:private_issue).id), params: { user_id: users(:one).id  }
 
     users(:one).reload
 

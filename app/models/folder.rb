@@ -1,12 +1,12 @@
-class Folder < ActiveRecord::Base
-  belongs_to :user
+class Folder < ApplicationRecord
+  belongs_to :user, optional: true
   belongs_to :issue
   has_many :posts, dependent: :nullify
-  belongs_to :parent, class_name: Folder, foreign_key: :parent_id, counter_cache: :children_count
-  has_many :children, class_name: Folder, foreign_key: :parent_id, dependent: :destroy
+  belongs_to :parent, class_name: "Folder", foreign_key: :parent_id, counter_cache: :children_count, optional: true
+  has_many :children, class_name: "Folder", foreign_key: :parent_id, dependent: :destroy
 
   scope :only_parent, -> { where(parent_id: nil) }
-  scope :sort_by_name, -> { order("if(ascii(substring(title, 1)) < 128, 1, 0)").order('title') }
+  scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order('title') }
 
   validates :title, uniqueness: {scope: [:issue_id]}
   validate :check_parent_id

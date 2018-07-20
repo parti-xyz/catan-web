@@ -1,4 +1,4 @@
-class CommentReader < ActiveRecord::Base
+class CommentReader < ApplicationRecord
   belongs_to :user
   belongs_to :comment
 

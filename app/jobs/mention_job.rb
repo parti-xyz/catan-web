@@ -1,4 +1,4 @@
-class MentionJob
+class MentionJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options retry: false
 

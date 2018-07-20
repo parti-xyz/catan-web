@@ -1,4 +1,4 @@
-class WikiHistory < ActiveRecord::Base
+class WikiHistory < ApplicationRecord
   belongs_to :user
   belongs_to :wiki
 

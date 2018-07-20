@@ -1,4 +1,4 @@
-class MyMenu < ActiveRecord::Base
+class MyMenu < ApplicationRecord
   belongs_to :user
   belongs_to :issue
 

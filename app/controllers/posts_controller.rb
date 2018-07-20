@@ -340,8 +340,10 @@ class PostsController < ApplicationController
     if file_sources.try(:any?)
       file_sources_attributes = FileSource.require_attrbutes
 
-      file_sources.to_a.each_with_index do |file_source, index|
+      index = 0
+      file_sources.each do |file_source|
         params[:post][:file_sources_attributes][file_source[0]]["seq_no"] = index
+        index += 1
       end
     end
 

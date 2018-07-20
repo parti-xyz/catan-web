@@ -1,4 +1,4 @@
-class SurveyClosedMessagesJob
+class SurveyClosedMessagesJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform

@@ -1,4 +1,4 @@
-class WikiCaptureJob
+class WikiCaptureJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options retry: false
 

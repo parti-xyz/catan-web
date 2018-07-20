@@ -1,4 +1,4 @@
-class LastStrokedPostsCountJob
+class LastStrokedPostsCountJob < ApplicationJob
   include Sidekiq::Worker
   include LatestStrokedPostsCountHelper
 

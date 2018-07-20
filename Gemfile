@@ -1,32 +1,32 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.10'
+# gem 'rails', '4.2.10'
+gem 'rails', '~> 5.2.0'
 gem 'unicorn'
 gem 'bundler', '~> 1.14', '>= 1.14.5'
+gem 'bootsnap', require: false
 
 # db
 gem 'mysql2', '>= 0.3.13', '< 0.5'
 gem 'sqlite3'
 
 # model
-gem 'active_record-acts_as', '~> 1.0', '>= 1.0.7'
-gem 'enumerize', '~> 1.1'
+gem 'active_record-acts_as'
+gem 'enumerize', '~> 2.1', '>= 2.1.2'
 gem 'recursive-open-struct', '~> 1.0', '>= 1.0.1'
 gem 'time_difference', '~> 0.4.2'
 gem 'by_star', '~> 2.2', '>= 2.2.1'
 gem 'naught', '~> 1.1'
-gem 'paranoia', '~> 2.1', '>= 2.1.5'
-gem 'activerecord_any_of', '~> 1.3'
-gem 'active_record_union', '~> 1.2'
+gem 'paranoia', '~> 2.4', '>= 2.4.1'
+gem 'activerecord_any_of', github: 'oelmekki/activerecord_any_of', ref: '22b3bf'
+gem 'active_record_union', '~> 1.3'
 gem 'scoped_search', '~> 4.1'
 gem 'search_cop'
 gem 'treetop', '~> 1.6', '>= 1.6.10'
-gem 'acts-as-taggable-on', '~> 4.0'
+gem 'acts-as-taggable-on', '~> 6.0'
 gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: '776037c0fc799bb09da8c9ea47980bd3bf296874'
 gem 'axlsx_rails', '~> 0.5.0'
 gem 'rubyzip', '>= 1.2.1'
-gem 'backport_new_renderer', '~> 1.0'
-gem 'where-or'
 gem 'groupdate'
 gem 'chartkick'
 gem 'moneta'
@@ -41,7 +41,7 @@ gem 'carrierwave-base64', '~> 2.3', '>= 2.3.3'
 gem 'remotipart'
 
 # auth
-gem 'cancancan', '~> 1.10'
+gem 'cancancan', '~> 2.2'
 gem 'rolify'
 gem 'devise', '~> 4.2'
 gem 'omniauth', '~> 1.3', '>= 1.3.1'
@@ -69,11 +69,11 @@ gem 'fcm', '~> 0.0.2'
 # views
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 3.3', '>= 3.3.5.1'
 gem 'bootswatch-rails'
-gem 'haml-rails', '~> 0.9.0'
+gem 'haml-rails', '~> 1.0'
 # gem 'truncate_html', github: 'parti-xyz/truncate_html', tag: 'p0.9.4'
 gem 'html_truncator'
 gem 'rails-timeago', '~> 2.13'
@@ -87,7 +87,7 @@ gem 'jquery-slick-rails'
 # tool
 gem 'dotenv'
 gem 'jbuilder', '~> 2.0'
-gem 'seed-fu', '~> 2.3', '>= 2.3.5'
+gem 'seed-fu', '~> 2.3', '>= 2.3.9'
 gem 'nokogiri', '~> 1.6', '>= 1.6.7.2'
 gem 'identicon', '~> 0.0.5'
 gem 'rails_autolink', '~> 1.1', '>= 1.1.6'
@@ -109,7 +109,7 @@ gem 'video_info', '~> 2.6'
 gem 'fastimage', '~> 2.1'
 
 # SEO
-gem 'meta-tags', '~> 2.1.0'
+gem 'meta-tags', '~> 2.10'
 gem 'sitemap_generator', '~> 5.1'
 
 # image
@@ -119,7 +119,7 @@ group :development, :test do
 end
 
 # paging
-gem 'kaminari', '~> 0.16.3'
+gem 'kaminari', '~> 1.1', '>= 1.1.1'
 gem 'bootstrap-kaminari-views', '~> 0.0.5'
 
 # scheduler
@@ -132,7 +132,7 @@ gem 'sidekiq-unique-jobs', '~> 4.0', '>= 4.0.16'
 # notification
 gem 'postmark-rails', '~> 0.12.0'
 gem 'slack-notifier', '~> 1.4'
-gem 'exception_notification', '~> 4.1', '>= 4.1.4'
+gem 'exception_notification', '~> 4.2', '>= 4.2.2'
 gem 'premailer-rails', '~> 1.9'
 
 # monitoring
@@ -152,10 +152,11 @@ group :development, :test do
   gem 'mocha', '~> 1.1'
   gem 'puma'
   gem 'sassc-rails'
+  gem 'rails-controller-testing'
 end
 
 group :development do
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '~> 3.6', '>= 3.6.2'
   gem "better_errors"
   gem "binding_of_caller"
 end

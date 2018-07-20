@@ -1,4 +1,4 @@
-class ScoreJob
+class ScoreJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options unique: :while_executing
 

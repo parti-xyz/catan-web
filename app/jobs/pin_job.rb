@@ -1,4 +1,4 @@
-class PinJob
+class PinJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform(post_id, user_id)

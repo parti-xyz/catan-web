@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   rolify
   extend Enumerize
   enumerize :push_notification_mode, in: [:on, :no_sound, :off], predicates: true, scope: true
@@ -28,8 +28,8 @@ class User < ActiveRecord::Base
     presence: true,
     format: { with: Devise.email_regexp }
 
-  validates :uid, uniqueness: {scope: [:provider]}
-  validates :email, uniqueness: {scope: [:provider]}, if: 'provider == "email"'
+  validates :uid, uniqueness: { scope: [:provider] }
+  validates :email, uniqueness: { scope: [:provider] }, if: ->{ provider == "email" }
   validates :password,
     presence: true,
     confirmation: true,
@@ -45,37 +45,37 @@ class User < ActiveRecord::Base
   before_validation :strip_whitespace, only: :nickname
   before_update :process_push_notification_mode_updated_at
   after_create :default_member_issues
-  after_create :check_invitations, :if => "email.present? && confirmed_at.present?"
+  after_create :check_invitations, if: ->{ email.present? && confirmed_at.present? }
 
   # associations
   has_many :merged_issues, dependent: :nullify
   has_many :messages, dependent: :destroy
-  has_many :send_messages, dependent: :destroy, foreign_key: :sender_id, class_name: Message
+  has_many :send_messages, dependent: :destroy, foreign_key: :sender_id, class_name: "Message"
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :upvotes, dependent: :destroy
   has_many :votings, dependent: :destroy
   has_many :blinds, dependent: :destroy
   has_many :polls, through: :posts
-  has_many :issue_organizer_members, -> { where(joinable_type: 'Issue').where(is_organizer: true) }, class_name: Member
-  has_many :organizing_issues, through: :issue_organizer_members, source: :joinable, source_type: Issue
-  has_many :group_organizer_members, -> { where(joinable_type: 'Group').where(is_organizer: true)}, class_name: Member
-  has_many :organizing_groups, through: :group_organizer_members, source: :joinable, source_type: Group
+  has_many :issue_organizer_members, -> { where(joinable_type: 'Issue').where(is_organizer: true) }, class_name: "Member"
+  has_many :organizing_issues, through: :issue_organizer_members, source: :joinable, source_type: "Issue"
+  has_many :group_organizer_members, -> { where(joinable_type: 'Group').where(is_organizer: true)}, class_name: "Member"
+  has_many :organizing_groups, through: :group_organizer_members, source: :joinable, source_type: "Group"
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
-  has_many :issue_members, -> { where(joinable_type: 'Issue') }, class_name: Member
+  has_many :issue_members, -> { where(joinable_type: 'Issue') }, class_name: "Member"
   has_many :member_request, dependent: :destroy
-  has_many :member_issues, through: :members, source: :joinable, source_type: Issue
-  has_many :member_groups, through: :members, source: :joinable, source_type: Group
+  has_many :member_issues, through: :members, source: :joinable, source_type: "Issue"
+  has_many :member_groups, through: :members, source: :joinable, source_type: "Group"
   has_many :device_tokens, dependent: :destroy
   has_many :invitations, dependent: :destroy
-  has_many :received_invitations, dependent: :destroy, foreign_key: :recipient_id, class_name: Invitation
+  has_many :received_invitations, dependent: :destroy, foreign_key: :recipient_id, class_name: "Invitation"
   has_many :feedbacks, dependent: :destroy
   has_many :options, dependent: :destroy
   has_many :group, dependent: :nullify
-  has_many :destroyed_issues, dependent: :nullify, foreign_key: :destroyer_id, class_name: Issue
+  has_many :destroyed_issues, dependent: :nullify, foreign_key: :destroyer_id, class_name: "Issue"
   has_many :summary_emails, dependent: :destroy
-  has_many :last_touched_wiki, dependent: :nullify, class_name: Wiki, foreign_key: :last_author_id
+  has_many :last_touched_wiki, dependent: :nullify, class_name: "Wiki", foreign_key: :last_author_id
   has_many :wiki_histories, dependent: :nullify
   has_many :decision_histories, dependent: :nullify
   has_many :my_menus, dependent: :destroy

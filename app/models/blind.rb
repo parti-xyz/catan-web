@@ -1,6 +1,6 @@
-class Blind < ActiveRecord::Base
+class Blind < ApplicationRecord
   belongs_to :user
-  belongs_to :issue
+  belongs_to :issue, optional: true
 
   scope :site_wide_only, -> { where(issue: nil) }
 

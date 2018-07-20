@@ -1,4 +1,4 @@
-class MemberRequest < ActiveRecord::Base
+class MemberRequest < ApplicationRecord
   include UniqueSoftDeletable
   acts_as_unique_paranoid
 
@@ -11,10 +11,8 @@ class MemberRequest < ActiveRecord::Base
   validates :user, uniqueness: {scope: [:joinable_id, :joinable_type]}
   scope :recent, -> { order(id: :desc) }
   scope :of_group, -> (group) {
-    where.any_of(
-      MemberRequest.where(joinable_type: 'Issue', joinable_id: Issue.of_group(group)),
-      MemberRequest.where(joinable_type: 'Group', joinable_id: group.id)
-    )
+    where(joinable_type: 'Issue', joinable_id: Issue.of_group(group))
+    .or(where(joinable_type: 'Group', joinable_id: group.id))
   }
 
   def issue_for_message

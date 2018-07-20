@@ -9,7 +9,7 @@ class MergeIssuesTest < ActionDispatch::IntegrationTest
     old_upvote_updated_at = upvotes(:upvote3).updated_at
 
     sign_in(users(:admin))
-    post merge_admin_issues_path, group_slug: 'indie', issue_slug: issues(:merge_target_issue).slug, source_slug: issues(:merge_source_issue).slug
+    post merge_admin_issues_path, params: { group_slug: 'indie', issue_slug: issues(:merge_target_issue).slug, source_slug: issues(:merge_source_issue).slug }
     issues(:merge_target_issue).reload
 
     # source이슈가 사라집니다

@@ -9,7 +9,7 @@ class MessagesTest < ActionDispatch::IntegrationTest
     # talk3에 one이 two를 멘션하는 댓글을 쓴다.
 
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body @nick2' }), format: :js
+      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body @nick2' }, format: :js)
     end
 
     # 이전의 알람갯수보다 이후 알람갯수가 +1되어야한다.
@@ -25,8 +25,8 @@ class MessagesTest < ActionDispatch::IntegrationTest
     # talk3에 one이 two를 멘션하는 댓글을 쓴다.
 
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: "body" }), format: :js
-      patch comment_path(assigns(:comment).id, comment: { body: "body @#{users(:one).nickname}" }), format: :js
+      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: "body" , format: :js})
+      patch comment_path(assigns(:comment).id, comment: { body: "body @#{users(:one).nickname}" }, format: :js)
     end
 
     # 이전의 알람갯수보다 이후 알람갯수가 +1되어야한다.
@@ -36,14 +36,14 @@ class MessagesTest < ActionDispatch::IntegrationTest
   test '내가 멘션 안된 댓글이 수정될 때 내가 멘션되면 알림이 오지만, 내가 멘션 된 댓글이 수정될 때 다른 사람이 추가로 멘션이 될때는 알림이 오지 않습니다' do
     sign_in(users(:one))
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body @nick3' }), format: :js
+      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body @nick3' , format: :js})
     end
 
     nick4_previous_messages_count = users(:four).reload.messages.count
     nick3_previous_messages_count = users(:three).reload.messages.count
 
     Sidekiq::Testing.inline! do
-      put comment_path(assigns(:comment), comment: { body: 'body @nick3 @nick4' }), format: :js
+      put comment_path(assigns(:comment), comment: { body: 'body @nick3 @nick4' }, format: :js)
     end
     assert_equal nick4_previous_messages_count + 1, users(:four).reload.messages.count
     assert_equal nick3_previous_messages_count, users(:three).reload.messages.count
@@ -77,7 +77,7 @@ class MessagesTest < ActionDispatch::IntegrationTest
 
     # 거절
     sign_in(users(:admin))
-    delete reject_issue_member_requests_path(issue_id: issues(:private_issue).id), { user_id: users(:two).id  }
+    delete reject_issue_member_requests_path(issue_id: issues(:private_issue).id), params: { user_id: users(:two).id  }
     assert member_request, users(:two).reload.messages.last.messagable
 
     # 빠띠 삭제
@@ -144,7 +144,7 @@ class MessagesTest < ActionDispatch::IntegrationTest
     assert posts(:post_talk3).issue.member?(users(:two))
 
     # post_talk3에 two가 댓글 답니다
-    post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body1' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body1' }, format: :js)
 
     # two의 이전 메시지 숫자를 가져 옵니다.
     previous_messages_count = users(:two).messages.count
@@ -152,7 +152,7 @@ class MessagesTest < ActionDispatch::IntegrationTest
     # post_talk3에 three가 댓글 달았다
     sign_in(users(:three))
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body2' }), format: :js
+      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body2' }, format: :js)
     end
 
     # two 이전의 알람갯수보다 현재 알람갯수는 하나 증가됩니다
@@ -172,7 +172,7 @@ class MessagesTest < ActionDispatch::IntegrationTest
     # post_talk3에 three가 댓글을 또 달았다
     sign_in(users(:three))
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body3' }), format: :js
+      post post_comments_path(post_id: posts(:post_talk3).id, comment: { body: 'body3' }, format: :js)
     end
 
     # two 이전의 알람갯수보다 현재 알람갯수는 동일합니다

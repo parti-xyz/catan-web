@@ -1,10 +1,10 @@
-class Wiki < ActiveRecord::Base
+class Wiki < ApplicationRecord
   acts_as_paranoid
   include AutoLinkableBody
 
   has_one :post, dependent: :nullify
   has_many :wiki_histories, dependent: :destroy
-  belongs_to :last_author, class_name: User, foreign_key: :last_author_id
+  belongs_to :last_author, class_name: "User", foreign_key: :last_author_id, optional: true
 
   mount_uploader :thumbnail, PrivateFileUploader
 
@@ -21,7 +21,6 @@ class Wiki < ActiveRecord::Base
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
 
-  scope :with_status, ->(status) { where(status: status) }
   scope :recent, -> { order(created_at: :desc) }
   scope :order_by_updated_at, -> { order(updated_at: :desc).recent }
 

@@ -1,6 +1,6 @@
-class DecisionHistory < ActiveRecord::Base
+class DecisionHistory < ApplicationRecord
   belongs_to :post
-  belongs_to :user
+  belongs_to :user, optional: true
 
   include Historyable
   def sibling_histories

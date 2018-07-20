@@ -1,4 +1,4 @@
-class IssueDestroyJob
+class IssueDestroyJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform(organizer_id, issue_id, message)

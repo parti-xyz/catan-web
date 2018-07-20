@@ -1,4 +1,4 @@
-class DecisionNotificationJob
+class DecisionNotificationJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options unique: :while_executing
 

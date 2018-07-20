@@ -10,7 +10,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     sign_in(users(:three))
 
     patch update_folder_post_path(id: posts(:post_talk1).id, format: :js),
-      { post: { folder_id: folders(:folder1).id } }
+      params: { post: { folder_id: folders(:folder1).id } }
 
     assert folders(:folder1), assigns(:post).folder
   end
@@ -24,7 +24,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     sign_in(users(:three))
 
     patch update_folder_post_path(id: posts(:post_talk1).id, format: :js),
-      { post: { folder_id: -1 }, new_folder: { title: '새폴더' } }
+      params: { post: { folder_id: -1 }, new_folder: { title: '새폴더' } }
 
     assert assigns(:folder), assigns(:post).folder
     assert assigns(:folder).persisted?
@@ -37,7 +37,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
 
     patch update_folder_post_path(id: posts(:post_talk2).id, format: :js),
-      { post: { folder_id: folders(:folder1).id } }
+      params: { post: { folder_id: folders(:folder1).id } }
 
     assert_nil assigns(:post).folder
   end
@@ -49,7 +49,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     sign_in(users(:three))
 
     patch update_folder_post_path(id: posts(:post_talk5).id, format: :js),
-      { post: { folder_id: '' } }
+      params: { post: { folder_id: '' } }
 
     assert_nil assigns(:post).folder
   end
@@ -61,7 +61,7 @@ class FolderTest < ActionDispatch::IntegrationTest
     sign_in(users(:three))
 
     patch update_folder_post_path(id: posts(:post_talk1).id, format: :js),
-      { post: { folder_id: folders(:folder1).id } }
+      params: { post: { folder_id: folders(:folder1).id } }
 
     delete folder_path(id: folders(:folder1), format: :js)
 

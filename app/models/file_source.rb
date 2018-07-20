@@ -1,4 +1,4 @@
-class FileSource < ActiveRecord::Base
+class FileSource < ApplicationRecord
   belongs_to :file_sourceable, counter_cache: true, polymorphic: true
 
   ## uploaders

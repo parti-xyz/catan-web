@@ -7,12 +7,6 @@ require 'mocha/mini_test'
 Sidekiq::Testing.fake!
 Sidekiq::Logging.logger = nil
 
-module CatanTestHelpers
-  def fixture_file(flie_name)
-    fixture_file_upload(File.join(ActionController::TestCase.fixture_path, flie_name), nil, true)
-  end
-end
-
 class ActiveSupport::TestCase
   # load .powenv
   if File.exist?("#{Rails.root}/.powenv")
@@ -26,8 +20,12 @@ class ActiveSupport::TestCase
   set_fixture_class oauth_applications: Doorkeeper::Application
   set_fixture_class oauth_tokens: Doorkeeper::AccessToken
   fixtures :all
+end
 
-  include CatanTestHelpers
+class ActionDispatch::IntegrationTest
+  setup do
+    host! 'example.com'
+  end
 
   CarrierWave::Mounter.class_eval { def store!; end }
 
@@ -59,23 +57,22 @@ class ActiveSupport::TestCase
     !session[:user_id].nil?
   end
 
-  # Logs in a test user.
+  # SignIn a test user.
   def sign_in(user, options = {})
     password    = options[:password]    || 'password'
     remember_me = options[:remember_me] || '1'
-    if integration_test?
-      sign_out
-      post_via_redirect user_session_path, user: { email:       user.email,
-                                                   password:    password,
-                                                   remember_me: remember_me,
-                                                   provider:    'email' }
-    else
-      session[:user_id] = user.id
-    end
+    sign_out
+    post user_session_path,
+      params: { user: { email:       user.email,
+                        password:    password,
+                        remember_me: remember_me,
+                        provider:    'email' } }
+    follow_redirect!
   end
 
   def sign_out
-    delete_via_redirect destroy_user_session_path
+    delete destroy_user_session_path
+    follow_redirect!
   end
 
   # facebook test user
@@ -84,21 +81,8 @@ class ActiveSupport::TestCase
     @test_users.list.find { |u| u["id"] == "114136252377837" }
   end
 
-  private
-
-  # Returns true inside an integration test.
-  def integration_test?
-    defined?(post_via_redirect)
-  end
-end
-
-class ActionController::TestCase
-  include Devise::Test::ControllerHelpers
-end
-
-class ActionDispatch::IntegrationTest
-  setup do
-    host! 'example.com'
+  def fixture_file(flie_name)
+    fixture_file_upload(File.join(ActionDispatch::IntegrationTest.fixture_path, flie_name), nil, true)
   end
 end
 

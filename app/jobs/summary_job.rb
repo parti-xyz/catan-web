@@ -1,4 +1,4 @@
-class SummaryJob
+class SummaryJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform

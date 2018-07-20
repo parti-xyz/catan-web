@@ -1,6 +1,6 @@
-class MergedIssue < ActiveRecord::Base
-  belongs_to :issue
-  belongs_to :user
+class MergedIssue < ApplicationRecord
+  belongs_to :issue, optional: true
+  belongs_to :user, optional: true
 
   validates :source_id, uniqueness: true
 end

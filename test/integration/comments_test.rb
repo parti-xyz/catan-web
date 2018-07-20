@@ -4,7 +4,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '댓글을 만들어요' do
     sign_in(users(:one))
 
-    post post_comments_path(post_id: posts(:post_talk1).id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk1).id, comment: { body: 'body' }, format: :js)
 
     assert assigns(:comment).persisted?
     assert_equal 'body', assigns(:comment).body
@@ -17,7 +17,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     # /post/30/comments
     # comment[body]
     # comment[parent_id] : 부모 댓글 번호
-    post post_comments_path(post_id: posts(:post_talk1).id, comment: { body: 'body x', parent_id: comments(:comment1).id }), format: :js
+    post post_comments_path(post_id: posts(:post_talk1).id, comment: { body: 'body x', parent_id: comments(:comment1).id }, format: :js)
 
     refute assigns(:comment).errors.any?
     assert_equal 'body x', assigns(:comment).body
@@ -34,7 +34,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '내용을 수정해요' do
     sign_in(users(:one))
 
-    put comment_path(comments(:comment1), comment: { body: 'body x' }), format: :js
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, format: :js)
 
     refute assigns(:comment).errors.any?
     assert_equal 'body x', assigns(:comment).body
@@ -46,7 +46,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:two))
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: comment.post.id, comment: { body: 'body' }), format: :js
+      post post_comments_path(post_id: comment.post.id, comment: { body: 'body' }, format: :js)
     end
 
     refute assigns(:comment).errors.any?
@@ -58,7 +58,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:two))
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+      post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }, format: :js)
     end
 
     assert assigns(:comment).persisted?
@@ -73,7 +73,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
     Sidekiq::Testing.inline! do
-      post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+      post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }, format: :js)
     end
     refute assigns(:comment).errors.any?
     assert_equal assigns(:comment), users(:two).messages.first.messagable
@@ -83,7 +83,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     assert posts(:post_talk4).poll.agreed_by? users(:two)
 
     sign_in(users(:bad))
-    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }, format: :js)
 
     refute assigns(:comment).errors.any?
     refute users(:two).messages.any?
@@ -94,7 +94,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:three))
 
-    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }), format: :js
+    post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }, format: :js)
 
     assert assigns(:comment).persisted?
     assert_nil assigns(:comment).choice
@@ -103,7 +103,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   test '고쳐요' do
     sign_in(users(:one))
 
-    put comment_path(comments(:comment1), comment: { body: 'body x' }), format: :js
+    put comment_path(comments(:comment1), comment: { body: 'body x' }, format: :js)
 
     assigns(:comment).reload
     assert_equal 'body x', assigns(:comment).body

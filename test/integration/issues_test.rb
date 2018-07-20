@@ -44,18 +44,18 @@ class IssuesTest < ActionDispatch::IntegrationTest
   test '같은 주소로는 못 만들어요' do
     sign_in(users(:one))
 
-    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
+    post issues_path, params: { issue: { title: 'title', slug: 'title', body: 'body' } }
     assert assigns(:issue).persisted?
 
-    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
+    post issues_path, params: { issue: { title: 'title', slug: 'title', body: 'body' } }
     refute assigns(:issue).persisted?
 
     host! "gwangju.example.com"
 
-    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
+    post issues_path, params: { issue: { title: 'title', slug: 'title', body: 'body' } }
     assert assigns(:issue).persisted?
 
-    post issues_path, issue: { title: 'title', slug: 'title', body: 'body' }
+    post issues_path, params: { issue: { title: 'title', slug: 'title', body: 'body' } }
     refute assigns(:issue).persisted?
   end
 
@@ -137,7 +137,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
 
   test '오거나이저넣기' do
     sign_in(users(:organizer))
-    put issue_path(issues(:issue1), issue: { organizer_nicknames: 'nick1' })
+    put issue_path(issues(:issue1)), params: { issue: { organizer_nicknames: 'nick1' } }
 
     assert assigns(:issue).organizer_members.exists?(user: users(:one))
   end
@@ -155,7 +155,7 @@ class IssuesTest < ActionDispatch::IntegrationTest
   test '빠띠를 삭제해요' do
     sign_in(users(:organizer))
     Sidekiq::Testing.inline! do
-      delete issue_path(issues(:issue1)), message: 'reason'
+      delete issue_path(issues(:issue1)), params: { message: 'reason' }
     end
     deleted_issue = Issue.with_deleted.find_by(id: issues(:issue1).id).reload
     assert deleted_issue.paranoia_destroyed?

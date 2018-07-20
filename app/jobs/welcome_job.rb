@@ -1,4 +1,4 @@
-class WelcomeJob
+class WelcomeJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options unique: :while_executing
 

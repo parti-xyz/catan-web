@@ -1,4 +1,4 @@
-class Survey < ActiveRecord::Base
+class Survey < ApplicationRecord
   include Expirable
 
   has_one :post, dependent: :destroy

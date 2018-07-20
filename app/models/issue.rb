@@ -1,4 +1,4 @@
-class Issue < ActiveRecord::Base
+class Issue < ApplicationRecord
   include LatestStrokedPostsCountHelper
 
   include UniqueSoftDeletable
@@ -9,11 +9,11 @@ class Issue < ActiveRecord::Base
 
   include Invitable
   # relations
-  belongs_to :last_stroked_user, class_name: User
+  belongs_to :last_stroked_user, class_name: "User", optional: true
   has_many :merged_issues, dependent: :destroy
   has_many :relateds, dependent: :destroy
   has_many :related_issues, through: :relateds, source: :target
-  has_many :relatings, class_name: Related, foreign_key: :target_id, dependent: :destroy
+  has_many :relatings, class_name: "Related", foreign_key: :target_id, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :comments, through: :posts
   #**
@@ -21,7 +21,7 @@ class Issue < ActiveRecord::Base
   #**
   has_many :members, as: :joinable, dependent: :destroy
   has_many :member_users, through: :members, source: :user
-  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: Member do
+  has_many :organizer_members, -> { where(is_organizer: true) }, as: :joinable, class_name: "Member" do
     def merge_nickname
       self.map { |m| m.user.nickname }.join(',')
     end
@@ -36,12 +36,12 @@ class Issue < ActiveRecord::Base
   has_many :blind_users, through: :blinds, source: :user
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :invitations, as: :joinable, dependent: :destroy
-  belongs_to :destroyer, class_name: User
+  belongs_to :destroyer, class_name: "User", optional: true
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug, counter_cache: true
   has_many :my_menus, dependent: :destroy
   has_many :active_issue_stats, dependent: :destroy
   has_many :folders, dependent: :destroy
-  belongs_to :category
+  belongs_to :category, optional: true
 
   # validations
   validates :title,
@@ -78,53 +78,59 @@ class Issue < ActiveRecord::Base
     end
     result
   }
-  scope :sort_by_name, -> { order("if(ascii(substring(issues.title, 1)) < 128, 1, 0)").order('issues.title') }
+  scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(issues.title, 1)) < 128, 1, 0)")).order('issues.title') }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
-  scope :this_week_or_hottest, -> { order("if(issues.created_at < (NOW() - INTERVAL 6 DAY), 1, 0)").order(hot_score_datestamp: :desc, hot_score: :desc) }
+  scope :this_week_or_hottest, -> { order(Arel.sql("if(issues.created_at < (NOW() - INTERVAL 6 DAY), 1, 0)")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
   scope :categorized_with, ->(category) { where(category_id: category.try(:id) || category) }
   scope :of_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
   scope :displayable_in_current_group, ->(group) { where(group_slug: Group.default_slug(group)) if group.present? }
-  scope :not_private_blocked, ->(current_user) { where.any_of(
-                                                    where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id')),
-                                                    where.not(private: true)) }
+  scope :not_private_blocked, ->(current_user) {
+    where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
+    .or(where.not(private: true))
+  }
   scope :not_in_dashboard, ->(current_user) { where.not(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
                                              .where.not('issues.private': true) }
   scope :notice_only, -> { where(notice_only: true) }
   scope :only_public_hottest, ->(count){
-    alive.where.any_of(where(group_slug: Group.where.not(private: true).select(:slug)), where(group_slug: 'indie'))
+    where(group_slug: Group.where.not(private: true).select(:slug))
+      .or(where(group_slug: 'indie'))
+    .alive
     .where.not(private: true)
     .hottest
     .limit(count)
   }
   scope :searchable_issues, ->(current_user = nil) {
     public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug))
-      .any_of(Issue.where.not(private: true), Issue.where(listable_even_private: true))
+      .where.not(private: true).or(where(listable_even_private: true))
     indie_public_issues = where(group_slug: 'indie')
-      .any_of(Issue.where.not(private: true), Issue.where(listable_even_private: true))
+      .where.not(private: true).or(where(listable_even_private: true))
     if current_user.present?
-      where.any_of(public_group_public_issues, indie_public_issues,
-                   where(id: current_user.member_issues.select("members.joinable_id")))
+      public_group_public_issues
+        .or(indie_public_issues)
+        .or(where(id: current_user.member_issues.select("members.joinable_id")))
     else
-      where.any_of(public_group_public_issues, indie_public_issues)
+      public_group_public_issues.or(indie_public_issues)
     end
   }
   scope :post_searchable_issues, ->(current_user = nil) {
     public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
     indie_public_issues = where(group_slug: 'indie').where.not(private: true)
     if current_user.present?
-      where.any_of(public_group_public_issues, indie_public_issues,
-                   where(id: current_user.member_issues.select("members.joinable_id")))
+      public_group_public_issues
+        .or(indie_public_issues)
+        .or(where(id: current_user.member_issues.select("members.joinable_id")))
     else
-      where.any_of(public_group_public_issues, indie_public_issues)
+      public_group_public_issues
+        .or(indie_public_issues)
     end
   }
   scope :undiscovered_issues, ->(current_user = nil) {
     public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
     indie_public_issues = where(group_slug: 'indie').where.not(private: true)
-    conditions = where.any_of(public_group_public_issues, indie_public_issues)
+    conditions = public_group_public_issues.or(indie_public_issues)
     if current_user.present?
       conditions = conditions.where.not(id: current_user.member_issues.select("members.joinable_id"))
     end
@@ -140,7 +146,7 @@ class Issue < ActiveRecord::Base
   scope :not_private, -> { where(private: false) }
   scope :postable, ->(someone) {
     if someone.present?
-      where.any_of(where(id: someone.organizing_issues), where(id: someone.member_issues, notice_only: false))
+      where(id: someone.organizing_issues).or(where(id: someone.member_issues, notice_only: false))
     else
       where(id: nil)
     end
@@ -254,7 +260,7 @@ class Issue < ActiveRecord::Base
   end
 
   def self.most_used_tags(limit)
-    ActsAsTaggableOn::Tag.where('taggings.taggable_type': 'Issue').most_used(limit).joins(:taggings).select('name').distinct
+    ActsAsTaggableOn::Tag.most_used(limit).joins(:taggings).where('taggings.taggable_type = ?', 'Issue').distinct
   end
 
   def self.parti_parti

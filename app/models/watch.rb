@@ -1,2 +1,2 @@
-class Watch < ActiveRecord::Base
+class Watch < ApplicationRecord
 end

@@ -38,9 +38,9 @@ class SearchController < ApplicationController
 
   def search_and_sort_issues(keyword, current_search_group, limit)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
-    result = Issue.searchable_issues(current_user)
+    result = Issue.searchable_issues(current_user).alive
     result = result.of_group(current_search_group) if current_search_group.present?
-    result = result.where.any_of(Issue.alive.search_for(keyword), Issue.alive.tagged_with(tags, any: true)) if keyword.present?
+    result = result.where(id: Issue.search_for(smart_search_keyword(keyword)).union(Issue.tagged_with(tags, any: true)).except(:select).select(:id)) if keyword.present?
     result = result.hottest
     result = result.limit(limit)
     result
