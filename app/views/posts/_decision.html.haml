@@ -21,7 +21,7 @@
           = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
 
     - if local_assigns[:compact_decision] == true
-      != smart_truncate_html(decision_body_format(post.issue, post.decision.strip), length: 40, offset: 10, ellipsis: ' ... <span class="more">더 보기</span>')
+      != smart_truncate_html(decision_body_format(post.issue, post.decision.strip), length: 40, ellipsis: ' ... <span class="more">더 보기</span>')
     - else
       = decision_body_format(post.issue, post.decision.strip)
 
