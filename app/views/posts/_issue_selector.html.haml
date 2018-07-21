@@ -10,7 +10,7 @@
                 .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
               %span.issue-line__title<>
                 = issue_tag_ignored_current_group(issue, show_group: !issue.group.indie?)
-          %option{ value: issue.id, 'data-content': h(issue_content), 'data-tokens': ' ' }<>
+          %option{ value: issue.id, 'data-content': h(issue_content.to_str), 'data-tokens': ' ' }<>
             = issue.title
 
     - all_issues = Issue.postable(current_user).alive.sort_by_name.to_a
@@ -26,5 +26,5 @@
                   .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
                 %span.issue-line__title<>
                   = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title', divider_classes: 'group-title')
-            %option.hidden-group-title{value: issue.id, 'data-content': issue_content, 'data-tokens': issue.title }
+            %option.hidden-group-title{value: issue.id, 'data-content': h(issue_content.to_str), 'data-tokens': issue.title }
               = issue.title
