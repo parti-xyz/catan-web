@@ -14,8 +14,17 @@
   - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
   = render 'posts/last_stroked_for', post: post
 
-  - if local_assigns[:mode] == 'detail' and can?(:update, post.wiki)
-    = render 'wikis/card_form', local_assigns
+  - if local_assigns[:mode] == 'detail'
+    - if can?(:update, post.wiki)
+      = render 'wikis/card_form', local_assigns
+    - else
+      %h4.wiki-title
+        = link_to post.wiki.title, smart_post_url(post), target: '_blank'
+
+      .wiki-line-body.wiki-line-body-full.cursor-pointer
+        .wiki-body.wiki-preview
+          .mce-content-body
+            != post.wiki.body
   - else
     %h4.wiki-title
       = link_to post.wiki.title, smart_post_url(post), target: '_blank'

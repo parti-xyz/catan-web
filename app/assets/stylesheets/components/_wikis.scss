@@ -91,6 +91,9 @@ section#wiki-histories {
     position: relative;
     max-height: 300px;
     overflow: hidden;
+    &-full {
+      max-height: none;
+    }
     .shadow {
       position: absolute;
       width: 100%;
