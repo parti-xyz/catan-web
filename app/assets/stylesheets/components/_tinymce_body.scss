@@ -3,6 +3,8 @@ body.mce-content-body {
   min-height: 100px;
   height: auto;
   outline: none;
+  position: fixed;
+  top: 0;
 }
 
 .mce-content-body {
