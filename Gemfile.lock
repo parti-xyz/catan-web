@@ -383,7 +383,7 @@ GEM
     net_http_timeout_errors (0.3.0)
     netrc (0.11.0)
     newrelic_rpm (4.6.0.338)
-    nokogiri (1.8.2)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     nokogiri-diff (0.2.0)
       nokogiri (~> 1.5)
@@ -592,7 +592,7 @@ GEM
     time_difference (0.4.2)
       activesupport
     timecop (0.8.1)
-    tinymce-rails (4.7.11)
+    tinymce-rails (4.8.0)
       railties (>= 3.1.1)
     tinymce-rails-imageupload (4.0.17.beta.3)
       railties (>= 3.2, < 6)
