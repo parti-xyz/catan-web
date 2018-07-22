@@ -656,6 +656,9 @@ var parti_prepare = function($base, force) {
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         content_css: content_css,
+        formats: {
+          strikethrough: {inline : 'del'}
+        },
         setup: function (editor) {
           editor.on('init', function(){
             setPlaceholder(editor, placeholder);
@@ -718,6 +721,9 @@ var parti_prepare = function($base, force) {
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         content_css: content_css,
+        formats: {
+          strikethrough: {inline : 'del'}
+        },
         setup: function (editor) {
           // link opender
           editor.on('init', function(){
