@@ -40,7 +40,7 @@ class Group < ActiveRecord::Base
     uniqueness: { case_sensitive: false }
   validates :site_description,
     length: { maximum: 200 }
-  VALID_SLUG = /\A[a-z][a-z0-9_-]+\z/i
+  VALID_SLUG = /\A[a-z][a-z0-9-]+\z/i
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
@@ -55,6 +55,10 @@ class Group < ActiveRecord::Base
   validates :site_title,
     presence: true,
     length: { maximum: 50 }
+
+  # callbacks
+  before_save :downcase_slug
+  before_validation :strip_whitespace
 
   def title_share_format
     indie? ? nil : "#{title} 빠띠"
@@ -245,6 +249,15 @@ class Group < ActiveRecord::Base
   end
 
   private
+
+  def downcase_slug
+    return if slug.blank?
+    self.slug = slug.downcase
+  end
+
+  def strip_whitespace
+    self.slug = self.slug.strip unless self.slug.nil?
+  end
 
   def not_predefined_slug
     return if user.admin?
