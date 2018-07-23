@@ -68,9 +68,12 @@ module ApplicationHelper
 
   def decision_body_format(issue, text)
     return text if text.blank?
-    parsed_text = parse_hashtags(issue, text)
+    parsed_text = simple_format(h(text)).to_str
+    parsed_text = parse_hashtags(issue, parsed_text)
     parsed_text = parse_mentions(parsed_text)
-    raw(parsed_text)
+    Rinku.auto_link(parsed_text, :all,
+      "class='auto_link' target='_blank'",
+      nil).html_safe()
   end
 
   HTML_AT_HASHTAG_REGEX = /(?:^|[[:space:]]|>|&nbsp;)(#[ㄱ-ㅎ가-힣a-z0-9_]+)/i
