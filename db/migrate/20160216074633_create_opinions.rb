@@ -1,4 +1,4 @@
-class CreateOpinions < ActiveRecord::Migration
+class CreateOpinions < ActiveRecord::Migration[4.2]
   def change
     create_table :opinions do |t|
       t.references :user, null: false, index: true

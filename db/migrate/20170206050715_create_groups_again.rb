@@ -1,4 +1,4 @@
-class CreateGroupsAgain < ActiveRecord::Migration
+class CreateGroupsAgain < ActiveRecord::Migration[4.2]
   def change
     #drop_table :groups
 

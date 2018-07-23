@@ -1,4 +1,4 @@
-class DropTitleFromTalks < ActiveRecord::Migration
+class DropTitleFromTalks < ActiveRecord::Migration[4.2]
   def up
     ActiveRecord::Base.transaction do
       Talk.all.each do |talk|

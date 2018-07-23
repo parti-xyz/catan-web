@@ -1,4 +1,4 @@
-class JoinableOfInvitations < ActiveRecord::Migration
+class JoinableOfInvitations < ActiveRecord::Migration[4.2]
   def up
     rename_column :invitations, :issue_id, :joinable_id
     add_column :invitations, :joinable_type, :string, null: true

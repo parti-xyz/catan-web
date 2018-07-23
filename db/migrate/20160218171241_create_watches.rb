@@ -1,4 +1,4 @@
-class CreateWatches < ActiveRecord::Migration
+class CreateWatches < ActiveRecord::Migration[4.2]
   def change
     create_table :watches do |t|
       t.references :issue, null: false, index: true

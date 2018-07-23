@@ -1,4 +1,4 @@
-class RecreateWikiHistories < ActiveRecord::Migration
+class RecreateWikiHistories < ActiveRecord::Migration[4.2]
   def up
     drop_table :wiki_histories
     create_table :wiki_histories, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|

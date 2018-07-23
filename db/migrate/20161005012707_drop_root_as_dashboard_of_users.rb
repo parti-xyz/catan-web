@@ -1,4 +1,4 @@
-class DropRootAsDashboardOfUsers < ActiveRecord::Migration
+class DropRootAsDashboardOfUsers < ActiveRecord::Migration[4.2]
   def change
     remove_column :users, :root_as_dashboard
   end

@@ -1,4 +1,4 @@
-class ChangeIssueToMakableOfMakers < ActiveRecord::Migration
+class ChangeIssueToMakableOfMakers < ActiveRecord::Migration[4.2]
   def up
     rename_column :makers, :issue_id, :makable_id
     add_column :makers, :makable_type, :string, null: true

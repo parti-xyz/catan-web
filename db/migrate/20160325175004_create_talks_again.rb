@@ -1,4 +1,4 @@
-class CreateTalksAgain < ActiveRecord::Migration
+class CreateTalksAgain < ActiveRecord::Migration[4.2]
   def change
     create_table :talks do |t|
       t.string :title, null: false

@@ -1,4 +1,4 @@
-class PolymorphicFileSources < ActiveRecord::Migration
+class PolymorphicFileSources < ActiveRecord::Migration[4.2]
   def change
     add_reference :file_sources, :file_sourceable, polymorphic: true, index: { name: 'file_sourceable_index' }
 

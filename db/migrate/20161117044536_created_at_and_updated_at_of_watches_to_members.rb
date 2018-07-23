@@ -1,4 +1,4 @@
-class CreatedAtAndUpdatedAtOfWatchesToMembers < ActiveRecord::Migration
+class CreatedAtAndUpdatedAtOfWatchesToMembers < ActiveRecord::Migration[4.2]
   def change
     ActiveRecord::Base.transaction do
       Watch.all.each do |watch|

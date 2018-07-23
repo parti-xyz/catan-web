@@ -1,4 +1,4 @@
-class ChangeUniqueIndexOfIssues < ActiveRecord::Migration
+class ChangeUniqueIndexOfIssues < ActiveRecord::Migration[4.2]
   def up
     add_column :issues, :active, :string, default: 'on'
 

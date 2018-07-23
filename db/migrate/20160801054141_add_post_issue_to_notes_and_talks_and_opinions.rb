@@ -1,4 +1,4 @@
-class AddPostIssueToNotesAndTalksAndOpinions < ActiveRecord::Migration
+class AddPostIssueToNotesAndTalksAndOpinions < ActiveRecord::Migration[4.2]
   def up
     add_reference :notes, :post_issue
     add_reference :talks, :post_issue

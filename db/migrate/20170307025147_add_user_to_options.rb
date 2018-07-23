@@ -1,4 +1,4 @@
-class AddUserToOptions < ActiveRecord::Migration
+class AddUserToOptions < ActiveRecord::Migration[4.2]
   def up
     add_reference :options, :user, index: true, null: true
 

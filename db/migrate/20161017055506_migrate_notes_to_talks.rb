@@ -1,4 +1,4 @@
-class MigrateNotesToTalks < ActiveRecord::Migration
+class MigrateNotesToTalks < ActiveRecord::Migration[4.2]
   def up
     ActiveRecord::Base.transaction do
       Note.all.each do |note|

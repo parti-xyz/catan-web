@@ -1,4 +1,4 @@
-class CreateBlinds < ActiveRecord::Migration
+class CreateBlinds < ActiveRecord::Migration[4.2]
   def change
     create_table :blinds do |t|
       t.references :user, index: true, null: false

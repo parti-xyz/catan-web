@@ -1,4 +1,4 @@
-class CreateInvitation < ActiveRecord::Migration
+class CreateInvitation < ActiveRecord::Migration[4.2]
   def change
     create_table :invitations do |t|
       t.references :user, null: false, index: true

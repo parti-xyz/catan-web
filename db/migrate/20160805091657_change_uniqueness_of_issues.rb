@@ -1,4 +1,4 @@
-class ChangeUniquenessOfIssues < ActiveRecord::Migration
+class ChangeUniquenessOfIssues < ActiveRecord::Migration[4.2]
   def up
     remove_index :issues, [:slug, :active]
     remove_index :issues, [:title, :active]

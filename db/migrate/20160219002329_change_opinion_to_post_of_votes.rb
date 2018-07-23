@@ -1,4 +1,4 @@
-class ChangeOpinionToPostOfVotes < ActiveRecord::Migration
+class ChangeOpinionToPostOfVotes < ActiveRecord::Migration[4.2]
   def up
     add_reference :votes, :post
 

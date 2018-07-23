@@ -1,4 +1,4 @@
-class MigrateDefaultSections < ActiveRecord::Migration
+class MigrateDefaultSections < ActiveRecord::Migration[4.2]
   def up
     query = <<-SQL.squish
       INSERT INTO sections(name, issue_id, created_at, updated_at)

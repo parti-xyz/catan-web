@@ -1,4 +1,4 @@
-class MigrateMakersToMembers < ActiveRecord::Migration
+class MigrateMakersToMembers < ActiveRecord::Migration[4.2]
   def up
     add_column :members, :is_organizer, :boolean, default: false, null: false
     query = <<-SQL.squish

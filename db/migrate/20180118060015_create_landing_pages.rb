@@ -1,4 +1,4 @@
-class CreateLandingPages < ActiveRecord::Migration
+class CreateLandingPages < ActiveRecord::Migration[4.2]
   def change
     create_table :landing_pages do |t|
       t.string :body, null: false

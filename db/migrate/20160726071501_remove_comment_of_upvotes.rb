@@ -1,4 +1,4 @@
-class RemoveCommentOfUpvotes < ActiveRecord::Migration
+class RemoveCommentOfUpvotes < ActiveRecord::Migration[4.2]
   def up
     Upvote.all.each do |upvote|
       upvote.update_columns upvotable_id: upvote.comment_id, upvotable_type: 'Comment'

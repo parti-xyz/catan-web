@@ -1,4 +1,4 @@
-class ChangeIssueToJoinableOfMembers < ActiveRecord::Migration
+class ChangeIssueToJoinableOfMembers < ActiveRecord::Migration[4.2]
   def up
     rename_column :members, :issue_id, :joinable_id
     add_column :members, :joinable_type, :string, null: true

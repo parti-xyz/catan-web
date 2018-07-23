@@ -1,4 +1,4 @@
-class ChangeLinkOfArticles < ActiveRecord::Migration
+class ChangeLinkOfArticles < ActiveRecord::Migration[4.2]
   def up
     change_column :articles, :link, :string, :limit => 700
   end

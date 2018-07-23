@@ -1,4 +1,4 @@
-class MigrateAskParti < ActiveRecord::Migration
+class MigrateAskParti < ActiveRecord::Migration[4.2]
   def up
     ask_parti = Issue.find_by slug: 'ask-parti'
     return if ask_parti.blank?

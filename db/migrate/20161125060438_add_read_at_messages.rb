@@ -1,4 +1,4 @@
-class AddReadAtMessages < ActiveRecord::Migration
+class AddReadAtMessages < ActiveRecord::Migration[4.2]
   def change
     add_column :messages, :read_at, :datetime
 

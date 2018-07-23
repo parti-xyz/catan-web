@@ -1,4 +1,4 @@
-class ChangeIssueToJoinableOfMemberRequests < ActiveRecord::Migration
+class ChangeIssueToJoinableOfMemberRequests < ActiveRecord::Migration[4.2]
   def up
     remove_index :member_requests, [:issue_id, :user_id, :active]
     remove_index :member_requests, [:issue_id]

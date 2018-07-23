@@ -1,4 +1,4 @@
-class ChangeUniqueIndexForSoftDelete < ActiveRecord::Migration
+class ChangeUniqueIndexForSoftDelete < ActiveRecord::Migration[4.2]
   def change
     remove_index :issues, column: :slug, unique: true
     add_index :issues, [:slug, :deleted_at], unique: true

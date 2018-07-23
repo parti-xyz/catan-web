@@ -1,4 +1,4 @@
-class CreateSearch < ActiveRecord::Migration
+class CreateSearch < ActiveRecord::Migration[4.2]
   def change
     create_table :searches do |t|
       t.references :searchable, null: false, index: true, polymorphic: true

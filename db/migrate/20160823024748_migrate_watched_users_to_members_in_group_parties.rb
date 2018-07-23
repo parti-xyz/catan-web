@@ -1,4 +1,4 @@
-class MigrateWatchedUsersToMembersInGroupParties < ActiveRecord::Migration
+class MigrateWatchedUsersToMembersInGroupParties < ActiveRecord::Migration[4.2]
   def up
     ActiveRecord::Base.transaction do
       Issue.where.not(group_slug: nil).each do |issue|

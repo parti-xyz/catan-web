@@ -1,4 +1,4 @@
-class ChangePolymorphicWatches < ActiveRecord::Migration
+class ChangePolymorphicWatches < ActiveRecord::Migration[4.2]
   def up
     add_reference :watches, :watchable, index: true, polymorphic: true
 

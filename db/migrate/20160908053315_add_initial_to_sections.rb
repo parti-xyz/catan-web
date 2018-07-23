@@ -1,4 +1,4 @@
-class AddInitialToSections < ActiveRecord::Migration
+class AddInitialToSections < ActiveRecord::Migration[4.2]
   def change
     add_column :sections, :initial, :boolean, default: false
 

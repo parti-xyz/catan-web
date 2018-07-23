@@ -1,4 +1,4 @@
-class MigrateNullGroupOfIssues < ActiveRecord::Migration
+class MigrateNullGroupOfIssues < ActiveRecord::Migration[4.2]
   def up
     query = <<-SQL.squish
       UPDATE issues

@@ -1,4 +1,4 @@
-class AddApplicationIdToDeviceTokens < ActiveRecord::Migration
+class AddApplicationIdToDeviceTokens < ActiveRecord::Migration[4.2]
   def up
     add_column :device_tokens, :application_id, :string
 

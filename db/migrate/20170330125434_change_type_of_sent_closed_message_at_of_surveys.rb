@@ -1,4 +1,4 @@
-class ChangeTypeOfSentClosedMessageAtOfSurveys < ActiveRecord::Migration
+class ChangeTypeOfSentClosedMessageAtOfSurveys < ActiveRecord::Migration[4.2]
   def up
     change_column :surveys, :sent_closed_message_at, :datetime
     query = <<-SQL.squish

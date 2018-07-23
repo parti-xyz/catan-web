@@ -1,4 +1,4 @@
-class CreateSummaryEmails < ActiveRecord::Migration
+class CreateSummaryEmails < ActiveRecord::Migration[4.2]
   def change
     create_table :summary_emails, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC" do |t|
       t.references :user, null: false, index: true

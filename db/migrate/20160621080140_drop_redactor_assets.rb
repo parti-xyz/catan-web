@@ -1,4 +1,4 @@
-class DropRedactorAssets < ActiveRecord::Migration
+class DropRedactorAssets < ActiveRecord::Migration[4.2]
   def up
     drop_table :redactor_assets
   end

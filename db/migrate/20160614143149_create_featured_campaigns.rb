@@ -1,4 +1,4 @@
-class CreateFeaturedCampaigns < ActiveRecord::Migration
+class CreateFeaturedCampaigns < ActiveRecord::Migration[4.2]
   def change
     create_table :featured_campaigns do |t|
       t.string :title

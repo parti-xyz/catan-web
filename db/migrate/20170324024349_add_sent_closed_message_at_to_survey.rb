@@ -1,4 +1,4 @@
-class AddSentClosedMessageAtToSurvey < ActiveRecord::Migration
+class AddSentClosedMessageAtToSurvey < ActiveRecord::Migration[4.2]
   def up
     add_column :surveys, :sent_closed_message_at, :date
 

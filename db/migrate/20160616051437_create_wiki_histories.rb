@@ -1,4 +1,4 @@
-class CreateWikiHistories < ActiveRecord::Migration
+class CreateWikiHistories < ActiveRecord::Migration[4.2]
   def change
     create_table :wiki_histories do |t|
       t.references :user, null: false, index: true

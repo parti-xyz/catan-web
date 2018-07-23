@@ -1,4 +1,4 @@
-class ChangeUrlLengthOfLinkSources < ActiveRecord::Migration
+class ChangeUrlLengthOfLinkSources < ActiveRecord::Migration[4.2]
   def up
     change_column :link_sources, :url, :string, :limit => 700
   end

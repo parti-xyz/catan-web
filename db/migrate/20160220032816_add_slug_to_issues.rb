@@ -1,4 +1,4 @@
-class AddSlugToIssues < ActiveRecord::Migration
+class AddSlugToIssues < ActiveRecord::Migration[4.2]
   def change
     add_column :issues, :slug, :string
 

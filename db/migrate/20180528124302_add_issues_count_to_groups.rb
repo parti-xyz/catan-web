@@ -1,4 +1,4 @@
-class AddIssuesCountToGroups < ActiveRecord::Migration
+class AddIssuesCountToGroups < ActiveRecord::Migration[4.2]
   def change
     add_column :groups, :issues_count, :integer, default: 0
 

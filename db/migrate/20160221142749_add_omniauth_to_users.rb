@@ -1,4 +1,4 @@
-class AddOmniauthToUsers < ActiveRecord::Migration
+class AddOmniauthToUsers < ActiveRecord::Migration[4.2]
   def up
     add_column :users, :provider, :string, default: 'email', null: false
     add_column :users, :uid, :string

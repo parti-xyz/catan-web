@@ -1,4 +1,4 @@
-class DeleteLinkSourceIdOfArticles < ActiveRecord::Migration
+class DeleteLinkSourceIdOfArticles < ActiveRecord::Migration[4.2]
   def up
 
     Article.with_deleted.each do |a|

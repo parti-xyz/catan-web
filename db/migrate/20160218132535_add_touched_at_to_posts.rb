@@ -1,4 +1,4 @@
-class AddTouchedAtToPosts < ActiveRecord::Migration
+class AddTouchedAtToPosts < ActiveRecord::Migration[4.2]
   def change
     add_column :posts, :touched_at, :datetime
 

@@ -1,4 +1,4 @@
-class CreateMergedIssues < ActiveRecord::Migration
+class CreateMergedIssues < ActiveRecord::Migration[4.2]
   def change
     create_table :merged_issues do |t|
       t.references :source, null: false, index: true

@@ -1,4 +1,4 @@
-class CreateRedactor2Assets < ActiveRecord::Migration
+class CreateRedactor2Assets < ActiveRecord::Migration[4.2]
   def self.up
     create_table :redactor2_assets do |t|
       # Change column name and override Redactor2Rails.devise_user_key

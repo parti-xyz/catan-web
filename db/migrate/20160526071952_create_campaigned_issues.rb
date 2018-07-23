@@ -1,4 +1,4 @@
-class CreateCampaignedIssues < ActiveRecord::Migration
+class CreateCampaignedIssues < ActiveRecord::Migration[4.2]
   def change
     create_table :campaigned_issues do |t|
       t.references :campaign, null: false, index: true

@@ -1,4 +1,4 @@
-class AddPTagToNotHtmlBodyOfTalks < ActiveRecord::Migration
+class AddPTagToNotHtmlBodyOfTalks < ActiveRecord::Migration[4.2]
   include ActionView::Helpers::TextHelper
   def change
     ActiveRecord::Base.transaction do

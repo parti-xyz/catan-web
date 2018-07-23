@@ -1,4 +1,4 @@
-class MigrateTalksToInitialSection < ActiveRecord::Migration
+class MigrateTalksToInitialSection < ActiveRecord::Migration[4.2]
   def up
     ActiveRecord::Base.transaction do
       Issue.all.each do |issue|

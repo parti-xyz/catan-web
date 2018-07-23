@@ -1,4 +1,4 @@
-class AddMessagesReadAtToUsers < ActiveRecord::Migration
+class AddMessagesReadAtToUsers < ActiveRecord::Migration[4.2]
   def change
     add_column :users, :messages_read_at, :datetime
     reversible do |dir|

@@ -1,4 +1,4 @@
-class ChangeWatchableToIssueInWatches < ActiveRecord::Migration
+class ChangeWatchableToIssueInWatches < ActiveRecord::Migration[4.2]
    def up
     add_reference :watches, :issue, index: true
 

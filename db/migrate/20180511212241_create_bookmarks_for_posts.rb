@@ -1,4 +1,4 @@
-class CreateBookmarksForPosts < ActiveRecord::Migration
+class CreateBookmarksForPosts < ActiveRecord::Migration[4.2]
   def change
     create_table :bookmarks do |t|
       t.references :post, index: true, null: false

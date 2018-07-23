@@ -1,4 +1,4 @@
-class AddPlanToGroups < ActiveRecord::Migration
+class AddPlanToGroups < ActiveRecord::Migration[4.2]
   def change
     add_column :groups, :plan, :string
 

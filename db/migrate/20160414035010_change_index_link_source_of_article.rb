@@ -1,4 +1,4 @@
-class ChangeIndexLinkSourceOfArticle < ActiveRecord::Migration
+class ChangeIndexLinkSourceOfArticle < ActiveRecord::Migration[4.2]
   def up
     add_column :articles, :active, :string, default: 'on'
 

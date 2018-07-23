@@ -1,4 +1,4 @@
-class AddPostIssueToArticle < ActiveRecord::Migration
+class AddPostIssueToArticle < ActiveRecord::Migration[4.2]
   def up
     add_reference :articles, :post_issue
 

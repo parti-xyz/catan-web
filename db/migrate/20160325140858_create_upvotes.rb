@@ -1,4 +1,4 @@
-class CreateUpvotes < ActiveRecord::Migration
+class CreateUpvotes < ActiveRecord::Migration[4.2]
   def change
     create_table :upvotes do |t|
       t.references :user, null: false, index: true

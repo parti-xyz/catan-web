@@ -1,4 +1,4 @@
-class ChangeUniqueIndexOfUsers < ActiveRecord::Migration
+class ChangeUniqueIndexOfUsers < ActiveRecord::Migration[4.2]
   def up
     add_column :users, :active, :string, default: 'on'
 

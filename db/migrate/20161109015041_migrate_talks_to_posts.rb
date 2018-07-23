@@ -1,4 +1,4 @@
-class MigrateTalksToPosts < ActiveRecord::Migration
+class MigrateTalksToPosts < ActiveRecord::Migration[4.2]
   def up
     add_column :posts, :body, :text
     add_column :posts, :section_id, :integer, index: true

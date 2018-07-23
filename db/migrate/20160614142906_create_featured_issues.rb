@@ -1,4 +1,4 @@
-class CreateFeaturedIssues < ActiveRecord::Migration
+class CreateFeaturedIssues < ActiveRecord::Migration[4.2]
   def change
     create_table :featured_issues do |t|
       t.string :title

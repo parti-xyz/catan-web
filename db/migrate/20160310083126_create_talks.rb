@@ -1,4 +1,4 @@
-class CreateTalks < ActiveRecord::Migration
+class CreateTalks < ActiveRecord::Migration[4.2]
   def change
     create_table :talks do |t|
       t.references :issue, null: false, index: true

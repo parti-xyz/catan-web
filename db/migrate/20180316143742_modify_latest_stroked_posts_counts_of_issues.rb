@@ -1,4 +1,4 @@
-class ModifyLatestStrokedPostsCountsOfIssues < ActiveRecord::Migration
+class ModifyLatestStrokedPostsCountsOfIssues < ActiveRecord::Migration[4.2]
   def change
     change_column :issues, :latest_stroked_posts_count, :integer, default: 0
 

@@ -1,4 +1,4 @@
-class ChangeEnableMailingOfUsers < ActiveRecord::Migration
+class ChangeEnableMailingOfUsers < ActiveRecord::Migration[4.2]
   def change
     rename_column :users, :enable_mailing, :enable_mailing_summary
     add_column :users, :enable_mailing_mention, :boolean, default: true

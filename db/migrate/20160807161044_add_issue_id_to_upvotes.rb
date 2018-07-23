@@ -1,4 +1,4 @@
-class AddIssueIdToUpvotes < ActiveRecord::Migration
+class AddIssueIdToUpvotes < ActiveRecord::Migration[4.2]
   def change
     add_reference :upvotes, :issue, index: true
 

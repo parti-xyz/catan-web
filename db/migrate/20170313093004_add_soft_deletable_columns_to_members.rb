@@ -1,4 +1,4 @@
-class AddSoftDeletableColumnsToMembers < ActiveRecord::Migration
+class AddSoftDeletableColumnsToMembers < ActiveRecord::Migration[4.2]
   def change
     add_column :members, :deleted_at, :datetime
     add_column :members, :active, :string, default: 'on'

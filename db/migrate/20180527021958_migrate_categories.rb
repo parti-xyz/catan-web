@@ -1,4 +1,4 @@
-class MigrateCategories < ActiveRecord::Migration
+class MigrateCategories < ActiveRecord::Migration[4.2]
   def change
     ActiveRecord::Base.transaction do
       map = {

@@ -1,4 +1,4 @@
-class AddUpvotableToUpvotes < ActiveRecord::Migration
+class AddUpvotableToUpvotes < ActiveRecord::Migration[4.2]
   def change
     add_reference :upvotes, :upvotable, polymorphic: true
 

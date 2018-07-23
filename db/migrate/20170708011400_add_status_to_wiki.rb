@@ -1,4 +1,4 @@
-class AddStatusToWiki < ActiveRecord::Migration
+class AddStatusToWiki < ActiveRecord::Migration[4.2]
   def change
     add_column :wikis, :status, :string, null: false, default: 'active'
   end

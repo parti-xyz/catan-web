@@ -1,4 +1,4 @@
-class CreateReaders < ActiveRecord::Migration
+class CreateReaders < ActiveRecord::Migration[4.2]
   def change
     create_table :readers do |t|
       t.references :post, index: true, null: false

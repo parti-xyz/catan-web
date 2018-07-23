@@ -1,4 +1,4 @@
-class AddFeedbacksCountToSurveyAndOption < ActiveRecord::Migration
+class AddFeedbacksCountToSurveyAndOption < ActiveRecord::Migration[4.2]
   def change
     add_column :surveys, :feedbacks_count, :integer, default: 0
     add_column :options, :feedbacks_count, :integer, default: 0

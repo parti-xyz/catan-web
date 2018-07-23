@@ -1,4 +1,4 @@
-class CreateCommentReaders < ActiveRecord::Migration
+class CreateCommentReaders < ActiveRecord::Migration[4.2]
   def change
     create_table :comment_readers do |t|
       t.references :comment, index: true, null: false

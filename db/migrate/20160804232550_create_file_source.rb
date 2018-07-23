@@ -1,4 +1,4 @@
-class CreateFileSource < ActiveRecord::Migration
+class CreateFileSource < ActiveRecord::Migration[4.2]
   def change
     create_table :file_sources do |t|
       t.string :name, null: false

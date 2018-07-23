@@ -1,4 +1,4 @@
-class MigrateSecureAttachmentOfFileSources < ActiveRecord::Migration
+class MigrateSecureAttachmentOfFileSources < ActiveRecord::Migration[4.2]
   def change
     rename_column :file_sources, :attachment, :deprecated_attachment
     rename_column :file_sources, :secure_attachment, :attachment

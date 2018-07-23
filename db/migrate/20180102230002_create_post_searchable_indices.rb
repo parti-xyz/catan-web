@@ -1,4 +1,4 @@
-class CreatePostSearchableIndices < ActiveRecord::Migration
+class CreatePostSearchableIndices < ActiveRecord::Migration[4.2]
   def change
     create_table :post_searchable_indices do |t|
       t.references :post, null: false, index: true

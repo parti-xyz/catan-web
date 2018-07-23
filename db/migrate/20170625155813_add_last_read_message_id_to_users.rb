@@ -1,4 +1,4 @@
-class AddLastReadMessageIdToUsers < ActiveRecord::Migration
+class AddLastReadMessageIdToUsers < ActiveRecord::Migration[4.2]
   def up
     add_column :users, :last_read_message_id, :integer, default: 0
 

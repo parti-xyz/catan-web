@@ -1,4 +1,4 @@
-class CreateRelateds < ActiveRecord::Migration
+class CreateRelateds < ActiveRecord::Migration[4.2]
   def change
     create_table :relateds do |t|
       t.references :issue, null: false, index: true

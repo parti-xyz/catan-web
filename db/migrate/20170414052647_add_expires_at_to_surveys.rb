@@ -1,4 +1,4 @@
-class AddExpiresAtToSurveys < ActiveRecord::Migration
+class AddExpiresAtToSurveys < ActiveRecord::Migration[4.2]
   def up
     add_column :surveys, :expires_at, :datetime, index: true
 

@@ -1,4 +1,4 @@
-class CreateMemberRequests < ActiveRecord::Migration
+class CreateMemberRequests < ActiveRecord::Migration[4.2]
   def change
     create_table :member_requests do |t|
       t.references :issue, null: false, index: true
