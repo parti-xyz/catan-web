@@ -29,7 +29,6 @@ database.yml
 환경변수값을 설정합니다.
 
 ```
-  SECRET_KEY_BASE: xx
   GOOGLE_OAUTH2_APP_ID: xx
   GOOGLE_OAUTH2_APP_SECRET: xx
   FACEBOOK_APP_ID: xx
@@ -46,9 +45,20 @@ database.yml
   S3_SECRET_KEY: xx
   S3_REGION: xx
   S3_BUCKET: xx
+  PRIVATE_S3_ACCESS_KEY: xxx
+  PRIVATE_S3_SECRET_KEY: xxx
+  PRIVATE_S3_REGION: xx
+  PRIVATE_S3_BUCKET: xx
   PARTI_ADMIN_PASSWORD: xx
   FCM_KEY: xx
   MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android: xx
+  MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_ios: xx
+```
+
+master.key와 credentials.yml.enc를 생성합니다.
+
+```
+$ rails credentials:edit
 ```
 
 ## 로컬 개발 환경 구축 방법
@@ -121,7 +131,7 @@ mysql > create database catan_development_브랜치명 CHARACTER SET utf8mb4 COL
 db:setup으로 스키마를 생성합니다.
 
 ```
-$ bin/rake db:setup
+$ bin/rails db:setup
 ```
 
 #### 초기 데이터 추가
@@ -135,8 +145,8 @@ export PARTI_ADMIN_PASSWORD="12345678"
 
 ```
 $ source .powenv
-$ bundle exec rake db:seed_fu
-$ bundle exec rake data:seed:group
+$ bundle exec rails db:seed_fu
+$ bundle exec rails data:seed:group
 ```
 
 
@@ -227,18 +237,18 @@ Comment.all.each { |c| c.destroy if c.post.blank? }
 실패한 크롤링
 
 ```
-$ bundle exec rake crawling:fails
+$ bundle exec rails crawling:fails
 ```
 
 특정 크롤링 다시 수행
 ```
-$ bundle exec rake crawling:reload[아이디값]
+$ bundle exec rails crawling:reload[아이디값]
 ```
 
 모든 크롤링 다시 수행
 
 ```
-$ bundle exec rake crawling:reload_all
+$ bundle exec rails crawling:reload_all
 ```
 
 ## oauth
@@ -277,5 +287,5 @@ export MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android=키값
 
 아래 명령을 수행합니다. https://github.com/spohlenz/tinymce-rails/pull/182
 ```
-$ rake tmp:cache:clear
+$ rails tmp:cache:clear
 ```
