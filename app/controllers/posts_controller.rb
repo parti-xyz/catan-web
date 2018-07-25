@@ -118,7 +118,7 @@ class PostsController < ApplicationController
     @post.assign_attributes(decision: params[:post][:decision])
     @post.strok_by(current_user, :decision)
 
-    unless @post.decision_changed?
+    unless @post.will_save_change_to_decision?
       redirect_to(params[:back_url].presence || smart_post_url(@post)) and return
     end
 

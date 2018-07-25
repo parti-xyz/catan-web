@@ -51,3 +51,10 @@ source_post:
   issue: merge_source_issue
   updated_at: <%= 5.day.ago.to_s(:db) %>
   last_stroked_at: <%= 3.day.ago.to_s(:db) %>
+
+post_wiki1:
+  user: one
+  issue: issue1
+  folder: folder1
+  last_stroked_at: <%= 3.day.ago.to_s(:db) %>
+  wiki: wiki1

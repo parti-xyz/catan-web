@@ -186,13 +186,13 @@ class IssuesController < ApplicationController
       flash[:notice] = t('labels.group.met_private_issues_quota')
       render 'new' and return
     end
-    if @issue.group_slug_changed? and !current_user.admin?
+    if @issue.will_save_change_to_group_slug? and !current_user.admin?
       flash[:notice] = t('unauthorized.default')
       render 'edit' and return
     end
     @origin_issue = Issue.find(@issue.id)
     target_group = Group.find_by(slug: @issue.group_slug)
-    if @issue.group_slug_changed? and !@issue.movable_to_group?(target_group)
+    if @issue.will_save_change_to_group_slug? and !@issue.movable_to_group?(target_group)
       @target_group = target_group
       @out_of_member_users = @target_group.out_of_member_users(@issue.member_users)
 

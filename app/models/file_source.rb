@@ -76,7 +76,7 @@ class FileSource < ApplicationRecord
   private
 
   def update_type
-    if attachment.present? && attachment_changed?
+    if attachment.present? && will_save_change_to_attachment?
       self.file_type = attachment.file.content_type
       self.file_size = attachment.file.size
     end

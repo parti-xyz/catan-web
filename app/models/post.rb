@@ -549,13 +549,11 @@ class Post < ApplicationRecord
 
   def reindex_for_search
     self.build_post_searchable_index if self.post_searchable_index.blank?
-    self.post_searchable_index.reindex if body_changed?
+    self.post_searchable_index.reindex if will_save_change_to_body?
   end
 
   def reindex_hashtags(force: false)
-    return if issue.private_blocked?(self.user)
-
-    if force or self.body_changed? or (self.wiki.present? and (self.wiki.body_changed? or self.wiki.title_changed?))
+    if force or self.will_save_change_to_body? or (self.wiki.present? and (self.wiki.will_save_change_to_body? or self.wiki.will_save_change_to_title?))
       self.tag_list.clear
 
       words = [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|

@@ -63,7 +63,7 @@ class Wiki < ApplicationRecord
   end
 
   def reserve_capture
-    self.reserved_capture = body_changed?
+    self.reserved_capture = saved_change_to_body?
   end
 
   def capture_async
@@ -79,7 +79,7 @@ class Wiki < ApplicationRecord
   def build_history_after_update
     return if skip_history
 
-    if self.status_changed?
+    if self.saved_change_to_status?
       if self.status == 'active'
         return build_history('activate')
       elsif self.status == 'inactive'
@@ -89,17 +89,18 @@ class Wiki < ApplicationRecord
       end
     end
 
-    if self.title_changed? and !self.body_changed?
+    if self.saved_change_to_title? and !self.saved_change_to_body?
       return build_history('update_title')
     end
 
-    if self.body_changed? and !self.title_changed?
+    if self.saved_change_to_body? and !self.saved_change_to_title?
       return build_history('update_body')
     end
 
-    if self.title_changed? and self.body_changed?
+    if self.saved_change_to_title? and self.saved_change_to_body?
       return build_history('update_title_and_body')
     end
+
   end
 
   def build_history(code)

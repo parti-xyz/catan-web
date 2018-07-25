@@ -339,9 +339,9 @@ class User < ApplicationRecord
   end
 
   def process_push_notification_mode_updated_at
-    return unless self.push_notification_mode_changed?
+    return unless self.will_save_change_to_push_notification_mode?
 
-    enable_push_notification_was = User.enable_push_notification?(self.push_notification_mode_was)
+    enable_push_notification_was = User.enable_push_notification?(self.push_notification_mode_in_database)
     enable_push_notification = User.enable_push_notification?(self.push_notification_mode)
     return if enable_push_notification == enable_push_notification_was
 
