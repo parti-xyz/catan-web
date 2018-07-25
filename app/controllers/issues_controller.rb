@@ -435,7 +435,8 @@ class IssuesController < ApplicationController
 
   def search_and_sort_issues(issues, keyword, sort, item_a_row = 4)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
-    result = issues.where(id: Issue.tagged_with(tags, any: true).except(:select).select(:id).union(Issue.search_for((smart_search_keyword(keyword))).select(:id))) if keyword.present?
+    result = issues
+    result = result.where(id: Issue.tagged_with(tags, any: true).except(:select).select(:id).union(Issue.search_for((smart_search_keyword(keyword))).select(:id))) if keyword.present?
     result = result.alive
 
     case sort
