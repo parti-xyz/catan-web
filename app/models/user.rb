@@ -82,6 +82,7 @@ class User < ApplicationRecord
   has_many :my_menu_issues, through: :my_menus, source: :issue
   has_many :folders, dependent: :nullify
   has_many :bookmarks, dependent: :destroy
+  has_many :readers, dependent: :destroy
   has_many :comment_readers, dependent: :destroy
 
   ## uploaders
@@ -248,7 +249,7 @@ class User < ApplicationRecord
   end
 
   def unread_pinned_posts(group = nil)
-    result = pinned_posts.where.not(id: Reader.where(member: self.members).select(:post_id))
+    result = pinned_posts.where.not(id: self.readers.select(:post_id))
     result = result.of_group(group) if group.present?
     result
   end

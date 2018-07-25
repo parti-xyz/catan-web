@@ -172,12 +172,13 @@ class PostsController < ApplicationController
   def readers
     @issue = @post.issue
     @readers = @post.readers.recent.page(params[:page]).per(3 * 10)
+    @reader_members = @post.issue.members.where(user_id: @readers.map(&:user_id))
   end
 
   def unreaders
     @issue = @post.issue
 
-    base = @issue.members.where.not(id: @post.readers.select(:member_id)).recent
+    base = @issue.members.where.not(user_id: @post.readers.select(:user_id)).recent
     @members = base.recent.page(params[:page]).per(3 * 10)
   end
 
@@ -407,7 +408,7 @@ class PostsController < ApplicationController
     member = post.issue.members.find_by(user: current_user)
     return if member.blank?
 
-    post.readers.find_or_create_by(member: member)
+    post.readers.find_or_create_by(user: member.user)
   end
 
   def set_current_history_back_post

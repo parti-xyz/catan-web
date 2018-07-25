@@ -408,7 +408,7 @@ class Post < ApplicationRecord
   end
 
   def read_by?(someone)
-    readers.joins(:member).exists?('members.user_id': someone)
+    readers.exists?(user: someone)
   end
 
   def can_be_reader?(someone)

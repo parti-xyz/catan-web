@@ -1,6 +1,7 @@
 class Reader < ApplicationRecord
-  belongs_to :member
+  belongs_to :user
   belongs_to :post, counter_cache: true
+  belongs_to :deprecated_member, class_name: 'Member', optional: true
 
   scope :recent, -> { order(created_at: :desc) }
   scope :previous_of_recent, ->(reader) {
@@ -9,7 +10,5 @@ class Reader < ApplicationRecord
     base
   }
 
-  def user
-    member.user
-  end
+  validates :user, uniqueness: { scope: :post_id }, presence: true
 end

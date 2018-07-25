@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_13_140924) do
+ActiveRecord::Schema.define(version: 2018_07_25_152655) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -512,12 +512,14 @@ ActiveRecord::Schema.define(version: 2018_07_13_140924) do
 
   create_table "readers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "post_id", null: false
-    t.integer "member_id", null: false
+    t.integer "deprecated_member_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["member_id"], name: "index_readers_on_member_id"
-    t.index ["post_id", "member_id"], name: "index_readers_on_post_id_and_member_id", unique: true
+    t.bigint "user_id", null: false
+    t.index ["deprecated_member_id"], name: "index_readers_on_deprecated_member_id"
+    t.index ["post_id", "deprecated_member_id"], name: "index_readers_on_post_id_and_deprecated_member_id", unique: true
     t.index ["post_id"], name: "index_readers_on_post_id"
+    t.index ["user_id"], name: "index_readers_on_user_id"
   end
 
   create_table "redactor2_assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
