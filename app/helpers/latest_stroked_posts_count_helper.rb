@@ -21,7 +21,7 @@ module LatestStrokedPostsCountHelper
     if Rails.env.production?
       Moneta.new(:Redis, host: @@stroked_count_redis_config['host'], port: @@stroked_count_redis_config['port'])
     else
-      Moneta.new(:File, dir: 'moneta')
+      Moneta.new(:File, dir: "#{Rails.root}/moneta")
     end
   end
 end
