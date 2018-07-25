@@ -7,7 +7,7 @@
     .sign-up__form
       .email-login-form.panel
         .panel-body
-          = form_for User.new, url: user_session_path do |f|
+          = form_for User.new(remember_me: true), url: user_session_path do |f|
             = f.hidden_field :provider, value: 'email'
             .form-group
               = f.email_field :email, placeholder: '이메일을 입력하세요', class: 'form-control'
