@@ -20,6 +20,10 @@ class Group::MembersController < Group::BaseController
     redirect_to smart_group_url(current_group)
   end
 
+  def ban_form
+    @user = User.find_by id: params[:user_id]
+  end
+
   def ban
     @user = User.find_by id: params[:user_id]
     @member = current_group.members.find_by user: @user

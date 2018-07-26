@@ -101,10 +101,13 @@ Rails.application.routes.draw do
       post :merge
     end
     resources :members do
-      put :organizer, on: :collection
-      delete :organizer, on: :collection
-      delete :cancel, on: :collection
-      delete :ban, on: :collection
+      collection do
+        put :organizer
+        delete :organizer
+        delete :cancel
+        delete :ban
+        get :ban_form
+      end
     end
     resources :member_requests do
       post :accept, on: :collection
@@ -196,6 +199,7 @@ Rails.application.routes.draw do
       collection do
         put :organizer
         delete :organizer
+        get :ban_form
         delete :ban
         delete :cancel
         post :admit

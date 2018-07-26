@@ -1,3 +1,4 @@
+$('#js-modal-placeholder > .modal').modal("hide");
 <% if !@member.nil? and @member.paranoia_destroyed? %>
   $('[data-action=parti-popover]').webuiPopover('hide');
   $('#<%= dom_id(@user) %>').fadeOut("normal", function() {
