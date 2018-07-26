@@ -455,8 +455,12 @@ section#user-gallery{
 }
 
 #sign-up-links {
+  @media (max-width: $screen-xs-max) {
+    margin: 0 10px;
+  }
   a {
     text-decoration: underline;
+    white-space: nowrap;
   }
 }
 
