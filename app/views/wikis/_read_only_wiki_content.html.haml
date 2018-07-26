@@ -21,7 +21,7 @@
   - if !wiki.status.active?
     %span.label.label-default= wiki.status_text
 - if (local_assigns[:wiki_history].present? and local_assigns[:wiki_history].touched_body?) or local_assigns[:wiki_history].blank?
-  .wiki-body.wiki-form
+  .wiki-body
     .form-control-tinymce.mce-content-body
       - if wiki.purged?
         .text-muted 삭제되었습니다
