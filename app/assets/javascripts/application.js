@@ -738,21 +738,6 @@ var parti_prepare = function($base, force) {
           editor.on('focus', function (e) {
             $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
           });
-          var oldScrollTop;
-          editor.on('OpenWindow', function(){
-            oldScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            setTimeout(function() {
-              $('body').scrollTop(0);
-            }, 500);
-          });
-          editor.on('CloseWindow', function(){
-            if (oldScrollTop) {
-              setTimeout(function() {
-                $('body').scrollTop(oldScrollTop);
-                oldScrollTop = null;
-              }, 500);
-            }
-          });
         },
         init_instance_callback: function (editor) {
           editor.on('NodeChange', function (e) {
