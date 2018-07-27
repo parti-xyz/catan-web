@@ -370,12 +370,15 @@
   input[type=text],
   input[type=file],
   textarea,
-  .form-control-tinymce, {
+  .form-control-tinymce {
     border: none;
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     border: 1px solid #d2d2d2;
+  }
+  .form-control-tinymce {
+    overflow: hidden;
   }
   a {
     color: $gray;

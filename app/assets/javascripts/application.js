@@ -734,6 +734,24 @@ var parti_prepare = function($base, force) {
             $link_opener.hide();
           });
 
+          var oldScrollTop;
+          editor.on('OpenWindow', function(){
+            var toolbar = $('.mce-toolbar-grp')[0];
+            oldScrollTop = toolbar.getBoundingClientRect().top;
+            setTimeout(function() {
+              $.scrollTo(0, 0);
+            }, 500);
+          });
+          editor.on('CloseWindow', function(){
+            console.log(oldScrollTop);
+            if (oldScrollTop) {
+              setTimeout(function() {
+                $.scrollTo(oldScrollTop, 0);
+                oldScrollTop = null;
+              }, 500);
+            }
+          });
+
           // virtual keyboard
           editor.on('focus', function (e) {
             $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
