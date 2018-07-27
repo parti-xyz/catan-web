@@ -1221,11 +1221,13 @@ $(function(){
 
     e.preventDefault();
     var url = $(e.currentTarget).data("url");
+    // 하위 호환을 위해 post_id를 남겨둡니다.
     var post_id = $(e.currentTarget).data("post-id");
     var file_source_id = $(e.currentTarget).data("file-source-id");
     var file_name = $(e.currentTarget).data("file-name");
 
     if(ufo.isApp()) {
+      // 하위 호환을 위해 post_id를 남겨둡니다.
       ufo.post("download", { post: post_id, file: file_source_id, name: file_name });
     } else if($.is_present($(this).data('link-target'))) {
       window.open(url, $(this).data('link-target'));

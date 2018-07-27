@@ -1,17 +1,15 @@
 module V1
-  class Posts < Grape::API
+  class FileSources < Grape::API
     helpers DefaultHelpers
     include V1::Defaults
 
-    namespace :posts do
-      # 하위호환을 위해 남겨 둡니다
+    namespace :file_sources do
       desc '파일을 다운로드합니다'
       params do
-        requires :id, type: Integer, desc: '글 번호'
-        requires :file_source_id, type: Integer, desc: '파일번호'
+        requires :id, type: Integer, desc: '파일번호'
       end
-      get ':id/download_file/:file_source_id' do
-        @file_source = FileSource.find_by!(id: params[:file_source_id])
+      get 'download_file/:id' do
+        @file_source = FileSource.find_by!(id: params[:id])
 
         error!(:not_found, 410) and return if @file_source.file_sourceable.blank?
         error!(:forbidden, 403) and return if @file_source.file_sourceable.private_blocked?(current_user)
