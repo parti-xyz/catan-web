@@ -10,7 +10,7 @@
 
   - local_assigns[:mobile_start] ||= false
   - current_url = "window.location.href"
-  - current_url = "'#{local_assigns[:force_current_url]}'" if local_assigns[:force_current_url].present?
+  - current_url = raw("'#{local_assigns[:force_current_url]}'") if local_assigns[:force_current_url].present?
 
   - if request.get? and !local_assigns[:mobile_start]
     :javascript
