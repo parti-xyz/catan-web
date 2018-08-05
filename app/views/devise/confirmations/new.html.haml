@@ -14,8 +14,9 @@
             - resource.errors.messages.each do |message|
               - attribute_name = User.human_attribute_name(message[0])
               - if message[0] == :email
-                해당 이메일에 대한 정보를 찾을 수 없습니다
-              - elsif message[0] == :provider
+                %p 찾을 수 없거나 이미 가입확인된 이메일입니다.
+              - elsif %i(provider confirmation_token).include? message[0]
+                %p 다시 시도해 주세요.
               - else
                 - attribute_messages = message[1]
                 - attribute_messages.each do |m|
