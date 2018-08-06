@@ -1,3 +1,4 @@
+$('[data-action=parti-popover]').webuiPopover('hide');
 var specific_partial = "<%= escape_javascript(render 'votings/voting', poll: @poll) %>";
 $('<%= post_votings_dom_selector(@poll.post) %>').replaceWith(specific_partial);
 $('.poll-card.<%= dom_id(@poll) %>').addClass('poll-card--voted');

@@ -1,8 +1,16 @@
 - if @poll.hidden_voters?
   #{@poll.votings.count} 명이 익명 투표 중입니다.
-
+- elsif @poll.hidden_intermediate_result? and @poll.open?
+  - if @poll.votings.any?
+    %div.voting-users{id: "#{dom_id(@poll)}-voting-users"}
+      .upvoted-users
+        - @poll.votings.recent.map(&:user).each do |user|
+          = link_to smart_user_gallery_path(user), target: '_blank' do
+            %span.user-info.text-nowrap
+              .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
+              = user.nickname
 - else
-  %ul.voting-users.list-unstyled{id: "#{dom_id(@poll)}-voting-users"}
+  %ul.voting-users.list-unstyled.list-unstyled-no-bottom-margin{id: "#{dom_id(@poll)}-voting-users"}
     - if @poll.votings.agreed.any?
       %li.agree.section
         .choice-title 찬성
