@@ -201,7 +201,13 @@ var parti_prepare_form_validator = function($base) {
             _popover.data("bs.popover").options.content = value.message;
 
             setTimeout(function() { $popover_target.popover("hide"); }, 3000);
-            return $popover_target.popover("show");
+            if(index == 0) {
+              $.scrollTo($popover_target, 100, { offset: -100, onAfter: function(target, settings) {
+                return $popover_target.popover("show");
+              } } );
+            } else {
+              setTimeout(function() { $popover_target.popover("show"); }, 100);
+            }
           });
         }
       }
