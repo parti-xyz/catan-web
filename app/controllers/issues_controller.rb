@@ -44,8 +44,6 @@ class IssuesController < ApplicationController
       if params[:keyword].present?
         params[:sort] ||= 'hottest'
         @issues = search_and_sort_issues(Issue.searchable_issues(current_user), params[:keyword], params[:sort], 3)
-      elsif params[:subject].present?
-        @issues = LandingPage.section_for_issue_subject.find_by(title: params[:subject]).try(:parsed_section_for_issue_subject)
       else
         @groups = Group.not_private_blocked(current_user).hottest.sort_by_name.where(slug: Issue.alive.not_private_blocked(current_user).select(:group_slug))
         @ready_groups = Group.not_private_blocked(current_user).where('issues_count <= 0')
@@ -70,9 +68,7 @@ class IssuesController < ApplicationController
       @no_tags_selected = 'yes'
     else
       base = Issue.tagged_with(params[:selected_tags], any: true).except(:select).select(:id).union(Issue.search_for(params[:selected_tags].join(' OR ')).select(:id))
-      LandingPage.section_for_issue_subject.where(title: params[:selected_tags]).each do |landing_page|
-        base = base.union(landing_page.parsed_section_for_issue_subject.select(:id))
-      end
+      base = base.union(LandingPage.parsed_section_for_all_issue_subject(params[:selected_tags]).select(:id))
 
       @issues = @issues.where(id: base)
     end

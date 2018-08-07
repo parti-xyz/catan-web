@@ -8,15 +8,30 @@ class Admin::LandingPagesController < Admin::BaseController
                 'subject5', 'subject6', 'subject7', 'subject8', 'subject9', 'subject10']
     sidx = 0;
 
-    sections.each do |section|
-      landingPage = LandingPage.new
-      if params[section].present?
-        LandingPage.find_by(section: section).try(:destroy)
-        section_body = params[section].gsub(/\s+/, "").split(',').compact.to_json
-        section_title = params[section + "_title"] if section.include? 'subject'
+    landing_pages  = []
 
-        landingPage.assign_attributes(section: section, body: section_body, title: section_title)
-        landingPage.save!
+    ActiveRecord::Base.transaction do
+      sections.each do |section|
+        landing_page = LandingPage.new
+
+        if params[section].present?
+          LandingPage.find_by(section: section).try(:destroy)
+          section_body = params[section].gsub(/\s+/, "").split(',').compact.to_json
+          section_title = params[section + "_title"] if section.include? 'subject'
+
+          landing_page.assign_attributes(section: section, body: section_body, title: section_title)
+          landing_page.save
+          landing_pages << landing_page
+        end
+      end
+    end
+
+    landing_pages.each do |landing_page|
+      if landing_page.errors.any?
+        errors_to_flash(landing_page)
+        @sections = LandingPage.all_data(landing_pages)
+        render "admin/landing_pages/index"
+        return
       end
     end
 

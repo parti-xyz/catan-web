@@ -77,6 +77,7 @@ ko:
         bad_issue: "다른 빠띠 폴더로는 옮길 수 없습니다."
       folders:
         too_deep: "하위 폴더를 가진 폴더는 다른 폴더의 하위 폴더가 될 수 없습니다."
+      wrong_parti_title: "주제별 빠띠의 이름울 한 글자 이상의 하나의 단어로 입력해 주세요 : %{title}"
     models:
       user:
         attributes:
