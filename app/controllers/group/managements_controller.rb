@@ -2,9 +2,6 @@ class Group::ManagementsController < Group::BaseController
   before_action :only_organizer, only: [:index]
 
   def index
-    organizer_group = Group.find_by(slug: 'organizer')
-    @posts_pinned = organizer_group.pinned_posts(current_user)
-
     group_issues = Issue.where(group_slug: current_group.slug)
     group_posts = Post.where(issue: group_issues)
 
