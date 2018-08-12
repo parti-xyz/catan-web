@@ -129,21 +129,21 @@ class Post < ApplicationRecord
   # hashtagging
   before_save :reindex_hashtags
 
-  def specific_desc
-    self.parsed_title.presence || self.body.presence ||
-      (ERB::Util.h(self.wiki.try(:title)).presence) ||
-      (ERB::Util.h(self.poll.try(:title)).presence) ||
-      (ERB::Util.h(self.file_sources.first.try(:name)).presence if self.file_sources.any?) ||
-      (ERB::Util.h(self.link_source.try(:title)).presence if self.link_source.present?) ||
-      (ERB::Util.h(self.wiki.try(:specific_desc)).presence if self.wiki.present?)
-  end
-
   def specific_desc_striped_tags(length = 0)
-    result = sanitize_html specific_desc
-    result = result.gsub(/\A\p{Space}*/, '') if result.present?
+    striped_body = body.try(:strip)
+    striped_body = '' if striped_body.nil?
+    sanitized_body = sanitize_html striped_body
+    sanitized_body = nil if sanitized_body.blank?
 
-    return result if length <= 0
-    return result.try(:truncate, length)
+    desc = sanitized_body.presence ||
+      self.wiki.try(:title).presence ||
+      self.poll.try(:title).presence ||
+      self.file_sources.first.try(:name).presence ||
+      self.link_source.try(:title).presence ||
+      self.wiki.try(:title).presence
+
+    return desc if length <= 0
+    return desc.try(:truncate, length)
   end
 
   def share_image_dimensions
@@ -298,17 +298,6 @@ class Post < ApplicationRecord
 
   def self.hottest_count
     hottest.length
-  end
-
-  def parsed_title
-    title, _ = parsed_title_and_body
-    title
-  end
-
-  # DEPRECATED
-  def parsed_body
-    _, body = parsed_title_and_body
-   body
   end
 
   def video_source?
@@ -570,34 +559,6 @@ class Post < ApplicationRecord
     users = self.issue.member_users.where.not(id: someone)
     users.each do |user|
       PinMailer.notify(someone.id, user.id, self.id).deliver_later
-    end
-  end
-
-  # DEPRECATED
-  def parsed_title_and_body
-    strip_body = body.try(:strip)
-    strip_body = '' if strip_body.nil?
-    if link_source.present? || file_sources.any? || poll.present?
-      [nil, body]
-    elsif strip_body.length < 100
-      [body, nil]
-    elsif strip_body.length < 250
-      [nil, body]
-    else
-      blockquote_index = strip_body.index('<blockquote>')
-      strip_body_remain = ""
-      unless blockquote_index.nil?
-        strip_body_remain = strip_body.slice(blockquote_index..-1)
-        strip_body = strip_body.slice(0...blockquote_index)
-      end
-
-      setences = strip_body.lines.map { |l| l.split(/(?<=<\/p>)/) }.map { |s| s.split(/(?=<br>)/) }.flatten
-      if setences.any? and setences.first.length < 100
-        strip_body_remain = setences[1..-1].join + strip_body_remain
-        [setences.first, strip_body_remain]
-      else
-        [nil, body]
-      end
     end
   end
 

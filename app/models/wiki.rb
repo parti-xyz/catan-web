@@ -141,10 +141,6 @@ class Wiki < ApplicationRecord
     %w(active inactive).include? status
   end
 
-  def specific_desc
-    title
-  end
-
   def image_ratio
     return 0.8 if image_width == 0 or image_height == 0
     image_width / image_height.to_f
