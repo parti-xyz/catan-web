@@ -171,7 +171,11 @@ body.in-group {
   }
 }
 
-
 .list-unstyled.list-unstyled-no-bottom-margin {
   margin-bottom: 0;
+}
+
+.fa-spin.fa-spin-slow {
+  -webkit-animation: fa-spin 10s infinite linear;
+  animation: fa-spin 10s infinite linear;
 }

@@ -1305,10 +1305,18 @@ $(function(){
       } else {
         $(this).addClass('selected-tag');
       }
+
+      if($('[data-action="parti-select-interested-tag"].selected-tag').length > 0) {
+        $('.js-intro-select-parties-cog').addClass('collapse');
+        $('.js-intro-select-parties-continue').removeClass('collapse');
+      } else {
+        $('.js-intro-select-parties-cog').removeClass('collapse');
+        $('.js-intro-select-parties-continue').addClass('collapse');
+      }
     });
   });
 
-  $('[data-action="parti-select-parties"]').each(function(index, elm){
+  $('.js-intro-select-parties-continue').each(function(index, elm){
     $(this).on('click',function (e){
       $(e.target).html('추천 중...');
       $(e.target).prop('disabled', true);
@@ -1322,6 +1330,7 @@ $(function(){
           $('.parti-member-recommend--select-interest').hide();
           $('#header-before-select-tags').hide();
           $('#header-after-select-tags').removeClass('hide');
+          $.scrollTo(0, 0);
         },
       });
       return false;

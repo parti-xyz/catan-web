@@ -300,8 +300,16 @@ section#issues-group-index {
     line-height: 1.4em;
   }
 }
-#btn-after-select-parties,
-#btn-go-select-parties {
+
+.js-intro-select-parties {
+  @media (max-width: $screen-xs-max) {
+    margin-top: 20px;
+    margin-right: 0;
+  }
+}
+
+.btn-after-select-parties,
+.btn-go-select-parties {
   padding: 13px 18px;
   font-size: 14px;
   font-weight: bold;

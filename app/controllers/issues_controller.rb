@@ -64,7 +64,7 @@ class IssuesController < ApplicationController
   def search_by_tags
     @issues = Issue.alive.only_public_in_current_group(current_group)
     if params[:selected_tags] == [""]
-      @issues = @issues.hottest
+      @issues = @issues.hottest.limit(50)
       @no_tags_selected = 'yes'
     else
       base = Issue.tagged_with(params[:selected_tags], any: true).except(:select).select(:id).union(Issue.search_for(params[:selected_tags].join(' OR ')).select(:id))

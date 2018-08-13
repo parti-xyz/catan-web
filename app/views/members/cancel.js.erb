@@ -6,6 +6,13 @@
     $(card_query).replaceWith($member);
     parti_partial$($member);
     parti_ellipsis($(card_query));
+    <% if current_user.member_issues.any? %>
+      $('.js-intro-select-parties-cog').addClass('collapse');
+      $('.js-intro-select-parties-continue').removeClass('collapse');
+    <% else %>
+      $('.js-intro-select-parties-cog').removeClass('collapse');
+      $('.js-intro-select-parties-continue').addClass('collapse');
+    <% end %>
   <% else %>
     $(".btn-member").webuiPopover('destroy');
     var $member = $("<%= escape_javascript(render 'issues/header_buttons', issue: @issue) %>");

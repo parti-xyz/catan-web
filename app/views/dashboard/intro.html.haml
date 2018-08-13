@@ -13,7 +13,9 @@
             %p.select-interest-title
               선택하신 관심분야를 기준으로 관련된 빠띠를 추천해드릴게요.
           .media-right
-            %a.btn.btn-primary.btn-primary-dark#btn-go-select-parties{href: '#', data: {action: 'parti-select-parties', 'disable-with': '처리 중...'}}
+            .js-intro-select-parties-cog{ style: 'width: 90px; text-align: center;' }
+              %i.fa.fa-cog.fa-spin.fa-spin-slow{ style: 'padding: 25px 18px; font-size: 30px; color: #9872d7;' }
+            %a.btn.btn-primary.btn-primary-dark.btn-go-select-parties.js-intro-select-parties-continue.collapse{href: '#', data: {action: 'parti-select-parties', 'disable-with': '처리 중...'}}
               계속하기
       #header-after-select-tags
 
@@ -40,7 +42,8 @@
           %p
             팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠
             %br
-            내가 관심있는 이슈로 파티하듯 수다를 떠는 곳입니다.
+            내가 관심있는 이슈로 파티하듯
+            %br.visible-xs-block 수다를 떠는 곳입니다.
             %br
             관심사를 알려주시면 설정을 도와드릴게요!
 

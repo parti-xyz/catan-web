@@ -5,6 +5,14 @@
   $(card_query).replaceWith($member);
   parti_partial$($member);
   parti_ellipsis($(card_query));
+
+  <% if current_user.member_issues.any? %>
+    $('.js-intro-select-parties-cog').addClass('collapse');
+    $('.js-intro-select-parties-continue').removeClass('collapse');
+  <% else %>
+    $('.js-intro-select-parties-cog').removeClass('collapse');
+    $('.js-intro-select-parties-continue').addClass('collapse');
+  <% end %>
 <% elsif params[:partial] == 'issue_card' %>
   <% if @issue.member? current_user %>
     var completed = $('#<%= params[:button_id] %>').data('completed-with');
