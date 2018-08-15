@@ -6,6 +6,7 @@ module Historyable
   CSS_CLASS_REMOVED = 'diff-removed'
 
   included do
+    before_save :build_diff_body_count
     scope :recent, -> { order(created_at: :desc).order(id: :desc) }
 
     def previous
@@ -16,10 +17,18 @@ module Historyable
       previous.present?
     end
 
-    def diff_body_count
-      return [0, 0] unless touched_body?
+    def build_diff_body_count
+      unless touched_body?
+        self.diff_body_adds_count = 0
+        self.diff_body_removes_count = 0
+      end
       grouped_diffs = node_only_diffs.group_by { |change, _| change  }
-      [(grouped_diffs["+"].try(:count) || 0), (grouped_diffs["-"].try(:count) || 0)]
+      self.diff_body_adds_count = (grouped_diffs["+"].try(:count) || 0)
+      self.diff_body_removes_count = (grouped_diffs["-"].try(:count) || 0)
+    end
+
+    def diff_body_count
+      [diff_body_adds_count, diff_body_removes_count]
     end
 
     def diff_added_body

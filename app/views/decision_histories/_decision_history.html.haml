@@ -3,17 +3,18 @@
     .media-left
       .thumb.circle-20.img-circle{style: "background-image: url(#{decision_history.user.image.sm.url});"}
     .media-body
-      - diff_body_added_count, diff_body_removed_count = decision_history.diff_body_count
-      - if diff_body_added_count > 0 or diff_body_removed_count > 0
+      - if !decision_history.has_previous?
+        게시했습니다.
+      - elsif decision_history.diff_body_adds_count > 0 or decision_history.diff_body_removes_count > 0
         %span.help-text.text-nowrap
           - diff_count_texts = []
-          - if diff_body_added_count > 0
-            - diff_count_texts << "+#{diff_body_added_count}군데 추가"
-          - if diff_body_removed_count > 0
-            - diff_count_texts << "-#{diff_body_removed_count}군데 삭제"
+          - if decision_history.diff_body_adds_count > 0
+            - diff_count_texts << "+#{decision_history.diff_body_adds_count}군데 추가"
+          - if decision_history.diff_body_removes_count > 0
+            - diff_count_texts << "-#{decision_history.diff_body_removes_count}군데 삭제"
           #{diff_count_texts.join(', ')}했습니다.
-      - elsif !decision_history.has_previous?
-        게시했습니다.
+      - else
+        수정했습니다.
       .decision-history__header
         .decision-history__date.date-wrapper
           = static_date_f decision_history.created_at

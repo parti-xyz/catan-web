@@ -4,14 +4,14 @@
       .thumb.circle-20.img-circle{style: "background-image: url(#{wiki_history.user.image.sm.url});"}
     .media-body
       != wiki_history.activity { |user| "#{link_to("#{user.nickname}", smart_user_gallery_path(user))}님이" }
-      - diff_body_added_count, diff_body_removed_count = wiki_history.diff_body_count
-      - if diff_body_added_count > 0 or diff_body_removed_count > 0
+      - if !wiki_history.has_previous?
+      - elsif wiki_history.diff_body_adds_count > 0 or wiki_history.diff_body_removes_count > 0
         %span.help-text.text-nowrap
           - diff_count_texts = []
-          - if diff_body_added_count > 0
-            - diff_count_texts << "+#{diff_body_added_count}군데 추가"
-          - if diff_body_removed_count > 0
-            - diff_count_texts << "-#{diff_body_removed_count}군데 삭제"
+          - if wiki_history.diff_body_adds_count > 0
+            - diff_count_texts << "+#{wiki_history.diff_body_adds_count}군데 추가"
+          - if wiki_history.diff_body_removes_count > 0
+            - diff_count_texts << "-#{wiki_history.diff_body_removes_count}군데 삭제"
           #{diff_count_texts.join(', ')}했습니다.
       .wiki-history__header
         .wiki-history__date.date-wrapper

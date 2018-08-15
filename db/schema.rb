@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_25_152655) do
+ActiveRecord::Schema.define(version: 2018_08_14_234348) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 2018_07_25_152655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "mailed_at"
+    t.integer "diff_body_adds_count", default: 0
+    t.integer "diff_body_removes_count", default: 0
     t.index ["post_id"], name: "index_decision_histories_on_post_id"
     t.index ["user_id"], name: "index_decision_histories_on_user_id"
   end
@@ -720,6 +722,8 @@ ActiveRecord::Schema.define(version: 2018_07_25_152655) do
     t.string "code", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer "diff_body_adds_count", default: 0
+    t.integer "diff_body_removes_count", default: 0
     t.index ["user_id"], name: "index_wiki_histories_on_user_id"
     t.index ["wiki_id"], name: "index_wiki_histories_on_wiki_id"
   end
