@@ -1,0 +1,13 @@
+%li.menu-line
+  = link_to discover_url(subdomain: nil), 'aria-label': only_mobile_app(request, 'drawer-discover'), class: "#{'active' if current_page?('/discover')}" do
+    %i.fa.fa-fort-awesome
+    새로운 발견
+%li.menu-line
+  = link_to issues_url(subdomain: nil), class: "#{'active' if current_page?('/parties')}" do
+    %i.fa.fa-search
+    빠띠 찾기
+- if user_signed_in?
+  %li.menu-line
+    = link_to dashboard_url(subdomain: ''), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard') or current_page?('/messages') or current_page?('/posts/pinned')}" do
+      %i.fa.fa-home
+      내 홈
