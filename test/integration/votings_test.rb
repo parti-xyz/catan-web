@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class VotingsTest < ActionDispatch::IntegrationTest
-
-  test '만들어요' do
+  test '투표를 해요' do
     sign_in users(:one)
 
     post poll_votings_path(poll_id: polls(:poll1).id, voting: { choice: :agree })
@@ -10,6 +9,7 @@ class VotingsTest < ActionDispatch::IntegrationTest
     assert assigns(:voting).persisted?
     assert_equal users(:one), assigns(:voting).user
     assert_equal 'agree', assigns(:voting).choice
+    assert_equal users(:one).id, assigns(:voting).poll.post.last_stroked_user_id
   end
 
   test '같은 사람이 투표를 여러 번 해도 투표 건 수는 하나랍니다' do

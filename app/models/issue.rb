@@ -300,7 +300,7 @@ class Issue < ApplicationRecord
   def strok_by!(someone, post)
     return if post.blinded?
 
-    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone)
+    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
   end
 
   def members_with_deleted

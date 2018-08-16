@@ -424,13 +424,13 @@ class Post < ApplicationRecord
 
   def strok_by(someone, subject = nil)
     self.last_stroked_at = DateTime.now
-    self.last_stroked_user = someone || self.user
+    self.last_stroked_user = (someone || self.user)
     self.last_stroked_for = subject
     self
   end
 
   def strok_by!(someone, subject)
-    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone, last_stroked_for: subject)
+    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id, last_stroked_for: subject)
   end
 
   def last_stroked_activity(&block)
