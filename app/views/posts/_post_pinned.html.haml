@@ -12,7 +12,7 @@
         = post.specific_desc_striped_tags(120)
 
     .issue-meta.issue-meta-footer
-      = link_to "@#{post.user.nickname}", post.user
+      = link_to "@#{post.user.nickname}", smart_user_gallery_url(post.user)
       &nbsp;
       = link_to smart_post_url(post) do
         - created_at = local_assigns[:post].try(:created_at)
