@@ -5,6 +5,7 @@ gem 'rails', '~> 5.2.0'
 gem 'unicorn'
 gem 'bundler', '~> 1.14', '>= 1.14.5'
 gem 'bootsnap', require: false
+gem 'railties', '= 5.2.0'
 
 # db
 gem 'mysql2', '>= 0.3.13', '< 0.5'
@@ -52,18 +53,18 @@ gem 'twitter', github: 'parti-xyz/twitter', branch: 'feature/user-email'
 gem 'google-api-client', '~> 0.11'
 gem 'koala', '~> 2.4'
 gem 'bcrypt-ruby', '~> 3.1', '>= 3.1.5', require: 'bcrypt'
-gem 'doorkeeper', '~> 4.2'
+gem 'doorkeeper', '~> 4.3', '>= 4.3.2'
 gem 'doorkeeper-grants_assertion', github: 'doorkeeper-gem/doorkeeper-grants_assertion'
 gem 'rest-client', '~> 2.0', '>= 2.0.2'
 
 # api
 gem 'jsonapi-resources', '~> 0.8.0.beta2'
-gem 'grape', '~> 0.19.0'
+gem 'grape', '~> 1.1.0'
 gem 'grape_on_rails_routes', '~> 0.3.1'
 gem 'grape-route-helpers', '~> 2.0'
 gem 'grape_logging', '~> 1.3'
 gem 'grape-cancan'
-gem 'wine_bouncer', '~> 1.0', '>= 1.0.1'
+gem 'wine_bouncer', '~> 1.0', '>= 1.0.3'
 gem 'fcm', '~> 0.0.2'
 
 # views

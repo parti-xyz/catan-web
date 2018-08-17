@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/doorkeeper-gem/doorkeeper-grants_assertion.git
-  revision: 592fcb22e324d596c53aadb6e762e4d66fae9a3e
+  revision: 9f36664e35b1315b7e05ce5e5f9e95526fe75022
   specs:
-    doorkeeper-grants_assertion (0.1.0)
+    doorkeeper-grants_assertion (0.2.0)
       doorkeeper (>= 4.0)
       railties (>= 3.1)
 
@@ -194,7 +194,7 @@ GEM
     diffy (3.2.1)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
-    doorkeeper (4.2.6)
+    doorkeeper (4.4.1)
       railties (>= 4.2)
     dotenv (2.5.0)
     dumb_delegator (0.8.0)
@@ -243,12 +243,9 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    grape (0.19.2)
+    grape (1.1.0)
       activesupport
       builder
-      hashie (>= 2.1.0)
-      multi_json (>= 1.3.2)
-      multi_xml (>= 0.5.2)
       mustermann-grape (~> 1.0.0)
       rack (>= 1.3.0)
       rack-accept
@@ -310,7 +307,7 @@ GEM
     httparty (0.16.2)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (1.0.1)
+    i18n (1.1.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     identicon (0.0.5)
@@ -405,7 +402,7 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
-    mustermann (1.0.2)
+    mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
     mysql2 (0.4.10)
@@ -491,7 +488,7 @@ GEM
       rack (>= 1.2.0)
     rack-protection (2.0.3)
       rack
-    rack-test (1.0.0)
+    rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.0)
       actioncable (= 5.2.0)
@@ -672,9 +669,9 @@ GEM
     websocket-driver (0.7.0)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
-    wine_bouncer (1.0.2)
-      doorkeeper (>= 1.4, < 4.3)
-      grape (>= 0.10, < 1.1)
+    wine_bouncer (1.0.3)
+      doorkeeper (>= 1.4, < 5.0)
+      grape (>= 0.10, < 1.2)
     wkhtmltoimage-binary (0.12.4)
 
 PLATFORMS
@@ -709,7 +706,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2, >= 4.2.2)
   devise (~> 4.2)
   diffy
-  doorkeeper (~> 4.2)
+  doorkeeper (~> 4.3, >= 4.3.2)
   doorkeeper-grants_assertion!
   dotenv
   enumerize (~> 2.1, >= 2.1.2)
@@ -720,7 +717,7 @@ DEPENDENCIES
   file_validators (~> 2.1)
   geo_pattern (~> 1.4)
   google-api-client (~> 0.11)
-  grape (~> 0.19.0)
+  grape (~> 1.1.0)
   grape-cancan
   grape-route-helpers (~> 2.0)
   grape_logging (~> 1.3)
@@ -767,6 +764,7 @@ DEPENDENCIES
   rails-settings-cached
   rails-timeago (~> 2.13)
   rails_autolink (~> 1.1, >= 1.1.6)
+  railties (= 5.2.0)
   rb-readline
   recursive-open-struct (~> 1.0, >= 1.0.1)
   redcarpet (~> 3.3, >= 3.3.4)
@@ -800,7 +798,7 @@ DEPENDENCIES
   unobtrusive_flash (~> 3.1)
   video_info (~> 2.6)
   web-console (~> 3.6, >= 3.6.2)
-  wine_bouncer (~> 1.0, >= 1.0.1)
+  wine_bouncer (~> 1.0, >= 1.0.3)
   wkhtmltoimage-binary (~> 0.12.2)
 
 BUNDLED WITH
