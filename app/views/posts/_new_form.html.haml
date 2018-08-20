@@ -2,6 +2,8 @@
   #post-form-widget.form-widget-container
     = form_for Post.new, format: :js, remote: true, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
       - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
+      - post_body_dom_id = "post-body-#{SecureRandom.uuid}"
+
       .form-widget-content{ id: textarea_error_id }
         .user-info
           = render 'users/post_byline', user: current_user
@@ -10,8 +12,8 @@
         = f.hidden_field :has_survey, value: false
 
         .form-group.textarea-box.tinymce-wrapper-toggletoolbar
-          .js-tinymce{ id: "post[body]", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
-          = f.hidden_field :body, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
+          .js-tinymce{ 'data-target-id': "##{post_body_dom_id}", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+          = f.hidden_field :body, id: post_body_dom_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
 
           = f.hidden_field :is_html_body, value: true
 

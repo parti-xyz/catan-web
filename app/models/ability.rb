@@ -30,7 +30,7 @@ class Ability
       can [:edit_folder, :update_folder], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
-      can [:new_wiki, :update_wiki], [Post] do |post|
+      can [:new_wiki, :update_wiki, :wiki], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
       can [:update, :activate, :inactivate, :purge, :histories], Wiki do |wiki|

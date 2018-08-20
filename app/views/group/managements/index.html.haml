@@ -116,9 +116,10 @@
         .form-widget
           .form-widget-content
             - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
+            - body_dom_id = "post-body-#{SecureRandom.uuid}"
             .form-group.textarea-box.tinymce-wrapper-toggletoolbar{ id: textarea_error_id }
-              .js-tinymce.form-control.form-control-tinymce{ id: "suggest", 'data-placeholder': "#{current_user.nickname} 오거나이저님, 빠띠 팀에 제안하고 싶은 것이 있으신가요? ", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
-              = hidden_field_tag :suggest, nil, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'rule-maxlength': '65535', 'msg-maxlength': '내용이 너무 깁니다', 'error-popover-target': "##{textarea_error_id}" }
+              .js-tinymce.form-control.form-control-tinymce{ 'data-target-id': "##{body_dom_id}", 'data-placeholder': "#{current_user.nickname} 오거나이저님, 빠띠 팀에 제안하고 싶은 것이 있으신가요? ", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+              = hidden_field_tag :suggest, nil, id: body_dom_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'rule-maxlength': '65535', 'msg-maxlength': '내용이 너무 깁니다', 'error-popover-target': "##{textarea_error_id}" }
               = hidden_field_tag :is_html_body, value: true
 
           .form-widget-btns.clearfix

@@ -14,15 +14,16 @@
       - title = "<span>#{local_assigns[:wiki_history].title}</span>"
     - body = local_assigns[:wiki_history].diff_body
 - else
+  -
   - title = (local_assigns[:for_conflict] ? @post.wiki.conflicted_title : "<span>#{@post.wiki.title}</span>")
-  - body = (local_assigns[:for_conflict] ? @post.wiki.conflicted_body : @post.wiki.body)
+  - body = (local_assigns[:for_conflict] ? @post.wiki.diff_conflicted_body : @post.wiki.body)
 %h4.wiki-title
   != title
   - if !wiki.status.active?
     %span.label.label-default= wiki.status_text
 - if (local_assigns[:wiki_history].present? and local_assigns[:wiki_history].touched_body?) or local_assigns[:wiki_history].blank?
-  .wiki-body
-    .form-control-tinymce.mce-content-body
+  .wiki-body{ class: ('wiki-body-diff' if local_assigns[:for_conflict]) }
+    .form-control-tinymce.mce-content-body{ style: 'padding: 8px;' }
       - if wiki.purged?
         .text-muted 삭제되었습니다
       - else

@@ -149,4 +149,15 @@ class Wiki < ApplicationRecord
   def reindex_for_search!
     post.try(:reindex_for_search!)
   end
+
+  def build_conflict
+    self.conflicted_body = self.body
+    self.conflicted_title = self.title
+    self.title = self.title_was
+    self.body = self.body_was
+  end
+
+  def diff_conflicted_body
+    self.wiki_histories.last.diff_body(self.conflicted_body)
+  end
 end

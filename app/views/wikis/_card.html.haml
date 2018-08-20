@@ -1,4 +1,5 @@
-.wiki-line.clearfix
+- wiki_card_dom_id = "js-wiki-card-#{SecureRandom.uuid}"
+.wiki-line.clearfix{ id: wiki_card_dom_id }
   - chevron_dropdown = capture do
     = render 'posts/chevron_menu', local_assigns.merge(post: post)
   - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
@@ -14,9 +15,9 @@
   - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
   = render 'posts/last_stroked_for', post: post
 
-  - if local_assigns[:mode] == 'detail'
+  - if ['detail', 'remote-detail'].include? local_assigns[:mode]
     - if can?(:update, post.wiki)
-      = render 'wikis/card_form', local_assigns
+      = render 'wikis/card_form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
     - else
       %h4.wiki-title
         = link_to post.wiki.title, smart_post_url(post), target: '_blank'
@@ -29,13 +30,13 @@
     %h4.wiki-title
       = link_to post.wiki.title, smart_post_url(post), target: '_blank'
 
-    .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_post_url(post), 'data-link-target': '_blank' }
+    .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
       .wiki-body.wiki-preview
         .mce-content-body
           != smart_truncate_html(post.wiki.body, length: 1000)
       .shadow
       .wiki-button
-        = link_to (post.issue.postable?(current_user) ? '편집' : '읽기'), smart_post_url(post), class: 'btn btn-xs btn-primary btn-primary-light btn-force', style: 'border-radius: 4px'
+        = link_to (post.issue.postable?(current_user) ? '편집' : '읽기'), wiki_post_path(post, wiki_card_dom_id: wiki_card_dom_id, format: :js), class: 'btn btn-xs btn-primary btn-primary-light btn-force', style: 'border-radius: 4px'
 
   .wiki-authors.tooltip-no-wrap
     작성

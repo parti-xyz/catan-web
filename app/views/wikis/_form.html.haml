@@ -1,4 +1,7 @@
-= form_for post, url: wiki_post_url(post, subdomain: post.issue.group.try(:subdomain)), method: :patch, html: { class: 'form-widget', style: 'padding: 0', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form-widget form input[type=submit]' } } do |f|
+- form_url = wiki_post_url(post, subdomain: post.issue.group.try(:subdomain))
+- form_url = wiki_post_path(post) if local_assigns[:remote_post_form] == true
+- form_dom_id = "js-wiki-form-#{SecureRandom.uuid}"
+= form_for post, url: form_url, method: :patch, html: { id: form_dom_id, class: 'form-widget', style: 'padding: 0', novalidate: true, remote: (local_assigns[:remote_post_form] == true), data: {action: 'parti-form-validation', 'submit-form-control': "form##{form_dom_id} input[type=submit]" } } do |f|
   - controls = capture do
     - if post.wiki.activate?
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
@@ -6,6 +9,8 @@
     .submit-box{ style: 'margin-bottom: 12px; margin-top: 18px' }
       = controls
   - if post.wiki.activate?
+    = hidden_field_tag :form_dom_id, form_dom_id
+    = hidden_field_tag :wiki_card_dom_id, local_assigns[:wiki_card_dom_id]
     =  render 'posts/wiki_form', f: f
   - else
     .row

@@ -123,6 +123,17 @@ section#wiki-histories {
     img {
       max-width: 100%;
     }
+    &.wiki-body-diff {
+      .diff-removed {
+        background-color: lighten($brand-danger, 25%);
+      }
+      .diff-added {
+        background-color: lighten($brand-success, 25%);
+      }
+      .diff-touched {
+        background-color: lighten($brand-warning, 25%);
+      }
+    }
   }
   .wiki-authors {
     margin-top: 6px;
@@ -136,6 +147,7 @@ section#wiki-histories {
   }
   .wiki-preview {
     padding: 12px;
+    cursor: default;
   }
 }
 
@@ -246,16 +258,25 @@ section#wiki-histories {
     &--read-only {
       background-color: #fff;
       border-radius: $border-radius-base;
-      padding: 20px;
+      padding: 8px;
     }
   }
   .conflict-target-editor{
-    padding: 20px;
+    padding: 8px;
     border: 3px solid rgba(89, 186, 163, 0.3);
 
+    @media (max-width: $screen-xs-max) {
+      padding: 0;
+      border: 0;
+    }
   }
   .conflict-content{
     border: 3px solid rgba(240, 100, 109, 0.3);
+
+    @media (max-width: $screen-xs-max) {
+      padding: 0;
+      border: 0;
+    }
   }
   hr.wiki-authors-hr {
     border: 0;

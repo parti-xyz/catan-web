@@ -118,11 +118,11 @@ module Historyable
       @_diff_removed_body = previous_doc.to_html
     end
 
-    def diff_body
-      return unless touched_body?
-      return @_diff_body if @_diff_body.present?
+    def diff_body(temp_body = nil)
+      return if !touched_body? and temp_body.blank?
+      return @_diff_body if @_diff_body.present? and temp_body.blank?
 
-      diffs, current_doc, previous_doc = build_diffs
+      diffs, current_doc, previous_doc = build_diffs(diffable_body, temp_body)
 
       touched_nodes = []
       added_nodes = []
@@ -189,9 +189,12 @@ module Historyable
       node['class'] = ((node['class'] || "").split(/\s+/) + [new_class]).uniq.join(" ")
     end
 
-    def build_diffs
-      current_doc = Nokogiri::HTML(diffable_body.try(:strip) || "")
-      previous_doc = Nokogiri::HTML(previous.try(:diffable_body).try(:strip) || "")
+    def build_diffs(current_diffable_body = nil, previous_diffable_body = nil)
+      current_diffable_body = diffable_body.try(:strip) unless current_diffable_body.present?
+      previous_diffable_body = previous.try(:diffable_body).try(:strip) unless previous_diffable_body.present?
+
+      current_doc = Nokogiri::HTML(current_diffable_body || "")
+      previous_doc = Nokogiri::HTML(previous_diffable_body || "")
       [previous_doc.diff(current_doc, added: true, removed: true).to_a, current_doc, previous_doc]
     end
 

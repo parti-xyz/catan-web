@@ -1,0 +1,15 @@
+<% if @post.wiki.try(:conflict?) %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('activerecord.successful.messages.conflicted_wiki') %>", {type: 'error'});
+  var $wiki_card = $("<%= j(render 'wikis/card', post: @post, mode: 'remote-detail', remote_post_form: true) %>");
+  $('#<%= params[:wiki_card_dom_id] %>').replaceWith($wiki_card);
+  parti_partial$($wiki_card);
+  $.scrollTo($wiki_card, 100, { offset: -100});
+<% else %>
+  if($('#<%= params[:wiki_card_dom_id] %> .js-wiki-conflict').length > 0) {
+    var $wiki_card = $("<%= j(render 'wikis/card', post: @post, mode: 'remote-detail', remote_post_form: true) %>");
+    $('#<%= params[:wiki_card_dom_id] %>').replaceWith($wiki_card);
+    parti_partial$($wiki_card);
+  } else {
+    $('form#<%= params[:form_dom_id] %> input[name=last_wiki_history_id]').val('<%= @post.wiki.wiki_histories.last.try(:id) %>');
+  }
+<% end %>

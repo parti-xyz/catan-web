@@ -6,7 +6,7 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
     setSticky();
   });
 
-  $(window).on('scroll', _.debounce(setSticky, 300));
+  $(window).on('scroll', _.debounce(setSticky, 100));
 
   function setSticky() {
     if(!inited) {
@@ -22,9 +22,18 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
     var $statusbar = $(container).find('.mce-statusbar');
 
     var viewportTopDelta = 0;
-    if($('#site-header').css('position') == 'fixed' && !$('body').hasClass('ios')) {
-      viewportTopDelta = $('#site-header').outerHeight();
+
+    if(!$('body').hasClass('ios')) {
+      var $offsets = $('.js-stickytoolbar-offset').filter(function () {
+        return $(this).css('position') == 'fixed';
+      });
+
+      $offsets.each(function() {
+        var absoluteTop = parseFloat($(this).outerHeight() + $(this).position().top);
+        viewportTopDelta = absoluteTop > viewportTopDelta ? absoluteTop : viewportTopDelta;
+      });
     }
+
     if (isSticky(viewportTopDelta)) {
       if($('body').hasClass('ios')) {
         $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
@@ -32,9 +41,10 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
       $(container).css({
         paddingTop: $toolbars.outerHeight()
       });
+      var top = (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta;
       $toolbars.css({
         position: 'absolute',
-        top: (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta,
+        top: top,
         width: '100%'
       });
       $(container).addClass('mce-catan-tinymce-sticky');

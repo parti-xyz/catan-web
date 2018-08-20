@@ -6,7 +6,8 @@
 = f.fields_for :wiki do |ff|
   = ff.text_area :title, placeholder: '제목을 넣어주세요...', class: 'form-control', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, maxlength: 50
   - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
+  - textarea_body_id = "wiki-form-body-#{SecureRandom.uuid}"
   %div{ id: textarea_error_id }
-    .js-tinymce.form-control.form-control-tinymce{ id: "post[wiki_attributes][body]", 'data-placeholder': ("내용..." if ff.object.body.blank?), 'data-tinymce-setting': 'wiki', class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+    .js-tinymce.form-control.form-control-tinymce{ 'data-target-id': "##{textarea_body_id}", 'data-placeholder': ("내용..." if ff.object.body.blank?), 'data-tinymce-setting': 'wiki', class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
       != ff.object.body
-    = ff.hidden_field :body, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'rule-maxlength': '4294967295', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 새로운 위키를 하나 더 작성해 보세요.', 'error-popover-target': "##{textarea_error_id}" }
+    = ff.hidden_field :body, id: textarea_body_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'rule-maxlength': '4294967295', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 새로운 위키를 하나 더 작성해 보세요.', 'error-popover-target': "##{textarea_error_id}" }

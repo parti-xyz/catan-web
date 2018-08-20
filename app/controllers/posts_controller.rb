@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:update_wiki]
   before_action :authenticate_user!, except: [:index, :show, :wiki, :poll_social_card, :survey_social_card, :modal, :more_comments]
   load_and_authorize_resource
   before_action :set_current_history_back_post
@@ -63,7 +64,14 @@ class PostsController < ApplicationController
       redirect_to params[:back_url].presence || smart_post_url(@post)
     else
       errors_to_flash @post
-      render 'edit'
+      render 'posts/edit'
+    end
+  end
+
+  def wiki
+    respond_to do |format|
+      format.html { redirect_to smart_post_url(@post) }
+      format.js
     end
   end
 
@@ -79,34 +87,51 @@ class PostsController < ApplicationController
   end
 
   def update_wiki
-    redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
+    if fetch_issue.blank? or private_blocked?(@issue)
+      respond_to do |format|
+        format.html { redirect_to root_path }
+        format.js { render_404 }
+      end
+      return
+    end
+
     render_404 and return if @post.wiki.blank?
     conflict = @post.wiki.wiki_histories.last.try(:id) != params[:last_wiki_history_id].try(:to_i)
     @list_url = smart_post_url(@post)
 
     @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
+
     if @post.wiki.changed?
       @post.wiki.format_body
       @post.strok_by(current_user)
       @post.wiki.last_author = @current_user
 
       if conflict
-        @post.wiki.conflicted_body = @post.wiki.body
-        @post.wiki.conflicted_title = @post.wiki.title
-        @post.wiki.title = @post.wiki.title_was
-        @post.wiki.body = @post.wiki.body_was
-        render :show
+        @post.wiki.build_conflict
+        respond_to do |format|
+          format.html { render :show }
+          format.js { render 'posts/update_wiki' }
+        end
       elsif @post.save
         @post.issue.strok_by!(current_user, @post)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
-        redirect_to params[:back_url].presence || smart_post_url(@post)
+        respond_to do |format|
+          format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
+          format.js { render 'posts/update_wiki' }
+        end
       else
         errors_to_flash @post
-        render :show
+        respond_to do |format|
+          format.html { render :show }
+          format.js { render 'application/show_flash' }
+        end
       end
     else
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to params[:back_url].presence || smart_post_url(@post)
+      respond_to do |format|
+        format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
+        format.js { render 'application/show_flash' }
+      end
     end
   end
 
@@ -183,8 +208,9 @@ class PostsController < ApplicationController
   end
 
   def show
+    return unless verify_group(@post.issue)
+
     add_reader(@post) if @post.pinned?
-    verify_group(@post.issue)
     @issue = @post.issue
     @list_url = smart_post_url(@post)
 

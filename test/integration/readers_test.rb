@@ -7,6 +7,7 @@ class ReadersTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:one))
     get post_path(posts(:post_talk1))
+    follow_redirect!
     assert posts(:post_talk1).read_by?(users(:one))
 
     get post_path(posts(:post_talk1))
@@ -19,6 +20,7 @@ class ReadersTest < ActionDispatch::IntegrationTest
 
     sign_in(users(:two))
     get post_path(posts(:post_talk1))
+    follow_redirect!
     refute posts(:post_talk1).read_by?(users(:two))
   end
 end

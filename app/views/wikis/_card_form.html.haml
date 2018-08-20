@@ -1,17 +1,25 @@
 - if can? :update, post.wiki
-  .wiki-form{ style: 'margin-bottom: 0' }
+  .wiki-form{ class: ('js-wiki-conflict' if post.wiki.conflict?), style: 'margin-bottom: 0' }
     - unless post.wiki.conflict?
-      = render 'wikis/form', post: post
+      = render 'wikis/form', post: post, remote_post_form: local_assigns[:remote_post_form], wiki_card_dom_id: local_assigns[:wiki_card_dom_id]
     - else
+      - conflicted_wiki_dom_id = "conflicted-wiki-#{SecureRandom.uuid}"
+      - force_vertical = (local_assigns[:mode] == 'remote-detail')
       .row
         .col-sm-12.col-lg-12
           .alert.alert-danger
-            %span.hidden-xs
-              @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{post.wiki.last_history.user.nickname} 님이 내용을 고쳤습니다. 오른쪽의 내용을 왼쪽 편집창에 적절히 합쳐주시기 바랍니다.
-            %span.visible-xs-block
-              @#{current_user.nickname} 님이 내용을 편집하는 도중에 @#{post.wiki.last_history.user.nickname} 님이 내용을 고쳤습니다. 아래쪽 내용을 위쪽 편집창에 적절히 합쳐주시기 바랍니다.
+            %p
+              = date_f(post.wiki.latest_history.created_at)
+              에 @#{post.wiki.last_history.user.nickname}님이 위키를 고쳤습니다. 해당 내용을 편집창에 표시합니다.
+              %br
+              회원님이 방금 작성하던 내용은
+              %a{ href: "##{conflicted_wiki_dom_id}" }
+                여기에서
+              살펴볼 수 있습니다.
+            %p
+              두 내용을 비교하여 적절히 합쳐주세요.
       .row
-        .col-sm-12.col-lg-6
+        .col-sm-12{ class: ('col-lg-6' unless force_vertical) }
           .post-card__last-stroked
             .media
               .media-left
@@ -24,9 +32,10 @@
                 %br
                 %span.date= date_f(post.wiki.latest_history.created_at)
           .conflict-target-editor
-            = render 'wikis/form', post: post
-        .col-sm-12.col-lg-6
-          %hr.hidden-lg
+            = render 'wikis/form', post: post, remote_post_form: local_assigns[:remote_post_form], wiki_card_dom_id: local_assigns[:wiki_card_dom_id]
+        .col-sm-12{ class: ('col-lg-6' unless force_vertical) }
+          %a.anchor{ id: conflicted_wiki_dom_id }
+          %hr{ class: ('hidden-lg' unless force_vertical) }
           .post-card__last-stroked
             .media
               .media-left
@@ -35,7 +44,7 @@
               .media-body
                 %strong.nickname
                   #{@current_user.nickname}
-                님이 방금 작성 중이었던 내용입니다. 내용이 저장되지 않았으니, 초록색 편집창에 반영한 후 저장해주세요.
+                님이 방금 작성하던 내용입니다. 내용이 저장되지 않았으니, 편집창에 반영한 후 저장해주세요.
           .wik-content.wiki-content--read-only.conflict-content
             = render 'wikis/read_only_wiki_content', wiki: post.wiki, for_conflict: true
-          %hr.hidden-lg
+          %hr{ class: ('hidden-lg' unless force_vertical) }

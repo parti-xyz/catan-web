@@ -163,7 +163,7 @@ ko:
       messages:
         created: 저장되었습니다.
         deleted: 삭제되었습니다.
-        conflicted_wiki: 방금 다른 멤버가 위키를 업데이트해서 저장하지 않았습니다. 무엇을 고쳤는지 살펴보고 다시 저장해 주세요.
+        conflicted_wiki: 방금 다른 멤버가 위키를 고쳤습니다. 회원님이 고친 내용은 저장되지 않았습니다. 무엇을 고쳤는지 살펴보고 다시 저장해 주세요.
         invited: 성공적으로 초대했습니다.
     errors:
       messages:

@@ -38,6 +38,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_403
+    self.response_body = nil
+    respond_to do |format|
+      format.html { render file: "#{Rails.root}/public/403.html", layout: false, status: 404 }
+      format.all { head 403 }
+    end
+  end
+
   def prepare_meta_tags(options={})
     set_meta_tags build_meta_options(options)
   end
@@ -95,10 +103,8 @@ class ApplicationController < ActionController::Base
       (controller_name == 'members' and action_name == 'join_group_form') or
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit')
     )
-
       redirect_to root_url
     end
-
   end
 
   def build_meta_options(options)
@@ -263,10 +269,16 @@ class ApplicationController < ActionController::Base
   end
 
   def verify_group(issue)
-    return if issue.blank?
-    return if !request.format.html?
+    return true if issue.blank?
+    return true if issue.displayable_group?(current_group)
 
-    redirect_to subdomain: issue.group.subdomain and return unless issue.displayable_group?(current_group)
+    if request.format.html?
+      redirect_to subdomain: issue.group.subdomain
+    else
+      render_403
+    end
+
+    false
   end
 
   def smart_search_for(model, q, options = {})
