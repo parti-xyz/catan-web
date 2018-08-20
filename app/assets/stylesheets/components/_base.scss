@@ -909,3 +909,11 @@ select.icon-select option {
     right: -5px;
   }
 }
+
+.small-margin-xs {
+  display: none;
+  @media (max-width: $screen-xs-max) {
+    margin-top: 0.5rem;
+    display: block;
+  }
+}
