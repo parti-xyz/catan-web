@@ -5,7 +5,7 @@
     = render 'group/members/tab_menu'
 
     - if current_group.try(:member?, current_user)
-      %section{ style: "padding-top: 20px" }
+      %section.default-padding-top
         %h4.group-heading
           내 프로필 관리
 
@@ -17,7 +17,7 @@
                 = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
 
     - if (current_user.try(:admin?) or current_group.organized_by?(current_user)) and current_group.invitations.any?
-      %section{ style: "padding-top: 20px" }
+      %section.default-padding-top
         %h4.group-heading
           초대 중
           .count-label-wrapper
@@ -44,7 +44,7 @@
                   %li
                     = link_to '초대 취소하기', invitation_path(invitation), method: :delete, data: { confirm: '정말 초대를 취소하시겠습니까?', 'disable-with': '취소 중...'},  remote: true
     - if current_group.member_request_users.any?
-      %section{ style: "padding-top: 20px" }
+      %section.default-padding-top
         %h4.group-heading
           가입신청
           .count-label-wrapper
@@ -54,7 +54,7 @@
             - user = member_request.user
             = render 'users/user', user: user, group: current_group, additional_buttons_partial: 'group/member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons', description: member_request.description
 
-    %section{ style: "padding-top: 20px" }
+    %section.default-padding-top
       %h4.group-heading
         활동 멤버
         .count-label-wrapper

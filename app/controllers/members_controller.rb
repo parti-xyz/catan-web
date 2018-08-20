@@ -73,4 +73,15 @@ class MembersController < ApplicationController
       format.html { redirect_to(request.referrer || smart_issue_home_path_or_url(@member.issue)) }
     end
   end
+
+  def update_profile
+    member = @issue.member_of current_user
+    member.description = params[:description] if member.present?
+    if member.save
+      flash[:success] = '그룹 내 프로필이 변경되었습니다.'
+    else
+      flash[:error] = t('errors.messages.unknown')
+    end
+    redirect_to smart_issue_members_url(@issue)
+  end
 end

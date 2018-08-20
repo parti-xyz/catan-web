@@ -4,7 +4,7 @@
   .container
     = render 'group/tab_menu', active: 'management'
 
-    %section{ style: "padding-top: 20px" }
+    %section.default-padding-top
       %h3{ style: 'font-weight: 200; margin-top: 0' }
         #{current_group.title} 오거나이저
         %span{ style: 'font-weight: 400' }#{current_user.nickname}
@@ -20,7 +20,7 @@
             %i.fa.fa-chevron-right
 
     - if @data.present?
-      %section{ style: "padding-top: 20px" }
+      %section.default-padding-top
         %h4.group-heading
           #{current_group.title}의 탄생부터 지금까지의 동향
         %div

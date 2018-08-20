@@ -107,6 +107,7 @@ Rails.application.routes.draw do
         delete :cancel
         delete :ban
         get :ban_form
+        post :update_profile
       end
     end
     resources :member_requests do

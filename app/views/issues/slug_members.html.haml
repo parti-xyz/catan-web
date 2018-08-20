@@ -2,23 +2,33 @@
 
 %section#issue-users
   .container
+    - if @issue.member? current_user
+      %section
+        %h4.group-heading
+          내 프로필 관리
+
+        .members-profile-form
+          = form_tag update_profile_issue_members_path(@issue), method: :post do
+            .input-group
+              = text_field_tag :description, @issue.member_of(current_user).try(:description) || "#{current_user.nickname}입니다", class: 'form-control'
+              %span.input-group-btn
+                = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+
     - if @issue.member_request_users.any?
-      %section#content-tab-section
-        .nav-tabs.message-tab
-          %h4
-            가입신청
-            .count-label-wrapper
-              .count-label= @issue.member_requests.count
+      %section.default-padding-top
+        %h4.group-heading
+          가입신청
+          .count-label-wrapper
+            .count-label= @issue.member_requests.count
         %ul.request-card-wrapper.list-unstyled.clearfix
           - @issue.member_request_users.each do |user|
             = render user, issue: @issue, additional_buttons_partial: 'member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons'
 
-    %section#content-tab-section
-      .nav-tabs.message-tab
-        %h4
-          가입멤버
-          .count-label-wrapper
-            .count-label= @issue.members.count
+    %section.default-padding-top
+      %h4.group-heading
+        가입멤버
+        .count-label-wrapper
+          .count-label= @issue.members.count
       .members-search-form
         = form_tag smart_issue_members_path(@issue), method: :get do
           = hidden_field_tag :sort, params[:sort]
