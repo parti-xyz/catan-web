@@ -33,7 +33,7 @@
   - if Issue.only_alive_of_group(current_group).any?
     %section#home{ style:"padding-bottom: 40px;" }
       .container
-        - if @recent_posts.try(:any?) and (@recent_posts.try(:current_page) || 0) <= 1
+        - if (@recent_posts.try(:current_page) || 0) <= 1
           %section{ style:"margin-top:20px; margin-bottom: 40px;" }
             .parties-all
               = link_to issues_path do
