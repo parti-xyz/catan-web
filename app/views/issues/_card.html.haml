@@ -43,7 +43,7 @@
             - cache ['issues-card-latest_comments_count_x', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
               - if issue.comments.latest.count > 0
                 %small +#{issue.comments.latest.count}
-        - if issue.comments_count > 999 or issue.posts_count > 999
+        - if issue.rookie? or issue.comments_count > 999 or issue.posts_count > 999
           = posts_count
           = comments_count
         - else
