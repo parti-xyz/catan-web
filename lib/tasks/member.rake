@@ -17,4 +17,26 @@ namespace :member do
       end
     end
   end
+
+  desc "공개그룹의 빠띠 멤버 중에 해당 개별의 멤버가 아닌 경우를 찾아 봅니다"
+  task :zombie => :environment do
+    Member.deleted.where(joinable_type: Issue).each do |member|
+      user = User.find_by(id: member.user_id)
+      next if user.blank?
+
+      issue = Issue.with_deleted.find_by(id: member.joinable_id)
+
+      group = issue.try(:group)
+      next if group == nil or group.private? or group.organized_by?(user)
+
+      issues = group.issues
+      if !issues.any? { |issue| issue.member?(user) }
+        member = group.member_of(user)
+        if member.present?
+          puts "#{group.slug} : #{user.nickname}"
+        end
+      end
+    end
+  end
+
 end
