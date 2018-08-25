@@ -39,8 +39,11 @@ class Wiki < ApplicationRecord
 
     return if body.blank?
 
-    self.remove_thumbnail = true
-    self.save!
+    begin
+      self.remove_thumbnail = true
+      self.save!
+    rescue => ignored
+    end
 
     file = Tempfile.new(["captire_wiki_#{id.to_s}", '.png'], 'tmp', :encoding => 'ascii-8bit')
     result = ApplicationController.renderer.new.render(
