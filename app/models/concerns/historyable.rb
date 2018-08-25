@@ -10,7 +10,11 @@ module Historyable
     scope :recent, -> { order(created_at: :desc).order(id: :desc) }
 
     def previous
-      @previous ||= self.sibling_histories.recent.where('created_at < ?', self.created_at).where('id < ?', self.id).first
+      @previous ||= if self.persisted?
+        self.sibling_histories.recent.where('created_at < ?', self.created_at).where('id < ?', self.id).first
+      else
+        self.sibling_histories.last
+      end
     end
 
     def has_previous?
