@@ -44,7 +44,7 @@
             .decision-content.decision-content--read-only.conflict-content
               .decision-body.decision-form
                 .form-control-tinymce.mce-content-body
-                  = decision_body_format(@post.issue, @post.conflicted_decision)
+                  = decision_body_format(@post.issue, @post.diff_conflicted_body)
           %hr
 
         .contents-header.xs-horizontal-padding

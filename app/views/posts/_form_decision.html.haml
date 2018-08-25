@@ -1,17 +1,15 @@
-.well.post-edit-form
+.post-edit-form
   = form_for [:update_decision, @post], html: { class: 'form-widget', novalidate: true, data: { action: 'parti-form-validation', 'submit-form-control': '.post-edit-form form input[type=submit]' } } do |f|
     - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
+    - decision_dom_id = "post-body-#{SecureRandom.uuid}"
     .form-widget-content{ id: textarea_error_id }
 
       .form-group.textarea-box.tinymce-wrapper-toggletoolbar
-        = f.label :decision
-        .js-tinymce{ id: "post[decision]", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+        %p.help-block
+          진행된 토론 내용이나 결정 사항을 기록하세요.
+        .js-tinymce{ 'data-target-id': "##{decision_dom_id}", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
           != @post.decision
-        = f.hidden_field :decision, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
-
-        = f.hidden_field :is_html_body, value: true
-
-        - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns .js-post-reference-btn-exclusive', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'file_sources': '#post-form-widget .js-post-editor-file_sources-wrapper .nested-fields'}
+        = f.hidden_field :decision, id: decision_dom_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
         = hidden_field_tag :last_decision_history_id, f.object.decision_histories.last.try(:id)
     .editor-btn.text-right
       = link_to '취소', @post, class: 'btn btn-default'

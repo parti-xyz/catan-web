@@ -45,6 +45,16 @@ section#decision-histories {
       border-radius: $border-radius-base;
       padding: 20px;
     }
+
+    .diff-removed {
+      background-color: lighten($brand-danger, 25%);
+    }
+    .diff-added {
+      background-color: lighten($brand-success, 25%);
+    }
+    .diff-touched {
+      background-color: lighten($brand-warning, 25%);
+    }
   }
 }
 

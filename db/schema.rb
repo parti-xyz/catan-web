@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_17_215045) do
+ActiveRecord::Schema.define(version: 2018_08_25_062842) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -492,7 +492,7 @@ ActiveRecord::Schema.define(version: 2018_08_17_215045) do
     t.string "last_stroked_for"
     t.integer "wiki_id"
     t.text "body_ngram", limit: 16777215
-    t.text "decision"
+    t.text "decision", limit: 16777215
     t.integer "folder_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["folder_id"], name: "index_posts_on_folder_id"

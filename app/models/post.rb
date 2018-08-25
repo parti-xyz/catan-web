@@ -534,6 +534,15 @@ class Post < ApplicationRecord
     :of_group
   end
 
+  def build_conflict_decision
+    self.conflicted_decision = self.decision
+    self.decision = self.decision_was
+  end
+
+  def diff_conflicted_body
+    self.decision_histories.last.diff_body(self.conflicted_decision)
+  end
+
   private
 
   def reindex_for_search

@@ -148,8 +148,7 @@ class PostsController < ApplicationController
     end
 
     if conflict
-      @post.conflicted_decision = @post.decision
-      @post.decision = @post.decision_was
+      @post.build_conflict_decision
       render :edit_decision
     elsif @post.save
       @post.issue.strok_by!(current_user, @post)
