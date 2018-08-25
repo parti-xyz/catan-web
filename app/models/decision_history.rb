@@ -8,7 +8,7 @@ class DecisionHistory < ApplicationRecord
   end
 
   def diffable_body
-    ActionController::Base.helpers.simple_format(body)
+    body
   end
 
   def touched_body?
