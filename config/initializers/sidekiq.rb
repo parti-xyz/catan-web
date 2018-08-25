@@ -2,17 +2,20 @@ if !ENV['SIDEKIQ'] and (Rails.env.development? or Rails.env.test?)
   require 'sidekiq/testing'
   Sidekiq::Testing.inline!
 else
-  redis_config = YAML.load_file(Rails.root + 'config/redis.yml')[Rails.env]
+  redis_file = (Rails.root + 'config/redis.yml')
 
-  Sidekiq.configure_server do |config|
-    config.redis = {
-      url: "redis://#{redis_config['host']}:#{redis_config['port']}"
-    }
-  end
-  Sidekiq.configure_client do |config|
-    config.redis = {
-      url: "redis://#{redis_config['host']}:#{redis_config['port']}"
-    }
+  if File.exists?(redis_file)
+    redis_config = YAML.load_file(redis_file)[Rails.env]
+    Sidekiq.configure_server do |config|
+      config.redis = {
+        url: "redis://#{redis_config['host']}:#{redis_config['port']}"
+      }
+    end
+    Sidekiq.configure_client do |config|
+      config.redis = {
+        url: "redis://#{redis_config['host']}:#{redis_config['port']}"
+      }
+    end
   end
 
   schedule_file = "config/schedule.yml"
