@@ -31,6 +31,16 @@ class Message < ApplicationRecord
     JSON.parse(action_params)
   end
 
+  def specific_desc_striped_tags(length = 0)
+    striped_body = action_params_hash["decision_body"].try(:strip)
+    striped_body = '' if striped_body.nil?
+    sanitized_body = sanitize_html striped_body
+    sanitized_body = nil if sanitized_body.blank?
+
+    return sanitized_body if length <= 0
+    return sanitized_body.try(:truncate, length)
+  end
+
   def unread?
     read_at.blank?
   end
@@ -47,5 +57,11 @@ class Message < ApplicationRecord
       end
     end
     @_poly_hash
+  end
+
+  private
+
+  def sanitize_html text
+    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
   end
 end
