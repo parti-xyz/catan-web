@@ -1,4 +1,18 @@
 class Post < ApplicationRecord
+  include Grape::Entity::DSL
+  entity do
+    include Rails.application.routes.url_helpers
+    include PartiUrlHelper
+
+    expose :specific_desc_striped_tags
+    with_options(format_with: lambda { |dt| dt.iso8601 }) do
+      expose :created_at, :last_stroked_at
+    end
+    expose :url do |instance|
+      smart_post_url(instance)
+    end
+  end
+
   HOT_LIKES_COUNT = 3
 
   include AutoLinkableBody

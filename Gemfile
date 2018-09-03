@@ -64,6 +64,7 @@ gem 'grape_on_rails_routes', '~> 0.3.1'
 gem 'grape-route-helpers', '~> 2.0'
 gem 'grape_logging', '~> 1.3'
 gem 'grape-cancan'
+gem 'grape-entity', '~> 0.7.1'
 gem 'wine_bouncer', '~> 1.0', '>= 1.0.3'
 gem 'fcm', '~> 0.0.2'
 
