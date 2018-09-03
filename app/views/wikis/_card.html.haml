@@ -15,8 +15,8 @@
   - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
   = render 'posts/last_stroked_for', post: post
 
-  - if ['detail', 'remote-detail'].include? local_assigns[:mode]
-    - if can?(:update, post.wiki)
+  - if ['detail', 'remote-detail', 'preview-detail'].include? local_assigns[:mode]
+    - if can?(:update, post.wiki) and 'preview-detail' != local_assigns[:mode]
       = render 'wikis/card_form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
     - else
       %h4.wiki-title

@@ -70,8 +70,18 @@ class PostsController < ApplicationController
 
   def wiki
     respond_to do |format|
-      format.html { redirect_to smart_post_url(@post) }
-      format.js
+      format.html {
+        return unless verify_group(@post.issue)
+        if @post.private_blocked?(current_user)
+          flash[:notice] = t('unauthorized.default')
+          redirect_to root_path and return
+        end
+      }
+      format.js {
+        if @post.private_blocked?(current_user)
+          flash[:notice] = t('unauthorized.default')
+        end
+      }
     end
   end
 
