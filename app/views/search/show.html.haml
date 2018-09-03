@@ -105,7 +105,7 @@
                 사람들과 나누고 싶은 나만의 관심사가 있습니까?
                 %span.text-nowrap 지금 찾아보세요.
 
-            .posts.seach-form{ style: 'margin-top: 60px' }
+            .posts.search-form{ style: 'margin-top: 60px' }
               = form_tag search_url(subdomain: nil), method: :get do
                 - if current_group.present?
                   = hidden_field_tag :group_slug, current_group.slug

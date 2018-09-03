@@ -1537,7 +1537,7 @@ $(function(){
         var has_shown_issue_in_group = false;
 
         $(this).find('js-issue-line-control').addClass('js-drawer-filter-item-hidden');
-        $(this).find('.js-my-menu-seachable-line').each(function() {
+        $(this).find('.js-my-menu-searchable-line').each(function() {
           // If the list item does not contain the text phrase fade it out
           if ($(this).text().search(new RegExp(filter, "i")) < 0) {
             $(this).addClass('js-drawer-filter-item-hidden');
@@ -1548,7 +1548,7 @@ $(function(){
           }
         });
 
-        $(this).find('.js-my-menu-seachable-group-line').each(function() {
+        $(this).find('.js-my-menu-searchable-group-line').each(function() {
           // If the list item does not contain the text phrase fade it out
           if ($(this).text().search(new RegExp(filter, "i")) >= 0) {
             has_shown_issue_in_group = true;

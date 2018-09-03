@@ -3,7 +3,7 @@
     - divider_dom_id = "js-more-sidemenu-divider-#{SecureRandom.uuid}"
     %li.divider.divider-small{ id: divider_dom_id }
     %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group
-      .title.cursor-pointer.js-my-menu-seachable-group-line{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
+      .title.cursor-pointer.js-my-menu-searchable-group-line{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
         - latest_issues_count = menu_group.visiable_latest_issues_count
         - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
         - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
@@ -29,7 +29,7 @@
 
           - if issues.count < magic_count * 2
             - issues.sort_by_name.each do |issue|
-              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-seachable-line"
+              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-searchable-line"
 
           - else
             - fixed_issues = []
@@ -48,10 +48,10 @@
               - issues = issues.where.not(id: hot_issues.to_a)
 
             - Issue.where(id: fixed_issues).sort_by_name.each do |issue|
-              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-seachable-line"
+              = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-searchable-line"
 
             - if issues.any?
-              %li.js-my-menu-seachable-line.js-issue-line-control.issue-more.clearfix
+              %li.js-my-menu-searchable-line.js-issue-line-control.issue-more.clearfix
                 %a.js-show-more-sidemenu-issues(href="#")
                   %i.fa.fa-caret-down
                   더 보기
@@ -60,7 +60,7 @@
                   설정
 
               - issues.sort_by_name.each do |issue|
-                = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-seachable-line collapse js-more-sidemenu-collapse"
+                = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-searchable-line collapse js-more-sidemenu-collapse"
 
               %li.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse.clearfix
                 %a.js-show-less-sidemenu-issues{ href: "##{divider_dom_id}" }

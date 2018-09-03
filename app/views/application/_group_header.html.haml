@@ -37,7 +37,7 @@
                   로딩 중...
 
       %ul.nav.navbar-nav.navbar-right
-        %li.seach-menu
+        %li.search-menu
           = form_tag search_url(subdomain: nil), method: :get, class: 'form-inline' do
             - if current_group.present?
               = hidden_field_tag :group_slug, current_group.slug
