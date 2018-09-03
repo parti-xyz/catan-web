@@ -23,6 +23,9 @@
 }
 
 .parti-folders {
+  .folder-posts > .item-folder:first-child {
+    padding-top: 8px;
+  }
   .item-folder {
     padding: 4px 0;
     &:first-child {
@@ -31,6 +34,7 @@
     .folder-title,
     .folder-title a {
       color: $gray;
+      font-weight: 600;
       &:hover {
         color: $base-brand-primary;
       }

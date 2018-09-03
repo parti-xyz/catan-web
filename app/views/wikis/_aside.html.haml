@@ -18,8 +18,8 @@
               - else
                 %i.fa.fa-folder.js-folder-item-icon
               = parent_folder.title
-              - if posts.any?
-                (#{posts.count})
+              - if posts.any? or parent_folder.children.any?
+                (#{("#{parent_folder.children.count}/" if parent_folder.children.any?)}#{posts.count})
             %ul.list-unstyled.folder-posts.js-folder-posts{ class: ('collapse' if parent_folder != current_folder and !child_folders.include?(current_folder)) }
               - child_folders.each do |child_folder|
                 - child_posts = child_folder.posts.having_wiki_sorted_by_title(:active)

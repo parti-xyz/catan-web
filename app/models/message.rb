@@ -48,5 +48,4 @@ class Message < ApplicationRecord
     end
     @_poly_hash
   end
-
 end
