@@ -22,11 +22,19 @@ class ApplicationController < ActionController::Base
     end
     rescue_from CanCan::AccessDenied do |exception|
       self.response_body = nil
-      redirect_to root_url, :alert => exception.message
+      if request.format.html?
+        redirect_to root_url, :alert => exception.message
+      else
+        render_403
+      end
     end
     rescue_from ActionController::InvalidCrossOriginRequest, ActionController::InvalidAuthenticityToken do |exception|
       self.response_body = nil
-      redirect_to root_url, :alert => I18n.t('errors.messages.invalid_auth_token')
+      if request.format.html?
+        redirect_to root_url, :alert => I18n.t('errors.messages.invalid_auth_token')
+      else
+        render_403
+      end
     end
   end
 
@@ -34,15 +42,15 @@ class ApplicationController < ActionController::Base
     self.response_body = nil
     respond_to do |format|
       format.html { render file: "#{Rails.root}/public/404.html", layout: false, status: 404 }
-      format.all { head 404 }
+      format.js { head 404 }
     end
   end
 
   def render_403
     self.response_body = nil
     respond_to do |format|
-      format.html { render file: "#{Rails.root}/public/403.html", layout: false, status: 404 }
-      format.all { head 403 }
+      format.html { render file: "#{Rails.root}/public/403.html", layout: false, status: 403 }
+      format.js { head 403 }
     end
   end
 
