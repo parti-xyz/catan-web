@@ -1,0 +1,7 @@
+%section.contents-page#posts
+  .container
+    .post-card
+      .post-card__post
+        .post-line[@post]
+          .post-body
+            = render 'wikis/card', post: @post, mode: 'preview-detail'
