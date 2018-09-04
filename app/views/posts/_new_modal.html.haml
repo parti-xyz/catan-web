@@ -1,0 +1,9 @@
+- if user_signed_in?
+  .modal-content
+    .modal-body
+      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button", :style => 'top: -1em; right: -1em; position: absolute; opacity: 1; color: #aaa; text-shadow: none'}
+        %span.fa-stack
+          %i.fa.fa-circle.fa-stack-1x{ style: 'font-size: 1.2em;' }
+          %i.fa.fa-times-circle.fa-stack-1x.fa-inverse
+      .post-editor.post-editor-modal.js-parti-editor-selector-wrapper
+        = render 'posts/post_editor', remote: false

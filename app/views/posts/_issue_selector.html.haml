@@ -1,4 +1,4 @@
-.parti-select
+.parti-select{ id: local_assigns[:dom_id] }
   %select.js-parti-editor-selector.collapse(data-live-search="true" data-width="100%" title="게시할 빠띠를 골라 주세요")
     - latest_issue_ids = current_user.latest_posted_issues(5)
     - if latest_issue_ids.any?

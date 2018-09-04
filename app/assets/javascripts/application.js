@@ -202,7 +202,12 @@ var parti_prepare_form_validator = function($base) {
 
             setTimeout(function() { $popover_target.popover("hide"); }, 3000);
             if(index == 0) {
-              $.scrollTo($popover_target, 100, { offset: -100, onAfter: function(target, settings) {
+              var $scrollTarget = $(window);
+              var $scrollTargetModal = $(value.element).closest('.modal');
+              if($(value.element).closest('.modal').length > 0) {
+                $scrollTarget = $scrollTargetModal;
+              }
+              $scrollTarget.scrollTo($popover_target, 100, { offset: -100, onAfter: function(target, settings) {
                 return $popover_target.popover("show");
               } } );
             } else {

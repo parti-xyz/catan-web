@@ -47,6 +47,11 @@
                 %button.btn.btn-link
                   %i.fa.fa-search
         - if user_signed_in?
+          %li.write-menu
+            = link_to new_post_path, remote: true do
+              %i.fa.fa-pencil{style:"font-size: 18px;"}
+              작성
+        - if user_signed_in?
           %li.profile-menu.dropdown
             %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
               .thumb.circle-24.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}

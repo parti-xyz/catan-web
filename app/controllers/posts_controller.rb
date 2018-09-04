@@ -30,8 +30,10 @@ class PostsController < ApplicationController
       flash[:success] = I18n.t('activerecord.successful.messages.created')
     end
 
-    back_url = params[:back_url].presence || smart_issue_home_path_or_url(@issue)
-    @current_issue = @post.issue if back_url == smart_issue_home_url(@issue)
+    back_url = params[:back_url].presence || smart_post_url(@post)
+    if params[:fixed_issue_id] == 'true'
+      @current_issue = @post.issue
+    end
 
     respond_to do |format|
       format.html {
@@ -65,6 +67,14 @@ class PostsController < ApplicationController
     else
       errors_to_flash @post
       render 'posts/edit'
+    end
+  end
+
+  def new
+    # back url
+    @list_url = ''
+    respond_to do |format|
+      format.js
     end
   end
 

@@ -27,7 +27,7 @@
   @media (max-width: $screen-xs-max) {
     border-radius: 0;
   }
-  &:hover {
+  &:not(.post-editor-modal):hover {
     border: 1px solid $brand-primary-light;
     -webkit-box-shadow: 4px 4px 4px 0px #deddda;
     -moz-box-shadow: 4px 4px 4px 0px #deddda;
