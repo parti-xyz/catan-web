@@ -1090,6 +1090,10 @@ $(function(){
     }
 
     function check_remotipart($form) {
+      if($form.data('remote') !== true) {
+        return;
+      }
+
       var count = $form.find('.js-post-editor-file_sources-wrapper .nested-fields:visible').length;
       var $need_remotipart = $form.find("input[name='need_remotipart']");
       if ($need_remotipart.length <= 0) {
