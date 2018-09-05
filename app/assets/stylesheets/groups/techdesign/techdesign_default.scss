@@ -1,0 +1,21 @@
+@import "variables";
+@import "groups/techdesign/extended_variables";
+@import "groups/techdesign/base";
+
+.key-page{
+  background-position: center;
+  background-size: cover;
+  .key-page-desc{
+    width:500px;
+    padding:0 50px 20px;
+    .key-page-title{
+      color: white;
+      padding: 50px 20px;
+      margin: 0;
+      h1 {
+        font-size: 30px;
+        font-weight: 200;
+      }
+    }
+  }
+}
