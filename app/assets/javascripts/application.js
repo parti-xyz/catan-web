@@ -538,6 +538,43 @@ var parti_prepare = function($base, force) {
     });
   });
 
+
+  // 에디터 파일 추가/삭제 버튼
+  $.parti_apply($base, '.js-post-editor-file_sources-wrapper', function(elm) {
+    $(elm).on('cocoon:after-insert',function (e, item){
+      item.find("input[type='file']").trigger('click');
+    });
+
+    $(elm).on('cocoon:after-remove',function (e, item){
+      var $form = $(e.currentTarget).closest('form');
+      var has_image = false;
+      $form.find(".js-form-group-images input[type='file']").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_image = true; }
+      });
+      $form.find(".js-form-group-images input.js-id").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_image = true; }
+      });
+
+      if(!has_image) {
+        $form.find('.js-form-group-images').removeClass('js-any');
+      }
+
+      var has_file = false;
+      $form.find(".js-form-group-files input[type='file']").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_file = true; }
+      });
+      $form.find(".js-form-group-files input.js-id").each(function(index, elm) {
+        if($.is_present($(elm).val())) { has_file = true; }
+      });
+
+      if(!has_file) {
+        $form.find(".js-form-group-files").removeClass('js-any');
+      }
+
+      $form.trigger('parti-form-after-removing-attachment-input');
+    });
+  });
+
   // 게시글 쓸때 빠띠 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
@@ -1030,7 +1067,7 @@ $(function(){
     e.preventDefault();
   });
 
-  // editor subforms
+  // 글쓰기 - 파일업로드
   (function() {
     var formatBytes = function(bytes,decimals) {
        if(bytes == 0) return '0 Bytes';
@@ -1105,35 +1142,8 @@ $(function(){
       check_remotipart($form);
     });
 
-    $('body').on('cocoon:after-insert', '.js-post-editor-file_sources-wrapper', function(e, item) {
-      item.find("input[type='file']").trigger('click');
-    });
-    $('body').on('cocoon:after-remove', '.js-post-editor-file_sources-wrapper', function(e, item) {
-      var $form = $(e.currentTarget).closest('form');
-      var has_image = false;
-      $form.find(".js-form-group-images input[type='file']").each(function(index, elm) {
-        if($.is_present($(elm).val())) { has_image = true; }
-      });
-      $form.find(".js-form-group-images input.js-id").each(function(index, elm) {
-        if($.is_present($(elm).val())) { has_image = true; }
-      });
-
-      if(!has_image) {
-        $form.find('.js-form-group-images').removeClass('js-any');
-      }
-
-      var has_file = false;
-      $form.find(".js-form-group-files input[type='file']").each(function(index, elm) {
-        if($.is_present($(elm).val())) { has_file = true; }
-      });
-      $form.find(".js-form-group-files input.js-id").each(function(index, elm) {
-        if($.is_present($(elm).val())) { has_file = true; }
-      });
-
-      if(!has_file) {
-        $form.find(".js-form-group-files").removeClass('js-any');
-      }
-
+    $('body').on('parti-form-after-removing-attachment-input', 'form', function(e) {
+      $form = $(e.currentTarget);
       check_to_hide_or_show_add_link($form);
       check_remotipart($form);
     });
@@ -1905,7 +1915,7 @@ $(function(){
   $(document).on('shown.bs.modal', '#js-modal-placeholder > .modal', function(e) {
     $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('collapse');
     $('#js-modal-placeholder .js-modal-placeholder-action-dialog').removeClass('collapse');
-    parti_partial$($('#js-modal-placeholder .js-modal-placeholder-action-dialog'), true);
+    parti_partial$($('#js-modal-placeholder .js-modal-placeholder-action-dialog'));
     $('body').addClass('shown-modal-placeholder');
   });
 
@@ -1914,6 +1924,7 @@ $(function(){
     $action_dialog.removeClass();
     $action_dialog.addClass('modal-dialog js-modal-placeholder-action-dialog collapse');
     $action_dialog.html('');
+    $('#js-modal-placeholder .js-modal-placeholder-action-dialog').data('parti-prepare-arel', '')
 
     var $loading_dialog = $('#js-modal-placeholder .js-modal-placeholder-loading-dialog')
     $loading_dialog.removeClass();
