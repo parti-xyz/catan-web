@@ -53,6 +53,7 @@ database.yml
   FCM_KEY: xx
   MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android: xx
   MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_ios: xx
+  APPLE_APP_SITE_ASSOCIATION_APP_ID: xx
 ```
 
 master.key와 credentials.yml.enc를 생성합니다.

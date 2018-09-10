@@ -104,6 +104,7 @@ gem 'rails-settings-cached'
 gem 'diffy'
 gem 'nokogiri-diff'
 gem 'rack-cors', :require => 'rack/cors'
+gem 'apple-app-site-association', '~> 0.1.2'
 
 # crawling
 gem 'mechanize', '~> 2.7', '>= 2.7.5'

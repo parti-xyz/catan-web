@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     end
   end
 
+  mount Apple::App::Site::Association, at: '/'
   use_doorkeeper
   mount API, at: '/'
 
