@@ -24,7 +24,7 @@ namespace :user do
       # post_ids_for_file_sources = FileSource.where(post: user.posts).select(:post_id).distinct.pluck(:post_id)
       group_ids_for_members = user.members.where(joinable_type: "Group").select(:joinable_id).distinct.pluck(:joinable_id)
       issue_ids_for_members = user.members.where(joinable_type: "Issue").select(:joinable_id).distinct.pluck(:joinable_id)
-      post_ids_for_readers1 = Reader.where(member: user.members).select(:post_id).distinct.pluck(:post_id)
+      post_ids_for_readers1 = Reader.where(user: user).select(:post_id).distinct.pluck(:post_id)
       # post_ids_for_readers2 = Reader.where(post: user.posts).select(:post_id).distinct.pluck(:post_id)
 
       user.destroy!
