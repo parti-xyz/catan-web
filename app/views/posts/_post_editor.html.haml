@@ -10,6 +10,11 @@
       - post_body_dom_id = "post-body-#{SecureRandom.uuid}"
 
       .form-widget-content{ id: textarea_error_id }
+        .post-form-pin-button.js-post-form-pin-button{ class: ('collapse' unless can?(:pin, local_assigns[:current_issue])) }
+          .checkbox
+            %label.remember_me
+              = f.check_box :pinned
+              공지로 등록
         .user-info
           = render 'users/post_byline', user: current_user
         = hidden_field_tag :back_url, @list_url || request.original_url

@@ -198,7 +198,7 @@ class PostsController < ApplicationController
 
   def pin
     need_to_notification = @post.pinned_at.blank?
-    @post.assign_attributes(pinned: true, last_stroked_at: DateTime.now, pinned_at: DateTime.now)
+    @post.assign_attributes(pinned: true, pinned_at: DateTime.now)
     @post.strok_by(current_user)
     @post.save!
     @post.issue.strok_by!(current_user, @post)
@@ -404,7 +404,8 @@ class PostsController < ApplicationController
     wiki_attributes = [:id, :title, :body] if wiki.present?
 
     params.require(:post)
-      .permit(:body, :issue_id, :has_poll, :has_survey, :is_html_body, :decision,
+      .permit(:body, :issue_id, :has_poll, :has_survey,
+        :is_html_body, :decision, (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: file_sources_attributes,
         poll_attributes: poll_attributes, survey_attributes: survey_attributes,
         wiki_attributes: wiki_attributes)

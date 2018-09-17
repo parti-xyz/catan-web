@@ -39,6 +39,9 @@ class Ability
       can [:pin, :unpin, :readers, :unreaders], Post do |post|
         user.is_organizer?(post.issue)
       end
+      can [:pin], Issue do |issue|
+        user.is_organizer?(issue)
+      end
 
       can [:edit_decision, :update_decision, :decision_histories], [Post] do |post|
         if post.decisionable?(user)

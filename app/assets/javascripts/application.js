@@ -579,12 +579,29 @@ var parti_prepare = function($base, force) {
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
     $(elm).on('hide.bs.select', function(e) {
-      var select_value = $(e.target).find('select').andSelf().val();
-      var $form = $(e.target).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form')
-      var $input_elm = $form.find('input[name*="[issue_id]"]');
+      var $select_box = $(e.currentTarget);
+      var $form = $(e.currentTarget).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form');
 
+      var $input_elm = $form.find('input[name*="[issue_id]"]');
+      var select_value = $select_box.val();
       $input_elm.val(select_value);
       $input_elm.trigger('parti-need-to-validate');
+
+      var $selected_option = $select_box.find(":selected");
+      if($selected_option) {
+        var $pin_check_box_wrapper = $form.find('.js-post-form-pin-button');
+        if($selected_option.data('can-pin') == true) {
+          $pin_check_box_wrapper.show();
+        } else {
+          $pin_check_box_wrapper.hide();
+        }
+      }
+    });
+    $(elm).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+      var $select_box = $(e.currentTarget);
+      var $form = $(e.currentTarget).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form');
+      var $pin_check_box = $form.find('.js-post-form-pin-button input[type="checkbox"]');
+      $pin_check_box.prop('checked', false);
     });
     $(elm).on('loaded.bs.select', function(e) {
       $(this).show();

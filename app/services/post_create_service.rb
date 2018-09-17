@@ -18,11 +18,20 @@ class PostCreateService
 
     @post.setup_link_source
     set_current_user_to_options(@post, @current_user)
+
+    @post.pinned = (@post.pinned? and Ability.new(@current_user, @post.issue.group).can?(:pin, @post))
+    if @post.pinned?
+      @post.pinned_at = DateTime.now
+    end
+
     return false unless @post.save
 
     @post.issue.strok_by!(@current_user, @post)
     crawling_after_creating_post
     @post.perform_mentions_async
+    if @post.pinned?
+      PinJob.perform_async(@post.id, @current_user.id)
+    end
 
     return true
   end
