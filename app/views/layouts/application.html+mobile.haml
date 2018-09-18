@@ -4,6 +4,8 @@
     %meta{:charset => "utf-8"}
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
     %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
+    - unless is_mobile_app_get_request?(request)
+      = render 'application/smart_app_banner'
     = display_meta_tags
 
     = render 'favicons'
@@ -49,6 +51,8 @@
 
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)
+    - unless is_mobile_app_get_request?(request)
+      = javascript_include_tag 'smartbanner'
     #fb-root
     :javascript
       (function(d, s, id) {
