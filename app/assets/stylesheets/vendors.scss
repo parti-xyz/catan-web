@@ -9,7 +9,7 @@
 @import "photoswipe/photoswipe";
 @import "photoswipe/default-skin/default-skin";
 @import "bootstrap-datepicker3";
-@import "smartbanner";
+@import "smart-app-banner";
 
 // photoswipe
 .pswp {
@@ -67,9 +67,4 @@
   position: fixed;
   top: $header-menu-height-mobile;
 }
-.smartbanner__info__author {
-  word-break: keep-all;
-  @media only screen and (max-width: 350px){
-    max-width: 90%;
-  }
-}
+

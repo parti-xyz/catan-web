@@ -43,6 +43,7 @@
 //= require bootstrap-datepicker.kr.min
 //= require jquery.dirrty
 //= require jquery.redirect
+//= require smart-app-banner
 
 // blank
 $.is_blank = function (obj) {

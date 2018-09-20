@@ -5,7 +5,8 @@
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
     %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
     - unless is_mobile_app_get_request?(request)
-      = render 'application/smart_app_banner'
+      %meta{ name: 'apple-itunes-app', content: 'app-id=1362474504' }
+      %meta{ name: 'google-play-app', content: 'app-id=xyz.parti.catan' }
     = display_meta_tags
 
     = render 'favicons'
@@ -52,7 +53,21 @@
     = javascript_include_tag 'application'
     = yield :script if content_for?(:script)
     - unless is_mobile_app_get_request?(request)
-      = javascript_include_tag 'smartbanner'
+      :javascript
+        new SmartBanner({
+          title: '빠띠앱',
+          author: '빠흐띠',
+          button: 'VIEW',
+          store: {
+              ios: 'On the App Store',
+              android: 'In Google Play'
+          },
+          price: {
+              ios: 'FREE',
+              android: 'FREE'
+          },
+          icon: '#{image_url('icon-app.png')}'
+        });
     #fb-root
     :javascript
       (function(d, s, id) {
