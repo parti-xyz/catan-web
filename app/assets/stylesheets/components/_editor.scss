@@ -416,7 +416,7 @@
     color: $gray;
     font-size: $font-size-medium;
   }
-  .help-block a {
+  .help-block a:not(.btn) {
     color: $gray;
     font-weight: bold;
     text-decoration: underline;

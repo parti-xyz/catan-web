@@ -65,6 +65,7 @@ class Survey < ApplicationRecord
   end
 
   def changable_multiple_select?
+    return true unless persisted?
     return true unless multiple_select?
     feedbacks.group(:user_id).having('count(id) > 1').empty?
   end

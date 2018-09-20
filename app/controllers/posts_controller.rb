@@ -58,6 +58,9 @@ class PostsController < ApplicationController
     @post.format_body
 
     @post.setup_link_source(@post.body_was)
+    (@post.survey.try(:options) || []).each do |option|
+      option.user = current_user unless option.persisted?
+    end
 
     if @post.save
       crawling_after_updating_post

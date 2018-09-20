@@ -77,12 +77,14 @@
     }
   }
   .form-groups {
-    padding: 12px;
+    padding: 12px 18px;
     border-top: 1px solid $gray-less-lighter;
-
     .form-group {
       position: relative;
       margin-bottom: 0;
+      &.form-group-margin-bottom {
+        margin-bottom: 15px;
+      }
       a.remove-upload-btn {
         color: white;
         background: $gray;

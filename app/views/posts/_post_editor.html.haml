@@ -52,30 +52,29 @@
           .help-block.clearfix
             .pull-right
               %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-poll-field') } 찬반투표 취소
-          .form-groups
-            = f.fields_for :poll, Poll.new do |ff|
-              .form-group
+          = f.fields_for :poll, Poll.new do |ff|
+            .form-groups
+              .form-group.form-group-margin-bottom
                 = ff.label :title do
                   찬반투표 제목
                 = ff.text_field :title, maxlength: 100, class: 'form-control', placeholder: 'ex. 탕수육소스는 찍어먹어야합니다', data: { 'rule-required': true }
-              .form-groups
-                .form-inline
-                  %label 진행 기간을 선택해 주세요
-                  %div
-                    %span 지금부터 &nbsp;
-                    = ff.select :duration_days, options_for_select([0, 1, 3, 7].map { |i| [ (i == 0 ? "계속" : "#{i}일 동안"), i] }, ff.object.duration_days), {}, class: 'form-control', style: 'width: 50%; display: inline-block'
-              .form-groups
-                .form-inline
-                  .checkbox
-                    %label
-                      = ff.check_box :hidden_intermediate_result
-                      종료 될 때까지 중간 투표 집계를 숨깁니다.
+              .form-group.form-inline
+                %label 진행 기간을 선택해 주세요
+                %div
+                  %span 지금부터 &nbsp;
+                  = ff.select :duration_days, options_for_select([0, 1, 3, 7].map { |i| [ (i == 0 ? "계속" : "#{i}일 동안"), i] }, ff.object.duration_days), {}, class: 'form-control', style: 'width: 50%; display: inline-block'
+            .form-groups
+              .form-inline
+                .checkbox
+                  %label
+                    = ff.check_box :hidden_intermediate_result
+                    종료 될 때까지 중간 투표 집계를 숨깁니다.
 
-                .form-inline
-                  .checkbox
-                    %label
-                      = ff.check_box :hidden_voters
-                      누가 어디에 투표했는지 익명으로 진행합니다.
+              .form-inline
+                .checkbox
+                  %label
+                    = ff.check_box :hidden_voters
+                    누가 어디에 투표했는지 익명으로 진행합니다.
 
         .post-survey-field.form-widget-extra-item.hidden
           .help-block.clearfix

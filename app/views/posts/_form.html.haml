@@ -1,121 +1,177 @@
-.well.post-edit-form
-  = form_for @post, html: { novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '.post-edit-form form input[type=submit]' } } do |f|
-    = f.hidden_field :has_poll, value: "#{ 'true' if @post.poll.present? }"
-    = f.hidden_field :has_survey, value: "#{ 'true' if @post.survey.present? }"
+- if @post.poll.blank?
+  - @post.poll = Poll.new
+  - has_poll = false
+- else
+  - has_poll = true
+- if @post.survey.blank?
+  - @post.survey = Survey.new
+  - has_survey = false
+- else
+  - has_survey = true
 
-    - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
-    - post_body_dom_id = "post-body-#{SecureRandom.uuid}"
-    .form-group.tinymce-wrapper-toggletoolbar{ id: textarea_error_id }
-      = f.label :body
-      .js-tinymce.form-control.form-control-tinymce{ 'data-target-id': "##{post_body_dom_id}", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
-        != @post.body
-      = f.hidden_field :body, id: post_body_dom_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
-      = f.hidden_field :is_html_body, value: true
+- if user_signed_in?
+  - issue_selector_dom_id = "issue-selector-#{SecureRandom.uuid}"
+  .post-editor
+    #post-form-widget.form-widget-container{ style: 'display: block' }
+      = form_for @post, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
+        - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
+        - post_body_dom_id = "post-body-#{SecureRandom.uuid}"
 
-    - if @post.poll.present?
-      = f.fields_for :poll do |ff|
-        .form-group
-          = ff.label :title
-          = ff.text_field :title, placeholder: '찬반투표 제목: ex. 탕수육소스는 찍어먹어야합니다', class: 'form-control'
+        .form-widget-content{ id: textarea_error_id }
+          .user-info
+            = render 'users/post_byline', user: current_user
+          = f.hidden_field :has_poll, value: has_poll
+          = f.hidden_field :has_survey, value: has_survey
 
-        .form-group
-          = ff.label :duration_days do
-            진행 기간을 선택하세요
-          %div
-            - current_duration_day = '0'
+          .form-group.textarea-box.tinymce-wrapper-toggletoolbar
+            .js-tinymce{ 'data-target-id': "##{post_body_dom_id}", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+              != @post.body
+            = f.hidden_field :body, id: post_body_dom_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
 
-            - poll_durationsoptions = []
-            - if @post.poll.expires_at.present? and @post.poll.open?
-              - poll_durationsoptions << ["기간 변경없이 #{l @post.poll.expires_at.to_date}까지 진행", '']
-              - current_duration_day = ''
+            = f.hidden_field :is_html_body, value: true
 
-            - poll_durationsoptions += [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]]
+            - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns .js-post-reference-btn-exclusive', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'file_sources': '#post-form-widget .js-post-editor-file_sources-wrapper .nested-fields'}
 
-            - poll_durationsoptions << [(@post.poll.open? ? '바로 종료' : '종료 유지'), -1]
-            - unless @post.poll.open?
-              - current_duration_day = '-1'
+        .form-widget-extra
+          .post-file-field.form-widget-extra-item{ class: ('hidden' if @post.file_sources.empty?) }
+            .help-block.clearfix
+              %span.label.label-default TIP
+              최대 10M까지 업로드되며 이미지는 드래그해서 순서를 조정할 수 있습니다.
+            - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"
+            .form-groups.js-post-editor-file_sources-wrapper<>
+              .js-form-group-images.form-group-images{ id: form_group_images_dom_id, class: ('js-any' if @post.file_sources.only_image.any?) }<>
+                - @post.file_sources.only_image.sort_by_seq_no.each do |file_source|
+                  = f.fields_for :file_sources, file_source do |ff|
+                    = render 'posts/file_source_fields', f: ff
+                .js-last-position
+              .js-form-group-files.form-group-files{ class: ('js-any' if @post.file_sources.only_doc.any?) }<>
+                - @post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
+                  = f.fields_for :file_sources, file_source do |ff|
+                    = render 'posts/file_source_fields', f: ff
+            .add-form-group-btn.js-post-editor-file_sources-add-btn
+              = link_to_add_association '+ 파일선택', f, :file_sources, partial: 'posts/file_source_fields', 'data-association-insertion-node': "##{form_group_images_dom_id} .js-last-position"
+              %span.count
+                (
+                %span.js-current-count<> 0
+                \/20)
 
-            = ff.select :duration_days, options_for_select(poll_durationsoptions, current_duration_day), {}, class: 'form-control'
+          .post-poll-field.form-widget-extra-item{ class: ('hidden' unless has_poll) }
+            - unless @post.poll.persisted?
+              .help-block.clearfix
+                .pull-right
+                  %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-poll-field') } 찬반투표 취소
 
-        .form-group
-          .form-inline
-            .checkbox
-              %label.text-muted
-                = ff.check_box :hidden_intermediate_result
-                종료 될 때까지 중간 투표 집계를 숨깁니다.
+            = f.fields_for :poll do |ff|
+              .form-groups
+                .form-group.form-group-margin-bottom
+                  = ff.label :title do
+                    찬반투표 제목
+                  = ff.text_field :title, maxlength: 100, class: 'form-control', placeholder: 'ex. 탕수육소스는 찍어먹어야합니다', data: { 'rule-required': true }
+                .form-group.form-inline
+                  %label 진행 기간을 선택해 주세요
+                  %div
+                    - if @post.poll.persisted?
+                      - current_duration_day = '0'
 
-          .form-inline
-            .checkbox
-              %label.text-muted
-                = ff.check_box :hidden_voters
-                누가 어디에 투표했는지 익명으로 진행합니다.
+                      - poll_durationsoptions = []
+                      - if @post.poll.expires_at.present? and @post.poll.open?
+                        - poll_durationsoptions << ["기간 변경없이 #{l @post.poll.expires_at.to_date}까지 진행", '']
+                        - current_duration_day = ''
 
-    - elsif @post.survey.present?
-      = f.fields_for :survey do |ff|
-        .form-group
-          = ff.label :duration_days do
-            진행 기간을 선택하세요
-          %div
-            - current_duration_day = '0'
+                      - poll_durationsoptions += [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]]
 
-            - survey_durationsoptions = []
+                      - poll_durationsoptions << [(@post.poll.open? ? '바로 종료' : '종료 유지'), -1]
+                      - unless @post.poll.open?
+                        - current_duration_day = '-1'
 
-            - if @post.survey.expires_at.present? and @post.survey.open?
-              - survey_durationsoptions << ["기간 변경없이 #{l @post.survey.expires_at.to_date}까지 진행", '']
-              - current_duration_day = ''
+                      = ff.select :duration_days, options_for_select(poll_durationsoptions, current_duration_day), {}, class: 'form-control'
+                    - else
+                      %span 지금부터 &nbsp;
+                      = ff.select :duration_days, options_for_select([0, 1, 3, 7].map { |i| [ (i == 0 ? "계속" : "#{i}일 동안"), i] }, ff.object.duration_days), {}, class: 'form-control', style: 'width: 50%; display: inline-block'
+              .form-groups
+                .form-inline
+                  .checkbox
+                    %label
+                      = ff.check_box :hidden_intermediate_result
+                      종료 될 때까지 중간 투표 집계를 숨깁니다.
 
-            - survey_durationsoptions += [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]]
+                .form-inline
+                  .checkbox
+                    %label
+                      = ff.check_box :hidden_voters
+                      누가 어디에 투표했는지 익명으로 진행합니다.
 
-            - survey_durationsoptions << [(@post.survey.open? ? '바로 종료' : '종료 유지'), -1]
-            - unless @post.survey.open?
-              - current_duration_day = '-1'
+          .post-survey-field.form-widget-extra-item{ class: ('hidden' unless has_survey) }
+            - unless @post.survey.persisted?
+              .help-block.clearfix
+                .pull-right
+                  %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-survey-field') } 설문 취소
+            = f.fields_for :survey do |ff|
+              - unless @post.survey.persisted?
+                .form-groups
+                  %label 제안이 있으시면 넣어주세요. (선택사항)
+                  - 2.times do |i|
+                    = ff.fields_for :options, Option.new do |fff|
+                      = render 'posts/option_fields', f: fff, static: true, input_data: { placeholder: "ex. 제안#{i + 1}" }
+                  .new-form-group
+                    = link_to_add_association '+ 선택항목 추가', ff, :options, partial: 'posts/option_fields', render_options: { locals: { input_data: { placeholder: 'ex. 추가 제안' } } }
+              .form-groups
+                .form-inline
+                  %label 진행 기간을 선택해 주세요
+                  %div
+                    - if @post.survey.persisted?
+                      - current_duration_day = '0'
 
-            = ff.select :duration_days, options_for_select(survey_durationsoptions, current_duration_day), {}, class: 'form-control'
+                      - survey_durationsoptions = []
+                      - if @post.survey.expires_at.present? and @post.survey.open?
+                        - survey_durationsoptions << ["기간 변경없이 #{l @post.survey.expires_at.to_date}까지 진행", '']
+                        - current_duration_day = ''
 
-        .form-group
-          - if @post.survey.changable_multiple_select?
-            .form-inline
-              .checkbox
-                %label.text-muted
-                  = ff.check_box :multiple_select
-                  제안 항목을 여러개 선택할 수 있습니다.
+                      - survey_durationsoptions += [1, 3, 7].map { |i| [ "지금부터 #{i}일 동안", i] } + [['지금부터 계속', 0]]
 
-          .form-inline
-            .checkbox
-              %label.text-muted
-                = ff.check_box :hidden_intermediate_result
-                종료 될 때까지 중간 투표 집계를 숨깁니다.
+                      - survey_durationsoptions << [(@post.survey.open? ? '바로 종료' : '종료 유지'), -1]
+                      - unless @post.survey.open?
+                        - current_duration_day = '-1'
 
-          .form-inline
-            .checkbox
-              %label.text-muted
-                = ff.check_box :hidden_option_voters
-                제안에 누가 투표했는지 익명으로 진행합니다.
+                      = ff.select :duration_days, options_for_select(survey_durationsoptions, current_duration_day), {}, class: 'form-control'
+                    - else
+                      %span 지금부터 &nbsp;
+                      = ff.select :duration_days, options_for_select([0, 1, 3, 7].map { |i| [ (i == 0 ? "계속" : "#{i}일 동안"), i] }, ff.object.duration_days), {}, class: 'form-control', style: 'width: 50%; display: inline-block'
+              .form-groups
+                - if @post.survey.changable_multiple_select?
+                  .form-inline
+                    .checkbox
+                      %label
+                        = ff.check_box :multiple_select
+                        제안 항목을 여러개 선택할 수 있습니다.
+                .form-inline
+                  .checkbox
+                    %label
+                      = ff.check_box :hidden_intermediate_result
+                      종료 될 때까지 중간 투표 집계를 숨깁니다.
 
-    - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"
-    .form-widget-file-sources
-      .post-file-field
-        .help-block.clearfix
-          %span.label.label-default TIP
-          최대 10M까지 업로드됩니다. 이미지는 드래그해서 순서를 조정할 수 있습니다.
-        .form-groups.js-post-editor-file_sources-wrapper<>
-          .js-form-group-images.form-group-images{ id: form_group_images_dom_id, class: ('js-any' if @post.file_sources.only_image.any?) }<>
-            - @post.file_sources.only_image.sort_by_seq_no.each do |file_source|
-              = f.fields_for :file_sources, file_source do |ff|
-                = render 'posts/file_source_fields', f: ff
-            .js-last-position
-          .js-form-group-files.form-group-files{ class: ('js-any' if @post.file_sources.only_doc.any?) }<>
-            - @post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
-              = f.fields_for :file_sources, file_source do |ff|
-                = render 'posts/file_source_fields', f: ff
-        .add-form-group-btn.js-post-editor-file_sources-add-btn
-          = link_to_add_association '+ 파일선택', f, :file_sources, partial: 'posts/file_source_fields', 'data-association-insertion-node': "##{form_group_images_dom_id} .js-last-position"
-          %span.count
-            (
-            %span.js-current-count<>= @post.file_sources.count
-            \/20)
+                .form-inline
+                  .checkbox
+                    %label
+                      = ff.check_box :hidden_option_voters
+                      제안에 누가 투표했는지 익명으로 진행합니다.
+
+        .form-widget-btns.clearfix
+          .post-reference-btns
+            - able_to_have_references = (!@post.poll.persisted? and !@post.survey.persisted? and !@post.wiki.present?)
+            - open_btn_data = {action: 'parti-post-select-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
+            %button.btn.btn-xs.btn-link.editor-btn.post-file-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file{ data: open_btn_data.merge('reference-field': '.post-file-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file') }
+              %i.fa.fa-cloud-upload
+              = t('labels.new_post_file_source_button')
+            - if able_to_have_references
+              %button.btn.btn-xs.btn-link.editor-btn.post-poll-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey{ class: ('collapse' if has_survey), data: open_btn_data.merge('reference-field': '.post-poll-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll') }
+                %i.fa.fa-fire
+                = t('labels.new_post_poll_button')
+              %button.btn.btn-xs.btn-link.editor-btn.post-survey-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey{ class: ('collapse' if has_poll), data: open_btn_data.merge('reference-field': '.post-survey-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-survey') }
+                %i.fa.fa-list-ul
+                = t('labels.new_post_survey_button')
+          .submit-box
+            = f.hidden_field :issue_id
+            = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
 
 
-    .editor-btn.text-right
-      = link_to '취소', @post, class: 'btn btn-default'
-      = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
