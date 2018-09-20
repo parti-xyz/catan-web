@@ -14,6 +14,10 @@ class IssuesController < ApplicationController
         index
       end
     else
+      if current_group.private_blocked? current_user
+        render 'issues/group_home_private_blocked' and return
+      end
+
       group_issues(current_group)
       @hot_issues = @issues.first(10)
       @posts_pinned = current_group.pinned_posts(current_user)
@@ -35,7 +39,7 @@ class IssuesController < ApplicationController
 
       @recent_posts = @recent_posts.page(params[:page])
       @previous_last_post =  recent_posts_base.next_of_last_stroked_at(@recent_posts.first).order_by_stroked_at.last if @recent_posts.current_page != 1
-      render 'group_home'
+      render 'issues/group_home'
     end
   end
 

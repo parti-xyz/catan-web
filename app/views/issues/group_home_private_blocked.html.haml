@@ -1,0 +1,21 @@
+%section
+  .container
+    .blocked
+      %h4
+        비공개 그룹입니다.
+      - if current_group.member_requested? current_user
+        %p
+          이 그룹에서 활동하려면 먼저 가입승인을 받아야 합니다.
+          %span.text-nowrap
+            %strong 그룹 오거나이저의 가입승인을 기다려주세요.
+      - else
+        %p
+          비공개 그룹에서 활동하려면 먼저 가입신청을 해주세요.
+          %br
+          - if user_signed_in?
+            = link_to join_group_form_group_members_path, remote: true, class: 'btn btn-md btn-primary' do
+              가입 신청하기
+          - else
+            = link_to '가입하기', '#', data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({ action: :issue_member, id: current_group.id }.to_json) }, class: 'btn btn-md btn-primary'
+            - unless user_signed_in?
+              = link_to '로그인하기', '#', data: { toggle: 'parti-login-overlay' }, class: 'btn btn-md btn-default'

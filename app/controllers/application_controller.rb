@@ -111,7 +111,8 @@ class ApplicationController < ActionController::Base
       (controller_name == 'members' and action_name == 'join_group_form') or
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit')
     )
-      redirect_to root_url
+      prepare_store_location
+      render 'issues/group_home_private_blocked'
     end
   end
 

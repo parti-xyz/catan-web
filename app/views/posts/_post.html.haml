@@ -26,6 +26,8 @@
     - if post.private_blocked?(current_user)
       .post-card__post
         %strong 비공개 빠띠 게시글입니다.
+        - unless user_signed_in?
+          = link_to '로그인하기', '#', data: {toggle: 'parti-login-overlay' }, class: 'btn btn-xs btn-primary'
         - if post.issue.member_requested? current_user
           %br
           비공개 빠띠를 보시려면 먼저 가입승인 받아야합니다.

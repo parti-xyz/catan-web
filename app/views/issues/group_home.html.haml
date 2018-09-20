@@ -8,102 +8,81 @@
 
 - paging = (!@posts.nil? and @posts.try(:current_page).present?)
 - is_first_page_in_paging = (paging and @posts.first_page?)
-- if current_group.private_blocked? current_user
-  %section
+= render 'application/group_home_sub_header', active: 'home'
+- if Issue.only_alive_of_group(current_group).any?
+  %section#home{ style:"padding-bottom: 40px;" }
     .container
-      .blocked
-        %h4
-          비공개 그룹입니다.
-        - if current_group.member_requested? current_user
-          %p
-            이 그룹에서 활동하려면 먼저 가입승인을 받아야 합니다.
-            %span.text-nowrap
-              %strong 그룹 오거나이저의 가입승인을 기다려주세요.
-        - else
-          %p
-            비공개 그룹에서 활동하려면 먼저 가입신청을 해주세요.
-            %br
-            - if user_signed_in?
-              = link_to join_group_form_group_members_path, remote: true, class: 'btn btn-md btn-primary' do
-                가입 신청하기
-            - else
-              = link_to '가입하기', '#', data: {toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: current_group.id}.to_json) }, class: 'btn btn-md btn-primary'
-- else
-  = render 'application/group_home_sub_header', active: 'home'
-  - if Issue.only_alive_of_group(current_group).any?
-    %section#home{ style:"padding-bottom: 40px;" }
-      .container
-        - if (@recent_posts.try(:current_page) || 0) <= 1
+      - if (@recent_posts.try(:current_page) || 0) <= 1
+        %section{ style:"margin-top:20px; margin-bottom: 40px;" }
+          .parties-all
+            = link_to issues_path do
+              %h4.group-heading
+                최근 업데이트된 빠띠
+                - if @hot_issues.count != @issues.count
+                  %small.text-nowrap
+                    모든 #{number_with_delimiter @issues.count}개 빠띠 보기
+                    %i.fa.fa-angle-double-right
+            .parties-all-list.clearfix
+              .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 4, 'slick-slider-md': 4, 'slick-slider-xs': 2 } }
+                - @hot_issues.each do |issue|
+                  .col-xs-6.col-sm-3.col-md-3.col-lg-3
+                    .issue-card-wrapper
+                      = render 'issues/card', issue: issue
+
+        - if @discussions.any?
           %section{ style:"margin-top:20px; margin-bottom: 40px;" }
-            .parties-all
-              = link_to issues_path do
-                %h4.group-heading
-                  최근 업데이트된 빠띠
-                  - if @hot_issues.count != @issues.count
-                    %small.text-nowrap
-                      모든 #{number_with_delimiter @issues.count}개 빠띠 보기
-                      %i.fa.fa-angle-double-right
-              .parties-all-list.clearfix
-                .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 4, 'slick-slider-md': 4, 'slick-slider-xs': 2 } }
-                  - @hot_issues.each do |issue|
-                    .col-xs-6.col-sm-3.col-md-3.col-lg-3
-                      .issue-card-wrapper
-                        = render 'issues/card', issue: issue
+            = link_to polls_or_surveys_path do
+              %h4.group-heading
+                진행 중인 토론
+                - if @discussions_all.count != @discussions.count
+                  %small.text-nowrap
+                    모든 #{number_with_delimiter @discussions_all.count}개 토론 보기
+                    %i.fa.fa-angle-double-right
+            .discussions-all-list.clearfix
+              .row.slick-slider.slick-slider-catan.slick-slider-recent-polls-and-surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+                = render 'posts/page_card', posts: @discussions, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
 
-          - if @discussions.any?
-            %section{ style:"margin-top:20px; margin-bottom: 40px;" }
-              = link_to polls_or_surveys_path do
-                %h4.group-heading
-                  진행 중인 토론
-                  - if @discussions_all.count != @discussions.count
-                    %small.text-nowrap
-                      모든 #{number_with_delimiter @discussions_all.count}개 토론 보기
-                      %i.fa.fa-angle-double-right
-              .discussions-all-list.clearfix
-                .row.slick-slider.slick-slider-catan.slick-slider-recent-polls-and-surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
-                  = render 'posts/page_card', posts: @discussions, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
+      - hottest_sort = (params['sort'] == 'hottest' or params['sort'].nil?)
+      - order_by_stroked_at_sort = (params['sort'] == 'order_by_stroked_at')
+      - if @recent_posts.try(:any?)
+        - recent_posts_partial = capture do
+          = render 'posts/page_card', posts: @recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: order_by_stroked_at_sort, previous_last_post: @previous_last_post, show_decision: false
+        - recent_posts_partial = recent_posts_partial.strip
 
-        - hottest_sort = (params['sort'] == 'hottest' or params['sort'].nil?)
-        - order_by_stroked_at_sort = (params['sort'] == 'order_by_stroked_at')
-        - if @recent_posts.try(:any?)
-          - recent_posts_partial = capture do
-            = render 'posts/page_card', posts: @recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: order_by_stroked_at_sort, previous_last_post: @previous_last_post, show_decision: false
-          - recent_posts_partial = recent_posts_partial.strip
+        %a.anchor#js-group-all-posts
+        %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
+          %h4.group-heading
+            모든 게시글
 
-          %a.anchor#js-group-all-posts
-          %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
-            %h4.group-heading
-              모든 게시글
+          .contents-header
+            .posts-filter-select
+              #content-tab-section
+                %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
+                  %li{ class: "#{('active' if hottest_sort)}" }
+                    = link_to '인기순', { sort: 'hottest' }
+                  %li{ class: "#{('active' if order_by_stroked_at_sort)}" }
+                    = link_to '최신순', { sort: 'order_by_stroked_at' }
 
-            .contents-header
-              .posts-filter-select
-                #content-tab-section
-                  %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
-                    %li{ class: "#{('active' if hottest_sort)}" }
-                      = link_to '인기순', { sort: 'hottest' }
-                    %li{ class: "#{('active' if order_by_stroked_at_sort)}" }
-                      = link_to '최신순', { sort: 'order_by_stroked_at' }
+          .posts-container{ class: ('posts-container-timeline' if order_by_stroked_at_sort  and !is_small_screen?) }
+            .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
+              .grid-sizer.col-sm-4
+              != recent_posts_partial
 
-            .posts-container{ class: ('posts-container-timeline' if order_by_stroked_at_sort  and !is_small_screen?) }
-              .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
-                .grid-sizer.col-sm-4
-                != recent_posts_partial
+        = paginate @recent_posts, theme: 'catan'
 
-          = paginate @recent_posts, theme: 'catan'
+- else
 
-  - else
+  %section#home
+    .container
+      .row
+        = main_column_tag do
+          %section{style:"margin-top:20px; padding-bottom: 10px"}
+            %h4.group-heading #{current_group.title} 그룹에 오신 것을 환영합니다.
+          .bg-default
+            %p 가장 먼저 빠띠를 개설해 보세요.
 
-    %section#home
-      .container
-        .row
-          = main_column_tag do
-            %section{style:"margin-top:20px; padding-bottom: 10px"}
-              %h4.group-heading #{current_group.title} 그룹에 오신 것을 환영합니다.
-            .bg-default
-              %p 가장 먼저 빠띠를 개설해 보세요.
-
-              .fa.fa-info-circle
-              = link_to new_issue_path, class: 'text-primary' do
-                빠띠 만들기
-                %i.fa.fa-arrow-right
-          = render 'issues/group_home_aside'
+            .fa.fa-info-circle
+            = link_to new_issue_path, class: 'text-primary' do
+              빠띠 만들기
+              %i.fa.fa-arrow-right
+        = render 'issues/group_home_aside'
