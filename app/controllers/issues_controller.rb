@@ -395,7 +395,7 @@ class IssuesController < ApplicationController
   protected
 
   def mobile_navbar_title_slug_home
-    @issue.title
+    @issue.try(:title)
   end
 
   def mobile_navbar_title_slug_hashtag
