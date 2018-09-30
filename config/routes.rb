@@ -187,6 +187,22 @@ Rails.application.routes.draw do
   get 'polls_or_surveys', to: 'polls_or_surveys#index'
   get 'wikis', to: 'wikis#index'
 
+  resources :events do
+    get :reload, on: :member
+    shallow do
+      resources :roll_calls do
+        collection do
+          patch :attend
+          patch :to_be_decided
+          patch :absent
+          patch :to_be_decided
+          get :invite_form
+          post :invite
+        end
+      end
+    end
+  end
+
   resources :relateds
   resources :messages
   resources :invitations

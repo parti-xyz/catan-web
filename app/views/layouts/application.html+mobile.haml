@@ -25,7 +25,7 @@
     = csrf_meta_tags
 
   %body.js-menu-slideout{ class: "#{body_class} #{'with-bottom-banner' if content_for?(:bottom_banner)}" }
-    %section(style='position: fixed; z-index: 10000; width: 100%')
+    %section.unobtrusive-flash-section
       .container
         .unobtrusive-flash-container
 

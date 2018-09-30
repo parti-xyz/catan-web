@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_25_062842) do
+ActiveRecord::Schema.define(version: 2018_09_24_120231) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -132,6 +132,18 @@ ActiveRecord::Schema.define(version: 2018_08_25_062842) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_discussions_on_deleted_at"
+  end
+
+  create_table "events", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.string "title", null: false
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.boolean "all_day_long", default: false
+    t.string "location"
+    t.text "body"
+    t.boolean "enable_self_attendance", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "feedbacks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -494,7 +506,9 @@ ActiveRecord::Schema.define(version: 2018_08_25_062842) do
     t.text "body_ngram", limit: 16777215
     t.text "decision", limit: 16777215
     t.integer "folder_id"
+    t.bigint "event_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
+    t.index ["event_id"], name: "index_posts_on_event_id"
     t.index ["folder_id"], name: "index_posts_on_folder_id"
     t.index ["issue_id"], name: "index_posts_on_issue_id"
     t.index ["last_stroked_user_id"], name: "index_posts_on_last_stroked_user_id"
@@ -559,6 +573,17 @@ ActiveRecord::Schema.define(version: 2018_08_25_062842) do
     t.datetime "updated_at"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
     t.index ["name"], name: "index_roles_on_name"
+  end
+
+  create_table "roll_calls", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.string "status", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_roll_calls_on_event_id"
+    t.index ["user_id", "event_id"], name: "index_roll_calls_on_user_id_and_event_id", unique: true
+    t.index ["user_id"], name: "index_roll_calls_on_user_id"
   end
 
   create_table "searches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

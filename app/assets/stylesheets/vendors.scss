@@ -10,6 +10,7 @@
 @import "photoswipe/default-skin/default-skin";
 @import "bootstrap-datepicker3";
 @import "smart-app-banner";
+@import "jquery.timepicker";
 
 // photoswipe
 .pswp {
@@ -66,5 +67,12 @@
 .smartbanner {
   position: fixed;
   top: $header-menu-height-mobile;
+}
+
+// unobtrusive_flash
+.unobtrusive-flash-section {
+  position: fixed;
+  width: 100%;
+  z-index: $zindex-unobtrusive-flash-messages;
 }
 

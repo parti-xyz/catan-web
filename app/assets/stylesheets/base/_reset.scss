@@ -99,9 +99,25 @@ a {
   color: $gray-darker;
 }
 
+.form-inline-force .form-control {
+  display: inline-block;
+  &.collapse {
+    display: none;
+  }
+  width: auto;
+  vertical-align: middle;
+}
+
 .text-basic-wrap {
   word-break: keep-all;
   overflow-wrap: break-word;
+}
+
+.checkbox.checkbox-sm-margin-bottom {
+  margin-bottom: 6px;
+}
+.checkbox.checkbox-sm-margin-top {
+  margin-top: 6px;
 }
 
 @media (max-width: $screen-xs-max) {
@@ -178,4 +194,16 @@ body.in-group {
 .fa-spin.fa-spin-slow {
   -webkit-animation: fa-spin 10s infinite linear;
   animation: fa-spin 10s infinite linear;
+}
+
+.modal-dialog-md {
+  max-width: 600px;
+}
+
+.modal-dialog-sm {
+  max-width: 400px;
+}
+
+.modal-body.modal-body-no-padding {
+  padding: 0;
 }

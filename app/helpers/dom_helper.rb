@@ -127,6 +127,14 @@ module DomHelper
     ".survey-options.#{survey_options_dom_class(post)}"
   end
 
+  def event_dom_class(post)
+    "post-#{dom_id(post.event)}"
+  end
+
+  def event_dom_selector(post)
+    ".#{event_dom_class(post)}"
+  end
+
   def switchable_post_pin_buttons_dom_class(post)
     "#{dom_id(post)}-switchable-pin-buttons"
   end

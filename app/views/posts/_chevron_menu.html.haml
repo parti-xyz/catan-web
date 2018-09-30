@@ -25,6 +25,10 @@
     %li
       = link_to [:edit, post] do
         수정
+  - elsif post.event.present? and can?(:update, post.event)
+    %li
+      = link_to edit_event_path(post.event), remote: true do
+        일정 수정
   - if can? :destroy, post
     %li
       = link_to post_path(post), method: :delete, remote: (local_assigns[:mode] != 'detail'), data: { confirm: '정말 삭제하시겠습니까?' } do

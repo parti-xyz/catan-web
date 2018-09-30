@@ -196,11 +196,29 @@
           float: none;
         }
       }
+      .post-poll-field {
+        .form-control-duration {
+          width: 50%;
+          display: inline-block;
+        }
+      }
       .post-survey-field {
         .form-group-duration {
           padding: 12px 14px 0;
           margin-top: 12px;
           border-top: 1px solid $gray-lighter;
+        }
+        .form-control-duration {
+          width: 50%;
+          display: inline-block;
+        }
+      }
+      .post-event-field {
+        .form-control-schedule-date {
+          max-width: 140px;
+        }
+        .form-control-schedule-time {
+          max-width: 100px;
         }
       }
       .submit-box {
@@ -214,6 +232,12 @@
         position: relative;
         float: right;
       }
+    }
+
+    .form-widget-title {
+      margin-left: 18px;
+      margin-right: 18px;
+      font-weight: 400;
     }
   }
   .form-widget {

@@ -1,0 +1,90 @@
+.event-block {
+  .caption {
+    display: table-cell;
+    width: 80px;
+    @media (max-width: $screen-xs-max) {
+      width: 70px;
+    }
+    text-align: center;
+    padding: 6px 18px;
+    background-color:  $gray-lighter;
+    vertical-align: middle;
+
+    .caption-month,
+    .caption-day-of-the-week {
+      font-size: 12px;
+      @extend .text-muted;
+    }
+    .caption-day {
+      font-size: 18px;
+    }
+    .caption-fa {
+      font-size: 18px;
+    }
+  }
+  .description {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 6px 18px;
+  }
+
+  .roll-calls {
+    .roll-calls-group {
+      margin-right: 12px;
+      .roll-call {
+        width: 12px;
+        display: inline-block;
+        .user-image {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    .invite_button {
+      font-size: 12px;
+      color: $brand-primary;
+    }
+  }
+
+  .my-roll-call-status {
+    display: table-cell;
+    padding-right: 18px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    text-align: right;
+    vertical-align: middle;
+  }
+
+  .my-roll-call-status-xs {
+    margin: 12px 0 0;
+  }
+
+  .fa-attend:before {
+    content: '\f00c';
+    font-family: "FontAwesome";
+    color: $brand-success;
+  }
+  .fa-absent:before {
+    content: '\f05e';
+    font-family: "FontAwesome";
+    color: $brand-danger;
+  }
+  .fa-invite:before {
+    content: '\f2b7';
+    font-family: "FontAwesome";
+    color: $brand-primary;
+  }
+}
+
+.invite-form-modal-block {
+  .roll-calls {
+    margin-top: 12px;
+    .roll-call {
+      padding: 3px 0;
+      .user-image {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}

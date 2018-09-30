@@ -1,0 +1,41 @@
+.modal-content.js-invite-form-modal
+  .modal-body
+    %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button", :style => 'top: 0; right: 0; position: absolute; opacity: 1; color: #aaa; text-shadow: none'}
+      %span.fa-stack
+        %i.fa.fa-circle.fa-stack-1x{ style: 'font-size: 1.2em;' }
+        %i.fa.fa-times-circle.fa-stack-1x.fa-inverse
+    .invite-form-modal-block
+      - form_id = "folder-form-#{SecureRandom.uuid}"
+      = form_tag invite_event_roll_calls_path(event), remote: :true, method: :post, id: form_id, class: 'form-inline', data: { action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]" } do
+        %h5
+          초대할 멤버를 입력하세요.
+        .form-group
+          = text_field_tag 'user_nickname', nil, class: 'form-control', data: { 'rule-required': true }
+        .form-group
+          = submit_tag '초대', class: 'btn btn-primary'
+
+      - if local_assigns[:invitee].present? and !(event.invited?(invitee) or event.attend?(invitee))
+        %p.alert.alert-warning.text-basic-wrap{ style: 'margin-top: 12px' }
+          - if !event.post.issue.member?(invitee)
+            @#{invitee.nickname}은 이 빠띠에 가입하지 않은 회원입니다. 초대를 계속 하시겠습니까?
+            %br
+            = link_to '예', invite_event_roll_calls_path(event, user_nickname: invitee.nickname, force: true), remote: true, method: :post, class: 'btn btn-danger'
+            = link_to '아니오', invite_event_roll_calls_path(event), remote: true, method: :post
+          - else
+            @#{invitee.nickname}은 초대할 수 없는 회원입니다.
+
+      %hr
+
+      - RollCall.status.options.each do |title, status|
+        - roll_calls = event.roll_calls.with_status(status)
+        - if roll_calls.any?
+          .roll-calls
+            %h5= title
+            - roll_calls.each do |roll_call|
+              - user = roll_call.user
+              - rollcall_dom_id = "rollcall-#{SecureRandom.uuid}"
+              .roll-call.js-hover-toggle{ id: rollcall_dom_id, data: { 'hover-toggle': "##{rollcall_dom_id} .js-hover-toggle" } }
+                .thumb.user-image.img-circle{ style: "background-image: url(#{user.image.sm.url});" }
+                = user.nickname
+                - if roll_call.status.invite? and roll_call.event.invitable_by?(current_user)
+                  = link_to '초대취소', roll_call, method: :delete, remote: true, class: 'btn btn-xs btn-default collapse js-hover-toggle'

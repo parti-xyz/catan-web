@@ -112,4 +112,6 @@
       = render 'surveys/card', local_assigns
     - elsif post.wiki.present?
       = render 'wikis/card', local_assigns
+    - elsif post.event.present?
+      = render 'events/card', local_assigns
     = render 'posts/decision', local_assigns.merge(in_post: true)

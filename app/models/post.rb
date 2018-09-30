@@ -30,6 +30,7 @@ class Post < ApplicationRecord
   belongs_to :survey, optional: true
   belongs_to :link_source, optional: true
   belongs_to :wiki, optional: true
+  belongs_to :event, optional: true
   has_many :file_sources, dependent: :destroy, as: :file_sourceable
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :decision_histories, dependent: :destroy
@@ -43,6 +44,7 @@ class Post < ApplicationRecord
   }
   accepts_nested_attributes_for :poll
   accepts_nested_attributes_for :survey
+  accepts_nested_attributes_for :event
 
   has_many :comments, dependent: :destroy
   has_many :readers, dependent: :destroy
@@ -135,6 +137,7 @@ class Post < ApplicationRecord
 
   attr_accessor :has_poll
   attr_accessor :has_survey
+  attr_accessor :has_event
   attr_accessor :is_html_body
   attr_accessor :conflicted_decision
 
@@ -339,6 +342,18 @@ class Post < ApplicationRecord
       self.survey = Survey.new(params) if self.has_survey == 'true'
     end
     self.survey.try(:setup_expires_at)
+  end
+
+  def build_event(params)
+    if self.event.try(:persisted?)
+      self.event.assign_attributes(params)
+    else
+      if self.has_event == 'true'
+        self.event = Event.new(params)
+      end
+    end
+    self.event.try(:setup_schedule)
+    self.event.try(:setup_location)
   end
 
   def meta_tag_title

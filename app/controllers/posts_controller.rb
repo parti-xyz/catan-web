@@ -46,7 +46,7 @@ class PostsController < ApplicationController
       }
       format.js {
         # 이미지 로딩
-        @post.reload
+        @post.try(:reload) if @post.try(:persisted?)
         render layout: nil
       }
     end
@@ -60,6 +60,10 @@ class PostsController < ApplicationController
     @post.setup_link_source(@post.body_was)
     (@post.survey.try(:options) || []).each do |option|
       option.user = current_user unless option.persisted?
+    end
+
+    if @post.event.present? and !@post.event.persisted?
+      @post.event.roll_calls.build(user: current_user, status: :attend)
     end
 
     if @post.save
@@ -406,12 +410,18 @@ class PostsController < ApplicationController
     wiki = params[:post][:wiki_attributes]
     wiki_attributes = [:id, :title, :body] if wiki.present?
 
+    event = params[:post][:event_attributes]
+    event_attributes = [:title, :body, :enable_self_attendance,
+      :start_at_date, :start_at_time, :end_at_date, :end_at_time,
+      :unfixed_schedule, :unfixed_location, :all_day_long,
+      :location] if event.present?
+
     params.require(:post)
-      .permit(:body, :issue_id, :has_poll, :has_survey,
+      .permit(:body, :issue_id, :has_poll, :has_survey, :has_event,
         :is_html_body, :decision, (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: file_sources_attributes,
         poll_attributes: poll_attributes, survey_attributes: survey_attributes,
-        wiki_attributes: wiki_attributes)
+        wiki_attributes: wiki_attributes, event_attributes: event_attributes)
   end
 
   def wiki_post_params
@@ -419,7 +429,7 @@ class PostsController < ApplicationController
     wiki_attributes = [:id, :title, :body, :is_html_body] if wiki.present?
 
     params.require(:post)
-      .permit(:has_poll, :has_survey,
+      .permit(:has_poll, :has_survey, :has_event,
         wiki_attributes: wiki_attributes)
   end
 

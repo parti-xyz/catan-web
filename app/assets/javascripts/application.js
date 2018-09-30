@@ -41,6 +41,8 @@
 //= require loadash
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker.kr.min
+//= require jquery.timepicker
+//= require datepair
 //= require jquery.dirrty
 //= require jquery.redirect
 //= require smart-app-banner
@@ -111,8 +113,10 @@ Kakao.init('6cd2725534444560cb5fe8c77b020bd6');
 
 // form validation by extern
 $.validator.addMethod("extern", function(value, element) {
-  return $(element).data('rule-extern-value');
-}, "");
+  return $(element).data('rule-extern-value') === 'valid';
+}, function(params, element) {
+  return $(element).data('rule-extern-error-message');
+});
 
 // form validation by http_url
 $.validator.addMethod("http_url", function(value, element) {
@@ -175,48 +179,62 @@ var parti_prepare_form_validator = function($base) {
       errorPlacement: function(error, element) {
         return true;
       },
-      showErrors: function(errorMap, errorList) {
+      invalidHandler: function(event, validator) {
         if(!has_tinymce) {
           return true;
         } else {
-          $.each(this.successList, function(index, element) {
-            var _popover;
-            var $popover_target = $($(element).data('error-popover-target'));
-            if($popover_target.length <= 0) {
-              $popover_target = $(element);
-            }
-            return $popover_target.popover("hide");
-          });
-          return $.each(errorList, function(index, value) {
-            var _popover;
-            var $popover_target = $($(value.element).data('error-popover-target'));
-            if($popover_target.length <= 0) {
-              $popover_target = $(value.element);
-            }
-            _popover = $popover_target.popover({
-              trigger: "manual",
-              placement: "bottom",
-              content: value.message,
-              template: "<div class=\"popover error-popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content text-basic-wrap\"><p></p></div></div></div>"
-            });
-            _popover.data("bs.popover").options.content = value.message;
-
-            setTimeout(function() { $popover_target.popover("hide"); }, 3000);
-            if(index == 0) {
-              var $scrollTarget = $(window);
-              var $scrollTargetModal = $(value.element).closest('.modal');
-              if($(value.element).closest('.modal').length > 0) {
-                $scrollTarget = $scrollTargetModal;
+          var errors = validator.numberOfInvalids();
+          if(errors) {
+            var successList = validator.successList;
+            $.each(successList, function(index, element) {
+              var _popover;
+              var $popover_target = $($(element).data('error-popover-target'));
+              if($popover_target.length <= 0) {
+                $popover_target = $(element);
               }
-              $scrollTarget.scrollTo($popover_target, 100, { offset: -100, onAfter: function(target, settings) {
-                return $popover_target.popover("show");
-              } } );
-            } else {
-              setTimeout(function() { $popover_target.popover("show"); }, 100);
-            }
-          });
+              return $popover_target.popover("hide");
+            });
+
+            var focused = false;
+
+            var errorList = validator.errorList;
+            return $.each(errorList, function(index, value) {
+              if(!focused && !$(value.element).data('prevent-focus-invalid')) {
+                $(value.element).focus();
+                focused = true;
+              }
+
+              var _popover;
+              var $popover_target = $($(value.element).data('error-popover-target'));
+              if($popover_target.length <= 0) {
+                $popover_target = $(value.element);
+              }
+              _popover = $popover_target.popover({
+                trigger: "manual",
+                placement: "bottom",
+                content: value.message,
+                template: "<div class=\"popover error-popover\"><div class=\"arrow\"></div><div class=\"popover-inner\"><div class=\"popover-content text-basic-wrap\"><p></p></div></div></div>"
+              });
+              _popover.data("bs.popover").options.content = value.message;
+
+              setTimeout(function() { $popover_target.popover("hide"); }, 3000);
+              if(index == 0) {
+                var $scrollTarget = $(window);
+                var $scrollTargetModal = $(value.element).closest('.modal');
+                if($(value.element).closest('.modal').length > 0) {
+                  $scrollTarget = $scrollTargetModal;
+                }
+                $scrollTarget.scrollTo($popover_target, 100, { offset: -100, onAfter: function(target, settings) {
+                  return $popover_target.popover("show");
+                } } );
+              } else {
+                setTimeout(function() { $popover_target.popover("show"); }, 100);
+              }
+            });
+          }
         }
-      }
+      },
+      focusInvalid: false
     });
 
     var enabling_callback = function() {
@@ -576,6 +594,23 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  // 체크박스에 따라 폼이 숨겨지거나 보이게 하기
+  $.parti_apply($base, '.js-hider-checkbox', function(elm) {
+    $(elm).on('change', function(e) {
+      var $form = $(e.currentTarget).closest('form');
+      var $checked = $form.find($(e.currentTarget).data('hider-checkbox-checked'));
+      var $unchecked = $form.find($(e.currentTarget).data('hider-checkbox-unchecked'));
+
+      if($(e.currentTarget).is(":checked")) {
+        $checked.hide();
+        $unchecked.show();
+      } else {
+        $checked.show();
+        $unchecked.hide();
+      }
+    });
+  });
+
   // 게시글 쓸때 빠띠 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
@@ -596,6 +631,16 @@ var parti_prepare = function($base, force) {
         } else {
           $pin_check_box_wrapper.hide();
         }
+
+        var $event_button = $form.find('.js-post-form-experiment');
+        if($selected_option.data('can-experiment') == true) {
+          $event_button.show();
+        } else {
+          $event_button.hide();
+          $form.find('.js-post-form-experiment-cancel-button:visible').map(function(index, elm) {
+            $(elm).trigger('click');
+          });
+        }
       }
     });
     $(elm).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
@@ -615,6 +660,7 @@ var parti_prepare = function($base, force) {
     var reference_field = $(elm).data('reference-field');
     var has_poll = $(elm).data('has-poll');
     var has_survey = $(elm).data('has-survey');
+    var has_event = $(elm).data('has-event');
     var $form = $(elm).closest('form');
     $(elm).on('click',function (e){
       e.preventDefault();
@@ -626,6 +672,8 @@ var parti_prepare = function($base, force) {
         $(has_poll).val(true);
       } else if($(this).hasClass('post-survey-btn')){
         $(has_survey).val(true);
+      } else if($(this).hasClass('post-event-btn')){
+        $(has_event).val(true);
       } else if($(this).hasClass('post-file-btn')) {
         $form.find('.js-post-editor-file_sources-add-btn > a').trigger('click');
       }
@@ -643,12 +691,14 @@ var parti_prepare = function($base, force) {
       var show_target = $target.data('show-target');
       var has_poll = $target.data('has-poll');
       var has_survey = $target.data('has-survey');
+      var has_event = $target.data('has-event');
       var $file_sources = $($target.data('file-sources'));
 
       $(reference_field).addClass('hidden');
       $(show_target).show();
       $(has_poll).val(false);
       $(has_survey).val(false);
+      $(has_event).val(false);
       $file_sources.remove();
       var $form = $target.closest('form');
       $form.find('.js-post-editor-file_sources-add-btn .js-current-count').text('0');
@@ -662,6 +712,63 @@ var parti_prepare = function($base, force) {
   // bootstrap select
   $.parti_apply($base, '.js-parti-bootstrap-select', function(elm) {
     $(elm).selectpicker('render');
+  });
+
+  $.parti_apply($base, '.js-datepair', function(elm) {
+    $(elm).find('.js-datepair-time').timepicker({
+      'showDuration': true,
+      'timeFormat': 'a g:i',
+      'lang': { am: '오전', pm: '오후', AM: '오전', PM: '오후', decimal: '.', mins: '분', hr: '시', hrs: '시간' }
+    });
+    $(elm).find('.js-datepair-date').datepicker({
+      'format': 'yyyy년 m월 d일',
+      'autoclose': true,
+      'language': 'kr'
+    });
+    // initialize datepair
+    var self_datepair = new Datepair(elm, {
+      'dateClass': 'js-datepair-date',
+      'timeClass': 'js-datepair-time',
+    });
+
+    var trigger_form_validation = function() {
+      $(elm).find('.js-datepair-date:visible').first().trigger('parti-need-to-validate');
+    }
+
+    var set_extern_val = function(val) {
+      $(elm).find('.js-datepair-date[data-rule-extern]').data('rule-extern-value', val);
+      trigger_form_validation();
+    }
+
+    $(elm).find('.js-datepair-all-day-long').on('change', function(e) {
+      var $time_input = $(elm).find('.js-datepair-time');
+      if($(e.currentTarget).is(":checked")) {
+        $time_input.hide();
+      } else {
+        $time_input.show();
+      }
+      trigger_form_validation();
+    });
+
+    $(elm).on('rangeSelected', function(){
+      var all_day_long = $(elm).find('.js-datepair-all-day-long').is(":checked");
+      var any_blank_times = ($(elm).find('.js-datepair-time').filter(function() { return $.is_blank($(this).val()); }).length > 0);
+      if(any_blank_times && !all_day_long) {
+        set_extern_val('false');
+      } else {
+        set_extern_val('valid');
+      }
+    }).on('rangeIncomplete', function(){
+      var all_day_long = $(elm).find('.js-datepair-all-day-long').is(":checked");
+      var any_blank_dates = ($(elm).find('.js-datepair-date').filter(function() { return $.is_blank($(this).val()); }).length > 0);
+      if(!any_blank_dates && all_day_long) {
+        set_extern_val('valid');
+      } else {
+        set_extern_val('false');
+      }
+    }).on('rangeError', function(){
+      set_extern_val('false');
+    });
   });
 
   // 에디터
@@ -925,6 +1032,13 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  $.parti_apply($base, '.js-hover-toggle', function(elm) {
+    $(elm).hover(function(e) {
+      $($(elm).data('hover-toggle')).show();
+    }, function(e) {
+      $($(elm).data('hover-toggle')).hide();
+    });
+  });
 
   $base.data('parti-prepare-arel', 'completed');
 }
@@ -1956,8 +2070,19 @@ $(function(){
 });
 
 var parti_show_modal$ = function($partial) {
-  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').addClass('modal-dialog-folder-form');
-  $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-folder-form');
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').removeClass('modal-dialog-sm');
+  $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').removeClass('modal-dialog-sm');
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').addClass('modal-dialog-md');
+  $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-md');
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
+  $('#js-modal-placeholder > .modal').modal("show");
+}
+
+var parti_show_modal_sm$ = function($partial) {
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').removeClass('modal-dialog-md');
+  $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').removeClass('modal-dialog-md');
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').addClass('modal-dialog-sm');
+  $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-sm');
   $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
   $('#js-modal-placeholder > .modal').modal("show");
 }

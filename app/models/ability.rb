@@ -8,7 +8,8 @@ class Ability
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag,
       :slug_folders], Issue
     can [:more_comments, :wiki], Post
-    can [:users], [Upvote]
+    can [:users], Upvote
+    can [:reload], Event
     if user
       can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
         user.is_organizer?(issue)
@@ -41,6 +42,21 @@ class Ability
       end
       can [:pin], Issue do |issue|
         user.is_organizer?(issue)
+      end
+      can [:attend, :absent, :to_be_decided], RollCall do |roll_call|
+        roll_call.event.takable_self_roll_call?(user)
+      end
+      can [:invite_form, :invite], RollCall do |roll_call|
+        roll_call.event.invitable_by?(user)
+      end
+      can :destroy, RollCall do |roll_call|
+        (roll_call.user != user) and roll_call.event.invitable_by?(user)
+      end
+      can [:edit], Event do |event|
+        event.post.user == user or event.taken_roll_call?(user)
+      end
+      can [:update], Event do |event|
+        event.post.user == user or event.attend?(user)
       end
 
       can [:edit_decision, :update_decision, :decision_histories], [Post] do |post|

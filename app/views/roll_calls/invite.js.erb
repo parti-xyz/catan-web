@@ -1,0 +1,12 @@
+var specific_partial = "<%= escape_javascript(render 'roll_calls/invite_form_modal', event: @event, invitee: @invitee) %>";
+$('.js-invite-form-modal').replaceWith(specific_partial);
+parti_partial$($('.js-invite-form-modal'), true);
+
+$submit_button = $('.js-invite-form-modal input[type="submit"]');
+$.rails.enableElement($submit_button);
+$submit_button.removeAttr('disabled');
+
+var specific_partial = "<%= escape_javascript(render 'events/card', post: @event.post) %>";
+$('<%= event_dom_selector(@event.post) %>').replaceWith(specific_partial);
+parti_partial$($('<%= event_dom_selector(@event.post) %>'), true);
+parti_prepare_masonry($('body'));

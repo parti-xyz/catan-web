@@ -364,11 +364,7 @@ class Issue < ApplicationRecord
   end
 
   def experimental?
-    group_slug == 'union' and slug == 'test'
-  end
-
-  def wiki_aside_experimental?
-    experimental? or (group_slug == 'union')
+    group_slug == 'union' and %(xyz).include?(slug)
   end
 
   def rookie?

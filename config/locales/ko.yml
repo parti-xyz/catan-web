@@ -3,6 +3,7 @@ ko:
     formats:
       default: '%Y.%m.%d'
       email: '%Y년 %-m월 %-d일'
+    day_names: [일, 월, 화, 수, 목, 금, 토]
   datetime:
     distance_in_words:
       about_x_hours:
@@ -231,6 +232,7 @@ ko:
     new_post_poll_button: 찬반투표
     new_post_survey_button: 설문
     new_post_wiki_button: 위키
+    new_post_event_button: 일정
     edit_wiki_button: 편집
     show_history_button: 역사
     polls_or_surveys: 토론
@@ -287,6 +289,12 @@ ko:
         'on': 알림 켜기
         'off': 알림 끄기
         no_sound: 알림 소리만 끄기
+    roll_call:
+      status:
+        attend: 참석
+        absent: 불참
+        invite: 초대 중
+        to_be_decided: 미정
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지에서 내렸습니다.

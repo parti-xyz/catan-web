@@ -8,6 +8,11 @@
   - has_survey = false
 - else
   - has_survey = true
+- if @post.event.blank?
+  - @post.event = Event.new
+  - has_event = false
+- else
+  - has_event = true
 
 - if user_signed_in?
   - issue_selector_dom_id = "issue-selector-#{SecureRandom.uuid}"
@@ -22,6 +27,7 @@
             = render 'users/post_byline', user: current_user
           = f.hidden_field :has_poll, value: has_poll
           = f.hidden_field :has_survey, value: has_survey
+          = f.hidden_field :has_event, value: has_event
 
           .form-group.textarea-box.tinymce-wrapper-toggletoolbar
             .js-tinymce{ 'data-target-id': "##{post_body_dom_id}", 'data-placeholder': "#{current_user.nickname}님, 무슨 이야기를 나누실래요?", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
@@ -30,7 +36,7 @@
 
             = f.hidden_field :is_html_body, value: true
 
-            - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns .js-post-reference-btn-exclusive', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'file_sources': '#post-form-widget .js-post-editor-file_sources-wrapper .nested-fields'}
+            - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns .js-post-reference-btn-exclusive', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': '#post-form-widget .js-post-editor-file_sources-wrapper .nested-fields'}
 
         .form-widget-extra
           .post-file-field.form-widget-extra-item{ class: ('hidden' if @post.file_sources.empty?) }
@@ -156,20 +162,33 @@
                       = ff.check_box :hidden_option_voters
                       제안에 누가 투표했는지 익명으로 진행합니다.
 
+          .post-event-field.form-widget-extra-item{ class: ('hidden' unless has_event) }
+            - unless @post.event.persisted?
+              .help-block.clearfix
+                .pull-right
+                  %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-event-field') } 일정 취소
+            = f.fields_for :event do |ff|
+              = render 'events/form', f: ff
+
         .form-widget-btns.clearfix
           .post-reference-btns
-            - able_to_have_references = (!@post.poll.persisted? and !@post.survey.persisted? and !@post.wiki.present?)
-            - open_btn_data = {action: 'parti-post-select-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey'}
+            - able_to_have_references = (!@post.poll.persisted? and !@post.survey.persisted? and !@post.wiki.present? and !@post.event.persisted?)
+            - has_references = has_survey or has_poll or has_event
+            - open_btn_data = {action: 'parti-post-select-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event'}
             %button.btn.btn-xs.btn-link.editor-btn.post-file-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file{ data: open_btn_data.merge('reference-field': '.post-file-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file') }
               %i.fa.fa-cloud-upload
               = t('labels.new_post_file_source_button')
             - if able_to_have_references
-              %button.btn.btn-xs.btn-link.editor-btn.post-poll-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey{ class: ('collapse' if has_survey), data: open_btn_data.merge('reference-field': '.post-poll-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll') }
+              %button.btn.btn-xs.btn-link.editor-btn.post-poll-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-poll-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll') }
                 %i.fa.fa-fire
                 = t('labels.new_post_poll_button')
-              %button.btn.btn-xs.btn-link.editor-btn.post-survey-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey{ class: ('collapse' if has_poll), data: open_btn_data.merge('reference-field': '.post-survey-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-survey') }
+              %button.btn.btn-xs.btn-link.editor-btn.post-survey-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-survey-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-survey') }
                 %i.fa.fa-list-ul
                 = t('labels.new_post_survey_button')
+              - if @post.issue.experimental?
+                %button.btn.btn-xs.btn-link.editor-btn.post-event-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-event-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-event') }
+                  %i.fa.fa-calendar
+                  = t('labels.new_post_event_button')
           .submit-box
             = f.hidden_field :issue_id
             = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }

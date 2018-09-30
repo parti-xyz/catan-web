@@ -13,6 +13,9 @@ class PostCreateService
       @post.wiki.last_author = @current_user
       @post.wiki.format_body
     end
+    if @post.event.present?
+      @post.event.roll_calls.build(user: @current_user, status: :attend)
+    end
     @post.strok_by(@current_user)
     @post.format_body
 

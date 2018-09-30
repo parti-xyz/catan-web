@@ -1,0 +1,57 @@
+.form-groups
+  .form-group
+    = f.label :title do
+      일정 제목
+    = f.text_field :title, maxlength: 100, class: 'form-control', placeholder: 'ex. 탕수육 시식회', data: { 'rule-required': true }
+  .form-group.form-group-margin-top
+    = f.label :title do
+      진행 시간
+    .checkbox.checkbox-sm-margin-bottom
+      %label
+        = f.check_box :unfixed_schedule, class: 'js-hider-checkbox', data: { 'hider-checkbox-checked': '.js-post-editor-unfixed-schedule-exclusive' }
+        진행 시간이 아직 정해지지 않았습니다.
+    .datepair-container.js-datepair.js-post-editor-unfixed-schedule-exclusive{ class: ('collapse' if f.object.unfixed_schedule) }
+      .form-inline.form-inline-force
+        %label.hidden-sm.visible-xs-inline
+          시작 :
+          &nbsp;
+        = f.text_field :start_at_date, class: 'form-control form-control-schedule-date js-datepair-date start', data: { 'rule-extern': true, 'rule-extern-value': 'valid', 'rule-extern-error-message': '시간이 올바로 설정되었는지 확인해 주세요', 'prevent-focus-invalid': true }, autocomplete: "off"
+        = f.text_field :start_at_time, class: "form-control form-control-schedule-time js-datepair-time start ui-timepicker-input #{'collapse' if f.object.all_day_long}", autocomplete: "off"
+        %span.hidden-xs
+          \-
+        %br.hidden-sm.visible-xs-block
+        %label.hidden-sm.visible-xs-inline
+          종료 :
+          &nbsp;
+        - end_at_time_block = capture do
+          = f.text_field :end_at_time, class: "form-control form-control-schedule-time js-datepair-time end ui-timepicker-input #{'collapse' if f.object.all_day_long}", autocomplete: "off"
+        - end_at_date_block = capture do
+          = f.text_field :end_at_date, class: 'form-control form-control-schedule-date js-datepair-date end', autocomplete: "off"
+        - if is_small_screen?
+          = end_at_date_block
+          = end_at_time_block
+        - else
+          = end_at_time_block
+          = end_at_date_block
+      .checkbox.checkbox-sm-margin-bottom.checkbox-sm-margin-top
+        %label
+          = f.check_box :all_day_long, class: 'js-datepair-all-day-long'
+          하루 종일
+  .form-group.form-group-margin-top
+    = f.label :location do
+      열리는 장소
+    .checkbox.checkbox-sm-margin-bottom
+      %label
+        = f.check_box :unfixed_location, class: 'js-hider-checkbox', data: { 'hider-checkbox-checked': '.js-post-editor-unfixed-location-exclusive' }
+        장소가 아직 정해지지 않았습니다.
+    .js-post-editor-unfixed-location-exclusive{ class: ('collapse' if f.object.unfixed_location) }
+      = f.text_field :location, maxlength: 100, class: 'form-control', placeholder: 'ex. 장수상회'
+.form-groups
+  .form-group.form-group-margin-bottom
+    = f.label :enable_self_attendance do
+      참석자
+    = f.select :enable_self_attendance, [['멤버 누구나 참석할 수 있습니다', true], ['초대 받은 멤버만 참석할 수 있습니다', false]], {}, class: 'form-control'
+  .form-group
+    = f.label :body do
+      설명(선택)
+    = f.text_area :body, class: 'form-control', data: { ride: 'parti-autoresize' }

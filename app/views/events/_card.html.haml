@@ -1,0 +1,92 @@
+- event = post.event
+- editable = can?(:update, event)
+
+- roll_call_status = capture do
+  - if event.enable_self_attendance? or event.taken_roll_call?(current_user)
+    %span.dropdown
+      %a.dropdown-toggle.btn.btn-default.btn-xs{ "href": "#", "data-toggle": "dropdown" }
+        - if event.taken_roll_call?(current_user)
+          %i.fa{ class: "fa-#{event.roll_call_of(current_user).status_value}" }
+          - if event.roll_call_of(current_user).status.invite?
+            초대에 응답하기
+          - else
+            참석 여부 :
+            = event.roll_call_of(current_user).status_text
+          %i.fa.fa-sort-down
+        - else
+          참석하시겠습니까?
+          %i.fa.fa-sort-down
+      %ul.dropdown-menu
+        - unless event.attend?(current_user)
+          %li
+            = link_to attend_event_roll_calls_path(event), method: :patch, remote: true, 'data-disable-with': '처리 중...' do
+              참석하기
+        - unless event.absent?(current_user)
+          %li
+            = link_to [:absent, event, :roll_calls], method: :patch, remote: true, 'data-disable-with': '처리 중...' do
+              불참하기
+        - unless event.to_be_decided?(current_user)
+          %li
+            = link_to [:to_be_decided, event, :roll_calls], method: :patch, remote: true, 'data-disable-with': '처리 중...' do
+              미정
+
+.post-reference-line.event-block{ class: "#{event_dom_class(post)} #{'cursor-default' unless editable}", data: { 'action': ("parti-link" if editable), 'url': edit_event_path(event), type: 'remote' } }
+  .caption
+    - if event.start_at.present?
+      .caption-month #{event.start_at.month}월
+      .caption-day= event.start_at.day
+      .caption-day-of-the-week
+        #{l(event.start_at, format: '%A')}요일
+    - else
+      %i.fa.fa-calendar.caption-fa
+  .description
+    .title= event.title
+    - if event.body.present?
+      %p.body.text-muted
+        = event.body
+    .schedule.text-muted
+      - unless event.unfixed_start_ant_end?
+        %span.text-nowrap
+          - if event.start_at.present?
+            = event.start_at_date
+            = event.start_at_time
+          - else
+            미정
+        - unless event.only_one_day?
+          \-
+          %span.text-nowrap
+            - if event.end_at.present?
+              - if event.start_at_date == event.end_at_date
+                = event.end_at_time
+              - else
+                = event.end_at_date
+                = event.end_at_time
+            - else
+              미정
+    - if event.location.present?
+      .location.text-muted= event.location
+    - if event.roll_calls.with_status(:attend, :to_be_decided).any?
+      .roll-calls.text-muted
+        - if event.roll_calls.with_status(:attend).any?
+          참석
+          %span.roll-calls-group
+            - event.roll_calls.with_status(:attend).each do |attendee|
+              - user = attendee.user
+              %span.roll-call
+                .thumb.user-image.img-circle{ style: "background-image: url(#{user.image.sm.url});" }
+        - if event.roll_calls.with_status(:to_be_decided).any?
+          미정
+          %span.roll-calls-group
+            - event.roll_calls.with_status(:to_be_decided).each do |attendee|
+              - user = attendee.user
+              %span.roll-call
+                .thumb.user-image.img-circle{ style: "background-image: url(#{user.image.sm.url});" }
+        - if event.invitable_by?(current_user)
+          = link_to invite_form_event_roll_calls_path(event), remote: true, class: 'invite_button' do
+            초대하기
+            +
+    - if roll_call_status.present?
+      .my-roll-call-status-xs.visible-xs-block= roll_call_status
+  - if roll_call_status.present?
+    .my-roll-call-status.hidden-xs= roll_call_status
+

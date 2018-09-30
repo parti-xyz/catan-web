@@ -1,0 +1,8 @@
+var specific_partial = "<%= escape_javascript(render 'roll_calls/invite_form_modal', event: @roll_call.event) %>";
+$('.js-invite-form-modal').replaceWith(specific_partial);
+parti_partial$($('.js-invite-form-modal'), true);
+
+var specific_partial = "<%= escape_javascript(render 'events/card', post: @roll_call.event.post) %>";
+$('<%= event_dom_selector(@roll_call.event.post) %>').replaceWith(specific_partial);
+parti_partial$($('<%= event_dom_selector(@roll_call.event.post) %>'), true);
+parti_prepare_masonry($('body'));

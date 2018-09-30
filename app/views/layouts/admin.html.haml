@@ -19,7 +19,7 @@
     = csrf_meta_tags
 
   %body.js-menu-slideout-lg{class: body_class, data: {spy: "scroll", target: "#toc"}}
-    %section(style='position: fixed; z-index: 10000; width: 100%')
+    %section.unobtrusive-flash-section
       .container
         .unobtrusive-flash-container
     = render 'application/modal_placeholder'
