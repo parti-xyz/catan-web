@@ -12,7 +12,11 @@ class FcmJob < ApplicationJob
       registration_ids.each_slice(1000) do |ids|
         Rails.logger.debug(ids.inspect)
         response = fcm.send(ids, current_message)
-        Rails.logger.debug(response)
+        if user.enable_trace_device_token?
+          Rails.logger.info("FCM TRACE\n * user.nickname : #{user.nickname}\n * response : #{response}")
+        else
+          Rails.logger.debug(response)
+        end
         results = JSON.parse(response[:body])["results"]
         results.map{ |t| t["error"] }.each_with_index do |value, i|
           if "NotRegistered" == value

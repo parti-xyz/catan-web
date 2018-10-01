@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_24_120231) do
+ActiveRecord::Schema.define(version: 2018_10_01_010849) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -706,6 +706,7 @@ ActiveRecord::Schema.define(version: 2018_09_24_120231) do
     t.datetime "push_notification_enabled_at"
     t.datetime "push_notification_disabled_at"
     t.datetime "messages_read_at"
+    t.boolean "enable_trace_device_token", default: false
     t.index ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true
