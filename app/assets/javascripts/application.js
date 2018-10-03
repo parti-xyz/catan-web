@@ -1292,6 +1292,7 @@ $(function(){
 
   // 알림드롭다운
   $('#js-notification a.js-notification-dropdown').on('click', function (e) {
+    e.preventDefault();
     var $elm = $('#js-notification');
     $elm.toggleClass('open');
     if($elm.hasClass('open')) {
