@@ -1,22 +1,23 @@
-.modal-content.js-invite-form-modal
-  .modal-body.modal-body-no-padding
+.modal-content
+  .modal-header.modal-header-no-border
+    %h4.modal-header-title
+      일정 상세
     %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button", :style => 'top: 0; right: 0; position: absolute; opacity: 1; color: #aaa; text-shadow: none'}
       %span.fa-stack
         %i.fa.fa-circle.fa-stack-1x{ style: 'font-size: 1.2em;' }
         %i.fa.fa-times-circle.fa-stack-1x.fa-inverse
+  .modal-body.modal-body-no-padding
     - unless can?(:update, @event)
       %p.help-block
         일정이 변경되었습니다. 다시 로드하시겠습니까?
       = link_to '예', [:reload, @event], remote: true, class: 'btn btn-primary'
     - else
       .post-editor.post-editor-modal
-        .form-widget-container
-          %h4.form-widget-title
-            일정 상세
+        .form-widget-container.form-widget-container-compact
           - form_dom_id = "post-form-#{SecureRandom.uuid}"
           = form_for @event, remote: true, html: { id: form_dom_id, class: 'form-widget', novalidate: true, data: { action: 'parti-form-validation', 'submit-form-control': "##{form_dom_id} input[type='submit']" } } do |f|
 
-            .form-widget-extra
+            .form-widget-extra.form-widget-extra-single
               .post-event-field.form-widget-extra-item
                 = render 'events/form', f: f
 
@@ -24,4 +25,4 @@
               .submit-box
                 = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
 
-
+= render 'roll_calls/invite_form_modal', event: @event

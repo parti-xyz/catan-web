@@ -1,9 +1,12 @@
 .modal-content.js-invite-form-modal
-  .modal-body
+  .modal-header
+    %h4.modal-header-title
+      참석 현황
     %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button", :style => 'top: 0; right: 0; position: absolute; opacity: 1; color: #aaa; text-shadow: none'}
       %span.fa-stack
         %i.fa.fa-circle.fa-stack-1x{ style: 'font-size: 1.2em;' }
         %i.fa.fa-times-circle.fa-stack-1x.fa-inverse
+  .modal-body
     .invite-form-modal-block
       - form_id = "folder-form-#{SecureRandom.uuid}"
       = form_tag invite_event_roll_calls_path(event), remote: :true, method: :post, id: form_id, class: 'form-inline', data: { action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]" } do

@@ -224,3 +224,12 @@ body.in-group {
     clear: both;
   }
 }
+
+.modal-header.modal-header-no-border {
+  border: none;
+}
+
+.modal-header h4.modal-header-title {
+  font-weight: 400;
+  margin: 0;
+}
