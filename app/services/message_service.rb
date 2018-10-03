@@ -135,6 +135,14 @@ class MessageService
       send_messages(
         sender: @source.post.user, users: users,
         messagable: @source, action: @action)
+    when Event
+      return if @source.post.blank?
+      roll_call = @options[:roll_call]
+      return if roll_call.blank?
+      send_messages(
+        sender: @sender, users: [roll_call.user],
+        messagable: @source,
+        action: @action)
     end
   end
 

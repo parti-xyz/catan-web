@@ -41,4 +41,10 @@
     font-size: $font-size-base;
     display: inline-block;
   }
+  &__body {
+    .post-reference-line {
+      background-color: white;
+      border: 1px solid $gray-light;
+    }
+  }
 }

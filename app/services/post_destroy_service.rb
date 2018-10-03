@@ -8,6 +8,7 @@ class PostDestroyService
       @post.destroy
       Message.where(messagable: @post.survey.try(:options)).destroy_all
       Message.where(messagable: @post.survey).destroy_all
+      Message.where(messagable: @post.event).destroy_all
     end
   end
 end

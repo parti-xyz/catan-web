@@ -35,10 +35,21 @@ class RollCallsController < ApplicationController
       @roll_call = @event.roll_calls.find_or_create_by(user: @invitee) do |roll_call|
         roll_call.status = :invite
       end
+      if @roll_call.persisted? and
+        @roll_call.status.invite? and
+        @roll_call.status_previously_changed?
+        MessageService.new(@event, sender: current_user, action: :invite).call(roll_call: @roll_call)
+      end
     end
   end
 
   def destroy
-    @roll_call.destroy
+    unless @roll_call.status.invite?
+      return
+    end
+
+    if @roll_call.destroy
+      @roll_call.event.messages.where(user: @roll_call.user).destroy_all
+    end
   end
 end

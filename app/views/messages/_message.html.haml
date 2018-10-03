@@ -1,5 +1,5 @@
 .message.clearfix[message]{ class: ('unread' if message.unread?), data: {action: 'parti-link', 'url-source': "##{dom_id(message)}-url-source" } }
-  .media
+  .media.media-overflow-visible
     .media-left
       .thumb.circle-20.img-circle{style: "background-image: url(#{message.sender.image.sm.url});"}
     .media-body
@@ -13,4 +13,5 @@
         .message__date.date-wrapper
           &middot;
           = date_f message.created_at
-      = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message
+      .message__body
+        = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message

@@ -1,0 +1,5 @@
+<% partial_name = local_assigns[:partial_name] || 'specific_partial' %>
+var <%= partial_name %> = "<%= escape_javascript(render 'events/card', post: post) %>";
+$('<%= event_dom_selector(post) %>').replaceWith(<%= partial_name %>);
+parti_partial$($('<%= event_dom_selector(post) %>'), true);
+parti_prepare_masonry($('body'));

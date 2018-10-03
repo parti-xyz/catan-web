@@ -207,3 +207,20 @@ body.in-group {
 .modal-body.modal-body-no-padding {
   padding: 0;
 }
+
+.media.media-overflow-visible {
+  &,
+  .media-body {
+    overflow: visible;
+    display: table-cell;
+    width: 10000px;
+  }
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}

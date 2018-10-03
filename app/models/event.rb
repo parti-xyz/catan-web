@@ -8,6 +8,8 @@ class Event < ApplicationRecord
 
   has_many :roll_calls, dependent: :nullify
   has_one :post, dependent: :destroy
+  has_many :messages, as: :messagable, dependent: :destroy
+
   after_find :setup_schedule_accessors
   after_find :setup_location_accessors
   validates :unfixed_schedule, inclusion: { in: [true, false] }
@@ -83,10 +85,24 @@ class Event < ApplicationRecord
   end
 
   def need_to_rsvp?
-    self.will_save_change_to_start_at? or
-    self.will_save_change_to_end_at? or
-    self.will_save_change_to_all_day_long? or
-    self.will_save_change_to_location?
+    return :schedule if self.will_save_change_to_start_at? or
+      self.will_save_change_to_end_at? or
+      self.will_save_change_to_all_day_long?
+    return :location if self.will_save_change_to_location?
+    return false
+  end
+
+  def issue_for_message
+    self.post.issue
+  end
+
+  def group_for_message
+    self.post.issue.group
+  end
+
+  def end_at_compact
+    diff_hash = end_schedule_diffed_with_start_schedule
+    %i(year month day am_pm hour min).map { |key| diff_hash[key] }.compact.join(' ')
   end
 
   private
@@ -121,11 +137,50 @@ class Event < ApplicationRecord
     date_string = datetime.strftime('%Y년 %m월 %e일')
     time_string = nil
     unless all_day_long
-      time_string = datetime.strftime('%p %l:%M')
+      min = (datetime.min == 0 ? '' : "#{datetime.min}분")
+      time_string = datetime.strftime("%p %l시 #{min}")
       time_string = time_string.gsub(/PM/, '오후').gsub(/AM/, '오전')
     end
     [ date_string, time_string ]
   rescue ArgumentError => e
     return nil
+  end
+
+  def end_schedule_diffed_with_start_schedule
+    return {} if end_at.blank?
+
+    result = { year: "#{end_at.year}년", month: "#{end_at.month}월", day: "#{end_at.day}일" }
+    unless self.all_day_long
+      min = (end_at.min == 0 ? '' : "#{end_at.min}분")
+      am_pm = end_at.strftime('%p').gsub(/PM/, '오후').gsub(/AM/, '오전')
+      result.merge!(hour: end_at.strftime('%l시'), min: min, am_pm: am_pm)
+    end
+
+    return result if start_at.blank? or start_at.year != end_at.year
+    result.delete(:year)
+
+    if start_at.month != end_at.month
+      return result
+    end
+    result.delete(:month)
+
+    if start_at.day != end_at.day
+      return result
+    end
+    result.delete(:day)
+
+    result result if result.blank?
+
+    if start_at.hour != end_at.hour
+      return result
+    end
+    result.delete(:hour)
+    result.delete(:am_pm)
+
+    if start_at.min != end_at.min
+      return result
+    end
+
+    return {}
   end
 end

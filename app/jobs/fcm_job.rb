@@ -2,12 +2,19 @@ class FcmJob < ApplicationJob
   include Sidekiq::Worker
 
   def perform(id)
-    return unless Rails.env.production?
     message = Message.find_by(id: id)
     if message.present? and
         message.user.enable_push_notification? and
-        message.user.current_device_tokens.any?
+        (message.user.current_device_tokens.any? or ENV['FCM_FAKE'])
       current_message = fcm_message(message.user, message)
+
+      if ENV['FCM_FAKE']
+        Rails.logger.debug("FCM MESSAGE : #{current_message}")
+        return
+      end
+
+      return unless Rails.env.production?
+
       registration_ids = message.user.current_device_tokens.pluck(:registration_id)
       registration_ids.each_slice(1000) do |ids|
         Rails.logger.debug(ids.inspect)

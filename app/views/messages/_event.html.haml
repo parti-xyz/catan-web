@@ -1,0 +1,14 @@
+- event = message.messagable
+- post = event.post
+- body = if message.action.to_s == 'invite'
+  - "@#{message.sender.nickname}님이 일정에 초대했습니다"
+- elsif message.action.to_s == 'schedule'
+  - "@#{message.sender.nickname}님이 일정의 시간을 바꾸고 참석 여부 확인을 요청했습니다."
+- elsif message.action.to_s == 'location'
+  - "@#{message.sender.nickname}님이 장소를 바꾸고 참석 여부 확인을 요청했습니다."
+
+%div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
+  %strong
+    %span= body
+  %span{ 'data-no-parti-link': 'no' }
+    = render 'events/card', post: post

@@ -2,6 +2,8 @@
   .caption {
     display: table-cell;
     width: 80px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
     @media (max-width: $screen-xs-max) {
       width: 70px;
     }
@@ -86,5 +88,19 @@
         height: 20px;
       }
     }
+  }
+}
+
+.notification-menu .message .event-block {
+  .roll-calls {
+    display: none;
+  }
+
+  .my-roll-call-status {
+    display: none !important;
+  }
+
+  .my-roll-call-status-xs {
+    display: block !important;
   }
 }

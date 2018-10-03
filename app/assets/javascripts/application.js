@@ -1291,14 +1291,25 @@ $(function(){
   }, 2000);
 
   // 알림드롭다운
-  $('#js-notification').on('show.bs.dropdown', function(e) {
-    var $elm = $(e.currentTarget);
-    $elm.find('li:not(.js-notification-dropdown-loading)').remove();
-    $elm.find('li.js-notification-dropdown-loading').show();
-    $.ajax({
-      url: $elm.data('url'),
-      type: "get"
-    });
+  $('#js-notification a.js-notification-dropdown').on('click', function (e) {
+    var $elm = $('#js-notification');
+    $elm.toggleClass('open');
+    if($elm.hasClass('open')) {
+      $elm.find('li:not(.js-notification-dropdown-loading)').remove();
+      $elm.find('li.js-notification-dropdown-loading').show();
+      $.ajax({
+        url: $elm.data('url'),
+        type: "get"
+      });
+    }
+  });
+  $('body').on('click', function (e) {
+    if (!$('#js-notification').is(e.target)
+        && $('#js-notification').has(e.target).length === 0
+        && $('.open').has(e.target).length === 0
+    ) {
+        $('#js-notification').removeClass('open');
+    }
   });
 
   $('.js-show-all-pinned-post').on('click', function(e) {

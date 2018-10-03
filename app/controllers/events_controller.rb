@@ -12,11 +12,16 @@ class EventsController < ApplicationController
     @event.setup_schedule
     @event.setup_location
 
-    if @event.need_to_rsvp?
-      @event.roll_calls
+    need_to_rsvp = @event.need_to_rsvp?
+    if need_to_rsvp
+      roll_calls = @event.roll_calls
         .with_status(:attend)
         .where.not(user: current_user)
-        .update_all(status: :to_be_decided, updated_at: DateTime.now)
+      messaging_roll_calls = roll_calls.to_a
+      roll_calls.update_all(status: :to_be_decided, updated_at: DateTime.now)
+      messaging_roll_calls.each do |roll_call|
+        MessageService.new(@event, sender: current_user, action: need_to_rsvp).call(roll_call: roll_call)
+      end
     end
     @event.save
   end

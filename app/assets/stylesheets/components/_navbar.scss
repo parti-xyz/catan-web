@@ -257,7 +257,7 @@ $side-menu-width: 256px;
         color: white;
       }
     }
-    &.dropdown .dropdown-menu {
+    &.dropdown > .dropdown-menu {
       width: 420px;
       max-height: 450px;
       padding-bottom: 0;
