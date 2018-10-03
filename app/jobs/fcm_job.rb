@@ -19,8 +19,8 @@ class FcmJob < ApplicationJob
       registration_ids.each_slice(1000) do |ids|
         Rails.logger.debug(ids.inspect)
         response = fcm.send(ids, current_message)
-        if user.enable_trace_device_token?
-          Rails.logger.info("FCM TRACE\n * user.nickname : #{user.nickname}\n * response : #{response}")
+        if message.user.enable_trace_device_token?
+          Rails.logger.info("FCM TRACE\n * message.user.nickname : #{message.user.nickname}\n * response : #{response}")
         else
           Rails.logger.debug(response)
         end
@@ -33,7 +33,7 @@ class FcmJob < ApplicationJob
         end
         results.map{ |t| t["registration_id"] }.each_with_index do |value, i|
           if value.present?
-            token = user.device_tokens.find_by registration_id: registration_ids[i]
+            token = message.user.device_tokens.find_by registration_id: registration_ids[i]
             token.update_attributes(registration_id: value)
           end
         end
