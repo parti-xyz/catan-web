@@ -1,0 +1,7 @@
+<% if @roll_call.blank? %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.events.not_found_invitation') %>");
+<% elsif @roll_call.try(:attend?) %>
+  <%= render 'events/replace_card', post: @event.post %>
+<% else %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% end %>

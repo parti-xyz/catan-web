@@ -45,7 +45,7 @@ class Event < ApplicationRecord
   end
 
   def takable_self_roll_call?(someone)
-    !self.post.issue.blind_user?(someone) and self.post.user == someone or self.roll_calls.exists?(user: someone) or (self.enable_self_attendance? and self.post.issue.member?(someone))
+    !self.post.issue.blind_user?(someone) and (self.post.user == someone or self.roll_calls.exists?(user: someone) or (self.enable_self_attendance? and self.post.issue.member?(someone)) )
   end
 
   def invitable_by?(someone)

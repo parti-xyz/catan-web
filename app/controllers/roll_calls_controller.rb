@@ -1,7 +1,7 @@
 class RollCallsController < ApplicationController
-  load_and_authorize_resource :event
+  load_resource :event
   load_and_authorize_resource :roll_call, through: :event, shallow: true
-
+  before_action { authorize_parent!(@event) }
 
   def attend
     @roll_call = @event.roll_calls.find_or_initialize_by(user: current_user) do |roll_call|
@@ -43,11 +43,22 @@ class RollCallsController < ApplicationController
     end
   end
 
-  def destroy
-    unless @roll_call.status.invite?
-      return
-    end
+  def accept
+    @roll_call = @event.roll_calls.find_by(user: current_user)
+    return if @roll_call.blank?
 
+    @roll_call.update(status: :attend)
+  end
+
+  def reject
+    @roll_call = @event.roll_calls.find_by(user: current_user)
+    return if @roll_call.blank?
+
+    @roll_call.update(status: :absent)
+  end
+
+  def destroy
+    return unless @roll_call.status.invite?
     if @roll_call.destroy
       @roll_call.event.messages.where(user: @roll_call.user).destroy_all
     end

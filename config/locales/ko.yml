@@ -79,7 +79,10 @@ ko:
       folders:
         too_deep: "하위 폴더를 가진 폴더는 다른 폴더의 하위 폴더가 될 수 없습니다."
       wrong_parti_title: "주제별 빠띠의 이름울 한 글자 이상의 하나의 단어로 입력해 주세요 : %{title}"
-      already_attend: "방금 초대 응답했습니다. 삭제할 수 없습니다."
+      events:
+        already_responed_invitation:
+          fail_to_destroy: "방금 초대 응답했습니다. 삭제할 수 없습니다."
+        not_found_invitation: "방금 초대가 취소되었습니다."
     models:
       user:
         attributes:

@@ -43,19 +43,24 @@ class Ability
       can [:pin], Issue do |issue|
         user.is_organizer?(issue)
       end
-      can [:attend, :absent, :to_be_decided], RollCall do |roll_call|
-        roll_call.event.takable_self_roll_call?(user)
+
+      can_nested [:attend, :absent, :to_be_decided], Event, RollCall do |event|
+        event.takable_self_roll_call?(user)
       end
-      can [:invite_form, :invite], RollCall do |roll_call|
-        roll_call.event.invitable_by?(user)
+      can_nested [:invite_form, :invite], Event, RollCall do |event|
+        event.invitable_by?(user)
       end
       can :destroy, RollCall do |roll_call|
         (roll_call.user != user) and roll_call.event.invitable_by?(user)
       end
+      can_nested [:accept, :reject], Event, RollCall
+
       can [:edit], Event do |event|
+        return false if event.post.issue.blind_user?(user)
         event.post.user == user or event.taken_roll_call?(user)
       end
       can [:update], Event do |event|
+        return false if event.post.issue.blind_user?(user)
         event.post.user == user or event.attend?(user)
       end
 
@@ -114,5 +119,13 @@ class Ability
         can :manage, [Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
       end
     end
+  end
+
+  private
+
+  def can_nested(actions, parent_klass, child_klass, &block)
+    actions = [actions].flatten
+    can actions.map { |action| "#{child_klass.to_s.underscore.pluralize}##{action.to_s}".to_sym }, parent_klass, &block
+    can actions, child_klass
   end
 end

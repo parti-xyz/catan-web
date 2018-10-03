@@ -19,7 +19,10 @@
       %ul.dropdown-menu
         - unless event.attend?(current_user)
           %li
-            = link_to attend_event_roll_calls_path(event), method: :patch, remote: true, 'data-disable-with': '처리 중...' do
+            - ok_url = attend_event_roll_calls_path(event)
+            - if event.roll_call_of(current_user).try(:status).try(:invite?)
+              - ok_url = accept_event_roll_calls_path(event)
+            = link_to ok_url, method: :patch, remote: true, 'data-disable-with': '처리 중...' do
               참석하기
         - unless event.absent?(current_user)
           %li

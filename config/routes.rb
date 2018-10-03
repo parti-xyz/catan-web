@@ -195,9 +195,10 @@ Rails.application.routes.draw do
           patch :attend
           patch :to_be_decided
           patch :absent
-          patch :to_be_decided
           get :invite_form
           post :invite
+          patch :accept
+          patch :reject
         end
       end
     end

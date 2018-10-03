@@ -20,14 +20,6 @@ class ApplicationController < ActionController::Base
     rescue_from ActiveRecord::RecordNotFound, ActionController::UnknownFormat do |exception|
       render_404
     end
-    rescue_from CanCan::AccessDenied do |exception|
-      self.response_body = nil
-      if request.format.html?
-        redirect_to root_url, :alert => exception.message
-      else
-        render_403
-      end
-    end
     rescue_from ActionController::InvalidCrossOriginRequest, ActionController::InvalidAuthenticityToken do |exception|
       self.response_body = nil
       if request.format.html?
@@ -35,6 +27,14 @@ class ApplicationController < ActionController::Base
       else
         render_403
       end
+    end
+  end
+  rescue_from CanCan::AccessDenied do |exception|
+    self.response_body = nil
+    if request.format.html?
+      redirect_to root_url, :alert => exception.message
+    else
+      render_403
     end
   end
 
@@ -312,5 +312,10 @@ class ApplicationController < ActionController::Base
 
   def current_ability
     Ability.new(current_user, current_group)
+  end
+
+  def authorize_parent!(parent)
+    return if parent.blank?
+    authorize! "#{params[:controller]}##{params[:action]}".to_sym, parent
   end
 end

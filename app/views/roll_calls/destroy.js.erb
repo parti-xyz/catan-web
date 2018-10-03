@@ -5,5 +5,5 @@ parti_partial$($('.js-invite-form-modal'), true);
 <%= render 'events/replace_card', post: @roll_call.event.post %>
 
 <% unless @roll_call.status.invite? %>
-  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.already_attend') %>");
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.events.already_responed_invitation.fail_to_destroy') %>");
 <% end %>
