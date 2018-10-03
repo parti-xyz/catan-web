@@ -15,6 +15,8 @@ class Event < ApplicationRecord
   validates :unfixed_schedule, inclusion: { in: [true, false] }
   validates :unfixed_location, inclusion: { in: [true, false] }
 
+  scope :of_group, -> (group) { where(id: Post.of_group(group).select(:event_id)) }
+
   def setup_schedule
     if unfixed_schedule
       self.start_at = nil
@@ -113,6 +115,10 @@ class Event < ApplicationRecord
   def end_at_time_compact
     diff_hash = end_schedule_diffed_with_start_schedule
     %i(am_pm hour min).map { |key| diff_hash[key] }.compact.join(' ')
+  end
+
+  def self.messagable_group_method
+    :of_group
   end
 
   private
