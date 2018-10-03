@@ -199,6 +199,7 @@ Rails.application.routes.draw do
           post :invite
           patch :accept
           patch :reject
+          patch :hold
         end
       end
     end

@@ -84,6 +84,8 @@ class User < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :readers, dependent: :destroy
   has_many :comment_readers, dependent: :destroy
+  has_many :roll_calls, dependent: :destroy
+  has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter
 
   ## uploaders
   # mount

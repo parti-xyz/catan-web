@@ -85,10 +85,10 @@ class Event < ApplicationRecord
   end
 
   def need_to_rsvp?
-    return :schedule if self.will_save_change_to_start_at? or
+    return :rsvp_schedule if self.will_save_change_to_start_at? or
       self.will_save_change_to_end_at? or
       self.will_save_change_to_all_day_long?
-    return :location if self.will_save_change_to_location?
+    return :rsvp_location if self.will_save_change_to_location?
     return false
   end
 

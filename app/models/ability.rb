@@ -53,7 +53,7 @@ class Ability
       can :destroy, RollCall do |roll_call|
         (roll_call.user != user) and roll_call.event.invitable_by?(user)
       end
-      can_nested [:accept, :reject], Event, RollCall
+      can_nested [:accept, :reject, :hold], Event, RollCall
 
       can [:edit], Event do |event|
         return false if event.post.issue.blind_user?(user)

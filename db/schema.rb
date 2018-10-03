@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_01_010849) do
+ActiveRecord::Schema.define(version: 2018_10_03_121008) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -581,7 +581,9 @@ ActiveRecord::Schema.define(version: 2018_10_01_010849) do
     t.string "status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "inviter_id"
     t.index ["event_id"], name: "index_roll_calls_on_event_id"
+    t.index ["inviter_id"], name: "index_roll_calls_on_inviter_id"
     t.index ["user_id", "event_id"], name: "index_roll_calls_on_user_id_and_event_id", unique: true
     t.index ["user_id"], name: "index_roll_calls_on_user_id"
   end

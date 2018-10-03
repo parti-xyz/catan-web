@@ -4,24 +4,15 @@ class RollCallsController < ApplicationController
   before_action { authorize_parent!(@event) }
 
   def attend
-    @roll_call = @event.roll_calls.find_or_initialize_by(user: current_user) do |roll_call|
-      roll_call.status = :attend
-    end
-    @roll_call.update(status: :attend)
+    change_status(:attend)
   end
 
   def absent
-    @roll_call = @event.roll_calls.find_or_initialize_by(user: current_user) do |roll_call|
-      roll_call.status = :absent
-    end
-    @roll_call.update(status: :absent)
+    change_status(:absent)
   end
 
   def to_be_decided
-    @roll_call = @event.roll_calls.find_or_initialize_by(user: current_user) do |roll_call|
-      roll_call.status = :to_be_decided
-    end
-    @roll_call.update(status: :to_be_decided)
+    change_status(:to_be_decided)
   end
 
   def invite_form
@@ -34,6 +25,7 @@ class RollCallsController < ApplicationController
     if @event.invitable_softly_for?(@invitee) or params[:force]
       @roll_call = @event.roll_calls.find_or_create_by(user: @invitee) do |roll_call|
         roll_call.status = :invite
+        roll_call.inviter = current_user
       end
       if @roll_call.persisted? and
         @roll_call.status.invite? and
@@ -44,23 +36,41 @@ class RollCallsController < ApplicationController
   end
 
   def accept
-    @roll_call = @event.roll_calls.find_by(user: current_user)
-    return if @roll_call.blank?
-
-    @roll_call.update(status: :attend)
+    response_invitation(:attend)
   end
 
   def reject
-    @roll_call = @event.roll_calls.find_by(user: current_user)
-    return if @roll_call.blank?
+    response_invitation(:absent)
+  end
 
-    @roll_call.update(status: :absent)
+  def hold
+    response_invitation(:to_be_decided)
   end
 
   def destroy
     return unless @roll_call.status.invite?
     if @roll_call.destroy
       @roll_call.event.messages.where(user: @roll_call.user).destroy_all
+    end
+  end
+
+  private
+
+  def change_status(status)
+    @roll_call = @event.roll_calls.find_or_initialize_by(user: current_user) do |roll_call|
+      roll_call.status = status
+    end
+    @roll_call.update(status: status)
+  end
+
+  def response_invitation(status)
+    @roll_call = @event.roll_calls.find_by(user: current_user)
+    return if @roll_call.blank?
+
+    if @roll_call.update(status: status)
+      if @roll_call.inviter.present?
+        MessageService.new(@event, sender: current_user, action: params[:action].to_sym).call(roll_call: @roll_call)
+      end
     end
   end
 end

@@ -19,18 +19,24 @@
       %ul.dropdown-menu
         - unless event.attend?(current_user)
           %li
-            - ok_url = attend_event_roll_calls_path(event)
+            - attend_url = attend_event_roll_calls_path(event)
             - if event.roll_call_of(current_user).try(:status).try(:invite?)
-              - ok_url = accept_event_roll_calls_path(event)
-            = link_to ok_url, method: :patch, remote: true, 'data-disable-with': '처리 중...' do
+              - attend_url = accept_event_roll_calls_path(event)
+            = link_to attend_url, method: :patch, remote: true, 'data-disable-with': '처리 중...' do
               참석하기
         - unless event.absent?(current_user)
           %li
-            = link_to [:absent, event, :roll_calls], method: :patch, remote: true, 'data-disable-with': '처리 중...' do
+            - absent_url = absent_event_roll_calls_path(event)
+            - if event.roll_call_of(current_user).try(:status).try(:invite?)
+              - absent_url = reject_event_roll_calls_path(event)
+            = link_to absent_url, method: :patch, remote: true, 'data-disable-with': '처리 중...' do
               불참하기
         - unless event.to_be_decided?(current_user)
           %li
-            = link_to [:to_be_decided, event, :roll_calls], method: :patch, remote: true, 'data-disable-with': '처리 중...' do
+            - to_be_decided_url = to_be_decided_event_roll_calls_path(event)
+            - if event.roll_call_of(current_user).try(:status).try(:invite?)
+              - to_be_decided_url = hold_event_roll_calls_path(event)
+            = link_to to_be_decided_url, method: :patch, remote: true, 'data-disable-with': '처리 중...' do
               미정
 
 .post-reference-line.event-block{ class: "#{event_dom_class(post)} #{'cursor-default' unless editable}", data: { 'action': ("parti-link" if editable), 'url': edit_event_path(event), type: 'remote' } }

@@ -139,10 +139,19 @@ class MessageService
       return if @source.post.blank?
       roll_call = @options[:roll_call]
       return if roll_call.blank?
-      send_messages(
-        sender: @sender, users: [roll_call.user],
-        messagable: @source,
-        action: @action)
+
+      if %i(invite rsvp_schedule rsvp_location).include? @action
+        send_messages(
+          sender: @sender, users: [roll_call.user],
+          messagable: @source,
+          action: @action)
+      elsif %i(accept reject hold).include? @action
+        return if roll_call.inviter.blank?
+        send_messages(
+          sender: @sender, users: [roll_call.inviter],
+          messagable: @source,
+          action: @action)
+      end
     end
   end
 
