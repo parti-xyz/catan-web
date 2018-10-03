@@ -2,10 +2,12 @@
   .caption {
     display: table-cell;
     width: 80px;
+    min-width: 80px;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
     @media (max-width: $screen-xs-max) {
       width: 70px;
+      min-width: 70px;
     }
     text-align: center;
     padding: 6px 18px;

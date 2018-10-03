@@ -105,6 +105,16 @@ class Event < ApplicationRecord
     %i(year month day am_pm hour min).map { |key| diff_hash[key] }.compact.join(' ')
   end
 
+  def end_at_date_compact
+    diff_hash = end_schedule_diffed_with_start_schedule
+    %i(year month day).map { |key| diff_hash[key] }.compact.join(' ')
+  end
+
+  def end_at_time_compact
+    diff_hash = end_schedule_diffed_with_start_schedule
+    %i(am_pm hour min).map { |key| diff_hash[key] }.compact.join(' ')
+  end
+
   private
 
   def setup_schedule_accessors

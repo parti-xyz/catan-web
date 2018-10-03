@@ -55,17 +55,22 @@
         = event.body
     .schedule.text-muted
       - unless event.unfixed_start_ant_end?
-        %span.text-nowrap
+        %span
           - if event.start_at.present?
-            = event.start_at_date
-            = event.start_at_time
+            %span.text-nowrap
+              = event.start_at_date
+            %span.text-nowrap
+              = event.start_at_time
           - else
             미정
         - unless event.only_one_day?
           \-
-          %span.text-nowrap
-            - if event.end_at.present?
-              = event.end_at_compact
+          %span
+            - if event.end_at.present? and event.end_at_compact.present?
+              %span.text-nowrap
+                = event.end_at_date_compact
+              %span.text-nowrap
+                = event.end_at_time_compact
             - else
               미정
     - if event.location.present?
