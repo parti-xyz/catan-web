@@ -4,7 +4,14 @@ require 'bundler/setup' # Set up gems listed in the Gemfile.
 require 'bootsnap/setup' # Speed up boot time by caching expensive operations.
 
 require 'dotenv'
+
+powenv_file_path = ".powenv"
+if File.exists?(powenv_file_path)
+  Dotenv.load(powenv_file_path)
+end
+
 env_file_path = "config/env.custom"
 if File.exists?(env_file_path)
   Dotenv.load(env_file_path)
 end
+

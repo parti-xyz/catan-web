@@ -45,22 +45,33 @@ class Wiki < ApplicationRecord
     rescue => ignored
     end
 
-    file = Tempfile.new(["captire_wiki_#{id.to_s}", '.png'], 'tmp', :encoding => 'ascii-8bit')
-    result = ApplicationController.renderer.new.render(
-      partial: "wikis/capture",
-      locals: { body: body }
-    )
-    file.write IMGKit.new(result, width: 600, quality: 10).to_png
-    file.flush
-    if file.respond_to? :"original_filename="
-      file.original_filename = File.basename(file.path)
+    max_try = 5
+    curreny_try = 0
+
+    file = nil
+    begin
+      curreny_try += 1
+
+      file = Tempfile.new(["captire_wiki_#{id.to_s}", '.png'], 'tmp', :encoding => 'ascii-8bit')
+      result = ApplicationController.renderer.new.render(
+        partial: "wikis/capture",
+        locals: { body: body }
+      )
+      file.write IMGKit.new(result, width: 600, quality: 10).to_png
+      file.flush
+      if file.respond_to? :"original_filename="
+        file.original_filename = File.basename(file.path)
+      end
+
+      self.thumbnail = file
+      self.save!
+
+      file.unlink
+    end while (self.read_attribute(:thumbnail).blank? and curreny_try <= max_try)
+
+    if self.read_attribute(:thumbnail).blank?
+      throw "Could not make the thumbnail : wiki #{self.id} / file #{file.try(:path)}"
     end
-
-    self.thumbnail = file
-    self.save!
-
-    file.unlink
-
     self.skip_capture = false
     self.skip_history = false
   end
