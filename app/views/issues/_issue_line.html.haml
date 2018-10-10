@@ -20,7 +20,7 @@
   - {}
 - else
   - { 'action': "parti-link", 'url': (smart_issue_home_path_or_url(issue) unless local_assigns[:no_link]) }
-%li.issue-line{ data: (link_to_parti if local_assigns[:link_whole_line]), class: "#{local_assigns[:issue_classes]} #{('cursor-pointer' if (link_to_parti.any? and local_assigns[:link_whole_line]))}" }
+%li.issue-line{ data: (local_assigns[:link_whole_line] ? link_to_parti : {}).merge(local_assigns[:issue_data] || {}), class: "#{local_assigns[:issue_classes]} #{('cursor-pointer' if (link_to_parti.any? and local_assigns[:link_whole_line]))}" }
   .media.js-issue-line-hover
     - if local_assigns[:left_block].present?
       .media-left
@@ -44,4 +44,6 @@
     - if local_assigns[:right_block].present?
       .media-right
         = right_block
-
+  - if local_assigns[:footer_block].present?
+    .issue-line-footer
+      = local_assigns[:footer_block]

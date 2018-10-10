@@ -35,6 +35,18 @@ class Message < ApplicationRecord
     read_at.blank?
   end
 
+  def fcm_pushable?
+    self.user.pushable_notification?(self)
+  end
+
+  def highlight?
+    !lowlight?
+  end
+
+  def lowlight?
+    %w(Comment Post).include?(self.messagable_type) and self.action == 'create'
+  end
+
   def self.all_messagable_types
     @_poly_hash ||= [].tap do |array|
       Dir.glob(File.join(Rails.root, "app", "models", "**", "*.rb")).each do |file|

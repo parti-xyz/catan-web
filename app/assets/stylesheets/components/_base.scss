@@ -402,42 +402,6 @@ label.required:after {
     margin-bottom: 60px;
   }
 
-  /* login */
-  .login-box {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 40px;
-    margin: 0 auto;
-    &__txt {
-      margin: 30px 0;
-      font-size: $font-size-xlarge;
-    }
-    &__content {
-      padding-top: 30px;
-    }
-  }
-  #sign-up {
-    width: 90%;
-    margin: 40px auto;
-    h1, h2 {
-      font-size: $font-size-xlarge;
-    }
-    h4 {
-      font-size: $font-size-medium;
-    }
-  }
-  .sign-up {
-    &__title {
-      margin-bottom: 40px;
-    }
-    &__txt {
-      margin-bottom: 40px;
-    }
-    &__form {
-      width: 100%;
-    }
-  }
-
   /* page */
   .page-bg {
     padding: 20px 10px;
@@ -644,12 +608,13 @@ label.required:after {
   }
 }
 
-// 폼에서 빠띠 선택
 .parti-select {
-  margin: 0;
-  padding: 18px;
-  border-bottom: 1px solid $gray-less-lighter;
-  max-width: 100%;
+  // 빠띠 선택할 때 그룹을 숨깁니다.
+  .hidden-group-title {
+    .group-title {
+      display: none;
+    }
+  }
   .bootstrap-select {
     .issue-line__title {
       display: table-cell;
@@ -719,6 +684,13 @@ label.required:after {
 
 .nav > li.collapse {
   display: none;
+}
+
+.collapse.collapse-xs-inline {
+  display: none;
+  @media (max-width: $screen-xs-max) {
+    display: inline;
+  }
 }
 
 section.contents-page {

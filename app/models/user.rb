@@ -86,6 +86,7 @@ class User < ApplicationRecord
   has_many :comment_readers, dependent: :destroy
   has_many :roll_calls, dependent: :destroy
   has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter
+  has_many :issue_push_notification_preferences, dependent: :destroy
 
   ## uploaders
   # mount
@@ -268,6 +269,15 @@ class User < ApplicationRecord
 
   def enable_push_notification?
     User.enable_push_notification?(self.push_notification_mode)
+  end
+
+  def pushable_notification?(message)
+    return false unless enable_push_notification?
+
+    issue_push_notification_preference = self.issue_push_notification_preferences.find_by(issue: message.messagable.issue_for_message)
+    return IssuePushNotificationPreference.default_enable?(message) if issue_push_notification_preference.blank?
+
+    return issue_push_notification_preference.enable?(message)
   end
 
   def disabled_push_notification_period

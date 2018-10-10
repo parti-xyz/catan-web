@@ -14,6 +14,12 @@
       %span
         정리했습니다
   = link_to excerpt(message.action_params_hash["decision_body"], length: 100, from_html: true), smart_post_url(post)
+- elsif message.action.to_s == 'create'
+  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
+    %strong
+      %span
+        #{post.user.nickname}님이 게시글을 올렸습니다.
+  = link_to post.specific_desc_striped_tags(100), smart_post_url(post)
 - else
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
     %strong

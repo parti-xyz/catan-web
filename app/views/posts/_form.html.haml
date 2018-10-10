@@ -15,7 +15,6 @@
   - has_event = true
 
 - if user_signed_in?
-  - issue_selector_dom_id = "issue-selector-#{SecureRandom.uuid}"
   .post-editor
     #post-form-widget.form-widget-container{ style: 'display: block' }
       = form_for @post, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|

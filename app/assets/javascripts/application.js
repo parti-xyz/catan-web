@@ -611,6 +611,24 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  // 선택박스에 따라 폼이 숨겨지거나 보이게 하기
+  $.parti_apply($base, '.js-toggle-select', function(elm) {
+    $(elm).on('change', function(e) {
+      var $container = $($(elm).data('toggle-select-container'));
+      if($container.length <= 0) {
+        $container = $(e.currentTarget).closest('form');
+      }
+
+      $(e.currentTarget).find(":selected").each(function(index, option_elm) {
+        var $showing_elm = $container.find($(option_elm).data('js-toggle-select-show'));
+        var $hiding_elm = $container.find($(option_elm).data('js-toggle-select-hide'));
+
+        $hiding_elm.hide();
+        $showing_elm.show();
+      });
+    });
+  });
+
   // 게시글 쓸때 빠띠 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
@@ -952,7 +970,6 @@ var parti_prepare = function($base, force) {
       });
     });
   })();
-
 
   // mention
   $.parti_apply($base, '.js-mention:hidden', function(elm) {

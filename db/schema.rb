@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_03_121008) do
+ActiveRecord::Schema.define(version: 2018_10_07_080619) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -233,6 +233,15 @@ ActiveRecord::Schema.define(version: 2018_10_03_121008) do
     t.index ["joinable_id"], name: "index_invitations_on_joinable_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
+  create_table "issue_push_notification_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "issue_id", null: false
+    t.string "value", null: false
+    t.index ["issue_id"], name: "index_issue_push_notification_preferences_on_issue_id"
+    t.index ["user_id", "issue_id"], name: "issue_push_notification_preferences_uk", unique: true
+    t.index ["user_id"], name: "index_issue_push_notification_preferences_on_user_id"
   end
 
   create_table "issues", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

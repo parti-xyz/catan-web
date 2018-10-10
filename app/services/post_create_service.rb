@@ -31,7 +31,7 @@ class PostCreateService
 
     @post.issue.strok_by!(@current_user, @post)
     crawling_after_creating_post
-    @post.perform_mentions_async
+    @post.perform_mentions_async(:create)
     if @post.pinned?
       PinJob.perform_async(@post.id, @current_user.id)
     end

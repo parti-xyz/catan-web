@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   unless Rails.env.production?
     get 'kill_me', to: 'users#kill_me'
   end
+  resources :issue_push_notification_preferences
 
   class MergedIssueRouteConstraint
     def matches?(request)

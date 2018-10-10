@@ -146,7 +146,7 @@ ko:
         remember_me: 로그인 상태를 유지
         current_password: 현재 비밀번호
         enable_mailing: 메일수신 여부
-        push_notification_mode: 앱 알림
+        push_notification_mode: 기본 앱 알림 설정
       comment:
         body: 내용
       related:
@@ -294,6 +294,15 @@ ko:
         'on': 알림 켜기
         'off': 알림 끄기
         no_sound: 알림 소리만 끄기
+    issue_push_notification_preference:
+      value:
+        'detail': 상세한 알림 받기
+        'highlight': 중요한 알림만 받기(기본)
+        'nothing': 알림 받지 않기
+      value_desc:
+        'detail': 내가 가입한 빠띠의 새 게시물, 나를 언급하거나 내가 토론 중인 게시물의 알림을 받습니다
+        'highlight': 나를 언급하거나 내가 토론 중인 게시물의 알림을 받습니다
+        'nothing': 어떤 알림도 받지 않습니다
     roll_call:
       status:
         attend: 참석

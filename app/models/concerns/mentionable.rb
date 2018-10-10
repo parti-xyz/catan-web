@@ -17,19 +17,19 @@ module Mentionable
     end
   end
 
-  def perform_mentions_async
+  def perform_mentions_async(action)
     return if self.try(:issue).try(:blind_user?, self.user)
-    MentionJob.perform_async(self.class.model_name, self.id)
+    MentionJob.perform_async(self.class.model_name, self.id, action)
   end
 
-  def perform_mentions_now
+  def perform_mentions_now(action)
     return if self.try(:issue).try(:blind_user?, self.user)
 
     # Transaction을 걸지 않습니다
     set_mentions
     mention_mail_limit = 500
     send_mention_emails if self.mentions.count <= mention_mail_limit
-    MessageService.new(self).call()
+    MessageService.new(self, action: action.to_sym).call()
   end
 
   private

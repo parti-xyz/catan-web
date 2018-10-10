@@ -3,8 +3,9 @@ class FcmJob < ApplicationJob
 
   def perform(id)
     message = Message.find_by(id: id)
-    if message.present? and
-        message.user.enable_push_notification? and
+
+    Rails.logger.debug("FCM JOB : #{id}")
+    if message.try(:fcm_pushable?) and
         (message.user.current_device_tokens.any? or ENV['FCM_FAKE'])
       current_message = fcm_message(message.user, message)
 

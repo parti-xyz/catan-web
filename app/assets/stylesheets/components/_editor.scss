@@ -141,6 +141,13 @@
     color: #c0c0c2;
     cursor: pointer;
   }
+
+  .parti-select {
+    margin: 0;
+    padding: 18px;
+    border-bottom: 1px solid $gray-less-lighter;
+    max-width: 100%;
+  }
 }
 
 .form-widget-container {

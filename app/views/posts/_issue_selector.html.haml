@@ -1,17 +1,18 @@
-.parti-select{ id: local_assigns[:dom_id] }
-  %select.js-parti-editor-selector.collapse(data-live-search="true" data-width="100%" title="게시할 빠띠를 골라 주세요")
-    - latest_issue_ids = current_user.latest_posted_issues(5)
-    - if latest_issue_ids.any?
-      %optgroup{label: '최근 게시한 빠띠'}
-        - latest_issue_ids.each do |issue|
-          - issue_content = capture do
-            .parti-option.clearfix<>
-              %span.issue-line__thumb<>
-                .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
-              %span.issue-line__title<>
-                = issue_tag_ignored_current_group(issue, show_group: !issue.group.indie?)
-          %option{ value: issue.id, 'data-content': h(issue_content.to_str), 'data-tokens': ' ', 'data-can-pin': can?(:pin, issue).to_s, 'data-can-experiment': issue.experimental?.to_s }<>
-            = issue.title
+.parti-select.parti-select-form-padding{ id: local_assigns[:dom_id] }
+  %select.js-parti-editor-selector.collapse{ 'data-live-search': "true", 'data-width': "100%", title: (local_assigns[:placeholder_text] || "게시할 빠띠를 골라 주세요") }
+    - unless local_assigns[:hide_latest_issues]
+      - latest_issue_ids = current_user.latest_posted_issues(5)
+      - if latest_issue_ids.any?
+        %optgroup{label: '최근 게시한 빠띠'}
+          - latest_issue_ids.each do |issue|
+            - issue_content = capture do
+              .parti-option.clearfix<>
+                %span.issue-line__thumb<>
+                  .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
+                %span.issue-line__title<>
+                  = issue_tag_ignored_current_group(issue, show_group: !issue.group.indie?)
+            %option{ value: issue.id, 'data-content': h(issue_content.to_str), 'data-tokens': ' ', 'data-can-pin': can?(:pin, issue).to_s, 'data-can-experiment': issue.experimental?.to_s }<>
+              = issue.title
 
     - all_issues = Issue.postable(current_user).alive.sort_by_name.to_a
     - groups = [Group.indie] + current_user.member_groups.sort_by_name

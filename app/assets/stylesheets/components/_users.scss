@@ -426,6 +426,23 @@ section#user-gallery{
   }
 }
 
+@media (max-width: $screen-xs-max) {
+  /* login */
+  .login-box {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 40px;
+    margin: 0 auto;
+    &__txt {
+      margin: 30px 0;
+      font-size: $font-size-xlarge;
+    }
+    &__content {
+      padding-top: 30px;
+    }
+  }
+}
+
 #user-gallery {
   padding: 20px 0;
 }
@@ -444,14 +461,17 @@ section#user-gallery{
 #sign-up {
   width: 600px;
   margin: 30px auto;
+}
 
-  .user-cancel {
-    width: 300px;
-    margin: 20px auto;
-    color: $gray;
-
-    a {
-      text-decoration: underline;
+@media (max-width: $screen-xs-max) {
+  #sign-up {
+    width: 90%;
+    margin: 40px auto;
+    h1, h2 {
+      font-size: $font-size-xlarge;
+    }
+    h4 {
+      font-size: $font-size-medium;
     }
   }
 }
@@ -466,7 +486,46 @@ section#user-gallery{
   }
 }
 
-.sign-up {
+.user-edit-block {
+  width: 600px;
+  margin: 30px auto;
+  @media (max-width: $screen-xs-max) {
+    width: 90%;
+    margin: 40px auto;
+    h1, h2 {
+      font-size: $font-size-xlarge;
+    }
+    h4 {
+      font-size: $font-size-medium;
+    }
+  }
+
+  .user-issue-push-notification-preferences,
+  .user-cancel {
+    margin: 20px auto;
+    color: $gray;
+
+    a:not(.btn):not(.issue-line__title) {
+      text-decoration: underline;
+    }
+  }
+
+  .user-issue-push-notification-preferences {
+    .issue-line__title {
+      font-weight: bold;
+    }
+    .issue-push-notification-preference-footer {
+      line-height: 1.6em;
+    }
+  }
+}
+
+.sign-up__form {
+  width: 300px;
+}
+
+.sign-up,
+.user-edit-block {
   &__title {
     color: #333;
     border-bottom: 2px solid #d2d2d2;
@@ -480,13 +539,7 @@ section#user-gallery{
     color: #222;
   }
   &__form {
-    width: 300px;
     margin: 0 auto;
-    hr {
-      border-top: 4px solid #d2d2d2;
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
     .form-group {
       margin-bottom: 10px;
       input[type=email], input[type=text], input[type=password] {
@@ -500,12 +553,33 @@ section#user-gallery{
     .help-block {
       margin: 0;
     }
+    .help-text {
+      margin-top: 14px;
+    }
     .text-primary {
       margin-top: 5px;
     }
     .btn-primary {
       height: 40px;
       margin-top: 20px;
+    }
+  }
+
+  hr {
+    border-top: 2px solid #d2d2d2;
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    &__title {
+      margin-bottom: 40px;
+    }
+    &__txt {
+      margin-bottom: 40px;
+    }
+    &__form {
+      width: 100%;
     }
   }
 }

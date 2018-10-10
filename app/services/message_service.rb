@@ -16,16 +16,29 @@ class MessageService
         messagable: @source)
     when Comment
       return if @source.issue.blind_user? @source.user
+
+      previous_message_user_ids = @source.messages.select(:user_id).map(&:user_id)
+
       messagable_users = []
       messagable_users += @source.mentions.map(&:user)
       messagable_users += @source.post.messagable_users.to_a
       messagable_users.reject!{ |user| user == @source.user }
-      messagable_users.reject!{ |user| @source.messages.select(:user_id).map(&:user_id).include?(user.id) }
+      messagable_users.reject!{ |user| previous_message_user_ids.include?(user.id) }
       messagable_users.uniq!
 
       send_messages(
         sender: @source.user, users: messagable_users,
         messagable: @source)
+
+      if @action == :create
+        detail_messagable_users = @source.issue.detail_messagable_users
+        detail_messagable_users = detail_messagable_users.where.not(id: @source.user)
+        detail_messagable_users = detail_messagable_users.where.not(id: messagable_users)
+        detail_messagable_users = detail_messagable_users.where.not(id: previous_message_user_ids)
+        send_messages(
+          sender: @source.user, users: detail_messagable_users,
+          messagable: @source, action: @action)
+      end
     when Post
       if @action == :pinned
         users = @source.issue.member_users.where.not(id: @sender)
@@ -46,14 +59,26 @@ class MessageService
       else
         return if @source.issue.blind_user? @source.user
 
+        previous_message_user_ids = @source.messages.select(:user_id).map(&:user_id)
+
         messagable_users = []
         messagable_users += @source.mentions.map(&:user)
         messagable_users.reject!{ |user| user == @source.user }
-        messagable_users.reject!{ |user| @source.messages.select(:user_id).map(&:user_id).include?(user.id) }
+        messagable_users.reject!{ |user| previous_message_user_ids.include?(user.id) }
         messagable_users.uniq!
         send_messages(
           sender: @source.user, users: messagable_users,
           messagable: @source)
+
+        if @action == :create
+          detail_messagable_users = @source.issue.detail_messagable_users
+          detail_messagable_users = detail_messagable_users.where.not(id: @source.user)
+          detail_messagable_users = detail_messagable_users.where.not(id: messagable_users)
+          detail_messagable_users = detail_messagable_users.where.not(id: previous_message_user_ids)
+          send_messages(
+            sender: @source.user, users: detail_messagable_users,
+            messagable: @source, action: :create)
+        end
       end
     when Issue
       if @action == :create and !@source.group.indie?
@@ -161,7 +186,7 @@ class MessageService
     users.each do |user|
       row = { messagable: messagable, sender: sender, user: user, action: action, action_params: action_params.try(:to_json) }
       message = Message.create(row)
-      FcmJob.perform_async(message.id)
+      FcmJob.perform_async(message.id) if message.fcm_pushable?
     end
   end
 end
