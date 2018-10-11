@@ -15,6 +15,7 @@ class OpenGraph
     @agent.redirect_ok = :all
     @agent.redirection_limit = 5
     @agent.gzip_enabled = false
+    @agent.verify_mode= OpenSSL::SSL::VERIFY_NONE
     @agent.request_headers = { 'accept-language' => 'ko-KR,ko;q=0.8,en-US;q=0.6,en;q=0.4' }
 
     @src = src
