@@ -20,6 +20,7 @@ namespace :user do
       comments_ids_for_upvotes = user.upvotes.where(upvotable_type: "Comment").select(:upvotable_id).distinct.pluck(:upvotable_id)
       poll_ids_for_votings = user.votings.select(:poll_id).distinct.pluck(:poll_id)
       survey_ids_for_feedbacks = user.feedbacks.select(:survey_id).distinct.pluck(:survey_id)
+      option_ids_for_feedbacks = user.feedbacks.select(:option_id).distinct.pluck(:option_id)
       survey_ids_for_options = user.options.select(:survey_id).distinct.pluck(:survey_id)
       # post_ids_for_file_sources = FileSource.where(post: user.posts).select(:post_id).distinct.pluck(:post_id)
       group_ids_for_members = user.members.where(joinable_type: "Group").select(:joinable_id).distinct.pluck(:joinable_id)
@@ -30,13 +31,13 @@ namespace :user do
       user.destroy!
 
       reset_counter post_ids_for_comments, Post, :comments
+      reset_counter survey_ids_for_feedbacks, Survey, :feedbacks
+      reset_counter option_ids_for_feedbacks, Option, :feedbacks
       reset_counter issue_ids_for_members, Issue, :members
       reset_counter issue_ids_for_posts, Issue, :posts
       reset_counter post_ids_for_upvotes, Post, :upvotes
       reset_counter comments_ids_for_upvotes, Comment, :upvotes
       reset_counter poll_ids_for_votings, Poll, :votings
-      reset_counter survey_ids_for_feedbacks, Survey, :feedbacks
-      reset_counter survey_ids_for_options, Survey, :options
       # reset_counter post_ids_for_file_sources, Post, :file_sources
       reset_counter group_ids_for_members, Group, :members
       reset_counter issue_ids_for_members, Issue, :members

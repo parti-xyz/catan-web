@@ -85,7 +85,7 @@ class User < ApplicationRecord
   has_many :readers, dependent: :destroy
   has_many :comment_readers, dependent: :destroy
   has_many :roll_calls, dependent: :destroy
-  has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter
+  has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter_id
   has_many :issue_push_notification_preferences, dependent: :destroy
 
   ## uploaders
