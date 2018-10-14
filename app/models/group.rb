@@ -32,6 +32,10 @@ class Group < ApplicationRecord
     where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
     .or(where.not(private: true))
   }
+  scope :memberable_and_unfamiliar, ->(current_user) {
+    where.not(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
+    .where.not(private: true).where.not(slug: 'indie').where('issues_count > 0')
+  }
   mount_uploader :key_visual_foreground_image, ImageUploader
   mount_uploader :key_visual_background_image, ImageUploader
 

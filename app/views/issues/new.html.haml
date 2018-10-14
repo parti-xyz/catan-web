@@ -1,18 +1,22 @@
-.bs-component
-  - if @issue.errors.blank? and @issue.new_record?
-    - new_guide = "issues/new_guide"
-    - new_guide = "issues/#{host_group.slug}/new_guide" if lookup_context.exists?("issues/#{host_group.slug}/_new_guide")
-    = render new_guide
+- if @issue.errors.blank? and @issue.new_record?
+  - new_guide = "issues/new_guide"
+  - new_guide = "issues/#{host_group.slug}/new_guide" if lookup_context.exists?("issues/#{host_group.slug}/_new_guide")
+  = render new_guide
 
-  - if user_signed_in?
-    %section#form
-      .container
-        %h2.page-header 빠띠 만들기
-        = render 'form'
-  - else
-    %section
-      .container
-        = link_to '로그인하고 계속하기', new_user_session_path, class: 'btn btn-primary'
-        .help-block
-          빠띠에 처음 오셨나요?
-          = link_to '가입하기', pre_sign_up_users_path, style: 'text-decoration: underline'
+- if user_signed_in?
+  %section
+    .container
+      .contents-header.visible-xs-block
+        %h4.contents-header__title 빠띠 만들기
+        .help-block.text-basic-wrap<>
+          내가 관심있는 이슈로 파티하듯 수다를 떠는 곳
+          %strong.text-primary 빠띠
+          %span<> 를 만들고 함께 할 사람들을 초대해보세요.
+      = render 'form'
+- else
+  %section
+    .container
+      = link_to '로그인하고 계속하기', new_user_session_path, class: 'btn btn-primary'
+      .help-block
+        빠띠에 처음 오셨나요?
+        = link_to '가입하기', pre_sign_up_users_path, style: 'text-decoration: underline'

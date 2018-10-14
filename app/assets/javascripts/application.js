@@ -542,6 +542,10 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  $.parti_apply($base, '.js-select-picker', function(elm) {
+    $(elm).selectpicker('render');
+  });
+
   $.parti_apply($base, '[data-action="parti-filter-parties"]', function(elm) {
     var $elm = $(elm);
     $elm.on('click', function(e) {

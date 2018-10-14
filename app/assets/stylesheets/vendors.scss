@@ -75,3 +75,7 @@
   width: 100%;
   z-index: $zindex-unobtrusive-flash-messages;
 }
+
+.bootstrap-select.select-picker-full-dropdown-menu .dropdown-menu {
+  max-width: 100%;
+}

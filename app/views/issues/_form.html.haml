@@ -41,6 +41,69 @@
           = msg
 
   = form_for @issue do |f|
+    - if !@issue.persisted? and current_group.blank?
+      .form-group{class: error_class_str(@issue, :group_slug)}
+        = f.label :group_slug
+        .help-block.text-basic-wrap
+          내가 만드는 빠띠와 함께 할 사람들을 골라 보세요.
+
+        - groups = [Group.indie] + current_user.member_groups.sort_by_name
+        = f.select :group_slug, {}, {}, class: 'js-select-picker select-picker-full-dropdown-menu dropdown', data: { 'dropup-auto': 'false', width: '100%' } do
+          - groups.each do |group|
+            - group_content = capture do
+              .group-option.text-basic-wrap{ style: 'margin: 4px 0; white-space: normal;' }
+                .group-option-title.text-primary{ style: 'font-weight: bold' }
+                  = group.title
+                  %span.text-muted.text-nowrap{ style: 'font-weight: normal' }
+                    - unless group.indie?
+                      멤버 #{group.members.count}명
+                      &middot
+                    빠띠 #{group.issues.count}개
+                .group-option-desc.text-muted
+                  - if group.indie?
+                    사람들과 나누고 싶은 나만의 관심사가 있습니까?
+                    빠띠를 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
+                  - else
+                    = group.site_description
+            %option{ value: group.slug, 'data-content': h(group_content.to_str), 'data-tokens': ' ' }<>
+              = group.title
+
+        - memberable_and_unfamiliar_count = Group.memberable_and_unfamiliar(current_user).count
+
+        .help-block.text-basic-wrap{ style: 'margin-top: 10px ' }
+          %p
+            %span.label.label-default TIP
+            %span.text-muted 적당한 그룹을 찾기 힘드세요?
+          - if memberable_and_unfamiliar_count > 0
+            %div
+              %span.text-muted
+                * 내가 가입하지 않은 #{memberable_and_unfamiliar_count}개 그룹이 있습니다.
+              = link_to issues_path(subdomain: nil), class: 'btn btn-default btn-xs' do
+                그룹 찾기
+                %i.fa.fa-arrow-right
+
+          .help-block.text-basic-wrap
+            %span.text-muted
+              * 새로운 그룹을 만들어보세요.
+            = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-default btn-xs' do
+              새 그룹 만들기
+              %i.fa.fa-arrow-right
+
+    - if current_group.present?
+      .form-group{class: error_class_str(@issue, :group_slug)}
+        = f.label :group_slug do
+          그룹
+          %span.text-muted{ style: 'font-weight: normal;' }
+            내가 만드는 빠띠와 함께 할 사람들
+        .group-option-title.text-primary{ style: 'font-weight: bold' }
+          = current_group.title
+        .text-muted{ style: 'font-weight: normal' }
+          - if current_group.indie?
+            사람들과 나누고 싶은 나만의 관심사가 있습니까?
+            빠띠를 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
+          - else
+            = current_group.site_description
+
     .form-group{class: error_class_str(@issue, :title)}
       = f.label :title, t("labels.issue.form.groups.#{host_group.slug}.title", cascade: true)
       = f.text_field :title, class: 'form-control input-lg'
