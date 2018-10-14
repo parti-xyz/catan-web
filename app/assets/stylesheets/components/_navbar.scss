@@ -43,9 +43,10 @@ $side-menu-width: 256px;
         a {
           color: white;
           overflow: hidden;
-          width: 100px;
+          max-width: 100px;
           text-overflow: ellipsis;
           display: inline-block;
+          text-align: center;
         }
       }
     }
@@ -69,6 +70,9 @@ $side-menu-width: 256px;
         -webkit-transform: translateX(-50%);
         -moz-transform: translateX(-50%);
         transform: translateX(-50%);
+        &.navbar-brand-mobile {
+          overflow: visible;
+        }
         @media (min-width: $screen-sm-min) {
           top: -4px;
         }
@@ -166,7 +170,8 @@ $side-menu-width: 256px;
   // history-back
   .history-back {
     position: absolute;
-    left: -1.5em;
+    left: -1em;
+    overflow: visible;
 
     > i {
       font-size:  26px;

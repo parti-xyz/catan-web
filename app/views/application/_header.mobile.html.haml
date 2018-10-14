@@ -1,7 +1,7 @@
 %nav#site-header.navbar.navbar-default.navbar-fixed-top.js-fixed-header.js-stickytoolbar-offset
   .container.clearfix
     .navbar-header.navbar-header-center.js-navbar-header
-      .navbar-brand
+      .navbar-brand.navbar-brand-mobile
         - back_buttons = capture do
           - if history_backable_in_mobile_app?
             %a.history-back.js-btn-history-back-in-mobile-app{ href: "#", 'aria-label': only_mobile_app(request, 'header-back') }
