@@ -54,7 +54,7 @@
     = yield :script if content_for?(:script)
     - unless is_mobile_app_get_request?(request)
       :javascript
-        new SmartBanner({
+        var smart_bannder = new SmartBanner({
           title: '빠띠앱',
           author: '빠흐띠',
           button: 'VIEW',
@@ -67,6 +67,9 @@
               android: 'FREE'
           },
           icon: '#{image_url('icon-app.png')}'
+        });
+        $(document).on('parti-slide-open', function() {
+          smart_bannder.hide();
         });
     #fb-root
     :javascript

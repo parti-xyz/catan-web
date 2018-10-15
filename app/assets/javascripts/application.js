@@ -1579,6 +1579,7 @@ $(function(){
     });
 
     slideout.on('beforeopen', function () {
+      $(document).trigger("parti-slide-open");
       if($fixed.length > 0) {
         $fixed.css('transition', 'transform 300ms ease');
         $fixed.css('transform', 'translateX(256px)');
