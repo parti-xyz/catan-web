@@ -12,7 +12,7 @@
       - if issue.organized_by? current_user
         %span.parti-admin-button.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
           %i.fa.fa-star
-          오거나이저
+          가입함 - 오거나이저
           .hidden
             .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
               = link_to organizer_issue_members_path(issue, user_id: current_user.id), method: :delete, data: { 'disable-with': '오거나이징 취소 처리 중...' } do
@@ -21,10 +21,10 @@
         %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
           - if current_user.admin?
             %i.fa.fa-user-secret
-            운영자
+            가입함 - 운영자
           - else
             %i.fa.fa-user
-            멤버
+            가입함
           .hidden
             .reject-member{id: "reject-member-#{dom_id(issue)}"}
               = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
