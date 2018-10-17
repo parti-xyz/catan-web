@@ -115,6 +115,7 @@ Rails.application.routes.draw do
     resources :member_requests do
       post :accept, on: :collection
       delete :reject, on: :collection
+      get :reject_form, on: :collection
     end
   end
 
@@ -238,8 +239,11 @@ Rails.application.routes.draw do
       end
     end
     resources :member_requests do
-      post :accept, on: :collection
-      delete :reject, on: :collection
+      collection do
+        post :accept
+        delete :reject
+        get :reject_form
+      end
     end
     resources :managements do
       collection do

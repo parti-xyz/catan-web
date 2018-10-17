@@ -29,6 +29,10 @@ class Group::MemberRequestsController < Group::BaseController
     redirect_to(request.referrer || group_members_path)
   end
 
+  def reject_form
+    @user = User.find_by id: params[:user_id]
+  end
+
   def reject
     @user = User.find_by(id: params[:user_id])
     render_404 and return if @user.blank?

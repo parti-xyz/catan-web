@@ -90,7 +90,7 @@ class Ability
         current_group.present? and current_group.try(:member?, user)
       end
       can [:create], MemberRequest, user_id: user.id
-      can [:accept, :reject], MemberRequest do |request|
+      can [:accept, :reject, :reject_form], MemberRequest do |request|
         user.is_organizer?(request.issue)
       end
       can :manage, Related do |related|

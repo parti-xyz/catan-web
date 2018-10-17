@@ -35,6 +35,10 @@ class MemberRequestsController < ApplicationController
     redirect_to(request.referrer || smart_issue_members_path(@member.issue))
   end
 
+  def reject_form
+    @user = User.find_by id: params[:user_id]
+  end
+
   def reject
     @user = User.find_by(id: params[:user_id])
     render_404 and return if @user.blank?

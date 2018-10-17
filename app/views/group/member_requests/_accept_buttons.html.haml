@@ -4,7 +4,7 @@
   .small-margin-xs
   %span.hidden-xs
     &nbsp;
-  %button.btn.btn-sm.btn-default.btn-block-xs{"data-url": "##{dom_id(user)}__reject-member-request", "data-action": "parti-popover", "data-placement": "bottom"}
+  = link_to reject_form_group_member_requests_path(user_id: user.id), remote: true, class: 'btn btn-sm btn-default btn-block-xs' do
     요청거절
   .hidden
     %div{ id: "#{dom_id(user)}__reject-member-request" }
