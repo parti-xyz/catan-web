@@ -15,12 +15,12 @@
   - else
     = geo_pattern_background
   .container
-    .media
+    .media{ style: 'overflow: visible' }
       .media-left
         .parti-logo
           = link_to smart_issue_home_path_or_url(issue) do
             .thumb{style: "background-image: url(#{issue.logo.md.url})"}
-      .media-body
+      .media-body{ style: 'overflow: visible' }
         - if local_assigns[:simple]
           %h4.parti-title
             = link_to smart_issue_home_path_or_url(issue) do
@@ -41,29 +41,11 @@
           .parti-body
             = issue.body
           - if issue.frozen?
-            .parti-buttons
-              %span.parti-admin-button.cursor-pointer
-                z
-                %sup
-                  z
-                  %sup z
-                휴면 중
-              - if issue.organized_by?(current_user) or issue.group.organized_by?(current_user) or current_user.try(:admin?)
+            - if issue.organized_by?(current_user) or issue.group.organized_by?(current_user) or current_user.try(:admin?)
+              .parti-buttons<>
                 = render 'issues/header_buttons', issue: issue
           - else
-            .parti-buttons
-              - if !issue.group.private? and can?(:new_admit_members, issue)
-                = link_to new_admit_members_issue_path(issue), class: 'parti-admin-button' do
-                  %i.fa.fa-user-plus
-                  초대
-              - if !issue.private and !issue.group.private?
-                - share_content = { 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
-                %span.parti-admin-button.cursor-pointer{ data: { url: "#advert-info-#{dom_id(issue)}", action: "parti-share-popover", placement: "auto-bottom", data: "click" }.merge(share_content) }
-                  %i.fa.fa-share-alt
-                  공유
-                  .hidden
-                    .advert-info{id: "advert-info-#{dom_id(issue)}"}
-                      = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share' }.merge(share_content)
+            .parti-buttons<>
               = render 'issues/header_buttons', issue: issue
               - if issue.telegram_link.present?
                 %span.parti-telegram-button

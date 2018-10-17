@@ -17,7 +17,7 @@
       - if local_assigns[:issues_no_preference].try(:any?) or is_update
         - issue_selector_dom_id = "issue-selector-#{SecureRandom.uuid}"
         - unless is_update
-          = render 'posts/issue_selector', dom_id: issue_selector_dom_id, placeholder_text: '설정할 빠띠를 골라주세요', hide_latest_issues: true
+          = render 'issue_push_notification_preferences/issue_selector', dom_id: issue_selector_dom_id
         .post-editor.post-editor-modal
           .form-widget-container
             - form_id = "folder-form-#{SecureRandom.uuid}"

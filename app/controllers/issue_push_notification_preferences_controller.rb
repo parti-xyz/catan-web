@@ -6,10 +6,21 @@ class IssuePushNotificationPreferencesController < ApplicationController
   end
 
   def create
-    @issue_push_notification_preference = current_user.issue_push_notification_preferences.find_or_initialize_by(issue_id: issue_push_notification_preference_params[:issue_id])
-    @issue_push_notification_preference.assign_attributes(issue_push_notification_preference_params)
-    unless @issue_push_notification_preference.save
-      errors_to_flash(@issue_push_notification_preference)
+    issue_ids = (params[:issue_push_notification_preference][:issue_id] || '').split(',').map(&:to_i)
+    ActiveRecord::Base.transaction do
+      issue_ids.each do |issue_id|
+        issue_push_notification_preference = current_user.issue_push_notification_preferences.find_or_initialize_by(issue_id: issue_id)
+        issue_push_notification_preference.assign_attributes(issue_push_notification_preference_params)
+        unless issue_push_notification_preference.save
+          errors_to_flash(issue_push_notification_preference)
+          return
+        end
+      end
+    end
+
+    respond_to do |format|
+      format.html { redirect_back(fallback_location: edit_user_registration_path) }
+      format.js
     end
   end
 
@@ -33,6 +44,6 @@ class IssuePushNotificationPreferencesController < ApplicationController
   private
 
   def issue_push_notification_preference_params
-    params.require(:issue_push_notification_preference).permit(:issue_id, :value)
+    params.require(:issue_push_notification_preference).permit(:value)
   end
 end

@@ -303,6 +303,10 @@ ko:
         'detail': 내가 가입한 빠띠의 새 게시물, 나를 언급하거나 내가 토론 중인 게시물의 알림을 받습니다
         'highlight': 나를 언급하거나 내가 토론 중인 게시물의 알림을 받습니다
         'nothing': 어떤 알림도 받지 않습니다
+      value_issue_header:
+        'detail': 상세히
+        'highlight': 중요 알림만
+        'nothing': 받지않음
     roll_call:
       status:
         attend: 참석

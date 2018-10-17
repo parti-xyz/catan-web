@@ -151,6 +151,11 @@ body .webui-popover-backdrop {
   }
 }
 
+.text-primary-bold {
+  font-weight: bold;
+  color: $brand-primary;
+}
+
 .text-primary-dark {
   color: $brand-primary-dark;
 }

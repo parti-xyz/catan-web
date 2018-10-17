@@ -64,7 +64,7 @@
             %span<> 가 있습니다.
           - else
             %span<>
-              = link_to '#anchor-issue-push-notification-preferences', class: 'text-primary' do
+              = link_to new_issue_push_notification_preference_path, remote: true, data: { disable_with: '(새 창을 여는 중...)' }, class: 'text-primary' do
                 빠띠별로 앱 알림 설정
             %span<> 을 해보세요.
       - if resource.provider == 'email'

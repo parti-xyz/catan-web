@@ -518,6 +518,13 @@ section#user-gallery{
       line-height: 1.6em;
     }
   }
+
+  .push-notification-preferences-group {
+    margin-top: 10px;
+    .value-desc {
+      color: #aaa;
+    }
+  }
 }
 
 .sign-up__form {

@@ -3,59 +3,131 @@
   - if issue.member?(current_user)
     - unless local_assigns[:simple]
 
-      - if can? :update, issue
-        = link_to [:edit, issue], class: 'parti-admin-button' do
-          %i.fa.fa-gear
-          설정
+      - if issue.frozen?
+        %span.parti-admin-btn-container<>
+          %span.btn.btn-default.btn-xs.cursor-pointer<>
+            z
+            %sup
+              z
+              %sup z
+            휴면 중
+      - else
+        - if !issue.group.private? and can?(:new_admit_members, issue)
+          %span.parti-admin-btn-container<>
+            = link_to new_admit_members_issue_path(issue), class: 'btn btn-xs btn-default' do
+              %i.fa.fa-user-plus
+              초대
+        - if !issue.private and !issue.group.private?
+          - share_content = { 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
+          %span.parti-admin-btn-container<>
+            %span.btn.btn-default.btn-xs.cursor-pointer{ data: { url: "#advert-info-#{dom_id(issue)}", action: "parti-share-popover", placement: "auto-bottom", data: "click" }.merge(share_content) }<>
+              %i.fa.fa-share-alt
+              공유
+              .hidden<>
+                .advert-info{id: "advert-info-#{dom_id(issue)}"}
+                  = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story), share_map: { action: 'parti-share' }.merge(share_content)
 
+      - if can? :update, issue
+        %span.parti-admin-btn-container<>
+          = link_to [:edit, issue], class: 'btn btn-default btn-xs' do
+            %i.fa.fa-gear
+            설정
 
       - if issue.organized_by? current_user
-        %span.parti-admin-button.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}
-          %i.fa.fa-star
-          가입함 - 오거나이저
-          .hidden
-            .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
-              = link_to organizer_issue_members_path(issue, user_id: current_user.id), method: :delete, data: { 'disable-with': '오거나이징 취소 처리 중...' } do
-                오거나이징 그만두기
+        %span.parti-admin-btn-container<>
+          %span.btn.btn-default.btn-xs.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}<>
+            %i.fa.fa-star
+            가입함 - 오거나이저
+            .hidden<>
+              .organizer-info{id: "organizer-info-#{dom_id(issue)}"}
+                = link_to organizer_issue_members_path(issue, user_id: current_user.id), method: :delete, data: { 'disable-with': '오거나이징 취소 처리 중...' } do
+                  오거나이징 그만두기
       - else
-        %span.parti-admin-button.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-          - if current_user.admin?
-            %i.fa.fa-user-secret
-            가입함 - 운영자
-          - else
-            %i.fa.fa-user
-            가입함
-          .hidden
-            .reject-member{id: "reject-member-#{dom_id(issue)}"}
-              = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
-                빠띠 나가기
+        %span.parti-admin-btn-container<>
+          %span.btn.btn-default.btn-xs.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}<>
+            - if current_user.admin?
+              %i.fa.fa-user-secret
+              가입함 - 운영자
+            - else
+              %i.fa.fa-user
+              가입함
+            .hidden<>
+              .reject-member{id: "reject-member-#{dom_id(issue)}"}
+                = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...' do
+                  빠띠 나가기
 
       - if issue.alive?
-        - if current_user.my_menu?(issue)
-          %span.parti-admin-button.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-            %i.fa.fa-thumb-tack
-            내 메뉴에 고정노출
-          .hidden
-            .setting-menu{id: "setting-menu-#{dom_id(issue)}"}
-              = link_to [:remove_my_menu, issue], method: :delete, 'data-disable-with': '자동으로 노출하기 처리 중...' do
-                내 메뉴에 자동으로 노출하기
-        - else
-          %span.parti-admin-button.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}
-            %i.fa.fa-sliders
-            내 메뉴에 자동노출
-          .hidden
-            .setting-menu{id: "setting-menu-#{dom_id(issue)}"}
-              = link_to [:add_my_menu, issue], method: :put, 'data-disable-with': '고정으로 노출처리 중...' do
-                내 메뉴에 고정으로 노출하기
+        %span.text-nowrap<>
+          %span.parti-admin-btn-container<>
+            %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}<>
+              - if current_user.my_menu?(issue)
+                %i.fa.fa-thumb-tack
+              - else
+                %i.fa.fa-sliders
+            .hidden<>
+              .setting-menu.dropdown-list{id: "setting-menu-#{dom_id(issue)}"}
+                %ul.list-unstyled
+                  %li.text-muted
+                    내 메뉴에 노출
+                  %li.text-nowrap
+                    = link_to [:add_my_menu, issue], method: :put, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
+                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless current_user.my_menu?(issue)) }
+                      %i.fa.fa-thumb-tack
+                      항상 노출
+                  %li.text-nowrap
+                    = link_to [:remove_my_menu, issue], method: :delete, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
+                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' if current_user.my_menu?(issue)) }
+                      %i.fa.fa-sliders
+                      새 게시글이 있으면 노출
+
+          %span.parti-admin-btn-container<>
+            - issue_push_notification_preference_dom_id = "setting-push-notification--#{SecureRandom.uuid}"
+            %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "##{issue_push_notification_preference_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}<>
+              - case current_user.issue_push_notification_preference_value(issue)
+              - when 'highlight'
+                %i.fa.fa-bell-o
+              - when 'detail'
+                %i.fa.fa-bell
+              - when 'nothing'
+                %span.fa-stack{ style: 'line-height: 12px; width: 1.6em; height: 1em;' }
+                  %i.fa.fa-bell.fa-stack-1x
+                  %i.fa.fa-ban.fa-stack-1x{ style: 'font-size: 18px; color: #aaa;' }
+            .hidden<>
+              .setting-push-notification.dropdown-list{id: "#{issue_push_notification_preference_dom_id}"}
+                %ul.list-unstyled
+                  %li.text-muted
+                    알림 설정
+                  %li.text-nowrap
+                    = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'highlight'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
+                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'highlight' == current_user.issue_push_notification_preference_value(issue)) }
+                      %i.fa.fa-bell-o
+                      = t('enumerize.issue_push_notification_preference.value.highlight')
+                  %li.text-nowrap
+                    = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'detail'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
+                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'detail' == current_user.issue_push_notification_preference_value(issue)) }
+                      %i.fa.fa-bell
+                      = t('enumerize.issue_push_notification_preference.value.detail')
+                  %li.text-nowrap
+                    = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'nothing'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
+                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'nothing' == current_user.issue_push_notification_preference_value(issue)) }
+                      %span.fa-stack{ style: 'line-height: 12px; width: 1em; height: 1em;' }
+                        %i.fa.fa-bell.fa-stack-1x
+                        %i.fa.fa-ban.fa-stack-1x{ style: 'font-size: 18px; color: #aaa;' }
+                      = t('enumerize.issue_push_notification_preference.value.nothing')
+
 
   - elsif issue.member_requested?(current_user)
-    %i.fa.fa-warning.parti-admin-button
-      가입요청 중
+    %span.parti-admin-btn-container<>
+      %span.btn.btn-default.btn-xs.cursor-default.text-nowrap<>
+        %i.fa.fa-warning.cursor-default
+          가입요청 중
   - else
-    = link_to smart_members_or_member_requests_parti_path(issue), method: :post, 'data-disable-with': '처리 중...', class: 'parti-admin-button' do
+    %span.parti-admin-btn-container<>
+      = link_to smart_members_or_member_requests_parti_path(issue), method: :post, 'data-disable-with': '처리 중...', class: 'btn btn-default btn-xs' do
+        %i.fa.fa-sign-in
+        = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
+- else
+  %span.parti-admin-btn-container<>
+    %span.btn-default.btn-xs.cursor-pointer.cursor-pointer.text-nowrap{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }<>
       %i.fa.fa-sign-in
       = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
-- else
-  %span.parti-admin-button.cursor-pointer{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }
-    %i.fa.fa-sign-in
-    = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)

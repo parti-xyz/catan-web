@@ -63,6 +63,20 @@
   font-style: normal;
 }
 
+.webui-popover {
+  .dropdown-list {
+    > ul.list-unstyled {
+      margin-bottom: 0;
+    }
+    > ul.list-unstyled > li {
+      margin-bottom: 4px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
 // smart app bannder
 .smartbanner {
   position: fixed;

@@ -303,6 +303,16 @@ class User < ApplicationRecord
     end.compact
   end
 
+  def issue_push_notification_preference_text(issue)
+    I18n.t("enumerize.issue_push_notification_preference.value_issue_header.#{issue_push_notification_preference_value(issue)}")
+  end
+
+  def issue_push_notification_preference_value(issue)
+    issue_push_notification_preference = issue_push_notification_preferences.find_by(issue: issue)
+    (issue_push_notification_preference.try(:value) || 'highlight').to_s
+  end
+
+
   private
 
   def downcase_nickname

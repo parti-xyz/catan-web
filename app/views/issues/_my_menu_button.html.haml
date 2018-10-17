@@ -3,16 +3,16 @@
   - if current_user.my_menu?(issue)
     %button.btn.btn-primary.btn-xs.btn-my-menu-btn{"data-url": "##{popover_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}
       %i.fa.fa-thumb-tack
-      고정노출
+      고정으로 노출
       %i.fa.fa-caret-down
       .hidden
         .my-menu-btn{id: popover_dom_id}
           = link_to [:remove_my_menu, issue], method: :delete, remote: true, 'data-disable-with': '처리 중...' do
-            자동으로 노출하기
+            새글이 있을 때 노출하기
   - else
     %button.btn.btn-default.btn-xs.btn-my-menu-btn{"data-url": "##{popover_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}
       %i.fa.fa-sliders
-      자동노출
+      자동으로 노출
       %i.fa.fa-caret-down
       .hidden
         .my-menu-btn{id: popover_dom_id}
