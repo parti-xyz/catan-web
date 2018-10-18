@@ -1644,26 +1644,22 @@ $(function(){
   $(document).on('click', '.js-show-more-sidemenu-issues', function(e) {
     event.preventDefault();
     var $target = $(e.currentTarget);
+    var $group = $target.closest('.js-more-sidemenu-group');
 
-    $target.parent().hide().addClass('js-more-sidemenu-collapse');
-    $target.parent().nextAll().show().removeClass('js-more-sidemenu-collapse');
-
-    var $show_less = $target.parent().parent().find('.js-show-less-sidemenu-issues').eq(0);
-    $show_less.parent().show().removeClass('js-more-sidemenu-collapse');
+    $target.parent().hide();
+    $group.find('.js-more-sidemenu-collapse').show();
   });
 
   $(document).on('click', '.js-show-less-sidemenu-issues', function(e) {
     event.preventDefault();
     var $target = $(e.currentTarget);
+    var $group = $target.closest('.js-more-sidemenu-group');
 
     var old_scroll_top = $('.js-show-less-sidemenu-scroll').scrollTop();
     var old_height = $target.parent().parent().outerHeight();
 
-    var $show_more = $target.parent().parent().find('.js-show-more-sidemenu-issues').eq(0);
-    $show_more.parent().show().removeClass('js-more-sidemenu-collapse');
-    $show_more.parent().nextAll().hide().addClass('js-more-sidemenu-collapse');
-
-    $target.parent().hide().addClass('js-more-sidemenu-collapse');
+    $group.find('.js-show-more-sidemenu-issues').parent().show();
+    $group.find('.js-more-sidemenu-collapse').hide();
 
     var divider_dom_id = $target.attr('href');
     setTimeout(function() {

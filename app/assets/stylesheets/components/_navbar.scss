@@ -516,6 +516,11 @@ $drawer-default-space-mobile: 12px;
           &:hover {
             background-color: $gray-lightest;
           }
+
+          &.title-category {
+            font-size: 12px;
+            margin-top: 4px;
+          }
         }
         .sub {
           margin-top: 0;

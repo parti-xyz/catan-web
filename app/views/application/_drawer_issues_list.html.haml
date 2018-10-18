@@ -1,0 +1,10 @@
+- invisible_issues = Issue.none if local_assigns[:invisible_issues].empty?
+
+%ul.sub.list-unstyled{ class: ('collapse js-more-sidemenu-collapse' if visible_issues.empty?) }
+  - Issue.where(id: visible_issues).sort_by_name.each do |issue|
+    = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-searchable-line"
+
+  - if invisible_issues.any?
+    - invisible_issues.sort_by_name.each do |issue|
+      = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-my-menu-searchable-line collapse js-more-sidemenu-collapse"
+
