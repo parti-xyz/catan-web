@@ -1670,8 +1670,8 @@ $(function(){
   });
 
   // 내 메뉴 search
-  if ($('.js-filterable-by-drawer-filter').length > 0) {
-    $('.js-drawer-filter-more').appendTo('.js-filterable-by-drawer-filter').hide().removeClass('hidden');
+  if ($('.js-drawer-filter-container').length > 0) {
+    $('.js-drawer-filter-more').appendTo('.js-drawer-filter-container').hide().removeClass('hidden');
   } else {
     $('.js-drawer-filter-more').remove();
   }
@@ -1683,20 +1683,8 @@ $(function(){
     }
   });
 
-  // 위키 폴더 목록 클릭
-  $('.js-folder-item').on('click', function(e) {
-    var $elm = $(e.currentTarget);
-    $elm.siblings('.js-folder-posts').slideToggle(100, function() {
-      if($(this).is(':visible')) {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
-      } else {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
-      }
-    });
-  });
-
   $(".js-drawer-filter").on("keyup", _.debounce(function(){
-    if ($('.js-filterable-by-drawer-filter .js-drawer-filter-group').length <= 0) {
+    if ($('.js-drawer-filter-container .js-drawer-filter-group').length <= 0) {
       return;
     }
 
@@ -1704,21 +1692,21 @@ $(function(){
     var filter = $(this).val();
 
     if ($.is_blank(filter)) {
-      $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item').show();
-      var $hidden = $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden')
+      $('.js-drawer-filter-container').find('.js-drawer-filter-item').show();
+      var $hidden = $('.js-drawer-filter-container').find('.js-drawer-filter-item-hidden')
       $hidden.removeClass('js-drawer-filter-item-hidden');
       $hidden.not('.js-more-sidemenu-collapse').show();
-      $('.js-filterable-by-drawer-filter .js-more-sidemenu-collapse').css('display', 'none');
+      $('.js-drawer-filter-container .js-more-sidemenu-collapse').css('display', 'none');
       $('.js-drawer-filter-more').fadeOut();
     } else {
       // Loop through the comment list
-      $('.js-filterable-by-drawer-filter').find('> :not(.js-drawer-filter-item)').addClass('js-drawer-filter-item-hidden');
+      $('.js-drawer-filter-container').find('> :not(.js-drawer-filter-item)').addClass('js-drawer-filter-item-hidden');
 
-      $('.js-filterable-by-drawer-filter .js-drawer-filter-group').each(function(){
+      $('.js-drawer-filter-container .js-drawer-filter-group').each(function(){
         var has_shown_issue_in_group = false;
 
-        $(this).find('js-issue-line-control').addClass('js-drawer-filter-item-hidden');
-        $(this).find('.js-my-menu-searchable-line').each(function() {
+        $(this).find('.js-drawer-filter-ignored').addClass('js-drawer-filter-item-hidden');
+        $(this).find('.js-drawer-filter-searchable-line').each(function() {
           // If the list item does not contain the text phrase fade it out
           if ($(this).text().search(new RegExp(filter, "i")) < 0) {
             $(this).addClass('js-drawer-filter-item-hidden');
@@ -1729,7 +1717,7 @@ $(function(){
           }
         });
 
-        $(this).find('.js-my-menu-searchable-group-line').each(function() {
+        $(this).find('.js-drawer-filter-group-title').each(function() {
           // If the list item does not contain the text phrase fade it out
           if ($(this).text().search(new RegExp(filter, "i")) >= 0) {
             has_shown_issue_in_group = true;
@@ -1746,10 +1734,22 @@ $(function(){
         }
       });
 
-      $('.js-filterable-by-drawer-filter').find('.js-drawer-filter-item-hidden').fadeOut();
+      $('.js-drawer-filter-container').find('.js-drawer-filter-item-hidden').fadeOut();
       $('.js-drawer-filter-more').show();
     }
   }, 300));
+
+  // 위키 폴더 목록 클릭
+  $('.js-folder-item').on('click', function(e) {
+    var $elm = $(e.currentTarget);
+    $elm.siblings('.js-folder-posts').slideToggle(100, function() {
+      if($(this).is(':visible')) {
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
+      } else {
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
+      }
+    });
+  });
 
   // pull to refresh
   (function() {

@@ -12,7 +12,7 @@
         = link_to '회원가입', pre_sign_up_users_path
         \|
         = link_to '로그인', new_user_session_path
-  %ul.drawer-list__menu.list-unstyled.js-filterable-by-drawer-filter
+  %ul.drawer-list__menu.list-unstyled.js-drawer-filter-container
     - if user_signed_in? and current_user.member_issues.any?
       = render 'application/drawer_search'
       = render 'application/drawer_base_menus'

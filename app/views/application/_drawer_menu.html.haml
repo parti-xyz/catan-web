@@ -1,5 +1,5 @@
 .drawer-list#js-drawer
-  %ul.drawer-list__menu.list-unstyled.js-filterable-by-drawer-filter
+  %ul.drawer-list__menu.list-unstyled.js-drawer-filter-container
     - if user_signed_in? and current_user.member_issues.any?
       = render 'application/drawer_search'
       = render 'application/drawer_base_menus'

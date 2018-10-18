@@ -3,7 +3,7 @@
     - divider_dom_id = "js-more-sidemenu-divider-#{SecureRandom.uuid}"
     %li.divider.divider-small{ id: divider_dom_id }
     %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-more-sidemenu-group
-      .title.cursor-pointer.js-my-menu-searchable-group-line{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
+      .title.cursor-pointer.js-drawer-filter-group-title{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
         - latest_issues_count = menu_group.visiable_latest_issues_count
         - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
         - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
@@ -31,7 +31,7 @@
             - next if categorized_issues.empty?
             - visible_issues, invisible_issues = Issue.classify_for_drawer(current_user, categorized_issues)
 
-            .title.title-category.text-primary{ class: ('collapse js-more-sidemenu-collapse' if visible_issues.empty?) }= (category.try(:name) || '미분류')
+            .title.title-category.text-primary.js-drawer-filter-ignored{ class: ('collapse js-more-sidemenu-collapse' if visible_issues.empty?) }= (category.try(:name) || '미분류')
             = render 'application/drawer_issues_list', group: menu_group, visible_issues: visible_issues, invisible_issues: invisible_issues
 
             - has_invisible_issues = invisible_issues.any? unless has_invisible_issues
@@ -44,7 +44,7 @@
 
         - if has_invisible_issues
           %ul.sub.list-unstyled
-            %li.js-my-menu-searchable-line.js-issue-line-control.issue-more.clearfix
+            %li.js-drawer-filter-ignored.issue-more.clearfix
               %a.js-show-more-sidemenu-issues(href="#")
                 %i.fa.fa-caret-down
                 더 보기
@@ -52,7 +52,7 @@
                 %i.fa.fa-gear
                 설정
 
-            %li.js-issue-line-control.issue-less.collapse.js-more-sidemenu-collapse.clearfix
+            %li.js-drawer-filter-ignored.issue-less.collapse.js-more-sidemenu-collapse.clearfix
               %a.js-show-less-sidemenu-issues{ href: "##{divider_dom_id}" }
                 %i.fa.fa-caret-up
                 접기
@@ -61,7 +61,7 @@
                 설정
       - else
         %ul.sub.list-unstyled
-          %li.js-issue-line.js-issue-line-control
+          %li.js-issue-line.js-drawer-filter-ignored
             = link_to smart_group_issues_url(menu_group), style: 'color: #c0c0c2' do
               %span.text-nowrap
                 내 빠띠가 없습니다.
