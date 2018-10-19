@@ -35,7 +35,7 @@ $.each($old_inputs, function(i, elm) {
   <% limit = 10 %>
   <% more_latest_comments = @parent_comment.children.limit(limit).recent %>
   <% more_latest_comments = more_latest_comments.where('created_at < ?', @child_comment.created_at) if @child_comment.present? %>
-  <% child_comments = @parent_comment.children.where('created_at >= ?', more_latest_comments.last.created_at).sequential %>
+  <% child_comments = @parent_comment.children.where('created_at >= ?', more_latest_comments.last.try(:created_at) || DateTime.new(0)).sequential %>
   var comments_html = '<%= j(render 'comments/child_comments', parent_comment: @parent_comment, child_comments: child_comments) %>';
   var $comments_html = $(comments_html);
   $('<%= comments_children_dom_selector(@parent_comment) %>').html($comments_html);
