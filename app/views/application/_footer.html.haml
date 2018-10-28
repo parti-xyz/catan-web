@@ -1,18 +1,11 @@
 %footer.footer.hidden-xs
-  - if current_group.present?
-    .footer-logo.footer-logo--group.clearfix
-      = link_to root_url(subdomain: false) do
-        %span.footer-logo__txt
-          Powered by
-        %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_ci_black.png') }
-  - else
-    .footer-logo.footer-logo.clearfix
-      = link_to root_path do
-        %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
-        %span.footer-logo__txt
-          팀과 커뮤니티를 위한
-          %br
-          민주주의 플랫폼, 빠띠
+  .footer-logo.footer-logo.clearfix
+    = link_to root_path do
+      %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
+      %span.footer-logo__txt
+        팀과 커뮤니티를 위한
+        %br
+        민주주의 플랫폼, 빠띠
   %ul.footer-link.list-unstyled
     %li= link_to '빠띠 소개', about_url(subdomain: nil)
     %li= link_to '이용약관', terms_url(subdomain: nil)
@@ -42,16 +35,15 @@
                   %input#email{:name => "email", :id => "email", :type => "email", class: 'form-control'}/
                 .form-submit
                   %button{class: 'btn btn-wire device-bloc-button btn-primary', :type => "submit"} 구독신청
-  - unless current_group.present?
-    .footer-sns
-      %a{href: 'http://partiunion.org', target: '_blank'}
-        = image_tag 'icon_parti.png', alt: 'btn-facebook'
-      %a{href: 'https://facebook.com/PartiUnion', target: '_blank'}
-        = image_tag 'icon_fb.png', alt: 'btn-facebook'
-      %a{href: 'https://twitter.com/parti_xyz', target: '_blank'}
-        = image_tag 'icon_tw.png', alt: 'btn-twitter'
-      %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
-        = image_tag 'icon_me.png', alt: 'btn-medium'
-      - if is_kakao_talkable?
-        %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
-          = image_tag 'icon_yellow.png', alt: 'btn-yellow', class: 'footer-sns--yellow'
+  .footer-sns
+    %a{href: 'http://partiunion.org', target: '_blank'}
+      = image_tag 'icon_parti.png', alt: 'btn-facebook'
+    %a{href: 'https://facebook.com/PartiUnion', target: '_blank'}
+      = image_tag 'icon_fb.png', alt: 'btn-facebook'
+    %a{href: 'https://twitter.com/parti_xyz', target: '_blank'}
+      = image_tag 'icon_tw.png', alt: 'btn-twitter'
+    %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
+      = image_tag 'icon_me.png', alt: 'btn-medium'
+    - if is_kakao_talkable?
+      %a{href: 'http://plus.kakao.com/home/@parti_xyz', target: '_blank'}
+        = image_tag 'icon_yellow.png', alt: 'btn-yellow', class: 'footer-sns--yellow'
