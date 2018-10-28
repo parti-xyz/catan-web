@@ -114,7 +114,7 @@ class Group::ConfigurationsController < Group::BaseController
   def group_params
     # 민감한 정보인 slug은 따로 받습니다
     params.require(:group).permit(:title, :site_description, :site_title,
-      :head_title, :site_keywords, :private, :organizer_nicknames,
+      :head_title, :site_keywords, :issue_creation_privileges, :private, :organizer_nicknames,
       :key_visual_foreground_image, :key_visual_foreground_image_cache,
       :key_visual_background_image, :key_visual_background_image_cache)
   end

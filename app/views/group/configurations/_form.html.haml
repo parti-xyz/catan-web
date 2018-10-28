@@ -70,6 +70,12 @@
           %p.help-block
             키워드를 쉼표로 구분해서 넣어 주세요. 검색해서 그룹을 찾아오기 쉬워집니다. #는 붙이실 필요 없어요.
 
+        .form-group{class: ('has-error' if has_error_attr?(@group, :issue_creation_privileges))}
+          = f.label :issue_creation_privileges
+          = f.select :issue_creation_privileges, Group.issue_creation_privileges.options, {}, class: 'form-control'
+          %p.help-block
+            그룹의 빠띠를 개설할 수 있는 권한을 설정합니다.
+
         .form-group{class: ('has-error' if has_error_attr?(@group, :private))}
           = f.label :private
           .checkbox

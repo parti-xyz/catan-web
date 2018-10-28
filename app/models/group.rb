@@ -8,7 +8,7 @@ class Group < ApplicationRecord
 
   extend Enumerize
   enumerize :plan, in: [:premium, :lite, :trial], predicates: true, scope: true
-
+  enumerize :issue_creation_privileges, in: [:member, :organizer], predicates: true, scope: true
   SLUG_OF_UNION = 'union'
 
   belongs_to :user, optional: true
@@ -250,9 +250,15 @@ class Group < ApplicationRecord
     (LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ? latest_stroked_posts_count : 0)
   end
 
-
   def visiable_latest_issues_count
     (LatestStrokedPostsCountHelper.current_version == latest_issues_count_version ? latest_issues_count : 0)
+  end
+
+  def creatable_issue?(someone)
+    return true if self.indie?
+    return self.member?(someone) if self.issue_creation_privileges.member?
+    return self.organized_by?(someone) if self.issue_creation_privileges.organizer?
+    false
   end
 
   private

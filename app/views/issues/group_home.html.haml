@@ -9,6 +9,7 @@
 - paging = (!@posts.nil? and @posts.try(:current_page).present?)
 - is_first_page_in_paging = (paging and @posts.first_page?)
 = render 'application/group_home_sub_header', active: 'home'
+
 - if Issue.only_alive_of_group(current_group).any?
   %section#home{ style:"padding-bottom: 40px;" }
     - if current_group.front_wiki_post.present? and !current_group.front_wiki_post.private_blocked?(current_user)
@@ -79,7 +80,6 @@
         = paginate @recent_posts, theme: 'catan'
 
 - else
-
   %section#home
     .container
       .row
@@ -87,10 +87,16 @@
           %section{style:"margin-top:20px; padding-bottom: 10px"}
             %h4.group-heading #{current_group.title} 그룹에 오신 것을 환영합니다.
           .bg-default
-            %p 가장 먼저 빠띠를 개설해 보세요.
+            - if current_group.creatable_issue?(current_user)
+              %p 가장 먼저 빠띠를 개설해 보세요.
 
-            .fa.fa-info-circle
-            = link_to new_issue_path, class: 'text-primary' do
-              빠띠 만들기
-              %i.fa.fa-arrow-right
+              .fa.fa-info-circle
+              = link_to new_issue_path, class: 'text-primary' do
+                빠띠 만들기
+                %i.fa.fa-arrow-right
+            - else
+              %p
+                .fa.fa-info-circle
+                개설 준비 중입니다.
+
         = render 'issues/group_home_aside'

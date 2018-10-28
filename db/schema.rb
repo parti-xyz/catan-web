@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_28_031307) do
+ActiveRecord::Schema.define(version: 2018_10_28_132106) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -218,6 +218,7 @@ ActiveRecord::Schema.define(version: 2018_10_28_031307) do
     t.integer "latest_issues_count_version", default: 0
     t.bigint "front_wiki_post_id"
     t.bigint "front_wiki_post_by_id"
+    t.string "issue_creation_privileges", default: "member", null: false
     t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
     t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
     t.index ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true

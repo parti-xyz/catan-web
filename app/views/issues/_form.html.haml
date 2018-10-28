@@ -50,6 +50,7 @@
         - groups = [Group.indie] + current_user.member_groups.sort_by_name
         = f.select :group_slug, {}, {}, class: 'js-select-picker select-picker-full-dropdown-menu dropdown', data: { 'dropup-auto': 'false', width: '100%' } do
           - groups.each do |group|
+            - next unless group.creatable_issue?(current_user)
             - group_content = capture do
               .group-option.text-basic-wrap{ style: 'margin: 4px 0; white-space: normal;' }
                 .group-option-title.text-primary{ style: 'font-weight: bold' }

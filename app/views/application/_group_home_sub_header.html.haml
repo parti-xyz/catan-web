@@ -17,8 +17,9 @@
         - if current_group.organized_by?(current_user)
           %li.hidden-xs{ class: ('active' if local_assigns[:active] == 'management') }
             = link_to '그룹 관리', group_managements_path
-      %ul.list-inline.pull-right
-        %li
-          = link_to new_issue_path do
-            %i.fa.fa-magic
-            빠띠 만들기
+      - if current_group.creatable_issue?(current_user)
+        %ul.list-inline.pull-right
+          %li
+            = link_to new_issue_path do
+              %i.fa.fa-magic
+              빠띠 만들기

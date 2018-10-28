@@ -24,6 +24,7 @@
         .bg-default
           .fa.fa-info-circle
           해당 빠띠가 없습니다.
-          = link_to new_issue_path, class: 'text-primary' do
-            빠띠 만들기
-            %i.fa.fa-arrow-right
+          - if current_group.creatable_issue?(current_user)
+            = link_to new_issue_path, class: 'text-primary' do
+              빠띠 만들기
+              %i.fa.fa-arrow-right
