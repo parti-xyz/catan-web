@@ -32,12 +32,16 @@ class Member < ApplicationRecord
     joinable if joinable_type == 'Issue'
   end
 
+  def gruop
+    joinable if joinable_type == 'Group'
+  end
+
   def issue_for_message
     issue
   end
 
   def group_for_message
-    joinable if joinable_type == 'Group'
+    gruop
   end
 
   def self.messagable_group_method

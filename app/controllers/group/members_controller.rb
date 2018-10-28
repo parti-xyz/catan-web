@@ -56,6 +56,7 @@ class Group::MembersController < Group::BaseController
 
     respond_to do |format|
       format.js
+      format.html { redirect_to(request.referrer || smart_group_url(@member.group)) }
     end
   end
 

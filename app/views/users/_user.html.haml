@@ -16,8 +16,11 @@
         %div{ id: "#{dom_id(user)}__member_user", style: "max-width: 180px" }
           = description_html
   - if local_assigns[:additional_buttons_partial].present?
-    .user-card__additional_buttons
+    - partial = capture do
       = render additional_buttons_partial, local_assigns.merge(user: user)
+    - if partial.present?
+      .user-card__additional_buttons
+        = partial
   - if local_assigns[:chevron_buttons_partial].present?
     - partial = capture do
       = render chevron_buttons_partial, local_assigns.merge(user: user)
