@@ -202,6 +202,9 @@ class IssuesController < ApplicationController
         GroupMemberJob.perform_async(target_group.id, @out_of_member_users.map(&:id))
       end
     end
+    if @issue.will_save_change_to_group_slug?
+      @issue.category = nil
+    end
 
     new_organizer_members = []
     ActiveRecord::Base.transaction do
