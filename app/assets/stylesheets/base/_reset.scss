@@ -238,3 +238,10 @@ body.in-group {
   font-weight: 400;
   margin: 0;
 }
+
+.dropdown-menu > li > .help-text {
+  font-size: 12px;
+  color: $gray-a;
+  white-space: normal;
+  padding: 4px 20px;
+}

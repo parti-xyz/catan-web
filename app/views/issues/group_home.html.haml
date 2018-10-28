@@ -11,6 +11,14 @@
 = render 'application/group_home_sub_header', active: 'home'
 - if Issue.only_alive_of_group(current_group).any?
   %section#home{ style:"padding-bottom: 40px;" }
+    - if current_group.front_wiki_post.present? and !current_group.front_wiki_post.private_blocked?(current_user)
+      .container.container-xs-full-width
+        %section.front-wiki
+          .post-card
+            .post-card__post
+              .post-line
+                .post-body
+                  = render 'wikis/card', post: current_group.front_wiki_post, mode: 'preview-detail', hide_last_stroked_for: true
     .container
       - if (@recent_posts.try(:current_page) || 0) <= 1
         %section{ style:"margin-top:20px; margin-bottom: 40px;" }
@@ -30,7 +38,7 @@
                       = render 'issues/card', issue: issue
 
         - if @discussions.any?
-          %section{ style:"margin-top:20px; margin-bottom: 40px;" }
+          %section{ style:"margin-top:20px;" }
             = link_to polls_or_surveys_path do
               %h4.group-heading
                 진행 중인 토론

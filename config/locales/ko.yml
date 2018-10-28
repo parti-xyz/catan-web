@@ -316,6 +316,8 @@ ko:
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지에서 내렸습니다.
+    front_wiki: 그룹홈에 게시했습니다.
+    destroy_front_wiki: 그룹홈에서 내렸습니다.
     read: 확인했습니다.
     started_issue_destroying: '빠띠 삭제가 시작되었습니다. 잠시 후에 완료됩니다.'
     indie_form_select_title: '그룹에 속하지 않는 빠띠'

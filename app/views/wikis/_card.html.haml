@@ -1,19 +1,20 @@
 - wiki_card_dom_id = "js-wiki-card-#{SecureRandom.uuid}"
 .wiki-line.clearfix{ id: wiki_card_dom_id }
-  - chevron_dropdown = capture do
-    = render 'posts/chevron_menu', local_assigns.merge(post: post)
-  - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
-  - if chevron_dropdown.try(:strip).present?
-    .post-card__buttons
-      %span.bookmark{ class: bookmark_post_dom_class(post) }
-        = render 'posts/bookmark', post: post
-      %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-        %i.fa.fa-ellipsis-v
+  - unless local_assigns[:hide_last_stroked_for]
+    - chevron_dropdown = capture do
+      = render 'posts/chevron_menu', local_assigns.merge(post: post)
+    - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
+    - if chevron_dropdown.try(:strip).present?
+      .post-card__buttons
+        %span.bookmark{ class: bookmark_post_dom_class(post) }
+          = render 'posts/bookmark', post: post
+        %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+          %i.fa.fa-ellipsis-v
+        %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+          = chevron_dropdown
       %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-        = chevron_dropdown
-    %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
-  - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-  = render 'posts/last_stroked_for', post: post
+    - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+    = render 'posts/last_stroked_for', post: post
 
   - if ['detail', 'remote-detail', 'preview-detail'].include? local_assigns[:mode]
     - if can?(:update, post.wiki) and 'preview-detail' != local_assigns[:mode]

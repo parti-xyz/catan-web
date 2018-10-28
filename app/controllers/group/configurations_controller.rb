@@ -1,7 +1,7 @@
 class Group::ConfigurationsController < Group::BaseController
   skip_before_action :verify_current_group, only: [:new, :create]
   before_action :authenticate_user!
-  before_action :only_organizer, only: [:edit, :update]
+  before_action :only_organizer, only: [:edit, :update, :front_wiki, :destroy_front_wiki]
 
   def new
     @group = Group.new
@@ -87,6 +87,26 @@ class Group::ConfigurationsController < Group::BaseController
     @group.save
     flash[:success] = t('activerecord.successful.messages.deleted')
     redirect_to edit_group_configuration_path
+  end
+
+  def front_wiki
+    @post = Post.find(params[:post_id])
+    @group = @post.issue.group
+    render_404 and return if @group.indie?
+
+    @group.front_wiki_post = @post
+    @group.front_wiki_post_by = current_user
+    @group.save!
+  end
+
+  def destroy_front_wiki
+    @post = Post.find(params[:post_id])
+    @group = @post.issue.group
+    render_404 and return if @group.indie?
+
+    @group.front_wiki_post = nil
+    @group.front_wiki_post_by = current_user
+    @group.save!
   end
 
   private

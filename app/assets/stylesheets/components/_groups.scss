@@ -13,6 +13,12 @@
     }
   }
 
+  @media (min-width: $screen-sm-min) {
+    section.front-wiki {
+      margin-top:40px;
+    }
+  }
+
   .discussions-all-list {
     .slick-dots {
       bottom: -15px;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_07_080619) do
+ActiveRecord::Schema.define(version: 2018_10_28_031307) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -216,6 +216,10 @@ ActiveRecord::Schema.define(version: 2018_10_07_080619) do
     t.integer "latest_stroked_posts_count_version", default: 0
     t.integer "latest_issues_count", default: 0
     t.integer "latest_issues_count_version", default: 0
+    t.bigint "front_wiki_post_id"
+    t.bigint "front_wiki_post_by_id"
+    t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
+    t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
     t.index ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true
     t.index ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true
   end
@@ -668,6 +672,18 @@ ActiveRecord::Schema.define(version: 2018_10_07_080619) do
     t.string "name", collation: "utf8_bin"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "third_party_auths", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.string "access_token", null: false
+    t.string "refresh_token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider", "uid", "user_id"], name: "index_third_party_auths_on_provider_and_uid_and_user_id", unique: true
+    t.index ["user_id"], name: "index_third_party_auths_on_user_id"
   end
 
   create_table "upvotes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

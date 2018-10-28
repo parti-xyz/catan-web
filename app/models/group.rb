@@ -24,6 +24,8 @@ class Group < ApplicationRecord
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :issues, dependent: :restrict_with_error, primary_key: :slug, foreign_key: :group_slug
   has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
+  belongs_to :front_wiki_post, class_name: 'Post', optional: true
+  belongs_to :front_wiki_post_by, class_name: 'User', optional: true
 
   scope :sort_by_name, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
   scope :hottest, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }

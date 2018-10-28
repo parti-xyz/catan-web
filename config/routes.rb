@@ -214,6 +214,8 @@ Rails.application.routes.draw do
   namespace :group do
     resource :configuration do
       member do
+        post 'front_wiki'
+        delete 'front_wiki', to: 'configurations#destroy_front_wiki'
         delete :remove_key_visual_foreground_image
         delete :remove_key_visual_background_image
       end

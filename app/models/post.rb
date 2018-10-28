@@ -35,6 +35,7 @@ class Post < ApplicationRecord
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :decision_histories, dependent: :destroy
   has_one :post_searchable_index, dependent: :destroy, autosave: true
+  has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
 
   belongs_to :last_stroked_user, class_name: "User", optional: true
   accepts_nested_attributes_for :link_source
@@ -302,6 +303,11 @@ class Post < ApplicationRecord
   def upvotable? someone
     return false if someone.blank?
     !upvotes.exists?(user: someone)
+  end
+
+  def front_wiki?
+    return false if self.issue.group.indie?
+    self.issue.group.front_wiki_post == self
   end
 
   def self.recommends(exclude)
