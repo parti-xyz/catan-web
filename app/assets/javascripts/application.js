@@ -37,6 +37,7 @@
 //= require js.cookie
 //= require pulltorefresh
 //= require photoswipe
+//= require photoswipe-ui-default
 //= require jquery.scrollTo
 //= require loadash
 //= require bootstrap-datepicker
@@ -1847,44 +1848,23 @@ $(function(){
       return {
         src: $(image_element).data('url'),
         w: $(image_element).data('width'),
-        h: $(image_element).data('height')
+        h: $(image_element).data('height'),
+        downloadURL: $(image_element).data('original-url')
       }
     }));
 
     var gallery = null;
 
+    var $elm = $(e.currentTarget);
+
     // define options (if needed)
     var options = {
       // optionName: 'option value'
       // for example:
-      index: $(e.currentTarget).data('index'),
+      index: $elm.data('index'),
       shareButtons: [
         {id: 'download', label: '원본 다운로드', url:'{{raw_image_url}}', download: true}
-      ],
-      // Next 3 functions return data for share links
-      //
-      // functions are triggered after click on button that opens share modal,
-      // which means that data should be about current (active) slide
-      getImageURLForShare: function( shareButtonData ) {
-        // `shareButtonData` - object from shareButtons array
-        //
-        // `pswp` is the gallery instance object,
-        // you should define it by yourself
-        //
-        return $(e.currentTarget).data('original-url');
-      },
-      getPageURLForShare: function( shareButtonData ) {
-        return window.location.href;
-      },
-      getTextForShare: function( shareButtonData ) {
-        return gallery.currItem.title || '';
-      },
-      // Parse output of share links
-      parseShareButtonOut: function(shareButtonData, shareButtonOut) {
-        // `shareButtonData` - object from shareButtons array
-        // `shareButtonOut` - raw string of share link element
-        return shareButtonOut;
-      }
+      ]
     };
 
     // Initializes and opens PhotoSwipe
