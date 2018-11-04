@@ -1,5 +1,6 @@
 <% if @comment.persisted? %>
   $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").find('.js-post-editor-file_sources-wrapper .nested-fields').remove();
+  $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").find("input[name='need_remotipart']").remove();
   $("<%= raw new_comment_form_dom_selector(@comment.post, @comment.parent) %>").find('.js-file-source-form').addClass('collapse').hide();
   $("<%= raw new_comment_form_body_input_dom_selector(@comment.post, @comment.parent) %>").val('');
   $("<%= raw new_comment_form_submit_dom_selector(@comment.post, @comment.parent) %>").addClass('collapse');
