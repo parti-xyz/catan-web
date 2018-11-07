@@ -6,7 +6,8 @@
       .aside_issue{ style: 'color: #777;' }
         .aside_issue_btn.text-basic-wrap.clearfix{ style: 'font-size: 12px;' }
           %div{ style: 'float: left; width: 180px;' }
-            %strong 빠띠 만들기
+            = link_to new_issue_path, class: 'a-gray' do
+              %strong 빠띠 만들기
             %div
               나누고 싶은 이슈나 관심사가 있나요?
               - if current_group.blank?
@@ -24,9 +25,10 @@
         - if current_group.blank?
           .aside_issue_btn.text-basic-wrap.clearfix{ style: 'font-size: 12px; margin-top: 12px;' }
             %div{ style: 'float: left; width: 180px;' }
-              %strong 그룹 만들기
+              = link_to new_group_configuration_url(subdomain: nil), class: 'a-gray' do
+                %strong 그룹 만들기
               %div
-                하나의 빠띠로 다루기엔 너무 다양한 주제가 있나요? 여러 빠띠를 묶어주는
+                하나의 빠띠로 다루기에는 너무 다양한 주제가 있나요? 여러 빠띠를 묶어주는
                 %span
                   %u<> 그룹
                   을

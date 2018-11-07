@@ -896,3 +896,10 @@ section.default-padding-top {
     padding-top: 0;
   }
 }
+
+a.a-gray {
+  color: $gray;
+  &:hover {
+    color: $brand-primary;
+  }
+}
