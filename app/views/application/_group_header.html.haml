@@ -48,7 +48,7 @@
                   %i.fa.fa-search
         - if user_signed_in?
           %li.write-menu
-            = link_to new_post_path, remote: true do
+            = link_to new_po중t_path, remote: true, data: { 'disable-with': '여는 중...' } do
               %i.fa.fa-pencil{style:"font-size: 18px;"}
               작성
         - if user_signed_in?
