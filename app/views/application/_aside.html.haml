@@ -6,20 +6,35 @@
       .aside_issue{ style: 'color: #777;' }
         .aside_issue_btn.text-basic-wrap.clearfix{ style: 'font-size: 12px;' }
           %div{ style: 'float: left; width: 180px;' }
-            나누고 싶은 이슈나 관심사가 있나요?
-            - if current_group.blank?
-              팀과 커뮤니티를 위한
-            - else
-              = current_group.title_short_format
-              그룹의
-            빠띠를 만드세요.
+            %strong 빠띠 만들기
+            %div
+              나누고 싶은 이슈나 관심사가 있나요?
+              - if current_group.blank?
+                팀과 커뮤니티를 위한
+              - else
+                = current_group.title_short_format
+                그룹의
+              %span
+                %u<> 빠띠
+                를
+              만드세요.
           %div{ style: 'float: right;' }
-            = link_to '빠띠 만들기', new_issue_path, class: 'btn btn-xs btn-primary'
+            = link_to new_issue_path, class: 'btn btn-lg btn-primary', style: 'border-radius: 50%; width: 50px; height: 50px;' do
+              %i.fa.fa-magic
         - if current_group.blank?
           .aside_issue_btn.text-basic-wrap.clearfix{ style: 'font-size: 12px; margin-top: 12px;' }
-            %div{ style: 'float: left; width: 180px;' } 하나의 빠띠로 다루기엔 너무 다양한 이야기가 있나요? 여러 빠띠를 담을 수 있는 그룹을 만드세요.
+            %div{ style: 'float: left; width: 180px;' }
+              %strong 그룹 만들기
+              %div
+                하나의 빠띠로 다루기엔 너무 다양한 주제가 있나요? 여러 빠띠를 묶어주는
+                %span
+                  %u<> 그룹
+                  을
+                만드세요.
             %div{ style: 'float: right;' }
-              = link_to '그룹 만들기', new_group_configuration_url(subdomain: nil), class: 'btn btn-xs btn-default'
+              = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-lg btn-default', style: 'border-radius: 50%; width: 50px; height: 50px;' do
+                %i.fa.fa-cube
+
 
         - if params[:controller] == 'dashboard' and params[:action] == 'index'
           .aside_search
