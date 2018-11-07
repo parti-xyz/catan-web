@@ -222,6 +222,7 @@ Rails.application.routes.draw do
     end
     resources :members do
       collection do
+        get 'me'
         put :organizer
         delete :organizer
         get :ban_form

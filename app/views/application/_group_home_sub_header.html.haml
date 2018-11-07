@@ -1,7 +1,7 @@
 %section#group-home-submenu
   .container
     %nav.clearfix
-      %ul.list-inline.pull-left
+      %ul.list-inline.list-inline-left
         %li.hidden-xs{ class: ('active' if local_assigns[:active] == 'home') }
           = link_to '홈', root_path
         %li{ class: ('active' if local_assigns[:active] == 'issues') }
@@ -14,12 +14,15 @@
           = link_to t('labels.links_or_files'), links_or_files_path
         %li{ class: ('active' if current_page?('/group/members')) }
           = link_to '멤버', group_members_path
+        - if user_signed_in? and current_group.member?(current_user)
+          %li{ class: ('active' if local_assigns[:active] == 'me') }
+            = link_to '내 정보', me_group_members_path
         - if current_group.organized_by?(current_user)
-          %li.hidden-xs{ class: ('active' if local_assigns[:active] == 'management') }
+          %li{ class: ('active' if local_assigns[:active] == 'management') }
             = link_to '그룹 관리', group_managements_path
       - if current_group.creatable_issue?(current_user)
-        %ul.list-inline.pull-right
+        %ul.list-inline.list-inline-right
           %li
             = link_to new_issue_path do
               %i.fa.fa-magic
-              빠띠 만들기
+              빠띠개설

@@ -9,6 +9,10 @@ class Group::MembersController < Group::BaseController
     @members = base.page(params[:page]).per(4 * 10)
   end
 
+  def me
+    render_404 and return unless current_group.member?(current_user)
+  end
+
   def cancel
     @member = current_group.member_of current_user
     ActiveRecord::Base.transaction do

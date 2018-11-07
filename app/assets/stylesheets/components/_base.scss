@@ -892,4 +892,7 @@ select.icon-select option {
 
 section.default-padding-top {
   padding-top: 20px;
+  .contents-header + & {
+    padding-top: 0;
+  }
 }

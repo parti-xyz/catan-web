@@ -93,7 +93,30 @@ section#home {
 
 section#group-home-submenu {
   background-color: $brand-primary;
+  @media (max-width: $screen-xs-max){
+    .container {
+      padding-right: 0;
+      padding-left: 0;
+      nav {
+        white-space: nowrap;
+        overflow: scroll;
+        ul {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
   .list-inline {
+    &.list-inline-left {
+      float: left;
+    }
+    &.list-inline-right {
+      float: right;
+      @media (max-width: $screen-xs-max){
+        float: initial;
+      }
+    }
     margin-top: 10px;
     a {
       color: white;
