@@ -108,11 +108,11 @@ class Ability
       can :destroy, Invitation do |invitation|
         invitation.joinable.organized_by? user
       end
-      can [:admit, :magic_link], Group do |group|
-        group.organized_by?(user)
-      end
-      can [:manage], Category do |category|
-        category.group.blank? or category.group.organized_by?(user)
+
+      if current_group.present? and current_group.organized_by?(user)
+        can [:admit, :magic_link], Group
+        can [:manage], Category
+        can [:manage], GroupHomeComponent
       end
 
       if user.admin?

@@ -166,6 +166,8 @@ ko:
         duration_days: 기간
       folder:
         title: 이름
+      group_home_component:
+        title: 제목
     successful:
       messages:
         created: 저장되었습니다.
@@ -317,6 +319,11 @@ ko:
         absent: 불참
         invite: 초대 중
         to_be_decided: 미정
+    group_home_component:
+      format_name:
+        updated_issues: 최근 업데이트된 빠띠
+        all_posts: 전체 게시글
+        issue_posts: 빠띠 게시글
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지에서 내렸습니다.

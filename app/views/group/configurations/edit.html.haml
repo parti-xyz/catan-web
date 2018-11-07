@@ -4,8 +4,20 @@
   %section
     .container
       = render 'group/tab_menu', active: 'management'
-
       = render 'form'
+
+
+      .contents-header
+        %h4.contents-header__title 그룹홈 꾸미기
+
+      .well
+
+        = render 'group/group_home_components/list', group: current_group
+
+        = link_to '새로운 설정 추가하기', [:new, :group, :group_home_component], remote: true, class: 'btn btn-primary btn-block-xs', data: { 'disable-with': '여는 중...' }
+        - if current_group.group_home_components.any?
+          %br.visible-xs-block
+          = link_to '모두 삭제하고 기본 구성으로 되돌리기', [:group, :group_home_components], remote: true, method: :delete, class: 'btn btn-default btn-block-xs', data: { 'confirm': '정말 모든 설정을 삭제하고 기본 구성으로 되돌리시겠습니까?', 'disable-with': '삭제 중...' }
 
   %section
     .container.container-xs-full-width

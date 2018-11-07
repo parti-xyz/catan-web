@@ -24,6 +24,7 @@ class Group < ApplicationRecord
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :issues, dependent: :restrict_with_error, primary_key: :slug, foreign_key: :group_slug
   has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
+  has_many :group_home_components, dependent: :destroy
   belongs_to :front_wiki_post, class_name: 'Post', optional: true
   belongs_to :front_wiki_post_by, class_name: 'User', optional: true
 
@@ -259,6 +260,17 @@ class Group < ApplicationRecord
     return self.member?(someone) if self.issue_creation_privileges.member?
     return self.organized_by?(someone) if self.issue_creation_privileges.organizer?
     false
+  end
+
+  def arrange_seq_group_home_components!
+    ActiveRecord::Base.transaction do
+      index = 0
+      self.group_home_components.sequenced.each do |group_home_component|
+        index += 1
+        group_home_component.seq_no = index
+        group_home_component.save!
+      end
+    end
   end
 
   private

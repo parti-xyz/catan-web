@@ -1,0 +1,8 @@
+<% if @group_home_component.blank? or @group_home_component.errors.any? %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+  var partial = "<%= j(render 'group/group_home_components/list', group: current_group, active_id: @group_home_component.id) %>";
+  $('#js-group-home-component-list').replaceWith(partial);
+  parti_partial$($('#js-group-home-component-list'), true);
+  $('.modal').modal('hide');
+<% end %>

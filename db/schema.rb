@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_28_132106) do
+ActiveRecord::Schema.define(version: 2018_11_07_094956) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -191,6 +191,14 @@ ActiveRecord::Schema.define(version: 2018_10_28_132106) do
     t.index ["user_id"], name: "index_folders_on_user_id"
   end
 
+  create_table "group_home_components", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.string "title", null: false
+    t.string "format_name", null: false
+    t.integer "seq_no", null: false
+    t.index ["group_id"], name: "index_group_home_components_on_group_id"
+  end
+
   create_table "groups", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "title", null: false
@@ -238,6 +246,13 @@ ActiveRecord::Schema.define(version: 2018_10_28_132106) do
     t.index ["joinable_id"], name: "index_invitations_on_joinable_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
+  create_table "issue_posts_formats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "group_home_component_id", null: false
+    t.bigint "issue_id", null: false
+    t.index ["group_home_component_id"], name: "index_issue_posts_formats_on_group_home_component_id"
+    t.index ["issue_id"], name: "index_issue_posts_formats_on_issue_id"
   end
 
   create_table "issue_push_notification_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

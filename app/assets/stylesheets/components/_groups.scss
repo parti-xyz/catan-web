@@ -13,6 +13,12 @@
     }
   }
 
+  section.front-wiki {
+    .wiki-line .wiki-line-body-full {
+      border: none;
+    }
+  }
+
   @media (min-width: $screen-sm-min) {
     section.front-wiki {
       margin-top:40px;
@@ -84,6 +90,7 @@ body.in-group {
     }
   }
 }
+
 /* 고급설정 접었다 펼치기 */
 body.app-group--configurations-new,
 body.app-group--configurations-create,
@@ -91,6 +98,50 @@ body.app-group--configurations-edit,
 body.app-group--configurations-update {
   @include form-advanced-option();
 }
+
+body.app-group--configurations-new,
+body.app-group--configurations-create,
+body.app-group--configurations-edit,
+body.app-group--configurations-update {
+  .group-home-component-list {
+    li .group-home-component-seq-no {
+      width: 3em;
+      line-height: 2em;
+      font-size: 1em;
+      display: inline-block;
+      border: 1px solid $gray;
+      color: $gray;
+      padding: .2em .6em .3em;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+    }
+    li.active {
+      -webkit-animation: group-home-component-active 2s; /* Safari 4+ */
+      -moz-animation:    group-home-component-active 2s; /* Fx 5+ */
+      -o-animation:      group-home-component-active 2s; /* Opera 12+ */
+      animation:         group-home-component-active 2s;
+    }
+
+    @-webkit-keyframes group-home-component-active {
+      0%   { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    @-moz-keyframes group-home-component-active {
+      0%   { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    @-o-keyframes group-home-component-active {
+      0%   { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    @keyframes group-home-component-active {
+      0%   { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+  }
+}
+
 .group-modal-dialog{
   width: 600px;
   margin: 30px auto;

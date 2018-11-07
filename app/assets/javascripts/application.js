@@ -362,26 +362,46 @@ var parti_prepare = function($base, force) {
     $.parti_apply($base, '[data-action="parti-popover"]', setup_webui_popover);
   })();
 
-  //hide
-  $.parti_apply($base, '[data-action="parti-hide"]', function(elm) {
-    $(elm).on('click', function(e) {
-      e.preventDefault();
-      var $elm = $(e.currentTarget);
-      var $target = $($elm.data('hide-target'));
-      $target.hide();
 
-      var $inactive = $($elm.data('inactive-target'));
-      $inactive.removeClass('active');
+  //tab btn
+  $.parti_apply($base, '.js-tab-btn', function(elm) {
+    $(elm).on('shown.bs.tab', function (e) {
+      $(e.target).closest('.js-tab-btn-container').hide();
+      console.log($(e.target).attr('href'));
+      $($(e.target).attr('href')).find('form').trigger('parti-need-to-validate');
     });
   });
 
-  // focus
-  $.parti_apply($base, '[data-action="parti-focus"]', function(elm) {
+  //tab btn
+  $.parti_apply($base, '.js-tab-btn', function(elm) {
+    $(elm).on('shown.bs.tab', function (e) {
+      $(e.target).closest('.js-tab-btn-container').hide();
+      console.log($(e.target).attr('href'));
+      $($(e.target).attr('href')).find('form').trigger('parti-need-to-validate');
+    });
+  });
+
+  $.parti_apply($base, '.js-tab-masonry', function(elm) {
+    $(elm).on('shown.bs.tab', function (e) {
+      parti_prepare_masonry($('body'));
+    });
+  });
+
+
+  //hide
+  $.parti_apply($base, '.js-basic-toggle', function(elm) {
     $(elm).on('click', function(e) {
       e.preventDefault();
       var $elm = $(e.currentTarget);
-      var $target = $($elm.data('focus-target'));
-      $target.focus();
+
+      var $hide_target = $($elm.data('hide-target'));
+      $hide_target.hide();
+
+      var $show_target = $($elm.data('show-target'));
+      $show_target.show();
+
+      var $inactive = $($elm.data('inactive-target'));
+      $inactive.removeClass('active');
     });
   });
 

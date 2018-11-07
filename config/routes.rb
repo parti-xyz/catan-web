@@ -261,6 +261,15 @@ Rails.application.routes.draw do
         end
       end
     end
+    resources :group_home_components do
+      member do
+        patch :up_seq
+        patch :down_seq
+      end
+      collection do
+        delete '/', to: 'group_home_components#destroy_all'
+      end
+    end
   end
 
   get 'file_source/:id/download', to: "file_sources#download", as: :download_file_source

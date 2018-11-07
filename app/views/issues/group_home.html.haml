@@ -12,7 +12,7 @@
 
 - if Issue.only_alive_of_group(current_group).any?
   %section#home{ style:"padding-bottom: 40px;" }
-    - if current_group.front_wiki_post.present? and !current_group.front_wiki_post.private_blocked?(current_user)
+    - if current_group.front_wiki_post.present? and !current_group.front_wiki_post.private_blocked?(current_user) and (@recent_posts.try(:current_page) || 0) <= 1
       .container.container-xs-full-width
         %section.front-wiki
           .post-card
@@ -20,65 +20,38 @@
               .post-line
                 .post-body
                   = render 'wikis/card', post: current_group.front_wiki_post, mode: 'preview-detail', hide_last_stroked_for: true
-    .container
-      - if (@recent_posts.try(:current_page) || 0) <= 1
-        %section{ style:"margin-top:20px; margin-bottom: 40px;" }
-          .parties-all
-            = link_to issues_path do
-              %h4.group-heading
-                최근 업데이트된 빠띠
-                - if @hot_issues.count != @issues.count
-                  %small.text-nowrap
-                    모든 #{number_with_delimiter @issues.count}개 빠띠 보기
-                    %i.fa.fa-angle-double-right
-            .parties-all-list.clearfix
-              .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 4, 'slick-slider-md': 4, 'slick-slider-xs': 2 } }
-                - @hot_issues.each do |issue|
-                  .col-xs-6.col-sm-3.col-md-3.col-lg-3
-                    .issue-card-wrapper
-                      = render 'issues/card', issue: issue
 
-        - if @discussions.any?
-          %section{ style:"margin-top:20px;" }
-            = link_to polls_or_surveys_path do
-              %h4.group-heading
-                진행 중인 토론
-                - if @discussions_all.count != @discussions.count
-                  %small.text-nowrap
-                    모든 #{number_with_delimiter @discussions_all.count}개 토론 보기
-                    %i.fa.fa-angle-double-right
-            .discussions-all-list.clearfix
-              .row.slick-slider.slick-slider-catan.slick-slider-recent-polls-and-surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
-                = render 'posts/page_card', posts: @discussions, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
+    - home_components_content = capture do
+      - current_group.group_home_components.sequenced.each do |group_home_component|
+        - if (@recent_posts.try(:current_page) || 0) <= 1
+          - if group_home_component.format_name.updated_issues?
+            = render 'issues/group_home_updated_issues', title: group_home_component.title
+          - if group_home_component.format_name.issue_posts?
+            = render 'issues/group_home_issue_posts', title: group_home_component.title, issue: group_home_component.issue_posts_format.issue
+        - if group_home_component.format_name.all_posts?
+          = render 'issues/group_home_all_posts', recent_posts: @recent_posts, title: group_home_component.title
 
-      - hottest_sort = (params['sort'] == 'hottest' or params['sort'].nil?)
-      - order_by_stroked_at_sort = (params['sort'] == 'order_by_stroked_at')
-      - if @recent_posts.try(:any?)
-        - recent_posts_partial = capture do
-          = render 'posts/page_card', posts: @recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: order_by_stroked_at_sort, previous_last_post: @previous_last_post, show_decision: false
-        - recent_posts_partial = recent_posts_partial.strip
+    - if home_components_content.try(:strip).present?
+      .container= home_components_content
+    - else
+      .container
+        - if (@recent_posts.try(:current_page) || 0) <= 1
+          = render 'issues/group_home_updated_issues'
 
-        %a.anchor#js-group-all-posts
-        %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
-          %h4.group-heading
-            모든 게시글
+          - if @discussions.any?
+            %section{ style:"margin-top:20px;" }
+              = link_to polls_or_surveys_path do
+                %h4.group-heading
+                  진행 중인 토론
+                  - if @discussions_all.count != @discussions.count
+                    %small.text-nowrap
+                      모든 #{number_with_delimiter @discussions_all.count}개 토론 보기
+                      %i.fa.fa-angle-double-right
+              .discussions-all-list.clearfix
+                .row.slick-slider.slick-slider-catan.slick-slider-recent-polls-and-surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+                  = render 'posts/page_card', posts: @discussions, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
 
-          .contents-header
-            .posts-filter-select
-              #content-tab-section
-                %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
-                  %li{ class: "#{('active' if hottest_sort)}" }
-                    = link_to '인기순', { sort: 'hottest' }
-                  %li{ class: "#{('active' if order_by_stroked_at_sort)}" }
-                    = link_to '최신순', { sort: 'order_by_stroked_at' }
-
-          .posts-container{ class: ('posts-container-timeline' if order_by_stroked_at_sort  and !is_small_screen?) }
-            .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
-              .grid-sizer.col-sm-4
-              != recent_posts_partial
-
-        = paginate @recent_posts, theme: 'catan'
-
+        = render 'issues/group_home_all_posts', recent_posts: @recent_posts
 - else
   %section#home
     .container
