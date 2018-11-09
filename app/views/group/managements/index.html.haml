@@ -4,20 +4,19 @@
   .container
     = render 'group/tab_menu', active: 'management'
 
-    %section.default-padding-top
-      %h3{ style: 'font-weight: 200; margin-top: 0' }
-        #{current_group.title} 오거나이저
-        %span{ style: 'font-weight: 400' }#{current_user.nickname}
-        %span<> 님 환영합니다.
-      .panel.panel-default{ style: "width: 450px;" }
-        .panel-body{ style: "line-height: 25px;" }
-          #{current_user.nickname} 님! 어떻게 #{current_group.title} 그룹을 운영할지 고민 중이신가요?
-          %br
-          빠띠를 만들고 돌보고 있는 오거나이저들과 이야기 나눠보세요!
-          %br
-          = link_to 'https://parti.xyz/p/organizer', target: "_blank", class: "btn btn-primary", style: "margin-top: 10px;" do
-            오거나이저 커뮤니티 바로가기
-            %i.fa.fa-chevron-right
+    - if current_group.organized_by?(current_user)
+      %section.default-padding-top
+        %h4{ style: 'font-weight: 200; margin-top: 0' }
+          #{current_group.title} 오거나이저
+          %span{ style: 'font-weight: 400' }#{current_user.nickname}
+          %span<> 님 환영합니다.
+        .panel.panel-default
+          .panel-body.text-basic-wrap
+            %p #{current_user.nickname} 님! 어떻게 #{current_group.title} 그룹을 운영할지 고민 중이신가요? 더 많은 멤버가 참여하길 바라시나요?
+            %p 지금 다른 그룹의 오거나이저들 #{Issue.find_by(slug: 'organizer', group_slug: 'indie').members.count}명과 이야기 나눠보세요!
+            = link_to 'https://parti.xyz/p/organizer', target: "_blank", class: "btn btn-primary", style: "margin-top: 10px;" do
+              오거나이저 커뮤니티 바로가기
+              %i.fa.fa-chevron-right
 
     - if @data.present?
       %section.default-padding-top

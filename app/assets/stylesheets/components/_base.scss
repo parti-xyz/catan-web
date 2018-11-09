@@ -90,11 +90,13 @@
   }
 }
 
+#content-tab-section + .well {
+  margin-top: 10px;
+}
+
 @media (max-width: $screen-xs-max) {
   #content-tab-section .nav-tabs {
     padding-left: 0;
-    margin-left: -15px;
-    margin-right: -15px;
 
     &.message-tab {
       padding-left: 20px;
