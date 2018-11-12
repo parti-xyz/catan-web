@@ -1396,10 +1396,14 @@ $(function(){
     }
   });
 
-  $(document).on('click', '.js-download', function(e) {
-    var href = $(e.target).closest('a').attr('href')
-    if (href && href != "#") {
-      return true;
+  $(document).on('click', 'a.js-download', function(e) {
+    var url = $(e.currentTarget).attr("href");
+
+    var target_url = $(e.target).closest('a').attr('href');
+    if(url != target_url) {
+      if (target_url && target_url != "#") {
+        return true;
+      }
     }
 
     var $no_parti_link = $(e.target).closest('[data-no-parti-link="no"]')
@@ -1408,7 +1412,6 @@ $(function(){
     }
 
     e.preventDefault();
-    var url = $(e.currentTarget).data("url");
     // 하위 호환을 위해 post_id를 남겨둡니다.
     var post_id = $(e.currentTarget).data("post-id");
     var file_source_id = $(e.currentTarget).data("file-source-id");

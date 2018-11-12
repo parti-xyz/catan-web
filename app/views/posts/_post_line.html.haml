@@ -75,7 +75,7 @@
       - post.file_sources.only_doc.sort_by_seq_no.each do |file_source|
         .post-reference-line.post-line
           .post-reference-line__file-content
-            .cursor-pointer.js-download{ 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
+            %a.cursor-pointer.js-download{ href: file_source.url, 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
               .media
                 .media-left.hidden-xs
                   %i.fa.fa-floppy-o

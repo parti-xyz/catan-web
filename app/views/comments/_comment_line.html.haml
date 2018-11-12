@@ -49,7 +49,7 @@
             - comment.file_sources.only_doc.sort_by_seq_no.each do |file_source|
               .file-source-doc
                 / 하위호환을 위한 dummy post id를 넘겨줍니다
-                .file-title.cursor-pointer.clearfix.js-download{ 'data-url': file_source.url, 'data-post-id': 0, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
+                %a.file-title.cursor-pointer.clearfix.js-download{ href: file_source.url, 'data-post-id': 0, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
                   %i.fa.fa-floppy-o
                   = truncate(file_source.name, length: 100)
         .footer
