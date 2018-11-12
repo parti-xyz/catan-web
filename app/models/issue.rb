@@ -388,20 +388,16 @@ class Issue < ApplicationRecord
     end
 
     visible_issues = issues.only_my_menu(someone).to_a
-    invisible_issues = issues.where.not(id: visible_issues)
-
     if visible_issues.count < magic_count
       recent_joined_issues = issues.where(id: someone.issue_members.past_week.recent.limit(magic_count).to_a)
       visible_issues = visible_issues + recent_joined_issues.to_a
-      invisible_issues = issues.where.not(id: recent_joined_issues)
     end
-
     if visible_issues.count < magic_count
       hot_issues = issues.hottest.limit(magic_count)
       visible_issues = visible_issues + hot_issues.to_a
-      invisible_issues = issues.where.not(id: hot_issues.to_a)
     end
 
+    invisible_issues = issues.where.not(id: visible_issues)
     [visible_issues, invisible_issues]
   end
 
