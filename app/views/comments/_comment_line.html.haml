@@ -43,7 +43,7 @@
                 - image_photoswipe_width = file_source.image_width
                 - image_photoswipe_heigh = file_source.image_height
 
-              - action_options = { 'data-url': file_source.attachment.lg.url, 'data-original-url': file_source.attachment.url, 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': comment.body.try(:truncate, 100), 'data-index': index }
+              - action_options = { 'data-url': file_source.attachment.lg.url, 'data-original-url': download_file_source_url(file_source), 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': comment.body.try(:truncate, 100), 'data-index': index }
               .file-source-image.js-photoswipe-image.cursor-pointer{ action_options }
                 %img{ src: file_source.attachment.xs.url }
             - comment.file_sources.only_doc.sort_by_seq_no.each do |file_source|

@@ -33,6 +33,10 @@
   .pswp--svg .pswp__button--arrow--right:before {
     background-image: image-url('pswp/default-skin/default-skin.svg');
   }
+  .pswp--svg .pswp__button--arrow--left,
+  .pswp--svg .pswp__button--arrow--right {
+    background-image: none;
+  }
 }
 
 .pswp__preloader--active .pswp__preloader__icn {
