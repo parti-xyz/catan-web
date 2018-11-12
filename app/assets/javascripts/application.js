@@ -818,22 +818,6 @@ var parti_prepare = function($base, force) {
 
   // editor
   (function() {
-    var setPlaceholder = function(editor, placeholder) {
-      if(!$.is_blank(editor.getContent())) { return; }
-      editor.setContent("<p id='js-tinymce-placeholder' class='tinymce-placeholder'>" + placeholder + "</p>");
-    };
-
-    var removePlaceholder = function(editor) {
-      $placeholder = $(editor.getBody()).find("#js-tinymce-placeholder");
-      if($placeholder.length) {
-        $placeholder.remove();
-        editor.setContent("<p></p>");
-        return true;
-      }
-
-      return false
-    };
-
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
@@ -851,7 +835,6 @@ var parti_prepare = function($base, force) {
       if(setting_name) {
         setting = settings[setting_name];
       }
-      var placeholder = $(elm).data('placeholder') || "";
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
@@ -874,19 +857,6 @@ var parti_prepare = function($base, force) {
         content_css: content_css,
         formats: {
           strikethrough: {inline : 'del'}
-        },
-        setup: function (editor) {
-          editor.on('init', function(){
-            setPlaceholder(editor, placeholder);
-          });
-          editor.on('focus', function (e) {
-            if(removePlaceholder(editor)) {
-              editor.execCommand('mceFocus', false);
-            }
-          });
-          editor.on('GetContent', function (e) {
-            removePlaceholder(editor);
-          });
         },
         init_instance_callback: function (editor) {
           editor.on('Change', function (e) {

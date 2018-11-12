@@ -1,4 +1,9 @@
 // 툴바 위치 고정
+
+$.fn.scrollEnd = function(callback, timeout) {
+
+};
+
 tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
   var inited = false;
   editor.on('focus', function() {
@@ -6,7 +11,7 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
     setSticky();
   });
 
-  $(window).on('scroll', _.debounce(setSticky, 100));
+  $(window).on('scroll', _.debounce(setSticky, 10));
 
   function setSticky() {
     if(!inited) {
@@ -36,17 +41,38 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
 
     if (isSticky(viewportTopDelta)) {
       if($('body').hasClass('ios')) {
+        $toolbars.css('visibility', 'hidden');
+        var scrollStopTimeoutMS = 500;
+        if ($(container).data('scrolltimeout')) {
+          clearTimeout($(container).data('scrolltimeout'));
+        }
+        $(container).data('scrolltimeout', setTimeout(function() {
+          $toolbars.css('visibility', 'visible');
+        }, scrollStopTimeoutMS));
+      }
+
+      if($('body').hasClass('ios')) {
         $(document).trigger('parti-ios-virtaul-keyboard-open-for-tinymce');
       }
       $(container).css({
         paddingTop: $toolbars.outerHeight()
       });
-      var top = (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta;
-      $toolbars.css({
-        position: 'absolute',
-        top: top,
-        width: '100%'
-      });
+      if($('body').hasClass('ios')) {
+        var top = (-1) + -1 * ($toolbars.outerHeight() + container.getBoundingClientRect().top) + viewportTopDelta;
+        $toolbars.css({
+          position: 'absolute',
+          top: top,
+          width: '100%'
+        });
+      } else {
+        var top = (-1) + (-1 * $toolbars.outerHeight()) + viewportTopDelta;
+        var width = $(container).outerWidth() - 1;
+        $toolbars.css({
+          position: 'fixed',
+          top: viewportTopDelta,
+          width: width
+        });
+      }
       $(container).addClass('mce-catan-tinymce-sticky');
       $toolbars.find('> .mce-container-body').addClass('mce-catan-container-body-sticky');
       $toolbars.find('> .js-mce-catan-sticky-toolbar').addClass('mce-catan-toolbar-sticky');
@@ -66,21 +92,24 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
   }
 
   function isSticky(viewportTopDelta) {
-    return isOverViewportTop(viewportTopDelta) && !isCompletedOverViewportTop(viewportTopDelta, 100);
+    return isReading(viewportTopDelta) && !isAlreadRead(viewportTopDelta, 100);
   }
 
-  function isOverViewportTop(viewportTopDelta) {
+  function isReading(viewportTopDelta) {
     var container = editor.editorContainer,
       editorTop = container.getBoundingClientRect().top;
 
-    if (editorTop > viewportTopDelta) {
+    var toolbarHeight = $(container).find('.mce-toolbar-grp').outerHeight();
+    var footerHeight = $(container).find('.mce-statusbar').outerHeight();
+
+    if ((editorTop + toolbarHeight + footerHeight) > viewportTopDelta) {
       return false;
     }
 
     return true;
   }
 
-  function isCompletedOverViewportTop(viewportTopDelta, buffterHeight) {
+  function isAlreadRead(viewportTopDelta, buffterHeight) {
     var container = editor.editorContainer,
       editorTop = container.getBoundingClientRect().top;
 
