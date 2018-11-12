@@ -26,7 +26,11 @@ class Comment < ApplicationRecord
 
   scope :recent, -> { order(created_at: :desc).order(id: :desc) }
   scope :sequential, -> { order(created_at: :asc) }
-  scope :next_of, ->(id) { where('comments.created_at > ?', with_deleted.find_by(id: id).try(:created_at)) if id.present? }
+  scope :next_of, ->(id) {
+    if id.present?
+      where('comments.created_at > ?', with_deleted.find_by(id: id).try(:created_at))
+    end
+  }
   scope :latest, -> { after(1.day.ago) }
   scope :persisted, -> { where "id IS NOT NULL" }
   scope :by_issue, ->(issue) { joins(:post).where(posts: {issue_id: issue})}
@@ -99,14 +103,26 @@ class Comment < ApplicationRecord
     parent || self
   end
 
-  def self.group_by_thread(comments)
+  def self.setup_threads(comments)
     result = comments.to_a.group_by { |comment| comment.parent_or_self }.to_a.sort_by { |item| item[0].created_at }
     result.each do |item|
-      item[1].reject! { |comment| comment.parent.blank? }
-      if (item[0].children.count - item[1].length) == 1
-        item[1] = item[0].children.to_a
+      parent_comment = item[0]
+      child_comments = item[1]
+
+      child_comments.reject! { |comment| comment.parent.blank? }
+      child_comments.sort_by! { |comment| comment.created_at }
+
+      if child_comments.last.present?
+        child_comments << parent_comment.children.next_of(child_comments.last.id).order(:created_at).to_a
+        child_comments.flatten!
       end
-      item[1].sort_by! { |comment| comment.created_at }
+
+      if (parent_comment.children.count - child_comments.length) == 1
+        child_comments = parent_comment.children.order(:created_at).to_a
+      end
+
+      item[0] = parent_comment
+      item[1] = child_comments
     end
     result
   end

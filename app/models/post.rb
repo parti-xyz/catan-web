@@ -201,7 +201,7 @@ class Post < ApplicationRecord
     return @_comments_threaded if @_comments_threaded.present? and comments_count == @_cached_comment_count_for_comments_threaded
     @_cached_comment_count_for_comments_threaded = comments_count
 
-    @_comments_threaded = Comment.group_by_thread(self.comments)
+    @_comments_threaded = Comment.setup_threads(self.comments)
     @_comments_threaded
   end
 
@@ -220,7 +220,7 @@ class Post < ApplicationRecord
     if last_stroked_for == 'comment' and result.empty?
       result = comments.recent.limit(1)
     end
-    @_latest_comments_threaded = Comment.group_by_thread(result)
+    @_latest_comments_threaded = Comment.setup_threads(result)
     @_latest_comments_threaded
   end
 
@@ -228,8 +228,7 @@ class Post < ApplicationRecord
     latest_comments_threaded(someone).flatten.count
   end
 
-  MORE_COMMENTS_LIMNIT_COUNT = 20
-  def more_comments_mode(someone)
+  def more_comments_mode(someone, limit)
     return @_more_comments_mode if @_more_comments_mode.present? and comments_count == @_cached_comment_count_for_more_comments_mode
     @_cached_comment_count_for_more_comments_mode = comments_count
 
@@ -238,11 +237,11 @@ class Post < ApplicationRecord
       return @_more_comments_mode
     end
 
-    if too_many_today_comments?
+    if too_many_today_comments?(limit)
       @_more_comments_mode = :past_day_limited
-    elsif too_few_today_comments?(someone)
-      buffer = Post::MORE_COMMENTS_LIMNIT_COUNT / 4
-      if comments_count > Post::MORE_COMMENTS_LIMNIT_COUNT + buffer
+    elsif too_few_today_comments?(someone, limit)
+      buffer = limit / 4
+      if comments_count > limit + buffer
         @_more_comments_mode = :limit
       else
         @_more_comments_mode = :all
@@ -254,44 +253,44 @@ class Post < ApplicationRecord
     @_more_comments_mode
   end
 
-  def more_comments_threaded(someone)
+  def more_comments_threaded(someone, limit)
     return @_more_comments_threaded if @_more_comments_threaded.present? and comments_count == @_cached_comment_count_for_more_comments_threaded
     @_cached_comment_count_for_more_comments_threaded = comments_count
 
-    result = case more_comments_mode(someone)
+    result = case more_comments_mode(someone, limit)
     when :empty
       Comment.none
     when :past_day
       comments.past_day
     when :past_day_limited, :limit
-      comments.recent.limit(Post::MORE_COMMENTS_LIMNIT_COUNT).reverse
+      comments.recent.limit(limit).reverse
     when :all
       comments
     end
 
-    @_more_comments_threaded = Comment.group_by_thread(result)
+    @_more_comments_threaded = Comment.setup_threads(result)
     @_more_comments_threaded
   end
 
-  def more_comments_count(someone)
-    more_comments_threaded(someone).flatten.count
+  def more_comments_count(someone, limit)
+    more_comments_threaded(someone, limit).flatten.count
   end
 
   def any_not_latest_comments?(someone)
     comments_count > latest_comments_count(someone)
   end
 
-  def any_not_more_comments?(someone)
-    comments_count > more_comments_count(someone)
+  def any_not_more_comments?(someone, limit)
+    comments_count > more_comments_count(someone, limit)
   end
 
-  def too_many_today_comments?
-    buffer = Post::MORE_COMMENTS_LIMNIT_COUNT / 4
-    comments.past_day.count > Post::MORE_COMMENTS_LIMNIT_COUNT + buffer
+  def too_many_today_comments?(limit)
+    buffer = limit / 4
+    comments.past_day.count > limit + buffer
   end
 
-  def too_few_today_comments?(someone)
-    buffer = Post::MORE_COMMENTS_LIMNIT_COUNT / 4
+  def too_few_today_comments?(someone, limit)
+    buffer = limit / 4
     comments.past_day.count <= latest_comments_count(someone) + buffer
   end
 
