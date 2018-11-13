@@ -21,7 +21,7 @@ body.in-group .group-key-visual {
   height:400px;
   background-position: center;
   background-size: cover;
-  color: white;
+  color: $gray-dark;
   button{
     margin:10px;
   }
@@ -31,7 +31,7 @@ body.in-group .group-key-visual {
     font-weight: 200;
     .key-page-title{
       font-size: 24px;
-      margin-bottom: 38px;
+      margin-bottom: 24px;
     }
     .key-page-subtitle{
       font-size: 16px;
@@ -51,7 +51,7 @@ body.in-group .group-key-visual {
     .key-page-buttons {
       .more,
       .more a {
-        color: white;
+        color: $gray-dark;
         font-size: $font-size-small;
       }
     }

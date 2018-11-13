@@ -1,12 +1,11 @@
 .key-page
   .key-page-desc
     .key-page-subtitle
-      = image_tag 'groups/alone/logo.png', style: 'height: 1.2em; vertical-align: text-bottom;'
       일인당 첫 모임 
     .key-page-title
-      “내가 그리는 1인가구 공동공간"
+      내가 그리는 1인가구 공동공간
 
-    .key-page-subject
+    .key-page-subject.text-basic-wrap
       %p
         내가 만들고 싶은 1인가구 공동공간은?
         %br
@@ -15,13 +14,11 @@
       %ul.list-unstyled.text-left{ style: 'display: inline-block;' }
         %li
           %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
-            %i.fa.fa-calendar
-            언제요?
+            * 언제요?
           %span 11/30 금요일 저녁 7시 반
         %li
           %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
-            %i.fa.fa-map
-            어디서요?
+            * 어디서요?
           %span @장소 
 
     .key-page-buttons
@@ -32,19 +29,19 @@
         %span.hidden-xs 내
         아이디어 작성하기
       .more
-        더 자세한 내용이 궁금하세요?
-        %a(href="")
+        %a(href="https://alone.parti.test/")
+          더 자세한 내용이 궁금하세요?
           %u 살펴보기
 
     .key-page-footer
       %span.visible-xs-block
       %ul.list-unstyled.list-inline
-        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
-          = image_tag 'groups/alone/logo.png', style: 'height: 1.8em; vertical-align: bottom;'
+        %li.cursor-pointer{onclick:"window.open('https://alone.parti.test/')"}
+          = image_tag 'groups/alone/logo_black.png', style: 'height: 1.2em; vertical-align: middle;'
           %span.small 일인당이란?
-        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
+        %li.cursor-pointer{onclick:"window.open('https://facebook.com/PartiUnion')"}
           %i.fa.fa-facebook
-        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
+        %li.cursor-pointer{onclick:"window.open('https://facebook.com/PartiUnion')"}
           %i.fa.fa-instagram
-        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
+        %li.cursor-pointer{onclick:"window.open('mailto:contact@parti.xyz')"}
           %i.fa.fa-envelope
