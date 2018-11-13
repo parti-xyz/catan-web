@@ -14,15 +14,67 @@
           = link_to t('labels.links_or_files'), links_or_files_path
         %li{ class: ('active' if current_page?('/group/members')) }
           = link_to '멤버', group_members_path
-        - if user_signed_in? and current_group.member?(current_user)
-          %li{ class: ('active' if local_assigns[:active] == 'me') }
-            = link_to '내 정보', me_group_members_path
-        - if current_group.organized_by?(current_user)
-          %li{ class: ('active' if local_assigns[:active] == 'management') }
-            = link_to '그룹 관리', group_managements_path
-      - if current_group.creatable_issue?(current_user)
-        %ul.list-inline.list-inline-right
-          %li
-            = link_to new_issue_path do
-              %i.fa.fa-magic
-              빠띠 만들기
+
+      - if user_signed_in?
+        %ul.list-inline.list-inline-right.hidden-xs
+          - if current_group.creatable_issue?(current_user)
+            %li
+              = link_to new_issue_path do
+                %i.fa.fa-magic
+                빠띠 만들기
+          - if current_group.organized_by?(current_user)
+            %li{ class: ('active' if local_assigns[:active] == 'management') }
+              = link_to group_managements_path do
+                %i.fa.fa-cog
+                그룹 관리
+          - if current_group.member?(current_user)
+            %li
+              - share_content = { 'share-url': smart_group_url(current_group), 'share-text': "#{current_group.title} | 빠띠" }
+              %a.cursor-pointer{ data: { url: "#js-group-share", action: "parti-share-popover", placement: "auto", data: "click" }.merge(share_content) }<>
+                %i.fa.fa-share-alt
+                공유
+                .hidden<>
+                  .group-share#js-group-share
+                    - share_providers = %w(copy)
+                    - if !current_group.private
+                      - share_providers += %w(facebook twitter telegram kakao-link kakao-story)
+                    = render 'application/share', providers: share_providers, share_map: { action: 'parti-share' }.merge(share_content)
+          - if user_signed_in? and current_group.member?(current_user)
+            %li{ class: ('active' if local_assigns[:active] == 'me') }
+              = link_to me_group_members_path do
+                %i.fa.fa-user
+                내 정보
+
+        %ul.list-inline.list-inline-right.visible-xs-inline
+          - if current_group.member?(current_user)
+            %li
+              - share_content = { 'share-url': smart_group_url(current_group), 'share-text': "#{current_group.title} | 빠띠" }
+              %a.cursor-pointer{ data: { url: "#js-group-share", action: "parti-share-popover", placement: "auto", data: "click" }.merge(share_content) }<>
+                %i.fa.fa-share-alt
+                .hidden<>
+                  .group-share#js-group-share
+                    - share_providers = %w(copy)
+                    - if !current_group.private
+                      - share_providers += %w(facebook twitter telegram kakao-link kakao-story)
+                    = render 'application/share', providers: share_providers, share_map: { action: 'parti-share' }.merge(share_content)
+          %li.dropdown.dropdown-xs-actionsheet.js-dropdown-xs-actionsheet
+            %a.dropdown-toggle{ href: '#', "data-toggle": "dropdown" }
+              %i.fa.fa-cog
+            %ul.dropdown-menu
+              - if current_group.creatable_issue?(current_user)
+                %li
+                  = link_to new_issue_path do
+                    빠띠 만들기
+              - if current_group.organized_by?(current_user)
+                %li{ class: ('active' if local_assigns[:active] == 'management') }
+                  = link_to group_managements_path do
+                    그룹 관리
+              - if user_signed_in? and current_group.member?(current_user)
+                %li{ class: ('active' if local_assigns[:active] == 'me') }
+                  = link_to me_group_members_path do
+                    내 정보
+
+
+
+
+

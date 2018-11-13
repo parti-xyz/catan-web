@@ -113,14 +113,20 @@ section#group-home-submenu {
     }
     &.list-inline-right {
       float: right;
-      @media (max-width: $screen-xs-max){
-        float: initial;
-      }
     }
     margin-top: 10px;
     a {
       color: white;
       font-weight: 200;
+    }
+    & .dropdown-xs-actionsheet ul.dropdown-menu > li {
+      margin: 6px 0;
+
+      > a {
+        color: $gray-dark;
+        font-weight: normal;
+        font-size: $font-size-large;
+      }
     }
 
     li.active a {
