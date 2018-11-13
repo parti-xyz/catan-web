@@ -1,0 +1,50 @@
+.key-page
+  .key-page-desc
+    .key-page-subtitle
+      = image_tag 'groups/alone/logo.png', style: 'height: 1.2em; vertical-align: text-bottom;'
+      일인당 첫 모임 
+    .key-page-title
+      “내가 그리는 1인가구 공동공간"
+
+    .key-page-subject
+      %p
+        내가 만들고 싶은 1인가구 공동공간은?
+        %br
+        일인당에 대한 아이디어를 나누는 첫 모임에 초대합니다! 
+
+      %ul.list-unstyled.text-left{ style: 'display: inline-block;' }
+        %li
+          %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
+            %i.fa.fa-calendar
+            언제요?
+          %span 11/30 금요일 저녁 7시 반
+        %li
+          %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
+            %i.fa.fa-map
+            어디서요?
+          %span @장소 
+
+    .key-page-buttons
+      %button.btn.btn-primary{onclick:"window.open('https://youthmango.parti.xyz/posts/17661')"}
+        %span.hidden-xs 지금
+        참가신청하기
+      %button.btn.btn-danger{onclick:"window.open('https://youthmango.parti.xyz/posts/17661')"}
+        %span.hidden-xs 내
+        아이디어 작성하기
+      .more
+        더 자세한 내용이 궁금하세요?
+        %a(href="")
+          %u 살펴보기
+
+    .key-page-footer
+      %span.visible-xs-block
+      %ul.list-unstyled.list-inline
+        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
+          = image_tag 'groups/alone/logo.png', style: 'height: 1.8em; vertical-align: bottom;'
+          %span.small 일인당이란?
+        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
+          %i.fa.fa-facebook
+        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
+          %i.fa.fa-instagram
+        %li{onclick:"window.open('http://www.facebook.com/YouthMango')"}
+          %i.fa.fa-envelope

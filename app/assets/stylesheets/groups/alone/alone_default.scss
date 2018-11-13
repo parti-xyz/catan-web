@@ -1,0 +1,59 @@
+@import "variables";
+@import "groups/alone/group_variables";
+@import "groups/alone/group_application";
+
+section#home {
+  margin-top: 24px;
+}
+
+body.in-group .group-key-visual {
+  height: 345px;
+  background-position: bottom;
+  @media (max-width: $screen-md-max) {
+    height: 270px;
+  }
+  @media (max-width: $screen-xs-max) {
+    height: 0;
+  }
+}
+.key-page{
+  background-image: asset_url('groups/alone/key_page_bg.png');
+  height:400px;
+  background-position: center;
+  background-size: cover;
+  color: white;
+  button{
+    margin:10px;
+  }
+  .key-page-desc{
+    width:500px;
+    padding:50px 20px;
+    font-weight: 200;
+    .key-page-title{
+      font-size: 24px;
+      margin-bottom: 38px;
+    }
+    .key-page-subtitle{
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+    .key-page-subject {
+      font-size: $font-size-base;
+    }
+    p {
+      margin-bottom: 14px;
+    }
+    .key-page-footer {
+      color: $gray-dark;
+      margin-top: 38px;
+      font-size: $font-size-small;
+    }
+    .key-page-buttons {
+      .more,
+      .more a {
+        color: white;
+        font-size: $font-size-small;
+      }
+    }
+  }
+}
