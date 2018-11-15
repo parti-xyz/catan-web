@@ -858,6 +858,7 @@ var parti_prepare = function($base, force) {
         formats: {
           strikethrough: {inline : 'del'}
         },
+        skin: 'lightgray_4_8_4_v1',
         init_instance_callback: function (editor) {
           editor.on('Change', function (e) {
             Waypoint.refreshAll();
@@ -910,6 +911,7 @@ var parti_prepare = function($base, force) {
         formats: {
           strikethrough: {inline : 'del'}
         },
+        skin: 'lightgray_4_8_4_v1',
         setup: function (editor) {
           // link opender
           editor.on('init', function(){

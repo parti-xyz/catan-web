@@ -69,7 +69,10 @@ body.mce-content-body {
       margin-bottom: 0;
     }
     font-size: $font-size-base;
-    margin: 12px 0;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   & > ul:first-child,
