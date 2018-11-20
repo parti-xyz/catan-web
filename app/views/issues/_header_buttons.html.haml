@@ -35,7 +35,7 @@
 
       - if issue.organized_by? current_user
         %span.parti-admin-btn-container<>
-          %span.btn.btn-default.btn-xs.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom", "data-trigger": "click"}<>
+          %span.btn.btn-default.btn-xs.cursor-pointer{"data-url": "#organizer-info-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "auto-bottom", "data-trigger": "click"}<>
             %i.fa.fa-star
             가입함 - 오거나이저
             .hidden<>
@@ -44,7 +44,7 @@
                   오거나이징 그만두기
       - else
         %span.parti-admin-btn-container<>
-          %span.btn.btn-default.btn-xs.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}<>
+          %span.btn.btn-default.btn-xs.cursor-pointer{"data-url": "#reject-member-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "auto-bottom"}<>
             - if current_user.admin?
               %i.fa.fa-user-secret
               가입함 - 운영자
@@ -59,7 +59,7 @@
       - if issue.alive?
         %span.text-nowrap<>
           %span.parti-admin-btn-container<>
-            %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "bottom"}<>
+            %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "auto-bottom"}<>
               - if current_user.my_menu?(issue)
                 %i.fa.fa-thumb-tack
               - else
@@ -82,7 +82,7 @@
 
           %span.parti-admin-btn-container<>
             - issue_push_notification_preference_dom_id = "setting-push-notification--#{SecureRandom.uuid}"
-            %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "##{issue_push_notification_preference_dom_id}", "data-action": "parti-popover", "data-placement": "bottom"}<>
+            %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "##{issue_push_notification_preference_dom_id}", "data-action": "parti-popover", "data-placement": "auto-bottom"}<>
               - case current_user.issue_push_notification_preference_value(issue)
               - when 'highlight'
                 %i.fa.fa-bell-o
@@ -105,9 +105,10 @@
                       %i.fa.fa-bell-o
                       %span{ style: 'display: inline-block; vertical-align: top' }
                         %strong= t('enumerize.issue_push_notification_preference.value.highlight')
-                        %br
-                        %span.help-text
-                          = t('enumerize.issue_push_notification_preference.value_desc.highlight')
+                        %span.hidden-xs
+                          %br
+                          %span.help-text
+                            = t('enumerize.issue_push_notification_preference.value_desc.highlight')
                   %li.text-nowrap
                     = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'compact'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
                       %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'compact' == current_user.issue_push_notification_preference_value(issue)) }
@@ -116,18 +117,20 @@
                         %i.fa.fa-bell-o{ style: 'position: absolute; top: 0; left: 0; '}
                       %span{ style: 'display: inline-block; vertical-align: top' }
                         %strong= t('enumerize.issue_push_notification_preference.value.compact')
-                        %br
-                        %span.help-text
-                          = t('enumerize.issue_push_notification_preference.value_desc.compact')
+                        %span.hidden-xs
+                          %br
+                          %span.help-text
+                            = t('enumerize.issue_push_notification_preference.value_desc.compact')
                   %li.text-nowrap
                     = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'detail'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
                       %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'detail' == current_user.issue_push_notification_preference_value(issue)) }
                       %i.fa.fa-bell
                       %span{ style: 'display: inline-block; vertical-align: top' }
                         %strong= t('enumerize.issue_push_notification_preference.value.detail')
-                        %br
-                        %span.help-text
-                          = t('enumerize.issue_push_notification_preference.value_desc.detail')
+                        %span.hidden-xs
+                          %br
+                          %span.help-text
+                            = t('enumerize.issue_push_notification_preference.value_desc.detail')
                   %li.text-nowrap
                     = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'nothing'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
                       %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'nothing' == current_user.issue_push_notification_preference_value(issue)) }

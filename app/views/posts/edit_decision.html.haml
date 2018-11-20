@@ -18,7 +18,7 @@
             .media
               .media-left
                 = link_to smart_user_gallery_path(last_editor) do
-                  .thumb.img-circle.circle-30{style: "background-image: url(#{last_editor.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{last_editor.nickname}", :type => "button"}
+                  .thumb.img-circle.circle-30{style: "background-image: url(#{last_editor.image.sm.url});", "data-placement" => "auto-top", "data-toggle" => "tooltip", :title => "#{last_editor.nickname}", :type => "button"}
               .media-body
                 %strong.nickname
                   #{last_editor.nickname}
@@ -36,7 +36,7 @@
               .media
                 .media-left
                   = link_to smart_user_gallery_path(current_user) do
-                    .thumb.img-circle.circle-30{style: "background-image: url(#{current_user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{current_user.nickname}", :type => "button"}
+                    .thumb.img-circle.circle-30{style: "background-image: url(#{current_user.image.sm.url});", "data-placement" => "auto-top", "data-toggle" => "tooltip", :title => "#{current_user.nickname}", :type => "button"}
                 .media-body
                   %strong.nickname
                     #{@current_user.nickname}

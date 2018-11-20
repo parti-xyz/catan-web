@@ -10,7 +10,7 @@
           = simple_format h(local_assigns[:description])
         - else
           %p #{user.nickname}입니다
-      .description{ 'data-trigger': 'click', 'data-action': 'parti-popover', 'data-placement': "bottom", 'data-url': "##{dom_id(user)}__member_user" }
+      .description{ 'data-trigger': 'click', 'data-action': 'parti-popover', 'data-placement': "auto-bottom", 'data-url': "##{dom_id(user)}__member_user" }
         = description_html
       .hidden
         %div{ id: "#{dom_id(user)}__member_user", style: "max-width: 180px" }

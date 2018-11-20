@@ -44,5 +44,5 @@
     작성
     - post.wiki.authors.each do |user|
       = link_to smart_user_gallery_path(user) do
-        .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "button"}
+        .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "auto-button"}
 
