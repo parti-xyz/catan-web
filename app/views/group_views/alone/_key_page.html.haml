@@ -19,7 +19,10 @@
         %li
           %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
             * 어디서요?
-          %span @장소 
+          %span
+            %a(href="http://dmaps.kr/degq2" target="_blank")
+              아시티스 (관악구 쑥고개로 122) 
+              %i.fa.fa-map-o
 
     .key-page-buttons
       %button.btn.btn-primary{onclick:"window.open('https://youthmango.parti.xyz/posts/17661')"}
@@ -29,19 +32,22 @@
         %span.hidden-xs 내
         아이디어 작성하기
       .more
-        %a(href="https://alone.parti.test/")
+        %a(href="https://alone.parti.xyz/posts/24613")
           더 자세한 내용이 궁금하세요?
           %u 살펴보기
 
     .key-page-footer
       %span.visible-xs-block
       %ul.list-unstyled.list-inline
-        %li.cursor-pointer{onclick:"window.open('https://alone.parti.test/')"}
-          = image_tag 'groups/alone/logo_black.png', style: 'height: 1.2em; vertical-align: middle;'
-          %span.small 일인당이란?
-        %li.cursor-pointer{onclick:"window.open('https://facebook.com/PartiUnion')"}
-          %i.fa.fa-facebook
-        %li.cursor-pointer{onclick:"window.open('https://facebook.com/PartiUnion')"}
-          %i.fa.fa-instagram
-        %li.cursor-pointer{onclick:"window.open('mailto:contact@parti.xyz')"}
-          %i.fa.fa-envelope
+        %li
+          %a(href="https://alone.parti.xyz/posts/24613")
+            = image_tag 'groups/alone/logo_black.png', style: 'height: 1.2em; vertical-align: middle;'
+            %span.small 일인당이란?
+        %li.cursor-pointer
+          %a(href="https://www.facebook.com/aloneparti/" target="_blank")
+            %i.fa.fa-facebook
+        / %li.cursor-pointer{onclick:"window.open('https://facebook.com/PartiUnion')"}
+        /   %i.fa.fa-instagram
+        %li
+          %a(href='mailto:contact@parti.xyz')
+            %i.fa.fa-envelope
