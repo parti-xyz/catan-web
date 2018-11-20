@@ -128,6 +128,6 @@
         = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
 - else
   %span.parti-admin-btn-container<>
-    %span.btn-default.btn-xs.cursor-pointer.cursor-pointer.text-nowrap{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }<>
+    %span.btn-default.btn-xs.cursor-pointer.text-nowrap{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }<>
       %i.fa.fa-sign-in
       = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)

@@ -80,6 +80,7 @@ class PostsController < ApplicationController
   def new
     # back url
     @list_url = ''
+    @issue = Issue.find_by(id: params[:issue_id])
     respond_to do |format|
       format.js
     end

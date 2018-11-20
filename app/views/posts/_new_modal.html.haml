@@ -6,4 +6,4 @@
           %i.fa.fa-circle.fa-stack-1x{ style: 'font-size: 1.2em;' }
           %i.fa.fa-times-circle.fa-stack-1x.fa-inverse
       .post-editor.post-editor-modal.js-parti-editor-selector-wrapper
-        = render 'posts/post_editor', remote: false
+        = render 'posts/post_editor', remote: false, current_issue: local_assigns[:issue]

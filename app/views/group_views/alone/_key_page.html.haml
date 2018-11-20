@@ -15,7 +15,7 @@
         %li
           %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
             * 언제요?
-          %span 11/30 금요일 저녁 7시 반
+          %span 11/30 금요일 저녁 7시
         %li
           %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
             * 어디서요?
@@ -25,12 +25,15 @@
               %i.fa.fa-map-o
 
     .key-page-buttons
-      %button.btn.btn-primary{onclick:"window.open('https://youthmango.parti.xyz/posts/17661')"}
+      %button.btn.btn-primary{onclick:"location.href='https://alone.parti.xyz/posts/24557'"}
         %span.hidden-xs 지금
         참가신청하기
-      %button.btn.btn-danger{onclick:"window.open('https://youthmango.parti.xyz/posts/17661')"}
-        %span.hidden-xs 내
-        아이디어 작성하기
+      - if user_signed_in?
+        = link_to new_post_path(issue_id: 890), remote: true, data: { 'disable-with': '작성 창 여는 중...' }, class: 'btn btn-danger' do
+          아이디어 작성하기
+      - else
+        %button.btn.btn-danger{ data: { toggle: 'parti-login-overlay' } }
+          아이디어 작성하기
       .more
         %a(href="https://alone.parti.xyz/posts/24613")
           더 자세한 내용이 궁금하세요?
