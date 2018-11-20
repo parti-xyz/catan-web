@@ -86,12 +86,14 @@
               - case current_user.issue_push_notification_preference_value(issue)
               - when 'highlight'
                 %i.fa.fa-bell-o
+              - when 'compact'
+                %span{ style: 'position: relative;' }
+                  %i.fa.fa-bell{ style: 'color: #d2d2d2;' }
+                  %i.fa.fa-bell-o{ style: 'position: absolute; top: 0; left: 0; '}
               - when 'detail'
                 %i.fa.fa-bell
               - when 'nothing'
-                %span.fa-stack{ style: 'line-height: 12px; width: 1.6em; height: 1em;' }
-                  %i.fa.fa-bell.fa-stack-1x
-                  %i.fa.fa-ban.fa-stack-1x{ style: 'font-size: 18px; color: #aaa;' }
+                %i.fa.fa-bell-slash
             .hidden<>
               .setting-push-notification.dropdown-list{id: "#{issue_push_notification_preference_dom_id}"}
                 %ul.list-unstyled
@@ -101,19 +103,40 @@
                     = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'highlight'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
                       %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'highlight' == current_user.issue_push_notification_preference_value(issue)) }
                       %i.fa.fa-bell-o
-                      = t('enumerize.issue_push_notification_preference.value.highlight')
+                      %span{ style: 'display: inline-block; vertical-align: top' }
+                        %strong= t('enumerize.issue_push_notification_preference.value.highlight')
+                        %br
+                        %span.help-text
+                          = t('enumerize.issue_push_notification_preference.value_desc.highlight')
+                  %li.text-nowrap
+                    = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'compact'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
+                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'compact' == current_user.issue_push_notification_preference_value(issue)) }
+                      %span{ style: 'position: relative;' }
+                        %i.fa.fa-bell{ style: 'color: #d2d2d2;' }
+                        %i.fa.fa-bell-o{ style: 'position: absolute; top: 0; left: 0; '}
+                      %span{ style: 'display: inline-block; vertical-align: top' }
+                        %strong= t('enumerize.issue_push_notification_preference.value.compact')
+                        %br
+                        %span.help-text
+                          = t('enumerize.issue_push_notification_preference.value_desc.compact')
                   %li.text-nowrap
                     = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'detail'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
                       %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'detail' == current_user.issue_push_notification_preference_value(issue)) }
                       %i.fa.fa-bell
-                      = t('enumerize.issue_push_notification_preference.value.detail')
+                      %span{ style: 'display: inline-block; vertical-align: top' }
+                        %strong= t('enumerize.issue_push_notification_preference.value.detail')
+                        %br
+                        %span.help-text
+                          = t('enumerize.issue_push_notification_preference.value_desc.detail')
                   %li.text-nowrap
                     = link_to issue_push_notification_preferences_path('issue_push_notification_preference[issue_id]': issue.id, 'issue_push_notification_preference[value]': 'nothing'), method: :post, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
                       %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless 'nothing' == current_user.issue_push_notification_preference_value(issue)) }
-                      %span.fa-stack{ style: 'line-height: 12px; width: 1em; height: 1em;' }
-                        %i.fa.fa-bell.fa-stack-1x
-                        %i.fa.fa-ban.fa-stack-1x{ style: 'font-size: 18px; color: #aaa;' }
-                      = t('enumerize.issue_push_notification_preference.value.nothing')
+                      %i.fa.fa-bell-slash
+                      %span{ style: 'display: inline-block; vertical-align: top' }
+                        %strong= t('enumerize.issue_push_notification_preference.value.nothing')
+                        %br
+                        %span.help-text
+                          = t('enumerize.issue_push_notification_preference.value_desc.nothing')
 
 
   - elsif issue.member_requested?(current_user)

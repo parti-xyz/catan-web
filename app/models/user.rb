@@ -274,11 +274,7 @@ class User < ApplicationRecord
 
   def pushable_notification?(message)
     return false unless enable_push_notification?
-
-    issue_push_notification_preference = self.issue_push_notification_preferences.find_by(issue: message.messagable.issue_for_message)
-    return IssuePushNotificationPreference.default_enable?(message) if issue_push_notification_preference.blank?
-
-    return issue_push_notification_preference.enable?(message)
+    return IssuePushNotificationPreference.pushable_notification?(self, message)
   end
 
   def disabled_push_notification_period

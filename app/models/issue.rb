@@ -372,8 +372,12 @@ class Issue < ApplicationRecord
     created_at > 1.weeks.ago
   end
 
+  def compact_messagable_users
+    User.where(id: IssuePushNotificationPreference.where(issue: self).compact_messagables.select(:user_id))
+  end
+
   def detail_messagable_users
-    User.where(id: IssuePushNotificationPreference.where(issue: self).select(:user_id))
+    User.where(id: IssuePushNotificationPreference.where(issue: self).detail_messagables.select(:user_id))
   end
 
   def self.messagable_group_method

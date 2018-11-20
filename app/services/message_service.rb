@@ -51,6 +51,7 @@ class MessageService
         messagable_users = []
         messagable_users += @source.mentions.map(&:user)
         messagable_users += @source.messagable_users.to_a
+        messagable_users += @source.issue.compact_messagable_users.to_a
         messagable_users.reject!{ |user| user == @sender }
         messagable_users.uniq!
         send_messages(
@@ -71,12 +72,12 @@ class MessageService
           messagable: @source)
 
         if @action == :create
-          detail_messagable_users = @source.issue.detail_messagable_users
-          detail_messagable_users = detail_messagable_users.where.not(id: @source.user)
-          detail_messagable_users = detail_messagable_users.where.not(id: messagable_users)
-          detail_messagable_users = detail_messagable_users.where.not(id: previous_message_user_ids)
+          compact_messagable_users = @source.issue.compact_messagable_users
+          compact_messagable_users = compact_messagable_users.where.not(id: @source.user)
+          compact_messagable_users = compact_messagable_users.where.not(id: messagable_users)
+          compact_messagable_users = compact_messagable_users.where.not(id: previous_message_user_ids)
           send_messages(
-            sender: @source.user, users: detail_messagable_users,
+            sender: @source.user, users: compact_messagable_users,
             messagable: @source, action: :create)
         end
       end
