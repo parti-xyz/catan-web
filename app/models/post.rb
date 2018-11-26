@@ -228,72 +228,20 @@ class Post < ApplicationRecord
     latest_comments_threaded(someone).flatten.count
   end
 
-  def more_comments_mode(someone, limit)
-    return @_more_comments_mode if @_more_comments_mode.present? and comments_count == @_cached_comment_count_for_more_comments_mode
-    @_cached_comment_count_for_more_comments_mode = comments_count
-
-    unless any_not_latest_comments?(someone)
-      @_more_comments_mode = :empty
-      return @_more_comments_mode
-    end
-
-    if too_many_today_comments?(limit)
-      @_more_comments_mode = :past_day_limited
-    elsif too_few_today_comments?(someone, limit)
-      buffer = limit / 4
-      if comments_count > limit + buffer
-        @_more_comments_mode = :limit
-      else
-        @_more_comments_mode = :all
-      end
-    else
-      @_more_comments_mode = :past_day
-    end
-
-    @_more_comments_mode
-  end
-
+  MORE_OFFSET_COMMENTS_COUNT = 10
   def more_comments_threaded(someone, limit)
-    if @_more_comments_threaded.present? and comments_count == @_cached_comment_count_for_more_comments_threaded
-      return [@_more_comments_threaded, ]
+
+    result = if comments_count < limit + Post::MORE_OFFSET_COMMENTS_COUNT
+      comments.recent.limit(limit)
+    else
+      comments.all
     end
-    @_cached_comment_count_for_more_comments_threaded = comments_count
-
-    result = case more_comments_mode(someone, limit)
-    when :empty
-      Comment.none
-    when :past_day
-      comments.past_day
-    when :past_day_limited, :limit
-      comments.recent.limit(limit).reverse
-    when :all
-      comments
-    end
-
-    @_more_comments_threaded = Comment.setup_threads(result)
-    @_more_comments_threaded
-  end
-
-  def more_comments_count(someone, limit)
-    more_comments_threaded(someone, limit).flatten.count
+    result = result.reverse
+    Comment.setup_threads(result)
   end
 
   def any_not_latest_comments?(someone)
     comments_count > latest_comments_count(someone)
-  end
-
-  def any_not_more_comments?(someone, limit)
-    comments_count > more_comments_count(someone, limit)
-  end
-
-  def too_many_today_comments?(limit)
-    buffer = limit / 4
-    comments.past_day.count > limit + buffer
-  end
-
-  def too_few_today_comments?(someone, limit)
-    buffer = limit / 4
-    comments.past_day.count <= latest_comments_count(someone) + buffer
   end
 
   def blinded? someone = nil

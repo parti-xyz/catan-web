@@ -12,10 +12,10 @@
             %span{id: comments_count_dom_id(post)}<>
               = post.comments_count
             개
-          - if user_signed_in? and post.comments.unread(current_user).any?
-            %span.count-label-wrapper.small
-              .count-label
-                +#{post.comments.unread(current_user).count}
+            - if user_signed_in? and post.comments.unread(current_user).any?
+              %span.count-label-wrapper.small
+                .count-label
+                  +#{post.comments.unread(current_user).count}
 
     .post-card__comments--threads.js-target-new-comment{ id: comments_threads_dom_id(post) }
       - showing_comments.each do |parent_comment, child_comments|

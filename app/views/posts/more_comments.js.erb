@@ -31,7 +31,7 @@ $.each($old_inputs, function(i, elm) {
     $('<%= comments_more_button_dom_selector(@post) %>').remove();
   <% end %>
 <% else %>
-  <% more_latest_comments = @parent_comment.children.limit(@limit).sequential %>
+  <% more_latest_comments = @parent_comment.children.recent.limit(@limit).reverse %>
   var $comments_html = $('<%= j(render 'comments/child_comments', parent_comment: @parent_comment, child_comments: more_latest_comments) %>');
   $('<%= comments_children_dom_selector(@parent_comment) %>').html($comments_html);
   parti_partial$($('<%= comments_children_dom_selector(@parent_comment) %>'), true);
@@ -41,7 +41,7 @@ $.each($old_inputs, function(i, elm) {
     var $enableWith = $($('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('ujs:enable-with'));
 
     $enableWith.find('<%= comments_more_children_label_dom_selector(@parent_comment) %>').html("<%= j(render 'comments/more_button', label: "더 보기&nbsp;&middot;&nbsp;이전 대댓글 #{hidden_comments.count}개", hidden_comments: hidden_comments) %>");
-    $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').attr('href', "<%= more_comments_post_path(@post, parent_comment_id: @parent_comment.id, child_comment_id: child_comments.first.try(:id), format: :js, limit: more_latest_comments.count + @more_comments_count_per_page) %>");
+    $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').attr('href', "<%= more_comments_post_path(@post, parent_comment_id: @parent_comment.id, child_comment_id: more_latest_comments.first.try(:id), format: :js, limit: more_latest_comments.count + @more_comments_count_per_page) %>");
 
     $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('ujs:enable-with', $enableWith.prop('outerHTML'));
     $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('disable-with');
