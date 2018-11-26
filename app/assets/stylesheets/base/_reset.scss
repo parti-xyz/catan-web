@@ -225,6 +225,20 @@ body.in-group {
   }
 }
 
+.media.media-flex {
+  display: flex;
+  & > .media-left {
+    display: block;
+  }
+  & > .media-body {
+    display: block;
+    width: auto;
+    flex: 1;
+  }
+  & > .media-right {
+    display: block;
+  }
+}
 .modal-header.modal-header-no-border {
   border: none;
 }

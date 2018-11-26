@@ -76,7 +76,7 @@
         .post-reference-line.post-line
           .post-reference-line__file-content
             %a.cursor-pointer.js-download{ href: file_source.url, 'data-url': file_source.url, 'data-post-id': post.id, 'data-file-source-id': file_source.id, 'data-file-name': file_source.name }
-              .media
+              .media.media-flex
                 .media-left.hidden-xs
                   %i.fa.fa-floppy-o
                 .media-body
@@ -94,7 +94,7 @@
           .post-reference-line__link-content
             - if post.link_source.has_image?
               .post-reference-line__link-content__big-thumb.visible-xs-block{style: "background-image: url(#{post.link_source.image.md.url});", class: ('webp' if is_webp?(post.link_source.image.url))}
-            .media
+            .media.media-flex
               .media-body
                 %h4.post-line-reference__title{ class: ('post-line-reference__url' if post.link_source.no_title?) }= post.link_source.title_or_url
                 .post-reference-line__source-body= excerpt(post.link_source.body, length: (is_small_screen? ? 45 : 130))

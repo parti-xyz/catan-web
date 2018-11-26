@@ -78,7 +78,7 @@
     - if event.roll_calls.with_status(:attend, :to_be_decided).any?
       .roll-calls.text-muted
         - if event.roll_calls.with_status(:attend).any?
-          참석
+          참석자
           %span.roll-calls-group
             - event.roll_calls.with_status(:attend).each do |attendee|
               - user = attendee.user

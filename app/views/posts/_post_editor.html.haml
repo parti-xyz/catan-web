@@ -190,13 +190,14 @@
           %button.btn.btn-xs.btn-link.editor-btn.post-survey-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ data: open_btn_data.merge('reference-field': '.post-survey-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-survey') }
             %i.fa.fa-list-ul
             = t('labels.new_post_survey_button')
-          = link_to new_wiki_posts_path, target: '_blank', class: 'btn btn-xs btn-link editor-btn post-wiki-btn js-post-wiki-btn js-post-reference-btn-exclusive js-post-reference-btn-exclusive-file js-post-reference-btn-exclusive-poll js-post-reference-btn-exclusive-survey js-post-reference-btn-exclusive-event', 'data-wiki-issue-param-name': 'issue_id' do
-            %i.fa.fa-file-word-o
-            = t('labels.new_post_wiki_button')
-          %span.js-post-form-experiment{ class: ('collapse' if local_assigns[:current_issue].blank? or !current_issue.experimental?) }
-            %button.btn.btn-xs.btn-link.editor-btn.post-event-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ data: open_btn_data.merge('reference-field': '.post-event-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-event') }
-              %i.fa.fa-calendar
-              = t('labels.new_post_event_button')
+          %span.text-nowrap
+            = link_to new_wiki_posts_path, target: '_blank', class: 'btn btn-xs btn-link editor-btn post-wiki-btn js-post-wiki-btn js-post-reference-btn-exclusive js-post-reference-btn-exclusive-file js-post-reference-btn-exclusive-poll js-post-reference-btn-exclusive-survey js-post-reference-btn-exclusive-event', 'data-wiki-issue-param-name': 'issue_id' do
+              %i.fa.fa-file-word-o
+              = t('labels.new_post_wiki_button')
+            %span.js-post-form-experiment{ class: ('collapse' if local_assigns[:current_issue].blank? or !current_issue.experimental?) }
+              %button.btn.btn-xs.btn-link.editor-btn.post-event-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ data: open_btn_data.merge('reference-field': '.post-event-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-event') }
+                %i.fa.fa-calendar
+                = t('labels.new_post_event_button')
         .submit-box
           = f.hidden_field :issue_id, data:{ 'rule-required': true, 'error-popover-target': "##{issue_selector_dom_id} .bootstrap-select.js-parti-editor-selector" }, class: 'validate', value: (local_assigns[:current_issue].id if local_assigns[:current_issue].present?)
           - if local_assigns[:current_issue].present?
