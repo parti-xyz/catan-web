@@ -254,7 +254,9 @@ class Post < ApplicationRecord
   end
 
   def more_comments_threaded(someone, limit)
-    return @_more_comments_threaded if @_more_comments_threaded.present? and comments_count == @_cached_comment_count_for_more_comments_threaded
+    if @_more_comments_threaded.present? and comments_count == @_cached_comment_count_for_more_comments_threaded
+      return [@_more_comments_threaded, ]
+    end
     @_cached_comment_count_for_more_comments_threaded = comments_count
 
     result = case more_comments_mode(someone, limit)

@@ -263,17 +263,15 @@ class PostsController < ApplicationController
   end
 
   MORE_COMMENTS_COUNT_PER_PAGE = 20
-  MORE_COMMENTS_LIMIT = PostsController::MORE_COMMENTS_COUNT_PER_PAGE * 5
   def more_comments
     @limit = params[:limit].to_i
     @limit = PostsController::MORE_COMMENTS_COUNT_PER_PAGE if @limit <= 0
-    @next_limit = @limit + PostsController::MORE_COMMENTS_COUNT_PER_PAGE
-    if @next_limit > MORE_COMMENTS_LIMIT
-      @next_limit = nil
-    end
+    @more_comments_count_per_page = PostsController::MORE_COMMENTS_COUNT_PER_PAGE
 
+    @is_multiple_threads = true
     render_404 and return unless request.format.js?
     if params[:parent_comment_id].present?
+      @is_multiple_threads = false
       @parent_comment = @post.comments.find_by(id: params[:parent_comment_id])
       render_404 and return if @parent_comment.blank?
       if params[:child_comment_id].present?

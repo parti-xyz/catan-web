@@ -7,9 +7,8 @@ $.each($old_inputs, function(i, elm) {
   }
 });
 
-<% if @parent_comment.blank? %>
+<% if @is_multiple_threads %>
   <% more_latest_comments = @post.more_comments_threaded(current_user, @limit) %>
-  <% has_more = @post.any_not_more_comments?(current_user, @limit) %>
   var comments_html = "";
 
   <% more_latest_comments.each do |parent_comment, child_comments| %>
@@ -19,19 +18,12 @@ $.each($old_inputs, function(i, elm) {
   $('<%= comments_threads_dom_selector(@post) %>').html($comments_html);
   parti_partial$($('<%= comments_threads_dom_selector(@post) %>'), true);
 
-  <% if has_more %>
+  <% hidden_comments = @post.comments.where.not(id: more_latest_comments.flatten) %>
+  <% if hidden_comments.any? %>
     var $enableWith = $($('<%= comments_more_button_dom_selector(@post) %>').data('ujs:enable-with'));
-    <% hidden_comments = @post.comments.where.not(id: more_latest_comments.flatten) %>
 
-    <% if @next_limit.blank? %>
-      $('<%= comments_more_button_dom_selector(@post) %>').attr('href', "<%= smart_post_path_or_url(@post) %>");
-      $('<%= comments_more_button_dom_selector(@post) %>').removeAttr('data-remote');
-      $('<%= comments_more_button_dom_selector(@post) %>').removeData('remote');
-      $enableWith.find('<%= comments_more_label_dom_selector(@post) %>').html("<%= j(render 'comments/more_button', label: "모든 댓글 보기&nbsp;&middot;&nbsp;이전 댓글 #{hidden_comments.count}개", hidden_comments: hidden_comments) %>");
-    <% else %>
-      $enableWith.find('<%= comments_more_label_dom_selector(@post) %>').html("<%= j(render 'comments/more_button', label: "더 보기&nbsp;&middot;&nbsp;이전 댓글 #{hidden_comments.count}개", hidden_comments: hidden_comments) %>");
-      $('<%= comments_more_button_dom_selector(@post) %>').attr('href', "<%= more_comments_post_path(@post, format: :js, limit: @next_limit) %>");
-    <% end %>
+    $enableWith.find('<%= comments_more_label_dom_selector(@post) %>').html("<%= j(render 'comments/more_button', label: "더 보기&nbsp;&middot;&nbsp;이전 댓글 #{hidden_comments.count}개", hidden_comments: hidden_comments) %>");
+    $('<%= comments_more_button_dom_selector(@post) %>').attr('href', "<%= more_comments_post_path(@post, format: :js, limit: more_latest_comments.flatten.count + @more_comments_count_per_page) %>");
 
     $('<%= comments_more_button_dom_selector(@post) %>').data('ujs:enable-with', $enableWith.prop('outerHTML'));
       $('<%= comments_more_button_dom_selector(@post) %>').data('disable-with');
@@ -39,35 +31,20 @@ $.each($old_inputs, function(i, elm) {
     $('<%= comments_more_button_dom_selector(@post) %>').remove();
   <% end %>
 <% else %>
-  <% more_latest_comments = @parent_comment.children.limit(@limit).recent %>
-  <% more_latest_comments = more_latest_comments.where('created_at < ?', @child_comment.created_at) if @child_comment.present? %>
-  <% child_comments = @parent_comment.children.where('created_at >= ?', more_latest_comments.last.try(:created_at) || DateTime.new(0)).sequential %>
-  var comments_html = '<%= j(render 'comments/child_comments', parent_comment: @parent_comment, child_comments: child_comments) %>';
-  var $comments_html = $(comments_html);
+  <% more_latest_comments = @parent_comment.children.limit(@limit).sequential %>
+  var $comments_html = $('<%= j(render 'comments/child_comments', parent_comment: @parent_comment, child_comments: more_latest_comments) %>');
   $('<%= comments_children_dom_selector(@parent_comment) %>').html($comments_html);
   parti_partial$($('<%= comments_children_dom_selector(@parent_comment) %>'), true);
 
-  <% hidden_comments = @parent_comment.children.where.not(id: child_comments.to_a) %>
+  <% hidden_comments = @parent_comment.children.where.not(id: more_latest_comments.to_a) %>
   <% if hidden_comments.any? %>
     var $enableWith = $($('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('ujs:enable-with'));
 
-    <% if @next_limit.blank? %>
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').attr('href', "<%= smart_post_path_or_url(@post) %>");
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').removeAttr('data-remote');
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').removeData('remote');
+    $enableWith.find('<%= comments_more_children_label_dom_selector(@parent_comment) %>').html("<%= j(render 'comments/more_button', label: "더 보기&nbsp;&middot;&nbsp;이전 대댓글 #{hidden_comments.count}개", hidden_comments: hidden_comments) %>");
+    $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').attr('href', "<%= more_comments_post_path(@post, parent_comment_id: @parent_comment.id, child_comment_id: child_comments.first.try(:id), format: :js, limit: more_latest_comments.count + @more_comments_count_per_page) %>");
 
-      $enableWith.find('<%= comments_more_children_label_dom_selector(@parent_comment) %>').html("<%= j(render 'comments/more_button', label: "모든 대댓글 보기&nbsp;&middot;&nbsp;이전 대댓글 #{hidden_comments.count}개", hidden_comments: hidden_comments) %>");
-
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('ujs:enable-with', $enableWith.prop('outerHTML'));
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('disable-with');
-    <% else %>
-
-      $enableWith.find('<%= comments_more_children_label_dom_selector(@parent_comment) %>').html("<%= j(render 'comments/more_button', label: "더 보기&nbsp;&middot;&nbsp;이전 대댓글 #{hidden_comments.count}개", hidden_comments: hidden_comments) %>");
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').attr('href', "<%= more_comments_post_path(@post, parent_comment_id: @parent_comment.id, child_comment_id: child_comments.first.try(:id), format: :js, limit: @next_limit) %>");
-
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('ujs:enable-with', $enableWith.prop('outerHTML'));
-      $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('disable-with');
-    <% end %>
+    $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('ujs:enable-with', $enableWith.prop('outerHTML'));
+    $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').data('disable-with');
   <% else %>
     $('<%= comments_more_children_button_dom_selector(@parent_comment) %>').remove();
   <% end %>
