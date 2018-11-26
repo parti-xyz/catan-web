@@ -4,7 +4,7 @@ class BookmarksController < ApplicationController
 
   def index
     authenticate_user!
-    bookmarked_posts = Post.where(id: Bookmark.where(user: current_user).select(:post_id)).order_by_stroked_at
+    base_bookmarked_posts = Post.where(id: Bookmark.where(user: current_user).select(:post_id)).order_by_stroked_at
 
     if params[:group_slug].present?
       if params[:group_slug] == 'all'
@@ -18,20 +18,19 @@ class BookmarksController < ApplicationController
       @dashboard_group = current_dashboard_group
     end
 
-    bookmarked_posts = bookmarked_posts.of_group(@dashboard_group) if @dashboard_group.present?
-
-    if view_context.is_infinite_scrollable?
-      if request.format.js?
-        @previous_last_post = Post.find_by(id: params[:last_id])
-        limit_count = (@previous_last_post.blank? ? 10 : 20)
-        @posts = bookmarked_posts.limit(limit_count).previous_of_post(@previous_last_post)
-
-        current_last_post = @posts.last
-        @is_last_page = (bookmarked_posts.empty? or bookmarked_posts.previous_of_post(current_last_post).empty?)
-      end
+    if @dashboard_group.present?
+      base_bookmarked_posts = base_bookmarked_posts.of_group(@dashboard_group)
+      bookmarked_posts_group_map = { @dashboard_group => base_bookmarked_posts }
     else
-      @list_url = bookmarks_path
-      @posts = bookmarked_posts.page(params[:page])
+      bookmarked_posts_group_map = base_bookmarked_posts.to_a.group_by { |post| post.issue.group }
+    end
+
+    @bookmarked_posts = []
+    Group.where(id: bookmarked_posts_group_map.keys).sort_by_name.each do |group|
+      bookmarked_posts_parti_map = bookmarked_posts_group_map[group].to_a.group_by { |post| post.issue }
+      Issue.where(id: bookmarked_posts_parti_map.keys).sort_by_name.each do |issue|
+        @bookmarked_posts << [issue, bookmarked_posts_parti_map[issue]]
+      end
     end
   end
 

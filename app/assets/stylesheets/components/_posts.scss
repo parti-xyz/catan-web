@@ -335,6 +335,14 @@
           color: $gray-a;
         }
       }
+      .bookmark-buttons {
+        position: absolute;
+        right: 24px;
+        top: 0.8em;
+        .bookmark a {
+          color: $gray-a;
+        }
+      }
     }
     .post-card__post + .post-card__post {
       border-top: 1px solid $gray-lightest;
