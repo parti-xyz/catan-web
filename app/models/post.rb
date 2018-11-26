@@ -229,15 +229,17 @@ class Post < ApplicationRecord
   end
 
   MORE_OFFSET_COMMENTS_COUNT = 10
-  def more_comments_threaded(someone, limit)
-
-    result = if comments_count < limit + Post::MORE_OFFSET_COMMENTS_COUNT
-      comments.recent.limit(limit)
-    else
-      comments.all
-    end
+  def more_comments_threaded(someone, limit = -1)
+    result = comments.recent
+    result = result.limit(limit) if limit > 0
     result = result.reverse
-    Comment.setup_threads(result)
+    result = Comment.setup_threads(result)
+
+    if limit > 0 and comments_count < result.flatten.count + Post::MORE_OFFSET_COMMENTS_COUNT
+      result = more_comments_threaded(someone)
+    end
+
+    result
   end
 
   def any_not_latest_comments?(someone)
