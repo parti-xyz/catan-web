@@ -1840,12 +1840,16 @@ $(function(){
 
     var $photoswipe = $(e.currentTarget).closest('.js-photoswipe');
     var items = $.makeArray($photoswipe.find('.js-photoswipe-image').map(function(index, image_element) {
-      return {
+      var item = {
         src: $(image_element).data('url'),
         w: $(image_element).data('width'),
-        h: $(image_element).data('height'),
-        downloadURL: $(image_element).data('original-url')
+        h: $(image_element).data('height')
+      };
+      var download_url = '';
+      if($(image_element).data('original-url')) {
+        item['downloadURL'] = $(image_element).data('original-url');
       }
+      return item;
     }));
 
     var gallery = null;

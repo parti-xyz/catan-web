@@ -60,7 +60,7 @@
 
             - image_photoswipe_url = image_single_url
 
-            - action_options = { 'data-url': image_photoswipe_url, 'data-original-url': download_file_source_url(file_source), 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': post.specific_desc_striped_tags(100), 'data-index': index }
+            - action_options = { 'data-url': image_photoswipe_url, 'data-original-url': (download_file_source_url(file_source) unless is_small_screen?), 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': post.specific_desc_striped_tags(100), 'data-index': index }
 
             - if current_style == 'single'
               - if file_source.image_width < single_image_breakpoint
