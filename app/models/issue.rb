@@ -72,6 +72,7 @@ class Issue < ApplicationRecord
 
   # scopes
   scope :alive, -> { where(freezed_at: nil) }
+  scope :dead, -> { where.not(freezed_at: nil) }
   scope :only_public_in_current_group, ->(current_group = nil) {
     result = where.not(private: true).alive
     if current_group.blank?

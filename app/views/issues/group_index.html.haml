@@ -7,16 +7,22 @@
         빠띠
         %small
           그룹이 오거나징하는 빠띠입니다.
-      - if current_group.categories.try(:any?)
+      - if current_group.categories.any? or @exists_dead_issues
         .parties-filter
           .parties-filter-select.pull-left
             %nav
               %ul.list-inline
-                %li= link_to '전체', issues_path, class: ('active' if params['category_id'].blank?)
+                %li
+                  = link_to issues_path, class: ('active' if params['category_id'].blank? and params['dead'] != 'true') do
+                    전체
                 - current_group.categories.each do |category|
                   %li
-                    = link_to issues_path(category_id: category.id), class: ('active' if params['category_id'] == category.id) do
+                    = link_to issues_path(category_id: category.id), class: ('active' if params['category_id'] == category.id and params['dead'] != 'true') do
                       = category.name
+                - if @exists_dead_issues
+                  %li
+                    = link_to issues_path(dead: 'true'), class: ('active' if params['dead'] == 'true') do
+                      휴면 중
     .parties-all-list
       - if @issues.any?
         = render 'issues/page', issues: @issues

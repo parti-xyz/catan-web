@@ -18,7 +18,8 @@ class IssuesController < ApplicationController
         render 'issues/group_home_private_blocked' and return
       end
 
-      group_issues(current_group)
+      @issues = group_issues(current_group)
+      @issues = @issues.this_week_or_hottest
       @hot_issues = @issues.first(10)
       @posts_pinned = current_group.pinned_posts(current_user)
 
@@ -55,7 +56,8 @@ class IssuesController < ApplicationController
 
       render 'index'
     else
-      group_issues(current_group, params[:category_id])
+      @issues = group_issues(current_group, params[:category_id], params[:dead] == 'true')
+      @exists_dead_issues =  group_issues(current_group, nil, true).any?
       render 'group_index'
     end
   end
@@ -429,11 +431,16 @@ class IssuesController < ApplicationController
     end
   end
 
-  def group_issues(group, category_id = nil)
-    @issues = Issue.displayable_in_current_group(group)
-    @issues = @issues.this_week_or_hottest
-    @issues = @issues.categorized_with(category_id) if category_id.present?
-    @issues = @issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }
+  def group_issues(group, category_id = nil, dead = false)
+    issues = Issue.displayable_in_current_group(group)
+    if dead
+      issues = issues.dead
+    else
+      issues = issues.alive
+    end
+    issues = issues.categorized_with(category_id) if category_id.present?
+    issues = issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }
+    issues
   end
 
   def search_and_sort_issues(issues, keyword, sort, item_a_row = 4)
