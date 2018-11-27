@@ -42,7 +42,7 @@ class Issue < ApplicationRecord
   has_many :active_issue_stats, dependent: :destroy
   has_many :folders, dependent: :destroy
   belongs_to :category, optional: true
-  has_many :issue_post_formats, dependent: :destroy
+  has_many :issue_post_formats, dependent: :destroy, class_name: 'GroupHomeComponentPreference::IssuePostsFormat'
 
   # validations
   validates :title,
