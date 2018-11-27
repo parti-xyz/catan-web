@@ -18,8 +18,7 @@ class IssuesController < ApplicationController
         render 'issues/group_home_private_blocked' and return
       end
 
-      @issues = group_issues(current_group)
-      @issues = @issues.this_week_or_hottest
+      @issues = hot_group_issues(current_group)
       @hot_issues = @issues.first(10)
       @posts_pinned = current_group.pinned_posts(current_user)
 
@@ -439,6 +438,13 @@ class IssuesController < ApplicationController
       issues = issues.alive
     end
     issues = issues.categorized_with(category_id) if category_id.present?
+    issues = issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }
+    issues
+  end
+
+  def hot_group_issues(group)
+    issues = Issue.displayable_in_current_group(group)
+    issues = issues.alive
     issues = issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }
     issues
   end
