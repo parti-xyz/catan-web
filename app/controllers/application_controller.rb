@@ -134,7 +134,7 @@ class ApplicationController < ActionController::Base
       keywords:    options[:keywords],
       canonical:   current_url,
       twitter: {
-        site: '@parti_xyz',
+        site: '@parti_coop',
         card: options[:twitter_card_type],
         description: twitter_description(options),
         image: view_context.asset_url(options[:image])
