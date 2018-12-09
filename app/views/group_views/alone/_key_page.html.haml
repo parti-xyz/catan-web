@@ -1,41 +1,41 @@
 .key-page
   .key-page-desc
     .key-page-subtitle
-      일인당 첫 모임 
+      내가 그리는 일인당
     .key-page-title
-      내가 그리는 1인가구 공동공간
+      일인당 창당준비팀 대모집
 
     .key-page-subject.text-basic-wrap
       %p
-        내가 만들고 싶은 1인가구 공동공간은?
+        1인가구 공동공간을 만들기 위해 관악 시민들이 뭉친당!
         %br
-        일인당에 대한 아이디어를 나누는 첫 모임에 초대합니다! 
+        일인당 창당을 준비하는 창당준비팀에 초대합니다.  
+        %br
 
       %ul.list-unstyled.text-left{ style: 'display: inline-block;' }
         %li
           %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
             * 언제요?
-          %span 11/30 금요일 저녁 7시
+          %span 12/13 목요일 저녁 7시 30분
         %li
           %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
-            * 어디서요?
+            * 어디요?
           %span
-            %a(href="http://naver.me/GNjmJCsS" target="_blank")
-              세상과 연애하기 (서울특별시 관악구 관악로길 14)
-              %i.fa.fa-map-o
+            %a(href="http://naver.me/G9E0Jz1O" target="_blank")
+              (사)관악사회복지 (관악구 중앙동 봉천로 450)
+        %li
+          %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
+          %span
+            %a(href="http://naver.me/G9E0Jz1O" target="_blank")
+              %span.text-nowrap
+                %i.fa.fa-map-o
+                지도링크
 
     .key-page-buttons
-      %button.btn.btn-primary{onclick:"location.href='https://alone.parti.xyz/posts/24557'"}
-        %span.hidden-xs 지금
-        참가신청하기
-      - if user_signed_in?
-        = link_to new_post_path(issue_id: 890), remote: true, data: { 'disable-with': '작성 창 여는 중...' }, class: 'btn btn-danger' do
-          아이디어 작성하기
-      - else
-        %button.btn.btn-danger{ data: { toggle: 'parti-login-overlay' } }
-          아이디어 작성하기
+      %button.btn.btn-primary{onclick:"location.href='https://alone.parti.xyz/posts/25106'"}
+        지금 참가신청하기
       .more
-        %a(href="https://alone.parti.xyz/posts/24557")
+        %a(href="https://alone.parti.xyz/posts/25106")
           더 자세한 내용이 궁금하세요?
           %u 살펴보기
 
