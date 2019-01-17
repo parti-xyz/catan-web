@@ -35,7 +35,7 @@ class Admin::IssuesController < Admin::BaseController
       begin
         source.member_requests.each do |member_request|
           user = member_request.user
-          target.member_request.build(user: user, updated_at: member_request.updated_at, created_at: member_request.created_at) unless target.member_request_users.exists?(id: user.id)
+          target.member_requests.build(user: user, updated_at: member_request.updated_at, created_at: member_request.created_at) unless target.member_request_users.exists?(id: user.id)
         end
       ensure
         ActiveRecord::Base.record_timestamps = true
