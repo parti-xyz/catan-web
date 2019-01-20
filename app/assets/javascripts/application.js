@@ -131,6 +131,8 @@ $.validator.addMethod('filesize', function(value, element, param) {
   return this.optional(element) || (element.files[0].size <= param)
 });
 
+var __root_domain = $('body').data('root-domain');
+
 $.parti_apply = function($base, query, callback) {
   $.each($base.find(query).addBack(query), function(i, elm){
     callback(elm);
@@ -367,7 +369,6 @@ var parti_prepare = function($base, force) {
   $.parti_apply($base, '.js-tab-btn', function(elm) {
     $(elm).on('shown.bs.tab', function (e) {
       $(e.target).closest('.js-tab-btn-container').hide();
-      console.log($(e.target).attr('href'));
       $($(e.target).attr('href')).find('form').trigger('parti-need-to-validate');
     });
   });
@@ -376,7 +377,6 @@ var parti_prepare = function($base, force) {
   $.parti_apply($base, '.js-tab-btn', function(elm) {
     $(elm).on('shown.bs.tab', function (e) {
       $(e.target).closest('.js-tab-btn-container').hide();
-      console.log($(e.target).attr('href'));
       $($(e.target).attr('href')).find('form').trigger('parti-need-to-validate');
     });
   });
@@ -581,7 +581,6 @@ var parti_prepare = function($base, force) {
       return false;
     });
   });
-
 
   // 에디터 파일 추가/삭제 버튼
   $.parti_apply($base, '.js-post-editor-file_sources-wrapper', function(elm) {
@@ -1054,6 +1053,218 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  // 내 빠띠 search
+  $.parti_apply($base, '.js-drawer-filter-more', function(elm) {
+    if ($('.js-drawer-filter-container').length > 0) {
+      $(elm).appendTo('.js-drawer-filter-container').hide().removeClass('hidden');
+    } else {
+      $(elm).remove();
+    }
+  });
+
+  $.parti_apply($base, '.js-drawer-filter', function(elm) {
+    $(elm).addClear({
+      onClear: function(){
+        $(this).val('');
+        $base.find(".js-drawer-filter").trigger('keyup');
+      }
+    });
+
+    $(elm).on("keyup", _.debounce(function(e){
+      if ($('.js-drawer-filter-container .js-drawer-filter-group').length <= 0) {
+        return;
+      }
+
+      // Retrieve the input field text
+      var filter = $(e.currentTarget).val();
+
+      if ($.is_blank(filter)) {
+        $('.js-drawer-filter-container').find('.js-drawer-filter-item').show();
+        var $hidden = $('.js-drawer-filter-container').find('.js-drawer-filter-item-hidden');
+        $hidden.removeClass('js-drawer-filter-item-hidden').show();
+        $('.js-sidemenu-toggle').trigger('parti-sidemenu-toggle-reinit');
+        $('.js-drawer-filter-more').fadeOut();
+      } else {
+        $('.js-drawer-filter-container').find('> :not(.js-drawer-filter-item)').addClass('js-drawer-filter-item-hidden');
+
+        $('.js-drawer-filter-container .js-drawer-filter-group').each(function(){
+          var has_shown_issue_in_group = false;
+
+          $(this).find('.js-drawer-filter-ignored').addClass('js-drawer-filter-item-hidden');
+          $(this).find('.js-drawer-filter-searchable-line').each(function() {
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+              $(this).addClass('js-drawer-filter-item-hidden');
+            } else {
+              // Show the list item if the phrase matches and increase the count by 1
+              $(this).show().removeClass('js-drawer-filter-item-hidden');
+              has_shown_issue_in_group = true;
+            }
+          });
+
+          $(this).find('.js-drawer-filter-group-title').each(function() {
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) >= 0) {
+              has_shown_issue_in_group = true;
+            }
+          });
+
+          var $show_more_sidemenu_toggle = $(this).find('.js-sidemenu-toggle');
+          if (has_shown_issue_in_group) {
+            $(this).show().removeClass('js-drawer-filter-item-hidden');
+            if ($(this).prev().hasClass('divider')) {
+              $(this).prev().show().removeClass('js-drawer-filter-item-hidden');
+            }
+            $show_more_sidemenu_toggle.trigger('parti-sidemenu-toggle-show-temporary');
+          } else {
+            $(this).addClass('js-drawer-filter-item-hidden');
+            $show_more_sidemenu_toggle.trigger('parti-sidemenu-toggle-hide-temporary');
+          }
+        });
+
+        $('.js-drawer-filter-container').find('.js-drawer-filter-item-hidden').fadeOut();
+        $('.js-drawer-filter-more').show();
+      }
+    }, 300));
+
+    $(elm).on("parti-drawer-filter-temporary-ignore", function(e, temporary_container){
+      e.preventDefault();
+      $(temporary_container).find('.js-drawer-filter-item-hidden').show();
+    });
+
+    $(elm).on("parti-drawer-filter-temporary-reset", function(e, temporary_container){
+      e.preventDefault();
+      $(temporary_container).find('.js-drawer-filter-item-hidden').hide();
+    });
+  });
+
+  // 내 빠띠의 그룹 토글
+  (function() {
+    var _cookies_group_fold = [];
+
+    (function() {
+      if(__root_domain) {
+        var cookies_group_fold_cookie = Cookies.get('sidebar-group-fold', { domain: '.' + __root_domain });
+        if(cookies_group_fold_cookie) {
+          _cookies_group_fold = JSON.parse(cookies_group_fold_cookie);
+        }
+        if(!$.isArray(_cookies_group_fold)) {
+          _cookies_group_fold = [];
+        }
+      }
+    })();
+
+    $.parti_apply($base, '.js-sidemenu-toggle', function(elm) {
+      $(elm).on('click', function(e, force_mode) {
+        var href = $(e.target).closest('a').attr('href')
+        if (href && href != "#") {
+          return true;
+        }
+
+        e.preventDefault();
+        var $target = $(e.currentTarget);
+        var $group = $target.closest('.js-sidemenu-toggle-group');
+        var $issues = $group.find('.js-sidemenu-toggle-issues');
+
+        if($issues.hasClass('js-sidemenu-toggle-issues-fold-temporary')) {
+          $('.js-drawer-filter').trigger('parti-drawer-filter-temporary-reset', $issues);
+          $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
+          $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
+        } else if($issues.hasClass('js-sidemenu-toggle-issues-unfold-temporary')) {
+          $('.js-drawer-filter').trigger('parti-drawer-filter-temporary-ignore', $issues);
+          $issues.removeClass('js-sidemenu-toggle-issues-unfold-temporary');
+          $issues.addClass('js-sidemenu-toggle-issues-fold-temporary');
+        } else {
+          var mode;
+          if(force_mode) {
+            mode = force_mode;
+          } else {
+            mode = ($issues.is(':visible') ? 'fold' : 'unfold');
+          }
+
+          var group_id = 0;
+          var group_id_str = $group.data('sidemenu-toggle-group-id');
+          if(group_id_str) {
+            group_id = parseInt(group_id_str);
+          }
+
+          if(mode == 'fold') {
+            $issues.addClass('js-sidemenu-toggle-issues-fold');
+            $issues.removeClass('js-sidemenu-toggle-issues-unfold');
+            $issues.hide();
+            _cookies_group_fold.push(group_id);
+          } else {
+            $issues.removeClass('js-sidemenu-toggle-issues-fold');
+            $issues.addClass('js-sidemenu-toggle-issues-unfold');
+            $issues.show();
+            _.pull(_cookies_group_fold, group_id);
+          }
+          _cookies_group_fold = _.uniq(_cookies_group_fold);
+          Cookies.set('sidebar-group-fold', _cookies_group_fold, { domain: '.' + __root_domain });
+        }
+      });
+
+      $(elm).on('parti-sidemenu-toggle-reinit', function(e) {
+        e.preventDefault();
+        var $target = $(e.currentTarget);
+        var $group = $target.closest('.js-sidemenu-toggle-group');
+        var $issues = $group.find('.js-sidemenu-toggle-issues');
+        if($issues.hasClass('js-sidemenu-toggle-issues-fold')) {
+          $issues.hide();
+        } else {
+          $issues.show();
+        }
+        $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
+        $issues.removeClass('js-sidemenu-toggle-issues-unfold-temporary');
+      });
+
+      $(elm).on('parti-sidemenu-toggle-show-temporary', function(e) {
+        e.preventDefault();
+        var $target = $(e.currentTarget);
+        var $group = $target.closest('.js-sidemenu-toggle-group');
+        var $issues = $group.find('.js-sidemenu-toggle-issues');
+        $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
+        $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
+        $issues.show();
+      });
+
+      $(elm).on('parti-sidemenu-toggle-hide-temporary', function(e) {
+        e.preventDefault();
+        var $target = $(e.currentTarget);
+        var $group = $target.closest('.js-sidemenu-toggle-group');
+        var $issues = $group.find('.js-sidemenu-toggle-issues');
+        $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
+        $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
+        $issues.show();
+      });
+    });
+
+    $.parti_apply($base, '.js-sidemenu-toggle-all-fold', function(elm) {
+      $(elm).on('click', function(e) {
+        $('.js-sidemenu-toggle').trigger('click', 'fold');
+      });
+    });
+
+    $.parti_apply($base, '.js-sidemenu-toggle-all-unfold', function(elm) {
+      $(elm).on('click', function(e) {
+        $('.js-sidemenu-toggle').trigger('click', 'unfold');
+      });
+    });
+  })();
+
+
+  $.parti_apply($base, '.js-parti-drawer-search', function(elm) {
+    $(elm).on('click', function(e) {
+      var input_target = $(elm).data('input-target');
+      var url = $(elm).data('url');
+      var name = $(input_target).attr('name');
+      var val = $(input_target).val();
+      var params = {}
+      params[name] = val;
+      location.href = url + '?' + $.param(params);
+    });
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 
@@ -1092,7 +1303,7 @@ function parti_prepare_comment(comment_form_control_selector, nickname, text) {
 
   autosize.update(document.querySelectorAll(comment_form_control_selector));
 
-  $control.trigger('parti-need-to-validate')
+  $control.trigger('parti-need-to-validate');
 }
 
 $('[data-action="parti-clearable-search"]').each(function(i, elm) {
@@ -1535,7 +1746,7 @@ $(function(){
 
   // history back
   $('.js-btn-history-back-in-mobile-app').on('click', function(e) {
-    event.preventDefault();
+    e.preventDefault();
     if(ufo.isApp()) {
       ufo.goBack();
     }
@@ -1624,116 +1835,16 @@ $(function(){
 
     $('.js-slideout-toggle').on('click', function(e) {
       e.preventDefault();
-      var root_domain = $('.js-slideout-toggle').data('root-domain');
       if($('#js-drawer').is(':visible')) {
         $('#js-main-panel').removeClass('sidebar-open');
-        Cookies.set('sidebar-open', false, { domain: root_domain });
+        Cookies.set('sidebar-open', false, { domain: '.' + __root_domain });
       } else {
         $('#js-main-panel').addClass('sidebar-open');
-        Cookies.set('sidebar-open', true, { domain: root_domain });
+        Cookies.set('sidebar-open', true, { domain: '.' + __root_domain });
       }
       $('#js-main-panel').removeClass('sidebar-open-in-advance');
     });
   })();
-
-  // 내 메뉴 토글
-  $(document).on('click', '.js-show-more-sidemenu-issues', function(e) {
-    event.preventDefault();
-    var $target = $(e.currentTarget);
-    var $group = $target.closest('.js-more-sidemenu-group');
-
-    $target.parent().hide();
-    $group.find('.js-more-sidemenu-collapse').show();
-  });
-
-  $(document).on('click', '.js-show-less-sidemenu-issues', function(e) {
-    event.preventDefault();
-    var $target = $(e.currentTarget);
-    var $group = $target.closest('.js-more-sidemenu-group');
-
-    var old_scroll_top = $('.js-show-less-sidemenu-scroll').scrollTop();
-    var old_height = $target.parent().parent().outerHeight();
-
-    $group.find('.js-show-more-sidemenu-issues').parent().show();
-    $group.find('.js-more-sidemenu-collapse').hide();
-
-    var divider_dom_id = $target.attr('href');
-    setTimeout(function() {
-      if($('.js-show-less-sidemenu-scroll').offset().top > $(divider_dom_id).first().offset().top) {
-        $('.js-show-less-sidemenu-scroll').scrollTo($(divider_dom_id).first(), 200);
-      }
-    }, 140);
-  });
-
-  // 내 메뉴 search
-  if ($('.js-drawer-filter-container').length > 0) {
-    $('.js-drawer-filter-more').appendTo('.js-drawer-filter-container').hide().removeClass('hidden');
-  } else {
-    $('.js-drawer-filter-more').remove();
-  }
-
-  $(".js-drawer-filter").addClear({
-    onClear: function(){
-      $(this).val('');
-      $(".js-drawer-filter").trigger('keyup');
-    }
-  });
-
-  $(".js-drawer-filter").on("keyup", _.debounce(function(){
-    if ($('.js-drawer-filter-container .js-drawer-filter-group').length <= 0) {
-      return;
-    }
-
-    // Retrieve the input field text and reset the count to zero
-    var filter = $(this).val();
-
-    if ($.is_blank(filter)) {
-      $('.js-drawer-filter-container').find('.js-drawer-filter-item').show();
-      var $hidden = $('.js-drawer-filter-container').find('.js-drawer-filter-item-hidden')
-      $hidden.removeClass('js-drawer-filter-item-hidden');
-      $hidden.not('.js-more-sidemenu-collapse').show();
-      $('.js-drawer-filter-container .js-more-sidemenu-collapse').css('display', 'none');
-      $('.js-drawer-filter-more').fadeOut();
-    } else {
-      // Loop through the comment list
-      $('.js-drawer-filter-container').find('> :not(.js-drawer-filter-item)').addClass('js-drawer-filter-item-hidden');
-
-      $('.js-drawer-filter-container .js-drawer-filter-group').each(function(){
-        var has_shown_issue_in_group = false;
-
-        $(this).find('.js-drawer-filter-ignored').addClass('js-drawer-filter-item-hidden');
-        $(this).find('.js-drawer-filter-searchable-line').each(function() {
-          // If the list item does not contain the text phrase fade it out
-          if ($(this).text().search(new RegExp(filter, "i")) < 0) {
-            $(this).addClass('js-drawer-filter-item-hidden');
-          } else {
-            // Show the list item if the phrase matches and increase the count by 1
-            $(this).show().removeClass('js-drawer-filter-item-hidden');
-            has_shown_issue_in_group = true;
-          }
-        });
-
-        $(this).find('.js-drawer-filter-group-title').each(function() {
-          // If the list item does not contain the text phrase fade it out
-          if ($(this).text().search(new RegExp(filter, "i")) >= 0) {
-            has_shown_issue_in_group = true;
-          }
-        });
-
-        if (has_shown_issue_in_group) {
-          $(this).show().removeClass('js-drawer-filter-item-hidden');
-          if ($(this).prev().hasClass('divider')) {
-            $(this).prev().show().removeClass('js-drawer-filter-item-hidden');
-          }
-        } else {
-          $(this).addClass('js-drawer-filter-item-hidden');
-        }
-      });
-
-      $('.js-drawer-filter-container').find('.js-drawer-filter-item-hidden').fadeOut();
-      $('.js-drawer-filter-more').show();
-    }
-  }, 300));
 
   // 위키 폴더 목록 클릭
   $('.js-folder-item').on('click', function(e) {

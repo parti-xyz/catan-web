@@ -12,7 +12,7 @@
               %sup z
             휴면 중
       - else
-        - if !issue.group.private? and can?(:new_admit_members, issue)
+        - if can?(:new_admit_members, issue)
           %span.parti-admin-btn-container<>
             = link_to new_admit_members_issue_path(issue), class: 'btn btn-xs btn-default' do
               %i.fa.fa-user-plus
@@ -59,41 +59,23 @@
       - if issue.alive?
         %span.text-nowrap<>
           %span.parti-admin-btn-container<>
-            %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "#setting-menu-#{dom_id(issue)}", "data-action": "parti-popover", "data-placement": "auto-bottom"}<>
-              - if current_user.my_menu?(issue)
-                %i.fa.fa-thumb-tack
-              - else
-                %i.fa.fa-sliders
-            .hidden<>
-              .setting-menu.dropdown-list{id: "setting-menu-#{dom_id(issue)}"}
-                %ul.list-unstyled
-                  %li.text-muted
-                    내 메뉴에 노출
-                  %li.text-nowrap
-                    = link_to [:add_my_menu, issue], method: :put, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
-                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' unless current_user.my_menu?(issue)) }
-                      %i.fa.fa-thumb-tack
-                      항상 노출
-                  %li.text-nowrap
-                    = link_to [:remove_my_menu, issue], method: :delete, 'data-disable-with': '<i class="fa fa-check">&nbsp;처리 중...' do
-                      %i.fa.fa-check.text-primary-dark{ style: ('visibility: hidden' if current_user.my_menu?(issue)) }
-                      %i.fa.fa-sliders
-                      새 게시글이 있으면 노출
-
-          %span.parti-admin-btn-container<>
             - issue_push_notification_preference_dom_id = "setting-push-notification--#{SecureRandom.uuid}"
             %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "##{issue_push_notification_preference_dom_id}", "data-action": "parti-popover", "data-placement": "auto-bottom"}<>
               - case current_user.issue_push_notification_preference_value(issue)
               - when 'highlight'
                 %i.fa.fa-bell-o
+                중요한 알림만
               - when 'compact'
                 %span{ style: 'position: relative;' }
                   %i.fa.fa-bell{ style: 'color: #d2d2d2;' }
                   %i.fa.fa-bell-o{ style: 'position: absolute; top: 0; left: 0; '}
+                간략한 알림
               - when 'detail'
                 %i.fa.fa-bell
+                자세한 알림
               - when 'nothing'
                 %i.fa.fa-bell-slash
+                알림 받지 않음
             .hidden<>
               .setting-push-notification.dropdown-list{id: "#{issue_push_notification_preference_dom_id}"}
                 %ul.list-unstyled

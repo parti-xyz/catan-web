@@ -1,4 +1,4 @@
-%div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(comment.post) } }
+%div{id: "#{dom_id(message)}-url-source", data: { url: comment_url(comment) } }
   - if comment.post.user == message.user
     %strong
       = message.sender.nickname
@@ -14,4 +14,4 @@
           #{message.sender.nickname}님이
           #{comment.post.user.nickname}님의 게시글에
           댓글을 남겼습니다.
-    = link_to excerpt(comment.body, length: 100), comment_url(comment)
+    = excerpt(comment.body, length: 100)

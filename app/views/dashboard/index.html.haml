@@ -37,12 +37,12 @@
               .post-card.summary
                 .post-card__post
                   - if @search_q.present?
-                    내 피드에서 "#{@search_q}"을(를) 검색한 결과입니다.
+                    내 홈에서 "#{@search_q}"을(를) 검색한 결과입니다.
                     - if @search_q != params[:q]
                       영문과 한글만 검색합니다.
                     = link_to '취소', dashboard_path(group_slug: current_dashboard_group.try(:slug)), class: 'btn btn-sm btn-default'
                   - elsif @hashtag.present?
-                    내 피드에서 "##{@hashtag}" 해시태그된 게시물입니다.
+                    내 홈에서 "##{@hashtag}" 해시태그된 게시물입니다.
                     %span.text-nowrap
                       = link_to '취소', dashboard_path(group_slug: current_dashboard_group.try(:slug)), class: 'btn btn-sm btn-default'
                       = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'btn btn-sm btn-default' do

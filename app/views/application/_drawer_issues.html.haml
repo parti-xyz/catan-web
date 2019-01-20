@@ -1,64 +1,52 @@
+= render 'application/drawer_search'
+%li.menu-line.menu-line-all-folding
+  %span.cursor-pointer.js-sidemenu-toggle-all-unfold 모두 펼치기
+  &middot;
+  %span.cursor-pointer.js-sidemenu-toggle-all-fold 모두 접기
 - if Group.comprehensive_joined_by(current_user).any?
   - ([host_group] + Group.sort_by_name.comprehensive_joined_by(current_user).but(host_group).to_a).each do |menu_group|
-    - divider_dom_id = "js-more-sidemenu-divider-#{SecureRandom.uuid}"
-    %li.divider.divider-small{ id: divider_dom_id }
-    %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-more-sidemenu-group
-      .title.cursor-pointer.js-drawer-filter-group-title{ data: { 'action': "parti-link", 'url': smart_group_url(menu_group) } }
+    %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
+      .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle{ class: "#{(sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold')} js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }
         - latest_issues_count = menu_group.visiable_latest_issues_count
         - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
         - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
         - any_latest_stroked_posts = (!latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0)
 
-        = link_to smart_group_url(menu_group, sort: :order_by_stroked_at, anchor: ('js-group-all-posts' if !menu_group.indie? and !any_latest_issues and any_latest_stroked_posts)), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
-          .group-parties-section-title-wrapper
-            #{group_my_parties_section_title(menu_group)}
-            - if any_latest_issues
-              %span.parties-count
-                %i.fa.fa-flag(title='최근 빠띠')
-                = latest_issues_count
-            - unless menu_group.indie?
-              - if any_latest_stroked_posts
-                %span.posts-count
-                  %i.fa.fa-file-text(title='최근 업데이트')
-                  = latest_stroked_posts_count
+        .title-content
+          = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
+            %span.group-parties-section-title-wrapper
+              #{group_sidemenu_title(menu_group)}
+              - if any_latest_issues
+                %span.parties-count
+                  %i.fa.fa-flag(title='최근 빠띠')
+                  = latest_issues_count
+              - unless menu_group.indie?
+                - if any_latest_stroked_posts
+                  %span.posts-count
+                    %i.fa.fa-file-text(title='최근 업데이트')
+                    = latest_stroked_posts_count
+        .title-btn-folding
+          %i.fa.fa-caret-down
 
       - issues = current_user.member_issues.only_alive_of_group(menu_group)
       - if issues.any?
-        - has_invisible_issues = false
-        - if menu_group.categories.any?
-          - (menu_group.categories.to_a << nil).each do |category|
-            - categorized_issues = issues.categorized_with(category)
-            - next if categorized_issues.empty?
-            - visible_issues, invisible_issues = Issue.classify_for_drawer(current_user, categorized_issues)
+        .group-issues-list.js-sidemenu-toggle-issues{ class: ('sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)) }
+          - if menu_group.categories.any?
+            - (menu_group.categories.to_a << nil).each do |category|
+              - categorized_issues = issues.categorized_with(category)
+              - next if categorized_issues.empty?
 
-            .title.title-category.text-primary.js-drawer-filter-ignored{ class: ('collapse js-more-sidemenu-collapse' if visible_issues.empty?) }= (category.try(:name) || '미분류')
-            = render 'application/drawer_issues_list', group: menu_group, visible_issues: visible_issues, invisible_issues: invisible_issues
+              .title.title-category.js-drawer-filter-ignored= (category.try(:name) || '미분류')
+              = render 'application/drawer_issues_list', group: menu_group, issues: categorized_issues
 
-            - has_invisible_issues = invisible_issues.any? unless has_invisible_issues
+          - else
+            = render 'application/drawer_issues_list', group: menu_group, issues: issues
 
-        - else
-          - visible_issues, invisible_issues = Issue.classify_for_drawer(current_user, issues)
-          = render 'application/drawer_issues_list', group: menu_group, visible_issues: visible_issues, invisible_issues: invisible_issues
-
-          - has_invisible_issues = invisible_issues.any? unless has_invisible_issues
-
-        - if has_invisible_issues
           %ul.sub.list-unstyled
             %li.js-drawer-filter-ignored.issue-more.clearfix
-              %a.js-show-more-sidemenu-issues(href="#")
-                %i.fa.fa-caret-down
+              = link_to issues_url(subdomain: menu_group.subdomain) do
                 더 보기
-              = link_to my_menus_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
-                %i.fa.fa-gear
-                설정
-
-            %li.js-drawer-filter-ignored.issue-less.collapse.js-more-sidemenu-collapse.clearfix
-              %a.js-show-less-sidemenu-issues{ href: "##{divider_dom_id}" }
-                %i.fa.fa-caret-up
-                접기
-              = link_to my_menus_issues_url(subdomain: nil, group_slug: menu_group.slug), class: 'pull-right' do
-                %i.fa.fa-gear
-                설정
+                %i.fa.fa-angle-right
       - else
         %ul.sub.list-unstyled
           %li.js-issue-line.js-drawer-filter-ignored

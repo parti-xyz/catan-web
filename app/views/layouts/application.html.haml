@@ -20,7 +20,7 @@
 
     = csrf_meta_tags
 
-  %body.js-menu-slideout-lg{ class: "#{body_class} #{'with-bottom-banner' if content_for?(:bottom_banner)}" }
+  %body.js-menu-slideout-lg{ class: "#{body_class} #{'with-bottom-banner' if content_for?(:bottom_banner)}", 'data-root-domain': root_domain }
     %section.unobtrusive-flash-section
       .container
         .unobtrusive-flash-container

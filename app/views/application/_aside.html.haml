@@ -42,7 +42,7 @@
           .aside_search
             = form_tag dashboard_path, method: :get do
               .form-group.has-feedback
-                = search_field_tag :q, (@search_q || ("##{@hashtag}" if @hashtag.present?)), placeholder: '내 피드에서 게시글 찾기...', class: 'form-control'
+                = search_field_tag :q, (@search_q || ("##{@hashtag}" if @hashtag.present?)), placeholder: '내 홈에서 찾기...', class: 'form-control'
                 %span.form-control-feedback{ style: 'pointer-events: initial;' }
                   = button_tag class: 'btn btn-link btn-xs' do
                     %i.fa.fa-search.text-muted

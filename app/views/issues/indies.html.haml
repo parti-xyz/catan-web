@@ -1,11 +1,11 @@
-%section#home.no-facebook-like
+%section#home.no-facebook-like.js-sidemenu-highlight-indie-group
   .container
     .row
       = main_column_tag do
         - group = Group.indie
         .group-heading.margin-bottom-default
           %h4
-            = group_parties_section_title(group)
+            = group_basic_title(group)
             %span.partis-count.badge
               #{Issue.of_group(group).count}개의 빠띠
           - unless group.site_description.nil?

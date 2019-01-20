@@ -22,7 +22,7 @@
         %a.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
           - if current_dashboard_group.present?
             \/
-            = group_my_parties_section_title(current_dashboard_group)
+            = group_basic_title(current_dashboard_group)
           - else
             \/
             전체
@@ -37,13 +37,13 @@
           - Group.comprehensive_joined_by(current_user).each do |group|
             %li{ class: ('selected' if current_dashboard_group == group) }
               = link_to send(dropdown_url, subdomain: nil, group_slug: group.slug)  do
-                = group_my_parties_section_title(group)
+                = group_basic_title(group)
                 - if current_dashboard_group == group
                   %i.fa.fa-check
 
       %small.hidden-xs
         - if current_dashboard_group.present?
-          #{group_my_parties_section_title(current_dashboard_group)}에서 오거나이징하는 내 빠띠 최신 소식입니다.
+          #{group_only_basic_title(current_dashboard_group)}에서 오거나이징하는 내 빠띠 최신 소식입니다.
         - else
           내가 가입한 빠띠와 그룹의 최근 소식입니다.
 

@@ -245,7 +245,20 @@ module ApplicationHelper
     !controller_path.start_with?('mobile_app/')
   end
 
-  def group_my_parties_section_title(group)
+  def group_sidemenu_title(group)
+    content_tag :span, class: ["group-parties-section-title"] do
+      title = group.indie? ? "이슈와 관심사" : group.title_short_format
+      concat content_tag("span", title, class: ["group-title"])
+      s_icon = meta_icons(group, (['star', '오거나이징하는 그룹'] if group.organized_by?(current_user)))
+      if s_icon.present?
+        concat raw('&nbsp;')
+        concat s_icon
+        concat raw('&nbsp;')
+      end
+    end
+  end
+
+  def group_basic_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
       title = group.indie? ? "이슈와 관심사" : group.title_basic_format
       concat content_tag("span", title, class: ["group-title"])
@@ -258,15 +271,10 @@ module ApplicationHelper
     end
   end
 
-  def group_parties_section_title(group)
+  def group_only_basic_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
       title = group.indie? ? "이슈와 관심사" : group.title_basic_format
       concat content_tag("span", title, class: ["group-title"])
-      s_icon = meta_icons(group)
-      if s_icon.present?
-        concat s_icon
-        concat raw('&nbsp;')
-      end
     end
   end
 
@@ -278,6 +286,17 @@ module ApplicationHelper
     return false if controller_name == 'dashboard' and action_name == 'intro'
     return false if controller_name == 'posts' and action_name == 'wiki'
     cookies[:'sidebar-open'] != "false"
+  end
+
+  def sidebar_group_opened?(group)
+    begin
+      group_ids_folden = JSON.parse(cookies[:'sidebar-group-fold'] || "[]")
+    rescue JSON::ParserError
+      group_ids_folden = []
+    end
+
+    group_ids_folden = [] unless group_ids_folden.kind_of?(Array)
+    !group_ids_folden.include?(group.id)
   end
 
   def root_domain

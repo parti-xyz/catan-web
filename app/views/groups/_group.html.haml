@@ -6,7 +6,7 @@
     .group-heading
       = link_to smart_group_url(group) do
         %h4
-          = group_parties_section_title(group)
+          = group_basic_title(group)
           - if issues.count < all_issues.count
             %br.visible-xs
             %small.partis-count.badge

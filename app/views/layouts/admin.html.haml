@@ -18,7 +18,7 @@
 
     = csrf_meta_tags
 
-  %body.js-menu-slideout-lg{class: body_class, data: {spy: "scroll", target: "#toc"}}
+  %body.js-menu-slideout-lg{ class: body_class, data: {spy: "scroll", target: "#toc", 'root-domain': root_domain } }
     %section.unobtrusive-flash-section
       .container
         .unobtrusive-flash-container

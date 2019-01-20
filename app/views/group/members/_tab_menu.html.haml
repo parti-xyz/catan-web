@@ -4,9 +4,9 @@
     멤버
     %small.hidden-xs
       - if can_admin_member
-        #{group_my_parties_section_title(current_group)}의 멤버를 관리합니다.
+        #{group_only_basic_title(current_group)}의 멤버를 관리합니다.
       - else
-        #{group_my_parties_section_title(current_group)}의 멤버입니다.
+        #{group_only_basic_title(current_group)}의 멤버입니다.
 
 - if can_admin_member and current_group.private?
   #content-tab-section
