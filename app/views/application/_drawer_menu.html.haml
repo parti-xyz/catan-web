@@ -1,3 +1,4 @@
+
 .drawer-list#js-drawer
   %ul.drawer-list__menu.list-unstyled.js-drawer-filter-container
     - if user_signed_in? and current_user.member_issues.any?
@@ -36,3 +37,17 @@
     %li.menu-line
       = link_to smart_issue_home_url(Issue.parti_parti) do
         제안 및 의견 &middot; 빠띠만든당
+    %li.menu-line
+      %a{ 'data-toggle': 'modal', href: "#subscribe-newsletter-modal" }
+        빠띠 민주주의 리포트 받아보기
+
+  .footer-sns
+    %a{href: 'http://partiunion.org', target: '_blank'}
+      = image_tag 'icon_parti.png', alt: 'btn-facebook'
+    %a{href: 'https://facebook.com/PartiUnion', target: '_blank'}
+      = image_tag 'icon_fb.png', alt: 'btn-facebook'
+    %a{href: 'https://twitter.com/parti_coop', target: '_blank'}
+      = image_tag 'icon_tw.png', alt: 'btn-twitter'
+    %a{href: 'https://medium.com/parti-xyz-developers', target: '_blank'}
+      = image_tag 'icon_me.png', alt: 'btn-medium'
+

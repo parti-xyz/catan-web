@@ -7,3 +7,20 @@
           .text-center
             %i.fa.fa-spinner.fa-pulse.fa-2x.fa-fw
         .js-modal-placeholder-origin-body
+
+.modal-placeholder
+  #subscribe-newsletter-modal.modal.fade{role: "dialog", tabindex: "-1"}
+    .modal-dialog.modal-md{:role => "document"}
+      .modal-content.subscribe-modal
+        .modal-body
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} &#215;
+          %form.text-center{:action => "https://stibee.com/api/v1.0/lists/SZBNbO-_brk8tbU-Xf-LI30WjGA=/public/subscribers", :method => "POST"}
+            %h4.email-guide
+              빠띠의 민주주의 리포트를
+              %br
+              월간 뉴스레터로 받아보세요.
+            .email-input
+              %label{:for => "email", style: 'font-weight: normal'} 이메일 주소를 입력하세요.
+              %input#email{:name => "email", :id => "email", :type => "email", class: 'form-control'}/
+              %button{class: 'btn btn-wire device-bloc-button btn-primary', :type => "submit"} 구독신청

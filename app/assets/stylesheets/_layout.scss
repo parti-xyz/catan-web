@@ -46,11 +46,14 @@ footer {
   }
 }
 .footer-sns {
-  border-bottom: 1px solid #d9d9dd;
-  padding-bottom: 15px;
+  padding: 0 6px 3px;
   margin-bottom: 20px;
   a {
     margin-right: 5px;
+  }
+  img {
+    width: 41px;
+    height: auto;
   }
 }
 

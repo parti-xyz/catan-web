@@ -297,17 +297,6 @@ label.required:after {
   }
 }
 
-.footer-sns {
-  img {
-    width: 41px;
-    height: auto;
-  }
-  img#{&}--yellow {
-    width: 100px;
-    height: auto;
-  }
-}
-
 .valign {
   vertical-align: middle;
 }

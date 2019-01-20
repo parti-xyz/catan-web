@@ -10,11 +10,6 @@
               %strong 빠띠 만들기
             %div
               나누고 싶은 이슈나 관심사가 있나요?
-              - if current_group.blank?
-                팀과 커뮤니티를 위한
-              - else
-                = current_group.title_short_format
-                그룹의
               %span
                 %u<> 빠띠
                 를
@@ -28,7 +23,7 @@
               = link_to new_group_configuration_url(subdomain: nil), class: 'a-gray' do
                 %strong 그룹 만들기
               %div
-                하나의 빠띠로 다루기에는 너무 다양한 주제가 있나요? 여러 빠띠를 묶어주는
+                함께할 팀과 커뮤니티가 있나요?
                 %span
                   %u<> 그룹
                   을
@@ -47,4 +42,3 @@
                   = button_tag class: 'btn btn-link btn-xs' do
                     %i.fa.fa-search.text-muted
 
-    = render 'application/footer'
