@@ -64,6 +64,7 @@ class User < ApplicationRecord
   has_many :mentions, dependent: :destroy
   has_many :members, dependent: :destroy
   has_many :issue_members, -> { where(joinable_type: 'Issue') }, class_name: "Member"
+  has_many :group_members, -> { where(joinable_type: 'Group') }, class_name: "Member"
   has_many :member_request, dependent: :destroy
   has_many :member_issues, through: :members, source: :joinable, source_type: "Issue"
   has_many :member_groups, through: :members, source: :joinable, source_type: "Group"
@@ -172,6 +173,32 @@ class User < ApplicationRecord
 
   def is_organizer?(joinable)
     joinable.organized_by?(self)
+  end
+
+  def cache_member
+    @cacheable_members = true
+  end
+
+  def cached_group_member(group)
+    return unless @cacheable_members
+    if @cached_group_members.blank?
+      @cached_group_members = self.group_members.to_a.map do |group_member|
+        [group_member.joinable.id, group_member]
+      end.to_h
+    end
+
+    @cached_group_members[group.id]
+  end
+
+  def cached_parti_member(parti)
+    return unless @cacheable_members
+    if @cached_parti_members.blank?
+      @cached_parti_members = self.issue_members.to_a.map do |parti_member|
+        [parti_member.joinable.id, parti_member]
+      end.to_h
+    end
+
+    @cached_parti_members[parti.id]
   end
 
   def only_all_member_issues

@@ -14,7 +14,7 @@ class Ability
       can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
         user.is_organizer?(issue)
       end
-      can [:create, :new_intro, :search_by_tags, :my_menus, :add_my_menu, :remove_my_menu], [Issue]
+      can [:create, :new_intro, :search_by_tags, :my_menus, :add_my_menu, :remove_my_menu, :selections], [Issue]
       can [:update_category, :destroy_category], Issue do |issue|
         user.is_organizer?(issue.group)
       end

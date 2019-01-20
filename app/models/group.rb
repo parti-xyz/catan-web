@@ -85,10 +85,18 @@ class Group < ApplicationRecord
   end
 
   def organized_by? someone
+    return false if someone.blank?
+    cached_member = someone.cached_group_member(self)
+    return cached_member.is_organizer if cached_member.present?
+
     organizer_members.exists? user: someone
   end
 
   def member? someone
+    return false if someone.blank?
+    cached_member = someone.cached_group_member(self)
+    return true if cached_member.present?
+
     members.exists? user: someone
   end
 

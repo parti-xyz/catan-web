@@ -1,0 +1,5 @@
+- dom_id = local_assigns[:dom_id] || "parti-select-#{SecureRandom.uuid}"
+.parti-select.parti-select-form-padding.js-lazy-partal-load{ id: dom_id, data: { url: selections_issues_path(dom_id: dom_id) } }
+  .text-muted
+    %i.fa.fa-spinner.fa-pulse
+    로딩 중...

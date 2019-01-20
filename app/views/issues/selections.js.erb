@@ -1,0 +1,3 @@
+var $selections = $('<%= j(render 'posts/issue_selector', dom_id: params[:dom_id]) %>');
+$('#<%= params[:dom_id] %>').replaceWith($selections);
+parti_partial$($selections, true);

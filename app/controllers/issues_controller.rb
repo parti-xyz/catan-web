@@ -363,6 +363,9 @@ class IssuesController < ApplicationController
     @issues = @issues.of_group(@group)
   end
 
+  def selections
+  end
+
   def add_my_menu
     unless current_user.my_menu?(@issue)
       current_user.my_menus.create(issue: @issue)

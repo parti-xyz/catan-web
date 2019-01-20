@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include StoreLocation
 
   protect_from_forgery with: :exception
+  before_action :cache_member_for_current_user
   before_action :prepare_meta_tags, if: -> { request.get? and !Rails.env.test? }
   before_action :set_device_type
   before_action :block_not_exists_group
@@ -317,5 +318,9 @@ class ApplicationController < ActionController::Base
   def authorize_parent!(parent)
     return if parent.blank?
     authorize! "#{params[:controller]}##{params[:action]}".to_sym, parent
+  end
+
+  def cache_member_for_current_user
+    current_user.try(:cache_member)
   end
 end

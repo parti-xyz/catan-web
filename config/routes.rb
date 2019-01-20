@@ -101,6 +101,7 @@ Rails.application.routes.draw do
       get :search_by_tags
       get :my_menus
       post :merge
+      get :selections
     end
     resources :members do
       collection do
