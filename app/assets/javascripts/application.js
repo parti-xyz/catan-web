@@ -1253,6 +1253,13 @@ var parti_prepare = function($base, force) {
   })();
 
 
+  $.parti_apply($base, '.js-lazy-partal-load', function(elm) {
+    $.ajax({
+      url: $(elm).data('url'),
+      type: "get"
+    });
+  });
+
   $.parti_apply($base, '.js-parti-drawer-search', function(elm) {
     $(elm).on('click', function(e) {
       var input_target = $(elm).data('input-target');
@@ -2092,13 +2099,6 @@ $(function(){
       }
     });
   })();
-
-  $('.js-lazy-partal-load').each(function(i, elm) {
-    $.ajax({
-      url: $(elm).data('url'),
-      type: "get"
-    });
-  });
 
   // 게시물 폴더 선택
   $(document).on('hidden.bs.select', '.js-folder-selector .bootstrap-select.js-parti-bootstrap-select', function(e) {
