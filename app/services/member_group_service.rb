@@ -10,7 +10,7 @@ class MemberGroupService
   end
 
   def call
-    return if @group.blank? or @group.member? self
+    return if @group.blank? or @group.member?(@user)
     ActiveRecord::Base.transaction do
       @member = @group.members.create(user: @user, description: @description)
       return if @member.blank?
