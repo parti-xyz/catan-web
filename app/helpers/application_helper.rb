@@ -289,6 +289,11 @@ module ApplicationHelper
   end
 
   def sidebar_group_opened?(group)
+    if user_signed_in?
+      if current_user.drawer_current_group_unfold_only
+        return host_group == group
+      end
+    end
     begin
       group_ids_folden = JSON.parse(cookies[:'sidebar-group-fold'] || "[]")
     rescue JSON::ParserError

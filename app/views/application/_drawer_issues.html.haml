@@ -1,12 +1,11 @@
-= render 'application/drawer_search'
-%li.menu-line.menu-line-all-folding
-  %span.cursor-pointer.js-sidemenu-toggle-all-unfold 모두 펼치기
-  &middot;
-  %span.cursor-pointer.js-sidemenu-toggle-all-fold 모두 접기
 - if Group.comprehensive_joined_by(current_user).any?
-  - ([host_group] + Group.sort_by_name.comprehensive_joined_by(current_user).but(host_group).to_a).each do |menu_group|
-    %li.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
-      .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle{ class: "#{(sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold')} js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }
+  - if current_user.drawer_current_group_fixed_top
+    - menu_groups = ([host_group] + Group.sort_by_name.comprehensive_joined_by(current_user).but(host_group).to_a)
+  - else
+    - menu_groups = Group.sort_by_name.comprehensive_joined_by(current_user).to_a
+  - menu_groups.each do |menu_group|
+    %li.js-group-issues-line.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
+      .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }
         - latest_issues_count = menu_group.visiable_latest_issues_count
         - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
         - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
@@ -30,7 +29,7 @@
 
       - issues = current_user.member_issues.only_alive_of_group(menu_group)
       - if issues.any?
-        .group-issues-list.js-sidemenu-toggle-issues{ class: ('sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)) }
+        .group-issues-list.js-sidemenu-toggle-issues{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
           - if menu_group.categories.any?
             - (menu_group.categories.to_a << nil).each do |category|
               - categorized_issues = issues.categorized_with(category)

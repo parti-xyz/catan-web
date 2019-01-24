@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_07_094956) do
+ActiveRecord::Schema.define(version: 2019_01_22_234805) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -690,18 +690,6 @@ ActiveRecord::Schema.define(version: 2018_11_07_094956) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
-  create_table "third_party_auths", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "provider", null: false
-    t.string "uid", null: false
-    t.string "access_token", null: false
-    t.string "refresh_token", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["provider", "uid", "user_id"], name: "index_third_party_auths_on_provider_and_uid_and_user_id", unique: true
-    t.index ["user_id"], name: "index_third_party_auths_on_user_id"
-  end
-
   create_table "upvotes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
@@ -750,6 +738,8 @@ ActiveRecord::Schema.define(version: 2018_11_07_094956) do
     t.datetime "push_notification_disabled_at"
     t.datetime "messages_read_at"
     t.boolean "enable_trace_device_token", default: false
+    t.boolean "drawer_current_group_fixed_top", default: false
+    t.boolean "drawer_current_group_unfold_only", default: false
     t.index ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true
