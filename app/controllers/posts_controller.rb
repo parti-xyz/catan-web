@@ -235,7 +235,9 @@ class PostsController < ApplicationController
   end
 
   def show
-    return unless verify_group(@post.issue)
+    unless request.xhr?
+      return unless verify_group(@post.issue)
+    end
 
     add_reader(@post) if @post.pinned?
     @issue = @post.issue

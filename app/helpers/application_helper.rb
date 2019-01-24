@@ -408,4 +408,11 @@ module ApplicationHelper
       count
     end
   end
+
+  def to_json_primitive_only(local_assigns)
+    local_assigns.map do |key, value|
+      next unless [String, Symbol, TrueClass, FalseClass, Numeric].member?(value.class)
+      [key, value]
+    end.compact.to_h.to_json
+  end
 end

@@ -1,0 +1,17 @@
+<%
+  render_assigns = { post: @post }
+  begin
+    param_assigns = JSON.parse(params[:assigns])
+    if param_assigns.present? and param_assigns.is_a? Hash
+      render_assigns.merge!(param_assigns.symbolize_keys)
+    end
+  rescue JSON::ParserError
+  end
+%>
+var $post_dom = $('<%= j(render partial: 'posts/post', locals: render_assigns) %>');
+if($('#<%= params[:dom_id] %>').length > 0) {
+  var $target_dom = $('#<%= params[:dom_id] %>');
+  $target_dom.replaceWith($post_dom);
+  parti_partial$($post_dom, true);
+  Waypoint.refreshAll();
+}

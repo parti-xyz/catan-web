@@ -1256,7 +1256,11 @@ var parti_prepare = function($base, force) {
   $.parti_apply($base, '.js-lazy-partal-load', function(elm) {
     $.ajax({
       url: $(elm).data('url'),
-      type: "get"
+      type: 'get',
+      crossDomain: false,
+      xhrFields: {
+        withCredentials: true
+      }
     });
   });
 

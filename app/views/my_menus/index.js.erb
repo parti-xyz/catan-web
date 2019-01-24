@@ -3,12 +3,12 @@ if($('#js-my-menu-drawer_issues').length > 0) {
   var $drawer_merged = $('<%= j(render 'application/drawer_search') %>');
   $drawer_merged = $drawer_merged.add('<%= j(render 'application/drawer_menu_line_configs') %>');
   $drawer_merged = $drawer_merged.add($drawer_issues);
-  parti_partial$($drawer_merged, true);
   $('#js-my-menu-drawer_issues').replaceWith($drawer_merged);
+  parti_partial$($drawer_merged, true);
 } else {
   $('.js-group-issues-line').remove();
-  parti_partial$($drawer_issues, true);
   $('.js-menu-line-configs').after($drawer_issues);
+  parti_partial$($drawer_issues, true);
 }
 
 <% if user_signed_in? %>

@@ -144,3 +144,68 @@
     }
   }
 }
+
+@mixin skeletons($base-gray) {
+  .skeletons {
+    margin: 1em 0;
+    .skeleton-user {
+      &:before, &:after {
+        content: " ";
+        display: table;
+      }
+      &:after {
+        clear: both;
+      }
+      margin-bottom: 12px;
+      .skeleton-user-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        float: left;
+      }
+      .skeleton-user-meta {
+        float: left;
+        margin-left: 12px;
+        .skeleton-user-nickname {
+          width: 105px;
+        }
+        .skeleton-post-date {
+          width: 40px;
+        }
+      }
+    }
+    .skeleton-title {
+      width: 50%;
+    }
+    .skeleton-user-nickname,
+    .skeleton-post-date,
+    .skeleton-item {
+      margin: 3px 0;
+    }
+    .skeleton-user-icon,
+    .skeleton-user-nickname,
+    .skeleton-post-date,
+    .skeleton-title,
+    .skeleton-item {
+      height: 1em;
+      background-color: $base-gray;
+      animation-name: shimmer-animate;
+      animation-duration: 4s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      background: -webkit-gradient(linear, left top, right top, color-stop(8%, mix(white,$base-gray,70%)), color-stop(18%, mix(white,$base-gray,35%)), color-stop(33%, mix(white,$base-gray,70%)));
+      background: -webkit-linear-gradient(left, mix(white,$base-gray,70%) 8%, mix(white,$base-gray,35%) 18%, mix(white,$base-gray,70%) 33%);
+      background: linear-gradient(to right, mix(white,$base-gray,70%) 8%, mix(white,$base-gray,35%) 18%, mix(white,$base-gray,70%) 33%);
+      -webkit-background-size: 800px 104px;
+    }
+  }
+}
+
+@keyframes shimmer-animate {
+     0% {
+     background-position: -468px 0
+   }
+   100% {
+     background-position: 468px 0
+   }
+}

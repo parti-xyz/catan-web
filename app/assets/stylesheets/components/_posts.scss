@@ -367,6 +367,10 @@
       }
     }
   }
+  @include skeletons($gray-light);
+  .skeletons {
+    margin: 12px 18px;
+  }
 }
 
 .post-line {

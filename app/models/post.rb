@@ -25,6 +25,7 @@ class Post < ApplicationRecord
   paginates_per 20
 
   belongs_to :issue, counter_cache: true
+  has_one :group, through: :issue
   belongs_to :user
   belongs_to :poll, optional: true
   belongs_to :survey, optional: true

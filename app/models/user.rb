@@ -183,7 +183,7 @@ class User < ApplicationRecord
     return unless @cacheable_members
     if @cached_group_members.blank?
       @cached_group_members = self.group_members.to_a.map do |group_member|
-        [group_member.joinable.id, group_member]
+        [group_member.joinable_id, group_member]
       end.to_h
     end
 
@@ -194,7 +194,7 @@ class User < ApplicationRecord
     return unless @cacheable_members
     if @cached_parti_members.blank?
       @cached_parti_members = self.issue_members.to_a.map do |parti_member|
-        [parti_member.joinable.id, parti_member]
+        [parti_member.joinable_id, parti_member]
       end.to_h
     end
 
@@ -251,7 +251,16 @@ class User < ApplicationRecord
     result = messages.unread
     result = result.where('created_at > ?', self.messages_read_at).where('created_at > ?', 2.day.ago)
     result = result.of_group(group) if group.present?
-    result.count
+    @_cached_important_messages_count = result.count
+
+    @_cached_important_messages_count
+  end
+
+  def cached_important_messages_count(group = nil)
+    if @_cached_important_messages_count.blank?
+      important_messages_count(group)
+    end
+    @_cached_important_messages_count
   end
 
   # summary emails

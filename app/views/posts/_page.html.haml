@@ -36,6 +36,16 @@
     = divider_notification_down
 
     .post-card__content
-      = render post, local_assigns.merge(mode: 'list')
+      - post_card_dom_id = "post-card-#{SecureRandom.uuid}"
+      .post-card.js-lazy-partal-load{ id: post_card_dom_id, data: { url: post_url(post, subdomain: current_group.try(:subdomain), dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), format: :js) } }
+        .skeletons
+          .skeleton-user
+            .skeleton-user-icon
+            .skeleton-user-meta
+              .skeleton-user-nickname
+              .skeleton-post-date
+          %ul.list-unstyled
+            - 4.times do
+              %li.skeleton-item{ style: "width: #{[70, 100, 80].sample}%;" }
 
     - before_post = post

@@ -41,10 +41,20 @@ module CatanWeb
 
     config.tinymce.install = :compile
 
-    config.middleware.insert_before 0, Rack::Cors do
+    config.middleware.insert_before 0, Rack::Cors, debug: (!Rails.env.production?), logger: (-> { Rails.logger }) do
       allow do
         origins '*'
         resource '/assets/*', :headers => :any, :methods => :get
+      end
+
+      allow do
+        origins /\Ahttps?:\/\/(.*?)\.?parti\.test\z/
+        resource '*', :headers => :any, :methods => :any, :credentials => true
+      end
+
+      allow do
+        origins /\Ahttps?:\/\/(.*?)\.?parti\.xyz\z/
+        resource '*', :headers => :any, :methods => :any, :credentials => true
       end
     end
   end
