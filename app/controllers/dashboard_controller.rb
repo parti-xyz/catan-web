@@ -6,15 +6,6 @@ class DashboardController < ApplicationController
   def index
     redirect_to root_url and return if current_group.present? and !request.format.js?
 
-    if params[:q].present?
-      if params[:q].try(:strip).starts_with?('#')
-        @hashtag = params[:q].strip[1..-1].try(:strip).presence
-        @hashtag = @hashtag.gsub(/( )/, '_').downcase if @hashtag.present?
-      else
-        @search_q = PostSearchableIndex.sanitize_search_key params[:q]
-      end
-    end
-
     if params[:group_slug].present?
       if params[:group_slug] == 'all'
         @dashboard_group = nil
@@ -27,7 +18,7 @@ class DashboardController < ApplicationController
       @dashboard_group = current_dashboard_group
     end
 
-    watched_posts = fetch_watched_posts(@dashboard_group, @search_q, @hashtag)
+    watched_posts = fetch_watched_posts(@dashboard_group)
 
     if view_context.is_infinite_scrollable?
       if request.format.js?
@@ -73,11 +64,9 @@ class DashboardController < ApplicationController
 
   private
 
-  def fetch_watched_posts group, search_q, hashtag
+  def fetch_watched_posts group
     watched_posts = current_user.watched_posts(group || current_group)
     watched_posts = watched_posts.order(last_stroked_at: :desc)
-    watched_posts = watched_posts.search(search_q) if search_q.present?
-    watched_posts = watched_posts.tagged_with(hashtag) if hashtag.present?
     watched_posts
   end
 end

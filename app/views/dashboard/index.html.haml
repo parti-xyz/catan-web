@@ -27,42 +27,14 @@
             = render 'posts/post_editor', current_issue: nil
 
         .js-invisible-on-mobile-editing
-          - if params[:q].blank?
-            = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(group_slug: current_dashboard_group.try(:slug), last_time: DateTime.now.to_i)
+          = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(group_slug: current_dashboard_group.try(:slug), last_time: DateTime.now.to_i)
 
           .js-my-home-tab-sticky-offset
 
           .posts{data: {last_id: -1, is_last: 'false'}}
-            - if params[:q].present?
-              .post-card.summary
-                .post-card__post
-                  - if @search_q.present?
-                    내 홈에서 "#{@search_q}"을(를) 검색한 결과입니다.
-                    - if @search_q != params[:q]
-                      영문과 한글만 검색합니다.
-                    = link_to '취소', dashboard_path(group_slug: current_dashboard_group.try(:slug)), class: 'btn btn-sm btn-default'
-                  - elsif @hashtag.present?
-                    내 홈에서 "##{@hashtag}" 해시태그된 게시물입니다.
-                    %span.text-nowrap
-                      = link_to '취소', dashboard_path(group_slug: current_dashboard_group.try(:slug)), class: 'btn btn-sm btn-default'
-                      = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'btn btn-sm btn-default' do
-                        모든 빠띠에서 찾아보기
-                        %i.fa.fa-arrow-right
-                  - else
-                    = form_tag dashboard_path(group_slug: current_dashboard_group.try(:slug)), method: :get do
-                      .form-group.has-feedback
-                        = search_field_tag :q, params[:q], placeholder: '게시글 찾기...', class: 'form-control'
-                        %span.form-control-feedback{ style: 'pointer-events: initial;' }
-                          = button_tag class: 'btn btn-link btn-xs' do
-                            %i.fa.fa-search.text-muted
-                    각 단어가 두 글자 이상은 되어야 검색됩니다. 검색할 키워드를 다시 입력하세요.
-
             #no-data.text-center.alert{ style: ('display: none;' if !paging or @posts.any?) }
               %i.fa.fa-info-circle
-                - if params[:q].blank?
-                  게시글이 없습니다.
-                - else
-                  검색 결과가 없습니다.
+                게시글이 없습니다.
             - if paging
               = render 'posts/page', posts: @posts, show_issue: true, show_day_section: true, first_today_text: ("게시물 #{number_with_delimiter @posts.total_count}개 중에 #{@posts.current_page}페이지를 표시합니다" unless @posts.first_page?)
 
@@ -77,7 +49,7 @@
 
 
           - else
-            .page-waypoint.js-page-waypoint-onload.text-center{ 'data-target': '.posts', 'data-url': dashboard_path(format: :js, q: params[:q], group_slug: current_dashboard_group.try(:slug)) }
+            .page-waypoint.js-page-waypoint-onload.text-center{ 'data-target': '.posts', 'data-url': dashboard_path(format: :js, group_slug: current_dashboard_group.try(:slug)) }
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
       - unless is_small_screen?
