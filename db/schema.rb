@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_22_234805) do
+ActiveRecord::Schema.define(version: 2019_01_24_162031) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -202,8 +202,8 @@ ActiveRecord::Schema.define(version: 2019_01_22_234805) do
   create_table "groups", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "title", null: false
-    t.string "site_title", null: false
-    t.string "head_title", null: false
+    t.string "site_title"
+    t.string "head_title"
     t.text "site_description", limit: 16777215
     t.text "site_keywords", limit: 16777215
     t.string "slug", null: false

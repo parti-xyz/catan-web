@@ -14,12 +14,6 @@
       %p.help-block
         그룹의 이름을 정해주세요. 최대 20자까지 넣을 수 있습니다.
 
-    .form-group{class: error_class_str(@group, :site_title)}
-      = f.label :site_title, t("labels.group.form.site_title")
-      = f.text_field :site_title, class: 'form-control input-lg'
-      %p.help-block
-        그룹의 제목입니다. 그룹 화면 맨 위에 표시됩니다. 그리고 소셜네트워크나 다른 서비스에 공유할 때도 쓰입니다. 최대 50자까지 한 줄 설명을 넣어 주세요. 입력하지 않으시면 그룹의 이름이 사용됩니다.
-
     - if @group.persisted?
       .form-group
         = f.label :slug, t("labels.group.form.slug")
@@ -42,17 +36,27 @@
       %p.help-block
         그룹을 쉽고 재미있게 설명해보세요.
 
-    .form-group{class: error_class_str(@group, :head_title)}
-      = f.label :head_title
-      = f.text_field :head_title, class: 'form-control input-lg'
-      %p.help-block
-        제목을 열 글자 이하로 줄인다면 어떻게 되나요? 그룹을 간단 명료하게 표시해 보세요. 모바일 기기나 좁은 화면에 그룹을 표시할 때 사용합니다.
+
 
     .advanced-option#js-advanced-option
       .toggle-option{ 'data-action': 'parti-collapse', 'data-parent': '#js-advanced-option' }
         고급 설정
         %i.fa.fa-angle-double-right
       .collapse
+
+        .form-group{class: error_class_str(@group, :head_title)}
+          = f.label :head_title, t("labels.group.form.head_title")
+          = f.text_field :head_title, class: 'form-control input-lg'
+          %p.help-block
+            이름을 열 글자 이하로 줄인다면 어떻게 되나요? 그룹을 간단 명료하게 표시해 보세요. 모바일 기기나 좁은 화면에 그룹을 표시할 때 사용합니다. 입력하지 않으시면 그룹의 이름이 사용됩니다.
+
+        .form-group{class: error_class_str(@group, :site_title)}
+          = f.label :site_title, t("labels.group.form.site_title")
+          = f.text_field :site_title, class: 'form-control input-lg'
+          %p.help-block
+            그룹의 슬로건입니다. PC에서 그룹 화면 맨 위에 표시됩니다. 그리고 소셜네트워크나 다른 서비스에 공유할 때도 쓰입니다. 최대 50자까지 한 줄 설명을 넣어 주세요. 입력하지 않으시면 그룹의 이름이 사용됩니다.
+
+
         - if @group.persisted?
           .form-group{class: ('has-error' if has_error_attr?(@group, :organizer_nicknames))}
             = f.label :organizer_nicknames
@@ -97,17 +101,18 @@
               %br
             권장 이미지 사이즈는 가로(2880px) * 세로(500px) 입니다.
 
-        .form-group{class: ('has-error' if has_error_attr?(@group, :key_visual_background_image))}
-          = f.label :key_visual_background_image, t("labels.group.form.key_visual_background_image")
-          = f.file_field :key_visual_background_image, class: 'form-control'
-          = f.hidden_field :key_visual_background_image_cache
-          %p.help-block
-            - if @group.key_visual_background_image?
-              = image_tag @group.key_visual_background_image.url, class: 'img-thumbnail', style: 'max-height: 100px'
-              - if upload_file_exists?(@group.key_visual_background_image) and @group.persisted?
-                = link_to '삭제', remove_key_visual_background_image_group_configuration_path, method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
-              %br
-            권장 이미지 사이즈는 가로(2880px) * 세로(500px) 입니다.
+        - if current_user.admin?
+          .form-group{class: ('has-error' if has_error_attr?(@group, :key_visual_background_image))}
+            = f.label :key_visual_background_image, t("labels.group.form.key_visual_background_image")
+            = f.file_field :key_visual_background_image, class: 'form-control'
+            = f.hidden_field :key_visual_background_image_cache
+            %p.help-block
+              - if @group.key_visual_background_image?
+                = image_tag @group.key_visual_background_image.url, class: 'img-thumbnail', style: 'max-height: 100px'
+                - if upload_file_exists?(@group.key_visual_background_image) and @group.persisted?
+                  = link_to '삭제', remove_key_visual_background_image_group_configuration_path, method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
+                %br
+              권장 이미지 사이즈는 가로(2880px) * 세로(500px) 입니다.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }

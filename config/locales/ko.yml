@@ -110,12 +110,12 @@ ko:
     attributes:
       group:
         title: 이름
-        site_title: 제목
+        site_title: 슬로건
         site_description: 설명
         slug: 주소
         private: 비공개
         issue_creation_privileges: 빠띠 개설 권한
-        head_title: 짧은 제목
+        head_title: 짧은 이름
         site_keywords: 키워드
         organizer_nicknames: 오거나이저
         key_visual_foreground_image: 그룹홈 상단 이미지
@@ -272,7 +272,8 @@ ko:
       met_issues_quota: 만들 수 있는 빠띠 갯수를 초과했습니다. 업그레이드해 보세요.
       form:
         slug: 그룹 주소
-        site_title: 제목
+        head_title: 짧은 이름(선택)
+        site_title: 슬로건(선택)
         site_keywords: 태그(선택)
         key_visual_foreground_image: 그룹홈 상단 이미지(선택)
         key_visual_background_image: 그룹홈 상단 배경 이미지(선택)

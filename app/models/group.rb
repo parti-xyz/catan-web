@@ -69,11 +69,9 @@ class Group < ApplicationRecord
     length: { maximum: 20 }
   validate :not_predefined_slug
   validates :head_title,
-    presence: true,
     uniqueness: { case_sensitive: false },
     length: { maximum: 10 }
   validates :site_title,
-    presence: true,
     length: { maximum: 50 }
 
   # callbacks
@@ -127,8 +125,12 @@ class Group < ApplicationRecord
     end
   end
 
+  def head_title
+    (read_attribute(:head_title).presence || read_attribute(:title))[0...10]
+  end
+
   def site_title
-    read_attribute(:site_title) || read_attribute(:title)
+    read_attribute(:site_title).presence || read_attribute(:title)
   end
 
   def member_requested?(someone)
