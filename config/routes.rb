@@ -209,7 +209,9 @@ Rails.application.routes.draw do
   end
 
   resources :relateds
-  resources :messages
+  resources :messages do
+    get :mentions, on: :collection
+  end
   resources :invitations
 
   namespace :group do

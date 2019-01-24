@@ -8,10 +8,20 @@
     %strong
       - if comment.mentioned?(message.user)
         %span
-          #{message.sender.nickname}님이 댓글에서 나를 언급했습니다
+          - if local_assigns[:mention_only_page]
+            #{message.sender.nickname}
+          - else
+            #{message.sender.nickname}님이 댓글에서 나를 멘션했습니다
       - else
         %span
           #{message.sender.nickname}님이
           #{comment.post.user.nickname}님의 게시글에
           댓글을 남겼습니다.
     = excerpt(comment.body, length: 100)
+    .text-muted{ style: 'margin-top: 1em; font-size: 12px;' }
+      %strong 게시글
+      = comment.post.specific_desc_striped_tags(100)
+      - if comment.parent.present?
+        %div
+          %strong @#{comment.parent.user.nickname}
+          = excerpt(comment.parent.body, length: 100)

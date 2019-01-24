@@ -20,12 +20,12 @@
             - else
               %li.notification-menu.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
                 %a.dropdown-toggle.js-notification-dropdown{ :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}" }
-                  %span.active-bell.js-active-bell{ class: ('collapse' if current_user.important_messages_count <= 0) }
+                  %span.active-bell.js-active-bell{ class: ('collapse' if current_user.cached_important_messages_count <= 0) }
                     %span.icon-bell-stack
                       %i.fa.fa-circle.fa-stack-1x
                       %i.fa.fa-bell.fa-stack-1x.fa-inverse
-                    %span.label.label-danger= trim_count current_user.important_messages_count
-                  %span.js-inactive-bell{ class: ('collapse' if current_user.important_messages_count > 0) }
+                    %span.label.label-danger= trim_count current_user.cached_important_messages_count
+                  %span.js-inactive-bell{ class: ('collapse' if current_user.cached_important_messages_count > 0) }
                     %i.fa.fa-bell
                   알림
 

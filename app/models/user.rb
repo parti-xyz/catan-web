@@ -263,6 +263,38 @@ class User < ApplicationRecord
     @_cached_important_messages_count
   end
 
+  def important_mention_messages_count(group = nil)
+    result = messages.unread.where(action: 'mention')
+    result = result.where('created_at > ?', self.messages_read_at).where('created_at > ?', 2.day.ago)
+    result = result.of_group(group) if group.present?
+    @_cached_important_mention_messages_count = result.count
+
+    @_cached_important_mention_messages_count
+  end
+
+  def cached_important_mention_messages_count(group = nil)
+    if @_cached_important_mention_messages_count.blank?
+      important_mention_messages_count(group)
+    end
+    @_cached_important_mention_messages_count
+  end
+
+  def important_not_mention_messages_count(group = nil)
+    result = messages.unread.where.not(action: 'mention')
+    result = result.where('created_at > ?', self.messages_read_at).where('created_at > ?', 2.day.ago)
+    result = result.of_group(group) if group.present?
+    @_cached_important_not_mention_messages_count = result.count
+
+    @_cached_important_not_mention_messages_count
+  end
+
+  def cached_important_not_mention_messages_count(group = nil)
+    if @_cached_important_not_mention_messages_count.blank?
+      important_not_mention_messages_count(group)
+    end
+    @_cached_important_not_mention_messages_count
+  end
+
   # summary emails
   def self.need_to_delivery(code)
     joins("LEFT OUTER JOIN summary_emails se ON users.id = se.user_id")

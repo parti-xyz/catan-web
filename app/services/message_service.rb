@@ -19,9 +19,17 @@ class MessageService
 
       previous_message_user_ids = @source.messages.select(:user_id).map(&:user_id)
 
-      messagable_users = []
-      messagable_users += @source.mentions.map(&:user)
-      messagable_users += @source.post.messagable_users.to_a
+      mentioned_users = @source.mentions.map(&:user)
+      mentioned_users.reject!{ |user| user == @source.user }
+      mentioned_users.reject!{ |user| previous_message_user_ids.include?(user.id) }
+      mentioned_users.uniq!
+
+      send_messages(
+        sender: @source.user, users: mentioned_users,
+        messagable: @source, action: :mention)
+
+      messagable_users = @source.post.messagable_users.to_a
+      messagable_users.reject!{ |user| mentioned_users.map(&:id).include?(user.id) }
       messagable_users.reject!{ |user| user == @source.user }
       messagable_users.reject!{ |user| previous_message_user_ids.include?(user.id) }
       messagable_users.uniq!
@@ -33,6 +41,7 @@ class MessageService
       if @action == :create
         detail_messagable_users = @source.issue.detail_messagable_users
         detail_messagable_users = detail_messagable_users.where.not(id: @source.user)
+        detail_messagable_users = detail_messagable_users.where.not(id: mentioned_users)
         detail_messagable_users = detail_messagable_users.where.not(id: messagable_users)
         detail_messagable_users = detail_messagable_users.where.not(id: previous_message_user_ids)
         send_messages(
@@ -62,13 +71,14 @@ class MessageService
 
         previous_message_user_ids = @source.messages.select(:user_id).map(&:user_id)
 
-        messagable_users = []
-        messagable_users += @source.mentions.map(&:user)
-        messagable_users.reject!{ |user| user == @source.user }
-        messagable_users.reject!{ |user| previous_message_user_ids.include?(user.id) }
-        messagable_users.uniq!
+        mentioned_users = []
+        mentioned_users += @source.mentions.map(&:user)
+        mentioned_users.reject!{ |user| user == @source.user }
+        mentioned_users.reject!{ |user| previous_message_user_ids.include?(user.id) }
+        mentioned_users.uniq!
         send_messages(
-          sender: @source.user, users: messagable_users,
+          sender: @source.user, users: mentioned_users,
+          action: :mention,
           messagable: @source)
 
         if @action == :create

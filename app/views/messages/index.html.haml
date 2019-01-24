@@ -5,7 +5,7 @@
         = render 'application/my_home_tab'
 
         .message-list
-          = render @messages
+          = render partial: 'messages/message', collection: @messages, locals: { mention_only_page: (params[:action] == 'mentions')}
         = paginate @messages, theme: 'catan'
       .hidden-xs
         = render 'application/aside'

@@ -23,8 +23,11 @@
 - else
   %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
     %strong
-      %span
-        #{post.user.nickname}님이 게시글에서
-      %span
-        나를 언급했습니다
+      - if local_assigns[:mention_only_page]
+        %span #{post.user.nickname}
+      - else
+        %span
+          #{post.user.nickname}님이 게시글에서
+        %span
+          나를 멘션했습니다
   = link_to post.specific_desc_striped_tags(100), smart_post_url(post)
