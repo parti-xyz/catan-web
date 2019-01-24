@@ -39,6 +39,18 @@ class Group < ApplicationRecord
     where.not(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
     .where.not(private: true).where.not(slug: 'indie').where('issues_count > 0')
   }
+  scope :searchable_groups, ->(current_user = nil) {
+    public_group = where.not(private: true)
+    indie_group = where(slug: 'indie')
+    if current_user.present?
+      public_group
+        .or(indie_group)
+        .or(where(id: current_user.member_groups))
+    else
+      public_group
+        .or(indie_group)
+    end
+  }
   mount_uploader :key_visual_foreground_image, ImageUploader
   mount_uploader :key_visual_background_image, ImageUploader
 
@@ -67,6 +79,9 @@ class Group < ApplicationRecord
   # callbacks
   before_save :downcase_slug
   before_validation :strip_whitespace
+
+  # search
+  scoped_search on: [:title, :slug, :site_title, :head_title]
 
   def title_share_format
     indie? ? nil : "#{title} 빠띠"

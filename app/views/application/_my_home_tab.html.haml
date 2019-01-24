@@ -27,7 +27,9 @@
             \/
             전체
           %small
-            %i.fa.fa-chevron-down
+            %span.fa-stack{ style: 'font-size: 11px;' }
+              %i.fa.fa-square-o.fa-stack-2x
+              %i.fa.fa-chevron-down.fa-stack-1x
         %ul.dropdown-menu.dropdown-menu-dashboard-group
           - if current_dashboard_group.present?
             %li

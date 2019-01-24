@@ -19,7 +19,9 @@
                       \/
                       전체
                     %small
-                      %i.fa.fa-chevron-down
+                      %span.fa-stack{ style: 'font-size: 11px;' }
+                        %i.fa.fa-square-o.fa-stack-2x
+                        %i.fa.fa-chevron-down.fa-stack-1x
                   %ul.dropdown-menu.dropdown-menu-dashboard-group
                     - if @current_search_group.present?
                       %li
@@ -46,6 +48,14 @@
                 - else
                   모든 빠띠에서 찾았습니다.
 
+
+          - if @groups.any?
+            %h5.content-section-body.xs-horizontal-padding{ style: 'margin-top: 20px;' }
+              그룹
+              %small.hidden-xs
+                해당 키워드와 관련된 그룹입니다
+            .groups-all-list.clearfix.content-section-body.xs-horizontal-padding
+              = render @groups
 
           - if @issues.any?
             %h5.content-section-body.xs-horizontal-padding{ style: 'margin-top: 20px;' }

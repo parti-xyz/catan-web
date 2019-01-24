@@ -25,7 +25,9 @@
               %span.dropdown{ style: 'position: relative;'}
                 %span.dropdown-toggle.cursor-pointer.hover-text-primary{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
                   %small
-                    %i.fa.fa-chevron-down
+                    %span.fa-stack{ style: 'font-size: 11px;' }
+                      %i.fa.fa-square-o.fa-stack-2x
+                      %i.fa.fa-chevron-down.fa-stack-1x
                 %ul.dropdown-menu
                   %li
                     = link_to smart_issue_folders_path(@issue, edit: 1), class: 'text-nowrap' do
@@ -115,7 +117,9 @@
                 = @current_folder.full_title
                 %small
                   (#{@current_folder.posts.count})
-                  %i.fa.fa-chevron-down
+                  %span.fa-stack{ style: 'font-size: 11px;' }
+                    %i.fa.fa-square-o.fa-stack-2x
+                    %i.fa.fa-chevron-down.fa-stack-1x
               %ul.dropdown-menu.threaded-folders.pull-right
                 - if @issue.folders.where.not(id: @current_folder.id).any?
                   %li.dropdown-header 다른 폴더로 이동

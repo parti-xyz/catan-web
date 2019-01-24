@@ -10,6 +10,8 @@ class SearchController < ApplicationController
         return
       end
 
+      @groups = search_and_sort_groups(@search_q, @current_search_group)
+
       base_issues = search_and_sort_issues(@search_q, @current_search_group, 21)
       @issues = base_issues.to_a[0..20]
       @more_issues = base_issues.length >= 21
@@ -48,6 +50,15 @@ class SearchController < ApplicationController
     end
     result = result.hottest
     result = result.limit(limit)
+    result
+  end
+
+  def search_and_sort_groups(keyword, current_search_group)
+    return Group.none if current_search_group.present?
+    return Group.none if keyword.blank?
+
+    result = Group.searchable_groups(current_user).search_for(smart_search_keyword(keyword))
+    result = result.hottest
     result
   end
 end
