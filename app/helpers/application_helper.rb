@@ -291,7 +291,7 @@ module ApplicationHelper
   def sidebar_group_opened?(group)
     if user_signed_in?
       if current_user.drawer_current_group_unfold_only
-        return host_group == group
+        return current_group == group
       end
     end
     begin
