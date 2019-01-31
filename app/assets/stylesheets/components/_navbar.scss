@@ -574,9 +574,7 @@ $drawer-default-space-mobile: 12px;
           }
           .title-btn-folding {
             color: $gray-a;
-            @media (min-width: $screen-sm-min) {
-              visibility: hidden;
-            }
+            padding-right: 4px;
           }
           &:hover .title-btn-folding {
             visibility: visible;

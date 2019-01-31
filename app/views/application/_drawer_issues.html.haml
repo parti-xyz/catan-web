@@ -11,6 +11,8 @@
         - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
         - any_latest_stroked_posts = (!latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0)
 
+        .title-btn-folding
+          %i.fa.fa-caret-down
         .title-content
           = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
             %span.group-parties-section-title-wrapper
@@ -24,8 +26,7 @@
                   %span.posts-count
                     %i.fa.fa-file-text(title='최근 업데이트')
                     = latest_stroked_posts_count
-        .title-btn-folding
-          %i.fa.fa-caret-down
+
 
       - issues = current_user.member_issues.only_alive_of_group(menu_group)
       - if issues.any?
