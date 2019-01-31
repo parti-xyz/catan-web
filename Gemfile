@@ -1,18 +1,18 @@
 source 'https://rubygems.org'
 
 # gem 'rails', '4.2.10'
-gem 'rails', '~> 5.2.0'
+gem 'rails', '~> 5.2', '>= 5.2.2'
 gem 'unicorn'
-gem 'bundler', '~> 1.14', '>= 1.14.5'
+gem 'bundler'
 gem 'bootsnap', require: false
-gem 'railties', '= 5.2.0'
+gem 'railties', '= 5.2.2'
 
 # db
 gem 'mysql2', '>= 0.3.13', '< 0.5'
 gem 'sqlite3'
 
 # model
-gem 'active_record-acts_as'
+gem 'active_record-acts_as', '~> 4.0'
 gem 'enumerize', '~> 2.1', '>= 2.1.2'
 gem 'recursive-open-struct', '~> 1.0', '>= 1.0.1'
 gem 'time_difference', '~> 0.4.2'
