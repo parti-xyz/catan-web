@@ -140,6 +140,7 @@ gem 'premailer-rails', '~> 1.9'
 # monitoring
 gem 'newrelic_rpm'
 gem 'ey_config'
+gem 'skylight'
 
 gem 'rack-mini-profiler', require: false
 
