@@ -2,13 +2,17 @@
 @import "groups/alone/group_variables";
 @import "groups/alone/group_application";
 
-.key-page{
+.key-ad-image {
   background-image: asset_url('groups/alone/key_page_bg.png');
   height:350px;
   background-position: center;
-  color: $gray-dark;
+  background-size: cover;
+}
+.key-page{
+  background-color: #34b475;
+  color: white;
   .key-page-desc{
-    padding:50px 20px;
+    padding:50px 20px 10px;
     text-align: left;
     font-weight: 200;
     .key-page-title{
@@ -19,13 +23,15 @@
       font-size: 16px;
     }
     button{
-      margin: 5px 2px;
+      margin: 5px 0 10px 0;
+      background-color: #2F3282;
+      border-color: #2F3282;
     }
     p {
       margin-bottom: 14px;
     }
     .key-page-footer {
-      color: $gray-dark;
+      color: white;
       margin-top: 38px;
       font-size: $font-size-base;
       .small {
@@ -34,14 +40,17 @@
       }
     }
     .key-page-buttons {
-      color: $gray-dark;
+      color: white;
     }
     .key-page-buttons {
       .more,
       .more a {
-        color: $gray-dark;
+        color: white;
         font-size: $font-size-small;
       }
+    }
+    .key-where a {
+      color: white
     }
   }
 }

@@ -1,60 +1,63 @@
+.hidden-xs
+  = image_tag 'groups/alone/key_page_bg.png', style: 'width: 100%', class: 'key-ad-image'
 .key-page
   .key-page-desc
-    .key-page-subtitle
-      내가 그리는 일인당
     .key-page-title
-      일인당 창당준비팀 대모집
+      일인당 창당파티에 초대합니다!
 
     .key-page-subject.text-basic-wrap
       %p
-        1인가구 공동공간을 만들기 위해 관악 시민들이 뭉친당!
+        구민의 44%가 1인가구인 관악구.
         %br
-        일인당 창당을 준비하는 창당준비팀에 초대합니다.  
+        관악에 1인가구의 권리를 이야기할 수 있는 공동공간을 만든다면 어떨까요?
+        %br
+        이 프로젝트의 시작을 함께 할 시민 여러분을 초대합니다.
         %br
 
-      / %ul.list-unstyled.text-left{ style: 'display: inline-block;' }
-      /   %li
-      /     %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
-      /       * 언제요?
-      /     %span 12/13 목요일 저녁 7시 30분
-      /   %li
-      /     %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
-      /       * 어디요?
-      /     %span
-      /       %a(href="http://naver.me/G9E0Jz1O" target="_blank")
-      /         (사)관악사회복지
-      /         %span.text-nowrap.visible-xs-inline
-      /           %i.fa.fa-map-o
-      /           지도링크
-      /         %span.hidden-xs (관악구 중앙동 봉천로 450)
-      /   %li.hidden-xs
-      /     %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
-      /     %span
-      /       %a(href="http://naver.me/G9E0Jz1O" target="_blank")
-      /         %span.text-nowrap
-      /           %i.fa.fa-map-o
-      /           지도링크
+      %ul.list-unstyled.text-left{ style: 'display: inline-block;' }
+        %li
+          %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
+            * 언제요?
+          %span 2/27 수요일 저녁 7시
+        %li
+          %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
+            * 어디요?
+          %span.key-where
+            %a(href="http://dmaps.kr/fz7h5" target="_blank")
+              관악구청 별관, 7층 강당
+              %span.text-nowrap.visible-xs-inline
+                %i.fa.fa-map-o
+                지도링크
+        %li.hidden-xs
+          %span{ style: 'width: 6em; white-space: nowrap; display: inline-block;' }
+          %span
+            %a(href="http://dmaps.kr/fz7h5" target="_blank")
+              %span.text-nowrap
+                %i.fa.fa-map-o
+                지도링크
 
     .key-page-buttons
-      %button.btn.btn-primary{onclick:"location.href='https://alone.parti.xyz/posts/25338'"}
+      %button.btn.btn-primary{onclick:"location.href='http://bit.ly/aloneparty'"}
         지금 참가신청하기
-      .more
-        %a(href="https://alone.parti.xyz/posts/25338")
-          더 자세한 내용이 궁금하세요?
-          %u 살펴보기
+      / .more
+      /   %a(href="https://alone.parti.xyz/posts/25338")
+      /     더 자세한 내용이 궁금하세요?
+      /     %u 살펴보기
 
-    .key-page-footer
-      %span.visible-xs-block
-      %ul.list-unstyled.list-inline
-        %li
-          %a(href="https://alone.parti.xyz/posts/24613")
-            = image_tag 'groups/alone/logo_black.png', style: 'height: 1.2em; vertical-align: middle;'
-            %span.small 일인당이란?
-        %li.cursor-pointer
-          %a(href="https://www.facebook.com/aloneparti/" target="_blank")
-            %i.fa.fa-facebook
-        / %li.cursor-pointer{onclick:"window.open('https://facebook.com/PartiUnion')"}
-        /   %i.fa.fa-instagram
-        %li
-          %a(href='mailto:contact@parti.xyz')
-            %i.fa.fa-envelope
+    / .key-page-footer
+    /   %span.visible-xs-block
+    /   %ul.list-unstyled.list-inline
+    /     %li
+    /       %a(href="https://alone.parti.xyz/posts/24613")
+    /         = image_tag 'groups/alone/logo_black.png', style: 'height: 1.2em; vertical-align: middle;'
+    /         %span.small 일인당이란?
+    /     %li.cursor-pointer
+    /       %a(href="https://www.facebook.com/aloneparti/" target="_blank")
+    /         %i.fa.fa-facebook
+    /     / %li.cursor-pointer{onclick:"window.open('https://facebook.com/PartiUnion')"}
+    /     /   %i.fa.fa-instagram
+    /     %li
+    /       %a(href='mailto:contact@parti.xyz')
+    /         %i.fa.fa-envelope
+.visible-xs-block
+  .key-ad-image

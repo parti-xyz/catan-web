@@ -16,12 +16,15 @@ body.in-group .group-key-visual {
     height: 0;
   }
 }
+.key-ad-image {
+  width: 100%;
+}
 .key-page{
-  background-image: asset_url('groups/alone/key_page_bg.png');
-  height:350px;
+  height:400px;
   background-position: center;
   background-size: cover;
   color: $gray-dark;
+  background-color: #34b475;
   .btn {
     margin:10px;
     box-shadow: 3px 3px 0px 0px #c5c5c5;
@@ -30,7 +33,9 @@ body.in-group .group-key-visual {
   .key-page-desc{
     width:500px;
     padding:50px 20px;
+    margin-bottom: 20px;
     font-weight: normal;
+    background-color: white;
     .key-page-title{
       font-size: 24px;
       margin-bottom: 24px;
