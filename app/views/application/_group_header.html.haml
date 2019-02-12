@@ -9,7 +9,7 @@
         %li.my-menu
           %a.js-slideout-toggle.cursor-pointer
             %i.fa.fa-bars{style:"font-size:18px;"}
-            내 빠띠
+            내 메뉴
         %li.my-home-menu
           = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard')}" do
             %i.fa.fa-home{style:"font-size: 18px;"}

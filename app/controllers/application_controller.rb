@@ -192,7 +192,7 @@ class ApplicationController < ActionController::Base
     "issues#destroy_form" => "빠띠 삭제",
     "issues#new_admit_members" => "초대",
     "issues#indies" => "빠띠",
-    "issues#my_menus" => "내 빠띠",
+    "issues#my_menus" => "내 메뉴",
     "issues#index" => "빠띠",
     "issues#new" => "빠띠 만들기",
     "issues#edit" => "설정",

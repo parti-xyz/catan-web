@@ -1138,7 +1138,7 @@ var parti_prepare = function($base, force) {
     });
   });
 
-  // 내 빠띠의 그룹 토글
+  // 내 메뉴의 그룹 토글
   (function() {
     var _cookies_group_fold = [];
 
