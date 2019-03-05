@@ -950,6 +950,26 @@ var parti_prepare = function($base, force) {
               return true;
             });
 
+            if(is_touched) {
+              return true;
+            }
+
+            $content.find('ul, ol').each(function(index) {
+              var $child_ul = $(this);
+              var $prev_child_ul = $child_ul.prev();
+              if($prev_child_ul.length >= 1) {
+                // 직전 형제 노드가 동일하면 합한다
+                if($prev_child_ul.prop("tagName") == $child_ul.prop("tagName")) {
+                  $child_ul.children().detach().appendTo($prev_child_ul);
+                  $child_ul.remove();
+                  is_touched = true;
+                  return false;
+                }
+              }
+
+              return true;
+            });
+
             return is_touched;
           }
           editor.on('Change', function (e) {
@@ -1433,12 +1453,6 @@ $('[data-action="parti-clearable-search"]').each(function(i, elm) {
     });
   }
 });
-
-var parti_partial$ = function($partial, force) {
-  parti_prepare($partial, force);
-
-  return $partial;
-}
 
 var parti_partial$ = function($partial, force) {
   parti_prepare($partial, force);
