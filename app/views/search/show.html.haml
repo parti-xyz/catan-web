@@ -55,7 +55,14 @@
               %small.hidden-xs
                 해당 키워드와 관련된 그룹입니다
             .groups-all-list.clearfix.content-section-body.xs-horizontal-padding
-              = render @groups
+              - @groups.each do |group|
+                .group.group-card.margin-bottom-default
+                  .group-heading{ style: 'border-width: 2px' }
+                    = link_to smart_group_url(group) do
+                      %span
+                        = group_basic_title(group)
+                    .group-desc{ style: 'font-weight: 200; margin-top: 0.5em;' }
+                      = group.site_description
 
           - if @issues.any?
             %h5.content-section-body.xs-horizontal-padding{ style: 'margin-top: 20px;' }

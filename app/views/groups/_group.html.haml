@@ -1,5 +1,5 @@
 - display_count = is_small_screen? ? 4 : 3
-- issues = group.issues.hottest.not_private_blocked(current_user).limit(display_count)
+- issues = group.issues.never_blinded.hottest.not_private_blocked(current_user).limit(display_count)
 - all_issues=  group.issues.not_private_blocked(current_user)
 - if !group.private_blocked?(current_user)
   .group.group-card.margin-bottom-default

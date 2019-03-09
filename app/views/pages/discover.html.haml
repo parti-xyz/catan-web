@@ -13,7 +13,7 @@
         - @subjects.sample(10).each do |subject|
           = link_to subject.title, search_path(nav_q: subject.title), class: 'subject-link'
   - base_posts_count = 50
-  - base_posts = Post.having_image_file_sources.or(Post.having_image_link_sources).after(2.month.ago, field: 'posts.last_stroked_at').hottest
+  - base_posts = Post.never_blinded.having_image_file_sources.or(Post.having_image_link_sources).after(2.month.ago, field: 'posts.last_stroked_at').hottest
   - posts = base_posts.of_undiscovered_issues(current_user).limit(base_posts_count).to_a
   - if user_signed_in?
     - posts += base_posts.watched_by(current_user).limit(base_posts_count/2).to_a
@@ -43,7 +43,7 @@
             더 보기
             %i.fa.fa-angle-double-right
       - poll_posts_count = 10
-      - baes_poll_posts = Post.having_poll.after(2.month.ago, field: 'posts.last_stroked_at').hottest
+      - baes_poll_posts = Post.never_blinded.having_poll.after(2.month.ago, field: 'posts.last_stroked_at').hottest
       - poll_posts = baes_poll_posts.of_undiscovered_issues(current_user).limit(poll_posts_count).to_a
       - if user_signed_in?
         - poll_posts += baes_poll_posts.watched_by(current_user).limit(poll_posts_count/2).to_a
@@ -57,7 +57,7 @@
                 = render 'posts/landing_discussion', post: poll_post, show_issue: true
 
       - survey_posts_count = 10
-      - base_survey_posts = Post.having_survey.after(2.month.ago, field: 'posts.last_stroked_at').hottest
+      - base_survey_posts = Post.never_blinded.having_survey.after(2.month.ago, field: 'posts.last_stroked_at').hottest
       - survey_posts = base_survey_posts.of_undiscovered_issues(current_user).limit(survey_posts_count).to_a
       - if user_signed_in?
         - survey_posts += base_survey_posts.watched_by(current_user).limit(survey_posts_count/2).to_a
@@ -79,7 +79,7 @@
             더 보기
             %i.fa.fa-angle-double-right
       - wikis_count = 10
-      - base_wikis = Post.having_wiki.after(2.month.ago, field: 'posts.last_stroked_at').hottest
+      - base_wikis = Post.never_blinded.having_wiki.after(2.month.ago, field: 'posts.last_stroked_at').hottest
       - wikis = base_wikis.of_undiscovered_issues(current_user).limit(wikis_count).to_a
       - if user_signed_in?
         - wikis += base_wikis.watched_by(current_user).limit(wikis_count/2).to_a

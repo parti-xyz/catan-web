@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_24_180428) do
+ActiveRecord::Schema.define(version: 2019_03_09_044412) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -227,6 +227,9 @@ ActiveRecord::Schema.define(version: 2019_01_24_180428) do
     t.bigint "front_wiki_post_id"
     t.bigint "front_wiki_post_by_id"
     t.string "issue_creation_privileges", default: "member", null: false
+    t.bigint "blinded_by_id"
+    t.datetime "blinded_at"
+    t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
     t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
     t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
     t.index ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true
@@ -291,6 +294,9 @@ ActiveRecord::Schema.define(version: 2019_01_24_180428) do
     t.integer "latest_stroked_posts_count_version"
     t.integer "category_id"
     t.boolean "listable_even_private", default: false
+    t.bigint "blinded_by_id"
+    t.datetime "blinded_at"
+    t.index ["blinded_by_id"], name: "index_issues_on_blinded_by_id"
     t.index ["category_id"], name: "index_issues_on_category_id"
     t.index ["deleted_at"], name: "index_issues_on_deleted_at"
     t.index ["group_slug", "slug", "active"], name: "index_issues_on_group_slug_and_slug_and_active", unique: true

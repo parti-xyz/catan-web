@@ -341,6 +341,8 @@ Rails.application.routes.draw do
     resources :issues do
       post 'merge', on: :collection
       post 'freeze', on: :collection
+      put 'blind', on: :collection
+      put 'unblind', on: :member
     end
 
     resources :roles do
@@ -356,9 +358,9 @@ Rails.application.routes.draw do
       end
     end
     resources :groups do
-      member do
-        post :update_plan
-      end
+      post :update_plan, on: :member
+      put 'blind', on: :collection
+      put 'unblind', on: :member
     end
     resources :blinds
     resources :active_issue_stats

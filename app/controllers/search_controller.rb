@@ -39,8 +39,9 @@ class SearchController < ApplicationController
   private
 
   def search_and_sort_issues(keyword, current_search_group, limit)
+    current_user = User.find(19)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
-    result = Issue.searchable_issues(current_user).alive
+    result = Issue.never_blinded.searchable_issues.searchable_issues(current_user).alive
     result = result.of_group(current_search_group) if current_search_group.present?
     if keyword.present?
       issues_by_landing_page_subject = LandingPage.parsed_section_for_all_issue_subject(tags)
@@ -57,7 +58,7 @@ class SearchController < ApplicationController
     return Group.none if current_search_group.present?
     return Group.none if keyword.blank?
 
-    result = Group.searchable_groups(current_user).search_for(smart_search_keyword(keyword))
+    result = Group.never_blinded.searchable_groups(current_user).search_for(smart_search_keyword(keyword))
     result = result.hottest
     result
   end

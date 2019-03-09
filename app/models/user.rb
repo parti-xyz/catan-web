@@ -89,6 +89,8 @@ class User < ApplicationRecord
   has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter_id
   has_many :issue_push_notification_preferences, dependent: :destroy
   has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
+  has_many :blinded_issues, dependent: :nullify, class_name: "Issue", foreign_key: :blinded_by
+  has_many :blinded_groups, dependent: :nullify, class_name: "Group", foreign_key: :blinded_by
 
   ## uploaders
   # mount

@@ -27,6 +27,7 @@ class Group < ApplicationRecord
   has_many :group_home_components, dependent: :destroy
   belongs_to :front_wiki_post, class_name: 'Post', optional: true
   belongs_to :front_wiki_post_by, class_name: 'User', optional: true
+  belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
 
   scope :sort_by_name, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
   scope :hottest, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
@@ -77,6 +78,10 @@ class Group < ApplicationRecord
   # callbacks
   before_save :downcase_slug
   before_validation :strip_whitespace
+
+  # scopes
+  scope :never_blinded, -> { where(blinded_at: nil) }
+  scope :blinded_only, -> { where.not(blinded_at: nil) }
 
   # search
   scoped_search on: [:title, :slug, :site_title, :head_title]

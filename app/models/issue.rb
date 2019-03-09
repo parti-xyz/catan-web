@@ -43,6 +43,7 @@ class Issue < ApplicationRecord
   has_many :folders, dependent: :destroy
   belongs_to :category, optional: true
   has_many :issue_post_formats, dependent: :destroy, class_name: 'GroupHomeComponentPreference::IssuePostsFormat'
+  belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
 
   # validations
   validates :title,
@@ -71,6 +72,8 @@ class Issue < ApplicationRecord
   before_validation :strip_whitespace
 
   # scopes
+  scope :never_blinded, -> { where(blinded_at: nil) }
+  scope :blinded_only, -> { where.not(blinded_at: nil) }
   scope :alive, -> { where(freezed_at: nil) }
   scope :dead, -> { where.not(freezed_at: nil) }
   scope :only_public_in_current_group, ->(current_group = nil) {
@@ -88,9 +91,9 @@ class Issue < ApplicationRecord
   scope :categorized_with, ->(category) { where(category_id: category.try(:id) || category) }
   scope :of_group, ->(group) { where(group_slug: Group.default_slug(group)) }
   scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
-  scope :displayable_in_current_group, ->(group) { where(group_slug: Group.default_slug(group)) if group.present? }
+  scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.default_slug(group)) if group.present? }
   scope :not_private_blocked, ->(current_user) {
-    where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
+    never_blinded.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
     .or(where.not(private: true))
   }
   scope :not_in_dashboard, ->(current_user) { where.not(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
@@ -99,15 +102,15 @@ class Issue < ApplicationRecord
   scope :only_public_hottest, ->(count){
     where(group_slug: Group.where.not(private: true).select(:slug))
       .or(where(group_slug: 'indie'))
-    .alive
+    .alive.never_blinded
     .where.not(private: true)
     .hottest
     .limit(count)
   }
   scope :searchable_issues, ->(current_user = nil) {
-    public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug))
+    public_group_public_issues = never_blinded.where(group_slug: Group.where.not(private: true).select(:slug))
       .where.not(private: true).or(where(listable_even_private: true))
-    indie_public_issues = where(group_slug: 'indie')
+    indie_public_issues = never_blinded.where(group_slug: 'indie')
       .where.not(private: true).or(where(listable_even_private: true))
     if current_user.present?
       public_group_public_issues
@@ -118,8 +121,8 @@ class Issue < ApplicationRecord
     end
   }
   scope :post_searchable_issues, ->(current_user = nil) {
-    public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
-    indie_public_issues = where(group_slug: 'indie').where.not(private: true)
+    public_group_public_issues = never_blinded.where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
+    indie_public_issues = never_blinded.where(group_slug: 'indie').where.not(private: true)
     if current_user.present?
       public_group_public_issues
         .or(indie_public_issues)
@@ -130,8 +133,8 @@ class Issue < ApplicationRecord
     end
   }
   scope :undiscovered_issues, ->(current_user = nil) {
-    public_group_public_issues = where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
-    indie_public_issues = where(group_slug: 'indie').where.not(private: true)
+    public_group_public_issues = never_blinded.where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
+    indie_public_issues = never_blinded.where(group_slug: 'indie').where.not(private: true)
     conditions = public_group_public_issues.or(indie_public_issues)
     if current_user.present?
       conditions = conditions.where.not(id: current_user.member_issues.select("members.joinable_id"))

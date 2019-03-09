@@ -32,6 +32,34 @@
   .form-group
     = submit_tag '얼리기', data: { confirm: '정말 얼리시겠습니까?', disable_with: "처리 중..." }
 
+%hr
+
+%h4 빠띠 블라인드
+= form_tag blind_admin_issues_path, method: :put do
+  .form-group
+    %label 빠띠 슬러그
+    = text_field_tag :issue_to_be_blind, nil, class: 'form-control'
+  .form-group
+    %label 그룹 슬러그
+    = text_field_tag :issue_to_be_blind_of_group, nil, class: 'form-control'
+    빠띠를 블라인드처리합니다
+  .help-block
+    블라인드처리된 빠띠는
+    %br
+    빠띠 목록(찾기, 추천, 관련빠띠 추가, 통합에디터의 빠띠목록)에서 보이지 않습니다. (url 직접입력을 통한 접근은 가능합니다)
+  .form-group
+    = submit_tag '블라인드', data: { confirm: '정말 블라인드 처리 하시겠습니까?', disable_with: "처리 중..." }
+
+%ul
+  - Issue.blinded_only.each do |issue|
+    %li
+      = link_to smart_issue_home_url(issue) do
+        = issue.group.title
+        그룹의
+        %strong= issue.title
+      = link_to unblind_admin_issue_path(issue), method: :put, data: { confirm: '정말 블라인드 처리를 취소하시겠습니까?' } do
+        %i.fa.fa-trash
+
 / %hr
 
 / %h4 빠띠 해동하기

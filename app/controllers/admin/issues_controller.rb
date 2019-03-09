@@ -118,4 +118,40 @@ class Admin::IssuesController < Admin::BaseController
       redirect_to admin_issues_path
     end
   end
+
+  def blind
+    issue = Issue.of_slug(params[:issue_to_be_blind], params[:issue_to_be_blind_of_group])
+    if issue.blank?
+      flash[:error] = '빠띠를 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
+      redirect_to admin_issues_path and return
+    end
+    issue.blinded_at = DateTime.now
+    issue.blinded_by = current_user
+
+    if issue.save
+      flash[:success] = '블라인드처리 완료했습니다.'
+      redirect_to admin_issues_path
+    else
+      flash[:success] = '블라인드처리 못했습니다.'
+      redirect_to admin_issues_path
+    end
+  end
+
+  def unblind
+    issue = Issue.find_by(id: params[:id])
+    if issue.blank?
+      flash[:error] = '빠띠를 찾을 수 없습니다.'
+      redirect_to admin_issues_path and return
+    end
+    issue.blinded_at = nil
+    issue.blinded_by = nil
+
+    if issue.save
+      flash[:success] = '블라인드 취소처리 완료했습니다.'
+      redirect_to admin_issues_path
+    else
+      flash[:success] = '블라인드 취소처리 못했습니다.'
+      redirect_to admin_issues_path
+    end
+  end
 end
