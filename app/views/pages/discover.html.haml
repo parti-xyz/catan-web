@@ -13,12 +13,12 @@
         - @subjects.sample(10).each do |subject|
           = link_to subject.title, search_path(nav_q: subject.title), class: 'subject-link'
   - base_posts_count = 50
-  - base_posts = Post.never_blinded.having_image_file_sources.or(Post.having_image_link_sources).after(2.month.ago, field: 'posts.last_stroked_at').hottest
+  - base_posts = Post.having_image_file_sources.or(Post.having_image_link_sources).after(2.month.ago, field: 'posts.last_stroked_at').hottest
   - posts = base_posts.of_undiscovered_issues(current_user).limit(base_posts_count).to_a
   - if user_signed_in?
     - posts += base_posts.watched_by(current_user).limit(base_posts_count/2).to_a
   - posts = posts.uniq.sort_by(&:id).reverse.first(base_posts_count)
-
+  - posts = posts.reject { |post| post.blinded? }
   - if posts.try(:any?)
     %section#recent-posts
       .container
