@@ -2,19 +2,20 @@
   %span.cursor-pointer.js-sidemenu-toggle-all-unfold 모두 펼치기
   &middot;
   %span.cursor-pointer.js-sidemenu-toggle-all-fold 모두 접기
-  &middot;
-  %span.dropdown
-    %a.dropdown-toggle{ "data-toggle": "dropdown", href: "#" }
-      %i.fa.fa-cog
-      설정
-    %ul.dropdown-menu.pull-right{ style: 'right: -20px;' }
-      %li.dropdown-header
-        현재 선택된 그룹에 대해
-      %li.dropdown-menu-item{ class:  ('inactive' unless current_user.drawer_current_group_fixed_top) }
-        = link_to my_menus_path(drawer_current_group_fixed_top: !current_user.drawer_current_group_fixed_top), remote: true, class: 'dropdown-menu-item-link js-drawer-current-group-fixed-top', 'data-disable-with': '<div><i class="fa fa-spinner fa-pulse"></i>&nbsp;맨 위에 표시</div>', 'data-active-url': my_menus_path(drawer_current_group_fixed_top: true), 'data-inactive-url': my_menus_path(drawer_current_group_fixed_top: false) do
-          %i.fa.fa-check
-          맨 위에 표시
-      %li.dropdown-menu-item{ class:  ('inactive' unless current_user.drawer_current_group_unfold_only) }
-        = link_to my_menus_path(drawer_current_group_unfold_only: !current_user.drawer_current_group_unfold_only), remote: true, class: 'dropdown-menu-item-link js-drawer-current-group-unfold-only', 'data-disable-with': '<div><i class="fa fa-spinner fa-pulse"></i>&nbsp;현재 그룹만 펼쳐놓기</div>', 'data-active-url': my_menus_path(drawer_current_group_unfold_only: true), 'data-inactive-url': my_menus_path(drawer_current_group_unfold_only: false) do
-          %i.fa.fa-check
-          현재 그룹만 펼쳐놓기
+  - if user_signed_in?
+    &middot;
+    %span.dropdown
+      %a.dropdown-toggle{ "data-toggle": "dropdown", href: "#" }
+        %i.fa.fa-cog
+        설정
+      %ul.dropdown-menu.pull-right{ style: 'right: -20px;' }
+        %li.dropdown-header
+          현재 선택된 그룹에 대해
+        %li.dropdown-menu-item{ class:  ('inactive' unless current_user.drawer_current_group_fixed_top) }
+          = link_to my_menus_path(drawer_current_group_fixed_top: !current_user.drawer_current_group_fixed_top), remote: true, class: 'dropdown-menu-item-link js-drawer-current-group-fixed-top', 'data-disable-with': '<div><i class="fa fa-spinner fa-pulse"></i>&nbsp;맨 위에 표시</div>', 'data-active-url': my_menus_path(drawer_current_group_fixed_top: true), 'data-inactive-url': my_menus_path(drawer_current_group_fixed_top: false) do
+            %i.fa.fa-check
+            맨 위에 표시
+        %li.dropdown-menu-item{ class:  ('inactive' unless current_user.drawer_current_group_unfold_only) }
+          = link_to my_menus_path(drawer_current_group_unfold_only: !current_user.drawer_current_group_unfold_only), remote: true, class: 'dropdown-menu-item-link js-drawer-current-group-unfold-only', 'data-disable-with': '<div><i class="fa fa-spinner fa-pulse"></i>&nbsp;현재 그룹만 펼쳐놓기</div>', 'data-active-url': my_menus_path(drawer_current_group_unfold_only: true), 'data-inactive-url': my_menus_path(drawer_current_group_unfold_only: false) do
+            %i.fa.fa-check
+            현재 그룹만 펼쳐놓기

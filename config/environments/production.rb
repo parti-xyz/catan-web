@@ -66,10 +66,11 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'parti.xyz', :protocol => 'https' }
   config.action_mailer.asset_host =  'https://parti.xyz'
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :postmark
-  config.action_mailer.postmark_settings = {
-    :api_token => ENV['POSTMARKER_API_KEY']
-  }
+  config.action_mailer.delivery_method = :aws_sdk
+  # config.action_mailer.delivery_method = :postmark
+  # config.action_mailer.postmark_settings = {
+  #   :api_token => ENV['POSTMARKER_API_KEY']
+  # }
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.

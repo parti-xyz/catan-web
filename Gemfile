@@ -136,6 +136,7 @@ gem 'postmark-rails', '~> 0.12.0'
 gem 'slack-notifier', '~> 1.4'
 gem 'exception_notification', '~> 4.2', '>= 4.2.2'
 gem 'premailer-rails', '~> 1.9'
+gem 'aws-sdk-rails', '~> 2.1'
 
 # monitoring
 gem 'newrelic_rpm'
