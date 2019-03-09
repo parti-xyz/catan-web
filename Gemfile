@@ -73,7 +73,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
 gem 'jquery-rails'
-gem 'bootstrap-sass', '~> 3.3', '>= 3.3.5.1'
+gem 'bootstrap-sass', '>= 3.4.1'
 gem 'bootswatch-rails'
 gem 'haml-rails', '~> 1.0'
 # gem 'truncate_html', github: 'parti-xyz/truncate_html', tag: 'p0.9.4'
@@ -155,7 +155,7 @@ group :development, :test do
   gem 'spring'
   gem 'mocha', '~> 1.1'
   gem 'puma'
-  gem 'sassc-rails'
+  gem 'sassc-rails', '~> 2.1'
   gem 'rails-controller-testing'
 end
 
