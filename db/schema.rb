@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_09_044412) do
+ActiveRecord::Schema.define(version: 2019_04_18_223111) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -232,7 +232,6 @@ ActiveRecord::Schema.define(version: 2019_03_09_044412) do
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
     t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
     t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
-    t.index ["site_title", "active"], name: "index_groups_on_site_title_and_active", unique: true
     t.index ["slug", "active"], name: "index_groups_on_slug_and_active", unique: true
   end
 
