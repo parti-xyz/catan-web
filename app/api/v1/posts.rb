@@ -29,6 +29,26 @@ module V1
           File.open(@file_source.attachment.path).read
         end
       end
+
+      desc '채널별 게시물 목록으로 반환합니다'
+      oauth2
+      params do
+        #optional :limit, type: Integer, desc: '최근 게시물 갯수', default: 10
+      end
+      get do
+        issue = Issue.find params[:channel_id]
+        error!(:forbidden, 403) and return if issue.private_blocked?(resource_owner)
+
+        posts = issue.posts.order(last_stroked_at: :desc)
+
+        previous_last_post = Post.with_deleted.find_by(id: params[:last_post_id])
+        posts = posts.limit(20).previous_of_post(previous_last_post)
+        current_last_post = posts.last
+        is_last_page = (posts.empty? or posts.previous_of_post(current_last_post).empty?)
+
+        present_authed :posts, posts
+        present_authed :isLastPage, is_last_page
+      end
     end
   end
 end

@@ -1,4 +1,16 @@
 class Issue < ApplicationRecord
+  include Grape::Entity::DSL
+  entity do
+    expose :id, :title, :slug
+    expose :category_id, as: :categoryId
+    expose :imageUrl do |instance, options|
+      instance.logo.lg.url
+    end
+    expose :isMember do |instance, _|
+      instance.member?(options[:current_user])
+    end
+  end
+
   include LatestStrokedPostsCountHelper
 
   include UniqueSoftDeletable
@@ -143,6 +155,9 @@ class Issue < ApplicationRecord
   }
   scope :not_joined_issues, ->(current_user) {
     where.not(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
+  }
+  scope :joined_issues, ->(current_user) {
+    where(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
   }
   scope :only_my_menu, ->(someone) {
     where(id: MyMenu.where(user: someone).select(:issue_id))

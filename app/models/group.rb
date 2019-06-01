@@ -1,4 +1,21 @@
 class Group < ApplicationRecord
+  include Grape::Entity::DSL
+  entity do
+    expose :id, :title, :slug
+    expose :categories, using: Category.entity do |instance, options|
+      instance.categories.sort_by_name
+    end
+    expose :issues, using: Issue.entity, as: :channels do |instance, options|
+      current_user = options[:current_user]
+      result = instance.issues.recent_touched.reject do |issue|
+        issue.private_blocked?(current_user) and !current_user.try(:admin?) and !issue.listable_even_private?
+      end
+    end
+    expose :isMember do |instance, _|
+      instance.member?(options[:current_user])
+    end
+  end
+
   attr_accessor :organizer_nicknames
 
   include UniqueSoftDeletable

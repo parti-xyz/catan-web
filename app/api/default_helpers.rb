@@ -9,5 +9,12 @@ module DefaultHelpers
 
   def current_user
     resource_owner
+    # User.find_by(id: 19)
+  end
+
+  def present_authed(*args)
+    options = args.count > 1 ? args.extract_options! : {}
+    options[:current_user] = current_user if current_user.present?
+    present *args, options
   end
 end

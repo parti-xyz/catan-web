@@ -4,12 +4,61 @@ class Post < ApplicationRecord
     include Rails.application.routes.url_helpers
     include PartiUrlHelper
 
-    expose :specific_desc_striped_tags
-    with_options(format_with: lambda { |dt| dt.iso8601 }) do
-      expose :created_at, :last_stroked_at
+    expose :id
+    expose :issue_id, as: :channelId
+    expose :groupId do |instance|
+      instance.group.id
+    end
+    expose :lastStroked do |instance|
+      text, at = instance.last_stroked_activity
+      { text: text, at: at.try(:iso8601) }
+    end
+
+    expose :user, using: User::Entity
+    expose :user_id, as: :userId
+    expose :upvotes_count, as: :upvotesCount
+    expose :comments_count, as: :commentsCount
+    expose :created_at, as: :createdAt do |instance|
+      instance.created_at.iso8601
     end
     expose :url do |instance|
       smart_post_url(instance)
+    end
+
+    with_options(if: lambda { |instance, options| options[:current_user].present? and !instance.private_blocked?(options[:current_user]) and !instance.blinded?(options[:current_user]) }) do
+      expose :body
+      expose :specific_desc_striped_tags, as: :specificDescStripedTags
+
+      with_options(if: lambda { |instance, options| options[:current_user].present? }) do
+        expose :isUpvotedByMe do |instance, options|
+          instance.upvoted_by? options[:current_user]
+        end
+        expose :isUpvotable do |instance, options|
+          instance.upvotable? options[:current_user]
+        end
+      end
+
+      # expose :link_source, if: lambda { |instance, options| instance.link_source.present? and instance.file_sources.blank? } do |instance, options|
+      #   if instance.link_source.crawling_status == 'completed'
+      #     ((Rails.cache.fetch ["api-link_source", instance.link_source.id], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+      #       LinkSource::Entity.represent(instance.link_source, options).serializable_hash
+      #     end) || {}).merge(image_url: instance.link_source.image_url)
+      #   else
+      #     LinkSource::Entity.represent(instance.link_source, options).serializable_hash
+      #   end
+      # end
+      # expose :file_sources, using: FileSource::Entity, if: lambda { |instance, options| instance.file_sources.any? } do |instance|
+      #   instance.file_sources
+      # end
+      # expose :poll, using: Poll::Entity, if: lambda { |instance, options| instance.poll.present? } do |instance|
+      #   instance.poll
+      # end
+      # expose :survey, using: Survey::Entity, if: lambda { |instance, options| instance.survey.present? } do |instance|
+      #   instance.survey
+      # end
+      # expose :wiki, using: Wiki::Entity, if: lambda { |instance, options| instance.wiki.present? } do |instance|
+      #   instance.wiki
+      # end
     end
   end
 

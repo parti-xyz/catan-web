@@ -48,6 +48,16 @@ module CatanWeb
       end
 
       allow do
+        origins '*'
+        resource '/api/*', :headers => :any, :methods => :get
+      end
+
+      allow do
+        origins '*'
+        resource '/oauth/*', :headers => :any, :methods => :get
+      end
+
+      allow do
         origins /\Ahttps?:\/\/(.*?)\.?parti\.test\z/
         resource '*', :headers => :any, :methods => :any, :credentials => true
       end

@@ -1,4 +1,18 @@
 class User < ApplicationRecord
+  include Grape::Entity::DSL
+  entity do
+    expose :id, :nickname, :email
+    expose :imageUrl do |instance|
+      instance.image.sm.url
+    end
+
+    include Rails.application.routes.url_helpers
+    include PartiUrlHelper
+    expose :profileUrl do |instance|
+      smart_user_gallery_url(instance)
+    end
+  end
+
   rolify
   extend Enumerize
   enumerize :push_notification_mode, in: [:on, :no_sound, :off], predicates: true, scope: true
