@@ -5,6 +5,9 @@ class Group < ApplicationRecord
     expose :categories, using: Category.entity do |instance, options|
       instance.categories.sort_by_name
     end
+    expose :logoUrl do |instance, options|
+      instance.logo.lg.url
+    end
     expose :issues, using: Issue.entity, as: :channels do |instance, options|
       current_user = options[:current_user]
       result = instance.issues.recent_touched.reject do |issue|
@@ -71,11 +74,14 @@ class Group < ApplicationRecord
   }
   mount_uploader :key_visual_foreground_image, ImageUploader
   mount_uploader :key_visual_background_image, ImageUploader
+  mount_base64_uploader :logo, ImageUploader, file_name: -> (u) { 'userpic' }
 
   validates :title,
     presence: true,
-    length: { maximum: 20 },
-    uniqueness: { case_sensitive: false }
+    length: { maximum: 20 }
+  validates :title,
+    uniqueness: { case_sensitive: false },
+    unless: :deleted?
   validates :site_description,
     length: { maximum: 200 }
   VALID_SLUG = /\A[a-z][a-z0-9-]+\z/i

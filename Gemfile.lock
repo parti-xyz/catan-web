@@ -355,6 +355,7 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.13)
+    luminosity_contrast (0.2.1)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
@@ -743,6 +744,7 @@ DEPENDENCIES
   kaminari (~> 1.1, >= 1.1.1)
   koala (~> 2.4)
   letter_opener_web
+  luminosity_contrast
   mechanize (~> 2.7, >= 2.7.5)
   meta-tags (~> 2.10)
   mini_magick

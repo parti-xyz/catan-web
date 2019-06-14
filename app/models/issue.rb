@@ -3,8 +3,11 @@ class Issue < ApplicationRecord
   entity do
     expose :id, :title, :slug
     expose :category_id, as: :categoryId
-    expose :imageUrl do |instance, options|
+    expose :logoUrl do |instance, options|
       instance.logo.lg.url
+    end
+    expose :groupId do |instance, _|
+      instance.group.id
     end
     expose :isMember do |instance, _|
       instance.member?(options[:current_user])

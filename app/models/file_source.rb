@@ -3,8 +3,8 @@ class FileSource < ApplicationRecord
 
   ## uploaders
   # mount
-  mount_base64_uploader :deprecated_attachment, DeprecatedFileUploader, file_name: -> { 'userpic' }
-  mount_base64_uploader :attachment, PrivateFileUploader, file_name: -> { 'userpic' }
+  mount_base64_uploader :deprecated_attachment, DeprecatedFileUploader, file_name: -> (u) { 'userpic' }
+  mount_base64_uploader :attachment, PrivateFileUploader, file_name: -> (u) { 'userpic' }
 
   before_save :update_type
 

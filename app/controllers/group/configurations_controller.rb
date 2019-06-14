@@ -14,6 +14,7 @@ class Group::ConfigurationsController < Group::BaseController
     @group.plan = Group.plan.lite
     @group.user = current_user
     @group.slug = params[:group][:slug]
+    @group.logo = "data:image/png;base64,#{Catan::Avatar::generate_avatar(@group.title)}"
     @group.members.build(user: current_user, is_organizer: true)
 
     if @group.save

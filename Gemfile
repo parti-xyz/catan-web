@@ -119,6 +119,7 @@ gem 'imgkit', '~> 1.6', '>= 1.6.1'
 group :development, :test do
   gem 'wkhtmltoimage-binary', '~> 0.12.2'
 end
+gem 'luminosity_contrast'
 
 # paging
 gem 'kaminari', '~> 1.1', '>= 1.1.1'
