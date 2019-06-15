@@ -47,6 +47,7 @@
 //= require jquery.dirrty
 //= require jquery.redirect
 //= require smart-app-banner
+//= require jquery.mosaic
 
 // blank
 $.is_blank = function (obj) {
@@ -1398,6 +1399,18 @@ var parti_prepare = function($base, force) {
       var params = {}
       params[name] = val;
       location.href = url + '?' + $.param(params);
+    });
+  });
+
+  // form dirty check
+  $.parti_apply($base, '.js-image-mosaic', function(elm) {
+    $(elm).Mosaic({
+      maxRowHeight: 300,
+      refitOnResize: true,
+      refitOnResizeDelay: 500,
+      innerGap: 6,
+      maxRowHeightPolicy: 'tail',
+      showTailWhenNotEnoughItemsForEvenOneRow: true
     });
   });
 

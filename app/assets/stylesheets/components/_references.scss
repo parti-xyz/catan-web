@@ -333,32 +333,6 @@ section#references {
     background-color: $gray-lightest;
     cursor: pointer;
     border: 1px solid $gray-lighter;
-    &.single {
-      width: 100%;
-      img {
-        width: 100%;
-      }
-    }
-    &.left,
-    &.right {
-      width: 49.5%;
-      height: 185px;
-    }
-    &.left {
-      margin-right: 0.5%;
-    }
-    &.right {
-      margin-left: 0.5%;
-    }
-  }
-  &__small-image-wrapper {
-    text-align: center;
-  }
-  &__small-image-wrapper &__file-content--image {
-    background: $gray-lightest;
-    img {
-      width: auto;
-    }
   }
   &__video-container {
     position: relative;
