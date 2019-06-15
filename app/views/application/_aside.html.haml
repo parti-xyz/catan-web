@@ -4,19 +4,6 @@
       = render 'users/user_panel', user: current_user
     - if user_signed_in?
       .aside_issue{ style: 'color: #777;' }
-        .aside_issue_btn.text-basic-wrap.clearfix{ style: 'font-size: 12px;' }
-          %div{ style: 'float: left; width: 180px;' }
-            = link_to new_issue_path, class: 'a-gray' do
-              %strong 빠띠 만들기
-            %div
-              나누고 싶은 이슈나 관심사가 있나요?
-              %span
-                %u<> 빠띠
-                를
-              만드세요.
-          %div{ style: 'float: right;' }
-            = link_to new_issue_path, class: 'btn btn-lg btn-primary', style: 'border-radius: 50%; width: 50px; height: 50px;' do
-              %i.fa.fa-magic
         - if current_group.blank?
           .aside_issue_btn.text-basic-wrap.clearfix{ style: 'font-size: 12px; margin-top: 12px;' }
             %div{ style: 'float: left; width: 180px;' }

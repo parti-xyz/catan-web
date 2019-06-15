@@ -19,7 +19,7 @@
               #{group_sidemenu_title(menu_group)}
               - if any_latest_issues
                 %span.parties-count
-                  %i.fa.fa-flag(title='최근 빠띠')
+                  %i.fa.fa-flag(title='최근 채널')
                   = latest_issues_count
               - unless menu_group.indie?
                 - if any_latest_stroked_posts
@@ -52,7 +52,7 @@
           %li.js-issue-line.js-drawer-filter-ignored
             = link_to smart_group_issues_url(menu_group), style: 'color: #c0c0c2' do
               %span.text-nowrap
-                내 빠띠가 없습니다.
+                내 채널이 없습니다.
               %span.text-nowrap
                 가입하기
                 %i.fa.fa-arrow-right

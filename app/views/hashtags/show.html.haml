@@ -14,7 +14,7 @@
                 #{current_group.title_basic_format}이 오거나징하는
               - else
                 모든
-              빠띠 게시물입니다.
+              채널 게시물입니다.
               - if current_group.present?
                 %span{ style: 'position: relative;'}
                   %i.fa.fa-chevron-down.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
@@ -36,7 +36,7 @@
           - if @recommend_posts.any?
             %hr
 
-            .post-data-divider 다른 빠띠에선 이런 이야기를 나누고 있어요
+            .post-data-divider 다른 그룹에선 이런 이야기를 나누고 있어요
             = render 'posts/list_card', posts: @recommend_posts.limit(30).to_a.sample(3)
 
         - else

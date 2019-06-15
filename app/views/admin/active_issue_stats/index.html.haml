@@ -1,7 +1,7 @@
 %section#counts
-  %h4 활성 빠띠 조회
+  %h4 활성 채널 조회
   .well
-    %p 일 기준으로 포스팅 1건 이상, 댓글 3건 이상이 올라온 빠띠를 활성 빠띠로 산정하여 조회합니다.
+    %p 일 기준으로 포스팅 1건 이상, 댓글 3건 이상이 올라온 채널을 활성 채널로 산정하여 조회합니다.
     = form_tag nil, method: :get, class: 'form-inline' do
       .form-group
         = text_field_tag :stat_at, params[:stat_at], id: 'js-active-issue-stat-at-input', class: 'form-control'
@@ -12,7 +12,7 @@
     %thead
       %tr
         %th 날짜
-        %th 빠띠 이름
+        %th 채널 이름
         %th 신규 포스팅 수
         %th 신규 댓글 수
         %th 신규 가입자 수

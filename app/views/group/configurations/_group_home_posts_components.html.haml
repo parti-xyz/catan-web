@@ -4,5 +4,5 @@
     = f.text_field :title, class: 'form-control'
   .form-group
     = f.label :issue
-    = f.select :issue, options_from_collection_for_select(current_group.issues, :id, :title, f.object.try(:issue_id).presence), { include_blank: '모든 빠띠' }, class: 'form-control'
+    = f.select :issue, options_from_collection_for_select(current_group.issues, :id, :title, f.object.try(:issue_id).presence), { include_blank: '모든 채널' }, class: 'form-control'
     = link_to_remove_association "삭제", f

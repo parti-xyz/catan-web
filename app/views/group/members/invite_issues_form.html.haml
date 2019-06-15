@@ -6,13 +6,13 @@
     = render 'group/members/tab_menu'
 
     - if base_issue.empty?
-      %h5 "#{@user.nickname}"님을 초대할 그룹의 빠띠가 없습니다.
+      %h5 "#{@user.nickname}"님을 초대할 그룹의 채널 없습니다.
 
     - else
       = form_tag invite_issues_group_members_path do |f|
         = hidden_field_tag :user_id, @user.id
         .form-group
-          %h5 "#{@user.nickname}"님을 초대할 빠띠를 선택해 주세요.
+          %h5 "#{@user.nickname}"님을 초대할 채널을 선택해 주세요.
 
         %ul.list-unstyled.list-categories
           - exists_categories = false

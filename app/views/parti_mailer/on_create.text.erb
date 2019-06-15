@@ -1,10 +1,10 @@
 안녕하세요. <%= @user.nickname %>님!
 
-<%= @organizer.nickname %>님이 <%= @issue.group.title_basic_format %>의 <%= @issue.title %> 빠띠를 새로 열었습니다.
+<%= @organizer.nickname %>님이 <%= @issue.group.title_basic_format %>의 <%= @issue.title %> 채널을 새로 열었습니다.
 ---------------------------------------------------------
 
 <%= @issue.body %>
 
 ---------------------------------------------------------
 
-* 빠띠 주소 : <%= smart_joinable_url(@issue) %>
+* 채널 주소 : <%= smart_joinable_url(@issue) %>

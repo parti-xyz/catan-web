@@ -5,7 +5,7 @@
         %li.hidden-xs{ class: ('active' if local_assigns[:active] == 'home') }
           = link_to '홈', root_path
         %li{ class: ('active' if local_assigns[:active] == 'issues') }
-          = link_to '빠띠', issues_path
+          = link_to '채널', issues_path
         %li{ class: ('active' if local_assigns[:active] == 'polls_or_surveys') }
           = link_to '토론', polls_or_surveys_path
         %li{ class: ('active' if local_assigns[:active] == 'wikis') }
@@ -21,7 +21,7 @@
             %li
               = link_to new_issue_path do
                 %i.fa.fa-magic
-                빠띠 만들기
+                채널 만들기
           - if current_group.organized_by?(current_user)
             %li{ class: ('active' if local_assigns[:active] == 'management') }
               = link_to group_managements_path do
@@ -64,7 +64,7 @@
               - if current_group.creatable_issue?(current_user)
                 %li
                   = link_to new_issue_path do
-                    빠띠 만들기
+                    채널 만들기
               - if current_group.organized_by?(current_user)
                 %li{ class: ('active' if local_assigns[:active] == 'management') }
                   = link_to group_managements_path do

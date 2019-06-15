@@ -654,7 +654,7 @@ var parti_prepare = function($base, force) {
     });
   });
 
-  // 게시글 쓸때 빠띠 선택하기
+  // 게시글 쓸때 채널 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
     $(elm).on('hide.bs.select', function(e) {
@@ -1179,7 +1179,7 @@ var parti_prepare = function($base, force) {
     });
   });
 
-  // 내 빠띠 search
+  // 내 채널 search
   $.parti_apply($base, '.js-drawer-filter-more', function(elm) {
     if ($('.js-drawer-filter-container').length > 0) {
       $(elm).appendTo('.js-drawer-filter-container').hide().removeClass('hidden');
@@ -1537,7 +1537,7 @@ $(function(){
     $(elm).css('visibility',  'visible');
   });
 
-  // 빠띠 사이드바 hover 할때 가입 버튼 보이기
+  // 채널 사이드바 hover 할때 가입 버튼 보이기
   $('.js-issue-line-hover').on('mouseenter', function(elm) {
     $(this).find('.js-join-sign').hide();
     $(this).find('.js-join-button').show();
@@ -1883,7 +1883,7 @@ $(function(){
     $(this).on('click',function (e){
       var source = $($(this).data('source')).val()
       var target = $($(this).data('target')).val()
-      return confirm( '----------------------------------------\n지워지는 빠띠와 위키: ' + source + '\n합해지는 빠띠: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n----------------------------------------')
+      return confirm( '----------------------------------------\n지워지는 채널와 위키: ' + source + '\n합해지는 채널: ' + target + '\n\n이대로 진행하시겠습니까? 이 행위는 되돌릴 수 없습니다.\n----------------------------------------')
     });
   });
 
@@ -2193,7 +2193,7 @@ $(function(){
     $.scrollTo(0, 200);
   });
 
-  // 빠띠 하단에 가입 이나 소개 배너 붙박이
+  // 채널 하단에 가입 이나 소개 배너 붙박이
   $(".js-bottom-banner-wrapper").each(function(index, elm) {
     $(elm).parent().css('margin-bottom', $(elm).outerHeight());
   });
@@ -2211,7 +2211,7 @@ $(function(){
     }
   });
 
-  // 빠띠 생성 폼에서 그룹 선택하기
+  // 채널 생성 폼에서 그룹 선택하기
   (function() {
     function change_subdomain(subdomain) {
       if(subdomain.length > 0) {

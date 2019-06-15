@@ -1,7 +1,7 @@
 %li.head-line.parti-search-form.js-drawer-filter-item.js-drawer-filter-form
   - drawer_search_id = "drawer-search-#{SecureRandom.uuid}"
   .form-group
-    %input.form-control.form-control-drawer-filter.js-drawer-filter{ id: drawer_search_id, name: "keyword", placeholder: "내 빠띠 바로가기", type: "search", 'data-action': 'parti-clearable-search', autocomplete: "off" }
+    %input.form-control.form-control-drawer-filter.js-drawer-filter{ id: drawer_search_id, name: "keyword", placeholder: "내 채널 바로가기", type: "search", 'data-action': 'parti-clearable-search', autocomplete: "off" }
 
 %li.menu-line.parti-search-more.js-drawer-filter-item.js-drawer-filter-more.hidden
   .action-link.js-parti-drawer-search.cursor-pointer{ 'data-url': issues_url(subdomain: nil), 'data-input-target': "##{drawer_search_id}" }

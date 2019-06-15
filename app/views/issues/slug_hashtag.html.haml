@@ -18,7 +18,7 @@
                     - unless @issue.group.indie?
                       %li
                         = link_to hashtag_url(subdomain: @issue.group.subdomain, hashtag: @hashtag), class: 'text-nowrap' do
-                          #{@issue.group.title_basic_format}이 오거나이징하는 빠띠에서 찾아보기
+                          #{@issue.group.title_basic_format}그룹에서 찾아보기
                     %li
                       = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'text-nowrap' do
                         모든 빠띠에서 찾아보기

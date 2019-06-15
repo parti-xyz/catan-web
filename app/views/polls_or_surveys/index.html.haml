@@ -6,7 +6,7 @@
     .contents-header
       %h4.contents-header__title
         토론
-        %small 모든 빠띠의 찬반투표&middot;설문과 토론 정리 중인 게시물입니다.
+        %small 모든 채널의 찬반투표&middot;설문과 토론 정리 중인 게시물입니다.
       .posts-filter-select
         = render 'posts/sort_select'
     .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s}}

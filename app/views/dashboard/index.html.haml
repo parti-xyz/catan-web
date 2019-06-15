@@ -44,7 +44,7 @@
             - if @recommend_posts.any?
               %hr
 
-              .post-data-divider 다른 빠띠에선 이런 이야기를 나누고 있어요
+              .post-data-divider 다른 그룹에선 이런 이야기를 나누고 있어요
               = render 'posts/list_card', posts: @recommend_posts.limit(30).to_a.sample(3)
 
 

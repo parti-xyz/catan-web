@@ -78,7 +78,7 @@
           = f.label :issue_creation_privileges
           = f.select :issue_creation_privileges, Group.issue_creation_privileges.options, {}, class: 'form-control'
           %p.help-block
-            그룹의 빠띠를 개설할 수 있는 권한을 설정합니다.
+            그룹의 채널을 개설할 수 있는 권한을 설정합니다.
 
         .form-group{class: ('has-error' if has_error_attr?(@group, :private))}
           = f.label :private

@@ -1,5 +1,5 @@
 invitation = message.messagable
-body = "@#{invitation.user.nickname}님이 #{invitation.issue.title} 빠띠에 초대했습니다."
+body = "@#{invitation.user.nickname}님이 #{invitation.issue.title} 채널에 초대했습니다."
 joinable = invitation.joinable
 
 json.data do

@@ -7,16 +7,16 @@
       입니다. 최대
       - if current_group.private?
         %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
-        빠띠를 만들 수 있습니다.
+        채널을 만들 수 있습니다.
       - else
         %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
-        비공개 빠띠를 만들 수 있습니다.
+        비공개 채널을 만들 수 있습니다.
     - if current_group.private?
       %p
-        현재 #{current_group.issues.count}개 빠띠를 사용 중입니다. 무제한으로 빠띠를 만들려면 지금 업그레이드해 보세요.
+        현재 #{current_group.issues.count}개 채널을 사용 중입니다. 무제한으로 채널을 만들려면 지금 업그레이드해 보세요.
     - else
       %p
-        현재 #{current_group.issues.only_private.count}개 비공개 빠띠를 사용 중입니다. 무제한으로 비공개 빠띠를 만들려면 지금 업그레이드해 보세요.
+        현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한으로 비공개 채널을 만들려면 지금 업그레이드해 보세요.
     %p
       = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
 - elsif current_group.try(:trial?)
@@ -27,7 +27,7 @@
         #{current_group.plan_text} 그룹
       입니다.
     %p
-      현재 #{current_group.issues.count}개 빠띠를 사용 중입니다.
+      현재 #{current_group.issues.count}개 채널을 사용 중입니다.
     %p
       = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
 
@@ -45,7 +45,7 @@
       .form-group{class: error_class_str(@issue, :group_slug)}
         = f.label :group_slug
         .help-block.text-basic-wrap
-          내가 만드는 빠띠와 함께 할 사람들을 골라 보세요.
+          내가 만드는 채널과 함께 할 사람들을 골라 보세요.
 
         - groups = [Group.indie] + current_user.member_groups.sort_by_name
         = f.select :group_slug, {}, {}, class: 'js-select-picker select-picker-full-dropdown-menu dropdown', data: { 'dropup-auto': 'false', width: '100%' } do
@@ -59,11 +59,11 @@
                     - unless group.indie?
                       멤버 #{group.members.count}명
                       &middot
-                    빠띠 #{group.issues.count}개
+                    채널 #{group.issues.count}개
                 .group-option-desc.text-muted
                   - if group.indie?
                     사람들과 나누고 싶은 나만의 관심사가 있습니까?
-                    빠띠를 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
+                    채널을 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
                   - else
                     = group.site_description
             %option{ value: group.slug, 'data-content': h(group_content.to_str), 'data-tokens': ' ' }<>
@@ -95,13 +95,13 @@
         = f.label :group_slug do
           그룹
           %span.text-muted{ style: 'font-weight: normal;' }
-            내가 만드는 빠띠와 함께 할 사람들
+            내가 만드는 채널과 함께 할 사람들
         .group-option-title.text-primary{ style: 'font-weight: bold' }
           = current_group.title
         .text-muted{ style: 'font-weight: normal' }
           - if current_group.indie?
             사람들과 나누고 싶은 나만의 관심사가 있습니까?
-            빠띠를 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
+            채널을 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
           - else
             = current_group.site_description
 
@@ -184,12 +184,12 @@
           .form-group{class: ('has-error' if has_error_attr?(@issue, :organizer_nicknames))}
             = f.label :organizer_nicknames
             = f.text_field :organizer_nicknames, value: @issue.organizer_members.merge_nickname, class: 'form-control'
-            %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 빠띠의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
+            %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 채널의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
         - else
           .form-group
             = f.label :organizer_nicknames
             %p= current_user.nickname
-            %p.help-block 빠띠를 만든 후에 오거나이저를 고칠 수 있습니다.
+            %p.help-block 채널을 만든 후에 오거나이저를 고칠 수 있습니다.
 
         .form-group{class: ('has-error' if has_error_attr?(@issue, :private))}
           = f.label :private
@@ -197,7 +197,7 @@
             .checkbox
               %label
                 = f.check_box :private
-                비공개로 설정하면 이 빠띠에 가입한 멤버만 게시글을 볼 수 있습니다.
+                비공개로 설정하면 이 채널에 가입한 멤버만 게시글을 볼 수 있습니다.
           - if current_group.try(:has_issues_quota?) and !current_group.private?
             .alert.alert-danger
               %p
@@ -207,9 +207,9 @@
                   #{current_group.plan_text} 그룹
                 입니다. 최대
                 %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
-                비공개 빠띠를 만들 수 있습니다.
+                비공개 채널을 만들 수 있습니다.
               %p
-                현재 #{current_group.issues.only_private.count}개 비공개 빠띠를 사용 중입니다. 무제한 비공개 빠띠를 만들려면 지금 업그레이드해 보세요.
+                현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한 비공개 채널을 만들려면 지금 업그레이드해 보세요.
               %p
                 = link_to '업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
 
@@ -218,14 +218,14 @@
           .checkbox
             %label
               = f.check_box :listable_even_private
-              이 빠띠는 비공개라도 빠띠 목록과 그룹홈에 표시됩니다. 검색해서 찾을 수도 있습니다. 비공개 빠띠가 아니라면 이 설정은 무시됩니다.
+              이 채널은 비공개라도 채널 목록과 그룹홈에 표시됩니다. 검색해서 찾을 수도 있습니다. 비공개 채널이 아니라면 이 설정은 무시됩니다.
 
         .form-group{class: ('has-error' if has_error_attr?(@issue, :notice_only))}
           = f.label :notice_only
           .checkbox
             %label
               = f.check_box :notice_only
-              이 빠띠는 오거나이저만 게시할 수 있습니다.
+              이 채널은 오거나이저만 게시할 수 있습니다.
 
         - if !host_group.indie? and (current_user.is_organizer?(@issue.group || host_group) or current_user.admin?)
           .form-group{class: ('has-error' if has_error_attr?(@issue, :is_default))}
@@ -233,13 +233,13 @@
             .checkbox
               %label
                 = f.check_box :is_default
-                그룹에 가입하는 멤버는 자동가입되는 빠띠가 됩니다.
+                그룹에 가입하는 멤버는 자동가입되는 채널이 됩니다.
 
         - if current_user.admin? and f.object.persisted?
           .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
             = f.label :group_slug
             = f.text_field :group_slug, class: 'form-control'
-            %p.help-block 이 빠띠가 속할 그룹의 slug을 기입하세요. 이슈와 관심사 빠띠일 경우 'indie'를 넣어 주세요.
+            %p.help-block 이 채널이 속할 그룹의 slug을 기입하세요. 이슈와 관심사 채널일 경우 'indie'를 넣어 주세요.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }

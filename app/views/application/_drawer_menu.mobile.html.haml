@@ -25,7 +25,7 @@
         .title.cursor-pointer{ data: { 'action': "parti-link", 'url': issues_url(subdomain: nil) } }
           .group-parties-section-title
             %i.fa.fa-flash
-            지금 가장 인기있는 빠띠
+            지금 가장 인기있는 채널
         %ul.sub.list-unstyled
           - Issue.only_public_hottest(5).each do |issue|
             = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false

@@ -7,7 +7,7 @@
           %h4
             = group_basic_title(group)
             %span.partis-count.badge
-              #{Issue.of_group(group).count}개의 빠띠
+              #{Issue.of_group(group).count}개의 채널
           - unless group.site_description.nil?
             .group-desc
               #{group.site_description}

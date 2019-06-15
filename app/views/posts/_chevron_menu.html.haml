@@ -28,7 +28,7 @@
               = link_to '확인하기', smart_group_url(post.issue.group)
           - if post.issue.private? and !post.front_wiki?
             .help-text
-              TIP. 해당 빠띠는 비공개입니다. 해당 빠띠 멤버에게만 보입니다.
+              TIP. 해당 채널은 비공개입니다. 해당 채널 멤버에게만 보입니다.
 - button_groups << capture do
   - if can?(:update, post) and post.wiki.blank?
     %li
@@ -54,17 +54,17 @@
   - if can?(:move_to_issue, post)
     %li
       = link_to [:move_to_issue_form, post] do
-        빠띠 이동
+        다른 채널로 이동
   - elsif post.issue.member?(current_user)
     - if post.private_blocked?(post.user)
       %li
-        %a{ data: { trigger: 'hover', action: 'parti-popover', content: "위키를 작성한 @#{post.user.nickname}님이 이 빠띠를 탈퇴하였거나 접근할 수 없습니다.", style: 'inverse', target: 'messenger-balloon'} }
+        %a{ data: { trigger: 'hover', action: 'parti-popover', content: "위키를 작성한 @#{post.user.nickname}님이 이 채널을 탈퇴하였거나 접근할 수 없습니다.", style: 'inverse', target: 'messenger-balloon'} }
           %span.text-muted
-            빠띠이동 불가
+            다른 채널로 이동 불가
           %i.fa.fa-ban
     - else
       %li
-        %a.cursor-pointer.js-mention{ href: '#', data: { comment_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': post.user.nickname, 'mention-text': "게시글 이동을 부탁드려요." } }<> 빠띠 이동요청
+        %a.cursor-pointer.js-mention{ href: '#', data: { comment_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': post.user.nickname, 'mention-text': "게시글 이동을 부탁드려요." } }<> 채널 이동 요청
 - button_groups << capture do
   - if can? :pin, post
     %li

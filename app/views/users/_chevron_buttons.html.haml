@@ -15,11 +15,11 @@
     %li
       - if user == current_user
         - if issue.organized_by? current_user
-          = link_to organizer_issue_members_path(issue, user_id: current_user.id), method: :delete, data: { 'disable-with': '처리 중...', 'confirm': '정말 오거나이징을 그만 두시겠습니까? 해당 빠띠의 모든 권한을 잃게 됩니다.' } do
+          = link_to organizer_issue_members_path(issue, user_id: current_user.id), method: :delete, data: { 'disable-with': '처리 중...', 'confirm': '정말 오거나이징을 그만 두시겠습니까? 해당 채널의 모든 권한을 잃게 됩니다.' } do
             오거나이징 그만두기
         - else
           = link_to cancel_issue_members_path(issue), method: :delete, 'data-disable-with': '처리 중...', 'data-confirm': "정말 탈퇴하시겠습니까?" do
-            빠띠 나가기
+            채널 나가기
       - else
         = link_to ban_form_issue_members_path(issue, user_id: user.id), remote: true do
           탈퇴시키기
@@ -41,7 +41,7 @@
     %li
       - if user == current_user
         - if group.organized_by? current_user
-          = link_to organizer_group_members_path(user_id: user.id), method: :delete, data: { 'disable-with': '처리 중...', 'confirm': '정말 오거나이징을 그만 두시겠습니까? 해당 빠띠의 모든 권한을 잃게 됩니다.' } do
+          = link_to organizer_group_members_path(user_id: user.id), method: :delete, data: { 'disable-with': '처리 중...', 'confirm': '정말 오거나이징을 그만 두시겠습니까? 해당 채널의 모든 권한을 잃게 됩니다.' } do
             오거나이징 그만두기
         - else
           = link_to cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...' } do
@@ -52,4 +52,4 @@
   - if group.member?(user) and can?(:invite_group_issues, user) and user != current_user
     %li
       = link_to invite_issues_form_group_members_path(user_id: user.id) do
-        그룹의 빠띠에 초대하기
+        그룹의 채널에 초대하기

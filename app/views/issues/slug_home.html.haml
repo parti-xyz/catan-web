@@ -22,11 +22,11 @@
             - else
               - if @issue.notice_only?
                 .post-editor.post-editor--join
-                  이 빠띠에 가입하여 새소식을 들어보세요.
+                  이 채널에 가입하여 새소식을 들어보세요.
                   = render 'issues/join_button'
               - else
                 .post-editor.post-editor--join
-                  이 빠띠에 가입하여 게시물을 올려보세요.
+                  이 채널에 가입하여 게시물을 올려보세요.
                   = render 'issues/join_button'
           - else
             .post-editor.post-editor-intro{data: { toggle: 'parti-login-overlay' }}
@@ -36,7 +36,7 @@
         - else
           .post-editor.post-editor-intro
             .text-muted.text-primary
-              휴면 중인 빠띠입니다.
+              휴면 중인 채널입니다.
 
         .js-invisible-on-mobile-editing
           - if params[:q].blank?
@@ -76,12 +76,6 @@
           - unless @issue.member_requested?(current_user)
             - if paging
               = paginate @posts, theme: 'catan'
-
-              / - if @recommend_posts.any?
-              /   %hr
-
-              /   .post-data-divider 다른 빠띠에선 이런 이야기를 나누고 있어요
-              /   = render 'posts/list_card', posts: @recommend_posts.limit(30).to_a.sample(3)
             - else
               .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:q])}
                 .page-waypoint-loading.js-page-waypoint-loading

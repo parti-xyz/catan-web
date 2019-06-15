@@ -46,7 +46,7 @@
     - if issue.related_issues.present? or can? :update, issue
       %section.aside-relate-issues
         %h5.aside-title
-          관련빠띠
+          관련 채널
           - if can? :update, issue
             = link_to new_related_path(issue_id: issue), class: 'add-link' do
               추가

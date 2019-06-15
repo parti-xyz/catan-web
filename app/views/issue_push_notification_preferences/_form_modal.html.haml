@@ -4,7 +4,7 @@
   .modal-header
     %h4.modal-header-title
       - if is_update
-        '#{issue_push_notification_preference.issue.title if is_update}' 빠띠
+        '#{issue_push_notification_preference.issue.title if is_update}' 채널
       - else
         빠띠별
       알림 설정
@@ -30,4 +30,4 @@
       - else
         %p.text-center
           %i.fa.fa-info-circle
-          설정할 빠띠가 없습니다.
+          설정할 채널이 없습니다.

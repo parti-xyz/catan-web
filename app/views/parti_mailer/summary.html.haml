@@ -3,7 +3,7 @@
     %span{:style => "font-size: 20px; color: rgb(249, 249, 249);"}
       %strong 안녕하세요. #{@user.nickname}님!
     %div{:style => "color: rgb(249, 249, 249);"}
-      가입한 빠띠의 최근 소식입니다.
+      빠띠의 최근 소식입니다.
 
 - if @hottest_posts.any?
   = render customize_partial_path(@hottest_posts, 'post_in_email', ), hide_parti_button: true

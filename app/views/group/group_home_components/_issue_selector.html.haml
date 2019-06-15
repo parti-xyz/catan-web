@@ -1,5 +1,5 @@
 .parti-select.parti-select-form-padding{ id: local_assigns[:dom_id] }
-  %select.js-parti-editor-selector.collapse{ 'data-live-search': "true", 'data-width': "100%", title: (local_assigns[:placeholder_text] || "표시할 빠띠를 골라 주세요") }
+  %select.js-parti-editor-selector.collapse{ 'data-live-search': "true", 'data-width': "100%", title: (local_assigns[:placeholder_text] || "표시할 채널을 골라 주세요") }
     - all_issues = current_group.issues.alive.sort_by_name.to_a
     - all_issues.each do |issue|
       - issue_content = capture do

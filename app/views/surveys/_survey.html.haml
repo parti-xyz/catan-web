@@ -5,11 +5,11 @@
 - feedbacked = user_signed_in? && survey.feedbacked?(current_user)
 .survey-card[post]{ class: "#{dom_id(survey)} #{feedbacked ? 'survey-card--feedbacked' : ''} #{removable_with_post_dom_class(post)}", "data": modal_data}
   - if post.private_blocked?(current_user)
-    %strong 비공개 빠띠 게시글입니다.
+    %strong 비공개 채널 게시글입니다.
     - if post.issue.member_requested? current_user
       %br
       %span.text-basic-wrap
-        비공개 빠띠를 보시려면 먼저 가입승인 받아야합니다.
+        비공개 채널을 보시려면 먼저 가입승인 받아야합니다.
       %span.text-basic-wrap
         %strong<> 오거나이저의 가입승인
         을 기다려주세요.

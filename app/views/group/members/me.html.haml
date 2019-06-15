@@ -23,5 +23,5 @@
       %h4.group-heading
         그룹 탈퇴
       .well
-        .help-block 이 그룹과 해당 그룹의 모든 빠띠 탈퇴합니다. 이 작업은 되돌릴 수 없습니다.
+        .help-block 이 그룹과 해당 그룹의 모든 채널에서 탈퇴합니다. 이 작업은 되돌릴 수 없습니다.
         = link_to '탈퇴하기', cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...' }, class: 'btn btn-danger'

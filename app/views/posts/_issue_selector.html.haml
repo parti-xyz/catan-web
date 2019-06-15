@@ -1,9 +1,9 @@
 .parti-select.parti-select-form-padding{ id: local_assigns[:dom_id] }
-  %select.js-parti-editor-selector.collapse{ 'data-live-search': "true", 'data-width': "100%", title: (local_assigns[:placeholder_text] || "게시할 빠띠를 골라 주세요") }
+  %select.js-parti-editor-selector.collapse{ 'data-live-search': "true", 'data-width': "100%", title: (local_assigns[:placeholder_text] || "게시할 채널을 골라 주세요") }
     - unless local_assigns[:hide_latest_issues]
       - latest_issue_ids = current_user.latest_posted_issues(5)
       - if latest_issue_ids.any?
-        %optgroup{label: '최근 게시한 빠띠'}
+        %optgroup{label: '최근 게시한 채널'}
           - latest_issue_ids.each do |issue|
             - issue_content = capture do
               .parti-option.clearfix<>

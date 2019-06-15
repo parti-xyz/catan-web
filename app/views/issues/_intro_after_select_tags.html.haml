@@ -2,17 +2,17 @@
   .media-body
     %h2.text-primary
       - if @no_tags_selected == 'yes'
-        관심사를 선택하지 않으셔서, 인기있는 빠띠를 몇 개 보여드립니다.
+        관심사를 선택하지 않으셔서, 인기있는 그룹과 채널을 몇 개 보여드립니다.
       - else
         %b<>
           #{current_user.nickname}
-        님의 관심사에 어울리는 빠띠를 골라봤어요!
+        님의 관심사에 어울리는 그룹과 채널을 골라봤어요!
   .media-right
     .js-intro-select-parties-cog{ style: 'width: 90px; text-align: center;' }
       %i.fa.fa-cog.fa-spin.fa-spin-slow{ style: 'padding: 25px 18px; font-size: 30px; color: #9872d7;' }
     %a.btn.btn-primary.btn-primary-dark.btn-after-select-parties.js-intro-select-parties-continue.collapse{href: root_path}
       시작하기
 %p.select-interest-title
-  선택한 빠띠의 업데이트 내용은
+  선택한 그룹과 채널의 업데이트 내용은
   %br.visible-xs-block
   내 홈에서 확인 할 수 있어요.

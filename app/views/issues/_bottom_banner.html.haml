@@ -3,14 +3,14 @@
   - content = capture do
     - if please_join
       - if user_signed_in?
-        #{issue.title} 빠띠에 가입해서 흥미진진한 소식을 받아보세요.
+        #{issue.title} 채널에 가입해서 흥미진진한 소식을 받아보세요.
         %br.visible-xs-block
         = link_to smart_members_or_member_requests_parti_path(issue), method: :post, 'data-disable-with': '가입 처리 중...', class: 'btn bottom-banner-btn' do
           %i.fa.fa-sign-in
           = t("labels.issue.groups.#{host_group.slug}.public_join", cascade: true)
       - else
         %span.cursor-pointer{ data: { toggle: 'parti-login-overlay', label: '가입', 'after-login': h({action: :issue_member, id: issue.id}.to_json) } }
-          #{issue.title} 빠띠에 가입해서 흥미진진한 소식을 받아보세요.
+          #{issue.title} 채널에 가입해서 흥미진진한 소식을 받아보세요.
           %br.visible-xs-block
           %a.btn.bottom-banner-btn
             %i.fa.fa-sign-in

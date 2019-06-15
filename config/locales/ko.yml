@@ -55,7 +55,7 @@ ko:
       carrierwave_processing_error: 처리할 수 없는 파일입니다.
       mini_magick_processing_error: 처리할 수 없는 파일입니다.
       carrierwave_integrity_error: 허용되지 않는 파일 형식입니다.
-      not_deletable_parti: 가입한 멤버가 있거나 게시글이 있는 빠띠는 삭제할 수 없습니다.
+      not_deletable_parti: 가입한 멤버가 있거나 게시글이 있는 채널은 삭제할 수 없습니다.
       unknown: 앗! 뭔가 잘못되었습니다.
       deleted_option: 지워진 제안입니다.
       invalid_group_magic_key: 사용이 중지된 그룹 가입 주소입니다. 오거나이저에게 새로운 가입 주소를 요청하세요.
@@ -75,10 +75,10 @@ ko:
       min_size_error: "파일사이즈가 너무 작습니다."
       max_size_error: "파일사이즈가 너무 큽니다."
       label:
-        bad_issue: "다른 빠띠 폴더로는 옮길 수 없습니다."
+        bad_issue: "다른 채널 폴더로는 옮길 수 없습니다."
       folders:
         too_deep: "하위 폴더를 가진 폴더는 다른 폴더의 하위 폴더가 될 수 없습니다."
-      wrong_parti_title: "주제별 빠띠의 이름울 한 글자 이상의 하나의 단어로 입력해 주세요 : %{title}"
+      wrong_parti_title: "주제별 채널의 이름울 한 글자 이상의 하나의 단어로 입력해 주세요 : %{title}"
       events:
         already_responed_invitation:
           fail_to_destroy: "방금 초대 응답했습니다. 삭제할 수 없습니다."
@@ -93,11 +93,11 @@ ko:
           current_password: 현재 비밀번호
   activerecord:
     models:
-      issue: 빠띠
+      issue: 채널
       wiki: 위키
       user: 회원
       comment: 댓글
-      related: 관련빠띠
+      related: 관련 채널
       section: 주제
       link_source: 링크
       file_source: 파일
@@ -114,7 +114,7 @@ ko:
         site_description: 설명
         slug: 주소
         private: 비공개
-        issue_creation_privileges: 빠띠 개설 권한
+        issue_creation_privileges: 채널 개설 권한
         head_title: 짧은 이름
         site_keywords: 키워드
         organizer_nicknames: 오거나이저
@@ -132,10 +132,10 @@ ko:
         tag_list: 태그
         private: 비공개
         notice_only: 오거나이저만 게시
-        is_default: 자동가입되는 빠띠
+        is_default: 자동가입되는 채널
         organizer_nicknames: 오거나이저
         group_slug: 그룹 선택
-        listable_even_private: 이 빠띠가 비공개일 경우라도 목록에 표시하고 검색됩니다
+        listable_even_private: 이 채널이 비공개일 경우라도 목록에 표시하고 검색됩니다
       category:
         name: 이름
       user:
@@ -151,8 +151,8 @@ ko:
       comment:
         body: 내용
       related:
-        issue: 빠띠
-        target: 관련빠띠
+        issue: 채널
+        target: 관련 채널
       section:
         name: 이름
       link_source:
@@ -177,13 +177,13 @@ ko:
     errors:
       messages:
         record_invalid: "오류가 있습니다: %{errors}"
-        not_found_parti: 입력하신 빠띠가 없거나 비공개입니다.
+        not_found_parti: 입력하신 채널이 없거나 비공개입니다.
       models:
         group:
           attributes:
             base:
               restrict_dependent_destroy:
-                many: 아직 지워지지 않은 빠띠가 있습니다. 해당 그룹의 모든 빠띠를 삭제한 후 다시 시도해 주세요.
+                many: 아직 지워지지 않은 채널이 있습니다. 해당 그룹의 모든 채널을 삭제한 후 다시 시도해 주세요.
             slug:
               invalid: "%{attribute} 값은 영문자와 숫자 혹은 '-'만 넣어주세요."
               exclusion: '%{attribute} 값이 이미 등록되어 있습니다.'
@@ -221,7 +221,7 @@ ko:
         related:
           attributes:
             target:
-              self_relation: '%{attribute}가 현재 빠띠와 같습니다. 다른 빠띠를 넣어 주세요.'
+              self_relation: '%{attribute}가 현재 채널과 같습니다. 다른 채널을 넣어 주세요.'
         link_source:
           attributes:
             url:
@@ -252,13 +252,13 @@ ko:
     comment_blind_info: 건강하고 유쾌한 빠띠를 만들기 위해 숨겨진 댓글입니다.
     issue:
       form:
-        group_help: 팀과 커뮤니티를 위한 그룹에서 이 빠띠를 오거나이징할 수 있습니다.
-        title: 빠띠 이름
-        title_help: 빠띠를 통해 ‘무엇을 이루려는지’가 잘 드러나는 이름으로 빠띠 이름을 지어보세요.
-        slug: 빠띠 주소
-        slug_help: 빠띠의 인터넷 주소를 만들어 보세요. 영문자와 숫자, -만 넣어주세요. 이미 등록된 주소는 사용할 수 없습니다.
+        group_help: 팀과 커뮤니티를 위한 그룹에서 이 채널을 오거나이징할 수 있습니다.
+        title: 채널 이름
+        title_help: ‘무엇을 이루려는지’가 잘 드러나는 이름으로 이름을 지어보세요.
+        slug: 채널 주소
+        slug_help: 인터넷 주소를 만들어 보세요. 영문자와 숫자, -만 넣어주세요. 이미 등록된 주소는 사용할 수 없습니다.
         body: 설명(선택)
-        body_help: 빠띠를 쉽고 재미있게 설명해보세요.
+        body_help: 이 채널을 쉽고 재미있게 설명해보세요.
         category_id: 주제
         logo: 대표 이미지(선택)
         logo_help: 권장 이미지 사이즈는 가로(800px) * 세로(800px) 입니다.
@@ -268,8 +268,8 @@ ko:
         syp:
           public_join: 함께하기
     group:
-      met_private_issues_quota: 만들 수 있는 비공개 빠띠 갯수를 초과했습니다. 업그레이드해 보세요.
-      met_issues_quota: 만들 수 있는 빠띠 갯수를 초과했습니다. 업그레이드해 보세요.
+      met_private_issues_quota: 만들 수 있는 비공개 채널 개수를 초과했습니다. 업그레이드해 보세요.
+      met_issues_quota: 만들 수 있는 채널 개수를 초과했습니다. 업그레이드해 보세요.
       form:
         slug: 그룹 주소
         head_title: 짧은 이름(선택)
@@ -309,7 +309,7 @@ ko:
         'nothing': 알림 받지 않기
       value_desc:
         'detail': 간략한 알림 사항과 새로운 댓글이 업데이트되면 알림을 받습니다.
-        'compact': 아주 중요한 알림 사항과 내가 가입한 빠띠에 새 게시물이나 토론 정리가 업데이트되면 알림을 받습니다
+        'compact': 아주 중요한 알림 사항과 내가 가입한 채널에 새 게시물이나 토론 정리가 업데이트되면 알림을 받습니다
         'highlight': 나를 멘션하거나 내가 토론 중인 게시물의 알림을 받습니다
         'nothing': 어떤 알림도 받지 않습니다
       value_issue_header:
@@ -325,25 +325,25 @@ ko:
         to_be_decided: 미정
     group_home_component:
       format_name:
-        updated_issues: 최근 업데이트된 빠띠
+        updated_issues: 최근 업데이트된 채널
         all_posts: 전체 게시글
-        issue_posts: 빠띠 게시글
+        issue_posts: 채널 게시글
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지에서 내렸습니다.
     front_wiki: 그룹홈에 게시했습니다.
     destroy_front_wiki: 그룹홈에서 내렸습니다.
     read: 확인했습니다.
-    started_issue_destroying: '빠띠 삭제가 시작되었습니다. 잠시 후에 완료됩니다.'
-    indie_form_select_title: '그룹에 속하지 않는 빠띠'
+    started_issue_destroying: '채널 삭제가 시작되었습니다. 잠시 후에 완료됩니다.'
+    indie_form_select_title: '그룹에 속하지 않는 채널'
     user:
       anonymous: 어느 회원
     group:
       welcome: '그룹에 가입되었습니다'
     issue:
-      welcome: '빠띠에 가입되었습니다'
+      welcome: '채널에 가입되었습니다'
       goodbye: '탈퇴했습니다'
-      requested: '빠띠에 가입요청되었습니다'
+      requested: '채널에 가입요청되었습니다'
     pagination:
       first: "&laquo; 처음"
       last: "마지막 &raquo;"

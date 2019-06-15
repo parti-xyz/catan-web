@@ -4,9 +4,9 @@
   .container
     .contents-header
       %h4.contents-header__title
-        빠띠
+        채널
         %small
-          그룹이 오거나징하는 빠띠입니다.
+          그룹이 오거나징하는 채널입니다.
       - if current_group.categories.any? or @exists_dead_issues
         .parties-filter
           .parties-filter-select.pull-left
@@ -29,8 +29,8 @@
       - else
         .bg-default
           .fa.fa-info-circle
-          해당 빠띠가 없습니다.
+          해당 채널이 없습니다.
           - if current_group.creatable_issue?(current_user)
             = link_to new_issue_path, class: 'text-primary' do
-              빠띠 만들기
+              채널 만들기
               %i.fa.fa-arrow-right

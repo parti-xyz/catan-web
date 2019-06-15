@@ -1,18 +1,18 @@
 %section
   .container
-    %h2.page-header 빠띠삭제
+    %h2.page-header 채널삭제
     .well
       %p
-        %strong.text-danger 빠띠를 삭제합니다. 이 작업은 되돌릴 수 없습니다.
+        %strong.text-danger 채널을 삭제합니다. 이 작업은 되돌릴 수 없습니다.
 
       - form_id = "form-#{SecureRandom.uuid}"
       = form_tag @issue, method: :delete, id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} do
         .form-group
-          = label_tag :message, '멤버에게 빠띠 삭제를 안내해 주세요'
-          = text_area_tag :message, '', class: 'form-control', placeholder: 'ex) 이 빠띠는 이러한 이유로 삭제합니다.', data: { 'rule-required': true }
+          = label_tag :message, '멤버에게 채널 삭제를 안내해 주세요'
+          = text_area_tag :message, '', class: 'form-control', placeholder: 'ex) 이 채널은 이러한 이유로 삭제합니다.', data: { 'rule-required': true }
 
         .form-group
-          = label_tag :message, '삭제하는 이 빠띠의 주소를 한 번 더 넣어주세요'
+          = label_tag :message, '삭제하는 이 채널의 주소를 한 번 더 넣어주세요'
           .input-group
             .input-group-addon<>
               https://

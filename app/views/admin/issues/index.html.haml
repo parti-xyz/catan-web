@@ -1,52 +1,52 @@
-%h4 빠띠 합하기
+%h4 채널 합하기
 = form_tag merge_admin_issues_path, method: :post do
   .form-group
     = text_field_tag :group_slug, nil, class: 'form-control'
-    그룹의 slug. 일반 빠띠 그룹의 slug은 indie입니다.
+    그룹의 slug. 일반 채널 그룹의 slug은 indie입니다.
   .form-group
     = text_field_tag :source_slug, nil, class: 'form-control'
-    slug의 빠띠를 지우고
+    slug의 채널을 지우고
   .form-group
     = text_field_tag :issue_slug, nil, class: 'form-control'
-    slug의 빠띠로 통합합니다.
+    slug의 채널로 통합합니다.
   .form-group
     = submit_tag '합하기', data: { action: 'parti-confirm-merge', source: '#source_slug', target: '#issue_slug', disable_with: "처리 중..." }
 
 %hr
 
-%h4 빠띠 얼리기
+%h4 채널 얼리기
 = form_tag freeze_admin_issues_path, method: :post do
   .form-group
-    %label 빠띠 슬러그
+    %label 채널 슬러그
     = text_field_tag :issue_to_be_freezed, nil, class: 'form-control'
   .form-group
     %label 그룹 슬러그
     = text_field_tag :issue_to_be_freezed_of_group, nil, class: 'form-control'
-    빠띠를 얼립니다.
+    채널을 얼립니다.
   .help-block
-    얼린 빠띠는
+    얼린 채널은
     %br
-    1. 빠띠 목록(찾기, 추천, 관련빠띠 추가, 통합에디터의 빠띠목록)에서 보이지 않습니다. (url 직접입력을 통한 접근은 가능합니다)
+    1. 채널 목록(찾기, 추천, 관련채널 추가, 통합에디터의 채널목록)에서 보이지 않습니다. (url 직접입력을 통한 접근은 가능합니다)
     %br
-    2. 해당 빠띠에 새 글을 올릴 수 없습니다.
+    2. 해당 채널에 새 글을 올릴 수 없습니다.
   .form-group
     = submit_tag '얼리기', data: { confirm: '정말 얼리시겠습니까?', disable_with: "처리 중..." }
 
 %hr
 
-%h4 빠띠 블라인드
+%h4 채널 블라인드
 = form_tag blind_admin_issues_path, method: :put do
   .form-group
-    %label 빠띠 슬러그
+    %label 채널 슬러그
     = text_field_tag :issue_to_be_blind, nil, class: 'form-control'
   .form-group
     %label 그룹 슬러그
     = text_field_tag :issue_to_be_blind_of_group, nil, class: 'form-control'
-    빠띠를 블라인드처리합니다
+    채널을 블라인드처리합니다
   .help-block
-    블라인드처리된 빠띠는
+    블라인드처리된 채널은
     %br
-    빠띠 목록(찾기, 추천, 관련빠띠 추가, 통합에디터의 빠띠목록)에서 보이지 않습니다. (url 직접입력을 통한 접근은 가능합니다)
+    채널 목록(찾기, 추천, 관련채널 추가, 통합에디터의 채널목록)에서 보이지 않습니다. (url 직접입력을 통한 접근은 가능합니다)
   .form-group
     = submit_tag '블라인드', data: { confirm: '정말 블라인드 처리 하시겠습니까?', disable_with: "처리 중..." }
 
@@ -62,10 +62,10 @@
 
 / %hr
 
-/ %h4 빠띠 해동하기
+/ %h4 채널 해동하기
 / = form_tag defrost_admin_issues_path, method: :post do
 /   .form-group
 /     = text_field_tag :issue_to_be_defrosted, nil, class: 'form-control'
-/     빠띠를 해동합니다.
+/     채널을 해동합니다.
 /   .form-group
 /     = submit_tag '해동하기', data: { confirm: '정말 해동하시겠습니까?', disable_with: "처리 중..." }

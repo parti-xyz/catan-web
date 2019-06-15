@@ -13,9 +13,9 @@
       .form-group.row
         .col-xs-7
           = link_to '#updated_issues', class: 'btn btn-default js-tab-btn btn-block', 'data-toggle': :tab do
-            최근 업데이트된 빠띠
+            최근 업데이트된 채널
         .col-xs-5
-          .text-basic-wrap 최근 업데이트된 빠띠 목록을 표시합니다.
+          .text-basic-wrap 최근 업데이트된 채널 목록을 표시합니다.
       .form-group.row
         .col-xs-7
           = link_to '#all_posts', class: 'btn btn-default js-tab-btn btn-block', 'data-toggle': :tab do
@@ -25,9 +25,9 @@
       .form-group.row
         .col-xs-7
           = link_to '#issue_posts', class: 'btn btn-default btn-block js-tab-btn', 'data-toggle': :tab do
-            빠띠 게시글
+            채널 게시글
         .col-xs-5
-          .text-basic-wrap 특정 빠띠의 게시물 목록을 표시합니다.
+          .text-basic-wrap 특정 채널의 게시물 목록을 표시합니다.
 
     .tab-content
       #updated_issues.tab-pane
@@ -35,7 +35,7 @@
         = form_for [:group, GroupHomeComponent.new], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{updated_issues_form_id} input[type=submit]" }, html: { id: updated_issues_form_id } do |f|
           = f.hidden_field :format_name, value: 'updated_issues'
           %p.help-text
-            '최근 업데이트된 빠띠' 포맷을 설정해 주세요.
+            '최근 업데이트된 채널' 포맷을 설정해 주세요.
           %hr
           .form-group
             = f.label :title
@@ -59,7 +59,7 @@
         - issue_posts_form_id = "folder-form-#{SecureRandom.uuid}"
         = form_for [:group, GroupHomeComponent.new], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{issue_posts_form_id} input[type=submit]" }, html: { id: issue_posts_form_id, class: 'js-parti-editor-selector-form' } do |f|
           = f.hidden_field :format_name, value: 'issue_posts'
-          %p.help-text '빠띠 게시글' 포맷을 설정해 주세요.
+          %p.help-text '채널 게시글' 포맷을 설정해 주세요.
           %hr
           .form-group
             = f.label :title
@@ -68,7 +68,7 @@
           = f.fields_for :issue_posts_format do |ff|
             = ff.hidden_field :issue_id, data: { 'rule-required': true }, class: 'validate'
             .form-group
-              = ff.label :issue_id, '빠띠'
+              = ff.label :issue_id, '채널'
               - issue_selector_dom_id = "issue-selector-#{SecureRandom.uuid}"
               = render 'group/group_home_components/issue_selector', dom_id: issue_selector_dom_id
 

@@ -43,11 +43,11 @@
         .checkbox
           %label
             = f.check_box :enable_mailing_member
-            오거나이저인 빠띠에 신규 멤버가 가입한 경우 이메일을 받습니다.
+            오거나이저인 채널에 신규 멤버가 가입한 경우 이메일을 받습니다.
         .checkbox
           %label
             = f.check_box :enable_mailing_summary
-            가입한 빠띠의 소식과 가입된 그룹의 새로 열린 빠띠 소식을
+            가입한 그룹의 소식을
             이메일로 받습니다.
 
       .form-group
@@ -59,13 +59,13 @@
           - if resource.issue_push_notification_preferences.any?
             %span<>
               = link_to '#anchor-issue-push-notification-preferences', class: 'text-primary' do
-                빠띠별 앱 알림 설정
+                채널별 앱 알림 설정
                 #{resource.issue_push_notification_preferences.count}개
             %span<> 가 있습니다.
           - else
             %span<>
               = link_to new_issue_push_notification_preference_path, remote: true, data: { disable_with: '(새 창을 여는 중...)' }, class: 'text-primary' do
-                빠띠별로 앱 알림 설정
+                채널별로 앱 알림 설정
             %span<> 을 해보세요.
       - if resource.provider == 'email'
         %hr
@@ -89,9 +89,9 @@
 
     %a.anchor#anchor-issue-push-notification-preferences
     .user-issue-push-notification-preferences
-      %label 빠띠별 앱 알림 설정
+      %label 채널별 앱 알림 설정
       %br
-      빠띠마다 앱 알림 규칙을 설정합니다.
+      채널마다 앱 알림 규칙을 설정합니다.
       %br
       = link_to new_issue_push_notification_preference_path, remote: true, class: 'btn btn-default', data: { disable_with: '잠시만 기다려 주세요...' }, style: 'margin-top: 6px' do
         새로운 설정 추가 +

@@ -364,7 +364,7 @@ class Post < ApplicationRecord
   end
 
   def meta_tag_title
-    body.present? ? "#{sanitize_html(body).truncate(15)} | #{issue.title} 빠띠" : "#{issue.title} 빠띠"
+    body.present? ? "#{sanitize_html(body).truncate(15)} | #{issue.title} 채널" : "#{issue.title} 채널"
   end
 
   def meta_tag_description

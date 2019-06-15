@@ -25,12 +25,12 @@
 
     - if post.private_blocked?(current_user)
       .post-card__post
-        %strong 비공개 빠띠 게시글입니다.
+        %strong 비공개 채널 게시글입니다.
         - unless user_signed_in?
           = link_to '로그인하기', '#', data: {toggle: 'parti-login-overlay' }, class: 'btn btn-xs btn-primary'
         - if post.issue.member_requested? current_user
           %br
-          비공개 빠띠를 보시려면 먼저 가입승인 받아야합니다.
+          비공개 채널을 보시려면 먼저 가입승인 받아야합니다.
           %span
             %strong<> 오거나이저의 가입승인
             을 기다려주세요.
@@ -56,7 +56,7 @@
 
         = render 'posts/post_line', local_assigns
 
-      - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || "빠띠"}" }
+      - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || "채널"}" }
       - share_partial = capture do
         = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-image': "#{post.meta_tag_image}" }.merge(share_content)
       .post-card__footer.clearfix

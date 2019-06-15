@@ -46,9 +46,9 @@
 
       %small.hidden-xs
         - if current_dashboard_group.present?
-          #{group_only_basic_title(current_dashboard_group)}에서 오거나이징하는 내 빠띠 최신 소식입니다.
+          #{group_only_basic_title(current_dashboard_group)}에서 오거나이징하는 내 채널 최신 소식입니다.
         - else
-          내가 가입한 빠띠와 그룹의 최근 소식입니다.
+          내가 가입한 채널과 그룹의 최근 소식입니다.
 
   #content-tab-section.content-tab-section-my-home{ class: ('content-tab-section-my-home-with-count-label' if current_user.unread_pinned_posts(current_dashboard_group).any? or current_user.cached_important_not_mention_messages_count(current_dashboard_group) > 0 or current_user.cached_important_mention_messages_count > 0) }
     %div.hidden-sm.visible-xs-block{ style: "height: 40px; width: 3rem; position: absolute; right: 0; top: -10px; z-index: 1;" }

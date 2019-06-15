@@ -2,10 +2,10 @@
   .parties-all
     = link_to issues_path do
       %h4.group-heading
-        #{local_assigns[:title] || "최근 업데이트된 빠띠"}
+        #{local_assigns[:title] || "최근 업데이트된 채널"}
         - if @hot_issues.count != @issues.count
           %small.text-nowrap
-            모든 #{number_with_delimiter @issues.count}개 빠띠 보기
+            모든 #{number_with_delimiter @issues.count}개 채널 보기
             %i.fa.fa-angle-double-right
     .parties-all-list.clearfix
       .row.slick-slider.slick-slider-catan{ data: { 'slick-slider-lg': 4, 'slick-slider-md': 4, 'slick-slider-xs': 2 } }

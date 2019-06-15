@@ -9,7 +9,7 @@ class Admin::IssuesController < Admin::BaseController
     source = Issue.find_by slug: params[:source_slug], group_slug: group.slug
     target = Issue.find_by slug: params[:issue_slug], group_slug: group.slug
     if source.blank? or target.blank?
-      flash[:error] = '빠띠를 찾을 수 없습니다. 혹시 다른 그룹의 빠띠인가요?'
+      flash[:error] = '채널을 찾을 수 없습니다. 혹시 다른 그룹의 채널인가요?'
       redirect_to admin_issues_path and return
     end
 
@@ -105,7 +105,7 @@ class Admin::IssuesController < Admin::BaseController
   def freeze
     issue = Issue.of_slug(params[:issue_to_be_freezed], params[:issue_to_be_freezed_of_group])
     if issue.blank?
-      flash[:error] = '빠띠를 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
+      flash[:error] = '채널을 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_issues_path and return
     end
     issue.freezed_at = DateTime.now
@@ -122,7 +122,7 @@ class Admin::IssuesController < Admin::BaseController
   def blind
     issue = Issue.of_slug(params[:issue_to_be_blind], params[:issue_to_be_blind_of_group])
     if issue.blank?
-      flash[:error] = '빠띠를 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
+      flash[:error] = '채널을 찾을 수 없습니다. 정확한 slug를 입력해주세요.'
       redirect_to admin_issues_path and return
     end
     issue.blinded_at = DateTime.now
@@ -140,7 +140,7 @@ class Admin::IssuesController < Admin::BaseController
   def unblind
     issue = Issue.find_by(id: params[:id])
     if issue.blank?
-      flash[:error] = '빠띠를 찾을 수 없습니다.'
+      flash[:error] = '채널을 찾을 수 없습니다.'
       redirect_to admin_issues_path and return
     end
     issue.blinded_at = nil

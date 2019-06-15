@@ -110,15 +110,15 @@ class Group < ApplicationRecord
   scoped_search on: [:title, :slug, :site_title, :head_title]
 
   def title_share_format
-    indie? ? nil : "#{title} 빠띠"
+    indie? ? nil : "#{title} 채널"
   end
 
   def title_basic_format
-    indie? ? "빠띠" : "#{title} 그룹"
+    "#{title} 그룹"
   end
 
   def title_short_format
-    indie? ? "빠띠" : title
+    title
   end
 
   def private_blocked?(someone = nil)

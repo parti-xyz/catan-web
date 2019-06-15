@@ -32,7 +32,7 @@
                   %li
                     = link_to smart_issue_folders_path(@issue, edit: 1), class: 'text-nowrap' do
                       폴더 관리
-              %small 빠띠의 모든 폴더입니다.
+              %small 채널의 모든 폴더입니다.
           - unless @folders.blank?
             %ul.list-unstyled.threaded-folders.threaded-folders-margined
               - Folder.threaded(@folders).each do |parent_folder, child_folders|

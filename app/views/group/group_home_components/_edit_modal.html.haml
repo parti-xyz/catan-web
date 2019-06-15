@@ -10,7 +10,7 @@
       - updated_issues_form_id = "folder-form-#{SecureRandom.uuid}"
       = form_for [:group, @group_home_component], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{updated_issues_form_id} input[type=submit]" }, html: { id: updated_issues_form_id } do |f|
         = f.hidden_field :format_name, value: 'updated_issues'
-        %p.help-text #{@group_home_component.seq_no}번 '최근 업데이트된 빠띠' 포맷 설정을 수정합니다.
+        %p.help-text #{@group_home_component.seq_no}번 '최근 업데이트된 채널' 포맷 설정을 수정합니다.
         %hr
         .form-group
           = f.label :title
@@ -35,7 +35,7 @@
         - issue_posts_form_id = "folder-form-#{SecureRandom.uuid}"
         = form_for [:group, @group_home_component], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{issue_posts_form_id} input[type=submit]" }, html: { id: issue_posts_form_id, class: 'js-parti-editor-selector-form' } do |f|
           = f.hidden_field :format_name, value: 'issue_posts'
-          %p.help-text #{@group_home_component.seq_no}번 '빠띠 게시글' 포맷 설정을 수정합니다.
+          %p.help-text #{@group_home_component.seq_no}번 '채널 게시글' 포맷 설정을 수정합니다.
           %hr
           .form-group
             = f.label :title
@@ -43,7 +43,7 @@
           = f.fields_for :issue_posts_format do |ff|
             = ff.hidden_field :issue_id, data: { 'rule-required': true }, class: 'validate'
             .form-group
-              = ff.label :issue_id, '빠띠'
+              = ff.label :issue_id, '채널'
               - issue_selector_dom_id = "issue-selector-#{SecureRandom.uuid}"
               = render 'group/group_home_components/issue_selector', dom_id: issue_selector_dom_id, selected_issue_id: ff.object.issue_id
 

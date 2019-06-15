@@ -1,5 +1,5 @@
 namespace :member do
-  desc "그룹의 빠띠 멤버 중에 해당 그룹의 멤버가 아닌 경우, 해당 그룹에 가입시킵니다"
+  desc "그룹의 멤버 중에 해당 그룹의 멤버가 아닌 경우, 해당 그룹에 가입시킵니다"
   task :straggler => :environment do
     Group.but(Group.indie).map do |group|
       puts "==> Group : #{group.title} #{group.slug}"
@@ -18,7 +18,7 @@ namespace :member do
     end
   end
 
-  desc "공개그룹의 빠띠 멤버 중에 해당 개별의 멤버가 아닌 경우를 찾아 봅니다"
+  desc "공개그룹의 멤버 중에 해당 개별의 멤버가 아닌 경우를 찾아 봅니다"
   task :zombie => :environment do
     Member.deleted.where(joinable_type: Issue).each do |member|
       user = User.find_by(id: member.user_id)

@@ -30,84 +30,84 @@
     %hr{ style: "border-color: white;" }
     %br
     .form-group.clearfix
-      %label 주제 별 빠띠 1
+      %label 주제 별 채널 1
       .row
         .col-md-3
           = text_field_tag :subject1_title, @sections[:subject1].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요.'
         .col-md-9
-          = text_field_tag :subject1, @sections[:subject1].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject1, @sections[:subject1].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 2
+      %label 주제 별 채널 2
       .row
         .col-md-3
           = text_field_tag :subject2_title, @sections[:subject2].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject2, @sections[:subject2].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject2, @sections[:subject2].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 3
+      %label 주제 별 채널 3
       .row
         .col-md-3
           = text_field_tag :subject3_title, @sections[:subject3].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject3, @sections[:subject3].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject3, @sections[:subject3].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 4
+      %label 주제 별 채널 4
       .row
         .col-md-3
           = text_field_tag :subject4_title, @sections[:subject4].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject4, @sections[:subject4].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject4, @sections[:subject4].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 5
+      %label 주제 별 채널 5
       .row
         .col-md-3
           = text_field_tag :subject5_title, @sections[:subject5].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject5, @sections[:subject5].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject5, @sections[:subject5].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 6
+      %label 주제 별 채널 6
       .row
         .col-md-3
           = text_field_tag :subject6_title, @sections[:subject6].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject6, @sections[:subject6].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject6, @sections[:subject6].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 7
+      %label 주제 별 채널 7
       .row
         .col-md-3
           = text_field_tag :subject7_title, @sections[:subject7].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject7, @sections[:subject7].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject7, @sections[:subject7].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 8
+      %label 주제 별 채널 8
       .row
         .col-md-3
           = text_field_tag :subject8_title, @sections[:subject8].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject8, @sections[:subject8].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject8, @sections[:subject8].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 9
+      %label 주제 별 채널 9
       .row
         .col-md-3
           = text_field_tag :subject9_title, @sections[:subject9].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject9, @sections[:subject9].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject9, @sections[:subject9].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
     .form-group.clearfix
-      %label 주제 별 빠띠 10
+      %label 주제 별 채널 10
       .row
         .col-md-3
           = text_field_tag :subject10_title, @sections[:subject10].try(:title), class: 'form-control', placeholder: '주제 이름을 써주세요. ex) 일'
         .col-md-9
-          = text_field_tag :subject10, @sections[:subject10].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 빠띠의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 빠띠 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
+          = text_field_tag :subject10, @sections[:subject10].try(:body_in_form), class: 'form-control', placeholder: '그룹 slug + "/" + 개별 채널의 slug을 써주세요. 그룹 slug과 "/" 없이 개별 채널 slug만 쓰면 개인커뮤니티가 됩니다 ex) remote-worker, zero-waste/talk'
 
 
     .form-group.clearfix

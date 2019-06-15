@@ -383,7 +383,7 @@ module ApplicationHelper
       end
       concat(content_tag :span, issue.title, class: issue_classes)
 
-      i_icon = meta_icons(issue, (['star', '오거나징하는 빠띠'] if self.respond_to?(:user_signed_in?) and user_signed_in? and issue.organized_by?(current_user)))
+      i_icon = meta_icons(issue, (['star', '오거나징하는 채널'] if self.respond_to?(:user_signed_in?) and user_signed_in? and issue.organized_by?(current_user)))
       if i_icon.present?
         concat raw('&nbsp;')
         concat i_icon

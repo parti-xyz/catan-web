@@ -61,11 +61,11 @@
             %h4.group-heading #{current_group.title} 그룹에 오신 것을 환영합니다.
           .bg-default
             - if current_group.creatable_issue?(current_user)
-              %p 가장 먼저 빠띠를 개설해 보세요.
+              %p 가장 먼저 채널을 개설해 보세요.
 
               .fa.fa-info-circle
               = link_to new_issue_path, class: 'text-primary' do
-                빠띠 만들기
+                채널 만들기
                 %i.fa.fa-arrow-right
             - else
               %p

@@ -35,7 +35,7 @@ class PartiMailer < ApplicationMailer
     return if @user.blank? or @issue.blank? or @organizer.blank?
 
     mail(to: @user.email,
-         subject: "[빠띠] #{@organizer.nickname}님이 #{@issue.title} 빠띠를 열었습니다.")
+         subject: "[빠띠] #{@organizer.nickname}님이 #{@issue.title} 채널을 열었습니다.")
   end
 
   def on_destroy(organizer_id, user_id, issue_id, message)
@@ -50,6 +50,6 @@ class PartiMailer < ApplicationMailer
     @message = message
 
     mail(to: @user.email,
-         subject: "[빠띠] #{@organizer.nickname}님이 #{@issue.title} 빠띠를 닫습니다.")
+         subject: "[빠띠] #{@organizer.nickname}님이 #{@issue.title} 채널을 닫습니다.")
   end
 end
