@@ -43,5 +43,3 @@
           .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': hashtag_path(format: :js, hashtag: @hashtag)}
             .page-waypoint-loading.js-page-waypoint-loading
               %i.fa.fa-2x.fa-spinner.fa-pulse
-      - unless is_small_screen?
-        = render 'application/aside'

@@ -34,11 +34,11 @@
               %i.fa.fa-info-circle
               해당 위키가 없습니다.
         = paginate @posts, theme: 'catan'
-      - unless is_small_screen?
-        - if @issue.folders.any?
-          = render 'wikis/aside'
-        - else
-          = render 'issues/aside'
+      -# - unless is_small_screen?
+      -#   - if @issue.folders.any?
+      -#     = render 'wikis/aside'
+      -#   - else
+      -#     = render 'issues/aside'
 
 
 = render 'issues/bottom_banner', issue: @issue

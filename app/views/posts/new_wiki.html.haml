@@ -23,8 +23,4 @@
             =  render 'posts/wiki_form', f: f
             %div{ style: 'margin-top: 12px' }
               = controls
-      - unless is_small_screen?
-        - if @post.issue.present?
-          = render 'issues/aside'
-        - else
-          = render 'application/aside'
+

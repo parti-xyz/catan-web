@@ -16,5 +16,3 @@
                 - my_menu_control = capture do
                   = render 'issues/my_menu_button', issue: issue
                 = render 'issues/issue_line', issue: issue, right_block: my_menu_control
-      - unless is_small_screen?
-        = render 'application/aside'

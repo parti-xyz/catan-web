@@ -14,5 +14,3 @@
           = render 'members/members_page', members: @members, issue: @post.issue
         = paginate @members, theme: 'catan', params: { controller: 'posts', action: 'unreaders' }
 
-      - unless is_small_screen?
-        = render 'issues/aside'
