@@ -294,8 +294,8 @@ class Issue < ApplicationRecord
     (!member?(someone) && private?) or (self.group.private_blocked?(someone))
   end
 
-  def host_group?(host_group)
-    host_group&.slug == self.group_slug
+  def host_group?(current_group)
+    current_group&.slug == self.group_slug
   end
 
   def fallbackable_organizer_member_users

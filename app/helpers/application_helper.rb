@@ -195,7 +195,7 @@ module ApplicationHelper
   end
 
   def issue_link_target_name(issue)
-    '_blank' unless issue.host_group?(host_group)
+    '_blank' unless issue.host_group?(current_group)
   end
 
   def sort_issues_by_title(issues)
@@ -296,20 +296,20 @@ module ApplicationHelper
   end
 
   def render_group_only_exist(path)
-    return if host_group.blank? and path.blank?
+    return if current_group.blank? and path.blank?
 
     subpath = to_subpath(path)
     if exists_group_partial?(subpath)
-      render "group_views/#{host_group.slug}#{subpath}"
+      render "group_views/#{current_group.slug}#{subpath}"
     end
   end
 
   def render_group(path, options = {})
-    return if host_group.blank? and path.blank?
+    return if current_group.blank? and path.blank?
 
     subpath = to_subpath(path)
     if exists_group_partial?(subpath)
-      render "group_views/#{host_group.slug}#{subpath}", options
+      render "group_views/#{current_group.slug}#{subpath}", options
     else
       render path, options
     end
@@ -329,8 +329,8 @@ module ApplicationHelper
   end
 
   def exists_group_partial?(path)
-    return false if host_group.blank?
-    lookup_context.exists?("group_views/#{host_group.slug}/#{partial_lookup_path(path)}")
+    return false if current_group.blank?
+    lookup_context.exists?("group_views/#{current_group.slug}/#{partial_lookup_path(path)}")
   end
 
   def main_column_tag(*additional_classes)
@@ -351,7 +351,7 @@ module ApplicationHelper
   end
 
   def issue_tag(issue, show_group: true, group_classes: nil, divider_classes: nil, group_short: false, issue_classes: nil)
-    show_group = (show_group and !issue.host_group?(host_group))
+    show_group = (show_group and !issue.host_group?(current_group))
     issue_tag_ignored_current_group(issue, show_group: show_group, group_classes: group_classes, divider_classes: divider_classes, group_short: group_short, issue_classes: issue_classes)
   end
 

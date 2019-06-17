@@ -2,7 +2,7 @@
 = link_to smart_issue_home_path_or_url(issue) do
   .issue-card.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_issue_home_path_or_url(issue), class: ('rookie' if issue.rookie?) }
     .issue-card__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
-      - unless issue.host_group?(host_group)
+      - unless issue.host_group?(current_group)
         .issue-card__group
           = issue.group.head_title
       - if !issue.private_blocked?(current_user) && !issue.member?(current_user)

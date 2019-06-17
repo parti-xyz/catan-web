@@ -2,8 +2,8 @@
   .container-fluid.clearfix
     .navbar-header.navbar-header-center
       %a.navbar-brand{ href: root_path }
-        #{host_group.site_title}
-        = meta_icons(host_group)
+        #{current_group.site_title}
+        = meta_icons(current_group)
     #collapsable.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-left
         %li.my-menu
@@ -11,7 +11,7 @@
             %i.fa.fa-bars{style:"font-size:18px;"}
             내 메뉴
         %li.my-home-menu
-          = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and host_group.nil?) or current_page?('/dashboard')}" do
+          = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard')}" do
             %i.fa.fa-home{style:"font-size: 18px;"}
             내 홈
         - if user_signed_in?
@@ -39,8 +39,8 @@
       %ul.nav.navbar-nav.navbar-right
         %li.search-menu
           = form_tag search_url(subdomain: nil), method: :get, class: 'form-inline' do
-            - if host_group.present?
-              = hidden_field_tag :group_slug, host_group.slug
+            - if current_group.present?
+              = hidden_field_tag :group_slug, current_group.slug
             .form-group.form-group-q
               %input.form-control.form-control-q{ name: "nav_q", value: params[:nav_q], placeholder: "무엇에 관심있으세요?", type: "search" }
               %span.btn-wrapper
