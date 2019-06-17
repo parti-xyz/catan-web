@@ -5,7 +5,7 @@ issue1:
 issue2:
   title: issue2
   slug: issue2
-  group_slug: indie
+  group_slug: open_square
 issue3:
   title: issue3
   slug: issue3
@@ -13,19 +13,19 @@ issue3:
 issue4:
   title: issue4
   slug: issue4
-  group_slug: indie
+  group_slug: open_square
 merge_target_issue:
   title: merge_target_issue
   slug: merge_target_issue
-  group_slug: indie
+  group_slug: open_square
 merge_source_issue:
   title: merge_source_issue
   slug: merge_source_issue
-  group_slug: indie
+  group_slug: open_square
 private_issue:
   title: private_issue
   slug: private_issue
-  group_slug: indie
+  group_slug: open_square
   private: true
 parti:
   title: 빠띠만든당
@@ -35,7 +35,7 @@ notice:
   title: 공지
   slug: notice
   notice_only: true
-  group_slug: indie
+  group_slug: open_square
 default_of_private_group:
   title: 기본
   slug: default_of_private_group
@@ -44,11 +44,11 @@ default_of_private_group:
 frozen_private_parti:
   title: 휴면비공빠띠
   slug: frozen_private
-  group_slug: indie
+  group_slug: open_square
   freezed_at: <%= 5.day.ago.to_s(:db) %>
   private: true
 frozen_parti:
   title: 휴면빠띠
   slug: frozen
-  group_slug: indie
+  group_slug: open_square
   freezed_at: <%= 5.day.ago.to_s(:db) %>

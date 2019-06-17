@@ -57,6 +57,7 @@ body.app-pages-about {
     margin-right: 10%;
     width: 60%;
     @media (max-width: 420px) {
+      margin: 0;
       width: 100%;
     }
   }

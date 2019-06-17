@@ -29,7 +29,7 @@ class MemberIssueService
         @issue.member_requests.where(user: @member.user).try(:destroy_all)
         @user.update_attributes(member_issues_changed_at: DateTime.now)
       end
-      if !@issue.group.indie? and !@issue.group.member?(@user)
+      if !@issue.group.member?(@user)
         MemberGroupService.new(group: @issue.group, user: @user).call
       end
     end

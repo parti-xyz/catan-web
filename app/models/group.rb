@@ -30,6 +30,7 @@ class Group < ApplicationRecord
   enumerize :plan, in: [:premium, :lite, :trial], predicates: true, scope: true
   enumerize :issue_creation_privileges, in: [:member, :organizer], predicates: true, scope: true
   SLUG_OF_UNION = 'union'
+  DEFAULT_SLUG = 'open'
 
   belongs_to :user, optional: true
   has_many :invitations, as: :joinable, dependent: :destroy
@@ -45,12 +46,13 @@ class Group < ApplicationRecord
   has_many :issues, dependent: :restrict_with_error, primary_key: :slug, foreign_key: :group_slug
   has_many :categories, dependent: :destroy, foreign_key: :group_slug, primary_key: :slug
   has_many :group_home_components, dependent: :destroy
+  has_many :group_push_notification_preferences, dependent: :destroy
   belongs_to :front_wiki_post, class_name: 'Post', optional: true
   belongs_to :front_wiki_post_by, class_name: 'User', optional: true
   belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
 
-  scope :sort_by_name, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
-  scope :hottest, -> { order(Arel.sql("case when slug = 'indie' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
+  scope :sort_by_name, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
+  scope :hottest, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :but, ->(group) { where.not(id: group) }
   scope :not_private_blocked, ->(current_user) {
     where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
@@ -58,18 +60,15 @@ class Group < ApplicationRecord
   }
   scope :memberable_and_unfamiliar, ->(current_user) {
     where.not(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
-    .where.not(private: true).where.not(slug: 'indie').where('issues_count > 0')
+    .where.not(private: true).where('issues_count > 0')
   }
+  scope :only_public, -> { where.not(private: true) }
   scope :searchable_groups, ->(current_user = nil) {
-    public_group = where.not(private: true)
-    indie_group = where(slug: 'indie')
     if current_user.present?
-      public_group
-        .or(indie_group)
+      only_public
         .or(where(id: current_user.member_groups))
     else
-      public_group
-        .or(indie_group)
+      only_public
     end
   }
   mount_uploader :key_visual_foreground_image, ImageUploader
@@ -110,7 +109,7 @@ class Group < ApplicationRecord
   scoped_search on: [:title, :slug, :site_title, :head_title]
 
   def title_share_format
-    indie? ? nil : "#{title} 채널"
+    "#{title} | 빠띠"
   end
 
   def title_basic_format
@@ -145,14 +144,6 @@ class Group < ApplicationRecord
     members.find_by(user: someone)
   end
 
-  def form_select_title
-    if indie?
-      I18n.t('views.indie_form_select_title')
-    else
-      head_title
-    end
-  end
-
   def head_title
     (read_attribute(:head_title).presence || read_attribute(:title).presence || "")[0...10]
   end
@@ -174,11 +165,11 @@ class Group < ApplicationRecord
   end
 
   def subdomain
-    indie? ? nil : self.slug
+    self.slug
   end
 
-  def indie?
-    self.slug == 'indie'
+  def open_square?
+    self.slug == Group::DEFAULT_SLUG
   end
 
   def out_of_member_users member_users
@@ -194,7 +185,7 @@ class Group < ApplicationRecord
   end
 
   def is_light_theme?
-    %(indie).include?(self.slug)
+    false
   end
 
   def comprehensive_joined_users
@@ -215,12 +206,13 @@ class Group < ApplicationRecord
     exists? slug: slug
   end
 
-  def self.default_slug(current_group)
-    current_group.try(:slug) || (current_group if current_group.is_a?(String)) || 'indie'
+  def self.slug_fallback(current_group)
+    current_group.try(:slug) || (current_group if current_group.is_a?(String)) || Group::DEFAULT_SLUG
   end
 
-  def self.indie
-    find_by(slug: 'indie')
+  def self.open_square
+    @__open_square ||= find_by(slug: 'open')
+    @__open_square
   end
 
   def pinned_posts(someone)
@@ -289,7 +281,7 @@ class Group < ApplicationRecord
   end
 
   def has_issues_quota?
-    return false if indie?
+    return false if open_square?
     plan == :lite
   end
 
@@ -309,7 +301,7 @@ class Group < ApplicationRecord
   end
 
   def creatable_issue?(someone)
-    return true if self.indie?
+    return true if self.open_square?
     return self.member?(someone) if self.issue_creation_privileges.member?
     return self.organized_by?(someone) if self.issue_creation_privileges.organizer?
     false
@@ -324,6 +316,10 @@ class Group < ApplicationRecord
         group_home_component.save!
       end
     end
+  end
+
+  def issue_create_messagable_users
+    member_users.where(id: GroupPushNotificationPreference.where(group: self).select(:user_id))
   end
 
   private

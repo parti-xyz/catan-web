@@ -47,7 +47,7 @@
         .help-block.text-basic-wrap
           내가 만드는 채널과 함께 할 사람들을 골라 보세요.
 
-        - groups = [Group.indie] + current_user.member_groups.sort_by_name
+        - groups = current_user.member_groups.sort_by_name
         = f.select :group_slug, {}, {}, class: 'js-select-picker select-picker-full-dropdown-menu dropdown', data: { 'dropup-auto': 'false', width: '100%' } do
           - groups.each do |group|
             - next unless group.creatable_issue?(current_user)
@@ -56,16 +56,11 @@
                 .group-option-title.text-primary{ style: 'font-weight: bold' }
                   = group.title
                   %span.text-muted.text-nowrap{ style: 'font-weight: normal' }
-                    - unless group.indie?
-                      멤버 #{group.members.count}명
-                      &middot
+                    멤버 #{group.members.count}명
+                    &middot
                     채널 #{group.issues.count}개
                 .group-option-desc.text-muted
-                  - if group.indie?
-                    사람들과 나누고 싶은 나만의 관심사가 있습니까?
-                    채널을 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
-                  - else
-                    = group.site_description
+                  = group.site_description
             %option{ value: group.slug, 'data-content': h(group_content.to_str), 'data-tokens': ' ' }<>
               = group.title
 
@@ -99,11 +94,7 @@
         .group-option-title.text-primary{ style: 'font-weight: bold' }
           = current_group.title
         .text-muted{ style: 'font-weight: normal' }
-          - if current_group.indie?
-            사람들과 나누고 싶은 나만의 관심사가 있습니까?
-            채널을 개설해서 비슷한 관심을 가진 사람들을 모으고 이야기를 시작하세요.
-          - else
-            = current_group.site_description
+          = current_group.site_description
 
     .form-group{class: error_class_str(@issue, :title)}
       = f.label :title, t("labels.issue.form.groups.#{host_group.slug}.title", cascade: true)
@@ -227,7 +218,7 @@
               = f.check_box :notice_only
               이 채널은 오거나이저만 게시할 수 있습니다.
 
-        - if !host_group.indie? and (current_user.is_organizer?(@issue.group || host_group) or current_user.admin?)
+        - if (current_user.is_organizer?(@issue.group || host_group) or current_user.admin?)
           .form-group{class: ('has-error' if has_error_attr?(@issue, :is_default))}
             = f.label :is_default
             .checkbox
@@ -239,7 +230,7 @@
           .form-group{class: ('has-error' if has_error_attr?(@issue, :group_slug))}
             = f.label :group_slug
             = f.text_field :group_slug, class: 'form-control'
-            %p.help-block 이 채널이 속할 그룹의 slug을 기입하세요. 이슈와 관심사 채널일 경우 'indie'를 넣어 주세요.
+            %p.help-block 이 채널이 속할 그룹의 slug을 기입하세요. 열린 광장 그룹의 채널일 경우 '#{Group::DEFAULT_SLUG}'를 넣어 주세요.
 
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }

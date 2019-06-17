@@ -186,7 +186,7 @@ section.intro-page {
 }
 
 @media (max-width: $screen-xs-max) {
-  #content-tab-section.content-tab-section-my-home {
+  .content-tab-section.content-tab-section-my-home {
     overflow-y: scroll;
   }
 }
@@ -209,7 +209,7 @@ section.intro-page {
   }
 }
 
-#content-tab-section > .my-home-tabs {
+.content-tab-section > .my-home-tabs {
   @media (max-width: $screen-xs-max) {
     margin-left: 0;
     margin-right: 0;

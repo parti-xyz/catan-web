@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_01_200705) do
+ActiveRecord::Schema.define(version: 2019_06_16_195014) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -197,6 +197,14 @@ ActiveRecord::Schema.define(version: 2019_06_01_200705) do
     t.string "format_name", null: false
     t.integer "seq_no", null: false
     t.index ["group_id"], name: "index_group_home_components_on_group_id"
+  end
+
+  create_table "group_push_notification_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.index ["group_id"], name: "index_group_push_notification_preferences_on_group_id"
+    t.index ["user_id", "group_id"], name: "group_push_notification_preferences_uk", unique: true
+    t.index ["user_id"], name: "index_group_push_notification_preferences_on_user_id"
   end
 
   create_table "groups", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

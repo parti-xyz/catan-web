@@ -5,8 +5,8 @@ gwanju:
   site_title: '광주'
   head_title: '광주'
   plan: lite
-indie:
-  slug: indie
+open_square:
+  slug: open
   user: admin
   title: '일반'
   site_title: '일반'

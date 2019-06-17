@@ -8,7 +8,7 @@
         = Wiki.model_name.human
         %small 이 그룹의 위키입니다.
       .posts-filter-select
-        #content-tab-section
+        .content-tab-section
           %ul.nav.nav-tabs.nav-tabs-content-heading
             %li{ class: "#{('active' if params['status'] == 'active'  or params['status'].nil?)}" }
               = link_to '게시 중', {status: 'active'}

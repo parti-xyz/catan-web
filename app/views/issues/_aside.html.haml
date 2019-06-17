@@ -33,16 +33,6 @@
               = button_tag class: 'btn btn-link btn-xs' do
                 %i.fa.fa-search.text-muted
 
-
-    - unless issue.indie_group?
-      %section.aside-relate-issues
-        %h5.aside-title= issue.group.title_basic_format
-        %ul.list-unstyled.aside-issues
-          - Issue.only_alive_of_group(issue.group).sort_by_name.each do |issue|
-            - next if issue.private_blocked?(current_user)
-            = render customize_partial_path(issue, 'issue_line')
-
-
     - if issue.related_issues.present? or can? :update, issue
       %section.aside-relate-issues
         %h5.aside-title

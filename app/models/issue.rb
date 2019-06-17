@@ -53,7 +53,6 @@ class Issue < ApplicationRecord
   has_many :invitations, as: :joinable, dependent: :destroy
   belongs_to :destroyer, class_name: "User", optional: true
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug, counter_cache: true
-  has_many :my_menus, dependent: :destroy
   has_many :active_issue_stats, dependent: :destroy
   has_many :folders, dependent: :destroy
   belongs_to :category, optional: true
@@ -104,9 +103,9 @@ class Issue < ApplicationRecord
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
   scope :categorized_with, ->(category) { where(category_id: category.try(:id) || category) }
-  scope :of_group, ->(group) { where(group_slug: Group.default_slug(group)) }
-  scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.default_slug(group)) }
-  scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.default_slug(group)) if group.present? }
+  scope :of_group, ->(group) { where(group_slug: Group.slug_fallback(group)) }
+  scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.slug_fallback(group)) }
+  scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) if group.present? }
   scope :not_private_blocked, ->(current_user) {
     never_blinded.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
     .or(where.not(private: true))
@@ -115,42 +114,34 @@ class Issue < ApplicationRecord
                                              .where.not('issues.private': true) }
   scope :notice_only, -> { where(notice_only: true) }
   scope :only_public_hottest, ->(count){
-    where(group_slug: Group.where.not(private: true).select(:slug))
-      .or(where(group_slug: 'indie'))
+    where(group_slug: Group.only_public.select(:slug))
     .alive.never_blinded
     .where.not(private: true)
     .hottest
     .limit(count)
   }
   scope :searchable_issues, ->(current_user = nil) {
-    public_group_public_issues = never_blinded.where(group_slug: Group.where.not(private: true).select(:slug))
-      .where.not(private: true).or(where(listable_even_private: true))
-    indie_public_issues = never_blinded.where(group_slug: 'indie')
+    public_group_public_issues = never_blinded.where(group_slug: Group.only_public.select(:slug))
       .where.not(private: true).or(where(listable_even_private: true))
     if current_user.present?
       public_group_public_issues
-        .or(indie_public_issues)
         .or(where(id: current_user.member_issues.select("members.joinable_id")))
     else
-      public_group_public_issues.or(indie_public_issues)
+      public_group_public_issues
     end
   }
   scope :post_searchable_issues, ->(current_user = nil) {
-    public_group_public_issues = never_blinded.where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
-    indie_public_issues = never_blinded.where(group_slug: 'indie').where.not(private: true)
+    public_group_public_issues = never_blinded.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
     if current_user.present?
       public_group_public_issues
-        .or(indie_public_issues)
         .or(where(id: current_user.member_issues.select("members.joinable_id")))
     else
       public_group_public_issues
-        .or(indie_public_issues)
     end
   }
   scope :undiscovered_issues, ->(current_user = nil) {
-    public_group_public_issues = never_blinded.where(group_slug: Group.where.not(private: true).select(:slug)).where.not(private: true)
-    indie_public_issues = never_blinded.where(group_slug: 'indie').where.not(private: true)
-    conditions = public_group_public_issues.or(indie_public_issues)
+    public_group_public_issues = never_blinded.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
+    conditions = public_group_public_issues
     if current_user.present?
       conditions = conditions.where.not(id: current_user.member_issues.select("members.joinable_id"))
     end
@@ -161,9 +152,6 @@ class Issue < ApplicationRecord
   }
   scope :joined_issues, ->(current_user) {
     where(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
-  }
-  scope :only_my_menu, ->(someone) {
-    where(id: MyMenu.where(user: someone).select(:issue_id))
   }
   scope :only_private, -> { where(private: true) }
   scope :not_private, -> { where(private: false) }
@@ -259,10 +247,6 @@ class Issue < ApplicationRecord
     group.subdomain
   end
 
-  def indie_group?
-    group.indie?
-  end
-
   def postable? someone
     return false if blind_user?(someone)
     return false if private_blocked?(someone)
@@ -287,7 +271,7 @@ class Issue < ApplicationRecord
   end
 
   def self.of_slug(slug, group_slug = nil)
-    self.find_by(slug: slug, group_slug: Group.default_slug(group_slug))
+    self.find_by(slug: slug, group_slug: Group.slug_fallback(group_slug))
   end
 
   def self.most_used_tags(limit)
@@ -310,12 +294,8 @@ class Issue < ApplicationRecord
     (!member?(someone) && private?) or (self.group.private_blocked?(someone))
   end
 
-  def displayable_group?(current_group)
-    if self.group.indie?
-      current_group.blank?
-    else
-      current_group == self.group
-    end
+  def host_group?(host_group)
+    host_group&.slug == self.group_slug
   end
 
   def fallbackable_organizer_member_users
@@ -379,7 +359,6 @@ class Issue < ApplicationRecord
   end
 
   def movable_to_group? target_group
-    return true if target_group.indie?
     member_users.each do |user|
       return false if !target_group.member?(user)
     end
@@ -403,36 +382,15 @@ class Issue < ApplicationRecord
   end
 
   def compact_messagable_users
-    User.where(id: IssuePushNotificationPreference.where(issue: self).compact_messagables.select(:user_id))
+    self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).compact_messagables.select(:user_id))
   end
 
   def detail_messagable_users
-    User.where(id: IssuePushNotificationPreference.where(issue: self).detail_messagables.select(:user_id))
+    self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).detail_messagables.select(:user_id))
   end
 
   def self.messagable_group_method
     :of_group
-  end
-
-  def self.classify_for_drawer(someone, issues)
-    magic_count = 2
-
-    if issues.count < magic_count * 2
-      return [issues, []]
-    end
-
-    visible_issues = issues.only_my_menu(someone).to_a
-    if visible_issues.count < magic_count
-      recent_joined_issues = issues.where(id: someone.issue_members.past_week.recent.limit(magic_count).to_a)
-      visible_issues = visible_issues + recent_joined_issues.to_a
-    end
-    if visible_issues.count < magic_count
-      hot_issues = issues.hottest.limit(magic_count)
-      visible_issues = visible_issues + hot_issues.to_a
-    end
-
-    invisible_issues = issues.where.not(id: visible_issues)
-    [visible_issues, invisible_issues]
   end
 
   private

@@ -28,7 +28,7 @@ class LandingPage < ApplicationRecord
         group_slug, issue_slug = item.split('/')
       else
         issue_slug = item
-        group_slug = 'indie'
+        group_slug = Group:DEFAULT_SLUG
       end
 
       result = result.or(Issue.where(slug: issue_slug, group_slug: group_slug))

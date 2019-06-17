@@ -191,8 +191,6 @@ class ApplicationController < ActionController::Base
     "issues#home" => nil,
     "issues#destroy_form" => "채널 삭제",
     "issues#new_admit_members" => "초대",
-    "issues#indies" => "빠띠",
-    "issues#my_menus" => "내 메뉴",
     "issues#index" => "빠띠",
     "issues#new" => "채널 만들기",
     "issues#edit" => "설정",
@@ -264,7 +262,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_layout
-    if current_group.present?
+    if current_group.present? or @issue.present? or @group.present?
       'group'
     else
       'application'
@@ -276,12 +274,12 @@ class ApplicationController < ActionController::Base
   end
 
   def host_group
-    current_group || Group.indie
+    current_group || Group.open_square
   end
 
   def verify_group(issue)
     return true if issue.blank?
-    return true if issue.displayable_group?(current_group)
+    return true if (issue.group.subdomain || "") == request.subdomain
 
     if request.format.html?
       redirect_to subdomain: issue.group.subdomain

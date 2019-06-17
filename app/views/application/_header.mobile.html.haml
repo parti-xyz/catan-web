@@ -11,7 +11,7 @@
         .js-navbar-header-title-default
           = back_buttons
           %a{ href: root_path, 'aria-label': only_mobile_app(request, 'header-brand') }
-            - if host_group.indie?
+            - if current_group.blank?
               %img{ alt: 'parti', src: asset_path('parti_logo_purple.png')}
             - else
               = host_group.head_title

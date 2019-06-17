@@ -1,8 +1,5 @@
 - if Group.comprehensive_joined_by(current_user).any?
-  - if current_user.drawer_current_group_fixed_top
-    - menu_groups = ([host_group] + Group.sort_by_name.comprehensive_joined_by(current_user).but(host_group).to_a)
-  - else
-    - menu_groups = Group.sort_by_name.comprehensive_joined_by(current_user).to_a
+  - menu_groups = ([host_group] + Group.sort_by_name.comprehensive_joined_by(current_user).but(host_group).to_a)
   - menu_groups.each do |menu_group|
     %li.js-group-issues-line.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
       .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }
@@ -21,11 +18,10 @@
                 %span.parties-count
                   %i.fa.fa-flag(title='최근 채널')
                   = latest_issues_count
-              - unless menu_group.indie?
-                - if any_latest_stroked_posts
-                  %span.posts-count
-                    %i.fa.fa-file-text(title='최근 업데이트')
-                    = latest_stroked_posts_count
+              - if any_latest_stroked_posts
+                %span.posts-count
+                  %i.fa.fa-file-text(title='최근 업데이트')
+                  = latest_stroked_posts_count
 
 
       - issues = current_user.member_issues.only_alive_of_group(menu_group)

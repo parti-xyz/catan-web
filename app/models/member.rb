@@ -28,6 +28,8 @@ class Member < ApplicationRecord
   scoped_search relation: :user, on: [:nickname]
   scoped_search relation: :user, on: [:nickname, :email], profile: :admin
 
+  after_create :init_group_push_notification_preference
+
   def issue
     joinable if joinable_type == 'Issue'
   end
@@ -46,5 +48,13 @@ class Member < ApplicationRecord
 
   def self.messagable_group_method
     :of_group
+  end
+
+  private
+
+  def init_group_push_notification_preference
+    if self.joinable_type == 'Group' and !self.joinable.open_square?
+      joinable.group_push_notification_preferences.create(user: self.user)
+    end
   end
 end

@@ -4,7 +4,7 @@ class IssuesController < ApplicationController
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
   before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members, :slug_folders]
-  before_action :noindex_meta_tag, except: [:indies]
+  before_action :noindex_meta_tag
 
   def home
     if current_group.blank?
@@ -13,6 +13,10 @@ class IssuesController < ApplicationController
       else
         index
       end
+    elsif current_group.open_square?
+      params[:sort] ||= 'hottest'
+      @issues = search_and_sort_issues(Group.open_square.issues.not_private_blocked(current_user), params[:keyword], params[:sort], 3)
+      render 'issues/group_home_open_square'
     else
       if current_group.private_blocked? current_user
         render 'issues/group_home_private_blocked' and return
@@ -59,11 +63,6 @@ class IssuesController < ApplicationController
       @exists_dead_issues =  group_issues(current_group, nil, true).any?
       render 'group_index'
     end
-  end
-
-  def indies
-    params[:sort] ||= 'hottest'
-    @issues = search_and_sort_issues(Group.indie.issues.not_private_blocked(current_user), params[:keyword], params[:sort], 3)
   end
 
   def search_by_tags
@@ -162,7 +161,7 @@ class IssuesController < ApplicationController
       render 'new' and return
     end
 
-    @issue.group_slug ||= Group.default_slug(current_group)
+    @issue.group_slug ||= Group.slug_fallback(current_group)
     if @issue.group.private_blocked?(current_user)
       redirect_to smart_group_url(@issue.group) and return
     end
@@ -355,35 +354,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def my_menus
-    @group = Group.find_by(slug: params[:group_slug])
-    render_404 and return if @group.blank?
-
-    @issues = current_user.member_issues.alive.sort_by_name
-    @issues = @issues.of_group(@group)
-  end
-
   def selections
-  end
-
-  def add_my_menu
-    unless current_user.my_menu?(@issue)
-      current_user.my_menus.create(issue: @issue)
-    end
-    if request.format.js?
-      render 'issues/add_or_remove_my_menu'
-    else
-      redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
-    end
-  end
-
-  def remove_my_menu
-    current_user.my_menus.where(issue: @issue).destroy_all
-    if request.format.js?
-      render 'issues/add_or_remove_my_menu'
-    else
-      redirect_to(request.referrer || smart_issue_home_path_or_url(@issue))
-    end
   end
 
   def update_category

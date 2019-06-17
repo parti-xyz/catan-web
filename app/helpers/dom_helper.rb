@@ -187,14 +187,6 @@ module DomHelper
     "#{dom_id(post)}-read-button"
   end
 
-  def issue_line_my_menu_dom_selector(issue)
-    ".#{issue_line_my_menu_dom_class(issue)}"
-  end
-
-  def issue_line_my_menu_dom_class(issue)
-    "#{dom_id(issue)}-js-issue-line-my-menu-btn"
-  end
-
   def issue_line_category_dom_selector(issue)
     ".#{issue_line_category_dom_class(issue)}"
   end

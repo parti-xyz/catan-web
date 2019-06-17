@@ -36,7 +36,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
 
     group = Group.find_by_slug(omniauth_params['group_slug'])
-    if group.present? and !group.indie?
+    if group.present?
       result = stored_location(group) || '/'
       URI.join(root_url(subdomain: group.subdomain), result).to_s
     else

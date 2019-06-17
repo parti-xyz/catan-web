@@ -1,11 +1,11 @@
 class Admin::GroupsController < Admin::BaseController
   def index
-    @groups = Group.where.not(slug: 'indie').sort_by_name.page(params[:page])
+    @groups = Group.all.sort_by_name.page(params[:page])
   end
 
   def destroy
     @group = Group.find_by(id: params[:id])
-    render_404 and return  if @group.blank?
+    render_404 and return if @group.blank? or @group.open_square?
 
     if @group.destroy
       flash[:success] = I18n.t('activerecord.successful.messages.deleted')

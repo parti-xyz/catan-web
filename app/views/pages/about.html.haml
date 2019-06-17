@@ -10,6 +10,8 @@
           빠띠
         %br
         = link_to issues_path, class: 'btn btn-lg btn-block btn-shadow btn-primary' do
+          #{Group.count}개 그룹
+          &middot;
           #{Issue.count}개 채널 보기
         - unless user_signed_in?
           = link_to '회원가입', new_user_session_path, class: 'btn btn-danger btn-lg btn-block btn-shadow'
@@ -49,37 +51,40 @@
         .col-sm-6
           .service-card
             %h3.about-header
-              이슈와 관심사 빠띠
+              기본형
             .about-desc
               %p.lead
                 사람들과 나누고 싶은
                 %br
                 나만의 관심사가 있습니까?
               %p
-                빠띠를 개설해서 비슷한 관심을 가진
+                그룹을 개설해서 비슷한 관심을 가진
                 %br
                 사람들을 모으고 이야기를 시작하세요.
                 %br
                 현재
-                %u= Issue.of_group(Group.indie).count
-                개의 이슈와 관심사 채널이 활동중입니다.
+                %u= Group.count
+                개의 그룹과
+                %u= Issue.count
+                개의 채널이 활동중입니다.
             %hr
             .text-center
               %span.title
-                이슈와 관심사에 대한 빠띠는
+                공개 채널은 제한없이
                 %br
-                공개, 비공개 여부와 상관없이
+                비공개 채널은 10개까지
               %p.about-text.text-danger
                 무료입니다
               %hr
-                = link_to new_issue_url(subdomain: nil), class: 'btn btn-default btn-lg btn-block' do
+                = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-default btn-lg btn-block' do
                   %span.text-primary
-                    채널 만들기
+                    그룹 만들기
+
         %br.visible-xs-block
         .col-sm-6
           .service-card
             %h3.about-header
-              그룹을 위한 빠띠
+              맞춤형
             .about-desc
               %p.lead
                 민주적으로 운영하고 싶은
@@ -104,69 +109,25 @@
             %hr
             .text-center
               %span.title
-                공개 빠띠는 제한없이
-                %br
-                비공개 빠띠는 10개까지
-
-              %p.about-text.text-danger
-                무료입니다
-              %hr
-                = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-default btn-lg btn-block' do
-                  %span.text-primary
-                    그룹 만들기
-
-
-  %section.text-basic-wrap{ style: 'margin-top: 80px;' }
-    .container
-      %h2.text-center{ style: 'margin-bottom: 30px;' }
-        운영 중인 팀이나 커뮤니티에 맞는 민주주의 플랫폼을 찾으시나요?
-
-      .row
-        .col-sm-6.col-sm-offset-3
-          .service-card
-            %h3.about-header
-              맞춤형 빠띠
-            .about-desc
-              %p.lead
-                민주주의 플랫폼 운영 계획이 있으신가요?
-                빠띠에 필요한 기능이 모두 있습니다.
-              %p
-                민주적인 팀 운영을 위한
-                %br.visible-xs-block
-                %strong 협업 및 의사결정 플랫폼
-                ,
-                %br
-                프로젝트 참여자들과 함께 만드는
-                %br.visible-xs-block
-                %strong 커뮤니티 플랫폼
-                ,
-                %br
-                이해 관계자들이 제안하는
-                %br.visible-xs-block
-                %strong 참여 플랫폼
-                등
-                %br
-                빠띠와 함께 논의하며 만듭니다.
-            %hr
-            .text-center
-              %span.title
                 공개, 비공개 제한없이
                 %br
                 필요한 기능을 추가할 수 있습니다
 
               %p.about-text.text-danger
                 비용 협의
-
             %hr
-              = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-lg btn-block' do
-                %span
-                  %i.fa.fa-envelope-o
-                  메일로 문의하기
-
-              = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block', target: '_blank' do
-                %span.text-primary
-                  %i.fa.fa-comment-o
-                  메신저로 문의하기
+              .row
+                .col-xs-md12.col-sm-6
+                  = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-lg btn-block' do
+                    %span
+                      %i.fa.fa-envelope-o
+                      메일로 문의
+                .visible-xs-block{ style: 'height: 4px' }
+                .col-xs-md12.col-sm-6
+                  = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block', target: '_blank' do
+                    %span.text-primary
+                      %i.fa.fa-comment-o
+                      메신저로 문의
 
   %section.text-basic-wrap{ style: 'margin: 80px 0;' }
     .container

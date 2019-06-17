@@ -1,7 +1,7 @@
 namespace :member do
   desc "그룹의 멤버 중에 해당 그룹의 멤버가 아닌 경우, 해당 그룹에 가입시킵니다"
   task :straggler => :environment do
-    Group.but(Group.indie).map do |group|
+    Group.all.map do |group|
       puts "==> Group : #{group.title} #{group.slug}"
       (group.comprehensive_joined_users - group.member_users).each do |user|
         if group.private?

@@ -28,8 +28,6 @@ class MembersTest < ActionDispatch::IntegrationTest
   end
 
   test '그룹이 아닌 빠띠에 가입해요' do
-    assert issues(:issue2).indie_group?
-
     sign_in(users(:three))
 
     post issue_members_path(issue_id: issues(:issue2).id)

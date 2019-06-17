@@ -2,7 +2,7 @@ include GroupHelper
 include MobileAppHelper
 
 Rails.application.routes.draw do
-  class IndieGroupRouteConstraint
+  class DefaultGroupRouteConstraint
     def matches?(request)
       fetch_group(request).blank?
     end
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     match '*path', to: redirect(subdomain: '', path: '/p/role'), via: :all
   end
 
-  constraints(IndieGroupRouteConstraint.new) do
+  constraints(DefaultGroupRouteConstraint.new) do
     authenticated :user do
       root 'dashboard#index', as: :dashboard_root
     end
@@ -62,10 +62,11 @@ Rails.application.routes.draw do
     get 'kill_me', to: 'users#kill_me'
   end
   resources :issue_push_notification_preferences
+  resources :group_push_notification_preferences
 
   class MergedIssueRouteConstraint
     def matches?(request)
-      group = fetch_group(request) || Group.indie
+      group = fetch_group(request) || Group.open_square
       params = request.params
       MergedIssue.exists?(source_slug: params[:slug], source_group_slug: group.slug)
     end
@@ -73,11 +74,11 @@ Rails.application.routes.draw do
 
   # 통합 빠띠
   get '/p/:slug/', to: redirect { |path_params, request|
-    group = fetch_group(request) || Group.indie
+    group = fetch_group(request) || Group.open_square
     URI.escape("/p/#{Rack::Utils.escape MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug).issue.slug}")
   }, constraints: MergedIssueRouteConstraint.new
   get '/p/:slug/*path', to: redirect { |path_params, request|
-    group = fetch_group(request) || Group.indie
+    group = fetch_group(request) || Group.open_square
     merged_issue = MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug)
     URI.escape("/p/#{Rack::Utils.escape merged_issue.issue.slug}/#{path_params[:path]}")
   }, constraints: MergedIssueRouteConstraint.new
@@ -97,9 +98,7 @@ Rails.application.routes.draw do
       delete :destroy_category
     end
     collection do
-      get :indies
       get :search_by_tags
-      get :my_menus
       post :merge
       get :selections
     end

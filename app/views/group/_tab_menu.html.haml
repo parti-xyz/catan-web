@@ -4,7 +4,7 @@
     %small.hidden-xs
       #{group_only_basic_title(current_group)}을 관리합니다.
 
-#content-tab-section
+.content-tab-section
   %ul.nav.nav-tabs
     %li{ class: "#{('active' if current_page?('/group/managements'))}" }
       = link_to group_managements_path do

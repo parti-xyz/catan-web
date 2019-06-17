@@ -143,8 +143,7 @@ class Post < ApplicationRecord
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :latest, -> { after(1.day.ago) }
   scope :not_private_blocked_of_group, ->(group, someone) {
-    group ||= Group.indie
-    if group.indie?
+    if group.blank?
       of_searchable_issues(someone)
     else
       where(issue_id: group.issues.not_private_blocked(someone))
@@ -155,10 +154,6 @@ class Post < ApplicationRecord
   }
   scope :of_undiscovered_issues, ->(current_user = nil) {
     where(issue_id: Issue.undiscovered_issues(current_user))
-  }
-  scope :not_in_dashboard_of_group, ->(group, someone) {
-    group ||= Group.indie
-    where(issue_id: group.issues.not_in_dashboard(someone))
   }
   scope :having_link_or_file, -> {
     where.not(link_source: nil).or(where('file_sources_count > 0'))
@@ -307,7 +302,6 @@ class Post < ApplicationRecord
   end
 
   def front_wiki?
-    return false if self.issue.group.indie?
     self.issue.group.front_wiki_post == self
   end
 

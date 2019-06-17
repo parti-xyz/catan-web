@@ -1,7 +1,7 @@
 .parti-select.parti-select-form-padding{ id: local_assigns[:dom_id] }
   %select.js-parti-editor-selector.collapse{ multiple: true, 'data-live-search': "true", 'data-width': "100%", title: '설정할 채널을 골라주세요', 'data-header': '설정할 채널을 골라주세요' }
     - all_issues = current_user.member_issues.sort_by_name.to_a
-    - groups = [Group.indie] + current_user.member_groups.sort_by_name
+    - groups = current_user.member_groups.sort_by_name
     - groups.each do |group|
       - issues = all_issues.select { |issue| issue.group_slug == group.slug }
       - if issues.any?
@@ -12,6 +12,6 @@
                 %span.issue-line__thumb<>
                   .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
                 %span.issue-line__title<>
-                  = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title', divider_classes: 'group-title')
-            %option.hidden-group-title{value: issue.id, title: (issue.indie_group? ? issue.title : "#{issue.group.title} / #{issue.title}"), 'data-content': h(issue_content.to_str), 'data-tokens': issue.title, 'data-can-pin': can?(:pin, issue).to_s, 'data-can-experiment': issue.experimental?.to_s }
+                  = issue_tag_ignored_current_group(issue,  show_group: true, group_classes: 'group-title', divider_classes: 'group-title')
+            %option.hidden-group-title{value: issue.id, title: ("#{issue.group.title} / #{issue.title}"), 'data-content': h(issue_content.to_str), 'data-tokens': issue.title, 'data-can-pin': can?(:pin, issue).to_s, 'data-can-experiment': issue.experimental?.to_s }
               = issue.title

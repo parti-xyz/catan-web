@@ -9,7 +9,7 @@
         #{group_only_basic_title(current_group)}의 멤버입니다.
 
 - if can_admin_member and current_group.private?
-  #content-tab-section
+  .content-tab-section
     %ul.nav.nav-tabs
       %li{ class: "#{('active' if current_page?('/group/members'))}" }
         = link_to group_members_path do

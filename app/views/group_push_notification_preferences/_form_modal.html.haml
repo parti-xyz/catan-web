@@ -1,0 +1,26 @@
+- group_push_notification_preference = local_assigns[:group_push_notification_preference] || current_user.group_push_notification_preferences.build
+.modal-content
+  .modal-header
+    %h4.modal-header-title
+      채널 추가 알림 설정
+    %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button", :style => 'top: 0; right: 0; position: absolute; opacity: 1; color: #aaa; text-shadow: none'}
+      %span.fa-stack
+        %i.fa.fa-circle.fa-stack-1x{ style: 'font-size: 1.2em;' }
+        %i.fa.fa-times-circle.fa-stack-1x.fa-inverse
+  .modal-body
+    .group-push-notification-preference-form-modal-block
+      - if local_assigns[:groups_no_preference].try(:any?)
+        .post-editor.post-editor-modal
+          - form_id = "folder-form-#{SecureRandom.uuid}"
+          = form_for group_push_notification_preference, remote: :true, html: { id: form_id, data: { action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]" } } do |f|
+            .form-group
+              %select.js-group-editor-selector.collapse{ name: 'group_push_notification_preference[group_id][]', multiple: true, 'data-width': "100%", title: '설정할 그룹을 골라주세요', multiple: true, 'data-width': "100%" }
+                - groups_no_preference.each do |group|
+                  %option{value: group.id, title: group.title }
+                    = group.title
+            .form-group.text-right.margin-zero
+              = f.submit '추가', class: 'btn btn-primary'
+      - else
+        %p.text-center
+          %i.fa.fa-info-circle
+          추가할 그룹이 없습니다.

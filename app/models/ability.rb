@@ -3,7 +3,7 @@ class Ability
 
   def initialize(user, current_group)
     can [:read, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form], :all
-    can [:home, :indies, :slug, :users, :exist, :new_posts_count, :slug_home,
+    can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag,
       :slug_folders], Issue
@@ -14,7 +14,7 @@ class Ability
       can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
         user.is_organizer?(issue)
       end
-      can [:create, :new_intro, :search_by_tags, :my_menus, :add_my_menu, :remove_my_menu, :selections], [Issue]
+      can [:create, :new_intro, :search_by_tags, :selections], [Issue]
       can [:update_category, :destroy_category], Issue do |issue|
         user.is_organizer?(issue.group)
       end

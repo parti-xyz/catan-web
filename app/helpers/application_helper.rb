@@ -8,9 +8,9 @@ module ApplicationHelper
     if current_group.present?
       arr << "in-group"
     else
-      arr << "in-indie"
+      arr << "in-root"
     end
-    arr << (host_group.is_light_theme? ? "light-theme" : "dark-theme")
+    arr << ((current_group.blank? or current_group.is_light_theme?) ? "light-theme" : "dark-theme")
     arr << 'virtual-keyboard' if is_virtaul_keyboard?
     arr << 'ios' if browser.platform.ios?
     arr.join(' ')
@@ -195,7 +195,7 @@ module ApplicationHelper
   end
 
   def issue_link_target_name(issue)
-    '_blank' unless issue.displayable_group?(current_group)
+    '_blank' unless issue.host_group?(host_group)
   end
 
   def sort_issues_by_title(issues)
@@ -247,8 +247,7 @@ module ApplicationHelper
 
   def group_sidemenu_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
-      title = group.indie? ? "이슈와 관심사" : group.title_short_format
-      concat content_tag("span", title, class: ["group-title"])
+      concat content_tag("span", group.title_short_format, class: ["group-title"])
       s_icon = meta_icons(group, (['star', '오거나이징하는 그룹'] if group.organized_by?(current_user)))
       if s_icon.present?
         concat raw('&nbsp;')
@@ -260,8 +259,7 @@ module ApplicationHelper
 
   def group_basic_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
-      title = group.indie? ? "이슈와 관심사" : group.title_basic_format
-      concat content_tag("span", title, class: ["group-title"])
+      concat content_tag("span", group.title_basic_format, class: ["group-title"])
       s_icon = meta_icons(group, (['star', '오거나이징하는 그룹'] if group.organized_by?(current_user)))
       if s_icon.present?
         concat raw('&nbsp;')
@@ -273,8 +271,7 @@ module ApplicationHelper
 
   def group_only_basic_title(group)
     content_tag :span, class: ["group-parties-section-title"] do
-      title = group.indie? ? "이슈와 관심사" : group.title_basic_format
-      concat content_tag("span", title, class: ["group-title"])
+      concat content_tag("span", group.title_basic_format, class: ["group-title"])
     end
   end
 
@@ -290,18 +287,8 @@ module ApplicationHelper
 
   def sidebar_group_opened?(group)
     if user_signed_in?
-      if current_user.drawer_current_group_unfold_only
-        return current_group == group
-      end
+      return current_group == group
     end
-    begin
-      group_ids_folden = JSON.parse(cookies[:'sidebar-group-fold'] || "[]")
-    rescue JSON::ParserError
-      group_ids_folden = []
-    end
-
-    group_ids_folden = [] unless group_ids_folden.kind_of?(Array)
-    !group_ids_folden.include?(group.id)
   end
 
   def root_domain
@@ -364,7 +351,7 @@ module ApplicationHelper
   end
 
   def issue_tag(issue, show_group: true, group_classes: nil, divider_classes: nil, group_short: false, issue_classes: nil)
-    show_group = (show_group and !issue.displayable_group?(current_group))
+    show_group = (show_group and !issue.host_group?(host_group))
     issue_tag_ignored_current_group(issue, show_group: show_group, group_classes: group_classes, divider_classes: divider_classes, group_short: group_short, issue_classes: issue_classes)
   end
 
@@ -372,7 +359,6 @@ module ApplicationHelper
     content_tag :span do
       if show_group
         group_title = (group_short ? issue.group.head_title : issue.group.title )
-        group_title = '이슈와 관심사' if issue.group.indie?
         concat(content_tag :span, group_title, class: group_classes)
         g_icon = meta_icons(issue.group)
         if g_icon.present?

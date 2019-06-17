@@ -1,5 +1,5 @@
 Group.where.not(private: true).each do |group|
-  SitemapGenerator::Sitemap.default_host = "https://#{"#{group.subdomain}." unless group.indie?}parti.xyz"
+  SitemapGenerator::Sitemap.default_host = "https://#{group.subdomain}parti.xyz"
   SitemapGenerator::Sitemap.sitemaps_path = "sitemaps/#{group.slug}"
   SitemapGenerator::Sitemap.create do
     group.issues.where.not(private: true).alive.find_each do |issue|

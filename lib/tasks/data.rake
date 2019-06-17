@@ -3,10 +3,17 @@ namespace :data do
   task 'seed:group' => :environment do
     user = User.find_by(nickname: 'parti')
     Group.transaction do
-      seed_group(user, 'indie', [],
-        title: '이슈와 관심사',
-        site_title: '이슈와 관심사',
-        head_title: '이슈와 관심사')
+      indie = Group.find_by(slug: 'indie')
+      if indie.present?
+        indie.update_columns(slug: 'open')
+      end
+      Category.where(group_slug: 'indie').update_all(group_slug: 'open')
+      Issue.where(group_slug: 'indie').update_all(group_slug: 'open')
+      MergedIssue.where(source_group_slug: 'indie').update_all(source_group_slug: 'open')
+      seed_group(user, 'open', [],
+        title: '열린 광장',
+        site_title: '열린 광장',
+        head_title: '열린 광장')
     end
   end
 

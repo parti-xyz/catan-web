@@ -7,6 +7,6 @@
           %span.issue-line__thumb<>
             .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
           %span.issue-line__title<>
-            = issue_tag_ignored_current_group(issue,  show_group: !issue.group.indie?, group_classes: 'group-title', divider_classes: 'group-title')
+            = issue_tag_ignored_current_group(issue,  show_group: true, group_classes: 'group-title', divider_classes: 'group-title')
       %option.hidden-group-title{value: issue.id, selected: (true if issue.id == local_assigns[:selected_issue_id]),'data-content': h(issue_content.to_str), 'data-tokens': issue.title, 'data-can-pin': can?(:pin, issue).to_s, 'data-can-experiment': issue.experimental?.to_s }
         = issue.title

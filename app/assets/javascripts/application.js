@@ -654,6 +654,13 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  $.parti_apply($base, '.js-group-editor-selector', function(elm) {
+    $(elm).selectpicker('render');
+    $(elm).on('loaded.bs.select', function(e) {
+      $(this).show();
+    });
+  });
+
   // 게시글 쓸때 채널 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
     $(elm).selectpicker('render');
@@ -1362,18 +1369,6 @@ var parti_prepare = function($base, force) {
         $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
         $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
         $issues.show();
-      });
-    });
-
-    $.parti_apply($base, '.js-sidemenu-toggle-all-fold', function(elm) {
-      $(elm).on('click', function(e) {
-        $('.js-sidemenu-toggle').trigger('click', 'fold');
-      });
-    });
-
-    $.parti_apply($base, '.js-sidemenu-toggle-all-unfold', function(elm) {
-      $(elm).on('click', function(e) {
-        $('.js-sidemenu-toggle').trigger('click', 'unfold');
       });
     });
   })();

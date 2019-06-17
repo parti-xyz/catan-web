@@ -92,8 +92,8 @@ class MessageService
         end
       end
     when Issue
-      if @action == :create and !@source.group.indie?
-        users = @source.group.member_users.where.not(id: @sender.id)
+      if @action == :create
+        users = @source.group.issue_create_messagable_users.where.not(id: @sender.id)
         send_messages(
           sender: @sender, users: users, messagable: @source,
           action: :create)

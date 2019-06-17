@@ -1,0 +1,10 @@
+%ul.list-unstyled
+  - Group.where(id: current_user.group_members.select(:joinable_id)).sort_by_name.each do |group|
+    - group_push_notification_preference = current_user.group_push_notification_preferences.find_by(group_id: group.id)
+    - next if group_push_notification_preference.blank?
+    - control_id = "control-#{SecureRandom.uuid}"
+    .push-notification-preferences-group
+      %p.text-primary-bold.js-hover-toggle{ 'data-hover-toggle': "##{control_id}", style: 'line-height: 2em' }
+        = group_push_notification_preference.group.title
+        %span.collapse.collapse-xs-inline{ id: control_id }
+          = link_to '삭제', group_push_notification_preference, method: :delete, remote: true, class: 'btn btn-default btn-xs', data: { 'disable_with': '...' }

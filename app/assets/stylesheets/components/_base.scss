@@ -36,7 +36,7 @@
 }
 
 /* tabs */
-#content-tab-section {
+.content-tab-section {
   .nav-tabs {
     border-color: #d2d2d2;
     &.nav-tabs-content-heading {
@@ -62,6 +62,7 @@
       &.active > a {
         color: $brand-primary;
         background: transparent;
+        border: none;
       }
       &.active {
         border-bottom: 2px solid $brand-primary;
@@ -90,12 +91,12 @@
   }
 }
 
-#content-tab-section + .well {
+.content-tab-section + .well {
   margin-top: 10px;
 }
 
 @media (max-width: $screen-xs-max) {
-  #content-tab-section .nav-tabs {
+  .content-tab-section .nav-tabs {
     padding-left: 0;
 
     &.message-tab {
@@ -893,4 +894,8 @@ a.a-gray {
   &:hover {
     color: $brand-primary;
   }
+}
+
+.margin-zero {
+  margin: 0;
 }

@@ -3,7 +3,7 @@ class IssueForceDefaultJob < ApplicationJob
 
   def perform(issue_id, organizer_user_id)
     issue = Issue.find_by(id: issue_id)
-    return if issue.blank? or issue.indie_group?
+    return if issue.blank?
 
     organizer_user = User.find_by(id: organizer_user_id)
     return if organizer_user.blank?

@@ -18,7 +18,7 @@
               %i.fa.fa-user-plus
               초대
         - if !issue.private and !issue.group.private?
-          - share_content = { 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '채널'}" }
+          - share_content = { 'share-url': smart_issue_home_url(issue), 'share-text': "#{issue.title} | #{issue.group.try(:title_share_format) || '빠띠'}" }
           %span.parti-admin-btn-container<>
             %span.btn.btn-default.btn-xs.cursor-pointer{ data: { url: "#advert-info-#{dom_id(issue)}", action: "parti-share-popover", placement: "auto-bottom", data: "click" }.merge(share_content) }<>
               %i.fa.fa-share-alt

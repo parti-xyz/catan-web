@@ -93,7 +93,6 @@ class Group::ConfigurationsController < Group::BaseController
   def front_wiki
     @post = Post.find(params[:post_id])
     @group = @post.issue.group
-    render_404 and return if @group.indie?
 
     @group.front_wiki_post = @post
     @group.front_wiki_post_by = current_user
@@ -103,7 +102,6 @@ class Group::ConfigurationsController < Group::BaseController
   def destroy_front_wiki
     @post = Post.find(params[:post_id])
     @group = @post.issue.group
-    render_404 and return if @group.indie?
 
     @group.front_wiki_post = nil
     @group.front_wiki_post_by = current_user

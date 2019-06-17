@@ -15,6 +15,7 @@ class IssuePushNotificationPreference < ApplicationRecord
   validates :user, uniqueness: { scope: :issue_id }, presence: true
 
   def self.pushable_notification?(someone, message)
+    return if message.messagable.issue_for_message.blank?
     issue_push_notification_preference = someone.issue_push_notification_preferences.find_by(issue: message.messagable.issue_for_message)
     return true if issue_push_notification_preference.blank?
     return issue_push_notification_preference.value != :nothing

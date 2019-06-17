@@ -10,7 +10,7 @@
             = link_to smart_issue_home_path_or_url(post.issue) do
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
           .media-body
-            - unless post.issue.displayable_group? current_group
+            - unless post.issue.host_group?(host_group)
               = link_to smart_group_url(post.issue.group), class: 'header-separator-item' do
                 %span.issue-group
                   = post.issue.group.title_basic_format
@@ -56,7 +56,7 @@
 
         = render 'posts/post_line', local_assigns
 
-      - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || "채널"}" }
+      - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || "빠띠"}" }
       - share_partial = capture do
         = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-image': "#{post.meta_tag_image}" }.merge(share_content)
       .post-card__footer.clearfix

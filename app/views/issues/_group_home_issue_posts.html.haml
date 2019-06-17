@@ -19,7 +19,7 @@
 
       .contents-header
         .posts-filter-select
-          #content-tab-section
+          .content-tab-section
             %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
               %li{ class: "js-tab-masonry #{(hottest_posts.try(:any?) ? 'active' : 'hidden')}" }
                 = link_to '인기순', "##{hottest_tab_id}", 'data-toggle': :tab

@@ -76,7 +76,7 @@ $side-menu-width: 256px;
         @media (min-width: $screen-sm-min) {
           top: -4px;
         }
-        body.light-theme.in-indie & {
+        body.light-theme.in-base & {
           color: $brand-primary;
         }
         .navbar-header-title {
@@ -461,23 +461,6 @@ $drawer-default-space-mobile: 12px;
         padding: $drawer-default-space/2 18px;
         @media (max-width: $screen-xs-max) {
           padding: $drawer-default-space-mobile/2 18px;
-        }
-
-        &.menu-line-configs {
-          .dropdown-menu-item.inactive a.dropdown-menu-item-link i {
-            color: $gray-lighter;
-            &.fa-pulse {
-              color: $gray;
-            }
-          }
-          li.dropdown-header {
-            color: $gray;
-          }
-        }
-        &.menu-line-configs,
-        &.menu-line-configs a.dropdown-toggle {
-          color: $gray-a;
-          font-size: $font-size-small;
         }
       }
       &.menu-line {

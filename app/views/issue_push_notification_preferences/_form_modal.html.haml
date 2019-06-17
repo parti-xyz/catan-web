@@ -1,12 +1,12 @@
 - is_update = local_assigns[:issue_push_notification_preference] and issue_push_notification_preference.persisted?
 - issue_push_notification_preference = local_assigns[:issue_push_notification_preference] || current_user.issue_push_notification_preferences.build(value: :highlight)
-.modal-content.js-invite-form-modal
+.modal-content
   .modal-header
     %h4.modal-header-title
       - if is_update
-        '#{issue_push_notification_preference.issue.title if is_update}' 채널
+        '#{issue_push_notification_preference.issue.title}' 채널
       - else
-        빠띠별
+        채널별
       알림 설정
     %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button", :style => 'top: 0; right: 0; position: absolute; opacity: 1; color: #aaa; text-shadow: none'}
       %span.fa-stack

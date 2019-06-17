@@ -1,51 +1,27 @@
 var $drawer_issues = $('<%= j(render 'application/drawer_issues') %>');
 if($('#js-my-menu-drawer_issues').length > 0) {
   var $drawer_merged = $('<%= j(render 'application/drawer_search') %>');
-  $drawer_merged = $drawer_merged.add('<%= j(render 'application/drawer_menu_line_configs') %>');
   $drawer_merged = $drawer_merged.add($drawer_issues);
   $('#js-my-menu-drawer_issues').replaceWith($drawer_merged);
   parti_partial$($drawer_merged, true);
 } else {
   $('.js-group-issues-line').remove();
-  $('.js-menu-line-configs').after($drawer_issues);
+  $('.js-drawer-filter-form').after($drawer_issues);
   parti_partial$($drawer_issues, true);
 }
 
 <% if user_signed_in? %>
   var $fixed_top = $('.js-drawer-current-group-fixed-top');
-  <% if current_user.drawer_current_group_fixed_top %>
   $fixed_top.parent().removeClass('inactive');
   $fixed_top.attr('href', $fixed_top.data('inactive-url'));
-  <% else %>
-  $fixed_top.parent().addClass('inactive');
-  $fixed_top.attr('href', $fixed_top.data('active-url'));
-  <% end %>
 
   var $unfold_only = $('.js-drawer-current-group-unfold-only');
-  <% if current_user.drawer_current_group_unfold_only %>
   $unfold_only.parent().removeClass('inactive');
   $unfold_only.attr('href', $unfold_only.data('inactive-url'));
-  <% else %>
-  $unfold_only.parent().addClass('inactive');
-  $unfold_only.attr('href', $unfold_only.data('active-url'));
-  <% end %>
 <% end %>
-
-
 
 $('.js-sidemenu-highlight-menu-parti').removeClass('highlight');
-
-<% if host_group.indie? %>
-  var need_to_group_highlight = false;
-  if($('.js-sidemenu-highlight-current-parti-source').length > 0) {
-    need_to_group_highlight = true;
-  }
-  if($('.js-sidemenu-highlight-indie-group').length > 0) {
-    need_to_group_highlight = true;
-  }
-<% else %>
-  var need_to_group_highlight = true;
-<% end %>
+var need_to_group_highlight = true;
 
 $('.js-sidemenu-highlight-current-parti-source').each(function(index) {
   var current_parti_id = $(this).data('sidemenu-highlight-current-parti-id');
@@ -58,7 +34,9 @@ $('.js-sidemenu-highlight-current-parti-source').each(function(index) {
   }
 });
 
-if(need_to_group_highlight) {
-  var highlight_menu = $('.js-sidemenu-highlight-menu-group-<%= host_group.id %>');
-  highlight_menu.addClass('highlight');
-}
+<% if current_group.present? %>
+  if(need_to_group_highlight) {
+    var highlight_menu = $('.js-sidemenu-highlight-menu-group-<%= current_group.id %>');
+    highlight_menu.addClass('highlight');
+  }
+<% end %>

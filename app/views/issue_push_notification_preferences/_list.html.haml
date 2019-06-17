@@ -5,6 +5,7 @@
       %p.text-primary-bold
         = group.title
       - current_user.issue_push_notification_preferences.where(issue_id: group.issues).each do |issue_push_notification_preference|
+        - next unless issue_push_notification_preference.issue.member?(current_user)
         - control_id = "control-#{SecureRandom.uuid}"
         - control = capture do
           .issue-push-notification-preference-footer.text-basic-wrap

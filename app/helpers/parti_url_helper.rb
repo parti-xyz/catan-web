@@ -1,7 +1,7 @@
 module PartiUrlHelper
   def smart_issue_home_path_or_url(issue, options = {})
     new_options = options.merge(slug: issue.slug)
-    if issue.displayable_group?(current_group)
+    if issue.host_group?(host_group)
       slug_issue_path(new_options)
     else
       smart_issue_home_url(issue, new_options)
@@ -54,7 +54,7 @@ module PartiUrlHelper
   end
 
   def smart_post_path_or_url(post, options = {})
-    if post.issue.displayable_group?(current_group)
+    if post.issue.host_group?(host_group)
       polymorphic_path(post, options)
     else
       smart_post_url(post, options)
@@ -85,19 +85,11 @@ module PartiUrlHelper
   end
 
   def smart_group_url(group, options = {})
-    if group.slug == 'indie'
-      return indies_issues_url(options.merge(subdomain: nil))
-    else
-      return root_url(options.merge(subdomain: group.subdomain))
-    end
+    return root_url(options.merge(subdomain: group.subdomain))
   end
 
   def smart_group_issues_url(group, options = {})
-    if group.slug == 'indie'
-      return issues_url(options.merge(subdomain: nil))
-    else
-      return issues_url(options.merge(subdomain: group.subdomain))
-    end
+    return issues_url(options.merge(subdomain: group.subdomain))
   end
 
   def smart_joinable_members_url(joinable, options = {})

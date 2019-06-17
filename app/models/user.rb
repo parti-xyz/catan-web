@@ -93,8 +93,6 @@ class User < ApplicationRecord
   has_many :last_touched_wiki, dependent: :nullify, class_name: "Wiki", foreign_key: :last_author_id
   has_many :wiki_histories, dependent: :nullify
   has_many :decision_histories, dependent: :nullify
-  has_many :my_menus, dependent: :destroy
-  has_many :my_menu_issues, through: :my_menus, source: :issue
   has_many :folders, dependent: :nullify
   has_many :bookmarks, dependent: :destroy
   has_many :readers, dependent: :destroy
@@ -102,6 +100,7 @@ class User < ApplicationRecord
   has_many :roll_calls, dependent: :destroy
   has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter_id
   has_many :issue_push_notification_preferences, dependent: :destroy
+  has_many :group_push_notification_preferences, dependent: :destroy
   has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
   has_many :blinded_issues, dependent: :nullify, class_name: "Issue", foreign_key: :blinded_by_id
   has_many :blinded_groups, dependent: :nullify, class_name: "Group", foreign_key: :blinded_by_id
@@ -120,7 +119,7 @@ class User < ApplicationRecord
   }
 
   def admin?
-    has_role?(:admin)
+    @__cache_admin ||= has_role?(:admin)
   end
 
   def send_devise_notification(notification, *args)
@@ -342,10 +341,6 @@ class User < ApplicationRecord
     result
   end
 
-  def my_menu?(issue)
-    my_menus.exists?(issue_id: issue)
-  end
-
   def latest_posted_issues(count)
     return [] if self.member_issues.count < count * 1.5
     latest_issue_ids = self.posts.recent.limit(10).to_a.group_by(&:issue_id).map(&:first)
@@ -358,7 +353,9 @@ class User < ApplicationRecord
 
   def pushable_notification?(message)
     return false unless enable_push_notification?
-    return IssuePushNotificationPreference.pushable_notification?(self, message)
+
+    result = IssuePushNotificationPreference.pushable_notification?(self, message)
+    result || true
   end
 
   def disabled_push_notification_period
