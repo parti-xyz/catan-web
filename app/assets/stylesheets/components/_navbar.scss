@@ -512,9 +512,6 @@ $drawer-default-space-mobile: 12px;
           }
           color: $gray;
           &:hover {
-            .group-title {
-              color: $brand-primary;
-            }
             color: $brand-primary;
           }
         }
@@ -567,7 +564,8 @@ $drawer-default-space-mobile: 12px;
           margin-top: 0;
           .issue-more,
           .issue-less,
-          .issue-line {
+          .issue-line,
+          .group-home-line {
             padding: $drawer-default-space/2 18px $drawer-default-space/2 30px;
             @media (max-width: $screen-xs-max) {
               padding: $drawer-default-space-mobile/2 18px $drawer-default-space-mobile/2 30px;
@@ -593,6 +591,9 @@ $drawer-default-space-mobile: 12px;
             a {
               color: $gray-a;
             }
+          }
+          .group-home-line {
+            color: $gray;
           }
         }
         .group-issues-list {

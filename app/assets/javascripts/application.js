@@ -1288,6 +1288,8 @@ var parti_prepare = function($base, force) {
     })();
 
     $.parti_apply($base, '.js-sidemenu-toggle', function(elm) {
+      var unfold_icon = 'fa-caret-down';
+      var fold_icon = 'fa-caret-right';
       $(elm).on('click', function(e, force_mode) {
         var href = $(e.target).closest('a').attr('href')
         if (href && href != "#") {
@@ -1298,15 +1300,20 @@ var parti_prepare = function($base, force) {
         var $target = $(e.currentTarget);
         var $group = $target.closest('.js-sidemenu-toggle-group');
         var $issues = $group.find('.js-sidemenu-toggle-issues');
+        var $icon = $group.find('.js-sidemenu-toggle-icon');
 
         if($issues.hasClass('js-sidemenu-toggle-issues-fold-temporary')) {
           $('.js-drawer-filter').trigger('parti-drawer-filter-temporary-reset', $issues);
           $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
           $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
+          $icon.removeClass(fold_icon);
+          $icon.addClass(unfold_icon);
         } else if($issues.hasClass('js-sidemenu-toggle-issues-unfold-temporary')) {
           $('.js-drawer-filter').trigger('parti-drawer-filter-temporary-ignore', $issues);
           $issues.removeClass('js-sidemenu-toggle-issues-unfold-temporary');
           $issues.addClass('js-sidemenu-toggle-issues-fold-temporary');
+          $icon.removeClass(unfold_icon);
+          $icon.addClass(fold_icon);
         } else {
           var mode;
           if(force_mode) {
@@ -1325,11 +1332,17 @@ var parti_prepare = function($base, force) {
             $issues.addClass('js-sidemenu-toggle-issues-fold');
             $issues.removeClass('js-sidemenu-toggle-issues-unfold');
             $issues.hide();
+
+            $icon.removeClass(unfold_icon);
+            $icon.addClass(fold_icon);
             _cookies_group_fold.push(group_id);
           } else {
             $issues.removeClass('js-sidemenu-toggle-issues-fold');
             $issues.addClass('js-sidemenu-toggle-issues-unfold');
             $issues.show();
+
+            $icon.removeClass(fold_icon);
+            $icon.addClass(unfold_icon);
             _.pull(_cookies_group_fold, group_id);
           }
           _cookies_group_fold = _.uniq(_cookies_group_fold);

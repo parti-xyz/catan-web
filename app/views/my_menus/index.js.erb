@@ -29,9 +29,25 @@ $('.js-sidemenu-highlight-current-parti-source').each(function(index) {
   }
 });
 
+$('.js-sidemenu-highlight-current-group-source').each(function(index) {
+  var current_parti_id = $(this).data('sidemenu-highlight-current-parti-id');
+  var highlight_menu = $('.js-sidemenu-highlight-menu-parti-' + current_parti_id);
+
+  if(highlight_menu.length > 0) {
+    highlight_menu.addClass('highlight');
+    highlight_menu.closest('.js-sidemenu-toggle-group').find('.js-sidemenu-toggle').trigger('click', 'unfold');
+    need_to_group_highlight = false;
+  }
+});
+
 <% if current_group.present? %>
   if(need_to_group_highlight) {
-    var highlight_menu = $('.js-sidemenu-highlight-menu-group-<%= current_group.id %>');
-    highlight_menu.addClass('highlight');
+    var $current_group_source = $('.js-sidemenu-highlight-current-group-source');
+    var current_group_id;
+    if($current_group_source.length > 0) {
+      $('.js-sidemenu-highlight-menu-group-home-<%= current_group.id %>').addClass('highlight');
+    } else {
+      $('.js-sidemenu-highlight-menu-group-<%= current_group.id %>').addClass('highlight');
+    }
   }
 <% end %>
