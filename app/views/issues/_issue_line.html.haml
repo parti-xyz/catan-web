@@ -1,3 +1,6 @@
+- # 캐쉬 때문에 반드시 PATH가 아닌 URL을 사용
+- issue_url = smart_issue_home_url(issue)
+
 - issue ||= local_assigns[:issue_line]
 - return if issue.blank?
 - after_block = capture do
@@ -19,7 +22,7 @@
 - link_to_parti = if local_assigns[:no_link]
   - {}
 - else
-  - { 'action': "parti-link", 'url': (smart_issue_home_path_or_url(issue) unless local_assigns[:no_link]) }
+  - { 'action': "parti-link", 'url': (issue_url unless local_assigns[:no_link]) }
 %li.issue-line{ data: (local_assigns[:link_whole_line] ? link_to_parti : {}).merge(local_assigns[:issue_data] || {}), class: "#{local_assigns[:issue_classes]} #{('cursor-pointer' if (link_to_parti.any? and local_assigns[:link_whole_line]))}" }
   .media.js-issue-line-hover
     - if local_assigns[:left_block].present?
@@ -30,7 +33,7 @@
       .issue-line__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
     .media-body
       .issue-line-body-wraper
-        %a.span.issue-line__title{ href: (local_assigns[:no_link] ? nil : smart_issue_home_path_or_url(issue)), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}"), title: issue.title }
+        %a.span.issue-line__title{ href: (local_assigns[:no_link] ? nil : issue_url), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}"), title: issue.title }
           = issue_tag(issue, show_group: local_assigns[:show_group], group_classes: 'text-nowrap')
 
         %span.after-block
