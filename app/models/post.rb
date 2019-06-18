@@ -292,7 +292,7 @@ class Post < ApplicationRecord
   end
 
   def blinded? someone = nil
-    return false if someone.present? and someone == self.user
+    return false if someone.present? and someone.id == self.user_id
     issue.blind_user? self.user
   end
 
