@@ -519,7 +519,6 @@ $drawer-default-space-mobile: 12px;
           }
         }
         .group-parties-section-title-wrapper {
-          .parties-count,
           .posts-count {
             color: $brand-primary-dark;
             font-size: $font-size-small;
@@ -574,6 +573,9 @@ $drawer-default-space-mobile: 12px;
               padding: $drawer-default-space-mobile/2 18px $drawer-default-space-mobile/2 30px;
             }
             border: none;
+            &.unread {
+              font-weight: 800;
+            }
           }
           .issue-line:hover {
             background-color: $gray-lightest;

@@ -244,7 +244,7 @@ class Issue < ApplicationRecord
   end
 
   def group_subdomain
-    group.subdomain
+    Group.subdomain(self.group_slug)
   end
 
   def postable? someone
@@ -305,6 +305,8 @@ class Issue < ApplicationRecord
   def strok_by(someone)
     self.last_stroked_at = DateTime.now
     self.last_stroked_user = someone
+    visit!(someone)
+
     self
   end
 
@@ -312,6 +314,13 @@ class Issue < ApplicationRecord
     return if post.blinded?
 
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
+    visit!(someone)
+  end
+
+  def visit!(someone)
+    member = self.members.find_by(user: someone)
+    return if member.blank?
+    member.update_columns(visited_at: DateTime.now)
   end
 
   def members_with_deleted
@@ -391,6 +400,13 @@ class Issue < ApplicationRecord
 
   def self.messagable_group_method
     :of_group
+  end
+
+  def unread?(someone)
+    return false if someone.blank?
+
+    member = members.find_by(user: someone)
+    member.unread_issue?(self)
   end
 
   private

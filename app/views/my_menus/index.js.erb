@@ -1,6 +1,6 @@
 if($('#js-my-menu-drawer_issues').length > 0) {
   <% if user_signed_in? %>
-    var $drawer = $('<%= j(render 'application/drawer_search') %><%= j(render 'application/drawer_issues') %>');
+    var $drawer = $('<%= j(render 'application/drawer_search') %><%= j(render 'application/drawer_issues', members_for_issues: @members_for_issues) %>');
     $('#js-my-menu-drawer_issues').replaceWith($drawer);
     parti_partial$($drawer, true);
   <% elsif @target_issue.present? %>

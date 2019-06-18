@@ -46,6 +46,14 @@ class Member < ApplicationRecord
     gruop
   end
 
+  def unread_issue?
+    return unless joinable_type == 'Issue'
+    return false if self.visited_at.blank?
+    return false if self.issue.last_stroked_at.blank?
+
+    self.visited_at < issue.last_stroked_at
+  end
+
   def self.messagable_group_method
     :of_group
   end

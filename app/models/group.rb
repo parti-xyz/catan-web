@@ -172,7 +172,11 @@ class Group < ApplicationRecord
   end
 
   def subdomain
-    self.slug
+    Group.subdomain(self.slug)
+  end
+
+  def self.subdomain(slug)
+    slug
   end
 
   def open_square?
@@ -295,10 +299,6 @@ class Group < ApplicationRecord
 
   def visiable_latest_stroked_posts_count
     (LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ? latest_stroked_posts_count : 0)
-  end
-
-  def visiable_latest_issues_count
-    (LatestStrokedPostsCountHelper.current_version == latest_issues_count_version ? latest_issues_count : 0)
   end
 
   def creatable_issue?(someone)

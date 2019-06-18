@@ -279,10 +279,10 @@ class ApplicationController < ActionController::Base
 
   def verify_group(issue)
     return true if issue.blank?
-    return true if (issue.group.subdomain || "") == request.subdomain
+    return true if (issue.group_subdomain || "") == request.subdomain
 
     if request.format.html?
-      redirect_to subdomain: issue.group.subdomain
+      redirect_to subdomain: issue.group_subdomain
     else
       render_403
     end

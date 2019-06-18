@@ -95,7 +95,7 @@ class IssuesController < ApplicationController
       @search_q = PostSearchableIndex.sanitize_search_key params[:q]
     end
     @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
-
+    @issue.visit!(current_user)
     prepare_posts_page
   end
 

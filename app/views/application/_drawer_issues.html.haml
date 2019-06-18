@@ -3,30 +3,16 @@
 - elsif local_assigns[:target_group].present?
   - [target_group]
 - else
-  - ([host_group] + Group.sort_by_name.joined_groups(current_user).but(host_group).to_a)
+  - ([host_group] + Group.sort_by_name.joined_groups(current_user).but(host_group).includes(:categories).to_a)
 - menu_groups.each do |menu_group|
   %li.js-group-issues-line.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
     .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }
-      - latest_issues_count = menu_group.visiable_latest_issues_count
-      - latest_stroked_posts_count = menu_group.visiable_latest_stroked_posts_count
-      - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
-      - any_latest_stroked_posts = (!latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0)
-
       .title-btn-folding
         %i.fa.fa-caret-down
       .title-content
         = link_to smart_group_url(menu_group), 'aria-label': only_mobile_app(request, "drawer-group-#{menu_group.slug}") do
           %span.group-parties-section-title-wrapper
             #{group_sidemenu_title(menu_group)}
-            - if any_latest_issues
-              %span.parties-count
-                %i.fa.fa-flag(title='최근 채널')
-                = latest_issues_count
-            - if any_latest_stroked_posts
-              %span.posts-count
-                %i.fa.fa-file-text(title='최근 업데이트')
-                = latest_stroked_posts_count
-
 
     - issues = current_user&.member_issues&.only_alive_of_group(menu_group)
     - if issues.blank?
@@ -35,14 +21,14 @@
       .group-issues-list.js-sidemenu-toggle-issues{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
         - if menu_group.categories.any?
           - (menu_group.categories.to_a << nil).each do |category|
-            - categorized_issues = issues.categorized_with(category)
+            - categorized_issues = issues.categorized_with(category).sort_by_name.to_a
             - next if categorized_issues.empty?
 
             .title.title-category.js-drawer-filter-ignored= (category.try(:name) || '미분류')
-            = render 'application/drawer_issues_list', group: menu_group, issues: categorized_issues
+            = render 'application/drawer_issues_list', group: menu_group, issues: categorized_issues, members_for_issues: local_assigns[:members_for_issues]
 
         - else
-          = render 'application/drawer_issues_list', group: menu_group, issues: issues
+          = render 'application/drawer_issues_list', group: menu_group, issues: issues.sort_by_name, members_for_issues: local_assigns[:members_for_issues]
 
         %ul.sub.list-unstyled
           %li.js-drawer-filter-ignored.issue-more.clearfix

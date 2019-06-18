@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_16_195014) do
+ActiveRecord::Schema.define(version: 2019_06_18_014604) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -375,6 +375,7 @@ ActiveRecord::Schema.define(version: 2019_06_16_195014) do
     t.text "admit_message", limit: 16777215
     t.boolean "is_magic", default: false
     t.text "description", limit: 16777215
+    t.datetime "visited_at"
     t.index ["joinable_id", "joinable_type"], name: "index_members_on_joinable_id_and_joinable_type"
     t.index ["joinable_id"], name: "index_members_on_joinable_id"
     t.index ["user_id", "joinable_id", "joinable_type", "active"], name: "index_members_on_user_id_and_joinable_id_and_joinable_type", unique: true
