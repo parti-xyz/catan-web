@@ -56,7 +56,7 @@ module Catan
         end
 
         if result.length < 2
-          result + (text[1] || 0)
+          result + (text[1] || '')
         else
           result[0..1]
         end

@@ -298,8 +298,7 @@ class Group < ApplicationRecord
   end
 
   def visiable_latest_issues_count
-    # (LatestIssuesCountHelper.current_version == latest_issues_count_version ? latest_issues_count : 0)
-    30
+    (LatestIssuesCountHelper.current_version == latest_issues_count_version ? latest_issues_count : 0)
   end
 
   def creatable_issue?(someone)

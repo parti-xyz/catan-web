@@ -5,5 +5,4 @@
       - if local_assigns[:members_for_issues].present?
         - member = members_for_issues[issue.id]
         - unread = member&.unread_issue? || false
-      - cache [issue, unread] do
-        = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-drawer-filter-searchable-line js-sidemenu-highlight-menu-parti js-sidemenu-highlight-menu-parti-#{issue.id} #{'unread' if unread}"
+      = render 'issues/issue_line', issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-drawer-filter-searchable-line js-sidemenu-highlight-menu-parti js-sidemenu-highlight-menu-parti-#{issue.id} #{'unread' if unread}"

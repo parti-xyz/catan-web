@@ -50,11 +50,10 @@
               %i.fa.fa-angle-right
     - else
       %ul.sub.list-unstyled
-        %li.js-issue-line.js-drawer-filter-ignored
-          = link_to smart_group_issues_url(menu_group), style: 'color: #c0c0c2' do
+        %li.js-issue-line.issue-more.js-drawer-filter-ignored
+          = link_to new_issue_path, style: 'color: #c0c0c2' do
             %span.text-nowrap
-              내 채널이 없습니다.
+              개설된 채널이 없습니다.
             %span.text-nowrap
-              가입하기
-              %i.fa.fa-arrow-right
-
+              채널 만들기
+              %i.fa.fa-angle-right

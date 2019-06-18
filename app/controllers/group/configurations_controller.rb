@@ -7,6 +7,7 @@ class Group::ConfigurationsController < Group::BaseController
     @group = Group.new
     @group.user = current_user
     @group.members.build(user: current_user, is_organizer: true)
+    render layout: 'application'
   end
 
   def create
@@ -14,13 +15,15 @@ class Group::ConfigurationsController < Group::BaseController
     @group.plan = Group.plan.lite
     @group.user = current_user
     @group.slug = params[:group][:slug]
-    @group.logo = "data:image/png;base64,#{Catan::Avatar::generate_avatar(@group.title)}"
+    if @group.title.present?
+      @group.logo = "data:image/png;base64,#{Catan::Avatar::generate_avatar(@group.title)}"
+    end
     @group.members.build(user: current_user, is_organizer: true)
 
     if @group.save
       redirect_to smart_group_url(@group)
     else
-      render 'new'
+      render 'new', layout: 'application'
     end
   end
 
