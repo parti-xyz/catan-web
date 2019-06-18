@@ -1306,14 +1306,14 @@ var parti_prepare = function($base, force) {
           $('.js-drawer-filter').trigger('parti-drawer-filter-temporary-reset', $issues);
           $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
           $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
-          $icon.removeClass(fold_icon);
-          $icon.addClass(unfold_icon);
+          $icon.removeClass(unfold_icon);
+          $icon.addClass(fold_icon);
         } else if($issues.hasClass('js-sidemenu-toggle-issues-unfold-temporary')) {
           $('.js-drawer-filter').trigger('parti-drawer-filter-temporary-ignore', $issues);
           $issues.removeClass('js-sidemenu-toggle-issues-unfold-temporary');
           $issues.addClass('js-sidemenu-toggle-issues-fold-temporary');
-          $icon.removeClass(unfold_icon);
-          $icon.addClass(fold_icon);
+          $icon.removeClass(fold_icon);
+          $icon.addClass(unfold_icon);
         } else {
           var mode;
           if(force_mode) {
@@ -1355,10 +1355,18 @@ var parti_prepare = function($base, force) {
         var $target = $(e.currentTarget);
         var $group = $target.closest('.js-sidemenu-toggle-group');
         var $issues = $group.find('.js-sidemenu-toggle-issues');
+        var $icon = $group.find('.js-sidemenu-toggle-icon');
+
         if($issues.hasClass('js-sidemenu-toggle-issues-fold')) {
           $issues.hide();
+
+          $icon.removeClass(unfold_icon);
+          $icon.addClass(fold_icon);
         } else {
           $issues.show();
+
+          $icon.removeClass(fold_icon);
+          $icon.addClass(unfold_icon);
         }
         $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
         $issues.removeClass('js-sidemenu-toggle-issues-unfold-temporary');
@@ -1369,9 +1377,14 @@ var parti_prepare = function($base, force) {
         var $target = $(e.currentTarget);
         var $group = $target.closest('.js-sidemenu-toggle-group');
         var $issues = $group.find('.js-sidemenu-toggle-issues');
+        var $icon = $group.find('.js-sidemenu-toggle-icon');
+
         $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
         $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
         $issues.show();
+
+        $icon.removeClass(unfold_icon);
+        $icon.addClass(fold_icon);
       });
 
       $(elm).on('parti-sidemenu-toggle-hide-temporary', function(e) {
@@ -1379,9 +1392,14 @@ var parti_prepare = function($base, force) {
         var $target = $(e.currentTarget);
         var $group = $target.closest('.js-sidemenu-toggle-group');
         var $issues = $group.find('.js-sidemenu-toggle-issues');
+        var $icon = $group.find('.js-sidemenu-toggle-icon');
+
         $issues.addClass('js-sidemenu-toggle-issues-unfold-temporary');
         $issues.removeClass('js-sidemenu-toggle-issues-fold-temporary');
         $issues.show();
+
+        $icon.removeClass(unfold_icon);
+        $icon.addClass(fold_icon);
       });
     });
   })();
