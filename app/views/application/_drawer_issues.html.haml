@@ -42,6 +42,11 @@
           %li.js-drawer-filter-ignored.issue-more.clearfix
             = link_to issues_url(subdomain: menu_group.subdomain) do
               더 보기
+              - latest_issues_count = menu_group.visiable_latest_issues_count
+              - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
+              - if any_latest_issues
+                %span.parties-count
+                  +#{latest_issues_count}
               %i.fa.fa-angle-right
     - else
       %ul.sub.list-unstyled

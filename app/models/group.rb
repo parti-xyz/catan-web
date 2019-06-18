@@ -297,8 +297,9 @@ class Group < ApplicationRecord
     !met_issues_quota?
   end
 
-  def visiable_latest_stroked_posts_count
-    (LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ? latest_stroked_posts_count : 0)
+  def visiable_latest_issues_count
+    # (LatestIssuesCountHelper.current_version == latest_issues_count_version ? latest_issues_count : 0)
+    30
   end
 
   def creatable_issue?(someone)

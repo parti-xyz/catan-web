@@ -24,5 +24,5 @@ zombie_group_member_purge_job:
   queue: default
 last_stroked_posts_count_job:
   cron: "*/45 * * * * Asia/Seoul"
-  class: "LastStrokedPostsCountJob"
+  class: "LatestIssuesCountJob"
   queue: default

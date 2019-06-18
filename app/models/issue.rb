@@ -14,8 +14,6 @@ class Issue < ApplicationRecord
     end
   end
 
-  include LatestStrokedPostsCountHelper
-
   include UniqueSoftDeletable
   acts_as_unique_paranoid
   acts_as_taggable
@@ -372,10 +370,6 @@ class Issue < ApplicationRecord
       return false if !target_group.member?(user)
     end
     true
-  end
-
-  def visiable_latest_stroked_posts_count
-    (LatestStrokedPostsCountHelper.current_version == latest_stroked_posts_count_version ? latest_stroked_posts_count : 0)
   end
 
   def member_of someone

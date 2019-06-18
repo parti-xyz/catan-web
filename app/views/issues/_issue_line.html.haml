@@ -32,13 +32,6 @@
       .issue-line-body-wraper
         %a.span.issue-line__title{ href: (local_assigns[:no_link] ? nil : smart_issue_home_path_or_url(issue)), 'aria-label': only_mobile_app(request, "drawer-parti-#{issue.slug}"), title: issue.title }
           = issue_tag(issue, show_group: local_assigns[:show_group], group_classes: 'text-nowrap')
-        - unless (local_assigns[:hide_latest_stroked_posts_count] || false)
-          - latest_stroked_posts_count = issue.visiable_latest_stroked_posts_count
-          - if !latest_stroked_posts_count.nil? and latest_stroked_posts_count > 0
-            %span.issue-line__meta{ data: (link_to_parti unless local_assigns[:link_whole_line]), class: "#{('cursor-pointer' if link_to_parti.any?)}" }
-              .posts-count.meta-item
-                %i.fa.fa-file-text(title='최근 업데이트')
-                = latest_stroked_posts_count
 
         %span.after-block
           = after_block

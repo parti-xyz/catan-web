@@ -15,4 +15,4 @@
               = link_to '삭제', issue_push_notification_preference, method: :delete, remote: true, class: 'btn btn-default btn-xs', data: { 'confirm': '삭제하고 기본 설정으로 되돌리시겠습니까?', 'disable_with': '...' }
             .value-desc
               = t("enumerize.issue_push_notification_preference.value_desc.#{issue_push_notification_preference.value}")
-        = render 'issues/issue_line', issue: issue_push_notification_preference.issue, footer_block: control, hide_latest_stroked_posts_count: true, issue_classes: 'js-hover-toggle', issue_data: { 'hover-toggle': "##{control_id}" }
+        = render 'issues/issue_line', issue: issue_push_notification_preference.issue, footer_block: control, issue_classes: 'js-hover-toggle', issue_data: { 'hover-toggle': "##{control_id}" }

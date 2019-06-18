@@ -3,10 +3,10 @@
 * 에디터 변경
 * 과거 이력 삭제
 * 위키
-* 홈 보이기 
-* 그룹만들기 링크
+* 그룹 만들기 링크
 * latest_issues_count 삭제
     t.integer "latest_stroked_posts_count", default: 0
     t.integer "latest_stroked_posts_count_version", default: 0
     t.integer "latest_issues_count", default: 0
     t.integer "latest_issues_count_version", default: 0
+latest_stroked_posts_count

@@ -1,4 +1,4 @@
-module LatestStrokedPostsCountHelper
+module LatestIssuesCountHelper
   if Rails.env.production?
     @@stroked_count_redis_config = YAML.load_file(Rails.root + 'config/redis.yml')[Rails.env]
   end
