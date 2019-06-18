@@ -39,7 +39,7 @@
     %ul.nav.navbar-nav
       %li.js-btn-drawer
         %a.btn-header.js-slideout-toggle{ style: 'float: left' }
-          - if host_group.try(:is_light_theme?)
+          - if current_group.blank? or current_group.is_light_theme?
             = image_tag 'btn_mobile_menu.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
           - else
             = image_tag 'btn_mobile_menu_white.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')

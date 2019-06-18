@@ -286,9 +286,7 @@ module ApplicationHelper
   end
 
   def sidebar_group_opened?(group)
-    if user_signed_in?
-      return current_group == group
-    end
+    return current_group == group
   end
 
   def root_domain

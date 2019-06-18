@@ -1,25 +1,20 @@
-var $drawer_issues = $('<%= j(render 'application/drawer_issues') %>');
 if($('#js-my-menu-drawer_issues').length > 0) {
-  var $drawer_merged = $('<%= j(render 'application/drawer_search') %>');
-  $drawer_merged = $drawer_merged.add($drawer_issues);
-  $('#js-my-menu-drawer_issues').replaceWith($drawer_merged);
-  parti_partial$($drawer_merged, true);
-} else {
-  $('.js-group-issues-line').remove();
-  $('.js-drawer-filter-form').after($drawer_issues);
-  parti_partial$($drawer_issues, true);
+  <% if user_signed_in? %>
+    var $drawer = $('<%= j(render 'application/drawer_search') %><%= j(render 'application/drawer_issues') %>');
+    $('#js-my-menu-drawer_issues').replaceWith($drawer);
+    parti_partial$($drawer, true);
+  <% elsif @target_issue.present? %>
+    var $drawer = $('<%= j(render 'application/drawer_issues', target_issue: @target_issue) %>');
+    $('#js-my-menu-drawer_issues').replaceWith($drawer);
+    parti_partial$($drawer, true);
+  <% elsif @target_group.present? %>
+    var $drawer = $('<%= j(render 'application/drawer_issues', target_group: @target_group) %>');
+    $('#js-my-menu-drawer_issues').replaceWith($drawer);
+    parti_partial$($drawer, true);
+  <% else %>
+    $('#js-my-menu-drawer_issues').remove();
+  <% end %>
 }
-
-<% if user_signed_in? %>
-  var $fixed_top = $('.js-drawer-current-group-fixed-top');
-  $fixed_top.parent().removeClass('inactive');
-  $fixed_top.attr('href', $fixed_top.data('inactive-url'));
-
-  var $unfold_only = $('.js-drawer-current-group-unfold-only');
-  $unfold_only.parent().removeClass('inactive');
-  $unfold_only.attr('href', $unfold_only.data('inactive-url'));
-<% end %>
-
 $('.js-sidemenu-highlight-menu-parti').removeClass('highlight');
 var need_to_group_highlight = true;
 

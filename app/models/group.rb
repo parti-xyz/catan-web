@@ -104,6 +104,13 @@ class Group < ApplicationRecord
   # scopes
   scope :never_blinded, -> { where(blinded_at: nil) }
   scope :blinded_only, -> { where.not(blinded_at: nil) }
+  scope :comprehensive_joined_by, -> (someone) {
+    where(slug: (someone&.member_issues&.select(:group_slug)))
+      .or(self.where(id: someone&.member_groups))
+  }
+  scope :joined_groups, -> (someone) {
+    where(id: someone&.member_groups)
+  }
 
   # search
   scoped_search on: [:title, :slug, :site_title, :head_title]
@@ -190,12 +197,6 @@ class Group < ApplicationRecord
 
   def comprehensive_joined_users
     User.where(id: Member.where(joinable: self.issues).select(:user_id))
-  end
-
-  def self.comprehensive_joined_by(someone)
-    return Group.none if someone.blank?
-    self.where(slug: (someone.member_issues.select(:group_slug)))
-        .or(self.where(id: someone.member_groups))
   end
 
   def self.find_by_slug(slug)

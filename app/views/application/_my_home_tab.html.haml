@@ -37,7 +37,7 @@
               = link_to send(dropdown_url, subdomain: nil, group_slug: :all) do
                 전체
             %li.divider
-          - Group.comprehensive_joined_by(current_user).each do |group|
+          - Group.joined_groups(current_user).each do |group|
             %li{ class: ('selected' if current_dashboard_group == group) }
               = link_to send(dropdown_url, subdomain: nil, group_slug: group.slug)  do
                 = group_basic_title(group)

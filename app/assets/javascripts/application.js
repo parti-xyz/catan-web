@@ -1385,6 +1385,33 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  $.parti_apply($base, '.js-lazy-partal-load-drawer', function(elm) {
+    var $current_parti_source = $('.js-sidemenu-highlight-current-parti-source');
+    var current_parti_id;
+    if($current_parti_source.length > 0) {
+      current_parti_id = $current_parti_source.data('sidemenu-highlight-current-parti-id');
+    }
+
+    var $current_group_source = $('.js-sidemenu-highlight-current-group-source');
+    var current_group_id;
+    if($current_group_source.length > 0) {
+      current_group_id = $current_group_source.data('sidemenu-highlight-current-group-id');
+    }
+
+    $.ajax({
+      url: $(elm).data('url'),
+      type: 'get',
+      crossDomain: false,
+      data:{
+        issue_id: current_parti_id,
+        group_id: current_group_id,
+      },
+      xhrFields: {
+        withCredentials: true
+      }
+    });
+  });
+
   $.parti_apply($base, '.js-parti-drawer-search', function(elm) {
     $(elm).on('click', function(e) {
       var input_target = $(elm).data('input-target');

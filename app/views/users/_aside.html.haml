@@ -1,7 +1,7 @@
 = aside_column_tag do
   #aside
     %section.aside-relate-issues
-      - Group.comprehensive_joined_by(@user).sort_by_name.each do |group|
+      - Group.joined_groups(@user).sort_by_name.each do |group|
         - next if group.private_blocked? current_user
         - issues = @user.member_issues.of_group(group).reject { |issue| issue.private_blocked?(current_user) }
         - next if issues.empty?
