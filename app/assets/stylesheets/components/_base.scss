@@ -899,3 +899,10 @@ a.a-gray {
 .margin-zero {
   margin: 0;
 }
+
+.only-clickable {
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
