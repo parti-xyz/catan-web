@@ -17,7 +17,7 @@
   -# if params[:edit].blank?
   .threaded-folders.threaded-folders-margined
     .headers
-      .header-cell 제목
+      .header-cell.title 제목
       .header-cell.updated-at 업데이트
     .background
       - Folder.threaded(@folders).each do |parent_folder, child_folders|

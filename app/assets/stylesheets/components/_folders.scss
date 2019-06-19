@@ -53,12 +53,18 @@ section#folders {
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 6px;
+      &.title {
+        padding: 0 16px;
+      }
       &.updated-at {
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAQAAADYv8WvAAAAD0lEQVQIW2NgsGAAAiABAAJyAHEQ6XFvAAAAAElFTkSuQmCC);
         background-repeat: repeat-y;
         background-position: left;
         background-size: 1px 1px;
         width: 150px;
+        @media (max-width: $screen-xs-max) {
+          display: none;
+        }
       }
     }
   }
@@ -83,8 +89,9 @@ section#folders {
       position: relative;
       .icon {
         display: table-cell;
-        width: 24px;
+        width: 36px;
         text-align: right;
+        padding-right: 4px;
       }
       .title {
         display: table-cell;
@@ -93,11 +100,14 @@ section#folders {
         display: table-cell;
         width: 150px;
         color: $gray-a;
+        @media (max-width: $screen-xs-max) {
+          display: none;
+        }
       }
     }
     .child-folder {
       .icon {
-        width: 48px;
+        width: 54px;
       }
     }
     .grandchild-folder {
