@@ -845,6 +845,7 @@ var parti_prepare = function($base, force) {
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
+        cache_suffix: '?v=5.0.5.1',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -911,6 +912,7 @@ var parti_prepare = function($base, force) {
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
+        cache_suffix: '?v=5.0.5.1',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,

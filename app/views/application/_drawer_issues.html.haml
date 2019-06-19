@@ -7,7 +7,7 @@
 - all_issues = current_user&.member_issues&.sort_by_name.to_a
 - menu_groups.each do |menu_group|
   %li.js-group-issues-line.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
-    .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }
+    .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle.only-clickable{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }
       .title-btn-folding
         %i.fa.fa-fw.js-sidemenu-toggle-icon{ class: "#{sidebar_group_opened?(menu_group) ? 'fa-caret-down' : 'fa-caret-right'}" }
       .title-content
