@@ -1,13 +1,13 @@
 %li.menu-line
   = link_to discover_url(subdomain: nil), 'aria-label': only_mobile_app(request, 'drawer-discover'), class: "#{'active' if current_page?('/discover')}" do
-    %i.fa.fa-fort-awesome
+    %i.fa.fa-fort-awesome.fa-fw
     새로운 발견
 %li.menu-line
   = link_to issues_url(subdomain: nil), class: "#{'active' if current_page?('/parties')}" do
-    %i.fa.fa-search
+    %i.fa.fa-search.fa-fw
     그룹 찾기
 - if user_signed_in?
   %li.menu-line
     = link_to new_group_configuration_url(subdomain: nil), class: "#{'active' if current_page?('/parties')}" do
-      %i.fa.fa-magic
+      %i.fa.fa-magic.fa-fw
       그룹 만들기

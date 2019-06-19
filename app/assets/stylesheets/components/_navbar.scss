@@ -483,7 +483,7 @@ $drawer-default-space-mobile: 12px;
         a {
           color: $gray-a;
         }
-        a:hover {
+        &:hover a {
           color: $gray;
         }
         &.unread a {
@@ -503,30 +503,16 @@ $drawer-default-space-mobile: 12px;
       }
       &.group-issues-line {
         margin: 0;
-        padding: $drawer-default-space 0 0;
+        padding: 0;
         @media (max-width: $screen-xs-max) {
           padding: 0;
         }
         &:first-child {
-          margin-top: 0;
+          margin-top: 12px;
           padding-top: 0;
         }
         .group-parties-section-title {
           word-break: keep-all;
-          .group-title {
-            color: $gray;
-          }
-          color: $gray;
-          &:hover {
-            color: $brand-primary;
-          }
-        }
-        .group-parties-section-title-wrapper {
-          .posts-count {
-            color: $brand-primary-dark;
-            font-size: $font-size-small;
-            white-space: nowrap;
-          }
         }
         .title {
           padding: $drawer-default-space/2 18px;
@@ -542,9 +528,6 @@ $drawer-default-space-mobile: 12px;
             &:hover {
               background-color: $brand-primary-light;
             }
-            .group-parties-section-title:hover {
-              color: $brand-primary-dark;
-            }
           }
           &.title-category {
             color: $gray-a;
@@ -556,11 +539,22 @@ $drawer-default-space-mobile: 12px;
             flex: 1;
           }
           .title-btn-folding {
-            color: $gray-a;
             padding-right: 4px;
           }
           &:hover .title-btn-folding {
             visibility: visible;
+          }
+
+          color: $gray-a;
+          &:hover {
+            color: $gray;
+          }
+          &.unread {
+            color: $gray;
+            font-weight: bold;
+          }
+          &.unread:hover {
+            color: $gray;
           }
         }
         .sub {
@@ -600,16 +594,20 @@ $drawer-default-space-mobile: 12px;
           }
           .group-home-line {
             color: $gray-a;
+            &:hover {
+              color: $gray;
+            }
           }
         }
         .group-issues-list {
+          margin-bottom: $drawer-default-space;
           &.sidemenu-toggle-issues-fold-in-advance {
             display: none;
           }
         }
       }
       &.head-line {
-        padding: 12px 18px 3px;
+        padding: 12px 18px;
         .drawer-list-mobile & {
           background-color: white;
         }

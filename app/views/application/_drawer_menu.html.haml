@@ -7,11 +7,10 @@
       - hot_issues = Issue.only_public_hottest(5).where.not(group_slug: current_group&.slug).to_a.group_by{ |issue| issue.group_slug }
       - if hot_issues.any?
         %li.divider.divider-small
-        %li.group-issues-line
-          .title.cursor-pointer{ data: { 'action': "parti-link", 'url': issues_url(subdomain: nil) } }
-            .group-parties-section-title
-              %i.fa.fa-flash
-              인기 그룹
+        %li.menu-line
+          = link_to issues_url(subdomain: nil), class: "#{'active' if current_page?('/parties')}" do
+            %i.fa.fa-flash.fa-fw
+            인기 그룹
         - hot_issues.each do |group_slug, issues|
           = render 'application/drawer_issues', target_group: Group.find_by(slug: group_slug)
 
