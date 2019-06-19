@@ -23,7 +23,7 @@
         = f.hidden_field :has_survey, value: false
         = f.hidden_field :has_event, value: false
 
-        .form-group.textarea-box.tinymce-wrapper-toggletoolbar
+        .form-group.textarea-box
           .js-tinymce{ 'data-target-id': "##{post_body_dom_id}", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
           = f.hidden_field :body, id: post_body_dom_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
 

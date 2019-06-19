@@ -1,10 +1,201 @@
-// 툴바 위치 고정
+// PC 툴바 위치 고정
+/******/ (function(modules) { // webpackBootstrap
+/******/  // The module cache
+/******/  var installedModules = {};
+/******/
+/******/  // The require function
+/******/  function __webpack_require__(moduleId) {
+/******/
+/******/    // Check if module is in cache
+/******/    if(installedModules[moduleId]) {
+/******/      return installedModules[moduleId].exports;
+/******/    }
+/******/    // Create a new module (and put it into the cache)
+/******/    var module = installedModules[moduleId] = {
+/******/      i: moduleId,
+/******/      l: false,
+/******/      exports: {}
+/******/    };
+/******/
+/******/    // Execute the module function
+/******/    modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/    // Flag the module as loaded
+/******/    module.l = true;
+/******/
+/******/    // Return the exports of the module
+/******/    return module.exports;
+/******/  }
+/******/
+/******/
+/******/  // expose the modules object (__webpack_modules__)
+/******/  __webpack_require__.m = modules;
+/******/
+/******/  // expose the module cache
+/******/  __webpack_require__.c = installedModules;
+/******/
+/******/  // define getter function for harmony exports
+/******/  __webpack_require__.d = function(exports, name, getter) {
+/******/    if(!__webpack_require__.o(exports, name)) {
+/******/      Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/    }
+/******/  };
+/******/
+/******/  // define __esModule on exports
+/******/  __webpack_require__.r = function(exports) {
+/******/    if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/      Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/    }
+/******/    Object.defineProperty(exports, '__esModule', { value: true });
+/******/  };
+/******/
+/******/  // create a fake namespace object
+/******/  // mode & 1: value is a module id, require it
+/******/  // mode & 2: merge all properties of value into the ns
+/******/  // mode & 4: return value when already ns object
+/******/  // mode & 8|1: behave like require
+/******/  __webpack_require__.t = function(value, mode) {
+/******/    if(mode & 1) value = __webpack_require__(value);
+/******/    if(mode & 8) return value;
+/******/    if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/    var ns = Object.create(null);
+/******/    __webpack_require__.r(ns);
+/******/    Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/    if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/    return ns;
+/******/  };
+/******/
+/******/  // getDefaultExport function for compatibility with non-harmony modules
+/******/  __webpack_require__.n = function(module) {
+/******/    var getter = module && module.__esModule ?
+/******/      function getDefault() { return module['default']; } :
+/******/      function getModuleExports() { return module; };
+/******/    __webpack_require__.d(getter, 'a', getter);
+/******/    return getter;
+/******/  };
+/******/
+/******/  // Object.prototype.hasOwnProperty.call
+/******/  __webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/  // __webpack_public_path__
+/******/  __webpack_require__.p = "";
+/******/
+/******/
+/******/  // Load entry module and return exports
+/******/  return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-$.fn.scrollEnd = function(callback, timeout) {
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 
+// CONCATENATED MODULE: ./src/plugin.js
+var plugin_plugin = function plugin(editor) {
+  var offset = editor.settings.sticky_offset ? editor.settings.sticky_offset : 0;
+  editor.on('init', function () {
+    setTimeout(function () {
+      setSticky();
+    }, 0);
+  });
+  window.addEventListener('resize', function () {
+    setSticky();
+  });
+  window.addEventListener('scroll', function () {
+    setSticky();
+  });
+
+  function setSticky() {
+    var container = editor.getContainer();
+    var toolbars = container.querySelectorAll('.tox-menubar, .tox-toolbar');
+    var toolbarHeights = 0;
+    toolbars.forEach(function (toolbar) {
+      toolbarHeights += toolbar.offsetHeight;
+    });
+
+    if (!editor.inline && container && container.offsetParent) {
+      var statusbar = '';
+
+      if (editor.settings.statusbar !== false) {
+        statusbar = container.querySelector('.tox-statusbar');
+      }
+
+      if (isSticky()) {
+        container.style.paddingTop = "".concat(toolbarHeights, "px");
+
+        if (isAtBottom()) {
+          var nextToolbarHeight = 0;
+          var toolbarsArray = [].slice.call(toolbars).reverse();
+          toolbarsArray.forEach(function (toolbar) {
+            toolbar.style.top = null;
+            toolbar.style.width = '100%';
+            toolbar.style.position = 'absolute';
+            toolbar.style.bottom = statusbar ? "".concat(statusbar.offsetHeight + nextToolbarHeight, "px") : 0;
+            toolbar.style.zIndex = 1;
+            nextToolbarHeight = toolbar.offsetHeight;
+          });
+        } else {
+          var prevToolbarHeight = 0;
+          toolbars.forEach(function (toolbar) {
+            toolbar.style.bottom = null;
+            toolbar.style.top = "".concat(offset + prevToolbarHeight, "px");
+            toolbar.style.position = 'fixed';
+            toolbar.style.width = "".concat(container.clientWidth, "px");
+            toolbar.style.zIndex = 1;
+            prevToolbarHeight = toolbar.offsetHeight;
+          });
+        }
+      } else {
+        container.style.paddingTop = 0;
+        toolbars.forEach(function (toolbar) {
+          toolbar.style = null;
+        });
+      }
+    }
+  }
+
+  function isSticky() {
+    var editorPosition = editor.getContainer().getBoundingClientRect().top;
+
+    if (editorPosition < offset) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function isAtBottom() {
+    var container = editor.getContainer();
+    var editorPosition = container.getBoundingClientRect().top,
+        statusbar = container.querySelector('.tox-statusbar'),
+        toolbars = container.querySelectorAll('.tox-menubar, .tox-toolbar');
+    var statusbarHeight = statusbar ? statusbar.offsetHeight : 0;
+    var toolbarHeights = 0;
+    toolbars.forEach(function (toolbar) {
+      toolbarHeights += toolbar.offsetHeight;
+    });
+    var stickyHeight = -(container.offsetHeight - toolbarHeights - statusbarHeight);
+
+    if (editorPosition < stickyHeight + offset) {
+      return true;
+    }
+
+    return false;
+  }
 };
 
-tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
+/* harmony default export */ var src_plugin = (plugin_plugin);
+// CONCATENATED MODULE: ./src/index.js
+
+tinymce.PluginManager.add('stickytoolbar', src_plugin);
+
+/***/ })
+/******/ ]);
+
+
+tinymce.PluginManager.add('mobile-stickytoolbar', function(editor, url) {
   var inited = false;
   editor.on('focus', function() {
     inited = true;
@@ -23,8 +214,9 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
       return;
     }
 
-    var $toolbars = $(container).find('.mce-toolbar-grp');
-    var $statusbar = $(container).find('.mce-statusbar');
+    $(container).find('.tox-editor-container').css('position', 'relative');
+    var $toolbars = $(container).find('.tox-toolbar');
+    var $statusbar = $(container).find('.tox-statusbar');
 
     var viewportTopDelta = 0;
 
@@ -32,13 +224,11 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
       var $offsets = $('.js-stickytoolbar-offset').filter(function () {
         return $(this).css('position') == 'fixed';
       });
-
       $offsets.each(function() {
         var absoluteTop = parseFloat($(this).outerHeight() + $(this).position().top);
         viewportTopDelta = absoluteTop > viewportTopDelta ? absoluteTop : viewportTopDelta;
       });
     }
-
     if (isSticky(viewportTopDelta)) {
       if($('body').hasClass('ios')) {
         $toolbars.css('visibility', 'hidden');
@@ -74,7 +264,7 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
         });
       }
       $(container).addClass('mce-catan-tinymce-sticky');
-      $toolbars.find('> .mce-container-body').addClass('mce-catan-container-body-sticky');
+      $toolbars.addClass('mce-catan-container-body-sticky');
       $toolbars.find('> .js-mce-catan-sticky-toolbar').addClass('mce-catan-toolbar-sticky');
     } else {
       $(container).css({
@@ -86,7 +276,7 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
         width: '100%'
       });
       $(container).removeClass('mce-catan-tinymce-sticky');
-      $toolbars.find('> .mce-container-body').removeClass('mce-catan-container-body-sticky');
+      $toolbars.removeClass('mce-catan-container-body-sticky');
       $toolbars.find('> .js-mce-catan-sticky-toolbar').removeClass('mce-catan-toolbar-sticky');
     }
   }
@@ -98,7 +288,6 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
   function isReading(viewportTopDelta) {
     var container = editor.editorContainer,
       editorTop = container.getBoundingClientRect().top;
-
     var toolbarHeight = $(container).find('.mce-toolbar-grp').outerHeight();
     var footerHeight = $(container).find('.mce-statusbar').outerHeight();
 
@@ -113,63 +302,15 @@ tinymce.PluginManager.add('stickytoolbar', function(editor, url) {
     var container = editor.editorContainer,
       editorTop = container.getBoundingClientRect().top;
 
-    var toolbarHeight = $(container).find('.mce-toolbar-grp').outerHeight();
-    var footerHeight = $(container).find('.mce-statusbar').outerHeight();
+    var toolbarHeight = $(container).find('.tox-toolbar').outerHeight();
+    var footerHeight = $(container).find('.tox-statusbar').outerHeight();
 
     var hiddenHeight = -($(container).outerHeight() - toolbarHeight - footerHeight);
 
     if (editorTop < hiddenHeight + viewportTopDelta + buffterHeight) {
-      return true;
-    }
+       return true;
+     }
 
-    return false;
-  }
-});
-
-// h1 h2 h3 툴바
-tinyMCE.PluginManager.add('stylebuttons', function(editor, url) {
-  ['h1', 'h2', 'h3'].forEach(function(name){
-    editor.addButton("style-" + name, {
-      tooltip: "제목 " + name,
-      text: name.toUpperCase(),
-      onClick: function() { editor.execCommand('mceToggleFormat', false, name); },
-      onPostRender: function() {
-        var self = this, setup = function() {
-          editor.formatter.formatChanged(name, function(state) {
-            self.active(state);
-          });
-        };
-        editor.formatter ? setup() : editor.on('init', setup);
-      }
-    })
-  });
-  $.each({br: '줄바꿈'}, function(name, display) {
-    editor.addButton("style-" + name, {
-      tooltip: display,
-      text: display,
-      onClick: function() {
-        // editor.execCommand('mceInsertContent', false, "<br/>");
-        uniqueId = "___cursor___" + Math.random().toString(36).substr(2, 16);
-        editor.execCommand('mceInsertContent', false, "<br/><span id=" + uniqueId + "> </span> ");
-        editor.selection.select(editor.dom.select('#' + uniqueId)[0]);
-        editor.selection.collapse(0);
-        editor.dom.remove(uniqueId);
-      },
-    });
-  });
-});
-
-// 토글 툴바
-tinymce.PluginManager.add('toggletoolbar', function(editor, url) {
-  editor.on('init', function(){
-    var $toggle_handler = $('<div class="js-tinymce-catan-toolbar-handle js-mce-catan-sticky-toolbar tinymce-catan-toolbar-handle"><i class="fa fa-paint-brush" style="font-family: \'FontAwesome\';"></div>');
-    var container = editor.editorContainer;
-    var $toolbars = $(container).find('.mce-toolbar-grp');
-    $toolbars.append($toggle_handler);
-    $toolbars.find('> .mce-container-body').hide().addClass('mce-container-body-toggletoolbar').addClass('js-mce-container-body-toggletoolbar');
-
-    $toggle_handler.on('click', function(e) {
-      $toolbars.find('.js-mce-container-body-toggletoolbar').slideToggle('fast');
-    });
-  });
+     return false;
+   }
 });

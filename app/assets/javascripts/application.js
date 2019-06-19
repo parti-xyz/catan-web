@@ -828,12 +828,12 @@ var parti_prepare = function($base, force) {
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
-        plugins: 'link paste autolink autosave lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | bullist numlist outdent indent'
+        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent'
       },
       wiki: {
-        plugins: 'link paste autolink autosave lists advlist autoresize stickytoolbar stylebuttons',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | style-h1 style-h2 style-h3 | bullist numlist outdent indent'
+        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent'
       },
     };
     $.parti_apply($base, '.js-tinymce:not(.js-tinymce-mobile)', function(elm) {
@@ -848,7 +848,8 @@ var parti_prepare = function($base, force) {
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
-        autoresize_min_height: 100,
+        min_height: 200,
+        forced_root_block : false,
         autoresize_bottom_margin: 0,
         statusbar: false,
         toolbar: setting.toolbar,
@@ -865,150 +866,38 @@ var parti_prepare = function($base, force) {
         formats: {
           strikethrough: {inline : 'del'}
         },
+        style_formats: [
+          { title: '스타일', items: [
+            { title: '제목 1', format: 'h1' },
+            { title: '제목 2', format: 'h2' },
+            { title: '제목 3', format: 'h3' },
+            { title: 'Paragraph', format: 'p' },
+            { title: 'Div', format: 'div' },
+          ]},
+          { title: 'Align', items: [
+            { title: 'Left', format: 'alignleft' },
+            { title: 'Center', format: 'aligncenter' },
+            { title: 'Right', format: 'alignright' },
+            { title: 'Justify', format: 'alignjustify' }
+          ]}
+        ],
+        sticky_offset: 51,
         paste_preprocess: function(plugin, args) {
           var $content =  $(args.target.getBody());
           $content.data('need-to-fix-list', 'true');
           args.content = '<span>' + args.content + '</span>'
         },
-        skin: 'lightgray_4_8_4_v1',
-        init_instance_callback: function (editor) {
-          var fix_list = function($content) {
-            var is_touched = false;
-            $content.find('ul > ul, ul > ol, ol > ul').each(function(index) {
-              var $child_ul = $(this);
-              var $prev_child_ul = $child_ul.prev();
-              if($prev_child_ul.length >= 1) {
-                // 직전 형제 노드가 li면 그 아래로 옮긴다
-                if($prev_child_ul.prop("tagName") == "LI") {
-                  $child_ul.detach().appendTo($prev_child_ul);
-                  is_touched = true;
-                  return false;
-                }
-              } else {
-                // ul 아래 자식 ul이 처음 나오면 해당 자식 ul 삭제하고
-                // 자식 ul 아래 것을 상위로 올린다
-                $child_ul.children().detach().insertBefore($child_ul);
-                $child_ul.remove();
-                is_touched = true;
-                return false;
-              }
-
-              return true;
-            });
-
-            if(is_touched) {
-              return true;
-            }
-
-            $content.find('li > ul, li > ol').each(function(index) {
-              var $child_ul = $(this);
-              var $parent_li = $child_ul.parent();
-              // li 아래 자식 중에 ul이 맨 처음 나오면
-              var checked_child = false;
-              var any_visible_contents_before = false;
-              var any_visible_contents_after = false;
-              $parent_li.contents().each(function() {
-                if(any_visible_contents_before && any_visible_contents_after) {
-                  return false;
-                }
-
-                if($(this).is($child_ul)) {
-                  checked_child = true;
-                  return true;
-                }
-
-                if(!checked_child && any_visible_contents_before) {
-                  return true;
-                }
-
-                if($(this).prop('tagName') == "UL" || $(this).prop('tagName') == "OL") {
-                  return true;
-                }
-
-                if((/&nbsp;/.test($(this).html()) || $.trim($(this).text()) != "") || $(this).prop('tagName') == "IMG") {
-                  if(checked_child) {
-                    any_visible_contents_after = true;
-                    return false;
-                  } else {
-                    any_visible_contents_before = true;
-                  }
-                }
-
-                // 계속 확인을 진행합니다.
-                return true;
-              });
-
-              if(any_visible_contents_before || any_visible_contents_after) {
-                // 부모 li 아래 콘텐츠가 있으면 수정이 없다
-                // 단 자식 ul 앞에 콘텐츠가 없으면 스타일 보정을 위해 &nbsp;를 넣어준다
-                if(!any_visible_contents_before) {
-                  $parent_li.prepend("<span>&nbsp;</span>");
-                  is_touched = true;
-                  return false;
-                }
-              } else {
-                // li 아래 자식이 ul 하나면
-                // 해당 자식 ul을 상위로 올린다
-                $child_ul.detach().insertBefore($parent_li);
-                $parent_li.remove();
-                is_touched = true;
-                return false;
-              }
-
-              return true;
-            });
-
-            if(is_touched) {
-              return true;
-            }
-
-            $content.find('ul, ol').each(function(index) {
-              var $child_ul = $(this);
-              var $prev_child_ul = $child_ul.prev();
-              if($prev_child_ul.length >= 1) {
-                // 직전 형제 노드가 동일하면 합한다
-                if($prev_child_ul.prop("tagName") == $child_ul.prop("tagName")) {
-                  $child_ul.children().detach().appendTo($prev_child_ul);
-                  $child_ul.remove();
-                  is_touched = true;
-                  return false;
-                }
-              }
-
-              return true;
-            });
-
-            return is_touched;
-          }
-          editor.on('Change', function (e) {
-            var $content =  $(e.target.getBody());
-            if($content.data('need-to-fix-list') == 'true') {
-              var count = 0;
-              while (true) {
-                count++;
-                var result = fix_list($content);
-                if(!result || count > 1000) {
-                  break;
-                }
-              }
-              $content.data('need-to-fix-list', '');
-            }
-            Waypoint.refreshAll();
-          });
-        }
       });
     });
 
     settings = {
       default: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons toggletoolbar',
-        toolbar1: 'bold italic strikethrough blockquote style-br',
-        toolbar2: 'bullist numlist outdent indent link',
+        plugins: 'link paste autolink lists advlist autoresize mobile-stickytoolbar',
+        toolbar: 'styleselect bullist numlist outdent indent blockquote link',
       },
       wiki: {
-        plugins: 'link paste autolink lists advlist autoresize stickytoolbar stylebuttons',
-        toolbar1: 'bold italic strikethrough blockquote style-br style-h1 style-h2 style-h3',
-        toolbar2: 'bullist numlist outdent indent link',
+        plugins: 'link paste autolink lists advlist autoresize mobile-stickytoolbar',
+        toolbar: 'styleselect bullist numlist outdent indent blockquote link',
       },
     };
     // Tinymce on mobile
@@ -1025,11 +914,11 @@ var parti_prepare = function($base, force) {
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
-        autoresize_min_height: 100,
+        min_height: 300,
         autoresize_bottom_margin: 0,
+        forced_root_block: false,
         statusbar: false,
-        toolbar1: setting.toolbar1,
-        toolbar2: setting.toolbar2,
+        toolbar: setting.toolbar,
         paste_data_images: true,
         extended_valid_elements: 'span',
         document_base_url: 'https://parti.xyz/',
@@ -1043,20 +932,36 @@ var parti_prepare = function($base, force) {
         formats: {
           strikethrough: {inline : 'del'}
         },
-        skin: 'lightgray_4_8_4_v1',
+        style_formats: [
+          { title: '스타일', items: [
+            { title: '제목 1', format: 'h1' },
+            { title: '제목 2', format: 'h2' },
+            { title: '제목 3', format: 'h3' },
+            { title: 'Paragraph', format: 'p' },
+            { title: 'Div', format: 'div' },
+          ]},
+          { title: 'Inline', items: [
+            { title: 'Bold', format: 'bold' },
+            { title: 'Italic', format: 'italic' },
+            { title: 'Strikethrough', format: 'strikethrough' },
+          ]}
+        ],
+        mobile: {
+          theme: 'silver'
+        },
         setup: function (editor) {
           // link opender
           editor.on('init', function(){
             var $link_opener = $('<div class="js-tinymce-catan-link-opener tinymce-catan-link-opener"></div>');
             var container = editor.editorContainer;
-            var $toolbars = $(container).find('.mce-toolbar-grp');
-            $toolbars.append($link_opener);
+            var $edit_area = $(container).find('.tox-edit-area');
+            $edit_area.prepend($link_opener);
             $link_opener.hide();
           });
 
           var oldScrollTop;
           editor.on('OpenWindow', function(){
-            var toolbar = $('.mce-toolbar-grp')[0];
+            var toolbar = $('.tox-toolbar')[0];
             oldScrollTop = toolbar.getBoundingClientRect().top;
             setTimeout(function() {
               $.scrollTo(0, 0);
@@ -1079,7 +984,7 @@ var parti_prepare = function($base, force) {
         init_instance_callback: function (editor) {
           editor.on('NodeChange', function (e) {
             var container = editor.editorContainer;
-            var $toolbars = $(container).find('.mce-toolbar-grp');
+            var $toolbars = $(container).find('.tox-edit-area');
             var $link_opener = $toolbars.find('.js-tinymce-catan-link-opener');
 
             var node = tinyMCE.activeEditor.selection.getNode();

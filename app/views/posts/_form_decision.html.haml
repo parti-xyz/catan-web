@@ -4,7 +4,7 @@
     - decision_dom_id = "post-body-#{SecureRandom.uuid}"
     .form-widget-content{ id: textarea_error_id }
 
-      .form-group.textarea-box.tinymce-wrapper-toggletoolbar
+      .form-group.textarea-box
         %p.help-block
           진행된 토론 내용이나 결정 사항을 기록하세요.
         .js-tinymce{ 'data-target-id': "##{decision_dom_id}", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }

@@ -4,7 +4,7 @@
   - [target_group]
 - else
   - ([host_group] + Group.sort_by_name.joined_groups(current_user).but(host_group).includes(:categories).to_a)
-- all_issues = current_user&.member_issues.sort_by_name.to_a
+- all_issues = current_user&.member_issues&.sort_by_name.to_a
 - menu_groups.each do |menu_group|
   %li.js-group-issues-line.group-issues-line.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
     .title.cursor-pointer.js-drawer-filter-group-title.js-sidemenu-toggle{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-#{menu_group.id}" }

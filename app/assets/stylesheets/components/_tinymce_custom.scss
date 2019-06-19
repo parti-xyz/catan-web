@@ -1,48 +1,16 @@
-.mce-toolbar-grp.mce-container .mce-stack-layout {
-  &:before,
-  &:after {
-    content: " ";
-    display: table;
-  }
-
-  &:after {
-    clear: both;
-  }
-
-  > .mce-toolbar.mce-stack-layout-item {
-    float: left;
-  }
-}
-
-// 토글 툴바
-.tinymce-wrapper-toggletoolbar {
-  .mce-toolbar-grp > .mce-container-body {
-    display: none;
-  }
-}
-
-// sticky
-.mce-toolbar-grp > .mce-container-body {
-  border-top: 1px solid rgba(0,0,0,0.2);
-}
-
-.mce-tinymce.mce-panel {
-  border-top: 0;
-  &.mce-catan-tinymce-sticky {
-    border-top: 1px solid #c5c5c5;
-  }
-  background-color: $gray-more-lightest;
-}
-
-.mce-tinymce.mce-container.mce-panel {
+.tox-edit-area {
   .tinymce-catan-link-opener  {
     color: white;
-    height: 24px;
+    height: 40px;
+    width: 100%;
     background-color: $base-brand-primary;
     padding: 8px;
     border-top: 1px solid $gray-light;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: nowrap;
+    position: absolute;
+    z-index: 1;
 
     i.fa {
       color: #fff;
@@ -86,9 +54,10 @@
   }
 }
 
-.mce-tinymce {
+.tox-editor-container {
   .mce-catan-container-body-sticky {
     border-bottom: 1px solid rgba(0,0,0,0.2);
+    z-index: 1;
   }
 }
 
@@ -177,4 +146,8 @@
       height: 29px !important;
     }
   }
+}
+
+.tox .tox-tbtn--bespoke .tox-tbtn__select-label {
+  width: auto !important;
 }

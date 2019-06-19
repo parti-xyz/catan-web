@@ -1,3 +1,4 @@
+/* 에디터에서만 적용 */
 body.mce-content-body {
   min-height: 100px;
   height: auto;
@@ -14,6 +15,19 @@ body.mce-content-body {
 
   & > :first-child {
     margin-top: 0;
+  }
+
+  ul, ol {
+    position: relative;
+    &:hover:before {
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: -2px;
+      height: 100%;
+      width: 24px;
+      background-color: #eee6;
+    }
   }
 }
 
