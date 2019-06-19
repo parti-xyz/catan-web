@@ -829,11 +829,13 @@ var parti_prepare = function($base, force) {
     var settings = {
       default: {
         plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent'
+        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent',
+        forced_root_block: 'div',
       },
       wiki: {
         plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent'
+        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent',
+        forced_root_block: 'p',
       },
     };
     $.parti_apply($base, '.js-tinymce:not(.js-tinymce-mobile)', function(elm) {
@@ -850,7 +852,7 @@ var parti_prepare = function($base, force) {
         plugins: setting.plugins,
         menubar: false,
         min_height: 200,
-        forced_root_block : false,
+        forced_root_block : setting.forced_root_block,
         autoresize_bottom_margin: 0,
         statusbar: false,
         toolbar: setting.toolbar,
@@ -895,10 +897,12 @@ var parti_prepare = function($base, force) {
       default: {
         plugins: 'link paste autolink lists advlist autoresize mobile-stickytoolbar',
         toolbar: 'styleselect bullist numlist outdent indent blockquote link',
+        forced_root_block: 'div',
       },
       wiki: {
         plugins: 'link paste autolink lists advlist autoresize mobile-stickytoolbar',
         toolbar: 'styleselect bullist numlist outdent indent blockquote link',
+        forced_root_block: 'p',
       },
     };
     // Tinymce on mobile
@@ -918,7 +922,7 @@ var parti_prepare = function($base, force) {
         menubar: false,
         min_height: 300,
         autoresize_bottom_margin: 0,
-        forced_root_block: false,
+        forced_root_block : setting.forced_root_block,
         statusbar: false,
         toolbar: setting.toolbar,
         paste_data_images: true,
