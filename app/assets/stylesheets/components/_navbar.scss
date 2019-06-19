@@ -481,9 +481,15 @@ $drawer-default-space-mobile: 12px;
       &.issue-line,
       &.group-line {
         a {
-          color: $gray;
+          color: $gray-a;
         }
         a:hover {
+          color: $gray;
+        }
+        &.unread a {
+          color: $gray;
+        }
+        &.unread a:hover {
           color: $gray;
         }
       }
@@ -569,7 +575,7 @@ $drawer-default-space-mobile: 12px;
             }
             border: none;
             &.unread {
-              font-weight: 800;
+              font-weight: bold;
             }
           }
           .issue-line:hover {
@@ -593,7 +599,7 @@ $drawer-default-space-mobile: 12px;
             }
           }
           .group-home-line {
-            color: $gray;
+            color: $gray-a;
           }
         }
         .group-issues-list {
