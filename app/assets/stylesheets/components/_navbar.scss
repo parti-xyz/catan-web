@@ -447,12 +447,15 @@ $drawer-default-space-mobile: 12px;
     li:not(.dropdown-menu-item) {
       padding-left: 18px;
       a:not(.dropdown-menu-item-link) {
-        color: $gray-dark;
+        color: $gray;
         padding: 0;
       }
-      .action-link{
+      .menu-line.action-link {
         color: $brand-primary;
-        font-weight:bold;
+        font-weight: bold;
+        &.active {
+          color: $brand-primary-dark;
+        }
       }
       &.issue-line,
       &.group-line,
@@ -463,45 +466,64 @@ $drawer-default-space-mobile: 12px;
           padding: $drawer-default-space-mobile/2 18px;
         }
       }
+
+      // font colors and font weight
+      &.issue-line,
+      &.group-line,
       &.menu-line {
-        > a:not(.action-link) {
-          padding: 0;
+        &.unread {
+          font-weight: bold;
           color: $gray;
-        }
-        > a.active {
-          color: $brand-primary;
-        }
-        > a.user-byline-no-image {
-          line-height: 2em;
-        }
-        &.large-menu-line {
-          margin-top: 24px;
+          a {
+            font-weight: bold;
+            color: $gray;
+          }
         }
       }
-      &.issue-line,
-      &.group-line {
+      .issue-more {
+        font-size: $font-size-small;
+        color: $gray-a;
         a {
           color: $gray-a;
         }
+        .parties-count {
+          color: $brand-primary;
+        }
+      }
+      .group-home-line {
+        color: $gray-a;
+        &:hover {
+          color: $gray;
+          font-weight: bold;
+        }
+      }
+      &.menu-line,
+      &.issue-line,
+      &.group-line {
+        &, a {
+          color: $gray-a;
+        }
+        &:hover,
         &:hover a {
           color: $gray;
+          font-weight: bold;
         }
-        &.unread a {
-          color: $gray;
+        &:hover {
+          background-color: $gray-lightest;
         }
-        &.unread a:hover {
-          color: $gray;
+        &.highlight {
+          background-color: $brand-primary-lighter;
+          &, a {
+            color: $gray;
+            font-weight: bold;
+          }
+          &:hover,
+          &:hover a {
+            background-color: $brand-primary-light;
+          }
         }
       }
-      .issue-line {
-        .issue-line__title {
-          margin-right: 0;
-        }
-        > .media > .media-left {
-          padding-right: 0;
-        }
-      }
-      &.group-issues-line {
+      &.group-issues-container {
         margin: 0;
         padding: 0;
         @media (max-width: $screen-xs-max) {
@@ -514,7 +536,7 @@ $drawer-default-space-mobile: 12px;
         .group-parties-section-title {
           word-break: keep-all;
         }
-        .title {
+        .group-line {
           padding: $drawer-default-space/2 18px;
           display: flex;
           @media (max-width: $screen-xs-max) {
@@ -548,6 +570,7 @@ $drawer-default-space-mobile: 12px;
           color: $gray-a;
           &:hover {
             color: $gray;
+            font-weight: bold;
           }
           &.unread {
             color: $gray;
@@ -560,7 +583,6 @@ $drawer-default-space-mobile: 12px;
         .sub {
           margin-top: 0;
           .issue-more,
-          .issue-less,
           .issue-line,
           .group-home-line {
             padding: $drawer-default-space/2 18px $drawer-default-space/2 30px;
@@ -568,34 +590,13 @@ $drawer-default-space-mobile: 12px;
               padding: $drawer-default-space-mobile/2 18px $drawer-default-space-mobile/2 30px;
             }
             border: none;
-            &.unread {
-              font-weight: bold;
-            }
           }
-          .issue-line:hover {
-            background-color: $gray-lightest;
-          }
-          .issue-line.highlight {
-            background-color: $brand-primary-lighter;
-            &:hover {
-              background-color: $brand-primary-light;
+          .issue-line {
+            .issue-line__title {
+              margin-right: 0;
             }
-          }
-          .issue-more,
-          .issue-less {
-            font-size: $font-size-small;
-            color: $gray-a;
-            a {
-              color: $gray-a;
-            }
-            .parties-count {
-              color: $brand-primary;
-            }
-          }
-          .group-home-line {
-            color: $gray-a;
-            &:hover {
-              color: $gray;
+            > .media > .media-left {
+              padding-right: 0;
             }
           }
         }
@@ -605,6 +606,9 @@ $drawer-default-space-mobile: 12px;
             display: none;
           }
         }
+      }
+      &.menu-line > a:not(.action-link) {
+        padding: 0;
       }
       &.head-line {
         padding: 12px 18px;
@@ -617,9 +621,6 @@ $drawer-default-space-mobile: 12px;
             margin-top: 0;
           }
         }
-        a {
-          color: white;
-        }
         &.parti-search-form {
           .form-group {
             position: relative;
@@ -628,9 +629,6 @@ $drawer-default-space-mobile: 12px;
           input.form-control.form-control-drawer-filter {
             padding-right: 50px;
           }
-          // .add-clear-x {
-          //   right: 2em !important;
-          // }
         }
       }
       &.divider {
