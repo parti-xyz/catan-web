@@ -1,5 +1,7 @@
 - if issues.any?
   %ul.sub.list-unstyled
+    - if local_assigns[:category].present?
+      %li.category-line.title-category.js-drawer-filter-ignored= (category.try(:name) || '미분류')
     - issues.each do |issue|
       - unread = false
       - if local_assigns[:members_for_issues].present?

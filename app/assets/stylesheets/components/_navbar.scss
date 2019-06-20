@@ -458,6 +458,7 @@ $drawer-default-space-mobile: 12px;
         }
       }
       &.issue-line,
+      &.category-line,
       &.group-line,
       &.menu-line {
         margin: 0;
@@ -465,6 +466,10 @@ $drawer-default-space-mobile: 12px;
         @media (max-width: $screen-xs-max) {
           padding: $drawer-default-space-mobile/2 18px;
         }
+      }
+      &.category-line {
+        padding-left: 30px;
+        margin-top: 9.5px;
       }
 
       // font colors and font weight
@@ -479,6 +484,10 @@ $drawer-default-space-mobile: 12px;
             color: $gray;
           }
         }
+      }
+      &.category-line {
+        font-size: $font-size-small;
+        color: $gray-a;
       }
       .issue-more {
         font-size: $font-size-small;
@@ -590,6 +599,9 @@ $drawer-default-space-mobile: 12px;
               padding: $drawer-default-space-mobile/2 18px $drawer-default-space-mobile/2 30px;
             }
             border: none;
+            .issue-line__thumb {
+              background-color: #ddd;
+            }
           }
           .issue-line {
             .issue-line__title {

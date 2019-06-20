@@ -20,23 +20,26 @@
       .header-cell.title 제목
       .header-cell.updated-at 업데이트
     .background
+      - opened_folders = []
       - Folder.threaded(@folders).each do |parent_folder, child_folders|
+        - is_open_parent_folder = opened_folders.include?(parent_folder.id)
         .folder-list-rows
-          = link_to smart_folder_url(parent_folder), class: 'parent-folder only-clickable' do
+          .parent-folder.only-clickable.js-folder-toggle
             %span.icon
-              %i.fa.fa-fw.fa-folder
+              %i.fa.fa-fw.js-folder-item-icon{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}
             = parent_folder.title
             - if parent_folder.posts.any?
               (#{parent_folder.posts.count})
-          .child-folders
+          .child-items.js-folder-children{ class: ('collapse' unless is_open_parent_folder) }
             - child_folders.each do |child_folder|
-              = link_to smart_folder_url(child_folder), class: 'child-folder only-clickable' do
+              - is_open_child_folder = opened_folders.include?(child_folder.id)
+              .child-folder.only-clickable.js-folder-toggle
                 %span.icon
-                  %i.fa.fa-fw.fa-folder
+                  %i.fa.fa-fw.fa-folder{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}
                 = child_folder.title
                 - if child_folder.posts.any?
                   (#{child_folder.posts.count})
-              .grandchild-folders
+              .grandchild-items.js-folder-children{ class: ('collapse' unless is_open_child_folder) }
                 - Post.where(folder: child_folder).order_by_stroked_at.includes(:issue).each do |post|
                   = link_to smart_post_url(post), class: 'grandchild-folder only-clickable' do
                     .icon

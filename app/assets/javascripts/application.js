@@ -1965,6 +1965,18 @@ $(function(){
     });
   });
 
+  // 폴더 목록의 폴더 클릭
+  $('.js-folder-toggle').on('click', function(e) {
+    var $elm = $(e.currentTarget);
+    $elm.siblings('.js-folder-children').slideToggle(100, function() {
+      if($(this).is(':visible')) {
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
+      } else {
+        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
+      }
+    });
+  });
+
   // pull to refresh
   (function() {
     var ptr = PullToRefresh.init({
