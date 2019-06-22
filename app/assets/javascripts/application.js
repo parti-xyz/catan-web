@@ -526,7 +526,7 @@ var parti_prepare = function($base, force) {
   });
 
   // autoresize toggle
-  $.parti_apply($base, '[data-ride="parti-autoresize"]', function(elm) {
+  $.parti_apply($base, '.js-autoresize', function(elm) {
     autosize($(elm));
   });
 
@@ -1184,20 +1184,6 @@ var parti_prepare = function($base, force) {
 
   // 내 메뉴의 그룹 토글
   (function() {
-    var _cookies_group_fold = [];
-
-    (function() {
-      if(__root_domain) {
-        var cookies_group_fold_cookie = Cookies.get('sidebar-group-fold', { domain: '.' + __root_domain });
-        if(cookies_group_fold_cookie) {
-          _cookies_group_fold = JSON.parse(cookies_group_fold_cookie);
-        }
-        if(!$.isArray(_cookies_group_fold)) {
-          _cookies_group_fold = [];
-        }
-      }
-    })();
-
     $.parti_apply($base, '.js-sidemenu-toggle', function(elm) {
       var unfold_icon = 'fa-caret-down';
       var fold_icon = 'fa-caret-right';
@@ -1246,7 +1232,6 @@ var parti_prepare = function($base, force) {
 
             $icon.removeClass(unfold_icon);
             $icon.addClass(fold_icon);
-            _cookies_group_fold.push(group_id);
           } else {
             $issues.removeClass('js-sidemenu-toggle-issues-fold');
             $issues.addClass('js-sidemenu-toggle-issues-unfold');
@@ -1254,10 +1239,7 @@ var parti_prepare = function($base, force) {
 
             $icon.removeClass(fold_icon);
             $icon.addClass(unfold_icon);
-            _.pull(_cookies_group_fold, group_id);
           }
-          _cookies_group_fold = _.uniq(_cookies_group_fold);
-          Cookies.set('sidebar-group-fold', _cookies_group_fold, { domain: '.' + __root_domain });
         }
       });
 
@@ -1954,28 +1936,190 @@ $(function(){
   })();
 
   // 위키 폴더 목록 클릭
-  $('.js-folder-item').on('click', function(e) {
+  $('.js-folder-togglex').on('click', function(e) {
     var $elm = $(e.currentTarget);
     $elm.siblings('.js-folder-posts').slideToggle(100, function() {
       if($(this).is(':visible')) {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
+        $elm.find('.js-folder-togglex-icon').removeClass('fa-folder').addClass('fa-folder-open');
       } else {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
+        $elm.find('.js-folder-togglex-icon').removeClass('fa-folder-open').addClass('fa-folder');
       }
     });
   });
 
-  // 폴더 목록의 폴더 클릭
-  $('.js-folder-toggle').on('click', function(e) {
-    var $elm = $(e.currentTarget);
-    $elm.siblings('.js-folder-children').slideToggle(100, function() {
-      if($(this).is(':visible')) {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
-      } else {
-        $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
+  // 폴더 목록의 폴더나 아이템 클릭/더블클릭
+  (function() {
+    var timeout;
+    var delay = 700, clicks = {};
+
+    $('.js-folder-item').each(function(index, elm) {
+      var $elm = $(elm);
+      var $rename_form_elm = $elm.find('.js-folder-item-rename-form');
+      var $rename_title_field_elm = $elm.find('.js-folder-item-rename-text-field');
+      var $content_elm = $elm.find('.js-folder-item-renamable-content');
+
+      var esc_handler = function(e) {
+        if (e.keyCode == 27) { // escape key maps to keycode `27`
+          on_blur();
+        }
       }
+
+      var on_blur = function(e) {
+        $(document).off('keyup.folder-item', esc_handler);
+        $rename_title_field_elm.off('blur.folder-item', on_blur);
+
+        reset_item($elm, true);
+        $elm.addClass('js-blured');
+        setTimeout(function() {
+          $elm.removeClass('js-blured');
+        }, 1000);
+      }
+
+      var reset_item = function($current_elm, active) {
+        $current_elm.data('timeout', null);
+        $current_elm.data('clicks', 0);
+        $current_elm.find('.js-folder-item-rename-form').hide();
+        $current_elm.find('.js-folder-item-renamable-content').show();
+
+        if(!active) {
+          $current_elm.removeClass('active');
+        }
+        $current_elm.removeClass('js-try-to-rename');
+        $current_elm.removeClass('js-renaming');
+        $current_elm.removeClass('js-blured');
+      }
+
+      var text_field_width = function(text) {
+        var original_text = $content_elm.text();
+
+        $content_elm.text(text);
+        var buffer = 8;
+        var text_width = $content_elm.outerWidth() - buffer;
+        $content_elm.text(original_text);
+
+        var parent_width = $content_elm.parent().outerWidth() - buffer;
+        return Math.min(text_width, parent_width);
+      }
+
+      $elm.on('dblclick', function(e) {
+        e.preventDefault();
+      });
+
+      $elm.on('click', function(e) {
+        $elm.data('clicks', ($elm.data('clicks') || 0) + 1);
+
+        $('.js-folder-item').each(function(index, current_elm) {
+          if(!$(current_elm).is($elm)) {
+            reset_item($(current_elm));
+          }
+        });
+
+        if($elm.hasClass('js-blured')) {
+          $elm.removeClass('js-blured');
+          $elm.data('clicks', 0);
+          return;
+        }
+
+        if($elm.hasClass('js-renaming')) {
+          $elm.data('clicks', 0);
+          return;
+        }
+
+        if($elm.hasClass('active')) {
+          $elm.addClass('js-try-to-rename');
+        } else {
+          $elm.addClass('active');
+          var item_type = $elm.data('item-type');
+          var item_id = $elm.data('item-id');
+          Cookies.set('latest_active_folder_item', item_type + '#' + item_id, { domain: '.' + __root_domain, expires: 7 });
+        }
+
+        if($elm.data('clicks') === 1) {
+          $elm.data('timeout', setTimeout(function() {
+            $elm.data('timeout', null);
+            if($elm.hasClass('js-try-to-rename')) {
+              var title = $content_elm.data('value');
+              $rename_title_field_elm.val(title).trigger('input');
+              $rename_form_elm.show();
+              $content_elm.hide();
+
+              $elm.removeClass('js-try-to-rename');
+              $elm.addClass('js-renaming');
+
+              $(document).on('keyup.folder-item', esc_handler);
+              $rename_title_field_elm.on('blur.folder-item', on_blur);
+
+              $rename_title_field_elm.focus();
+              $rename_title_field_elm[0].setSelectionRange(0, 0);
+              $rename_title_field_elm[0].scrollLeft = 0
+            }
+            $elm.data('clicks', 0); //after action performed, reset counter
+          }, delay));
+        } else {
+          clearTimeout($elm.data('timeout')); //prevent single-click action
+
+          if($elm.hasClass('js-folder-item-folder')) {
+            $elm.siblings('.js-folder-children').slideToggle(100, function() {
+              var _cookies_folder_ids = Cookies.getJSON('opened_folder_ids') || [];
+              var folder_id = $elm.data('item-id');
+
+              if($(this).is(':visible')) {
+                $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
+                _cookies_folder_ids.push(folder_id);
+              } else {
+                $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
+                _.pull(_cookies_folder_ids, folder_id);
+              }
+              _cookies_folder_ids = _.uniq(_cookies_folder_ids);
+              if(_cookies_folder_ids.length > 2000) {
+                _cookies_folder_ids.shift()
+              }
+              Cookies.set('opened_folder_ids', _cookies_folder_ids, { domain: '.' + __root_domain, expires: 7 });
+            });
+          }
+          if($elm.hasClass('js-folder-item-post')) {
+            e.preventDefault();
+            var url = $elm.data("url");
+            if(!url) { return; }
+
+            if (e.shiftKey || e.ctrlKey || e.metaKey) {
+              window.open(url, '_blank');
+            } else {
+              window.location.href  = url;
+            }
+          }
+          reset_item($elm, true); //after action performed, reset counter
+        }
+      });
+
+      $elm.on('parti-folder-item-saved', function(e, data) {
+        var title = data.title;
+        $content_elm.data('value', title);
+        $content_elm.text(title);
+        $rename_title_field_elm.val(title).trigger('input');
+        on_blur();
+      });
+
+      $elm.on('parti-folder-item-reset', function(e) {
+        var title = $content_elm.data('value');
+        $content_elm.text(title);
+        $rename_title_field_elm.val(title).trigger('input');
+        on_blur();
+      });
+
+      $rename_form_elm.on('submit', function(e) {
+        $elm.trigger('parti-folder-item-saving');
+        var title = $rename_title_field_elm.val();
+        $content_elm.html(title + ' <i class="fa fa-spinner fa-pulse">');
+        on_blur();
+      });
+
+      $rename_title_field_elm.on('input', function(e) {
+        var width = text_field_width($rename_title_field_elm.val());
+        $rename_title_field_elm.css({ width: width });
+      }).trigger('input');
     });
-  });
+  })();
 
   // pull to refresh
   (function() {

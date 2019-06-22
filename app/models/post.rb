@@ -186,6 +186,7 @@ class Post < ApplicationRecord
   attr_accessor :has_event
   attr_accessor :is_html_body
   attr_accessor :conflicted_decision
+  attr_accessor :title
 
   # fulltext serch
   before_save :reindex_for_search
@@ -198,12 +199,13 @@ class Post < ApplicationRecord
     sanitized_body = sanitize_html striped_body
     sanitized_body = nil if sanitized_body.blank?
 
-    desc = sanitized_body.presence ||
+    desc = self.base_title.presence ||
+      sanitized_body.presence ||
       self.wiki.try(:title).presence ||
       self.poll.try(:title).presence ||
       self.file_sources.first.try(:name).presence ||
-      self.link_source.try(:title).presence ||
-      self.wiki.try(:title).presence
+      self.link_source.try(:title).presence
+
 
     return desc if length <= 0
     return desc.try(:truncate, length)

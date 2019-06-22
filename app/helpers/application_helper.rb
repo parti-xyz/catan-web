@@ -10,6 +10,7 @@ module ApplicationHelper
     else
       arr << "in-root"
     end
+    arr << @force_body_classes if @force_body_classes.present?
     arr << ((current_group.blank? or current_group.is_light_theme?) ? "light-theme" : "dark-theme")
     arr << 'virtual-keyboard' if is_virtaul_keyboard?
     arr << 'ios' if browser.platform.ios?
@@ -392,5 +393,27 @@ module ApplicationHelper
       next unless [String, Symbol, TrueClass, FalseClass, Numeric].member?(value.class)
       [key, value]
     end.compact.to_h.to_json
+  end
+
+  def opened_folder?(folder)
+    begin
+      opened_folder_ids = cookies[:opened_folder_ids] ? JSON.parse(cookies[:opened_folder_ids]) : []
+      opened_folder_ids.include?(folder.id)
+    rescue Exception => ignore
+      return false
+    end
+  end
+
+  def latest_active_folder_item?(item)
+    begin
+      folder_item = cookies[:latest_active_folder_item]
+      return false if folder_item.blank?
+      folder_item_type, folder_item_id_str = folder_item.split('#')
+
+      folder_item_type == item.class.name and folder_item_id_str.to_i == item.id
+    rescue Exception => ignore
+      return false
+    end
+
   end
 end

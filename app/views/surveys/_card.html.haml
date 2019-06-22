@@ -82,7 +82,7 @@
             %i.fa{ class:  class_check }
           .body
             .form-group
-              = f.text_area :body, class: 'form-control',  data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, placeholder: 'ex. 짜장면'
+              = f.text_area :body, class: 'form-control js-autoresize',  data: { 'rule-required': true }, rows: 1, placeholder: 'ex. 짜장면'
           .feedbacks-count
             .form-group
               = f.submit '추가', class: 'btn btn-link'

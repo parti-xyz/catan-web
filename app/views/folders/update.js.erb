@@ -1,0 +1,6 @@
+<% if @folder.errors.any? %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+  $('<%= folder_dom_selector(@folder) %>').closest('.js-folder-item').trigger('parti-folder-item-reset');
+<% else %>
+  $('<%= folder_dom_selector(@folder) %>').closest('.js-folder-item').trigger('parti-folder-item-saved', { title: '<%= j(@folder.title) %>' });
+<% end %>

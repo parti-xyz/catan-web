@@ -77,6 +77,20 @@ class PostsController < ApplicationController
     end
   end
 
+  def update_title
+    render_404 and return if fetch_issue.blank? or private_blocked?(@issue)
+    render_403 unless request.xhr?
+
+    if @post.wiki.present?
+      @wiki = @post.wiki
+      @wiki.title = params[:post][:title]
+      @wiki.save
+    else
+      @post.base_title = params[:post][:title]
+      @post.save
+    end
+  end
+
   def new
     # back url
     @list_url = ''

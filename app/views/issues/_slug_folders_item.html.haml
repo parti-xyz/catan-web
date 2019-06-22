@@ -1,0 +1,38 @@
+- is_open_parent_folder = opened_folder?(parent_folder)
+.folder-list-rows{ class: "folder-list-rows-depth-#{depth}"}
+  .folder-item.parent-folder.only-clickable.js-folder-item.js-folder-item-folder{ 'data-item-type': 'Folder', 'data-item-id': parent_folder.id, class: ('active' if latest_active_folder_item?(parent_folder)) }
+    .folder-item-title-container
+      %span.folder-item-icon
+        %i.fa.fa-fw.js-folder-item-icon{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}
+      %span.folder-item-title
+        .folder-item-title-content.js-folder-item-renamable-content{ class: folder_dom_class(parent_folder), 'data-value': parent_folder.title }
+          = parent_folder.title
+        .folder-item-title-rename-form.js-folder-item-rename-form.collapse
+          = form_for parent_folder, remote: true, html: {class: 'form-inline'} do |f|
+            = f.text_field :title, maxlength: 100, size: false, class: 'folder-item-title-input js-folder-item-rename-text-field'
+    .folder-item-updated-at
+  .child-items.js-folder-children{ class: ('collapse' unless is_open_parent_folder) }
+    - is_empty = true
+    - child_folders.each do |child_folder|
+      = render 'issues/slug_folders_item', parent_folder: child_folder, child_folders: [], depth: depth + 1
+      - is_empty = false
+    - Post.where(folder: parent_folder).order_by_stroked_at.includes(:issue).each do |post|
+      - is_empty = false
+      .folder-item.child-item.only-clickable.js-folder-item.js-folder-item-post{ 'data-url': smart_post_url(post), 'data-item-type': 'Post', 'data-item-id': post.id, class: ('active' if latest_active_folder_item?(post)) }
+        .folder-item-title-container
+          %span.folder-item-icon
+            - if post.wiki.present?
+              %i.fa.fa-fw.fa-file-word-o
+            - else
+              %i.fa.fa-fw.fa-file-o
+          %span.folder-item-title
+            .folder-item-title-content.js-folder-item-renamable-content{ class: folded_post_dom_class(post), 'data-value': post.specific_desc_striped_tags(200) }
+              = post.specific_desc_striped_tags(200)
+            .folder-item-title-rename-form.js-folder-item-rename-form.collapse
+              = form_for [:update_title, post], remote: true, html: {class: 'form-inline'} do |f|
+                = f.text_field :title, value: post.specific_desc_striped_tags(50), maxlength: 100, size: false, class: 'folder-item-title-input js-folder-item-rename-text-field'
+        .folder-item-updated-at
+          .updated-at= date_f(post.last_stroked_at)
+    - if is_empty
+      .folder-item.child-item.child-item-empty
+        폴더가 비었습니다.

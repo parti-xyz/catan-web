@@ -1,6 +1,6 @@
 = form_for @comment, remote: true, html: {class: 'update-form'} do |f|
   .form-group
-    = f.text_area :body, class: 'form-control', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 3
+    = f.text_area :body, class: 'form-control js-autoresize', data: { 'rule-required': true }, rows: 3
 
   .comment-form__file-source.js-file-source-form{ class: ('collapse' if @comment.file_sources.empty?) }
     .help-block.clearfix

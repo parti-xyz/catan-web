@@ -1,0 +1,6 @@
+<% if (@wiki.present? and @wiki.errors.any?) or @post.errors.any? %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+  $('<%= folded_post_dom_selector(@post) %>').closest('.js-folder-item').trigger('parti-folder-item-reset');
+<% else %>
+  $('<%= folded_post_dom_selector(@post) %>').closest('.js-folder-item').trigger('parti-folder-item-saved', { title: '<%= j(@post.specific_desc_striped_tags(200)) %>' });
+<% end %>

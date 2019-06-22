@@ -119,6 +119,14 @@ module DomHelper
     ".#{post_folder_wrapper_dom_class(post)}"
   end
 
+  def folder_dom_class(folder)
+    "folder-#{folder.id}"
+  end
+
+  def folder_dom_selector(folder)
+    ".#{folder_dom_class(folder)}"
+  end
+
   def survey_options_dom_class(post)
     dom_id(post.survey)
   end
@@ -181,6 +189,14 @@ module DomHelper
 
   def read_button_dom_selector(post)
     ".#{read_button_dom_class(post)}"
+  end
+
+  def folded_post_dom_class(post)
+    "#{dom_id(post)}--folded"
+  end
+
+  def folded_post_dom_selector(post)
+    ".#{folded_post_dom_class(post)}"
   end
 
   def read_button_dom_class(post)

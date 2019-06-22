@@ -5,7 +5,7 @@
 = f.hidden_field :has_survey, value: false
 = f.hidden_field :has_event, value: false
 = f.fields_for :wiki do |ff|
-  = ff.text_area :title, placeholder: '제목을 넣어주세요...', class: 'form-control', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, maxlength: 50
+  = ff.text_area :title, placeholder: '제목을 넣어주세요...', class: 'form-control js-autoresize', data: { 'rule-required': true }, rows: 1, maxlength: 50
   - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
   - textarea_body_id = "wiki-form-body-#{SecureRandom.uuid}"
   %div{ id: textarea_error_id }

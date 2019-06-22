@@ -1,7 +1,8 @@
 = render 'issues/issue_header', active_tab: :folders
 
 - if @folders.blank?
-  %section#folders
+  - @force_body_classes = "app-issues-slug_folders-no-folder"
+  %section
     .container
       .bg-default.text-center
         %i.fa.fa-info-circle
@@ -13,49 +14,15 @@
           "에서 폴더를 만들 수 있습니다.
 
 - else
-  -# 모든 폴더 리스트업
-  -# if params[:edit].blank?
-  .threaded-folders.threaded-folders-margined
-    .headers
-      .header-cell.title 제목
-      .header-cell.updated-at 업데이트
-    .background
-      - opened_folders = []
-      - Folder.threaded(@folders).each do |parent_folder, child_folders|
-        - is_open_parent_folder = opened_folders.include?(parent_folder.id)
-        .folder-list-rows
-          .parent-folder.only-clickable.js-folder-toggle
-            %span.icon
-              %i.fa.fa-fw.js-folder-item-icon{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}
-            = parent_folder.title
-            - if parent_folder.posts.any?
-              (#{parent_folder.posts.count})
-          .child-items.js-folder-children{ class: ('collapse' unless is_open_parent_folder) }
-            - child_folders.each do |child_folder|
-              - is_open_child_folder = opened_folders.include?(child_folder.id)
-              .child-folder.only-clickable.js-folder-toggle
-                %span.icon
-                  %i.fa.fa-fw.fa-folder{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}
-                = child_folder.title
-                - if child_folder.posts.any?
-                  (#{child_folder.posts.count})
-              .grandchild-items.js-folder-children{ class: ('collapse' unless is_open_child_folder) }
-                - Post.where(folder: child_folder).order_by_stroked_at.includes(:issue).each do |post|
-                  = link_to smart_post_url(post), class: 'grandchild-folder only-clickable' do
-                    .icon
-                      - if post.wiki.present?
-                        %i.fa.fa-fw.fa-file-word-o
-                      - else
-                        %i.fa.fa-fw.fa-file-o
-                    .title= post.specific_desc_striped_tags(50)
-                    .updated-at= date_f(post.updated_at)
-            - Post.where(folder: parent_folder).order_by_stroked_at.includes(:issue).each do |post|
-              = link_to smart_post_url(post), class: 'child-folder only-clickable' do
-                .icon
-                  - if post.wiki.present?
-                    %i.fa.fa-fw.fa-file-word-o
-                  - else
-                    %i.fa.fa-fw.fa-file-o
-                .title= post.specific_desc_striped_tags(50)
-                .updated-at= date_f(post.last_stroked_at)
+  %section.page-folders.contents-page
+    .container
+      .row
+        .col-xs-12
+          .threaded-folders
+            .header
+              .header-cell.title 제목
+              .header-cell.updated-at 업데이트
+            .body.background
+              - Folder.threaded(@folders).each do |parent_folder, child_folders|
+                = render 'issues/slug_folders_item', parent_folder: parent_folder, child_folders: child_folders, depth: 0
 = render 'issues/bottom_banner', issue: @issue

@@ -28,7 +28,7 @@ class Ability
       can [:create], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
-      can [:edit_folder, :update_folder], [Post] do |post|
+      can [:edit_folder, :update_folder, :update_title], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
       can [:new_wiki, :update_wiki, :wiki], [Post] do |post|

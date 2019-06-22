@@ -4,3 +4,5 @@
 * 과거 이력 삭제
 * 위키
 * latest_stroked_posts_count, latest_stroked_posts_count_version 삭제
+* 폴더
+    - 리네임 권한

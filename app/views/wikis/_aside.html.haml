@@ -12,11 +12,11 @@
         - Folder.threaded(folders).each do |parent_folder, child_folders|
           - posts = parent_folder.posts.having_wiki_sorted_by_title(:active)
           %li.item-folder
-            .folder-title.js-folder-item.cursor-pointer
+            .folder-title.js-folder-togglex.cursor-pointer
               - if parent_folder == current_folder or child_folders.include?(current_folder)
-                %i.fa.fa-folder-open.js-folder-item-icon
+                %i.fa.fa-folder-open.js-folder-togglex-icon
               - else
-                %i.fa.fa-folder.js-folder-item-icon
+                %i.fa.fa-folder.js-folder-togglex-icon
               = parent_folder.title
               - if posts.any? or parent_folder.children.any?
                 (#{("#{parent_folder.children.count}/" if parent_folder.children.any?)}#{posts.count})
@@ -24,11 +24,11 @@
               - child_folders.each do |child_folder|
                 - child_posts = child_folder.posts.having_wiki_sorted_by_title(:active)
                 %li.item-folder
-                  .folder-title.js-folder-item.cursor-pointer
+                  .folder-title.js-folder-togglex.cursor-pointer
                     - if child_folder == current_folder
-                      %i.fa.fa-folder-open.js-folder-item-icon
+                      %i.fa.fa-folder-open.js-folder-togglex-icon
                     - else
-                      %i.fa.fa-folder.js-folder-item-icon
+                      %i.fa.fa-folder.js-folder-togglex-icon
                     = child_folder.title
                     - if child_posts.any?
                       (#{child_posts.count})

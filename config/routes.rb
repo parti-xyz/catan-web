@@ -148,6 +148,7 @@ Rails.application.routes.draw do
       get 'decision_histories'
       get 'edit_folder'
       patch 'update_folder'
+      patch 'update_title'
       get 'wiki'
       patch 'wiki', to: 'posts#update_wiki'
       namespace :wiki, module: nil, controller: "wikis" do

@@ -8,7 +8,7 @@
         .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
       .media-body
         .comment-form__area
-          = f.text_area :body, class: "form-control comment-body validate js-preserve-comment-input", placeholder: '댓글을 입력하세요', data: { 'rule-required': true, ride: 'parti-autoresize' }, rows: 1, id: new_comment_form_body_input_dom_id(post, parent_comment)
+          = f.text_area :body, class: "form-control comment-body validate js-preserve-comment-input js-autoresize", placeholder: '댓글을 입력하세요', data: { 'rule-required': true }, rows: 1, id: new_comment_form_body_input_dom_id(post, parent_comment)
         .comment-form__file-source.js-file-source-form.collapse
           .help-block.clearfix
             %span.label.label-default TIP
