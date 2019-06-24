@@ -1,6 +1,6 @@
 class IssuesController < ApplicationController
   before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :update_category, :destroy_category]
-  before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_wikis]
+  before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_partial_folders, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
   before_action :prepare_issue_meta_tags, only: [:show, :slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_members, :slug_folders]
@@ -128,11 +128,11 @@ class IssuesController < ApplicationController
 
   def slug_folders
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
-    how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
+  end
+
+  def slug_partial_folders
+    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
     @folders = @issue.folders
-    @current_folder = Folder.find_by(id: params[:folder_id])
-    @posts = Post.none
-    @posts = Post.where(folder: @current_folder).send(how_to).page(params[:page]).per(3*5) if @current_folder.present?
   end
 
   def slug_members

@@ -10,7 +10,6 @@ module ApplicationHelper
     else
       arr << "in-root"
     end
-    arr << @force_body_classes if @force_body_classes.present?
     arr << ((current_group.blank? or current_group.is_light_theme?) ? "light-theme" : "dark-theme")
     arr << 'virtual-keyboard' if is_virtaul_keyboard?
     arr << 'ios' if browser.platform.ios?

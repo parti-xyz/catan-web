@@ -78,23 +78,6 @@
               .col-custom{class: ('active' if active_tab == :folders)}
                 = link_to smart_issue_folders_path(issue), class: 'parti-menu-a' do
                   %h5 폴더
-                - if @issue.folders.any?
-                  .hidden-xs
-                    %span.dropdown{ style: 'position: absolute; top: 0; right: 0.8em;'}
-                      %span.dropdown-toggle.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-                        %i.fa.fa-angle-down.parti-menu-dropdownp-icon
-                      %ul.dropdown-menu.threaded-folders.pull-right{ "aria-labelledby": 'more-hashtag' }
-                        %li.dropdown-header 폴더로 이동
-                        - Folder.threaded(@issue.folders).each do |parent_folder, child_folders|
-                          %li.parent-folder
-                            = link_to smart_folder_url(parent_folder) do
-                              %i.fa.fa-folder
-                              = parent_folder.title
-                          - child_folders.each do |child_folder|
-                            %li.child-folder
-                              = link_to smart_folder_url(child_folder), class: 'child-folder-title' do
-                                %i.fa.fa-folder
-                                = child_folder.title
 
               .col-custom{class: ('active' if active_tab == :users)}
                 = link_to smart_issue_members_path(issue), class: 'parti-menu-a' do

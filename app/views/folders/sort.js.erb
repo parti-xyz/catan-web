@@ -1,0 +1,8 @@
+<% if @error %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+  $('.js-dragable-slug-folder').trigger('parti-dragable-slug-folder-item-destroy');
+  .
+  var $dom = $('<%= j(render 'issues/slug_partial_folders', issue: @issue, folders: @folders, dom_id: params[:dom_id]) %>');
+  $('#<%= params[:dom_id] %>').replaceWith($dom);
+<% end %>

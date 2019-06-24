@@ -12,6 +12,7 @@
 @import "smart-app-banner";
 @import "jquery.timepicker";
 @import "jquery.mosaic";
+@import "dragula";
 
 // photoswipe
 .pswp {
@@ -120,4 +121,9 @@
 
 .bootstrap-select.select-picker-full-dropdown-menu .dropdown-menu {
   max-width: 100%;
+}
+
+// dragula
+.gu-transit {
+  display: none;
 }

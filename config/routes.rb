@@ -164,7 +164,11 @@ Rails.application.routes.draw do
     end
   end
   post 'comments/read', to: 'comments#read'
-  resources :folders
+  resources :folders do
+    collection do
+      post :sort
+    end
+  end
   resources 'wiki_histories'
   resources 'decision_histories'
 
@@ -297,7 +301,7 @@ Rails.application.routes.draw do
   get '/p/:slug/polls', to: redirect('/p/%{slug}/polls_or_surveys')
   get '/p/:slug/polls_or_surveys', to: "issues#slug_polls_or_surveys", as: 'slug_issue_polls_or_surveys'
   get '/p/:slug/folders', to: "issues#slug_folders", as: 'slug_issue_folders'
-  get '/p/:slug/folders/:folder_id', to: "issues#slug_folders", as: 'slug_issue_folder'
+  get '/p/:slug/partial_folders', to: "issues#slug_partial_folders", as: 'slug_issue_partial_folders'
   get '/p/:slug/members', to: "issues#slug_members", as: 'slug_issue_users'
   get '/p/:slug/new_posts_count', to: "issues#new_posts_count", as: 'new_issue_posts_count'
   get '/p/:slug/hashtags/:hashtag', to: "issues#slug_hashtag", as: :slug_issue_hashtags

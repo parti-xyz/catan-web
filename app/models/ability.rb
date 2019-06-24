@@ -18,9 +18,14 @@ class Ability
       can [:update_category, :destroy_category], Issue do |issue|
         user.is_organizer?(issue.group)
       end
-
+      can [:pin], Issue do |issue|
+        user.is_organizer?(issue)
+      end
       can [:create, :destroy, :update], [Folder] do |folder|
         folder.issue.present? and folder.issue.try(:postable?, user)
+      end
+      can [:sort_folders], [Issue] do |issue|
+        issue.try(:postable?, user)
       end
 
       can [:pinned, :new], [Post]
@@ -40,9 +45,7 @@ class Ability
       can [:pin, :unpin, :readers, :unreaders], Post do |post|
         user.is_organizer?(post.issue)
       end
-      can [:pin], Issue do |issue|
-        user.is_organizer?(issue)
-      end
+
 
       can_nested [:attend, :absent, :to_be_decided], Event, RollCall do |event|
         event.takable_self_roll_call?(user)
