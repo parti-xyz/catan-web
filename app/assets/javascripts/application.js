@@ -49,6 +49,8 @@
 //= require smart-app-banner
 //= require jquery.mosaic
 //= require jquery-sortable
+//= require jquery.ui.position
+//= require jquery.contextMenu
 
 // blank
 $.is_blank = function (obj) {
@@ -1418,7 +1420,9 @@ var parti_prepare = function($base, force) {
         }
 
         if($elm.hasClass('active')) {
-          $elm.addClass('js-try-to-rename');
+          if($elm.hasClass('js-folder-item-managable')) {
+            $elm.addClass('js-try-to-rename');
+          }
         } else {
           $elm.addClass('active');
           var item_type = $elm.data('item-type');
@@ -1482,6 +1486,16 @@ var parti_prepare = function($base, force) {
           }
           reset_item($elm, true); //after action performed, reset counter
         }
+      });
+
+      $elm.on('parti-folder-item-force-active', function(e, data) {
+        $('.js-folder-item').each(function(index, current_elm) {
+          if(!$(current_elm).is($elm)) {
+            reset_item($(current_elm));
+          }
+        });
+
+        $elm.addClass('active');
       });
 
       $elm.on('parti-folder-item-saved', function(e, data) {
@@ -1619,7 +1633,7 @@ var parti_prepare = function($base, force) {
         },
         isValidTarget: function ($item, container) {
           var container_type = container.el.data('dragable-slug-folder-item-type');
-          return(container_type === 'any' || $item.data('dragable-slug-folder-item-type') == container_type);
+          return(container_type === 'any' || $item.data('folder-item-type') == container_type);
         },
       });
 
@@ -2528,6 +2542,67 @@ $(function(){
       setTimeout(function() { $target.removeClass($anchor.data('stress-class')); }, 3000);
     }
   }
+
+  // 폴더 컨텍스트 메뉴
+  $.contextMenu({
+    selector: '.js-folder-item.js-folder-item-managable',
+    trigger: 'right',
+    events: {
+      show: function(options){
+        $(this).trigger('parti-folder-item-force-active');
+      },
+    },
+    build: function($trigger, e) {
+      var options = {
+        items: {}
+      };
+
+      options.items = {
+        "add_post": {
+          name: "게시물 쓰기",
+          callback: function(itemKey, opt, e){
+            alert('구현 중')
+          },
+        },
+        "add_wiki": {
+          name: "위키 쓰기",
+          callback: function(itemKey, opt, e){
+            alert('구현 중')
+          },
+        },
+        "add_subfolder": {
+          name: "하위 폴더 추가",
+          callback: function(itemKey, opt, e){
+            alert('구현 중')
+          },
+        },
+        "sep0": "---------",
+        "rename": {
+          name: "이름 편집",
+          callback: function(itemKey, opt, e){
+            alert('구현 중')
+          },
+        },
+      }
+
+      if($trigger.data('folder-item-type') === 'folder') {
+        options.items["delete"] = {
+          name: "폴더 삭제",
+          callback: function(itemKey, opt, e){
+            alert('구현 중')
+          },
+        }
+      } else if($trigger.data('folder-item-type') === 'post') {
+        options.items["eject"] = {
+          name: "이 게시물을 폴더에서 제거",
+          callback: function(itemKey, opt, e){
+            alert('구현 중')
+          },
+        }
+      }
+      return options;
+    }
+  });
 });
 
 

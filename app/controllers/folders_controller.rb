@@ -38,7 +38,7 @@ class FoldersController < ApplicationController
   def sort
     @issue = Issue.find_by(id: params[:issue_id])
     render_404 if @issue.blank?
-    authorize! :sort_folders, @issue
+    authorize! :manage_folders, @issue
     @folders = @issue.folders
 
     begin

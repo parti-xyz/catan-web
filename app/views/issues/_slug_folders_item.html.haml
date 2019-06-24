@@ -2,18 +2,17 @@
 - if local_assigns[:depth] >= 1
   - item_type = 'post'
 - is_open_parent_folder = opened_folder?(parent_folder)
-.folder-rows.js-dragable-slug-folder-rows.js-dragable-slug-folder-draggable{ 'data-dragable-slug-folder-item-type': 'folder', 'data-dragable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json) }
+.folder-rows.js-dragable-slug-folder-rows.js-dragable-slug-folder-draggable{ 'data-folder-item-type': 'folder', 'data-dragable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json) }
 
   - is_empty = true
   - capture_child_folder_items = capture do
     .child-folder-items.js-folder-children.js-dragable-slug-folder-container{ class: ('collapse' unless is_open_parent_folder), 'data-dragable-slug-folder-item-type': item_type, 'data-dragable-slug-folder-json-params': h({ item_type: 'Container' }.to_json) }
-
       - child_folders.each do |child_folder|
-        = render 'issues/slug_folders_item', parent_folder: child_folder, child_folders: [], depth: (depth + 1)
+        = render 'issues/slug_folders_item', issue: issue, parent_folder: child_folder, child_folders: [], depth: (depth + 1)
         - is_empty = false
       - Post.where(folder: parent_folder).order_by_stroked_at.includes(:issue).each do |post|
         - is_empty = false
-        .folder-item.js-dragable-slug-folder-item.child-item.only-clickable.js-folder-item.js-folder-item-post.js-dragable-slug-folder-draggable{ 'data-url': smart_post_url(post), 'data-dragable-slug-folder-item-type': 'post', 'data-item-id': post.id, 'data-dragable-slug-folder-json-params': h({ item_type: 'Post', item_id: post.id }.to_json), class: ('active' if latest_active_folder_item?(post)) }
+        .folder-item.js-dragable-slug-folder-item.child-item.only-clickable.js-folder-item.js-folder-item-post.js-dragable-slug-folder-draggable{ class: "#{'js-folder-item-managable' if can?(:manage_folders, issue)} #{('active' if latest_active_folder_item?(post))}", 'data-url': smart_post_url(post), 'data-folder-item-type': 'post', 'data-item-id': post.id, 'data-dragable-slug-folder-json-params': h({ item_type: 'Post', item_id: post.id }.to_json) }
           .folder-item-title-container
             %span.folder-item-icon
               - if post.wiki.present?
@@ -29,7 +28,7 @@
           .folder-item-updated-at
             .updated-at= date_f(post.last_stroked_at)
 
-  .folder-item.parent-folder.only-clickable.js-folder-item.js-folder-item-folder{ 'data-item-id': parent_folder.id, class: ('active' if latest_active_folder_item?(parent_folder)) }
+  .folder-item.parent-folder.only-clickable.js-folder-item.js-folder-item-folder{ class: "#{('js-folder-item-managable' if can?(:manage_folders, issue))} #{('active' if latest_active_folder_item?(parent_folder))}", 'data-item-id': parent_folder.id }
     .folder-item-title-container
       %span.folder-item-icon
         %i.fa.fa-fw.js-folder-item-icon{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}

@@ -6,10 +6,11 @@ class Ability
     can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag,
-      :slug_folders], Issue
+      :slug_folders, :slug_partial_folders], Issue
     can [:more_comments, :wiki], Post
     can [:users], Upvote
     can [:reload], Event
+
     if user
       can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
         user.is_organizer?(issue)
@@ -24,7 +25,7 @@ class Ability
       can [:create, :destroy, :update], [Folder] do |folder|
         folder.issue.present? and folder.issue.try(:postable?, user)
       end
-      can [:sort_folders], [Issue] do |issue|
+      can [:manage_folders], [Issue] do |issue|
         issue.try(:postable?, user)
       end
 

@@ -1,7 +1,7 @@
 .threaded-folders-body.background{ id: dom_id }
-  .folders-root.js-folder-children.js-dragable-slug-folder.js-dragable-slug-folder-container{ 'data-dragable-slug-folder-item-type': 'folder', 'data-dragable-slug-folder-json-params': h({ item_type: 'Root' }.to_json), 'data-url': sort_folders_path(dom_id: dom_id), 'data-issue-id': issue.id }
+  .folders-root.js-folder-children.js-dragable-slug-folder-container{ class: ('js-dragable-slug-folder' if can?(:manage_folders, issue)), 'data-dragable-slug-folder-item-type': 'folder', 'data-dragable-slug-folder-json-params': h({ item_type: 'Root' }.to_json), 'data-url': sort_folders_path(dom_id: dom_id), 'data-issue-id': issue.id }
     - Folder.threaded(folders).each do |parent_folder, child_folders|
-      = render 'issues/slug_folders_item', parent_folder: parent_folder, child_folders: child_folders, depth: 0
+      = render 'issues/slug_folders_item', issue: issue, parent_folder: parent_folder, child_folders: child_folders, depth: 0
 - if folders.blank?
   .bg-default.text-center
     %i.fa.fa-info-circle
