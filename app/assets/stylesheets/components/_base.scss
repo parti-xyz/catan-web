@@ -24,9 +24,6 @@
 .hover-text-primary:hover {
   color: $brand-primary
 }
-.margin-bottom-default {
-  margin-bottom: 12px;
-}
 
 .row-no-padding {
   [class*="col-"] {
@@ -898,6 +895,14 @@ a.a-gray {
 
 .margin-zero {
   margin: 0;
+}
+
+.margin-top-default {
+  margin-top: 12px;
+}
+
+.margin-bottom-default {
+  margin-bottom: 12px;
 }
 
 .only-clickable {

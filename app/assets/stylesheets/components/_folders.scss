@@ -31,6 +31,16 @@ section.page-folders {
   }
 }
 
+.threaded-message {
+  text-align: right;
+  color: $gray-a;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  @media (max-width: $screen-xs-max) {
+    display: none;
+  }
+}
+
 .threaded-folders {
   .child-item > .child-item-title {
     padding-left: 20px;
@@ -49,13 +59,16 @@ section.page-folders {
   }
 
   .threaded-folders-header {
+    @media (max-width: $screen-xs-max) {
+      display: none;
+    }
     display: table;
     background-color: #fff;
     font-size: 13px;
     height: 27px;
     width: 100%;
     border-spacing: 4px;
-    box-shadow: 0 1px 0 rgba(0,0,0,.12);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .12), 0px -1px 0 rgba(0, 0, 0, 0.12);
     position: relative;
     .header-cell {
       display: table-cell;
@@ -80,21 +93,42 @@ section.page-folders {
   }
 
   @include skeletons($gray-light);
+  .skeletons{
+    padding-top: 7px;
+    padding-bottom: 7px;
+    @media (max-width: $screen-xs-max) {
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    margin: 0;
+    padding-left: 18px;
+    .skeleton-title{
+      height: 16px;
+    }
+  }
+
 
   .background {
     background-image: -webkit-linear-gradient(#fafafa 0,#fafafa 50%,#fff 50%,#fff 100%);
     background-image: linear-gradient(#fafafa 0,#fafafa 50%,#fff 50%,#fff 100%);
     background-size: 100% 60px;
+    @media (max-width: $screen-xs-max) {
+      background-size: 100% 80px;
+    }
     min-height: 100%;
   }
   .folder-rows {
     .folder-item {
       display: table;
       width: 100%;
-      height: 30px;
       outline: 0;
-      font-size: 14px;
+      height: 30px;
       line-height: 30px;
+      @media (max-width: $screen-xs-max) {
+        font-size: 16px;
+        height: 40px;
+        line-height: 40px;
+      }
       overflow: hidden;
       position: relative;
       .folder-item-title-container {
