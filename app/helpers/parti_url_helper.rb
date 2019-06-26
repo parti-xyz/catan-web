@@ -33,14 +33,6 @@ module PartiUrlHelper
     slug_issue_folders_url(options.merge(slug: issue.slug))
   end
 
-  def smart_issue_partial_folders_path(issue, options = {})
-    slug_issue_partial_folders_path(options.merge(slug: issue.slug))
-  end
-
-  def smart_issue_partial_folders_url(issue, options = {})
-    slug_issue_partial_folders_url(options.merge(slug: issue.slug))
-  end
-
   def smart_issue_members_path(issue, options = {})
     slug_issue_users_path(options.merge(slug: issue.slug))
   end

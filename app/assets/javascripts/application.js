@@ -2677,12 +2677,10 @@ $(function(){
         items: {}
       };
 
-      options.items = {
-        "rename": {
-          name: "이름 편집",
-          callback: function(itemKey, opt, e){
-            opt.$trigger.trigger('parti-folder-item-force-rename');
-          },
+      rename_menu = {
+        name: "이름 편집",
+        callback: function(itemKey, opt, e){
+          opt.$trigger.trigger('parti-folder-item-force-rename');
         },
       }
 
@@ -2706,33 +2704,57 @@ $(function(){
             location.href = opt.$trigger.data('add-wiki-url');
           },
         };
-        options.items["add_subfolder"] = {
-          name: "하위 폴더 생성",
-          callback: _.throttle(function(itemKey, opt, e){
-            $.ajax({
-              url: opt.$trigger.data('add-folder-url'),
-              type: 'get',
-              crossDomain: false,
-              xhrFields: {
-                withCredentials: true
-              }
-            });
-          }, 1000),
-        };
+
+        options.items["sp1"] = '--------';
+
+        if($trigger.data('folder-item-acceptable-type') === 'any' ||
+          $trigger.data('folder-item-acceptable-type') === 'folder') {
+          options.items["add_subfolder"] = {
+            name: "하위 폴더 생성",
+            callback: _.throttle(function(itemKey, opt, e){
+              $.ajax({
+                url: opt.$trigger.data('add-folder-url'),
+                type: 'get',
+                crossDomain: false,
+                xhrFields: {
+                  withCredentials: true
+                }
+              });
+            }, 1000),
+          };
+        }
+
         options.items["remove"] = {
           name: "폴더 삭제",
           callback: _.throttle(function(itemKey, opt, e){
-            $.ajax({
-              url: opt.$trigger.data('remove-folder-url'),
-              type: 'delete',
-              crossDomain: false,
-              xhrFields: {
-                withCredentials: true
+            var run = function() {
+              $.ajax({
+                url: opt.$trigger.data('remove-folder-url'),
+                type: 'delete',
+                crossDomain: false,
+                xhrFields: {
+                  withCredentials: true
+                }
+              });
+            }
+
+            if(opt.$trigger.parent('.js-folder-rows').find('.js-folder-children .js-folder-item').length > 0) {
+              if(confirm('하위 폴더도 모두 지워집니다. 삭제되는 모든 폴더의 게시물은 폴더 정보가 제거됩니다. 단, 게시물은 삭제되지 않습니다. \n이 동작은 되돌릴 수 없습니다. 계속하시겠습니까?')) {
+                run();
               }
-            });
+            } else {
+              run();
+            }
+
           }, 1000),
         }
-      } else if($trigger.data('folder-item-type') === 'post') {
+
+        options.items["sp2"] = '--------';
+        options.items["rename"] = rename_menu;
+      }
+
+      if($trigger.data('folder-item-type') === 'post') {
+        options.items["rename"] = rename_menu;
         options.items["eject"] = {
           name: "이 게시물을 폴더에서 제거",
           callback: _.throttle(function(itemKey, opt, e){

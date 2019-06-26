@@ -1,16 +1,51 @@
 class FoldersController < ApplicationController
   load_and_authorize_resource except: [:sort]
 
+  def create
+    authorize! :manage_folders, @folder.issue
+    @folder.save
+    errors_to_flash @folder
+
+    @issue = @folder.issue
+    @folders = @issue.folders
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def destroy
     unless @folder.destroy
       errors_to_flash @folder
     end
 
-    if params[:back_url].present?
-      redirect_to params[:back_url]
-    else
-      redirect_to smart_issue_folders_path(@folder.issue)
+    respond_to do |format|
+      format.html do
+        if params[:back_url].present?
+          redirect_to params[:back_url]
+        else
+          redirect_to smart_issue_folders_path(@folder.issue)
+        end
+      end
+      format.js do
+        @issue = @folder.issue
+        @folders = @issue.folders
+      end
     end
+  end
+
+  def new
+    @issue = Issue.find_by(id: params[:issue_id])
+    render_404 and return if @issue.blank?
+    authorize! :manage_folders, @issue
+
+    if @issue.present?
+      @parent_folder = @issue.folders.find_by(id: params[:parent_folder_id])
+    else
+      @parent_folder = Folder.find_by(id: params[:parent_folder_id])
+      @issue = @folder.issue
+    end
+    render_404 and return if params[:parent_folder_id].present? and @parent_folder.blank?
   end
 
   def edit
@@ -20,7 +55,7 @@ class FoldersController < ApplicationController
   end
 
   def update
-    unless @folder.update_attributes(folder_params)
+    unless @folder.update_attributes(update_params)
       errors_to_flash(@folder)
     end
 
@@ -44,14 +79,16 @@ class FoldersController < ApplicationController
     authorize! :manage_folders, @issue
     @folders = @issue.folders
 
-    # begin
+    begin
       @error = false
       payload = JSON.parse(params[:payload])
-      mark_seq(nil, (payload || []), @issue, @current_instance)
-    # rescue Exception => e
-    #   logger.error e.backtrace.join("\n")
-    #   @error = true
-    # end
+    rescue Exception => e
+      logger.error e.backtrace.join("\n")
+      @error = true
+      return
+    end
+
+    mark_seq(nil, (payload || []), @issue, @current_instance)
   end
 
   def attach_post
@@ -167,7 +204,11 @@ class FoldersController < ApplicationController
     end
   end
 
-  def folder_params
+  def update_params
     params.require(:folder).permit(:title, :parent_id)
+  end
+
+  def create_params
+    params.require(:folder).permit(:title, :parent_id, :issue_id)
   end
 end

@@ -36,7 +36,6 @@ section.page-folders {
 }
 
 .threaded-message {
-  text-align: right;
   color: $gray-a;
   margin-top: 12px;
   margin-bottom: 12px;
@@ -185,6 +184,9 @@ section.page-folders {
   }
 
   .folders-root > .folder-rows {
+    > .parent-folder {
+      padding-left: 0;
+    }
     > .child-folder-items {
       > .child-item {
         padding-left: 16px;

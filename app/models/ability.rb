@@ -6,7 +6,7 @@ class Ability
     can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag,
-      :slug_folders, :slug_partial_folders], Issue
+      :slug_folders], Issue
     can [:more_comments, :wiki], Post
     can [:users], Upvote
     can [:reload], Event
@@ -22,7 +22,8 @@ class Ability
       can [:pin], Issue do |issue|
         user.is_organizer?(issue)
       end
-      can [:create, :destroy, :update, :detach_post, :attach_post], [Folder] do |folder|
+      can [:create, :new], Folder
+      can [:destroy, :update, :detach_post, :attach_post], [Folder] do |folder|
         folder.issue.present? and folder.issue.try(:postable?, user)
       end
       can [:manage_folders], [Issue] do |issue|

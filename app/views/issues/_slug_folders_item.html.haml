@@ -3,17 +3,20 @@
   - item_type = 'post'
 
 - is_open_parent_folder = opened_folder?(parent_folder)
-.folder-rows.js-draggable-slug-folder-rows.js-draggable-slug-folder-draggable{ 'data-draggable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json), 'data-draggable-slug-folder-item-type': 'folder' }
+.folder-rows.js-folder-rows.js-draggable-slug-folder-rows.js-draggable-slug-folder-draggable{ 'data-draggable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json), 'data-draggable-slug-folder-item-type': 'folder' }
 
   - is_empty = true
   - capture_child_folder_items = capture do
     .child-folder-items.js-folder-children.js-draggable-slug-folder-container{ class: ('collapse' unless is_open_parent_folder), 'data-draggable-slug-folder-acceptable-type': item_type }
       - child_folders.each do |child_folder|
-        = render 'issues/slug_folders_item', issue: issue, parent_folder: child_folder, child_folders: [], depth: (depth + 1)
+        = render 'issues/slug_folders_item', issue: issue, parent_folder: child_folder, child_folders: [], depth: (depth + 1), dom_id: dom_id
         - is_empty = false
-      = render 'issues/slug_folders_posts', issue: issue, parent_folder: parent_folder
+      - capture_child_folder_posts = capture do
+        = render 'issues/slug_folders_posts', issue: issue, parent_folder: parent_folder
+      = capture_child_folder_posts
+      - is_empty = false if capture_child_folder_posts.present?
 
-  .folder-item.parent-folder.only-clickable.js-folder-item{ class: "#{('js-folder-item-managable' if can?(:manage_folders, issue))} #{('active' if latest_active_folder_item?(parent_folder))}", 'data-folder-item-type': 'folder', 'data-folder-item-id': parent_folder.id }
+  .folder-item.parent-folder.only-clickable.js-folder-item{ class: "#{('js-folder-item-managable' if can?(:manage_folders, issue))} #{('active' if latest_active_folder_item?(parent_folder))}", 'data-folder-item-type': 'folder', 'data-folder-item-id': parent_folder.id, 'data-folder-item-acceptable-type': item_type, 'data-add-post-url': new_post_url(issue_id: issue.id, folder_id: parent_folder.id), 'data-add-wiki-url': new_wiki_posts_url(issue_id: issue.id, folder_id: parent_folder.id), 'data-add-folder-url': new_folder_url(issue_id: issue.id, parent_folder_id: parent_folder.id, dom_id: dom_id), 'data-remove-folder-url': folder_url(parent_folder,  dom_id: dom_id, format: :js) }
     .folder-item-title-container
       %span.folder-item-icon
         %i.fa.fa-fw.js-folder-item-icon{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}

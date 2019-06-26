@@ -11,9 +11,7 @@
           .threaded-folders-header
             .header-cell.title 제목
             .header-cell.updated-at 업데이트
-          .threaded-folders-body.background.js-lazy-partal-load{ id: partial_dom_id, data: { url: smart_issue_partial_folders_url(@issue, dom_id: partial_dom_id) } }
+          .threaded-folders-body.background.js-lazy-partal-load{ id: partial_dom_id, data: { url: smart_issue_folders_url(@issue, dom_id: partial_dom_id, format: :js) } }
             - 8.times do
               .skeletons
                 .skeleton-title{ style: "width: #{[30, 40, 50].sample}%;"}
-
-

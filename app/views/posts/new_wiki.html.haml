@@ -20,7 +20,10 @@
                 .row
                   .col-xs-12.col-sm-12
                     = render 'posts/issue_selector'
+            - if f.object.folder.present?
+              .form-group{ style: 'margin-top: 12px' }
+                = render 'posts/post_card_folder', post: f.object
+                = f.hidden_field :folder_id
             =  render 'posts/wiki_form', f: f
             %div{ style: 'margin-top: 12px' }
               = controls
-

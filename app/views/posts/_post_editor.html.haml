@@ -6,12 +6,15 @@
     = render 'posts/issue_selector_lazy', dom_id: issue_selector_dom_id
   - form_dom_id = "post-form-#{SecureRandom.uuid}"
   #post-form-widget.form-widget-container
-    = form_for Post.new(folder_id: local_assigns[:folder]&.id), format: (is_remote ? :js : nil), remote: is_remote, html: { id: form_dom_id, class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
+    = form_for Post.new(issue: local_assigns[:current_issue], folder: local_assigns[:current_folder]), format: (is_remote ? :js : nil), remote: is_remote, html: { id: form_dom_id, class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
       - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
       - post_body_dom_id = "post-body-#{SecureRandom.uuid}"
 
       .form-widget-content{ id: textarea_error_id }
-        = render 'posts/post_card_folder', post: f.object
+        - if f.object.folder.present?
+          .form-group
+            = render 'posts/post_card_folder', post: f.object
+            = f.hidden_field :folder_id
         .post-form-pin-button.js-post-form-pin-button{ class: ('collapse' unless can?(:pin, local_assigns[:current_issue])) }
           .checkbox
             %label.remember_me
@@ -204,5 +207,3 @@
           - if local_assigns[:current_issue].present?
             = hidden_field_tag :fixed_issue_id, 'true'
           = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
-
-

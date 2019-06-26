@@ -4,14 +4,9 @@
 * 과거 이력 삭제
 * 위키
 * latest_stroked_posts_count, latest_stroked_posts_count_version 삭제
-* 폴더
-    - 관리 권한
-    - 이동 V
-    - 폴더 추가/삭제
-    - 폴더에 게시물 추가
-    - 순서 V
 * 검색
 * 게시물에서 폴더 이동 > Depth가 안맞음
 * 폴더 4개 Depth허용
 * 위키 스타일 확인
+* 위키 읽기 모드
 * 게시물의 폴더 링크를 앵커로!

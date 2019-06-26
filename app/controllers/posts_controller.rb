@@ -95,6 +95,8 @@ class PostsController < ApplicationController
     # back url
     @list_url = ''
     @issue = Issue.find_by(id: params[:issue_id])
+    render_404 and return if @issue.blank? or @issue.private_blocked?(current_user)
+
     @folder = if @issue.present?
       @issue.folders.find_by(id: params[:folder_id])
     else
@@ -133,7 +135,14 @@ class PostsController < ApplicationController
       render_404 and return if @issue.blank? or @issue.private_blocked?(current_user)
     end
 
+    @folder = if @issue.present?
+      @issue.folders.find_by(id: params[:folder_id])
+    else
+      Folder.find_by(id: params[:folder_id])
+    end
+
     @post = Post.new
+    @post.folder = @folder
     @post.wiki = Wiki.new
     @post.issue = @issue
   end
@@ -450,7 +459,7 @@ class PostsController < ApplicationController
       :location] if event.present?
 
     params.require(:post)
-      .permit(:body, :issue_id, :has_poll, :has_survey, :has_event,
+      .permit(:body, :issue_id, :folder_id, :has_poll, :has_survey, :has_event,
         :is_html_body, :decision, (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: file_sources_attributes,
         poll_attributes: poll_attributes, survey_attributes: survey_attributes,
