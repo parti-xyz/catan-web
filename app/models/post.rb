@@ -109,6 +109,7 @@ class Post < ApplicationRecord
   # scopes
   default_scope -> { joins(:issue) }
   scope :recent, -> { order(created_at: :desc) }
+  scope :order_by_folder_seq, -> { order(folder_seq: :asc).order_by_stroked_at }
   scope :order_by_stroked_at, -> { order(last_stroked_at: :desc).recent }
   scope :hottest, -> { order(recommend_score_datestamp: :desc, recommend_score: :desc) }
   scope :previous_of_hottest, ->(post) {

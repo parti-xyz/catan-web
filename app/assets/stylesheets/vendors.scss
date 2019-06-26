@@ -128,3 +128,8 @@
 .gu-transit {
   display: none;
 }
+
+// contextMenu
+.context-menu-item.context-menu-hover {
+  background-color: $base-brand-primary;
+}

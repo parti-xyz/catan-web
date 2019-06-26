@@ -37,55 +37,134 @@ class FoldersController < ApplicationController
 
   def sort
     @issue = Issue.find_by(id: params[:issue_id])
-    render_404 if @issue.blank?
+    render_404 and return if @issue.blank? or params[:item_type].blank?
+    @current_instance = params[:item_type].safe_constantize.try(:find_by, {id: params[:item_id]})
+    render_404 and return if @current_instance.blank?
+
     authorize! :manage_folders, @issue
     @folders = @issue.folders
 
-    begin
+    # begin
       @error = false
       payload = JSON.parse(params[:payload])
-      ActiveRecord::Base.transaction do
-        (payload || []).each do |item|
-          mark_seq(nil, item, 0, @issue)
-        end
-      end
-    rescue Exception => e
-      logger.error e.backtrace.join("\n")
-      @error = true
+      mark_seq(nil, (payload || []), @issue, @current_instance)
+    # rescue Exception => e
+    #   logger.error e.backtrace.join("\n")
+    #   @error = true
+    # end
+  end
+
+  def attach_post
+    @post = Post.find_by(id: params[:post_id])
+    @folder = Folder.find_by(id: params[:id])
+    render_404 and return if @folder.blank?
+    render_403 and return if @post.issue_id != @folder.issue_id
+
+    @post.folder = @folder
+    @post.folder_seq = (params[:folder_seq] || 0)
+    @post.save
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def detach_post
+    @post = Post.find_by(id: params[:post_id])
+    @folder = Folder.find_by(id: params[:id])
+    render_404 and return if @folder.blank?
+    return if @post.folder != @folder
+
+    @post.folder = nil
+    @post.folder_seq = 0
+    @post.save
+
+    respond_to do |format|
+      format.js
     end
   end
 
   private
 
-  def mark_seq(parent_folder, item, current_seq, issue)
-    case item['item_type']
-    when 'Folder'
-      folder = Folder.find_by(id: item['item_id'], issue_id: issue.id)
-      return current_seq if folder.blank?
+  def mark_seq(parent_folder_item, items, issue, current_instance)
+    parent_folder_id = parent_folder_item.try(:fetch, 'item_id')
 
-      folder.folder_seq = current_seq
-      folder.parent_id = parent_folder.id if parent_folder.present?
-      current_seq += 1
-      folder.save!
-
-      (item['children'] || []).each do |child_item|
-        current_seq = mark_seq(folder, child_item, current_seq, issue)
-      end
-    when 'Post'
-      post = Post.find_by(id: item['item_id'])
-      return current_seq if post.blank?
-      if post.issue_id != issue.id
-        post.folder_id = nil
-        post.folder_seq = nil
-      else
-        post.folder_id = parent_folder.id if parent_folder.present?
-        post.folder_seq = current_seq
-        current_seq += 1
-      end
-      post.save!
+    logger.debug(current_instance.class.name.inspect)
+    current_index = items.index do |item|
+      item['item_type'] == current_instance.class.name and item['item_id'] == current_instance.id
     end
 
-    current_seq
+    if current_index.present?
+      current_item = items[current_index]
+
+      upper_index = current_index - 1
+      upper_instance = nil
+      while upper_index >= 0 and upper_instance.blank? do
+        upper_item = items[upper_index]
+        upper_index -= 1
+
+        next if upper_item['item_type'] != current_item['item_type']
+
+        upper_instance = (upper_item['item_type']).safe_constantize.try(:find_by, {id: upper_item['item_id'], "#{parent_folder_column(current_item)}": parent_folder_id})
+      end
+
+      current_seq = if upper_instance.present?
+        upper_instance.folder_seq + 1
+      else
+        downer_index = current_index + 1
+        downer_instance = nil
+        while downer_index < items.length and downer_instance.blank? do
+          downer_item = items[downer_index]
+          downer_index += 1
+
+          next if downer_item['item_type'] != current_item['item_type']
+
+          downer_instance = (downer_item['item_type']).safe_constantize.try(:find_by, {id: downer_item['item_id'], "#{parent_folder_column(current_item)}": parent_folder_id})
+        end
+        downer_instance.try(:folder_seq) || 0
+      end
+
+      ActiveRecord::Base.transaction do
+        parent_folder_column = nil
+
+        case current_item['item_type']
+        when "Folder"
+          current_instance.parent_id = parent_folder_id
+          current_instance.folder_seq = current_seq
+        when "Post"
+          current_instance.folder_id = parent_folder_id
+          current_instance.folder_seq = current_seq
+        end
+        current_instance.save
+
+        follow_items = issue.send(:"#{current_item['item_type'].underscore.pluralize}").where(parent_folder_column(current_item) => parent_folder_id).where('folder_seq >= ?', current_seq).where.not(id: current_instance.id).order(folder_seq: :asc).to_a
+        follow_items.each_with_index do |follow_item, index|
+          follow_item.folder_seq = current_seq + 1 + index
+          follow_item.save
+        end
+      end
+
+      return true
+    else
+      items.each do |item|
+        if item['item_type'] == 'Folder' and item['children'].present?
+          if mark_seq(item, item['children'], issue, current_instance)
+            return true
+          end
+        end
+      end
+
+      return false
+    end
+  end
+
+  def parent_folder_column(item)
+    case item['item_type']
+    when "Folder"
+      parent_folder_column = "parent_id"
+    when "Post"
+      parent_folder_column = "folder_id"
+    end
   end
 
   def folder_params

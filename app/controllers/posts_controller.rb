@@ -79,7 +79,7 @@ class PostsController < ApplicationController
 
   def update_title
     render_404 and return if fetch_issue.blank? or private_blocked?(@issue)
-    render_403 unless request.xhr?
+    render_403 and return unless request.xhr?
 
     if @post.wiki.present?
       @wiki = @post.wiki
@@ -95,6 +95,16 @@ class PostsController < ApplicationController
     # back url
     @list_url = ''
     @issue = Issue.find_by(id: params[:issue_id])
+    @folder = if @issue.present?
+      @issue.folders.find_by(id: params[:folder_id])
+    else
+      Folder.find_by(id: params[:folder_id])
+    end
+
+    if(@issue.present? and @folder.present? and @issue.id != @folder.issue_id)
+      render_404 and return
+    end
+
     respond_to do |format|
       format.js
     end
@@ -134,7 +144,6 @@ class PostsController < ApplicationController
         format.html { redirect_to root_path }
         format.js { render_404 }
       end
-      return
     end
 
     render_404 and return if @post.wiki.blank?

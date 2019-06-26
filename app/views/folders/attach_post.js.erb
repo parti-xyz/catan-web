@@ -1,0 +1,10 @@
+<% if @post.errors.any? %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+  var $partial = $('<%= j(render 'issues/slug_folders_posts', issue: @post.issue, parent_folder: @folder) %>');
+  parti_partial$($partial);
+
+  var $folder_children = $('.js-folder-item[data-folder-item-type="folder"][data-folder-item-id="<%= @folder.id %>"]').closest('.js-draggable-slug-folder-rows').find('.js-folder-children');
+  $folder_children.find('.js-folder-item[data-folder-item-type="post"]').remove();
+  $folder_children.append($partial);
+<% end %>

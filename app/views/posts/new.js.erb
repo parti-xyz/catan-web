@@ -1,2 +1,2 @@
-var $partial = $('<%= j(render_group 'posts/new_modal', issue: @issue) %>');
+var $partial = $('<%= j(render_group 'posts/new_modal', issue: @issue, folder: @folder) %>');
 parti_show_modal$($partial);

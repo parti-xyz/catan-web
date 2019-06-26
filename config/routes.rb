@@ -165,6 +165,10 @@ Rails.application.routes.draw do
   end
   post 'comments/read', to: 'comments#read'
   resources :folders do
+    member do
+      delete :detach_post
+      post :attach_post
+    end
     collection do
       post :sort
     end

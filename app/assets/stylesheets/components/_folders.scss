@@ -5,11 +5,15 @@ body.app-issues-slug_folders:not(.app-issues-slug_folders-no-folder) {
     background-color: transparent;
   }
 
-  &.dragable-slug-folder-dragging, &.dragable-slug-folder-dragging * {
+  &.draggable-slug-folder-dragging, &.draggable-slug-folder-dragging * {
     cursor: move !important;
   }
 
-  .dragable-slug-folder-dragged {
+  &.draggable-slug-folder-dropping, &.draggable-slug-folder-dropping * {
+    cursor: wait !important;
+  }
+
+  .draggable-slug-folder-dragged {
     position: absolute;
     opacity: 0.5;
     z-index: 2000;
@@ -175,21 +179,15 @@ section.page-folders {
     .folder-item.active {
       background-color: $brand-primary-lighter;
     }
-
-    .child-item-empty {
-      color: $gray-a;
-    }
   }
   .dragging_active {
     border: 1px solid $gray;
   }
+
   .folders-root > .folder-rows {
     > .child-folder-items {
       > .child-item {
         padding-left: 16px;
-        &.child-item-empty {
-          padding-left: 32px;
-        }
       }
       // 하위
       > .folder-rows {
@@ -199,13 +197,13 @@ section.page-folders {
         > .child-folder-items {
           > .child-item {
             padding-left: 32px;
-            &.child-item-empty {
-              padding-left: 48px;
-            }
           }
         }
+      }
+
+      .child-item.draggable-slug-folder-dragged {
+        padding-left: 0 !important;
       }
     }
   }
 }
-

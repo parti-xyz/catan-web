@@ -51,6 +51,7 @@
 //= require jquery-sortable
 //= require jquery.ui.position
 //= require jquery.contextMenu
+//= require jquery-deepest
 
 // blank
 $.is_blank = function (obj) {
@@ -64,13 +65,15 @@ $.is_blank = function (obj) {
 }
 
 // breakpoint
-$('body').append($('<span id="js-breakpoint" class="visible-xs-block visible-sm-block visible-md-block"></span>'));
+$('body').append($('<span id="js-xs-breakpoint" class="visible-xs-block"></span>'));
+$('body').append($('<span id="js-sm-breakpoint" class="visible-sm-block"></span>'));
+$('body').append($('<span id="js-md-breakpoint" class="visible-md-block"></span>'));
 $.breakpoint_max = function() {
-  if($('#js-breakpoint.visible-xs-block').css('display') === 'block') {
+  if($('#js-xs-breakpoint.visible-xs-block').css('display') === 'block') {
     return 'xs';
-  } else if($('#js-breakpoint.visible-sm-block').css('display') === 'block') {
+  } else if($('#js-sm-breakpoint.visible-sm-block').css('display') === 'block') {
     return 'sm';
-  } else if($('#js-breakpoint.visible-md-block').css('display') === 'block') {
+  } else if($('#js-md-breakpoint.visible-md-block').css('display') === 'block') {
     return 'md';
   } else {
     return 'lg';
@@ -1412,10 +1415,10 @@ var parti_prepare = function($base, force) {
       var on_run = function(e) {
         clearTimeout($elm.data('timeout')); //prevent single-click action
 
-        if($elm.hasClass('js-folder-item-folder')) {
+        if($elm.data('folder-item-type') === 'folder') {
           $elm.siblings('.js-folder-children').slideToggle(100, function() {
             var _cookies_folder_ids = Cookies.getJSON('opened_folder_ids') || [];
-            var folder_id = $elm.data('item-id');
+            var folder_id = $elm.data('folder-item-id');
 
             if($(this).is(':visible')) {
               $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
@@ -1431,7 +1434,7 @@ var parti_prepare = function($base, force) {
             Cookies.set('opened_folder_ids', _cookies_folder_ids, { domain: '.' + __root_domain, expires: 7 });
           });
         }
-        if($elm.hasClass('js-folder-item-post')) {
+        if($elm.data('folder-item-type') === 'post') {
           e.preventDefault();
           var url = $elm.data("url");
           if(!url) { return; }
@@ -1443,6 +1446,23 @@ var parti_prepare = function($base, force) {
           }
         }
         reset_item($elm, true); //after action performed, reset counter
+      }
+
+      var on_rename = function() {
+        var title = $content_elm.data('value');
+        $rename_title_field_elm.val(title).trigger('input');
+        $rename_form_elm.show();
+        $content_elm.hide();
+
+        $elm.removeClass('js-try-to-rename');
+        $elm.addClass('js-renaming');
+
+        $(document).on('keyup.folder-item', esc_handler);
+        $rename_title_field_elm.on('blur.folder-item', on_blur);
+
+        $rename_title_field_elm.focus();
+        $rename_title_field_elm[0].setSelectionRange(0, 0);
+        $rename_title_field_elm[0].scrollLeft = 0
       }
 
       $elm.on('dblclick', function(e) {
@@ -1481,8 +1501,8 @@ var parti_prepare = function($base, force) {
           }
         } else {
           $elm.addClass('active');
-          var item_type = $elm.data('item-type');
-          var item_id = $elm.data('item-id');
+          var item_type = $elm.data('folder-item-type');
+          var item_id = $elm.data('folder-item-id');
           Cookies.set('latest_active_folder_item', item_type + '#' + item_id, { domain: '.' + __root_domain, expires: 7 });
         }
 
@@ -1490,20 +1510,7 @@ var parti_prepare = function($base, force) {
           $elm.data('timeout', setTimeout(function() {
             $elm.data('timeout', null);
             if($elm.hasClass('js-try-to-rename')) {
-              var title = $content_elm.data('value');
-              $rename_title_field_elm.val(title).trigger('input');
-              $rename_form_elm.show();
-              $content_elm.hide();
-
-              $elm.removeClass('js-try-to-rename');
-              $elm.addClass('js-renaming');
-
-              $(document).on('keyup.folder-item', esc_handler);
-              $rename_title_field_elm.on('blur.folder-item', on_blur);
-
-              $rename_title_field_elm.focus();
-              $rename_title_field_elm[0].setSelectionRange(0, 0);
-              $rename_title_field_elm[0].scrollLeft = 0
+              on_rename();
             }
             $elm.data('clicks', 0); //after action performed, reset counter
           }, delay));
@@ -1514,12 +1521,15 @@ var parti_prepare = function($base, force) {
 
       $elm.on('parti-folder-item-force-active', function(e, data) {
         $('.js-folder-item').each(function(index, current_elm) {
-          if(!$(current_elm).is($elm)) {
-            reset_item($(current_elm));
-          }
+          reset_item($(current_elm));
         });
 
         $elm.addClass('active');
+      });
+
+      $elm.on('parti-folder-item-force-rename', function(e, data) {
+        $elm.on('parti-folder-item-force-active');
+        on_rename();
       });
 
       $elm.on('parti-folder-item-saved', function(e, data) {
@@ -1553,52 +1563,81 @@ var parti_prepare = function($base, force) {
 
   // 폴더 목록의 폴더나 아이템 드래그앤드롭
   (function() {
-    var placeholder;
+    var $current_placeholder;
     var old_container;
 
     var onKeyDown = function(e) {
       if(e.keyCode == 27) {
-        if(placeholder) {
-          placeholder.remove();
+        if($current_placeholder) {
+          $current_placeholder.remove();
+          $current_placeholder = undefined;
         }
         $(this).mouseup();
       }
     }
 
-    $.parti_apply($base, '.js-dragable-slug-folder', function(base_elm) {
+    $.parti_apply($base, '.js-draggable-slug-folder', function(base_elm) {
       var payload_json = undefined;
+      var $base_elm = $(base_elm);
 
-      var autosave_payload = function() {
+      var autosave_payload = function(params) {
         $('.js-slug-folder-autosave').text('저장 중...');
-        submit_payload();
+        submit_payload(params);
       }
 
-      var submit_payload = _.debounce(function() {
-        if(!!$(base_elm).data('url') && !!$(base_elm).data('issue-id') && !!payload_json) {
+      var submit_payload = function(params) {
+        if(!!$base_elm.data('url') && !!$base_elm.data('issue-id') && !!payload_json) {
           $.ajax({
-            url: $(base_elm).data('url'),
+            url: $base_elm.data('url'),
             type: "post",
-            data:{ issue_id: $(base_elm).data('issue-id'), 'payload': payload_json },
+            data:{ issue_id: $base_elm.data('issue-id'), 'payload': payload_json, 'item_type': params.item_type, 'item_id': params.item_id },
           });
         };
-      }, 1000 * 5);
+      };
+
+      var depth = function($draggable_item) {
+        if($draggable_item.find('.js-draggable-slug-folder-container').length > 0) {
+          return $draggable_item.deepest('.js-draggable-slug-folder-container').first()
+            .parentsUntil($draggable_item, '.js-draggable-slug-folder-container').length + 1;
+        } else {
+          return 0;
+        }
+      }
+
+      var max_depth = 2;
+
+      var on_resize = _.debounce(function(e) {
+        var group = $base_elm.data('sortable-group');
+        if(group) {
+          if($.breakpoint_max() === 'xs') {
+            group.sortable('disable');
+          } else {
+            group.sortable('enable');
+          }
+        }
+      }, 1000 * 2);
 
       var init_group = function() {
-        $( window ).on('resize', _.debounce(on_resize, 1000 * 2));
-        return $(base_elm).sortable({
-          group: 'dragable-slug-folder',
+        if($base_elm.data('sortable-group')) {
+          return;
+        }
+
+        $('body').removeClass('draggable-slug-folder-dropping');
+
+        var group = $base_elm.sortable({
+          group: 'draggable-slug-folder',
           pullPlaceholder: true,
           containerPath: '', // The exact css path between the container and its item
-          containerSelector: '.js-dragable-slug-folder-container',
-          itemSelector: '.js-dragable-slug-folder-draggable', // The exact css path between the item and its subcontainers.
-          bodyClass: 'dragable-slug-folder-dragging',
-          draggedClass: 'dragable-slug-folder-dragged',
-          placeholderClass: 'dragable-slug-folder-placeholder',
-          placeholder: '<div class="dragable-slug-folder-placeholder collapse"></div>',
+          containerSelector: '.js-draggable-slug-folder-container',
+          itemSelector: '.js-draggable-slug-folder-draggable', // The exact css path between the item and its subcontainers.
+          bodyClass: 'draggable-slug-folder-dragging',
+          draggedClass: 'draggable-slug-folder-dragged',
+          placeholderClass: 'draggable-slug-folder-placeholder',
+          placeholder: '<div class="draggable-slug-folder-placeholder collapse"></div>',
           afterMove: function($placeholder, container, $closestItemOrContainer) {
-            placeholder = $placeholder;
+            $current_placeholder = $placeholder;
 
-            if(old_container != container){
+            if(old_container != container || !container.el.parent().addClass("dragging_active")){
               $('.dragging_active').removeClass("dragging_active");
               container.el.parent().addClass("dragging_active");
               old_container = container;
@@ -1612,25 +1651,36 @@ var parti_prepare = function($base, force) {
             _super($item, position);
           },
           onDrop: function($item, container, _super, event) {
-            placeholder = null;
+            if(!container) {
+              return;
+            }
+
             $(document).off('keydown', onKeyDown);
             $('.dragging_active').removeClass("dragging_active");
 
+            if(!$current_placeholder) {
+              _super($item, container);
+              return;
+            }
+            $current_placeholder = undefined;
+
+            $('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-wait');
+
             // 폴더의 경우 말단 폴더인지 확인합니다. 말단 폴더는 게시물만 포함됩니다.
-            var $subcontainers = $item.find('> .js-dragable-slug-folder-container');
+            var $subcontainers = $item.find('> .js-draggable-slug-folder-container');
             if($subcontainers.length > 0) {
-              if($item.parents('.js-dragable-slug-folder-container').length > 1) {
-                $subcontainers.data('dragable-slug-folder-item-type', 'post');
+              if($item.parents('.js-draggable-slug-folder-container').length > 1) {
+                $subcontainers.data('draggable-slug-folder-acceptable-type', 'post');
               } else {
-                $subcontainers.data('dragable-slug-folder-item-type', 'any');
+                $subcontainers.data('draggable-slug-folder-acceptable-type', 'any');
               }
             }
 
             // 소팅
             var $last_dom;
-            var $container = $item.closest('.js-dragable-slug-folder-container');
+            var $container = $item.closest('.js-draggable-slug-folder-container');
 
-            $container.find('> .js-dragable-slug-folder-rows').each(function(index, elm) {
+            $container.find('> .js-draggable-slug-folder-rows').each(function(index, elm) {
               var $elm = $(elm);
               if(!!$last_dom) {
                 $elm.before($last_dom);
@@ -1640,7 +1690,7 @@ var parti_prepare = function($base, force) {
                 $last_dom = $elm;
               }
             });
-            $container.find('> .js-dragable-slug-folder-item').each(function(index, elm) {
+            $container.find('> .js-draggable-slug-folder-item').each(function(index, elm) {
               var $elm = $(elm);
               if(!!$last_dom) {
                 $elm.before($last_dom);
@@ -1650,65 +1700,67 @@ var parti_prepare = function($base, force) {
                 $last_dom = $elm;
               }
             });
+            // 기본 로직 수행
+            _super($item, container);
 
             // 서버에 저장
-            if(group) {
-              var data = group.sortable("serialize").get();
+            if(container) {
+              var data = container.el.parent().closest('.js-draggable-slug-folder-container').sortable('serialize').get();
               payload_json = JSON.stringify(data, null, ' ');
-              autosave_payload();
+              autosave_payload($item.data('draggable-slug-folder-json-params'));
+            } else {
+              console.log('container blank!')
             }
-            _super($item, container);
           },
           serialize: function($parent, $children, parentIsContainer) {
             if(parentIsContainer) {
               return $children;
             }
 
-            var result = $parent.data('dragable-slug-folder-json-params') || {};
+            var result = $parent.data('draggable-slug-folder-json-params') || {};
             if($children[0]){
               result.children = $children;
             }
             return result;
           },
           isValidTarget: function ($item, container) {
-            var container_type = container.el.data('dragable-slug-folder-item-type');
-            return(container_type === 'any' || $item.data('folder-item-type') == container_type);
+            var container_type = container.el.data('draggable-slug-folder-acceptable-type');
+            var valid_type = (container_type === 'any' || $item.data('draggable-slug-folder-item-type') == container_type);
+
+            var container_depth = container.el.parents('.js-draggable-slug-folder-container').length;
+            var current_depth = depth($item);
+            return valid_type && (current_depth === 0 || (container_depth + current_depth <= max_depth));
           },
         });
+
+        $base_elm .data('sortable-group', group);
+        $(window).on('resize', on_resize);
+        on_resize();
       }
 
-      var on_resize = function(e) {
-        if(group) {
-          if($.breakpoint_max() === 'xs') {
-            console.log('disable');
-            $(base_elm).sortable('disable');
-          } else {
-            console.log('enable');
-            $(base_elm).sortable('enable');
-          }
-        }
-      }
+      init_group();
 
-      $(base_elm).on('parti-dragable-slug-folder-item-destroy', function(e) {
+      $base_elm.on('parti-draggable-slug-folder-item-destroy', function(e) {
+        $(window).off('resize', on_resize);
+        var group = $(this).data('sortable-group');
         if(group) {
           group.sortable('destroy');
-          group = null;
+          $(this).data('sortable-group', null);
         }
-        $( window ).off('resize', on_resize);
       });
 
-      var group = init_group()
-      if($.breakpoint_max() === 'xs') {
-        $(base_elm).sortable('disable');
-      }
-
-
-      $(base_elm).on('parti-dragable-slug-folder-item-save', function(e) {
+      $base_elm.on('parti-draggable-slug-folder-item-wait', function(e) {
+        var group = $(this).data('sortable-group');
         if(group) {
-          var data = group.sortable("serialize").get();
-          payload_json = JSON.stringify(data, null, ' ');
-          autosave_payload();
+          group.sortable('disable');
+          $('body').addClass('draggable-slug-folder-dropping');
         }
+      });
+
+      $base_elm.on('parti-draggable-slug-folder-item-save', function(e) {
+        var data = $(this).sortable("serialize").get();
+        payload_json = JSON.stringify(data, null, ' ');
+        autosave_payload();
       });
     });
   })();
@@ -2626,46 +2678,73 @@ $(function(){
       };
 
       options.items = {
-        "add_post": {
-          name: "게시물 쓰기",
-          callback: function(itemKey, opt, e){
-            alert('구현 중')
-          },
-        },
-        "add_wiki": {
-          name: "위키 쓰기",
-          callback: function(itemKey, opt, e){
-            alert('구현 중')
-          },
-        },
-        "add_subfolder": {
-          name: "하위 폴더 추가",
-          callback: function(itemKey, opt, e){
-            alert('구현 중')
-          },
-        },
-        "sep0": "---------",
         "rename": {
           name: "이름 편집",
           callback: function(itemKey, opt, e){
-            alert('구현 중')
+            opt.$trigger.trigger('parti-folder-item-force-rename');
           },
         },
       }
 
       if($trigger.data('folder-item-type') === 'folder') {
-        options.items["delete"] = {
-          name: "폴더 삭제",
+        options.items["add_post"] = {
+          name: "게시물 작성",
+          callback: _.throttle(function(itemKey, opt, e){
+            $.ajax({
+              url: opt.$trigger.data('add-post-url'),
+              type: 'get',
+              crossDomain: false,
+              xhrFields: {
+                withCredentials: true
+              }
+            });
+          }, 1000),
+        };
+        options.items["add_wiki"] = {
+          name: "위키 작성",
           callback: function(itemKey, opt, e){
-            alert('구현 중')
+            location.href = opt.$trigger.data('add-wiki-url');
           },
+        };
+        options.items["add_subfolder"] = {
+          name: "하위 폴더 생성",
+          callback: _.throttle(function(itemKey, opt, e){
+            $.ajax({
+              url: opt.$trigger.data('add-folder-url'),
+              type: 'get',
+              crossDomain: false,
+              xhrFields: {
+                withCredentials: true
+              }
+            });
+          }, 1000),
+        };
+        options.items["remove"] = {
+          name: "폴더 삭제",
+          callback: _.throttle(function(itemKey, opt, e){
+            $.ajax({
+              url: opt.$trigger.data('remove-folder-url'),
+              type: 'delete',
+              crossDomain: false,
+              xhrFields: {
+                withCredentials: true
+              }
+            });
+          }, 1000),
         }
       } else if($trigger.data('folder-item-type') === 'post') {
         options.items["eject"] = {
           name: "이 게시물을 폴더에서 제거",
-          callback: function(itemKey, opt, e){
-            alert('구현 중')
-          },
+          callback: _.throttle(function(itemKey, opt, e){
+            $.ajax({
+              url: opt.$trigger.data('detach-post-url'),
+              type: 'delete',
+              crossDomain: false,
+              xhrFields: {
+                withCredentials: true
+              }
+            });
+          }, 1000),
         }
       }
       return options;
@@ -2714,5 +2793,3 @@ var parti_show_modal_sm$ = function($partial) {
   $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
   $('#js-modal-placeholder > .modal').modal("show");
 }
-
-
