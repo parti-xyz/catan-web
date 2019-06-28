@@ -3,6 +3,7 @@ body.mce-content-body {
   min-height: 100px;
   height: auto;
   outline: none;
+  margin: 12px;
 
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -32,6 +33,10 @@ body.mce-content-body {
 }
 
 .mce-content-body {
+  font-size: $font-size-base;
+  @media (max-width: $screen-xs-max) {
+    font-size: $font-size-medium;
+  }
   h1 {
     font-size: $font-size-base * 1.4;
   }
@@ -102,4 +107,3 @@ body.mce-content-body {
     padding: 4px;
   }
 }
-

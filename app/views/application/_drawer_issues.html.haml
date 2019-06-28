@@ -9,7 +9,7 @@
   %li.js-group-issues-line.group-issues-container.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
     - issues = all_issues.select{ |issue| issue.group_slug == menu_group.slug }
     - if issues.blank?
-      - issues = menu_group.issues.alive.to_a
+      - issues = menu_group.issues.searchable_issues.to_a
 
     - unread = false
     - if local_assigns[:members_for_issues].present?

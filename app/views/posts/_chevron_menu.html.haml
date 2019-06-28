@@ -17,8 +17,6 @@
           = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch, data: { confirm: '정말 지우시겠습니까?' }
   - if can? :update, post.wiki and post.wiki.active?
     - button_groups << capture do
-      %li
-        = link_to '발표화면 보기', wiki_post_path(post), target: '_blank'
       - if post.issue.group.organized_by?(current_user)
         %li
           = render 'posts/front_wiki_buttons', post: post

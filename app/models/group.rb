@@ -55,14 +55,14 @@ class Group < ApplicationRecord
   scope :hottest, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :but, ->(group) { where.not(id: group) }
   scope :not_private_blocked, ->(current_user) {
-    where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
+    never_blinded.where(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
     .or(where.not(private: true))
   }
   scope :memberable_and_unfamiliar, ->(current_user) {
-    where.not(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
+    never_blinded.where.not(id: Member.where(user: current_user).where(joinable_type: 'Group').select('members.joinable_id'))
     .where.not(private: true).where('issues_count > 0')
   }
-  scope :only_public, -> { where.not(private: true) }
+  scope :only_public, -> { never_blinded.where.not(private: true) }
   scope :searchable_groups, ->(current_user = nil) {
     if current_user.present?
       only_public
@@ -105,11 +105,11 @@ class Group < ApplicationRecord
   scope :never_blinded, -> { where(blinded_at: nil) }
   scope :blinded_only, -> { where.not(blinded_at: nil) }
   scope :comprehensive_joined_by, -> (someone) {
-    where(slug: (someone&.member_issues&.select(:group_slug)))
+    never_blinded.where(slug: (someone&.member_issues&.select(:group_slug)))
       .or(self.where(id: someone&.member_groups))
   }
   scope :joined_groups, -> (someone) {
-    where(id: someone&.member_groups)
+    never_blinded.where(id: someone&.member_groups)
   }
 
   # search

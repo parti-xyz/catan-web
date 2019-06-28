@@ -5,8 +5,10 @@
   - controls = capture do
     - if post.wiki.activate?
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
+    = link_to wiki_post_path(post, mode: 'preview-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: 'btn btn-xs btn-default btn-link btn-ghost' do
+      취소
   - if post.wiki.body.length > 2000
-    .submit-box{ style: 'margin-bottom: 12px; margin-top: 18px' }
+    .submit-box{ style: 'margin-bottom: 12px; margin-top: 12px' }
       = controls
   - if post.wiki.activate?
     = hidden_field_tag :form_dom_id, form_dom_id
@@ -16,5 +18,5 @@
     .row
       .col-xs-12
         = render 'wikis/read_only_wiki_content', wiki: post.wiki
-  .submit-box.clearfix{ style: 'margin-top: 12px' }
+  .submit-box.clearfix{ style: 'margin-bottom: 12px; margin-top: 12px' }
     = controls

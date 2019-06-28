@@ -57,7 +57,6 @@ class User < ApplicationRecord
   before_save :downcase_nickname
   before_save :set_uid
   before_validation :strip_whitespace, only: :nickname
-  before_update :process_push_notification_mode_updated_at
   after_create :default_member_issues
   after_create :check_invitations, if: ->{ email.present? && confirmed_at.present? }
 
@@ -358,18 +357,6 @@ class User < ApplicationRecord
     result || true
   end
 
-  def disabled_push_notification_period
-    return nil if self.push_notification_disabled_at.blank?
-
-    if self.enable_push_notification? and self.push_notification_enabled_at.present? and self.push_notification_enabled_at > self.push_notification_disabled_at
-      [self.push_notification_disabled_at, self.push_notification_enabled_at]
-    elsif !self.enable_push_notification?
-      [self.push_notification_disabled_at, 1_000_000.years.from_now]
-    else
-      nil
-    end
-  end
-
   def self.enable_push_notification?(push_notification_mode)
     %i(on no_sound).include? push_notification_mode.to_sym
   end
@@ -437,19 +424,5 @@ class User < ApplicationRecord
 
   def strip_whitespace
     self.nickname = self.nickname.strip unless self.nickname.nil?
-  end
-
-  def process_push_notification_mode_updated_at
-    return unless self.will_save_change_to_push_notification_mode?
-
-    enable_push_notification_was = User.enable_push_notification?(self.push_notification_mode_in_database)
-    enable_push_notification = User.enable_push_notification?(self.push_notification_mode)
-    return if enable_push_notification == enable_push_notification_was
-
-    if enable_push_notification
-      self.push_notification_enabled_at = DateTime.now
-    else
-      self.push_notification_disabled_at = DateTime.now
-    end
   end
 end

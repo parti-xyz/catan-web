@@ -16,33 +16,44 @@
     - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
     = render 'posts/last_stroked_for', post: post
 
-  - if ['detail', 'remote-detail', 'preview-detail'].include? local_assigns[:mode]
-    - if can?(:update, post.wiki) and 'preview-detail' != local_assigns[:mode]
-      = render 'wikis/card_form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
+  .wiki-line-body-container
+    - if ['detail', 'remote-detail', 'preview-detail', 'edit-detail'].include? local_assigns[:mode]
+      - if can?(:update, post.wiki) and 'edit-detail' == local_assigns[:mode]
+        = render 'wikis/card_form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
+      - else
+        %h4.wiki-title
+          = link_to post.wiki.title, smart_post_url(post), target: '_blank'
+
+        .wiki-line-body.wiki-line-body-full.cursor-pointer
+          .wiki-body.wiki-preview
+            .mce-content-body
+              != post.wiki.body
+          .wiki-button
+            = link_to wiki_post_path(post, mode: 'preview', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: (post.issue.postable?(current_user) ? 'btn btn-xs btn-default btn-link btn-ghost' : 'btn btn-xs btn-default btn-force') do
+              접어보기
+            - if post.issue.postable?(current_user)
+              = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px' do
+                편집
     - else
       %h4.wiki-title
         = link_to post.wiki.title, smart_post_url(post), target: '_blank'
 
-      .wiki-line-body.wiki-line-body-full.cursor-pointer
+      .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
         .wiki-body.wiki-preview
+          .shadow
           .mce-content-body
-            != post.wiki.body
-  - else
-    %h4.wiki-title
-      = link_to post.wiki.title, smart_post_url(post), target: '_blank'
-
-    .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
-      .wiki-body.wiki-preview
-        .mce-content-body
-          != smart_truncate_html(post.wiki.body, length: 1000)
-      .shadow
-      .wiki-button
-        .btn.btn-xs.btn-primary.btn-primary-light.btn-force{ style: 'border-radius: 4px' }
-          = (post.issue.postable?(current_user) ? '편집' : '읽기')
+            != smart_truncate_html(post.wiki.body, length: 1000)
+        .shadow
+        .wiki-button
+          - if post.issue.postable?(current_user)
+            = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px' do
+              편집
+          - else
+            .btn.btn-xs.btn-default.btn-force{ style: 'border-radius: 4px' }
+              펼쳐보기
 
   .wiki-authors.tooltip-no-wrap
     작성
     - post.wiki.authors.each do |user|
       = link_to smart_user_gallery_path(user) do
         .thumb.img-circle.circle-30{style: "background-image: url(#{user.image.sm.url});", "data-placement" => "top", "data-toggle" => "tooltip", :title => "#{user.nickname}", :type => "auto-button"}
-

@@ -1,5 +1,5 @@
 - display_count = is_small_screen? ? 4 : 3
-- issues = group.issues.never_blinded.hottest.not_private_blocked(current_user).limit(display_count)
+- issues = group.issues.hottest.not_private_blocked(current_user).limit(display_count)
 - all_issues=  group.issues.not_private_blocked(current_user)
 - if !group.private_blocked?(current_user)
   .group.group-card.margin-bottom-default
@@ -25,4 +25,3 @@
     - else
       .group-desc{ style: 'font-weight: 200; margin-top: 0.5em; padding-bottom: 12px;' }
         = group.site_description
-

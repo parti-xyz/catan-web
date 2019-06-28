@@ -1,7 +1,8 @@
 <% if @post.private_blocked?(current_user) %>
   UnobtrusiveFlash.showFlashMessage("<%= t('unauthorized.default') %>", {type: 'error'});
 <% else %>
-  var $wiki_card = $("<%= j(render 'wikis/card', post: @post, mode: 'detail', remote_post_form: true) %>");
+  var $wiki_card = $("<%= j(render 'wikis/card', post: @post, mode: (params[:mode] || 'detail'), remote_post_form: true) %>");
   $('#<%= params[:wiki_card_dom_id] %>').replaceWith($wiki_card);
   parti_partial$($wiki_card);
+  $.scrollTo($wiki_card, 100, { offset: -100});
 <% end %>

@@ -43,22 +43,3 @@
 @import "components/folders";
 @import "components/events";
 @import "dev";
-
-// pages
-.popover-static .popover {
-  position: relative;
-  display: block;
-  margin: 20px 0;
-  z-index: 0;
-}
-
-// keep all
-.text-basic-wrap {
-  word-break: keep-all;
-  overflow-wrap: break-word;
-}
-
-// webp
-body.no-webp .webp {
-  display: none !important;
-}
