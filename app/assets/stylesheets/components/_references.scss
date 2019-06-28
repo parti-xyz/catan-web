@@ -110,6 +110,7 @@ section#references {
     &.caption-link {
       border-bottom: 1px solid $gray-lighter;
       padding: 10px 0;
+      background-color: $gray-lightest;
     }
     .link-source:hover {
       .title {
@@ -253,11 +254,18 @@ section#references {
   border: 1px solid $gray-lighter;
   border-radius: $border-radius-base;
   width: 100%;
-  &-link-source {
-    display: inline-block;
-    overflow: hidden;
+  &.post-reference-line-link-source {
+    margin-right: -18px;
+    margin-left: -18px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    background: $gray-lightest;
+    display: block;
+    width: auto;
   }
-  &__link-content {
+  .post-reference-line-link-content {
+    overflow: hidden;
     .media-body {
       padding: 24px 18px;
     }
