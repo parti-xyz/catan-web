@@ -1,7 +1,6 @@
 setTimeout(function() {
   var $item = $("<%= pinned_post_dom_selector(@post) %>");
-  $item.find('.js-read-mark').removeClass('read-mark--need-to-read')
-  $item.find('.js-read-action-btn').remove();
+  $item.find('.js-read-action-btn').hidden();
   $item.removeClass('need-to-read')
 }, 100);
 

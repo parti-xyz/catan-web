@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user, current_group)
-    can [:read, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form], :all
+    can [:read, :unread, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form], :all
     can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag,

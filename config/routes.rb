@@ -142,6 +142,7 @@ Rails.application.routes.draw do
       get 'readers'
       get 'unreaders'
       put 'read'
+      put 'unread'
       get 'more_comments'
       get 'edit_decision'
       patch 'update_decision'

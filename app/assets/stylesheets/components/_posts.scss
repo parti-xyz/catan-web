@@ -289,18 +289,12 @@
           margin-bottom: 4px;
         }
       }
-      .show-all {
-        color: $gray-a;
-        cursor: pointer;
-        .collapsed-and-need-to-read-posts-count {
-          color: $brand-primary;
-          font-weight: bold;
-        }
-      }
       .desc {
         margin-bottom: 0;
-        margin-left: 12px;
         .body {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
           a {
             color: $text-color;
           }
@@ -308,18 +302,6 @@
         &.desc_without_issue {
           width: 88%;
         }
-      }
-      .read-mark {
-        font-size: 12px;
-        line-height: 1.2em;
-        position: absolute;
-        color: $gray-a;
-        &--need-to-read {
-          color: $brand-primary;
-        }
-        display: list-item;
-        list-style-type: disc;
-        list-style-position: inside;
       }
       .date {
         color: $gray-a;

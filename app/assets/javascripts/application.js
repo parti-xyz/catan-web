@@ -2044,10 +2044,24 @@ $(function(){
     }
   });
 
-  $('.js-show-all-pinned-post').on('click', function(e) {
-    $('.js-posts-pinned-and-read').show();
-    $('.js-show-all-pinned-post-wrapper').hide();
-  });
+  (function() {
+    var visible = false;
+    var unfold_icon = 'fa-caret-down';
+    var fold_icon = 'fa-caret-right';
+    $('.js-show-all-pinned-post').on('click', function(e) {
+      $icon = $('.js-show-all-pinned-post').find('.js-show-all-pinned-post-icon')
+      if(visible) {
+        $('.js-posts-pinned-and-read').hide();
+        $icon.removeClass(unfold_icon);
+        $icon.addClass(fold_icon);
+      } else {
+        $('.js-posts-pinned-and-read').show();
+        $icon.removeClass(fold_icon);
+        $icon.addClass(unfold_icon);
+      }
+      visible = (!visible);
+    });
+  })();
 
   $('#site-header').on('show.bs.collapse','.collapse', function() {
       $('#site-header').find('.collapse.in').collapse('hide');

@@ -191,16 +191,24 @@ module DomHelper
     ".#{read_button_dom_class(post)}"
   end
 
+  def read_button_dom_class(post)
+    "#{dom_id(post)}-read-button"
+  end
+
+  def unread_button_dom_selector(post)
+    ".#{unread_button_dom_class(post)}"
+  end
+
+  def unread_button_dom_class(post)
+    "#{dom_id(post)}-unread-button"
+  end
+
   def folded_post_dom_class(post)
     "#{dom_id(post)}--folded"
   end
 
   def folded_post_dom_selector(post)
     ".#{folded_post_dom_class(post)}"
-  end
-
-  def read_button_dom_class(post)
-    "#{dom_id(post)}-read-button"
   end
 
   def issue_line_category_dom_selector(issue)

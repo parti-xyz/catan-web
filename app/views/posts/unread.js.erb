@@ -1,0 +1,16 @@
+setTimeout(function() {
+  var $item = $("<%= pinned_post_dom_selector(@post) %>");
+  $item.find('.js-read-action-btn').show();
+  $item.addClass('need-to-read')
+}, 100);
+
+var completed = $('<%= unread_button_dom_selector(@post) %>').data('completed-with');
+$('<%= unread_button_dom_selector(@post) %>').data('ujs:enable-with', completed)
+$('<%= unread_button_dom_selector(@post) %>').data('disable-with', completed);
+$('<%= unread_button_dom_selector(@post) %>').html(completed);
+setTimeout(function() {
+  $.rails.disableElement($('<%= unread_button_dom_selector(@post) %>'));
+}, 100);
+$('<%= unread_button_dom_selector(@post) %>').css('cursor', 'default');
+
+UnobtrusiveFlash.showFlashMessage("<%= t('views.read') %>", {type: 'notice'});

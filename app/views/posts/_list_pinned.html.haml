@@ -3,16 +3,9 @@
 - if posts.try(:any?)
   - collapsed_posts_new_pinned = []
   - unread_posts = posts.select { |post| !post.read_by?(current_user) and post.can_be_reader?(current_user) }
-  - careful_posts = posts.select { |post| post.careful_pin_by?(current_user) }
 
   - if local_assigns[:compact]
     - uncollapsed_posts = unread_posts
-    - if uncollapsed_posts.empty?
-      - uncollapsed_posts = careful_posts
-    - if uncollapsed_posts.empty?
-      - uncollapsed_posts = [posts.sample()]
-
-    - uncollapsed_posts = uncollapsed_posts[0..1].compact
     - collapsed_posts = posts - uncollapsed_posts
   - else
     - collapsed_posts = []
@@ -21,22 +14,13 @@
 
   .post-card.summary.pinned
     - unless not_need_header
-      .post-card__post.clearfix
-        %h5.body.margin-zero
+      .post-card__post.clearfix.js-show-all-pinned-post
+        %h5.body.margin-zero.only-clickable.text-muted
+          %i.fa.fa-caret-right.fa-fw-xs-left.js-show-all-pinned-post-icon
           공지 사항
+          (#{posts.count})
     - uncollapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post)
-
-    - if collapsed_posts.any?
-      .post-card__post.js-show-all-pinned-post-wrapper
-        .show-all.js-show-all-pinned-post
-          나머지 공지 펼쳐보기
-          - collapsed_and_need_to_read_posts = unread_posts - uncollapsed_posts
-          = surround '(', ')' do
-            #{collapsed_posts.count}
-            - if collapsed_and_need_to_read_posts.any?
-              %small.collapsed-and-need-to-read-posts-count<> +#{collapsed_and_need_to_read_posts.count}
-          %i.fa.fa-chevron-down
 
     - collapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post, collapse: true)

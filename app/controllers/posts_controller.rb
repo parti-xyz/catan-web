@@ -253,6 +253,10 @@ class PostsController < ApplicationController
     add_reader(@post)
   end
 
+  def unread
+    remove_reader(@post)
+  end
+
   def readers
     @issue = @post.issue
     @readers = @post.readers.recent.page(params[:page]).per(3 * 10)
@@ -510,6 +514,11 @@ class PostsController < ApplicationController
     return if member.blank?
 
     post.readers.find_or_create_by(user: member.user)
+  end
+
+  def remove_reader(post)
+    return unless user_signed_in?
+    post.readers.find_by(user: current_user)&.destroy
   end
 
   def set_current_history_back_post
