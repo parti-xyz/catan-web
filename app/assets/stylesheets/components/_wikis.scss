@@ -110,13 +110,15 @@ section#wiki-histories {
           content: '\f06e   펼쳐보기';
           font-family: "FontAwesome";
           color: $base-brand-primary;
+          text-shadow: 2px 2px 2px #fff;
           position: absolute;
           margin-left: auto;
           margin-right: auto;
           text-align: center;
           display: block;
           width: 100%;
-          top: 72px;
+          top: 50%;
+          transform: translateY(-50%);
           font-size: 16px;
           font-weight: bolder;
           z-index: 1;
@@ -303,7 +305,8 @@ section#wiki-histories {
 }
 
 .wiki-form {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
+  margin-top: 12px;
   textarea {
     min-height: auto;
   }

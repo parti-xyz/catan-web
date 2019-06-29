@@ -59,9 +59,12 @@ body.mce-content-body {
   }
 
   p {
-    margin: 0 0 14px;
+    margin: 14px 0 14px;
     &:last-child {
       margin-bottom: 0;
+    }
+    &:first-child {
+      margin-top: 0;
     }
   }
 

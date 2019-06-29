@@ -30,7 +30,9 @@
 //= require webp-check
 //= require jquery.slick
 //= require tinymce-jquery
-//= require tinymce/plugins/catan
+//= require tinymce/plugins/hot_style
+//= require tinymce/plugins/sticky_toolbar
+//= require tinymce/plugins/sticky_toolbar_mobile
 //= require Chart.bundle
 //= require chartkick
 //= require slideout
@@ -930,13 +932,13 @@ var parti_prepare = function($base, force) {
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
-        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent',
+        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar hot-style',
+        toolbar: 'bold italic strikethrough | link blockquote style-p style-h1 style-h2 style-h3 | bullist numlist outdent indent',
         forced_root_block: 'div',
       },
       wiki: {
         plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | styleselect bullist numlist outdent indent',
+        toolbar: 'bold italic strikethrough | link blockquote style-br style-h1 style-h2 style-h3 |  bullist numlist outdent indent',
         forced_root_block: 'p',
       },
     };
@@ -949,7 +951,7 @@ var parti_prepare = function($base, force) {
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
-        cache_suffix: '?v=5.0.5.1',
+        cache_suffix: '?v=5.0.5.2',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -971,21 +973,6 @@ var parti_prepare = function($base, force) {
         formats: {
           strikethrough: {inline : 'del'}
         },
-        style_formats: [
-          { title: '스타일', items: [
-            { title: '제목 1', format: 'h1' },
-            { title: '제목 2', format: 'h2' },
-            { title: '제목 3', format: 'h3' },
-            { title: 'Paragraph', format: 'p' },
-            { title: 'Div', format: 'div' },
-          ]},
-          { title: 'Align', items: [
-            { title: 'Left', format: 'alignleft' },
-            { title: 'Center', format: 'aligncenter' },
-            { title: 'Right', format: 'alignright' },
-            { title: 'Justify', format: 'alignjustify' }
-          ]}
-        ],
         sticky_offset: 51,
         paste_preprocess: function(plugin, args) {
           var $content =  $(args.target.getBody());
@@ -997,13 +984,13 @@ var parti_prepare = function($base, force) {
 
     settings = {
       default: {
-        plugins: 'link paste autolink lists advlist autoresize mobile-stickytoolbar',
-        toolbar: 'styleselect bullist numlist outdent indent blockquote link',
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
+        toolbar: 'bold italic strikethrough link blockquote style-p | style-h1 style-h2 style-h3 bullist numlist outdent indent',
         forced_root_block: 'div',
       },
       wiki: {
-        plugins: 'link paste autolink lists advlist autoresize mobile-stickytoolbar',
-        toolbar: 'styleselect bullist numlist outdent indent blockquote link',
+        plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
+        toolbar: 'bold italic strikethrough link blockquote style-br style-h1 style-h2 style-h3 bullist numlist outdent indent',
         forced_root_block: 'p',
       },
     };
@@ -1018,7 +1005,7 @@ var parti_prepare = function($base, force) {
       var content_css = $(elm).data('content-css');
 
       $(elm).tinymce({
-        cache_suffix: '?v=5.0.5.1',
+        cache_suffix: '?v=5.0.5.2',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1027,6 +1014,7 @@ var parti_prepare = function($base, force) {
         forced_root_block : setting.forced_root_block,
         statusbar: false,
         toolbar: setting.toolbar,
+        toolbar_drawer: 'sliding',
         paste_data_images: true,
         extended_valid_elements: 'span',
         document_base_url: 'https://parti.xyz/',
@@ -1040,20 +1028,6 @@ var parti_prepare = function($base, force) {
         formats: {
           strikethrough: {inline : 'del'}
         },
-        style_formats: [
-          { title: '스타일', items: [
-            { title: '제목 1', format: 'h1' },
-            { title: '제목 2', format: 'h2' },
-            { title: '제목 3', format: 'h3' },
-            { title: 'Paragraph', format: 'p' },
-            { title: 'Div', format: 'div' },
-          ]},
-          { title: 'Inline', items: [
-            { title: 'Bold', format: 'bold' },
-            { title: 'Italic', format: 'italic' },
-            { title: 'Strikethrough', format: 'strikethrough' },
-          ]}
-        ],
         mobile: {
           theme: 'silver'
         },
