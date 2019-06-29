@@ -280,7 +280,8 @@ $drawer-sub-issues-left-space: 48px;
 
   .nav > li.my-menu > a,
   .nav > .my-home-menu > a,
-  .nav > .notification-menu > a {
+  .nav > .notification-menu > a,
+  .nav > .write-menu > a {
     body.light-theme.in-group & {
       color: $gray-dark;
     }

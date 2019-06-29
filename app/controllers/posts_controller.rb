@@ -95,7 +95,8 @@ class PostsController < ApplicationController
     # back url
     @list_url = ''
     @issue = Issue.find_by(id: params[:issue_id])
-    render_404 and return if @issue.blank? or @issue.private_blocked?(current_user)
+    render_404 and return if params[:issue_id].present? and @issue.blank?
+    render_403 and return if @issue.present? and @issue.private_blocked?(current_user)
 
     @folder = if @issue.present?
       @issue.folders.find_by(id: params[:folder_id])

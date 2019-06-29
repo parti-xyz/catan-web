@@ -65,10 +65,21 @@
                     %span.badge.badge-white 모든 빠띠에서 검색
 
         - if user_signed_in?
-          %li.write-menu
-            = link_to new_post_path, remote: true, data: { 'disable-with': '여는 중...' } do
-              %i.fa.fa-pencil{style:"font-size: 18px;"}
-              작성
+          %li.write-menu.dropdown
+            %a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#" }
+              %i.fa.fa-magic{style:"font-size: 18px;"}
+              만들기
+            %ul.dropdown-menu
+              %li
+                = link_to new_post_url, remote: true, data: { 'disable-with': '여는 중...' } do
+                  게시글 작성
+              - if current_group.present?
+                %li
+                  = link_to new_issue_path do
+                    새 채널 개설하기
+              %li
+                = link_to new_group_configuration_url(subdomain: nil) do
+                  새 그룹 개설하기
 
         - if user_signed_in?
           %li.profile-menu.dropdown
