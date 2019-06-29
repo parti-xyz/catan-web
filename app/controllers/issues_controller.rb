@@ -87,12 +87,12 @@ class IssuesController < ApplicationController
   def slug_home
     render 'slug_home_blocked' and return if private_blocked?(@issue)
 
-    if params[:q].present?
-      if params[:q].try(:strip).starts_with?('#')
-        hashtag = params[:q].strip[1..-1].try(:strip).presence
+    if params[:nav_q].present?
+      if params[:nav_q].try(:strip).starts_with?('#')
+        hashtag = params[:nav_q].strip[1..-1].try(:strip).presence
         redirect_to smart_issue_hashtag_url(@issue, hashtag) and return if hashtag.present?
       end
-      @search_q = PostSearchableIndex.sanitize_search_key params[:q]
+      @search_q = PostSearchableIndex.sanitize_search_key params[:nav_q]
     end
     @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
     @issue.visit!(current_user)

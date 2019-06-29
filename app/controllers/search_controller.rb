@@ -1,11 +1,30 @@
 class SearchController < ApplicationController
   def show
     if params[:nav_q].present?
-      @search_q = PostSearchableIndex.sanitize_search_key params[:nav_q]
-      if params[:group_slug].present?
-        @current_search_group = Group.find_by(slug: params[:group_slug])
+      @search_type = params[:search_type]
+      if @search_type.blank?
+        @search_type = 'group' if params[:group_id].present?
+        @search_type = 'issue' if params[:issue_id].present?
       end
 
+      if @search_type == 'issue'
+        issue = Issue.find_by(id: params[:issue_id])
+        render_404 and return if issue.blank?
+        redirect_to smart_issue_home_url(issue, nav_q: params[:nav_q]) and return
+      end
+
+      if @search_type == 'group'
+        if params[:group_id].present?
+          @current_search_group = Group.find_by(id: params[:group_id])
+        end
+        render_404 and return if @current_search_group.blank?
+
+        if current_group != @current_search_group
+          redirect_to search_url(subdomain: @current_search_group.subdomain, group_id: params[:group_id], search_type: params[:search_type], nav_q: params[:nav_q]) and return
+        end
+      end
+
+      @search_q = PostSearchableIndex.sanitize_search_key params[:nav_q]
       if @search_q.blank?
         return
       end
@@ -20,7 +39,6 @@ class SearchController < ApplicationController
       base_posts = base_posts.of_group(@current_search_group) if @current_search_group.present?
       base_posts = base_posts.order(last_stroked_at: :desc)
       base_posts = base_posts.search(@search_q) if @search_q.present?
-
       if view_context.is_infinite_scrollable?
         if request.format.js?
           @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])

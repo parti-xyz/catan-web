@@ -309,6 +309,13 @@ label.required:after {
   left: -35px;
 }
 
+.badge-white {
+  background: white;
+  color: $gray;
+  border: 1px solid $gray;
+  font-weight: normal;
+}
+
 .page-waypoint {
   margin-bottom: 10px;
   &-loading {

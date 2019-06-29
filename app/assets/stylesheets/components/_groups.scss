@@ -91,6 +91,18 @@ body.in-group {
   }
 }
 
+.groups-all-list {
+  .group-card {
+    border: 1px solid $gray-a;
+    border-left: none;
+    background-color: white;
+    .group-heading .group-desc {
+      font-weight: normal;
+      font-size: $font-size-base;
+    }
+  }
+}
+
 /* 고급설정 접었다 펼치기 */
 body.app-group--configurations-new,
 body.app-group--configurations-create,

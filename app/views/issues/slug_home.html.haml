@@ -39,22 +39,22 @@
               휴면 중인 채널입니다.
 
         .js-invisible-on-mobile-editing
-          - if params[:q].blank?
+          - if params[:nav_q].blank?
             = render 'posts/new_posts_count', new_posts_count_url: new_issue_posts_count_url(issue_id: @issue.id, last_time: DateTime.now.to_i)
 
           .posts{data: {last_id: -1, is_last: 'false'}}
-            - if params[:q].present?
+            - if params[:nav_q].present?
               .post-card.summary
                 .post-card__post
                   - if @search_q.present?
                     "#{@search_q}"을(를) 검색한 결과입니다.
-                    - if @search_q != params[:q]
+                    - if @search_q != params[:nav_q]
                       영문과 한글만 검색합니다.
                     = link_to '취소', smart_issue_home_path_or_url(@issue), class: 'btn btn-sm btn-default'
                   - else
                     = form_tag smart_issue_home_path_or_url(@issue), method: :get do
                       .form-group.has-feedback
-                        = search_field_tag :q, params[:q], placeholder: '게시글 찾기...', class: 'form-control'
+                        = search_field_tag :nav_q, params[:nav_q], placeholder: '게시글 찾기...', class: 'form-control'
                         %span.form-control-feedback{ style: 'pointer-events: initial;' }
                           = button_tag class: 'btn btn-link btn-xs' do
                             %i.fa.fa-search.text-muted
@@ -65,7 +65,7 @@
             - unless @issue.member_requested?(current_user)
               #no-data.text-center.alert{ style: ('display: none;' if !paging or @posts.any?) }
                 %i.fa.fa-info-circle
-                  - if params[:q].blank?
+                  - if params[:nav_q].blank?
                     게시글이 없습니다.
                   - else
                     검색 결과가 없습니다.
@@ -77,6 +77,6 @@
             - if paging
               = paginate @posts, theme: 'catan'
             - else
-              .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:q])}
+              .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:nav_q])}
                 .page-waypoint-loading.js-page-waypoint-loading
                   %i.fa.fa-2x.fa-spinner.fa-pulse

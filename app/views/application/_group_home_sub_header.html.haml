@@ -1,4 +1,4 @@
-%section#group-home-submenu.js-sidemenu-highlight-current-group-source{ 'data-sidemenu-highlight-current-group-id': current_group.id }
+%section#group-home-submenu
   .container
     %nav.clearfix
       %ul.list-inline.list-inline-left
@@ -74,8 +74,3 @@
                 %li{ class: ('active' if local_assigns[:active] == 'me') }
                   = link_to me_group_members_path do
                     내 정보
-
-
-
-
-

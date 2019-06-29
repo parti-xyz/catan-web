@@ -9,39 +9,9 @@
             %h4.contents-header__title.vertical-shrinking
               %i.fa.fa-search
               #{@search_q}
-              - if Group.joined_groups(current_user).any?
-                %span.dropdown{ style: 'margin-right: 12px;' }
-                  %a.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
-                    - if @current_search_group.present?
-                      \/
-                      = group_basic_title(@current_search_group)
-                    - else
-                      \/
-                      전체
-                    %small
-                      %span.fa-stack{ style: 'font-size: 11px;' }
-                        %i.fa.fa-square-o.fa-stack-2x
-                        %i.fa.fa-chevron-down.fa-stack-1x
-                  %ul.dropdown-menu.dropdown-menu-dashboard-group
-                    - if @current_search_group.present?
-                      %li
-                        = link_to search_url(subdomain: nil, nav_q: @search_q, group_slug: :all) do
-                          전체
-                      %li.divider
-                    - Group.joined_groups(current_user).each do |group|
-                      %li{ class: ('selected' if @current_search_group == group) }
-                        = link_to search_url(subdomain: nil, nav_q: @search_q, group_slug: group.slug)  do
-                          = group_basic_title(group)
-                          - if @current_search_group == group
-                            %i.fa.fa-check
-
               %small.hidden-xs
                 - if @current_search_group.present?
                   #{group_only_basic_title(@current_search_group)} 에서 찾았습니다.
-                  - unless user_signed_in?
-                    = link_to search_url(nav_q: params[:nav_q]), class: 'btn btn-xs btn-default' do
-                      모든 빠띠에서 찾기
-                      %i.fa.fa-arrow-right
                 - else
                   모든 빠띠에서 찾았습니다.
 
@@ -53,13 +23,14 @@
                 해당 키워드와 관련된 그룹입니다
             .groups-all-list.clearfix.content-section-body.xs-horizontal-padding
               - @groups.each do |group|
-                .group.group-card.margin-bottom-default
+                .group.group-card.margin-bottom-default.cursor-pointer{ 'data-action': "parti-link", 'data-url': smart_group_url(group) }
                   .group-heading{ style: 'border-width: 2px' }
                     = link_to smart_group_url(group) do
                       %span
                         = group_basic_title(group)
-                    .group-desc{ style: 'font-weight: 200; margin-top: 0.5em;' }
-                      = group.site_description
+                    - if group.site_description.present?
+                      .group-desc{ style: 'margin-top: 0.5em;' }
+                        = group.site_description
 
           - if @issues.any?
             %h5.content-section-body.xs-horizontal-padding{ style: 'margin-top: 20px;' }
@@ -104,14 +75,13 @@
             = paginate @posts, theme: 'catan'
 
           - else
-            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': search_path(format: :js, nav_q: @search_q, group_slug: params[:group_slug])}
+            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': search_path(format: :js, nav_q: @search_q, group_id: params[:group_id], issue_id: params[:issue_id])}
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
         - else
           .content-section-body.xs-horizontal-padding
             %h2.text-center
               무엇에 관심 있으세요?
-
 
             - if params[:nav_q].present?
               .alert.alert-warning.text-center
@@ -123,11 +93,22 @@
 
             .posts.search-form{ style: 'margin-top: 60px' }
               = form_tag search_url(subdomain: nil), method: :get do
-                - if current_group.present?
-                  = hidden_field_tag :group_slug, current_group.slug
+                = hidden_field_tag :group_id, params[:group_id] || current_group&.id
+                = hidden_field_tag :issue_id, params[:issue_id]
                 .form-group
                   %input.form-control.form-control-q.form-control.input-lg{ name: "nav_q", value: params["nav_q"], placeholder: "찾아보기", type: "search" }
                 .form-group.text-center
-                  = button_tag class: 'btn btn-primary' do
+                  - is_active = false
+                  - if params[:issue_id].present?
+                    = button_tag class: "btn btn-block #{'btn-primary' unless is_active}", name: :search_type, value: :issue do
+                      %i.fa.fa-search
+                      현재 채널에서 검색
+                    - is_active = true
+                  - if params[:group_id].present?
+                    = button_tag class: "btn btn-block #{'btn-primary' unless is_active}", name: :search_type, value: :group do
+                      %i.fa.fa-search
+                      현재 그룹에서 검색
+                    - is_active = true
+                  = button_tag class: "btn btn-block #{'btn-primary' unless is_active}", name: :search_type, value: :all do
                     %i.fa.fa-search
-                    검색
+                    모든 빠띠에서 검색

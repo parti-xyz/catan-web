@@ -23,7 +23,7 @@
 
     %ul.nav.navbar-nav.navbar-right
       %li.search-menu
-        = link_to search_url(subdomain: nil) do
+        = link_to search_url(subdomain: nil), class: 'js-mobile-header-search' do
           %i.fa.fa-search
       - if user_signed_in?
         %li.notification-menu.js-notification-menu
@@ -47,3 +47,6 @@
         = link_to dashboard_url(subdomain: ''), class: 'btn-header', style: 'float: left' do
           %i.fa.fa-home{ style: 'font-size: 28px; top: -4px; position: relative;' }
 = render 'application/drawer_menu.mobile'
+
+- if current_group.present?
+  %span.js-sidemenu-highlight-current-group-source{ 'data-sidemenu-highlight-current-group-id': current_group.id, 'data-sidemenu-highlight-current-group-slug': current_group.slug }

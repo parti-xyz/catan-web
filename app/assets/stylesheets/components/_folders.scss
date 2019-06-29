@@ -97,8 +97,8 @@ section.page-folders {
 
   @include skeletons($gray-light);
   .skeletons{
-    padding-top: 7px;
-    padding-bottom: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     @media (max-width: $screen-xs-max) {
       padding-top: 12px;
       padding-bottom: 12px;
@@ -114,7 +114,7 @@ section.page-folders {
   .background {
     background-image: -webkit-linear-gradient(#fafafa 0,#fafafa 50%,#fff 50%,#fff 100%);
     background-image: linear-gradient(#fafafa 0,#fafafa 50%,#fff 50%,#fff 100%);
-    background-size: 100% 60px;
+    background-size: 100% 72px;
     @media (max-width: $screen-xs-max) {
       background-size: 100% 80px;
     }
@@ -125,8 +125,8 @@ section.page-folders {
       display: table;
       width: 100%;
       outline: 0;
-      height: 30px;
-      line-height: 30px;
+      height: 36px;
+      line-height: 36px;
       @media (max-width: $screen-xs-max) {
         font-size: 16px;
         height: 40px;
