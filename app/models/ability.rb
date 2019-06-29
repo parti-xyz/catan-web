@@ -120,9 +120,9 @@ class Ability
         can [:manage], GroupHomeComponent
       end
 
-      if user.admin?
-        can :manage, [Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
-      end
+      # if user.admin?
+      #   can :manage, [Folder, Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
+      # end
     end
   end
 

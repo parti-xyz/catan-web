@@ -1,7 +1,7 @@
 .modal-content
   .modal-body
     - form_id = "folder-form-#{SecureRandom.uuid}"
-    = form_for Folder.new(parent: @parent_folder, issue: @issue), remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
+    = form_for Folder.new(parent: parent_folder, issue: @issue), remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
       = hidden_field_tag :dom_id, params[:dom_id]
       = f.hidden_field :issue_id
       .form-group
@@ -11,7 +11,7 @@
         - if f.object.parent.blank?
           .form-group
             %label 상위 폴더
-            = f.select :parent_id, options_from_collection_for_select(folder.issue.folders.only_parent.sort_by_name.reject{ |parent_folder| parent_folder.id == folder.id }, 'id', 'title', folder.parent_id), {include_blank: '없음'}, class: 'form-control'
+            = f.select :parent_id, options_from_collection_for_select(issue.folders.only_parent.sort_by_name, 'id', 'title'), {include_blank: '없음'}, class: 'form-control'
         - else
           = f.hidden_field :parent_id
       .form-group

@@ -35,12 +35,15 @@ section.page-folders {
   }
 }
 
-.threaded-message {
+.controll-folders {
   color: $gray-a;
   margin-top: 12px;
   margin-bottom: 12px;
   @media (max-width: $screen-xs-max) {
     display: none;
+  }
+  .threaded-message {
+    margin-left: 1em;
   }
 }
 

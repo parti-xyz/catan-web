@@ -3,7 +3,7 @@
 <% else %>
   $('#js-modal-placeholder > .modal').modal("hide");
 
-  var $message = $('<div>폴더를 새로 만들었습니다. <%= j(date_f(DateTime.now)) %></div>');
+  var $message = $('<span>폴더를 새로 만들었습니다. <%= j(date_f(DateTime.now)) %></span>');
   $('.js-slug-folder-autosave').html($message);
   $('.js-slug-folder-autosave').find('time[data-time-ago]').timeago();
 

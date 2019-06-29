@@ -5,8 +5,13 @@
   .container
     .row
       .col-xs-12
-        .threaded-message.js-slug-folder-autosave
-          #{date_f(DateTime.now)} 로딩됨
+        .controll-folders
+          - if can? :manage_folders, @issue
+            = link_to new_folder_path(issue_id: @issue.id, dom_id: partial_dom_id), remote: true, class: 'btn btn-default btn-xs' do
+              %i.fa.fa-magic
+              새 폴더
+          %span.threaded-message.js-slug-folder-autosave
+            #{date_f(DateTime.now)} 로딩됨
         .threaded-folders
           .threaded-folders-header
             .header-cell.title 제목

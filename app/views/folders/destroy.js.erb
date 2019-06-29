@@ -1,7 +1,7 @@
 <% if @folder.persisted? || @folder.errors.any? %>
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
-  var $message = $('<div>폴더를 삭제했습니다. <%= j(date_f(DateTime.now)) %></div>');
+  var $message = $('<span>폴더를 삭제했습니다. <%= j(date_f(DateTime.now)) %></span>');
   $('.js-slug-folder-autosave').html($message);
   $('.js-slug-folder-autosave').find('time[data-time-ago]').timeago();
 
