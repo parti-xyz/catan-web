@@ -193,6 +193,7 @@ var parti_prepare_form_validator = function($base) {
 
     if(has_tinymce) {
       $form.on('submit', function(e) {
+        $tinymce.trigger('parti-tinymce-conflict');
         var content = tinyMCE.get($tinymce.attr('id')).getContent();
         $($tinymce.data('target-id')).val(content);
       });
@@ -932,26 +933,27 @@ var parti_prepare = function($base, force) {
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
-        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar hot-style',
+        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style',
         toolbar: 'bold italic strikethrough | link blockquote style-p style-h1 style-h2 style-h3 | bullist numlist outdent indent',
         forced_root_block: 'div',
       },
       wiki: {
-        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize stickytoolbar',
-        toolbar: 'bold italic strikethrough | link blockquote style-br style-h1 style-h2 style-h3 |  bullist numlist outdent indent',
+        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style',
+        toolbar: 'bold italic strikethrough | link blockquote style-br style-p style-h1 style-h2 style-h3 |  bullist numlist outdent indent',
         forced_root_block: 'p',
       },
     };
     $.parti_apply($base, '.js-tinymce:not(.js-tinymce-mobile)', function(elm) {
-      var setting_name = $(elm).data('tinymce-setting');
+      var $elm = $(elm)
+      var setting_name = $elm.data('tinymce-setting');
       var setting = settings.default;
       if(setting_name) {
         setting = settings[setting_name];
       }
-      var content_css = $(elm).data('content-css');
+      var content_css = $elm.data('content-css');
 
-      $(elm).tinymce({
-        cache_suffix: '?v=5.0.5.2',
+      var tinymce_instance = $elm.tinymce({
+        cache_suffix: '?v=5.0.5.4',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -961,7 +963,6 @@ var parti_prepare = function($base, force) {
         statusbar: false,
         toolbar: setting.toolbar,
         paste_data_images: true,
-        extended_valid_elements: 'span',
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
         target_list: false,
@@ -974,11 +975,19 @@ var parti_prepare = function($base, force) {
           strikethrough: {inline : 'del'}
         },
         sticky_offset: 51,
-        paste_preprocess: function(plugin, args) {
-          var $content =  $(args.target.getBody());
-          $content.data('need-to-fix-list', 'true');
-          args.content = '<span>' + args.content + '</span>'
-        },
+        valid_classes: '',
+        valid_styles: '',
+        extended_valid_elements : 'div,span,diffremoved,diffadded',
+        custom_elements : '~diffremoved,~diffadded',
+      });
+
+      $elm.on('parti-tinymce-conflict', function(e) {
+        var content = tinyMCE.get($elm.attr('id')).getContent();
+        var $content =$('<content>' + content + '</content>');
+        $content.find('diffadded').contents().unwrap();
+        $content.find('diffremoved').contents().unwrap();
+        $content.find('difftouched').contents().unwrap();
+        tinyMCE.get($elm.attr('id')).setContent($content.html());
       });
     });
 
@@ -990,22 +999,23 @@ var parti_prepare = function($base, force) {
       },
       wiki: {
         plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
-        toolbar: 'bold italic strikethrough link blockquote style-br style-h1 style-h2 style-h3 bullist numlist outdent indent',
+        toolbar: 'bold italic strikethrough link blockquote style-br style-p style-h1 style-h2 style-h3 bullist numlist outdent indent',
         forced_root_block: 'p',
       },
     };
     // Tinymce on mobile
     $.parti_apply($base, '.js-tinymce.js-tinymce-mobile', function(elm) {
-      var setting_name = $(elm).data('tinymce-setting');
+      $elm = $(elm);
+      var setting_name = $elm.data('tinymce-setting');
 
       var setting = settings.default;
       if(setting_name) {
         setting = settings[setting_name];
       }
-      var content_css = $(elm).data('content-css');
+      var content_css = $elm.data('content-css');
 
-      $(elm).tinymce({
-        cache_suffix: '?v=5.0.5.2',
+      $elm.tinymce({
+        cache_suffix: '?v=5.0.5.4',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1031,6 +1041,10 @@ var parti_prepare = function($base, force) {
         mobile: {
           theme: 'silver'
         },
+        valid_classes: '',
+        valid_styles: '',
+        extended_valid_elements : 'span,diffremoved,diffadded',
+        custom_elements : '~diffremoved,~diffadded',
         setup: function (editor) {
           // link opender
           editor.on('init', function(){
@@ -1083,6 +1097,15 @@ var parti_prepare = function($base, force) {
             Waypoint.refreshAll();
           });
         }
+      });
+
+      $elm.on('parti-tinymce-conflict', function(e) {
+        var content = tinyMCE.get($elm.attr('id')).getContent();
+        var $content =$('<content>' + content + '</content>');
+        $content.find('diffadded').contents().unwrap();
+        $content.find('diffremoved').contents().unwrap();
+        $content.find('difftouched').contents().unwrap();
+        tinyMCE.get($elm.attr('id')).setContent($content.html());
       });
     });
   })();

@@ -14,39 +14,9 @@
       .col-xs-12
         = render @wiki_history
 
-    - if is_small_screen?
-      .row
-        .col-xs-12
-          .wiki-line
-            .wiki-content
-              = render 'wikis/read_only_wiki_content', wiki_history: @wiki_history, diff: :merged
-    - else
-      .row.row-diff
-        .col-sm-12.col-lg-6
-          .post-card__last-stroked
-            .media
-              .media-left
-                = link_to smart_user_gallery_path(@wiki_history.previous.user) do
-                  .thumb.img-circle.circle-30{style: "background-image: url(#{@wiki_history.previous.user.image.sm.url});"}
-              .media-body
-                %strong.nickname
-                  = @wiki_history.previous.user.nickname
-                %br
-                %span.date= static_date_f(@wiki_history.previous.created_at)
-          .wiki-line
-            .wiki-content
-              = render 'wikis/read_only_wiki_content', wiki_history: @wiki_history, diff: :removed
-        .col-sm-12.col-lg-6
-          .post-card__last-stroked
-            .media
-              .media-left
-                = link_to smart_user_gallery_path(@wiki_history.user) do
-                  .thumb.img-circle.circle-30{style: "background-image: url(#{@wiki_history.user.image.sm.url});"}
-              .media-body
-                %strong.nickname
-                  = @wiki_history.user.nickname
-                %br
-                %span.date= static_date_f(@wiki_history.created_at)
-          .wiki-line
-            .wiki-content
-              = render 'wikis/read_only_wiki_content', wiki_history: @wiki_history, diff: :added
+    .row
+      .col-xs-12
+        .wiki-line
+          .wiki-content
+            = render 'wikis/read_only_wiki_content', wiki_history: @wiki_history, diff: :merged
+  

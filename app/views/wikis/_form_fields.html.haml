@@ -1,6 +1,9 @@
+- wiki = f.object.wiki
+- post = f.object
+
 = hidden_field_tag :back_url, @list_url || request.original_url
-- if f.object.wiki.present?
-  = hidden_field_tag :last_wiki_history_id, f.object.wiki.wiki_histories.last.try(:id)
+- if wiki.present?
+  = hidden_field_tag :last_wiki_history_id, wiki.wiki_histories.last.try(:id)
 = f.hidden_field :has_poll, value: false
 = f.hidden_field :has_survey, value: false
 = f.hidden_field :has_event, value: false
@@ -9,6 +12,9 @@
   - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
   - textarea_body_id = "wiki-form-body-#{SecureRandom.uuid}"
   %div{ id: textarea_error_id }
-    .js-tinymce.form-control.form-control-tinymce{ 'data-target-id': "##{textarea_body_id}", 'data-placeholder': ("내용..." if ff.object.body.blank?), 'data-tinymce-setting': 'wiki', class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
-      != ff.object.body
+    .js-tinymce.form-control.form-control-tinymce{ 'data-target-id': "##{textarea_body_id}", 'data-placeholder': ("내용..." if wiki.body.blank?), 'data-tinymce-setting': 'wiki', class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+      - if wiki.conflict?
+        != wiki.diff_conflicted_body
+      - else
+        != wiki.body
     = ff.hidden_field :body, id: textarea_body_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '내용을 입력해 주세요', 'rule-maxlength': '4294967295', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 새로운 위키를 하나 더 작성해 보세요.', 'error-popover-target': "##{textarea_error_id}" }

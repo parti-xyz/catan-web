@@ -12,12 +12,12 @@
           %i.fa.fa-ellipsis-v
         %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
           = chevron_dropdown
-      %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+
     - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
     = render 'posts/last_stroked_for', post: post
 
   .wiki-line-body-container
-    - if ['detail', 'remote-detail', 'preview-detail', 'edit-detail'].include? local_assigns[:mode]
+    - if ['detail', 'preview-detail', 'edit-detail'].include? local_assigns[:mode]
       - if can?(:update, post.wiki) and 'edit-detail' == local_assigns[:mode]
         = render 'wikis/card_form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
       - else
@@ -38,15 +38,15 @@
       %h4.wiki-title
         = link_to post.wiki.title, smart_post_url(post), target: '_blank'
 
-      .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
-        .wiki-body.wiki-preview
+      .wiki-line-body.cursor-pointer
+        .wiki-body.wiki-preview{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
           .shadow
           .mce-content-body
             != smart_truncate_html(post.wiki.body, length: 1000)
         .shadow
         .wiki-button
           - if post.issue.postable?(current_user)
-            = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px' do
+            = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px; z-index: 1' do
               편집
           - else
             .btn.btn-xs.btn-default.btn-force{ style: 'border-radius: 4px' }

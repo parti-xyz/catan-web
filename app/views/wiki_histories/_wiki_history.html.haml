@@ -9,11 +9,10 @@
         %span.help-text.text-nowrap
           - diff_count_texts = []
           - if wiki_history.diff_body_adds_count > 0
-            - diff_count_texts << "+#{wiki_history.diff_body_adds_count}군데 추가"
+            - diff_count_texts << "<span class='diff-added'>+#{wiki_history.diff_body_adds_count}군데 추가</span>"
           - if wiki_history.diff_body_removes_count > 0
-            - diff_count_texts << "-#{wiki_history.diff_body_removes_count}군데 삭제"
-          #{diff_count_texts.join(', ')}했습니다.
+            - diff_count_texts << "<span class='diff-removed'>-#{wiki_history.diff_body_removes_count}군데 삭제</span>"
+          #{raw(diff_count_texts.join(', '))}했습니다.
       .wiki-history__header
         .wiki-history__date.date-wrapper
           = static_date_f wiki_history.created_at
-

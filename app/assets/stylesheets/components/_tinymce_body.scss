@@ -30,6 +30,21 @@ body.mce-content-body {
       background-color: #eee6;
     }
   }
+
+  diffadded {
+    display: inline-block;
+    background-color: $wiki-added-color;
+  }
+
+  diffremoved {
+    display: inline-block;
+    background-color: $wiki-removed-color;
+  }
+
+  difftouched {
+    display: inline-block;
+    background-color: $wiki-touched-color;
+  }
 }
 
 .mce-content-body {

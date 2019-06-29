@@ -13,7 +13,7 @@
   - if post.wiki.activate?
     = hidden_field_tag :form_dom_id, form_dom_id
     = hidden_field_tag :wiki_card_dom_id, local_assigns[:wiki_card_dom_id]
-    =  render 'posts/wiki_form', f: f
+    =  render 'wikis/form_fields', f: f
   - else
     .row
       .col-xs-12

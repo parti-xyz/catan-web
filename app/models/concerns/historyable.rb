@@ -150,6 +150,7 @@ module Historyable
         end
       end
 
+
       touched_nodes.each do |node|
         if !node.element? and !node.text?
           Rails.logger.debug "Unknown Diff : #{node.inspect}"
@@ -168,6 +169,7 @@ module Historyable
           node.add_next_sibling new_parent
 
           new_parent.add_child node
+          wrap_with(new_parent, Historyable::CSS_CLASS_ADDED)
         end
       end
 
@@ -175,12 +177,15 @@ module Historyable
         if item[:node].element?
           add_node_class item[:node], Historyable::CSS_CLASS_REMOVED
           item[:parent].add_child item[:node]
+
+          wrap_with(item[:node], Historyable::CSS_CLASS_REMOVED)
         else
           new_parent = Nokogiri::XML::Element.new "span", current_doc
           new_parent['class'] = Historyable::CSS_CLASS_REMOVED
           new_parent.add_child item[:node]
-
           item[:parent].add_child new_parent
+
+          wrap_with(new_parent, Historyable::CSS_CLASS_REMOVED)
         end
       end
 
@@ -191,6 +196,7 @@ module Historyable
 
     def add_node_class node, new_class
       node['class'] = ((node['class'] || "").split(/\s+/) + [new_class]).uniq.join(" ")
+      wrap_with(node, new_class)
     end
 
     def build_diffs(current_diffable_body = nil, previous_diffable_body = nil)
@@ -206,6 +212,14 @@ module Historyable
       return @_node_only_diffs if @_node_only_diffs.present?
       diffs, _, _ = build_diffs
       @_node_only_diffs ||= diffs.select { |_, node| (node.element? or node.text?) }
+    end
+
+    def as_tag class_name
+      class_name.split('-').collect(&:capitalize).join
+    end
+
+    def wrap_with node, class_name
+      node.wrap("<#{as_tag(class_name)} />")
     end
   end
 end
