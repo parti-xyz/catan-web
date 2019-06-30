@@ -63,7 +63,7 @@
             %small.hidden-xs
               해당 키워드와 관련된 게시글입니다
 
-          .posts{data: {last_id: -1, is_last: 'false'}}
+          .posts{data: {'last-stroked-at': '', is_last: 'false'}}
             #no-data.text-center.alert{ style: 'display: none;' }
               %i.fa.fa-info-circle
                 해당 게시글이 없습니다.
@@ -75,7 +75,7 @@
             = paginate @posts, theme: 'catan'
 
           - else
-            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': search_path(format: :js, nav_q: @search_q, group_id: params[:group_id], issue_id: params[:issue_id])}
+            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': search_url(format: :js, nav_q: @search_q, group_id: params[:group_id], issue_id: params[:issue_id])}
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
         - else

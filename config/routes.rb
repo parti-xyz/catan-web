@@ -96,6 +96,7 @@ Rails.application.routes.draw do
       delete :remove_my_menu
       put :update_category
       delete :destroy_category
+      post :visit
     end
     collection do
       get :search_by_tags

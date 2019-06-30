@@ -95,7 +95,6 @@ class IssuesController < ApplicationController
       @search_q = PostSearchableIndex.sanitize_search_key params[:nav_q]
     end
     @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
-    @issue.visit!(current_user)
     prepare_posts_page
   end
 
@@ -370,6 +369,11 @@ class IssuesController < ApplicationController
     errors_to_flash(@issue)
   end
 
+  def visit
+    @issue = Issue.find(params[:id])
+    @issue.visit!(current_user)
+  end
+
   protected
 
   def mobile_navbar_title_slug_home
@@ -389,12 +393,18 @@ class IssuesController < ApplicationController
 
     if view_context.is_infinite_scrollable?
       if request.format.js?
-        @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
+        if params[:last_stroked_at].present?
+          @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
+        end
 
-        limit_count = ( @previous_last_post.blank? ? 10 : 20 )
-        @posts = issue_posts.limit(limit_count).previous_of_post(@previous_last_post)
+        limit_count = ( @previous_last_post_stroked_at.blank? ? 10 : 20 )
+        @posts = issue_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at)
 
         current_last_post = @posts.last
+        # if current_last_post.present?
+        #   @posts += issue_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
+        # end
+
         @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
       end
     else

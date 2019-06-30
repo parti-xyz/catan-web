@@ -204,15 +204,20 @@ class User < ApplicationRecord
     @cached_group_members[group.id]
   end
 
-  def cached_parti_member(parti)
+  def smart_member(parti)
+    return if parti.blank?
+    (self.cached_channel_member(parti) || self.members.find_by(joinable: parti))
+  end
+
+  def cached_channel_member(parti)
     return unless @cacheable_members
-    if @cached_parti_members.blank?
-      @cached_parti_members = self.issue_members.to_a.map do |parti_member|
+    if @cached_channel_members.blank?
+      @cached_channel_members = self.issue_members.to_a.map do |parti_member|
         [parti_member.joinable_id, parti_member]
       end.to_h
     end
 
-    @cached_parti_members[parti.id]
+    @cached_channel_members[parti.try(:id)]
   end
 
   def only_all_member_issues

@@ -4,13 +4,21 @@ class UsersController < ApplicationController
   def posts
     fetch_user
 
-    @posts = @user.posts.order(last_stroked_at: :desc)
+    base_posts = @user.posts.order(last_stroked_at: :desc)
 
     if view_context.is_infinite_scrollable?
-      @previous_last_post = @user.posts.with_deleted.find_by(id: params[:last_id])
-      @posts = @posts.previous_of_post(@previous_last_post).limit(20)
+      if params[:last_stroked_at].present?
+        @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
+      end
+
+      @posts = base_posts.limit(20).previous_of_time(@previous_last_post_stroked_at).to_a
+
       current_last_post = @posts.last
-      @is_last_page = (@user.posts.empty? or @user.posts.order(last_stroked_at: :desc).previous_of_post(current_last_post).empty?)
+      if current_last_post.present?
+        @posts += base_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
+      end
+
+      @is_last_page = (@user.posts.empty? or base_posts.previous_of_post(current_last_post).empty?)
     else
       @posts = @posts.page(params[:page])
     end

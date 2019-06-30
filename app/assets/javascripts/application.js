@@ -1157,36 +1157,65 @@ var parti_prepare = function($base, force) {
   });
 
   // 댓글 읽기
-  __cached_comment_reader = [];
+  (function() {
+    var __cached_comment_reader = [];
 
-  $.parti_apply($base, '.js-comments-reader', function(elm) {
-    var $elm = $(elm);
-    $elm.find('.js-comments-reader-mark').waypoint({
-      handler: function(direction) {
-        if(direction == 'down') {
-          var comment_ids = [];
-          $elm.find('.js-comment-reader-line').each(function(index) {
-            var comment_id = $(this).data('comment-id');
-            if(comment_id) {
-              if(_.indexOf(__cached_comment_reader, comment_id) == -1) {
-                comment_ids.push(comment_id);
-                __cached_comment_reader.push(comment_id);
+    $.parti_apply($base, '.js-comments-reader', function(elm) {
+      var $elm = $(elm);
+      $elm.find('.js-comments-reader-mark').waypoint({
+        handler: function(direction) {
+          if(direction == 'down') {
+            var comment_ids = [];
+            $elm.find('.js-comment-reader-line').each(function(index) {
+              var comment_id = $(this).data('comment-id');
+              if(comment_id) {
+                if(_.indexOf(__cached_comment_reader, comment_id) == -1) {
+                  comment_ids.push(comment_id);
+                  __cached_comment_reader.push(comment_id);
+                }
               }
-            }
-          });
+            });
 
-          if(comment_ids.length > 0) {
+            if(comment_ids.length > 0) {
+              $.ajax({
+                url: $elm.data('url'),
+                type: "post",
+                data:{ 'comment_ids': _.join(comment_ids, ',') }
+              });
+            }
+          }
+        },
+        offset: "100%"
+      });
+    });
+  })();
+
+  // 모두 읽음 표시 업데이트
+  (function() {
+    $.parti_apply($base, '.js-read-all-posts', function(elm) {
+      var $elm = $(elm);
+      var waypoint = $elm.waypoint({
+        handler: function(direction) {
+          if(direction == 'down') {
             $.ajax({
-              url: $elm.data('url'),
+              url: $elm.attr('href'),
               type: "post",
-              data:{ 'comment_ids': _.join(comment_ids, ',') }
+              data:{ 'auto': 'true' }
             });
           }
+        },
+        offset: "100%"
+      });
+      $elm.on('parti-read-all-posts-destroy', function(e) {
+        if(waypoint) {
+          waypoint.forEach(function(item){
+            item.destroy();
+          });
+          waypoint = null;
         }
-      },
-      offset: "100%"
+      });
     });
-  });
+  })();
 
   $.parti_apply($base, '.js-hover-toggle', function(elm) {
     $(elm).hover(function(e) {
@@ -2298,7 +2327,7 @@ $(function(){
       $.ajax({
         url: $waypoint_element.data('url'),
         type: "get",
-        data:{ last_id: $container.data('last-id') },
+        data:{ last_stroked_at: $container.data('last-stroked-at') },
         context: $waypoint_element,
         success: function(xhr) {
           var $waypoint_element = this;
@@ -2469,6 +2498,7 @@ $(function(){
         Cookies.set('sidebar-open', true, { domain: '.' + __root_domain });
       }
       $('#js-main-panel').removeClass('sidebar-open-in-advance');
+      $('.js-bottom-banner').trigger('parti-resize-bottom-banner');
     });
   })();
 

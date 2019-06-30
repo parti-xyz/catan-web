@@ -1,30 +1,12 @@
 <% if @posts.empty? %>
-if($('#posts .posts').data('last-id') == '-1') {
+if($('#posts .posts').data('last-stroked-at') == '-1') {
   $('#no-data').show();
 }
 <% end %>
 
-var current_divider_count = $('#posts .posts .js-post-data-divider').length;
-
-$('#posts .posts').data('last-id', '<%= @posts.last.try(:id) %>');
+$('#posts .posts').data('last-stroked-at', '<%= @posts.last.try(:last_stroked_at).try(:to_i) %>');
 $('#posts .posts').data('is-last', <%= @is_last_page %>);
-var $posts_doms = $("<%= escape_javascript(render 'posts/page', posts: @posts, show_issue: true) %>");
+var $posts_doms = $("<%= j(render 'posts/page', posts: @posts, show_issue: true) %>");
 
 $('#posts .posts').append($posts_doms);
 parti_partial$($posts_doms);
-
-<% if @posts.last.present? %>
-if($('#js-posts-inject').length > 0 && $posts_doms.filter('.js-post-data-divider').length > 0) {
-  var $inject = $('#js-posts-inject');
-  var days_from_today = $inject.data('days-from-today');
-  if(<%= @posts.last.last_stroked_days_from_today %> > days_from_today) {
-    var length = $('#posts .posts .js-post-data-divider').length;
-    var $target_divider = $($('#posts .posts .js-post-data-divider')[current_divider_count]);
-    if(current_divider_count == 0) {
-      $target_divider = $('#posts .posts .js-post-data-divider').last();
-    }
-    $target_divider.before($inject.html());
-    $inject.remove();
-  }
-}
-<% end %>

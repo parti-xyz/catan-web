@@ -842,6 +842,7 @@ $drawer-default-space-mobile: 12px;
     }
     .content-wrapper {
       margin-left: $side-menu-width;
+      position: relative;
     }
   }
 

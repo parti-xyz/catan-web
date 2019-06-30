@@ -4,7 +4,7 @@
   .container
     .row
       = main_column_tag do
-        .contents-header.xs-horizontal-padding
+        .contents-header.content-header-margin-bottom.xs-horizontal-padding
           %h4.contents-header__title.vertical-shrinking
             \##{@hashtag}
             %br.visible-xs
@@ -15,14 +15,7 @@
               - else
                 모든
               채널 게시물입니다.
-              - if current_group.present?
-                %span{ style: 'position: relative;'}
-                  %i.fa.fa-chevron-down.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-                  %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
-                    %li
-                      = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'text-nowrap' do
-                        모든 빠띠에서 찾아보기
-        .posts{data: {last_id: -1, is_last: 'false'}}
+        .posts{ data: {'last-stroked-at': '', is_last: 'false'} }
           #no-data.text-center.alert{ style: 'display: none;' }
             %i.fa.fa-info-circle
               해당 게시글이 없습니다.
@@ -40,6 +33,6 @@
             = render 'posts/list_card', posts: @recommend_posts.limit(30).to_a.sample(3)
 
         - else
-          .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': hashtag_path(format: :js, hashtag: @hashtag)}
+          .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': hashtag_url(format: :js, hashtag: @hashtag)}
             .page-waypoint-loading.js-page-waypoint-loading
               %i.fa.fa-2x.fa-spinner.fa-pulse

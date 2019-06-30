@@ -413,6 +413,10 @@ module ApplicationHelper
     rescue Exception => ignore
       return false
     end
+  end
 
+  def tagify text
+    return if text.blank?
+    "##{text.strip.gsub(/( )/, '_').downcase}"
   end
 end

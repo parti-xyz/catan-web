@@ -46,7 +46,7 @@
             = hidden_field_tag :issue_id
             = hidden_field_tag :search_type
             .form-group.form-group-q.dropdown
-              %input.form-control.form-control-q.js-header-search-input{ name: "nav_q", value: params[:nav_q], placeholder: "검색", type: "search", autocomplete: "off" }
+              %input.form-control.form-control-q.js-header-search-input{ name: "nav_q", value: params[:nav_q] || (tagify(params[:hashtag]) if params[:hashtag].present?), placeholder: "검색", type: "search", autocomplete: "off" }
               %span.btn-wrapper
                 %button.btn.btn-link
                   %i.fa.fa-search

@@ -124,6 +124,13 @@ class Post < ApplicationRecord
     base
   }
   scope :previous_of_post, ->(post) { where('posts.last_stroked_at < ?', post.last_stroked_at) if post.present? }
+  scope :previous_of_time, ->(time) {
+    if time.blank?
+      all
+    else
+      where('posts.last_stroked_at < ?', Time.at(time.to_i).in_time_zone)
+    end
+  }
   scope :next_of_time, ->(time) { where('posts.last_stroked_at > ?', Time.at(time.to_i).in_time_zone) }
   scope :next_of_post, ->(post) { where('posts.last_stroked_at > ?', post.last_stroked_at) if post.present? }
   scope :next_of_last_stroked_at, ->(post) {
@@ -566,6 +573,17 @@ class Post < ApplicationRecord
 
   def diff_conflicted_body
     self.decision_histories.last.diff_body(self.conflicted_decision)
+  end
+
+  def unread? someone
+    return false if someone.blank?
+    member = someone.smart_member(self.issue)
+    return false if member.blank?
+
+    return false if member.visited_at.blank?
+    return false if self.last_stroked_at.blank?
+
+    member.visited_at < self.last_stroked_at
   end
 
   private

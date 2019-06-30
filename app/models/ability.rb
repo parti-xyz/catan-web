@@ -22,6 +22,9 @@ class Ability
       can [:pin], Issue do |issue|
         user.is_organizer?(issue)
       end
+      can [:visit], [Issue] do |issue|
+        issue.member?(user)
+      end
       can [:create, :new], Folder
       can [:destroy, :update, :detach_post, :attach_post], [Folder] do |folder|
         folder.issue.present? and folder.issue.try(:postable?, user)
@@ -120,9 +123,9 @@ class Ability
         can [:manage], GroupHomeComponent
       end
 
-      # if user.admin?
-      #   can :manage, [Folder, Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
-      # end
+      if user.admin?
+        can :manage, [Folder, Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
+      end
     end
   end
 

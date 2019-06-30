@@ -172,7 +172,7 @@ class Issue < ApplicationRecord
 
   def organized_by? someone
     return false if someone.blank?
-    cached_member = someone.cached_parti_member(self)
+    cached_member = someone.cached_channel_member(self)
     return cached_member.is_organizer if cached_member.present?
 
     organizer_members.exists? user: someone
@@ -180,8 +180,8 @@ class Issue < ApplicationRecord
 
   def member? someone
     return false if someone.blank?
-    cached_member = someone.cached_parti_member(self)
-    return cached_member if cached_member.present?
+    cached_member = someone.cached_channel_member(self)
+    return cached_member.present?
 
     members.exists? user: someone
   end
@@ -303,8 +303,6 @@ class Issue < ApplicationRecord
   def strok_by(someone)
     self.last_stroked_at = DateTime.now
     self.last_stroked_user = someone
-    visit!(someone)
-
     self
   end
 
@@ -312,13 +310,28 @@ class Issue < ApplicationRecord
     return if post.blinded?
 
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
-    visit!(someone)
+  end
+
+  def unread_post_last_stroked_at?(someone, last_stroked_at)
+    return false if last_stroked_at.blank?
+    return false if someone.blank?
+    member = someone.smart_member(self)
+    return false if member.blank?
+
+    return false if member.visited_at.blank?
+
+    member.visited_at < last_stroked_at
   end
 
   def visit!(someone)
-    member = self.members.find_by(user: someone)
+    member = someone.smart_member(self)
     return if member.blank?
     member.update_columns(visited_at: DateTime.now)
+  end
+
+  def visited?(someone)
+    member = someone.smart_member(self)
+    member.present? and member.visited_at.present?
   end
 
   def members_with_deleted

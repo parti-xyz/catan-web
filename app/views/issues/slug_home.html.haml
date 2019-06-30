@@ -42,7 +42,7 @@
           - if params[:nav_q].blank?
             = render 'posts/new_posts_count', new_posts_count_url: new_issue_posts_count_url(issue_id: @issue.id, last_time: DateTime.now.to_i)
 
-          .posts{data: {last_id: -1, is_last: 'false'}}
+          .posts.js-slug-hom-posts{data: {'last-stroked-at': '', is_last: 'false'}}
             - if params[:nav_q].present?
               .post-card.summary
                 .post-card__post
@@ -77,6 +77,12 @@
             - if paging
               = paginate @posts, theme: 'catan'
             - else
-              .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:nav_q])}
+              .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.js-slug-hom-posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:nav_q])}
                 .page-waypoint-loading.js-page-waypoint-loading
                   %i.fa.fa-2x.fa-spinner.fa-pulse
+
+- content_for :bottom_banner do
+  %section.issue-bottom-unread-banner.js-invisible-on-mobile-editing.js-bottom-banner
+    %div.description.text-basic-wrap
+      %i.fa.fa-arrow-down
+      새로 업데이트된 게시물 100개

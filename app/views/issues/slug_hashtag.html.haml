@@ -7,20 +7,11 @@
     .row
       = main_column_tag do
         .posts{data: {last_id: -1, is_last: 'false'}}
-          .contents-header.xs-horizontal-padding
+          .contents-header.content-header-margin-bottom.xs-horizontal-padding
             %h4.contents-header__title.vertical-shrinking
               \##{@hashtag}
               %small
                 해시태그된 게시물입니다.
-                %span{ style: 'position: relative;'}
-                  %i.fa.fa-chevron-down.cursor-pointer{ "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-                  %ul.dropdown-menu.pull-right{ "aria-labelledby": 'more-hashtag' }
-                    %li
-                      = link_to hashtag_url(subdomain: @issue.group_subdomain, hashtag: @hashtag), class: 'text-nowrap' do
-                        #{@issue.group.title_basic_format}에서 찾아보기
-                    %li
-                      = link_to hashtag_url(subdomain: nil, hashtag: @hashtag), class: 'text-nowrap' do
-                        모든 빠띠에서 찾아보기
           #no-data.text-center.alert{ style: 'display: none;' }
             %i.fa.fa-info-circle
               게시글이 없습니다.

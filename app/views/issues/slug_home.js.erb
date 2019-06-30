@@ -1,10 +1,10 @@
 <% if @posts.empty? %>
-if($('#posts .posts').data('last-id') == '-1') {
+if($('#posts .js-slug-hom-posts').data('last-stroked-at') === '') {
   $('#no-data').show();
 }
 <% end %>
-$('#posts .posts').data('last-id', '<%= @posts.last.try(:id) %>');
-$('#posts .posts').data('is-last', <%= @is_last_page %>);
-var $posts = $("<%= escape_javascript(render 'posts/page', posts: @posts, show_issue: false) %>");
-$('#posts .posts').append($posts);
+$('#posts .js-slug-hom-posts').data('last-stroked-at', '<%= @posts.last.try(:last_stroked_at).try(:to_i) %>');
+$('#posts .js-slug-hom-posts').data('is-last', <%= @is_last_page %>);
+var $posts = $("<%= j(render 'posts/page', issue: @issue, posts: @posts, show_issue: false) %>");
+$('#posts .js-slug-hom-posts').append($posts);
 parti_partial$($posts);

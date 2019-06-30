@@ -1,6 +1,11 @@
 class SearchController < ApplicationController
   def show
     if params[:nav_q].present?
+      if params[:nav_q].strip.starts_with?('#')
+        hashtag = params[:nav_q].strip[1..-1].try(:strip).presence
+        redirect_to hashtag_url(search_type: params[:search_type], group_id: params[:group_id], issue_id: params[:issue_id], hashtag: params[:nav_q].strip.gsub(/( )/, '_').downcase[1..-1]) and return if hashtag.present?
+      end
+
       @search_type = params[:search_type]
       if @search_type.blank?
         @search_type = 'group' if params[:group_id].present?
@@ -41,11 +46,18 @@ class SearchController < ApplicationController
       base_posts = base_posts.search(@search_q) if @search_q.present?
       if view_context.is_infinite_scrollable?
         if request.format.js?
-          @previous_last_post = Post.with_deleted.find_by(id: params[:last_id])
-          limit_count = (@previous_last_post.blank? ? 10 : 20)
-          @posts = base_posts.limit(limit_count).previous_of_post(@previous_last_post)
+          if params[:last_stroked_at].present?
+            @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
+          end
+
+          limit_count = (@previous_last_post_stroked_at.blank? ? 10 : 20)
+          @posts = base_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at).to_a
 
           current_last_post = @posts.last
+          if current_last_post.present?
+            @posts += base_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
+          end
+
           @is_last_page = (base_posts.empty? or base_posts.previous_of_post(current_last_post).empty?)
         end
       else

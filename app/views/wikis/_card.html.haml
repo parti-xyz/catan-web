@@ -38,15 +38,15 @@
       %h4.wiki-title
         = link_to post.wiki.title, smart_post_url(post), target: '_blank'
 
-      .wiki-line-body.cursor-pointer
-        .wiki-body.wiki-preview{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
+      .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
+        .wiki-body.wiki-preview
           .shadow
           .mce-content-body
             != smart_truncate_html(post.wiki.body, length: 1000)
         .shadow
         .wiki-button
           - if post.issue.postable?(current_user)
-            = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px; z-index: 1' do
+            = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px;' do
               편집
           - else
             .btn.btn-xs.btn-default.btn-force{ style: 'border-radius: 4px' }
