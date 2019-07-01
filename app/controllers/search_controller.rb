@@ -3,7 +3,10 @@ class SearchController < ApplicationController
     if params[:nav_q].present?
       if params[:nav_q].strip.starts_with?('#')
         hashtag = params[:nav_q].strip[1..-1].try(:strip).presence
-        redirect_to hashtag_url(search_type: params[:search_type], group_id: params[:group_id], issue_id: params[:issue_id], hashtag: params[:nav_q].strip.gsub(/( )/, '_').downcase[1..-1]) and return if hashtag.present?
+        render_404 and return if request.xhr?
+        respond_to_html_only do
+          redirect_to hashtag_url(search_type: params[:search_type], group_id: params[:group_id], issue_id: params[:issue_id], hashtag: params[:nav_q].strip.gsub(/( )/, '_').downcase[1..-1])
+        end and return if hashtag.present?
       end
 
       @search_type = params[:search_type]
@@ -15,7 +18,10 @@ class SearchController < ApplicationController
       if @search_type == 'issue'
         issue = Issue.find_by(id: params[:issue_id])
         render_404 and return if issue.blank?
-        redirect_to smart_issue_home_url(issue, nav_q: params[:nav_q]) and return
+        render_404 and return if request.xhr?
+        respond_to_html_only do
+          redirect_to smart_issue_home_url(issue, nav_q: params[:nav_q], )
+        end and return
       end
 
       if @search_type == 'group'
@@ -25,7 +31,9 @@ class SearchController < ApplicationController
         render_404 and return if @current_search_group.blank?
 
         if current_group != @current_search_group
-          redirect_to search_url(subdomain: @current_search_group.subdomain, group_id: params[:group_id], search_type: params[:search_type], nav_q: params[:nav_q]) and return
+          respond_to_html_only do
+            redirect_to search_url(subdomain: @current_search_group.subdomain, group_id: params[:group_id], search_type: params[:search_type], nav_q: params[:nav_q])
+          end and return
         end
       end
 

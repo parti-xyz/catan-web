@@ -12,7 +12,9 @@ class HashtagsController < ApplicationController
     if @search_type == 'issue'
       issue = Issue.find_by(id: params[:issue_id])
       render_404 and return if issue.blank?
-      redirect_to smart_issue_hashtag_url(issue, @hashtag) and return
+      respond_to_html_only do
+        redirect_to smart_issue_hashtag_url(issue, @hashtag)
+      end and return
     end
 
     if @search_type == 'group'
@@ -24,7 +26,9 @@ class HashtagsController < ApplicationController
       render_403 and return if @current_search_group.private_blocked?
 
       if current_group != @current_search_group
-        redirect_to hashtag_url(subdomain: @current_search_group.subdomain, hashtag: @hashtag) and return
+        respond_to_html_only do
+          redirect_to hashtag_url(subdomain: @current_search_group.subdomain, hashtag: @hashtag)
+        end and return
       end
     end
 

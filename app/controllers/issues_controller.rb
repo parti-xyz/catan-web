@@ -9,7 +9,9 @@ class IssuesController < ApplicationController
   def home
     if current_group.blank?
       if request.subdomain.present?
-        redirect_to root_url(subdomain: nil)
+        respond_to_html_only do
+          redirect_to root_url(subdomain: nil)
+        end and return
       else
         index
       end
@@ -99,7 +101,9 @@ class IssuesController < ApplicationController
   end
 
   def slug_hashtag
-    render 'slug_home_blocked' and return if private_blocked?(@issue)
+    respond_to_html_only do
+      render 'slug_home_blocked'
+    end and return if private_blocked?(@issue)
 
     @hashtag = params[:hashtag].strip.gsub(/( )/, '_').downcase
     prepare_posts_page
@@ -399,12 +403,12 @@ class IssuesController < ApplicationController
         end
 
         limit_count = ( @previous_last_post_stroked_at.blank? ? 10 : 20 )
-        @posts = issue_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at)
+        @posts = issue_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at).to_a
 
         current_last_post = @posts.last
-        # if current_last_post.present?
-        #   @posts += issue_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
-        # end
+        if current_last_post.present?
+          @posts += issue_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
+        end
 
         @is_last_page = (issue_posts.empty? or issue_posts.previous_of_post(current_last_post).empty?)
       end

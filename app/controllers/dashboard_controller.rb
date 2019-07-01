@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   include DashboardGroupHelper
 
   def index
-    redirect_to root_url and return if current_group.present? and !request.format.js?
+    render_404 and return and return if current_group.present? and !request.format.js?
 
     if params[:group_slug].present?
       if params[:group_slug] == 'all'

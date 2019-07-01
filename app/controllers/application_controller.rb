@@ -85,6 +85,15 @@ class ApplicationController < ActionController::Base
   helper_method :host_group
   helper_method :mobile_navbar_title
 
+  def respond_to_html_only(&block)
+    respond_to do |format|
+      format.html {
+        block.call
+      }
+      format.any { render_404 }
+    end
+  end
+
   private
 
   def block_not_exists_group
