@@ -7,7 +7,7 @@
         = link_to @post.specific_desc_striped_tags(20), smart_post_url(@post), class: 'text-primary'
       %h5
         = link_to decision_histories_post_path(@post) do
-          토론 정리 이력
+          함께 결정하기 이력
         &gt;
         %span.text-nowrap #{@decision_history.user.nickname}님 #{static_date_f(@decision_history.created_at)} 변경사항
 

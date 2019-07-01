@@ -30,6 +30,7 @@ class PostCreateService
     return false unless @post.save
 
     @post.issue.strok_by!(@current_user, @post)
+    @post.issue.visit_if_no_unread_posts!(@current_user)
     crawling_after_creating_post
     @post.perform_mentions_async(:create)
     if @post.pinned?

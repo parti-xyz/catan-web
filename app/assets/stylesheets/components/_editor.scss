@@ -172,6 +172,9 @@
     display: block;
     .form-widget {
       padding: 0;
+      &.form-widget-no-margin {
+        margin-bottom: 0;
+      }
       &-content,
       &-extra .help-block,
       &-extra .form-groups,
@@ -207,7 +210,7 @@
           float: none;
           margin-top: 0px;
           margin-bottom: 14px;
-          font-size: $font-size-small;
+          text-align: left;
         }
         .editor-btn {
           color: $gray;
@@ -247,9 +250,29 @@
           float: none;
         }
       }
-      .form-widget-content .post-form-pin-button {
-        position: relative;
-        float: right;
+      .post-options {
+        margin-top: 14px;
+        margin-left: 40px;
+        float: left;
+        @media (max-width: $screen-xs-max) {
+          float: none;
+          margin-left: 0;
+          margin-top: 0px;
+          margin-bottom: 14px;
+          text-align: left;
+        }
+        .post-form-pin-button,
+        .post-form-decision-button {
+          display: inline-block;
+          margin-right: 10px;
+        }
+
+        .checkbox {
+          padding: 1px 5px;
+          label {
+            color: #777777;
+          }
+        }
       }
     }
   }

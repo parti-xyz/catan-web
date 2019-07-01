@@ -204,7 +204,7 @@ class ApplicationController < ActionController::Base
     "members#index" => "멤버",
     "posts#readers" => "확인 회원",
     "posts#unreaders" => "미확인 회원",
-    "posts#edit_decision" => "토론 정리",
+    "posts#edit_decision" => "함께 결정하기",
     "posts#decision_histories" => "토론 이력",
     "wikis#histories" => "위키 이력",
     "posts#new_wiki" => "위키 게시",

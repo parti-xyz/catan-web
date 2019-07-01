@@ -330,6 +330,7 @@ class Issue < ApplicationRecord
   end
 
   def visited?(someone)
+    return false if someone.blank?
     member = someone.smart_member(self)
     member.present? and member.visited_at.present?
   end
@@ -411,9 +412,19 @@ class Issue < ApplicationRecord
 
   def unread?(someone)
     return false if someone.blank?
-
-    member = members.find_by(user: someone)
+    member = someone.smart_member(self)
+    return false if member.blank? or member.visited_at.blank?
     member.unread_issue?(self)
+  end
+
+  def visit_if_no_unread_posts!(someone)
+    return if someone.blank?
+    member = someone.smart_member(self)
+    return if member.blank? or member.visited_at.blank?
+
+    if self.posts.next_of_date(member.visited_at).where.not(last_stroked_user_id: someone.id).empty?
+      member.update_columns(visited_at: DateTime.now)
+    end
   end
 
   private

@@ -131,8 +131,9 @@ class Post < ApplicationRecord
       where('posts.last_stroked_at < ?', Time.at(time.to_i).in_time_zone)
     end
   }
-  scope :next_of_time, ->(time) { where('posts.last_stroked_at > ?', Time.at(time.to_i).in_time_zone) }
-  scope :next_of_post, ->(post) { where('posts.last_stroked_at > ?', post.last_stroked_at) if post.present? }
+  scope :next_of_date, ->(date) { where('posts.last_stroked_at > ?', date) }
+  scope :next_of_time, ->(time) { next_of_date(Time.at(time.to_i).in_time_zone) }
+  scope :next_of_post, ->(post) { next_of_date(post.last_stroked_at) if post.present? }
   scope :next_of_last_stroked_at, ->(post) {
     where('posts.last_stroked_at >= ?', post.last_stroked_at).where.not(id: post.id)
   }

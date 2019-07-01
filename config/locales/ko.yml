@@ -161,7 +161,7 @@ ko:
         title: 찬반투표 제목
       post:
         body: 내용
-        decision: 토론 정리
+        decision: 함께 결정하기
       survey:
         duration_days: 기간
       folder:
@@ -309,7 +309,7 @@ ko:
         'nothing': 알림 받지 않기
       value_desc:
         'detail': 간략한 알림 사항과 새로운 댓글이 업데이트되면 알림을 받습니다.
-        'compact': 아주 중요한 알림 사항과 내가 가입한 채널에 새 게시물이나 토론 정리가 업데이트되면 알림을 받습니다
+        'compact': 아주 중요한 알림 사항과 내가 가입한 채널에 새 게시물이나 함께하는 결정이 업데이트되면 알림을 받습니다
         'highlight': 나를 멘션하거나 내가 토론 중인 게시물의 알림을 받습니다
         'nothing': 어떤 알림도 받지 않습니다
       value_issue_header:

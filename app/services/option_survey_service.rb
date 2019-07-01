@@ -22,6 +22,7 @@ class OptionSurveyService
         @post = survey.post
         @post.strok_by!(@current_user, :option)
         @post.issue.strok_by!(@current_user, @post)
+        @post.issue.visit_if_no_unread_posts!(@current_user)
         MessageService.new(@option).call
         OptionMailer.deliver_all_later_on_create(@option)
       end

@@ -6,7 +6,7 @@
     = render 'posts/issue_selector_lazy', dom_id: issue_selector_dom_id
   - form_dom_id = "post-form-#{SecureRandom.uuid}"
   #post-form-widget.form-widget-container
-    = form_for Post.new(issue: local_assigns[:current_issue], folder: local_assigns[:current_folder]), format: (is_remote ? :js : nil), remote: is_remote, html: { id: form_dom_id, class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
+    = form_for Post.new(issue: local_assigns[:current_issue], folder: local_assigns[:current_folder]), format: (is_remote ? :js : nil), remote: is_remote, html: { id: form_dom_id, class: 'form-widget form-widget-no-margin js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
       - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
       - post_body_dom_id = "post-body-#{SecureRandom.uuid}"
 
@@ -15,11 +15,6 @@
           .form-group
             = render 'posts/post_card_folder', post: f.object
             = f.hidden_field :folder_id
-        .post-form-pin-button.js-post-form-pin-button{ class: ('collapse' unless can?(:pin, local_assigns[:current_issue])) }
-          .checkbox
-            %label.remember_me
-              = f.check_box :pinned
-              공지로 등록
         .user-info
           = render 'users/post_byline', user: current_user
         = hidden_field_tag :back_url, @list_url || request.original_url
@@ -202,6 +197,18 @@
               %button.btn.btn-xs.btn-link.editor-btn.post-event-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ data: open_btn_data.merge('reference-field': '.post-event-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-event') }
                 %i.fa.fa-calendar
                 = t('labels.new_post_event_button')
+        .post-options
+          .post-form-decision-button.text-nowrap
+            .checkbox
+              %label.remember_me
+                = f.check_box :has_decision
+                함께 결정하기
+          .post-form-pin-button.text-nowrap.js-post-form-pin-button{ class: ('collapse' unless can?(:pin, local_assigns[:current_issue])) }
+            .checkbox
+              %label.remember_me
+                = f.check_box :pinned
+                공지로 등록
+
         .submit-box
           = f.hidden_field :issue_id, data:{ 'rule-required': true, 'error-popover-target': "##{issue_selector_dom_id} .bootstrap-select.js-parti-editor-selector" }, class: 'validate', value: (local_assigns[:current_issue].id if local_assigns[:current_issue].present?)
           - if local_assigns[:current_issue].present?

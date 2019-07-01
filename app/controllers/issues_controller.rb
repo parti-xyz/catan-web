@@ -166,6 +166,7 @@ class IssuesController < ApplicationController
     end
 
     @issue.strok_by(current_user)
+    @issue.visit_if_no_unread_posts!(current_user)
 
     if @issue.save
       MemberIssueService.new(issue: @issue, user: current_user, is_organizer: true, need_to_message_organizer: false, is_force: true).call

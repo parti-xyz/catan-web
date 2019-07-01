@@ -6,7 +6,7 @@
       = main_column_tag do
         .contents-header.xs-horizontal-padding
           %h4.contents-header__title
-            #{Post.model_name.human} 토론 정리하기
+            #{Post.model_name.human} 함께 결정하기
 
         - if @post.conflicted_decision.present?
           - last_history = @post.decision_histories.last

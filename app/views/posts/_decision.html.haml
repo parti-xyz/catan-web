@@ -1,7 +1,7 @@
-- if post.decision.present?
+- if post.has_decision
   .decision-panel
     %h6
-      %span.text-nowrap 토론 정리
+      %span.text-nowrap 함께 결정하기
 
       %span.control
         &middot;
@@ -20,8 +20,10 @@
           &middot;
           = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
 
-    - if local_assigns[:compact_decision] == true
-      != smart_truncate_html(decision_body_format(post.issue, post.decision.strip), length: 40, ellipsis: ' ... <span class="more">더 보기</span>')
+    - if post.decision.blank?
+      %span.text-muted 결정 사항이 없습니다
     - else
-      = decision_body_format(post.issue, post.decision.strip)
-
+      - if local_assigns[:compact_decision] == true
+        != smart_truncate_html(decision_body_format(post.issue, post.decision&.strip), length: 40, ellipsis: ' ... <span class="more">더 보기</span>')
+      - else
+        = decision_body_format(post.issue, post.decision&.strip)

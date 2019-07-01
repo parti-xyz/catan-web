@@ -36,6 +36,7 @@ class FeedbackSurveyService
 
         if post.generous_strok_by!(current_user, :feedback)
           post.issue.strok_by!(current_user, post)
+          post.issue.visit_if_no_unread_posts!(current_user)
         end
       end
     end

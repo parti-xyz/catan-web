@@ -691,9 +691,9 @@ var parti_prepare = function($base, force) {
       if($selected_option) {
         var $pin_check_box_wrapper = $form.find('.js-post-form-pin-button');
         if($selected_option.data('can-pin') == true) {
-          $pin_check_box_wrapper.show();
+          $pin_check_box_wrapper.css('display', 'inline-block');
         } else {
-          $pin_check_box_wrapper.hide();
+          $pin_check_box_wrapper.hide('display', 'none');
         }
 
         var $event_button = $form.find('.js-post-form-experiment');

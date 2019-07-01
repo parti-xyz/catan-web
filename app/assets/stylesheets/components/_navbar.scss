@@ -618,6 +618,17 @@ $drawer-default-space-mobile: 12px;
             line-height: 24px;
             .issue-line__thumb {
               background-color: #ddd;
+              opacity: 0.5;
+            }
+          }
+          .issue-line.highlight,
+          .group-home-line.highlight,
+          .issue-line.unread,
+          .group-home-line.unread,
+          .issue-line:hover,
+          .group-home-line:hover {
+            .issue-line__thumb {
+              opacity: 1;
             }
           }
           .issue-line {

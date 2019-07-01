@@ -175,6 +175,7 @@ class PostsController < ApplicationController
         end
       elsif @post.save
         @post.issue.strok_by!(current_user, @post)
+        @post.issue.visit_if_no_unread_posts!(current_user)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
         respond_to do |format|
           format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
@@ -201,7 +202,7 @@ class PostsController < ApplicationController
 
     conflict = (@post.decision_histories.any? and (@post.decision_histories.last.try(:id) != params[:last_decision_history_id].try(:to_i)))
 
-    @post.assign_attributes(decision: params[:post][:decision])
+    @post.assign_attributes(has_decision: true, decision: params[:post][:decision])
     @post.strok_by(current_user, :decision)
 
     unless @post.will_save_change_to_decision?
@@ -213,6 +214,7 @@ class PostsController < ApplicationController
       render :edit_decision
     elsif @post.save
       @post.issue.strok_by!(current_user, @post)
+      @post.issue.visit_if_no_unread_posts!(current_user)
       @decision_history = @post.decision_histories.create(body: @post.decision, user: current_user)
       DecisionNotificationJob.perform_async(current_user.id, @decision_history.id)
 
@@ -243,6 +245,7 @@ class PostsController < ApplicationController
     @post.strok_by(current_user)
     @post.save!
     @post.issue.strok_by!(current_user, @post)
+    @post.issue.visit_if_no_unread_posts!(current_user)
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification
   end
 
@@ -465,7 +468,7 @@ class PostsController < ApplicationController
 
     params.require(:post)
       .permit(:body, :issue_id, :folder_id, :has_poll, :has_survey, :has_event,
-        :is_html_body, :decision, (:pinned unless @post.try(:persisted?)),
+        :is_html_body, :has_decision, :decision, (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: file_sources_attributes,
         poll_attributes: poll_attributes, survey_attributes: survey_attributes,
         wiki_attributes: wiki_attributes, event_attributes: event_attributes)
