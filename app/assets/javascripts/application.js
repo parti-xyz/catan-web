@@ -71,11 +71,11 @@ $('body').append($('<span id="js-xs-breakpoint" class="visible-xs-block"></span>
 $('body').append($('<span id="js-sm-breakpoint" class="visible-sm-block"></span>'));
 $('body').append($('<span id="js-md-breakpoint" class="visible-md-block"></span>'));
 $.breakpoint_max = function() {
-  if($('#js-xs-breakpoint.visible-xs-block').css('display') === 'block') {
+  if($('#js-xs-breakpoint.visible-xs-block').is(":visible")) {
     return 'xs';
-  } else if($('#js-sm-breakpoint.visible-sm-block').css('display') === 'block') {
+  } else if($('#js-sm-breakpoint.visible-sm-block').is(":visible")) {
     return 'sm';
-  } else if($('#js-md-breakpoint.visible-md-block').css('display') === 'block') {
+  } else if($('#js-md-breakpoint.visible-md-block').is(":visible")) {
     return 'md';
   } else {
     return 'lg';
