@@ -14,8 +14,8 @@
 
   .post-card.summary.pinned
     - unless not_need_header
-      .post-card__post.clearfix.js-show-all-pinned-post
-        %h5.body.margin-zero.only-clickable.text-muted
+      .post-card__post.pinned-header.clearfix.js-show-all-pinned-post
+        .body.margin-zero.only-clickable.text-muted
           %i.fa.fa-caret-right.fa-fw-xs-left.js-show-all-pinned-post-icon
           공지 사항
           (#{posts.count})

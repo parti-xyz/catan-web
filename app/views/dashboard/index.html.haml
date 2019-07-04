@@ -18,10 +18,23 @@
                   = link_to '시작하기', dashboard_intro_path, class: 'btn btn-primary'
         - else
           - member_issues = current_user.member_issues.order(:title)
-          .post-editor.post-editor-intro.js-post-editor-intro
+          .post-editor.post-editor-intro.js-post-editor-intro.post-card.text-muted.clearfix
             .text-muted
               = byline current_user, hide_nickname: true
-              .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
+              .placeholder 글쓰기...
+              .post-reference-btns
+                %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-file-btn'}
+                  %i.fa.fa-cloud-upload
+                  = t('labels.new_post_file_source_button')
+                %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-poll-btn'}
+                  %i.fa.fa-fire
+                  = t('labels.new_post_poll_button')
+                %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-survey-btn'}
+                  %i.fa.fa-list-ul
+                  = t('labels.new_post_survey_button')
+                = link_to new_wiki_posts_path, target: '_blank', class: 'btn btn-xs btn-link' do
+                  %i.fa.fa-file-word-o
+                  = t('labels.new_post_wiki_button')
 
           .post-editor.post-editor--hidden.js-post-editor.js-parti-editor-selector-wrapper
             = render 'posts/post_editor', current_issue: nil

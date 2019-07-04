@@ -126,6 +126,10 @@ section#issues-group-index {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.2);
     width: 100%;
+    &.parti-menu-simple {
+      position: relative;
+      bottom: -12px;
+    }
 
     $parti-menu-height: 32px;
     .row {
@@ -175,6 +179,10 @@ section#issues-group-index {
         color: #fff;
         text-shadow: 1px 1px $gray-dark;
         font-weight: 400;
+      }
+      a.btn-full {
+        text-shadow: none;
+        color: $gray
       }
     }
     > .container > .media {

@@ -1,6 +1,6 @@
 - paging = (!@posts.nil? and @posts.try(:current_page).present?)
 
-= render 'issues/issue_header', issue: @issue, simple: true
+= render 'issues/issue_header', issue: @issue
 
 %section.contents-page#posts
   .container

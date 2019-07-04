@@ -28,7 +28,7 @@
 
           = f.hidden_field :is_html_body, value: true
 
-          - cancel_btn_data = {action: 'parti-post-cancel-subform', 'show-target': '.post-reference-btns .js-post-reference-btn-exclusive', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
+          - cancel_btn_data = {action: 'parti-post-cancel-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
 
       .form-widget-extra
         .post-file-field.form-widget-extra-item.hidden
@@ -179,22 +179,19 @@
 
       .form-widget-btns.clearfix
         .post-reference-btns
-          - open_btn_data = {action: 'parti-post-select-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event'}
-          %button.btn.btn-xs.btn-link.editor-btn.post-file-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file{ data: open_btn_data.merge('reference-field': '.post-file-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file') }
+          - open_btn_data = { 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event' }
+          %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-file-btn{ data: open_btn_data.merge('reference-field': '.post-file-field') }
             %i.fa.fa-cloud-upload
             = t('labels.new_post_file_source_button')
-          %button.btn.btn-xs.btn-link.editor-btn.post-poll-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ data: open_btn_data.merge('reference-field': '.post-poll-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll') }
+          %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-poll-btn{ data: open_btn_data.merge('reference-field': '.post-poll-field') }
             %i.fa.fa-fire
             = t('labels.new_post_poll_button')
-          %button.btn.btn-xs.btn-link.editor-btn.post-survey-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ data: open_btn_data.merge('reference-field': '.post-survey-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-survey') }
+          %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-survey-btn{ data: open_btn_data.merge('reference-field': '.post-survey-field') }
             %i.fa.fa-list-ul
             = t('labels.new_post_survey_button')
           %span.text-nowrap
-            = link_to new_wiki_posts_path, target: '_blank', class: 'btn btn-xs btn-link editor-btn post-wiki-btn js-post-wiki-btn js-post-reference-btn-exclusive js-post-reference-btn-exclusive-file js-post-reference-btn-exclusive-poll js-post-reference-btn-exclusive-survey js-post-reference-btn-exclusive-event', 'data-wiki-issue-param-name': 'issue_id' do
-              %i.fa.fa-file-word-o
-              = t('labels.new_post_wiki_button')
             %span.js-post-form-experiment{ class: ('collapse' if local_assigns[:current_issue].blank? or !current_issue.experimental?) }
-              %button.btn.btn-xs.btn-link.editor-btn.post-event-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ data: open_btn_data.merge('reference-field': '.post-event-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-event') }
+              %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-event-btn{ data: open_btn_data.merge('reference-field': '.post-event-field') }
                 %i.fa.fa-calendar
                 = t('labels.new_post_event_button')
         .post-options

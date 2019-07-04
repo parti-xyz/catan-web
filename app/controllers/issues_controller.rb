@@ -86,6 +86,10 @@ class IssuesController < ApplicationController
     redirect_to smart_issue_home_url(@issue)
   end
 
+  def header
+    @issue = Issue.find params[:id]
+  end
+
   def slug_home
     render 'slug_home_blocked' and return if private_blocked?(@issue)
 

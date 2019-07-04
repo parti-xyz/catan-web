@@ -2,8 +2,8 @@
 * 게시물의 폴더 링크를 앵커로!
 * 토론 정리 에디터 개선
 * 폴더 4개 Depth허용
-* 게시물에서 폴더 이동 > Depth가 안맞음
 * API 채널별 게시물 목록 수정 필요 : last_stroked_at 기준으로
+* data-wiki-issue-param-name
 
 = 필요 시 =
 * my_menus 테이블 삭제

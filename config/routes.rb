@@ -97,6 +97,7 @@ Rails.application.routes.draw do
       put :update_category
       delete :destroy_category
       post :visit
+      get :header
     end
     collection do
       get :search_by_tags

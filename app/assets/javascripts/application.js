@@ -718,31 +718,68 @@ var parti_prepare = function($base, force) {
     });
   });
 
-  // 게시글 쓸때 투표 등을 선택하기
-  $.parti_apply($base, '[data-action="parti-post-select-subform"]', function(elm) {
-    var hidden_target = $(elm).data('hidden-target');
-    var reference_field = $(elm).data('reference-field');
-    var has_poll = $(elm).data('has-poll');
-    var has_survey = $(elm).data('has-survey');
-    var has_event = $(elm).data('has-event');
-    var $form = $(elm).closest('form');
-    $(elm).on('click',function (e){
+  // 링크를 누르면 이벤트를 트리거 하기
+  $.parti_apply($base, 'a.js-trigger', function(elm) {
+    $(elm).on('click', function(e) {
+      var $elm = $(e.currentTarget);
+      var href_value = $elm.attr('href');
+      if(!href_value) {
+        return;
+      }
+      var trigger_name = href_value.replace(/^#/, '');
+      if(!trigger_name) {
+        return;
+      }
+      var trigger_target = $elm.data('target');
+      if(!trigger_target) {
+        return;
+      }
       e.preventDefault();
-      $(hidden_target).hide();
+      $(trigger_target).trigger(trigger_name);
+    });
+  });
+
+  // 게시글 쓸때 투표 등을 선택하기
+  $.parti_apply($base, '.js-post-select-subform', function(elm) {
+    var $elm = $(elm);
+    var reference_field = $elm.data('reference-field');
+    var has_poll = $elm.data('has-poll');
+    var has_survey = $elm.data('has-survey');
+    var has_event = $elm.data('has-event');
+    var $form = $elm.closest('form');
+
+    var callback = function (e){
+      e.preventDefault();
       if($(reference_field).hasClass('hidden')){
         $(reference_field).removeClass('hidden');
       }
-      if($(this).hasClass('post-poll-btn')){
+      if($elm.hasClass('js-post-poll-btn')){
+        $('.js-post-poll-btn').hide();
+        $('.js-post-survey-btn').hide();
+        $('.js-post-event-btn').hide();
         $(has_poll).val(true);
-      } else if($(this).hasClass('post-survey-btn')){
+      } else if($elm.hasClass('js-post-survey-btn')){
+        $('.js-post-poll-btn').hide();
+        $('.js-post-survey-btn').hide();
+        $('.js-post-event-btn').hide();
         $(has_survey).val(true);
-      } else if($(this).hasClass('post-event-btn')){
+      } else if($elm.hasClass('js-post-event-btn')){
+        $('.js-post-poll-btn').hide();
+        $('.js-post-survey-btn').hide();
+        $('.js-post-event-btn').hide();
         $(has_event).val(true);
-      } else if($(this).hasClass('post-file-btn')) {
+      } else if($elm.hasClass('js-post-file-btn')) {
+        $('.js-post-file-btn').hide();
         $form.find('.js-post-editor-file_sources-add-btn > a').trigger('click');
       }
-      $(elm).closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
-    })
+      $elm.closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
+    }
+
+    $elm.on('click', callback);
+    $elm.on('parti-post-select-subform', function(e) {
+      $('.js-post-editor-intro').trigger('parti-post-editor-intro');
+      callback(e);
+    });
   });
 
   $.parti_apply($base, '[data-action="parti-post-cancel-subform"]', function(elm) {
@@ -752,14 +789,16 @@ var parti_prepare = function($base, force) {
       $target = $(e.currentTarget);
 
       var reference_field = $target.data('reference-field');
-      var show_target = $target.data('show-target');
       var has_poll = $target.data('has-poll');
       var has_survey = $target.data('has-survey');
       var has_event = $target.data('has-event');
       var $file_sources = $($target.data('file-sources'));
 
       $(reference_field).addClass('hidden');
-      $(show_target).show();
+      $('.js-post-poll-btn').show();
+      $('.js-post-survey-btn').show();
+      $('.js-post-event-btn').show();
+      $('.js-post-file-btn').show();
       $(has_poll).val(false);
       $(has_survey).val(false);
       $(has_event).val(false);
@@ -2552,30 +2591,41 @@ $(function(){
   });
 
   // open editor
-  $('.js-post-editor-intro').on('click', function(e) {
-    e.preventDefault();
-    var $elm = $(e.currentTarget);
+  (function() {
+    var callback = function(e) {
+      var href = $(e.target).closest('a').attr('href')
+      if (href && href != "#") {
+        return true;
+      }
 
-    var $target = $('.js-post-editor');
-    $target.show({ duration: 1, complete: function() {
-      $elm.hide({ duration: 1, complete: function() {
-        var focus_id = $elm.data('focus');
-        $focus = $(focus_id);
-        $focus.focus();
-        Waypoint.refreshAll();
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+
+      var $target = $('.js-post-editor');
+      $target.show({ duration: 1, complete: function() {
+        $elm.hide({ duration: 1, complete: function() {
+          var focus_id = $elm.data('focus');
+          $focus = $(focus_id);
+          $focus.focus();
+          Waypoint.refreshAll();
+        }});
       }});
-    }});
 
-    // 가상키보드를 쓰는 환경이면
-    if($('body').hasClass('virtual-keyboard')) {
-      $('.js-invisible-on-mobile-editing').slideUp();
-      $('.js-btn-history-back-in-mobile-app').hide();
-      $('.js-close-editor-in-mobile-app').removeClass('hidden');
-      $('.js-navbar-header').trigger('parti-navbar-header-fix');
+      // 가상키보드를 쓰는 환경이면
+      if($('body').hasClass('virtual-keyboard')) {
+        $('.js-invisible-on-mobile-editing').slideUp();
+        $('.js-btn-history-back-in-mobile-app').hide();
+        $('.js-close-editor-in-mobile-app').removeClass('hidden');
+        $('.js-navbar-header').trigger('parti-navbar-header-fix');
+      }
+
+      $('body').addClass('js-no-pull-to-refresh');
     }
 
-    $('body').addClass('js-no-pull-to-refresh');
-  });
+    $('.js-post-editor-intro').on('click', callback);
+    $('.js-post-editor-intro').on('parti-post-editor-intro', callback);
+  })();
+
 
   // ios에서 가상 키보드에 따른 사이트 헤더 조정
   if($('body').hasClass('virtual-keyboard') && $('body').hasClass('ios')) {

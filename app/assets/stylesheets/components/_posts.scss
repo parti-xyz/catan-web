@@ -344,8 +344,15 @@
     }
     .post-card__post:hover {
       background-color: $gray-more-lightest;
+      border-radius: 4px;
       &.need-to-read {
         background-color: $brand-primary-lighter;
+        border-radius: 4px;
+      }
+    }
+    &.pinned {
+      .post-card__post.pinned-header {
+        padding: 6px 18px;
       }
     }
   }
@@ -450,10 +457,9 @@
     background: $brand-primary;
     color: $gray-lightest;
     text-align: center;
-    line-height: 15px;
     font-weight: normal;
     border: 0;
-    padding: 12px;
+    padding: 7px 18px;
     .new-posts__count {
       margin-right: 3px;
     }

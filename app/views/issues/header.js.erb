@@ -1,0 +1,3 @@
+var $dom = $("<%= j(render 'issues/issue_header', issue: @issue, full: true) %>");
+$('.js-issue-header-toggle').replaceWith($dom);
+parti_partial$($dom);

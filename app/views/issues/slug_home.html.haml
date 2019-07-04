@@ -1,6 +1,6 @@
 - paging = (!@posts.nil? and @posts.try(:current_page).present?)
 
-= render 'issues/issue_header', active_tab: :home, simple: (paging and !@posts.first_page?)
+= render 'issues/issue_header', active_tab: :home, show_menu: true, full: !user_signed_in? or !@issue.member?(current_user)
 
 %section.contents-page#posts
   .container
@@ -10,10 +10,23 @@
           - if user_signed_in?
             - if @issue.member?(current_user)
               - if @issue.postable?(current_user)
-                .post-editor.post-editor-intro.js-post-editor-intro
-                  .text-muted
-                    = byline current_user, hide_nickname: true
-                    .placeholder #{current_user.nickname}님, 무슨 이야기를 나누실래요?
+                .post-editor.post-editor-intro.post-card.js-post-editor-intro.text-muted.clearfix
+                  = byline current_user, hide_nickname: true
+                  .placeholder 글쓰기...
+                  .post-reference-btns
+                    %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-file-btn'}
+                      %i.fa.fa-cloud-upload
+                      = t('labels.new_post_file_source_button')
+                    %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-poll-btn'}
+                      %i.fa.fa-fire
+                      = t('labels.new_post_poll_button')
+                    %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-survey-btn'}
+                      %i.fa.fa-list-ul
+                      = t('labels.new_post_survey_button')
+                    = link_to new_wiki_posts_path(issue_id: @issue.id), target: '_blank', class: 'btn btn-xs btn-link' do
+                      %i.fa.fa-file-word-o
+                      = t('labels.new_post_wiki_button')
+
                 .post-editor.post-editor--hidden.js-post-editor
                   = render 'posts/post_editor', current_issue: @issue
             - elsif @issue.member_requested?(current_user)
