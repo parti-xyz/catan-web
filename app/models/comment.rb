@@ -112,9 +112,9 @@ class Comment < ApplicationRecord
       child_comments.reject! { |comment| comment.parent.blank? }
       child_comments.sort_by! { |comment| comment.created_at }
 
-      if child_comments.last.present?
-        child_comments << parent_comment.children.next_of(child_comments.last.id).order(:created_at).to_a
-        child_comments.flatten!
+      if child_comments.first.present?
+        child_comments = [child_comments.first]
+        child_comments += parent_comment.children.next_of(child_comments.first.id).order(:created_at).to_a
       end
 
       if (parent_comment.children.count - child_comments.length) == 1
