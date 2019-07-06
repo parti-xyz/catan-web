@@ -19,12 +19,16 @@
     .media{ style: 'overflow: visible' }
       .media-left
         .parti-logo
-          = link_to smart_issue_home_path_or_url(issue) do
-            .thumb{style: "background-image: url(#{issue.logo.md.url})"}
+          - if simple
+            = link_to header_issue_path(issue), remote: true do
+              .thumb{style: "background-image: url(#{issue.logo.md.url})"}
+          - else
+            = link_to smart_issue_home_path_or_url(issue) do
+              .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       .media-body{ style: 'overflow: visible' }
         - if simple
           %h4.parti-title
-            = link_to smart_issue_home_path_or_url(issue) do
+            = link_to header_issue_path(issue), remote: true do
               = issue.title
               %small= meta_icons(issue)
             = link_to header_issue_path(issue), remote: true do
@@ -64,7 +68,7 @@
         .row
           .col-sm-8.col-xs-12
             .row
-              .col-custom{ class: ('active' if active_tab.nil? || active_tab == :home) }
+              .col-custom{ class: ('active' if active_tab == :home) }
                 = link_to smart_issue_home_path_or_url(issue), class: 'parti-menu-a' do
                   %h5 전체글
 

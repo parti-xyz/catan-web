@@ -14,8 +14,25 @@
   }
 
   section.front-wiki {
-    .wiki-line .wiki-line-body-full {
-      border: none;
+    .post-card .post-card__post {
+      padding-top: 0;
+      .wiki-line {
+        .wiki-line-body-container {
+          background-color: transparent;
+          border: none;
+          .wiki-preview {
+            border: none;
+            box-shadow: none;
+          }
+          .wiki-line-body.wiki-line-body-full .wiki-body.wiki-preview {
+            padding-bottom: 12px;
+            padding-top: 0;
+          }
+        }
+        .wiki-button {
+          display: none;
+        }
+      }
     }
   }
 
