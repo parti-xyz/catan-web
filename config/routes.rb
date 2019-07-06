@@ -39,11 +39,12 @@ Rails.application.routes.draw do
 
   constraints(DefaultGroupRouteConstraint.new) do
     authenticated :user do
-      root 'dashboard#index', as: :dashboard_root
+      root 'pages#authenticated_home'
     end
     root 'pages#discover', as: :discover_root
   end
   root 'issues#home'
+
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
   get '/robots.:format', to: 'pages#robots'
 
@@ -141,10 +142,10 @@ Rails.application.routes.draw do
       get 'survey_social_card'
       post 'pin'
       delete 'unpin'
-      get 'readers'
-      get 'unreaders'
-      put 'read'
-      put 'unread'
+      get 'beholders'
+      get 'unbeholders'
+      put 'behold'
+      put 'unbehold'
       get 'more_comments'
       get 'edit_decision'
       patch 'update_decision'

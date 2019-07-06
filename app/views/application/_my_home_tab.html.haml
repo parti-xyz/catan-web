@@ -50,7 +50,8 @@
         - else
           내가 가입한 채널과 그룹의 최근 소식입니다.
 
-  .content-tab-section.content-tab-section-my-home{ class: ('content-tab-section-my-home-with-count-label' if current_user.unread_pinned_posts(current_dashboard_group).any? or current_user.cached_important_not_mention_messages_count(current_dashboard_group) > 0 or current_user.cached_important_mention_messages_count > 0) }
+  - unbehold_pinned_posts = current_user.unbehold_pinned_posts(current_dashboard_group)
+  .content-tab-section.content-tab-section-my-home{ class: ('content-tab-section-my-home-with-count-label' if unbehold_pinned_posts.any? or current_user.cached_important_not_mention_messages_count(current_dashboard_group) > 0 or current_user.cached_important_mention_messages_count > 0) }
     %div.hidden-sm.visible-xs-block{ style: "height: 40px; width: 3rem; position: absolute; right: 0; top: -10px; z-index: 1;" }
       %div{ style: "background:-webkit-linear-gradient(right, #e7eaeb, rgba(255,255,255,0.0)); height: 100%; width: 100%;" }
     %ul.nav.nav-tabs.my-home-tabs
@@ -60,10 +61,10 @@
       %li{ class: "#{('active' if is_current_pinnde_page)}" }
         = link_to pinned_posts_url(subdomain: nil) do
           공지
-          - if current_user.unread_pinned_posts(current_dashboard_group).any?
+          - if unbehold_pinned_posts.any?
             .count-label-wrapper.small
               .count-label
-                +#{max_counter(current_user.unread_pinned_posts(current_dashboard_group).count, 999)}
+                +#{max_counter(unbehold_pinned_posts.count, 999)}
 
       %li{ class: "#{('active' if is_current_messages_page)}" }
         = link_to messages_url(subdomain: nil) do

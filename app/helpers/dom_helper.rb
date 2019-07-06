@@ -151,14 +151,6 @@ module DomHelper
     ".#{switchable_post_pin_buttons_dom_class(post)}"
   end
 
-  def post_pin_button_dom_class(post)
-    "#{dom_id(post)}-pin-button"
-  end
-
-  def post_pin_button_dom_selector(post)
-    ".#{post_pin_button_dom_class(post)}"
-  end
-
   def switchable_post_front_wiki_buttons_dom_class(post)
     "#{dom_id(post)}-switchable-front-wiki-buttons"
   end
@@ -187,20 +179,20 @@ module DomHelper
     "#{dom_id(post)}--bookmark"
   end
 
-  def read_button_dom_selector(post)
-    ".#{read_button_dom_class(post)}"
+  def behold_button_dom_selector(post)
+    ".#{behold_button_dom_class(post)}"
   end
 
-  def read_button_dom_class(post)
-    "#{dom_id(post)}-read-button"
+  def behold_button_dom_class(post)
+    "#{dom_id(post)}-behold-button"
   end
 
-  def unread_button_dom_selector(post)
-    ".#{unread_button_dom_class(post)}"
+  def unbehold_button_dom_selector(post)
+    ".#{unbehold_button_dom_class(post)}"
   end
 
-  def unread_button_dom_class(post)
-    "#{dom_id(post)}-unread-button"
+  def unbehold_button_dom_class(post)
+    "#{dom_id(post)}-unbehold-button"
   end
 
   def folded_post_dom_class(post)

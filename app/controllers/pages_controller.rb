@@ -1,4 +1,13 @@
 class PagesController < ApplicationController
+  def authenticated_home
+    redirect_to discover_root_path and return unless user_signed_in?
+
+    last_visitable = current_user.last_visitable
+    redirect_to smart_joinable_url(last_visitable) and return if last_visitable.present?
+
+    redirect_to dashboard_url(subdomain: nil)
+  end
+
   def about
   end
 

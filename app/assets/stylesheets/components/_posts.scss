@@ -291,6 +291,7 @@
       }
       .desc {
         margin-bottom: 0;
+        width: 88%;
         .body {
           white-space: nowrap;
           text-overflow: ellipsis;
@@ -298,9 +299,6 @@
           a {
             color: $text-color;
           }
-        }
-        &.desc_without_issue {
-          width: 88%;
         }
       }
       .date {
@@ -329,9 +327,14 @@
     .post-card__post + .post-card__post {
       border-top: 1px solid $gray-lightest;
     }
-    .post-card__post.need-to-read + .post-card__post,
-    .post-card__post + .post-card__post.need-to-read,
-    .post-card__post.need-to-read + .post-card__post.need-to-read {
+    .post-card__post.need-to-behold + .post-card__post,
+    .post-card__post + .post-card__post.need-to-behold,
+    .post-card__post.need-to-behold + .post-card__post.need-to-behold {
+      border-color: $gray-lighter;
+    }
+    .post-card__post.unpinned + .post-card__post,
+    .post-card__post + .post-card__post.unpinned,
+    .post-card__post.unpinned + .post-card__post.unpinned {
       border-color: $gray-lighter;
     }
     .post-card__post {
@@ -339,13 +342,16 @@
         color: $brand-primary;
       }
     }
-    .post-card__post.need-to-read {
+    .post-card__post.need-to-behold {
       background-color: mix(white, $brand-primary-lighter, 50%);
+    }
+    .post-card__post.unpinned .desc {
+      opacity: 0.5;
     }
     .post-card__post:hover {
       background-color: $gray-more-lightest;
       border-radius: 4px;
-      &.need-to-read {
+      &.need-to-behold {
         background-color: $brand-primary-lighter;
         border-radius: 4px;
       }

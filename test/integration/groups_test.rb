@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GruopsTest < ActionDispatch::IntegrationTest
+class GroupsTest < ActionDispatch::IntegrationTest
   test '그룹을 열어요' do
     sign_in(users(:one))
 

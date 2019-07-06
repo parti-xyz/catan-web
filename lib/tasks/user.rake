@@ -25,8 +25,8 @@ namespace :user do
       # post_ids_for_file_sources = FileSource.where(post: user.posts).select(:post_id).distinct.pluck(:post_id)
       group_ids_for_members = user.members.where(joinable_type: "Group").select(:joinable_id).distinct.pluck(:joinable_id)
       issue_ids_for_members = user.members.where(joinable_type: "Issue").select(:joinable_id).distinct.pluck(:joinable_id)
-      post_ids_for_readers1 = Reader.where(user: user).select(:post_id).distinct.pluck(:post_id)
-      # post_ids_for_readers2 = Reader.where(post: user.posts).select(:post_id).distinct.pluck(:post_id)
+      post_ids_for_beholders1 = Beholder.where(user: user).select(:post_id).distinct.pluck(:post_id)
+      # post_ids_for_beholders2 = Beholder.where(post: user.posts).select(:post_id).distinct.pluck(:post_id)
 
       user.destroy!
 
@@ -41,8 +41,8 @@ namespace :user do
       # reset_counter post_ids_for_file_sources, Post, :file_sources
       reset_counter group_ids_for_members, Group, :members
       reset_counter issue_ids_for_members, Issue, :members
-      reset_counter post_ids_for_readers1, Post, :readers
-      # reset_counter post_ids_for_readers2, Post, :readers
+      reset_counter post_ids_for_beholders1, Post, :beholders
+      # reset_counter post_ids_for_beholders2, Post, :beholders
 
     end
   end

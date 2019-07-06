@@ -102,6 +102,13 @@ class IssuesController < ApplicationController
     end
     @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
     prepare_posts_page
+
+    if user_signed_in?
+      current_user.update_attributes(last_visitable: @issue)
+      if !@issue.marked_read_at?(current_user)
+        @issue.read!(current_user)
+      end
+    end
   end
 
   def slug_hashtag
@@ -174,7 +181,7 @@ class IssuesController < ApplicationController
     end
 
     @issue.strok_by(current_user)
-    @issue.visit_if_no_unread_posts!(current_user)
+    @issue.read_if_no_unread_posts!(current_user)
 
     if @issue.save
       MemberIssueService.new(issue: @issue, user: current_user, is_organizer: true, need_to_message_organizer: false, is_force: true).call

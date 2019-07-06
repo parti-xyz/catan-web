@@ -2225,11 +2225,11 @@ $(function(){
     $('.js-show-all-pinned-post').on('click', function(e) {
       $icon = $('.js-show-all-pinned-post').find('.js-show-all-pinned-post-icon')
       if(visible) {
-        $('.js-posts-pinned-and-read').hide();
+        $('.js-posts-pinned-and-behold').hide();
         $icon.removeClass(unfold_icon);
         $icon.addClass(fold_icon);
       } else {
-        $('.js-posts-pinned-and-read').show();
+        $('.js-posts-pinned-and-behold').show();
         $icon.removeClass(fold_icon);
         $icon.addClass(unfold_icon);
       }

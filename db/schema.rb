@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_01_000046) do
+ActiveRecord::Schema.define(version: 2019_07_06_161102) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -44,6 +44,18 @@ ActiveRecord::Schema.define(version: 2019_07_01_000046) do
     t.text "body"
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
     t.index ["source_type", "source_id"], name: "index_articles_on_source_type_and_source_id"
+  end
+
+  create_table "beholders", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "deprecated_member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["deprecated_member_id"], name: "index_beholders_on_deprecated_member_id"
+    t.index ["post_id", "deprecated_member_id"], name: "index_beholders_on_post_id_and_deprecated_member_id", unique: true
+    t.index ["post_id"], name: "index_beholders_on_post_id"
+    t.index ["user_id"], name: "index_beholders_on_user_id"
   end
 
   create_table "blinds", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -376,7 +388,7 @@ ActiveRecord::Schema.define(version: 2019_07_01_000046) do
     t.text "admit_message", limit: 16777215
     t.boolean "is_magic", default: false
     t.text "description", limit: 16777215
-    t.datetime "visited_at"
+    t.datetime "read_at"
     t.index ["joinable_id", "joinable_type"], name: "index_members_on_joinable_id_and_joinable_type"
     t.index ["joinable_id"], name: "index_members_on_joinable_id"
     t.index ["user_id", "joinable_id", "joinable_type", "active"], name: "index_members_on_user_id_and_joinable_id_and_joinable_type", unique: true
@@ -543,7 +555,7 @@ ActiveRecord::Schema.define(version: 2019_07_01_000046) do
     t.integer "survey_id"
     t.boolean "pinned", default: false
     t.datetime "pinned_at"
-    t.integer "readers_count", default: 0
+    t.integer "beholders_count", default: 0
     t.integer "last_stroked_user_id"
     t.integer "file_sources_count", default: 0
     t.string "last_stroked_for"
@@ -573,18 +585,6 @@ ActiveRecord::Schema.define(version: 2019_07_01_000046) do
     t.text "body", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "readers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.integer "post_id", null: false
-    t.integer "deprecated_member_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["deprecated_member_id"], name: "index_readers_on_deprecated_member_id"
-    t.index ["post_id", "deprecated_member_id"], name: "index_readers_on_post_id_and_deprecated_member_id", unique: true
-    t.index ["post_id"], name: "index_readers_on_post_id"
-    t.index ["user_id"], name: "index_readers_on_user_id"
   end
 
   create_table "redactor2_assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -759,6 +759,8 @@ ActiveRecord::Schema.define(version: 2019_07_01_000046) do
     t.boolean "enable_trace_device_token", default: false
     t.boolean "drawer_current_group_fixed_top", default: false
     t.boolean "drawer_current_group_unfold_only", default: false
+    t.integer "last_visitable_id"
+    t.string "last_visitable_type"
     t.index ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true

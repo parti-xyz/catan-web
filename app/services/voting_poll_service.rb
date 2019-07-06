@@ -91,7 +91,7 @@ class VotingPollService
 
     if self.poll.post.generous_strok_by!(current_user, :voting)
       self.poll.post.issue.strok_by!(current_user, self.poll.post)
-      self.poll.post.issue.visit_if_no_unread_posts!(current_user)
+      self.poll.post.issue.read_if_no_unread_posts!(current_user)
     end
   end
 end

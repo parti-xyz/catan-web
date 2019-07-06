@@ -1,11 +1,5 @@
 .post-card__post.clearfix.cursor-pointer{ 'data-action': "parti-link", 'data-url': smart_post_url(post) }
-  .desc{ class: ('desc_without_issue' unless local_assigns[:show_issue]) }
-    - if local_assigns[:show_issue]
-      .issue-meta.issue-meta-header{ class: ('issue-meta-pinnable' if can?(:pin, post)) }
-        = link_to smart_issue_home_url(post.issue) do
-          %span.issue-and-group
-            = issue_tag(post.issue, issue_classes: 'issue-title', group_classes: 'issue-group')
-
+  .desc
     .body<>
       = link_to smart_post_url(post) do
         = post.specific_desc_striped_tags(120)

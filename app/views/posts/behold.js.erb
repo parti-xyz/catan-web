@@ -1,0 +1,5 @@
+var $item = $("<%= pinned_post_dom_selector(@post) %>");
+var $dom = $('<%= j(render 'posts/post_pinned', post: @post) %>');
+$("<%= pinned_post_dom_selector(@post) %>").replaceWith($dom);
+parti_partial$($dom, true);
+UnobtrusiveFlash.showFlashMessage("<%= t('views.behold') %>", {type: 'notice'});

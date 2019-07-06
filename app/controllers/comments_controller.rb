@@ -72,7 +72,7 @@ class CommentsController < ApplicationController
       Post.where(id: @comments.select(:post_id)).each do |post|
         member = post.issue.members.find_by(user: current_user)
         next if member.blank?
-        post.readers.find_or_create_by(user: member.user)
+        post.beholders.find_or_create_by(user: member.user)
       end
     end
 

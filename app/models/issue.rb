@@ -56,6 +56,7 @@ class Issue < ApplicationRecord
   belongs_to :category, optional: true
   has_many :issue_post_formats, dependent: :destroy, class_name: 'GroupHomeComponentPreference::IssuePostsFormat'
   belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
+  has_many :last_visited_users, as: :last_visitable, class_name: 'User', dependent: :nullify
 
   # validations
   validates :title,
@@ -312,27 +313,48 @@ class Issue < ApplicationRecord
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
   end
 
-  def unread_post_last_stroked_at?(someone, last_stroked_at)
-    return false if last_stroked_at.blank?
-    return false if someone.blank?
-    member = someone.smart_member(self)
-    return false if member.blank?
-
-    return false if member.visited_at.blank?
-
-    member.visited_at < last_stroked_at
-  end
-
   def visit!(someone)
-    member = someone.smart_member(self)
+    return if someone.blank?
+    member = someone.smart_issue_member(self)
     return if member.blank?
     member.update_columns(visited_at: DateTime.now)
   end
 
-  def visited?(someone)
+  def marked_read_at?(someone)
     return false if someone.blank?
-    member = someone.smart_member(self)
-    member.present? and member.visited_at.present?
+    member = someone.smart_issue_member(self)
+    return false if member.blank?
+    member.read_at.present?
+  end
+
+  def unread?(someone)
+    return false unless self.marked_read_at?(someone)
+
+    member = someone.smart_issue_member(self)
+    member.unread_issue?(self)
+  end
+
+  def read!(someone)
+    member = someone.smart_issue_member(self)
+    return if member.blank?
+    member.update_columns(read_at: DateTime.now)
+  end
+
+  def read_if_no_unread_posts!(someone)
+    return unless self.marked_read_at?(someone)
+
+    member = someone.smart_issue_member(self)
+    if self.posts.next_of_date(member.read_at).where.not(last_stroked_user_id: someone.id).empty?
+      self.read!(someone)
+    end
+  end
+
+  def unread_post?(someone, last_stroked_at)
+    return false if last_stroked_at.blank?
+    return false unless self.marked_read_at?(someone)
+
+    member = someone.smart_issue_member(self)
+    member.read_at < last_stroked_at
   end
 
   def members_with_deleted
@@ -408,23 +430,6 @@ class Issue < ApplicationRecord
 
   def self.messagable_group_method
     :of_group
-  end
-
-  def unread?(someone)
-    return false if someone.blank?
-    member = someone.smart_member(self)
-    return false if member.blank? or member.visited_at.blank?
-    member.unread_issue?(self)
-  end
-
-  def visit_if_no_unread_posts!(someone)
-    return if someone.blank?
-    member = someone.smart_member(self)
-    return if member.blank? or member.visited_at.blank?
-
-    if self.posts.next_of_date(member.visited_at).where.not(last_stroked_user_id: someone.id).empty?
-      member.update_columns(visited_at: DateTime.now)
-    end
   end
 
   private

@@ -2,10 +2,10 @@
 - posts = posts.to_a.reject { |post| post.blinded?(current_user) or post.private_blocked?(current_user) }
 - if posts.try(:any?)
   - collapsed_posts_new_pinned = []
-  - unread_posts = posts.select { |post| !post.read_by?(current_user) and post.can_be_reader?(current_user) }
+  - unbehold_posts = posts.select { |post| !post.behold_by?(current_user) and post.can_beholder?(current_user) }
 
   - if local_assigns[:compact]
-    - uncollapsed_posts = unread_posts
+    - uncollapsed_posts = unbehold_posts
     - collapsed_posts = posts - uncollapsed_posts
   - else
     - collapsed_posts = []

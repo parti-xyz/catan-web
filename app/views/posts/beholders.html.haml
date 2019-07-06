@@ -1,6 +1,6 @@
 = render 'issues/issue_header', issue: @post.issue
 
-%section#post-readers
+%section#post-beholders
   .container
     .row
       = main_column_tag do
@@ -9,7 +9,7 @@
             %h4
               게시글을 확인한 가입멤버
               .count-label-wrapper
-                .count-label= @post.readers_count
+                .count-label= @post.beholders_count
         %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
-          = render 'members/members_page', members: @reader_members, issue: @post.issue
-        = paginate @readers, theme: 'catan', params: { controller: 'posts', action: 'readers' }
+          = render 'members/members_page', members: @beholder_members, issue: @post.issue
+        = paginate @beholders, theme: 'catan', params: { controller: 'posts', action: 'beholders' }

@@ -69,10 +69,10 @@
       = render 'posts/pin_buttons', post: post
     - if post.pinned?
       %li
-        = link_to [:readers, post], target: '_blank' do
-          확인한 가입멤버 보기 (#{post.readers_count})
+        = link_to [:beholders, post], target: '_blank' do
+          확인한 가입멤버 보기 (#{post.beholders_count})
       %li
-        = link_to [:unreaders, post], target: '_blank' do
+        = link_to [:unbeholders, post], target: '_blank' do
           확인하지 않은 가입멤버 보기
 
 - button_groups << capture do

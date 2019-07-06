@@ -94,7 +94,7 @@ class User < ApplicationRecord
   has_many :decision_histories, dependent: :nullify
   has_many :folders, dependent: :nullify
   has_many :bookmarks, dependent: :destroy
-  has_many :readers, dependent: :destroy
+  has_many :beholders, dependent: :destroy
   has_many :comment_readers, dependent: :destroy
   has_many :roll_calls, dependent: :destroy
   has_many :inviting_roll_calls, dependent: :nullify, class_name: 'RollCall', foreign_key: :inviter_id
@@ -103,6 +103,7 @@ class User < ApplicationRecord
   has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
   has_many :blinded_issues, dependent: :nullify, class_name: "Issue", foreign_key: :blinded_by_id
   has_many :blinded_groups, dependent: :nullify, class_name: "Group", foreign_key: :blinded_by_id
+  belongs_to :last_visitable, polymorphic: true
 
   ## uploaders
   # mount
@@ -204,9 +205,14 @@ class User < ApplicationRecord
     @cached_group_members[group.id]
   end
 
-  def smart_member(parti)
-    return if parti.blank?
-    (self.cached_channel_member(parti) || self.members.find_by(joinable: parti))
+  def smart_issue_member(issue)
+    return if issue.blank?
+    (self.cached_channel_member(issue) || self.members.find_by(joinable: issue))
+  end
+
+  def smart_group_member(group)
+    return if group.blank?
+    (self.cached_group_member(group) || self.members.find_by(joinable: group))
   end
 
   def cached_channel_member(parti)
@@ -339,8 +345,8 @@ class User < ApplicationRecord
     watched_posts.pinned.order('pinned_at desc')
   end
 
-  def unread_pinned_posts(group = nil)
-    result = pinned_posts.where.not(id: self.readers.select(:post_id))
+  def unbehold_pinned_posts(group = nil)
+    result = pinned_posts.where.not(id: self.beholders.select(:post_id))
     result = result.of_group(group) if group.present?
     result
   end

@@ -24,6 +24,8 @@ class Member < ApplicationRecord
     where(joinable_type: 'Issue', joinable_id: Issue.of_group(group))
     .or(where(joinable_type: 'Group', joinable_id: group.id))
   }
+  scope :visited, -> { where.not(visited_at: nil) }
+  scope :read, -> { where.not(read_at: nil) }
 
   scoped_search relation: :user, on: [:nickname]
   scoped_search relation: :user, on: [:nickname, :email], profile: :admin
@@ -34,7 +36,7 @@ class Member < ApplicationRecord
     joinable if joinable_type == 'Issue'
   end
 
-  def gruop
+  def group
     joinable if joinable_type == 'Group'
   end
 
@@ -43,15 +45,15 @@ class Member < ApplicationRecord
   end
 
   def group_for_message
-    gruop
+    group
   end
 
   def unread_issue?
     return unless joinable_type == 'Issue'
-    return false if self.visited_at.blank?
+    return false if self.read_at.blank?
     return false if self.issue.last_stroked_at.blank?
 
-    self.visited_at < issue.last_stroked_at
+    self.read_at < issue.last_stroked_at
   end
 
   def self.messagable_group_method

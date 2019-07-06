@@ -175,7 +175,7 @@ class PostsController < ApplicationController
         end
       elsif @post.save
         @post.issue.strok_by!(current_user, @post)
-        @post.issue.visit_if_no_unread_posts!(current_user)
+        @post.issue.read_if_no_unread_posts!(current_user)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
         respond_to do |format|
           format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
@@ -214,7 +214,7 @@ class PostsController < ApplicationController
       render :edit_decision
     elsif @post.save
       @post.issue.strok_by!(current_user, @post)
-      @post.issue.visit_if_no_unread_posts!(current_user)
+      @post.issue.read_if_no_unread_posts!(current_user)
       @decision_history = @post.decision_histories.create(body: @post.decision, user: current_user)
       DecisionNotificationJob.perform_async(current_user.id, @decision_history.id)
 
@@ -245,7 +245,7 @@ class PostsController < ApplicationController
     @post.strok_by(current_user)
     @post.save!
     @post.issue.strok_by!(current_user, @post)
-    @post.issue.visit_if_no_unread_posts!(current_user)
+    @post.issue.read_if_no_unread_posts!(current_user)
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification
   end
 
@@ -253,25 +253,25 @@ class PostsController < ApplicationController
     @post.update_attributes(pinned: false)
   end
 
-  def read
-    add_reader(@post)
+  def behold
+    add_beholder(@post)
   end
 
-  def unread
-    remove_reader(@post)
+  def unbehold
+    remove_beholder(@post)
   end
 
-  def readers
+  def beholders
     @issue = @post.issue
-    @readers = @post.readers.recent.page(params[:page]).per(3 * 10)
-    @reader_members = @post.issue.members.where(user_id: @readers.map(&:user_id))
+    @beholders = @post.beholders.recent.page(params[:page]).per(4 * 10)
+    @beholder_members = @post.issue.members.where(user_id: @beholders.map(&:user_id))
   end
 
-  def unreaders
+  def unbeholders
     @issue = @post.issue
 
-    base = @issue.members.where.not(user_id: @post.readers.select(:user_id)).recent
-    @members = base.recent.page(params[:page]).per(3 * 10)
+    base = @issue.members.where.not(user_id: @post.beholders.select(:user_id)).recent
+    @members = base.recent.page(params[:page]).per(4 * 10)
   end
 
   def show
@@ -279,7 +279,7 @@ class PostsController < ApplicationController
       return unless verify_group(@post.issue)
     end
 
-    add_reader(@post) if @post.pinned?
+    add_beholder(@post) if @post.pinned?
     @issue = @post.issue
     @list_url = smart_post_url(@post)
 
@@ -512,17 +512,17 @@ class PostsController < ApplicationController
     issue.private_blocked?(current_user)
   end
 
-  def add_reader(post)
+  def add_beholder(post)
     return unless user_signed_in?
     member = post.issue.members.find_by(user: current_user)
     return if member.blank?
 
-    post.readers.find_or_create_by(user: member.user)
+    post.beholders.find_or_create_by(user: member.user)
   end
 
-  def remove_reader(post)
+  def remove_beholder(post)
     return unless user_signed_in?
-    post.readers.find_by(user: current_user)&.destroy
+    post.beholders.find_by(user: current_user)&.destroy
   end
 
   def set_current_history_back_post

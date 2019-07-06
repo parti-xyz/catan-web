@@ -98,7 +98,7 @@ class Post < ApplicationRecord
   accepts_nested_attributes_for :event
 
   has_many :comments, dependent: :destroy
-  has_many :readers, dependent: :destroy
+  has_many :beholders, dependent: :destroy
   belongs_to :folder, optional: true
   has_many :bookmarks, dependent: :destroy
 
@@ -224,11 +224,26 @@ class Post < ApplicationRecord
     [300, 158]
   end
 
-  def reviewed_by?(someone)
-    return false if someone.blank?
-    return true if upvotes.exists?(user: someone)
-    return true if read_by?(someone)
-    messagable_users.include? someone
+  def viewed_by?(someone)
+    return @_viewed_by if @_viewed_by.present?
+
+    if someone.blank?
+      @_viewed_by = false
+      return false
+    end
+
+    if self.upvotes.exists?(user: someone)
+      @_viewed_by = true
+      return true
+    end
+
+    if self.behold_by?(someone)
+      @_viewed_by = true
+      return true
+    end
+
+    @_viewed_by = messagable_users.include?(someone)
+    return @_viewed_by
   end
 
   def messagable_users
@@ -437,18 +452,6 @@ class Post < ApplicationRecord
     issue.private_blocked?(someone) or issue.group.try(:private_blocked?, someone)
   end
 
-  def read_by?(someone)
-    readers.exists?(user: someone)
-  end
-
-  def can_be_reader?(someone)
-    issue.member?(someone) and !private_blocked?(someone)
-  end
-
-  def need_to_read?(someone)
-    can_be_reader?(someone) and !read_by?(someone)
-  end
-
   def notifiy_pinned_now(someone)
     # Transaction을 걸지 않습니다
     send_notifiy_pinned_emails(someone)
@@ -577,14 +580,19 @@ class Post < ApplicationRecord
   end
 
   def unread? someone
-    return false if someone.blank?
-    member = someone.smart_member(self.issue)
-    return false if member.blank?
+    self.issue.unread_post?(someone, self.last_stroked_at)
+  end
 
-    return false if member.visited_at.blank?
-    return false if self.last_stroked_at.blank?
+  def behold_by?(someone)
+    beholders.exists?(user: someone)
+  end
 
-    member.visited_at < self.last_stroked_at
+  def can_beholder?(someone)
+    issue.member?(someone) and !private_blocked?(someone)
+  end
+
+  def need_to_behold?(someone)
+    can_beholder?(someone) and !behold_by?(someone)
   end
 
   private

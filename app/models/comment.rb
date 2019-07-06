@@ -167,7 +167,7 @@ class Comment < ApplicationRecord
 
   def touch_last_stroked_at_of_issues
     self.issue.strok_by!(self.user, self.post)
-    self.issue.visit_if_no_unread_posts!(self.user)
+    self.issue.read_if_no_unread_posts!(self.user)
   end
 
 end

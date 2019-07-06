@@ -44,7 +44,7 @@
           - else
             = image_tag 'btn_mobile_menu_white.png', 'aria-label': only_mobile_app(request, 'header-slideout-toggle')
       %li.my-home-menu
-        = link_to dashboard_url(subdomain: ''), class: 'btn-header', style: 'float: left' do
+        = link_to dashboard_url(subdomain: nil), class: 'btn-header', style: 'float: left' do
           %i.fa.fa-home{ style: 'font-size: 28px; top: -4px; position: relative;' }
 = render 'application/drawer_menu.mobile'
 

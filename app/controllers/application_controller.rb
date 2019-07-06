@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
 
   after_action :prepare_unobtrusive_flash
   after_action :prepare_store_location
+  after_action :visit_group
 
   layout -> { get_layout }
 
@@ -211,8 +212,8 @@ class ApplicationController < ActionController::Base
     "issues#slug_hashtag" => :dynamic,
     "issues#slug_folders" => "폴더",
     "members#index" => "멤버",
-    "posts#readers" => "확인 회원",
-    "posts#unreaders" => "미확인 회원",
+    "posts#beholders" => "확인 회원",
+    "posts#unbeholders" => "미확인 회원",
     "posts#edit_decision" => "함께 결정하기",
     "posts#decision_histories" => "토론 이력",
     "wikis#histories" => "위키 이력",
@@ -330,5 +331,15 @@ class ApplicationController < ActionController::Base
 
   def cache_member_for_current_user
     current_user.try(:cache_member)
+  end
+
+  def visit_group
+    return unless request.get?
+    return if request.xhr?
+    return if !user_signed_in? or current_user.last_visitable_id_previously_changed?
+
+    if current_group.present? and response.status < 400 and response.status >= 200
+      current_user.update_attributes(last_visitable: current_group)
+    end
   end
 end
