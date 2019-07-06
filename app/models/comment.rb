@@ -44,6 +44,7 @@ class Comment < ApplicationRecord
   scope :unread, -> (someone) {
     where('id >= ?', CommentReader::BEGIN_COMMENT_ID)
     .where.not(user: someone)
+    .where.not('created_at < ?', CommentReader::VALID_PERIOD)
     .where.not(id: CommentReader.where(user_id: someone.try(:id) || 0).select(:comment_id))
   }
 
@@ -135,7 +136,6 @@ class Comment < ApplicationRecord
     return if someone.blank?
     return if self.user == someone
     return if self.created_at < CommentReader::VALID_PERIOD.ago
-    return if self.blinded? someone
     self.comment_readers.find_or_create_by(user: someone)
   end
 
@@ -144,7 +144,6 @@ class Comment < ApplicationRecord
     return true if self.user == someone
     return true if self.created_at < CommentReader::VALID_PERIOD.ago
     return true if self.id < CommentReader::BEGIN_COMMENT_ID
-    return true if self.blinded? someone
     self.comment_readers.exists?(user: someone)
   end
 
