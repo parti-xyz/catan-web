@@ -144,6 +144,12 @@ section.intro-page {
       margin-top: 5px;
       display: block;
       margin-left: 0;
+      @media (max-width: $screen-xs-max) {
+        .parti-admin-btn-container {
+          padding: 2px 0;
+          display: inline-block;
+        }
+      }
     }
     .parti-menu {
       background: rgba(0,0,0,0.2);

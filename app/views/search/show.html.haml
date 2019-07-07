@@ -106,9 +106,7 @@
                     - is_active = true
                   - if params[:group_id].present?
                     = button_tag class: "btn btn-block #{'btn-primary' unless is_active}", name: :search_type, value: :group do
-                      %i.fa.fa-search
                       현재 그룹에서 검색
                     - is_active = true
                   = button_tag class: "btn btn-block #{'btn-primary' unless is_active}", name: :search_type, value: :all do
-                    %i.fa.fa-search
                     모든 빠띠에서 검색

@@ -25,6 +25,14 @@
     padding-top: 0;
     margin-bottom: 0;
     border: none;
+    .form-widget-container .form-widget {
+      .editor-btn.post-wiki-btn {
+        display: none;
+      }
+      .submit-box {
+        float: none;
+      } 
+    }
   }
   background-color: #fff;
   border: 1px solid #fff;
@@ -271,6 +279,9 @@
         .post-form-decision-button {
           display: inline-block;
           margin-right: 10px;
+          &.collapse {
+            display: none;
+          }
         }
 
         .checkbox {

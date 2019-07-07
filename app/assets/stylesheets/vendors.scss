@@ -133,3 +133,8 @@
 .context-menu-item.context-menu-hover {
   background-color: $base-brand-primary;
 }
+
+// bootstrap select
+.parti-select .bootstrap-select .dropdown-menu.open {
+  min-width: 100% !important;
+}

@@ -694,7 +694,8 @@ section.contents-page {
   @media (max-width: $screen-xs-max) {
     body.app-posts-show &,
     body.app-posts-images &,
-    body.app-issues-slug_home & {
+    body.app-issues-slug_home &,
+    body.app-dashboard & {
       padding-top: 0;
     }
     padding: 10px 0;

@@ -54,6 +54,7 @@
 //= require jquery.ui.position
 //= require jquery.contextMenu
 //= require jquery-deepest
+//= require visibilityChanged
 
 // blank
 $.is_blank = function (obj) {
@@ -677,23 +678,24 @@ var parti_prepare = function($base, force) {
 
   // 게시글 쓸때 채널 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
-    $(elm).selectpicker('render');
-    $(elm).on('hide.bs.select', function(e) {
-      var $select_box = $(e.currentTarget);
-      var $form = $(e.currentTarget).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form');
+    $elm = $(elm);
+
+    $elm.selectpicker('render');
+    $elm.parent().on('hide.bs.select', function(e) {
+      var $form = $elm.closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form');
 
       var $input_elm = $form.find('input[name*="[issue_id]"]');
-      var select_value = $select_box.val();
+      var select_value = $elm.val();
       $input_elm.val(select_value);
       $input_elm.trigger('parti-need-to-validate');
 
-      var $selected_option = $select_box.find(":selected");
+      var $selected_option = $elm.find(":selected");
       if($selected_option) {
         var $pin_check_box_wrapper = $form.find('.js-post-form-pin-button');
         if($selected_option.data('can-pin') == true) {
           $pin_check_box_wrapper.css('display', 'inline-block');
         } else {
-          $pin_check_box_wrapper.hide('display', 'none');
+          $pin_check_box_wrapper.css('display', 'none');
         }
 
         var $event_button = $form.find('.js-post-form-experiment');
@@ -702,18 +704,20 @@ var parti_prepare = function($base, force) {
         } else {
           $event_button.hide();
           $form.find('.js-post-form-experiment-cancel-button:visible').map(function(index, elm) {
-            $(elm).trigger('click');
+            $elm.trigger('click');
           });
         }
       }
     });
-    $(elm).on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
+
+    $elm.on('changed.bs.select', function (e, clickedIndex, isSelected, previousValue) {
       var $select_box = $(e.currentTarget);
       var $form = $(e.currentTarget).closest('.js-parti-editor-selector-wrapper').find('form.js-parti-editor-selector-form');
       var $pin_check_box = $form.find('.js-post-form-pin-button input[type="checkbox"]');
       $pin_check_box.prop('checked', false);
     });
-    $(elm).on('loaded.bs.select', function(e) {
+
+    $elm.on('loaded.bs.select', function(e) {
       $(this).show();
     });
   });
@@ -771,6 +775,15 @@ var parti_prepare = function($base, force) {
       } else if($elm.hasClass('js-post-file-btn')) {
         $('.js-post-file-btn').hide();
         $form.find('.js-post-editor-file_sources-add-btn > a').trigger('click');
+      } else if($elm.hasClass('js-post-wiki-btn')) {
+        var url = $elm.data('url');
+        if(url) {
+          var $input_elm = $('form.form-widget input[name*="[issue_id]"]');
+          if($input_elm && $input_elm.val()) {
+            url = url + '?issue_id=' + $input_elm.val();
+          }
+          window.open(url, '_blank');
+        }
       }
       $elm.closest('[data-action="parti-form-validation"]').trigger('parti-need-to-validate');
     }
@@ -2084,26 +2097,6 @@ $(function(){
     $(this).find('.js-join-sign').show();
   });
 
-  $('.js-post-wiki-btn').on('click', function(e) {
-    var url = $(e.currentTarget).attr('href');
-    var param_name = $(e.currentTarget).data('wiki-issue-param-name');
-    var $input_elm = $('form.form-widget input[name*="[issue_id]"]');
-
-    if($input_elm && $input_elm.val()) {
-      url = url + '?' + param_name + '=' + $input_elm.val();
-    }
-
-    if($.is_present($(e.currentTarget).attr('target'))) {
-      window.open(url, $(e.currentTarget).attr('target'));
-    } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
-      window.open(url, '_blank');
-    } else {
-      window.location.href  = url;
-    }
-
-    e.preventDefault();
-  });
-
   // 글쓰기 - 파일업로드
   (function() {
     var formatBytes = function(bytes,decimals) {
@@ -2259,8 +2252,10 @@ $(function(){
     });
   });
 
+  // 특정 영역을 클릭할 때
   (function() {
-    var callback = function(e) {
+    // 기본 콜백
+    var default_callback = function(e) {
       var href = $(e.target).closest('a').attr('href')
       if (href && href != "#") {
         return true;
@@ -2304,8 +2299,11 @@ $(function(){
       }
     }
 
+    var $__sidebar_scroll_container = $('.js-sidebar-scroll-container').first();
+
+    // 사이드바에서 현재 선택된 영역까지 얼마나 스크롤 해야하는지 선택
     var current_scroll_to = function($current_group_issue) {
-      var scroll_to = $('#js-main-panel-sidbar').scrollTop();
+      var scroll_to = $__sidebar_scroll_container.scrollTop();
       if($current_group_issue && $current_group_issue.length > 0) {
         $current_group_issue.prevAll().each(function(index, elm){
           var $unfold = $(elm).find('.js-sidemenu-toggle-issues-unfold');
@@ -2319,36 +2317,59 @@ $(function(){
       return 0;
     }
 
-    $(document).on('parti-drawer-init-scroll', function(e) {
-      var scolllTo = Cookies.get('sidebarScroll.' + location.host);
-      if(scolllTo) {
-        $('#js-main-panel-sidbar').scrollTop(scolllTo);
+    var scroll_sidebar_callback = function(e) {
+      // 가급적 빨리 쿠키를 처리
+      var scrollto_from_cookie = Cookies.get('sidebarScroll.' + location.host);
+      if(scrollto_from_cookie) {
         Cookies.remove('sidebarScroll.' + location.host, { domain: __root_domain });
-        sessionStorage.sidebarScroll = scolllTo;
+        sessionStorage.sidebarScroll = scrollto_from_cookie;
+      }
+
+      var $elm = $('.js-sidemenu-highlight-current-item').first();
+      if($elm.length <= 0) {
+        return;
+      }
+
+      // 사이드바 활성화 여부 판단
+      if($elm.offset().top === 0 && $elm.offset().left === 0) {
+        var scroll_sidebar_callback_on_slideopen = function(e) {
+          scroll_sidebar_callback(e);
+          $(document).off("parti-slide-open", scroll_sidebar_callback_on_slideopen);
+        }
+        $(document).off("parti-slide-open", scroll_sidebar_callback_on_slideopen);
+        $(document).on("parti-slide-open", scroll_sidebar_callback_on_slideopen);
+        return;
+      }
+
+      if(scrollto_from_cookie) {
+        $__sidebar_scroll_container.scrollTop(scrollto_from_cookie);
         return;
       }
 
       if(sessionStorage.sidebarScroll) {
-        $('#js-main-panel-sidbar').scrollTop(sessionStorage.sidebarScroll);
+        $__sidebar_scroll_container.scrollTop(sessionStorage.sidebarScroll);
       }
 
-      var $elm = $('.js-sidemenu-highlight-current-item').first();
-      if($.viewport('inviewport', $elm,  {threshold : -1 * $elm.outerHeight()})) {
+      if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()})) {
         return;
       }
 
       var $current_group_issue = $elm.parents('.js-group-issues-line').first();
-      $('#js-main-panel-sidbar').scrollTo($current_group_issue);
-      if(!$.viewport('inviewport', $elm,  {threshold : -1 * $elm.outerHeight()})) {
-        $('#js-main-panel-sidbar').scrollTo($elm, {
-          offset: {
-            top: (-1 * $('#js-main-panel-sidbar').innerHeight() + 2 * $elm.outerHeight() + $('#site-header').outerHeight())
-          }
-        });
+      $__sidebar_scroll_container.scrollTo($current_group_issue);
+
+      if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()})) {
+        return;
       }
-      scolllTo = $('#js-main-panel-sidbar').scrollTop();
-      sessionStorage.sidebarScroll = scolllTo;
-    });
+
+      $__sidebar_scroll_container.scrollTo($elm, {
+        offset: {
+          top: (-1 * $__sidebar_scroll_container.innerHeight() + 2 * $elm.outerHeight() + $('#site-header').outerHeight())
+        }
+      });
+
+      sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
+    }
+    $(document).on('parti-drawer-init-scroll', scroll_sidebar_callback);
 
     $(document).on('click', '[data-action="parti-issue-link"]', function(e) {
       $elm = $(e.currentTarget);
@@ -2364,10 +2385,10 @@ $(function(){
         Cookies.set('sidebarScroll.' + group_subdomain + '.' + __root_domain, current_scroll_to($current_group_issue), { domain: __root_domain });
       }
 
-      callback(e);
+      default_callback(e);
     });
 
-    $(document).on('click', '[data-action="parti-link"]', callback);
+    $(document).on('click', '[data-action="parti-link"]', default_callback);
   })();
 
   $(document).on('click', 'a.js-download', function(e) {
@@ -2547,7 +2568,7 @@ $(function(){
     });
 
     slideout.on('beforeopen', function () {
-      $(document).trigger("parti-slide-open");
+      $(document).trigger("parti-slide-beforeopen");
       if($fixed.length > 0) {
         $fixed.css('transition', 'transform 300ms ease');
         $fixed.css('transform', 'translateX(256px)');
@@ -2570,6 +2591,7 @@ $(function(){
     });
 
     slideout.on('open', function () {
+      $(document).trigger("parti-slide-open");
       $(document).trigger('parti-ios-virtaul-keyboard-close-for-tinymce');
       if($fixed.length > 0) {
         $fixed.css('transition', '');
@@ -2602,6 +2624,16 @@ $(function(){
       } else {
         $('#js-main-panel').addClass('sidebar-open');
         Cookies.set('sidebar-open', true, { domain: '.' + __root_domain });
+        $('#js-main-panel .js-sidebar-scroll-container').visibilityChanged({
+          runOnLoad: true,
+          frequency: 100,
+          previousVisibility : false,
+          callback: function(_, visible) {
+            if(visible) {
+              $(document).trigger("parti-slide-open");
+            }
+          }
+        });
       }
       $('#js-main-panel').removeClass('sidebar-open-in-advance');
       $('.js-bottom-banner').trigger('parti-resize-bottom-banner');
