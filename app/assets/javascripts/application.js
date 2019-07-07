@@ -2259,49 +2259,116 @@ $(function(){
     });
   });
 
-  $(document).on('click', '[data-action="parti-link"]', function(e) {
-    var href = $(e.target).closest('a').attr('href')
-    if (href && href != "#") {
-      return true;
-    }
+  (function() {
+    var callback = function(e) {
+      var href = $(e.target).closest('a').attr('href')
+      if (href && href != "#") {
+        return true;
+      }
 
-    var $no_parti_link = $(e.target).closest('[data-no-parti-link="no"]')
-    if ($no_parti_link.length) {
-      return true;
-    }
+      var $no_parti_link = $(e.target).closest('[data-no-parti-link="no"]')
+      if ($no_parti_link.length) {
+        return true;
+      }
 
-    var $no_parti_link = $(e.target).closest('[data-toggle="parti-login-overlay"]')
-    if ($no_parti_link.length) {
-      return true;
-    }
+      var $no_parti_link = $(e.target).closest('[data-toggle="parti-login-overlay"]')
+      if ($no_parti_link.length) {
+        return true;
+      }
 
-    e.preventDefault();
-    var url = $(e.currentTarget).data("url");
-    if(!url) {
-      var $url_source = $($(e.currentTarget).data("url-source"));
-      if($url_source.length > 0) {
-        url = $url_source.data("url");
+      e.preventDefault();
+      var url = $(e.currentTarget).data("url");
+      if(!url) {
+        var $url_source = $($(e.currentTarget).data("url-source"));
+        if($url_source.length > 0) {
+          url = $url_source.data("url");
+        }
+      }
+
+      if(!url) {
+        return;
+      }
+
+      var type = $(e.currentTarget).data("type");
+      if("remote" == type) {
+        $.ajax({
+          url: url,
+          type: "get"
+        });
+      } else if($.is_present($(this).data('link-target'))) {
+        window.open(url, $(this).data('link-target'));
+      } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
+        window.open(url, '_blank');
+      } else {
+        window.location.href  = url;
       }
     }
 
-    if(!url) {
-      return;
+    var current_scroll_to = function($current_group_issue) {
+      var scroll_to = $('#js-main-panel-sidbar').scrollTop();
+      if($current_group_issue && $current_group_issue.length > 0) {
+        $current_group_issue.prevAll().each(function(index, elm){
+          var $unfold = $(elm).find('.js-sidemenu-toggle-issues-unfold');
+          if($unfold.length > 0) {
+            scroll_to -= $unfold.outerHeight();
+          }
+        });
+        return scroll_to;
+      }
+
+      return 0;
     }
 
-    var type = $(e.currentTarget).data("type");
-    if("remote" == type) {
-      $.ajax({
-        url: url,
-        type: "get"
-      });
-    } else if($.is_present($(this).data('link-target'))) {
-      window.open(url, $(this).data('link-target'));
-    } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
-      window.open(url, '_blank');
-    } else {
-      window.location.href  = url;
-    }
-  });
+    $(document).on('parti-drawer-init-scroll', function(e) {
+      var scolllTo = Cookies.get('sidebarScroll.' + location.host);
+      if(scolllTo) {
+        $('#js-main-panel-sidbar').scrollTop(scolllTo);
+        Cookies.remove('sidebarScroll.' + location.host, { domain: __root_domain });
+        sessionStorage.sidebarScroll = scolllTo;
+        return;
+      }
+
+      if(sessionStorage.sidebarScroll) {
+        $('#js-main-panel-sidbar').scrollTop(sessionStorage.sidebarScroll);
+      }
+
+      var $elm = $('.js-sidemenu-highlight-current-item').first();
+      if($.viewport('inviewport', $elm,  {threshold : -1 * $elm.outerHeight()})) {
+        return;
+      }
+
+      var $current_group_issue = $elm.parents('.js-group-issues-line').first();
+      $('#js-main-panel-sidbar').scrollTo($current_group_issue);
+      if(!$.viewport('inviewport', $elm,  {threshold : -1 * $elm.outerHeight()})) {
+        $('#js-main-panel-sidbar').scrollTo($elm, {
+          offset: {
+            top: (-1 * $('#js-main-panel-sidbar').innerHeight() + 2 * $elm.outerHeight() + $('#site-header').outerHeight())
+          }
+        });
+      }
+      scolllTo = $('#js-main-panel-sidbar').scrollTop();
+      sessionStorage.sidebarScroll = scolllTo;
+    });
+
+    $(document).on('click', '[data-action="parti-issue-link"]', function(e) {
+      $elm = $(e.currentTarget);
+
+      var $current_group_issue = $elm.parents('.js-group-issues-line').first();
+      if(!$current_group_issue || $current_group_issue.length < 0) {
+        return;
+      }
+
+      var group_id = $current_group_issue.data('sidemenu-toggle-group-id');
+      var group_subdomain = $current_group_issue.data('sidemenu-toggle-group-subdomain');
+      if(group_id && group_subdomain) {
+        Cookies.set('sidebarScroll.' + group_subdomain + '.' + __root_domain, current_scroll_to($current_group_issue), { domain: __root_domain });
+      }
+
+      callback(e);
+    });
+
+    $(document).on('click', '[data-action="parti-link"]', callback);
+  })();
 
   $(document).on('click', 'a.js-download', function(e) {
     var url = $(e.currentTarget).attr("href");

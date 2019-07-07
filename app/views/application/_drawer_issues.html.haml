@@ -3,10 +3,10 @@
 - elsif local_assigns[:target_group].present?
   - [target_group]
 - else
-  - ([host_group] + Group.sort_by_name.joined_groups(current_user).but(host_group).includes(:categories).to_a)
+  - Group.sort_by_name.joined_groups(current_user).includes(:categories).to_a
 - all_issues = current_user&.member_issues&.alive&.sort_by_name.to_a
 - menu_groups.each do |menu_group|
-  %li.js-group-issues-line.group-issues-container.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id }
+  %li.js-group-issues-line.group-issues-container.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id, 'data-sidemenu-toggle-group-subdomain': menu_group.subdomain }
     - issues = all_issues.select{ |issue| issue.group_slug == menu_group.slug }
     - if issues.blank?
       - issues = menu_group.issues.searchable_issues.to_a
@@ -24,9 +24,9 @@
           #{group_sidemenu_title(menu_group)}
 
     - if issues.any?
-      .group-issues-list.js-sidemenu-toggle-issues{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
+      .group-issues-list.js-sidemenu-toggle-issues.js-drawer-link{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
         %ul.sub.list-unstyled
-          %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id}", "data-action": "parti-link", "data-url": smart_group_url(menu_group) }
+          %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id}", "data-action": "parti-issue-link", "data-url": smart_group_url(menu_group) }
             .media
               .media-left
                 .issue-line__thumb.text-center
@@ -34,7 +34,7 @@
               .media-body
                 그룹 홈
         - if menu_group.categories.any?
-          - (menu_group.categories.to_a << nil).each do |category|
+          - (menu_group.categories.sort_by_name.to_a << nil).each do |category|
             - categorized_issues = issues.select{ |issue| issue.category_id == category&.id }
             - next if categorized_issues.empty?
 

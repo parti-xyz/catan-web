@@ -24,6 +24,7 @@ $('.js-sidemenu-highlight-current-parti-source').each(function(index) {
 
   if(highlight_menu.length > 0) {
     highlight_menu.addClass('highlight');
+    highlight_menu.addClass('js-sidemenu-highlight-current-item');
     highlight_menu.closest('.js-sidemenu-toggle-group').find('.js-sidemenu-toggle').trigger('click', 'unfold');
     need_to_group_highlight = false;
   }
@@ -35,6 +36,7 @@ $('.js-sidemenu-highlight-current-group-source').each(function(index) {
 
   if(highlight_menu.length > 0) {
     highlight_menu.addClass('highlight');
+    highlight_menu.addClass('js-sidemenu-highlight-current-item');
     highlight_menu.closest('.js-sidemenu-toggle-group').find('.js-sidemenu-toggle').trigger('click', 'unfold');
     need_to_group_highlight = false;
   }
@@ -45,9 +47,13 @@ $('.js-sidemenu-highlight-current-group-source').each(function(index) {
     var $current_group_source = $('.js-sidemenu-highlight-current-group-source');
     var current_group_id;
     if($current_group_source.length > 0) {
-      $('.js-sidemenu-highlight-menu-group-home-<%= current_group.id %>').addClass('highlight');
+      $('.js-sidemenu-highlight-menu-group-home-<%= current_group.id %>').addClass('highlight')
+      $('.js-sidemenu-highlight-menu-group-home-<%= current_group.id %>').addClass('js-sidemenu-highlight-current-item');
     } else {
-      $('.js-sidemenu-highlight-menu-group-<%= current_group.id %>').addClass('highlight');
+      $('.js-sidemenu-highlight-menu-group-<%= current_group.id %>').addClass('highlight')
+      $('.js-sidemenu-highlight-menu-group-<%= current_group.id %>').addClass('js-sidemenu-highlight-current-item');
     }
   }
 <% end %>
+
+$(document).trigger('parti-drawer-init-scroll');

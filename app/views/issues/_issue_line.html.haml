@@ -22,7 +22,7 @@
 - link_to_parti = if local_assigns[:no_link]
   - {}
 - else
-  - { 'action': "parti-link", 'url': (issue_url unless local_assigns[:no_link]) }
+  - { 'action': "parti-issue-link", 'url': (issue_url unless local_assigns[:no_link]) }
 %li.issue-line{ data: (local_assigns[:link_whole_line] ? link_to_parti : {}).merge(local_assigns[:issue_data] || {}), class: "#{local_assigns[:issue_classes]} #{('cursor-pointer' if (link_to_parti.any? and local_assigns[:link_whole_line]))}" }
   .media.js-issue-line-hover
     - if local_assigns[:left_block].present?
