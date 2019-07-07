@@ -88,6 +88,25 @@ class FoldersController < ApplicationController
       return
     end
 
+    case params['item_type']
+    when "Folder"
+      if @current_instance.siblings.exists?(folder_seq: 0)
+        @current_instance.siblings.to_a.sort_by{ |folder| Folder.compare_keys(folder) }.each_with_index do |folder, index|
+          if folder.folder_seq != index + 1
+            folder.update_columns(folder_seq: index + 1)
+          end
+        end
+      end
+    when "Post"
+      if @current_instance.folder.posts.exists?(folder_seq: 0)
+        @current_instance.folder.posts.order_by_folder_seq.to_a.each_with_index do |post, index|
+          if post.folder_seq != index + 1
+            post.update_columns(folder_seq: index + 1)
+          end
+        end
+      end
+    end
+
     mark_seq(nil, (payload || []), @issue, @current_instance)
   end
 
@@ -126,7 +145,6 @@ class FoldersController < ApplicationController
   def mark_seq(parent_folder_item, items, issue, current_instance)
     parent_folder_id = parent_folder_item.try(:fetch, 'item_id')
 
-    logger.debug(current_instance.class.name.inspect)
     current_index = items.index do |item|
       item['item_type'] == current_instance.class.name and item['item_id'] == current_instance.id
     end
@@ -158,7 +176,7 @@ class FoldersController < ApplicationController
 
           downer_instance = (downer_item['item_type']).safe_constantize.try(:find_by, {id: downer_item['item_id'], "#{parent_folder_column(current_item)}": parent_folder_id})
         end
-        downer_instance.try(:folder_seq) || 0
+        downer_instance.try(:folder_seq) || items.length + 1
       end
 
       ActiveRecord::Base.transaction do

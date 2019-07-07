@@ -604,7 +604,7 @@
       var that = this,
       childType = isContainer ? "item" : "container",
 
-      children = this.$getChildren(parent, childType).not(this.options.exclude).map(function () {
+      children = this.$getChildren(parent, childType).map(function () {
         return that._serialize($(this), !isContainer)
       }).get()
 

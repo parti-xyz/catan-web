@@ -3,7 +3,7 @@
   - item_type = 'post'
 
 - is_open_parent_folder = opened_folder?(parent_folder)
-.folder-rows.js-folder-rows.js-draggable-slug-folder-rows.js-draggable-slug-folder-draggable{ 'data-draggable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json), 'data-draggable-slug-folder-item-type': 'folder' }
+.folder-rows.js-folder-rows.js-draggable-slug-folder-rows.js-draggable-slug-folder-draggable.js-draggable-slug-folder-draggable-exclude{ 'data-draggable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json), 'data-draggable-slug-folder-item-type': 'folder' }
 
   - is_empty = true
   - capture_child_folder_items = capture do

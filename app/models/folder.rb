@@ -7,6 +7,7 @@ class Folder < ApplicationRecord
 
   scope :only_parent, -> { where(parent_id: nil) }
   scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order('title') }
+  scope :sort_by_folder_seq, -> { order(folder_seq: :asc) }
 
   validates :title, uniqueness: {scope: [:issue_id]}
   validate :check_parent_id
@@ -32,6 +33,14 @@ class Folder < ApplicationRecord
 
   def parent_or_self
     parent || self
+  end
+
+  def siblings
+    if parent.blank?
+      self.issue.folders.only_parent
+    else
+      self.parent.children
+    end
   end
 
   def check_parent_id
