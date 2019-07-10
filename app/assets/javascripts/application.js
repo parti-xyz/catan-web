@@ -1561,7 +1561,6 @@ var parti_prepare = function($base, force) {
       var $rename_form_elm = $elm.find('.js-folder-item-rename-form');
       var $rename_title_field_elm = $elm.find('.js-folder-item-rename-text-field');
       var $content_elm = $elm.find('.js-folder-item-renamable-content');
-      var $dragging_base_elm = $('.js-draggable-slug-folder');
 
       var esc_handler = function(e) {
         if (e.keyCode == 27) { // escape key maps to keycode `27`
@@ -1588,7 +1587,6 @@ var parti_prepare = function($base, force) {
 
         if(!active) {
           $current_elm.removeClass('active');
-          $dragging_base_elm.trigger('parti-draggable-slug-folder-disable', $current_elm);
         }
         $current_elm.removeClass('js-try-to-rename');
         $current_elm.removeClass('js-renaming');
@@ -1696,7 +1694,6 @@ var parti_prepare = function($base, force) {
           }
         } else {
           $elm.addClass('active');
-          $dragging_base_elm.trigger('parti-draggable-slug-folder-enable', $elm);
           var item_type = $elm.data('folder-item-type');
           var item_id = $elm.data('folder-item-id');
           Cookies.set('latest_active_folder_item', item_type + '#' + item_id, { domain: '.' + __root_domain, expires: 7 });
@@ -1721,7 +1718,6 @@ var parti_prepare = function($base, force) {
         });
 
         $elm.addClass('active');
-        $dragging_base_elm.trigger('parti-draggable-slug-folder-enable', $elm);
       });
 
       $elm.on('parti-folder-item-force-rename', function(e, data) {
@@ -1827,11 +1823,11 @@ var parti_prepare = function($base, force) {
           containerPath: '', // The exact css path between the container and its item
           containerSelector: '.js-draggable-slug-folder-container',
           itemSelector: '.js-draggable-slug-folder-draggable', // The exact css path between the item and its subcontainers.
-          exclude: '.js-draggable-slug-folder-draggable-exclude',
           bodyClass: 'draggable-slug-folder-dragging',
           draggedClass: 'draggable-slug-folder-dragged',
           placeholderClass: 'draggable-slug-folder-placeholder',
           placeholder: '<div class="draggable-slug-folder-placeholder collapse"></div>',
+          delay: 300,
           afterMove: function($placeholder, container, $closestItemOrContainer) {
             $current_placeholder = $placeholder;
 
@@ -1912,7 +1908,6 @@ var parti_prepare = function($base, force) {
               payload_json = JSON.stringify(data, null, ' ');
               autosave_payload($item.data('draggable-slug-folder-json-params'));
             } else {
-              console.log('container blank!')
             }
           },
           serialize: function($parent, $children, parentIsContainer) {
@@ -1932,7 +1927,6 @@ var parti_prepare = function($base, force) {
 
             var container_depth = container.el.parents('.js-draggable-slug-folder-container').length;
             var current_depth = depth($item);
-            console.log(container.el[0]);
             return valid_type && (current_depth === 0 || (container_depth + current_depth <= max_depth));
           },
         });
@@ -1965,29 +1959,6 @@ var parti_prepare = function($base, force) {
         var data = $(this).sortable("serialize").get();
         payload_json = JSON.stringify(data, null, ' ');
         autosave_payload();
-      });
-
-      $base_elm.on('parti-draggable-slug-folder-enable', function(e, active_elm) {
-        var $active_elm = $(active_elm);
-        var $draggable;
-        if($active_elm.hasClass('js-draggable-slug-folder-draggable')) {
-          $draggable = $active_elm;
-        } else {
-          $draggable = $active_elm.closest('.js-draggable-slug-folder-draggable');
-        }
-        $('.js-draggable-slug-folder-draggable').addClass('js-draggable-slug-folder-draggable-exclude');
-        $draggable.removeClass('js-draggable-slug-folder-draggable-exclude');
-      });
-
-      $base_elm.on('parti-draggable-slug-folder-disable', function(e, inactive_elm) {
-        var $inactive_elm = $(inactive_elm);
-        var $draggable;
-        if($inactive_elm.hasClass('js-draggable-slug-folder-draggable')) {
-          $draggable = $inactive_elm;
-        } else {
-          $draggable = $inactive_elm.closest('.js-draggable-slug-folder-draggable');
-        }
-        $draggable.addClass('js-draggable-slug-folder-draggable-exclude');
       });
     });
   })();
