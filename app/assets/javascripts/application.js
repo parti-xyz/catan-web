@@ -157,6 +157,37 @@ $.validator.addMethod('filesize', function(value, element, param) {
 
 var __root_domain = $('body').data('root-domain');
 
+var __current_issue_id = function() {
+  var $current_parti_source = $('.js-sidemenu-highlight-current-parti-source');
+  var current_parti_id = '';
+  if($current_parti_source.length > 0) {
+    current_parti_id = $current_parti_source.data('sidemenu-highlight-current-parti-id');
+  }
+
+  return current_parti_id;
+}
+
+var __current_group_id = function() {
+  var current_group_id = '';
+
+  var $current_group_source = $('.js-sidemenu-highlight-current-group-source');
+  if($current_group_source.length > 0) {
+    current_group_id = $current_group_source.data('sidemenu-highlight-current-group-id');
+  }
+
+  if(current_group_id) {
+    return current_group_id;
+  }
+
+  var $current_parti_source = $('.js-sidemenu-highlight-current-parti-source');
+  if($current_parti_source.length > 0) {
+    return $current_parti_source.data('sidemenu-highlight-current-group-id');
+  }
+
+  return current_group_id;
+}
+
+
 $.parti_apply = function($base, query, callback) {
   $.each($base.find(query).addBack(query), function(i, elm){
     callback(elm);
@@ -834,29 +865,34 @@ var parti_prepare = function($base, force) {
   $.parti_apply($base, '.js-header-search', function(elm) {
     var $elm = $(elm);
 
+    var init_menu = function() {
+      var active = 'all';
+      if(__current_group_id()) {
+        active = 'group';
+      }
+      if(__current_issue_id()) {
+        active = 'issue';
+      }
+
+      if(active !== 'all') {
+        $('.js-header-search-default-badge').show();
+        $('.js-header-search-default-badge-' + active).show();
+      }
+
+      if(active === ' group') {
+        $elm.find('.js-header-search-dropdown-item[data-header-search-type="all"]').show();
+      } else if(active === 'issue') {
+        $elm.find('.js-header-search-dropdown-item[data-header-search-type="all"]').show();
+        $elm.find('.js-header-search-dropdown-item[data-header-search-type="group"]').show();
+      }
+    }
+    init_menu();
+
     var hide_menu = function() {
-      $elm.find('.js-header-search-dropdown-item').hide();
       $elm.find('.js-header-search-dropdown').hide();
     }
 
     var show_menu = function() {
-      $elm.find('.js-header-search-dropdown-item').removeClass('active');
-
-      $elm.find('.js-header-search-dropdown-item[data-header-search-type="all"]').show();
-      var active = 'all';
-      if(_current_group_id()) {
-        $elm.find('.js-header-search-dropdown-item[data-header-search-type="group"]').show();
-        active = 'group';
-      } else {
-        $elm.find('.js-header-search-dropdown-item[data-header-search-type="group"]').hide();
-      }
-      if(_current_issue_id()) {
-        $elm.find('.js-header-search-dropdown-item[data-header-search-type="issue"]').show();
-        active = 'issue';
-      } else {
-        $elm.find('.js-header-search-dropdown-item[data-header-search-type="issue"]').hide();
-      }
-      $elm.find('.js-header-search-dropdown-item[data-header-search-type="' + active + '"]').addClass('active');
       $elm.find('.js-header-search-dropdown').show();
     }
 
@@ -890,8 +926,8 @@ var parti_prepare = function($base, force) {
         return;
       }
       $elm.find('input[name="search_type"]').val($(e.currentTarget).data('header-search-type'));
-      $elm.find('input[name="group_id"]').val(_current_group_id());
-      $elm.find('input[name="issue_id"]').val(_current_issue_id());
+      $elm.find('input[name="group_id"]').val(__current_group_id());
+      $elm.find('input[name="issue_id"]').val(__current_issue_id());
       $elm.submit();
     });
 
@@ -899,12 +935,12 @@ var parti_prepare = function($base, force) {
       var current_search_type = $elm.find('input[name="search_type"]').val();
       if($.is_blank(current_search_type)) {
         $elm.find('input[name="search_type"]').val('all');
-        if(_current_group_id()) {
-          $elm.find('input[name="group_id"]').val(_current_group_id());
+        if(__current_group_id()) {
+          $elm.find('input[name="group_id"]').val(__current_group_id());
           $elm.find('input[name="search_type"]').val('group');
         }
-        if(_current_issue_id()) {
-          $elm.find('input[name="issue_id"]').val(_current_issue_id());
+        if(__current_issue_id()) {
+          $elm.find('input[name="issue_id"]').val(__current_issue_id());
           $elm.find('input[name="search_type"]').val('issue');
         }
       }
@@ -915,8 +951,8 @@ var parti_prepare = function($base, force) {
     $(elm).on('click', function(e) {
       e.preventDefault();
       var href = $(e.currentTarget).attr('href');
-      href += '?group_id=' + _current_group_id();
-      href += '&issue_id=' + _current_issue_id();
+      href += '?group_id=' + __current_group_id();
+      href += '&issue_id=' + __current_issue_id();
       location.href = href;
     });
   });
@@ -1489,44 +1525,14 @@ var parti_prepare = function($base, force) {
     });
   });
 
-  var _current_issue_id = function() {
-    var $current_parti_source = $('.js-sidemenu-highlight-current-parti-source');
-    var current_parti_id = '';
-    if($current_parti_source.length > 0) {
-      current_parti_id = $current_parti_source.data('sidemenu-highlight-current-parti-id');
-    }
-
-    return current_parti_id;
-  }
-
-  var _current_group_id = function() {
-    var current_group_id = '';
-
-    var $current_group_source = $('.js-sidemenu-highlight-current-group-source');
-    if($current_group_source.length > 0) {
-      current_group_id = $current_group_source.data('sidemenu-highlight-current-group-id');
-    }
-
-    if(current_group_id) {
-      return current_group_id;
-    }
-
-    var $current_parti_source = $('.js-sidemenu-highlight-current-parti-source');
-    if($current_parti_source.length > 0) {
-      return $current_parti_source.data('sidemenu-highlight-current-group-id');
-    }
-
-    return current_group_id;
-  }
-
   $.parti_apply($base, '.js-lazy-partal-load-drawer', function(elm) {
     $.ajax({
       url: $(elm).data('url'),
       type: 'get',
       crossDomain: false,
       data:{
-        issue_id: _current_issue_id(),
-        group_id: _current_group_id(),
+        issue_id: __current_issue_id(),
+        group_id: __current_group_id(),
       },
       xhrFields: {
         withCredentials: true

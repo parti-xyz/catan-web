@@ -46,23 +46,20 @@
             = hidden_field_tag :issue_id
             = hidden_field_tag :search_type
             .form-group.form-group-q.dropdown
-              %input.form-control.form-control-q.js-header-search-input{ name: "nav_q", value: params[:nav_q] || (tagify(params[:hashtag]) if params[:hashtag].present?), placeholder: "검색", type: "search", autocomplete: "off" }
+              %input.form-control.form-control-q.js-header-search-input.fontawesome-placeholder{ name: "nav_q", value: params[:nav_q] || (tagify(params[:hashtag]) if params[:hashtag].present?), placeholder: raw('&#xf002;'), type: "search", autocomplete: "off" }
               %span.btn-wrapper
-                %button.btn.btn-link
-                  %i.fa.fa-search
+                .btn.btn-default.btn-xs.js-header-search-default-badge.collapse{ style: 'margin: 6px 0'}
+                  %span.js-header-search-default-badge-issue.collapse 현재 채널 검색
+                  %span.js-header-search-default-badge-group.collapse 현재 그룹 검색
               %ul.dropdown-menu.dropdown-menu-right.js-header-search-dropdown.collapse
-                %li.js-header-search-dropdown-item.collapse{ 'data-header-search-type': 'issue' }
-                  .dropdown-item-content.only-clickable
-                    %span.dropdown-item-q.js-header-search-dropdown-value
-                    %span.badge.badge-white 현재 채널에서 검색
                 %li.js-header-search-dropdown-item.collapse{ 'data-header-search-type': 'group' }
                   .dropdown-item-content.only-clickable
                     %span.dropdown-item-q.js-header-search-dropdown-value
-                    %span.badge.badge-white 현재 그룹에서 검색
+                    .btn.btn-default.btn-xs 현재 그룹 검색
                 %li.js-header-search-dropdown-item.collapse{ 'data-header-search-type': 'all' }
                   .dropdown-item-content.only-clickable
                     %span.dropdown-item-q.js-header-search-dropdown-value
-                    %span.badge.badge-white 모든 빠띠에서 검색
+                    .btn.btn-default.btn-xs 모든 빠띠 검색
 
         - if user_signed_in?
           %li.write-menu.dropdown

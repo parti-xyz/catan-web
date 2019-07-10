@@ -967,3 +967,35 @@ diffremoved {
 difftouched {
   display: inline-block;
 }
+
+.fontawesome-placeholder::placeholder {
+  font-family: FontAwesome;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+}
+
+
+.fontawesome-placeholder:-ms-input-placeholder {
+  font-family: FontAwesome;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+}
+
+
+.fontawesome-placeholder::-webkit-input-placeholder {
+  font-family: FontAwesome;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+}
