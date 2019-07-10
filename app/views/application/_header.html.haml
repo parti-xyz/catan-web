@@ -77,12 +77,16 @@
                 = link_to new_wiki_posts_url, target: '_blank', data: { 'disable-with': '여는 중...' } do
                   위키 작성
               - if current_group.present?
+                %li.divider
                 %li
                   = link_to new_issue_path do
                     새 채널 개설하기
+                    .text-muted #{current_group.title} 그룹 안에서 주제별로 이야기를 나눠보새요
+              %li.divider
               %li
                 = link_to new_group_configuration_url(subdomain: nil) do
                   새 그룹 개설하기
+                  .text-muted 같은 이슈와 관심사를 공유하는 사람들을 찾아보세요
 
         - if user_signed_in?
           %li.profile-menu.dropdown
