@@ -1040,7 +1040,7 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       var tinymce_instance = $elm.tinymce({
-        cache_suffix: '?v=5.0.5.4',
+        cache_suffix: '?v=5.0.5.5',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1064,8 +1064,8 @@ var parti_prepare = function($base, force) {
         sticky_offset: 51,
         valid_classes: '',
         valid_styles: '',
-        extended_valid_elements : 'div,span,diffremoved,diffadded',
-        custom_elements : '~diffremoved,~diffadded',
+        extended_valid_elements : 'div,span,diffremoved,diffadded,cursorbr[id]',
+        custom_elements : '~diffremoved,~diffadded,~cursorbr',
       });
 
       $elm.on('parti-tinymce-conflict', function(e) {
@@ -1102,7 +1102,7 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       $elm.tinymce({
-        cache_suffix: '?v=5.0.5.4',
+        cache_suffix: '?v=5.0.5.5',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1130,8 +1130,8 @@ var parti_prepare = function($base, force) {
         },
         valid_classes: '',
         valid_styles: '',
-        extended_valid_elements : 'span,diffremoved,diffadded',
-        custom_elements : '~diffremoved,~diffadded',
+        extended_valid_elements : 'span,diffremoved,diffadded,cursorbr[id]',
+        custom_elements : '~diffremoved,~diffadded,~cursorbr',
         setup: function (editor) {
           // link opender
           editor.on('init', function(){
