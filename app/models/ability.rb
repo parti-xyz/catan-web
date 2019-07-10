@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user, current_group)
-    can [:read, :behold, :unbehold, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form, :header], :all
+    can [:read, :read_all, :behold, :unbehold, :poll_social_card, :survey_social_card, :partial, :modal, :magic_form, :header], :all
     can [:home, :slug, :users, :exist, :new_posts_count, :slug_home,
       :slug_members, :slug_links_or_files,
       :slug_posts, :slug_wikis, :search, :slug_polls_or_surveys, :new, :slug_hashtag,
@@ -21,9 +21,6 @@ class Ability
       end
       can [:pin], Issue do |issue|
         user.is_organizer?(issue)
-      end
-      can [:visit], [Issue] do |issue|
-        issue.member?(user)
       end
       can [:create, :new], Folder
       can [:destroy, :update, :detach_post, :attach_post], [Folder] do |folder|

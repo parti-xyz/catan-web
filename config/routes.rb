@@ -97,7 +97,7 @@ Rails.application.routes.draw do
       delete :remove_my_menu
       put :update_category
       delete :destroy_category
-      post :visit
+      post :read_all
       get :header
     end
     collection do

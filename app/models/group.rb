@@ -323,13 +323,7 @@ class Group < ApplicationRecord
   def issue_create_messagable_users
     member_users.where(id: GroupPushNotificationPreference.where(group: self).select(:user_id))
   end
-
-  def visit!(someone)
-    member = someone.smart_group_member(self)
-    return if member.blank?
-    member.update_columns(visited_at: DateTime.now)
-  end
-
+  
   private
 
   def downcase_slug

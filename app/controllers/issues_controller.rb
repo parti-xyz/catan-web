@@ -385,9 +385,9 @@ class IssuesController < ApplicationController
     errors_to_flash(@issue)
   end
 
-  def visit
+  def read_all
     @issue = Issue.find(params[:id])
-    @issue.visit!(current_user)
+    @issue.read!(current_user)
   end
 
   protected

@@ -24,7 +24,6 @@ class Member < ApplicationRecord
     where(joinable_type: 'Issue', joinable_id: Issue.of_group(group))
     .or(where(joinable_type: 'Group', joinable_id: group.id))
   }
-  scope :visited, -> { where.not(visited_at: nil) }
   scope :read, -> { where.not(read_at: nil) }
 
   scoped_search relation: :user, on: [:nickname]

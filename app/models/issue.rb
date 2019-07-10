@@ -313,13 +313,6 @@ class Issue < ApplicationRecord
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
   end
 
-  def visit!(someone)
-    return if someone.blank?
-    member = someone.smart_issue_member(self)
-    return if member.blank?
-    member.update_columns(visited_at: DateTime.now)
-  end
-
   def marked_read_at?(someone)
     return false if someone.blank?
     member = someone.smart_issue_member(self)
