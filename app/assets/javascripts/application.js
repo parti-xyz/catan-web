@@ -52,7 +52,6 @@
 //= require jquery.mosaic
 //= require jquery-sortable
 //= require jquery.ui.position
-//= require jquery.contextMenu
 //= require jquery-deepest
 //= require visibilityChanged
 
@@ -1561,6 +1560,7 @@ var parti_prepare = function($base, force) {
       var $rename_form_elm = $elm.find('.js-folder-item-rename-form');
       var $rename_title_field_elm = $elm.find('.js-folder-item-rename-text-field');
       var $content_elm = $elm.find('.js-folder-item-renamable-content');
+      var $folder_menu = $elm.find('.js-folder-item-menu');
 
       var esc_handler = function(e) {
         if (e.keyCode == 27) { // escape key maps to keycode `27`
@@ -1580,17 +1580,8 @@ var parti_prepare = function($base, force) {
       }
 
       var reset_item = function($current_elm, active) {
-        $current_elm.data('timeout', null);
-        $current_elm.data('clicks', 0);
         $current_elm.find('.js-folder-item-rename-form').hide();
         $current_elm.find('.js-folder-item-renamable-content').show();
-
-        if(!active) {
-          $current_elm.removeClass('active');
-        }
-        $current_elm.removeClass('js-try-to-rename');
-        $current_elm.removeClass('js-renaming');
-        $current_elm.removeClass('js-blured');
       }
 
       var text_field_width = function(text) {
@@ -1647,9 +1638,6 @@ var parti_prepare = function($base, force) {
         $rename_form_elm.show();
         $content_elm.hide();
 
-        $elm.removeClass('js-try-to-rename');
-        $elm.addClass('js-renaming');
-
         $(document).on('keyup.folder-item', esc_handler);
         $rename_title_field_elm.on('blur.folder-item', on_blur);
 
@@ -1662,66 +1650,25 @@ var parti_prepare = function($base, force) {
         e.preventDefault();
       });
 
-      $elm.on('click', function(e) {
-        if($.breakpoint_max() === "xs") {
-          reset_item($elm);
-          on_run(e);
-          return;
-        }
-
-        $elm.data('clicks', ($elm.data('clicks') || 0) + 1);
-
-        $('.js-folder-item').each(function(index, current_elm) {
-          if(!$(current_elm).is($elm)) {
-            reset_item($(current_elm));
-          }
-        });
-
-        if($elm.hasClass('js-blured')) {
-          $elm.removeClass('js-blured');
-          $elm.data('clicks', 0);
-          return;
-        }
-
-        if($elm.hasClass('js-renaming')) {
-          $elm.data('clicks', 0);
-          return;
-        }
-
-        if($elm.hasClass('active')) {
-          if($elm.hasClass('js-folder-item-managable')) {
-            $elm.addClass('js-try-to-rename');
-          }
-        } else {
-          $elm.addClass('active');
-          var item_type = $elm.data('folder-item-type');
-          var item_id = $elm.data('folder-item-id');
-          Cookies.set('latest_active_folder_item', item_type + '#' + item_id, { domain: '.' + __root_domain, expires: 7 });
-        }
-
-        if($elm.data('clicks') === 1) {
-          $elm.data('timeout', setTimeout(function() {
-            $elm.data('timeout', null);
-            if($elm.hasClass('js-try-to-rename')) {
-              on_rename();
-            }
-            $elm.data('clicks', 0); //after action performed, reset counter
-          }, delay));
-        } else {
-          on_run(e);
+      $elm.on('mouseleave', function(e) {
+        // dropdown reset
+        if($folder_menu.hasClass('open')) {
+          $folder_menu.find('[data-toggle="dropdown"]').dropdown('toggle');
         }
       });
 
-      $elm.on('parti-folder-item-force-active', function(e, data) {
+      $elm.on('click', function(e) {
+        if($(e.target).closest('.js-folder-item-no-run').length > 0) {
+          return;
+        }
+
         $('.js-folder-item').each(function(index, current_elm) {
           reset_item($(current_elm));
         });
-
-        $elm.addClass('active');
+        on_run(e);
       });
 
       $elm.on('parti-folder-item-force-rename', function(e, data) {
-        $elm.on('parti-folder-item-force-active');
         on_rename();
       });
 
@@ -1751,6 +1698,16 @@ var parti_prepare = function($base, force) {
         var width = text_field_width($rename_title_field_elm.val());
         $rename_title_field_elm.css({ width: width });
       }).trigger('input');
+
+      $folder_menu.on('show.bs.dropdown', function(e) {
+        if($elm.data('folder-item-acceptable-type') === 'any' ||
+          $elm.data('folder-item-acceptable-type') === 'folder') {
+            return;
+        }
+
+        $('js-folder-item-acceptable-folder-or-any').hide();
+      });
+
     });
   })();
 
@@ -2974,116 +2931,6 @@ $(function(){
       setTimeout(function() { $target.removeClass($anchor.data('stress-class')); }, 3000);
     }
   }
-
-  // 폴더 컨텍스트 메뉴
-  $.contextMenu({
-    selector: '.js-folder-item.js-folder-item-managable',
-    trigger: 'right',
-    events: {
-      show: function(options){
-        $(this).trigger('parti-folder-item-force-active');
-      },
-    },
-    build: function($trigger, e) {
-      var options = {
-        items: {}
-      };
-
-      rename_menu = {
-        name: "이름 편집",
-        callback: function(itemKey, opt, e){
-          opt.$trigger.trigger('parti-folder-item-force-rename');
-        },
-      }
-
-      if($trigger.data('folder-item-type') === 'folder') {
-        options.items["add_post"] = {
-          name: "게시물 작성",
-          callback: _.throttle(function(itemKey, opt, e){
-            $.ajax({
-              url: opt.$trigger.data('add-post-url'),
-              type: 'get',
-              crossDomain: false,
-              xhrFields: {
-                withCredentials: true
-              }
-            });
-          }, 1000),
-        };
-        options.items["add_wiki"] = {
-          name: "위키 작성",
-          callback: function(itemKey, opt, e){
-            location.href = opt.$trigger.data('add-wiki-url');
-          },
-        };
-
-        options.items["sp1"] = '--------';
-
-        if($trigger.data('folder-item-acceptable-type') === 'any' ||
-          $trigger.data('folder-item-acceptable-type') === 'folder') {
-          options.items["add_subfolder"] = {
-            name: "하위 폴더 생성",
-            callback: _.throttle(function(itemKey, opt, e){
-              $.ajax({
-                url: opt.$trigger.data('add-folder-url'),
-                type: 'get',
-                crossDomain: false,
-                xhrFields: {
-                  withCredentials: true
-                }
-              });
-            }, 1000),
-          };
-        }
-
-        options.items["remove"] = {
-          name: "폴더 삭제",
-          callback: _.throttle(function(itemKey, opt, e){
-            var run = function() {
-              $.ajax({
-                url: opt.$trigger.data('remove-folder-url'),
-                type: 'delete',
-                crossDomain: false,
-                xhrFields: {
-                  withCredentials: true
-                }
-              });
-            }
-
-            if(opt.$trigger.parent('.js-folder-rows').find('.js-folder-children .js-folder-item').length > 0) {
-              if(confirm('하위 폴더도 모두 지워집니다. 삭제되는 모든 폴더의 게시물은 폴더 정보가 제거됩니다. 단, 게시물은 삭제되지 않습니다. \n이 동작은 되돌릴 수 없습니다. 계속하시겠습니까?')) {
-                run();
-              }
-            } else {
-              run();
-            }
-
-          }, 1000),
-        }
-
-        options.items["sp2"] = '--------';
-        options.items["rename"] = rename_menu;
-      }
-
-      if($trigger.data('folder-item-type') === 'post') {
-        options.items["rename"] = rename_menu;
-        options.items["eject"] = {
-          name: "이 게시물을 폴더에서 제거",
-          callback: _.throttle(function(itemKey, opt, e){
-            $.ajax({
-              url: opt.$trigger.data('detach-post-url'),
-              type: 'delete',
-              crossDomain: false,
-              xhrFields: {
-                withCredentials: true
-              }
-            });
-          }, 1000),
-        }
-      }
-      return options;
-    }
-  });
 });
 
 

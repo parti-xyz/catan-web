@@ -619,6 +619,12 @@ $drawer-default-space-mobile: 12px;
             .issue-line__thumb {
               background-color: #ddd;
               opacity: 0.5;
+              border: 1px solid transparent;
+            }
+          }
+          .issue-line.unsigned-user {
+            .issue-line__thumb {
+              opacity: 1;
             }
           }
           .issue-line.highlight,
@@ -629,6 +635,10 @@ $drawer-default-space-mobile: 12px;
           .group-home-line:hover {
             .issue-line__thumb {
               opacity: 1;
+              -webkit-box-shadow: 1px 3px 4px 0px $gray-less-lighter;
+              -moz-box-shadow: 1px 3px 4px 0px $gray-less-lighter;
+              box-shadow: 1px 3px 4px 0px $gray-less-lighter;
+              border: 1px solid $gray-less-lighter;
             }
           }
           .issue-line {

@@ -135,7 +135,8 @@ section.page-folders {
         height: 40px;
         line-height: 40px;
       }
-      overflow: hidden;
+      overflow-y: visible;
+      overflow-x: hidden;
       position: relative;
       .folder-item-title-container {
         display: table;
@@ -168,6 +169,12 @@ section.page-folders {
         width: 36px;
         text-align: right;
         padding-right: 4px;
+        &.folder-item-icon-default {
+          display: table-cell;
+        }
+        &.folder-item-icon-hover {
+          display: none;
+        }
       }
       .folder-item-updated-at {
         display: table-cell;
@@ -178,9 +185,29 @@ section.page-folders {
         }
       }
     }
-    .folder-item.active {
+    .folder-item:hover {
       background-color: $brand-primary-lighter;
+      .folder-item-icon {
+        &.folder-item-icon-default {
+          display: none;
+        }
+        &.folder-item-icon-hover {
+          display: table-cell;
+        }
+      }
+      body.draggable-slug-folder-dragging & {
+        background-color: initial;
+        .folder-item-icon {
+          &.folder-item-icon-default {
+            display: table-cell;
+          }
+          &.folder-item-icon-hover {
+            display: none;
+          }
+        }
+      }
     }
+
   }
   .dragging_active {
     border: 1px solid $gray;
