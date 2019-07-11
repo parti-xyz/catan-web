@@ -20,15 +20,6 @@ body.mce-content-body {
 
   ul, ol {
     position: relative;
-    &:hover:before {
-      content: ' ';
-      position: absolute;
-      top: 0;
-      left: -2px;
-      height: 100%;
-      width: 24px;
-      background-color: #eee6;
-    }
   }
 
   diffadded {
