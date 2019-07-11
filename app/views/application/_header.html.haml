@@ -71,7 +71,7 @@
                 = link_to new_post_url, remote: true, data: { 'disable-with': '여는 중...' } do
                   게시글 작성
               %li
-                = link_to new_wiki_posts_url, target: '_blank', data: { 'disable-with': '여는 중...' } do
+                = link_to new_wiki_posts_url do
                   위키 작성
               - if current_group.present?
                 %li.divider
