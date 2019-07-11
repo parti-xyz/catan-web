@@ -196,18 +196,18 @@
           %button.btn.btn-xs.btn-link.editor-btn.post-wiki-btn.js-post-select-subform.js-post-wiki-btn{ data: open_btn_data.merge('url': new_wiki_posts_url) }
             %i.fa.fa-file-word-o
             = t('labels.new_post_wiki_button')
+        .post-options
+          -# .post-form-decision-button.text-nowrap
+          -#   .checkbox
+          -#     %label.remember_me
+          -#       = f.check_box :has_decision
+          -#       함께 결정하기
+          .post-form-pin-button.text-nowrap.js-post-form-pin-button{ class: ('collapse' if !can?(:pin, local_assigns[:current_issue])) }
+            .checkbox
+              %label.remember_me
+                = f.check_box :pinned
+                공지로 등록
         .submit-box
-          .post-options
-            .post-form-decision-button.text-nowrap
-              .checkbox
-                %label.remember_me
-                  = f.check_box :has_decision
-                  함께 결정하기
-            .post-form-pin-button.text-nowrap.js-post-form-pin-button{ class: ('collapse' if !can?(:pin, local_assigns[:current_issue])) }
-              .checkbox
-                %label.remember_me
-                  = f.check_box :pinned
-                  공지로 등록
           = f.hidden_field :issue_id, data:{ 'rule-required': true, 'error-popover-target': "##{issue_selector_dom_id} .bootstrap-select.js-parti-editor-selector" }, class: 'validate', value: (local_assigns[:current_issue].id if local_assigns[:current_issue].present?)
           - if local_assigns[:current_issue].present?
             = hidden_field_tag :fixed_issue_id, 'true'
