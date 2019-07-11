@@ -17,7 +17,7 @@
       .post-card__post.pinned-header.clearfix.js-show-all-pinned-post
         .body.margin-zero.only-clickable.text-muted
           %i.fa.fa-caret-right.fa-fw-xs-left.js-show-all-pinned-post-icon
-          공지 사항
+          공지사항
           (#{posts.count})
     - uncollapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post)
