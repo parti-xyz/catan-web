@@ -878,7 +878,7 @@ var parti_prepare = function($base, force) {
         $('.js-header-search-default-badge-' + active).show();
       }
 
-      if(active === ' group') {
+      if(active === 'group') {
         $elm.find('.js-header-search-dropdown-item[data-header-search-type="all"]').show();
       } else if(active === 'issue') {
         $elm.find('.js-header-search-dropdown-item[data-header-search-type="all"]').show();
@@ -1040,7 +1040,7 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       var tinymce_instance = $elm.tinymce({
-        cache_suffix: '?v=5.0.5.5',
+        cache_suffix: '?v=5.0.5.6',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1056,6 +1056,7 @@ var parti_prepare = function($base, force) {
         relative_urls: false,
         remove_script_host : false,
         hidden_input: false,
+        link_title: false,
         uploadimage_default_img_class: 'tinymce-content-image',
         content_css: content_css,
         formats: {
@@ -1102,7 +1103,7 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       $elm.tinymce({
-        cache_suffix: '?v=5.0.5.5',
+        cache_suffix: '?v=5.0.5.6',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1121,6 +1122,7 @@ var parti_prepare = function($base, force) {
         remove_script_host : false,
         hidden_input: false,
         uploadimage_default_img_class: 'tinymce-content-image',
+        link_title: false,
         content_css: content_css,
         formats: {
           strikethrough: {inline : 'del'}
