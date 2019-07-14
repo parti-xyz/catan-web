@@ -12,6 +12,9 @@ class Issue < ApplicationRecord
     expose :isMember do |instance, _|
       instance.member?(options[:current_user])
     end
+    expose :isUnread do |instance, _|
+      instance.unread?(options[:current_user])
+    end
   end
 
   include UniqueSoftDeletable
@@ -182,7 +185,7 @@ class Issue < ApplicationRecord
   def member? someone
     return false if someone.blank?
     cached_member = someone.cached_channel_member(self)
-    return cached_member.present?
+    return true if cached_member.present?
 
     members.exists? user: someone
   end
@@ -324,7 +327,7 @@ class Issue < ApplicationRecord
     return false unless self.marked_read_at?(someone)
 
     member = someone.smart_issue_member(self)
-    member.unread_issue?(self)
+    member.unread_issue?
   end
 
   def read!(someone)
