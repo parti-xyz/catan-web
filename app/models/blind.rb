@@ -6,9 +6,22 @@ class Blind < ApplicationRecord
 
   attr_accessor :nickname
 
+  after_save :process_blind
+  after_destroy :process_unblind
+
   def self.site_wide?(someone)
     Rails.cache.fetch("Blind/#{someone&.nickname}/site_wide", race_condition_ttl: 30.seconds, expires_in: 300.seconds) do
       exists?(user: someone, issue: nil)
     end
+  end
+
+  private
+
+  def process_blind
+    BlindJob.perform_async(self.id)
+  end
+
+  def process_unblind
+    UnblindJob.perform_async(self.id, self.issue_id, self.user_id)
   end
 end

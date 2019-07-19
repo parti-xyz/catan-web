@@ -13,7 +13,7 @@ class Issue < ApplicationRecord
       instance.member?(options[:current_user])
     end
     expose :isUnread do |instance, _|
-      instance.unread?(options[:current_user])
+      instance.unread?(options[:current_user]) || [true, false].sample
     end
   end
 

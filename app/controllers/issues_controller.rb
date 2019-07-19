@@ -40,7 +40,7 @@ class IssuesController < ApplicationController
       end
 
       how_to = params[:sort] == 'order_by_stroked_at' ? :order_by_stroked_at : :hottest
-      recent_posts_base = Post.unblinded.not_private_blocked_of_group(current_group, current_user)
+      recent_posts_base = Post.unblinded(current_user).not_private_blocked_of_group(current_group, current_user)
       @recent_posts = recent_posts_base.send(how_to).limit(30)
 
       @recent_posts = @recent_posts.page(params[:page])
@@ -239,13 +239,15 @@ class IssuesController < ApplicationController
         end
       end
       if params[:issue].has_key?(:blinds_nickname)
-        @issue.blinds.destroy_all
+        deleting_nicknames = @issue.blinds.map(&:user).map(&:nickname)
         (@issue.blinds_nickname.split(",") || []).map(&:strip).compact.uniq.each do |nickname|
           user = User.find_by(nickname: nickname)
           if user.present?
-            @issue.blinds.build(user: user)
+            deleting_nicknames.reject!{ |nickname| nickname == user.nickname}
+            @issue.blinds.build(user: user) unless @issue.blinds.exists?(user_id: user.id)
           end
         end
+        @issue.blinds.where(user_id: User.where(nickname: deleting_nicknames)).destroy_all
       end
       if @issue.save
         if @issue.previous_changes["is_default"].present? and @issue.is_default?

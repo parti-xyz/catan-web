@@ -1,5 +1,5 @@
 - unless issue.private_blocked?(current_user)
-  - recent_posts_base = issue.posts.unblinded
+  - recent_posts_base = issue.posts.unblinded(current_user)
   - order_by_stroked_at_posts = recent_posts_base.order_by_stroked_at.limit(30)
   - hottest_posts = recent_posts_base.hottest.limit(30)
 

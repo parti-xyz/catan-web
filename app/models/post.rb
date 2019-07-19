@@ -11,6 +11,8 @@ class Post < ApplicationRecord
     end
     expose :lastStroked do |instance|
       text, at = instance.last_stroked_activity
+      at = instance.last_stroked_at if at.blank?
+      at = instance.created_at if at.blank?
       { text: text, at: at.try(:iso8601) }
     end
 
@@ -183,8 +185,8 @@ class Post < ApplicationRecord
   scope :of_group, ->(group) { where(issue_id: group.issues) }
   scope :pinned, -> { where(pinned: true) }
   scope :unpinned, -> { where.not(pinned: true) }
-  scope :never_blinded, -> { where.not(user_id: Blind.select(:user_id)) }
-  scope :unblinded, -> { where.not(issue_id: (Blind.where("blinds.user_id = posts.user_id").select(:issue_id)))}
+  scope :never_blinded, -> { where.not(blind: true) }
+  scope :unblinded, ->(someone) { where.not(blind: true).or(where(user_id: someone)) }
 
   ## uploaders
   # mount
@@ -201,6 +203,8 @@ class Post < ApplicationRecord
   before_save :reindex_for_search
   # hashtagging
   before_save :reindex_hashtags
+  # blind
+  before_save :process_blind
 
   def specific_desc_striped_tags(length = 0)
     striped_body = body.try(:strip)
@@ -435,10 +439,6 @@ class Post < ApplicationRecord
     poll.try(:unsured_by?, voter)
   end
 
-  def self.reject_blinded_or_blocked(posts, user)
-    posts.to_a.reject{ |post| post.blinded?(user) or post.private_blocked?(user) }
-  end
-
   def post_for_message
     self
   end
@@ -544,6 +544,10 @@ class Post < ApplicationRecord
   def reindex_for_hashtags!
     reindex_hashtags(force: true)
     self.save_tags
+  end
+
+  def process_blind
+    self.blind = self.issue.blind_user?(self.user)
   end
 
   def decision_authors_count

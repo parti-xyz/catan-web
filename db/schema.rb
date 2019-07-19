@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_06_161102) do
+ActiveRecord::Schema.define(version: 2019_07_18_094917) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -567,6 +567,7 @@ ActiveRecord::Schema.define(version: 2019_07_06_161102) do
     t.string "base_title"
     t.integer "folder_seq", default: 0
     t.boolean "has_decision", default: false
+    t.boolean "blind", default: false
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["event_id"], name: "index_posts_on_event_id"
     t.index ["folder_id"], name: "index_posts_on_folder_id"

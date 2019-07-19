@@ -33,18 +33,26 @@ module V1
       desc '채널별 게시물 목록으로 반환합니다'
       oauth2
       params do
-        #optional :limit, type: Integer, desc: '최근 게시물 갯수', default: 10
+        optional :last_stroked_at, type: Integer, desc: '시간 기준'
       end
       get do
         issue = Issue.find params[:channel_id]
         error!(:forbidden, 403) and return if issue.private_blocked?(resource_owner)
 
-        posts = issue.posts.order(last_stroked_at: :desc)
+        base_posts = issue.posts.order(last_stroked_at: :desc).limit(20).unblinded(resource_owner)
 
-        previous_last_post = Post.with_deleted.find_by(id: params[:last_post_id])
-        posts = posts.limit(20).previous_of_post(previous_last_post)
+        posts = base_posts.to_a
+        if params[:last_stroked_at].present?
+          previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
+          posts = base_posts.previous_of_time(previous_last_post_stroked_at).to_a
+        end
+
         current_last_post = posts.last
-        is_last_page = (posts.empty? or posts.previous_of_post(current_last_post).empty?)
+        if current_last_post.present?
+          posts += base_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: posts).to_a
+        end
+
+        is_last_page = (base_posts.empty? or base_posts.previous_of_post(current_last_post).empty?)
 
         present_authed :posts, posts
         present_authed :isLastPage, is_last_page
