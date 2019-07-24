@@ -6,6 +6,15 @@ class Issue < ApplicationRecord
     expose :logoUrl do |instance, options|
       instance.logo.lg.url
     end
+    expose :logoXsUrl do |instance, options|
+      instance.logo.xs.url
+    end
+    expose :logoSmUrl do |instance, options|
+      instance.logo.sm.url
+    end
+    expose :logoMdUrl do |instance, options|
+      instance.logo.md.url
+    end
     expose :groupId do |instance, _|
       instance.group.id
     end
