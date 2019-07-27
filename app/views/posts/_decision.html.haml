@@ -16,7 +16,7 @@
           - if post.decisionable?(current_user)
             &middot;
         - if post.decisionable?(current_user)
-          = link_to '수정', edit_decision_post_path(post), class: 'text-primary'
+          = link_to '편집', edit_decision_post_path(post), class: 'text-primary'
           &middot;
           = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
 

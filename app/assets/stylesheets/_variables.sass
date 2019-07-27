@@ -48,7 +48,9 @@ $gray-lightest:          #f3f3f3
 $gray-more-lightest:     #f9f9f9
 
 $base-brand-primary:     #966fd6
-$base-brand-primary-opt8:     rgba(150, 111, 214, 0.8)
+$base-brand-primary-opt8: rgba(150, 111, 214, 0.8)
+$base-brand-primary-opt4: rgba(150, 111, 214, 0.4)
+$base-brand-primary-opt2: rgba(150, 111, 214, 0.2)
 $brand-primary:          #966fd6
 $brand-light:            #f1ebfb
 $brand-primary-light:    lighten($brand-primary, 25%)
@@ -396,19 +398,19 @@ $grid-gutter-width:         30px
 
 // Small screen / tablet
 // $container-tablet:             (720px + $grid-gutter-width)
-$container-tablet:             (860px + $grid-gutter-width)
+// $container-tablet:             (860px + $grid-gutter-width)
 //** For `$screen-sm-min` and up.
 // $container-sm:                 $container-tablet
 
 // Medium screen / desktop
 // $container-desktop:            (940px + $grid-gutter-width)
-$container-desktop:            $container-tablet
+$container-desktop:            (860px + $grid-gutter-width)
 //** For `$screen-md-min` and up.
 // $container-md:                 $container-desktop
 
 // Large screen / wide desktop
 // $container-large-desktop:      (1140px + $grid-gutter-width)
-$container-large-desktop:      $container-tablet
+$container-large-desktop:      $container-desktop
 //** For `$screen-lg-min` and up.
 // $container-lg:                 $container-large-desktop
 

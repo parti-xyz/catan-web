@@ -65,3 +65,4 @@
             .page-waypoint.js-page-waypoint-onload.text-center{ 'data-target': '.posts', 'data-url': dashboard_path(format: :js, group_slug: current_dashboard_group.try(:slug)) }
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
+      = render 'application/aside'

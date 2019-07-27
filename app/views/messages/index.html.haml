@@ -7,3 +7,4 @@
         .message-list
           = render partial: 'messages/message', collection: @messages, locals: { mention_only_page: (params[:action] == 'mentions')}
         = paginate @messages, theme: 'catan'
+      = render 'application/aside'

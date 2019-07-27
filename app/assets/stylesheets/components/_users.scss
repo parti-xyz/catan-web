@@ -190,6 +190,10 @@ section#user-gallery{
   }
   &__sign-up {
     padding: 10px;
+    .desc {
+      font-size: $font-size-small;
+      color: $text-muted;
+    }
     .remember_me {
       font-size: $font-size-small;
       color: $text-muted;

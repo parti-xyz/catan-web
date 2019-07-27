@@ -16,7 +16,7 @@
           %i.fa.fa-circle{ style: 'position: relative; top: -0.5em; left: -0.5em;' }
         #{post.last_stroked_at.to_date.today? ? '오늘' : (post.last_stroked_at.to_date == (Time.current - 1.day).to_date ? "어제" : static_day_f(post.last_stroked_at))} 업데이트된 게시글
 
-    .card.col-xs-12.card--hover-grow{ class: "#{removable_with_post_dom_class(post)} #{col_sm}" }
+    .card.col-xs-12{ class: "#{removable_with_post_dom_class(post)} #{col_sm}" }
       - if post.poll.present?
         = render 'polls/poll', local_assigns.merge(poll: post.poll, post: post, compact_decision: true)
       - elsif post.survey.present?

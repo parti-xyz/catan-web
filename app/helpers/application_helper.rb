@@ -332,7 +332,7 @@ module ApplicationHelper
   end
 
   def main_column_tag(*additional_classes)
-    content_tag :div, class: ((%w(col-xs-12) << additional_classes).flatten.compact.uniq) do
+    content_tag :div, class: ((%w(col-xs-12 col-sm-12 col-md-9) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
       end
@@ -341,7 +341,7 @@ module ApplicationHelper
 
   def aside_column_tag(*additional_classes)
     return if is_small_screen?
-    content_tag :div, class: ((%w(hidden-xs col-sm-4) << additional_classes).flatten.compact.uniq) do
+    content_tag :div, class: ((%w(hidden-xs hidden-sm col-md-3) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
       end

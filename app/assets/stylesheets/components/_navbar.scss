@@ -212,10 +212,9 @@ $drawer-sub-issues-left-space: 48px;
         margin-right: 8px;
         position: relative;
         .form-control-q {
-          padding-right: 117px;
           width: 250px;
-          @media (max-width: $screen-sm-max) {
-            width: 230px;
+          @media (max-width: $screen-md-max) {
+            width: 180px;
           }
         }
         .dropdown-menu {
@@ -328,12 +327,12 @@ $drawer-sub-issues-left-space: 48px;
       .message {
         margin-bottom: 0;
         &:hover {
-          background-color: $gray-lighter;
+          background-color: $gray-lightest;
         }
         &.unread {
-          background-color: $brand-primary-lighter;
+          background-color: $base-brand-primary-opt2;
           &:hover {
-            background-color: $brand-primary-light;
+            background-color: $base-brand-primary-opt4;
           }
         }
       }
@@ -541,12 +540,16 @@ $drawer-default-space-mobile: 12px;
         &:hover a {
           color: $gray-dark;
         }
-        &:hover {
+        &:hover:not(.inactive) {
           background-color: $gray-more-lightest;
         }
         &.highlight {
           background-color: $gray-more-lightest;
         }
+      }
+    &.menu-line.menu-line-divider {
+        color: #777;
+        font-size: 12px;
       }
       > .group-line.unread {
         .title-content .group-parties-section-title-wrapper:after {
@@ -576,9 +579,6 @@ $drawer-default-space-mobile: 12px;
           right: -4px;
           display: inline-block;
         }
-      }
-      &.menu-line > a.active {
-        color: $gray-dark;
       }
       &.group-issues-container {
         margin: 0;
@@ -854,11 +854,6 @@ $drawer-default-space-mobile: 12px;
       top: 0;
     }
   }
-  // .content-wrapper {
-  //   @media (min-width: $screen-sm-min) {
-  //     min-width: 970px;
-  //   }
-  // }
 
   &.sidebar-open,
   &.sidebar-open-in-advance {
@@ -870,7 +865,6 @@ $drawer-default-space-mobile: 12px;
       z-index: $zindex-slideout-backdrop;
     }
     .content-wrapper {
-      // margin-left: $side-menu-width;
       position: relative;
     }
   }
@@ -881,6 +875,7 @@ $drawer-default-space-mobile: 12px;
       display: block;
       z-index: $zindex-slideout-backdrop;
     }
+    margin-left: $side-menu-width;
   }
 
   // md 사이즈까지는 미리 열어 놓지 않습니다
@@ -889,9 +884,6 @@ $drawer-default-space-mobile: 12px;
       .sidebar-wrapper {
         display: none;
         z-index: 0;
-      }
-      .content-wrapper {
-        margin-left: 0;
       }
     }
   }

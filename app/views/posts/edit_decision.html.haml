@@ -51,3 +51,4 @@
           %h5.contents-header__title
             대상 게시글
         = render @post, show_issue: true
+      = render 'issues/aside', issue: @post.issue

@@ -7,16 +7,16 @@
 = aside_column_tag(local_assigns[:additional_classes]) do
   .aside_issue#aside
     %section
-      %h5.aside-title 위키
+      %h5.aside-title 폴더별 위키
       %ul.list-unstyled.parti-folders.threaded-folders
         - Folder.threaded(folders).each do |parent_folder, child_folders|
           - posts = parent_folder.posts.having_wiki_sorted_by_title(:active)
           %li.item-folder
             .folder-title.js-folder-togglex.cursor-pointer
               - if parent_folder == current_folder or child_folders.include?(current_folder)
-                %i.fa.fa-folder-open.js-folder-togglex-icon
+                %i.fa.fa-fw.fa-folder-open.js-folder-togglex-icon
               - else
-                %i.fa.fa-folder.js-folder-togglex-icon
+                %i.fa.fa-fw.fa-folder.js-folder-togglex-icon
               = parent_folder.title
               - if posts.any? or parent_folder.children.any?
                 (#{("#{parent_folder.children.count}/" if parent_folder.children.any?)}#{posts.count})
@@ -26,9 +26,9 @@
                 %li.item-folder
                   .folder-title.js-folder-togglex.cursor-pointer
                     - if child_folder == current_folder
-                      %i.fa.fa-folder-open.js-folder-togglex-icon
+                      %i.fa.fa-fw.fa-folder-open.js-folder-togglex-icon
                     - else
-                      %i.fa.fa-folder.js-folder-togglex-icon
+                      %i.fa.fa-fw.fa-folder.js-folder-togglex-icon
                     = child_folder.title
                     - if child_posts.any?
                       (#{child_posts.count})
@@ -36,8 +36,10 @@
                     - child_posts.each do |post|
                       = link_to smart_post_url(post), class: "item-post-wrapper #{'active' if post == current_post}" do
                         %li.item-post
+                          %i.fa.fa-fw.fa-file-word-o
                           = post.wiki.title
               - posts.each do |post|
                 = link_to smart_post_url(post), class: "item-post-wrapper #{'active' if post == current_post}" do
                   %li.item-post
+                    %i.fa.fa-fw.fa-file-word-o
                     = post.wiki.title

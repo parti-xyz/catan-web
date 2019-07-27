@@ -881,8 +881,9 @@ var parti_prepare = function($base, force) {
         $elm.find('.js-header-search-dropdown-item[data-header-search-type="group"]').show();
         $elm.find('.js-header-search-dropdown-item[data-header-search-type="issue"]').show().addClass('active');
       }
+      return active;
     }
-    init_menu();
+    var init_active = init_menu();
 
     var handler_arrow_key = function(e){
       if(!$elm.find('.js-header-search-dropdown').is(':visible')) {
@@ -934,7 +935,9 @@ var parti_prepare = function($base, force) {
       $elm.find('.js-header-search-dropdown').hide();
     }
     var show_menu = function() {
-      $elm.find('.js-header-search-dropdown').show();
+      if(init_active != 'all') {
+        $elm.find('.js-header-search-dropdown').show();
+      }
     }
 
     $elm.on('input', '.js-header-search-input', _.throttle(function(e) {

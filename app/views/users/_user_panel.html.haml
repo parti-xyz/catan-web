@@ -22,16 +22,18 @@
             .user-panel__info__count= writing_counts.comments_count
   - else
     .user-panel__sign-up
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-facebook' do
+      %p.desc.text-basic-wrap
+        로그인 후 더 편리하게 이용하세요.
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false) }, class: 'btn btn-shadow btn-block btn-facebook' do
         %i.fa.fa-facebook
         페이스북으로 로그인
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-twitter' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn btn-shadow btn-block btn-twitter' do
         %i.fa.fa-twitter
         트위터로 로그인
-      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false) }, class: 'btn btn-lg btn-shadow btn-block btn-google' do
+      = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false) }, class: 'btn btn-shadow btn-block btn-google' do
         %i.fa.fa-google
         구글로 로그인
-      = link_to email_sign_in_users_path, class: 'btn btn-lg btn-shadow btn-block btn-email' do
+      = link_to email_sign_in_users_path, class: 'btn btn-shadow btn-block btn-email' do
         %i.fa.fa-envelope
         이메일로 로그인
 

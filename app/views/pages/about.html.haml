@@ -1,24 +1,24 @@
-%section{ style: 'padding: 80px 0; background-color: white' }
+%section{ style: 'padding: 80px 0px; background-color: #7b5fa8; color: white;' }
   .container
     .row
       .col-sm-4.col-xs-12
-        %h1.text-primary
-          %small
+        %h1
+          %small{ style: 'color: white' }
             팀과 커뮤니티를 위한
             %br 민주주의 플랫폼
           %br
           빠띠
         %br
-        = link_to issues_path, class: 'btn btn-lg btn-block btn-shadow btn-primary' do
+        = link_to issues_path, class: 'btn btn-block btn-default' do
           #{Group.count}개 그룹
           &middot;
           #{Issue.count}개 채널 보기
         - unless user_signed_in?
-          = link_to '회원가입', new_user_session_path, class: 'btn btn-danger btn-lg btn-block btn-shadow'
+          = link_to '회원가입', new_user_session_path, class: 'btn btn-danger btn-block btn-shadow'
       .col-sm-8.col-xs-12.text-right{ style: 'margin-top: 20px;' }
         = image_tag 'img_about_1.png', class: 'about-image'
 
-%section.text-basic-wrap{ style: 'margin-top: 80px;' }
+%section.text-basic-wrap{ style: 'padding-top: 40px; background-color: white;' }
   .container
     %h2.text-center{ style: 'margin-bottom: 30px;' }
       빠띠는 공공재입니다
@@ -66,7 +66,7 @@
                 %u= Group.count
                 개의 그룹과
                 %u= Issue.count
-                개의 채널이 활동중입니다.
+                개의 채널이 활동 중입니다.
             %hr
             .text-center
               %span.title
@@ -76,7 +76,7 @@
               %p.about-text.text-danger
                 무료입니다
               %hr
-                = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-default btn-lg btn-block' do
+                = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-default btn-block' do
                   %span.text-primary
                     그룹 만들기
 
@@ -118,13 +118,13 @@
             %hr
               .row
                 .col-xs-md12.col-sm-6
-                  = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-lg btn-block' do
+                  = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-block' do
                     %span
                       %i.fa.fa-envelope-o
                       메일로 문의
                 .visible-xs-block{ style: 'height: 4px' }
                 .col-xs-md12.col-sm-6
-                  = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block', target: '_blank' do
+                  = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-block', target: '_blank' do
                     %span.text-primary
                       %i.fa.fa-comment-o
                       메신저로 문의
@@ -167,16 +167,16 @@
               후원을 받고 있습니다.
 
             %p{ style: 'margin-top: 30px;' }
-              = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-lg btn-block' do
+              = link_to 'mailto:help@parti.xyz', class: 'btn btn-primary btn-block' do
                 %span
                   %i.fa.fa-envelope-o
                   메일로 응원과 후원 문의하기
 
-              = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-lg btn-block', target: '_blank' do
+              = link_to 'https://m.me/PartiUnion', class: 'btn btn-default btn-block', target: '_blank' do
                 %span.text-primary
                   %i.fa.fa-comment-o
                   메신저로 응원과 후원 문의하기
-  %section.text-basic-wrap{ style: 'margin: 80px 0;' }
+  %section.text-basic-wrap{ style: 'padding: 0 0 80px;' }
     .container
       .text-center
         %h2{ style: 'margin-bottom: 30px;' }

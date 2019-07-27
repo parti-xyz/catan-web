@@ -13,3 +13,4 @@
         %ul.user-card-wrapper.list-unstyled.clearfix{data: {last_id: @current_last.try(:id), is_last: @is_last_page.to_s}}
           = render 'members/members_page', members: @members, issue: @post.issue
         = paginate @members, theme: 'catan', params: { controller: 'posts', action: 'unbeholders' }
+      = render 'issues/aside', issue: @post.issue

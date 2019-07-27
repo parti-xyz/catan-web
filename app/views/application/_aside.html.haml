@@ -5,8 +5,8 @@
     - if user_signed_in?
       .aside_issue{ style: 'color: #777;' }
         - if current_group.blank?
-          .aside_issue_btn.text-basic-wrap.clearfix{ style: 'font-size: 12px; margin-top: 12px;' }
-            %div{ style: 'float: left; width: 180px;' }
+          .aside_issue_btn.text-basic-wrap.clearfix{ style: 'display: flex; flex-direction: row; font-size: 12px; margin-top: 12px;' }
+            %div
               = link_to new_group_configuration_url(subdomain: nil), class: 'a-gray' do
                 %strong 그룹 만들기
               %div
@@ -15,6 +15,6 @@
                   %u<> 그룹
                   을
                 만드세요.
-            %div{ style: 'float: right;' }
+            %div
               = link_to new_group_configuration_url(subdomain: nil), class: 'btn btn-lg btn-default', style: 'border-radius: 50%; width: 50px; height: 50px;' do
                 %i.fa.fa-cube

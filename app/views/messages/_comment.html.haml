@@ -15,7 +15,7 @@
         #{message.sender.nickname}님이
         #{comment.post.user.nickname}님의 게시글에
         댓글을 남겼습니다.
-  = excerpt(comment.body, length: 100)
+  %div= excerpt(comment.body, length: 100)
   .text-muted{ style: 'margin-top: 1em; font-size: 12px;' }
     %strong 게시글
     = comment.post.specific_desc_striped_tags(100)

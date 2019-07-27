@@ -2,43 +2,35 @@
 
 %section#wikis-page
   .container
-    .row
-      = main_column_tag do
-        - unless @issue.exists_wiki?
-          .bg-default.text-center
-            %i.fa.fa-info-circle
-            가장 먼저 위키를 작성해 보세요.
-            %br
-              = link_to new_wiki_posts_path(issue_id: @issue.id) do
-                위키 작성하기
-                %i.fa.fa-arrow-right
-        - else
-          .contents-header
-            .posts-filter-select
-              .content-tab-section
-                %ul.nav.nav-tabs.nav-tabs-content-heading
-                  %li{ class: "#{('active' if params['status'] == 'active'  or params['status'].nil?)}" }
-                    = link_to '게시 중', { status: 'active', folder_id: @folder.try(:id) }
-                  %li{ class: "#{('active' if params['status'] == 'inactive')}" }
-                    = link_to '아카이브된', { status: 'inactive', folder_id: @folder.try(:id) }
-                  .new-wiki
-                    = link_to new_wiki_posts_path(issue_id: @issue.id) do
-                      새로운 위키
-                      %i.fa.fa-edit
-          - if @posts.any?
-            .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
-              .grid-sizer.col-sm-2.col-xs-1
-              = render 'posts/page_card', posts: @posts, sm_columns_count: 2
-          - else
-            .bg-default.text-center
-              %i.fa.fa-info-circle
-              해당 위키가 없습니다.
-        = paginate @posts, theme: 'catan'
-      -# - unless is_small_screen?
-      -#   - if @issue.folders.any?
-      -#     = render 'wikis/aside'
-      -#   - else
-      -#     = render 'issues/aside'
-
+    - unless @issue.exists_wiki?
+      .bg-default.text-center
+        %i.fa.fa-info-circle
+        가장 먼저 위키를 작성해 보세요.
+        %br
+          = link_to new_wiki_posts_path(issue_id: @issue.id) do
+            위키 작성하기
+            %i.fa.fa-arrow-right
+    - else
+      .contents-header
+        .posts-filter-select
+          .content-tab-section
+            %ul.nav.nav-tabs.nav-tabs-content-heading
+              %li{ class: "#{('active' if params['status'] == 'active'  or params['status'].nil?)}" }
+                = link_to '게시 중', { status: 'active', folder_id: @folder.try(:id) }
+              %li{ class: "#{('active' if params['status'] == 'inactive')}" }
+                = link_to '아카이브된', { status: 'inactive', folder_id: @folder.try(:id) }
+              .new-wiki
+                = link_to new_wiki_posts_path(issue_id: @issue.id) do
+                  위키 만들기
+                  %i.fa.fa-edit
+      - if @posts.any?
+        .row.masonry-container{data: {last_id: @posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
+          .grid-sizer.col-sm-4.col-xs-12
+          = render 'posts/page_card', posts: @posts, sm_columns_count: 3
+      - else
+        .bg-default.text-center
+          %i.fa.fa-info-circle
+          해당 위키가 없습니다.
+    = paginate @posts, theme: 'catan'
 
 = render 'issues/bottom_banner', issue: @issue

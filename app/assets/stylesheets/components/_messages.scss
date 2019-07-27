@@ -5,10 +5,13 @@
   border-bottom:1px solid $gray-lighter;
   margin-top: 0;
   padding: 12px;
+  &:hover {
+    background-color: $gray-lightest;
+  }
   &.unread {
-    background-color: $brand-primary-lighter;
+    background-color: $base-brand-primary-opt2;
     &:hover {
-      background-color: $brand-primary-light;
+      background-color: $base-brand-primary-opt4;
     }
   }
   &__link {

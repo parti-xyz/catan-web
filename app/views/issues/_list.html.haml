@@ -1,5 +1,5 @@
 .row
   - issues.each do |issue|
-    .col-sm-4.col-xs-6{ class: (local_assigns[:has_aside] ? "col-md-4" : "col-md-3") }
+    .col-sm-3.col-xs-6{ class: (local_assigns[:has_aside] ? "col-md-4" : "col-md-3") }
       .issue-card-wrapper
         = render 'issues/card', issue: issue

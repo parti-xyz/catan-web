@@ -109,7 +109,7 @@ class ApplicationController < ActionController::Base
     if current_group.private_blocked? current_user and
     !(
       (controller_name == 'issues' and action_name == 'home') or
-      (controller_name == 'issues' and action_name == 'index') or
+      (controller_name == 'issues' and action_name == 'index' and request.subdomain.blank?) or
       (controller_name == 'member_requests' and action_name == 'create') or
       (controller_name == 'sessions') or
       (controller_name == 'users' and action_name == 'pre_sign_up') or
@@ -120,6 +120,7 @@ class ApplicationController < ActionController::Base
       (controller_name == 'members' and action_name == 'magic_join') or
       (controller_name == 'members' and action_name == 'magic_form') or
       (controller_name == 'members' and action_name == 'join_group_form') or
+      (controller_name == 'my_menus') or
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit')
     )
       prepare_store_location

@@ -24,15 +24,6 @@
         = link_to smart_issue_members_path(issue), class: 'more' do
           %i.fa.fa-ellipsis-h
 
-    %section
-      .aside_search
-        = form_tag smart_issue_home_path_or_url(issue), method: :get do
-          .form-group.has-feedback
-            = search_field_tag :q, (@search_q || ("##{@hashtag}" if @hashtag.present?)), placeholder: '게시글 찾기...', class: 'form-control'
-            %span.form-control-feedback{ style: 'pointer-events: initial;' }
-              = button_tag class: 'btn btn-link btn-xs' do
-                %i.fa.fa-search.text-muted
-
     - if issue.related_issues.present? or can? :update, issue
       %section.aside-relate-issues
         %h5.aside-title

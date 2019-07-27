@@ -11,3 +11,4 @@
         .history-list
           = render @history_page
         = paginate @history_page, theme: 'catan'
+      = render 'issues/aside', issue: @post.issue

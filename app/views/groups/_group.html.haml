@@ -1,4 +1,4 @@
-- display_count = is_small_screen? ? 4 : 3
+- display_count = 4
 - issues = group.issues.hottest.not_private_blocked(current_user).limit(display_count)
 - all_issues=  group.issues.not_private_blocked(current_user)
 - if !group.private_blocked?(current_user)
@@ -19,7 +19,7 @@
     - if issues.any?
       .row
         - issues.each do |issue|
-          .col-sm-4.col-xs-6
+          .col-md-3.col-sm-3.col-xs-6
             .issue-card-wrapper
               = render 'issues/card', issue: issue
     - else
