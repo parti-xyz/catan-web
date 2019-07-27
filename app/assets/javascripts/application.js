@@ -2187,15 +2187,15 @@ $(function(){
     var unfold_icon = 'fa-caret-down';
     var fold_icon = 'fa-caret-right';
     $('.js-show-all-pinned-post').on('click', function(e) {
-      $icon = $('.js-show-all-pinned-post').find('.js-show-all-pinned-post-icon')
+      $btn = $('.js-show-all-pinned-post').find('.js-show-all-pinned-post-btn');
       if(visible) {
         $('.js-posts-pinned-and-behold').hide();
-        $icon.removeClass(unfold_icon);
-        $icon.addClass(fold_icon);
+        $btn.find('.js-show-all-pinned-post-btn-show').show();
+        $btn.find('.js-show-all-pinned-post-btn-hide').hide();
       } else {
         $('.js-posts-pinned-and-behold').show();
-        $icon.removeClass(fold_icon);
-        $icon.addClass(unfold_icon);
+        $btn.find('.js-show-all-pinned-post-btn-show').hide();
+        $btn.find('.js-show-all-pinned-post-btn-hide').show();
       }
       visible = (!visible);
     });

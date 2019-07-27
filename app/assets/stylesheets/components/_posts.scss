@@ -13,7 +13,7 @@
         font-weight: bold
       }
       .date {
-        color: $gray-a;
+        color: $gray;
       }
     }
   }
@@ -56,8 +56,6 @@
     }
     .media-right {
       text-align: right;
-      .post-modal__btn {
-      }
     }
     .issue-title,
     .post-line-folder {
@@ -156,7 +154,7 @@
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     .post-upvote-count {
-      color: $gray-a;
+      color: $gray;
       &--any {
         margin-left: 12px;
       }
@@ -277,7 +275,7 @@
           max-width: 90%;
         }
         a {
-          color: $gray-a;
+          color: $gray;
           &.primary {
             color: $brand-primary;
           }
@@ -302,17 +300,17 @@
         }
       }
       .date {
-        color: $gray-a;
+        color: $gray;
       }
       .issue-and-group {
-        color: $gray-a;
+        color: $gray;
       }
       .pin-buttons {
         position: absolute;
         top: 6px;
         right: 24px;
         button.dropdown-toggle i {
-          color: $gray-a;
+          color: $gray;
         }
       }
       .bookmark-buttons {
@@ -320,7 +318,7 @@
         right: 24px;
         top: 0.8em;
         .bookmark a {
-          color: $gray-a;
+          color: $gray;
         }
       }
     }
@@ -358,7 +356,18 @@
     }
     &.pinned {
       .post-card__post.pinned-header {
-        padding: 6px 18px;
+        .title-icon {
+          height: 16px;
+          vertical-align: text-top;
+        }
+        .title-text {
+          font-weight: 500;
+        }
+        .toggle-link {
+          line-height: 20px;
+          font-size: 12px;
+          color: $gray;
+        }
       }
     }
   }
@@ -413,7 +422,7 @@
   }
   .truncated-body {
     .btn-more {
-      color: $gray-a;
+      color: $gray;
     }
   }
   .media {

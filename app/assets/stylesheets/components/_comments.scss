@@ -160,16 +160,11 @@ section#comments {
   .footer {
     padding-left: 14px;
     white-space: normal;
-    @media (max-width: $screen-xs-max) {
-      font-size: $font-size-small;
-    }
+    font-size: $font-size-small;
   }
   .date-wrapper {
-    color: $gray-a;
-    font-size: $font-size-base;
-    @media (max-width: $screen-xs-max) {
-      font-size: $font-size-small;
-    }
+    color: $gray;
+    font-size: $font-size-small;
     margin-left: 12px;
   }
   .upvote {

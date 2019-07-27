@@ -11,14 +11,22 @@
     - collapsed_posts = []
     - uncollapsed_posts = posts
 
-
+  -# js-show-all-pinned-post-icon
   .post-card.summary.pinned
     - unless not_need_header
       .post-card__post.pinned-header.clearfix.js-show-all-pinned-post
-        .body.margin-zero.only-clickable.text-muted
-          %i.fa.fa-caret-right.fa-fw-xs-left.js-show-all-pinned-post-icon
-          공지사항
-          (#{posts.count})
+        .body.margin-zero.only-clickable.text-muted.clearfix
+          .pull-left
+            = image_tag 'notice.png', class: 'title-icon'
+            %span.title-text
+              공지사항
+              (#{posts.count})
+          .pull-right
+            .toggle-link.cursor-pointer.js-show-all-pinned-post-btn
+              .js-show-all-pinned-post-btn-show
+                열기
+              .js-show-all-pinned-post-btn-hide.collapse
+                닫기
     - uncollapsed_posts.each do |post|
       = render 'posts/post_pinned', local_assigns.merge(post: post)
 
