@@ -1,19 +1,21 @@
 - form_url = wiki_post_url(post, subdomain: post.issue.group_subdomain)
 - form_url = wiki_post_path(post) if local_assigns[:remote_post_form] == true
 - form_dom_id = "js-wiki-form-#{SecureRandom.uuid}"
+- editor_dom_id = "js-editor-#{SecureRandom.uuid}"
+
 = form_for post, url: form_url, method: :patch, html: { id: form_dom_id, class: 'form-widget', style: 'padding: 0', novalidate: true, remote: (local_assigns[:remote_post_form] == true), data: {action: 'parti-form-validation', 'submit-form-control': "form##{form_dom_id} input[type=submit]" } } do |f|
   - controls = capture do
     - if post.wiki.activate?
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
-    = link_to wiki_post_path(post, mode: 'preview-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: 'btn btn-xs btn-default btn-link btn-ghost' do
-      취소
-  - if post.wiki.body.length > 2000
+    = link_to wiki_post_path(post, mode: 'preview-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: 'btn btn-xs btn-default btn-link btn-ghost js-wiki-close-with-dirty-check', data: { 'wiki-close-with-dirty-check-editor-dom-id': editor_dom_id } do
+      닫기
+  - if post.wiki.body_striped_tags.length > 2000
     .submit-box{ style: 'margin-bottom: 12px; margin-top: 12px' }
       = controls
   - if post.wiki.activate?
     = hidden_field_tag :form_dom_id, form_dom_id
     = hidden_field_tag :wiki_card_dom_id, local_assigns[:wiki_card_dom_id]
-    =  render 'wikis/form_fields', f: f
+    =  render 'wikis/form_fields', f: f, editor_id: editor_dom_id
   - else
     .row
       .col-xs-12

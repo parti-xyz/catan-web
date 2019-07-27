@@ -17,7 +17,8 @@
     = render 'posts/last_stroked_for', post: post
 
   .wiki-line-body-container
-    - if ['detail', 'preview-detail', 'edit-detail'].include? local_assigns[:mode]
+    - too_short = post.wiki.body_striped_tags.try(:length) < 400
+    - if too_short or ['detail', 'preview-detail', 'edit-detail'].include? local_assigns[:mode]
       - if can?(:update, post.wiki) and 'edit-detail' == local_assigns[:mode]
         = render 'wikis/card_form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
       - else
@@ -29,10 +30,11 @@
             .mce-content-body
               != post.wiki.body
           .wiki-button
-            = link_to wiki_post_path(post, mode: 'preview', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: 'btn btn-default btn-force', style: 'margin-right: 4px' do
-              접어보기
+            - if !too_short
+              = link_to wiki_post_path(post, mode: 'preview', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: 'btn btn-default btn-force btn-xs', style: 'margin-right: 4px' do
+                접어보기
             - if post.issue.postable?(current_user)
-              = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px' do
+              = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force btn-xs", style: 'border-radius: 4px' do
                 편집
     - else
       %h4.wiki-title
@@ -45,10 +47,10 @@
             != smart_truncate_html(post.wiki.body, length: 1000)
         .shadow
         .wiki-button
-          .btn.btn-default.btn-force{ style: 'border-radius: 4px' }
+          .btn.btn-default.btn-force.btn-xs{ style: 'border-radius: 4px' }
             펼쳐보기
           - if post.issue.postable?(current_user)
-            = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force", style: 'border-radius: 4px;' do
+            = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force btn-xs", style: 'border-radius: 4px;' do
               편집
 
 

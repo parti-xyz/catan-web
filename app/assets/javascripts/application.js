@@ -1246,6 +1246,22 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  // wiki dirty check
+  $.parti_apply($base, '.js-wiki-close-with-dirty-check', function(elm) {
+    $(elm).on('click', function(e) {
+      $elm = $(e.currentTarget);
+      var editor_dom_id = $elm.data('wiki-close-with-dirty-check-editor-dom-id');
+      if(tinyMCE.get(editor_dom_id).isDirty()) {
+        if(confirm('위키를 새로고침하시겠습니까? 변경사항이 저장되지 않습니다')) {
+          return true;
+        } else {
+          e.preventDefault();
+          return false;
+        }
+      }
+    });
+  });
+
   // 댓글 읽기
   (function() {
     var __cached_comment_reader = [];
