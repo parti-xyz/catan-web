@@ -1124,6 +1124,7 @@ var parti_prepare = function($base, force) {
         uploadimage_default_img_class: 'tinymce-content-image',
         link_title: false,
         content_css: content_css,
+        body_class: 'tinymce-mobile',
         formats: {
           strikethrough: {inline : 'del'}
         },

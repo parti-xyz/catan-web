@@ -38,11 +38,13 @@ body.mce-content-body {
   }
 }
 
+// 모바일
+body.tinymce-mobile.mce-content-body {
+  font-size: $font-size-medium;
+}
+
 .mce-content-body {
   font-size: $font-size-base;
-  @media (max-width: $screen-xs-max) {
-    font-size: $font-size-medium;
-  }
   h1 {
     font-size: $font-size-base * 1.4;
   }

@@ -689,6 +689,12 @@ label.required:after {
   }
 }
 
+.container {
+  @media (min-width: $screen-sm-min) {
+    width: 670px;
+  }
+}
+
 section.contents-page {
   padding: 10px 0;
   @media (max-width: $screen-xs-max) {

@@ -845,12 +845,11 @@ $drawer-default-space-mobile: 12px;
       top: 0;
     }
   }
-  .content-wrapper {
-    margin-left: 0;
-    @media (min-width: $screen-sm-min) {
-      min-width: 970px;
-    }
-  }
+  // .content-wrapper {
+  //   @media (min-width: $screen-sm-min) {
+  //     min-width: 970px;
+  //   }
+  // }
 
   &.sidebar-open,
   &.sidebar-open-in-advance {
@@ -862,13 +861,21 @@ $drawer-default-space-mobile: 12px;
       z-index: $zindex-slideout-backdrop;
     }
     .content-wrapper {
-      margin-left: $side-menu-width;
+      // margin-left: $side-menu-width;
       position: relative;
     }
   }
 
-  // sm사이즈까지는 미리 열어 놓지 않습니다
-  @media (max-width: 1250px) {
+  // 1151px 사이즈 이후에는 항상 열어 놓습니다.
+  @media (min-width: $screen-lg-min) {
+    .sidebar-wrapper {
+      display: block;
+      z-index: $zindex-slideout-backdrop;
+    }
+  }
+
+  // md 사이즈까지는 미리 열어 놓지 않습니다
+  @media (max-width: $screen-md-max) {
     &.sidebar-open-in-advance {
       .sidebar-wrapper {
         display: none;
@@ -878,6 +885,13 @@ $drawer-default-space-mobile: 12px;
         margin-left: 0;
       }
     }
+  }
+}
+
+.visible-sm-sidbar-inline {
+  display: none !important;
+  @media (max-width: $screen-md-max) {
+    display: inline !important;
   }
 }
 
