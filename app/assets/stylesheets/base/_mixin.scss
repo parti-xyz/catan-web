@@ -16,10 +16,10 @@
 }
 
 @mixin hover-shadow() {
-  border-top: 1px solid $brand-primary-light;
-  border-right: 1px solid $brand-primary-light;
-  border-bottom: 1px solid $brand-primary-light;
-  border-left: 1px solid $brand-primary-light;
+  border-top: 1px solid $gray-less-lighter;
+  border-right: 1px solid $gray-less-lighter;
+  border-bottom: 1px solid $gray-less-lighter;
+  border-left: 1px solid $gray-less-lighter;
   -webkit-box-shadow: 4px 4px 4px 0px #deddda;
   -moz-box-shadow: 4px 4px 4px 0px #deddda;
   box-shadow: 4px 4px 4px 0px #deddda;

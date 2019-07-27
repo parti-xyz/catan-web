@@ -425,8 +425,8 @@ $drawer-default-space-mobile: 12px;
   display: block;
   box-shadow:0px 0px 15px dimgray;
   padding-bottom: 100px;
-  background: #fff;
-  border-right: 1px solid $gray-lighter;
+  background-color: $background-color;
+  border-right: 1px solid $gray-light;
   &__profile {
     width: 100%;
     background-color: $brand-primary;
@@ -517,17 +517,13 @@ $drawer-default-space-mobile: 12px;
         }
       }
       .group-home-line {
-        color: $gray;
-        &:hover {
-          color: $gray-dark;
-          font-weight: bold;
-        }
+        color: $gray-dark;
       }
       &.menu-line,
       &.issue-line,
       > .group-line {
         &, a {
-          color: $gray;
+          color: $gray-dark;
         }
         &.unread {
           font-weight: bold;
@@ -540,21 +536,41 @@ $drawer-default-space-mobile: 12px;
         &:hover,
         &:hover a {
           color: $gray-dark;
-          font-weight: bold;
         }
         &:hover {
-          background-color: $gray-lightest;
+          background-color: $gray-more-lightest;
         }
         &.highlight {
-          background-color: $brand-primary-lighter;
-          &, a {
-            color: $gray-dark;
-            font-weight: bold;
-          }
-          &:hover,
-          &:hover a {
-            background-color: $brand-primary-light;
-          }
+          background-color: $gray-more-lightest;
+        }
+      }
+      > .group-line.unread {
+        .title-content .group-parties-section-title-wrapper:after {
+          content: ' ';
+          background-color: $brand-red;
+          position: relative;
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          top: 2px;
+          right: -8px;
+          top: -8px;
+          right: 0;
+          display: inline-block;
+        }
+      }
+      &.issue-line.unread {
+        .issue-line__title > span:after {
+          content: ' ';
+          position: absolute;
+          background-color: $brand-red;
+          position: relative;
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          top: -8px;
+          right: -4px;
+          display: inline-block;
         }
       }
       &.menu-line > a.active {
@@ -581,13 +597,10 @@ $drawer-default-space-mobile: 12px;
             padding: $drawer-default-space-mobile/2 18px;
           }
           &:hover {
-            background-color: $gray-lightest;
+            background-color: $gray-more-lightest;
           }
           &.highlight {
-            background-color: $brand-primary-lighter;
-            &:hover {
-              background-color: $brand-primary-light;
-            }
+            background-color: $gray-more-lightest;
           }
           &.title-category {
             color: $gray;
@@ -618,15 +631,10 @@ $drawer-default-space-mobile: 12px;
             line-height: 24px;
             .issue-line__thumb {
               background-color: #ddd;
-              opacity: 0.5;
               border: 1px solid transparent;
             }
           }
-          .issue-line.unsigned-user {
-            .issue-line__thumb {
-              opacity: 1;
-            }
-          }
+
           .issue-line.highlight,
           .group-home-line.highlight,
           .issue-line.unread,
@@ -634,7 +642,6 @@ $drawer-default-space-mobile: 12px;
           .issue-line:hover,
           .group-home-line:hover {
             .issue-line__thumb {
-              opacity: 1;
               -webkit-box-shadow: 1px 3px 4px 0px $gray-less-lighter;
               -moz-box-shadow: 1px 3px 4px 0px $gray-less-lighter;
               box-shadow: 1px 3px 4px 0px $gray-less-lighter;
@@ -663,7 +670,7 @@ $drawer-default-space-mobile: 12px;
       &.head-line {
         padding: 12px 18px;
         .drawer-list-mobile & {
-          background-color: white;
+          background-color: $background-color;
         }
         & + li.menu-line {
           margin-top: $drawer-default-space;
@@ -834,13 +841,11 @@ $drawer-default-space-mobile: 12px;
     width: $side-menu-width;
     min-height: 100vh;
     overflow-y: scroll;
-    box-shadow:0px 5px 15px $gray-light;
-
     .drawer-list {
       display: block;
       min-height: 100vh;
       padding-bottom: 100px;
-      background: #fff;
+      background: $background-color;
       position: absolute;
       top: 0;
     }

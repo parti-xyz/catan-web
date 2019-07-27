@@ -15,7 +15,7 @@ section.intro-page {
   position: fixed;
   right: 0;
   left: 0;
-  z-index: 1029;
+  z-index: $zindex-fixed-my-home-tab;
   opacity: 0.95;
   word-break: keep-all;
 
