@@ -146,7 +146,7 @@
   }
 }
 
-@mixin skeletons($base-gray) {
+@mixin skeletons($target-color, $base-color: white) {
   .skeletons {
     margin: 1em 0;
     .skeleton-user {
@@ -189,14 +189,14 @@
     .skeleton-title,
     .skeleton-item {
       height: 1em;
-      background-color: $base-gray;
+      background-color: $target-color;
       animation-name: shimmer-animate;
       animation-duration: 4s;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
-      background: -webkit-gradient(linear, left top, right top, color-stop(8%, mix(white,$base-gray,70%)), color-stop(18%, mix(white,$base-gray,35%)), color-stop(33%, mix(white,$base-gray,70%)));
-      background: -webkit-linear-gradient(left, mix(white,$base-gray,70%) 8%, mix(white,$base-gray,35%) 18%, mix(white,$base-gray,70%) 33%);
-      background: linear-gradient(to right, mix(white,$base-gray,70%) 8%, mix(white,$base-gray,35%) 18%, mix(white,$base-gray,70%) 33%);
+      background: -webkit-gradient(linear, left top, right top, color-stop(8%, mix($base-color,$target-color,70%)), color-stop(18%, mix($base-color,$target-color,35%)), color-stop(33%, mix($base-color,$target-color,70%)));
+      background: -webkit-linear-gradient(left, mix($base-color,$target-color,70%) 8%, mix($base-color,$target-color,35%) 18%, mix($base-color,$target-color,70%) 33%);
+      background: linear-gradient(to right, mix($base-color,$target-color,70%) 8%, mix($base-color,$target-color,35%) 18%, mix($base-color,$target-color,70%) 33%);
       -webkit-background-size: 800px 104px;
     }
   }

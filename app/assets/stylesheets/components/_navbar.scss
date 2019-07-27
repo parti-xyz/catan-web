@@ -237,6 +237,10 @@ $drawer-sub-issues-left-space: 48px;
                 overflow: hidden;
                 text-overflow: ellipsis;
               }
+              .dropdown-item-scope {
+                font-size: $font-size-small;
+                color: $gray;
+              }
             }
           }
         }
@@ -739,7 +743,7 @@ $drawer-default-space-mobile: 12px;
     cursor: pointer;
     background-color: #271e44;
   }
-  @include skeletons($gray-light);
+  @include skeletons(white, $gray-light);
 }
 
 // mobile drawer

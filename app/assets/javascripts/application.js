@@ -873,24 +873,66 @@ var parti_prepare = function($base, force) {
         active = 'issue';
       }
 
-      if(active !== 'all') {
-        $('.js-header-search-default-badge').show();
-        $('.js-header-search-default-badge-' + active).show();
-      }
-
       if(active === 'group') {
         $elm.find('.js-header-search-dropdown-item[data-header-search-type="all"]').show();
+        $elm.find('.js-header-search-dropdown-item[data-header-search-type="group"]').show().addClass('active');
       } else if(active === 'issue') {
         $elm.find('.js-header-search-dropdown-item[data-header-search-type="all"]').show();
         $elm.find('.js-header-search-dropdown-item[data-header-search-type="group"]').show();
+        $elm.find('.js-header-search-dropdown-item[data-header-search-type="issue"]').show().addClass('active');
       }
     }
     init_menu();
 
+    var handler_arrow_key = function(e){
+      if(!$elm.find('.js-header-search-dropdown').is(':visible')) {
+        return;
+      }
+      var $current_active = $elm.find('.js-header-search-dropdown-item.active').first();
+
+      var $new_active = null;
+      if(!$current_active || $current_active.length <= 0) {
+        $new_active = $elm.find('.js-header-search-dropdown-item').first();
+      } else {
+        switch(e.which) {
+          case 38: // up
+            console.log('up');
+            if(!$current_active || $current_active.length <= 0) {
+              $new_active = $elm.find('.js-header-search-dropdown-item').last();
+            } else {
+              var $new_active = $current_active.prev('.js-header-search-dropdown-item');
+              if(!$new_active || $new_active.length <= 0) {
+                $new_active = $elm.find('.js-header-search-dropdown-item').last();
+              }
+            }
+            break;
+          case 40: // down
+          console.log('down');
+            if(!$current_active || $current_active.length <= 0) {
+              $new_active = $elm.find('.js-header-search-dropdown-item').first();
+            } else {
+              var $new_active = $current_active.next('.js-header-search-dropdown-item');
+              if(!$new_active || $new_active.length <= 0) {
+                $new_active = $elm.find('.js-header-search-dropdown-item').first();
+              }
+            }
+            break;
+          default:
+            break;
+        }
+        if($new_active && $new_active.length > 0) {
+          $new_active.addClass('active');
+          $current_active.removeClass('active');
+          $elm.find('input[name="search_type"]').val($new_active.data('header-search-type'));
+          e.preventDefault();
+        }
+      }
+    }
+    $(document).on('keydown', handler_arrow_key);
+
     var hide_menu = function() {
       $elm.find('.js-header-search-dropdown').hide();
     }
-
     var show_menu = function() {
       $elm.find('.js-header-search-dropdown').show();
     }
@@ -925,21 +967,20 @@ var parti_prepare = function($base, force) {
         return;
       }
       $elm.find('input[name="search_type"]').val($(e.currentTarget).data('header-search-type'));
-      $elm.find('input[name="group_id"]').val(__current_group_id());
-      $elm.find('input[name="issue_id"]').val(__current_issue_id());
       $elm.submit();
     });
 
     $elm.on('submit', function(e) {
+      $elm.find('input[name="group_id"]').val(__current_group_id());
+      $elm.find('input[name="issue_id"]').val(__current_issue_id());
+
       var current_search_type = $elm.find('input[name="search_type"]').val();
       if($.is_blank(current_search_type)) {
         $elm.find('input[name="search_type"]').val('all');
         if(__current_group_id()) {
-          $elm.find('input[name="group_id"]').val(__current_group_id());
           $elm.find('input[name="search_type"]').val('group');
         }
         if(__current_issue_id()) {
-          $elm.find('input[name="issue_id"]').val(__current_issue_id());
           $elm.find('input[name="search_type"]').val('issue');
         }
       }
@@ -2353,7 +2394,7 @@ $(function(){
 
       $__sidebar_scroll_container.scrollTo($elm, {
         offset: {
-          top: (-1 * $__sidebar_scroll_container.innerHeight() + 2 * $elm.outerHeight() + $('#site-header').outerHeight())
+          top: (- 94 + $elm.outerHeight())
         }
       });
       sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
