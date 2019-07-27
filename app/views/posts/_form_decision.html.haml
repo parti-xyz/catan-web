@@ -1,16 +1,35 @@
-.post-edit-form
-  = form_for [:update_decision, @post], html: { class: 'form-widget', novalidate: true, data: { action: 'parti-form-validation', 'submit-form-control': '.post-edit-form form input[type=submit]' } } do |f|
+.post-edit-form{ class: ('js-decision-conflict' if post.conflicted_decision.present?) }
+  = form_for [:update_decision, post], remote: true, html: { novalidate: true, class: 'form-widget', data: { action: 'parti-form-validation', 'submit-form-control': '.post-edit-form form input[type=submit]' } } do |f|
     - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
     - decision_dom_id = "post-body-#{SecureRandom.uuid}"
     .form-widget-content{ id: textarea_error_id }
 
       .form-group.textarea-box
-        %p.help-block
-          진행된 토론 내용이나 결정 사항을 기록하세요.
+        - if post.conflicted_decision.present?
+          - last_history = post.decision_histories.last
+          - last_editor = last_history.try(:user)
+          .alert.alert-danger.alert-decision-conflict
+            %p
+              %strong 저장을 계속하기 전에 검토가 필요합니다.
+            %p
+              = date_f(last_history.created_at)
+              @#{last_editor.nickname}님이 토론 정리 내용을 먼저 업데이트했습니다.
+              충돌하는 변경 사항은 없는지 검토한 후에 다시 저장해 주세요.
+              두 버전의 다른 점은 아래와 같이 표시해 두었습니다.
+            %p
+              %br
+              .decision-conflict-legend
+                예시)
+                %span.diff-added @#{last_editor.nickname}님이 저장한 토론 정리 내용
+                %i.fa.fa-arrows-h
+                %span.diff-removed 내가 편집 중이던 토론 정리 내용
         .js-tinymce{ 'data-target-id': "##{decision_dom_id}", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
-          != @post.decision
+          - if post.conflicted_decision.present?
+            != post.diff_conflicted_decision
+          - else
+            != post.decision
         = f.hidden_field :decision, id: decision_dom_id, class: 'validate', data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{textarea_error_id}" }
         = hidden_field_tag :last_decision_history_id, f.object.decision_histories.last.try(:id)
-    .editor-btn.text-right
-      = link_to '취소', @post, class: 'btn btn-default'
+    .editor-btn
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
+      = link_to '닫기', show_decision_post_path(post), remote: true, class: 'btn btn-default btn-link btn-default'

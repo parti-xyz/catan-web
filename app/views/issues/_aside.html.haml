@@ -40,5 +40,5 @@
               - if can? :update, issue
                 = link_to related, method: :delete do
                   %i.fa.fa-trash-o
-            = render customize_partial_path(related_target_issue, 'issue_line'), after_block: remove_button
+            = render customize_partial_path(related_target_issue, 'issue_line'), issue: related_target_issue, after_block: remove_button
 

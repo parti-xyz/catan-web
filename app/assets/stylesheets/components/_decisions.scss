@@ -2,20 +2,44 @@
   font-size: $font-size-base;
   margin-top: 14px;
   padding: 12px;
+  &:hover {
+    @include hover-shadow();
+  }
   &-blank {
     padding: 6px 12px;
   }
   background-color: $gray-lightest;
-  border: 0 solid $gray-lighter;
+  border: 1px solid #d2d2d2;
   border-radius: $border-radius-base;
   text-align: left;
   h6 {
     margin-top: 0;
-    margin-bottom: 4px;
+    font-size: $font-size-base;
+  }
+  .writer,
+  .control {
+    margin-left: 12px;
+    color: $gray;
+    a {
+      color: $gray;
+      &:hover {
+        color: $gray-dark;
+      }
+    }
+    font-weight: normal;
+    font-size: $font-size-small;
+    .item + .item {
+      margin-left: 4px
+    }
   }
   .control {
-    color: $gray;
-    font-weight: normal;
+    white-space: nowrap;
+    a {
+      color: $base-brand-primary-opt8;
+      &:hover {
+        color: $base-brand-primary;
+      }
+    }
   }
   p {
     margin:0;
@@ -26,6 +50,36 @@
   .more {
     color: $gray_a;
     font-size: $font-size-small;
+  }
+  .form-widget {
+    padding: 0;
+    background: transparent;
+    padding-top: 5px;
+  }
+  .alert-decision-conflict
+  {
+    .decision-content,
+    .decision-history,
+    .decision-conflict-legend {
+      .diff-removed {
+        background-color: $decision-removed-color;
+      }
+      .diff-added {
+        background-color: $decision-added-color;
+      }
+      .diff-touched {
+        background-color: $decision-touched-color;
+      }
+    }
+  }
+
+  .alert-decision-conflict {
+    .decision-conflict-legend {
+      padding: 10px;
+      background: white;
+      margin: 10px 0;
+      color: $text-color;
+    }
   }
 }
 

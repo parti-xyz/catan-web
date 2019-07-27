@@ -1,29 +1,36 @@
-- if post.has_decision
-  .decision-panel
-    %h6
-      %span.text-nowrap 함께 결정하기
+%div{ class: post_decision_dom_class(post) }
+  - if local_assigns[:mode] == 'form'
+    .decision-panel
+      %h6
+        %span.text-nowrap
+          %i.fa.fa-rocket
+          토론 정리
+        %small.control
+          진행된 토론 내용이나 결정 사항을 기록하세요.
+      = render 'posts/form_decision', post: post
+  - elsif post.has_decision
+    .decision-panel
+      %h6
+        %span.text-nowrap
+          %i.fa.fa-rocket
+          토론 정리
 
-      %span.control
-        &middot;
-        - if post.decision_histories.any?
-          - latest_history = post.decision_histories.recent.first
-          - latest_history_user = latest_history.user
-          %span.writer
-            %span
-              = link_to "@#{latest_history_user.nickname}", smart_user_gallery_path(latest_history_user), class: 'text-muted'
-            - if post.decision_authors_count > 1
-              외 #{post.decision_authors_count - 1}명
-          - if post.decisionable?(current_user)
-            &middot;
+        - decision_authors = post.decision_authors.to_a
+        - if decision_authors.any?
+          %small.writer
+            - decision_authors.each do |user|
+              %span.item
+                = link_to "@#{user.nickname}", smart_user_gallery_path(user)
+
         - if post.decisionable?(current_user)
-          = link_to '편집', edit_decision_post_path(post), class: 'text-primary'
-          &middot;
-          = link_to '이력', decision_histories_post_path(post), class: 'text-primary'
+          %small.control
+            = link_to '편집', show_decision_post_path(post, mode: :form), remote: true, class: 'item'
+            = link_to '이력', decision_histories_post_path(post), class: 'item text-primary'
 
-    - if post.decision.blank?
-      %span.text-muted 결정 사항이 없습니다
-    - else
-      - if local_assigns[:compact_decision] == true
-        != smart_truncate_html(decision_body_format(post.issue, post.decision&.strip), length: 40, ellipsis: ' ... <span class="more">더 보기</span>')
+      - if post.decision.blank?
+        %span.text-muted 결정 사항이 없습니다
       - else
-        = decision_body_format(post.issue, post.decision&.strip)
+        - if local_assigns[:compact_decision] == true
+          != smart_truncate_html(decision_body_format(post.issue, post.decision&.strip), length: 40, ellipsis: ' ... <span class="more">더 보기</span>')
+        - else
+          = decision_body_format(post.issue, post.decision&.strip)

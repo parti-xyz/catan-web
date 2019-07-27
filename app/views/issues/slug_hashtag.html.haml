@@ -34,4 +34,4 @@
           .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': smart_issue_hashtag_url(@issue, @hashtag, format: :js)}
             .page-waypoint-loading.js-page-waypoint-loading
               %i.fa.fa-2x.fa-spinner.fa-pulse
-      = render 'issues/aside'
+      = render 'issues/aside', issue: @issue

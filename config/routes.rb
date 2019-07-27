@@ -147,7 +147,7 @@ Rails.application.routes.draw do
       put 'behold'
       put 'unbehold'
       get 'more_comments'
-      get 'edit_decision'
+      get 'show_decision'
       patch 'update_decision'
       get 'decision_histories'
       get 'edit_folder'

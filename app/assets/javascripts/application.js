@@ -1995,6 +1995,13 @@ var parti_prepare = function($base, force) {
     });
   });
 
+  // remote link in dropdown menu toggle the menu
+  $.parti_apply($base, 'js-remote-toggle-dropdown-menu.dropdown-menu', function(elm) {
+    $(elm).find('a[data-remote=true]').click(function () {
+      $(this).closest('ul').prev('button').dropdown('toggle');
+    });
+  });
+
   $base.data('parti-prepare-arel', 'completed');
 }
 

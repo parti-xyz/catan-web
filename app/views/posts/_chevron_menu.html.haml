@@ -43,12 +43,12 @@
 - button_groups << capture do
   - if post.decisionable?(current_user)
     %li
-      = link_to edit_decision_post_path(post), target: '_blank' do
-        함께 결정하기
+      = link_to show_decision_post_path(post, mode: :form), remote: true, target: '_blank' do
+        토론 정리 시작하기
   - if can? :edit_folder, post
     %li
       = link_to edit_folder_post_path(post), remote: true do
-        폴더 이동
+        다른 폴더로 이동
   - if can?(:move_to_issue, post)
     %li
       = link_to [:move_to_issue_form, post] do
@@ -62,7 +62,7 @@
           %i.fa.fa-ban
     - else
       %li
-        %a.cursor-pointer.js-mention{ href: '#', data: { comment_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': post.user.nickname, 'mention-text': "게시글 이동을 부탁드려요." } }<> 채널 이동 요청
+        %a.cursor-pointer.js-mention{ href: '#', data: { comment_form_control: new_comment_form_body_input_dom_selector(post), 'mention-nickname': post.user.nickname, 'mention-text': "게시글 이동을 부탁드려요." } }<> 다른 채널로 이동 요청
 - button_groups << capture do
   - if can? :pin, post
     %li

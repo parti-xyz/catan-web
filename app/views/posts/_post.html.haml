@@ -49,7 +49,7 @@
                 = render 'posts/bookmark', post: post
               %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
                 %i.fa.fa-ellipsis-v
-              %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+              %ul.dropdown-menu.pull-right.js-remote-toggle-dropdown-menu{ "aria-labelledby": dropdown_dom_id }
                 = chevron_dropdown
           .post-info
             = render 'users/post_byline', post: post

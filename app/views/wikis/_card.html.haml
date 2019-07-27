@@ -10,7 +10,7 @@
           = render 'posts/bookmark', post: post
         %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
           %i.fa.fa-ellipsis-v
-        %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+        %ul.dropdown-menu.pull-right.js-remote-toggle-dropdown-menu{ "aria-labelledby": dropdown_dom_id }
           = chevron_dropdown
 
     - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }

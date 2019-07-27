@@ -550,6 +550,10 @@ class Post < ApplicationRecord
     self.blind = self.issue.blind_user?(self.user)
   end
 
+  def decision_authors
+    User.where(id: decision_histories.select(:user_id).distinct)
+  end
+
   def decision_authors_count
     decision_histories.select(:user_id).distinct.count
   end
@@ -579,7 +583,7 @@ class Post < ApplicationRecord
     self.decision = self.decision_was
   end
 
-  def diff_conflicted_body
+  def diff_conflicted_decision
     self.decision_histories.last.diff_body(self.conflicted_decision)
   end
 

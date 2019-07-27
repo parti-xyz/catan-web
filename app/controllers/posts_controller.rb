@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:update_wiki]
+  skip_before_action :verify_authenticity_token, only: [:update_wiki, :update_decision]
   before_action :authenticate_user!, except: [:index, :show, :wiki, :poll_social_card, :survey_social_card, :modal, :more_comments]
   load_and_authorize_resource
   before_action :set_current_history_back_post
@@ -197,8 +197,11 @@ class PostsController < ApplicationController
     end
   end
 
+  def show_decision
+  end
+
   def update_decision
-    redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
+    redirect_to render_404 and return if fetch_issue.blank? or private_blocked?(@issue)
 
     conflict = (@post.decision_histories.any? and (@post.decision_histories.last.try(:id) != params[:last_decision_history_id].try(:to_i)))
 
@@ -206,12 +209,13 @@ class PostsController < ApplicationController
     @post.strok_by(current_user, :decision)
 
     unless @post.will_save_change_to_decision?
-      redirect_to(params[:back_url].presence || smart_post_url(@post)) and return
+      # redirect_to(params[:back_url].presence || smart_post_url(@post)) and return
+      return
     end
 
     if conflict
       @post.build_conflict_decision
-      render :edit_decision
+      return
     elsif @post.save
       @post.issue.strok_by!(current_user, @post)
       @post.issue.read_if_no_unread_posts!(current_user)
@@ -219,10 +223,10 @@ class PostsController < ApplicationController
       DecisionNotificationJob.perform_async(current_user.id, @decision_history.id)
 
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to params[:back_url].presence || smart_post_url(@post)
+      return
     else
       errors_to_flash @post
-      render edit_decision_post_path(@post)
+      return
     end
   end
 

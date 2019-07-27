@@ -203,6 +203,14 @@ module DomHelper
     ".#{folded_post_dom_class(post)}"
   end
 
+  def post_decision_dom_class(post)
+    "#{dom_id(post)}--edit-decision"
+  end
+
+  def post_decision_dom_selector(post)
+    ".#{post_decision_dom_class(post)}"
+  end
+
   def issue_line_category_dom_selector(issue)
     ".#{issue_line_category_dom_class(issue)}"
   end
