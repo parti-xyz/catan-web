@@ -1620,7 +1620,8 @@ var parti_prepare = function($base, force) {
 
     $.parti_apply($base, '.js-folder-item', function(elm) {
       var $elm = $(elm);
-      var $rename_form_elm = $elm.find('.js-folder-item-rename-form');
+      var $rename_form_container_elm = $elm.find('.js-folder-item-rename-form-container');
+      var $rename_form_elm = $rename_form_container_elm.find('form').first();
       var $rename_title_field_elm = $elm.find('.js-folder-item-rename-text-field');
       var $content_elm = $elm.find('.js-folder-item-renamable-content');
       var $folder_menu = $elm.find('.js-folder-item-menu');
@@ -1640,10 +1641,11 @@ var parti_prepare = function($base, force) {
         setTimeout(function() {
           $elm.removeClass('js-blured');
         }, 1000);
+        $elm.removeClass('renaming');
       }
 
       var reset_item = function($current_elm, active) {
-        $current_elm.find('.js-folder-item-rename-form').hide();
+        $current_elm.find('.js-folder-item-rename-form-container').hide();
         $current_elm.find('.js-folder-item-renamable-content').show();
       }
 
@@ -1651,12 +1653,11 @@ var parti_prepare = function($base, force) {
         var original_text = $content_elm.text();
 
         $content_elm.text(text);
-        var buffer = 8;
-        var text_width = $content_elm.outerWidth() - buffer;
+        var text_width = $content_elm.outerWidth();
         $content_elm.text(original_text);
 
-        var parent_width = $content_elm.parent().outerWidth() - buffer;
-        return Math.min(text_width, parent_width);
+        var parent_width = $content_elm.parent().parent().outerWidth();
+        return Math.min(text_width, parent_width - 110);
       }
 
       var on_run = function(e) {
@@ -1674,6 +1675,18 @@ var parti_prepare = function($base, force) {
               $elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
               _.pull(_cookies_folder_ids, folder_id);
             }
+
+            $.each($elm.siblings('.js-folder-children'), function(index, children_container_elm) {
+              $children_container_elm = $(children_container_elm);
+              $children_elms = $children_container_elm.find('.js-folder-children').hide();
+              $.each($children_container_elm.find('.js-folder-item[data-folder-item-type="folder"]'), function(index_, child_elm) {
+                var $child_elm = $(child_elm);
+                var folder_id = $child_elm.data('folder-item-id');
+                $child_elm.find('.js-folder-item-icon').removeClass('fa-folder-open').addClass('fa-folder');
+                 _.pull(_cookies_folder_ids, folder_id);
+              });
+            });
+
             _cookies_folder_ids = _.uniq(_cookies_folder_ids);
             if(_cookies_folder_ids.length > 2000) {
               _cookies_folder_ids.shift()
@@ -1695,10 +1708,17 @@ var parti_prepare = function($base, force) {
         reset_item($elm, true); //after action performed, reset counter
       }
 
+      var on_resize_rename_title_field = function() {
+        var width = text_field_width($rename_title_field_elm.val());
+        $rename_title_field_elm.css({ width: width });
+      }
+      on_resize_rename_title_field();
+
       var on_rename = function() {
+        on_resize_rename_title_field();
         var title = $content_elm.data('value');
         $rename_title_field_elm.val(title).trigger('input');
-        $rename_form_elm.show();
+        $rename_form_container_elm.show();
         $content_elm.hide();
 
         $(document).on('keyup.folder-item', esc_handler);
@@ -1706,7 +1726,9 @@ var parti_prepare = function($base, force) {
 
         $rename_title_field_elm.focus();
         $rename_title_field_elm[0].setSelectionRange(0, 0);
-        $rename_title_field_elm[0].scrollLeft = 0
+        $rename_title_field_elm[0].scrollLeft = 0;
+
+        $elm.addClass('renaming');
       }
 
       $elm.on('dblclick', function(e) {
@@ -1722,6 +1744,10 @@ var parti_prepare = function($base, force) {
 
       $elm.on('click', function(e) {
         if($(e.target).closest('.js-folder-item-no-run').length > 0) {
+          return;
+        }
+
+        if($elm.hasClass('js-blured')) {
           return;
         }
 
@@ -1750,27 +1776,16 @@ var parti_prepare = function($base, force) {
         on_blur();
       });
 
+      $elm.on('parti-folder-item-submit', function(e) {
+        $rename_form_elm.submit();
+      });
+
       $rename_form_elm.on('submit', function(e) {
         $elm.trigger('parti-folder-item-saving');
         var title = $rename_title_field_elm.val();
         $content_elm.html(title + ' <i class="fa fa-spinner fa-pulse">');
         on_blur();
       });
-
-      $rename_title_field_elm.on('input', function(e) {
-        var width = text_field_width($rename_title_field_elm.val());
-        $rename_title_field_elm.css({ width: width });
-      }).trigger('input');
-
-      $folder_menu.on('show.bs.dropdown', function(e) {
-        if($elm.data('folder-item-acceptable-type') === 'any' ||
-          $elm.data('folder-item-acceptable-type') === 'folder') {
-            return;
-        }
-
-        $('js-folder-item-acceptable-folder-or-any').hide();
-      });
-
     });
   })();
 
@@ -1807,17 +1822,6 @@ var parti_prepare = function($base, force) {
           });
         };
       };
-
-      var depth = function($draggable_item) {
-        if($draggable_item.find('.js-draggable-slug-folder-container').length > 0) {
-          return $draggable_item.deepest('.js-draggable-slug-folder-container').first()
-            .parentsUntil($draggable_item, '.js-draggable-slug-folder-container').length + 1;
-        } else {
-          return 0;
-        }
-      }
-
-      var max_depth = 2;
 
       var on_resize = _.debounce(function(e) {
         var group = $base_elm.data('sortable-group');
@@ -1880,16 +1884,6 @@ var parti_prepare = function($base, force) {
 
             $('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-wait');
 
-            // 폴더의 경우 말단 폴더인지 확인합니다. 말단 폴더는 게시물만 포함됩니다.
-            var $subcontainers = $item.find('> .js-draggable-slug-folder-container');
-            if($subcontainers.length > 0) {
-              if($item.parents('.js-draggable-slug-folder-container').length > 1) {
-                $subcontainers.data('draggable-slug-folder-acceptable-type', 'post');
-              } else {
-                $subcontainers.data('draggable-slug-folder-acceptable-type', 'any');
-              }
-            }
-
             // 소팅
             var $last_dom;
             var $container = $item.closest('.js-draggable-slug-folder-container');
@@ -1917,6 +1911,18 @@ var parti_prepare = function($base, force) {
             // 기본 로직 수행
             _super($item, container);
 
+            // 폴더 들여쓰기 스타일링
+            try {
+              var $folderItem = null;
+              if($item.hasClass('js-folder-item')) {
+                $folderItem = $item
+              } else {
+                $folderItem = $item.find('.js-folder-item').first();
+              }
+              $folderItem.data('folder-depth', (parseInt($container.data('folder-depth') || '1')));
+            } catch(error) { }
+            $(document).trigger('parti-folder-indentation');
+
             // 서버에 저장
             if(container) {
               var data;
@@ -1943,11 +1949,7 @@ var parti_prepare = function($base, force) {
           },
           isValidTarget: function ($item, container) {
             var container_type = container.el.data('draggable-slug-folder-acceptable-type');
-            var valid_type = (container_type === 'any' || $item.data('draggable-slug-folder-item-type') == container_type);
-
-            var container_depth = container.el.parents('.js-draggable-slug-folder-container').length;
-            var current_depth = depth($item);
-            return valid_type && (current_depth === 0 || (container_depth + current_depth <= max_depth));
+            return (container_type === 'any' || $item.data('draggable-slug-folder-item-type') == container_type);
           },
         });
 
@@ -2073,6 +2075,21 @@ var parti_ellipsis = function($partial) {
 $(function(){
   parti_prepare($('body'));
   parti_ellipsis($('body'));
+
+  // 폴더 들여쓰기 스타일링
+  (function() {
+    var folder_indentation = function() {
+      $.each($('.js-folder-item'), function(index, elm) {
+        try {
+          var $elm = $(elm);
+          $elm.css('padding-left', (parseInt($elm.data('folder-depth') || '1') - 1) * 16 + "px");
+        } catch(error) { }
+      });
+    }
+    $(document).on('parti-folder-indentation', folder_indentation);
+
+  })();
+
 
   $.each($('.slick-slider'), function(index, elm) {
     var lg = $(elm).data('slick-slider-lg') || 5;
@@ -2964,45 +2981,50 @@ $(function(){
   });
 
   // 내 홈 탭
-  if($('.js-my-home-tab-sticky').length > 0){
-    var sticky = new Waypoint.Sticky({
-      element: $('.js-my-home-tab-sticky')[0],
-      offset: function() {
-        $offset = $('.js-my-home-tab-sticky-offset');
-        if ($offset.length <= 0) {
-          return 0;
+  (function() {
+    if($('.js-my-home-tab-sticky').length > 0){
+      var sticky = new Waypoint.Sticky({
+        element: $('.js-my-home-tab-sticky')[0],
+        offset: function() {
+          $offset = $('.js-my-home-tab-sticky-offset');
+          if ($offset.length <= 0) {
+            return 0;
+          }
+
+          return -1 * $offset.position().top;
         }
+      })
+    }
+  })();
 
-        return -1 * $offset.position().top;
+  (function() {
+    if(window.matchMedia("screen and (max-width: 768px)").matches) {
+      // 액션시트
+      $('.js-dropdown-xs-actionsheet').on('show.bs.dropdown', function(e) {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideDown(400);
+      });
+
+      $('.js-dropdown-xs-actionsheet').on('hide.bs.dropdown', function(e) {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
+      });
+    }
+  })();
+
+  (function() {
+    // 앵커 링크일때 해당 링크를 강조
+    if($(location).attr('hash').length > 0) {
+      if(!$.isValidSelector($(location).attr('hash'))) {
+        return;
       }
-    })
-  }
-
-  if(window.matchMedia("screen and (max-width: 768px)").matches) {
-    // 액션시트
-    $('.js-dropdown-xs-actionsheet').on('show.bs.dropdown', function(e) {
-      $(this).find('.dropdown-menu').first().stop(true, true).slideDown(400);
-    });
-
-    $('.js-dropdown-xs-actionsheet').on('hide.bs.dropdown', function(e) {
-      $(this).find('.dropdown-menu').first().stop(true, true).slideUp(200);
-    });
-  }
-
-  // 앵커 링크일때 해당 링크를 강조
-  if($(location).attr('hash').length > 0) {
-    if(!$.isValidSelector($(location).attr('hash'))) {
-      return;
+      var $anchor = $($(location).attr('hash')).first();
+      if($anchor.hasClass('js-stress-anchor')) {
+        var $target = $($anchor.data('stress-target'));
+        $target.addClass($anchor.data('stress-class'));
+        setTimeout(function() { $target.removeClass($anchor.data('stress-class')); }, 3000);
+      }
     }
-    var $anchor = $($(location).attr('hash')).first();
-    if($anchor.hasClass('js-stress-anchor')) {
-      var $target = $($anchor.data('stress-target'));
-      $target.addClass($anchor.data('stress-class'));
-      setTimeout(function() { $target.removeClass($anchor.data('stress-class')); }, 3000);
-    }
-  }
+  })();
 });
-
 
 // 공통 모달
 $(function(){

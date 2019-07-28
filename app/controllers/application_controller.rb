@@ -253,7 +253,7 @@ class ApplicationController < ActionController::Base
     return if model.errors.empty?
     result ||= ""
     result += model.errors.full_messages.join('<br>')
-    flash[:notice] = result.html_safe
+    flash[:error] = result.html_safe
   end
 
   def set_device_type

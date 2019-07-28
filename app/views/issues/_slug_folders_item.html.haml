@@ -1,48 +1,50 @@
-- item_type = 'any'
-- if local_assigns[:depth] >= 1
-  - item_type = 'post'
+- parent_depth = (local_assigns[:depth] || 0)
+- child_depth = parent_depth + 1
 
 - is_open_parent_folder = opened_folder?(parent_folder)
-.folder-rows.js-folder-rows.js-draggable-slug-folder-rows.js-draggable-slug-folder-draggable{ 'data-draggable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json), 'data-draggable-slug-folder-item-type': 'folder' }
+.folder-rows.js-draggable-slug-folder-rows.js-draggable-slug-folder-draggable{ 'data-draggable-slug-folder-json-params': h({ item_type: 'Folder', item_id: parent_folder.id }.to_json), 'data-draggable-slug-folder-item-type': 'folder' }
 
   - is_empty = true
   - capture_child_folder_items = capture do
-    .child-folder-items.js-folder-children.js-draggable-slug-folder-container{ class: ('collapse' unless is_open_parent_folder), 'data-draggable-slug-folder-acceptable-type': item_type }
+    .child-folder-items.js-folder-children.js-draggable-slug-folder-container{ class: ('collapse' unless is_open_parent_folder), 'data-draggable-slug-folder-acceptable-type': 'any', 'data-folder-depth': child_depth }
       - child_folders.each do |child_folder|
-        = render 'issues/slug_folders_item', issue: issue, parent_folder: child_folder, child_folders: [], depth: (depth + 1), dom_id: dom_id
+        = render 'issues/slug_folders_item', issue: issue, parent_folder: child_folder, child_folders: child_folder.smart_children, dom_id: dom_id, depth: child_depth
         - is_empty = false
       - capture_child_folder_posts = capture do
-        = render 'issues/slug_folders_posts', issue: issue, parent_folder: parent_folder
+        = render 'issues/slug_folders_posts', issue: issue, parent_folder: parent_folder, depth: child_depth
       = capture_child_folder_posts
       - is_empty = false if capture_child_folder_posts.present?
 
   - folder_item_dom_id = "folder-item-#{SecureRandom.uuid}"
-  .folder-item.parent-folder.only-clickable.js-folder-item{ id: folder_item_dom_id, class: "#{('js-folder-item-managable' if can?(:manage_folders, issue))} #{('active' if latest_active_folder_item?(parent_folder))}", 'data-folder-item-type': 'folder', 'data-folder-item-id': parent_folder.id, 'data-folder-item-acceptable-type': item_type }
+  .folder-item.parent-folder.only-clickable.js-folder-item{ id: folder_item_dom_id, class: "#{('js-folder-item-managable' if can?(:manage_folders, issue))} #{('active' if latest_active_folder_item?(parent_folder))}", 'data-folder-item-type': 'folder', 'data-folder-item-id': parent_folder.id, 'data-folder-depth': parent_depth }
     .folder-item-title-container
-      %span.folder-item-icon.folder-item-icon-default
+      %span.folder-item-icon
         %i.fa.fa-fw.js-folder-item-icon{ class: (is_open_parent_folder ? 'fa-folder-open' : 'fa-folder')}
-      %span.folder-item-icon.folder-item-icon-hover.js-folder-item-menu.js-folder-item-no-run.dropdown
-        .btn.btn-xs.btn-primary.dropdown-toggle{ 'data-toggle': 'dropdown', style: 'height: 18px; width: 16px; line-height: 18px; padding: 0;' }
-          %i.fa.fa-fw.fa-ellipsis-h
-        %ul.dropdown-menu{ style: 'top: 95%' }
-          %li
-            %a.js-trigger{ href: "#parti-folder-item-force-rename", 'data-target': "##{folder_item_dom_id}"} 이름 편집
-          %li.divider
-          %li
-            = link_to "게시물 작성", new_post_url(issue_id: issue.id, folder_id: parent_folder.id), remote: true, 'data-disable-with': '로딩 중...'
-          %li
-            = link_to "위키 작성", new_wiki_posts_url(issue_id: issue.id, folder_id: parent_folder.id)
-          %li.divider
-          %li.js-folder-item-acceptable-folder-or-any
-            = link_to "하위 폴더 생성", new_folder_url(issue_id: issue.id, parent_folder_id: parent_folder.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
-          %li
-            = link_to "폴더 삭제", folder_url(parent_folder,  dom_id: dom_id, format: :js), remote: true, method: 'delete', 'data-disable-with': '처리 중...', 'data-confirm': '하위 폴더도 모두 지워집니다. 단, 폴더의 게시물은 삭제되지 않고 전체 게시물에서 남아 있게됩니다. 이 동작은 되돌릴 수 없습니다. 계속하시겠습니까?'
       %span.folder-item-title
-        .folder-item-title-content.js-folder-item-renamable-content{ class: folder_dom_class(parent_folder), 'data-value': parent_folder.title }
-          = parent_folder.title
-        .folder-item-title-rename-form.js-folder-item-rename-form.collapse
+        .folder-item-title-content{ class: folder_dom_class(parent_folder) }
+          .folder-item-title-content-main.js-folder-item-renamable-content{ 'data-value': parent_folder.title }
+            = parent_folder.title
+          %span.folder-item-menu.js-folder-item-menu.js-folder-item-no-run.dropdown
+            .btn.btn-xs.btn-default.dropdown-toggle{ 'data-toggle': 'dropdown', style: 'height: 18px; width: 16px; line-height: 18px; padding: 0;' }
+              %i.fa.fa-fw.fa-ellipsis-v
+            %ul.dropdown-menu{ style: 'top: 95%' }
+              %li
+                %a.js-trigger{ href: "#parti-folder-item-force-rename", 'data-target': "##{folder_item_dom_id}"} 이름 편집
+              %li.divider
+              %li
+                = link_to "게시물 작성", new_post_url(issue_id: issue.id, folder_id: parent_folder.id), remote: true, 'data-disable-with': '로딩 중...'
+              %li
+                = link_to "위키 작성", new_wiki_posts_url(issue_id: issue.id, folder_id: parent_folder.id)
+              %li.divider
+              %li
+                = link_to "하위 폴더 생성", new_folder_url(issue_id: issue.id, parent_folder_id: parent_folder.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
+              %li
+                = link_to "폴더 삭제", folder_url(parent_folder,  dom_id: dom_id, format: :js), remote: true, method: 'delete', 'data-disable-with': '처리 중...', 'data-confirm': '하위 폴더도 모두 지워집니다. 단, 폴더의 게시물은 삭제되지 않고 전체 게시물에서 남아 있게됩니다. 이 동작은 되돌릴 수 없습니다. 계속하시겠습니까?'
+        .folder-item-title-rename-form.js-folder-item-rename-form-container.collapse
           = form_for parent_folder, remote: true, html: {class: 'form-inline js-folder-item-no-run'} do |f|
             = f.text_field :title, maxlength: 100, size: false, class: 'folder-item-title-input js-folder-item-rename-text-field'
+            %a.btn.btn-primary.btn-xs.js-trigger{ href: "#parti-folder-item-submit", 'data-target': "##{folder_item_dom_id}"} 저장
+            %a.btn.btn-default.btn-xs.js-trigger{ href: "#parti-folder-item-reset", 'data-target': "##{folder_item_dom_id}"} 취소
     .folder-item-updated-at
       - if is_empty
         빈 폴더

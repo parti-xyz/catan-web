@@ -68,22 +68,20 @@ section.page-folders {
     @media (max-width: $screen-xs-max) {
       display: none;
     }
-    display: table;
-    background-color: #fff;
+    display: flex;
+    flex-direction: row;
     font-size: 13px;
     height: 27px;
     width: 100%;
     border-spacing: 4px;
-    box-shadow: 0 1px 0 rgba(0, 0, 0, .12), 0px -1px 0 rgba(0, 0, 0, 0.12);
+    border-top: 1px solid $gray-less-lighter;
+    border-bottom: 1px solid $gray-less-lighter;
     position: relative;
     .header-cell {
-      display: table-cell;
-      line-height: 19px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding: 0 6px;
+      line-height: 26px;
+      padding: 0 16px;
       &.title {
-        padding: 0 16px;
+        flex: 1
       }
       &.updated-at {
         background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAQAAADYv8WvAAAAD0lEQVQIW2NgsGAAAiABAAJyAHEQ6XFvAAAAAElFTkSuQmCC);
@@ -102,6 +100,7 @@ section.page-folders {
   .skeletons{
     padding-top: 10px;
     padding-bottom: 10px;
+    border-bottom: 1px solid $gray-less-lighter;
     @media (max-width: $screen-xs-max) {
       padding-top: 12px;
       padding-bottom: 12px;
@@ -113,45 +112,56 @@ section.page-folders {
     }
   }
 
-
   .background {
-    background-image: -webkit-linear-gradient(#fafafa 0,#fafafa 50%,#fff 50%,#fff 100%);
-    background-image: linear-gradient(#fafafa 0,#fafafa 50%,#fff 50%,#fff 100%);
-    background-size: 100% 72px;
-    @media (max-width: $screen-xs-max) {
-      background-size: 100% 80px;
-    }
+    background-color: white;
     min-height: 100%;
   }
   .folder-rows {
     .folder-item {
-      display: table;
+      display: flex;
+      flex-direction: row;
       width: 100%;
       outline: 0;
       height: 36px;
       line-height: 36px;
+      overflow: visible;
+      border-bottom: 1px solid $gray-less-lighter;
       @media (max-width: $screen-xs-max) {
         font-size: 16px;
         height: 40px;
         line-height: 40px;
       }
-      overflow-y: visible;
-      overflow-x: hidden;
       position: relative;
       .folder-item-title-container {
-        display: table;
+        display: flex;
         width: 100%;
         .folder-item-title {
-          display: table-cell;
+          flex: 1;
           position: relative;
           .folder-item-title-content {
             display: inline-block;
             position: absolute;
-            overflow: hidden;
             white-space: nowrap;
-            text-overflow: ellipsis;
             max-width: 100%;
+            height: 100%;
             padding-right: 1em;
+            .folder-item-title-content-main {
+              display: inline-block;
+              width: 100%;
+              text-overflow: ellipsis;
+              overflow: hidden;
+            }
+            .folder-item-menu {
+              display: none;
+              vertical-align: top;
+              left: -10px;
+              .dropdown-toggle {
+                height: 18px;
+                width: 18px;
+                line-height: 18px;
+                padding: 0;
+              }
+            }
           }
           .folder-item-title-rename-form {
             max-width: 95%;
@@ -165,19 +175,12 @@ section.page-folders {
         }
       }
       .folder-item-icon {
-        display: table-cell;
         width: 36px;
         text-align: right;
         padding-right: 4px;
-        &.folder-item-icon-default {
-          display: table-cell;
-        }
-        &.folder-item-icon-hover {
-          display: none;
-        }
       }
       .folder-item-updated-at {
-        display: table-cell;
+        display: flex;
         width: 150px;
         color: $gray-a;
         @media (max-width: $screen-xs-max) {
@@ -186,25 +189,17 @@ section.page-folders {
       }
     }
     .folder-item:hover {
-      background-color: $brand-primary-lighter;
-      .folder-item-icon {
-        &.folder-item-icon-default {
-          display: none;
-        }
-        &.folder-item-icon-hover {
-          display: table-cell;
-        }
-      }
+      background-color: $gray-lightest;
+
+      // 드래그 하는 동안
       body.draggable-slug-folder-dragging & {
         background-color: initial;
-        .folder-item-icon {
-          &.folder-item-icon-default {
-            display: table-cell;
-          }
-          &.folder-item-icon-hover {
-            display: none;
-          }
+        &:not(.renaming) .folder-item-title-container .folder-item-title .folder-item-title-content .folder-item-menu {
+          display: none;
         }
+      }
+      &:not(.renaming) .folder-item-title-container .folder-item-title .folder-item-title-content .folder-item-menu {
+        display: inline-block;
       }
     }
 
@@ -214,25 +209,7 @@ section.page-folders {
   }
 
   .folders-root > .folder-rows {
-    > .parent-folder {
-      padding-left: 0;
-    }
     > .child-folder-items {
-      > .child-item {
-        padding-left: 16px;
-      }
-      // 하위
-      > .folder-rows {
-        > .parent-folder {
-          padding-left: 16px;
-        }
-        > .child-folder-items {
-          > .child-item {
-            padding-left: 32px;
-          }
-        }
-      }
-
       .child-item.draggable-slug-folder-dragged {
         padding-left: 0 !important;
       }

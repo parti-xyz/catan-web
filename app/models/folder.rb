@@ -10,7 +10,8 @@ class Folder < ApplicationRecord
   scope :sort_by_folder_seq, -> { order(folder_seq: :asc) }
 
   validates :title, uniqueness: {scope: [:issue_id]}
-  validate :check_parent_id
+
+  attr_accessor :cached_children
 
   def full_title
     result = ""
@@ -23,12 +24,34 @@ class Folder < ApplicationRecord
   end
 
   def self.threaded(folders)
-    result = folders.to_a.group_by { |folder| folder.parent_or_self }
-    result.each do |item|
-      item[1].reject! { |folder| folder.parent.blank? }
-      item[1].sort_by! { |folder| Folder.compare_keys(folder) }
+    folders_array = folders.to_a
+
+    folders_index = Hash[folders_array.map { |folder| [folder.id, folder] }]
+    folders.each do |folder|
+      folder.cached_children = []
     end
-    result.to_a.sort_by! { |folder, _| Folder.compare_keys(folder) }
+    result = folders_array.group_by { |folder| folder.parent }
+
+    root_folders = nil
+    result.each do |parent, children|
+      children.sort_by! { |folder| Folder.compare_keys(folder) }
+      if(parent == nil)
+        root_folders = children
+      else
+        if folders_index.fetch(parent.id).present?
+          folders_index.fetch(parent.id).cached_children = children
+        end
+      end
+    end
+    root_folders
+  end
+
+  def smart_children
+    if self.cached_children.nil?
+      self.children
+    else
+      self.cached_children
+    end
   end
 
   def parent_or_self
@@ -40,12 +63,6 @@ class Folder < ApplicationRecord
       self.issue.folders.only_parent
     else
       self.parent.children
-    end
-  end
-
-  def check_parent_id
-    if parent_id.present? and children.any?
-      errors.add(:parent_id, I18n.t('errors.messages.folders.too_deep'))
     end
   end
 end

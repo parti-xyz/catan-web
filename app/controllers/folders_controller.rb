@@ -107,7 +107,10 @@ class FoldersController < ApplicationController
       end
     end
 
-    mark_seq(nil, (payload || []), @issue, @current_instance)
+    result = mark_seq(nil, (payload || []), @issue, @current_instance)
+    if result.nil?
+      @error = true
+    end
   end
 
   def attach_post
@@ -191,11 +194,18 @@ class FoldersController < ApplicationController
           current_instance.folder_seq = current_seq
         end
         current_instance.save
-
+        if current_instance.errors.any?
+          errors_to_flash(current_instance)
+          return nil
+        end
         follow_items = issue.send(:"#{current_item['item_type'].underscore.pluralize}").where(parent_folder_column(current_item) => parent_folder_id).where('folder_seq >= ?', current_seq).where.not(id: current_instance.id).order(folder_seq: :asc).to_a
         follow_items.each_with_index do |follow_item, index|
           follow_item.folder_seq = current_seq + 1 + index
           follow_item.save
+          if follow_item.errors.any?
+            errors_to_flash(follow_item)
+            return nil
+          end
         end
       end
 
@@ -203,7 +213,10 @@ class FoldersController < ApplicationController
     else
       items.each do |item|
         if item['item_type'] == 'Folder' and item['children'].present?
-          if mark_seq(item, item['children'], issue, current_instance)
+          result = mark_seq(item, item['children'], issue, current_instance)
+          if result.nil?
+            return nil
+          elsif  result == true
             return true
           end
         end
