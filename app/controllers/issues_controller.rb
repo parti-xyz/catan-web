@@ -108,6 +108,14 @@ class IssuesController < ApplicationController
       if !@issue.marked_read_at?(current_user)
         @issue.read!(current_user)
       end
+
+      if (params[:nav_q].blank? and params[:last_stroked_at].blank? and
+        @posts.present? and
+        !@issue.unread_post?(current_user, @posts.first.try(:last_stroked_at)) and
+        @issue.unread?(current_user))
+        @issue.sync_last_stroked_at!
+        @issue.read!(current_user)
+      end
     end
   end
 

@@ -325,6 +325,16 @@ class Issue < ApplicationRecord
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
   end
 
+  def sync_last_stroked_at!
+    first_post = self.posts.never_blinded.order_by_stroked_at.first
+    self.last_stroked_at = if first_post.present?
+      first_post.last_stroked_at
+    else
+      first_post.created_at
+    end
+    self.save
+  end
+
   def marked_read_at?(someone)
     return false if someone.blank?
     member = someone.smart_issue_member(self)
