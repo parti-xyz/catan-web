@@ -1,4 +1,5 @@
 .post-edit-form{ class: ('js-decision-conflict' if post.conflicted_decision.present?) }
+  - editor_dom_id = "js-editor-#{SecureRandom.uuid}"
   = form_for [:update_decision, post], remote: true, html: { novalidate: true, class: 'form-widget', data: { action: 'parti-form-validation', 'submit-form-control': '.post-edit-form form input[type=submit]' } } do |f|
     - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
     - decision_dom_id = "post-body-#{SecureRandom.uuid}"
@@ -23,7 +24,7 @@
                 %span.diff-added @#{last_editor.nickname}님이 저장한 토론 정리 내용
                 %i.fa.fa-arrows-h
                 %span.diff-removed 내가 편집 중이던 토론 정리 내용
-        .js-tinymce{ 'data-target-id': "##{decision_dom_id}", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+        .js-tinymce{ id: editor_dom_id, 'data-target-id': "##{decision_dom_id}", class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
           - if post.conflicted_decision.present?
             != post.diff_conflicted_decision
           - else
@@ -32,4 +33,4 @@
         = hidden_field_tag :last_decision_history_id, f.object.decision_histories.last.try(:id)
     .editor-btn
       = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
-      = link_to '닫기', show_decision_post_path(post), remote: true, class: 'btn btn-default btn-link btn-default'
+      = link_to '닫기', show_decision_post_path(post), remote: true, class: 'btn btn-default btn-link btn-default js-decision-close-with-dirty-check', data: { 'decision-close-with-dirty-check-editor-dom-id': editor_dom_id }
