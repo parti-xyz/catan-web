@@ -3,9 +3,9 @@ class WikiCaptureJob < ApplicationJob
   sidekiq_options retry: false
 
   def perform(id)
-    # wiki = Wiki.find_by(id: id)
-    # return if wiki.blank?
+    wiki = Wiki.find_by(id: id)
+    return if wiki.blank?
 
-    # wiki.capture!
+    wiki.capture!
   end
 end

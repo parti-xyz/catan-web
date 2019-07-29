@@ -3,21 +3,23 @@
 - before_post_unread = (marked_read_at and issue.unread_post?(current_user, @previous_last_post_stroked_at))
 
 - if @previous_last_post_stroked_at.blank? and marked_read_at and posts.first&.unread?(current_user)
-  = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "block post-card post-new-stroked only-clickable #{issue_unread_banner_dom_class(issue)}", style: 'background-color: white; color: gray;' do
-    .post-card__post{ style: 'padding: 6px 18px;' }
+  .post-new-stroked
+    = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "desc only-clickable #{issue_unread_banner_dom_class(issue)}" do
       %i.fa.fa-arrow-down
       새로 업데이트된 게시물
-      .close{ style: 'line-height: 22px; color: gray; opacity: 1; font-weight: 100;' }
+      .close
+        모두 읽음 표시
         %span &#215;
 
 - posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
     - if marked_read_at and before_post_unread and !post.unread?(current_user)
-      = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "block post-card post-new-stroked only-clickable js-read-all-posts #{issue_unread_banner_dom_class(issue)}", style: 'background-color: white; color: gray;' do
-        .post-card__post{ style: 'padding: 6px 18px;' }
+      .post-new-stroked
+        = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "desc only-clickable #{issue_unread_banner_dom_class(issue)}" do
           %i.fa.fa-arrow-up
           새로 업데이트된 게시물
-          .close{ style: 'line-height: 22px; color: gray; opacity: 1; font-weight: 100;' }
+          .close
+            모두 읽음 표시
             %span &#215;
     .post-card__content
       - post_card_dom_id = "post-card-#{SecureRandom.uuid}"

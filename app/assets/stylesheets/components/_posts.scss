@@ -583,3 +583,40 @@ strong.upvoted {
     }
   }
 }
+
+.post-new-stroked {
+  margin-bottom: 10px;
+  height: 28px;
+  border-radius: 4px;
+  background-color: #885ecf;
+  text-align: center;
+  position: relative;
+  a.desc {
+    color: white;
+    display: block;
+    line-height: 28px;
+    font-weight: bold;
+    font-size: 14px;
+    .close {
+      position: absolute;
+      right: 16px;
+      top: 0;
+      color: white;
+      opacity: 1;
+      font-size: 12px;
+      text-shadow: initial;
+      line-height: 28px;
+      font-weight: 500;
+      &:hover {
+        color: white;
+        opacity: 1;
+        text-shadow: initial;
+      }
+    }
+  }
+  &:hover {
+    a.desc {
+      opacity: 0.8;
+    }
+  }
+}
