@@ -1,10 +1,26 @@
 <% if @post.errors.any? %>
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
-  var $partial = $('<%= j(render 'issues/slug_folders_posts', issue: @post.issue, parent_folder: @folder) %>');
-  parti_partial$($partial);
+  UnobtrusiveFlash.showFlashMessage("게시물을 폴더에서 추가했습니다.");
 
-  var $folder_children = $('.js-folder-item[data-folder-item-type="folder"][data-folder-item-id="<%= @folder.id %>"]').closest('.js-draggable-slug-folder-rows').find('.js-folder-children');
-  $folder_children.find('.js-folder-item[data-folder-item-type="post"]').remove();
-  $folder_children.append($partial);
+  if($('<%= post_folder_dom_selector(@post) %>').length > 0) {
+    $post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');
+    parti_partial$($post_line_folder);
+    $('<%= post_folder_dom_selector(@post) %>').replaceWith($post_line_folder);
+  }
+  <% if @post.folder.present? %>
+    $('<%= post_folder_wrapper_dom_selector(@post) %>').show();
+  <% else %>
+    $('<%= post_folder_wrapper_dom_selector(@post) %>').hide();
+  <% end %>
 <% end %>
+
+if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
+  $('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-destroy');
+  $('.js-draggable-slug-folder').remove();
+  var $dom = $('<%= j(render 'issues/slug_folders_partial', issue: @issue, folders: @issue.folders, dom_id: params[:dom_id]) %>');
+
+  $('#<%= params[:dom_id] %>').replaceWith($dom);
+  parti_partial$($dom, true);
+  $(document).trigger('parti-folder-indentation');
+}

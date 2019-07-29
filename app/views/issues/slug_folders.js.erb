@@ -1,4 +1,9 @@
-var $dom = $('<%= j(render 'issues/slug_folders_partial', issue: @issue, folders: @folders, dom_id: params[:dom_id]) %>');
+var $dom = $('<%= j(render 'issues/slug_folders_partial', issue: @issue, folders: @folders, highlight_folder: @highlight_folder, dom_id: params[:dom_id]) %>');
 $('#<%= params[:dom_id] %>').replaceWith($dom);
 parti_partial$($dom, true);
 $(document).trigger('parti-folder-indentation');
+
+<% if @highlight_folder.present? %>
+var $folder_item = $dom.find('.js-folder-item[data-folder-item-id="' + '<%= @highlight_folder.id %>' + '"][data-folder-item-type="folder"]');
+$folder_item.trigger('parti-folder-highlight');
+<% end %>

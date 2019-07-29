@@ -57,6 +57,7 @@ ko:
       carrierwave_integrity_error: 허용되지 않는 파일 형식입니다.
       not_deletable_parti: 가입한 멤버가 있거나 게시글이 있는 채널은 삭제할 수 없습니다.
       unknown: 앗! 뭔가 잘못되었습니다.
+      unknown_bad_parent_folder: 앗! 뭔가 잘못되었습니다.(unknown_bad_parent_folder)
       deleted_option: 지워진 제안입니다.
       invalid_group_magic_key: 사용이 중지된 그룹 가입 주소입니다. 오거나이저에게 새로운 가입 주소를 요청하세요.
       invitation:

@@ -70,13 +70,11 @@ section.page-folders {
     }
     display: flex;
     flex-direction: row;
-    font-size: 13px;
-    height: 27px;
-    width: 100%;
-    border-spacing: 4px;
+    font-size: 12px;
+    height: 36px;
     border-top: 1px solid $gray-less-lighter;
     border-bottom: 1px solid $gray-less-lighter;
-    position: relative;
+    align-items: center;
     .header-cell {
       line-height: 26px;
       padding: 0 16px;
@@ -126,12 +124,16 @@ section.page-folders {
       line-height: 36px;
       overflow: visible;
       border-bottom: 1px solid $gray-less-lighter;
+      position: relative;
       @media (max-width: $screen-xs-max) {
         font-size: 16px;
         height: 40px;
         line-height: 40px;
       }
-      position: relative;
+      transition: background-color 1000ms linear;
+      &.stress {
+        background-color: lighten($base-brand-primary, 30%);
+      }
       .folder-item-title-container {
         display: flex;
         width: 100%;
@@ -144,20 +146,20 @@ section.page-folders {
             white-space: nowrap;
             max-width: 100%;
             height: 100%;
-            padding-right: 1em;
             .folder-item-title-content-main {
               display: inline-block;
-              width: 100%;
+              max-width: 100%;
               text-overflow: ellipsis;
               overflow: hidden;
+              padding-right: 40px;
             }
             .folder-item-menu {
               display: none;
               vertical-align: top;
-              left: -10px;
+              left: -40px;
               .dropdown-toggle {
                 height: 18px;
-                width: 18px;
+                width: 20px;
                 line-height: 18px;
                 padding: 0;
               }
@@ -213,6 +215,66 @@ section.page-folders {
       .child-item.draggable-slug-folder-dragged {
         padding-left: 0 !important;
       }
+    }
+  }
+}
+
+.modal-body-move-folders {
+  .target-folders {
+    max-height: 300px;
+    overflow: scroll;
+    border: 1px solid $gray-less-lighter;
+    .folder {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      align-items: center;
+      height: 38px;
+      padding-left: 24px;
+      padding-right: 12px;
+      &.current-folder {
+        padding-left: 12px;
+      }
+      &.current-folder-disabled .folder-meta {
+        color: $gray;
+      }
+      &.folder-up {
+        padding-left: 12px;
+        a {
+          color: $gray;
+        }
+        border-bottom: 1px solid $gray-less-lighter;
+      }
+      cursor: pointer;
+      &:hover {
+        background-color: $gray-lightest;
+      }
+      &.active,
+      &.active:hover {
+        background-color: $base-brand-primary;
+        .folder-meta {
+          color: white;
+        }
+      }
+      .folder-meta {
+        flex: 1;
+        color: $text-color;
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 14px;
+    .add-folder {
+      flex: 1;
+      a {
+        color: $gray;
+      }
+    }
+    .move-to {
+
     }
   }
 }

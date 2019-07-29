@@ -45,7 +45,7 @@ class FoldersController < ApplicationController
       @parent_folder = Folder.find_by(id: params[:parent_folder_id])
       @issue = @folder.issue
     end
-    render_404 and return if params[:parent_folder_id].present? and @parent_folder.blank?
+    render_404 and return if Folder.safe_id(params[:parent_folder_id]) != Folder::ROOT_ID and @parent_folder.blank?
   end
 
   def edit
@@ -114,7 +114,8 @@ class FoldersController < ApplicationController
   end
 
   def attach_post
-    @post = Post.find_by(id: params[:post_id])
+    @post = Post.find(params[:post_id])
+    @issue = @post.issue
     @folder = Folder.find_by(id: params[:id])
     render_404 and return if @folder.blank?
     render_403 and return if @post.issue_id != @folder.issue_id
@@ -129,17 +130,72 @@ class FoldersController < ApplicationController
   end
 
   def detach_post
-    @post = Post.find_by(id: params[:post_id])
+    @post = Post.find(params[:post_id])
+    @issue = @post.issue
     @folder = Folder.find_by(id: params[:id])
-    render_404 and return if @folder.blank?
+    return if @folder.blank?
     return if @post.folder != @folder
 
     @post.folder = nil
     @post.folder_seq = 0
     @post.save
-
     respond_to do |format|
       format.js
+    end
+  end
+
+  def move_form
+    @target_parent_folder = if params[:parent_folder_id].present?
+      if params[:parent_folder_id].to_i == Folder::ROOT_ID
+        nil
+      else
+        Folder.find(params[:parent_folder_id])
+      end
+    else
+      if params[:subject_type] == 'Post'
+        @folder.parent
+      else
+        if @folder.parent.present?
+          @folder.parent.parent
+        else
+          @folder.parent
+        end
+      end
+    end
+
+    @subject = params[:subject_type] == 'Post' ? Post.find(params[:subject_id]) : @folder
+
+    @target_folders = if @target_parent_folder.present?
+      @target_parent_folder.children
+    else
+      Folder.top_folders.where(issue_id: @folder.issue_id)
+    end
+    @target_folders = @target_folders.sort_by_folder_seq
+  end
+
+  def move
+    parent_id = if params[:parent_id].try(:to_s) == '0'
+      nil
+    else
+      parent_folder = Folder.find params[:parent_id]
+      parent_folder.id
+    end
+
+    @issue = @folder.issue
+    @subject = params[:subject_type].safe_constantize.try(:find_by, {id: params[:subject_id]})
+    if @subject.blank?
+      render_404
+      return
+    elsif params[:subject_type] == 'Post'
+      @post = @subject
+      unless @post.update_attributes(folder_id: parent_id)
+        errors_to_flash(@post)
+      end
+    else
+      @folder = @subject
+      unless @folder.update_attributes(parent_id: parent_id)
+        errors_to_flash(@folder)
+      end
     end
   end
 

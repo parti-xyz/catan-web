@@ -3,16 +3,14 @@
     - form_id = "folder-form-#{SecureRandom.uuid}"
     = form_for Folder.new(parent: parent_folder, issue: @issue), remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
       = hidden_field_tag :dom_id, params[:dom_id]
+      = hidden_field_tag :continue_move_type, params[:continue_move_type]
+      = hidden_field_tag :continue_move_id, params[:continue_move_id]
       = f.hidden_field :issue_id
       .form-group
         .form-group
           %label 새 폴더 이름
           = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
-        - if f.object.parent.blank?
-          .form-group
-            %label 상위 폴더
-            = f.select :parent_id, options_from_collection_for_select(issue.folders.only_parent.sort_by_name, 'id', 'title'), {include_blank: '없음'}, class: 'form-control'
-        - else
+        - if f.object.parent.present?
           = f.hidden_field :parent_id
       .form-group
         = f.submit '저장', class: 'btn btn-primary'

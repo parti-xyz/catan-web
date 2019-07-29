@@ -21,7 +21,9 @@
                 %a.js-trigger{ href: "#parti-folder-item-force-rename", 'data-target': "##{folder_item_dom_id}"} 이름 편집
               %li.divider
               %li
-                = link_to "이 게시물을 폴더에서 제거", detach_post_folder_url(parent_folder, post_id: post.id), remote: true, method: 'delete', 'data-disable-with': '처리 중...'
+                = link_to "폴더 이동", move_form_folder_path(parent_folder.id, subject_type: 'Post', subject_id: post.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
+              %li
+                = link_to "폴더에서 제거", detach_post_folder_url(parent_folder, post_id: post.id), remote: true, method: 'delete', 'data-disable-with': '처리 중...'
         .folder-item-title-rename-form.js-folder-item-rename-form-container.collapse
           = form_for [:update_title, post], remote: true, html: {class: 'form-inline js-folder-item-no-run'} do |f|
             = f.text_field :title, value: post.specific_desc_striped_tags(100), maxlength: 100, size: false, class: 'folder-item-title-input js-folder-item-rename-text-field'

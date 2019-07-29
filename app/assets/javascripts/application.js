@@ -897,7 +897,6 @@ var parti_prepare = function($base, force) {
       } else {
         switch(e.which) {
           case 38: // up
-            console.log('up');
             if(!$current_active || $current_active.length <= 0) {
               $new_active = $elm.find('.js-header-search-dropdown-item').last();
             } else {
@@ -908,7 +907,6 @@ var parti_prepare = function($base, force) {
             }
             break;
           case 40: // down
-          console.log('down');
             if(!$current_active || $current_active.length <= 0) {
               $new_active = $elm.find('.js-header-search-dropdown-item').first();
             } else {
@@ -1664,10 +1662,9 @@ var parti_prepare = function($base, force) {
         clearTimeout($elm.data('timeout')); //prevent single-click action
 
         if($elm.data('folder-item-type') === 'folder') {
-          $elm.siblings('.js-folder-children').slideToggle(100, function() {
+          $elm.siblings('.js-folder-children').first().slideToggle(100, function() {
             var _cookies_folder_ids = Cookies.getJSON('opened_folder_ids') || [];
             var folder_id = $elm.data('folder-item-id');
-
             if($(this).is(':visible')) {
               $elm.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
               _cookies_folder_ids.push(folder_id);
@@ -1786,6 +1783,48 @@ var parti_prepare = function($base, force) {
         $content_elm.html(title + ' <i class="fa fa-spinner fa-pulse">');
         on_blur();
       });
+
+      // 하이라이트
+      $elm.on('parti-folder-highlight', function(e) {
+        $.each($elm.parents('.js-folder-children').toArray().reverse(), function(index, children) {
+          var $children = $(children);
+          if($children.is(':visible')) {
+            return;
+          }
+
+          $children.slideToggle(100, function() {
+            var _cookies_folder_ids = (Cookies.getJSON('opened_folder_ids') || []);
+
+            var $folder_items = $children.siblings('.js-folder-item');
+            $.each($folder_items, function(index, folder_item) {
+              var $folder_item = $(folder_item);
+              $folder_item.find('.js-folder-item-icon').removeClass('fa-folder').addClass('fa-folder-open');
+              var folder_id = $folder_item.data('folder-item-id');
+              _cookies_folder_ids.push(folder_id);
+            });
+
+            _cookies_folder_ids = _.uniq(_cookies_folder_ids);
+            if(_cookies_folder_ids.length > 2000) {
+              _cookies_folder_ids.shift()
+            }
+            Cookies.set('opened_folder_ids', _cookies_folder_ids, { domain: '.' + __root_domain, expires: 7 });
+          });
+        });
+
+
+        if(!$.viewport('inviewport', $elm, {threshold : 100})) {
+          $(document).scrollTo($elm, {
+            offset: { top: -100 },
+            onAfter: function() {
+              $elm.addClass('stress');
+              setTimeout(function() { $elm.removeClass('stress'); }, 3000);
+            }
+          });
+        } else {
+          $elm.addClass('stress');
+          setTimeout(function() { $elm.removeClass('stress'); }, 3000);
+        }
+      });
     });
   })();
 
@@ -1851,7 +1890,7 @@ var parti_prepare = function($base, force) {
           draggedClass: 'draggable-slug-folder-dragged',
           placeholderClass: 'draggable-slug-folder-placeholder',
           placeholder: '<div class="draggable-slug-folder-placeholder collapse"></div>',
-          delay: 300,
+          delay: 400,
           afterMove: function($placeholder, container, $closestItemOrContainer) {
             $current_placeholder = $placeholder;
 
@@ -1976,12 +2015,6 @@ var parti_prepare = function($base, force) {
           $('body').addClass('draggable-slug-folder-dropping');
         }
       });
-
-      $base_elm.on('parti-draggable-slug-folder-item-save', function(e) {
-        var data = $(this).sortable("serialize").get();
-        payload_json = JSON.stringify(data, null, ' ');
-        autosave_payload();
-      });
     });
   })();
 
@@ -1998,9 +2031,60 @@ var parti_prepare = function($base, force) {
   });
 
   // remote link in dropdown menu toggle the menu
-  $.parti_apply($base, 'js-remote-toggle-dropdown-menu.dropdown-menu', function(elm) {
+  $.parti_apply($base, '.js-remote-toggle-dropdown-menu.dropdown-menu', function(elm) {
     $(elm).find('a[data-remote=true]').click(function () {
       $(this).closest('ul').prev('button').dropdown('toggle');
+    });
+  });
+
+  // 이동할 폴더 정하기
+  $.parti_apply($base, '.js-choose-folder-to-move', function(elm) {
+    $(elm).on('click', function(e) {
+      var $elm = $(e.currentTarget);
+      var $move_to_link = $($elm.data('move-to-link'));
+
+      var $btn = $(e.target).closest('.js-choose-folder-to-move-link-btn');
+      if ($btn && $btn.length > 0) {
+        return true;
+      }
+
+      $elm.siblings().removeClass('active');
+      $elm.siblings().find('.js-choose-folder-to-move-link-btn').removeClass('btn-primary').addClass('btn-default');
+      if($elm.hasClass('active')) {
+        $elm.removeClass('active');
+        $elm.find('.js-choose-folder-to-move-link-btn').removeClass('btn-primary').addClass('btn-default');
+        $move_to_link.addClass('disabled');
+        $move_to_link.data('folder-id', '');
+        $move_to_link.find('.js-move-folder-here').show();
+      } else {
+        $elm.addClass('active');
+        $elm.find('.js-choose-folder-to-move-link-btn').removeClass('btn-default').addClass('btn-primary');
+        $move_to_link.removeClass('disabled');
+        $move_to_link.data('folder-id', $elm.data('folder-id'));
+        $move_to_link.find('.js-move-folder-here').hide();
+      }
+    });
+  });
+
+  // 정한 폴더로 이동하기
+  $.parti_apply($base, '.js-move-folder', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+
+      var $elm = $(e.currentTarget);
+      var folder_id = $elm.data('folder-id');
+
+      if(folder_id || folder_id == 0) {
+        $.ajax({
+          url: $elm.attr('href'),
+          type: "post",
+          data:{ parent_id: folder_id },
+          crossDomain: false,
+          xhrFields: {
+            withCredentials: true
+          }
+        });
+      }
     });
   });
 
@@ -2297,6 +2381,7 @@ $(function(){
     } else if(xhr.status == 404) {
       UnobtrusiveFlash.showFlashMessage('어머나! 누가 지웠네요. 페이지를 새로 고쳐보세요.', {type: 'notice'});
     }
+    $.each($('a[data-disable-with]'), function(index, elm) { $.rails.enableElement($(elm)) });
   });
 
   $('[data-action="parti-collapse"]').each(function(i, elm) {
@@ -3047,6 +3132,10 @@ $(function(){
     $loading_dialog.addClass('modal-dialog js-modal-placeholder-loading-dialog');
     $('body').removeClass('shown-modal-placeholder');
   });
+
+  $(document).on('parti-close-modal-placeholder', function(e) {
+    $('#js-modal-placeholder > .modal').modal("hide");
+  });
 });
 
 var parti_show_modal$ = function($partial) {
@@ -3065,4 +3154,9 @@ var parti_show_modal_sm$ = function($partial) {
   $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-sm');
   $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
   $('#js-modal-placeholder > .modal').modal("show");
+}
+
+var parti_update_modal_sm$ = function($partial) {
+  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
+  parti_partial$($partial, true);
 }

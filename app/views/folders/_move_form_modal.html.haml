@@ -1,0 +1,67 @@
+- target_parent_safe_folder_id = Folder.safe_id(target_parent_folder.try(:id))
+- movable_to_here = Folder.movable_safe_folder_id_to?(target_parent_safe_folder_id, subject)
+.modal-content
+  .modal-header.modal-header-flex
+    %h4.modal-header-title
+      - if subject.instance_of? Post
+        .title-name 게시물 이동
+      - else
+        .title-content #{folder.title}
+        .title-name 폴더 이동
+    %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+      %span
+        %i.fa.fa-times
+  .modal-body
+    .modal-body-move-folders
+      - move_to_link_dom_id = "folder-move-to-#{SecureRandom.uuid}"
+      .target-folders
+        - if target_parent_folder.present?
+          .folder.folder-up
+            = link_to move_form_folder_path(folder, parent_folder_id: target_parent_folder.safe_parent_id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'folder-up' do
+              %i.fa.fa-angle-up
+              상위 폴더
+        .folder.current-folder{ class: "#{'active' if movable_to_here} #{'js-choose-folder-to-move' if movable_to_here} #{'cursor-default-important current-folder-disabled' unless movable_to_here}", data: { 'move-to-link': "##{move_to_link_dom_id}", 'folder-id': target_parent_safe_folder_id } }
+          .folder-meta
+            %i.fa.fa-folder
+            - if target_parent_folder.present?
+              = target_parent_folder.title
+            - else
+              최상위 폴더
+        - target_folders.each do |target_folder|
+          - movable_to_target_folder = Folder.movable_safe_folder_id_to?(target_folder.id, subject)
+          .folder{ class: "#{'js-choose-folder-to-move' if movable_to_target_folder} #{'cursor-default-important current-folder-disabled' unless movable_to_target_folder}", data: {'move-to-link': "##{move_to_link_dom_id}", 'folder-id': target_folder.id} }
+            .folder-meta
+              %i.fa.fa-folder
+              = target_folder.title
+            .folder-link
+              - if target_folder.children.any?
+                = link_to move_form_folder_path(folder, parent_folder_id: target_folder.id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-move-link-btn' do
+                  %i.fa.fa-angle-right
+      .actions
+        .add-folder
+          = link_to new_folder_url(issue_id: folder.issue.id, parent_folder_id: target_parent_safe_folder_id, dom_id: dom_id, continue_move_type: subject.class.name, continue_move_id: subject.id), remote: true, 'data-disable-with': '로딩 중...' do
+            %i.fa.fa-plus-square-o
+            폴더 추가
+        .move-to
+          = link_to move_folder_path(folder, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), class: "btn btn-primary js-move-folder #{'disabled' if !movable_to_here}", id: move_to_link_dom_id, data: { 'folder-id': (target_parent_safe_folder_id if movable_to_here), 'disable-with': '처리 중...' } do
+            - if movable_to_here
+              %span.js-move-folder-here 여기로
+            이동
+
+
+    -# = form_for Folder.new(parent: parent_folder, issue: @issue), remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
+    -#   = hidden_field_tag :dom_id, params[:dom_id]
+    -#   = f.hidden_field :issue_id
+    -#   .form-group
+    -#     .form-group
+    -#       %label 새 폴더 이름
+    -#       = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
+    -#     - if f.object.parent.blank?
+    -#       .form-group
+    -#         %label 상위 폴더
+    -#         = f.select :parent_id, options_from_collection_for_select(issue.folders.top_folders.sort_by_name, 'id', 'title'), {include_blank: '없음'}, class: 'form-control'
+    -#     - else
+    -#       = f.hidden_field :parent_id
+    -#   .form-group
+    -#     = f.submit '저장', class: 'btn btn-primary'
+    -#     %span.button.btn.btn-default.btn-xs{ 'data-dismiss': 'modal', 'aria-label': '닫기' } 취소

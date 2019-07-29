@@ -603,6 +603,10 @@ class Post < ApplicationRecord
     can_beholder?(someone) and !behold_by?(someone)
   end
 
+  def safe_folder_id
+    Folder.safe_id(self.folder_id)
+  end
+
   private
 
   def reindex_for_search

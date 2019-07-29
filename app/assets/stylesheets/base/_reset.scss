@@ -245,6 +245,30 @@ body.in-group {
 .modal-header h4.modal-header-title {
   font-weight: 400;
   margin: 0;
+
+}
+
+.modal-header.modal-header-flex {
+  display: flex;
+  flex-direction: row;
+  h4.modal-header-title {
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    flex: 1;
+    .title-content {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-right: 10px;
+    }
+  }
+  .close {
+    opacity: 1;
+    color: #c2c2c2;
+    text-shadow: none;
+    font-size: 16px;
+    padding-left: 10px;
+  }
 }
 
 .dropdown-menu > li > .help-text {

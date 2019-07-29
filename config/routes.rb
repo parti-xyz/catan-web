@@ -172,6 +172,8 @@ Rails.application.routes.draw do
     member do
       delete :detach_post
       post :attach_post
+      get :move_form
+      post :move
     end
     collection do
       post :sort

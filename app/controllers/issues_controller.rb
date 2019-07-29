@@ -144,7 +144,10 @@ class IssuesController < ApplicationController
     redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
 
     respond_to do |format|
-      format.js { @folders = @issue.folders }
+      format.js {
+        @folders = @issue.folders
+        @highlight_folder = Folder.find_by(id: params[:highlight_folder_id])
+      }
       format.html
     end
   end

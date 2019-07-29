@@ -1,17 +1,44 @@
+var need_to_close_modal = false;
 <% if !@folder.persisted? || @folder.errors.any? %>
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
-  $('#js-modal-placeholder > .modal').modal("hide");
-
-  var $message = $('<span>폴더를 새로 만들었습니다. <%= j(date_f(DateTime.now)) %></span>');
-  $('.js-slug-folder-autosave').html($message);
-  $('.js-slug-folder-autosave').find('time[data-time-ago]').timeago();
+  if($('.js-slug-folder-autosave').length > 0) {
+    need_to_close_modal = true;
+    var $message = $('<span>폴더를 새로 만들었습니다. <%= j(date_f(DateTime.now)) %></span>');
+    $('.js-slug-folder-autosave').html($message);
+    $('.js-slug-folder-autosave').find('time[data-time-ago]').timeago();
+  }
 <% end %>
 
-$('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-destroy');
-$('.js-draggable-slug-folder').remove();
-var $dom = $('<%= j(render 'issues/slug_folders_partial', issue: @issue, folders: @folders, dom_id: params[:dom_id]) %>');
+if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
+  $('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-destroy');
+  $('.js-draggable-slug-folder').remove();
+  var $dom = $('<%= j(render 'issues/slug_folders_partial', issue: @issue, folders: @folders, dom_id: params[:dom_id]) %>');
 
-$('#<%= params[:dom_id] %>').replaceWith($dom);
-parti_partial$($dom, true);
+  $('#<%= params[:dom_id] %>').replaceWith($dom);
+  parti_partial$($dom, true);
+  $(document).trigger('parti-folder-indentation');
 
+  <% if @folder.persisted? && @folder.errors.blank? %>
+    var $folder_item = $dom.find('.js-folder-item[data-folder-item-id="' + '<%= @folder.id %>' + '"][data-folder-item-type="folder"]');
+    $folder_item.trigger('parti-folder-highlight');
+    <% if params[:continue_move_type].present? and params[:continue_move_id].present? %>
+      <%
+        subject = params[:continue_move_type].safe_constantize.try(:find_by, {id: params[:continue_move_id]})
+      %>
+      <% if subject.present? %>
+        var $partial = $('<%= j(render_group 'folders/move_form_modal',
+          folder: @folder, target_parent_folder: @folder.parent,
+          target_folders: @folder.siblings.sort_by_folder_seq,
+          subject: subject,
+          dom_id: params[:dom_id]) %>');
+        need_to_close_modal = false;
+        parti_update_modal_sm$($partial);
+      <% end %>
+    <% end %>
+  <% end %>
+}
+
+if(need_to_close_modal) {
+  $(document).trigger('parti-close-modal-placeholder');
+}

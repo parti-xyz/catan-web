@@ -25,8 +25,8 @@ module PartiUrlHelper
     slug_issue_wikis_path(options.merge(slug: issue.slug))
   end
 
-  def smart_issue_folders_path(issue, options = {})
-    slug_issue_folders_path(options.merge(slug: issue.slug))
+  def smart_issue_folders_path(issue, folder = nil, options = {})
+    slug_issue_folders_path(options.merge(slug: issue.slug, highlight_folder_id: folder.try(:id)))
   end
 
   def smart_issue_folders_url(issue, options = {})

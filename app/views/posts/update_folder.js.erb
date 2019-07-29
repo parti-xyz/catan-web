@@ -1,4 +1,4 @@
-$('#js-modal-placeholder > .modal').modal("hide");
+$(document).trigger('parti-close-modal-placeholder');
 <% if !@folder.blank? and @folder.errors.empty? %>
   $post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');
   parti_partial$($post_line_folder);

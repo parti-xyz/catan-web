@@ -47,8 +47,11 @@
         토론 정리 시작하기
   - if can? :edit_folder, post
     %li
-      = link_to edit_folder_post_path(post), remote: true do
-        다른 폴더로 이동
+      = link_to "다른 폴더로 이동", move_form_folder_path(post.safe_folder_id, subject_type: 'Post', subject_id: post.id), remote: true, 'data-disable-with': '로딩 중...'
+    - if post.folder_id.present?
+      %li
+        = link_to "폴더에서 제거", detach_post_folder_url(post.safe_folder_id, post_id: post.id), remote: true, method: 'delete', 'data-disable-with': '처리 중...'
+
   - if can?(:move_to_issue, post)
     %li
       = link_to [:move_to_issue_form, post] do

@@ -1,0 +1,43 @@
+<% if @subject.present? and @subject.errors.any? %>
+<% else %>
+  $(document).trigger('parti-close-modal-placeholder');
+  if($('.js-slug-folder-autosave').length > 0) {
+    var $message = $('<span>폴더를 옮겼습니다 <%= j(date_f(DateTime.now)) %></span>');
+    $('.js-slug-folder-autosave').html($message);
+    $('.js-slug-folder-autosave').find('time[data-time-ago]').timeago();
+  }
+
+  <% if params[:subject_type] == 'Post' %>
+    if($('<%= post_folder_dom_selector(@post) %>').length > 0) {
+      $post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');
+      parti_partial$($post_line_folder);
+      $('<%= post_folder_dom_selector(@post) %>').replaceWith($post_line_folder);
+    }
+    <% if @post.folder.present? %>
+    $('<%= post_folder_wrapper_dom_selector(@post) %>').show();
+    <% else %>
+    $('<%= post_folder_wrapper_dom_selector(@post) %>').hide();
+    <% end %>
+  <% end %>
+
+<% end %>
+
+if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
+  $('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-destroy');
+  $('.js-draggable-slug-folder').remove();
+  var $dom = $('<%= j(render 'issues/slug_folders_partial', issue: @issue, folders: @issue.folders, dom_id: params[:dom_id]) %>');
+
+  $('#<%= params[:dom_id] %>').replaceWith($dom);
+  parti_partial$($dom, true);
+  $(document).trigger('parti-folder-indentation');
+
+  <% if @folder.errors.blank? %>
+    <% if params[:subject_type] == 'Post' %>
+    var $folder_item = $dom.find('.js-folder-item[data-folder-item-id="' + '<%= @post.id %>' + '"][data-folder-item-type="post"]');
+    $folder_item.trigger('parti-folder-highlight');
+    <% else %>
+    var $folder_item = $dom.find('.js-folder-item[data-folder-item-id="' + '<%= @folder.id %>' + '"][data-folder-item-type="folder"]');
+    $folder_item.trigger('parti-folder-highlight');
+    <% end %>
+  <% end  %>
+}

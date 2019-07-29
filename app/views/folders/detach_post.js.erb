@@ -2,5 +2,26 @@
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
   $('.js-folder-item[data-folder-item-type="post"][data-folder-item-id="<%=  params[:post_id] %>"]').remove();
-  UnobtrusiveFlash.showFlashMessage("게시물을 폴더에서 제거했습니다. <%= j(link_to '취소하기', attach_post_folder_url(@folder, post_id: params[:post_id], folder_seq: @post.folder_seq), remote: true, method: :post, 'data-dismiss': 'alert', 'data-target': 'section.unobtrusive-flash-section .unobtrusive-flash-container .alert', class: 'text-muted', style: 'text-decoration: underline;') if @post.present? %>", {type: 'success', timeout: 10 * 1000  });
+  UnobtrusiveFlash.showFlashMessage("게시물을 폴더에서 제거했습니다. <%= j(link_to '취소하기', attach_post_folder_url(@folder, post_id: params[:post_id], dom_id: params[:dom_id], folder_seq: @post.folder_seq), remote: true, method: :post, 'data-dismiss': 'alert', 'data-target': 'section.unobtrusive-flash-section .unobtrusive-flash-container .alert', class: 'text-muted', style: 'text-decoration: underline;') if @post.present? %>", {type: 'success', timeout: 10 * 1000  });
+
+  if($('<%= post_folder_dom_selector(@post) %>').length > 0) {
+    $post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');
+    parti_partial$($post_line_folder);
+    $('<%= post_folder_dom_selector(@post) %>').replaceWith($post_line_folder);
+  }
+  <% if @post.folder.present? %>
+    $('<%= post_folder_wrapper_dom_selector(@post) %>').show();
+  <% else %>
+    $('<%= post_folder_wrapper_dom_selector(@post) %>').hide();
+  <% end %>
 <% end %>
+
+if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
+  $('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-destroy');
+  $('.js-draggable-slug-folder').remove();
+  var $dom = $('<%= j(render 'issues/slug_folders_partial', issue: @issue, folders: @issue.folders, dom_id: params[:dom_id]) %>');
+
+  $('#<%= params[:dom_id] %>').replaceWith($dom);
+  parti_partial$($dom, true);
+  $(document).trigger('parti-folder-indentation');
+}
