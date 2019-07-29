@@ -172,11 +172,12 @@ Rails.application.routes.draw do
     member do
       delete :detach_post
       post :attach_post
-      get :move_form
-      post :move
     end
     collection do
+      get :move_form
+      post :move
       post :sort
+      get :attach_post_form
     end
   end
   resources 'wiki_histories'

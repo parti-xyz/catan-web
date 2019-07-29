@@ -31,7 +31,7 @@ if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
   parti_partial$($dom, true);
   $(document).trigger('parti-folder-indentation');
 
-  <% if @folder.errors.blank? %>
+  <% if @subject.errors.blank? %>
     <% if params[:subject_type] == 'Post' %>
     var $folder_item = $dom.find('.js-folder-item[data-folder-item-id="' + '<%= @post.id %>' + '"][data-folder-item-type="post"]');
     $folder_item.trigger('parti-folder-highlight');

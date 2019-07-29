@@ -145,6 +145,9 @@ class FoldersController < ApplicationController
   end
 
   def move_form
+    @subject = params[:subject_type].safe_constantize.try(:find_by, {id: params[:subject_id]})
+    render_404 if @subject.blank?
+
     @target_parent_folder = if params[:parent_folder_id].present?
       if params[:parent_folder_id].to_i == Folder::ROOT_ID
         nil
@@ -153,27 +156,25 @@ class FoldersController < ApplicationController
       end
     else
       if params[:subject_type] == 'Post'
-        @folder.parent
+        @subject.folder
       else
-        if @folder.parent.present?
-          @folder.parent.parent
-        else
-          @folder.parent
-        end
+        @folder.parent
       end
     end
-
-    @subject = params[:subject_type] == 'Post' ? Post.find(params[:subject_id]) : @folder
 
     @target_folders = if @target_parent_folder.present?
       @target_parent_folder.children
     else
-      Folder.top_folders.where(issue_id: @folder.issue_id)
+      Folder.top_folders.where(issue_id: @subject.issue_id)
     end
     @target_folders = @target_folders.sort_by_folder_seq
   end
 
   def move
+    @subject = params[:subject_type].safe_constantize.try(:find_by, {id: params[:subject_id]})
+    render_404 if @subject.blank?
+    @issue = @subject.issue
+
     parent_id = if params[:parent_id].try(:to_s) == '0'
       nil
     else
@@ -181,12 +182,7 @@ class FoldersController < ApplicationController
       parent_folder.id
     end
 
-    @issue = @folder.issue
-    @subject = params[:subject_type].safe_constantize.try(:find_by, {id: params[:subject_id]})
-    if @subject.blank?
-      render_404
-      return
-    elsif params[:subject_type] == 'Post'
+    if params[:subject_type] == 'Post'
       @post = @subject
       unless @post.update_attributes(folder_id: parent_id)
         errors_to_flash(@post)

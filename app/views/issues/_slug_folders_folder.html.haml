@@ -40,7 +40,7 @@
                 = link_to "하위 폴더 생성", new_folder_url(issue_id: issue.id, parent_folder_id: parent_folder.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
               %li.divider
               %li
-                = link_to "폴더 이동", move_form_folder_url(parent_folder.id, subject_type: 'Folder', subject_id: parent_folder.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
+                = link_to "폴더 이동", move_form_folders_url(subject_type: 'Folder', subject_id: parent_folder.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
               %li
                 = link_to "폴더 삭제", folder_url(parent_folder,  dom_id: dom_id, format: :js), remote: true, method: 'delete', 'data-disable-with': '처리 중...', 'data-confirm': '하위 폴더도 모두 지워집니다. 단, 폴더의 게시물은 삭제되지 않고 전체 게시물에서 남아 있게됩니다. 이 동작은 되돌릴 수 없습니다. 계속하시겠습니까?'
         .folder-item-title-rename-form.js-folder-item-rename-form-container.collapse

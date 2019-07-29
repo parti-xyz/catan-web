@@ -1,6 +1,7 @@
 var $partial = $('<%= j(render_group 'folders/move_form_modal',
-  folder: @folder, target_parent_folder: @target_parent_folder,
-  target_folders: @target_folders, subject: @subject,
+  target_parent_folder: @target_parent_folder,
+  target_folders: @target_folders,
+  subject: @subject,
   dom_id: params[:dom_id]) %>');
 <% if params[:mode] == 'update_screen' %>
 parti_update_modal_sm$($partial);
