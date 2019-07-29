@@ -32,10 +32,10 @@
       - if post.pinned? and can?(:beholders, post)
         %li
           = link_to [:beholders, post], target: '_blank' do
-            확인한 가입멤버 보기 (#{post.beholders_count})
-        %li
-          = link_to [:unbeholders, post], target: '_blank' do
-            확인하지 않은 가입멤버 보기
+            확인한 멤버 보기 (#{post.beholders_count})
+        -# %li
+        -#   = link_to [:unbeholders, post], target: '_blank' do
+        -#     확인하지 않은 가입멤버 보기
       - if post.can_beholder?(current_user)
         - if post.need_to_behold?(current_user)
           %li
