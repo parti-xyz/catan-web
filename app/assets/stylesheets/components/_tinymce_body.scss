@@ -44,6 +44,9 @@ body.tinymce-mobile.mce-content-body {
 }
 
 .mce-content-body {
+  a {
+    color: $base-brand-primary;
+  }
   font-size: $font-size-base;
   h1 {
     font-size: $font-size-base * 1.4;

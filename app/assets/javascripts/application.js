@@ -1072,7 +1072,7 @@ var parti_prepare = function($base, force) {
       },
       wiki: {
         plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style table quickbars',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | style-p style-h1 style-h2 style-h3 |  bullist numlist outdent indent',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | style-p style-h1 style-h2 style-h3 |  bullist numlist outdent indent | table',
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false,
         forced_root_block: 'p',
