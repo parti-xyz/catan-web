@@ -16,10 +16,10 @@ GIT
 
 GIT
   remote: git://github.com/parti-coop/tinymce-rails.git
-  revision: 180d8bdb0c00bcf4b1a673f9811a0c66c081943b
-  tag: 5.0.5.1
+  revision: 7c1acb2fa3e09be094adff79cfedb28b48a2bcbb
+  tag: 5.0.12.0
   specs:
-    tinymce-rails (5.0.5)
+    tinymce-rails (5.0.12)
       railties (>= 3.1.1)
 
 GIT
@@ -414,7 +414,7 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (5.2.0.345)
     nio4r (2.3.1)
-    nokogiri (1.10.1)
+    nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
     nokogiri-diff (0.2.0)
       nokogiri (~> 1.5)
@@ -523,7 +523,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
     raindrops (0.19.0)
-    rake (12.3.2)
+    rake (12.3.3)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)

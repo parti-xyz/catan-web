@@ -1062,14 +1062,21 @@ var parti_prepare = function($base, force) {
     //plugins: 'image media link paste contextmenu textpattern autolink',
     var settings = {
       default: {
-        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style',
-        toolbar: 'bold italic strikethrough | link blockquote style-p style-h1 style-h2 style-h3 | bullist numlist outdent indent',
+        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style table quickbars',
+        // toolbar: 'bold italic strikethrough | link blockquote style-p style-h1 style-h2 style-h3 | bullist numlist outdent indent',
+        toolbar: false,
+        quickbars_insert_toolbar: false,
+        quickbars_selection_toolbar: 'bold italic | blockquote quicklink',
         forced_root_block: 'div',
+        min_height: 100,
       },
       wiki: {
-        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style',
-        toolbar: 'bold italic strikethrough | link blockquote style-br style-p style-h1 style-h2 style-h3 |  bullist numlist outdent indent',
+        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style table quickbars',
+        toolbar: 'bold italic strikethrough | link blockquote style-br | style-p style-h1 style-h2 style-h3 |  bullist numlist outdent indent',
+        quickbars_insert_toolbar: false,
+        quickbars_selection_toolbar: false,
         forced_root_block: 'p',
+        min_height: 200,
       },
     };
     $.parti_apply($base, '.js-tinymce:not(.js-tinymce-mobile)', function(elm) {
@@ -1082,15 +1089,17 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       var tinymce_instance = $elm.tinymce({
-        cache_suffix: '?v=5.0.5.6',
+        cache_suffix: '?v=5.0.12.0.0',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
-        min_height: 200,
+        min_height: setting.min_height,
         forced_root_block : setting.forced_root_block,
         autoresize_bottom_margin: 0,
         statusbar: false,
         toolbar: setting.toolbar,
+        quickbars_insert_toolbar: setting.quickbars_insert_toolbar,
+        quickbars_selection_toolbar: setting.quickbars_selection_toolbar,
         paste_data_images: true,
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
@@ -1099,6 +1108,7 @@ var parti_prepare = function($base, force) {
         remove_script_host : false,
         hidden_input: false,
         link_title: false,
+        link_assume_external_targets: 'http',
         uploadimage_default_img_class: 'tinymce-content-image',
         content_css: content_css,
         formats: {
@@ -1145,7 +1155,7 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       $elm.tinymce({
-        cache_suffix: '?v=5.0.5.6',
+        cache_suffix: '?v=5.0.12.0.0',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1159,6 +1169,7 @@ var parti_prepare = function($base, force) {
         extended_valid_elements: 'span',
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: false,
+        link_assume_external_targets: 'http',
         target_list: false,
         relative_urls: false,
         remove_script_host : false,
