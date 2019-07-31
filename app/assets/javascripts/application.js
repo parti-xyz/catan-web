@@ -1067,7 +1067,7 @@ var parti_prepare = function($base, force) {
         // toolbar: false,
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false, //'bold italic | blockquote quicklink',
-        forced_root_block: 'div',
+        forced_root_block: false,
         min_height: 160,
       },
       wiki: {
@@ -1075,7 +1075,7 @@ var parti_prepare = function($base, force) {
         toolbar: 'bold italic strikethrough | link blockquote | style-h1 style-h2 style-h3 |  bullist numlist outdent indent | table',
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false,
-        forced_root_block: 'div',
+        forced_root_block: false,
         min_height: 300,
       },
     };
@@ -1136,12 +1136,12 @@ var parti_prepare = function($base, force) {
       default: {
         plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
         toolbar: 'bold italic strikethrough link blockquote | style-h1 style-h2 style-h3 bullist numlist outdent indent',
-        forced_root_block: 'div',
+        forced_root_block: false,
       },
       wiki: {
         plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
         toolbar: 'bold italic strikethrough link blockquote | style-h1 style-h2 style-h3 bullist numlist outdent indent',
-        forced_root_block: 'div',
+        forced_root_block: false,
       },
     };
     // Tinymce on mobile
