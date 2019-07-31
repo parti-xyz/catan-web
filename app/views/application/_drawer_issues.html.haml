@@ -59,7 +59,7 @@
       %ul.sub.list-unstyled
         %li.js-issue-line.issue-more.js-drawer-filter-ignored
           - if menu_group.creatable_issue?(current_user)
-            = link_to new_issue_path do
+            = link_to new_issue_url do
               %span.text-nowrap
                 개설된 채널이 없습니다.
               %span.text-nowrap
