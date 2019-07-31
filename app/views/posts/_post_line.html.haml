@@ -33,9 +33,8 @@
               %i.fa.fa-external-link
     - elsif post.file_sources.any?
       - if post.file_sources.only_image.any?
-        - odd = post.file_sources.only_image.count.odd?
-        .clearfix
-          .post-reference-line-file-content-wrapper--image.js-photoswipe.js-image-mosaic<>
+        .post-reference-line-file-content-wrapper--image.clearfix
+          .js-photoswipe.js-image-mosaic<>
             - previous_style = nil
             - post.file_sources.only_image.sort_by_seq_no.each_with_index do |file_source, index|
               - image_photoswipe_url = file_source.attachment.lg.url

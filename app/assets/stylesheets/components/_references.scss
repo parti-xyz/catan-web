@@ -247,7 +247,6 @@ section#references {
     vertical-align: middle;
   }
 }
-
 .post-reference-line {
   margin-top: 12px;
   cursor: pointer;
@@ -330,6 +329,12 @@ section#references {
           }
         }
       }
+    }
+  }
+  &-file-content-wrapper--image {
+    width: 600px;
+    @media (max-width: $screen-sm-max) {
+      width: 100%;
     }
   }
   &__file-content--image {
