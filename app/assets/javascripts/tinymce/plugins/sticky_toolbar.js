@@ -109,7 +109,7 @@ var plugin_plugin = function plugin(editor) {
 
   function setSticky() {
     var container = editor.getContainer();
-    var toolbars = container.querySelectorAll('.tox-menubar, .tox-toolbar');
+    var toolbars = container.querySelectorAll('.tox-menubar, .tox-toolbar, .tox-toolbar-overlord');
     var toolbarHeights = 0;
     toolbars.forEach(function (toolbar) {
       toolbarHeights += toolbar.offsetHeight;
@@ -170,7 +170,7 @@ var plugin_plugin = function plugin(editor) {
     var container = editor.getContainer();
     var editorPosition = container.getBoundingClientRect().top,
         statusbar = container.querySelector('.tox-statusbar'),
-        toolbars = container.querySelectorAll('.tox-menubar, .tox-toolbar');
+        toolbars = container.querySelectorAll('.tox-menubar, .tox-toolbar, .tox-toolbar-overlord');
     var statusbarHeight = statusbar ? statusbar.offsetHeight : 0;
     var toolbarHeights = 0;
     toolbars.forEach(function (toolbar) {

@@ -18,7 +18,7 @@ tinymce.PluginManager.add('stickytoolbar-mobile', function(editor, url) {
     }
 
     $(container).find('.tox-editor-container').css('position', 'relative');
-    var $toolbars = $(container).find('.tox-toolbar');
+    var $toolbars = $(container).find('.tox-toolbar, .tox-toolbar-overlord');
     var $statusbar = $(container).find('.tox-statusbar');
 
     var viewportTopDelta = 0;
@@ -105,7 +105,7 @@ tinymce.PluginManager.add('stickytoolbar-mobile', function(editor, url) {
     var container = editor.editorContainer,
       editorTop = container.getBoundingClientRect().top;
 
-    var toolbarHeight = $(container).find('.tox-toolbar').outerHeight();
+    var toolbarHeight = $(container).find('.tox-toolbar, .tox-toolbar-overlord').outerHeight();
     var footerHeight = $(container).find('.tox-statusbar').outerHeight();
 
     var hiddenHeight = -($(container).outerHeight() - toolbarHeight - footerHeight);

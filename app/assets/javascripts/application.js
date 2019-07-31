@@ -1059,24 +1059,24 @@ var parti_prepare = function($base, force) {
 
   // editor
   (function() {
-    //plugins: 'image media link paste contextmenu textpattern autolink',
+    //plugins: 'image media link paste contextmenu textpattern autolink quickbars',
     var settings = {
       default: {
-        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style table quickbars',
-        // toolbar: 'bold italic strikethrough | link blockquote style-p style-h1 style-h2 style-h3 | bullist numlist outdent indent',
-        toolbar: false,
+        plugins: 'stickytoolbar link paste autolink autosave lists autoresize hot-style table',
+        toolbar: 'bold italic strikethrough | link blockquote style-h1 style-h2 style-h3 | bullist numlist outdent indent',
+        // toolbar: false,
         quickbars_insert_toolbar: false,
-        quickbars_selection_toolbar: 'bold italic | blockquote quicklink',
+        quickbars_selection_toolbar: false, //'bold italic | blockquote quicklink',
         forced_root_block: 'div',
-        min_height: 100,
+        min_height: 160,
       },
       wiki: {
-        plugins: 'stickytoolbar link paste autolink autosave lists advlist autoresize hot-style table quickbars',
-        toolbar: 'bold italic strikethrough | link blockquote style-br | style-p style-h1 style-h2 style-h3 |  bullist numlist outdent indent | table',
+        plugins: 'stickytoolbar link paste autolink autosave lists autoresize hot-style table',
+        toolbar: 'bold italic strikethrough | link blockquote | style-h1 style-h2 style-h3 |  bullist numlist outdent indent | table',
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false,
-        forced_root_block: 'p',
-        min_height: 200,
+        forced_root_block: 'div',
+        min_height: 300,
       },
     };
     $.parti_apply($base, '.js-tinymce:not(.js-tinymce-mobile)', function(elm) {
@@ -1089,7 +1089,7 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       var tinymce_instance = $elm.tinymce({
-        cache_suffix: '?v=5.0.12.0.0',
+        cache_suffix: '?v=5.0.12.0.1',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
@@ -1098,6 +1098,7 @@ var parti_prepare = function($base, force) {
         autoresize_bottom_margin: 0,
         statusbar: false,
         toolbar: setting.toolbar,
+        toolbar_drawer: 'sliding',
         quickbars_insert_toolbar: setting.quickbars_insert_toolbar,
         quickbars_selection_toolbar: setting.quickbars_selection_toolbar,
         paste_data_images: true,
@@ -1134,13 +1135,13 @@ var parti_prepare = function($base, force) {
     settings = {
       default: {
         plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
-        toolbar: 'bold italic strikethrough link blockquote style-p | style-h1 style-h2 style-h3 bullist numlist outdent indent',
+        toolbar: 'bold italic strikethrough link blockquote | style-h1 style-h2 style-h3 bullist numlist outdent indent',
         forced_root_block: 'div',
       },
       wiki: {
         plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
-        toolbar: 'bold italic strikethrough link blockquote style-br style-p style-h1 style-h2 style-h3 bullist numlist outdent indent',
-        forced_root_block: 'p',
+        toolbar: 'bold italic strikethrough link blockquote | style-h1 style-h2 style-h3 bullist numlist outdent indent',
+        forced_root_block: 'div',
       },
     };
     // Tinymce on mobile
@@ -1159,7 +1160,7 @@ var parti_prepare = function($base, force) {
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
-        min_height: 300,
+        min_height: 200,
         autoresize_bottom_margin: 0,
         forced_root_block : setting.forced_root_block,
         statusbar: false,
