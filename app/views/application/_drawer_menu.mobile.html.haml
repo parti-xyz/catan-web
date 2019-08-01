@@ -1,12 +1,5 @@
 .drawer-list.drawer-list-mobile#js-drawer.js-sidebar-scroll-container
-  - if user_signed_in?
-    .drawer-list__profile
-      .user-byline
-        = link_to smart_user_gallery_url(current_user) do
-          .thumb.user-image.img-circle{style: "background-image: url(#{current_user.image.sm.url});"}
-          .nickname
-            = current_user.nickname
-  - else
+  - unless user_signed_in?
     .drawer-list__profile
       .btn-new-user
         = link_to '회원가입', pre_sign_up_users_path
@@ -19,7 +12,7 @@
 
     %li.divider.divider-small
     - if user_signed_in?
-      %li.menu-line= byline current_user, hide_image: true
+      %li.menu-line= byline current_user, hide_image: false
       %li.menu-line= link_to '프로필 수정', edit_user_registration_path
       %li.menu-line= link_to '로그아웃', destroy_user_session_path, class: 'user-link', method: :delete
       %li.divider.divider-small

@@ -45,7 +45,7 @@
             = hidden_field_tag :issue_id
             = hidden_field_tag :search_type
             .form-group.form-group-q.dropdown
-              %input.form-control.form-control-q.js-header-search-input.fontawesome-placeholder{ name: "nav_q", value: params[:nav_q] || (tagify(params[:hashtag]) if params[:hashtag].present?), placeholder: raw('&#xf002;'), type: "search", autocomplete: "off" }
+              %input.form-control.form-control-q.js-header-search-input.fontawesome-placeholder{ name: "nav_q", value: params[:nav_q] || (tagify(params[:hashtag]) if params[:hashtag].present?), placeholder: raw('&#xf002; 검색'), type: "search", autocomplete: "off" }
               %ul.dropdown-menu.dropdown-menu-right.js-header-search-dropdown.collapse
                 %li.js-header-search-dropdown-item.collapse{ 'data-header-search-type': 'issue' }
                   .dropdown-item-content.only-clickable

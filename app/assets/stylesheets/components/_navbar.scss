@@ -475,6 +475,8 @@ $drawer-default-space-mobile: 12px;
     }
   }
   &__menu {
+    $parti-search-outheight: 62px;
+    padding-top: $parti-search-outheight;
     li:not(.dropdown-menu-item) {
       padding-left: 18px;
       a:not(.dropdown-menu-item-link) {
@@ -487,6 +489,9 @@ $drawer-default-space-mobile: 12px;
         &.active {
           color: $brand-primary-dark;
         }
+      }
+      .menu-line.menu-line-skeleton {
+        margin-top: -1 * $parti-search-outheight;
       }
       &.issue-line,
       &.category-line,
@@ -673,8 +678,13 @@ $drawer-default-space-mobile: 12px;
       }
       &.head-line {
         padding: 12px 18px;
+        position: fixed;
+        top: $header-menu-height + 2px;
+        background-color: $background-color;
+        width: $side-menu-width;
+        border-right: 1px solid $gray-light;
         .drawer-list-mobile & {
-          background-color: $background-color;
+          top: 0;
         }
         & + li.menu-line {
           margin-top: $drawer-default-space;
@@ -689,6 +699,10 @@ $drawer-default-space-mobile: 12px;
           }
           input.form-control.form-control-drawer-filter {
             padding-right: 50px;
+            background-color: $gray-more-lightest;
+            &:hover, &:focus, &:active {
+              background-color: white;
+            }
           }
         }
       }
@@ -720,9 +734,7 @@ $drawer-default-space-mobile: 12px;
         }
       }
       &.parti-search-more {
-        margin-top: 24px;
         border-top: 1px solid $gray-lighter;
-        padding-top: 24px;
       }
     }
   }
@@ -849,7 +861,7 @@ $drawer-default-space-mobile: 12px;
       display: block;
       min-height: 100vh;
       padding-bottom: 100px;
-      background: $background-color;
+      background-color: $background-color;
       position: absolute;
       top: 0;
     }
