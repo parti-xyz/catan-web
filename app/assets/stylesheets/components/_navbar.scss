@@ -698,6 +698,25 @@ $drawer-default-space-mobile: 12px;
             }
           }
         }
+        > .drawer-scroll-top-container {
+          position: absolute;
+          width: 100%;
+          bottom: -26px;
+          white-space: nowrap;
+          text-align: center;
+          margin-left: -18px;
+          padding-left: 18px;
+          padding-right: 18px;
+          > .drawer-scroll-top {
+            color: $gray;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            font-size: 12px;
+            height: 31px;
+            line-height: 31px;
+            background-color: $gray-lightest;
+          }
+        }
       }
       &.divider {
         height: 1px;

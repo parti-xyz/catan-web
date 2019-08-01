@@ -51,7 +51,7 @@
 //= require smart-app-banner
 //= require jquery.mosaic
 //= require jquery-sortable
-//= require jquery.ui.position
+//= require jquery.ui.position.slide
 //= require jquery-deepest
 //= require visibilityChanged
 
@@ -2513,7 +2513,19 @@ $(function(){
       return 0;
     }
 
-    var scroll_sidebar_callback = function(e) {
+    var cal_fixed_top_height = function() {
+      var result = 0;
+      $.each($('.js-drawer-scroll-header-height'), function(index, each_elm) {
+        result += $(each_elm).outerHeight()
+      });
+      return result;
+    }
+
+    var in_drawer_viewport = function($elm, fixed_top_height) {
+      return !$.viewport('belowthefold', $elm,  {threshold: -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold: fixed_top_height + $('#site-header').outerHeight()})
+    }
+
+    var init_scroll_sidebar = function(e, callback) {
       // 가급적 빨리 쿠키를 처리
       var scrollto_from_cookie = Cookies.get('sidebarScroll.' + location.host);
       if(scrollto_from_cookie) {
@@ -2523,32 +2535,37 @@ $(function(){
 
       var $elm = $('.js-sidemenu-highlight-current-item').first();
       if($elm.length <= 0) {
+        callback();
         return;
       }
 
       // 사이드바 활성화 여부 판단
       if($elm.offset().top === 0 && $elm.offset().left === 0) {
-        var scroll_sidebar_callback_on_slideopen = function(e) {
-          scroll_sidebar_callback(e);
-          $(document).off("parti-slide-open", scroll_sidebar_callback_on_slideopen);
+        var init_scroll_sidebar_on_slideopen = function(e) {
+          init_scroll_sidebar(e, callback);
+          $(document).off("parti-slide-open", init_scroll_sidebar_on_slideopen);
         }
-        $(document).off("parti-slide-open", scroll_sidebar_callback_on_slideopen);
-        $(document).on("parti-slide-open", scroll_sidebar_callback_on_slideopen);
+        $(document).off("parti-slide-open", init_scroll_sidebar_on_slideopen);
+        $(document).on("parti-slide-open", init_scroll_sidebar_on_slideopen);
         return;
       }
 
+      var fixed_top_height = cal_fixed_top_height();
+
       if(scrollto_from_cookie) {
         $__sidebar_scroll_container.scrollTop(scrollto_from_cookie);
-        if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight() + $('#js-drawer-fixed-height').outerHeight() })) {
+        if(in_drawer_viewport($elm, fixed_top_height)) {
           sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
+          callback();
           return;
         }
       }
 
       if(sessionStorage.sidebarScroll) {
         $__sidebar_scroll_container.scrollTop(sessionStorage.sidebarScroll);
-        if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight() + $('#js-drawer-fixed-height').outerHeight()})) {
+        if(in_drawer_viewport($elm, fixed_top_height)) {
           sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
+          callback();
           return;
         }
       }
@@ -2556,22 +2573,54 @@ $(function(){
       var $current_group_issue = $elm.parents('.js-group-issues-line').first();
       $__sidebar_scroll_container.scrollTo($current_group_issue, {
         offset: {
-          top: -1 * $('#js-drawer-fixed-height').outerHeight()
+          top: -1 * fixed_top_height
         }
       });
-      if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight() + $('#js-drawer-fixed-height').outerHeight()})) {
+      if(in_drawer_viewport($elm, fixed_top_height)) {
         sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
+        callback();
         return;
       }
 
       $__sidebar_scroll_container.scrollTo($elm, {
         offset: {
-          top: (- 94 + $elm.outerHeight())
+          top: (- 1 * (fixed_top_height + $elm.outerHeight()))
         }
       });
       sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
+      callback();
     }
-    $(document).on('parti-drawer-init-scroll', scroll_sidebar_callback);
+
+    // 사이드바에서 맨 상단으로 스크롤 업하기
+    var drawer_init_scroll_top = function() {
+      var $elm = $('.js-drawer-scroll-to-top');
+      if($__sidebar_scroll_container.scrollTop() === 0) {
+        return;
+      } else {
+        $elm.show();
+      }
+
+      $elm.on('click', function(e) {
+        $__sidebar_scroll_container.scrollTop(0);
+      });
+
+      var scrollPosition = $__sidebar_scroll_container.scrollTop();
+      var callback = _.debounce(function () {
+        var is_bottom = false;
+        var cursorPosition = $__sidebar_scroll_container.scrollTop();
+        if (cursorPosition < scrollPosition) {
+          $__sidebar_scroll_container.off('scroll', callback);
+          $elm.hide('slide', { direction: "up" }, 300);
+        }
+        scrollPosition = cursorPosition;
+      }, 300);
+      $__sidebar_scroll_container.on('scroll', callback);
+    };
+
+    $(document).on('parti-drawer-init-scroll', function(e) {
+      init_scroll_sidebar(e, drawer_init_scroll_top);
+    });
+
 
     $(document).on('click', '[data-action="parti-issue-link"]', function(e) {
       $elm = $(e.currentTarget);
