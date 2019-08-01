@@ -2539,7 +2539,7 @@ $(function(){
 
       if(scrollto_from_cookie) {
         $__sidebar_scroll_container.scrollTop(scrollto_from_cookie);
-        if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight() })) {
+        if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight() + $('#js-drawer-fixed-height').outerHeight() })) {
           sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
           return;
         }
@@ -2547,15 +2547,19 @@ $(function(){
 
       if(sessionStorage.sidebarScroll) {
         $__sidebar_scroll_container.scrollTop(sessionStorage.sidebarScroll);
-        if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight()})) {
+        if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight() + $('#js-drawer-fixed-height').outerHeight()})) {
           sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
           return;
         }
       }
 
       var $current_group_issue = $elm.parents('.js-group-issues-line').first();
-      $__sidebar_scroll_container.scrollTo($current_group_issue);
-      if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight()})) {
+      $__sidebar_scroll_container.scrollTo($current_group_issue, {
+        offset: {
+          top: -1 * $('#js-drawer-fixed-height').outerHeight()
+        }
+      });
+      if(!$.viewport('belowthefold', $elm,  {threshold : -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold :  $('#site-header').outerHeight() + $('#js-drawer-fixed-height').outerHeight()})) {
         sessionStorage.sidebarScroll = $__sidebar_scroll_container.scrollTop();
         return;
       }

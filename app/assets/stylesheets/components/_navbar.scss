@@ -483,14 +483,7 @@ $drawer-default-space-mobile: 12px;
         color: $gray;
         padding: 0;
       }
-      .menu-line.action-link {
-        color: $brand-primary;
-        font-weight: bold;
-        &.active {
-          color: $brand-primary-dark;
-        }
-      }
-      .menu-line.menu-line-skeleton {
+      &.menu-line.menu-line-skeleton {
         margin-top: -1 * $parti-search-outheight;
       }
       &.issue-line,
