@@ -476,15 +476,20 @@ $drawer-default-space-mobile: 12px;
   }
   &__menu {
     $parti-search-outheight: 62px;
-    padding-top: $parti-search-outheight;
+    padding-top: 0;
+    &.drawer-list__menu-user-signed-in {
+      padding-top: $parti-search-outheight;
+      li:not(.dropdown-menu-item) {
+        &.menu-line.menu-line-skeleton {
+          margin-top: -1 * $parti-search-outheight;
+        }
+      }
+    }
     li:not(.dropdown-menu-item) {
       padding-left: 18px;
       a:not(.dropdown-menu-item-link) {
         color: $gray;
         padding: 0;
-      }
-      &.menu-line.menu-line-skeleton {
-        margin-top: -1 * $parti-search-outheight;
       }
       &.issue-line,
       &.category-line,
@@ -678,6 +683,7 @@ $drawer-default-space-mobile: 12px;
         border-right: 1px solid $gray-light;
         .drawer-list-mobile & {
           top: 0;
+          position: relative;
         }
         & + li.menu-line {
           margin-top: $drawer-default-space;
@@ -698,7 +704,7 @@ $drawer-default-space-mobile: 12px;
             }
           }
         }
-        > .drawer-scroll-top-container {
+        .drawer-scroll-top-container {
           position: absolute;
           width: 100%;
           bottom: -26px;
@@ -707,6 +713,13 @@ $drawer-default-space-mobile: 12px;
           margin-left: -18px;
           padding-left: 18px;
           padding-right: 18px;
+          @media (max-width: $screen-xs-max) {
+            display: block;
+            position: fixed;
+            width: 254px;
+            top: 0;
+            height: 31px;
+          }
           > .drawer-scroll-top {
             color: $gray;
             border-bottom-left-radius: 12px;
@@ -771,6 +784,32 @@ $drawer-default-space-mobile: 12px;
 }
 
 // mobile drawer
+
+@media (max-width: $screen-xs-max) {
+
+  body > .drawer-scroll-top-container {
+    position: fixed;
+    width: 100%;
+    white-space: nowrap;
+    text-align: center;
+    padding-left: 18px;
+    padding-right: 18px;
+    width: 254px;
+    top: 0;
+    height: 31px;
+    z-index: 1;
+    > .drawer-scroll-top {
+      color: $gray;
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+      font-size: 12px;
+      height: 31px;
+      line-height: 31px;
+      background-color: $gray-lightest;
+    }
+  }
+}
+
 
 .slideout-menu {
   position: fixed;

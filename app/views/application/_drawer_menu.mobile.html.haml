@@ -1,3 +1,8 @@
+- if user_signed_in?
+  .drawer-scroll-top-container.js-drawer-scroll-header-height.js-drawer-scroll-to-top.collapse
+    .only-clickable.drawer-scroll-top
+      %i.fa.fa-arrow-up
+      맨 위로 스크롤
 .drawer-list.drawer-list-mobile#js-drawer.js-sidebar-scroll-container
   - unless user_signed_in?
     .drawer-list__profile

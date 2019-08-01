@@ -2522,7 +2522,7 @@ $(function(){
     }
 
     var in_drawer_viewport = function($elm, fixed_top_height) {
-      return !$.viewport('belowthefold', $elm,  {threshold: -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold: fixed_top_height + $('#site-header').outerHeight()})
+      return !$.viewport('belowthefold', $elm,  {threshold: -1 * $elm.outerHeight()}) && !$.viewport('abovethetop', $elm,  {threshold: $elm.outerHeight() + fixed_top_height + $('#site-header').outerHeight()})
     }
 
     var init_scroll_sidebar = function(e, callback) {
@@ -2605,7 +2605,7 @@ $(function(){
       });
 
       var scrollPosition = $__sidebar_scroll_container.scrollTop();
-      var callback = _.debounce(function () {
+      var callback = _.throttle(function () {
         var is_bottom = false;
         var cursorPosition = $__sidebar_scroll_container.scrollTop();
         if (cursorPosition < scrollPosition) {

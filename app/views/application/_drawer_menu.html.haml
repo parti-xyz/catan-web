@@ -1,5 +1,5 @@
 .drawer-list#js-drawer
-  %ul.drawer-list__menu.list-unstyled.js-drawer-filter-container
+  %ul.drawer-list__menu.list-unstyled.js-drawer-filter-container{ class: ("drawer-list__menu-user-signed-in" if user_signed_in?) }
     = render 'application/drawer_issues_lazy'
     %li.divider.divider-small
     = render 'application/drawer_base_menus'
