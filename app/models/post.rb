@@ -107,6 +107,7 @@ class Post < ApplicationRecord
   # validations
   validates :issue, presence: true
   validates :user, presence: true
+  validate :references_check
 
   # scopes
   default_scope -> { joins(:issue) }
@@ -355,6 +356,14 @@ class Post < ApplicationRecord
 
   def format_body!
     format_body(true)
+  end
+
+  def build_wiki(params)
+    if self.wiki.try(:persisted?)
+      self.wiki.assign_attributes(params)
+    else
+      self.wiki = Wiki.new(params)
+    end
   end
 
   def build_poll(params)
@@ -637,5 +646,19 @@ class Post < ApplicationRecord
 
   def sanitize_html text
     HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
+  end
+
+  def references_check
+    if self.persisted? and self.poll_id_changed? and !self.poll_id_was.blank?
+      raise "Post #{self.id} : Change Poll!  #{self.poll_id_was} ==> #{self.poll_id}"
+    end
+
+    if self.persisted? and self.survey_id_changed? and !self.survey_id_was.blank?
+      raise "Post #{self.id} : Change Survey!  #{self.survey_id_was} ==> #{self.survey_id}"
+    end
+
+    if self.persisted? and self.wiki_id_changed? and !self.wiki_id_was.blank?
+      raise "Post #{self.id} : Change Wiki! #{self.wiki_id_was} ==> #{self.wiki_id}"
+    end
   end
 end

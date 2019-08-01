@@ -462,7 +462,7 @@ class PostsController < ApplicationController
     survey_attributes = [:duration_days, :multiple_select, :hidden_intermediate_result, :hidden_option_voters, options_attributes: options_attributes] if survey.present?
 
     wiki = params[:post][:wiki_attributes]
-    wiki_attributes = [:id, :title, :body] if wiki.present?
+    wiki_attributes = [:title, :body] if wiki.present?
 
     event = params[:post][:event_attributes]
     event_attributes = [:title, :body, :enable_self_attendance,
@@ -480,7 +480,7 @@ class PostsController < ApplicationController
 
   def wiki_post_params
     wiki = params[:post][:wiki_attributes]
-    wiki_attributes = [:id, :title, :body, :is_html_body] if wiki.present?
+    wiki_attributes = [:title, :body, :is_html_body] if wiki.present?
 
     params.require(:post)
       .permit(:has_poll, :has_survey, :has_event,

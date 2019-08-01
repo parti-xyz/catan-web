@@ -176,18 +176,18 @@
             - able_to_have_references = (!@post.poll.persisted? and !@post.survey.persisted? and !@post.wiki.present? and !@post.event.persisted?)
             - has_references = has_survey or has_poll or has_event
             - open_btn_data = {action: 'parti-post-select-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event'}
-            %button.btn.btn-xs.btn-link.editor-btn.js-post-file-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file{ data: open_btn_data.merge('reference-field': '.post-file-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-file') }
+            %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-file-btn{ data: open_btn_data.merge('reference-field': '.post-file-field') }
               %i.fa.fa-cloud-upload
               = t('labels.new_post_file_source_button')
             - if able_to_have_references
-              %button.btn.btn-xs.btn-link.editor-btn.js-post-poll-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-poll-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll') }
+              %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-poll-btn{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-poll-field') }
                 %i.fa.fa-fire
                 = t('labels.new_post_poll_button')
-              %button.btn.btn-xs.btn-link.editor-btn.js-post-survey-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-survey-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-survey') }
+              %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-survey-btn{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-survey-field') }
                 %i.fa.fa-list-ul
                 = t('labels.new_post_survey_button')
               - if @post.issue.experimental?
-                %button.btn.btn-xs.btn-link.editor-btn.js-post-event-btn.js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-poll.js-post-reference-btn-exclusive-survey.js-post-reference-btn-exclusive-event{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-event-field', 'hidden-target': '.post-reference-btns .js-post-reference-btn-exclusive.js-post-reference-btn-exclusive-event') }
+                %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-event-btn{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-event-field') }
                   %i.fa.fa-calendar
                   = t('labels.new_post_event_button')
           .submit-box
