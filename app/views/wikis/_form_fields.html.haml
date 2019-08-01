@@ -12,7 +12,9 @@
   - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
   - textarea_body_id = "wiki-form-body-#{SecureRandom.uuid}"
   %div{ id: textarea_error_id }
-    .js-tinymce.form-control.form-control-tinymce{ id: local_assigns[:editor_id], 'data-target-id': "##{textarea_body_id}", 'data-placeholder': ("내용..." if wiki.body.blank?), 'data-tinymce-setting': 'wiki', class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
+    -# validation용도의 id
+    - editor_dom_id = "js-editor-#{SecureRandom.uuid}"
+    .js-tinymce.form-control.form-control-tinymce{ id: (local_assigns[:editor_id].presence || editor_dom_id), 'data-target-id': "##{textarea_body_id}", 'data-placeholder': ("내용..." if wiki.body.blank?), 'data-tinymce-setting': 'wiki', class: ('js-tinymce-mobile' if is_small_screen?), 'data-content-css': asset_url('tinymce_content.css', subdomain: nil) }
       - if wiki.conflict?
         != wiki.diff_conflicted_body
       - else

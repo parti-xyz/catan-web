@@ -1120,15 +1120,30 @@ var parti_prepare = function($base, force) {
         valid_styles: '',
         extended_valid_elements : 'div,span,diffremoved,diffadded,cursorbr[id]',
         custom_elements : '~diffremoved,~diffadded,~cursorbr',
+        init_instance_callback: function (editor) {
+          editor.on('keydown', _.throttle(function (e) {
+            if(e.keyCode == 13) {
+              $('#notice_body_ifr').blur();
+              $('#notice_body_ifr').focus();
+              uniqueId = "___cursor___" + Math.random().toString(36).substr(2, 16);
+              editor.execCommand('mceInsertContent', false, "<cursorbr id=" + uniqueId + "></cursorbr>");
+              editor.selection.select(editor.dom.select('#' + uniqueId)[0]);
+              editor.selection.collapse(0);
+              editor.dom.remove(uniqueId);
+            }
+          }, 500));
+        },
       });
 
       $elm.on('parti-tinymce-conflict', function(e) {
-        var content = tinyMCE.get($elm.attr('id')).getContent();
-        var $content =$('<content>' + content + '</content>');
-        $content.find('diffadded').contents().unwrap();
-        $content.find('diffremoved').contents().unwrap();
-        $content.find('difftouched').contents().unwrap();
-        tinyMCE.get($elm.attr('id')).setContent($content.html());
+        try {
+          var content = tinyMCE.get($elm.attr('id')).getContent();
+          var $content =$('<content>' + content + '</content>');
+          $content.find('diffadded').contents().unwrap();
+          $content.find('diffremoved').contents().unwrap();
+          $content.find('difftouched').contents().unwrap();
+          tinyMCE.get($elm.attr('id')).setContent($content.html());
+        } catch(ignore) {}
       });
     });
 
@@ -1240,16 +1255,29 @@ var parti_prepare = function($base, force) {
           editor.on('Change', function (e) {
             Waypoint.refreshAll();
           });
-        }
+          editor.on('keydown', _.throttle(function (e) {
+            if(e.keyCode == 13) {
+              $('#notice_body_ifr').blur();
+              $('#notice_body_ifr').focus();
+              uniqueId = "___cursor___" + Math.random().toString(36).substr(2, 16);
+              editor.execCommand('mceInsertContent', false, "<cursorbr id=" + uniqueId + "></cursorbr>");
+              editor.selection.select(editor.dom.select('#' + uniqueId)[0]);
+              editor.selection.collapse(0);
+              editor.dom.remove(uniqueId);
+            }
+          }, 500));
+        },
       });
 
       $elm.on('parti-tinymce-conflict', function(e) {
-        var content = tinyMCE.get($elm.attr('id')).getContent();
-        var $content =$('<content>' + content + '</content>');
-        $content.find('diffadded').contents().unwrap();
-        $content.find('diffremoved').contents().unwrap();
-        $content.find('difftouched').contents().unwrap();
-        tinyMCE.get($elm.attr('id')).setContent($content.html());
+        try {
+          var content = tinyMCE.get($elm.attr('id')).getContent();
+          var $content =$('<content>' + content + '</content>');
+          $content.find('diffadded').contents().unwrap();
+          $content.find('diffremoved').contents().unwrap();
+          $content.find('difftouched').contents().unwrap();
+          tinyMCE.get($elm.attr('id')).setContent($content.html());
+        } catch(ignore) {}
       });
     });
   })();
@@ -2877,6 +2905,7 @@ $(function(){
           $focus = $(focus_id);
           $focus.focus();
           Waypoint.refreshAll();
+          $.scrollTo(0);
         }});
       }});
 
