@@ -6,7 +6,7 @@
   - Group.sort_by_name.joined_groups(current_user).includes(:categories).to_a
 - all_issues = current_user&.member_issues&.alive&.sort_by_name.to_a
 - menu_groups.each do |menu_group|
-  - if menu_group.private_blocked?
+  - if menu_group.private_blocked?(current_user)
     - next
   %li.js-group-issues-line.group-issues-container.js-drawer-filter-item.js-drawer-filter-group.js-sidemenu-toggle-group{ 'data-sidemenu-toggle-group-id': menu_group.id, 'data-sidemenu-toggle-group-subdomain': menu_group.subdomain }
     - issues = all_issues.select{ |issue| issue.group_slug == menu_group.slug }
