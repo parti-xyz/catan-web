@@ -1067,7 +1067,7 @@ var parti_prepare = function($base, force) {
         // toolbar: false,
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false, //'bold italic | blockquote quicklink',
-        forced_root_block: false,
+        forced_root_block: 'p',
         min_height: 160,
       },
       wiki: {
@@ -1075,7 +1075,7 @@ var parti_prepare = function($base, force) {
         toolbar: 'bold italic strikethrough | link blockquote | style-h1 style-h2 style-h3 |  bullist numlist outdent indent | table',
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false,
-        forced_root_block: false,
+        forced_root_block: 'p',
         min_height: 300,
       },
     };
@@ -1089,12 +1089,15 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       var tinymce_instance = $elm.tinymce({
-        cache_suffix: '?v=5.0.12.0.1',
+        cache_suffix: '?v=5.0.12.0.2',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
         min_height: setting.min_height,
         forced_root_block : setting.forced_root_block,
+        forced_root_block_attrs: {
+          class: 'd277bc4d-a73e-4b2e-94ed-bbe7c1934b74',
+        },
         autoresize_bottom_margin: 0,
         statusbar: false,
         toolbar: setting.toolbar,
@@ -1118,21 +1121,8 @@ var parti_prepare = function($base, force) {
         sticky_offset: 51,
         valid_classes: '',
         valid_styles: '',
-        extended_valid_elements : 'div,span,diffremoved,diffadded,cursorbr[id]',
-        custom_elements : '~diffremoved,~diffadded,~cursorbr',
-        init_instance_callback: function (editor) {
-          editor.on('keydown', _.throttle(function (e) {
-            if(e.keyCode == 13) {
-              $('#notice_body_ifr').blur();
-              $('#notice_body_ifr').focus();
-              uniqueId = "___cursor___" + Math.random().toString(36).substr(2, 16);
-              editor.execCommand('mceInsertContent', false, "<cursorbr id=" + uniqueId + "></cursorbr>");
-              editor.selection.select(editor.dom.select('#' + uniqueId)[0]);
-              editor.selection.collapse(0);
-              editor.dom.remove(uniqueId);
-            }
-          }, 500));
-        },
+        extended_valid_elements : 'p[id,class],diffremoved,diffadded,cursorbr[id]',
+        custom_elements : '~diffremoved,~diffadded',
       });
 
       $elm.on('parti-tinymce-conflict', function(e) {
@@ -1151,19 +1141,18 @@ var parti_prepare = function($base, force) {
       default: {
         plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
         toolbar: 'bold italic strikethrough link blockquote | style-h1 style-h2 style-h3 bullist numlist outdent indent',
-        forced_root_block: false,
+        forced_root_block: 'p',
       },
       wiki: {
         plugins: 'link paste autolink lists advlist autoresize stickytoolbar-mobile hot-style',
         toolbar: 'bold italic strikethrough link blockquote | style-h1 style-h2 style-h3 bullist numlist outdent indent',
-        forced_root_block: false,
+        forced_root_block: 'p',
       },
     };
     // Tinymce on mobile
     $.parti_apply($base, '.js-tinymce.js-tinymce-mobile', function(elm) {
       $elm = $(elm);
       var setting_name = $elm.data('tinymce-setting');
-
       var setting = settings.default;
       if(setting_name) {
         setting = settings[setting_name];
@@ -1171,18 +1160,20 @@ var parti_prepare = function($base, force) {
       var content_css = $elm.data('content-css');
 
       $elm.tinymce({
-        cache_suffix: '?v=5.0.12.0.0',
+        cache_suffix: '?v=5.0.12.0.2',
         language: 'ko_KR',
         plugins: setting.plugins,
         menubar: false,
         min_height: 200,
         autoresize_bottom_margin: 0,
         forced_root_block : setting.forced_root_block,
+        forced_root_block_attrs: {
+          class: 'd277bc4d-a73e-4b2e-94ed-bbe7c1934b74',
+        },
         statusbar: false,
         toolbar: setting.toolbar,
         toolbar_drawer: 'sliding',
         paste_data_images: true,
-        extended_valid_elements: 'span',
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: false,
         link_assume_external_targets: 'http',
@@ -1202,7 +1193,7 @@ var parti_prepare = function($base, force) {
         },
         valid_classes: '',
         valid_styles: '',
-        extended_valid_elements : 'span,diffremoved,diffadded,cursorbr[id]',
+        extended_valid_elements : 'p[id,class],diffremoved,diffadded,cursorbr[id]',
         custom_elements : '~diffremoved,~diffadded,~cursorbr',
         setup: function (editor) {
           // link opender
@@ -1257,8 +1248,8 @@ var parti_prepare = function($base, force) {
           });
           editor.on('keydown', _.throttle(function (e) {
             if(e.keyCode == 13) {
-              $('#notice_body_ifr').blur();
-              $('#notice_body_ifr').focus();
+              $(editor.iframeElement).blur();
+              $(editor.iframeElement).focus();
               uniqueId = "___cursor___" + Math.random().toString(36).substr(2, 16);
               editor.execCommand('mceInsertContent', false, "<cursorbr id=" + uniqueId + "></cursorbr>");
               editor.selection.select(editor.dom.select('#' + uniqueId)[0]);
