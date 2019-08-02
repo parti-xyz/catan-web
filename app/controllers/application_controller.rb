@@ -20,25 +20,26 @@ class ApplicationController < ActionController::Base
 
   if Rails.env.production? or Rails.env.staging?
     rescue_from ActiveRecord::RecordNotFound, ActionController::UnknownFormat do |exception|
-      return if self.performed?
-      render_404
+      render_404 unless self.performed?
     end
     rescue_from ActionController::InvalidCrossOriginRequest, ActionController::InvalidAuthenticityToken do |exception|
-      return if self.performed?
-      self.response_body = nil
-      if request.format.html?
-        redirect_to root_url, :alert => I18n.t('errors.messages.invalid_auth_token')
-      else
-        render_403
+      unless self.performed?
+        self.response_body = nil
+        if request.format.html?
+          redirect_to root_url, :alert => I18n.t('errors.messages.invalid_auth_token')
+        else
+          render_403
+        end
       end
     end
   end
   rescue_from CanCan::AccessDenied do |exception|
-    return if self.performed?
-    if request.format.html?
-      redirect_to root_url, :alert => exception.message
-    else
-      render_403
+    unless self.performed?
+      if request.format.html?
+        redirect_to root_url, :alert => exception.message
+      else
+        render_403
+      end
     end
   end
 
