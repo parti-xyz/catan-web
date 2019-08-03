@@ -6,22 +6,18 @@ class UsersController < ApplicationController
 
     base_posts = @user.posts.order(last_stroked_at: :desc)
 
-    if view_context.is_infinite_scrollable?
-      if params[:last_stroked_at].present?
-        @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
-      end
-
-      @posts = base_posts.limit(20).previous_of_time(@previous_last_post_stroked_at).to_a
-
-      current_last_post = @posts.last
-      if current_last_post.present?
-        @posts += base_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
-      end
-
-      @is_last_page = (@user.posts.empty? or base_posts.previous_of_post(current_last_post).empty?)
-    else
-      @posts = @posts.page(params[:page])
+    if params[:last_stroked_at].present?
+      @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
     end
+
+    @posts = base_posts.limit(20).previous_of_time(@previous_last_post_stroked_at).to_a
+
+    current_last_post = @posts.last
+    if current_last_post.present?
+      @posts += base_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
+    end
+
+    @is_last_page = (@user.posts.empty? or base_posts.previous_of_post(current_last_post).empty?)
   end
 
   def summary_test

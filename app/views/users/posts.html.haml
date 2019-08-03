@@ -1,7 +1,5 @@
 = render 'user_header'
 
-- paging = (!@posts.nil? and @posts.try(:current_page).present?)
-
 %section#user-gallery
   .container
     .row
@@ -15,12 +13,9 @@
               게시글이 없습니다.
           - else
             .post-container{ data: {'last-stroked-at': '', is_last: 'false'} }
-              = render 'posts/page', posts: @posts, show_issue: true, first_today_text: ("게시물 #{number_with_delimiter @posts.total_count}개 중에 #{@posts.current_page}페이지를 표시합니다" if paging and !@posts.first_page?)
+              = render 'posts/page', posts: @posts, show_issue: true
 
-            - if paging
-              = paginate @posts, theme: 'catan'
-            - else
-              .page-waypoint.js-page-waypoint.text-center{'data-target': '.post-container', 'data-url': slug_user_url(format: :js)}
-                .page-waypoint-loading.js-page-waypoint-loading
-                  %i.fa.fa-2x.fa-spinner.fa-pulse
+            .page-waypoint.js-page-waypoint.text-center{'data-target': '.post-container', 'data-url': slug_user_url(format: :js)}
+              .page-waypoint-loading.js-page-waypoint-loading
+                %i.fa.fa-2x.fa-spinner.fa-pulse
       = render 'users/aside', user: @user

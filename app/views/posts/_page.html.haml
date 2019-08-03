@@ -1,8 +1,8 @@
 - issue = local_assigns[:issue]
 - marked_read_at = issue.present? and issue.marked_read_at?(current_user)
-- before_post_unread = (marked_read_at and issue.unread_post?(current_user, @previous_last_post_stroked_at))
+- before_post_unread = (marked_read_at and issue.unread_post?(current_user, local_assigns[:previous_last_post_stroked_at]))
 
-- if @previous_last_post_stroked_at.blank? and marked_read_at and posts.first&.unread?(current_user)
+- if local_assigns[:show_unread_mark] and local_assigns[:previous_last_post_stroked_at].blank? and marked_read_at and posts.first&.unread?(current_user)
   .post-new-stroked{ class:  issue_unread_banner_dom_class(issue) }
     = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "desc only-clickable" do
       %i.fa.fa-arrow-down
@@ -13,7 +13,7 @@
 
 - posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
-    - if marked_read_at and before_post_unread and !post.unread?(current_user)
+    - if local_assigns[:show_unread_mark] and marked_read_at and before_post_unread and !post.unread?(current_user)
       .post-new-stroked{ class:  issue_unread_banner_dom_class(issue) }
         = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "desc only-clickable" do
           %i.fa.fa-arrow-up

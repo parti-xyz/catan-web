@@ -169,10 +169,6 @@ module ApplicationHelper
     !browser.device.mobile? and !browser.device.tablet?
   end
 
-  def is_infinite_scrollable?
-    !is_mobile_app_get_request?(request)
-  end
-
   def is_virtaul_keyboard?
     browser.device.mobile? || browser.device.tablet?
   end

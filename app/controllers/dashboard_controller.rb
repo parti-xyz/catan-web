@@ -20,26 +20,20 @@ class DashboardController < ApplicationController
 
     watched_posts = fetch_watched_posts(@dashboard_group)
 
-    if view_context.is_infinite_scrollable?
-      if request.format.js?
-        if params[:last_stroked_at].present?
-          @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
-        end
-
-        limit_count = (@previous_last_post_stroked_at.blank? ? 10 : 20)
-        @posts = watched_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at).to_a
-
-        current_last_post = @posts.last
-        if current_last_post.present?
-          @posts += watched_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
-        end
-
-        @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+    if request.format.js?
+      if params[:last_stroked_at].present?
+        @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
       end
-    else
-      @list_url = dashboard_path
-      @posts = watched_posts.page(params[:page])
-      @recommend_posts = Post.of_undiscovered_issues(current_user).after(1.month.ago).hottest.order_by_stroked_at
+
+      limit_count = (@previous_last_post_stroked_at.blank? ? 10 : 20)
+      @posts = watched_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at).to_a
+
+      current_last_post = @posts.last
+      if current_last_post.present?
+        @posts += watched_posts.where(last_stroked_at: current_last_post.last_stroked_at).where.not(id: @posts).to_a
+      end
+
+      @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
     end
   end
 

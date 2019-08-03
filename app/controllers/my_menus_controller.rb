@@ -13,14 +13,6 @@ class MyMenusController < ApplicationController
     if user_signed_in?
       @members_for_issues = Hash[current_user.members.for_issues.to_a.map { |member| [member.joinable_id, member] }]
     end
-    #   if params[:drawer_current_group_fixed_top].present?
-    #     current_user.drawer_current_group_fixed_top = params[:drawer_current_group_fixed_top] == "true"
-    #   end
-    #   if params[:drawer_current_group_unfold_only].present?
-    #     current_user.drawer_current_group_unfold_only = params[:drawer_current_group_unfold_only] == "true"
-    #   end
-    #   current_user.save
-    # end
   end
 end
 

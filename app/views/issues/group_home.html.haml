@@ -6,8 +6,6 @@
 
   = render_group_only_exist "key_page"
 
-- paging = (!@posts.nil? and @posts.try(:current_page).present?)
-- is_first_page_in_paging = (paging and @posts.first_page?)
 = render 'application/group_home_sub_header', active: 'home'
 
 - if Issue.only_alive_of_group(current_group).any?
