@@ -313,9 +313,15 @@ $drawer-sub-issues-left-space: 48px;
       color: $brand-primary;
       body.light-theme.in-group & {
         color: $gray-dark;
+        .fa-inverse {
+          color: white;
+        }
       }
       body.dark-theme.in-group & {
         color: white;
+        .fa-inverse {
+          color: $brand-primary;
+        }
       }
     }
     &.dropdown > .dropdown-menu {
