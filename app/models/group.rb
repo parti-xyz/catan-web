@@ -323,7 +323,7 @@ class Group < ApplicationRecord
   def issue_create_messagable_users
     member_users.where(id: GroupPushNotificationPreference.where(group: self).select(:user_id))
   end
-  
+
   private
 
   def downcase_slug

@@ -9,4 +9,6 @@ class Category < ApplicationRecord
 
   scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(categories.name, 1)) < 128, 1, 0)")).order('categories.name') }
   validates :name, uniqueness: { scope: :group_slug }, presence: true
+
+  NADA_ID = 0
 end

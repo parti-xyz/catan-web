@@ -130,7 +130,7 @@
               = f.radio_button :category_id, category.id
               = category.name
           %label.radio-inline
-            = radio_button_tag 'issue[category_id]', nil, @issue.category.blank?
+            = radio_button_tag 'issue[category_id]', Category::NADA_ID, @issue.category.blank?
             이외 주제
 
     .form-group{class: ('has-error' if has_error_attr?(@issue, :logo))}

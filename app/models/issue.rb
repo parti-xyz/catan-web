@@ -95,6 +95,7 @@ class Issue < ApplicationRecord
   # callbacks
   before_save :downcase_slug
   before_validation :strip_whitespace
+  before_validation :valid_category
 
   # scopes
   scope :never_blinded, -> { where(blinded_at: nil) }
@@ -463,5 +464,13 @@ class Issue < ApplicationRecord
     if self.slug == Issue::SLUG_OF_PARTI_PARTI and self.group_slug != Group::SLUG_OF_UNION
       errors.add(:slug, I18n.t('errors.messages.taken'))
     end
+  end
+
+  def valid_category
+    return if self.category_id.blank?
+    if self.category_id <= 0
+      self.category_id = nil
+    end
+    self.category = Category.find_by(id: self.category_id)
   end
 end
