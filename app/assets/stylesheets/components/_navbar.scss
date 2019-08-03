@@ -680,10 +680,9 @@ $drawer-default-space-mobile: 12px;
         top: $header-menu-height + 2px;
         background-color: $background-color;
         width: $side-menu-width;
-        border-right: 1px solid $gray-light;
         .drawer-list-mobile & {
-          top: 0;
-          position: relative;
+          position: initial;
+          width: auto;
         }
         & + li.menu-line {
           margin-top: $drawer-default-space;
@@ -713,13 +712,6 @@ $drawer-default-space-mobile: 12px;
           margin-left: -18px;
           padding-left: 18px;
           padding-right: 18px;
-          @media (max-width: $screen-xs-max) {
-            display: block;
-            position: fixed;
-            width: 254px;
-            top: 0;
-            height: 31px;
-          }
           > .drawer-scroll-top {
             color: $gray;
             border-bottom-left-radius: 12px;
@@ -847,6 +839,7 @@ $drawer-default-space-mobile: 12px;
 
 .slideout-open .slideout-menu {
   display: block;
+  user-select: none;
 }
 
 .main-panel:before {
