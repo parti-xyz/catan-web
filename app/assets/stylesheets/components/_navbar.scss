@@ -685,7 +685,7 @@ $drawer-default-space-mobile: 12px;
         position: fixed;
         top: $header-menu-height + 2px;
         background-color: $background-color;
-        width: $side-menu-width;
+        width: $side-menu-width - 1;
         .drawer-list-mobile & {
           position: initial;
           width: auto;

@@ -172,7 +172,7 @@ class User < ApplicationRecord
 
   def writing_counts
     counts = OpenStruct.new
-    counts.parties_count = member_issues.count
+    counts.groups_count = member_groups.count
     counts.posts_count = posts.count
     counts.comments_count = comments.count
     counts
