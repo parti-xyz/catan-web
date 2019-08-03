@@ -1,7 +1,8 @@
 .decision-panel {
   font-size: $font-size-base;
   margin-top: 14px;
-  padding: 12px;
+  padding: 18px;
+  padding-bottom: 12px;
   &:hover {
     @include hover-shadow();
   }
@@ -15,9 +16,15 @@
   h6 {
     margin-top: 0;
     font-size: $font-size-base;
+    color: $gray;
+    margin-bottom: 12px;
   }
   .writer,
   .control {
+    font-weight: normal;
+    font-size: $font-size-small;
+  }
+  .writer {
     margin-left: 12px;
     color: $gray;
     a {
@@ -26,19 +33,22 @@
         color: $gray-dark;
       }
     }
-    font-weight: normal;
-    font-size: $font-size-small;
-    .item + .item {
-      margin-left: 4px
-    }
   }
   .control {
     white-space: nowrap;
+    margin-left: 0;
+    margin-top: 6px;
+    display: block;
+    padding-top: 12px;
+    border-top: 1px solid $gray-less-lighter;
     a {
       color: $base-brand-primary-opt8;
       &:hover {
         color: $base-brand-primary;
       }
+    }
+    .item + .item {
+      margin-left: 12px
     }
   }
   p {

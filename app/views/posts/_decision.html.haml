@@ -9,28 +9,35 @@
           진행된 토론 내용이나 결정 사항을 기록하세요.
       = render 'posts/form_decision', post: post
   - elsif post.has_decision
+    - authors_block = capture do
+      - decision_authors = post.decision_authors.to_a
+      - if decision_authors.any?
+        %small.writer
+          - decision_authors.each do |user|
+            %span.item
+              = link_to "@#{user.nickname}", smart_user_gallery_path(user)
+          - decision_authors.each do |user|
+            %span.item
+              = link_to "@#{user.nickname}", smart_user_gallery_path(user)
+
     .decision-panel
       %h6
         %span.text-nowrap
           %i.fa.fa-rocket
           토론 정리
-
-        - decision_authors = post.decision_authors.to_a
-        - if decision_authors.any?
-          %small.writer
-            - decision_authors.each do |user|
-              %span.item
-                = link_to "@#{user.nickname}", smart_user_gallery_path(user)
-
-        - if post.decisionable?(current_user)
-          %small.control
-            = link_to '편집', show_decision_post_path(post, mode: :form), remote: true, class: 'item'
-            = link_to '이력', decision_histories_post_path(post), class: 'item text-primary'
-
+        - unless local_assigns[:compact_decision] == true
+          = authors_block
       - if post.decision.blank?
         %span.text-muted 결정 사항이 없습니다
       - else
-        - if local_assigns[:compact_decision] == true
-          != smart_truncate_html(decision_body_format(post.issue, post.decision&.strip), length: 40, ellipsis: ' ... <span class="more">더 보기</span>')
-        - else
-          = decision_body_format(post.issue, post.decision&.strip)
+        .form-control-tinymce.mce-content-body
+          - if local_assigns[:compact_decision] == true
+            != smart_truncate_html(decision_body_format(post.issue, post.decision&.strip), length: 40, ellipsis: ' ... <span class="more">더 보기</span>')
+          - else
+            = decision_body_format(post.issue, post.decision&.strip)
+
+
+      - if post.decisionable?(current_user) and local_assigns[:compact_decision] != true
+        %small.control
+          = link_to '편집', show_decision_post_path(post, mode: :form), remote: true, class: 'item'
+          = link_to '이력', decision_histories_post_path(post), class: 'item text-primary'

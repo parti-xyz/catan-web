@@ -209,6 +209,7 @@ class PostsController < ApplicationController
     @post.strok_by(current_user, :decision)
 
     unless @post.will_save_change_to_decision?
+      flash[:success] = I18n.t('activerecord.successful.messages.no_changed')
       # redirect_to(params[:back_url].presence || smart_post_url(@post)) and return
       return
     end

@@ -54,8 +54,6 @@
               %i.fa.fa-comment-o
               %b> #{post.comments_count}개
               의 댓글
-      - if local_assigns[:show_decision] != false
-        = render 'posts/decision', local_assigns.merge(post: post)
       - if local_assigns[:show_last_stroked_for]
         .post-card__last-stroked-bottom-wrapper
           = render 'posts/last_stroked_for', local_assigns
