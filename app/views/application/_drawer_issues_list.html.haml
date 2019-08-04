@@ -1,11 +1,12 @@
 - if issues.any?
   %ul.sub.list-unstyled
     - if local_assigns[:category].present?
-      %li.category-line.title-category.js-drawer-filter-ignored= (category.try(:name) || '미분류')
+      %li.category-line.title-category.js-drawer-filter-ignored.js-sidemenu-toggle-issues-container-underling{ class: ('collapse' if local_assigns[:collapse]) }= (category.try(:name) || '미분류')
     - issues.each do |issue|
       - unread = false
       - if local_assigns[:members_for_issues].present?
         - member = members_for_issues[issue.id]
         - unread = member&.unread_issue? || false
-      - cache [issue, unread, user_signed_in?] do
-        = render 'issues/issue_line', use_url: true, issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-drawer-filter-searchable-line js-sidemenu-highlight-menu-parti js-sidemenu-highlight-menu-parti-#{issue.id} #{'unread' if unread} #{'unsigned-user' unless user_signed_in?}"
+        - collapse = (!unread and local_assigns[:collapse])
+      - cache [issue, unread, user_signed_in?, collapse] do
+        = render 'issues/issue_line', use_url: true, issue: issue, link_whole_line: true, show_after_block: false, issue_classes: "js-drawer-filter-searchable-line js-sidemenu-highlight-menu-parti js-sidemenu-highlight-menu-parti-#{issue.id} #{'unread' if unread} #{'unsigned-user' unless user_signed_in?} #{'collapse' if collapse}"

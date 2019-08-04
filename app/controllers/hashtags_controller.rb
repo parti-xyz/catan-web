@@ -32,16 +32,16 @@ class HashtagsController < ApplicationController
       end
     end
 
-    watched_posts = Post.tagged_with(@hashtag).of_searchable_issues(current_user)
+    watched_posts = Post.tagged_with(@hashtag).of_searchable_issues(current_user).order(last_stroked_at: :desc)
     watched_posts = watched_posts.of_group(@current_search_group) if @current_search_group.present?
 
     if request.format.js?
-      if params[:last_stroked_at].present?
-        @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
+      if params[:previous_post_last_stroked_at_timestamp].present?
+        @previous_last_post_stroked_at_timestamp = params[:previous_post_last_stroked_at_timestamp].to_i
       end
 
-      limit_count = (@previous_last_post_stroked_at.blank? ? 10 : 20)
-      @posts = watched_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at).to_a
+      limit_count = (@previous_last_post_stroked_at_timestamp.blank? ? 10 : 20)
+      @posts = watched_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at_timestamp).to_a
 
       current_last_post = @posts.last
       if current_last_post.present?

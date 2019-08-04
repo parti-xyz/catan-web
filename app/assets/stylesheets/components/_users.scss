@@ -1,4 +1,5 @@
-section#user-gallery{
+section.user-gallery{
+  padding: 20px 0;
   .posts,
   .votes {
     margin-top: 24px;
@@ -7,6 +8,20 @@ section#user-gallery{
     margin-top: 24px;
   }
 }
+
+@media (max-width: $screen-xs-max) {
+  section.user-gallery {
+    .content-tab-section .nav-tabs {
+      li {
+        width: 25%
+      }
+      .count-label-wrapper {
+        margin-bottom: 4px;
+      }
+    }
+  }
+}
+
 
 .user {
   &__image {
@@ -447,10 +462,6 @@ section#user-gallery{
   }
 }
 
-#user-gallery {
-  padding: 20px 0;
-}
-
 /* dashboard 상단 버튼 */
 .post-form {
   position: relative;
@@ -620,19 +631,6 @@ section#user-gallery{
   a {
     color: $gray;
     text-decoration: underline;
-  }
-}
-
-@media (max-width: $screen-xs-max) {
-  section#user-gallery {
-    .content-tab-section .nav-tabs {
-      li {
-        width: 25%
-      }
-      .count-label-wrapper {
-        margin-bottom: 4px;
-      }
-    }
   }
 }
 

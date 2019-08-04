@@ -42,12 +42,12 @@
 
           .js-my-home-tab-sticky-offset
 
-          .posts{data: {'last-stroked-at': '', is_last: 'false'}}
+          .posts{data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'}}
             #no-data.text-center.alert.collapse
               %i.fa.fa-info-circle
                 게시글이 없습니다.
 
-          .page-waypoint.js-page-waypoint-onload.text-center{ 'data-target': '.posts', 'data-url': dashboard_path(format: :js, group_slug: current_dashboard_group.try(:slug)) }
+          .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': dashboard_path(format: :js, group_slug: current_dashboard_group.try(:slug)) }
             .page-waypoint-loading.js-page-waypoint-loading
               %i.fa.fa-2x.fa-spinner.fa-pulse
       = render 'application/aside'

@@ -99,6 +99,7 @@ Rails.application.routes.draw do
       delete :destroy_category
       post :read_all
       get :header
+      post :unread_until
     end
     collection do
       get :search_by_tags

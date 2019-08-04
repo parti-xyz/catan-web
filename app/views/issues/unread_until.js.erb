@@ -1,0 +1,13 @@
+<% if @issue.errors.any? %>
+  UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+  $('.js-post-new-stroked').trigger('parti-post-new-stroked-clear-all');
+
+  var $start = $('<%= j render('posts/page_new_stroked_mark', mode: 'start', issue: @issue, first_post_last_stroked_at_timestamp: params[:first_post_last_stroked_at_timestamp].to_i) %>');
+  parti_partial$($start);
+  $('.js-post-new-stroked-container-start').html($start);
+
+  var $end = $('<%= j render('posts/page_new_stroked_mark', mode: 'end', issue: @issue, first_post_last_stroked_at_timestamp: params[:first_post_last_stroked_at_timestamp].to_i, no_auto: true) %>');
+  parti_partial$($end);
+  $(".js-post-new-stroked-target-<%= params[:until_post_id] %>").after($end);
+<% end %>

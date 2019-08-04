@@ -1,10 +1,21 @@
 <% if @posts.empty? %>
-if($('#posts .js-slug-hom-posts').data('last-stroked-at') === '') {
+if($('#posts .posts').data('previous-post-last-stroked-at-timestamp') === '') {
   $('#no-data').show();
 }
 <% end %>
-$('#posts .js-slug-hom-posts').data('last-stroked-at', '<%= @posts.last.try(:last_stroked_at).try(:to_i) %>');
-$('#posts .js-slug-hom-posts').data('is-last', <%= @is_last_page %>);
-var $posts = $("<%= j(render 'posts/page', issue: @issue, posts: @posts, show_issue: false, show_unread_mark: true, previous_last_post_stroked_at: @previous_last_post_stroked_at) %>");
-$('#posts .js-slug-hom-posts').append($posts);
-parti_partial$($posts);
+$('#posts .posts').data('previous-post-last-stroked-at-timestamp', '<%= @posts.last.try(:last_stroked_at).try(:to_i) %>');
+$('#posts .posts').data('is-last', <%= @is_last_page %>);
+$('#posts .posts').data('first-post-last-stroked-at-timestamp', '<%= @first_post_last_stroked_at_timestamp %>');
+
+var $posts_doms = $("<%= j(render 'posts/page', issue: @issue, posts: @posts, show_issue: false, show_unread_mark: true, previous_last_post_stroked_at_timestamp: @previous_last_post_stroked_at_timestamp, first_post_last_stroked_at_timestamp: @first_post_last_stroked_at_timestamp) %>");
+
+if($('#posts .posts').find('.js-post-new-stroked-container-end').length > 0) {
+  $.each($posts_doms, function(index, elm){
+    $(elm).hasClass('js-post-new-stroked-container-end').remove();
+  });
+}
+
+$('#posts .posts').append($posts_doms);
+parti_partial$($posts_doms);
+
+

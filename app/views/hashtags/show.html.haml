@@ -12,13 +12,13 @@
                 #{current_group.title_basic_format}이 오거나징하는
               - else
                 모든
-              채널 게시물입니다.
-        .posts{ data: {'last-stroked-at': '', is_last: 'false'} }
+              그룹의 게시물입니다.
+        .posts{ data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'} }
           #no-data.text-center.alert{ style: 'display: none;' }
             %i.fa.fa-info-circle
               해당 게시글이 없습니다.
 
-        .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': hashtag_url(format: :js, hashtag: @hashtag)}
+        .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': hashtag_url(format: :js, hashtag: @hashtag)}
           .page-waypoint-loading.js-page-waypoint-loading
             %i.fa.fa-2x.fa-spinner.fa-pulse
       = render 'application/aside'

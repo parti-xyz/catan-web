@@ -50,6 +50,9 @@ class Ability
       can [ :beholders, :unbeholders], Post do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
+      can [ :unread_until], Post do |post|
+        post.issue.present? and post.issue.member?(user)
+      end
 
 
       can_nested [:attend, :absent, :to_be_decided], Event, RollCall do |event|

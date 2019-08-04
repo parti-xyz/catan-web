@@ -6,11 +6,11 @@ class UsersController < ApplicationController
 
     base_posts = @user.posts.order(last_stroked_at: :desc)
 
-    if params[:last_stroked_at].present?
-      @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
+    if params[:previous_post_last_stroked_at_timestamp].present?
+      @previous_last_post_stroked_at_timestamp = Time.at(params[:previous_post_last_stroked_at_timestamp].to_i).in_time_zone
     end
 
-    @posts = base_posts.limit(20).previous_of_time(@previous_last_post_stroked_at).to_a
+    @posts = base_posts.limit(20).previous_of_time(@previous_last_post_stroked_at_timestamp).to_a
 
     current_last_post = @posts.last
     if current_last_post.present?

@@ -1,6 +1,12 @@
-$('.post-container').data('last-stroked-at', '<%= @posts.last.try(:last_stroked_at).try(:to_i) %>');
-$('.post-container').data('is-last', <%= @is_last_page %>);
-var $posts = $("<%= j(render 'posts/page', posts: @posts, show_issue: true) %>");
+<% if @posts.empty? %>
+if($('#posts .posts').data('previous-post-last-stroked-at-timestamp') === '') {
+  $('#no-data').show();
+}
+<% end %>
 
-$('.post-container').append($posts)
-parti_partial$($posts);
+$('#posts .posts').data('previous-post-last-stroked-at-timestamp', '<%= @posts.last.try(:last_stroked_at).try(:to_i) %>');
+$('#posts .posts').data('is-last', <%= @is_last_page %>);
+var $posts_doms = $("<%= j(render 'posts/page', posts: @posts, show_issue: true) %>");
+
+$('#posts .posts').append($posts_doms)
+parti_partial$($posts_doms);

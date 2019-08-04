@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :update_category, :destroy_category]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :update_category, :destroy_category, :read_all, :unread_until]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
@@ -103,18 +103,29 @@ class IssuesController < ApplicationController
     @posts_pinned = @issue.posts.pinned.order('pinned_at desc')
     prepare_posts_page
 
+    if request.format.js?
+      @first_post_last_stroked_at_timestamp = if params[:previous_post_last_stroked_at_timestamp].blank?
+        @posts.first&.last_stroked_at&.to_i.presence || -1
+      else
+        params[:first_post_last_stroked_at_timestamp].to_i.presence || -1
+      end
+    end
+
     if user_signed_in?
       current_user.update_attributes(last_visitable: @issue)
-      if !@issue.marked_read_at?(current_user)
-        @issue.read!(current_user)
-      end
 
-      if (params[:nav_q].blank? and params[:last_stroked_at].blank? and
+      if @issue.member?(current_user)
+        if !@issue.marked_read_at?(current_user)
+          @issue.read!(current_user)
+        end
+
+        if (params[:nav_q].blank? and params[:previous_post_last_stroked_at_timestamp].blank? and
         @posts.present? and
         !@issue.unread_post?(current_user, @posts.first.try(:last_stroked_at)) and
         @issue.unread?(current_user))
-        @issue.sync_last_stroked_at!
-        @issue.read!(current_user)
+          @issue.sync_last_stroked_at!
+          @issue.read!(current_user)
+        end
       end
     end
   end
@@ -403,6 +414,14 @@ class IssuesController < ApplicationController
     @issue.read!(current_user)
   end
 
+  def unread_until
+    read_at_timestamp = params[:until_post_last_stroked_at_timestamp].to_i  - 1
+    return if read_at_timestamp <= 0
+
+    @issue.read!(current_user, Time.at(read_at_timestamp).in_time_zone)
+  end
+
+
   protected
 
   def mobile_navbar_title_slug_home
@@ -421,12 +440,12 @@ class IssuesController < ApplicationController
     issue_posts = issue_posts.tagged_with(@hashtag) if @hashtag.present?
 
     if request.format.js?
-      if params[:last_stroked_at].present?
-        @previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
+      if params[:previous_post_last_stroked_at_timestamp].present?
+        @previous_last_post_stroked_at_timestamp = params[:previous_post_last_stroked_at_timestamp].to_i
       end
 
-      limit_count = ( @previous_last_post_stroked_at.blank? ? 10 : 20 )
-      @posts = issue_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at).to_a
+      limit_count = ( @previous_last_post_stroked_at_timestamp.blank? ? 10 : 20 )
+      @posts = issue_posts.limit(limit_count).previous_of_time(@previous_last_post_stroked_at_timestamp).to_a
 
       current_last_post = @posts.last
       if current_last_post.present?

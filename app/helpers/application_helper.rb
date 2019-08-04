@@ -281,7 +281,14 @@ module ApplicationHelper
   end
 
   def sidebar_group_opened?(group)
-    return current_group == group
+    return false if current_group.blank?
+    begin
+      return false if current_group != group
+      opened_group_ids = cookies[:opened_group_ids] ? JSON.parse(cookies[:opened_group_ids]) : []
+      opened_group_ids.include?(group.id)
+    rescue Exception => ignore
+      return false
+    end
   end
 
   def root_domain

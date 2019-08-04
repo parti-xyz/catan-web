@@ -350,10 +350,10 @@ class Issue < ApplicationRecord
     member.unread_issue?
   end
 
-  def read!(someone)
+  def read!(someone, read_at = DateTime.now)
     member = someone.smart_issue_member(self)
     return if member.blank?
-    member.update_columns(read_at: DateTime.now)
+    member.update_columns(read_at: read_at)
   end
 
   def read_if_no_unread_posts!(someone)

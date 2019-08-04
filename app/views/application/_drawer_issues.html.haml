@@ -26,29 +26,28 @@
           #{group_sidemenu_title(menu_group)}
 
     - if issues.any?
-      .group-issues-list.js-sidemenu-toggle-issues.js-drawer-link{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
+      .group-issues-list.js-sidemenu-toggle-issues-container.js-drawer-link{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
         %ul.sub.list-unstyled
-          %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id}", "data-action": "parti-issue-link", "data-url": smart_group_url(menu_group) }
+          %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored.js-sidemenu-toggle-issues-container-underling{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id} #{'collapse' unless sidebar_group_opened?(menu_group)}", "data-action": "parti-issue-link", "data-url": smart_group_url(menu_group) }
             .media
               .media-left
                 .issue-line__thumb.text-center
                   %i.fa.fa-home
               .media-body
                 그룹 홈
+
         - if menu_group.categories.any?
           - (menu_group.categories.sort_by_name.to_a << nil).each do |category|
             - categorized_issues = issues.select{ |issue| issue.category_id == category&.id }
             - next if categorized_issues.empty?
-
-            = render 'application/drawer_issues_list', group: menu_group, issues: categorized_issues, members_for_issues: local_assigns[:members_for_issues], category: (category || true)
-
+            = render 'application/drawer_issues_list', group: menu_group, issues: categorized_issues, members_for_issues: local_assigns[:members_for_issues], category: (category || true), collapse: !sidebar_group_opened?(menu_group)
         - else
-          = render 'application/drawer_issues_list', group: menu_group, issues: issues, members_for_issues: local_assigns[:members_for_issues]
+          = render 'application/drawer_issues_list', group: menu_group, issues: issues, members_for_issues: local_assigns[:members_for_issues], collapse: !sidebar_group_opened?(menu_group)
 
-        %ul.sub.list-unstyled
+        %ul.sub.list-unstyled.js-sidemenu-toggle-issues-container-underling{ class: ('collapse' unless sidebar_group_opened?(menu_group)) }
           %li.js-drawer-filter-ignored.issue-more.clearfix
             = link_to issues_url(subdomain: menu_group.subdomain) do
-              더 보기
+              모든 채널
               - latest_issues_count = menu_group.visiable_latest_issues_count
               - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
               - if any_latest_issues

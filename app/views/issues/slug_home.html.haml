@@ -53,7 +53,7 @@
           - if params[:nav_q].blank?
             = render 'posts/new_posts_count', new_posts_count_url: new_issue_posts_count_url(issue_id: @issue.id, last_time: DateTime.now.to_i)
 
-          .posts.js-slug-hom-posts{data: {'last-stroked-at': '', is_last: 'false'}}
+          .posts{data: {'previous-post-last-stroked-at-timestamp': '', 'first-post-last-stroked-at-timestamp': '', is_last: 'false'}}
             - if params[:nav_q].present?
               .post-card.summary
                 .post-card__post
@@ -82,7 +82,7 @@
                     검색 결과가 없습니다.
 
           - unless @issue.member_requested?(current_user)
-            .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.js-slug-hom-posts', 'data-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:nav_q])}
+            .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue)}
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
       = render 'issues/aside', issue: @issue

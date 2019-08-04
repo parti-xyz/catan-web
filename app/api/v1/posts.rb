@@ -33,7 +33,7 @@ module V1
       desc '채널별 게시물 목록으로 반환합니다'
       oauth2
       params do
-        optional :last_stroked_at, type: Integer, desc: '시간 기준'
+        optional :previous_post_last_stroked_at_timestamp, type: Integer, desc: '시간 기준'
       end
       get do
         issue = Issue.find params[:channel_id]
@@ -42,9 +42,8 @@ module V1
         base_posts = issue.posts.order(last_stroked_at: :desc).limit(20).unblinded(resource_owner)
 
         posts = base_posts.to_a
-        if params[:last_stroked_at].present?
-          previous_last_post_stroked_at = Time.at(params[:last_stroked_at].to_i).in_time_zone
-          posts = base_posts.previous_of_time(previous_last_post_stroked_at).to_a
+        if params[:previous_post_last_stroked_at_timestamp].present?
+          posts = base_posts.previous_of_time(params[:previous_post_last_stroked_at_timestamp]).to_a
         end
 
         current_last_post = posts.last

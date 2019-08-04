@@ -29,7 +29,7 @@
           새로 만드세요.
         - if post.issue.folders.any?
           .js-folder-selector.folder-selector
-            = f.select :folder_id, [], {}, class: 'form-control icon-select js-parti-bootstrap-select', data: { 'show-tick': 'true' } do
+            = f.select :folder_id, [], {}, class: 'form-control icon-select js-select-picker', data: { 'show-tick': 'true' } do
               - Folder.threaded(post.issue.folders).each do |parent_folder, child_folders|
                 %option.parent-folder{ value: parent_folder.id, selected: parent_folder == post.folder }
                   = parent_folder.title

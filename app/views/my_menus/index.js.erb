@@ -25,7 +25,7 @@ $('.js-sidemenu-highlight-current-parti-source').each(function(index) {
   if(highlight_menu.length > 0) {
     highlight_menu.addClass('highlight');
     highlight_menu.addClass('js-sidemenu-highlight-current-item');
-    highlight_menu.closest('.js-sidemenu-toggle-group').find('.js-sidemenu-toggle').trigger('click', 'unfold');
+    highlight_menu.show();
     need_to_group_highlight = false;
   }
 });
@@ -37,7 +37,6 @@ $('.js-sidemenu-highlight-current-group-source').each(function(index) {
   if(highlight_menu.length > 0) {
     highlight_menu.addClass('highlight');
     highlight_menu.addClass('js-sidemenu-highlight-current-item');
-    highlight_menu.closest('.js-sidemenu-toggle-group').find('.js-sidemenu-toggle').trigger('click', 'unfold');
     need_to_group_highlight = false;
   }
 });

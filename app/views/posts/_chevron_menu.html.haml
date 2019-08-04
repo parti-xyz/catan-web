@@ -79,6 +79,12 @@
       -#     확인하지 않은 가입멤버 보기
 
 - button_groups << capture do
+  - if post.issue.member?(current_user) and local_assigns[:show_unread_mark]
+    %li
+      %a.js-trigger{ href: "#parti-post-page-waypoint-unread-until-post", 'data-target': '.js-page-waypoint', 'data-until-post-id': post.id, 'data-until-post-last-stroked-at-timestamp': post.last_stroked_at.to_i }
+        이 게시물까지 읽지 않음 표시
+
+- button_groups << capture do
   - additional_buttons = capture do
     - if local_assigns[:additional_buttons_partial].present?
       = render additional_buttons_partial, local_assigns

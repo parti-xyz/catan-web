@@ -2,7 +2,8 @@
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
   <% if params[:auto].blank? %>
-    $('<%= issue_unread_banner_dom_selector(@issue) %>').remove();
+    $('.js-post-new-stroked').trigger('parti-post-new-stroked-clear-all');
+  <% else %>
+    $('.js-post-new-stroked-read-all-post-auto').trigger('parti-post-new-stroked-clear-auto');
   <% end %>
-  $('.js-read-all-posts').trigger('parti-read-all-posts-destroy');
 <% end %>

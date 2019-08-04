@@ -672,9 +672,9 @@ $drawer-default-space-mobile: 12px;
         }
         .group-issues-list {
           margin-bottom: $drawer-default-space;
-          &.sidemenu-toggle-issues-fold-in-advance {
-            display: none;
-          }
+          // &.sidemenu-toggle-issues-fold-in-advance {
+          //   display: none;
+          // }
         }
       }
       &.menu-line > a:not(.action-link) {
@@ -686,9 +686,11 @@ $drawer-default-space-mobile: 12px;
         top: $header-menu-height + 2px;
         background-color: $background-color;
         width: $side-menu-width - 1;
+        z-index: 1;
         .drawer-list-mobile & {
           position: initial;
           width: auto;
+          z-index: auto;
         }
         & + li.menu-line {
           margin-top: $drawer-default-space;

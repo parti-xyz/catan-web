@@ -61,12 +61,12 @@
             %small.hidden-xs
               해당 키워드와 관련된 게시글입니다
 
-          .posts{data: {'last-stroked-at': '', is_last: 'false'}}
+          .posts{data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'}}
             #no-data.text-center.alert{ style: 'display: none;' }
               %i.fa.fa-info-circle
                 해당 게시글이 없습니다.
 
-          .page-waypoint.js-page-waypoint-onload.text-center{'data-target': '.posts', 'data-url': search_url(format: :js, nav_q: @search_q, group_id: params[:group_id], issue_id: params[:issue_id], search_type: params[:search_type])}
+          .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': search_url(format: :js, nav_q: @search_q, group_id: params[:group_id], issue_id: params[:issue_id], search_type: params[:search_type])}
             .page-waypoint-loading.js-page-waypoint-loading
               %i.fa.fa-2x.fa-spinner.fa-pulse
         - else

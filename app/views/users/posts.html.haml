@@ -1,21 +1,18 @@
 = render 'user_header'
 
-%section#user-gallery
+%section.user-gallery#posts
   .container
     .row
       = main_column_tag do
         %h4.group-heading
           작성한 게시물
-        .posts
-          - if @posts.empty?
-            .bg-default
-              %i.fa.fa-info-circle
-              게시글이 없습니다.
-          - else
-            .post-container{ data: {'last-stroked-at': '', is_last: 'false'} }
-              = render 'posts/page', posts: @posts, show_issue: true
 
-            .page-waypoint.js-page-waypoint.text-center{'data-target': '.post-container', 'data-url': slug_user_url(format: :js)}
-              .page-waypoint-loading.js-page-waypoint-loading
-                %i.fa.fa-2x.fa-spinner.fa-pulse
+        .posts{data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'}}
+          #no-data.text-center.alert.collapse
+            %i.fa.fa-info-circle
+              게시글이 없습니다.
+
+        .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': slug_user_url(format: :js)}
+          .page-waypoint-loading.js-page-waypoint-loading
+            %i.fa.fa-2x.fa-spinner.fa-pulse
       = render 'users/aside', user: @user

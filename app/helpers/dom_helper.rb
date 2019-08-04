@@ -226,12 +226,4 @@ module DomHelper
   def group_category_issue_list_dom_class(category)
     "#{category.present? ? dom_id(category) : 'category-nil'}-js-category-issue-list"
   end
-
-  def issue_unread_banner_dom_class(issue)
-    "#{dom_id(issue)}-unread-banner"
-  end
-
-  def issue_unread_banner_dom_selector(issue)
-    ".#{issue_unread_banner_dom_class(issue)}"
-  end
 end

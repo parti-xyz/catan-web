@@ -1,27 +1,49 @@
 - issue = local_assigns[:issue]
 - marked_read_at = issue.present? and issue.marked_read_at?(current_user)
-- before_post_unread = (marked_read_at and issue.unread_post?(current_user, local_assigns[:previous_last_post_stroked_at]))
+- first_page = local_assigns[:previous_last_post_stroked_at_timestamp].blank?
+- before_post_unread = (marked_read_at and !first_page and issue.unread_post?(current_user, Time.at(local_assigns[:previous_last_post_stroked_at_timestamp].to_i).in_time_zone))
+- first_post_last_stroked_at_timestamp ||= local_assigns[:first_post_last_stroked_at_timestamp].to_i
 
-- if local_assigns[:show_unread_mark] and local_assigns[:previous_last_post_stroked_at].blank? and marked_read_at and posts.first&.unread?(current_user)
-  .post-new-stroked{ class:  issue_unread_banner_dom_class(issue) }
-    = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "desc only-clickable" do
-      %i.fa.fa-arrow-down
-      새로 업데이트된 게시물
-      .close
-        모두 읽음 표시
-        %span &#215;
+- can_show_unread_mark = issue.present? and issue.member?(current_user) and local_assigns[:show_unread_mark]
+
+/
+  = local_assigns[:previous_last_post_stroked_at_timestamp]
+  local_assigns[:previous_last_post_stroked_at_timestamp]
+  = can_show_unread_mark
+  can_show_unread_mark
+  = first_page
+  first_page
+  = first_post_last_stroked_at_timestamp  > 0
+  first_post_last_stroked_at_timestamp
+
+- if can_show_unread_mark and first_page and first_post_last_stroked_at_timestamp > 0
+  .js-post-new-stroked-container-start
+    /
+      = marked_read_at
+      marked_read_at
+      = posts.first&.unread?(current_user)
+      posts.first&.unread?(current_user)
+    - if marked_read_at and posts.first&.unread?(current_user)
+      = render 'posts/page_new_stroked_mark', mode: 'start', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
 
 - posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
-    - if local_assigns[:show_unread_mark] and marked_read_at and before_post_unread and !post.unread?(current_user)
-      .post-new-stroked{ class:  issue_unread_banner_dom_class(issue) }
-        = link_to read_all_issue_path(issue, dom_class: issue_unread_banner_dom_class(issue)), remote: true, method: :post, class: "desc only-clickable" do
-          %i.fa.fa-arrow-up
-          새로 업데이트된 게시물
-          .close
-            모두 읽음 표시
-            %span &#215;
-    .post-card__content
+    /
+      = can_show_unread_mark
+      can_show_unread_mark
+      = marked_read_at
+      marked_read_at
+      = before_post_unread
+      before_post_unread
+      = !post.unread?(current_user)
+      !post.unread?(current_user)
+      = first_post_last_stroked_at_timestamp > 0
+      first_post_last_stroked_at_timestamp > 0
+    - if can_show_unread_mark
+      - if marked_read_at and before_post_unread and !post.unread?(current_user) and first_post_last_stroked_at_timestamp > 0
+        .js-post-new-stroked-container-end
+          = render 'posts/page_new_stroked_mark', mode: 'end', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
+    .post-card__content.js-post-new-stroked-target{ class: "js-post-new-stroked-target-#{post.id}" }
       - post_card_dom_id = "post-card-#{SecureRandom.uuid}"
       .post-card.js-lazy-partal-load{ id: post_card_dom_id, data: { url: post_url(post, subdomain: current_group.try(:subdomain), dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), format: :js) } }
         .skeletons
