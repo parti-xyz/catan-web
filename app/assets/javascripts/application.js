@@ -2886,7 +2886,7 @@ $(function(){
           }
         });
       }
-      $('#js-main-panel').removeClass('sidebar-open-in-advance');
+      // $('#js-main-panel').removeClass('sidebar-open-in-advance');
       $('.js-bottom-banner').trigger('parti-resize-bottom-banner');
     });
   })();

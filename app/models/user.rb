@@ -103,7 +103,7 @@ class User < ApplicationRecord
   has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
   has_many :blinded_issues, dependent: :nullify, class_name: "Issue", foreign_key: :blinded_by_id
   has_many :blinded_groups, dependent: :nullify, class_name: "Group", foreign_key: :blinded_by_id
-  belongs_to :last_visitable, polymorphic: true
+  belongs_to :last_visitable, polymorphic: true, optional: true
 
   ## uploaders
   # mount

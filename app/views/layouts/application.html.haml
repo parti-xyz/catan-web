@@ -33,7 +33,7 @@
     - else
       = render 'application/header'
 
-    %main.main-panel#js-main-panel.large-main-panel.clearfix{ class: ('sidebar-open-in-advance' if sidebar_opened?) }
+    %main.main-panel#js-main-panel.large-main-panel.clearfix{ class: ('sidebar-close-in-advance' unless sidebar_openable?) }
       .sidebar-wrapper#js-main-panel-sidbar.js-sidebar-scroll-container
         = render 'drawer_menu'
       .content-wrapper

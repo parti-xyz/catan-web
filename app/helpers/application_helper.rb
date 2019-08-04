@@ -279,9 +279,8 @@ module ApplicationHelper
     (user == current_user ? "내가" : "@#{user.nickname}님이")
   end
 
-  def sidebar_opened?
+  def sidebar_openable?
     return false if controller_name == 'dashboard' and action_name == 'intro'
-    return false if controller_name == 'posts' and action_name == 'wiki'
     cookies[:'sidebar-open'] != "false"
   end
 

@@ -918,8 +918,7 @@ $drawer-default-space-mobile: 12px;
     }
   }
 
-  &.sidebar-open,
-  &.sidebar-open-in-advance {
+  &.sidebar-open {
     .sidebar-wrapper {
       display: block;
       @media (max-width: $screen-xs-max) {
@@ -932,22 +931,21 @@ $drawer-default-space-mobile: 12px;
     }
   }
 
+  &.sidebar-close-in-advance {
+    .sidebar-wrapper {
+      display: none;
+      z-index: 0;
+    }
+  }
+
   // 1151px 사이즈 이후에는 항상 열어 놓습니다.
   @media (min-width: $screen-lg-min) {
     .sidebar-wrapper {
       display: block;
       z-index: $zindex-slideout-backdrop;
     }
-    margin-left: $side-menu-width;
-  }
-
-  // md 사이즈까지는 미리 열어 놓지 않습니다
-  @media (max-width: $screen-md-max) {
-    &.sidebar-open-in-advance {
-      .sidebar-wrapper {
-        display: none;
-        z-index: 0;
-      }
+    &:not(.sidebar-close-in-advance) {
+      margin-left: $side-menu-width;
     }
   }
 }

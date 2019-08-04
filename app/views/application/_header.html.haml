@@ -9,9 +9,10 @@
           = meta_icons(current_group)
     #collapsable.collapse.navbar-collapse
       %ul.nav.navbar-nav.navbar-left
-        %li.visible-sm-sidbar-inline
-          %a.js-slideout-toggle.cursor-pointer
-            %i.fa.fa-bars{style:"font-size: 18px;"}
+        - if sidebar_openable?
+          %li.visible-sm-sidbar-inline
+            %a.js-slideout-toggle.cursor-pointer
+              %i.fa.fa-bars{style:"font-size: 18px;"}
         %li.my-home-menu
           = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard')}" do
             %i.fa.fa-home{style:"font-size: 18px;"}
