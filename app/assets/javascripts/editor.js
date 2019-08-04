@@ -645,6 +645,9 @@ $(function() {
           $focus.focus();
           Waypoint.refreshAll();
           $.scrollTo(0);
+
+          var id = $($target.find('.js-tinymce').first()).attr('id');
+          tinyMCE.get(id).focus();
         }});
       }});
 
