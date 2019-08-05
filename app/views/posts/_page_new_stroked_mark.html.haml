@@ -3,7 +3,7 @@
 .post-new-stroked.js-post-new-stroked{ class: "js-post-new-stroked-#{mode}" }
   = link_to read_all_issue_path(issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp), remote: true, method: :post, class: "desc only-clickable #{'js-post-new-stroked-read-all-post-auto' if need_to_auto_read}" do
     %i.fa{ class: mode_icon }
-    새로 업데이트된 게시물
+    새 업데이트
     .close
       모두 읽음 표시
       %span &#215;

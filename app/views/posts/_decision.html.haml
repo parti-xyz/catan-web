@@ -16,9 +16,6 @@
           - decision_authors.each do |user|
             %span.item
               = link_to "@#{user.nickname}", smart_user_gallery_path(user)
-          - decision_authors.each do |user|
-            %span.item
-              = link_to "@#{user.nickname}", smart_user_gallery_path(user)
 
     .decision-panel
       %h6

@@ -588,6 +588,9 @@ strong.upvoted {
   margin-bottom: 10px;
   height: 28px;
   border-radius: 4px;
+  @media (max-width: $screen-xs-max) {
+    border-radius: 0;
+  }
   background-color: #885ecf;
   text-align: center;
   position: relative;
