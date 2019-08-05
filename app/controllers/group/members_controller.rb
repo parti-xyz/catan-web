@@ -76,7 +76,8 @@ class Group::MembersController < Group::BaseController
     params[:recipients].split(/[,\s]+/).map(&:strip).reject(&:blank?).each do |recipient_code|
       recipient = nil
       if recipient_code.match /@/
-        searched_users_count = User.where(email: recipient_code).count
+        recipients = User.where(email: recipient_code)
+        searched_users_count = recipients.count
         if searched_users_count > 1
           @ambiguous_recipient_codes << recipient_code
           @has_error_recipient_codes = true

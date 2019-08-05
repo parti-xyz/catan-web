@@ -63,7 +63,9 @@ class Member < ApplicationRecord
 
   def init_group_push_notification_preference
     if self.joinable_type == 'Group' and !self.joinable.open_square?
-      joinable.group_push_notification_preferences.create(user: self.user)
+      if !joinable.group_push_notification_preferences.exists?(user: self.user)
+        joinable.group_push_notification_preferences.create(user: self.user)
+      end
     end
   end
 end
