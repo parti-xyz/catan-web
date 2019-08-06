@@ -639,6 +639,7 @@ $(function() {
 
       var $target = $('.js-post-editor');
       $target.show({ duration: 1, complete: function() {
+
         $elm.hide({ duration: 1, complete: function() {
           var focus_id = $elm.data('focus');
           $focus = $(focus_id);
@@ -647,7 +648,11 @@ $(function() {
           $.scrollTo(0);
 
           var id = $($target.find('.js-tinymce').first()).attr('id');
-          tinyMCE.get(id).focus();
+          setTimeout(function () {
+            try {
+              tinyMCE.get(id).focus();
+            } catch(ignore) {}
+          }, 500);
         }});
       }});
 
