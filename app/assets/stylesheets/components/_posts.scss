@@ -622,4 +622,14 @@ strong.upvoted {
       opacity: 0.8;
     }
   }
+  &.disable {
+    background-color: white;
+    a {
+      cursor: default;
+      color: $gray;
+      .close {
+        display: none;
+      }
+    }
+  }
 }

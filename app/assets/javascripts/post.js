@@ -101,7 +101,6 @@ var __parti_prepare_post = function($base) {
             $.ajax({
               url: $elm.attr('href'),
               type: "post",
-              data:{ 'auto': 'true' }
             });
             clearTimeout(timer);
           }, 10 * 1000);
@@ -127,9 +126,27 @@ var __parti_prepare_post = function($base) {
 
     $.parti_apply($base, '.js-post-new-stroked', function(elm) {
       var $elm = $(elm);
+
       $elm.on('parti-post-new-stroked-clear-all', function(e) {
         $($(e.currentTarget).find('.js-post-new-stroked-read-all-post-auto')).trigger('parti-post-new-stroked-clear-auto');
         $elm.remove();
+      });
+
+      $elm.on('parti-post-new-stroked-disable-all', function(e) {
+        $($(e.currentTarget).find('.js-post-new-stroked-read-all-post-auto')).trigger('parti-post-new-stroked-clear-auto');
+        $elm.addClass('js-post-new-stroked-disable disable');
+        $.each($elm.find('.js-post-new-stroked-label'), function(index, label) {
+          $(label).html($(label).data('post-new-stroked-label-read-all'));
+        });
+        $elm.find('.js-post-new-stroked-link').attr('href', '#');
+      });
+
+      $($elm.find('.js-post-new-stroked-link')).on('click', function(e) {
+        if(!$elm.hasClass('js-post-new-stroked-disable')) {
+          return true;
+        }
+        e.preventDefault();
+        return false;
       });
     });
   })();

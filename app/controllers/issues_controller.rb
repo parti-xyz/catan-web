@@ -112,7 +112,7 @@ class IssuesController < ApplicationController
     end
 
     if user_signed_in?
-      current_user.update_attributes(last_visitable: @issue)
+      current_user.update_attributes(last_visitable: nil)
 
       if @issue.member?(current_user)
         if !@issue.marked_read_at?(current_user)

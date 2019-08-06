@@ -34,6 +34,8 @@ class DashboardController < ApplicationController
       end
 
       @is_last_page = (watched_posts.empty? or watched_posts.previous_of_post(current_last_post).empty?)
+    else
+      current_user.update_attributes(last_visitable: @issue)
     end
   end
 

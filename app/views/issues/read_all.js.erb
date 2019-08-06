@@ -1,9 +1,5 @@
 <% if @issue.blank? or @issue.errors.any? %>
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
-  <% if params[:auto].blank? %>
-    $('.js-post-new-stroked').trigger('parti-post-new-stroked-clear-all');
-  <% else %>
-    $('.js-post-new-stroked-read-all-post-auto').trigger('parti-post-new-stroked-clear-auto');
-  <% end %>
+  $('.js-post-new-stroked').trigger('parti-post-new-stroked-disable-all');
 <% end %>
