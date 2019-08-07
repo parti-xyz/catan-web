@@ -97,13 +97,17 @@ var __parti_prepare_post = function($base) {
           if(timer) {
             return;
           }
-          timer = setTimeout(function() {
-            $.ajax({
-              url: $elm.attr('href'),
-              type: "post",
-            });
-            clearTimeout(timer);
-          }, 10 * 1000);
+          if($elm.attr('href') != '#') {
+            timer = setTimeout(function() {
+              if($elm.attr('href') != '#') {
+                $.ajax({
+                  url: $elm.attr('href'),
+                  type: "post",
+                });
+              }
+              clearTimeout(timer);
+            }, 10 * 1000);
+          }
           this.destroy();
           clear_auto($elm);
         },
@@ -113,7 +117,6 @@ var __parti_prepare_post = function($base) {
       var clear_auto = function($auto_elm) {
         var waypoint = $auto_elm.data('read-all-posts-destroy-waypoint');
         if(waypoint) {
-          console.log(waypoint);
           waypoint.destroy();
         }
         $auto_elm.data('read-all-posts-destroy-waypoint', null);
