@@ -88,6 +88,9 @@ class IssuesController < ApplicationController
 
   def header
     @issue = Issue.find params[:id]
+    if request.format.html?
+      redirect_to smart_issue_home_url(@issue) and return
+    end
   end
 
   def slug_home
