@@ -243,11 +243,113 @@ var __parti_prepare_editor = function($base) {
   // tinymce
   // editor
   (function() {
+    var fix_list_dummy_uid = "___uid___" + Math.random().toString(36).substr(2, 16);
+    var is_list_dom = function(dom) {
+      if(!dom) return false;
+      if(!dom.nodeName) return false;
+
+      return ('ul' === dom.nodeName.toLowerCase() || 'ol' === dom.nodeName.toLowerCase());
+    }
+
+    var is_list_item_dom = function(dom) {
+      if(!dom) return false;
+      if(!dom.nodeName) return false;
+
+      return ('li' === dom.nodeName.toLowerCase());
+    }
+
+    var is_text_dom = function(dom) {
+      if(!dom) return false;
+      return dom.nodeType === 3;
+    }
+
+    var is_ignore_dom = function(dom) {
+      if(!dom) return true;
+      if(is_text_dom(dom) && $(dom).text().trim().length <= 0) {
+        return true;
+      }
+    }
+
+    var list_fix = function(node) {
+      try {
+        var $node = $(node);
+        var $list = $node.find('ul,ol');
+        $.each($list.contents(), function(index, item) {
+          if(is_ignore_dom(item)) {
+            return;
+          }
+
+          if(!item.nodeName || item.nodeName.toLowerCase() != 'li') {
+            var $item = $(item);
+            $item.wrap('<li>');
+          }
+        });
+
+        var $relist = $node.find('ul,ol');
+        $.each($relist.contents(), function(index, list_item) {
+          if(is_ignore_dom(list_item)) {
+            return;
+          }
+
+          var $list_item = $(list_item);
+          var previous_subitem = null;
+          $.each($list_item.contents(), function(index, current_subitem) {
+            if(is_ignore_dom(current_subitem)) {
+              return;
+            }
+
+            var $current_subitem = $(current_subitem);
+            if(index === 0 && (is_list_dom(current_subitem) || is_list_item_dom(current_subitem))) {
+              var $new_previous_subitem = $('<span class="' + fix_list_dummy_uid + '">&nbsp;</span>');
+              $new_previous_subitem.insertBefore($current_subitem);
+              previous_subitem = $new_previous_subitem[0];
+            }
+
+            if(is_list_dom(current_subitem)) {
+              if(is_list_dom(previous_subitem)) {
+                $(previous_subitem).append($(current_subitem).contents());
+                $(current_subitem).remove();
+                return;
+              }
+              previous_subitem = current_subitem;
+              return;
+            } else if(is_list_item_dom(current_subitem)) {
+              var $new_previous_subitem = $('<ul></ul>');
+              $(current_subitem).wrap($new_previous_subitem);
+              previous_subitem = $new_previous_subitem[0];
+              return;
+            } else {
+              if(is_list_dom(previous_subitem)) {
+                $(current_subitem).appendTo($(previous_subitem)).wrap('<li>');
+                return;
+              }
+              previous_subitem = current_subitem;
+              return;
+            }
+          });
+        });
+
+        var $dummy_span = $node.find('.' + fix_list_dummy_uid);
+        $.each($dummy_span, function(index, dummy_span) {
+          var $dummy_li = $(dummy_span).parent();
+          var $previous_li = $dummy_li.prev();
+          if(is_list_item_dom($previous_li[0])) {
+            $dummy_li.remove();
+            $previous_li.append($dummy_li.contents());
+            $dummy_li.remove();
+          }
+        });
+
+        $node.find('p').addClass('d277bc4d-a73e-4b2e-94ed-bbe7c1934b74').after('<p class="d277bc4d-a73e-4b2e-94ed-bbe7c1934b74"><br data-mce-bogus="1"></p>');
+      } catch(ignore) {
+        console.log(ignore);
+      }
+    }
     //plugins: 'image media link paste contextmenu textpattern autolink quickbars',
     var settings = {
       default: {
         plugins: 'stickytoolbar link paste autolink autosave lists autoresize hot-style table',
-        toolbar: 'bold italic strikethrough | link blockquote style-h1 style-h2 style-h3 | bullist numlist outdent indent',
+        toolbar: 'bold italic strikethrough | link blockquote | style-h1 style-h2 style-h3 | bullist numlist outdent indent',
         // toolbar: false,
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: false, //'bold italic | blockquote quicklink',
@@ -288,6 +390,11 @@ var __parti_prepare_editor = function($base) {
         toolbar_drawer: 'sliding',
         quickbars_insert_toolbar: setting.quickbars_insert_toolbar,
         quickbars_selection_toolbar: setting.quickbars_selection_toolbar,
+        paste_retain_style_properties: '',
+        paste_postprocess: function(plugin, args) {
+          $(args.node).find('*').removeAttr('style');
+          list_fix(args.node);
+        },
         paste_data_images: true,
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: true,
@@ -358,6 +465,11 @@ var __parti_prepare_editor = function($base) {
         toolbar: setting.toolbar,
         toolbar_drawer: 'sliding',
         paste_data_images: true,
+        paste_retain_style_properties: '',
+        paste_postprocess: function(plugin, args) {
+          $(args.node).find('*').removeAttr('style');
+          list_fix(args.node);
+        },
         document_base_url: 'https://parti.xyz/',
         link_context_toolbar: false,
         link_assume_external_targets: 'http',
