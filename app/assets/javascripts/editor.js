@@ -409,7 +409,6 @@ var __parti_prepare_editor = function($base) {
         formats: {
           strikethrough: {inline : 'del'}
         },
-        sticky_offset: 51,
         valid_classes: '',
         valid_styles: '',
         extended_valid_elements : 'p[id,class],diffremoved,diffadded,cursorbr[id]',

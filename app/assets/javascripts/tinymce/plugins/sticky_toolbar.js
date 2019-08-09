@@ -140,7 +140,7 @@ var plugin_plugin = function plugin(editor) {
           var prevToolbarHeight = 0;
           toolbars.forEach(function (toolbar) {
             toolbar.style.bottom = null;
-            toolbar.style.top = "".concat(offset + prevToolbarHeight, "px");
+            toolbar.style.top = "".concat(dynamicOffset() + offset + prevToolbarHeight, "px");
             toolbar.style.position = 'fixed';
             toolbar.style.width = "".concat(container.clientWidth, "px");
             toolbar.style.zIndex = 1;
@@ -159,7 +159,7 @@ var plugin_plugin = function plugin(editor) {
   function isSticky() {
     var editorPosition = editor.getContainer().getBoundingClientRect().top;
 
-    if (editorPosition < offset) {
+    if (editorPosition < (dynamicOffset() + offset)) {
       return true;
     }
 
@@ -178,11 +178,23 @@ var plugin_plugin = function plugin(editor) {
     });
     var stickyHeight = -(container.offsetHeight - toolbarHeights - statusbarHeight);
 
-    if (editorPosition < stickyHeight + offset) {
+    if (editorPosition < stickyHeight + dynamicOffset() + offset) {
       return true;
     }
 
     return false;
+  }
+
+  function dynamicOffset() {
+    var $offsets = $('.js-stickytoolbar-offset').filter(function () {
+      return $(this).css('position') == 'fixed';
+    });
+    var absoluteTop = 0;
+    $offsets.each(function() {
+      absoluteTop += parseFloat($(this).outerHeight());
+    });
+
+    return absoluteTop;
   }
 };
 
