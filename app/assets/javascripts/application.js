@@ -270,6 +270,17 @@ var parti_prepare = function($base, force) {
         });
       } else {
         setup_webui_popover(elm);
+        (function() {
+          var close_callback = function(e) {
+            $(elm).webuiPopover('hide');
+          }
+          $(elm).on('shown.webui.popover', function(e) {
+            $(document).on('ajax:before', close_callback);
+          });
+          $(elm).on('hide.webui.popover', function(e) {
+            $(document).off('ajax:before', close_callback);
+          })
+        })();
       }
     });
 
