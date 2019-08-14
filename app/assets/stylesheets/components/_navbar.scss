@@ -909,6 +909,10 @@ $drawer-default-space-mobile: 12px;
     width: $side-menu-width;
     min-height: 100vh;
     overflow-y: scroll;
+    -ms-overflow-style: none; // IE에서 스크롤바 감춤
+    &::-webkit-scrollbar {
+      display: none !important; // 윈도우 크롬 등
+    }
     .drawer-list {
       display: block;
       min-height: 100vh;

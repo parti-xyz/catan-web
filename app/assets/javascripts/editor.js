@@ -393,6 +393,7 @@ var __parti_prepare_editor = function($base) {
         paste_retain_style_properties: '',
         paste_postprocess: function(plugin, args) {
           $(args.node).find('*').removeAttr('style');
+          $(args.node).find('*').removeAttr('class');
           list_fix(args.node);
         },
         paste_data_images: true,
