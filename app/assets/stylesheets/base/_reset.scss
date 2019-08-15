@@ -271,9 +271,19 @@ body.in-group {
   }
 }
 
-.dropdown-menu > li > .help-text {
+.dropdown-menu li > .help-text {
   font-size: 12px;
   color: $gray-a;
   white-space: normal;
   padding: 4px 20px;
+}
+
+.dropdown-menu > li > ul.sub > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857;
+  color: $gray-dark;
+  white-space: nowrap;
 }

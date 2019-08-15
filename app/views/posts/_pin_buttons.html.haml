@@ -1,6 +1,6 @@
 - if post.pinned?
-  = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '공지내리기' }, class: switchable_post_pin_buttons_dom_class(post) do
+  = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '...' } do
     공지 내리기
 - else
-  = link_to [:pin, post], method: :post, remote: true, data: { disable_with: '공지걸기' }, class: switchable_post_pin_buttons_dom_class(post) do
+  = link_to [:pin, post], method: :post, remote: true, data: { disable_with: '...' } do
     공지 걸기

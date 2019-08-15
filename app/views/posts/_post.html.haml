@@ -38,7 +38,7 @@
     - else
       .post-card__post
         - if !post.wiki.present?
-          = render 'posts/last_stroked_for', post: post
+          = render 'posts/last_stroked_for', post: post, beholdable: true
 
           - chevron_dropdown = capture do
             = render 'posts/chevron_menu', local_assigns.merge(post: post)
@@ -47,10 +47,11 @@
             .post-card__buttons
               %span.bookmark{ class: bookmark_post_dom_class(post) }
                 = render 'posts/bookmark', post: post
-              %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-                %i.fa.fa-ellipsis-v
-              %ul.dropdown-menu.pull-right.js-remote-toggle-dropdown-menu{ "aria-labelledby": dropdown_dom_id }
-                = chevron_dropdown
+              %span.more-menu.downdown
+                %a.cursor-pointer.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                  %i.fa.fa-ellipsis-v.fa-fw
+                %ul.dropdown-menu.pull-right.js-remote-toggle-dropdown-menu{ "aria-labelledby": dropdown_dom_id }
+                  = chevron_dropdown
           .post-info
             = render 'users/post_byline', post: post
 

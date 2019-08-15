@@ -222,7 +222,7 @@ section.page-folders {
 .modal-body-move-folders {
   .target-folders {
     max-height: 300px;
-    overflow: scroll;
+    overflow: auto;
     border: 1px solid $gray-less-lighter;
     .folder {
       display: flex;
@@ -272,9 +272,6 @@ section.page-folders {
       a {
         color: $gray;
       }
-    }
-    .move-to {
-
     }
   }
 }

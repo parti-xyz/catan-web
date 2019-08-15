@@ -1,7 +1,23 @@
 - if post.present?
-  - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-  - if text.present?
-    .post-card__last-stroked
-      %span.text
-        != text
-      %span.last-stroked-date.text-nowrap= date_f(last_stroked_at)
+  - behold_mode = (local_assigns[:beholdable] and post.need_to_behold?(current_user))
+  - unless behold_mode
+    - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+  - if text.present? or behold_mode
+    .post-card__last-stroked.clearfix{ class: ('post-card__need-to-behold' if behold_mode) }
+      %span.pull-left
+        %span.text
+          - if behold_mode
+            - if post.pinned_by.present?
+              = link_to user_subject_word(post.pinned_by), smart_user_gallery_url(post.pinned_by)
+              공지했습니다.
+            - else
+              공지사항입니다.
+            = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: behold_button_dom_class(post), 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
+              %span.text-underline
+                확인함 표시
+                %span &#215;
+          - else
+            != text
+            %span.last-stroked-date.text-nowrap= date_f(last_stroked_at)
+      %span.pull-right
+        = local_assigns[:buttons]

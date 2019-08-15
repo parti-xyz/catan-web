@@ -179,6 +179,14 @@ module DomHelper
     "#{dom_id(post)}--bookmark"
   end
 
+  def behold_post_dom_selector(post)
+    ".#{behold_post_dom_class(post)}"
+  end
+
+  def behold_post_dom_class(post)
+    "#{dom_id(post)}--behold"
+  end
+
   def behold_button_dom_selector(post)
     ".#{behold_button_dom_class(post)}"
   end

@@ -1,3 +1,8 @@
+setTimeout(function() {
+  var $menus = "<%= j render('posts/chevron_menu_pin', post: @post) %>";
+  $("<%= switchable_post_pin_buttons_dom_selector(@post) %>").replaceWith($menus);
+}, 100);
+
 var $dom = $('<%= j(render 'posts/post_pinned', post: @post) %>');
 $("<%= pinned_post_dom_selector(@post) %>").replaceWith($dom);
 parti_partial$($dom, true);

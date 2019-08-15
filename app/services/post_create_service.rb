@@ -25,6 +25,7 @@ class PostCreateService
     @post.pinned = (@post.pinned? and Ability.new(@current_user, @post.issue.group).can?(:pin, @post))
     if @post.pinned?
       @post.pinned_at = DateTime.now
+      @post.pinned_by = @current_user
     end
 
     return false unless @post.save

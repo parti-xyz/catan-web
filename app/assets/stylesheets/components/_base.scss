@@ -944,6 +944,10 @@ a.a-gray {
   overflow-wrap: break-word;
 }
 
+.text-underline {
+  text-decoration: underline;
+}
+
 // webp
 body.no-webp .webp {
   display: none !important;

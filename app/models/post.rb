@@ -83,6 +83,7 @@ class Post < ApplicationRecord
   belongs_to :link_source, optional: true
   belongs_to :wiki, optional: true
   belongs_to :event, optional: true
+  belongs_to :pinned_by, class_name: 'User', optional: true
   has_many :file_sources, dependent: :destroy, as: :file_sourceable
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :decision_histories, dependent: :destroy
@@ -605,7 +606,7 @@ class Post < ApplicationRecord
   end
 
   def can_beholder?(someone)
-    issue.member?(someone) and !private_blocked?(someone)
+    someone.present? and self.pinned? and issue.member?(someone) and !private_blocked?(someone)
   end
 
   def need_to_behold?(someone)

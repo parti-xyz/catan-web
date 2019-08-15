@@ -246,7 +246,7 @@ class PostsController < ApplicationController
 
   def pin
     need_to_notification = @post.pinned_at.blank?
-    @post.assign_attributes(pinned: true, pinned_at: DateTime.now)
+    @post.assign_attributes(pinned: true, pinned_at: DateTime.now, pinned_by: current_user)
     @post.strok_by(current_user)
     @post.save!
     @post.issue.strok_by!(current_user, @post)
@@ -284,7 +284,6 @@ class PostsController < ApplicationController
       return unless verify_group(@post.issue)
     end
 
-    add_beholder(@post) if @post.pinned?
     @issue = @post.issue
     @list_url = smart_post_url(@post)
 

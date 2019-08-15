@@ -68,12 +68,6 @@ class CommentsController < ApplicationController
       @comments.each do |comment|
         comment.read!(current_user)
       end
-
-      Post.where(id: @comments.select(:post_id)).each do |post|
-        member = post.issue.members.find_by(user: current_user)
-        next if member.blank?
-        post.beholders.find_or_create_by(user: member.user)
-      end
     end
 
     head 200, content_type: "text/html"

@@ -1,20 +1,22 @@
 - wiki_card_dom_id = "js-wiki-card-#{SecureRandom.uuid}"
-.wiki-line.clearfix{ id: wiki_card_dom_id }
+.wiki-line{ id: wiki_card_dom_id }
   - unless local_assigns[:hide_last_stroked_for]
     - chevron_dropdown = capture do
       = render 'posts/chevron_menu', local_assigns.merge(post: post)
     - dropdown_dom_id = "#{dom_id(post)}__chevron-buttons"
-    - if chevron_dropdown.try(:strip).present?
-      .post-card__buttons
-        %span.bookmark{ class: bookmark_post_dom_class(post) }
-          = render 'posts/bookmark', post: post
-        %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
-          %i.fa.fa-ellipsis-v
-        %ul.dropdown-menu.pull-right.js-remote-toggle-dropdown-menu{ "aria-labelledby": dropdown_dom_id }
-          = chevron_dropdown
 
-    - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-    = render 'posts/last_stroked_for', post: post
+    - last_strocked_for_buttons = capture do
+      - if chevron_dropdown.try(:strip).present?
+        .post-card__buttons
+          %span.bookmark{ class: bookmark_post_dom_class(post) }
+            = render 'posts/bookmark', post: post
+          %span.more-menu.dropdown
+            %a.cursor-pointer.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+              %i.fa.fa-ellipsis-v.fa-fw
+            %ul.dropdown-menu.pull-right.js-remote-toggle-dropdown-menu{ "aria-labelledby": dropdown_dom_id }
+              = chevron_dropdown
+
+    = render 'posts/last_stroked_for', post: post, beholdable: true, buttons: last_strocked_for_buttons
 
   .wiki-line-body-container
     - too_short = post.wiki.body_striped_tags.try(:length) < 400

@@ -1,5 +1,25 @@
+setTimeout(function() {
+  var $menus = "<%= j render('posts/chevron_menu_pin', post: @post) %>";
+  $("<%= switchable_post_pin_buttons_dom_selector(@post) %>").replaceWith($menus);
+}, 100);
+
 var $item = $("<%= pinned_post_dom_selector(@post) %>");
 var $dom = $('<%= j(render 'posts/post_pinned', post: @post) %>');
 $("<%= pinned_post_dom_selector(@post) %>").replaceWith($dom);
 parti_partial$($dom, true);
+
+var $behold_button = $('<%= behold_button_dom_selector(@post) %>');
+var completed = $behold_button.data('completed-with');
+if(completed) {
+  $behold_button.data('ujs:enable-with', completed)
+  $behold_button.data('disable-with', completed);
+
+  setTimeout(function() {
+    $.rails.disableElement($behold_button);
+  }, 100);
+  setTimeout(function() {
+    $behold_button.fadeOut();
+  }, 1000);
+}
+
 UnobtrusiveFlash.showFlashMessage("<%= t('views.behold') %>", {type: 'notice'});

@@ -1,5 +1,6 @@
 setTimeout(function() {
-  $("<%= switchable_post_pin_buttons_dom_selector(@post) %>").replaceWith("<%= j render('posts/pin_buttons', post: @post) %>");
+  var $menus = "<%= j render('posts/chevron_menu_pin', post: @post) %>";
+  $("<%= switchable_post_pin_buttons_dom_selector(@post) %>").replaceWith($menus);
   UnobtrusiveFlash.showFlashMessage("<%= t('views.unpin') %>", {type: 'notice'});
 }, 100);
 

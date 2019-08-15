@@ -21,8 +21,8 @@
         - if post.need_to_behold?(current_user)
           %span.action-btn
             &nbsp;
-            = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{behold_button_dom_class(post)} primary", 'data-completed-with': '읽음 표시 완료 <i class="fa fa-check"/>' do
-              읽음 표시하기
+            = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{behold_button_dom_class(post)} primary", 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
+              확인함 표시
 
   - pin_buttons = capture do
     - if can? :pin, post
@@ -39,12 +39,12 @@
       - if post.can_beholder?(current_user)
         - if post.need_to_behold?(current_user)
           %li
-            = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: behold_button_dom_class(post), 'data-completed-with': '읽음 표시 완료 <i class="fa fa-check"/>' do
-              읽음 표시
+            = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: behold_button_dom_class(post), 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
+              확인함 표시
         - else
           %li
-            = link_to [:unbehold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: unbehold_button_dom_class(post), 'data-completed-with': '읽지 않은 상태로 표시 완료 <i class="fa fa-check"/>' do
-              읽지 않은 상태로 표시
+            = link_to [:unbehold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: unbehold_button_dom_class(post), 'data-completed-with': '확인하지 않음 표시 완료 <i class="fa fa-check"/>' do
+              확인하지 않음 표시
 
   - if pin_buttons.try(:strip).present?
     - dropdown_dom_id = "#{dom_id(post)}__pinned_chevron-buttons"

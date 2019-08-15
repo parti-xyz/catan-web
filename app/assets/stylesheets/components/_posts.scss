@@ -20,8 +20,6 @@
 }
 
 .post-card {
-  &__count {
-  }
   &.new-post {
     padding: 18px;
   }
@@ -72,33 +70,59 @@
       }
     }
   }
-  &__buttons {
+  .post-card__buttons,
+  .post-card__last-stroked .post-card__buttons {
     position: relative;
     float: right;
-    button.dropdown-toggle i {
-      color: $gray-a;
-    }
-    .bookmark a:not(.text-primary) {
-      color: $gray-a;
+    .bookmark,
+    .more-menu {
+      > a {
+        color: $gray-a;
+        &.active {
+          color: $brand-primary;
+        }
+      }
     }
   }
-  &__last-stroked {
+  .post-card__need-to-behold,
+  .post-card__last-stroked {
     color: $gray;
     font-size: $font-size-small;
-    a {
-      color: $gray;
-    }
     padding-bottom: 6px;
     background: $gray-lightest;
     margin-bottom: 12px;
     padding: 6px 12px;
     border-radius: 4px;
     text-align: left;
-    > .text {
+    .text {
+      padding: 0;
+      color: $gray-a;
+      a {
+        color: $gray-a;
+      }
+    }
+    .date-last-stroked {
       padding: 0;
     }
-    > .date-last-stroked {
-      padding: 0;
+  }
+  .post-card__need-to-behold {
+    background: $brand-primary;
+    .text {
+      color: white;
+      a {
+        color: white;
+      }
+    }
+    .post-card__buttons {
+      position: initial;
+      float: none;
+      .bookmark,
+      .more-menu {
+        > a,
+        > a.active {
+          color: white;
+        }
+      }
     }
   }
   &__last-stroked-bottom-wrapper > &__last-stroked {
@@ -215,8 +239,6 @@
       left: 1px;
     }
   }
-  &--hidden-issue {
-  }
   .post-modal & {
     padding: 0;
     margin-bottom: 0;
@@ -258,8 +280,6 @@
     @media (max-width: $screen-xs-max) {
       &__content {
         padding: 0;
-      }
-      &__footer {
       }
     }
   }
@@ -319,6 +339,9 @@
         top: 0.8em;
         .bookmark a {
           color: $gray;
+          .active {
+            color: $brand-primary;
+          }
         }
       }
     }
@@ -442,8 +465,6 @@
       .more {
         font-size: $font-size-small;
       }
-    }
-    &--hidden-issue {
     }
     .post-card__comments {
       margin-left: 0;
