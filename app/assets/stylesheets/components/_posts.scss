@@ -76,12 +76,16 @@
     float: right;
     .bookmark,
     .more-menu {
-      > a {
+      > a,
+      > .dropdown > a.dropdown-toggle {
         color: $gray-a;
         &.active {
           color: $brand-primary;
         }
       }
+    }
+    .bookmark > .dropdown > .dropdown-menu.dropdown-menu-memo {
+      min-width: 200px;
     }
   }
   .post-card__need-to-behold,
@@ -337,9 +341,11 @@
         position: absolute;
         right: 24px;
         top: 0.8em;
-        .bookmark a {
+        .bookmark a,
+        .bookmark .action,
+        .bookmark  {
           color: $gray;
-          .active {
+          &.active {
             color: $brand-primary;
           }
         }

@@ -43,6 +43,15 @@ class BookmarksController < ApplicationController
     end
   end
 
+  def update
+    authenticate_user!
+    @bookmark = Bookmark.find_by(id: params[:id])
+    render_404 and return if @bookmark.blank?
+    unless @bookmark.update_attributes(bookmark_params)
+      errors_to_flash(@bookmark)
+    end
+  end
+
   def destroy
     authenticate_user!
     @bookmark = Bookmark.find_by(id: params[:id])
@@ -53,9 +62,14 @@ class BookmarksController < ApplicationController
     end
   end
 
+  def memo
+    authenticate_user!
+    @bookmark = Bookmark.find_by(id: params[:id])
+  end
+
   private
 
   def bookmark_params
-    params.require(:bookmark).permit(:post_id)
+    params.require(:bookmark).permit(:post_id, :memo)
   end
 end

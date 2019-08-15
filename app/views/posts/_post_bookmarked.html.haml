@@ -1,4 +1,6 @@
-.post-card__post.clearfix.cursor-pointer{ 'data-action': "parti-link", 'data-url': smart_post_url(post) }
+- bookmark = post.bookmark_by(current_user)
+
+.post-card__post.clearfix.cursor-pointer{ class: bookmarked_post_dom_class(post), 'data-action': "parti-link", 'data-url': smart_post_url(post) }
   .desc
     .body<>
       = link_to smart_post_url(post) do
@@ -11,6 +13,14 @@
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
 
+      - if bookmark.present?
+        %span.action-btn
+          &nbsp;
+          = link_to memo_bookmark_path(bookmark, mode: 'form'), remote: true, data: { disable_with: '...' } do
+            북마크 메모하기
+
   .bookmark-buttons
-    %span.bookmark{ class: bookmark_post_dom_class(post) }
-      = render 'posts/bookmark', post: post
+    %span.bookmark
+      = render 'posts/bookmark', post: post, mode: 'simple'
+
+  = render 'posts/post_bookmarked_memo', post: post, bookmark: bookmark

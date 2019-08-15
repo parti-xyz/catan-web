@@ -171,12 +171,28 @@ module DomHelper
     "#{dom_id(post)}--list-pinned"
   end
 
-  def bookmark_post_dom_selector(post)
-    ".#{bookmark_post_dom_class(post)}"
+  def bookmarked_post_dom_selector(post)
+    ".#{bookmarked_post_dom_class(post)}"
   end
 
-  def bookmark_post_dom_class(post)
-    "#{dom_id(post)}--bookmark"
+  def bookmarked_post_dom_class(post)
+    "#{dom_id(post)}--list-bookmarked"
+  end
+
+  def bookmark_button_post_dom_selector(post)
+    ".#{bookmark_button_post_dom_class(post)}"
+  end
+
+  def bookmark_button_post_dom_class(post)
+    "#{dom_id(post)}--bookmark-button"
+  end
+
+  def bookmark_memo_post_dom_selector(bookmark)
+    ".#{bookmark_memo_post_dom_class(bookmark)}"
+  end
+
+  def bookmark_memo_post_dom_class(bookmark)
+    "#{dom_id(bookmark)}--bookmark-memo"
   end
 
   def behold_post_dom_selector(post)

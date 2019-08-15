@@ -707,6 +707,11 @@ $(function(){
         return true;
       }
 
+      var $no_parti_input = $(e.target).closest('input, textarea')
+      if ($no_parti_input.length) {
+        return true;
+      }
+
       var $no_parti_link = $(e.target).closest('[data-toggle="parti-login-overlay"]')
       if ($no_parti_link.length) {
         return true;

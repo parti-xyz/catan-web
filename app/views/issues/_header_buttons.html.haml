@@ -59,7 +59,7 @@
       - if issue.alive?
         %span.text-nowrap<>
           %span.parti-admin-btn-container<>
-            - issue_push_notification_preference_dom_id = "setting-push-notification--#{SecureRandom.uuid}"
+            - issue_push_notification_preference_dom_id = "uid--#{SecureRandom.uuid}"
             %span.btn.btn-default.btn-xs.cursor-pointer.text-nowrap{"data-url": "##{issue_push_notification_preference_dom_id}", "data-action": "parti-popover", "data-placement": "auto-bottom"}<>
               - case current_user.issue_push_notification_preference_value(issue)
               - when 'highlight'

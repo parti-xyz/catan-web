@@ -1,7 +1,23 @@
+- bookmark = post.bookmark_by(current_user)
 - if user_signed_in?
   - if post.bookmarked?(current_user)
-    = link_to bookmark_path(post.bookmark_by(current_user), post_id: post.id), method: :delete, remote: true, class: 'active', data: { disable_with: '...' }, title: '북마크 삭제' do
-      %i.fa.fa-bookmark.fa-fw
+    - if local_assigns[:mode] == 'simple'
+      = link_to bookmark_path(bookmark, post_id: post.id), method: :delete, remote: true, class: 'active', data: { disable_with: '...' }, title: '북마크 삭제' do
+        %i.fa.fa-bookmark.fa-fw
+    - else
+      - dom_id = "uid-#{SecureRandom.uuid}"
+      %span.dropdown.dropdown-bookmark-menu
+        %a.active.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
+          %i.fa.fa-bookmark.fa-fw
+        %ul.dropdown-menu.pull-right{ class: ('dropdown-menu-memo' if bookmark.memo.present?) }
+          %li
+            = link_to bookmark_path(bookmark, post_id: post.id), method: :delete, remote: true, data: { disable_with: '...' }, title: '북마크 삭제' do
+              북마크 취소
+          %li
+            = link_to memo_bookmark_path(bookmark, mode: 'form'), remote: true, data: { disable_with: '...' } do
+              북마크 메모하기
+            = render 'posts/post_bookmarked_memo', post: post, bookmark: bookmark
+
   - else
     = link_to bookmarks_path('bookmark[post_id]': post), method: :post, remote: true, data: { disable_with: '...' }, title: '북마크하기' do
       %i.fa.fa-bookmark-o.fa-fw

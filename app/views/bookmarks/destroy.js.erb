@@ -1,6 +1,17 @@
 <% if @bookmark.present? and @bookmark.errors.any? %>
 UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
+WebuiPopovers.hideAll();
+
 <% post = @bookmark.try(:post) || @post %>
-$('<%= bookmark_post_dom_selector(post) %>').html('<%= j(render 'posts/bookmark', post: post) %>');
+var $bookmarked_post = $('<%= bookmarked_post_dom_selector(post) %>');
+var $bookmark_button = $('<%= bookmark_button_post_dom_selector(post) %>');
+
+$new_bookmarked_post = $('<%= j render('posts/post_bookmarked', post: post) %>');
+$bookmarked_post.replaceWith($new_bookmarked_post);
+parti_partial$($new_bookmarked_post);
+
+var $new_bookmark_button = $('<%= j(render 'posts/bookmark', post: @bookmark.post) %>');
+$bookmark_button.html($new_bookmark_button);
+parti_partial$($new_bookmark_button);
 <% end %>
