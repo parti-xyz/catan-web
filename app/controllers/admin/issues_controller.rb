@@ -111,10 +111,10 @@ class Admin::IssuesController < Admin::BaseController
     issue.freezed_at = DateTime.now
 
     if issue.save
-      flash[:success] = '얼리기를 완료했습니다.'
+      flash[:success] = '휴면 표시를 완료했습니다.'
       redirect_to admin_issues_path
     else
-      flash[:success] = '작업을 완료하지 못했습니다.'
+      flash[:success] = '휴면 표시를 완료하지 못했습니다.'
       redirect_to admin_issues_path
     end
   end

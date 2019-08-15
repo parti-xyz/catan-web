@@ -180,7 +180,7 @@ class User < ApplicationRecord
   end
 
   def need_to_more_member?(group = nil)
-    member_issues.displayable_in_current_group(group).empty?
+    member_issues.displayable_in_current_group(group).alive.empty?
   end
 
   def hottest_posts(count)
@@ -232,7 +232,7 @@ class User < ApplicationRecord
   end
 
   def watched_posts(group = nil)
-    Post.where(issue: member_issues.displayable_in_current_group(group))
+    Post.where(issue: member_issues.displayable_in_current_group(group).alive)
   end
 
   def watched_comments(group = nil)

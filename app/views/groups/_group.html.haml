@@ -10,7 +10,7 @@
           - if issues.count < all_issues.count
             %br.visible-xs
             %small.partis-count.badge
-              #{Issue.of_group(group).count}개의 채널 모두 보기
+              채널 모두 보기
               %i.fa.fa-angle-double-right
       - if !group.site_description.nil? and issues.any?
         .group-desc

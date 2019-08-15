@@ -1,6 +1,6 @@
 = render 'application/group_home_sub_header', active: 'member'
 
-- base_issue = current_user.member_issues.only_alive_of_group(current_group).not_joined_issues(@user)
+- base_issue = current_user.member_issues.only_alive_of_group(current_group).never_blinded.not_joined_issues(@user)
 %section.contents-page
   .container
     = render 'group/members/tab_menu'

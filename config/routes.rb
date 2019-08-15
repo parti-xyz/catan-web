@@ -94,6 +94,8 @@ Rails.application.routes.draw do
       get :new_admit_members
       post :admit_members
       put :add_my_menu
+      put :wake
+      put :freeze
       delete :remove_my_menu
       put :update_category
       delete :destroy_category

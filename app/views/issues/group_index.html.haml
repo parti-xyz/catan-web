@@ -7,7 +7,7 @@
         채널
         %small
           그룹이 오거나징하는 채널입니다.
-      - if current_group.categories.any? or @exists_dead_issues
+      - if current_group.categories.any? or @exists_dead_issues.any?
         .parties-filter
           .parties-filter-select.pull-left
             %nav
@@ -17,7 +17,7 @@
                     전체
                 - current_group.categories.each do |category|
                   %li
-                    = link_to issues_path(category_id: category.id), class: ('active' if params['category_id'] == category.id and params['dead'] != 'true') do
+                    = link_to issues_path(category_id: category.id), class: ('active' if params['category_id'] == category.id.to_s and params['dead'] != 'true') do
                       = category.name
                 - if @exists_dead_issues
                   %li

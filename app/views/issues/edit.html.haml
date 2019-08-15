@@ -7,6 +7,26 @@
         %h4.contents-header__title 채널 수정
       = render 'form'
 
+  - if can? :update, @issue
+    %section
+      .container.container-xs-full-width
+        .contents-header.xs-horizontal-padding
+          %h4.contents-header__title 채널 휴면하기
+        .well
+          - if @issue.frozen?
+            .help-block 채널 휴면을 해제합니다.
+            = link_to '휴면 해제하기', wake_issue_path(@issue), method: :put, class: 'btn btn-primary'
+          - else
+            .help-block 채널을 휴면 전환합니다.
+            .help-block
+              휴면 채널은
+              %br
+              1. 채널 목록, 채널찾기, 관련채널 등에서 보이지 않습니다. 단, url 직접입력을 통한 접근은 가능합니다.
+              %br
+              2. 해당 채널에 새 글을 올릴 수 없습니다.
+
+            = link_to '휴면 전환하기', freeze_issue_path(@issue), method: :put, class: 'btn btn-primary'
+
   - if can? :destroy, @issue
     %section
       .container.container-xs-full-width

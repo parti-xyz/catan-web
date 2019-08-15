@@ -3,7 +3,7 @@
 - if current_group.categories.any?
   %ul.list-unstyled.list-categories
     - (current_group.categories.to_a << nil).each do |category|
-      - issues = Issue.only_alive_of_group(current_group).categorized_with(category)
+      - issues = Issue.only_alive_of_group(current_group).categorized_with(category).never_blinded
       %li
         - if category.present?
           %span.dropdown

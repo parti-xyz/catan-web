@@ -114,10 +114,10 @@ class Issue < ApplicationRecord
   scope :this_week_or_hottest, -> { order(Arel.sql("if(issues.created_at < (NOW() - INTERVAL 6 DAY), 1, 0)")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
-  scope :categorized_with, ->(category) { alive.where(category_id: category.try(:id) || category) }
-  scope :of_group, ->(group) { alive.never_blinded.where(group_slug: Group.slug_fallback(group)) }
+  scope :categorized_with, ->(category) { where(category_id: category.try(:id) || category) }
+  scope :of_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) }
   scope :only_alive_of_group, ->(group) { alive.never_blinded.where(group_slug: Group.slug_fallback(group)) }
-  scope :displayable_in_current_group, ->(group) { alive.never_blinded.where(group_slug: Group.slug_fallback(group)) if group.present? }
+  scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) if group.present? }
   scope :not_private_blocked, ->(current_user) {
     alive.never_blinded.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
     .or(where.not(private: true))

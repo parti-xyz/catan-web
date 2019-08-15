@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :update_category, :destroy_category, :read_all, :unread_until]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :update_category, :destroy_category, :read_all, :unread_until, :freeze]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
@@ -424,6 +424,25 @@ class IssuesController < ApplicationController
     @issue.read!(current_user, Time.at(read_at_timestamp).in_time_zone)
   end
 
+  def wake
+    @issue.freezed_at = nil
+    if @issue.save
+      flash[:success] = '휴면을 해제했습니다.'
+    else
+      errors_to_flash(@issue)
+    end
+    redirect_to smart_issue_home_url(@issue)
+  end
+
+  def freeze
+    @issue.freezed_at = DateTime.now
+    if @issue.save
+      flash[:success] = '휴면 전환했습니다.'
+    else
+      errors_to_flash(@issue)
+    end
+    redirect_to smart_issue_home_url(@issue)
+  end
 
   protected
 
@@ -461,10 +480,10 @@ class IssuesController < ApplicationController
 
   def group_issues(group, category_id = nil, dead = false)
     issues = Issue.displayable_in_current_group(group)
-    if dead
-      issues = issues.dead
+    issues = if dead
+      issues.dead
     else
-      issues = issues.alive
+      issues.alive
     end
     issues = issues.categorized_with(category_id) if category_id.present?
     issues = issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }
