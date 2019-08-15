@@ -357,10 +357,15 @@ class PostsController < ApplicationController
       @dashboard_group = current_dashboard_group
     end
 
+    base_pinned_posts = current_user.pinned_posts
+    if params[:mode].blank? or params[:mode] == 'unbehold'
+      base_pinned_posts = base_pinned_posts.where.not(id: current_user.beholders.select(:post_id))
+    end
     if @dashboard_group.present?
-      group_grouping_pinned_posts = { @dashboard_group => current_user.pinned_posts.where(issue: @dashboard_group.issues) }
+      group_grouping_pinned_posts =
+      { @dashboard_group => base_pinned_posts.where(issue: @dashboard_group.issues) }
     else
-      group_grouping_pinned_posts = current_user.pinned_posts.to_a.group_by { |post| post.issue.group }
+      group_grouping_pinned_posts = base_pinned_posts.to_a.group_by { |post| post.issue.group }
     end
 
     @pinned_posts = []

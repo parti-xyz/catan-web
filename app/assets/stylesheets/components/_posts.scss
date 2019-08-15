@@ -603,6 +603,25 @@ strong.upvoted {
       left: 0;
     }
   }
+
+  &.post-data-divider-filter {
+    margin-top: 12px;
+    margin-bottom: -6px;
+    a {
+      color: $gray;
+      &.active {
+        color: $base-brand-primary;
+      }
+    }
+    > li {
+      padding: 0;
+    }
+    > li + li:before {
+      content: '|';
+      color: $gray-light;
+      margin: 0 5px;
+    }
+  }
 }
 
 .post-new-stroked {
