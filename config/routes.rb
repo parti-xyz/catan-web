@@ -177,6 +177,7 @@ Rails.application.routes.draw do
       post :attach_post
     end
     collection do
+      get :new_post_form
       get :move_form
       post :move
       post :sort

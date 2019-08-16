@@ -181,6 +181,7 @@
       background: -webkit-linear-gradient(left, mix($base-color,$target-color,70%) 8%, mix($base-color,$target-color,35%) 18%, mix($base-color,$target-color,70%) 33%);
       background: linear-gradient(to right, mix($base-color,$target-color,70%) 8%, mix($base-color,$target-color,35%) 18%, mix($base-color,$target-color,70%) 33%);
       -webkit-background-size: 800px 104px;
+      background-size: 800px 104px;
     }
   }
 }

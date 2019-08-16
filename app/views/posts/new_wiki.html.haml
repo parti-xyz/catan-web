@@ -20,10 +20,32 @@
                 .row
                   .col-xs-12.col-sm-12
                     = render 'posts/issue_selector'
-            - if f.object.folder.present?
-              .form-group{ style: 'margin-top: 12px' }
-                = render 'posts/post_card_folder', post: f.object
-                = f.hidden_field :folder_id
+
+            - if @post.issue.present? or @post.folder.present?
+              - folder_full_title_dom_id = "uid-#{SecureRandom.uuid}"
+              - folder_id_dom_id = "uid-#{SecureRandom.uuid}"
+              - current_issue = @post.issue || @post.folder.issue
+              %div{ id: folder_full_title_dom_id, style: 'padding-top: 8px;' }
+                .js-new-post-folder-full-title-only-empty{ class: ('collapse' if @post.folder.present?) }
+                  = f.hidden_field :folder_id, id: folder_id_dom_id, class: 'js-new-post-folder-id-field', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id }
+                  = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: current_issue.id), remote: true, 'data-disable-with': '로딩 중...', class: 'btn btn-xs btn-link editor-btn post-folder-btn' do
+                    %i.fa.fa-folder-o
+                    폴더 설정 (선택)
+                .post-card__header.post-card__header-bare.js-new-post-folder-full-title-only-exists{ class: ('collapse' unless @post.folder.present?) }
+                  %span.post-line-folder
+                    %i.fa.fa-folder-o
+                    %span.js-new-post-folder-full-titler
+                  %span.post-line-folder-buttons.dropdown
+                    %a.active.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
+                      %i.fa.fa-ellipsis-v.fa-fw.text-muted
+                    %ul.dropdown-menu
+                      %li
+                        = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: current_issue.id), remote: true, 'data-disable-with': '로딩 중...' do
+                          수정
+                      %li
+                        %a.js-new-post-folder-clear{ href: '#', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id, 'new-post-folder-id-dom': folder_id_dom_id } }
+                          삭제
+
             =  render 'wikis/form_fields', f: f
             %div{ style: 'margin-top: 12px' }
               = controls

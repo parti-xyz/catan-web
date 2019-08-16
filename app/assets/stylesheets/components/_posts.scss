@@ -35,7 +35,8 @@
     border-bottom: 1px solid $gray-less-lighter;
     font-size: $font-size-base;
     padding: 10px 18px 8px;
-    &.hide {
+    &.hide,
+    &.post-card__header-bare {
       border-bottom: none;
       padding: 0;
     }

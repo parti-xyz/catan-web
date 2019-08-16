@@ -131,7 +131,7 @@ ko:
         tag_list: 태그
         private: 비공개
         notice_only: 오거나이저만 게시
-        is_default: 자동가입되는 채널
+        is_default: 자동 가입되는 채널
         organizer_nicknames: 오거나이저
         group_slug: 그룹 선택
         listable_even_private: 이 채널이 비공개일 경우라도 목록에 표시하고 검색됩니다

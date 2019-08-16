@@ -235,7 +235,7 @@ var __parti_prepare_folder = function($base) {
       var $base_elm = $(base_elm);
 
       var autosave_payload = function(params) {
-        $('.js-slug-folder-autosave').text('저장 중...');
+        $('.js-slug-folder-status-display').text('저장 중...');
         submit_payload(params);
       }
 
@@ -452,6 +452,91 @@ var __parti_prepare_folder = function($base) {
             withCredentials: true
           }
         });
+      }
+    });
+  });
+
+  // 게시물 저장할 폴더 정하기
+  $.parti_apply($base, '.js-choose-folder-to-new-post', function(elm) {
+    $(elm).on('click', function(e) {
+      var $elm = $(e.currentTarget);
+      var $choice_link = $($elm.data('choice-link'));
+
+      var $btn = $(e.target).closest('.js-choose-folder-to-new-post-link-btn');
+      if ($btn && $btn.length > 0) {
+        return true;
+      }
+
+      $elm.siblings().removeClass('active');
+      $elm.siblings().find('.js-choose-folder-to-new-post-link-btn').removeClass('btn-primary').addClass('btn-default');
+      if($elm.hasClass('active')) {
+        $elm.removeClass('active');
+        $elm.find('.js-choose-folder-to-new-post-link-btn').removeClass('btn-primary').addClass('btn-default');
+        $choice_link.addClass('disabled');
+        $choice_link.data('folder-id', '');
+        $choice_link.data('folder-full-title', '');
+        $choice_link.find('.js-choose-folder-here').show();
+      } else {
+        $elm.addClass('active');
+        $elm.find('.js-choose-folder-to-new-post-link-btn').removeClass('btn-default').addClass('btn-primary');
+        $choice_link.removeClass('disabled');
+        $choice_link.data('folder-id', $elm.data('folder-id'));
+        $choice_link.data('folder-full-title', $elm.data('folder-full-title'));
+        $choice_link.find('.js-choose-folder-here').hide();
+      }
+    });
+  });
+
+  // 정한 폴더에 새 게시물 위치하기
+  $.parti_apply($base, '.js-confirm-folder-to-new-post', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+
+      var $elm = $(e.currentTarget);
+      var $full_title_dom = $('#' + $elm.data('new-post-folder-full-title-dom'));
+      var $id_dom = $('#' + $elm.data('new-post-folder-id-dom'));
+      var folder_id = $elm.data('folder-id');
+      var folder_full_title = $elm.data('folder-full-title');
+
+      if(folder_id || folder_id == 0) {
+        $(document).trigger('parti-close-modal-placeholder');
+        $full_title_dom.find('.js-new-post-folder-full-title-only-empty').hide();
+        $full_title_dom.find('.js-new-post-folder-full-title-only-exists').show();
+        $full_title_dom.find('.js-new-post-folder-full-titler').html(folder_full_title);
+        $id_dom.val(folder_id);
+      }
+    });
+  });
+
+  // 정한 폴더 삭제하기
+  $.parti_apply($base, '.js-new-post-folder-clear', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+
+      var $elm = $(e.currentTarget);
+      var $full_title_dom = $('#' + $elm.data('new-post-folder-full-title-dom'));
+      var $id_dom = $('#' + $elm.data('new-post-folder-id-dom'));
+
+      $full_title_dom.find('.js-new-post-folder-full-title-only-empty').show();
+      $full_title_dom.find('.js-new-post-folder-full-title-only-exists').hide();
+
+      $full_title_dom.find('.js-new-post-folder-full-titler').html('');
+      $id_dom.val(null);
+    });
+  });
+
+  // 새 게시물을 새폴더에 지정하기
+  $.parti_apply($base, '.js-new-post-folder-id-field', function(elm) {
+    $(elm).on('parti-new-folder-for-new-post', function(e, folder_id, folder_full_title) {
+      var $elm = $(e.currentTarget);
+      var $full_title_dom = $('#' + $elm.data('new-post-folder-full-title-dom'));
+
+      if(folder_id || folder_id == 0) {
+        $full_title_dom.find('.js-new-post-folder-full-title-only-empty').hide();
+        $full_title_dom.find('.js-new-post-folder-full-title-only-exists').show();
+
+        $full_title_dom.find('.js-new-post-folder-full-titler').html(folder_full_title);
+        $elm.val(folder_id);
       }
     });
   });

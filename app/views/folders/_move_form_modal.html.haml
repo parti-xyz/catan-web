@@ -34,9 +34,8 @@
               %i.fa.fa-folder
               = target_folder.title
             .folder-link
-              - if target_folder.children.any?
-                = link_to move_form_folders_path(parent_folder_id: target_folder.id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-move-link-btn' do
-                  %i.fa.fa-angle-right
+              = link_to move_form_folders_path(parent_folder_id: target_folder.id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-move-link-btn' do
+                %i.fa.fa-angle-right
       .actions
         .add-folder
           = link_to new_folder_url(issue_id: subject.issue_id, parent_folder_id: target_parent_safe_folder_id, dom_id: dom_id, continue_move_type: subject.class.name, continue_move_id: subject.id), remote: true, 'data-disable-with': '로딩 중...' do

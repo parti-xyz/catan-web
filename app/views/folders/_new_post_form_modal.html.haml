@@ -1,0 +1,45 @@
+- target_parent_safe_folder_id = Folder.safe_id(target_parent_folder.try(:id))
+- create_here = target_parent_safe_folder_id != Folder::ROOT_ID
+.modal-content
+  .modal-header.modal-header-flex
+    %h4.modal-header-title
+      .title-name 폴더 선택
+    %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+      %span
+        %i.fa.fa-times
+  .modal-body
+    .modal-body-move-folders
+      - choice_link_dom_id = "uid-#{SecureRandom.uuid}"
+      .target-folders
+        - if target_parent_folder.present?
+          .folder.folder-up
+            = link_to new_post_form_folders_path(parent_folder_id: target_parent_folder.safe_parent_id, mode: :update_screen, folder_full_title_dom_id: local_assigns[:folder_full_title_dom_id], folder_id_dom_id: local_assigns[:folder_id_dom_id], issue_id: issue.id), remote: true, class: 'folder-up' do
+              %i.fa.fa-angle-up
+              상위 폴더
+        .folder.current-folder{ class: "#{'active' if create_here} #{'js-choose-folder-to-new-post' if create_here} #{'cursor-default-important current-folder-disabled' unless create_here}", data: { 'choice-link': "##{choice_link_dom_id}", 'folder-id': target_parent_safe_folder_id, 'folder-full-title': (target_parent_folder.full_title if target_parent_folder.present?) } }
+          .folder-meta
+            %i.fa.fa-folder
+            - if target_parent_folder.present?
+              = target_parent_folder.title
+            - else
+              최상위 폴더
+        - target_folders.each do |target_folder|
+          - movable_to_target_folder = target_folder.id != Folder::ROOT_ID
+          .folder{ class: "#{'js-choose-folder-to-new-post' if movable_to_target_folder} #{'cursor-default-important current-folder-disabled' unless movable_to_target_folder}", data: {'choice-link': "##{choice_link_dom_id}", 'folder-id': target_folder.id, 'folder-full-title': target_folder.full_title} }
+            .folder-meta
+              %i.fa.fa-folder
+              = target_folder.title
+            .folder-link
+              = link_to new_post_form_folders_path(parent_folder_id: target_folder.id, mode: :update_screen, folder_full_title_dom_id: local_assigns[:folder_full_title_dom_id], folder_id_dom_id: local_assigns[:folder_id_dom_id], issue_id: issue.id), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-new-post-link-btn' do
+                %i.fa.fa-angle-right
+      .actions
+        .add-folder
+          = link_to new_folder_url(issue_id: issue.id, parent_folder_id: target_parent_safe_folder_id, continue_new_post_folder_id_dom_id: local_assigns[:folder_id_dom_id]), remote: true, 'data-disable-with': '로딩 중...' do
+            %i.fa.fa-plus-square-o
+            폴더 추가
+        .move-to
+          %button.btn.btn-primary.js-confirm-folder-to-new-post{ class: ('disabled' if !create_here), id: choice_link_dom_id, data: { 'folder-id': (target_parent_safe_folder_id if create_here and target_parent_folder.present?), 'folder-full-title': (target_parent_folder.full_title if create_here and target_parent_folder.present?), 'new-post-folder-full-title-dom': local_assigns[:folder_full_title_dom_id], 'new-post-folder-id-dom': local_assigns[:folder_id_dom_id] } }
+            - if create_here
+              %span.js-choose-folder-here 현재 폴더
+            선택
+

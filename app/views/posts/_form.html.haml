@@ -172,7 +172,7 @@
               = render 'events/form', f: ff
 
         .form-widget-btns.clearfix
-          .post-reference-btns
+          .post-reference-btns.post-reference-btns-left
             - able_to_have_references = (!@post.poll.persisted? and !@post.survey.persisted? and !@post.wiki.present? and !@post.event.persisted?)
             - has_references = has_survey or has_poll or has_event
             - open_btn_data = {action: 'parti-post-select-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event'}

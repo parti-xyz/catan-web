@@ -1,10 +1,10 @@
 <% if @subject.present? and @subject.errors.any? %>
 <% else %>
   $(document).trigger('parti-close-modal-placeholder');
-  if($('.js-slug-folder-autosave').length > 0) {
+  if($('.js-slug-folder-status-display').length > 0) {
     var $message = $('<span>폴더를 옮겼습니다 <%= j(date_f(DateTime.now)) %></span>');
-    $('.js-slug-folder-autosave').html($message);
-    $('.js-slug-folder-autosave').find('time[data-time-ago]').timeago();
+    $('.js-slug-folder-status-display').html($message);
+    $('.js-slug-folder-status-display').find('time[data-time-ago]').timeago();
   }
 
   <% if params[:subject_type] == 'Post' %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_15_033526) do
+ActiveRecord::Schema.define(version: 2019_08_16_000120) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -198,7 +198,6 @@ ActiveRecord::Schema.define(version: 2019_08_15_033526) do
     t.integer "parent_id"
     t.integer "children_count", default: 0
     t.integer "folder_seq", default: 0
-    t.index ["issue_id", "title"], name: "index_folders_on_issue_id_and_title", unique: true
     t.index ["issue_id"], name: "index_folders_on_issue_id"
     t.index ["parent_id"], name: "index_folders_on_parent_id"
     t.index ["title"], name: "index_folders_on_title"

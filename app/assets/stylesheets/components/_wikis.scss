@@ -33,8 +33,8 @@ section#wikis-page {
 }
 
 section.wiki-histories-page,
-section.wiki-history-page,
- {
+section.wiki-history-page
+{
   padding: 20px;
   @media (max-width: $screen-xs-max) {
     padding: 0 0 20px;
@@ -269,7 +269,6 @@ section#wiki-histories {
   padding: 12px;
   &__link {
     display: inline-block;
-    float: left;
     .profile {
       margin-right: 5px;
       float: left;
@@ -431,6 +430,15 @@ section#wiki-histories {
   }
   .wiki-issue-selector {
     padding-top: 20px;
+  }
+  .editor-btn {
+    color: $gray;
+    text-align: center;
+    padding: 3px 18px;
+    margin-right: 5px;
+    border: 1px solid $gray-light;
+    border-radius: 12px;
+    font-size: 12px;
   }
 }
 

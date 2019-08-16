@@ -188,18 +188,16 @@
         margin-top: 0;
       }
 
-      &-btns {
+      .form-widget-btns {
         @media (max-width: $screen-xs-max) {
           text-align: center;
         }
-        padding-top: 18px;
+        // padding-top: 18px;
       }
       .post-reference-btns {
+        margin-bottom: 5px;
         margin-top: 14px;
-        float: left;
         @media (max-width: $screen-xs-max) {
-          float: none;
-          margin-top: 0px;
           margin-bottom: 14px;
           text-align: left;
         }
@@ -207,7 +205,21 @@
           color: $gray;
           text-align: center;
           float: none;
+          padding: 3px 18px;
+          margin-bottom: 10px;
+          margin-right: 5px;
+          border: 1px solid $gray-light;
+          border-radius: 12px;
+          font-size: $font-size-small;
         }
+      }
+      .post-reference-btns.post-reference-btns-left {
+        @media (min-width: $screen-sm-min) {
+          float: left;
+        }
+      }
+      .post-reference-btns.post-reference-btns-left + .submit-box {
+        margin-top: 12px;
       }
       .post-poll-field {
         .form-control-duration {
@@ -242,11 +254,8 @@
         }
       }
       .post-options {
-        margin-top: 14px;
-        margin-right: 10px;
-        float: left;
+        margin: 0;
         @media (max-width: $screen-xs-max) {
-          float: none;
           margin-left: 0;
           margin-top: 0px;
           margin-bottom: 14px;

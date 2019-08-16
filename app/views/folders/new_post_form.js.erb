@@ -1,0 +1,11 @@
+var $partial = $('<%= j(render_group 'folders/new_post_form_modal',
+  issue: @issue,
+  target_parent_folder: @target_parent_folder,
+  target_folders: @target_folders,
+  folder_id_dom_id: params[:folder_id_dom_id],
+  folder_full_title_dom_id: params[:folder_full_title_dom_id]) %>');
+<% if params[:mode] == 'update_screen' %>
+parti_update_modal_sm$($partial);
+<% else %>
+parti_show_modal_sm$($partial);
+<% end %>

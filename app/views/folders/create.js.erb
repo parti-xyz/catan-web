@@ -2,13 +2,14 @@ var need_to_close_modal = false;
 <% if !@folder.persisted? || @folder.errors.any? %>
 <% else %>
   need_to_close_modal = true;
-  if($('.js-slug-folder-autosave').length > 0) {
+  if($('.js-slug-folder-status-display').length > 0) {
     var $message = $('<span>폴더를 새로 만들었습니다. <%= j(date_f(DateTime.now)) %></span>');
-    $('.js-slug-folder-autosave').html($message);
-    $('.js-slug-folder-autosave').find('time[data-time-ago]').timeago();
+    $('.js-slug-folder-status-display').html($message);
+    $('.js-slug-folder-status-display').find('time[data-time-ago]').timeago();
   }
 <% end %>
 
+// 폴더 목록 페이지
 if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
   $('.js-draggable-slug-folder').trigger('parti-draggable-slug-folder-item-destroy');
   $('.js-draggable-slug-folder').remove();
@@ -37,6 +38,14 @@ if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
       need_to_close_modal = false;
       parti_update_modal_sm$($partial);
     <% end %>
+  <% end %>
+
+  <% if params[:continue_new_post_folder_id_dom_id].present? %>
+    var $continue_new_post_folder_id_dom = $('#<%= params[:continue_new_post_folder_id_dom_id] %>');
+    if($continue_new_post_folder_id_dom.length > 0) {
+      need_to_close_modal = true;
+      $continue_new_post_folder_id_dom.trigger('parti-new-folder-for-new-post', [<%= @folder.id%>, '<%= j @folder.full_title %>']);
+    }
   <% end %>
 <% end %>
 

@@ -144,6 +144,28 @@ class FoldersController < ApplicationController
     end
   end
 
+  def new_post_form
+    @issue = Issue.find_by(id: params[:issue_id])
+    render_404 if @issue.blank?
+
+    @target_parent_folder = if params[:parent_folder_id].present?
+      if params[:parent_folder_id].to_i == Folder::ROOT_ID
+        nil
+      else
+        Folder.find(params[:parent_folder_id])
+      end
+    else
+      nil
+    end
+
+    @target_folders = if @target_parent_folder.present?
+      @target_parent_folder.children
+    else
+      Folder.top_folders.where(issue_id: @issue.id)
+    end
+    @target_folders = @target_folders.sort_by_folder_seq
+  end
+
   def move_form
     @subject = params[:subject_type].safe_constantize.try(:find_by, {id: params[:subject_id]})
     render_404 if @subject.blank?

@@ -9,8 +9,8 @@ class Folder < ApplicationRecord
   scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order('title') }
   scope :sort_by_folder_seq, -> { order(folder_seq: :asc) }
 
-  validates :title, uniqueness: {scope: [:issue_id]}
   validate :check_parent
+  validate :check_sibilings
 
   ROOT_ID = 0
 
@@ -120,6 +120,13 @@ class Folder < ApplicationRecord
         end
         current_parent = current_parent.parent
       end
+    end
+  end
+
+  def check_sibilings
+    if self.siblings.map(&:title).include?(self.title)
+      errors.add(:slug, I18n.t('activerecord.errors.models.folder.attributes.title.taken'))
+      return
     end
   end
 end
