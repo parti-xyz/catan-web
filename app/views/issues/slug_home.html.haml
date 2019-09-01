@@ -82,7 +82,7 @@
                     검색 결과가 없습니다.
 
           - unless @issue.member_requested?(current_user)
-            .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue)}
+            .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, nav_q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue)}
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
       = render 'issues/aside', issue: @issue
