@@ -13,6 +13,7 @@ class User < ApplicationRecord
     end
   end
 
+  acts_as_tagger
   rolify
   extend Enumerize
   enumerize :push_notification_mode, in: [:on, :no_sound, :off], predicates: true, scope: true

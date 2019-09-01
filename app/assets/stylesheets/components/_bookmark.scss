@@ -40,18 +40,136 @@
   }
 }
 
-.dropdown-bookmark-menu {
-  .bookmark-memo {
-    margin: 0;
-    padding-bottom: 3px;
-    padding-top: 6px;
-    padding-left: 18px;
-    padding-right: 18px;
-    .bookmark-memo-form {
-      min-width: 200px;
+.bookmark-tags {
+  .dropdown-menu-bookmark & {
+    padding: 3px 20px;
+    margin-top: -10px;
+    .bookmark-tag {
+      margin-top: 6px;
     }
-    .dropdown-memo-hr {
+  }
+  .post-card__post-bookmarked .issue-meta-footer & {
+    height: 19px;
+    display: inline-block;
+    .bookmark-tag {
+      height: 100%;
+      margin-top: 3px;
+      .bookmark-tag-name {
+        padding: 1px 6px;
+        height: 100%;
+      }
+      .bookmark-remove-btn {
+        padding: 1px 4px;
+        height: 100%;
+      }
+    }
+    .form-bookmark-tag {
+      vertical-align: text-bottom;
+      height: 19px;
+      margin-top: 3px;
+      &.visible {
+        display: inline-block;
+      }
+      .form-group {
+        height: 100%;
+      }
+      .input-group {
+        vertical-align: initial;
+        input[type=text].form-control {
+          height: 19px;
+          padding: 2px 6px;
+          width: 120px;
+          font-size: $font-size-small;
+        }
+        .input-group-prepend {
+          right: 0;
+          top: -2px;
+          height: 100%;
+          input[type=submit] {
+            font-size: 10px;
+            height: 100%;
+          }
+        }
+      }
+    }
+    .bookmark-tag-toggle-form-btn {
+      margin-top: 3px;
+      font-size: $font-size-small;
+      color: $gray;
+    }
+  }
+  .search-bookmark-tags & {
+    .bookmark-tag {
+      background: white;
+      margin-top: 10px;
+      .bookmark-tag-name {
+        border-right: none;
+      }
+      &.bookmark-tag-active {
+        background: #966fd6;
+        color: white;
+        .bookmark-tag-name {
+          padding: 4px 2px 4px 12px;
+        }
+        .bookmark-remove-btn {
+          padding: 4px 12px 4px 0;
+          color: white;
+        }
+      }
+    }
+  }
+  .bookmark-tag {
+    display: inline-block;
+    &.collapse {
+      display: none;
+    }
+    background: $gray-lighter;
+    border-radius: 4px;
+    margin-right: 5px;
+    height: 26px;
+    .bookmark-tag-name {
+      padding: 3px 12px;
+      display: inline-block;
+      border-right: 1px solid $gray-less-lighter;
+    }
+    .bookmark-remove-btn {
+      display: inline-block;
+      padding: 3px 6px;
+      color: $gray;
+    }
+  }
+  .form-bookmark-tag {
+    .input-group {
+      input[type=text].form-control {
+        padding-right: 48px;
+        border-radius: 4px;
+        height: 26px;
+      }
+      .input-group-prepend {
+        position: absolute;
+        right: 2px;
+        top: 2px;
+        z-index: 9;
+      }
+    }
+  }
+  .form-bookmark-tag {
+    display: none;
+    margin-top: 6px;
+  }
+  .bookmark-tag-toggle-form-btn {
+    display: inline-block;
+    cursor: pointer;
+    color: $gray-dark;
+    margin-top: 6px;
+  }
+  &.bookmark-tags-form-visible {
+    .form-bookmark-tag {
+      display: inline-block;
+    }
+    .bookmark-tag-toggle-form-btn {
       display: none;
     }
   }
+
 }

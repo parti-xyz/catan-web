@@ -198,7 +198,8 @@ Rails.application.routes.draw do
   end
   resources :bookmarks do
     member do
-      get :memo
+      post :add_tag
+      delete :remove_tag
     end
   end
 

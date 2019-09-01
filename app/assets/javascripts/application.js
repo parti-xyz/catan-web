@@ -61,6 +61,7 @@
 //= require issue
 //= require post
 //= require search
+//= require bookmark
 //= require validation
 
 // blank
@@ -212,6 +213,7 @@ var parti_prepare = function($base, force) {
   __parti_prepare_post($base);
   __parti_prepare_drawer($base);
   __parti_prepare_folder($base);
+  __parti_prepare_bookmark($base);
 
   //timeago
   $.parti_apply($base, 'time[data-time-ago]', function(elm) {
@@ -315,6 +317,17 @@ var parti_prepare = function($base, force) {
 
       var $inactive = $($elm.data('inactive-target'));
       $inactive.removeClass('active');
+    });
+  });
+
+  //toggle collapse
+  $.parti_apply($base, '.js-basic-toggle-collapse', function(elm) {
+    $(elm).on('click', function(e) {
+      e.preventDefault();
+      var $elm = $(e.currentTarget);
+
+      var $show_target = $($elm.data('show-target'));
+      $show_target.removeClass('collapse');
     });
   });
 

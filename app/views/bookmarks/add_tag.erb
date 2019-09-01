@@ -1,0 +1,10 @@
+<% if @bookmark.errors.any? %>
+UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+var $bookmark_tags = $('<%= bookmark_tags_post_dom_selector(@bookmark.post) %>');
+
+var $new_bookmark_tags = $('<%= j(render 'bookmarks/bookmark_tags', bookmark: @bookmark, show_form: true) %>');
+$bookmark_tags.replaceWith($new_bookmark_tags);
+parti_partial$($new_bookmark_tags);
+$new_bookmark_tags.find('.js-bookmark-tag-show-form-control').focus();
+<% end %>

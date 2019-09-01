@@ -85,7 +85,7 @@
         }
       }
     }
-    .bookmark > .dropdown > .dropdown-menu.dropdown-menu-memo {
+    .bookmark > .dropdown > .dropdown-menu.dropdown-menu-bookmark {
       min-width: 200px;
     }
   }
@@ -295,7 +295,8 @@
       .issue-meta {
         display: block;
         font-size: $font-size-small;
-        line-height: 1.4em;
+        line-height: 19px;
+        margin-top: 3px;
         &-pinnable {
           max-width: 90%;
         }

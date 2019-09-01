@@ -3,6 +3,27 @@
     .row
       = main_column_tag do
         = render 'application/my_home_tab'
+        - if @tag_names.any?
+          .post-data-divider.search-bookmark-tags
+            - togglable_class = "uid-#{SecureRandom.uuid}"
+            .title.js-basic-toggle-collapse.cursor-pointer{ 'data-show-target': ".#{togglable_class}" }
+              %i.fa.fa-tag
+              태그 (#{@tag_names.count})
+              %i.fa.fa-angle-down
+            .bookmark-tags{ class: "#{togglable_class} #{'collapse' if @search_tag_names.blank?}" }
+              - @tag_names.each do |tag_name|
+                - if @search_tag_names.include?(tag_name)
+                  - new_search_tag_names = @search_tag_names.reject { |search_tag_name| search_tag_name == tag_name }
+                  = link_to bookmarks_url(subdomain: nil, tag_names: new_search_tag_names), class: 'bookmark-tag bookmark-tag-active' do
+                    .bookmark-tag-name
+                      #{tag_name}
+                    .bookmark-remove-btn
+                      %i.fa.fa-check
+                - else
+                  - new_search_tag_names = @search_tag_names + [tag_name]
+                  = link_to bookmarks_url(subdomain: nil, tag_names: new_search_tag_names), class: "bookmark-tag #{togglable_class} collapse" do
+                    .bookmark-tag-name
+                      #{tag_name}
 
         - @bookmarked_posts.each do |issue, posts|
           .post-data-divider

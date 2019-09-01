@@ -1,8 +1,0 @@
-var $memo = $("<%= j(render 'posts/post_bookmarked_memo', post: @bookmark.post, bookmark: @bookmark, mode: nil) %>");
-$('<%= bookmark_memo_post_dom_selector(@bookmark) %>').replaceWith($memo)
-<% if @bookmark.memo.present? %>
-$memo.show();
-<% else %>
-$memo.hide();
-<% end %>
-parti_partial$($memo);

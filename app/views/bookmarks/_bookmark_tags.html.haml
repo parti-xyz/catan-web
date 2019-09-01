@@ -1,0 +1,16 @@
+- return if bookmark.blank?
+.bookmark-tags.js-bookmark-tag-show-form-container{ class: "#{bookmark_tags_post_dom_class(bookmark.post)} #{'bookmark-tags-form-visible' if local_assigns[:show_form]}", 'data-no-parti-link': 'no' }
+  - bookmark.tags.each do |tag|
+    .bookmark-tag
+      = link_to bookmarks_url(subdomain: nil, tag_names: [tag.name]), class: 'bookmark-tag-name' do
+        = tag.name
+      = link_to remove_tag_bookmark_path(bookmark, tag_name: tag.name), method: :delete, remote: true, class: 'bookmark-remove-btn' do
+        &times;
+  = form_with url: add_tag_bookmark_path(bookmark), local: false, method: :post, class: 'form-inline form-bookmark-tag', data: { disable_with: '...' } do |f|
+    .form-group
+      .input-group
+        = f.text_field :tag_name, placeholder: '태그 입력...', class: 'form-control js-bookmark-tag-show-form-control'
+        .input-group-prepend
+          = f.submit '추가', class: 'btn btn-default btn-xs'
+  %span.bookmark-tag-toggle-form-btn.js-bookmark-tag-show-form
+    태그 추가...

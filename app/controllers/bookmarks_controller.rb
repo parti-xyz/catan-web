@@ -1,10 +1,17 @@
 class BookmarksController < ApplicationController
-  load_and_authorize_resource except: :destroy
+  load_and_authorize_resource
   include DashboardGroupHelper
 
   def index
     authenticate_user!
-    base_bookmarked_posts = Post.where(id: Bookmark.where(user: current_user).select(:post_id)).order_by_stroked_at
+
+    base_bookmark = Bookmark.where(user: current_user)
+    @search_tag_names = params[:tag_names].presence || []
+    if @search_tag_names.any?
+      base_bookmark = base_bookmark.tagged_with(@search_tag_names)
+    end
+
+    base_bookmarked_posts = Post.where(id: base_bookmark.select(:post_id)).order_by_stroked_at
 
     if params[:group_slug].present?
       if params[:group_slug] == 'all'
@@ -32,6 +39,11 @@ class BookmarksController < ApplicationController
         @bookmarked_posts << [issue, bookmarked_posts_parti_map[issue]]
       end
     end
+
+    @tags = current_user.owned_tags.where('taggings.taggable_type': 'Bookmark', 'taggings.context': 'tags')
+
+    @tag_names = @search_tag_names + @tags.map(&:name)
+    @tag_names.uniq!
   end
 
   def create
@@ -43,18 +55,7 @@ class BookmarksController < ApplicationController
     end
   end
 
-  def update
-    authenticate_user!
-    @bookmark = Bookmark.find_by(id: params[:id])
-    render_404 and return if @bookmark.blank?
-    unless @bookmark.update_attributes(bookmark_params)
-      errors_to_flash(@bookmark)
-    end
-  end
-
   def destroy
-    authenticate_user!
-    @bookmark = Bookmark.find_by(id: params[:id])
     @post = Post.find_by(id: params[:post_id])
     return if @bookmark.blank?
     if !@bookmark.destroy
@@ -62,14 +63,19 @@ class BookmarksController < ApplicationController
     end
   end
 
-  def memo
-    authenticate_user!
-    @bookmark = Bookmark.find_by(id: params[:id])
+  def add_tag
+    return if params[:tag_name].blank?
+    current_user.tag(@bookmark, with: @bookmark.all_tags_list + [params[:tag_name]], on: :tags)
+  end
+
+  def remove_tag
+    return if params[:tag_name].blank?
+    current_user.tag(@bookmark, with: @bookmark.all_tags_list - [params[:tag_name]], on: :tags)
   end
 
   private
 
   def bookmark_params
-    params.require(:bookmark).permit(:post_id, :memo)
+    params.require(:bookmark).permit(:post_id)
   end
 end

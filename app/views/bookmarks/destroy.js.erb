@@ -11,7 +11,7 @@ $new_bookmarked_post = $('<%= j render('posts/post_bookmarked', post: post) %>')
 $bookmarked_post.replaceWith($new_bookmarked_post);
 parti_partial$($new_bookmarked_post);
 
-var $new_bookmark_button = $('<%= j(render 'posts/bookmark', post: @bookmark.post) %>');
+var $new_bookmark_button = $('<%= j(render 'bookmarks/bookmark_button', post: post) %>');
 $bookmark_button.html($new_bookmark_button);
 parti_partial$($new_bookmark_button);
 <% end %>

@@ -1,26 +1,20 @@
 - bookmark = post.bookmark_by(current_user)
 
-.post-card__post.clearfix.cursor-pointer{ class: bookmarked_post_dom_class(post), 'data-action': "parti-link", 'data-url': smart_post_url(post) }
+.post-card__post.post-card__post-bookmarked.clearfix.cursor-pointer{ class: bookmarked_post_dom_class(post), 'data-action': "parti-link", 'data-url': smart_post_url(post) }
   .desc
     .body<>
       = link_to smart_post_url(post) do
         = post.specific_desc_striped_tags(120)
 
-    .issue-meta.issue-meta-footer
+    .issue-meta.issue-meta-footer.cursor-default{ 'data-no-parti-link': 'no' }
       = link_to "@#{post.user.nickname}", smart_user_gallery_url(post.user)
       &nbsp;
       = link_to smart_post_url(post) do
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
-
-      - if bookmark.present?
-        %span.action-btn
-          &nbsp;
-          = link_to memo_bookmark_path(bookmark, mode: 'form'), remote: true, data: { disable_with: '...' } do
-            북마크 메모하기
-
+      &nbsp;
+      = render 'bookmarks/bookmark_tags', bookmark: bookmark
   .bookmark-buttons
     %span.bookmark
-      = render 'posts/bookmark', post: post, mode: 'simple'
+      = render 'bookmarks/bookmark_button', post: post, mode: 'simple'
 
-  = render 'posts/post_bookmarked_memo', post: post, bookmark: bookmark

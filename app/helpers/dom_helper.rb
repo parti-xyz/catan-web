@@ -187,12 +187,12 @@ module DomHelper
     "#{dom_id(post)}--bookmark-button"
   end
 
-  def bookmark_memo_post_dom_selector(bookmark)
-    ".#{bookmark_memo_post_dom_class(bookmark)}"
+  def bookmark_tags_post_dom_selector(post)
+    ".#{bookmark_tags_post_dom_class(post)}"
   end
 
-  def bookmark_memo_post_dom_class(bookmark)
-    "#{dom_id(bookmark)}--bookmark-memo"
+  def bookmark_tags_post_dom_class(post)
+    "#{dom_id(post)}--bookmark-tags"
   end
 
   def behold_post_dom_selector(post)

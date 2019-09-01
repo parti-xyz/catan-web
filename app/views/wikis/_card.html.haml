@@ -9,7 +9,7 @@
       - if chevron_dropdown.try(:strip).present?
         .post-card__buttons
           %span.bookmark{ class: bookmark_button_post_dom_class(post) }
-            = render 'posts/bookmark', post: post
+            = render 'bookmarks/bookmark_button', post: post
           %span.more-menu.dropdown
             %a.cursor-pointer.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
               %i.fa.fa-ellipsis-v.fa-fw
