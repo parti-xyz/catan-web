@@ -276,8 +276,9 @@ module ApplicationHelper
   end
 
   def sidebar_openable?
-    return false if controller_name == 'dashboard' and action_name == 'intro'
-    cookies[:'sidebar-open'] != "false"
+    !(controller_name == 'dashboard' and action_name == 'intro')
+    # return false if controller_name == 'dashboard' and action_name == 'intro'
+    # cookies[:'sidebar-open'] != "false"
   end
 
   def sidebar_group_opened?(group)

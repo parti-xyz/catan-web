@@ -482,10 +482,8 @@ $(function() {
       e.preventDefault();
       if($('#js-drawer').is(':visible')) {
         $('#js-main-panel').removeClass('sidebar-open');
-        Cookies.set('sidebar-open', false, { domain: '.' + __root_domain });
       } else {
         $('#js-main-panel').addClass('sidebar-open');
-        Cookies.set('sidebar-open', true, { domain: '.' + __root_domain });
         $('#js-main-panel .js-sidebar-scroll-container').visibilityChanged({
           runOnLoad: true,
           frequency: 100,
