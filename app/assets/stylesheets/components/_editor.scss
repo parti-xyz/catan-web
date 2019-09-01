@@ -192,25 +192,39 @@
         @media (max-width: $screen-xs-max) {
           text-align: center;
         }
-        // padding-top: 18px;
+        &.form-widget-btns-post {
+          margin-top: 14px;
+          .post-form-pin-button {
+            display: inline-block;
+            &.collapse {
+              display: none;
+            }
+            padding: 1px 5px;
+            vertical-align: middle;
+            .checkbox {
+              margin-bottom: 0;
+              label {
+                min-height: auto;
+                color: $gray;
+              }
+            }
+          }
+        }
       }
       .post-reference-btns {
-        margin-bottom: 5px;
-        margin-top: 14px;
+        margin-bottom: 14px;
+        margin-top: 0;
         @media (max-width: $screen-xs-max) {
           margin-bottom: 14px;
           text-align: left;
         }
         .editor-btn {
           color: $gray;
-          text-align: center;
-          float: none;
-          padding: 3px 18px;
-          margin-bottom: 10px;
-          margin-right: 5px;
-          border: 1px solid $gray-light;
-          border-radius: 12px;
-          font-size: $font-size-small;
+        }
+      }
+      .post-reference-btns.post-reference-btns-right {
+        @media (min-width: $screen-sm-min) {
+          float: right;
         }
       }
       .post-reference-btns.post-reference-btns-left {
@@ -248,33 +262,12 @@
       }
       .submit-box {
         float: right;
+        &.submit-box-block {
+          float: none;
+        }
         @media (max-width: $screen-xs-max) {
           display: block;
           float: none;
-        }
-      }
-      .post-options {
-        margin: 0;
-        @media (max-width: $screen-xs-max) {
-          margin-left: 0;
-          margin-top: 0px;
-          margin-bottom: 14px;
-          text-align: left;
-        }
-        .post-form-pin-button,
-        .post-form-decision-button {
-          display: inline-block;
-          &.collapse {
-            display: none;
-          }
-        }
-
-        .checkbox {
-          padding: 1px 5px;
-          margin-bottom: 0;
-          label {
-            color: #777777;
-          }
         }
       }
     }

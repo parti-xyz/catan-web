@@ -171,7 +171,7 @@
             = f.fields_for :event do |ff|
               = render 'events/form', f: ff
 
-        .form-widget-btns.clearfix
+        .form-widget-btns.form-widget-btns-post.clearfix
           .post-reference-btns.post-reference-btns-left
             - able_to_have_references = (!@post.poll.persisted? and !@post.survey.persisted? and !@post.wiki.present? and !@post.event.persisted?)
             - has_references = has_survey or has_poll or has_event
@@ -190,6 +190,6 @@
                 %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-event-btn{ class: ('collapse' if has_references), data: open_btn_data.merge('reference-field': '.post-event-field') }
                   %i.fa.fa-calendar
                   = t('labels.new_post_event_button')
-          .submit-box
+          .submit-box.submit-box-block
             = f.hidden_field :issue_id
-            = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
+            = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }

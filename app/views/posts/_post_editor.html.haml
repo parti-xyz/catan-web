@@ -26,7 +26,7 @@
                 삭제
 
   - form_dom_id = "uid-#{SecureRandom.uuid}"
-  #post-form-widget.form-widget-container
+  #post-form-widget.form-widget-container.form-widget-container-post
     = form_for Post.new(issue: local_assigns[:current_issue], folder: local_assigns[:current_folder]), format: (is_remote ? :js : nil), remote: is_remote, html: { id: form_dom_id, class: 'form-widget form-widget-no-margin js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
       = f.hidden_field :issue_id, data:{ 'rule-required': true, 'error-popover-target': "##{issue_selector_dom_id} .bootstrap-select.js-parti-editor-selector" }, class: 'validate', value: (local_assigns[:current_issue].id if local_assigns[:current_issue].present?)
 
@@ -202,8 +202,8 @@
                   설명(선택)
                 = ff.text_area :body, class: 'form-control js-autoresize'
 
-      .form-widget-btns
-        .post-reference-btns
+      .form-widget-btns.form-widget-btns-post.clearfix
+        .post-reference-btns.post-reference-btns-left
           - open_btn_data = { 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event' }
           %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-file-btn{ data: open_btn_data.merge('reference-field': '.post-file-field') }
             %i.fa.fa-cloud-upload
@@ -221,23 +221,25 @@
           %button.btn.btn-xs.btn-link.editor-btn.post-wiki-btn.js-post-select-subform.js-post-wiki-btn{ data: open_btn_data.merge('url': new_wiki_posts_url) }
             %i.fa.fa-file-word-o
             = t('labels.new_post_wiki_button')
+        .post-reference-btns.post-reference-btns-right
           - if local_assigns[:current_issue].present?
             = f.hidden_field :folder_id, id: folder_id_dom_id, class: 'js-new-post-folder-id-field', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id }
             = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: current_issue.id), remote: true, 'data-disable-with': '로딩 중...', class: 'btn btn-xs btn-link editor-btn post-folder-btn js-post-select-subform js-post-folder-btn' do
-              %i.fa.fa-folder-o
-              폴더
+              %i.fa.fa-folder
+              폴더 선택
+          .post-form-pin-button.text-nowrap.js-post-form-pin-button{ class: ('collapse' if !can?(:pin, local_assigns[:current_issue])) }
+            .checkbox
+              %label
+                = f.check_box :pinned
+                공지로 등록
           %span.post-options
             -# .post-form-decision-button.text-nowrap
             -#   .checkbox
             -#     %label.remember_me
             -#       = f.check_box :has_decision
             -#       함께 결정하기
-            .post-form-pin-button.text-nowrap.js-post-form-pin-button{ class: ('collapse' if !can?(:pin, local_assigns[:current_issue])) }
-              .checkbox
-                %label.remember_me
-                  = f.check_box :pinned
-                  공지로 등록
-        .submit-box{ style: 'float: none' }
+
+        .submit-box.submit-box-block
           - if local_assigns[:current_issue].present?
             = hidden_field_tag :fixed_issue_id, 'true'
-          = f.submit '게시', class: 'btn btn-primary', style: 'width: 100%', data: { disable_with: "게시 중..." }
+          = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
