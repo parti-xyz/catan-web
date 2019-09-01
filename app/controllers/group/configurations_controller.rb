@@ -21,6 +21,10 @@ class Group::ConfigurationsController < Group::BaseController
     @group.members.build(user: current_user, is_organizer: true)
 
     if @group.save
+      general_issue = Issue.create(title: '일반 채널', slug: 'general', group_slug: @group.slug)
+      IssueCreateService.new(issue: general_issue, current_user: current_user, current_group: @group, flash: flash).call
+      random_issue = Issue.create(title: '잡담', slug: 'random', group_slug: @group.slug)
+      IssueCreateService.new(issue: random_issue, current_user: current_user, current_group: @group, flash: flash).call
       redirect_to smart_group_url(@group)
     else
       render 'new', layout: 'application'

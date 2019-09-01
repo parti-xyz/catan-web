@@ -195,27 +195,16 @@ class IssuesController < ApplicationController
   end
 
   def create
-    if current_group.try(:will_violate_issues_quota?, @issue)
-      flash[:notice] = t('labels.group.met_issues_quota')
-      render 'new' and return
-    end
-
     @issue.group_slug ||= Group.slug_fallback(current_group)
     if @issue.group.private_blocked?(current_user)
       redirect_to smart_group_url(@issue.group) and return
     end
 
-    @issue.strok_by(current_user)
-    @issue.read_if_no_unread_posts!(current_user)
-
-    if @issue.save
-      MemberIssueService.new(issue: @issue, user: current_user, is_organizer: true, need_to_message_organizer: false, is_force: true).call
-      if @issue.is_default?
-        IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
-      end
-      IssueCreateNotificationJob.perform_async(@issue.id, current_user.id)
+    service = IssueCreateService.new(issue: @issue, current_user: current_user, current_group: current_group, flash: flash)
+    if service.call
       redirect_to smart_issue_home_url(@issue)
     else
+      errors_to_flash @issue
       render 'new'
     end
   end

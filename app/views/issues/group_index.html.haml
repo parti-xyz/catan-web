@@ -7,7 +7,7 @@
         채널
         %small
           그룹이 오거나징하는 채널입니다.
-      - if current_group.categories.any? or @exists_dead_issues.any?
+      - if current_group.categories.any? or (@exists_dead_issues == true)
         .parties-filter
           .parties-filter-select.pull-left
             %nav
