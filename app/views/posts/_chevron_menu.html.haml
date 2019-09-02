@@ -49,7 +49,7 @@
         토론 정리 시작하기
   - if can? :edit_folder, post
     %li
-      = link_to (post.folder_id.present? ? "다른 폴더에 넣기" : "폴더에 넣기"), move_form_folders_path(subject_type: 'Post', subject_id: post.id), remote: true, 'data-disable-with': '로딩 중...'
+      = link_to "폴더 선택", move_form_folders_path(subject_type: 'Post', subject_id: post.id), remote: true, 'data-disable-with': '로딩 중...'
     - if post.folder_id.present?
       %li
         = link_to "폴더에서 제거", detach_post_folder_url(post.safe_folder_id, post_id: post.id), remote: true, method: 'delete', 'data-disable-with': '처리 중...'

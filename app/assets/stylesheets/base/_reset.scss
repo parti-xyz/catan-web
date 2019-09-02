@@ -245,7 +245,11 @@ body.in-group {
 .modal-header h4.modal-header-title {
   font-weight: 400;
   margin: 0;
-
+  .title-name {
+    font-weight: normal;
+    font-size: $font-size-base;
+    line-height: 30px;
+  }
 }
 
 .modal-header.modal-header-flex {

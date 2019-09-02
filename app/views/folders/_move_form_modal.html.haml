@@ -4,45 +4,49 @@
   .modal-header.modal-header-flex
     %h4.modal-header-title
       - if subject.instance_of? Post
-        .title-name 게시물 이동
+        .title-name 게시물 폴더 선택
       - else
-        .title-content #{subject.title}
-        .title-name 폴더 이동
+        .title-name #{subject.title} 폴더 이동
     %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
       %span
         %i.fa.fa-times
   .modal-body
     .modal-body-move-folders
-      - move_to_link_dom_id = "folder-move-to-#{SecureRandom.uuid}"
-      .target-folders
-        - if target_parent_folder.present?
-          .folder.folder-up
-            = link_to move_form_folders_path(parent_folder_id: target_parent_folder.safe_parent_id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'folder-up' do
-              %i.fa.fa-angle-up
+      - if target_parent_folder.blank? and target_folders.empty?
+        .target-folders{ style: 'padding: 20px 18px; color: gray;' }
+          아직 폴더가 없습니다. 폴더를 추가해 보세요.
+      - else
+        - move_to_link_dom_id = "folder-move-to-#{SecureRandom.uuid}"
+        .target-folders
+          - if target_parent_folder.present?
+            = link_to move_form_folders_path(parent_folder_id: target_parent_folder.safe_parent_id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'folder folder-up' do
+              %i.fa.fa-angle-left
+              &nbsp;
               상위 폴더
-        .folder.current-folder{ class: "#{'active' if movable_to_here} #{'js-choose-folder-to-move' if movable_to_here} #{'cursor-default-important current-folder-disabled' unless movable_to_here}", data: { 'move-to-link': "##{move_to_link_dom_id}", 'folder-id': target_parent_safe_folder_id } }
-          .folder-meta
-            %i.fa.fa-folder
-            - if target_parent_folder.present?
-              = target_parent_folder.title
-            - else
-              최상위 폴더
-        - target_folders.each do |target_folder|
-          - movable_to_target_folder = Folder.movable_safe_folder_id_to?(target_folder.id, subject)
-          .folder{ class: "#{'js-choose-folder-to-move' if movable_to_target_folder} #{'cursor-default-important current-folder-disabled' unless movable_to_target_folder}", data: {'move-to-link': "##{move_to_link_dom_id}", 'folder-id': target_folder.id} }
+          .folder.current-folder{ class: "#{'active' if movable_to_here} #{'js-choose-folder-to-move' if movable_to_here} #{'cursor-default-important current-folder-disabled' unless movable_to_here}", data: { 'move-to-link': "##{move_to_link_dom_id}", 'folder-id': target_parent_safe_folder_id } }
             .folder-meta
               %i.fa.fa-folder
-              = target_folder.title
-            .folder-link
-              = link_to move_form_folders_path(parent_folder_id: target_folder.id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-move-link-btn' do
-                %i.fa.fa-angle-right
+              - if target_parent_folder.present?
+                = target_parent_folder.title
+              - else
+                최상위 폴더
+          - target_folders.each do |target_folder|
+            - movable_to_target_folder = Folder.movable_safe_folder_id_to?(target_folder.id, subject)
+            .folder{ class: "#{'js-choose-folder-to-move' if movable_to_target_folder} #{'cursor-default-important current-folder-disabled' unless movable_to_target_folder}", data: {'move-to-link': "##{move_to_link_dom_id}", 'folder-id': target_folder.id} }
+              .folder-meta
+                %i.fa.fa-folder
+                = target_folder.title
+              .folder-link
+                = link_to move_form_folders_path(parent_folder_id: target_folder.id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-move-link-btn' do
+                  %i.fa.fa-angle-right
+
       .actions
         .add-folder
           = link_to new_folder_url(issue_id: subject.issue_id, parent_folder_id: target_parent_safe_folder_id, dom_id: dom_id, continue_move_type: subject.class.name, continue_move_id: subject.id), remote: true, 'data-disable-with': '로딩 중...' do
-            %i.fa.fa-plus-square-o
+            = image_tag 'folder_add.png', style: 'height: 19px;'
             폴더 추가
         .move-to
-          = link_to move_folders_path(subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), class: "btn btn-primary js-move-folder #{'disabled' if !movable_to_here}", id: move_to_link_dom_id, data: { 'folder-id': (target_parent_safe_folder_id if movable_to_here), 'disable-with': '처리 중...' } do
+          = link_to move_folders_path(subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), class: "btn btn-primary btn-sm js-move-folder #{'disabled' if !movable_to_here}", id: move_to_link_dom_id, data: { 'folder-id': (target_parent_safe_folder_id if movable_to_here), 'disable-with': '처리 중...' } do
             - if movable_to_here
               %span.js-move-folder-here 여기로
             이동

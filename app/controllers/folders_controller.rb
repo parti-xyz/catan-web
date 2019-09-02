@@ -180,7 +180,7 @@ class FoldersController < ApplicationController
       if params[:subject_type] == 'Post'
         @subject.folder
       else
-        @folder.parent
+        @subject.parent
       end
     end
 

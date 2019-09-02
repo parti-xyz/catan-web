@@ -411,22 +411,14 @@ var __parti_prepare_folder = function($base) {
       var $elm = $(e.currentTarget);
       var $move_to_link = $($elm.data('move-to-link'));
 
-      var $btn = $(e.target).closest('.js-choose-folder-to-move-link-btn');
-      if ($btn && $btn.length > 0) {
-        return true;
-      }
-
       $elm.siblings().removeClass('active');
-      $elm.siblings().find('.js-choose-folder-to-move-link-btn').removeClass('btn-primary').addClass('btn-default');
       if($elm.hasClass('active')) {
         $elm.removeClass('active');
-        $elm.find('.js-choose-folder-to-move-link-btn').removeClass('btn-primary').addClass('btn-default');
         $move_to_link.addClass('disabled');
         $move_to_link.data('folder-id', '');
         $move_to_link.find('.js-move-folder-here').show();
       } else {
         $elm.addClass('active');
-        $elm.find('.js-choose-folder-to-move-link-btn').removeClass('btn-default').addClass('btn-primary');
         $move_to_link.removeClass('disabled');
         $move_to_link.data('folder-id', $elm.data('folder-id'));
         $move_to_link.find('.js-move-folder-here').hide();

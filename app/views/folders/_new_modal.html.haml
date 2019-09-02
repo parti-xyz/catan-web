@@ -9,10 +9,11 @@
       = f.hidden_field :issue_id
       .form-group
         .form-group
-          %label 새 폴더 이름
-          = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
+          %label{ style: 'font-weight: normal; margin-bottom: 16px;' } 새 폴더 만들기
+          = f.text_field :title, placeholder: '새 폴더 이름...', class: 'form-control js-new-folder-form-title-control', data: { 'rule-required': true }
         - if f.object.parent.present?
           = f.hidden_field :parent_id
-      .form-group
-        = f.submit '저장', class: 'btn btn-primary'
-        %span.button.btn.btn-default.btn-xs{ 'data-dismiss': 'modal', 'aria-label': '닫기' } 취소
+      .clearfix
+        .pull-right
+          %span.button.btn.btn-default.btn-link.btn-sm{ 'data-dismiss': 'modal', 'aria-label': '닫기' } 취소
+          = f.submit '저장', class: 'btn btn-primary btn-sm'

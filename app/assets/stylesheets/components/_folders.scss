@@ -152,6 +152,9 @@ section.page-folders {
               text-overflow: ellipsis;
               overflow: hidden;
               padding-right: 40px;
+              &.folder-item-title-content-main-linkable:hover {
+                text-decoration: underline;
+              }
             }
             .folder-item-menu {
               display: none;
@@ -223,27 +226,29 @@ section.page-folders {
   .target-folders {
     max-height: 300px;
     overflow: auto;
-    border: 1px solid $gray-less-lighter;
+    border-bottom: 1px solid $gray-lighter;
+    margin-top: -15px;
+    margin-left: -15px;
+    margin-right: -15px;
     .folder {
       display: flex;
       flex-direction: row;
       width: 100%;
       align-items: center;
       height: 38px;
-      padding-left: 24px;
-      padding-right: 12px;
+      padding-left: 40px;
+      padding-right: 20px;
       &.current-folder {
-        padding-left: 12px;
+        padding-left: 20px;
       }
       &.current-folder-disabled .folder-meta {
-        color: $gray;
+        color: $gray-light;
       }
       &.folder-up {
-        padding-left: 12px;
-        a {
+        padding-left: 20px;
+        &, a {
           color: $gray;
         }
-        border-bottom: 1px solid $gray-less-lighter;
       }
       cursor: pointer;
       &:hover {

@@ -14,8 +14,11 @@
         - if target_parent_folder.present?
           .folder.folder-up
             = link_to new_post_form_folders_path(parent_folder_id: target_parent_folder.safe_parent_id, mode: :update_screen, folder_full_title_dom_id: local_assigns[:folder_full_title_dom_id], folder_id_dom_id: local_assigns[:folder_id_dom_id], issue_id: issue.id), remote: true, class: 'folder-up' do
-              %i.fa.fa-angle-up
+              %i.fa.fa-angle-left
+              &nbsp;
               상위 폴더
+
+
         .folder.current-folder{ class: "#{'active' if create_here} #{'js-choose-folder-to-new-post' if create_here} #{'cursor-default-important current-folder-disabled' unless create_here}", data: { 'choice-link': "##{choice_link_dom_id}", 'folder-id': target_parent_safe_folder_id, 'folder-full-title': (target_parent_folder.full_title if target_parent_folder.present?) } }
           .folder-meta
             %i.fa.fa-folder
@@ -35,7 +38,7 @@
       .actions
         .add-folder
           = link_to new_folder_url(issue_id: issue.id, parent_folder_id: target_parent_safe_folder_id, continue_new_post_folder_id_dom_id: local_assigns[:folder_id_dom_id]), remote: true, 'data-disable-with': '로딩 중...' do
-            %i.fa.fa-plus-square-o
+            = image_tag 'folder_add.png', style: 'height: 19px;'
             폴더 추가
         .move-to
           %button.btn.btn-primary.js-confirm-folder-to-new-post{ class: ('disabled' if !create_here), id: choice_link_dom_id, data: { 'folder-id': (target_parent_safe_folder_id if create_here and target_parent_folder.present?), 'folder-full-title': (target_parent_folder.full_title if create_here and target_parent_folder.present?), 'new-post-folder-full-title-dom': local_assigns[:folder_full_title_dom_id], 'new-post-folder-id-dom': local_assigns[:folder_id_dom_id] } }

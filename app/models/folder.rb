@@ -124,7 +124,7 @@ class Folder < ApplicationRecord
   end
 
   def check_sibilings
-    if self.siblings.map(&:title).include?(self.title)
+    if self.siblings.where.not(id: self.id).map(&:title).include?(self.title)
       errors.add(:slug, I18n.t('activerecord.errors.models.folder.attributes.title.taken'))
       return
     end
