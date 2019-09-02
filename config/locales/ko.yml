@@ -90,6 +90,18 @@ ko:
           nickname: 아이디
           remember_me: 로그인 상태를 유지
           current_password: 현재 비밀번호
+  number:
+    human:
+      decimal_units:
+        format: "%n%u"
+        units:
+          billion: 십억
+          hundred_million: 억
+          million: 백만
+          quadrillion: 경
+          ten_thousand: 만
+          thousand: 천
+          trillion: 조
   activerecord:
     models:
       issue: 채널

@@ -11,15 +11,15 @@
         .col-xs-4.text-center
           = link_to smart_user_gallery_path(user) do
             .user-panel__info__label 그룹
-            .user-panel__info__count= writing_counts.groups_count
+            .user-panel__info__count= number_to_human writing_counts.groups_count, significant: false, precision: 1
         .col-xs-4.text-center
           = link_to smart_user_gallery_path(user) do
             .user-panel__info__label 게시글
-            .user-panel__info__count= writing_counts.posts_count
+            .user-panel__info__count= number_to_human writing_counts.posts_count, significant: false, precision: 1
         .col-xs-4.text-center
           = link_to smart_user_gallery_path(user) do
             .user-panel__info__label 댓글
-            .user-panel__info__count= writing_counts.comments_count
+            .user-panel__info__count= number_to_human writing_counts.comments_count, significant: false, precision: 1
   - else
     .user-panel__sign-up
       %p.desc.text-basic-wrap
