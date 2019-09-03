@@ -7,7 +7,7 @@
   parti_partial$($start);
   $('.js-post-new-stroked-container-start').html($start);
 
-  var $end = $('<%= j render('posts/page_new_stroked_mark', mode: 'end', issue: @issue, first_post_last_stroked_at_timestamp: params[:first_post_last_stroked_at_timestamp].to_i, no_auto: true) %>');
+  var $end = $('<div class="js-post-new-stroked-container-end"><%= j render('posts/page_new_stroked_mark', mode: 'end', issue: @issue, first_post_last_stroked_at_timestamp: params[:first_post_last_stroked_at_timestamp].to_i, no_auto: true) %></div>');
   parti_partial$($end);
   $(".js-post-new-stroked-target-<%= params[:until_post_id] %>").after($end);
 <% end %>

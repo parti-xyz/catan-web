@@ -11,7 +11,7 @@ var $posts_doms = $("<%= j(render 'posts/page', issue: @issue, posts: @posts, sh
 
 if($('#posts .posts').find('.js-post-new-stroked-container-end').length > 0) {
   $.each($posts_doms, function(index, elm){
-    $(elm).hasClass('js-post-new-stroked-container-end').remove();
+    $(elm).remove('.js-post-new-stroked-container-end');
   });
 }
 
