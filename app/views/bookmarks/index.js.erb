@@ -1,13 +1,3 @@
-<% if @posts.empty? %>
-if($('#posts .posts').data('last-id') == '-1') {
-  $('#no-data').show();
-}
-<% end %>
-
-var current_divider_count = $('#posts .posts .js-post-data-divider').length;
-
-$('#posts .posts').data('last-id', '<%= @posts.last.try(:id) %>');
-$('#posts .posts').data('is-last', <%= @is_last_page %>);
-var $posts_doms = $("<%= escape_javascript(render 'posts/page', posts: @posts, show_issue: true) %>");
-$('#posts .posts').append($posts_doms);
-parti_partial$($posts_doms);
+var $doms = $("<%= j(render 'bookmarks/page', bookmarked_posts: @bookmarked_posts) %>");
+$('.js-bookmark-posts').html($doms);
+parti_partial$($doms);

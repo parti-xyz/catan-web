@@ -1,0 +1,11 @@
+- bookmarked_posts.each do |issue, posts|
+  .post-data-divider
+    = link_to smart_issue_home_url(issue) do
+      = issue_tag(issue)
+  .post-card.summary
+    - posts.each do |post|
+      = render 'posts/post_bookmarked', post: post
+- if bookmarked_posts.empty?
+  .text-center.alert
+    %i.fa.fa-info-circle
+      북마크가 없습니다.

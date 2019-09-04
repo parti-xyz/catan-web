@@ -320,17 +320,6 @@ var parti_prepare = function($base, force) {
     });
   });
 
-  //toggle collapse
-  $.parti_apply($base, '.js-basic-toggle-collapse', function(elm) {
-    $(elm).on('click', function(e) {
-      e.preventDefault();
-      var $elm = $(e.currentTarget);
-
-      var $show_target = $($elm.data('show-target'));
-      $show_target.removeClass('collapse');
-    });
-  });
-
   //share
   jsSocials.shares["telegram"]["shareUrl"] = function() {
     return this.url;
