@@ -1,4 +1,4 @@
-= render 'issues/issue_header', active_tab: :home, show_menu: true, full: !user_signed_in? or !@issue.member?(current_user)
+= render 'issues/issue_header', active_tab: :home, full: !user_signed_in? or !@issue.member?(current_user)
 
 %section.contents-page#posts
   .container
