@@ -1,4 +1,5 @@
 - bookmark = post.bookmark_by(current_user)
+- bookmark_tag_form_container_class_name = "uid-#{SecureRandom.uuid}"
 
 .post-card__post.post-card__post-bookmarked.clearfix.cursor-pointer{ class: bookmarked_post_dom_class(post), 'data-action': "parti-link", 'data-url': smart_post_url(post) }
   .desc
@@ -13,8 +14,12 @@
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
       &nbsp;
-      = render 'bookmarks/bookmark_tags', bookmark: bookmark
+      - add_button = capture do
+        %a.bookmark-tag-toggle-form-btn.js-bookmark-tag-show-form{ href: '#', class: ('collapse' if local_assigns[:show_form]), 'data-bookmark-tag-show-form-container-class-name': bookmark_tag_form_container_class_name, 'data-bookmark-tag-show-form-toggle-button': 'true' }
+          태그 추가...
+      = render 'bookmarks/bookmark_tags', bookmark: bookmark, container_class_name: bookmark_tag_form_container_class_name, add_button: add_button
+
   .bookmark-buttons
     %span.bookmark
-      = render 'bookmarks/bookmark_button', post: post, mode: 'simple'
+      = render 'bookmarks/bookmark_button', post: post, mode: 'simple', container_class_name: bookmark_tag_form_container_class_name
 

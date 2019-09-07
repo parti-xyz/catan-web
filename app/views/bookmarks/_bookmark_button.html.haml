@@ -1,21 +1,22 @@
 - bookmark = post.bookmark_by(current_user)
+- bookmark_tag_form_container_class_name = local_assigns[:container_class_name] || "uid-#{SecureRandom.uuid}"
 - if user_signed_in?
   - if post.bookmarked?(current_user)
-    - if local_assigns[:mode] == 'simple'
-      = link_to bookmark_path(bookmark, post_id: post.id), method: :delete, remote: true, class: 'active', data: { disable_with: '...' }, title: '북마크 삭제' do
+    %span.dropdown.dropdown-bookmark
+      %a.active.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
         %i.fa.fa-bookmark.fa-fw
-    - else
-      - dom_id = "uid-#{SecureRandom.uuid}"
-      %span.dropdown.dropdown-bookmark
-        %a.active.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
-          %i.fa.fa-bookmark.fa-fw
-        %ul.dropdown-menu.dropdown-menu-bookmark.pull-right
-          %li
-            = link_to bookmark_path(bookmark, post_id: post.id), method: :delete, remote: true, data: { disable_with: '...' }, title: '북마크 삭제' do
-              북마크 취소
-          %li.divider
-          %li
-            = render 'bookmarks/bookmark_tags', bookmark: bookmark
+      %ul.dropdown-menu.dropdown-menu-bookmark.pull-right
+        %li
+          = link_to bookmark_path(bookmark, post_id: post.id), method: :delete, remote: true, data: { disable_with: '...' }, title: '북마크 삭제' do
+            북마크 취소
+        %li.divider
+        %li
+          - if local_assigns[:mode] != 'simple'
+            = render 'bookmarks/bookmark_tags', bookmark: bookmark, container_class_name: bookmark_tag_form_container_class_name
+          %a.bookmark-tag-toggle-form-btn.js-bookmark-tag-show-form{  href: '#', 'data-bookmark-tag-show-form-container-class-name': bookmark_tag_form_container_class_name, 'data-bookmark-tag-show-form-toggle-dropdown': ('true' if local_assigns[:mode] == 'simple'), 'data-bookmark-tag-show-form-toggle-button': ('true' if local_assigns[:mode] != 'simple') }
+            태그 추가...
+
+
   - else
     = link_to bookmarks_path('bookmark[post_id]': post), method: :post, remote: true, data: { disable_with: '...' }, title: '북마크하기' do
       %i.fa.fa-bookmark-o.fa-fw

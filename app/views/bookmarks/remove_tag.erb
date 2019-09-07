@@ -8,7 +8,7 @@ var $new_bookmarked_post = $('<%= j render('posts/post_bookmarked', post: @bookm
 $bookmarked_post.replaceWith($new_bookmarked_post);
 parti_partial$($new_bookmarked_post);
 
-var $new_bookmark_tags = $('<%= j(render 'bookmarks/bookmark_tags', bookmark: @bookmark) %>');
+var $new_bookmark_tags = $('<%= j(render 'bookmarks/bookmark_tags', bookmark: @bookmark, show_form: true, container_class_name: params[:container_class_name]) %>');
 $bookmark_tags.replaceWith($new_bookmark_tags);
 parti_partial$($new_bookmark_tags);
 <% end %>

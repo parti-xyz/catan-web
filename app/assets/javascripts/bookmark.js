@@ -1,11 +1,31 @@
 var __parti_prepare_bookmark = function($base) {
   $.parti_apply($base, '.js-bookmark-tag-show-form', function(elm) {
     $(elm).on('click', function(e) {
-      e.stopPropagation();
-      var $form = $(e.currentTarget).closest('.js-bookmark-tag-show-form-container');
+      var $elm = $(e.currentTarget);
+      var container_class_name = $elm.data('bookmark-tag-show-form-container-class-name');
+      if(!container_class_name) {
+        return;
+      }
 
-      $form.addClass('bookmark-tags-form-visible');
-      $form.find('.js-bookmark-tag-show-form-control').focus();
+      e.stopPropagation();
+      e.preventDefault();
+
+      if($elm.data('bookmark-tag-show-form-toggle-dropdown') === true) {
+        $elm.closest(".dropdown-menu").prev().dropdown("toggle");
+      }
+      if($elm.data('bookmark-tag-show-form-toggle-button') === true) {
+        if($elm.is(':visible')) {
+          $elm.hide();
+        } else {
+          $elm.show();
+        }
+      }
+
+      var $form = $("." + container_class_name).first();
+      if($form.length > 0) {
+        $form.addClass('bookmark-tags-form-visible');
+        $form.find('.js-bookmark-tag-show-form-control').focus();
+      }
     });
   });
 
