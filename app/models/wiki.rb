@@ -141,7 +141,7 @@ class Wiki < ApplicationRecord
     conflicted_body.present? or conflicted_title.present?
   end
 
-  def activate?
+  def active?
     'active' == status
   end
 

@@ -602,7 +602,7 @@ var __parti_prepare_editor = function($base) {
     $(elm).on('click', function(e) {
       $elm = $(e.currentTarget);
       var editor_dom_id = $elm.data('wiki-close-with-dirty-check-editor-dom-id');
-      if(tinyMCE.get(editor_dom_id).isDirty()) {
+      if(tinyMCE.get(editor_dom_id) && tinyMCE.get(editor_dom_id).isDirty()) {
         if(confirm('위키를 닫겠습니까? 계속하면 변경사항이 저장되지 않습니다')) {
           return true;
         } else {
