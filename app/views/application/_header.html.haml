@@ -14,49 +14,32 @@
             %a.js-slideout-toggle.cursor-pointer
               %i.fa.fa-bars{style:"font-size: 18px;"}
 
-        - if user_signed_in?
-          %li.profile-menu.dropdown
-            %a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#" }
-              #my-profile-image.thumb.circle-24.img-circle{ style: "background-image: url(#{current_user.image.sm.url});" }
-            %ul.dropdown-menu
-              %li
-                = link_to smart_user_gallery_path(current_user) do
-                  %strong= current_user.nickname
-              %li.divider
-              %li= link_to '설정', edit_user_registration_path
-              %li= link_to '로그아웃', destroy_user_session_path, method: :delete
-        - else
-          %li.sign-up
-            = link_to '회원가입', pre_sign_up_users_path
-          %li.sign-up
-            = link_to '로그인', new_user_session_path
+        %li.my-home-menu
+          = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard')}" do
+            %i.fa.fa-home{style:"font-size: 18px;"}
+            내 홈
 
-        - if user_signed_in?
-          %li.my-home-menu
-            = link_to dashboard_url(subdomain: nil), class: "#{'active' if (current_page?('/') and current_group.nil?) or current_page?('/dashboard')}" do
-              %i.fa.fa-home{style:"font-size: 18px;"}
-              내 홈
-
-          - if current_user.messages.empty?
-            %li.notification-menu
-              = link_to messages_url(subdomain: nil), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
-                %i.fa.fa-bell
-                알림
-          - else
-            %li.notification-menu.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
-              %a.dropdown-toggle.js-notification-dropdown{ :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}" }
-                %span.active-bell.js-active-bell{ class: ('collapse' if current_user.cached_important_messages_count <= 0) }
-                  %span.icon-bell-stack
-                    %i.fa.fa-circle.fa-stack-1x
-                    %i.fa.fa-bell.fa-stack-1x.fa-inverse
-                  %span.label.label-danger= trim_count current_user.cached_important_messages_count
-                %span.js-inactive-bell{ class: ('collapse' if current_user.cached_important_messages_count > 0) }
+          - if user_signed_in?
+            - if current_user.messages.empty?
+              %li.notification-menu
+                = link_to messages_url(subdomain: nil), class: "#{'active' if current_page?(controller: '/messages', action: :index)}" do
                   %i.fa.fa-bell
-                알림
+                  알림
+            - else
+              %li.notification-menu.dropdown#js-notification{ 'data-url': messages_path(format: :js) }
+                %a.dropdown-toggle.js-notification-dropdown{ :href => "#", class: "#{'active' if current_page?(controller: '/messages', action: :index)}" }
+                  %span.active-bell.js-active-bell{ class: ('collapse' if current_user.cached_important_messages_count <= 0) }
+                    %span.icon-bell-stack
+                      %i.fa.fa-circle.fa-stack-1x
+                      %i.fa.fa-bell.fa-stack-1x.fa-inverse
+                    %span.label.label-danger= trim_count current_user.cached_important_messages_count
+                  %span.js-inactive-bell{ class: ('collapse' if current_user.cached_important_messages_count > 0) }
+                    %i.fa.fa-bell
+                  알림
 
-              %ul.dropdown-menu.js-notification-dropdown-menu
-                %li.loading.js-notification-dropdown-loading
-                  로딩 중...
+                %ul.dropdown-menu.js-notification-dropdown-menu
+                  %li.loading.js-notification-dropdown-loading
+                    로딩 중...
 
       %ul.nav.navbar-nav.navbar-right
         %li.search-menu
@@ -80,10 +63,27 @@
                     %span.dropdown-item-q.js-header-search-dropdown-value
                     %span.dropdown-item-scope 전체 검색
 
-        %li.write-menu
-          = link_to new_group_configuration_url(subdomain: nil) do
-            %i.fa.fa-magic{style:"font-size: 18px;"}
-            그룹 만들기
+        - if user_signed_in?
+          %li.write-menu
+            = link_to new_group_configuration_url(subdomain: nil) do
+              %i.fa.fa-magic{style:"font-size: 18px;"}
+              그룹 만들기
+          %li.profile-menu.dropdown
+            %a.dropdown-toggle{ "data-toggle" => "dropdown", :href => "#" }
+              #my-profile-image.thumb.circle-24.img-circle{ style: "background-image: url(#{current_user.image.sm.url});" }
+            %ul.dropdown-menu
+              %li
+                = link_to smart_user_gallery_path(current_user) do
+                  %strong= current_user.nickname
+              %li.divider
+              %li= link_to '설정', edit_user_registration_path
+              %li= link_to '로그아웃', destroy_user_session_path, method: :delete
+        - else
+          %li.sign-up
+            = link_to '회원가입', pre_sign_up_users_path
+          %li.sign-up
+            = link_to '로그인', new_user_session_path
+
 
 
 = render 'application/check_real_email'
