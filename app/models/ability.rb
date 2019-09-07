@@ -22,7 +22,7 @@ class Ability
       can [:pin], Issue do |issue|
         user.is_organizer?(issue)
       end
-      can [:create, :new], Folder
+      can [:create, :new, :new_post_form], Folder
       can [:destroy, :update, :detach_post, :attach_post, :move_form, :move], [Folder] do |folder|
         folder.issue.present? and folder.issue.try(:postable?, user)
       end
