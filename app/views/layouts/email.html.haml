@@ -36,5 +36,6 @@
                       %a(href="https://parti.xyz/" style="text-decoration: none; color: #fff;") 빠띠
                     &middot;
                     %a{:style => "color: rgb(251, 249, 249); text-decoration: none;"}(href='mailto:help@parti.xyz') help@parti.xyz
-                    &middot;
-                    %a{:href => "https://parti.xyz/users/edit", :style => "color: rgb(251, 249, 249); text-decoration: none;"} 수신거부
+                    - if mailer.class.name != 'Devise::Mailer' and action_name != 'confirmation_instructions'
+                      &middot;
+                      %a{:href => "https://parti.xyz/users/edit", :style => "color: rgb(251, 249, 249); text-decoration: none;"} 수신거부
