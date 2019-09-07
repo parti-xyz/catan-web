@@ -82,6 +82,10 @@
                 = link_to smart_issue_folders_path(issue), class: 'parti-menu-a' do
                   %h5 폴더
 
+              .col-custom{class: ('active' if active_tab == :wikis)}
+                = link_to smart_issue_wikis_path(issue), class: 'parti-menu-a' do
+                  %h5 위키
+
               .col-custom{class: ('active' if active_tab == :polls)}
                 = link_to smart_issue_polls_or_surveys_path(issue), class: 'parti-menu-a' do
                   %h5= t('labels.polls_or_surveys')
@@ -89,10 +93,6 @@
               .col-custom{class: ('active' if active_tab == :links_or_files)}
                 = link_to smart_issue_links_or_files_path(issue), class: 'parti-menu-a' do
                   %h5 자료
-
-              .col-custom{class: ('active' if active_tab == :wikis)}
-                = link_to smart_issue_wikis_path(issue), class: 'parti-menu-a' do
-                  %h5 위키
 
               .col-custom{class: ('active' if active_tab == :users)}
                 = link_to smart_issue_members_path(issue), class: 'parti-menu-a' do
