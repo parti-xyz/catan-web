@@ -14,7 +14,7 @@
               공지사항입니다.
             = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: behold_button_dom_class(post), 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
               %span.text-underline
-                확인함 표시
+                확인함으로 표시
                 %span &#215;
           - else
             != text

@@ -1,6 +1,7 @@
 - if @post.issue.present?
   = render 'issues/issue_header', issue: @post.issue
-
+- if @post.issue.present? or @post.folder.present?
+  - local_assigns[:current_issue] = @post.issue || @post.folder.issue
 %section.contents-page
   .container
     .row
@@ -11,26 +12,17 @@
             %small
               협업을 통해 함께 문서를 만들어 보세요
         #post-form.wiki-form.wiki-form-new.js-parti-editor-selector-wrapper
+          - folder_full_title_dom_id = "uid-#{SecureRandom.uuid}"
+          - folder_id_dom_id = "uid-#{SecureRandom.uuid}"
           = form_for @post, html: { class: 'form-widget js-parti-editor-selector-form', novalidate: true, data: {action: 'parti-form-validation', 'submit-form-control': '#post-form form input[type=submit]' } } do |f|
-            - controls = capture do
-              = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (@issue.id if @issue.present?)
-              = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
             - if @post.issue.blank?
               .wiki-issue-selector
                 .row
                   .col-xs-12.col-sm-12
                     = render 'posts/issue_selector'
 
-            - if @post.issue.present? or @post.folder.present?
-              - folder_full_title_dom_id = "uid-#{SecureRandom.uuid}"
-              - folder_id_dom_id = "uid-#{SecureRandom.uuid}"
-              - current_issue = @post.issue || @post.folder.issue
+            - if local_assigns[:current_issue]
               %div{ id: folder_full_title_dom_id, style: 'padding-top: 8px;' }
-                .js-new-post-folder-full-title-only-empty{ class: ('collapse' if @post.folder.present?) }
-                  = f.hidden_field :folder_id, id: folder_id_dom_id, class: 'js-new-post-folder-id-field', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id }
-                  = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: current_issue.id), remote: true, 'data-disable-with': '로딩 중...', class: 'btn btn-xs btn-link editor-btn post-folder-btn' do
-                    %i.fa.fa-folder-o
-                    폴더 설정 (선택)
                 .post-card__header.post-card__header-bare.js-new-post-folder-full-title-only-exists{ class: ('collapse' unless @post.folder.present?) }
                   %span.post-line-folder
                     %i.fa.fa-folder-o
@@ -40,15 +32,23 @@
                       %i.fa.fa-ellipsis-v.fa-fw.text-muted
                     %ul.dropdown-menu
                       %li
-                        = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: current_issue.id), remote: true, 'data-disable-with': '로딩 중...' do
+                        = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: local_assigns[:current_issue].id), remote: true, 'data-disable-with': '로딩 중...' do
                           수정
                       %li
                         %a.js-new-post-folder-clear{ href: '#', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id, 'new-post-folder-id-dom': folder_id_dom_id } }
                           삭제
 
             =  render 'wikis/form_fields', f: f
-            %div{ style: 'margin-top: 12px' }
-              = controls
+            %div.clearfix{ style: 'margin-top: 12px' }
+              = f.hidden_field :issue_id, data:{ 'rule-required': true }, class: 'validate', value: (@issue.id if @issue.present?)
+              - if local_assigns[:current_issue].present?
+                %span{ class: ('collapse' if @post.folder.present?) }
+                  = f.hidden_field :folder_id, id: folder_id_dom_id, class: 'js-new-post-folder-id-field', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id }
+                  = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: local_assigns[:current_issue].id), remote: true, 'data-disable-with': '로딩 중...', class: 'btn btn-xs btn-link editor-btn post-folder-btn' do
+                    %i.fa.fa-folder
+                    폴더 선택
+              = f.submit '게시', class: 'btn btn-primary pull-right', data: { disable_with: "게시 중..." }
+
       - if @post.issue.present?
         = render 'issues/aside', issue: @post.issue
       - else

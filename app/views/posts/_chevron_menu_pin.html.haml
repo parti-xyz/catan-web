@@ -22,8 +22,8 @@
         - if post.need_to_behold?(current_user)
           %li
             = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: behold_button_dom_class(post), 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
-              공지 확인함 표시
+              공지 확인함으로 표시
         - else
           %li
             = link_to [:unbehold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: unbehold_button_dom_class(post), 'data-completed-with': '확인하지 않음 표시 완료 <i class="fa fa-check"/>' do
-              공지 확인하지 않음 표시
+              공지 확인하지 않음으로 표시

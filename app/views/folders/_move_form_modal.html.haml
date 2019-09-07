@@ -19,7 +19,7 @@
         - move_to_link_dom_id = "folder-move-to-#{SecureRandom.uuid}"
         .target-folders
           - if target_parent_folder.present?
-            = link_to move_form_folders_path(parent_folder_id: target_parent_folder.safe_parent_id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'folder folder-up' do
+            = link_to move_form_folders_path(parent_folder_id: target_parent_folder.safe_parent_id, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'folder folder-up' do
               %i.fa.fa-angle-left
               &nbsp;
               상위 폴더
@@ -37,7 +37,7 @@
                 %i.fa.fa-folder
                 = target_folder.title
               .folder-link
-                = link_to move_form_folders_path(parent_folder_id: target_folder.id, mode: :update_screen, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-move-link-btn' do
+                = link_to move_form_folders_path(parent_folder_id: target_folder.id, subject_type: subject.class.name, subject_id: subject.id, dom_id: local_assigns[:dom_id]), remote: true, class: 'btn btn-default btn-sm js-choose-folder-to-move-link-btn' do
                   %i.fa.fa-angle-right
 
       .actions

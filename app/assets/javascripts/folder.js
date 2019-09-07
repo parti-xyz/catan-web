@@ -463,14 +463,14 @@ var __parti_prepare_folder = function($base) {
       $elm.siblings().find('.js-choose-folder-to-new-post-link-btn').removeClass('btn-primary').addClass('btn-default');
       if($elm.hasClass('active')) {
         $elm.removeClass('active');
-        $elm.find('.js-choose-folder-to-new-post-link-btn').removeClass('btn-primary').addClass('btn-default');
+        $elm.find('.js-choose-folder-to-new-post-link-btn');
         $choice_link.addClass('disabled');
         $choice_link.data('folder-id', '');
         $choice_link.data('folder-full-title', '');
         $choice_link.find('.js-choose-folder-here').show();
       } else {
         $elm.addClass('active');
-        $elm.find('.js-choose-folder-to-new-post-link-btn').removeClass('btn-default').addClass('btn-primary');
+        $elm.find('.js-choose-folder-to-new-post-link-btn');
         $choice_link.removeClass('disabled');
         $choice_link.data('folder-id', $elm.data('folder-id'));
         $choice_link.data('folder-full-title', $elm.data('folder-full-title'));
@@ -492,7 +492,6 @@ var __parti_prepare_folder = function($base) {
 
       if(folder_id || folder_id == 0) {
         $(document).trigger('parti-close-modal-placeholder');
-        $full_title_dom.find('.js-new-post-folder-full-title-only-empty').hide();
         $full_title_dom.find('.js-new-post-folder-full-title-only-exists').show();
         $full_title_dom.find('.js-new-post-folder-full-titler').html(folder_full_title);
         $id_dom.val(folder_id);
@@ -509,7 +508,6 @@ var __parti_prepare_folder = function($base) {
       var $full_title_dom = $('#' + $elm.data('new-post-folder-full-title-dom'));
       var $id_dom = $('#' + $elm.data('new-post-folder-id-dom'));
 
-      $full_title_dom.find('.js-new-post-folder-full-title-only-empty').show();
       $full_title_dom.find('.js-new-post-folder-full-title-only-exists').hide();
 
       $full_title_dom.find('.js-new-post-folder-full-titler').html('');
@@ -524,7 +522,6 @@ var __parti_prepare_folder = function($base) {
       var $full_title_dom = $('#' + $elm.data('new-post-folder-full-title-dom'));
 
       if(folder_id || folder_id == 0) {
-        $full_title_dom.find('.js-new-post-folder-full-title-only-empty').hide();
         $full_title_dom.find('.js-new-post-folder-full-title-only-exists').show();
 
         $full_title_dom.find('.js-new-post-folder-full-titler').html(folder_full_title);

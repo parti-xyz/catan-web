@@ -1016,7 +1016,11 @@ var parti_show_modal$ = function($partial) {
   $('#js-modal-placeholder .js-modal-placeholder-action-dialog').addClass('modal-dialog-md');
   $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-md');
   $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
-  $('#js-modal-placeholder > .modal').modal("show");
+  if($('#js-modal-placeholder > .modal').hasClass('in')) {
+    parti_partial$($partial, true);
+  } else {
+    $('#js-modal-placeholder > .modal').modal("show");
+  }
 }
 
 var parti_show_modal_sm$ = function($partial) {
@@ -1025,10 +1029,9 @@ var parti_show_modal_sm$ = function($partial) {
   $('#js-modal-placeholder .js-modal-placeholder-action-dialog').addClass('modal-dialog-sm');
   $('#js-modal-placeholder .js-modal-placeholder-loading-dialog').addClass('modal-dialog-sm');
   $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
-  $('#js-modal-placeholder > .modal').modal("show");
-}
-
-var parti_update_modal_sm$ = function($partial) {
-  $('#js-modal-placeholder .js-modal-placeholder-action-dialog').html($partial);
-  parti_partial$($partial, true);
+  if($('#js-modal-placeholder > .modal').hasClass('in')) {
+    parti_partial$($partial, true);
+  } else {
+    $('#js-modal-placeholder > .modal').modal("show");
+  }
 }
