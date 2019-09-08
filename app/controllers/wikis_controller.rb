@@ -10,7 +10,14 @@ class WikisController < ApplicationController
 
   def activate
     render_404 and return if @wiki.blank?
-    @wiki.update_attributes(status: 'active')
+
+    ActiveRecord::Base.transaction do
+      @wiki.update_attributes(last_author: current_user, status: 'active')
+      @post = @wiki.post
+      @post.strok_by!(current_user)
+      @post.issue.strok_by!(current_user, @post)
+      @post.issue.read_if_no_unread_posts!(current_user)
+    end
 
     errors_to_flash(@post)
     redirect_to smart_post_url(@post)
@@ -18,7 +25,14 @@ class WikisController < ApplicationController
 
   def inactivate
     render_404 and return if @wiki.blank?
-    @wiki.update_attributes(status: 'inactive')
+
+    ActiveRecord::Base.transaction do
+      @wiki.update_attributes(last_author: current_user, status: 'inactive')
+      @post = @wiki.post
+      @post.strok_by!(current_user)
+      @post.issue.strok_by!(current_user, @post)
+      @post.issue.read_if_no_unread_posts!(current_user)
+    end
 
     errors_to_flash(@post)
     redirect_to smart_post_url(@post)
@@ -26,7 +40,14 @@ class WikisController < ApplicationController
 
   def purge
     render_404 and return if @wiki.blank?
-    @wiki.update_attributes(status: 'purge')
+
+    ActiveRecord::Base.transaction do
+      @wiki.update_attributes(last_author: current_user, status: 'purge')
+      @post = @wiki.post
+      @post.strok_by!(current_user)
+      @post.issue.strok_by!(current_user, @post)
+      @post.issue.read_if_no_unread_posts!(current_user)
+    end
 
     errors_to_flash(@post)
     redirect_to smart_post_url(@post)

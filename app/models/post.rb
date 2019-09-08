@@ -475,7 +475,7 @@ class Post < ApplicationRecord
     self
   end
 
-  def strok_by!(someone, subject)
+  def strok_by!(someone, subject = nil)
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id, last_stroked_for: subject)
   end
 
