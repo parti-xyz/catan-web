@@ -409,18 +409,6 @@ $drawer-sub-issues-left-space: 48px;
   }
 }
 
-.check-real-email {
-  color: white;
-  background-color: $brand-primary;
-  position: fixed;
-  z-index: $zindex-check-real-email;
-  padding: 30px;
-  border-radius: $border-radius-base;
-  top: 60px;
-  right: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
 // drawer
 
 $drawer-default-space: 6px;

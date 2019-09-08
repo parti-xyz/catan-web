@@ -339,10 +339,6 @@ class User < ApplicationRecord
     m.save!
   end
 
-  def email_verified?
-    email_verified_at.present?
-  end
-
   def pinned_posts
     watched_posts.pinned.order('pinned_at desc')
   end

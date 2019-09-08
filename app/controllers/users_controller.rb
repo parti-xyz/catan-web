@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:kill_me, :access_token, :valid_email, :invalid_email]
+  before_action :authenticate_user!, only: [:kill_me, :access_token]
 
   def posts
     fetch_user
@@ -41,15 +41,6 @@ class UsersController < ApplicationController
     else
       render json: { error: 'not found' }
     end
-  end
-
-  def valid_email
-    current_user.update_attributes(email_verified_at: DateTime.now)
-  end
-
-  def invalid_email
-    current_user.update_attributes(email_verified_at: DateTime.now)
-    redirect_to edit_user_registration_url(subdomain: nil)
   end
 
   def notification

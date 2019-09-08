@@ -84,9 +84,5 @@
           %li.sign-up
             = link_to '로그인', new_user_session_path
 
-
-
-= render 'application/check_real_email'
-
 - if current_group.present?
   %span.js-sidemenu-highlight-current-group-source{ 'data-sidemenu-highlight-current-group-id': current_group.id, 'data-sidemenu-highlight-current-group-slug': current_group.slug }

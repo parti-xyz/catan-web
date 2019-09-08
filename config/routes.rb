@@ -53,8 +53,6 @@ Rails.application.routes.draw do
       get 'access_token'
       get 'pre_sign_up'
       get 'email_sign_in'
-      put 'valid_email'
-      put 'invalid_email'
       put 'notification'
       get 'inactive_sign_up'
     end

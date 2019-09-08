@@ -626,11 +626,6 @@ $(function(){
     $(this).find('.js-join-sign').show();
   });
 
-  // 실제 메일인지 확인
-  setTimeout(function(){
-    $('#js-check-real-email').fadeIn();
-  }, 2000);
-
   // 알림드롭다운
   $('#js-notification a.js-notification-dropdown').on('click', function (e) {
     e.preventDefault();
