@@ -18,17 +18,20 @@
 
     = render 'posts/last_stroked_for', post: post, beholdable: true, buttons: last_strocked_for_buttons
 
+  - wiki_title = capture do
+    %h4.wiki-title
+      = link_to post.wiki.title, smart_post_url(post), target: '_blank'
+      - unless post.wiki.status.active?
+        %small
+          %span.label.label-default= post.wiki.status_text
+
   .wiki-line-body-container{ class: ('wiki-line-body-container-inactive' unless post.wiki.active?) }
     - too_short = post.wiki.body_striped_tags.try(:length) < 400
     - if too_short or ['detail', 'preview-detail', 'edit-detail'].include? local_assigns[:mode]
       - if post.wiki.active? and (can?(:update, post.wiki) and 'edit-detail' == local_assigns[:mode])
         = render 'wikis/card_form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
       - else
-        %h4.wiki-title
-          = link_to post.wiki.title, smart_post_url(post), target: '_blank'
-          - unless post.wiki.status.active?
-            %small
-              %span.label.label-default= post.wiki.status_text
+        = wiki_title
         .wiki-line-body.wiki-line-body-full.cursor-pointer
           .wiki-body.wiki-preview
             .mce-content-body
@@ -41,9 +44,7 @@
               = link_to wiki_post_path(post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-force btn-xs", style: 'border-radius: 4px' do
                 편집
     - else
-      %h4.wiki-title
-        = link_to post.wiki.title, smart_post_url(post), target: '_blank'
-
+      = wiki_title
       .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
         .wiki-body.wiki-preview
           .shadow
