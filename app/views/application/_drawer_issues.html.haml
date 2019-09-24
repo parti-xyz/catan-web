@@ -25,17 +25,18 @@
         %span.group-parties-section-title-wrapper
           #{group_sidemenu_title(menu_group)}
 
-    - if issues.any?
-      .group-issues-list.js-sidemenu-toggle-issues-container.js-drawer-link{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
-        %ul.sub.list-unstyled
-          %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored.js-sidemenu-toggle-issues-container-underling{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id} #{'collapse' unless sidebar_group_opened?(menu_group)}", "data-action": "parti-issue-link", "data-url": smart_group_url(menu_group) }
-            .media
-              .media-left
-                .issue-line__thumb.text-center
-                  %i.fa.fa-home
-              .media-body
-                그룹 홈
 
+    .group-issues-list.js-sidemenu-toggle-issues-container.js-drawer-link{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
+      %ul.sub.list-unstyled
+        %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored.js-sidemenu-toggle-issues-container-underling{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id} #{'collapse' unless sidebar_group_opened?(menu_group)}", "data-action": "parti-issue-link", "data-url": smart_group_url(menu_group) }
+          .media
+            .media-left
+              .issue-line__thumb.text-center
+                %i.fa.fa-home
+            .media-body
+              그룹 홈
+
+      - if issues.any?
         - if menu_group.categories.any?
           - (menu_group.categories.sort_by_name.to_a << nil).each do |category|
             - categorized_issues = issues.select{ |issue| issue.category_id == category&.id }
@@ -44,26 +45,13 @@
         - else
           = render 'application/drawer_issues_list', group: menu_group, issues: issues, members_for_issues: local_assigns[:members_for_issues], collapse: !sidebar_group_opened?(menu_group)
 
-        %ul.sub.list-unstyled.js-sidemenu-toggle-issues-container-underling{ class: ('collapse' unless sidebar_group_opened?(menu_group)) }
-          %li.js-drawer-filter-ignored.issue-more.clearfix
-            = link_to issues_url(subdomain: menu_group.subdomain) do
-              모든 채널
-              - latest_issues_count = menu_group.visiable_latest_issues_count
-              - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
-              - if any_latest_issues
-                %span.parties-count
-                  +#{latest_issues_count}
-              %i.fa.fa-angle-right
-    - else
-      %ul.sub.list-unstyled
-        %li.js-issue-line.issue-more.js-drawer-filter-ignored
-          - if menu_group.creatable_issue?(current_user)
-            = link_to new_issue_url do
-              %span.text-nowrap
-                개설된 채널이 없습니다.
-              %span.text-nowrap
-                채널 만들기
-                %i.fa.fa-angle-right
-          - else
-            %span.text-nowrap
-              개설된 채널이 없습니다.
+      %ul.sub.list-unstyled.js-sidemenu-toggle-issues-container-underling{ class: ('collapse' unless sidebar_group_opened?(menu_group)) }
+        %li.js-drawer-filter-ignored.issue-more.clearfix
+          = link_to issues_url(subdomain: menu_group.subdomain) do
+            모든 채널
+            - latest_issues_count = menu_group.visiable_latest_issues_count
+            - any_latest_issues = (!latest_issues_count.nil? and latest_issues_count > 0)
+            - if any_latest_issues
+              %span.parties-count
+                +#{latest_issues_count}
+            %i.fa.fa-angle-right
