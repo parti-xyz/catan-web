@@ -19,7 +19,7 @@ class Ability
       can [:update_category, :destroy_category], Issue do |issue|
         user.is_organizer?(issue.group)
       end
-      can [:pin], Issue do |issue|
+      can [:pin, :freeze, :wake], Issue do |issue|
         user.is_organizer?(issue)
       end
       can [:create, :new, :new_post_form], Folder
