@@ -12,7 +12,7 @@
     = f.hidden_field 'container_class_name', value: bookmark_tag_form_container_class_name
     .form-group
       .input-group
-        = f.text_field :tag_name, placeholder: '태그 입력...', class: 'form-control js-bookmark-tag-show-form-control'
+        = f.text_field :tag_name, placeholder: '태그 입력...', class: 'form-control js-bookmark-tag-show-form-control', maxlength: 15
         .input-group-prepend
           = f.submit '추가', class: 'btn btn-default btn-xs'
   = local_assigns[:add_button]
