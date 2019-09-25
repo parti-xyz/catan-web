@@ -4,14 +4,14 @@
   - folder_item_dom_id = "folder-item-#{SecureRandom.uuid}"
   .folder-item.child-item.js-folder-item.js-draggable-slug-folder-item.js-draggable-slug-folder-draggable{ id: folder_item_dom_id, class: "#{'js-folder-item-managable' if can?(:manage_folders, issue)} #{('active' if latest_active_folder_item?(post))}", 'data-folder-item-type': 'post', 'data-draggable-slug-folder-item-type': 'post', 'data-folder-item-id': post.id, 'data-draggable-slug-folder-json-params': h({ item_type: 'Post', item_id: post.id }.to_json), 'data-folder-depth': depth }
     .folder-item-title-container
-      %span.folder-item-icon.only-clickable{ 'data-url': smart_post_url(post) }
+      %span.folder-item-icon.only-clickable{ 'data-post-url': smart_post_url(post) }
         - if post.wiki.present?
           %i.fa.fa-fw.fa-file-word-o
         - else
           %i.fa.fa-fw.fa-file-o
       %span.folder-item-title
         .folder-item-title-content{ class: folded_post_dom_class(post) }
-          .folder-item-title-content-main.only-clickable.folder-item-title-content-main-linkable.js-folder-item-renamable-content{ 'data-url': smart_post_url(post), 'data-value': post.specific_desc_striped_tags(100) }
+          .folder-item-title-content-main.only-clickable.folder-item-title-content-main-linkable.js-folder-item-renamable-content{ 'data-post-url': smart_post_url(post), 'data-value': post.specific_desc_striped_tags(100) }
             = post.specific_desc_striped_tags(100)
           %span.folder-item-menu.js-folder-item-menu.js-folder-item-no-run.dropdown
             .btn.btn-xs.btn-default.dropdown-toggle{ 'data-toggle': 'dropdown' }

@@ -79,8 +79,22 @@ var __parti_prepare_folder = function($base) {
           });
         }
         if($elm.data('folder-item-type') === 'post') {
+          var closest = function(el, fn) {
+            if(!$elm.has(elm)) {
+              return null;
+            }
+            return el && (fn(el) ? el : closest(el.parentNode, fn));
+          }
+          var $cloest_post_url_elm = $(closest(e.target, function(elmx) {
+            return !!$(elmx).data("post-url");
+          }));
+
+          if($cloest_post_url_elm.length <= 0) {
+            return;
+          }
+
           e.preventDefault();
-          var url = $elm.data("url");
+          var url = $cloest_post_url_elm.data("post-url");
           if(!url) { return; }
 
           if (e.shiftKey || e.ctrlKey || e.metaKey) {
