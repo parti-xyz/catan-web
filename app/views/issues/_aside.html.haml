@@ -35,7 +35,7 @@
         %ul.list-unstyled.aside-issues
           - issue.relateds.each do |related|
             - related_target_issue = related.target
-            - next if related_target_issue.private_blocked?(current_user)
+            - next if related_target_issue.frozen? or related_target_issue.private_blocked?(current_user)
             - remove_button = capture do
               - if can? :update, issue
                 = link_to related, method: :delete do
