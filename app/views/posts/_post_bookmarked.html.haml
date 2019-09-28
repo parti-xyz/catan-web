@@ -16,7 +16,7 @@
       &nbsp;
       - add_button = capture do
         %a.bookmark-tag-toggle-form-btn.js-bookmark-tag-show-form{ href: '#', class: ('collapse' if local_assigns[:show_form]), 'data-bookmark-tag-show-form-container-class-name': bookmark_tag_form_container_class_name, 'data-bookmark-tag-show-form-toggle-button': 'true' }
-          태그 추가...
+          태그 추가
       = render 'bookmarks/bookmark_tags', bookmark: bookmark, container_class_name: bookmark_tag_form_container_class_name, add_button: add_button
 
   .bookmark-buttons

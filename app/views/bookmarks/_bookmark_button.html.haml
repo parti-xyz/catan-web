@@ -14,7 +14,7 @@
           - if local_assigns[:mode] != 'simple'
             = render 'bookmarks/bookmark_tags', bookmark: bookmark, container_class_name: bookmark_tag_form_container_class_name
           %a.bookmark-tag-toggle-form-btn.js-bookmark-tag-show-form{  href: '#', 'data-bookmark-tag-show-form-container-class-name': bookmark_tag_form_container_class_name, 'data-bookmark-tag-show-form-toggle-dropdown': ('true' if local_assigns[:mode] == 'simple'), 'data-bookmark-tag-show-form-toggle-button': ('true' if local_assigns[:mode] != 'simple') }
-            태그 추가...
+            태그 추가
 
 
   - else

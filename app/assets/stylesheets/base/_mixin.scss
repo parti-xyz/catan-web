@@ -11,8 +11,8 @@
 @mixin word-wrap() {
   overflow-wrap: break-word;
   word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: keep-all;
+  -ms-word-break: normal;
+  word-break: normal;
   -ms-hyphens: auto;
   -moz-hyphens: auto;
   -webkit-hyphens: auto;

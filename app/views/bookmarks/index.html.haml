@@ -5,12 +5,8 @@
         = render 'application/my_home_tab'
         - if @tag_names.any?
           .post-data-divider.search-bookmark-tags
-            - togglable_class = "uid-#{SecureRandom.uuid}"
-            .post-data-divider{ 'data-show-target': ".#{togglable_class}" }
-              %i.fa.fa-tag
-              태그 (#{@tag_names.count})
             .bookmark-tags
-              %select.js-bookmark-tag-searcher.form-control{ multiple: true, class: "#{'collapse' if @search_tag_names.blank?}", 'data-multiple-separator': ' ', 'data-none-selected-text': '검색할 태그...', 'data-url': bookmarks_url(subdomain: nil, format: :js)  }
+              %select.js-bookmark-tag-searcher.form-control{ multiple: true, class: "#{'collapse' if @search_tag_names.blank?}", 'data-multiple-separator': ' ', 'data-none-selected-text': '태그 검색', 'data-url': bookmarks_url(subdomain: nil, format: :js)  }
                 - @tag_names.each do |tag_name|
                   - option_dom = capture do
                     %span.bookmark-tag{ class: ('bookmark-tag-active' if @search_tag_names.include?(tag_name)) }
