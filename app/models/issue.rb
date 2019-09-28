@@ -116,62 +116,66 @@ class Issue < ApplicationRecord
   scope :recent_touched, -> { order(last_stroked_at: :desc) }
   scope :categorized_with, ->(category) { where(category_id: category.try(:id) || category) }
   scope :of_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) }
-  scope :only_alive_of_group, ->(group) { alive.never_blinded.where(group_slug: Group.slug_fallback(group)) }
+  scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.slug_fallback(group)) }
   scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) if group.present? }
   scope :not_private_blocked, ->(current_user) {
-    alive.never_blinded.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
+    alive.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
     .or(where.not(private: true))
   }
   scope :not_in_dashboard, ->(current_user) { alive.where.not(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
                                              .where.not('issues.private': true) }
-  scope :notice_only, -> { alive.never_blinded.where(notice_only: true) }
+  scope :notice_only, -> { alive.where(notice_only: true) }
   scope :only_public_hottest, ->(count){
     where(group_slug: Group.only_public.select(:slug))
-    .alive.never_blinded
+    .alive
     .where.not(private: true)
     .hottest
     .limit(count)
   }
+  scope :_post_public_group_public_issues, -> {
+    alive.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
+  }
+  scope :_public_group_public_issues, -> {
+    _post_public_group_public_issues.or(where(listable_even_private: true))
+  }
   scope :searchable_issues, ->(current_user = nil) {
-    public_group_public_issues = alive.never_blinded.where(group_slug: Group.only_public.select(:slug))
-      .where.not(private: true).or(where(listable_even_private: true))
     if current_user.present?
-      public_group_public_issues
-        .or(where(id: current_user.member_issues.select("members.joinable_id")))
+      _public_group_public_issues
+        .or(where(id: current_user.organizing_issues.select("members.joinable_id")))
+        .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
     else
-      public_group_public_issues
+      _public_group_public_issues
     end
   }
   scope :post_searchable_issues, ->(current_user = nil) {
-    public_group_public_issues = alive.never_blinded.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
     if current_user.present?
-      public_group_public_issues
-        .or(where(id: current_user.member_issues.select("members.joinable_id")))
+      _post_public_group_public_issues
+        .or(where(id: current_user.organizing_issues.select("members.joinable_id")))
+        .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
     else
-      public_group_public_issues
+      _post_public_group_public_issues
     end
   }
   scope :undiscovered_issues, ->(current_user = nil) {
-    public_group_public_issues = alive.never_blinded.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
-    conditions = public_group_public_issues
+    conditions = _post_public_group_public_issues
     if current_user.present?
       conditions = conditions.where.not(id: current_user.member_issues.select("members.joinable_id"))
     end
     conditions
   }
   scope :not_joined_issues, ->(current_user) {
-    alive.never_blinded.where.not(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
+    alive.where.not(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
   }
   scope :joined_issues, ->(current_user) {
-    alive.never_blinded.where(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
+    alive.where(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
   }
-  scope :only_private, -> { alive.never_blinded.where(private: true) }
-  scope :not_private, -> { alive.never_blinded.where(private: false) }
+  scope :only_private, -> { alive.where(private: true) }
+  scope :not_private, -> { alive.where(private: false) }
   scope :postable, ->(someone) {
     if someone.present?
-      alive.never_blinded.where(id: someone.organizing_issues).or(where(id: someone.member_issues, notice_only: false))
+      alive.where(id: someone.organizing_issues).or(where(id: someone.member_issues, notice_only: false))
     else
-      alive.never_blinded.where(id: nil)
+      alive.where(id: nil)
     end
   }
 

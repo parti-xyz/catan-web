@@ -74,9 +74,8 @@ class SearchController < ApplicationController
   private
 
   def search_and_sort_issues(keyword, current_search_group, limit)
-    current_user = User.find(19)
     tags = (keyword.try(:split) || []).map(&:strip).reject(&:blank?)
-    result = Issue.searchable_issues.searchable_issues(current_user).alive
+    result = Issue.searchable_issues(current_user)
     result = result.of_group(current_search_group) if current_search_group.present?
     if keyword.present?
       issues_by_landing_page_subject = LandingPage.parsed_section_for_all_issue_subject(tags)
