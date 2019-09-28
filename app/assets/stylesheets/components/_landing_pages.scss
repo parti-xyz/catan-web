@@ -106,10 +106,12 @@ section#landing-page{
         margin: 0 0 1.2em;
       }
     }
-    .post-reference-line{
-      &__file-content--image{
+    .post-reference-line-file-content-wrapper--image {
+      width: 100%;
+      .post-reference-line__file-content--image{
         border: 0px;
         height: 200px;
+        width: 100%;
       }
     }
   }

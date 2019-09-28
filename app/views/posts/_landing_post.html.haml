@@ -9,25 +9,14 @@
     - issue = post.issue
     .post-line.post-line[post]
       .post-body
-        - if post.file_sources.only_image.any?
-          - multi = post.file_sources.count > 1
-          .post-reference-line-file-content-wrapper--image<>
-            - previous_style = nil
-            - post.file_sources.only_image.sort_by_seq_no.limit(2).each_with_index do |file_source, index|
-              - if index == 0 and multi == false
-                - current_style = 'single'
-              - elsif previous_style == 'left'
-                - current_style = 'right'
-              - else
-                - current_style = 'left'
-              - if current_style == 'single'
-                %span.post-reference-line__file-content--image{ class: current_style, style: "background-image: url(#{file_source.attachment.md.url})" }<>
-              - else
-                %span.post-reference-line__file-content--image{ class: current_style, style: "background-image: url(#{file_source.attachment.md.url})" }<>
-              - previous_style = current_style
+        - image_url = if post.file_sources.only_image.any?
+          - post.file_sources.only_image.first.attachment.md.url
         - elsif post.link_source.present?
-          .post-reference-line-file-content-wrapper--image<>
-            %span.post-reference-line__file-content--image{ class: 'single', style: "background-image: url(#{post.link_source.image.md.url})" }
+          - post.link_source.image.md.url
+        - else
+          - asset_url 'default_link_source_image.png'
+        .post-reference-line-file-content-wrapper--image<>
+          %span.post-reference-line__file-content--image.single{ style: "background-image: url(#{image_url})" }<>
 
         .post-parsed-body
           = post.specific_desc_striped_tags(85)
