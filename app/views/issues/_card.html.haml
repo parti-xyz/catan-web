@@ -16,16 +16,10 @@
     .issue-card__content
       .issue-card__title
         .issue-card__title__text-wrapper
-          .issue-card__title__text{"data-action": "parti-ellipsis", style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/))}
-            - if issue.frozen?
-              %small{ title: '휴면 중' }
-                z
-                %sup.sup-z
-                  z
-                  %sup.sup-z z
-            = issue.title
+          .issue-card__title__text{ style: ("word-break: keep-all;" if issue.title[0..5].match(/\s/)) }
             = meta_icons(issue)
-      .issue-card__body.hidden-xs{"data-action": "parti-ellipsis"}= excerpt(issue.body, length: 60)
+            = issue.title
+      .issue-card__body.hidden-xs= excerpt(issue.body, length: 60)
       .issue-card__meta
         - if issue.rookie?
           %span.rookie

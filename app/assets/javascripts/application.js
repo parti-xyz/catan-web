@@ -17,7 +17,6 @@
 //= require jquery.history
 //= require jquery.waypoints
 //= require sticky.js
-//= require jquery.dotdotdot
 //= require jquery.webui-popover
 //= require bootstrap-add-clear
 //= require diacritics
@@ -550,14 +549,6 @@ var parti_prepare = function($base, force) {
 var parti_partial$ = function($partial, force) {
   parti_prepare($partial, force);
 
-  return $partial;
-}
-
-var parti_ellipsis = function($partial) {
-  $.parti_apply($partial, '[data-action="parti-ellipsis"]', function(elm) {
-    $(elm).dotdotdot();
-    $(elm).dotdotdot();
-  });
   return $partial;
 }
 

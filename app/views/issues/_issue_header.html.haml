@@ -31,12 +31,6 @@
             = link_to header_issue_path(issue), remote: true do
               = issue.title
               %small= meta_icons(issue)
-              - if issue.frozen?
-                %small{ title: '휴면 중' }
-                  z
-                  %sup.sup-z
-                    z
-                    %sup.sup-z z
             = link_to header_issue_path(issue), remote: true do
               %span.fa-stack{ style: 'font-size: 10px; color: #eee; text-shadow: none; top: -2px;' }
                 %i.fa.fa-square.fa-stack-2x

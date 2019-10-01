@@ -207,6 +207,15 @@ module ApplicationHelper
 
   def meta_icons(model, *extras)
     tags = []
+    if model.try(:frozen?)
+      tags << content_tag(:span, title: '휴면 중') do
+        content_tag(:span, 'z') +
+        content_tag(:sup, nil, class: 'sup-z') do
+          content_tag(:span, 'z') +
+          content_tag(:sup, 'z', class: 'sup-z')
+        end
+      end
+    end
     tags << content_tag("i", '', class: ["fa", "fa-lock"], title: '비공개') if model.try(:private?)
     tags << content_tag("i", '', class: ["fa", "fa-bullhorn"], title: '오거나이저만 게시') if model.try(:notice_only?)
     extras.compact.each do |icon_name, title|
@@ -214,6 +223,7 @@ module ApplicationHelper
     end
 
     return '' if tags.empty?
+
     content_tag :span do
       tags.map { |tag| [tag, raw('&nbsp;')] }.flatten[0...-1].each do |tag|
         concat tag

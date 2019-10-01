@@ -427,6 +427,10 @@ section#issues-group-index {
         max-height: 50px;
         word-break: keep-all;
         overflow-wrap: break-word;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
     }
     .issue-card__body {
@@ -436,6 +440,10 @@ section#issues-group-index {
       text-align: center;
       word-break: keep-all;
       overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
     }
     .issue-card__meta {
       position: static;
