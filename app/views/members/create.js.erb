@@ -4,7 +4,6 @@
   var $member = $("<%= script %>");
   $(card_query).replaceWith($member);
   parti_partial$($member);
-  parti_ellipsis($(card_query));
 
   <% if current_user.member_issues.any? %>
     $('.js-intro-select-parties-cog').addClass('collapse');

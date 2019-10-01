@@ -13,17 +13,18 @@
         .folder-item-title-content{ class: folded_post_dom_class(post) }
           .folder-item-title-content-main.only-clickable.folder-item-title-content-main-linkable.js-folder-item-renamable-content{ 'data-post-url': smart_post_url(post), 'data-value': post.specific_desc_striped_tags(100) }
             = post.specific_desc_striped_tags(100)
-          %span.folder-item-menu.js-folder-item-menu.js-folder-item-no-run.dropdown
-            .btn.btn-xs.btn-default.dropdown-toggle{ 'data-toggle': 'dropdown' }
-              %i.fa.fa-fw.fa-ellipsis-v
-            %ul.dropdown-menu{ style: 'top: 95%' }
-              %li
-                %a.js-trigger{ href: "#parti-folder-item-force-rename", 'data-target': "##{folder_item_dom_id}"} 이름 편집
-              %li.divider
-              %li
-                = link_to "폴더 이동", move_form_folders_path(subject_type: 'Post', subject_id: post.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
-              %li
-                = link_to "폴더에서 제거", detach_post_folder_url(parent_folder, post_id: post.id), remote: true, method: 'delete', 'data-disable-with': '처리 중...'
+          - if can?(:manage_folders, issue)
+            %span.folder-item-menu.js-folder-item-menu.js-folder-item-no-run.dropdown
+              .btn.btn-xs.btn-default.dropdown-toggle{ 'data-toggle': 'dropdown' }
+                %i.fa.fa-fw.fa-ellipsis-v
+              %ul.dropdown-menu{ style: 'top: 95%' }
+                %li
+                  %a.js-trigger{ href: "#parti-folder-item-force-rename", 'data-target': "##{folder_item_dom_id}"} 이름 편집
+                %li.divider
+                %li
+                  = link_to "폴더 이동", move_form_folders_path(subject_type: 'Post', subject_id: post.id, dom_id: dom_id), remote: true, 'data-disable-with': '로딩 중...'
+                %li
+                  = link_to "폴더에서 제거", detach_post_folder_url(parent_folder, post_id: post.id), remote: true, method: 'delete', 'data-disable-with': '처리 중...'
         .folder-item-title-rename-form.js-folder-item-rename-form-container.collapse
           = form_for [:update_title, post], remote: true, html: {class: 'form-inline js-folder-item-no-run'} do |f|
             = f.text_field :title, value: post.specific_desc_striped_tags(100), maxlength: 100, size: false, class: 'folder-item-title-input js-folder-item-rename-text-field'

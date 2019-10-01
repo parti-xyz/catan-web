@@ -547,7 +547,6 @@ var __parti_prepare_folder = function($base) {
 
 $(function(){
   parti_prepare($('body'));
-  parti_ellipsis($('body'));
 
   // 폴더 들여쓰기 스타일링
   (function() {

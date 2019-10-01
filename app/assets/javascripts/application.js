@@ -554,7 +554,6 @@ var parti_partial$ = function($partial, force) {
 
 $(function(){
   parti_prepare($('body'));
-  parti_ellipsis($('body'));
 
   $.each($('.slick-slider'), function(index, elm) {
     var lg = $(elm).data('slick-slider-lg') || 5;
