@@ -130,9 +130,12 @@ class IssuesTest < ActionDispatch::IntegrationTest
   test 'all이라는 이슈는 못만들어요' do
     sign_in(users(:one))
 
-    post issues_path(issue: { title: 'all', slug: 'all', body: 'body' })
+    begin
+      post issues_path(issue: { title: 'all', slug: 'all', body: 'body' })
+    rescue
+    end
 
-    refute assigns(:issue).persisted?
+    assert assigns(:issue).nil?
   end
 
   test '오거나이저넣기' do

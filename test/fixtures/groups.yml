@@ -5,6 +5,7 @@ gwanju:
   site_title: '광주'
   head_title: '광주'
   plan: lite
+  logo: 'a'
 open_square:
   slug: open
   user: admin
@@ -12,6 +13,7 @@ open_square:
   site_title: '일반'
   head_title: '일반'
   plan: lite
+  logo: 'a'
 union:
   slug: union
   user: admin
@@ -19,6 +21,7 @@ union:
   site_title: '빠띠 유니온'
   head_title: '빠띠 유니온'
   plan: lite
+  logo: 'a'
 merge_target_issue:
   slug: merge_target_issue
   user: admin
@@ -26,6 +29,7 @@ merge_target_issue:
   site_title: '대상'
   head_title: '대상'
   plan: lite
+  logo: 'a'
 merge_source_issue:
   slug: merge_source_issue
   user: admin
@@ -33,6 +37,7 @@ merge_source_issue:
   site_title: '소스'
   head_title: '소스'
   plan: lite
+  logo: 'a'
 private_group:
   slug: private
   user: admin
@@ -41,3 +46,4 @@ private_group:
   head_title: '비공개'
   private: true
   plan: lite
+  logo: 'a'

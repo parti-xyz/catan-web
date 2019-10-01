@@ -8,6 +8,8 @@ class BeholdersTest < ActionDispatch::IntegrationTest
     sign_in(users(:one))
     get post_path(posts(:post_talk1))
     follow_redirect!
+    refute posts(:post_talk1).behold_by?(users(:one))
+    put behold_post_path(posts(:post_talk1), format: :js)
     assert posts(:post_talk1).behold_by?(users(:one))
 
     get post_path(posts(:post_talk1))

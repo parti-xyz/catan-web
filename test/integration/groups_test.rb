@@ -28,7 +28,6 @@ class GroupsTest < ActionDispatch::IntegrationTest
   test '가입되지 않은 비공개그룹을 접속하면 홈으로 이동되어요' do
     host! "private.example.com"
     get group_members_path
-    follow_redirect!
     assert_response :success
   end
 end

@@ -37,6 +37,7 @@ module Catan
         MiniMagick::Tool::Convert.new do |i|
           i.size("200x200")
           i.gravity("center")
+          i.xc("none")
           i.background(background_color)
           i.fill(font_color)
           i.pointsize("80")

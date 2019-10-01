@@ -10,8 +10,12 @@ class Blind < ApplicationRecord
   after_destroy :process_unblind
 
   def self.site_wide?(someone)
-    Rails.cache.fetch("Blind/#{someone&.nickname}/site_wide", race_condition_ttl: 30.seconds, expires_in: 300.seconds) do
+    if Rails.env.test?
       exists?(user: someone, issue: nil)
+    else
+      Rails.cache.fetch("Blind/#{someone&.nickname}/site_wide", race_condition_ttl: 30.seconds, expires_in: 300.seconds) do
+        exists?(user: someone, issue: nil)
+      end
     end
   end
 

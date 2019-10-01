@@ -33,12 +33,14 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  rescue_from CanCan::AccessDenied do |exception|
-    unless self.performed?
-      if request.format.html?
-        redirect_to root_url, :alert => exception.message
-      else
-        render_403
+  unless Rails.env.test?
+    rescue_from CanCan::AccessDenied do |exception|
+      unless self.performed?
+        if request.format.html?
+          redirect_to root_url, :alert => exception.message
+        else
+          render_403
+        end
       end
     end
   end
