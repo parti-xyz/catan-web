@@ -8,10 +8,18 @@
   rescue JSON::ParserError
   end
 %>
-var $post_dom = $('<%= j(render partial: 'posts/post', locals: render_assigns) %>');
+var $post_dom = $('<%= j(render partial: @partial, locals: render_assigns) %>');
 if($('#<%= params[:dom_id] %>').length > 0) {
   var $target_dom = $('#<%= params[:dom_id] %>');
-  $target_dom.replaceWith($post_dom);
+  if($target_dom.data('post-inplace-mode') == 'content-only') {
+    $target_dom.html($post_dom);
+  } else {
+    $target_dom.replaceWith($post_dom);
+  }
   parti_partial$($post_dom, true);
   Waypoint.refreshAll();
+  <% if params[:post_scroll_top].present? %>
+    $('#<%= params[:post_scroll_top] %>').scrollTop(0);
+  <% end %>
 }
+

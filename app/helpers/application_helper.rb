@@ -326,8 +326,6 @@ module ApplicationHelper
     end
   end
 
-  private
-
   def to_subpath(path)
     return path if path.blank?
     (path[0] == '/' ? path : "/#{path}")
@@ -344,7 +342,28 @@ module ApplicationHelper
     lookup_context.exists?("group_views/#{current_group.slug}/#{partial_lookup_path(path)}")
   end
 
-  def main_column_tag(*additional_classes)
+  def main_column_tag_window_splitable(id: id, additional_classes: [], &block)
+    if window_splitable?
+      content_tag :div, id: id, class: ((%w(col-xs-8 col-sm-6 col-md-5) << additional_classes).flatten.compact.uniq) do
+        if block_given?
+          yield
+        end
+      end
+    else
+      main_column_tag(additional_classes, &block)
+    end
+  end
+
+  def aside_column_tag_window_splitable(id: id, additional_classes: [])
+    return unless window_splitable?
+    content_tag :div, id: id, class: ((%w(col-xs-4 col-sm-6 col-md-7) << additional_classes).flatten.compact.uniq) do
+      if block_given?
+        yield
+      end
+    end
+  end
+
+  def main_column_tag(additional_classes = [])
     content_tag :div, class: ((%w(col-xs-12 col-sm-12 col-md-9) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
@@ -352,7 +371,7 @@ module ApplicationHelper
     end
   end
 
-  def aside_column_tag(*additional_classes)
+  def aside_column_tag(additional_classes = [])
     return if is_small_screen?
     content_tag :div, class: ((%w(hidden-xs hidden-sm col-md-3) << additional_classes).flatten.compact.uniq) do
       if block_given?
@@ -431,5 +450,9 @@ module ApplicationHelper
   def tagify text
     return if text.blank?
     "##{text.strip.gsub(/( )/, '_').downcase}"
+  end
+
+  def window_splitable?
+    !browser.device.mobile?
   end
 end

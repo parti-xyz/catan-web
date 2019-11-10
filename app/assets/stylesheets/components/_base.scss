@@ -704,7 +704,8 @@ section.contents-page {
     padding: 10px 0;
   }
   @media (max-width: $screen-xs-max) {
-    & > .container > .row > .col-xs-12 {
+    & > .container > .row > .col-xs-12,
+    & > .container-fluid > .row > .col-xs-12 {
       padding-left: 0;
       padding-right: 0;
     }
@@ -1009,4 +1010,8 @@ difftouched {
 
 .sup-z {
   top: -3px;
+}
+
+.container.container-left {
+  margin-left: 0;
 }

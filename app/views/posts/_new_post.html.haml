@@ -3,4 +3,10 @@
     .post-data-divider.js-post-data-divider.js-new-post-data-divider
       지금 업로드된 게시글
   .post-card__content
-    = render post, local_assigns.merge(mode: 'list')
+    - if window_splitable?
+      = render 'posts/post_splited_line', local_assigns.merge(mode: 'list')
+    - else
+      = render post, local_assigns.merge(mode: 'list')
+
+
+{"splited_line":true,"post_link_dom_target":"uid-d1279499-59e6-4bf3-a9d9-c60b3628f2b2","post_scroll_top":"uid-45b1f08c-bdd7-411a-b890-145dccf72b9d","show_issue":false,"show_unread_mark":true,"mode":"list"}

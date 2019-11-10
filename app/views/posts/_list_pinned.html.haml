@@ -28,7 +28,7 @@
               .js-show-all-pinned-post-btn-hide.collapse
                 닫기
     - uncollapsed_posts.each do |post|
-      = render 'posts/post_pinned', local_assigns.merge(post: post)
+      = render 'posts/post_pinned', local_assigns.merge(post: post, post_link_dom_target: local_assigns[:post_link_dom_target])
 
     - collapsed_posts.each do |post|
-      = render 'posts/post_pinned', local_assigns.merge(post: post, collapse: true)
+      = render 'posts/post_pinned', local_assigns.merge(post: post, collapse: true, post_link_dom_target: local_assigns[:post_link_dom_target])

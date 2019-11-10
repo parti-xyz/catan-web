@@ -45,13 +45,14 @@
           = render 'posts/page_new_stroked_mark', mode: 'end', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
     .post-card__content.js-post-new-stroked-target{ class: "js-post-new-stroked-target-#{post.id}" }
       - post_card_dom_id = "post-card-#{SecureRandom.uuid}"
-      .post-card.js-lazy-partal-load{ id: post_card_dom_id, data: { url: post_url(post, subdomain: current_group.try(:subdomain), dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), format: :js) } }
+      .post-card.js-lazy-partal-load{ id: post_card_dom_id, class: ('post-card-line' if local_assigns[:splited_line]), data: { url: post_url(post, subdomain: current_group.try(:subdomain), dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), splited_line: local_assigns[:splited_line], post_link_dom_target: local_assigns[:post_link_dom_target], format: :js) } }
         .skeletons
-          .skeleton-user
-            .skeleton-user-icon
-            .skeleton-user-meta
-              .skeleton-user-nickname
-              .skeleton-post-date
+          - unless local_assigns[:splited_line]
+            .skeleton-user
+              .skeleton-user-icon
+              .skeleton-user-meta
+                .skeleton-user-nickname
+                .skeleton-post-date
           %ul.list-unstyled
             - 4.times do
               %li.skeleton-item{ style: "width: #{[70, 100, 80].sample}%;" }

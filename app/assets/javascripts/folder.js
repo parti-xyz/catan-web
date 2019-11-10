@@ -85,16 +85,16 @@ var __parti_prepare_folder = function($base) {
             }
             return el && (fn(el) ? el : closest(el.parentNode, fn));
           }
-          var $cloest_post_url_elm = $(closest(e.target, function(elmx) {
+          var $closest_post_url_elm = $(closest(e.target, function(elmx) {
             return !!$(elmx).data("post-url");
           }));
 
-          if($cloest_post_url_elm.length <= 0) {
+          if($closest_post_url_elm.length <= 0) {
             return;
           }
 
           e.preventDefault();
-          var url = $cloest_post_url_elm.data("post-url");
+          var url = $closest_post_url_elm.data("post-url");
           if(!url) { return; }
 
           if (e.shiftKey || e.ctrlKey || e.metaKey) {

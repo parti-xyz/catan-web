@@ -719,12 +719,27 @@ $(function(){
 
       var type = $(e.currentTarget).data("type");
       if("remote" == type) {
+        var $loading_icon = $('<p class="text-muted text-center" style="margin-top: 1em"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i> <span class="sr-only">로딩 중</span></p>');
+        var $loading_continer = $($(e.currentTarget).data("parti-link-remote-loading"));
+        var $visible_loading_continer_children = null;
+        if($loading_continer.length > 0) {
+          $visible_loading_continer_children = $loading_continer.children(':visible');
+          $visible_loading_continer_children.hide();
+
+          $loading_continer.append($loading_icon);
+        }
         $.ajax({
           url: url,
-          type: "get"
+          type: "get",
+          complete: function() {
+            $loading_icon.detach();
+            if($visible_loading_continer_children) {
+              $visible_loading_continer_children.show();
+            }
+          }
         });
-      } else if($.is_present($(this).data('link-target'))) {
-        window.open(url, $(this).data('link-target'));
+      } else if($.is_present($(this).data('window-target'))) {
+        window.open(url, $(this).data('window-target'));
       } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
         window.open(url, '_blank');
       } else {
@@ -765,8 +780,8 @@ $(function(){
     if(ufo.isApp()) {
       // 하위 호환을 위해 post_id를 남겨둡니다.
       ufo.post("download", { post: post_id, file: file_source_id, name: file_name });
-    } else if($.is_present($(this).data('link-target'))) {
-      window.open(url, $(this).data('link-target'));
+    } else if($.is_present($(this).data('window-target'))) {
+      window.open(url, $(this).data('window-target'));
     } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
       window.open(url, '_blank');
     } else {

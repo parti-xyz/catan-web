@@ -1,10 +1,10 @@
 <% if !@post.blank? and !@post.errors.any? %>
   var $new_divider = $('#posts .posts').find('.js-new-post-data-divider');
   if($new_divider.length > 0) {
-    var $posts_doms = $('<%= escape_javascript(render 'posts/new_post', post: @post, show_issue: true, show_divider: false) %>');
+    var $posts_doms = $('<%= escape_javascript(render 'posts/new_post', post: @post, show_issue: true, show_divider: false, post_link_dom_target: params[:post_link_dom_target]) %>');
     $new_divider.after($posts_doms);
   } else {
-    var $posts_doms = $('<%= escape_javascript(render 'posts/new_post', post: @post, show_issue: true, show_divider: true) %>');
+    var $posts_doms = $('<%= escape_javascript(render 'posts/new_post', post: @post, show_issue: true, show_divider: true, post_link_dom_target: params[:post_link_dom_target]) %>');
     $('#posts .posts').prepend($posts_doms);
   }
   parti_partial$($posts_doms);

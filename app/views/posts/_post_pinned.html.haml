@@ -1,11 +1,15 @@
-.post-card__post.clearfix.cursor-pointer{ class: "#{pinned_post_dom_class(post)} #{('js-posts-pinned-and-behold collapse' if local_assigns[:collapse])} #{'need-to-behold' if post.need_to_behold?(current_user)} #{'unpinned' unless post.pinned?}", 'data-action': "parti-link", 'data-url': smart_post_url(post) }
+- card_attr = { class: "#{pinned_post_dom_class(post)} #{('js-posts-pinned-and-behold collapse' if local_assigns[:collapse])} #{'need-to-behold' if post.need_to_behold?(current_user)} #{'unpinned' unless post.pinned?}", 'data-action': "parti-link", 'data-url': smart_post_url(post, dom_id: local_assigns[:post_link_dom_target], assigns: to_json_primitive_only(dom_id: local_assigns[:post_link_dom_target]), post_scroll_top: local_assigns[:post_scroll_top], format: ('js' if local_assigns[:post_link_dom_target].present?)), 'data-post-link-selector-active-class': 'selected' }
+- if local_assigns[:post_link_dom_target].present?
+  - card_attr.merge!('data-type': 'remote', 'data-parti-link-remote-loading': "##{local_assigns[:post_link_dom_target]}")
+.post-card__post.clearfix.cursor-pointer.js-post-link-selector{ card_attr }
   .desc
     .body<>
-      = link_to smart_post_url(post), 'aria-label': only_mobile_app(request, "post-pinned") do
-        = post.specific_desc_striped_tags(120)
+      = post.specific_desc_striped_tags(120)
 
     .issue-meta.issue-meta-footer
-      = link_to "@#{post.user.nickname}", smart_user_gallery_url(post.user)
+      = link_to smart_user_gallery_url(post.user) do
+        .thumb.user-image.img-circle.img-circle-xs{ style: "background-image: url(#{post.user.image.sm.url})" }
+        = post.user.nickname
       &nbsp;
       = link_to smart_post_url(post) do
         - created_at = local_assigns[:post].try(:created_at)

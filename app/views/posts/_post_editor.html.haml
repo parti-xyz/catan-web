@@ -28,6 +28,7 @@
   - form_dom_id = "uid-#{SecureRandom.uuid}"
   #post-form-widget.form-widget-container.form-widget-container-post
     = form_for Post.new(issue: local_assigns[:current_issue], folder: local_assigns[:current_folder]), format: (is_remote ? :js : nil), remote: is_remote, html: { id: form_dom_id, class: 'form-widget form-widget-no-margin js-parti-editor-selector-form', novalidate: true, data: { action: 'parti-form-validation' } } do |f|
+      = hidden_field_tag :post_link_dom_target, local_assigns[:post_link_dom_target]
       = f.hidden_field :issue_id, data:{ 'rule-required': true, 'error-popover-target': "##{issue_selector_dom_id} .bootstrap-select.js-parti-editor-selector" }, class: 'validate', value: (local_assigns[:current_issue].id if local_assigns[:current_issue].present?)
 
       - textarea_error_id = "widget-content-#{SecureRandom.uuid}"
@@ -221,7 +222,7 @@
           %button.btn.btn-xs.btn-link.editor-btn.post-wiki-btn.js-post-select-subform.js-post-wiki-btn{ data: open_btn_data.merge('url': new_wiki_posts_url) }
             %i.fa.fa-file-word-o
             = t('labels.new_post_wiki_button')
-        .post-reference-btns.post-reference-btns-right
+        .post-reference-btns.post-reference-btns-left
           - if local_assigns[:current_issue].present? and local_assigns[:current_folder].blank?
             = f.hidden_field :folder_id, id: folder_id_dom_id, class: 'js-new-post-folder-id-field', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id }
             = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: current_issue.id), remote: true, 'data-disable-with': '로딩 중...', class: 'btn btn-xs btn-link editor-btn post-folder-btn js-post-select-subform js-post-folder-btn' do

@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # gem 'rails', '4.2.10'
 gem 'rails', '~> 5.2', '>= 5.2.2'
 gem 'unicorn'
-gem 'bundler', '~> 1.14', '>= 1.14.5'
+gem 'bundler', '2.0.1'
 gem 'bootsnap', require: false
 gem 'railties', '= 5.2.2'
 
