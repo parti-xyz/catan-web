@@ -1,0 +1,74 @@
+@import "variables";
+@import "groups/cmzfld/group_variables";
+@import "groups/cmzfld/group_application";
+
+section#home {
+  margin-top: 24px;
+}
+
+body.in-group .group-key-visual {
+  height: 345px;
+  background-position: bottom;
+  @media (max-width: $screen-md-max) {
+    height: 270px;
+  }
+  @media (max-width: $screen-xs-max) {
+    height: 0;
+  }
+}
+.key-page{
+  height:350px;
+  background-position: center;
+  background-size: cover;
+  color: $gray-dark;
+  background-color: white;
+  position: relative;
+  .btn {
+    margin:10px;
+    box-shadow: none;
+    border-radius:0px !important;
+  }
+  .key-page-desc{
+    width: auto;
+    padding: 70px;
+    font-weight: normal;
+    .key-page-logo {
+      display: flex;
+      .logo-img img {
+        width: 145px;
+        height: 86px;
+      }
+      .logo-title img {
+        height: 70px;
+        margin-left: 25px;
+      }
+    }
+    .key-page-footer {
+      margin-top: 38px;
+      font-size: 16px;
+      text-align: left;
+    }
+    .key-page-buttons {
+      text-align: left;
+      .btn {
+        color: white;
+        margin: 30px 20px 10px 0;
+        padding: 12px 24px;
+        font-weight: bold;
+        border: none;
+      }
+      .btn.btn-cmzfld-main {
+        background-color: #298fc2;
+      }
+      .btn.btn-cmzfld-sub {
+        background-color: #5a8d84;
+      }
+    }
+    .key-page-bg.hidden-xs img {
+      position: absolute;
+      width: 50%;
+      bottom: 0;
+      right: 0;
+    }
+  }
+}

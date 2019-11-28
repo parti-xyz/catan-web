@@ -1,0 +1,28 @@
+.key-page
+  .key-page-desc
+    .key-page-logo
+      .logo-img
+        = image_tag 'groups/cmzfld/logo.png'
+      .logo-title
+        = image_tag 'groups/cmzfld/logo-title.png'
+
+    .key-page-buttons
+      %a.button.btn.btn-cmzfld-main{ href:"https://cmzfld.net/#thisweek", target: "_blank" }
+        이번 주 프로그램
+        %i.fa.fa-external-link
+      %button.btn.btn-cmzfld-sub{ onclick:"location.href='https://cmzfld.parti.xyz/p/wall'" }
+        커뮤니티 약속
+
+    .key-page-footer
+      %ul.list-unstyled.list-inline
+        %li
+          %a(href="https://cmzfld.net" target="_blank")
+            = image_tag 'groups/cmzfld/home.png', style: 'height: 1.2em; vertical-align: middle;'
+        %li
+          %a(href="https://www.facebook.com/jeju.cmzfld/" target="_blank")
+            = image_tag 'groups/cmzfld/facebook.png', style: 'height: 1.2em; vertical-align: middle;'
+        %li
+          %a(href="https://www.youtube.com/channel/UCcMn1EtqbfecZ7pKpytoECw/videos" target="_blank")
+            = image_tag 'groups/cmzfld/youtube.png', style: 'height: 1.2em; vertical-align: middle;'
+    .key-page-bg.hidden-xs
+      = image_tag 'groups/cmzfld/bg.png'

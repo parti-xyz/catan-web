@@ -1,0 +1,57 @@
+@import "variables_xs";
+@import "groups/cmzfld/group_variables";
+@import "groups/cmzfld/group_application";
+
+.key-page{
+  height:400px;
+  background-color: white;
+  position: relative;
+  .btn {
+    margin:10px;
+    box-shadow: none;
+    border-radius:0px !important;
+  }
+  .key-page-desc{
+    width: auto;
+    padding: 44px 90px;
+    font-weight: normal;
+    .key-page-logo {
+      display: flex;
+      flex-direction: column;
+      .logo-img img {
+        width: 100%;
+        height: auto;
+        max-width: 200px;
+      }
+      .logo-title {
+        display: none;
+      }
+    }
+    .key-page-footer {
+      margin-top: 38px;
+      font-size: 16px;
+      text-align: center;
+    }
+    .key-page-buttons {
+      text-align: center;
+      .btn {
+        color: white;
+        padding: 12px 24px;
+        font-weight: bold;
+        border: none;
+        width: 100%;
+      }
+      .btn.btn-cmzfld-main {
+        background-color: #298fc2;
+        margin: 30px 0 10px;
+      }
+      .btn.btn-cmzfld-sub {
+        margin: 0;
+        background-color: #5a8d84;
+      }
+    }
+    .key-page-bg {
+      display: none;
+    }
+  }
+}
