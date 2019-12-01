@@ -1,7 +1,7 @@
 = render 'issues/issue_header', active_tab: :wikis
 
 %section#wikis-page
-  .container.container-left
+  .container-fluid
     - unless @issue.exists_wiki?
       .bg-default.text-center
         %i.fa.fa-info-circle

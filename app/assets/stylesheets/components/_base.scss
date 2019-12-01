@@ -147,6 +147,10 @@
     position: static;
     display: inline-block;
     padding: 1px 5px 0px;
+    &.count-label-sub {
+      left: -18px;
+      position: absolute;
+    }
   }
 }
 
@@ -698,7 +702,8 @@ section.contents-page {
     body.app-posts-show &,
     body.app-posts-images &,
     body.app-issues-slug_home &,
-    body.app-dashboard & {
+    body.app-dashboard &,
+    body.app-messages & {
       padding-top: 0;
     }
     padding: 10px 0;
@@ -781,6 +786,18 @@ select.icon-select option {
   width: 15%;
   @media (max-width: $screen-xs-max) {
     width: 16.6%;
+  }
+}
+
+.col-custom-dashboard {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  float: left;
+  width: 15%;
+  @media (max-width: $screen-xs-max) {
+    width: 20%;
   }
 }
 

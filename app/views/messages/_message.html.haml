@@ -1,4 +1,4 @@
-.message.clearfix[message]{ class: ('unread' if message.unread?), data: {action: 'parti-link', 'url-source': "##{dom_id(message)}-url-source" } }
+.message.clearfix.js-link[message]{ class: ('unread' if message.unread?), data: { 'link-source': "##{dom_id(message)}-url-source" } }
   .media.media-overflow-visible
     .media-left
       .thumb.circle-20.img-circle{style: "background-image: url(#{message.sender.image.sm.url}); margin-top: 2px;"}

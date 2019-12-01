@@ -13,7 +13,7 @@
 - elsif message.action.to_s == 'hold'
   - "내가 초대한 @#{message.sender.nickname}님은 일정 '#{event.title}' 참석 여부가 불확실합니다."
 
-%div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
+%div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_post_url(post, format: :js, assigns: to_json_primitive_only(show_issue: true, show_group: true), dom_id: splited_post_dom_id), 'link-type': 'remote', 'link-parti-remote-loading': "##{splited_post_dom_id}" } }
   %strong
     %span= body
   - unless %w(accept reject hold).include?(message.action.to_s)

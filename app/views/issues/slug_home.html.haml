@@ -1,12 +1,9 @@
 = render 'issues/issue_header', active_tab: :home, full: !user_signed_in? or !@issue.member?(current_user)
-- split_left_dom_id = "uid-#{SecureRandom.uuid}"
-- split_right_dom_id = "uid-#{SecureRandom.uuid}"
-- post_link_dom_target_id = "uid-#{SecureRandom.uuid}"
 
 %section.contents-page#posts{ class: ('js-content-split-container' if window_splitable?) }
   .container-fluid
     .row
-      = main_column_tag_window_splitable(id: split_left_dom_id, additional_classes: [("js-content-split-left" if window_splitable?)].compact) do
+      = main_column_tag_window_splitable do
         - if !@issue.frozen?
           - if user_signed_in?
             - if @issue.member?(current_user)
@@ -29,7 +26,7 @@
                       = t('labels.new_post_wiki_button')
 
                 .post-editor.post-editor--hidden.js-post-editor
-                  = render 'posts/post_editor', current_issue: @issue, post_link_dom_target: post_link_dom_target_id
+                  = render 'posts/post_editor', current_issue: @issue
             - elsif @issue.member_requested?(current_user)
               .post-editor.post-editor--join
                 오거나이저의 가입승인을 기다려주세요.
@@ -75,7 +72,7 @@
                             %i.fa.fa-search.text-muted
                     각 단어가 두 글자 이상은 되어야 검색됩니다. 검색할 키워드를 다시 입력하세요.
             - unless @search_q.present?
-              = render 'posts/list_pinned', posts: @posts_pinned, compact: true, post_link_dom_target: (post_link_dom_target_id if window_splitable?)
+              = render 'posts/list_pinned', posts: @posts_pinned, compact: true
 
             - unless @issue.member_requested?(current_user)
               #no-data.text-center.alert.collapse
@@ -86,14 +83,11 @@
                     검색 결과가 없습니다.
 
           - unless @issue.member_requested?(current_user)
-            .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, nav_q: params[:nav_q], post_link_dom_target: post_link_dom_target_id, post_scroll_top: split_right_dom_id), 'data-read-all-url': unread_until_issue_path(@issue), 'data-waypoint-context': "##{split_left_dom_id}" }
+            .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, nav_q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue), 'data-waypoint-context': "##{splited_left_dom_id}" }
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
 
-      = aside_column_tag_window_splitable(id: split_right_dom_id, additional_classes: (['js-content-split-right', 'js-stickytoolbar-scroll-container'] if window_splitable?)) do
-        - if window_splitable?
-          %div{ id: post_link_dom_target_id, 'data-post-inplace-mode': 'content-only' }
-            .text-muted.text-center{ style: 'margin-top: 1em;' }
-              게시글을 선택하세요.
-        - else
-          = render 'issues/aside', issue: @issue
+      = aside_column_tag_window_splitable do
+        %div{ id: splited_post_dom_id, 'data-post-inplace-mode': 'content-only' }
+          .text-muted.text-center{ style: 'margin-top: 1em;' }
+            게시글을 선택하세요.

@@ -342,9 +342,9 @@ module ApplicationHelper
     lookup_context.exists?("group_views/#{current_group.slug}/#{partial_lookup_path(path)}")
   end
 
-  def main_column_tag_window_splitable(id: id, additional_classes: [], &block)
+  def main_column_tag_window_splitable(*additional_classes, &block)
     if window_splitable?
-      content_tag :div, id: id, class: ((%w(col-xs-8 col-sm-6 col-md-5) << additional_classes).flatten.compact.uniq) do
+      content_tag :div, id: splited_left_dom_id, class: ((%w(col-xs-8 col-sm-6 col-md-5 js-content-split-left) << additional_classes).flatten.compact.uniq) do
         if block_given?
           yield
         end
@@ -354,16 +354,16 @@ module ApplicationHelper
     end
   end
 
-  def aside_column_tag_window_splitable(id: id, additional_classes: [])
+  def aside_column_tag_window_splitable(*additional_classes)
     return unless window_splitable?
-    content_tag :div, id: id, class: ((%w(col-xs-4 col-sm-6 col-md-7) << additional_classes).flatten.compact.uniq) do
+    content_tag :div, id: splited_right_dom_id, class: ((%w(col-xs-4 col-sm-6 col-md-7 js-content-split-right js-stickytoolbar-scroll-container) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
       end
     end
   end
 
-  def main_column_tag(additional_classes = [])
+  def main_column_tag(*additional_classes)
     content_tag :div, class: ((%w(col-xs-12 col-sm-12 col-md-9) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
@@ -371,7 +371,7 @@ module ApplicationHelper
     end
   end
 
-  def aside_column_tag(additional_classes = [])
+  def aside_column_tag(*additional_classes)
     return if is_small_screen?
     content_tag :div, class: ((%w(hidden-xs hidden-sm col-md-3) << additional_classes).flatten.compact.uniq) do
       if block_given?

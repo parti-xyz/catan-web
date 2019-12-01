@@ -7,7 +7,7 @@
   - secondary_image_breakpoint = 120
 .post-line[post]
   .post-body
-    .post-parsed-body.mce-content-body{'data-action': 'parti-window-target-blank'}
+    .post-parsed-body.mce-content-body
       - if local_assigns[:mode] == 'detail' or local_assigns[:full_post_body]
         = post_body_format post.issue, post.body
       - else
@@ -83,7 +83,7 @@
                     원글보기
                     %i.fa.fa-external-link
               - if (post.link_source.has_image?)
-                .media-right.hidden-xs.post-reference-line-link-content__thumb{style: "background-image: url(#{post.link_source.image.md.url})", 'data-action': 'parti-link', 'data-url': post.link_source.url, 'data-window-target': '_blank', class: ('webp' if is_webp?(post.link_source.image.url)) }
+                .media-right.hidden-xs.post-reference-line-link-content__thumb.js-link{ style: "background-image: url(#{post.link_source.image.md.url})", 'data-link-url': post.link_source.url, 'data-link-window-target': '_blank', class: ('webp' if is_webp?(post.link_source.image.url)) }
     - if post.poll.present?
       .post-poll-card
         = render 'polls/poll', local_assigns.merge(poll: post.poll, in_post: true, show_decision: false)

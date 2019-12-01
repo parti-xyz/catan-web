@@ -1,4 +1,4 @@
-.wiki-history.clearfix[wiki_history]{ data: {action: 'parti-link', 'url': (wiki_history_path(wiki_history) if wiki_history.has_previous?) }, class: ('cursor-default' unless wiki_history.has_previous?) }
+.wiki-history.clearfix.js-link[wiki_history]{ data: { 'link-url': (wiki_history_path(wiki_history) if wiki_history.has_previous?) }, class: ('cursor-default' unless wiki_history.has_previous?) }
   .media
     .media-left
       .thumb.circle-20.img-circle{style: "background-image: url(#{wiki_history.user.image.sm.url});"}

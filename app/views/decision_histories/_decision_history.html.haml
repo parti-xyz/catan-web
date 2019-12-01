@@ -1,4 +1,4 @@
-.decision-history.clearfix[decision_history]{ data: {action: 'parti-link', 'url': (decision_history_path(decision_history.id) if decision_history.has_previous?) }, class: ('cursor-pointer' if decision_history.has_previous?) }
+.decision-history.clearfix.js-link[decision_history]{ data: { 'link-url': (decision_history_path(decision_history.id) if decision_history.has_previous?) }, class: ('cursor-pointer' if decision_history.has_previous?) }
   .media
     .media-left
       .thumb.circle-20.img-circle{style: "background-image: url(#{decision_history.user.image.sm.url});"}

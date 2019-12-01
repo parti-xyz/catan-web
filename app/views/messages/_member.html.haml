@@ -1,44 +1,52 @@
 - member = message.messagable
 - if message.action.to_s == 'ban'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_joinable_url(member.joinable) } }
     %strong
       #{message.sender.nickname}님이 회원님을
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human}에서 탈퇴시키셨습니다.
+    = render 'messages/go'
   - if member.ban_message.present?
     %br
     = member.ban_message
+
 - elsif message.action.to_s == 'admit'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_joinable_url(member.joinable) } }
     %strong
       #{message.sender.nickname}님이 회원님을
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human}에 가입시키셨습니다.
+    = render 'messages/go'
   - if member.admit_message.present?
     %br
     = member.admit_message
+
 - elsif message.action.to_s == 'force_default'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_joinable_url(member.joinable) } }
     %strong
       #{message.sender.nickname}님이
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human}를 자동가입되도록 설정했습니다. 해당 #{member.joinable.model_name.human}에 가입되었습니다.
+    = render 'messages/go'
 - elsif message.action.to_s == 'new_organizer'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_joinable_url(member.joinable) } }
     %strong
       #{message.sender.nickname}님이 회원님께
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human} 오거나이징을 부탁했습니다.
+    = render 'messages/go'
 - elsif message.action.to_s == 'welcome_organizer'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_url(member.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_joinable_url(member.joinable) } }
     %strong
       #{message.sender.nickname}님이
       #{message.action_params_hash["new_organizer_user_nickname"]}님께
       #{member.joinable.title}
       #{member.joinable.model_name.human} 오거나이징을 부탁했습니다.
+    = render 'messages/go'
 - else
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_joinable_members_url(member.joinable) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_joinable_members_url(member.joinable) } }
     %strong
       #{member.user.nickname}님이
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human}에 #{('초대링크로 ' if member.is_magic?)}가입했습니다.
+    = render 'messages/go'

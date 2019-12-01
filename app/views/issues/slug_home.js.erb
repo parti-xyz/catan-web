@@ -7,7 +7,7 @@ $('#posts .posts').data('previous-post-last-stroked-at-timestamp', '<%= @posts.l
 $('#posts .posts').data('is-last', <%= @is_last_page %>);
 $('#posts .posts').data('first-post-last-stroked-at-timestamp', '<%= @first_post_last_stroked_at_timestamp %>');
 
-var $posts_doms = $("<%= j(render 'posts/page', issue: @issue, posts: @posts, splited_line: window_splitable?, post_link_dom_target: params[:post_link_dom_target], post_scroll_top: params[:post_scroll_top], show_issue: false, show_unread_mark: true, previous_last_post_stroked_at_timestamp: @previous_last_post_stroked_at_timestamp, first_post_last_stroked_at_timestamp: @first_post_last_stroked_at_timestamp) %>");
+var $posts_doms = $("<%= j(render 'posts/page', issue: @issue, posts: @posts, splited_line: window_splitable?, show_issue: false, show_unread_mark: true, previous_last_post_stroked_at_timestamp: @previous_last_post_stroked_at_timestamp, first_post_last_stroked_at_timestamp: @first_post_last_stroked_at_timestamp) %>");
 
 if($('#posts .posts').find('.js-post-new-stroked-container-end').length > 0) {
   $.each($posts_doms, function(index, elm){

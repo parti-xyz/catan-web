@@ -8,8 +8,8 @@
   rescue JSON::ParserError
   end
 %>
-var $post_dom = $('<%= j(render partial: @partial, locals: render_assigns) %>');
 if($('#<%= params[:dom_id] %>').length > 0) {
+  var $post_dom = $('<%= j(render partial: @partial, locals: render_assigns) %>');
   var $target_dom = $('#<%= params[:dom_id] %>');
   if($target_dom.data('post-inplace-mode') == 'content-only') {
     $target_dom.html($post_dom);
@@ -18,8 +18,27 @@ if($('#<%= params[:dom_id] %>').length > 0) {
   }
   parti_partial$($post_dom, true);
   Waypoint.refreshAll();
-  <% if params[:post_scroll_top].present? %>
-    $('#<%= params[:post_scroll_top] %>').scrollTop(0);
-  <% end %>
+
+  <%
+    if params[:anchor_comment].present?
+  %>
+    var $anchor = $('#<%= params[:anchor_comment] %>').first();
+    if($anchor && $anchor.hasClass('js-stress-anchor')) {
+      var $target = $($anchor.data('stress-target'));
+      $target.addClass($anchor.data('stress-class'));
+      setTimeout(function() { $target.removeClass($anchor.data('stress-class')); }, 3000);
+      $('#<%= splited_right_dom_id %>').scrollTo($anchor);
+    } else {
+      $('#<%= splited_right_dom_id %>').scrollTop(0);
+    }
+  <%
+    else
+  %>
+    $('#<%= splited_right_dom_id %>').scrollTop(0);
+  <%
+    end
+  %>
+} else {
+  location.href = "<%= url_for(params.to_enum.to_h.merge(format: nil, anchor: params[:anchor_comment])) %>";
 }
 

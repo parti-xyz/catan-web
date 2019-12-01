@@ -10,7 +10,7 @@
             = link_to smart_issue_home_path_or_url(post.issue) do
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
           .media-body
-            - unless post.issue.host_group?(current_group)
+            - if !post.issue.host_group?(current_group) or local_assigns[:show_group]
               = link_to smart_group_url(post.issue.group), class: 'header-separator-item' do
                 %span.issue-group
                   = post.issue.group.title_basic_format

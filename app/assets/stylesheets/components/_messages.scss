@@ -45,6 +45,8 @@
     display: inline-block;
   }
   &__body {
+    white-space: normal;
+    word-break: break-all;
     .post-reference-line {
       background-color: white;
       border: 1px solid $gray-light;

@@ -1,14 +1,16 @@
 - if message.action.to_s == 'edit_title'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_issue_home_url(issue) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_issue_home_url(issue) } }
     %strong
       #{message.sender.nickname}님이
       = link_to message.action_params_hash["previous_title"], smart_issue_home_url(issue)
       채널 이름을
       = link_to issue.title, smart_issue_home_url(issue)
       채널로 수정했습니다.
+    = render 'messages/go'
 - elsif message.action.to_s == 'create'
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_issue_home_url(issue) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_issue_home_url(issue) } }
     %strong
       #{message.sender.nickname}님이
       = link_to issue.title, smart_issue_home_url(issue)
       채널을 새로 열었습니다.
+    = render 'messages/go'

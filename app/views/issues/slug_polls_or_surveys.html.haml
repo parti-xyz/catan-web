@@ -1,7 +1,7 @@
 = render 'issues/issue_header', active_tab: :polls
 
 %section#polls_or_surveys.polls_or_surveys--issue
-  .container.container-left
+  .container-fluid
     - if @posts.empty?
       .posts
         .bg-default.text-center

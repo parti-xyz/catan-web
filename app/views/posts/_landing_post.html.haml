@@ -3,7 +3,7 @@
 - if post.file_sources.only_image.empty? and post.link_source.blank? and !post.link_source.try(:has_image?)
   - return
 
-.post-card.post-card-recent.cursor-pointer{ class: dom_id(post), 'data-action': "parti-link", 'data-url': smart_post_path_or_url(post) }
+.post-card.post-card-recent.cursor-pointer.js-link{ class: dom_id(post), 'data-link-url': smart_post_path_or_url(post) }
   .post-card__post
     - post = post
     - issue = post.issue

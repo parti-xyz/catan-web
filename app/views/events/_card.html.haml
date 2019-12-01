@@ -39,7 +39,7 @@
             = link_to to_be_decided_url, method: :patch, remote: true, 'data-disable-with': '처리 중...' do
               미정
 
-.post-reference-line.event-block{ class: "#{event_dom_class(post)} #{'cursor-default' unless editable}", data: { 'action': ("parti-link" if editable), 'url': edit_event_path(event), type: 'remote' } }
+.post-reference-line.event-block{ class: "#{event_dom_class(post)} #{'cursor-default' unless editable} #{'js-link' if editable}", data: { 'link-url': edit_event_path(event), 'link-type': 'remote' } }
   .caption
     - if event.start_at.present?
       .caption-month #{event.start_at.month}월
