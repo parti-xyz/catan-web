@@ -29,7 +29,7 @@
       %li
         = render 'posts/pin_buttons', post: post
     - if post.pinned?
-      - if post.pinned? and can?(:beholders, post)
+      - if can?(:beholders, post)
         %li
           = link_to [:beholders, post], target: '_blank' do
             확인한 멤버 보기 (#{post.beholders_count})
