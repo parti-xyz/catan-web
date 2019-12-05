@@ -76,10 +76,10 @@
             - unless @issue.member_requested?(current_user)
               #no-data.text-center.alert.collapse
                 %i.fa.fa-info-circle
-                  - if params[:nav_q].blank?
-                    게시글이 없습니다.
-                  - else
-                    검색 결과가 없습니다.
+                - if params[:nav_q].blank?
+                  게시글이 없습니다.
+                - else
+                  검색 결과가 없습니다.
 
           - unless @issue.member_requested?(current_user)
             .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, nav_q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue)}
