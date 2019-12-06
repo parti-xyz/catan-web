@@ -718,3 +718,63 @@ strong.upvoted {
     }
   }
 }
+
+
+.post-card.post-card-line.post-card-splited-line .post-card__post {
+  display: flex;
+  .lead-icon {
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+  }
+  .lead-icon .thumb.user-image.img-circle {
+    height: 100%;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .lead-icon {
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+    text-align: center;
+    position: relative;
+    > i {
+      font-size: 36px;
+      color: #777;
+    }
+    .sub-icon {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      font-size: 10px;
+      text-shadow: 1px 1px #777;
+      > .fa.fa-circle {
+        color: #777;
+        &.active {
+          color: #966fd6;
+        }
+      }
+      &.before {
+        left: 1em;
+      }
+    }
+  }
+  .desc {
+    flex: 1;
+    .issue-meta .thumb.user-image.img-circle {
+        display: none;
+    }
+  }
+  .comments-count {
+    width: 45px;
+    min-width: 45px;
+    margin-left: 10px;
+    /* font-weight: bold; */
+    color: #777;
+  }
+
+
+}

@@ -2,9 +2,7 @@
   %strong
     - if comment.mentioned?(message.user)
       %span
-        - if local_assigns[:mention_only_page]
-          #{message.sender.nickname}
-        - else
+        - unless local_assigns[:mention_only_page]
           #{message.sender.nickname}님이 댓글에서 나를 멘션했습니다
     - elsif comment.post.user == message.user
       %strong

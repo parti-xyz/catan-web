@@ -23,9 +23,7 @@
 - else
   %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_post_url(post, format: :js, assigns: to_json_primitive_only(show_issue: true, show_group: true), dom_id: splited_post_dom_id), 'link-type': 'remote', 'link-parti-remote-loading': "##{splited_post_dom_id}" } }
     %strong
-      - if local_assigns[:mention_only_page]
-        %span #{post.user.nickname}
-      - else
+      - unless local_assigns[:mention_only_page]
         %span
           #{post.user.nickname}님이 게시글에서
         %span

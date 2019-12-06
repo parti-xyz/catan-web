@@ -14,7 +14,7 @@
       background-color: $base-brand-primary-opt4;
     }
   }
-  &__link {
+  .message__link {
     display: inline-block;
     float: left;
     .profile {
@@ -29,7 +29,10 @@
       font-weight: bold;
     }
   }
-  &__parti {
+  .message__mentioner {
+    display: inline;
+  }
+  .message__parti {
     color: $gray;
     display: inline;
     a {
@@ -39,12 +42,12 @@
       }
     }
   }
-  &__date.date-wrapper {
+  .message__date.date-wrapper {
     color: $gray;
     font-size: $font-size-base;
     display: inline-block;
   }
-  &__body {
+  .message__body {
     white-space: normal;
     word-break: break-all;
     .post-reference-line {

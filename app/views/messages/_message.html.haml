@@ -4,7 +4,13 @@
       .thumb.circle-20.img-circle{style: "background-image: url(#{message.sender.image.sm.url}); margin-top: 2px;"}
     .media-body
       .message__header
+        - if local_assigns[:mention_only_page]
+          .message__mentioner
+            %strong
+              #{message.sender.nickname}
         .message__parti
+          - if local_assigns[:mention_only_page]
+            &middot;
           - if message.issue.present?
             = link_to smart_issue_home_url(message.issue) do
               = issue_tag(message.issue)

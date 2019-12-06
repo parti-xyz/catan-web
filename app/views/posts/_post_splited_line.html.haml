@@ -1,7 +1,39 @@
 - card_attr = { 'data-link-url': smart_post_url(post, assigns: to_json_primitive_only(show_issue: local_assigns[:show_issue], show_group: local_assigns[:show_group], mode: 'list', full_post_body: 'true'), dom_id: splited_post_dom_id  , format: 'js'), 'data-link-type': 'remote', 'data-link-parti-remote-loading': "##{splited_post_dom_id}", 'data-post-link-selector-active-class': 'selected' }
 
-.post-card.post-card-line.js-post-link-selector.js-link{ card_attr }
+.post-card.post-card-line.post-card-splited-line.js-post-link-selector.js-link{ card_attr }
   .post-card__post.clearfix.cursor-pointer
+    .lead-icon
+      - if post.wiki.present?
+        %i.fa.fa-file-word-o
+      - else
+        = link_to smart_user_gallery_url(post.user) do
+          .thumb.user-image.img-circle{ style: "background-image: url(#{post.user.image.sm.url})" }
+        - if post.poll.present?
+          - sub_icon_class = "fa-fire"
+          - sub_icon_active = post.poll.open?
+        - elsif post.survey.present?
+          - sub_icon_class = 'fa-list-ul'
+          - sub_icon_active = post.survey.open?
+        - elsif post.event.present?
+          - sub_icon_class = 'fa-calendar'
+          - sub_icon_active = true
+        - elsif post.decision.present?
+          - sub_icon_class = 'fa-rocket'
+          - sub_icon_active = true
+
+        - if sub_icon_class.present?
+          - if post.decision.present? and sub_icon_class != 'fa-rocket'
+            .sub-icon.fa-stack.before
+              %i.fa.fa-circle.fa-stack-2x{ class: ('active' if sub_icon_active) }
+              %i.fa.fa-stack-1x.fa-inverse{ class: sub_icon_class }
+            .sub-icon.fa-stack.after
+              %i.fa.fa-circle.fa-stack-2x.active
+              %i.fa.fa-stack-1x.fa-inverse.fa-rocket
+          - else
+            .sub-icon.fa-stack
+              %i.fa.fa-circle.fa-stack-2x{ class: ('active' if sub_icon_active) }
+              %i.fa.fa-stack-1x.fa-inverse{ class: sub_icon_class }
+
     .desc
       .body<>
         - if post.poll.present?
@@ -10,6 +42,19 @@
           = post.specific_desc_striped_tags(120)
 
       .issue-meta.issue-meta-footer
+        - if post.wiki.present?
+          - wiki_authors = post.wiki.authors
+          = wiki_authors[0..2].map(&:nickname).join('<span>&middot;</span>').html_safe
+          - if wiki_authors.length > 3
+            %span<>
+              +#{wiki_authors.length - 3}
+          &nbsp;&nbsp;
+        - else
+          = link_to smart_user_gallery_url(post.user) do
+            .thumb.user-image.img-circle{ style: "background-image: url(#{post.user.image.sm.url})" }
+            = post.user.nickname
+          &nbsp;&nbsp;
+
         - if local_assigns[:show_issue]
           - if !post.issue.host_group?(current_group) or local_assigns[:show_group]
             = link_to smart_group_url(post.issue.group), class: 'header-separator-item' do
@@ -21,51 +66,14 @@
             %span.issue-title
               = post.issue.title
               = meta_icons(post.issue)
-          &nbsp;
-        - if post.wiki.present?
-          - wiki_authors = post.wiki.authors
-          - wiki_authors_dom = wiki_authors[0..2].map do |user|
-            - capture do
-              = link_to smart_user_gallery_url(user) do
-                .thumb.user-image.img-circle{ style: "background-image: url(#{user.image.sm.url})" }
-                = user.nickname
-          = wiki_authors_dom.join('<span style="color: white;">&middot;</span>').html_safe
-          - if wiki_authors.length > 3
-            %span<>
-              %span{ style: 'color: white' } &middot;
-              +#{wiki_authors.length - 3}
-          &nbsp;
-        - else
-          = link_to smart_user_gallery_url(post.user) do
-            .thumb.user-image.img-circle{ style: "background-image: url(#{post.user.image.sm.url})" }
-            = post.user.nickname
-          &nbsp;
+          &nbsp;&nbsp;
+
         - created_at = local_assigns[:post].try(:created_at)
         %span.date= created_at.nil? ? '지금' : date_f(created_at)
 
-        - if post.comments_count > 0
-          &nbsp;
-          %i.fa.fa-comment-o
-          #{post.comments_count}
 
-        - if post.poll.present?
-          &nbsp;
-          %i.fa.fa-fire
-          찬반투표
-        - if post.survey.present?
-          &nbsp;
-          %i.fa.fa-list-ul
-          설문
-        - if post.wiki.present?
-          &nbsp;
-          %i.fa.fa-file-word-o
-          위키
-        - if post.event.present?
-          &nbsp;
-          %i.fa.fa-calendar
-          일정
-        - if post.decision.present?
-          &nbsp;
-          %i.fa.fa-rocket
-          토론 정리
+    .comments-count
+      - if post.comments_count > 0
+        %i.fa.fa-comment-o
+        #{post.comments_count}
 
