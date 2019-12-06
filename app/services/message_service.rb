@@ -194,10 +194,16 @@ class MessageService
   private
 
   def send_messages(sender:, users:, messagable:, action: nil, action_params: nil)
-    users.each do |user|
-      row = { messagable: messagable, sender: sender, user: user, action: action, action_params: action_params.try(:to_json) }
-      message = Message.create(row)
-      FcmJob.perform_async(message.id) if message.fcm_pushable?
+    if users.respond_to?(:find_in_batches)
+      users.find_in_batches(batch_size: 50).each do |users|
+        send_messages(sender: sender, users: users, messagable: messagable, action: action, action_params: action_params)
+      end
+    else
+      users.each do |user|
+        row = { messagable: messagable, sender: sender, user: user, action: action, action_params: action_params.try(:to_json) }
+        message = Message.create(row)
+        FcmJob.perform_async(message.id) if message.fcm_pushable?
+      end
     end
   end
 end
