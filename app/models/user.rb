@@ -383,7 +383,7 @@ class User < ApplicationRecord
 
   def issue_push_notification_preference_value(issue)
     issue_push_notification_preference = issue_push_notification_preferences.find_by(issue: issue)
-    (issue_push_notification_preference.try(:value) || 'highlight').to_s
+    (issue_push_notification_preference.try(:value) || 'detail').to_s
   end
 
 
