@@ -3,7 +3,7 @@
   var $wiki_card = $("<%= j(render 'wikis/card', post: @post, mode: 'edit-detail', remote_post_form: true) %>");
   $('#<%= params[:wiki_card_dom_id] %>').replaceWith($wiki_card);
   parti_partial$($wiki_card);
-  $.scrollTo($wiki_card, 100, { offset: -100});
+  $.smartScrollTo($wiki_card, 100, { offset: -100});
 <% else %>
   if($('#<%= params[:wiki_card_dom_id] %> .js-wiki-conflict').length > 0) {
     var $wiki_card = $("<%= j(render 'wikis/card', post: @post, mode: 'edit-detail', remote_post_form: true) %>");

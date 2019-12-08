@@ -137,6 +137,23 @@ $.isValidSelector = function(selector) {
   return true;
 }
 
+$.smartScrollTo = function ($target, duration, settings) {
+  if (typeof duration === 'object') {
+    settings = duration;
+    duration = 0;
+  }
+  if (typeof settings === 'function') {
+    settings = { onAfter: settings };
+  }
+
+  $smart_scrolls = $target.parents('.js-smart-scroll');
+  if ($smart_scrolls.length) {
+    $smart_scrolls.first().scrollTo($target, duration, settings);
+  } else {
+    $.scrollTo($target, duration, settings);
+  }
+}
+
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 5000;
 

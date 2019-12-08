@@ -344,7 +344,7 @@ module ApplicationHelper
 
   def main_column_tag_window_splitable(*additional_classes, &block)
     if window_splitable?
-      content_tag :div, id: splited_left_dom_id, class: ((%w(col-xs-8 col-sm-6 col-md-5 js-content-split-left) << additional_classes).flatten.compact.uniq) do
+      content_tag :div, id: splited_left_dom_id, class: ((%w(col-xs-8 col-sm-6 col-md-5 js-content-split-left js-smart-scroll) << additional_classes).flatten.compact.uniq) do
         if block_given?
           yield
         end
@@ -356,7 +356,7 @@ module ApplicationHelper
 
   def aside_column_tag_window_splitable(*additional_classes)
     return unless window_splitable?
-    content_tag :div, id: splited_right_dom_id, class: ((%w(col-xs-4 col-sm-6 col-md-7 js-content-split-right js-stickytoolbar-scroll-container) << additional_classes).flatten.compact.uniq) do
+    content_tag :div, id: splited_right_dom_id, class: ((%w(col-xs-4 col-sm-6 col-md-7 js-content-split-right js-stickytoolbar-scroll-container js-smart-scroll) << additional_classes).flatten.compact.uniq) do
       if block_given?
         yield
       end
