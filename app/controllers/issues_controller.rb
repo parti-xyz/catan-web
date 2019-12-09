@@ -24,27 +24,33 @@ class IssuesController < ApplicationController
         render 'issues/group_home_private_blocked' and return
       end
 
-      @issues = hot_group_issues(current_group)
+      @issues = home_group_issues(current_group)
       @hot_issues = @issues.first(10)
-      @posts_pinned = current_group.pinned_posts(current_user)
 
-      @discussions_all = Post.having_poll.or(Post.having_survey).or(Post.where.not(decision: nil))
-      @discussions_all = @discussions_all.not_private_blocked_of_group(current_group, current_user)
-      @discussions_all = @discussions_all.order_by_stroked_at
-      discussions_fresh = @discussions_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
+      cached_discussions = Rails.cache.fetch("#{current_group.cache_key_with_version}/discussion_post_ids", expires_in: 1.hours) do
+        discussions_all = Post.of_group(current_group).having_poll.or(Post.having_survey).or(Post.where.not(decision: nil))
+        discussions_all = discussions_all.order_by_stroked_at
+        discussions_fresh = discussions_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
 
-      if discussions_fresh.any? and discussions_fresh.count < 3
-        @discussions = @discussions_all.limit(3)
-      else
-        @discussions = discussions_fresh
+        cached_discussions = if discussions_fresh.any? and discussions_fresh.count < 3
+          discussions_all.limit(30)
+        else
+          discussions_fresh
+        end
+        cached_discussions.select(:id).to_a
       end
 
-      how_to = params[:sort] == 'order_by_stroked_at' ? :order_by_stroked_at : :hottest
-      recent_posts_base = Post.unblinded(current_user).not_private_blocked_of_group(current_group, current_user)
-      @recent_posts = recent_posts_base.send(how_to).limit(30)
+      @discussions = Post.unblinded(current_user).where(id: cached_discussions)
+      @discussions = @discussions.not_private_blocked_of_group(current_group, current_user)
 
-      @recent_posts = @recent_posts.page(params[:page])
-      @previous_last_post =  recent_posts_base.next_of_last_stroked_at(@recent_posts.first).order_by_stroked_at.last if @recent_posts.current_page != 1
+      how_to = params[:sort] == 'order_by_stroked_at' ? :order_by_stroked_at : :hottest
+
+      cached_posts = Rails.cache.fetch("#{current_group.cache_key_with_version}/all_post_ids/#{how_to}", expires_in: 1.hours) do
+        Post.of_group(current_group).send(how_to).limit(50).select(:id).to_a
+      end
+
+      @recent_posts = Post.unblinded(current_user).where(id: cached_posts)
+      @recent_posts = @recent_posts.not_private_blocked_of_group(current_group, current_user)
       render 'issues/group_home'
     end
   end
@@ -479,7 +485,7 @@ class IssuesController < ApplicationController
     issues
   end
 
-  def hot_group_issues(group)
+  def home_group_issues(group)
     issues = Issue.displayable_in_current_group(group)
     issues = issues.alive
     issues = issues.to_a.reject { |issue| private_blocked?(issue) and !issue.listable_even_private? }

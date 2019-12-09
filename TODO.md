@@ -13,3 +13,4 @@
 * latest_stroked_posts_count, latest_stroked_posts_count_version 삭제
 * push_notification_disabled_at, push_notification_enabled_at 삭제
 * 그룹홈 : last_stroked_at 기준으로
+* Issue / comments_count 주기적으로 업데이트하기

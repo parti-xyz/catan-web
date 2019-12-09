@@ -1,5 +1,6 @@
 - hottest_sort = (params['sort'] == 'hottest' or params['sort'].nil?)
 - order_by_stroked_at_sort = (params['sort'] == 'order_by_stroked_at')
+
 - if recent_posts.try(:any?)
   - recent_posts_partial = capture do
     = render 'posts/page_card', posts: recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: order_by_stroked_at_sort, previous_last_post: @previous_last_post, show_decision: false
@@ -8,7 +9,7 @@
   %a.anchor#js-group-all-posts
   %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
     %h4.group-heading
-      #{local_assigns[:title] || "모든 게시글"}
+      #{local_assigns[:title] || "최근 게시글"}
 
     .contents-header
       .posts-filter-select
@@ -23,5 +24,3 @@
       .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
         .grid-sizer.col-sm-4
         != recent_posts_partial
-
-  = paginate recent_posts, theme: 'catan'

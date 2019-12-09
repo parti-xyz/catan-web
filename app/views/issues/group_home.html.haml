@@ -33,22 +33,18 @@
       .container= home_components_content
     - else
       .container
-        - if (@recent_posts.try(:current_page) || 0) <= 1
-          = render 'issues/group_home_updated_issues'
-
-          - if @discussions.any?
-            %section{ style:"margin-top:20px;" }
-              = link_to polls_or_surveys_path do
-                %h4.group-heading
-                  진행 중인 토론
-                  - if @discussions_all.count != @discussions.count
-                    %small.text-nowrap
-                      모든 #{number_with_delimiter @discussions_all.count}개 토론 보기
-                      %i.fa.fa-angle-double-right
-              .discussions-all-list.clearfix
-                .row.slick-slider.slick-slider-catan.slick-slider-recent-polls-and-surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
-                  = render 'posts/page_card', posts: @discussions, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
-
+        - if @discussions.any?
+          %section{ style:"margin-top:20px;" }
+            = link_to polls_or_surveys_path do
+              %h4.group-heading
+                진행 중인 토론
+                %small.text-nowrap
+                  모든 토론 보기
+                  %i.fa.fa-angle-double-right
+            .discussions-all-list.clearfix
+              .row.slick-slider.slick-slider-catan.slick-slider-recent-polls-and-surveys{ data: { 'slick-slider-lg': 3, 'slick-slider-md': 3, 'slick-slider-xs': 1, 'auto-height': 'true' } }
+                = render 'posts/page_card', posts: @discussions, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true
+        = render 'issues/group_home_updated_issues'
         = render 'issues/group_home_all_posts', recent_posts: @recent_posts
 - else
   %section#home

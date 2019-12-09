@@ -1,39 +1,40 @@
 - unless issue.private_blocked?(current_user)
-  - recent_posts_base = issue.posts.unblinded(current_user)
-  - order_by_stroked_at_posts = recent_posts_base.order_by_stroked_at.limit(30)
-  - hottest_posts = recent_posts_base.hottest.limit(30)
+  - cache "#{issue.cache_key_with_version}/group_home_all_posts/#{(params[:page].presence || 1)}", expires_in: 10.minutes do
+    - recent_posts_base = issue.posts.unblinded(current_user)
+    - order_by_stroked_at_posts = recent_posts_base.order_by_stroked_at.limit(30)
+    - hottest_posts = recent_posts_base.hottest.limit(30)
 
-  - if hottest_posts.try(:any?) or order_by_stroked_at_posts.try(:any?)
+    - if hottest_posts.try(:any?) or order_by_stroked_at_posts.try(:any?)
 
-    - hottest_tab_id = "tab-hottest-#{SecureRandom.uuid}"
-    - order_by_stroked_at_tab_id = "tag-order-by-stroked-at-#{SecureRandom.uuid}"
+      - hottest_tab_id = "tab-hottest-#{SecureRandom.uuid}"
+      - order_by_stroked_at_tab_id = "tag-order-by-stroked-at-#{SecureRandom.uuid}"
 
-    %a.anchor#js-group-all-posts
-    %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
-      = link_to smart_issue_home_url(issue) do
-        %h4.group-heading
-          #{local_assigns[:title] || "#{issue.title} 채널 게시글"}
-          %small.text-nowrap
-            채널로 이동하기
-            %i.fa.fa-angle-double-right
+      %a.anchor#js-group-all-posts
+      %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
+        = link_to smart_issue_home_url(issue) do
+          %h4.group-heading
+            #{local_assigns[:title] || "#{issue.title} 채널 게시글"}
+            %small.text-nowrap
+              채널로 이동하기
+              %i.fa.fa-angle-double-right
 
-      .contents-header
-        .posts-filter-select
-          .content-tab-section
-            %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
-              %li{ class: "js-tab-masonry #{(hottest_posts.try(:any?) ? 'active' : 'hidden')}" }
-                = link_to '인기순', "##{hottest_tab_id}", 'data-toggle': :tab
-              %li{ class: "js-tab-masonry #{(hottest_posts.try(:any?) ? nil : 'active')}" }
-                = link_to '최신순', "##{order_by_stroked_at_tab_id}", 'data-toggle': :tab
+        .contents-header
+          .posts-filter-select
+            .content-tab-section
+              %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
+                %li{ class: "js-tab-masonry #{(hottest_posts.try(:any?) ? 'active' : 'hidden')}" }
+                  = link_to '인기순', "##{hottest_tab_id}", 'data-toggle': :tab
+                %li{ class: "js-tab-masonry #{(hottest_posts.try(:any?) ? nil : 'active')}" }
+                  = link_to '최신순', "##{order_by_stroked_at_tab_id}", 'data-toggle': :tab
 
-      .tab-content
-        - if hottest_posts.try(:any?)
-          .posts-container.tab-pane{ id: hottest_tab_id, class: (hottest_posts.try(:any?) ? 'active' : 'hidden') }
+        .tab-content
+          - if hottest_posts.try(:any?)
+            .posts-container.tab-pane{ id: hottest_tab_id, class: (hottest_posts.try(:any?) ? 'active' : 'hidden') }
+              .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
+                .grid-sizer.col-sm-4
+                = render 'posts/page_card', posts: hottest_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: false, show_decision: false
+
+          .posts-container.tab-pane{ id: order_by_stroked_at_tab_id, class: "#{('posts-container-timeline' if !is_small_screen?)} #{(hottest_posts.try(:any?) ? nil : 'active')}" }
             .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
               .grid-sizer.col-sm-4
-              = render 'posts/page_card', posts: hottest_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: false, show_decision: false
-
-        .posts-container.tab-pane{ id: order_by_stroked_at_tab_id, class: "#{('posts-container-timeline' if !is_small_screen?)} #{(hottest_posts.try(:any?) ? nil : 'active')}" }
-          .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
-            .grid-sizer.col-sm-4
-            = render 'posts/page_card', posts: order_by_stroked_at_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: true, show_decision: false
+              = render 'posts/page_card', posts: order_by_stroked_at_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: true, show_decision: false
