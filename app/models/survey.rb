@@ -43,17 +43,17 @@ class Survey < ApplicationRecord
     post.issue.group
   end
 
-  def mvp_options
-    @mvp_options if @mvp_options.present?
+  def mvp_options_ids
+    @mvp_options_ids if @mvp_options_ids.present?
 
     mvp_feedbacks_count = options.order(feedbacks_count: :desc).first.try(:feedbacks_count)
-    @mvp_options ||= options.where(feedbacks_count: mvp_feedbacks_count)
-    @mvp_options = Option.none if @mvp_options.count == options.count
-    @mvp_options
+    mvp_options ||= options.where(feedbacks_count: mvp_feedbacks_count)
+    mvp_options = Option.none if mvp_options.count == options.count
+    @mvp_options_ids = mvp_options.select(:id).to_a
   end
 
   def mvp_option?(option)
-    mvp_options.exists?(id: option)
+    mvp_options_ids.include?(option.id)
   end
 
   def feedback_users_count

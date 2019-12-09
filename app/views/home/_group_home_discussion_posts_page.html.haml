@@ -1,0 +1,5 @@
+- if discussion_posts.any?
+  .posts-container
+    .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
+      .grid-sizer.col-sm-4
+      = render 'posts/page_card', posts: discussion_posts, sm_columns_count: 3, compact: false, show_last_stroked_for: true, show_decision: true

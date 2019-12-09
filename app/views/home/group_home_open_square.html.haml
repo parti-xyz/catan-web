@@ -24,7 +24,7 @@
                 %button.btn.btn-group-default
                   %i.fa.fa-search
         .parties-filter-select
-          = render 'issues/index_filter'
+          = render 'home/index_filter'
       - if @issues.any?
         .parties-all-list
           = render 'issues/page', issues: @issues, has_aside: false

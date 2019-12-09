@@ -1,6 +1,6 @@
 - need_to_short_body = false
 
-.reference-card.reference-card--files-sources.default.js-link[post]{ data: { 'link-url': smart_post_path_or_url(post) } }
+.post-card.reference-card.reference-card--files-sources.default.js-link[post]{ data: { 'link-url': smart_post_path_or_url(post) } }
   - if post.file_sources.only_image.any?
     - need_to_short_body = true
     .caption-images<>

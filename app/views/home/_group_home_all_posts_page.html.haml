@@ -1,0 +1,28 @@
+- hottest_sort = (params['sort'] == 'hottest' or params['sort'].nil?)
+- order_by_stroked_at_sort = (params['sort'] == 'order_by_stroked_at')
+
+- if recent_posts.try(:any?)
+  - recent_posts_partial = capture do
+    = render 'posts/page_card', posts: recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: order_by_stroked_at_sort, previous_last_post: @previous_last_post, show_decision: false
+  - recent_posts_partial = recent_posts_partial.strip
+
+  .contents-header
+    .posts-filter-select
+      .content-tab-section
+        %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
+          %li{ class: "#{('active' if hottest_sort)}" }
+            = link_to '인기순', group_home_all_posts_home_path(sort: 'hottest')
+          %li{ class: "#{('active' if order_by_stroked_at_sort)}" }
+            = link_to '최신순', group_home_all_posts_home_path(sort: 'order_by_stroked_at')
+
+  .posts-container{ class: ('posts-container-timeline' if order_by_stroked_at_sort  and !is_small_screen?) }
+    .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
+      .grid-sizer.col-sm-4
+      != recent_posts_partial
+
+- else
+  .contents-header
+    .posts-container
+      %i.fa.fa-info-circle
+      게시글이 없습니다.
+

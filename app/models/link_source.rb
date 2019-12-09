@@ -36,14 +36,11 @@ class LinkSource < ApplicationRecord
   end
 
   def is_video?
-    begin
-      VideoInfo.usable?(self.url) and video.try(:available?)
-    rescue VideoInfo::HttpError => e
-    rescue URI::InvalidURIError => e
-    end
+    VideoInfo.usable?(self.url)
   end
 
   def video
+    return unless self.is_video?
     @video ||= VideoInfo.new(self.url)
   end
 
