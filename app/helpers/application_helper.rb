@@ -326,8 +326,6 @@ module ApplicationHelper
     end
   end
 
-  private
-
   def to_subpath(path)
     return path if path.blank?
     (path[0] == '/' ? path : "/#{path}")
@@ -342,6 +340,27 @@ module ApplicationHelper
   def exists_group_partial?(path)
     return false if current_group.blank?
     lookup_context.exists?("group_views/#{current_group.slug}/#{partial_lookup_path(path)}")
+  end
+
+  def main_column_tag_window_splitable(*additional_classes, &block)
+    if window_splitable?
+      content_tag :div, id: splited_left_dom_id, class: ((%w(col-xs-8 col-sm-6 col-md-5 js-content-split-left js-stickytoolbar-scroll-container js-smart-scroll) << additional_classes).flatten.compact.uniq) do
+        if block_given?
+          yield
+        end
+      end
+    else
+      main_column_tag(additional_classes, &block)
+    end
+  end
+
+  def aside_column_tag_window_splitable(*additional_classes)
+    return unless window_splitable?
+    content_tag :div, id: splited_right_dom_id, class: ((%w(col-xs-4 col-sm-6 col-md-7 js-content-split-right js-stickytoolbar-scroll-container js-smart-scroll) << additional_classes).flatten.compact.uniq) do
+      if block_given?
+        yield
+      end
+    end
   end
 
   def main_column_tag(*additional_classes)
@@ -431,5 +450,9 @@ module ApplicationHelper
   def tagify text
     return if text.blank?
     "##{text.strip.gsub(/( )/, '_').downcase}"
+  end
+
+  def window_splitable?
+    !browser.device.mobile?
   end
 end

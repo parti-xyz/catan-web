@@ -6,52 +6,27 @@
 
 - can_show_unread_mark = issue.present? and issue.member?(current_user) and local_assigns[:show_unread_mark]
 
-/
-  = local_assigns[:previous_last_post_stroked_at_timestamp]
-  local_assigns[:previous_last_post_stroked_at_timestamp]
-  = can_show_unread_mark
-  can_show_unread_mark
-  = first_page
-  first_page
-  = first_post_last_stroked_at_timestamp  > 0
-  first_post_last_stroked_at_timestamp
-
 - if can_show_unread_mark and first_page and first_post_last_stroked_at_timestamp > 0
   .js-post-new-stroked-container-start
-    /
-      = marked_read_at
-      marked_read_at
-      = posts.first&.unread?(current_user)
-      posts.first&.unread?(current_user)
     - if marked_read_at and posts.first&.unread?(current_user)
       = render 'posts/page_new_stroked_mark', mode: 'start', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
 
 - posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
-    /
-      = can_show_unread_mark
-      can_show_unread_mark
-      = marked_read_at
-      marked_read_at
-      = before_post_unread
-      before_post_unread
-      = !post.unread?(current_user)
-      !post.unread?(current_user)
-      = first_post_last_stroked_at_timestamp > 0
-      first_post_last_stroked_at_timestamp > 0
     - if can_show_unread_mark
       - if marked_read_at and before_post_unread and !post.unread?(current_user) and first_post_last_stroked_at_timestamp > 0
         .js-post-new-stroked-container-end
           = render 'posts/page_new_stroked_mark', mode: 'end', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
     .post-card__content.js-post-new-stroked-target{ class: "js-post-new-stroked-target-#{post.id}" }
       - post_card_dom_id = "post-card-#{SecureRandom.uuid}"
-      .post-card.js-lazy-partal-load{ id: post_card_dom_id, data: { url: post_url(post, subdomain: current_group.try(:subdomain), dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), format: :js) } }
+      .post-card.js-lazy-partal-load{ id: post_card_dom_id, class: ('post-card-line' if local_assigns[:splited_line]), data: { url: post_url(post, subdomain: post.issue.group_subdomain, dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), splited_line: local_assigns[:splited_line], format: :js) } }
         .skeletons
-          .skeleton-user
-            .skeleton-user-icon
-            .skeleton-user-meta
-              .skeleton-user-nickname
-              .skeleton-post-date
+          - unless local_assigns[:splited_line]
+            .skeleton-user
+              .skeleton-user-icon
+              .skeleton-user-meta
+                .skeleton-user-nickname
+                .skeleton-post-date
           %ul.list-unstyled
             - 4.times do
               %li.skeleton-item{ style: "width: #{[70, 100, 80].sample}%;" }

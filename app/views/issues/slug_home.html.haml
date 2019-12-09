@@ -1,9 +1,9 @@
 = render 'issues/issue_header', active_tab: :home, full: !user_signed_in? or !@issue.member?(current_user)
 
-%section.contents-page#posts
-  .container
+%section.contents-page#posts{ class: ('js-content-split-container' if window_splitable?) }
+  .container-fluid
     .row
-      = main_column_tag do
+      = main_column_tag_window_splitable do
         - if !@issue.frozen?
           - if user_signed_in?
             - if @issue.member?(current_user)
@@ -42,7 +42,7 @@
           - else
             .post-editor.post-editor-intro{data: { toggle: 'parti-login-overlay' }}
               .text-muted
-                지금 이야기를 시작해 보세요.
+                글쓰기
                 %i.fa.fa-sign-in
         - else
           .post-editor.post-editor-intro
@@ -52,6 +52,7 @@
         .js-invisible-on-mobile-editing
           - if params[:nav_q].blank?
             = render 'posts/new_posts_count', new_posts_count_url: new_issue_posts_count_url(issue_id: @issue.id, last_time: DateTime.now.to_i)
+
 
           .posts{data: {'previous-post-last-stroked-at-timestamp': '', 'first-post-last-stroked-at-timestamp': '', is_last: 'false'}}
             - if params[:nav_q].present?
@@ -82,7 +83,14 @@
                   검색 결과가 없습니다.
 
           - unless @issue.member_requested?(current_user)
-            .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, nav_q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue)}
+            .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, nav_q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue), 'data-waypoint-context': "##{splited_left_dom_id}" }
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
-      = render 'issues/aside', issue: @issue
+
+      = aside_column_tag_window_splitable do
+        %div{ id: splited_post_dom_id, 'data-post-inplace-mode': 'content-only' }
+          .text-muted.text-center{ style: 'margin-top: 1em;' }
+            게시글을 선택하세요.
+            %br
+            %i.fa.fa-reply.fa-2x.fa-flip-vertical
+

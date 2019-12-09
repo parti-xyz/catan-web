@@ -1,6 +1,6 @@
 - if post.issue.blank?
   - return
-.post-card{class: "#{dom_id(post)} #{'post-card--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}"}
+.post-card{id: local_assigns[:dom_id], class: "#{dom_id(post)} #{'post-card--hidden-issue' unless local_assigns[:show_issue]} #{removable_with_post_dom_class(post) if local_assigns[:mode] == 'list'}"}
   .post-card__content
     - show_post_card_header = (local_assigns[:show_issue] or post.folder.present?)
     .post-card__header{ class: ("#{'collapse' unless show_post_card_header} #{post_folder_wrapper_dom_class(post) unless local_assigns[:show_issue]}") }
@@ -10,7 +10,7 @@
             = link_to smart_issue_home_path_or_url(post.issue) do
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
           .media-body
-            - unless post.issue.host_group?(current_group)
+            - if !post.issue.host_group?(current_group) or local_assigns[:show_group]
               = link_to smart_group_url(post.issue.group), class: 'header-separator-item' do
                 %span.issue-group
                   = post.issue.group.title_basic_format
@@ -55,7 +55,7 @@
           .post-info
             = render 'users/post_byline', post: post
 
-        = render 'posts/post_line', local_assigns
+        = render 'posts/post/content', local_assigns
 
       - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || "빠띠"}" }
       - share_partial = capture do

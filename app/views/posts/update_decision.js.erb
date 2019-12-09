@@ -3,7 +3,7 @@
   var $decision_card = $("<%= j(render 'posts/decision', post: @post, mode: 'form') %>");
   $('<%= post_decision_dom_selector(@post) %>').replaceWith($decision_card);
   parti_partial$($decision_card);
-  $.scrollTo($decision_card, 100, { offset: -100});
+  $.smartScrollTo($decision_card, 100, { offset: -100});
 <% else %>
   if($('<%= post_decision_dom_selector(@post) %> .js-decision-conflict').length > 0) {
     var $decision_card = $("<%= j(render 'posts/decision', post: @post, mode: 'form') %>");

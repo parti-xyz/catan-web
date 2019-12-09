@@ -137,6 +137,23 @@ $.isValidSelector = function(selector) {
   return true;
 }
 
+$.smartScrollTo = function ($target, duration, settings) {
+  if (typeof duration === 'object') {
+    settings = duration;
+    duration = 0;
+  }
+  if (typeof settings === 'function') {
+    settings = { onAfter: settings };
+  }
+
+  $smart_scrolls = $target.parents('.js-smart-scroll');
+  if ($smart_scrolls.length) {
+    $smart_scrolls.first().scrollTo($target, duration, settings);
+  } else {
+    $.scrollTo($target, duration, settings);
+  }
+}
+
 // unobtrusive_flash
 UnobtrusiveFlash.flashOptions['timeout'] = 5000;
 
@@ -705,30 +722,68 @@ $(function(){
       }
 
       e.preventDefault();
-      var url = $(e.currentTarget).data("url");
-      if(!url) {
-        var $url_source = $($(e.currentTarget).data("url-source"));
-        if($url_source.length > 0) {
-          url = $url_source.data("url");
-        }
+      var $source = $(e.currentTarget);
+      var $real_source = $($source.data("link-source"));
+
+      var url = $source.data("link-url");
+      var real_url = $real_source.data("link-url");
+      if(real_url) {
+        url = real_url;
       }
 
       if(!url) {
         return;
       }
 
-      var type = $(e.currentTarget).data("type");
+      var type = $source.data("link-type");
+      var real_type = $real_source.data("link-type");
+      if(real_type) {
+        type = real_type;
+      }
       if("remote" == type) {
+        var $loading_icon = $('<p class="text-muted text-center" style="margin-top: 1em"><i class="fa fa-spinner fa-spin fa-2x fa-fw"></i> <span class="sr-only">로딩 중</span></p>');
+
+        loading_continer = $source.data("link-parti-remote-loading");
+        var real_loading_continer = $real_source.data("link-parti-remote-loading");
+        if(real_loading_continer) {
+          loading_continer = real_loading_continer;
+        }
+        var $loading_continer = $(loading_continer);
+        var $visible_loading_continer_children = null;
+        if($loading_continer.length > 0) {
+          $visible_loading_continer_children = $loading_continer.children(':visible');
+          $visible_loading_continer_children.hide();
+
+          $loading_continer.append($loading_icon);
+        }
         $.ajax({
           url: url,
-          type: "get"
+          type: "get",
+          crossDomain: false,
+          xhrFields: {
+            withCredentials: true
+          },
+          complete: function() {
+            $loading_icon.detach();
+            if($visible_loading_continer_children) {
+              $visible_loading_continer_children.show();
+            }
+          }
         });
-      } else if($.is_present($(this).data('link-target'))) {
-        window.open(url, $(this).data('link-target'));
-      } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
-        window.open(url, '_blank');
       } else {
-        window.location.href  = url;
+        var window_target = $source.data("link-window-target");
+        var real_window_target = $real_source.data("link-window-target");
+        if(real_window_target) {
+          window_target = real_window_target;
+        }
+
+        if(window_target) {
+          window.open(url, window_target);
+        } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
+          window.open(url, '_blank');
+        } else {
+          window.location.href  = url;
+        }
       }
     }
 
@@ -738,7 +793,7 @@ $(function(){
       default_callback(e);
     });
 
-    $(document).on('click', '[data-action="parti-link"]', default_callback);
+    $(document).on('click', '.js-link', default_callback);
   })();
 
   $(document).on('click', 'a.js-download', function(e) {
@@ -765,8 +820,8 @@ $(function(){
     if(ufo.isApp()) {
       // 하위 호환을 위해 post_id를 남겨둡니다.
       ufo.post("download", { post: post_id, file: file_source_id, name: file_name });
-    } else if($.is_present($(this).data('link-target'))) {
-      window.open(url, $(this).data('link-target'));
+    } else if($.is_present($(this).data('window-target'))) {
+      window.open(url, $(this).data('window-target'));
     } else if (e.shiftKey || e.ctrlKey || e.metaKey) {
       window.open(url, '_blank');
     } else {
@@ -921,23 +976,6 @@ $(function(){
       }
     }
   });
-
-  // 내 홈 탭
-  (function() {
-    if($('.js-my-home-tab-sticky').length > 0){
-      var sticky = new Waypoint.Sticky({
-        element: $('.js-my-home-tab-sticky')[0],
-        offset: function() {
-          $offset = $('.js-my-home-tab-sticky-offset');
-          if ($offset.length <= 0) {
-            return 0;
-          }
-
-          return -1 * $offset.position().top;
-        }
-      })
-    }
-  })();
 
   (function() {
     if(window.matchMedia("screen and (max-width: 768px)").matches) {

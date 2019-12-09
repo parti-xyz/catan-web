@@ -1,7 +1,7 @@
 = render 'issues/issue_header', active_tab: :links_or_files
 
 %section#references
-  .container
+  .container-fluid
     - if @posts.empty?
       .bg-default.text-center
         %i.fa.fa-info-circle

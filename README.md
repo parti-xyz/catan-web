@@ -290,3 +290,7 @@ export MOBILE_APP_DOORKEEPER_APPLICATION_UID_catan_spark_android=키값
 ```
 $ rails tmp:cache:clear
 ```
+
+# TODO
+
+* 대시보드에서 최초 다른 빠띠에 가입하기

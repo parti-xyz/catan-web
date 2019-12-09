@@ -1,10 +1,7 @@
-%div{id: "#{dom_id(message)}-url-source", data: { url: smart_issue_home_url(invitation.issue) } }
+%div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_issue_home_url(invitation.issue) } }
   %span
     #{invitation.user.nickname}님이
-    %strong= link_to invitation.issue.title, smart_issue_home_url(invitation.issue)
-    채널에 초대했습니다.
-    \:
-  %span
-    = link_to smart_issue_home_url(invitation.issue) do
-      바로가기
-      %i.fa.fa-arrow-right
+    %strong
+      #{invitation.issue.title}
+      채널에 초대했습니다.
+    = render 'messages/go'

@@ -1,5 +1,5 @@
 var $partial = $('<%= j(render 'posts/decision', post: @post, mode: params[:mode]) %>');
 $('<%= post_decision_dom_selector(@post) %>').replaceWith($partial);
 parti_partial$($partial, true);
-  $.scrollTo($partial, 100, { offset: -100});
+  $.smartScrollTo($partial, 100, { offset: -100});
 

@@ -1,10 +1,11 @@
-%section.contents-page#posts
-  .container
+= render 'dashboard/header', active_tab: :bookmarks
+
+%section.contents-page#posts{ class: ('js-content-split-container' if window_splitable?) }
+  .container-fluid
     .row
-      = main_column_tag do
-        = render 'application/my_home_tab'
+      = main_column_tag_window_splitable do
         - if @tag_names.any?
-          .post-data-divider.search-bookmark-tags
+          .post-data-divider.no-margin-top.search-bookmark-tags
             .bookmark-tags
               %select.js-bookmark-tag-searcher.form-control{ multiple: true, class: "#{'collapse' if @search_tag_names.blank?}", 'data-multiple-separator': ' ', 'data-none-selected-text': '태그 검색', 'data-url': bookmarks_url(subdomain: nil, format: :js)  }
                 - @tag_names.each do |tag_name|
@@ -19,4 +20,9 @@
         .js-bookmark-posts-loading.collapse.text-center
           %i.fa.fa-2x.fa-spinner.fa-pulse
 
-      = render 'application/aside'
+      = aside_column_tag_window_splitable do
+        %div{ id: splited_post_dom_id, 'data-post-inplace-mode': 'content-only' }
+          .text-muted.text-center{ style: 'margin-top: 1em;' }
+            게시글을 선택하세요.
+            %br
+            %i.fa.fa-reply.fa-2x.fa-flip-vertical

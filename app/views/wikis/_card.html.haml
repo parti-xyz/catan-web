@@ -45,7 +45,7 @@
                 편집
     - else
       = wiki_title
-      .wiki-line-body.cursor-pointer{ 'data-action': 'parti-link', 'data-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-type': 'remote' }
+      .wiki-line-body.cursor-pointer.js-link{ 'data-link-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-link-type': 'remote' }
         .wiki-body.wiki-preview
           .shadow
           .mce-content-body

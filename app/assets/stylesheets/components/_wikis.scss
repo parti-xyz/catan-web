@@ -1,5 +1,8 @@
 section#wikis-page {
   padding-top: 30px;
+  @media (max-width: $screen-xs-max) {
+    padding-top: 14px;
+  }
   padding-bottom: 30px;
 
   .body {

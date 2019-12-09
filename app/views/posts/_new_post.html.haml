@@ -3,4 +3,9 @@
     .post-data-divider.js-post-data-divider.js-new-post-data-divider
       지금 업로드된 게시글
   .post-card__content
-    = render post, local_assigns.merge(mode: 'list')
+    - if window_splitable?
+      = render 'posts/post_splited_line', local_assigns.merge(mode: 'list')
+    - else
+      = render post, local_assigns.merge(mode: 'list')
+  - if show_divider
+    .post-data-divider.no-margin-top

@@ -28,7 +28,7 @@
 
     .group-issues-list.js-sidemenu-toggle-issues-container.js-drawer-link{ class: "#{'sidemenu-toggle-issues-fold-in-advance' unless sidebar_group_opened?(menu_group)} #{sidebar_group_opened?(menu_group) ? 'js-sidemenu-toggle-issues-unfold' : 'js-sidemenu-toggle-issues-fold'}" }
       %ul.sub.list-unstyled
-        %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored.js-sidemenu-toggle-issues-container-underling{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id} #{'collapse' unless sidebar_group_opened?(menu_group)}", "data-action": "parti-issue-link", "data-url": smart_group_url(menu_group) }
+        %li.cursor-pointer.issue-line.group-home-line.js-drawer-filter-ignored.js-sidemenu-toggle-issues-container-underling{ class: "js-sidemenu-highlight-menu-group js-sidemenu-highlight-menu-group-home-#{menu_group.id} #{'collapse' unless sidebar_group_opened?(menu_group)}", "data-action": "parti-issue-link", "data-link-url": smart_group_url(menu_group) }
           .media
             .media-left
               .issue-line__thumb.text-center

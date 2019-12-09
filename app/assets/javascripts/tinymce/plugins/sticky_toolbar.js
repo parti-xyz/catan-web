@@ -99,12 +99,20 @@ var plugin_plugin = function plugin(editor) {
     setTimeout(function () {
       setSticky();
     }, 0);
-  });
-  window.addEventListener('resize', function () {
-    setSticky();
-  });
-  window.addEventListener('scroll', function () {
-    setSticky();
+
+    var $scroll_container = $(editor.getContainer()).closest('.js-stickytoolbar-scroll-container');
+    var scroll_listener;
+    if($scroll_container.length <= 0) {
+      scroll_listener = window;
+    } else {
+      scroll_listener = $scroll_container[0];
+    }
+    scroll_listener.addEventListener('resize', function () {
+      setSticky();
+    });
+    scroll_listener.addEventListener('scroll', function () {
+      setSticky();
+    });
   });
 
   function setSticky() {
@@ -140,7 +148,7 @@ var plugin_plugin = function plugin(editor) {
           var prevToolbarHeight = 0;
           toolbars.forEach(function (toolbar) {
             toolbar.style.bottom = null;
-            toolbar.style.top = "".concat(dynamicOffset() + offset + prevToolbarHeight, "px");
+            toolbar.style.top = "".concat(dynamicOffset(container) + offset + prevToolbarHeight, "px");
             toolbar.style.position = 'fixed';
             toolbar.style.width = "".concat(container.clientWidth, "px");
             toolbar.style.zIndex = 1;
@@ -159,7 +167,7 @@ var plugin_plugin = function plugin(editor) {
   function isSticky() {
     var editorPosition = editor.getContainer().getBoundingClientRect().top;
 
-    if (editorPosition < (dynamicOffset() + offset)) {
+    if (editorPosition < (dynamicOffset(editor.getContainer()) + offset)) {
       return true;
     }
 
@@ -178,21 +186,26 @@ var plugin_plugin = function plugin(editor) {
     });
     var stickyHeight = -(container.offsetHeight - toolbarHeights - statusbarHeight);
 
-    if (editorPosition < stickyHeight + dynamicOffset() + offset) {
+    if (editorPosition < stickyHeight + dynamicOffset(container) + offset) {
       return true;
     }
 
     return false;
   }
 
-  function dynamicOffset() {
-    var $offsets = $('.js-stickytoolbar-offset').filter(function () {
-      return $(this).css('position') == 'fixed';
-    });
-    var absoluteTop = 0;
-    $offsets.each(function() {
-      absoluteTop += parseFloat($(this).outerHeight());
-    });
+  function dynamicOffset(container) {
+    var $scroll_container = $(container).closest('.js-stickytoolbar-scroll-container');
+    if($scroll_container.length <= 0) {
+      var $offsets = $('.js-stickytoolbar-offset').filter(function () {
+        return $(this).css('position') == 'fixed';
+      });
+      var absoluteTop = 0;
+      $offsets.each(function() {
+        absoluteTop += parseFloat($(this).outerHeight());
+      });
+    } else {
+      absoluteTop = $scroll_container.position().top;
+    }
 
     return absoluteTop;
   }

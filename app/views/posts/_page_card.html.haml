@@ -11,7 +11,7 @@
     - has_private_blocked = true
   - else
     - if local_assigns[:show_day_section] and post.last_stroked_at.present? and before_post.try(:last_stroked_at).try(:to_date) != post.last_stroked_at.to_date
-      .card.col-xs-12.post-data-divider{ class: ('first' if before_post == nil), style: 'width: 100%, height: 20px;' }
+      .card.col-xs-12.post-data-divider{ class: ('no-margin-top' if before_post == nil), style: 'width: 100%, height: 20px;' }
         .horizontal-line{ style: 'position: absolute; left: -15px; top: 0.5em;' }
           %i.fa.fa-circle{ style: 'position: relative; top: -0.5em; left: -0.5em;' }
         #{post.last_stroked_at.to_date.today? ? '오늘' : (post.last_stroked_at.to_date == (Time.current - 1.day).to_date ? "어제" : static_day_f(post.last_stroked_at))} 업데이트된 게시글

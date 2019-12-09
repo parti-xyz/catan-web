@@ -250,4 +250,16 @@ module DomHelper
   def group_category_issue_list_dom_class(category)
     "#{category.present? ? dom_id(category) : 'category-nil'}-js-category-issue-list"
   end
+
+  def splited_post_dom_id
+    "__splited_post_dom"
+  end
+
+  def splited_left_dom_id
+    "__splited_left_dom"
+  end
+
+  def splited_right_dom_id
+    "__splited_right_dom"
+  end
 end
