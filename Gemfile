@@ -8,7 +8,7 @@ gem 'bootsnap', require: false
 gem 'railties', '= 5.2.2'
 
 # db
-gem 'mysql2', '>= 0.3.13', '< 0.5'
+gem 'mysql2', '~> 0.5.3'
 gem 'sqlite3'
 
 # model

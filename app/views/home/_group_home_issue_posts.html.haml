@@ -1,38 +1,28 @@
+- issue = group_home_component.issue_posts_format.issue
+
+- title = if group_home_component.format_name.issue_posts_hottest?
+  - "#{issue.title} 채널 인기 게시글"
+- elsif group_home_component.format_name.issue_posts_order_by_stroked_at?
+  - "#{issue.title} 채널 최근 게시글"
+- title = group_home_component.title if group_home_component.title.present?
+
+- recent_posts = issue.posts.unblinded(current_user).limit(10)
+- recent_posts = if group_home_component.format_name.issue_posts_hottest?
+  - recent_posts.hottest
+- elsif group_home_component.format_name.issue_posts_order_by_stroked_at?
+  - recent_posts.order_by_stroked_at
+
 - unless issue.private_blocked?(current_user)
-  - cache "#{issue.cache_key_with_version}/group_home_all_posts/#{(params[:page].presence || 1)}", expires_in: 10.minutes do
-    - recent_posts_base = issue.posts.unblinded(current_user)
-    - order_by_stroked_at_posts = recent_posts_base.order_by_stroked_at.limit(30)
-    - hottest_posts = recent_posts_base.hottest.limit(30)
+  - if recent_posts.any?
+    %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
+      = link_to smart_issue_home_url(issue) do
+        %h4.group-heading
+          = title
+          %small.text-nowrap
+            채널로 이동하기
+            %i.fa.fa-angle-double-right
 
-    - if hottest_posts.try(:any?) or order_by_stroked_at_posts.try(:any?)
-      - hottest_tab_id = "tab-hottest-#{SecureRandom.uuid}"
-      - order_by_stroked_at_tab_id = "tag-order-by-stroked-at-#{SecureRandom.uuid}"
-
-      %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
-        = link_to smart_issue_home_url(issue) do
-          %h4.group-heading
-            #{local_assigns[:title] || "#{issue.title} 채널 게시글"}
-            %small.text-nowrap
-              채널로 이동하기
-              %i.fa.fa-angle-double-right
-
-        .contents-header
-          .posts-filter-select
-            .content-tab-section
-              %ul.nav.nav-tabs.nav-tabs-content-heading{ style: 'margin-left: 0; margin-right: 0;' }
-                %li{ class: "js-tab-masonry #{(hottest_posts.try(:any?) ? 'active' : 'hidden')}" }
-                  = link_to '인기순', "##{hottest_tab_id}", 'data-toggle': :tab
-                %li{ class: "js-tab-masonry #{(hottest_posts.try(:any?) ? nil : 'active')}" }
-                  = link_to '최신순', "##{order_by_stroked_at_tab_id}", 'data-toggle': :tab
-
-        .tab-content
-          - if hottest_posts.try(:any?)
-            .posts-container.tab-pane{ id: hottest_tab_id, class: (hottest_posts.try(:any?) ? 'active' : 'hidden') }
-              .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
-                .grid-sizer.col-sm-4
-                = render 'posts/page_card', posts: hottest_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: false, show_decision: false
-
-          .posts-container.tab-pane{ id: order_by_stroked_at_tab_id, class: "#{('posts-container-timeline' if !is_small_screen?)} #{(hottest_posts.try(:any?) ? nil : 'active')}" }
-            .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
-              .grid-sizer.col-sm-4
-              = render 'posts/page_card', posts: order_by_stroked_at_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: true, show_decision: false
+      .posts-container
+        .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
+          .grid-sizer.col-sm-4
+          = render 'posts/page_card', posts: recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: false, show_decision: false

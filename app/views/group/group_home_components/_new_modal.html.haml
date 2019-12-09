@@ -58,12 +58,15 @@
       #issue_posts.tab-pane.js-parti-editor-selector-wrapper
         - issue_posts_form_id = "folder-form-#{SecureRandom.uuid}"
         = form_for [:group, GroupHomeComponent.new], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{issue_posts_form_id} input[type=submit]" }, html: { id: issue_posts_form_id, class: 'js-parti-editor-selector-form' } do |f|
-          = f.hidden_field :format_name, value: 'issue_posts'
           %p.help-text '채널 게시글' 포맷을 설정해 주세요.
           %hr
           .form-group
             = f.label :title
             = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
+          .form-group
+            = f.label :format_name
+            = f.select :format_name, [['인기', :issue_posts_hottest], ['최근', :issue_posts_order_by_stroked_at]], {}, class: 'form-control', data: { 'rule-required': true }
+
           - f.object.build_issue_posts_format
           = f.fields_for :issue_posts_format do |ff|
             = ff.hidden_field :issue_id, data: { 'rule-required': true }, class: 'validate'

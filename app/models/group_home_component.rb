@@ -7,9 +7,9 @@ class GroupHomeComponent < ApplicationRecord
   }
 
   extend Enumerize
-  enumerize :format_name, in: [:updated_issues, :all_posts, :issue_posts], predicates: true, scope: true
+  enumerize :format_name, in: [:updated_issues, :all_posts, :issue_posts_hottest, :issue_posts_order_by_stroked_at], predicates: true, scope: true
 
-  validates :issue_posts_format, presence: true, if: Proc.new { |c| c.format_name.issue_posts? }, on: :update
+  validates :issue_posts_format, presence: true, if: Proc.new { |c| c.format_name.issue_posts_hottest? or c.format_name.issue_posts_order_by_stroked_at? }, on: :update
 
   scope :sequenced, -> { order(:seq_no) }
 end

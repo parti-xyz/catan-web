@@ -86,6 +86,7 @@ Rails.application.routes.draw do
 
   # home
   get 'home/group_home_all_posts', to: 'home#group_home_all_posts', as: :group_home_all_posts_home
+  get 'home/group_home_discussion_posts', to: 'home#group_home_discussion_posts', as: :group_home_discussion_posts_home
 
   resources :parties, as: :issues, controller: 'issues' do
     member do

@@ -1,0 +1,23 @@
+- if discussion_posts_any
+  %section{ style:"margin-top:20px;" }
+    %h4.group-heading
+      진행 중인 토론
+      = link_to polls_or_surveys_path do
+        %small.text-nowrap
+          모든 토론 보기
+          %i.fa.fa-angle-double-right
+
+    - dom_id = local_assigns[:dom_id] || "parti-select-#{SecureRandom.uuid}"
+    .js-lazy-partal-load{ id: dom_id, data: { url: group_home_discussion_posts_home_path(dom_id: dom_id, format: :js) } }
+      .posts-container
+        .text-muted.text-center
+          %i.fa.fa-spinner.fa-pulse
+          로딩 중...
+
+
+
+
+  .posts-container
+
+
+

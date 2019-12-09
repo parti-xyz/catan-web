@@ -179,6 +179,7 @@ ko:
         title: 이름
       group_home_component:
         title: 제목
+        format_name: 방식
     successful:
       messages:
         created: 저장되었습니다.
@@ -344,7 +345,8 @@ ko:
       format_name:
         updated_issues: 최근 업데이트된 채널
         all_posts: 전체 게시글
-        issue_posts: 채널 게시글
+        issue_posts_hottest: 인기 채널 게시글
+        issue_posts_order_by_stroked_at: 최근 채널 게시글
   views:
     pin: 공지로 올렸습니다.
     unpin: 공지에서 내렸습니다.

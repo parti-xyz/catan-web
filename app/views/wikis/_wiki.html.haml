@@ -9,7 +9,7 @@
         %strong<> 오거나이저의 가입승인
         을 기다려주세요.
 - else
-  .wiki-card.clearfix.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_post_url(post) }
+  .wiki-card.post-card.clearfix.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_post_url(post) }
     - issue = post.issue
     .wiki-card__meta.clearfix
       .wiki-card__issue
@@ -23,9 +23,5 @@
         - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
           = image_tag post.wiki.thumbnail.lg.url
       .shadow
-    - text, last_stroked_at = post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-    - if text.present?
-      .post-card__last-stroked-bottom-wrapper
-        .post-card__last-stroked
-          != text
-          %span.last-stroked-date.text-nowrap= date_f(last_stroked_at)
+    .post-card__last-stroked-bottom-wrapper
+      = render 'posts/last_stroked_for', local_assigns

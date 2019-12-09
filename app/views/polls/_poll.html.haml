@@ -3,7 +3,7 @@
 - modal_data = (!linkable ? {} : { 'action': "parti-link", 'url': smart_post_path_or_url(post) })
 - issue = post.issue
 - voted = user_signed_in? && poll.voting_by?(current_user)
-.poll-card[(local_assigns[:in_post] ? poll: post)]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)} #{'cursor-pointer' if linkable}", data: modal_data}
+.poll-card.post-card[(local_assigns[:in_post] ? poll: post)]{ class: "#{dom_id(poll)} #{voted ? 'poll-card--voted' : ''} #{removable_with_post_dom_class(post)} #{'cursor-pointer' if linkable}", data: modal_data}
   - if post.private_blocked?(current_user)
     %strong 비공개 채널 게시글입니다.
     - if post.issue.member_requested? current_user

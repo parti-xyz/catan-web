@@ -7,8 +7,7 @@
         %h4.group-heading
           #{local_assigns[:title] || "최근 게시글"}
 
-        .posts-container
-          - dom_id = local_assigns[:dom_id] || "parti-select-#{SecureRandom.uuid}"
-          = render 'home/group_home_all_posts_page', recent_posts: @recent_posts
+        - dom_id = local_assigns[:dom_id] || "parti-select-#{SecureRandom.uuid}"
+        = render 'home/group_home_all_posts_page', recent_posts: @recent_posts
 
         = paginate @recent_posts, theme: 'catan'

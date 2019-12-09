@@ -36,8 +36,9 @@ class HomeController < ApplicationController
         cached_discussions.select(:id).to_a
       end
 
-      @discussions = Post.unblinded(current_user).where(id: cached_discussions).limit(9)
-      @discussions = @discussions.not_private_blocked_of_group(current_group, current_user)
+      discussions_all = Post.having_poll.or(Post.having_survey)
+      discussions_all = discussions_all.not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
+      @discussion_posts_any = discussions_all.any?
 
       render 'home/group_home'
     end
@@ -59,8 +60,21 @@ class HomeController < ApplicationController
     how_to = params[:sort] == 'order_by_stroked_at' ? :order_by_stroked_at : :hottest
 
     @recent_posts = Post.unblinded(current_user).send(how_to)
-    @recent_posts = @recent_posts.not_private_blocked_of_group(current_group, current_user)
+    @recent_posts = @recent_posts.not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
     @recent_posts = @recent_posts.page(params[:page]).per(30)
+  end
+
+  def group_home_discussion_posts
+    discussions_all = Post.having_poll.or(Post.having_survey)
+    discussions_all = discussions_all.not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
+    discussions_all = discussions_all.order_by_stroked_at
+    discussions_fresh = discussions_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
+
+    if discussions_fresh.count > 3
+      @discussion_posts = discussions_fresh.limit(9)
+    else
+      @discussion_posts = discussions_all.limit(9)
+    end
   end
 
   private
