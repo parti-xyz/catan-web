@@ -9,8 +9,8 @@ class IssuePushNotificationPreference < ApplicationRecord
   belongs_to :user
   belongs_to :issue
 
-  scope :compact_messagables, ->{ where(value: %w(detail compact)) }
-  scope :detail_messagables, ->{ where(value: 'detail') }
+  scope :not_detail_or_compact_value, ->{ where.not(value: %w(detail compact)) }
+  scope :not_detail_value, ->{ where.not(value: 'detail') }
 
   validates :user, uniqueness: { scope: :issue_id }, presence: true
 
