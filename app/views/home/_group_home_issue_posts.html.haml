@@ -5,11 +5,9 @@
     - hottest_posts = recent_posts_base.hottest.limit(30)
 
     - if hottest_posts.try(:any?) or order_by_stroked_at_posts.try(:any?)
-
       - hottest_tab_id = "tab-hottest-#{SecureRandom.uuid}"
       - order_by_stroked_at_tab_id = "tag-order-by-stroked-at-#{SecureRandom.uuid}"
 
-      %a.anchor#js-group-all-posts
       %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
         = link_to smart_issue_home_url(issue) do
           %h4.group-heading

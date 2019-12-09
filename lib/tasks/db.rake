@@ -1,6 +1,7 @@
 include ActionView::Helpers::SanitizeHelper
 
 namespace :branchdb do
+  db_prefix = 'catan_development'
   desc 'master브랜치 DB를 복사하여 현재 브랜치DB를 만듭니다'
   task 'create' => :environment do
 
@@ -19,15 +20,15 @@ namespace :branchdb do
 
     local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
 
-    created_result = system("mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} -e 'create database `catan_development_#{branch}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'")
+    created_result = system("mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} -e 'create database `#{db_prefix}_#{branch}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;'")
 
     unless created_result
       puts "DB 생성에 실패했습니다. : #{$?}"
       next
     end
-    puts "DB 생성했습니다. : catan_development_#{branch}"
+    puts "DB 생성했습니다. : #{db_prefix}_#{branch}"
 
-    copy_result = system("mysqldump -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} catan_development_master | mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} catan_development_#{branch}")
+    copy_result = system("mysqldump -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} #{db_prefix}_master | mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} #{db_prefix}_#{branch}")
 
     puts(copy_result ? "DB를 복사했습니다. : #{$?}" : "DB를 복사하지 못했습니다. : #{$?}")
   end
@@ -50,12 +51,12 @@ namespace :branchdb do
 
     local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
 
-    created_result = system("mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} -e 'drop database `catan_development_#{branch}`'")
+    created_result = system("mysql -u#{local_env.dig('database', 'username')} -p#{local_env.dig('database', 'password')} -e 'drop database `#{db_prefix}_#{branch}`'")
 
     unless created_result
       puts "DB 삭제에 실패했습니다. : #{$?}"
       next
     end
-    puts "DB 삭제했습니다. : catan_development_#{branch}"
+    puts "DB 삭제했습니다. : #{db_prefix}_#{branch}"
   end
 end

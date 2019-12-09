@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit')
     )
       prepare_store_location
-      render 'issues/group_home_private_blocked'
+      render 'home/group_home_private_blocked'
     end
   end
 

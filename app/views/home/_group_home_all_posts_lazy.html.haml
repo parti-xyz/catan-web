@@ -1,0 +1,12 @@
+%section{ style:"margin-top: 20px; padding-bottom: 10px;" }
+  %h4.group-heading
+    #{local_assigns[:title] || "최근 게시글"}
+
+  .posts-container
+    - dom_id = local_assigns[:dom_id] || "parti-select-#{SecureRandom.uuid}"
+    .js-lazy-partal-load{ id: dom_id, data: { url: group_home_all_posts_home_path(dom_id: dom_id, format: :js) } }
+      .text-muted.text-center
+        %i.fa.fa-spinner.fa-pulse
+        로딩 중...
+
+
