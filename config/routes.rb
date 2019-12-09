@@ -55,6 +55,10 @@ Rails.application.routes.draw do
       get 'email_sign_in'
       put 'notification'
       get 'inactive_sign_up'
+      get 'cancel_form'
+    end
+    member do
+      post 'cancel'
     end
   end
   unless Rails.env.production?

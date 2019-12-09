@@ -21,8 +21,8 @@
         - if @pinned_posts.empty?
           .text-center.alert
             %i.fa.fa-info-circle
-              - if params[:mode].blank? or params[:mode] == 'unbehold'
-                확인할 공지 사항이 없습니다.
-              - else
-                공지 사항이 없습니다.
+            - if params[:mode].blank? or params[:mode] == 'unbehold'
+              확인할 공지 사항이 없습니다.
+            - else
+              공지 사항이 없습니다.
       = render 'application/aside'
