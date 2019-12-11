@@ -11,6 +11,8 @@ ExceptionNotification.configure do |config|
     webhook_url: ENV["ERROR_SLACK_WEBHOOK_URL"],
     additional_parameters: {
       mrkdwn: true
-    }
+    },
+    backtrace_lines: 20,
+    additional_fields: [{ title: 'Platform', value: '그룹스' }]
   }
 end
