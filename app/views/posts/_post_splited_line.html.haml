@@ -43,34 +43,35 @@
 
       .issue-meta.issue-meta-footer
         - if post.wiki.present?
-          - wiki_authors = post.wiki.authors
-          = wiki_authors[0..2].map(&:nickname).join('<span>&middot;</span>').html_safe
-          - if wiki_authors.length > 3
-            %span<>
-              +#{wiki_authors.length - 3}
-          &nbsp;&nbsp;
+          %span.text-nowrap{ style: 'margin-right: 1em' }
+            - wiki_authors = post.wiki.authors
+            = wiki_authors[0..2].map(&:nickname).join('<span>&middot;</span>').html_safe
+            - if wiki_authors.length > 3
+              %span<>
+                +#{wiki_authors.length - 3}
         - else
-          = link_to smart_user_gallery_url(post.user) do
-            .thumb.user-image.img-circle{ style: "background-image: url(#{post.user.image.sm.url})" }
+          = link_to smart_user_gallery_url(post.user), class: 'text-nowrap', style: 'margin-right: 1em' do
             = post.user.nickname
-          &nbsp;&nbsp;
-
-        - if local_assigns[:show_issue]
-          - if !post.issue.host_group?(current_group) or local_assigns[:show_group]
-            = link_to smart_group_url(post.issue.group), class: 'header-separator-item' do
-              %span.issue-group
-                = post.issue.group.title_short_format
-                = meta_icons(post.issue.group)
-            \/
-          = link_to smart_issue_home_path_or_url(post.issue), class: 'header-separator-item' do
-            %span.issue-title
-              = post.issue.title
-              = meta_icons(post.issue)
-          &nbsp;&nbsp;
 
         - created_at = local_assigns[:post].try(:created_at)
-        %span.date= created_at.nil? ? '지금' : date_f(created_at)
+        %span.date.text-nowrap{ style: 'margin-right: 1em' }= created_at.nil? ? '지금' : date_f(created_at)
 
+        - if local_assigns[:show_issue]
+          %span.text-nowrap
+            - if !post.issue.host_group?(current_group) or local_assigns[:show_group]
+              = link_to smart_group_url(post.issue.group), class: 'header-separator-item' do
+                %span.issue-group
+                  = post.issue.group.title_short_format
+                  = meta_icons(post.issue.group)
+              \/
+            = link_to smart_issue_home_path_or_url(post.issue), class: 'header-separator-item', title: post.issue.title  do
+              %span.issue-title{ style: 'max-width: 120px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom;' }
+                = post.issue.title
+                = meta_icons(post.issue)
+            - if post.folder.present?
+              \/
+              %span{ style: 'max-width: 120px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom;' }
+                = render 'posts/post_card_folder', post: post
 
     .comments-count
       - if post.comments_count > 0
