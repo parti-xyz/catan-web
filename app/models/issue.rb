@@ -37,6 +37,7 @@ class Issue < ApplicationRecord
   belongs_to :last_stroked_user, class_name: "User", optional: true
   has_many :merged_issues, dependent: :destroy
   has_many :relateds, dependent: :destroy
+  has_many :issue_push_notification_preferences, dependent: :destroy
   has_many :related_issues, through: :relateds, source: :target
   has_many :relatings, class_name: "Related", foreign_key: :target_id, dependent: :destroy
   has_many :posts, dependent: :destroy
@@ -441,11 +442,11 @@ class Issue < ApplicationRecord
   end
 
   def compact_messagable_users
-    self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).compact_messagables.select(:user_id))
+    self.member_users.where.not(id: IssuePushNotificationPreference.where(issue: self).not_detail_or_compact_value.select(:user_id))
   end
 
   def detail_messagable_users
-    self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).detail_messagables.select(:user_id))
+    self.member_users.where.not(id: IssuePushNotificationPreference.where(issue: self).not_detail_value.select(:user_id))
   end
 
   def self.messagable_group_method

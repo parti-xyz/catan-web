@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:kill_me, :access_token]
+  before_action :authenticate_user!, only: [:kill_me, :access_token, :cancel, :cancel_form]
 
   def posts
     fetch_user
+    render 'users/canceled' and return if @user.canceled?
 
     base_posts = @user.posts.order(last_stroked_at: :desc)
 
@@ -28,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def kill_me
-    current_user.update_attributes(uid: SecureRandom.hex(10))
+    current_user.update_attributes(uid: "_____CANCEL_____#{SecureRandom.hex(10)}")
     sign_out current_user
     redirect_to root_path
   end
@@ -49,6 +50,27 @@ class UsersController < ApplicationController
   end
 
   def inactive_sign_up
+  end
+
+  def cancel_form
+  end
+
+  def cancel
+    ActiveRecord::Base.transaction do
+      group_ids_for_members = current_user.group_members.select(:joinable_id).distinct.pluck(:joinable_id)
+      issue_ids_for_members = current_user.issue_members.select(:joinable_id).distinct.pluck(:joinable_id)
+
+      current_user.group_members.destroy_all
+      current_user.issue_members.destroy_all
+
+      current_user.touch(:canceled_at)
+      current_user.update_attributes(uid: "_____CANCEL_____#{SecureRandom.hex(10)}", email: nil)
+      current_user.remove_image!
+    end
+
+    sign_out current_user
+    flash[:success] = '탈퇴 처리했습니다. 다시 뵙길 희망합니다.'
+    redirect_to root_path
   end
 
   protected

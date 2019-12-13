@@ -1,0 +1,28 @@
+- issue = group_home_component.issue_posts_format.issue
+
+- title = if group_home_component.format_name.issue_posts_hottest?
+  - "#{issue.title} 채널 인기 게시글"
+- elsif group_home_component.format_name.issue_posts_order_by_stroked_at?
+  - "#{issue.title} 채널 최근 게시글"
+- title = group_home_component.title if group_home_component.title.present?
+
+- recent_posts = issue.posts.unblinded(current_user).limit(10)
+- recent_posts = if group_home_component.format_name.issue_posts_hottest?
+  - recent_posts.hottest
+- elsif group_home_component.format_name.issue_posts_order_by_stroked_at?
+  - recent_posts.order_by_stroked_at
+
+- unless issue.private_blocked?(current_user)
+  - if recent_posts.any?
+    %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
+      = link_to smart_issue_home_url(issue) do
+        %h4.group-heading
+          = title
+          %small.text-nowrap
+            채널로 이동하기
+            %i.fa.fa-angle-double-right
+
+      .posts-container
+        .row.masonry-container{ data: { 'masonry-grid-sizer': '.grid-sizer'} }
+          .grid-sizer.col-sm-4
+          = render 'posts/page_card', posts: recent_posts, sm_columns_count: 3, show_last_stroked_for: true, compact: true, show_day_section: false, show_decision: false

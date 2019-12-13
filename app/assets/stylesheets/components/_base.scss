@@ -147,6 +147,10 @@
     position: static;
     display: inline-block;
     padding: 1px 5px 0px;
+    &.count-label-sub {
+      left: -18px;
+      position: absolute;
+    }
   }
 }
 
@@ -698,13 +702,15 @@ section.contents-page {
     body.app-posts-show &,
     body.app-posts-images &,
     body.app-issues-slug_home &,
-    body.app-dashboard & {
+    body.app-dashboard &,
+    body.app-messages & {
       padding-top: 0;
     }
     padding: 10px 0;
   }
   @media (max-width: $screen-xs-max) {
-    & > .container > .row > .col-xs-12 {
+    & > .container > .row > .col-xs-12,
+    & > .container-fluid > .row > .col-xs-12 {
       padding-left: 0;
       padding-right: 0;
     }
@@ -783,6 +789,18 @@ select.icon-select option {
   }
 }
 
+.col-custom-dashboard {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  float: left;
+  width: 15%;
+  @media (max-width: $screen-xs-max) {
+    width: 20%;
+  }
+}
+
 .error-popover {
   z-index: $zindex-error-popover;
   color: $base-brand-primary;
@@ -844,11 +862,6 @@ select.icon-select option {
   top: 35%;
   cursor: pointer;
   z-index: 99;
-
-  // 그룹홈 최신토론
-  .slick-slider-recent-polls-and-surveys & {
-    top: 100px;
-  }
 
   // 새로운 발견 찬반토론
   .slick-slider-recent-polls & {
@@ -940,7 +953,7 @@ a.a-gray {
 
 // keep all
 .text-basic-wrap {
-  word-break: keep-all;
+  word-break: break-word;
   overflow-wrap: break-word;
 }
 
@@ -1009,4 +1022,8 @@ difftouched {
 
 .sup-z {
   top: -3px;
+}
+
+.container.container-left {
+  margin-left: 0;
 }

@@ -1,7 +1,7 @@
 = render 'issues/issue_header', active_tab: :home, blocked: true
 
 %section.contents-page
-  .container
+  .container.container-left
     - if @issue.alive?
       %h4
         비공개 채널입니다.

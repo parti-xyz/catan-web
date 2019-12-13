@@ -1,13 +1,13 @@
 - if upvote.upvotable.is_a? Comment
   - comment = upvote.upvotable
   - post = comment.post
-  %div{id: "#{dom_id(message)}-url-source", data: { url: comment_url(comment) } }
+  %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_post_url(comment.post, format: :js, anchor_comment: comment_line_anchor_dom_id(comment), assigns: to_json_primitive_only(show_issue: true, show_group: true), dom_id: splited_post_dom_id), 'link-type': 'remote', 'link-parti-remote-loading': "##{splited_post_dom_id}" } }
     %strong
       #{message.sender.nickname}님이 내 댓글에 공감합니다.
     %div=excerpt(comment.body, length: 100)
 - else
   - post = upvote.upvotable
-  %div{id: "#{dom_id(message)}-url-source", data: { url: smart_post_url(post) } }
+  %div{ id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_post_url(post, format: :js, assigns: to_json_primitive_only(show_issue: true, show_group: true), dom_id: splited_post_dom_id), 'link-type': 'remote', 'link-parti-remote-loading': "##{splited_post_dom_id}" } }
     %strong
       #{message.sender.nickname}님이 내 게시글을 공감합니다.
     %div=upvote.upvotable.specific_desc_striped_tags(120)

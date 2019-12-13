@@ -404,7 +404,7 @@ GEM
     mustermann (1.0.3)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
-    mysql2 (0.4.10)
+    mysql2 (0.5.3)
     naught (1.1.0)
     nenv (0.3.0)
     net-http-digest_auth (1.4.1)
@@ -704,7 +704,7 @@ DEPENDENCIES
   bootswatch-rails
   browser (~> 2.0, >= 2.0.2)
   browsernizer
-  bundler (~> 1.14, >= 1.14.5)
+  bundler (= 2.0.1)
   by_star (~> 2.2, >= 2.2.1)
   byebug
   cancancan (~> 2.2)
@@ -754,7 +754,7 @@ DEPENDENCIES
   minitest-focus (~> 1.1, >= 1.1.2)
   mocha (~> 1.1)
   moneta
-  mysql2 (>= 0.3.13, < 0.5)
+  mysql2 (~> 0.5.3)
   naught (~> 1.1)
   newrelic_rpm
   nokogiri (>= 1.10.4)
@@ -813,4 +813,4 @@ DEPENDENCIES
   wkhtmltoimage-binary (~> 0.12.2)
 
 BUNDLED WITH
-   1.15.4
+   2.0.1

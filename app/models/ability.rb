@@ -44,7 +44,7 @@ class Ability
       can [:update, :activate, :inactivate, :purge, :histories], Wiki do |wiki|
         wiki.try(:post).issue.try(:postable?, user)
       end
-      can [:pin, :unpin, :beholders, :unbeholders], Post do |post|
+      can [:pin, :unpin], Post do |post|
         user.is_organizer?(post.issue)
       end
       can [ :beholders, :unbeholders], Post do |post|

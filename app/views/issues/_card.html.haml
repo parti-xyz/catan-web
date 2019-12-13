@@ -1,6 +1,6 @@
 - issue ||= local_assigns[:card]
 = link_to smart_issue_home_path_or_url(issue) do
-  .issue-card.cursor-pointer{ 'data-action': 'parti-link', 'data-url': smart_issue_home_path_or_url(issue), class: ('rookie' if issue.rookie?) }
+  .issue-card.cursor-pointer.js-link{ 'data-link-url': smart_issue_home_path_or_url(issue), class: ('rookie' if issue.rookie?) }
     .issue-card__thumb{ style: "background-image: url(#{issue.logo.sm.url});" }
       - unless issue.host_group?(current_group)
         .issue-card__group
@@ -21,33 +21,34 @@
             = issue.title
       .issue-card__body.hidden-xs= excerpt(issue.body, length: 60)
       .issue-card__meta
-        - if issue.rookie?
-          %span.rookie
-            %i.fa.fa-bolt
-            신규
-        - users_count = capture do
-          %span.users-count
-            %i.fa.fa-user
-            = issue.members.count
-        - posts_count = capture do
-          %span.posts-count
-            %i.fa.fa-file-text
-            = issue.posts_count
-            - cache ['issues-card-latest_posts_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
-              - if issue.posts.latest.count > 0
-                %small +#{issue.posts.latest.count}
-        - comments_count = capture do
-          %span.comments-count
-            %i.fa.fa-comment
-            = issue.comments_count
-            - cache ['issues-card-latest_comments_count_x', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
-              - if issue.comments.latest.count > 0
-                %small +#{issue.comments.latest.count}
-        - if issue.rookie? or issue.comments_count > 999 or issue.posts_count > 999
-          = posts_count
-          = comments_count
-        - else
-          = users_count
-          = posts_count
-          = comments_count
+        - cache "#{issue.cache_key_with_version}/meta/#{(params[:page].presence || 1)}", expires_in: 10.minutes do
+          - if issue.rookie?
+            %span.rookie
+              %i.fa.fa-bolt
+              신규
+          - users_count = capture do
+            %span.users-count
+              %i.fa.fa-user
+              = issue.members.count
+          - posts_count = capture do
+            %span.posts-count
+              %i.fa.fa-file-text
+              = issue.posts_count
+              - cache ['issues-card-latest_posts_count', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+                - if issue.posts.latest.count > 0
+                  %small +#{issue.posts.latest.count}
+          - comments_count = capture do
+            %span.comments-count
+              %i.fa.fa-comment
+              = issue.comments_count
+              - cache ['issues-card-latest_comments_count_x', issue], race_condition_ttl: 30.seconds, expires_in: 1.hours do
+                - if issue.comments.latest.count > 0
+                  %small +#{issue.comments.latest.count}
+          - if issue.rookie? or issue.comments_count > 999 or issue.posts_count > 999
+            = posts_count
+            = comments_count
+          - else
+            = users_count
+            = posts_count
+            = comments_count
 

@@ -1,11 +1,15 @@
-.post-card__post.clearfix.cursor-pointer{ class: "#{pinned_post_dom_class(post)} #{('js-posts-pinned-and-behold collapse' if local_assigns[:collapse])} #{'need-to-behold' if post.need_to_behold?(current_user)} #{'unpinned' unless post.pinned?}", 'data-action': "parti-link", 'data-url': smart_post_url(post) }
+- card_attr = { class: "#{pinned_post_dom_class(post)} #{('js-posts-pinned-and-behold collapse' if local_assigns[:collapse])} #{'need-to-behold' if post.need_to_behold?(current_user)} #{'unpinned' unless post.pinned?}", 'data-link-url': smart_post_url(post, assigns: to_json_primitive_only(show_group: local_assigns[:show_group], show_issue: local_assigns[:show_issue]), dom_id: splited_post_dom_id, format: ('js' if window_splitable?)), 'data-post-link-selector-active-class': 'selected' }
+- if window_splitable?
+  - card_attr.merge!('data-link-type': 'remote', 'data-link-parti-remote-loading': "##{splited_post_dom_id}")
+.post-card__post.clearfix.cursor-pointer.js-link.js-post-link-selector{ card_attr }
   .desc
     .body<>
-      = link_to smart_post_url(post), 'aria-label': only_mobile_app(request, "post-pinned") do
-        = post.specific_desc_striped_tags(120)
+      = post.specific_desc_striped_tags(120)
 
     .issue-meta.issue-meta-footer
-      = link_to "@#{post.user.nickname}", smart_user_gallery_url(post.user)
+      = link_to smart_user_gallery_url(post.user) do
+        .thumb.user-image.img-circle.img-circle-xs{ style: "background-image: url(#{post.user.image.sm.url})" }
+        = post.user.nickname
       &nbsp;
       = link_to smart_post_url(post) do
         - created_at = local_assigns[:post].try(:created_at)
@@ -15,13 +19,13 @@
         - if can? :pin, post
           %span.action-btn
             &nbsp;
-            = link_to [:unpin, post], method: :delete, remote: true, data: { disable_with: '처리 중...', confirm: '이 공지를 내리시겠습니까?' } do
+            = link_to unpin_post_path(post), method: :delete, remote: true, data: { disable_with: '처리 중...', confirm: '이 공지를 내리시겠습니까?' } do
               공지 내리기
 
         - if post.need_to_behold?(current_user)
           %span.action-btn
             &nbsp;
-            = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{behold_button_dom_class(post)} primary", 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
+            = link_to behold_post_path(post), method: :put, remote: true, data: { disable_with: '처리 중...' }, class: "#{behold_button_dom_class(post)} primary", 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
               확인함으로 표시
 
   - pin_buttons = capture do
@@ -29,7 +33,7 @@
       %li
         = render 'posts/pin_buttons', post: post
     - if post.pinned?
-      - if post.pinned? and can?(:beholders, post)
+      - if can?(:beholders, post)
         %li
           = link_to [:beholders, post], target: '_blank' do
             확인한 멤버 보기 (#{post.beholders_count})
@@ -39,11 +43,11 @@
       - if post.can_beholder?(current_user)
         - if post.need_to_behold?(current_user)
           %li
-            = link_to [:behold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: behold_button_dom_class(post), 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
+            = link_to behold_post_path(post), method: :put, remote: true, data: { disable_with: '처리 중...' }, class: behold_button_dom_class(post), 'data-completed-with': '확인 표시 완료 <i class="fa fa-check"/>' do
               확인함으로 표시
         - else
           %li
-            = link_to [:unbehold, post], method: :put, remote: true, data: { disable_with: '처리 중...' }, class: unbehold_button_dom_class(post), 'data-completed-with': '확인하지 않음 표시 완료 <i class="fa fa-check"/>' do
+            = link_to unbehold_post_path(post), method: :put, remote: true, data: { disable_with: '처리 중...' }, class: unbehold_button_dom_class(post), 'data-completed-with': '확인하지 않음 표시 완료 <i class="fa fa-check"/>' do
               확인하지 않음으로 표시
 
   - if pin_buttons.try(:strip).present?

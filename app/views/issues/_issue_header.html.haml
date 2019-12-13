@@ -15,7 +15,7 @@
     = logo_background
   - else
     = geo_pattern_background
-  .container
+  .container-fluid
     .media{ style: 'overflow: visible' }
       .media-left
         .parti-logo
@@ -64,9 +64,9 @@
   - if !blocked
     .parti-menu{ class: ('parti-menu-simple' if simple)}
       - counts_container = issue.counts_container
-      .container
+      .container-fluid
         .row
-          .col-sm-8.col-xs-12
+          .col-sm-6.col-xs-12
             .row
               .col-custom{ class: ('active' if active_tab == :home) }
                 = link_to smart_issue_home_path_or_url(issue), class: 'parti-menu-a' do

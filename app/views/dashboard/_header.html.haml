@@ -1,0 +1,67 @@
+- active_tab ||= nil
+- simple = !(local_assigns[:full] || false)
+%section.parti-header-section.parti-header-section--simple.js-invisible-on-mobile-editing
+  - geo_pattern_background = capture do
+    .parti-black-layer{ style: "background-image: #{GeoPattern.generate(current_user.nickname, base_color: '#2a164b').to_data_uri};" }
+  - logo_background = capture do
+    .parti-black-layer{ style: "background-color: #777;" }
+      %svg#blurred_i89pasu2y.bg-blur{height: "100%", width: "100%", preserveAspectRatio: "xMidYMid slice", version: "1.1", xmlns: "http://www.w3.org/2000/svg"}
+        %filter#parti-header-blur-background
+          %fegaussianblur{in: "SourceGraphic", stdDeviation: "20"}
+        %image{externalResourcesRequired: "true", height: "100%", width: "100%", preserveAspectRatio: "xMidYMid slice", style: "filter:url(#parti-header-blur-background)", x: "0", y: "0", "xlink:href": current_user.image.md.url, "xmlns:xlink": "http://www.w3.org/1999/xlink"}
+  - if (current_user.read_attribute(:image).present?) and (browser.ie?(">9") or !browser.ie?)
+    = logo_background
+  - else
+    = geo_pattern_background
+  .container-fluid
+    .media{ style: 'overflow: visible' }
+      .media-left
+        .parti-logo
+          = link_to dashboard_url(sudomain: nil) do
+            .thumb{style: "background-image: url(#{current_user.image.md.url})"}
+      .media-body{ style: 'overflow: visible' }
+        %h4.parti-title
+          = link_to dashboard_url(sudomain: nil) do
+            내 홈
+
+  - unbehold_pinned_posts = current_user.unbehold_pinned_posts(current_dashboard_group)
+
+  .parti-menu{ class: ('parti-menu-simple' if simple)}
+    .container-fluid
+      .row
+        .col-sm-6.col-xs-12
+          .row
+            .col-custom-dashboard{ class: ('active' if active_tab == :home) }
+              = link_to dashboard_url(subdomain: nil), class: 'parti-menu-a' do
+                %h5 게시글
+
+            .col-custom-dashboard{class: ('active' if active_tab == :pinned)}
+              = link_to pinned_posts_url(subdomain: nil), class: 'parti-menu-a' do
+                %h5
+                  공지
+                  - if unbehold_pinned_posts.any?
+                    .count-label-wrapper.small
+                      .count-label.count-label-sub
+                        +#{max_counter(unbehold_pinned_posts.count, 999)}
+
+            .col-custom-dashboard{class: ('active' if active_tab == :messages)}
+              = link_to messages_url(subdomain: nil), class: 'parti-menu-a' do
+                %h5
+                  알림
+                  - if current_user.cached_important_not_mention_messages_count(current_dashboard_group) > 0
+                    .count-label-wrapper.small
+                      .count-label.count-label-sub
+                        +#{max_counter(current_user.cached_important_not_mention_messages_count(current_dashboard_group), 999)}
+
+            .col-custom-dashboard{class: ('active' if active_tab == :mentions)}
+              = link_to mentions_messages_url(subdomain: nil), class: 'parti-menu-a' do
+                %h5
+                  멘션
+                  - if current_user.cached_important_mention_messages_count(current_dashboard_group) > 0
+                    .count-label-wrapper.small
+                      .count-label.count-label-sub
+                        +#{max_counter(current_user.cached_important_mention_messages_count(current_dashboard_group), 999)}
+
+            .col-custom-dashboard{class: ('active' if active_tab == :bookmarks)}
+              = link_to bookmarks_url(subdomain: nil), class: 'parti-menu-a' do
+                %h5 북마크

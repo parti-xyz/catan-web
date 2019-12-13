@@ -12,7 +12,7 @@ class IssueCreateNotificationJob < ApplicationJob
 
     MessageService.new(issue, sender: creating_user, action: :create).call
 
-    issue.group.issue_create_messagable_users.each do |user|
+    issue.group.issue_create_messagable_users.find_each(batch_size: 20).each do |user|
       PartiMailer.on_create(creating_user.id, user.id, issue.id).deliver_later
     end
   end

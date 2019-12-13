@@ -155,7 +155,8 @@ section.intro-page {
       background: rgba(0,0,0,0.2);
       width: 100%;
       border-bottom: 4px solid $brand-primary;
-      & > .container {
+      & > .container,
+      & > .container-fluid {
         padding: 0;
       }
       .row {
@@ -172,12 +173,6 @@ section.intro-page {
           a {
             height: auto;
           }
-        }
-        .count-label {
-          position: static;
-          display: inline-block;
-          padding: 1px 5px 0px;
-          font-weight: 100;
         }
       }
     }

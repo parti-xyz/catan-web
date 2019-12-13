@@ -153,6 +153,22 @@ var __parti_prepare_post = function($base) {
       });
     });
   })();
+
+  $.parti_apply($base, '.js-post-link-selector', function(elm) {
+    $elm = $(elm);
+
+    $elm.on('click', function(e) {
+      $('.js-post-link-selector').each(function() {
+        var active_class = $(this).data('post-link-selector-active-class');
+        if(active_class) {
+          $(this).removeClass(active_class);
+        }
+      });
+
+      var active_class = $(e.currentTarget).data('post-link-selector-active-class');
+      $(e.currentTarget).addClass(active_class);
+    });
+  });
 }
 
 var parti_prepare_comment = function(comment_form_control_selector, nickname, text) {
@@ -196,13 +212,20 @@ var parti_prepare_comment = function(comment_form_control_selector, nickname, te
 $(function(){
   (function() {
     var is_first_loaded = false
+    var waypoint_context = window;
 
     var listen_waypoint = function($waypoint_element) {
+      $waypoint_context = $($waypoint_element.data('waypoint-context'));
+      if($waypoint_context.length > 0) {
+        waypoint_context = $waypoint_context[0];
+      }
+
       $waypoint_element.waypoint({
         handler: function(direction) {
           load_page_with_waypoint(this);
         },
-        offset: "100%"
+        offset: "100%",
+        context: waypoint_context,
       });
     }
 

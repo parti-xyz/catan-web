@@ -1,6 +1,4 @@
-- modal_data = { 'action': "parti-link", 'url': smart_post_path_or_url(post) }
-
-.reference-card[post]{ class: 'default', data: modal_data }
+.post-card.reference-card.js-link[post]{ class: 'default', data: { 'link-url': smart_post_path_or_url(post) } }
   - if post.link_source.has_image?
     - capture_thumb = capture do
       .thumb.thumb--reference{ style: "background-image: url(#{post.link_source.image.md.url})" }

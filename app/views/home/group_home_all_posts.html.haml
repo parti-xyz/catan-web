@@ -1,0 +1,13 @@
+= render 'application/group_home_sub_header', active: 'home'
+
+- if Issue.only_alive_of_group(current_group).any?
+  %section#home{ style:"padding-bottom: 40px;" }
+    .container
+      %section{ style:"margin-top: 20px; padding-bottom: 10px;" }
+        %h4.group-heading
+          #{local_assigns[:title] || "최근 게시글"}
+
+        - dom_id = local_assigns[:dom_id] || "parti-select-#{SecureRandom.uuid}"
+        = render 'home/group_home_all_posts_page', recent_posts: @recent_posts
+
+        = paginate @recent_posts, theme: 'catan'

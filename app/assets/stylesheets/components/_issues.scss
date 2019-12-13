@@ -28,7 +28,8 @@ section#issues-group-index {
   padding-bottom: 60px;
   position: relative;
 
-  > .container {
+  > .container,
+  > .container-fluid {
     position: relative;
   }
 
@@ -186,7 +187,8 @@ section#issues-group-index {
         color: $gray
       }
     }
-    > .container > .media {
+    > .container > .media,
+    > .container-fluid > .media {
       > .media-left {
         vertical-align: middle;
         .parti-logo {

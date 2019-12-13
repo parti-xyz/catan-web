@@ -1,7 +1,7 @@
 = render 'issues/issue_header', active_tab: :users
 
 %section#issue-users
-  .container
+  .container-fluid
     - if @issue.member? current_user
       %section
         %h4.group-heading

@@ -114,7 +114,7 @@ var __parti_prepare_editor = function($base) {
 
   // 게시글 쓸때 채널 선택하기
   $.parti_apply($base, '.js-parti-editor-selector', function(elm) {
-    $elm = $(elm);
+    var $elm = $(elm);
 
     $elm.selectpicker('render');
     $elm.parent().on('hide.bs.select', function(e) {

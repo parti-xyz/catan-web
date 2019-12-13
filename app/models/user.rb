@@ -119,6 +119,7 @@ class User < ApplicationRecord
     base = base.where('users.created_at < ?', user.created_at) if user.present?
     base
   }
+  scope :not_canceled, -> { where(canceled_at: nil) }
 
   def admin?
     @__cache_admin ||= has_role?(:admin)
@@ -383,9 +384,12 @@ class User < ApplicationRecord
 
   def issue_push_notification_preference_value(issue)
     issue_push_notification_preference = issue_push_notification_preferences.find_by(issue: issue)
-    (issue_push_notification_preference.try(:value) || 'highlight').to_s
+    (issue_push_notification_preference.try(:value) || 'detail').to_s
   end
 
+  def canceled?
+    self.canceled_at.present?
+  end
 
   private
 

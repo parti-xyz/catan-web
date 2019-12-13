@@ -21,7 +21,7 @@
                 해당 키워드와 관련된 그룹입니다
             .groups-all-list.clearfix.content-section-body.xs-horizontal-padding
               - @groups.each do |group|
-                .group.group-card.margin-bottom-default.cursor-pointer{ 'data-action': "parti-link", 'data-url': smart_group_url(group) }
+                .group.group-card.margin-bottom-default.cursor-pointer.js-link{ 'data-link-url': smart_group_url(group) }
                   .group-heading{ style: 'border-width: 2px' }
                     = link_to smart_group_url(group) do
                       %span
@@ -64,7 +64,7 @@
           .posts{data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'}}
             #no-data.text-center.alert{ style: 'display: none;' }
               %i.fa.fa-info-circle
-                해당 게시글이 없습니다.
+              해당 게시글이 없습니다.
 
           .page-waypoint.js-page-waypoint.text-center{'data-target': '.posts', 'data-list-url': search_url(format: :js, nav_q: @search_q, group_id: params[:group_id], issue_id: params[:issue_id], search_type: params[:search_type])}
             .page-waypoint-loading.js-page-waypoint-loading

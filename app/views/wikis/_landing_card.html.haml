@@ -1,6 +1,6 @@
 - if post.wiki.present?
   = link_to post, target: "_blank" do
-    .landing-wiki-card.wiki-line.clearfix.cursor-pointer{ class: dom_id(post), 'data-action': "parti-link", 'data-url': smart_post_path_or_url(post) }
+    .landing-wiki-card.wiki-line.clearfix.cursor-pointer.js-link{ class: dom_id(post), 'data-link-url': smart_post_path_or_url(post) }
       %h4.wiki-title
         = HTML_Truncator.truncate(post.wiki.title, 4)
       .wiki-content

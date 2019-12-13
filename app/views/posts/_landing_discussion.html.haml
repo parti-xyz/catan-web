@@ -1,4 +1,4 @@
-.post-card.cursor-pointer{class: "#{dom_id(post)} #{('survey' if post.survey.present?)}", 'data-action': "parti-link", 'data-url': smart_post_path_or_url(post) }
+.post-card.cursor-pointer.js-link{ class: "#{dom_id(post)} #{('survey' if post.survey.present?)}", 'data-link-url': smart_post_path_or_url(post) }
   .post-card__content
     .post-card__post
       - if post.poll.present?

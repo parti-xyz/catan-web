@@ -43,7 +43,7 @@ Rails.application.routes.draw do
     end
     root 'pages#discover', as: :discover_root
   end
-  root 'issues#home'
+  root 'home#show'
 
   get '/g/:group_slug/:parti_slug', to: redirect('https://%{group_slug}.parti.xyz/p/%{parti_slug}')
   get '/robots.:format', to: 'pages#robots'
@@ -55,6 +55,10 @@ Rails.application.routes.draw do
       get 'email_sign_in'
       put 'notification'
       get 'inactive_sign_up'
+      get 'cancel_form'
+    end
+    member do
+      post 'cancel'
     end
   end
   unless Rails.env.production?
@@ -83,6 +87,10 @@ Rails.application.routes.draw do
   }, constraints: MergedIssueRouteConstraint.new
 
   get 'search', to: 'search#show', as: 'search'
+
+  # home
+  get 'home/group_home_all_posts', to: 'home#group_home_all_posts', as: :group_home_all_posts_home
+  get 'home/group_home_discussion_posts', to: 'home#group_home_discussion_posts', as: :group_home_discussion_posts_home
 
   resources :parties, as: :issues, controller: 'issues' do
     member do

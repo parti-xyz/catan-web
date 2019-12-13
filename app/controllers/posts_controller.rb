@@ -298,6 +298,13 @@ class PostsController < ApplicationController
         image: @post.meta_tag_image,
         description: @post.meta_tag_description
     end
+
+    if request.format.js?
+      @partial = 'posts/post'
+      if params[:splited_line] == 'true'
+        @partial = 'posts/post_splited_line'
+      end
+    end
   end
 
   def poll_social_card
@@ -308,7 +315,7 @@ class PostsController < ApplicationController
     social_card
   end
 
-  MORE_COMMENTS_COUNT_PER_PAGE = 20
+  MORE_COMMENTS_COUNT_PER_PAGE = 40
   def more_comments
     @limit = params[:limit].to_i
     @limit = PostsController::MORE_COMMENTS_COUNT_PER_PAGE if @limit <= 0

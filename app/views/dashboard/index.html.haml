@@ -1,53 +1,55 @@
-%section.contents-page#posts
-  .container
-    .row
-      = main_column_tag do
-        .js-invisible-on-mobile-editing
-          = render 'application/my_home_tab'
+= render 'dashboard/header', active_tab: :home
 
-        - if current_user.need_to_more_member?(current_group)
-          .post-editor.post-editor-intro.cursor-default
-            .text-muted
-              .media
-                .media-left
-                  = byline current_user, hide_nickname: true
-                .media-body
-                  #{current_user.nickname}님, 이제 빠띠를 시작해보세요!
-                  = link_to '시작하기', dashboard_intro_path, class: 'btn btn-primary'
-        - else
-          - member_issues = current_user.member_issues.order(:title)
-          .post-editor.post-editor-intro.js-post-editor-intro.post-card.text-muted.clearfix
-            .text-muted
+%section.contents-page#posts{ class: ('js-content-split-container' if window_splitable?) }
+  .container-fluid
+    - if current_user.need_to_more_member?(current_group)
+      .row
+        .post-editor.post-editor-intro.cursor-default
+          .media
+            .media-left
               = byline current_user, hide_nickname: true
-              .placeholder 글쓰기...
-              .post-reference-btns
-                %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-file-btn'}
-                  %i.fa.fa-cloud-upload
-                  = t('labels.new_post_file_source_button')
-                %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-poll-btn'}
-                  %i.fa.fa-fire
-                  = t('labels.new_post_poll_button')
-                %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-survey-btn'}
-                  %i.fa.fa-list-ul
-                  = t('labels.new_post_survey_button')
-                = link_to new_wiki_posts_path, target: '_blank', class: 'btn btn-xs btn-link' do
-                  %i.fa.fa-file-word-o
-                  = t('labels.new_post_wiki_button')
+            .media-body
+              %p
+                #{current_user.nickname}님, 이제 빠띠를 시작해보세요!
+              = link_to '시작하기', dashboard_intro_path, class: 'btn btn-primary'
+    - else
+      .row
+        = main_column_tag_window_splitable do
+          .post-editor.post-editor-intro.js-post-editor-intro.post-card.text-muted.clearfix
+            = byline current_user, hide_nickname: true
+            .placeholder 글쓰기...
+            .post-reference-btns
+              %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-file-btn'}
+                %i.fa.fa-cloud-upload
+                = t('labels.new_post_file_source_button')
+              %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-poll-btn'}
+                %i.fa.fa-fire
+                = t('labels.new_post_poll_button')
+              %a.btn.btn-xs.btn-link.js-trigger{ href: "#parti-post-select-subform", 'data-target': '.js-post-survey-btn'}
+                %i.fa.fa-list-ul
+                = t('labels.new_post_survey_button')
+              = link_to new_wiki_posts_path, target: '_blank', class: 'btn btn-xs btn-link' do
+                %i.fa.fa-file-word-o
+                = t('labels.new_post_wiki_button')
 
           .post-editor.post-editor--hidden.js-post-editor.js-parti-editor-selector-wrapper
             = render 'posts/post_editor', current_issue: nil
 
-        .js-invisible-on-mobile-editing
-          = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(group_slug: current_dashboard_group.try(:slug), last_time: DateTime.now.to_i)
+          .js-invisible-on-mobile-editing
+            = render 'posts/new_posts_count', new_posts_count_url: new_dashboard_posts_count_path(group_slug: current_dashboard_group.try(:slug), last_time: DateTime.now.to_i)
 
-          .js-my-home-tab-sticky-offset
-
-          .posts{data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'}}
-            #no-data.text-center.alert.collapse
-              %i.fa.fa-info-circle
+            .posts{data: {'previous-post-last-stroked-at-timestamp': '', is_last: 'false'}}
+              #no-data.text-center.alert.collapse
+                %i.fa.fa-info-circle
                 게시글이 없습니다.
 
-          .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': dashboard_path(format: :js, group_slug: current_dashboard_group.try(:slug)) }
-            .page-waypoint-loading.js-page-waypoint-loading
-              %i.fa.fa-2x.fa-spinner.fa-pulse
-      = render 'application/aside'
+            .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': dashboard_path(format: :js, group_slug: current_dashboard_group.try(:slug)), 'data-waypoint-context': "##{splited_left_dom_id}" }
+              .page-waypoint-loading.js-page-waypoint-loading
+                %i.fa.fa-2x.fa-spinner.fa-pulse
+
+        = aside_column_tag_window_splitable do
+          %div{ id: splited_post_dom_id, 'data-post-inplace-mode': 'content-only' }
+            .text-muted.text-center{ style: 'margin-top: 1em;' }
+              게시글을 선택하세요.
+              %br
+              %i.fa.fa-reply.fa-2x.fa-flip-vertical

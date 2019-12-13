@@ -5,14 +5,13 @@
         %li
           .help-text.text-basic-wrap
             공지된 게시물입니다.
-
       - if can?(:pin, post)
         %li
           = render 'posts/pin_buttons', post: post
-        - if post.pinned?
-          %li
-            = link_to [:beholders, post], target: '_blank' do
-              공지 확인한 멤버 보기 (#{post.beholders_count})
+      - if post.can_beholder?(current_user)
+        %li
+          = link_to [:beholders, post], target: '_blank' do
+            공지 확인한 멤버 보기 (#{post.beholders_count})
           -# %li
           -#   = link_to [:unbeholders, post], target: '_blank' do
           -#     확인하지 않은 가입멤버 보기
