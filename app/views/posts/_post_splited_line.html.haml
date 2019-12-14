@@ -64,7 +64,7 @@
                   = post.issue.group.title_short_format
                   = meta_icons(post.issue.group)
               \/
-            = link_to smart_issue_home_path_or_url(post.issue), class: 'header-separator-item', title: post.issue.title  do
+            = link_to smart_issue_home_url(post.issue), class: 'header-separator-item', title: post.issue.title  do
               %span.issue-title{ style: 'max-width: 120px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom;' }
                 = post.issue.title
                 = meta_icons(post.issue)
