@@ -16,7 +16,7 @@
               = link_to comment, method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'link-destroy' do
                 삭제
 
-      .body-wrapper{ class: "#{('body-wrapper--with-chevron_menu' if chevron_menu.present?)} #{('body-wrapper--with-unread-circle' unless comment.read?(current_user))}" }
+      .body-wrapper{ class: "#{('body-wrapper--with-chevron_menu' if chevron_menu.present?)} #{('body-wrapper--with-unread' unless comment.read?(current_user))}" }
         .body{ class: ("body--#{comment.choice}" if comment.choice.present?) }
           = render 'comments/body', local_assigns
           - dropdown_dom_id = "#{dom_id(comment)}__chevron-buttons"

@@ -76,9 +76,9 @@ section#comments {
       position: relative;
     }
   }
-  .body-wrapper--with-unread-circle {
+  .body-wrapper--with-unread {
     > .body {
-      position: relative;
+      border: 1px solid $base-brand-primary-opt2;
     }
   }
   .body {
