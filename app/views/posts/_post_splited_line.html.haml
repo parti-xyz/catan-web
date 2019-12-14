@@ -56,6 +56,14 @@
         - created_at = local_assigns[:post].try(:created_at)
         %span.date.text-nowrap{ style: 'margin-right: 1em' }= created_at.nil? ? '지금' : date_f(created_at)
 
+
+        - folder_doms = capture do
+          - if post.folder.present?
+            - if local_assigns[:show_issue]
+              \/
+            %span{ style: 'max-width: 120px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom;' }
+              = render 'posts/post_card_folder', post: post
+
         - if local_assigns[:show_issue]
           %span.text-nowrap
             - if !post.issue.host_group?(current_group) or local_assigns[:show_group]
@@ -68,11 +76,10 @@
               %span.issue-title{ style: 'max-width: 120px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom;' }
                 = post.issue.title
                 = meta_icons(post.issue)
-            - if post.folder.present?
-              \/
-              %span{ style: 'max-width: 120px; display: inline-block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align: bottom;' }
-                = render 'posts/post_card_folder', post: post
-
+            = folder_doms
+        - else  local_assigns[:show_issue]
+          %span.text-nowrap
+            = folder_doms
     .comments-count
       - if post.comments_count > 0
         %i.fa.fa-comment-o
