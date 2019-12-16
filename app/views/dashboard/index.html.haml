@@ -1,6 +1,6 @@
 = render 'dashboard/header', active_tab: :home
 
-%section.contents-page#posts{ class: ('js-content-split-container' if window_splitable?) }
+%section.contents-page#posts{ class: ('js-content-split-container js-content-split-container-no-padding' if window_splitable?) }
   .container-fluid
     - if current_user.need_to_more_member?(current_group)
       .row

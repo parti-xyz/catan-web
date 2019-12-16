@@ -849,7 +849,7 @@ $(function(){
       instructionsRefreshing: '다시 로딩 중',
       onRefresh: function(){ window.location.reload(); },
       shouldPullToRefresh: function(){
-        return (!window.scrollY && !$('#js-drawer').is(':visible') && !$('body').hasClass('js-no-pull-to-refresh'));
+        return (!window.scrollY && !$('#js-drawer').is(':visible') && !$('body').hasClass('js-no-pull-to-refresh') && $('.js-content-split-container').length <= 0);
       }
     });
   })();
