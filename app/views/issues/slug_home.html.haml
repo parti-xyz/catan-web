@@ -62,9 +62,9 @@
                     "#{@search_q}"을(를) 검색한 결과입니다.
                     - if @search_q != params[:nav_q]
                       영문과 한글만 검색합니다.
-                    = link_to '취소', smart_issue_home_path_or_url(@issue), class: 'btn btn-sm btn-default'
+                    = link_to '취소', smart_issue_home_url(@issue), class: 'btn btn-sm btn-default'
                   - else
-                    = form_tag smart_issue_home_path_or_url(@issue), method: :get do
+                    = form_tag smart_issue_home_url(@issue), method: :get do
                       .form-group.has-feedback
                         = search_field_tag :nav_q, params[:nav_q], placeholder: '게시글 찾기...', class: 'form-control'
                         %span.form-control-feedback{ style: 'pointer-events: initial;' }
@@ -83,7 +83,7 @@
                   검색 결과가 없습니다.
 
           - unless @issue.member_requested?(current_user)
-            .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': smart_issue_home_path_or_url(@issue, format: :js, nav_q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue), 'data-waypoint-context': "##{splited_left_dom_id}" }
+            .page-waypoint.js-page-waypoint.text-center{ 'data-target': '.posts', 'data-list-url': smart_issue_home_url(@issue, format: :js, nav_q: params[:nav_q]), 'data-read-all-url': unread_until_issue_path(@issue), 'data-waypoint-context': "##{splited_left_dom_id}" }
               .page-waypoint-loading.js-page-waypoint-loading
                 %i.fa.fa-2x.fa-spinner.fa-pulse
 

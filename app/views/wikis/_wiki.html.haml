@@ -13,7 +13,7 @@
     - issue = post.issue
     .wiki-card__meta.clearfix
       .wiki-card__issue
-        = link_to smart_issue_home_path_or_url(post.issue) do
+        = link_to smart_issue_home_url(post.issue) do
           = issue_tag(post.issue, show_group: true, group_classes: 'wiki-card__group', group_short: true)
       .wiki-card__date.date-wrapper.wiki-card__date--with-issue
         %span= date_f post.created_at

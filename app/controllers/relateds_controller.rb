@@ -38,7 +38,7 @@ class RelatedsController < ApplicationController
 
   def destroy
     @related.destroy
-    redirect_to smart_issue_home_path_or_url(@related.issue)
+    redirect_to smart_issue_home_url(@related.issue)
   end
 
   private

@@ -1,7 +1,7 @@
 - post = survey.post
 - issue = post.issue
 - feedbacked = user_signed_in? && survey.feedbacked?(current_user)
-.post-card.survey-card.js-link[post]{ class: "#{dom_id(survey)} #{feedbacked ? 'survey-card--feedbacked' : ''} #{removable_with_post_dom_class(post)}", "data": { 'link-url': smart_post_path_or_url(post) } }
+.post-card.survey-card.js-link[post]{ class: "#{dom_id(survey)} #{feedbacked ? 'survey-card--feedbacked' : ''} #{removable_with_post_dom_class(post)}", "data": { 'link-url': smart_post_url(post) } }
   - if post.private_blocked?(current_user)
     %strong 비공개 채널 게시글입니다.
     - if post.issue.member_requested? current_user
@@ -14,7 +14,7 @@
   - else
     .survey-card__meta.clearfix
       .survey-card__issue
-        = link_to smart_issue_home_path_or_url(issue) do
+        = link_to smart_issue_home_url(issue) do
           = issue_tag(post.issue, show_group: true, group_classes: 'survey-card__group', group_short: true)
       .survey-card__date.date-wrapper
         %span= date_f post.created_at

@@ -7,7 +7,7 @@
       - if local_assigns[:show_issue]
         .media
           .media-left
-            = link_to smart_issue_home_path_or_url(post.issue) do
+            = link_to smart_issue_home_url(post.issue) do
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
           .media-body
             - if !post.issue.host_group?(current_group) or local_assigns[:show_group]
@@ -15,7 +15,7 @@
                 %span.issue-group
                   = post.issue.group.title_basic_format
                   = meta_icons(post.issue.group)
-            = link_to smart_issue_home_path_or_url(post.issue), class: 'header-separator-item' do
+            = link_to smart_issue_home_url(post.issue), class: 'header-separator-item' do
               %span.issue-title
                 = post.issue.title
                 = meta_icons(post.issue)

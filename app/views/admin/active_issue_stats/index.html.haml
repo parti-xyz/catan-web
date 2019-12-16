@@ -26,7 +26,7 @@
             %td= active_issue.stat_at
             %td
               - issue = Issue.find(active_issue.issue_id)
-              = link_to issue.title, smart_issue_home_path_or_url(issue)
+              = link_to issue.title, smart_issue_home_url(issue)
             %td= active_issue.new_posts_count
             %td= active_issue.new_comments_count
             %td= active_issue.new_members_count

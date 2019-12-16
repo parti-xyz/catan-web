@@ -8,11 +8,11 @@
           포스트 번호: #{post.id}
         .media
           .media-left
-            = link_to smart_issue_home_path_or_url(post.issue) do
+            = link_to smart_issue_home_url(post.issue) do
               .issue-logo{style: "background-image: url(#{post.issue.logo.xs.url});"}
 
           .media-body
-            = link_to smart_issue_home_path_or_url(post.issue) do
+            = link_to smart_issue_home_url(post.issue) do
               = issue_tag(post.issue, group_classes: 'issue-group')
 
     - if post.private_blocked?(current_user)

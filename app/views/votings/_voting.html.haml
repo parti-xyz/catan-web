@@ -84,7 +84,7 @@
               - if local_assigns[:in_post]
                 댓글로 의견을 나눠 보세요.
               - else
-                %sapn.text-muted.js-link{ data: { 'link-url': smart_post_path_or_url(post) } }
+                %sapn.text-muted.js-link{ data: { 'link-url': smart_post_url(post) } }
                   댓글로 의견을 나눠 보세요.
           - else
             = link_to poll_votings_path(poll, voting: {choice: :unsure}), method: :post, remote: true, 'data-disable-with': '...' do
