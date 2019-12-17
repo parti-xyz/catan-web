@@ -1,4 +1,4 @@
-.post-card.reference-card.js-link[post]{ class: 'default', data: { 'link-url': smart_post_path_or_url(post) } }
+.post-card.reference-card.js-link[post]{ class: 'default', data: { 'link-url': smart_post_url(post) } }
   - if post.link_source.has_image?
     - capture_thumb = capture do
       .thumb.thumb--reference{ style: "background-image: url(#{post.link_source.image.md.url})" }
@@ -20,7 +20,7 @@
 
   .reference-card__meta.clearfix
     .reference-card__issue
-      = link_to smart_issue_home_path_or_url(post.issue) do
+      = link_to smart_issue_home_url(post.issue) do
         = issue_tag(post.issue, show_group: true, group_classes: 'reference-card__group', group_short: true)
     .reference-card__date.date-wrapper.reference-card__date--with-issue
       %span= date_f post.created_at

@@ -23,7 +23,7 @@
             = link_to header_issue_path(issue), remote: true do
               .thumb{style: "background-image: url(#{issue.logo.md.url})"}
           - else
-            = link_to smart_issue_home_path_or_url(issue) do
+            = link_to smart_issue_home_url(issue) do
               .thumb{style: "background-image: url(#{issue.logo.md.url})"}
       .media-body{ style: 'overflow: visible' }
         - if simple
@@ -69,7 +69,7 @@
           .col-sm-6.col-xs-12
             .row
               .col-custom{ class: ('active' if active_tab == :home) }
-                = link_to smart_issue_home_path_or_url(issue), class: 'parti-menu-a' do
+                = link_to smart_issue_home_url(issue), class: 'parti-menu-a' do
                   %h5 전체글
 
               .col-custom{class: ('active' if active_tab == :folders)}

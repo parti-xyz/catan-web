@@ -100,14 +100,14 @@ class IssuesController < ApplicationController
   end
 
   def slug_polls_or_surveys
-    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_url(@issue) and return if private_blocked?(@issue)
     how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
     @posts = Post.having_poll.or(Post.having_survey).or(Post.where.not(decision: nil))
     @posts = @posts.of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
   end
 
   def slug_wikis
-    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_url(@issue) and return if private_blocked?(@issue)
     how_to = params[:status] == 'inactive' ? :inactive : :active
     @posts = Post.having_wiki(how_to.to_s).of_issue(@issue).order_by_stroked_at.order_by_stroked_at.page(params[:page]).per(2*6)
 
@@ -120,7 +120,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_folders
-    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_url(@issue) and return if private_blocked?(@issue)
 
     respond_to do |format|
       format.js {
@@ -132,7 +132,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_members
-    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_url(@issue) and return if private_blocked?(@issue)
 
     base = @issue.members.recent
     base = smart_search_for(base, params[:keyword], profile: (:admin if user_signed_in? and current_user.admin?)) if params[:keyword].present?
@@ -140,7 +140,7 @@ class IssuesController < ApplicationController
   end
 
   def slug_links_or_files
-    redirect_to smart_issue_home_path_or_url(@issue) and return if private_blocked?(@issue)
+    redirect_to smart_issue_home_url(@issue) and return if private_blocked?(@issue)
     how_to = params[:sort] == 'hottest' ? :hottest : :order_by_stroked_at
     @posts = Post.having_link_or_file.of_issue(@issue).send(how_to).page(params[:page]).per(3*5)
   end

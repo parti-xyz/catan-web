@@ -240,7 +240,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_to smart_issue_home_path_or_url(@post.issue) }
+      format.html { redirect_to smart_issue_home_url(@post.issue) }
     end
   end
 

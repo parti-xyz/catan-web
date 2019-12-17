@@ -1,13 +1,4 @@
 module PartiUrlHelper
-  def smart_issue_home_path_or_url(issue, options = {})
-    new_options = options.merge(slug: issue.slug)
-    if issue.host_group?(current_group)
-      slug_issue_path(new_options)
-    else
-      smart_issue_home_url(issue, new_options)
-    end
-  end
-
   def smart_issue_home_url(issue, options = {})
     new_options = options.merge(slug: issue.slug, subdomain: issue.group_subdomain)
     slug_issue_url(new_options)
@@ -47,14 +38,6 @@ module PartiUrlHelper
 
   def smart_user_gallery_url(user, options = {})
     slug_user_url(options.merge(subdomain: nil, slug: user.slug))
-  end
-
-  def smart_post_path_or_url(post, options = {})
-    if post.issue.host_group?(current_group)
-      polymorphic_path(post, options)
-    else
-      smart_post_url(post, options)
-    end
   end
 
   def smart_post_url(post, options = {})
