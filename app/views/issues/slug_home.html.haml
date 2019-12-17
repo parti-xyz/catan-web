@@ -1,6 +1,6 @@
 = render 'issues/issue_header', active_tab: :home, full: !user_signed_in? or !@issue.member?(current_user)
 
-%section.contents-page#posts{ class: ('js-content-split-container' if window_splitable?) }
+%section.contents-page#posts{ class: ('js-content-split-container js-content-split-container-no-padding' if window_splitable?) }
   .container-fluid
     .row
       = main_column_tag_window_splitable do
