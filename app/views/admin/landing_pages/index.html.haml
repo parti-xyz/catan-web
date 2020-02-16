@@ -5,7 +5,7 @@
   %hr
   = form_tag save_admin_landing_pages_path, method: :post do
     .form-group.clearfix
-      %label 최근 빠띠 게시글 (사진 + 텍스트)
+      %label 최근 게시글 (사진 + 텍스트)
       = link_to '/admin/fetch_posts#anchor-recent-posts', target: '_blank', class: 'btn btn-default btn-sm' do
         대상 포스트 찾기
       = text_field_tag :recent_posts, @sections[:recent_posts].try(:body_in_form), class: 'form-control', placeholder: '포스트 번호를 붙여서 써주세요. ex) 1569,1570,1571'

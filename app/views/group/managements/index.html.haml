@@ -108,7 +108,7 @@
 
     %section
       %h4.group-heading
-        빠띠에 제안을 보내세요
+        #{I18n.t('labels.app_name_human')}의 개선 제안을 보내세요
         %small
           기능 개선, 이벤트 기획, 콜라보레이션 제안 등 어떤 것이든 환영합니다.
       = form_tag suggest_group_managements_path, method: :post, novalidate: true, data: { action: 'parti-form-validation' } do

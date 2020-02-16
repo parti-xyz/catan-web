@@ -11,6 +11,6 @@ class DecisionMailer < ApplicationMailer
 
     @decision_user = User.find_by(id: decision_user_id)
     mail(from: build_from(@decision_user), to: @user.email,
-      subject: "[빠띠] \"#{@post.specific_desc_striped_tags(50)}\" 게시글 토론이 정리되었습니다.")
+      subject: "[#{I18n.t('labels.app_name_human')}] \"#{@post.specific_desc_striped_tags(50)}\" 게시글 토론이 정리되었습니다.")
   end
 end

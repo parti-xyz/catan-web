@@ -33,7 +33,7 @@
                 %div{:style => "padding: 0px 5px;"}
                   %div{:style => "font-size: 12px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(96, 96, 96); padding: 0px; margin: 0px; text-align: center;"}
                     %span{:style => "color: rgb(251, 249, 249);"}
-                      %a(href="https://parti.xyz/" style="text-decoration: none; color: #fff;") 빠띠
+                      %a(href="https://parti.xyz/" style="text-decoration: none; color: #fff;") #{I18n.t('labels.app_name_human')}
                     &middot;
                     %a{:style => "color: rgb(251, 249, 249); text-decoration: none;"}(href='mailto:help@parti.xyz') help@parti.xyz
                     - if mailer.class.name != 'Devise::Mailer' and action_name != 'confirmation_instructions'

@@ -2,7 +2,7 @@
   %div{:style => "text-align: center;"}
     %span{:style => "color: rgb(255, 255, 255); font-size: 14px;"}
       #{@user.nickname}님
-      %span{:style => "color: rgb(255, 255, 255);"} 팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠에 오신 것을 환영합니다!
+      %span{:style => "color: rgb(255, 255, 255);"} 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}에 오신 것을 환영합니다!
 %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
   %div{:style => "padding: 10px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;background-color:#ffffff"}
     %div
@@ -47,10 +47,10 @@
     %ul{:style => "list-style-type: none;line-height: 23px;"}
       %a{:href => "https://union.parti.xyz/p/parti", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
         %li
-          빠띠에 의견이나 질문이 있으신가요?
-      %a{:href => "https://docs.parti.xyz", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
+          #{I18n.t('labels.app_name_human')}에 의견이나 질문이 있으신가요?
+      %a{:href => "https://parti.coop", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
         %li
-          빠띠 팀이 궁금하신가요?
+          빠띠가 궁금하신가요?
       %a{:href => "https://parti.xyz/users/edit", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
         %li
           자주 쓰는 이메일주소로 변경해보세요.

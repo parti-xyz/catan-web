@@ -7,7 +7,7 @@
             팀과 커뮤니티를 위한
             %br 민주주의 플랫폼
           %br
-          빠띠
+          #{I18n.t('labels.app_name_human')}
         %br
         = link_to issues_path, class: 'btn btn-block btn-default' do
           #{Group.count}개 그룹
@@ -133,7 +133,7 @@
     .container
       .text-center
         %h2{ style: 'margin-bottom: 30px;' }
-          무료로 제공한다면, 빠띠는 어떻게 운영하나요?
+          무료로 제공한다면, #{I18n.t('labels.app_name_human')}는 어떻게 운영하나요?
 
         .row
           .col-sm-6.col-sm-offset-3

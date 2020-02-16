@@ -57,7 +57,7 @@
 
         = render 'posts/post/content', local_assigns
 
-      - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || "빠띠"}" }
+      - share_content = { 'share-url': smart_post_url(post), 'share-text': "#{post.specific_desc_striped_tags(100)} | #{post.issue.group.try(:title_share_format) || I18n.t('labels.app_name_human')}" }
       - share_partial = capture do
         = render 'application/share', providers: %w(facebook twitter telegram kakao-link kakao-story copy), share_map: {action: 'parti-share', 'share-image': "#{post.meta_tag_image}" }.merge(share_content)
       .post-card__footer.clearfix

@@ -5,6 +5,6 @@ class ToAdminMailer < ApplicationMailer
 
     @body = text
     mail(to: 'help@parti.xyz',
-         subject: "[빠띠] #{@sender.nickname} 오거나이저님이 빠띠에 제안합니다.")
+         subject: "[#{I18n.t('labels.app_name_human')}] #{@sender.nickname} 오거나이저님이 #{I18n.t('labels.app_name_human')}에 제안합니다.")
   end
 end

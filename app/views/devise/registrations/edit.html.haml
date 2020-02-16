@@ -63,7 +63,7 @@
                 .checkbox
                   %label
                     = f.check_box :enable_mailing_summary
-                    요약된 빠띠 소식을 이메일로 받습니다.
+                    요약된 #{I18n.t('labels.app_name_human')} 소식을 이메일로 받습니다.
 
               .form-group
                 = f.label :push_notification_mode

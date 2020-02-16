@@ -159,7 +159,7 @@ tinymce.addI18n('ko_KR',{
 "Link": "링크",
 "Paste or type a link": "링크를 붙여넣거나 입력하세요",
 "The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "E-mail주소를 입력하셨습니다. E-mail 주소 링크를 걸까요?",
-"The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?": "웹사이트 주소를 http:\/\/ 없이 입력하셨습니다. \n\n* 다른 웹사이트 링크라면 \"확인\"을 눌러 주세요: http:\/\/를 붙여 드립니다. \n* 빠띠 사이트 링크라면 \"취소\"를 눌러 주세요: https:\/\/parti.xyz를 붙여 드립니다.",
+"The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?": "웹사이트 주소를 http:\/\/ 없이 입력하셨습니다. \n\n* 다른 웹사이트 링크라면 \"확인\"을 눌러 주세요: http:\/\/를 붙여 드립니다. \n* 현재 사이트 링크라면 \"취소\"를 눌러 주세요: https:\/\/parti.xyz를 붙여 드립니다.",
 "Link list": "링크 리스트",
 "Insert video": "비디오 삽입",
 "Insert\/edit video": "비디오 삽입\/수정",

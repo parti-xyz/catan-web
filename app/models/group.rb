@@ -117,7 +117,7 @@ class Group < ApplicationRecord
   scoped_search on: [:title, :slug, :site_title, :head_title]
 
   def title_share_format
-    "#{title} | 빠띠"
+    "#{title} | #{I18n.t('labels.app_name_human')}"
   end
 
   def title_basic_format
