@@ -126,8 +126,15 @@ class ApplicationController < ActionController::Base
       (controller_name == 'my_menus') or
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit')
     )
-      prepare_store_location
-      render 'home/group_home_private_blocked'
+      respond_to do |format|
+        format.html do
+          prepare_store_location
+          render 'home/group_home_private_blocked'
+        end
+        format.js do
+          render 'home/group_home_private_blocked.js'
+        end
+      end
     end
   end
 

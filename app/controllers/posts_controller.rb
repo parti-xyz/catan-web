@@ -287,6 +287,13 @@ class PostsController < ApplicationController
     @issue = @post.issue
     @list_url = smart_post_url(@post)
 
+    if request.format.js?
+      @partial = 'posts/post'
+      if params[:splited_line] == 'true'
+        @partial = 'posts/post_splited_line'
+      end
+    end
+
     return if @post.private_blocked?(current_user)
     if @post.poll.present?
       prepare_meta_tags title: @post.issue.title,
@@ -297,13 +304,6 @@ class PostsController < ApplicationController
       prepare_meta_tags title: @post.meta_tag_title,
         image: @post.meta_tag_image,
         description: @post.meta_tag_description
-    end
-
-    if request.format.js?
-      @partial = 'posts/post'
-      if params[:splited_line] == 'true'
-        @partial = 'posts/post_splited_line'
-      end
     end
   end
 
