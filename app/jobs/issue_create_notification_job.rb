@@ -12,8 +12,9 @@ class IssueCreateNotificationJob < ApplicationJob
 
     MessageService.new(issue, sender: creating_user, action: :create).call
 
-    issue.group.issue_create_messagable_users.find_each(batch_size: 20).each do |user|
-      PartiMailer.on_create(creating_user.id, user.id, issue.id).deliver_later
+    user_ids = issue.group.issue_create_messagable_users.select('users.id').map(&:id)
+    user_ids.each_with_index do |user_id, index|
+      PartiMailer.delay_until((5 * index).seconds.from_now).on_create(creating_user.id, user_id, issue.id)
     end
   end
 end

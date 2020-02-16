@@ -1,6 +1,7 @@
-if !ENV['SIDEKIQ'] and (Rails.env.development? or Rails.env.test?)
+if ENV['SIDEKIQ'] != 'true' && (Rails.env.development? || Rails.env.test?)
   require 'sidekiq/testing'
   Sidekiq::Testing.inline!
+  ENV['SIDEKIQ'] = 'false'
 else
   if Rails.env.production?
     redis_file = (Rails.root + 'config/redis.yml')
@@ -33,4 +34,6 @@ else
   if File.exists?(schedule_file) && Sidekiq.server?
     Sidekiq::Cron::Job.load_from_hash! YAML.load_file(schedule_file)
   end
+
+  ENV['SIDEKIQ'] = 'true'
 end
