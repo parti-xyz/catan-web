@@ -27,8 +27,10 @@
         %div
           %img.footer-logo__img{ alt: 'parti', src: asset_path('parti_logo_footer.png') }
         .slogan
-          팀과 커뮤니티를 위한 민주주의 플랫폼, 빠띠
-    %li.menu-line= link_to '빠띠 소개', about_url(subdomain: nil)
+          팀과 커뮤니티를 위한 민주주의 플랫폼
+          %br
+          #{I18n.t('labels.app_name_human')}
+    %li.menu-line= link_to '소개', about_url(subdomain: nil)
     %li.menu-line= link_to '이용 약관', terms_url(subdomain: nil)
     %li.menu-line= link_to '개인정보처리방침', privacy_url(subdomain: nil)
     %li.menu-line

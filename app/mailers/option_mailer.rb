@@ -14,6 +14,6 @@ class OptionMailer < ApplicationMailer
 
     mail(from: build_from(@option.user),
          to: @user.email,
-         subject: "[빠띠] #{@option.user.nickname}님이 새로운 제안을 올렸습니다 : #{@option.body}")
+         subject: "[#{I18n.t('labels.app_name_human')}] #{@option.user.nickname}님이 새로운 제안을 올렸습니다 : #{@option.body}")
   end
 end

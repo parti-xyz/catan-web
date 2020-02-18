@@ -18,5 +18,5 @@
     .container
       = link_to '로그인하고 계속하기', new_user_session_path, class: 'btn btn-primary'
       .help-block
-        빠띠에 처음 오셨나요?
+        #{I18n.t('labels.app_name_human')}에 처음 오셨나요?
         = link_to '가입하기', pre_sign_up_users_path, style: 'text-decoration: underline'

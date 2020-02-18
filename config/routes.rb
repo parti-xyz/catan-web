@@ -75,7 +75,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # 통합 빠띠
   get '/p/:slug/', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.open_square
     URI.escape("/p/#{Rack::Utils.escape MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug).issue.slug}")

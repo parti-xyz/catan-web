@@ -6,6 +6,6 @@ class SiteNoticeMailer < ApplicationMailer
     @body = body
     @user = user
     mail(to: user.email,
-         subject: "[빠띠] #{title}")
+         subject: "[#{I18n.t('labels.app_name_human')}] #{title}")
   end
 end

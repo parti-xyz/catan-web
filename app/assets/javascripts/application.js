@@ -367,7 +367,7 @@ var parti_prepare = function($base, force) {
           height: image_height
         },
         webLink: {
-          text: '빠띠에서 보기',
+          text: '빠띠 그룹스에서 보기',
           url: url
         }
       });

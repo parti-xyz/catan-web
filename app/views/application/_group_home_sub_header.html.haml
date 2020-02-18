@@ -30,7 +30,7 @@
                 그룹 관리
           - if current_group.member?(current_user)
             %li
-              - share_content = { 'share-url': smart_group_url(current_group), 'share-text': "#{current_group.title} | 빠띠" }
+              - share_content = { 'share-url': smart_group_url(current_group), 'share-text': "#{current_group.title} | #{I18n.t('labels.app_name_human')}" }
               %a.cursor-pointer{ data: { url: "#js-group-share", action: "parti-share-popover", placement: "auto", data: "click" }.merge(share_content) }<>
                 %i.fa.fa-share-alt
                 공유
@@ -49,7 +49,7 @@
         %ul.list-inline.list-inline-right.visible-xs-inline
           - if current_group.member?(current_user)
             %li
-              - share_content = { 'share-url': smart_group_url(current_group), 'share-text': "#{current_group.title} | 빠띠" }
+              - share_content = { 'share-url': smart_group_url(current_group), 'share-text': "#{current_group.title} | #{I18n.t('labels.app_name_human')}" }
               %a.cursor-pointer{ data: { url: "#js-group-share", action: "parti-share-popover", placement: "auto", data: "click" }.merge(share_content) }<>
                 %i.fa.fa-share-alt
                 .hidden<>

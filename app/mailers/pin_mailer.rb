@@ -8,6 +8,6 @@ class PinMailer < ApplicationMailer
     truncated_body = @post.specific_desc_striped_tags(20)
     mail(from: build_from(@sender),
       to: @recipient.email, reply_to: @sender.email,
-      subject: "[빠띠] #{@sender.nickname}님이 게시글을 공지했습니다 : #{truncated_body}")
+      subject: "[#{I18n.t('labels.app_name_human')}] #{@sender.nickname}님이 게시글을 공지했습니다 : #{truncated_body}")
   end
 end

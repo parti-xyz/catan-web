@@ -4,7 +4,7 @@
   .container
     %a{id: "anchor-recent-posts"}
       %h4{ style: "margin: 20px 0px; "}
-        최근 빠띠 게시글 (사진 + 텍스트)
+        최근 게시글 (사진 + 텍스트)
     .row.masonry-container{data: {last_id: @recent_posts.last.try(:id), is_last: @is_last_page.to_s, 'masonry-grid-sizer': '.grid-sizer'}}
       - @recent_posts.each do |post|
         .grid-sizer.col-sm-6

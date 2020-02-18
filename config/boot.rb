@@ -14,4 +14,3 @@ env_file_path = "config/env.custom"
 if File.exists?(env_file_path)
   Dotenv.load(env_file_path)
 end
-

@@ -10,7 +10,7 @@
               = byline current_user, hide_nickname: true
             .media-body
               %p
-                #{current_user.nickname}님, 이제 빠띠를 시작해보세요!
+                #{current_user.nickname}님, 이제 #{I18n.t('labels.app_name_human')}를 시작해보세요!
               = link_to '시작하기', dashboard_intro_path, class: 'btn btn-primary'
     - else
       .row
