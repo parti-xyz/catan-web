@@ -1,5 +1,5 @@
 GIT
-  remote: git://github.com/oelmekki/activerecord_any_of.git
+  remote: https://github.com/oelmekki/activerecord_any_of.git
   revision: 22b3bfb4614c2223242dc496328356923a239bed
   ref: 22b3bf
   specs:
@@ -7,7 +7,7 @@ GIT
       activerecord (>= 3.2.13, < 6)
 
 GIT
-  remote: git://github.com/parti-coop/tinymce-rails.git
+  remote: https://github.com/parti-coop/tinymce-rails.git
   revision: 7c1acb2fa3e09be094adff79cfedb28b48a2bcbb
   tag: 5.0.12.0
   specs:
@@ -552,7 +552,7 @@ GEM
     ruby2_keywords (0.0.2)
     ruby_parser (3.14.1)
       sexp_processor (~> 4.9)
-    rubyzip (1.2.4)
+    rubyzip (1.3.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -781,7 +781,7 @@ DEPENDENCIES
   rest-client (~> 2.0, >= 2.0.2)
   rinku
   rolify
-  rubyzip (~> 1.2.2)
+  rubyzip (~> 1.3.0)
   sass-rails (~> 5.0)
   sassc-rails (~> 2.1)
   scoped_search (~> 4.1)
