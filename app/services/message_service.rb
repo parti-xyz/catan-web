@@ -199,10 +199,11 @@ class MessageService
         send_messages(sender: sender, users: users, messagable: messagable, action: action, action_params: action_params)
       end
     else
-      users.each do |user|
+      users.each_with_index do |user, index|
         row = { messagable: messagable, sender: sender, user: user, action: action, action_params: action_params.try(:to_json) }
         message = Message.create(row)
-        FcmJob.perform_async(message.id) if message.fcm_pushable?
+
+        FcmJob.perform_at((2 * index).seconds.from_now, message.id) if message.fcm_pushable?
       end
     end
   end

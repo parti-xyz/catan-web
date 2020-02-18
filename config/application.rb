@@ -27,7 +27,7 @@ module CatanWeb
     config.i18n.available_locales = [:en, :ko]
     config.i18n.default_locale = :ko
 
-    config.active_job.queue_adapter = ((!ENV['SIDEKIQ'] and (Rails.env.test? or Rails.env.development?)) ? :inline : :sidekiq)
+    config.active_job.queue_adapter = ((ENV['SIDEKIQ'] != 'true' && (Rails.env.test? || Rails.env.development?)) ? :inline : :sidekiq)
 
     if Rails.env.test? || Rails.env.development?
         config.asset_host = 'https://parti.test'
