@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/oelmekki/activerecord_any_of.git
+  remote: git://github.com/oelmekki/activerecord_any_of.git
   revision: 22b3bfb4614c2223242dc496328356923a239bed
   ref: 22b3bf
   specs:
@@ -7,7 +7,7 @@ GIT
       activerecord (>= 3.2.13, < 6)
 
 GIT
-  remote: https://github.com/parti-coop/tinymce-rails.git
+  remote: git://github.com/parti-coop/tinymce-rails.git
   revision: 7c1acb2fa3e09be094adff79cfedb28b48a2bcbb
   tag: 5.0.12.0
   specs:
