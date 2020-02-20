@@ -41,10 +41,10 @@ class User < ApplicationRecord
   validate :nickname_exclude_pattern
   validates :email,
     presence: true,
-    format: { with: Devise.email_regexp }
+    format: { with: Devise.email_regexp }, if: ->{ canceled_at.nil? }
 
   validates :uid, uniqueness: { scope: [:provider] }
-  validates :email, uniqueness: { scope: [:provider] }, if: ->{ provider == "email" }
+  validates :email, uniqueness: { scope: [:provider] }, if: ->{ provider == "email" && canceled_at.nil? }
   validates :password,
     presence: true,
     confirmation: true,
@@ -398,7 +398,7 @@ class User < ApplicationRecord
   end
 
   def set_uid
-    self.uid = self.email if self.provider == 'email'
+    self.uid = self.email if self.provider == 'email' && canceled_at.nil?
   end
 
   def default_member_issues
