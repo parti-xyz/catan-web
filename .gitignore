@@ -39,3 +39,6 @@ moneta
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /config/credentials.yml.enc
+
+node_modules/
+public/packs/
