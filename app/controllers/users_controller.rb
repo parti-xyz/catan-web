@@ -2,6 +2,11 @@ class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:kill_me, :access_token, :cancel, :cancel_form]
 
   def posts
+    if current_group.present?
+      redirect_to subdomain: nil
+      return
+    end
+
     fetch_user
     render 'users/canceled' and return if @user.canceled?
 
