@@ -13,6 +13,6 @@ ExceptionNotification.configure do |config|
       mrkdwn: true
     },
     backtrace_lines: 20,
-    additional_fields: [{ title: 'Platform', value: '그룹스' }]
+    additional_fields: [{ title: 'Platform', value: 'XYZ' }]
   }
 end
