@@ -8,6 +8,6 @@ class MentionJob < ApplicationJob
     mentionable = mentionable_model.find_by(id: mentionable_id)
     return if mentionable.blank?
 
-    mentionable.perform_mentions_now(action)
+    mentionable.perform_messages_with_mentions_now(action)
   end
 end

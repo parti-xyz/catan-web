@@ -68,7 +68,7 @@ class PostsController < ApplicationController
 
     if @post.save
       crawling_after_updating_post
-      @post.perform_mentions_async(:update)
+      @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       redirect_to params[:back_url].presence || smart_post_url(@post)
     else

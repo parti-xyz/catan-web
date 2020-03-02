@@ -17,12 +17,12 @@ module Mentionable
     end
   end
 
-  def perform_mentions_async(action)
+  def perform_messages_with_mentions_async(action)
     return if self.try(:issue).try(:blind_user?, self.user)
     MentionJob.perform_async(self.class.model_name, self.id, action)
   end
 
-  def perform_mentions_now(action)
+  def perform_messages_with_mentions_now(action)
     return if self.try(:issue).try(:blind_user?, self.user)
 
     # Transaction을 걸지 않습니다
@@ -38,6 +38,7 @@ module Mentionable
     pervious = self.mentions.destroy_all
     scan_users.map do |mentioned_user|
       self.mentions.build(user: mentioned_user)
+      self.messages.where(user: mentioned_user).update_all(action: :mention)
     end
     self.save
   end
