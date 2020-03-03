@@ -33,7 +33,7 @@ class PostCreateService
     @post.issue.strok_by!(@current_user, @post)
     @post.issue.read_if_no_unread_posts!(@current_user)
     crawling_after_creating_post
-    @post.perform_mentions_async(:create)
+    @post.perform_messages_with_mentions_async(:create)
     if @post.pinned?
       PinJob.perform_async(@post.id, @current_user.id)
     end
