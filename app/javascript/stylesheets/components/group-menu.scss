@@ -1,7 +1,9 @@
+@use '../global-variables';
+
 .group-menu {
   padding: 0 1rem;
-  background-color: $color-magenta;
-  border-bottom: 2px solid $color-magenta-dark;
+  background-color: global-variables.$color-magenta;
+  border-bottom: 2px solid global-variables.$color-magenta-dark;
   cursor: pointer;
   > .title {
     font-weight: 900;

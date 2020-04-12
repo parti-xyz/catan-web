@@ -1,9 +1,11 @@
+@use './main-variables';
+
 .main-header {
   > .group-menu {
     position: relative;
-    width: $main-app--right-sidebar-width;
-    height: $main-app--header-height;
-    line-height: $main-app--header-height;
+    width: main-variables.$right-sidebar-width;
+    height: main-variables.$header-height;
+    line-height: main-variables.$header-height;
     float: left;
   }
 }

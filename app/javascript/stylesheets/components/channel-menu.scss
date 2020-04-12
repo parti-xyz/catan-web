@@ -1,11 +1,14 @@
+@use '../global-variables';
+@use './main-variables';
+
 .channel-menu {
   > .title {
     display: inline-block;
     padding: 0 0.5rem 0 1.5rem;
-    color: $color-mulled-wine;
+    color: global-variables.$color-mulled-wine;
     font-size: 1.4rem;
     font-weight: 900;
-    line-height: $main-app--header-height;
+    line-height: main-variables.$header-height;
     cursor: pointer;
   }
 }
