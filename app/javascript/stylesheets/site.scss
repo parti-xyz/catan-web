@@ -1,0 +1,11 @@
+$brand-primary: #966fd6;
+
+$color-magenta: #3e313c;
+$color-magenta-dark: #372c36;
+$color-mulled-wine: #555459;
+
+@import "~bootstrap/scss/bootstrap.scss";
+@import "./components/main-app.scss";
+@import "./components/main-header.scss";
+@import "./components/group-menu.scss";
+@import "./components/channel-menu.scss";

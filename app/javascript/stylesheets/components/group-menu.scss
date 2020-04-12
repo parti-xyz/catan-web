@@ -1,0 +1,10 @@
+.group-menu {
+  padding: 0 1rem;
+  background-color: $color-magenta;
+  border-bottom: 2px solid $color-magenta-dark;
+  cursor: pointer;
+  > .title {
+    font-weight: 900;
+    color: #ffffff;
+  }
+}

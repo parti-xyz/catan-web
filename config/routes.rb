@@ -400,4 +400,6 @@ Rails.application.routes.draw do
     get :new_notice_email, to: 'notice_email#new'
     post :deliver_notice_email, to: 'notice_email#deliver'
   end
+
+  get :main, to: 'pages#main'
 end

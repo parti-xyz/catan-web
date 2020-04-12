@@ -43,4 +43,8 @@ class PagesController < ApplicationController
   def share_telegram
     render layout: false
   end
+
+  layout 'bpplication', only: :main
+  def main
+  end
 end

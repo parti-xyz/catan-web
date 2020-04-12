@@ -17,6 +17,7 @@ namespace :branchdb do
     end
 
     branch = branch.gsub('/', '_')
+    branch = branch.gsub('.', '_')
 
     local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
 
@@ -48,6 +49,7 @@ namespace :branchdb do
     end
 
     branch = branch.gsub('/', '_')
+    branch = branch.gsub('.', '_')
 
     local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
 

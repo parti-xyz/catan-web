@@ -6,6 +6,8 @@ gem 'unicorn'
 gem 'bundler', '2.0.1'
 gem 'bootsnap', require: false
 gem 'railties', '= 5.2.2'
+gem 'turbolinks', '~> 5'
+gem 'webpacker', '~> 4.x'
 
 # db
 gem 'mysql2', '~> 0.5.3'
