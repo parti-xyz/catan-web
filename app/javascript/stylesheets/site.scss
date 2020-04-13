@@ -1,9 +1,6 @@
 @use "./global-variables";
-
+@use "./reset";
 @use "~bootstrap/scss/bootstrap" with (
   $primary: global-variables.$color-brand-primary
 );
 @use "./components/main-app";
-@use "./components/main-header";
-@use "./components/group-menu";
-@use "./components/channel-menu";

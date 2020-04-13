@@ -1,9 +1,33 @@
+@forward "./main/main-header";
+@forward "./main/group-menu";
+@forward "./main/channel-menu";
+@forward "./main/main-body";
+@forward "./main/channel-listings";
+@forward "./main/channel-listing";
+@forward "./main/channel-lines";
+@forward "./main/channel-line";
+
+@use "./main/main-variables";
+
+// reset main body
+body.app-pages-main {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
 .main-app {
+  height: 100%;
+  padding-top: main-variables.$header-height;
+  padding-bottom: 64px;
   > .main-header {
     position: fixed;
     top: 0;
     left: 0;
     height: 53px;
     width: 100%;
+  }
+  > .main-body {
+    height: 100%;
   }
 }

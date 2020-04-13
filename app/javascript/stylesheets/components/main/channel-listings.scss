@@ -1,0 +1,8 @@
+.main-app .channel-listings {
+  background-color: #4d394b;
+  overflow-y: auto;
+  overflow-x: hidden;
+  > .channel-listing {
+    margin: 1rem 0 2rem;
+  }
+}

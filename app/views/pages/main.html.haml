@@ -6,5 +6,18 @@
     .channel-menu
       .title
         크루
+  .main-body
+    .channel-listings
+      .channel-listing
+        .title 채널
+        %ul.channel-lines
+          %li.channel-line.-active
+            %span.unread 10
+            크루
+          - 10.times do |i|
+            %li.channel-line
+              %span.unread 10
+              채널#{i}
+
 
 

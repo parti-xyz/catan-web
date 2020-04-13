@@ -1,0 +1,9 @@
+.main-app .channel-lines {
+  list-style-type: none;
+  text-align: left;
+  > .channel-line {
+    height: 24px;
+    line-height: 24px;
+    margin-right: 17px;
+  }
+}

@@ -1,6 +1,6 @@
 @use './main-variables';
 
-.main-header {
+.main-app .main-header {
   > .group-menu {
     position: relative;
     width: main-variables.$right-sidebar-width;
