@@ -1,13 +1,6 @@
-@forward "./main/main-header";
-@forward "./main/group-menu";
-@forward "./main/channel-menu";
-@forward "./main/main-body";
-@forward "./main/channel-listings";
-@forward "./main/channel-listing";
-@forward "./main/channel-lines";
-@forward "./main/channel-line";
+@use "./main-variables";
 
-@use "./main/main-variables";
+@forward "./main/*.scss";
 
 // reset main body
 body.app-pages-main {

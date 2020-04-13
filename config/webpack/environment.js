@@ -1,4 +1,5 @@
 const { environment } = require('@rails/webpacker')
+const globCssImporter = require('node-sass-glob-importer');
 
 const webpack = require('webpack');
 environment.plugins.append('Provide', new webpack.ProvidePlugin({
@@ -18,5 +19,6 @@ const sassLoaderConfig = sassLoader.use.find(function (element) {
 // Use Dart-implementation of Sass (default is node-sass)
 const options = sassLoaderConfig.options
 options.implementation = require('sass')
+options.importer = globCssImporter()
 
 module.exports = environment
