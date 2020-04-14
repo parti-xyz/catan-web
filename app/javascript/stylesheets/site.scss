@@ -1,6 +1,4 @@
 @use "./global-variables";
 @use "./reset";
-@use "~bootstrap/scss/bootstrap" with (
-  $primary: global-variables.$color-brand-primary
-);
+@use "./bootstrap";
 @use "./components/main-app";

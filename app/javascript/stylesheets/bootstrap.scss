@@ -1,0 +1,5 @@
+@use "./global-variables";
+
+@forward "~bootstrap/scss/bootstrap" with (
+  $primary: global-variables.$color-brand-primary
+);

@@ -11,16 +11,14 @@ body.app-pages-main {
 
 .main-app {
   height: 100%;
-  padding-top: main-variables.$header-height;
-  padding-bottom: 64px;
-  > .main-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 53px;
-    width: 100%;
+  display: flex;
+  > .main-navbar {
+    flex: none;
+    width: main-variables.$main-navbar-width;
+    height: 100%;
   }
-  > .main-body {
+  > .main-playground {
+    flex: 1;
     height: 100%;
   }
 }

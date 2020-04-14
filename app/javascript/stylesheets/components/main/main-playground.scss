@@ -1,0 +1,15 @@
+@use "../main-variables";
+
+.main-app .main-playground {
+  padding-top: main-variables.$header-height;
+  > .main-header {
+    position: fixed;
+    top: 0;
+    left: main-variables.$main-navbar-width;
+    height: main-variables.$header-height;
+    width: 100%;
+  }
+  > .main-body {
+    height: 100%;
+  }
+}
