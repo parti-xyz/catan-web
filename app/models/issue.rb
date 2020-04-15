@@ -370,7 +370,7 @@ class Issue < ApplicationRecord
     end
   end
 
-  def unread_post?(someone, last_stroked_at)
+  def unread_post?(someone, last_stroked_at = self.last_stroked_at)
     return false if last_stroked_at.blank?
     return false unless self.marked_read_at?(someone)
 

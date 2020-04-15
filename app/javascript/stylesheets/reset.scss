@@ -17,3 +17,11 @@ caption, th, td {
   font-weight: normal;
   vertical-align: middle;
 }
+
+body.app-pack a {
+  color: inherit;
+}
+
+body.app-pack a:hover {
+  text-decoration: none;
+}

@@ -1,12 +1,14 @@
 .station-app .channel-line {
   border-top-right-radius: 0.25rem;
   border-bottom-right-radius: 0.25rem;
-  color: #ffffff;
   padding-left: 1rem;
   &.-active {
     background: #4c9689;
   }
-  > .unread {
+  > a > .title {
+    color: #ffffff;
+  }
+  > a > .unread {
     background: #eb4d5c;
     border-radius: 9px;
     padding: 2px 9px;

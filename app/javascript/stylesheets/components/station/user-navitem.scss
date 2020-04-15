@@ -3,9 +3,6 @@
 
 .user-navitem {
   display: block;
-  &:hover {
-    text-decoration: none;
-  }
   > .icon {
     border-radius: 50%;
     width: 100% - (station-variables.$station-navbar-margin-x * 2);

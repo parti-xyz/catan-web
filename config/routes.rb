@@ -403,4 +403,5 @@ Rails.application.routes.draw do
 
   get :station, to: 'station#show'
   get :station_navbar, to: 'station#navbar', as: :station_navbar
+  get :station_channel_listings, to: 'station#channel_listings', as: :station_channel_listings
 end
