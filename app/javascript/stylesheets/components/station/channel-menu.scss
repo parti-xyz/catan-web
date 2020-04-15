@@ -1,14 +1,14 @@
 @use '../../global-variables';
-@use '../main-variables';
+@use '../station-variables';
 
-.main-app .channel-menu {
+.station-app .channel-menu {
   > .title {
     display: inline-block;
     padding: 0 0.5rem 0 1.5rem;
     color: global-variables.$color-mulled-wine;
     font-size: 1.4rem;
     font-weight: 900;
-    line-height: main-variables.$header-height;
+    line-height: station-variables.$header-height;
     cursor: pointer;
   }
 }

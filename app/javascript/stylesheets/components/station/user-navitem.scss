@@ -1,0 +1,14 @@
+@use "../../bootstrap";
+@use "../station-variables";
+
+.user-navitem {
+  display: block;
+  &:hover {
+    text-decoration: none;
+  }
+  > .icon {
+    border-radius: 50%;
+    width: 100% - (station-variables.$station-navbar-margin-x * 2);
+    margin: 15% station-variables.$station-navbar-margin-x 0 station-variables.$station-navbar-margin-x;
+  }
+}

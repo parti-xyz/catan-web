@@ -401,5 +401,6 @@ Rails.application.routes.draw do
     post :deliver_notice_email, to: 'notice_email#deliver'
   end
 
-  get :main, to: 'pages#main'
+  get :station, to: 'station#show'
+  get :station_navbar, to: 'station#navbar', as: :station_navbar
 end

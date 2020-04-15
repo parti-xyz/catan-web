@@ -19,7 +19,8 @@ import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 
 import 'jquery'
-import '../src/plugins'
+import 'popper.js'
+import 'bootstrap'
 
 import '../stylesheets/site'
 
@@ -27,3 +28,9 @@ import 'controllers'
 
 Rails.start()
 Turbolinks.start()
+
+$(function () {
+  $('body').tooltip({
+    selector: '[data-toggle="tooltip"]'
+  });
+});

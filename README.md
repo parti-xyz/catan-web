@@ -294,3 +294,4 @@ $ rails tmp:cache:clear
 # TODO
 
 * 대시보드에서 최초 다른 빠띠에 가입하기
+* station에서 로그인 하지 않은 경우 처리하기

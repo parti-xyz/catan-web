@@ -1,0 +1,11 @@
+@use '../station-variables';
+
+.station-app .station-header {
+  > .group-menu {
+    position: relative;
+    width: station-variables.$right-sidebar-width;
+    height: station-variables.$header-height;
+    line-height: station-variables.$header-height;
+    float: left;
+  }
+}

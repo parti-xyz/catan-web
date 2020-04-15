@@ -1,0 +1,8 @@
+- if user_signed_in?
+  .user-navitem
+    = image_tag current_user.image.xs.url, class: 'icon'
+- if user_signed_in?
+  .group-navitems
+    - @groups.each do |group|
+      = link_to station_url(subdomain: group.subdomain), class: 'group-navitem' do
+        = image_tag group.logo.sm.url, class: 'icon', title: group.title, data: { toggle: 'tooltip', placement: 'right', boundary: 'viewport' }

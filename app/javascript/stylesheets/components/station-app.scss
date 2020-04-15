@@ -1,0 +1,25 @@
+@use "./station-variables";
+
+@forward "./station/*.scss";
+
+// reset station body
+body.app-station-show {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.station-app {
+  height: 100%;
+  display: flex;
+  position: relative;
+  > .station-navbar {
+    flex: none;
+    width: station-variables.$station-navbar-width;
+    height: 100%;
+  }
+  > .station-playground {
+    flex: 1;
+    height: 100%;
+  }
+}

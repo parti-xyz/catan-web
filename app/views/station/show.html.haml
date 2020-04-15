@@ -1,0 +1,26 @@
+.station-app{ style: 'position: relative' }
+  .station-navbar.data-turbolinks-permanent{ data: { controller: 'content-loader', 'content-loader-url': station_navbar_path } }
+  .station-playground
+    .station-header
+      .group-menu
+        .title
+          빠띠쿱
+      .channel-menu
+        .title
+          크루
+    .station-body
+      .channel-listings
+        .channel-listing
+          .title 채널
+          %ul.channel-lines
+            %li.channel-line.-active
+              %span.unread 10
+              크루
+            - 10.times do |i|
+              %li.channel-line
+                %span.unread 10
+                %span{ title: "채널#{i}", data: { toggle: 'tooltip'} }
+                  채널#{i}
+
+
+
