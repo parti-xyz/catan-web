@@ -1,14 +1,24 @@
 .station-app .channel-line {
-  border-top-right-radius: 0.25rem;
-  border-bottom-right-radius: 0.25rem;
-  padding-left: 1rem;
-  &.-active {
+  &.-active > .link {
     background: #4c9689;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
   }
-  > a > .title {
+  > .link {
+    display: inline-block;
+    margin-right: 1em;
+    padding-left: 1em;
+  }
+  > .link > .linebody {
+    display: flex;
+  }
+  > .link > .linebody > .title {
     color: #ffffff;
+    margin-left: 0.3em;
+    margin-right: 1em;
   }
-  > a > .unread {
+  > .link > .unread {
+    color: #ffffff;
     background: #eb4d5c;
     border-radius: 9px;
     padding: 2px 9px;

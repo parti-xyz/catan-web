@@ -1,5 +1,5 @@
 .station-app
-  .station-navbar.data-turbolinks-permanent{ data: { controller: 'content-loader', 'content-loader-url': station_navbar_path } }
+  #station-app-station-navbar.station-navbar{ data: { controller: 'content-loader', 'content-loader-url': station_navbar_path, 'turbolinks-permanent': true } }
   .station-playground
     .station-header
       .group-menu
@@ -9,7 +9,7 @@
         - if @current_issue.present?
           .title # #{@current_issue.title}
     .station-body
-      .channel-listings{ data: { controller: 'content-loader', 'content-loader-url': station_channel_listings_path(issue_id: @current_issue) } }
+      #station-app-channel-listings.channel-listings{ data: { controller: 'content-loader', 'content-loader-url': station_channel_listings_path(issue_id: @current_issue), 'turbolinks-permanent': true } }
 
 
 

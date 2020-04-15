@@ -29,8 +29,30 @@ import 'controllers'
 Rails.start()
 Turbolinks.start()
 
-$(function () {
+$(document).ready(function () {
   $('body').tooltip({
     selector: '[data-toggle="tooltip"]'
-  });
+  })
 });
+
+(function () {
+  const scrollTops = new WeakMap
+
+  function findElements() {
+    return document.querySelectorAll("[data-turbolinks-permanent]")
+  }
+
+  addEventListener("turbolinks:before-render", function () {
+    findElements().forEach(function (element) {
+      scrollTops.set(element, element.scrollTop)
+    })
+  })
+
+  addEventListener("turbolinks:render", function () {
+    findElements().forEach(function (element) {
+      if (scrollTops.has(element)) {
+        element.scrollTop = scrollTops.get(element)
+      }
+    })
+  })
+})()
