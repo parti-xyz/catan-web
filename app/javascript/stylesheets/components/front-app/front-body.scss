@@ -1,7 +1,10 @@
-.station-app .station-body {
+.front-app .front-body {
   > .channel-listings {
     height: 100%;
     width: 220px;
     float: left;
+  }
+  > .channel-playground {
+    height: 100%;
   }
 }

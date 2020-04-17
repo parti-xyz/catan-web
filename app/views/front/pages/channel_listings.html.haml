@@ -3,7 +3,7 @@
   %ul.channel-lines{ data: { 'controller': 'activator' } }
     - @issues.each do |issue|
       %li.channel-line{ class: ('-active' if issue == @current_issue), data: { action: 'click->activator#pick', target: 'activator.item' } }
-        = link_to station_path(issue_id: issue), class: 'link' do
+        = link_to front_channel_path(issue_id: issue), class: 'link' do
           - if issue.unread_post?(current_user)
             %span.unread up
           .linebody

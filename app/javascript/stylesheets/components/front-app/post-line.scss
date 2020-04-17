@@ -1,0 +1,57 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.front-app .post-line {
+  padding: 0.6em;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  > .icon {
+    flex: none;
+    margin-right: 0.6em;
+  }
+  > .body {
+    flex: 1;
+    overflow: hidden;
+  }
+  > .body > .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  > .body > .title.-blind {
+    color: #bbb;
+  }
+  > .body > .meta {
+    color: gray;
+    font-size: bootstrap.$font-size-sm;
+  }
+  > .counts {
+    flex: none;
+    min-width: 20%;
+    font-size: bootstrap.$font-size-sm;
+    margin-left: 2em;
+    color: gray;
+    text-align: right;
+  }
+  > .counts > .upvotes {
+    display: inline-block;
+    width: 3em;
+    margin-right: 1em;
+    text-align: left;
+  }
+  > .counts > .comments {
+    display: inline-block;
+    width: 3em;
+    text-align: left;
+  }
+  > .counts > .upvotes > .fa,
+  > .counts > .comments > .fa {
+    margin-right: 0.3em;
+  }
+  > .counts > .upvotes.-active {
+    color: global-variables.$color-brand-primary;
+  }
+  > .counts > .comments.-active {
+    color: global-variables.$color-brand-primary;
+  }
+}

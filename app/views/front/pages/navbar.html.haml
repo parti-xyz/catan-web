@@ -4,5 +4,5 @@
 - if user_signed_in?
   .group-navitems
     - @groups.each do |group|
-      = link_to station_url(subdomain: group.subdomain), class: "group-navitem #{'-active' if group == current_group}", data: { 'turbolinks-scroll': false } do
+      = link_to front_root_url(subdomain: group.subdomain), class: "group-navitem #{'-active' if group == current_group}", data: { 'turbolinks-scroll': false } do
         = image_tag group.logo.sm.url, class: 'icon', title: group.title, data: { toggle: 'tooltip', placement: 'right', boundary: 'viewport' }

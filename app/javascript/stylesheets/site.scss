@@ -1,4 +1,5 @@
 @use "./reset";
 @use "./bootstrap";
 
-@use "./components/station-app";
+@use "./components/front-app";
+@use "./components/pagination-wrapper";

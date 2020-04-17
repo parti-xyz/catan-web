@@ -1,0 +1,7 @@
+.front-app .channel-playground {
+  overflow-y: auto;
+  overflow-x: hidden;
+  > .posts-box {
+    margin: 0 24px 16px;
+  }
+}

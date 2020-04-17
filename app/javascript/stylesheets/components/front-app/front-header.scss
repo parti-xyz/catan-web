@@ -1,0 +1,11 @@
+@use '../front-variables';
+
+.front-app .front-header {
+  > .group-menu {
+    position: relative;
+    width: front-variables.$right-sidebar-width;
+    height: front-variables.$header-height;
+    line-height: front-variables.$header-height;
+    float: left;
+  }
+}

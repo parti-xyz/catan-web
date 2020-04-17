@@ -1,0 +1,25 @@
+@use "./front-variables";
+
+@forward "./front-app/*.scss";
+
+// reset front body
+body.app-front--pages {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.front-app {
+  height: 100%;
+  display: flex;
+  position: relative;
+  > .front-navbar {
+    flex: none;
+    width: front-variables.$front-navbar-width;
+    height: 100%;
+  }
+  > .front-playground {
+    flex: 1;
+    height: 100%;
+  }
+}

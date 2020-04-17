@@ -16,6 +16,8 @@ class ApplicationController < ActionController::Base
   after_action :prepare_store_location
   after_action :visit_group
 
+  around_action :set_current_user
+
   layout -> { get_layout }
 
   if Rails.env.production? or Rails.env.staging?
@@ -355,5 +357,13 @@ class ApplicationController < ActionController::Base
     if current_group.present? and response.status < 400 and response.status >= 200
       current_user.update_attributes(last_visitable: current_group)
     end
+  end
+
+  def set_current_user
+    Current.user = current_user
+    yield
+  ensure
+    # to address the thread variable leak issues in Puma/Thin webserver
+    Current.user = nil
   end
 end

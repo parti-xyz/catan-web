@@ -101,6 +101,10 @@ class Post < ApplicationRecord
   accepts_nested_attributes_for :event
 
   has_many :comments, dependent: :destroy
+  has_many :current_user_comments,
+    -> { where(user_id: Current.user.try(:id)) },
+    class_name: "Comment"
+
   has_many :beholders, dependent: :destroy
   belongs_to :folder, optional: true
   has_many :bookmarks, dependent: :destroy
@@ -187,7 +191,9 @@ class Post < ApplicationRecord
   scope :of_group, ->(group) { where(issue_id: group.issues) }
   scope :pinned, -> { where(pinned: true) }
   scope :unpinned, -> { where.not(pinned: true) }
-  scope :never_blinded, -> { where.not(blind: true) }
+  scope :never_blinded, ->(someone = nil) {
+    where.not(blind: true) if someone.nil? || !Blind.any_wide?(someone)
+  }
   scope :unblinded, ->(someone) { where.not(blind: true).or(where(user_id: someone)) }
 
   ## uploaders
@@ -321,6 +327,10 @@ class Post < ApplicationRecord
 
   def any_not_latest_comments?(someone)
     comments_count > latest_comments_count(someone)
+  end
+
+  def commented_by_me?
+    smart_exists_association?(:current_user_comments)
   end
 
   def blinded? someone = nil

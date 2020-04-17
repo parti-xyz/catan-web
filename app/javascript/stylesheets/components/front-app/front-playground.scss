@@ -1,0 +1,17 @@
+@use "../front-variables";
+
+.front-app .front-playground {
+  padding-top: front-variables.$header-height;
+  background-color: #f8f7fe;
+  overflow: hidden;
+  > .front-header {
+    position: fixed;
+    top: 0;
+    left: front-variables.$front-navbar-width;
+    height: front-variables.$header-height;
+    width: 100%;
+  }
+  > .front-body {
+    height: 100%;
+  }
+}

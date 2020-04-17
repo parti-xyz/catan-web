@@ -272,7 +272,7 @@ class Issue < ApplicationRecord
   end
 
   def blind_user? someone
-    blinds.exists?(user: someone) or Blind.site_wide?(someone)
+    blinds.exists?(user: someone) || Blind.site_wide?(someone)
   end
 
   def sender_of_message(message)

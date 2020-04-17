@@ -1,0 +1,15 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.pagination-wrapper .pagination {
+  justify-content: center;
+  > li {
+    margin: 0 .8em;
+    font-size: bootstrap.$font-size-sm;
+    color: gray;
+  }
+  > li.active {
+    font-weight: bold;
+    color: global-variables.$color-brand-primary;
+  }
+}

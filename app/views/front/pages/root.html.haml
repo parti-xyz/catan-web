@@ -1,0 +1,55 @@
+.front-app
+  #front-app-front-navbar.front-navbar{ data: { controller: 'content-loader', 'content-loader-url': front_navbar_path, 'turbolinks-permanent': true } }
+  .front-playground
+    .front-header
+      .group-menu
+        .title
+          = current_group.title
+      .channel-menu
+        - if @current_issue.present?
+          .title # #{@current_issue.title}
+    .front-body
+      #front-app-channel-listings.channel-listings{ data: { controller: 'content-loader', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue), 'turbolinks-permanent': true } }
+      .channel-playground
+        - if @posts.present?
+          .posts-box
+            %ul.post-lines
+              - @posts.each do |post|
+                %li.post-line
+                  .icon
+                    - if post.poll.present?
+                      %i.fa.fa-fire.fa-fw
+                    - elsif post.survey.present?
+                      %i.fa.fa-list-ul.fa-fw
+                    - elsif post.wiki.present?
+                      %i.fa.fa-file-word-o.fa-fw
+                    - else
+                      %i.fa.fa-stack-exchange.fa-fw
+                  .body
+                    - unless post.blinded?(current_user)
+                      .title
+                        != post.specific_desc_striped_tags(100)
+                    - else
+                      .title.-blind
+                        %i.fa.fa-info-circle
+                        = t('labels.post_blind_info')
+                    .meta
+                      = date_f post.created_at
+                      \/
+                      = post.user.nickname
+                  .counts
+                    %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
+                      %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+                      = post.upvotes_count
+                    %span.comments{ class: ('-active' if post.commented_by_me?) }
+                      %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
+                      = post.comments_count
+            = paginate @posts, theme: 'catan'
+
+
+
+
+
+
+
+

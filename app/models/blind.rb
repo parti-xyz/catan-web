@@ -19,6 +19,16 @@ class Blind < ApplicationRecord
     end
   end
 
+  def self.any_wide?(someone)
+    if Rails.env.test?
+      exists?(user: someone)
+    else
+      Rails.cache.fetch("Blind/#{someone&.nickname}/any_wide", race_condition_ttl: 30.seconds, expires_in: 300.seconds) do
+        exists?(user: someone)
+      end
+    end
+  end
+
   private
 
   def process_blind

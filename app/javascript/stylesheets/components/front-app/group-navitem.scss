@@ -1,0 +1,15 @@
+@use "../../bootstrap";
+@use "../front-variables";
+
+.front-app .group-navitem {
+  display: block;
+  > .icon {
+    border: 4px solid transparent;
+    border-radius: 8px;
+    width: 100% - (front-variables.$front-navbar-margin-x * 2);
+    margin: 0 front-variables.$front-navbar-margin-x;
+  }
+  &.-active > .icon {
+    border-color: #fff;
+  }
+}

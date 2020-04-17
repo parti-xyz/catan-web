@@ -401,7 +401,11 @@ Rails.application.routes.draw do
     post :deliver_notice_email, to: 'notice_email#deliver'
   end
 
-  get :station, to: 'station#show'
-  get :station_navbar, to: 'station#navbar', as: :station_navbar
-  get :station_channel_listings, to: 'station#channel_listings', as: :station_channel_listings
+  namespace :front do
+    root 'pages#root'
+    get 'channles/:issue_id', to: 'pages#root', as: :channel
+
+    get :navbar, to: 'pages#navbar', as: :navbar
+    get :channel_listings, to: 'pages#channel_listings', as: :channel_listings
+  end
 end
