@@ -1,0 +1,16 @@
+- content_for :playground_header_content do
+  .post-menu
+    - if @referrer_backable
+      = link_to :back, class: 'back' do
+        %i.fa.fa-arrow-left
+    .title
+      게시물
+
+.post-box
+  .title
+    %h2= @current_post.title
+    %small
+      - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+      - if last_stroked_text.present?
+        != last_stroked_text
+        = date_f( last_stroked_at.presence || @current_post.created_at )

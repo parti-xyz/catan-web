@@ -403,7 +403,8 @@ Rails.application.routes.draw do
 
   namespace :front do
     root 'pages#root'
-    get 'channles/:issue_id', to: 'pages#root', as: :channel
+    get 'channles/:issue_id', to: 'pages#channel', as: :channel
+    get 'posts/:post_id', to: 'pages#post', as: :post
 
     get :navbar, to: 'pages#navbar', as: :navbar
     get :channel_listings, to: 'pages#channel_listings', as: :channel_listings

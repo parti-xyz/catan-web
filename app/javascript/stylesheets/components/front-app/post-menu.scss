@@ -1,0 +1,17 @@
+@use "../../global-variables";
+@use "../front-variables";
+
+.front-app .post-menu {
+  padding: 0 front-variables.$front-playground-space-x 0 1.5rem;
+  > .back {
+    color: global-variables.$color-voodoo-400;
+    line-height: front-variables.$header-height;
+  }
+  > .title {
+    display: inline-block;
+    padding-left: front-variables.$front-playground-space-x;
+    color: global-variables.$color-voodoo-400;
+    font-weight: 900;
+    line-height: front-variables.$header-height;
+  }
+}

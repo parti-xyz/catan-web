@@ -1,0 +1,16 @@
+@use '../front-variables';
+
+.front-app .group-sidebar {
+  padding-top: front-variables.$header-height;
+  background-color: front-variables.$color-sidebar-background;
+  > .group-menu {
+    width: 100%;
+    height: front-variables.$header-height;
+    line-height: front-variables.$header-height;
+    position: fixed;
+    top: 0;
+  }
+  > .channel-listings {
+    height: 100%;
+  }
+}

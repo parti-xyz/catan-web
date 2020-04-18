@@ -12,10 +12,14 @@ body.app-front--pages {
 .front-app {
   height: 100%;
   display: flex;
-  position: relative;
-  > .front-navbar {
+  > .global-sidebar {
     flex: none;
-    width: front-variables.$front-navbar-width;
+    width: front-variables.$global-sidebar-width;
+    height: 100%;
+  }
+  > .group-sidebar {
+    flex: none;
+    width: front-variables.$group-sidebar-width;
     height: 100%;
   }
   > .front-playground {

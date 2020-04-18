@@ -386,6 +386,7 @@ ko:
         feedback: "%{user_word} 투표했습니다."
         option: "%{user_word} 새 제안을 올렸습니다."
         comment: "%{user_word} 댓글을 달았습니다."
+        create: "%{user_word} 게시했습니다."
     wiki:
       history:
         create: "%{user_word} 위키를 게시했습니다."

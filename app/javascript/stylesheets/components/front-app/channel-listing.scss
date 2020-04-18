@@ -1,5 +1,7 @@
+@use '../../global-variables';
+
 .front-app .channel-listing {
-  color: #ab9ba9;
+  color: global-variables.$color-voodoo-300;
   > .title {
     text-align: left;
     font-size: 0.8rem;

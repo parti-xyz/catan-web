@@ -1,17 +1,19 @@
+@use '../../global-variables';
 @use "../front-variables";
 
 .front-app .front-playground {
   padding-top: front-variables.$header-height;
-  background-color: #f8f7fe;
+  background-color: global-variables.$color-gray-200;
   overflow: hidden;
-  > .front-header {
+  > .playground-header {
     position: fixed;
     top: 0;
-    left: front-variables.$front-navbar-width;
+    left: front-variables.$global-sidebar-width + front-variables.$group-sidebar-width;
     height: front-variables.$header-height;
     width: 100%;
   }
-  > .front-body {
+  > .playground-body {
     height: 100%;
+    width: 100%;
   }
 }

@@ -6,7 +6,7 @@
   > li {
     margin: 0 .8em;
     font-size: bootstrap.$font-size-sm;
-    color: gray;
+    color: global-variables.$color-gray-500;
   }
   > li.active {
     font-weight: bold;

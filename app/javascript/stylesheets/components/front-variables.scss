@@ -1,4 +1,9 @@
-$front-navbar-width: 75px;
-$front-navbar-margin-x: 18%;
-$right-sidebar-width: 220px;
+@use '../global-variables';
+
+$global-sidebar-width: 75px;
+$group-sidebar-width: 220px;
+$color-sidebar-background: global-variables.$color-voodoo-500;
+$global-sidebar-space-x: 18%;
 $header-height: 53px;
+$front-playground-space-x: 1.5rem;
+

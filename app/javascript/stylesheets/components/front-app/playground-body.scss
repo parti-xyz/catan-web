@@ -1,0 +1,10 @@
+@use "../front-variables";
+
+.front-app .playground-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  > .posts-box,
+  > .post-box {
+    margin: 0 front-variables.$front-playground-space-x 1.5rem;
+  }
+}

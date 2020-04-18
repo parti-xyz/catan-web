@@ -21,7 +21,7 @@
       .container
         .unobtrusive-flash-container
 
-    = yield
+    = content_for?(:content) ? yield(:content) : yield
 
     :javascript
       (function(d, s, id) {

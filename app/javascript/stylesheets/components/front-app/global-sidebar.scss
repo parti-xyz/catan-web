@@ -1,0 +1,9 @@
+@use '../../global-variables';
+@use '../front-variables';
+
+.front-app .global-sidebar {
+  overflow-y: auto;
+  background-color: front-variables.$color-sidebar-background;
+  border-right: 1px solid global-variables.$color-white-a20;
+  text-align: center;
+}

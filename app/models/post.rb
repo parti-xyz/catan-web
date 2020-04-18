@@ -232,6 +232,10 @@ class Post < ApplicationRecord
     return desc.try(:truncate, length)
   end
 
+  def title
+    specific_desc_striped_tags(100).lines.find { |x| x.present? }
+  end
+
   def share_image_dimensions
     [300, 158]
   end
@@ -489,8 +493,8 @@ class Post < ApplicationRecord
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id, last_stroked_for: subject)
   end
 
-  def last_stroked_activity(&block)
-    result = if last_stroked_at.present? and last_stroked_user.present? and last_stroked_for.present?
+  def last_stroked_activity(with_creation = false, &block)
+    result = if last_stroked_at.present? && last_stroked_user.present? && last_stroked_for.present?
       user_word = if block_given?
         yield last_stroked_user
       else
@@ -499,9 +503,26 @@ class Post < ApplicationRecord
       [I18n.t("views.post.last_stroked_for.#{last_stroked_for}", default: nil, user_word: user_word), self.last_stroked_at]
     end
 
-    if wiki.present? and wiki.wiki_histories.any?
-      if result.blank? or wiki.latest_history.created_at >= last_stroked_at
-        return wiki.last_activity(&block)
+    if wiki.present? and wiki.last_history.present?
+      if result.blank? or wiki.last_history.created_at >= last_stroked_at
+        result = wiki.last_activity(&block)
+      end
+    end
+
+    if with_creation
+      user_word = if block_given?
+        yield self.user
+      else
+        "@#{self.user.nickname}님이"
+      end
+      if result.blank?
+        result = [I18n.t("views.post.last_stroked_for.create", default: nil, user_word: user_word), self.created_at]
+      else
+        if self.user_id != self.last_stroked_user_id
+          result[0] = "#{user_word} 게시한 글에 #{result[0]}"
+        else
+          result[0] = "게시한 #{result[0]}"
+        end
       end
     end
 

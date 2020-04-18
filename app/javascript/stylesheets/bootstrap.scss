@@ -3,3 +3,5 @@
 @forward "~bootstrap/scss/bootstrap" with (
   $primary: global-variables.$color-brand-primary
 );
+
+$font-size-xs: .75em;

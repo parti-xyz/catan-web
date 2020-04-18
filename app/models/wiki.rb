@@ -4,6 +4,7 @@ class Wiki < ApplicationRecord
 
   has_one :post, dependent: :nullify
   has_many :wiki_histories, dependent: :destroy
+  has_one :last_wiki_history, -> { order(created_at: :desc) }, class_name: 'WikiHistory'
   belongs_to :last_author, class_name: "User", foreign_key: :last_author_id, optional: true
 
   mount_uploader :thumbnail, PrivateFileUploader
@@ -26,7 +27,7 @@ class Wiki < ApplicationRecord
 
 
   def last_history
-    wiki_histories.newest
+    last_wiki_history
   end
 
   def body_striped_tags
@@ -131,10 +132,6 @@ class Wiki < ApplicationRecord
     return if last_history.blank?
 
     [last_history.activity(&block), last_history.created_at]
-  end
-
-  def latest_history
-    @last_history ||= wiki_histories.order(created_at: :desc).first
   end
 
   def conflict?

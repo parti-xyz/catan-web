@@ -1,0 +1,42 @@
+- content_for :playground_header_content do
+  .channel-menu
+    .title # #{@current_issue.title}
+
+- if @posts.present?
+  .posts-box
+    %ul.post-lines
+      - @posts.each do |post|
+        %li.post-line
+          .icon
+            - if post.poll.present?
+              %i.fa.fa-fire.fa-fw
+            - elsif post.survey.present?
+              %i.fa.fa-list-ul.fa-fw
+            - elsif post.wiki.present?
+              %i.fa.fa-file-word-o.fa-fw
+            - else
+              %i.fa.fa-stack-exchange.fa-fw
+          .body
+            - unless post.blinded?(current_user)
+              .title
+                = link_to front_post_path(post_id: post.id), class: 'hover:text-primary' do
+                  != post.title
+            - else
+              .title.-blind
+                %i.fa.fa-info-circle
+                = t('labels.post_blind_info')
+            .meta
+              - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+              != last_stroked_text
+              = date_f(last_stroked_at)
+          .counts
+            %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
+              %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+              = post.upvotes_count
+            %span.comments{ class: ('-active' if post.commented_by_me?) }
+              %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
+              = post.comments_count
+    = paginate @posts, theme: 'catan'
+- else
+  .alert.alert-info
+    게시글이 없습니다. 가장 먼저 게시글을 올려보세요.

@@ -3,8 +3,11 @@
 
 .front-app .post-line {
   padding: 0.6em;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid global-variables.$color-gray-300;
   display: flex;
+  &:hover {
+    background-color: global-variables.$color-gray-100;
+  }
   > .icon {
     flex: none;
     margin-right: 0.6em;
@@ -19,29 +22,29 @@
     text-overflow: ellipsis;
   }
   > .body > .title.-blind {
-    color: #bbb;
+    color: global-variables.$color-gray-400;
   }
   > .body > .meta {
-    color: gray;
-    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-500;
+    font-size: bootstrap.$font-size-xs;
   }
   > .counts {
     flex: none;
     min-width: 20%;
-    font-size: bootstrap.$font-size-sm;
+    font-size: bootstrap.$font-size-xs;
     margin-left: 2em;
-    color: gray;
+    color: global-variables.$color-gray-500;
     text-align: right;
   }
   > .counts > .upvotes {
     display: inline-block;
-    width: 3em;
+    width: 4em;
     margin-right: 1em;
     text-align: left;
   }
   > .counts > .comments {
     display: inline-block;
-    width: 3em;
+    width: 4em;
     text-align: left;
   }
   > .counts > .upvotes > .fa,
