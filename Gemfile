@@ -143,7 +143,6 @@ gem 'premailer-rails', '~> 1.9'
 gem 'aws-sdk-rails', '~> 2.1'
 
 # monitoring
-gem 'newrelic_rpm'
 gem 'ey_config'
 gem 'skylight'
 
