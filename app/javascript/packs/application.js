@@ -36,23 +36,37 @@ $(document).ready(function () {
 });
 
 (function () {
-  const scrollTops = new WeakMap
+  const scrollTops = new Map
 
   function findElements() {
-    return document.querySelectorAll("[data-turbolinks-permanent]")
+    return document.querySelectorAll("[data-turbolinks-scroll-persistence]")
+  }
+
+  function simplebarElement(element) {
+    return element.querySelector(':scope > .simplebar-wrapper > .simplebar-mask > .simplebar-offset > .simplebar-content-wrapper')
   }
 
   addEventListener("turbolinks:before-render", function () {
     findElements().forEach(function (element) {
-      scrollTops.set(element, element.scrollTop)
+      if (element.id) {
+        const simplebar = simplebarElement(element)
+        const scrollTop = simplebar ? simplebar.scrollTop : element.scrollTop
+
+        scrollTops.set(element.id, scrollTop)
+      }
     })
   })
 
   addEventListener("turbolinks:render", function () {
     findElements().forEach(function (element) {
-      if (scrollTops.has(element)) {
-        element.scrollTop = scrollTops.get(element)
+      if (scrollTops.has(element.id)) {
+        const simplebar = simplebarElement(element)
+        const scrollableElement = simplebar ? simplebar : element
+
+        scrollableElement.scrollTop = scrollTops.get(element.id)
       }
     })
   })
+
+
 })()

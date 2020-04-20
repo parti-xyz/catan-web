@@ -1,16 +1,76 @@
+- title_waypoint_toggler_uid = SecureRandom.uuid
+
 - content_for :playground_header_content do
   .post-menu
     - if @referrer_backable
       = link_to :back, class: 'back' do
         %i.fa.fa-arrow-left
     .title
-      게시물
+      .page.-active{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
+        게시물
+      .post{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
+        #{@current_post.title}
 
 .post-box
-  .title
-    %h2= @current_post.title
-    %small
-      - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-      - if last_stroked_text.present?
-        != last_stroked_text
-        = date_f( last_stroked_at.presence || @current_post.created_at )
+  .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
+    .title
+      %h3= @current_post.title
+      %small
+        - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+        - if last_stroked_text.present?
+          != last_stroked_text
+          = date_f( last_stroked_at.presence || @current_post.created_at )
+  .post-main
+    .post-meta
+      = link_to smart_user_gallery_url(@current_post.user), class: 'userimage' do
+        .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
+      .desc
+        = link_to @current_post.user.nickname, smart_user_gallery_url(@current_post.user), class: 'usernickname'
+        .createdat
+          = date_f @current_post.created_at
+    .post-body
+      .body
+        = post_body_format @current_post.issue, @current_post.body
+    - if @current_post.comments.present?
+      .post-comments
+        - @current_post.comments.each do |comment|
+          .post-comment
+            = link_to smart_user_gallery_url(comment.user), class: 'userimage' do
+              .userimagebg{ style: "background-image: url(#{comment.user.image.sm.url})" }
+            .post-comment-main
+              .body
+                / comment 본문
+                = link_to comment.user.nickname, smart_user_gallery_url(comment.user), class: 'usernickname'
+
+                - if comment.almost_deleted?
+                  %span.screened= t('labels.almost_deleted')
+                - elsif comment.blinded?(current_user)
+                  %span.screened= t('labels.comment_blind_info')
+                - else
+                  != comment_format(comment.issue, comment.body)
+              - if comment.file_sources.only_image.present? || comment.file_sources.only_doc.present?
+                .comment-filesource-listings
+                  / comment 이미지
+                  - if comment.file_sources.only_image.present?
+                    .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
+                      - single_image_breakpoint = (is_small_screen? ? 270 : 700)
+                      - comment.file_sources.only_image.each_with_index do |file_source, index|
+
+                        - image_url = file_source.attachment.lg.url
+                        - image_photoswipe_width = file_source.image_width_lg
+                        - image_photoswipe_heigh = file_source.image_height_lg
+
+                        - if file_source.image_width < single_image_breakpoint
+                          - image_url = file_source.attachment.url
+                          - image_photoswipe_width = file_source.image_width
+                          - image_photoswipe_heigh = file_source.image_height
+
+                        - action_options = { 'data-url': image_url, 'data-original-url': download_file_source_url(file_source), 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': comment.body.try(:truncate, 100), 'data-index': index }
+
+                        .image{ action_options, data: { target: 'photoswipe.item', action: 'click->photoswipe#open' } }
+                          %img{ src: file_source.attachment.xs.url }
+
+
+
+
+

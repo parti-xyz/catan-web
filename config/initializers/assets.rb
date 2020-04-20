@@ -13,6 +13,9 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 
-Rails.application.config.assets.precompile += %w(email.css application_xs.css application_default.css tinymce_content.css vendors.css mobile.js mobile_app.js)
+Rails.application.config.assets.precompile += %w(email.css application_xs.css application_default.css tinymce_content.css vendors.css mobile.js mobile_app.js bpplication.css)
 Rails.application.config.assets.precompile << %r{\Agroups/(?!_)([^\/]*)/(?!_)([^\/]*)\.(css|sass|scss)\z}x
 Rails.application.config.assets.precompile << 'tinymce/skins/ui/*'
+
+
+Rails.application.config.assets.precompile += %w(.svg)

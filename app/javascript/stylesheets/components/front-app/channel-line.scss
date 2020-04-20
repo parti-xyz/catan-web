@@ -1,35 +1,37 @@
+@use '../../bootstrap';
+
 .front-app .channel-line {
   &.-active > .link {
     background: #4c9689;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
   }
   > .link {
     display: inline-block;
-    margin-right: 1em;
-    padding-left: 1em;
+    margin-right: 1rem;
+    padding-left: 1rem;
   }
   > .link > .linebody {
     display: flex;
   }
   > .link > .linebody > .title {
     color: #ffffff;
-    margin-left: 0.3em;
-    margin-right: 1em;
+    margin-left: .25rem;
+    margin-right: 1rem;
   }
   > .link > .unread {
     color: #ffffff;
     background: #eb4d5c;
-    border-radius: 9px;
-    padding: 2px 9px;
-    font-size: 0.8rem;
-    line-height: 14px;
+    border-radius: .5rem;
+    padding: .125rem .5rem;
+    font-size: bootstrap.$font-size-xs;
+    line-height: 0.75rem;
     font-weight: 700;
     vertical-align: baseline;
     white-space: nowrap;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     float: right;
-    margin-right: 3px;
-    margin-top: 3px;
+    margin-right: .25rem;
+    margin-top: .25rem;
   }
 }

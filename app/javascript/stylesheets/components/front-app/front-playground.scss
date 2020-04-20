@@ -8,7 +8,9 @@
   > .playground-header {
     position: fixed;
     top: 0;
-    left: front-variables.$global-sidebar-width + front-variables.$group-sidebar-width;
+    left: 0;
+    padding-left: front-variables.$global-sidebar-width + front-variables.$group-sidebar-width + front-variables.$front-playground-space-x;
+    padding-right: front-variables.$front-playground-space-x;
     height: front-variables.$header-height;
     width: 100%;
   }

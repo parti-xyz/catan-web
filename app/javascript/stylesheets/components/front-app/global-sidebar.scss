@@ -3,6 +3,7 @@
 
 .front-app .global-sidebar {
   overflow-y: auto;
+  overflow-x: hidden;
   background-color: front-variables.$color-sidebar-background;
   border-right: 1px solid global-variables.$color-white-a20;
   text-align: center;

@@ -4,9 +4,9 @@
 
 - if @posts.present?
   .posts-box
-    %ul.post-lines
+    %ul.post-lines{ data: { 'controller': 'group-toggler' } }
       - @posts.each do |post|
-        %li.post-line
+        %li.post-line{ class: ('-active' if post == @current_post), data: { action: 'click->group-toggler#pick', target: 'group-toggler.item' } }
           .icon
             - if post.poll.present?
               %i.fa.fa-fire.fa-fw

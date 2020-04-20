@@ -13,6 +13,10 @@ export default class extends Controller {
       .then(response => response.text())
       .then(html => {
         this.element.innerHTML = html
+
+        if (this.simplebarController) {
+          this.simplebarController.reinit()
+        }
       })
   }
 
@@ -22,5 +26,9 @@ export default class extends Controller {
 
   set loaded(value) {
     this.data.set("loaded", value)
+  }
+
+  get simplebarController() {
+    return this.application.getControllerForElementAndIdentifier(this.element, "simplebar")
   }
 }

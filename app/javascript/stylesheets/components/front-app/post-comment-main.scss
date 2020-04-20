@@ -1,0 +1,28 @@
+@use '../../global-variables';
+
+.front-app .post-comment-main {
+  // elements
+  > .body {
+    display: inline-block;
+    padding: .5rem;
+    border-radius: .5rem;
+    background-color: global-variables.$color-gray-300;
+  }
+  > .body > .usernickname {
+    color: global-variables.$color-brand-primary;
+    font-weight: bold;
+  }
+  > .body > .bodyline a {
+    color: global-variables.$color-brand-primary;
+  }
+  > .body > .bodyline + .body > .bodyline:before {
+    content: "\a\a";
+    line-height: 1em;
+    white-space: pre;
+  }
+
+  // components
+  > .comment-filesource-listings {
+    margin-top: 0.5rem;
+  }
+}

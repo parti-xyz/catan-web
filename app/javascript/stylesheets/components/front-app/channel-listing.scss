@@ -1,15 +1,18 @@
 @use '../../global-variables';
+@use '../../bootstrap';
+@use '../../mixin';
 
 .front-app .channel-listing {
   color: global-variables.$color-voodoo-300;
   > .title {
     text-align: left;
-    font-size: 0.8rem;
+    font-size: bootstrap.$font-size-base;
     line-height: 1.25rem;
     margin: 0 1rem 0.1rem;
     text-transform: uppercase;
     font-weight: 700;
     width: 165px;
     position: relative;
+    @include mixin.word-wrap;
   }
 }

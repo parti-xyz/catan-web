@@ -1,0 +1,13 @@
+.front-app .comment-filesource-image-listing {
+  display: flex;
+  flex-wrap: wrap;
+  > .image {
+    margin: 1px;
+    display: inline-block;
+    height: 4rem;
+    max-width: 24rem;
+    height: 4rem;
+    overflow: hidden;
+    cursor: pointer;
+  }
+}

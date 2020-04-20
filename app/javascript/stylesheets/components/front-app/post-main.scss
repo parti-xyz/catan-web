@@ -1,0 +1,14 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.front-app .post-main {
+  background-color: white;
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  > .post-body {
+    margin-top: .75rem;
+  }
+  > .post-comments {
+    margin-top: .75rem;
+  }
+}

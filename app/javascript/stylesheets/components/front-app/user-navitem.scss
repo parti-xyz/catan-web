@@ -4,7 +4,7 @@
 .user-navitem {
   display: block;
   > .icon {
-    border: 4px solid transparent;
+    border: .25rem solid transparent;
     border-radius: 50%;
     width: 100% - (front-variables.$global-sidebar-space-x * 2);
     margin: 15% front-variables.$global-sidebar-space-x 0 front-variables.$global-sidebar-space-x;

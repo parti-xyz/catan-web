@@ -1,7 +1,11 @@
+@use '../../mixin';
+
 .front-app .channel-listings {
   overflow-y: auto;
   overflow-x: hidden;
-  > .channel-listing {
-    margin: 1rem 0 2rem;
+  @include mixin.simplebar {
+    > .channel-listing {
+      margin: 1rem 0 2rem;
+    }
   }
 }

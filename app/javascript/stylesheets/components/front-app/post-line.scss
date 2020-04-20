@@ -8,9 +8,15 @@
   &:hover {
     background-color: global-variables.$color-gray-100;
   }
+  &.-active {
+    background-color: global-variables.$color-gray-100;
+    > .body > .title > a {
+      color: global-variables.$color-brand-primary;
+    }
+  }
   > .icon {
     flex: none;
-    margin-right: 0.6em;
+    margin-right: 0.75rem;
   }
   > .body {
     flex: 1;
@@ -49,7 +55,7 @@
   }
   > .counts > .upvotes > .fa,
   > .counts > .comments > .fa {
-    margin-right: 0.3em;
+    margin-right: 0.25em;
   }
   > .counts > .upvotes.-active {
     color: global-variables.$color-brand-primary;

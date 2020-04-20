@@ -1,16 +1,16 @@
 - content_for :content do
   .front-app
-    .global-sidebar#front-app-global-sidebar{ data: { controller: 'content-loader', 'content-loader-url': front_navbar_path, 'turbolinks-permanent': true } }
+    .global-sidebar#front-app-global-sidebar{ data: { controller: 'content-loader simplebar', 'content-loader-url': front_navbar_path, 'turbolinks-permanent': true, 'turbolinks-scroll-persistence': true } }
     .group-sidebar
       .group-menu
         .title
           = current_group.title
-      .channel-listings#front-app-channel-listings{ data: { controller: 'content-loader', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue), 'turbolinks-permanent': true } }
+      .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader simplebar', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue), 'turbolinks-permanent': true, 'turbolinks-scroll-persistence': true } }
     .front-playground
       - if content_for?(:playground_header_content)
         .playground-header
           = yield(:playground_header_content)
-      .playground-body
+      .playground-body{ id: ("front-app-playground-body-#{@scroll_persistence_id}" if @scroll_persistence_id.present?), data: { controller: 'simplebar', 'turbolinks-scroll-persistence': true } }
         = yield
 
 = render template: 'layouts/bpplication'

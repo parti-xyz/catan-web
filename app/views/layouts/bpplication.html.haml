@@ -3,10 +3,14 @@
   %head
     %meta{:charset => "utf-8"}
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
+    - if @turbolinks_root.present?
+      %meta{ name: 'turbolinks-root', content: @turbolinks_root }
     = display_meta_tags
     = render 'favicons'
 
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'bpplication', media: 'all', 'data-turbolinks-track': 'reload'
+
     %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel: "stylesheet"}
     = javascript_pack_tag 'application', defer: true, 'data-turbolinks-track': 'reload'
 
@@ -22,6 +26,8 @@
         .unobtrusive-flash-container
 
     = content_for?(:content) ? yield(:content) : yield
+
+    = render 'application/photoswipe'
 
     :javascript
       (function(d, s, id) {

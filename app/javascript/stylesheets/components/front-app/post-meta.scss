@@ -1,0 +1,21 @@
+@use "../../bootstrap";
+
+.front-app .post-meta {
+  display: flex;
+  padding-left: .75rem;
+  padding-right: .75rem;
+  > .userimage {
+    margin-right: .25rem;
+  }
+  > .userimage > .userimagebg {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    border: 1px solid white;
+    background-position: center;
+    background-size: cover;
+  }
+  > .desc > .createdat {
+    font-size: bootstrap.$font-size-sm;
+  }
+}

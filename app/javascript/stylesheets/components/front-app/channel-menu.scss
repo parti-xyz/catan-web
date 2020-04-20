@@ -2,7 +2,6 @@
 @use '../front-variables';
 
 .front-app .channel-menu {
-  padding: 0 front-variables.$front-playground-space-x 0;
   > .title {
     display: inline-block;
     color: global-variables.$color-voodoo-400;

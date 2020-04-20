@@ -1,5 +1,6 @@
 class Front::PagesController < ApplicationController
   layout 'front/pages'
+  before_action :setup_turbolinks_root
   before_action :check_group, exclude: %i(navbar channel_listings)
 
   def root
@@ -14,6 +15,12 @@ class Front::PagesController < ApplicationController
         .order(last_stroked_at: :desc)
         .page(params[:page]).per(10) if @current_issue.present?
     end
+
+    if session[:front_last_visited_post_id].present?
+      @current_post = Post.find_by(id: session[:front_last_visited_post_id])
+    end
+
+    @scroll_persistence_id = "channel-#{@current_issue.id}-#{params[:page].presence || 1}"
   end
 
   def post
@@ -22,8 +29,10 @@ class Front::PagesController < ApplicationController
       .find(params[:post_id])
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
 
-    referrer_route = Rails.application.routes.recognize_path(request.referrer)
-    @referrer_backable = referrer_route[:controller] == 'front/pages' && referrer_route[:action] == 'channel' && referrer_route[:issue_id] == @current_issue.id.to_s
+    @referrer_backable = request.referer.present? &&
+      URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
+
+    session[:front_last_visited_post_id] = @current_post.id
   end
 
   def navbar
@@ -41,5 +50,9 @@ class Front::PagesController < ApplicationController
 
   def check_group
     redirect_to(subdomain: Group.open_square.subdomain) and return if current_group.blank?
+  end
+
+  def setup_turbolinks_root
+    @turbolinks_root = '/front'
   end
 end
