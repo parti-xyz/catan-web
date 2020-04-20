@@ -17,6 +17,8 @@
 # https://github.com/engineyard/engineyard-serverside/blob/master/lib/engineyard-serverside/configuration.rb
 #
 defaults:
+  npm: false
+
   # Run migrations during deploy by default.
   #
   # When set to true, runs the migration_command (below) during deploy.
@@ -87,14 +89,15 @@ defaults:
   # This option overrides the default list, so include the following
   # defaults if you need them.
   #
-  #asset_dependencies:
-  #- app/assets            # default
-  #- lib/assets            # default
-  #- vendor/assets         # default
-  #- Gemfile.lock          # default
-  #- config/application.rb # default
-  #- config/routes.rb      # default
-  #- config/requirejs.yml  # example of a custom asset dependency
+  asset_dependencies:
+  - app/assets            # default
+  - lib/assets            # default
+  - vendor/assets         # default
+  - Gemfile.lock          # default
+  - config/application.rb # default
+  - config/routes.rb      # default
+  - config/requirejs.yml  # example of a custom asset dependency
+  - app/javascript
 
   # When true, precompiles assets even if no changes would be detected by
   # running git diff with the asset_dependencies above.
