@@ -36,7 +36,7 @@ class Front::PagesController < ApplicationController
   end
 
   def navbar
-    @groups = current_user&.member_groups || ActiveRecord.none
+    @groups = current_user&.member_groups || Group.none
     render layout: false
   end
 
