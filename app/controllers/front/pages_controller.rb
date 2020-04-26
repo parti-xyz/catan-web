@@ -25,7 +25,7 @@ class Front::PagesController < ApplicationController
 
   def post
     @current_post = Post.with_deleted
-      .includes(:user, :poll, :survey, :wiki, :current_user_comments, :current_user_upvotes)
+      .includes(:issue, :user, :poll, :survey, :current_user_upvotes, comments: [ :user, :file_sources ], wiki: [ :last_wiki_history] )
       .find(params[:post_id])
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
 
@@ -33,6 +33,8 @@ class Front::PagesController < ApplicationController
       URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
 
     session[:front_last_visited_post_id] = @current_post.id
+
+    @scroll_persistence_id = "post-#{@current_post.id}"
   end
 
   def navbar

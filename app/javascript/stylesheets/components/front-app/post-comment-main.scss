@@ -4,8 +4,8 @@
   // elements
   > .body {
     display: inline-block;
-    padding: .5rem;
-    border-radius: .5rem;
+    padding: .5rem .75rem;
+    border-radius: 1rem;
     background-color: global-variables.$color-gray-300;
   }
   > .body > .usernickname {

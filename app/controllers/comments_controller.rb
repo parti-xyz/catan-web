@@ -19,7 +19,6 @@ class CommentsController < ApplicationController
       head 200 and return
     end
 
-
     if @comment.save
       @comment.perform_messages_with_mentions_async(:create)
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_05_222921) do
+ActiveRecord::Schema.define(version: 2020_04_26_005559) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2019_12_05_222921) do
     t.integer "file_sources_count", default: 0
     t.integer "parent_id"
     t.datetime "almost_deleted_at"
+    t.integer "comments_count", default: 0, null: false
     t.index ["deleted_at"], name: "index_comments_on_deleted_at"
     t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["post_id"], name: "index_comments_on_post_id"

@@ -6,12 +6,12 @@ class Comment < ApplicationRecord
   include Upvotable
   mentionable :body
 
-  belongs_to :parent, class_name: "Comment", foreign_key: :parent_id, optional: true
+  belongs_to :parent, class_name: "Comment", foreign_key: :parent_id, optional: true, counter_cache: true
   has_many :children, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
 
   belongs_to :user
   belongs_to :post, counter_cache: true
-  has_one :issue, through: :post
+  delegate :issue, to: :post
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :mentions, as: :mentionable, dependent: :destroy
   has_many :file_sources, dependent: :destroy, as: :file_sourceable
@@ -43,8 +43,7 @@ class Comment < ApplicationRecord
   scope :of_group, -> (group) { where(post_id: Post.of_group(group)) }
   scope :unread, -> (someone) {
     where('id >= ?', CommentReader::BEGIN_COMMENT_ID)
-    .where.not(user: someone)
-    .where.not('created_at < ?', CommentReader::VALID_PERIOD)
+    .where.not('created_at < ?', CommentReader::VALID_PERIOD.ago)
     .where.not(id: CommentReader.where(user_id: someone.try(:id) || 0).select(:comment_id))
   }
 
@@ -104,28 +103,31 @@ class Comment < ApplicationRecord
     parent || self
   end
 
+  def parent_or_self_id
+    parent_id || self.id
+  end
+
   def self.setup_threads(comments)
-    result = comments.to_a.group_by { |comment| comment.parent_or_self }.to_a.sort_by { |item| item[0].created_at }
-    result.each do |item|
-      parent_comment = item[0]
+    comments_array = comments.to_a
+
+    not_found_parent_ids = comments_array.map(&:parent_id).compact.select{ |parent_id| !comments_array.map(&:id).include?(parent_id) }
+    comments_array += Comment.with_deleted.where(id: not_found_parent_ids) if not_found_parent_ids.any?
+
+    threads = comments_array.group_by { |comment| comment.parent_or_self_id }.map do |item|
+      parent_comment = comments_array.find{ |comment| comment.id == item[0] }
       child_comments = item[1]
 
-      child_comments.reject! { |comment| comment.parent.blank? }
+      child_comments.reject! { |comment| comment.parent_id.blank? }
       child_comments.sort_by! { |comment| comment.created_at }
 
-      if child_comments.first.present?
-        child_comments = [child_comments.first]
-        child_comments += parent_comment.children.next_of(child_comments.first.id).order(:created_at).to_a
-      end
-
-      if (parent_comment.children.count - child_comments.length) == 1
+      if (parent_comment.comments_count - child_comments.length) == 1
         child_comments = parent_comment.children.order(:created_at).to_a
       end
 
-      item[0] = parent_comment
-      item[1] = child_comments
+      [parent_comment, child_comments]
     end
-    result
+
+    threads.sort_by! { |thread| thread[0].created_at }
   end
 
   def self.messagable_group_method
@@ -153,6 +155,16 @@ class Comment < ApplicationRecord
 
   def self.users(comments, limit)
     User.where(id: comments.select(:user_id).distinct).limit(limit)
+  end
+
+  def file_sources_only_image
+    file_sources.load
+    file_sources.to_a.select &:image?
+  end
+
+  def file_sources_only_doc
+    file_sources.load
+    file_sources.to_a.select &:doc?
   end
 
   private
