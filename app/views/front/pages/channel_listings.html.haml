@@ -1,11 +1,12 @@
-.channel-listing
-  .title 채널
-  %ul.channel-lines{ data: { 'controller': 'group-toggler' } }
-    - @issues.each do |issue|
-      %li.channel-line{ class: ('-active' if issue == @current_issue), data: { action: 'click->group-toggler#pick', target: 'group-toggler.item' } }
-        = link_to front_channel_path(issue_id: issue), class: 'link' do
-          - if issue.unread_post?(current_user)
-            %span.unread up
-          .linebody
-            .hash #
-            .title #{issue.title}
+= render layout: 'layouts/simplebar' do
+  .channel-listing
+    .title 채널
+    %ul.channel-lines{ data: { 'controller': 'group-toggler' } }
+      - @issues.each do |issue|
+        %li.channel-line{ class: ('-active' if issue == @current_issue), data: { action: 'click->group-toggler#pick', target: 'group-toggler.item' } }
+          = link_to front_channel_path(issue_id: issue), class: 'link' do
+            - if issue.unread_post?(current_user)
+              %span.unread up
+            .linebody
+              .hash #
+              .title #{issue.title}

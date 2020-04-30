@@ -324,6 +324,10 @@ class Group < ApplicationRecord
     member_users.where(id: GroupPushNotificationPreference.where(group: self).select(:user_id))
   end
 
+  def frontable?
+    %w(union).include? self.slug
+  end
+
   private
 
   def downcase_slug

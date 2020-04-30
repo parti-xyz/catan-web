@@ -2,9 +2,13 @@
 @use '../../bootstrap';
 
 .front-app .post-line {
+  $boder-width: 1px;
+
   padding: 0.6em;
-  border-bottom: 1px solid global-variables.$color-gray-300;
   display: flex;
+  border-bottom: $boder-width solid global-variables.$color-gray-300;
+  border-left: $boder-width solid global-variables.$color-gray-300;
+  border-right: $boder-width solid global-variables.$color-gray-300;
   &:hover {
     background-color: global-variables.$color-gray-100;
   }
@@ -13,6 +17,18 @@
     > .body > .title > a {
       color: global-variables.$color-brand-primary;
     }
+  }
+  &.-unread {
+    position: relative;
+  }
+  &.-unread::before {
+    position: absolute;
+    content: ' ';
+    top: 0;
+    left: $boder-width * -1;
+    width: 2px;
+    height: 100%;
+    background-color: blue;
   }
   > .icon {
     flex: none;

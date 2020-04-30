@@ -10,7 +10,7 @@
 }
 
 @mixin simplebar {
-  > .simplebar-wrapper > .simplebar-mask > .simplebar-offset > .simplebar-content-wrapper > .simplebar-content {
+  > .simplebar-layout > .simplebar-wrapper > .simplebar-mask > .simplebar-offset > .simplebar-content-wrapper > .simplebar-content {
     @content;
   }
 }

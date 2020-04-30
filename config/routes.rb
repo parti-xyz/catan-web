@@ -8,6 +8,13 @@ Rails.application.routes.draw do
     end
   end
 
+  class FrontGroupRouteConstraint
+    def matches?(request)
+      group = fetch_group(request)
+      group.present? && group.frontable?
+    end
+  end
+
   mount Apple::App::Site::Association, at: '/'
   use_doorkeeper
   mount API, at: '/'
@@ -42,6 +49,9 @@ Rails.application.routes.draw do
       root 'pages#authenticated_home'
     end
     root 'pages#discover', as: :discover_root
+  end
+  constraints(FrontGroupRouteConstraint.new) do
+    root 'front/pages#root'
   end
   root 'home#show'
 
@@ -406,7 +416,7 @@ Rails.application.routes.draw do
     get 'channles/:issue_id', to: 'pages#channel', as: :channel
     get 'posts/:post_id', to: 'pages#post', as: :post
 
-    get :navbar, to: 'pages#navbar', as: :navbar
+    get :global_sidebar, to: 'pages#global_sidebar', as: :global_sidebar
     get :channel_listings, to: 'pages#channel_listings', as: :channel_listings
   end
 end

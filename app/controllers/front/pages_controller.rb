@@ -4,6 +4,9 @@ class Front::PagesController < ApplicationController
   before_action :check_group, exclude: %i(navbar channel_listings)
 
   def root
+    if user_signed_in?
+      current_user.update_attributes(last_visitable: current_group)
+    end
   end
 
   def channel
@@ -16,11 +19,15 @@ class Front::PagesController < ApplicationController
         .page(params[:page]).per(10) if @current_issue.present?
     end
 
+    if user_signed_in?
+      current_user.update_attributes(last_visitable: @current_issue)
+    end
+
     if session[:front_last_visited_post_id].present?
       @current_post = Post.find_by(id: session[:front_last_visited_post_id])
     end
-
-    @scroll_persistence_id = "channel-#{@current_issue.id}-#{params[:page].presence || 1}"
+    @scroll_persistence_id_ext = "channel-#{@current_issue.id}"
+    @scroll_persistence_tag = params[:page].presence || 1
   end
 
   def post
@@ -32,12 +39,16 @@ class Front::PagesController < ApplicationController
     @referrer_backable = request.referer.present? &&
       URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
 
-    session[:front_last_visited_post_id] = @current_post.id
+    if user_signed_in?
+      @current_post.front_read!(@current_user)
+      @current_issue.read_if_no_front_unread_posts!(@current_user)
+    end
 
-    @scroll_persistence_id = "post-#{@current_post.id}"
+    session[:front_last_visited_post_id] = @current_post.id
+    @scroll_persistence_id_ext = "post-#{@current_post.id}"
   end
 
-  def navbar
+  def global_sidebar
     @groups = current_user&.member_groups || Group.none
     render layout: false
   end

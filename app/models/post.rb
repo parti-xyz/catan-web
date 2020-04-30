@@ -89,6 +89,7 @@ class Post < ApplicationRecord
   has_many :decision_histories, dependent: :destroy
   has_one :post_searchable_index, dependent: :destroy, autosave: true
   has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
+  has_many :post_readers, dependent: :destroy
 
   belongs_to :last_stroked_user, class_name: "User", optional: true
   accepts_nested_attributes_for :link_source
@@ -628,6 +629,7 @@ class Post < ApplicationRecord
     self.decision_histories.last.diff_body(self.conflicted_decision)
   end
 
+  # DEPRECATED
   def unread? someone
     self.issue.unread_post?(someone, self.last_stroked_at)
   end
@@ -646,6 +648,19 @@ class Post < ApplicationRecord
 
   def safe_folder_id
     Folder.safe_id(self.folder_id)
+  end
+
+  def front_read!(someone)
+    someone.post_readers.find_or_create_by(post: self)
+  end
+
+  def font_read?(someone)
+    return true unless PostReader::valid(self.last_stroked_at)
+    return false if someone.blank?
+
+    post_reader = self.post_readers.valid.find_by(user: someone)
+    return false if post_reader.blank?
+    post_reader.updated_at >= self.last_stroked_at
   end
 
   private

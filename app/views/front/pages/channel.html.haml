@@ -6,7 +6,7 @@
   .posts-box
     %ul.post-lines{ data: { 'controller': 'group-toggler' } }
       - @posts.each do |post|
-        %li.post-line{ class: ('-active' if post == @current_post), data: { action: 'click->group-toggler#pick', target: 'group-toggler.item' } }
+        %li.post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.font_read?(current_user))], data: { action: 'click->group-toggler#pick', target: 'group-toggler.item' } }
           .icon
             - if post.poll.present?
               %i.fa.fa-fire.fa-fw

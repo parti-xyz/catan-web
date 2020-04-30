@@ -106,6 +106,7 @@ class User < ApplicationRecord
   has_many :blinded_issues, dependent: :nullify, class_name: "Issue", foreign_key: :blinded_by_id
   has_many :blinded_groups, dependent: :nullify, class_name: "Group", foreign_key: :blinded_by_id
   belongs_to :last_visitable, polymorphic: true, optional: true
+  has_many :post_readers, dependent: :destroy
 
   ## uploaders
   # mount

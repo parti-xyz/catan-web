@@ -342,8 +342,7 @@ class Issue < ApplicationRecord
   end
 
   def marked_read_at?(someone)
-    return false if someone.blank?
-    member = someone.smart_issue_member(self)
+    member = someone&.smart_issue_member(self)
     return false if member.blank?
     member.read_at.present?
   end
@@ -361,13 +360,30 @@ class Issue < ApplicationRecord
     member.update_columns(read_at: read_at)
   end
 
+  # DEPRECATED
   def read_if_no_unread_posts!(someone)
+    return if read_if_no_front_unread_posts!(someone)
     return unless self.marked_read_at?(someone)
 
     member = someone.smart_issue_member(self)
     if self.posts.next_of_date(member.read_at).where.not(last_stroked_user_id: someone.id).empty?
       self.read!(someone)
     end
+  end
+
+  def read_if_no_front_unread_posts!(someone)
+    member = someone.smart_issue_member(self)
+    return false if member.blank?
+
+    if self.posts.left_outer_joins(:post_readers)
+        .where('post_readers.user_id = ?', 19)
+        .where('post_readers.id IS null or post_readers.updated_at <= posts.last_stroked_at')
+        .empty?
+      self.read!(someone)
+      return true
+    end
+
+    return false
   end
 
   def unread_post?(someone, last_stroked_at = self.last_stroked_at)

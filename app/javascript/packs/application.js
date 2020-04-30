@@ -36,34 +36,46 @@ $(document).ready(function () {
 });
 
 (function () {
-  const scrollTops = new Map
+  const _scrollDataMaps = new Map()
 
   function findElements() {
-    return document.querySelectorAll("[data-turbolinks-scroll-persistence]")
+    return document.querySelectorAll("[data-js~=scroll-persistence]")
   }
 
   function simplebarElement(element) {
-    return element.querySelector(':scope > .simplebar-wrapper > .simplebar-mask > .simplebar-offset > .simplebar-content-wrapper')
+    return element.querySelector(':scope > .simplebar-layout > .simplebar-wrapper > .simplebar-mask > .simplebar-offset > .simplebar-content-wrapper')
   }
 
-  addEventListener("turbolinks:before-render", function () {
+  addEventListener("turbolinks:before-cache", function () {
     findElements().forEach(function (element) {
-      if (element.id) {
+      const scrollPersistenceId = element.dataset.scrollPersistenceId
+      if (scrollPersistenceId) {
         const simplebar = simplebarElement(element)
         const scrollTop = simplebar ? simplebar.scrollTop : element.scrollTop
 
-        scrollTops.set(element.id, scrollTop)
+        const scrollPersistenceTag = element.dataset.scrollPersistenceTag
+        _scrollDataMaps.set(scrollPersistenceId, { scrollTop: scrollTop, tag: scrollPersistenceTag })
       }
     })
   })
 
   addEventListener("turbolinks:render", function () {
     findElements().forEach(function (element) {
-      if (scrollTops.has(element.id)) {
+      const scrollPersistenceId = element.dataset.scrollPersistenceId
+      if (scrollPersistenceId && _scrollDataMaps.has(scrollPersistenceId)) {
         const simplebar = simplebarElement(element)
-        const scrollableElement = simplebar ? simplebar : element
+        const scrollElement = simplebar ? simplebar : element
 
-        scrollableElement.scrollTop = scrollTops.get(element.id)
+        const scrollData = _scrollDataMaps.get(scrollPersistenceId)
+        const previousScrollTop = scrollData.scrollTop
+        const scrollPersistenceTag = element.dataset.scrollPersistenceTag
+
+        if (scrollData.tag === scrollPersistenceTag) {
+          scrollElement.scrollTop = previousScrollTop
+          if (previousScrollTop != scrollElement.scrollTop) {
+            element.dataset.jsScrollPersistenceScrollTop = previousScrollTop
+          }
+        }
       }
     })
   })

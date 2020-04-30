@@ -10,5 +10,11 @@ class BlindJob < ApplicationJob
       else
         Post.all
       end.where(user_id: blind.user_id).update_all(blind: true)
+
+      if blind.issue.present?
+        blind.issue
+      else
+        Issue.where(id: Post.all.where(user_id: blind.user_id).group(:issue_id).select(:issue_id))
+      end.find_each { |issue| issue.sync_last_stroked_at! }
     end
   end

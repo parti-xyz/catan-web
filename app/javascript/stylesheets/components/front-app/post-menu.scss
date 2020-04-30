@@ -8,11 +8,14 @@
     color: global-variables.$color-voodoo-400;
     line-height: front-variables.$header-height;
     margin-right: front-variables.$front-playground-space-x;
+    width: front-variables.$front-playground-space-x;
   }
   > .title {
     display: inline-block;
     flex: 1;
     overflow: hidden;
+    text-align: center;
+    margin-right: front-variables.$front-playground-space-x * 2;
   }
   > .title > .page,
   > .title > .post {
