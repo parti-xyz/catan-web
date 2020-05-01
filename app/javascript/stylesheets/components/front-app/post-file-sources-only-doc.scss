@@ -1,7 +1,7 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 
-.front-app .post-docs {
+.front-app .post-file-sources-only-doc {
   > .doc {
     margin-top: 0.75rem;
     border: 1px solid global-variables.$color-gray-300;
@@ -20,9 +20,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-  }
-  > .doc > .body > .name {
-    font-weight: bold;
   }
   > .doc > .body > .size {
     font-size: bootstrap.$font-size-xs;

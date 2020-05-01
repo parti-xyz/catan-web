@@ -7,12 +7,12 @@
   padding-bottom: .75rem;
   > .post-body,
   > .post-comments,
-  > .post-images,
-  > .post-docs {
+  > .post-file-sources-only-image,
+  > .post-file-sources-only-doc {
     margin-top: .75rem;
   }
-  > .post-images,
-  > .post-docs {
+  > .post-file-sources-only-image,
+  > .post-file-sources-only-doc {
     margin-left: 0.75rem;
     margin-right: 0.75rem;
   }
