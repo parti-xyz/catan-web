@@ -1,7 +1,16 @@
 @use "./global-variables";
 
 @forward "~bootstrap/scss/bootstrap" with (
-  $primary: global-variables.$color-brand-primary
+  $primary: global-variables.$color-brand-primary,
+  $gray-900: global-variables.$color-gray-900,
+  $gray-800: global-variables.$color-gray-800,
+  $gray-700: global-variables.$color-gray-700,
+  $gray-600: global-variables.$color-gray-600,
+  $gray-500: global-variables.$color-gray-500,
+  $gray-400: global-variables.$color-gray-400,
+  $gray-300: global-variables.$color-gray-300,
+  $gray-200: global-variables.$color-gray-200,
+  $gray-100: global-variables.$color-gray-100,
 );
 
 $font-size-xs: .75em;

@@ -21,11 +21,13 @@ import Turbolinks from "turbolinks"
 import 'jquery'
 import 'popper.js'
 import 'bootstrap'
+import elementClosest from 'element-closest'
 
 import '../stylesheets/site'
 
 import 'controllers'
 
+elementClosest(window)
 Rails.start()
 Turbolinks.start()
 

@@ -5,6 +5,7 @@
     "@rails/ujs": "6.0.2-2",
     "@rails/webpacker": "4.2.2",
     "bootstrap": "4.4.1",
+    "element-closest": "3.0.2",
     "jquery": "3.5.0",
     "justifiedGallery": "3.7.0",
     "node-sass-glob-importer": "5.3.2",

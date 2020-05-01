@@ -79,6 +79,12 @@ class FileSource < ApplicationRecord
     [:id, :seq_no, :attachment, :attachment_cache, :_destroy]
   end
 
+  def self.array_sort_by_seq_no(file_sources)
+    return file_sources if file_sources.blank?
+
+    file_sources.to_a.sort_by { |file_source| [file_source.seq_no, file_source.id] }
+  end
+
   private
 
   def update_type

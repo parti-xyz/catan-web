@@ -665,12 +665,12 @@ class Post < ApplicationRecord
 
   def file_sources_only_image
     file_sources.load
-    file_sources.to_a.select &:image?
+    FileSource.array_sort_by_seq_no(file_sources.to_a).select &:image?
   end
 
   def file_sources_only_doc
     file_sources.load
-    file_sources.to_a.select &:doc?
+    FileSource.array_sort_by_seq_no(file_sources.to_a).select &:doc?
   end
 
   private

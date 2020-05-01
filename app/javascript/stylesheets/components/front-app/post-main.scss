@@ -7,10 +7,12 @@
   padding-bottom: .75rem;
   > .post-body,
   > .post-comments,
-  > .post-images {
+  > .post-images,
+  > .post-docs {
     margin-top: .75rem;
   }
-  .post-images {
+  > .post-images,
+  > .post-docs {
     margin-left: 0.75rem;
     margin-right: 0.75rem;
   }

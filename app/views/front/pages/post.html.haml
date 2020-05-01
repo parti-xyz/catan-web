@@ -38,6 +38,17 @@
       .post-images{ data: { controller: 'photoswipe justified-gallery' } }
         = render layout: 'layouts/photoswipe', locals: { file_sources: @current_post.file_sources_only_image, title: @current_post.title } do |file_source|
           %img{ src: file_source.lg_or_original_url }
+    - if @current_post.file_sources_only_doc.any?
+      .post-docs
+        - @current_post.file_sources_only_doc.each do |file_source|
+          .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
+            .icon
+              %i.fa.fa-floppy-o
+            .body
+              %span.name= file_source.name
+              %span.size= number_to_human_size(file_source.file_size)
+            .button
+              .btn.btn-sm.btn-secondary 다운로드
     - if @current_post.comments.present?
       .post-comments
         - @current_post.comments_threaded.each do |parent_comment, child_comments|
