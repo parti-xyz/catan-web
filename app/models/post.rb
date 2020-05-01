@@ -663,6 +663,16 @@ class Post < ApplicationRecord
     post_reader.updated_at >= self.last_stroked_at
   end
 
+  def file_sources_only_image
+    file_sources.load
+    file_sources.to_a.select &:image?
+  end
+
+  def file_sources_only_doc
+    file_sources.load
+    file_sources.to_a.select &:doc?
+  end
+
   private
 
   def reindex_for_search

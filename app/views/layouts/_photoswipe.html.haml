@@ -1,0 +1,14 @@
+- file_sources.each_with_index do |file_source, index|
+  - image_url = file_source.attachment.lg.url
+  - image_photoswipe_width = file_source.image_width_lg
+  - image_photoswipe_heigh = file_source.image_height_lg
+
+  - if file_source.image_width < (is_small_screen? ? 270 : 700)
+    - image_url = file_source.attachment.url
+    - image_photoswipe_width = file_source.image_width
+    - image_photoswipe_heigh = file_source.image_height
+
+  - photoswipe_options = { 'data-url': image_url, 'data-original-url': download_file_source_url(file_source), 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': title, 'data-index': index }
+
+  .image{ photoswipe_options, data: { target: 'photoswipe.item', action: 'click->photoswipe#open' } }
+    = yield file_source

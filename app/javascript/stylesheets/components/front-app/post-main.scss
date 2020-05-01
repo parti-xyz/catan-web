@@ -5,10 +5,13 @@
   background-color: white;
   padding-top: .75rem;
   padding-bottom: .75rem;
-  > .post-body {
+  > .post-body,
+  > .post-comments,
+  > .post-images {
     margin-top: .75rem;
   }
-  > .post-comments {
-    margin-top: .75rem;
+  .post-images {
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
   }
 }

@@ -10,7 +10,7 @@
         %i.fa.fa-arrow-left
     .title
       .page.-active{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
-        게시물
+        \##{@current_issue.title} 게시물
       .post{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
         #{@current_post.title}
 
@@ -19,10 +19,9 @@
     .title
       %h3= @current_post.title
       %small
-        - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-        - if last_stroked_text.present?
-          != last_stroked_text
-          = date_f( last_stroked_at.presence || @current_post.created_at )
+        - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+        != last_stroked_text
+        = date_f(last_stroked_at)
   .post-main
     .post-meta
       = link_to smart_user_gallery_url(@current_post.user), class: 'userimage' do
@@ -34,6 +33,11 @@
     .post-body
       .body
         = post_body_format @current_issue, @current_post.body
+    - single_image_breakpoint = is_small_screen? ? 270 : 600
+    - if @current_post.file_sources_only_image.any?
+      .post-images{ data: { controller: 'photoswipe justified-gallery' } }
+        = render layout: 'layouts/photoswipe', locals: { file_sources: @current_post.file_sources_only_image, title: @current_post.title } do |file_source|
+          %img{ src: file_source.lg_or_original_url }
     - if @current_post.comments.present?
       .post-comments
         - @current_post.comments_threaded.each do |parent_comment, child_comments|

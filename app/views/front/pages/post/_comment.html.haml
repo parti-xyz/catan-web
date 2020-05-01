@@ -18,22 +18,8 @@
         / comment 이미지
         - if comment.file_sources_only_image.present?
           .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
-            - single_image_breakpoint = (is_small_screen? ? 270 : 700)
-            - comment.file_sources_only_image.each_with_index do |file_source, index|
-
-              - image_url = file_source.attachment.lg.url
-              - image_photoswipe_width = file_source.image_width_lg
-              - image_photoswipe_heigh = file_source.image_height_lg
-
-              - if file_source.image_width < single_image_breakpoint
-                - image_url = file_source.attachment.url
-                - image_photoswipe_width = file_source.image_width
-                - image_photoswipe_heigh = file_source.image_height
-
-              - action_options = { 'data-url': image_url, 'data-original-url': download_file_source_url(file_source), 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': comment.body.try(:truncate, 100), 'data-index': index }
-
-              .image{ action_options, data: { target: 'photoswipe.item', action: 'click->photoswipe#open' } }
-                %img{ src: file_source.attachment.xs.url }
+            = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
+              %img{ src: file_source.attachment.xs.url }
     - if local_assigns[:child_comments]&.any?
       .post-comments.-children
         - child_comments.each do |child_comment|

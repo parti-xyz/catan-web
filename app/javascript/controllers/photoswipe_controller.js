@@ -20,7 +20,8 @@ export default class extends Controller {
     })
 
     var options = {
-      index: event.currentTarget.dataset.index,
+      index: +event.currentTarget.dataset.index,
+      history: false,
     }
 
     const pswpElement = document.querySelector('#pswp')

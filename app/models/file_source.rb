@@ -48,6 +48,12 @@ class FileSource < ApplicationRecord
     image? ? attachment.sm.url : Rails.application.routes.url_helpers.download_file_source_path(self)
   end
 
+  def lg_or_original_url
+    return Rails.application.routes.url_helpers.download_file_source_path(self) unless image?
+
+    self.image_width > self.image_width_lg ? lg_url : attachment.url
+  end
+
   def valid_name
     self.name.gsub(/\\+/, "%20")
   end

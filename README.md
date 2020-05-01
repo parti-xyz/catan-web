@@ -301,4 +301,4 @@ $ rails tmp:cache:clear
   * 채널 주소를 슬러그로 바꾸기
   * 공지사항
   * 댓글 퍼머링크 만들기
-
+  * #DPRECATE 삭제
