@@ -134,11 +134,11 @@ module ApplicationHelper
     end
   end
 
-  def video_embed_code(post)
+  def video_embed_code(post, class_name = 'post-reference-line__video-content')
     return unless post.video_source?
 
     link_source = post.link_source
-    raw(VideoInfo.new(link_source.url).embed_code({iframe_attributes: { class: 'post-reference-line__video-content'}}))
+    raw(VideoInfo.new(link_source.url).embed_code({iframe_attributes: { class: class_name}}))
   end
 
   def link_to_if_with_block condition, options, html_options={}, &block

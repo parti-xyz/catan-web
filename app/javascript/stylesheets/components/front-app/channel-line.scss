@@ -1,10 +1,11 @@
 @use '../../bootstrap';
+@use '../../global-variables';
 
 .front-app .channel-line {
   &.-active > .link {
     background: #4c9689;
-    border-top-right-radius: .25rem;
-    border-bottom-right-radius: .25rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
   }
   > .link {
     display: inline-block;
@@ -14,8 +15,13 @@
   > .link > .title {
     display: inline-block;
     color: #ffffff;
-    margin-left: .25rem;
-    margin-right: .25rem;
+    margin-left: 0;
+    margin-right: 0.25rem;
+  }
+  > .link > .title > .hash {
+    display: inline-block;
+    margin-right: 0.25rem;
+    color: global-variables.$color-voodoo-300;
   }
   > .link > .unread {
     display: none;
@@ -24,15 +30,15 @@
     display: inline-block;
     color: #ffffff;
     background: #eb4d5c;
-    border-radius: .5rem;
-    padding: .125rem .5rem;
+    border-radius: 0.5rem;
+    padding: 0.125rem 0.5rem;
     font-size: bootstrap.$font-size-xs;
     line-height: 0.75rem;
     font-weight: 700;
     white-space: nowrap;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     vertical-align: top;
-    margin-right: .25rem;
-    margin-top: .25rem;
+    margin-right: 0.25rem;
+    margin-top: 0.25rem;
   }
 }

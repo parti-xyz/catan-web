@@ -222,7 +222,7 @@ class User < ApplicationRecord
   def cached_channel_member(parti)
     return unless @cacheable_members
     if @cached_channel_members.blank?
-      @cached_channel_members = self.issue_members.to_a.map do |parti_member|
+      @cached_channel_members = self.issue_members.includes(:joinable).to_a.map do |parti_member|
         [parti_member.joinable_id, parti_member]
       end.to_h
     end

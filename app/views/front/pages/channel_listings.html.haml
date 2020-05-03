@@ -5,6 +5,7 @@
       - @issues.each do |issue|
         %li.channel-line{ class: ('-active' if issue == @current_issue), data: { action: 'click->collection-toggler#pick', target: 'collection-toggler.item' } }
           = link_to front_channel_path(issue_id: issue), class: 'link' do
-            %span.hash #
-            .title #{issue.title}
+            .title
+              %span.hash #
+              %span<> #{issue.title}
             %span.unread{ class: ('-active' if issue.unread?(current_user)), data: { target: 'channel-read.channel', 'channel-read': { 'channel-id': issue.id, 'channel-read-at': issue.read_at(current_user)&.to_i } } } up
