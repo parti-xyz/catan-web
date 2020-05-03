@@ -6,6 +6,7 @@ class Option < ApplicationRecord
   scope :of_group, -> (group) { where(survey_id: Survey.of_group(group)) }
 
   def selected? someone
+    return false if someone.blank?
     feedbacks.exists? user: someone
   end
 

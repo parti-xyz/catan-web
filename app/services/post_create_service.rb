@@ -30,9 +30,9 @@ class PostCreateService
 
     return false unless @post.save
 
-    @post.front_read!(@current_user)
+    @post.read!(@current_user)
     @post.issue.strok_by!(@current_user, @post)
-    @post.issue.read_if_no_unread_posts!(@current_user)
+    @post.issue.deprecated_read_if_no_unread_posts!(@current_user)
     crawling_after_creating_post
     @post.perform_messages_with_mentions_async(:create)
     if @post.pinned?

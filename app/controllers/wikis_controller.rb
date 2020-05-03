@@ -16,7 +16,7 @@ class WikisController < ApplicationController
       @post = @wiki.post
       @post.strok_by!(current_user)
       @post.issue.strok_by!(current_user, @post)
-      @post.issue.read_if_no_unread_posts!(current_user)
+      @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
     errors_to_flash(@post)
@@ -31,7 +31,7 @@ class WikisController < ApplicationController
       @post = @wiki.post
       @post.strok_by!(current_user)
       @post.issue.strok_by!(current_user, @post)
-      @post.issue.read_if_no_unread_posts!(current_user)
+      @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
     errors_to_flash(@post)
@@ -46,7 +46,7 @@ class WikisController < ApplicationController
       @post = @wiki.post
       @post.strok_by!(current_user)
       @post.issue.strok_by!(current_user, @post)
-      @post.issue.read_if_no_unread_posts!(current_user)
+      @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
     errors_to_flash(@post)

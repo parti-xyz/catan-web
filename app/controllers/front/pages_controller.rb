@@ -40,8 +40,8 @@ class Front::PagesController < ApplicationController
       URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
 
     if user_signed_in?
-      @current_post.front_read!(@current_user)
-      @current_issue.read_if_no_front_unread_posts!(@current_user)
+      @current_post.read!(@current_user)
+      @current_issue.read_if_no_unread_posts!(@current_user)
     end
 
     session[:front_last_visited_post_id] = @current_post.id

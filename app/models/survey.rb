@@ -18,6 +18,7 @@ class Survey < ApplicationRecord
   scope :of_group, -> (group) { where(id: Post.of_group(group).select(:survey_id)) }
 
   def feedbacked?(someone)
+    return false if someone.blank?
     feedbacks.exists? user: someone
   end
 

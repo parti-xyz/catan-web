@@ -81,7 +81,7 @@ class IssuesController < ApplicationController
 
         if (params[:nav_q].blank? and params[:previous_post_last_stroked_at_timestamp].blank? and
         @posts.present? and
-        !@issue.unread_post?(current_user, @posts.first.try(:last_stroked_at)) and
+        !@issue.deprecated_unread_by_last_stroked_at?(current_user, @posts.first.try(:last_stroked_at)) and
         @issue.unread?(current_user))
           @issue.sync_last_stroked_at!
           @issue.read!(current_user)

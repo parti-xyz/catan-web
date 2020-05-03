@@ -10,6 +10,7 @@ module Upvotable
   end
 
   def upvoted_by? someone
+    return false if someone.blank?
     upvotes.exists? user: someone
   end
 

@@ -22,7 +22,7 @@ class Issue < ApplicationRecord
       instance.member?(options[:current_user])
     end
     expose :isUnread do |instance, _|
-      instance.unread?(options[:current_user]) || [true, false].sample
+      instance.unread?(options[:current_user])
     end
   end
 
@@ -206,6 +206,7 @@ class Issue < ApplicationRecord
   end
 
   def member_requested? someone
+    return false if someone.blank?
     member_requests.exists? user: someone
   end
 
@@ -272,6 +273,7 @@ class Issue < ApplicationRecord
   end
 
   def blind_user? someone
+    return false if someone.blank?
     blinds.exists?(user: someone) || Blind.site_wide?(someone)
   end
 
@@ -320,12 +322,15 @@ class Issue < ApplicationRecord
   end
 
   def strok_by(someone)
+    return if someone.blank?
+
     self.last_stroked_at = DateTime.now
     self.last_stroked_user = someone
     self
   end
 
   def strok_by!(someone, post)
+    return if someone.blank?
     return if post.blinded?
 
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
@@ -344,25 +349,24 @@ class Issue < ApplicationRecord
   def marked_read_at?(someone)
     member = someone&.smart_issue_member(self)
     return false if member.blank?
-    member.read_at.present?
+    member.marked_read_at?
   end
 
   def unread?(someone)
-    return false unless self.marked_read_at?(someone)
-
-    member = someone.smart_issue_member(self)
-    member.unread_issue?
+    member = someone&.smart_issue_member(self)
+    member&.unread_issue?.presence || false
   end
 
   def read!(someone, read_at = DateTime.now)
-    member = someone.smart_issue_member(self)
+    member = someone&.smart_issue_member(self)
     return if member.blank?
-    member.update_columns(read_at: read_at)
+
+    member.read_issue!
   end
 
   # DEPRECATED
-  def read_if_no_unread_posts!(someone)
-    return if read_if_no_front_unread_posts!(someone)
+  def deprecated_read_if_no_unread_posts!(someone)
+    return if read_if_no_unread_posts!(someone)
     return unless self.marked_read_at?(someone)
 
     member = someone.smart_issue_member(self)
@@ -371,27 +375,22 @@ class Issue < ApplicationRecord
     end
   end
 
-  def read_if_no_front_unread_posts!(someone)
-    member = someone.smart_issue_member(self)
+  def read_if_no_unread_posts!(someone)
+    member = someone&.smart_issue_member(self)
     return false if member.blank?
+    return false if self.posts.unread_only(someone).any?
 
-    if self.posts.left_outer_joins(:post_readers)
-        .where('post_readers.user_id = ?', 19)
-        .where('post_readers.id IS null or post_readers.updated_at <= posts.last_stroked_at')
-        .empty?
-      self.read!(someone)
-      return true
-    end
-
-    return false
+    self.read!(someone)
+    return true
   end
 
-  def unread_post?(someone, last_stroked_at = self.last_stroked_at)
-    return false if last_stroked_at.blank?
-    return false unless self.marked_read_at?(someone)
+  # DEPRECATED
+  def deprecated_unread_post_last_stroked_at?(someone, post_last_stroked_at)
+    return false if someone.blank?
+    return false if post_last_stroked_at.blank?
 
     member = someone.smart_issue_member(self)
-    member.read_at < last_stroked_at
+    member&.deprecated_unread_issue_by_last_stroked_at?(post_last_stroked_at).presence || false
   end
 
   def members_with_deleted
@@ -446,7 +445,7 @@ class Issue < ApplicationRecord
   end
 
   def member_of someone
-    members.find_by(user: someone)
+    members.find_by(user: someone) if someone.present?
   end
 
   def experimental?

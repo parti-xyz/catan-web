@@ -6,7 +6,7 @@ class PostReader < ApplicationRecord
 
   VALID_PERIOD = 1.month
 
-  def self.valid last_stroked_at
+  def self.valid_period last_stroked_at
     last_stroked_at > PostReader::VALID_PERIOD.ago
   end
 end

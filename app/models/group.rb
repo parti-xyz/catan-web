@@ -161,6 +161,7 @@ class Group < ApplicationRecord
   end
 
   def member_requested?(someone)
+    return false if someone.blank?
     member_requests.exists? user: someone
   end
 
@@ -189,6 +190,7 @@ class Group < ApplicationRecord
   end
 
   def comprehensive_joined_by?(someone)
+    return false if someone.blank?
     Group.comprehensive_joined_by(someone).exists?(id: self)
   end
 

@@ -47,16 +47,30 @@ class Member < ApplicationRecord
     group
   end
 
-  def unread_issue?
-    return unless joinable_type == 'Issue'
-    return false if self.read_at.blank?
+  # DEPRECATED
+  def deprecated_unread_issue_by_last_stroked_at?(last_stroked_at)
+    return false unless joinable_type == 'Issue'
+    return false unless self.marked_read_at?
     return false if self.issue.last_stroked_at.blank?
 
-    self.read_at < issue.last_stroked_at
+    self.read_at < last_stroked_at
+  end
+
+  def unread_issue?
+    self.deprecated_unread_issue_by_last_stroked_at?(self.issue.last_stroked_at)
+  end
+
+  def read_issue!
+    return unless joinable_type == 'Issue'
+    self.touch(:read_at)
   end
 
   def self.messagable_group_method
     :of_group
+  end
+
+  def marked_read_at?
+    self.read_at.present?
   end
 
   private

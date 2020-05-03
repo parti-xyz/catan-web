@@ -175,7 +175,7 @@ class PostsController < ApplicationController
         end
       elsif @post.save
         @post.issue.strok_by!(current_user, @post)
-        @post.issue.read_if_no_unread_posts!(current_user)
+        @post.issue.deprecated_read_if_no_unread_posts!(current_user)
         flash[:success] = I18n.t('activerecord.successful.messages.created')
         respond_to do |format|
           format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
@@ -219,7 +219,7 @@ class PostsController < ApplicationController
       return
     elsif @post.save
       @post.issue.strok_by!(current_user, @post)
-      @post.issue.read_if_no_unread_posts!(current_user)
+      @post.issue.deprecated_read_if_no_unread_posts!(current_user)
       @decision_history = @post.decision_histories.create(body: @post.decision, user: current_user)
       DecisionNotificationJob.perform_async(current_user.id, @decision_history.id)
 
@@ -250,7 +250,7 @@ class PostsController < ApplicationController
     @post.strok_by(current_user)
     @post.save!
     @post.issue.strok_by!(current_user, @post)
-    @post.issue.read_if_no_unread_posts!(current_user)
+    @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification
   end
 

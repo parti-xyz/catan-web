@@ -1,7 +1,7 @@
 - issue = local_assigns[:issue]
 - marked_read_at = issue.present? and issue.marked_read_at?(current_user)
 - first_page = local_assigns[:previous_last_post_stroked_at_timestamp].blank?
-- before_post_unread = (marked_read_at and !first_page and issue.unread_post?(current_user, Time.at(local_assigns[:previous_last_post_stroked_at_timestamp].to_i).in_time_zone))
+- before_post_unread = (marked_read_at and !first_page and issue.deprecated_unread_post_last_stroked_at?(current_user, Time.at(local_assigns[:previous_last_post_stroked_at_timestamp].to_i).in_time_zone))
 - first_post_last_stroked_at_timestamp ||= local_assigns[:first_post_last_stroked_at_timestamp].to_i
 
 - can_show_unread_mark = issue.present? and issue.member?(current_user) and local_assigns[:show_unread_mark]
