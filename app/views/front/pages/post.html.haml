@@ -14,7 +14,7 @@
       .post{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
         #{@current_post.title}
 
-.post-box
+.post-box{ data: { controller: 'post-read', 'post-read': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
   .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
     .title
       %h3= @current_post.title

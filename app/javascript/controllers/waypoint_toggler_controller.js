@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 import 'waypoints/lib/noframework.waypoints'
 import 'waypoints/lib/shortcuts/inview'
-import "velocity-animate/velocity.ui.min.js";
+import 'velocity-animate/velocity.ui.min'
 
 import scrollParent from '../helpers/scroll_parent'
 

@@ -1,5 +1,5 @@
 - content_for :content do
-  .front-app
+  .front-app{ data: { 'controller': 'channel-read', action: 'post-read->channel-read#update' } }
     .global-sidebar#front-app-global-sidebar{ data: { controller: 'content-loader', 'content-loader-url': front_global_sidebar_path, 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-global-sidebar' } }
     .group-sidebar
       .group-menu

@@ -1,12 +1,10 @@
 = render layout: 'layouts/simplebar' do
   .channel-listing
     .title 채널
-    %ul.channel-lines{ data: { 'controller': 'group-toggler' } }
+    %ul.channel-lines{ data: { 'controller': 'collection-toggler' } }
       - @issues.each do |issue|
-        %li.channel-line{ class: ('-active' if issue == @current_issue), data: { action: 'click->group-toggler#pick', target: 'group-toggler.item' } }
+        %li.channel-line{ class: ('-active' if issue == @current_issue), data: { action: 'click->collection-toggler#pick', target: 'collection-toggler.item' } }
           = link_to front_channel_path(issue_id: issue), class: 'link' do
-            - if issue.unread?(current_user)
-              %span.unread up
-            .linebody
-              .hash #
-              .title #{issue.title}
+            %span.hash #
+            .title #{issue.title}
+            %span.unread{ class: ('-active' if issue.unread?(current_user)), data: { target: 'channel-read.channel', 'channel-read': { 'channel-id': issue.id, 'channel-read-at': issue.read_at(current_user)&.to_i } } } up

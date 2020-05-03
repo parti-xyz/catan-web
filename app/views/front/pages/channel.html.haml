@@ -4,9 +4,9 @@
 
 - if @posts.present?
   .posts-box
-    %ul.post-lines{ data: { 'controller': 'group-toggler' } }
+    %ul.post-lines{ data: { 'controller': 'collection-toggler' } }
       - @posts.each do |post|
-        %li.post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->group-toggler#pick', target: 'group-toggler.item' } }
+        %li.post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-toggler#pick', target: 'collection-toggler.item' } }
           .icon
             - if post.poll.present?
               %i.fa.fa-fire.fa-fw

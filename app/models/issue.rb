@@ -346,6 +346,11 @@ class Issue < ApplicationRecord
     self.save
   end
 
+  def read_at(someone)
+    member = someone&.smart_issue_member(self)
+    member&.read_at
+  end
+
   def marked_read_at?(someone)
     member = someone&.smart_issue_member(self)
     return false if member.blank?

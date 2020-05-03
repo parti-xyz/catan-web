@@ -8,18 +8,20 @@
   }
   > .link {
     display: inline-block;
-    margin-right: 1rem;
+    padding-right: 1rem;
     padding-left: 1rem;
   }
-  > .link > .linebody {
-    display: flex;
-  }
-  > .link > .linebody > .title {
+  > .link > .title {
+    display: inline-block;
     color: #ffffff;
     margin-left: .25rem;
-    margin-right: 1rem;
+    margin-right: .25rem;
   }
   > .link > .unread {
+    display: none;
+  }
+  > .link > .unread.-active {
+    display: inline-block;
     color: #ffffff;
     background: #eb4d5c;
     border-radius: .5rem;
@@ -27,10 +29,9 @@
     font-size: bootstrap.$font-size-xs;
     line-height: 0.75rem;
     font-weight: 700;
-    vertical-align: baseline;
     white-space: nowrap;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-    float: right;
+    vertical-align: top;
     margin-right: .25rem;
     margin-top: .25rem;
   }
