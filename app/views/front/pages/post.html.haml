@@ -70,7 +70,16 @@
               = @current_post.link_source.site_name.try(:upcase)
               원글보기
               %i.fa.fa-external-link
-
+    - if @current_post.poll.present?
+      - poll = @current_post.poll
+      .post-poll
+        .title= poll.title
+        .votings
+          - if poll.open?
+            - if !user_signed_in?
+              .buttons
+                %button.btn{ data: { action: 'sign-in-launcher#modal'} }
+                  찬성
     - if @current_post.comments.present?
       .post-comments
         - @current_post.comments_threaded.each do |parent_comment, child_comments|

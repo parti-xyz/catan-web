@@ -1,0 +1,85 @@
+@use '../bootstrap';
+@use '../global-variables';
+
+.modal .login-box {
+  > .head {
+    position: relative;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid global-variables.$color-gray-300;
+  }
+
+  > .head > .title {
+    font-size: bootstrap.$font-size-base;
+    display: inline-block;
+    line-height: 2.25rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  > .head > .close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    cursor: pointer;
+  }
+
+  > .head > .close > .icon {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  > .body > .slogan {
+    text-align: center;
+    font-size: bootstrap.$font-size-lg;
+    margin: 2rem 0;
+  }
+
+  > .body > .content {
+    text-align: center;
+  }
+
+  > .body > .content > .signinbtn {
+    display: block;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid;
+    color: white;
+  }
+
+  > .body > .content > .signinbtn.-facebook {
+    @include bootstrap.button-outline-variant(#2a3ab0);
+  }
+
+  > .body > .content > .signinbtn.-twitter {
+    @include bootstrap.button-outline-variant(#55acee);
+  }
+
+  > .body > .content > .signinbtn.-google {
+    @include bootstrap.button-outline-variant(#c24851);
+  }
+
+  > .body > .content > .signinbtn.-email {
+    @include bootstrap.button-outline-variant(global-variables.$color-brand-primary);
+  }
+
+  > .body > .content > .signinform > .rememberme {
+    color: global-variables.$color-gray-600;
+    font-size: bootstrap.$font-size-sm;
+  }
+
+  .footer {
+    margin: 2rem 10% 1rem;
+  }
+
+  .footer > .item {
+    color: global-variables.$color-gray-600;
+    font-size: bootstrap.$font-size-sm;
+  }
+
+  .footer > .item > .link {
+    text-decoration: underline;
+  }
+}

@@ -20,13 +20,14 @@
 
     = csrf_meta_tags
 
-  %body.app-pack{ class: "#{body_class}", data: { 'root-domain': root_domain } }
+  %body.app-pack{ class: "#{body_class}", data: { 'root-domain': root_domain, controller: 'sign-in-launcher' } }
     %section.unobtrusive-flash-section
       .container
         .unobtrusive-flash-container
 
     = content_for?(:content) ? yield(:content) : yield
 
+    = render 'bpplication/login_box'
     = render 'application/photoswipe'
 
     :javascript

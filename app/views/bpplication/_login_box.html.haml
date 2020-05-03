@@ -1,0 +1,35 @@
+.modal{ data: { controller: 'modal', target: 'sign-in-launcher.modal' } }
+  .modal-dialog
+    .modal-content
+      .login-box
+        .head
+          .title 로그인
+          .close{ data: { action: 'click->modal#close' } }
+            = image_tag 'icon_close.png', class: 'icon'
+        .body
+          .slogan
+            팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}
+          .content
+            - [ { omniauth_slug: :facebook, class_name: :facebook, human_name: '페이스북' }, |
+                { omniauth_slug: :twitter, class_name: :twitter, human_name: '트위터' }, |
+                { omniauth_slug: :google_oauth2, class_name: :google, human_name: '구글' } ].each do |data|
+              .btn.signinbtn{ class: "-#{data[:class_name]}", data: { action: 'click->sign-in-launcher#auth', target: 'sign-in-launcher.button', 'sign-in-launcher': { 'web-url': omniauth_authorize_url(:user, data[:omniauth_slug], subdomain: false), 'app-url': mobile_app_auth_url(subdomain: nil, provider: data[:omniauth_slug], remember_me: true, fallback_url: omniauth_authorize_url(:user, data[:omniauth_slug], subdomain: false)) } } }
+                %i.fa{ class: "fa-#{data[:class_name]}" }
+                #{data[:human_name]} 아이디로 로그인하기
+            = link_to email_sign_in_users_path, class: 'btn signinbtn -email', data: { target: 'sign-in-launcher.button', turbolinks: false } do
+              %i.fa.fa-envelope
+              이메일로 로그인
+            = form_tag nil, method: :get, data: { target: 'sign-in-launcher.form', turbolinks: false }, class: 'signinform' do
+              = hidden_field_tag(:after_login)
+              = hidden_field_tag(:group_slug, current_group.slug) if current_group.present?
+              %label.rememberme{ name: 'remember_me' }
+                = check_box_tag(:remember_me, '1', true)
+                로그인 상태를 유지
+
+          .footer
+            .item
+              처음 오셨나요?
+              = link_to '가입하기', pre_sign_up_users_path, data: { turbolinks: false }, class: 'link'
+            .item
+              가입확인 메일을 잊어버리셨나요?
+              = link_to '가입확인 메일 다시 받기', new_user_confirmation_path, data: { turbolinks: false }, class: 'link'
