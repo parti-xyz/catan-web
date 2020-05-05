@@ -390,7 +390,7 @@ class Issue < ApplicationRecord
   end
 
   # DEPRECATED
-  def deprecated_unread_post_last_stroked_at?(someone, post_last_stroked_at)
+  def deprecated_unread_by_last_stroked_at?(someone, post_last_stroked_at)
     return false if someone.blank?
     return false if post_last_stroked_at.blank?
 

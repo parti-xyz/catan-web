@@ -638,7 +638,7 @@ class Post < ApplicationRecord
   end
 
   def unread? someone
-    self.issue.deprecated_unread_post_last_stroked_at?(someone, self.last_stroked_at)
+    self.issue.deprecated_unread_by_last_stroked_at?(someone, self.last_stroked_at)
   end
 
   def behold_by?(someone)
