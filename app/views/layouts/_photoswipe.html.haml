@@ -8,7 +8,7 @@
     - image_photoswipe_width = file_source.image_width
     - image_photoswipe_heigh = file_source.image_height
 
-  - photoswipe_options = { 'data-url': image_url, 'data-original-url': download_file_source_url(file_source), 'data-width': image_photoswipe_width, 'data-height': image_photoswipe_heigh, 'data-title': title, 'data-index': index }
+  - photoswipe_options = { data: { photoswipe: { url: image_url, 'original-url': download_file_source_url(file_source), width: image_photoswipe_width, height: image_photoswipe_heigh, title: title, index: index } } }
 
   .image{ photoswipe_options, data: { target: 'photoswipe.item', action: 'click->photoswipe#open' } }
     = yield file_source

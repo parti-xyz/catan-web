@@ -3,6 +3,7 @@ import 'waypoints/lib/noframework.waypoints'
 import 'waypoints/lib/shortcuts/inview'
 
 import scrollParent from '../helpers/scroll_parent'
+import ParamMap from '../helpers/param_map'
 
 export default class extends Controller {
   static targets = ['channel']
@@ -23,24 +24,25 @@ export default class extends Controller {
 
   unread(channelId, channelReadAt) {
     this.findElements(channelId, channelReadAt).forEach(el => {
-      el.dataset.channelReadAt = channelReadAt
+      new ParamMap(this, el).set('channelReadAt', channelReadAt)
       el.classList.add('-active')
     })
   }
 
   read(channelId, channelReadAt) {
     this.findElements(channelId, channelReadAt).forEach(el => {
-      el.dataset.channelReadAt = channelReadAt
+      new ParamMap(this, el).set('channelReadAt', channelReadAt)
       el.classList.remove('-active')
     })
   }
 
   findElements(channelId, channelReadAt) {
     return this.channelTargets.filter(el => {
-      if (!el.dataset.channelReadChannelReadAt) { return false }
+      const paramMap = new ParamMap(this, el)
+      if (!paramMap.get('channelReadAt')) { return false }
 
-      const previousChannelReadAt = +el.dataset.channelReadChannelReadAt
-      return ((!previousChannelReadAt || previousChannelReadAt < channelReadAt) && channelId === +el.dataset.channelReadChannelId)
+      const previousChannelReadAt = +paramMap.get('channelReadAt')
+      return ((!previousChannelReadAt || previousChannelReadAt < channelReadAt) && channelId === +paramMap.get('channelId'))
     })
   }
 

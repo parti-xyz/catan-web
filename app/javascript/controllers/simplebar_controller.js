@@ -2,6 +2,8 @@ import { Controller } from "stimulus"
 import SimpleBar from 'simplebar'
 SimpleBar.removeObserver()
 
+import ParamMap from '../helpers/param_map'
+
 export default class extends Controller {
   connect() {
     if (!this.currentSimplebar) {
@@ -22,7 +24,7 @@ export default class extends Controller {
 
   restoreScroll() {
     const scrollElement = this.currentSimplebar.getScrollElement()
-    const lastScrollTopFromData = this.element.parentNode ? +this.element.parentNode.dataset.jsScrollPersistenceScrollTop : undefined
+    const lastScrollTopFromData = this.element.parentNode ? +(new ParamMap(this, this.element.parentNode).get('presistedScrollTop')) : undefined
     const lastScrollTop = (lastScrollTopFromData ? lastScrollTopFromData : this.lastScrollTop)
     if (lastScrollTop) {
       scrollElement.scrollTop = lastScrollTop

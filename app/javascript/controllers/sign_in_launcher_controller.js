@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import ufo from '../helpers/ufo_app'
-import actionParams from '../helpers/action_params'
+import ParamMap from '../helpers/param_map'
 
 export default class extends Controller {
   static targets = ['modal', 'form', 'afterLogin', 'button']
@@ -11,7 +11,7 @@ export default class extends Controller {
       "modal"
     )
     if (modalController) {
-      const { afterLogin } = actionParams(this, event.currentTarget)
+      const afterLogin = new ParamMap(this, event.currentTarget).get('afterLogin')
       if (afterLogin) {
         this.afterLoginTarget.setAttribute('value', afterLogin)
       }
@@ -22,8 +22,9 @@ export default class extends Controller {
   auth(event) {
     this.buttonTargets.forEach(el => { el.setAttribute('disabled', true) })
 
-    const webUrl = event.currentTarget.dataset.signInLauncherWebUrl
-    const appUrl = event.currentTarget.dataset.signInLauncherAppUrl
+    const paramMap = new ParamMap(this, event.currentTarget)
+    const webUrl = paramMap.get('webUrl')
+    const appUrl = paramMap.get('appUrl')
 
     if (ufo.isApp() && ufo.canHandle('startSocialSignIn') && appUrl) {
       window.location.href = appUrl;

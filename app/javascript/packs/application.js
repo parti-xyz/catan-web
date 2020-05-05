@@ -26,6 +26,7 @@ import elementClosest from 'element-closest'
 import '../stylesheets/site'
 
 import 'controllers'
+import ParamMap from '../helpers/param_map'
 
 elementClosest(window)
 Rails.start()
@@ -75,7 +76,7 @@ $(document).ready(function () {
         if (scrollData.tag === scrollPersistenceTag) {
           scrollElement.scrollTop = previousScrollTop
           if (previousScrollTop != scrollElement.scrollTop) {
-            element.dataset.jsScrollPersistenceScrollTop = previousScrollTop
+            new ParamMap({ identifier: 'simplebar' }, element).set('presistedScrollTop', previousScrollTop)
           }
         }
       }
