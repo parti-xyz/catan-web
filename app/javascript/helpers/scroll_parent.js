@@ -16,4 +16,4 @@ const scrollParent = (node) =>
       ? node
       : scrollParent(node.parentNode)
 
-export default scrollParent;
+export default scrollParent

@@ -20,7 +20,7 @@
               %i.fa.fa-envelope
               이메일로 로그인
             = form_tag nil, method: :get, data: { target: 'sign-in-launcher.form', turbolinks: false }, class: 'signinform' do
-              = hidden_field_tag(:after_login)
+              = hidden_field_tag(:after_login, nil, data: { target: 'sign-in-launcher.afterLogin' } )
               = hidden_field_tag(:group_slug, current_group.slug) if current_group.present?
               %label.rememberme{ name: 'remember_me' }
                 = check_box_tag(:remember_me, '1', true)

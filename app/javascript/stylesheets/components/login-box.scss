@@ -45,24 +45,26 @@
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
     border-radius: 999px;
-    border: 1px solid;
-    color: white;
   }
 
   > .body > .content > .signinbtn.-facebook {
-    @include bootstrap.button-outline-variant(#2a3ab0);
+    @include bootstrap.button-outline-variant(#2a3ab0, white);
+    border-color: global-variables.$color-gray-800;
   }
 
   > .body > .content > .signinbtn.-twitter {
-    @include bootstrap.button-outline-variant(#55acee);
+    @include bootstrap.button-outline-variant(#55acee, white);
+    border-color: global-variables.$color-gray-800;
   }
 
   > .body > .content > .signinbtn.-google {
-    @include bootstrap.button-outline-variant(#c24851);
+    @include bootstrap.button-outline-variant(#c24851, white);
+    border-color: global-variables.$color-gray-800;
   }
 
   > .body > .content > .signinbtn.-email {
-    @include bootstrap.button-outline-variant(global-variables.$color-brand-primary);
+    @include bootstrap.button-outline-variant(global-variables.$color-brand-primary, white);
+    border-color: global-variables.$color-gray-800;
   }
 
   > .body > .content > .signinform > .rememberme {

@@ -9,9 +9,9 @@ export default class extends Controller {
   }
 
   close() {
-    document.body.classList.remove("modal-open");
-    this.element.removeAttribute("style");
-    this.element.classList.remove("show");
-    document.getElementsByClassName("modal-backdrop")[0].remove();
+    document.body.classList.remove("modal-open")
+    this.element.removeAttribute("style")
+    this.element.classList.remove("show")
+    document.getElementsByClassName("modal-backdrop")[0].remove()
   }
 }

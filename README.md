@@ -303,3 +303,4 @@ $ rails tmp:cache:clear
   * 댓글 퍼머링크 만들기
   * #DPRECATE 삭제
   * 앱에서 다운로드 테스트 필요
+  * frontable 채널의 경우 front로 redirect하기

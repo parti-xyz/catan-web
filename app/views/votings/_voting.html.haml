@@ -8,7 +8,7 @@
         = link_to '#', class: 'btn btn-default btn-ghost btn-success', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
           %i.fa.fa-thumbs-up
           찬성
-        = link_to '#', class: 'btn btn-default btn-ghost btn-primary', data: { toggle: 'parti-login-overlay', label: '찬성', 'after-login': h({action: :poll_vote_agree, id: poll.id}.to_json) } do
+        = link_to '#', class: 'btn btn-default btn-ghost btn-primary', data: { toggle: 'parti-login-overlay', label: '중립', 'after-login': h({action: :poll_vote_neutral, id: poll.id}.to_json) } do
           중립
         = link_to '#', class: 'btn btn-default btn-ghost btn-danger', data: { toggle: 'parti-login-overlay', label: '반대', 'after-login': h({action: :poll_vote_disagree, id: poll.id}.to_json) } do
           %i.fa.fa-thumbs-down

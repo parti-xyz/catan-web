@@ -11,6 +11,9 @@ module AfterLogin
     when 'poll_vote_agree'
       poll = Poll.find_by id: after_login['id']
       VotingPollService.new(poll: poll, current_user: current_user).agree if poll.present?
+    when 'poll_vote_neutral'
+      poll = Poll.find_by id: after_login['id']
+      VotingPollService.new(poll: poll, current_user: current_user).neutral if poll.present?
     when 'poll_vote_disagree'
       poll = Poll.find_by id: after_login['id']
       VotingPollService.new(poll: poll, current_user: current_user).disagree if poll.present?
