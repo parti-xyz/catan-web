@@ -8,7 +8,7 @@ class Group::CategoriesController < Group::BaseController
   def create
     @category.group_slug = current_group.slug
     unless @category.save
-      errors_to_flash(@category)
+      deprecated_errors_to_flash(@category)
     end
 
     redirect_to group_categories_path
@@ -19,7 +19,7 @@ class Group::CategoriesController < Group::BaseController
 
   def update
     unless @category.update_attributes(category_params)
-      errors_to_flash(@category)
+      deprecated_errors_to_flash(@category)
     end
 
     redirect_to group_categories_path
@@ -27,7 +27,7 @@ class Group::CategoriesController < Group::BaseController
 
   def destroy
     unless @category.destroy
-      errors_to_flash(@category)
+      deprecated_errors_to_flash(@category)
     end
 
     redirect_to group_categories_path

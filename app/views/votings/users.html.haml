@@ -11,11 +11,11 @@
               = user.nickname
 - else
   %ul.voting-users.list-unstyled.list-unstyled-no-bottom-margin{id: "#{dom_id(@poll)}-voting-users"}
-    - if @poll.votings.agreed.any?
+    - if @poll.votings.agree.any?
       %li.agree.section
         .choice-title 찬성
         .upvoted-users
-          - @poll.votings.recent.agreed.map(&:user).each do |user|
+          - @poll.votings.recent.agree.map(&:user).each do |user|
             = link_to smart_user_gallery_path(user), target: '_blank' do
               %span.user-info.text-nowrap
                 .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
@@ -29,11 +29,11 @@
               %span.user-info.text-nowrap
                 .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}
                 = user.nickname
-    - if @poll.votings.disagreed.any?
+    - if @poll.votings.disagree.any?
       %li.disagree.section
         .choice-title 반대
         .upvoted-users
-          - @poll.votings.recent.disagreed.map(&:user).each do |user|
+          - @poll.votings.recent.disagree.map(&:user).each do |user|
             = link_to smart_user_gallery_path(user), target: '_blank' do
               %span.user-info.text-nowrap
                 .thumb.user-image.img-circle{style: "background-image: url(#{user.image.sm.url});"}

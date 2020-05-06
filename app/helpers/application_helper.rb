@@ -455,4 +455,10 @@ module ApplicationHelper
   def window_splitable?
     !browser.device.mobile?
   end
+
+  def current_view_path
+    result = caller.first&.split(':')&.first&.gsub(Rails.root.join('app/views/').to_s, '')&.sub(/\..*/, '').split('/')
+    result[-1].gsub!(/^_/, '')
+    result.join('/')
+  end
 end

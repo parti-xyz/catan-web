@@ -75,7 +75,7 @@ class Group::ConfigurationsController < Group::BaseController
         flash[:success] = t('activerecord.successful.messages.created')
         redirect_to smart_group_url(@group)
       else
-        errors_to_flash @group
+        deprecated_errors_to_flash @group
         render 'edit'
       end
     end

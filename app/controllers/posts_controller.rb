@@ -23,7 +23,7 @@ class PostsController < ApplicationController
 
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
-      errors_to_flash(@post)
+      deprecated_errors_to_flash(@post)
     end
 
     if @post.errors.blank?
@@ -72,7 +72,7 @@ class PostsController < ApplicationController
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       redirect_to params[:back_url].presence || smart_post_url(@post)
     else
-      errors_to_flash @post
+      deprecated_errors_to_flash @post
       render 'posts/edit'
     end
   end
@@ -182,7 +182,7 @@ class PostsController < ApplicationController
           format.js { render 'posts/update_wiki' }
         end
       else
-        errors_to_flash @post
+        deprecated_errors_to_flash @post
         respond_to do |format|
           format.html { render :show }
           format.js { render 'application/show_flash' }
@@ -226,7 +226,7 @@ class PostsController < ApplicationController
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       return
     else
-      errors_to_flash @post
+      deprecated_errors_to_flash @post
       return
     end
   end
@@ -412,10 +412,10 @@ class PostsController < ApplicationController
     ActiveRecord::Base.transaction do
       if @folder.present? and !@folder.persisted?
         @folder.save
-        errors_to_flash @folder
+        deprecated_errors_to_flash @folder
       end
       @post.save
-      errors_to_flash @post
+      deprecated_errors_to_flash @post
     end
 
     respond_to do |format|

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_230729) do
+ActiveRecord::Schema.define(version: 2020_05_06_085725) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -521,6 +521,10 @@ ActiveRecord::Schema.define(version: 2020_04_28_230729) do
     t.boolean "hidden_intermediate_result", default: false
     t.boolean "hidden_voters", default: false
     t.datetime "expires_at"
+    t.integer "agree_votings_count", default: 0, null: false
+    t.integer "neutral_votings_count", default: 0, null: false
+    t.integer "disagree_votings_count", default: 0, null: false
+    t.integer "sure_votings_count", default: 0, null: false
   end
 
   create_table "post_readers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

@@ -33,6 +33,7 @@ gem 'rubyzip', '~> 1.3.0'
 gem 'groupdate'
 gem 'chartkick', '>= 3.2.0'
 gem 'moneta'
+gem 'counter_culture', '~> 2.3'
 
 # file upload
 gem 'carrierwave', '~> 1.1'

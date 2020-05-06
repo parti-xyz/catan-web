@@ -161,7 +161,7 @@ class IssuesController < ApplicationController
     if service.call
       redirect_to smart_issue_home_url(@issue)
     else
-      errors_to_flash @issue
+      deprecated_errors_to_flash @issue
       render 'new'
     end
   end
@@ -234,7 +234,7 @@ class IssuesController < ApplicationController
         flash[:success] = t('activerecord.successful.messages.created')
         redirect_to smart_issue_home_url(@issue)
       else
-        errors_to_flash @issue
+        deprecated_errors_to_flash @issue
         render 'edit'
       end
     end
@@ -333,7 +333,7 @@ class IssuesController < ApplicationController
         flash[:success] = I18n.t('activerecord.successful.messages.invited')
         redirect_to new_admit_members_issue_path
       else
-        errors_to_flash(current_group)
+        deprecated_errors_to_flash(current_group)
         render 'new_admit_members'
       end
     else
@@ -349,13 +349,13 @@ class IssuesController < ApplicationController
     @previous_category = @issue.category
     @category = Category.find_by(id: params[:category_id])
     @issue.update_attributes(category: @category)
-    errors_to_flash(@issue)
+    deprecated_errors_to_flash(@issue)
   end
 
   def destroy_category
     @previous_category = @issue.category
     @issue.update_attributes(category: nil)
-    errors_to_flash(@issue)
+    deprecated_errors_to_flash(@issue)
   end
 
   def read_all
@@ -375,7 +375,7 @@ class IssuesController < ApplicationController
     if @issue.save
       flash[:success] = '휴면을 해제했습니다.'
     else
-      errors_to_flash(@issue)
+      deprecated_errors_to_flash(@issue)
     end
     redirect_to smart_issue_home_url(@issue)
   end
@@ -385,7 +385,7 @@ class IssuesController < ApplicationController
     if @issue.save
       flash[:success] = '휴면 전환했습니다.'
     else
-      errors_to_flash(@issue)
+      deprecated_errors_to_flash(@issue)
     end
     redirect_to smart_issue_home_url(@issue)
   end

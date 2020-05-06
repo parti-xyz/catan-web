@@ -19,7 +19,7 @@ class WikisController < ApplicationController
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
-    errors_to_flash(@post)
+    deprecated_errors_to_flash(@post)
     redirect_to smart_post_url(@post)
   end
 
@@ -34,7 +34,7 @@ class WikisController < ApplicationController
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
-    errors_to_flash(@post)
+    deprecated_errors_to_flash(@post)
     redirect_to smart_post_url(@post)
   end
 
@@ -49,7 +49,7 @@ class WikisController < ApplicationController
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
-    errors_to_flash(@post)
+    deprecated_errors_to_flash(@post)
     redirect_to smart_post_url(@post)
   end
 

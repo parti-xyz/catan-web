@@ -14,7 +14,7 @@ class Group::GroupHomeComponentsController < Group::BaseController
       if @group_home_component.save
         arrange_seq_group_home_components!
       else
-        errors_to_flash(@group_home_component)
+        deprecated_errors_to_flash(@group_home_component)
       end
     end
   end
@@ -27,7 +27,7 @@ class Group::GroupHomeComponentsController < Group::BaseController
       if @group_home_component.update_attributes(group_home_component_params)
         arrange_seq_group_home_components!
       else
-        errors_to_flash(@group_home_component)
+        deprecated_errors_to_flash(@group_home_component)
       end
     end
   end
@@ -37,14 +37,14 @@ class Group::GroupHomeComponentsController < Group::BaseController
       if @group_home_component.destroy
         arrange_seq_group_home_components!
       else
-        errors_to_flash(@group_home_component)
+        deprecated_errors_to_flash(@group_home_component)
       end
     end
   end
 
   def destroy_all
     unless current_group.group_home_components.destroy_all
-      errors_to_flash(current_group)
+      deprecated_errors_to_flash(current_group)
     end
   end
 
@@ -59,7 +59,7 @@ class Group::GroupHomeComponentsController < Group::BaseController
       if @group_home_component.update_attributes(seq_no: new_seq_no)
         arrange_seq_group_home_components!
       else
-        errors_to_flash(@group_home_component)
+        deprecated_errors_to_flash(@group_home_component)
       end
     end
   end
@@ -75,7 +75,7 @@ class Group::GroupHomeComponentsController < Group::BaseController
       if @group_home_component.update_attributes(seq_no: new_seq_no)
         arrange_seq_group_home_components!
       else
-        errors_to_flash(@group_home_component)
+        deprecated_errors_to_flash(@group_home_component)
       end
     end
   end

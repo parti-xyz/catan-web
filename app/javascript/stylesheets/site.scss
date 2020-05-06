@@ -4,6 +4,8 @@
 @use "~photoswipe/dist/photoswipe";
 @use "~simplebar/dist/simplebar";
 @use "~justifiedGallery/dist/css/justifiedGallery";
+@use "~noty/src/noty.scss";
+@use "~noty/src/themes/mint.scss";
 
 @use "./components/front-app";
 @use "./components/pagination-wrapper";

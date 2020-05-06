@@ -1,0 +1,48 @@
+@use '../../global-variables';
+@use '../front-variables';
+
+.front-app .post-poll-votings-users {
+  min-width: 600px;
+  > .choices {
+    display: flex;
+    min-width: 500px;
+    max-width: 600px;
+  }
+
+  > .choices > .choice {
+    flex: 1;
+    background-color: global-variables.$color-gray-200;
+    padding: 1rem;
+    margin: 0.75rem;
+  }
+
+  > .choices > .choice > .title {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+
+  @each $chosen-name, $chosen-color in front-variables.$chosens {
+    > .choices > .choice > .title.-#{$chosen-name} {
+      color: $chosen-color;
+    }
+  }
+
+  > .choices > .choice > .users > .user {
+    white-space: nowrap;
+  }
+
+  > .choices > .choice > .users > .user + .user {
+    margin-left: 0.25rem;
+  }
+
+  > .choices > .choice > .users > .user > .image {
+    background-size: cover;
+    background-position: center;
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 9999px;
+  }
+}

@@ -130,7 +130,7 @@ class Group::MembersController < Group::BaseController
         end
         redirect_to group_members_path
       else
-        errors_to_flash(current_group)
+        deprecated_errors_to_flash(current_group)
         render 'new_admit'
       end
     else

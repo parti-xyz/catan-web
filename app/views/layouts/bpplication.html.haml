@@ -11,7 +11,7 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag 'bpplication', media: 'all', 'data-turbolinks-track': 'reload'
 
-    %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel: "stylesheet"}
+    %link{href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css", rel: "stylesheet"}
     = javascript_pack_tag 'application', defer: true, 'data-turbolinks-track': 'reload'
 
     /[if lt IE 9]
@@ -20,7 +20,7 @@
 
     = csrf_meta_tags
 
-  %body.app-pack{ class: "#{body_class}", data: { 'root-domain': root_domain, controller: 'sign-in-launcher' } }
+  %body.-pack{ class: "#{body_class}", data: { 'root-domain': root_domain, controller: 'sign-in-launcher' } }
     %section.unobtrusive-flash-section
       .container
         .unobtrusive-flash-container

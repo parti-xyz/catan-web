@@ -1,20 +1,4 @@
 /* eslint no-console:0 */
-// This file is automatically compiled by Webpack, along with any other files
-// present in this directory. You're encouraged to place your actual application logic in
-// a relevant structure within app/javascript and only use these pack files to reference
-// that code so it'll be compiled.
-//
-// To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
-// layout file, like app/views/layouts/application.html.erb
-
-
-// Uncomment to copy all static images under ../images to the output folder and reference
-// them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
-// or the `imagePath` JavaScript helper below.
-//
-// const images = require.context('../images', true)
-// const imagePath = (name) => images(name, true)
-
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 
@@ -22,23 +6,79 @@ import 'jquery'
 import 'popper.js'
 import 'bootstrap'
 import elementClosest from 'element-closest'
+import Noty from 'noty'
 
 import '../stylesheets/site'
 
 import 'controllers'
 import ParamMap from '../helpers/param_map'
 
-elementClosest(window)
 Rails.start()
 Turbolinks.start()
+elementClosest(window)
 
-$(document).ready(function () {
-  $('body').tooltip({
-    selector: '[data-toggle="tooltip"]'
+if (window.jQuery) {
+  jQuery(document).ready(function($) {
+    $('body').tooltip({
+      selector: '[data-toggle="tooltip"]',
+    })
   })
-});
 
-(function () {
+  jQuery(document).on('ajax:success ajax:error', function ({ detail: [ response, status, xhr ] }) {
+    let flash = null
+    try {
+      flash = JSON.parse(xhr.getResponseHeader('X-Flash-Messages'))
+    } catch(e) {
+      return
+    }
+    let reported = false
+
+    if (flash) {
+      if (flash.alert) {
+        new Noty({
+          type: 'warning',
+          text: decodeURIComponent(escape(flash.alert)),
+          timeout: 3000,
+        }).show()
+        reported = true
+      }
+      if (flash.notice) {
+        new Noty({
+          type: 'success',
+          text: decodeURIComponent(escape(flash.notice)),
+          timeout: 3000,
+        }).show()
+        reported = true
+      }
+    }
+
+    if (reported) { return }
+
+    if(xhr.status == 500) {
+      new Noty({
+        type: 'error',
+        text: decodeURIComponent('뭔가 잘못되었습니다. 곧 고치겠습니다.'),
+        timeout: 3000,
+      }).show()
+    } else if(xhr.status == 403) {
+      new Noty({
+        type: 'error',
+        text: decodeURIComponent('권한이 없습니다.'),
+        timeout: 3000,
+      }).show()
+    } else if(xhr.status == 404) {
+      new Noty({
+        type: 'error',
+        text: decodeURIComponent('어머나! 요청하신 내용이 사라졌어요. 페이지를 새로 고쳐보세요.'),
+        timeout: 3000,
+      }).show()
+    }
+
+    $.each($('[data-disable-with]'), function(index, elm) { $.rails.enableElement($(elm)) })
+  })
+}
+
+(function() {
   const _scrollDataMaps = new Map()
 
   function findElements() {
@@ -49,7 +89,7 @@ $(document).ready(function () {
     return element.querySelector(':scope > .simplebar-layout > .simplebar-wrapper > .simplebar-mask > .simplebar-offset > .simplebar-content-wrapper')
   }
 
-  addEventListener("turbolinks:before-cache", function () {
+  document.addEventListener("turbolinks:before-cache", function () {
     findElements().forEach(function (element) {
       const scrollPersistenceId = element.dataset.scrollPersistenceId
       if (scrollPersistenceId) {
@@ -62,7 +102,7 @@ $(document).ready(function () {
     })
   })
 
-  addEventListener("turbolinks:render", function () {
+  document.addEventListener("turbolinks:render", function () {
     findElements().forEach(function (element) {
       const scrollPersistenceId = element.dataset.scrollPersistenceId
       if (scrollPersistenceId && _scrollDataMaps.has(scrollPersistenceId)) {
@@ -82,6 +122,4 @@ $(document).ready(function () {
       }
     })
   })
-
-
 })()

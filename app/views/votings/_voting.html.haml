@@ -21,7 +21,7 @@
       / 로그인 & 투표완료
       .vote__buttons-sured.clearfix
         .vote__buttons-sured__agree
-          - if poll.agreed_by?(current_user)
+          - if poll.agree_by?(current_user)
             - agree_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
             - agree_btn_classes = { class: 'btn btn-primary btn-success-dark' }
             - agree_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_agree'), 'data-disable-with': '...' }.merge agree_btn_classes
@@ -52,7 +52,7 @@
               %p.count= poll.votings.with_choice(:neutral).count
 
         .vote__buttons-sured__disagree
-          - if poll.disagreed_by?(current_user)
+          - if poll.disagree_by?(current_user)
             - disagree_btn_link = poll_votings_path(poll, voting: {choice: :unsure})
             - disagree_btn_classes = { class: 'btn btn-primary btn-danger-dark' }
             - disagree_btn_options = { method: :post, remote: true, 'data-confirm': t('views.voting.cancel_disagree'), 'data-disable-with': '...' }.merge disagree_btn_classes
@@ -92,14 +92,14 @@
   - else
     .vote__buttons.vote__buttons-closed
       / 종료
-      .vote__result.vote__result-agree{ class: ('voted' if poll.agreed_by?(current_user)) }
+      .vote__result.vote__result-agree{ class: ('voted' if poll.agree_by?(current_user)) }
         %i.fa.fa-thumbs-up
         찬성
         %p.count= poll.votings.with_choice(:agree).count
       .vote__result.vote__result-neutral{ class: ('voted' if poll.neutral_by?(current_user)) }
         중립
         %p.count= poll.votings.with_choice(:neutral).count
-      .vote__result.vote__result-disagree{ class: ('voted' if poll.disagreed_by?(current_user)) }
+      .vote__result.vote__result-disagree{ class: ('voted' if poll.disagree_by?(current_user)) }
         %i.fa.fa-thumbs-down
         반대
         %p.count= poll.votings.with_choice(:disagree).count

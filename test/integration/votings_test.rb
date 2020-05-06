@@ -23,11 +23,11 @@ class VotingsTest < ActionDispatch::IntegrationTest
   end
 
   test '투표를 바꿔요' do
-    assert polls(:poll1).agreed_by? users(:two)
+    assert polls(:poll1).agree_by? users(:two)
 
     sign_in users(:two)
     post poll_votings_path(poll_id: polls(:poll1).id, voting: { choice: :disagree })
 
-    refute polls(:poll1).reload.agreed_by? users(:two)
+    refute polls(:poll1).reload.agree_by? users(:two)
   end
 end

@@ -1,0 +1,49 @@
+- view_path_after_save = current_view_path
+.post-poll{ data: { controller: 'content-replacement' } }
+  .title{ class: ('-closed' unless poll.open? ) } "#{poll.title}"
+  .votings
+    .buttons
+      - [:agree, :neutral, :disagree].each do |choice|
+        - button_content = capture do
+          - case choice
+          - when :agree
+            %i.fa.fa-thumbs-up
+            %span 찬성
+          - when :disagree
+            %i.fa.fa-thumbs-down
+            %span 반대
+          - when :neutral
+            %span 중립
+        - if poll.open?
+          - if user_signed_in?
+            - btn_link_path = front_poll_votings_path(poll, voting: { choice: (poll.sured_by?(current_user, choice) ? :unsure : choice) }, view_path_after_save: view_path_after_save, format: :html)
+            - btn_classes = ["btn -#{choice}", ('-chosen' if poll.sured_by?(current_user, choice)), ('-chosen-the-other' if poll.sured_by?(current_user))]
+            = link_to btn_link_path, method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: btn_classes do
+              = button_content
+              - unless poll.hidden_intermediate_result?
+                %span.count= poll.send("#{choice}_votings_count")
+          - else
+            %button.btn{ class: "-#{choice}", data: { action: 'sign-in-launcher#modal', 'sign-in-launcher': { 'after-login': h({ action: "poll_vote_#{choice}", id: poll.id }.to_json) } } }
+              = button_content
+        - else
+          .btn.-closed{ class: ["-#{choice}", ('-chosen' if poll.sured_by?(current_user, choice)), ('-chosen-the-other' if poll.sured_by?(current_user))] }
+            = button_content
+            %span.count= poll.send("#{choice}_votings_count")
+    .remarks
+      - if poll.sure_any_votings?
+        .remark{ class: ('-closed' unless poll.open? ) }
+          %a.link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: users_front_poll_votings_path(poll_id: poll.id), 'class-name': 'popover-post-poll-votings-users', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+            %span.countcontainer
+              %span.count<>
+                #{poll.sure_votings_count}
+              명이
+            %span 찬반 투표했습니다.
+
+            - if poll.sured_by?(current_user) and !poll.hidden_voters?
+              %span
+                자세히 보기
+                %i.fa.fa-angle-double-right
+
+      - if poll.open? and (!user_signed_in? || !poll.sured_by?(current_user))
+        .remark
+          찬반 투표하면 현재 결과를 볼 수 있습니다.

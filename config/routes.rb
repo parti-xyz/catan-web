@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     root 'pages#discover', as: :discover_root
   end
   constraints(FrontGroupRouteConstraint.new) do
-    root 'front/pages#root'
+    root 'front#show'
   end
   root 'home#show'
 
@@ -411,12 +411,21 @@ Rails.application.routes.draw do
     post :deliver_notice_email, to: 'notice_email#deliver'
   end
 
-  namespace :front do
-    root 'pages#root'
-    get 'channles/:issue_id', to: 'pages#channel', as: :channel
-    get 'posts/:post_id', to: 'pages#post', as: :post
+  # front
 
-    get :global_sidebar, to: 'pages#global_sidebar', as: :global_sidebar
-    get :channel_listings, to: 'pages#channel_listings', as: :channel_listings
+  scope :front, controller: :front, as: :front, defaults: { namespace_slug: 'front' } do
+    root to: 'front#root'
+    get 'channles/:issue_id', action: :channel, as: :channel
+    get 'posts/:post_id', action: :post, as: :post
+    get :global_sidebar
+    get :channel_listings
+
+    resources :polls, only: [] do
+      shallow do
+        resources :votings, controller: :votings, only: [:create] do
+          get :users, on: :collection
+        end
+      end
+    end
   end
 end

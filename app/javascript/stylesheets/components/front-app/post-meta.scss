@@ -15,6 +15,9 @@
     background-position: center;
     background-size: cover;
   }
+  > .desc > .usernickname {
+    font-weight: 600;
+  }
   > .desc > .createdat {
     font-size: bootstrap.$font-size-sm;
   }

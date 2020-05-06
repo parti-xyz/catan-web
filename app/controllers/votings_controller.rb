@@ -14,7 +14,14 @@ class VotingsController < ApplicationController
     @voting = service.send(params[:voting][:choice].to_sym)
     respond_to do |format|
       format.js
-      format.html { redirect_to_origin }
+      format.html {
+        if params[:namespace_slug] == 'front'
+          flash.now[:notice] = @poll.sured_by?(current_user) ? '투표했습니다' : '투표를 취소했습니다'
+          render(partial: params[:view_path_after_save], locals: { poll: @poll })
+        else
+          redirect_to_origin
+        end
+      }
     end
   end
 
@@ -24,7 +31,11 @@ class VotingsController < ApplicationController
       render_404 and return
     end
 
-    render layout: nil
+    if params[:namespace_slug] == 'front'
+      render(partial: 'front/post/poll/votings/users', locals: { poll: @poll })
+    else
+      render layout: nil
+    end
   end
 
   private

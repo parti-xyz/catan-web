@@ -1,5 +1,5 @@
-class Front::PagesController < ApplicationController
-  layout 'front/pages'
+class FrontController < ApplicationController
+  layout 'front'
   before_action :setup_turbolinks_root
   before_action :check_group, exclude: %i(navbar channel_listings)
 
@@ -32,7 +32,7 @@ class Front::PagesController < ApplicationController
 
   def post
     @current_post = Post.with_deleted
-      .includes(:issue, :user, :poll, :survey, :current_user_upvotes, comments: [ :user, :file_sources ], wiki: [ :last_wiki_history] )
+      .includes(:issue, :user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, comments: [ :user, :file_sources ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:post_id])
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
 

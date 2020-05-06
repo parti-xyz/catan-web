@@ -71,27 +71,12 @@
               원글보기
               %i.fa.fa-external-link
     - if @current_post.poll.present?
-      - poll = @current_post.poll
-      .post-poll
-        .title= poll.title
-        .votings
-          -# - if poll.open?
-          - if user_signed_in?
-          - else
-            .buttons
-              %button.btn{ data: { action: 'sign-in-launcher#modal', 'sign-in-launcher': { 'after-login': h({ action: :poll_vote_agree, id: poll.id }.to_json) } } }
-                %i.fa.fa-thumbs-up
-                찬성
-              %button.btn{ data: { action: 'sign-in-launcher#modal', 'sign-in-launcher': { 'after-login': h({ action: :poll_vote_neutral, id: poll.id }.to_json) } } }
-                중립
-              %button.btn{ data: { action: 'sign-in-launcher#modal', 'sign-in-launcher': { 'after-login': h({ action: :poll_vote_disagree, id: poll.id }.to_json) } } }
-                %i.fa.fa-thumbs-down
-                반대
+      = render 'front/post/poll', poll: @current_post.poll
 
     - if @current_post.comments.present?
       .post-comments
         - @current_post.comments_threaded.each do |parent_comment, child_comments|
-          = render 'front/pages/post/comment', comment: parent_comment, child_comments: child_comments
+          = render 'front/post/comment', comment: parent_comment, child_comments: child_comments
 
 
 

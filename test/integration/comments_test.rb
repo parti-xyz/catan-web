@@ -54,7 +54,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '찬성하는 주장에 만들어요' do
-    assert posts(:post_talk4).poll.agreed_by? users(:two)
+    assert posts(:post_talk4).poll.agree_by? users(:two)
 
     sign_in(users(:two))
     Sidekiq::Testing.inline! do
@@ -69,7 +69,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
     sign_in(users(:two))
     post issue_members_path(issue_id: posts(:post_talk4).issue.id)
     assert posts(:post_talk4).issue.member?(users(:two))
-    assert posts(:post_talk4).poll.agreed_by? users(:two)
+    assert posts(:post_talk4).poll.agree_by? users(:two)
 
     sign_in(users(:one))
     Sidekiq::Testing.inline! do
@@ -80,7 +80,7 @@ class CommentsTest < ActionDispatch::IntegrationTest
   end
 
   test '찬반투표한 경우라도 블랙리스트 사용자가 댓글을 달면 메시지가 안 보내져요' do
-    assert posts(:post_talk4).poll.agreed_by? users(:two)
+    assert posts(:post_talk4).poll.agree_by? users(:two)
 
     sign_in(users(:bad))
     post post_comments_path(post_id: posts(:post_talk4).id, comment: { body: 'body' }, format: :js)

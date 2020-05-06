@@ -1,0 +1,30 @@
+.post-poll-votings-users
+  - if poll.hidden_voters?
+    #{poll.votings.count} 명이 익명 투표 중입니다.
+  - elsif poll.hidden_intermediate_result? and poll.open?
+    - if poll.votings.any?
+      .users
+        - poll.votings.recent.map(&:user).each do |user|
+          = link_to smart_user_gallery_path(user), target: '_blank' do
+            %span.user
+              %span.image{ style: "background-image: url(#{user.image.sm.url});" }
+              %span.usernickname= user.nickname
+  - else
+    .choices
+      - [:agree, :neutral, :disagree].each do |choice|
+        - if poll.votings.send(choice).any?
+          .choice
+            .title{ class: "-#{choice}" }
+              - case choice
+              - when :agree
+                찬성
+              - when :disagree
+                반대
+              - when :neutral
+                중립
+            .users
+              - poll.votings.recent.send(choice).map(&:user).each do |user|
+                = link_to smart_user_gallery_path(user), target: '_blank', class: 'user' do
+                  %span.image{ style: "background-image: url(#{user.image.sm.url});" }
+                  %span.usernickname= user.nickname
+

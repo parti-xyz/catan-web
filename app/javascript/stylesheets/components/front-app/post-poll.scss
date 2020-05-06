@@ -1,0 +1,98 @@
+@use '../../global-variables';
+@use '../front-variables';
+@use '../../bootstrap';
+
+.front-app .post-poll {
+  border: 1px solid global-variables.$color-gray-300;
+  border-radius: 0.25rem;
+  background-color: global-variables.$color-gray-200;
+  padding: 2.25rem;
+  text-align: center;
+  &:hover {
+    @extend .shadow;
+  }
+
+  > .title {
+    font-size: bootstrap.$font-size-lg;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  > .title.-closed {
+    color: global-variables.$color-gray-600;
+  }
+
+  > .votings > .buttons > .btn {
+    min-width: 4.75rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+  }
+
+  > .votings > .buttons > .btn > .count {
+    display: block;
+    font-weight: bold;
+  }
+
+  @each $chosen-name, $chosen-color in front-variables.$chosens {
+    > .votings > .buttons > .btn.-#{$chosen-name}:not(.-chosen) {
+      @include bootstrap.button-outline-variant($chosen-color, white);
+    }
+
+    > .votings > .buttons > .btn.-chosen.-#{$chosen-name} {
+      color: white;
+      @include bootstrap.button-variant($chosen-color, darken($chosen-color, 10%));
+    }
+
+    > .votings > .buttons > .btn.-closed.-#{$chosen-name}:not(.-chosen) {
+      @include bootstrap.button-outline-variant($chosen-color, $chosen-color, transparent, transparent);
+
+      &:not(:disabled):not(.disabled) {
+        &,
+        &:active,
+        &:focus {
+          color: $chosen-color;
+          border-color: transparent;
+          background-color: transparent;
+          cursor: auto;
+          box-shadow: none;
+        }
+      }
+    }
+
+    > .votings > .buttons > .btn.-closed.-chosen.-#{$chosen-name} {
+      @include bootstrap.button-outline-variant($chosen-color, $chosen-color, transparent, global-variables.$color-gray-500);
+
+      &:not(:disabled):not(.disabled) {
+        &,
+        &:active,
+        &:focus {
+          color: $chosen-color;
+          background-color: transparent;
+          cursor: auto;
+          border-color: global-variables.$color-gray-500;
+        }
+      }
+    }
+  }
+
+  > .votings > .remarks {
+    margin-top: 1rem;
+  }
+
+  > .votings > .remarks > .remark {
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  > .votings > .remarks > .remark.-closed {
+    color: global-variables.$color-gray-600;
+  }
+
+  > .votings > .remarks > .remark > .link {
+    cursor: pointer;
+  }
+
+  > .votings > .remarks > .remark > .link > .countcontainer > .count {
+    font-weight: bold;
+    color: global-variables.$color-brand-primary;
+  }
+}

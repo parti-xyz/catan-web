@@ -8,12 +8,12 @@ class Admin::BlindsController < Admin::BaseController
 
   def create
     @blind.user = User.find_by(nickname: @blind.nickname)
-    errors_to_flash(@blind) unless @blind.save
+    deprecated_errors_to_flash(@blind) unless @blind.save
     redirect_to admin_blinds_path
   end
 
   def destroy
-    errors_to_flash(@blind) unless @blind.destroy
+    deprecated_errors_to_flash(@blind) unless @blind.destroy
     redirect_to admin_blinds_path
   end
 

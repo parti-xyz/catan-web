@@ -13,7 +13,7 @@ class GroupPushNotificationPreferencesController < ApplicationController
       group_ids.each do |group_id|
         group_push_notification_preference = current_user.group_push_notification_preferences.find_or_initialize_by(group_id: group_id)
         unless group_push_notification_preference.save
-          errors_to_flash(group_push_notification_preference)
+          deprecated_errors_to_flash(group_push_notification_preference)
           return
         end
       end
@@ -27,7 +27,7 @@ class GroupPushNotificationPreferencesController < ApplicationController
 
   def destroy
     unless current_user.group_push_notification_preferences.destroy(params[:id])
-      errors_to_flash(@group_push_notification_preference).permit(group_id: [])
+      deprecated_errors_to_flash(@group_push_notification_preference).permit(group_id: [])
     end
   end
 

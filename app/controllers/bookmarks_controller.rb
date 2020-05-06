@@ -51,7 +51,7 @@ class BookmarksController < ApplicationController
 
     @bookmark.user = current_user
     if !@bookmark.save
-      errors_to_flash(@bookmark)
+      deprecated_errors_to_flash(@bookmark)
     end
   end
 
@@ -59,7 +59,7 @@ class BookmarksController < ApplicationController
     @post = Post.find_by(id: params[:post_id])
     return if @bookmark.blank?
     if !@bookmark.destroy
-      errors_to_flash(@bookmark)
+      deprecated_errors_to_flash(@bookmark)
     end
   end
 

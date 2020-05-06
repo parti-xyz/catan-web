@@ -459,8 +459,8 @@ class Post < ApplicationRecord
     poll.try(:agreed_by?, voter)
   end
 
-  def disagreed_by? voter
-    poll.try(:disagreed_by?, voter)
+  def disagree_by? voter
+    poll.try(:disagree_by?, voter)
   end
 
   def sured_by? voter

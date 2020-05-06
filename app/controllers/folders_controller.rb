@@ -4,7 +4,7 @@ class FoldersController < ApplicationController
   def create
     authorize! :manage_folders, @folder.issue
     @folder.save
-    errors_to_flash @folder
+    deprecated_errors_to_flash @folder
 
     @issue = @folder.issue
     @folders = @issue.folders
@@ -16,7 +16,7 @@ class FoldersController < ApplicationController
 
   def destroy
     unless @folder.destroy
-      errors_to_flash @folder
+      deprecated_errors_to_flash @folder
     end
 
     respond_to do |format|
@@ -56,7 +56,7 @@ class FoldersController < ApplicationController
 
   def update
     unless @folder.update_attributes(update_params)
-      errors_to_flash(@folder)
+      deprecated_errors_to_flash(@folder)
     end
 
     if request.xhr?
@@ -207,12 +207,12 @@ class FoldersController < ApplicationController
     if params[:subject_type] == 'Post'
       @post = @subject
       unless @post.update_attributes(folder_id: parent_id)
-        errors_to_flash(@post)
+        deprecated_errors_to_flash(@post)
       end
     else
       @folder = @subject
       unless @folder.update_attributes(parent_id: parent_id)
-        errors_to_flash(@folder)
+        deprecated_errors_to_flash(@folder)
       end
     end
   end
@@ -269,7 +269,7 @@ class FoldersController < ApplicationController
         end
         current_instance.save
         if current_instance.errors.any?
-          errors_to_flash(current_instance)
+          deprecated_errors_to_flash(current_instance)
           return nil
         end
         follow_items = issue.send(:"#{current_item['item_type'].underscore.pluralize}").where(parent_folder_column(current_item) => parent_folder_id).where('folder_seq >= ?', current_seq).where.not(id: current_instance.id).order(folder_seq: :asc).to_a
@@ -277,7 +277,7 @@ class FoldersController < ApplicationController
           follow_item.folder_seq = current_seq + 1 + index
           follow_item.save
           if follow_item.errors.any?
-            errors_to_flash(follow_item)
+            deprecated_errors_to_flash(follow_item)
             return nil
           end
         end

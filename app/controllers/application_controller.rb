@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   after_action :prepare_unobtrusive_flash
   after_action :prepare_store_location
   after_action :visit_group
+  after_action :flash_to_headers
 
   around_action :set_current_user
 
@@ -261,11 +262,18 @@ class ApplicationController < ActionController::Base
     result
   end
 
-  def errors_to_flash(model)
+  def deprecated_errors_to_flash(model)
     return if model.errors.empty?
     result ||= ""
     result += model.errors.full_messages.join('<br>')
     flash[:error] = result.html_safe
+  end
+
+  def errors_to_flash(model)
+    return if model.errors.empty?
+    result ||= ""
+    result += model.errors.full_messages.join('<br>')
+    flash[:alert] = result.html_safe
   end
 
   def set_device_type
@@ -365,5 +373,13 @@ class ApplicationController < ActionController::Base
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
     Current.user = nil
+  end
+
+  def flash_to_headers
+    return unless request.xhr?
+    #avoiding XSS injections via flash
+    flash_json = Hash[flash.map{ |k,v| [k, ERB::Util.h(v)] }].to_json
+    response.headers['X-Flash-Messages'] = flash_json
+    flash.discard
   end
 end

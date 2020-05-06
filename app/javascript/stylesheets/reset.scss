@@ -21,14 +21,14 @@ caption, th, td {
   vertical-align: middle;
 }
 
-body.app-pack a {
+body.-pack a {
   color: inherit;
 }
 
-body.app-pack a:hover {
+body.-pack a:hover {
   text-decoration: none;
 }
 
-body.app-pack .hover\:text-primary:hover {
+body.-pack .hover\:text-primary:hover {
   color: global-variables.$color-brand-primary;
 }
