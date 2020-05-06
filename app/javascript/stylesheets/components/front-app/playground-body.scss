@@ -7,7 +7,7 @@
   @include mixin.simplebar {
     > .posts-box,
     > .post-box {
-      margin: 0 front-variables.$front-playground-space-x 1.5rem;
+      padding: 1rem front-variables.$front-playground-space-x 1.5rem;
     }
   }
 }

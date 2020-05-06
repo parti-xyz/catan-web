@@ -2,8 +2,6 @@
 @use '../../global-variables';
 
 .front-app .post-body {
-  padding-left: .75rem;
-  padding-right: .75rem;
   > .body {
     a {
       color: global-variables.$color-brand-primary;

@@ -12,6 +12,7 @@ class VotingsController < ApplicationController
 
     service = VotingPollService.new(poll: @poll, current_user: current_user)
     @voting = service.send(params[:voting][:choice].to_sym)
+    @poll.post.read!(current_user)
     @poll.reload
     respond_to do |format|
       format.js

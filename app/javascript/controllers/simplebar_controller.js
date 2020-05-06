@@ -24,6 +24,8 @@ export default class extends Controller {
 
   restoreScroll() {
     const scrollElement = this.currentSimplebar.getScrollElement()
+    if (!scrollElement || scrollElement.scrollTop != 0) { return }
+
     const lastScrollTopFromData = this.element.parentNode ? +(new ParamMap(this, this.element.parentNode).get('presistedScrollTop')) : undefined
     const lastScrollTop = (lastScrollTopFromData ? lastScrollTopFromData : this.lastScrollTop)
     if (lastScrollTop) {

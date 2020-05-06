@@ -1,15 +1,14 @@
 @use "../../bootstrap";
+@use "../../global-variables";
 
 .front-app .post-meta {
   display: flex;
-  padding-left: .75rem;
-  padding-right: .75rem;
   > .userimage {
     margin-right: .25rem;
   }
   > .userimage > .userimagebg {
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 9999px;
     border: 1px solid white;
     background-position: center;
@@ -19,6 +18,7 @@
     font-weight: 600;
   }
   > .desc > .createdat {
-    font-size: bootstrap.$font-size-sm;
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
   }
 }

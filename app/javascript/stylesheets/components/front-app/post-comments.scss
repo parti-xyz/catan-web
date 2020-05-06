@@ -3,8 +3,6 @@
 .front-app .post-comments {
   &:not(.-children) {
     border-top: 1px solid global-variables.$color-gray-300;
-    padding-left: .75rem;
-    padding-right: .75rem;
   }
   > .post-comment {
     margin-top: .75rem;

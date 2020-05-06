@@ -3,16 +3,13 @@
 
 .front-app .front-playground {
   padding-top: front-variables.$header-height;
-  background-color: global-variables.$color-gray-100;
   overflow: hidden;
   > .playground-header {
     position: fixed;
     top: 0;
     left: 0;
-    padding-left: front-variables.$global-sidebar-width + front-variables.$group-sidebar-width + front-variables.$front-playground-space-x;
-    padding-right: front-variables.$front-playground-space-x;
-    height: front-variables.$header-height;
-    width: 100%;
+    margin-left: front-variables.$global-sidebar-width + front-variables.$group-sidebar-width;height: front-variables.$header-height;
+    width: calc(100% - #{front-variables.$global-sidebar-width} - #{front-variables.$group-sidebar-width});
   }
   > .playground-body {
     height: 100%;

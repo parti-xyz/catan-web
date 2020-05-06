@@ -455,8 +455,8 @@ class Post < ApplicationRecord
     poll.try(:voting_by?, voter)
   end
 
-  def agreed_by? voter
-    poll.try(:agreed_by?, voter)
+  def agree_by? voter
+    poll.try(:agree_by?, voter)
   end
 
   def disagree_by? voter
@@ -660,7 +660,8 @@ class Post < ApplicationRecord
 
   def read!(someone)
     return if someone.blank?
-    someone.post_readers.find_or_create_by(post: self)
+    post_reader = someone.post_readers.find_or_create_by(post: self)
+    post_reader&.touch
   end
 
   def read?(someone)

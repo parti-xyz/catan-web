@@ -6,7 +6,8 @@
 
   padding: 0.6em;
   display: flex;
-  border: $boder-width solid global-variables.$color-gray-300;
+  border-top: $boder-width solid global-variables.$color-gray-300;
+  border-bottom: $boder-width solid global-variables.$color-gray-300;
   & + .post-line {
     border-top-width: 0;
   }

@@ -16,12 +16,11 @@
 
 .post-box{ data: { controller: 'post-read', 'post-read': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
   .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
-    .title
-      %h3= @current_post.title
-      %small
-        - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-        != last_stroked_text
-        = date_f(last_stroked_at)
+    %h5.title= @current_post.title
+    %small.meta
+      - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+      != last_stroked_text
+      = date_f(last_stroked_at)
   .post-main
     .post-meta
       = link_to smart_user_gallery_url(@current_post.user), class: 'userimage' do
