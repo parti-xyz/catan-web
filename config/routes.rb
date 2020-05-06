@@ -412,10 +412,10 @@ Rails.application.routes.draw do
   end
 
   # front
-
   scope :front, controller: :front, as: :front, defaults: { namespace_slug: 'front' } do
     root to: 'front#root'
     get 'channles/:issue_id', action: :channel, as: :channel
+    get 'posts/new', action: :new_post, as: :new_post
     get 'posts/:post_id', action: :post, as: :post
     get :global_sidebar
     get :channel_listings

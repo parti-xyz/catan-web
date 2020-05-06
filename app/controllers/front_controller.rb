@@ -48,6 +48,13 @@ class FrontController < ApplicationController
     @scroll_persistence_id_ext = "post-#{@current_post.id}"
   end
 
+  def new_post
+    @current_issue = Issue.with_deleted.find(params[:issue_id])
+
+    @referrer_backable = request.referer.present? &&
+      URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
+  end
+
   def global_sidebar
     @groups = current_user&.member_groups || Group.none
     render layout: false

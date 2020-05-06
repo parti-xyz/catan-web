@@ -4,12 +4,17 @@
 .pagination-wrapper .pagination {
   justify-content: center;
   > li {
-    margin: 0 .75em;
+    margin: 0;
     font-size: bootstrap.$font-size-sm;
     color: global-variables.$color-gray-500;
   }
   > li.active {
     font-weight: bold;
+    padding: 0 .75rem;
     color: global-variables.$color-brand-primary;
+  }
+  > li > a {
+    padding-left: .75rem;
+    padding-right: .75rem;
   }
 }

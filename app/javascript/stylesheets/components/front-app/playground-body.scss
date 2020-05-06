@@ -6,7 +6,8 @@
   overflow-x: hidden;
   @include mixin.simplebar {
     > .posts-box,
-    > .post-box {
+    > .post-box,
+    > .post-form {
       padding: 1rem front-variables.$front-playground-space-x 1.5rem;
     }
   }

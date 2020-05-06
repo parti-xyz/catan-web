@@ -21,11 +21,11 @@ caption, th, td {
   vertical-align: middle;
 }
 
-body.-pack a {
+body.-pack a:not(.btn) {
   color: inherit;
 }
 
-body.-pack a:hover {
+body.-pack a:hover:not(.btn) {
   text-decoration: none;
 }
 

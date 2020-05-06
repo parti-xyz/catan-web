@@ -4,6 +4,14 @@
 
 - if @posts.present?
   .posts-box
+    .posts-box-tools
+      .pages
+        - if @posts.current_page.present?
+          페이지 #{@posts.current_page} / #{@posts.total_pages}
+      .edit
+        = link_to front_new_post_path(issue_id: @current_issue.id), class: 'btn btn-outline-primary btn-sm' do
+          %i.fa.fa-pencil
+          글쓰기
     %ul.post-lines{ data: { 'controller': 'collection-toggler' } }
       - @posts.each do |post|
         %li.post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-toggler#pick', target: 'collection-toggler.item' } }

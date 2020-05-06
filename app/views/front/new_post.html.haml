@@ -1,0 +1,222 @@
+- content_for :playground_header_content do
+  .post-menu
+    - if @referrer_backable
+      = link_to :back, class: 'back' do
+        %i.fa.fa-arrow-left
+    - else
+      = link_to front_channel_path(issue_id: @current_issue), class: 'back' do
+        %i.fa.fa-arrow-left
+    .title
+      .page.-active
+        \##{@current_issue.title} 글쓰기
+
+= form_with model: Post.new(issue: @current_issue), html: { class: 'post-form', novalidate: true } do |f|
+  = f.hidden_field :issue_id
+  = f.hidden_field :has_poll, value: false
+  = f.hidden_field :has_survey, value: false
+  = f.hidden_field :has_event, value: false
+  .post-meta
+    = link_to smart_user_gallery_url(current_user), class: 'userimage' do
+      .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
+    .desc
+      = link_to current_user.nickname, smart_user_gallery_url(current_user), class: 'usernickname'
+      .createdat 지금
+  .form-group
+    - body_field_error_dom_id = "uid-#{SecureRandom.uuid}"
+    = f.text_area :body, data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{body_field_error_dom_id}" }
+    .feedback{ id: body_field_error_dom_id }
+    -# = f.hidden_field :is_html_body, value: true
+  .form-group
+    = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
+
+
+-#         - cancel_btn_data = {action: 'parti-post-cancel-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
+
+-#     .form-widget-extra
+-#       .post-file-field.form-widget-extra-item.hidden
+-#         .help-block.clearfix
+-#           %span.label.label-default TIP
+-#           최대 10M까지 업로드되며 이미지는 드래그해서 순서를 조정할 수 있습니다.
+-#           .pull-right
+-#             %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-file-field') } 업로드 취소
+-#         - form_group_images_dom_id = "js-form-group-images-#{SecureRandom.uuid}"
+-#         .form-groups.js-post-editor-file_sources-wrapper<>
+-#           .js-form-group-images.form-group-images{ id: form_group_images_dom_id }<>
+-#             .js-last-position
+-#           .js-form-group-files.form-group-files<>
+-#         .add-form-group-btn.js-post-editor-file_sources-add-btn
+-#           = link_to_add_association '+ 파일선택', f, :file_sources, partial: 'posts/file_source_fields', 'data-association-insertion-node': "##{form_group_images_dom_id} .js-last-position"
+-#           %span.count
+-#             (
+-#             %span.js-current-count<> 0
+-#             \/20)
+
+-#       .post-poll-field.form-widget-extra-item.hidden
+-#         .help-block.clearfix
+-#           .pull-right
+-#             %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-poll-field') } 찬반투표 취소
+-#         = f.fields_for :poll, Poll.new do |ff|
+-#           .form-groups
+-#             .form-group.form-group-margin-bottom
+-#               = ff.label :title do
+-#                 찬반투표 제목
+-#               = ff.text_field :title, maxlength: 100, class: 'form-control', placeholder: 'ex. 탕수육소스는 찍어먹어야합니다', data: { 'rule-required': true }
+-#             .form-group.form-inline
+-#               %label 진행 기간을 선택해 주세요
+-#               %div
+-#                 %span 지금부터 &nbsp;
+-#                 = ff.select :duration_days, options_for_select([0, 1, 3, 7].map { |i| [ (i == 0 ? "계속" : "#{i}일 동안"), i] }, ff.object.duration_days), {}, class: 'form-control form-control-duration'
+-#           .form-groups
+-#             .form-inline
+-#               .checkbox
+-#                 %label
+-#                   = ff.check_box :hidden_intermediate_result
+-#                   종료 될 때까지 중간 투표 집계를 숨깁니다.
+
+-#             .form-inline
+-#               .checkbox
+-#                 %label
+-#                   = ff.check_box :hidden_voters
+-#                   누가 어디에 투표했는지 익명으로 진행합니다.
+
+-#       .post-survey-field.form-widget-extra-item.hidden
+-#         .help-block.clearfix
+-#           .pull-right
+-#             %a.btn.btn-flatten-default.btn-xs{href: '#', data: cancel_btn_data.merge('reference-field': '.post-survey-field') } 설문 취소
+-#         = f.fields_for :survey, Survey.new do |ff|
+-#           .form-groups
+-#             %label 제안이 있으시면 넣어주세요. (선택사항)
+-#             - 2.times do |i|
+-#               = ff.fields_for :options, Option.new do |fff|
+-#                 = render 'posts/option_fields', f: fff, static: true, input_data: { placeholder: "ex. 제안#{i + 1}" }
+-#             .new-form-group
+-#               = link_to_add_association '+ 선택항목 추가', ff, :options, partial: 'posts/option_fields', render_options: { locals: { input_data: { placeholder: 'ex. 추가 제안' } } }
+-#           .form-groups
+-#             .form-inline
+-#               %label 진행 기간을 선택해 주세요
+-#               %div
+-#                 %span 지금부터 &nbsp;
+-#                 = ff.select :duration_days, options_for_select([0, 1, 3, 7].map { |i| [ (i == 0 ? "계속" : "#{i}일 동안"), i] }, ff.object.duration_days), {}, class: 'form-control form-control-duration'
+-#           .form-groups
+-#             .form-inline
+-#               .checkbox
+-#                 %label
+-#                   = ff.check_box :multiple_select
+-#                   제안 항목을 여러개 선택할 수 있습니다.
+-#             .form-inline
+-#               .checkbox
+-#                 %label
+-#                   = ff.check_box :hidden_intermediate_result
+-#                   종료 될 때까지 중간 투표 집계를 숨깁니다.
+
+-#             .form-inline
+-#               .checkbox
+-#                 %label
+-#                   = ff.check_box :hidden_option_voters
+-#                   제안에 누가 투표했는지 익명으로 진행합니다.
+
+-#       .post-event-field.form-widget-extra-item.hidden
+-#         .help-block.clearfix
+-#           .pull-right
+-#             %a.btn.btn-flatten-default.btn-xs.js-post-form-experiment-cancel-button{href: '#', data: cancel_btn_data.merge('reference-field': '.post-event-field') } 일정 취소
+-#         = f.fields_for :event, Event.new do |ff|
+-#           .form-groups
+-#             .form-group
+-#               = ff.label :title do
+-#                 일정 제목
+-#               = ff.text_field :title, maxlength: 100, class: 'form-control', placeholder: 'ex. 탕수육 시식회', data: { 'rule-required': true }
+-#           .form-groups
+-#             .form-group
+-#               = ff.label :title do
+-#                 진행 시간
+-#               .checkbox.checkbox-sm-margin-bottom
+-#                 %label
+-#                   = ff.check_box :unfixed_schedule, class: 'js-hider-checkbox', data: { 'hider-checkbox-checked': '.js-post-editor-unfixed-schedule-exclusive' }
+-#                   진행 시간이 아직 정해지지 않았습니다.
+-#               .datepair-container.js-datepair.js-post-editor-unfixed-schedule-exclusive
+-#                 .form-inline.form-inline-force
+-#                   %label.hidden-sm.visible-xs-inline
+-#                     시작
+-#                     &nbsp;
+-#                   = ff.text_field :start_at_date, class: 'form-control form-control-schedule-date js-datepair-date start', data: { 'rule-extern': true, 'rule-extern-value': 'false', 'rule-extern-error-message': '시간이 올바로 설정되었는지 확인해 주세요', 'prevent-focus-invalid': true }, autocomplete: "off"
+-#                   = ff.text_field :start_at_time, class: 'form-control form-control-schedule-time js-datepair-time start ui-timepicker-input', autocomplete: "off"
+-#                   %span.hidden-xs
+-#                     \-
+-#                   %br.hidden-sm.visible-xs-block
+-#                   %label.hidden-sm.visible-xs-inline
+-#                     종료
+-#                     &nbsp;
+-#                   - end_at_time_block = capture do
+-#                     = ff.text_field :end_at_time, class: 'form-control form-control-schedule-time js-datepair-time end ui-timepicker-input', autocomplete: "off"
+-#                   - end_at_date_block = capture do
+-#                     = ff.text_field :end_at_date, class: 'form-control form-control-schedule-date js-datepair-date end', autocomplete: "off"
+-#                   - if is_small_screen?
+-#                     = end_at_date_block
+-#                     = end_at_time_block
+-#                   - else
+-#                     = end_at_time_block
+-#                     = end_at_date_block
+-#                 .checkbox.checkbox-sm-margin-bottom.checkbox-sm-margin-top
+-#                   %label
+-#                     = ff.check_box :all_day_long, class: 'js-datepair-all-day-long'
+-#                     하루 종일
+-#           .form-groups
+-#             .form-group
+-#               = ff.label :location do
+-#                 열리는 장소
+-#               .checkbox.checkbox-sm-margin-bottom
+-#                 %label
+-#                   = ff.check_box :unfixed_location, class: 'js-hider-checkbox', data: { 'hider-checkbox-checked': '.js-post-editor-unfixed-location-exclusive' }
+-#                   장소가 아직 정해지지 않았습니다.
+-#               = ff.text_field :location, maxlength: 100, class: 'form-control js-post-editor-unfixed-location-exclusive', placeholder: 'ex. 장수상회'
+-#           .form-groups
+-#             .form-group.form-group-margin-bottom
+-#               = ff.label :enable_self_attendance do
+-#                 참석자
+-#               = ff.select :enable_self_attendance, [['멤버 누구나 참석할 수 있습니다', true], ['초대 받은 멤버만 참석할 수 있습니다', false]], {}, class: 'form-control'
+-#             .form-group
+-#               = ff.label :body do
+-#                 설명(선택)
+-#               = ff.text_area :body, class: 'form-control js-autoresize'
+
+-#     .form-widget-btns.form-widget-btns-post.clearfix
+-#       .post-reference-btns.post-reference-btns-left
+-#         - open_btn_data = { 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event' }
+-#         %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-file-btn{ data: open_btn_data.merge('reference-field': '.post-file-field') }
+-#           %i.fa.fa-cloud-upload
+-#           = t('labels.new_post_file_source_button')
+-#         %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-poll-btn{ data: open_btn_data.merge('reference-field': '.post-poll-field') }
+-#           %i.fa.fa-fire
+-#           = t('labels.new_post_poll_button')
+-#         %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-survey-btn{ data: open_btn_data.merge('reference-field': '.post-survey-field') }
+-#           %i.fa.fa-list-ul
+-#           = t('labels.new_post_survey_button')
+-#         %span.js-post-form-experiment{ class: ('collapse' if local_assigns[:current_issue].blank? or !current_issue.experimental?) }
+-#           %button.btn.btn-xs.btn-link.editor-btn.js-post-select-subform.js-post-event-btn{ data: open_btn_data.merge('reference-field': '.post-event-field') }
+-#             %i.fa.fa-calendar
+-#             = t('labels.new_post_event_button')
+-#         %button.btn.btn-xs.btn-link.editor-btn.post-wiki-btn.js-post-select-subform.js-post-wiki-btn{ data: open_btn_data.merge('url': new_wiki_posts_url) }
+-#           %i.fa.fa-file-word-o
+-#           = t('labels.new_post_wiki_button')
+-#       .post-reference-btns.post-reference-btns-left
+-#         - if local_assigns[:current_issue].present? and local_assigns[:current_folder].blank?
+-#           = f.hidden_field :folder_id, id: folder_id_dom_id, class: 'js-new-post-folder-id-field', data: { 'new-post-folder-full-title-dom': folder_full_title_dom_id }
+-#           = link_to new_post_form_folders_url(folder_full_title_dom_id: folder_full_title_dom_id, folder_id_dom_id: folder_id_dom_id, issue_id: current_issue.id), remote: true, 'data-disable-with': '로딩 중...', class: 'btn btn-xs btn-link editor-btn post-folder-btn js-post-select-subform js-post-folder-btn' do
+-#             %i.fa.fa-folder
+-#             폴더 선택
+-#         .post-form-pin-button.text-nowrap.js-post-form-pin-button{ class: ('collapse' if !can?(:pin, local_assigns[:current_issue])) }
+-#           .checkbox
+-#             %label
+-#               = f.check_box :pinned
+-#               공지로 등록
+-#         %span.post-options
+-#           -# .post-form-decision-button.text-nowrap
+-#           -#   .checkbox
+-#           -#     %label.remember_me
+-#           -#       = f.check_box :has_decision
+-#           -#       함께 결정하기
+
+-#       .submit-box.submit-box-block
+-#         - if local_assigns[:current_issue].present?
+-#           = hidden_field_tag :fixed_issue_id, 'true'
+-#         = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
