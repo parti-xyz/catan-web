@@ -1,85 +1,9 @@
 @use '../../bootstrap';
 @use '../../global-variables';
+@use '../../mixin';
 
 .front-app .post-body {
   > .body {
-    a {
-      color: global-variables.$color-brand-primary;
-    }
-    h1 {
-      font-size: bootstrap.$h2-font-size;
-    }
-    h2 {
-      font-size: bootstrap.$h3-font-size;
-    }
-    h3 {
-      font-size: bootstrap.$h4-font-size;
-    }
-    h4 {
-      font-size: bootstrap.$h5-font-size;
-    }
-    h5 {
-      font-size: bootstrap.$h6-font-size;
-    }
-    h6 {
-      font-size: bootstrap.$font-size-xs;
-    }
-
-    h1,
-    h2,
-    h3 {
-      margin-top: 1.25rem;
-    }
-    h4,
-    h5,
-    h6 {
-      margin-top: 1rem;
-    }
-    ul,
-    ol {
-      padding-left: 1.25rem;
-    }
-    img {
-      max-width: 100%;
-    }
-    // legacy for tinymce - start
-    p.d277bc4d-a73e-4b2e-94ed-bbe7c1934b74 {
-      margin: 0;
-    }
-    .tinymce-placeholder {
-      color: global-variables.$color-gray-500;
-    }
-    .tinymce-content-image {
-      max-width: 100%;
-    }
-    // legacy for tinymce - end
-
-    blockquote {
-      border: none;
-      margin: 1.25rem 0;
-      padding: 1.25rem;
-      background-color: global-variables.$color-gray-200;
-      p:first-child,
-      ul:first-child,
-      ol:first-child {
-        margin-top: 0;
-      }
-      p:last-child,
-      ul:last-child,
-      ol:last-child {
-        margin-bottom: 0;
-      }
-    }
-    & > ul:first-child,
-    & > ol:first-child {
-      margin-top: 1.25rem;
-    }
-    .mce-item-table,
-    .mce-item-table td,
-    .mce-item-table th,
-    .mce-item-table caption {
-      border: 1px solid global-variables.$color-gray-500;
-      padding: 0.5rem;
-    }
+    @include mixin.editor-content;
   }
 }

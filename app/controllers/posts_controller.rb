@@ -23,32 +23,40 @@ class PostsController < ApplicationController
 
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
-      deprecated_errors_to_flash(@post)
+      abort @post.errors
+      if params[:namespace_slug] == 'front'
+        deprecated_errors_to_flash(@post)
+      else
+        errors_to_flash(@post)
+      end
     end
 
     if @post.errors.blank?
       flash[:success] = I18n.t('activerecord.successful.messages.created')
     end
 
-    back_url = params[:back_url].presence || smart_post_url(@post)
-    if params[:fixed_issue_id] == 'true'
-      @current_issue = @post.issue
-    end
-
-    respond_to do |format|
-      format.html {
-        if @post.wiki.present?
-          @post.wiki.reload
-          redirect_to smart_post_url(@post)
-        else
-          redirect_to back_url
-        end
-      }
-      format.js {
-        # 이미지 로딩
-        @post.try(:reload) if @post.try(:persisted?)
-        render layout: nil
-      }
+    if params[:namespace_slug] == 'front'
+      redirect_to front_post_url(@post), turbolinks: true
+    else
+      back_url = params[:back_url].presence || smart_post_url(@post)
+      if params[:fixed_issue_id] == 'true'
+        @current_issue = @post.issue
+      end
+      respond_to do |format|
+        format.html {
+          if @post.wiki.present?
+            @post.wiki.reload
+            redirect_to smart_post_url(@post), turbolinks: true
+          else
+            redirect_to back_url, turbolinks: true
+          end
+        }
+        format.js {
+          # 이미지 로딩
+          @post.try(:reload) if @post.try(:persisted?)
+          render layout: nil
+        }
+      end
     end
   end
 

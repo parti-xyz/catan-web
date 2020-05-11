@@ -74,7 +74,7 @@ if (window.jQuery) {
       }).show()
     }
 
-    $.each($('[data-disable-with]'), function(index, elm) { $.rails.enableElement($(elm)) })
+    $.each($('[data-disable-with]'), function(index, elm) { $.rails.enableElement(elm) })
   })
 }
 

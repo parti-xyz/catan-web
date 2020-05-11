@@ -1,3 +1,6 @@
+@use './global-variables';
+@use './bootstrap';
+
 @mixin word-wrap {
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -10,7 +13,169 @@
 }
 
 @mixin simplebar {
-  > .simplebar-layout > .simplebar-wrapper > .simplebar-mask > .simplebar-offset > .simplebar-content-wrapper > .simplebar-content {
+  > .simplebar-layout
+    > .simplebar-wrapper
+    > .simplebar-mask
+    > .simplebar-offset
+    > .simplebar-content-wrapper
+    > .simplebar-content {
     @content;
+  }
+}
+
+@mixin editor-content {
+  > *:first-child {
+    margin-top: 0 !important;
+  }
+
+  /* Add space around the hr to make clicking it easier */
+  hr {
+    position: relative;
+    height: 1rem;
+    border: none;
+  }
+
+  hr:after {
+    content: "";
+    position: absolute;
+    top: 0.25rem;
+    border-top: 2px solid global-variables.$color-gray-500;
+    width: 100%;
+  }
+
+  ul,
+  ol {
+    padding-left: 1.25rem;
+    cursor: default;
+    margin-bottom: 0 0 1rem;
+  }
+
+  ul,
+  ol {
+    padding-left: 2rem;
+    margin-top: 0;
+  }
+
+  li > p {
+    margin: 0;
+  }
+
+  li {
+    position: relative;
+    pointer-events: none; /* Don't do weird stuff with marker clicks */
+  }
+
+  li > * {
+    pointer-events: auto;
+  }
+
+  pre {
+    white-space: pre-wrap;
+  }
+
+  img {
+    cursor: default;
+  }
+
+  table {
+    border-collapse: collapse;
+  }
+
+  td {
+    vertical-align: top;
+    border: 1px solid #ddd;
+    padding: 3px 5px;
+  }
+
+  a {
+    color: global-variables.$color-brand-primary;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  h1 {
+    font-size: bootstrap.$h2-font-size;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid global-variables.$color-gray-300;
+  }
+  h2 {
+    font-size: bootstrap.$h3-font-size;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid global-variables.$color-gray-300;
+  }
+  h3 {
+    font-size: bootstrap.$h4-font-size;
+  }
+  h4 {
+    font-size: bootstrap.$h5-font-size;
+  }
+  h5 {
+    font-size: bootstrap.$h6-font-size;
+  }
+  h6 {
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin-top: 1.25rem;
+  }
+  h4,
+  h5,
+  h6 {
+    margin-top: 1rem;
+  }
+
+  img {
+    max-width: 100%;
+  }
+  // legacy for tinymce - start
+  p.d277bc4d-a73e-4b2e-94ed-bbe7c1934b74 {
+    margin: 0;
+  }
+  .tinymce-placeholder {
+    color: global-variables.$color-gray-500;
+  }
+  .tinymce-content-image {
+    max-width: 100%;
+  }
+  // legacy for tinymce - end
+
+  blockquote {
+    border: none;
+    margin: 1.25rem 0;
+    padding: 1.25rem;
+    background-color: global-variables.$color-gray-200;
+    p:first-child,
+    ul:first-child,
+    ol:first-child {
+      margin-top: 0;
+    }
+    p:last-child,
+    ul:last-child,
+    ol:last-child {
+      margin-bottom: 0;
+    }
+  }
+  & > ul:first-child,
+  & > ol:first-child {
+    margin-top: 1.25rem;
+  }
+  .mce-item-table,
+  .mce-item-table td,
+  .mce-item-table th,
+  .mce-item-table caption {
+    border: 1px solid global-variables.$color-gray-500;
+    padding: 0.5rem;
   }
 }

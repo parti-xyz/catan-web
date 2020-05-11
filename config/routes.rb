@@ -422,10 +422,12 @@ Rails.application.routes.draw do
 
     resources :polls, only: [] do
       shallow do
-        resources :votings, controller: :votings, only: [:create] do
+        resources :votings, only: [:create] do
           get :users, on: :collection
         end
       end
     end
+
+    resources :posts, only: [:create]
   end
 end

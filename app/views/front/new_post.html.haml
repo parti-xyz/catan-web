@@ -10,7 +10,7 @@
       .page.-active
         \##{@current_issue.title} 글쓰기
 
-= form_with model: Post.new(issue: @current_issue), html: { class: 'post-form', novalidate: true } do |f|
+= form_with(model: [:front, Post.new(issue: @current_issue)], local: false, html: { class: 'post-form', novalidate: true, data: { controller: 'editor-form', action: "ajax:before->editor-form#onSubmit" } }) do |f|
   = f.hidden_field :issue_id
   = f.hidden_field :has_poll, value: false
   = f.hidden_field :has_survey, value: false
@@ -23,7 +23,7 @@
       .createdat 지금
   .form-group
     - body_field_error_dom_id = "uid-#{SecureRandom.uuid}"
-    = f.text_area :body, data: { 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{body_field_error_dom_id}" }
+    = f.text_area :body, data: { target: 'editor-form.editorSource', 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{body_field_error_dom_id}" }
     .feedback{ id: body_field_error_dom_id }
     -# = f.hidden_field :is_html_body, value: true
   .form-group

@@ -62,7 +62,7 @@ const ufo = (function () {
       'canHandle': canHandle
     }
   }
-  else if (typeof ufo == "undefined") {
+  else if (typeof window.ufo == "undefined") {
     // 테스트 완료 후 console.log 지워주세요.
     return {
       "showWait": function () {
@@ -88,12 +88,12 @@ const ufo = (function () {
     }
   }
   else {
-    ufo.post = function (a, j) {
-      ufo.post_(a, JSON.stringify(j))
+    window.ufo.post = function (a, j) {
+      window.ufo.post_(a, JSON.stringify(j))
     }
-    ufo.isApp = function () { return true }
-    ufo.canHandle = canHandle
-    return ufo
+    window.ufo.isApp = function () { return true }
+    window.ufo.canHandle = canHandle
+    return window.ufo
   }
 })()
 
