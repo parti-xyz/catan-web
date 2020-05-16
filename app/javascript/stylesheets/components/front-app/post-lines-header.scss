@@ -1,16 +1,14 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 
-.front-app .posts-box-tools {
+.front-app .post-lines-header {
   display: flex;
-  margin-bottom: 0.5rem;
 
   > .pages {
     flex: 1;
-    font-size: bootstrap.$font-size-sm;
     display: inline-block;
     line-height: 2rem;
-    color: global-variables.$color-gray-500;
+    color: global-variables.$color-gray-600;
   }
 
   > .edit {

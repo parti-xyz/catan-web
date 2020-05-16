@@ -1,0 +1,12 @@
+.front-app .channel-box {
+  display: flex;
+  > .post-lines-box {
+    flex: 1;
+    overflow-x: hidden;
+  }
+  > .supplementary-boxes {
+    flex: none;
+    width: 400px;
+    padding: 0 2rem;
+  }
+}

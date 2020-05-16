@@ -36,7 +36,7 @@
     &:before {
       top: 100%;
       border-bottom-width: 0;
-      border-top-color: global-variables.$color-gray-500;
+      border-top-color: global-variables.$color-gray-600;
     }
     &:after {
       top: 100%;
@@ -49,7 +49,7 @@
     &:before {
       bottom: 100%;
       border-top-width: 0;
-      border-bottom-color: global-variables.$color-gray-500;
+      border-bottom-color: global-variables.$color-gray-600;
     }
     &:after {
       bottom: 100%;

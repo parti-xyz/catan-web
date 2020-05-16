@@ -1,0 +1,46 @@
+@use '../../global-variables';
+
+.front-app .pinned-post-line {
+  display: flex;
+
+  &:hover {
+    > .icon,
+    > .body > .title {
+      color: global-variables.$color-brand-primary;
+    }
+  }
+  &.-active {
+    > .icon,
+    > .body > .title {
+      color: global-variables.$color-brand-primary;
+    }
+  }
+  &.-unread {
+    position: relative;
+  }
+  &.-unread::before {
+    position: absolute;
+    content: ' ';
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: 100%;
+    background-color: blue;
+  }
+  > .icon {
+    flex: none;
+    margin-right: 0.5rem;
+  }
+  > .body {
+    flex: 1;
+    overflow: hidden;
+  }
+  > .body > .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  > .body > .title.-blind {
+    color: global-variables.$color-gray-400;
+  }
+}

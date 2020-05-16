@@ -1,0 +1,60 @@
+@use '../../global-variables';
+@use '../../mixin';
+
+.front-app .supplementary-box {
+  padding: .75rem;
+  user-select: none;
+  border: 1px solid global-variables.$color-gray-300;
+
+  .header {
+    display: flex;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    text-transform: uppercase;
+    color: global-variables.$color-gray-600;
+    cursor: pointer;
+  }
+  .header > .title {
+    flex: 1;
+    font-weight: 600;
+    @include mixin.word-wrap;
+  }
+  .header > .count {
+    flex: none;
+  }
+  .header > .toggler {
+    flex: none;
+    margin-left: .5rem;
+    font-size: 1.25rem;
+  }
+  .header > .toggler > .fa:before {
+    width: 1rem;
+    text-align: right;
+    display: inline-block;
+  }
+  .header > .toggler > .fa.-show:before {
+    content: "\f107";
+  }
+  .header > .toggler > .fa.-hide:before {
+    content: "\f105";
+  }
+  > .lines {
+    list-style: none;
+    margin: .75rem 0 0;
+  }
+  > .lines.-hide {
+    display: none;
+  }
+  > .lines > .pinned-post-line {
+    margin: .25rem 0;
+  }
+  > .body {
+    margin-top: .75rem;
+  }
+  > .body.-hide {
+    display: none;
+  }
+  > .body > p:last-child {
+    margin-bottom: 0;
+  }
+}

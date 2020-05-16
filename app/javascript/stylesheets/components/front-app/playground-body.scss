@@ -5,7 +5,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   @include mixin.simplebar {
-    > .posts-box,
+    > .channel-box,
     > .post-box,
     > .post-form {
       padding: 1rem front-variables.$front-playground-space-x 1.5rem;

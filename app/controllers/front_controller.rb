@@ -14,10 +14,14 @@ class FrontController < ApplicationController
     if !@current_issue.deleted? and !@current_issue&.private_blocked?(current_user)
       @posts = @current_issue.posts
         .never_blinded(current_user)
-        .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, wiki: [ :last_wiki_history ])
+        .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, wiki: [ :last_wiki_history ])
         .order(last_stroked_at: :desc)
-        .page(params[:page]).per(10) if @current_issue.present?
+        .page(params[:page]).per(10).load if @current_issue.present?
     end
+
+    @pinned_posts = @current_issue.posts.pinned
+      .includes(:poll, :survey, :wiki)
+      .order('pinned_at desc').load
 
     if user_signed_in?
       current_user.update_attributes(last_visitable: @current_issue)

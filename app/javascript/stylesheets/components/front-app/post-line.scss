@@ -13,10 +13,15 @@
   }
   &:hover {
     background-color: global-variables.$color-gray-100;
+    > .icon,
+    > .body > .title {
+      color: global-variables.$color-brand-primary;
+    }
   }
   &.-active {
     background-color: global-variables.$color-gray-100;
-    > .body > .title > a {
+    > .icon,
+    > .body > .title {
       color: global-variables.$color-brand-primary;
     }
   }
@@ -34,7 +39,7 @@
   }
   > .icon {
     flex: none;
-    margin-right: 0.75rem;
+    padding-right: 0.25rem;
   }
   > .body {
     flex: 1;
@@ -49,7 +54,7 @@
     color: global-variables.$color-gray-400;
   }
   > .body > .meta {
-    color: global-variables.$color-gray-500;
+    color: global-variables.$color-gray-600;
     font-size: bootstrap.$font-size-xs;
   }
   > .counts {
@@ -57,7 +62,7 @@
     min-width: 20%;
     font-size: bootstrap.$font-size-xs;
     margin-left: 2em;
-    color: global-variables.$color-gray-500;
+    color: global-variables.$color-gray-600;
     text-align: right;
   }
   > .counts > .upvotes {
