@@ -8,4 +8,7 @@
     font-weight: 900;
     line-height: front-variables.$header-height;
   }
+  > .title > .link:hover {
+    text-decoration: line;
+  }
 }

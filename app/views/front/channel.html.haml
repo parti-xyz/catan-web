@@ -1,9 +1,26 @@
 - content_for :playground_header_content do
   .channel-menu
-    .title # #{@current_issue.title}
+    .title.form-inline
+      = link_to_if @current_folder.present?, "# #{@current_issue.title}", front_channel_path(issue_id: @current_issue), class: 'link'
+      - if @current_issue.folders.any?
+        - if @current_folder.present?
+          - @current_folder.ancestors.each do |folder|
+            \/
+            = link_to folder.title, front_channel_path(issue_id: @current_issue, folder_id: folder.id), class: 'link'
+          - if @current_folder.children.any?
+            \/
+            = @current_folder.title
+            \/
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { controller: 'select-link', action: 'change->select-link#go', 'select-link-url-template': front_channel_path(issue_id: @current_issue, folder_id: "${value}") }
+          - else
+            \/
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder.id), class: 'form-control form-control-sm', data: { controller: 'select-link', action: 'change->select-link#go', 'select-link-url-template': front_channel_path(issue_id: @current_issue, folder_id: "${value}") }
+        - else
+          \/
+          = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { controller: 'select-link', action: 'change->select-link#go', 'select-link-url-template': front_channel_path(issue_id: @current_issue, folder_id: "${value}") }
 
 - if @posts.any?
-  .channel-box
+  .channel-box{ data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'channel-id': @current_issue.id, 'folder-id': @current_folder&.id } } }
     .post-lines-box
       .post-lines-header
         .pages
@@ -13,9 +30,9 @@
           = link_to front_new_post_path(issue_id: @current_issue.id), class: 'btn btn-outline-primary btn-sm' do
             %i.fa.fa-pencil
             글쓰기
-      %ul.post-lines{ data: { 'controller': 'collection-toggler' } }
+      %ul.post-lines{ data: { 'controller': 'collection-activation' } }
         - @posts.each do |post|
-          %li.post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-toggler#pick', target: 'collection-toggler.item' } }<>
+          %li.post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }<>
             .icon<>
               = link_to front_post_path(post_id: post.id) do
                 - if post.poll.present?
@@ -66,9 +83,9 @@
               = @pinned_posts.size
             .toggler
               %i.fa.-hide{ data: { target: 'content-collapse.content' } }
-          %ul.lines.-hide{ data: { 'controller': 'collection-toggler', target: 'content-collapse.content' } }
+          %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
             - @pinned_posts.each do |post|
-              %li.pinned-post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-toggler#pick', target: 'collection-toggler.item' } }
+              %li.pinned-post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
                 .icon
                   - if post.poll.present?
                     %i.fa.fa-fire.fa-fw

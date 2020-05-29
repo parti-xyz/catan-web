@@ -473,6 +473,18 @@ class Issue < ApplicationRecord
     :of_group
   end
 
+  def top_folders
+    if folders.loaded?
+      Folder.array_sort_by_folder_seq(self.folders.select{ |f| f.parent_id == nil })
+    else
+      self.folders.only_top.sort_by_folder_seq
+    end
+  end
+
+  def subdomain
+    self.group.subdomain
+  end
+
   private
 
   def downcase_slug

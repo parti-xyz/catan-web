@@ -8,7 +8,7 @@ import ParamMap from '../helpers/param_map'
 export default class extends Controller {
   static targets = ['channel']
 
-  update(event) {
+  consume(event) {
     if (!event.detail.channelId || !event.detail.channelHasUnread || !event.detail.channelReadAt) {
       return
     }
@@ -45,8 +45,6 @@ export default class extends Controller {
       return ((!previousChannelReadAt || previousChannelReadAt < channelReadAt) && channelId === +paramMap.get('channelId'))
     })
   }
-
-
 }
 
 

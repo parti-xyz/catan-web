@@ -2746,6 +2746,11 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
+es6-dynamic-template@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/es6-dynamic-template/-/es6-dynamic-template-2.0.0.tgz#92d50d0f365099046b5633d09cac22bf4ab8df72"
+  integrity sha512-IAqfK798nfdxi8n2QGnej/8h/IMYp+1JQ3YVAIxw12blm8hoEi3ER7xZadbQ9pX5AGYBHt4tVombHnTP/yk9LA==
+
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"

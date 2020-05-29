@@ -5,16 +5,14 @@ class Folder < ApplicationRecord
   belongs_to :parent, class_name: "Folder", foreign_key: :parent_id, counter_cache: :children_count, optional: true
   has_many :children, class_name: "Folder", foreign_key: :parent_id, dependent: :destroy
 
-  scope :top_folders, -> { where(parent_id: nil) }
+  scope :only_top, -> { where(parent_id: nil) }
   scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order('title') }
-  scope :sort_by_folder_seq, -> { order(folder_seq: :asc) }
+  scope :sort_by_folder_seq, -> { order(folder_seq: :asc).order(id: :asc) }
 
   validate :check_parent
   validate :check_sibilings
 
   ROOT_ID = 0
-
-  attr_accessor :cached_children
 
   def full_title
     result = ""
@@ -27,34 +25,42 @@ class Folder < ApplicationRecord
   end
 
   def self.threaded(folders)
-    folders_array = folders.to_a
+    folders_array = folders.to_a.compact
 
     folders_index = Hash[folders_array.map { |folder| [folder.id, folder] }]
-    folders.each do |folder|
-      folder.cached_children = []
-    end
-    result = folders_array.group_by { |folder| folder.parent }
 
     root_folders = []
-    result.each do |parent, children|
+    folders_array.group_by { |folder| folder.parent_id }.each do |parent_id, children|
       children.sort_by! { |folder| Folder.compare_keys(folder) }
-      if(parent == nil)
+      if parent_id.blank?
         root_folders += children
       else
-        if folders_index.fetch(parent.id).present?
-          folders_index.fetch(parent.id).cached_children = children
+        parent_folder = folders_index.fetch(parent_id, nil)
+        if parent_folder.present?
+          children_association = parent_folder.association(:children)
+          children_association.target = Folder.array_sort_by_folder_seq(children)
         end
       end
     end
+
+    folders_array.each do |folder|
+      parent_association = folder.association(:parent)
+      parent_association.target = folders_index.fetch(folder.parent_id, nil)
+      parent_association.loaded!
+
+      children_association = folder.association(:children)
+      children_association.loaded!
+    end
+
     root_folders
   end
 
-  def smart_children
-    if self.cached_children.nil?
-      self.children
-    else
-      self.cached_children
-    end
+  def self.array_sort_by_folder_seq(folders)
+    folders&.sort_by{ |child| [child.folder_seq, child.id] }
+  end
+
+  def smart_parent
+
   end
 
   def parent_or_self
@@ -67,7 +73,7 @@ class Folder < ApplicationRecord
 
   def siblings
     if parent.blank?
-      self.issue.folders.top_folders
+      self.issue.top_folders
     else
       self.parent.children
     end

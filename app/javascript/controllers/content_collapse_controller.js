@@ -5,11 +5,28 @@ export default class extends Controller {
   static targets = ['content']
 
   connect() {
+    const force = this.data.get('force')
+    if (force === 'show') {
+      this.collapsed = false
+    } else if (force === 'hide') {
+      this.collapsed = true
+    }
+    this.data.delete('force')
     this._apply()
+  }
+
+  toggle$(event) {
+    event.preventDefault()
+    this.toggle(event)
   }
 
   toggle(event) {
     this.collapsed = !this.collapsed
+    this._apply()
+  }
+
+  show(event) {
+    this.collapsed = false
     this._apply()
   }
 

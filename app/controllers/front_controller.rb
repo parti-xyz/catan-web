@@ -10,13 +10,20 @@ class FrontController < ApplicationController
   end
 
   def channel
-    @current_issue = Issue.with_deleted.find(params[:issue_id])
+    @current_issue = Issue.with_deleted.includes(:folders).find(params[:issue_id])
+    @thread_folders = Folder.threaded(@current_issue.folders)
+    @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
+
     if !@current_issue.deleted? and !@current_issue&.private_blocked?(current_user)
       @posts = @current_issue.posts
         .never_blinded(current_user)
         .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, wiki: [ :last_wiki_history ])
         .order(last_stroked_at: :desc)
-        .page(params[:page]).per(10).load if @current_issue.present?
+        .page(params[:page]).per(10)
+      if @current_folder.present?
+        @posts = @posts.where(folder: @current_folder)
+      end
+      @posts.load if @current_issue.present?
     end
 
     @pinned_posts = @current_issue.posts.pinned
@@ -66,7 +73,8 @@ class FrontController < ApplicationController
 
   def channel_listings
     @current_issue = Issue.find_by(id: params[:issue_id])
-    @issues = current_group.issues.where(id: current_user&.member_issues&.alive).sort_by_name
+    @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
+    @issues = current_group.issues.includes(:folders).where(id: current_user&.member_issues&.alive).sort_by_name
     render layout: false
   end
 

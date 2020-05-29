@@ -1,11 +1,11 @@
 - content_for :content do
-  .front-app{ data: { 'controller': 'channel-read', action: 'post-read->channel-read#update' } }
+  .front-app{ data: { 'controller': 'channel-read-listener group-sidebar-listener', action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume' } }
     .global-sidebar#front-app-global-sidebar{ data: { controller: 'content-loader', 'content-loader-url': front_global_sidebar_path, 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-global-sidebar' } }
     .group-sidebar
       .group-menu
         .title
           = current_group.title
-      .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
+      .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue, folder_id: @current_folder), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
     .front-playground
       - if content_for?(:playground_header_content)
         .playground-header

@@ -2,15 +2,24 @@
 @use '../../global-variables';
 
 .front-app .channel-line {
-  &.-active > .link {
-    background: #4c9689;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
-  }
   > .link {
     display: inline-block;
     padding-right: 1rem;
     padding-left: 1rem;
+  }
+  > .link:hover {
+    background: global-variables.$color-voodoo-400;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  > .link.-active,
+  > .link.-active:hover {
+    background-color: #4c9689;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  > .link.-active:hover {
+    color: global-variables.$color-gray-400;
   }
   > .link > .title {
     display: inline-block;
@@ -21,7 +30,7 @@
   > .link > .title > .hash {
     display: inline-block;
     margin-right: 0.25rem;
-    color: global-variables.$color-voodoo-300;
+    color: global-variables.$color-voodoo-200;
   }
   > .link > .unread {
     display: none;

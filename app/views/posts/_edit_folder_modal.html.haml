@@ -7,7 +7,7 @@
         = text_field_tag 'new_folder[title]', nil, class: 'form-control', data: { 'rule-required': true }
       .form-group
         %label 상위 폴더
-        = select_tag 'new_folder[parent_id]', options_from_collection_for_select(post.issue.folders.top_folders.sort_by_name, 'id', 'title'), include_blank: '없음', class: 'form-control'
+        = select_tag 'new_folder[parent_id]', options_from_collection_for_select(post.issue.folders.only_top.sort_by_name, 'id', 'title'), include_blank: '없음', class: 'form-control'
     - update_folder_form = capture do
       - if post.folder.present?
         %hr
@@ -17,7 +17,7 @@
         - if post.folder.children.empty?
           .form-group
             %label 상위 폴더
-            = select_tag 'update_folder[parent_id]', options_from_collection_for_select(post.issue.folders.top_folders.sort_by_name, 'id', 'title', post.folder.parent_id), include_blank: '없음', class: 'form-control'
+            = select_tag 'update_folder[parent_id]', options_from_collection_for_select(post.issue.folders.only_top.sort_by_name, 'id', 'title', post.folder.parent_id), include_blank: '없음', class: 'form-control'
     - form_id = "folder-form-#{SecureRandom.uuid}"
     = form_for [:update_folder, post], remote: true, html: { id: form_id, data: {action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]"} } do |f|
       .form-group

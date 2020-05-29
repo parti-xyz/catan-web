@@ -161,7 +161,7 @@ class FoldersController < ApplicationController
     @target_folders = if @target_parent_folder.present?
       @target_parent_folder.children
     else
-      Folder.top_folders.where(issue_id: @issue.id)
+      Folder.only_top.where(issue_id: @issue.id)
     end
     @target_folders = @target_folders.sort_by_folder_seq
   end
@@ -187,7 +187,7 @@ class FoldersController < ApplicationController
     @target_folders = if @target_parent_folder.present?
       @target_parent_folder.children
     else
-      Folder.top_folders.where(issue_id: @subject.issue_id)
+      Folder.only_top.where(issue_id: @subject.issue_id)
     end
     @target_folders = @target_folders.sort_by_folder_seq
   end

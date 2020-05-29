@@ -3,7 +3,7 @@
 @use '../../mixin';
 
 .front-app .channel-listing {
-  color: global-variables.$color-voodoo-300;
+  color: global-variables.$color-voodoo-200;
   > .title {
     text-align: left;
     font-size: bootstrap.$font-size-base;

@@ -1,0 +1,65 @@
+@use '../../global-variables';
+
+.front-app .folder-lines {
+  list-style: none;
+  &.-hide {
+    display: none;
+  }
+  > .line {
+    padding-right: .75rem;
+  }
+  > .line > .link {
+    display: inline-flex;
+    padding-left: 1rem;
+    color: global-variables.$color-gray-400;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 100%;
+  }
+  > .line > .link:hover {
+    background: global-variables.$color-voodoo-400;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  > .line > .link.-active,
+  > .line > .link.-active:hover {
+    background-color: #4c9689;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+  }
+  > .line > .link.-active:hover {
+    color: global-variables.$color-gray-200;
+  }
+  > .line > .link > .title {
+    display: inline-block;
+    flex: 1;
+    margin-left: 0;
+    margin-right: 0.25rem;
+    overflow: hidden;
+  }
+  > .line > .link > .title > .content {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  > .line > .link > .icon {
+    display: inline;
+    flex: none;
+    margin-right: .25rem;
+  }
+  > .line > .link > .icon.-disabled {
+    opacity: .3;
+  }
+  > .line > .link > .icon:not(.-disabled):hover > .fa {
+    background-color: global-variables.$color-voodoo-300;
+  }
+  > .line > .link.-active > .icon:not(.-disabled):hover > .fa {
+    background-color: #386f65;
+  }
+  > .line > .link > .icon > .fa.-show:before {
+    content: "\f107";
+  }
+  > .line > .link > .icon > .fa.-hide:before {
+    content: "\f105";
+  }
+}

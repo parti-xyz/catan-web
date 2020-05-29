@@ -8,7 +8,7 @@
   - capture_child_folder_items = capture do
     .child-folder-items.js-folder-children.js-draggable-slug-folder-container{ class: ('collapse' unless is_open_parent_folder), 'data-draggable-slug-folder-acceptable-type': 'any', 'data-folder-depth': child_depth }
       - child_folders.each do |child_folder|
-        = render 'issues/slug_folders_folder', issue: issue, parent_folder: child_folder, child_folders: child_folder.smart_children, dom_id: dom_id, depth: child_depth
+        = render 'issues/slug_folders_folder', issue: issue, parent_folder: child_folder, child_folders: child_folder.children, dom_id: dom_id, depth: child_depth
         - is_empty = false
       - capture_child_folder_posts = capture do
         = render 'issues/slug_folders_posts', issue: issue, parent_folder: parent_folder, depth: child_depth, dom_id: dom_id

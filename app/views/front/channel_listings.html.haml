@@ -1,11 +1,14 @@
 = render layout: 'layouts/simplebar' do
   .channel-listing
     .title 채널
-    %ul.channel-lines{ data: { 'controller': 'collection-toggler' } }
+    %ul.channel-lines{ data: { controller: 'collection-activation' } }
       - @issues.each do |issue|
-        %li.channel-line{ class: ('-active' if issue == @current_issue), data: { action: 'click->collection-toggler#pick', target: 'collection-toggler.item' } }
-          = link_to front_channel_path(issue_id: issue), class: 'link' do
+        - threaded_folders = Folder.threaded(issue.folders)
+        %li.channel-line{ data: { controller: ('content-collapse' if threaded_folders.any?), 'content-collapse': { 'id': "folder-lines-channel-#{issue.id}", 'force': (issue == @current_issue ? 'show' : 'hide') } } }
+          = link_to front_channel_path(issue_id: issue), class: ['link', ('-active' if issue == @current_issue && @current_folder.blank?) ], data: { action: 'click->collection-activation#toggle click->content-collapse#toggle group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-collapse#show', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
             .title
               %span.hash #
               %span<> #{issue.title}
-            %span.unread{ class: ('-active' if issue.unread?(current_user)), data: { target: 'channel-read.channel', 'channel-read': { 'channel-id': issue.id, 'channel-read-at': issue.read_at(current_user)&.to_i } } } up
+            %span.unread{ class: ('-active' if issue.unread?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener': { 'channel-id': issue.id, 'channel-read-at': issue.read_at(current_user)&.to_i } } } up
+
+          = render 'front/channel_listings/folder_lines', current_folder: @current_folder, folders: threaded_folders, depth: 1
