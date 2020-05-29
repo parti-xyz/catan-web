@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     root 'pages#discover', as: :discover_root
   end
   constraints(FrontGroupRouteConstraint.new) do
-    root 'front#show'
+    root 'front#root'
   end
   root 'home#show'
 
@@ -414,6 +414,7 @@ Rails.application.routes.draw do
   # front
   scope :front, controller: :front, as: :front, defaults: { namespace_slug: 'front' } do
     root to: 'front#root'
+    get 'search', action: :search, as: :search
     get 'channles/:issue_id', action: :channel, as: :channel
     get 'posts/new', action: :new_post, as: :new_post
     get 'posts/:post_id', action: :post, as: :post

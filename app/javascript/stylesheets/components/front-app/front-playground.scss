@@ -4,12 +4,12 @@
 .front-app .front-playground {
   padding-top: front-variables.$header-height;
   overflow: hidden;
+  position: relative;
   > .playground-header {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
-    margin-left: front-variables.$global-sidebar-width + front-variables.$group-sidebar-width;height: front-variables.$header-height;
-    width: calc(100% - #{front-variables.$global-sidebar-width} - #{front-variables.$group-sidebar-width});
+    width: 100%;
   }
   > .playground-body {
     height: 100%;

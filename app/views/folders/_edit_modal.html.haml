@@ -12,7 +12,7 @@
         - if folder.children.empty?
           .form-group
             %label 상위 폴더
-            = f.select :parent_id, options_from_collection_for_select(folder.issue.folders.only_top.sort_by_name.reject{ |parent_folder| parent_folder.id == folder.id }, 'id', 'title', folder.parent_id), {include_blank: '없음'}, class: 'form-control'
+            = f.select :parent_id, options_from_collection_for_select(folder.issue.folders.only_top.sort_by_default.reject{ |parent_folder| parent_folder.id == folder.id }, 'id', 'title', folder.parent_id), {include_blank: '없음'}, class: 'form-control'
         = hidden_field_tag 'back_url', params[:back_url]
       .form-group
         = f.submit '저장', class: 'btn btn-primary'

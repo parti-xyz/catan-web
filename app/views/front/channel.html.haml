@@ -1,7 +1,9 @@
 - content_for :playground_header_content do
   .channel-menu
     .title.form-inline
-      = link_to_if @current_folder.present?, "# #{@current_issue.title}", front_channel_path(issue_id: @current_issue), class: 'link'
+      - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
+
+      = link_to_if @current_folder.present? || search_q.present?, "# #{@current_issue.title}", front_channel_path(issue_id: @current_issue), class: 'link'
       - if @current_issue.folders.any?
         - if @current_folder.present?
           - @current_folder.ancestors.each do |folder|
@@ -18,9 +20,13 @@
         - else
           \/
           = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { controller: 'select-link', action: 'change->select-link#go', 'select-link-url-template': front_channel_path(issue_id: @current_issue, folder_id: "${value}") }
-
+      - if search_q.present?
+        \/
+        %span
+          %i.fa.fa-search
+          = search_q
 - if @posts.any?
-  .channel-box{ data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'channel-id': @current_issue.id, 'folder-id': @current_folder&.id } } }
+  .channel-box
     .post-lines-box
       .post-lines-header
         .pages
@@ -30,40 +36,7 @@
           = link_to front_new_post_path(issue_id: @current_issue.id), class: 'btn btn-outline-primary btn-sm' do
             %i.fa.fa-pencil
             글쓰기
-      %ul.post-lines{ data: { 'controller': 'collection-activation' } }
-        - @posts.each do |post|
-          %li.post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }<>
-            .icon<>
-              = link_to front_post_path(post_id: post.id) do
-                - if post.poll.present?
-                  %i.fa.fa-fire.fa-fw
-                - elsif post.survey.present?
-                  %i.fa.fa-list-ul.fa-fw
-                - elsif post.wiki.present?
-                  %i.fa.fa-file-word-o.fa-fw
-                - else
-                  %i.fa.fa-stack-exchange.fa-fw
-            .body<>
-              - unless post.blinded?(current_user)
-                .title<>
-                  = link_to front_post_path(post_id: post.id) do
-                    != post.title
-              - else
-                .title.-blind
-                  %i.fa.fa-info-circle
-                  = t('labels.post_blind_info')
-              .meta
-                - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-                != last_stroked_text
-                = date_f(last_stroked_at)
-            .counts
-              %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
-                %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
-                = post.upvotes_count
-              %span.comments{ class: ('-active' if post.commented_by_me?) }
-                %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
-                = post.comments_count
-      = paginate @posts, theme: 'catan'
+      = render 'front/post_lines', posts: @posts, current_post: @current_post, current_channel: @current_issue
     .supplementary-boxes
       - if @current_issue.body.present?
         .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "channel-intro-box-#{@current_issue.id}" } } }

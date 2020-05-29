@@ -2,7 +2,7 @@
   %ul.folder-lines.-hide{ data: { target: 'content-collapse.content' } }
     - folders.each do |folder|
       - has_children = folder.children_count > 0
-      %li.line{ data: { controller: ('content-collapse' if has_children), 'content-collapse': { 'id': "folder-lines-parent-folder-#{folder.id}", 'force-collapsed': (folder.issue != current_folder&.issue ? 'hide' : false) }, 'group-sidebar-listener-folder-id': folder.id, target: 'group-sidebar-listener.folderCollapse', action: 'group-sidebar-collapse-show->content-collapse#show' } }
+      %li.line{ data: { controller: ('content-collapse' if has_children), 'content-collapse': { 'id': "folder-lines-parent-folder-#{folder.id}", 'force-collapsed': (folder.issue != current_folder&.issue ? 'hide' : false) }, 'group-sidebar-listener-folder-id': folder.id, target: 'group-sidebar-listener.folderCollapse', action: 'group-sidebar-collapse-show->content-collapse#show group-sidebar-collapse-hide->content-collapse#hide' } }
         = link_to front_channel_path(issue_id: folder.issue.id, folder_id: folder.id), class: ['link', ('-active' if folder == current_folder)], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.folderActivation', 'group-sidebar-listener-folder-id': folder.id }, style: "padding-left: #{0.5 * depth + 0.5}rem" do
           .icon{ class: ('-disabled' unless has_children), data: { action: ('click->content-collapse#toggle$' if has_children) } }
             %i.fa.fa-fw.-hide{ data: { target: ('content-collapse.content' if has_children) } }

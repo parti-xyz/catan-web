@@ -9,6 +9,29 @@ class FrontController < ApplicationController
     end
   end
 
+  def search
+    @posts = Post.of_group(current_group)
+      .never_blinded(current_user)
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, wiki: [ :last_wiki_history ])
+      .order(last_stroked_at: :desc)
+      .page(params[:page]).per(10)
+    @posts = @posts.of_searchable_issues(current_user) if user_signed_in?
+
+    front_search_q = params.dig(:front_search, :q)
+    if front_search_q.present?
+      search_q = PostSearchableIndex.sanitize_search_key front_search_q
+      @posts = @posts.search(search_q)
+    end
+    @posts.load if @current_issue.present?
+
+    if session[:front_last_visited_post_id].present?
+      @current_post = Post.find_by(id: session[:front_last_visited_post_id])
+    end
+
+    @scroll_persistence_id_ext = "search-#{front_search_q}"
+    @scroll_persistence_tag = params[:page].presence || 1
+  end
+
   def channel
     @current_issue = Issue.with_deleted.includes(:folders).find(params[:issue_id])
     @thread_folders = Folder.threaded(@current_issue.folders)
@@ -22,6 +45,11 @@ class FrontController < ApplicationController
         .page(params[:page]).per(10)
       if @current_folder.present?
         @posts = @posts.where(folder: @current_folder)
+      end
+      front_search_q = params.dig(:front_search, :q)
+      if front_search_q.present?
+        search_q = PostSearchableIndex.sanitize_search_key front_search_q
+        @posts = @posts.search(search_q)
       end
       @posts.load if @current_issue.present?
     end
@@ -48,7 +76,7 @@ class FrontController < ApplicationController
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
 
     @referrer_backable = request.referer.present? &&
-      URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
+      Addressable::URI.parse(request.referer).domain == request.domain
 
     if user_signed_in?
       @current_post.read!(@current_user)

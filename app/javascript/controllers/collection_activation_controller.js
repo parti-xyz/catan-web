@@ -11,4 +11,10 @@ export default class extends Controller {
       el.classList.toggle("-active", currentItem == el)
     })
   }
+
+  deactiveAll(event) {
+    this.itemTargets.forEach((el) => {
+      el.classList.remove("-active")
+    })
+  }
 }

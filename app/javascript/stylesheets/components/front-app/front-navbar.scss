@@ -1,0 +1,98 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.front-app .front-navbar {
+  background: global-variables.$color-voodoo-500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+  height: 2.5rem;
+  position: relative;
+  z-index: 1;
+
+  .groupmenu {
+    position: absolute;
+    left: 1rem;
+    top: .25rem;
+    border-color: transparent;
+    color: white;
+  }
+
+  > .searchform {
+    display: inline-block;
+    margin-top: .5rem;
+    max-width: 50%;
+  }
+
+  > .searchform > .dropdown {
+    width: 34rem;
+  }
+
+  > .searchform > .dropdown > .queryinput {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    height: 1.5rem;
+    padding: .25rem;
+    outline: none;
+    vertical-align: bottom;
+    width: 100%;
+    padding: .25rem 1.5rem;
+  }
+
+  > .searchform > .dropdown > .queryinput.-empty {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  > .searchform > .dropdown > .queryinput:active,
+  > .searchform > .dropdown > .queryinput:focus,
+  > .searchform > .dropdown > .queryinput.-active {
+    background: rgba(255, 255, 255, 0.8);
+    outline: none;
+    vertical-align: bottom;
+  }
+
+  > .searchform > .dropdown > .queryinput::placeholder {
+    font-family: FontAwesome;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    color: global-variables.$color-voodoo-200;
+    font-size: bootstrap.$font-size-sm;
+    text-align: center;
+  }
+
+  > .searchform > .dropdown > .dropdown-menu {
+    width: 100%;
+  }
+
+  > .searchform > .dropdown > .dropdown-menu > .dropdown-item {
+    position: relative;
+    cursor: pointer;
+  }
+
+  > .searchform > .dropdown > .dropdown-menu > .dropdown-item.-active {
+    color: #fff;
+    text-decoration: none;
+    background-color: global-variables.$color-brand-primary;
+  }
+
+  > .searchform > .dropdown > .dropdown-menu > .dropdown-item > .text {
+    display: inline-block;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+  }
+
+  > .searchform > .dropdown > .dropdown-menu > .dropdown-item > .scope {
+    font-size: bootstrap.$font-size-xs;
+    background: global-variables.$color-gray-300;
+    padding: .125rem .25rem;
+    color: global-variables.$color-gray-700;
+    position: relative;
+    right: 0;
+    top: 0;
+  }
+}

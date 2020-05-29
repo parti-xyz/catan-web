@@ -30,22 +30,19 @@ export default class extends Controller {
     this._apply()
   }
 
+  hide(event) {
+    this.collapsed = true
+    this._apply()
+  }
+
   _apply() {
     if (this.collapsed) {
-      this._hide()
+      this.contentTargets.forEach(content => content.classList.remove('-show'))
+      this.contentTargets.forEach(content => content.classList.add('-hide'))
     } else {
-      this._show()
+      this.contentTargets.forEach(content => content.classList.remove('-hide'))
+      this.contentTargets.forEach(content => content.classList.add('-show'))
     }
-  }
-
-  _show() {
-    this.contentTargets.forEach(content => content.classList.remove('-hide'))
-    this.contentTargets.forEach(content => content.classList.add('-show'))
-  }
-
-  _hide() {
-    this.contentTargets.forEach(content => content.classList.remove('-show'))
-    this.contentTargets.forEach(content => content.classList.add('-hide'))
   }
 
   get collapsed() {

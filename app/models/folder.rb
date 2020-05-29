@@ -6,8 +6,7 @@ class Folder < ApplicationRecord
   has_many :children, class_name: "Folder", foreign_key: :parent_id, dependent: :destroy
 
   scope :only_top, -> { where(parent_id: nil) }
-  scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order('title') }
-  scope :sort_by_folder_seq, -> { order(folder_seq: :asc).order(id: :asc) }
+  scope :sort_by_default, -> { order(folder_seq: :asc).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order('title').order(id: :asc) }
 
   validate :check_parent
   validate :check_sibilings
@@ -38,7 +37,7 @@ class Folder < ApplicationRecord
         parent_folder = folders_index.fetch(parent_id, nil)
         if parent_folder.present?
           children_association = parent_folder.association(:children)
-          children_association.target = Folder.array_sort_by_folder_seq(children)
+          children_association.target = Folder.array_sort_by_default(children)
         end
       end
     end
@@ -55,8 +54,8 @@ class Folder < ApplicationRecord
     root_folders
   end
 
-  def self.array_sort_by_folder_seq(folders)
-    folders&.sort_by{ |child| [child.folder_seq, child.id] }
+  def self.array_sort_by_default(folders)
+    folders&.sort_by{ |child| [child.folder_seq, (child.title.codepoints[0] < 128 ? 1 : 0), child.title, child.id] }
   end
 
   def smart_parent
@@ -82,6 +81,10 @@ class Folder < ApplicationRecord
   def ancestors
     return [] if self.parent.nil?
     self.parent.ancestors << self.parent
+  end
+
+  def ancestors_and_self
+    self.ancestors << self
   end
 
   def movable_to?(target_folder)

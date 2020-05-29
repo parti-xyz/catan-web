@@ -97,4 +97,4 @@ const ufo = (function () {
   }
 })()
 
-export default ufo;
+export default ufo

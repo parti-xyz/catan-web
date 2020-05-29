@@ -10,6 +10,7 @@ class PostSearchableIndex < ApplicationRecord
   end
 
   def self.sanitize_search_key(key)
+    return if key.blank?
     result = key.split.compact.map do |w|
       w.gsub(/[^ㄱ-ㅎ가-힣a-z0-9]/i, '')
     end.compact

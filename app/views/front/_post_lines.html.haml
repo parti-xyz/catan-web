@@ -1,0 +1,42 @@
+- current_channel ||= local_assigns[:current_channel]
+%ul.post-lines{ data: { 'controller': 'collection-activation' } }
+  - posts.each do |post|
+    %li.post-line{ class: [('-active' if post == current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }<>
+      .icon<>
+        = link_to front_post_path(post_id: post.id) do
+          - if post.poll.present?
+            %i.fa.fa-fire.fa-fw
+          - elsif post.survey.present?
+            %i.fa.fa-list-ul.fa-fw
+          - elsif post.wiki.present?
+            %i.fa.fa-file-word-o.fa-fw
+          - else
+            %i.fa.fa-stack-exchange.fa-fw
+      .body<>
+        - unless post.blinded?(current_user)
+          .title<>
+            = link_to front_post_path(post_id: post.id) do
+              != post.title
+        - else
+          .title.-blind
+            %i.fa.fa-info-circle
+            = t('labels.post_blind_info')
+        .meta
+          - if current_channel.present?
+            - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+            != last_stroked_text
+            = date_f(last_stroked_at)
+          - else
+            = link_to "# #{post.issue.title}", front_channel_path(issue_id: post.issue), class: 'link'
+            - if post.folder.present?
+              - post.folder.ancestors_and_self.each do |folder|
+                \/
+                = link_to folder.title, front_channel_path(issue_id: post.issue.id, folder_id: folder.id), class: 'link'
+      .counts
+        %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
+          %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+          = post.upvotes_count
+        %span.comments{ class: ('-active' if post.commented_by_me?) }
+          %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
+          = post.comments_count
+= paginate posts, theme: 'catan'

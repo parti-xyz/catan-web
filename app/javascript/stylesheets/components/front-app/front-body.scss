@@ -1,0 +1,19 @@
+@use "../front-variables";
+
+.front-app .front-body {
+  display: flex;
+  > .global-sidebar {
+    flex: none;
+    width: front-variables.$global-sidebar-width;
+    height: 100%;
+  }
+  > .group-sidebar {
+    flex: none;
+    width: front-variables.$group-sidebar-width;
+    height: 100%;
+  }
+  > .front-playground {
+    flex: 1;
+    height: 100%;
+  }
+}

@@ -2,46 +2,61 @@ import { Controller } from "stimulus"
 import ParamMap from '../helpers/param_map'
 
 export default class extends Controller {
-  static targets = ['channelActivation', 'channelCollapse', 'folderActivation', 'folderCollapse']
+  static targets = ['channelActivation', 'channelCollapse', 'folderActivation', 'folderCollapse', 'collectionActivationController']
 
   consume(event) {
-    if (!event.detail.channelId) {
-      return
-    }
     const channelId = +event.detail.channelId
-    let folderId = event.detail.folderId
-    if (folderId) {
-      folderId = +folderId
-    }
+    const folderId = +event.detail.folderId
 
-    if (!folderId) {
-      const channelActivation = this.findElement(this.channelActivationTargets, 'channelId', channelId)
-      if (channelActivation) {
+    const currentChannelActivation = this.findElement(this.channelActivationTargets, 'channelId', channelId)
+    const currentFolderActivation = this.findElement(this.folderActivationTargets, 'folderId', folderId)
+    const currentChannelCollapse = this.findElement(this.channelCollapseTargets, 'channelId', channelId)
+    const currentFolderCollapse = this.findElement(this.folderCollapseTargets, 'folderId', folderId)
+
+    if (currentChannelActivation) {
+      if (!currentFolderActivation) {
         const event = new CustomEvent('group-sidebar-activation', {
           bubbles: false
         })
-        channelActivation.dispatchEvent(event)
+        currentChannelActivation.dispatchEvent(event)
+      } else {
+        const event = new CustomEvent('group-sidebar-activation', {
+          bubbles: false
+        })
+        currentFolderActivation.dispatchEvent(event)
       }
     } else {
-      const folderActivation = this.findElement(this.folderActivationTargets, 'folderId', folderId)
-      if (folderActivation) {
-        const event = new CustomEvent('group-sidebar-activation', {
-          bubbles: false
-        })
-        folderActivation.dispatchEvent(event)
-      }
+      const event = new CustomEvent('group-sidebar-deactivation-all', {
+        bubbles: false
+      })
+      this.collectionActivationControllerTarget.dispatchEvent(event)
     }
 
-    const channelCollapse = this.findElement(this.channelCollapseTargets, 'channelId', channelId)
-    if (channelCollapse) {
+    if (currentChannelCollapse) {
       const event = new CustomEvent('group-sidebar-collapse-show', {
         bubbles: false
       })
-      channelCollapse.dispatchEvent(event)
+      currentChannelCollapse.dispatchEvent(event)
     }
-    if (folderId) {
-      const folderCollapse = this.findElement(this.folderCollapseTargets, 'folderId', folderId)
-      this.showAncestorFolderCollapses(folderCollapse)
+    if (currentFolderCollapse) {
+      this.showAncestorFolderCollapses(currentFolderCollapse)
+    }
+
+    this.channelCollapseTargets.forEach(el => {
+      if (el === currentChannelCollapse) { return }
+      const event = new CustomEvent('group-sidebar-collapse-hide', {
+        bubbles: false
+      })
+      el.dispatchEvent(event)
+    })
+
+    if (!currentChannelCollapse && !currentFolderCollapse) {
+      this.folderCollapseTargets.forEach(el => {
+        const event = new CustomEvent('group-sidebar-collapse-hide', {
+          bubbles: false
+        })
+        el.dispatchEvent(event)
+      })
     }
   }
 
@@ -63,6 +78,10 @@ export default class extends Controller {
   }
 
   findElement(targets, name, value) {
+    if (!value) {
+      return null
+    }
+
     return targets.find(el => {
       const paramMap = new ParamMap(this, el)
       if (!paramMap.get(name)) { return false }

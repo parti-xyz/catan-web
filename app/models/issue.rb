@@ -475,7 +475,7 @@ class Issue < ApplicationRecord
 
   def top_folders
     if folders.loaded?
-      Folder.array_sort_by_folder_seq(self.folders.select{ |f| f.parent_id == nil })
+      Folder.array_sort_by_default(self.folders.select{ |f| f.parent_id == nil })
     else
       self.folders.only_top.sort_by_folder_seq
     end
