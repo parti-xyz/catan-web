@@ -34,7 +34,7 @@
           .images{ data: { target: 'post-form.imageFileSourcesContainer' } }
           .docs{ data: { target: 'post-form.docFileSourcesContainer' } }
         .footer.clearfix
-          .btn.btn-outline-primary.btn-sm{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
+          .btn.btn-secondary.btn-sm{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
             + 파일 추가
             %span.counter
               (
@@ -57,7 +57,7 @@
         .helper.text-muted
           %hr
           %span.badge.badge-secondary TIP
-          최대 10M까지 20개 파일이 업로드됩니다. 이미지는 드래그해서 순서를 조정할 수 있습니다.
+          최대 크기 10M 파일을 20개까지 업로드할 수 있습니다. 이미지는 드래그해서 순서를 조정할 수 있습니다.
       %button.btn.btn-xs.btn-link{ data: { action: 'click->post-form#openFileSourcesFieldGroup'} }
         %i.fa.fa-cloud-upload
         = t('labels.new_post_file_source_button')

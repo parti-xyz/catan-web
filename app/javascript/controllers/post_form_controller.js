@@ -23,7 +23,7 @@ export default class extends Controller {
   }
 
   closeFileSourcesFieldGroup(event) {
-    if(!confirm('업로드할 파일을 모두 지우겠습니까?')) {
+    if(this.activeFileSourcesCount > 0 && !confirm('등록한 모든 파일을 업로드 취소하시겠습니까?')) {
       return;
     }
     event.preventDefault()
@@ -68,6 +68,8 @@ export default class extends Controller {
       // Existing records are hidden and flagged for deletion
       fileSourceField.querySelector("input[name*='_destroy']").value = 1
       fileSourceField.classList.remove('-active')
+      fileSourceField.classList.remove('-image')
+      fileSourceField.classList.remove('-doc')
     }
   }
 
@@ -95,6 +97,9 @@ export default class extends Controller {
 
         this.imageFileSourcesContainerTarget.appendChild(fileSourceField)
         this.imageFileSourcesContainerTarget.style.display = 'block'
+
+        fileSourceField.classList.add('-image')
+        fileSourceField.classList.remove('-doc')
       } else {
         const content = this.docFileSourcePreviewTemplate
           .replace(/NAME/g, currentFile.name)
@@ -103,6 +108,9 @@ export default class extends Controller {
 
         this.docFileSourcesContainerTarget.appendChild(fileSourceField)
         this.docFileSourcesContainerTarget.style.display = 'block'
+
+        fileSourceField.classList.add('-doc')
+        fileSourceField.classList.remove('-image')
       }
       fileSourceField.classList.add('-active')
     }
@@ -137,12 +145,7 @@ export default class extends Controller {
   }
 
   counter() {
-    const activeImageFileSources = this.imageFileSourcesContainerTarget.querySelectorAll(`.-active[data-target~="${this.identifier}.fileSourceField"]`)
-    const activeDocFileSources = this.docFileSourcesContainerTarget.querySelectorAll(`.-active[data-target~="${this.identifier}.fileSourceField"]`)
-
-    const activeFileSourcesCount = [...activeImageFileSources, ...activeDocFileSources]
-
-    if (activeFileSourcesCount.length >= MAX_FILE_COUNT) {
+    if (this.activeFileSourcesCount >= MAX_FILE_COUNT) {
       this.addFileSourceFieldButtonTarget.classList.add('disabled')
       this.addFileSourceFieldButtonTarget.setAttribute("disabled", "")
     } else {
@@ -150,6 +153,15 @@ export default class extends Controller {
       this.addFileSourceFieldButtonTarget.removeAttribute("disabled")
     }
 
-    this.fileSourcesCounterTarget.textContent = activeFileSourcesCount.length
+    this.fileSourcesCounterTarget.textContent = this.activeFileSourcesCount
+  }
+
+  get activeFileSourcesCount() {
+    const activeImageFileSources = this.imageFileSourcesContainerTarget.querySelectorAll(`.-active[data-target~="${this.identifier}.fileSourceField"]`)
+    const activeDocFileSources = this.docFileSourcesContainerTarget.querySelectorAll(`.-active[data-target~="${this.identifier}.fileSourceField"]`)
+
+    const activeFileSourcesCount = [...activeImageFileSources, ...activeDocFileSources]
+
+    return activeFileSourcesCount.length
   }
 }

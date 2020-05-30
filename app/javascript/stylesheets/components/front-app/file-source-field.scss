@@ -1,8 +1,20 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
 .front-app .file-source-field {
   display: none;
-  &.-active {
-    display: inline-block;
+
+  &.-image.-active,
+  &.-doc.-active {
     margin-right: .375rem;
+  }
+  &.-image.-active {
+    display: inline-block;
+  }
+  &.-doc.-active {
+    display: block;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
   }
 
   > .attachment {
@@ -22,10 +34,19 @@
     height: 100%;
   }
 
-  > .image > .close {
+  > .image > .xclose {
     position: absolute;
     top: .25rem;
     right: .25rem;
     cursor: pointer;
+  }
+
+  > .doc > .size {
+    color: global-variables.$color-gray-600;
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  > .doc > .xclose {
+    margin-left: .5rem;
   }
 }

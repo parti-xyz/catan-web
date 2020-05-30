@@ -1,5 +1,5 @@
 - close_button = capture do
-  .btn.btn-light.btn-sm.close{ data: { action: 'click->post-form#removeFileSourceField' } }
+  .btn.btn-light.btn-sm.xclose{ data: { action: 'click->post-form#removeFileSourceField' } }
     &times;
 - if local_assigns[:type] == :image || (file_source.persisted? && file_source.image?)
   .image
