@@ -2,12 +2,6 @@ import { Controller } from "stimulus"
 import ufo from '../helpers/ufo_app'
 
 export default class extends Controller {
-  connect() {
-    if (!this.loaded) {
-      this.load()
-    }
-  }
-
   execute(event) {
     const downloadUrl = this.data.get('url')
     if (this.hasTargetLink(downloadUrl)) {
