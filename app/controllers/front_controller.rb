@@ -12,7 +12,7 @@ class FrontController < ApplicationController
   def search
     @posts = Post.of_group(current_group)
       .never_blinded(current_user)
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, wiki: [ :last_wiki_history ])
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
     @posts = @posts.of_searchable_issues(current_user) if user_signed_in?
@@ -40,7 +40,7 @@ class FrontController < ApplicationController
     if !@current_issue.deleted? and !@current_issue&.private_blocked?(current_user)
       @posts = @current_issue.posts
         .never_blinded(current_user)
-        .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, wiki: [ :last_wiki_history ])
+        .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
         .order(last_stroked_at: :desc)
         .page(params[:page]).per(10)
       if @current_folder.present?
@@ -76,7 +76,8 @@ class FrontController < ApplicationController
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
 
     @referrer_backable = request.referer.present? &&
-      Addressable::URI.parse(request.referer).domain == request.domain
+      (request.domain.end_with?(Addressable::URI.parse(request.referer).domain) ||
+      Addressable::URI.parse(request.referer).domain.end_with?(request.domain))
 
     if user_signed_in?
       @current_post.read!(@current_user)
