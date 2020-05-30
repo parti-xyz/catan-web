@@ -3,7 +3,7 @@
 - content_for :playground_header_content do
   .post-menu
     - if @referrer_backable
-      = link_to :back, class: 'back' do
+      = link_to 'javascript:history.back()', class: 'back' do
         %i.fa.fa-arrow-left
     - else
       = link_to front_channel_path(issue_id: @current_issue), class: 'back' do

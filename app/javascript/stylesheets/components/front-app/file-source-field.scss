@@ -1,0 +1,31 @@
+.front-app .file-source-field {
+  display: none;
+  &.-active {
+    display: inline-block;
+    margin-right: .375rem;
+  }
+
+  > .attachment {
+    display: none;
+  }
+
+  > .image {
+    height: 100px;
+    overflow: hidden;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  > .image > .source {
+    height: 100%;
+  }
+
+  > .image > .close {
+    position: absolute;
+    top: .25rem;
+    right: .25rem;
+    cursor: pointer;
+  }
+}

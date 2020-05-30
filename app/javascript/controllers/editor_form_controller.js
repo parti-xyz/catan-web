@@ -56,9 +56,9 @@ export default class extends Controller {
     return div.innerHTML
   }
 
-  onSubmit(event) {
+  serialize(event) {
     const newSourceTargetValue = this.getHTML()
-    if (!newSourceTargetValue) {
+    if (event && !newSourceTargetValue) {
       event.preventDefault()
       return
     }

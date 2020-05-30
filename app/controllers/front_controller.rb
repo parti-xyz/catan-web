@@ -70,14 +70,14 @@ class FrontController < ApplicationController
       .includes(:issue, :user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, comments: [ :user, :file_sources ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:post_id])
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
-    @current_folder = @current_post.folder
+    @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
     @referrer_backable = request.referer.present? &&
       (request.domain.end_with?(Addressable::URI.parse(request.referer).domain) ||
       Addressable::URI.parse(request.referer).domain.end_with?(request.domain)) &&
-      (Addressable::URI.parse(request.referer).path != front_post_path(@current_post) &&
+      (Addressable::URI.parse(request.referer).path != front_post_path(@current_post, folder_id: @current_folder) &&
       (session[:front_last_visited_post_id].blank? ||
-      Addressable::URI.parse(request.referer).path != front_post_path(post_id: session[:front_last_visited_post_id])))
+      Addressable::URI.parse(request.referer).path != front_post_path(post_id: session[:front_last_visited_post_id], folder_id: @current_folder)))
 
     if user_signed_in?
       @current_post.read!(@current_user)

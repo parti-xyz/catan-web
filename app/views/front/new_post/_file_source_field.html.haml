@@ -1,0 +1,9 @@
+.file-source-field{ class: ('-active' if f.object.persisted?), data: { target: 'post-form.fileSourceField', 'post-form-new-record': f.object.new_record?.to_s } }<>
+  = f.hidden_field :id
+  = f.hidden_field :seq_no
+  = f.hidden_field :_destroy
+  = f.file_field :attachment, { class: 'attachment', data: { 'rule-required': true, 'rule-filesize': '10485760', action: 'change->post-form#changeFileSourceField' } }
+  = f.hidden_field :attachment_cache, value: f.object.attachment_cache
+
+  - if f.object.persisted?
+    = render 'front/new_post/file_source_preview', file_source: f.object

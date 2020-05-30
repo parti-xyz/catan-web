@@ -1,0 +1,33 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.front-app .post-form {
+  overflow-x: hidden;
+
+  > .post-meta {
+    margin-bottom: 1rem;
+  }
+
+  > .form-group > .filesourcesfield {
+    display: none;
+    background-color: global-variables.$color-gray-200;
+    padding: 1rem;
+  }
+
+  > .form-group > .filesourcesfield > .main > .images {
+    margin-bottom: .5rem;
+  }
+
+  > .form-group > .filesourcesfield > .footer > .counter {
+    font-size: bootstrap.$font-size-sm;
+  }
+
+  > .form-group > .filesourcesfield > .footer > .template {
+    display: none;
+  }
+
+  > .form-group > .filesourcesfield > .helper {
+    font-size: bootstrap.$font-size-sm;
+    margin-top: 1rem;
+  }
+}

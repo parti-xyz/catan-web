@@ -77,13 +77,6 @@ export default class extends Controller {
     }
   }
 
-  // $elm.on('focus', '.js-header-search-input', function(e) {
-  //   $(e.currentTarget).trigger('input');
-  // });
-
-  // $elm.on('blur', '.js-header-search-input', function(e) {
-    // setTimeout(hide_menu, 1000);
-  // });
   blurQueryField(event) {
     setTimeout(() => { this.menuTarget.style.display = 'none' }, 1000)
   }
@@ -91,11 +84,6 @@ export default class extends Controller {
   mouseEnterMenuItem(event) {
     this.toggleActiveMenuItem(event.currentTarget)
   }
-
-  // $elm.on('mouseenter', '.js-header-search-dropdown-item', function(e) {
-  //   $elm.find('.js-header-search-dropdown-item').removeClass('active');
-  //   $(e.currentTarget).addClass('active');
-  // });
 
   clickMenuItem(event) {
     event.preventDefault()
@@ -105,16 +93,6 @@ export default class extends Controller {
 
     this.submitForm(event)
   }
-
-  // $elm.on('click', '.js-header-search-dropdown-item', function(e) {
-  //   e.preventDefault();
-  //   if($.is_blank($elm.find('.js-header-search-input').val())) {
-  //     alert('찾을 단어를 입력하세요.');
-  //     return;
-  //   }
-  //   $elm.find('input[name="search_type"]').val($(e.currentTarget).data('header-search-type'));
-  //   $elm.submit();
-  // });
 
   submitForm(event) {
     event.preventDefault()
@@ -131,22 +109,6 @@ export default class extends Controller {
     const url = new ParamMap(this, currentActiveMenuItemElement).get('url')
     Turbolinks.visit(url + "?" + serialize(this.element))
   }
-
-  // $elm.on('submit', function(e) {
-  //   $elm.find('input[name="group_id"]').val(__current_group_id());
-  //   $elm.find('input[name="issue_id"]').val(__current_issue_id());
-
-  //   var current_search_type = $elm.find('input[name="search_type"]').val();
-  //   if($.is_blank(current_search_type)) {
-  //     $elm.find('input[name="search_type"]').val('all');
-  //     if(__current_group_id()) {
-  //       $elm.find('input[name="search_type"]').val('group');
-  //     }
-  //     if(__current_issue_id()) {
-  //       $elm.find('input[name="search_type"]').val('issue');
-  //     }
-  //   }
-  // });
 
   currentActiveMenuItem() {
     return this.menuItemTargets.find(el => {

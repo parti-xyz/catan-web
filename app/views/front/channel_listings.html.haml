@@ -1,7 +1,7 @@
 = render layout: 'layouts/simplebar' do
   .channel-listing
     .title 채널
-    %ul.channel-lines{ data: { controller: 'collection-activation', target: 'group-sidebar-listener.collectionActivationController', action: 'group-sidebar-deactivation-all->collection-activation#deactiveAll' } }
+    %ul.channel-lines
       - @issues.each do |issue|
         - threaded_folders = Folder.threaded(issue.folders)
         %li.channel-line{ data: { controller: ('content-collapse' if threaded_folders.any?), 'content-collapse': { 'id': "folder-lines-channel-#{issue.id}", 'force': (issue == @current_issue ? 'show' : 'hide') } } }

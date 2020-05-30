@@ -8,6 +8,7 @@
 @forward "./front-app/channel-menu";
 @forward "./front-app/comment-filesource-image-listing";
 @forward "./front-app/comment-filesource-listings";
+@forward "./front-app/file-source-field";
 @forward "./front-app/folder-lines";
 @forward "./front-app/front-body";
 @forward "./front-app/front-navbar";
@@ -17,7 +18,6 @@
 @forward "./front-app/group-navitem";
 @forward "./front-app/group-navitems";
 @forward "./front-app/group-sidebar";
-@forward './front-app/new-post-box';
 @forward "./front-app/pinned-post-line";
 @forward "./front-app/playground-body";
 @forward "./front-app/playground-header";
@@ -30,6 +30,8 @@
 @forward "./front-app/post-content";
 @forward "./front-app/post-file-sources-only-doc";
 @forward "./front-app/post-file-sources-only-image";
+@forward "./front-app/post-form";
+@forward './front-app/post-form-box';
 @forward "./front-app/post-header";
 @forward "./front-app/post-line";
 @forward "./front-app/post-lines-box";

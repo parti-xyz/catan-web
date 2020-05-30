@@ -293,6 +293,7 @@ $ rails tmp:cache:clear
 
 # TODO
 
+* 글쓰기 등 권한 확인하기
 * 대시보드에서 최초 다른 빠띠에 가입하기
 * front에서 로그인 하지 않은 경우 처리하기
 * front에서

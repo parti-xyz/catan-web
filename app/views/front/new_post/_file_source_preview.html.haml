@@ -1,0 +1,17 @@
+- close_button = capture do
+  .btn.btn-light.btn-sm.close{ data: { action: 'click->post-form#removeFileSourceField' } }
+    &times;
+- if local_assigns[:type] == :image || (file_source.persisted? && file_source.image?)
+  .image
+    - if file_source.persisted?
+      %img.source{ src: file_source.attachment.md.url }
+    - else
+      %img.source{ src: 'SRC' }
+    = close_button
+- if local_assigns[:type] == :doc || (file_source.persisted? && file_source.doc?)
+  .doc<>
+    %i.fa.fa-floppy-o
+    %span.name= (file_source.persisted? ? file_source.name : 'NAME')
+    %span.size= (file_source.persisted? ? number_to_human_size(file_source.file_size) : 'SIZE')
+    = close_button
+

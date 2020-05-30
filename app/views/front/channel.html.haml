@@ -33,7 +33,7 @@
           - if @posts.current_page.present?
             페이지 #{@posts.current_page} / #{@posts.total_pages}
         .edit
-          = link_to front_new_post_path(issue_id: @current_issue.id), class: 'btn btn-outline-primary btn-sm' do
+          = link_to front_new_post_path(issue_id: @current_issue.id, folder_id: @current_folder&.id), class: 'btn btn-outline-primary btn-sm' do
             %i.fa.fa-pencil
             글쓰기
       = render 'front/post_lines', posts: @posts, current_post: @current_post, current_channel: @current_issue

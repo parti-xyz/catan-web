@@ -29,7 +29,9 @@ export default class extends Controller {
       const event = new CustomEvent('group-sidebar-deactivation-all', {
         bubbles: false
       })
-      this.collectionActivationControllerTarget.dispatchEvent(event)
+      if (this.collectionActivationControllerTarget) {
+        this.collectionActivationControllerTarget.dispatchEvent(event)
+      }
     }
 
     if (currentChannelCollapse) {

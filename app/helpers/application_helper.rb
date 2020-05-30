@@ -149,6 +149,11 @@ module ApplicationHelper
     end
   end
 
+  def escape_once_block &block
+    captured = capture &block
+    escape_once captured
+  end
+
   def is_small_screen?
     browser.device.mobile?
   end

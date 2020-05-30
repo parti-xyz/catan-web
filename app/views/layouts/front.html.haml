@@ -23,7 +23,11 @@
               %span.scope 그룹 내 검색
     .front-body{ data: { 'controller': 'channel-read-listener group-sidebar-listener', action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume' } }
       .group-sidebar
-        .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue, folder_id: @current_folder), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
+        .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader collection-activation', target: 'group-sidebar-listener.collectionActivationController', action: 'group-sidebar-deactivation-all->collection-activation#deactiveAll', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue, folder_id: @current_folder), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
+
+        -# .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader', 'content-loader-url': front_channel_listings_path(issue_id: @current_issue, folder_id: @current_folder), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
+
+        -# { data: { controller: 'collection-activation', target: 'group-sidebar-listener.collectionActivationController', action: 'group-sidebar-deactivation-all->collection-activation#deactiveAll' } }
       .front-playground{ data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'channel-id': @current_issue&.id, 'folder-id': @current_folder&.id } } }
         - if content_for?(:playground_header_content)
           .playground-header

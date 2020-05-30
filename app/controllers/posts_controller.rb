@@ -23,7 +23,6 @@ class PostsController < ApplicationController
 
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
-      abort @post.errors
       if params[:namespace_slug] == 'front'
         deprecated_errors_to_flash(@post)
       else
@@ -36,7 +35,7 @@ class PostsController < ApplicationController
     end
 
     if params[:namespace_slug] == 'front'
-      redirect_to front_post_url(@post), turbolinks: true
+      redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
     else
       back_url = params[:back_url].presence || smart_post_url(@post)
       if params[:fixed_issue_id] == 'true'
@@ -46,9 +45,9 @@ class PostsController < ApplicationController
         format.html {
           if @post.wiki.present?
             @post.wiki.reload
-            redirect_to smart_post_url(@post), turbolinks: true
+            redirect_to smart_post_url(@post)
           else
-            redirect_to back_url, turbolinks: true
+            redirect_to back_url
           end
         }
         format.js {
@@ -465,8 +464,6 @@ class PostsController < ApplicationController
   def post_params
     file_sources = params[:post][:file_sources_attributes]
     if file_sources.try(:any?)
-      file_sources_attributes = FileSource.require_attrbutes
-
       index = 0
       file_sources.each do |file_source|
         params[:post][:file_sources_attributes][file_source[0]]["seq_no"] = index
@@ -493,9 +490,10 @@ class PostsController < ApplicationController
     params.require(:post)
       .permit(:body, :issue_id, :folder_id, :has_poll, :has_survey, :has_event,
         :is_html_body, :has_decision, :decision, (:pinned unless @post.try(:persisted?)),
-        file_sources_attributes: file_sources_attributes,
+        file_sources_attributes: FileSource.require_attrbutes,
         poll_attributes: poll_attributes, survey_attributes: survey_attributes,
         wiki_attributes: wiki_attributes, event_attributes: event_attributes)
+
   end
 
   def wiki_post_params
