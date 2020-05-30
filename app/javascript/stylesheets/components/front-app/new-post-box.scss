@@ -1,9 +1,9 @@
 @use '../../global-variables';
 
-.front-app .post-box {
+.front-app .new-post-box {
   display: flex;
 
-  > .post-main {
+  > .post-form {
     flex: 1;
   }
 

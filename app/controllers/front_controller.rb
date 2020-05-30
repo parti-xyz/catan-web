@@ -70,6 +70,7 @@ class FrontController < ApplicationController
       .includes(:issue, :user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, comments: [ :user, :file_sources ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:post_id])
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
+    @current_folder = @current_post.folder
 
     @referrer_backable = request.referer.present? &&
       (request.domain.end_with?(Addressable::URI.parse(request.referer).domain) ||
@@ -89,6 +90,7 @@ class FrontController < ApplicationController
 
   def new_post
     @current_issue = Issue.with_deleted.find(params[:issue_id])
+    @current_folder = @current_issue.folders.find_by(id: params[:folder_id])
 
     @referrer_backable = request.referer.present? &&
       URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)

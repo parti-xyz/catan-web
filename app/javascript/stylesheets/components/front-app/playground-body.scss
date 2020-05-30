@@ -7,7 +7,7 @@
   @include mixin.simplebar {
     > .channel-box,
     > .post-box,
-    > .post-form {
+    > .new-post-box {
       padding: 1rem front-variables.$front-playground-space-x 1.5rem;
     }
   }
