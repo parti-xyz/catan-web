@@ -1,0 +1,17 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.front-app .post-content {
+  > .post-body,
+  > .post-comments,
+  > .post-file-sources-only-image,
+  > .post-file-sources-only-doc,
+  > .post-video-source,
+  > .post-poll {
+    margin-top: .75rem;
+  }
+
+  > .post-link-source:last-child {
+    margin-bottom: -0.75rem;
+  }
+}

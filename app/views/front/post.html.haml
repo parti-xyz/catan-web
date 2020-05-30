@@ -15,69 +15,70 @@
         #{@current_post.title}
 
 .post-box{ data: { controller: 'channel-read-emit', 'channel-read-emit': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
-  .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
-    %h5.title= @current_post.title
-    %small.meta
-      - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-      != last_stroked_text
-      = date_f(last_stroked_at)
   .post-main
-    .post-meta
-      = link_to smart_user_gallery_url(@current_post.user), class: 'userimage' do
-        .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
-      .desc
-        = link_to @current_post.user.nickname, smart_user_gallery_url(@current_post.user), class: 'usernickname'
-        .createdat
-          = date_f @current_post.created_at
-    .post-body
-      .body
-        = post_body_format @current_issue, @current_post.body
-    - single_image_breakpoint = is_small_screen? ? 270 : 600
-    - if @current_post.file_sources_only_image.any?
-      .post-file-sources-only-image{ data: { controller: 'photoswipe justified-gallery' } }
-        = render layout: 'layouts/photoswipe', locals: { file_sources: @current_post.file_sources_only_image, title: @current_post.title } do |file_source|
-          %img{ src: file_source.lg_or_original_url }
-    - if @current_post.file_sources_only_doc.any?
-      .post-file-sources-only-doc
-        - @current_post.file_sources_only_doc.each do |file_source|
-          .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
-            .icon
-              %i.fa.fa-floppy-o
-            .body
-              %span.name= file_source.name
-              %span.size= number_to_human_size(file_source.file_size)
-            .button
-              .btn.btn-sm.btn-secondary 다운로드
-    - if @current_post.link_source.present?
-      - if @current_post.video_source?
-        .post-video-source
-          .content
-            = video_embed_code(@current_post, 'player')
-          .site
-            %a{ href: @current_post.link_source.url, target: '_blank' }
-              = @current_post.link_source.site_name.try(:upcase)
-              원글보기
-              %i.fa.fa-external-link
-      - else
-        %a.post-link-source{ href: @current_post.link_source.url, target: '_blank' }
-          - if @current_post.link_source.has_image?
-            .thumbnail{ style: "background-image: url(#{@current_post.link_source.image.md.url});" }
-          .content
-            .title= @current_post.link_source.title_or_url
-            .body= excerpt(@current_post.link_source.body, length: (is_small_screen? ? 45 : 130))
+    .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
+      %h5.title= @current_post.title
+      %small.meta
+        - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+        != last_stroked_text
+        = date_f(last_stroked_at)
+    .post-content
+      .post-meta
+        = link_to smart_user_gallery_url(@current_post.user), class: 'userimage' do
+          .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
+        .desc
+          = link_to @current_post.user.nickname, smart_user_gallery_url(@current_post.user), class: 'usernickname'
+          .createdat
+            = date_f @current_post.created_at
+      .post-body
+        .body
+          = post_body_format @current_issue, @current_post.body
+      - single_image_breakpoint = is_small_screen? ? 270 : 600
+      - if @current_post.file_sources_only_image.any?
+        .post-file-sources-only-image{ data: { controller: 'photoswipe justified-gallery' } }
+          = render layout: 'layouts/photoswipe', locals: { file_sources: @current_post.file_sources_only_image, title: @current_post.title } do |file_source|
+            %img{ src: file_source.lg_or_original_url }
+      - if @current_post.file_sources_only_doc.any?
+        .post-file-sources-only-doc
+          - @current_post.file_sources_only_doc.each do |file_source|
+            .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
+              .icon
+                %i.fa.fa-floppy-o
+              .body
+                %span.name= file_source.name
+                %span.size= number_to_human_size(file_source.file_size)
+              .button
+                .btn.btn-sm.btn-secondary 다운로드
+      - if @current_post.link_source.present?
+        - if @current_post.video_source?
+          .post-video-source
+            .content
+              = video_embed_code(@current_post, 'player')
             .site
-              = @current_post.link_source.site_name.try(:upcase)
-              원글보기
-              %i.fa.fa-external-link
-    - if @current_post.poll.present?
-      = render 'front/post/poll', poll: @current_post.poll
+              %a{ href: @current_post.link_source.url, target: '_blank' }
+                = @current_post.link_source.site_name.try(:upcase)
+                원글보기
+                %i.fa.fa-external-link
+        - else
+          %a.post-link-source{ href: @current_post.link_source.url, target: '_blank' }
+            - if @current_post.link_source.has_image?
+              .thumbnail{ style: "background-image: url(#{@current_post.link_source.image.md.url});" }
+            .content
+              .title= @current_post.link_source.title_or_url
+              .body= excerpt(@current_post.link_source.body, length: (is_small_screen? ? 45 : 130))
+              .site
+                = @current_post.link_source.site_name.try(:upcase)
+                원글보기
+                %i.fa.fa-external-link
+      - if @current_post.poll.present?
+        = render 'front/post/poll', poll: @current_post.poll
 
-    - if @current_post.comments.present?
-      .post-comments
-        - @current_post.comments_threaded.each do |parent_comment, child_comments|
-          = render 'front/post/comment', comment: parent_comment, child_comments: child_comments
+      - if @current_post.comments.present?
+        .post-comments
+          - @current_post.comments_threaded.each do |parent_comment, child_comments|
+            = render 'front/post/comment', comment: parent_comment, child_comments: child_comments
 
-
+  .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': front_channel_supplementary_path(issue_id: @current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
 
 
 

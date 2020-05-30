@@ -418,6 +418,7 @@ Rails.application.routes.draw do
     get 'channles/:issue_id', action: :channel, as: :channel
     get 'posts/new', action: :new_post, as: :new_post
     get 'posts/:post_id', action: :post, as: :post
+    get 'channels/:issue_id/supplementary', action: :channel_supplementary, as: :channel_supplementary
     get :global_sidebar
     get :channel_listings
 

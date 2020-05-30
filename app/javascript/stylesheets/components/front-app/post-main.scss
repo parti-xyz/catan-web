@@ -1,22 +1,5 @@
-@use '../../global-variables';
-@use '../../bootstrap';
-
 .front-app .post-main {
-  background-color: white;
-  padding-top: .75rem;
-  padding-bottom: .75rem;
-  border-top: 1px solid global-variables.$color-gray-300;
-
-  > .post-body,
-  > .post-comments,
-  > .post-file-sources-only-image,
-  > .post-file-sources-only-doc,
-  > .post-video-source,
-  > .post-poll {
-    margin-top: .75rem;
-  }
-
-  > .post-link-source:last-child {
-    margin-bottom: -0.75rem;
+  > .post-content {
+    margin-top: 1rem;
   }
 }

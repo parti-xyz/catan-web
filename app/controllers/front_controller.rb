@@ -54,10 +54,6 @@ class FrontController < ApplicationController
       @posts.load if @current_issue.present?
     end
 
-    @pinned_posts = @current_issue.posts.pinned
-      .includes(:poll, :survey, :wiki)
-      .order('pinned_at desc').load
-
     if user_signed_in?
       current_user.update_attributes(last_visitable: @current_issue)
     end
@@ -77,7 +73,10 @@ class FrontController < ApplicationController
 
     @referrer_backable = request.referer.present? &&
       (request.domain.end_with?(Addressable::URI.parse(request.referer).domain) ||
-      Addressable::URI.parse(request.referer).domain.end_with?(request.domain))
+      Addressable::URI.parse(request.referer).domain.end_with?(request.domain)) &&
+      (Addressable::URI.parse(request.referer).path != front_post_path(@current_post) &&
+      (session[:front_last_visited_post_id].blank? ||
+      Addressable::URI.parse(request.referer).path != front_post_path(post_id: session[:front_last_visited_post_id])))
 
     if user_signed_in?
       @current_post.read!(@current_user)
@@ -95,6 +94,21 @@ class FrontController < ApplicationController
       URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
   end
 
+  def channel_supplementary
+    @current_issue = Issue.with_deleted.includes(:folders).find(params[:issue_id])
+
+    if session[:front_last_visited_post_id].present?
+      @current_post = Post.find_by(id: session[:front_last_visited_post_id])
+    end
+
+    @pinned_posts = @current_issue.posts.pinned
+      .includes(:poll, :survey, :wiki)
+      .order('pinned_at desc').load
+
+    render layout: false
+  end
+
+  # DEPRECATED
   def global_sidebar
     @groups = current_user&.member_groups || Group.none
     render layout: false
