@@ -18,20 +18,21 @@ export default class extends Controller {
 
   openFileSourcesFieldGroup(event) {
     event.preventDefault()
-    this.fileSourcesFieldGroupTarget.style.display = 'block'
+    this.fileSourcesFieldGroupTarget.classList.add('-active')
     this.addFileSourceField(event)
   }
 
   closeFileSourcesFieldGroup(event) {
-    if(this.activeFileSourcesCount > 0 && !confirm('등록한 모든 파일을 업로드 취소하시겠습니까?')) {
+    if(this.activeFileSourceFieldsCount > 0 && !confirm('등록한 모든 파일을 업로드 취소하시겠습니까?')) {
       return;
     }
     event.preventDefault()
 
-    this.imageFileSourcesContainerTarget.innerHTML = ""
-    this.docFileSourcesContainerTarget.innerHtml = ""
+    this.activeFileSourceFields.forEach(fileSourceField => {
+      this.removeFileSourceFieldElement(fileSourceField)
+    })
 
-    this.fileSourcesFieldGroupTarget.style.display = 'none'
+    this.fileSourcesFieldGroupTarget.classList.remove('-active')
   }
 
   addFileSourceField(event) {
@@ -59,6 +60,14 @@ export default class extends Controller {
     event.preventDefault()
 
     const fileSourceField = event.currentTarget.closest(`[data-target~="${this.identifier}.fileSourceField"]`)
+
+    this.removeFileSourceFieldElement(fileSourceField)
+  }
+
+  removeFileSourceFieldElement(fileSourceField) {
+    if (!fileSourceField) {
+      return
+    }
 
     const paramMap = new ParamMap(this, fileSourceField)
     if (paramMap.get('newRecord') === 'true') {
@@ -114,20 +123,32 @@ export default class extends Controller {
       }
       fileSourceField.classList.add('-active')
     }
-    this.counter()
+    this.fileSourceCounter()
   }
 
   submit(event) {
-    this.editorController.serialize()
+    this.bodyFieldTarget.value = this.editorController.serialize()
 
+    let valid = true
     if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length < 0) {
-      event.preventDefault()
       new Noty({
         type: 'warning',
         text: '본문 내용이 비었어요. [확인]',
         timeout: 3000,
         modal: true,
       }).show()
+      valid = false
+    } else if (this.bodyFieldTarget.value.length > 1048576) {
+      new Noty({
+        type: 'warning',
+        text: '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 글을 나누어 등록하거나 사진 업로드를 이용하세요. [확인]',
+        timeout: 3000,
+        modal: true,
+      }).show()
+      valid = false
+    }
+    if (valid == false) {
+      event.preventDefault()
     }
   }
 
@@ -144,8 +165,8 @@ export default class extends Controller {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 
-  counter() {
-    if (this.activeFileSourcesCount >= MAX_FILE_COUNT) {
+  fileSourceCounter() {
+    if (this.activeFileSourceFieldsCount >= MAX_FILE_COUNT) {
       this.addFileSourceFieldButtonTarget.classList.add('disabled')
       this.addFileSourceFieldButtonTarget.setAttribute("disabled", "")
     } else {
@@ -156,12 +177,14 @@ export default class extends Controller {
     this.fileSourcesCounterTarget.textContent = this.activeFileSourcesCount
   }
 
-  get activeFileSourcesCount() {
+  get activeFileSourceFieldsCount() {
+    return this.activeFileSourceFields.length
+  }
+
+  get activeFileSourceFields() {
     const activeImageFileSources = this.imageFileSourcesContainerTarget.querySelectorAll(`.-active[data-target~="${this.identifier}.fileSourceField"]`)
     const activeDocFileSources = this.docFileSourcesContainerTarget.querySelectorAll(`.-active[data-target~="${this.identifier}.fileSourceField"]`)
 
-    const activeFileSourcesCount = [...activeImageFileSources, ...activeDocFileSources]
-
-    return activeFileSourcesCount.length
+    return [...activeImageFileSources, ...activeDocFileSources]
   }
 }

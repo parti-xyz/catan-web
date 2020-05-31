@@ -4,6 +4,7 @@
 .front-app .post-meta {
   display: flex;
   > .userimage {
+    flex: none;
     margin-right: .25rem;
   }
   > .userimage > .userimagebg {
@@ -14,11 +15,17 @@
     background-position: center;
     background-size: cover;
   }
+  > .desc {
+    flex: 1;
+  }
   > .desc > .usernickname {
     font-weight: 600;
   }
   > .desc > .createdat {
     font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-600;
+  }
+  > .moremenu {
+    flex: none;
   }
 }

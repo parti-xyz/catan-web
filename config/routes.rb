@@ -417,6 +417,7 @@ Rails.application.routes.draw do
     get 'search', action: :search, as: :search
     get 'channles/:issue_id', action: :channel, as: :channel
     get 'posts/new', action: :new_post, as: :new_post
+    get 'posts/:post_id/edit', action: :edit_post, as: :edit_post
     get 'posts/:post_id', action: :post, as: :post
     get 'channels/:issue_id/supplementary', action: :channel_supplementary, as: :channel_supplementary
     get :global_sidebar
@@ -430,6 +431,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :posts, only: [:create]
+    resources :posts, only: [:create, :update]
   end
 end

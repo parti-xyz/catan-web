@@ -96,6 +96,14 @@ class FrontController < ApplicationController
       URI(request.referer).path == front_channel_path(issue_id: @current_issue.id)
   end
 
+  def edit_post
+    @current_post = Post.with_deleted
+      .includes(:issue, :user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, comments: [ :user, :file_sources ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
+      .find(params[:post_id])
+    @current_issue = Issue.with_deleted.find(@current_post.issue_id)
+    @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
+  end
+
   def channel_supplementary
     @current_issue = Issue.with_deleted.includes(:folders).find(params[:issue_id])
 

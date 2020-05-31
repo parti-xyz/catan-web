@@ -10,14 +10,14 @@ import { linkTooltipPlugin } from '../compoments/editor/link_tooltip_plugin'
 import { buildMenuItems } from '../compoments/editor/menus'
 
 export default class extends Controller {
-  static targets = ['editorSource']
+  static targets = ['source']
 
   connect() {
-    if (!this.editorSourceTarget) { return }
+    if (!this.sourceTarget) { return }
 
     this.editorElement = document.createElement('div')
-    this.editorSourceTarget.insertAdjacentElement("afterend", this.editorElement)
-    this.editorSourceTarget.style.display = 'none'
+    this.sourceTarget.insertAdjacentElement("afterend", this.editorElement)
+    this.sourceTarget.style.display = 'none'
 
     // Mix the nodes from prosemirror-schema-list into the basic schema to
     // create a schema with list support.
@@ -28,7 +28,7 @@ export default class extends Controller {
 
     this.editorView = new EditorView(this.editorElement, {
       state: EditorState.create({
-        doc: DOMParser.fromSchema(currentSchema).parse(this.editorSourceTarget),
+        doc: DOMParser.fromSchema(currentSchema).parse(this.sourceTarget),
         plugins: exampleSetup({
           schema: currentSchema,
           menuContent: buildMenuItems(currentSchema),
@@ -43,7 +43,7 @@ export default class extends Controller {
     }
   }
 
-  getHTML() {
+  serialize() {
     if (!this.editorView) { return null }
 
     const div = document.createElement('div')
@@ -54,16 +54,6 @@ export default class extends Controller {
     div.appendChild(fragment)
 
     return div.innerHTML
-  }
-
-  serialize(event) {
-    const newSourceTargetValue = this.getHTML()
-    if (event && !newSourceTargetValue) {
-      event.preventDefault()
-      return
-    }
-
-    this.editorSourceTarget.value = newSourceTargetValue
   }
 
   customMarks() {

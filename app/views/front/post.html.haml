@@ -30,6 +30,16 @@
           = link_to @current_post.user.nickname, smart_user_gallery_url(@current_post.user), class: 'usernickname'
           .createdat
             = date_f @current_post.created_at
+        - moremenu_content = capture do
+          - if can?(:update, @current_post) and @current_post.wiki.blank?
+            = link_to '수정', front_edit_post_path(@current_post), class: 'dropdown-item'
+        - if moremenu_content.present?
+          .moremenu
+            .dropdown
+              %button.btn.btn-link{ "data-toggle": "dropdown" }
+                %i.fa.fa-ellipsis-v
+              .dropdown-menu.dropdown-menu-right
+                = moremenu_content
       .post-body
         .body
           = post_body_format @current_issue, @current_post.body

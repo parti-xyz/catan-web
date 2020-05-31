@@ -24,9 +24,9 @@ class PostsController < ApplicationController
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
       if params[:namespace_slug] == 'front'
-        deprecated_errors_to_flash(@post)
-      else
         errors_to_flash(@post)
+      else
+        deprecated_errors_to_flash(@post)
       end
     end
 
@@ -77,10 +77,19 @@ class PostsController < ApplicationController
       crawling_after_updating_post
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      redirect_to params[:back_url].presence || smart_post_url(@post)
+      if params[:namespace_slug] == 'front'
+        redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      else
+        redirect_to params[:back_url].presence || smart_post_url(@post)
+      end
     else
-      deprecated_errors_to_flash @post
-      render 'posts/edit'
+      if params[:namespace_slug] == 'front'
+        errors_to_flash(@post)
+        redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      else
+        deprecated_errors_to_flash(@post)
+        render 'posts/edit'
+      end
     end
   end
 
