@@ -4,67 +4,14 @@
       = link_to :back, class: 'back' do
         %i.fa.fa-arrow-left
     - else
-      = link_to front_channel_path(issue_id: @current_issue), class: 'back' do
+      = link_to front_channel_path(@current_issue), class: 'back' do
         %i.fa.fa-arrow-left
     .title
       .page.-active
         \##{@current_issue.title} 글쓰기
 
 .post-form-box
-  -# TODO 저장 전에 폼 값 확인하기
-  = form_with(model: [:front, Post.new(issue: @current_issue)], local: false, html: { class: 'post-form', novalidate: true, data: { controller: 'post-form editor-form', action: "ajax:before->post-form#submit" } }) do |f|
-    = f.hidden_field :need_remotipart, data: { target: 'post-form.remotiPartField' }
-    = f.hidden_field :issue_id
-    = f.hidden_field :has_poll, value: false
-    = f.hidden_field :has_survey, value: false
-    = f.hidden_field :has_event, value: false
-    .post-meta
-      = link_to smart_user_gallery_url(current_user), class: 'userimage' do
-        .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
-      .desc
-        = link_to current_user.nickname, smart_user_gallery_url(current_user), class: 'usernickname'
-        .createdat 지금
-    .form-group
-      - body_field_error_dom_id = "uid-#{SecureRandom.uuid}"
-      = f.text_area :body, data: { target: 'editor-form.source post-form.bodyField', 'rule-required': true, 'msg-required': '이야기를 입력해 주세요', 'rule-maxlength': '1048576', 'msg-maxlength': '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 위키를 열거나 사진 업로드를 이용하세요.', 'error-popover-target': "##{body_field_error_dom_id}" }
-      .feedback{ id: body_field_error_dom_id }
-    .form-group
-      .filesourcesfield{ data: { target: 'post-form.fileSourcesFieldGroup' } }
-        .main
-          .images{ data: { target: 'post-form.imageFileSourcesContainer' } }
-          .docs{ data: { target: 'post-form.docFileSourcesContainer' } }
-        .footer.clearfix
-          .btn.btn-secondary.btn-sm{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
-            + 파일 추가
-            %span.counter
-              (
-              %span{ data: { target: 'post-form.fileSourcesCounter' } }<> 0
-              \/
-              %span<> 20
-              )
-          .btn.btn-link.btn-sm.text-muted{ data: { action: 'click->post-form#closeFileSourcesFieldGroup' } } 업로드 취소
-
-          .template{ data: { target: 'post-form.fileSourceFieldTemplate' } }
-            = escape_once_block do
-              = f.fields_for :file_sources, FileSource.new(), child_index: 'NEW_RECORD' do |ff|
-                = render 'front/new_post/file_source_field', f: ff
-          .template{ data: { target: 'post-form.imageFileSourcePreviewTemplate' } }
-            = escape_once_block do
-              = render 'front/new_post/file_source_preview', file_source: FileSource.new(), type: :image
-          .template{ data: { target: 'post-form.docFileSourcePreviewTemplate' } }
-            = escape_once_block do
-              = render 'front/new_post/file_source_preview', file_source: FileSource.new(), type: :doc
-        .helper.text-muted
-          %hr
-          %span.badge.badge-secondary TIP
-          최대 크기 10M 파일을 20개까지 업로드할 수 있습니다. 이미지는 드래그해서 순서를 조정할 수 있습니다.
-      %button.btn.btn-xs.btn-link{ data: { action: 'click->post-form#openFileSourcesFieldGroup'} }
-        %i.fa.fa-cloud-upload
-        = t('labels.new_post_file_source_button')
-
-    .form-group
-      = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
-
+  = render 'front/posts/post_form', current_issue: @current_issue, current_post: @current_post
 
   -#         - cancel_btn_data = {action: 'parti-post-cancel-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
 
@@ -257,6 +204,6 @@
   -#           = hidden_field_tag :fixed_issue_id, 'true'
   -#         = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
 
-  .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': front_channel_supplementary_path(issue_id: @current_issue, folder_id: @current_folder), 'turbolinks-permanent': true } }
+  .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder), 'turbolinks-permanent': true } }
 
 

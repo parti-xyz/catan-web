@@ -23,4 +23,4 @@
     - if local_assigns[:child_comments]&.any?
       .post-comments.-children
         - child_comments.each do |child_comment|
-          = render 'front/post/comment', comment: child_comment, is_child: true
+          = render 'front/posts/show/comment', comment: child_comment, is_child: true

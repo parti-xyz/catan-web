@@ -6,4 +6,4 @@
   = f.hidden_field :attachment_cache, value: f.object.attachment_cache
 
   - if f.object.persisted?
-    = render 'front/new_post/file_source_preview', file_source: f.object
+    = render 'front/posts/post_form/file_source_preview', file_source: f.object

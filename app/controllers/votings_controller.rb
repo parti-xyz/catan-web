@@ -34,7 +34,7 @@ class VotingsController < ApplicationController
     end
 
     if params[:namespace_slug] == 'front'
-      render(partial: 'front/post/poll/votings/users', locals: { poll: @poll })
+      render(partial: 'front/posts/show/poll/votings/users', locals: { poll: @poll })
     else
       render layout: nil
     end

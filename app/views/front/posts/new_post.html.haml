@@ -4,16 +4,14 @@
       = link_to :back, class: 'back' do
         %i.fa.fa-arrow-left
     - else
-      = link_to front_channel_path(issue_id: @current_issue), class: 'back' do
+      = link_to front_channel_path(@current_issue), class: 'back' do
         %i.fa.fa-arrow-left
     .title
       .page.-active
         \##{@current_issue.title} 글쓰기
 
 .post-form-box
-  = render 'front/post_form', current_issue: @current_issue, current_post: @current_post
-  -# Post.new(issue: @current_issue)
-
+  = render 'front/posts/post_form', current_issue: @current_issue, current_post: Post.new(issue: @current_issue)
 
   -#         - cancel_btn_data = {action: 'parti-post-cancel-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
 
@@ -206,6 +204,6 @@
   -#           = hidden_field_tag :fixed_issue_id, 'true'
   -#         = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
 
-  .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': front_channel_supplementary_path(issue_id: @current_issue, folder_id: @current_folder), 'turbolinks-permanent': true } }
+  .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder), 'turbolinks-permanent': true } }
 
 

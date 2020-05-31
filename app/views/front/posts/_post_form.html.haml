@@ -20,11 +20,10 @@
       .main
         .images{ data: { target: 'post-form.imageFileSourcesContainer' } }
           = f.fields_for :file_sources, current_post.file_sources_only_image do |ff|
-            = render 'front/new_post/file_source_field', f: ff
+            = render 'front/posts/post_form/file_source_field', f: ff
         .docs{ data: { target: 'post-form.docFileSourcesContainer' } }
           = f.fields_for :file_sources, current_post.file_sources_only_doc do |ff|
-            = render 'front/new_post/file_source_field', f: ff
-      -# TODO 수정 화면에서 전체 이미지 날리기
+            = render 'front/posts/post_form/file_source_field', f: ff
       .footer.clearfix
         .btn.btn-secondary.btn-sm{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
           + 파일 추가
@@ -39,13 +38,13 @@
         .template{ data: { target: 'post-form.fileSourceFieldTemplate' } }
           = escape_once_block do
             = f.fields_for :file_sources, FileSource.new(), child_index: 'NEW_RECORD' do |ff|
-              = render 'front/new_post/file_source_field', f: ff
+              = render 'front/posts/post_form/file_source_field', f: ff
         .template{ data: { target: 'post-form.imageFileSourcePreviewTemplate' } }
           = escape_once_block do
-            = render 'front/new_post/file_source_preview', file_source: FileSource.new(), type: :image
+            = render 'front/posts/post_form/file_source_preview', file_source: FileSource.new(), type: :image
         .template{ data: { target: 'post-form.docFileSourcePreviewTemplate' } }
           = escape_once_block do
-            = render 'front/new_post/file_source_preview', file_source: FileSource.new(), type: :doc
+            = render 'front/posts/post_form/file_source_preview', file_source: FileSource.new(), type: :doc
       .helper.text-muted
         %hr
         %span.badge.badge-secondary TIP

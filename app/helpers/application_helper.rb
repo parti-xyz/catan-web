@@ -2,8 +2,18 @@ require 'htmlentities'
 
 module ApplicationHelper
   def body_class
-    dasherized_controller_name = params[:controller].gsub(/\//, '--')
-    arr = ["app-#{dasherized_controller_name}", "app-#{dasherized_controller_name}-#{params[:action]}"]
+    arr = []
+
+    current_class_name = nil
+    params[:controller].split('/').each do |name|
+      if current_class_name.blank?
+        current_class_name = "app-#{name}"
+      else
+        current_class_name = [current_class_name, name].join('--')
+      end
+      arr << current_class_name
+    end
+    arr << "#{arr[-1]}--#{params[:action]}"
     arr << "in-parti" if @issue.present?
     if current_group.present?
       arr << "in-group"

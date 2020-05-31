@@ -14,7 +14,7 @@
         .pages
           - if @posts.current_page.present?
             페이지 #{@posts.current_page} / #{@posts.total_pages}
-      = render 'front/post_lines', posts: @posts, current_post: @current_post
+      = render 'front/posts/post_lines', posts: @posts, current_post: @current_post
     .supplementary-boxes
       - if current_group.site_description.present?
         .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "group-intro-box-#{current_group.id}" } } }

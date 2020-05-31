@@ -412,25 +412,27 @@ Rails.application.routes.draw do
   end
 
   # front
-  scope :front, controller: :front, as: :front, defaults: { namespace_slug: 'front' } do
-    root to: 'front#root'
-    get 'search', action: :search, as: :search
-    get 'channles/:issue_id', action: :channel, as: :channel
-    get 'posts/new', action: :new_post, as: :new_post
-    get 'posts/:post_id/edit', action: :edit_post, as: :edit_post
-    get 'posts/:post_id', action: :post, as: :post
-    get 'channels/:issue_id/supplementary', action: :channel_supplementary, as: :channel_supplementary
-    get :global_sidebar
-    get :channel_listings
+  namespace :front, defaults: { namespace_slug: 'front' } do
+    root to: 'pages#root'
+    get :search, to: 'pages#search' #, as: :search
+    get :group_sidebar, to: 'pages#group_sidebar'
+
+    resources :channels, only: [:show] do
+      member do
+        get :supplementary
+      end
+    end
+
+    resources :posts, only: [:show, :new, :edit]
+    resources :posts, only: [:create, :update], controller: '/posts'
 
     resources :polls, only: [] do
       shallow do
-        resources :votings, only: [:create] do
+        resources :votings, only: [:create], controller: '/votings' do
           get :users, on: :collection
         end
       end
     end
 
-    resources :posts, only: [:create, :update]
   end
 end

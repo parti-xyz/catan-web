@@ -16,7 +16,7 @@
             %span 중립
         - if poll.open?
           - if user_signed_in?
-            - btn_link_path = front_poll_votings_path(poll, voting: { choice: (poll.sured_by?(current_user, choice) ? :unsure : choice) }, view_path_after_save: view_path_after_save, format: :html)
+            - btn_link_path = front_poll_votings_path(poll_id: poll, voting: { choice: (poll.sured_by?(current_user, choice) ? :unsure : choice) }, view_path_after_save: view_path_after_save, format: :html)
             - btn_classes = ["btn -#{choice}", ('-chosen' if poll.sured_by?(current_user, choice)), ('-chosen-the-other' if poll.sured_by?(current_user))]
             = link_to btn_link_path, method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: btn_classes do
               = button_content

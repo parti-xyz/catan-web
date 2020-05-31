@@ -31,7 +31,7 @@
           .body
             - unless post.blinded?(current_user)
               .title
-                = link_to front_post_path(post_id: post.id), class: 'hover:text-primary' do
+                = link_to front_post_path(post), class: 'hover:text-primary' do
                   != post.title
             - else
               .title.-blind
