@@ -420,6 +420,7 @@ Rails.application.routes.draw do
     resources :channels, only: [:show] do
       member do
         get :supplementary
+        get :post_folder_field
       end
     end
 

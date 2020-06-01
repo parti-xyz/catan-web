@@ -1,6 +1,6 @@
 - content_for :playground_header_content do
   .channel-menu
-    .title.form-inline
+    .title.form-inline{ controller: 'select-link' }
       - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
 
       = link_to_if @current_folder.present? || search_q.present?, "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
@@ -13,13 +13,13 @@
             \/
             = @current_folder.title
             \/
-            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { controller: 'select-link', action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
           - else
             \/
-            = select_tag :folder_id, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder.id), class: 'form-control form-control-sm', data: { controller: 'select-link', action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder&.id), class: 'form-control form-control-sm', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
         - else
           \/
-          = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { controller: 'select-link', action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+          = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
       - if search_q.present?
         \/
         %span

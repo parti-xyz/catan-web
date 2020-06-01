@@ -1,5 +1,6 @@
 import { Controller } from "stimulus"
 import fillTemplate from 'es6-dynamic-template'
+import ParamMap from '../helpers/param_map'
 
 export default class extends Controller {
   go(event) {
@@ -11,6 +12,10 @@ export default class extends Controller {
       ? fillTemplate(decodeURIComponent(urlTemplate), { value })
       : urlTemplate
 
-    Turbolinks.visit(url)
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        this.element.innerHTML = html
+      })
   }
 }

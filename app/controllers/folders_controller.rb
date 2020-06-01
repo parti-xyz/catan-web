@@ -163,7 +163,7 @@ class FoldersController < ApplicationController
     else
       Folder.only_top.where(issue_id: @issue.id)
     end
-    @target_folders = @target_folders.sort_by_folder_seq
+    @target_folders = @target_folders.sort_by_default
   end
 
   def move_form
@@ -189,7 +189,7 @@ class FoldersController < ApplicationController
     else
       Folder.only_top.where(issue_id: @subject.issue_id)
     end
-    @target_folders = @target_folders.sort_by_folder_seq
+    @target_folders = @target_folders.sort_by_default
   end
 
   def move

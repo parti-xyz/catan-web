@@ -497,7 +497,7 @@ class PostsController < ApplicationController
       :location] if event.present?
 
     params.require(:post)
-      .permit(:body, :issue_id, :folder_id, :has_poll, :has_survey, :has_event,
+      .permit(:body, :base_title, :issue_id, :folder_id, :has_poll, :has_survey, :has_event,
         :is_html_body, :has_decision, :decision, (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: FileSource.require_attrbutes,
         poll_attributes: poll_attributes, survey_attributes: survey_attributes,

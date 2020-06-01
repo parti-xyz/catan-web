@@ -35,4 +35,12 @@
     font-size: bootstrap.$font-size-sm;
     margin-top: 1rem;
   }
+
+  > .form-group.folder > .link {
+    cursor: pointer;
+  }
+
+  > .form-group.folder > .link:hover {
+    text-decoration: underline;
+  }
 }

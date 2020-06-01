@@ -1,7 +1,6 @@
 class Front::ChannelsController < Front::BaseController
   def show
     @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
-    @thread_folders = Folder.threaded(@current_issue.folders)
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
 
     if !@current_issue.deleted? and !@current_issue&.private_blocked?(current_user)
@@ -42,6 +41,13 @@ class Front::ChannelsController < Front::BaseController
     @pinned_posts = @current_issue.posts.pinned
       .includes(:poll, :survey, :wiki)
       .order('pinned_at desc').load
+
+    render layout: false
+  end
+
+  def post_folder_field
+    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
 
     render layout: false
   end

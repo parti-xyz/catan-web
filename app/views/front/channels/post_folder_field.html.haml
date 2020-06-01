@@ -1,0 +1,23 @@
+- dummy_form_name = "form-#{SecureRandom.uuid}"
+- if @current_folder.blank? || @current_folder.parent.blank?
+  = select_tag dummy_form_name, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title', @current_folder&.id), include_blank: '폴더 없이', class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+- else
+  - @current_folder.ancestors.each do |folder|
+    .link{ data: { action: 'click->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: folder.id, form_field_name: params[:form_field_name]) } }
+      = folder.title
+  &nbsp;
+  \/
+  &nbsp;
+  - if @current_folder.children.any?
+    .link{ data: { action: 'click->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: @current_folder&.id, form_field_name: params[:form_field_name]) } }
+      = @current_folder.title
+  - else
+    = select_tag dummy_form_name, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder&.id), class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+
+- if @current_folder&.children&.any?
+  &nbsp;
+  \/
+  &nbsp;
+  = select_tag dummy_form_name, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '하위 폴더...', class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+
+= hidden_field_tag params[:form_field_name], @current_folder&.id
