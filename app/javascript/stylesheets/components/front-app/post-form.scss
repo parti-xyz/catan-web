@@ -8,39 +8,41 @@
     margin-bottom: 1rem;
   }
 
-  > .form-group > .filesourcesfield {
+  .filesourcesfield,
+  .pollfield {
     display: none;
     background-color: global-variables.$color-gray-200;
     padding: 1rem;
   }
 
-  > .form-group > .filesourcesfield.-active {
+  .filesourcesfield.-active,
+  .pollfield.-active {
     display: block;
   }
 
-  > .form-group > .filesourcesfield > .main > .images,
-  > .form-group > .filesourcesfield > .main > .docs {
+  .filesourcesfield > .main > .images,
+  .filesourcesfield > .main > .docs {
     margin-bottom: .5rem;
   }
 
-  > .form-group > .filesourcesfield > .footer > .counter {
+  .filesourcesfield > .footer > .counter {
     font-size: bootstrap.$font-size-sm;
   }
 
-  > .form-group > .filesourcesfield > .footer > .template {
+  .filesourcesfield > .footer > .template {
     display: none;
   }
 
-  > .form-group > .filesourcesfield > .helper {
+  .filesourcesfield > .helper {
     font-size: bootstrap.$font-size-sm;
     margin-top: 1rem;
   }
 
-  > .form-group.folder > .link {
+  > .folderfield > .link {
     cursor: pointer;
   }
 
-  > .form-group.folder > .link:hover {
+  > .folderfield > .link:hover {
     text-decoration: underline;
   }
 }

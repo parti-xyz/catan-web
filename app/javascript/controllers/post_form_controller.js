@@ -6,7 +6,11 @@ import Sortable from 'sortablejs'
 const MAX_FILE_COUNT = 20
 
 export default class extends Controller {
-  static targets = ['fileSourcesFieldGroup', 'imageFileSourcesContainer', 'docFileSourcesContainer', 'fileSourcesCounter', 'fileSourceFieldTemplate', 'imageFileSourcePreviewTemplate', 'docFileSourcePreviewTemplate', 'addFileSourceFieldButton', 'bodyField']
+  static targets = [
+    'fileSourcesFieldGroup', 'imageFileSourcesContainer', 'docFileSourcesContainer', 'fileSourcesCounter', 'fileSourceFieldTemplate', 'imageFileSourcePreviewTemplate', 'docFileSourcePreviewTemplate', 'addFileSourceFieldButton',
+    'pollFieldGroup', 'hasPollField',
+    'bodyField'
+  ]
 
   connect() {
     this.sortable = Sortable.create(this.imageFileSourcesContainerTarget)
@@ -20,6 +24,9 @@ export default class extends Controller {
     event.preventDefault()
     this.fileSourcesFieldGroupTarget.classList.add('-active')
     this.addFileSourceField(event)
+    this.fileSourcesFieldGroupTarget.scrollIntoView({
+      behavior: 'smooth'
+    })
   }
 
   closeFileSourcesFieldGroup(event) {
@@ -124,6 +131,21 @@ export default class extends Controller {
       fileSourceField.classList.add('-active')
     }
     this.fileSourceCounter()
+  }
+
+  openPollFieldGroup(event) {
+    event.preventDefault()
+    this.pollFieldGroupTarget.classList.add('-active')
+    this.hasPollFieldTarget.value = true
+    this.pollFieldGroupTarget.scrollIntoView({
+      behavior: 'smooth'
+    })
+  }
+
+  closePollFieldGroup(event) {
+    event.preventDefault()
+    this.pollFieldGroupTarget.classList.remove('-active')
+    this.hasPollFieldTarget.value = false
   }
 
   submit(event) {
