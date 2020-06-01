@@ -1,18 +1,12 @@
 - title_waypoint_toggler_uid = SecureRandom.uuid
 
 - content_for :playground_header_content do
-  .post-menu
-    - if @referrer_backable
-      = link_to 'javascript:history.back()', class: 'back' do
-        %i.fa.fa-arrow-left
-    - else
-      = link_to front_channel_path(@current_issue), class: 'back' do
-        %i.fa.fa-arrow-left
+  .channel-menu
     .title
-      .page.-active{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
-        \##{@current_issue.title} 게시물
-      .post{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
-        #{@current_post.title}
+      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+      - @current_post.folder&.ancestors_and_self&.each do |folder|
+        \/
+        = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
 
 .post-box{ data: { controller: 'channel-read-emit', 'channel-read-emit': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
   .post-main
@@ -32,7 +26,7 @@
             = date_f @current_post.created_at
         - moremenu_content = capture do
           - if can?(:update, @current_post) and @current_post.wiki.blank?
-            = link_to '수정', edit_front_post_path(@current_post), class: 'dropdown-item'
+            = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder.id), class: 'dropdown-item'
         - if moremenu_content.present?
           .moremenu
             .dropdown

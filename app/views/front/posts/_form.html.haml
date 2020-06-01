@@ -1,5 +1,6 @@
 -# TODO 저장 전에 폼 값 확인하기
 = form_with(model: [:front, current_post], local: false, html: { class: 'post-form', novalidate: true, data: { controller: 'post-form editor-form', action: "ajax:before->post-form#submit" } }) do |f|
+  = hidden_field_tag :folder_id, @current_folder&.id
   = f.hidden_field :need_remotipart, data: { target: 'post-form.remotiPartField' }
   = f.hidden_field :issue_id
   = f.hidden_field :has_poll, value: false
@@ -20,10 +21,10 @@
       .main
         .images{ data: { target: 'post-form.imageFileSourcesContainer' } }
           = f.fields_for :file_sources, current_post.file_sources_only_image do |ff|
-            = render 'front/posts/post_form/file_source_field', f: ff
+            = render 'front/posts/form/file_source_field', f: ff
         .docs{ data: { target: 'post-form.docFileSourcesContainer' } }
           = f.fields_for :file_sources, current_post.file_sources_only_doc do |ff|
-            = render 'front/posts/post_form/file_source_field', f: ff
+            = render 'front/posts/form/file_source_field', f: ff
       .footer.clearfix
         .btn.btn-secondary.btn-sm{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
           + 파일 추가
@@ -38,13 +39,13 @@
         .template{ data: { target: 'post-form.fileSourceFieldTemplate' } }
           = escape_once_block do
             = f.fields_for :file_sources, FileSource.new(), child_index: 'NEW_RECORD' do |ff|
-              = render 'front/posts/post_form/file_source_field', f: ff
+              = render 'front/posts/form/file_source_field', f: ff
         .template{ data: { target: 'post-form.imageFileSourcePreviewTemplate' } }
           = escape_once_block do
-            = render 'front/posts/post_form/file_source_preview', file_source: FileSource.new(), type: :image
+            = render 'front/posts/form/file_source_preview', file_source: FileSource.new(), type: :image
         .template{ data: { target: 'post-form.docFileSourcePreviewTemplate' } }
           = escape_once_block do
-            = render 'front/posts/post_form/file_source_preview', file_source: FileSource.new(), type: :doc
+            = render 'front/posts/form/file_source_preview', file_source: FileSource.new(), type: :doc
       .helper.text-muted
         %hr
         %span.badge.badge-secondary TIP

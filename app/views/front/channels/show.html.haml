@@ -36,7 +36,7 @@
           = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-outline-primary btn-sm' do
             %i.fa.fa-pencil
             글쓰기
-      = render 'front/posts/post_lines', posts: @posts, current_post: @current_post, current_channel: @current_issue
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_channel: @current_issue
     .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
 
 - else

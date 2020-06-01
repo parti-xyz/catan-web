@@ -1,17 +1,13 @@
 - content_for :playground_header_content do
-  .post-menu
-    - if @referrer_backable
-      = link_to :back, class: 'back' do
-        %i.fa.fa-arrow-left
-    - else
-      = link_to front_channel_path(@current_issue), class: 'back' do
-        %i.fa.fa-arrow-left
+  .channel-menu
     .title
-      .page.-active
-        \##{@current_issue.title} 글쓰기
+      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+      - @current_post.folder&.ancestors_and_self&.each do |folder|
+        \/
+        = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
 
 .post-form-box
-  = render 'front/posts/post_form', current_issue: @current_issue, current_post: @current_post
+  = render 'front/posts/form', current_issue: @current_issue, current_post: @current_post
 
   -#         - cancel_btn_data = {action: 'parti-post-cancel-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
 

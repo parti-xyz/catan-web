@@ -6,13 +6,6 @@ class Front::PostsController < Front::BaseController
     @current_issue = Issue.with_deleted.find(@current_post.issue_id)
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
-    @referrer_backable = request.referer.present? &&
-      (request.domain.end_with?(Addressable::URI.parse(request.referer).domain) ||
-      Addressable::URI.parse(request.referer).domain.end_with?(request.domain)) &&
-      (Addressable::URI.parse(request.referer).path != front_post_path(@current_post, folder_id: @current_folder) &&
-      (session[:front_last_visited_post_id].blank? ||
-      Addressable::URI.parse(request.referer).path != front_post_path(id: session[:front_last_visited_post_id], folder_id: @current_folder)))
-
     if user_signed_in?
       @current_post.read!(@current_user)
       @current_issue.read_if_no_unread_posts!(@current_user)
@@ -25,9 +18,6 @@ class Front::PostsController < Front::BaseController
   def new
     @current_issue = Issue.with_deleted.find(params[:issue_id])
     @current_folder = @current_issue.folders.find_by(id: params[:folder_id])
-
-    @referrer_backable = request.referer.present? &&
-      URI(request.referer).path == front_channel_path(@current_issue)
   end
 
   def edit

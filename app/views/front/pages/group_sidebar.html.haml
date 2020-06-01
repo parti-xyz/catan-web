@@ -5,7 +5,7 @@
       - @issues.each do |issue|
         - threaded_folders = Folder.threaded(issue.folders)
         %li.channel-line{ data: { controller: ('content-collapse' if threaded_folders.any?), 'content-collapse': { 'id': "folder-lines-channel-#{issue.id}", 'force': (issue == @current_issue ? 'show' : 'hide') } } }
-          = link_to front_channel_path(issue), class: ['link', ('-active' if issue == @current_issue && @current_folder.blank?) ], data: { action: 'click->collection-activation#toggle click->content-collapse#toggle group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-collapse#show group-sidebar-collapse-hide->content-collapse#hide', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
+          = link_to front_channel_path(issue), class: ['link', ('-active' if issue == @current_issue && @current_folder.blank?) ], data: { action: 'click->collection-activation#toggle click->content-collapse#show group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-collapse#show group-sidebar-collapse-hide->content-collapse#hide', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
             .title
               %span.hash #
               %span<> #{issue.title}
