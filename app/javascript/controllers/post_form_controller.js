@@ -9,7 +9,9 @@ export default class extends Controller {
   static targets = [
     'fileSourcesFieldGroup', 'imageFileSourcesContainer', 'docFileSourcesContainer', 'fileSourcesCounter', 'fileSourceFieldTemplate', 'imageFileSourcePreviewTemplate', 'docFileSourcePreviewTemplate', 'addFileSourceFieldButton',
     'pollFieldGroup', 'hasPollField',
-    'bodyField'
+    'surveyFieldGroup', 'hasSurveyField', 'surveyOptionTemplate', 'surveyOptions',
+    'bodyField',
+    'fileSourcesOpenButton', 'pollOpenButton', 'surveyOpenButton'
   ]
 
   connect() {
@@ -18,6 +20,8 @@ export default class extends Controller {
     this.fileSourceFieldTemplate = this.fileSourceFieldTemplateTarget.textContent
     this.imageFileSourcePreviewTemplate = this.imageFileSourcePreviewTemplateTarget.textContent
     this.docFileSourcePreviewTemplate = this.docFileSourcePreviewTemplateTarget.textContent
+
+    this.surveyOptionTemplate = this.surveyOptionTemplateTarget.textContent
   }
 
   openFileSourcesFieldGroup(event) {
@@ -140,12 +144,42 @@ export default class extends Controller {
     this.pollFieldGroupTarget.scrollIntoView({
       behavior: 'smooth'
     })
+
+    this.surveyOpenButtonTarget.classList.remove('-active')
   }
 
   closePollFieldGroup(event) {
     event.preventDefault()
     this.pollFieldGroupTarget.classList.remove('-active')
     this.hasPollFieldTarget.value = false
+
+    this.surveyOpenButtonTarget.classList.add('-active')
+  }
+
+  openSurveyFieldGroup(event) {
+    event.preventDefault()
+    this.surveyFieldGroupTarget.classList.add('-active')
+    this.hasSurveyFieldTarget.value = true
+    this.surveyFieldGroupTarget.scrollIntoView({
+      behavior: 'smooth'
+    })
+
+    this.pollOpenButtonTarget.classList.remove('-active')
+  }
+
+  closeSurveyFieldGroup(event) {
+    event.preventDefault()
+    this.surveyFieldGroupTarget.classList.remove('-active')
+    this.hasSurveyFieldTarget.value = false
+
+    this.pollOpenButtonTarget.classList.add('-active')
+  }
+
+  addSurveyOptionField(event) {
+    event.preventDefault()
+
+    const content = this.surveyOptionTemplate.replace(/NEW_RECORD/g, new Date().getTime())
+    this.surveyOptionsTarget.insertAdjacentHTML('beforeend', content)
   }
 
   submit(event) {

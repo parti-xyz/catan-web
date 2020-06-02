@@ -1,0 +1,5 @@
+.optionfield.input-group
+  = f.text_field :body, { class: 'form-control' }.merge(local_assigns[:input_data] || {})
+  - unless local_assigns[:static]
+    = link_to_remove_association f, class: 'input-group-addon cursor-pointer' do
+      &times;

@@ -9,14 +9,24 @@
   }
 
   .filesourcesfield,
-  .pollfield {
+  .pollfield,
+  .surveyfield {
     display: none;
     background-color: global-variables.$color-gray-200;
     padding: 1rem;
   }
 
+  .filesourcesfield > .header,
+  .pollfield > .header,
+  .surveyfield > .header {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: global-variables.$color-gray-600;
+  }
+
   .filesourcesfield.-active,
-  .pollfield.-active {
+  .pollfield.-active,
+  .surveyfield.-active {
     display: block;
   }
 
@@ -29,7 +39,8 @@
     font-size: bootstrap.$font-size-sm;
   }
 
-  .filesourcesfield > .footer > .template {
+  .filesourcesfield > .footer > .template,
+  .surveyfield > .main > .template {
     display: none;
   }
 
@@ -44,5 +55,17 @@
 
   > .folderfield > .link:hover {
     text-decoration: underline;
+  }
+
+  > .surveyfield > .main > .form-group > .optionfields > .optionfield {
+    margin-bottom: .25rem;
+  }
+
+  > .gadgetcontrol > .btn {
+    display: none;
+  }
+
+  > .gadgetcontrol > .btn.-active {
+    display: inline-block;
   }
 }
