@@ -32,7 +32,7 @@ const buildMenuItems = (schema) => {
     })
   }
   if (type = schema.marks.underline) {
-    r.toggleStrike = markItem(type, {
+    r.toggleUnderline = markItem(type, {
       title: "밑줄",
       icon: iconByClassName("fa fa-underline"),
     })
@@ -137,7 +137,7 @@ const buildMenuItems = (schema) => {
     label: "스타일",
   })
 
-  return [[r.typeMenu, r.toggleStrong, r.toggleEm, r.toggleStrike], [r.wrapBulletList, r.wrapOrderedList, r.liftList, r.sinkList, r.joinUp], [r.wrapBlockQuote, r.link, r.insertImage, r.insertHorizontalRule], [r.undo, r.redo]]
+  return [[r.typeMenu, r.toggleStrong, r.toggleEm, r.toggleStrike, r.toggleUnderline], [r.wrapBulletList, r.wrapOrderedList, r.liftList, r.sinkList, r.joinUp], [r.wrapBlockQuote, r.link, r.insertImage, r.insertHorizontalRule], [r.undo, r.redo]]
 }
 
 function cmdItem(cmd, options) {
