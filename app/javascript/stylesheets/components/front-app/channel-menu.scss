@@ -3,12 +3,40 @@
 
 .front-app .channel-menu {
   > .title {
-    display: inline-block;
+    display: flex;
     color: global-variables.$color-voodoo-400;
     font-weight: 900;
     line-height: front-variables.$header-height;
   }
-  > .title > .link:hover {
+
+  > .title > .node + .node {
+    margin-left: 0.25rem;
+  }
+  > .title > .node {
+    flex: none;
+    display: inline-block;
+  }
+  > .title > .node:last-child:not(.fix) {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  > .title > .node.link:hover {
     text-decoration: underline;
+  }
+  > .title > .node.post {
+    display: none;
+  }
+  > .title > .node.post.-active {
+    display: inline-block;
+    margin-right: 4rem;
+    color: global-variables.$color-brand-primary;
+  }
+  > .title > .node.delimiter {
+  display: none;
+  }
+  > .title > .node.delimiter.-active {
+  display: inline-block;
   }
 }

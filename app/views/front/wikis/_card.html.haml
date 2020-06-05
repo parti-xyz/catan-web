@@ -1,0 +1,21 @@
+- is_full = (params[:full].present? ? params[:full] == 'true' : current_wiki.too_short?)
+.body{ class: ('-full' if is_full), data: { controller: 'content-replacement' } }
+  .article
+    .brightness
+      - if is_full
+        != current_wiki.body
+      - else
+        != smart_truncate_html(current_wiki.body, length: 1000)
+  - unless is_full
+    = link_to '', card_front_wiki_path(current_wiki, full: 'true'), remote: true, data: { target: 'content-replacement.link' }, class: 'shadow'
+  .buttons
+    - if is_full
+      - unless current_wiki.too_short?
+        = link_to card_front_wiki_path(current_wiki, full: 'false'), remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-light btn-sm' do
+          접어보기
+    - else
+      = link_to card_front_wiki_path(current_wiki, full: 'true'), remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-light btn-sm' do
+        펼쳐보기
+    - if can?(:update, current_wiki) && current_wiki.active?
+      = link_to edit_front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-primary btn-sm', data: { 'turbolinks-action': 'replace' } do
+        편집

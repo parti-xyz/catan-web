@@ -1,14 +1,34 @@
 - content_for :playground_header_content do
   .channel-menu
     .title
-      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link node'
       - @current_post.folder&.ancestors_and_self&.each do |folder|
-        \/
-        = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
+        .node /
+        = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link node'
 
 .post-form-box
-  = render 'front/posts/form', current_issue: @current_issue, current_post: @current_post
-
+  - if @current_post.wiki.blank?
+    = render 'front/posts/form', current_issue: @current_issue, current_post: @current_post
+  - else
+    = form_with(model: [:wiki, :front, @current_post], local: false, html: { class: 'post-form', novalidate: true, data: { controller: 'wiki-form editor-form', action: 'ajax:before->wiki-form#submit' } }) do |f|
+      = f.hidden_field :has_poll, value: false
+      = f.hidden_field :has_survey, value: false
+      - if @current_post.wiki.persisted?
+        = hidden_field_tag :last_wiki_history_id, @current_post.wiki.wiki_histories.last.try(:id)
+      - controls = capture do
+        - if @current_post.wiki.active?
+          .submitbox
+            = f.submit '저장', class: 'btn btn-primary', data: { disable_with: "저장 중..." }
+            = link_to '닫기', front_post_path(@current_post, params.permit(:folder_id)), class: 'btn btn-light', data: { 'turbolinks-action': 'replace' }
+      = f.fields_for :wiki do |ff|
+        = controls if @current_post.wiki.too_long?
+        .post-wiki
+          .body.-full
+            = ff.text_area :title, placeholder: '제목을 넣어주세요...', class: 'form-control form-cotrol-lg formtitle', rows: 1, maxlength: 50
+            = ff.hidden_field :body, data: { target: 'wiki-form.bodyField' }
+            %div{ style: 'display: none', data: { target: 'editor-form.source' } }
+              != ff.object.body
+        = controls
   -#         - cancel_btn_data = {action: 'parti-post-cancel-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
 
   -#     .form-widget-extra

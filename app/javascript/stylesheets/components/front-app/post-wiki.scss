@@ -1,0 +1,53 @@
+@use '../../global-variables';
+@use '../../mixin';
+
+.front-app .post-wiki {
+  > .body > .article > .brightness {
+    @include mixin.editor-content;
+  }
+  > .body {
+    background-color: global-variables.$color-gray-100;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid global-variables.$color-gray-300;
+    border-bottom: 1px solid global-variables.$color-gray-300;
+    position: relative;
+    max-height: 260px;
+    overflow: hidden;
+  }
+  > .body.-full {
+    max-height: initial;
+  }
+  > .body > .article {
+    background-color: white;
+    box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.5);
+    border-top: solid 1px global-variables.$color-gray-200;
+    padding: 1rem;
+  }
+  > .body.-full > .article {
+    padding-bottom: 2.5rem;
+  }
+  > .body > .shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 0px -40px 50px 0px rgba(255,255,255,0.9) !important;
+    -webkit-box-shadow: inset 0px -40px 50px 0px rgba(255,255,255,0.9) !important;
+    top: 0;
+    left: 0;
+  }
+  > .body > .buttons {
+    position: absolute;
+    bottom: 14px;
+    right: 32px;
+    z-index: 3;
+  }
+  > .body > .buttons > .btn + .btn {
+    margin-left: .25rem;
+  }
+
+  > .body > .formtitle {
+    margin-bottom: 1rem;
+  }
+}

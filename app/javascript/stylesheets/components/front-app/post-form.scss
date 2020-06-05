@@ -8,43 +8,55 @@
     margin-bottom: 1rem;
   }
 
-  .filesourcesfield,
-  .pollfield,
-  .surveyfield {
+  > .submitbox + .post-wiki {
+    margin-top: 1rem;
+  }
+
+  > .post-wiki + .submitbox {
+    margin-top: 1rem;
+  }
+
+  > .submitbox {
+    text-align: right;
+  }
+
+  > .filesourcesfield,
+  > .pollfield,
+  > .surveyfield {
     display: none;
     background-color: global-variables.$color-gray-200;
     padding: 1rem;
   }
 
-  .filesourcesfield > .header,
-  .pollfield > .header,
-  .surveyfield > .header {
+  > .filesourcesfield > .header,
+  > .pollfield > .header,
+  > .surveyfield > .header {
     margin-bottom: 1rem;
     font-weight: bold;
     color: global-variables.$color-gray-600;
   }
 
-  .filesourcesfield.-active,
-  .pollfield.-active,
-  .surveyfield.-active {
+  > .filesourcesfield.-active,
+  > .pollfield.-active,
+  > .surveyfield.-active {
     display: block;
   }
 
-  .filesourcesfield > .main > .images,
-  .filesourcesfield > .main > .docs {
+  > .filesourcesfield > .main > .images,
+  > .filesourcesfield > .main > .docs {
     margin-bottom: .5rem;
   }
 
-  .filesourcesfield > .footer > .counter {
+  > .filesourcesfield > .footer > .counter {
     font-size: bootstrap.$font-size-sm;
   }
 
-  .filesourcesfield > .footer > .template,
-  .surveyfield > .main > .template {
+  > .filesourcesfield > .footer > .template,
+  > .surveyfield > .main > .template {
     display: none;
   }
 
-  .filesourcesfield > .helper {
+  > .filesourcesfield > .helper {
     font-size: bootstrap.$font-size-sm;
     margin-top: 1rem;
   }

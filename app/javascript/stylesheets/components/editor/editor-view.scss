@@ -175,9 +175,9 @@ body.-pack {
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
     position: relative;
-    min-height: 1em;
+    min-height: 1rem;
     color: global-variables.$color-gray-600;
-    padding: 1px 6px;
+    padding: .5rem;
     top: 0; left: 0; right: 0;
     border-bottom: 1px solid global-variables.$color-gray-400;
     background: white;

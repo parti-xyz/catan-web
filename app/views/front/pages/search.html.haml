@@ -2,9 +2,10 @@
   .channel-menu
     .title.form-inline
       - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
-      %span
+      .node
         전체 채널
-        \/
+      .node /
+      .node
         %i.fa.fa-search
         = search_q
 - if @posts.any?

@@ -425,8 +425,17 @@ Rails.application.routes.draw do
     end
 
     resources :posts, only: [:show, :new, :edit]
-    resources :posts, only: [:create, :update], controller: '/posts'
+    resources :posts, only: [:create, :update], controller: '/posts' do
+      member do
+        patch 'wiki', to: '/posts#update_wiki'
+      end
+    end
 
+    resources :wikis do
+      member do
+        get :card
+      end
+    end
     resources :polls, only: [] do
       shallow do
         resources :votings, only: [:create], controller: '/votings' do

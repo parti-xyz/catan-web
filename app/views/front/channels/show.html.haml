@@ -1,30 +1,34 @@
 - content_for :playground_header_content do
   .channel-menu
-    .title.form-inline{ controller: 'select-link' }
+    .title.form-inline{ data: { controller: 'select-link' } }
       - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
 
-      = link_to_if @current_folder.present? || search_q.present?, "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+      - if @current_folder.present? || search_q.present?
+        = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link node'
+      - else
+        .link.node # #{@current_issue.title}
       - if @current_issue.folders.any?
         - if @current_folder.present?
           - @current_folder.ancestors.each do |folder|
-            \/
-            = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
+            .node /
+            = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link node'
           - if @current_folder.children.any?
-            \/
-            = @current_folder.title
-            \/
-            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+            .node /
+            .node= @current_folder.title
+            .node /
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
           - else
-            \/
-            = select_tag :folder_id, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder&.id), class: 'form-control form-control-sm', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+            .node /
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder&.id), class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
         - else
-          \/
-          = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+          .node /
+          = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
       - if search_q.present?
-        \/
-        %span
+        .node /
+        %span.node
           %i.fa.fa-search
           = search_q
+
 - if @posts.any?
   .channel-box
     .post-lines-box

@@ -3,6 +3,7 @@ class Wiki < ApplicationRecord
   include AutoLinkableBody
 
   has_one :post, dependent: :nullify
+  has_one :issue, through: :post
   has_many :wiki_histories, dependent: :destroy
   has_one :last_wiki_history, -> { order(created_at: :desc) }, class_name: 'WikiHistory'
   belongs_to :last_author, class_name: "User", foreign_key: :last_author_id, optional: true
@@ -180,5 +181,13 @@ class Wiki < ApplicationRecord
 
   def sanitize_html text
     HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
+  end
+
+  def too_short?
+    self.body_striped_tags.try(:length) < 400
+  end
+
+  def too_long?
+    self.body_striped_tags.try(:length) > 2000
   end
 end

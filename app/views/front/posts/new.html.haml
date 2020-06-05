@@ -1,7 +1,7 @@
 - content_for :playground_header_content do
   .channel-menu
     .title
-      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link node'
 
 .post-form-box
   = render 'front/posts/form', current_issue: @current_issue, current_post: Post.new(issue: @current_issue)
