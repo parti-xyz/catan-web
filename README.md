@@ -305,3 +305,4 @@ $ rails tmp:cache:clear
   * #DPRECATE 삭제
   * 앱에서 다운로드 테스트 필요
   * frontable 채널의 경우 front로 redirect하기
+* 사용하지 않는 필드: wiki.last_author

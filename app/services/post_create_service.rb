@@ -31,6 +31,7 @@ class PostCreateService
     return false unless @post.save
 
     @post.read!(@current_user)
+    StrokedPostUserJob.perform_async(@post.id)
     @post.issue.strok_by!(@current_user, @post)
     @post.issue.deprecated_read_if_no_unread_posts!(@current_user)
     crawling_after_creating_post

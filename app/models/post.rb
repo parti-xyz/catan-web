@@ -90,6 +90,7 @@ class Post < ApplicationRecord
   has_one :post_searchable_index, dependent: :destroy, autosave: true
   has_one :front_wiki_group, dependent: :nullify,  class_name: "Group", foreign_key: :front_wiki_post_id
   has_many :post_readers, dependent: :destroy
+  has_many :stroked_post_users, dependent: :destroy
 
   belongs_to :last_stroked_user, class_name: "User", optional: true
   accepts_nested_attributes_for :link_source
@@ -491,6 +492,8 @@ class Post < ApplicationRecord
   end
 
   def strok_by(someone, subject = nil)
+    StrokedPostUserJob.perform_async(self.id) if self.id.present?
+
     self.last_stroked_at = DateTime.now
     self.last_stroked_user = (someone || self.user)
     self.last_stroked_for = subject
@@ -499,6 +502,7 @@ class Post < ApplicationRecord
 
   def strok_by!(someone, subject = nil)
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id, last_stroked_for: subject)
+    StrokedPostUserJob.perform_async(self.id)
   end
 
   def last_stroked_activity(with_creation = false, &block)

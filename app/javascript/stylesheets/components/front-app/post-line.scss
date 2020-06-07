@@ -57,33 +57,50 @@
     color: global-variables.$color-gray-600;
     font-size: bootstrap.$font-size-xs;
   }
-  > .counts {
+
+  > .footer {
     flex: none;
     min-width: 20%;
-    font-size: bootstrap.$font-size-xs;
     margin-left: 2em;
-    color: global-variables.$color-gray-600;
-    text-align: right;
   }
-  > .counts > .upvotes {
+
+  > .footer > .counts {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
+  }
+  > .footer > .counts > .upvotes {
     display: inline-block;
     width: 4em;
     margin-right: 1em;
     text-align: left;
   }
-  > .counts > .comments {
+  > .footer > .counts > .comments {
     display: inline-block;
     width: 4em;
     text-align: left;
   }
-  > .counts > .upvotes > .fa,
-  > .counts > .comments > .fa {
+  > .footer > .counts > .upvotes > .fa,
+  > .footer > .counts > .comments > .fa {
     margin-right: 0.25em;
   }
-  > .counts > .upvotes.-active {
+  > .footer > .counts > .upvotes.-active {
     color: global-variables.$color-brand-primary;
   }
-  > .counts > .comments.-active {
+  > .footer > .counts > .comments.-active {
     color: global-variables.$color-brand-primary;
+  }
+
+  > .footer > .strokedusers > .userimage {
+    flex: none;
+    vertical-align: bottom;
+    display: inline-block;
+  }
+  > .footer > .strokedusers > .userimage > .userimagebg {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    border: 1px solid white;
+    background-position: center;
+    background-size: cover;
   }
 }

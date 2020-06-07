@@ -32,11 +32,17 @@
               - post.folder.ancestors_and_self.each do |folder|
                 \/
                 = link_to folder.title, front_channel_path(post.issue, folder_id: folder.id), class: 'link'
-      .counts
-        %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
-          %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
-          = post.upvotes_count
-        %span.comments{ class: ('-active' if post.commented_by_me?) }
-          %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
-          = post.comments_count
+      .footer
+        .counts
+          %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
+            %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+            = post.upvotes_count
+          %span.comments{ class: ('-active' if post.commented_by_me?) }
+            %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
+            = post.comments_count
+        .strokedusers
+          - post.stroked_post_users.limit(6).recent.each do |stroked_post_user|
+            - user = stroked_post_user.user
+            = link_to smart_user_gallery_url(user), class: 'userimage' do
+              .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
 = paginate posts, theme: 'catan'

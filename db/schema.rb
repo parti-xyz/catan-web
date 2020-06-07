@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_085725) do
+ActiveRecord::Schema.define(version: 2020_06_07_021154) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -677,6 +677,15 @@ ActiveRecord::Schema.define(version: 2020_05_06_085725) do
     t.integer "posts_count", null: false
     t.integer "comments_count", null: false
     t.integer "upvotes_count", null: false
+  end
+
+  create_table "stroked_post_users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_stroked_post_users_on_post_id"
+    t.index ["user_id"], name: "index_stroked_post_users_on_user_id"
   end
 
   create_table "summary_emails", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
