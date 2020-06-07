@@ -4,6 +4,6 @@ class Front::WikisController < Front::BaseController
       .includes(:issue, :post )
       .find(params[:id])
 
-    render layout: nil
+    render partial: 'front/wikis/card', locals: { current_wiki: @current_wiki }, layout: nil
   end
 end

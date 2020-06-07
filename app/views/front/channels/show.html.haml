@@ -16,13 +16,13 @@
             .node /
             .node= @current_folder.title
             .node /
-            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '전체 보기...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
           - else
             .node /
             = select_tag :folder_id, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder&.id), class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
         - else
           .node /
-          = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+          = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '전체 보기...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
       - if search_q.present?
         .node /
         %span.node
@@ -37,9 +37,14 @@
           - if @posts.current_page.present?
             페이지 #{@posts.current_page} / #{@posts.total_pages}
         .edit
-          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-outline-primary btn-sm' do
-            %i.fa.fa-pencil
-            글쓰기
+          - if @current_issue.postable?(current_user)
+            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-outline-primary btn-sm' do
+              %i.fa.fa-pencil
+              글쓰기
+            &nbsp;
+            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-outline-primary btn-sm' do
+              %i.fa.fa-file-word-o
+              위키쓰기
       = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_channel: @current_issue
     .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
 

@@ -32,9 +32,8 @@ class Ability
 
       can [:pinned, :new], [Post]
       can [:update, :destroy, :move_to_issue, :move_to_issue_form], [Post], user_id: user.id
-      can [:create], [Post] do |post|
-        post.issue.present? and post.issue.try(:postable?, user)
-      end
+      can [:create], [Post]
+
       can [:edit_folder, :update_folder, :update_title], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end

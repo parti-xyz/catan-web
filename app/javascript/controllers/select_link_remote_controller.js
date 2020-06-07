@@ -7,11 +7,8 @@ export default class extends Controller {
     const urlTemplate = new ParamMap(this, event.currentTarget).get('urlTemplate')
     if (!urlTemplate) return
 
-    const value = event.currentTarget.value
-    const url = value
-      ? fillTemplate(decodeURIComponent(urlTemplate), { value })
-      : urlTemplate
-
+    const value = event.currentTarget.value || ''
+    const url = fillTemplate(decodeURIComponent(urlTemplate), { value })
     fetch(url)
       .then(response => response.text())
       .then(html => {

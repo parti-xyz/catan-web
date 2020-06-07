@@ -136,7 +136,7 @@ class Wiki < ApplicationRecord
   end
 
   def conflict?
-    conflicted_body.present? or conflicted_title.present?
+    conflicted_body.present? #or conflicted_title.present?
   end
 
   def active?

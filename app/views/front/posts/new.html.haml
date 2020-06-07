@@ -4,7 +4,10 @@
       = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link node'
 
 .post-form-box
-  = render 'front/posts/form', current_issue: @current_issue, current_post: Post.new(issue: @current_issue)
+  - if params[:type] != 'wiki'
+    = render 'front/posts/form', current_issue: @current_issue, current_post: Post.new(issue: @current_issue), current_folder: @current_folder
+  - else
+    = render 'front/wikis/form', current_issue: @current_issue, current_folder: @current_folder, current_wiki: Wiki.new(post: Post.new(issue: @current_issue))
 
   -#         - cancel_btn_data = {action: 'parti-post-cancel-subform', 'has-poll': '#post_has_poll', 'has-survey': '#post_has_survey', 'has-event': '#post_has_event', 'file_sources': "##{form_dom_id} .js-post-editor-file_sources-wrapper .nested-fields"}
 

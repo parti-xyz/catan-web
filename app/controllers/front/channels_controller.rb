@@ -47,7 +47,18 @@ class Front::ChannelsController < Front::BaseController
 
   def post_folder_field
     @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
-    @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
+
+    if params[:folder_id].present?
+      if params[:folder_id].starts_with?('new#')
+        parent_id = params[:folder_id].gsub(/new#/, '')
+        if parent_id.present?
+          @parent_folder = @current_issue.folders.to_a.find{ |f| f.id == parent_id.to_i }
+        end
+        @new_form = true
+      end
+    end
+
+    @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i }
 
     render layout: false
   end

@@ -1,0 +1,7 @@
+(function(){
+  var doc = document.implementation.createHTMLDocument('response');
+  doc.documentElement.innerHTML = "#{ActionController::Base.helpers.j(html)}";
+  document.documentElement.replaceChild(doc.body, document.body);
+  Turbolinks.dispatch('turbolinks:load');
+  window.scroll(0, 0);
+})();

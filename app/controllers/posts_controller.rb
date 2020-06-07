@@ -16,6 +16,10 @@ class PostsController < ApplicationController
       render_404 and return
     end
 
+    unless fetch_issue.postable? current_user
+      render_403 and return
+    end
+
     if 'true' == params[:need_remotipart] and !remotipart_submitted?
       Rails.logger.info "DOUBLE REMOTIPART!!"
       head 200 and return
@@ -25,18 +29,28 @@ class PostsController < ApplicationController
     unless service.call
       if params[:namespace_slug] == 'front'
         errors_to_flash(@post)
+        render_500 and return
       else
         deprecated_errors_to_flash(@post)
       end
     end
 
-    if @post.errors.blank?
-      flash[:success] = I18n.t('activerecord.successful.messages.created')
-    end
 
     if params[:namespace_slug] == 'front'
-      redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      if @post.errors.blank?
+        flash[:notice] = I18n.t('activerecord.successful.messages.created')
+      end
+
+      if @post.wiki.blank?
+        redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      else
+        render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
+      end
     else
+      if @post.errors.blank?
+        flash[:success] = I18n.t('activerecord.successful.messages.created')
+      end
+
       back_url = params[:back_url].presence || smart_post_url(@post)
       if params[:fixed_issue_id] == 'true'
         @current_issue = @post.issue
@@ -85,7 +99,7 @@ class PostsController < ApplicationController
     else
       if params[:namespace_slug] == 'front'
         errors_to_flash(@post)
-        redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+        render_500
       else
         deprecated_errors_to_flash(@post)
         render 'posts/edit'
@@ -185,30 +199,51 @@ class PostsController < ApplicationController
 
       if conflict
         @post.wiki.build_conflict
-        respond_to do |format|
-          format.html { render :show }
-          format.js { render 'posts/update_wiki' }
+        if params[:namespace_slug] == 'front'
+          flash[:alert] = t('activerecord.successful.messages.conflicted_wiki')
+          render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
+        else
+          respond_to do |format|
+            format.html { render :show }
+            format.js { render 'posts/update_wiki' }
+          end
         end
       elsif @post.save
         @post.issue.strok_by!(current_user, @post)
         @post.issue.deprecated_read_if_no_unread_posts!(current_user)
-        flash[:success] = I18n.t('activerecord.successful.messages.created')
-        respond_to do |format|
-          format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
-          format.js { render 'posts/update_wiki' }
+
+        if params[:namespace_slug] == 'front'
+          flash[:notice] = I18n.t('activerecord.successful.messages.created')
+          render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
+        else
+          flash[:success] = I18n.t('activerecord.successful.messages.created')
+          respond_to do |format|
+            format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
+            format.js { render 'posts/update_wiki' }
+          end
         end
       else
-        deprecated_errors_to_flash @post
-        respond_to do |format|
-          format.html { render :show }
-          format.js { render 'application/show_flash' }
+        if params[:namespace_slug] == 'front'
+          errors_to_flash(@post)
+          render_500 and return
+        else
+          deprecated_errors_to_flash @post
+          respond_to do |format|
+            format.html { render :show }
+            format.js { render 'application/show_flash' }
+          end
         end
       end
     else
-      flash[:success] = I18n.t('activerecord.successful.messages.created')
-      respond_to do |format|
-        format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
-        format.js { render 'application/show_flash' }
+      if params[:namespace_slug] == 'front'
+        flash[:notice] = I18n.t('activerecord.successful.messages.created')
+        head 200 and return
+      else
+        flash[:success] = I18n.t('activerecord.successful.messages.created')
+        respond_to do |format|
+          format.html { redirect_to params[:back_url].presence || smart_post_url(@post) }
+          format.js { render 'application/show_flash' }
+        end
       end
     end
   end
@@ -510,7 +545,7 @@ class PostsController < ApplicationController
     wiki_attributes = [:title, :body, :is_html_body] if wiki.present?
 
     params.require(:post)
-      .permit(:has_poll, :has_survey, :has_event,
+      .permit(:has_poll, :has_survey, :has_event, :folder_id,
         wiki_attributes: wiki_attributes)
   end
 

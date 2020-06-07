@@ -64,6 +64,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_500
+    return if self.performed?
+    respond_to do |format|
+      format.html { render file: "#{Rails.root}/public/500.html", layout: false, status: 403 }
+      format.js { head 500 }
+    end
+  end
+
   def prepare_meta_tags(options={})
     set_meta_tags build_meta_options(options)
   end

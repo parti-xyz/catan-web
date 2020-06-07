@@ -1,23 +1,55 @@
 - dummy_form_name = "form-#{SecureRandom.uuid}"
-- if @current_folder.blank? || @current_folder.parent.blank?
-  = select_tag dummy_form_name, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title', @current_folder&.id), include_blank: '폴더 없이', class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+%label
+  폴더
+  &nbsp;
+
+- if @new_form
 - else
-  - @current_folder.ancestors.each do |folder|
-    .link{ data: { action: 'click->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: folder.id, form_field_name: params[:form_field_name]) } }
-      = folder.title
-  &nbsp;
-  \/
-  &nbsp;
-  - if @current_folder.children.any?
-    .link{ data: { action: 'click->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: @current_folder&.id, form_field_name: params[:form_field_name]) } }
-      = @current_folder.title
+  - if @current_folder.blank? || @current_folder.parent.blank?
+    - options = capture do
+      %option{ value: '', disabled: true } #{'-'*5}
+      = options_from_collection_for_select(@current_issue.top_folders, 'id', 'title', @current_folder&.id)
+      - if @current_folder.present?
+        %option{ value: '', disabled: true } #{'-'*5}
+        %optgroup{ label: "\"#{@current_folder.title}\" 폴더 관리" }
+          %option{ value: '' } 수정
+          %option{ value: '' } 삭제
+      %option{ value: '', disabled: true } #{'-'*5}
+      %option{ value: 'new#' } 새로 만들기
+
+    = select_tag dummy_form_name, raw(options), include_blank: ' 없음', class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+
   - else
-    = select_tag dummy_form_name, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder&.id), class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+    - current_parent_folder = nil
+    - @current_folder.ancestors_and_self.each do |folder|
+      - if current_parent_folder.present?
+        &nbsp;
+        \/
+        &nbsp;
+      - options = capture do
+        - if current_parent_folder.present?
+          %option{ value: current_parent_folder.id } 하위 폴더...
+          %option{ value: '', disabled: true } #{'-'*5}
+        = options_from_collection_for_select(folder.siblings, 'id', 'title', folder.id)
+        %optgroup{ label: "#{folder.title} 관리" }
+          %option{ value: '' } 수정
+          %option{ value: '' } 삭제
+        %option{ value: '', disabled: true } #{'-'*5}
+        %option{ value: "new##{current_parent_folder&.id}" } 새로 만들기
+      = select_tag dummy_form_name, raw(options), class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
 
-- if @current_folder&.children&.any?
-  &nbsp;
-  \/
-  &nbsp;
-  = select_tag dummy_form_name, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '하위 폴더...', class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+      - current_parent_folder = folder
 
-= hidden_field_tag params[:form_field_name], @current_folder&.id
+  - if @current_folder&.children&.any?
+    &nbsp;
+    \/
+    &nbsp;
+    - options = capture do
+      %option{ value: @current_folder.id } 하위 폴더...
+      %option{ value: '', disabled: true } #{'-'*5}
+      = options_from_collection_for_select(@current_folder.children, 'id', 'title')
+      %option{ value: '', disabled: true } #{'-'*5}
+      %option{ value: "new##{@current_folder&.id}" } 새로 만들기
+    = select_tag dummy_form_name, raw(options), class: 'form-control form-control-sm', data: { action: 'change->select-link-remote#go', 'select-link-remote-url-template': post_folder_field_front_channel_path(@current_issue, folder_id: "${value}", form_field_name: params[:form_field_name]) }
+
+  = hidden_field_tag params[:form_field_name], @current_folder&.id

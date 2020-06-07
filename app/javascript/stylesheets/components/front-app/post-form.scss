@@ -1,5 +1,6 @@
 @use '../../global-variables';
 @use '../../bootstrap';
+@use '../../mixin';
 
 .front-app .post-form {
   overflow-x: hidden;
@@ -79,5 +80,9 @@
 
   > .gadgetcontrol > .btn.-active {
     display: inline-block;
+  }
+
+  > .conflictinfo .conflictlegend {
+    @include mixin.editor-content;
   }
 }

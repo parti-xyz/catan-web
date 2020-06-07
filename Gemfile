@@ -7,6 +7,7 @@ gem 'bundler', '2.0.1'
 gem 'bootsnap', require: false
 gem 'railties', '= 5.2.2'
 gem 'turbolinks', '~> 5'
+gem 'turbolinks_render'
 gem 'webpacker', '~> 4.x'
 
 # db

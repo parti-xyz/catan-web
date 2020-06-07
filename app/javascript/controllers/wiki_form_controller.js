@@ -5,7 +5,7 @@ import Sortable from 'sortablejs'
 
 export default class extends Controller {
   static targets = [
-    'bodyField',
+    'bodyField', 'submitButton'
   ]
 
   submit(event) {
@@ -29,12 +29,34 @@ export default class extends Controller {
       }).show()
       valid = false
     }
+    if (this.editorController.hasDangerConflict()) {
+      new Noty({
+        type: 'warning',
+        text: '회원님이 고친 내용을 다시 살펴봐 주세요. 회원님이 고친 내용마다 \'다시 붙여넣기\'나 \'취소\'를 반드시 선택해야 합니다. [확인]',
+        timeout: 3000,
+        modal: true,
+      }).show()
+      valid = false
+    }
+
     if (valid == false) {
       event.preventDefault()
+      setTimeout(function(){ this.submitButtonTargets.forEach(el => jQuery.rails.enableElement(el)) }.bind(this), 1000)
+      return false
     }
   }
 
   get editorController() {
     return this.application.getControllerForElementAndIdentifier(this.element, "editor-form")
+  }
+
+  success(event) {
+    let [data, status, xhr] = event.detail;
+    if (xhr.response) {
+      const temp = document.createElement('div')
+      temp.innerHTML = xhr.response;
+
+      this.element.parentNode.replaceChild(temp.firstChild, this.element)
+    }
   }
 }
