@@ -231,7 +231,17 @@ module ApplicationHelper
         end
       end
     end
-    tags << content_tag("i", '', class: ["fa", "fa-lock"], title: '비공개') if model.try(:private?)
+    if model.try(:private?)
+      if model.respond_to?(:listable_even_private)
+        if model.listable_even_private?
+          tags << content_tag("i", '', class: ["fa", "fa-shield"], title: '비공개')
+        else
+          tags << content_tag("i", '', class: ["fa", "fa-lock"], title: '완전 비공개')
+        end
+      else
+        tags << content_tag("i", '', class: ["fa", "fa-lock"], title: '비공개') if model.try(:private?)
+      end
+    end
     tags << content_tag("i", '', class: ["fa", "fa-bullhorn"], title: '오거나이저만 게시') if model.try(:notice_only?)
     extras.compact.each do |icon_name, title|
       tags << content_tag("i", '', class: ["fa", "fa-#{icon_name}"], title: title)
@@ -239,7 +249,7 @@ module ApplicationHelper
 
     return '' if tags.empty?
 
-    content_tag :span do
+    content_tag :span, class: 'meta' do
       tags.map { |tag| [tag, raw('&nbsp;')] }.flatten[0...-1].each do |tag|
         concat tag
       end

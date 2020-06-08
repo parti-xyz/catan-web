@@ -1,24 +1,25 @@
 class Front::ChannelsController < Front::BaseController
   def show
     @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    render_404 and return if @current_issue.blank? or @current_issue.deleted?
+    render_403 and return if @current_issue&.private_blocked?(current_user)
+
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
 
-    if !@current_issue.deleted? and !@current_issue&.private_blocked?(current_user)
-      @posts = @current_issue.posts
-        .never_blinded(current_user)
-        .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
-        .order(last_stroked_at: :desc)
-        .page(params[:page]).per(10)
-      if @current_folder.present?
-        @posts = @posts.where(folder: @current_folder)
-      end
-      front_search_q = params.dig(:front_search, :q)
-      if front_search_q.present?
-        search_q = PostSearchableIndex.sanitize_search_key front_search_q
-        @posts = @posts.search(search_q)
-      end
-      @posts.load if @current_issue.present?
+    @posts = @current_issue.posts
+      .never_blinded(current_user)
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
+      .order(last_stroked_at: :desc)
+      .page(params[:page]).per(10)
+    if @current_folder.present?
+      @posts = @posts.where(folder: @current_folder)
     end
+    front_search_q = params.dig(:front_search, :q)
+    if front_search_q.present?
+      search_q = PostSearchableIndex.sanitize_search_key front_search_q
+      @posts = @posts.search(search_q)
+    end
+    @posts.load if @current_issue.present?
 
     if user_signed_in?
       current_user.update_attributes(last_visitable: @current_issue)

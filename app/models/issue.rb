@@ -119,10 +119,12 @@ class Issue < ApplicationRecord
   scope :of_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) }
   scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.slug_fallback(group)) }
   scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) if group.present? }
+  # TODO MEMBER
   scope :not_private_blocked, ->(current_user) {
     alive.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
     .or(where.not(private: true))
   }
+  # TODO MEMBER
   scope :not_in_dashboard, ->(current_user) { alive.where.not(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
                                              .where.not('issues.private': true) }
   scope :notice_only, -> { alive.where(notice_only: true) }
@@ -137,8 +139,20 @@ class Issue < ApplicationRecord
     alive.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
   }
   scope :_public_group_public_issues, -> {
-    _post_public_group_public_issues.or(where(listable_even_private: true))
+    _post_public_group_public_issues.or(alive.where(listable_even_private: true))
   }
+
+  scope :accessible_only, ->(current_user = nil) {
+    if current_user.present?
+      _post_public_group_public_issues
+        .or(alive.where(id: current_user.organizing_issues.select("members.joinable_id")))
+        .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
+    else
+      _post_public_group_public_issues
+    end
+  }
+
+  # TODO MEMBER
   scope :searchable_issues, ->(current_user = nil) {
     if current_user.present?
       _public_group_public_issues
@@ -148,6 +162,7 @@ class Issue < ApplicationRecord
       _public_group_public_issues
     end
   }
+  # TODO MEMBER
   scope :post_searchable_issues, ->(current_user = nil) {
     if current_user.present?
       _post_public_group_public_issues
@@ -164,14 +179,17 @@ class Issue < ApplicationRecord
     end
     conditions
   }
+  # TODO MEMBER
   scope :not_joined_issues, ->(current_user) {
     alive.where.not(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
   }
+  # TODO MEMBER
   scope :joined_issues, ->(current_user) {
     alive.where(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
   }
   scope :only_private, -> { alive.where(private: true) }
   scope :not_private, -> { alive.where(private: false) }
+  # TODO
   scope :postable, ->(someone) {
     if someone.present?
       alive.where(id: someone.organizing_issues).or(where(id: someone.member_issues, notice_only: false))
