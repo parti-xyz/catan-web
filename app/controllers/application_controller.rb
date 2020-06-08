@@ -270,18 +270,16 @@ class ApplicationController < ActionController::Base
     result
   end
 
-  def deprecated_errors_to_flash(model)
-    return if model.errors.empty?
-    result ||= ""
-    result += model.errors.full_messages.join('<br>')
-    flash[:error] = result.html_safe
-  end
-
   def errors_to_flash(model)
     return if model.errors.empty?
     result ||= ""
     result += model.errors.full_messages.join('<br>')
-    flash[:alert] = result.html_safe
+
+    if params[:namespace_slug] == 'front'
+      flash[:alert] = result.html_safe
+    else
+      flash[:error] = result.html_safe
+    end
   end
 
   def set_device_type
@@ -389,5 +387,9 @@ class ApplicationController < ActionController::Base
     flash_json = Hash[flash.map{ |k,v| [k, ERB::Util.h(v)] }].to_json
     response.headers['X-Flash-Messages'] = flash_json
     flash.discard
+  end
+
+  def force_remote_replace_header
+    response.headers['X-Force-Remote-Replace-Header'] = 'true'
   end
 end

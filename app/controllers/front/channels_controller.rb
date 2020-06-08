@@ -31,6 +31,11 @@ class Front::ChannelsController < Front::BaseController
     @scroll_persistence_tag = params[:page].presence || 1
   end
 
+  def edit
+    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
+  end
+
   def supplementary
     @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
 
@@ -61,5 +66,10 @@ class Front::ChannelsController < Front::BaseController
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i }
 
     render layout: false
+  end
+
+  def destroy_form
+    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
   end
 end

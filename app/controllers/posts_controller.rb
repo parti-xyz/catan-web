@@ -27,11 +27,9 @@ class PostsController < ApplicationController
 
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
+      errors_to_flash(@post)
       if params[:namespace_slug] == 'front'
-        errors_to_flash(@post)
         render_500 and return
-      else
-        deprecated_errors_to_flash(@post)
       end
     end
 
@@ -97,11 +95,10 @@ class PostsController < ApplicationController
         redirect_to params[:back_url].presence || smart_post_url(@post)
       end
     else
+      errors_to_flash(@post)
       if params[:namespace_slug] == 'front'
-        errors_to_flash(@post)
         render_500
       else
-        deprecated_errors_to_flash(@post)
         render 'posts/edit'
       end
     end
@@ -223,11 +220,10 @@ class PostsController < ApplicationController
           end
         end
       else
+        errors_to_flash(@post)
         if params[:namespace_slug] == 'front'
-          errors_to_flash(@post)
           render_500 and return
         else
-          deprecated_errors_to_flash @post
           respond_to do |format|
             format.html { render :show }
             format.js { render 'application/show_flash' }
@@ -277,7 +273,7 @@ class PostsController < ApplicationController
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       return
     else
-      deprecated_errors_to_flash @post
+      errors_to_flash @post
       return
     end
   end
@@ -463,10 +459,10 @@ class PostsController < ApplicationController
     ActiveRecord::Base.transaction do
       if @folder.present? and !@folder.persisted?
         @folder.save
-        deprecated_errors_to_flash @folder
+        errors_to_flash @folder
       end
       @post.save
-      deprecated_errors_to_flash @post
+      errors_to_flash @post
     end
 
     respond_to do |format|

@@ -205,6 +205,7 @@ export default class extends Controller {
     }
     if (valid == false) {
       event.preventDefault()
+      return false
     }
   }
 

@@ -2,7 +2,11 @@
 @use '../front-variables';
 
 .front-app .channel-menu {
+  display: flex;
+  align-items: center;
+
   > .title {
+    flex: 1;
     display: flex;
     color: global-variables.$color-voodoo-400;
     font-weight: 900;
@@ -22,7 +26,7 @@
     text-overflow: ellipsis;
   }
 
-  > .title > .node.link:hover {
+  > .title > .node > .link:hover {
     text-decoration: underline;
   }
   > .title > .node.post {
@@ -38,5 +42,18 @@
   }
   > .title > .node.delimiter.-active {
   display: inline-block;
+  }
+
+  > .control {
+    flex: none;
+  }
+
+  > .control > .moremenu {
+    flex: none;
+  }
+  > .control > .moremenu > .dropdown > .btn {
+    border-radius: 99999px;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }

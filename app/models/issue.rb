@@ -266,6 +266,7 @@ class Issue < ApplicationRecord
   end
 
   def postable? someone
+    return false if frozen?
     return false if blind_user?(someone)
     return false if private_blocked?(someone)
     return true if organized_by?(someone)

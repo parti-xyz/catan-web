@@ -10,7 +10,7 @@ class Admin::GroupsController < Admin::BaseController
     if @group.destroy
       flash[:success] = I18n.t('activerecord.successful.messages.deleted')
     else
-      deprecated_errors_to_flash @group
+      errors_to_flash @group
     end
     redirect_to admin_groups_path
   end

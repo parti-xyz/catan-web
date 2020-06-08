@@ -28,7 +28,7 @@ class Admin::LandingPagesController < Admin::BaseController
 
     landing_pages.each do |landing_page|
       if landing_page.errors.any?
-        deprecated_errors_to_flash(landing_page)
+        errors_to_flash(landing_page)
         @sections = LandingPage.all_data(landing_pages)
         render "admin/landing_pages/index"
         return

@@ -1,4 +1,4 @@
-- current_channel ||= local_assigns[:current_channel]
+- current_issue ||= local_assigns[:current_issue]
 %ul.post-lines{ data: { 'controller': 'collection-activation' } }
   - posts.each do |post|
     %li.post-line{ class: [('-active' if post == current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }<>
@@ -22,12 +22,14 @@
             %i.fa.fa-info-circle
             = t('labels.post_blind_info')
         .meta
-          - if current_channel.present?
+          - if current_issue.present?
             - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
             != last_stroked_text
             = date_f(last_stroked_at)
           - else
-            = link_to "# #{post.issue.title}", front_channel_path(post.issue), class: 'link'
+            = link_to front_channel_path(post.issue), class: 'link' do
+              "# #{post.issue.title}
+            = meta_icons(post.issue)
             - if post.folder.present?
               - post.folder.ancestors_and_self.each do |folder|
                 \/

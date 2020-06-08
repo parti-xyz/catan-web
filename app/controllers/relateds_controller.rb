@@ -31,7 +31,7 @@ class RelatedsController < ApplicationController
     if @related.save
       redirect_to @related.issue
     else
-      deprecated_errors_to_flash(@related)
+      errors_to_flash(@related)
       render 'new'
     end
   end

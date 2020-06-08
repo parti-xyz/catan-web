@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     root 'pages#discover', as: :discover_root
   end
   constraints(FrontGroupRouteConstraint.new) do
-    root 'front#root'
+    root 'front/pages#root'
   end
   root 'home#show'
 
@@ -417,10 +417,19 @@ Rails.application.routes.draw do
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
 
-    resources :channels, only: [:show] do
+    resources :channels, only: [:show, :edit] do
       member do
         get :supplementary
         get :post_folder_field
+        get :destroy_form
+      end
+    end
+    resources :issues, only: [:update], controller: '/issues' do
+      member do
+        put :freeze
+        put :wake
+        delete :remove_logo
+        delete :remove_cover
       end
     end
 

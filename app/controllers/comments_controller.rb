@@ -24,7 +24,7 @@ class CommentsController < ApplicationController
     end
     @comments_count = @comment.post.comments_count
     if @comment.errors.any?
-      deprecated_errors_to_flash(@comment)
+      errors_to_flash(@comment)
     end
     @comment.reload if @comment.persisted?
     respond_to do |format|
@@ -40,7 +40,7 @@ class CommentsController < ApplicationController
         @comment.perform_messages_with_mentions_async(:update)
       else
         if @comment.errors.any?
-          deprecated_errors_to_flash(@comment)
+          errors_to_flash(@comment)
           @comment.reload
         else
           return head(:internal_server_error)

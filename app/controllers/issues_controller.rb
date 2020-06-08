@@ -1,5 +1,5 @@
 class IssuesController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :update_category, :destroy_category, :read_all, :unread_until, :freeze]
+  before_action :authenticate_user!, only: [:create, :update, :destroy, :remove_logo, :remove_cover, :destroy_form, :update_category, :destroy_category, :read_all, :unread_until, :freeze]
   before_action :fetch_issue_by_slug, only: [:new_posts_count, :slug_home, :slug_hashtag, :slug_members, :slug_links_or_files, :slug_polls_or_surveys, :slug_folders, :slug_wikis]
   load_and_authorize_resource
   before_action :verify_issue_group, only: [:slug_home, :slug_hashtag, :slug_links_or_files, :slug_polls_or_surveys, :slug_wikis, :slug_folders, :edit]
@@ -161,7 +161,7 @@ class IssuesController < ApplicationController
     if service.call
       redirect_to smart_issue_home_url(@issue)
     else
-      deprecated_errors_to_flash @issue
+      errors_to_flash @issue
       render 'new'
     end
   end
@@ -170,11 +170,21 @@ class IssuesController < ApplicationController
     @issue.assign_attributes(issue_params)
     if current_group.try(:will_violate_issues_quota?, @issue)
       flash[:notice] = t('labels.group.met_private_issues_quota')
-      render 'new' and return
+
+      if params[:namespace_slug] == 'front'
+        head 400 and return
+      else
+        render 'new' and return
+      end
     end
     if @issue.will_save_change_to_group_slug? and !current_user.admin?
       flash[:notice] = t('unauthorized.default')
-      render 'edit' and return
+
+      if params[:namespace_slug] == 'front'
+        head 400 and return
+      else
+        render 'edit' and return
+      end
     end
     @origin_issue = Issue.find(@issue.id)
     target_group = Group.find_by(slug: @issue.group_slug)
@@ -232,10 +242,20 @@ class IssuesController < ApplicationController
           MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
         end
         flash[:success] = t('activerecord.successful.messages.created')
-        redirect_to smart_issue_home_url(@issue)
+        errors_to_flash(@issue)
+
+        if params[:namespace_slug] == 'front'
+          redirect_to front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+        else
+          redirect_to smart_issue_home_url(@issue)
+        end
       else
-        deprecated_errors_to_flash @issue
-        render 'edit'
+        errors_to_flash(@issue)
+        if params[:namespace_slug] == 'front'
+          render_front_edit(@issue)
+        else
+          render 'edit'
+        end
       end
     end
   end
@@ -243,19 +263,27 @@ class IssuesController < ApplicationController
   def destroy
     IssueDestroyJob.perform_async(current_user.id, @issue.id, params[:message])
     flash[:success] = t('views.started_issue_destroying')
-    redirect_to root_path
+    redirect_to root_path, turbolinks: params[:namespace_slug] == 'front'
   end
 
   def remove_logo
     @issue.remove_logo!
     @issue.save
-    redirect_to [:edit, @issue]
+    if params[:namespace_slug] == 'front'
+      render_front_edit(@issue)
+    else
+      redirect_to [:edit, @issue]
+    end
   end
 
   def remove_cover
     @issue.remove_cover!
     @issue.save
-    redirect_to [:edit, @issue]
+    if params[:namespace_slug] == 'front'
+      render_front_edit(@issue)
+    else
+      redirect_to [:edit, @issue]
+    end
   end
 
   def new_posts_count
@@ -333,7 +361,7 @@ class IssuesController < ApplicationController
         flash[:success] = I18n.t('activerecord.successful.messages.invited')
         redirect_to new_admit_members_issue_path
       else
-        deprecated_errors_to_flash(current_group)
+        errors_to_flash(current_group)
         render 'new_admit_members'
       end
     else
@@ -349,13 +377,13 @@ class IssuesController < ApplicationController
     @previous_category = @issue.category
     @category = Category.find_by(id: params[:category_id])
     @issue.update_attributes(category: @category)
-    deprecated_errors_to_flash(@issue)
+    errors_to_flash(@issue)
   end
 
   def destroy_category
     @previous_category = @issue.category
     @issue.update_attributes(category: nil)
-    deprecated_errors_to_flash(@issue)
+    errors_to_flash(@issue)
   end
 
   def read_all
@@ -375,9 +403,14 @@ class IssuesController < ApplicationController
     if @issue.save
       flash[:success] = '휴면을 해제했습니다.'
     else
-      deprecated_errors_to_flash(@issue)
+      errors_to_flash(@issue)
     end
-    redirect_to smart_issue_home_url(@issue)
+
+    if params[:namespace_slug] == 'front'
+      redirect_to front_channel_path(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+    else
+      redirect_to smart_issue_home_url(@issue)
+    end
   end
 
   def freeze
@@ -385,9 +418,13 @@ class IssuesController < ApplicationController
     if @issue.save
       flash[:success] = '휴면 전환했습니다.'
     else
-      deprecated_errors_to_flash(@issue)
+      errors_to_flash(@issue)
     end
-    redirect_to smart_issue_home_url(@issue)
+    if params[:namespace_slug] == 'front'
+      redirect_to front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+    else
+      redirect_to smart_issue_home_url(@issue)
+    end
   end
 
   protected
@@ -507,5 +544,14 @@ class IssuesController < ApplicationController
       set_meta_tags noindex: true
       return
     end
+  end
+
+  def render_front_edit issue
+    current_folder = issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
+    force_remote_replace_header
+    render partial: 'front/channels/form', locals: {
+      current_issue: issue,
+      current_folder: current_folder
+    }
   end
 end

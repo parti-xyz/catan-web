@@ -1,0 +1,38 @@
+- content_for :playground_header_content do
+  .channel-menu
+    .title
+      .node
+        = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+        = meta_icons(@current_issue)
+.channel-form
+  %section.mb-3
+    %h5 채널 설정
+    .card
+      .card-body
+        = render 'front/channels/form', current_issue:   @current_issue, current_folder: @current_folder
+
+  %section.mb-3
+    %h5 채널 휴면하기
+    .card
+      .card-body
+        - if @current_issue.frozen?
+          %p 채널 휴면을 해제합니다.
+          = link_to '휴면 해제하기', wake_front_issue_path(@current_issue, folder_id: @current_folder&.id), method: :put, remote: true, class: 'btn btn-danger'
+        - else
+          %p 채널을 휴면 전환합니다.
+          %p
+            휴면 채널은
+            %br
+            1. 채널 목록, 채널찾기, 관련채널 등에서 보이지 않습니다. 단, url 직접입력을 통한 접근은 가능합니다.
+            %br
+            2. 해당 채널에 새 글을 올릴 수 없습니다.
+
+          = link_to '휴면 전환하기', freeze_front_issue_path(@current_issue, folder_id: @current_folder&.id), method: :put, remote: true, class: 'btn btn-danger'
+
+  - if can? :destroy, @current_issue
+    %section.mb-3
+      %h5 채널 삭제
+      .card
+        .card-body
+          %p 채널을 삭제합니다. 이 작업은 되돌릴 수 없습니다.
+          = link_to '삭제하기', destroy_form_front_channel_path(@current_issue, folder_id: @current_folder&.id), class: 'btn btn-danger'

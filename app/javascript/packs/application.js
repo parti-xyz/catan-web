@@ -24,7 +24,17 @@ if (window.jQuery) {
     })
   })
 
-  jQuery(document).on('ajax:success ajax:error', function ({ detail: [ response, status, xhr ] }) {
+  jQuery(document).on('ajax:success ajax:error', function (event) {
+    let [response, status, xhr] = event.detail
+
+    if (xhr.response && xhr.getResponseHeader('X-Force-Remote-Replace-Header') == 'true') {
+      const temp = document.createElement('div')
+      temp.innerHTML = xhr.response
+
+      let targetElement = event.target
+      targetElement.parentNode.replaceChild(temp.firstChild, targetElement)
+    }
+
     let flash = null
     try {
       flash = JSON.parse(xhr.getResponseHeader('X-Flash-Messages'))
@@ -58,6 +68,12 @@ if (window.jQuery) {
       new Noty({
         type: 'error',
         text: decodeURIComponent('뭔가 잘못되었습니다. 곧 고치겠습니다.'),
+        timeout: 3000,
+      }).show()
+    } else if(xhr.status == 400) {
+      new Noty({
+        type: 'error',
+        text: decodeURIComponent('요청하신 것을 처리할 수 없습니다.'),
         timeout: 3000,
       }).show()
     } else if(xhr.status == 403) {

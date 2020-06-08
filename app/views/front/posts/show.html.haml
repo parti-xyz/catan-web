@@ -3,15 +3,19 @@
 - content_for :playground_header_content do
   .channel-menu
     .title
-      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link node'
+      .node
+        = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+        = meta_icons(@current_issue)
       - @current_post.folder&.ancestors_and_self&.each do |folder|
         .node /
-        = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link node'
+        .node
+          = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
       .delimiter.node{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
         \/
       .post.node{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
         #{@current_post.title}
-
+    .control
+      = render 'front/posts/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
 .post-box{ data: { controller: 'channel-read-emit', 'channel-read-emit': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
   .post-main
     .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }

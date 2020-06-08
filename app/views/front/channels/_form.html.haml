@@ -1,0 +1,169 @@
+= form_with model: [:front, current_issue], local: false, class: 'channel-form' do |f|
+  - if current_group.try(:met_issues_quota?)
+    .alert.alert-danger
+      %p
+        #{current_group.title}그룹은
+        = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
+          #{current_group.plan_text} 그룹
+        입니다. 최대
+        - if current_group.private?
+          %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
+          채널을 만들 수 있습니다.
+        - else
+          %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
+          비공개 채널을 만들 수 있습니다.
+      - if current_group.private?
+        %p
+          현재 #{current_group.issues.count}개 채널을 사용 중입니다. 무제한으로 채널을 만들려면 지금 업그레이드해 보세요.
+      - else
+        %p
+          현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한으로 비공개 채널을 만들려면 지금 업그레이드해 보세요.
+      %p
+        = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
+  - elsif current_group.try(:trial?)
+    .alert.alert-danger
+      %p
+        #{current_group.title}그룹은
+        = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
+          #{current_group.plan_text} 그룹
+        입니다.
+      %p
+        현재 #{current_group.issues.count}개 채널을 사용 중입니다.
+      %p
+        = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
+
+  - if current_issue.errors.any?
+    .alert.alert-danger{:role => "alert"}
+      - current_issue.errors.full_messages.each do |msg|
+        %div
+          %span.glyphicon.glyphicon-exclamation-sign{"aria-hidden" => "true"}
+          %span.sr-only 오류 :
+          = msg
+
+  = hidden_field_tag :folder_id, local_assigns[:current_folder]&.id
+  .form-group{class: error_class_str(current_issue, :title)}
+    = f.label :title, t("labels.issue.form.groups.#{host_group.slug}.title", cascade: true)
+    = f.text_field :title, class: 'form-control input-lg'
+    %p.form-text.text-muted.small
+      = t("labels.issue.form.groups.#{host_group.slug}.title_help", cascade: true)
+
+  .form-group
+    = f.label :slug, t("labels.issue.form.groups.#{host_group.slug}.slug", cascade: true)
+    .input-group{class: ('is-invalid' if has_error_attr?(current_issue, :slug))}
+      .input-group-prepend<>
+        .input-group-text
+          https://
+          %span
+            - if current_group.present?
+              #{current_group.subdomain}.
+          parti.xyz/p/
+      = f.text_field :slug, class: 'form-control input-lg'
+    %p.form-text.text-muted.small
+      = t("labels.issue.form.groups.#{host_group.slug}.slug_help", cascade: true)
+
+  .form-group{class: error_class_str(current_issue, :body)}
+    = f.label :body, t("labels.issue.form.groups.#{host_group.slug}.body", cascade: true)
+    = f.text_field :body, class: 'form-control'
+    %p.form-text.text-muted.small
+      = t("labels.issue.form.groups.#{host_group.slug}.body_help", cascade: true)
+
+  - if current_group.try(:categories).try(:any?)
+    .form-group{class: error_class_str(current_issue, :category_id)}
+      = f.label :category_id, t("labels.issue.form.groups.#{host_group.slug}.category_id", cascade: true)
+      .radio-group
+        - current_group.categories.each do |category|
+          %label.radio-inline
+            = f.radio_button :category_id, category.id
+            = category.name
+        %label.radio-inline
+          = radio_button_tag 'issue[category_id]', nil, current_issue.category.blank?
+          이외 주제
+
+  .form-group{class: error_class_str(current_issue, :tag_list)}
+    = f.label :tag_list, t("labels.issue.form.groups.#{host_group.slug}.tag_list", cascade: true)
+    = f.text_field :tag_list, value: current_issue.tag_list.to_s, class: 'form-control'
+    %p.form-text.text-muted.small 쉼표로 구분해서 넣어 주세요. #는 붙이실 필요 없어요.
+
+  - if current_issue.persisted?
+    .form-group{class: ('has-error' if has_error_attr?(current_issue, :telegram_link))}
+      = f.label :telegram_link
+      %span 텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요.
+      = f.text_field :telegram_link, class: 'form-control', placeholder: '예시) https://telegram.me/basic_incomes'
+      %p.form-text.text-muted.small
+        = link_to '텔레그램 슈퍼그룹', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C#%EA%B0%81-%EB%B9%A0%EB%9D%A0%EB%B3%84%EB%A1%9C-%EB%8C%80%ED%99%94%EB%B0%A9%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EC%96%B4%EC%9A%94', target: '_blank'
+        ,&nbsp;
+        = link_to '카카오톡 오픈 채팅', 'http://www.kakao.com/helps?category=105&locale=ko&service=8', target: '_blank'
+        ,&nbsp;
+        = link_to '페이스북 메신저', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
+        링크 만들기
+    .form-group{class: ('has-error' if has_error_attr?(current_issue, :blinds))}
+      = f.label :blinds
+      = f.text_field :blinds_nickname, value: current_issue.blinds.merge_nickname, class: 'form-control'
+      %p.form-text.text-muted.small
+        건강하고 유쾌한 #{I18n.t('labels.app_name_human')} 활동을 방해하는 회원의 글을 숨깁니다. 해당 회원의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
+        %strong 이 기능은 꼭 필요한 경우에만 신중히 사용해 주세요.
+
+  - if current_issue.persisted?
+    .form-group{class: ('has-error' if has_error_attr?(current_issue, :organizer_nicknames))}
+      = f.label :organizer_nicknames
+      = f.text_field :organizer_nicknames, value: current_issue.organizer_members.merge_nickname, class: 'form-control'
+      %p.form-text.text-muted.small 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 채널의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
+  - else
+    .form-group
+      = f.label :organizer_nicknames
+      %p= current_user.nickname
+      %p.form-text.text-muted.small 채널을 만든 후에 오거나이저를 고칠 수 있습니다.
+
+  .form-group{class: ('has-error' if has_error_attr?(current_issue, :private))}
+    = f.label :private
+    - if current_group.blank? or current_group.try(:changable_private_for_issue?, current_issue)
+      .checkbox
+        %label
+          = f.check_box :private
+          비공개로 설정하면 이 채널에 가입한 멤버만 게시글을 볼 수 있습니다.
+    - if current_group.try(:has_issues_quota?) and !current_group.private?
+      .alert.alert-danger
+        %p
+          #{current_group.title}그룹은
+          = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
+
+            #{current_group.plan_text} 그룹
+          입니다. 최대
+          %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
+          비공개 채널을 만들 수 있습니다.
+        %p
+          현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한 비공개 채널을 만들려면 지금 업그레이드해 보세요.
+        %p
+          = link_to '업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
+
+  .form-group{class: ('has-error' if has_error_attr?(current_issue, :listable_even_private))}
+    = f.label :listable_even_private
+    .checkbox
+      %label
+        = f.check_box :listable_even_private
+        이 채널은 비공개라도 채널 목록과 그룹홈에 표시됩니다. 검색해서 찾을 수도 있습니다. 비공개 채널이 아니라면 이 설정은 무시됩니다.
+
+  .form-group{class: ('has-error' if has_error_attr?(current_issue, :notice_only))}
+    = f.label :notice_only
+    .checkbox
+      %label
+        = f.check_box :notice_only
+        이 채널은 오거나이저만 게시할 수 있습니다.
+
+  - if (current_user.is_organizer?(current_issue.group || host_group) or current_user.admin?)
+    .form-group{class: ('has-error' if has_error_attr?(current_issue, :is_default))}
+      = f.label :is_default
+      .checkbox
+        %label
+          = f.check_box :is_default
+          그룹에 가입하는 멤버는 자동가입되는 채널이 됩니다.
+
+  - if current_user.admin? and f.object.persisted?
+    .form-group{class: ('has-error' if has_error_attr?(current_issue, :group_slug))}
+      = f.label :group_slug
+      = f.text_field :group_slug, class: 'form-control'
+      %p.form-text.text-muted.small 이 채널이 속할 그룹의 slug을 기입하세요. 열린 광장 그룹의 채널일 경우 '#{Group::DEFAULT_SLUG}'를 넣어 주세요.
+
+  .form-group
+    = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
+

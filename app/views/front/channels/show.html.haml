@@ -4,14 +4,17 @@
       - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
 
       - if @current_folder.present? || search_q.present?
-        = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link node'
+        .node
+          = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+          = meta_icons(@current_issue)
       - else
-        .link.node # #{@current_issue.title}
+        .node # #{@current_issue.title} #{meta_icons(@current_issue)}
       - if @current_issue.folders.any?
         - if @current_folder.present?
           - @current_folder.ancestors.each do |folder|
             .node /
-            = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link node'
+            .node
+              = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
           - if @current_folder.children.any?
             .node /
             .node= @current_folder.title
@@ -28,7 +31,8 @@
         %span.node
           %i.fa.fa-search
           = search_q
-
+    .control
+      = render 'front/posts/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
 - if @posts.any?
   .channel-box
     .post-lines-box
@@ -45,7 +49,7 @@
             = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-outline-primary btn-sm' do
               %i.fa.fa-file-word-o
               위키쓰기
-      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_channel: @current_issue
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
     .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
 
 - else

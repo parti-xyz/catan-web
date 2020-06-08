@@ -62,7 +62,7 @@ module PartiUrlHelper
       end
     when Issue
       if joinable.group.frontable?
-        front_channel_url(subdomain: joinable.subdomain, issue_id: joinable)
+        front_channel_url(subdomain: joinable.subdomain, id: joinable)
       else
         smart_issue_home_url(joinable, options)
       end

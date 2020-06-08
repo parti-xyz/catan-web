@@ -1,10 +1,13 @@
 - content_for :playground_header_content do
   .channel-menu
     .title
-      = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link node'
+      .node
+        = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+        = meta_icons(@current_issue)
       - @current_post.folder&.ancestors_and_self&.each do |folder|
         .node /
-        = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link node'
+        .node
+          = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
 
 .post-form-box
   - if @current_post.wiki.blank?
