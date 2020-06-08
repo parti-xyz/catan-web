@@ -108,6 +108,7 @@ class User < ApplicationRecord
   belongs_to :last_visitable, polymorphic: true, optional: true
   has_many :post_readers, dependent: :destroy
   has_many :stroked_post_users, dependent: :destroy
+  has_many :wiki_authors, dependent: :destroy
 
   ## uploaders
   # mount

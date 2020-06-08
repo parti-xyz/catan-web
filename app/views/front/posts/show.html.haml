@@ -90,27 +90,6 @@
         -# WIKI
         .post-wiki{ class: ('-active' if @current_post.wiki.active?) }
           = render 'front/wikis/card', current_wiki: @current_post.wiki
-          -# - if post.wiki.active? and can?(:update, post.wiki)
-          -#   -# TODO
-          -#   = render 'posts/show/wiki/form', local_assigns.merge(wiki_card_dom_id: wiki_card_dom_id)
-          -# - else
-          -# wiki_post_path(@current_post, mode: 'preview', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: 'btn btn-default btn-sm'
-          -# = link_to wiki_post_path(@current_post, mode: 'edit-detail', wiki_card_dom_id: wiki_card_dom_id, format: :js), remote: true, class: "btn btn-primary btn-sm" do
-
-          -# - else
-          -# TODO  { 'data-link-url': wiki_post_path(post, mode: :detail, wiki_card_dom_id: wiki_card_dom_id, format: :js), 'data-link-type': 'remote' }
-          -# wiki_post_path(@current_post, format: :js), remote: true, class: "btn btn-primary btn-force btn-xs", style: 'border-radius: 4px;'
-          -# .body
-          -#   .article.preview
-          -#     .brightness
-          -#       != smart_truncate_html(@current_post.wiki.body, length: 1000)
-          -#   .shadow
-          -#   .buttons
-          -#     .btn.btn-light.btn-sm
-          -#       펼쳐보기
-          -#     - if can?(:update, @current_post.wiki) && @current_post.wiki.active?
-          -#       = link_to '#', class: 'btn btn-primary btn-sm' do
-          -#         편집
 
       - if @current_post.comments.present?
         .post-comments

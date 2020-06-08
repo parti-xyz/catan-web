@@ -7,6 +7,7 @@ class Wiki < ApplicationRecord
   has_many :wiki_histories, dependent: :destroy
   has_one :last_wiki_history, -> { order(created_at: :desc) }, class_name: 'WikiHistory'
   belongs_to :last_author, class_name: "User", foreign_key: :last_author_id, optional: true
+  has_many :wiki_authors, dependent: :destroy
 
   mount_uploader :thumbnail, PrivateFileUploader
 
@@ -95,7 +96,7 @@ class Wiki < ApplicationRecord
   end
 
   def authors
-    User.where(id: wiki_histories.select(:user_id).distinct)
+    self.wiki_authors.map(&:user)
   end
 
   def build_history_after_update
@@ -127,6 +128,7 @@ class Wiki < ApplicationRecord
 
   def build_history(code)
     wiki_histories.create(title: title, body: body, user: last_author, wiki: self, code: code)
+    wiki_authors.find_or_create_by(user: last_author)
   end
 
   def last_activity(&block)

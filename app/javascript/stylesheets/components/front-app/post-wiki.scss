@@ -1,4 +1,5 @@
 @use '../../global-variables';
+@use '../../bootstrap';
 @use '../../mixin';
 
 .front-app .post-wiki {
@@ -49,5 +50,35 @@
 
   > .body > .formtitle {
     margin-bottom: 1rem;
+  }
+
+  > .authors {
+    display: flex;
+    align-items: center;
+    margin-top: .75rem;
+    font-size: small;
+  }
+
+  > .authors > .label {
+    flex: none;
+    margin-right: .25rem;
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
+  }
+
+  > .authors > .user {
+    flex: none;
+    display: flex;
+    margin-right: .25rem;
+  }
+
+  > .authors > .user > .image {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    border: 1px solid white;
+    background-position: center;
+    background-size: cover;
+    display: inline-block;
   }
 }

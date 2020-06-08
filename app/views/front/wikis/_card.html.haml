@@ -19,3 +19,9 @@
     - if can?(:update, current_wiki) && current_wiki.active?
       = link_to edit_front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-primary btn-sm', data: { 'turbolinks-action': 'replace' } do
         편집
+
+.authors
+  .label 작성
+  - current_wiki.authors.each do |user|
+    = link_to smart_user_gallery_path(user), class: 'user' do
+      .image{ style: "background-image: url(#{user.image.sm.url});", title: user.nickname, data: { toggle: 'tooltip', placement: 'right', boundary: 'viewport' } }
