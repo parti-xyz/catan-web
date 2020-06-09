@@ -18,6 +18,7 @@ export default class extends Controller {
       })
       .then(html => {
         if (html) {
+          this.loaded = true
           this.element.innerHTML = html
         }
       })

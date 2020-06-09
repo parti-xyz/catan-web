@@ -436,7 +436,20 @@ Rails.application.routes.draw do
     resources :posts, only: [:show, :new, :edit] do
       shallow do
         resources :comments, only: [:edit]
-        resources :comments, only: [:create, :update, :destroy], controller: '/comments'
+        resources :comments, only: [:create, :update, :destroy], controller: '/comments' do
+          resources :upvotes, controller: '/upvotes' do
+            collection do
+              delete :cancel
+              get :users
+            end
+          end
+        end
+      end
+      resources :upvotes, controller: '/upvotes' do
+        collection do
+          delete :cancel
+          get :users
+        end
       end
     end
     resources :posts, only: [:create, :update], controller: '/posts' do

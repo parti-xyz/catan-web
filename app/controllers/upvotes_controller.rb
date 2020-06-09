@@ -9,8 +9,13 @@ class UpvotesController < ApplicationController
     @upvote.save
     @upvote.upvotable.reload
 
-    respond_to do |format|
-      format.js
+    if params[:namespace_slug] == 'front'
+      @post ||= @comment&.post
+      redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+    else
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
@@ -20,13 +25,23 @@ class UpvotesController < ApplicationController
     @upvote.try(:destroy)
     @upvotable.reload
 
-    respond_to do |format|
-      format.js
+    if params[:namespace_slug] == 'front'
+      @post ||= @comment&.post
+      redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+    else
+      respond_to do |format|
+        format.js
+      end
     end
   end
 
   def users
     @upvotable = (@comment || @post)
-    render layout: false
+
+    if params[:namespace_slug] == 'front'
+      render(partial: 'front/posts/show/upvotings/users', locals: { upvotable: @upvotable })
+    else
+      render layout: false
+    end
   end
 end

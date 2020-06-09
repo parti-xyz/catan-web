@@ -48,7 +48,7 @@ module ApplicationHelper
   end
 
   def date_f(date)
-    timeago_tag date, lang: :ko, limit: 3.days.ago
+    timeago_tag date, lang: :ko, limit: 3.days.ago, data: { controller: 'timeago' }
   end
 
   def static_date_f(date)

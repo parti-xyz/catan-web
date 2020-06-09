@@ -10,6 +10,26 @@
     border-bottom: 1px solid global-variables.$color-gray-300;
   }
 
+  > .reactions > .btn {
+    font-size: bootstrap.$font-size-sm;
+  }
+
+  > .reactions > .btn.-active {
+    font-weight: bold;
+  }
+
+  > .reactions > .upvotes {
+    display: inline-block;
+    font-size: bootstrap.$font-size-sm;
+    margin: 0 .5rem;
+    color: global-variables.$color-gray-600;
+    cursor: pointer;
+  }
+
+  > .reactions > .upvotes.-active {
+    color: global-variables.$color-brand-primary;
+  }
+
   > .post-body,
   > .post-comments,
   > .post-file-sources-only-image,

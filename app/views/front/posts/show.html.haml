@@ -91,10 +91,24 @@
           = render 'front/wikis/card', current_wiki: @current_post.wiki
 
       .reactions
-        .btn.btn-link.btn-sm
-          공감해요
-        .btn.btn-link.btn-sm{ data: { action: 'click->comment-form-open#run' } }
-          댓글달기
+        - if user_signed_in?
+          - if @current_post.upvoted_by_me?
+            = link_to '공감해요', cancel_front_post_upvotes_path(@current_post, folder_id: @current_folder), method: :delete, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm -active'
+          - else
+            = link_to '공감해요', front_post_upvotes_path(@current_post, folder_id: @current_folder), method: :post, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm'
+        - else
+          %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 공감해요
+
+        - if user_signed_in?
+          .btn.btn-link.btn-sm{ data: { action: 'click->comment-form-open#run' } } 댓글달기
+        - else
+          %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 댓글달기
+
+        - if @current_post.upvotes_count > 0
+          %a.upvotes{ tabindex: 1, class: ('-active' if @current_post.upvoted_by_me?), data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: users_front_post_upvotes_path(@current_post), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+            %i.fa{ class: (@current_post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+            = @current_post.upvotes_count
+
 
       - if @current_post.comments.present?
         .post-comments

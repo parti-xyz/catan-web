@@ -1,0 +1,20 @@
+.front-app .upvoted-users {
+  > .user {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  > .user > .userimage {
+    flex: none;
+    vertical-align: bottom;
+  }
+  > .user > .userimagebg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 9999px;
+    border: 1px solid white;
+    background-position: center;
+    background-size: cover;
+  }
+}

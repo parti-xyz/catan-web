@@ -12,15 +12,15 @@
         .form-group.mb-1.bodyfield
           = f.text_area :body, class: "form-control textarea", placeholder: '댓글을 입력하세요', data: { controller: 'auto-resize', target: 'comment-form.bodyField comment-form-open.bodyField', action: 'input->comment-form#updateBodyField' }, rows: 1
 
-        .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if current_post.file_sources.any?) }
+        .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if f.object.file_sources.any?) }
           .header
             사진&middot;파일
           .main
             .images{ data: { target: 'comment-form.imageFileSourcesContainer' } }
-              = f.fields_for :file_sources, current_post.file_sources_only_image do |ff|
+              = f.fields_for :file_sources, f.object.file_sources_only_image do |ff|
                 = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
             .docs{ data: { target: 'comment-form.docFileSourcesContainer' } }
-              = f.fields_for :file_sources, current_post.file_sources_only_doc do |ff|
+              = f.fields_for :file_sources, f.object.file_sources_only_doc do |ff|
                 = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
           .footer
             .btn.btn-secondary.btn-sm{ data: { target: 'comment-form.addFileSourceFieldButton', action: 'click->comment-form#addFileSourceField' } }

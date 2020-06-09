@@ -29,24 +29,49 @@
             .dropdown-menu.dropdown-menu-right
               = comment_moremenu
 
-    .reactions
-      .btn.btn-link.btn-sm{ data: { action: 'click->comment-form-open#run', mention: (comment.user.nickname if comment.user != current_user) } } 댓글달기
 
-      - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
-        .comment-filesource-listings
-          / comment 이미지
-          - if comment.file_sources_only_image.present?
-            .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
-              = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
-                %img.img{ src: file_source.attachment.xs.url }
-          / comment 파일
-          - if comment.file_sources_only_doc.present?
-            .comment-filesource-doc-listing
-              - comment.file_sources_only_doc.each do |file_source|
-                .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
-                  %i.fa.fa-floppy-o
-                  %span.name= file_source.name
-                  %span.size= number_to_human_size(file_source.file_size)
+    -# %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
+    -# %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+    -# = post.upvotes_count
+
+    .reactions{ data: { controller: 'content-replacement' } }
+      - if user_signed_in?
+        - if comment.upvoted_by_me?
+          = link_to '공감해요', cancel_front_comment_upvotes_path(comment, folder_id: current_folder), method: :delete, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm -active'
+        - else
+          = link_to '공감해요', front_comment_upvotes_path(comment, folder_id: current_folder), method: :post, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm'
+      - else
+        %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 공감해요
+
+      - if user_signed_in?
+        .btn.btn-link.btn-sm{ data: { action: 'click->comment-form-open#run', mention: (comment.user.nickname if comment.user != current_user) } } 댓글달기
+      - else
+        %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 댓글달기
+
+      - if comment.upvotes_count > 0
+        %a.upvotes{ tabindex: 1, class: ('-active' if comment.upvoted_by_me?), data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: users_front_comment_upvotes_path(comment), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+          %i.fa{ class: (comment.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+          = comment.upvotes_count
+
+      .datetime
+        = date_f comment.created_at
+
+
+    - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
+      .comment-filesource-listings
+        / comment 이미지
+        - if comment.file_sources_only_image.present?
+          .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
+            = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
+              %img.img{ src: file_source.attachment.xs.url }
+        / comment 파일
+        - if comment.file_sources_only_doc.present?
+          .comment-filesource-doc-listing
+            - comment.file_sources_only_doc.each do |file_source|
+              .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
+                %i.fa.fa-floppy-o
+                %span.name= file_source.name
+                %span.size= number_to_human_size(file_source.file_size)
 
     - if local_assigns[:child_comments]&.any?
       .post-comments.-children
