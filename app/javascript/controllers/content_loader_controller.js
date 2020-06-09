@@ -1,4 +1,5 @@
 import { Controller } from "stimulus"
+import fetchResponseCheck from '../helpers/fetch_check_response';
 
 export default class extends Controller {
   connect() {
@@ -9,10 +10,16 @@ export default class extends Controller {
 
   load() {
     fetch(this.data.get('url'))
-      .then(response => response.text())
+      .then(fetchResponseCheck)
+      .then(response => {
+        if (response) {
+          return response.text()
+        }
+      })
       .then(html => {
-        this.loaded = true
-        this.element.innerHTML = html
+        if (html) {
+          this.element.innerHTML = html
+        }
       })
   }
 

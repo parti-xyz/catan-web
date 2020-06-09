@@ -34,13 +34,19 @@ if (window.jQuery) {
       let targetElement = event.target
       targetElement.parentNode.replaceChild(temp.firstChild, targetElement)
     }
+  })
 
-    let flash = null
+  function notiFlash(message, status) {
+    let flash
     try {
-      flash = JSON.parse(xhr.getResponseHeader('X-Flash-Messages'))
-    } catch(e) {
+      if (message) {
+        message = null
+      }
+      flash = JSON.parse(message)
+    } catch (e) {
       return
     }
+
     let reported = false
 
     if (flash) {
@@ -64,25 +70,25 @@ if (window.jQuery) {
 
     if (reported) { return }
 
-    if(xhr.status == 500) {
+    if(status == 500) {
       new Noty({
         type: 'error',
         text: decodeURIComponent('뭔가 잘못되었습니다. 곧 고치겠습니다.'),
         timeout: 3000,
       }).show()
-    } else if(xhr.status == 400) {
+    } else if(status == 400) {
       new Noty({
         type: 'error',
         text: decodeURIComponent('요청하신 것을 처리할 수 없습니다.'),
         timeout: 3000,
       }).show()
-    } else if(xhr.status == 403) {
+    } else if(status == 403) {
       new Noty({
         type: 'error',
         text: decodeURIComponent('권한이 없습니다.'),
         timeout: 3000,
       }).show()
-    } else if(xhr.status == 404) {
+    } else if(status == 404) {
       new Noty({
         type: 'error',
         text: decodeURIComponent('어머나! 요청하신 내용이 사라졌어요. 페이지를 새로 고쳐보세요.'),
@@ -91,6 +97,16 @@ if (window.jQuery) {
     }
 
     $.each($('[data-disable-with]'), function(index, elm) { $.rails.enableElement(elm) })
+  }
+
+  jQuery(document).on('ajax:success ajax:error', function (event) {
+    let [response, status, xhr] = event.detail
+    notiFlash(JSON.parse(xhr.getResponseHeader('X-Flash-Messages')), xhr.status)
+  })
+
+  jQuery(document).on('fetch:error', function (event) {
+    let [response] = event.detail
+    notiFlash(JSON.parse(response.headers.get('X-Flash-Messages')), response.status)
   })
 }
 

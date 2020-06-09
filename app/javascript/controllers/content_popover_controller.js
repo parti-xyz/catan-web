@@ -1,5 +1,6 @@
 import { Controller } from "stimulus"
 import parseJSON from '../helpers/json_parse'
+import fetchResponseCheck from '../helpers/fetch_check_response';
 
 export default class extends Controller {
   click(event) {
@@ -33,14 +34,21 @@ export default class extends Controller {
   content() {
     if (this.html) { return this.html }
 
-    fetch(this.data.get('url')).then(response => {
-      return response.text()
-    })
-    .then(html => {
-      this.html = html
-      jQuery(this.element).data('bs.popover').setContent()
-      jQuery(this.element).popover('update')
-    })
+    fetch(this.data.get('url'))
+      .then(fetchResponseCheck)
+      .then(response => {
+        if (response) {
+          return response.text()
+        }
+      })
+      .then(html => {
+        if (!html) {
+          return
+        }
+        this.html = html
+        jQuery(this.element).data('bs.popover').setContent()
+        jQuery(this.element).popover('update')
+      })
 
     return this.loadingContent()
   }

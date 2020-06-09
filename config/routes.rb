@@ -433,7 +433,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :posts, only: [:show, :new, :edit]
+    resources :posts, only: [:show, :new, :edit] do
+      shallow do
+        resources :comments, only: [:edit]
+        resources :comments, only: [:create, :update, :destroy], controller: '/comments'
+      end
+    end
     resources :posts, only: [:create, :update], controller: '/posts' do
       member do
         patch 'wiki', to: '/posts#update_wiki'
@@ -452,6 +457,5 @@ Rails.application.routes.draw do
         end
       end
     end
-
   end
 end

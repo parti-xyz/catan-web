@@ -1,0 +1,10 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.front-app .comment-filesource-doc-listing {
+  > .doc {
+    cursor: pointer;
+    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-600;
+  }
+}

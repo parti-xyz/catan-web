@@ -35,7 +35,7 @@ class Front::PagesController < Front::BaseController
   end
 
   def group_sidebar
-    @current_issue = Issue.find_by(id: params[:issue_id])
+    @current_issue = Issue.includes(:folders).find_by(id: params[:issue_id])
     @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
     @issues = current_group.issues.accessible_only(current_user).sort_by_name.includes(:folders, :category)
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }

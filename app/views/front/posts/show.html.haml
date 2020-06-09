@@ -15,7 +15,7 @@
       .post.node{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
         #{@current_post.title}
     .control
-      = render 'front/posts/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
+      = render 'front/channels/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
 .post-box{ data: { controller: 'channel-read-emit', 'channel-read-emit': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
   .post-main
     .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
@@ -24,7 +24,7 @@
         - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
         != last_stroked_text
         = date_f(last_stroked_at)
-    .post-content
+    .post-content{ data: { controller: 'comment-form-open' } }
       - if @current_post.wiki.blank?
         .post-meta
           = link_to smart_user_gallery_url(@current_post.user), class: 'userimage' do
@@ -46,7 +46,6 @@
         .post-body
           .body
             = post_body_format @current_issue, @current_post.body
-        - single_image_breakpoint = is_small_screen? ? 270 : 600
         - if @current_post.file_sources_only_image.any?
           .post-file-sources-only-image{ data: { controller: 'photoswipe justified-gallery' } }
             = render layout: 'layouts/photoswipe', locals: { file_sources: @current_post.file_sources_only_image, title: @current_post.title } do |file_source|
@@ -91,10 +90,18 @@
         .post-wiki{ class: ('-active' if @current_post.wiki.active?) }
           = render 'front/wikis/card', current_wiki: @current_post.wiki
 
+      .reactions
+        .btn.btn-link.btn-sm
+          공감해요
+        .btn.btn-link.btn-sm{ data: { action: 'click->comment-form-open#run' } }
+          댓글달기
+
       - if @current_post.comments.present?
         .post-comments
           - @current_post.comments_threaded.each do |parent_comment, child_comments|
-            = render 'front/posts/show/comment', comment: parent_comment, child_comments: child_comments
+            = render 'front/posts/show/comment', comment: parent_comment, child_comments: child_comments, current_folder: @current_folder
+
+      = render 'front/posts/show/comment/form', current_post: @current_post, current_folder: @current_folder
 
   .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
 

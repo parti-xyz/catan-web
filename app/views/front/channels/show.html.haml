@@ -32,7 +32,7 @@
           %i.fa.fa-search
           = search_q
     .control
-      = render 'front/posts/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
+      = render 'front/channels/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
 - if @posts.any?
   .channel-box
     .post-lines-box

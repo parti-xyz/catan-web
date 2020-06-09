@@ -10,4 +10,8 @@
     overflow: hidden;
     cursor: pointer;
   }
+
+  > .image > .img {
+    height: 100%;
+  }
 }

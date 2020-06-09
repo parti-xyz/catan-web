@@ -26,10 +26,15 @@ class CommentsController < ApplicationController
     if @comment.errors.any?
       errors_to_flash(@comment)
     end
-    @comment.reload if @comment.persisted?
-    respond_to do |format|
-      format.js
-      format.html { redirect_to_origin }
+
+    if params[:namespace_slug] == 'front'
+      redirect_to front_post_url(@comment.post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+    else
+      @comment.reload if @comment.persisted?
+      respond_to do |format|
+        format.js
+        format.html { redirect_to_origin }
+      end
     end
   end
 
@@ -48,6 +53,12 @@ class CommentsController < ApplicationController
       end
     end
     @comment.reload if @comment.persisted?
+
+    if params[:namespace_slug] == 'front'
+      redirect_to front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+    else
+      render
+    end
   end
 
   def destroy
@@ -58,6 +69,12 @@ class CommentsController < ApplicationController
       if @comment.parent.present? and @comment.parent.almost_deleted? and @comment.parent.children.empty?
         @comment.parent.destroy!
       end
+    end
+
+    if params[:namespace_slug] == 'front'
+      redirect_to front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+    else
+      render
     end
   end
 

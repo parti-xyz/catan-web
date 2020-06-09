@@ -1,4 +1,5 @@
 @use '../../global-variables';
+@use '../../bootstrap';
 
 .front-app .post-comment-main {
   // elements
@@ -7,6 +8,13 @@
     padding: .5rem .75rem;
     border-radius: 1rem;
     background-color: global-variables.$color-gray-200;
+  }
+   > .body.-mine {
+    max-width: 95%;
+    vertical-align: top;
+  }
+  > .body > .screened {
+    opacity: 0.4;
   }
   > .body > .usernickname {
     color: global-variables.$color-brand-primary;
@@ -21,8 +29,61 @@
     white-space: pre;
   }
 
+  > .moremenu {
+    display: inline-block;
+  }
+
+  > .filesourcesfield,
+  > .pollfield,
+  > .surveyfield {
+    display: none;
+    background-color: global-variables.$color-gray-200;
+    padding: 1rem;
+  }
+
+  > .filesourcesfield > .header,
+  > .pollfield > .header,
+  > .surveyfield > .header {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: global-variables.$color-gray-600;
+  }
+
+  > .filesourcesfield.-active,
+  > .pollfield.-active,
+  > .surveyfield.-active {
+    display: block;
+  }
+
+  > .filesourcesfield > .main > .images,
+  > .filesourcesfield > .main > .docs {
+    margin-bottom: .5rem;
+  }
+
+  > .filesourcesfield > .footer > .counter {
+    font-size: bootstrap.$font-size-sm;
+  }
+
+  > .filesourcesfield > .footer > .template,
+  > .surveyfield > .main > .template {
+    display: none;
+  }
+
+  > .filesourcesfield > .helper {
+    font-size: bootstrap.$font-size-sm;
+    margin-top: 1rem;
+  }
+
+  > .bodyfield > .textarea {
+    border-radius: 1rem;
+  }
+
+  > .reactions > .btn {
+    font-size: bootstrap.$font-size-sm;
+  }
+
   // components
   > .comment-filesource-listings {
-    margin-top: 0.5rem;
+    margin-bottom: .5rem;
   }
 }

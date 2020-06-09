@@ -31,10 +31,10 @@
     .main
       .images{ data: { target: 'post-form.imageFileSourcesContainer' } }
         = f.fields_for :file_sources, current_post.file_sources_only_image do |ff|
-          = render 'front/posts/form/file_source_field', f: ff
+          = render 'front/file_sources/form/field', f: ff, js_controller_name: 'post-form'
       .docs{ data: { target: 'post-form.docFileSourcesContainer' } }
         = f.fields_for :file_sources, current_post.file_sources_only_doc do |ff|
-          = render 'front/posts/form/file_source_field', f: ff
+          = render 'front/file_sources/form/field', f: ff, js_controller_name: 'post-form'
     .footer
       .btn.btn-secondary.btn-sm{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
         + 파일 추가
@@ -49,13 +49,13 @@
       .template{ data: { target: 'post-form.fileSourceFieldTemplate' } }
         = escape_once_block do
           = f.fields_for :file_sources, FileSource.new(), child_index: 'NEW_RECORD' do |ff|
-            = render 'front/posts/form/file_source_field', f: ff
+            = render 'front/file_sources/form/field', f: ff, js_controller_name: 'post-form'
       .template{ data: { target: 'post-form.imageFileSourcePreviewTemplate' } }
         = escape_once_block do
-          = render 'front/posts/form/file_source_preview', file_source: FileSource.new(), type: :image
+          = render 'front/file_sources/form/preview', file_source: FileSource.new(), type: :image, js_controller_name: 'post-form'
       .template{ data: { target: 'post-form.docFileSourcePreviewTemplate' } }
         = escape_once_block do
-          = render 'front/posts/form/file_source_preview', file_source: FileSource.new(), type: :doc
+          = render 'front/file_sources/form/preview', file_source: FileSource.new(), type: :doc, js_controller_name: 'post-form'
     .helper.text-muted
       %hr
       %span.badge.badge-secondary TIP

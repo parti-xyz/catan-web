@@ -1,0 +1,9 @@
+.file-source-field{ class: [('-active' if f.object.persisted?), ('-image' if f.object.persisted? && f.object.image?), ('-doc' if f.object.persisted? && f.object.doc?)], data: { target: "#{js_controller_name}.fileSourceField", "#{js_controller_name}-new-record": f.object.new_record?.to_s } }<>
+  = f.hidden_field :id
+  = f.hidden_field :seq_no
+  = f.hidden_field :_destroy
+  = f.file_field :attachment, { class: 'attachment', data: { action: "change->#{js_controller_name}#changeFileSourceField" } }
+  = f.hidden_field :attachment_cache, value: f.object.attachment_cache
+
+  - if f.object.persisted?
+    = render 'front/file_sources/form/preview', file_source: f.object, js_controller_name: js_controller_name
