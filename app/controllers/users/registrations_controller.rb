@@ -1,6 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   include AfterLogin
   include StoreLocation
+  include FrontableView
 
   after_action :after_omniauth_login, only: :create
   after_action :send_welcome_mail, only: :create
@@ -19,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation)
+    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation, :confirmation_group_slug)
   end
 
   def account_update_params
@@ -29,16 +30,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_inactive_sign_up_path_for(resource)
-    inactive_sign_up_users_path
+    if helpers.implict_front_namespace?
+      inactive_sign_up_front_users_path
+    else
+      inactive_sign_up_users_path
+    end
   end
 
   def after_sign_up_path_for(resource)
     omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
 
     group = Group.find_by_slug(omniauth_params['group_slug'])
+
     if group.present?
-      result = stored_location(group) || '/'
-      URI.join(root_url(subdomain: group.subdomain), result).to_s
+      result = (stored_location(group) || '/').to_s
+
+      group_root = root_url(subdomain: group.subdomain)
+      if helpers.implict_front_namespace?
+        result = group_root
+      else
+        result = URI.join(group_root, (stored_location(group) || '/').to_s).to_s
+      end
+      result
     else
       dashboard_intro_path
     end

@@ -1,0 +1,39 @@
+%section#sign-up.text-center
+  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' } 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}
+  %h3.text-center.sign-up__txt
+    가입 확인 메일 재발송
+  %p.text-center
+    가입 시 등록한 이메일을 입력하시면
+    %br
+    가입 확인 메일을 다시 보내드릴게요.
+  .box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
+    = form_for resource, as: resource_name, url: confirmation_path(resource_name), method: :post do |f|
+      - if resource.errors.messages.any?
+        .alert.alert-warning
+          - resource.errors.messages.each do |message|
+            - attribute_name = User.human_attribute_name(message[0])
+            - if message[0] == :email
+              %div 찾을 수 없거나 이미 가입확인된 이메일입니다.
+            - elsif %i(provider confirmation_token).include? message[0]
+              %div 다시 시도해 주세요.
+            - else
+              - attribute_messages = message[1]
+              - attribute_messages.each do |m|
+                %div
+                  %i.fa.fa-check
+                  #{attribute_name} #{m}
+
+      = f.hidden_field :provider, value: :email
+      .form-group
+        = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control'
+      .form-group.text-center
+        = f.submit "가입확인 메일을 재발송합니다", class: 'btn btn-danger', data: { disable_with: "발송 중..." }
+
+%section#sign-up-links
+  .text-center
+    %p
+      다른 계정으로 로그인하시겠어요?
+      = link_to '로그인', new_user_session_path, class: 'text-primary'
+    %p
+      처음 오셨나요?
+      = link_to '가입하기', pre_sign_up_front_users_path, class: 'text-primary'

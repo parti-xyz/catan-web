@@ -171,7 +171,7 @@ class IssuesController < ApplicationController
     if current_group.try(:will_violate_issues_quota?, @issue)
       flash[:notice] = t('labels.group.met_private_issues_quota')
 
-      if params[:namespace_slug] == 'front'
+      if helpers.explict_front_namespace?
         head 400 and return
       else
         render 'new' and return
@@ -180,7 +180,7 @@ class IssuesController < ApplicationController
     if @issue.will_save_change_to_group_slug? and !current_user.admin?
       flash[:notice] = t('unauthorized.default')
 
-      if params[:namespace_slug] == 'front'
+      if helpers.explict_front_namespace?
         head 400 and return
       else
         render 'edit' and return
@@ -244,14 +244,14 @@ class IssuesController < ApplicationController
         flash[:success] = t('activerecord.successful.messages.created')
         errors_to_flash(@issue)
 
-        if params[:namespace_slug] == 'front'
+        if helpers.explict_front_namespace?
           redirect_to front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
         else
           redirect_to smart_issue_home_url(@issue)
         end
       else
         errors_to_flash(@issue)
-        if params[:namespace_slug] == 'front'
+        if helpers.explict_front_namespace?
           render_front_edit(@issue)
         else
           render 'edit'
@@ -263,13 +263,13 @@ class IssuesController < ApplicationController
   def destroy
     IssueDestroyJob.perform_async(current_user.id, @issue.id, params[:message])
     flash[:success] = t('views.started_issue_destroying')
-    redirect_to root_path, turbolinks: params[:namespace_slug] == 'front'
+    redirect_to root_path, turbolinks: helpers.explict_front_namespace?
   end
 
   def remove_logo
     @issue.remove_logo!
     @issue.save
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       render_front_edit(@issue)
     else
       redirect_to [:edit, @issue]
@@ -279,7 +279,7 @@ class IssuesController < ApplicationController
   def remove_cover
     @issue.remove_cover!
     @issue.save
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       render_front_edit(@issue)
     else
       redirect_to [:edit, @issue]
@@ -406,7 +406,7 @@ class IssuesController < ApplicationController
       errors_to_flash(@issue)
     end
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       redirect_to front_channel_path(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
     else
       redirect_to smart_issue_home_url(@issue)
@@ -420,7 +420,7 @@ class IssuesController < ApplicationController
     else
       errors_to_flash(@issue)
     end
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       redirect_to front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
     else
       redirect_to smart_issue_home_url(@issue)

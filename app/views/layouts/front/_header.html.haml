@@ -1,0 +1,33 @@
+.front-navbar
+  .groupmenu
+    = link_to current_group.title, root_url
+  = form_with url: '#', method: :get, class: 'searchform', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
+    - front_search_issue_id = @current_issue&.id
+    - front_search_folder_id = @current_folder&.id
+    .dropdown
+      = f.text_field 'front_search[q]', value: PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q)), class: 'queryinput fa', placeholder: raw('&#xf002 검색...'), autocomplete: 'off', data: { target: 'front-search.searchQueryField', action: 'input->front-search#updateQueryField focus->front-search#updateQueryField blur->front-search#blurQueryField keydown@document->front-search#upAndDownMenuItem', toggle: 'dropdown-toggle' }
+      .dropdown-menu{ 'data-target': 'front-search.menu' }
+        - if front_search_folder_id.present?
+          .dropdown-item{ data: { 'front-search-url': front_channel_path(id: front_search_issue_id, folder_id: front_search_folder_id), target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
+            %span.text{ 'data-target': 'front-search.menuItemText' }
+            %span.scope 폴더 내 검색
+        - if front_search_issue_id.present?
+          .dropdown-item{ data: { 'front-search-url': front_channel_path(id: front_search_issue_id), target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
+            %span.text{ 'data-target': 'front-search.menuItemText' }
+            %span.scope 채널 내 검색
+        .dropdown-item{ data: { 'front-search-url': front_search_path, target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
+          %span.text{ 'data-target': 'front-search.menuItemText' }
+          %span.scope 그룹 내 검색
+  .profilemenus
+    - if user_signed_in?
+      .dropdown
+        .userimage{ "data-toggle" => "dropdown", :href => "#" }
+          .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
+        .dropdown-menu
+          = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
+          = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+    - else
+      .sign-up
+        = link_to '회원가입', pre_sign_up_front_users_path
+      .sign-up
+        = link_to '로그인', new_user_session_path

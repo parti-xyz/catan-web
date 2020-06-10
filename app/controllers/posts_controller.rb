@@ -28,13 +28,13 @@ class PostsController < ApplicationController
     service = PostCreateService.new(post: @post, current_user: current_user)
     unless service.call
       errors_to_flash(@post)
-      if params[:namespace_slug] == 'front'
+      if helpers.explict_front_namespace?
         render_500 and return
       end
     end
 
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       if @post.errors.blank?
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
       end
@@ -89,14 +89,14 @@ class PostsController < ApplicationController
       crawling_after_updating_post
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
-      if params[:namespace_slug] == 'front'
+      if helpers.explict_front_namespace?
         redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
       else
         redirect_to params[:back_url].presence || smart_post_url(@post)
       end
     else
       errors_to_flash(@post)
-      if params[:namespace_slug] == 'front'
+      if helpers.explict_front_namespace?
         render_500
       else
         render 'posts/edit'
@@ -196,7 +196,7 @@ class PostsController < ApplicationController
 
       if conflict
         @post.wiki.build_conflict
-        if params[:namespace_slug] == 'front'
+        if helpers.explict_front_namespace?
           flash[:alert] = t('activerecord.successful.messages.conflicted_wiki')
           render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
         else
@@ -209,7 +209,7 @@ class PostsController < ApplicationController
         @post.issue.strok_by!(current_user, @post)
         @post.issue.deprecated_read_if_no_unread_posts!(current_user)
 
-        if params[:namespace_slug] == 'front'
+        if helpers.explict_front_namespace?
           flash[:notice] = I18n.t('activerecord.successful.messages.created')
           render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
         else
@@ -221,7 +221,7 @@ class PostsController < ApplicationController
         end
       else
         errors_to_flash(@post)
-        if params[:namespace_slug] == 'front'
+        if helpers.explict_front_namespace?
           render_500 and return
         else
           respond_to do |format|
@@ -231,7 +231,7 @@ class PostsController < ApplicationController
         end
       end
     else
-      if params[:namespace_slug] == 'front'
+      if helpers.explict_front_namespace?
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
         head 200 and return
       else

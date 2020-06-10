@@ -17,7 +17,7 @@ class VotingsController < ApplicationController
     respond_to do |format|
       format.js
       format.html {
-        if params[:namespace_slug] == 'front'
+        if helpers.explict_front_namespace?
           flash.now[:notice] = @poll.sured_by?(current_user) ? '투표했습니다' : '투표를 취소했습니다'
           render(partial: params[:view_path_after_save], locals: { poll: @poll })
         else
@@ -33,7 +33,7 @@ class VotingsController < ApplicationController
       render_404 and return
     end
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       render(partial: 'front/posts/show/poll/votings/users', locals: { poll: @poll })
     else
       render layout: nil

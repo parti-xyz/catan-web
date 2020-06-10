@@ -1,0 +1,5 @@
+@use './bootstrap';
+
+.btn-white {
+  @include bootstrap.button-variant(#ffffff, #cccccc, #ffffff, #adadad, #ffffff, #adadad);
+}

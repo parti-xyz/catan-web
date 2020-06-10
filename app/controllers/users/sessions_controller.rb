@@ -1,4 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
+  include FrontableView
+
   # POST /resource/sign_in
   def create
     super
@@ -10,6 +12,6 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def auth_options
-    { scope: resource_name, recall: 'users#email_sign_in' }
+    { scope: resource_name, recall: helpers.implict_front_namespace? ?  'front/users#email_sign_in' : 'users#email_sign_in' }
   end
 end

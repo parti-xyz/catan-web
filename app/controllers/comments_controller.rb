@@ -27,7 +27,7 @@ class CommentsController < ApplicationController
       errors_to_flash(@comment)
     end
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       redirect_to front_post_url(@comment.post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
     else
       @comment.reload if @comment.persisted?
@@ -54,7 +54,7 @@ class CommentsController < ApplicationController
     end
     @comment.reload if @comment.persisted?
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       redirect_to front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
     else
       render
@@ -71,7 +71,7 @@ class CommentsController < ApplicationController
       end
     end
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       redirect_to front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
     else
       render

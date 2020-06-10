@@ -486,4 +486,12 @@ module ApplicationHelper
     result[-1].gsub!(/^_/, '')
     result.join('/')
   end
+
+  def implict_front_namespace?(group = nil)
+    (group || current_group)&.frontable? && !is_small_screen?
+  end
+
+  def explict_front_namespace?
+    params[:namespace_slug] == 'front'
+  end
 end

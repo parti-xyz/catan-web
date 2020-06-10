@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :blocked_private_group
   before_action :logging_mobile_app
 
-  after_action :prepare_unobtrusive_flash
+  after_action :prepare_unobtrusive_flash_frontable
   after_action :prepare_store_location
   after_action :visit_group
   after_action :flash_to_headers
@@ -81,8 +81,16 @@ class ApplicationController < ActionController::Base
     group = Group.find_by_slug(omniauth_params['group_slug'])
     group ||= current_group
 
-    result = stored_location(group) || '/'
-    result = URI.join(root_url(subdomain: group.subdomain), result).to_s if group.present?
+    result = (stored_location(group) || '/').to_s
+
+    if group.present?
+      group_root = root_url(subdomain: group.subdomain)
+      if helpers.implict_front_namespace?
+        result = group_root
+      else
+        result = URI.join(group_root, (stored_location(group) || '/').to_s).to_s
+      end
+    end
 
     if is_mobile_app_get_request?(request)
       mobile_app_setup_sessions_path(after_sign_in_path: result)
@@ -275,7 +283,7 @@ class ApplicationController < ActionController::Base
     result ||= ""
     result += model.errors.full_messages.join('<br>')
 
-    if params[:namespace_slug] == 'front'
+    if helpers.helpers.explict_front_namespace?
       flash[:alert] = result.html_safe
     else
       flash[:error] = result.html_safe
@@ -391,5 +399,10 @@ class ApplicationController < ActionController::Base
 
   def force_remote_replace_header
     response.headers['X-Force-Remote-Replace-Header'] = 'true'
+  end
+
+  def prepare_unobtrusive_flash_frontable
+    return if helpers.explict_front_namespace? || helpers.implict_front_namespace?
+    prepare_unobtrusive_flash
   end
 end

@@ -31,26 +31,3 @@
       %p
         이미 가입하셨나요?
         = link_to '로그인하기', new_user_session_path
-
-      / .devider
-      /   %span 또는
-
-      / .email-login-form.panel
-      /   .panel-body
-      /     = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-      /       = f.hidden_field :provider, value: 'email'
-      /       .form-group
-      /         = f.email_field :email, placeholder: '이메일을 입력하세요', class: 'form-control'
-      /       .form-group
-      /         = f.password_field :password, placeholder: '비밀번호를 입력하세요', autocomplete: "off", class: 'form-control'
-      /       .form-group.text-center
-      /         - if devise_mapping.rememberable?
-      /           = f.check_box :remember_me
-      /           = f.label :remember_me, class: 'remember_me'
-      /       .form-group
-      /         = f.submit '로그인', class: 'btn btn-primary btn-block', data: { disable_with: "로그인 중..." }
-
-
-      /     = render "devise/shared/links"
-
-

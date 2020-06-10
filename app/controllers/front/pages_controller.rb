@@ -11,7 +11,7 @@ class Front::PagesController < Front::BaseController
       .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
-    @posts = @posts.of_searchable_issues(current_user) if user_signed_in?
+    @posts = @posts.of_searchable_issues(current_user)
 
     front_search_q = params.dig(:front_search, :q)
     if front_search_q.present?

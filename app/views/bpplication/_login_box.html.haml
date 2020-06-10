@@ -16,7 +16,7 @@
               .btn.signinbtn{ class: "-#{data[:class_name]}", data: { action: 'click->sign-in-launcher#auth', target: 'sign-in-launcher.button', 'sign-in-launcher': { 'web-url': omniauth_authorize_url(:user, data[:omniauth_slug], subdomain: false), 'app-url': mobile_app_auth_url(subdomain: nil, provider: data[:omniauth_slug], remember_me: true, fallback_url: omniauth_authorize_url(:user, data[:omniauth_slug], subdomain: false)) } } }
                 %i.fa{ class: "fa-#{data[:class_name]}" }
                 #{data[:human_name]} 아이디로 로그인하기
-            = link_to email_sign_in_users_path, class: 'btn signinbtn -email', data: { target: 'sign-in-launcher.button', turbolinks: false } do
+            = link_to email_sign_in_front_users_path, class: 'btn signinbtn -email', data: { target: 'sign-in-launcher.button', turbolinks: false } do
               %i.fa.fa-envelope
               이메일로 로그인
             = form_tag nil, method: :get, data: { target: 'sign-in-launcher.form', turbolinks: false }, class: 'signinform' do

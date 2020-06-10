@@ -1,5 +1,5 @@
 class Front::BaseController < ApplicationController
-  layout 'front'
+  layout 'front/base'
   before_action :setup_turbolinks_root
 
   private

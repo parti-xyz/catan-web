@@ -9,7 +9,7 @@ class UpvotesController < ApplicationController
     @upvote.save
     @upvote.upvotable.reload
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       @post ||= @comment&.post
       redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
     else
@@ -25,7 +25,7 @@ class UpvotesController < ApplicationController
     @upvote.try(:destroy)
     @upvotable.reload
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       @post ||= @comment&.post
       redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
     else
@@ -38,7 +38,7 @@ class UpvotesController < ApplicationController
   def users
     @upvotable = (@comment || @post)
 
-    if params[:namespace_slug] == 'front'
+    if helpers.explict_front_namespace?
       render(partial: 'front/posts/show/upvotings/users', locals: { upvotable: @upvotable })
     else
       render layout: false

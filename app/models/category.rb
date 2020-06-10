@@ -7,7 +7,7 @@ class Category < ApplicationRecord
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug
   has_many :issues, dependent: :nullify
 
-  scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(categories.name, 1)) < 128, 1, 0)")).order('categories.name').order(id) }
+  scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(categories.name, 1)) < 128, 1, 0)")).order('categories.name').order(:id) }
   validates :name, uniqueness: { scope: :group_slug }, presence: true
 
   NADA_ID = 0

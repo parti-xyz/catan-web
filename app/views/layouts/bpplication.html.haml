@@ -20,10 +20,9 @@
 
     = csrf_meta_tags
 
-  %body.-pack{ class: "#{body_class}", data: { 'root-domain': root_domain, controller: 'sign-in-launcher' } }
-    %section.unobtrusive-flash-section
-      .container
-        .unobtrusive-flash-container
+  %body.-pack{ class: "#{body_class} #{local_assigns[:additional_body_class]}", data: { 'root-domain': root_domain, controller: 'sign-in-launcher' } }
+    - flash.each do |type, message|
+      %div.collapse{ data: { controller: 'flash-message', 'flash-message': { type: type, message: message } } }
 
     = content_for?(:content) ? yield(:content) : yield
 

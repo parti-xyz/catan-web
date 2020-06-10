@@ -15,6 +15,7 @@
 @forward "./front-app/front-body";
 @forward "./front-app/front-navbar";
 @forward "./front-app/front-playground";
+@forward "./front-app/front-simple";
 @forward "./front-app/global-sidebar";
 @forward "./front-app/group-menu";
 @forward "./front-app/group-navitem";
@@ -52,7 +53,8 @@
 @forward "./front-app/user-navitem";
 
 // reset front body
-body.app-front {
+body.app-front,
+body.-pack.-simple.app-users {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -65,10 +67,18 @@ $navbar-height: 2.5rem;
     height: $navbar-height;
     position: fixed;
     width: 100%;
+    top: 0;
   }
   > .front-body {
     flex: 1;
     height: 100%;
     padding-top: $navbar-height;
   }
+}
+
+body.-simple .front-app {
+  padding-top: $navbar-height;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

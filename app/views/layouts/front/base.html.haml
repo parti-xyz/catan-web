@@ -1,0 +1,16 @@
+- content_for :content do
+  .front-app
+    = render 'layouts/front/header'
+
+    .front-body{ data: { 'controller': 'channel-read-listener group-sidebar-listener', action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume' } }
+      .group-sidebar
+        .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader collection-activation', target: 'group-sidebar-listener.collectionActivationController', action: 'group-sidebar-deactivation-all->collection-activation#deactiveAll', 'content-loader-url': front_group_sidebar_path(issue_id: @current_issue, folder_id: @current_folder), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
+      .front-playground{ data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'channel-id': @current_issue&.id, 'folder-id': @current_folder&.id } } }
+        - if content_for?(:playground_header_content)
+          .playground-header
+            = yield(:playground_header_content)
+        .playground-body{ data: { js: 'scroll-persistence', 'scroll-persistence-id': ("front-app-playground-body-#{@scroll_persistence_id_ext}" if @scroll_persistence_id_ext.present?), 'scroll-persistence-tag': @scroll_persistence_tag } }
+          = render layout: 'layouts/simplebar' do
+            = yield
+
+= render template: 'layouts/bpplication'

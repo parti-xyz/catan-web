@@ -1,4 +1,5 @@
 class Users::PasswordsController < Devise::PasswordsController
+  include FrontableView
   def create
     unless User.exists?(email: params[:user][:email], provider: 'email')
       flash[:error] = t('devise.passwords.new.no_account')

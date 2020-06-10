@@ -1,0 +1,8 @@
+- content_for :content do
+  .front-app
+    = render 'layouts/front/header'
+
+    .front-simple
+      = yield
+
+= render template: 'layouts/bpplication', locals: { additional_body_class: '-simple' }

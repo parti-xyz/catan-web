@@ -25,7 +25,8 @@ Rails.application.routes.draw do
     registrations: 'users/registrations',
     omniauth_callbacks: 'users/omniauth_callbacks',
     passwords: 'users/passwords',
-    sessions: 'users/sessions'
+    sessions: 'users/sessions',
+    confirmations: 'users/confirmations'
   }
   get 'after_sign_out', to: redirect { |path_params, request|
     if is_mobile_app_get_request?(request)
@@ -469,6 +470,20 @@ Rails.application.routes.draw do
           get :users, on: :collection
         end
       end
+    end
+
+    resources :users, except: :show do
+      collection do
+        # get 'access_token'
+        get 'pre_sign_up'
+        get 'email_sign_in'
+        # put 'notification'
+        get 'inactive_sign_up'
+        get 'cancel_form'
+      end
+      # member do
+      #   post 'cancel'
+      # end
     end
   end
 end

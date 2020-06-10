@@ -6,6 +6,8 @@ export default class extends Controller {
   static targets = ['modal', 'form', 'afterLogin', 'button']
 
   modal(event) {
+    event.preventDefault()
+
     const modalController = this.application.getControllerForElementAndIdentifier(
       this.modalTarget,
       "modal"

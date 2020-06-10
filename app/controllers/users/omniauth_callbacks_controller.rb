@@ -17,7 +17,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def failure
     logger.fatal "Omniauth Fail : kind: #{OmniAuth::Utils.camelize(failed_strategy.try(:name))}, reason: #{failure_message}"
     logger.fatal "Omniauth Env : #{request.env.inspect}"
-    redirect_to root_path
+    flash[:alert] = t('errors.messages.unknown')
+
+    omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
+
+    group = Group.find_by_slug(omniauth_params['group_slug'])
+    group ||= current_group
+
+    redirect_to root_url(subdomain: group&.subdomain)
   end
 
   private
@@ -35,7 +42,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       session["devise.omniauth_data"] = parsed_data
       session["omniauth.params_data"] = request.env["omniauth.params"]
-      redirect_to new_user_registration_url
+
+      group = Group.find_by_slug(request.env['omniauth.params'].fetch('group_slug'))
+      redirect_to new_user_registration_url(subdomain: group&.subdomain)
     end
   end
 end
