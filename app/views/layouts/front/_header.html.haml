@@ -1,6 +1,7 @@
 .front-navbar
   .groupmenu
     = link_to current_group.title, root_url
+    = meta_icons(@current_issue)
   = form_with url: '#', method: :get, class: 'searchform', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
     - front_search_issue_id = @current_issue&.id
     - front_search_folder_id = @current_folder&.id

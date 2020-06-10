@@ -1,0 +1,33 @@
+- content_for :playground_header_content do
+  .channel-menu
+    .title.form-inline{ data: { controller: 'select-link' } }
+      - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
+      - if search_q.present?
+        .node
+          = link_to root_path, class: 'link' do
+            %i.fa.fa-cube
+            전체 게시물
+        .node /
+        %span.node
+          %i.fa.fa-search
+          = search_q
+      - else
+        .node
+          %i.fa.fa-cube
+          전체 게시물
+
+- if @posts.any?
+  .channel-box
+    .post-lines-box
+      .post-lines-header
+        .pages
+          - if @posts.current_page.present?
+            페이지 #{@posts.current_page} / #{@posts.total_pages}
+
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
+
+    .supplementary-boxes{ id: "front-app-root-supplementary-#{current_group.id}", data: { controller: 'content-loader', 'content-loader-url': front_root_supplementary_path, 'turbolinks-permanent': true } }
+
+- else
+  .alert.alert-info
+    게시글이 없습니다. 채널을 선택해서 가장 먼저 게시글을 올려보세요.

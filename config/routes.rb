@@ -414,9 +414,10 @@ Rails.application.routes.draw do
 
   # front
   namespace :front, defaults: { namespace_slug: 'front' } do
-    root to: 'pages#root'
+    get :all, to: 'pages#all'
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
+    get :root_supplementary, to: 'pages#supplementary'
 
     resources :channels, only: [:show, :edit] do
       member do

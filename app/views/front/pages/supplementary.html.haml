@@ -1,0 +1,9 @@
+- if current_group.site_description.present?
+  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "group-intro-box-#{current_group.id}" } } }
+    .header{ data: { action: 'click->content-collapse#toggle' } }
+      .title
+        소개
+      .toggler
+        %i.fa.-hide{ data: { target: 'content-collapse.content' } }
+    .body{ data: { target: 'content-collapse.content' } }
+      = simple_format h(current_group.site_description)

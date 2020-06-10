@@ -532,8 +532,6 @@ class Post < ApplicationRecord
       else
         if self.user_id != self.last_stroked_user_id
           result[0] = "#{user_word} 게시한 글에 #{result[0]}"
-        else
-          result[0] = "게시한 #{result[0]}"
         end
       end
     end

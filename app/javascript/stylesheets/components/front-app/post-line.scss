@@ -13,7 +13,6 @@
   }
   &:hover {
     background-color: global-variables.$color-gray-100;
-    > .icon,
     > .body > .title {
       color: global-variables.$color-brand-primary;
     }
@@ -37,18 +36,30 @@
     height: 100%;
     background-color: blue;
   }
-  > .icon {
-    flex: none;
-    padding-right: 0.25rem;
-  }
   > .body {
     flex: 1;
     overflow: hidden;
   }
   > .body > .title {
     white-space: nowrap;
+  }
+  > .body > .title > .link {
     overflow: hidden;
     text-overflow: ellipsis;
+    font-weight: 600;
+    display: inline-block;
+    max-width: 95%;
+  }
+  > .body > .title > .unread {
+    font-size: 8px;
+    display: none;
+    background-color: red;
+    color: white;
+    padding: 2px;
+    vertical-align: top;
+  }
+  > .body > .title > .unread.-active {
+    display: inline-block;
   }
   > .body > .title.-blind {
     color: global-variables.$color-gray-400;
@@ -56,6 +67,15 @@
   > .body > .meta {
     color: global-variables.$color-gray-600;
     font-size: bootstrap.$font-size-xs;
+  }
+  > .body > .meta > .icon {
+    display: inline-block;
+    border: 1px solid global-variables.$color-gray-300;
+    padding: 0 2px;
+    margin-right: .5rem;
+  }
+  > .body > .meta > time {
+    margin-left: .5rem
   }
 
   > .footer {

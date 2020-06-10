@@ -1,39 +1,39 @@
 - current_issue ||= local_assigns[:current_issue]
 %ul.post-lines{ data: { 'controller': 'collection-activation' } }
   - posts.each do |post|
-    %li.post-line{ class: [('-active' if post == current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }<>
-      .icon<>
-        = link_to front_post_path(post, folder_id: @current_folder) do
-          - if post.poll.present?
-            %i.fa.fa-fire.fa-fw
-          - elsif post.survey.present?
-            %i.fa.fa-list-ul.fa-fw
-          - elsif post.wiki.present?
-            %i.fa.fa-file-word-o.fa-fw
-          - else
-            %i.fa.fa-stack-exchange.fa-fw
+    %li.post-line{ class: ('-active' if post == current_post), data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }<>
       .body<>
         - unless post.blinded?(current_user)
           .title<>
-            = link_to front_post_path(post, folder_id: @current_folder) do
+            = link_to front_post_path(post, folder_id: @current_folder), class: 'link' do
               != post.title
+            %span.unread{ class: ('-active' unless post.read?(current_user)) }<> N
         - else
           .title.-blind
             %i.fa.fa-info-circle
             = t('labels.post_blind_info')
         .meta
+          - if post.poll.present?
+            .icon<> 투표
+          - elsif post.survey.present?
+            .icon<> 설문
+          - elsif post.wiki.present?
+            .icon<> 위키
+
+          - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+
           - if current_issue.present?
-            - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
             != last_stroked_text
             = date_f(last_stroked_at)
           - else
             = link_to front_channel_path(post.issue), class: 'link' do
-              "# #{post.issue.title}
+              \# #{post.issue.title}
             = meta_icons(post.issue)
             - if post.folder.present?
               - post.folder.ancestors_and_self.each do |folder|
                 \/
                 = link_to folder.title, front_channel_path(post.issue, folder_id: folder.id), class: 'link'
+            = date_f(last_stroked_at)
       .footer
         .counts
           %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }

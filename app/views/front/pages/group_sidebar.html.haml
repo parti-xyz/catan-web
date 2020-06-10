@@ -1,4 +1,13 @@
 = render layout: 'layouts/simplebar' do
+  .channel-listing
+    %ul.channel-lines
+      %li.channel-line
+        = link_to root_path, class: ['link', ('-active' if @current_issue.blank?)], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } do
+          .title
+            %span.hash
+              %i.fa.fa-cube
+            %span.content
+              전체 게시글
   - @categorised_issues.each do |category, issues|
     .channel-listing
       .title= category&.name || '미분류'
@@ -6,11 +15,11 @@
         - issues.each do |issue|
           - threaded_folders = Folder.threaded(issue.folders)
           %li.channel-line{ data: { controller: ('content-collapse' if threaded_folders.any?), 'content-collapse': { 'id': "folder-lines-channel-#{issue.id}", 'force': (issue == @current_issue ? 'show' : 'hide') } } }
-            = link_to front_channel_path(issue), class: ['link', ('-active' if issue == @current_issue && @current_folder.blank?) ], data: { action: 'click->collection-activation#toggle click->content-collapse#show group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-collapse#show group-sidebar-collapse-hide->content-collapse#hide', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
+            = link_to front_channel_path(issue), class: ['link', ('-active' if issue == @current_issue && @current_folder.blank?)], data: { action: 'click->collection-activation#toggle click->content-collapse#show group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-collapse#show group-sidebar-collapse-hide->content-collapse#hide', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
               .title
                 %span.hash #
                 %span.content<> #{issue.title} #{meta_icons(issue)}
-              %span.unread{ class: ('-active' if issue.unread?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener': { 'channel-id': issue.id, 'channel-read-at': issue.read_at(current_user)&.to_i } } } up
+              %span.unread{ class: ('-active' if issue.unread?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener': { 'channel-id': issue.id, 'channel-read-at': issue.read_at(current_user)&.to_i } } } N
 
             - if threaded_folders.any?
               %ul.folder-lines.-hide{ data: { target: 'content-collapse.content' } }
