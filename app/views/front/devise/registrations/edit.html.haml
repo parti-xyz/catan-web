@@ -7,17 +7,17 @@
         %small
           내 설정을 관리합니다.
 
-    .content-tab-section
-      %ul.nav.nav-tabs
-        %li.active
-          = link_to '#profile', 'data-toggle': 'tab'  do
-            프로필
-        %li
-          = link_to '#groups_notification', 'data-toggle': 'tab' do
-            그룹별 앱 알림
-        %li
-          = link_to '#channels_notification', 'data-toggle': 'tab' do
-            채널별 앱 알림
+    -# .content-tab-section
+    -#   %ul.nav.nav-tabs
+    -#     %li.active
+    -#       = link_to '#profile', 'data-toggle': 'tab'  do
+    -#         프로필
+    -#     %li
+    -#       = link_to '#groups_notification', 'data-toggle': 'tab' do
+    -#         그룹별 앱 알림
+    -#     %li
+    -#       = link_to '#channels_notification', 'data-toggle': 'tab' do
+    -#         채널별 앱 알림
 
     .tab-content
       #profile.tab-pane.active
@@ -65,9 +65,9 @@
                     = f.check_box :enable_mailing_summary
                     요약된 #{I18n.t('labels.app_name_human')} 소식을 이메일로 받습니다.
 
-              .form-group
-                = f.label :push_notification_mode
-                = f.select :push_notification_mode, User.push_notification_mode.options, {}, class: 'form-control'
+              -# .form-group
+              -#   = f.label :push_notification_mode
+              -#   = f.select :push_notification_mode, User.push_notification_mode.options, {}, class: 'form-control'
 
               - if resource.provider == 'email'
                 %hr
@@ -90,14 +90,14 @@
             %label
               회원탈퇴
             .well
-              .help-block
+              .alert.alert-info
                 %p
                   회원 탈퇴 시 서비스 이용 정보를 아래와 같이 정리합니다.
-                %ul
-                  %li 회원 정보: 즉시 삭제
-                  %li 가입 그룹 및 채널 정보: 즉시 삭제
-                  %li 작성된 글 및 댓글: 유지
-                %p.text-basic-wrap
+                %ul.list-unstyled
+                  %li - 회원 정보: 즉시 삭제
+                  %li - 가입 그룹 및 채널 정보: 즉시 삭제
+                  %li - 작성된 글 및 댓글: 유지
+                .text-basic-wrap
                   작성한 게시물의 삭제를 원하시는 경우, 탈퇴 신청 전에 삭제를 진행해주세요.
                   탈퇴 처리가 완료된 후에는 작성하신 글과 댓글의 삭제를 요청할 수 없습니다.
               = link_to '탈퇴하기', cancel_form_users_path, class: 'btn btn-danger'
