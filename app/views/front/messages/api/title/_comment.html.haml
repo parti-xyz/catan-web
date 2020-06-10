@@ -1,0 +1,9 @@
+- comment = message.messagable
+- if comment.post.user == message.user
+  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 내 게시글에 댓글을 남겼습니다
+- else
+  - if comment.mentioned?(message.user)
+    #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 댓글에서 나를 멘션했습니다
+  - else
+    #{link_to message.post.user.nickname, smart_user_gallery_url(message.post.user)}님의 게시글에
+    #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 댓글을 남겼습니다

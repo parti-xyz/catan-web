@@ -103,6 +103,7 @@
   > .profilemenus > .dropdown > .userimage {
     flex: none;
     vertical-align: bottom;
+    cursor: pointer;
   }
   > .profilemenus > .dropdown > .userimage > .userimagebg {
     width: 1.75rem;
@@ -115,5 +116,22 @@
   > .profilemenus > .sign-up {
     opacity: .8;
     margin-left: .75rem;
+  }
+
+  > .profilemenus > .dropdown > .notifications {
+    width: 1.75rem;
+    height: 1.75rem;
+    display: inline-block;
+    text-align: center;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    opacity: 1;
+  }
+
+  > .profilemenus > .dropdown > .messages {
+    max-height: 350px;
+    max-width: 600px;
+    min-width: 400px;
+    overflow: auto;
   }
 }

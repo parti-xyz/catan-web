@@ -288,7 +288,12 @@ class Issue < ApplicationRecord
     return false if blind_user?(someone)
     return false if private_blocked?(someone)
     return true if organized_by?(someone)
-    member?(someone) and !notice_only
+
+    if group.frontable?
+      !notice_only
+    else
+      member?(someone) and !notice_only
+    end
   end
 
   def blind_user? someone

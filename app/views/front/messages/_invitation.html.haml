@@ -1,0 +1,7 @@
+= link_to front_channel_path(invitation.issue) do
+  %span
+    #{invitation.user.nickname}님이
+    %strong
+      #{invitation.issue.title}
+      채널에 초대했습니다.
+    = render 'messages/go'

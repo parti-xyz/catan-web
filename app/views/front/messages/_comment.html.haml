@@ -1,0 +1,23 @@
+= link_to front_post_path(comment.post, anchor_comment: comment_line_anchor_dom_id(comment)) do
+  %strong
+    - if comment.mentioned?(message.user)
+      %span
+        - unless local_assigns[:mention_only_page]
+          #{message.sender.nickname}님이 댓글에서 나를 멘션했습니다
+    - elsif comment.post.user == message.user
+      %strong
+        = message.sender.nickname
+        님이 내 게시글에 댓글을 남겼습니다.
+    - else
+      %span
+        #{message.sender.nickname}님이
+        #{comment.post.user.nickname}님의 게시글에
+        댓글을 남겼습니다.
+  %div= excerpt(comment.body, length: 100)
+  .text-muted{ style: 'margin-top: 1em; font-size: 12px;' }
+    %strong 게시글
+    = comment.post.specific_desc_striped_tags(100)
+    - if comment.parent.present?
+      %div
+        %strong @#{comment.parent.user.nickname}
+        = excerpt(comment.parent.body, length: 100)

@@ -1,0 +1,23 @@
+.message.clearfix.js-link[message]{ class: ('unread' if message.unread?), data: { 'link-source': "##{dom_id(message)}-url-source" } }
+  .media.media-overflow-visible
+    .media-left
+      .thumb.circle-20.img-circle{style: "background-image: url(#{message.sender.image.sm.url}); margin-top: 2px;"}
+    .media-body
+      .message__header
+        - if local_assigns[:mention_only_page]
+          .message__mentioner
+            %strong
+              #{message.sender.nickname}
+        .message__parti
+          - if local_assigns[:mention_only_page]
+            &middot;
+          - if message.issue.present?
+            = link_to smart_issue_home_url(message.issue) do
+              = issue_tag(message.issue)
+          - elsif message.group.present?
+            = link_to message.group.title_basic_format, smart_group_url(message.group)
+        .message__date.date-wrapper
+          &middot;
+          = date_f message.created_at
+      .message__body
+        = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message, mention_only_page: local_assigns[:mention_only_page]

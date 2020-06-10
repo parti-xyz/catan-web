@@ -1,0 +1,55 @@
+@use '../../global-variables';
+
+/* message 알림 : 리펙토링 팔요 */
+.front-app .front-navbar-message-item {
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom:1px solid global-variables.$color-gray-300;
+  padding: .75rem;
+  &:hover {
+    background-color: global-variables.$color-gray-200;
+  }
+  &.unread {
+    background-color: global-variables.$color-gray-200;
+  }
+  .message__link {
+    display: inline-block;
+    float: left;
+    .profile {
+      margin-right: 5px;
+      float: left;
+    }
+    .nickname {
+      height: 30px;
+      line-height: 30px;
+      float: left;
+      color: global-variables.$color-brand-primary;
+      font-weight: bold;
+    }
+  }
+  .message__mentioner {
+    display: inline;
+  }
+  .message__parti {
+    color: global-variables.$color-gray-600;
+    display: inline;
+    a {
+      color: global-variables.$color-gray-600;
+      &:hover{
+        color: global-variables.$color-brand-primary;
+      }
+    }
+  }
+  .message__date.date-wrapper {
+    color: global-variables.$color-gray-600;
+    display: inline-block;
+  }
+  .message__body {
+    white-space: normal;
+    word-break: break-all;
+    .post-reference-line {
+      background-color: white;
+      border: 1px solid global-variables.$color-gray-300;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+- member_request = message.messagable
+- if message.action.to_s == 'request'
+  = link_to front_channel_path(member_request.joinable) do
+    %strong
+      #{member_request.user.nickname}님이
+      = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
+      #{member_request.joinable.model_name.human}에 가입요청합니다.
+    = render 'messages/go'
+- if message.action.to_s == 'accept'
+  = link_to front_channel_path(member_request.joinable) do
+    %strong
+      #{message.sender.nickname}님이
+      = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
+      #{member_request.joinable.model_name.human} 가입요청을 승인합니다.
+    = render 'messages/go'
+- if message.action.to_s == 'cancel'
+  = link_to front_channel_path(member_request.joinable) do
+    %strong
+      #{message.sender.nickname}님이
+      = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
+      #{member_request.joinable.model_name.human} 가입요청을 거절합니다.
+    = render 'messages/go'
+  - if member_request.reject_message?
+    %br
+    = member_request.reject_message
+

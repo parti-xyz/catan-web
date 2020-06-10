@@ -2,6 +2,7 @@
   .groupmenu
     = link_to current_group.title, root_url
     = meta_icons(@current_issue)
+
   = form_with url: '#', method: :get, class: 'searchform', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
     - front_search_issue_id = @current_issue&.id
     - front_search_folder_id = @current_folder&.id
@@ -21,10 +22,22 @@
           %span.scope 그룹 내 검색
   .profilemenus
     - if user_signed_in?
+      - messages = current_user.messages
+      - messages = messages.of_group(current_group)
+      - messages = messages.recent.limit(30)
+      .dropdown
+        .notifications{ "data-toggle" => "dropdown", :href => "#" }
+          -# %i.fa.fa-circle
+          %i.fa.fa-bell
+        .dropdown-menu.dropdown-menu-right.messages
+          - messages.each do |message|
+            .dropdown-item.front-navbar-message-item
+              = render message
+    - if user_signed_in?
       .dropdown
         .userimage{ "data-toggle" => "dropdown", :href => "#" }
           .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
-        .dropdown-menu
+        .dropdown-menu.dropdown-menu-right
           = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
           = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
     - else

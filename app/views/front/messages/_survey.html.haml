@@ -1,0 +1,9 @@
+- survey = message.messagable
+- post = survey.post
+
+= link_to front_post_path(post) do
+  %strong
+    %span
+      #{post.user.nickname}님이 올린 설문의 결과가 나왔습니다.
+  %br
+    = post.specific_desc_striped_tags(100)
