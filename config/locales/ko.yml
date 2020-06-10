@@ -131,6 +131,7 @@ ko:
         organizer_nicknames: 오거나이저
         key_visual_foreground_image: 그룹홈 상단 이미지
         key_visual_background_image: 그룹홈 상단 배경 이미지
+        frontable: 신규화면 적용여부
       issue:
         title: 제목
         body: 설명

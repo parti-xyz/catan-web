@@ -114,6 +114,14 @@
                 %br
               권장 이미지 사이즈는 가로(2880px) * 세로(500px) 입니다.
 
+        - if current_user.admin? and f.object.persisted?
+          .form-group
+            = f.label :frontable
+            .checkbox
+              %label
+                = f.check_box :frontable
+                3.0 신규 화면이 적용됩니다.
+
     .form-group
       = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
       = link_to root_url(subdomain: @group.try(:subdomain)), class: 'btn btn-default' do
