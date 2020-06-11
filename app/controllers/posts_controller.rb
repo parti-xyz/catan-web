@@ -40,7 +40,7 @@ class PostsController < ApplicationController
       end
 
       if @post.wiki.blank?
-        redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+        redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
       else
         render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
       end
@@ -90,7 +90,7 @@ class PostsController < ApplicationController
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       if helpers.explict_front_namespace?
-        redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+        redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
       else
         redirect_to params[:back_url].presence || smart_post_url(@post)
       end

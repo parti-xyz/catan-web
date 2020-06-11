@@ -10,10 +10,17 @@
               전체 게시글
   - @categorised_issues.each_with_index do |(category, issues), index|
     .channel-listing
-      - if category.present?
-        .title= category.name
-      - elsif index != 0
-        .title 미분류
+      .header.clearfix
+        - if category.present?
+          .title= category.name
+        - else
+          - if index != 0
+            .title 미분류
+          - else
+            .title 채널
+        - if current_group.creatable_issue?(current_user)
+          = link_to new_front_channel_path(category_id: (category.id if category.present?)), class: 'btn btn-link -add', title: '채널 추가' do
+            %i.fa.fa-plus-square-o
       %ul.channel-lines
         - issues.each do |issue|
           - threaded_folders = Folder.threaded(issue.folders)

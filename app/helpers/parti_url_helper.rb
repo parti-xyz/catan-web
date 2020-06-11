@@ -93,4 +93,12 @@ module PartiUrlHelper
   def smart_issue_members_url(issue, options = {})
     slug_issue_users_url(options.merge(slug: issue.slug, subdomain: issue.group_subdomain))
   end
+
+  def smart_front_post_url(post, options = {})
+    front_post_path(post, options.merge(subdomain: post&.issue&.group_subdomain))
+  end
+
+  def smart_front_channel_url(issue, options = {})
+    front_channel_path(issue, options.merge(subdomain: issue&.group_subdomain))
+  end
 end

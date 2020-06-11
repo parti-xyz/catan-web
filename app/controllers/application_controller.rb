@@ -290,7 +290,7 @@ class ApplicationController < ActionController::Base
     result ||= ""
     result += model.errors.full_messages.join('<br>')
 
-    if helpers.helpers.explict_front_namespace?
+    if helpers.explict_front_namespace?
       flash[:alert] = result.html_safe
     else
       flash[:error] = result.html_safe

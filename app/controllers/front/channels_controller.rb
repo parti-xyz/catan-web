@@ -31,6 +31,14 @@ class Front::ChannelsController < Front::BaseController
     @scroll_persistence_tag = params[:page].presence || 1
   end
 
+  def new
+    render_403 and return unless current_group.creatable_issue?(current_user)
+
+    @current_category = current_group.categories.find_by(id: params[:category_id]) if params[:category_id].present?
+
+    render layout: 'front/simple'
+  end
+
   def edit
     @current_issue = Issue.includes(:folders).find(params[:id])
     authorize! :update, @current_issue

@@ -1,36 +1,4 @@
 = form_with model: [:front, current_issue], local: false, class: 'channel-form' do |f|
-  - if current_group.try(:met_issues_quota?)
-    .alert.alert-danger
-      %p
-        #{current_group.title}그룹은
-        = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
-          #{current_group.plan_text} 그룹
-        입니다. 최대
-        - if current_group.private?
-          %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
-          채널을 만들 수 있습니다.
-        - else
-          %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
-          비공개 채널을 만들 수 있습니다.
-      - if current_group.private?
-        %p
-          현재 #{current_group.issues.count}개 채널을 사용 중입니다. 무제한으로 채널을 만들려면 지금 업그레이드해 보세요.
-      - else
-        %p
-          현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한으로 비공개 채널을 만들려면 지금 업그레이드해 보세요.
-      %p
-        = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
-  - elsif current_group.try(:trial?)
-    .alert.alert-danger
-      %p
-        #{current_group.title}그룹은
-        = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
-          #{current_group.plan_text} 그룹
-        입니다.
-      %p
-        현재 #{current_group.issues.count}개 채널을 사용 중입니다.
-      %p
-        = link_to '맞춤형 그룹으로 업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
 
   - if current_issue.errors.any?
     .alert.alert-danger{:role => "alert"}
@@ -114,49 +82,12 @@
       %p= current_user.nickname
       %p.form-text.text-muted.small 채널을 만든 후에 오거나이저를 고칠 수 있습니다.
 
-  .form-group{class: ('has-error' if has_error_attr?(current_issue, :private))}
-    = f.label :private
-    - if current_group.blank? or current_group.try(:changable_private_for_issue?, current_issue)
-      .checkbox
-        %label
-          = f.check_box :private
-          비공개로 설정하면 이 채널에 가입한 멤버만 게시글을 볼 수 있습니다.
-    - if current_group.try(:has_issues_quota?) and !current_group.private?
-      .alert.alert-danger
-        %p
-          #{current_group.title}그룹은
-          = link_to about_url(subdomain: nil), style:"text-decoration:underline;", target: '_blank' do
-
-            #{current_group.plan_text} 그룹
-          입니다. 최대
-          %stong #{Group::ISSUE_QUOTA_FOR_LITE_PLAN}개
-          비공개 채널을 만들 수 있습니다.
-        %p
-          현재 #{current_group.issues.only_private.count}개 비공개 채널을 사용 중입니다. 무제한 비공개 채널을 만들려면 지금 업그레이드해 보세요.
-        %p
-          = link_to '업그레이드 하기', about_url(subdomain: nil), target: '_blank', class: 'btn btn-primary'
-
-  .form-group{class: ('has-error' if has_error_attr?(current_issue, :listable_even_private))}
-    = f.label :listable_even_private
-    .checkbox
-      %label
-        = f.check_box :listable_even_private
-        이 채널은 비공개라도 채널 목록과 그룹홈에 표시됩니다. 검색해서 찾을 수도 있습니다. 비공개 채널이 아니라면 이 설정은 무시됩니다.
-
   .form-group{class: ('has-error' if has_error_attr?(current_issue, :notice_only))}
     = f.label :notice_only
     .checkbox
       %label
         = f.check_box :notice_only
         이 채널은 오거나이저만 게시할 수 있습니다.
-
-  - if (current_user.is_organizer?(current_issue.group || host_group) or current_user.admin?)
-    .form-group{class: ('has-error' if has_error_attr?(current_issue, :is_default))}
-      = f.label :is_default
-      .checkbox
-        %label
-          = f.check_box :is_default
-          그룹에 가입하는 멤버는 자동가입되는 채널이 됩니다.
 
   - if current_user.admin? and f.object.persisted?
     .form-group{class: ('has-error' if has_error_attr?(current_issue, :group_slug))}

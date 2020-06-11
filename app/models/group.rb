@@ -305,6 +305,7 @@ class Group < ApplicationRecord
   end
 
   def creatable_issue?(someone)
+    return false if someone.blank?
     return true if self.open_square?
     return self.member?(someone) if self.issue_creation_privileges.member?
     return self.organized_by?(someone) if self.issue_creation_privileges.organizer?

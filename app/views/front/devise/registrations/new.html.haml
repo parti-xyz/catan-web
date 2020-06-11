@@ -1,10 +1,10 @@
-%section#sign-up.text-center
+%section.text-center
   %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' } 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}
   %h3
     %i.fa.fa-user
     회원가입
 
-  .box.text-left{ style: 'padding: 3rem', data: { controller: 'form-dynamic-action' } }
+  .box.text-left{ style: 'padding: 3rem' }
     = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
       = devise_error_messages!
       = f.hidden_field :provider

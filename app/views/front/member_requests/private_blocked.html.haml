@@ -1,9 +1,9 @@
-%section#sign-up.text-center
+%section.text-center
 %h3
   %i.fa.fa-cube
   #{current_group.title} 그룹은 비공개 그룹입니다.
 
-.box{ style: 'padding: 2rem 0', data: { controller: 'form-dynamic-action' } }
+.box{ style: 'padding: 2rem 0'}
   %p
     어서오세요. 환영합니다!
   - if current_group.member_requested? current_user

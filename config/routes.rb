@@ -419,14 +419,14 @@ Rails.application.routes.draw do
     get :group_sidebar, to: 'pages#group_sidebar'
     get :root_supplementary, to: 'pages#supplementary'
 
-    resources :channels, only: [:show, :edit] do
+    resources :channels, only: [:show, :edit, :new] do
       member do
         get :supplementary
         get :post_folder_field
         get :destroy_form
       end
     end
-    resources :issues, only: [:update], controller: '/issues' do
+    resources :issues, only: [:update, :create], controller: '/issues' do
       member do
         put :freeze
         put :wake

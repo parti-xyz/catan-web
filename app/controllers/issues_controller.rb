@@ -159,10 +159,18 @@ class IssuesController < ApplicationController
 
     service = IssueCreateService.new(issue: @issue, current_user: current_user, current_group: current_group, flash: flash)
     if service.call
-      redirect_to smart_issue_home_url(@issue)
+      if helpers.explict_front_namespace?
+        redirect_to smart_front_channel_url(@issue), turbolinks: :true
+      else
+        redirect_to smart_issue_home_url(@issue)
+      end
     else
       errors_to_flash @issue
-      render 'new'
+      if helpers.explict_front_namespace?
+        render_front_edit(@issue)
+      else
+        render 'new'
+      end
     end
   end
 
@@ -245,7 +253,7 @@ class IssuesController < ApplicationController
         errors_to_flash(@issue)
 
         if helpers.explict_front_namespace?
-          redirect_to front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+          redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
         else
           redirect_to smart_issue_home_url(@issue)
         end
@@ -407,7 +415,7 @@ class IssuesController < ApplicationController
     end
 
     if helpers.explict_front_namespace?
-      redirect_to front_channel_path(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+      redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
     else
       redirect_to smart_issue_home_url(@issue)
     end
@@ -421,7 +429,7 @@ class IssuesController < ApplicationController
       errors_to_flash(@issue)
     end
     if helpers.explict_front_namespace?
-      redirect_to front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+      redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
     else
       redirect_to smart_issue_home_url(@issue)
     end

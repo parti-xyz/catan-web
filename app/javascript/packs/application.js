@@ -33,14 +33,19 @@ if (window.jQuery) {
       temp.innerHTML = xhr.response
 
       let targetElement = event.target
-      targetElement.parentNode.replaceChild(temp.firstChild, targetElement)
+      let parentElement = targetElement.parentNode
+      parentElement.replaceChild(temp.firstChild, targetElement)
+
+      parentElement.scrollIntoView({
+        behavior: 'smooth'
+      })
     }
   })
 
   function notiFlash(message, status) {
     let flash
     try {
-      if (message) {
+      if (!message) {
         message = null
       }
       flash = JSON.parse(message)
@@ -102,12 +107,12 @@ if (window.jQuery) {
 
   jQuery(document).on('ajax:success ajax:error', function (event) {
     let [response, status, xhr] = event.detail
-    notiFlash(JSON.parse(xhr.getResponseHeader('X-Flash-Messages')), xhr.status)
+    notiFlash(xhr.getResponseHeader('X-Flash-Messages'), xhr.status)
   })
 
   jQuery(document).on('fetch:error', function (event) {
     let [response] = event.detail
-    notiFlash(JSON.parse(response.headers.get('X-Flash-Messages')), response.status)
+    notiFlash(response.headers.get('X-Flash-Messages'), response.status)
   })
 }
 

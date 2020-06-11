@@ -1,9 +1,9 @@
-%section#sign-up.text-center
+%section.text-center
   %h3
     %i.fa.fa-user
     #{current_group.title} 그룹에 가입을 환영합니다!
 
-  .box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
+  .box{ style: 'padding: 3rem 0' }
     = form_with url: front_member_requests_path, local: true do
       .form-group
         %label
