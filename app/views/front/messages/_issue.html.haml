@@ -1,5 +1,5 @@
 - if message.action.to_s == 'edit_title'
-  = link_to front_channel_path(invitation.issue) do
+  = link_to front_channel_path(issue) do
     %strong
       #{message.sender.nickname}님이
       = link_to message.action_params_hash["previous_title"], smart_issue_home_url(issue)
@@ -8,7 +8,7 @@
       채널로 수정했습니다.
     = render 'messages/go'
 - elsif message.action.to_s == 'create'
-  = link_to front_channel_path(invitation.issue) do
+  = link_to front_channel_path(issue) do
     %strong
       #{message.sender.nickname}님이
       = link_to issue.title, smart_issue_home_url(issue)

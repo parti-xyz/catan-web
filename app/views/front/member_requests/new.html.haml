@@ -1,0 +1,14 @@
+%section#sign-up.text-center
+  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' } #{current_group.title} 그룹에 가입을 환영합니다!
+  %h3
+    %i.fa.fa-user
+    그룹 가입
+
+  .box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
+    = form_with url: front_member_requests_path, local: true do
+      .form-group
+        %label
+          = t("group.#{host_group.slug}.request_join", cascade: true)
+        = text_area_tag :description, nil, class: 'form-control', placeholder: 'ex) 소속, 성함'
+      .form-group.text-right
+        = submit_tag "신청합니다", class: 'btn btn-primary', data: { disable_with: "진행 중..." }

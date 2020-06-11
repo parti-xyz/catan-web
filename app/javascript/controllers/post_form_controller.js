@@ -11,7 +11,8 @@ export default class extends Controller {
     'pollFieldGroup', 'hasPollField',
     'surveyFieldGroup', 'hasSurveyField', 'surveyOptionTemplate', 'surveyOptions',
     'bodyField',
-    'fileSourcesOpenButton', 'pollOpenButton', 'surveyOpenButton'
+    'fileSourcesOpenButton', 'pollOpenButton', 'surveyOpenButton',
+    'submitButton'
   ]
 
   connect() {
@@ -186,7 +187,10 @@ export default class extends Controller {
     this.bodyFieldTarget.value = this.editorController.serialize()
 
     let valid = true
-    if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length < 0) {
+    let temp = document.createElement('div')
+    temp.innerHTML = this.bodyFieldTarget.value
+
+    if (!temp.textContent || temp.textContent.length < 0) {
       new Noty({
         type: 'warning',
         text: '본문 내용이 비었어요. [확인]',
@@ -205,6 +209,7 @@ export default class extends Controller {
     }
     if (valid == false) {
       event.preventDefault()
+      setTimeout(function () { this.submitButtonTargets.forEach(el => jQuery.rails.enableElement(el)) }.bind(this), 1000)
       return false
     }
   }

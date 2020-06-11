@@ -113,9 +113,16 @@
     background-position: center;
     background-size: cover;
   }
-  > .profilemenus > .sign-up {
+  > .profilemenus > .menuitem {
+    position: relative;
     opacity: .8;
     margin-left: .75rem;
+    margin-right: .75rem;
+  }
+  > .profilemenus > .menuitem > .staticpopover {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
   }
 
   > .profilemenus > .dropdown > .notifications {

@@ -1,0 +1,9 @@
+@use '../../global-variables';
+
+.front-app .join-banner {
+  max-width: 600px;
+  border-color: global-variables.$color-brand-primary;
+  .lead {
+    word-break: keep-all;
+  }
+}

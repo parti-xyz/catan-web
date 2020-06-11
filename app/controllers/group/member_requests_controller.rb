@@ -4,13 +4,29 @@ class Group::MemberRequestsController < Group::BaseController
 
   def create
     unless current_group.member?(current_user)
-      @member_request.assign_attributes(joinable: current_group, user: current_user, description: params[:description])
-      if @member_request.save
-        MessageService.new(@member_request, action: :request).call
-        MemberRequestMailer.deliver_all_later_on_create(@member_request)
+      if current_group.private?
+        @member_request.assign_attributes(joinable: current_group, user: current_user, description: params[:description])
+        if @member_request.save
+          flash[:success] = "#{current_group.title} 그룹에 가입을 환영합니다"
+          MessageService.new(@member_request, action: :request).call
+          MemberRequestMailer.deliver_all_later_on_create(@member_request)
+        end
+      else
+        @member = MemberGroupService.new(group: current_group, user: current_user, description: params[:description]).call
+
+        if @member.persisted?
+          flash[:success] = "#{current_group.title} 그룹에 가입을 환영합니다"
+          MessageService.new(@member, sender: current_user).call
+          MemberMailer.deliver_all_later_on_create(@member)
+        end
       end
     end
-    redirect_to(request.referrer || smart_joinable_url(@member_requests.joinable))
+
+    if helpers.explict_front_namespace?
+      redirect_to root_path
+    else
+      redirect_to(request.referrer || smart_joinable_url(@member_requests.joinable))
+    end
   end
 
   def accept

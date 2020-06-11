@@ -22,26 +22,43 @@
           %span.scope 그룹 내 검색
   .profilemenus
     - if user_signed_in?
-      - messages = current_user.messages
-      - messages = messages.of_group(current_group)
-      - messages = messages.recent.limit(30)
-      .dropdown
-        .notifications{ "data-toggle" => "dropdown", :href => "#" }
-          -# %i.fa.fa-circle
-          %i.fa.fa-bell
-        .dropdown-menu.dropdown-menu-right.messages
-          - messages.each do |message|
-            .dropdown-item.front-navbar-message-item
-              = render message
-    - if user_signed_in?
+      - if current_group&.member?(current_user)
+        - messages = current_user.messages
+        - messages = messages.of_group(current_group)
+        - messages = messages.recent.limit(30)
+        .dropdown
+          .notifications{ "data-toggle" => "dropdown", :href => "#" }
+            -# %i.fa.fa-circle
+            %i.fa.fa-bell
+          .dropdown-menu.dropdown-menu-right.messages
+            - messages.each do |message|
+              .dropdown-item.front-navbar-message-item
+                = render message
+      - else
+        .menuitem
+          = link_to '그룹 가입', new_front_member_request_path
+          - unless current_page?('/front/member_requests/new')
+            .staticpopover{ data: { controller: 'static-popover', 'static-popover': { 'class-name': 'join-banner', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+              .collapse{ data: { target: 'static-popover.template' } }
+                = escape_once_block do
+                  %p.lead
+                    %i.fa.fa-info-circle.text-primary
+                    지금 #{current_group.title} 그룹에 가입하세요!
+
+                  %p #{current_group.title} 그룹 멤버들과 함께 흥미진진한 이야기를 나눠 보세요.
+                  .text-right
+                    %button.btn.btn-link.btn-sm{ 'data-dismiss': 'popover' } 닫기
       .dropdown
         .userimage{ "data-toggle" => "dropdown", :href => "#" }
           .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
         .dropdown-menu.dropdown-menu-right
           = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
           = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+          - if current_group&.member?(current_user)
+            .dropdown-divider
+            = link_to '그룹 탈퇴', front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까?" }
     - else
-      .sign-up
+      .menuitem
         = link_to '회원가입', pre_sign_up_front_users_path
-      .sign-up
+      .menuitem
         = link_to '로그인', new_user_session_path

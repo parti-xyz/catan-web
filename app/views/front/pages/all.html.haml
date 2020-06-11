@@ -29,5 +29,7 @@
     .supplementary-boxes{ id: "front-app-root-supplementary-#{current_group.id}", data: { controller: 'content-loader', 'content-loader-url': front_root_supplementary_path, 'turbolinks-permanent': true } }
 
 - else
-  .alert.alert-info
-    게시글이 없습니다. 채널을 선택해서 가장 먼저 게시글을 올려보세요.
+  .alert.alert-info.m-3
+    게시글이 없습니다.
+    - if current_group&.member?(current_user)
+      채널을 선택해서 가장 먼저 게시글을 올려보세요.

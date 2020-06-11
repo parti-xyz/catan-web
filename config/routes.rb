@@ -482,9 +482,17 @@ Rails.application.routes.draw do
         get 'inactive_sign_up'
         get 'cancel_form'
       end
+      # TODO
       # member do
       #   post 'cancel'
       # end
+    end
+
+    resources :member_requests, only: [:new]
+    resources :member_requests, only: [:create], controller: '/group/member_requests'
+
+    resources :memebers, only: [], controller: '/group/members' do
+      delete :cancel
     end
   end
 end

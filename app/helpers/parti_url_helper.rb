@@ -56,7 +56,7 @@ module PartiUrlHelper
     case joinable
     when Group
       if helpers.implict_front_namespace?(joinable)
-        front_root_url(subdomain: joinable.subdomain)
+        root_url(subdomain: joinable.subdomain)
       else
         smart_group_url(joinable, options)
       end

@@ -21,6 +21,8 @@ class Group::MembersController < Group::BaseController
         issue.members.find_by(user: current_user).try(:destroy)
       end
     end
+
+    flash[:success] = "#{current_group.title} 그룹에서 탈퇴하였습니다."
     redirect_to smart_group_url(current_group)
   end
 
