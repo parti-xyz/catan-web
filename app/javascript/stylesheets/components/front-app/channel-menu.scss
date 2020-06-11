@@ -11,6 +11,7 @@
     color: global-variables.$color-voodoo-400;
     font-weight: 900;
     line-height: front-variables.$header-height;
+    overflow: hidden;
   }
 
   > .title > .node + .node {
@@ -51,8 +52,7 @@
   > .control > .moremenu {
     flex: none;
   }
-  > .control > .moremenu > .dropdown > .btn {
-    border-radius: 99999px;
+  > .control > .moremenu > .btn {
     width: 2.5rem;
     height: 2.5rem;
   }

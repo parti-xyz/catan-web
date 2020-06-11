@@ -5,9 +5,10 @@
   // elements
   > .body {
     display: inline-block;
-    padding: .5rem .75rem;
-    border-radius: 1rem;
-    background-color: global-variables.$color-gray-200;
+    padding: .75rem 1.25rem;
+    border-radius: 1.25rem;
+    background-color: global-variables.$color-gray-200-a80;
+    border: 1px solid global-variables.$color-gray-400;
   }
    > .body.-mine {
     max-width: 95%;
@@ -79,17 +80,19 @@
   }
 
   > .reactions > .btn {
-    font-size: bootstrap.$font-size-sm;
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
   }
 
   > .reactions > .btn.-active {
     font-weight: bold;
+    color: global-variables.$color-brand-primary;
   }
 
   > .reactions > .upvotes,
   > .reactions > .datetime {
     display: inline-block;
-    font-size: bootstrap.$font-size-sm;
+    font-size: bootstrap.$font-size-xs;
     margin: 0 .5rem;
     color: global-variables.$color-gray-600;
     cursor: pointer;

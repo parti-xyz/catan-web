@@ -1,10 +1,3 @@
-- channel_moremenu = capture do
-  - if can?(:update, current_issue)
-    = link_to '설정', edit_front_channel_path(current_issue, folder_id: current_folder&.id), class: 'dropdown-item'
-- if channel_moremenu.present?
-  .moremenu
-    .dropdown
-      %button.btn.btn-light.text-muted{ "data-toggle": "dropdown" }
-        %i.fa.fa-ellipsis-v
-      .dropdown-menu.dropdown-menu-right
-        = channel_moremenu
+- if can?(:update, current_issue)
+  = link_to edit_front_channel_path(current_issue, folder_id: current_folder&.id), class: 'btn btn-light btn-sm text-muted', title: '채널 설정' do
+    %i.fa.fa-cog

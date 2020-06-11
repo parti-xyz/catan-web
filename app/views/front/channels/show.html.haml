@@ -42,11 +42,11 @@
             페이지 #{@posts.current_page} / #{@posts.total_pages}
         .edit
           - if @current_issue.postable?(current_user)
-            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-outline-primary btn-sm' do
+            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-secondary btn-sm' do
               %i.fa.fa-pencil
               글쓰기
             &nbsp;
-            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-outline-primary btn-sm' do
+            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-secondary btn-sm' do
               %i.fa.fa-file-word-o
               위키쓰기
       = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
@@ -63,10 +63,10 @@
         .post-lines-header
           .edit
             - if @current_issue.postable?(current_user)
-              = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-outline-primary btn-sm' do
+              = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
                 %i.fa.fa-pencil
                 글쓰기
               &nbsp;
-              = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-outline-primary btn-sm' do
+              = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
                 %i.fa.fa-file-word-o
                 위키쓰기

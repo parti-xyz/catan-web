@@ -11,9 +11,9 @@
     text-transform: uppercase;
     position: relative;
     @include mixin.word-wrap;
+    font-size: bootstrap.$font-size-sm;
   }
   > .header > .title {
-    font-size: bootstrap.$font-size-base;
     font-weight: 700;
     display: inline-block;
   }

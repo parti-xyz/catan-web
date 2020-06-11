@@ -8,20 +8,21 @@
     padding-top: .25rem;
     padding-bottom: .25rem;
     border-top: 1px solid global-variables.$color-gray-300;
-    border-bottom: 1px solid global-variables.$color-gray-300;
   }
 
   > .reactions > .btn {
-    font-size: bootstrap.$font-size-sm;
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
   }
 
   > .reactions > .btn.-active {
     font-weight: bold;
+    color: global-variables.$color-brand-primary;
   }
 
   > .reactions > .upvotes {
     display: inline-block;
-    font-size: bootstrap.$font-size-sm;
+    font-size: bootstrap.$font-size-xs;
     margin: 0 .5rem;
     color: global-variables.$color-gray-600;
     cursor: pointer;

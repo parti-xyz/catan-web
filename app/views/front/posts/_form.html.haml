@@ -15,7 +15,7 @@
       = link_to current_user.nickname, smart_user_gallery_url(current_user), class: 'usernickname'
       .createdat 지금
   .form-group
-    = f.text_field :base_title, class: 'form-control', placeholder: '제목...'
+    = f.text_field :base_title, class: 'form-control', placeholder: '제목...', data: { target: 'post-form.baseTitleField' }
   .form-group
     = f.hidden_field :body, data: { target: 'post-form.bodyField' }
     %div{ style: 'display: none', data: { target: 'editor-form.source' } }

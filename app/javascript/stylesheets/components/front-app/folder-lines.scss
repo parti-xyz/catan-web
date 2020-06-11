@@ -1,4 +1,5 @@
 @use '../../global-variables';
+@use '../../bootstrap';
 
 .front-app .folder-lines {
   list-style: none;
@@ -36,6 +37,7 @@
     margin-left: 0;
     margin-right: 0.25rem;
     overflow: hidden;
+    font-size: bootstrap.$font-size-sm;
   }
   > .line > .link > .title > .content {
     width: 100%;

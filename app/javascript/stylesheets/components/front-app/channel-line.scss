@@ -26,11 +26,13 @@
     color: #ffffff;
     margin-left: 0;
     margin-right: 0.25rem;
+    font-size: bootstrap.$font-size-sm;
   }
   > .link > .title > .hash {
     display: inline-block;
     margin-right: 0.25rem;
     color: global-variables.$color-voodoo-200;
+    font-size: bootstrap.$font-size-sm;
   }
   > .link > .unread {
     display: none;

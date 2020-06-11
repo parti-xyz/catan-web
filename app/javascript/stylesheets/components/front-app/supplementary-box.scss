@@ -1,14 +1,15 @@
 @use '../../global-variables';
 @use '../../mixin';
+@use '../../bootstrap';
 
 .front-app .supplementary-box {
   padding: .75rem;
   user-select: none;
   border: 1px solid global-variables.$color-gray-300;
+  font-size: bootstrap.$font-size-sm;
 
   .header {
     display: flex;
-    font-size: 1rem;
     line-height: 1.25rem;
     text-transform: uppercase;
     color: global-variables.$color-gray-600;
@@ -21,6 +22,7 @@
   }
   .header > .count {
     flex: none;
+    font-size: bootstrap.$font-size-sm;
   }
   .header > .toggler {
     flex: none;

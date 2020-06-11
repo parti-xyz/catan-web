@@ -12,7 +12,7 @@ export default class extends Controller {
     'surveyFieldGroup', 'hasSurveyField', 'surveyOptionTemplate', 'surveyOptions',
     'bodyField',
     'fileSourcesOpenButton', 'pollOpenButton', 'surveyOpenButton',
-    'submitButton'
+    'submitButton', 'baseTitleField'
   ]
 
   connect() {
@@ -202,6 +202,16 @@ export default class extends Controller {
       new Noty({
         type: 'warning',
         text: '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 글을 나누어 등록하거나 사진 업로드를 이용하세요. [확인]',
+        timeout: 3000,
+        modal: true,
+      }).show()
+      valid = false
+    }
+
+    if(this.baseTitleFieldTarget.value?.trim()?.length <= 0) {
+      new Noty({
+        type: 'warning',
+        text: '제목을 넣어 주세요 [확인]',
         timeout: 3000,
         modal: true,
       }).show()
