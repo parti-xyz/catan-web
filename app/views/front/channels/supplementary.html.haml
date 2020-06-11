@@ -18,7 +18,7 @@
         %i.fa.-hide{ data: { target: 'content-collapse.content' } }
     %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
       - @pinned_posts.each do |post|
-        %li.pinned-post-line{ class: [('-active' if post == @current_post), ('-unread' unless post.read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
+        %li.pinned-post-line{ class: [('-active' if post == @current_post), ('-unread' if post.unread?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
           .icon
             - if post.poll.present?
               %i.fa.fa-fire.fa-fw

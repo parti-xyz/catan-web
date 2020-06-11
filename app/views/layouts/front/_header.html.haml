@@ -3,41 +3,42 @@
     = link_to current_group.title, root_url
     = meta_icons(@current_issue)
 
-  = form_with url: '#', method: :get, class: 'searchform', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
-    - front_search_issue_id = @current_issue&.id
-    - front_search_folder_id = @current_folder&.id
-    .dropdown
-      = f.text_field 'front_search[q]', value: PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q)), class: 'queryinput fa', placeholder: raw('&#xf002 검색...'), autocomplete: 'off', data: { target: 'front-search.searchQueryField', action: 'input->front-search#updateQueryField focus->front-search#updateQueryField blur->front-search#blurQueryField keydown@document->front-search#upAndDownMenuItem', toggle: 'dropdown-toggle' }
-      .dropdown-menu{ 'data-target': 'front-search.menu' }
-        - if front_search_folder_id.present?
-          .dropdown-item{ data: { 'front-search-url': front_channel_path(id: front_search_issue_id, folder_id: front_search_folder_id), target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
+  - if current_group.private_blocked?(current_user)
+    .searchform.dummy
+  - else
+    = form_with url: '#', method: :get, class: 'searchform', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
+      - front_search_issue_id = @current_issue&.id
+      - front_search_folder_id = @current_folder&.id
+      .dropdown
+        = f.text_field 'front_search[q]', value: PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q)), class: 'queryinput fa', placeholder: raw('&#xf002 검색...'), autocomplete: 'off', data: { target: 'front-search.searchQueryField', action: 'input->front-search#updateQueryField focus->front-search#updateQueryField blur->front-search#blurQueryField keydown@document->front-search#upAndDownMenuItem', toggle: 'dropdown-toggle' }
+        .dropdown-menu{ 'data-target': 'front-search.menu' }
+          - if front_search_folder_id.present?
+            .dropdown-item{ data: { 'front-search-url': front_channel_path(id: front_search_issue_id, folder_id: front_search_folder_id), target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
+              %span.text{ 'data-target': 'front-search.menuItemText' }
+              %span.scope 폴더 내 검색
+          - if front_search_issue_id.present?
+            .dropdown-item{ data: { 'front-search-url': front_channel_path(id: front_search_issue_id), target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
+              %span.text{ 'data-target': 'front-search.menuItemText' }
+              %span.scope 채널 내 검색
+          .dropdown-item{ data: { 'front-search-url': front_search_path, target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
             %span.text{ 'data-target': 'front-search.menuItemText' }
-            %span.scope 폴더 내 검색
-        - if front_search_issue_id.present?
-          .dropdown-item{ data: { 'front-search-url': front_channel_path(id: front_search_issue_id), target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
-            %span.text{ 'data-target': 'front-search.menuItemText' }
-            %span.scope 채널 내 검색
-        .dropdown-item{ data: { 'front-search-url': front_search_path, target: 'front-search.menuItem front-search.menuItem', action: 'mouseenter->front-search#mouseEnterMenuItem click->front-search#clickMenuItem' } }
-          %span.text{ 'data-target': 'front-search.menuItemText' }
-          %span.scope 그룹 내 검색
+            %span.scope 그룹 내 검색
+
   .profilemenus
     - if user_signed_in?
       - if current_group&.member?(current_user)
-        - messages = current_user.messages
-        - messages = messages.of_group(current_group)
-        - messages = messages.recent.limit(30)
-        .dropdown
-          .notifications{ "data-toggle" => "dropdown", :href => "#" }
-            -# %i.fa.fa-circle
+        #nav-messages.dropdown{ data: { controller: 'content-loader message-read-all', 'content-loader': { url: nav_front_messages_path, 'refresh-interval': (1000 * 60 * 5).to_s, 'disable-refresh-jquery-event': 'show.bs.dropdown', 'enable-refresh-jquery-event': 'hide.bs.dropdown' }, 'message-read-all': { 'url': read_all_front_messages_url }, 'turbolinks-permanent': true } }
+          .notifications{ data: { toggle: 'dropdown' } }
             %i.fa.fa-bell
           .dropdown-menu.dropdown-menu-right.messages
-            - messages.each do |message|
-              .dropdown-item.front-navbar-message-item
-                = render message
+            .dropdown-item
+              %i.fa.fa-spinner.fa-pulse
+              로딩 중...
+
       - else
         .menuitem
           = link_to '그룹 가입', new_front_member_request_path
-          - unless current_page?('/front/member_requests/new')
+          - unless current_page?('/front/member_requests/new') || current_page?('/front/member_requests/private_blocked')
             .staticpopover{ data: { controller: 'static-popover', 'static-popover': { 'class-name': 'join-banner', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
               .collapse{ data: { target: 'static-popover.template' } }
                 = escape_once_block do

@@ -674,6 +674,12 @@ class Post < ApplicationRecord
     post_reader.present? && post_reader.updated_at >= self.last_stroked_at
   end
 
+  def unread?(someone)
+    return false if someone.blank?
+    return false unless group.member?(someone)
+    return !read?(someone)
+  end
+
   def file_sources_only_image
     file_sources.load
     FileSource.array_sort_by_seq_no(file_sources.to_a).select &:image?

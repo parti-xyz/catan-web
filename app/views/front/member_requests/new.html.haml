@@ -1,8 +1,7 @@
 %section#sign-up.text-center
-  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' } #{current_group.title} 그룹에 가입을 환영합니다!
   %h3
     %i.fa.fa-user
-    그룹 가입
+    #{current_group.title} 그룹에 가입을 환영합니다!
 
   .box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
     = form_with url: front_member_requests_path, local: true do

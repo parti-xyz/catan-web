@@ -8,9 +8,12 @@
               %i.fa.fa-cube
             %span.content
               전체 게시글
-  - @categorised_issues.each do |category, issues|
+  - @categorised_issues.each_with_index do |(category, issues), index|
     .channel-listing
-      .title= category&.name || '미분류'
+      - if category.present?
+        .title= category.name
+      - elsif index != 0
+        .title 미분류
       %ul.channel-lines
         - issues.each do |issue|
           - threaded_folders = Folder.threaded(issue.folders)

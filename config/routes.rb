@@ -488,11 +488,22 @@ Rails.application.routes.draw do
       # end
     end
 
-    resources :member_requests, only: [:new]
+    resources :member_requests, only: [:new] do
+      collection do
+        get :private_blocked
+      end
+    end
     resources :member_requests, only: [:create], controller: '/group/member_requests'
 
     resources :memebers, only: [], controller: '/group/members' do
       delete :cancel
+    end
+
+    resources :messages, only: [] do
+      collection do
+        get :nav
+        patch :read_all
+      end
     end
   end
 end

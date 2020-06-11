@@ -1,7 +1,6 @@
 class Front::ChannelsController < Front::BaseController
   def show
-    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
-    render_404 and return if @current_issue.blank? or @current_issue.deleted?
+    @current_issue = Issue.includes(:folders).find(params[:id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
@@ -33,12 +32,15 @@ class Front::ChannelsController < Front::BaseController
   end
 
   def edit
-    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    @current_issue = Issue.includes(:folders).find(params[:id])
+    authorize! :update, @current_issue
+
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
   end
 
   def supplementary
-    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    @current_issue = Issue.includes(:folders).find(params[:id])
+    render_403 and return if @current_issue&.private_blocked?(current_user)
 
     if session[:front_last_visited_post_id].present?
       @current_post = Post.find_by(id: session[:front_last_visited_post_id])
@@ -52,7 +54,8 @@ class Front::ChannelsController < Front::BaseController
   end
 
   def post_folder_field
-    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    @current_issue = Issue.includes(:folders).find(params[:id])
+    render_403 and return if @current_issue&.private_blocked?(current_user)
 
     if params[:folder_id].present?
       if params[:folder_id].starts_with?('new#')
@@ -70,7 +73,9 @@ class Front::ChannelsController < Front::BaseController
   end
 
   def destroy_form
-    @current_issue = Issue.with_deleted.includes(:folders).find(params[:id])
+    @current_issue = Issue.includes(:folders).find(params[:id])
+    authorize! :destroy, @current_issue
+
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
   end
 end

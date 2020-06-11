@@ -129,6 +129,10 @@ class Ability
         can :manage, [Folder, Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
       end
     end
+
+    if user
+
+    end
   end
 
   private

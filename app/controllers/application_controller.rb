@@ -143,15 +143,22 @@ class ApplicationController < ActionController::Base
       (controller_name == 'members' and action_name == 'magic_form') or
       (controller_name == 'members' and action_name == 'join_group_form') or
       (controller_name == 'my_menus') or
-      (self.is_a? Group::Eduhope::MembersController and action_name == 'admit')
+      (self.is_a? Group::Eduhope::MembersController and action_name == 'admit') or
+      ((helpers.implict_front_namespace? || helpers.explict_front_namespace?) && controller_name == 'member_requests' and action_name == 'private_blocked') or
+      ((helpers.implict_front_namespace? || helpers.explict_front_namespace?) && controller_name == 'member_requests' and action_name == 'new') or
+      ((helpers.implict_front_namespace? || helpers.explict_front_namespace?) && controller_name == 'member_requests' and action_name == 'create')
     )
-      respond_to do |format|
-        format.html do
-          prepare_store_location
-          render 'home/group_home_private_blocked'
-        end
-        format.js do
-          render 'home/group_home_private_blocked.js'
+      if helpers.implict_front_namespace? || helpers.explict_front_namespace?
+        redirect_to private_blocked_front_member_requests_path
+      else
+        respond_to do |format|
+          format.html do
+            prepare_store_location
+            render 'home/group_home_private_blocked'
+          end
+          format.js do
+            render 'home/group_home_private_blocked.js'
+          end
         end
       end
     end

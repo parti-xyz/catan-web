@@ -116,8 +116,8 @@
   > .profilemenus > .menuitem {
     position: relative;
     opacity: .8;
-    margin-left: .75rem;
-    margin-right: .75rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
   > .profilemenus > .menuitem > .staticpopover {
     position: absolute;
@@ -133,6 +133,16 @@
     margin-right: 1rem;
     font-size: 1.25rem;
     opacity: 1;
+    position: relative;
+    cursor: pointer;
+  }
+
+  > .profilemenus > .dropdown > .notifications > .circle {
+    position: absolute;
+    font-size: 1px;
+    right: 4px;
+    top: 3px;
+    color: red;
   }
 
   > .profilemenus > .dropdown > .messages {
@@ -140,5 +150,6 @@
     max-width: 600px;
     min-width: 400px;
     overflow: auto;
+    padding: 0;
   }
 }

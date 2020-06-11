@@ -1,9 +1,0 @@
-- upvote = message.messagable
-- if upvote.upvotable.is_a? Comment
-  - comment = upvote.upvotable
-  != comment_format(comment.issue, comment.body, length: 300)
-- elsif upvote.upvotable.is_a? Post
-  - post = upvote.upvotable
-  != post.specific_desc_striped_tags(200)
-- else
-  = upvote.upvotable.specific_desc_striped_tags(200)

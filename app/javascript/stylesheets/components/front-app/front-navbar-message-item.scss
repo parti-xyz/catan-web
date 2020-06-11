@@ -1,20 +1,23 @@
 @use '../../global-variables';
+@use '../../bootstrap';
 
 /* message 알림 : 리펙토링 팔요 */
 .front-app .front-navbar-message-item {
   cursor: pointer;
   background-color: #fff;
-  border-bottom:1px solid global-variables.$color-gray-300;
+  border-bottom: 1px solid global-variables.$color-gray-300;
   padding: .75rem;
+  &:last-child {
+    border-width: 0;
+  }
   &:hover {
     background-color: global-variables.$color-gray-200;
   }
   &.unread {
-    background-color: global-variables.$color-gray-200;
+    background-color: global-variables.$color-gray-100;
   }
   .message__link {
     display: inline-block;
-    float: left;
     .profile {
       margin-right: 5px;
       float: left;
@@ -33,6 +36,7 @@
   .message__parti {
     color: global-variables.$color-gray-600;
     display: inline;
+    font-size: bootstrap.$font-size-sm;
     a {
       color: global-variables.$color-gray-600;
       &:hover{
@@ -43,13 +47,14 @@
   .message__date.date-wrapper {
     color: global-variables.$color-gray-600;
     display: inline-block;
+    font-size: bootstrap.$font-size-sm;
   }
   .message__body {
     white-space: normal;
     word-break: break-all;
     .post-reference-line {
       background-color: white;
-      border: 1px solid global-variables.$color-gray-300;
+      border: 1px solid global-variables.$color-gray-200;
     }
   }
 }

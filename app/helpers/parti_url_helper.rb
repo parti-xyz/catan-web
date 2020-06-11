@@ -55,13 +55,9 @@ module PartiUrlHelper
   def smart_joinable_url(joinable, options = {})
     case joinable
     when Group
-      if helpers.implict_front_namespace?(joinable)
-        root_url(subdomain: joinable.subdomain)
-      else
-        smart_group_url(joinable, options)
-      end
+      smart_group_url(joinable, options)
     when Issue
-      if helpers.implict_front_namespace?(joinable.group)
+      if joinable.group.frontable?
         front_channel_url(subdomain: joinable.subdomain, id: joinable)
       else
         smart_issue_home_url(joinable, options)
