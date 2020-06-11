@@ -290,9 +290,9 @@ class Issue < ApplicationRecord
     return true if organized_by?(someone)
 
     if group.frontable?
-      !notice_only
+      group.member?(someone) && !notice_only
     else
-      member?(someone) and !notice_only
+      member?(someone) && !notice_only
     end
   end
 
