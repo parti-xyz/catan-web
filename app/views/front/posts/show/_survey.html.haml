@@ -7,8 +7,10 @@
       - unless user_signed_in?
         .checkbox{ data: { action: 'sign-in-launcher#modal' } }
           %i.fa{ class: class_check }
-        .content{ data: { action: 'sign-in-launcher#modal' } }
-          = simple_format(option.body)
+        .body
+          .desc
+            .content{ data: { action: 'sign-in-launcher#modal' } }
+              = simple_format(option.body)
       - else
         - if survey.open?
           - if !option.canceled?
@@ -21,52 +23,50 @@
             - if option.selected?(current_user)
               %i.fa.active{ class:  class_check }
 
-      .body
-        .desc
-          - if survey.open? and !option.canceled?
-            = link_to simple_format(option.body), front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'content -link', data: { target: 'content-replacement.link' }
-          - else
-            - if option.canceled?
-              .content.-del= = simple_format(option.body)
+        .body
+          .desc
+            - if survey.open? and !option.canceled?
+              = link_to simple_format(option.body), front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'content -link', data: { target: 'content-replacement.link' }
             - else
-              .content= = simple_format(option.body)
-
-          - if survey.visible_feedbacks?(current_user)
-            .meta<
-              - if option.feedbacks_count > 0
-                .item.-link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: front_feedbacks_users_path(option_id: option.id), options: h({ placement: 'right', container: '.front-app' }.to_json) } } }<>
-                  #{option.feedbacks_count}명
-                  %i.fa.fa-w.fa-angle-right{ style: 'left: 2px; position: relative;' }
-                - if survey.mvp_option?(option)
-                  .item<> 최다득표
               - if option.canceled?
-                .item 제안 철회됨
-        .chart
-          .bar{ class: ('-canceled' if option.canceled?), style: "height: 100%; width: #{survey.percentage(option)}%" }
+                .content.-del= = simple_format(option.body)
+              - else
+                .content= = simple_format(option.body)
 
-      .extra
-        - option_moremenu = capture do
-          -# - if option.survey.post.issue.commentable?(current_user)
-          -#   = link_to '댓글달기', [:front, option], method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
-          - if can? :destroy, option
-            = link_to '제안 삭제', [:front, option], method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
-          - if can? :cancel, option
-            = link_to '제안 철회하기', [:cancel, :front, option], method: :put, remote: true, data: { confirm: '정말 제안을 철회하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
-          - if can? :reopen, option
-            = link_to '다시 제안하기', [:reopen, :front, option], method: :put, remote: true, data: { confirm: '다시 제안하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+            - if survey.visible_feedbacks?(current_user)
+              .meta<
+                - if option.feedbacks_count > 0
+                  .item.-link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: front_feedbacks_users_path(option_id: option.id), options: h({ placement: 'right', container: '.front-app' }.to_json) } } }<>
+                    #{option.feedbacks_count}명
+                    %i.fa.fa-w.fa-angle-right{ style: 'left: 2px; position: relative;' }
+                  - if survey.mvp_option?(option)
+                    .item<> 최다득표
+                - if option.canceled?
+                  .item 제안 철회됨
+          .chart
+            .bar{ class: ('-canceled' if option.canceled?), style: "height: 100%; width: #{survey.percentage(option)}%" }
 
-        - if option_moremenu.present?
-          .moremenu
-            .dropdown
-              %button.btn.btn-light.btn-sm.text-muted{ "data-toggle": "dropdown" }
-                %i.fa.fa-angle-down
-              .dropdown-menu.dropdown-menu-right
-                = option_moremenu
+        .extra
+          - option_moremenu = capture do
+            -# - if option.survey.post.issue.commentable?(current_user)
+            -#   = link_to '댓글달기', [:front, option], method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+            - if can? :destroy, option
+              = link_to '제안 삭제', [:front, option], method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+            - if can? :cancel, option
+              = link_to '제안 철회하기', [:cancel, :front, option], method: :put, remote: true, data: { confirm: '정말 제안을 철회하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+            - if can? :reopen, option
+              = link_to '다시 제안하기', [:reopen, :front, option], method: :put, remote: true, data: { confirm: '다시 제안하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
 
-
+          - if option_moremenu.present?
+            .moremenu
+              .dropdown
+                %button.btn.btn-light.btn-sm.text-muted{ "data-toggle": "dropdown" }
+                  %i.fa.fa-angle-down
+                .dropdown-menu.dropdown-menu-right
+                  = option_moremenu
 
   - if survey.options.blank?
-    - if survey.open? and post.issue.postabe?(current_user)
+    - if survey.open? and survey.post.issue.postabe?(current_user)
       .helpblock
         처음으로 제안해 보세요.
     - else

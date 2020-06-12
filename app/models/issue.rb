@@ -284,6 +284,7 @@ class Issue < ApplicationRecord
   end
 
   def postable? someone
+    return false if someone.blank?
     return false if frozen?
     return false if blind_user?(someone)
     return false if private_blocked?(someone)
@@ -297,6 +298,7 @@ class Issue < ApplicationRecord
   end
 
   def commentable? someone
+    return false if someone.blank?
     return false if frozen?
     return false if blind_user?(someone)
     return false if private_blocked?(someone)
