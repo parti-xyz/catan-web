@@ -47,12 +47,21 @@ export default class extends Controller {
       })
       .catch(e => {
         this.loaded = true
+        if (this.refreshInterVal) {
+          clearInterval(this.refreshInterVal)
+        }
       })
+  }
+
+  disconnect() {
+    if (this.refreshInterVal) {
+      clearInterval(this.refreshInterVal)
+    }
   }
 
   startRefreshing() {
     this.enableRefresh()
-    setInterval(() => {
+    this.refreshInterVal = setInterval(() => {
       if (this.enableRefreshing) {
         this.load()
       }
