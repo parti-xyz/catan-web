@@ -418,6 +418,7 @@ Rails.application.routes.draw do
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
     get :root_supplementary, to: 'pages#supplementary'
+    get :coc, to: 'pages#coc'
 
     resources :channels, only: [:show, :edit, :new] do
       member do
