@@ -5,6 +5,9 @@
   padding-top: front-variables.$header-height;
   overflow: hidden;
   position: relative;
+  &.-no-header {
+    padding-top: 0;
+  }
   > .playground-header {
     position: absolute;
     top: 0;

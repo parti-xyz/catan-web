@@ -344,6 +344,7 @@ module ApplicationHelper
     return if current_group.blank? and path.blank?
 
     subpath = to_subpath(path)
+
     if exists_group_partial?(subpath)
       render "group_views/#{current_group.slug}#{subpath}", options
     else

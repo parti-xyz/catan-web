@@ -71,6 +71,5 @@ class Front::PagesController < Front::BaseController
   end
 
   def coc
-    render layout: 'front/simple'
   end
 end
