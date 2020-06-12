@@ -8,7 +8,7 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     if resource.is_a?(User) && resource.confirmation_group_slug.present?
       group = Group.find_by_slug(resource.confirmation_group_slug)
 
-      if implict_front_namespace?
+      if helpers.implict_front_namespace?
         return email_sign_in_front_users_url(subdomain: group&.subdomain)
       else
         return email_sign_in_users_url(subdomain: group&.subdomain)
