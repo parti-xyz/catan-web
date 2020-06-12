@@ -11,6 +11,14 @@ class CommentsController < ApplicationController
   end
 
   def create
+    if @post.issue.blank? or private_blocked?(@post.issue)
+      render_404 and return
+    end
+
+    unless @post.issue.commentable? current_user
+      render_403 and return
+    end
+
     set_choice
     @comment.user = current_user
 
@@ -115,4 +123,8 @@ class CommentsController < ApplicationController
     @comment.choice = @voting.try(:choice)
   end
 
+  def private_blocked?(issue)
+    return true if issue.blank?
+    issue.private_blocked?(current_user)
+  end
 end

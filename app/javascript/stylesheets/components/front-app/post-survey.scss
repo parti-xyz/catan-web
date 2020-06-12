@@ -1,0 +1,96 @@
+@use '../../bootstrap';
+@use '../../global-variables';
+
+.front-app .post-survey {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  background-color: #f8f9fa;
+  padding: 2.25rem;
+
+  > .option {
+    display: flex;
+    margin-top: .5rem;
+  }
+
+  > .option:first-child {
+    margin-top: 0;
+  }
+
+  > .option > .checkbox {
+    flex: none;
+    color: global-variables.$color-gray-500;
+    width: 1rem;
+    font-size: 1.25rem;
+  }
+
+  > .option.-active > .checkbox {
+    color: global-variables.$color-brand-primary;
+  }
+
+  > .option > .body {
+    flex: 1 1;
+    text-align: left;
+    margin-left: 1em;
+    margin-right: .5rem;
+  }
+
+  > .option > .body > .desc {
+    display: flex;
+  }
+
+  > .option > .body > .desc > .content.-del {
+    text-decoration: line-through;
+  }
+
+  > .option > .body > .desc > .meta > .item {
+    display: inline-block;
+    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-600;
+    margin-left: .75rem;
+  }
+
+  > .option > .body > .desc > .meta > .item.-link {
+    cursor: pointer;
+  }
+
+  > .option > .body > .chart {
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid global-variables.$color-gray-400;
+    margin-bottom: 8px;
+    margin-top: 2px;
+    height: 10px;
+  }
+
+  > .option.-active > .body > .chart {
+    border-color: global-variables.$color-brand-primary;
+  }
+
+  > .option > .body > .chart > .bar {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background-color: rgba(222, 210, 242, .7);
+  }
+  > .option.-active > .body > .chart > .bar {
+  background-color: rgba(222, 210, 242, .7);
+  }
+
+  > .option > .extra {
+    flex: none;
+  }
+
+  > .footer {
+    border-top: 1px solid global-variables.$color-gray-300;
+    margin-top: 1rem;
+    padding-top: .75rem;
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  > .footer > .item {
+    display: inline-block;
+  }
+
+  > .footer > .item.-link {
+    cursor: pointer;
+  }
+}

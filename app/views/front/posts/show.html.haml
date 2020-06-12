@@ -85,6 +85,8 @@
                   %i.fa.fa-external-link
         - if @current_post.poll.present?
           = render 'front/posts/show/poll', poll: @current_post.poll
+        - if @current_post.survey.present?
+          = render 'front/posts/show/survey', survey: @current_post.survey
       - else
         -# WIKI
         .post-wiki{ class: ('-active' if @current_post.wiki.active?) }
@@ -115,7 +117,8 @@
           - @current_post.comments_threaded.each do |parent_comment, child_comments|
             = render 'front/posts/show/comment', comment: parent_comment, child_comments: child_comments, current_folder: @current_folder
 
-      = render 'front/posts/show/comment/form', current_post: @current_post, current_folder: @current_folder
+      - if @current_issue.commentable?(current_user)
+        = render 'front/posts/show/comment/form', current_post: @current_post, current_folder: @current_folder
 
   .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
 

@@ -19,7 +19,7 @@ class VotingsController < ApplicationController
       format.html {
         if helpers.explict_front_namespace?
           flash.now[:notice] = @poll.sured_by?(current_user) ? '투표했습니다' : '투표를 취소했습니다'
-          render(partial: params[:view_path_after_save], locals: { poll: @poll })
+          render(partial: '/front/posts/show/poll', locals: { poll: @poll })
         else
           redirect_to_origin
         end

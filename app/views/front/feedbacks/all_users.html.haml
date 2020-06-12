@@ -1,0 +1,9 @@
+.webui-popover-content
+  - if @post.survey.hidden_option_voters?
+    총 #{@post.survey.feedback_users.count} 명
+  - else
+    .upvoted-users{id: "#{dom_id(@post.survey)}-feedback-users"}
+      - @post.survey.feedback_users.each do |user|
+        = link_to smart_user_gallery_path(user), target: '_blank', class: 'user' do
+          .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+          .usernickname= user.nickname

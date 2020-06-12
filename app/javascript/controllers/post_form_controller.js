@@ -190,7 +190,7 @@ export default class extends Controller {
     let temp = document.createElement('div')
     temp.innerHTML = this.bodyFieldTarget.value
 
-    if (!temp.textContent || temp.textContent.length < 0) {
+    if (!temp.textContent || temp.textContent.length <= 0) {
       new Noty({
         type: 'warning',
         text: '본문 내용이 비었어요. [확인]',

@@ -47,12 +47,14 @@
 @forward "./front-app/post-meta";
 @forward "./front-app/post-poll-votings-users";
 @forward "./front-app/post-poll";
+@forward "./front-app/post-survey";
 @forward "./front-app/post-video-source";
 @forward "./front-app/post-wiki";
 @forward "./front-app/supplementary-box";
 @forward "./front-app/supplementary-boxes";
 @forward "./front-app/upvoted-users";
 @forward "./front-app/user-navitem";
+@forward "./front-app/upvoted-users";
 
 // reset front body
 body.app-front,

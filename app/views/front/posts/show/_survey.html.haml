@@ -1,0 +1,110 @@
+- popover_placement = browser.device.mobile? ? 'auto' : 'right'
+- class_check = survey.multiple_select? ? 'fa-check-square-o' : 'fa-check-circle-o'
+- no_checkbox = ((!survey.feedbacked?(current_user) or !survey.mvp_options_ids.any?) and !survey.open?)
+.post-survey{ data: { controller: 'content-replacement' } }
+  - survey.options.each do |option|
+    .option[option]{ class: ('-active' if option.selected?(current_user)) }
+      - unless user_signed_in?
+        .checkbox{ data: { action: 'sign-in-launcher#modal' } }
+          %i.fa{ class: class_check }
+        .content{ data: { action: 'sign-in-launcher#modal' } }
+          = simple_format(option.body)
+      - else
+        - if survey.open?
+          - if !option.canceled?
+            = link_to front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'checkbox', data: { target: 'content-replacement.link' } do
+              %i.fa{ class: class_check }
+          - else
+            .checkbox
+        - else
+          .checkbox
+            - if option.selected?(current_user)
+              %i.fa.active{ class:  class_check }
+
+      .body
+        .desc
+          - if survey.open? and !option.canceled?
+            = link_to simple_format(option.body), front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'content -link', data: { target: 'content-replacement.link' }
+          - else
+            - if option.canceled?
+              .content.-del= = simple_format(option.body)
+            - else
+              .content= = simple_format(option.body)
+
+          - if survey.visible_feedbacks?(current_user)
+            .meta<
+              - if option.feedbacks_count > 0
+                .item.-link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: front_feedbacks_users_path(option_id: option.id), options: h({ placement: 'right', container: '.front-app' }.to_json) } } }<>
+                  #{option.feedbacks_count}명
+                  %i.fa.fa-w.fa-angle-right{ style: 'left: 2px; position: relative;' }
+                - if survey.mvp_option?(option)
+                  .item<> 최다득표
+              - if option.canceled?
+                .item 제안 철회됨
+        .chart
+          .bar{ class: ('-canceled' if option.canceled?), style: "height: 100%; width: #{survey.percentage(option)}%" }
+
+      .extra
+        - option_moremenu = capture do
+          -# - if option.survey.post.issue.commentable?(current_user)
+          -#   = link_to '댓글달기', [:front, option], method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+          - if can? :destroy, option
+            = link_to '제안 삭제', [:front, option], method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+          - if can? :cancel, option
+            = link_to '제안 철회하기', [:cancel, :front, option], method: :put, remote: true, data: { confirm: '정말 제안을 철회하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+          - if can? :reopen, option
+            = link_to '다시 제안하기', [:reopen, :front, option], method: :put, remote: true, data: { confirm: '다시 제안하시겠습니까?', 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item'
+
+        - if option_moremenu.present?
+          .moremenu
+            .dropdown
+              %button.btn.btn-light.btn-sm.text-muted{ "data-toggle": "dropdown" }
+                %i.fa.fa-angle-down
+              .dropdown-menu.dropdown-menu-right
+                = option_moremenu
+
+
+
+  - if survey.options.blank?
+    - if survey.open? and post.issue.postabe?(current_user)
+      .helpblock
+        처음으로 제안해 보세요.
+    - else
+      .helpblock
+        제안된 항목이 없습니다.
+  - if survey.open? and survey.post.issue.postable?(current_user)
+    = form_with model: [:front, Option.new], local: false, class: 'option', data: { controller: 'option-form', target: 'content-replacement.link' } do |f|
+      = f.hidden_field :survey_id, value: survey.id
+      .checkbox
+        %i.fa{ class: class_check }
+      .body
+        .form-group
+          = f.text_area :body, class: 'form-control', rows: 1, placeholder: 'ex. 제안 내용', data: { controller: 'auto-resize', target: 'option-form.bodyField' }
+      .extra
+        .form-group
+          = f.submit '추가', class: 'btn btn-light text-primary btn-sm'
+
+  .footer
+    .item= survey.remain_time_human
+    - if survey.open? && survey.feedbacks.any? && !survey.feedbacked?(current_user)
+      .line
+        현재
+        %strong.text-primary #{survey.feedback_users_count}
+        명이 투표했습니다. 투표하면 상세한 상황을 볼 수 있습니다.
+    - else
+      - if survey.feedbacks_count > 0
+        .item &middot;
+        .item.-link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: front_feedbacks_all_users_path(survey_id: survey.id), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+          총투표 #{survey.feedback_users_count}명
+          %i.fa.fa-angle-down
+      - if survey.multiple_select?
+        %span &middot;
+        .item 중복 투표 가능
+
+      - if survey.hidden_intermediate_result?
+        %span &middot;
+        .item 중간 집계 숨김
+
+      - if survey.hidden_option_voters
+        %span &middot;
+        .item 익명 투표

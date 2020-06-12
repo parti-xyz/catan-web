@@ -12,7 +12,7 @@ export default class extends Controller {
     this.bodyFieldTarget.value = this.editorController.serialize()
 
     let valid = true
-    if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length < 0) {
+    if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length <= 0) {
       new Noty({
         type: 'warning',
         text: '본문 내용이 비었어요. [확인]',

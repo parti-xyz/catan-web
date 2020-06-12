@@ -473,6 +473,17 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :options, only: [:create, :destroy], controller: '/options' do
+      member do
+        put :cancel
+        put :reopen
+      end
+    end
+
+    post 'feedbacks', to: '/feedbacks#create'
+    get '/feedbacks/all_users', to: 'feedbacks#all_users' #, as: :all_users_feedbacks
+    get '/feedbacks/users', to: 'feedbacks#users' #, as: :users_feedbacks
+
     resources :users, except: :show do
       collection do
         # get 'access_token'

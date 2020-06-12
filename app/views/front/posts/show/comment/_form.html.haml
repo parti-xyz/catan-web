@@ -1,55 +1,54 @@
-- if user_signed_in?
-  - is_child = local_assigns[:parent_comment].present?
-  - form_model = local_assigns[:current_comment].present? ? [:front, current_comment] : [:front, current_post, Comment.new]
-  = form_with model: form_model, local: false, class: ['comment-form', ('collapse' if is_child)], data: { controller: 'comment-form', target: 'comment-form-open.formContent' } do |f|
-    = hidden_field_tag :folder_id, current_folder&.id
-    - if local_assigns[:parent_comment].present?
-      = f.hidden_field :parent_id, value: parent_comment.id
-    .post-comment{ class: ('-child' if is_child) }
-      .userimage
-        .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
-      .post-comment-main
-        .form-group.mb-1.bodyfield
-          = f.text_area :body, class: "form-control textarea", placeholder: '댓글을 입력하세요', data: { controller: 'auto-resize', target: 'comment-form.bodyField comment-form-open.bodyField', action: 'input->comment-form#updateBodyField' }, rows: 1
+- is_child = local_assigns[:parent_comment].present?
+- form_model = local_assigns[:current_comment].present? ? [:front, current_comment] : [:front, current_post, Comment.new]
+= form_with model: form_model, local: false, class: ['comment-form', ('collapse' if is_child)], data: { controller: 'comment-form', target: 'comment-form-open.formContent' } do |f|
+  = hidden_field_tag :folder_id, current_folder&.id
+  - if local_assigns[:parent_comment].present?
+    = f.hidden_field :parent_id, value: parent_comment.id
+  .post-comment{ class: ('-child' if is_child) }
+    .userimage
+      .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
+    .post-comment-main
+      .form-group.mb-1.bodyfield
+        = f.text_area :body, class: "form-control textarea", placeholder: '댓글을 입력하세요', data: { controller: 'auto-resize', target: 'comment-form.bodyField comment-form-open.bodyField', action: 'input->comment-form#updateBodyField' }, rows: 1
 
-        .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if f.object.file_sources.any?) }
-          .header
-            사진&middot;파일
-          .main
-            .images{ data: { target: 'comment-form.imageFileSourcesContainer' } }
-              = f.fields_for :file_sources, f.object.file_sources_only_image do |ff|
+      .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if f.object.file_sources.any?) }
+        .header
+          사진&middot;파일
+        .main
+          .images{ data: { target: 'comment-form.imageFileSourcesContainer' } }
+            = f.fields_for :file_sources, f.object.file_sources_only_image do |ff|
+              = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
+          .docs{ data: { target: 'comment-form.docFileSourcesContainer' } }
+            = f.fields_for :file_sources, f.object.file_sources_only_doc do |ff|
+              = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
+        .footer
+          .btn.btn-secondary.btn-sm{ data: { target: 'comment-form.addFileSourceFieldButton', action: 'click->comment-form#addFileSourceField' } }
+            + 파일 추가
+            %span.counter
+              (
+              %span{ data: { target: 'comment-form.fileSourcesCounter' } }<> 0
+              \/
+              %span<> 20
+              )
+          .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->comment-form#closeFileSourcesFieldGroup' } } 업로드 취소
+
+          .template{ data: { target: 'comment-form.fileSourceFieldTemplate' } }
+            = escape_once_block do
+              = f.fields_for :file_sources, FileSource.new(), child_index: 'NEW_RECORD' do |ff|
                 = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
-            .docs{ data: { target: 'comment-form.docFileSourcesContainer' } }
-              = f.fields_for :file_sources, f.object.file_sources_only_doc do |ff|
-                = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
-          .footer
-            .btn.btn-secondary.btn-sm{ data: { target: 'comment-form.addFileSourceFieldButton', action: 'click->comment-form#addFileSourceField' } }
-              + 파일 추가
-              %span.counter
-                (
-                %span{ data: { target: 'comment-form.fileSourcesCounter' } }<> 0
-                \/
-                %span<> 20
-                )
-            .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->comment-form#closeFileSourcesFieldGroup' } } 업로드 취소
+          .template{ data: { target: 'comment-form.imageFileSourcePreviewTemplate' } }
+            = escape_once_block do
+              = render 'front/file_sources/form/preview', file_source: FileSource.new(), type: :image, js_controller_name: 'comment-form'
+          .template{ data: { target: 'comment-form.docFileSourcePreviewTemplate' } }
+            = escape_once_block do
+              = render 'front/file_sources/form/preview', file_source: FileSource.new(), type: :doc, js_controller_name: 'comment-form'
+        .helper.text-muted
+          %hr
+          %span.badge.badge-secondary TIP
+          최대 크기 10M 파일을 20개까지 업로드할 수 있습니다. 이미지는 드래그해서 순서를 조정할 수 있습니다.
 
-            .template{ data: { target: 'comment-form.fileSourceFieldTemplate' } }
-              = escape_once_block do
-                = f.fields_for :file_sources, FileSource.new(), child_index: 'NEW_RECORD' do |ff|
-                  = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
-            .template{ data: { target: 'comment-form.imageFileSourcePreviewTemplate' } }
-              = escape_once_block do
-                = render 'front/file_sources/form/preview', file_source: FileSource.new(), type: :image, js_controller_name: 'comment-form'
-            .template{ data: { target: 'comment-form.docFileSourcePreviewTemplate' } }
-              = escape_once_block do
-                = render 'front/file_sources/form/preview', file_source: FileSource.new(), type: :doc, js_controller_name: 'comment-form'
-          .helper.text-muted
-            %hr
-            %span.badge.badge-secondary TIP
-            최대 크기 10M 파일을 20개까지 업로드할 수 있습니다. 이미지는 드래그해서 순서를 조정할 수 있습니다.
-
-        .form-group{ class: ('collapse' if f.object.new_record?), data: { target: 'comment-form.submitControl' } }
-          = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
-          %button.btn.btn-xs.btn-link{ data: { action: 'click->comment-form#openFileSourcesFieldGroup', target: 'comment-form.fileSourcesOpenButton' } }
-            %i.fa.fa-cloud-upload
-            = t('labels.new_post_file_source_button')
+      .form-group{ class: ('collapse' if f.object.new_record?), data: { target: 'comment-form.submitControl' } }
+        = f.submit '게시', class: 'btn btn-primary', data: { disable_with: "게시 중..." }
+        %button.btn.btn-xs.btn-link{ data: { action: 'click->comment-form#openFileSourcesFieldGroup', target: 'comment-form.fileSourcesOpenButton' } }
+          %i.fa.fa-cloud-upload
+          = t('labels.new_post_file_source_button')

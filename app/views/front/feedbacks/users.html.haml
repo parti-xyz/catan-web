@@ -1,0 +1,13 @@
+.upvoted-users
+  - show_voters = (@option.feedback_users.any? and !@option.survey.hidden_option_voters?)
+  - if show_voters
+    - @option.feedback_users.each do |user|
+      = link_to smart_user_gallery_path(user), target: '_blank', class: 'user' do
+        .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+        .usernickname= user.nickname
+
+.upvoted-users.text-nowrap{ style: "display: inline-block; #{'margin-top: 12px;' if show_voters}"}
+  .small 제안자
+  = link_to smart_user_gallery_path(@option.user), target: '_blank', class: 'user' do
+    .userimagebg{ style: "background-image: url(#{@option.user.image.sm.url})" }
+    .usernickname= @option.user.nickname

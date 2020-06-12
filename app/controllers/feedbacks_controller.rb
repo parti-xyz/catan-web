@@ -15,6 +15,11 @@ class FeedbacksController < ApplicationController
     end
 
     FeedbackSurveyService.new(option: @option, current_user: current_user, selected: params[:selected] == "true").feedback
+
+    if helpers.explict_front_namespace?
+      flash.now[:notice] = @option.selected?(current_user) ? '제안을 선택했습니다' : '제안 선택을 취소했습니다'
+      render(partial: '/front/posts/show/survey', locals: { survey: survey })
+    end
   end
 
   def all_users

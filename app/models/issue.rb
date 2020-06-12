@@ -296,6 +296,15 @@ class Issue < ApplicationRecord
     end
   end
 
+  def commentable? someone
+    return false if frozen?
+    return false if blind_user?(someone)
+    return false if private_blocked?(someone)
+    return true if organized_by?(someone)
+
+    return true
+  end
+
   def blind_user? someone
     return false if someone.blank?
     blinds.exists?(user: someone) || Blind.site_wide?(someone)

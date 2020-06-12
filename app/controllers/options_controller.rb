@@ -14,6 +14,11 @@ class OptionsController < ApplicationController
     end
 
     OptionSurveyService.new(option: @option, current_user: current_user).create
+
+    if helpers.explict_front_namespace?
+      flash.now[:notice] = '제안을 추가했습니다'
+      render(partial: '/front/posts/show/survey', locals: { survey: survey })
+    end
   end
 
   def destroy
@@ -26,6 +31,11 @@ class OptionsController < ApplicationController
     end
 
     @option.destroy! if @option.user == current_user
+
+    if helpers.explict_front_namespace?
+      flash.now[:notice] = '제안을 삭제했습니다'
+      render(partial: '/front/posts/show/survey', locals: { survey: survey })
+    end
   end
 
   def cancel
@@ -41,6 +51,11 @@ class OptionsController < ApplicationController
       @option.canceled_at = DateTime.now
       @option.save
     end
+
+    if helpers.explict_front_namespace?
+      flash.now[:notice] = '제안을 취소했습니다'
+      render(partial: '/front/posts/show/survey', locals: { survey: survey })
+    end
   end
 
   def reopen
@@ -55,6 +70,11 @@ class OptionsController < ApplicationController
     if @option.user == current_user
       @option.canceled_at = nil
       @option.save
+    end
+
+    if helpers.explict_front_namespace?
+      flash.now[:notice] = '제안을 재개했습니다'
+      render(partial: '/front/posts/show/survey', locals: { survey: survey })
     end
   end
 
