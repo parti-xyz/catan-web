@@ -14,6 +14,18 @@ class Front::BaseController < ApplicationController
   end
 
   def check_frontable
-    # redirect_to root_path and return unless current_group&.frontable?
+    redirect_to root_path and return unless current_group&.frontable?
+  end
+
+  def prepare_channel_supplementary(current_issue)
+    result = { current_issue: current_issue }
+
+    result[:current_post] = Post.find_by(id: session[:front_last_visited_post_id]) if session[:front_last_visited_post_id].present?
+
+    result[:pinned_posts] = current_issue.posts.pinned
+      .includes(:poll, :survey, :wiki)
+      .order('pinned_at desc').load
+
+    result
   end
 end

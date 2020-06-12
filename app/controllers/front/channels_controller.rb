@@ -29,6 +29,8 @@ class Front::ChannelsController < Front::BaseController
     end
     @scroll_persistence_id_ext = "channel-#{@current_issue.id}"
     @scroll_persistence_tag = params[:page].presence || 1
+
+    @supplementary_locals = prepare_channel_supplementary(@current_issue)
   end
 
   def new
@@ -44,21 +46,6 @@ class Front::ChannelsController < Front::BaseController
     authorize! :update, @current_issue
 
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
-  end
-
-  def supplementary
-    @current_issue = Issue.includes(:folders).find(params[:id])
-    render_403 and return if @current_issue&.private_blocked?(current_user)
-
-    if session[:front_last_visited_post_id].present?
-      @current_post = Post.find_by(id: session[:front_last_visited_post_id])
-    end
-
-    @pinned_posts = @current_issue.posts.pinned
-      .includes(:poll, :survey, :wiki)
-      .order('pinned_at desc').load
-
-    render layout: false
   end
 
   def post_folder_field

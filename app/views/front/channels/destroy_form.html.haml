@@ -13,7 +13,7 @@
         %p
           %strong.text-danger 채널을 삭제합니다. 이 작업은 되돌릴 수 없습니다.
 
-        = form_with model: @current_issue, method: :delete, local: false, data: { controller: 'channel-destroy-form', action: 'ajax:before->channel-destroy-form#submit' } do
+        = form_with model: [:front, @current_issue], method: :delete, local: false, data: { controller: 'channel-destroy-form', action: 'ajax:before->channel-destroy-form#submit' } do
           .form-group
             = label_tag :message, '멤버에게 채널 삭제를 안내해 주세요'
             = text_area_tag :message, '', class: 'form-control', placeholder: 'ex) 이 채널은 이러한 이유로 삭제합니다.', data: { target: 'channel-destroy-form.message' }

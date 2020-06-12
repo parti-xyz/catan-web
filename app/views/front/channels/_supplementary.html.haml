@@ -1,24 +1,24 @@
-- if @current_issue.body.present?
-  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "channel-intro-box-#{@current_issue.id}" } } }
+- if current_issue&.body&.present?
+  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "channel-intro-box-#{current_issue.id}" } } }
     .header{ data: { action: 'click->content-collapse#toggle' } }
       .title
         소개
       .toggler
         %i.fa.-hide{ data: { target: 'content-collapse.content' } }
     .body{ data: { target: 'content-collapse.content' } }
-      = simple_format h(@current_issue.body)
-- if @pinned_posts.any?
-  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "pinned-posts-box-#{@current_issue.id}" } } }
+      = simple_format h(current_issue.body)
+- if pinned_posts&.any?
+  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "pinned-posts-box-#{current_issue.id}" } } }
     .header{ data: { action: 'click->content-collapse#toggle' } }
       .title
         고정글
       .count
-        = @pinned_posts.size
+        = pinned_posts&.size
       .toggler
         %i.fa.-hide{ data: { target: 'content-collapse.content' } }
     %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
-      - @pinned_posts.each do |post|
-        %li.pinned-post-line{ class: [('-active' if post == @current_post), ('-unread' if post.unread?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
+      - pinned_posts&.each do |post|
+        %li.pinned-post-line{ class: [('-active' if post == current_post), ('-unread' if post.unread?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
           .icon
             - if post.poll.present?
               %i.fa.fa-fire.fa-fw

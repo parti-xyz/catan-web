@@ -16,14 +16,45 @@
         #{@current_post.title}
     .control
       = render 'front/channels/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
+
+
+- moremenu_content = capture do
+  - if can?(:update, @current_post) and @current_post.wiki.blank?
+    = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder&.id), class: 'dropdown-item'
+  - if @current_post.pinned?
+    .dropdown-item
+      공지된 게시물입니다.
+  - if can?(:pin, @current_post)
+    - if @current_post.pinned?
+      = link_to unpin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
+        공지 내리기
+    - else
+      = link_to pin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
+        공지 걸기
+  -# - if @current_post.can_beholder?(current_user)
+  -#   %li
+  -#     = link_to [:beholders, :front, @current_post], target: '_blank' do
+  -#       공지 확인한 멤버 보기 (#{@current_post.beholders_count})
+  -# %li
+  -#   = link_to [:unbeholders, post], target: '_blank' do
+  -#     확인하지 않은 가입멤버 보기
+
 .post-box{ data: { controller: 'channel-read-emit', 'channel-read-emit': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
   .post-main
     .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
-      %h5.title= @current_post.title
-      %small.meta
-        - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
-        != last_stroked_text
-        = date_f(last_stroked_at)
+      .main
+        %h5.title= @current_post.title
+        %small.meta
+          - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+          != last_stroked_text
+          = date_f(last_stroked_at)
+      - if moremenu_content.present? && @current_post.wiki.present?
+        .moremenu
+          .dropdown
+            %button.btn.btn-light.text-muted{ "data-toggle": "dropdown" }
+              %i.fa.fa-ellipsis-v
+            .dropdown-menu.dropdown-menu-right
+              = moremenu_content
     .post-content{ data: { controller: 'comment-form-open' } }
       - if @current_post.wiki.blank?
         .post-meta
@@ -33,9 +64,7 @@
             = link_to @current_post.user.nickname, smart_user_gallery_url(@current_post.user), class: 'usernickname'
             .createdat
               = date_f @current_post.created_at
-          - moremenu_content = capture do
-            - if can?(:update, @current_post) and @current_post.wiki.blank?
-              = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder&.id), class: 'dropdown-item'
+
           - if moremenu_content.present?
             .moremenu
               .dropdown
@@ -43,6 +72,7 @@
                   %i.fa.fa-ellipsis-v
                 .dropdown-menu.dropdown-menu-right
                   = moremenu_content
+
         .post-body
           .body
             = post_body_format @current_issue, @current_post.body
@@ -120,7 +150,8 @@
       - if @current_issue.commentable?(current_user)
         = render 'front/posts/show/comment/form', current_post: @current_post, current_folder: @current_folder
 
-  .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
+  .supplementary-boxes
+    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 
 

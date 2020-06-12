@@ -2,11 +2,18 @@
 @use '../../global-variables';
 
 .front-app .post-header {
-  > .title {
+  display: flex;
+  > .main {
+    flex: 1;
+  }
+  > .main > .title {
     margin-bottom: 0;
   }
-  > .meta {
+  > .main  > .meta {
     font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-600;
+  }
+  > .moremenu {
+    flex: none;
   }
 }

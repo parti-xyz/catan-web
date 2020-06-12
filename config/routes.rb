@@ -417,17 +417,15 @@ Rails.application.routes.draw do
     get :all, to: 'pages#all'
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
-    get :root_supplementary, to: 'pages#supplementary'
     get :coc, to: 'pages#coc'
 
     resources :channels, only: [:show, :edit, :new] do
       member do
-        get :supplementary
         get :post_folder_field
         get :destroy_form
       end
     end
-    resources :issues, only: [:update, :create], controller: '/issues' do
+    resources :issues, only: [:update, :create, :destroy], controller: '/issues' do
       member do
         put :freeze
         put :wake
@@ -458,6 +456,8 @@ Rails.application.routes.draw do
     resources :posts, only: [:create, :update], controller: '/posts' do
       member do
         patch 'wiki', to: '/posts#update_wiki'
+        post 'pin'
+        delete 'unpin'
       end
     end
 

@@ -529,10 +529,6 @@ class Post < ApplicationRecord
       end
       if result.blank?
         result = [I18n.t("views.post.last_stroked_for.create", default: nil, user_word: user_word), self.created_at]
-      else
-        if self.user_id != self.last_stroked_user_id
-          result[0] = "#{user_word} 게시한 글에 #{result[0]}"
-        end
       end
     end
 

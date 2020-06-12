@@ -206,6 +206,7 @@
   -#           = hidden_field_tag :fixed_issue_id, 'true'
   -#         = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
 
-  .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder), 'turbolinks-permanent': true } }
+  .supplementary-boxes
+    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 

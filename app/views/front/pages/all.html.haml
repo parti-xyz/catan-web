@@ -26,7 +26,17 @@
 
       = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
 
-    .supplementary-boxes{ id: "front-app-root-supplementary-#{current_group.id}", data: { controller: 'content-loader', 'content-loader-url': front_root_supplementary_path, 'turbolinks-permanent': true } }
+    .supplementary-boxes
+      - if current_group.site_description.present?
+        .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "group-intro-box-#{current_group.id}" } } }
+          .header{ data: { action: 'click->content-collapse#toggle' } }
+            .title
+              소개
+            .toggler
+              %i.fa.-hide{ data: { target: 'content-collapse.content' } }
+          .body{ data: { target: 'content-collapse.content' } }
+            = simple_format h(current_group.site_description)
+
 
 - else
   .alert.alert-info.m-3

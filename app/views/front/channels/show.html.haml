@@ -50,7 +50,8 @@
               %i.fa.fa-file-word-o
               위키쓰기
       = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
-    .supplementary-boxes{ id: "front-app-channel-supplementary-#{@current_issue.id}", data: { controller: 'content-loader', 'content-loader-url': supplementary_front_channel_path(@current_issue, folder_id: @current_folder, post_id: @current_post), 'turbolinks-permanent': true } }
+    .supplementary-boxes
+      = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 - else
   .alert.alert-info.m-3

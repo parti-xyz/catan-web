@@ -299,10 +299,20 @@ class PostsController < ApplicationController
     @post.issue.strok_by!(current_user, @post)
     @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification
+
+    if helpers.explict_front_namespace?
+      flash[:notice] = '게시글을 고정했습니다'
+      redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+    end
   end
 
   def unpin
     @post.update_attributes(pinned: false)
+
+    if helpers.explict_front_namespace?
+      flash[:notice] = '게시글 고정을 풀었습니다'
+      redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+    end
   end
 
   def behold

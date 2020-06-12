@@ -66,10 +66,6 @@ class Front::PagesController < Front::BaseController
     render layout: false
   end
 
-  def supplementary
-    render layout: false
-  end
-
   def coc
   end
 end
