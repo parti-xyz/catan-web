@@ -7,7 +7,7 @@
           .title<>
             = link_to front_post_path(post, folder_id: @current_folder), class: 'link' do
               != post.title
-            %span.unread{ class: ('-active' if post.unread?(current_user)) }<> N
+            %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }<> N
         - else
           .title.-blind
             %i.fa.fa-info-circle

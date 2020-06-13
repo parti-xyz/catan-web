@@ -1,5 +1,5 @@
 = render layout: 'layouts/simplebar' do
-  .channel-listing
+  .channel-listing.-starter
     %ul.channel-lines
       %li.channel-line
         = link_to front_all_path, class: ['link', ('-active' if params[:'x_controller'] == 'front/pages' and params[:'x_action'] == 'all')], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } do
@@ -36,7 +36,7 @@
               .title
                 %span.hash #
                 %span.content<> #{issue.title} #{meta_icons(issue)}
-              %span.unread{ class: ('-active' if issue.unread?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener': { 'channel-id': issue.id, 'channel-read-at': issue.read_at(current_user)&.to_i } } } N
+              %span.unread{ class: ('-active' if issue.need_to_read?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener-channel-id': issue.id } } N
 
             - if threaded_folders.any?
               %ul.folder-lines.-hide{ data: { target: 'content-collapse.content' } }

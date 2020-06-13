@@ -1,6 +1,6 @@
 class Front::ChannelsController < Front::BaseController
   def show
-    @current_issue = Issue.includes(:folders).find(params[:id])
+    @current_issue = Issue.includes(:folders, :current_user_issue_reader).find(params[:id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
@@ -22,6 +22,7 @@ class Front::ChannelsController < Front::BaseController
 
     if user_signed_in?
       current_user.update_attributes(last_visitable: @current_issue)
+      @current_issue.read!(current_user)
     end
 
     if session[:front_last_visited_post_id].present?
@@ -72,5 +73,14 @@ class Front::ChannelsController < Front::BaseController
     authorize! :destroy, @current_issue
 
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
+  end
+
+  def sync
+    render_404 and return unless user_signed_in?
+
+    @issues = current_group.issues.accessible_only(current_user)
+    respond_to do |format|
+      format.json
+    end
   end
 end

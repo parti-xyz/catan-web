@@ -198,8 +198,7 @@ class Post < ApplicationRecord
   }
   scope :unblinded, ->(someone) { where.not(blind: true).or(where(user_id: someone)) }
   scope :unread_only, ->(someone) {
-    left_outer_joins(:post_readers)
-    .where('post_readers.user_id = ?', someone)
+    joins("LEFT OUTER JOIN post_readers on post_readers.user_id = #{ActiveRecord::Base.connection.quote(someone.id)} AND post_readers.post_id = posts.id")
     .where('post_readers.id IS null or post_readers.updated_at <= posts.last_stroked_at')
     .where('posts.last_stroked_at > ?', PostReader::VALID_PERIOD.ago)
   }
@@ -502,6 +501,7 @@ class Post < ApplicationRecord
 
   def strok_by!(someone, subject = nil)
     update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id, last_stroked_for: subject)
+    read!(someone)
     StrokedPostUserJob.perform_async(self.id)
   end
 
@@ -536,7 +536,7 @@ class Post < ApplicationRecord
   end
 
   def generous_strok_by!(someone, subject)
-    if self.last_stroked_at.blank? or self.last_stroked_at < 2.hours.ago
+    if self.last_stroked_at.blank? or self.last_stroked_at < 12.hours.ago
       strok_by!(someone, subject)
       true
     else
@@ -635,10 +635,6 @@ class Post < ApplicationRecord
     self.decision_histories.last.diff_body(self.conflicted_decision)
   end
 
-  def unread? someone
-    self.issue.deprecated_unread_by_last_stroked_at?(someone, self.last_stroked_at)
-  end
-
   def behold_by?(someone)
     return false if someone.blank?
     beholders.exists?(user: someone)
@@ -658,22 +654,23 @@ class Post < ApplicationRecord
 
   def read!(someone)
     return if someone.blank?
-    post_reader = someone.post_readers.find_or_create_by(post: self)
+    return unless group.member?(someone)
+
+    post_reader = self.post_readers.find_or_create_by(user: someone)
     post_reader&.touch
   end
 
-  def read?(someone)
-    return true unless PostReader::valid_period(self.last_stroked_at)
+  def need_to_read?(someone)
     return false if someone.blank?
+    return false unless PostReader::valid_period(self.last_stroked_at)
+    return false unless group.member?(someone)
 
     post_reader = self.post_readers.find_by(user: someone)
-    post_reader.present? && post_reader.updated_at >= self.last_stroked_at
+    post_reader.blank? || post_reader.updated_at < self.last_stroked_at
   end
 
-  def unread?(someone)
-    return false if someone.blank?
-    return false unless group.member?(someone)
-    return !read?(someone)
+  def deprecated_unread?(someone)
+    self.issue.deprecated_unread_post?(someone, self.last_stroked_at)
   end
 
   def file_sources_only_image

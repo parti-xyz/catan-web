@@ -206,6 +206,7 @@ class PostsController < ApplicationController
           end
         end
       elsif @post.save
+        @post.read!(current_user)
         @post.issue.strok_by!(current_user, @post)
         @post.issue.deprecated_read_if_no_unread_posts!(current_user)
 
@@ -265,6 +266,7 @@ class PostsController < ApplicationController
       @post.build_conflict_decision
       return
     elsif @post.save
+      @post.read!(current_user)
       @post.issue.strok_by!(current_user, @post)
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
       @decision_history = @post.decision_histories.create(body: @post.decision, user: current_user)
@@ -296,6 +298,7 @@ class PostsController < ApplicationController
     @post.assign_attributes(pinned: true, pinned_at: DateTime.now, pinned_by: current_user)
     @post.strok_by(current_user)
     @post.save!
+    @post.read!(current_user)
     @post.issue.strok_by!(current_user, @post)
     @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification

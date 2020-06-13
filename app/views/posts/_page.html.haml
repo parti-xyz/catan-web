@@ -8,13 +8,13 @@
 
 - if can_show_unread_mark and first_page and first_post_last_stroked_at_timestamp > 0
   .js-post-new-stroked-container-start
-    - if marked_read_at and posts.first&.unread?(current_user)
+    - if marked_read_at and posts.first&.deprecated_unread?(current_user)
       = render 'posts/page_new_stroked_mark', mode: 'start', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
 
 - posts.each do |post|
   - if !post.blinded?(current_user) and !post.private_blocked?(current_user)
     - if can_show_unread_mark
-      - if marked_read_at and before_post_unread and !post.unread?(current_user) and first_post_last_stroked_at_timestamp > 0
+      - if marked_read_at and before_post_unread and !post.deprecated_unread?(current_user) and first_post_last_stroked_at_timestamp > 0
         .js-post-new-stroked-container-end
           = render 'posts/page_new_stroked_mark', mode: 'end', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
     .post-card__content.js-post-new-stroked-target{ class: "js-post-new-stroked-target-#{post.id}" }
@@ -31,4 +31,4 @@
             - 4.times do
               %li.skeleton-item{ style: "width: #{[70, 100, 80].sample}%;" }
 
-    - before_post_unread = post.unread?(current_user)
+    - before_post_unread = post.deprecated_unread?(current_user)

@@ -76,15 +76,15 @@ class IssuesController < ApplicationController
 
       if @issue.member?(current_user)
         if !@issue.marked_read_at?(current_user)
-          @issue.read!(current_user)
+          @issue.deprecated_read!(current_user)
         end
 
         if (params[:nav_q].blank? and params[:previous_post_last_stroked_at_timestamp].blank? and
         @posts.present? and
         !@issue.deprecated_unread_by_last_stroked_at?(current_user, @posts.first.try(:last_stroked_at)) and
-        @issue.unread?(current_user))
+        @issue.deprecated_unread?(current_user))
           @issue.sync_last_stroked_at!
-          @issue.read!(current_user)
+          @issue.deprecated_read!(current_user)
         end
       end
     end
@@ -396,14 +396,14 @@ class IssuesController < ApplicationController
 
   def read_all
     @issue = Issue.find(params[:id])
-    @issue.read!(current_user)
+    @issue.deprecated_read!(current_user)
   end
 
   def unread_until
     read_at_timestamp = params[:until_post_last_stroked_at_timestamp].to_i  - 1
     return if read_at_timestamp <= 0
 
-    @issue.read!(current_user, Time.at(read_at_timestamp).in_time_zone)
+    @issue.deprecated_read!(current_user, Time.at(read_at_timestamp).in_time_zone)
   end
 
   def wake

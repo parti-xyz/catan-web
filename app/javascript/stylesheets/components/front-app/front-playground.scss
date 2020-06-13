@@ -2,7 +2,7 @@
 @use "../front-variables";
 
 .front-app .front-playground {
-  padding-top: front-variables.$header-height;
+  padding-top: front-variables.$navbar-height;
   overflow: hidden;
   position: relative;
   &.-no-header {

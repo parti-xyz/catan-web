@@ -2,7 +2,7 @@ import { Controller } from "stimulus"
 import ParamMap from '../helpers/param_map'
 import Noty from 'noty'
 import Sortable from 'sortablejs'
-import fetchResponseCheck from '../helpers/fetch_check_response';
+import fetchResponseCheck from '../helpers/fetch_check_response'
 
 export default class extends Controller {
   static targets = []

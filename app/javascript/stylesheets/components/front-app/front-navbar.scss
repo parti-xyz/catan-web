@@ -113,11 +113,27 @@
     background-position: center;
     background-size: cover;
   }
+  > .profilemenus > .dropdown > .usermenu {
+    max-height: 300px;
+    overflow: auto;
+  }
   > .profilemenus > .menuitem {
     position: relative;
     opacity: .8;
     margin-left: 1rem;
     margin-right: 1rem;
+  }
+  > .profilemenus > .menuitem.-powered-by {
+    border-left: 1px solid rgba(255, 255, 255, .7);
+    padding-left: 1rem;
+    display: flex;
+    font-size: bootstrap.$font-size-xs;
+    align-self: center;
+    align-items: flex-end;
+  }
+  > .profilemenus > .menuitem.-powered-by > .parti {
+  height: 1.25rem;
+    margin-left: .5rem;
   }
   > .profilemenus > .menuitem > .staticpopover {
     position: absolute;

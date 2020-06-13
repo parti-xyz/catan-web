@@ -424,6 +424,9 @@ Rails.application.routes.draw do
         get :post_folder_field
         get :destroy_form
       end
+      collection do
+        get :sync
+      end
     end
     resources :issues, only: [:update, :create, :destroy], controller: '/issues' do
       member do

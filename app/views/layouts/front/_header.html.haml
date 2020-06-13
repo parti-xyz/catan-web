@@ -52,13 +52,29 @@
       .dropdown
         .userimage{ "data-toggle" => "dropdown", :href => "#" }
           .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
-        .dropdown-menu.dropdown-menu-right
+        .dropdown-menu.usermenu.dropdown-menu-right
           = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
           = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+          - current_user.member_groups.each_with_index do |group, index|
+            - if index == 0
+              .dropdown-divider
+              .dropdown-header
+                그룹
+            = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item' do
+              = group.title
+              - if group == current_group
+                %i.fa.fa-check
+
           - if current_group&.member?(current_user)
             .dropdown-divider
-            = link_to '그룹 탈퇴', front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까?" }
+            = link_to "#{current_group.title} 그룹 탈퇴", front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까?" }
+      .menuitem.-powered-by
+        .label Powered by
+        = image_tag 'parti_logo_white.png', class: 'parti'
     - else
+      .menuitem.-powered-by
+        .label Powered by
+        = image_tag 'parti_logo_white.png', class: 'parti'
       .menuitem
         = link_to '회원가입', pre_sign_up_front_users_path
       .menuitem

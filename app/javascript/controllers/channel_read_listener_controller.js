@@ -1,48 +1,69 @@
 import { Controller } from 'stimulus'
-import 'waypoints/lib/noframework.waypoints'
-import 'waypoints/lib/shortcuts/inview'
 
-import scrollParent from '../helpers/scroll_parent'
 import ParamMap from '../helpers/param_map'
-
+import parseJSON from '../helpers/json_parse'
+import fetchResponseCheck from '../helpers/fetch_check_response'
+import Timer from '../helpers/timer'
 export default class extends Controller {
   static targets = ['channel']
 
-  consume(event) {
-    if (!event.detail.channelId || !event.detail.channelHasUnread || !event.detail.channelReadAt) {
-      return
-    }
-    const channelId = +event.detail.channelId
-    const channelReadAt = +event.detail.channelReadAt
+  connect() {
+    this.timer = new Timer(this.sync.bind(this), this.data.get("refreshInterval"))
+  }
 
-    if (event.detail.channelHasUnread === 'true' || event.detail.channelHasUnread === true) {
-      this.unread(channelId, channelReadAt)
-    } else {
-      this.read(channelId, channelReadAt)
+  disconnect() {
+    if (this.timer) {
+      this.timer.stop()
+      this.timer = null
     }
   }
 
-  unread(channelId, channelReadAt) {
-    this.findElements(channelId, channelReadAt).forEach(el => {
-      new ParamMap(this, el).set('channelReadAt', channelReadAt)
+  sync() {
+    fetch(this.data.get('url'))
+      .then(fetchResponseCheck)
+      .then(response => {
+        if (response) {
+          return response.text()
+        }
+      })
+      .then(json => {
+        if (json) {
+          let payload = parseJSON(json).value
+          if (!payload) { return }
+          payload.forEach(item => {
+            item.needToRead
+              ? this.unread(item.id)
+              : this.read(item.id)
+          })
+        }
+      })
+      .catch(e => {
+        if (this.timer) {
+          this.timer.stop()
+        }
+      })
+  }
+
+  consume(event) {
+    this.timer.reset(true)
+  }
+
+  unread(channelId) {
+    this.findElements(channelId).forEach(el => {
       el.classList.add('-active')
     })
   }
 
-  read(channelId, channelReadAt) {
-    this.findElements(channelId, channelReadAt).forEach(el => {
-      new ParamMap(this, el).set('channelReadAt', channelReadAt)
+  read(channelId) {
+    this.findElements(channelId).forEach(el => {
       el.classList.remove('-active')
     })
   }
 
-  findElements(channelId, channelReadAt) {
+  findElements(channelId) {
     return this.channelTargets.filter(el => {
       const paramMap = new ParamMap(this, el)
-      if (!paramMap.get('channelReadAt')) { return false }
-
-      const previousChannelReadAt = +paramMap.get('channelReadAt')
-      return ((!previousChannelReadAt || previousChannelReadAt < channelReadAt) && channelId === +paramMap.get('channelId'))
+      return channelId === +paramMap.get('channelId')
     })
   }
 }

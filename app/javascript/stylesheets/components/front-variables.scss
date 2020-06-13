@@ -1,11 +1,11 @@
 @use '../global-variables';
 
 $global-sidebar-width: 75px;
-$group-sidebar-width: 220px;
-$color-sidebar-background: global-variables.$color-voodoo-500;
+$group-sidebar-width: 15rem;
+$color-sidebar-background: global-variables.$color-gray-100;
 $global-sidebar-space-x: 18%;
-$header-height: 53px;
-$front-playground-space-x: 24px; //1.5rem
+$navbar-height: 2.75rem;
+$front-playground-space-x: 1.5rem; //1.5rem
 
 $chosens:
   agree #367264,

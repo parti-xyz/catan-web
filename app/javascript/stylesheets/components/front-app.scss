@@ -65,11 +65,10 @@ body.-pack.-simple.app-users {
   margin: 0;
 }
 
-$navbar-height: 2.5rem;
 .front-app {
   height: 100%;
   > .front-navbar {
-    height: $navbar-height;
+    height: front-variables.$navbar-height;
     position: fixed;
     width: 100%;
     top: 0;
@@ -77,12 +76,12 @@ $navbar-height: 2.5rem;
   > .front-body {
     flex: 1;
     height: 100%;
-    padding-top: $navbar-height;
+    padding-top: front-variables.$navbar-height;
   }
 }
 
 body.-simple .front-app {
-  padding-top: $navbar-height;
+  padding-top: front-variables.$navbar-height;
   display: flex;
   flex-direction: column;
   justify-content: center;

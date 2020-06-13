@@ -240,7 +240,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET'], scope: "email", info_fields: 'email,name', secure_image_url: true, image_size: 'large'
+  config.omniauth :facebook, ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_APP_SECRET'], scope: "email", info_fields: 'email,name', secure_image_url: true, image_size: 'large', call_backurl: "https://parti.test/users/auth/facebook/callback"
   config.omniauth :twitter, ENV['TWITTER_APP_ID'], ENV['TWITTER_APP_SECRET']
   config.omniauth :google_oauth2, ENV['GOOGLE_OAUTH2_APP_ID'], ENV['GOOGLE_OAUTH2_APP_SECRET'], { scope: "email,profile,offline", prompt: "consent", skip_jwt: true, redirect_uri: ('https://parti.dev/users/auth/google_oauth2/callback' if Rails.env.development?)}
 

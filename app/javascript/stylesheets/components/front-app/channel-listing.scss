@@ -4,6 +4,12 @@
 
 .front-app .channel-listing {
   color: global-variables.$color-voodoo-200;
+
+  &.-starter {
+    padding-bottom: .25rem;
+    border-bottom: 1px solid global-variables.$color-gray-200;
+  }
+
   > .header {
     text-align: left;
     line-height: 1.25rem;

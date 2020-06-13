@@ -1,5 +1,5 @@
 import { Controller } from "stimulus"
-import fetchResponseCheck from '../helpers/fetch_check_response';
+import fetchResponseCheck from '../helpers/fetch_check_response'
 
 export default class extends Controller {
   connect() {

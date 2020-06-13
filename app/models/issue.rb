@@ -22,7 +22,7 @@ class Issue < ApplicationRecord
       instance.member?(options[:current_user])
     end
     expose :isUnread do |instance, _|
-      instance.unread?(options[:current_user])
+      instance.deprecated_unread?(options[:current_user])
     end
   end
 
@@ -70,6 +70,10 @@ class Issue < ApplicationRecord
   has_many :issue_post_formats, dependent: :destroy, class_name: 'GroupHomeComponentPreference::IssuePostsFormat'
   belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
   has_many :last_visited_users, as: :last_visitable, class_name: 'User', dependent: :nullify
+  has_many :issue_readers, dependent: :destroy
+  has_one :current_user_issue_reader,
+    -> { where(user_id: Current.user.try(:id)) },
+    class_name: "IssueReader"
 
   # validations
   validates :title,
@@ -392,12 +396,25 @@ class Issue < ApplicationRecord
     member.marked_read_at?
   end
 
-  def unread?(someone)
+  def need_to_read?(someone)
+    return false if someone.blank?
+    return false unless group.member?(someone)
+
+    issue_reader = if someone == Current.user.try(:id)
+      current_user_issue_reader
+    else
+      self.issue_readers.find_by(user: someone)
+    end
+
+    issue_reader.present? && issue_reader.updated_at < self.last_stroked_at
+  end
+
+  def deprecated_unread?(someone)
     member = someone&.smart_issue_member(self)
     member&.unread_issue?.presence || false
   end
 
-  def read!(someone, read_at = DateTime.now)
+  def deprecated_read!(someone, read_at = DateTime.now)
     member = someone&.smart_issue_member(self)
     return if member.blank?
 
@@ -406,22 +423,33 @@ class Issue < ApplicationRecord
 
   # DEPRECATED
   def deprecated_read_if_no_unread_posts!(someone)
-    return if read_if_no_unread_posts!(someone)
+    return if someone.blank?
     return unless self.marked_read_at?(someone)
 
     member = someone.smart_issue_member(self)
     if self.posts.next_of_date(member.read_at).where.not(last_stroked_user_id: someone.id).empty?
-      self.read!(someone)
+      self.deprecated_read!(someone)
     end
+    read!(someone)
   end
 
-  def read_if_no_unread_posts!(someone)
-    member = someone&.smart_issue_member(self)
-    return false if member.blank?
-    return false if self.posts.unread_only(someone).any?
+  def deprecated_unread_post?(someone, last_stroked_at)
+    return false if someone.blank?
+    return false if last_stroked_at.blank?
+    return false unless self.marked_read_at?(someone)
 
-    self.read!(someone)
-    return true
+    member = someone.smart_issue_member(self)
+    member.read_at < last_stroked_at
+  end
+
+  def read!(someone)
+    return if someone.blank?
+    return unless group.member?(someone)
+
+    issue_reader = self.issue_readers.find_or_create_by(user: someone)
+    thoch_when = self.posts.unread_only(someone).any? ? DateTime.new(0,1,1) : DateTime.now
+
+    issue_reader&.update(updated_at: thoch_when)
   end
 
   # DEPRECATED

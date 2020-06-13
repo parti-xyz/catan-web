@@ -5,7 +5,12 @@
   overflow-x: hidden;
   @include mixin.simplebar {
     > .channel-listing {
-      margin: 1rem 0 2rem;
+      margin-top: .75rem;
+      margin-bottom: .75rem;
+    }
+    > .channel-listing.-starter {
+      margin-bottom: .25rem;
+      margin-top: 0.75rem;
     }
   }
 }

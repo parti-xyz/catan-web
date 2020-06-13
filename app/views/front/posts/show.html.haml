@@ -39,7 +39,7 @@
   -#   = link_to [:unbeholders, post], target: '_blank' do
   -#     확인하지 않은 가입멤버 보기
 
-.post-box{ data: { controller: 'channel-read-emit', 'channel-read-emit': { 'channel-id': @current_issue.id, 'channel-has-unread': @current_issue.unread?(current_user).to_s, 'channel-read-at': @current_issue.read_at(current_user)&.to_i } } }
+.post-box{ data: { controller: 'channel-read-emit' } }
   .post-main
     .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
       .main

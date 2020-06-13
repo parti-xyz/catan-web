@@ -1,8 +1,8 @@
 .front-app .channel-lines {
   list-style-type: none;
   text-align: left;
+  margin-bottom: 0;
   > .channel-line {
-    line-height: 1.5rem;
     margin: .25rem 0;
   }
 }
