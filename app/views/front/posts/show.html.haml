@@ -45,7 +45,7 @@
       .main
         %h5.title= @current_post.title
         %small.meta
-          - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+          - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), user_front_members_path(user)) }
           != last_stroked_text
           = date_f(last_stroked_at)
       - if moremenu_content.present? && @current_post.wiki.present?
@@ -58,10 +58,10 @@
     .post-content{ data: { controller: 'comment-form-open' } }
       - if @current_post.wiki.blank?
         .post-meta
-          = link_to smart_user_gallery_url(@current_post.user), class: 'userimage' do
+          = link_to user_front_members_path(@current_post.user), class: 'userimage' do
             .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
           .desc
-            = link_to @current_post.user.nickname, smart_user_gallery_url(@current_post.user), class: 'usernickname'
+            = link_to @current_post.user.nickname, user_front_members_path(@current_post.user), class: 'usernickname'
             .createdat
               = date_f @current_post.created_at
 

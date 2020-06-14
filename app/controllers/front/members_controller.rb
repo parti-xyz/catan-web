@@ -15,4 +15,11 @@ class Front::MembersController < Front::BaseController
     flash[:notice] = I18n.t('activerecord.successful.messages.created')
     turbolinks_redirect_to root_url(current_group.subdomain)
   end
+
+  def user
+    @user = User.find(params[:user_id])
+    @member = current_group.member_of(@user)
+
+    render layout: 'front/simple'
+  end
 end

@@ -1,5 +1,5 @@
 .upvoted-users
   - upvotable.upvote_users.each do |user|
-    = link_to smart_user_gallery_url(user), class: 'user' do
+    = link_to user_front_members_path(user), class: 'user' do
       .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
       .usernickname= user.nickname

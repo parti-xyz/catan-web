@@ -23,5 +23,5 @@
 .authors
   .label 작성
   - current_wiki.authors.each do |user|
-    = link_to smart_user_gallery_path(user), class: 'user' do
+    = link_to user_front_members_path(user), class: 'user' do
       .image{ style: "background-image: url(#{user.image.sm.url});", title: user.nickname, data: { toggle: 'tooltip', placement: 'right', boundary: 'viewport' } }

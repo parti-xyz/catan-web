@@ -534,6 +534,7 @@ Rails.application.routes.draw do
 
     resources :members, only: [] do
       collection do
+        get 'user/:user_id', action: 'user', as: :user
         get :edit_me
         post :update_me
       end

@@ -20,7 +20,7 @@
           - elsif post.wiki.present?
             .icon<> 위키
 
-          - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), smart_user_gallery_path(user)) }
+          - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), user_front_members_path(user)) }
 
           - if current_issue.present?
             != last_stroked_text
@@ -45,6 +45,6 @@
         .strokedusers
           - post.stroked_post_users.limit(6).recent.each do |stroked_post_user|
             - user = stroked_post_user.user
-            = link_to smart_user_gallery_url(user), class: 'userimage' do
+            = link_to user_front_members_path(user), class: 'userimage' do
               .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
 = paginate posts, theme: 'catan'

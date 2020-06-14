@@ -32,3 +32,7 @@ legend.legend-default {
   font-size: 80%;
   font-weight: 400;
 }
+
+.clean-p-parent > p:last-child {
+  margin-bottom: 0;
+}

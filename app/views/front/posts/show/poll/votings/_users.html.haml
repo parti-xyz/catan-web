@@ -5,7 +5,7 @@
     - if poll.votings.any?
       .users
         - poll.votings.recent.map(&:user).each do |user|
-          = link_to smart_user_gallery_path(user), target: '_blank' do
+          = link_to user_front_members_path(user), target: '_blank' do
             %span.user
               %span.image{ style: "background-image: url(#{user.image.sm.url});" }
               %span.usernickname= user.nickname
@@ -24,7 +24,7 @@
                 중립
             .users
               - poll.votings.recent.send(choice).map(&:user).each do |user|
-                = link_to smart_user_gallery_path(user), target: '_blank', class: 'user' do
+                = link_to user_front_members_path(user), target: '_blank', class: 'user' do
                   %span.image{ style: "background-image: url(#{user.image.sm.url});" }
                   %span.usernickname= user.nickname
 
