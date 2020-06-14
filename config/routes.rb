@@ -523,5 +523,12 @@ Rails.application.routes.draw do
 
     resources :groups, only: [:edit]
     resources :groups, only: [:update], controller: '/group/configurations'
+
+    resources :members, only: [] do
+      collection do
+        get :edit_me
+        post :update_me
+      end
+    end
   end
 end

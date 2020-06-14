@@ -6,15 +6,15 @@
         = link_to root_path, class: 'dropdown-item' do
           그룹 홈
         - if current_group.creatable_issue?(current_user) || current_user&.admin?
-          = link_to new_issue_path, class: 'dropdown-item' do
+          = link_to new_front_channel_path, class: 'dropdown-item' do
             채널 만들기
         - if current_group.organized_by?(current_user) || current_user&.admin?
           = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
             그룹 관리
         - if current_group.member?(current_user)
           .dropdown-divider
-          = link_to me_group_members_path, class: 'dropdown-item' do
-            내 정보
+          = link_to edit_me_front_members_path, class: 'dropdown-item' do
+            내 프로필
           = link_to "#{current_group.title} 그룹 탈퇴", front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
       .moremenu
         .dropdown
@@ -89,19 +89,24 @@
               .dropdown-divider
               .dropdown-header
                 내 그룹
-            = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item' do
+            = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item', target: ('_blank' if group != current_group) do
               = group.title
+              - if group != current_group
+                %i.fa.fa-external-link.small.text-muted
               - if group == current_group
                 %i.fa.fa-check
           .dropdown-divider
-          = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item' do
+          = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
             다른 그룹 탐색
-          = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item' do
+            %i.fa.fa-external-link.small.text-muted
+          = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
             그룹 만들기
+            %i.fa.fa-external-link.small.text-muted
     - else
       .menuitem
-        = link_to new_group_configuration_url(subdomain: nil) do
+        = link_to issues_url(subdomain: nil), target: '_blank' do
           다른 그룹 탐색
+          %i.fa.fa-external-link.small.text-muted
       .menuitem
         = link_to '회원가입', pre_sign_up_front_users_path
       .menuitem

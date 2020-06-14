@@ -53,7 +53,7 @@ class Prompt {
       const field = this.options.fields[name]
       const fieldElement = field.render(name)
       fieldElements.push(fieldElement)
-      formElement.appendChild(this.renderFromGruop(fieldElement, field.options.label))
+      formElement.appendChild(this.renderFromGroup(fieldElement, field.options.label))
     }
 
     let buttons = formElement.appendChild(document.createElement("div"))
@@ -147,7 +147,7 @@ class Prompt {
     setTimeout(function () { return parent.removeChild(msg); }, 1500);
   }
 
-  renderFromGruop(fieldElement, label) {
+  renderFromGroup(fieldElement, label) {
     let formGroup = document.createElement("div")
     formGroup.className = CLASS_NAME_PREFIX + "-formgroup"
 

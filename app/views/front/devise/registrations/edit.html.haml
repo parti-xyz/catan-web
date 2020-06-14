@@ -1,12 +1,10 @@
-%section.contents-page
-  .container
-    .contents-header
-      %h4.contents-header__title
-        .thumb.circle-24.img-circle{ style: "background-image: url(#{current_user.image.sm.url});" }
-        #{current_user.nickname}
-        %small
-          내 설정을 관리합니다.
+%section.text-center
+  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' } 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}
+  %h3
+    %i.fa.fa-user
+    내 설정
 
+  .simple-box
     -# .content-tab-section
     -#   %ul.nav.nav-tabs
     -#     %li.active

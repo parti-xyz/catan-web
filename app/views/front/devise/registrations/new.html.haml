@@ -4,7 +4,7 @@
     %i.fa.fa-user
     회원가입
 
-  .box.text-left{ style: 'padding: 3rem' }
+  .simple-box
     = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
       = devise_error_messages!
       = f.hidden_field :provider

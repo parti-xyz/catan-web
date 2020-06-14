@@ -1,7 +1,7 @@
 %section.text-center
   %h3
-    %i.fa.fa-user
+    %i.fa.fa-hashtag
     채널 만들기
 
-  .box{ style: 'padding: 3rem 0; max-width: 600px; text-align: left;' }
+  .simple-box
     = render 'form', current_issue: Issue.new(category: @current_category)
