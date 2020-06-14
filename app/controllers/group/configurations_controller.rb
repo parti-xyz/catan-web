@@ -46,16 +46,12 @@ class Group::ConfigurationsController < Group::BaseController
         organizer_users.each do |user|
           member = @group.members.find_by(user: user)
           if member.blank?
-            if @group.comprehensive_joined_by?(user)
-              member = MemberGroupService.new(group: @group, user: user).call
-            else
-              next
-            end
+            member = MemberGroupService.new(group: @group, user: user).call
           end
-
           unless member.is_organizer?
             member.update_attributes(is_organizer: true)
             new_organizer_members << member
+            member.save
           end
         end
         @group.organizer_members.each do |member|
