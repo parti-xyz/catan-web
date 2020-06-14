@@ -14,7 +14,7 @@ class Front::BaseController < ApplicationController
   end
 
   def check_frontable
-    redirect_to root_path and return unless current_group&.frontable?
+    redirect_to root_path and return unless helpers.implict_front_namespace?
   end
 
   def prepare_channel_supplementary(current_issue)

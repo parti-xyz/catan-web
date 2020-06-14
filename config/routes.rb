@@ -10,8 +10,11 @@ Rails.application.routes.draw do
 
   class FrontGroupRouteConstraint
     def matches?(request)
+      require "browser"
+
+      browser = Browser.new request.user_agent
       group = fetch_group(request)
-      group.present? && group.frontable?
+      !browser.device.mobile? && group.present? && group.frontable?
     end
   end
 
@@ -86,10 +89,16 @@ Rails.application.routes.draw do
     end
   end
 
+
   get '/p/:slug/', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.open_square
     URI.escape("/p/#{Rack::Utils.escape MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug).issue.slug}")
   }, constraints: MergedIssueRouteConstraint.new
+  get '/p/:slug/', to: redirect { |path_params, request|
+    group = fetch_group(request) || Group.open_square
+    issue = group.issues.find_by!(slug: path_params[:slug])
+    "/front/channels/#{issue.id}"
+  }, constraints: FrontGroupRouteConstraint.new
   get '/p/:slug/*path', to: redirect { |path_params, request|
     group = fetch_group(request) || Group.open_square
     merged_issue = MergedIssue.find_by(source_slug: path_params[:slug], source_group_slug: group.slug)

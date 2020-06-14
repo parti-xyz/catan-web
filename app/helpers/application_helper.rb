@@ -489,10 +489,10 @@ module ApplicationHelper
   end
 
   def implict_front_namespace?(group = nil)
-    (group || current_group)&.frontable? && !is_small_screen?
+    (group || current_group)&.frontable? && !browser.device.mobile?
   end
 
   def explict_front_namespace?
-    params[:namespace_slug] == 'front'
+    params[:namespace_slug] == 'front' && !browser.device.mobile?
   end
 end
