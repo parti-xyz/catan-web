@@ -11,7 +11,7 @@ class UpvotesController < ApplicationController
 
     if helpers.explict_front_namespace?
       @post ||= @comment&.post
-      redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
     else
       respond_to do |format|
         format.js
@@ -27,7 +27,7 @@ class UpvotesController < ApplicationController
 
     if helpers.explict_front_namespace?
       @post ||= @comment&.post
-      redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
     else
       respond_to do |format|
         format.js

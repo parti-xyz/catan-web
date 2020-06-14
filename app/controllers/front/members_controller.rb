@@ -12,6 +12,7 @@ class Front::MembersController < Front::BaseController
 
     @member.update_attributes(params.permit(:description))
 
-    redirect_to root_url(current_group.subdomain), turbolinks: :true
+    flash[:notice] = I18n.t('activerecord.successful.messages.created')
+    turbolinks_redirect_to root_url(current_group.subdomain)
   end
 end

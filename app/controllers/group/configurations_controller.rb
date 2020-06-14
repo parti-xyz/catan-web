@@ -75,7 +75,7 @@ class Group::ConfigurationsController < Group::BaseController
 
         if helpers.explict_front_namespace?
           flash[:notice] = t('activerecord.successful.messages.created')
-          redirect_to root_url(subdomain: @group.subdomain), turbolinks: :true
+          turbolinks_redirect_to root_url(subdomain: @group.subdomain)
         else
           flash[:success] = t('activerecord.successful.messages.created')
           redirect_to smart_group_url(@group)

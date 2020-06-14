@@ -15,4 +15,4 @@
         %li.remove-button
           = link_to destroy_category_issue_path(issue, category_id: issue.category.id), method: :delete, remote: true, data: { 'disable-with': '이동 중...' } do
             = issue.category.name
-            주제에서 삭제
+            카테고리에서 삭제

@@ -40,7 +40,7 @@ class PostsController < ApplicationController
       end
 
       if @post.wiki.blank?
-        redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+        turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
       else
         render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
       end
@@ -90,7 +90,7 @@ class PostsController < ApplicationController
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       if helpers.explict_front_namespace?
-        redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+        turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
       else
         redirect_to params[:back_url].presence || smart_post_url(@post)
       end
@@ -305,7 +305,7 @@ class PostsController < ApplicationController
 
     if helpers.explict_front_namespace?
       flash[:notice] = '게시글을 고정했습니다'
-      redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
     end
   end
 
@@ -314,7 +314,7 @@ class PostsController < ApplicationController
 
     if helpers.explict_front_namespace?
       flash[:notice] = '게시글 고정을 풀었습니다'
-      redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
     end
   end
 

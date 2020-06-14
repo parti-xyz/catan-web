@@ -398,6 +398,7 @@ class ApplicationController < ActionController::Base
 
   def flash_to_headers
     return unless request.xhr?
+    return if response.headers["X-Trubolinks-Redirect"] == 'true'
     #avoiding XSS injections via flash
     flash_json = Hash[flash.map{ |k,v| [k, ERB::Util.h(v)] }].to_json
     response.headers['X-Flash-Messages'] = flash_json
@@ -406,6 +407,13 @@ class ApplicationController < ActionController::Base
 
   def force_remote_replace_header
     response.headers['X-Force-Remote-Replace-Header'] = 'true'
+  end
+
+  def turbolinks_redirect_to(url = {}, options = {})
+    turbolinks = options.delete(:turbolinks)
+    options.merge(turbolinks: turbolinks.to_s == "advance" ? action : "replace")
+    response.headers["X-Trubolinks-Redirect"] = 'true'
+    redirect_to(url, options)
   end
 
   def prepare_unobtrusive_flash_frontable

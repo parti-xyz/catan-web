@@ -36,7 +36,8 @@ class CommentsController < ApplicationController
     end
 
     if helpers.explict_front_namespace?
-      redirect_to smart_front_post_url(@comment.post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      flash[:notice] = t('activerecord.successful.messages.created')
+      turbolinks_redirect_to smart_front_post_url(@comment.post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
     else
       @comment.reload if @comment.persisted?
       respond_to do |format|
@@ -63,7 +64,8 @@ class CommentsController < ApplicationController
     @comment.reload if @comment.persisted?
 
     if helpers.explict_front_namespace?
-      redirect_to smart_front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      flash[:notice] = t('activerecord.successful.messages.created')
+      turbolinks_redirect_to smart_front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id]))
     else
       render
     end
@@ -80,7 +82,8 @@ class CommentsController < ApplicationController
     end
 
     if helpers.explict_front_namespace?
-      redirect_to smart_front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id])), turbolinks: :true
+      flash[:notice] = t('activerecord.successful.messages.deleted')
+      turbolinks_redirect_to smart_front_post_url(@comment.post, folder_id: (params[:folder_id] if @comment.post.folder_id&.to_s == params[:folder_id]))
     else
       render
     end

@@ -77,7 +77,7 @@ ko:
       max_size_error: "파일사이즈가 너무 큽니다."
       label:
         bad_issue: "다른 채널 폴더로는 옮길 수 없습니다."
-      wrong_parti_title: "주제별 채널의 이름울 한 글자 이상의 하나의 단어로 입력해 주세요 : %{title}"
+      wrong_parti_title: "카테고리 별 채널의 이름울 한 글자 이상의 하나의 단어로 입력해 주세요 : %{title}"
       events:
         already_responed_invitation:
           fail_to_destroy: "방금 초대 응답했습니다. 삭제할 수 없습니다."
@@ -139,7 +139,7 @@ ko:
         cover: 커버 이미지
         slug: 주소
         blinds: 블랙리스트 회원
-        category_id: 주제
+        category_id: 카테고리
         telegram_link: 메신저 열기
         tag_list: 태그
         private: 비공개
@@ -249,7 +249,7 @@ ko:
         section:
           attributes:
             initial:
-              undeletable: 일반 주제는 지울 수 없습니다.
+              undeletable: 일반 카테고리는 지울 수 없습니다.
         folder:
           attributes:
             title:
@@ -279,7 +279,7 @@ ko:
         slug_help: 인터넷 주소를 만들어 보세요. 영문자와 숫자, -만 넣어주세요. 이미 등록된 주소는 사용할 수 없습니다.
         body: 설명(선택)
         body_help: 이 채널을 쉽고 재미있게 설명해보세요. 최대 200자까지 넣을 수 있습니다.
-        category_id: 주제
+        category_id: 카테고리
         logo: 대표 이미지(선택)
         logo_help: 권장 이미지 사이즈는 가로(800px) * 세로(800px) 입니다.
         tag_list: 태그(선택)

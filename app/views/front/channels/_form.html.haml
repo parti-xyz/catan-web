@@ -45,7 +45,7 @@
             = category.name
         %label.radio-inline
           = radio_button_tag 'issue[category_id]', nil, current_issue.category.blank?
-          이외 주제
+          이외 카테고리
 
   .form-group
     = f.label :tag_list, t("labels.issue.form.groups.#{host_group.slug}.tag_list", cascade: true)

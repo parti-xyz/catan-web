@@ -160,7 +160,8 @@ class IssuesController < ApplicationController
     service = IssueCreateService.new(issue: @issue, current_user: current_user, current_group: current_group, flash: flash)
     if service.call
       if helpers.explict_front_namespace?
-        redirect_to smart_front_channel_url(@issue), turbolinks: :true
+        flash[:notice] = t('activerecord.successful.messages.created')
+        turbolinks_redirect_to smart_front_channel_url(@issue)
       else
         redirect_to smart_issue_home_url(@issue)
       end
@@ -250,10 +251,9 @@ class IssuesController < ApplicationController
           MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
         end
         flash[:success] = t('activerecord.successful.messages.created')
-        errors_to_flash(@issue)
 
         if helpers.explict_front_namespace?
-          redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+          turbolinks_redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id])))
         else
           redirect_to smart_issue_home_url(@issue)
         end
@@ -271,7 +271,11 @@ class IssuesController < ApplicationController
   def destroy
     IssueDestroyJob.perform_async(current_user.id, @issue.id, params[:message])
     flash[:success] = t('views.started_issue_destroying')
-    redirect_to root_path, turbolinks: helpers.explict_front_namespace?
+    if helpers.explict_front_namespace?
+      turbolinks_redirect_to root_path
+    else
+      redirect_to root_path
+    end
   end
 
   def remove_logo
@@ -415,7 +419,7 @@ class IssuesController < ApplicationController
     end
 
     if helpers.explict_front_namespace?
-      redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+      turbolinks_redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id])))
     else
       redirect_to smart_issue_home_url(@issue)
     end
@@ -429,7 +433,7 @@ class IssuesController < ApplicationController
       errors_to_flash(@issue)
     end
     if helpers.explict_front_namespace?
-      redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id]))), turbolinks: :true
+      turbolinks_redirect_to smart_front_channel_url(@issue, folder_id: (params[:folder_id] if @issue.folders.exists?(id: params[:folder_id])))
     else
       redirect_to smart_issue_home_url(@issue)
     end
