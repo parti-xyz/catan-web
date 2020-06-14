@@ -520,5 +520,8 @@ Rails.application.routes.draw do
         patch :read_all
       end
     end
+
+    resources :groups, only: [:edit]
+    resources :groups, only: [:update], controller: '/group/configurations'
   end
 end

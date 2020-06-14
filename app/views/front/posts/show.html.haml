@@ -22,7 +22,7 @@
   - if can?(:update, @current_post) and @current_post.wiki.blank?
     = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder&.id), class: 'dropdown-item'
   - if @current_post.pinned?
-    .dropdown-item
+    .dropdown-header
       공지된 게시물입니다.
   - if can?(:pin, @current_post)
     - if @current_post.pinned?

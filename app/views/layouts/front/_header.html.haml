@@ -1,7 +1,31 @@
 .front-navbar
   .groupmenu
-    = link_to current_group.title, root_url
-    = meta_icons(@current_issue)
+    - if current_group.member?(current_user)
+
+      - moremenu_content = capture do
+        = link_to root_path, class: 'dropdown-item' do
+          그룹 홈
+        - if current_group.creatable_issue?(current_user) || current_user&.admin?
+          = link_to new_issue_path, class: 'dropdown-item' do
+            채널 만들기
+        - if current_group.organized_by?(current_user) || current_user&.admin?
+          = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
+            그룹 관리
+        - if current_group.member?(current_user)
+          .dropdown-divider
+          = link_to me_group_members_path, class: 'dropdown-item' do
+            내 정보
+          = link_to "#{current_group.title} 그룹 탈퇴", front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
+      .moremenu
+        .dropdown
+          .cursor-pointer{ "data-toggle": "dropdown" }
+            = current_group.title
+            = meta_icons(@current_issue)
+          .dropdown-menu.dropdown-menu-right
+            = moremenu_content
+    - else
+      = link_to current_group.title, root_url
+      = meta_icons(@current_issue)
 
   - if current_group.private_blocked?(current_user)
     .searchform.dummy
@@ -49,6 +73,11 @@
                   %p #{current_group.title} 그룹 멤버들과 함께 흥미진진한 이야기를 나눠 보세요.
                   .text-right
                     %button.btn.btn-link.btn-sm{ 'data-dismiss': 'popover' } 닫기
+
+    .menuitem.-powered-by
+      .label Powered by
+      = image_tag 'parti_logo_white.png', class: 'parti'
+    - if user_signed_in?
       .dropdown
         .userimage{ "data-toggle" => "dropdown", :href => "#" }
           .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
@@ -59,22 +88,20 @@
             - if index == 0
               .dropdown-divider
               .dropdown-header
-                그룹
+                내 그룹
             = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item' do
               = group.title
               - if group == current_group
                 %i.fa.fa-check
-
-          - if current_group&.member?(current_user)
-            .dropdown-divider
-            = link_to "#{current_group.title} 그룹 탈퇴", front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까?" }
-      .menuitem.-powered-by
-        .label Powered by
-        = image_tag 'parti_logo_white.png', class: 'parti'
+          .dropdown-divider
+          = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item' do
+            다른 그룹 탐색
+          = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item' do
+            그룹 만들기
     - else
-      .menuitem.-powered-by
-        .label Powered by
-        = image_tag 'parti_logo_white.png', class: 'parti'
+      .menuitem
+        = link_to new_group_configuration_url(subdomain: nil) do
+          다른 그룹 탐색
       .menuitem
         = link_to '회원가입', pre_sign_up_front_users_path
       .menuitem

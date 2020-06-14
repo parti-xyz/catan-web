@@ -9,34 +9,34 @@
           = msg
 
   = hidden_field_tag :folder_id, local_assigns[:current_folder]&.id
-  .form-group{class: error_class_str(current_issue, :title)}
+  .form-group
     = f.label :title, t("labels.issue.form.groups.#{host_group.slug}.title", cascade: true)
-    = f.text_field :title, class: 'form-control input-lg'
+    = f.text_field :title, class: ['form-control', ('is-invalid' if has_error_attr?(current_issue, :title))]
     %p.form-text.text-muted.small
       = t("labels.issue.form.groups.#{host_group.slug}.title_help", cascade: true)
 
-  .form-group
-    = f.label :slug, t("labels.issue.form.groups.#{host_group.slug}.slug", cascade: true)
-    .input-group{class: ('is-invalid' if has_error_attr?(current_issue, :slug))}
-      .input-group-prepend<>
-        .input-group-text
-          https://
-          %span
-            - if current_group.present?
-              #{current_group.subdomain}.
-          parti.xyz/p/
-      = f.text_field :slug, class: 'form-control input-lg'
-    %p.form-text.text-muted.small
-      = t("labels.issue.form.groups.#{host_group.slug}.slug_help", cascade: true)
+  -# .form-group
+  -#   = f.label :slug, t("labels.issue.form.groups.#{host_group.slug}.slug", cascade: true)
+  -#   .input-group{class: ('is-invalid' if has_error_attr?(current_issue, :slug))}
+  -#     .input-group-prepend<>
+  -#       .input-group-text
+  -#         https://
+  -#         %span
+  -#           - if current_group.present?
+  -#             #{current_group.subdomain}.
+  -#         parti.xyz/p/
+  -#     = f.text_field :slug, class: 'form-control'
+  -#   %p.form-text.text-muted.small
+  -#     = t("labels.issue.form.groups.#{host_group.slug}.slug_help", cascade: true)
 
-  .form-group{class: error_class_str(current_issue, :body)}
+  .form-group
     = f.label :body, t("labels.issue.form.groups.#{host_group.slug}.body", cascade: true)
-    = f.text_field :body, class: 'form-control'
+    = f.text_field :body, class: ['form-control', ('is-invalid' if has_error_attr?(current_issue, :body))]
     %p.form-text.text-muted.small
       = t("labels.issue.form.groups.#{host_group.slug}.body_help", cascade: true)
 
   - if current_group.try(:categories).try(:any?)
-    .form-group{class: error_class_str(current_issue, :category_id)}
+    .form-group
       = f.label :category_id, t("labels.issue.form.groups.#{host_group.slug}.category_id", cascade: true)
       .radio-group
         - current_group.categories.each do |category|
@@ -47,13 +47,13 @@
           = radio_button_tag 'issue[category_id]', nil, current_issue.category.blank?
           이외 주제
 
-  .form-group{class: error_class_str(current_issue, :tag_list)}
+  .form-group
     = f.label :tag_list, t("labels.issue.form.groups.#{host_group.slug}.tag_list", cascade: true)
     = f.text_field :tag_list, value: current_issue.tag_list.to_s, class: 'form-control'
     %p.form-text.text-muted.small 쉼표로 구분해서 넣어 주세요. #는 붙이실 필요 없어요.
 
   - if current_issue.persisted?
-    .form-group{class: ('has-error' if has_error_attr?(current_issue, :telegram_link))}
+    .form-group
       = f.label :telegram_link
       %span 텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요.
       = f.text_field :telegram_link, class: 'form-control', placeholder: '예시) https://telegram.me/basic_incomes'
@@ -64,7 +64,8 @@
         ,&nbsp;
         = link_to '페이스북 메신저', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
         링크 만들기
-    .form-group{class: ('has-error' if has_error_attr?(current_issue, :blinds))}
+
+    .form-group
       = f.label :blinds
       = f.text_field :blinds_nickname, value: current_issue.blinds.merge_nickname, class: 'form-control'
       %p.form-text.text-muted.small
@@ -72,7 +73,7 @@
         %strong 이 기능은 꼭 필요한 경우에만 신중히 사용해 주세요.
 
   - if current_issue.persisted?
-    .form-group{class: ('has-error' if has_error_attr?(current_issue, :organizer_nicknames))}
+    .form-group
       = f.label :organizer_nicknames
       = f.text_field :organizer_nicknames, value: current_issue.organizer_members.merge_nickname, class: 'form-control'
       %p.form-text.text-muted.small 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 채널의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
@@ -82,7 +83,7 @@
       %p= current_user.nickname
       %p.form-text.text-muted.small 채널을 만든 후에 오거나이저를 고칠 수 있습니다.
 
-  .form-group{class: ('has-error' if has_error_attr?(current_issue, :notice_only))}
+  .form-group
     = f.label :notice_only
     .checkbox
       %label
@@ -90,7 +91,7 @@
         이 채널은 오거나이저만 게시할 수 있습니다.
 
   - if current_user.admin? and f.object.persisted?
-    .form-group{class: ('has-error' if has_error_attr?(current_issue, :group_slug))}
+    .form-group
       = f.label :group_slug
       = f.text_field :group_slug, class: 'form-control'
       %p.form-text.text-muted.small 이 채널이 속할 그룹의 slug을 기입하세요. 열린 광장 그룹의 채널일 경우 '#{Group::DEFAULT_SLUG}'를 넣어 주세요.

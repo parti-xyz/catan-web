@@ -78,7 +78,7 @@ class Issue < ApplicationRecord
   # validations
   validates :title,
     presence: true,
-    length: { maximum: 60 },
+    length: { maximum: 20 },
     uniqueness: { case_sensitive: false, scope: :group_slug }
   validates :body,
     length: { maximum: 200 }, on: :create
@@ -89,7 +89,7 @@ class Issue < ApplicationRecord
     exclusion: { in: %w(all app new edit index session login logout users admin
     stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false, scope: :group_slug },
-    length: { maximum: 100 }
+    length: { maximum: 50 }
   validate :not_parti_parti_slug
 
   # fields
@@ -101,6 +101,7 @@ class Issue < ApplicationRecord
   before_save :downcase_slug
   before_validation :strip_whitespace
   before_validation :valid_category
+  before_validation :default_slug
 
   # scopes
   scope :never_blinded, -> { where(blinded_at: nil) }
@@ -572,5 +573,20 @@ class Issue < ApplicationRecord
       self.category_id = nil
     end
     self.category = Category.find_by(id: self.category_id)
+  end
+
+  def default_slug
+    return if self.slug.present?
+
+    loop do
+      temp_slug = SecureRandom.hex(20)
+
+      next if temp_slug == Issue::SLUG_OF_PARTI_PARTI && temp_slug != Group::SLUG_OF_UNION
+
+      next if Issue.exists?(slug: temp_slug)
+
+      self.slug = temp_slug
+      break
+    end
   end
 end

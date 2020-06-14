@@ -154,7 +154,7 @@ if (window.jQuery) {
         if (scrollData.tag === scrollPersistenceTag) {
           scrollElement.scrollTop = previousScrollTop
           if (previousScrollTop != scrollElement.scrollTop) {
-            new ParamMap({ identifier: 'simplebar' }, element).set('presistedScrollTop', previousScrollTop)
+            new ParamMap({ identifier: 'simplebar' }, element).set('persistedScrollTop', previousScrollTop)
           }
         }
       }

@@ -46,17 +46,18 @@
   > .link > .unread.-active {
     display: inline-block;
     color: #ffffff;
-    background: #eb4d5c;
-    border-radius: 0.5rem;
-    padding: 0.125rem 0.5rem;
-    font-size: bootstrap.$font-size-xs;
+    background: global-variables.$color-red-500;
+    border-radius: 2px;
+    font-size: 0.5rem;
     line-height: 0.75rem;
-    font-weight: 700;
+    font-weight: bold;
     white-space: nowrap;
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-    vertical-align: top;
-    margin-right: 0.25rem;
-    margin-top: 0.25rem;
+    width: .75rem;
+    height: .75rem;
+    line-height: .75rem;
+    text-align: center;
+    top: -.125rem;
+    position: relative;
   }
   > .link > .title > .content > .meta > .fa {
     opacity: 0.5;

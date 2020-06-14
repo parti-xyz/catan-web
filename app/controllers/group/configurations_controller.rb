@@ -72,11 +72,21 @@ class Group::ConfigurationsController < Group::BaseController
           MessageService.new(member, sender: current_user, action: :new_organizer).call(old_organizer_members: old_organizer_members)
           MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
         end
-        flash[:success] = t('activerecord.successful.messages.created')
-        redirect_to smart_group_url(@group)
+
+        if helpers.explict_front_namespace?
+          flash[:notice] = t('activerecord.successful.messages.created')
+          redirect_to root_url(subdomain: @group.subdomain), turbolinks: :true
+        else
+          flash[:success] = t('activerecord.successful.messages.created')
+          redirect_to smart_group_url(@group)
+        end
       else
         errors_to_flash @group
-        render 'edit'
+        if helpers.explict_front_namespace?
+          render_front_edit(@group)
+        else
+          render 'edit'
+        end
       end
     end
   end
@@ -123,5 +133,12 @@ class Group::ConfigurationsController < Group::BaseController
       :head_title, :site_keywords, :issue_creation_privileges, :private, :organizer_nicknames,
       :key_visual_foreground_image, :key_visual_foreground_image_cache,
       :key_visual_background_image, :key_visual_background_image_cache, :frontable)
+  end
+
+  def render_front_edit group
+    force_remote_replace_header
+    render partial: 'front/groups/form', locals: {
+      local_group: group,
+    }
   end
 end

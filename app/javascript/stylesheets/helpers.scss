@@ -1,5 +1,18 @@
 @use './bootstrap';
+@use './global-variables';
 
 .btn-white {
   @include bootstrap.button-variant(#ffffff, #cccccc, #ffffff, #adadad, #ffffff, #adadad);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+legend.legend-default {
+  margin-bottom: 1rem;
+  font-size: bootstrap.$font-size-lg;
+  color: global-variables.$color-gray-500;
+  font-weight: 600;
+  margin-top: 3rem;
 }
