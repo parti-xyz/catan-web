@@ -11,7 +11,12 @@ class Group::CategoriesController < Group::BaseController
       errors_to_flash(@category)
     end
 
-    redirect_to group_categories_path
+    if helpers.explict_front_namespace?
+      flash[:notice] = t('activerecord.successful.messages.created')
+      redirect_to edit_current_group_front_categories_path, trubolinks: true
+    else
+      redirect_to group_categories_path
+    end
   end
 
   def edit
@@ -22,7 +27,12 @@ class Group::CategoriesController < Group::BaseController
       errors_to_flash(@category)
     end
 
-    redirect_to group_categories_path
+    if helpers.explict_front_namespace?
+      flash[:notice] = t('activerecord.successful.messages.created')
+      redirect_to edit_current_group_front_categories_path, trubolinks: true
+    else
+      redirect_to group_categories_path
+    end
   end
 
   def destroy
@@ -30,7 +40,12 @@ class Group::CategoriesController < Group::BaseController
       errors_to_flash(@category)
     end
 
-    redirect_to group_categories_path
+    if helpers.explict_front_namespace?
+      flash[:notice] = t('activerecord.successful.messages.deleted')
+      redirect_to edit_current_group_front_categories_path, trubolinks: true
+    else
+      redirect_to group_categories_path
+    end
   end
 
   private

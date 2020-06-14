@@ -8,7 +8,7 @@ class Front::PagesController < Front::BaseController
       current_user.update_attributes(last_visitable: current_group)
     end
 
-    @issues = current_group.issues.accessible_only(current_user).sort_by_name.includes(:folders, :category)
+    @issues = current_group.issues.accessible_only(current_user).sort_default.includes(:folders, :category)
     @posts = Post.where(issue: @issues)
       .never_blinded(current_user)
       .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
@@ -60,7 +60,7 @@ class Front::PagesController < Front::BaseController
   def group_sidebar
     @current_issue = Issue.includes(:folders).find_by(id: params[:issue_id])
     @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
-    @issues = current_group.issues.accessible_only(current_user).sort_by_name.includes(:folders, :category)
+    @issues = current_group.issues.accessible_only(current_user).sort_default.includes(:folders, :category)
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
 
     render layout: false

@@ -116,6 +116,7 @@ class Issue < ApplicationRecord
     result
   }
   scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(issues.title, 1)) < 128, 1, 0)")).order('issues.title') }
+  scope :sort_default, -> { order(:position).sort_by_name }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :this_week_or_hottest, -> { order(Arel.sql("if(issues.created_at < (NOW() - INTERVAL 6 DAY), 1, 0)")).order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :recent, -> { order(created_at: :desc) }

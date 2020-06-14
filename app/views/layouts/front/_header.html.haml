@@ -4,13 +4,18 @@
 
       - moremenu_content = capture do
         = link_to root_path, class: 'dropdown-item' do
+          %i.fa.fa-home.text-muted
           그룹 홈
-        - if current_group.creatable_issue?(current_user) || current_user&.admin?
-          = link_to new_front_channel_path, class: 'dropdown-item' do
-            채널 만들기
+        .dropdown-divider
         - if current_group.organized_by?(current_user) || current_user&.admin?
           = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
             그룹 관리
+        - if current_group.organized_by?(current_user) || current_user&.admin?
+          = link_to edit_current_group_front_categories_path, class: 'dropdown-item' do
+            채널 카테고리 관리
+        - if current_group.creatable_issue?(current_user) || current_user&.admin?
+          = link_to new_front_channel_path, class: 'dropdown-item' do
+            채널 만들기
         - if current_group.member?(current_user)
           .dropdown-divider
           = link_to edit_me_front_members_path, class: 'dropdown-item' do

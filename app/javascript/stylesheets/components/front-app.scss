@@ -1,5 +1,6 @@
 @use "./front-variables";
 
+@forward "./front-app/category-card";
 @forward "./front-app/channel-box";
 @forward "./front-app/channel-line";
 @forward "./front-app/channel-lines";

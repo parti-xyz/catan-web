@@ -524,6 +524,14 @@ Rails.application.routes.draw do
     resources :groups, only: [:edit]
     resources :groups, only: [:update], controller: '/group/configurations'
 
+    resources :categories, only: [] do
+      collection do
+        get :edit_current_group
+        patch :move
+      end
+    end
+    resources :categories, only: [:create, :update, :destroy], controller: '/group/categories'
+
     resources :members, only: [] do
       collection do
         get :edit_me
