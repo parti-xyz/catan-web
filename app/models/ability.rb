@@ -50,7 +50,7 @@ class Ability
         post.issue.present? and post.issue.try(:postable?, user)
       end
       can [ :unread_until], Post do |post|
-        post.issue.present? and post.issue.member?(user)
+        post.issue.present? and post.issue.postable?(user)
       end
 
 

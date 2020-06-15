@@ -9,7 +9,7 @@ class OptionsController < ApplicationController
 
     survey = @option.survey
     @post = Post.find_by survey: survey
-    if @post.blank? or @post.private_blocked?(current_user) or !@post.issue.member?(current_user)
+    if @post.blank? || @post.private_blocked?(current_user) || !@post.issue.postable?(current_user)
       render_404 and return
     end
 
