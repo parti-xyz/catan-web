@@ -7,6 +7,7 @@
         %i.fa.-hide{ data: { target: 'content-collapse.content' } }
     .body{ data: { target: 'content-collapse.content' } }
       = simple_format h(current_issue.body)
+
 - if pinned_posts&.any?
   .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "pinned-posts-box-#{current_issue.id}" } } }
     .header{ data: { action: 'click->content-collapse#toggle' } }
@@ -37,3 +38,24 @@
               .title.-blind
                 %i.fa.fa-info-circle
                 = t('labels.post_blind_info')
+
+- if organizer_members&.any?
+  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "organizer-members-box-#{current_issue.id}" } } }
+    .header{ data: { action: 'click->content-collapse#toggle' } }
+      .title
+        채널 오거나이저
+      .count
+        = organizer_members&.size
+      .toggler
+        %i.fa.-hide{ data: { target: 'content-collapse.content' } }
+    %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
+      - organizer_members&.each do |member|
+        - user = member.user
+        %li.organizer-member
+          %span.userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+          %span.usernickname= user.nickname
+- else
+  .supplementary-box
+    .header
+      .title
+        채널 오거나이저가 없습니다.

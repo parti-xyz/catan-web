@@ -26,6 +26,7 @@ class Front::BaseController < ApplicationController
       .includes(:poll, :survey, :wiki)
       .order('pinned_at desc').load
 
+    result[:organizer_members] = current_issue.organizer_members
     result
   end
 end

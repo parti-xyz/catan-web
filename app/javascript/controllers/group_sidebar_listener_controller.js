@@ -2,35 +2,34 @@ import { Controller } from "stimulus"
 import ParamMap from '../helpers/param_map'
 
 export default class extends Controller {
-  static targets = ['channelActivation', 'channelCollapse', 'folderActivation', 'folderCollapse', 'collectionActivationController']
+  static targets = ['menuActivation', 'channelActivation', 'channelCollapse', 'folderActivation', 'folderCollapse', 'collectionActivationController']
 
   consume(event) {
+    const menuSlug = +event.detail.menuSlug
     const channelId = +event.detail.channelId
     const folderId = +event.detail.folderId
 
+    const currentMenuActivation = this.findElement(this.menuActivationTargets, 'menuSlug', menuSlug)
     const currentChannelActivation = this.findElement(this.channelActivationTargets, 'channelId', channelId)
     const currentFolderActivation = this.findElement(this.folderActivationTargets, 'folderId', folderId)
     const currentChannelCollapse = this.findElement(this.channelCollapseTargets, 'channelId', channelId)
     const currentFolderCollapse = this.findElement(this.folderCollapseTargets, 'folderId', folderId)
 
+    const eventActivation = new CustomEvent('group-sidebar-activation', {
+      bubbles: false
+    })
+
     if (currentChannelActivation) {
       if (!currentFolderActivation) {
-        const event = new CustomEvent('group-sidebar-activation', {
-          bubbles: false
-        })
-        currentChannelActivation.dispatchEvent(event)
+        currentChannelActivation.dispatchEvent(eventActivation)
       } else {
-        const event = new CustomEvent('group-sidebar-activation', {
-          bubbles: false
-        })
-        currentFolderActivation.dispatchEvent(event)
+        currentFolderActivation.dispatchEvent(eventActivation)
       }
+    } else if (currentMenuActivation) {
+      currentMenuActivation.dispatchEvent(eventActivation)
     } else {
-      const event = new CustomEvent('group-sidebar-deactivation-all', {
-        bubbles: false
-      })
       if (this.collectionActivationControllerTarget) {
-        this.collectionActivationControllerTarget.dispatchEvent(event)
+        this.collectionActivationControllerTarget.dispatchEvent(eventActivation)
       }
     }
 

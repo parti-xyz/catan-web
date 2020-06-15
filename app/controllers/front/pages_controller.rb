@@ -26,6 +26,8 @@ class Front::PagesController < Front::BaseController
     end
     @scroll_persistence_id_ext = "root-#{current_group.id}"
     @scroll_persistence_tag = params[:page].presence || 1
+
+    @group_sidebar_menu_slug = 'all'
   end
 
   def search
@@ -67,5 +69,6 @@ class Front::PagesController < Front::BaseController
   end
 
   def coc
+    @group_sidebar_menu_slug = 'coc'
   end
 end
