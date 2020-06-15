@@ -1,7 +1,7 @@
 <% if @post.errors.any? %>
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
-  UnobtrusiveFlash.showFlashMessage("게시물을 폴더에서 추가했습니다.");
+  UnobtrusiveFlash.showFlashMessage("게시글을 폴더에서 추가했습니다.");
 
   if($('<%= post_folder_dom_selector(@post) %>').length > 0) {
     $post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');

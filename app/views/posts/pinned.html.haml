@@ -7,10 +7,10 @@
         %ul.list-inline.post-data-divider.post-data-divider-filter
           %li
             = link_to pinned_posts_path(mode: :unbehold), class: ('active' if params[:mode].blank? or params[:mode] == 'unbehold') do
-              확인하지 않은 공지
+              확인하지 않은 고정 게시글
           %li
             = link_to pinned_posts_path(mode: :all), class: ('active' if params[:mode] == 'all') do
-              모든 공지
+              모든 고정 게시글
         - @pinned_posts.each do |issue, posts|
           .post-data-divider
             = link_to smart_issue_home_url(issue) do
@@ -22,9 +22,9 @@
           .text-center.alert
             %i.fa.fa-info-circle
             - if params[:mode].blank? or params[:mode] == 'unbehold'
-              확인할 공지 사항이 없습니다.
+              확인할 고정 게시글이 없습니다.
             - else
-              공지 사항이 없습니다.
+              고정 게시글이 없습니다.
 
       = aside_column_tag_window_splitable do
         %div{ id: splited_post_dom_id, 'data-post-inplace-mode': 'content-only' }

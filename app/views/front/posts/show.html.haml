@@ -36,14 +36,14 @@
 - button_groups << capture do
   - if @current_post.pinned?
     .dropdown-header
-      고정된 게시물입니다.
+      고정된 게시글입니다.
   - if can?(:pin, @current_post)
     - if @current_post.pinned?
       = link_to unpin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
-        게시물 고정 해제하기
+        고정 해제하기
     - else
       = link_to pin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
-        게시물 고정하기
+        이 게시글을 고정하기
 
 - moremenu_content = capture do
   - button_groups.reject { |button_group| button_group.blank? }.each_with_index do |button_group, index|

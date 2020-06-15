@@ -1,7 +1,7 @@
 post = message.messagable
 issue = post.issue
 if message.action.to_s == 'pinned'
-  body = "@#{message.sender.nickname}님이 게시글을 공지했습니다. \"#{post.specific_desc_striped_tags(100)}\""
+  body = "@#{message.sender.nickname}님이 게시글을 고정했습니다. \"#{post.specific_desc_striped_tags(100)}\""
 elsif message.action.to_s == 'decision'
   body = "@#{message.sender.nickname}님이 게시글 토론을 정리했습니다. \"#{excerpt(message.action_params_hash["decision_body"], length: 100, from_html: true)}\""
 else

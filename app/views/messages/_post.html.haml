@@ -4,7 +4,7 @@
       %span
         #{message.sender.nickname}님이 게시글을
       %span
-        공지했습니다
+        고정했습니다
     %div= post.specific_desc_striped_tags(100)
 - elsif message.action.to_s == 'decision'
   %div{id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_post_url(post, format: :js, assigns: to_json_primitive_only(show_issue: true, show_group: true), dom_id: splited_post_dom_id), 'link-type': 'remote', 'link-parti-remote-loading': "##{splited_post_dom_id}" } }

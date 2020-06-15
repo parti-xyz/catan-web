@@ -18,7 +18,7 @@ class PostsTest < ActionDispatch::IntegrationTest
     assert_equal users(:one), assigns(:post).last_stroked_user
   end
 
-  test '게시물 본문 맨 끝문장에 태그가 없을 때도 잘 만들어요' do
+  test '게시글 본문 맨 끝문장에 태그가 없을 때도 잘 만들어요' do
     sign_in(users(:one))
 
     post posts_path, params: { post: { body: '<p>body</p>ok', issue_id: issues(:issue2).id } }

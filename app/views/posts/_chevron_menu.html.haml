@@ -24,7 +24,7 @@
           = render 'posts/front_wiki_buttons', post: post
           - if !post.front_wiki? and post.issue.group.front_wiki_post.present?
             .help-text
-              TIP. 해당 그룹의 홈에 다른 게시물이 이미 게시 중입니다.
+              TIP. 해당 그룹의 홈에 다른 게시글이 이미 게시 중입니다.
               = link_to '확인하기', smart_group_url(post.issue.group)
           - if post.issue.private? and !post.front_wiki?
             .help-text
@@ -75,7 +75,7 @@
   - if post.issue.member?(current_user) and local_assigns[:show_unread_mark]
     %li
       %a.js-trigger{ href: "#parti-post-page-waypoint-unread-until-post", 'data-target': '.js-page-waypoint', 'data-until-post-id': post.id, 'data-until-post-last-stroked-at-timestamp': post.last_stroked_at.to_i }
-        이 게시물까지 읽지 않음 표시
+        이 게시글까지 읽지 않음 표시
 
 - button_groups << capture do
   - additional_buttons = capture do

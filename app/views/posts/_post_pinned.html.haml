@@ -19,8 +19,8 @@
         - if can? :pin, post
           %span.action-btn
             &nbsp;
-            = link_to unpin_post_path(post), method: :delete, remote: true, data: { disable_with: '처리 중...', confirm: '이 공지를 내리시겠습니까?' } do
-              공지 내리기
+            = link_to unpin_post_path(post), method: :delete, remote: true, data: { disable_with: '처리 중...', confirm: '고정을 해제하시겠습니까?' } do
+              고정 해제하기
 
         - if post.need_to_behold?(current_user)
           %span.action-btn

@@ -833,7 +833,7 @@ $(function() {
     });
   })();
 
-  // 게시물 폴더 선택
+  // 게시글 폴더 선택
   $(document).on('hidden.bs.select', '.js-folder-selector .bootstrap-select.js-parti-bootstrap-select', function(e) {
     var $bs_select_control = $(e.currentTarget);
     var $select_control = $bs_select_control.find('select');

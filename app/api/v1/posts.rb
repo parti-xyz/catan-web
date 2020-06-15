@@ -30,7 +30,7 @@ module V1
         end
       end
 
-      desc '채널별 게시물 목록으로 반환합니다'
+      desc '채널별 게시글 목록으로 반환합니다'
       oauth2
       params do
         optional :previous_post_last_stroked_at_timestamp, type: Integer, desc: '시간 기준'

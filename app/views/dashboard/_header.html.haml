@@ -38,7 +38,7 @@
             .col-custom-dashboard{class: ('active' if active_tab == :pinned)}
               = link_to pinned_posts_url(subdomain: nil), class: 'parti-menu-a' do
                 %h5
-                  공지
+                  고정글
                   - if unbehold_pinned_posts.any?
                     .count-label-wrapper.small
                       .count-label.count-label-sub

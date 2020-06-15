@@ -29,11 +29,11 @@
               - if group_home_component.format_name.updated_issues?
                 최근 업데이트된 채널 목록을 표시합니다.
               - if group_home_component.format_name.all_posts?
-                이 그룹의 모든 게시물 목록을 표시합니다.
+                이 그룹의 모든 게시글 목록을 표시합니다.
               - if group_home_component.format_name.issue_posts_hottest?
-                "#{group_home_component.issue_posts_format.issue.title}"채널의 인기 게시물 목록을 표시합니다.
+                "#{group_home_component.issue_posts_format.issue.title}"채널의 인기 게시글 목록을 표시합니다.
               - if group_home_component.format_name.issue_posts_order_by_stroked_at?
-                "#{group_home_component.issue_posts_format.issue.title}"채널의 최근 게시물 목록을 표시합니다.
+                "#{group_home_component.issue_posts_format.issue.title}"채널의 최근 게시글 목록을 표시합니다.
             .visible-xs-block.hidden-sm
               %span
                 = controls

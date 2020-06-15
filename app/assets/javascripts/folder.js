@@ -462,7 +462,7 @@ var __parti_prepare_folder = function($base) {
     });
   });
 
-  // 게시물 저장할 폴더 정하기
+  // 게시글 저장할 폴더 정하기
   $.parti_apply($base, '.js-choose-folder-to-new-post', function(elm) {
     $(elm).on('click', function(e) {
       var $elm = $(e.currentTarget);
@@ -493,7 +493,7 @@ var __parti_prepare_folder = function($base) {
     });
   });
 
-  // 정한 폴더에 새 게시물 위치하기
+  // 정한 폴더에 새 게시글 위치하기
   $.parti_apply($base, '.js-confirm-folder-to-new-post', function(elm) {
     $(elm).on('click', function(e) {
       e.preventDefault();
@@ -529,7 +529,7 @@ var __parti_prepare_folder = function($base) {
     });
   });
 
-  // 새 게시물을 새폴더에 지정하기
+  // 새 게시글을 새폴더에 지정하기
   $.parti_apply($base, '.js-new-post-folder-id-field', function(elm) {
     $(elm).on('parti-new-folder-for-new-post', function(e, folder_id, folder_full_title) {
       var $elm = $(e.currentTarget);

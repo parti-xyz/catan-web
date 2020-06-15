@@ -49,7 +49,7 @@
             .checkbox
               %label
                 = f.check_box :enable_mailing_pin
-                공지를 이메일로 받습니다.
+                게시글을 고정하면 이메일을 받습니다.
             .checkbox
               %label
                 = f.check_box :enable_mailing_poll_or_survey
@@ -95,6 +95,6 @@
             %li - 가입 그룹 및 채널 정보: 즉시 삭제
             %li - 작성된 글 및 댓글: 유지
           .text-basic-wrap
-            작성한 게시물의 삭제를 원하시는 경우, 탈퇴 신청 전에 삭제를 진행해주세요.
+            작성한 게시글의 삭제를 원하시는 경우, 탈퇴 신청 전에 삭제를 진행해주세요.
             탈퇴 처리가 완료된 후에는 작성하신 글과 댓글의 삭제를 요청할 수 없습니다.
         = link_to '탈퇴하기', cancel_form_users_path, class: 'btn btn-danger btn-block'

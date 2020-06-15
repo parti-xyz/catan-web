@@ -2,7 +2,7 @@
   UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
 <% else %>
   $('.js-folder-item[data-folder-item-type="post"][data-folder-item-id="<%=  params[:post_id] %>"]').remove();
-  UnobtrusiveFlash.showFlashMessage("게시물을 폴더에서 제거했습니다. <%= j(link_to '취소하기', attach_post_folder_url(@folder, post_id: params[:post_id], dom_id: params[:dom_id], folder_seq: @post.folder_seq), remote: true, method: :post, 'data-dismiss': 'alert', 'data-target': 'section.unobtrusive-flash-section .unobtrusive-flash-container .alert', class: 'text-muted', style: 'text-decoration: underline;') if @post.present? %>", {type: 'success', timeout: 10 * 1000  });
+  UnobtrusiveFlash.showFlashMessage("게시글을 폴더에서 제거했습니다. <%= j(link_to '취소하기', attach_post_folder_url(@folder, post_id: params[:post_id], dom_id: params[:dom_id], folder_seq: @post.folder_seq), remote: true, method: :post, 'data-dismiss': 'alert', 'data-target': 'section.unobtrusive-flash-section .unobtrusive-flash-container .alert', class: 'text-muted', style: 'text-decoration: underline;') if @post.present? %>", {type: 'success', timeout: 10 * 1000  });
 
   if($('<%= post_folder_dom_selector(@post) %>').length > 0) {
     $post_line_folder = $('<%= j(render 'posts/post_card_folder', post: @post) %>');

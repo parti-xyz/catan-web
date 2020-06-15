@@ -254,7 +254,7 @@ class ApplicationController < ActionController::Base
     "posts#decision_histories" => "토론 이력",
     "wikis#histories" => "위키 이력",
     "posts#new_wiki" => "위키 게시",
-    "posts#pinned" => "공지",
+    "posts#pinned" => "고정 게시글",
     "posts#edit" => "게시글 수정",
     "posts#show" => "게시글 상세",
     "wiki_histories#show" => "위키 이력",

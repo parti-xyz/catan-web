@@ -136,7 +136,7 @@ class MessagesTest < ActionDispatch::IntegrationTest
     refute users(:one).reload.messages.exists?(messagable: option)
   end
 
-  test '해당 게시물의 알림을 받을 사람 중에 해당 빠띠에 가입 중인 사람에게만 알림이 갑니다' do
+  test '해당 게시글의 알림을 받을 사람 중에 해당 빠띠에 가입 중인 사람에게만 알림이 갑니다' do
     sign_in(users(:two))
 
     # post_talk3의 빠띠에 two가 가입합니다.

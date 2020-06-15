@@ -4,7 +4,7 @@
   .modal-header.modal-header-flex
     %h4.modal-header-title
       - if subject.instance_of? Post
-        .title-name 게시물 폴더 선택
+        .title-name 게시글 폴더 선택
       - else
         .title-name #{subject.title} 폴더 이동
     %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
