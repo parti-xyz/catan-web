@@ -528,11 +528,11 @@ class Issue < ApplicationRecord
   end
 
   def compact_messagable_users
-    self.member_users.where.not(id: IssuePushNotificationPreference.where(issue: self).not_detail_or_compact_value.select(:user_id))
+    self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).detail_or_compact_value.select(:user_id))
   end
 
   def detail_messagable_users
-    self.member_users.where.not(id: IssuePushNotificationPreference.where(issue: self).not_detail_value.select(:user_id))
+    self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).detail_value.select(:user_id))
   end
 
   def self.messagable_group_method

@@ -1,6 +1,6 @@
 .notifications{ data: { toggle: 'dropdown' } }
   %i.fa.fa-bell
-  - if current_user.cached_important_messages_count(current_group) > 0
+  - if @important_messages_count > 0
     %i.fa.fa-circle.circle{ data: { target: 'message-read-all.circle', 'last-message-id': @messages&.first&.id } }
 .dropdown-menu.dropdown-menu-right.messages
   - if @messages.any?

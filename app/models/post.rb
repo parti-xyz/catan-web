@@ -288,7 +288,7 @@ class Post < ApplicationRecord
       result = result.or(User.where(id: wiki.authors))
     end
 
-    result = result.where(id: Member.where(joinable: self.issue).select(:user_id))
+    result = result.where(id: Member.where(joinable: self.group).select(:user_id))
     result
   end
 

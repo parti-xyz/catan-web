@@ -281,7 +281,7 @@ class User < ApplicationRecord
 
   def important_messages_count(group = nil)
     result = messages.unread
-    result = result.where('created_at > ?', self.messages_read_at).where('created_at > ?', 2.day.ago)
+    result = result.where('created_at > ?', self.messages_read_at || 0).where('created_at > ?', 2.day.ago)
     result = result.of_group(group) if group.present?
     @_cached_important_messages_count = result.count
 
@@ -388,7 +388,7 @@ class User < ApplicationRecord
 
   def issue_push_notification_preference_value(issue)
     issue_push_notification_preference = issue_push_notification_preferences.find_by(issue: issue)
-    (issue_push_notification_preference.try(:value) || 'detail').to_s
+    (issue_push_notification_preference.try(:value) || 'highlight').to_s
   end
 
   def canceled?
