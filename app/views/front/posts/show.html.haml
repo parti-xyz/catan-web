@@ -18,19 +18,39 @@
       = render 'front/channels/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
 
 
-- moremenu_content = capture do
+- button_groups = []
+
+- button_groups << capture do
   - if can?(:update, @current_post) and @current_post.wiki.blank?
     = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder&.id), class: 'dropdown-item'
+  - if can?(:destroy, @current_post) and @current_post.wiki.blank?
+    = link_to '삭제', front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'dropdown-item'
+
+- if can? :update, @current_post.wiki
+  - button_groups << capture do
+    - if @current_post.wiki.activatable?
+      = link_to '지운 위키 복구하기', activate_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, class: 'dropdown-item'
+    - if @current_post.wiki.purgeable?
+      = link_to '위키 지우기', purge_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, data: { confirm: '정말 지우시겠습니까?' }, class: 'dropdown-item'
+
+- button_groups << capture do
   - if @current_post.pinned?
     .dropdown-header
-      공지된 게시물입니다.
+      고정된 게시물입니다.
   - if can?(:pin, @current_post)
     - if @current_post.pinned?
       = link_to unpin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
-        공지 내리기
+        게시물 고정 해제하기
     - else
       = link_to pin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
-        공지 걸기
+        게시물 고정하기
+
+- moremenu_content = capture do
+  - button_groups.reject { |button_group| button_group.blank? }.each_with_index do |button_group, index|
+    - if index != 0
+      .dropdown-divider
+    = button_group
+
   -# - if @current_post.can_beholder?(current_user)
   -#   %li
   -#     = link_to [:beholders, :front, @current_post], target: '_blank' do
@@ -119,7 +139,7 @@
           = render 'front/posts/show/survey', survey: @current_post.survey
       - else
         -# WIKI
-        .post-wiki{ class: ('-active' if @current_post.wiki.active?) }
+        .post-wiki
           = render 'front/wikis/card', current_wiki: @current_post.wiki
 
       .reactions

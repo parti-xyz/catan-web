@@ -287,9 +287,13 @@ class PostsController < ApplicationController
   def destroy
     PostDestroyService.new(@post).call
 
-    respond_to do |format|
-      format.js
-      format.html { redirect_to smart_issue_home_url(@post.issue) }
+    if helpers.explict_front_namespace?
+      turbolinks_redirect_to destroyed_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+    else
+      respond_to do |format|
+        format.js
+        format.html { redirect_to smart_issue_home_url(@post.issue) }
+      end
     end
   end
 

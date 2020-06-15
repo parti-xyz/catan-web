@@ -54,7 +54,7 @@
       = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 - else
-  .alert.alert-info.m-3
+  .alert.alert-info.my-3
     게시글이 없습니다.
     - if @current_issue&.group&.member?(current_user)
       가장 먼저 게시글을 올려보세요.

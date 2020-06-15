@@ -44,4 +44,13 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
   end
+
+  def destroyed
+    @current_post = Post.only_deleted.find(params[:id])
+
+    @current_issue = Issue.find(@current_post.issue_id)
+    render_403 and return if @current_issue&.private_blocked?(current_user)
+
+    @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
+  end
 end

@@ -447,6 +447,9 @@ Rails.application.routes.draw do
     end
 
     resources :posts, only: [:show, :new, :edit] do
+      member do
+        get :destroyed
+      end
       shallow do
         resources :comments, only: [:edit]
         resources :comments, only: [:create, :update, :destroy], controller: '/comments' do
@@ -465,11 +468,15 @@ Rails.application.routes.draw do
         end
       end
     end
-    resources :posts, only: [:create, :update], controller: '/posts' do
+    resources :posts, only: [:create, :update, :destroy], controller: '/posts' do
       member do
         patch 'wiki', to: '/posts#update_wiki'
         post 'pin'
         delete 'unpin'
+        namespace :wiki, module: nil, controller: '/wikis' do
+          patch 'purge'
+          patch 'activate'
+        end
       end
     end
 

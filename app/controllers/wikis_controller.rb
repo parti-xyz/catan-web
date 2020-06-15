@@ -20,7 +20,12 @@ class WikisController < ApplicationController
     end
 
     errors_to_flash(@post)
-    redirect_to smart_post_url(@post)
+
+    if helpers.explict_front_namespace?
+      turbolinks_redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+    else
+      redirect_to smart_post_url(@post)
+    end
   end
 
   def inactivate
@@ -50,7 +55,12 @@ class WikisController < ApplicationController
     end
 
     errors_to_flash(@post)
-    redirect_to smart_post_url(@post)
+
+    if helpers.explict_front_namespace?
+      turbolinks_redirect_to front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+    else
+      redirect_to smart_post_url(@post)
+    end
   end
 
   def histories
