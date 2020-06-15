@@ -1,6 +1,6 @@
 import { Controller } from 'stimulus'
 import autosize from 'autosize'
-import Noty from 'noty'
+import appNoty from '../helpers/app_noty'
 
 export default class extends Controller {
   connect() {
@@ -13,10 +13,6 @@ export default class extends Controller {
     } else if (flashType == 'notice') {
       type = 'success'
     }
-    new Noty({
-      type,
-      text: flashMessage,
-      timeout: 3000,
-    }).show()
+    appNoty(flashMessage, type)
   }
 }

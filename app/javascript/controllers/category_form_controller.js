@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import Noty from 'noty'
+import appNoty from '../helpers/app_noty'
 
 export default class extends Controller {
   static targets = ['view', 'form', 'nameField', 'submitButton']
@@ -25,12 +25,7 @@ export default class extends Controller {
     let valid = true
 
     if (!this.nameFieldTarget.value || this.nameFieldTarget.value.length <= 0) {
-      new Noty({
-        type: 'warning',
-        text: '카테고리 제목이 비었어요. [확인]',
-        timeout: 3000,
-        modal: true,
-      }).show()
+      appNoty('카테고리 제목이 비었어요.', 'warning', true)
       valid = false
     }
 

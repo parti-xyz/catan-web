@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import ParamMap from '../helpers/param_map'
-import Noty from 'noty'
+import appNoty from '../helpers/app_noty'
 import Sortable from 'sortablejs'
 
 const MAX_FILE_COUNT = 20
@@ -51,13 +51,7 @@ export default class extends Controller {
     event.preventDefault()
 
     if (event.currentTarget.hasAttribute('disabled')) {
-      new Noty({
-        type: 'warning',
-        text: `파일 ${MAX_FILE_COUNT}개까지만 업로드 가능합니다. [확인]`,
-        timeout: 3000,
-        modal: true,
-      }).show()
-
+      appNoty(`파일 ${MAX_FILE_COUNT}개까지만 업로드 가능합니다.`, 'warning', true)
       return
     }
 
@@ -104,12 +98,7 @@ export default class extends Controller {
     const fileSourceField = fileField.closest(`[data-target~="${this.identifier}.fileSourceField"]`)
 
     if (parseInt(fileField.dataset['rule-filesize']) < currentFile.size) {
-      new Noty({
-        type: 'warning',
-        text: '10MB 이하의 파일만 업로드 가능합니다. [확인]',
-        timeout: 3000,
-        modal: true,
-      }).show()
+      appNoty('10MB 이하의 파일만 업로드 가능합니다.', 'warning', true)
       fileSourceField.remove()
     } else {
       if (/^image/.test(currentFile.type) ) {
@@ -191,32 +180,18 @@ export default class extends Controller {
     temp.innerHTML = this.bodyFieldTarget.value
 
     if (!temp.textContent || temp.textContent.length <= 0) {
-      new Noty({
-        type: 'warning',
-        text: '본문 내용이 비었어요. [확인]',
-        timeout: 3000,
-        modal: true,
-      }).show()
+      appNoty('본문 내용이 비었어요.', 'warning', true)
       valid = false
     } else if (this.bodyFieldTarget.value.length > 1048576) {
-      new Noty({
-        type: 'warning',
-        text: '내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 글을 나누어 등록하거나 사진 업로드를 이용하세요. [확인]',
-        timeout: 3000,
-        modal: true,
-      }).show()
+      appNoty('내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 글을 나누어 등록하거나 사진 업로드를 이용하세요.', 'warning', true)
       valid = false
     }
 
     if(this.baseTitleFieldTarget.value?.trim()?.length <= 0) {
-      new Noty({
-        type: 'warning',
-        text: '제목을 넣어 주세요 [확인]',
-        timeout: 3000,
-        modal: true,
-      }).show()
+      appNoty('제목을 넣어 주세요', 'warning', true)
       valid = false
     }
+
     if (valid == false) {
       event.preventDefault()
       setTimeout(function () { this.submitButtonTargets.forEach(el => jQuery.rails.enableElement(el)) }.bind(this), 1000)

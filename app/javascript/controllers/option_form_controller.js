@@ -1,5 +1,6 @@
 import { Controller } from 'stimulus'
 import autosize from 'autosize'
+import appNoty from '../helpers/app_noty'
 
 export default class extends Controller {
   static targets = ['bodyField']
@@ -8,20 +9,10 @@ export default class extends Controller {
     temp.innerHTML = this.bodyFieldTarget.value
 
     if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length <= 0) {
-      new Noty({
-        type: 'warning',
-        text: '제안 내용이 비었어요. [확인]',
-        timeout: 3000,
-        modal: true,
-      }).show()
+      appNoty('제안 내용이 비었어요.', 'warning', true)
       valid = false
     } else if (this.bodyFieldTarget.value.length > 200) {
-      new Noty({
-        type: 'warning',
-        text: '제안 내용이 너무 깁니다. [확인]',
-        timeout: 3000,
-        modal: true,
-      }).show()
+      appNoty('제안 내용이 너무 깁니다. 200자까지 입력할 수 있습니다.', 'warning', true)
       valid = false
     }
 

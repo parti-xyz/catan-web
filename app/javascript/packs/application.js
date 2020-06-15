@@ -6,7 +6,7 @@ import 'jquery'
 import 'popper.js'
 import 'bootstrap'
 import elementClosest from 'element-closest'
-import Noty from 'noty'
+import appNoty from '../helpers/app_noty'
 
 import '../stylesheets/site'
 
@@ -56,19 +56,11 @@ if (window.jQuery) {
 
     if (flash) {
       if (flash.alert) {
-        new Noty({
-          type: 'warning',
-          text: decodeURIComponent(escape(flash.alert)),
-          timeout: 3000,
-        }).show()
+        appNoty(decodeURIComponent(escape(flash.alert)), 'warning')
         reported = true
       }
       if (flash.notice) {
-        new Noty({
-          type: 'success',
-          text: decodeURIComponent(escape(flash.notice)),
-          timeout: 3000,
-        }).show()
+        appNoty(decodeURIComponent(escape(flash.alert)), 'success')
         reported = true
       }
     }
@@ -76,29 +68,13 @@ if (window.jQuery) {
     if (reported) { return }
 
     if(status == 500) {
-      new Noty({
-        type: 'error',
-        text: decodeURIComponent('뭔가 잘못되었습니다. 곧 고치겠습니다.'),
-        timeout: 3000,
-      }).show()
+      appNoty('뭔가 잘못되었습니다. 곧 고치겠습니다.', 'error', true)
     } else if(status == 400) {
-      new Noty({
-        type: 'error',
-        text: decodeURIComponent('요청하신 것을 처리할 수 없습니다.'),
-        timeout: 3000,
-      }).show()
+      appNoty('요청하신 것을 처리할 수 없습니다.', 'error', true)
     } else if(status == 403) {
-      new Noty({
-        type: 'error',
-        text: decodeURIComponent('권한이 없습니다.'),
-        timeout: 3000,
-      }).show()
+      appNoty('권한이 없습니다.', 'error', true)
     } else if(status == 404) {
-      new Noty({
-        type: 'error',
-        text: decodeURIComponent('어머나! 요청하신 내용이 사라졌어요. 페이지를 새로 고쳐보세요.'),
-        timeout: 3000,
-      }).show()
+      appNoty('어머나! 요청하신 내용이 사라졌어요. 페이지를 새로 고쳐보세요.', 'error', true)
     }
 
     $.each($('[data-disable-with]'), function(index, elm) { $.rails.enableElement(elm) })
