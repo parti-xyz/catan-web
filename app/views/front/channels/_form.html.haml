@@ -39,18 +39,13 @@
     .form-group
       = f.label :category_id, t("labels.issue.form.groups.#{host_group.slug}.category_id", cascade: true)
       .radio-group
-        - current_group.categories.each do |category|
-          %label.radio-inline
-            = f.radio_button :category_id, category.id
-            = category.name
-        %label.radio-inline
-          = radio_button_tag 'issue[category_id]', nil, current_issue.category.blank?
-          이외 카테고리
-
-  .form-group
-    = f.label :tag_list, t("labels.issue.form.groups.#{host_group.slug}.tag_list", cascade: true)
-    = f.text_field :tag_list, value: current_issue.tag_list.to_s, class: 'form-control'
-    %p.form-text.text-muted.small 쉼표로 구분해서 넣어 주세요. #는 붙이실 필요 없어요.
+        - current_group.categories.each_with_index do |category|
+          .form-check.form-check-inline
+            = f.radio_button :category_id, category.id, class: 'form-check-input', id: "category-id-#{category.id}"
+            = f.label :category_id, category.name, class: 'form-check-label', for: "category-id-#{category.id}"
+        .form-check.form-check-inline
+          = radio_button_tag 'issue[category_id]', nil, current_issue.category.blank?, class: 'form-check-input', id: "category-id-nil"
+          = label_tag :category_id, '이외 카테고리', class: 'form-check-label', for: "category-id-nil"
 
   - if current_issue.persisted?
     .form-group

@@ -42,12 +42,11 @@
     %p.form-text.text-muted.small
       이름을 열 글자 이하로 줄인다면 어떻게 되나요? 그룹을 간단 명료하게 표시해 보세요. 모바일 기기나 좁은 화면에 그룹을 표시할 때 사용합니다. 입력하지 않으시면 그룹의 이름이 사용됩니다.
 
-  .form-group
-    = f.label :site_title, t("labels.group.form.site_title")
-    = f.text_field :site_title, class: ['form-control', ('is-invalid' if has_error_attr?(local_group, :site_title))]
-    %p.form-text.text-muted.small
-      그룹의 슬로건입니다. 소셜네트워크나 다른 서비스에 공유할 때 쓰입니다. 최대 50자까지 한 줄 설명을 넣어 주세요. 입력하지 않으시면 그룹의 이름이 사용됩니다.
-
+  -# .form-group
+  -#   = f.label :site_title, t("labels.group.form.site_title")
+  -#   = f.text_field :site_title, class: ['form-control', ('is-invalid' if has_error_attr?(local_group, :site_title))]
+  -#   %p.form-text.text-muted.small
+  -#     그룹의 슬로건입니다. 소셜네트워크나 다른 서비스에 공유할 때 쓰입니다. 최대 50자까지 한 줄 설명을 넣어 주세요. 입력하지 않으시면 그룹의 이름이 사용됩니다.
 
   - if local_group.persisted?
     .form-group
