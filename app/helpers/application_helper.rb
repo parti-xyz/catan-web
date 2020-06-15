@@ -48,7 +48,7 @@ module ApplicationHelper
   end
 
   def date_f(date)
-    timeago_tag date, lang: :ko, limit: 3.days.ago, data: { controller: 'timeago' }
+    timeago_tag date, lang: :ko, limit: 3.days.ago
   end
 
   def static_date_f(date)
@@ -57,6 +57,14 @@ module ApplicationHelper
 
   def static_day_f(date)
     date.strftime("%Y.%m.%d")
+  end
+
+  def smart_date_tag(date)
+    if date.today?
+      time_tag date, date.strftime("%H:%M")
+    else
+      time_tag date, date.strftime("%Y.%m.%d")
+    end
   end
 
   def comment_format(issue, text, html_options = {}, options = {})

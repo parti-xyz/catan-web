@@ -7,7 +7,6 @@ import 'popper.js'
 import 'bootstrap'
 import elementClosest from 'element-closest'
 import Noty from 'noty'
-import { format as timeAgoFormat } from 'timeago.js'
 
 import '../stylesheets/site'
 

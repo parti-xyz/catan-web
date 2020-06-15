@@ -67,7 +67,7 @@
         %small.meta
           - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), user_front_members_path(user)) }
           != last_stroked_text
-          = date_f(last_stroked_at)
+          = smart_date_tag(last_stroked_at)
       - if moremenu_content.present? && @current_post.wiki.present?
         .moremenu
           .dropdown
@@ -83,7 +83,7 @@
           .desc
             = link_to @current_post.user.nickname, user_front_members_path(@current_post.user), class: 'usernickname'
             .createdat
-              = date_f @current_post.created_at
+              = smart_date_tag @current_post.created_at
 
           - if moremenu_content.present?
             .moremenu

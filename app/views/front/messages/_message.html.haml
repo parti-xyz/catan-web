@@ -18,6 +18,6 @@
             = link_to message.group.title_basic_format, smart_group_url(message.group)
         .message__date.date-wrapper
           &middot;
-          = date_f message.created_at
+          = smart_date_tag message.created_at
       .message__body
         = render customize_partial_path(message.messagable, ->(model) { "messages/#{model.class.model_name.singular}" }), message: message, mention_only_page: local_assigns[:mention_only_page]

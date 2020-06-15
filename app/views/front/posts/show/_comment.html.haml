@@ -54,7 +54,7 @@
           = comment.upvotes_count
 
       .datetime
-        = date_f comment.created_at
+        = smart_date_tag comment.created_at
 
 
     - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
