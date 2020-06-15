@@ -283,7 +283,7 @@ body.-pack {
   }
 
   .ProseMirror-prompt-remove {
-    @extend .btn, .btn-outline-danger;
+    @extend .btn, .btn-link, .text-danger;
   }
 
   .ProseMirror-prompt-label {

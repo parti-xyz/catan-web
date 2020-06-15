@@ -8,6 +8,8 @@ import { toggleMark, lift, joinUp } from 'prosemirror-commands'
 import { Prompt, TextField } from './prompt'
 import { destroyMark, saveMark, toggleWrap } from './commands'
 import { markIsActive, getMarkAttrs, nodeCanInsert, getMarkRange } from './utils'
+import appNoti from '../../helpers/app_noty'
+import getValidUrl from '../../helpers/valid_url'
 
 const CLASS_NAME_PREFIX = "ProseMirror-prompt"
 
@@ -209,8 +211,16 @@ function linkItem(markType, options) {
           })
         },
         onSave: (attrs) => {
+          if (!attrs.href || attrs.href.length <= 0) {
+            appNoti('주소를 입력해 주세요.', 'warning')
+            return false
+          }
+          attrs.href = getValidUrl(attrs.href)
+
           saveMark(markType, attrs)(view.state, view.dispatch)
           view.focus()
+
+          return true
         },
         onDestroy: markIsActive(state, markType) ? ((attrs) => {
           destroyMark(markType)(view.state, view.dispatch)
@@ -246,6 +256,8 @@ function insertImageItem(nodeType, options) {
         onSave: (attrs) => {
           view.dispatch(view.state.tr.replaceSelectionWith(nodeType.createAndFill(attrs)))
           view.focus()
+
+          return true
         }
       })
     }

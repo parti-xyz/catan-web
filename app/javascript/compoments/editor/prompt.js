@@ -117,9 +117,8 @@ class Prompt {
 
   submitHandle(fieldElements) {
     let params = this.getValues(this.options.fields, fieldElements)
-    if (params) {
+    if (params && this.options.onSave(params)) {
       this.closePrompt()
-      this.options.onSave(params)
     }
   }
 
