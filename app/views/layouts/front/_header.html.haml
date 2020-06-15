@@ -29,7 +29,7 @@
           .dropdown-menu.dropdown-menu-right
             = moremenu_content
     - else
-      = link_to current_group.title, root_url
+      = link_to current_group.title, root_url, class: 'link'
       = meta_icons(@current_issue)
 
   - if current_group.private_blocked?(current_user)
@@ -66,7 +66,7 @@
 
       - else
         .menuitem
-          = link_to '그룹 가입', new_front_member_request_path
+          = link_to '그룹 가입', new_front_member_request_path, class: 'link'
           - unless current_page?('/front/member_requests/new') || current_page?('/front/member_requests/private_blocked')
             .staticpopover{ data: { controller: 'static-popover', 'static-popover': { 'class-name': 'join-banner', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
               .collapse{ data: { target: 'static-popover.template' } }
@@ -109,10 +109,10 @@
             %i.fa.fa-external-link.small.text-muted
     - else
       .menuitem
-        = link_to issues_url(subdomain: nil), target: '_blank' do
+        = link_to issues_url(subdomain: nil), target: '_blank', class: 'link' do
           다른 그룹 탐색
           %i.fa.fa-external-link.small.text-muted
       .menuitem
-        = link_to '회원가입', pre_sign_up_front_users_path
+        = link_to '회원가입', pre_sign_up_front_users_path, class: 'link'
       .menuitem
-        = link_to '로그인', new_user_session_path
+        = link_to '로그인', new_user_session_path, class: 'link'
