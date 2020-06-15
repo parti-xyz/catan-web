@@ -6,6 +6,7 @@ const appNoty = (text, type, modal = false) => {
     text: text,
     timeout: 3000,
     modal: modal,
+    theme: 'bootstrap-v4',
     closeWith: ['button', 'click']
   }).show()
 }

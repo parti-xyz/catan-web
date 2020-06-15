@@ -19,16 +19,11 @@
             = text_area_tag :message, '', class: 'form-control', placeholder: 'ex) 이 채널은 이러한 이유로 삭제합니다.', data: { target: 'channel-destroy-form.message' }
 
           .form-group
-            = label_tag :message, '삭제하는 이 채널의 주소를 한 번 더 넣어주세요'
-            .input-group
-              .input-group-prepend<>
-                .input-group-text
-                  https://
-                  %span
-                    - if current_group.present?
-                      #{current_group.subdomain}.
-                  parti.xyz/p/
-              = text_field_tag :confirm, '', class: 'form-control', data: { target: 'channel-destroy-form.confirm', slug: @current_issue.slug }
+            = label_tag :message do
+              확인을 위해 이 채널의 이름
+              %strong "#{@current_issue.title}"
+              을 입력해 주세요.
+            = text_field_tag :confirm, '', class: 'form-control', data: { target: 'channel-destroy-form.confirm', slug: @current_issue.title }
 
           .form-group
             = submit_tag '삭제', class: 'btn btn-primary btn-lg', data: { confirm: '이 작업은 되돌릴 수 없습니다. 삭제하시겠습니까?', disable_with: "저장 중...", target: 'channel-destroy-form.submitButton' }
