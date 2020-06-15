@@ -27,10 +27,12 @@
       = link_to user_front_members_path(user), class: 'user' do
         .image{ style: "background-image: url(#{user.image.sm.url});", title: user.nickname, data: { toggle: 'tooltip', placement: 'right', boundary: 'viewport' } }
 - elsif current_wiki.purged?
-  .alert.alert-info.my-3
-    %i.fa.fa-fa-info-circle
-    해당 위키는 삭제되었습니다.
+  .alert-box.my-3
+    .alert.alert-info
+      %i.fa.fa-fa-info-circle
+      해당 위키는 삭제되었습니다.
 - else
-  .alert.alert-info.my-3
-    %i.fa.fa-fa-info-circle
-    해당 위키는 아카이브되었습니다.
+  .alert-box.my-3
+    .alert.alert-info
+      %i.fa.fa-fa-info-circle
+      해당 위키는 아카이브되었습니다.

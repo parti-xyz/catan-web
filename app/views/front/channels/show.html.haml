@@ -1,8 +1,8 @@
+- search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
+
 - content_for :playground_header_content do
   .channel-menu
     .title.form-inline{ data: { controller: 'select-link' } }
-      - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
-
       - if @current_folder.present? || search_q.present?
         .node
           = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
@@ -54,20 +54,25 @@
       = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 - else
-  .alert.alert-info.my-3
-    게시글이 없습니다.
-    - if @current_issue&.group&.member?(current_user)
-      가장 먼저 게시글을 올려보세요.
-  - if @current_issue&.group&.member?(current_user)
-    .channel-box
-      .post-lines-box
-        .post-lines-header
-          .edit
-            - if @current_issue.postable?(current_user)
-              = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
-                %i.fa.fa-pencil
-                글쓰기
-              &nbsp;
-              = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
-                %i.fa.fa-file-word-o
-                위키쓰기
+  .alert-box.my-3
+    - if search_q.present?
+      .alert.alert-info
+        검색된 게시물이 없습니다.
+    - else
+      .alert.alert-info
+        게시글이 없습니다.
+        - if @current_issue&.group&.member?(current_user)
+          가장 먼저 게시글을 올려보세요.
+      - if @current_issue&.group&.member?(current_user)
+        .channel-box
+          .post-lines-box
+            .post-lines-header
+              .edit
+                - if @current_issue.postable?(current_user)
+                  = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
+                    %i.fa.fa-pencil
+                    글쓰기
+                  &nbsp;
+                  = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
+                    %i.fa.fa-file-word-o
+                    위키쓰기
