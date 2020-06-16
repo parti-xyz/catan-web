@@ -82,7 +82,7 @@ var __parti_prepare_post = function($base) {
             }
           }
         },
-        offset: "100%"
+        offset: "80%"
       });
     });
   })();

@@ -199,7 +199,7 @@ class Post < ApplicationRecord
   scope :unblinded, ->(someone) { where.not(blind: true).or(where(user_id: someone)) }
   scope :unread_only, ->(someone) {
     joins("LEFT OUTER JOIN post_readers on post_readers.user_id = #{ActiveRecord::Base.connection.quote(someone.id)} AND post_readers.post_id = posts.id")
-    .where('post_readers.id IS null or post_readers.updated_at <= posts.last_stroked_at')
+    .where('post_readers.id IS null or post_readers.updated_at < posts.last_stroked_at')
     .where('posts.last_stroked_at > ?', PostReader::VALID_PERIOD.ago)
   }
 
@@ -315,7 +315,7 @@ class Post < ApplicationRecord
     if last_stroked_for == 'comment' and result.empty?
       result = comments.recent.limit(1)
     end
-    @_latest_comments_threaded = Comment.setup_threads(result)
+    @_latest_comments_threaded = Comment.setup_threads(result, true)
     @_latest_comments_threaded
   end
 
@@ -328,7 +328,7 @@ class Post < ApplicationRecord
     result = comments.recent
     result = result.limit(limit) if limit > 0
     result = result.reverse
-    result = Comment.setup_threads(result)
+    result = Comment.setup_threads(result, true)
 
     if limit > 0 and comments_count < result.flatten.count + Post::MORE_OFFSET_COMMENTS_COUNT
       result = more_comments_threaded(someone)

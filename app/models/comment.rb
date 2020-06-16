@@ -42,7 +42,8 @@ class Comment < ApplicationRecord
   scope :only_parent, -> { where(parent: nil) }
   scope :of_group, -> (group) { where(post_id: Post.of_group(group)) }
   scope :unread, -> (someone) {
-    where('id >= ?', CommentReader::BEGIN_COMMENT_ID)
+    where.not(user_id: someone.id)
+    .where('id >= ?', CommentReader::BEGIN_COMMENT_ID)
     .where.not('created_at < ?', CommentReader::VALID_PERIOD.ago)
     .where.not(id: CommentReader.where(user_id: someone.try(:id) || 0).select(:comment_id))
   }
@@ -107,7 +108,7 @@ class Comment < ApplicationRecord
     parent_id || self.id
   end
 
-  def self.setup_threads(comments)
+  def self.setup_threads(comments, deprecated = false)
     comments_array = comments.to_a
 
     not_found_parent_ids = comments_array.map(&:parent_id).compact.select{ |parent_id| !comments_array.map(&:id).include?(parent_id) }
@@ -118,7 +119,13 @@ class Comment < ApplicationRecord
       child_comments = item[1]
 
       child_comments.reject! { |comment| comment.parent_id.blank? }
-      child_comments.sort_by! { |comment| comment.created_at }
+
+      unless deprecated
+        child_comments.sort_by! { |comment| comment.created_at }
+      else
+        old_child_comment = child_comments.min_by { |comment| comment.created_at }
+        child_comments = parent_comment.children.where('id >= ?', old_child_comment&.id || 0).order(:created_at).to_a
+      end
 
       if (parent_comment.comments_count - child_comments.length) == 1
         child_comments = parent_comment.children.order(:created_at).to_a
