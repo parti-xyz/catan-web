@@ -60,7 +60,7 @@ if (window.jQuery) {
         reported = true
       }
       if (flash.notice) {
-        appNoty(decodeURIComponent(escape(flash.alert)), 'success')
+        appNoty(decodeURIComponent(escape(flash.notice)), 'success')
         reported = true
       }
     }

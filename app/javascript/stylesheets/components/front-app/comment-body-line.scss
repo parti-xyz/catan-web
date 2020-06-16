@@ -1,0 +1,5 @@
+.front-app span.comment-body-line + span.comment-body-line:before {
+  content: '\a\a';
+  line-height: 1em;
+  white-space: pre;
+}
