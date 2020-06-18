@@ -6,9 +6,34 @@
 
   > .pages {
     flex: 1;
+    margin-left: .5rem;
+  }
+
+  > .pages > .all,
+  > .pages > .needtoread,
+  > .pages > .readall {
+    margin-right: 1.25rem
+  }
+
+  > .pages > .all.-active,
+  > .pages > .needtoread.-active,
+  > .pages > .readall.-active {
+    font-weight: bold;
+  }
+
+  > .filter,
+  > .readall {
+    flex: none;
+  }
+
+  > .pages,
+  > .sort {
     display: inline-block;
     line-height: 2rem;
     font-size: bootstrap.$font-size-xs;
-    padding-left: .5rem;
+  }
+
+  > .sort {
+    margin-right: .5rem
   }
 }

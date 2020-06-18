@@ -46,10 +46,32 @@
   .channel-box
     .channel-box-header
       .pages
-        - if @posts.current_page.present?
-          게시글 #{@posts.count}개
-          - if @posts.current_page != 1
-            중 #{@posts.current_page}페이지
+        - unread_count = @current_issue.posts.unread_only(current_user).count
+        %span.all{ class: ('-active' if params[:filter].blank? && unread_count > 0) }
+          - if @posts.current_page.present?
+            = link_to url_for(filter: nil, sort: params[:sort]) do
+              게시글 #{@posts_total_count}개
+              - if params[:filter].blank? && @posts.current_page != 1
+                중 #{@posts.current_page}페이지
+        - if unread_count > 0 && current_group.member?(current_user)
+          %span.needtoread{ class: ('-active' if params[:filter] == 'needtoread' && unread_count > 0) }
+            = link_to url_for(filter: 'needtoread', sort: params[:sort]) do
+              업데이트 #{unread_count}개
+              - if params[:filter] == 'needtoread' && @posts.current_page != 1
+                중 #{@posts.current_page}페이지
+          %span.readall
+            = link_to read_all_front_channel_path(@current_issue), remote: true, method: :patch do
+              %i.fa.fa-check-square-o
+              전부 읽은 상태로 표시
+
+      .sort
+        .dropdown
+          .toggle.cursor-pointer{ "data-toggle" => "dropdown", :href => "#" }
+            = @issue_reader.sort_text
+            %i.fa.fa-angle-down
+          .dropdown-menu.usermenu.dropdown-menu-right
+            - IssueReader.sort.options.each do |text, value|
+              = link_to text, url_for(filter: nil, sort: value), class: 'dropdown-item'
 
     = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
 - else

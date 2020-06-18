@@ -432,6 +432,7 @@ Rails.application.routes.draw do
       member do
         get :post_folder_field
         get :destroy_form
+        patch :read_all
       end
       collection do
         get :sync

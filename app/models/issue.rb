@@ -445,11 +445,27 @@ class Issue < ApplicationRecord
     member.read_at < last_stroked_at
   end
 
+  def issue_reader!(someone, sort = nil)
+    fallbacked_sort = IssueReader.sort.values.include?(sort) ? sort : 'stroked'
+
+    if someone.blank? or !group.member?(someone)
+      return IssueReader.new(sort: fallbacked_sort)
+    end
+
+    issue_reader = self.issue_readers.find_or_initialize_by(user: someone)
+    if issue_reader.sort.blank? || (sort.present? && IssueReader.sort.values.include?(sort))
+      issue_reader.sort = fallbacked_sort
+    end
+
+    issue_reader.save
+    issue_reader
+  end
+
   def read!(someone)
     return if someone.blank?
     return unless group.member?(someone)
 
-    issue_reader = self.issue_readers.find_or_create_by(user: someone)
+    issue_reader = issue_reader!(someone)
     thoch_when = self.posts.unread_only(someone).any? ? DateTime.new(0,1,1) : DateTime.now
 
     issue_reader&.update(updated_at: thoch_when)

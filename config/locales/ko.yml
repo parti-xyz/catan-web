@@ -349,6 +349,10 @@ ko:
         all_posts: 전체 게시글
         issue_posts_hottest: 인기 채널 게시글
         issue_posts_order_by_stroked_at: 최근 채널 게시글
+    issue_reader:
+      sort:
+        stroked: 최근 업데이트 순
+        created: 최근 게시 순
   views:
     pin: 고정했습니다.
     unpin: 고정 해제했습니다.

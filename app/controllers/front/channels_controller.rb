@@ -8,17 +8,31 @@ class Front::ChannelsController < Front::BaseController
     @posts = @current_issue.posts
       .never_blinded(current_user)
       .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
-      .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
     if @current_folder.present?
       @posts = @posts.where(folder: @current_folder)
     end
+
+    @issue_reader = @current_issue.issue_reader!(@current_user, params[:sort])
+    column_name = { 'stroked' => 'last_stroked_at', 'created' => 'created_at' }[@issue_reader.sort]
+    @posts = @posts.order(column_name => :desc)
+
     front_search_q = params.dig(:front_search, :q)
     if front_search_q.present?
       search_q = PostSearchableIndex.sanitize_search_key front_search_q
       @posts = @posts.search(search_q)
+
+      @posts.load
+      @posts_total_count = @posts.total_count
+    else
+      @posts_total_count = @posts.total_count
+      if params[:filter] == 'needtoread' && user_signed_in?
+        @posts = @posts.unread_only(current_user)
+      end
+
+      @posts.load
     end
-    @posts.load if @current_issue.present?
+
 
     if user_signed_in?
       current_user.update_attributes(last_visitable: @current_issue)
@@ -69,6 +83,8 @@ class Front::ChannelsController < Front::BaseController
   end
 
   def destroy_form
+    render_403 and return unless user_signed_in?
+
     @current_issue = Issue.includes(:folders).find(params[:id])
     authorize! :destroy, @current_issue
 
@@ -76,11 +92,25 @@ class Front::ChannelsController < Front::BaseController
   end
 
   def sync
-    render_404 and return unless user_signed_in?
+    render_403 and return unless user_signed_in?
 
     @issues = current_group.issues.accessible_only(current_user)
     respond_to do |format|
       format.json
     end
+  end
+
+  def read_all
+    render_403 and return unless user_signed_in?
+    return_403 unless current_group.member?(current_user)
+
+    @current_issue = Issue.includes(:folders).find(params[:id])
+    @current_issue.posts.unread_only(current_user).each do |post|
+      post.read!(current_user)
+    end
+    @current_issue.read!(current_user)
+
+
+    turbolinks_redirect_to smart_front_channel_url(@current_issue)
   end
 end
