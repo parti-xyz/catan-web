@@ -14,7 +14,13 @@
       left: 0;
       flex: 1;
       margin-right: front-variables.$playground-sidebar-width;
+      padding-left: front-variables.$front-body-space-left;
+      padding-right: front-variables.$front-body-space-right;
       z-index: 1;
     }
   }
 }
+
+
+
+

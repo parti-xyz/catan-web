@@ -2,14 +2,16 @@
 @use '../../global-variables';
 
 .front-app .playground-header {
-  padding-left: front-variables.$front-body-space-left;
-  padding-right: front-variables.$front-body-space-right;
   white-space: nowrap;
-  height: front-variables.$playground-header-height;
   background-color: white;
 
   > .channel-menu {
-    height: 100%;
+    height: front-variables.$playground-header-height-lg;
     padding-bottom: 0.5rem;
+  }
+
+  > .channel-menu.-simple {
+    height: front-variables.$playground-header-height-sm;
+    padding-bottom: 0;
   }
 }

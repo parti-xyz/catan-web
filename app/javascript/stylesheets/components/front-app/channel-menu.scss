@@ -52,6 +52,22 @@
     color: global-variables.$color-gray-400;
   }
 
+  &.-simple > .title > .node > .link,
+  &.-simple > .title > .node > .meta {
+    font-size: 0.75rem;
+    color: global-variables.$color-gray-400;
+  }
+
+  &.-simple > .title > .node + .node {
+    margin-left: 0.25rem;
+  }
+
+  &.-simple > .title > .node > .delimiter {
+    font-size: 0.75rem;
+    display: inline-block;
+    color: global-variables.$color-gray-400;
+  }
+
   > .control {
     flex: none;
   }
