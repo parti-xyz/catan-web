@@ -42,10 +42,10 @@ class Comment < ApplicationRecord
   scope :only_parent, -> { where(parent: nil) }
   scope :of_group, -> (group) { where(post_id: Post.of_group(group)) }
   scope :unread, -> (someone) {
-    where.not(user_id: someone.id)
+    where.not(user_id: someone&.id)
     .where('id >= ?', CommentReader::BEGIN_COMMENT_ID)
     .where.not('created_at < ?', CommentReader::VALID_PERIOD.ago)
-    .where.not(id: CommentReader.where(user_id: someone.try(:id) || 0).select(:comment_id))
+    .where.not(id: CommentReader.where(user_id: someone&.id || 0).select(:comment_id))
   }
 
   after_create :touch_last_commented_at_of_posts
