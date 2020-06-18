@@ -11,7 +11,7 @@
 
   > .choices > .choice {
     flex: 1;
-    background-color: global-variables.$color-gray-200;
+    background-color: global-variables.$color-gray-100;
     padding: 1rem;
     margin: 0.75rem;
   }
@@ -30,10 +30,7 @@
 
   > .choices > .choice > .users > .user {
     white-space: nowrap;
-  }
-
-  > .choices > .choice > .users > .user + .user {
-    margin-left: 0.25rem;
+    margin-right: 0.25rem;
   }
 
   > .choices > .choice > .users > .user > .image {

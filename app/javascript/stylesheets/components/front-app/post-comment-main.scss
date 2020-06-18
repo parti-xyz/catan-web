@@ -2,108 +2,79 @@
 @use '../../bootstrap';
 
 .front-app .post-comment-main {
+  position: relative;
   // elements
-  > .body {
-    display: inline-block;
-    padding: .75rem 1.25rem;
-    border-radius: 1.25rem;
-    background-color: global-variables.$color-gray-200-a80;
-    border: 1px solid global-variables.$color-gray-400;
+  > .view.collapse:not(.show) {
+    display: none;
   }
-   > .body.-mine {
+
+  > .view > .usernickname {
+    font-weight: bold;
+    font-size: bootstrap.$font-size-sm;
+  }
+  > .view > .datetime {
+    display: inline-block;
+    font-size: bootstrap.$font-size-xs;
+    margin-left: 0 .5rem;
+    color: global-variables.$color-gray-500;
+  }
+  > .view > .body {
+    font-size: bootstrap.$font-size-sm;
+  }
+  > .view > .body.-mine {
     max-width: 95%;
     vertical-align: top;
   }
-  > .body > .screened {
+  > .view > .body > .screened {
     opacity: 0.4;
   }
-  > .body > .usernickname {
+  > .view > .body > .bodyline a {
     color: global-variables.$color-brand-primary;
-    font-weight: bold;
-  }
-  > .body > .bodyline a {
-    color: global-variables.$color-brand-primary;
-  }
-  > .body > .bodyline + .body > .bodyline:before {
-    content: "\a\a";
-    line-height: 1em;
-    white-space: pre;
   }
 
-  > .moremenu {
+  > .view > .moremenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  > .view > .moremenu > .dropdown > .btn {
+    padding: 0 0.5rem;
+    color: global-variables.$color-gray-500;
+  }
+
+  > .view > .reactions > .reaction {
     display: inline-block;
   }
-
-  > .filesourcesfield,
-  > .pollfield,
-  > .surveyfield {
-    display: none;
-    background-color: global-variables.$color-gray-200;
-    padding: 1rem;
+  > .view > .reactions > .reaction + .reaction {
+    margin-left: 1.25rem
   }
-
-  > .filesourcesfield > .header,
-  > .pollfield > .header,
-  > .surveyfield > .header {
-    margin-bottom: 1rem;
-    font-weight: bold;
-    color: global-variables.$color-gray-600;
-  }
-
-  > .filesourcesfield.-active,
-  > .pollfield.-active,
-  > .surveyfield.-active {
-    display: block;
-  }
-
-  > .filesourcesfield > .main > .images,
-  > .filesourcesfield > .main > .docs {
-    margin-bottom: .5rem;
-  }
-
-  > .filesourcesfield > .footer > .counter {
-    font-size: bootstrap.$font-size-sm;
-  }
-
-  > .filesourcesfield > .footer > .template,
-  > .surveyfield > .main > .template {
-    display: none;
-  }
-
-  > .filesourcesfield > .helper {
-    font-size: bootstrap.$font-size-sm;
-    margin-top: 1rem;
-  }
-
-  > .bodyfield > .textarea {
-    border-radius: 1rem;
-  }
-
-  > .reactions > .btn {
+  > .view > .reactions > .reaction > .link {
     font-size: bootstrap.$font-size-xs;
-    color: global-variables.$color-gray-600;
+    color: global-variables.$color-gray-500;
   }
-
-  > .reactions > .btn.-active {
+  > .view > .reactions > .reaction > .link.-active {
     font-weight: bold;
     color: global-variables.$color-brand-primary;
   }
 
-  > .reactions > .upvotes,
-  > .reactions > .datetime {
+  > .view > .reactions > .reaction > .upvotes {
     display: inline-block;
     font-size: bootstrap.$font-size-xs;
-    margin: 0 .5rem;
+    margin-left: .125rem;
     color: global-variables.$color-gray-600;
     cursor: pointer;
   }
 
-  > .reactions > .upvotes.-active {
+  > .view > .reactions > .reaction > .upvotes.-active {
     color: global-variables.$color-brand-primary;
   }
 
   // components
-  > .comment-filesource-listings {
+  > .view > .comment-filesource-listings {
     margin-bottom: .5rem;
+  }
+
+  > .form.collapse:not(.show) {
+    display: none;
   }
 }

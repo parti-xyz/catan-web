@@ -3,13 +3,14 @@
 
 .front-app .post-meta {
   display: flex;
+  align-items: center;
   > .userimage {
     flex: none;
     margin-right: .25rem;
   }
   > .userimage > .userimagebg {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 9999px;
     border: 1px solid white;
     background-position: center;
@@ -20,12 +21,19 @@
   }
   > .desc > .usernickname {
     font-weight: 600;
+    font-size: bootstrap.$font-size-sm;
   }
   > .desc > .createdat {
     font-size: bootstrap.$font-size-xs;
-    color: global-variables.$color-gray-600;
+    color: global-variables.$color-gray-500;
+    display: inline-block;
+    vertical-align: middle;
   }
   > .moremenu {
     flex: none;
+  }
+  > .moremenu > .dropdown > .btn {
+    padding: 0 .5rem;
+    color: global-variables.$color-gray-500;
   }
 }

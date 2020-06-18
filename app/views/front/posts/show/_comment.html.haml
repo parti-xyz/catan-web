@@ -1,82 +1,68 @@
 - is_child = comment.parent.present?
-.post-comment{ class: ('-child' if is_child), data: { controller: 'comment-edit', 'comment-edit-form-url': edit_front_comment_path(comment, folder_id: current_folder&.id) } }
-  = link_to user_front_members_path(comment.user), class: 'userimage' do
+.post-comment{ class: ('-child' if is_child), data: { controller: 'comment-form-edit' } }
+  .userimage
     .userimagebg{ style: "background-image: url(#{comment.user.image.sm.url})" }
-  .post-comment-main{ data: { controller: ('comment-form-open' unless is_child) } }
-    .body{ class: ('-mine' if comment.user == current_user) }
-      / comment 본문
+  .post-comment-main{ data: { controller: ('comment-form-new' unless is_child) } }
+    .view.collapse.show{ data: { target: 'comment-form-edit.viewContent' } }
       = link_to comment.user.nickname, user_front_members_path(comment.user), class: 'usernickname'
-
-      - if comment.almost_deleted?
-        %span.screened= t('labels.almost_deleted')
-      - elsif comment.blinded?(current_user)
-        %span.screened= t('labels.comment_blind_info')
-      - else
-        != comment_format(comment.issue, comment.body)
-
-    - if !comment.almost_deleted?
-      - comment_moremenu = capture do
-        - if can?(:update, comment)
-          = link_to '수정', '#', class: 'dropdown-item', data: { action: 'click->comment-edit#loadForm' }
-        - if can?(:destroy, comment)
-          = link_to '삭제', front_comment_path(comment, folder_id: current_folder), method: :delete, remote: true, class: 'dropdown-item', data: { confirm: '정말 삭제하시겠습니까?' }
-
-      - if comment_moremenu.present?
-        .moremenu
-          .dropdown
-            %button.btn.btn-light.btn-sm.text-muted{ "data-toggle": "dropdown" }
-              %i.fa.fa-ellipsis-v
-            .dropdown-menu.dropdown-menu-right
-              = comment_moremenu
-
-
-    -# %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
-    -# %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
-    -# = post.upvotes_count
-
-    .reactions{ data: { controller: 'content-replacement' } }
-      - if user_signed_in?
-        - if comment.upvoted_by_me?
-          = link_to '공감해요', cancel_front_comment_upvotes_path(comment, folder_id: current_folder), method: :delete, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm -active'
-        - else
-          = link_to '공감해요', front_comment_upvotes_path(comment, folder_id: current_folder), method: :post, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm'
-      - else
-        %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 공감해요
-
-      - if user_signed_in?
-        .btn.btn-link.btn-sm{ data: { action: 'click->comment-form-open#run', mention: (comment.user.nickname if comment.user != current_user) } } 댓글달기
-      - else
-        %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 댓글달기
-
-      - if comment.upvotes_count > 0
-        %a.upvotes{ tabindex: 1, class: ('-active' if comment.upvoted_by_me?), data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: users_front_comment_upvotes_path(comment), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
-          %i.fa{ class: (comment.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
-          = comment.upvotes_count
-
       .datetime
         = smart_date_tag comment.created_at
+      .body{ class: ('-mine' if comment.user == current_user) }
+        / comment 본문
+        - if comment.almost_deleted?
+          %span.screened= t('labels.almost_deleted')
+        - elsif comment.blinded?(current_user)
+          %span.screened= t('labels.comment_blind_info')
+        - else
+          != comment_format(comment.issue, comment.body)
 
+      - if !comment.almost_deleted?
+        - comment_moremenu = capture do
+          - if can?(:update, comment)
+            = link_to '수정', '#', class: 'dropdown-item', data: { action: 'click->comment-form-edit#open' }
+          - if can?(:destroy, comment)
+            = link_to '삭제', front_comment_path(comment), method: :delete, remote: true, class: 'dropdown-item', data: { confirm: '정말 삭제하시겠습니까?', action: 'ajax:success->comment-form-sync#update' }
 
-    - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
-      .comment-filesource-listings
-        / comment 이미지
-        - if comment.file_sources_only_image.present?
-          .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
-            = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
-              %img.img{ src: file_source.attachment.xs.url }
-        / comment 파일
-        - if comment.file_sources_only_doc.present?
-          .comment-filesource-doc-listing
-            - comment.file_sources_only_doc.each do |file_source|
-              .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
-                %i.fa.fa-floppy-o
-                %span.name= file_source.name
-                %span.size= number_to_human_size(file_source.file_size)
+        - if comment_moremenu.present?
+          .moremenu
+            .dropdown
+              %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
+                %i.fa.fa-ellipsis-v
+              .dropdown-menu.dropdown-menu-right
+                = comment_moremenu
+
+      .reactions
+        .reaction
+          - if user_signed_in?
+            %a.link{ href: '#', data: { action: 'click->comment-form-new#open', mention: (comment.user.nickname if comment.user != current_user) } } 댓글달기
+          - else
+            %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 댓글달기
+        = render 'front/posts/show/upvotings/reaction', current_upvotable: comment
+
+      - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
+        .comment-filesource-listings
+          / comment 이미지
+          - if comment.file_sources_only_image.present?
+            .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
+              = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
+                %img.img{ src: file_source.attachment.xs.url }
+          / comment 파일
+          - if comment.file_sources_only_doc.present?
+            .comment-filesource-doc-listing
+              - comment.file_sources_only_doc.each do |file_source|
+                .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
+                  %i.fa.fa-floppy-o
+                  %span.name= file_source.name
+                  %span.size= number_to_human_size(file_source.file_size)
+    - if can?(:edit, comment)
+      .form.collapse{ data: { target: 'comment-form-edit.formContent' } }
+        = render 'front/posts/show/comment/form', current_comment: comment, current_post: comment.post
 
     - if local_assigns[:child_comments]&.any?
       .post-comments.-children
         - child_comments.each do |child_comment|
-          = render 'front/posts/show/comment', comment: child_comment, is_child: true, current_folder: current_folder
+          = render 'front/posts/show/comment', comment: child_comment, is_child: true
 
     - if !comment.almost_deleted? && !is_child
-      = render 'front/posts/show/comment/form', is_child: true, current_post: comment.post, current_folder: current_folder, parent_comment: comment
+      .post-comment.-form.-child.collapse{ data: { target: 'comment-form-new.formContent' } }
+        = render 'front/posts/show/comment/new', current_post: comment.post, parent_comment: comment

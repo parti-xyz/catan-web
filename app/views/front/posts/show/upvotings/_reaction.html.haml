@@ -1,0 +1,13 @@
+.reaction{ data: { controller: 'content-replacement' } }
+  - if user_signed_in?
+    - if current_upvotable.upvoted_by_me?
+      = link_to '공감해요', [:cancel, :front, current_upvotable, :upvotes], method: :delete, remote: true, data: { disable_with: "진행 중...", target: 'content-replacement.link' }, class: 'link -active'
+    - else
+      = link_to '공감해요', [:front, current_upvotable, :upvotes], method: :post, remote: true, data: { disable_with: "진행 중...", target: 'content-replacement.link', target: 'content-replacement.link' }, class: 'link'
+  - else
+    %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 공감해요
+
+  - if current_upvotable.upvotes_count > 0
+    %a.upvotes{ tabindex: 1, class: ('-active' if current_upvotable.upvoted_by_me?), data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: [:users, :front, current_upvotable, :upvotes], options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+      %i.fa{ class: (current_upvotable.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+      = current_upvotable.upvotes_count

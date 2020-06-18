@@ -229,9 +229,9 @@ class Post < ApplicationRecord
     sanitized_body = nil if sanitized_body.blank?
 
     desc = self.base_title.presence ||
-      sanitized_body.presence ||
       self.wiki.try(:title).presence ||
       self.poll.try(:title).presence ||
+      sanitized_body.presence ||
       self.file_sources.first.try(:name).presence ||
       self.link_source.try(:title).presence
 

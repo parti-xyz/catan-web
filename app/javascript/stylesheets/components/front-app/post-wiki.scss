@@ -7,18 +7,16 @@
     @include mixin.editor-content;
   }
   > .body {
-    background-color: global-variables.$color-gray-100;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid global-variables.$color-gray-300;
-    border-bottom: 1px solid global-variables.$color-gray-300;
+    border: 1px solid global-variables.$color-gray-300;
     position: relative;
     max-height: 260px;
     overflow: hidden;
   }
   > .body.-full {
     max-height: initial;
+  }
+  > .body.-edit {
+  border: none;
   }
   > .body > .article {
     background-color: white;
@@ -33,8 +31,8 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    box-shadow: inset 0px -40px 50px 0px rgba(255,255,255,0.9) !important;
-    -webkit-box-shadow: inset 0px -40px 50px 0px rgba(255,255,255,0.9) !important;
+    box-shadow: inset 0px -70px 50px 0px rgba(255,255,255,0.9) !important;
+    -webkit-box-shadow: inset 0px -70px 50px 0px rgba(255,255,255,0.9) !important;
     top: 0;
     left: 0;
   }
@@ -73,8 +71,8 @@
   }
 
   > .authors > .user > .image {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 9999px;
     border: 1px solid white;
     background-position: center;

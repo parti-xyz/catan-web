@@ -61,21 +61,31 @@
 
 .post-box{ data: { controller: 'channel-read-emit' } }
   .post-main
-    .post-header{ data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
+    .post-header{ class: ('-wiki' if @current_post.wiki.present?), data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
       .main
+        - if @current_post.poll.present?
+          .meta
+            .icon<> 투표
+        - elsif @current_post.survey.present?
+          .meta
+            .icon<> 설문
+        - elsif @current_post.wiki.present?
+          .meta
+            .icon<> 위키
         %h5.title= @current_post.title
-        %small.meta
+        - if moremenu_content.present? && @current_post.wiki.present?
+          .moremenu
+            .dropdown
+              %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
+                %i.fa.fa-ellipsis-v
+              .dropdown-menu.dropdown-menu-right
+                = moremenu_content
+        .metabox
           - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), user_front_members_path(user)) }
           != last_stroked_text
+          &nbsp;
           = smart_date_tag(last_stroked_at)
-      - if moremenu_content.present? && @current_post.wiki.present?
-        .moremenu
-          .dropdown
-            %button.btn.btn-light.text-muted{ "data-toggle": "dropdown" }
-              %i.fa.fa-ellipsis-v
-            .dropdown-menu.dropdown-menu-right
-              = moremenu_content
-    .post-content{ data: { controller: 'comment-form-open' } }
+    .post-content{ data: { controller: 'comment-form-new comment-form-sync' } }
       - if @current_post.wiki.blank?
         .post-meta
           = link_to user_front_members_path(@current_post.user), class: 'userimage' do
@@ -88,7 +98,7 @@
           - if moremenu_content.present?
             .moremenu
               .dropdown
-                %button.btn.btn-light.text-muted{ "data-toggle": "dropdown" }
+                %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
                   %i.fa.fa-ellipsis-v
                 .dropdown-menu.dropdown-menu-right
                   = moremenu_content
@@ -143,32 +153,20 @@
           = render 'front/wikis/card', current_wiki: @current_post.wiki
 
       .reactions
-        - if user_signed_in?
-          - if @current_post.upvoted_by_me?
-            = link_to '공감해요', cancel_front_post_upvotes_path(@current_post, folder_id: @current_folder), method: :delete, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm -active'
+        .reaction
+          - if user_signed_in?
+            %a.link{ href: '#', data: { action: 'click->comment-form-new#open' }, class: ('-active' if @current_post.commented_by_me?) } 댓글달기
           - else
-            = link_to '공감해요', front_post_upvotes_path(@current_post, folder_id: @current_folder), method: :post, remote: true, data: { disable_with: "진행 중..." }, class: 'btn btn-link btn-sm'
-        - else
-          %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 공감해요
+            %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 댓글달기
 
-        - if user_signed_in?
-          .btn.btn-link.btn-sm{ data: { action: 'click->comment-form-open#run' } } 댓글달기
-        - else
-          %button.btn.btn-link.btn-sm{ data: { action: 'sign-in-launcher#modal' } } 댓글달기
+          - if @current_post.comments_count > 0
+            %a.comments{ class: ('-active' if @current_post.commented_by_me?) }
+              %i.fa{ class: (@current_post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
+              = @current_post.comments_count
+        = render 'front/posts/show/upvotings/reaction', current_upvotable: @current_post
 
-        - if @current_post.upvotes_count > 0
-          %a.upvotes{ tabindex: 1, class: ('-active' if @current_post.upvoted_by_me?), data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: users_front_post_upvotes_path(@current_post), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
-            %i.fa{ class: (@current_post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
-            = @current_post.upvotes_count
-
-
-      - if @current_post.comments.present?
-        .post-comments
-          - @current_post.comments_threaded.each do |parent_comment, child_comments|
-            = render 'front/posts/show/comment', comment: parent_comment, child_comments: child_comments, current_folder: @current_folder
-
-      - if @current_issue.commentable?(current_user)
-        = render 'front/posts/show/comment/form', current_post: @current_post, current_folder: @current_folder
+      .comments{ data: { target: 'comment-form-sync.commentsContent' } }
+        = render 'front/posts/show/comments', current_issue: @current_issue, current_post: @current_post
 
 
 

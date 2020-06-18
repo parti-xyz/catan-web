@@ -451,7 +451,6 @@ Rails.application.routes.draw do
         get :destroyed
       end
       shallow do
-        resources :comments, only: [:edit]
         resources :comments, only: [:create, :update, :destroy], controller: '/comments' do
           resources :upvotes, controller: '/upvotes' do
             collection do

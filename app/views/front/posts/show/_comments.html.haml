@@ -1,0 +1,10 @@
+- if current_post.comments.present?
+  .post-comments
+    - current_post.comments_threaded.each do |parent_comment, child_comments|
+      = render 'front/posts/show/comment', comment: parent_comment, child_comments: child_comments
+
+- if user_signed_in? && current_issue.commentable?(current_user)
+  .post-comment.-form{ data: { target: 'comment-form-new.formContent' } }
+    = render 'front/posts/show/comment/new', current_post: current_post
+
+

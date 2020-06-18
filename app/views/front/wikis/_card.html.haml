@@ -28,11 +28,11 @@
         .image{ style: "background-image: url(#{user.image.sm.url});", title: user.nickname, data: { toggle: 'tooltip', placement: 'right', boundary: 'viewport' } }
 - elsif current_wiki.purged?
   .alert-box.my-3
-    .alert.alert-info
+    .alert.alert-secondary
       %i.fa.fa-fa-info-circle
       해당 위키는 삭제되었습니다.
 - else
   .alert-box.my-3
-    .alert.alert-info
+    .alert.alert-secondary
       %i.fa.fa-fa-info-circle
       해당 위키는 아카이브되었습니다.

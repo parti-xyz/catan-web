@@ -103,26 +103,26 @@
     line-height: 1.25;
   }
   h1 {
-    font-size: bootstrap.$h2-font-size;
+    font-size: bootstrap.$font-size-lg;
     padding-bottom: 0.3em;
     border-bottom: 1px solid global-variables.$color-gray-300;
   }
   h2 {
-    font-size: bootstrap.$h3-font-size;
+    font-size: bootstrap.$font-size-lg - 0.0625rem;
     padding-bottom: 0.3em;
     border-bottom: 1px solid global-variables.$color-gray-300;
   }
   h3 {
-    font-size: bootstrap.$h4-font-size;
+    font-size: bootstrap.$font-size-md;
   }
   h4 {
-    font-size: bootstrap.$h5-font-size;
+    font-size: bootstrap.$font-size-md - 0.0625rem;
   }
   h5 {
-    font-size: bootstrap.$h6-font-size;
+    font-size: bootstrap.$font-size-base;
   }
   h6 {
-    font-size: bootstrap.$font-size-xs;
+    font-size: bootstrap.$font-size-sm;
   }
 
   h1,
@@ -207,5 +207,29 @@
   .conflict-insertion > .content {
     cursor: cell;
     color: rgba(128, 0, 0, .2);
+  }
+}
+
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root('::-moz-placeholder') {
+    @content;
+  }
+
+  @include optional-at-root(':-ms-input-placeholder') {
+    @content;
   }
 }

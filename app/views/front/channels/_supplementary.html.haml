@@ -19,7 +19,7 @@
         %i.fa.-hide{ data: { target: 'content-collapse.content' } }
     %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
       - pinned_posts&.each do |post|
-        %li.pinned-post-line{ class: [('-active' if post == local_assigns[:current_post]), ('-unread' if post.need_to_read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
+        %li.pinned-post-line{ class: [('-active' if post == local_assigns[:current_post])], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
           .body
             - unless post.blinded?(current_user)
               .title
@@ -29,6 +29,7 @@
               .title.-blind
                 %i.fa.fa-info-circle
                 = t('labels.post_blind_info')
+            %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }
             .footer
               %span.nickname #{post.user.nickname}
               = smart_date_tag(post.created_at)

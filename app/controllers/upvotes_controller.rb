@@ -10,8 +10,9 @@ class UpvotesController < ApplicationController
     @upvote.upvotable.reload
 
     if helpers.explict_front_namespace?
-      @post ||= @comment&.post
-      turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+      flash.now[:notice] = '공감했습니다'
+
+      render(partial: "/front/posts/show/upvotings/reaction", locals: { current_upvotable: @upvote.upvotable })
     else
       respond_to do |format|
         format.js
@@ -26,8 +27,9 @@ class UpvotesController < ApplicationController
     @upvotable.reload
 
     if helpers.explict_front_namespace?
-      @post ||= @comment&.post
-      turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+      flash.now[:notice] = '공감을 취소했습니다'
+
+      render(partial: "/front/posts/show/upvotings/reaction", locals: { current_upvotable: @upvote.upvotable })
     else
       respond_to do |format|
         format.js

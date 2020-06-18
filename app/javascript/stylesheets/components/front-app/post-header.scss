@@ -3,17 +3,53 @@
 
 .front-app .post-header {
   display: flex;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid global-variables.$color-gray-200;
+  &.-wiki {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
   > .main {
     flex: 1;
+    margin: 0 1rem;
+    position: relative;
   }
   > .main > .title {
     margin-bottom: 0;
+    font-size: bootstrap.$font-size-xl;
   }
   > .main  > .meta {
     font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-600;
   }
-  > .moremenu {
-    flex: none;
+  > .main  > .meta > .icon {
+    display: inline-block;
+    border: 1px solid #d1d4da;
+    background-color: #f5f7fa;
+    padding: 0 2px;
+    margin-right: 0.5rem;
+  }
+  > .main  > .metabox {
+    background-color: global-variables.$color-gray-200;
+    height: 1.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem -1rem 0;
+  }
+  > .main  > .metabox,
+  > .main  > .metabox a {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
+  }
+  > .main > .moremenu {
+    display: inline-block;
+    position: absolute;
+    top: 1rem;
+    right: -1rem;
+  }
+  > .main > .moremenu > .dropdown > .btn {
+    padding: 0 .5rem;
+    color: global-variables.$color-gray-500;
   }
 }

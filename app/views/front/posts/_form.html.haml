@@ -152,15 +152,15 @@
       .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->post-form#closeSurveyFieldGroup' } } 설문 취소
 
   .form-group.gadgetcontrol
-    %button.btn.btn-xs.btn-link.-active{ data: { action: 'click->post-form#openFileSourcesFieldGroup', target: 'post-form.fileSourcesOpenButton' } }
+    %button.btn.btn-xs.btn-link.btn-sm.-active{ data: { action: 'click->post-form#openFileSourcesFieldGroup', target: 'post-form.fileSourcesOpenButton' } }
       %i.fa.fa-cloud-upload
       = t('labels.new_post_file_source_button')
 
     - if (current_post.new_record? || (has_no_poll && has_no_survey))
-      %button.btn.btn-xs.btn-link{ class: ('-active' if has_no_survey), data: { action: 'click->post-form#openPollFieldGroup', target: 'post-form.pollOpenButton'} }
+      %button.btn.btn-xs.btn-link.btn-sm{ class: ('-active' if has_no_survey), data: { action: 'click->post-form#openPollFieldGroup', target: 'post-form.pollOpenButton'} }
         %i.fa.fa-fire
         = t('labels.new_post_poll_button')
-      %button.btn.btn-xs.btn-link{ class: ('-active' if has_no_poll), data: { action: 'click->post-form#openSurveyFieldGroup', target: 'post-form.surveyOpenButton'} }
+      %button.btn.btn-xs.btn-link.btn-sm{ class: ('-active' if has_no_poll), data: { action: 'click->post-form#openSurveyFieldGroup', target: 'post-form.surveyOpenButton'} }
         %i.fa.fa-list-ul
         = t('labels.new_post_survey_button')
 

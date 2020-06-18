@@ -1,7 +1,59 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+@use '../../mixin';
+
 .front-app .comment-form {
   width: 100%;
   padding-bottom: 1rem;
-  > .post-comment {
-    margin-top: .5rem;
+
+  > .filesourcesfield,
+  > .pollfield,
+  > .surveyfield {
+    display: none;
+    background-color: global-variables.$color-gray-200;
+    padding: 1rem;
+  }
+
+  > .filesourcesfield > .header,
+  > .pollfield > .header,
+  > .surveyfield > .header {
+    margin-bottom: 1rem;
+    font-weight: bold;
+    color: global-variables.$color-gray-500;
+  }
+
+  > .filesourcesfield.-active,
+  > .pollfield.-active,
+  > .surveyfield.-active {
+    display: block;
+  }
+
+  > .filesourcesfield > .main > .images,
+  > .filesourcesfield > .main > .docs {
+    margin-bottom: .5rem;
+  }
+
+  > .filesourcesfield > .footer > .counter {
+    font-size: bootstrap.$font-size-sm;
+  }
+
+  > .filesourcesfield > .footer > .template,
+  > .surveyfield > .main > .template {
+    display: none;
+  }
+
+  > .filesourcesfield > .helper {
+    font-size: bootstrap.$font-size-sm;
+    margin-top: 1rem;
+  }
+
+  > .bodyfield > .textarea {
+    border-radius: 0;
+    font-size: bootstrap.$font-size-sm;
+    border-color: global-variables.$color-gray-300;
+    @include mixin.placeholder {
+      font-size: bootstrap.$font-size-sm;
+      color: global-variables.$color-gray-400
+    }
   }
 }

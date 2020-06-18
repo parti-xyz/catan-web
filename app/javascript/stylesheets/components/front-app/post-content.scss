@@ -3,32 +3,38 @@
 
 .front-app .post-content {
   > .reactions {
-    margin-top: .75rem;
-    margin-bottom: .75rem;
-    padding-top: .25rem;
-    padding-bottom: .25rem;
-    border-top: 1px solid global-variables.$color-gray-300;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    padding-top: 0.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid global-variables.$color-gray-200;
   }
-
-  > .reactions > .btn {
-    font-size: bootstrap.$font-size-xs;
-    color: global-variables.$color-gray-600;
+  > .reactions > .reaction {
+    display: inline-block;
   }
-
-  > .reactions > .btn.-active {
+  > .reactions > .reaction + .reaction {
+    margin-left: 1.5rem
+  }
+  > .reactions > .reaction > .link {
+    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-500;
+  }
+  > .reactions > .reaction > .link.-active {
     font-weight: bold;
     color: global-variables.$color-brand-primary;
   }
 
-  > .reactions > .upvotes {
+  > .reactions > .reaction > .upvotes,
+  > .reactions > .reaction > .comments {
     display: inline-block;
     font-size: bootstrap.$font-size-xs;
-    margin: 0 .5rem;
+    margin-left: .125rem;
     color: global-variables.$color-gray-600;
     cursor: pointer;
   }
 
-  > .reactions > .upvotes.-active {
+  > .reactions > .reaction > .upvotes.-active,
+  > .reactions > .reaction > .comments.-active {
     color: global-variables.$color-brand-primary;
   }
 

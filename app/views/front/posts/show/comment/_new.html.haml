@@ -1,0 +1,5 @@
+- if user_signed_in?
+  .userimage
+    .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
+.post-comment-main
+  = render 'front/posts/show/comment/form', local_assigns

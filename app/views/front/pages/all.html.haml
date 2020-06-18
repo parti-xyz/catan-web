@@ -59,7 +59,7 @@
     = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
 - else
   .alert-box.my-3
-    .alert.alert-info
+    .alert.alert-secondary
       게시글이 없습니다.
       - if current_group&.member?(current_user)
         채널을 선택해서 가장 먼저 게시글을 올려보세요.

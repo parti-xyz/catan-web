@@ -34,18 +34,18 @@
     display: inline;
   }
   .message__parti {
-    color: global-variables.$color-gray-600;
+    color: global-variables.$color-gray-500;
     display: inline;
     font-size: bootstrap.$font-size-sm;
     a {
-      color: global-variables.$color-gray-600;
+      color: global-variables.$color-gray-500;
       &:hover{
         color: global-variables.$color-brand-primary;
       }
     }
   }
   .message__date.date-wrapper {
-    color: global-variables.$color-gray-600;
+    color: global-variables.$color-gray-500;
     display: inline-block;
     font-size: bootstrap.$font-size-sm;
   }

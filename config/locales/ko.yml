@@ -382,21 +382,21 @@ ko:
         closed: "마감"
     post:
       last_stroked_for:
-        decision: "%{user_word} 게시글 토론을 정리했습니다."
-        voting: "%{user_word} 투표했습니다."
-        feedback: "%{user_word} 투표했습니다."
-        option: "%{user_word} 새 제안을 올렸습니다."
-        comment: "%{user_word} 댓글을 달았습니다."
-        create: "%{user_word} 게시했습니다."
+        decision: "%{user_word} &nbsp;게시글 토론을 정리했습니다."
+        voting: "%{user_word} &nbsp;투표했습니다."
+        feedback: "%{user_word} &nbsp;투표했습니다."
+        option: "%{user_word} &nbsp;새 제안을 올렸습니다."
+        comment: "%{user_word} &nbsp;댓글을 달았습니다."
+        create: "%{user_word} &nbsp;게시했습니다."
     wiki:
       history:
-        create: "%{user_word} 위키를 게시했습니다."
-        activate: "%{user_word} 위키를 다시 게시했습니다."
-        inactivate: "%{user_word} 위키를 아카이브했습니다."
-        purge: "%{user_word} 위키를 지웠습니다."
-        update_title: "%{user_word} 위키 제목을 고쳤습니다."
-        update_body: "%{user_word} 위키 내용을 고쳤습니다."
-        update_title_and_body: "%{user_word} 위키 제목과 내용을 고쳤습니다."
+        create: "%{user_word} &nbsp;위키를 게시했습니다."
+        activate: "%{user_word} &nbsp;위키를 다시 게시했습니다."
+        inactivate: "%{user_word} &nbsp;위키를 아카이브했습니다."
+        purge: "%{user_word} &nbsp;위키를 지웠습니다."
+        update_title: "%{user_word} &nbsp;위키 제목을 고쳤습니다."
+        update_body: "%{user_word} &nbsp;위키 내용을 고쳤습니다."
+        update_title_and_body: "%{user_word} &nbsp;위키 제목과 내용을 고쳤습니다."
   unauthorized:
     default: "권한이 없습니다."
   group:

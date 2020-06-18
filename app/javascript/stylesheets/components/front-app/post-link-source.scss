@@ -24,6 +24,7 @@
   > .content > .body,
   > .content > .site {
     color: global-variables.$color-gray-600;
+    font-size: bootstrap.$font-size-sm;
   }
   > .content > .body {
     margin-bottom: 0.25rem;

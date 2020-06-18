@@ -55,10 +55,10 @@
 - else
   .alert-box.my-3
     - if search_q.present?
-      .alert.alert-info
+      .alert.alert-secondary
         검색된 게시글이 없습니다.
     - else
-      .alert.alert-info
+      .alert.alert-secondary
         게시글이 없습니다.
         - if @current_issue&.group&.member?(current_user)
           가장 먼저 게시글을 올려보세요.

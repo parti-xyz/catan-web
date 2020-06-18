@@ -2,6 +2,27 @@
 
 .front-app .post-comment {
   display: flex;
+  border-bottom: 1px solid global-variables.$color-gray-200;
+  padding-bottom: .625rem;
+
+  &.collapse:not(.show) {
+    display: none;
+  }
+
+  &.-form {
+    margin-top: 1rem;
+    border-top: 1px solid global-variables.$color-gray-200;
+    padding-top: 1rem;
+  }
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  &.-child:first-child {
+    border-top: 1px solid global-variables.$color-gray-200;
+    padding-top: 0.625rem;
+  }
 
   // elements
   > .userimage {
@@ -11,21 +32,13 @@
     vertical-align: bottom;
   }
   > .userimage > .userimagebg {
-    width: 2rem;
-    height: 2rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border-radius: 9999px;
     border: 1px solid white;
     background-position: center;
     background-size: cover;
   }
-  &.-child > .userimage {
-    margin-top: 0.5rem;
-  }
-  &.-child > .userimage > .userimagebg {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-
   // components
   > .post-comment-main {
     flex: 1;
