@@ -4,7 +4,7 @@
     %meta{:charset => "utf-8"}
     %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
     %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no", :name => "viewport"}
-    - unless is_mobile_app_get_request?(request)
+    - if !is_mobile_app_get_request?(request) && !current_group&.frontable?
       %meta{ name: 'apple-itunes-app', content: 'app-id=1362474504' }
       %meta{ name: 'google-play-app', content: 'app-id=xyz.parti.catan' }
     = display_meta_tags

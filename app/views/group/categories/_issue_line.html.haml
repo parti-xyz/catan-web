@@ -1,0 +1,3 @@
+- my_menu_control = capture do
+  = render 'group/categories/category_button', issue: issue
+= render 'issues/issue_line', issue: issue, after_block: my_menu_control, issue_classes: issue_line_category_dom_class(issue)

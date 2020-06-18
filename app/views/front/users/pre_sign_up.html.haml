@@ -1,9 +1,9 @@
 %section.text-center
-  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' } 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}
+  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' }= current_group.site_title
   %h3
     %i.fa.fa-user
     회원가입
-  .box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
+  .simple-box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
     = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
       %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
       페이스북 아이디로 회원가입

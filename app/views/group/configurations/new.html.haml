@@ -1,0 +1,15 @@
+- if @group.errors.blank? and @group.new_record?
+  = render "group/configurations/new_guide"
+
+- if user_signed_in?
+  %section#form
+    .container
+      %h2.page-header 그룹 만들기
+      = render 'form'
+- else
+  %section
+    .container
+      = link_to '로그인하고 계속하기', new_user_session_path, class: 'btn btn-primary'
+      .help-block
+        처음 오셨나요?
+        = link_to '가입하기', pre_sign_up_users_path, style: 'text-decoration: underline'

@@ -14,7 +14,9 @@ export default class extends Controller {
     let self = this
     if (this.data.has("disableRefreshJqueryEvent")) {
       jQuery(this.element).on(this.data.get("disableRefreshJqueryEvent"), (event) => {
-        self.disableRefresh()
+        if (this.loaded) {
+          self.disableRefresh()
+        }
       })
     }
 

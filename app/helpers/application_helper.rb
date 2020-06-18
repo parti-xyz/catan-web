@@ -339,12 +339,12 @@ module ApplicationHelper
     URI(root_url(subdomain: nil)).host
   end
 
-  def render_group_only_exist(path)
+  def render_group_only_exist(path, options = {})
     return if current_group.blank? and path.blank?
 
     subpath = to_subpath(path)
     if exists_group_partial?(subpath)
-      render "group_views/#{current_group.slug}#{subpath}"
+      render "group_views/#{current_group.slug}#{subpath}", options
     end
   end
 
@@ -352,7 +352,6 @@ module ApplicationHelper
     return if current_group.blank? and path.blank?
 
     subpath = to_subpath(path)
-
     if exists_group_partial?(subpath)
       render "group_views/#{current_group.slug}#{subpath}", options
     else
@@ -497,10 +496,22 @@ module ApplicationHelper
   end
 
   def implict_front_namespace?(group = nil)
-    (group || current_group)&.frontable? && !browser.device.mobile?
+    (group || current_group)&.frontable? && _front_namespace?
   end
 
   def explict_front_namespace?
-    params[:namespace_slug] == 'front' && !browser.device.mobile?
+    params[:namespace_slug] == 'front' && _front_namespace?
+  end
+
+  def _front_namespace?
+    (
+      !browser.device.mobile? or devise_controller? or
+      (controller_name == 'home' and action_name == 'show' and !current_group&.member?(current_user)) or
+      (controller_name == 'users' and action_name == 'inactive_sign_up') or
+      (controller_name == 'users' and action_name == 'pre_sign_up') or
+      (controller_name == 'member_requests' and action_name == 'private_blocked') or
+      (controller_name == 'member_requests' and action_name == 'new') or
+      (controller_name == 'member_requests' and action_name == 'create')
+    )
   end
 end

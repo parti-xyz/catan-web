@@ -1,0 +1,27 @@
+= render 'application/group_home_sub_header', active: 'me'
+
+%section.contents-page
+  .container
+
+    .contents-header
+      %h4.contents-header__title
+        내 정보
+
+    - if current_group.try(:member?, current_user)
+      %section.default-padding-top
+        %h4.group-heading
+          프로필 관리
+
+        .members-profile-form
+          = form_tag update_profile_group_members_path, method: :post do
+            .input-group
+              = text_field_tag :description, current_group.member_of(current_user).try(:description) || "#{current_user.nickname}입니다", class: 'form-control'
+              %span.input-group-btn
+                = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+
+    %section.default-padding-top
+      %h4.group-heading
+        그룹 탈퇴
+      .well
+        .help-block 이 그룹과 해당 그룹의 모든 채널에서 탈퇴합니다. 이 작업은 되돌릴 수 없습니다.
+        = link_to '탈퇴하기', cancel_group_members_path, method: :delete, data: { 'confirm': '정말 나가시겠습니까?', 'disable-with': '처리 중...' }, class: 'btn btn-danger'

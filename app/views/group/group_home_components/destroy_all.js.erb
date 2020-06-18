@@ -1,0 +1,7 @@
+<% if current_group.errors.any? %>
+UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 'error'});
+<% else %>
+  var partial = "<%= j(render 'group/group_home_components/list', group: current_group) %>";
+  $('#js-group-home-component-list').replaceWith(partial);
+  parti_partial$($('#js-group-home-component-list'), true);
+<% end %>

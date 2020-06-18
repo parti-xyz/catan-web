@@ -1,0 +1,37 @@
+%section.text-center
+  .container
+    %h3
+      %i.fa.fa-cube
+      #{current_group.title}
+
+    .simple-box.text-center{ style: 'padding: 2rem 0'}
+      %p.lead
+        안녕하세요, 버터나이프크루 2기 커뮤니티에 오신 것을 환영합니다!
+
+      - if current_group.member_requested? current_user
+        %p.lead
+          %p
+            신청하신 크루 인증 요청을 운영진이 검토 중입니다.
+            %br
+            0월 00일 00시까지 처리될 예정이니 조금만 기다려 주세요.
+      - else
+        %p
+          버터나이프크루 커뮤니티는 비공개 커뮤니티입니다.
+          %br
+          이 그룹에서 활동하려면 크루 인증이 필요합니다.
+
+        - if user_signed_in?
+          %p
+            먼저 크루 인증을 신청 해주세요.
+          %p.pt-3
+            = link_to new_front_member_request_path, class: 'btn btn-md btn-primary btn-block' do
+              크루 인증 신청하기
+        - else
+          %p
+            먼저 로그인 후에 크루 인증을 신청 해주세요.
+          %p.pt-3
+            = link_to new_user_session_path, class: 'btn btn-md btn-primary btn-block' do
+              로그인 하기
+          %p.text-center
+            처음 오셨나요?
+            = link_to '가입하기', pre_sign_up_front_users_path, class: 'text-primary'

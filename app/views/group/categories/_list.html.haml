@@ -1,0 +1,33 @@
+%hr
+
+- if current_group.categories.any?
+  %ul.list-unstyled.list-categories
+    - (current_group.categories.to_a << nil).each do |category|
+      - issues = Issue.only_alive_of_group(current_group).categorized_with(category)
+      %li
+        - if category.present?
+          %span.dropdown
+            %a.dropdown-toggle{ "href": "#", "data-toggle": "dropdown" }
+              %h5.category-name
+                = category.name
+                %span.menu-button
+                  관리
+                  %i.fa.fa-ellipsis-v
+            %ul.dropdown-menu
+              %li
+                = link_to '수정', edit_group_category_path(category)
+              %li
+                = link_to '삭제', group_category_path(category), method: :delete, data: { confirm: '정말 삭제하시겠습니까?' }
+        - else
+          %h5.category-name
+            이외
+
+
+        .panel.panel-default
+          .panel-body
+            %ul.list-unstyled{ class: group_category_issue_list_dom_class(category) }
+              - issues.each do |issue|
+                = render 'group/categories/issue_line', issue: issue
+              - if issues.empty?
+                = render 'group/categories/issue_line_empty'
+

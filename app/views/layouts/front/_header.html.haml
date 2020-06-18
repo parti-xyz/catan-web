@@ -11,6 +11,10 @@
           = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
             그룹 관리
         - if current_group.organized_by?(current_user) || current_user&.admin?
+          = link_to group_members_path, class: 'dropdown-item', target: '_blank' do
+            회원 관리(2.0)
+            %i.fa.fa-external-link
+        - if current_group.organized_by?(current_user) || current_user&.admin?
           = link_to edit_current_group_front_categories_path, class: 'dropdown-item' do
             채널 카테고리 관리
         - if current_group.creatable_issue?(current_user) || current_user&.admin?
@@ -64,24 +68,24 @@
               %i.fa.fa-spinner.fa-pulse
               로딩 중...
 
-      - else
-        .menuitem
-          = link_to '그룹 가입', new_front_member_request_path, class: 'link'
-          - unless current_page?('/front/member_requests/new') || current_page?('/front/member_requests/private_blocked')
-            .staticpopover{ data: { controller: 'static-popover', 'static-popover': { 'class-name': 'join-banner', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
-              .collapse{ data: { target: 'static-popover.template' } }
-                = escape_once_block do
-                  %p.lead
-                    %i.fa.fa-info-circle.text-primary
-                    지금 #{current_group.title} 그룹에 가입하세요!
+      -# - else
+      -#   .menuitem
+      -#     = link_to '그룹 가입', new_front_member_request_path, class: 'link'
+      -#     - unless current_page?('/front/member_requests/new') || current_page?('/front/member_requests/private_blocked')
+      -#       .staticpopover{ data: { controller: 'static-popover', 'static-popover': { 'class-name': 'join-banner', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+      -#         .collapse{ data: { target: 'static-popover.template' } }
+      -#           = escape_once_block do
+      -#             %p.lead
+      -#               %i.fa.fa-info-circle.text-primary
+      -#               지금 #{current_group.title} 그룹에 가입하세요!
 
-                  %p #{current_group.title} 그룹 멤버들과 함께 흥미진진한 이야기를 나눠 보세요.
-                  .text-right
-                    %button.btn.btn-link.btn-sm{ 'data-dismiss': 'popover' } 닫기
+      -#             %p #{current_group.title} 그룹 멤버들과 함께 흥미진진한 이야기를 나눠 보세요.
+      -#             .text-right
+      -#               %button.btn.btn-link.btn-sm{ 'data-dismiss': 'popover' } 닫기
 
-    .menuitem.-powered-by
-      .label Powered by
-      = image_tag 'parti_logo_white.png', class: 'parti'
+    -# .menuitem.-powered-by
+    -#   .label Powered by
+    -#   = image_tag 'parti_logo_white.png', class: 'parti'
     - if user_signed_in?
       .dropdown
         .userimage{ "data-toggle" => "dropdown", :href => "#" }
@@ -89,29 +93,29 @@
         .dropdown-menu.usermenu.dropdown-menu-right
           = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
           = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
-          - current_user.member_groups.each_with_index do |group, index|
-            - if index == 0
-              .dropdown-divider
-              .dropdown-header
-                내 그룹
-            = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item', target: ('_blank' if group != current_group) do
-              = group.title
-              - if group != current_group
-                %i.fa.fa-external-link.small.text-muted
-              - if group == current_group
-                %i.fa.fa-check
-          .dropdown-divider
-          = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
-            다른 그룹 탐색
-            %i.fa.fa-external-link.small.text-muted
-          = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
-            그룹 만들기
-            %i.fa.fa-external-link.small.text-muted
+          -# - current_user.member_groups.each_with_index do |group, index|
+          -#   - if index == 0
+          -#     .dropdown-divider
+          -#     .dropdown-header
+          -#       내 그룹
+          -#   = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item', target: ('_blank' if group != current_group) do
+          -#     = group.title
+          -#     - if group != current_group
+          -#       %i.fa.fa-external-link.small.text-muted
+          -#     - if group == current_group
+          -#       %i.fa.fa-check
+          -# .dropdown-divider
+          -# = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+          -#   다른 그룹 탐색
+          -#   %i.fa.fa-external-link.small.text-muted
+          -# = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+          -#   그룹 만들기
+          -#   %i.fa.fa-external-link.small.text-muted
     - else
-      .menuitem
-        = link_to issues_url(subdomain: nil), target: '_blank', class: 'link' do
-          다른 그룹 탐색
-          %i.fa.fa-external-link.small
+      -# .menuitem
+      -#   = link_to issues_url(subdomain: nil), target: '_blank', class: 'link' do
+      -#     다른 그룹 탐색
+      -#     %i.fa.fa-external-link.small
       .menuitem
         = link_to '회원가입', pre_sign_up_front_users_path, class: 'link'
       .menuitem

@@ -1,0 +1,12 @@
+.parti-select.parti-select-form-padding{ id: local_assigns[:dom_id] }
+  %select.js-parti-editor-selector.collapse{ 'data-live-search': "true", 'data-width': "100%", title: (local_assigns[:placeholder_text] || "표시할 채널을 골라 주세요") }
+    - all_issues = current_group.issues.alive.sort_by_name.to_a
+    - all_issues.each do |issue|
+      - issue_content = capture do
+        .parti-option.clearfix<>
+          %span.issue-line__thumb<>
+            .parti-thumb{ style: "background-image: url(#{issue.logo.sm.url});" }<>
+          %span.issue-line__title<>
+            = issue_tag_ignored_current_group(issue,  show_group: true, group_classes: 'group-title', divider_classes: 'group-title')
+      %option.hidden-group-title{value: issue.id, selected: (true if issue.id == local_assigns[:selected_issue_id]),'data-content': h(issue_content.to_str), 'data-tokens': issue.title, 'data-can-pin': can?(:pin, issue).to_s, 'data-can-experiment': issue.experimental?.to_s }
+        = issue.title

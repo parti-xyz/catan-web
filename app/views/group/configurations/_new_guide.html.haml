@@ -1,0 +1,24 @@
+%section#parti-organizing
+  .container
+    .row
+      .col-sm-8.col-xs-12
+        %h1
+          #{I18n.t('labels.app_name_human')},
+          %br
+          팀과 커뮤니티를 위한 민주주의 플랫폼
+        .description
+          %p.lead
+            %u
+              더 나은 민주주의, 기본소득, 미니멀 라이프 ...
+            %br
+            함께 공감하며 이야기를 나누고 싶으신가요?
+          %p.lead
+            내가 관심있는 이슈로 파티하듯 수다를 떠는 곳
+            %br
+            %span
+              %strong.text-primary<> 그룹
+              을
+            만들고 함께 할 사람들을 초대해보세요.
+            = link_to '빠띠란?', 'https://parti-xyz.gitbooks.io/parti-xyz-guide/content/', target: "_blank", class: 'text-primary', style: 'font-weight: bold; text-decoration: underline;'
+      .col-sm-4.hidden-xs
+        = image_tag 'img_about_4.png', class: 'key-visual'

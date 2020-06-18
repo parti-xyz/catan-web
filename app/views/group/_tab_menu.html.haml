@@ -1,0 +1,17 @@
+.contents-header
+  %h4.contents-header__title
+    그룹 관리
+    %small.hidden-xs
+      #{group_only_basic_title(current_group)}을 관리합니다.
+
+.content-tab-section
+  %ul.nav.nav-tabs
+    %li{ class: "#{('active' if current_page?('/group/managements'))}" }
+      = link_to group_managements_path do
+        홈
+    %li{ class: "#{('active' if current_page?('/group/configuration/edit') or params[:controller] == 'group/configuration')}" }
+      = link_to edit_group_configuration_url(subdomain: current_group.subdomain) do
+        그룹 설정
+    %li{ class: "#{('active' if current_page?('/group/categories') or params[:controller] == 'group/categories')}" }
+      = link_to group_categories_url(subdomain: current_group.subdomain) do
+        채널 카테고리 설정

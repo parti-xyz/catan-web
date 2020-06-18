@@ -1,0 +1,53 @@
+.modal-content
+  .modal-header.modal-header-no-border
+    %button.close{type: "button", "data-dismiss": "modal", "aria-label": "Close"}
+      %span{"aria-hidden":"true"}
+        &times;
+    %h4.modal-title
+      그룹홈 설정 수정
+  .modal-body
+    - if @group_home_component.format_name.updated_issues?
+      - updated_issues_form_id = "folder-form-#{SecureRandom.uuid}"
+      = form_for [:group, @group_home_component], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{updated_issues_form_id} input[type=submit]" }, html: { id: updated_issues_form_id } do |f|
+        = f.hidden_field :format_name, value: 'updated_issues'
+        %p.help-text #{@group_home_component.seq_no}번 '최근 업데이트된 채널' 포맷 설정을 수정합니다.
+        %hr
+        .form-group
+          = f.label :title
+          = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
+        .form-group
+          = f.submit '저장', class: 'btn btn-primary'
+
+    - if @group_home_component.format_name.all_posts?
+      - all_posts_form_id = "folder-form-#{SecureRandom.uuid}"
+      = form_for [:group, @group_home_component], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{all_posts_form_id} input[type=submit]" }, html: { id: all_posts_form_id } do |f|
+        = f.hidden_field :format_name, value: 'all_posts'
+        %p.help-text #{@group_home_component.seq_no}번 '전체 게시글' 포맷 설정을 수정합니다.
+        %hr
+        .form-group
+          = f.label :title
+          = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
+        .form-group
+          = f.submit '저장', class: 'btn btn-primary'
+
+    - if @group_home_component.format_name.issue_posts_hottest? or @group_home_component.format_name.issue_posts_order_by_stroked_at?
+      .js-parti-editor-selector-wrapper
+        - issue_posts_form_id = "folder-form-#{SecureRandom.uuid}"
+        = form_for [:group, @group_home_component], remote: true, data: { action: 'parti-form-validation', 'submit-form-control':  "##{issue_posts_form_id} input[type=submit]" }, html: { id: issue_posts_form_id, class: 'js-parti-editor-selector-form' } do |f|
+          %p.help-text #{@group_home_component.seq_no}번 '채널 게시글' 포맷 설정을 수정합니다.
+          %hr
+          .form-group
+            = f.label :title
+            = f.text_field :title, class: 'form-control', data: { 'rule-required': true }
+          .form-group
+            = f.label :format_name
+            = f.select :format_name, [['인기', :issue_posts_hottest], ['최근', :issue_posts_order_by_stroked_at]], {}, class: 'form-control', data: { 'rule-required': true }
+          = f.fields_for :issue_posts_format do |ff|
+            = ff.hidden_field :issue_id, data: { 'rule-required': true }, class: 'validate'
+            .form-group
+              = ff.label :issue_id, '채널'
+              - issue_selector_dom_id = "issue-selector-#{SecureRandom.uuid}"
+              = render 'group/group_home_components/issue_selector', dom_id: issue_selector_dom_id, selected_issue_id: ff.object.issue_id
+
+          .form-group
+            = f.submit '저장', class: 'btn btn-primary'

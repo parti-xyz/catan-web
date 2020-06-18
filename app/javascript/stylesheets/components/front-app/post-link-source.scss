@@ -4,8 +4,7 @@
 .front-app .post-link-source {
   display: flex;
   margin-top: 0.75rem;
-  border-top: 1px solid global-variables.$color-gray-300;
-  border-bottom: 1px solid global-variables.$color-gray-300;
+  border: 1px solid global-variables.$color-gray-300;
   background-color: global-variables.$color-gray-100;
   > .thumbnail {
     max-width: 300px;

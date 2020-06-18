@@ -144,10 +144,16 @@ class ApplicationController < ActionController::Base
       (controller_name == 'members' and action_name == 'join_group_form') or
       (controller_name == 'my_menus') or
       (self.is_a? Group::Eduhope::MembersController and action_name == 'admit') or
-      ((helpers.implict_front_namespace? || helpers.explict_front_namespace?) && controller_name == 'member_requests' and action_name == 'private_blocked') or
-      ((helpers.implict_front_namespace? || helpers.explict_front_namespace?) && controller_name == 'member_requests' and action_name == 'new') or
-      ((helpers.implict_front_namespace? || helpers.explict_front_namespace?) && controller_name == 'member_requests' and action_name == 'create')
+      (helpers.implict_front_namespace? || helpers.explict_front_namespace?) && (
+        (controller_name == 'member_requests' and action_name == 'private_blocked') or
+        (controller_name == 'member_requests' and action_name == 'new') or
+        (controller_name == 'member_requests' and action_name == 'create') or
+        (controller_name == 'users') or
+        (controller_name == 'registrations') or
+        (controller_name == 'confirmations')
+      )
     )
+      logger.debug("controller_name, action_name: #{controller_name}, #{action_name}")
       if helpers.implict_front_namespace? || helpers.explict_front_namespace?
         redirect_to private_blocked_front_member_requests_path
       else

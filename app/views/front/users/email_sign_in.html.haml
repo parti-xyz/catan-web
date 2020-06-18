@@ -1,9 +1,9 @@
 %section.text-center
-  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' } 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}
+  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' }= current_group.site_title
   %h3
     %i.fa.fa-sign-in
     이메일 로그인
-  .box{ style: 'padding: 3rem 0' }
+  .simple-box{ style: 'padding: 3rem 0' }
     = form_for User.new(remember_me: true), url: user_session_path do |f|
       = f.hidden_field :provider, value: 'email'
       .form-group
@@ -27,8 +27,8 @@
 
       %p
         처음 오셨나요?
-        = link_to '가입하기', pre_sign_up_front_users_path
+        = link_to '가입하기', pre_sign_up_front_users_path, class: 'text-primary'
 
       %p
         가입확인 메일을 잊어버리셨나요?
-        = link_to '가입확인 메일 다시 받기', new_user_confirmation_path
+        = link_to '가입확인 메일 다시 받기', new_user_confirmation_path, class: 'text-primary'

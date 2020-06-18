@@ -1,0 +1,18 @@
+= render 'application/group_home_sub_header', active: 'management'
+
+%section.contents-page
+  .container
+    = render 'group/tab_menu', active: 'management'
+
+    %section.content-tab-section
+      %h5
+        수정
+      .row
+        .col-md-5
+          = form_for [:group, @category] do |f|
+            .input-group
+              = f.text_field :name, class: 'form-control'
+              %span.input-group-btn
+                = submit_tag '저장', class: 'btn btn-default btn-primary', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+
+    = render 'group/categories/list'

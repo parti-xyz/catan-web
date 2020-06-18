@@ -1,0 +1,20 @@
+%section.text-center
+  .container
+    %h3
+      %i.fa.fa-user
+      버터나이프크루 인증 신청
+
+    .simple-box.text-center{ style: 'padding: 3rem 0' }
+      %p.lead.mt-3
+        크루임을 확인할 수 있도록 팀명과 성함을 적어주세요.
+      %p
+        운영진이 내용을 확인하고 승인하면
+        %br
+        %strong #{current_user.nickname}
+        님의 커뮤니티 가입이 완료됩니다.
+      = form_with url: front_member_requests_path, local: true do
+        .form-group
+          %label
+          = text_area_tag :description, nil, class: 'form-control', placeholder: 'ex) 팀명과 성함'
+        .form-group.text-right
+          = submit_tag "신청합니다", class: 'btn btn-primary btn-block', data: { disable_with: "진행 중..." }

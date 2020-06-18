@@ -38,6 +38,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
+    if resource.is_a?(User) && resource.confirmed? && resource.confirmation_group_slug.present?
+      group = Group.find_by(slug: resource.confirmation_group_slug)
+      if group.frontable? && group.present? && !group.member?(current_user)
+        return new_front_member_request_url(subdomain: group.subdomain)
+      end
+    end
+
     omniauth_params = request.env['omniauth.params'] || session["omniauth.params_data"] || {}
 
     group = Group.find_by_slug(omniauth_params['group_slug'])
