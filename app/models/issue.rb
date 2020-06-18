@@ -153,7 +153,7 @@ class Issue < ApplicationRecord
     if current_user.present?
       _post_public_group_public_issues
         .or(alive.where(id: current_user.organizing_issues.select("members.joinable_id")))
-        .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
+        .or(alive.where.not(private: true))
     else
       _post_public_group_public_issues
     end
