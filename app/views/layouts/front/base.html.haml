@@ -10,8 +10,7 @@
       .front-body{ class: ('-no-header' unless content_for?(:playground_header_content)), data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'menu-slug': @group_sidebar_menu_slug, 'channel-id': @current_issue&.id, 'folder-id': @current_folder&.id } } }
         = render layout: 'layouts/simplebar' do
           - if content_for?(:playground_header_content)
-            .playground-header
-              = yield(:playground_header_content)
+            = yield(:playground_header_content)
           .playground-main
             .playground-body{ data: { js: 'scroll-persistence', 'scroll-persistence-id': ("front-app-playground-body-#{@scroll_persistence_id_ext}" if @scroll_persistence_id_ext.present?), 'scroll-persistence-tag': @scroll_persistence_tag } }
               = yield

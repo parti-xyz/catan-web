@@ -18,6 +18,9 @@
       padding-right: front-variables.$front-body-space-right;
       z-index: 1;
     }
+    > .playground-header.-nosticky {
+      position: static;
+    }
   }
 }
 

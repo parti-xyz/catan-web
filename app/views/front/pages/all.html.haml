@@ -1,20 +1,21 @@
 - content_for :playground_header_content do
-  .channel-menu
-    .title.form-inline{ data: { controller: 'select-link' } }
-      - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
-      - if search_q.present?
-        .node
-          = link_to root_path, class: 'link' do
+  .playground-header
+    .channel-menu
+      .title.form-inline{ data: { controller: 'select-link' } }
+        - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
+        - if search_q.present?
+          .node
+            = link_to root_path, class: 'link' do
+              %i.fa.fa-cube
+              전체 게시글
+          .node /
+          %span.node
+            %i.fa.fa-search
+            = search_q
+        - else
+          .node
             %i.fa.fa-cube
             전체 게시글
-        .node /
-        %span.node
-          %i.fa.fa-search
-          = search_q
-      - else
-        .node
-          %i.fa.fa-cube
-          전체 게시글
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes

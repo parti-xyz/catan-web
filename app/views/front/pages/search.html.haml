@@ -1,12 +1,13 @@
 - content_for :playground_header_content do
-  .channel-menu
-    .title.form-inline
-      - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
-      .node
-        전체 채널
-      .node
-        %i.fa.fa-search
-        = search_q
+  .playground-header
+    .channel-menu
+      .title.form-inline
+        - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
+        .node
+          전체 채널
+        .node
+          %i.fa.fa-search
+          = search_q
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes
