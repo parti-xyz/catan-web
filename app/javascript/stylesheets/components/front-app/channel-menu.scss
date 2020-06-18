@@ -1,34 +1,44 @@
 @use '../../global-variables';
 @use '../front-variables';
+@use '../../bootstrap';
 
 .front-app .channel-menu {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  border-bottom: 1px solid global-variables.$color-gray-200;
 
   > .title {
     flex: 1;
     display: flex;
-    color: global-variables.$color-voodoo-400;
-    font-weight: 900;
-    line-height: front-variables.$navbar-height;
-    overflow: hidden;
+    color: global-variables.$color-gray-900;
+    font-weight: bold;
   }
-
   > .title > .node + .node {
-    margin-left: 0.25rem;
+    margin-left: 0.75rem;
   }
   > .title > .node {
     flex: none;
     display: inline-block;
+    font-size: bootstrap.$font-size-lg;
+  }
+  > .title > .node > .category {
+    position: absolute;
+    bottom: 2.2rem;
+    font-size: 0.75rem;
+    line-height: 1.33;
+    font-weight: normal;
+  }
+  > .title > .node.form-control {
+    border-color: global-variables.$color-gray-300;
+    font-size: bootstrap.$font-size-sm;
+  }
+  > .title > .node.form-control + .node.form-control {
+    margin-left: 0.375rem;
   }
   > .title > .node:last-child:not(.fix) {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  > .title > .node > .link:hover {
-    text-decoration: underline;
   }
   > .title > .node.post {
     display: none;
@@ -38,22 +48,11 @@
     margin-right: 4rem;
     color: global-variables.$color-brand-primary;
   }
-  > .title > .node.delimiter {
-  display: none;
-  }
-  > .title > .node.delimiter.-active {
-  display: inline-block;
+  > .title > .node > .meta {
+    color: global-variables.$color-gray-400;
   }
 
   > .control {
     flex: none;
-  }
-
-  > .control > .moremenu {
-    flex: none;
-  }
-  > .control > .moremenu > .btn {
-    width: 2.5rem;
-    height: 2.5rem;
   }
 }

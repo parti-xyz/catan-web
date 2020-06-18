@@ -7,16 +7,14 @@
         = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
         = meta_icons(@current_issue)
       - @current_post.folder&.ancestors_and_self&.each do |folder|
-        .node /
         .node
           = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
-      .delimiter.node{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
-        \/
       .post.node{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
         #{@current_post.title}
-    .control
-      = render 'front/channels/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
 
+- content_for :playground_sidebar_content do
+  .supplementary-boxes
+    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 - button_groups = []
 
@@ -170,8 +168,6 @@
       - if @current_issue.commentable?(current_user)
         = render 'front/posts/show/comment/form', current_post: @current_post, current_folder: @current_folder
 
-  .supplementary-boxes
-    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 
 

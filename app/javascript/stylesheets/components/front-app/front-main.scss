@@ -1,0 +1,19 @@
+@use "../front-variables";
+
+.front-app .front-main {
+  display: flex;
+  // > .global-sidebar {
+  //   flex: none;
+  //   width: front-variables.$global-sidebar-width;
+  //   height: 100%;
+  // }
+  > .front-sidebar {
+    flex: none;
+    width: front-variables.$front-sidebar-width;
+    height: 100%;
+  }
+  > .front-body {
+    flex: 1;
+    height: 100%;
+  }
+}

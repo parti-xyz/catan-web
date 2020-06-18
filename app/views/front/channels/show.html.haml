@@ -5,54 +5,55 @@
     .title.form-inline{ data: { controller: 'select-link' } }
       - if @current_folder.present? || search_q.present?
         .node
+          - if @current_issue.category.present?
+            .category= @current_issue.category.name
           = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
           = meta_icons(@current_issue)
       - else
-        .node # #{@current_issue.title} #{meta_icons(@current_issue)}
+        .node
+          .category= @current_issue.category.name
+          \# #{@current_issue.title}
+          = meta_icons(@current_issue)
       - if @current_issue.folders.any?
         - if @current_folder.present?
-          - @current_folder.ancestors.each do |folder|
-            .node /
-            .node
-              = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
+          - @current_folder.ancestors_and_self.each do |folder|
+            = select_tag :folder_id, options_from_collection_for_select(folder.siblings, 'id', 'title', folder.id), class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
           - if @current_folder.children.any?
-            .node /
-            .node= @current_folder.title
-            .node /
-            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '전체 보기...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
-          - else
-            .node /
-            = select_tag :folder_id, options_from_collection_for_select(@current_folder.siblings, 'id', 'title', @current_folder&.id), class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+            = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '하위 폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
         - else
-          .node /
           = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '전체 보기...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
       - if search_q.present?
-        .node /
         %span.node
           %i.fa.fa-search
           = search_q
     .control
-      = render 'front/channels/channel_menu/control', current_issue: @current_issue, current_folder: @current_folder
+      - if @current_issue.postable?(current_user)
+        = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-important btn-sm' do
+          %i.fa.fa-pencil
+          글쓰기
+        &nbsp;
+        = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-important btn-sm' do
+          %i.fa.fa-file-word-o
+          위키쓰기
+
+- content_for :playground_sidebar_content do
+  .supplementary-boxes
+    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
+  - if can?(:update, @current_issue)
+    = link_to edit_front_channel_path(@current_issue, folder_id: @current_folder&.id), class: 'btn btn-light btn-sm text-muted mt-3', title: '채널 설정' do
+      %i.fa.fa-cog
+      채널 설정
+
 - if @posts.any?
   .channel-box
-    .post-lines-box
-      .post-lines-header
-        .pages
-          - if @posts.current_page.present?
-            페이지 #{@posts.current_page} / #{@posts.total_pages}
-        .edit
-          - if @current_issue.postable?(current_user)
-            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-secondary btn-sm' do
-              %i.fa.fa-pencil
-              글쓰기
-            &nbsp;
-            = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-secondary btn-sm' do
-              %i.fa.fa-file-word-o
-              위키쓰기
-      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
-    .supplementary-boxes
-      = render partial: 'front/channels/supplementary', locals: @supplementary_locals
+    .channel-box-header
+      .pages
+        - if @posts.current_page.present?
+          게시글 #{@posts.count}개
+          - if @posts.current_page != 1
+            중 #{@posts.current_page}페이지
 
+    = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
 - else
   .alert-box.my-3
     - if search_q.present?
@@ -65,14 +66,13 @@
           가장 먼저 게시글을 올려보세요.
       - if @current_issue&.group&.member?(current_user)
         .channel-box
-          .post-lines-box
-            .post-lines-header
-              .edit
-                - if @current_issue.postable?(current_user)
-                  = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
-                    %i.fa.fa-pencil
-                    글쓰기
-                  &nbsp;
-                  = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
-                    %i.fa.fa-file-word-o
-                    위키쓰기
+          .channel-box-header
+            .edit
+              - if @current_issue.postable?(current_user)
+                = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
+                  %i.fa.fa-pencil
+                  글쓰기
+                &nbsp;
+                = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
+                  %i.fa.fa-file-word-o
+                  위키쓰기

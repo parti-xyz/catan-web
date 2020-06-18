@@ -2,17 +2,21 @@
   .front-app
     = render 'layouts/front/header'
 
-    .front-body{ data: { 'controller': 'channel-read-listener group-sidebar-listener', action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume', 'channel-read-listener': { url: sync_front_channels_path(format: :json), 'refresh-interval': (1000 * 60 * 5).to_s } } }
+    .front-main{ data: { 'controller': 'channel-read-listener group-sidebar-listener', action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume', 'channel-read-listener': { url: sync_front_channels_path(format: :json), 'refresh-interval': (1000 * 60 * 5).to_s } } }
 
-      .group-sidebar
+      .front-sidebar
         .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader collection-activation', target: 'group-sidebar-listener.collectionActivationController', action: 'group-sidebar-deactivation-all->collection-activation#deactiveAll', 'content-loader-url': front_group_sidebar_path(issue_id: @current_issue, folder_id: @current_folder, menu_slug: @group_sidebar_menu_slug), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
 
-      .front-playground{ class: ('-no-header' unless content_for?(:playground_header_content)), data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'menu-slug': @group_sidebar_menu_slug, 'channel-id': @current_issue&.id, 'folder-id': @current_folder&.id } } }
-        - if content_for?(:playground_header_content)
-          .playground-header
-            = yield(:playground_header_content)
-        .playground-body{ data: { js: 'scroll-persistence', 'scroll-persistence-id': ("front-app-playground-body-#{@scroll_persistence_id_ext}" if @scroll_persistence_id_ext.present?), 'scroll-persistence-tag': @scroll_persistence_tag } }
-          = render layout: 'layouts/simplebar' do
-            = yield
+      .front-body{ class: ('-no-header' unless content_for?(:playground_header_content)), data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'menu-slug': @group_sidebar_menu_slug, 'channel-id': @current_issue&.id, 'folder-id': @current_folder&.id } } }
+        = render layout: 'layouts/simplebar' do
+          - if content_for?(:playground_header_content)
+            .playground-header
+              = yield(:playground_header_content)
+          .playground-main
+            .playground-body{ data: { js: 'scroll-persistence', 'scroll-persistence-id': ("front-app-playground-body-#{@scroll_persistence_id_ext}" if @scroll_persistence_id_ext.present?), 'scroll-persistence-tag': @scroll_persistence_tag } }
+              = yield
+            - if content_for?(:playground_sidebar_content)
+              .playground-sidebar
+                = yield(:playground_sidebar_content)
 
 = render template: 'layouts/bpplication'

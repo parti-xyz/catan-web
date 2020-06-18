@@ -36,3 +36,8 @@ legend.legend-default {
 .clean-p-parent > p:last-child {
   margin-bottom: 0;
 }
+
+.btn-important {
+  @include bootstrap.button-variant(global-variables.$color-gray-500, global-variables.$color-gray-500);
+  color: white;
+}

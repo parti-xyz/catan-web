@@ -2,6 +2,7 @@
 
 @forward "./front-app/category-card";
 @forward "./front-app/channel-box";
+@forward "./front-app/channel-box-header";
 @forward "./front-app/channel-line";
 @forward "./front-app/channel-lines";
 @forward "./front-app/channel-listing";
@@ -16,19 +17,20 @@
 @forward "./front-app/file-source-field";
 @forward "./front-app/folder-lines";
 @forward "./front-app/front-body";
+@forward "./front-app/front-main";
 @forward "./front-app/front-navbar";
 @forward "./front-app/front-navbar-message-item";
-@forward "./front-app/front-playground";
 @forward "./front-app/front-simple";
+@forward "./front-app/front-sidebar";
 @forward "./front-app/join-banner";
 @forward "./front-app/global-sidebar";
 @forward "./front-app/group-menu";
 @forward "./front-app/group-navitem";
 @forward "./front-app/group-navitems";
-@forward "./front-app/group-sidebar";
 @forward "./front-app/organizer-member";
 @forward "./front-app/pinned-post-line";
 @forward "./front-app/playground-body";
+@forward "./front-app/playground-main";
 @forward "./front-app/playground-header";
 @forward "./front-app/popover-post-poll-votings-users";
 @forward "./front-app/post-body";
@@ -43,8 +45,6 @@
 @forward './front-app/post-form-box';
 @forward "./front-app/post-header";
 @forward "./front-app/post-line";
-@forward "./front-app/post-lines-box";
-@forward "./front-app/post-lines-header";
 @forward "./front-app/post-lines";
 @forward "./front-app/post-link-source";
 @forward "./front-app/post-main";
@@ -76,7 +76,7 @@ body.-pack.-simple.app-users {
     width: 100%;
     top: 0;
   }
-  > .front-body {
+  > .front-main {
     flex: 1;
     height: 100%;
     padding-top: front-variables.$navbar-height;

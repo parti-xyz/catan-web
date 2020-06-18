@@ -6,12 +6,12 @@
   > li {
     margin: 0;
     font-size: bootstrap.$font-size-sm;
-    color: global-variables.$color-gray-600;
+    color: global-variables.$color-gray-500;
   }
   > li.active {
     font-weight: bold;
     padding: 0 .75rem;
-    color: global-variables.$color-brand-primary;
+    color: global-variables.$color-gray-900;
   }
   > li > a {
     padding-left: .75rem;

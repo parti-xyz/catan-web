@@ -2,7 +2,7 @@
   .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "channel-intro-box-#{current_issue.id}" } } }
     .header{ data: { action: 'click->content-collapse#toggle' } }
       .title
-        소개
+        채널 소개
       .toggler
         %i.fa.-hide{ data: { target: 'content-collapse.content' } }
     .body{ data: { target: 'content-collapse.content' } }
@@ -20,15 +20,6 @@
     %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
       - pinned_posts&.each do |post|
         %li.pinned-post-line{ class: [('-active' if post == local_assigns[:current_post]), ('-unread' if post.need_to_read?(current_user))], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
-          .icon
-            - if post.poll.present?
-              %i.fa.fa-fire.fa-fw
-            - elsif post.survey.present?
-              %i.fa.fa-list-ul.fa-fw
-            - elsif post.wiki.present?
-              %i.fa.fa-file-word-o.fa-fw
-            - else
-              %i.fa.fa-stack-exchange.fa-fw
           .body
             - unless post.blinded?(current_user)
               .title
@@ -38,6 +29,10 @@
               .title.-blind
                 %i.fa.fa-info-circle
                 = t('labels.post_blind_info')
+            .footer
+              %span.nickname #{post.user.nickname}
+              = smart_date_tag(post.created_at)
+
 
 - if organizer_members&.any?
   .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "organizer-members-box-#{current_issue.id}" } } }

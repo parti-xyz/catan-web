@@ -1,0 +1,17 @@
+@use "../front-variables";
+
+.front-app .playground-main {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  > .playground-body {
+    flex: 1;
+  }
+  > .playground-sidebar {
+    margin-top: ((-1*front-variables.$playground-header-height) + 1.875rem);
+    flex: none;
+    padding-left: 2rem;
+    padding-right: 1rem;
+    width: front-variables.$playground-sidebar-width;
+  }
+}

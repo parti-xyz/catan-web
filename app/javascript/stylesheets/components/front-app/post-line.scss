@@ -3,11 +3,10 @@
 
 .front-app .post-line {
   $boder-width: 1px;
-
-  padding: 0.6em;
+  padding: 1em .5rem;
   display: flex;
-  border-top: $boder-width solid global-variables.$color-gray-300;
-  border-bottom: $boder-width solid global-variables.$color-gray-300;
+  border-top: $boder-width solid global-variables.$color-gray-200;
+  border-bottom: $boder-width solid global-variables.$color-gray-200;
   & + .post-line {
     border-top-width: 0;
   }
@@ -42,11 +41,11 @@
   }
   > .body > .title {
     white-space: nowrap;
+    line-height: 1.25rem;
   }
   > .body > .title > .link {
     overflow: hidden;
     text-overflow: ellipsis;
-    font-weight: 600;
     display: inline-block;
     max-width: 95%;
   }
@@ -64,13 +63,15 @@
   > .body > .title.-blind {
     color: global-variables.$color-gray-400;
   }
-  > .body > .meta {
-    color: global-variables.$color-gray-600;
+  > .body > .meta,
+  > .body > .meta a {
+    color: global-variables.$color-gray-500;
     font-size: bootstrap.$font-size-xs;
   }
   > .body > .meta > .icon {
     display: inline-block;
     border: 1px solid global-variables.$color-gray-300;
+    background-color: global-variables.$color-gray-100;
     padding: 0 2px;
     margin-right: .5rem;
   }
@@ -80,47 +81,49 @@
 
   > .footer {
     flex: none;
-    min-width: 20%;
-    margin-left: 2em;
+    margin-left: 1.25em;
+    display: flex;
+    align-items: center;
   }
-
+  > .footer > .strokedusers {
+    display: flex;
+    white-space: nowrap;
+    width: 6rem;
+    align-items: center;
+  }
+  > .footer > .strokedusers > .userimage {
+    flex: none;
+    display: inline-block;
+    width: 1rem;
+  }
+  > .footer > .strokedusers > .userimage > .userimagebg {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid global-variables.$color-gray-300;
+    background-position: center;
+    background-size: cover;
+  }
+  > .footer > .strokedusers > .morecount {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-500;
+    display: inline-block;
+    margin-left: .625rem;
+  }
   > .footer > .counts {
     font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-600;
-  }
-  > .footer > .counts > .upvotes {
     display: inline-block;
-    width: 4em;
-    margin-right: 1em;
-    text-align: left;
+    white-space: nowrap;
   }
+  > .footer > .counts > .upvotes,
   > .footer > .counts > .comments {
     display: inline-block;
-    width: 4em;
-    text-align: left;
+    width: 3.25em;
+    margin-left: .75rem;
   }
   > .footer > .counts > .upvotes > .fa,
   > .footer > .counts > .comments > .fa {
-    margin-right: 0.25em;
-  }
-  > .footer > .counts > .upvotes.-active {
-    color: global-variables.$color-brand-primary;
-  }
-  > .footer > .counts > .comments.-active {
-    color: global-variables.$color-brand-primary;
-  }
-
-  > .footer > .strokedusers > .userimage {
-    flex: none;
-    vertical-align: bottom;
-    display: inline-block;
-  }
-  > .footer > .strokedusers > .userimage > .userimagebg {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 9999px;
-    border: 1px solid white;
-    background-position: center;
-    background-size: cover;
+    margin-right: 0.125em;
   }
 }

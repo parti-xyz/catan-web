@@ -1,19 +1,20 @@
+@use '../../global-variables';
+@use "../../mixin";
 @use "../front-variables";
 
 .front-app .front-body {
-  display: flex;
-  > .global-sidebar {
-    flex: none;
-    width: front-variables.$global-sidebar-width;
-    height: 100%;
+  overflow: hidden;
+  &.-no-header {
+    padding-top: 0;
   }
-  > .group-sidebar {
-    flex: none;
-    width: front-variables.$group-sidebar-width;
-    height: 100%;
-  }
-  > .front-playground {
-    flex: 1;
-    height: 100%;
+  @include mixin.simplebar {
+    > .playground-header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      flex: 1;
+      margin-right: front-variables.$playground-sidebar-width;
+      z-index: 1;
+    }
   }
 }

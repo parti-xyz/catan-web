@@ -23,7 +23,7 @@
           = link_to "#{current_group.title} 그룹 탈퇴", front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
       .moremenu
         .dropdown
-          .cursor-pointer{ "data-toggle": "dropdown" }
+          .title.cursor-pointer{ "data-toggle": "dropdown" }
             = current_group.title
             = meta_icons(@current_issue)
           .dropdown-menu.dropdown-menu-right

@@ -1,17 +1,20 @@
 @use "../front-variables";
-@use "../../mixin";
 
 .front-app .playground-body {
   overflow-y: auto;
   overflow-x: hidden;
-  @include mixin.simplebar {
-    > .channel-box,
-    > .channel-form-box,
-    > .group-form-box,
-    > .post-box,
-    > .post-form-box,
-    > .alert-box {
-      padding: 1rem front-variables.$front-playground-space-x 1.5rem;
-    }
+  > .channel-box,
+  > .channel-form-box,
+  > .group-form-box,
+  > .post-box,
+  > .post-form-box,
+  > .alert-box {
+    padding-top: 1rem;
+    padding-right: front-variables.$front-body-space-right;
+    padding-bottom: 1.5rem;
+    padding-left: front-variables.$front-body-space-left;
+  }
+  > .channel-box {
+    padding-top: 0;
   }
 }

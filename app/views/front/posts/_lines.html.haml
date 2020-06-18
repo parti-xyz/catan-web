@@ -7,7 +7,7 @@
           .title<>
             = link_to front_post_path(post, folder_id: @current_folder), class: 'link' do
               != post.title
-            %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }<> N
+            %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }
         - else
           .title.-blind
             %i.fa.fa-info-circle
@@ -35,6 +35,11 @@
                 = link_to folder.title, front_channel_path(post.issue, folder_id: folder.id), class: 'link'
             = smart_date_tag(last_stroked_at)
       .footer
+        .strokedusers
+          - post.recent_stroked_post_users.each do |stroked_post_user|
+            - user = stroked_post_user.user
+            = link_to user_front_members_path(user), class: 'userimage' do
+              .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
         .counts
           %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
             %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
@@ -42,9 +47,5 @@
           %span.comments{ class: ('-active' if post.commented_by_me?) }
             %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
             = post.comments_count
-        .strokedusers
-          - post.stroked_post_users.limit(6).recent.each do |stroked_post_user|
-            - user = stroked_post_user.user
-            = link_to user_front_members_path(user), class: 'userimage' do
-              .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+
 = paginate posts, theme: 'catan'

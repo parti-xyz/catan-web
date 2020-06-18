@@ -1,4 +1,5 @@
 @use '../../global-variables';
+@use '../../bootstrap';
 
 .front-app .pinned-post-line {
   display: flex;
@@ -27,10 +28,6 @@
     height: 100%;
     background-color: blue;
   }
-  > .icon {
-    flex: none;
-    margin-right: 0.5rem;
-  }
   > .body {
     flex: 1;
     overflow: hidden;
@@ -41,6 +38,10 @@
     text-overflow: ellipsis;
   }
   > .body > .title.-blind {
-    color: global-variables.$color-gray-400;
+    color: global-variables.$color-gray-500;
+  }
+  > .body > .footer {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-500;
   }
 }

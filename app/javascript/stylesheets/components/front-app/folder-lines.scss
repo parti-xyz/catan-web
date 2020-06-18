@@ -8,31 +8,32 @@
   }
   > .line {
     padding-right: .75rem;
+    margin: 0.25rem 0;
   }
   > .line > .link {
     display: inline-flex;
-    padding-left: 1rem;
-    color: global-variables.$color-gray-400;
+    padding: 0.125rem 1rem;
     white-space: nowrap;
     overflow: hidden;
     max-width: 100%;
   }
   > .line > .link:hover {
-    background: global-variables.$color-voodoo-400;
+    background: global-variables.$color-gray-200;
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
   }
-  > .line > .link.-active,
-  > .line > .link.-active:hover {
-    background-color: #4c9689;
+  > .line > .link.-active {
+    background-color: global-variables.$color-gray-200;
     border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
+    font-weight: 600;
   }
   > .line > .link.-active:hover {
-    color: global-variables.$color-gray-200;
+    background-color: global-variables.$color-gray-300;
   }
   > .line > .link > .title {
     display: inline-block;
+    color: global-variables.$color-gray-900;
     flex: 1;
     margin-left: 0;
     margin-right: 0.25rem;
@@ -53,15 +54,15 @@
     opacity: .3;
   }
   > .line > .link > .icon:not(.-disabled):hover > .fa {
-    background-color: global-variables.$color-voodoo-300;
+    background-color: global-variables.$color-gray-400;
   }
   > .line > .link.-active > .icon:not(.-disabled):hover > .fa {
-    background-color: #386f65;
+    background-color: global-variables.$color-gray-400;
   }
   > .line > .link > .icon > .fa.-show:before {
-    content: "\f107";
+    content: "\f0d7";
   }
   > .line > .link > .icon > .fa.-hide:before {
-    content: "\f105";
+    content: "\f0da";
   }
 }

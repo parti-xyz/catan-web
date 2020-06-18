@@ -1,6 +1,7 @@
 @use "./global-variables";
 
 @forward "~bootstrap/scss/bootstrap" with (
+  $body-color: global-variables.$color-gray-900,
   $primary: global-variables.$color-brand-primary,
   $secondary: global-variables.$color-brand-secondary,
   $gray-900: global-variables.$color-gray-900,

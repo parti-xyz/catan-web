@@ -5,9 +5,15 @@
         = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
         = meta_icons(@current_issue)
       - @current_post.folder&.ancestors_and_self&.each do |folder|
-        .node /
         .node
           = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
+
+- content_for :playground_sidebar_content do
+  .supplementary-boxes
+    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
+- content_for :playground_sidebar_content do
+  .supplementary-boxes
+    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 .post-form-box
   - if @current_post.wiki.blank?
@@ -205,8 +211,3 @@
   -#         - if local_assigns[:current_issue].present?
   -#           = hidden_field_tag :fixed_issue_id, 'true'
   -#         = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
-
-  .supplementary-boxes
-    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
-
-

@@ -12,7 +12,7 @@
     display: flex;
     line-height: 1.25rem;
     text-transform: uppercase;
-    color: global-variables.$color-gray-600;
+    color: global-variables.$color-gray-900;
     cursor: pointer;
   }
   .header > .title {
@@ -23,11 +23,13 @@
   .header > .count {
     flex: none;
     font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-500;
   }
   .header > .toggler {
     flex: none;
     margin-left: .5rem;
     font-size: 1.25rem;
+    color: global-variables.$color-gray-500;
   }
   .header > .toggler > .fa:before {
     width: 1rem;
@@ -35,14 +37,16 @@
     display: inline-block;
   }
   .header > .toggler > .fa.-show:before {
-    content: "\f107";
+    content: '\f107';
   }
   .header > .toggler > .fa.-hide:before {
-    content: "\f105";
+    content: '\f105';
   }
   > .lines {
     list-style: none;
     margin: .75rem 0 0;
+    border-top: 1px solid global-variables.$color-gray-200;
+    padding-top: .75rem;
   }
   > .lines.-hide {
     display: none;
@@ -50,8 +54,14 @@
   > .lines > .pinned-post-line {
     margin: .25rem 0;
   }
+  > .lines > .organizer-member {
+    margin-bottom: .25rem;
+  }
+
   > .body {
     margin-top: .75rem;
+    border-top: 1px solid global-variables.$color-gray-200;
+    padding-top: .75rem;
   }
   > .body.-hide {
     display: none;

@@ -1,9 +1,9 @@
 - content_for :playground_header_content do
-  .channel-menu
-    .title
-      .node
-        = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
-        = meta_icons(@current_issue)
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue
+
+- content_for :playground_sidebar_content do
+  .supplementary-boxes
+    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 .post-form-box
   - if params[:type] != 'wiki'
@@ -201,8 +201,3 @@
   -#         - if local_assigns[:current_issue].present?
   -#           = hidden_field_tag :fixed_issue_id, 'true'
   -#         = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중..." }
-
-  .supplementary-boxes
-    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
-
-
