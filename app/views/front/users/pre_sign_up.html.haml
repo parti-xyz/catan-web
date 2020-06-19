@@ -1,31 +1,31 @@
 %section.text-center
-  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' }= current_group.site_title
-  %h3
-    %i.fa.fa-user
-    회원가입
-  .simple-box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
-    = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
-      %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
-      페이스북 아이디로 회원가입
-    = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
-      %i.fa.fa-twitter{style: 'font-size: 22px; color: #55acee; vertical-align: top;'}
-      트위터 아이디로 회원가입
-    = link_to '#', data: {action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :google_oauth2, remember_me: true, fallback_url: omniauth_authorize_url(:user, :google_oauth2, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
-      %i.fa.fa-google{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
-      구글 아이디로 회원가입
-    = link_to new_user_registration_path, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
-      %i.fa.fa-envelope{style: 'font-size: 22px; color: #966fd6; vertical-align: top;'}
-      이메일로 회원가입
-    #login-form.text-center.mt-3
-      = form_with url: nil, method: :get, local: true, data: { target: 'form-dynamic-action.form' } do
-        = hidden_field_tag(:after_login)
-        = hidden_field_tag(:group_slug, current_group.slug) if current_group.present?
-        %label.remember_me
-          = check_box_tag(:remember_me, '1', true)
-          로그인 상태를 유지
+  .container
+    %h3
+      %i.fa.fa-user
+      회원가입
+    .simple-box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
+      = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
+        %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
+        페이스북 아이디로 회원가입
+      = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
+        %i.fa.fa-twitter{style: 'font-size: 22px; color: #55acee; vertical-align: top;'}
+        트위터 아이디로 회원가입
+      = link_to '#', data: {action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :google_oauth2, remember_me: true, fallback_url: omniauth_authorize_url(:user, :google_oauth2, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
+        %i.fa.fa-google{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
+        구글 아이디로 회원가입
+      = link_to new_user_registration_path, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
+        %i.fa.fa-envelope{style: 'font-size: 22px; color: #966fd6; vertical-align: top;'}
+        이메일로 회원가입
+      #login-form.text-center.mt-3
+        = form_with url: nil, method: :get, local: true, data: { target: 'form-dynamic-action.form' } do
+          = hidden_field_tag(:after_login)
+          = hidden_field_tag(:group_slug, current_group.slug) if current_group.present?
+          %label.remember_me
+            = check_box_tag(:remember_me, '1', true)
+            로그인 상태를 유지
 
 %section
-  .text-center
+  .container.text-center
     %p
       이미 가입하셨나요?
       = link_to '로그인하기', new_user_session_path, class: 'text-primary'

@@ -45,3 +45,7 @@ legend.legend-default {
   @include bootstrap.button-variant(global-variables.$color-gray-500, global-variables.$color-gray-500);
   color: white;
 }
+
+.texet-nowrap {
+  white-space: nowrap;
+}

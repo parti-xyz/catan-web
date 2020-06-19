@@ -18,6 +18,7 @@
 
   > .groupmenu > .link {
     // TODO 고쳐지는 부분
+    font-weight: bold;
     color: global-variables.$color-bnc-nav-text;
   }
 
@@ -158,10 +159,10 @@
     left: 50%;
   }
   > .profilemenus > .menuitem > .link {
-    color: white;
+    color: global-variables.$color-bnc-nav-text;
   }
   > .profilemenus > .menuitem:hover > .link {
-    color: global-variables.$color-gray-200;
+    color: darken(global-variables.$color-bnc-nav-text, 20%);
   }
 
 

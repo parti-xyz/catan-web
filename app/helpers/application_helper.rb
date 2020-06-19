@@ -509,6 +509,7 @@ module ApplicationHelper
       (controller_name == 'home' and action_name == 'show' and !current_group&.member?(current_user)) or
       (controller_name == 'users' and action_name == 'inactive_sign_up') or
       (controller_name == 'users' and action_name == 'pre_sign_up') or
+      (controller_name == 'users' and action_name == 'email_sign_in') or
       (controller_name == 'member_requests' and action_name == 'private_blocked') or
       (controller_name == 'member_requests' and action_name == 'new') or
       (controller_name == 'member_requests' and action_name == 'create')

@@ -1,99 +1,99 @@
 %section.text-center
-  %h6{ style: 'border-bottom: 1px solid #ccc; padding-bottom: .5rem; margin-bottom: 2rem;' }= current_group.site_title
-  %h3
-    %i.fa.fa-user
-    내 설정
-  .simple-box
-    -# .content-tab-section
-    -#   %ul.nav.nav-tabs
-    -#     %li.active
-    -#       = link_to '#profile', 'data-toggle': 'tab'  do
-    -#         프로필
-    -#     %li
-    -#       = link_to '#groups_notification', 'data-toggle': 'tab' do
-    -#         그룹별 앱 알림
-    -#     %li
-    -#       = link_to '#channels_notification', 'data-toggle': 'tab' do
-    -#         채널별 앱 알림
+  .container
+    %h3
+      %i.fa.fa-user
+      내 설정
+    .simple-box
+      -# .content-tab-section
+      -#   %ul.nav.nav-tabs
+      -#     %li.active
+      -#       = link_to '#profile', 'data-toggle': 'tab'  do
+      -#         프로필
+      -#     %li
+      -#       = link_to '#groups_notification', 'data-toggle': 'tab' do
+      -#         그룹별 앱 알림
+      -#     %li
+      -#       = link_to '#channels_notification', 'data-toggle': 'tab' do
+      -#         채널별 앱 알림
 
-    %h5
-      기본 정보
-    .card
-      .card-body
-        = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-          = devise_error_messages!
-          .form-group
-            = f.label :nickname
-            = f.text_field :nickname, class: 'form-control'
-          .form-group
-            = f.label :email
-            = f.email_field :email, autofocus: true, class: 'form-control'
-            - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-              %div
-                확인을 기다리고 있습니다.: #{resource.unconfirmed_email}
-          .form-group
-            = f.label :image
-            = f.file_field :image, autofocus: true, class: 'form-control'
-            = f.hidden_field :image_cache
-            - if f.object.read_attribute(:image).present?
-              %label{ style: 'font-weight: normal; margin-top: 6px' }
-                = f.check_box :remove_image
-                삭제하기
-          .form-group
-            = f.label :enable_mailing
-            .checkbox
-              %label
-                = f.check_box :enable_mailing_mention
-                나를 멘션한 게시글이나 댓글을 이메일로 받습니다.
-            .checkbox
-              %label
-                = f.check_box :enable_mailing_pin
-                게시글을 고정하면 이메일을 받습니다.
-            .checkbox
-              %label
-                = f.check_box :enable_mailing_poll_or_survey
-                설문이나 투표의 진행 사항을 이메일로 받습니다.
-            .checkbox
-              %label
-                = f.check_box :enable_mailing_member
-                오거나이저인 채널에 신규 멤버가 가입한 경우 이메일을 받습니다.
-            .checkbox
-              %label
-                = f.check_box :enable_mailing_summary
-                요약된 #{I18n.t('labels.app_name_human')} 소식을 이메일로 받습니다.
-
-          -# .form-group
-          -#   = f.label :push_notification_mode
-          -#   = f.select :push_notification_mode, User.push_notification_mode.options, {}, class: 'form-control'
-
-          - if resource.provider == 'email'
-            %hr
+      %h5
+        기본 정보
+      .card
+        .card-body
+          = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+            = devise_error_messages!
             .form-group
-              = f.label :password
-              %small.help-block 변경하지 않으시려면 비워두세요
-              = f.password_field :password, autocomplete: "off", class: 'form-control'
+              = f.label :nickname
+              = f.text_field :nickname, class: 'form-control'
             .form-group
-              = f.label :password_confirmation
-              = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'
+              = f.label :email
+              = f.email_field :email, autofocus: true, class: 'form-control'
+              - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+                %div
+                  확인을 기다리고 있습니다.: #{resource.unconfirmed_email}
             .form-group
-              = f.label :current_password
-              %small.help-block 보안을 위해 현재 비밀번호를 입력해 주세요
-              = f.password_field :current_password, autocomplete: "off", class: 'form-control'
-            %hr
-          = f.submit '저장', class: 'btn btn-primary btn-block', data: { disable_with: "저장 중..." }
+              = f.label :image
+              = f.file_field :image, autofocus: true, class: 'form-control'
+              = f.hidden_field :image_cache
+              - if f.object.read_attribute(:image).present?
+                %label{ style: 'font-weight: normal; margin-top: 6px' }
+                  = f.check_box :remove_image
+                  삭제하기
+            .form-group
+              = f.label :enable_mailing
+              .checkbox
+                %label
+                  = f.check_box :enable_mailing_mention
+                  나를 멘션한 게시글이나 댓글을 이메일로 받습니다.
+              .checkbox
+                %label
+                  = f.check_box :enable_mailing_pin
+                  게시글을 고정하면 이메일을 받습니다.
+              .checkbox
+                %label
+                  = f.check_box :enable_mailing_poll_or_survey
+                  설문이나 투표의 진행 사항을 이메일로 받습니다.
+              .checkbox
+                %label
+                  = f.check_box :enable_mailing_member
+                  오거나이저인 채널에 신규 멤버가 가입한 경우 이메일을 받습니다.
+              .checkbox
+                %label
+                  = f.check_box :enable_mailing_summary
+                  요약된 #{I18n.t('labels.app_name_human')} 소식을 이메일로 받습니다.
 
-    %h5.mt-3.pt-3
-      회원탈퇴
-    .card
-      .card-body
-        .alert.alert-secondary
-          %p
-            회원 탈퇴 시 서비스 이용 정보를 아래와 같이 정리합니다.
-          %ul.list-unstyled
-            %li - 회원 정보: 즉시 삭제
-            %li - 가입 그룹 및 채널 정보: 즉시 삭제
-            %li - 작성된 글 및 댓글: 유지
-          .text-basic-wrap
-            작성한 게시글의 삭제를 원하시는 경우, 탈퇴 신청 전에 삭제를 진행해주세요.
-            탈퇴 처리가 완료된 후에는 작성하신 글과 댓글의 삭제를 요청할 수 없습니다.
-        = link_to '탈퇴하기', cancel_form_users_path, class: 'btn btn-danger btn-block'
+            -# .form-group
+            -#   = f.label :push_notification_mode
+            -#   = f.select :push_notification_mode, User.push_notification_mode.options, {}, class: 'form-control'
+
+            - if resource.provider == 'email'
+              %hr
+              .form-group
+                = f.label :password
+                %small.help-block 변경하지 않으시려면 비워두세요
+                = f.password_field :password, autocomplete: "off", class: 'form-control'
+              .form-group
+                = f.label :password_confirmation
+                = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control'
+              .form-group
+                = f.label :current_password
+                %small.help-block 보안을 위해 현재 비밀번호를 입력해 주세요
+                = f.password_field :current_password, autocomplete: "off", class: 'form-control'
+              %hr
+            = f.submit '저장', class: 'btn btn-primary btn-block', data: { disable_with: "저장 중..." }
+
+      %h5.mt-3.pt-3
+        회원탈퇴
+      .card
+        .card-body
+          .alert.alert-secondary
+            %p
+              회원 탈퇴 시 서비스 이용 정보를 아래와 같이 정리합니다.
+            %ul.list-unstyled
+              %li - 회원 정보: 즉시 삭제
+              %li - 가입 그룹 및 채널 정보: 즉시 삭제
+              %li - 작성된 글 및 댓글: 유지
+            .text-basic-wrap
+              작성한 게시글의 삭제를 원하시는 경우, 탈퇴 신청 전에 삭제를 진행해주세요.
+              탈퇴 처리가 완료된 후에는 작성하신 글과 댓글의 삭제를 요청할 수 없습니다.
+          = link_to '탈퇴하기', cancel_form_users_path, class: 'btn btn-danger btn-block'
