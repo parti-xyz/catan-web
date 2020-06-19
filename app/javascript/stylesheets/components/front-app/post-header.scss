@@ -30,9 +30,10 @@
     margin-right: 0.5rem;
   }
   > .main  > .metabox {
+    display: none;
     background-color: global-variables.$color-gray-200;
     height: 1.875rem;
-    display: flex;
+    //display: flex;
     align-items: center;
     justify-content: center;
     margin: 1rem -1rem 0;

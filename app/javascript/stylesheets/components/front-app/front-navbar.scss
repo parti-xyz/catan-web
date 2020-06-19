@@ -2,7 +2,8 @@
 @use '../../bootstrap';
 
 .front-app .front-navbar {
-  background: global-variables.$color-voodoo-500;
+  // TODO 고쳐지는 부분
+  background: global-variables.$color-bnc-nav-bg;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
@@ -11,15 +12,21 @@
 
   .groupmenu {
     flex: none;
-    color: white;
+    // TODO 고쳐지는 부분
+    color: global-variables.$color-bnc-nav-text;
   }
 
   > .groupmenu > .link {
-    color: white;
+    // TODO 고쳐지는 부분
+    color: global-variables.$color-bnc-nav-text;
   }
 
   > .groupmenu:hover > .link {
-    color: global-variables.$color-gray-300;
+    color: darken(global-variables.$color-bnc-nav-text, 20%);
+  }
+
+  > .groupmenu > .moremenu > .dropdown > .title {
+    font-weight: bold;
   }
 
   > .groupmenu > .moremenu > .dropdown > .title > .meta {
@@ -47,10 +54,6 @@
     vertical-align: bottom;
     width: 100%;
     padding: .25rem 1.5rem;
-  }
-
-  > .searchform > .dropdown > .queryinput.-empty {
-    background-color: rgba(255, 255, 255, 0.2);
   }
 
   > .searchform > .dropdown > .queryinput:active,
@@ -110,7 +113,8 @@
   > .profilemenus {
     flex: none;
     display: flex;
-    color: white;
+    // TODO 고쳐지는 부분
+    color: global-variables.$color-bnc-nav-text;
   }
   > .profilemenus > .dropdown > .userimage {
     flex: none;
