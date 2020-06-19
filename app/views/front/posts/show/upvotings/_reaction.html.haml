@@ -8,6 +8,6 @@
     %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 공감해요
 
   - if current_upvotable.upvotes_count > 0
-    %a.upvotes{ tabindex: 1, class: ('-active' if current_upvotable.upvoted_by_me?), data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: [:users, :front, current_upvotable, :upvotes], options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+    %a.upvotes{ tabindex: 1, class: ('-active' if current_upvotable.upvoted_by_me?), data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: url_for([:users, :front, current_upvotable, :upvotes]), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
       %i.fa{ class: (current_upvotable.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
       = current_upvotable.upvotes_count
