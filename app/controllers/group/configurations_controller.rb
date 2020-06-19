@@ -128,7 +128,7 @@ class Group::ConfigurationsController < Group::BaseController
     params.require(:group).permit(:title, :site_description, :site_title,
       :head_title, :site_keywords, :issue_creation_privileges, :private, :organizer_nicknames,
       :key_visual_foreground_image, :key_visual_foreground_image_cache,
-      :key_visual_background_image, :key_visual_background_image_cache, :frontable)
+      :key_visual_background_image, :key_visual_background_image_cache, :frontable, (:cloud_plan if current_user&.admin?))
   end
 
   def render_front_edit group

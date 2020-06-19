@@ -15,6 +15,12 @@ class MemberRequestMailer < ApplicationMailer
     @member_request = MemberRequest.with_deleted.find_by id: member_request_id
     return if @member_request.blank?
 
+    if @member_request.joinable_type == 'Issue'
+      return if @member_request.joinable&.group&.cloud_plan?
+    elsif @member_request.joinable_type == 'Group'
+      return if @member_request.joinable&.cloud_plan?
+    end
+
     mail(to: @organizer_user.email,
          subject: "[#{I18n.t('labels.app_name_human')}] #{@member_request.user.nickname}님이 #{@member_request.joinable.title} #{@member_request.joinable.model_name.human}에 가입요청했습니다")
   end
@@ -26,6 +32,12 @@ class MemberRequestMailer < ApplicationMailer
     @user = User.find_by(id: user_id)
     return if @user.blank?
 
+    if @member_request.joinable_type == 'Issue'
+      return if @member_request.joinable&.group&.cloud_plan?
+    elsif @member_request.joinable_type == 'Group'
+      return if @member_request.joinable&.cloud_plan?
+    end
+
     mail(to: @member_request.user.email,
          subject: "[#{I18n.t('labels.app_name_human')}] #{@user.nickname}님이 #{@member_request.joinable.title} #{@member_request.joinable.model_name.human}에 가입요청을 승인했습니다")
   end
@@ -36,6 +48,12 @@ class MemberRequestMailer < ApplicationMailer
 
     @user = User.find_by(id: user_id)
     return if @user.blank?
+
+    if @member_request.joinable_type == 'Issue'
+      return if @member_request.joinable&.group&.cloud_plan?
+    elsif @member_request.joinable_type == 'Group'
+      return if @member_request.joinable&.cloud_plan?
+    end
 
     mail(to: @member_request.user.email,
          subject: "[#{I18n.t('labels.app_name_human')}] #{@user.nickname}님이 #{@member_request.joinable.title} #{@member_request.joinable.model_name.human}에 가입요청을 거절했습니다")

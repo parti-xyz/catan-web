@@ -12,6 +12,8 @@ class OptionMailer < ApplicationMailer
     @user = User.find_by(id: user_id)
     return if @option.blank? or @user.blank? or !@user.enable_mailing_poll_or_survey? or @user == @option.user
 
+    return if option&.survey&.post&.issue&.group&.cloud_plan?
+
     mail(from: build_from(@option.user),
          to: @user.email,
          subject: "[#{I18n.t('labels.app_name_human')}] #{@option.user.nickname}님이 새로운 제안을 올렸습니다 : #{@option.body}")

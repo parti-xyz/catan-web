@@ -9,7 +9,7 @@
     display: none;
   }
 
-  &.-form {
+  &.-form:not(:last-child) {
     margin-top: 1rem;
     border-top: 1px solid global-variables.$color-gray-200;
     padding-top: 1rem;

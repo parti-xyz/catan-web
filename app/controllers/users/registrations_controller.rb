@@ -40,7 +40,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_sign_up_path_for(resource)
     if resource.is_a?(User) && resource.confirmed? && resource.confirmation_group_slug.present?
       group = Group.find_by(slug: resource.confirmation_group_slug)
-      if group.frontable? && group.present? && !group.member?(current_user)
+      if group&.present? && group&.frontable? && !group.member?(current_user)
         return new_front_member_request_url(subdomain: group.subdomain)
       end
     end
@@ -66,6 +66,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def send_welcome_mail
     return if current_user.blank?
+    if current_user.confirmation_group_slug.present?
+      group = Group.find_by(slug: current_user.confirmation_group_slug)
+      return if group.present? && group&.frontable?
+    end
     WelcomeMailer.welcome(current_user.id).deliver_later
   end
 end

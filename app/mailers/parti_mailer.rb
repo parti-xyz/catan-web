@@ -12,6 +12,11 @@ class PartiMailer < ApplicationMailer
   def summary(user, delivery_method = nil, delivery_method_options = nil)
     @user = user
     return unless @user.enable_mailing_summary?
+    if @user.confirmation_group_slug.present?
+      group = Group.find_by_slug(@user.confirmation_group_slug)
+      return if group&.cloud_plan?
+    end
+
 
     @hottest_posts = @user.watched_posts.hottest.past_week.limit(50)
     @hottest_posts = @hottest_posts.reject { |post| post.blinded?(@user) }[0...10]
@@ -33,6 +38,7 @@ class PartiMailer < ApplicationMailer
 
     @issue = Issue.with_deleted.find_by(id: issue_id)
     return if @user.blank? or @issue.blank? or @organizer.blank?
+    return if @issue&.group&.cloud_plan?
 
     mail(to: @user.email,
          subject: "[#{I18n.t('labels.app_name_human')}] #{@organizer.nickname}님이 #{@issue.title} 채널을 열었습니다.")
@@ -46,6 +52,7 @@ class PartiMailer < ApplicationMailer
 
     @issue = Issue.with_deleted.find_by(id: issue_id)
     return if @user.blank? or @issue.blank?
+    return if @issue&.group&.cloud_plan?
 
     @message = message
 

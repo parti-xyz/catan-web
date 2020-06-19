@@ -121,6 +121,15 @@
         %p.form-text.text-primary.small
           빠띠 운영자 전용메뉴입니다.
 
+      .form-group
+        = f.label :cloud_plan
+        .checkbox
+          %label
+            = f.check_box :cloud_plan
+            클라우드 플랜을 적용합니다.
+        %p.form-text.text-primary.small
+          빠띠 운영자 전용메뉴입니다.
+
   .form-group
     = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
     = link_to root_url(subdomain: local_group.try(:subdomain)), class: 'btn btn-default' do
