@@ -163,6 +163,12 @@
       %button.btn.btn-xs.btn-link.btn-sm{ class: ('-active' if has_no_poll), data: { action: 'click->post-form#openSurveyFieldGroup', target: 'post-form.surveyOpenButton'} }
         %i.fa.fa-list-ul
         = t('labels.new_post_survey_button')
+    - if can?(:pin, f.object)
+      .form-check.form-check-inline.pinnedfield
+        = f.check_box :pinned, class: 'form-check-input', id: 'pinned'
+        = f.label :pinned, class: 'form-check-label', for: 'pinned' do
+          게시물 고정하기
+
 
   .form-group
     = f.submit '게시', class: 'btn btn-primary btn-block', data: { disable_with: "게시 중...", target: 'post-form.submitButton' }
