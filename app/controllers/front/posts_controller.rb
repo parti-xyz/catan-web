@@ -52,5 +52,7 @@ class Front::PostsController < Front::BaseController
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
+
+    @supplementary_locals = prepare_channel_supplementary(@current_issue)
   end
 end
