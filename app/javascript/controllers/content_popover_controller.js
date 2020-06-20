@@ -24,7 +24,11 @@ export default class extends Controller {
 
   show() {
     jQuery(this.element).popover('show')
-    const tip = jQuery(this.element).data('bs.popover').tip
+
+    let popover = jQuery(this.element).data('bs.popover')
+    if (!popover) { return }
+
+    const tip = popover.tip
     if(tip) {
       tip.classList.add(this.data.get('className'))
     }
@@ -45,7 +49,11 @@ export default class extends Controller {
           return
         }
         this.html = html
-        jQuery(this.element).data('bs.popover').setContent()
+
+        let popover = jQuery(this.element).data('bs.popover')
+        if (!popover) { return }
+        popover.setContent()
+
         jQuery(this.element).popover('update')
       })
 

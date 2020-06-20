@@ -4,7 +4,8 @@
     .userimagebg{ style: "background-image: url(#{comment.user.image.sm.url})" }
   .post-comment-main{ data: { controller: ('comment-form-new' unless is_child) } }
     .view.collapse.show{ data: { target: 'comment-form-edit.viewContent' } }
-      = link_to comment.user.nickname, user_front_members_path(comment.user), class: 'usernickname'
+      %span.usernickname{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(comment.user), options: h({ container: '.front-app' }.to_json) } } }
+        = comment.user.nickname
       .datetime
         = smart_date_tag comment.created_at
       - if comment.choice.present?

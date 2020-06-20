@@ -20,6 +20,6 @@ class Front::MembersController < Front::BaseController
     @user = User.find(params[:user_id])
     @member = current_group.member_of(@user)
 
-    render layout: 'front/simple'
+    render layout: nil
   end
 end

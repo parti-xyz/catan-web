@@ -24,7 +24,7 @@
           .dropdown-divider
           = link_to edit_me_front_members_path, class: 'dropdown-item' do
             내 프로필
-          = link_to "#{current_group.title} 그룹 탈퇴", front_memeber_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
+          = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
       .moremenu
         .dropdown
           .title.cursor-pointer{ "data-toggle": "dropdown" }

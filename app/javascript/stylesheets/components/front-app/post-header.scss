@@ -11,7 +11,6 @@
   }
   > .main {
     flex: 1;
-    margin: 0 1rem;
     position: relative;
   }
   > .main > .title {
@@ -30,13 +29,13 @@
     margin-right: 0.5rem;
   }
   > .main  > .metabox {
-    display: none;
+    // display: none;
     background-color: global-variables.$color-gray-200;
     height: 1.875rem;
-    //display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin: 1rem -1rem 0;
+    margin: 1rem 0 0;
   }
   > .main  > .metabox,
   > .main  > .metabox a {
@@ -46,8 +45,8 @@
   > .main > .moremenu {
     display: inline-block;
     position: absolute;
-    top: 1rem;
-    right: -1rem;
+    top: 0;
+    right: 0;
   }
   > .main > .moremenu > .dropdown > .btn {
     padding: 0 .5rem;

@@ -63,15 +63,15 @@
   .post-main
     .post-header{ class: ('-wiki' if @current_post.wiki.present?), data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
       .main
-        - if @current_post.poll.present?
-          .meta
-            .icon<> 투표
-        - elsif @current_post.survey.present?
-          .meta
-            .icon<> 설문
-        - elsif @current_post.wiki.present?
-          .meta
-            .icon<> 위키
+        -# - if @current_post.poll.present?
+        -#   .meta
+        -#     .icon<> 투표
+        -# - elsif @current_post.survey.present?
+        -#   .meta
+        -#     .icon<> 설문
+        -# - elsif @current_post.wiki.present?
+        -#   .meta
+        -#     .icon<> 위키
         %h5.title= @current_post.title
         - if moremenu_content.present? && @current_post.wiki.present?
           .moremenu
@@ -80,18 +80,20 @@
                 %i.fa.fa-ellipsis-v
               .dropdown-menu.dropdown-menu-right
                 = moremenu_content
-        .metabox
-          - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| link_to(user_subject_word(user), user_front_members_path(user)) }
-          != last_stroked_text
-          &nbsp;
-          = smart_date_tag(last_stroked_at)
+        - if @current_post.need_to_read?(current_user)
+          .metabox
+            - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| user_subject_word(user) }
+            != last_stroked_text
+            &nbsp;
+            = smart_date_tag(last_stroked_at)
     .post-content{ data: { controller: 'comment-form-new comment-form-sync' } }
       - if @current_post.wiki.blank?
         .post-meta
-          = link_to user_front_members_path(@current_post.user), class: 'userimage' do
+          %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
             .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
           .desc
-            = link_to @current_post.user.nickname, user_front_members_path(@current_post.user), class: 'usernickname'
+            %span.usernickname{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
+              = @current_post.user.nickname
             .createdat
               = smart_date_tag @current_post.created_at
 

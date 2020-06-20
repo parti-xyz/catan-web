@@ -1,21 +1,14 @@
-%section.text-center
-  %h3
-    %i.fa.fa-user
-    #{@user.nickname} 프로필
-
-.simple-box
-  .card
-    .card-body.clean-p-parent
-      - if @member.present?
-        != simple_format h(@member.description)
+.member-user
+  .title
+    %strong #{@user.nickname}
+  .main
+    - if @member.present?
+      - if @member.description.present?
+        = simple_format h(@member.description)
       - else
-        %i.fa.fa-info-circle
-        손님입니다.
-
-    -# .card-footer.text-muted
-    -#   = link_to smart_user_gallery_url(@user), target: '_blank', class: 'card-link' do
-    -#     %i.fa.fa-external-link
-    -#     빠띠 프로필 보기
-
+        %p #{@user.nickname}입니다.
+    - else
+      %i.fa.fa-info-circle
+      손님입니다.
 
 

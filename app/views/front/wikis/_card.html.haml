@@ -24,7 +24,7 @@
   .authors
     .label 작성
     - current_wiki.authors.each do |user|
-      = link_to user_front_members_path(user), class: 'user' do
+      %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
         .image{ style: "background-image: url(#{user.image.sm.url});", title: user.nickname, data: { toggle: 'tooltip', placement: 'right', boundary: 'viewport' } }
 - elsif current_wiki.purged?
   .alert-box.my-3

@@ -8,10 +8,11 @@
   = f.hidden_field :has_survey, value: !has_no_survey, data: { target: 'post-form.hasSurveyField' }
 
   .post-meta
-    = link_to user_front_members_path(current_user), class: 'userimage' do
+    .userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(current_user), options: h({ container: '.front-app' }.to_json) } } }
       .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
     .desc
-      = link_to current_user.nickname, user_front_members_path(current_user), class: 'usernickname'
+      %span.usernickname{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(current_user), options: h({ container: '.front-app' }.to_json) } } }
+        = current_user.nickname
       .createdat 지금
   .form-group
     = f.text_field :base_title, class: 'form-control', placeholder: '제목...', data: { target: 'post-form.baseTitleField' }

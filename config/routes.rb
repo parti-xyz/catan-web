@@ -502,8 +502,8 @@ Rails.application.routes.draw do
     end
 
     post 'feedbacks', to: '/feedbacks#create'
-    get '/feedbacks/all_users', to: 'feedbacks#all_users' #, as: :all_users_feedbacks
-    get '/feedbacks/users', to: 'feedbacks#users' #, as: :users_feedbacks
+    get '/feedbacks/all_users', to: 'feedbacks#all_users'
+    get '/feedbacks/users', to: 'feedbacks#users'
 
     resources :users, except: :show do
       collection do
@@ -515,9 +515,9 @@ Rails.application.routes.draw do
         get 'cancel_form'
       end
       # TODO
-      # member do
+      #member do
       #   post 'cancel'
-      # end
+      #end
     end
 
     resources :member_requests, only: [:new] do
@@ -527,8 +527,15 @@ Rails.application.routes.draw do
     end
     resources :member_requests, only: [:create], controller: '/group/member_requests'
 
-    resources :memebers, only: [], controller: '/group/members' do
+    resources :members, only: [], controller: '/group/members' do
       delete :cancel
+    end
+    resources :members, only: [] do
+      collection do
+        get 'user/:user_id', action: 'user', as: :user
+        get :edit_me
+        post :update_me
+      end
     end
 
     resources :messages, only: [] do
@@ -548,13 +555,5 @@ Rails.application.routes.draw do
       end
     end
     resources :categories, only: [:create, :update, :destroy], controller: '/group/categories'
-
-    resources :members, only: [] do
-      collection do
-        get 'user/:user_id', action: 'user', as: :user
-        get :edit_me
-        post :update_me
-      end
-    end
   end
 end

@@ -4,6 +4,6 @@
   - else
     .upvoted-users{id: "#{dom_id(@post.survey)}-feedback-users"}
       - @post.survey.feedback_users.each do |user|
-        = link_to user_front_members_path(user), target: '_blank', class: 'user' do
+        .user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
           .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
           .usernickname= user.nickname

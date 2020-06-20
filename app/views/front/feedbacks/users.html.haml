@@ -2,12 +2,12 @@
   - show_voters = (@option.feedback_users.any? and !@option.survey.hidden_option_voters?)
   - if show_voters
     - @option.feedback_users.each do |user|
-      = link_to user_front_members_path(user), target: '_blank', class: 'user' do
+      .user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
         .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
         .usernickname= user.nickname
 
 .upvoted-users.text-nowrap{ style: "display: inline-block; #{'margin-top: 12px;' if show_voters}"}
   .small 제안자
-  = link_to user_front_members_path(@option.user), target: '_blank', class: 'user' do
+  .user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@option.user), options: h({ container: '.front-app' }.to_json) } } }
     .userimagebg{ style: "background-image: url(#{@option.user.image.sm.url})" }
     .usernickname= @option.user.nickname

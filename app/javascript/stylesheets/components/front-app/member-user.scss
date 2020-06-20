@@ -1,0 +1,8 @@
+@use '../../bootstrap';
+
+.front-app .member-user {
+  > .main p:last-child {
+    margin-bottom: 0;
+    font-size: bootstrap.$font-size-sm;
+  }
+}
