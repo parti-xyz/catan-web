@@ -32,7 +32,7 @@
     .remarks
       - if poll.sure_any_votings?
         .remark{ class: ('-closed' unless poll.open? ) }
-          %a.link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: users_front_poll_votings_path(poll_id: poll.id), 'class-name': 'popover-post-poll-votings-users', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+          %a.link{ data: { controller: 'content-popover', 'content-popover': { url: users_front_poll_votings_path(poll_id: poll.id), 'class-name': 'popover-post-poll-votings-users', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
             %span.countcontainer
               %span.count<>
                 #{poll.sure_votings_count}

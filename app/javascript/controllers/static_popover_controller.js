@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 import parseJSON from '../helpers/json_parse'
 import fetchResponseCheck from '../helpers/fetch_check_response'
-
+import { isTouchDevice } from '../helpers/device';
 export default class extends Controller {
   static targets = ['template']
 
@@ -10,7 +10,7 @@ export default class extends Controller {
       let options = parseJSON(this.data.get('options')).value
       jQuery(this.element).popover(Object.assign({}, options, {
         content: this.templateTarget.textContent,
-        trigger: 'focus',
+        trigger: (isTouchDevice() ? 'focus' : 'focus hover'),
         html: true,
         sanitize: false,
         class: this.data.get('className'),
@@ -29,6 +29,10 @@ export default class extends Controller {
         tip.classList.add(this.data.get('className'))
       }
     }, 3000)
+  }
+
+  disconnect() {
+    dispose()
   }
 
   dispose(event) {

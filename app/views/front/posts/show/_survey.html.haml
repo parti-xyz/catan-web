@@ -36,7 +36,7 @@
             - if survey.visible_feedbacks?(current_user)
               .meta<
                 - if option.feedbacks_count > 0
-                  .item.-link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: front_feedbacks_users_path(option_id: option.id), options: h({ placement: 'right', container: '.front-app' }.to_json) } } }<>
+                  .item.-link{ tabindex: 1, data: { controller: 'content-popover', 'content-popover': { url: front_feedbacks_users_path(option_id: option.id), options: h({ placement: 'right', container: '.front-app' }.to_json) } } }<>
                     #{option.feedbacks_count}명
                     %i.fa.fa-w.fa-angle-right{ style: 'left: 2px; position: relative;' }
                   - if survey.mvp_option?(option)
@@ -94,7 +94,7 @@
     - else
       - if survey.feedbacks_count > 0
         .item &middot;
-        .item.-link{ tabindex: 1, data: { controller: 'content-popover', action: 'click->content-popover#click', 'content-popover': { url: front_feedbacks_all_users_path(survey_id: survey.id), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
+        .item.-link{ tabindex: 1, data: { controller: 'content-popover', 'content-popover': { url: front_feedbacks_all_users_path(survey_id: survey.id), options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
           총투표 #{survey.feedback_users_count}명
           %i.fa.fa-angle-down
       - if survey.multiple_select?

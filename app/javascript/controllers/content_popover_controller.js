@@ -1,26 +1,25 @@
 import { Controller } from "stimulus"
 import parseJSON from '../helpers/json_parse'
 import fetchResponseCheck from '../helpers/fetch_check_response'
+import { isTouchDevice } from '../helpers/device';
 
 export default class extends Controller {
-  click(event) {
-    event.preventDefault()
-    this.bind()
-    this.show()
-  }
-
-  bind() {
+  connect() {
     if(!this.binded) {
       let options = parseJSON(this.data.get('options')).value
       jQuery(this.element).popover(Object.assign({}, options, {
         content: this.content.bind(this),
-        trigger: 'focus',
+        trigger: (isTouchDevice() ? 'focus' : 'focus hover'),
         html: true,
         sanitize: false,
         class: this.data.get('className'),
       }))
       this.binded = true
     }
+  }
+
+  disconnect() {
+    jQuery(this.element).popover('dispose')
   }
 
   show() {

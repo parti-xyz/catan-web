@@ -2,7 +2,10 @@
 @use '../front-variables';
 
 .front-app .post-poll-votings-users {
-  min-width: 600px;
+  width: 100%;
+  min-width: 400px;
+  overflow: auto;
+
   > .choices {
     display: flex;
     min-width: 500px;
