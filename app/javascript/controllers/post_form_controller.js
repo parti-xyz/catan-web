@@ -86,6 +86,8 @@ export default class extends Controller {
       fileSourceField.classList.remove('-image')
       fileSourceField.classList.remove('-doc')
     }
+
+    this.fileSourceCounter()
   }
 
   changeFileSourceField(event) {
@@ -221,7 +223,7 @@ export default class extends Controller {
       this.addFileSourceFieldButtonTarget.removeAttribute("disabled")
     }
 
-    this.fileSourcesCounterTarget.textContent = this.activeFileSourcesCount
+    this.fileSourcesCounterTarget.textContent = this.activeFileSourceFieldsCount
   }
 
   get activeFileSourceFieldsCount() {
