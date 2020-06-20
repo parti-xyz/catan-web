@@ -130,6 +130,14 @@
         %p.form-text.text-primary.small
           빠띠 운영자 전용메뉴입니다.
 
+      .form-group
+        = f.label :mailer_sender
+        = f.text_field :mailer_sender
+        %p.form-text.text-primary.small
+          클라우드 플랜을 적용 시에만 작동합니다. 비워 놓으면 기본 메일 주소로 전송됩니다.
+          %br
+          빠띠 운영자 전용메뉴입니다.
+
   .form-group
     = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }
     = link_to root_url(subdomain: local_group.try(:subdomain)), class: 'btn btn-default' do

@@ -15,7 +15,7 @@ Devise.setup do |config|
   config.mailer_sender = 'help@parti.coop'
 
   # Configure the class responsible to send e-mails.
-  # config.mailer = 'Devise::Mailer'
+  config.mailer = 'User::Mailer'
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
@@ -272,5 +272,5 @@ Devise.setup do |config|
 end
 
 Rails.application.config.to_prepare do
-  Devise::Mailer.layout "email"
+  Devise::Mailer.layout "devise/email"
 end

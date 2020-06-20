@@ -1,5 +1,3 @@
-- newbie = @resource.confirmed_at.blank?
-
 - content_for(:head) do
   %div{:style => "text-align: center;"}
     %span{:style => "color: rgb(255, 255, 255); font-size: 14px;"}
@@ -7,7 +5,7 @@
       %strong #{@resource.nickname}
       님!
       %br
-      - if newbie
+      - if @newbie
         %strong 회원가입을 축하드려요.
       - else
         %strong 메일을 확인해 주세요.
@@ -17,9 +15,13 @@
     %div{:style => "padding: 0px 5px;"}
       %div{:style => "padding: 0 10px;"}
         %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: left;"}
-          - if newbie
+          - if @newbie
             %p 회원가입을 축하드려요.
-            %p 이제 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}를 즐겨보세요.
+            - if @cloud_plan
+              %p 이제 #{@group.title} 그룹에서 커뮤니티 활동을 즐겨보세요.
+            - else
+              %p 이제 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}를 즐겨보세요.
+
             %p 아래 링크를 클릭하시면 등록하신 계정이 확인됩니다.
           - else
             %p 아래 링크를 클릭하시면 등록하신 새로운 메일이 확인됩니다.

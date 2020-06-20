@@ -132,6 +132,8 @@ ko:
         key_visual_foreground_image: 그룹홈 상단 이미지
         key_visual_background_image: 그룹홈 상단 배경 이미지
         frontable: 신규화면 적용여부
+        cloud_plan: 클라우드 플랜
+        mailer_sender: 그룹 운영 메일 주소
       issue:
         title: 제목
         body: 설명
