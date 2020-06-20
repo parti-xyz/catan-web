@@ -153,7 +153,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
 
   before :cache, :save_original_filename
   def save_original_filename(file)
-    retur if model.blank?
+    return if model.blank?
     model.name ||= real_original_filename if real_original_filename and model.respond_to?(:name)
   end
 

@@ -11,10 +11,11 @@ import { markIsActive, getMarkAttrs, nodeCanInsert, getMarkRange } from './utils
 import { startImageUpload } from './image_upload_plugin'
 import appNoti from '../../helpers/app_noty'
 import getValidUrl from '../../helpers/valid_url'
+import appNoty from '../../helpers/app_noty'
 
 const CLASS_NAME_PREFIX = "ProseMirror-prompt"
 
-const buildMenuItems = (schema, uploadUrl) => {
+const buildMenuItems = (schema, uploadUrl, ruleFileSize) => {
   let r = {}, type
   if (type = schema.marks.strong) {
     r.toggleStrong = markItem(type, {
@@ -51,7 +52,7 @@ const buildMenuItems = (schema, uploadUrl) => {
     r.insertImage = insertImageItem(type, {
       title: "이미지",
       icon: iconByClassName("fa fa-image"),
-    }, uploadUrl)
+    }, uploadUrl, ruleFileSize)
   }
 
   if (type = schema.nodes.bullet_list) {
@@ -232,7 +233,7 @@ function linkItem(markType, options) {
   }, options))
 }
 
-function insertImageItem(nodeType, options, uploadUrl) {
+function insertImageItem(nodeType, options, uploadUrl, ruleFileSize) {
   return new MenuItem(Object.assign({}, {
     enable: (state) => { return nodeCanInsert(state, nodeType) },
     run: function run(state, _, view) {
@@ -251,7 +252,12 @@ function insertImageItem(nodeType, options, uploadUrl) {
         },
         onSave: (attrs) => {
           if (attrs.file && attrs.file[0]) {
-            startImageUpload(view, attrs.file[0], uploadUrl)
+            const currentFile = attrs.file[0]
+            if (parseInt(ruleFileSize) < currentFile.size) {
+              appNoty('10MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
+            } else {
+              startImageUpload(view, attrs.file[0], uploadUrl)
+            }
           }
           view.focus()
 

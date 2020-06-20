@@ -42,11 +42,12 @@ export default class extends Controller {
     }
 
     const uploadUrl = this.data.get('uploadUrl')
+    const ruleFileSize = this.element.dataset.ruleFilesize
 
     let doc
     let plugins = exampleSetup({
       schema: currentSchema,
-      menuContent: buildMenuItems(currentSchema, uploadUrl),
+      menuContent: buildMenuItems(currentSchema, uploadUrl, ruleFileSize),
       mapKeys,
     }).concat(linkTooltipPlugin, imageUploadPlugin, keymap(mapKeys))
 
