@@ -21,7 +21,7 @@ export default class extends Controller {
   submit(evnet) {
     let valid = true
     if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length < 0) {
-      appNoty('댓글 내용을 입력해 주세요', 'warning', true)
+      appNoty('댓글 내용을 입력해 주세요', 'warning', true).show()
       this.messageTarget.classList.add('is-invalid')
       valid = false
     }
@@ -68,7 +68,7 @@ export default class extends Controller {
     event.preventDefault()
 
     if (event.currentTarget.hasAttribute('disabled')) {
-      appNoty(`파일 ${MAX_FILE_COUNT}개까지만 업로드 가능합니다.`, 'warning', true)
+      appNoty(`파일 ${MAX_FILE_COUNT}개까지만 업로드 가능합니다.`, 'warning', true).show()
       return
     }
 
@@ -117,7 +117,7 @@ export default class extends Controller {
     const fileSourceField = fileField.closest(`[data-target~="${this.identifier}.fileSourceField"]`)
 
     if (parseInt(fileField.dataset['rule-filesize']) < currentFile.size) {
-      appNoty('10MB 이하의 파일만 업로드 가능합니다.', 'warning', true)
+      appNoty('10MB 이하의 파일만 업로드 가능합니다.', 'warning', true).show()
       fileSourceField.remove()
     } else {
       if (/^image/.test(currentFile.type) ) {

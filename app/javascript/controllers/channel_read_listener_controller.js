@@ -1,7 +1,6 @@
 import { Controller } from 'stimulus'
 
 import ParamMap from '../helpers/param_map'
-import parseJSON from '../helpers/json_parse'
 import fetchResponseCheck from '../helpers/fetch_check_response'
 import Timer from '../helpers/timer'
 export default class extends Controller {
@@ -23,14 +22,12 @@ export default class extends Controller {
       .then(fetchResponseCheck)
       .then(response => {
         if (response) {
-          return response.text()
+          return response.json()
         }
       })
       .then(json => {
         if (json) {
-          let payload = parseJSON(json).value
-          if (!payload) { return }
-          payload.forEach(item => {
+          json.forEach(item => {
             item.needToRead
               ? this.unread(item.id)
               : this.read(item.id)

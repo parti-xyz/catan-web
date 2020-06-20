@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   mount API, at: '/'
 
   post '/tinymce_assets' => 'tinymce_assets#create'
+  post '/editor_assets' => 'editor_assets#create'
 
   devise_for :users, controllers: {
     registrations: 'users/registrations',

@@ -193,4 +193,30 @@ class TextField extends Field {
   }
 }
 
-export { Prompt, TextField }
+class ImageFileField extends Field {
+  constructor(options) {
+    super(options)
+    this.fileList = []
+  }
+
+  render(name) {
+    let input = document.createElement("input")
+    input.type = "file"
+    input.name = name
+    input.value = this.options.value || ""
+    input.autocomplete = "off"
+    input.accept = "image/*"
+
+    input.addEventListener('change', (event) => {
+      this.fileList = event.target.files
+    })
+
+    return input
+  }
+
+  read(dom) {
+    return this.fileList
+  }
+}
+
+export { Prompt, TextField, ImageFileField }

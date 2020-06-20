@@ -41,6 +41,11 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
 
   def store_dir
     return '' if Rails.env.test?
+
+    if model.blank?
+      return "uploads/private_file/#{rand(1..100)}"
+    end
+
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
@@ -103,7 +108,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
       return super
     end
 
-    if self.model.read_attribute(self.mounted_as.to_sym).blank?
+    if self.model&.read_attribute(self.mounted_as.to_sym).blank?
       super
     elsif Rails.env.production?
       super
@@ -148,6 +153,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
 
   before :cache, :save_original_filename
   def save_original_filename(file)
+    retur if model.blank?
     model.name ||= real_original_filename if real_original_filename and model.respond_to?(:name)
   end
 
@@ -158,6 +164,9 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   end
 
   def secure_token(length=16)
+    if model.blank?
+      return SecureRandom.hex(length/2)
+    end
     var = :"@#{mounted_as}_secure_token"
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end

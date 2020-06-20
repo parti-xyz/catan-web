@@ -34,6 +34,10 @@ class UserImageUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
+    if model.blank?
+      return "uploads/user_image/#{rand(1..100)}"
+    end
+
     "uploads/user/#{model.id / 1000}"
   end
 
@@ -43,7 +47,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
-    Identicon.data_url_for model.try(:nickname) || 'default', 128, [240, 240, 240]
+    Identicon.data_url_for model&.try(:nickname) || 'default', 128, [240, 240, 240]
   end
 
   # Process files as they are uploaded:
@@ -86,7 +90,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
 
     if Rails.env.production?
       return super_result
-    elsif self.model.read_attribute(self.mounted_as.to_sym).blank?
+    elsif self.model&.read_attribute(self.mounted_as.to_sym).blank?
       super_result
     else
       if self.file.try(:exists?) or ENV["S3_BUCKET"].blank?
@@ -108,6 +112,9 @@ class UserImageUploader < CarrierWave::Uploader::Base
   protected
 
   def secure_token(length=16)
+    if model.blank?
+      return SecureRandom.hex(length/2)
+    end
     var = :"@#{mounted_as}_secure_token"
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end

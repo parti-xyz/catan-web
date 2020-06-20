@@ -5,15 +5,16 @@ import { undo, redo } from 'prosemirror-history'
 
 import { toggleMark, lift, joinUp } from 'prosemirror-commands'
 
-import { Prompt, TextField } from './prompt'
+import { Prompt, TextField, ImageFileField } from './prompt'
 import { destroyMark, saveMark, toggleWrap } from './commands'
 import { markIsActive, getMarkAttrs, nodeCanInsert, getMarkRange } from './utils'
+import { startImageUpload } from './image_upload_plugin'
 import appNoti from '../../helpers/app_noty'
 import getValidUrl from '../../helpers/valid_url'
 
 const CLASS_NAME_PREFIX = "ProseMirror-prompt"
 
-const buildMenuItems = (schema) => {
+const buildMenuItems = (schema, uploadUrl) => {
   let r = {}, type
   if (type = schema.marks.strong) {
     r.toggleStrong = markItem(type, {
@@ -50,7 +51,7 @@ const buildMenuItems = (schema) => {
     r.insertImage = insertImageItem(type, {
       title: "이미지",
       icon: iconByClassName("fa fa-image"),
-    })
+    }, uploadUrl)
   }
 
   if (type = schema.nodes.bullet_list) {
@@ -231,7 +232,7 @@ function linkItem(markType, options) {
   }, options))
 }
 
-function insertImageItem(nodeType, options) {
+function insertImageItem(nodeType, options, uploadUrl) {
   return new MenuItem(Object.assign({}, {
     enable: (state) => { return nodeCanInsert(state, nodeType) },
     run: function run(state, _, view) {
@@ -246,15 +247,12 @@ function insertImageItem(nodeType, options) {
       new Prompt({
         title: "이미지",
         fields: {
-          src: new TextField({ label: "주소", required: true, value: attrs.src }),
-          title: new TextField({ label: "제목", value: attrs.title }),
-          alt: new TextField({
-            label: "설명",
-            value: attrs.alt || state.doc.textBetween(from, to, " ")
-          }),
+          file: new ImageFileField({ label: "선택", required: true, }),
         },
         onSave: (attrs) => {
-          view.dispatch(view.state.tr.replaceSelectionWith(nodeType.createAndFill(attrs)))
+          if (attrs.file && attrs.file[0]) {
+            startImageUpload(view, attrs.file[0], uploadUrl)
+          }
           view.focus()
 
           return true

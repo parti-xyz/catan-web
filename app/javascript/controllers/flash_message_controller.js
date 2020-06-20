@@ -13,6 +13,6 @@ export default class extends Controller {
     } else if (flashType == 'notice') {
       type = 'success'
     }
-    appNoty(flashMessage, type)
+    appNoty(flashMessage, type).show()
   }
 }

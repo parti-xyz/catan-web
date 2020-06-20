@@ -7,13 +7,13 @@ export default class extends Controller {
   submit(evnet) {
     let valid = true
     if (!this.messageTarget.value || this.messageTarget.value.length < 0) {
-      appNoty('채널 삭제 메시지가 비었습니다.', 'warning', true)
+      appNoty('채널 삭제 메시지가 비었습니다.', 'warning', true).show()
       this.messageTarget.classList.add('is-invalid')
       valid = false
     }
 
     if (this.confirmTarget.value != this.confirmTarget.dataset['slug']) {
-      appNoty('삭제하는 이 채널의 주소를 정확히 넣어주세요.', 'warning', true)
+      appNoty('삭제하는 이 채널의 주소를 정확히 넣어주세요.', 'warning', true).show()
       this.confirmTarget.classList.add('is-invalid')
       valid = false
     }

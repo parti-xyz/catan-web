@@ -10,9 +10,12 @@ import { ChangeSet, simplifyChanges } from 'prosemirror-changeset'
 import { v4 as uuidv4 } from 'uuid'
 
 import { linkTooltipPlugin } from '../compoments/editor/link_tooltip_plugin'
+import { imageUploadPlugin } from '../compoments/editor/image_upload_plugin'
 import { buildMenuItems } from '../compoments/editor/menus'
 import { recreateTransform } from '../compoments/editor/recreate'
 import ParamMap from '../helpers/param_map'
+import { resizableImage } from '../compoments/editor/schema'
+import { ImageView } from '../compoments/editor/image_view'
 
 export default class extends Controller {
   static targets = ['source', 'conflictSource']
@@ -26,8 +29,10 @@ export default class extends Controller {
 
     // Mix the nodes from prosemirror-schema-list into the basic schema to
     // create a schema with list support.
+    let nodes = basicSchema.spec.nodes.update('image', resizableImage)
+
     const currentSchema = new Schema({
-      nodes: addListNodes(basicSchema.spec.nodes, "paragraph block*", "block"),
+      nodes: addListNodes(nodes, "paragraph block*", "block"),
       marks: basicSchema.spec.marks.append(this.customMarks())
     })
 
@@ -36,12 +41,14 @@ export default class extends Controller {
       Tab: this.sinkListItemOrWrapInList(currentSchema)
     }
 
+    const uploadUrl = this.data.get('uploadUrl')
+
     let doc
     let plugins = exampleSetup({
       schema: currentSchema,
-      menuContent: buildMenuItems(currentSchema),
+      menuContent: buildMenuItems(currentSchema, uploadUrl),
       mapKeys,
-    }).concat(linkTooltipPlugin, keymap(mapKeys))
+    }).concat(linkTooltipPlugin, imageUploadPlugin, keymap(mapKeys))
 
     if (this.hasConflictSourceTarget) {
       let diff = this.computeConflictDocument(currentSchema, this.sourceTarget, this.conflictSourceTarget)
@@ -58,6 +65,9 @@ export default class extends Controller {
       }),
       attributes: {
         spellCheck: false,
+      },
+      nodeViews: {
+        image(node, view, getPos) { return new ImageView(node, view, getPos) }
       }
     })
   }

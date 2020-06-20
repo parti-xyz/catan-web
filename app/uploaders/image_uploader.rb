@@ -32,6 +32,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def store_dir
+    if model.blank?
+      return "uploads/image/#{rand(1..100)}"
+    end
+
     "#{'../test/' if Rails.env.test?}uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
@@ -47,7 +51,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
   def default_url
-    if model.respond_to?(:default_image_pick_up)
+    if model&.respond_to?(:default_image_pick_up)
       ActionController::Base.helpers.asset_url("default_#{model.class.to_s.underscore}_#{mounted_as}_#{model.default_image_pick_up}.png")
     else
       ActionController::Base.helpers.asset_url("default_#{model.class.to_s.underscore}_#{mounted_as}.png")
@@ -106,7 +110,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
     if Rails.env.production?
       super_result
-    elsif self.model.read_attribute(self.mounted_as.try(:to_sym)).blank?
+    elsif self.model&.read_attribute(self.mounted_as.try(:to_sym)).blank?
       super_result
     else
       if self.file.try(:exists?) or ENV["S3_BUCKET"].blank?
@@ -141,6 +145,9 @@ class ImageUploader < CarrierWave::Uploader::Base
   protected
 
   def secure_token(length=16)
+    if model.blank?
+      return SecureRandom.hex(length/2)
+    end
     var = :"@#{mounted_as}_secure_token"
     model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
   end

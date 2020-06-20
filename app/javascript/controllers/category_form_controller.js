@@ -25,7 +25,7 @@ export default class extends Controller {
     let valid = true
 
     if (!this.nameFieldTarget.value || this.nameFieldTarget.value.length <= 0) {
-      appNoty('카테고리 제목이 비었어요.', 'warning', true)
+      appNoty('카테고리 제목이 비었어요.', 'warning', true).show()
       valid = false
     }
 
