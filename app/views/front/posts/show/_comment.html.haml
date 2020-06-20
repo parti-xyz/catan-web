@@ -7,6 +7,9 @@
       = link_to comment.user.nickname, user_front_members_path(comment.user), class: 'usernickname'
       .datetime
         = smart_date_tag comment.created_at
+      - if comment.choice.present?
+        .voting{ class: "-#{comment.choice}" }
+          = comment.choice_text
       .body{ class: ('-mine' if comment.user == current_user) }
         / comment 본문
         - if comment.almost_deleted?

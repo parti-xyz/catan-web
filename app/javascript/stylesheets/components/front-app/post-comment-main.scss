@@ -15,8 +15,23 @@
   > .view > .datetime {
     display: inline-block;
     font-size: bootstrap.$font-size-xs;
-    margin-left: 0 .5rem;
+    margin-left: .25rem;
     color: global-variables.$color-gray-500;
+  }
+  > .view > .voting {
+    display: inline-block;
+    font-family: "FontAwesome";
+    font-size: bootstrap.$font-size-xs;
+    margin-left: .25rem;
+  }
+  > .view > .voting.-agree {
+    color: #59baa3;
+  }
+  > .view > .voting.-disagree {
+    color: #f0646d;
+  }
+  > .view > .voting.-neutral {
+    color: global-variables.$color-brand-primary;
   }
   > .view > .body {
     font-size: bootstrap.$font-size-sm;

@@ -305,6 +305,7 @@ ko:
         agree: 찬성
         disagree: 반대
         unsure: 유보
+        neutral: 중립
     wiki:
       status:
         active:
