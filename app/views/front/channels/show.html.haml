@@ -43,7 +43,7 @@
         채널 설정
 
 - if @posts.any?
-  .channel-box
+  .channel-box{ data: { controller: 'channel-read-emit' } }
     .channel-box-header
       .pages
         - unread_count = @current_issue.posts.unread_only(current_user).count

@@ -403,7 +403,7 @@ class Issue < ApplicationRecord
     return false if someone.blank?
     return false unless group.member?(someone)
 
-    issue_reader = if someone == Current.user.try(:id)
+    issue_reader = if someone == Current.user
       current_user_issue_reader
     else
       self.issue_readers.find_by(user: someone)
