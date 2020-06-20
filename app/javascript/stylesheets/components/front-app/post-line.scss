@@ -29,18 +29,6 @@
       color: global-variables.$color-brand-primary;
     }
   }
-  &.-unread {
-    position: relative;
-  }
-  &.-unread::before {
-    position: absolute;
-    content: ' ';
-    top: 0;
-    left: $boder-width * -1;
-    width: 2px;
-    height: 100%;
-    background-color: blue;
-  }
   > .body {
     flex: 1;
     overflow: hidden;
@@ -54,6 +42,9 @@
     text-overflow: ellipsis;
     display: inline-block;
     max-width: 95%;
+  }
+  > .body > .title.-purged > .link {
+    color: global-variables.$color-gray-300;
   }
   > .body > .title > .unread {
     font-size: 8px;
@@ -109,6 +100,7 @@
     border: 1px solid global-variables.$color-gray-300;
     background-position: center;
     background-size: cover;
+    background-color: white;
   }
   > .footer > .strokedusers > .morecount {
     font-size: bootstrap.$font-size-xs;

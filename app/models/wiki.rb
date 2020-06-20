@@ -5,7 +5,7 @@ class Wiki < ApplicationRecord
   has_one :post, dependent: :nullify
   has_one :issue, through: :post
   has_many :wiki_histories, dependent: :destroy
-  has_one :last_wiki_history, -> { order(created_at: :desc) }, class_name: 'WikiHistory'
+  belongs_to :last_wiki_history, class_name: 'WikiHistory', foreign_key: :last_wiki_history_id, optional: true
   belongs_to :last_author, class_name: "User", foreign_key: :last_author_id, optional: true
   has_many :wiki_authors, dependent: :destroy
 
@@ -127,8 +127,10 @@ class Wiki < ApplicationRecord
   end
 
   def build_history(code)
-    wiki_histories.create(title: title, body: body, user: last_author, wiki: self, code: code)
+    wiki_history = wiki_histories.create(title: title, body: body, user: last_author, wiki: self, code: code)
     wiki_authors.find_or_create_by(user: last_author)
+
+    self.update_column(:last_wiki_history_id, wiki_history.id)
   end
 
   def last_activity(&block)

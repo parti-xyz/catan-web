@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_20_004846) do
+ActiveRecord::Schema.define(version: 2020_06_20_153049) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -869,6 +869,7 @@ ActiveRecord::Schema.define(version: 2020_06_20_004846) do
     t.string "status", default: "active", null: false
     t.integer "image_width", default: 0
     t.integer "image_height", default: 0
+    t.integer "last_wiki_history_id"
     t.index ["last_author_id"], name: "index_wikis_on_last_author_id"
   end
 

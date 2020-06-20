@@ -400,7 +400,7 @@ ko:
         create: "%{user_word}&nbsp;위키를 게시했습니다."
         activate: "%{user_word}&nbsp;위키를 다시 게시했습니다."
         inactivate: "%{user_word}&nbsp;위키를 아카이브했습니다."
-        purge: "%{user_word}&nbsp;위키를 지웠습니다."
+        purge: "%{user_word}&nbsp;위키를 숨겼습니다."
         update_title: "%{user_word}&nbsp;위키 제목을 고쳤습니다."
         update_body: "%{user_word}&nbsp;위키 내용을 고쳤습니다."
         update_title_and_body: "%{user_word}&nbsp;위키 제목과 내용을 고쳤습니다."

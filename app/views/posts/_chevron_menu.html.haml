@@ -14,7 +14,7 @@
           = link_to '위키 아카이브하기', inactivate_wiki_post_path(post), method: :patch, data: { confirm: '정말 아카이브하시겠습니까?' }
       - if post.wiki.purgeable?
         %li
-          = link_to '위키 지우기', purge_wiki_post_path(post), method: :patch, data: { confirm: '정말 지우시겠습니까?' }
+          = link_to '위키 숨기기', purge_wiki_post_path(post), method: :patch, data: { confirm: '정말 숨기겠습니까?' }
   - if can? :update, post.wiki and post.wiki.active?
     - button_groups << capture do
       %li

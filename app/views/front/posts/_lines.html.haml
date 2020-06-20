@@ -4,7 +4,7 @@
     %li.post-line{ class: ('-active' if post == current_post), data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }<>
       .body<>
         - unless post.blinded?(current_user)
-          .title<>
+          .title{ class: ('-purged' if post&.wiki&.purged?) }<>
             = link_to front_post_path(post, folder_id: @current_folder), class: 'link' do
               != post.title
             %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }

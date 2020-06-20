@@ -39,7 +39,7 @@ class PostsController < ApplicationController
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
       end
 
-      if @post.wiki.blank?
+      if @post.wiki.blank? || params[:button] == 'after_close'
         turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
       else
         render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil

@@ -23,15 +23,15 @@
 - button_groups << capture do
   - if can?(:update, @current_post) and @current_post.wiki.blank?
     = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder&.id), class: 'dropdown-item'
-  - if can?(:destroy, @current_post) and @current_post.wiki.blank?
+  - if can?(:destroy, @current_post)
     = link_to '삭제', front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'dropdown-item'
 
 - if can? :update, @current_post.wiki
   - button_groups << capture do
     - if @current_post.wiki.activatable?
-      = link_to '지운 위키 복구하기', activate_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, class: 'dropdown-item'
+      = link_to '숨긴 위키 복구하기', activate_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, class: 'dropdown-item'
     - if @current_post.wiki.purgeable?
-      = link_to '위키 지우기', purge_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, data: { confirm: '정말 지우시겠습니까?' }, class: 'dropdown-item'
+      = link_to '위키 숨기기', purge_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, data: { confirm: '정말 숨기겠습니까?' }, class: 'dropdown-item'
 
 - button_groups << capture do
   - if @current_post.pinned?
