@@ -24,14 +24,18 @@
   - if can?(:update, @current_post) and @current_post.wiki.blank?
     = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder&.id), class: 'dropdown-item'
   - if can?(:destroy, @current_post)
-    = link_to '삭제', front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { confirm: '정말 삭제하시겠습니까?' }, class: 'dropdown-item'
+    = link_to '삭제', front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { confirm: "정말 삭제하시겠습니까? 다시 복구 할 수 없습니다." }, class: 'dropdown-item'
 
-- if can? :update, @current_post.wiki
+- if @current_post.wiki.present?
   - button_groups << capture do
     - if @current_post.wiki.activatable?
       = link_to '숨긴 위키 복구하기', activate_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, class: 'dropdown-item'
     - if @current_post.wiki.purgeable?
-      = link_to '위키 숨기기', purge_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, data: { confirm: '정말 숨기겠습니까?' }, class: 'dropdown-item'
+      = link_to '위키 숨기기', purge_front_wiki_post_path(@current_post, folder_id: @current_folder&.id), method: :patch, remote: true, data: { confirm: '정말 숨기겠습니까? 다시 복구할 수 있습니다.' }, class: 'dropdown-item'
+    .dropdown-header
+      #{user_subject_word(@current_post.user)} 시작한 위키입니다.
+      - if @current_post.user != current_user
+        %span.text-nowrap.cursor-pointer.text-primary{ data: { action: 'click->comment-form-new#open', mention: @current_post.user.nickname } } 멘션하기
 
 - button_groups << capture do
   - if @current_post.pinned?
@@ -60,7 +64,7 @@
   -#     확인하지 않은 가입멤버 보기
 
 .post-box{ data: { controller: 'channel-read-emit' } }
-  .post-main
+  .post-main{ data: { controller: 'comment-form-new' } }
     .post-header{ class: ('-wiki' if @current_post.wiki.present?), data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
       .main
         -# - if @current_post.poll.present?
@@ -86,7 +90,7 @@
             != last_stroked_text
             &nbsp;
             = smart_date_tag(last_stroked_at)
-    .post-content{ data: { controller: 'comment-form-new comment-form-sync' } }
+    .post-content{ data: { controller: 'comment-form-sync' } }
       - if @current_post.wiki.blank?
         .post-meta
           %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
