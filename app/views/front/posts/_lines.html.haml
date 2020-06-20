@@ -36,10 +36,15 @@
             = smart_date_tag(last_stroked_at)
       .footer
         .strokedusers
-          - post.recent_stroked_post_users.each do |stroked_post_user|
+          - post.recent_stroked_post_users.each_with_index do |stroked_post_user, index|
             - user = stroked_post_user.user
-            = link_to user_front_members_path(user), class: 'userimage' do
-              .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+            - if index >= 4
+              .morecount
+                %i.fa.fa-ellipsis-h
+            - else
+              = link_to user_front_members_path(user), class: 'userimage' do
+                .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+
         .counts
           %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
             %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }

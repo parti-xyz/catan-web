@@ -23,6 +23,12 @@
       color: global-variables.$color-brand-primary;
     }
   }
+  &.-active:hover {
+    background-color: global-variables.$color-gray-200;
+    > .body > .title {
+      color: global-variables.$color-brand-primary;
+    }
+  }
   &.-unread {
     position: relative;
   }
@@ -109,6 +115,7 @@
     color: global-variables.$color-gray-500;
     display: inline-block;
     margin-left: .625rem;
+    font-weight: bold;
   }
   > .footer > .counts {
     font-size: bootstrap.$font-size-xs;

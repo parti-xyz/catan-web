@@ -212,7 +212,12 @@ class PostsController < ApplicationController
 
         if helpers.explict_front_namespace?
           flash[:notice] = I18n.t('activerecord.successful.messages.created')
-          render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
+
+          if params[:button] == 'after_close'
+            turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+          else
+            render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
+          end
         else
           flash[:success] = I18n.t('activerecord.successful.messages.created')
           respond_to do |format|

@@ -45,7 +45,12 @@ export default class extends Controller {
   }
 
   success(event) {
-    let [data, status, xhr] = event.detail;
+    let [data, status, xhr] = event.detail
+
+    if (xhr.getResponseHeader('X-Trubolinks-Redirect')) {
+      return
+    }
+
     if (xhr.response) {
       const temp = document.createElement('div')
       temp.innerHTML = xhr.response;
