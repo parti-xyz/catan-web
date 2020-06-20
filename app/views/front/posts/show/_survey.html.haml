@@ -29,9 +29,9 @@
               = link_to simple_format(option.body), front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'content -link', data: { target: 'content-replacement.link' }
             - else
               - if option.canceled?
-                .content.-del= = simple_format(option.body)
+                .content.-del= simple_format(option.body)
               - else
-                .content= = simple_format(option.body)
+                .content= simple_format(option.body)
 
             - if survey.visible_feedbacks?(current_user)
               .meta<
