@@ -4,7 +4,8 @@ import { Decoration, DecorationSet, EditorView } from "prosemirror-view"
 import { Schema, DOMParser, DOMSerializer } from "prosemirror-model"
 import { schema as basicSchema } from "prosemirror-schema-basic"
 import { exampleSetup } from "prosemirror-example-setup"
-import { addListNodes } from "prosemirror-schema-list"
+import { addListNodes, liftListItem, sinkListItem, wrapInList } from "prosemirror-schema-list"
+import { keymap } from "prosemirror-keymap"
 import { ChangeSet, simplifyChanges } from 'prosemirror-changeset'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -30,11 +31,17 @@ export default class extends Controller {
       marks: basicSchema.spec.marks.append(this.customMarks())
     })
 
+    let mapKeys = {
+      "Shift-Tab": liftListItem(currentSchema.nodes.list_item),
+      Tab: this.sinkListItemOrWrapInList(currentSchema)
+    }
+
     let doc
     let plugins = exampleSetup({
       schema: currentSchema,
       menuContent: buildMenuItems(currentSchema),
-    }).concat(linkTooltipPlugin)
+      mapKeys,
+    }).concat(linkTooltipPlugin, keymap(mapKeys))
 
     if (this.hasConflictSourceTarget) {
       let diff = this.computeConflictDocument(currentSchema, this.sourceTarget, this.conflictSourceTarget)
@@ -283,5 +290,18 @@ export default class extends Controller {
     let decos = this.conflictPlugin.getState(this.editorState, )
     let found = decos.find(null, null, spec => spec.id == controlId)
     return found.length ? found[0] : null
+  }
+
+  sinkListItemOrWrapInList(schema) {
+    let sinkListItemType = schema.nodes.list_item
+    let wrapInListItemType = schema.nodes.bullet_list
+    return function (state, dispatch) {
+      let result = (sinkListItem(sinkListItemType))(state, dispatch)
+      if (result) { return true }
+
+      (wrapInList(wrapInListItemType))(state, dispatch)
+
+      return true
+    }
   }
 }
