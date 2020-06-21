@@ -51,7 +51,7 @@
     margin-right: .25rem;
   }
   > .line > .link > .icon.-disabled {
-    opacity: .3;
+    opacity: 0;
   }
   > .line > .link > .icon:not(.-disabled):hover > .fa {
     background-color: global-variables.$color-gray-400;
