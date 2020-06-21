@@ -17,7 +17,7 @@
 - content_for :playground_sidebar_content do
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
-    - if @updated_comments.any?
+    - if @updated_comments&.any?
       .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "updated-comments-box-#{@current_post.id}", force: 'show' } } }
         .header{ data: { action: 'click->content-collapse#toggle' } }
           .title

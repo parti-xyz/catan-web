@@ -30,7 +30,7 @@ class Front::PostsController < Front::BaseController
     end
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
-    @supplementary_locals[:default_force] = 'hide' if @updated_comments.any?
+    @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any?
   end
 
   def new
