@@ -28,8 +28,11 @@
 }
 
 @mixin editor-content {
-  > *:first-child {
+  *:first-child {
     margin-top: 0 !important;
+  }
+  *:last-child {
+    margin-bottom: 0 !important;
   }
 
   /* Add space around the hr to make clicking it easier */
