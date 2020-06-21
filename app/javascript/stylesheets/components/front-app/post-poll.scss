@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use '../front-variables';
 @use '../../bootstrap';
+@use '../../mixin';
 
 .front-app .post-poll {
   border: 1px solid global-variables.$color-gray-300;
@@ -9,7 +10,7 @@
   padding: 2.25rem;
   text-align: center;
   &:hover {
-    @extend .shadow;
+    @include mixin.box-shadow;
   }
 
   > .title {

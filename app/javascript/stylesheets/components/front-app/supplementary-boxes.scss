@@ -1,9 +1,6 @@
 @use '../front-variables';
 
 .front-app .supplementary-boxes {
-  position: absolute;
-  top: 1.875rem;
-  width: front-variables.$playground-sidebar-width - 3rem;
   > .supplementary-box + .supplementary-box {
     margin-top: 1rem;
   }

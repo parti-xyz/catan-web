@@ -1,5 +1,13 @@
 .front-app .post-comments {
   > .post-comment {
     margin-top: 1rem;
+    padding-bottom: .625rem;
+  }
+  > .post-comment:last-child {
+    padding-bottom: 0;
+  }
+  > .post-comment.-child:first-child {
+    padding-top: 1rem;
+    margin-top: .625rem;
   }
 }

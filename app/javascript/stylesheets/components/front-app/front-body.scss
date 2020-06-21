@@ -4,23 +4,19 @@
 
 .front-app .front-body {
   overflow: hidden;
+  display: flex;
+
   &.-no-header {
     padding-top: 0;
   }
-  @include mixin.simplebar {
-    > .playground-header {
-      position: sticky;
-      top: 0;
-      left: 0;
-      flex: 1;
-      margin-right: front-variables.$playground-sidebar-width;
-      padding-left: front-variables.$front-body-space-left;
-      padding-right: front-variables.$front-body-space-right;
-      z-index: 1;
-    }
-    > .playground-header.-nosticky {
-      position: static;
-    }
+
+  > .playground-main {
+    flex: 1;
+  }
+
+  > .playground-sidebar {
+    flex: none;
+    width: front-variables.$playground-sidebar-width + (front-variables.$playground-sidebar-space-x * 2);
   }
 }
 

@@ -45,9 +45,8 @@
   }
   > .lines {
     list-style: none;
-    margin: .75rem 0 0;
-    border-top: 1px solid global-variables.$color-gray-200;
-    padding-top: .75rem;
+    margin: .25rem 0 0;
+    border-top: 1px solid global-variables.$color-gray-300;
   }
   > .lines.-hide {
     display: none;
@@ -59,9 +58,27 @@
     margin-bottom: .25rem;
   }
 
+  > .lines > .pinned-post-line,
+  > .lines > .updated-comment-line {
+    padding: 1rem 0;
+  }
+
+  > .lines > .pinned-post-line:last-child,
+  > .lines > .updated-comment-line:last-child {
+    padding-bottom: 0;
+  }
+
+  > .lines > .organizer-member {
+    margin-top: 0.5rem;
+  }
+
+  > .lines > .organizer-member:first-child {
+    margin-top: 1rem;
+  }
+
   > .body {
     margin-top: .75rem;
-    border-top: 1px solid global-variables.$color-gray-200;
+    border-top: 1px solid global-variables.$color-gray-300;
     padding-top: .75rem;
   }
   > .body.-hide {

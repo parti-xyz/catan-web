@@ -1,7 +1,7 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 
-.front-app .pinned-post-line {
+.front-app .updated-comment-line {
   display: flex;
   border-bottom: 1px solid global-variables.$color-gray-200;
 
@@ -10,12 +10,6 @@
   }
 
   &:hover {
-    > .icon,
-    > .body > .title {
-      color: global-variables.$color-brand-primary;
-    }
-  }
-  &.-active {
     > .icon,
     > .body > .title {
       color: global-variables.$color-brand-primary;
@@ -30,11 +24,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  > .body > .title.-blind {
-    color: global-variables.$color-gray-500;
-  }
   > .body > .footer {
     font-size: bootstrap.$font-size-xs;
-    color: global-variables.$color-gray-500;
+    color: global-variables.$color-gray-400;
   }
 }

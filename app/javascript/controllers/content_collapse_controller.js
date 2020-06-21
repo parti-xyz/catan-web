@@ -43,6 +43,11 @@ export default class extends Controller {
       this.contentTargets.forEach(content => content.classList.remove('-hide'))
       this.contentTargets.forEach(content => content.classList.add('-show'))
     }
+
+    const event = new CustomEvent('simplebar:recalculate', {
+      bubbles: true,
+    })
+    document.dispatchEvent(event)
   }
 
   get collapsed() {

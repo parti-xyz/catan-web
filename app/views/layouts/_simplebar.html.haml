@@ -1,4 +1,4 @@
-.simplebar-layout{ data: { controller: 'simplebar' }, style: 'width: 100%; height: 100%' }
+.simplebar-layout{ class: local_assigns[:class_names], data: { controller: 'simplebar', action: 'simplebar:recalculate->simplebar#recalculate' }, style: 'width: 100%; height: 100%' }
   .simplebar-wrapper
     .simplebar-height-auto-observer-wrapper
       .simplebar-height-auto-observer

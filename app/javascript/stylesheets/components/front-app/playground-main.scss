@@ -1,17 +1,19 @@
 @use "../front-variables";
+@use "../../mixin";
 
 .front-app .playground-main {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  > .playground-body {
-    flex: 1;
-  }
-  > .playground-sidebar {
-    margin-top: ((-1*front-variables.$playground-header-height-lg) + 1.875rem);
-    flex: none;
-    padding-left: 2rem;
-    padding-right: 1rem;
-    width: front-variables.$playground-sidebar-width;
+  @include mixin.simplebar {
+    > .playground-header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      flex: 1;
+      z-index: 1;
+      padding-right: front-variables.$playground-body-space-x;
+      padding-left: front-variables.$playground-body-space-x;
+    }
+    > .playground-header.-nosticky {
+      position: static;
+    }
   }
 }

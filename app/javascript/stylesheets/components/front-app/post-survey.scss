@@ -1,11 +1,16 @@
 @use '../../bootstrap';
 @use '../../global-variables';
+@use '../../mixin';
 
 .front-app .post-survey {
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   background-color: #f8f9fa;
   padding: 2.25rem;
+
+  &:hover {
+    @include mixin.box-shadow;
+  }
 
   > .option {
     display: flex;

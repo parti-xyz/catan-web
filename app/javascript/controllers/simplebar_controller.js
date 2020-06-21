@@ -22,6 +22,12 @@ export default class extends Controller {
     }
   }
 
+  recalculate(event) {
+    if (this.currentSimplebar) {
+      this.currentSimplebar.recalculate()
+    }
+  }
+
   restoreScroll() {
     const scrollElement = this.currentSimplebar.getScrollElement()
     if (!scrollElement || scrollElement.scrollTop != 0) { return }

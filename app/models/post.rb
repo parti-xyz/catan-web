@@ -658,7 +658,10 @@ class Post < ApplicationRecord
     return unless group.member?(someone)
 
     post_reader = self.post_readers.find_or_create_by(user: someone)
-    post_reader&.touch
+    post_reader.updated_at = DateTime.now
+    post_reader.save
+
+    post_reader
   end
 
   def need_to_read?(someone)

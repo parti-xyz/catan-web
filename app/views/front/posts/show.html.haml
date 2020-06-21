@@ -17,6 +17,29 @@
 - content_for :playground_sidebar_content do
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
+    - if @updated_comments.any?
+      .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "updated-comments-box-#{@current_post.id}", force: 'show' } } }
+        .header{ data: { action: 'click->content-collapse#toggle' } }
+          .title
+            이 게시물의 새 댓글
+            &nbsp;
+            %i.fa.fa-comment-o.text-muted
+          .count
+            = @updated_comments.size
+          .toggler
+            %i.fa{ data: { target: 'content-collapse.content' } }
+        %ul.lines{ data: { target: 'content-collapse.content' } }
+          - @updated_comments.each do |comment|
+            %li.updated-comment-line
+              - next if comment.blinded?(current_user)
+              .body
+                .title
+                  = link_to "##{dom_id(comment)}", class: 'hover:text-primary', data: { controller: 'smooth-anchor', action: 'click->smooth-anchor#go' } do
+                    = comment.body.try(:truncate, 100)
+                .footer
+                  %span.nickname #{comment.user.nickname}
+                  = smart_date_tag(comment.created_at)
+
 
 - button_groups = []
 
@@ -171,7 +194,7 @@
               = @current_post.comments_count
         = render 'front/posts/show/upvotings/reaction', current_upvotable: @current_post
 
-      .comments{ data: { target: 'comment-form-sync.commentsContent' } }
+      .comments{ data: { controller: 'comment-hash', target: 'comment-form-sync.commentsContent' } }
         = render 'front/posts/show/comments', current_issue: @current_issue, current_post: @current_post
 
 

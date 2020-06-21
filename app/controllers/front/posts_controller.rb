@@ -9,8 +9,17 @@ class Front::PostsController < Front::BaseController
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
     if user_signed_in?
-      @current_post.read!(@current_user)
+      @post_reader = @current_post.read!(@current_user)
       @current_issue.read!(@current_user)
+
+      updated_at_previous = @post_reader.updated_at_previous_change&.first
+      if updated_at_previous.present?
+        @updated_comments = @current_post.comments.to_a.select do |comment|
+          comment.user != current_user && comment.updated_at > updated_at_previous
+        end.sort_by do |comment|
+          comment.created_at
+        end
+      end
     end
 
     session[:front_last_visited_post_id] = @current_post.id
@@ -21,6 +30,7 @@ class Front::PostsController < Front::BaseController
     end
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
+    @supplementary_locals[:default_force] = 'hide' if @updated_comments.any?
   end
 
   def new

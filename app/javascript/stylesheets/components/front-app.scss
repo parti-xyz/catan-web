@@ -20,6 +20,7 @@
 @forward "./front-app/front-main";
 @forward "./front-app/front-navbar";
 @forward "./front-app/front-navbar-message-item";
+@forward "./front-app/front-navbar-message-header";
 @forward "./front-app/front-simple";
 @forward "./front-app/front-sidebar";
 @forward "./front-app/join-banner";
@@ -33,6 +34,7 @@
 @forward "./front-app/playground-body";
 @forward "./front-app/playground-main";
 @forward "./front-app/playground-header";
+@forward "./front-app/playground-sidebar";
 @forward "./front-app/popover-post-poll-votings-users";
 @forward "./front-app/post-body";
 @forward "./front-app/post-box";
@@ -60,6 +62,7 @@
 @forward "./front-app/upvoted-users";
 @forward "./front-app/user-navitem";
 @forward "./front-app/upvoted-users";
+@forward "./front-app/updated-comment-line";
 
 // reset front body
 body.app-front,

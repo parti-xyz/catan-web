@@ -6691,6 +6691,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+ripplet.js@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ripplet.js/-/ripplet.js-0.2.0.tgz#47e6832cb6c7dc0771e2e0b4c9e4cf931b85e8fa"
+  integrity sha512-nLBDbyPLFBekzDPvX7zxWiAcj0T6hIWU/L7PAti1DWX7OJ2QohgSrS+WUgJYaNUCO2/Gh8YiwsX1ETkwM8CNig==
+
 rope-sequence@^1.3.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/rope-sequence/-/rope-sequence-1.3.2.tgz#a19e02d72991ca71feb6b5f8a91154e48e3c098b"
@@ -6785,6 +6790,11 @@ schema-utils@^2.5.0, schema-utils@^2.6.1, schema-utils@^2.6.4, schema-utils@^2.6
   dependencies:
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
+
+scroll-into-view@1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/scroll-into-view/-/scroll-into-view-1.14.2.tgz#21ea5bb2f921b9bb173ae73d78946c393a4e171d"
+  integrity sha512-sOAtPgiEiU5Ry6WX8T/DhkwAlaOyMHpYowxMrrcwfT7GQsndFmNGk0JBVvsJWxrrxbI7nvep4hl1mXnJ4YpUnA==
 
 scss-tokenizer@^0.2.3:
   version "0.2.3"

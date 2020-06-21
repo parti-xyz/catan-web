@@ -1,0 +1,11 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
+.front-app .front-navbar-message-header {
+  background-color: #fff;
+  padding: 0.75rem;
+  border-bottom: 1px solid global-variables.$color-gray-300;
+  font-size: bootstrap.$font-size-sm;
+  font-weight: bold;
+  color: initial;
+}

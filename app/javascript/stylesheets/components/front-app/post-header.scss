@@ -3,7 +3,6 @@
 
 .front-app .post-header {
   display: flex;
-  padding-bottom: 1rem;
   border-bottom: 1px solid global-variables.$color-gray-200;
   &.-wiki {
     padding-bottom: 0;
@@ -14,7 +13,7 @@
     position: relative;
   }
   > .main > .title {
-    margin-bottom: 0;
+    margin-bottom: .5rem;
     font-size: bootstrap.$font-size-xl;
   }
   > .main  > .meta {

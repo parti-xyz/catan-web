@@ -215,7 +215,7 @@ body.-pack {
     position: fixed;
     border-radius: 0.25rem;
     z-index: 11;
-    @extend .shadow;
+    @include mixin.box-shadow;
   }
 
   .ProseMirror-prompt h5 {

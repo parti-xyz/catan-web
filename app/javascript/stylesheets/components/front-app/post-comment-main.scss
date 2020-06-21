@@ -92,4 +92,9 @@
   > .form.collapse:not(.show) {
     display: none;
   }
+
+  > .post-comment.-form:not(:first-child) {
+    margin-top: .625rem;
+    padding-top: 1rem;
+  }
 }

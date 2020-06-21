@@ -3,6 +3,9 @@
 @use '../../mixin';
 
 .front-app .post-wiki {
+  &:hover > .body:not(.-edit) {
+    @include mixin.box-shadow;
+  }
   > .body > .article > .brightness {
     @include mixin.editor-content;
   }

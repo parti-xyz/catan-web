@@ -39,7 +39,6 @@
   }
 
   > .post-body,
-  > .post-comments,
   > .post-file-sources-only-image,
   > .post-file-sources-only-doc,
   > .post-video-source,
@@ -50,5 +49,10 @@
 
   > .post-link-source:last-child {
     margin-bottom: -0.75rem;
+  }
+
+  > .comments > .post-comment.-form:not(:first-child){
+    margin-top: .625rem;
+    padding-top: 1rem;
   }
 }

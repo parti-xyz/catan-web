@@ -3,12 +3,12 @@
   - if @important_messages_count > 0
     %i.fa.fa-circle.circle{ data: { target: 'message-read-all.circle', 'last-message-id': @messages&.first&.id } }
 .dropdown-menu.dropdown-menu-right.messages
+  .dropdown-header.front-navbar-message-header 알림
   - if @messages.any?
     - @messages.each do |message|
       .dropdown-item.front-navbar-message-item{ class: ('unread' if message.unread?) }
         = render message
   - else
     .dropdown-item
-      .dropdown-item
-        %i.fa.fa-info-circle
-        아직 알림이 없습니다.
+      %i.fa.fa-info-circle
+      아직 알림이 없습니다.

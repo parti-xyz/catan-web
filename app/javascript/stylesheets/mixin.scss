@@ -12,6 +12,10 @@
   hyphens: auto;
 }
 
+@mixin box-shadow {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
 @mixin simplebar {
   > .simplebar-layout
     > .simplebar-wrapper
@@ -197,7 +201,7 @@
   }
   .conflict-insertion {
     border: 2px dashed rgba(128, 0, 0, .2);
-    @extend .shadow;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   }
   .conflict-deletion {
     border: 2px dashed green;

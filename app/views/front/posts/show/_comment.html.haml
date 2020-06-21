@@ -1,9 +1,10 @@
 - is_child = comment.parent.present?
-.post-comment{ class: ('-child' if is_child), data: { controller: 'comment-form-edit' } }
+.post-comment{ class: ('-child' if is_child), data: { controller: 'comment-form-edit ripplet', action: 'ripple->ripplet#run' } }
+  %a[comment]
   .userimage
     .userimagebg{ style: "background-image: url(#{comment.user.image.sm.url})" }
   .post-comment-main{ data: { controller: ('comment-form-new' unless is_child) } }
-    .view.collapse.show{ data: { target: 'comment-form-edit.viewContent' } }
+    .view.collapse.show{ data: { target: 'comment-form-edit.viewContent ripplet.item' } }
       %span.usernickname{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(comment.user), options: h({ container: '.front-app' }.to_json) } } }
         = comment.user.nickname
       .datetime

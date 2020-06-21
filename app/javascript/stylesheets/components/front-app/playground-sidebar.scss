@@ -1,0 +1,13 @@
+@use "../front-variables";
+@use "../../mixin";
+
+.front-app .playground-sidebar {
+  @include mixin.simplebar {
+    > .supplementary-boxes {
+      padding-top: 2.125rem;
+      padding-bottom: 2.125rem;
+      padding-left: front-variables.$playground-sidebar-space-x;
+      padding-right: front-variables.$playground-sidebar-space-x;
+    }
+  }
+}
