@@ -3,9 +3,9 @@
     .channel-menu
       .title.form-inline
         - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
-        .node
+        .node.-dismiss
           전체 채널
-        .node
+        .node.-search
           %i.fa.fa-search
           = search_q
 

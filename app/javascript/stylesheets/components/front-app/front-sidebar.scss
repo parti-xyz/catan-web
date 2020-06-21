@@ -7,8 +7,8 @@
   // deprecated
   > .group-menu {
     width: 100%;
-    height: front-variables.$navbar-height;
-    line-height: front-variables.$navbar-height;
+    @include front-variables.navbar-height(height);
+    @include front-variables.navbar-height(line-height);
     position: absolute;
     top: 0;
   }

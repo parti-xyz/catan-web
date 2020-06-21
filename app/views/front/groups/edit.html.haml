@@ -1,17 +1,20 @@
 %section.text-center
-  %h3
-    %i.fa.fa-cube
-    그룹 관리
+  .container
+    %h3
+      %i.fa.fa-cube
+      그룹 관리
 
 .simple-box
-  %section.mb-3
-    %h5 그룹 설정
-    .card
-      .card-body
-        = render 'front/groups/form', local_group: current_group
+  .container
+    %section.mb-3
+      %h5 그룹 설정
+      .card
+        .card-body
+          = render 'front/groups/form', local_group: current_group
 
   %section.mb-3
-    %h5 그룹 삭제
-    .card
-      .card-body
-        그룹을 삭제하려면 #{link_to 'help@parti.coop', 'mailto:help@parti.coop'}로 메일을 보내주세요.
+    .container
+      %h5 그룹 삭제
+      .card
+        .card-body
+          그룹을 삭제하려면 #{link_to 'help@parti.coop', 'mailto:help@parti.coop'}로 메일을 보내주세요.

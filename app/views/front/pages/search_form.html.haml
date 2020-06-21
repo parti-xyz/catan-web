@@ -1,0 +1,16 @@
+%section.text-center.mt-5
+  .container
+    %h3
+      %i.fa.fa-search
+      검색
+
+    .simple-box{ style: 'padding: 3rem 0' }
+      = form_with url: front_search_path, local: true, method: :get do
+        .form-group
+          %label
+            찾으려는 키워드를 입력하세요.
+          = text_field_tag "front_search[q]", nil, class: 'form-control'
+        .form-group.text-right
+          - if @current_issue.present?
+            = button_tag "채널 내에서 검색", name: :issue_id, value: @current_issue.id, class: 'btn btn-secondary btn-block', data: { disable_with: "검색 중..." }
+          = button_tag "그룹 전체에서 검색", class: 'btn btn-primary btn-block', data: { disable_with: "검색 중..." }

@@ -496,23 +496,45 @@ module ApplicationHelper
   end
 
   def implict_front_namespace?(group = nil)
-    (group || current_group)&.frontable? && _front_namespace?
+    (group || current_group)&.frontable?
   end
 
   def explict_front_namespace?
-    params[:namespace_slug] == 'front' && _front_namespace?
+    params[:namespace_slug] == 'front'
   end
 
-  def _front_namespace?
-    (
-      !browser.device.mobile? or devise_controller? or
-      (controller_name == 'home' and action_name == 'show' and !current_group&.member?(current_user)) or
-      (controller_name == 'users' and action_name == 'inactive_sign_up') or
-      (controller_name == 'users' and action_name == 'pre_sign_up') or
-      (controller_name == 'users' and action_name == 'email_sign_in') or
-      (controller_name == 'member_requests' and action_name == 'private_blocked') or
-      (controller_name == 'member_requests' and action_name == 'new') or
-      (controller_name == 'member_requests' and action_name == 'create')
-    )
+  # 추후 검증요으로 사용될 수 있음 임시로 놔둠
+  # def _front_namespace?
+  #   (
+  #     !browser.device.mobile? or devise_controller? or
+  #     (controller_name == 'home' and action_name == 'show' and !current_group&.member?(current_user)) or
+  #     (controller_name == 'users' and action_name == 'inactive_sign_up') or
+  #     (controller_name == 'users' and action_name == 'pre_sign_up') or
+  #     (controller_name == 'users' and action_name == 'email_sign_in') or
+  #     (controller_name == 'member_requests' and action_name == 'private_blocked') or
+  #     (controller_name == 'member_requests' and action_name == 'new') or
+  #     (controller_name == 'member_requests' and action_name == 'create')
+  #   )
+  # end
+
+  def options_for_threaded_folders(threaded_folders, current_folder)
+    flatten_threaded_folders(threaded_folders)
+    .map do |payload|
+      folder = payload[0]
+      depth = payload[1]
+      content_tag(:option, value: folder&.id, selected: current_folder&.id == folder&.id, data: { depth: depth }) { folder&.title }
+    end.join
+  end
+
+  def flatten_threaded_folders(threaded_folders, depth = 0)
+    return [] unless threaded_folders&.any?
+
+    result = []
+    threaded_folders.each do |folder|
+      result << [folder, depth]
+      result += flatten_threaded_folders(folder.children, depth+1)
+      result.compact
+    end
+    result
   end
 end

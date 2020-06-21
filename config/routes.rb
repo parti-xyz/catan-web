@@ -10,11 +10,8 @@ Rails.application.routes.draw do
 
   class FrontGroupRouteConstraint
     def matches?(request)
-      require "browser"
-
-      browser = Browser.new request.user_agent
       group = fetch_group(request)
-      !browser.device.mobile? && group.present? && group.frontable?
+      group.present? && group.frontable?
     end
   end
 
@@ -428,6 +425,8 @@ Rails.application.routes.draw do
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
     get :coc, to: 'pages#coc'
+    get :menu, to: 'pages#menu'
+    get :search_form, to: 'pages#search_form'
 
     resources :channels, only: [:show, :edit, :new] do
       member do

@@ -13,44 +13,59 @@
             %i.fa.fa-info-circle
             = t('labels.post_blind_info')
         .meta
-          - if post.poll.present?
-            .icon<> 투표
-          - elsif post.survey.present?
-            .icon<> 설문
-          - elsif post.wiki.present?
-            .icon<> 위키
+          - if !is_small_screen? && current_issue.present?
+            - if post.poll.present?
+              .icon<> 투표
+            - elsif post.survey.present?
+              .icon<> 설문
+            - elsif post.wiki.present?
+              .icon<> 위키
 
           - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| user_subject_word(user) }
 
-          - if current_issue.present?
-            != last_stroked_text
-            = smart_date_tag(last_stroked_at)
+          - if is_small_screen?
+            - if current_issue.present?
+              %i.fa.fa-clock-o
+              = smart_date_tag(last_stroked_at)
+            - else
+              = link_to front_channel_path(post.issue), class: 'link' do
+                \# #{post.issue.title}
+              = meta_icons(post.issue)
           - else
-            = link_to front_channel_path(post.issue), class: 'link' do
-              \# #{post.issue.title}
-            = meta_icons(post.issue)
-            - if post.folder.present?
-              - post.folder.ancestors_and_self.each do |folder|
-                \/
-                = link_to folder.title, front_channel_path(post.issue, folder_id: folder.id), class: 'link'
-            = smart_date_tag(last_stroked_at)
+            - if current_issue.present?
+              != last_stroked_text
+              = smart_date_tag(last_stroked_at)
+            - else
+              = link_to front_channel_path(post.issue), class: 'link' do
+                \# #{post.issue.title}
+              = meta_icons(post.issue)
+              - if post.folder.present?
+                - post.folder.ancestors_and_self.each do |folder|
+                  \/
+                  = link_to folder.title, front_channel_path(post.issue, folder_id: folder.id), class: 'link'
+              = smart_date_tag(last_stroked_at)
       .footer
         .strokedusers
-          - post.recent_stroked_post_users.each_with_index do |stroked_post_user, index|
-            - user = stroked_post_user.user
-            - if index >= 4
-              .morecount
-                %i.fa.fa-ellipsis-h
-            - else
-              %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
-                .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+          - if is_small_screen?
+            - user = post.user
+            %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
+              .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+          - else
+            - post.recent_stroked_post_users.each_with_index do |stroked_post_user, index|
+              - user = stroked_post_user.user
+              - if index >= 4
+                .morecount
+                  %i.fa.fa-ellipsis-h
+              - else
+                %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
+                  .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
 
         .counts
-          %span.upvotes{ class: ('-active' if post.upvoted_by_me?) }
-            %i.fa{ class: (post.upvoted_by_me? ? 'fa-heart' : 'fa-heart-o') }
+          %span.upvotes
+            %i.fa.fa-heart-o
             = post.upvotes_count
-          %span.comments{ class: ('-active' if post.commented_by_me?) }
-            %i.fa{ class: (post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
+          %span.comments
+            %i.fa.fa-comment-o
             = post.comments_count
 
 = paginate posts, theme: 'catan'

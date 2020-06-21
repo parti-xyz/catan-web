@@ -1,0 +1,45 @@
+.channel-listing.-starter
+  %ul.channel-lines
+    %li.channel-line
+      = link_to front_all_path, class: ['link', ('-active' if params[:menu_slug] == 'all')], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'all' } do
+        .title
+          %span.hash
+            %i.fa.fa-cube
+          %span.content
+            전체 게시글
+    %li.channel-line
+      = link_to front_coc_path, class: ['link', ('-active' if params[:menu_slug] == 'coc')], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'coc' } do
+        .title
+          %span.hash
+            %i.fa.fa-book
+          %span.content
+            커뮤니티 가이드
+- categorised_issues.each_with_index do |(category, issues), index|
+  .channel-listing
+    .header.clearfix
+      - if category.present?
+        .title= category.name
+      - else
+        - if index != 0
+          .title 미분류
+        - else
+          .title 채널
+      - if current_group.creatable_issue?(current_user)
+        = link_to new_front_channel_path(category_id: (category.id if category.present?)), class: 'btn btn-link -add', title: '채널 만들기' do
+          %i.fa.fa-plus
+    %ul.channel-lines
+      - issues.each do |issue|
+        - if is_small_screen?
+          - threaded_folders = []
+        - else
+          - threaded_folders = Folder.threaded(issue.folders)
+        %li.channel-line{ data: { controller: ('content-collapse' if threaded_folders.any?), 'content-collapse': { 'id': "folder-lines-channel-#{issue.id}", 'force': (issue == current_issue ? 'show' : 'hide') } } }
+          = link_to front_channel_path(issue), class: ['link', ('-active' if issue == current_issue && current_folder.blank?)], data: { action: 'click->collection-activation#toggle click->content-collapse#show group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-collapse#show group-sidebar-collapse-hide->content-collapse#hide', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
+            .title
+              %span.hash #
+              %span.content<> #{issue.title} #{meta_icons(issue)}
+            %span.unread{ class: ('-active' if issue.need_to_read?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener-channel-id': issue.id } }
+
+          - if threaded_folders.any?
+            %ul.folder-lines.-hide{ data: { target: 'content-collapse.content' } }
+              = render 'front/pages/group_sidebar/folder_lines', current_folder: current_folder, folders: threaded_folders, depth: 1

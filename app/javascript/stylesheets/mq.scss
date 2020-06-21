@@ -1,0 +1,7 @@
+@forward "~include-media/dist/_include-media" with (
+  $breakpoints: (
+    'phone': 450px,
+    'tablet': 768px,
+    'desktop': 1024px
+  )
+);

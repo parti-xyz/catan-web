@@ -9,8 +9,7 @@
       left: 0;
       flex: 1;
       z-index: 1;
-      padding-right: front-variables.$playground-body-space-x;
-      padding-left: front-variables.$playground-body-space-x;
+      @include front-variables.playground-body-space-x(padding-right, padding-left);
     }
     > .playground-header.-nosticky {
       position: static;

@@ -14,7 +14,7 @@ class Front::BaseController < ApplicationController
   end
 
   def check_frontable
-    redirect_to root_path and return unless helpers.implict_front_namespace?
+    redirect_to root_url(subdomain: nil) and return unless helpers.implict_front_namespace?
   end
 
   def prepare_channel_supplementary(current_issue)

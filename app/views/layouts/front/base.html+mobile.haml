@@ -1,0 +1,14 @@
+- content_for :content do
+  .front-app
+    = render 'layouts/front/header'
+
+    .front-main
+      .front-body.-no-header
+        .playground-main
+          = render layout: 'layouts/simplebar' do
+            - if content_for?(:playground_header_content)
+              = yield(:playground_header_content)
+            .playground-body{ data: { js: 'scroll-persistence', 'scroll-persistence-id': ("front-app-playground-body-#{@scroll_persistence_id_ext}" if @scroll_persistence_id_ext.present?), 'scroll-persistence-tag': @scroll_persistence_tag } }
+              = yield
+
+= render template: 'layouts/bpplication'

@@ -29,6 +29,7 @@
 @forward "./front-app/group-navitem";
 @forward "./front-app/group-navitems";
 @forward "./front-app/member-user";
+@forward "./front-app/navbar-group-menu";
 @forward "./front-app/organizer-member";
 @forward "./front-app/pinned-post-line";
 @forward "./front-app/playground-body";
@@ -75,7 +76,7 @@ body.-pack.-simple.app-users {
 .front-app {
   height: 100%;
   > .front-navbar {
-    height: front-variables.$navbar-height;
+    @include front-variables.navbar-height(height);
     position: fixed;
     width: 100%;
     top: 0;
@@ -83,12 +84,12 @@ body.-pack.-simple.app-users {
   > .front-main {
     flex: 1;
     height: 100%;
-    padding-top: front-variables.$navbar-height;
+    @include front-variables.navbar-height(padding-top);
   }
 }
 
 body.-simple .front-app {
-  padding-top: front-variables.$navbar-height;
+  @include front-variables.navbar-height(padding-top);
   display: flex;
   flex-direction: column;
 }

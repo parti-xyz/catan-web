@@ -3,6 +3,14 @@ class Front::PagesController < Front::BaseController
     redirect_to front_all_path
   end
 
+  def menu
+    group_sidebar_content
+  end
+
+  def search_form
+    @current_issue = Issue.find_by(id: params[:issue_id])
+  end
+
   def all
     if user_signed_in?
       current_user.update_attributes(last_visitable: current_group)
@@ -31,6 +39,11 @@ class Front::PagesController < Front::BaseController
   end
 
   def search
+    if params[:issue_id].present?
+      turbolinks_redirect_to front_channel_path(front_search: { q: params.dig(:front_search, :q) }, id: params[:issue_id])
+      return
+    end
+
     @posts = Post.of_group(current_group)
       .never_blinded(current_user)
       .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
@@ -60,15 +73,20 @@ class Front::PagesController < Front::BaseController
   end
 
   def group_sidebar
-    @current_issue = Issue.includes(:folders).find_by(id: params[:issue_id])
-    @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
-    @issues = current_group.issues.accessible_only(current_user).sort_default.includes(:folders, :category)
-    @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
-
+    group_sidebar_content
     render layout: false
   end
 
   def coc
     @group_sidebar_menu_slug = 'coc'
+  end
+
+  private
+
+  def group_sidebar_content
+    @current_issue = Issue.includes(:folders).find_by(id: params[:issue_id])
+    @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
+    @issues = current_group.issues.accessible_only(current_user).sort_default.includes(:folders, :category)
+    @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
   end
 end

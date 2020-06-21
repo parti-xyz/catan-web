@@ -27,6 +27,18 @@
   }
 }
 
+@mixin simplebar_x {
+  > .simplebar-layout
+    > .simplebar-wrapper
+    > .simplebar-mask
+    > .simplebar-offset
+    > .simplebar-content-wrapper
+    > .simplebar-content {
+    @content;
+  }
+  @content;
+}
+
 @mixin editor-content {
   *:first-child {
     margin-top: 0 !important;

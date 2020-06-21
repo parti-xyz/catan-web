@@ -1,10 +1,10 @@
 - search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
 
 - content_for :playground_header_content do
-  .playground-header
+  .playground-header{ class: ('-nosticky' if is_small_screen?) }
     .channel-menu
       .title.form-inline{ data: { controller: 'select-link' } }
-        .node
+        .node{ class: ('-dismiss' if search_q.present?) }
           - if @current_issue.category.present?
             .category= @current_issue.category.name
           - if @current_folder.present? || search_q.present?
@@ -12,14 +12,21 @@
           - else
             \# #{@current_issue.title}
           = meta_icons(@current_issue)
-        - if @current_issue.folders.any?
-          - if @current_folder.present?
-            - @current_folder.ancestors_and_self.each do |folder|
-              = select_tag :folder_id, options_from_collection_for_select(folder.siblings, 'id', 'title', folder.id), class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
-            - if @current_folder.children.any?
-              = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '하위 폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+        - if search_q.blank?
+          - if is_small_screen? && @current_issue.folders.any?
+            - threaded_folders = Folder.threaded(@current_issue.folders)
+            %select{ data: { controller: 'select2-link', 'select2-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") } }
+              %option 폴더 선택...
+              != options_for_threaded_folders(threaded_folders, @current_folder)
           - else
-            = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '전체 보기...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+            - if @current_issue.folders.any?
+              - if @current_folder.present?
+                - @current_folder.ancestors_and_self.each do |folder|
+                  = select_tag :folder_id, options_from_collection_for_select(folder.siblings, 'id', 'title', folder.id), class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+                - if @current_folder.children.any?
+                  = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '하위 폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
+              - else
+                = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '전체 보기...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
         - if search_q.present?
           %span.node
             %i.fa.fa-search
@@ -44,6 +51,10 @@
 
 - if @posts.any?
   .channel-box{ data: { controller: 'channel-read-emit' } }
+    - if search_q.present?
+      .alert-box.my-3
+        .alert.alert-secondary{ style: 'font-size: .75rem' }
+          #{search_q} 검색 결과입니다.
     .channel-box-header
       .pages
         - unread_count = @current_issue.posts.unread_only(current_user).count
@@ -53,7 +64,7 @@
               게시글 #{@posts_total_count}개
               - if params[:filter].blank? && @posts.current_page != 1
                 중 #{@posts.current_page}페이지
-        - if unread_count > 0 && current_group.member?(current_user)
+        - if !is_small_screen? && unread_count > 0 && current_group.member?(current_user)
           %span.needtoread{ class: ('-active' if params[:filter] == 'needtoread' && unread_count > 0) }
             = link_to url_for(filter: 'needtoread', sort: params[:sort]) do
               업데이트 #{unread_count}개

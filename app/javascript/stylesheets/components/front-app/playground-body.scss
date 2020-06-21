@@ -10,9 +10,8 @@
   > .post-form-box,
   > .alert-box {
     padding-top: 1rem;
-    padding-right: front-variables.$playground-body-space-x;
     padding-bottom: 1.5rem;
-    padding-left: front-variables.$playground-body-space-x;
+    @include front-variables.playground-body-space-x(padding-right, padding-left);
   }
   > .channel-box {
     padding-top: 0;

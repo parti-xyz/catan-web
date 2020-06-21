@@ -4,8 +4,11 @@
 
 .front-app .channel-listing {
   &.-starter {
-    padding-bottom: .25rem;
     border-bottom: 1px solid global-variables.$color-gray-200;
+  }
+  &.-end {
+    border-top: 1px solid global-variables.$color-gray-200;
+
   }
 
   > .header {

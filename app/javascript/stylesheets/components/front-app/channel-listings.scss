@@ -3,14 +3,18 @@
 .front-app .channel-listings {
   overflow-y: auto;
   overflow-x: hidden;
-  @include mixin.simplebar {
+  @include mixin.simplebar_x {
     > .channel-listing {
       margin-top: .75rem;
       margin-bottom: .75rem;
     }
     > .channel-listing.-starter {
+      padding-bottom: .25rem;
       margin-bottom: .25rem;
       margin-top: 0.75rem;
+    }
+    .channel-listing.-end {
+      padding-top: .75rem;
     }
   }
 }

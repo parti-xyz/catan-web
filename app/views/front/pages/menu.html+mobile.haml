@@ -1,0 +1,21 @@
+.channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'collection-activation', 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
+  = render 'front/pages/group_sidebar_content', categorised_issues: @categorised_issues, current_issue: @current_issue, current_folder: @current_folder
+
+  - my_menu = capture do
+    - if current_group.organized_by?(current_user) || current_user&.admin?
+      %li.channel-line
+        = link_to edit_front_group_path(current_group), class: 'link' do
+          그룹 관리
+    - if current_group.creatable_issue?(current_user) || current_user&.admin?
+      %li.channel-line
+        = link_to new_front_channel_path, class: 'link' do
+          채널 만들기
+
+  - if my_menu.present?
+    .channel-listing.-end
+      .header.clearfix
+        .title 내 메뉴
+
+      %ul.channel-lines
+        = my_menu
+

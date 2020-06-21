@@ -1,0 +1,43 @@
+.front-navbar
+  - if !current_group.private? || (user_signed_in? && current_group&.member?(current_user))
+    .menuitem
+      = link_to front_menu_path do
+        %i.fa.fa-bars.fa-fw
+    .menuitem
+      = link_to front_search_form_path(issue_id: @current_issue&.id) do
+        %i.fa.fa-search.fa-fw
+    .menuitem.navbar-group-menu
+      = link_to current_group.title, root_url, class: 'link'
+      = meta_icons(@current_issue)
+  - else
+    .menuitem.navbar-group-menu
+      = link_to current_group.title, root_url, class: 'link'
+      = meta_icons(@current_issue)
+
+  - if user_signed_in? && current_group&.member?(current_user)
+    #nav-messages.menuitem.dropdown{ data: { controller: 'content-loader message-read-all', 'content-loader': { url: nav_front_messages_path, 'refresh-interval': (1000 * 60 * 5).to_s, 'disable-refresh-jquery-event': 'show.bs.dropdown', 'enable-refresh-jquery-event': 'hide.bs.dropdown' }, 'message-read-all': { 'url': read_all_front_messages_url }, 'turbolinks-permanent': true } }
+      .notifications{ data: { toggle: 'dropdown' } }
+        %i.fa.fa-bell
+      .dropdown-menu.dropdown-menu-right.messages
+        .dropdown-item
+          %i.fa.fa-spinner.fa-pulse
+          로딩 중...
+
+  - if user_signed_in?
+    .dropdown.menuitem
+      .userimage{ "data-toggle" => "dropdown", :href => "#" }
+        .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
+      .dropdown-menu.usermenu.dropdown-menu-right
+        - if current_group.member?(current_user)
+          = link_to edit_me_front_members_path, class: 'dropdown-item' do
+            내 프로필
+        = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
+        = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+        - if current_group.member?(current_user)
+          .dropdown-divider
+          = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
+  - else
+    .menuitem
+      = link_to '회원가입', pre_sign_up_front_users_path, class: 'link'
+      &middot;
+      = link_to '로그인', new_user_session_path, class: 'link'

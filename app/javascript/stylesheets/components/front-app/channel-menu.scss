@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use '../front-variables';
 @use '../../bootstrap';
+@use '../../mq';
 
 .front-app .channel-menu {
   display: flex;
@@ -27,6 +28,9 @@
     font-size: 0.75rem;
     line-height: 1.33;
     font-weight: normal;
+    @include mq.media('<=phone') {
+      display: none;
+    }
   }
   > .title > .node.form-control {
     border-color: global-variables.$color-gray-300;
@@ -70,5 +74,59 @@
 
   > .control {
     flex: none;
+  }
+
+  @include mq.media("<=phone") {
+    flex-direction: column;
+    align-items: flex-start;
+
+    > .title {
+      margin-top: 2.5rem;
+      width: 100%;
+    }
+
+    &.-simple > .title {
+      margin-top: 0;
+    }
+
+    > .title > .node {
+      max-width: 100%;
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    > .title > .select2.select2-container {
+      max-width: 100%;
+      margin-left: 0;
+      margin-top: .5rem;
+      margin-bottom: 1rem;
+      font-weight: normal;
+    }
+
+    > .control {
+      flex: none;
+      margin-top: .5rem;
+      display: flex;
+      width: 100%;
+    }
+
+    > .control > .btn {
+      flex: 1;
+    }
+
+    > .title > .node.-dismiss {
+     font-size: bootstrap.$font-size-xs
+    }
+
+    > .title > .node.-search {
+      margin-left: 0;
+    }
+
+    > .title > .node:last-child:not(.fix) {
+      flex: none;
+    }
   }
 }

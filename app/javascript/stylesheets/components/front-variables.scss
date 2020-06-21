@@ -1,15 +1,30 @@
 @use '../global-variables';
+@use '../mq';
 
 $global-sidebar-width: 75px;
 $front-sidebar-width: 15rem;
 $color-sidebar-background: global-variables.$color-gray-000;
 $global-sidebar-space-x: 18%;
-$navbar-height: 2.75rem;
-$playground-body-space-x: 1.75rem;
 $playground-header-height-lg: 4.7rem;
 $playground-header-height-sm: 3rem;
 $playground-sidebar-width: 21rem;
 $playground-sidebar-space-x: .75rem;
+
+@mixin navbar-height($property) {
+  #{$property}: 2.75rem;
+  @include mq.media("<=phone") {
+    #{$property}: 3rem;
+  }
+}
+
+@mixin playground-body-space-x($properties...) {
+  @each $property in $properties {
+    #{$property}: 1.75rem;
+    @include mq.media("<=phone") {
+      #{$property}: .75rem;
+    }
+  }
+}
 
 $chosens:
   agree #367264,

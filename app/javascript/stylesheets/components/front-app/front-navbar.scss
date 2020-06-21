@@ -1,5 +1,6 @@
 @use '../../global-variables';
 @use '../../bootstrap';
+@use '../../mq';
 
 .front-app .front-navbar {
   // TODO 고쳐지는 부분
@@ -9,30 +10,6 @@
   align-items: center;
   padding: 0 1rem;
   z-index: 1;
-
-  .groupmenu {
-    flex: none;
-    // TODO 고쳐지는 부분
-    color: global-variables.$color-bnc-nav-text;
-  }
-
-  > .groupmenu > .link {
-    // TODO 고쳐지는 부분
-    font-weight: bold;
-    color: global-variables.$color-bnc-nav-text;
-  }
-
-  > .groupmenu:hover > .link {
-    color: darken(global-variables.$color-bnc-nav-text, 20%);
-  }
-
-  > .groupmenu > .moremenu > .dropdown > .title {
-    font-weight: bold;
-  }
-
-  > .groupmenu > .moremenu > .dropdown > .title > .meta {
-    opacity: .4;
-  }
 
   > .searchform {
     flex: 1;
@@ -117,12 +94,14 @@
     // TODO 고쳐지는 부분
     color: global-variables.$color-bnc-nav-text;
   }
-  > .profilemenus > .dropdown > .userimage {
+  > .profilemenus > .dropdown > .userimage,
+  > .dropdown > .userimage {
     flex: none;
     vertical-align: bottom;
     cursor: pointer;
   }
-  > .profilemenus > .dropdown > .userimage > .userimagebg {
+  > .profilemenus > .dropdown > .userimage > .userimagebg,
+  > .dropdown > .userimage > .userimagebg {
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 9999px;
@@ -193,5 +172,28 @@
     min-width: 400px;
     overflow: auto;
     padding: 0;
+  }
+
+  @include mq.media('<=phone') {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > .dropdown > .messages {
+      width: 350px;
+      max-width: 350px;
+      min-width: 350px;
+      max-height: 400px;
+      overflow: auto;
+    }
+
+    > .menuitem {
+      margin: 0;
+      text-align: center;
+    }
+
+    > .dropdown > .notifications {
+      margin: 0;
+    }
   }
 }

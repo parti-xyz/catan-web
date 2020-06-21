@@ -1,5 +1,6 @@
 @use '../front-variables';
 @use '../../global-variables';
+@use '../../mq';
 
 .front-app .playground-header {
   white-space: nowrap;
@@ -13,5 +14,15 @@
   > .channel-menu.-simple {
     height: front-variables.$playground-header-height-sm;
     padding-bottom: 0;
+  }
+
+  @include mq.media('<=phone') {
+    > .channel-menu {
+      height: auto;
+      padding-bottom: .25rem;
+    }
+    > .channel-menu.-simple {
+      height: auto;
+    }
   }
 }
