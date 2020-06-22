@@ -29,12 +29,12 @@
         .dropdown
           .title.cursor-pointer{ "data-toggle": "dropdown" }
             = current_group.title
-            = meta_icons(@current_issue)
+            = meta_icons(current_group)
           .dropdown-menu.dropdown-menu-right
             = moremenu_content
     - else
       = link_to current_group.title, root_url, class: 'link'
-      = meta_icons(@current_issue)
+      = meta_icons(current_group)
 
   - if current_group.private_blocked?(current_user)
     .searchform.dummy

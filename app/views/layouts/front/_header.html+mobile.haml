@@ -8,11 +8,11 @@
         %i.fa.fa-search.fa-fw
     .menuitem.navbar-group-menu
       = link_to current_group.title, root_url, class: 'link'
-      = meta_icons(@current_issue)
+      = meta_icons(current_group)
   - else
     .menuitem.navbar-group-menu
       = link_to current_group.title, root_url, class: 'link'
-      = meta_icons(@current_issue)
+      = meta_icons(current_group)
 
   - if user_signed_in? && current_group&.member?(current_user)
     #nav-messages.menuitem.dropdown{ data: { controller: 'content-loader message-read-all', 'content-loader': { url: nav_front_messages_path, 'refresh-interval': (1000 * 60 * 5).to_s, 'disable-refresh-jquery-event': 'show.bs.dropdown', 'enable-refresh-jquery-event': 'hide.bs.dropdown' }, 'message-read-all': { 'url': read_all_front_messages_url }, 'turbolinks-permanent': true } }
