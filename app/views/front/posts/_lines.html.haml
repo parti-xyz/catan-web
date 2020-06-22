@@ -66,9 +66,9 @@
         .counts
           %span.upvotes
             %i.fa.fa-heart-o
-            = post.upvotes_count
+            = trim_count(post.upvotes_count)
           %span.comments
             %i.fa.fa-comment-o
-            = post.comments_count
+            = trim_count(post.comments_count)
 
 = paginate posts, theme: 'catan'

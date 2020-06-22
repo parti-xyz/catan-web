@@ -35,7 +35,7 @@
             - if @current_post.comments_count > 0
               %a.comments{ class: ('-active' if @current_post.commented_by_me?) }
                 %i.fa{ class: (@current_post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
-                = @current_post.comments_count
+                = trim_count(@current_post.comments_count)
           = render 'front/posts/show/upvotings/reaction', current_upvotable: @current_post
 
         .comments{ data: { target: 'comment-form-sync.commentsContent' } }
