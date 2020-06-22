@@ -11,8 +11,10 @@
   > .main {
     flex: 1;
     position: relative;
+    display: flex;
   }
   > .main > .title {
+    flex: 1;
     margin-bottom: .5rem;
     font-size: bootstrap.$font-size-xl;
   }
@@ -42,10 +44,7 @@
     color: global-variables.$color-gray-600;
   }
   > .main > .moremenu {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    right: 0;
+    flex: none;
   }
   > .main > .moremenu > .dropdown > .btn {
     padding: 0 .5rem;
