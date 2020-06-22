@@ -94,7 +94,7 @@ class Front::ChannelsController < Front::BaseController
   def sync
     render_403 and return unless user_signed_in?
 
-    @issues = current_group.issues.accessible_only(current_user).includes(:current_user_issue_reader, :group)
+    @issues = current_group.issues.includes(:current_user_issue_reader).accessible_only(current_user).includes(:current_user_issue_reader, :group)
     respond_to do |format|
       format.json
     end

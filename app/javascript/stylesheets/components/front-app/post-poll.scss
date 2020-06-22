@@ -2,6 +2,7 @@
 @use '../front-variables';
 @use '../../bootstrap';
 @use '../../mixin';
+@use '../../mq';
 
 .front-app .post-poll {
   border: 1px solid global-variables.$color-gray-300;
@@ -95,5 +96,16 @@
   > .votings > .remarks > .remark > .link > .countcontainer > .count {
     font-weight: bold;
     color: global-variables.$color-brand-primary;
+  }
+
+  @include mq.media('<=phone') {
+    padding: 2.25rem 1rem;
+
+    > .votings > .buttons > .btn > .fa {
+      display: none;
+    }
+    > .votings > .buttons > .btn {
+      min-width: 3rem;
+    }
   }
 }

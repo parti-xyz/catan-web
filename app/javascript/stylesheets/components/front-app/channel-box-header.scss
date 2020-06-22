@@ -1,5 +1,6 @@
 @use '../../global-variables';
 @use '../../bootstrap';
+@use '../../mq';
 
 .front-app .channel-box-header {
   display: flex;
@@ -35,5 +36,12 @@
 
   > .sort {
     margin-right: .5rem
+  }
+
+
+  @include mq.media('<=phone') {
+    > .pages > .all > .link > .page {
+      display: none
+    }
   }
 }
