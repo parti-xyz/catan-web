@@ -3,6 +3,7 @@
 .front-app .post-comment {
   display: flex;
   border-bottom: 1px solid global-variables.$color-gray-200;
+  overflow: hidden;
 
   &.-form:not(:first-child) {
     border-top: 1px solid global-variables.$color-gray-200;
@@ -37,5 +38,6 @@
   // components
   > .post-comment-main {
     flex: 1;
+    min-width: 0;
   }
 }

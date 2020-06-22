@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 @use '../../mixin';
+@use '../../mq';
 
 .front-app .comment-form {
   width: 100%;
@@ -54,6 +55,12 @@
     @include mixin.placeholder {
       font-size: bootstrap.$font-size-sm;
       color: global-variables.$color-gray-400
+    }
+  }
+
+  @include mq.media('<=phone') {
+    > .filesourcesfield > .footer > .btn + .btn {
+      margin-top: .5rem;
     }
   }
 }

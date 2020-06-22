@@ -23,6 +23,8 @@ export default class extends Controller {
     this.docFileSourcePreviewTemplate = this.docFileSourcePreviewTemplateTarget.textContent
 
     this.surveyOptionTemplate = this.surveyOptionTemplateTarget.textContent
+
+    this.fileSourceCounter()
   }
 
   openFileSourcesFieldGroup(event) {

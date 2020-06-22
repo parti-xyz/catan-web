@@ -16,6 +16,8 @@ export default class extends Controller {
     this.fileSourceFieldTemplate = this.fileSourceFieldTemplateTarget.textContent
     this.imageFileSourcePreviewTemplate = this.imageFileSourcePreviewTemplateTarget.textContent
     this.docFileSourcePreviewTemplate = this.docFileSourcePreviewTemplateTarget.textContent
+
+    this.fileSourceCounter()
   }
 
   submit(evnet) {

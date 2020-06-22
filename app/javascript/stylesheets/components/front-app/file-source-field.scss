@@ -3,6 +3,7 @@
 
 .front-app .file-source-field {
   display: none;
+  max-width: 100%;
 
   &.-image.-active,
   &.-doc.-active {

@@ -122,6 +122,10 @@
     > .controls > .control > .submitbox > .btn {
       margin: .25rem 0;
     }
+
+    > .filesourcesfield > .footer > .btn + .btn {
+      margin-top: .5rem;
+    }
   }
 
 }

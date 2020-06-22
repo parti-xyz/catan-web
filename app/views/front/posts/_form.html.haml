@@ -36,15 +36,15 @@
         = f.fields_for :file_sources, current_post.file_sources_only_doc do |ff|
           = render 'front/file_sources/form/field', f: ff, js_controller_name: 'post-form'
     .footer
-      .btn.btn-secondary.btn-sm{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
+      .btn.btn-secondary.btn-sm.btn-block-xs{ data: { target: 'post-form.addFileSourceFieldButton', action: 'click->post-form#addFileSourceField' } }
         + 파일 추가
         %span.counter
           (
-          %span{ data: { target: 'post-form.fileSourcesCounter' } }<> 0
+          %span{ data: { target: 'post-form.fileSourcesCounter' } }<>= f.object.persisted? ? f.object.file_sources_count : 0
           \/
           %span<> 20
           )
-      .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->post-form#closeFileSourcesFieldGroup' } } 업로드 취소
+      .btn.btn-light.btn-sm.text-muted.btn-block-xs{ data: { action: 'click->post-form#closeFileSourcesFieldGroup' } } 업로드 취소
 
       .template{ data: { target: 'post-form.fileSourceFieldTemplate' } }
         = escape_once_block do
