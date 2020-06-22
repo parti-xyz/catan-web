@@ -27,11 +27,12 @@
     - if current_wiki.active?
       .submitbox
         - if current_wiki.persisted?
-          = link_to '닫기', front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-link', data: { 'turbolinks-action': 'replace', confirm: '정말 저장하지 않고 닫겠습니까?' }
-        = f.button '저장하고 닫기', class: 'btn btn-secondary', value: 'after_close', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
-        = f.submit '저장하고 계속 편집', class: 'btn btn-primary', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
+          = link_to '닫기', front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-link btn-sm btn-block-xs', data: { 'turbolinks-action': 'replace', confirm: '정말 저장하지 않고 닫겠습니까?' }
+        = f.button '저장하고 닫기', class: 'btn btn-secondary btn-sm btn-block-xs', value: 'after_close', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
+        = f.submit '저장하고 계속 편집', class: 'btn btn-primary btn-sm btn-block-xs', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
 
-  = controls if current_wiki.too_long?
+  .controls.-top
+    = controls if current_wiki.too_long?
 
   = f.fields_for :wiki do |ff|
     .post-wiki
@@ -44,11 +45,13 @@
           %div{ style: 'display: none', data: { target: 'editor-form.conflictSource' } }
             != current_wiki.conflicted_body
 
-  .controls-wrapper.clearfix.mt-4
-    .controls
-      - if current_issue.folders.any?
-        - form_folder = current_wiki.persisted? ? current_wiki.post.folder : current_folder
-        .form-group.form-inline.folderfield.pull-left{ data: { controller: 'select-link-remote content-loader', 'content-loader-url': post_folder_field_front_channel_path(current_issue, folder_id: form_folder&.id, form_field_name: "#{f.object_name}[folder_id]") } }
 
-      .pull-right
-        = controls
+  .controls
+    .control
+      = controls
+
+    - if current_issue.folders.any?
+      - form_folder = current_wiki.persisted? ? current_wiki.post.folder : current_folder
+
+      .control.form-group.form-inline.folderfield{ data: { controller: 'select-link-remote content-loader', 'content-loader-url': post_folder_field_front_channel_path(current_issue, folder_id: form_folder&.id, form_field_name: "#{f.object_name}[folder_id]") } }
+

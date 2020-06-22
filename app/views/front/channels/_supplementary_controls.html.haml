@@ -1,0 +1,9 @@
+- if can?(:update, current_issue)
+  = link_to edit_front_channel_path(current_issue, folder_id: current_folder&.id), class: 'btn btn-light btn-sm text-muted mt-3', title: '채널 설정' do
+    %i.fa.fa-cog
+    채널 설정
+  - if current_group.organized_by?(current_user)
+    &nbsp;
+    = link_to arrange_front_channel_folders_path(channel_id: current_issue), target: '_blank', class: 'btn btn-light btn-sm text-muted mt-3', title: '채널 설정' do
+      %i.fa.fa-folder
+      폴더 설정

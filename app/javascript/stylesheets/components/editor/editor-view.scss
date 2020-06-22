@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 @use '../../mixin';
+@use '../../mq';
 
 body.-pack {
   .ProseMirror-menubar-wrapper {
@@ -18,6 +19,11 @@ body.-pack {
     white-space: pre-wrap;
 
     @include mixin.editor-content;
+
+    @include mq.media('<=phone') {
+      overflow: scroll;
+      height: 218px;
+    }
   }
 
   .ProseMirror-hideselection *::selection { background: transparent; }

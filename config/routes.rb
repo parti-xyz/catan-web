@@ -437,6 +437,12 @@ Rails.application.routes.draw do
       collection do
         get :sync
       end
+
+      resources :folders, only: [] do
+        collection do
+          get :arrange
+        end
+      end
     end
     resources :issues, only: [:update, :create, :destroy], controller: '/issues' do
       member do

@@ -44,10 +44,7 @@
 - content_for :playground_sidebar_content do
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
-    - if can?(:update, @current_issue)
-      = link_to edit_front_channel_path(@current_issue, folder_id: @current_folder&.id), class: 'btn btn-light btn-sm text-muted mt-3', title: '채널 설정' do
-        %i.fa.fa-cog
-        채널 설정
+    = render 'front/channels/supplementary_controls', current_folder: @currnt_folder, current_issue: @current_issue
 
 - if @posts.any?
   .channel-box{ data: { controller: 'channel-read-emit' } }

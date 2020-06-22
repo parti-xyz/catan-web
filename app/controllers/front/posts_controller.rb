@@ -65,4 +65,7 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
   end
+
+  def edit_folder
+  end
 end

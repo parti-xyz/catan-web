@@ -45,4 +45,9 @@ $font-size-base: 1rem;
 //   }
 // }
 
-
+@include mq.media("<=phone") {
+  .btn-block-xs {
+    width: 100%;
+    display:block;
+  }
+}
