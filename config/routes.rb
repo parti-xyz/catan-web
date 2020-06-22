@@ -479,10 +479,6 @@ Rails.application.routes.draw do
         patch 'wiki', to: '/posts#update_wiki'
         post 'pin'
         delete 'unpin'
-        namespace :wiki, module: nil, controller: '/wikis' do
-          patch 'purge'
-          patch 'activate'
-        end
       end
     end
 
