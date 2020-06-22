@@ -217,7 +217,11 @@ class IssuesController < ApplicationController
         organizer_users = User.parse_nicknames(@issue.organizer_nicknames)
         organizer_users.each do |user|
           member = @issue.members.find_by(user: user)
-          next if member.blank?
+
+          if member.blank?
+            member = MemberIssueService.new(issue: @issue, user: user, need_to_message_organizer: false, is_force: true).call
+            next if member.blank?
+          end
 
           unless member.is_organizer?
             member.update_attributes(is_organizer: true)
