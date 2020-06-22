@@ -1,0 +1,50 @@
+%section.text-center
+  .container
+
+    - if current_group.member_requested?(current_user)
+      %h3
+        %i.fa.fa-cube
+        이제 곧 커뮤니티로 초대드릴게요!
+      .simple-box.text-center{ style: 'padding: 2rem 0'}
+        %p.lead
+          %p
+            %strong #{current_user.nickname}
+            님의 인증 신청을 운영진이 검토 중입니다.
+            %br
+            곧 처리될 예정이니 조금만 기다려 주세요.
+          %p
+            감사합니다.
+
+    - else
+      .simple-box.text-center{ style: 'padding: 2rem 0'}
+        %h3
+          %i.fa.fa-cube
+          안녕하세요,
+          %br
+          %span.text-nowrap 버터나이프크루
+          %span.text-nowrap 2기 커뮤니티에
+          %span.text-nowrap 오신 것을
+          %span.text-nowrap 환영합니다!
+        - if user_signed_in?
+          %p
+            버터나이프크루 커뮤니티에서 활동하려면
+            %br
+            크루 인증이 필요합니다.
+          %p
+            지금 신청 해주세요.
+          %p.pt-3
+            = link_to new_front_member_request_path, class: 'btn btn-md btn-primary btn-block' do
+              크루 인증 신청하기
+        - else
+          %p
+            버터나이프크루 커뮤니티에서 활동하려면
+            %br
+            가입과 크루 인증이 필요합니다.
+          %p
+            먼저 가입해 주세요.
+          %p.pt-3
+            = link_to pre_sign_up_front_users_path, class: 'btn btn-md btn-primary btn-block' do
+              가입하기
+          %p.text-center
+            이미 가입하셨나요?
+            = link_to '로그인', new_user_session_path, class: 'text-primary'
