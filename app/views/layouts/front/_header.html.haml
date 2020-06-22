@@ -7,7 +7,7 @@
           %i.fa.fa-home.text-muted
           그룹 홈
 
-        - gruop_menu = capture do
+        - group_menus = capture do
           - if current_group.organized_by?(current_user) || current_user&.admin?
             = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
               그룹 관리
@@ -22,9 +22,10 @@
             = link_to new_front_channel_path, class: 'dropdown-item' do
               채널 만들기
 
-        - if gruop_menu.present?
+        - if group_menus.present?
           .dropdown-divider
-          = gruop_menus
+          = group_menus
+
         - if current_group.member?(current_user)
           .dropdown-divider
           = link_to edit_me_front_members_path, class: 'dropdown-item' do

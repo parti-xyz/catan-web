@@ -1,4 +1,4 @@
-= link_to front_post_path(comment.post, anchor_comment: comment_line_anchor_dom_id(comment)) do
+= link_to front_post_path(comment.post, anchor: dom_id(comment)) do
   %strong
     - if comment.mentioned?(message.user)
       %span

@@ -7,11 +7,10 @@
       = link_to front_search_form_path(issue_id: @current_issue&.id) do
         %i.fa.fa-search.fa-fw
     .menuitem.navbar-group-menu
-      = link_to current_group.title, root_url, class: 'link'
-      = meta_icons(current_group)
+      = link_to current_group.head_title, root_url, class: 'link'
   - else
     .menuitem.navbar-group-menu
-      = link_to current_group.title, root_url, class: 'link'
+      = link_to current_group.head_title, root_url, class: 'link'
       = meta_icons(current_group)
 
   - if user_signed_in? && current_group&.member?(current_user)
