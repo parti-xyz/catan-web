@@ -8,6 +8,10 @@ export default class extends Controller {
 
   connect() {
     this.timer = new Timer(this.sync.bind(this), this.data.get("refreshInterval"))
+
+    if (this.data.get('first') === 'true') {
+      this.sync()
+    }
   }
 
   disconnect() {
