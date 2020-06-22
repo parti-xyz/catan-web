@@ -1,0 +1,65 @@
+@use './bootstrap';
+@use "./mq";
+
+.dropdown-header {
+  padding: bootstrap.$dropdown-item-padding-y bootstrap.$dropdown-item-padding-x;
+  font-size: bootstrap.$font-size-xs;
+}
+
+.dropdown-header:first-child,
+.dropdown-item:first-child {
+  padding-top: bootstrap.$dropdown-item-padding-y * 2;
+}
+
+.dropdown-header:last-child,
+.dropdown-item:last-child {
+  padding-bottom: bootstrap.$dropdown-item-padding-y * 2;
+}
+
+
+
+// @mixin font-size-sm-md {
+//   font-size: $font-size-sm;
+//   @include mq.media("<=phone") {
+//     font-size: $font-size-md;
+//   }
+// }
+
+// @mixin font-size-sm-lg {
+//   font-size: $font-size-sm;
+//   @include mq.media("<=phone") {
+//     font-size: $font-size-lg;
+//   }
+// }
+
+@include mq.media("<=phone") {
+  .btn-block-xs {
+    width: 100%;
+    display:block;
+  }
+}
+
+@include mq.media("<=phone") {
+  .dropdown {
+    &.show::before {
+      content: '';
+      background-color: rgba(0, 0, 0, 0.4);
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 990;
+    }
+    > .dropdown-menu {
+      bottom: 20px;
+      position: fixed !important;
+      left: 10px !important;
+      right: 10px !important;
+      top: auto !important;
+      max-height: 50vh;
+      overflow-x: scroll;
+      transform: none !important;
+    }
+  }
+}

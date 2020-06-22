@@ -3,7 +3,9 @@
     .channel-menu.-simple
       .title
         .node
-          = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+          = link_to front_channel_path(@current_issue), class: 'link' do
+            \#
+            = @current_issue.title
           = meta_icons(@current_issue)
         - unless is_small_screen?
           - @current_post.folder&.ancestors_and_self&.each do |folder|
@@ -21,3 +23,5 @@
   .alert.alert-secondary
     %i.fa.fa-check
     해당 게시글이 삭제되었습니다.
+    .mt-4
+    = link_to '뒤로 돌아가기', 'javascript:history.back()', class: 'btn btn-secondary'

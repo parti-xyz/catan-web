@@ -22,6 +22,8 @@
   > .header > .title {
     font-weight: 700;
     display: inline-block;
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
   }
   > .header > .btn.-add {
     padding: 1px;

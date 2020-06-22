@@ -22,8 +22,8 @@
     background-color: global-variables.$color-gray-300;
   }
   > .link > .title {
-    display: inline-block;
-    color: global-variables.$color-gray-900;
+    display: inline-flex;
+    color: global-variables.$color-gray-700;
     margin-left: 0;
     margin-right: 0.25rem;
     font-size: bootstrap.$font-size-sm;
@@ -33,6 +33,7 @@
     margin-right: 0.25rem;
     color: global-variables.$color-gray-500;
     font-size: bootstrap.$font-size-sm;
+    font-weight: 200;
   }
   > .link.-active > .title > .hash {
     color: global-variables.$color-gray-800;
@@ -42,19 +43,13 @@
   }
   > .link > .unread.-active {
     display: inline-block;
-    color: #ffffff;
-    background: global-variables.$color-red-500;
-    border-radius: 2px;
-    font-size: 0.5rem;
-    line-height: 0.75rem;
-    font-weight: bold;
-    white-space: nowrap;
-    width: .75rem;
-    height: .75rem;
-    line-height: .75rem;
-    text-align: center;
-    top: -.125rem;
+    background: #e02020;
+    border-radius: 9999px;
+    width: .25rem;
+    height: .25rem;
+    bottom: .5rem;
     position: relative;
+    right: .25rem;
   }
   > .link > .title > .content > .meta > .fa {
     opacity: 0.5;

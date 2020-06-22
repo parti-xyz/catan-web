@@ -1,5 +1,7 @@
 - if current_wiki.active?
-  - is_full = (params[:full].present? ? params[:full] == 'true' : current_wiki.too_short?)
+  -# TODO full 만으로 서비스 되면 접기는 지우기
+  -# - is_full = (params[:full].present? ? params[:full] == 'true' : current_wiki.too_short?)
+  - is_full = true
   .body{ class: ('-full' if is_full), data: { controller: 'content-replacement' } }
     .article
       .brightness

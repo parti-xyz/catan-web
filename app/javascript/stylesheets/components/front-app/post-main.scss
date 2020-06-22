@@ -1,8 +1,8 @@
 .front-app .post-main {
-  > .post-content {
-    margin-top: 1rem;
-  }
   > .post-header {
     padding-bottom: .25rem;
+  }
+  > .post-header:not(.-wiki) + .post-content {
+    margin-top: 1rem;
   }
 }

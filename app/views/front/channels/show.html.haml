@@ -8,9 +8,12 @@
           - if @current_issue.category.present?
             .category= @current_issue.category.name
           - if @current_folder.present? || search_q.present?
-            = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+            = link_to front_channel_path(@current_issue), class: 'link' do
+              \#
+              = @current_issue.title
           - else
-            \# #{@current_issue.title}
+            \#
+            = @current_issue.title
           = meta_icons(@current_issue)
         - if search_q.blank?
           - if is_small_screen? && @current_issue.folders.any?

@@ -180,20 +180,23 @@
     align-items: center;
 
     > .dropdown > .messages {
-      width: 350px;
-      max-width: 350px;
-      min-width: 350px;
+      width: 300px;
+      max-width: 300px;
+      min-width: 300px;
       max-height: 400px;
       overflow: auto;
     }
 
-    > .menuitem {
+    > .menuitem:not(.dropdown) {
       margin: 0;
       text-align: center;
       max-width: 160px;
-      overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+
+    > .menuitem:not(.dropdown) {
+      overflow-x: hidden;
     }
 
     > .dropdown > .notifications {

@@ -10,7 +10,7 @@
       %div{:style => "padding: 0 10px;"}
         %div{:style => "font-size: 14px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(51, 51, 51); padding: 0px; margin: 0px; text-align: center;"}
           %span{:style => "color: rgb(99, 60, 163); font-size: 16px;"}
-            \#{@organizer.nickname}님이 #{@issue.title} 채널을 새로 열었습니다.
+            #{@organizer.nickname}님이 #{@issue.title} 채널을 새로 열었습니다.
 
 - if @issue.body.present?
   %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}

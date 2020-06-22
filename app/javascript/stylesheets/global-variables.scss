@@ -1,5 +1,15 @@
-$color-brand-primary: #966fd6;
-$color-brand-secondary: #dee2e6;
+$color-brand-900: #2b0e9c;
+$color-brand-800: #421caa;
+$color-brand-700: #5022b1;
+$color-brand-600: #5e2abb;
+$color-brand-400: #966fd6;
+$color-brand-300: #b59ae0;
+$color-brand-200: #d2c2ed;
+$color-brand-100: #e0d3f0;
+$color-brand-000: #dee2e6;
+
+$color-brand-primary: $color-brand-800;
+$color-brand-secondary: $color-brand-200;
 
 $color-voodoo-500: #3e313c;
 $color-voodoo-400: #655A63;

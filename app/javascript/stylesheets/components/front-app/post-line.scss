@@ -11,21 +11,9 @@
   & + .post-line {
     border-top-width: 0;
   }
-  &:hover {
-    background-color: global-variables.$color-gray-100;
-    > .body > .title {
-      color: global-variables.$color-brand-primary;
-    }
-  }
   &.-active {
     background-color: global-variables.$color-gray-100;
     > .icon,
-    > .body > .title {
-      color: global-variables.$color-brand-primary;
-    }
-  }
-  &.-active:hover {
-    background-color: global-variables.$color-gray-200;
     > .body > .title {
       color: global-variables.$color-brand-primary;
     }
@@ -48,12 +36,13 @@
     color: global-variables.$color-gray-300;
   }
   > .body > .title > .unread {
-    font-size: 8px;
     display: none;
     background-color: red;
-    color: white;
     padding: 2px;
-    vertical-align: top;
+    border-radius: 9999px;
+    position: relative;
+    right: -.25rem;
+    bottom: .85rem;
   }
   > .body > .title > .unread.-active {
     display: inline-block;

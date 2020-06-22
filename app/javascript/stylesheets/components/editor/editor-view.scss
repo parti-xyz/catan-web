@@ -7,6 +7,7 @@ body.-pack {
   .ProseMirror-menubar-wrapper {
     position: relative;
     border: 1px solid global-variables.$color-gray-300;
+    border-radius: 2px
   }
 
   .ProseMirror {
@@ -71,7 +72,7 @@ body.-pack {
   .ProseMirror-menuitem:hover .ProseMirror-icon {
     background-color: global-variables.$color-gray-600;
     color: white;
-    border-radius: .25rem;
+    border-radius: 2px;
   }
 
   .ProseMirror-menuseparator {
@@ -112,7 +113,7 @@ body.-pack {
   .ProseMirror-menu-dropdown-wrap:hover .ProseMirror-menu-dropdown {
     background-color: global-variables.$color-gray-600;
     color: white;
-    border-radius: .25rem;
+    border-radius: 2px;
   }
 
   .ProseMirror-menu-dropdown-menu, .ProseMirror-menu-submenu {
@@ -161,12 +162,12 @@ body.-pack {
 
   .ProseMirror-menu-active {
     background: #eee;
-    border-radius: 4px;
+    border-radius: 2px;
   }
 
   .ProseMirror-menu-active {
     background: #eee;
-    border-radius: 4px;
+    border-radius: 2px;
   }
 
   .ProseMirror-menu-disabled {
@@ -185,7 +186,7 @@ body.-pack {
     color: global-variables.$color-gray-600;
     padding: .5rem;
     top: 0; left: 0; right: 0;
-    border-bottom: 1px solid global-variables.$color-gray-400;
+    border-bottom: 1px solid global-variables.$color-gray-300;
     background: white;
     z-index: 10;
     -moz-box-sizing: border-box;
@@ -219,7 +220,7 @@ body.-pack {
     padding: 1rem;
     border: 1px solid silver;
     position: fixed;
-    border-radius: 0.25rem;
+    border-radius: 2px;
     z-index: 11;
     @include mixin.box-shadow;
   }
@@ -259,7 +260,7 @@ body.-pack {
   .ProseMirror-invalid {
     background: #ffc;
     border: 1px solid #cc7;
-    border-radius: 4px;
+    border-radius: 2px;
     padding: 5px 10px;
     position: absolute;
     min-width: 10em;

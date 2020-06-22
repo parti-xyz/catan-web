@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 @use '../../mixin';
+@use '../../mq';
 
 .front-app .post-wiki {
   &:hover > .body:not(.-edit) {
@@ -19,16 +20,16 @@
     max-height: initial;
   }
   > .body.-edit {
-  border: none;
+    border: none;
   }
   > .body > .article {
     background-color: white;
     box-shadow: 0px 2px 2px 0 rgba(0,0,0,0.5);
     border-top: solid 1px global-variables.$color-gray-200;
-    padding: 1rem;
+    padding: 2rem 1rem;
   }
   > .body.-full > .article {
-    padding-bottom: 2.5rem;
+    padding-bottom: 4.5rem;
   }
   > .body > .shadow {
     position: absolute;
@@ -82,5 +83,11 @@
     background-size: cover;
     display: inline-block;
     background-color: white;
+  }
+
+  @include mq.media('<=phone') {
+    > .body > .article {
+      padding: 1rem .75rem;
+    }
   }
 }

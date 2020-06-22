@@ -1,9 +1,7 @@
 @use '../../global-variables';
 
 .front-app .post-box {
-  display: flex;
-
   > .post-main {
-    flex: 1;
+    width: 100%;
   }
 }

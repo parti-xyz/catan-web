@@ -31,8 +31,9 @@
         = f.button '저장하고 닫기', class: 'btn btn-secondary btn-sm btn-block-xs', value: 'after_close', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
         = f.submit '저장하고 계속 편집', class: 'btn btn-primary btn-sm btn-block-xs', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
 
-  .controls.-top
-    = controls if current_wiki.too_long?
+  - if controls.present? && current_wiki.too_long?
+    .controls.-top
+      = controls
 
   = f.fields_for :wiki do |ff|
     .post-wiki
@@ -45,13 +46,13 @@
           %div{ style: 'display: none', data: { target: 'editor-form.conflictSource' } }
             != current_wiki.conflicted_body
 
+  - if controls.present?
+    .controls
+      .control
+        = controls
 
-  .controls
-    .control
-      = controls
+      - if current_issue.folders.any?
+        - form_folder = current_wiki.persisted? ? current_wiki.post.folder : current_folder
 
-    - if current_issue.folders.any?
-      - form_folder = current_wiki.persisted? ? current_wiki.post.folder : current_folder
-
-      .control.form-group.form-inline.folderfield{ data: { controller: 'select-link-remote content-loader', 'content-loader-url': post_folder_field_front_channel_path(current_issue, folder_id: form_folder&.id, form_field_name: "#{f.object_name}[folder_id]") } }
+        .control.form-group.form-inline.folderfield{ data: { controller: 'select-link-remote content-loader', 'content-loader-url': post_folder_field_front_channel_path(current_issue, folder_id: form_folder&.id, form_field_name: "#{f.object_name}[folder_id]") } }
 

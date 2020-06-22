@@ -101,31 +101,10 @@
     margin-bottom: 1rem;
   }
 
-  &.-wiki-form:hover {
-    margin-left: -1rem;
-    margin-right: -1rem;
-
-    > .post-wiki > .body > .formtitle {
-      margin-left: 1rem;
-      margin-right: 1rem;
-      width: calc(100% - 2rem);
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-    }
-    > .post-wiki .ProseMirror-menubar-wrapper {
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-      margin-left: 1rem;
-      margin-right: 1rem;
-    }
-    > .body,
-    > .controls {
-      margin-left: 1rem;
-      margin-right: 1rem;
-    }
-  }
-
   @include mq.media('<=phone') {
     > .controls {
-      display: block;
+      display: flex;
+      flex-direction: column-reverse;
     }
     > .controls > .control {
       margin: .5rem 0;

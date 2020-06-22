@@ -5,7 +5,9 @@
     .channel-menu.-simple
       .title
         .node
-          = link_to "# #{@current_issue.title}", front_channel_path(@current_issue), class: 'link'
+          = link_to front_channel_path(@current_issue), class: 'link' do
+            \#
+            = @current_issue.title
           = meta_icons(@current_issue)
         - unless is_small_screen?
           - @current_post.folder&.ancestors_and_self&.each do |folder|

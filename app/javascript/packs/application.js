@@ -18,10 +18,21 @@ Turbolinks.start()
 elementClosest(window)
 
 if (window.jQuery) {
-  jQuery(document).ready(function($) {
+  jQuery(document).on('turbolinks:load', function () {
     $('body').tooltip({
       selector: '[data-toggle="tooltip"]',
     })
+
+    if (window.matchMedia && window.matchMedia("screen and (max-width: 450px)").matches) {
+      // 액션시트
+      jQuery('.dropdown').on('show.bs.dropdown', function (e) {
+        jQuery(this).find('.dropdown-menu').first().stop(true, true).slideDown(400)
+      });
+
+      jQuery('.dropdown').on('hide.bs.dropdown', function (e) {
+        jQuery(this).find('.dropdown-menu').first().stop(true, true).slideUp(200)
+      });
+    }
   })
 
   jQuery(document).on('ajax:success ajax:error', function (event) {
