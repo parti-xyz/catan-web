@@ -3,7 +3,7 @@
   - if local_assigns[:parent_comment].present?
     = f.hidden_field :parent_id, value: parent_comment.id
   .form-group.mb-1.bodyfield
-    = f.text_area :body, class: "form-control textarea", placeholder: '댓글을 입력하세요', data: { controller: 'auto-resize', target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'input->comment-form#updateBodyField' }, rows: 1
+    = f.text_area :body, class: "form-control textarea", placeholder: '댓글을 입력하세요', data: { controller: 'auto-resize', target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'input->comment-form#updateBodyField auto-resize:updateView->auto-resize#updateView' }, rows: 1
 
   .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if f.object.file_sources.any?) }
     .header

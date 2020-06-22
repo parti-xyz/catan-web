@@ -9,6 +9,10 @@ export default class extends Controller {
     this.viewContentTarget.classList.remove('show')
     this.formContentTarget.classList.add('show')
     this.bodyFieldTarget.focus()
+
+    this.bodyFieldTarget.dispatchEvent(new CustomEvent('auto-resize:updateView', {
+      bubbles: false,
+    }))
   }
 
   close(event) {

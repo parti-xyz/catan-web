@@ -5,4 +5,8 @@ export default class extends Controller {
   connect() {
     autosize(this.element)
   }
+
+  updateView(event) {
+    autosize.update(this.element)
+  }
 }
