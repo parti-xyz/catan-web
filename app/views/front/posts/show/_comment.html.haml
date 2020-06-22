@@ -9,7 +9,7 @@
         = comment.user.nickname
       .datetime
         = smart_date_tag comment.created_at
-      - if comment.choice.present?
+      - if comment.choice.present? && !comment.post&.poll&.hidden_voters?
         .voting{ class: "-#{comment.choice}" }
           = comment.choice_text
       .body{ class: ('-mine' if comment.user == current_user) }
