@@ -71,11 +71,15 @@
       = link_to pin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
         이 게시글을 고정하기
 
-- moremenu_content = capture do
+- moremenu_post_content = capture do
   - button_groups.reject { |button_group| button_group.blank? }.each_with_index do |button_group, index|
     - if index != 0
       .dropdown-divider
     = button_group
+
+- moremenu_wiki_controls = capture do
+  - if @current_post.wiki.present?
+    = render 'front/wikis/controls', current_wiki: @current_post.wiki
 
   -# - if @current_post.can_beholder?(current_user)
   -#   %li
@@ -99,13 +103,14 @@
         -#   .meta
         -#     .icon<> 위키
         %h5.title= @current_post.title
-        - if moremenu_content.present? && @current_post.wiki.present?
+        - if (moremenu_post_content.present? || moremenu_wiki_controls.present?) && @current_post.wiki.present?
           .moremenu
-            .dropdown
+            = moremenu_wiki_controls
+            %span.dropdown
               %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
                 %i.fa.fa-ellipsis-v
               .dropdown-menu.dropdown-menu-right
-                = moremenu_content
+                = moremenu_post_content
         - if @current_post.need_to_read?(current_user)
           .metabox
             - last_stroked_text, last_stroked_at = @current_post.last_stroked_activity(with_creation: true) { |user| user_subject_word(user) }
@@ -123,13 +128,14 @@
             .createdat
               = smart_date_tag @current_post.created_at
 
-          - if moremenu_content.present?
+          - if moremenu_post_content.present? || moremenu_wiki_controls.present?
             .moremenu
-              .dropdown
+              = moremenu_wiki_controls
+              %span.dropdown
                 %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
                   %i.fa.fa-ellipsis-v
                 .dropdown-menu.dropdown-menu-right
-                  = moremenu_content
+                  = moremenu_post_content
 
         .post-body
           .body
