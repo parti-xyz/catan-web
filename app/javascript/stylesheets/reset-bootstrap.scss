@@ -33,7 +33,7 @@
 // }
 
 @include mq.media("<=phone") {
-  .btn-block-xs {
+  .btn-block-phone {
     width: 100%;
     display:block;
   }

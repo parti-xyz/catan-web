@@ -1,13 +1,30 @@
-%section.text-center
+%section
   .container
-    %h1.text-center.sign-up__txt
+    %h1.font-size-lg-phone.text-center.sign-up__txt.text-keepall
       가입이 거의 완료되었습니다!
 
     %p.text-center
       = image_tag 'tada.png'
 
-    %p.text-center
+    %p.text-keepall.text-center
       잠시 후 가입 확인 링크가 담긴 이메일을 보내드립니다.
-      %br
-      %span{ style: 'text-decoration: underline; font-weight: bold;'}<>
-        이메일의 링크를 클릭하면 가입이 완료됩니다.
+      %br.d-sm-none.d-md-block
+      이메일의 링크를 클릭한 후, 멤버 인증을 진행해주세요.
+
+    %p.text-center
+      %i.fa.fa-info-circle.text-primary
+      %strong.text-primary.text-keepall 멤버 인증까지 마치면 커뮤니티 가입이 완료됩니다.
+
+%hr
+
+%section.mt-4
+  .container
+    .text-center
+      %p
+        ※ 이미 이메일을 확인하셨나요?
+        %br
+        = link_to '로그인하기', new_user_session_path, class: 'text-primary text-nowrap'
+      %p
+        ※ 가입확인 메일을 잊어버리셨나요?
+        %br
+        = link_to '가입확인 메일 다시 받기', new_user_confirmation_path, class: 'text-primary text-nowrap'

@@ -16,7 +16,7 @@
         = f.fields_for :file_sources, f.object.file_sources_only_doc do |ff|
           = render 'front/file_sources/form/field', f: ff, js_controller_name: 'comment-form'
     .footer
-      .btn.btn-secondary.btn-sm.btn-block-xs{ data: { target: 'comment-form.addFileSourceFieldButton', action: 'click->comment-form#addFileSourceField' } }
+      .btn.btn-secondary.btn-sm.btn-block-phone{ data: { target: 'comment-form.addFileSourceFieldButton', action: 'click->comment-form#addFileSourceField' } }
         + 파일 추가
         %span.counter
           (
@@ -24,7 +24,7 @@
           \/
           %span<> 20
           )
-      .btn.btn-light.btn-sm.text-muted.btn-block-xs{ data: { action: 'click->comment-form#closeFileSourcesFieldGroup' } } 업로드 취소
+      .btn.btn-light.btn-sm.text-muted.btn-block-phone{ data: { action: 'click->comment-form#closeFileSourcesFieldGroup' } } 업로드 취소
 
       .template{ data: { target: 'comment-form.fileSourceFieldTemplate' } }
         = escape_once_block do

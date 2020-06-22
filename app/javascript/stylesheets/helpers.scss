@@ -1,5 +1,6 @@
 @use './bootstrap';
 @use './global-variables';
+@use './mq';
 
 .btn-white {
   @include bootstrap.button-variant(#ffffff, #cccccc, #ffffff, #adadad, #ffffff, #adadad);
@@ -48,4 +49,18 @@ legend.legend-default {
 
 .texet-nowrap {
   white-space: nowrap;
+}
+
+.text-keepall {
+  word-break: keep-all;
+  white-space: normal;
+}
+
+@include mq.media('<=phone') {
+  .font-size-base-phone {
+    font-size: 1rem;
+  }
+  .font-size-lg-phone {
+    font-size: bootstrap.$font-size-lg;
+  }
 }
