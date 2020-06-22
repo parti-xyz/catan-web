@@ -43,7 +43,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       session["devise.omniauth_data"] = parsed_data
       session["omniauth.params_data"] = request.env["omniauth.params"]
 
-      group = Group.find_by_slug(request.env['omniauth.params'].fetch('group_slug'))
+      group = Group.find_by_slug(request.env['omniauth.params'].try(:fetch, "group_slug", nil))
       redirect_to new_user_registration_url(subdomain: group&.subdomain)
     end
   end
