@@ -16,7 +16,7 @@ class Category < ApplicationRecord
 
   def self.default_compare_values(category)
     if category.present?
-      [category.position, (category.name.codepoints[0] < 128 ? 1 : 0), category.name, category.id]
+      [category.position.presence || Float::INFINITY, (category.name.codepoints[0] < 128 ? 1 : 0), category.name, category.id]
     else
       [Float::INFINITY, Float::INFINITY, "", -1]
     end

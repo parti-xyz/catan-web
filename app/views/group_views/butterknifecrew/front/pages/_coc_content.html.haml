@@ -1,6 +1,7 @@
 
 :scss
   .coc {
+    margin-top: -30px;
     .simple-box {
       padding: 0;
     }
@@ -12,10 +13,28 @@
       width: 100%;
       margin-bottom: 2rem;
     }
+    .key-visual-mobile {
+      display: none;
+    }
 
+    section.key-visual-pc {
+      margin-top: -5px;
+    }
     @media all and (max-width:768px) {
       .key-visual {
-        max-width: 100%;
+        display: none;
+      }
+      section.key-visual-pc {
+        margin-top: 50px;
+      }
+      .key-visual-mobile {
+        display: inline-block;
+        vertical-align: middle;
+        border-style: none;
+        max-width: 1000px;
+        width: 100%;
+        margin-bottom: 2rem;
+        margin-top: -50px;
       }
     }
 
@@ -40,16 +59,86 @@
       font-weight: bold;
       text-decoration: underline;
     }
+
+    .simple-box-pc {
+      display: block;
+    }
+
+    .simple-box-mobile {
+      display: none;
+    }
+
+    .lead-mobile {
+      display: none;
+    }
+
+    .button {
+      display: none;
+    }
+
+    @media all and (max-width:768px) {
+      .simple-box-pc {
+        display: none;
+      }
+
+      .simple-box-mobile {
+        display: block;
+      }
+
+      .lead-mobile {
+        display: block;
+      }
+
+      .btn-black {
+        background-color: #2f343d;
+        color: white;
+        text-decoration: none;
+        border-radius: 2px;
+      }
+      .button {
+        display: block;
+        position: absolute;
+        bottom: 56px;
+        width: 100%;
+        text-align: center;
+      }
+    }
   }
 
 .coc.text-keepall
-  %section
+  %section.key-visual-pc
+    .button
+      %a.btn.btn-black(href='https://butterknifecrew.parti.xyz/front/menu')
+        커뮤니티 채널 보기
+    = image_tag 'groups/butterknifecrew/key_visual_mobile.png', class: 'key-visual-mobile mx-auto'
+
     .container
       = image_tag 'groups/butterknifecrew/key_visual.png', class: 'key-visual mx-auto'
 
+
   %section
     .container
-      .simple-box.mx-auto
+      .simple-box.mx-auto.simple-box-mobile
+        .coc-section
+          .coc-title 🚩 버터나이프크루 커뮤니티는?
+          .coc-body
+            %a(href="https://butterknifecrew.parti.xyz/front/posts/35124") 버터나이프크루 커뮤니티 소개
+        .coc-section
+          .coc-title 🙌 함께 커뮤니티를 만들어가기 위해서는?
+          .coc-body
+            %a(href='https://butterknifecrew.parti.xyz/front/posts/35123')<> 버터나이프크루 커뮤니티 가이드
+        .coc-section
+          .coc-title 💡 궁금하거나 제안하고 싶은 게 있다면?
+          .coc-body
+            %a(href='https://butterknifecrew.parti.xyz/front/channels/1351')
+              \#아무말대잔치
+            혹은
+            %br
+            %a(href='http://pf.kakao.com/_xfEwFxb')
+              카카오톡채널 @butterknifecrew
+
+
+      .simple-box.mx-auto.simple-box-pc
         .coc-section
           .coc-title 🚩 버터나이프크루 커뮤니티는?
           .coc-body
@@ -66,7 +155,8 @@
         .coc-section
           .coc-title 👀 더욱 자세한 소개와 참여방법은?
           .coc-body
-            %a(href='https://butterknifecrew.parti.xyz/front/posts/35124') 버터나이프크루 커뮤니티에 참여하는 법을 참고해주세요!
+            %a(href='https://butterknifecrew.parti.xyz/front/posts/35124')<> 버터나이프크루 커뮤니티에 참여하는 법
+            을 참고해주세요!
             %br
             커뮤니티 소개와 각 채널별 참여방법, 커뮤니티에 제안하는 방법 등이 소개되어있습니다.
         .coc-section
@@ -76,8 +166,9 @@
             %a(href='https://butterknifecrew.parti.xyz/front/channels/1351') #아무말대잔치
             %br
             사업 진행에 대해 궁금증이 생겼을 땐?
-            %span.red 카카오톡채널 @butterknifecrew
-
+            %a(href='http://pf.kakao.com/_xfEwFxb')
+              카카오톡채널 @butterknifecrew
+      .simple-box.mx-auto.simple-box-mobile
 
 -# %section
 -#   .container
