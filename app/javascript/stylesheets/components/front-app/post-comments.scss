@@ -5,9 +5,11 @@
   }
   > .post-comment:last-child {
     padding-bottom: 0;
+    overflow: visible;
   }
   > .post-comment.-child:first-child {
     padding-top: 1rem;
     margin-top: .625rem;
+    overflow: visible;
   }
 }
