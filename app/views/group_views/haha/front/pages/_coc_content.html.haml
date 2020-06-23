@@ -26,6 +26,7 @@
       }
       section.key-visual-pc {
         margin-top: 50px;
+        position: relative;
       }
       .key-visual-mobile {
         display: inline-block;
@@ -74,6 +75,10 @@
 
     .button {
       display: none;
+      position: absolute;
+      bottom: 50px;
+      width: 100%;
+      text-align: center;
     }
 
     @media all and (max-width:768px) {
@@ -118,7 +123,7 @@
 
   %section
     .container
-      .simple-box.mx-auto.simple-box-mobile
+      .simple-box.mx-auto.simple-box-mobile.text-center
         .coc-section
           .coc-title 🚩 버터나이프크루 커뮤니티는?
           .coc-body
@@ -134,7 +139,7 @@
               \#아무말대잔치
             혹은
             %br
-            %a(href='http://pf.kakao.com/_xfEwFxb')
+            %a(href='http://pf.kakao.com/_xfEwFxb/chat')
               카카오톡채널 @butterknifecrew
 
 
@@ -166,7 +171,7 @@
             %a(href='https://butterknifecrew.parti.xyz/front/channels/1351') #아무말대잔치
             %br
             사업 진행에 대해 궁금증이 생겼을 땐?
-            %a(href='http://pf.kakao.com/_xfEwFxb')
+            %a(href='http://pf.kakao.com/_xfEwFxb/chat')
               카카오톡채널 @butterknifecrew
       .simple-box.mx-auto.simple-box-mobile
 
