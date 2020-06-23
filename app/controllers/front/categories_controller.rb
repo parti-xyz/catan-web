@@ -32,4 +32,23 @@ class Front::CategoriesController < Front::BaseController
       end
     end
   end
+
+  def sort
+    render_403 and return if !current_group.organized_by?(current_user) && !current_user&.admin?
+
+    render_404 and return if params[:position].blank?
+    position = params[:position].to_i
+    render_404 and return if position.to_s != params[:position]
+
+    position = position - 1
+
+    current_category = Category.find(params[:id])
+
+    ActiveRecord::Base.transaction do
+      categories = current_group.categories.sort_by_default
+      categories.to_a.reject{ |category| category == current_category }.insert(position, current_category).each_with_index do |category, index|
+        category.update_columns(position: index)
+      end
+    end
+  end
 end

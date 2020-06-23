@@ -554,6 +554,9 @@ Rails.application.routes.draw do
         get :edit_current_group
         patch :move
       end
+      member do
+        patch :sort
+      end
     end
     resources :categories, only: [:create, :update, :destroy], controller: '/group/categories'
   end

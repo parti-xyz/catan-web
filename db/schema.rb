@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_20_153049) do
+ActiveRecord::Schema.define(version: 2020_06_23_050335) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_06_20_153049) do
     t.string "group_slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.index ["group_slug", "name"], name: "categories_uniq", unique: true
     t.index ["group_slug"], name: "index_categories_on_group_slug"
   end

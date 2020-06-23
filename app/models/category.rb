@@ -8,15 +8,17 @@ class Category < ApplicationRecord
   has_many :issues, dependent: :nullify
 
   scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(categories.name, 1)) < 128, 1, 0)")).order('categories.name').order(:id) }
+
+  scope :sort_by_default, -> { order(position: :asc).order(Arel.sql("if(ascii(substring(categories.name, 1)) < 128, 1, 0)")).order('categories.name').order(:id) }
   validates :name, uniqueness: { scope: :group_slug }, presence: true
 
   NADA_ID = 0
 
   def self.default_compare_values(category)
     if category.present?
-      [(category.name.codepoints[0] < 128 ? 1 : 0), category.name, category.id]
+      [category.position, (category.name.codepoints[0] < 128 ? 1 : 0), category.name, category.id]
     else
-      [Float::INFINITY, "", -1]
+      [Float::INFINITY, Float::INFINITY, "", -1]
     end
   end
 end

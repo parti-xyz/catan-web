@@ -19,42 +19,52 @@
         %small.text-primary{ data: { target: 'category-move-status.view' } }
       .form-text.text-muted.small.mb-3 채널 이름을 드래그해서 다른 카테고리로 이동시킬 수 있습니다.
 
-      - @categories_with_issues.each do |(category, issues), index|
-        - issues = Issue.only_alive_of_group(current_group).categorized_with(category)
-        .card.mb-3{ data: { controller: 'category-destroy-menu', action: 'category-move-submit-begin@window->category-destroy-menu#toggle' } }
-          .card-header.category-card.clearfix{ data: { controller: 'category-form' } }
-            - if category.present?
-              %span{ data: { target: 'category-form.view' } }
-                %span.name
-                  = category.name
-                %span.dropdown.pull-right
-                  .btn.btn-secondary.btn-sm{ 'data-toggle': 'dropdown' }
-                    관리
-                  .dropdown-menu.dropdown-menu-right
-                    = link_to '수정', '#', class: 'dropdown-item', data: { action: 'click->category-form#show' }
-                    = link_to '삭제', front_category_path(category), method: :delete, data: { confirm: '정말 삭제하시겠습니까?', target: 'category-destroy-menu.menu' }, class: ['dropdown-item', ('disabled' if issues.any?)]
-                    .dropdown-header.small{ data: { target: 'category-destroy-menu.tip' }, class: ('collapse' if issues.empty?)}
-                      %strong Tip.
-                      카테고리에 해당되는
-                      %br
-                      채널이 없어야 삭제할 수 있습니다.
-              = form_with model: [:front, category], local: false, class: 'collapse', data: { target: 'category-form.form', action: 'ajax:before->category-form#submit' } do |f|
-                .input-group
-                  = f.text_field :name, class: 'form-control', data: { target: 'category-form.nameField' }
-                  .input-group-append
-                    = submit_tag '저장', class: 'btn btn-default btn-primary', data: { disable_with: "저장 중...", target: 'category-form.submitButton' }
-                    = submit_tag '취소', type: :reset, class: 'btn btn-default btn-secondary', data: { target: 'category-form.resetButton', action: 'click->category-form#hide' }
-            - else
-              %span.category-name
-                미분류
-          .card-body
-            %ul.list-unstyled.mb-0{ data: { controller: 'category-move', 'category-move': { url: move_front_categories_path, 'category-id': category&.id } } }
-              - issues.each do |issue|
-                %li.cursor-move{ data: { id: issue.id, target: 'category-move.channel category-destroy-menu.channel' } }
-                  \#
-                  = issue.title
-              %li.text-muted.small.js-no-sort{ class: ('collapse' if issues.any?), data: { target: 'category-move.noText' } }
-                %i.fa.fa-info-circle
-                해당 카테고리의 채널이 없습니다
+      - content_map = @categories_with_issues.map do |(category, issues), index|
+        - content = capture do
+          - issues = Issue.only_alive_of_group(current_group).categorized_with(category)
+          .card.mb-3{ data: { controller: 'category-destroy-menu', action: 'category-move-submit-begin@window->category-destroy-menu#toggle', target: 'category-sort.category', id: category&.id } }
+            .card-header.category-card.clearfix{ data: { controller: 'category-form' } }
+              - if category.present?
+                %span{ data: { target: 'category-form.view' } }
+                  %span.name
+                    = category.name
+                  %span.dropdown.pull-right
+                    .btn.btn-secondary.btn-sm{ 'data-toggle': 'dropdown' }
+                      관리
+                    .dropdown-menu.dropdown-menu-right
+                      = link_to '수정', '#', class: 'dropdown-item', data: { action: 'click->category-form#show' }
+                      = link_to '삭제', front_category_path(category), method: :delete, data: { confirm: '정말 삭제하시겠습니까?', target: 'category-destroy-menu.menu' }, class: ['dropdown-item', ('disabled' if issues.any?)]
+                      .dropdown-header.small{ data: { target: 'category-destroy-menu.tip' }, class: ('collapse' if issues.empty?)}
+                        %strong Tip.
+                        카테고리에 해당되는
+                        %br
+                        채널이 없어야 삭제할 수 있습니다.
+                = form_with model: [:front, category], local: false, class: 'collapse', data: { target: 'category-form.form', action: 'ajax:before->category-form#submit' } do |f|
+                  .input-group
+                    = f.text_field :name, class: 'form-control', data: { target: 'category-form.nameField' }
+                    .input-group-append
+                      = submit_tag '저장', class: 'btn btn-default btn-primary', data: { disable_with: "저장 중...", target: 'category-form.submitButton' }
+                      = submit_tag '취소', type: :reset, class: 'btn btn-default btn-secondary', data: { target: 'category-form.resetButton', action: 'click->category-form#hide' }
+              - else
+                %span.category-name
+                  미분류
+            .card-body{ data: { target: 'category-sort.cardBody' } }
+              %ul.list-unstyled.mb-0{ data: { controller: 'category-move', 'category-move': { url: move_front_categories_path, 'category-id': category&.id } } }
+                - issues.each do |issue|
+                  %li.cursor-move{ data: { id: issue.id, target: 'category-move.channel category-destroy-menu.channel' } }
+                    \#
+                    = issue.title
+                %li.text-muted.small.js-no-sort{ class: ('collapse' if issues.any?), data: { target: 'category-move.noText' } }
+                  %i.fa.fa-info-circle
+                  해당 카테고리의 채널이 없습니다
+        - [category, content]
 
+      - nil_category_content = nil
+      .sortable{ data: { controller: 'category-sort', 'category-sort': { url: '/front/categories/:id/sort' } } }
+        - content_map.to_h.each do |category, content|
+          - if category.blank?
+            - nil_category_content = content
+            - next
+          = content
+      .nosortable= nil_category_content
 
