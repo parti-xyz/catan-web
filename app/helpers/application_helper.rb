@@ -70,7 +70,7 @@ module ApplicationHelper
   def comment_format(issue, text, html_options = {}, options = {})
     options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
     parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line bodyline'), options).to_str
-    parsed_text = parse_hashtags(issue, parsed_text)
+    # parsed_text = parse_hashtags(issue, parsed_text)
     parsed_text = parse_mentions(parsed_text)
     Rinku.auto_link(parsed_text, :all,
       "class='auto_link' target='_blank'",
@@ -79,14 +79,16 @@ module ApplicationHelper
 
   def post_body_format(issue, text)
     return text if text.blank?
-    parsed_text = parse_hashtags(issue, text)
+    # parsed_text = parse_hashtags(issue, text)
+    parsed_text = text
     parsed_text = parse_mentions(parsed_text)
     raw(parsed_text)
   end
 
   def decision_body_format(issue, text)
     return text if text.blank?
-    parsed_text = parse_hashtags(issue, text)
+    # parsed_text = parse_hashtags(issue, text)
+    parsed_text = text
     parsed_text = parse_mentions(parsed_text)
     raw(parsed_text)
   end
