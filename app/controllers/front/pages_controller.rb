@@ -1,6 +1,6 @@
 class Front::PagesController < Front::BaseController
   def root
-    redirect_to front_all_path
+    redirect_to front_coc_path
   end
 
   def menu
