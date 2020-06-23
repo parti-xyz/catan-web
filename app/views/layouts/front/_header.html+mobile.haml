@@ -1,10 +1,10 @@
 .front-navbar
   - if !current_group.private? || (user_signed_in? && current_group&.member?(current_user))
     .menuitem
-      = link_to front_menu_path do
+      = link_to front_menu_path, class: 'link' do
         %i.fa.fa-bars.fa-fw
     .menuitem
-      = link_to front_search_form_path(issue_id: @current_issue&.id) do
+      = link_to front_search_form_path(issue_id: @current_issue&.id), class: 'link' do
         %i.fa.fa-search.fa-fw
     .menuitem.navbar-group-menu
       = link_to current_group.head_title, root_url, class: 'link'

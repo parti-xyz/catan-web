@@ -204,11 +204,16 @@
     }
 
     > .dropdown > .notifications > .circle {
-    position: absolute;
-    font-size: 1px;
-    right: 0;
-    top: 3px;
-    color: red;
-  }
+      position: absolute;
+      font-size: 1px;
+      right: 0;
+      top: 3px;
+      color: red;
+    }
+
+    > .menuitem:not(.navbar-group-menu) > .link,
+    > .menuitem.dropdown > .notifications {
+      font-size: 20px;
+    }
   }
 }
