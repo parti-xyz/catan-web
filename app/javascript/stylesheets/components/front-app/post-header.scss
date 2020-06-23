@@ -1,5 +1,6 @@
 @use '../../bootstrap';
 @use '../../global-variables';
+@use '../../mq';
 
 .front-app .post-header {
   display: flex;
@@ -49,5 +50,15 @@
   > .main > .moremenu > .dropdown > .btn {
     padding: 0 .5rem;
     color: global-variables.$color-gray-500;
+  }
+
+  @include mq.media('<=phone') {
+    > .main  {
+      align-items: center;
+    }
+    > .main > .title {
+      font-size: bootstrap.$font-size-lg;
+      margin-bottom: 0;
+    }
   }
 }

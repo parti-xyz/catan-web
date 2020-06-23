@@ -1,8 +1,16 @@
+@use '../../mq';
+
 .front-app .post-main {
   > .post-header {
     padding-bottom: .25rem;
   }
   > .post-header:not(.-wiki) + .post-content {
     margin-top: 1rem;
+  }
+
+  @include mq.media('<=phone') {
+    > .post-header {
+      padding-bottom: 0.75rem;
+    }
   }
 }

@@ -141,4 +141,20 @@
       margin-left: 0;
     }
   }
+
+  @include mq.media('<=phone') {
+    > .footer {
+      margin-left: 0;
+    }
+    > .body > .title > .link {
+      margin-left: 0;
+      font-size: bootstrap.$font-size-sm
+    }
+    > .footer > .counts > .comments {
+      margin-left: 0;
+    }
+    .post-line {
+      padding: 0 .25rem;
+    }
+  }
 }

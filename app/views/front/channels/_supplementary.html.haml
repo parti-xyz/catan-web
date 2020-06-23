@@ -1,17 +1,18 @@
+- use_content_collapse = !is_small_screen?
 - if local_assigns[:current_issue]&.body&.present?
   - current_issue_force = (local_assigns[:default_force] || nil)
-  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "channel-intro-box-#{current_issue.id}", force: current_issue_force } } }
+  .supplementary-box{ data: { controller: ('content-collapse' if use_content_collapse), 'content-collapse': { id: "channel-intro-box-#{current_issue.id}", force: current_issue_force } } }
     .header{ data: { action: 'click->content-collapse#toggle' } }
       .title
         채널 소개
       .toggler
-        %i.fa.-hide{ data: { target: 'content-collapse.content' } }
-    .body.-hide{ data: { target: 'content-collapse.content' } }
+        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
+    .body{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
       = simple_format h(current_issue.body)
 
 - if local_assigns[:pinned_posts]&.any?
   - pinned_posts_force = (local_assigns[:default_force] || 'show')
-  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "pinned-posts-box-#{current_issue.id}", force: pinned_posts_force } } }
+  .supplementary-box{ data: { controller: ('content-collapse' if use_content_collapse), 'content-collapse': { id: "pinned-posts-box-#{current_issue.id}", force: pinned_posts_force } } }
     .header{ data: { action: 'click->content-collapse#toggle' } }
       .title
         고정 게시글
@@ -20,8 +21,8 @@
       .count
         = pinned_posts&.size
       .toggler
-        %i.fa.-hide{ data: { target: 'content-collapse.content' } }
-    %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
+        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
+    %ul.lines{ class: ('-hide' if use_content_collapse), data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
       - pinned_posts&.each do |post|
         %li.pinned-post-line{ class: [('-active' if post == local_assigns[:current_post])], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
           .body
@@ -40,15 +41,15 @@
 
 - if local_assigns[:organizer_members]&.any?
   - organizer_members_force = (local_assigns[:default_force] || nil)
-  .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "organizer-members-box-#{current_issue.id}", force: organizer_members_force } } }
+  .supplementary-box{ data: { controller: ('content-collapse' if use_content_collapse), 'content-collapse': { id: "organizer-members-box-#{current_issue.id}", force: organizer_members_force } } }
     .header{ data: { action: 'click->content-collapse#toggle' } }
       .title
         채널 오거나이저
       .count
         = organizer_members&.size
       .toggler
-        %i.fa.-hide{ data: { target: 'content-collapse.content' } }
-    %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
+        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
+    %ul.lines{ class: ('-hide' if use_content_collapse), data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
       - organizer_members&.each do |member|
         - user = member.user
         %li.organizer-member
