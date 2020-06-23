@@ -11,12 +11,13 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   word-break: break-word;
 }
 
+*, body {
+  font-family: system, -apple-system, BlinkMacSystemFont, Helvetica, "Helvetica Neue", Hiragino Sans, "Apple SD Gothic Neo", "애플 SD 산돌고딕 Neo", Apple SD Gothic Neo, '맑은 고딕', 'Malgun Gothic', '돋움', dotum, Arial, sans-serif;
+}
+
 html {
   height: 100%;
   position: relative;
-  @include mq.media("<=phone") {
-    font-size: 18px;
-  }
 }
 
 caption, th, td {

@@ -5,11 +5,11 @@
     - if current_group.organized_by?(current_user) || current_user&.admin?
       %li.channel-line
         = link_to edit_front_group_path(current_group), class: 'link' do
-          그룹 관리
+          .title 그룹 관리
     - if current_group.creatable_issue?(current_user) || current_user&.admin?
       %li.channel-line
         = link_to new_front_channel_path, class: 'link' do
-          채널 만들기
+          .title 채널 만들기
 
   - if my_menu.present?
     .channel-listing.-end

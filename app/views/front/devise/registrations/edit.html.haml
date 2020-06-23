@@ -1,6 +1,6 @@
 %section.text-center
   .container
-    %h3
+    %h3.text-center
       %i.fa.fa-user
       내 설정
     .simple-box
@@ -18,7 +18,7 @@
 
       %h5
         기본 정보
-      .card
+      .card.mb-3
         .card-body
           = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
             = devise_error_messages!

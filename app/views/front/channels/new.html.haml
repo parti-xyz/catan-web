@@ -1,7 +1,10 @@
 %section.text-center
-  %h3
-    \#
-    채널 만들기
+  .container
+    %h3
+      \#
+      채널 만들기
 
-  .simple-box
-    = render 'form', current_issue: Issue.new(category: @current_category)
+    .simple-box.mb-3
+      .card.mb-4
+        .card-body
+          = render 'form', current_issue: Issue.new(category: @current_category)

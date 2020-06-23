@@ -1,12 +1,12 @@
 %section.text-center
-  %h3
-    %i.fa.fa-user
-    내 프로필
+  .container
+    %h3
+      %i.fa.fa-user
+      내 프로필
 
-.simple-box
-  %section
-    = form_with url: update_me_front_members_path, local: false do |f|
-      .form-group
-        = f.text_area :description, class: 'form-control', placeholder: '나는 ...', value: @member.description
-      .form-group
-        = submit_tag '저장', class: 'btn btn-default btn-primary btn-block', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+    .simple-box
+      = form_with url: update_me_front_members_path, local: false do |f|
+        .form-group
+          = f.text_area :description, class: 'form-control', placeholder: '나는 ...', value: @member.description
+        .form-group
+          = submit_tag '저장', class: 'btn btn-default btn-primary btn-block', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }

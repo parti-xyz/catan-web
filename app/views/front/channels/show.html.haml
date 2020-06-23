@@ -36,11 +36,11 @@
             = search_q
       .control
         - if @current_issue.postable?(current_user)
-          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-important btn-sm' do
+          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
             %i.fa.fa-pencil
             글쓰기
           &nbsp;
-          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-important btn-sm' do
+          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
             %i.fa.fa-file-word-o
             위키쓰기
 
@@ -95,15 +95,3 @@
         게시글이 없습니다.
         - if @current_issue&.group&.member?(current_user)
           가장 먼저 게시글을 올려보세요.
-      - if @current_issue&.group&.member?(current_user)
-        .channel-box
-          .channel-box-header
-            .edit
-              - if @current_issue.postable?(current_user)
-                = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
-                  %i.fa.fa-pencil
-                  글쓰기
-                &nbsp;
-                = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
-                  %i.fa.fa-file-word-o
-                  위키쓰기

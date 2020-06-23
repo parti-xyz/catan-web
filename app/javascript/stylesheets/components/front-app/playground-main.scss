@@ -2,7 +2,7 @@
 @use "../../mixin";
 
 .front-app .playground-main {
-  @include mixin.simplebar {
+  @include mixin.simplebar_x {
     > .playground-header {
       position: sticky;
       top: 0;

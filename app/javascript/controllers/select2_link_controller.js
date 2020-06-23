@@ -9,14 +9,17 @@ export default class extends Controller {
       width: '100%',
       templateResult: (node) => {
         if(!node.element) {return}
-        var $result = $('<span style="display: flex; flex-wrap: nowrap"><span style="flex: none; width:' + (20 * +node.element.dataset.depth) + 'px;"></span><span style="flex:1">' + node.text + '</span></span>');
+        var $result = jQuery('<span style="display: flex; flex-wrap: nowrap"><span style="flex: none; width:' + (20 * +node.element.dataset.depth) + 'px;"></span><span style="flex:1">' + node.text + '</span></span>')
 
-        console.log(node.element.dataset.depth)
-        return $result;
+        return $result
       },
     })
 
     jQuery(this.element).on('select2:select', this.go.bind(this))
+  }
+
+  disconnect() {
+    jQuery(this.element).select2('destroy')
   }
 
   go(event) {

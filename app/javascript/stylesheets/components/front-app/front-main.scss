@@ -1,4 +1,5 @@
 @use "../front-variables";
+@use "../../mq";
 
 .front-app .front-main {
   display: flex;
@@ -15,5 +16,12 @@
   > .front-body {
     flex: 1;
     height: 100%;
+  }
+
+  @include mq.media('<=phone') {
+    > .front-sidebar,
+    > .front-body {
+      height: auto;
+    }
   }
 }
