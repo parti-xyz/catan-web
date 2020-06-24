@@ -8,7 +8,12 @@ export default class extends Controller {
     let target = document.querySelector(this.element.getAttribute('href'))
     if (!target) { return }
 
-    scrollIntoView(target, { cancellable: true }, (type) => {
+    scrollIntoView(target, {
+      cancellable: true,
+      align: {
+        topOffset: 100,
+      }
+    }, (type) => {
       const event = new CustomEvent('ripple', {
         bubbles: true,
       })

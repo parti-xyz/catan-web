@@ -35,6 +35,8 @@ class Front::PostsController < Front::BaseController
             comment.created_at > (last_comment.created_at - 1.days)
           end
         end
+
+        @recent_comments = [] if @recent_comments&.count == sorted_comments&.count
       end
     end
 

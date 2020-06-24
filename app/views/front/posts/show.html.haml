@@ -18,11 +18,12 @@
             #{@current_post.title}
 
 - content_for :playground_sidebar_content do
-  .supplementary-boxes
-    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
+  .supplementary-boxes{ data: { controller: ('fix-bottom-comments' if is_small_screen?) } }
+    - unless is_small_screen?
+      = render partial: 'front/channels/supplementary', locals: @supplementary_locals
     - comments = @updated_comments&.any? ? @updated_comments : @recent_comments
     - if comments&.any?
-      .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "updated-comments-box-#{@current_post.id}", force: 'show' } } }
+      .supplementary-box{ data: { controller: "content-collapse", target: 'fix-bottom-comments.item', 'content-collapse': { id: "updated-comments-box-#{@current_post.id}", force: ('show' unless is_small_screen?) } } }
         .header{ data: { action: 'click->content-collapse#toggle' } }
           .title
             - if @updated_comments&.any?
@@ -34,8 +35,8 @@
           .count
             = comments.size
           .toggler
-            %i.fa{ data: { target: 'content-collapse.content' } }
-        %ul.lines{ data: { target: 'content-collapse.content' } }
+            %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-collapse.content' } }
+        %ul.lines{ class: ('-hide' if is_small_screen?), data: { target: 'content-collapse.content' } }
           - comments.each do |comment|
             %li.updated-comment-line
               - next if comment.blinded?(current_user)
