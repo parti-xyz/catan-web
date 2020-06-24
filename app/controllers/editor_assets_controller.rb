@@ -4,7 +4,7 @@ class EditorAssetsController < ApplicationController
   def create
     # Take upload from params[:file] and store it somehow...
     # Optionally also accept params[:hint] and consume if needed
-    uploader = PrivateFileUploader.new
+    uploader = ImageUploader.new
     file = params[:file]
     if file.size.to_f > 10.megabyte
       error(t("activerecord.errors.models.file_source.attributes.attachment.file_size_is_less_than_or_equal_to")) and return
