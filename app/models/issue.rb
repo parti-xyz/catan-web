@@ -340,7 +340,7 @@ class Issue < ApplicationRecord
   end
 
   def self.parti_parti
-    find_by(slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: Group::SLUG_OF_UNION)
+    find_by(slug: Issue::SLUG_OF_PARTI_PARTI, group_slug: Group::SLUG_OF_ACTIVIST)
   end
 
   def issue_for_message
@@ -588,7 +588,7 @@ class Issue < ApplicationRecord
   end
 
   def not_parti_parti_slug
-    if self.slug == Issue::SLUG_OF_PARTI_PARTI and self.group_slug != Group::SLUG_OF_UNION
+    if self.slug == Issue::SLUG_OF_PARTI_PARTI and self.group_slug != Group::SLUG_OF_ACTIVIST
       errors.add(:slug, I18n.t('errors.messages.taken'))
     end
   end
@@ -607,7 +607,7 @@ class Issue < ApplicationRecord
     loop do
       temp_slug = SecureRandom.hex(20)
 
-      next if temp_slug == Issue::SLUG_OF_PARTI_PARTI && temp_slug != Group::SLUG_OF_UNION
+      next if temp_slug == Issue::SLUG_OF_PARTI_PARTI && temp_slug != Group::SLUG_OF_ACTIVIST
 
       next if Issue.exists?(slug: temp_slug)
 

@@ -30,6 +30,7 @@ class Group < ApplicationRecord
   enumerize :plan, in: [:premium, :lite, :trial], predicates: true, scope: true
   enumerize :issue_creation_privileges, in: [:member, :organizer], predicates: true, scope: true
   SLUG_OF_UNION = 'union'
+  SLUG_OF_ACTIVIST = 'democracy-activists'
   DEFAULT_SLUG = 'open'
 
   belongs_to :user, optional: true
@@ -241,7 +242,7 @@ class Group < ApplicationRecord
   def guide_link
     if 'zakdang' == slug
       "https://wouldyouparty.gitbooks.io/party_guide/"
-    elsif %w(slowalk westay1 Group::SLUG_OF_UNION adaptiveleadership youthpolicynet).include? slug
+    elsif %w(slowalk westay1 parti democracy-activists adaptiveleadership youthpolicynet).include? slug
       "https://parti-xyz.gitbooks.io/org-guide/content/"
     else
       "https://parti-xyz.gitbooks.io/issue-guide/content/"
