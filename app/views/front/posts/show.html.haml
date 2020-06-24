@@ -21,8 +21,7 @@
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
     - comments = @updated_comments&.any? ? @updated_comments : @recent_comments
-    - comments |= []
-    - if comments.any?
+    - if comments&.any?
       .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "updated-comments-box-#{@current_post.id}", force: 'show' } } }
         .header{ data: { action: 'click->content-collapse#toggle' } }
           .title
