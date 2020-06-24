@@ -15,9 +15,25 @@ class Front::PostsController < Front::BaseController
       updated_at_previous = @post_reader.updated_at_previous_change&.first
       if updated_at_previous.present?
         @updated_comments = @current_post.comments.to_a.select do |comment|
-          comment.user != current_user && comment.updated_at > updated_at_previous
+          comment.user != current_user && comment.created_at > updated_at_previous
         end.sort_by do |comment|
           comment.created_at
+        end
+      end
+
+      if @updated_comments.nil? || @updated_comments&.empty?
+        sorted_comments = @current_post.comments.select do |comment|
+          comment.user != current_user
+        end.sort_by do |comment|
+          comment.created_at
+        end
+
+        last_comment = sorted_comments[-1]
+
+        if last_comment.present?
+          @recent_comments = sorted_comments.select do |comment|
+            comment.created_at > (last_comment.created_at - 1.days)
+          end
         end
       end
     end
@@ -30,7 +46,7 @@ class Front::PostsController < Front::BaseController
     end
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
-    @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any?
+    @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any? || @recent_comments&.any?
   end
 
   def new

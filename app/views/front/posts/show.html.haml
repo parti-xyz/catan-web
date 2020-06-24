@@ -20,19 +20,24 @@
 - content_for :playground_sidebar_content do
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
-    - if @updated_comments&.any?
+    - comments = @updated_comments&.any? ? @updated_comments : @recent_comments
+    - comments |= []
+    - if comments.any?
       .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "updated-comments-box-#{@current_post.id}", force: 'show' } } }
         .header{ data: { action: 'click->content-collapse#toggle' } }
           .title
-            이 게시물의 새 댓글
+            - if @updated_comments&.any?
+              %span.text-primary 이 게시물의 새 댓글
+            - else
+              이 게시물의 최근 댓글
             &nbsp;
             %i.fa.fa-comment-o.text-muted
           .count
-            = @updated_comments.size
+            = comments.size
           .toggler
             %i.fa{ data: { target: 'content-collapse.content' } }
         %ul.lines{ data: { target: 'content-collapse.content' } }
-          - @updated_comments.each do |comment|
+          - comments.each do |comment|
             %li.updated-comment-line
               - next if comment.blinded?(current_user)
               .body
