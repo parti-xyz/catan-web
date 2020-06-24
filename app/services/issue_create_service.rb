@@ -8,7 +8,7 @@ class IssueCreateService
 
   def call
     if @current_group.try(:will_violate_issues_quota?, @issue)
-      @flash[:notice] = t('labels.group.met_issues_quota')
+      @flash[:notice] = I18n.t('labels.group.met_issues_quota')
       return false
     end
 
