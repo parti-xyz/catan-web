@@ -1,5 +1,6 @@
 @use '../../bootstrap';
 @use '../../global-variables';
+@use '../../mq';
 
 .front-app .post-link-source {
   display: flex;
@@ -30,5 +31,15 @@
   }
   > .content > .site {
     font-size: bootstrap.$font-size-xs;
+  }
+
+  @include mq.media('<=phone') {
+    flex-direction: column;
+
+    > .thumbnail {
+      min-width: 100%;
+      flex: none;
+      height: 8rem;
+    }
   }
 }
