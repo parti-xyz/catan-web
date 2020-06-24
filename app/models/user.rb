@@ -406,8 +406,8 @@ class User < ApplicationRecord
   end
 
   def default_member_issues
-    issue = Issue.of_slug Issue::SLUG_OF_PARTI_PARTI
-    MemberIssueService.new(issue: issue, user: self, need_to_message_organizer: false).call if issue.present?
+    # issue = Issue.of_slug Issue::SLUG_OF_PARTI_PARTI
+    # MemberIssueService.new(issue: issue, user: self, need_to_message_organizer: false).call if issue.present?
   end
 
   def check_invitations
