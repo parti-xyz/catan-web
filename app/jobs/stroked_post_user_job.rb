@@ -2,11 +2,11 @@ class StrokedPostUserJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options unique: :while_executing
 
-  def perform(post_id)
+  def perform(post_id, user_id = nil)
     post = Post.find_by(id: post_id)
     return if post.blank?
 
-    new_user_ids = [post.user_id]
+    new_user_ids = [post.user_id, user_id]
     new_user_ids << post.comments.select(:user_id).distinct.pluck(:user_id).to_a
 
     if post.wiki.present?

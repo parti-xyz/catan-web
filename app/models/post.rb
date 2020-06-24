@@ -492,18 +492,19 @@ class Post < ApplicationRecord
   end
 
   def strok_by(someone, subject = nil)
-    StrokedPostUserJob.perform_async(self.id) if self.id.present?
-
     self.last_stroked_at = DateTime.now
     self.last_stroked_user = (someone || self.user)
     self.last_stroked_for = subject
+
+    StrokedPostUserJob.perform_async(self.id, self.last_stroked_user&.id) if self.id.present?
+
     self
   end
 
   def strok_by!(someone, subject = nil)
-    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id, last_stroked_for: subject)
+    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone&.id, last_stroked_for: subject)
     read!(someone)
-    StrokedPostUserJob.perform_async(self.id)
+    StrokedPostUserJob.perform_async(self.id, someone&.id)
   end
 
   def last_stroked_activity(with_creation = false, &block)

@@ -31,7 +31,7 @@ class PostCreateService
     return false unless @post.save
 
     @post.read!(@current_user)
-    StrokedPostUserJob.perform_async(@post.id)
+    StrokedPostUserJob.perform_async(@post.id, @current_user.id)
     @post.issue.strok_by!(@current_user, @post)
     @post.issue.read!(@current_user)
     crawling_after_creating_post
