@@ -8,7 +8,7 @@ export default class extends Controller {
     })
   }
 
-  disconnect(event) {
+  disconnect() {
     this.linkTargets.forEach(el => {
       el.removeEventListener('ajax:success', this.handleSuccess.bind(this))
     })

@@ -27,10 +27,29 @@ export default class extends Controller {
       })
     }
 
+    this.loading = false
     this.enableRefresh()
   }
 
+  disconnect() {
+    if (this.refreshInterVal) {
+      clearInterval(this.refreshInterVal)
+    }
+
+    if (this.data.has("disableRefreshJqueryEvent")) {
+      jQuery(this.element).off(this.data.get("disableRefreshJqueryEvent"))
+    }
+
+    if (this.data.has("enableRefreshJqueryEvent")) {
+      jQuery(this.element).off(this.data.get("enableRefreshJqueryEvent"))
+    }
+  }
+
   load() {
+    if (this.loading) {
+      return
+    }
+    this.loading = true
     fetch(this.data.get('url'))
       .then(fetchResponseCheck)
       .then(response => {
@@ -53,12 +72,9 @@ export default class extends Controller {
           clearInterval(this.refreshInterVal)
         }
       })
-  }
-
-  disconnect() {
-    if (this.refreshInterVal) {
-      clearInterval(this.refreshInterVal)
-    }
+      .finally(() => {
+        this.loading = false
+      })
   }
 
   startRefreshing() {

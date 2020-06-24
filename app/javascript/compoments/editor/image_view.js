@@ -41,7 +41,6 @@ export class ImageView {
         const diffInEm = diffInPx / fontSize
 
         outer.style.width = `${startWidth + diffInEm}em`
-
       }
 
       const onMouseUp = (e) => {

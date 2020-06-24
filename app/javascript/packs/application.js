@@ -18,21 +18,26 @@ Turbolinks.start()
 elementClosest(window)
 
 if (window.jQuery) {
-  jQuery(document).on('turbolinks:load', function () {
-    $('body').tooltip({
-      selector: '[data-toggle="tooltip"]',
-    })
-
-    if (window.matchMedia && window.matchMedia("screen and (max-width: 450px)").matches) {
-      // 액션시트
-      jQuery('.dropdown').on('show.bs.dropdown', function (e) {
+  document.addEventListener("turbolinks:load", function () {
+    (function() {
+      function showDropDown(e) {
         jQuery(this).find('.dropdown-menu').first().stop(true, true).slideDown(400)
-      });
+      }
 
-      jQuery('.dropdown').on('hide.bs.dropdown', function (e) {
+      function hideDropDown(e) {
         jQuery(this).find('.dropdown-menu').first().stop(true, true).slideUp(200)
-      });
-    }
+      }
+
+      if (window.matchMedia && window.matchMedia("screen and (max-width: 450px)").matches) {
+        jQuery('.dropdown').off('show.bs.dropdown', showDropDown)
+        jQuery('.dropdown').off('hide.bs.dropdown', hideDropDown)
+
+        jQuery('.dropdown').on('show.bs.dropdown', showDropDown)
+        jQuery('.dropdown').on('hide.bs.dropdown', hideDropDown)
+      }
+    })()
+
+    jQuery('body').tooltip({ selector: '[data-toggle="tooltip"]' })
   })
 
   jQuery(document).on('ajax:success ajax:error', function (event) {
@@ -88,7 +93,7 @@ if (window.jQuery) {
       appNoty('어머나! 요청하신 내용이 사라졌어요. 페이지를 새로 고쳐보세요.', 'error', true).show()
     }
 
-    $.each($('[data-disable-with]'), function(index, elm) { $.rails.enableElement(elm) })
+    jQuery.each(jQuery('[data-disable-with]'), function (index, elm) { jQuery.rails.enableElement(elm) })
   }
 
   jQuery(document).on('ajax:success ajax:error', function (event) {
