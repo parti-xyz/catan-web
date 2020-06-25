@@ -82,9 +82,8 @@
   }
 
   > .body {
-    margin-top: .75rem;
     border-top: 1px solid global-variables.$color-gray-300;
-    padding-top: .75rem;
+    padding: .75rem;
   }
   > .body.-hide {
     display: none;

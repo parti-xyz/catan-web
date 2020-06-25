@@ -6,6 +6,11 @@ import { isTouchDevice } from '../helpers/device';
 export default class extends Controller {
   connect() {
     if(!this.binded) {
+      let tabIndex = this.element.getAttribute('tabindex')
+      if (!tabIndex) {
+        this.element.setAttribute('tabindex', '0')
+      }
+
       let options = parseJSON(this.data.get('options')).value
       jQuery(this.element).popover(Object.assign({}, options, {
         content: this.content.bind(this),

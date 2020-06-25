@@ -39,36 +39,6 @@
       .supplementary-box
         .header
           .title
-            그룹 오거나이저가 없습니다.- content_for :playground_sidebar_content do
-
-    - if current_group.site_description.present?
-      .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "group-intro-box-#{current_group.id}" } } }
-        .header{ data: { action: 'click->content-collapse#toggle' } }
-          .title
-            소개
-          .toggler
-            %i.fa.-hide{ data: { target: 'content-collapse.content' } }
-        .body{ data: { target: 'content-collapse.content' } }
-          = simple_format h(current_group.site_description)
-    - if current_group.organizer_members&.any?
-      .supplementary-box{ data: { controller: 'content-collapse', 'content-collapse': { id: "group-organizer-members-box-#{current_group.id}" } } }
-        .header{ data: { action: 'click->content-collapse#toggle' } }
-          .title
-            그룹 오거나이저
-          .count
-            = current_group.organizer_members&.size
-          .toggler
-            %i.fa.-hide{ data: { target: 'content-collapse.content' } }
-        %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
-          - current_group.organizer_members&.each do |member|
-            - user = member.user
-            %li.organizer-member
-              %span.userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
-              %span.usernickname= user.nickname
-    - else
-      .supplementary-box
-        .header
-          .title
             그룹 오거나이저가 없습니다.
 
 - if @posts.any?
