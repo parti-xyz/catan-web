@@ -17,21 +17,21 @@ export default class extends Controller {
   }
 
   readAll(event) {
-    if (!self.hasCircleTarget || !self.circleTarget.dataset.lastMessageId) return
+    if (!this.hasCircleTarget || !this.circleTarget.dataset.lastMessageId) return
 
     let headers = new window.Headers()
     const csrfToken = document.head.querySelector("[name='csrf-token']")
     if (csrfToken) { headers.append('X-CSRF-Token', csrfToken.content) }
 
-    fetch(`${self.data.get('url')}?last_message_id=${self.circleTarget.dataset.lastMessageId}`, {
+    fetch(`${this.data.get('url')}?last_message_id=${this.circleTarget.dataset.lastMessageId}`, {
       headers: headers,
       method: 'PATCH',
       credentials: 'same-origin',
     })
       .then(fetchResponseCheck)
       .then(response => {
-        if (response && response.ok && self.hasCircleTarget) {
-          self.circleTarget.classList.add('collapse')
+        if (response && response.ok && this.hasCircleTarget) {
+          this.circleTarget.classList.add('collapse')
         }
       })
   }
