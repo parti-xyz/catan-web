@@ -2,8 +2,10 @@
 @use '../../mixin';
 @use '../../bootstrap';
 
+
 .front-app .supplementary-box {
-  padding: .75rem;
+  $default-padding: .75rem;
+
   user-select: none;
   border: 1px solid global-variables.$color-gray-300;
   font-size: bootstrap.$font-size-sm;
@@ -15,6 +17,7 @@
     text-transform: uppercase;
     color: global-variables.$color-gray-900;
     cursor: pointer;
+    padding: $default-padding;
   }
   .header > .title {
     flex: 1;
@@ -45,7 +48,8 @@
   }
   > .lines {
     list-style: none;
-    margin: 0.75rem 0 .75rem;
+    padding: $default-padding;
+    padding-top: 0;
     border-top: 1px solid global-variables.$color-gray-300;
   }
   > .lines.-hide {

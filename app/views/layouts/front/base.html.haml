@@ -1,9 +1,13 @@
+- content_for :style do
+  = render_scss 'layouts/front/group_style'
+
 - content_for :content do
   .front-app
     = render 'layouts/front/header'
 
-    .front-main{ data: { 'controller': 'channel-read-listener group-sidebar-listener', action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume', 'channel-read-listener': { url: sync_front_channels_path(format: :json), 'refresh-interval': (1000 * 60 * 5).to_s } } }
-
+    .front-main{ class: ('-need-to-join' unless current_group.member?(current_user)), data: { 'controller': 'channel-read-listener group-sidebar-listener', action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume', 'channel-read-listener': { url: sync_front_channels_path(format: :json), 'refresh-interval': (1000 * 60 * 5).to_s } } }
+      - if !current_group.member?(current_user) && !current_group.private?
+        = render 'layouts/front/joinbar'
       .front-sidebar
         .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader collection-activation', target: 'group-sidebar-listener.collectionActivationController', action: 'group-sidebar-deactivation-all->collection-activation#deactiveAll', 'content-loader-url': front_group_sidebar_path(issue_id: @current_issue, folder_id: @current_folder, menu_slug: @group_sidebar_menu_slug), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
 

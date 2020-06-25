@@ -32,7 +32,7 @@
             내 프로필
           = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
       .moremenu
-        .dropdown
+        .dropdown{ data: { controller: 'phone-dropdown' } }
           .title.cursor-pointer{ "data-toggle": "dropdown" }
             = current_group.title
             = meta_icons(current_group)
@@ -48,7 +48,7 @@
     = form_with url: '#', method: :get, class: 'searchform', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
       - front_search_issue_id = @current_issue&.id
       - front_search_folder_id = @current_folder&.id
-      .dropdown
+      .dropdown{ data: { controller: 'phone-dropdown' } }
         = f.text_field 'front_search[q]', value: PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q)), class: 'queryinput fa', placeholder: raw('&#xf002 검색...'), autocomplete: 'off', data: { target: 'front-search.searchQueryField', action: 'input->front-search#updateQueryField focus->front-search#updateQueryField blur->front-search#blurQueryField keydown@document->front-search#upAndDownMenuItem', toggle: 'dropdown-toggle' }
         .dropdown-menu{ 'data-target': 'front-search.menu' }
           - if front_search_folder_id.present?
@@ -64,36 +64,14 @@
             %span.scope 그룹 내 검색
 
   .profilemenus
-    - if user_signed_in?
-      - if current_group&.member?(current_user)
-        #nav-messages.dropdown{ data: { controller: 'content-loader message-read-all', 'content-loader': { url: nav_front_messages_path, 'refresh-interval': (1000 * 60 * 5).to_s, 'disable-refresh-jquery-event': 'show.bs.dropdown', 'enable-refresh-jquery-event': 'hide.bs.dropdown' }, 'message-read-all': { 'url': read_all_front_messages_url }, 'turbolinks-permanent': true } }
-          .notifications{ data: { toggle: 'dropdown' } }
-            %i.fa.fa-bell
-          .dropdown-menu.dropdown-menu-right.messages
-            .dropdown-item
-              %i.fa.fa-spinner.fa-pulse
-              로딩 중...
-
-      -# - else
-      -#   .menuitem
-      -#     = link_to '그룹 가입', new_front_member_request_path, class: 'link'
-      -#     - unless current_page?('/front/member_requests/new') || current_page?('/front/member_requests/private_blocked')
-      -#       .staticpopover{ data: { controller: 'static-popover', 'static-popover': { 'class-name': 'join-banner', options: h({ placement: 'bottom', container: '.front-app' }.to_json) } } }
-      -#         .collapse{ data: { target: 'static-popover.template' } }
-      -#           = escape_once_block do
-      -#             %p.lead
-      -#               %i.fa.fa-info-circle.text-primary
-      -#               지금 #{current_group.title} 그룹에 가입하세요!
-
-      -#             %p #{current_group.title} 그룹 멤버들과 함께 흥미진진한 이야기를 나눠 보세요.
-      -#             .text-right
-      -#               %button.btn.btn-link.btn-sm{ 'data-dismiss': 'popover' } 닫기
+    - if user_signed_in? && current_group&.member?(current_user)
+      = render 'layouts/front/messages'
 
     -# .menuitem.-powered-by
     -#   .label Powered by
     -#   = image_tag 'parti_logo_white.png', class: 'parti'
     - if user_signed_in?
-      .dropdown
+      .dropdown{ data: { controller: 'phone-dropdown' } }
         .userimage{ "data-toggle" => "dropdown", :href => "#" }
           .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
         .dropdown-menu.usermenu.dropdown-menu-right

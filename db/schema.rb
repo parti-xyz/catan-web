@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_23_050335) do
+ActiveRecord::Schema.define(version: 2020_06_25_055427) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -255,6 +255,8 @@ ActiveRecord::Schema.define(version: 2020_06_23_050335) do
     t.boolean "frontable", default: false, null: false
     t.boolean "cloud_plan", default: false
     t.string "mailer_sender"
+    t.string "navbar_bg_color", default: "#421caa"
+    t.string "navbar_text_color", default: "#ffffff"
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
     t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
     t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"

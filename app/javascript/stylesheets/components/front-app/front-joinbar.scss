@@ -1,0 +1,15 @@
+@use '../../global-variables';
+@use '../../mq';
+
+.front-app .front-joinbar {
+  z-index: 1;
+
+  > .link {
+    display: block;
+  }
+
+  text-align: center;
+  @include mq.media('<=phone') {
+    text-align: left;
+  }
+}

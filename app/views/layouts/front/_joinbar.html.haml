@@ -1,0 +1,6 @@
+.front-joinbar
+  %p.lead
+    %i.fa.fa-info-circle
+    지금 #{current_group.title} 그룹에 가입하세요!
+  %p.text-keepall #{current_group.title} 멤버들과 함께 흥미진진한 이야기를 나눠 보세요.
+  %p= link_to '그룹 가입', new_front_member_request_path, class: 'btn btn-light btn-block-phone'

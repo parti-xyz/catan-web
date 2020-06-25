@@ -1,8 +1,13 @@
+- content_for :style do
+  = render_scss 'layouts/front/group_style'
+
 - content_for :content do
   .front-app
     = render 'layouts/front/header'
 
-    .front-main
+    .front-main{ class: ('-need-to-join' unless current_group.member?(current_user)) }
+      - if !current_group.member?(current_user) && !current_group.private?
+        = render 'layouts/front/joinbar'
       .front-body.-no-header
         .playground-main
           - if content_for?(:playground_header_content)
@@ -12,7 +17,6 @@
     - if content_for?(:playground_sidebar_content)
       .front-footer
         .playground-sidebar
-          = render layout: 'layouts/simplebar' do
-            = yield(:playground_sidebar_content)
+          = yield(:playground_sidebar_content)
 
 = render template: 'layouts/bpplication'

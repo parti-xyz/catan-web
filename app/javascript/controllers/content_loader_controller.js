@@ -62,7 +62,16 @@ export default class extends Controller {
         if (html && this.enableRefreshing) {
           if (this.html != html) {
             this.html = html
+
+            this.element.dispatchEvent(new CustomEvent('content-loader:beforeLoaded', {
+              bubbles: true,
+            }))
+
             this.element.innerHTML = html
+
+            this.element.dispatchEvent(new CustomEvent('content-loader:afterLoaded', {
+              bubbles: true,
+            }))
           }
         }
       })

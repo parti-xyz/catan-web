@@ -110,6 +110,11 @@ class Group::ConfigurationsController < Group::BaseController
     @group.front_wiki_post = @post
     @group.front_wiki_post_by = current_user
     @group.save!
+
+    if helpers.explict_front_namespace?
+      flash[:notice] = t('activerecord.successful.messages.created')
+      turbolinks_redirect_to  smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+    end
   end
 
   def destroy_front_wiki
@@ -119,6 +124,11 @@ class Group::ConfigurationsController < Group::BaseController
     @group.front_wiki_post = nil
     @group.front_wiki_post_by = current_user
     @group.save!
+
+    if helpers.explict_front_namespace?
+      flash[:notice] = t('activerecord.successful.messages.released')
+      turbolinks_redirect_to  smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
+    end
   end
 
   private
@@ -128,7 +138,7 @@ class Group::ConfigurationsController < Group::BaseController
     params.require(:group).permit(:title, :site_description, :site_title,
       :head_title, :site_keywords, :issue_creation_privileges, :private, :organizer_nicknames,
       :key_visual_foreground_image, :key_visual_foreground_image_cache,
-      :key_visual_background_image, :key_visual_background_image_cache, :frontable, (:cloud_plan if current_user&.admin?), (:mailer_sender if current_user&.admin?))
+      :key_visual_background_image, :key_visual_background_image_cache, :frontable, (:cloud_plan if current_user&.admin?), (:mailer_sender if current_user&.admin?), (:navbar_text_color if current_user&.admin?), (:navbar_bg_color if current_user&.admin?))
   end
 
   def render_front_edit group

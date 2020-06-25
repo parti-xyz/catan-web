@@ -548,6 +548,14 @@ Rails.application.routes.draw do
 
     resources :groups, only: [:edit]
     resources :groups, only: [:update], controller: '/group/configurations'
+    resources :groups, only: [] do
+      collection do
+        post 'coc_wiki', to: '/group/configurations#front_wiki'
+        delete 'coc_wiki', to: '/group/configurations#destroy_front_wiki'
+      end
+    end
+
+
 
     resources :categories, only: [] do
       collection do

@@ -1,11 +1,11 @@
 %section
   .container
-    %h3
+    %h3.text-keepall
       %i.fa.fa-list-alt
       채널 카테고리 관리
 
     .simple-box.mb-3
-      %h5 새 채널 카테고리
+      %h5.text-keepall 새 채널 카테고리
       = form_with model: [:front, Category.new], local: false, class: 'pb-3', data: { controller: 'category-form', target: 'category-form.form', action: 'ajax:before->category-form#submit' } do |f|
         .input-group
           = f.text_field :name, class: 'form-control', data: { target: 'category-form.nameField' }
@@ -28,7 +28,7 @@
                 %span{ data: { target: 'category-form.view' } }
                   %span.name
                     = category.name
-                  %span.dropdown.pull-right
+                  %span.dropdown.pull-right{ data: { controller: 'phone-dropdown' } }
                     .btn.btn-secondary.btn-sm{ 'data-toggle': 'dropdown' }
                       관리
                     .dropdown-menu.dropdown-menu-right

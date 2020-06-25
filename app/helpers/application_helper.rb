@@ -539,4 +539,39 @@ module ApplicationHelper
     end
     result
   end
+
+  def group_navbar_text_color(style, group = nil)
+    group ||= current_group
+    return '' if group.blank?
+
+    group.navbar_text_color.present? ? "#{style}: #{group.navbar_text_color};" : "#{style}: #fff;"
+  end
+
+  def group_navbar_text_darken_color(style, group = nil)
+    group ||= current_group
+    return '' if group.blank?
+
+    group.navbar_text_color.present? ? "#{style}: darken(#{group.navbar_text_color}, 20%);" : "#{style}: darken(#fff, 20%);"
+  end
+
+  def group_navbar_bg_color(style, group = nil)
+    group ||= current_group
+    return '' if group.blank?
+
+    group.navbar_bg_color.present? ? "#{style}: #{group.navbar_bg_color};" : "#{style}: #421caa"
+  end
+
+  def render_scss(path)
+    text = render(partial: path, formats: 'scss')
+    view_context = controller.view_context
+
+    engine = Sass::Engine.new(text, {
+      syntax: :scss, cache: false, read_cache: false, style: :compressed,
+      sprockets:  {
+        context:     view_context,
+        environment: view_context.assets_environment
+      }
+    })
+    raw engine.render
+  end
 end

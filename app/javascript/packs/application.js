@@ -19,24 +19,6 @@ elementClosest(window)
 
 if (window.jQuery) {
   document.addEventListener("turbolinks:load", function () {
-    (function() {
-      function showDropDown(e) {
-        jQuery(this).find('.dropdown-menu').first().stop(true, true).slideDown(400)
-      }
-
-      function hideDropDown(e) {
-        jQuery(this).find('.dropdown-menu').first().stop(true, true).slideUp(200)
-      }
-
-      if (window.matchMedia && window.matchMedia("screen and (max-width: 450px)").matches) {
-        jQuery('.dropdown').off('show.bs.dropdown', showDropDown)
-        jQuery('.dropdown').off('hide.bs.dropdown', hideDropDown)
-
-        jQuery('.dropdown').on('show.bs.dropdown', showDropDown)
-        jQuery('.dropdown').on('hide.bs.dropdown', hideDropDown)
-      }
-    })()
-
     jQuery('body').tooltip({ selector: '[data-toggle="tooltip"]' })
   })
 

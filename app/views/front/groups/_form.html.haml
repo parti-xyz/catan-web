@@ -59,12 +59,12 @@
       %p= current_user.nickname
       %p.form-text.text-muted.small 그룹을 만든 후에 오거나이저를 고칠 수 있습니다.
 
-  - if local_group.persisted?
-    .form-group
-      = f.label :site_keywords, t("labels.group.form.site_keywords")
-      = f.text_field :site_keywords, class: 'form-control'
-      %p.form-text.text-muted.small
-        키워드를 쉼표로 구분해서 넣어 주세요. 검색해서 그룹을 찾아오기 쉬워집니다. #는 붙이실 필요 없어요.
+  -# - if local_group.persisted?
+  -#   .form-group
+  -#     = f.label :site_keywords, t("labels.group.form.site_keywords")
+  -#     = f.text_field :site_keywords, class: 'form-control'
+  -#     %p.form-text.text-muted.small
+  -#       키워드를 쉼표로 구분해서 넣어 주세요. 검색해서 그룹을 찾아오기 쉬워집니다. #는 붙이실 필요 없어요.
 
   .form-group
     = f.label :issue_creation_privileges
@@ -80,9 +80,6 @@
         비공개로 설정하면 이 그룹에 가입한 멤버만 게시글을 볼 수 있습니다.
 
   - if local_group.persisted?
-
-    %legend.legend-default 그룹홈 상단
-
     .form-group
       = f.label :key_visual_foreground_image, t("labels.group.form.key_visual_foreground_image")
       = f.file_field :key_visual_foreground_image, class: 'form-control'
@@ -95,48 +92,40 @@
           %br
         권장 이미지 사이즈는 가로(2880px) * 세로(500px) 입니다.
 
-    - if current_user.admin?
-      .form-group
-        = f.label :key_visual_background_image, t("labels.group.form.key_visual_background_image")
-        = f.file_field :key_visual_background_image, class: 'form-control'
-        = f.hidden_field :key_visual_background_image_cache
-        %p.form-text.text-primary.small
-          빠띠 운영자 전용메뉴입니다.
-        %p.form-text.text-muted.small
-          - if local_group.key_visual_background_image?
-            = image_tag local_group.key_visual_background_image.url, class: 'img-thumbnail', style: 'max-height: 100px'
-            - if upload_file_exists?(local_group.key_visual_background_image) and local_group.persisted?
-              = link_to '삭제', remove_key_visual_background_image_group_configuration_path, method: :delete, class: 'btn btn-default btn-sm btn-delete-image'
-            %br
-          권장 이미지 사이즈는 가로(2880px) * 세로(500px) 입니다.
+  - if local_group.persisted? && current_user.admin?
+    %legend.legend-default
+      빠띠 운영자 전용
+      .form-text.text-primary.small
+        빠띠 운영자 전용메뉴입니다.
 
-      %legend.legend-default 운영
+    .form-group
+      = f.label :navbar_text_color
+      = f.color_field :navbar_text_color
+    .form-group
+      = f.label :navbar_bg_color
+      = f.color_field :navbar_bg_color
 
-      .form-group
-        = f.label :frontable
-        .checkbox
-          %label
-            = f.check_box :frontable
-            3.0 신규 화면이 적용됩니다.
-        %p.form-text.text-primary.small
-          빠띠 운영자 전용메뉴입니다.
+    .form-group
+      = f.label :frontable
+      .checkbox
+        %label
+          = f.check_box :frontable
+          3.0 신규 화면이 적용됩니다.
+      %p.form-text.text-primary.small
+        빠띠 운영자 전용메뉴입니다.
 
-      .form-group
-        = f.label :cloud_plan
-        .checkbox
-          %label
-            = f.check_box :cloud_plan
-            클라우드 플랜을 적용합니다.
-        %p.form-text.text-primary.small
-          빠띠 운영자 전용메뉴입니다.
+    .form-group
+      = f.label :cloud_plan
+      .checkbox
+        %label
+          = f.check_box :cloud_plan
+          클라우드 플랜을 적용합니다.
 
-      .form-group
-        = f.label :mailer_sender
-        = f.text_field :mailer_sender
-        %p.form-text.text-primary.small
-          클라우드 플랜을 적용 시에만 작동합니다. 비워 놓으면 기본 메일 주소로 전송됩니다.
-          %br
-          빠띠 운영자 전용메뉴입니다.
+    .form-group
+      = f.label :mailer_sender
+      = f.text_field :mailer_sender
+      %p.form-text.text-primary.small
+        클라우드 플랜을 적용 시에만 작동합니다. 비워 놓으면 기본 메일 주소로 전송됩니다.
 
   .form-group
     = f.submit '저장', class: 'btn btn-primary btn-lg', data: { disable_with: "저장 중..." }

@@ -2,14 +2,18 @@ import { Controller } from 'stimulus'
 import fetchResponseCheck from '../helpers/fetch_check_response'
 
 export default class extends Controller {
-  static targets = ['circle']
+  static targets = ['toggle', 'circle', 'menu']
   connect() {
-    let self = this
     jQuery(this.element).on('show.bs.dropdown', this.readAll.bind(this))
+
+    this.menuTarget.style.display = ''
+    jQuery(this.toggleTarget).dropdown()
+    this.showAfterMixUp = false
   }
 
   disconnect() {
     jQuery(this.element).off('show.bs.dropdown', this.readAll.bind(this))
+    this.dispose()
   }
 
   readAll(event) {
@@ -30,5 +34,21 @@ export default class extends Controller {
           self.circleTarget.classList.add('collapse')
         }
       })
+  }
+
+  dispose(event) {
+    if (this.element.classList.contains('show')) {
+      this.showAfterMixUp = true
+      this.element.classList.remove('show')
+    }
+    jQuery(this.toggleTarget).dropdown('dispose')
+  }
+
+  mixUp(event) {
+    jQuery(this.toggleTarget).dropdown()
+    if (this.showAfterMixUp) {
+      jQuery(this.toggleTarget).dropdown('toggle')
+      this.showAfterMixUp = false
+    }
   }
 }

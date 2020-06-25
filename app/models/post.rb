@@ -688,6 +688,10 @@ class Post < ApplicationRecord
     FileSource.array_sort_by_seq_no(file_sources.to_a).select &:doc?
   end
 
+  def frontable?
+    issue.frontable?
+  end
+
   private
 
   def reindex_for_search

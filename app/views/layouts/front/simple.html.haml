@@ -1,3 +1,6 @@
+- content_for :style do
+  = render_scss 'layouts/front/group_style'
+
 - content_for :content do
   .front-app
     = render 'layouts/front/header'

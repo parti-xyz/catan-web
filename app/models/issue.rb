@@ -575,6 +575,10 @@ class Issue < ApplicationRecord
     self.group.subdomain
   end
 
+  def frontable?
+    self.group.frontable?
+  end
+
   private
 
   def downcase_slug

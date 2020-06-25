@@ -1,5 +1,6 @@
 @use '../../global-variables';
 @use '../../bootstrap';
+@use '../../mq';
 
 .front-app .post-content {
   > .reactions {
@@ -47,6 +48,10 @@
     margin-top: .75rem;
   }
 
+  > .post-survey {
+    padding: 2.25rem;
+  }
+
   > .post-link-source:last-child {
     margin-bottom: -0.75rem;
   }
@@ -54,5 +59,11 @@
   > .comments > .post-comment.-form:not(:first-child){
     margin-top: .625rem;
     padding-top: 1rem;
+  }
+
+  @include mq.media('<=phone') {
+    > .post-survey {
+      padding: 1.5rem;
+    }
   }
 }

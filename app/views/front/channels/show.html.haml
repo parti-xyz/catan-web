@@ -76,7 +76,7 @@
               전부 읽은 상태로 표시
 
       .sort
-        .dropdown
+        .dropdown{ data: { controller: 'phone-dropdown' } }
           .toggle.cursor-pointer{ "data-toggle" => "dropdown", :href => "#" }
             = @issue_reader.sort_text
             %i.fa.fa-angle-down

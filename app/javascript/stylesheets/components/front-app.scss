@@ -14,12 +14,12 @@
 @forward "./front-app/comment-filesource-doc-listing";
 @forward "./front-app/comment-filesource-listings";
 @forward "./front-app/comment-form";
-@forward "./front-app/coc-box";
 @forward "./front-app/file-source-field";
 @forward "./front-app/folder-lines";
 @forward "./front-app/front-body";
 @forward "./front-app/front-main";
 @forward "./front-app/front-navbar";
+@forward "./front-app/front-joinbar";
 @forward "./front-app/front-navbar-message-item";
 @forward "./front-app/front-navbar-message-header";
 @forward "./front-app/front-simple";
@@ -86,6 +86,10 @@ body.-pack.-simple.app-users {
     flex: 1;
     height: 100%;
     @include front-variables.navbar-height(padding-top);
+  }
+
+  > .front-main.-need-to-join {
+    @include front-variables.navbar-and-joinbar-height(padding-top);
   }
 
   @include mq.media('<=phone') {

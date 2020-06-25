@@ -1,0 +1,34 @@
+.front-app .front-navbar {
+  > .menuitem > .link,
+  > .menuitem > .notifications,
+  > .profilemenus,
+  > .profilemenus > .menuitem > .link {
+    <%= group_navbar_text_color('color') %>
+  }
+  > .menuitem > .link:hover,
+  > .menuitem > .notifications:hover,
+  > .profilemenus > .menuitem:hover > .link,
+  > .profilemenus > .menuitem:hover > .notifications {
+    <%= group_navbar_text_darken_color('color') %>
+  }
+}
+.front-app .navbar-group-menu {
+  &,
+  > .link {
+    <%= group_navbar_text_color('color') %>
+  }
+
+  &:hover > .link {
+    <%= group_navbar_text_darken_color('color') %>
+  }
+}
+.front-app .front-navbar {
+  <%= group_navbar_bg_color('background-color') %>
+}
+.front-app .front-joinbar {
+  <%= group_navbar_bg_color('background-color') %>
+  <%= group_navbar_text_color('color') %>
+}
+.front-app .front-joinbar > .link {
+  <%= group_navbar_text_color('color') %>
+}

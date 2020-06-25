@@ -4,16 +4,8 @@
   flex: none;
   text-align: center;
 
-  // TODO 고쳐지는 부분
-  color: global-variables.$color-bnc-nav-text;
    > .link {
-    // TODO 고쳐지는 부분
     font-weight: bold;
-    color: global-variables.$color-bnc-nav-text;
-  }
-
-  &:hover > .link {
-    color: darken(global-variables.$color-bnc-nav-text, 20%);
   }
 
   > .moremenu > .dropdown > .title {

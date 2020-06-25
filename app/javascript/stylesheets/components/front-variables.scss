@@ -10,10 +10,30 @@ $playground-header-height-sm: 3rem;
 $playground-sidebar-width: 21rem;
 $playground-sidebar-space-x: .75rem;
 
+
+$_navbar-height-default: 2.75rem;
+$_navbar-height-phone: 3rem;
+$_joinbar-height-default: 10rem;
+$_joinbar-height-phone: 11.5rem;
+
 @mixin navbar-height($property) {
-  #{$property}: 2.75rem;
+  #{$property}: $_navbar-height-default;
   @include mq.media("<=phone") {
-    #{$property}: 3rem;
+    #{$property}: $_navbar-height-phone;
+  }
+}
+
+@mixin navbar-and-joinbar-height($property) {
+  #{$property}: $_joinbar-height-default + $_navbar-height-default;
+  @include mq.media("<=phone") {
+    #{$property}: $_joinbar-height-phone + $_navbar-height-phone;
+  }
+}
+
+@mixin joinbar-height($property) {
+  #{$property}: $_joinbar-height-default;
+  @include mq.media("<=phone") {
+    #{$property}: $_joinbar-height-phone;
   }
 }
 

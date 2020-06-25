@@ -90,4 +90,32 @@
       padding: 1rem .75rem;
     }
   }
+
+  &.-coc {
+    margin: 1.5rem;
+    > .body {
+      border: none;
+    }
+    > .body > .article {
+      border: none;
+      padding: 0;
+    }
+    > .authors {
+      display: none;
+    }
+
+    &,
+    &:hover,
+    > .body,
+    &:hover > .body,
+    > .body > .article,
+    &:hover > .body > .article {
+      box-shadow: none !important;
+    }
+
+    > .body > .buttons {
+      position: static;
+      margin-top: 3rem;
+    }
+  }
 }

@@ -1,12 +1,12 @@
 @use '../../bootstrap';
 @use '../../global-variables';
 @use '../../mixin';
+@use '../../mq';
 
 .front-app .post-survey {
   border: 1px solid #dee2e6;
   border-radius: 2px;
   background-color: #f8f9fa;
-  padding: 2.25rem;
 
   &:hover {
     @include mixin.box-shadow;
@@ -28,6 +28,10 @@
     font-size: 1.25rem;
   }
 
+  > .option > .checkbox > .fa-square-o {
+    font-size: 1.4rem;
+  }
+
   > .option.-active > .checkbox {
     color: global-variables.$color-brand-primary;
   }
@@ -45,6 +49,16 @@
 
   > .option > .body > .desc > .content.-del {
     text-decoration: line-through;
+  }
+
+  > .option > .body > .desc > .content {
+    flex: 1;
+  }
+
+  > .option > .body > .desc > .meta {
+    width: 6.5rem;
+    white-space: nowrap;
+    text-align: right;
   }
 
   > .option > .body > .desc > .meta > .item {
@@ -97,5 +111,22 @@
 
   > .footer > .item.-link {
     cursor: pointer;
+  }
+
+  @include mq.media('<=phone') {
+    > .option > .body > .desc {
+      flex-direction: column;
+    }
+    > .option > .body > .desc > .content {
+      flex: none;
+    }
+    > .option > .body > .desc > .meta {
+      flex: none;
+      width: 100%;
+      text-align: left;
+    }
+    > .option > .body > .desc > .meta > .item:first-child {
+      margin-left: 0;
+    }
   }
 }

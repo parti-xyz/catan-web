@@ -1,0 +1,7 @@
+.menuitem.dropdown{ id: 'navbar-messages', data: { controller: 'content-loader message-dropdown phone-dropdown', action: 'content-loader:beforeLoaded->message-dropdown#dispose content-loader:afterLoaded->message-dropdown#mixUp', 'content-loader': { url: nav_front_messages_path, 'refresh-interval': (1000 * 60 * 5).to_s, 'disable-refresh-jquery-event': 'show.bs.dropdown', 'enable-refresh-jquery-event': 'hide.bs.dropdown' }, 'message-dropdown': { 'url': read_all_front_messages_url }, 'turbolinks-permanent': true } }
+  .notifications{ data: { toggle: 'dropdown', target: 'message-dropdown.toggle' } }
+    %i.fa.fa-bell
+  .dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message-dropdown.menu' } }
+    .dropdown-item
+      %i.fa.fa-spinner.fa-pulse
+      로딩 중...

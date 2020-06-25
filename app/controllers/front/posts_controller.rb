@@ -12,7 +12,7 @@ class Front::PostsController < Front::BaseController
       @post_reader = @current_post.read!(@current_user)
       @current_issue.read!(@current_user)
 
-      updated_at_previous = @post_reader.updated_at_previous_change&.first
+      updated_at_previous = @post_reader&.updated_at_previous_change&.first
       if updated_at_previous.present?
         @updated_comments = @current_post.comments.to_a.select do |comment|
           comment.user != current_user && comment.created_at > updated_at_previous

@@ -1,8 +1,8 @@
-.notifications{ data: { toggle: 'dropdown' } }
+.notifications{ data: { toggle: 'dropdown', target: 'message-dropdown.toggle' } }
   %i.fa.fa-bell
   - if @important_messages_count > 0
-    %i.fa.fa-circle.circle{ data: { target: 'message-read-all.circle', 'last-message-id': @messages&.first&.id } }
-.dropdown-menu.dropdown-menu-right.messages
+    %i.fa.fa-circle.circle{ data: { target: 'message-dropdown.circle', 'last-message-id': @messages&.first&.id } }
+.dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message-dropdown.menu' } }
   .dropdown-header.front-navbar-message-header 알림
   - if @messages.any?
     - @messages.each do |message|

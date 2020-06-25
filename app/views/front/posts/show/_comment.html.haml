@@ -30,7 +30,7 @@
 
         - if comment_moremenu.present?
           .moremenu
-            .dropdown
+            .dropdown{ data: { controller: 'phone-dropdown' } }
               %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
                 %i.fa.fa-ellipsis-v
               .dropdown-menu.dropdown-menu-right

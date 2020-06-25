@@ -6,13 +6,13 @@
   position: relative;
 
   // deprecated
-  > .group-menu {
-    width: 100%;
-    @include front-variables.navbar-height(height);
-    @include front-variables.navbar-height(line-height);
-    position: absolute;
-    top: 0;
-  }
+  // > .group-menu {
+  //   width: 100%;
+  //   @include front-variables.navbar-height(height);
+  //   @include front-variables.navbar-height(line-height);
+  //   position: absolute;
+  //   top: 0;
+  // }
 
   > .channel-listings {
     height: 100%;

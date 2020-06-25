@@ -12,6 +12,10 @@
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag 'bpplication', media: 'all', 'data-turbolinks-track': 'reload'
 
+    - if content_for?(:style)
+      %style
+        = yield(:style)
+
     %link{href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css", rel: "stylesheet"}
     = javascript_pack_tag 'application', defer: true, 'data-turbolinks-track': 'reload'
 

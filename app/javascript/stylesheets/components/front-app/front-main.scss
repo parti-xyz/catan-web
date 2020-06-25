@@ -3,11 +3,7 @@
 
 .front-app .front-main {
   display: flex;
-  // > .global-sidebar {
-  //   flex: none;
-  //   width: front-variables.$global-sidebar-width;
-  //   height: 100%;
-  // }
+
   > .front-sidebar {
     flex: none;
     width: front-variables.$front-sidebar-width;
@@ -16,6 +12,17 @@
   > .front-body {
     flex: 1;
     height: 100%;
+  }
+
+  &.-need-to-join > .front-joinbar {
+    position: fixed;
+    padding: 1.25rem;
+    @include front-variables.joinbar-height(height);
+    width: 100%;
+    @include front-variables.navbar-height(top);
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
   }
 
   @include mq.media('<=phone') {

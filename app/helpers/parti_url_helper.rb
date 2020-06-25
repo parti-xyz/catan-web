@@ -1,7 +1,12 @@
 module PartiUrlHelper
   def smart_issue_home_url(issue, options = {})
     new_options = options.merge(slug: issue.slug, subdomain: issue.group_subdomain)
-    slug_issue_url(new_options)
+
+    if issue.frontable?
+      smart_front_channel_url(issue, options)
+    else
+      slug_issue_url(new_options)
+    end
   end
 
   def smart_issue_links_or_files_path(issue, options = {})
@@ -41,7 +46,11 @@ module PartiUrlHelper
   end
 
   def smart_post_url(post, options = {})
-    polymorphic_url(post, options.merge(subdomain: post.issue.group_subdomain))
+    if post.frontable?
+      smart_front_post_url(post, options)
+    else
+      polymorphic_url(post, options.merge(subdomain: post.issue.group_subdomain))
+    end
   end
 
   def smart_members_or_member_requests_parti_path(issue, options = {})

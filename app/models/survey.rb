@@ -50,7 +50,7 @@ class Survey < ApplicationRecord
     mvp_feedbacks_count = options.order(feedbacks_count: :desc).first.try(:feedbacks_count)
     mvp_options ||= options.where(feedbacks_count: mvp_feedbacks_count)
     mvp_options = Option.none if mvp_options.count == options.count
-    @mvp_options_ids = mvp_options.select(:id).to_a
+    @mvp_options_ids = mvp_options.pluck(:id)
   end
 
   def mvp_option?(option)

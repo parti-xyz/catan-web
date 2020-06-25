@@ -1,6 +1,5 @@
-- popover_placement = browser.device.mobile? ? 'auto' : 'right'
 - class_check = survey.multiple_select? ? 'fa-check-square-o' : 'fa-check-circle-o'
-- no_checkbox = ((!survey.feedbacked?(current_user) or !survey.mvp_options_ids.any?) and !survey.open?)
+- class_no_check = survey.multiple_select? ? 'fa-square-o' : 'fa-circle-o'
 .post-survey{ data: { controller: 'content-replacement' } }
   - survey.options.each do |option|
     .option[option]{ class: ('-active' if option.selected?(current_user)) }
@@ -15,10 +14,10 @@
         - if survey.open?
           - if !option.canceled?
             = link_to front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'checkbox', data: { target: 'content-replacement.link' } do
-              %i.fa{ class: class_check }
+              %i.fa{ class: (option.selected?(current_user) ? class_check : class_no_check) }
           - else
             .checkbox
-        - else
+        - elsif survey.feedbacked?(current_user)
           .checkbox
             - if option.selected?(current_user)
               %i.fa.active{ class:  class_check }
@@ -26,23 +25,23 @@
         .body
           .desc
             - if survey.open? and !option.canceled?
-              = link_to simple_format(option.body), front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'content -link', data: { target: 'content-replacement.link' }
+              = link_to simple_format(option.body, {}, wrapper_tag: 'span'), front_feedbacks_path(post_id: survey.post.id, option_id: option.id, selected: !option.selected?(current_user)), remote: true, method: :post, class: 'content -link', data: { target: 'content-replacement.link' }
             - else
               - if option.canceled?
-                .content.-del= simple_format(option.body)
+                .content.-del= simple_format(option.body, {}, wrapper_tag: 'span')
               - else
-                .content= simple_format(option.body)
+                .content= simple_format(option.body, {}, wrapper_tag: 'span')
 
             - if survey.visible_feedbacks?(current_user)
               .meta<
-                - if option.feedbacks_count > 0
-                  .item.-link{ tabindex: 1, data: { controller: 'content-popover', 'content-popover': { url: front_feedbacks_users_path(option_id: option.id), options: h({ placement: 'right', container: '.front-app' }.to_json) } } }<>
-                    #{option.feedbacks_count}명
-                    %i.fa.fa-w.fa-angle-right{ style: 'left: 2px; position: relative;' }
+                - if option.canceled?
+                  .item 철회됨
+                - elsif option.feedbacks_count > 0
                   - if survey.mvp_option?(option)
                     .item<> 최다득표
-                - if option.canceled?
-                  .item 제안 철회됨
+                  .item.-link{ tabindex: 1, data: { controller: 'content-popover', 'content-popover': { url: front_feedbacks_users_path(option_id: option.id), options: h({ placement: 'right', container: '.front-app' }.to_json) } } }<>
+                    #{option.feedbacks_count}명
+
           .chart
             .bar{ class: ('-canceled' if option.canceled?), style: "height: 100%; width: #{survey.percentage(option)}%" }
 
@@ -59,7 +58,7 @@
 
           - if option_moremenu.present?
             .moremenu
-              .dropdown
+              .dropdown{ data: { controller: 'phone-dropdown' } }
                 %button.btn.btn-light.btn-sm.text-muted{ "data-toggle": "dropdown" }
                   %i.fa.fa-angle-down
                 .dropdown-menu.dropdown-menu-right
@@ -76,7 +75,7 @@
     = form_with model: [:front, Option.new], local: false, class: 'option', data: { controller: 'option-form', target: 'content-replacement.link' } do |f|
       = f.hidden_field :survey_id, value: survey.id
       .checkbox
-        %i.fa{ class: class_check }
+        %i.fa{ class: class_no_check }
       .body
         .form-group
           = f.text_area :body, class: 'form-control', rows: 1, placeholder: 'ex. 제안 내용', data: { controller: 'auto-resize', target: 'option-form.bodyField' }

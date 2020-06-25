@@ -1,9 +1,26 @@
-%h3
-  %i.fa.fa-user
-  #{current_group.title} 🤙유스펀치 커뮤니티 약속
+.jumbotron{ style: "#{'background-color: transparent;' if current_group.key_visual_foreground_image.present?} position: relative;" }
+  %h3.text-keepall.display-4
+    #{current_group.title}
+  - if current_group.site_description
+    %p
+      = current_group.site_description
+  - if is_small_screen?
+    %a.btn.btn-primary.btn-sm{ href: front_menu_path }
+      커뮤니티 채널 보기
+  - if current_group.key_visual_foreground_image.present?
+    = image_tag current_group.key_visual_foreground_image.url, style: " position: absolute; top: 0; left: 0; z-index: -1; display: block; object-fit: cover; width: 100%; height: 100%; opacity: 1; object-position: center 24.26%;"
+%section
+  - if current_group.front_wiki_post.present?
+    - if !current_group.front_wiki_post.private_blocked?(current_user)
+      .post-wiki.-coc
+        = render 'front/wikis/card', current_wiki: current_group.front_wiki_post.wiki
+  - else
+    .alert.alert-secondary.m-4
+      .display-5 커뮤니티 가이드는 준비 중입니다.
+      - if current_group.organized_by?(current_user)
+        .mt-4
+          .display-5.text-danger.small
+            (오거나이저만 볼 수 있는 메시지입니다.)
+            %br
+            채널을 선택해서 위키로 커뮤니티 가이드를 작성하세요. 그리고 그 위키를 커뮤니티 가이드로 설정해 보세요.
 
-.simple-box
-  %p
-    서로를 학력이나 성별, 나이 등 어떤 조건으로도 차별하지 않습니다. 더불어 다른 사람에게 불쾌감을 주는 행동을 하지 않습니다.
-  %p
-    커뮤니티에 함께하는 구성원 모두가 함께 평등하고 안전하게 만들어가는 공간입니다.

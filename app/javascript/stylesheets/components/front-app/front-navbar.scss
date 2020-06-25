@@ -3,8 +3,6 @@
 @use '../../mq';
 
 .front-app .front-navbar {
-  // TODO 고쳐지는 부분
-  background: global-variables.$color-bnc-nav-bg;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
@@ -91,8 +89,6 @@
   > .profilemenus {
     flex: none;
     display: flex;
-    // TODO 고쳐지는 부분
-    color: global-variables.$color-bnc-nav-text;
   }
   > .profilemenus > .dropdown > .userimage,
   > .dropdown > .userimage {
@@ -116,7 +112,6 @@
   }
   > .profilemenus > .menuitem {
     position: relative;
-    opacity: .8;
     margin-left: 1rem;
     margin-right: 1rem;
   }
@@ -138,13 +133,6 @@
     bottom: 0;
     left: 50%;
   }
-  > .profilemenus > .menuitem > .link {
-    color: global-variables.$color-bnc-nav-text;
-  }
-  > .profilemenus > .menuitem:hover > .link {
-    color: darken(global-variables.$color-bnc-nav-text, 20%);
-  }
-
 
   > .profilemenus > .dropdown > .notifications {
     width: 1.75rem;
@@ -180,10 +168,6 @@
     align-items: center;
 
     > .dropdown > .messages {
-      width: 300px;
-      max-width: 300px;
-      min-width: 300px;
-      max-height: 400px;
       overflow: auto;
     }
 

@@ -3,9 +3,10 @@
     .menuitem
       = link_to front_menu_path, class: 'link' do
         %i.fa.fa-bars.fa-fw
-    .menuitem
-      = link_to front_search_form_path(issue_id: @current_issue&.id), class: 'link' do
-        %i.fa.fa-search.fa-fw
+    - if user_signed_in? && current_group&.member?(current_user)
+      .menuitem
+        = link_to front_search_form_path(issue_id: @current_issue&.id), class: 'link' do
+          %i.fa.fa-search.fa-fw
     .menuitem.navbar-group-menu
       = link_to current_group.head_title, root_url, class: 'link'
   - else
@@ -14,16 +15,10 @@
       = meta_icons(current_group)
 
   - if user_signed_in? && current_group&.member?(current_user)
-    #nav-messages.menuitem.dropdown{ data: { controller: 'content-loader message-read-all', 'content-loader': { url: nav_front_messages_path, 'refresh-interval': (1000 * 60 * 5).to_s, 'disable-refresh-jquery-event': 'show.bs.dropdown', 'enable-refresh-jquery-event': 'hide.bs.dropdown' }, 'message-read-all': { 'url': read_all_front_messages_url }, 'turbolinks-permanent': true } }
-      .notifications{ data: { toggle: 'dropdown' } }
-        %i.fa.fa-bell
-      .dropdown-menu.dropdown-menu-right.messages
-        .dropdown-item
-          %i.fa.fa-spinner.fa-pulse
-          로딩 중...
+    = render 'layouts/front/messages'
 
   - if user_signed_in?
-    .dropdown.menuitem
+    .dropdown.menuitem{ data: { controller: 'phone-dropdown' } }
       .userimage{ "data-toggle" => "dropdown", :href => "#" }
         .userimagebg{ style: "background-image: url(#{current_user.image.sm.url})" }
       .dropdown-menu.usermenu.dropdown-menu-right
