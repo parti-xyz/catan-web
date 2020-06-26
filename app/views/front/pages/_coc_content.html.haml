@@ -1,11 +1,11 @@
 .jumbotron{ style: "#{'background-color: transparent;' if current_group.key_visual_foreground_image.present?} position: relative;" }
-  %h3.text-keepall.display-4
+  %h3.text-keepall.display-4.keytext
     #{current_group.title}
   - if current_group.site_description
-    %p
+    %p.subtext
       = current_group.site_description
   - if is_small_screen?
-    %a.btn.btn-primary.btn-sm{ href: front_menu_path }
+    %a.btn.btn-key.btn-sm{ href: front_menu_path }
       커뮤니티 채널 보기
   - if current_group.key_visual_foreground_image.present?
     = image_tag current_group.key_visual_foreground_image.url, style: " position: absolute; top: 0; left: 0; z-index: -1; display: block; object-fit: cover; width: 100%; height: 100%; opacity: 1; object-position: center 24.26%;"

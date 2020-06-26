@@ -1,3 +1,46 @@
+@mixin button-variant($color, $background, $border) {
+  background-color: $background;
+  border-color: $border;
+
+  &:focus,
+  &.focus {
+    background-color: darken($background, 10%);
+    border-color: darken($border, 25%);
+  }
+  &:hover {
+    background-color: darken($background, 10%);
+    border-color: darken($border, 12%);
+  }
+  &:active,
+  &.active,
+  .open > &.dropdown-toggle {
+    background-color: darken($background, 10%);
+    background-image: none;
+    border-color: darken($border, 12%);
+
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: darken($background, 17%);
+      border-color: darken($border, 25%);
+    }
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: $background;
+      border-color: $border;
+    }
+  }
+
+  .badge {
+    background-color: $color;
+  }
+}
+
 .front-app .front-navbar {
   > .menuitem > .link,
   > .menuitem > .notifications,
@@ -31,4 +74,19 @@
 }
 .front-app .front-joinbar > .link {
   <%= group_navbar_text_color('color') %>
+}
+
+.front-app .coc-box {
+  > .jumbotron > .keytext {
+    <%= group_coc_text_color('color') %>
+  }
+  > .jumbotron > .subtext {
+    <%= group_coc_text_color('color') %>
+  }
+  > .jumbotron > .btn-key {
+    <% if current_group.coc_btn_bg_color.present? %>
+      @include button-variant(<%= current_group.coc_btn_bg_color %>, darken(<%= current_group.coc_btn_bg_color %>, 10%), darken(<%= current_group.coc_btn_bg_color %>, 10%));
+    <% end %>
+    <%= group_coc_btn_text_color('color') %>
+  }
 }

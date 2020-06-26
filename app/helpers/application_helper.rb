@@ -540,25 +540,30 @@ module ApplicationHelper
     result
   end
 
-  def group_navbar_text_color(style, group = nil)
-    group ||= current_group
-    return '' if group.blank?
+  def _group_style(attr, style, fallback, &block)
+    return '' if current_group.blank?
 
-    group.navbar_text_color.present? ? "#{style}: #{group.navbar_text_color};" : "#{style}: #fff;"
+    current_group.send(attr).present? ? "#{style}: #{ block.present? ? block.call(current_group.send(attr)) : current_group.send(attr) };" : "#{style}: #{fallback};"
   end
 
-  def group_navbar_text_darken_color(style, group = nil)
-    group ||= current_group
-    return '' if group.blank?
-
-    group.navbar_text_color.present? ? "#{style}: darken(#{group.navbar_text_color}, 20%);" : "#{style}: darken(#fff, 20%);"
+  def group_navbar_text_color(style)
+    _group_style(:navbar_text_color, style, '#fff')
   end
 
-  def group_navbar_bg_color(style, group = nil)
-    group ||= current_group
-    return '' if group.blank?
+  def group_navbar_text_darken_color(style)
+    _group_style(:navbar_text_color, style, 'darken(#fff, 10%)') { |value| "darken(#{value}, 20%)" }
+  end
 
-    group.navbar_bg_color.present? ? "#{style}: #{group.navbar_bg_color};" : "#{style}: #421caa"
+  def group_navbar_bg_color(style)
+    _group_style(:navbar_bg_color, style, '#5e2abb')
+  end
+
+  def group_coc_text_color(style)
+    _group_style(:coc_text_color, style, '#5e2abb')
+  end
+
+  def group_coc_btn_text_color(style)
+    _group_style(:coc_btn_text_color, style, '#ffffff')
   end
 
   def render_scss(path)
