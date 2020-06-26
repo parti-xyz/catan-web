@@ -1,6 +1,7 @@
 .member-user
   .title
-    %strong #{@user.nickname}
+    %span.usernickname #{@user.nickname}
+    %span.memberrole #{@member&.role}
   .main
     - if @member.present?
       - if @member.description.present?

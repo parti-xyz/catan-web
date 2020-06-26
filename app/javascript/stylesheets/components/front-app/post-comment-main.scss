@@ -8,9 +8,14 @@
     display: none;
   }
 
-  > .view > .usernickname {
+  > .view > .user > .usernickname {
     font-weight: bold;
     font-size: bootstrap.$font-size-sm;
+  }
+  > .view > .user > .memberrole {
+    font-weight: normal;
+    color: global-variables.$color-gray-600;
+    font-size: bootstrap.$font-size-xs;
   }
   > .view > .datetime {
     display: inline-block;

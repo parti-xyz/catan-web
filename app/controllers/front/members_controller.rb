@@ -10,7 +10,7 @@ class Front::MembersController < Front::BaseController
     @member = current_group.member_of(current_user)
     render_404 and return if @member.blank?
 
-    @member.update_attributes(params.permit(:description))
+    @member.update_attributes(params.permit(:role, :description))
 
     flash[:notice] = I18n.t('activerecord.successful.messages.created')
     turbolinks_redirect_to root_url(current_group.subdomain)

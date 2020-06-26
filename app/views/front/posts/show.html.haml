@@ -63,12 +63,12 @@
       #{user_subject_word(@current_post.user)} 시작한 위키입니다.
       - if @current_post.user != current_user
         %span.text-nowrap.cursor-pointer.text-primary{ data: { action: 'click->comment-form-new#open', mention: @current_post.user.nickname } } 멘션하기
-    - if @current_post.issue.group.organized_by?(current_user)
+    - if @current_post.issue.group.organized_by?(current_user) || current_user&.admin?
       - if @current_post.front_wiki?
         = link_to coc_wiki_front_groups_path(post_id: @current_post.id, folder_id: @current_folder&.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
           커뮤니티 가이드 설정 해제
       - else
-        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 게시글 '#{@current_post.group.front_wiki_post.title}'이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !@current_post.front_wiki? and @current_post.group.front_wiki_post.present?) }, class: 'dropdown-item' do
+        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{@current_post.group.front_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !@current_post.front_wiki? and @current_post.group.front_wiki_post.present?) }, class: 'dropdown-item' do
           커뮤니티 가이드로 설정하기
           %br
           %small TIP. 해당 그룹의 커뮤니티 가이드 페이지에 게시됩니다.
@@ -137,8 +137,9 @@
           %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
             .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
           .desc
-            %span.usernickname{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
-              = @current_post.user.nickname
+            %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
+              %span.usernickname= @current_post.user.nickname
+              %span.memberrole= @current_post.user.current_group_member&.role
             .createdat
               = smart_date_tag @current_post.created_at
 

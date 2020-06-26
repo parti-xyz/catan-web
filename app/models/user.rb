@@ -80,6 +80,9 @@ class User < ApplicationRecord
   has_many :members, dependent: :destroy
   has_many :issue_members, -> { where(joinable_type: 'Issue') }, class_name: "Member"
   has_many :group_members, -> { where(joinable_type: 'Group') }, class_name: "Member"
+  has_one :current_group_member,
+    -> { where(joinable_type: 'Group').where(joinable_id: Current.group.try(:id)) },
+    class_name: "Member"
   has_many :member_request, dependent: :destroy
   has_many :member_issues, through: :members, source: :joinable, source_type: "Issue"
   has_many :member_groups, through: :members, source: :joinable, source_type: "Group"

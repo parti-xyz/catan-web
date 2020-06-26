@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   after_action :flash_to_headers
 
   around_action :set_current_user
+  around_action :set_current_group
 
   layout -> { get_layout }
 
@@ -400,6 +401,14 @@ class ApplicationController < ActionController::Base
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
     Current.user = nil
+  end
+
+  def set_current_group
+    Current.group = current_group
+    yield
+  ensure
+    # to address the thread variable leak issues in Puma/Thin webserver
+    Current.group = nil
   end
 
   def flash_to_headers

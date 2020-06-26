@@ -20,9 +20,14 @@
   > .desc {
     flex: 1;
   }
-  > .desc > .usernickname {
+  > .desc > .user > .usernickname {
     font-weight: 600;
     font-size: bootstrap.$font-size-sm;
+  }
+  > .desc > .user > .memberrole {
+    font-weight: normal;
+    color: global-variables.$color-gray-600;
+    font-size: bootstrap.$font-size-xs;
   }
   > .desc > .createdat {
     font-size: bootstrap.$font-size-xs;

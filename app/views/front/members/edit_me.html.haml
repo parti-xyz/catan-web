@@ -7,6 +7,12 @@
     .simple-box
       = form_with url: update_me_front_members_path, local: false do |f|
         .form-group
+          %label
+            그룹에서 맡은 역할이나 소속된 팀 이름을 넣어 주세요.
+          = f.text_field :role, class: 'form-control', placeholder: '역할 혹은 소속', value: @member.role
+        .form-group
+          %label
+            #{current_user.nickname}님을 소개해 주세요.
           = f.text_area :description, class: 'form-control', placeholder: '나는 ...', value: @member.description
         .form-group
-          = submit_tag '저장', class: 'btn btn-default btn-primary btn-block', data: { confirm: '저장하시겠습니까?', disable_with: "저장 중..." }
+          = submit_tag '저장', class: 'btn btn-default btn-primary btn-block'

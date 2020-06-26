@@ -1,8 +1,16 @@
 @use '../../bootstrap';
+@use '../../global-variables';
 
 .front-app .member-user {
   > .main p:last-child {
     margin-bottom: 0;
     font-size: bootstrap.$font-size-sm;
+  }
+  > .title > .usernickname {
+    font-size: bootstrap.$font-size-sm;
+  }
+  > .title > .memberrole {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-600;
   }
 }

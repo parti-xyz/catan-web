@@ -1,9 +1,19 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+
 .front-app .organizer-member {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   > .usernickname {
     flex: none;
+    margin-left: .5rem;
+    font-weight: 600;
+  }
+  > .memberrole {
+    color: global-variables.$color-gray-600;
+    font-weight: normal;
+    font-size: bootstrap.$font-size-xs;
     margin-left: .5rem;
   }
   > .userimagebg {

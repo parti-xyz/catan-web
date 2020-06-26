@@ -5,8 +5,9 @@
     .userimagebg{ style: "background-image: url(#{comment.user.image.sm.url})" }
   .post-comment-main{ data: { controller: ('comment-form-new' unless is_child) } }
     .view.collapse.show{ data: { target: 'comment-form-edit.viewContent ripplet.item' } }
-      %span.usernickname{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(comment.user), options: h({ container: '.front-app' }.to_json) } } }
-        = comment.user.nickname
+      %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(comment.user), options: h({ container: '.front-app' }.to_json) } } }
+        %span.usernickname= comment.user.nickname
+        %span.memberrole= comment.user.current_group_member&.role
       .datetime
         = smart_date_tag comment.created_at
       - if comment.choice.present? && !comment.post&.poll&.hidden_voters?
