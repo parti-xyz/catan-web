@@ -143,9 +143,7 @@
     .body > .meta > time {
       margin-left: 0;
     }
-  }
 
-  @include mq.media('<=phone') {
     > .footer {
       margin-left: 0;
     }
@@ -159,6 +157,16 @@
     }
     .post-line {
       padding: 0 .25rem;
+    }
+
+    > .footer > .strokedusers {
+      display: flex;
+    }
+  }
+
+  @include mq.media('>phone', '<=desktop') {
+    > .footer > .strokedusers {
+      display: none;
     }
   }
 }

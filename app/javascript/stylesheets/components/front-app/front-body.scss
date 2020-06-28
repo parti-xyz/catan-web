@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use "../../mixin";
 @use "../front-variables";
+@use "../../mq";
 
 .front-app .front-body {
   overflow: hidden;
@@ -17,7 +18,13 @@
 
   > .playground-sidebar {
     flex: none;
-    width: front-variables.$playground-sidebar-width + (front-variables.$playground-sidebar-space-x * 2);
+    width: 21rem + (front-variables.$playground-sidebar-space-x * 2);
+  }
+
+  @include mq.media('<=wide-desktop') {
+    > .playground-sidebar {
+      width: 14rem + (front-variables.$playground-sidebar-space-x * 2);
+    }
   }
 }
 
