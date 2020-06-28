@@ -5,6 +5,7 @@
 
 .front-app .channel-menu {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   border-bottom: 1px solid global-variables.$color-gray-200;
 
@@ -13,6 +14,15 @@
     display: flex;
     color: global-variables.$color-gray-900;
     font-weight: bold;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-right: .75rem;
+  }
+  > .title.-lg {
+    width: 100%;
+    flex: none;
+    position: relative;
+    align-items: flex-end;
   }
   > .title > .node + .node {
     margin-left: 0.75rem;
@@ -23,8 +33,6 @@
     font-size: bootstrap.$font-size-lg;
   }
   > .title > .node > .category {
-    position: absolute;
-    bottom: 2.2rem;
     font-size: 0.75rem;
     line-height: 1.33;
     font-weight: normal;
@@ -38,11 +46,6 @@
   }
   > .title > .node.form-control + .node.form-control {
     margin-left: 0.375rem;
-  }
-  > .title > .node:last-child:not(.fix) {
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
   > .title > .node.post {
     display: none;
@@ -61,11 +64,9 @@
     font-size: 0.75rem;
     color: global-variables.$color-gray-400;
   }
-
   &.-simple > .title > .node + .node {
     margin-left: 0.25rem;
   }
-
   &.-simple > .title > .node > .delimiter {
     font-size: 0.75rem;
     display: inline-block;
@@ -74,14 +75,34 @@
 
   > .control {
     flex: none;
+    text-align: right;
   }
+
+  > .folders {
+    flex: 1;
+    min-width: 0;
+    margin-right: .75rem;
+  }
+
+  > .folders > .select2 {
+    max-width: 20rem;
+  }
+
+  > .folders > .select2 > .selection > .select2-selection {
+    height: 1.85rem;
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  > .folders > .select2 > .selection > .select2-selection > .select2-selection__rendered {
+    direction: rtl;
+  }
+
 
   @include mq.media("<=phone") {
     flex-direction: column;
     align-items: flex-start;
 
     > .title {
-      margin-top: 2.5rem;
       width: 100%;
     }
 
@@ -108,7 +129,7 @@
 
     > .control {
       flex: none;
-      margin-top: .5rem;
+      margin-top: .75rem;
       display: flex;
       width: 100%;
     }
@@ -117,16 +138,17 @@
       flex: 1;
     }
 
-    > .title > .node.-dismiss {
-     font-size: bootstrap.$font-size-xs
-    }
-
     > .title > .node.-search {
       margin-left: 0;
     }
 
-    > .title > .node:last-child:not(.fix) {
-      flex: none;
+    > .folders {
+      width: 100%;
+      margin-top: .5rem;
+    }
+
+    > .folders > .select2 {
+      max-width: none;
     }
   }
 }

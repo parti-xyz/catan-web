@@ -1,5 +1,6 @@
 @use '../../bootstrap';
 @use '../../global-variables';
+@use '../../mq';
 
 .front-app .channel-line {
   line-height: 1.25rem;
@@ -18,9 +19,13 @@
     border-bottom-right-radius: 0.25rem;
     font-weight: 600;
   }
-  > .link.-active:hover {
-    background-color: global-variables.$color-gray-300;
+
+  @include mq.media('>phone') {
+    > .link.-active:hover {
+      background-color: global-variables.$color-gray-300;
+    }
   }
+
   > .link > .title {
     display: inline-flex;
     color: global-variables.$color-gray-700;

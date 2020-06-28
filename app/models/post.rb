@@ -162,11 +162,11 @@ class Post < ApplicationRecord
   scope :watched_by, ->(someone) { where(issue_id: someone.member_issues) }
   scope :by_postable_type, ->(t) { where(postable_type: t.camelize) }
   scope :latest, -> { after(1.day.ago) }
-  scope :not_private_blocked_of_group, ->(group, someone) {
+  scope :deprecated_not_private_blocked_of_group, ->(group, someone) {
     if group.blank?
       of_searchable_issues(someone)
     else
-      where(issue_id: group.issues.not_private_blocked(someone))
+      where(issue_id: group.issues.deprecated_not_private_blocked(someone))
     end
   }
   scope :of_searchable_issues, ->(current_user = nil) {
@@ -198,10 +198,15 @@ class Post < ApplicationRecord
     where.not(blind: true) if someone.nil? || !Blind.any_wide?(someone)
   }
   scope :unblinded, ->(someone) { where.not(blind: true).or(where(user_id: someone)) }
-  scope :unread_only, ->(someone) {
-    joins("LEFT OUTER JOIN post_readers on post_readers.user_id = #{ActiveRecord::Base.connection.quote(someone.id)} AND post_readers.post_id = posts.id")
-    .where('post_readers.id IS null or post_readers.updated_at < posts.last_stroked_at')
-    .where('posts.last_stroked_at > ?', PostReader::VALID_PERIOD.ago)
+  scope :need_to_read_only, ->(someone) {
+    if someone.blank?
+      where('1 = 0')
+    else
+      joins("LEFT OUTER JOIN post_readers on post_readers.user_id = #{ActiveRecord::Base.connection.quote(someone.id)} AND post_readers.post_id = posts.id")
+      .where('post_readers.id IS null or post_readers.updated_at < posts.last_stroked_at')
+      .where('posts.last_stroked_at > ?', PostReader::VALID_PERIOD.ago)
+      .where('posts.issue_id', IssueReader.where(user: someone).select(:issue_id))
+    end
   }
 
   ## uploaders
@@ -669,6 +674,7 @@ class Post < ApplicationRecord
     return false if someone.blank?
     return false unless PostReader::valid_period(self.last_stroked_at)
     return false unless group.member?(someone)
+    return false unless IssueReader.exists?(user: someone, issue: self.issue)
 
     post_reader = self.post_readers.find_by(user: someone)
     post_reader.blank? || post_reader.updated_at < self.last_stroked_at

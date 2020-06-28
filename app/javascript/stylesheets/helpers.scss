@@ -56,6 +56,14 @@ legend.legend-default {
   white-space: normal;
 }
 
+.font-size-sm {
+  font-size: bootstrap.$font-size-sm;
+}
+
+.font-size-xs {
+  font-size: bootstrap.$font-size-xs;
+}
+
 @include mq.media('<=phone') {
   .font-size-base-phone {
     font-size: 1rem;

@@ -11,9 +11,9 @@
   }
 
   > .pages > .all,
-  > .pages > .needtoread,
-  > .pages > .readall {
-    margin-right: 1.25rem
+  > .pages > .needtoread {
+    margin-right: .5rem;
+    display: inline-block;
   }
 
   > .pages > .all.-active,
@@ -42,6 +42,15 @@
   @include mq.media('<=phone') {
     > .pages > .all > .link > .page {
       display: none
+    }
+
+    > .pages > .readall {
+      display: block;
+    }
+
+    > .pages,
+    > .sort {
+      line-height: 1.5rem;
     }
   }
 }

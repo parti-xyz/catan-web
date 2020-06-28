@@ -1,10 +1,3 @@
--# - if is_full
--#   - unless current_wiki.too_short?
--#     = link_to card_front_wiki_path(current_wiki, full: 'false'), remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-light btn-sm' do
--#       접어보기
--# - else
--#   = link_to card_front_wiki_path(current_wiki, full: 'true'), remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-light btn-sm' do
--#     펼쳐보기
 - if can?(:update, current_wiki) && current_wiki.active?
-  = link_to edit_front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-primary btn-sm', data: { 'turbolinks-action': 'replace' } do
+  = link_to edit_front_post_path(current_wiki.post, list_nav: list_nav_params), class: 'btn btn-primary btn-sm', data: { 'turbolinks-action': 'replace' } do
     편집

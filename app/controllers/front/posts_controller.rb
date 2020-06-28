@@ -6,8 +6,6 @@ class Front::PostsController < Front::BaseController
     @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
-    @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
-
     if user_signed_in?
       @post_reader = @current_post.read!(@current_user)
       @current_issue.read!(@current_user)
@@ -49,6 +47,8 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
     @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any? || @recent_comments&.any?
+
+    @list_nav_params = list_nav_params(page: nil, q: nil)
   end
 
   def new
@@ -58,6 +58,8 @@ class Front::PostsController < Front::BaseController
     @current_folder = @current_issue.folders.find_by(id: params[:folder_id])
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
+
+    @list_nav_params = list_nav_params()
   end
 
   def edit
@@ -71,6 +73,8 @@ class Front::PostsController < Front::BaseController
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
+
+    @list_nav_params = list_nav_params()
   end
 
   def destroyed
@@ -82,6 +86,8 @@ class Front::PostsController < Front::BaseController
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
+
+    @list_nav_params = list_nav_params()
   end
 
   def edit_folder

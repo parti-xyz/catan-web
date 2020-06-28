@@ -5,14 +5,14 @@
       .body<>
         - unless post.blinded?(current_user)
           .title{ class: ('-purged' if post&.wiki&.purged?) }<>
-            = link_to front_post_path(post, folder_id: @current_folder), class: 'link' do
+            = link_to front_post_path(post, list_nav: list_nav_params), class: 'link' do
               != post.title
             %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }
         - else
           .title.-blind
             %i.fa.fa-info-circle
             = t('labels.post_blind_info')
-        = link_to front_post_path(post, folder_id: @current_folder), class: 'meta' do
+        = link_to front_post_path(post, list_nav: list_nav_params), class: 'meta' do
           - if !is_small_screen? && current_issue.present?
             - if post.poll.present?
               .icon<> 투표

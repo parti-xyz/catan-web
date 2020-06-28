@@ -127,13 +127,10 @@ class Issue < ApplicationRecord
   scope :only_alive_of_group, ->(group) { alive.where(group_slug: Group.slug_fallback(group)) }
   scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) if group.present? }
   # TODO MEMBER
-  scope :not_private_blocked, ->(current_user) {
+  scope :deprecated_not_private_blocked, ->(current_user) {
     alive.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
     .or(where.not(private: true))
   }
-  # TODO MEMBER
-  scope :not_in_dashboard, ->(current_user) { alive.where.not(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
-                                             .where.not('issues.private': true) }
   scope :notice_only, -> { alive.where(notice_only: true) }
   scope :only_public_hottest, ->(count){
     where(group_slug: Group.only_public.select(:slug))
@@ -445,15 +442,15 @@ class Issue < ApplicationRecord
     member.read_at < last_stroked_at
   end
 
-  def issue_reader!(someone, sort = nil)
-    fallbacked_sort = IssueReader.sort.values.include?(sort) ? sort : 'stroked'
+  def issue_reader!(someone, new_sort = nil)
+    fallbacked_sort = IssueReader.sort.values.include?(new_sort) ? new_sort : 'stroked'
 
-    if someone.blank? or !group.member?(someone)
+    if someone.blank? || !group.member?(someone)
       return IssueReader.new(sort: fallbacked_sort)
     end
 
     issue_reader = self.issue_readers.find_or_initialize_by(user: someone)
-    if issue_reader.sort.blank? || (sort.present? && IssueReader.sort.values.include?(sort))
+    if issue_reader.sort.blank? || new_sort.present?
       issue_reader.sort = fallbacked_sort
     end
 
@@ -466,7 +463,7 @@ class Issue < ApplicationRecord
     return unless group.member?(someone)
 
     issue_reader = issue_reader!(someone)
-    thoch_when = self.posts.unread_only(someone).any? ? DateTime.new(0,1,1) : DateTime.now
+    thoch_when = self.posts.need_to_read_only(someone).any? ? DateTime.new(0,1,1) : DateTime.now
 
     issue_reader&.update(updated_at: thoch_when)
   end

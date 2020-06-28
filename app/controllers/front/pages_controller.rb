@@ -16,18 +16,27 @@ class Front::PagesController < Front::BaseController
       current_user.update_attributes(last_visitable: current_group)
     end
 
-    @issues = current_group.issues.accessible_only(current_user).sort_default.includes(:folders, :category)
-    @posts = Post.where(issue: @issues)
-      .never_blinded(current_user)
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
+    @posts = current_group_accessible_only_posts
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, wiki: [ :last_wiki_history ], issue: [ :current_user_issue_reader ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
-    front_search_q = params.dig(:front_search, :q)
-    if front_search_q.present?
-      search_q = PostSearchableIndex.sanitize_search_key front_search_q
-      @posts = @posts.search(search_q)
+
+    param_q = params.dig(:front_search, :q)
+    if param_q.present?
+      @search_q = PostSearchableIndex.sanitize_search_key param_q
+      @posts = @posts.search(@search_q)
+      @posts.load
+
+      @all_posts_total_count = @posts.total_count
+    else
+      @all_posts_total_count = @posts.total_count
+
+      if params[:filter] == 'needtoread' && user_signed_in?
+        @posts = @posts.need_to_read_only(current_user)
+      end
+      @posts.load
     end
-    @posts.load if @current_issue.present?
+    @need_to_read_count = current_group_accessible_only_posts.need_to_read_only(current_user).count
 
     if session[:front_last_visited_post_id].present?
       @current_post = Post.find_by(id: session[:front_last_visited_post_id])
@@ -36,34 +45,18 @@ class Front::PagesController < Front::BaseController
     @scroll_persistence_tag = params[:page].presence || 1
 
     @group_sidebar_menu_slug = 'all'
+
+    @permited_params = params.permit(:sort, :filter, :q)
+
+    @list_nav_params = list_nav_params(issue: nil, folder: nil, q: @search_q)
   end
 
   def search
     if params[:issue_id].present?
       turbolinks_redirect_to front_channel_path(front_search: { q: params.dig(:front_search, :q) }, id: params[:issue_id])
-      return
+    else
+      turbolinks_redirect_to front_all_path(front_search: { q: params.dig(:front_search, :q) })
     end
-
-    @posts = Post.of_group(current_group)
-      .never_blinded(current_user)
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :issue, :folder, wiki: [ :last_wiki_history ])
-      .order(last_stroked_at: :desc)
-      .page(params[:page]).per(10)
-    @posts = @posts.of_searchable_issues(current_user)
-
-    front_search_q = params.dig(:front_search, :q)
-    if front_search_q.present?
-      search_q = PostSearchableIndex.sanitize_search_key front_search_q
-      @posts = @posts.search(search_q)
-    end
-    @posts.load if @current_issue.present?
-
-    if session[:front_last_visited_post_id].present?
-      @current_post = Post.find_by(id: session[:front_last_visited_post_id])
-    end
-
-    @scroll_persistence_id_ext = "search-#{front_search_q}"
-    @scroll_persistence_tag = params[:page].presence || 1
   end
 
   # DEPRECATED
@@ -81,6 +74,25 @@ class Front::PagesController < Front::BaseController
     @group_sidebar_menu_slug = 'coc'
   end
 
+  def read_all_posts
+    render_403 and return unless user_signed_in?
+    render_403 unless current_group.member?(current_user)
+
+    outcome = GroupReadAllPosts.run(user_id: current_user.id, group_id: current_group.id, limit: 100)
+
+    if outcome.valid?
+      flash[:notice] = I18n.t('activerecord.successful.messages.completed')
+    elsif outcome.errors.details.key?(:limit)
+      flash[:notice] = '게시물 읽음 표시를 진행 중입니다. 잠시 후에 완료됩니다.'
+
+      GroupReadAllPostsJob.perform_async(current_user.id, params[:id])
+    else
+      flash[:alert] = I18n.t('errors.messages.unknown')
+    end
+
+    turbolinks_redirect_to front_all_path
+  end
+
   private
 
   def group_sidebar_content
@@ -88,5 +100,14 @@ class Front::PagesController < Front::BaseController
     @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
     @issues = current_group.issues.includes(:folders, :current_user_issue_reader).accessible_only(current_user).sort_default.includes(:folders, :category)
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
+  end
+
+  def current_group_accessible_only_posts
+    Post.where(issue: current_group_accessible_only_issues)
+      .never_blinded(current_user)
+  end
+
+  def current_group_accessible_only_issues
+    current_group.issues.accessible_only(current_user)
   end
 end

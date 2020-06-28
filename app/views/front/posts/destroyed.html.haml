@@ -1,27 +1,13 @@
 - content_for :playground_header_content do
-  .playground-header.-nosticky
-    .channel-menu.-simple
-      .title
-        .node
-          = link_to front_channel_path(@current_issue), class: 'link' do
-            \#
-            = @current_issue.title
-          = meta_icons(@current_issue)
-        - unless is_small_screen?
-          - @current_post.folder&.ancestors_and_self&.each do |folder|
-            .node
-              &gt;
-              = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
-          .post.node
-            #{@current_post.title}
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post, list_nav_params: @list_nav_params
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
 .alert-box.my-3
-  .alert.alert-secondary
+  .alert.alert-secondary.font-size-sm
     %i.fa.fa-check
     해당 게시글이 삭제되었습니다.
     .mt-4
-    = link_to '뒤로 돌아가기', 'javascript:history.back()', class: 'btn btn-secondary'
+    = link_to '뒤로 돌아가기', 'javascript:history.back()', class: 'btn btn-secondary font-size-sm p-2'

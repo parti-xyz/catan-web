@@ -1,18 +1,10 @@
 - if current_wiki.active?
-  -# TODO full 만으로 서비스 되면 접기는 지우기
-  -# - is_full = (params[:full].present? ? params[:full] == 'true' : current_wiki.too_short?)
-  - is_full = true
-  .body{ class: ('-full' if is_full), data: { controller: 'content-replacement' } }
+  .body.-full{ data: { controller: 'content-replacement' } }
     .article
       .brightness
-        - if is_full
-          != current_wiki.body
-        - else
-          != smart_truncate_html(current_wiki.body, length: 1000)
-    - unless is_full
-      = link_to '', card_front_wiki_path(current_wiki, full: 'true'), remote: true, data: { target: 'content-replacement.link' }, class: 'shadow'
+        != current_wiki.body
     .buttons
-      = render 'front/wikis/controls', current_wiki: current_wiki
+      = render 'front/wikis/controls', current_wiki: current_wiki, list_nav_params: local_assigns[:list_nav_params]
 
   .authors
     .label 작성

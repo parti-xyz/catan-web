@@ -1,6 +1,6 @@
 - display_count = 4
-- issues = group.issues.hottest.not_private_blocked(current_user).limit(display_count)
-- all_issues=  group.issues.not_private_blocked(current_user)
+- issues = group.issues.hottest.deprecated_not_private_blocked(current_user).limit(display_count)
+- all_issues=  group.issues.deprecated_not_private_blocked(current_user)
 - if !group.private_blocked?(current_user)
   .group.group-card.margin-bottom-default
     .group-heading

@@ -524,7 +524,8 @@ module ApplicationHelper
     .map do |payload|
       folder = payload[0]
       depth = payload[1]
-      content_tag(:option, value: folder&.id, selected: current_folder&.id == folder&.id, data: { depth: depth }) { folder&.title }
+      fullpath = folder.ancestors_and_self.map { |current_folder| current_folder.title }.join(' &gt; ')
+      content_tag(:option, value: folder&.id, selected: current_folder&.id == folder&.id, data: { depth: depth, fullpath: fullpath }) { folder&.title }
     end.join
   end
 

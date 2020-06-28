@@ -12,7 +12,7 @@ class HomeController < ApplicationController
       end
     elsif current_group.open_square?
       params[:sort] ||= 'hottest'
-      @issues = search_and_sort_issues(Group.open_square.issues.not_private_blocked(current_user), params[:keyword], params[:sort], 3)
+      @issues = search_and_sort_issues(Group.open_square.issues.deprecated_not_private_blocked(current_user), params[:keyword], params[:sort], 3)
       render 'home/group_home_open_square'
     else
       if current_group.private_blocked? current_user
@@ -37,7 +37,7 @@ class HomeController < ApplicationController
       end
 
       discussions_all = Post.having_poll.or(Post.having_survey)
-      discussions_all = discussions_all.not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
+      discussions_all = discussions_all.deprecated_not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
       @discussion_posts_any = discussions_all.any?
 
       render 'home/group_home'
@@ -60,13 +60,13 @@ class HomeController < ApplicationController
     how_to = params[:sort] == 'order_by_stroked_at' ? :order_by_stroked_at : :hottest
 
     @recent_posts = Post.unblinded(current_user).send(how_to)
-    @recent_posts = @recent_posts.not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
+    @recent_posts = @recent_posts.deprecated_not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
     @recent_posts = @recent_posts.page(params[:page]).per(30)
   end
 
   def group_home_discussion_posts
     discussions_all = Post.having_poll.or(Post.having_survey)
-    discussions_all = discussions_all.not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
+    discussions_all = discussions_all.deprecated_not_private_blocked_of_group(current_group, current_user).unblinded(current_user)
     discussions_all = discussions_all.order_by_stroked_at
     discussions_fresh = discussions_all.after(2.weeks.ago, field: 'posts.last_stroked_at')
 

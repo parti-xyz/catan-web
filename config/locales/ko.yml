@@ -193,6 +193,7 @@ ko:
     successful:
       messages:
         created: 저장되었습니다.
+        completed: 처리되었습니다.
         no_changed: 이미 저장되었습니다.
         deleted: 삭제되었습니다.
         released: 해제되었습니다.
@@ -362,8 +363,8 @@ ko:
         issue_posts_order_by_stroked_at: 최근 채널 게시글
     issue_reader:
       sort:
-        stroked: 최근 업데이트 순
-        created: 최근 게시 순
+        stroked: 업데이트 순
+        created: 게시 순
   views:
     pin: 고정했습니다.
     unpin: 고정 해제했습니다.

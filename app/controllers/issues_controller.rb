@@ -12,7 +12,7 @@ class IssuesController < ApplicationController
         params[:sort] ||= 'hottest'
         @issues = search_and_sort_issues(Issue.searchable_issues.searchable_issues(current_user), params[:keyword], params[:sort], 3)
       else
-        @groups = Group.not_private_blocked(current_user).hottest.sort_by_name.where(slug: Issue.alive.not_private_blocked(current_user).select(:group_slug))
+        @groups = Group.not_private_blocked(current_user).hottest.sort_by_name.where(slug: Issue.alive.deprecated_not_private_blocked(current_user).select(:group_slug))
         @ready_groups = Group.not_private_blocked(current_user).where('issues_count <= 0')
       end
 

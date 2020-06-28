@@ -435,4 +435,12 @@ class ApplicationController < ActionController::Base
     return if helpers.explict_front_namespace? || helpers.implict_front_namespace?
     prepare_unobtrusive_flash
   end
+
+  def list_nav_params issue: '', folder: '', page: '', q: ''
+    {
+      issue_id: issue.try(:id) || (issue.nil? ? nil : params.dig(:list_nav, :issue_id)),
+      folder_id: folder.try(:id) || (folder.nil? ? nil : params.dig(:list_nav, :folder_id)),
+      page: (page.nil? ? nil : params.dig(:list_nav, :page).presence),
+      q: (q.nil? ? nil : params.dig(:list_nav, :q).presence) }
+  end
 end

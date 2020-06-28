@@ -422,6 +422,7 @@ Rails.application.routes.draw do
   # front
   namespace :front, defaults: { namespace_slug: 'front' } do
     get :all, to: 'pages#all'
+    patch :read_all_posts, to: 'pages#read_all_posts'
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
     get :coc, to: 'pages#coc'
@@ -432,7 +433,7 @@ Rails.application.routes.draw do
       member do
         get :post_folder_field
         get :destroy_form
-        patch :read_all
+        patch :read_all_posts
       end
       collection do
         get :sync
@@ -482,11 +483,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :wikis do
-      member do
-        get :card
-      end
-    end
     resources :polls, only: [] do
       shallow do
         resources :votings, only: [:create], controller: '/votings' do
@@ -554,8 +550,6 @@ Rails.application.routes.draw do
         delete 'coc_wiki', to: '/group/configurations#destroy_front_wiki'
       end
     end
-
-
 
     resources :categories, only: [] do
       collection do

@@ -5,7 +5,7 @@ class WikisController < ApplicationController
 
   def index
     how_to = params[:status] == 'inactive' ? :inactive : :active
-    @posts = Post.having_wiki(how_to.to_s).not_private_blocked_of_group(current_group, current_user).order_by_stroked_at.page(params[:page]).per(3*5)
+    @posts = Post.having_wiki(how_to.to_s).deprecated_not_private_blocked_of_group(current_group, current_user).order_by_stroked_at.page(params[:page]).per(3*5)
   end
 
   def activate

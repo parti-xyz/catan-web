@@ -1,13 +1,11 @@
-- search_q = PostSearchableIndex.sanitize_search_key(params.dig(:front_search, :q))
-
 - content_for :playground_header_content do
   .playground-header{ class: ('-nosticky' if is_small_screen?) }
     .channel-menu
-      .title.form-inline{ data: { controller: 'select-link' } }
-        .node{ class: ('-dismiss' if search_q.present?) }
+      .title{ class: ('-lg' if @current_issue.folders.any?), data: { controller: 'select-link' } }
+        .node
           - if @current_issue.category.present?
             .category= @current_issue.category.name
-          - if @current_folder.present? || search_q.present?
+          - if @current_folder.present? || @search_q.present?
             = link_to front_channel_path(@current_issue), class: 'link' do
               \#
               = @current_issue.title
@@ -15,34 +13,28 @@
             \#
             = @current_issue.title
           = meta_icons(@current_issue)
-        - if search_q.blank?
-          - if is_small_screen? && @current_issue.folders.any?
-            - threaded_folders = Folder.threaded(@current_issue.folders)
-            %select{ data: { controller: 'select2-link', 'select2-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") } }
-              %option 전체 글
-              != options_for_threaded_folders(threaded_folders, @current_folder)
-          - else
-            - if @current_issue.folders.any?
-              - if @current_folder.present?
-                - @current_folder.ancestors_and_self.each do |folder|
-                  = select_tag :folder_id, options_from_collection_for_select(folder.siblings, 'id', 'title', folder.id), class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
-                - if @current_folder.children.any?
-                  = select_tag :folder_id, options_from_collection_for_select(@current_folder.children, 'id', 'title'), include_blank: '하위 폴더...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
-              - else
-                = select_tag :folder_id, options_from_collection_for_select(@current_issue.top_folders, 'id', 'title'), include_blank: '전체 보기...', class: 'form-control form-control-sm node fix', data: { action: 'change->select-link#go', 'select-link-url-template': front_channel_path(@current_issue, folder_id: "${value}") }
-        - if search_q.present?
-          %span.node
+        - if @search_q.present?
+          .node &nbsp;&gt;&nbsp;
+          .node
             %i.fa.fa-search
-            = search_q
+            = @search_q
+
+      - if @current_issue.folders.any?
+        - threaded_folders = Folder.threaded(@current_issue.folders)
+        .folders
+          %select.channel-menu-folders{ data: { controller: 'select2-link', 'select2-link-url-template': front_channel_path(@current_issue, folder_id: "${value}", front_search: { q: @search_q }) } }
+            %option 모든 폴더 게시글
+            != options_for_threaded_folders(threaded_folders, @current_folder)
+
       .control
         - if @current_issue.postable?(current_user)
           = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm' do
             %i.fa.fa-pencil
-            글쓰기
+            게시글 쓰기
           &nbsp;
           = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm' do
             %i.fa.fa-file-word-o
-            위키쓰기
+            위키 쓰기
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes
@@ -51,47 +43,58 @@
 
 - if @posts.any?
   .channel-box{ data: { controller: 'channel-read-emit' } }
-    - if search_q.present?
+    - if @search_q.present?
       .alert-box.my-3
-        .alert.alert-secondary{ style: 'font-size: .75rem' }
-          #{search_q} 검색 결과입니다.
+        .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+          .flex-fill #{@search_q} 검색 결과입니다.
+          = link_to url_for(@permited_params.except(:q)), class: 'btn btn-outline-secondary font-size-xs text-muted p-1' do
+            검색 취소
+
     .channel-box-header
       .pages
-        - unread_count = @current_issue.posts.unread_only(current_user).count
-        %span.all{ class: ('-active' if params[:filter].blank? && unread_count > 0) }
+        - page_text = capture do
+          - if @posts.current_page != 1
+            %span.page 중 #{@posts.current_page}페이지
+        - nedtoread_filter = params[:filter] == 'needtoread'
+        - no_filter = !nedtoread_filter && @need_to_read_count > 0
+
+        %span.all{ class: ('-active' if no_filter) }
           - if @posts.current_page.present?
-            = link_to url_for(filter: nil, sort: params[:sort]), class: 'link' do
-              게시글 #{@posts_total_count}개
-              - if params[:filter].blank? && @posts.current_page != 1
-                %span.page 중 #{@posts.current_page}페이지
-        - if !is_small_screen? && unread_count > 0 && current_group.member?(current_user)
-          %span.needtoread{ class: ('-active' if params[:filter] == 'needtoread' && unread_count > 0) }
-            = link_to url_for(filter: 'needtoread', sort: params[:sort]) do
-              업데이트 #{unread_count}개
-              - if params[:filter] == 'needtoread' && @posts.current_page != 1
-                중 #{@posts.current_page}페이지
-          %span.readall
-            = link_to read_all_front_channel_path(@current_issue), remote: true, method: :patch do
-              %i.fa.fa-check-square-o
-              전부 읽은 상태로 표시
+            = link_to url_for(@permited_params.merge(filter: nil)), class: 'link' do
+              모든 게시글 #{@all_posts_total_count}개
+              - unless nedtoread_filter
+                = page_text
+        - if @need_to_read_count > 0
+          %span.needtoread{ class: ('-active' if nedtoread_filter) }
+            = link_to url_for(@permited_params.merge(filter: 'needtoread')), class: 'link' do
+              업데이트 #{@need_to_read_count}개
+              - if nedtoread_filter
+                = page_text
+          - if nedtoread_filter
+            %span.readall
+              = link_to read_all_posts_front_channel_path(@current_issue), remote: true, method: :patch do
+                %i.fa.fa-check-square-o
+                전부 읽은 상태로 표시
 
       .sort
         .dropdown{ data: { controller: 'phone-dropdown' } }
-          .toggle.cursor-pointer{ "data-toggle" => "dropdown", :href => "#" }
+          .toggle.cursor-pointer{ "data-toggle": "dropdown" }
             = @issue_reader.sort_text
             %i.fa.fa-angle-down
           .dropdown-menu.usermenu.dropdown-menu-right
             - IssueReader.sort.options.each do |text, value|
-              = link_to text, url_for(filter: nil, sort: value), class: 'dropdown-item'
+              = link_to text, url_for(@permited_params.merge(sort: value)), class: 'dropdown-item'
 
-    = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
+    = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
 - else
   .alert-box.my-3
-    - if search_q.present?
-      .alert.alert-secondary
+    - if @search_q.present?
+      .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
         검색된 게시글이 없습니다.
+        = link_to url_for(@permited_params.except(:q)), class: 'btn btn-outline-secondary font-size-xs text-muted p-1' do
+          검색 취소
     - else
-      .alert.alert-secondary
+      .alert.alert-secondary.font-size-sm.d-flex.align-items-center
         게시글이 없습니다.
         - if @current_issue&.group&.member?(current_user)
           가장 먼저 게시글을 올려보세요.

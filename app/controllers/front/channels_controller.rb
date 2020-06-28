@@ -17,22 +17,22 @@ class Front::ChannelsController < Front::BaseController
     column_name = { 'stroked' => 'last_stroked_at', 'created' => 'created_at' }[@issue_reader.sort]
     @posts = @posts.order(column_name => :desc)
 
-    front_search_q = params.dig(:front_search, :q)
-    if front_search_q.present?
-      search_q = PostSearchableIndex.sanitize_search_key front_search_q
-      @posts = @posts.search(search_q)
-
+    param_q = params.dig(:front_search, :q)
+    if param_q.present?
+      @search_q = PostSearchableIndex.sanitize_search_key param_q
+      @posts = @posts.search(@search_q)
       @posts.load
-      @posts_total_count = @posts.total_count
-    else
-      @posts_total_count = @posts.total_count
-      if params[:filter] == 'needtoread' && user_signed_in?
-        @posts = @posts.unread_only(current_user)
-      end
 
+      @all_posts_total_count = @posts.total_count
+    else
+      @all_posts_total_count = @posts.total_count
+
+      if params[:filter] == 'needtoread' && user_signed_in?
+        @posts = @posts.need_to_read_only(current_user)
+      end
       @posts.load
     end
-
+    @need_to_read_count = @current_issue.posts.need_to_read_only(current_user).count
 
     if user_signed_in?
       current_user.update_attributes(last_visitable: @current_issue)
@@ -46,6 +46,10 @@ class Front::ChannelsController < Front::BaseController
     @scroll_persistence_tag = params[:page].presence || 1
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
+
+    @permited_params = params.permit(:id, :folder_id, :sort, :filter, :q)
+
+    @list_nav_params = list_nav_params(issue: @current_issue, folder: @current_folder, q: @search_q)
   end
 
   def new
@@ -100,17 +104,23 @@ class Front::ChannelsController < Front::BaseController
     end
   end
 
-  def read_all
+  def read_all_posts
     render_403 and return unless user_signed_in?
-    return_403 unless current_group.member?(current_user)
+    render_403 and reuurn unless current_group.member?(current_user)
 
-    @current_issue = Issue.includes(:folders).find(params[:id])
-    @current_issue.posts.unread_only(current_user).each do |post|
-      post.read!(current_user)
+    outcome = IssueReadAllPosts.run(user_id: current_user.id, issue_id: params[:id], limit: 100)
+
+    if outcome.valid?
+      flash[:notice] = I18n.t('activerecord.successful.messages.completed')
+    elsif outcome.errors.details.key?(:limit)
+      flash[:notice] = '게시물 읽음 표시를 진행 중입니다. 잠시 후에 완료됩니다.'
+
+      IssueReadAllPostsJob.perform_async(current_user.id, params[:id])
+    else
+      Rails.logger.error outcome.errors.details.inspect
+      flash[:alert] = I18n.t('errors.messages.unknown')
     end
-    @current_issue.read!(current_user)
 
-
-    turbolinks_redirect_to smart_front_channel_url(@current_issue)
+    turbolinks_redirect_to front_channel_path(id: params[:id])
   end
 end

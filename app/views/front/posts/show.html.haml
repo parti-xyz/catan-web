@@ -1,21 +1,5 @@
-- title_waypoint_toggler_uid = SecureRandom.uuid
-
 - content_for :playground_header_content do
-  .playground-header.-nosticky
-    .channel-menu.-simple
-      .title
-        .node
-          = link_to front_channel_path(@current_issue), class: 'link' do
-            \#
-            = @current_issue.title
-          = meta_icons(@current_issue)
-        - unless is_small_screen?
-          - @current_post.folder&.ancestors_and_self&.each do |folder|
-            .node
-              .delimiter &gt;
-              = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
-          .post.node{ data: { 'waypoint-toggler-target': title_waypoint_toggler_uid } }
-            #{@current_post.title}
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post, list_nav_params: @list_nav_params
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes{ data: { controller: ('fix-bottom-comments' if is_small_screen?) } }
@@ -53,9 +37,9 @@
 
 - button_groups << capture do
   - if can?(:update, @current_post) and @current_post.wiki.blank?
-    = link_to '수정', edit_front_post_path(@current_post, folder_id: @current_folder&.id), class: 'dropdown-item'
+    = link_to '수정', edit_front_post_path(@current_post, list_nav: @list_nav_params), class: 'dropdown-item'
   - if can?(:destroy, @current_post)
-    = link_to '삭제', front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { confirm: "정말 삭제하시겠습니까? 다시 복구 할 수 없습니다." }, class: 'dropdown-item'
+    = link_to '삭제', front_post_path(@current_post, list_nav: @list_nav_params), method: :delete, remote: true, data: { confirm: "정말 삭제하시겠습니까? 다시 복구 할 수 없습니다." }, class: 'dropdown-item'
 
 - if @current_post.wiki.present?
   - button_groups << capture do
@@ -65,10 +49,10 @@
         %span.text-nowrap.cursor-pointer.text-primary{ data: { action: 'click->comment-form-new#open', mention: @current_post.user.nickname } } 멘션하기
     - if @current_post.issue.group.organized_by?(current_user) || current_user&.admin?
       - if @current_post.front_wiki?
-        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, folder_id: @current_folder&.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
+        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, list_nav: @list_nav_params), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
           커뮤니티 가이드 설정 해제
       - else
-        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{@current_post.group.front_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !@current_post.front_wiki? and @current_post.group.front_wiki_post.present?) }, class: 'dropdown-item' do
+        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, list_nav: @list_nav_params), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{@current_post.group.front_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !@current_post.front_wiki? and @current_post.group.front_wiki_post.present?) }, class: 'dropdown-item' do
           커뮤니티 가이드로 설정하기
           %br
           %small TIP. 해당 그룹의 커뮤니티 가이드 페이지에 게시됩니다.
@@ -79,10 +63,10 @@
       고정된 게시글입니다.
   - if can?(:pin, @current_post)
     - if @current_post.pinned?
-      = link_to unpin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
+      = link_to unpin_front_post_path(@current_post, list_nav: @list_nav_params), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
         고정 해제하기
     - else
-      = link_to pin_front_post_path(@current_post, folder_id: @current_folder&.id), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
+      = link_to pin_front_post_path(@current_post, list_nav: @list_nav_params), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
         이 게시글을 고정하기
 
 - moremenu_post_content = capture do
@@ -93,7 +77,7 @@
 
 - moremenu_wiki_controls = capture do
   - if @current_post.wiki.present?
-    = render 'front/wikis/controls', current_wiki: @current_post.wiki
+    = render 'front/wikis/controls', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
 
   -# - if @current_post.can_beholder?(current_user)
   -#   %li
@@ -105,7 +89,7 @@
 
 .post-box{ data: { controller: 'channel-read-emit' } }
   .post-main{ data: { controller: 'comment-form-new' } }
-    .post-header{ class: ('-wiki' if @current_post.wiki.present?), data: { controller: 'waypoint-toggler', 'waypoint-toggler': { uid: title_waypoint_toggler_uid } } }
+    .post-header{ class: ('-wiki' if @current_post.wiki.present?) }
       .main
         -# - if @current_post.poll.present?
         -#   .meta
@@ -199,7 +183,7 @@
       - else
         -# WIKI
         .post-wiki
-          = render 'front/wikis/card', current_wiki: @current_post.wiki
+          = render 'front/wikis/card', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
 
       .reactions
         .reaction

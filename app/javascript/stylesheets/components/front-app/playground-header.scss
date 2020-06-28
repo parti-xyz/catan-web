@@ -7,19 +7,18 @@
   background-color: white;
 
   > .channel-menu {
-    height: front-variables.$playground-header-height-lg;
+    padding-top: 2rem;
     padding-bottom: 0.5rem;
   }
 
   > .channel-menu.-simple {
-    height: front-variables.$playground-header-height-sm;
     padding-bottom: 0;
   }
 
   @include mq.media('<=phone') {
     > .channel-menu {
-      height: auto;
-      padding-bottom: .25rem;
+      padding-top: 1.25rem;
+      padding-bottom: .75rem;
     }
     > .channel-menu.-simple {
       height: auto;

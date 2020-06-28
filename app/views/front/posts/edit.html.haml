@@ -1,18 +1,5 @@
 - content_for :playground_header_content do
-  .playground-header.-nosticky
-    .channel-menu.-simple
-      .title
-        .node
-          = link_to front_channel_path(@current_issue), class: 'link' do
-            \#
-            = @current_issue.title
-          = meta_icons(@current_issue)
-        - unless is_small_screen?
-          - @current_post.folder&.ancestors_and_self&.each do |folder|
-            .node
-              .delimiter
-                &gt;
-              = link_to folder.title, front_channel_path(@current_issue, folder_id: folder.id), class: 'link'
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post, list_nav_params: @list_nav_params
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes
@@ -20,9 +7,9 @@
 
 .post-form-box
   - if @current_post.wiki.blank?
-    = render 'front/posts/form', current_issue: @current_issue, current_folder: @current_folder, current_post: @current_post
+    = render 'front/posts/form', current_issue: @current_issue, current_folder: @current_folder, current_post: @current_post, list_nav_params: @list_nav_params
   - else
-    = render 'front/wikis/form', current_issue: @current_issue, current_folder: @current_folder, current_wiki: @current_post.wiki
+    = render 'front/wikis/form', current_issue: @current_issue, current_folder: @current_folder, current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
     .post-main
       .post-content{ data: { controller: 'comment-form-new comment-form-sync' } }
         .reactions
