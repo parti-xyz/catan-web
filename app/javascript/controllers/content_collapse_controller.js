@@ -47,7 +47,7 @@ export default class extends Controller {
     const event = new CustomEvent('simplebar:recalculate', {
       bubbles: true,
     })
-    document.dispatchEvent(event)
+    this.element.dispatchEvent(event)
   }
 
   get collapsed() {
