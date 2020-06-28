@@ -1,0 +1,5 @@
+- if local_assigns[:back_path].present?
+  - content_for :playground_back_content do
+    .back.menuitem
+      = link_to back_path, class: 'link' do
+        %i.fa.fa-arrow-left

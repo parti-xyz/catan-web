@@ -1,8 +1,11 @@
 .front-navbar
   - if !current_group.private? || (user_signed_in? && current_group&.member?(current_user))
-    .menuitem
-      = link_to front_menu_path, class: 'link' do
-        %i.fa.fa-bars.fa-fw
+    - if content_for?(:playground_back_content)
+      = yield(:playground_back_content)
+    - else
+      .menuitem
+        = link_to front_menu_path, class: 'link' do
+          %i.fa.fa-bars.fa-fw
     - if user_signed_in? && current_group&.member?(current_user)
       .menuitem
         = link_to front_search_form_path(issue_id: @current_issue&.id), class: 'link' do

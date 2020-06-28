@@ -1,21 +1,35 @@
 @use '../front-variables';
 @use '../../global-variables';
+@use '../../mq';
 
 .front-app .front-sidebar {
   background-color: front-variables.$color-sidebar-background;
   position: relative;
 
-  // deprecated
-  // > .group-menu {
-  //   width: 100%;
-  //   @include front-variables.navbar-height(height);
-  //   @include front-variables.navbar-height(line-height);
-  //   position: absolute;
-  //   top: 0;
-  // }
-
   > .channel-listings {
     height: 100%;
     border-right: 1px solid global-variables.$color-gray-300;
+  }
+
+  @include mq.media('>phone') {
+    > .back {
+      position: absolute;
+      top: 4.8rem;
+      right: -.75rem;
+      width: 1.75rem;
+      height: 1.75rem;
+      background: white;
+      border-radius: 99999px;
+      border: 1px solid global-variables.$color-gray-300;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+      font-size: .75rem;
+    }
+
+    > .back > .link {
+      color: global-variables.$color-gray-600;
+    }
   }
 }

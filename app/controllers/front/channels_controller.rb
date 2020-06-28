@@ -49,7 +49,7 @@ class Front::ChannelsController < Front::BaseController
 
     @permited_params = params.permit(:id, :folder_id, :sort, :filter, :q)
 
-    @list_nav_params = list_nav_params(issue: @current_issue, folder: @current_folder, q: @search_q)
+    @list_nav_params = list_nav_params(action: 'channel', issue: @current_issue, folder: @current_folder, q: @search_q.presence, page: params[:page].presence)
   end
 
   def new

@@ -1,6 +1,8 @@
 - content_for :playground_header_content do
   = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue
 
+= render 'front/pages/back', back_path: 'javascript:history.back()'
+
 .channel-form-box
   %section
     %h5 채널삭제

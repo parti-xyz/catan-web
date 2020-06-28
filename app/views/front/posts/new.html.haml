@@ -5,6 +5,13 @@
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
+- if @list_nav_params.present?
+  - back_params = { id: @list_nav_params[:issue_id], folder_id: @list_nav_params[:folder_id], page: @list_nav_params[:page], front_search: { q: @list_nav_params[:q] } }.compact
+  - back_path = front_channel_path(back_params)
+- else
+  - back_path = front_channel_path(@current_issue)
+= render 'front/pages/back', back_path: back_path
+
 .post-form-box
   - if params[:type] != 'wiki'
     = render 'front/posts/form', current_issue: @current_issue, current_post: Post.new(issue: @current_issue), current_folder: @current_folder, list_nav_params: @list_nav_params

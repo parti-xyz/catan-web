@@ -436,11 +436,13 @@ class ApplicationController < ActionController::Base
     prepare_unobtrusive_flash
   end
 
-  def list_nav_params issue: '', folder: '', page: '', q: ''
+  def list_nav_params action: nil, issue: '', folder: '', page: '', q: ''
     {
+      action: action.presence || params.dig(:list_nav, :action).presence,
       issue_id: issue.try(:id) || (issue.nil? ? nil : params.dig(:list_nav, :issue_id)),
       folder_id: folder.try(:id) || (folder.nil? ? nil : params.dig(:list_nav, :folder_id)),
-      page: (page.nil? ? nil : params.dig(:list_nav, :page).presence),
-      q: (q.nil? ? nil : params.dig(:list_nav, :q).presence) }
+      page: page.presence || (page.nil? ? nil : params.dig(:list_nav, :page).presence),
+      q: q.presence || (q.nil? ? nil : params.dig(:list_nav, :q).presence)
+    }.compact
   end
 end

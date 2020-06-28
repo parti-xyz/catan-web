@@ -1,6 +1,8 @@
 - content_for :playground_header_content do
   = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue
 
+= render 'front/pages/back', back_path: front_channel_path(@current_issue)
+
 .channel-form-box
   %section.mb-3
     %h5 채널 설정

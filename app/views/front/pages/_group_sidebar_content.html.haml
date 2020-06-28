@@ -1,14 +1,14 @@
 .channel-listing.-starter
   %ul.channel-lines
     %li.channel-line
-      = link_to front_coc_path, class: ['link', ('-active' if params[:menu_slug] == 'coc')], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'coc' } do
+      = link_to front_coc_path, class: ['link', ('-active' if params[:menu_slug] == 'coc')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'coc' } do
         .title
           %span.hash
             %i.fa.fa-book
           %span.content
             커뮤니티 가이드
     %li.channel-line
-      = link_to front_all_path, class: ['link', ('-active' if params[:menu_slug] == 'all')], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'all' } do
+      = link_to front_all_path, class: ['link', ('-active' if params[:menu_slug] == 'all')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'all' } do
         .title
           %span.hash
             %i.fa.fa-cube

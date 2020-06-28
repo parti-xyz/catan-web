@@ -48,7 +48,7 @@ class Front::PostsController < Front::BaseController
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
     @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any? || @recent_comments&.any?
 
-    @list_nav_params = list_nav_params(page: nil, q: nil)
+    @list_nav_params = list_nav_params()
   end
 
   def new

@@ -5,6 +5,8 @@
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
+= render 'front/pages/back', back_path: front_post_path(@current_post, list_nav: @list_nav_params)
+
 .post-form-box
   - if @current_post.wiki.blank?
     = render 'front/posts/form', current_issue: @current_issue, current_folder: @current_folder, current_post: @current_post, list_nav_params: @list_nav_params

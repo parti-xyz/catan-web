@@ -9,6 +9,8 @@
       - if !current_group.member?(current_user) && !current_group.private?
         = render 'layouts/front/joinbar'
       .front-sidebar
+        - if content_for?(:playground_back_content)
+          = yield(:playground_back_content)
         .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: 'content-loader collection-activation', target: 'group-sidebar-listener.collectionActivationController', action: 'group-sidebar-deactivation-all->collection-activation#deactiveAll', 'content-loader-url': front_group_sidebar_path(issue_id: @current_issue, folder_id: @current_folder, menu_slug: @group_sidebar_menu_slug), 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id } }
 
       .front-body{ class: ('-no-header' unless content_for?(:playground_header_content)), data: { controller: 'group-sidebar-emit', 'group-sidebar-emit': { 'menu-slug': @group_sidebar_menu_slug, 'channel-id': @current_issue&.id, 'folder-id': @current_folder&.id } } }
