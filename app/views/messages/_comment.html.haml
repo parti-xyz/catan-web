@@ -1,4 +1,4 @@
-%div{ id: "#{dom_id(message)}-url-source", data: { 'link-url': smart_post_url(comment.post, format: :js, anchor_comment: comment_line_anchor_dom_id(comment), assigns: to_json_primitive_only(show_issue: true, show_group: true), dom_id: splited_post_dom_id), 'link-type': 'remote', 'link-parti-remote-loading': "##{splited_post_dom_id}" } }
+%div{ id: "#{dom_id(message)}-url-source", data: { 'link-url': deprecated_smart_post_url(comment.post, format: :js, anchor_comment: comment_line_anchor_dom_id(comment), assigns: to_json_primitive_only(show_issue: true, show_group: true), dom_id: splited_post_dom_id), 'link-type': 'remote', 'link-parti-remote-loading': "##{splited_post_dom_id}" } }
   %strong
     - if comment.mentioned?(message.user)
       %span

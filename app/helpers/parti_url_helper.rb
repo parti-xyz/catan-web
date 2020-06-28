@@ -45,6 +45,10 @@ module PartiUrlHelper
     slug_user_url(options.merge(subdomain: nil, slug: user.slug))
   end
 
+  def deprecated_smart_post_url(post, options = {})
+    polymorphic_url(post, options.merge(subdomain: post.issue.group_subdomain))
+  end
+
   def smart_post_url(post, options = {})
     if post.frontable?
       smart_front_post_url(post, options)
@@ -100,10 +104,10 @@ module PartiUrlHelper
   end
 
   def smart_front_post_url(post, options = {})
-    front_post_path(post, options.merge(subdomain: post&.issue&.group_subdomain))
+    front_post_url(post, options.merge(subdomain: post&.issue&.group_subdomain))
   end
 
   def smart_front_channel_url(issue, options = {})
-    front_channel_path(issue, options.merge(subdomain: issue&.group_subdomain))
+    front_channel_url(issue, options.merge(subdomain: issue&.group_subdomain))
   end
 end

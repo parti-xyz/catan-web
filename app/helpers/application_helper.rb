@@ -423,7 +423,7 @@ module ApplicationHelper
   def issue_tag_ignored_current_group(issue, show_group: true, group_classes: nil, divider_classes: nil, group_short: false, issue_classes: nil)
     content_tag :span do
       if show_group
-        group_title = (group_short ? issue.group.head_title : issue.group.title )
+        group_title = (group_short ? issue.group.head_title : issue.group&.title )
         concat(content_tag :span, group_title, class: group_classes)
         g_icon = meta_icons(issue.group)
         if g_icon.present?

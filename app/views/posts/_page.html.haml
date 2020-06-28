@@ -19,7 +19,7 @@
           = render 'posts/page_new_stroked_mark', mode: 'end', issue: issue, first_post_last_stroked_at_timestamp: first_post_last_stroked_at_timestamp
     .post-card__content.js-post-new-stroked-target{ class: "js-post-new-stroked-target-#{post.id}" }
       - post_card_dom_id = "post-card-#{SecureRandom.uuid}"
-      .post-card.js-lazy-partal-load{ id: post_card_dom_id, class: ('post-card-line' if local_assigns[:splited_line]), data: { url: post_url(post, subdomain: post.issue.group_subdomain, dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), splited_line: local_assigns[:splited_line], format: :js) } }
+      .post-card.js-lazy-partal-load{ id: post_card_dom_id, class: ('post-card-line' if local_assigns[:splited_line]), data: { url: deprecated_smart_post_url(post, subdomain: post.issue.group_subdomain, dom_id: post_card_dom_id, assigns: to_json_primitive_only(local_assigns.merge(mode: 'list')), splited_line: local_assigns[:splited_line], format: :js) } }
         .skeletons
           - unless local_assigns[:splited_line]
             .skeleton-user

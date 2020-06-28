@@ -1,4 +1,4 @@
-- card_attr = { 'data-link-url': smart_post_url(post, assigns: to_json_primitive_only(show_issue: local_assigns[:show_issue], show_group: local_assigns[:show_group], mode: 'list', full_post_body: 'true'), dom_id: splited_post_dom_id  , format: 'js'), 'data-link-type': 'remote', 'data-link-parti-remote-loading': "##{splited_post_dom_id}", 'data-post-link-selector-active-class': 'selected' }
+- card_attr = { 'data-link-url': deprecated_smart_post_url(post, assigns: to_json_primitive_only(show_issue: local_assigns[:show_issue], show_group: local_assigns[:show_group], mode: 'list', full_post_body: 'true'), dom_id: splited_post_dom_id  , format: 'js'), 'data-link-type': 'remote', 'data-link-parti-remote-loading': "##{splited_post_dom_id}", 'data-post-link-selector-active-class': 'selected' }
 
 .post-card.post-card-line.post-card-splited-line.js-post-link-selector.js-link{ card_attr }
   .post-card__post.clearfix.cursor-pointer
