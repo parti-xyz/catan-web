@@ -1,7 +1,7 @@
 class Front::MemberRequestsController < ApplicationController
   def new
-    render_403 unless user_signed_in?
-    render_404 if current_group.blank?
+    render_403 and return unless user_signed_in?
+    render_404 and return if current_group.blank?
     render layout: 'front/simple'
   end
 
