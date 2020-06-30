@@ -10,34 +10,7 @@
     .body{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
       = simple_format h(current_issue.body)
 
-- if local_assigns[:pinned_posts]&.any?
-  - pinned_posts_force = (local_assigns[:default_force] || 'show')
-  .supplementary-box{ data: { controller: ('content-collapse' if use_content_collapse), 'content-collapse': { id: "pinned-posts-box-#{current_issue.id}", force: pinned_posts_force } } }
-    .header{ data: { action: 'click->content-collapse#toggle' } }
-      .title
-        고정 게시글
-        &nbsp;
-        %i.fa.fa-thumb-tack.text-muted
-      .count
-        = pinned_posts&.size
-      .toggler
-        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
-    %ul.lines{ class: ('-hide' if use_content_collapse), data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
-      - pinned_posts&.each do |post|
-        %li.pinned-post-line{ class: [('-active' if post == local_assigns[:current_post])], data: { action: 'click->collection-activation#toggle', target: 'collection-activation.item' } }
-          .body
-            - unless post.blinded?(current_user)
-              .title
-                = link_to front_post_path(post), class: 'hover:text-primary' do
-                  != post.title
-            - else
-              .title.-blind
-                %i.fa.fa-info-circle
-                = t('labels.post_blind_info')
-            %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }
-            .footer
-              %span.nickname #{post.user.nickname}
-              = smart_date_tag(post.created_at)
+= render partial: 'front/channels/supplementary_pinned_posts', locals: local_assigns
 
 - if local_assigns[:organizer_members]&.any?
   - organizer_members_force = (local_assigns[:default_force] || nil)
