@@ -50,7 +50,7 @@
           .title
             그룹 오거나이저가 없습니다.
 
-- if @posts.any?
+- if @all_posts_total_count > 0
   .channel-box
     - if @search_q.present?
       .alert-box.my-3
@@ -73,28 +73,29 @@
               모든 게시글 #{number_to_human(@all_posts_total_count, precision: 1, delimiter: ',', significant: false)}개
               - unless nedtoread_filter
                 = page_text
-        - if @need_to_read_count > 0
+        - if @need_to_read_count > 0 || nedtoread_filter
           %span.needtoread{ class: ('-active' if nedtoread_filter) }
             = link_to url_for(@permited_params.merge(filter: 'needtoread')), class: 'link' do
               업데이트 #{@need_to_read_count}개
               - if nedtoread_filter
                 = page_text
-          - if nedtoread_filter
+          - if @need_to_read_count > 0
             %span.readall
               = link_to front_read_all_posts_path(@current_issue), remote: true, method: :patch do
                 %i.fa.fa-check-square-o
                 전부 읽은 상태로 표시
 
-    = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
+    - if @posts.any?
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
+    - else
+      .alert-box.my-3
+        .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+          해당 게시글이 없습니다.
+          = link_to url_for(), class: 'btn btn-outline-secondary font-size-xs text-muted p-1' do
+            모든 게시글 #{number_to_human(@all_posts_total_count, precision: 1, delimiter: ',', significant: false)}개 보기
 - else
   .alert-box.my-3
-    - if @search_q.present?
-      .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
-        검색된 게시글이 없습니다.
-        = link_to url_for(@permited_params.except(:q)), class: 'btn btn-outline-secondary font-size-xs text-muted p-1' do
-          검색 취소
-    - else
-      .alert.alert-secondary.font-size-sm.d-flex.align-items-center
-        게시글이 없습니다.
-        - if current_group&.member?(current_user)
-          채널을 선택해서 가장 먼저 게시글을 올려보세요.
+    .alert.alert-secondary.font-size-sm.d-flex.align-items-center
+      게시글이 없습니다.
+      - if current_group&.member?(current_user)
+        채널을 선택해서 가장 먼저 게시글을 올려보세요.

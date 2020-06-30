@@ -48,7 +48,7 @@ class Front::PagesController < Front::BaseController
 
     @permited_params = params.permit(:sort, :filter, :q)
 
-    @list_nav_params = list_nav_params(action: 'all', issue: nil, folder: nil, q: @search_q.presence, page: params[:page].presence)
+    @list_nav_params = list_nav_params(action: 'all', issue: nil, folder: nil, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end
 
   def search
