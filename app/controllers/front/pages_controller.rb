@@ -76,7 +76,7 @@ class Front::PagesController < Front::BaseController
 
   def read_all_posts
     render_403 and return unless user_signed_in?
-    render_403 unless current_group.member?(current_user)
+    render_403 and return unless current_group.member?(current_user)
 
     outcome = GroupReadAllPosts.run(user_id: current_user.id, group_id: current_group.id, limit: 100)
 

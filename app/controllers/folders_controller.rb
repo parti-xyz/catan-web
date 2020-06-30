@@ -146,7 +146,7 @@ class FoldersController < ApplicationController
 
   def new_post_form
     @issue = Issue.find_by(id: params[:issue_id])
-    render_404 if @issue.blank?
+    render_404 and return if @issue.blank?
 
     @target_parent_folder = if params[:parent_folder_id].present?
       if params[:parent_folder_id].to_i == Folder::ROOT_ID
@@ -168,7 +168,7 @@ class FoldersController < ApplicationController
 
   def move_form
     @subject = params[:subject_type].safe_constantize.try(:find_by, {id: params[:subject_id]})
-    render_404 if @subject.blank?
+    render_404 and return if @subject.blank?
 
     @target_parent_folder = if params[:parent_folder_id].present?
       if params[:parent_folder_id].to_i == Folder::ROOT_ID
@@ -194,7 +194,7 @@ class FoldersController < ApplicationController
 
   def move
     @subject = params[:subject_type].safe_constantize.try(:find_by, {id: params[:subject_id]})
-    render_404 if @subject.blank?
+    render_404 and return if @subject.blank?
     @issue = @subject.issue
 
     parent_id = if params[:parent_id].try(:to_s) == '0'
