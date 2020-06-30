@@ -17,12 +17,12 @@
     flex-wrap: nowrap;
     overflow-x: auto;
     margin-right: .75rem;
+    align-items: flex-end;
   }
   > .title.-lg {
     width: 100%;
     flex: none;
     position: relative;
-    align-items: flex-end;
   }
   > .title > .node + .node {
     margin-left: 0.75rem;
