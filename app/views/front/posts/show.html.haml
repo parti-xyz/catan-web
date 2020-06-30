@@ -3,8 +3,6 @@
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes{ data: { controller: ('fix-bottom-comments' if is_small_screen?) } }
-    - unless is_small_screen?
-      = render partial: 'front/channels/supplementary', locals: @supplementary_locals
     - comments = @updated_comments&.any? ? @updated_comments : @recent_comments
     - if comments&.any?
       .supplementary-box{ data: { controller: "content-collapse", target: 'fix-bottom-comments.item', 'content-collapse': { id: "updated-comments-box-#{@current_post.id}", force: ('show' unless is_small_screen?) } } }
@@ -31,6 +29,24 @@
                 .footer
                   %span.nickname #{comment.user.nickname}
                   = smart_date_tag(comment.created_at)
+    - if @wiki_histories.present?
+      .supplementary-box{ data: { controller: "content-collapse", 'content-collapse': { id: "wiki-histories-box-#{@current_post.id}", force: ('show' unless is_small_screen?) } } }
+        .header{ data: { action: 'click->content-collapse#toggle' } }
+          .title
+            위키 이력
+          .count
+            = @wiki_histories.total_count
+          .toggler
+            %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-collapse.content' } }
+        %ul.lines{ class: ('-hide' if is_small_screen?), data: { target: 'content-collapse.content' } }
+          - @wiki_histories.each do |wiki_history|
+            %li.updated-comment-line
+              .body
+                .title
+                  = link_to url_for(wiki_history_id: wiki_history.id, list_nav: @list_nav_params), class: 'hover:text-primary' do
+                    #{static_date_f(wiki_history.created_at)}
+                .footer
+                  != wiki_history.activity { |user| user_subject_word(user) }
 
 - if @list_nav_params.present?
   - back_params = { id: @list_nav_params[:issue_id], folder_id: @list_nav_params[:folder_id], page: @list_nav_params[:page], front_search: { q: @list_nav_params[:q] } }.compact
@@ -86,7 +102,11 @@
 
 - moremenu_wiki_controls = capture do
   - if @current_post.wiki.present?
-    = render 'front/wikis/controls', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
+    - if @current_wiki_history.present?
+      = link_to front_post_path(@current_post, list_nav: @list_nav_params), class: 'btn btn-light btn-sm', data: { 'turbolinks-action': 'replace' } do
+        현재 버전 보기
+    - else
+      = render 'front/wikis/controls', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
 
   -# - if @current_post.can_beholder?(current_user)
   -#   %li
@@ -136,9 +156,8 @@
             .createdat
               = smart_date_tag @current_post.created_at
 
-          - if moremenu_post_content.present? || moremenu_wiki_controls.present?
+          - if moremenu_post_content.present?
             .moremenu
-              = moremenu_wiki_controls
               %span.dropdown{ data: { controller: 'phone-dropdown' } }
                 %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
                   %i.fa.fa-ellipsis-v
@@ -192,7 +211,7 @@
       - else
         -# WIKI
         .post-wiki
-          = render 'front/wikis/card', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
+          = render 'front/wikis/card', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params, current_wiki_history:  @current_wiki_history
 
       .reactions
         .reaction

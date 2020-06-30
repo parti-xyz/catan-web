@@ -99,8 +99,14 @@ class Group::ConfigurationsController < Group::BaseController
     @group = current_group
     @group.remove_key_visual_background_image!
     @group.save
+
     flash[:success] = t('activerecord.successful.messages.deleted')
-    redirect_to edit_group_configuration_path
+
+    if helpers.explict_front_namespace?
+      render_front_edit(@group)
+    else
+      redirect_to edit_group_configuration_path
+    end
   end
 
   def front_wiki
@@ -139,7 +145,7 @@ class Group::ConfigurationsController < Group::BaseController
     params.require(:group).permit(:title, :site_description, :site_title,
       :head_title, :site_keywords, :issue_creation_privileges, :private, :organizer_nicknames,
       :key_visual_foreground_image, :key_visual_foreground_image_cache,
-      :key_visual_background_image, :key_visual_background_image_cache, :frontable, (:cloud_plan if current_user&.admin?), (:mailer_sender if current_user&.admin?), (:navbar_text_color if current_user&.admin?), (:navbar_bg_color if current_user&.admin?))
+      :key_visual_background_image, :key_visual_background_image_cache, :frontable, (:cloud_plan if current_user&.admin?), (:mailer_sender if current_user&.admin?), (:navbar_text_color if current_user&.admin?), (:navbar_bg_color if current_user&.admin?), (:coc_text_color if current_user&.admin?), (:coc_btn_bg_color if current_user&.admin?), (:coc_btn_text_color if current_user&.admin?))
   end
 
   def render_front_edit group

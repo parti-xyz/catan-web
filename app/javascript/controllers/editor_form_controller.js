@@ -18,7 +18,7 @@ import { resizableImage } from '../compoments/editor/schema'
 import { ImageView } from '../compoments/editor/image_view'
 
 export default class extends Controller {
-  static targets = ['source', 'conflictSource']
+  static targets = ['source', 'conflictSource', 'versionSource']
 
   connect() {
     if (!this.sourceTarget) { return }
@@ -47,12 +47,16 @@ export default class extends Controller {
     let doc
     let plugins = exampleSetup({
       schema: currentSchema,
-      menuContent: buildMenuItems(currentSchema, uploadUrl, ruleFileSize),
+      menuContent: (this.data.get('readOnly') != 'true' ? buildMenuItems(currentSchema, uploadUrl, ruleFileSize) : []),
       mapKeys,
     }).concat(linkTooltipPlugin, imageUploadPlugin, keymap(mapKeys))
 
     if (this.hasConflictSourceTarget) {
       let diff = this.computeConflictDocument(currentSchema, this.sourceTarget, this.conflictSourceTarget)
+      doc = diff.doc
+      plugins = plugins.concat(diff.plugins)
+    } else if (this.hasVersionSourceTarget) {
+      let diff = this.computeVersionDocument(currentSchema, this.sourceTarget, this.versionSourceTarget)
       doc = diff.doc
       plugins = plugins.concat(diff.plugins)
     } else {
@@ -69,7 +73,8 @@ export default class extends Controller {
       },
       nodeViews: {
         image(node, view, getPos) { return new ImageView(node, view, getPos) }
-      }
+      },
+      editable: (state) => (this.data.get('readOnly') != 'true')
     })
   }
 
@@ -313,6 +318,104 @@ export default class extends Controller {
       (wrapInList(wrapInListItemType))(state, dispatch)
 
       return true
+    }
+  }
+
+  computeVersionDocument(schema, baseSource, versionSource) {
+    // based on https://gitlab.com/mpapp-public/prosemirror-recreate-steps/blob/master/demo/history/index.js
+
+    // recreate transform back to base doc
+    let baseDoc = DOMParser.fromSchema(schema).parse(baseSource)
+    let versionDoc = DOMParser.fromSchema(schema).parse(versionSource)
+    let tr = recreateTransform(versionDoc, baseDoc, true, true)
+
+    // create decorations corresponding to the changes
+    const decorations = []
+    let changeSet = ChangeSet.create(versionDoc).addSteps(tr.doc, tr.mapping.maps);
+    let changes = simplifyChanges(changeSet.changes, tr.doc);
+
+    // deletion
+    function findDeleteEndIndex(startIndex) {
+      for (let i = startIndex; i < changes.length; i++) {
+        // if we are at the end then that's the end index
+        if (i === (changes.length - 1))
+          return i;
+        // if the next change is discontinuous then this is the end index
+        if ((changes[i].toB + 1) !== changes[i + 1].fromB)
+          return i;
+      }
+    }
+
+    let index = 0;
+    while (index < changes.length) {
+      let endIndex = findDeleteEndIndex(index)
+      decorations.push(
+        Decoration.inline(changes[index].fromB, changes[endIndex].toB, { class: 'version-deletion' })
+      )
+      index = endIndex + 1
+    }
+
+    // insertion
+    function findInsertEndIndex(startIndex) {
+      for (let i = startIndex; i < changes.length; i++) {
+        // if we are at the end then that's the end index
+        if (i === (changes.length - 1))
+          return i
+        // if the next change is discontinuous then this is the end index
+        if ((changes[i].toA + 1) !== changes[i + 1].fromA)
+          return i
+      }
+    }
+    index = 0
+    while (index < changes.length) {
+      let endIndex = findInsertEndIndex(index)
+
+      // apply the insertion
+      let slice = versionDoc.slice(changes[index].fromA, changes[endIndex].toA)
+      let contentElement = DOMSerializer.fromSchema(schema).serializeFragment(slice.content)
+      if (contentElement.children.length > 0 || contentElement.textContent) {
+        let controlId = uuidv4()
+
+        let spanControl = document.createElement('span')
+        spanControl.classList.add('version-insertion')
+
+        let spanContent = document.createElement('span')
+        spanContent.classList.add('content')
+        spanContent.appendChild(contentElement)
+        spanControl.appendChild(spanContent)
+
+        decorations.push(
+          Decoration.widget(changes[index].toB, spanControl, {
+            id: controlId,
+            content: slice.content,
+            danger: true,
+          })
+        )
+      }
+
+      index = endIndex + 1
+    }
+
+    // plugin to apply diff decorations
+    const initDecorationSet = DecorationSet.create(tr.doc, decorations)
+    let versionPlugin = new Plugin({
+      key: new PluginKey('version'),
+      state: {
+        init() { return initDecorationSet },
+        apply(tr, decorationSet) {
+          return decorationSet
+        }
+      },
+      props: {
+        decorations(state) { return this.getState(state) }
+      }
+    })
+    this.versionPlugin = versionPlugin
+
+    // return
+    return {
+      doc: tr.doc,
+      plugins: [versionPlugin]
     }
   }
 }

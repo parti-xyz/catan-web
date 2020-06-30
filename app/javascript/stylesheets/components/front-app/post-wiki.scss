@@ -7,7 +7,7 @@
   &:hover > .body:not(.-edit) {
     @include mixin.box-shadow;
   }
-  > .body > .article > .brightness {
+  > .body > .article {
     @include mixin.editor-content;
   }
   > .body {
@@ -21,6 +21,26 @@
   }
   > .body.-edit {
     border: none;
+  }
+  > .body.-edit > .version > div > .ProseMirror-menubar-wrapper > .ProseMirror-menubar {
+    display: none;
+  }
+  > .versioninfo {
+    display: flex;
+    font-size: bootstrap.$font-size-sm;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  > .versioninfo > .main {
+    flex: 1;
+    text-align: center;
+    padding: 0 1rem;
+  }
+  > .versioninfo > .main > .versionlegend {
+    @include mixin.editor-content;
+    font-size: bootstrap.$font-size-sm;
   }
   > .body > .article {
     background-color: white;

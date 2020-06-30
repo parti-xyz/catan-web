@@ -75,6 +75,21 @@ class RecreateTransform {
         applyPatch(afterStepJSON, [op])
         try {
           toDoc = this.schema.nodeFromJSON(afterStepJSON)
+
+          if (this.ops.length) {
+            let nextPaths = this.ops[0].path.split('/')
+            nextPaths.pop()
+            let currentPaths = op.path.split('/')
+            currentPaths.pop()
+
+            if (nextPaths.join('/') === currentPaths.join('/')) {
+              toDoc = false
+              op = this.ops.shift()
+              ops.push(op)
+              continue;
+            }
+          }
+
           toDoc.check()
         } catch (error) {
           toDoc = false

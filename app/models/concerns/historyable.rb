@@ -21,6 +21,18 @@ module Historyable
       previous.present?
     end
 
+    def afterwhile
+      @next ||= if self.persisted?
+        self.sibling_histories.recent.where('created_at > ?', self.created_at).where('id > ?', self.id).last
+      else
+        self.sibling_histories.first
+      end
+    end
+
+    def has_afterwhile?
+      afterwhile.present?
+    end
+
     def build_diff_body_count
       unless touched_body?
         self.diff_body_adds_count = 0

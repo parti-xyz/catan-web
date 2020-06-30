@@ -77,16 +77,84 @@
 }
 
 .front-app .coc-box {
-  > .jumbotron > .keytext {
-    <%= group_coc_text_color('color') %>
+  > .jumbos {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 3.125rem 3.75rem;
+    align-items: center;
+    <%= group_navbar_bg_color('background-color') %>
   }
-  > .jumbotron > .subtext {
-    <%= group_coc_text_color('color') %>
+
+  > .jumbos > .img {
+    flex: none;
+    margin-left: 3rem;
+    max-width: 10rem;
+    max-height: 10rem;
   }
-  > .jumbotron > .btn-key {
-    <% if current_group.coc_btn_bg_color.present? %>
-      @include button-variant(<%= current_group.coc_btn_bg_color %>, darken(<%= current_group.coc_btn_bg_color %>, 10%), darken(<%= current_group.coc_btn_bg_color %>, 10%));
-    <% end %>
-    <%= group_coc_btn_text_color('color') %>
+  > .jumbos > .img + .text {
+    flex: 1;
+    margin-top: 0;
+  }
+  > .jumbos > .text > .keytext {
+    <%= group_coc_text_color('color') %>
+    font-size: 2.25rem;
+    letter-spacing: -2.4px;
+  }
+  > .jumbos > .text > .keytext + .subtext {
+    margin-top: 1 rem;
+  }
+  > .jumbos > .text > .subtext {
+    <%= group_coc_text_color('color') %>
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    letter-spacing: -0.5px;
+  }
+
+  @media only screen and (max-width:480px){
+    > .jumbos {
+      display: block;
+      padding-top: 1rem;
+      padding-bottom: 2.5rem;
+    }
+
+    > .jumbos > .img {
+      margin-left: 0;
+      max-width: 10rem;
+      max-height: 10rem;
+      display: block;
+      margin: 0 auto;
+    }
+    > .jumbos > .img + .text {
+      margin-top: 1rem;
+    }
+    > .jumbos > .text > .keytext {
+      font-size: 1.625rem;
+      line-height: 2.125rem;
+      letter-spacing: -1.2px;
+      text-align: center;
+      font-weight: normal;
+    }
+    > .jumbos > .text > .keytext + .subtext {
+      margin-top: .5rem;
+    }
+    > .jumbos > .text > .subtext {
+      font-size: 0.875rem;
+      line-height: 1.57;
+      text-align: center;
+    }
+    > .jumbos > .text > .subtext + .btn-key {
+      margin-top: 2.375rem;
+    }
+    > .jumbos > .text > .btn-key {
+      <% if current_group.coc_btn_bg_color.present? %>
+        @include button-variant(<%= current_group.coc_btn_bg_color %>, darken(<%= current_group.coc_btn_bg_color %>, 10%), darken(<%= current_group.coc_btn_bg_color %>, 10%));
+      <% end %>
+      <%= group_coc_btn_text_color('color') %>
+      text-align: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 10rem;
+    }
   }
 }

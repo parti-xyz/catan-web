@@ -199,6 +199,8 @@
     padding: 0rem .25rem;
     white-space: nowrap;
   }
+  .version-insertion,
+  .version-deletion,
   .conflict-insertion,
   .conflict-deletion {
     padding: .25rem 0;
@@ -206,12 +208,21 @@
     display: inline-flex;
     align-items: center;
   }
+  .version-insertion {
+    border: 2px dashed rgba(128, 0, 0, .7);
+    opacity: 0.4;
+  }
   .conflict-insertion {
     border: 2px dashed rgba(128, 0, 0, .2);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
   }
+  .version-deletion,
   .conflict-deletion {
-    border: 2px dashed green;
+    background-color: rgba(0, 128, 0, .3);
+    border: 1px solid rgba(0, 128, 0, .5);
+  }
+  .version-insertion > .content {
+    color: rgba(128, 0, 0, .7);
   }
   .conflict-insertion > .content {
     cursor: cell;

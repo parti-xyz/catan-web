@@ -548,6 +548,7 @@ Rails.application.routes.draw do
       collection do
         post 'coc_wiki', to: '/group/configurations#front_wiki'
         delete 'coc_wiki', to: '/group/configurations#destroy_front_wiki'
+        delete 'remove_key_visual_foreground_image', to: '/group/configurations#remove_key_visual_foreground_image'
       end
     end
 

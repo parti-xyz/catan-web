@@ -1,7 +1,7 @@
 <%
   render_assigns = { post: @post }
   begin
-    param_assigns = JSON.parse(params[:assigns])
+    param_assigns = JSON.parse(params[:assigns].presence || '')
     if param_assigns.present? and param_assigns.is_a? Hash
       render_assigns.merge!(param_assigns.symbolize_keys)
     end

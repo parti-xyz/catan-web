@@ -1,10 +1,39 @@
 - if current_wiki.active?
-  .body.-full{ data: { controller: 'content-replacement' } }
-    .article
-      .brightness
+  - if local_assigns[:current_wiki_history].present?
+    .alert.alert-warning.versioninfo
+      .before{ class: ('invisible' unless current_wiki_history.has_previous?) }
+        = link_to url_for(wiki_history_id: current_wiki_history.previous&.id, list_nav: list_nav_params), class: 'btn btn-link btn-sm' do
+          %i.fa.fa-arrow-left
+          이전
+      .main
+        %p
+          %strong #{static_date_f(current_wiki_history.created_at)}
+          %br
+          != current_wiki_history.activity { |user| user_subject_word(user) }
+        .versionlegend
+          예시)
+          %br
+          .version-deletion
+            .content @#{current_wiki_history.user.nickname}님이 추가한 내용
+          .version-insertion
+            .contents-header__title @#{current_wiki_history.user.nickname}님이 삭제한 내용
+      .after{ class: ('invisible' unless current_wiki_history.has_afterwhile?) }
+        = link_to url_for(wiki_history_id: current_wiki_history.afterwhile&.id, list_nav: list_nav_params), class: 'btn btn-link btn-sm' do
+          다음
+          %i.fa.fa-arrow-right
+    .body.-full.-edit{ data: { controller: 'content-replacement' } }
+      .version{ data: { controller: 'editor-form', 'editor-form-read-only': 'true' } }
+        .d-none{ data: { target: 'editor-form.source' } }
+          != current_wiki_history.body
+        - if current_wiki_history.has_previous?
+          .d-none{ data: { target: 'editor-form.versionSource' } }
+            != current_wiki_history.previous.body
+  - else
+    .body.-full{ data: { controller: 'content-replacement' } }
+      .article
         != current_wiki.body
-    .buttons
-      = render 'front/wikis/controls', current_wiki: current_wiki, list_nav_params: local_assigns[:list_nav_params]
+      .buttons
+        = render 'front/wikis/controls', current_wiki: current_wiki, list_nav_params: local_assigns[:list_nav_params]
 
   .authors
     .label 작성

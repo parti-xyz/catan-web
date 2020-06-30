@@ -18,23 +18,31 @@ class Front::PostsController < Front::BaseController
           comment.created_at
         end
       end
+    end
 
-      if @updated_comments.nil? || @updated_comments&.empty?
-        sorted_comments = @current_post.comments.select do |comment|
-          comment.user != current_user
-        end.sort_by do |comment|
-          comment.created_at
+    if @updated_comments.nil? || @updated_comments&.empty?
+      sorted_comments = @current_post.comments.select do |comment|
+        comment.user != current_user
+      end.sort_by do |comment|
+        comment.created_at
+      end
+
+      last_comment = sorted_comments[-1]
+
+      if last_comment.present?
+        @recent_comments = sorted_comments.select do |comment|
+          comment.created_at > (last_comment.created_at - 1.days)
         end
+      end
 
-        last_comment = sorted_comments[-1]
+      @recent_comments = [last_comment] if @recent_comments&.count == sorted_comments&.count
+    end
 
-        if last_comment.present?
-          @recent_comments = sorted_comments.select do |comment|
-            comment.created_at > (last_comment.created_at - 1.days)
-          end
-        end
+    if @current_post.wiki.present?
+      @wiki_histories = @current_post.wiki.wiki_histories.recent.page(1)
 
-        @recent_comments = [] if @recent_comments&.count == sorted_comments&.count
+      if params[:wiki_history_id].present?
+        @current_wiki_history = @current_post.wiki.wiki_histories.find_by(id: params[:wiki_history_id])
       end
     end
 
