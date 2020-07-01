@@ -5,14 +5,13 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   margin: 0;
   padding: 0;
   border: 0;
-  font: inherit;
   font-size: 100%;
   vertical-align: baseline;
   word-break: break-word;
 }
 
 *, body {
-  font-family: system, -apple-system, BlinkMacSystemFont, Helvetica, "Helvetica Neue", Hiragino Sans, "Apple SD Gothic Neo", "애플 SD 산돌고딕 Neo", Apple SD Gothic Neo, '맑은 고딕', 'Malgun Gothic', '돋움', dotum, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica, 'Helvetica Neue', 'Apple SD Gothic Neo', 'Apple SD 산돌고딕 Neo', '맑은 고딕', 'Malgun Gothic', '돋움', dotum, sans-serif;
 }
 
 html {
