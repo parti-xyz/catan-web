@@ -68,6 +68,13 @@
 .front-app .front-navbar {
   <%= group_navbar_bg_color('background-color') %>
 }
+
+@media only screen and (min-width:481px){
+  .app-front--pages--coc .front-app .front-navbar {
+    background-color: white;
+    border-color: #d1d4da; // $color-gray-300
+  }
+}
 .front-app .front-joinbar {
   <%= group_navbar_bg_color('background-color') %>
   <%= group_navbar_text_color('color') %>
@@ -79,7 +86,9 @@
 .front-app .coc-box {
   > .jumbos {
     display: flex;
-    flex-direction: row-reverse;
+    <% if current_group.key_visual_foreground_image.present? %>
+      flex-direction: row-reverse;
+    <% end %>
     padding: 3.125rem 3.75rem;
     align-items: center;
     <%= group_navbar_bg_color('background-color') %>

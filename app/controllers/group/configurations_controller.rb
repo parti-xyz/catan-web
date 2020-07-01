@@ -92,7 +92,12 @@ class Group::ConfigurationsController < Group::BaseController
     @group.remove_key_visual_foreground_image!
     @group.save
     flash[:success] = t('activerecord.successful.messages.deleted')
-    redirect_to edit_group_configuration_path
+
+    if helpers.explict_front_namespace?
+      turbolinks_redirect_to edit_front_group_path(@group)
+    else
+      redirect_to edit_group_configuration_path
+    end
   end
 
   def remove_key_visual_background_image
@@ -103,7 +108,7 @@ class Group::ConfigurationsController < Group::BaseController
     flash[:success] = t('activerecord.successful.messages.deleted')
 
     if helpers.explict_front_namespace?
-      render_front_edit(@group)
+      turbolinks_redirect_to edit_front_group_path(@group)
     else
       redirect_to edit_group_configuration_path
     end
