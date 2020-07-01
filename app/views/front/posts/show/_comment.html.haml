@@ -51,7 +51,7 @@
           - if comment.file_sources_only_image.present?
             .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
               = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
-                %img.img{ src: file_source.attachment.xs.url }
+                %img.img{ src: file_source.attachment.sm.url }
           / comment 파일
           - if comment.file_sources_only_doc.present?
             .comment-filesource-doc-listing
