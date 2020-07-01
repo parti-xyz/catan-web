@@ -1,6 +1,10 @@
 class Admin::GroupsController < Admin::BaseController
   def index
     @groups = Group.all.sort_by_name.page(params[:page])
+
+    if params[:q].present?
+      @groups = @groups.search_for(params[:q])
+    end
   end
 
   def destroy
