@@ -555,6 +555,14 @@ module ApplicationHelper
     _group_style(:navbar_text_color, style, 'darken(#fff, 10%)') { |value| "darken(#{value}, 20%)" }
   end
 
+  def group_navbar_coc_text_color(style)
+    _group_style(:navbar_coc_text_color, style, '#5e2abb')
+  end
+
+  def group_navbar_coc_text_darken_color(style)
+    _group_style(:navbar_coc_text_color, style, 'darken(#5e2abb, 10%)') { |value| "darken(#{value}, 20%)" }
+  end
+
   def group_navbar_bg_color(style)
     _group_style(:navbar_bg_color, style, '#5e2abb')
   end

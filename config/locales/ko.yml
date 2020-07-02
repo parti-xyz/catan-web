@@ -136,6 +136,7 @@ ko:
         mailer_sender: 그룹 운영 메일 주소
         navbar_text_color: 상단 메뉴 글자 색상
         navbar_bg_color: 상단 메뉴 배경 색상
+        navbar_coc_text_color: 그룹 홈에서 상단 메뉴 글자 색상
         coc_text_color: 커뮤니티 가이드 키비주얼 영역 글자 색상
         coc_btn_bg_color: 커뮤니티 가이드 키비주얼 영역 버튼 배경 색상
         coc_btn_text_color: 커뮤니티 가이드 키비주얼 영역 버튼 글자 색상
