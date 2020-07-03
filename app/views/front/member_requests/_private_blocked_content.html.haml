@@ -20,7 +20,7 @@
           %i.fa.fa-cube
           안녕하세요,
           %br
-          #{current_group.title} 그룹에
+          #{current_group.title}에
           %span.text-nowrap 오신 것을
           %span.text-nowrap 환영합니다!
         - if user_signed_in?
@@ -29,10 +29,10 @@
             %br
             가입이 필요합니다.
           %p
-            지금 신청 해주세요.
+            지금 가입 신청 해주세요.
           %p.pt-3
             = link_to new_front_member_request_path, class: 'btn btn-md btn-primary btn-block' do
-              그룹 가입 신청하기
+              그룹 가입하기
         - else
           %p
             이 그룹에서 활동하려면

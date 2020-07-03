@@ -2,7 +2,7 @@
   .container
     %h3.text-keepall
       %i.fa.fa-user
-      #{current_group.title} 그룹 가입 신청
+      #{current_group.title} 가입
 
     .simple-box{ style: 'padding: 3rem 0' }
       = form_with url: front_member_requests_path, local: true do
@@ -11,4 +11,4 @@
             = t("group.#{host_group.slug}.request_join", cascade: true)
           = text_area_tag :description, nil, class: 'form-control', placeholder: 'ex) 소속, 성함'
         .form-group.text-right
-          = submit_tag "신청합니다", class: 'btn btn-primary', data: { disable_with: "진행 중..." }
+          = submit_tag "가입합니다", class: 'btn btn-primary', data: { disable_with: "진행 중..." }
