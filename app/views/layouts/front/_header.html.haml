@@ -22,7 +22,7 @@
             %span.scope 그룹 내 검색
 
   .navbar-group-menu
-    - if current_group.member?(current_user)
+    - if current_group.member?(current_user) || current_user&.admin?
 
       - moremenu_content = capture do
         = link_to root_path, class: 'dropdown-item' do
@@ -78,24 +78,25 @@
         .dropdown-menu.usermenu.dropdown-menu-right
           = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
           = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
-          -# - current_user.member_groups.each_with_index do |group, index|
-          -#   - if index == 0
-          -#     .dropdown-divider
-          -#     .dropdown-header
-          -#       내 그룹
-          -#   = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item', target: ('_blank' if group != current_group) do
-          -#     = group.title
-          -#     - if group != current_group
-          -#       %i.fa.fa-external-link.small.text-muted
-          -#     - if group == current_group
-          -#       %i.fa.fa-check
-          -# .dropdown-divider
-          -# = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
-          -#   다른 그룹 탐색
-          -#   %i.fa.fa-external-link.small.text-muted
-          -# = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
-          -#   그룹 만들기
-          -#   %i.fa.fa-external-link.small.text-muted
+          - unless current_group.cloud_plan?
+            - current_user.member_groups.each_with_index do |group, index|
+              - if index == 0
+                .dropdown-divider
+                .dropdown-header
+                  내 그룹
+              = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item', target: ('_blank' if group != current_group) do
+                = group.title
+                - if group != current_group
+                  %i.fa.fa-external-link.small.text-muted
+                - if group == current_group
+                  %i.fa.fa-check
+            .dropdown-divider
+            = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+              다른 그룹 탐색
+              %i.fa.fa-external-link.small.text-muted
+            = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+              그룹 만들기
+              %i.fa.fa-external-link.small.text-muted
     - else
       -# .menuitem
       -#   = link_to issues_url(subdomain: nil), target: '_blank', class: 'link' do
