@@ -41,7 +41,7 @@ class Group::ConfigurationsController < Group::BaseController
 
     new_organizer_members = []
     ActiveRecord::Base.transaction do
-      if params[:group].has_key?(:organizer_nicknames)
+      if params[:group].key?(:organizer_nicknames)
         organizer_users = User.parse_nicknames(@group.organizer_nicknames)
         organizer_users.each do |user|
           member = @group.members.find_by(user: user)
@@ -148,10 +148,10 @@ class Group::ConfigurationsController < Group::BaseController
   def group_params
     # 민감한 정보인 slug은 따로 받습니다
 
-    attributes = %i[title site_description site_title,
-      :head_title site_keywords issue_creation_privileges private organizer_nicknames,
-      :key_visual_foreground_image key_visual_foreground_image_cache,
-      :key_visual_background_image key_visual_background_image_cache frontable]
+    attributes = %i[title site_description site_title
+      head_title site_keywords issue_creation_privileges private organizer_nicknames
+      key_visual_foreground_image key_visual_foreground_image_cache
+      key_visual_background_image key_visual_background_image_cache frontable]
 
     if current_user&.admin?
       attributes += %i[cloud_plan mailer_sender navbar_text_color navbar_bg_color navbar_coc_text_color coc_text_color coc_btn_bg_color coc_btn_text_color]
