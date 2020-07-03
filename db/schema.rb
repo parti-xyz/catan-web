@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_03_074650) do
+ActiveRecord::Schema.define(version: 2020_07_03_075311) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -257,7 +257,7 @@ ActiveRecord::Schema.define(version: 2020_07_03_074650) do
     t.string "mailer_sender"
     t.string "navbar_bg_color", default: "#5e2abb"
     t.string "navbar_text_color", default: "#ffffff"
-    t.string "coc_text_color", default: "#5e2abb"
+    t.string "coc_text_color", default: "#ffffff"
     t.string "coc_btn_bg_color", default: "#5e2abb"
     t.string "coc_btn_text_color", default: "#ffffff"
     t.string "navbar_coc_text_color", default: "#5e2abb"
