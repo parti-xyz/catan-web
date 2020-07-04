@@ -20,12 +20,12 @@
       - if local_assigns[:invitee].present? and !(event.invited?(invitee) or event.attend?(invitee))
         %p.alert.alert-warning.text-basic-wrap{ style: 'margin-top: 12px' }
           - if !event.post.issue.member?(invitee)
-            @#{invitee.nickname}은 이 채널에 가입하지 않은 회원입니다. 초대를 계속 하시겠습니까?
+            @#{invitee.nickname}은 이 채널에 가입하지 않은 계정입니다. 초대를 계속 하시겠습니까?
             %br
             = link_to '예', invite_event_roll_calls_path(event, user_nickname: invitee.nickname, force: true), remote: true, method: :post, class: 'btn btn-danger'
             = link_to '아니오', invite_event_roll_calls_path(event), remote: true, method: :post
           - else
-            @#{invitee.nickname}은 초대할 수 없는 회원입니다.
+            @#{invitee.nickname}은 초대할 수 없는 계정입니다.
 
       %hr
 

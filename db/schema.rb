@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_03_075311) do
+ActiveRecord::Schema.define(version: 2020_07_04_050554) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -253,14 +253,13 @@ ActiveRecord::Schema.define(version: 2020_07_03_075311) do
     t.datetime "blinded_at"
     t.string "logo", null: false
     t.boolean "frontable", default: false, null: false
-    t.boolean "cloud_plan", default: false
-    t.string "mailer_sender"
     t.string "navbar_bg_color", default: "#5e2abb"
     t.string "navbar_text_color", default: "#ffffff"
     t.string "coc_text_color", default: "#ffffff"
     t.string "coc_btn_bg_color", default: "#5e2abb"
     t.string "coc_btn_text_color", default: "#ffffff"
     t.string "navbar_coc_text_color", default: "#5e2abb"
+    t.string "organization_slug", default: "default"
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
     t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
     t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
@@ -794,9 +793,6 @@ ActiveRecord::Schema.define(version: 2020_07_03_075311) do
     t.boolean "enable_mailing_summary", default: true
     t.date "sent_new_posts_email_at"
     t.datetime "member_issues_changed_at"
-    t.boolean "enable_mailing_mention", default: false
-    t.boolean "enable_mailing_pin", default: false
-    t.boolean "enable_mailing_poll_or_survey", default: false
     t.boolean "enable_mailing_member", default: false
     t.datetime "email_verified_at"
     t.string "push_notification_mode", default: "on"
@@ -809,7 +805,7 @@ ActiveRecord::Schema.define(version: 2020_07_03_075311) do
     t.integer "last_visitable_id"
     t.string "last_visitable_type"
     t.datetime "canceled_at"
-    t.string "confirmation_group_slug"
+    t.string "touch_group_slug"
     t.index ["confirmation_token", "active"], name: "index_users_on_confirmation_token_and_active", unique: true
     t.index ["deleted_at"], name: "index_users_on_deleted_at"
     t.index ["nickname", "active"], name: "index_users_on_nickname_and_active", unique: true

@@ -73,7 +73,7 @@ class ScoreJob < ApplicationJob
   end
 
   def for_groups
-    Issue.only_public_in_current_group.where('issues.hot_score_datestamp >= ?', 7.days.ago.strftime('%Y%m%d')).group('issues.group_slug').sum('issues.hot_score').each do |group_slug, hot_score|
+    Issue.only_public_in_all_public_groups.where('issues.hot_score_datestamp >= ?', 7.days.ago.strftime('%Y%m%d')).group('issues.group_slug').sum('issues.hot_score').each do |group_slug, hot_score|
       group = Group.find_by(slug: group_slug)
       next if group.blank?
 

@@ -154,7 +154,7 @@ class Group::ConfigurationsController < Group::BaseController
       key_visual_background_image key_visual_background_image_cache frontable]
 
     if current_user&.admin?
-      attributes += %i[cloud_plan mailer_sender navbar_text_color navbar_bg_color navbar_coc_text_color coc_text_color coc_btn_bg_color coc_btn_text_color]
+      attributes += %i[organization_slug navbar_text_color navbar_bg_color navbar_coc_text_color coc_text_color coc_btn_bg_color coc_btn_text_color]
     end
 
     params.require(:group).permit(attributes)

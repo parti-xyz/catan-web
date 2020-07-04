@@ -3,7 +3,7 @@ class Users::PasswordsController < Devise::PasswordsController
   def create
     unless User.exists?(email: params[:user][:email], provider: 'email')
       flash[:error] = t('devise.passwords.new.no_account')
-      redirect_to new_user_password_path and return
+      redirect_back(fallback_location: new_user_password_path) and return
     end
     super
     # self.resource = resource_class.send_reset_password_instructions(resource_params)

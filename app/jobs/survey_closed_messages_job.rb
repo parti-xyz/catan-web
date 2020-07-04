@@ -6,7 +6,6 @@ class SurveyClosedMessagesJob < ApplicationJob
     Survey.need_to_send_closed_message.each do |survey|
       unless survey.post.blank?
         MessageService.new(survey, action: :closed).call
-        SurveyMailer.deliver_all_later_on_closed(survey)
       end
       survey.touch(:sent_closed_message_at)
     end

@@ -24,7 +24,6 @@ class OptionSurveyService
         @post.issue.strok_by!(@current_user, @post)
         @post.issue.deprecated_read_if_no_unread_posts!(@current_user)
         MessageService.new(@option).call
-        OptionMailer.deliver_all_later_on_create(@option)
       end
     end
   end

@@ -14,17 +14,13 @@
       - else
         - if params[:invitation_email].present? and !user_signed_in?
           %p
-            어서오세요. 먼저 채널에 가입하세요.
+            어서오세요. 먼저 사용자 계정을 만드세요.
             %br
-            회원가입할 때 초대받은
+            초대받은
             %strong #{params[:invitation_email]}
-            %span> 을 이메일로 등록하면 곧바로 이 그룹에 가입됩니다.
+            %span> 을 계정의 이메일로 등록하면 곧바로 이 그룹에 가입됩니다.
             %br
-            회원가입할 때 초대받은
-            %strong #{params[:invitation_email]}
-            %span> 을 이메일로 등록하면 곧바로 이 그룹에 가입됩니다.
-            %br
-            = link_to '회원 가입하기', pre_sign_up_users_path, class: 'btn btn-md btn-primary'
+            = link_to '계정 만들기', pre_sign_up_users_path, class: 'btn btn-md btn-primary'
         - elsif params[:invitation_nickname].present? and !user_signed_in?
           %p
             어서오세요. 초대받은 닉네임

@@ -7,7 +7,7 @@ class Group::MemberRequestsController < Group::BaseController
       if current_group.private?
         @member_request.assign_attributes(joinable: current_group, user: current_user, description: params[:description])
         if @member_request.save
-          flash[:success] = "#{current_group.title} 그룹에 가입을 환영합니다"
+          flash[:success] = "#{current_group.title}에 가입을 환영합니다"
           MessageService.new(@member_request, action: :request).call
           MemberRequestMailer.deliver_all_later_on_create(@member_request)
         end
@@ -15,7 +15,7 @@ class Group::MemberRequestsController < Group::BaseController
         @member = MemberGroupService.new(group: current_group, user: current_user, description: params[:description]).call
 
         if @member.persisted?
-          flash[:success] = "#{current_group.title} 그룹에 가입을 환영합니다"
+          flash[:success] = "#{current_group.title}에 가입을 환영합니다"
           MessageService.new(@member, sender: current_user).call
           MemberMailer.deliver_all_later_on_create(@member)
         end

@@ -14,7 +14,7 @@
           &middot;
           #{Issue.count}개 채널 보기
         - unless user_signed_in?
-          = link_to '회원가입', new_user_session_path, class: 'btn btn-danger btn-block btn-shadow'
+          = link_to '로그인', new_user_session_path, class: 'btn btn-danger btn-block btn-shadow'
       .col-sm-8.col-xs-12.text-right{ style: 'margin-top: 20px;' }
         = image_tag 'img_about_1.png', class: 'about-image'
 

@@ -2,14 +2,18 @@
   .container
     %h3.text-keepall
       %i.fa.fa-user
-      회원가입
+      계정 만들기
+
+    - if current_group.present?
+      .alert.alert-secondary.mt-4.w-100
+        #{current_group.title}에 가입하려면 먼저 계정을 만들어야 합니다.
 
     .simple-box
       = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
         = devise_error_messages!
         = f.hidden_field :provider
         = f.hidden_field :remember_me
-        = f.hidden_field :confirmation_group_slug, value: current_group&.slug
+        = f.hidden_field :touch_group_slug, value: current_group&.slug
 
         .form-group
           = f.label :nickname do

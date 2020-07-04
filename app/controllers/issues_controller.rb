@@ -25,7 +25,7 @@ class IssuesController < ApplicationController
   end
 
   def search_by_tags
-    @issues = Issue.alive.only_public_in_current_group(current_group)
+    @issues = Issue.alive.only_public_in_all_public_groups
     if params[:selected_tags] == [""]
       @issues = @issues.hottest.limit(50)
       @no_tags_selected = 'yes'
@@ -541,13 +541,6 @@ class IssuesController < ApplicationController
 
   def private_blocked?(issue)
     issue.private_blocked?(current_user) and !current_user.try(:admin?)
-  end
-
-  def watched_posts(page)
-    return unless user_signed_in?
-    watched_posts = current_user.watched_posts(current_group)
-    watched_posts = watched_posts.order(last_stroked_at: :desc)
-    watched_posts.page(page)
   end
 
   def noindex_meta_tag

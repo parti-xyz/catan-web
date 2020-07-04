@@ -20,12 +20,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation, :confirmation_group_slug)
+    params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation, :touch_group_slug)
   end
 
   def account_update_params
     params.require(:user).permit(:nickname, :image, :image_cache, :remove_image, :email, :password, :password_confirmation, :current_password,
-      :enable_mailing_summary, :enable_mailing_pin, :enable_mailing_mention, :enable_mailing_poll_or_survey, :enable_mailing_member,
+      :enable_mailing_summary, :enable_mailing_member,
       :push_notification_mode)
   end
 
@@ -38,9 +38,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def after_sign_up_path_for(resource)
-    if resource.is_a?(User) && resource.confirmed? && resource.confirmation_group_slug.present?
-      group = Group.find_by(slug: resource.confirmation_group_slug)
-      if group&.present? && group&.frontable? && !group.member?(current_user)
+    if resource.is_a?(User) && resource.confirmed? && resource.touch_group_slug.present?
+      group = Group.find_by(slug: resource.touch_group_slug)
+      if group&.frontable? && !group.member?(current_user)
         return new_front_member_request_url(subdomain: group.subdomain)
       end
     end
@@ -66,10 +66,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def send_welcome_mail
     return if current_user.blank?
-    if current_user.confirmation_group_slug.present?
-      group = Group.find_by(slug: current_user.confirmation_group_slug)
-      return if group.present? && group&.frontable?
-    end
     WelcomeMailer.welcome(current_user.id).deliver_later
   end
 end

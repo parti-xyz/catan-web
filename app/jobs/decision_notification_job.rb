@@ -21,10 +21,6 @@ class DecisionNotificationJob < ApplicationJob
     not_sent_histories = histories_chunk.select { |decision_history| decision_history.mailed_at.blank? }
     if histories_chunk.blank? or not_sent_histories.any?
       post = Post.find_by(id: decision_history.post_id)
-      post.messagable_users.each do |user|
-        next if decision_history.user == user
-        DecisionMailer.on_update(decision_history.id, decision_user.id, user.id).deliver_later
-      end
       MessageService.new(decision_history.post, sender: decision_user, action: :decision).call(decision_body: decision_history.body)
     end
 

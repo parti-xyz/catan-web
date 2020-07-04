@@ -256,8 +256,8 @@ class ApplicationController < ActionController::Base
     "issues#slug_hashtag" => :dynamic,
     "issues#slug_folders" => "폴더",
     "members#index" => "멤버",
-    "posts#beholders" => "확인 회원",
-    "posts#unbeholders" => "미확인 회원",
+    "posts#beholders" => "확인 멤버",
+    "posts#unbeholders" => "미확인 멤버",
     "posts#decision_histories" => "토론 이력",
     "wikis#histories" => "위키 이력",
     "posts#new_wiki" => "위키 게시",
@@ -310,7 +310,7 @@ class ApplicationController < ActionController::Base
 
   def prepare_store_location
     #랜딩 페이지를 볼 떄는 랜딩 페이지를 저장하게.
-    #비로그인 회원이 랜딩페이지를 볼때는 랜딩페이지가 / 인데
+    #비로그인 계정이 랜딩페이지를 볼때는 랜딩페이지가 / 인데
     #로그인 후에는 /discover 로 바꿔야 하는. discover_root_path
     if !user_signed_in? and request.fullpath == "/" and current_group.nil?
       store_location_force(discover_url(subdomain: nil))

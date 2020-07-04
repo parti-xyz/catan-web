@@ -492,7 +492,6 @@ class Post < ApplicationRecord
 
   def notifiy_pinned_now(someone)
     # Transaction을 걸지 않습니다
-    send_notifiy_pinned_emails(someone)
     MessageService.new(self, sender: someone, action: :pinned).call()
   end
 
@@ -716,14 +715,6 @@ class Post < ApplicationRecord
       words.select { |w| w.starts_with?('#') }.map { |w| w[1..-1] }.each do |hashtag|
         self.tag_list.add(hashtag.gsub(/\A[[:space:]]+|[[:space:]]+\z/, ''))
       end
-    end
-  end
-
-  def send_notifiy_pinned_emails(someone)
-    return if someone.blank?
-    users = self.issue.member_users.where.not(id: someone)
-    users.each do |user|
-      PinMailer.notify(someone.id, user.id, self.id).deliver_later
     end
   end
 

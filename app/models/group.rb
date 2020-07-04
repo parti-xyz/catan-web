@@ -73,6 +73,10 @@ class Group < ApplicationRecord
       only_public
     end
   }
+  scope :sibilings, ->(group) {
+    where(organization_slug: group.organization_slug)
+  }
+
   mount_uploader :key_visual_foreground_image, ImageUploader
   mount_uploader :key_visual_background_image, ImageUploader
   mount_base64_uploader :logo, ImageUploader, file_name: -> (u) { 'userpic' }
@@ -227,7 +231,7 @@ class Group < ApplicationRecord
   end
 
   def pinned_posts(someone)
-    noticed_issues = self.issues.only_public_in_current_group.to_a
+    noticed_issues = self.issues.only_public.to_a
     if someone.present?
       noticed_issues += self.issues.where(id: someone.member_issues).to_a
       noticed_issues.uniq!
@@ -328,6 +332,14 @@ class Group < ApplicationRecord
 
   def issue_create_messagable_users
     member_users.where(id: GroupPushNotificationPreference.where(group: self).select(:user_id))
+  end
+
+  def organization
+    Organization.find_by_slug(self.organization_slug)
+  end
+
+  def group_for_message
+    self
   end
 
   private

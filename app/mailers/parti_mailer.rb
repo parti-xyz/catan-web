@@ -12,11 +12,10 @@ class PartiMailer < ApplicationMailer
   def summary(user, delivery_method = nil, delivery_method_options = nil)
     @user = user
     return unless @user.enable_mailing_summary?
-    if @user.confirmation_group_slug.present?
-      group = Group.find_by_slug(@user.confirmation_group_slug)
-      return if group&.cloud_plan?
+    if @user.touch_group_slug.present?
+      group = Group.find_by_slug(@user.touch_group_slug)
+      return if group&.organization&.disable_summary_emails?
     end
-
 
     @hottest_posts = @user.watched_posts.hottest.past_week.limit(50)
     @hottest_posts = @hottest_posts.reject { |post| post.blinded?(@user) }[0...10]
@@ -28,35 +27,5 @@ class PartiMailer < ApplicationMailer
         delivery_method: delivery_method,
         delivery_method_options: delivery_method_options)
     end
-  end
-
-  def on_create(organizer_id, user_id, issue_id)
-    @organizer = User.find_by(id: organizer_id)
-    @user = User.find_by(id: user_id)
-    return unless @user.enable_mailing_summary?
-    return if @organizer == @user
-
-    @issue = Issue.with_deleted.find_by(id: issue_id)
-    return if @user.blank? or @issue.blank? or @organizer.blank?
-    return if @issue&.group&.cloud_plan?
-
-    mail(to: @user.email,
-         subject: "[#{I18n.t('labels.app_name_human')}] #{@organizer.nickname}님이 #{@issue.title} 채널을 열었습니다.")
-  end
-
-  def on_destroy(organizer_id, user_id, issue_id, message)
-    @organizer = User.find_by(id: organizer_id)
-    @user = User.find_by(id: user_id)
-    return unless @user.enable_mailing_summary?
-    return if @organizer == @user
-
-    @issue = Issue.with_deleted.find_by(id: issue_id)
-    return if @user.blank? or @issue.blank?
-    return if @issue&.group&.cloud_plan?
-
-    @message = message
-
-    mail(to: @user.email,
-         subject: "[#{I18n.t('labels.app_name_human')}] #{@organizer.nickname}님이 #{@issue.title} 채널을 닫습니다.")
   end
 end

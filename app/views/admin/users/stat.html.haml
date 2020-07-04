@@ -1,9 +1,9 @@
 %section.roles
-  %h3 사용자 통계
+  %h3 사용자 계정 통계
   .role-form
     = form_tag stat_admin_users_path, method: :get do |f|
       .form-group
-        = label_tag :user_nickname, '회원 닉네임'
+        = label_tag :user_nickname, '계정 닉네임'
         = text_field_tag :user_nickname, params[:user_nickname], class: 'form-control'
       .form-group
         = label_tag :from, '시작 일자'
@@ -21,4 +21,4 @@
         = line_chart @data.map { |r| { name: r[0].model_name.human, data: r[1] } }, defer: true, points: false, download: true
     - else
       %i.fa.fa-info-circle
-      해당 회원을 찾을 수 없습니다.
+      해당 계정을 찾을 수 없습니다.

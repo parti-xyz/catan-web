@@ -12,10 +12,5 @@ class IssueCreateNotificationJob < ApplicationJob
     return if creating_user.blank?
 
     MessageService.new(issue, sender: creating_user, action: :create).call
-
-    user_ids = issue.group.issue_create_messagable_users.select('users.id').map(&:id)
-    user_ids.each_with_index do |user_id, index|
-      PartiMailer.delay_until((5 * index).seconds.from_now).on_create(creating_user.id, user_id, issue.id)
-    end
   end
 end

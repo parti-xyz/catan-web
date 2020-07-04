@@ -132,6 +132,16 @@ class User < ApplicationRecord
     @__cache_admin ||= has_role?(:admin)
   end
 
+  # devise
+
+  def self.find_or_initialize_with_errors(required_attributes, attributes, error=:invalid)
+    result = super
+    return result if result.blank?
+
+    result.touch_group_slug = attributes[:touch_group_slug] if attributes.key?(:touch_group_slug)
+    result
+  end
+
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
   end
@@ -172,9 +182,6 @@ class User < ApplicationRecord
       password: Devise.friendly_token[0,20],
       confirmed_at: DateTime.now,
       enable_mailing_summary: true,
-      enable_mailing_pin: true,
-      enable_mailing_mention: true,
-      enable_mailing_poll_or_survey: true,
       push_notification_mode: :on,
       nickname: nickname,
       remote_image_url: external_auth.image_url

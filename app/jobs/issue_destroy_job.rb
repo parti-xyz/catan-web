@@ -18,10 +18,6 @@ class IssueDestroyJob < ApplicationJob
 
       User.where(id: issue.members.select(:user_id)).update_all(member_issues_changed_at: DateTime.now)
       issue.destroy!
-
-      mailing_user_ids.each do |user_id|
-        PartiMailer.on_destroy(organizer.id, user_id, issue_id, message).deliver_later
-      end
     end
   end
 end

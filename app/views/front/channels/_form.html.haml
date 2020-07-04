@@ -64,7 +64,7 @@
       = f.label :blinds
       = f.text_field :blinds_nickname, value: current_issue.blinds.merge_nickname, class: 'form-control'
       %p.form-text.text-muted.small
-        건강하고 유쾌한 #{I18n.t('labels.app_name_human')} 활동을 방해하는 회원의 글을 숨깁니다. 해당 회원의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
+        건강하고 유쾌한 #{I18n.t('labels.app_name_human')} 활동을 방해하는 멤버의 글을 숨깁니다. 해당 멤버의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
         %strong 이 기능은 꼭 필요한 경우에만 신중히 사용해 주세요.
 
   - if current_issue.persisted?

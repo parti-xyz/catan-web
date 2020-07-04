@@ -62,8 +62,8 @@ ko:
       invalid_group_magic_key: 사용이 중지된 그룹 가입 주소입니다. 오거나이저에게 새로운 가입 주소를 요청하세요.
       invitation:
         recipient_codes: 입력하신 이메일이나 닉네임을 확인해 주세요.
-        not_found_recipients: 아래 닉네임에 해당되는 회원이 없습니다. 다시 한번 확인해 주세요.
-        ambiguous_recipients: 아래 이메일을 쓰는 회원이 여럿 있습니다. 이메일 대신 회원의 정확한 닉네임을 입력해 주세요.
+        not_found_recipients: 아래 아이디에 해당되는 계정이 없습니다. 다시 한번 확인해 주세요.
+        ambiguous_recipients: 아래 이메일을 쓰는 계정이 여럿 있습니다. 이메일 대신 계정의 정확한 닉네임을 입력해 주세요.
       carrierwave_processing_error: "이미지 사이즈 조정에 실패했습니다."
       carrierwave_integrity_error: "이미지 파일이 아닙니다."
       carrierwave_download_error: "다운로드 할 수 없습니다."
@@ -106,7 +106,7 @@ ko:
     models:
       issue: 채널
       wiki: 위키
-      user: 회원
+      user: 계정
       comment: 댓글
       related: 관련 채널
       section: 주제
@@ -132,8 +132,7 @@ ko:
         key_visual_foreground_image: 그룹홈 상단 이미지
         key_visual_background_image: 그룹홈 상단 배경 이미지
         frontable: 신규화면 적용여부
-        cloud_plan: 클라우드 플랜
-        mailer_sender: 그룹 운영 메일 주소
+        organization_slug: 운영 주체
         navbar_text_color: 상단 메뉴 글자 색상
         navbar_bg_color: 상단 메뉴 배경 색상
         navbar_coc_text_color: 그룹 홈에서 상단 메뉴 글자 색상
@@ -146,7 +145,7 @@ ko:
         logo: 대표 이미지
         cover: 커버 이미지
         slug: 주소
-        blinds: 블랙리스트 회원
+        blinds: 블랙리스트 계정
         category_id: 카테고리
         telegram_link: 메신저 열기
         tag_list: 태그
@@ -377,7 +376,7 @@ ko:
     user:
       anonymous: 어느 회원
     group:
-      welcome: '그룹에 가입되었습니다'
+      welcome: '에 가입되었습니다'
     issue:
       welcome: '채널에 가입되었습니다'
       goodbye: '탈퇴했습니다'

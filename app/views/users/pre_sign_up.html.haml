@@ -3,20 +3,20 @@
     %h4.sign-up__title 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}
     %h1.text-center.sign-up__txt
       %i.fa.fa-user
-      회원가입
+      계정 만들기
     .sign-up__form
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn-sns btn-block' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
-        페이스북 아이디로 회원가입
+        페이스북 아이디로 만들기
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :twitter, subdomain: false) }, class: 'btn-sns btn-block' do
         %i.fa.fa-twitter{style: 'font-size: 22px; color: #55acee; vertical-align: top;'}
-        트위터 아이디로 회원가입
+        트위터 아이디로 만들기
       = link_to '#', data: {action: 'parti-form-submit', 'form-target':'#login-form form', 'form-url': omniauth_authorize_url(:user, :google_oauth2, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :google_oauth2, remember_me: true, fallback_url: omniauth_authorize_url(:user, :google_oauth2, subdomain: false)) }, class: 'btn-sns btn-block' do
         %i.fa.fa-google{style: 'font-size: 22px; color: #c24851; vertical-align: top;'}
-        구글 아이디로 회원가입
+        구글 아이디로 만들기
       = link_to new_user_registration_url(subdomain: nil), class: 'btn-sns btn-block' do
         %i.fa.fa-envelope{style: 'font-size: 22px; color: #966fd6; vertical-align: top;'}
-        이메일로 회원가입
+        이메일로 만들기
       #login-form.text-center
         = form_tag nil, method: :get do
           = hidden_field_tag(:after_login)

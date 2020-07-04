@@ -1,15 +1,15 @@
 %section
   .container
-    %h2.page-header 회원 탈퇴
+    %h2.page-header 계정 삭제
     .well
       %p
-        %strong.text-danger 회원을 탈퇴합니다. 이 작업은 되돌릴 수 없습니다.
+        %strong.text-danger 계정을 삭제합니다. 이 작업은 되돌릴 수 없습니다.
 
       - form_id = "form-#{SecureRandom.uuid}"
       = form_tag cancel_user_path(current_user), method: :post, id: form_id, data: { action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]" } do
         .help-block
           %ul
-            %li 회원 정보: 즉시 삭제
+            %li 계정 정보: 즉시 삭제
             %li 가입 그룹 및 채널 정보: 즉시 삭제
             %li 작성된 글 및 댓글: 유지
           %p.text-basic-wrap

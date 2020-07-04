@@ -1,15 +1,15 @@
 %section
   .container
-    %h2.text-keepall 회원 탈퇴
+    %h2.text-keepall 계정 삭제
     .well
       %p
-        %strong.text-danger 회원을 탈퇴합니다. 이 작업은 되돌릴 수 없습니다.
+        %strong.text-danger 계정을 삭제합니다. 이 작업은 되돌릴 수 없습니다.
 
       - form_id = "form-#{SecureRandom.uuid}"
       = form_tag cancel_user_path(current_user), method: :post, id: form_id, data: { action: 'parti-form-validation', 'submit-form-control':  "##{form_id} input[type=submit]" } do
         .help-block
           %ul
-            %li 회원 정보: 즉시 삭제
+            %li 계정 정보: 즉시 삭제
             %li 가입 그룹 및 채널 정보: 즉시 삭제
             %li 작성된 글 및 댓글: 유지
           %p.text-basic-wrap
@@ -23,6 +23,6 @@
             = hidden_field_tag :nickname, current_user.nickname, id: "#{form_id}-nickname"
 
         .form-group
-          = submit_tag '영구 탈퇴', class: 'btn btn-primary btn-lg', data: { confirm: '이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?', disable_with: "..." }
+          = submit_tag '영구 삭제', class: 'btn btn-primary btn-lg', data: { confirm: '이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?', disable_with: "..." }
           = link_to root_path, class: 'btn btn-default' do
             취소

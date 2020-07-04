@@ -51,10 +51,6 @@ module Mentionable
     mailing_users.reject!{ |user| user == self.user }
     mailing_users.reject!{ |user| self.messages.select(:user_id).map(&:user_id).include?(user.id) }
     mailing_users.uniq!
-
-    mailing_users.each do |mentioned_user|
-      MentionMailer.notify(self.user.id, mentioned_user.id, self.id, self.class.model_name.to_s).deliver_later
-    end
   end
 
   def scan_users

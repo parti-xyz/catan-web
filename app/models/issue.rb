@@ -109,12 +109,11 @@ class Issue < ApplicationRecord
   scope :blinded_only, -> { where.not(blinded_at: nil) }
   scope :alive, -> { never_blinded.where(freezed_at: nil) }
   scope :dead, -> { never_blinded.where.not(freezed_at: nil) }
-  scope :only_public_in_current_group, ->(current_group = nil) {
-    result = where.not(private: true).alive
-    if current_group.blank?
-      result = result.joins(:group).where.not('groups.private': true)
-    end
-    result
+  scope :only_public, -> {
+    where.not(private: true).alive
+  }
+  scope :only_public_in_all_public_groups, -> {
+    only_public.where(group_slug: Group.only_public)
   }
   scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(issues.title, 1)) < 128, 1, 0)")).order('issues.title') }
   scope :sort_default, -> { order(:position).sort_by_name }
@@ -148,11 +147,10 @@ class Issue < ApplicationRecord
 
   scope :accessible_only, ->(current_user = nil) {
     if current_user.present?
-      _post_public_group_public_issues
+      only_public
         .or(alive.where(id: current_user.organizing_issues.select("members.joinable_id")))
-        .or(alive.where.not(private: true))
     else
-      _post_public_group_public_issues
+      only_public
     end
   }
 

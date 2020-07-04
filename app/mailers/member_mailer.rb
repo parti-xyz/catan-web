@@ -20,14 +20,11 @@ class MemberMailer < ApplicationMailer
     @user = User.find_by(id: user_id)
     return if @user.blank?
 
-    if @member.joinable_type == 'Issue'
-      return if @member.joinable&.group&.cloud_plan?
-    elsif @member.joinable_type == 'Group'
-      return if @member.joinable&.cloud_plan?
-    end
+    @organization = @member.joinable.group_for_message.organization
 
     mail(to: @member.user.email,
-         subject: "[#{I18n.t('labels.app_name_human')}] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에 초대했습니다.")
+      from: build_from(@organization),
+      subject: "[#{@organization.title}] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에 초대했습니다.")
   end
 
   def on_create(organizer_id, member_id)
@@ -38,16 +35,13 @@ class MemberMailer < ApplicationMailer
     @member = Member.find_by(id: member_id)
     return if @member.blank?
 
-    if @member.joinable_type == 'Issue'
-      return if @member.joinable&.group&.cloud_plan?
-    elsif @member.joinable_type == 'Group'
-      return if @member.joinable&.cloud_plan?
-    end
-
     return unless @organizer_user.try(:enable_mailing_member?)
 
+    @organization = @member.joinable.group_for_message.organization
+
     mail(to: @organizer_user.email,
-        subject: "[#{I18n.t('labels.app_name_human')}] #{@member.user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human}에 가입했습니다")
+      from: build_from(@organization),
+      subject: "[#{@organization.title}] #{@member.user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human}에 가입했습니다")
   end
 
   def on_ban(member_id, user_id)
@@ -57,14 +51,11 @@ class MemberMailer < ApplicationMailer
     @user = User.find_by(id: user_id)
     return if @user.blank?
 
-    if @member.joinable_type == 'Issue'
-      return if @member.joinable&.group&.cloud_plan?
-    elsif @member.joinable_type == 'Group'
-      return if @member.joinable&.cloud_plan?
-    end
+    @organization = @member.joinable.group_for_message.organization
 
     mail(to: @member.user.email,
-         subject: "[#{I18n.t('labels.app_name_human')}] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에서 탈퇴시켰습니다.")
+      from: build_from(@organization),
+      subject: "[#{@organization.title}] #{@user.nickname}님이 회원님을 #{@member.joinable.title} #{@member.joinable.model_name.human}에서 탈퇴시켰습니다.")
   end
 
   def on_force_default(member_id, organizer_user_id)
@@ -74,14 +65,11 @@ class MemberMailer < ApplicationMailer
     @user = User.find_by(id: organizer_user_id)
     return if @user.blank?
 
-    if @member.joinable_type == 'Issue'
-      return if @member.joinable&.group&.cloud_plan?
-    elsif @member.joinable_type == 'Group'
-      return if @member.joinable&.cloud_plan?
-    end
+    @organization = @member.joinable.group_for_message.organization
 
     mail(to: @member.user.email,
-         subject: "[#{I18n.t('labels.app_name_human')}] #{@user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human}를 자동가입되도록 설정했습니다. 해당 #{@member.joinable.model_name.human}에 가입되셨습니다.")
+      from: build_from(@organization),
+      subject: "[#{@organization.title}] #{@user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human}를 자동가입되도록 설정했습니다. 해당 #{@member.joinable.model_name.human}에 가입되셨습니다.")
   end
 
   def on_new_organizer(member_id, organizer_user_id)
@@ -91,13 +79,10 @@ class MemberMailer < ApplicationMailer
     @user = User.find_by(id: organizer_user_id)
     return if @user.blank?
 
-    if @member.joinable_type == 'Issue'
-      return if @member.joinable&.group&.cloud_plan?
-    elsif @member.joinable_type == 'Group'
-      return if @member.joinable&.cloud_plan?
-    end
+    @organization = @member.joinable.group_for_message.organization
 
     mail(to: @member.user.email,
-         subject: "[#{I18n.t('labels.app_name_human')}] #{@user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human} 오거나이징을 부탁했습니다.")
+      from: build_from(@organization),
+      subject: "[#{@organization.title}] #{@user.nickname}님이 #{@member.joinable.title} #{@member.joinable.model_name.human} 오거나이징을 부탁했습니다.")
   end
 end

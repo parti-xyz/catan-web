@@ -1,0 +1,29 @@
+%section.text-center
+  .container
+    %h3.text-center.sign-up__txt
+      비밀번호 분실
+    %p.text-center
+      비밀번호를 잊으셨어요?
+    %p.text-center
+      가입 시 등록한 이메일을 입력하세요.
+      %br
+      비밀번호를 다시 설정할 수 있는 메일을 보내드릴게요.
+    .simple-box{ style: 'padding: 3rem 0' }
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        = devise_error_messages!
+        = f.hidden_field :touch_group_slug, value: current_group&.slug
+        .form-group
+          = f.email_field :email, placeholder: '이메일을 입력하세요', autofocus: true, class: 'form-control'
+        .form-group
+          = f.submit '보내기', class: 'btn btn-primary btn-block', data: { disable_with: "전송 중..." }
+
+
+%section
+  .container
+    .text-center
+      %p
+        로그인을 다시 시도하시겠어요?
+        = link_to '로그인', new_user_session_path, class: 'text-primary text-nowrap'
+      %p
+        처음 오셨나요?
+        = link_to '가입하기', pre_sign_up_front_users_path, class: 'text-primary text-nowrap'

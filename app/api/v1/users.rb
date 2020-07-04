@@ -4,7 +4,7 @@ module V1
     include V1::Defaults
 
     namespace :users do
-      desc '현재 로그인한 회원의 정보를 반환합니다.'
+      desc '현재 로그인한 계정의 정보를 반환합니다.'
       oauth2
       get 'current_user' do
         entity = Class.new(User::Entity)

@@ -90,7 +90,7 @@ body.-pack.-simple.app-users {
   }
 
   > .front-main.-need-to-join {
-    @include front-variables.navbar-and-joinbar-height(padding-top);
+    @include front-variables.joinbar-height(padding-bottom);
   }
 
   @include mq.media('<=phone') {

@@ -28,13 +28,33 @@
         - if current_group.member?(current_user)
           = link_to edit_me_front_members_path, class: 'dropdown-item' do
             내 프로필
-        = link_to '설정', edit_user_registration_path, class: 'dropdown-item'
+        = link_to '계정 설정', edit_user_registration_path, class: 'dropdown-item'
         = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
         - if current_group.member?(current_user)
           .dropdown-divider
           = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
+        - member_groups = current_user.member_groups.sibilings(current_group).load
+        - member_groups.each_with_index do |group, index|
+          - if index == 0
+            .dropdown-divider
+            .dropdown-header
+              내 그룹
+          = link_to root_url(subdomain: group.subdomain), class: 'dropdown-item', target: ('_blank' if group != current_group) do
+            = group.title
+            - if group != current_group
+              %i.fa.fa-external-link.small.text-muted
+            - if group == current_group
+              %i.fa.fa-check
+        - if current_group.organization.default?
+          .dropdown-divider
+          = link_to issues_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+            다른 그룹 탐색
+            %i.fa.fa-external-link.small.text-muted
+          = link_to new_group_configuration_url(subdomain: nil), class: 'dropdown-item', target: '_blank' do
+            그룹 만들기
+            %i.fa.fa-external-link.small.text-muted
   - else
     .menuitem
-      = link_to '회원가입', pre_sign_up_front_users_path, class: 'link'
+      = link_to '멤버 가입', pre_sign_up_front_users_path, class: 'link'
       &middot;
       = link_to '로그인', new_user_session_path, class: 'link'

@@ -1,8 +1,7 @@
-- is_cloud_plan = false
 - if @resource.present?
-  - group = Group.find_by(slug: @resource.confirmation_group_slug)
-  - if group.present? && group.cloud_plan?
-    - is_cloud_plan = true
+  - group = Group.find_by(slug: @resource.touch_group_slug)
+  - organization = group&.organization
+- organization ||= Organization.default
 %body
   .public-email
     .inner
@@ -16,15 +15,15 @@
                   %div{:style => "overflow: hidden; clear: both;"}
                     %div{:style => "vertical-align: top; padding: 5px 0px;"}
                       %div{:style => "padding: 0px 10px;"}
-                        - if is_cloud_plan
-                          %div
-                            %p{:style => "text-align: center; margin: 0px; color: white"}
-                              #{group.title} 그룹
-                        - else
+                        - if organization.default?
                           %div
                             %p{:style => "text-align: center; margin: 0px;"}
                               %a{:href => "http://parti.xyz/", :style => "display: block; border: 0px;", :target => "_blank", :title => ""}
                                 %img{:alt => "", :src => "https://stibee.com/api/v1.0/public/images/b0f91e444b0c2c9c9be9c0f8b420bdc2e4c1145b0b14139ba4b1e383532a5ca1v.png", :style => "width: auto; display: inline; vertical-align: middle; max-width: 100%; border: 0px; text-align: center;"}/
+                        - else
+                          %div
+                            %p{:style => "text-align: center; margin: 0px; color: white"}
+                              #{organization.title}
             %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
               %div{:style => "background: rgb(150, 111, 214); padding: 5px 0px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;"}
                 %div{:style => "padding: 0px 5px;"}
@@ -38,15 +37,14 @@
                       = yield :head
             = yield
 
-            - if !is_cloud_plan
-              %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
-                %div{:style => "background: rgb(150, 111, 214); padding: 5px 0px; text-align: center; line-height: 1.6; border-style: solid; border-width: 0px;"}
-                  %div{:style => "padding: 0px 5px;"}
-                    %div{:style => "font-size: 12px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(96, 96, 96); padding: 0px; margin: 0px; text-align: center;"}
-                      %span{:style => "color: rgb(251, 249, 249);"}
-                        %a(href="https://parti.xyz/" style="text-decoration: none; color: #fff;") #{I18n.t('labels.app_name_human')}
+            %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
+              %div{:style => "background: rgb(150, 111, 214); padding: 5px 0px; text-align: center; line-height: 1.6; border-style: solid; border-width: 0px;"}
+                %div{:style => "padding: 0px 5px;"}
+                  %div{:style => "font-size: 12px; font-family: AppleSDGothic, \"apple sd gothic neo\", \"noto sans korean\", \"noto sans korean regular\", \"noto sans cjk kr\", \"noto sans cjk\", \"nanum gothic\", \"malgun gothic\", dotum, sans-serif; color: rgb(96, 96, 96); padding: 0px; margin: 0px; text-align: center;"}
+                    %span{:style => "color: rgb(251, 249, 249);"}
+                      %a{ href: organization.root_url, style: "text-decoration: none; color: #fff;" }= organization.title
+                    &middot;
+                    %a{ style: "color: rgb(251, 249, 249); text-decoration: none;", href: "mailto:#{organization.email}" }= organization.email
+                    - if mailer.class.name != 'Devise::Mailer' and action_name != 'confirmation_instructions'
                       &middot;
-                      %a{:style => "color: rgb(251, 249, 249); text-decoration: none;"}(href='mailto:help@parti.coop') help@parti.coop
-                      - if mailer.class.name != 'Devise::Mailer' and action_name != 'confirmation_instructions'
-                        &middot;
-                        %a{:href => "https://parti.xyz/users/edit", :style => "color: rgb(251, 249, 249); text-decoration: none;"} 수신거부
+                      %a{:href => "#{organization.root_url}/users/edit", :style => "color: rgb(251, 249, 249); text-decoration: none;"} 수신거부

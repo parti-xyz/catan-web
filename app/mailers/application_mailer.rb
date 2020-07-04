@@ -2,12 +2,12 @@ class ApplicationMailer < ActionMailer::Base
   helper :application
   helper :parti_url
 
-  default from: "#{I18n.t('labels.app_name_human')} <help@parti.coop>"
+  default from: "#{Organization.default.title} <#{Organization.default.email}>"
   layout 'email'
 
   private
 
-  def build_from(user)
-    "#{"#{user.nickname} - #{I18n.t('labels.app_name_human')}" if user.present?}<help@parti.coop>"
+  def build_from(organization)
+    "#{organization.title} <#{organization.email}>"
   end
 end

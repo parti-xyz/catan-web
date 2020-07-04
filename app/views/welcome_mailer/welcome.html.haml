@@ -2,21 +2,16 @@
   %div{:style => "text-align: center;"}
     %span{:style => "color: rgb(255, 255, 255); font-size: 14px;"}
       #{@user.nickname}님
-      %span{:style => "color: rgb(255, 255, 255);"} 팀과 커뮤니티를 위한 민주주의 플랫폼, #{I18n.t('labels.app_name_human')}에 오신 것을 환영합니다!
+      %span{:style => "color: rgb(255, 255, 255);"} #{@organization.title}에 오신 것을 환영합니다!
 %div{:style => "overflow: hidden; margin: 0px auto; padding: 0px; max-width: 620px; clear: both;"}
   %div{:style => "padding: 10px; text-align: left; line-height: 1.8; border-style: solid; border-width: 0px;background-color:#ffffff"}
     %div
       %div
         %p{:style => "font-size:13px;color:#777777;line-height:20px;"}
-          안녕하세요! 빠띠에 오신 것을 진심으로 환영합니다.<br/>
-          %br
-          빠띠는 '팀과 커뮤니티를 위한 민주주의 플랫폼'이라는 슬로건 아래<br/>
-          누구나 수평적이고 자유로운 커뮤니케이션을<br/>
-          할 수 있도록 돕는 플랫폼입니다.<br/>
-          %br
-          관심있는 빠띠에 쉽게 가입하여 이야기를 나누어 보세요.
+          안녕하세요! #{@organization.title}에 오신 것을 진심으로 환영합니다.<br/>
+          관심있는 채널에서 이야기를 나누어 보세요.
         %h4{:style => "color: #777777;margin-top:40px;margin-bottom:10px;"}
-          이런 빠띠는 어떠세요?
+          이런 채널은 어떠세요?
         - @hottest_issues.each do |issue|
           %div{:style => "width: 185px;background-color: #EAEAEB;border: 1px solid transparent;margin: 4px;display:inline-block"}
             %a{:href => "#{smart_issue_home_url(issue)}", :target => "_blank", :style => "text-decoration:none"}
@@ -24,34 +19,36 @@
               %div{:style => "padding: 10px;height: 50px;"}
                 %div{:style => "height: 40px;font-size: 14px;color: #161616;display: table;table-layout: fixed;width: 100%;font-weight: bold;text-align: center;overflow: hidden;margin: 10px auto;"}
                   = issue.title
-      %div{:style => "margin:35px 0px;"}
-        %h4{:style => "color: #777777;margin-bottom:-10px;"}
-          빠띠를 이렇게 활용할 수도 있습니다.
-        %ul{:style => "margin-left: -10px;"}
-          %a{:href => "https://parti-xyz.gitbooks.io/org-guide/content/", :target => "_blank", :style => "font-size:13px; text-decoration:none; line-height:22px; color: #777777"}
-            %li
-              우리 조직의 문화를 더 민주적으로 바꿔보고 싶어요
-          %a{:href => "https://parti-xyz.gitbooks.io/issue-guide/content/", :target => "_blank", :style => "font-size:13px; text-decoration:none; line-height:22px; color: #777777"}
-            %li
-              이슈를 함께 고민할 사람들을 만나고 싶어요
-      %div{:style => "margin:35px 0px;"}
-        %h4{:style => "color: #777777;margin-bottom:5px;"}
-          스마트폰으로 빠띠를 즐겨보세요.
-        %div{:style => "margin-left:15px;"}
-          %div{:style => "width:150px; height:28px; border-radius:10px; background-color:#9671D1;padding:5px;text-align:center;display:inline-block;"}
-            %a{:href => "https://play.google.com/store/apps/details?id=xyz.parti.catan", :target => "_blank", :style => "color:#ffffff; text-decoration:none;font-size:12px;"}
-              안드로이드 앱 다운 받기
-            &middot;
-            %a{:href => "https://itunes.apple.com/kr/app/%EB%B9%A0%EB%9D%A0/id1362474504", :target => "_blank", :style => "color:#ffffff; text-decoration:none;font-size:12px;"}
-              아이폰 앱 다운 받기
-  %div{:style => "color: #ffffff;background-color: #a387d2;padding: 10px;line-height: 18px;font-size: 13px"}
-    %ul{:style => "list-style-type: none;line-height: 23px;"}
-      %a{:href => "https://union.parti.xyz/p/parti", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
-        %li
-          #{I18n.t('labels.app_name_human')}에 의견이나 질문이 있으신가요?
-      %a{:href => "https://parti.coop", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
-        %li
-          빠띠가 궁금하신가요?
-      %a{:href => "https://parti.xyz/users/edit", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
-        %li
-          자주 쓰는 이메일주소로 변경해보세요.
+      - if @organization.default?
+        %div{:style => "margin:35px 0px;"}
+          %h4{:style => "color: #777777;margin-bottom:-10px;"}
+            빠띠를 이렇게 활용할 수도 있습니다.
+          %ul{:style => "margin-left: -10px;"}
+            %a{:href => "https://parti-xyz.gitbooks.io/org-guide/content/", :target => "_blank", :style => "font-size:13px; text-decoration:none; line-height:22px; color: #777777"}
+              %li
+                우리 조직의 문화를 더 민주적으로 바꿔보고 싶어요
+            %a{:href => "https://parti-xyz.gitbooks.io/issue-guide/content/", :target => "_blank", :style => "font-size:13px; text-decoration:none; line-height:22px; color: #777777"}
+              %li
+                이슈를 함께 고민할 사람들을 만나고 싶어요
+        %div{:style => "margin:35px 0px;"}
+          %h4{:style => "color: #777777;margin-bottom:5px;"}
+            스마트폰으로 빠띠를 즐겨보세요.
+          %div{:style => "margin-left:15px;"}
+            %div{:style => "width:150px; height:28px; border-radius:10px; background-color:#9671D1;padding:5px;text-align:center;display:inline-block;"}
+              %a{:href => "https://play.google.com/store/apps/details?id=xyz.parti.catan", :target => "_blank", :style => "color:#ffffff; text-decoration:none;font-size:12px;"}
+                안드로이드 앱 다운 받기
+              &middot;
+              %a{:href => "https://itunes.apple.com/kr/app/%EB%B9%A0%EB%9D%A0/id1362474504", :target => "_blank", :style => "color:#ffffff; text-decoration:none;font-size:12px;"}
+                아이폰 앱 다운 받기
+  - if @organization.default?
+    %div{:style => "color: #ffffff;background-color: #a387d2;padding: 10px;line-height: 18px;font-size: 13px"}
+      %ul{:style => "list-style-type: none;line-height: 23px;"}
+        %a{:href => "https://union.parti.xyz/p/parti", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
+          %li
+            #{I18n.t('labels.app_name_human')}에 의견이나 질문이 있으신가요?
+        %a{:href => "https://parti.coop", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
+          %li
+            빠띠가 궁금하신가요?
+        %a{:href => "https://parti.xyz/users/edit", :target => "_blank", :style => "color:#ffffff;text-decoration:none;"}
+          %li
+            자주 쓰는 이메일주소로 변경해보세요.

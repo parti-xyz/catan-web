@@ -13,7 +13,7 @@
             - resource.errors.messages.each do |message|
               - attribute_name = User.human_attribute_name(message[0])
               - if message[0] == :email
-                %div 찾을 수 없거나 이미 가입확인된 이메일입니다.
+                %div 찾을 수 없거나 이미 확인된 이메일입니다.
               - elsif %i(provider confirmation_token).include? message[0]
                 %div 다시 시도해 주세요.
               - else
@@ -24,6 +24,7 @@
                     #{attribute_name} #{m}
 
         = f.hidden_field :provider, value: :email
+        = f.hidden_field :touch_group_slug, value: current_group&.slug
         .form-group
           = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control'
         .form-group.text-center

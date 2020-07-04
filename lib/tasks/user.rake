@@ -6,12 +6,12 @@ namespace :user do
     end
   end
 
-  desc "회원을 탈퇴처리합니다"
+  desc "계정을 탈퇴처리합니다"
   task :delete, [:nickname] => :environment do |task, args|
     ActiveRecord::Base.transaction do
       user = User.find_by(nickname: args.nickname)
       if user.blank?
-        puts '해당되는 회원이 없습니다.'
+        puts '해당되는 계정이 없습니다.'
         next
       end
       post_ids_for_comments = user.comments.select(:post_id).distinct.pluck(:post_id)
@@ -47,12 +47,12 @@ namespace :user do
     end
   end
 
-  desc "회원의 이메일을 변경합니다."
+  desc "계정의 이메일을 변경합니다."
   task :change_email, [:nickname, :new_email] => :environment do |task, args|
     ActiveRecord::Base.transaction do
       user = User.find_by(nickname: args.nickname)
       if user.blank?
-        puts '해당되는 회원이 없습니다.'
+        puts '해당되는 계정이 없습니다.'
         next
       end
 
@@ -78,12 +78,12 @@ namespace :user do
       to_user = User.find_by(nickname: args.to_nickname)
 
       if from_user.blank?
-        puts '해당되는 From 회원이 없습니다.'
+        puts '해당되는 From 계정이 없습니다.'
         next
       end
 
       if to_user.blank?
-        puts '해당되는 to 회원이 없습니다.'
+        puts '해당되는 to 계정이 없습니다.'
         next
       end
 

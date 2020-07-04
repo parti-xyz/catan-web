@@ -11,14 +11,13 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
   protected
 
   def after_confirmation_path_for(resource_name, resource)
-    if resource.is_a?(User) && resource.confirmation_group_slug.present?
-      group = Group.find_by_slug(resource.confirmation_group_slug)
+    return root_path if !resource.is_a?(User) || resource.touch_group_slug.blank?
 
-      if helpers.implict_front_namespace? && group.present?
-        return new_front_member_request_url(subdomain: group.subdomain)
-      end
-    end
+    group = Group.find_by_slug(resource.touch_group_slug)
+    return root_path if group.blank?
 
-    root_path
+    return root_url(subdomain: group.subdomain) if group.member?(resource) || !group.frontable?
+
+    return new_front_member_request_url(subdomain: group.subdomain)
   end
 end

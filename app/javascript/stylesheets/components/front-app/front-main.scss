@@ -19,7 +19,7 @@
     padding: 1.25rem;
     @include front-variables.joinbar-height(height);
     width: 100%;
-    @include front-variables.navbar-height(top);
+    bottom: 0;
     display: flex;
     flex-flow: column;
     justify-content: center;
