@@ -32,6 +32,9 @@
     font-weight: normal;
     white-space: nowrap;
   }
+  > .title + .moremenu {
+    margin-left: .5rem;
+  }
   > .meta {
     font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-600;

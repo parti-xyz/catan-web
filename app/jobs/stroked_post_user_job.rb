@@ -10,7 +10,7 @@ class StrokedPostUserJob < ApplicationJob
     new_user_ids << post.comments.select(:user_id).distinct.pluck(:user_id).to_a
 
     if post.wiki.present?
-      new_user_ids << User.where(id: post.wiki.wiki_histories.select(:user_id).distinct).pluck(:id).to_a
+      new_user_ids << post.wiki.wiki_authors.pluck(:user_id).to_a
     end
 
     if post.poll.present?

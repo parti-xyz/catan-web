@@ -547,6 +547,7 @@ class Post < ApplicationRecord
       strok_by!(someone, subject)
       true
     else
+      StrokedPostUserJob.perform_async(self.id, someone&.id)
       false
     end
   end

@@ -98,7 +98,8 @@
     padding: 3px 5px;
   }
 
-  a {
+  a,
+  .mention {
     color: global-variables.$color-brand-primary;
   }
 
