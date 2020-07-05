@@ -14,5 +14,7 @@ export default class extends Controller {
       type = 'success'
     }
     appNoty(flashMessage, type).show()
+
+    this.element.remove()
   }
 }
