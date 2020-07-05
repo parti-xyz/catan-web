@@ -18,10 +18,6 @@ Turbolinks.start()
 elementClosest(window)
 
 if (window.jQuery) {
-  document.addEventListener("turbolinks:load", function () {
-    jQuery('body').tooltip({ selector: '[data-toggle="tooltip"]' })
-  })
-
   jQuery(document).on('ajax:success ajax:error', function (event) {
     let [response, status, xhr] = event.detail
 

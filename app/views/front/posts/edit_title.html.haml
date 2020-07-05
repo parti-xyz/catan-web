@@ -1,5 +1,5 @@
 .post-header.-form{ data: { controller: 'content-replacement' }, class: ('-wiki' if @current_post.wiki.present?) }
-  = form_with model: [:title, :front, @current_post], local: false, class: 'title w-100', data: { controller: 'post-title-form', action: 'ajax:before->post-title-form#submit', target: 'content-replacement.link' } do |f|
+  = form_with model: [:title, :front, @current_post], local: false, class: 'title w-100', data: { controller: 'post-title-form dirty-form', action: 'ajax:before->post-title-form#submit', target: 'content-replacement.link dirty-page.form' } do |f|
     = f.text_field :base_title, class: 'control', data: { target: 'post-title-form.baseTitleField' }
     = f.submit '저장', class: 'btn btn-primary mr-1', data: { target: 'post-title-form.submitButton' }
     = link_to '취소', cancel_title_form_front_post_path(@current_post), remote: true, class: 'btn btn-light', data: { target: 'content-replacement.link post-title-form.cancelButton' }

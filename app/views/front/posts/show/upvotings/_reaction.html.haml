@@ -3,7 +3,7 @@
     - if current_upvotable.upvoted_by_me?
       = link_to '공감해요', [:cancel, :front, current_upvotable, :upvotes], method: :delete, remote: true, data: { disable_with: "진행 중...", target: 'content-replacement.link' }, class: 'link -active'
     - else
-      = link_to '공감해요', [:front, current_upvotable, :upvotes], method: :post, remote: true, data: { disable_with: "진행 중...", target: 'content-replacement.link', target: 'content-replacement.link' }, class: 'link'
+      = link_to '공감해요', [:front, current_upvotable, :upvotes], method: :post, remote: true, data: { disable_with: "진행 중...", target: 'content-replacement.link' }, class: 'link'
   - else
     %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 공감해요
 

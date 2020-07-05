@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { linkTooltipPlugin } from '../compoments/editor/link_tooltip_plugin'
 import { imageUploadPlugin } from '../compoments/editor/image_upload_plugin'
+import { dirtyPlugin } from '../compoments/editor/dirty_plugin'
 import { buildMenuItems } from '../compoments/editor/menus'
 import { recreateTransform } from '../compoments/editor/recreate'
 import ParamMap from '../helpers/param_map'
@@ -49,7 +50,7 @@ export default class extends Controller {
       schema: currentSchema,
       menuContent: (this.data.get('readOnly') != 'true' ? buildMenuItems(currentSchema, uploadUrl, ruleFileSize) : []),
       mapKeys,
-    }).concat(linkTooltipPlugin, imageUploadPlugin, keymap(mapKeys))
+    }).concat(linkTooltipPlugin, imageUploadPlugin, dirtyPlugin(this.element), keymap(mapKeys))
 
     if (this.hasConflictSourceTarget) {
       let diff = this.computeConflictDocument(currentSchema, this.sourceTarget, this.conflictSourceTarget)

@@ -36,6 +36,10 @@ export default class extends Controller {
       valid = false
     }
 
+    this.element.dispatchEvent(new CustomEvent('dirty-form:submit', {
+      bubbles: false,
+    }))
+
     if (valid == false) {
       event.preventDefault()
       setTimeout(function(){ this.submitButtonTargets.forEach(el => jQuery.rails.enableElement(el)) }.bind(this), 1000)

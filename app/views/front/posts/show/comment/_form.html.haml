@@ -1,5 +1,5 @@
 - form_model = local_assigns[:current_comment].present? ? [:front, current_comment] : [:front, current_post, Comment.new]
-= form_with model: form_model, local: false, class: 'comment-form', data: { controller: 'comment-form', action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update' } do |f|
+= form_with model: form_model, local: false, class: 'comment-form', data: { controller: 'comment-form dirty-form', action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update', target: 'dirty-page.form' } do |f|
   - if local_assigns[:parent_comment].present?
     = f.hidden_field :parent_id, value: parent_comment.id
   .form-group.mb-1.bodyfield
