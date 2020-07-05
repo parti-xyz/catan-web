@@ -71,7 +71,7 @@ module ApplicationHelper
     options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
     parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line bodyline'), options).to_str
     # parsed_text = parse_hashtags(issue, parsed_text)
-    parsed_text = parse_mentions(parsed_text)
+    parsed_text = parse_mentions(issue.group, parsed_text)
     Rinku.auto_link(parsed_text, :all,
       "class='auto_link' target='_blank'",
       nil).html_safe()
@@ -81,7 +81,7 @@ module ApplicationHelper
     return text if text.blank?
     # parsed_text = parse_hashtags(issue, text)
     parsed_text = text
-    parsed_text = parse_mentions(parsed_text)
+    parsed_text = parse_mentions(issue.group, parsed_text)
     raw(parsed_text)
   end
 
@@ -89,7 +89,7 @@ module ApplicationHelper
     return text if text.blank?
     # parsed_text = parse_hashtags(issue, text)
     parsed_text = text
-    parsed_text = parse_mentions(parsed_text)
+    parsed_text = parse_mentions(issue.group, parsed_text)
     raw(parsed_text)
   end
 
@@ -105,18 +105,30 @@ module ApplicationHelper
     end
   end
 
-  def parse_mentions(text)
+  def parse_mentions(group, text)
     text.gsub(User::HTML_AT_NICKNAME_REGEX) do |m|
       at_nickname = Regexp.last_match[1]
       nickname = at_nickname[1..-1]
       if nickname == 'all'
         m.gsub(at_nickname, content_tag('span', at_nickname, class: 'user__nickname--mentioned'))
       else
-        parsed = Rails.cache.fetch "view-user-at-sign-#{nickname}", race_condition_ttl: 30.seconds, expires_in: 12.hours do
+        parsed = Rails.cache.fetch "view-user-mention-#{nickname}", race_condition_ttl: 30.seconds, expires_in: 12.hours do
           user = User.find_by nickname: nickname
+        # parsed =
           if user.present?
-            url = slug_user_url(slug: user.slug)
-            link_to(at_nickname, url, class: 'user__nickname--mentioned')
+            if group.frontable?
+              content_tag("span", at_nickname, {
+                data: {
+                  controller: 'content-popover',
+                  'content-popover-url': user_front_members_path(user),
+                  'content-popover-options': h({ container: '.front-app' }.to_json)
+                },
+                class: 'mention'
+              })
+            else
+              url = slug_user_url(slug: user.slug)
+              link_to(at_nickname, url, class: 'user__nickname--mentioned')
+            end
           else
             at_nickname
           end

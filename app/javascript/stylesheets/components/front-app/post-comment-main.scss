@@ -48,7 +48,8 @@
   > .view > .body > .screened {
     opacity: 0.4;
   }
-  > .view > .body > .bodyline a {
+  > .view > .body > .bodyline a,
+  > .view > .body > .bodyline > .mention {
     color: global-variables.$color-brand-primary;
   }
 
