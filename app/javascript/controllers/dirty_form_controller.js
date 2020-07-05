@@ -20,7 +20,7 @@ export default class extends Controller {
   setInitialValues(form) {
     form.dataset.dirtyFormIsDirty = 'false'
 
-    form.querySelectorAll("input, select, textarea").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), select, textarea").forEach(control => {
       control.dataset.dirtyFormInitialValue = control.value
     })
 
@@ -32,7 +32,7 @@ export default class extends Controller {
   unsetInitialValues(form) {
     form.dataset.dirtyFormIsDirty = 'false'
 
-    form.querySelectorAll("input, select, textarea").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), select, textarea").forEach(control => {
       control.dataset.dirtyFormInitialValue = null
     })
 
@@ -46,11 +46,11 @@ export default class extends Controller {
     form.addEventListener('ajax:before', this.submit.bind(this))
     form.addEventListener('dirty-form:submit', this.submit.bind(this))
 
-    form.querySelectorAll("input, select").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), select").forEach(control => {
       control.addEventListener('change', this.checkValues.bind(this))
     })
 
-    form.querySelectorAll("input, textarea").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), textarea").forEach(control => {
       ['keyup', 'keydown', 'blur'].forEach(eventKey => {
         control.addEventListener(eventKey, this.checkValues.bind(this))
       })
@@ -61,11 +61,11 @@ export default class extends Controller {
     form.removeEventListener('submit', this.submit.bind(this))
     form.removeEventListener('ajax:before', this.submit.bind(this))
 
-    form.querySelectorAll("input, select").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), select").forEach(control => {
       control.removeEventListener('change', this.checkValues.bind(this))
     })
 
-    form.querySelectorAll("input, textarea").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), textarea").forEach(control => {
       ['keyup', 'keydown', 'blur'].forEach(eventKey => {
         control.removeEventListener(eventKey, this.checkValues.bind(this))
       })
@@ -76,17 +76,19 @@ export default class extends Controller {
     let form = event.target
     form.dataset.dirtyFormIsDirty = 'false'
 
-    form.querySelectorAll("input, select, textarea").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), select, textarea").forEach(control => {
       control.dataset.dirtyFormInitialValue = control.value
       control.dataset.dirtyFormIsDirty = 'false'
     })
+
+    this.forceDirty = false
   }
 
   checkValues(event) {
     let form = event.target.closest('form')
     if (!form) { return }
 
-    form.querySelectorAll("input, select, textarea").forEach(control => {
+    form.querySelectorAll("input:not([type=submit]), select, textarea").forEach(control => {
       let initialValue = control.dataset.dirtyFormInitialValue
 
       control.dataset.dirtyFormIsDirty = (control.value == initialValue ? 'false' : 'true')
@@ -103,7 +105,7 @@ export default class extends Controller {
       }
     })
 
-    let isDirty = this.forceDirty || Array.from(form.querySelectorAll("input, select, textarea")).some(control => {
+    let isDirty = this.forceDirty || Array.from(form.querySelectorAll("input:not([type=submit]), select, textarea")).some(control => {
       return control.dataset.dirtyFormIsDirty == 'true'
     })
 
