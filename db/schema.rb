@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_04_050554) do
+ActiveRecord::Schema.define(version: 2020_07_04_120133) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -337,6 +337,7 @@ ActiveRecord::Schema.define(version: 2020_07_04_050554) do
     t.bigint "blinded_by_id"
     t.datetime "blinded_at"
     t.integer "position", default: 0, null: false
+    t.text "post_emojis"
     t.index ["blinded_by_id"], name: "index_issues_on_blinded_by_id"
     t.index ["category_id"], name: "index_issues_on_category_id"
     t.index ["deleted_at"], name: "index_issues_on_deleted_at"

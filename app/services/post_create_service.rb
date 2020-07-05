@@ -28,7 +28,10 @@ class PostCreateService
       @post.pinned_by = @current_user
     end
 
-    return false unless @post.save
+    unless @post.save
+      logger.errors(@post.errors.inspect)
+      return false
+    end
 
     @post.read!(@current_user)
     StrokedPostUserJob.perform_async(@post.id, @current_user.id)

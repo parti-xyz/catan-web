@@ -31,7 +31,7 @@ class Front::PagesController < Front::BaseController
     else
       @all_posts_total_count = @posts.total_count
 
-      if params[:filter] == 'needtoread' && user_signed_in?
+      if params.dig(:filter, :condition) == 'needtoread' && user_signed_in?
         @posts = @posts.need_to_read_only(current_user)
       end
       @posts.load
@@ -46,7 +46,7 @@ class Front::PagesController < Front::BaseController
 
     @group_sidebar_menu_slug = 'all'
 
-    @permited_params = params.permit(:sort, :filter, :q)
+    @permited_params = params.permit(:sort, :q, filter: [ :condition, :status_emoji ]).to_h
 
     @list_nav_params = list_nav_params(action: 'all', issue: nil, folder: nil, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end

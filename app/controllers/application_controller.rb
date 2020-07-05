@@ -437,6 +437,12 @@ class ApplicationController < ActionController::Base
   end
 
   def list_nav_params(action: nil, issue: '', folder: '', page: '', q: '', sort: '', filter: '')
+
+    filter = filter.presence || (filter.nil? ? nil : params.dig(:list_nav, :filter).presence)
+    if filter.present?
+      filter = filter.permit(:condition, :status_emoji).to_h.compact
+    end
+
     {
       action: action.presence || params.dig(:list_nav, :action).presence,
       issue_id: issue.try(:id) || (issue.nil? ? nil : params.dig(:list_nav, :issue_id)),
@@ -444,7 +450,7 @@ class ApplicationController < ActionController::Base
       page: page.presence || (page.nil? ? nil : params.dig(:list_nav, :page).presence),
       q: q.presence || (q.nil? ? nil : params.dig(:list_nav, :q).presence),
       sort: sort.presence || (sort.nil? ? nil : params.dig(:list_nav, :sort).presence),
-      filter: filter.presence || (filter.nil? ? nil : params.dig(:list_nav, :filter).presence)
+      filter: filter
     }.compact
   end
 end

@@ -27,8 +27,13 @@ class Front::ChannelsController < Front::BaseController
     else
       @all_posts_total_count = @posts.total_count
 
-      if params[:filter] == 'needtoread' && user_signed_in?
+      if params.dig(:filter, :condition) == 'needtoread' && user_signed_in?
         @posts = @posts.need_to_read_only(current_user)
+      end
+      if params.dig(:filter, :status_emoji).present?
+        @posts = @posts.where("posts.base_title like concat('%', 0x#{params.dig(:filter, :status_emoji).bytes.map{ |b| b.to_s(16) }.join}, '%')")
+
+        @status_emoji_q = params.dig(:filter, :status_emoji)
       end
       @posts.load
     end
@@ -47,7 +52,7 @@ class Front::ChannelsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
-    @permited_params = params.permit(:id, :folder_id, :sort, :filter, :q)
+    @permited_params = params.permit(:id, :folder_id, :sort, :q, filter: [ :condition, :status_emoji ]).to_h
 
     @list_nav_params = list_nav_params(action: 'channel', issue: @current_issue, folder: @current_folder, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end

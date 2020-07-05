@@ -22,19 +22,14 @@
     font-weight: bold;
   }
 
-  > .filter,
-  > .readall {
-    flex: none;
-  }
-
   > .pages,
-  > .sort {
+  > .control {
     display: inline-block;
     line-height: 2rem;
     font-size: bootstrap.$font-size-xs;
   }
 
-  > .sort {
+  > .control {
     margin-right: .5rem
   }
 
@@ -49,7 +44,7 @@
     }
 
     > .pages,
-    > .sort {
+    > .control {
       line-height: 1.5rem;
     }
   }
