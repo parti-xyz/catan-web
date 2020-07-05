@@ -2,6 +2,8 @@
 @use "../../mixin";
 
 .front-app .playground-sidebar {
+  position: relative;
+
   @include mixin.simplebar_x {
     > .supplementary-boxes {
       padding-top: 2.125rem;
