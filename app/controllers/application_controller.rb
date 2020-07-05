@@ -54,6 +54,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render file: "#{Rails.root}/public/404.html", layout: false, status: 404 }
       format.js { head 404 }
+      format.json { head 404 }
     end
   end
 
@@ -62,6 +63,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render file: "#{Rails.root}/public/403.html", layout: false, status: 403 }
       format.js { head 403 }
+      format.json { head 403 }
     end
   end
 
@@ -70,6 +72,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.html { render file: "#{Rails.root}/public/500.html", layout: false, status: 403 }
       format.js { head 500 }
+      format.json { head 500 }
     end
   end
 

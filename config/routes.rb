@@ -459,6 +459,9 @@ Rails.application.routes.draw do
     resources :posts, only: [:show, :new, :edit] do
       member do
         get :destroyed
+        get :edit_title
+        get :cancel_title_form
+        patch :title, action: 'update_title'
       end
       shallow do
         resources :comments, only: [:create, :update, :destroy], controller: '/comments' do

@@ -35,11 +35,4 @@
     display: inline-block;
     vertical-align: middle;
   }
-  > .moremenu {
-    flex: none;
-  }
-  > .moremenu > .dropdown > .btn {
-    padding: 0 .5rem;
-    color: global-variables.$color-gray-500;
-  }
 }

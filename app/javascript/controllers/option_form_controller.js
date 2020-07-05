@@ -6,8 +6,6 @@ export default class extends Controller {
   static targets = ['bodyField']
 
   submit(event) {
-    temp.innerHTML = this.bodyFieldTarget.value
-
     if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length <= 0) {
       appNoty('제안 내용이 비었어요.', 'warning', true).show()
       valid = false

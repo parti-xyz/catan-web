@@ -2,7 +2,12 @@
 
 .front-app .post-main {
   > .post-header {
-    padding-bottom: .25rem;
+    padding-bottom: .75rem;
+    padding-top: .75rem;
+  }
+  > .post-header.-form {
+    padding-bottom: 0.407rem;
+    padding-top: 0.407rem;
   }
   > .post-header:not(.-wiki) + .post-content {
     margin-top: 1rem;

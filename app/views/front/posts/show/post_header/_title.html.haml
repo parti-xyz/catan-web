@@ -1,0 +1,18 @@
+.post-header{ data: { controller: 'content-replacement' }, class: ('-wiki' if current_post.wiki.present?) }
+  - post_title_control = capture do
+    - if !current_post.wiki.present? && can?(:front_update_title, current_post)
+      = link_to edit_title_front_post_path(current_post), class: 'btn btn-primary btn-sm', remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' } do
+        편집
+
+  %h5.title
+    = current_post.title
+    - if current_post.last_title_edited_user.present?
+      %span.editor
+        (편집 @#{ current_post.last_title_edited_user.nickname})
+  - if current_post.wiki.present? && (local_assigns[:post_control].present? || local_assigns[:wiki_control].present?)
+    .moremenu
+      = wiki_control
+      = post_control
+  - elsif post_title_control.present?
+    .moremenu
+      = post_title_control

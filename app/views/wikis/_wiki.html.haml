@@ -18,7 +18,7 @@
       .wiki-card__date.date-wrapper.wiki-card__date--with-issue
         %span= date_f post.created_at
     .wiki-card-body
-      %h4.wiki-title= post.wiki.title
+      %h4.wiki-title= post.base_title
       .wiki-body
         - if post.wiki.read_attribute(:thumbnail).present? and !post.wiki.purged?
           = image_tag post.wiki.thumbnail.lg.url

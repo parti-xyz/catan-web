@@ -33,7 +33,7 @@ class PostSearchableIndex < ApplicationRecord
     return '' if post.blank?
 
     max = 16777215 / 3
-    [post.body, post.base_title, post.wiki.try(:title), post.wiki.try(:body)].compact.map do |text|
+    [post.body, post.base_title, post.wiki.try(:body)].compact.map do |text|
       to_ngram(sanitize_html(text))
     end.flatten.uniq.join(' ').strip[0..max]
   end

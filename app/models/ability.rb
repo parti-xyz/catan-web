@@ -37,6 +37,9 @@ class Ability
       can [:edit_folder, :update_folder, :update_title], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
+      can [:front_update_title], [Post] do |post|
+        post.user_id == user.id || user.is_organizer?(post.issue)
+      end
       can [:new_wiki, :update_wiki, :wiki], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
@@ -123,6 +126,10 @@ class Ability
         can [:admit, :magic_link], Group
         can [:manage], Category
         can [:manage], GroupHomeComponent
+      end
+
+      can [:coc_wiki], Group do |group|
+        group.organized_by?(user)
       end
 
       if user.admin?

@@ -10,7 +10,7 @@ class PostsWithWikiTest < ActionDispatch::IntegrationTest
     assigns(:post).reload
 
     assert_equal users(:one), assigns(:post).user
-    assert_equal 'wiki title', assigns(:post).wiki.title
+    assert_equal 'wiki title', assigns(:post).base_title
     assert_equal '<p>wiki body</p>', assigns(:post).wiki.body
   end
 
@@ -25,7 +25,7 @@ class PostsWithWikiTest < ActionDispatch::IntegrationTest
 
     refute assigns(:post).errors.any?
     assigns(:post).reload
-    assert_equal 'wiki updated title', assigns(:post).wiki.title
+    assert_equal 'wiki updated title', assigns(:post).base_title
     assert_equal '<p>wiki updated body</p>', assigns(:post).wiki.body
     assert_equal '<p>wiki updated body</p>', assigns(:post).wiki.wiki_histories.last.body
   end

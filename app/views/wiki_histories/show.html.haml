@@ -3,7 +3,7 @@
 %section.wiki-history-page
   .container.container-xs-full-width
     %h4.wiki-title{style:'padding:10px 10px 0;'}
-      = link_to @wiki_history.wiki.title, smart_post_url(@wiki_history.wiki.post), class: 'text-primary'
+      = link_to @wiki_history.wiki&.post&.base_title, smart_post_url(@wiki_history.wiki.post), class: 'text-primary'
     %h5{style:'padding: 5px 10px 10px;'}
       = link_to histories_wiki_post_path(@wiki_history.wiki.post), class: 'text-nowrap' do
         위키 이력

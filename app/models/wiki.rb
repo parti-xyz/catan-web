@@ -14,7 +14,7 @@ class Wiki < ApplicationRecord
   after_save :reserve_capture
   after_commit :capture_async
   after_create ->(obj) {
-    build_history('create') }
+    build_history!('create') }
   after_update :build_history_after_update
   # fulltext serch
   after_save :reindex_for_search!
@@ -104,30 +104,30 @@ class Wiki < ApplicationRecord
 
     if self.saved_change_to_status?
       if self.status == 'active'
-        return build_history('activate')
+        return build_history!('activate')
       elsif self.status == 'inactive'
-        return build_history('inactivate')
+        return build_history!('inactivate')
       elsif self.status == 'purge'
-        return build_history('purge')
+        return build_history!('purge')
       end
     end
 
-    if self.saved_change_to_title? and !self.saved_change_to_body?
-      return build_history('update_title')
+    if self.post.saved_change_to_base_title? and !self.saved_change_to_body?
+      return build_history!('update_title')
     end
 
-    if self.saved_change_to_body? and !self.saved_change_to_title?
-      return build_history('update_body')
+    if self.saved_change_to_body? and !self.post.saved_change_to_base_title?
+      return build_history!('update_body')
     end
 
-    if self.saved_change_to_title? and self.saved_change_to_body?
-      return build_history('update_title_and_body')
+    if self.post.saved_change_to_base_title? and self.saved_change_to_body?
+      return build_history!('update_title_and_body')
     end
 
   end
 
-  def build_history(code)
-    wiki_history = wiki_histories.create(title: title, body: body, user: last_author, wiki: self, code: code)
+  def build_history!(code)
+    wiki_history = wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code)
     wiki_authors.find_or_create_by(user: last_author)
 
     self.update_column(:last_wiki_history_id, wiki_history.id)
@@ -174,8 +174,8 @@ class Wiki < ApplicationRecord
 
   def build_conflict
     self.conflicted_body = self.body
-    self.conflicted_title = self.title
-    self.title = self.title_was
+    self.conflicted_title = self.post.base_title
+    self.post.base_title = self.post.base_title_was
     self.body = self.body_was
   end
 

@@ -31,7 +31,9 @@ class Front::ChannelsController < Front::BaseController
         @posts = @posts.need_to_read_only(current_user)
       end
       if params.dig(:filter, :status_emoji).present?
-        @posts = @posts.where("posts.base_title like concat('%', 0x#{params.dig(:filter, :status_emoji).bytes.map{ |b| b.to_s(16) }.join}, '%')")
+        emoji_hex = params.dig(:filter, :status_emoji).bytes.map{ |b| b.to_s(16) }.join
+
+        @posts = @posts.where("posts.base_title like concat('%', 0x#{emoji_hex}, '%')")
 
         @status_emoji_q = params.dig(:filter, :status_emoji)
       end

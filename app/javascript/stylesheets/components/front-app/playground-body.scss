@@ -6,10 +6,14 @@
   > .channel-box,
   > .channel-form-box,
   > .group-form-box,
-  > .post-box,
   > .post-form-box,
   > .alert-box {
     padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    @include front-variables.playground-body-space-x(padding-right, padding-left);
+  }
+  > .post-box {
+    padding-top: 0;
     padding-bottom: 1.5rem;
     @include front-variables.playground-body-space-x(padding-right, padding-left);
   }

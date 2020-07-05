@@ -5,7 +5,7 @@
     .row
       = main_column_tag do
         %h4.wiki-title{style:'padding:10px 10px 0;'}
-          = link_to @post.wiki.title, smart_post_url(@post), class: 'text-primary'
+          = link_to @post.base_title, smart_post_url(@post), class: 'text-primary'
         %h5{style:'padding: 5px 10px 10px;'}
           %span.text-nowrap 위키 이력
         .history-list

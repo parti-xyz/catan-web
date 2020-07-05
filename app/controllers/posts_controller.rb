@@ -74,6 +74,7 @@ class PostsController < ApplicationController
     redirect_to root_path and return if fetch_issue.blank? or private_blocked?(@issue)
     @post.assign_attributes(post_params.delete_if {|key, value| value.empty? })
     @post.format_body
+    @post.last_title_edited_user = nil
 
     @post.setup_link_source(@post.body_was)
     (@post.survey.try(:options) || []).each do |option|
@@ -107,14 +108,8 @@ class PostsController < ApplicationController
     render_404 and return if fetch_issue.blank? or private_blocked?(@issue)
     render_403 and return unless request.xhr?
 
-    if @post.wiki.present?
-      @wiki = @post.wiki
-      @wiki.title = params[:post][:title]
-      @wiki.save
-    else
-      @post.base_title = params[:post][:title]
-      @post.save
-    end
+    @post.base_title = params[:post][:title]
+    @post.save
   end
 
   def new
@@ -188,7 +183,7 @@ class PostsController < ApplicationController
 
     @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
 
-    if @post.wiki.changed?
+    if @post.wiki.changed? || @post.base_title_changed?
       @post.wiki.format_body
       @post.strok_by(current_user)
       @post.wiki.last_author = @current_user
@@ -544,7 +539,7 @@ class PostsController < ApplicationController
     survey_attributes = [:duration_days, :multiple_select, :hidden_intermediate_result, :hidden_option_voters, options_attributes: options_attributes] if survey.present?
 
     wiki = params[:post][:wiki_attributes]
-    wiki_attributes = [:title, :body] if wiki.present?
+    wiki_attributes = [:body] if wiki.present?
 
     event = params[:post][:event_attributes]
     event_attributes = [:title, :body, :enable_self_attendance,
@@ -563,10 +558,10 @@ class PostsController < ApplicationController
 
   def wiki_post_params
     wiki = params[:post][:wiki_attributes]
-    wiki_attributes = [:title, :body, :is_html_body] if wiki.present?
+    wiki_attributes = [:body, :is_html_body] if wiki.present?
 
     params.require(:post)
-      .permit(:has_poll, :has_survey, :has_event, :folder_id,
+      .permit(:base_title, :has_poll, :has_survey, :has_event, :folder_id,
         wiki_attributes: wiki_attributes)
   end
 

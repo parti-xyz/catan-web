@@ -37,10 +37,11 @@
     .controls.-top
       = controls
 
-  = f.fields_for :wiki do |ff|
-    .post-wiki
-      .body.-full.-edit
-        = ff.text_area :title, placeholder: '제목을 넣어주세요...', class: 'form-control form-cotrol-lg formtitle', rows: 1, maxlength: 50, data: { target: 'wiki-form.titleField' }
+
+  .post-wiki
+    .body.-full.-edit
+      = f.text_area :base_title, placeholder: '제목을 넣어주세요...', class: 'form-control form-cotrol-lg formtitle', rows: 1, maxlength: 50, data: { target: 'wiki-form.titleField' }
+      = f.fields_for :wiki do |ff|
         = ff.hidden_field :body, data: { target: 'wiki-form.bodyField' }
         .d-none{ data: { target: 'editor-form.source' } }
           != ff.object.body

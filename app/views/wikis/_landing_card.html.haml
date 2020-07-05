@@ -2,7 +2,7 @@
   = link_to post, target: "_blank" do
     .landing-wiki-card.wiki-line.clearfix.cursor-pointer.js-link{ class: dom_id(post), 'data-link-url': smart_post_url(post) }
       %h4.wiki-title
-        = HTML_Truncator.truncate(post.wiki.title, 4)
+        = HTML_Truncator.truncate(post.base_title, 4)
       .wiki-content
         .wiki-body.wiki-preview
           .mce-content-body

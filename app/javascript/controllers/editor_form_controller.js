@@ -260,7 +260,7 @@ export default class extends Controller {
             const from = controlDeco.from - controlDeco.spec.content.size
             const to = controlDeco.from
             decorationSet = decorationSet.add(tr.doc,
-              [Decoration.inline(from, to, { class: 'conflict-insertion' })]
+              [Decoration.inline(from, to)]
             )
           }
 

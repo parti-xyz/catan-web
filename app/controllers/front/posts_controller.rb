@@ -60,6 +60,7 @@ class Front::PostsController < Front::BaseController
   end
 
   def new
+    render_403 and return unless user_signed_in?
     @current_issue = Issue.includes(:posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:issue_id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
@@ -71,18 +72,58 @@ class Front::PostsController < Front::BaseController
   end
 
   def edit
+    render_403 and return unless user_signed_in?
+
     @current_post = Post
       .includes(:issue, :user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:id])
+    authorize! :update, (@current_post.wiki.presence || @current_post)
 
     @current_issue = Issue.includes(:posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
-    render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
     @list_nav_params = list_nav_params()
+  end
+
+  def edit_title
+    render_403 and return unless user_signed_in?
+
+    @current_post = Post.find(params[:id])
+    authorize! :front_update_title, @current_post
+
+    render layout: nil
+  end
+
+  def update_title
+    render_403 and return unless user_signed_in?
+
+    @current_post = Post.includes(:wiki).find(params[:id])
+    authorize! :front_update_title, @current_post
+
+    if current_user != @current_post.user
+      @current_post.last_title_edited_user = current_user
+    end
+
+    @current_post.strok_by(current_user)
+    @current_post.base_title = params[:post][:base_title]
+    if @current_post.save
+      @current_post.read!(current_user)
+
+      flash.now[:notice] = I18n.t('activerecord.successful.messages.created')
+      @current_post.issue.strok_by!(current_user, @current_post)
+    else
+      flash.now[:alert] = I18n.t('errors.messages.unknown')
+    end
+
+    render layout: nil
+  end
+
+  def cancel_title_form
+    @current_post = Post.includes(:wiki).find(params[:id])
+    render layout: nil
   end
 
   def destroyed

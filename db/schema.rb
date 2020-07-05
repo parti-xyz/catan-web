@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_04_120133) do
+ActiveRecord::Schema.define(version: 2020_07_05_073226) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -604,11 +604,13 @@ ActiveRecord::Schema.define(version: 2020_07_04_120133) do
     t.boolean "has_decision", default: false
     t.boolean "blind", default: false
     t.bigint "pinned_by_id"
+    t.bigint "last_title_edited_user_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["event_id"], name: "index_posts_on_event_id"
     t.index ["folder_id"], name: "index_posts_on_folder_id"
     t.index ["issue_id"], name: "index_posts_on_issue_id"
     t.index ["last_stroked_user_id"], name: "index_posts_on_last_stroked_user_id"
+    t.index ["last_title_edited_user_id"], name: "index_posts_on_last_title_edited_user_id"
     t.index ["link_source_id"], name: "index_posts_on_reference_type_and_reference_id"
     t.index ["pinned_by_id"], name: "index_posts_on_pinned_by_id"
     t.index ["poll_id"], name: "index_posts_on_poll_id"
@@ -864,7 +866,6 @@ ActiveRecord::Schema.define(version: 2020_07_04_120133) do
   end
 
   create_table "wikis", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "title", null: false
     t.text "body", limit: 4294967295
     t.string "thumbnail"
     t.datetime "deleted_at"

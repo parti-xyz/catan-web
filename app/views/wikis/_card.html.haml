@@ -20,7 +20,7 @@
 
   - wiki_title = capture do
     %h4.wiki-title
-      = link_to post.wiki.title, smart_post_url(post), target: '_blank'
+      = link_to post.base_title, smart_post_url(post), target: '_blank'
       - unless post.wiki.status.active?
         %small
           %span.label.label-default= post.wiki.status_text

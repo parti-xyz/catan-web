@@ -5,32 +5,45 @@
 .front-app .post-header {
   display: flex;
   border-bottom: 1px solid global-variables.$color-gray-200;
+  position: relative;
   &.-wiki {
     padding-bottom: 0;
     border-bottom: none;
   }
-  > .main {
+  > .title {
     flex: 1;
-    position: relative;
-    display: flex;
-  }
-  > .main > .title {
-    flex: 1;
-    margin-bottom: .5rem;
+    margin-bottom: 0;
     font-size: bootstrap.$font-size-xl;
   }
-  > .main  > .meta {
+  &.-form > .title {
+    display: flex;
+  }
+  &.-form > .title > .control {
+    flex: 1;
+    margin-right: .25rem;
+    @extend .form-control;
+    font-size: inherit;
+    width: auto;
+    height: 2.434rem;
+  }
+  > .title > .editor {
+    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-600;
+    font-weight: normal;
+    white-space: nowrap;
+  }
+  > .meta {
     font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-600;
   }
-  > .main  > .meta > .icon {
+  > .meta > .icon {
     display: inline-block;
     border: 1px solid #d1d4da;
     background-color: #f5f7fa;
     padding: 0 2px;
     margin-right: 0.5rem;
   }
-  > .main  > .metabox {
+  > .metabox {
     // display: none;
     background-color: global-variables.$color-gray-200;
     height: 1.875rem;
@@ -39,24 +52,22 @@
     justify-content: center;
     margin: 1rem 0 0;
   }
-  > .main  > .metabox,
-  > .main  > .metabox a {
+  > .metabox,
+  > .metabox a {
     font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-600;
   }
-  > .main > .moremenu {
+  > .moremenu {
     flex: none;
   }
-  > .main > .moremenu > .dropdown > .btn {
+  > .moremenu > .dropdown > .btn {
     padding: 0 .5rem;
     color: global-variables.$color-gray-500;
   }
 
   @include mq.media('<=phone') {
-    > .main  {
-      align-items: center;
-    }
-    > .main > .title {
+    align-items: center;
+    > .title {
       font-size: bootstrap.$font-size-lg;
       margin-bottom: 0;
     }

@@ -14,7 +14,7 @@
       - title = "<span>#{local_assigns[:wiki_history].title}</span>"
     - body = local_assigns[:wiki_history].diff_body
 - else
-  - title = (local_assigns[:for_conflict] ? @post.wiki.conflicted_title : "<span>#{@post.wiki.title}</span>")
+  - title = (local_assigns[:for_conflict] ? @post.wiki.conflicted_title : "<span>#{@pos.base_title}</span>")
   - body = (local_assigns[:for_conflict] ? @post.wiki.diff_conflicted_body : @post.wiki.body)
 %h4.wiki-title
   != title

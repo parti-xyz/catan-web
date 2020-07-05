@@ -66,6 +66,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :send_messages, dependent: :destroy, foreign_key: :sender_id, class_name: "Message"
   has_many :posts, dependent: :destroy
+  has_many :last_title_edited_posts, dependent: :nullify, foreign_key: :last_title_edited_user_id, class_name: 'Post'
   has_many :pinned_by_posts, dependent: :nullify, foreign_key: :pinned_by_id, class_name: "Post"
   has_many :comments, dependent: :destroy
   has_many :upvotes, dependent: :destroy

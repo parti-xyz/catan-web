@@ -78,6 +78,7 @@ class Post < ApplicationRecord
   belongs_to :issue, counter_cache: true
   has_one :group, through: :issue
   belongs_to :user
+  belongs_to :last_title_edited_user, optional: true, class_name: 'User'
   belongs_to :poll, optional: true
   belongs_to :survey, optional: true
   belongs_to :link_source, optional: true
@@ -183,9 +184,6 @@ class Post < ApplicationRecord
     condition = condition.joins('LEFT OUTER JOIN wikis on wikis.id = posts.wiki_id').where('wikis.status': status) if status.present?
     condition
   }
-  scope :having_wiki_sorted_by_title, ->(status) {
-    having_wiki(status).order('wikis.title asc')
-  }
   scope :having_poll, -> { where.not(poll_id: nil) }
   scope :having_survey, -> { where.not(survey_id: nil) }
   scope :having_image_file_sources, -> { where(id: FileSource.only_image.select('post_id')) }
@@ -228,6 +226,8 @@ class Post < ApplicationRecord
   before_save :process_blind
   # emoji
   after_save :update_issue_post_emoji
+  # wiki_history
+  after_update :build_wiki_history_for_base_title
 
   def specific_desc_striped_tags(length = 0)
     striped_body = body.try(:strip)
@@ -236,7 +236,6 @@ class Post < ApplicationRecord
     sanitized_body = nil if sanitized_body.blank?
 
     desc = self.base_title.presence ||
-      self.wiki.try(:title).presence ||
       self.poll.try(:title).presence ||
       sanitized_body.presence ||
       self.file_sources.first.try(:name).presence ||
@@ -249,7 +248,7 @@ class Post < ApplicationRecord
   end
 
   def title
-    specific_desc_striped_tags(100).lines.find { |x| x.present? }
+    base_title.presence || specific_desc_striped_tags(100).lines.find { |x| x.present? }
   end
 
   def share_image_dimensions
@@ -707,10 +706,10 @@ class Post < ApplicationRecord
   end
 
   def reindex_hashtags(force: false)
-    if force or self.will_save_change_to_body? or (self.wiki.present? and (self.wiki.will_save_change_to_body? or self.wiki.will_save_change_to_title?))
+    if force || self.will_save_change_to_base_title? || self.will_save_change_to_body? || (self.wiki.present? && self.wiki.will_save_change_to_body?)
       self.tag_list.clear
 
-      words = [self.body, self.wiki.try(:title), self.wiki.try(:body)].map do |text|
+      words = [self.body, self.base_title, self.wiki.try(:body)].map do |text|
         HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
       end.flatten.join(' ').split(/[[:space:]]/).uniq
 
@@ -756,5 +755,10 @@ class Post < ApplicationRecord
     end
 
     issue.update_columns(post_emojis: post_emojis_chars.uniq.sort.join.presence)
+  end
+
+  def build_wiki_history_for_base_title
+    return unless self.wiki.present?
+    self.wiki.build_history_after_update
   end
 end
