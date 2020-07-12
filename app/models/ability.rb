@@ -12,7 +12,7 @@ class Ability
     can [:reload], Event
 
     if user
-      can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
+      can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members, :labels], Issue do |issue|
         user.is_organizer?(issue)
       end
       can [:create, :new_intro, :search_by_tags, :selections], [Issue]
@@ -37,7 +37,7 @@ class Ability
       can [:edit_folder, :update_folder, :update_title], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
-      can [:front_update_title], [Post] do |post|
+      can [:front_update_title, :front_update_label], [Post] do |post|
         post.user_id == user.id || user.is_organizer?(post.issue)
       end
       can [:new_wiki, :update_wiki, :wiki], [Post] do |post|

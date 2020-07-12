@@ -60,10 +60,12 @@
   }
   > .body > .meta > .icon {
     display: inline-block;
-    border: 1px solid global-variables.$color-gray-300;
     background-color: global-variables.$color-gray-100;
-    padding: 0 2px;
+    padding: 0 4px;
     margin-right: .5rem;
+  }
+  &.-active > .body > .meta > .icon {
+    background-color: global-variables.$color-gray-200;
   }
   > .body > .meta > time {
     margin-left: .5rem
@@ -75,7 +77,29 @@
     display: flex;
     align-items: center;
   }
+  > .footer > .label  {
+    flex: none;
+    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-300;
+    padding: 0.25rem .5rem;
+    border: 1px solid global-variables.$color-gray-300;
+    border-radius: 9999px;
+    line-height: 1rem;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+  > .footer > .label > .toggle > .preview {
+    color: global-variables.$color-gray-600;
+  }
+  > .footer > .label > .dropdown-menu > .dropdown-item {
+    cursor: pointer;
+  }
+  > .footer > .label > .dropdown-menu > .dropdown-item > .body {
+    color: global-variables.$color-gray-400;
+    margin-left: 1rem;
+  }
   > .footer > .strokedusers {
+    flex: none;
     display: flex;
     white-space: nowrap;
     width: 6rem;

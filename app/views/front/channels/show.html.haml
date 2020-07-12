@@ -53,19 +53,22 @@
       .pages
         = render 'front/share/channel_box_header/page', posts: @posts, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: read_all_posts_front_channel_path(@current_issue)
 
-      - if @current_issue.post_emojis.present?
+      - if @current_issue.labels.present?
         .control
           .dropdown{ data: { controller: 'phone-dropdown' } }
             .toggle.cursor-pointer{ "data-toggle": "dropdown" }
-              = @status_emoji_q.presence || '제목 이모지'
+              = @label_q&.title.presence || '라벨'
               %i.fa.fa-angle-down
             .dropdown-menu.usermenu.dropdown-menu-right
-              .dropdown-item
-                - @current_issue.post_emojis.chars.each do |emoji|
-                  = link_to emoji, url_for(@permited_params.deep_merge(filter: { status_emoji: emoji })), class: 'btn btn-light'
-              - if @status_emoji_q.present?
-                = link_to url_for(@permited_params.deep_merge(filter: { status_emoji: nil })), class: 'dropdown-item' do
-                  제목 이모지 검색 취소
+              - @current_issue.labels.each do |label|
+
+                = link_to url_for(@permited_params.deep_merge(filter: { label_id: label.id })), class: 'dropdown-item' do
+                  = label.title
+                  %br.d-block.d-lg-none
+                  %small.text-muted= label.body
+              - if @label_q.present?
+                = link_to url_for(@permited_params.deep_merge(filter: { label_id: nil })), class: 'dropdown-item' do
+                  라벨 검색 취소
 
       .control
         .dropdown{ data: { controller: 'phone-dropdown' } }

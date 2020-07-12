@@ -436,6 +436,7 @@ Rails.application.routes.draw do
         get :post_folder_field
         get :destroy_form
         patch :read_all_posts
+        get :labels
       end
       collection do
         get :sync
@@ -443,7 +444,7 @@ Rails.application.routes.draw do
 
       resources :folders, only: [] do
         collection do
-          get :arrange
+          get :form
         end
       end
     end
@@ -462,6 +463,7 @@ Rails.application.routes.draw do
         get :edit_title
         get :cancel_title_form
         patch :title, action: 'update_title'
+        patch :label, action: 'update_label'
       end
       shallow do
         resources :comments, only: [:create, :update, :destroy], controller: '/comments' do
@@ -567,5 +569,7 @@ Rails.application.routes.draw do
       end
     end
     resources :categories, only: [:create, :update, :destroy], controller: '/group/categories'
+
+    resources :labels, only: [:create, :update, :destroy]
   end
 end

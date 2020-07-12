@@ -34,8 +34,8 @@
           - threaded_folders = []
         - else
           - threaded_folders = Folder.threaded(issue.folders)
-        %li.channel-line{ data: { controller: ('content-collapse' if threaded_folders.any?), 'content-collapse': { 'id': "folder-lines-channel-#{issue.id}", 'force': (issue == current_issue ? 'show' : 'hide') } } }
-          = link_to front_channel_path(issue), class: ['link', ('-active' if issue == current_issue && current_folder.blank?)], data: { action: 'click->collection-activation#toggle click->content-collapse#show group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-collapse#show group-sidebar-collapse-hide->content-collapse#hide', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
+        %li.channel-line{ data: { controller: ('content-toggle' if threaded_folders.any?), 'content-toggle': { 'id': "folder-lines-channel-#{issue.id}", 'force': (issue == current_issue ? 'show' : 'hide') } } }
+          = link_to front_channel_path(issue), class: ['link', ('-active' if issue == current_issue && current_folder.blank?)], data: { action: 'click->collection-activation#toggle click->content-toggle#show group-sidebar-activation->collection-activation#toggle group-sidebar-collapse-show->content-toggle#show group-sidebar-collapse-hide->content-toggle#hide', target: 'collection-activation.item group-sidebar-listener.channelActivation group-sidebar-listener.channelCollapse', 'group-sidebar-listener-channel-id': issue.id } do
             .title
               %span.hash
                 \#
@@ -43,5 +43,5 @@
             %span.unread{ class: ('-active' if issue.need_to_read?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener-channel-id': issue.id } }
 
           - if threaded_folders.any?
-            %ul.folder-lines.-hide{ data: { target: 'content-collapse.content' } }
+            %ul.folder-lines.-hide{ data: { target: 'content-toggle.content' } }
               = render 'front/pages/group_sidebar/folder_lines', current_folder: current_folder, folders: threaded_folders, depth: 1

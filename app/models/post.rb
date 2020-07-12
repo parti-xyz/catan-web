@@ -76,6 +76,7 @@ class Post < ApplicationRecord
   paginates_per 20
 
   belongs_to :issue, counter_cache: true
+  belongs_to :label, counter_cache: true, optional: true
   has_one :group, through: :issue
   belongs_to :user
   belongs_to :last_title_edited_user, optional: true, class_name: 'User'
@@ -117,6 +118,7 @@ class Post < ApplicationRecord
   validates :issue, presence: true
   validates :user, presence: true
   validate :references_check
+  validates :base_title, length: { maximum: 50 }
 
   # scopes
   default_scope -> { joins(:issue) }
@@ -224,8 +226,6 @@ class Post < ApplicationRecord
   before_save :reindex_hashtags
   # blind
   before_save :process_blind
-  # emoji
-  after_save :update_issue_post_emoji
   # wiki_history
   after_update :build_wiki_history_for_base_title
 
@@ -736,26 +736,6 @@ class Post < ApplicationRecord
     if self.persisted? and self.wiki_id_changed? and !self.wiki_id_was.blank?
       raise "Post #{self.id} : Change Wiki! #{self.wiki_id_was} ==> #{self.wiki_id}"
     end
-  end
-
-  def update_issue_post_emoji
-    post_emojis_chars = issue.post_emojis&.chars || []
-
-    now_emojis_chars = self.base_title&.scan(EmojiRegex::Text)&.map{ |e| e } || []
-    if self.deleted?
-      post_emojis_chars -= now_emojis_chars.select { |emoji| !self.issue.posts.exists?(emoji) }
-    else
-      return unless saved_change_to_base_title?
-      before_emojis_chars = self.base_title_before_last_save&.scan(EmojiRegex::Text)&.map{ |e| e } || []
-
-      removed_emojis_chars = before_emojis_chars - now_emojis_chars
-      added_emojis_chars = now_emojis_chars - before_emojis_chars
-
-      post_emojis_chars -= removed_emojis_chars.select { |emoji| !self.issue.posts.exists?(emoji) }
-      post_emojis_chars += added_emojis_chars
-    end
-
-    issue.update_columns(post_emojis: post_emojis_chars.uniq.sort.join.presence)
   end
 
   def build_wiki_history_for_base_title

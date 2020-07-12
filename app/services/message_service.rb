@@ -50,7 +50,7 @@ class MessageService
       end
     when Post
       if @action == :pinned
-        users = @source.issue.member_users.where.not(id: @sender)
+        users = @source.issue.compact_messagable_users.where.not(id: @sender)
         send_messages(
           sender: @sender, users: users,
           messagable: @source, action: @action)

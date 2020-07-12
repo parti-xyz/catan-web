@@ -3,7 +3,7 @@ class Front::PostsController < Front::BaseController
     @current_post = Post.includes(:issue, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
       .find(params[:id])
 
-    @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
+    @current_issue = Issue.includes(:folders, :labels, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     if user_signed_in?
@@ -61,7 +61,7 @@ class Front::PostsController < Front::BaseController
 
   def new
     render_403 and return unless user_signed_in?
-    @current_issue = Issue.includes(:posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:issue_id])
+    @current_issue = Issue.includes(:folders, :labels, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:issue_id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_issue.folders.find_by(id: params[:folder_id])
@@ -79,7 +79,7 @@ class Front::PostsController < Front::BaseController
       .find(params[:id])
     authorize! :update, (@current_post.wiki.presence || @current_post)
 
-    @current_issue = Issue.includes(:posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
+    @current_issue = Issue.includes(:folders, :labels, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
 
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
@@ -109,6 +109,7 @@ class Front::PostsController < Front::BaseController
 
     @current_post.strok_by(current_user)
     @current_post.base_title = params[:post][:base_title]
+    @current_post.label = Label.find_by(id: params[:post][:label_id])
     if @current_post.save
       @current_post.read!(current_user)
 
@@ -119,6 +120,26 @@ class Front::PostsController < Front::BaseController
     end
 
     render layout: nil
+  end
+
+  def update_label
+    render_403 and return unless user_signed_in?
+
+    @current_post = Post.find(params[:id])
+    authorize! :front_update_label, @current_post
+
+    @current_post.strok_by(current_user)
+    @current_post.label_id = params[:label_id]
+    if @current_post.save
+      @current_post.read!(current_user)
+
+      flash.now[:notice] = I18n.t('activerecord.successful.messages.created')
+      @current_post.issue.strok_by!(current_user, @current_post)
+    else
+      flash.now[:alert] = I18n.t('errors.messages.unknown')
+    end
+
+    head 204
   end
 
   def cancel_title_form

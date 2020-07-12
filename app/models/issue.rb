@@ -35,6 +35,7 @@ class Issue < ApplicationRecord
   include Invitable
   # relations
   belongs_to :last_stroked_user, class_name: "User", optional: true
+  has_many :labels, dependent: :destroy
   has_many :merged_issues, dependent: :destroy
   has_many :relateds, dependent: :destroy
   has_many :issue_push_notification_preferences, dependent: :destroy

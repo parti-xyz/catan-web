@@ -46,7 +46,7 @@ class Front::PagesController < Front::BaseController
 
     @group_sidebar_menu_slug = 'all'
 
-    @permited_params = params.permit(:sort, :q, filter: [ :condition, :status_emoji ]).to_h
+    @permited_params = params.permit(:sort, :q, filter: [ :condition, :label_id ]).to_h
 
     @list_nav_params = list_nav_params(action: 'all', issue: nil, folder: nil, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end
@@ -96,9 +96,9 @@ class Front::PagesController < Front::BaseController
   private
 
   def group_sidebar_content
-    @current_issue = Issue.includes(:folders, :current_user_issue_reader).find_by(id: params[:issue_id])
+    @current_issue = Issue.includes(:folders, :labels, :current_user_issue_reader).find_by(id: params[:issue_id])
     @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
-    @issues = current_group.issues.includes(:folders, :current_user_issue_reader).accessible_only(current_user).sort_default.includes(:folders, :category)
+    @issues = current_group.issues.includes(:folders, :labels, :current_user_issue_reader).accessible_only(current_user).sort_default.includes(:folders, :category)
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
   end
 

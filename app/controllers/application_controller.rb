@@ -443,7 +443,7 @@ class ApplicationController < ActionController::Base
 
     filter = filter.presence || (filter.nil? ? nil : params.dig(:list_nav, :filter).presence)
     if filter.present?
-      filter = filter.permit(:condition, :status_emoji).to_h.compact
+      filter = filter.permit(:condition, :label_id).to_h.compact
     end
 
     {

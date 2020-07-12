@@ -17,7 +17,7 @@
         = current_user.nickname
       .createdat 지금
   .form-group
-    = f.text_field :base_title, class: 'form-control', placeholder: '제목...', data: { target: 'post-form.baseTitleField' }, autocomplete: "off"
+    = f.text_field :base_title, class: 'form-control', placeholder: '제목...', maxlength: 50, data: { target: 'post-form.baseTitleField' }, autocomplete: "off"
   .form-group
     = f.hidden_field :body, data: { target: 'post-form.bodyField' }
     %div{ style: 'display: none', data: { target: 'editor-form.source' } }

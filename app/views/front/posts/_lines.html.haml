@@ -48,6 +48,8 @@
                     = folder.title
               = smart_date_tag(last_stroked_at)
       .footer
+        - if post.label.present?
+          = render 'front/labels/dropdown', current_post: post
         .strokedusers
           - if is_small_screen?
             - user = post.user

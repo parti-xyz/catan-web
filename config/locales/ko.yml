@@ -190,6 +190,9 @@ ko:
         format_name: 방식
       file_source:
         attachment: 파일
+      label:
+        title: 이름
+        body: 설명
     successful:
       messages:
         created: 저장되었습니다.

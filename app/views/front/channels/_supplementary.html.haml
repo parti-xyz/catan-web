@@ -1,28 +1,28 @@
 - use_content_collapse = !is_small_screen?
 - if local_assigns[:current_issue]&.body&.present?
   - current_issue_force = (local_assigns[:default_force] || nil)
-  .supplementary-box{ data: { controller: ('content-collapse' if use_content_collapse), 'content-collapse': { id: "channel-intro-box-#{current_issue.id}", force: current_issue_force } } }
-    .header{ data: { action: 'click->content-collapse#toggle' } }
+  .supplementary-box{ data: { controller: ('content-toggle' if use_content_collapse), 'content-toggle': { id: "channel-intro-box-#{current_issue.id}", force: current_issue_force } } }
+    .header{ data: { action: 'click->content-toggle#toggle' } }
       .title
         채널 소개
       .toggler
-        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
-    .body{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
+        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-toggle.content' } }
+    .body{ class: ('-hide' if use_content_collapse), data: { target: 'content-toggle.content' } }
       = simple_format h(current_issue.body)
 
 = render partial: 'front/channels/supplementary_pinned_posts', locals: local_assigns
 
 - if local_assigns[:organizer_members]&.any?
   - organizer_members_force = (local_assigns[:default_force] || nil)
-  .supplementary-box{ data: { controller: ('content-collapse' if use_content_collapse), 'content-collapse': { id: "organizer-members-box-#{current_issue.id}", force: organizer_members_force } } }
-    .header{ data: { action: 'click->content-collapse#toggle' } }
+  .supplementary-box{ data: { controller: ('content-toggle' if use_content_collapse), 'content-toggle': { id: "organizer-members-box-#{current_issue.id}", force: organizer_members_force } } }
+    .header{ data: { action: 'click->content-toggle#toggle' } }
       .title
         채널 오거나이저
       .count
         = organizer_members&.size
       .toggler
-        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-collapse.content' } }
-    %ul.lines{ class: ('-hide' if use_content_collapse), data: { 'controller': 'collection-activation', target: 'content-collapse.content' } }
+        %i.fa{ class: ('-hide' if use_content_collapse), data: { target: 'content-toggle.content' } }
+    %ul.lines{ class: ('-hide' if use_content_collapse), data: { 'controller': 'collection-activation', target: 'content-toggle.content' } }
       - organizer_members&.each do |member|
         - user = member.user
         %li.organizer-member

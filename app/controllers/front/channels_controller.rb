@@ -1,6 +1,6 @@
 class Front::ChannelsController < Front::BaseController
   def show
-    @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:id])
+    @current_issue = Issue.includes(:folders, :labels, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
@@ -30,12 +30,10 @@ class Front::ChannelsController < Front::BaseController
       if params.dig(:filter, :condition) == 'needtoread' && user_signed_in?
         @posts = @posts.need_to_read_only(current_user)
       end
-      if params.dig(:filter, :status_emoji).present?
-        emoji_hex = params.dig(:filter, :status_emoji).bytes.map{ |b| b.to_s(16) }.join
-
-        @posts = @posts.where("posts.base_title like concat('%', 0x#{emoji_hex}, '%')")
-
-        @status_emoji_q = params.dig(:filter, :status_emoji)
+      if params.dig(:filter, :label_id).present?
+        label_id = params.dig(:filter, :label_id)
+        @label_q = Label.find_by(id: label_id)
+        @posts = @posts.where(label: @label_q)
       end
       @posts.load
     end
@@ -54,7 +52,7 @@ class Front::ChannelsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
-    @permited_params = params.permit(:id, :folder_id, :sort, :q, filter: [ :condition, :status_emoji ]).to_h
+    @permited_params = params.permit(:id, :folder_id, :sort, :q, filter: [ :condition, :label_id ]).to_h
 
     @list_nav_params = list_nav_params(action: 'channel', issue: @current_issue, folder: @current_folder, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end
@@ -122,12 +120,19 @@ class Front::ChannelsController < Front::BaseController
     elsif outcome.errors.details.key?(:limit)
       flash[:notice] = '게시물 읽음 표시를 진행 중입니다. 잠시 후에 완료됩니다.'
 
-      IssueReadAllPostsJob.perform_async(current_user.id, params[:id])
+    IssueReadAllPostsJob.perform_async(current_user.id, params[:id])
     else
       Rails.logger.error outcome.errors.details.inspect
       flash[:alert] = I18n.t('errors.messages.unknown')
     end
 
     turbolinks_redirect_to front_channel_path(id: params[:id])
+  end
+
+  def labels
+    render_403 and return unless user_signed_in?
+
+    @current_issue = Issue.includes(:labels).find(params[:id])
+    authorize! :labels, @current_issue
   end
 end

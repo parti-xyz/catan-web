@@ -91,7 +91,6 @@ gem 'geo_pattern', '~> 1.4'
 gem 'redcarpet', '~> 3.3', '>= 3.3.4'
 gem 'cocoon', '~> 1.2', '>= 1.2.9'
 gem 'jquery-slick-rails'
-gem 'emoji_regex'
 
 # tool
 gem 'dotenv'
