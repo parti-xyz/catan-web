@@ -234,7 +234,6 @@ GEM
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
     dumb_delegator (0.8.0)
-    emoji_regex (3.0.0)
     enumerize (2.3.1)
       activesupport (>= 3.2)
     equalizer (0.0.11)
@@ -757,7 +756,6 @@ DEPENDENCIES
   doorkeeper (~> 4.3, >= 4.3.2)
   doorkeeper-grants_assertion (~> 0.2.0)
   dotenv
-  emoji_regex
   enumerize (~> 2.1, >= 2.1.2)
   exception_notification (~> 4.2, >= 4.2.2)
   ey_config
