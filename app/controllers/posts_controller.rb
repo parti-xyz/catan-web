@@ -183,7 +183,7 @@ class PostsController < ApplicationController
 
     @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
 
-    if @post.wiki.changed? || @post.base_title_changed?
+    if @post.changed? || @post.wiki.changed? || @post.base_title_changed?
       @post.wiki.format_body
       @post.strok_by(current_user)
       @post.wiki.last_author = @current_user
