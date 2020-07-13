@@ -19,9 +19,9 @@
         %small.text-primary{ data: { target: 'category-move-status.view' } }
       .form-text.text-muted.small.mb-3 채널 이름을 드래그해서 다른 카테고리로 이동시킬 수 있습니다.
 
-      - content_map = @categories_with_issues.map do |(category, issues), index|
+      - content_map = @categories_with_issues.map do |category, issues|
+        - issues ||= []
         - content = capture do
-          - issues = Issue.only_alive_of_group(current_group).categorized_with(category)
           .card.mb-3{ data: { controller: 'category-destroy-menu', action: 'category-move-submit-begin@window->category-destroy-menu#toggle', target: 'category-sort.category', id: category&.id } }
             .card-header.category-card.clearfix{ data: { controller: 'category-form' } }
               - if category.present?
