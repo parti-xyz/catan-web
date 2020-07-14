@@ -17,7 +17,7 @@ class Front::PagesController < Front::BaseController
     end
 
     @posts = current_group_accessible_only_posts
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, wiki: [ :last_wiki_history ], issue: [ :current_user_issue_reader ])
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, wiki: [ :last_wiki_history ], issue: [ :current_user_issue_reader, :labels ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
 

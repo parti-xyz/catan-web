@@ -1,6 +1,6 @@
 class Front::PostsController < Front::BaseController
   def show
-    @current_post = Post.includes(:issue, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
+    @current_post = Post.includes(:issue, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, :label, user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
       .find(params[:id])
 
     @current_issue = Issue.includes(:folders, :labels, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
@@ -91,7 +91,7 @@ class Front::PostsController < Front::BaseController
   def edit_title
     render_403 and return unless user_signed_in?
 
-    @current_post = Post.find(params[:id])
+    @current_post = Post.includes(:label, issue: [:labels]).find(params[:id])
     authorize! :front_update_title, @current_post
 
     render layout: nil
@@ -100,7 +100,7 @@ class Front::PostsController < Front::BaseController
   def update_title
     render_403 and return unless user_signed_in?
 
-    @current_post = Post.includes(:wiki).find(params[:id])
+    @current_post = Post.includes(:label, :wiki).find(params[:id])
     authorize! :front_update_title, @current_post
 
     if current_user != @current_post.user
@@ -143,7 +143,7 @@ class Front::PostsController < Front::BaseController
   end
 
   def cancel_title_form
-    @current_post = Post.includes(:wiki).find(params[:id])
+    @current_post = Post.includes(:label, :wiki).find(params[:id])
     render layout: nil
   end
 
