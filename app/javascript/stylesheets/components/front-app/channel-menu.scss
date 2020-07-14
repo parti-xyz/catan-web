@@ -97,7 +97,6 @@
     direction: rtl;
   }
 
-
   @include mq.media("<=phone") {
     flex-direction: column;
     align-items: flex-start;

@@ -22,7 +22,7 @@
       - if @current_issue.folders.any?
         - threaded_folders = Folder.threaded(@current_issue.folders)
         .folders
-          %select.channel-menu-folders{ data: { controller: 'select2-link', 'select2-link-url-template': front_channel_path(@current_issue, folder_id: "${value}", front_search: { q: @search_q }) } }
+          %select.channel-menu-folders{ data: { controller: 'select2-box', action: 'select2-box:select->select2-box#go', 'select2-box-url-template': front_channel_path(@current_issue, folder_id: "${value}", front_search: { q: @search_q }) } }
             %option 모든 폴더 게시글
             != options_for_threaded_folders(threaded_folders, @current_folder)
 

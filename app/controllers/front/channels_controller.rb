@@ -72,25 +72,6 @@ class Front::ChannelsController < Front::BaseController
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
   end
 
-  def post_folder_field
-    @current_issue = Issue.includes(:folders).find(params[:id])
-    render_403 and return if @current_issue&.private_blocked?(current_user)
-
-    if params[:folder_id].present?
-      if params[:folder_id].starts_with?('new#')
-        parent_id = params[:folder_id].gsub(/new#/, '')
-        if parent_id.present?
-          @parent_folder = @current_issue.folders.to_a.find{ |f| f.id == parent_id.to_i }
-        end
-        @new_form = true
-      end
-    end
-
-    @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i }
-
-    render layout: false
-  end
-
   def destroy_form
     render_403 and return unless user_signed_in?
 

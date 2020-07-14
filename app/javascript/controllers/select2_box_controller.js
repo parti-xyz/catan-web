@@ -8,6 +8,7 @@ export default class extends Controller {
     jQuery(this.element).select2({
       theme: 'bootstrap',
       dropdownCssClass: ':all:',
+      minimumResultsForSearch: 15,
       width: 'auto',
       language: this.language(),
       templateSelection: (node) => {
@@ -30,17 +31,28 @@ export default class extends Controller {
       },
     })
 
-    jQuery(this.element).on('select2:select', this.go.bind(this))
+    jQuery(this.element).on('select2:select', this.emit.bind(this))
   }
 
   disconnect() {
     jQuery(this.element).select2('destroy')
   }
 
-  go(event) {
-    console.log(event)
+  emit(event) {
+    this.element.dispatchEvent(new CustomEvent('select2-box:select', {
+      bubbles: true,
+      detail: event,
+    }))
+  }
 
-    const urlTemplate = new ParamMap(this, event.currentTarget).get('urlTemplate')
+  fieldValue(event) {
+    const value = event.detail.currentTarget.value
+    jQuery(this.element).val(value)
+    jQuery(this.element).trigger('change')
+  }
+
+  go(event) {
+    const urlTemplate = new ParamMap(this, event.detail.currentTarget).get('urlTemplate')
     if (!urlTemplate) return
 
     const value = event.currentTarget.value

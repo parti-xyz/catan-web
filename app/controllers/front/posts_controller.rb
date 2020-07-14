@@ -75,7 +75,7 @@ class Front::PostsController < Front::BaseController
     render_403 and return unless user_signed_in?
 
     @current_post = Post
-      .includes(:issue, :user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
+      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, issue: [ :folders, :labels ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:id])
     authorize! :update, (@current_post.wiki.presence || @current_post)
 

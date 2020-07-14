@@ -39,8 +39,10 @@
             .title
               %span.hash
                 \#
-              %span.content<> #{issue.title} #{meta_icons(issue)}
-            %span.unread{ class: ('-active' if issue.need_to_read?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener-channel-id': issue.id } }
+              %span.content<>
+                #{issue.title}
+                #{meta_icons(issue)}
+                %span.unread{ class: ('-active' if issue.need_to_read?(current_user)), data: { target: 'channel-read-listener.channel', 'channel-read-listener-channel-id': issue.id } }
 
           - if threaded_folders.any?
             %ul.folder-lines.-hide{ data: { target: 'content-toggle.content' } }

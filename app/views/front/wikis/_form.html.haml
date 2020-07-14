@@ -57,5 +57,13 @@
       - if current_issue.folders.any?
         - form_folder = current_wiki.persisted? ? current_wiki.post.folder : current_folder
 
-        .control.form-group.form-inline.folderfield{ data: { controller: 'select-link-remote content-loader', 'content-loader-url': post_folder_field_front_channel_path(current_issue, folder_id: form_folder&.id, form_field_name: "#{f.object_name}[folder_id]") } }
+        .control
+          %label
+            폴더
+            &nbsp;
+          %br.d-none.d-xs-block
+          - threaded_folders = Folder.threaded(current_issue.folders)
+          %select.channel-menu-folders{ name: 'post[folder_id]', data: { controller: 'select2-box', action: 'select2-box:select->select2-box#fieldValue' } }
+            %option(value='') 폴더 없음
+            != options_for_threaded_folders(threaded_folders, form_folder)
 

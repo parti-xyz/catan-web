@@ -181,9 +181,9 @@ class PostsController < ApplicationController
     conflict = @post.wiki.wiki_histories.last.try(:id) != params[:last_wiki_history_id].try(:to_i)
     @list_url = smart_post_url(@post)
 
-    @post.assign_attributes(wiki_post_params.delete_if {|key, value| value.empty? })
+    @post.assign_attributes(wiki_post_params.delete_if {|key, value| key != :folder_id && value.empty? })
 
-    if @post.changed? || @post.wiki.changed? || @post.base_title_changed?
+    if @post.changed? || @post.folder_id_changed? || @post.wiki.changed?
       @post.wiki.format_body
       @post.strok_by(current_user)
       @post.wiki.last_author = @current_user

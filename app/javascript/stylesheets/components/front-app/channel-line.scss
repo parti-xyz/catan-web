@@ -43,18 +43,21 @@
   > .link.-active > .title > .hash {
     color: global-variables.$color-gray-800;
   }
-  > .link > .unread {
+  > .link > .title > .content {
+    position: relative;
+  }
+  > .link > .title > .content > .unread {
     display: none;
   }
-  > .link > .unread.-active {
+  > .link > .title > .content > .unread.-active {
     display: inline-block;
     background: #e02020;
     border-radius: 9999px;
     width: .25rem;
     height: .25rem;
-    bottom: .5rem;
-    position: relative;
-    right: .25rem;
+    top: 0;
+    right: -.375rem;
+    position: absolute;
   }
   > .link > .title > .content > .meta > .fa {
     opacity: 0.5;

@@ -433,7 +433,6 @@ Rails.application.routes.draw do
 
     resources :channels, only: [:show, :edit, :new] do
       member do
-        get :post_folder_field
         get :destroy_form
         patch :read_all_posts
         get :labels

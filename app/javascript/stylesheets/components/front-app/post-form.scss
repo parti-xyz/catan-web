@@ -93,12 +93,30 @@
     vertical-align: middle;
   }
 
-  .controls {
+  > .controls {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+
+  > .controls > .control > .select2,
+  > .folderfield > .select2 {
+    max-width: 20rem;
+    min-width: 10rem;
+    display: inline-block;
+  }
+
+  > .controls > .control > .select2 > .selection > .select2-selection,
+  > .folderfield > .select2 > .selection > .select2-selection {
+    height: 1.85rem;
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  > .controls > .control > .select2 > .selection > .select2-selection > .select2-selection__rendered,
+  > .folderfield > .select2 > .selection > .select2-selection > .select2-selection__rendered {
+    direction: rtl;
   }
 
   @include mq.media('<=phone') {
@@ -125,6 +143,11 @@
 
     > .filesourcesfield > .footer > .btn + .btn {
       margin-top: .5rem;
+    }
+
+    > .controls > .control > .select2,
+    > .folderfield > .select2 {
+      max-width: 100%;
     }
   }
 
