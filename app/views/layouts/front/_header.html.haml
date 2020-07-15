@@ -1,9 +1,9 @@
 .front-navbar
 
   - if current_group.private_blocked?(current_user)
-    .searchform.dummy
+    .centermenu.dummy
   - else
-    = form_with url: '#', method: :get, class: 'searchform', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
+    = form_with url: '#', method: :get, class: 'centermenu', data: { controller: 'front-search', action: 'submit->front-search#submitForm' } do |f|
       - front_search_issue_id = @current_issue&.id
       - front_search_folder_id = @current_folder&.id
       .dropdown{ data: { controller: 'phone-dropdown' } }

@@ -42,14 +42,14 @@
 }
 
 .front-app .front-navbar {
-  > .menuitem > .link,
-  > .menuitem > .notifications,
+  > .menugroup > .menuitem > .link,
+  > .menugroup > .menuitem > .notifications,
   > .profilemenus,
   > .profilemenus > .menuitem > .link {
     <%= group_navbar_text_color('color') %>
   }
-  > .menuitem > .link:hover,
-  > .menuitem > .notifications:hover,
+  > .menugroup > .menuitem > .link:hover,
+  > .menugroup > .menuitem > .notifications:hover,
   > .profilemenus > .menuitem:hover > .link,
   > .profilemenus > .menuitem:hover > .notifications {
     <%= group_navbar_text_darken_color('color') %>
@@ -75,14 +75,14 @@
     background-color: white;
     border-color: #d1d4da; // $color-gray-300
 
-    > .menuitem > .link,
-    > .menuitem > .notifications,
+    > .menugroup > .menuitem > .link,
+    > .menugroup > .menuitem > .notifications,
     > .profilemenus,
     > .profilemenus > .menuitem > .link {
       <%= group_navbar_coc_text_color('color') %>
     }
-    > .menuitem > .link:hover,
-    > .menuitem > .notifications:hover,
+    > .menugroup > .menuitem > .link:hover,
+    > .menugroup > .menuitem > .notifications:hover,
     > .profilemenus > .menuitem:hover > .link,
     > .profilemenus > .menuitem:hover > .notifications {
       <%= group_navbar_coc_text_darken_color('color') %>

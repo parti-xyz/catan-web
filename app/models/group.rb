@@ -160,7 +160,7 @@ class Group < ApplicationRecord
   end
 
   def head_title
-    (read_attribute(:head_title).presence || read_attribute(:title).presence || "")[0...10]
+    (read_attribute(:head_title).presence || read_attribute(:title).presence || "").truncate(10)
   end
 
   def site_title

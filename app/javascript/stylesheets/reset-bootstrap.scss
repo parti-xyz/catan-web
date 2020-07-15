@@ -6,6 +6,17 @@
   font-size: bootstrap.$font-size-xs;
 }
 
+.dropdown-header:first-child,
+.dropdown-item:first-child {
+  padding-top: bootstrap.$dropdown-item-padding-y * 1.5;
+}
+
+.dropdown-header:last-child,
+.dropdown-item:last-child {
+  padding-bottom: bootstrap.$dropdown-item-padding-y * 1.5;
+}
+
+
 .dropdown-divider {
   margin: 0;
 }

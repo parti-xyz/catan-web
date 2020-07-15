@@ -23,7 +23,6 @@ export default class extends Controller {
     if (this.data.has("enableRefreshJqueryEvent")) {
       jQuery(this.element).on(this.data.get("enableRefreshJqueryEvent"), (event) => {
         self.enableRefresh()
-        self.reload()
       })
     }
 
@@ -45,7 +44,7 @@ export default class extends Controller {
     }
   }
 
-  load() {
+  load(callback) {
     if (this.loading) {
       return
     }
@@ -83,6 +82,7 @@ export default class extends Controller {
       })
       .finally(() => {
         this.loading = false
+        if (callback) { callback() }
       })
   }
 
@@ -95,8 +95,15 @@ export default class extends Controller {
     }, this.data.get("refreshInterval"))
   }
 
-  reload() {
-    this.load()
+  reload(event) {
+    event.preventDefault()
+    let currentInnerHTML = event.target.innerHTML
+    if (event.target.dataset.disableWith) {
+      event.target.innerHTML = event.target.dataset.disableWith
+    }
+    this.load(() => {
+      event.target.innerHTML = currentInnerHTML
+    })
   }
 
   enableRefresh() {

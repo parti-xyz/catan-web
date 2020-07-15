@@ -2,23 +2,25 @@
   .toggle{ data: { toggle: ('dropdown' if can?(:front_update_label, current_post)) } }
     %span.preview{ data: { target: 'label-picker.preview' } }
       = current_post.label.title
-    %i.fa.fa-smile-o.fa-fw.collapse{ data: { target: 'label-picker.placeholder' } }
-    %i.fa.fa-spinner.fa-fw.fa-pulse.collapse{ data: { target: 'label-picker.loading' } }
-    %i.fa.fa-angle-down
-  .dropdown-menu
-    - current_post.issue.labels.each do |label|
-      .dropdown-item{ data: { action: 'click->label-picker#update', 'label-picker': { title: label.title, id: label.id } } }
-        = label.title
-        %span.body #{label.body}
+    - if can?(:front_update_label, current_post)
+      %i.fa.fa-smile-o.fa-fw.collapse{ data: { target: 'label-picker.placeholder' } }
+      %i.fa.fa-spinner.fa-fw.fa-pulse.collapse{ data: { target: 'label-picker.loading' } }
+      %i.fa.fa-angle-down
+  - if can?(:front_update_label, current_post)
+    .dropdown-menu
+      - current_post.issue.labels.each do |label|
+        .dropdown-item{ data: { action: 'click->label-picker#update', 'label-picker': { title: label.title, id: label.id } } }
+          = label.title
+          %span.body #{label.body}
 
-    - more = capture do
-      - if current_post.label.present?
-        .dropdown-item{ data: { action: 'click->label-picker#update', 'label-picker-title': '' } }
-          라벨 제거
-      - if can?(:labels, current_post.issue)
-        = link_to labels_front_channel_path(current_post.issue), class: 'dropdown-item' do
-          라벨 관리
+      - more = capture do
+        - if current_post.label.present?
+          .dropdown-item{ data: { action: 'click->label-picker#update', 'label-picker-title': '' } }
+            라벨 제거
+        - if can?(:labels, current_post.issue)
+          = link_to labels_front_channel_path(current_post.issue), class: 'dropdown-item' do
+            라벨 관리
 
-    - if more.present?
-      .dropdown-divider
-      = more
+      - if more.present?
+        .dropdown-divider
+        = more

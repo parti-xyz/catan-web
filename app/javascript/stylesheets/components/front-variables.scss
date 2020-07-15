@@ -11,7 +11,7 @@ $playground-sidebar-space-x: .75rem;
 $_navbar-height-default: 2.75rem;
 $_navbar-height-phone: 3rem;
 $_joinbar-height-default: 10rem;
-$_joinbar-height-phone: 11.5rem;
+$_joinbar-height-phone: 13.5rem;
 
 @mixin navbar-height($property) {
   #{$property}: $_navbar-height-default;

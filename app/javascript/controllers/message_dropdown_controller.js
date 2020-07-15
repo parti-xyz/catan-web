@@ -51,4 +51,8 @@ export default class extends Controller {
       this.showAfterMixUp = false
     }
   }
+
+  stopPropagation(event) {
+    event.stopPropagation();
+  }
 }

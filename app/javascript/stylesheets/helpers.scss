@@ -28,6 +28,11 @@ legend.legend-default {
   max-width: 600px;
   min-width: 300px;
   text-align: left;
+  @include mq.media('<=phone') {
+    max-width: auto;
+    min-width: auto;
+    width: 100%;
+  }
 }
 .simple-box p {
   word-break: keep-all;
