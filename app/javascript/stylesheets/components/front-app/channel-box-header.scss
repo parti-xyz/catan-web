@@ -33,7 +33,6 @@
     margin-right: .5rem
   }
 
-
   @include mq.media('<=phone') {
     > .pages > .all > .link > .page {
       display: none
@@ -46,6 +45,14 @@
     > .pages,
     > .control {
       line-height: 1.5rem;
+    }
+
+    > .control {
+      margin-right: 1.25rem
+    }
+
+    > .control:last-child {
+      margin-right: .5rem
     }
   }
 }

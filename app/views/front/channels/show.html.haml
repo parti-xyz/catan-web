@@ -57,7 +57,7 @@
         .control
           .dropdown{ data: { controller: 'phone-dropdown' } }
             .toggle.cursor-pointer{ "data-toggle": "dropdown" }
-              = @label_q&.title.presence || '라벨'
+              = @label_q&.title.presence || '라벨 선택'
               %i.fa.fa-angle-down
             .dropdown-menu.usermenu.dropdown-menu-right
               - @current_issue.labels.each do |label|

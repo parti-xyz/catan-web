@@ -1,5 +1,8 @@
 @use "../front-variables";
 
+.front-app .playground-header:not(.-nosticky) + .playground-body {
+  overflow: visible;
+}
 .front-app .playground-body {
   overflow-y: auto;
   overflow-x: hidden;

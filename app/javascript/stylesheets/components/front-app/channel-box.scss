@@ -1,7 +1,7 @@
 @use '../../mq';
 
 .front-app .channel-box {
-  overflow-x: hidden;
+  overflow-y: visible;
 
   @include mq.media('<=phone') {
     > .channel-box-header {
