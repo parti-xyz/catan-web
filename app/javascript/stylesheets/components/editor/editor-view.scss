@@ -21,7 +21,7 @@ body.-pack {
 
     @include mixin.editor-content;
 
-    height: 300px;
+    min-height: 300px;
 
     @include mq.media('<=phone') {
       overflow: scroll;
