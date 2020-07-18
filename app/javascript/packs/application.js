@@ -7,6 +7,7 @@ import 'popper.js'
 import 'bootstrap'
 import elementClosest from 'element-closest'
 import appNoty from '../helpers/app_noty'
+import scrollIntoView from 'scroll-into-view'
 
 import '../stylesheets/site'
 
@@ -109,8 +110,26 @@ if (window.jQuery) {
     })
   })
 
-  document.addEventListener("turbolinks:render", function () {
+  function initScroll() {
     findElements().forEach(function (element) {
+      if (window.location.hash.length) {
+        let target = document.querySelector(window.location.hash)
+        if (target) {
+          scrollIntoView(target, {
+            cancellable: true,
+            align: {
+              topOffset: 100,
+            }
+          }, (type) => {
+            const event = new CustomEvent('ripple', {
+              bubbles: true,
+            })
+            target.dispatchEvent(event)
+          })
+          return
+        }
+      }
+
       const scrollPersistenceId = element.dataset.scrollPersistenceId
       if (scrollPersistenceId && _scrollDataMaps.has(scrollPersistenceId)) {
         const simplebar = simplebarElement(element)
@@ -128,5 +147,11 @@ if (window.jQuery) {
         }
       }
     })
+  }
+
+  document.addEventListener("turbolinks:load", initScroll, {
+    once: true,
   })
+
+  document.addEventListener("turbolinks:render", initScroll)
 })()

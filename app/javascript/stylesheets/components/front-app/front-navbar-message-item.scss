@@ -12,13 +12,13 @@
     border-width: 0;
   }
   &:hover {
-    background-color: global-variables.$color-gray-100;
+    background-color: global-variables.$color-gray-000;
   }
   &.unread {
-    background-color: global-variables.$color-gray-200;
+    background-color: global-variables.$color-gray-100;
   }
   &.unread:hover {
-    background-color: global-variables.$color-gray-300;
+    background-color: global-variables.$color-gray-200;
   }
   .message__link {
     display: inline-block;
