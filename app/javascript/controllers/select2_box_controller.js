@@ -17,7 +17,7 @@ export default class extends Controller {
         }
 
         const fullPath = node.element.dataset.fullpath
-        return fullPath ? jQuery(`<span>${fullPath}</span>`) : node.text;
+        return fullPath ? jQuery(`<span class="unicode-bidi-plaintext">${fullPath}</span>`) : node.text;
       },
       templateResult: (node) => {
         if (!node.id) {
