@@ -10,6 +10,7 @@ class DropTitleOfWikis < ActiveRecord::Migration[5.2]
                    FROM wikis
                   WHERE wikis.id = posts.wiki_id
                )
+               WHERE posts.wiki_id is not null
           SQL
         end
       end
