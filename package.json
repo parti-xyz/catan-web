@@ -43,10 +43,10 @@
     "turbolinks": "5.2.0",
     "uuid": "8.1.0",
     "velocity-animate": "2.0.6",
-    "waypoints": "4.0.1"
+    "waypoints": "4.0.1",
+    "@babel/plugin-proposal-optional-chaining": "7.10.4"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "7.10.4",
     "webpack-dev-server": "3.10.3"
   }
 }
