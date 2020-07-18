@@ -62,7 +62,8 @@
                   = link_to labels_front_channel_path(current_wiki.post.issue), class: 'dropdown-item' do
                     라벨 관리
               - if more.present?
-                .dropdown-divider
+                - if current_wiki.post.issue.labels.any?
+                  .dropdown-divider
                 = more
             = f.hidden_field :label_id, data: { target: 'label-picker.field' }
         = f.text_field :base_title, placeholder: '제목...', class: 'formtitle', rows: 1, maxlength: 50, data: { controller: 'auto-resize', target: 'wiki-form.titleField' }

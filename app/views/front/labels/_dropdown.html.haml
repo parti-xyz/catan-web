@@ -22,5 +22,6 @@
             라벨 관리
 
       - if more.present?
-        .dropdown-divider
+        - if current_post.issue.labels.any?
+          .dropdown-divider
         = more

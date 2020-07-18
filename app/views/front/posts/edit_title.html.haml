@@ -22,7 +22,8 @@
                 = link_to labels_front_channel_path(@current_post.issue), class: 'dropdown-item' do
                   라벨 관리
             - if more.present?
-              .dropdown-divider
+              - if @current_post.issue.labels.any?
+                .dropdown-divider
               = more
           = f.hidden_field :label_id, data: { target: 'label-picker.field' }
       = f.text_field :base_title, class: 'control', placeholder: '제목...', data: { target: 'post-title-form.baseTitleField' }, maxlength: 50, autocomplete: "off"
