@@ -25,7 +25,7 @@
               .dropdown-divider
               = more
           = f.hidden_field :label_id, data: { target: 'label-picker.field' }
-      = f.text_field :base_title, class: 'control', data: { target: 'post-title-form.baseTitleField' }, maxlength: 50
+      = f.text_field :base_title, class: 'control', placeholder: '제목...', data: { target: 'post-title-form.baseTitleField' }, maxlength: 50, autocomplete: "off"
 
     = f.submit '저장', class: 'submit btn btn-primary btn-sm mr-1', data: { target: 'post-title-form.submitButton' }
     = link_to '취소', cancel_title_form_front_post_path(@current_post), remote: true, class: 'btn btn-light btn-sm', data: { target: 'content-replacement.link post-title-form.cancelButton' }

@@ -119,6 +119,47 @@
     direction: rtl;
   }
 
+  > .inputgroup > .label {
+    padding: 0 .5rem;
+    height: 1.75rem;
+    position: absolute;
+    cursor: pointer;
+    margin-top: auto;
+    margin-bottom: auto;
+    display: inline-block;
+    font-size: bootstrap.$font-size-sm;
+    color: global-variables.$color-gray-400;
+    line-height: 1.625rem;
+    top: 0;
+    bottom: 0;
+    right: .5rem;
+  }
+  > .inputgroup > .label > .toggle > .preview {
+    color: global-variables.$color-gray-600;
+  }
+  > .inputgroup {
+    flex: 1;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  > .inputgroup > .control {
+    @extend .form-control;
+    @extend .form-control-lg;
+    font-size: 1rem;
+    border-radius: 2px;
+    width: 100%;
+    height: 2.434rem;
+    padding-right: 3.5rem;
+  }
+  > .inputgroup > .label > .content > .fa.fa-angle-down {
+    font-size: .75rem;
+    vertical-align: middle;
+  }
+  > .inputgroup > .label > .dropdown-menu > .dropdown-item > .body {
+    color: global-variables.$color-gray-400;
+    margin-left: 1rem;
+  }
+
   @include mq.media('<=phone') {
     > .controls {
       display: flex;

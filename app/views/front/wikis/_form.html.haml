@@ -40,7 +40,32 @@
 
   .post-wiki
     .body.-full.-edit
-      = f.text_area :base_title, placeholder: '제목을 넣어주세요...', class: 'form-control form-cotrol-lg formtitle', rows: 1, maxlength: 50, data: { target: 'wiki-form.titleField' }
+      .inputgroup
+        - if current_wiki.post.issue.labels.any? || can?(:labels, current_wiki.post.issue)
+          .label.dropdown{ data: { controller: 'label-picker phone-dropdown' } }
+            .toggle{ data: { toggle: 'dropdown' } }
+              %span.preview{ data: { target: 'label-picker.preview' } }
+                - if current_wiki.post.label.present?
+                  = current_wiki.post.label.title
+              %i.fa.fa-smile-o{ class: ( 'collapse' if current_wiki.post.label.present?), data: { target: 'label-picker.placeholder' } }
+              %i.fa.fa-angle-down
+            .dropdown-menu
+              - current_wiki.post.issue.labels.each do |label|
+                .dropdown-item{ data: { action: 'click->label-picker#select', 'label-picker': { title: label.title, id: label.id } } }
+                  = label.title
+                  %span.body #{label.body}
+              - more = capture do
+                - if current_wiki.post.label.present?
+                  .dropdown-item{ data: { action: 'click->label-picker#select', 'label-picker-title': '' } }
+                    라벨 제거
+                - if can?(:labels, current_wiki.post.issue)
+                  = link_to labels_front_channel_path(current_wiki.post.issue), class: 'dropdown-item' do
+                    라벨 관리
+              - if more.present?
+                .dropdown-divider
+                = more
+            = f.hidden_field :label_id, data: { target: 'label-picker.field' }
+        = f.text_field :base_title, placeholder: '제목...', class: 'formtitle', rows: 1, maxlength: 50, data: { controller: 'auto-resize', target: 'wiki-form.titleField' }
       = f.fields_for :wiki do |ff|
         = ff.hidden_field :body, data: { target: 'wiki-form.bodyField' }
         .d-none{ data: { target: 'editor-form.source' } }

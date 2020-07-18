@@ -68,7 +68,7 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
-    @list_nav_params = list_nav_params()
+    @list_nav_params = list_nav_params(folder: @current_folder)
   end
 
   def edit
