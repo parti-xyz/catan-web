@@ -1,7 +1,7 @@
 @use '../../global-variables';
 @use '../../mixin';
 @use '../../bootstrap';
-
+@use '../../mq';
 
 .front-app .supplementary-box {
   $default-padding: .75rem;
@@ -90,5 +90,17 @@
   }
   > .body > p:last-child {
     margin-bottom: 0;
+  }
+
+  @include mq.media("<=phone") {
+    .header.active-phone {
+      background-color: global-variables.$color-brand-700;
+      color: white;
+    }
+
+    .header.active-phone > .count,
+    .header.active-phone > .toggler {
+      color: white;
+    }
   }
 }
