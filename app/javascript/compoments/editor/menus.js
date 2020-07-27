@@ -2,12 +2,13 @@ import { NodeSelection } from "prosemirror-state"
 import { wrapInList, liftListItem as liftListItemInList, sinkListItem as sinkListItemInList } from "prosemirror-schema-list"
 import { wrapItem, blockTypeItem, MenuItem, Dropdown, icons } from 'prosemirror-menu'
 import { undo, redo } from 'prosemirror-history'
+import { findSelectedNodeOfType } from 'prosemirror-utils'
 
 import { toggleMark, lift, joinUp } from 'prosemirror-commands'
 
 import { Prompt, TextField, ImageFileField } from './prompt'
 import { destroyMark, saveMark, toggleWrap } from './commands'
-import { markIsActive, getMarkAttrs, nodeCanInsert, getMarkRange } from './utils'
+import { markIsActive, getMarkAttrs, nodeCanInsert, getMarkRange, listIsActive } from './utils'
 import { startImageUpload } from './image_upload_plugin'
 import appNoti from '../../helpers/app_noty'
 import getValidUrl from '../../helpers/valid_url'
@@ -56,13 +57,13 @@ const buildMenuItems = (schema, uploadUrl, ruleFileSize) => {
   }
 
   if (type = schema.nodes.bullet_list) {
-    r.wrapBulletList = wrapListItem(type, {
+    r.wrapBulletList = toggleListItem(type, schema, {
       title: "점 리스트",
       icon: iconByClassName("fa fa-list-ul"),
     })
   }
   if (type = schema.nodes.ordered_list) {
-    r.wrapOrderedList = wrapListItem(type, {
+    r.wrapOrderedList = toggleListItem(type, schema, {
       title: "숫자 리스트",
       icon: iconByClassName("fa fa-list-ol"),
     })
@@ -170,8 +171,75 @@ function markItem(markType, options) {
   )
 }
 
-function wrapListItem(nodeType, options) {
-  return cmdItem(wrapInList(nodeType, options.attrs), options)
+function chainTransactions(...commands) {
+  return (state, dispatch) => {
+    const dispatcher = (tr) => {
+      state = state.apply(tr)
+      dispatch(tr)
+    };
+    const last = commands.pop()
+    const reduced = commands.reduce((result, command) => {
+      return result || command(state, dispatcher)
+    }, false)
+    return reduced && last !== undefined && last(state, dispatch)
+  };
+}
+
+function fromNodeInfo(selection, relativeHeight) {
+  let { $from, _ } = selection
+
+  let depth = $from.depth - relativeHeight
+  if (depth < 0) {
+    return null
+  }
+
+  let node = $from.node(depth)
+  return {
+    node,
+    type: node.type,
+    pos: (depth === 0 ? 0 : $from.before(depth)),
+  }
+}
+function toggleList(listType, schema, attrs) {
+  return function(state, dispatch) {
+    if (!dispatch) { return true }
+
+    const oppositeListOf = {
+      bullet_list: 'ordered_list',
+      ordered_list: 'bullet_list',
+    }
+
+    let { $from, _ } = state.selection
+    const parentInfo = fromNodeInfo(state.selection, 1)
+    const grandParentInfo = fromNodeInfo(state.selection, 2)
+
+    let currentListInfo
+    if (parentInfo && parentInfo.type.name in oppositeListOf) {
+      currentListInfo = parentInfo
+    } else if (grandParentInfo && grandParentInfo.type.name in oppositeListOf) {
+      currentListInfo = grandParentInfo
+    } else {
+      currentListInfo = fromNodeInfo(state.selection, 0)
+    }
+
+    let transactions
+    if (currentListInfo.type.name === listType.name) {
+      return liftListItemInList(schema.nodes.list_item)(state, dispatch)
+    } else if (oppositeListOf[currentListInfo.type.name] === listType.name) {
+      const { tr } = state
+      tr.setNodeMarkup(currentListInfo.pos, listType)
+      if (dispatch) {
+        dispatch(tr)
+      }
+      return false
+    } else {
+      return wrapInList(listType, attrs)(state, dispatch)
+    }
+  };
+}
+
+function toggleListItem(nodeType, schema, options) {
+  return cmdItem(toggleList(nodeType, schema, options.attrs), options)
 }
 
 function liftListItem(nodeType, options) {
