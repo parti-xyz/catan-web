@@ -112,9 +112,8 @@ module ApplicationHelper
       if nickname == 'all'
         m.gsub(at_nickname, content_tag('span', at_nickname, class: 'user__nickname--mentioned'))
       else
-        parsed = Rails.cache.fetch "view-user-mention-#{nickname}", race_condition_ttl: 30.seconds, expires_in: 12.hours do
+        parsed = Rails.cache.fetch "view-user-mention-#{group&.id.presence || 'default'}-#{nickname}", race_condition_ttl: 30.seconds, expires_in: 12.hours do
           user = User.find_by nickname: nickname
-        # parsed =
           if user.present?
             if group.frontable?
               content_tag("span", at_nickname, {
