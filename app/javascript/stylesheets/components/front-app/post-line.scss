@@ -31,7 +31,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
+    display: -webkit-box;
     max-width: 95%;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
   }
   > .body > .title.-purged > .link {
     color: global-variables.$color-gray-300;
