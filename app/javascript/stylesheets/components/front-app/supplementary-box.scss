@@ -93,13 +93,13 @@
   }
 
   @include mq.media("<=phone") {
-    .header.active-phone {
+    .header.-active-phone {
       background-color: global-variables.$color-brand-700;
       color: white;
     }
 
-    .header.active-phone > .count,
-    .header.active-phone > .toggler {
+    .header.-active-phone > .count,
+    .header.-active-phone > .toggler {
       color: white;
     }
   }

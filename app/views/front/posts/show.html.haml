@@ -8,10 +8,10 @@
     - comments = @updated_comments&.any? ? @updated_comments : @recent_comments
     - if comments&.any?
       .supplementary-box{ data: { controller: "content-toggle", target: 'fix-bottom-comments.item', 'content-toggle': { id: "updated-comments-box-#{@current_post.id}", force: ('show' unless is_small_screen?) } } }
-        .header{ class: ('active-phone' if @updated_comments&.any?), data: { action: 'click->content-toggle#toggle' } }
+        .header{ class: ('-active-phone' if @updated_comments&.any?), data: { action: 'click->content-toggle#toggle' } }
           .title
             - if @updated_comments&.any?
-              %span.text-primary 이 게시물의 새 댓글
+              이 게시물의 새 댓글
             - else
               이 게시물의 최근 댓글
             &nbsp;
