@@ -6,12 +6,14 @@ import Timer from '../helpers/timer'
 export default class extends Controller {
   static targets = ['channel']
 
+  initialize() {
+    this.syncing = false
+  }
+
   connect() {
     this.timer = new Timer(this.sync.bind(this), this.data.get("refreshInterval"))
 
-    if (this.data.get('first') === 'true') {
-      this.sync()
-    }
+    this.sync()
   }
 
   disconnect() {
@@ -22,14 +24,18 @@ export default class extends Controller {
   }
 
   sync() {
+    if (this.syncing) {
+      return
+    }
+    this.syncing = true
+
     fetch(this.data.get('url'))
       .then(fetchResponseCheck)
       .then(response => {
         if (response) {
           return response.json()
         }
-      })
-      .then(json => {
+      }).then(json => {
         if (json) {
           json.forEach(item => {
             item.needToRead
@@ -37,11 +43,12 @@ export default class extends Controller {
               : this.read(item.id)
           })
         }
-      })
-      .catch(e => {
+      }).catch(e => {
         if (this.timer) {
           this.timer.stop()
         }
+      }).finally(() => {
+        this.syncing = false
       })
   }
 
