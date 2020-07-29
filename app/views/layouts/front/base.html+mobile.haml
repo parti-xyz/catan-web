@@ -6,7 +6,7 @@
     = render 'layouts/front/header'
 
     - recommend_to_join = user_signed_in? && !current_group.member?(current_user) && !current_group.private?
-    .front-main{ class: ('-need-to-join' unless recommend_to_join) }
+    .front-main{ class: ('-need-to-join' if recommend_to_join) }
       - if recommend_to_join
         = render 'layouts/front/joinbar'
       .front-body.-no-header

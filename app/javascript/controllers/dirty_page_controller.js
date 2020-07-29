@@ -4,6 +4,7 @@ export default class extends Controller {
   static targets = ['form']
 
   connect() {
+    this.alerted = false;
     document.addEventListener('beforeunload', this.preventLeaving.bind(this))
     document.addEventListener("turbolinks:before-visit", this.preventVisiting.bind(this))
   }
@@ -12,23 +13,27 @@ export default class extends Controller {
     document.removeEventListener('beforeunload', this.preventLeaving.bind(this))
     document.removeEventListener("turbolinks:before-visit", this.preventVisiting.bind(this))
 
-    if (this.anyDirtyForm()) {
-      alert('저장되지 않은 변경사항이 있습니다. 이전 페이지로 이동해 주세요.')
+    if (!this.alerted && this.anyDirtyForm()) {
+      alert('저장되지 않은 변경사항이 있습니다.')
     }
+    this.alerted = false
   }
 
   preventLeaving(event) {
-    if (this.anyDirtyForm()) {
+    if (!this.alerted && this.anyDirtyForm()) {
       event.preventDefault()
       event.returnValue = '페이지를 이동하시겠습니까? 변경사항이 저장되지 않을 수 있습니다.'
+      this.alerted = true
     }
   }
 
   preventVisiting(event) {
-    if (this.anyDirtyForm()) {
+    if (!this.alerted && this.anyDirtyForm()) {
       if (!confirm('페이지를 이동하시겠습니까? 변경사항이 저장되지 않을 수 있습니다.')) {
         event.preventDefault()
+        return
       }
+      this.alerted = true
     }
   }
 

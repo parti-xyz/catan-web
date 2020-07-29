@@ -29,7 +29,7 @@
     - if current_wiki.active?
       .submitbox
         - if current_wiki.persisted?
-          = link_to '닫기', front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-link btn-sm btn-block-phone', data: { 'turbolinks-action': 'replace', confirm: '정말 저장하지 않고 닫겠습니까?' }
+          = link_to '닫기', front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-link btn-sm btn-block-phone', data: { 'turbolinks-action': 'replace', confirm: '정말 닫겠습니까? 편집 중인 내용이 있다면 지워집니다.' }
         = f.button '저장하고 닫기', class: 'btn btn-secondary btn-sm btn-block-phone', value: 'after_close', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
         = f.submit '저장하고 계속 편집', class: 'btn btn-primary btn-sm btn-block-phone', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
 
