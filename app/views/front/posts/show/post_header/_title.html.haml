@@ -1,8 +1,12 @@
 .post-header{ data: { controller: 'content-replacement' }, class: ('-wiki' if current_post.wiki.present?) }
   - post_title_control = capture do
-    - if !current_post.wiki.present? && can?(:front_update_title, current_post)
-      = link_to edit_title_front_post_path(current_post), class: 'btn btn-primary btn-sm', remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' } do
-        편집
+    - if !current_post.wiki.present?
+      - if can?(:edit, current_post)
+        = link_to edit_front_post_path(current_post), class: 'btn btn-primary btn-sm' do
+          편집
+      - elsif can?(:front_update_title, current_post)
+        = link_to edit_title_front_post_path(current_post), class: 'btn btn-primary btn-sm', remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' } do
+          편집
   - post_label_control = capture do
     - if current_post.label.present?
       = render 'front/labels/dropdown', current_post: current_post

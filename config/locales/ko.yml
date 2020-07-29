@@ -181,6 +181,7 @@ ko:
       post:
         body: 내용
         decision: 토론 정리
+        base_title: 제목
       survey:
         duration_days: 기간
       folder:
