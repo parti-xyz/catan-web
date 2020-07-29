@@ -24,23 +24,30 @@ export default class extends Controller {
     let valid = true
     if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length < 0) {
       appNoty('댓글 내용을 입력해 주세요', 'warning', true).show()
-      this.messageTarget.classList.add('is-invalid')
+      this.bodyFieldTarget.classList.add('is-invalid')
       valid = false
     }
 
     if (valid == false) {
       event.preventDefault()
-      setTimeout(function () { this.submitButtonTargets.forEach(el => jQuery.rails.enableElement(el)) }.bind(this), 1000)
+      setTimeout(() => { jQuery.rails.enableElement(this.submitControlTarget) }, 1000)
       return false
     }
   }
 
-  updateBodyField(event) {
+  focusBodyField(event) {
+    this.submitControlTarget.classList.add('btn-primary')
+    this.submitControlTarget.classList.remove('btn-light')
+  }
+
+  blurBodyField(event) {
     const value = this.bodyFieldTarget.value
     if (value && value.length > 0) {
-      this.submitControlTarget.classList.add('show')
+      this.submitControlTarget.classList.add('btn-primary')
+      this.submitControlTarget.classList.remove('btn-light')
     } else {
-      this.submitControlTarget.classList.remove('show')
+      this.submitControlTarget.classList.remove('btn-primary')
+      this.submitControlTarget.classList.add('btn-light')
     }
   }
 

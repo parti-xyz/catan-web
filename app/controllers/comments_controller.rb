@@ -33,6 +33,7 @@ class CommentsController < ApplicationController
     @comments_count = @comment.post.comments_count
     if @comment.errors.any?
       errors_to_flash(@comment)
+      head 204 and return if helpers.explict_front_namespace?
     end
 
     if helpers.explict_front_namespace?
