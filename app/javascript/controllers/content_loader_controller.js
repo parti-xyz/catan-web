@@ -97,12 +97,16 @@ export default class extends Controller {
 
   reload(event) {
     event.preventDefault()
+    let oldEnableRefreshing = this.enableRefreshing
+    this.enableRefresh()
+
     let currentInnerHTML = event.target.innerHTML
     if (event.target.dataset.disableWith) {
       event.target.innerHTML = event.target.dataset.disableWith
     }
     this.load(() => {
       event.target.innerHTML = currentInnerHTML
+      this.enableRefreshing = oldEnableRefreshing
     })
   }
 
