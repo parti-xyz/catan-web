@@ -2,10 +2,10 @@
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"
 
+import polyfills from '../helpers/polyfills'
 import 'jquery'
 import 'popper.js'
 import 'bootstrap'
-import elementClosest from 'element-closest'
 import appNoty from '../helpers/app_noty'
 import scrollIntoView from 'scroll-into-view'
 
@@ -14,9 +14,10 @@ import '../stylesheets/site'
 import 'controllers'
 import ParamMap from '../helpers/param_map'
 
+polyfills(window)
+
 Rails.start()
 Turbolinks.start()
-elementClosest(window)
 
 if (window.jQuery) {
   jQuery(document).on('ajax:success ajax:error', function (event) {
