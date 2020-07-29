@@ -86,11 +86,14 @@
     font-size: bootstrap.$font-size-sm;
     color: global-variables.$color-gray-300;
     padding: 0.25rem .5rem;
-    border: 1px solid global-variables.$color-gray-300;
+    background-color: global-variables.$color-gray-100;
     border-radius: 9999px;
     line-height: 1rem;
     margin-right: 1rem;
     cursor: pointer;
+  }
+  &.-active > .footer > .label  {
+    background-color: global-variables.$color-gray-200;
   }
   > .footer > .label > .toggle > .preview {
     color: global-variables.$color-gray-600;
