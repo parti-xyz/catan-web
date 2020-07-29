@@ -15,7 +15,7 @@
     "include-media": "1.4.9",
     "jquery": "3.5.0",
     "justifiedGallery": "3.7.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.19",
     "node-sass-glob-importer": "5.3.2",
     "noty": "3.2.0-beta",
     "photoswipe": "parti-coop/PhotoSwipe#downloadable",
