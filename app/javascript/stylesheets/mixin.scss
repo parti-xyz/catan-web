@@ -67,6 +67,13 @@
     margin-top: 0;
   }
 
+  ul + ul,
+  ul + ol,
+  ol + ul,
+  ol + ol {
+    margin-top: 1rem;
+  }
+
   li > p {
     margin: 0;
   }
