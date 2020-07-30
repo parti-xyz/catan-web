@@ -73,6 +73,10 @@ body.-pack.-simple.app-users {
   height: 100%;
   width: 100%;
   margin: 0;
+
+  @include mq.media('>phone') {
+    min-width: 1000px;
+  }
 }
 
 .front-app {
