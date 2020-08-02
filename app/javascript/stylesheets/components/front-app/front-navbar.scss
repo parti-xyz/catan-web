@@ -87,6 +87,27 @@
     top: 0;
   }
 
+  > .groupmenus {
+    flex: none;
+    display: flex;
+  }
+  > .groupmenus > .homeitem {
+    position: relative;
+    margin-right: 1rem;
+    padding: .125rem 1rem;
+    border-radius: 99999px;
+    background-color: white;
+  }
+
+  > .centermenu > .link,
+  > .groupmenus > .homeitem > .link {
+    font-weight: bold;
+  }
+  > .centermenu > .moremenu > .meta,
+  > .groupmenus > .homeitem > .meta {
+    opacity: .4;
+  }
+
   > .profilemenus {
     flex: none;
     display: flex;

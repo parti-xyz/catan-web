@@ -21,48 +21,38 @@
             %span.text{ 'data-target': 'front-search.menuItemText' }
             %span.scope 그룹 내 검색
 
-  .navbar-group-menu
-    - if current_group.member?(current_user) || current_user&.admin?
-
-      - moremenu_content = capture do
-        = link_to root_path, class: 'dropdown-item' do
-          %i.fa.fa-home.text-muted
-          홈
-
-        - group_menus = capture do
-          - if current_group.organized_by?(current_user) || current_user&.admin?
-            = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
-              그룹 관리
-          - if current_group.organized_by?(current_user) || current_user&.admin?
-            = link_to group_members_path, class: 'dropdown-item', target: '_blank' do
-              멤버 관리(2.0)
-              %i.fa.fa-external-link
-          - if current_group.organized_by?(current_user) || current_user&.admin?
-            = link_to edit_current_group_front_categories_path, class: 'dropdown-item' do
-              채널 카테고리 관리
-          - if current_group.creatable_issue?(current_user) || current_user&.admin?
-            = link_to new_front_channel_path, class: 'dropdown-item' do
-              채널 만들기
-
-        - if group_menus.present?
-          .dropdown-divider
-          = group_menus
-
-        - if current_group.member?(current_user)
-          .dropdown-divider
-          = link_to edit_me_front_members_path, class: 'dropdown-item' do
-            내 프로필
-          = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
-      .moremenu
-        .dropdown{ data: { controller: 'phone-dropdown' } }
-          .title.cursor-pointer{ "data-toggle": "dropdown" }
-            = current_group.title
-            = meta_icons(current_group)
-          .dropdown-menu.dropdown-menu-right
-            = moremenu_content
-    - else
+  .groupmenus
+    .homeitem
       = link_to current_group.title, root_url, class: 'link'
       = meta_icons(current_group)
+    - if current_group.member?(current_user) || current_user&.admin?
+      .dropdown{ data: { controller: 'phone-dropdown' } }
+        .toggle.cursor-pointer{ "data-toggle": "dropdown" }
+          %i.fa.fa-ellipsis-h
+        .dropdown-menu
+          - group_menus = capture do
+            - if current_group.organized_by?(current_user) || current_user&.admin?
+              = link_to edit_front_group_path(current_group), class: 'dropdown-item' do
+                그룹 관리
+            - if current_group.organized_by?(current_user) || current_user&.admin?
+              = link_to group_members_path, class: 'dropdown-item', target: '_blank' do
+                멤버 관리
+                %i.fa.fa-external-link
+            - if current_group.organized_by?(current_user) || current_user&.admin?
+              = link_to edit_current_group_front_categories_path, class: 'dropdown-item' do
+                채널 카테고리 관리
+            - if current_group.creatable_issue?(current_user) || current_user&.admin?
+              = link_to new_front_channel_path, class: 'dropdown-item' do
+                채널 만들기
+
+          = group_menus
+
+          - if current_group.member?(current_user)
+            - if group_menus.present?
+              .dropdown-divider
+            = link_to edit_me_front_members_path, class: 'dropdown-item' do
+              내 프로필
+            = link_to "#{current_group.title} 그룹 탈퇴", front_member_cancel_path(current_user.smart_group_member(current_group)), method: :delete, class: 'dropdown-item', data: { confirm: "정말 #{current_group.title} 그룹에서 탈퇴하시겠습니까? 그룹에 게시한 글은 모두 보존되며 빠띠 가입도 유지됩니다." }
 
   .profilemenus
     - if user_signed_in? && current_group&.member?(current_user)
