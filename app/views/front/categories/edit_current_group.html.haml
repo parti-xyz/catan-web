@@ -1,6 +1,6 @@
 %section
   .container
-    %h3.text-keepall
+    %h3.text-keepall.text-center
       %i.fa.fa-list-alt
       채널 카테고리 관리
 
@@ -13,7 +13,7 @@
             = submit_tag '저장', class: 'btn btn-default btn-primary', data: { disable_with: "저장 중...", target: 'category-form.submitButton' }
 
 
-    %section.pt-3{ data: { controller: 'category-move-status', action: 'category-move-submit-begin@window->category-move-status#startRequest category-move-submit-end@window->category-move-status#endRequest category-move-submit-error@window->category-move-status#errorRequest' } }
+    .simple-box.pt-3{ data: { controller: 'category-move-status', action: 'category-move-submit-begin@window->category-move-status#startRequest category-move-submit-end@window->category-move-status#endRequest category-move-submit-error@window->category-move-status#errorRequest' } }
       %h5
         채널 카테고리 설정
         %small.text-primary{ data: { target: 'category-move-status.view' } }

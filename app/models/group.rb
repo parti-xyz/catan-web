@@ -52,6 +52,7 @@ class Group < ApplicationRecord
   belongs_to :front_wiki_post_by, class_name: 'User', optional: true
   belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
   has_many :last_visited_users, as: :last_visitable, class_name: 'User', dependent: :nullify
+  has_many :labels, dependent: :destroy
 
   scope :sort_by_name, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
   scope :hottest, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }

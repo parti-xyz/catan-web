@@ -7,7 +7,7 @@
       = image_tag 'tada.png'
 
     %p.text-keepall.text-center
-      잠시 후 가입 확인 링크가 담긴 이메일을 보내드립니다.
+      잠시 후 계정확인 링크가 담긴 이메일을 보내드립니다.
       %br.d-sm-none.d-md-block
       이메일의 링크를 클릭한 후, 크루 인증을 진행해주세요.
 
@@ -25,6 +25,6 @@
         %br
         = link_to '로그인하기', new_user_session_path, class: 'text-primary text-nowrap'
       %p
-        ※ 가입확인 메일을 잊어버리셨나요?
+        ※ 계정확인 메일을 잊어버리셨나요?
         %br
-        = link_to '가입확인 메일 다시 받기', new_user_confirmation_path, class: 'text-primary text-nowrap'
+        = link_to '계정확인 메일 다시 받기', new_user_confirmation_path, class: 'text-primary text-nowrap'

@@ -25,9 +25,12 @@ legend.legend-default {
 .simple-box {
   word-break: keep-all;
   padding: 3rem 0;
+  width: 100%;
   max-width: 600px;
   min-width: 300px;
   text-align: left;
+  margin-left: auto;
+  margin-right: auto;
   @include mq.media('<=phone') {
     max-width: auto;
     min-width: auto;
@@ -36,6 +39,9 @@ legend.legend-default {
 }
 .simple-box p {
   word-break: keep-all;
+}
+.simple-box.-half {
+  width: 300px;
 }
 
 .small.fa {

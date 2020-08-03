@@ -17,7 +17,7 @@ class Front::PagesController < Front::BaseController
     end
 
     @posts = current_group_accessible_only_posts
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, wiki: [ :last_wiki_history ], issue: [ :current_user_issue_reader, :labels ])
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, wiki: [ :last_wiki_history] , issue: [ :current_user_issue_reader ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
 
@@ -33,6 +33,11 @@ class Front::PagesController < Front::BaseController
 
       if params.dig(:filter, :condition) == 'needtoread' && user_signed_in?
         @posts = @posts.need_to_read_only(current_user)
+      end
+      if params.dig(:filter, :label_id).present?
+        label_id = params.dig(:filter, :label_id)
+        @label_q = Label.find_by(id: label_id)
+        @posts = @posts.where(label: @label_q)
       end
       @posts.load
     end
@@ -96,9 +101,9 @@ class Front::PagesController < Front::BaseController
   private
 
   def group_sidebar_content
-    @current_issue = Issue.includes(:folders, :labels, :current_user_issue_reader).find_by(id: params[:issue_id])
+    @current_issue = Issue.includes(:folders, :current_user_issue_reader).find_by(id: params[:issue_id])
     @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
-    @issues = current_group.issues.includes(:folders, :labels, :current_user_issue_reader, :category).accessible_only(current_user).sort_default
+    @issues = current_group.issues.includes(:folders, :current_user_issue_reader, :category).accessible_only(current_user).sort_default
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
   end
 

@@ -3,7 +3,7 @@
     %h3.text-keepall
       %i.fa.fa-user
       로그인
-    .simple-box{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
+    .simple-box.-half{ style: 'padding: 3rem 0', data: { controller: 'form-dynamic-action' } }
       = link_to '#', data: { action: 'click->form-dynamic-action#submit', 'form-url': omniauth_authorize_url(:user, :facebook, subdomain: false), 'mobile-app-handler': 'startSocialSignIn', 'mobile-app-url': mobile_app_auth_url(subdomain: nil, provider: :facebook, remember_me: true, fallback_url: omniauth_authorize_url(:user, :facebook, subdomain: false)) }, class: 'btn btn-white btn-block', style: 'border-radius: 999px;' do
         %i.fa.fa-facebook{style: 'font-size: 22px; color: #2a3ab0; vertical-align: top;'}
         페이스북 아이디로 로그인
@@ -28,7 +28,7 @@
   .container
     %p
       처음 오셨나요?
-      = link_to '가입하기', pre_sign_up_front_users_path, class: 'text-primary text-nowrap'
+      = link_to '계정 만들기', pre_sign_up_front_users_path, class: 'text-primary text-nowrap'
     %p
-      가입확인 메일을 잊어버리셨나요?
-      = link_to '가입확인 메일 다시 받기', new_user_confirmation_path, class: 'text-primary text-nowrap'
+      계정확인 메일을 잊어버리셨나요?
+      = link_to '계정확인 메일 다시 받기', new_user_confirmation_path, class: 'text-primary text-nowrap'

@@ -3,7 +3,7 @@ class Front::PostsController < Front::BaseController
     @current_post = Post.includes(:issue, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, :label, user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
       .find(params[:id])
 
-    @current_issue = Issue.includes(:folders, :labels, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
+    @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     if user_signed_in?
@@ -61,7 +61,7 @@ class Front::PostsController < Front::BaseController
 
   def new
     render_403 and return unless user_signed_in?
-    @current_issue = Issue.includes(:folders, :labels, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:issue_id])
+    @current_issue = Issue.includes(:folders, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:issue_id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_issue.folders.find_by(id: params[:folder_id])
@@ -75,11 +75,11 @@ class Front::PostsController < Front::BaseController
     render_403 and return unless user_signed_in?
 
     @current_post = Post
-      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, issue: [ :folders, :labels ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
+      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, issue: [ :folders ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:id])
     authorize! :update, (@current_post.wiki.presence || @current_post)
 
-    @current_issue = Issue.includes(:folders, :labels, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
+    @current_issue = Issue.includes(:folders, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
 
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
@@ -91,7 +91,7 @@ class Front::PostsController < Front::BaseController
   def edit_title
     render_403 and return unless user_signed_in?
 
-    @current_post = Post.includes(:label, issue: [:labels]).find(params[:id])
+    @current_post = Post.includes(:label, :issue).find(params[:id])
     authorize! :front_update_title, @current_post
 
     render layout: nil
@@ -109,7 +109,7 @@ class Front::PostsController < Front::BaseController
 
     @current_post.strok_by(current_user)
     @current_post.base_title = params[:post][:base_title]
-    @current_post.label = Label.find_by(id: params[:post][:label_id])
+    @current_post.label_id = params[:post][:label_id]
     if @current_post.save
       @current_post.read!(current_user)
 

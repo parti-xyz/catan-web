@@ -1,0 +1,53 @@
+%section
+  .container
+    %h3.text-center
+      %i.fa.fa-tags
+      라벨 관리
+    .simple-box{ data: { controller: 'content-collapse' } }
+      .mb-4
+        - if current_group.labels.empty?
+          라벨이 없습니다. 라벨을 만들고 게시물에 붙여 보세요.
+        - else
+          = link_to '만들기', '#', class: 'btn btn-primary btn-sm', data: { action: 'click->content-collapse#toggle$' }
+
+      %ul.list-group{ class: ('collapse' if current_group.labels.any?), data: { target: 'content-collapse.content' } }
+        %li.list-group-item.d-flex.justify-content-between.align-items-center.bg-light.pt-4
+          = form_with model: [:front, Label.new], local: false, class: 'w-100' do |f|
+            .form-row.align-items-end
+              .form-group.col-lg-auto.col-md-12
+                = f.label :title
+                = f.text_field :title, class: 'form-control', maxlength: 5
+              .form-group.col-lg.col-md-12
+                = f.label :body
+                = f.text_field :body, class: 'form-control', maxlength: 50
+              .form-group.col-lg-auto.col-md-12
+                = f.submit '저장', class: 'btn btn-primary'
+                = link_to '취소', '#', class: 'btn btn-link'
+
+      %ul.list-group.mt-4
+        - current_group.labels.each do |label|
+          %li.list-group-item{ data: { controller: 'content-collapse' } }
+            .d-flex.justify-content-between.align-items-center
+              %span
+                %span= label.title
+                %br.d-block.d-lg-none
+                %span.d-none.d-lg-inline.ml-4
+                %span.small.body.text-muted= label.body
+              %span.text-nowrap
+                - if label.posts_count >0
+                  %span.body.text-muted.mr-4.d-none.d-lg-inline #{label.posts_count}개 게시글
+                = link_to '수정', '#', class: 'btn btn-link', data: { action: 'click->content-collapse#toggle$' }
+                = link_to '삭제', [:front, label], method: :delete, class: 'btn btn-link', data: { confirm: '정말 삭제하시겠습니까?' }
+            .collapse{ data: { target: 'content-collapse.content' } }
+              %hr
+              = form_with model: [:front, label], local: false, class: 'w-100', class: 'pt-2' do |f|
+                .form-row.align-items-end
+                  .form-group.col-lg-auto.col-md-12
+                    = f.label :title
+                    = f.text_field :title, class: 'form-control w-10', maxlength: 5
+                  .form-group.col-lg.col-md-12
+                    = f.label :body
+                    = f.text_field :body, class: 'form-control', maxlength: 50
+                  .form-group.col-lg-auto.col-md-12
+                    = f.submit '저장', class: 'btn btn-primary'
+                    = link_to '취소', '#', class: 'btn btn-link'

@@ -5,7 +5,7 @@
       계정 만들기
 
     - if current_group.present?
-      .alert.alert-secondary.mt-4.w-100
+      .alert.d-inline-block.alert-secondary.mt-4
         #{current_group.title}에 가입하려면 먼저 계정을 만들어야 합니다.
 
     .simple-box
@@ -51,3 +51,9 @@
             %a.text-primary{href: '/privacy', target: '_blank'}
               %b 개인정보처리방침 내용을 이해하고
             동의하게 됩니다.
+
+%section.text-center
+  .container
+    %p
+      다른 방법으로 가입하실래요?
+      = link_to '다른 방법으로 계정 만들기', pre_sign_up_front_users_path, class: 'text-primary text-nowrap'

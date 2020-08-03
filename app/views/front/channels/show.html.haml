@@ -53,15 +53,14 @@
       .pages
         = render 'front/share/channel_box_header/page', posts: @posts, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: read_all_posts_front_channel_path(@current_issue)
 
-      - if @current_issue.labels.present?
+      - if current_group.labels.present?
         .control
           .dropdown{ data: { controller: 'phone-dropdown' } }
             .toggle.cursor-pointer{ "data-toggle": "dropdown" }
               = @label_q&.title.presence || '라벨 선택'
               %i.fa.fa-angle-down
             .dropdown-menu.usermenu.dropdown-menu-right
-              - @current_issue.labels.each do |label|
-
+              - current_group.labels.each do |label|
                 = link_to url_for(@permited_params.deep_merge(filter: { label_id: label.id })), class: 'dropdown-item' do
                   = label.title
                   %br.d-block.d-lg-none

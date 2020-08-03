@@ -12,7 +12,7 @@ class Ability
     can [:reload], Event
 
     if user
-      can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members, :labels], Issue do |issue|
+      can [:update, :destroy, :destroy_form, :remove_logo, :remove_cover, :new_admit_members, :admit_members], Issue do |issue|
         user.is_organizer?(issue)
       end
       can [:create, :new_intro, :search_by_tags, :selections], [Issue]
@@ -128,7 +128,7 @@ class Ability
         can [:manage], GroupHomeComponent
       end
 
-      can [:coc_wiki], Group do |group|
+      can [:coc_wiki, :labels], Group do |group|
         group.organized_by?(user)
       end
 

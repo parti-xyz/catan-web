@@ -44,6 +44,9 @@
             - if current_group.creatable_issue?(current_user) || current_user&.admin?
               = link_to new_front_channel_path, class: 'dropdown-item' do
                 채널 만들기
+            - if current_group.organized_by?(current_user) || current_user&.admin?
+              = link_to front_labels_path, class: 'dropdown-item' do
+                라벨 관리
 
           = group_menus
 

@@ -1,6 +1,6 @@
 class Front::ChannelsController < Front::BaseController
   def show
-    @current_issue = Issue.includes(:folders, :labels, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:id])
+    @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
@@ -109,12 +109,5 @@ class Front::ChannelsController < Front::BaseController
     end
 
     turbolinks_redirect_to front_channel_path(id: params[:id])
-  end
-
-  def labels
-    render_403 and return unless user_signed_in?
-
-    @current_issue = Issue.includes(:labels).find(params[:id])
-    authorize! :labels, @current_issue
   end
 end

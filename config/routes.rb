@@ -435,7 +435,6 @@ Rails.application.routes.draw do
       member do
         get :destroy_form
         patch :read_all_posts
-        get :labels
       end
       collection do
         get :sync
@@ -569,6 +568,6 @@ Rails.application.routes.draw do
     end
     resources :categories, only: [:create, :update, :destroy], controller: '/group/categories'
 
-    resources :labels, only: [:create, :update, :destroy]
+    resources :labels, only: [:index, :create, :update, :destroy]
   end
 end

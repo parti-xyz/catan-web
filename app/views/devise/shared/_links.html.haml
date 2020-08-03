@@ -9,7 +9,7 @@
         = link_to "비밀번호를 잊으셨나요?", new_password_path(:user)
     / - if Devise.mappings[:user].confirmable? && controller_name != 'confirmations'
     /   %li(style='margin-right: 0')
-    /     = link_to "가입확인 메일 재발송", new_confirmation_path(:user)
+    /     = link_to "확인 메일 재발송", new_confirmation_path(:user)
     - if Devise.mappings[:user].lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
       %li(style='margin-right: 0')
         = link_to "잠금 해제 절차를 안내하는 메일을 받지 못하셨나요??", new_unlock_path(:user)

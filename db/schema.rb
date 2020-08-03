@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_12_232105) do
+ActiveRecord::Schema.define(version: 2020_08_02_193151) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -260,6 +260,7 @@ ActiveRecord::Schema.define(version: 2020_07_12_232105) do
     t.string "coc_btn_text_color", default: "#ffffff"
     t.string "navbar_coc_text_color", default: "#5e2abb"
     t.string "organization_slug", default: "default"
+    t.integer "labels_count", default: 0
     t.index ["blinded_by_id"], name: "index_groups_on_blinded_by_id"
     t.index ["front_wiki_post_by_id"], name: "index_groups_on_front_wiki_post_by_id"
     t.index ["front_wiki_post_id"], name: "index_groups_on_front_wiki_post_id"
@@ -337,7 +338,6 @@ ActiveRecord::Schema.define(version: 2020_07_12_232105) do
     t.bigint "blinded_by_id"
     t.datetime "blinded_at"
     t.integer "position", default: 0, null: false
-    t.integer "labels_count", default: 0
     t.index ["blinded_by_id"], name: "index_issues_on_blinded_by_id"
     t.index ["category_id"], name: "index_issues_on_category_id"
     t.index ["deleted_at"], name: "index_issues_on_deleted_at"
@@ -347,13 +347,15 @@ ActiveRecord::Schema.define(version: 2020_07_12_232105) do
   end
 
   create_table "labels", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.bigint "issue_id", null: false
+    t.bigint "deprecated_issue_id"
     t.string "title", null: false
     t.string "body"
     t.integer "posts_count", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["issue_id"], name: "index_labels_on_issue_id"
+    t.bigint "group_id"
+    t.index ["deprecated_issue_id"], name: "index_labels_on_deprecated_issue_id"
+    t.index ["group_id"], name: "index_labels_on_group_id"
   end
 
   create_table "landing_pages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

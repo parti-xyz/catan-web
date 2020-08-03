@@ -62,6 +62,22 @@
       .pages
         = render 'front/share/channel_box_header/page', posts: @posts, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: front_read_all_posts_path(@current_issue)
 
+      - if current_group.labels.present?
+        .control
+          .dropdown{ data: { controller: 'phone-dropdown' } }
+            .toggle.cursor-pointer{ "data-toggle": "dropdown" }
+              = @label_q&.title.presence || '라벨 선택'
+              %i.fa.fa-angle-down
+            .dropdown-menu.usermenu.dropdown-menu-right
+              - current_group.labels.each do |label|
+                = link_to url_for(@permited_params.deep_merge(filter: { label_id: label.id })), class: 'dropdown-item' do
+                  = label.title
+                  %br.d-block.d-lg-none
+                  %small.text-muted= label.body
+              - if @label_q.present?
+                = link_to url_for(@permited_params.deep_merge(filter: { label_id: nil })), class: 'dropdown-item' do
+                  라벨 검색 취소
+
     - if @posts.any?
       = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
     - else

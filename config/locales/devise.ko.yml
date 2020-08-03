@@ -89,7 +89,7 @@ ko:
         receive_confirmation: "확인 절차를 받지 못했습니까?"
         receive_unlock: "풀기 절차를 받지 못했습니까?"
         sign_in: "로그인"
-        sign_up: "가입하기"
+        sign_up: "계정 만들기"
         sign_up_closed: "현재 공개 가입이 닫혀있습니다."
       mail_signup_form:
         sign_up_for_an_invite: "초대장을 받으세요!"
