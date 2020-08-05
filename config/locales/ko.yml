@@ -197,7 +197,7 @@ ko:
     successful:
       messages:
         created: 저장되었습니다.
-        completed: 처리되었습니다.
+        completed: 적용되었습니다.
         no_changed: 이미 저장되었습니다.
         deleted: 삭제되었습니다.
         released: 해제되었습니다.

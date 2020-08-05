@@ -118,7 +118,7 @@ class Post < ApplicationRecord
   validates :issue, presence: true
   validates :user, presence: true
   validate :references_check
-  validates :base_title, length: { maximum: 50 }
+  validates :base_title, length: { maximum: 50 }, if: :base_title_changed?
 
   # scopes
   default_scope -> { joins(:issue) }

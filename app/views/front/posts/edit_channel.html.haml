@@ -1,0 +1,13 @@
+.modal-header
+  %h6.modal-title 다른 채널로 게시물 이동
+  %button.close.-sm{ "aria-label": "Close", data: { action: 'click->modal#close' } }
+    %span{ "aria-hidden": 'true' } ×
+.modal-body
+  = form_with url: channel_front_post_path(@current_post), method: :patch, local: false do |f|
+    .form-group.channels-select-form-group
+      %select.channels-select-form-control{ name: 'post[issue_id]', data: { controller: 'select2-box', action: 'select2-box:select->select2-box#fieldValue' } }
+        != categorized_issue_options_for_select(@issues, @current_post.issue.id)
+    .pull-right
+      = f.submit '이동하기', class: 'submit btn btn-primary btn-sm', data: { target: 'post-title-form.submitButton' }
+
+

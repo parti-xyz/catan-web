@@ -516,19 +516,14 @@ module ApplicationHelper
     params[:namespace_slug] == 'front'
   end
 
-  # 추후 검증요으로 사용될 수 있음 임시로 놔둠
-  # def _front_namespace?
-  #   (
-  #     !browser.device.mobile? or devise_controller? or
-  #     (controller_name == 'home' and action_name == 'show' and !current_group&.member?(current_user)) or
-  #     (controller_name == 'users' and action_name == 'inactive_sign_up') or
-  #     (controller_name == 'users' and action_name == 'pre_sign_up') or
-  #     (controller_name == 'users' and action_name == 'email_sign_in') or
-  #     (controller_name == 'member_requests' and action_name == 'private_blocked') or
-  #     (controller_name == 'member_requests' and action_name == 'new') or
-  #     (controller_name == 'member_requests' and action_name == 'create')
-  #   )
-  # end
+  def categorized_issue_options_for_select(issues, selected_key = nil, options = {})
+    return grouped_options_for_select(issues.to_a
+      .group_by { |issue| issue.category }
+      .sort_by{ |category, _| Category.default_compare_values(category) }
+      .map { |category, issues|
+        [(category&.name.presence || '미분류'), issues.map { |issue| [ "# #{issue.title}", issue.id] }]
+      }, selected_key, options)
+  end
 
   def options_for_threaded_folders(threaded_folders, current_folder)
     flatten_threaded_folders(threaded_folders)

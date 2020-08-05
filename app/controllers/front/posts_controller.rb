@@ -144,6 +144,8 @@ class Front::PostsController < Front::BaseController
 
   def cancel_title_form
     @current_post = Post.includes(:label, :wiki).find(params[:id])
+    authorize! :front_update_title, @current_post
+
     render layout: nil
   end
 
@@ -160,6 +162,36 @@ class Front::PostsController < Front::BaseController
     @list_nav_params = list_nav_params()
   end
 
-  def edit_folder
+  def edit_channel
+    @current_post = Post.includes(:issue).find(params[:id])
+    authorize! :move_to_issue, @current_post
+
+    @issues = current_group.issues.includes(:category).sort_default
+
+    render layout: nil
+  end
+
+  def update_channel
+    issue_id = params[:post][:issue_id]
+    render_404 and return if issue_id.blank?
+
+    @current_post = Post.includes(:issue).find(params[:id])
+    authorize! :move_to_issue, @current_post
+
+    redirect_back(fallback_location: smart_front_post_url(@current_post)) and return if @current_post.issue_id.to_s == issue_id.strip
+
+    @current_post.strok_by(current_user)
+    @current_post.assign_attributes(issue_id: issue_id, folder: nil)
+
+    if @current_post.save
+      @current_post.upvotes.update_all(issue_id: issue_id)
+      Upvote.where(upvotable: @current_post.comments).update_all(issue_id: issue_id)
+
+      flash[:notice] = I18n.t('activerecord.successful.messages.completed')
+    else
+      flash[:alert] = I18n.t('errors.messages.unknown')
+    end
+
+    turbolinks_redirect_to smart_front_post_url(@current_post)
   end
 end

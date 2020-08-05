@@ -91,9 +91,6 @@
           %small TIP. 해당 그룹의 커뮤니티 가이드 페이지에 게시됩니다.
 
 - moremenu_post_buttons << capture do
-  - if @current_post.pinned?
-    .dropdown-header
-      고정된 게시글입니다.
   - if can?(:pin, @current_post)
     - if @current_post.pinned?
       = link_to unpin_front_post_path(@current_post, list_nav: @list_nav_params), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
@@ -101,6 +98,14 @@
     - else
       = link_to pin_front_post_path(@current_post, list_nav: @list_nav_params), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
         이 게시글을 고정하기
+  - if @current_post.pinned?
+    .dropdown-header
+      고정된 게시글입니다.
+
+- moremenu_post_buttons << capture do
+  - if can?(:move_to_issue, @current_post)
+    .dropdown-item.cursor-pointer{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_channel_front_post_path(@current_post) } }
+      다른 채널로 게시물 이동
 
 - post_control = capture do
   - moremenu_post_buttons.reject! { |button_group| button_group.blank? }

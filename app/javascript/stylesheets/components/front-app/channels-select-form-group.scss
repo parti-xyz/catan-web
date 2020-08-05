@@ -1,0 +1,19 @@
+@use '../../bootstrap';
+@use '../../mq';
+
+.front-app-modal .channels-select-form-group {
+  font-size: bootstrap.$font-size-xs;
+
+  > .select2 {
+    min-width: 100%;
+    display: inline-block;
+  }
+
+  > .select2 > .selection > .select2-selection {
+    height: 1.85rem;
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  @include mq.media('<=phone') {
+  }
+}

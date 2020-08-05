@@ -462,6 +462,8 @@ Rails.application.routes.draw do
         get :cancel_title_form
         patch :title, action: 'update_title'
         patch :label, action: 'update_label'
+        get :edit_channel
+        patch :channel, action: 'update_channel'
       end
       shallow do
         resources :comments, only: [:create, :update, :destroy], controller: '/comments' do
