@@ -28,7 +28,7 @@
         %li.organizer-member
           %span.userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
           %span.usernickname= user.nickname
-          %span.memberrole= user.current_group_member.role
+          %span.memberrole= user.current_group_member&.role
 - else
   .supplementary-box
     .header
