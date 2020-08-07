@@ -396,9 +396,8 @@ function iconHeadingByClassName(i) {
 
   var temp = document.createElement('div')
   temp.innerHTML = icons['h' + i]
-  console.log(temp)
 
-  return { dom: temp    .firstChild }
+  return { dom: temp.firstChild }
 }
 
 export { buildMenuItems }
