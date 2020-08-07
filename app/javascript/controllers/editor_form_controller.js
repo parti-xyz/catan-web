@@ -77,6 +77,13 @@ export default class extends Controller {
       },
       editable: (state) => (this.data.get('readOnly') != 'true')
     })
+
+    this.editorView.dom.addEventListener('focus', () => {
+      const foucsEvent = new CustomEvent('editor-form:focus', {
+        bubbles: true
+      })
+      this.editorView.dom.dispatchEvent(foucsEvent)
+    })
   }
 
   disconnect() {

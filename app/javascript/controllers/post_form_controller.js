@@ -179,35 +179,9 @@ export default class extends Controller {
   submit(event) {
     this.bodyFieldTarget.value = this.editorController.serialize()
 
-    let valid = true
-    let temp = document.createElement('div')
-    temp.innerHTML = this.bodyFieldTarget.value
-
-    if (!temp.textContent || temp.textContent.length <= 0) {
-      appNoty('본문 내용이 비었어요.', 'warning', true).show()
-      valid = false
-    } else if (this.bodyFieldTarget.value.length > 1048576) {
-      appNoty('내용에 담긴 글이 너무 길거나 이미지 등이 너무 큽니다. 글을 나누어 등록하거나 사진 업로드를 이용하세요.', 'warning', true).show()
-      valid = false
-    }
-
-    if (this.baseTitleFieldTarget.value?.trim()?.length <= 0) {
-      appNoty('제목을 넣어 주세요', 'warning', true).show()
-      valid = false
-    } else if (this.baseTitleFieldTarget.value.length >= 120) {
-      appNoty('제목이 너무 깁니다. 120자까지 가능합니다', 'warning', true).show()
-      valid = false
-    }
-
     this.element.dispatchEvent(new CustomEvent('dirty-form:submit', {
       bubbles: false,
     }))
-
-    if (valid == false) {
-      event.preventDefault()
-      setTimeout(function () { this.submitButtonTargets.forEach(el => jQuery.rails.enableElement(el)) }.bind(this), 1000)
-      return false
-    }
   }
 
   get editorController() {

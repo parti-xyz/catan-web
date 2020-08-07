@@ -241,7 +241,7 @@ class Post < ApplicationRecord
       self.file_sources.first.try(:name).presence ||
       self.link_source.try(:title).presence
 
-    desc = "(본문 없음)" if desc.blank?
+    desc = "(요약 없음)" if desc.blank?
 
     return desc if length <= 0
     return desc.try(:truncate, length)
