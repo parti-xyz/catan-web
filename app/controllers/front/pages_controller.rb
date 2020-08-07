@@ -90,7 +90,7 @@ class Front::PagesController < Front::BaseController
     elsif outcome.errors.details.key?(:limit)
       flash[:notice] = '게시물 읽음 표시를 진행 중입니다. 잠시 후에 완료됩니다.'
 
-      GroupReadAllPostsJob.perform_async(current_user.id, params[:id])
+      GroupReadAllPostsJob.perform_async(current_user.id, current_group.id)
     else
       flash[:alert] = I18n.t('errors.messages.unknown')
     end

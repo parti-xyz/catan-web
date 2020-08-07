@@ -1,7 +1,7 @@
 class IssueReadAllPosts < ActiveInteraction::Base
   integer :user_id
   integer :issue_id
-  integer :limit
+  integer :limit, default: nil
 
   validates :user_id, presence: true
   validates :issue_id, presence: true

@@ -1,4 +1,4 @@
-class IssueReadAllJob < ApplicationJob
+class IssueReadAllPostsJob < ApplicationJob
   include Sidekiq::Worker
   sidekiq_options unique: :while_executing
 
