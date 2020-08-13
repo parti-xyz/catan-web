@@ -12,15 +12,42 @@ export default class extends Controller {
       }
 
       let options = parseJSON(this.data.get('options')).value
-      jQuery(this.element).popover(Object.assign({}, options, {
+      this.$popoverMe = jQuery(this.element).popover(Object.assign({}, options, {
         content: this.content.bind(this),
-        trigger: (isTouchDevice() ? 'focus' : 'focus hover'),
+        trigger: (isTouchDevice() ? 'focus' : 'manual'),
         html: true,
         sanitize: false,
         class: this.data.get('className'),
+        animation: false,
       }))
+
+      this.$popoverMe.on("mouseenter", () => {
+        setTimeout(() => {
+          if (!this.$popoverMe) { return }
+          if (window.__popover) { return }
+          window.__popover = true
+
+          this.$popoverMe.popover("show")
+          jQuery(".popover").on("mouseleave", this.leave.bind(this))
+        }, 500)
+      }).on("mouseleave", () => {
+        setTimeout(() => {
+          if (!this.$popoverMe) { return }
+          if (!jQuery(".popover:hover").length) {
+            this.leave()
+          }
+        }, 100)
+      })
       this.binded = true
     }
+  }
+
+  leave() {
+    if (!this.$popoverMe) { return }
+
+    this.$popoverMe.popover('hide')
+    jQuery(".popover").off("mouseleave", this.leave.bind(this))
+    window.__popover = false
   }
 
   disconnect() {

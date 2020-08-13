@@ -73,3 +73,9 @@
 .invalid-tooltip {
   z-index: 11;
 }
+
+.popover-body {
+  max-width: 300px;
+  max-height: 300px;
+  overflow: scroll;
+}
