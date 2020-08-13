@@ -32,7 +32,7 @@ if($('#<%= params[:dom_id] %>').hasClass('js-threaded-folders-body')) {
     <% if subject.present? %>
       var $partial = $('<%= j(render_group 'folders/move_form_modal',
         folder: @folder, target_parent_folder: @folder.parent,
-        target_folders: @folder.siblings.sort_by_default,
+        target_folders: @folder.siblings,
         subject: subject,
         dom_id: params[:dom_id]) %>');
       need_to_close_modal = false;
