@@ -6,6 +6,7 @@ class Member < ApplicationRecord
   belongs_to :joinable, counter_cache: true, polymorphic: true
   has_many :messages, as: :messagable, dependent: :destroy
   belongs_to :admit_user, optional: true
+  has_many :audiences, dependent: :destroy
 
   validates :user, presence: true
   validates :joinable, presence: true, on: :update

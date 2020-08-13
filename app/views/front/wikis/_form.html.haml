@@ -23,6 +23,7 @@
   = f.hidden_field :issue_id
   = f.hidden_field :has_poll, value: false
   = f.hidden_field :has_survey, value: false
+  = f.hidden_field :has_announcement, value: false
   - if current_wiki.persisted?
     = hidden_field_tag :last_wiki_history_id, current_wiki.wiki_histories.last.try(:id)
   - controls = capture do

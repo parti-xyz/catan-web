@@ -424,6 +424,7 @@ Rails.application.routes.draw do
   # front
   namespace :front, defaults: { namespace_slug: 'front' } do
     get :all, to: 'pages#all'
+    get :announcements, to: 'pages#announcements'
     patch :read_all_posts, to: 'pages#read_all_posts'
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
@@ -495,6 +496,15 @@ Rails.application.routes.draw do
         resources :votings, only: [:create], controller: '/votings' do
           get :users, on: :collection
         end
+      end
+    end
+
+    resources :announcements, only: [] do
+      member do
+        post :notice
+        delete :hold_back
+        post :stop
+        post :restart
       end
     end
 

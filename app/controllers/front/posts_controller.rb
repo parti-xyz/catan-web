@@ -1,9 +1,9 @@
 class Front::PostsController < Front::BaseController
   def show
-    @current_post = Post.includes(:issue, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, :label, user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
+    @current_post = Post.includes(:survey, :current_user_upvotes, :last_stroked_user, :file_sources, :label, issue: [:group], announcement: [ current_user_audience: [ :member ], audiences: [ member: [:user] ] ], user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
       .find(params[:id])
 
-    @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
+    @current_issue = Issue.includes(:group, :folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     if user_signed_in?
@@ -75,7 +75,7 @@ class Front::PostsController < Front::BaseController
     render_403 and return unless user_signed_in?
 
     @current_post = Post
-      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, issue: [ :folders ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
+      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, announcement: [:current_user_audience], issue: [ :folders ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:id])
     authorize! :update, (@current_post.wiki.presence || @current_post)
 

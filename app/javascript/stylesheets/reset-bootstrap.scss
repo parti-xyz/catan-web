@@ -1,3 +1,4 @@
+@use './global-variables';
 @use './bootstrap';
 @use "./mq";
 
@@ -72,4 +73,8 @@
 
 .invalid-tooltip {
   z-index: 11;
+}
+
+.btn-outline-gray-400 {
+  @include bootstrap.button-outline-variant(global-variables.$color-gray-400);
 }

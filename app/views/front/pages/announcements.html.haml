@@ -1,0 +1,78 @@
+- content_for :playground_header_content do
+  .playground-header
+    .channel-menu
+      .nav
+        .title.form-inline{ data: { controller: 'select-link' } }
+          .node
+            %i.fa.fa-bullhorn
+            필독 게시글
+
+- content_for :playground_sidebar_content do
+  .supplementary-boxes
+    - if current_group.site_description.present?
+      .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "group-intro-box-#{current_group.id}" } } }
+        .header{ data: { action: 'click->content-toggle#toggle' } }
+          .title
+            그룹 소개
+          .toggler
+            %i.fa.-hide{ data: { target: 'content-toggle.content' } }
+        .body{ data: { target: 'content-toggle.content' } }
+          = simple_format h(current_group.site_description)
+    - if current_group.organizer_members&.any?
+      .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "group-organizer-members-box-#{current_group.id}" } } }
+        .header{ data: { action: 'click->content-toggle#toggle' } }
+          .title
+            그룹 오거나이저
+          .count
+            = current_group.organizer_members&.size
+          .toggler
+            %i.fa.-hide{ data: { target: 'content-toggle.content' } }
+        %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-toggle.content' } }
+          - current_group.organizer_members&.each do |member|
+            - user = member.user
+            %li.organizer-member
+              %span.userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
+              %span.usernickname= user.nickname
+              %span.memberrole= user.current_group_member&.role
+    - else
+      .supplementary-box
+        .header
+          .title
+            그룹 오거나이저가 없습니다.
+
+- if @all_posts_total_count > 0
+  .channel-box
+    .channel-box-header
+      .pages
+        = render 'front/share/channel_box_header/page', posts: @posts, need_to_read_count: 0, need_to_notice_count: @need_to_notice_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: front_read_all_posts_path(@current_issue)
+
+      - if current_group.labels.present?
+        .control
+          .dropdown{ data: { controller: 'phone-dropdown' } }
+            .toggle.cursor-pointer{ "data-toggle": "dropdown" }
+              = @label_q&.title.presence || '라벨 선택'
+              %i.fa.fa-angle-down
+            .dropdown-menu.usermenu.dropdown-menu-right
+              - current_group.labels.each do |label|
+                = link_to url_for(@permited_params.deep_merge(filter: { label_id: label.id })), class: 'dropdown-item' do
+                  = label.title
+                  %br.d-block.d-lg-none
+                  %small.text-muted= label.body
+              - if @label_q.present?
+                = link_to url_for(@permited_params.deep_merge(filter: { label_id: nil })), class: 'dropdown-item' do
+                  라벨 검색 취소
+
+    - if @posts.any?
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
+    - else
+      .alert-box.my-3
+        .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+          해당 게시글이 없습니다.
+          = link_to url_for(), class: 'btn btn-outline-secondary font-size-xs text-muted p-1' do
+            모든 게시글 #{number_to_human(@all_posts_total_count, precision: 1, delimiter: ',', significant: false)}개 보기
+- else
+  .alert-box.my-3
+    .alert.alert-secondary.font-size-sm.d-flex.align-items-center
+      게시글이 없습니다.
+      - if current_group&.member?(current_user)
+        채널을 선택해서 가장 먼저 게시글을 올려보세요.

@@ -135,10 +135,10 @@ class Ability
       if user.admin?
         can :manage, [Folder, Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category]
       end
-    end
 
-    if user
-
+      can [:stop, :restart], Announcement do |announcement|
+        announcement.post.user == user || announcement.post.issue.organized_by?(user)
+      end
     end
   end
 

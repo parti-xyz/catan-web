@@ -13,6 +13,14 @@ export default class extends Controller {
     this._apply()
   }
 
+  show(event) {
+    this.contentTarget.classList.add('show')
+  }
+
+  hide(event) {
+    this.contentTarget.classList.remove('show')
+  }
+
   _apply() {
     let style = window.getComputedStyle(this.contentTarget);
 

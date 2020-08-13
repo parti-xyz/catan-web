@@ -81,11 +81,37 @@ class PostsController < ApplicationController
       option.user = current_user unless option.persisted?
     end
 
-    if @post.event.present? and !@post.event.persisted?
+    if @post.event.present? && !@post.event.persisted?
       @post.event.roll_calls.build(user: current_user, status: :attend)
     end
 
-    if @post.save
+    saved = false
+    ActiveRecord::Base.transaction do
+      saved = @post.save
+      if saved && @post.announcement.present?
+        if @post.has_announcement != 'true'
+          @post.announcement.destroy
+        elsif @post.announcement.announcing_mode.direct?
+          direct_announced_users = User.parse_nicknames(@post.announcement.direct_announced_user_nicknames)
+
+          newbie_members = @post.issue.group.members.joins("LEFT OUTER JOIN audiences ON audiences.announcement_id = #{@post.announcement&.id || 0} AND audiences.member_id = members.id", )
+            .where('audiences.id IS NULL')
+            .where('members.user_id in (?)', direct_announced_users)
+
+          newbie_members.each do |member|
+            @post.announcement.audiences.create(member: member)
+          end
+
+          direct_audiences_ids = @post.issue.group.members.where(user: direct_announced_users).select(:id)
+          retired_audiences = @post.announcement.audiences
+          .where('audiences.member_id not in (?)', direct_audiences_ids)
+          .where('audiences.noticed_at IS NULL')
+          retired_audiences.destroy_all
+        end
+      end
+    end
+
+    if saved
       crawling_after_updating_post
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
@@ -538,6 +564,9 @@ class PostsController < ApplicationController
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
     survey_attributes = [:duration_days, :multiple_select, :hidden_intermediate_result, :hidden_option_voters, options_attributes: options_attributes] if survey.present?
 
+    announcement = params[:post][:announcement_attributes]
+    announcement_attributes = [:announcing_mode, :direct_announced_user_nicknames] if announcement.present?
+
     wiki = params[:post][:wiki_attributes]
     wiki_attributes = [:body] if wiki.present?
 
@@ -548,10 +577,12 @@ class PostsController < ApplicationController
       :location] if event.present?
 
     params.require(:post)
-      .permit(:body, :base_title, :label_id, :issue_id, :folder_id, :has_poll, :has_survey, :has_event,
+      .permit(:body, :base_title, :label_id, :issue_id, :folder_id, :has_poll, :has_survey, :has_announcement, :has_event,
         :is_html_body, :has_decision, :decision, (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: FileSource.require_attrbutes,
-        poll_attributes: poll_attributes, survey_attributes: survey_attributes,
+        poll_attributes: poll_attributes,
+        survey_attributes: survey_attributes,
+        announcement_attributes: announcement_attributes,
         wiki_attributes: wiki_attributes, event_attributes: event_attributes)
 
   end
@@ -561,14 +592,8 @@ class PostsController < ApplicationController
     wiki_attributes = [:body, :is_html_body] if wiki.present?
 
     params.require(:post)
-      .permit(:base_title, :label_id, :has_poll, :has_survey, :has_event, :folder_id,
+      .permit(:base_title, :label_id, :has_poll, :has_survey, :has_announcement, :has_event, :folder_id,
         wiki_attributes: wiki_attributes)
-  end
-
-  def set_current_user_to_options(post)
-    (post.survey.try(:options) || []).each do |option|
-      option.user = current_user
-    end
   end
 
   def fetch_issue

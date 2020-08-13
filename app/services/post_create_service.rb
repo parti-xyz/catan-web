@@ -28,9 +28,21 @@ class PostCreateService
       @post.pinned_by = @current_user
     end
 
-    unless @post.save
-      logger.errors(@post.errors.inspect)
-      return false
+    ActiveRecord::Base.transaction do
+      if @post.save
+        if @post.announcement.present? && @post.announcement.announcing_mode.direct?
+          direct_announced_users = User.parse_nicknames(@post.announcement.direct_announced_user_nicknames)
+
+          newbie_members = @post.issue.group.members.where(user: direct_announced_users)
+
+          newbie_members.each do |member|
+            @post.announcement.audiences.create(member: member)
+          end
+        end
+      else
+        logger.errors(@post.errors.inspect)
+        return false
+      end
     end
 
     @post.read!(@current_user)

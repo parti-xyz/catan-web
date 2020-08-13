@@ -43,6 +43,7 @@ class Issue < ApplicationRecord
   has_many :posts, dependent: :destroy
   has_many :posts_pinned, -> { pinned }, class_name: "Post"
   has_many :comments, through: :posts
+  has_many :announcements, dependent: :destroy
   #**
   #** 중요 : 아래 members를 이용하지 말고 MemberIssueService를 이용하여 가입처리를 해야합니다
   #**

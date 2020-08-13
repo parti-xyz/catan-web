@@ -11,13 +11,15 @@
   }
 
   > .pages > .all,
-  > .pages > .needtoread {
+  > .pages > .needtoread,
+  > .pages > .needtonotice {
     margin-right: .5rem;
     display: inline-block;
   }
 
   > .pages > .all.-active,
   > .pages > .needtoread.-active,
+  > .pages > .needtonotice.-active,
   > .pages > .readall.-active {
     font-weight: bold;
   }

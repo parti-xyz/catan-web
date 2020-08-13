@@ -7,7 +7,7 @@ class Front::ChannelsController < Front::BaseController
 
     @posts = @current_issue.posts
       .never_blinded(current_user)
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :issue, :folder, wiki: [ :last_wiki_history ])
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :issue, :folder, announcement: [:current_user_audience], wiki: [ :last_wiki_history ])
       .page(params[:page]).per(10)
     if @current_folder.present?
       @posts = @posts.where(folder: @current_folder)
@@ -86,6 +86,7 @@ class Front::ChannelsController < Front::BaseController
 
 
     @issues = current_group.issues.includes(:current_user_issue_reader).accessible_only(current_user).includes(:current_user_issue_reader, :group)
+    @need_to_notice_count = (current_group.member?(current_user) ? current_group_need_to_notice_announcement_posts.count : 0)
     respond_to do |format|
       format.json
     end

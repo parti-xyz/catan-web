@@ -14,11 +14,15 @@
             = t('labels.post_blind_info')
         = link_to front_post_path(post, list_nav: list_nav_params), class: 'meta' do
           - if !is_small_screen? && current_issue.present?
+            - if post.announcement&.need_to_notice?(current_user)
+              .icon.-important<>
+                %i.fa.fa-bullhorn
+                필독 요청
             - if post.poll.present?
               .icon<> 투표
-            - elsif post.survey.present?
+            - if post.survey.present?
               .icon<> 설문
-            - elsif post.wiki.present?
+            - if post.wiki.present?
               .icon<> 위키
 
           - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| user_subject_word(user) }

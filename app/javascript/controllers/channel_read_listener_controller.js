@@ -4,7 +4,7 @@ import ParamMap from '../helpers/param_map'
 import fetchResponseCheck from '../helpers/fetch_check_response'
 import Timer from '../helpers/timer'
 export default class extends Controller {
-  static targets = ['channel']
+  static targets = ['channel', 'needToNoticeCount']
 
   initialize() {
     this.syncing = false
@@ -37,11 +37,22 @@ export default class extends Controller {
         }
       }).then(json => {
         if (json) {
-          json.forEach(item => {
+          json.channels.forEach(item => {
             item.needToRead
               ? this.unread(item.id)
               : this.read(item.id)
           })
+
+          if (this.hasNeedToNoticeCountTarget) {
+            if (json.needToNoticeCount ) {
+              this.needToNoticeCountTarget.classList.add('show')
+              this.needToNoticeCountTarget.textContent = json.needToNoticeCount
+            } else {
+              this.needToNoticeCountTarget.classList.add('hide')
+              this.needToNoticeCountTarget.textContent = ''
+            }
+          }
+
         }
       }).catch(e => {
         if (this.timer) {
