@@ -19,6 +19,7 @@ export default class extends Controller {
         sanitize: false,
         class: this.data.get('className'),
         animation: false,
+        placement: 'auto',
       }))
 
       this.$popoverMe.on("mouseenter", () => {
