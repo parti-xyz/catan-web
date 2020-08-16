@@ -125,7 +125,7 @@ class Group::ConfigurationsController < Group::BaseController
     if helpers.explict_front_namespace?
       flash[:notice] = t('activerecord.successful.messages.created')
 
-      turbolinks_redirect_to  smart_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to smart_front_post_url(@post, list_nav: helpers.list_nav_params())
     end
   end
 
@@ -139,7 +139,7 @@ class Group::ConfigurationsController < Group::BaseController
 
     if helpers.explict_front_namespace?
       flash[:notice] = t('activerecord.successful.messages.released')
-      turbolinks_redirect_to  smart_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to smart_front_post_url(@post, list_nav: helpers.list_nav_params())
     end
   end
 

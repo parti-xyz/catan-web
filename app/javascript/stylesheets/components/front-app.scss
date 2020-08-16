@@ -3,7 +3,6 @@
 
 @forward "./front-app/category-card";
 @forward "./front-app/channel-box";
-@forward "./front-app/channel-box-header";
 @forward "./front-app/channel-line";
 @forward "./front-app/channel-lines";
 @forward "./front-app/channel-listing";
@@ -23,7 +22,6 @@
 @forward "./front-app/front-main";
 @forward "./front-app/front-navbar";
 @forward "./front-app/front-joinbar";
-@forward "./front-app/front-navbar-message-item";
 @forward "./front-app/front-navbar-message-header";
 @forward "./front-app/front-simple";
 @forward "./front-app/front-sidebar";
@@ -33,6 +31,8 @@
 @forward "./front-app/group-navitem";
 @forward "./front-app/group-navitems";
 @forward "./front-app/member-user";
+@forward "./front-app/message-line";
+@forward "./front-app/messages-box";
 @forward "./front-app/navbar-group-menu";
 @forward "./front-app/organizer-member";
 @forward "./front-app/pinned-post-line";
@@ -41,6 +41,7 @@
 @forward "./front-app/playground-header";
 @forward "./front-app/playground-sidebar";
 @forward "./front-app/popover-post-poll-votings-users";
+@forward "./front-app/pagination-header";
 @forward "./front-app/post-body";
 @forward "./front-app/post-box";
 @forward "./front-app/post-comment-main";

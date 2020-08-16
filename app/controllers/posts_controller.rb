@@ -41,7 +41,7 @@ class PostsController < ApplicationController
       if @post.wiki.blank? || params[:button] == 'after_close'
         turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
       else
-        render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: list_nav_params() }, layout: nil
+        render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: helpers.list_nav_params() }, layout: nil
       end
     else
       if @post.errors.blank?
@@ -116,7 +116,7 @@ class PostsController < ApplicationController
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       if helpers.explict_front_namespace?
-        turbolinks_redirect_to smart_front_post_url(@post, list_nav: list_nav_params())
+        turbolinks_redirect_to smart_front_post_url(@post, list_nav: helpers.list_nav_params())
       else
         redirect_to params[:back_url].presence || smart_post_url(@post)
       end
@@ -218,7 +218,7 @@ class PostsController < ApplicationController
         @post.wiki.build_conflict
         if helpers.explict_front_namespace?
           flash[:alert] = t('activerecord.successful.messages.conflicted_wiki')
-          render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: list_nav_params() }, layout: nil
+          render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: helpers.list_nav_params() }, layout: nil
         else
           respond_to do |format|
             format.html { render :show }
@@ -234,9 +234,9 @@ class PostsController < ApplicationController
           flash[:notice] = I18n.t('activerecord.successful.messages.created')
 
           if params[:button] == 'after_close'
-            turbolinks_redirect_to smart_front_post_url(@post, list_nav_params: list_nav_params())
+            turbolinks_redirect_to smart_front_post_url(@post, list_nav_params: helpers.list_nav_params())
           else
-            render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: list_nav_params() }, layout: nil
+            render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: helpers.list_nav_params() }, layout: nil
           end
         else
           flash[:success] = I18n.t('activerecord.successful.messages.created')
@@ -260,7 +260,7 @@ class PostsController < ApplicationController
       if helpers.explict_front_namespace?
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
         if params[:button] == 'after_close'
-          turbolinks_redirect_to smart_front_post_url(@post, list_nav_params: list_nav_params())
+          turbolinks_redirect_to smart_front_post_url(@post, list_nav_params: helpers.list_nav_params())
         else
           head 200 and return
         end
@@ -317,7 +317,7 @@ class PostsController < ApplicationController
     PostDestroyService.new(@post).call
 
     if helpers.explict_front_namespace?
-      turbolinks_redirect_to destroyed_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to destroyed_front_post_url(@post, list_nav: helpers.list_nav_params())
     else
       respond_to do |format|
         format.js
@@ -338,7 +338,7 @@ class PostsController < ApplicationController
 
     if helpers.explict_front_namespace?
       flash[:notice] = '게시글을 고정했습니다'
-      turbolinks_redirect_to smart_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to smart_front_post_url(@post, list_nav: helpers.list_nav_params())
     end
   end
 
@@ -347,7 +347,7 @@ class PostsController < ApplicationController
 
     if helpers.explict_front_namespace?
       flash[:notice] = '게시글 고정을 풀었습니다'
-      turbolinks_redirect_to smart_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to smart_front_post_url(@post, list_nav: helpers.list_nav_params())
     end
   end
 

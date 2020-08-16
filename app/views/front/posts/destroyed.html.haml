@@ -5,16 +5,8 @@
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
-- if @list_nav_params.present?
-  - back_params = { id: @list_nav_params[:issue_id], folder_id: @list_nav_params[:folder_id], page: @list_nav_params[:page], sort: @list_nav_params[:sort], filter: @list_nav_params[:filter], front_search: { q: @list_nav_params[:q] } }.compact
-  - back_path = if @list_nav_params[:action] == 'channel'
-    - front_channel_path(back_params)
-  - elsif @list_nav_params[:action] == 'all'
-    - front_all_path(back_params)
-  - elsif @list_nav_params[:action] == 'announcements'
-    - front_announcements_path(back_params)
-- else
-  - back_path = front_channel_path(@current_post.issue)
+- back_path = list_nav_back_path(@list_nav_params, front_channel_path(@current_post.issue))
+
 = render 'front/pages/back', back_path: back_path
 
 .alert-box.my-3

@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import fetchResponseCheck from '../helpers/fetch_check_response'
+import { smartFetch } from '../helpers/smart_fetch'
 
 export default class extends Controller {
   static targets = ['preview', 'field', 'placeholder', 'loading']
@@ -34,27 +34,18 @@ export default class extends Controller {
       this.placeholderTarget.classList.add('collapse')
     }
 
-    let data = new FormData()
-    data.append("label_id", labelId)
+    let body = new FormData()
+    body.append("label_id", labelId)
 
-    let headers = new window.Headers()
-    const csrfToken = document.head.querySelector("[name='csrf-token']")
-    if (csrfToken) { headers.append('X-CSRF-Token', csrfToken.content) }
-
-
-    let originEvent = event
-    fetch(this.data.get("url"), {
-      headers: headers,
+    smartFetch(this.data.get("url"), {
       method: 'PATCH',
-      credentials: 'same-origin',
-      body: data
-    }).then(fetchResponseCheck)
-      .then(response => {
-        this.change(labelId, labelTitle)
-      })
-      .finally(() => {
-        this.enable = true
-      })
+      body,
+    }).then(response => {
+      this.change(labelId, labelTitle)
+    })
+    .finally(() => {
+      this.enable = true
+    })
   }
 
   change(labelId, labelTitle) {

@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import Sortable from 'sortablejs'
 import { v4 as uuidv4 } from 'uuid'
 
-import fetchResponseCheck from '../helpers/fetch_check_response'
+import { smartFetch } from '../helpers/smart_fetch'
 
 export default class extends Controller {
   static targets = ['channel', 'noText']
@@ -49,12 +49,8 @@ export default class extends Controller {
   }
 
   submit(value) {
-    let data = new FormData()
-    data.append("positions", JSON.stringify(value))
-
-    let headers = new window.Headers()
-    const csrfToken = document.head.querySelector("[name='csrf-token']")
-    if (csrfToken) { headers.append('X-CSRF-Token', csrfToken.content) }
+    let body = new FormData()
+    body.append("positions", JSON.stringify(value))
 
     let requestId = uuidv4()
     const event = new CustomEvent('category-move-submit-begin', {
@@ -63,13 +59,10 @@ export default class extends Controller {
     })
     document.dispatchEvent(event)
 
-    fetch(this.data.get("url"), {
-      headers: headers,
+    smartFetch(this.data.get("url"), {
       method: 'PATCH',
-      credentials: 'same-origin',
-      body: data
-    }).then(fetchResponseCheck)
-      .then(response => {
+      body,
+    }).then(response => {
         if (!response) {
           const event = new CustomEvent('category-move-submit-error', {
             bubbles: true,

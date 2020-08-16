@@ -425,6 +425,7 @@ Rails.application.routes.draw do
   namespace :front, defaults: { namespace_slug: 'front' } do
     get :all, to: 'pages#all'
     get :announcements, to: 'pages#announcements'
+    get :mentions, to: 'messages#mentions'
     patch :read_all_posts, to: 'pages#read_all_posts'
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
@@ -553,9 +554,15 @@ Rails.application.routes.draw do
     end
 
     resources :messages, only: [] do
+      member do
+        patch :read
+        patch :unread
+      end
       collection do
         get :nav
         patch :read_all
+        patch :read_all_mentions
+        patch :notice
       end
     end
 

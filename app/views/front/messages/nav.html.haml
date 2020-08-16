@@ -1,17 +1,15 @@
 .notifications{ data: { toggle: 'dropdown', target: 'message-dropdown.toggle' } }
   %i.fa.fa-bell.fa-fw
-  - if @important_messages_count > 0
+  - if @messages.first.present? && (current_user.last_noticed_message_id.blank? || @messages.first.id > current_user.last_noticed_message_id)
     %i.fa.fa-circle.circle{ data: { target: 'message-dropdown.circle', 'last-message-id': @messages&.first&.id } }
 .dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message-dropdown.menu' } }
   .dropdown-header.front-navbar-message-header
     알림
-    .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->message-dropdown#stopPropagation click->content-loader#reload' } }
+    .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', 'message-dropdown-keep-open': true } }
       새로고침
-  - if @messages.any?
-    - @messages.each do |message|
-      .dropdown-item.front-navbar-message-item{ class: ('unread' if message.unread?) }
-        = render message
-  - else
+  - @messages.each do |message|
+    = render message
+  - if @messages.empty?
     .dropdown-item
       %i.fa.fa-info-circle
       아직 알림이 없습니다.

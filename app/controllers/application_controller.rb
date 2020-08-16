@@ -438,22 +438,4 @@ class ApplicationController < ActionController::Base
     return if helpers.explict_front_namespace? || helpers.implict_front_namespace?
     prepare_unobtrusive_flash
   end
-
-  def list_nav_params(action: nil, issue: '', folder: '', page: '', q: '', sort: '', filter: '')
-
-    filter = filter.presence || (filter.nil? ? nil : params.dig(:list_nav, :filter).presence)
-    if filter.present?
-      filter = filter.permit(:condition, :label_id).to_h.compact
-    end
-
-    {
-      action: action.presence || params.dig(:list_nav, :action).presence,
-      issue_id: issue.try(:id) || (issue.nil? ? nil : params.dig(:list_nav, :issue_id)),
-      folder_id: folder.try(:id) || (folder.nil? ? nil : params.dig(:list_nav, :folder_id)),
-      page: page.presence || (page.nil? ? nil : params.dig(:list_nav, :page).presence),
-      q: q.presence || (q.nil? ? nil : params.dig(:list_nav, :q).presence),
-      sort: sort.presence || (sort.nil? ? nil : params.dig(:list_nav, :sort).presence),
-      filter: filter
-    }.compact
-  end
 end

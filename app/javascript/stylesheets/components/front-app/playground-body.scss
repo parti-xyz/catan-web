@@ -7,6 +7,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   > .channel-box,
+  > .messages-box,
   > .channel-form-box,
   > .group-form-box,
   > .post-form-box,
@@ -21,6 +22,9 @@
     @include front-variables.playground-body-space-x(padding-right, padding-left);
   }
   > .channel-box {
+    padding-top: 0;
+  }
+  > .messages-box {
     padding-top: 0;
   }
 }

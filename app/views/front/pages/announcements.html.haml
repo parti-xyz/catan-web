@@ -8,43 +8,13 @@
             필독 게시글
 
 - content_for :playground_sidebar_content do
-  .supplementary-boxes
-    - if current_group.site_description.present?
-      .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "group-intro-box-#{current_group.id}" } } }
-        .header{ data: { action: 'click->content-toggle#toggle' } }
-          .title
-            그룹 소개
-          .toggler
-            %i.fa.-hide{ data: { target: 'content-toggle.content' } }
-        .body{ data: { target: 'content-toggle.content' } }
-          = simple_format h(current_group.site_description)
-    - if current_group.organizer_members&.any?
-      .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "group-organizer-members-box-#{current_group.id}" } } }
-        .header{ data: { action: 'click->content-toggle#toggle' } }
-          .title
-            그룹 오거나이저
-          .count
-            = current_group.organizer_members&.size
-          .toggler
-            %i.fa.-hide{ data: { target: 'content-toggle.content' } }
-        %ul.lines.-hide{ data: { 'controller': 'collection-activation', target: 'content-toggle.content' } }
-          - current_group.organizer_members&.each do |member|
-            - user = member.user
-            %li.organizer-member
-              %span.userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
-              %span.usernickname= user.nickname
-              %span.memberrole= user.current_group_member&.role
-    - else
-      .supplementary-box
-        .header
-          .title
-            그룹 오거나이저가 없습니다.
+  = render 'front/share/base_playground_sidebar_content'
 
 - if @all_posts_total_count > 0
   .channel-box
-    .channel-box-header
+    .pagination-header
       .pages
-        = render 'front/share/channel_box_header/page', posts: @posts, need_to_read_count: 0, need_to_notice_count: @need_to_notice_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: front_read_all_posts_path(@current_issue)
+        = render 'front/share/pagination_header/post_page', posts: @posts, need_to_read_count: 0, need_to_notice_count: @need_to_notice_count, unread_mentions_count: @unread_mentions_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: front_read_all_posts_path(@current_issue)
 
       - if current_group.labels.present?
         .control
@@ -73,6 +43,4 @@
 - else
   .alert-box.my-3
     .alert.alert-secondary.font-size-sm.d-flex.align-items-center
-      게시글이 없습니다.
-      - if current_group&.member?(current_user)
-        채널을 선택해서 가장 먼저 게시글을 올려보세요.
+      필독 게시글이 없습니다.

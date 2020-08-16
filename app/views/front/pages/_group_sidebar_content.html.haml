@@ -23,6 +23,14 @@
             %span.content
               필독 게시글
             %span.badge.badge-dark.ml-1.collapse{ class: (need_to_notice_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.needToNoticeCount' } } #{number_to_human(need_to_notice_count, precision: 1, delimiter: ',', significant: false)}
+      %li.channel-line
+        = link_to front_mentions_path, class: ['link', ('-active' if params[:menu_slug] == 'mentions')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'mentions' } do
+          .title
+            %span.hash
+              %i.fa.fa-at
+            %span.content
+              멘션
+            %span.badge.badge-dark.ml-1.collapse{ class: (unread_mentions_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.unreadMentionsCount' } } #{number_to_human(unread_mentions_count, precision: 1, delimiter: ',', significant: false)}
 
 - categorised_issues.each_with_index do |(category, issues), index|
   .channel-listing

@@ -2,22 +2,25 @@
 @use '../../bootstrap';
 
 /* message 알림 : 리펙토링 팔요 */
-.front-app .front-navbar-message-item {
+.front-app .message-line {
   cursor: pointer;
   background-color: #fff;
-  border-bottom: 1px solid global-variables.$color-gray-300;
-  padding: .75rem;
+  border-top: 1px solid global-variables.$color-gray-200;
+  border-bottom: 1px solid global-variables.$color-gray-200;
   font-size: bootstrap.$font-size-sm;
+  & + .message-line {
+    border-top-width: 0;
+  }
   &:last-child {
     border-width: 0;
   }
   &:hover {
     background-color: global-variables.$color-gray-000;
   }
-  &.unread {
+  &.-unread {
     background-color: global-variables.$color-gray-100;
   }
-  &.unread:hover {
+  &.-unread:hover {
     background-color: global-variables.$color-gray-200;
   }
   .message__link {
@@ -36,6 +39,7 @@
   }
   .message__mentioner {
     display: inline;
+    font-size: bootstrap.$font-size-xs;
   }
   .message__parti {
     font-size: bootstrap.$font-size-xs;
@@ -58,7 +62,33 @@
     word-break: break-all;
     .post-reference-line {
       background-color: white;
-      border: 1px solid global-variables.$color-gray-200;
+      border: 1px solid global-variables.$color-gray-100;
     }
+  }
+  .message__check {
+    font-size: bootstrap.$font-size-lg;
+    color: global-variables.$color-gray-400;
+    padding: 0 .5rem;
+  }
+  .message__check:hover {
+    color: global-variables.$color-brand-primary;
+  }
+
+  // elements
+  .userimage {
+    margin-top: .25rem;
+    margin-right: .25rem;
+    margin-left: .25rem;
+    flex: none;
+    vertical-align: bottom;
+  }
+  .userimage > .userimagebg {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    border: 1px solid white;
+    background-position: center;
+    background-size: cover;
+    background-color: white;
   }
 }

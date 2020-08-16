@@ -184,6 +184,11 @@
     padding: 0;
   }
 
+  > .profilemenus > .dropdown > .messages > .message-line {
+    padding: 0.375rem 0.75rem;
+    clear: both;
+  }
+
   @include mq.media('<=phone') {
     display: flex;
     justify-content: space-between;

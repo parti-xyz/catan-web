@@ -56,7 +56,7 @@ class Front::PostsController < Front::BaseController
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
     @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any? || @recent_comments&.any?
 
-    @list_nav_params = list_nav_params()
+    @list_nav_params = helpers.list_nav_params()
   end
 
   def new
@@ -68,7 +68,7 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
-    @list_nav_params = list_nav_params(folder: @current_folder)
+    @list_nav_params = helpers.list_nav_params(folder: @current_folder)
   end
 
   def edit
@@ -85,7 +85,7 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
-    @list_nav_params = list_nav_params()
+    @list_nav_params = helpers.list_nav_params()
   end
 
   def edit_title
@@ -159,7 +159,7 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
-    @list_nav_params = list_nav_params()
+    @list_nav_params = helpers.list_nav_params()
   end
 
   def edit_channel

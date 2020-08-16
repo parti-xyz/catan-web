@@ -49,9 +49,9 @@
           .flex-fill #{@search_q} 검색 결과입니다.
           = link_to url_for(@permited_params.except(:q)), class: 'btn btn-outline-secondary font-size-xs text-muted p-1' do
             검색 취소
-    .channel-box-header
+    .pagination-header
       .pages
-        = render 'front/share/channel_box_header/page', posts: @posts, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: read_all_posts_front_channel_path(@current_issue)
+        = render 'front/share/pagination_header/post_page', posts: @posts, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: read_all_posts_front_channel_path(@current_issue)
 
       - if current_group.labels.present?
         .control
