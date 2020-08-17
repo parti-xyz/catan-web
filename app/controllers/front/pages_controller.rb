@@ -143,6 +143,6 @@ class Front::PagesController < Front::BaseController
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
 
     @need_to_notice_count = (current_group.member?(current_user) ? current_group_need_to_notice_announcement_posts.count : 0)
-    @unread_mentions_count = (current_group.member?(current_user) ? Message.where(user: current_user).where(action: 'mention').unread.count : 0)
+    @unread_mentions_count = (current_group.member?(current_user) ? Message.where(user: current_user).of_group(current_group).where(action: 'mention').unread.count : 0)
   end
 end
