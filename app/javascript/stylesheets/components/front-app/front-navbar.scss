@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 @use '../../mq';
+@use '../../mixin';
 
 .app-front--pages--coc .front-app .front-navbar > .centermenu > .dropdown > .queryinput {
   border-color: global-variables.$color-gray-400-a30;
@@ -120,13 +121,9 @@
   }
   > .profilemenus > .dropdown > .userimage > .userimagebg,
   > .menugroup > .menuitem.dropdown > .userimage > .userimagebg {
-    width: 1.75rem;
-    height: 1.75rem;
-    border-radius: 9999px;
     border: 1px solid white;
-    background-position: center;
-    background-size: cover;
     background-color: white;
+    @include mixin.background-image-round(1.75rem);
   }
   > .profilemenus > .dropdown > .usermenu {
     max-height: 300px;

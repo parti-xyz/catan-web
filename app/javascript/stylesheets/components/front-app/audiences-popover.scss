@@ -1,0 +1,43 @@
+@use '../../bootstrap';
+@use '../../mixin';
+
+.front-app .audiences-popover {
+  font-size: bootstrap.$font-size-sm;
+
+  > .noticed + .need-to-notice {
+    margin-top: 1rem;
+  }
+
+  > .noticed > .title,
+  > .need-to-notice > .title {
+    font-weight: bold;
+    margin-bottom: .5rem;
+  }
+
+  > .noticed > .title {
+    color: bootstrap.$success;
+  }
+
+  > .need-to-notice > .title {
+    color: bootstrap.$danger;
+  }
+
+  > .noticed > .users,
+  > .need-to-notice > .users {
+    line-height: 1.5rem;
+  }
+
+  > .noticed > .users > .user,
+  > .need-to-notice > .users > .user {
+    white-space: nowrap;
+    margin-right: 0.25rem;
+  }
+
+  > .noticed > .users > .user > .image,
+  > .need-to-notice > .users > .user > .image {
+    @include mixin.background-image-round(1rem);
+    display: inline-block;
+    vertical-align: middle;
+    background-color: white;
+  }
+}

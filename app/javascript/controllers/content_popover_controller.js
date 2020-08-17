@@ -19,7 +19,7 @@ export default class extends Controller {
         sanitize: false,
         class: this.data.get('className'),
         animation: false,
-        placement: 'auto',
+        placement: 'bottom',
       }))
 
       this.$popoverMe.on("mouseenter", () => {
@@ -45,7 +45,6 @@ export default class extends Controller {
 
   leave() {
     if (!this.$popoverMe) { return }
-
     this.$popoverMe.popover('hide')
     jQuery(".popover").off("mouseleave", this.leave.bind(this))
     window.__popover = false

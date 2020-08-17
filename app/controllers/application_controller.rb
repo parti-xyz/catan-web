@@ -438,4 +438,13 @@ class ApplicationController < ActionController::Base
     return if helpers.explict_front_namespace? || helpers.implict_front_namespace?
     prepare_unobtrusive_flash
   end
+
+  def announce_post_interaction_not_member_users_message(outcome)
+    return if outcome.result.blank?
+
+    not_member_users = outcome.result[:not_member_users]
+    if not_member_users.present? && not_member_users.any?
+      "필독 요청한 #{not_member_users.map(&:nickname).join(', ')}님은 그룹 멤버가 아니라 필독 요청할 수 없습니다."
+    end
+  end
 end

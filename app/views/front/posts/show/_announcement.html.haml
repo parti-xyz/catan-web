@@ -1,86 +1,64 @@
+- preview_noticed_audiences_limit_count = 20
+- preview_noticed_audiences = announcement.audiences.noticed.limit(preview_noticed_audiences_limit_count)
+- preview_noticed_audiences_list = capture do
+  - if preview_noticed_audiences.any?
+    .users
+      - preview_noticed_audiences.each do |audience|
+        - user = audience.member.user
+        %span.user
+          %span.image{ style: "background-image: url(#{user.image.sm.url});" }
+          %span.usernickname= user.nickname
+      - if preview_noticed_audiences_limit_count < announcement.noticed_audiences_count
+        %i.fa.fa-ellipsis-h
+- more_link = capture do
+  .more{ data: { controller: 'content-popover', 'content-popover': { url: audiences_front_announcement_path(announcement), options: h({ container: '.front-app' }.to_json) } } }
+    자세히 보기
+    %i.fa.fa-angle-down
+
 .post-announcement{ data: { controller: 'content-replacement' } }
-  .title
-    - if announcement.stopped?
-      %span.text-success [완료]
-    - else
-      %span.text-danger [요청 중]
+  .title{ class: ('-stopped' if announcement.stopped?) }
+    %i.fa.fa-bullhorn
     - if announcement.announcing_mode.all?
       모든 그룹 멤버에게
     - elsif announcement.audiences_count == 1
       - if announcement.requested_to_notice?(current_user)
         나에게
       - else
-        @#{announcement.audiences.first.member.user.nickname}님에게
+        @#{announcement.audiences.first&.member&.user&.nickname}님에게
     - elsif announcement.audiences_count > 1
       - if announcement.requested_to_notice?(current_user)
         나를 포함
       #{announcement.audiences_count}명에게
-    필독 #{(announcement.stopped? ? '완료된' : '요청 중인')} 게시물입니다.
-  - if user_signed_in?
-    - restart_or_stop_buttons = capture do
-      - if !announcement.stopped? && can?(:stop, announcement)
-        = link_to stop_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-sm btn-secondary' do
-          필독 요청을 마칩니다.
-      - if announcement.stopped? && can?(:restart, announcement)
-        = link_to restart_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-sm btn-secondary' do
-          다시 필독 요청합니다.
-    - if announcement.stopped? && restart_or_stop_buttons.present?
+    필독 #{(announcement.stopped? ? '요청 완료' : '요청 중')}
+
+  - unless announcement.stopped?
+    - if announcement.noticed?(current_user)
+      .buttons.text-nowrap
+        %span.dropdown.btn-group.btn-block-phone{ data: { controller: 'phone-dropdown' } }
+          %button.btn.btn-sm.btn-important.toggle.cursor-pointer{ "data-toggle": "dropdown" }
+            %span.noticed
+              %i.fa.fa-check-circle-o
+              게시물을 확인했습니다.
+            %i.fa.fa-angle-down
+          .dropdown-menu.dropdown-menu-right
+            = link_to hold_back_front_announcement_path(announcement), method: :delete, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item' do
+              게시물 확인을 취소합니다.
+    - elsif announcement.need_to_notice?(current_user)
       .buttons
-        = restart_or_stop_buttons
-    - else
-      - if announcement.noticed?(current_user)
-        .buttons
-          %span.dropdown.mr-1{ data: { controller: 'phone-dropdown' } }
-            %button.btn.btn-sm.btn-outline-gray-400.toggle.cursor-pointer{ "data-toggle": "dropdown" }
-              %span.noticed
-                %i.fa.fa-check-circle-o
-                게시물을 확인했습니다.
-              %i.fa.fa-angle-down
-            .dropdown-menu.dropdown-menu-right
-              = link_to hold_back_front_announcement_path(announcement), method: :delete, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'dropdown-item' do
-                게시물 확인을 취소합니다.
-          = restart_or_stop_buttons
-      - elsif announcement.need_to_notice?(current_user)
-        .buttons
-          = link_to notice_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-sm btn-primary mr-1' do
-            이 게시물을 확인합니다.
-          = restart_or_stop_buttons
+        = link_to notice_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'btn btn-sm btn-block-phone btn-primary' do
+          이 게시물을 확인합니다.
 
   - if announcement.stopped?
-    .audiences{ data: { controller: 'content-collapse' } }
+    .audiences
       - if announcement.audiences_count > 1 || announcement.announcing_mode.all?
-        .toggler{ class: ('cursor-pointer' if announcement.noticed_audiences_count > 0), data: { action: ('click->content-collapse#toggle$' if announcement.noticed_audiences_count > 0) } }
-          %span.countcontainer
-            %span
-              필독 요청받은
-              - if announcement.announcing_mode.all?
-                모든 그룹 멤버
-              - else
-                #{announcement.audiences_count}명
-            %span
-              중에
-            - if announcement.noticed_audiences_count == 0
-              확인한 사람이 없습니다.
-            - else
-              %span.count<>
-                #{announcement.noticed_audiences_count}
-              명이 확인했습니다.
-          - if announcement.noticed_audiences_count > 0
-            %span
-              자세히 보기
-              %i.fa.fa-angle-double-right
-        - if announcement.noticed_audiences_count > 0
-          .members.collapse{ data: { target: 'content-collapse.content' } }
-            .noticed
-              .title
-                확인한 멤버
-                (#{announcement.noticed_audiences_count})
-              .users
-                - announcement.audiences.noticed.each do |audience|
-                  - user = audience.member.user
-                  %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
-                    %span.image{ style: "background-image: url(#{user.image.sm.url});" }
-                    %span.usernickname= user.nickname
+        - if announcement.noticed_audiences_count == 0
+          .desc
+            확인한 멤버가 없습니다.
+            = more_link
+        - else
+          .desc
+            #{announcement.noticed_audiences_count}명이 확인했습니다.
+            = more_link
       - else
         %span.countcontainer
           - if announcement.noticed_audiences_count == 0
@@ -88,56 +66,39 @@
           - else
             확인했습니다.
   - else
-    .audiences{ data: { controller: 'content-collapse' } }
+    .audiences
       - if announcement.audiences_count > 1 || announcement.announcing_mode.all?
-        .toggler.cursor-pointer{ data: { action: 'click->content-collapse#toggle$' } }
-          %span.countcontainer
-            %span
-              필독 요청받은
-              - if announcement.announcing_mode.all?
-                모든 그룹 멤버
-              - else
-                #{announcement.audiences_count}명
-            - if announcement.noticed_all?
-              모두 확인 완료했습니다.
-            - else
-              %span
-                중에
-              - if announcement.noticed_audiences_count == 0
-                확인한 사람이 아직 없습니다.
-              - else
-                %span.count<>
-                  #{announcement.noticed_audiences_count}
-                명이 확인했습니다.
-          %span
-            자세히 보기
-            %i.fa.fa-angle-double-right
-        .members.collapse{ data: { target: 'content-collapse.content' } }
-          - if announcement.noticed_audiences_count > 0
-            .noticed
-              .title
-                확인한 멤버
-                (#{announcement.noticed_audiences_count})
-              .users
-                - announcement.audiences.noticed.each do |audience|
-                  - user = audience.member.user
-                  %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
-                    %span.image{ style: "background-image: url(#{user.image.sm.url});" }
-                    %span.usernickname= user.nickname
-          - if announcement.smart_need_to_notice_members_count > 0
-            .need-to-notice
-              .title
-                미확인 멤버
-                (#{announcement.smart_need_to_notice_members_count})
-              .users
-                - announcement.smart_need_to_notice_members.each do |member|
-                  - user = member.user
-                  %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
-                    %span.image{ style: "background-image: url(#{user.image.sm.url});" }
-                    %span.usernickname= user.nickname
+        - if announcement.noticed_all?
+          .desc 모두 확인 완료했습니다.
+        - else
+          - if announcement.noticed_audiences_count == 0
+            .desc
+              확인한 멤버가 아직 없습니다.
+              = more_link
+          - else
+            .title
+              확인한 멤버
+              (#{announcement.noticed_audiences_count})
+            = preview_noticed_audiences_list
+            = more_link
       - else
         %span.countcontainer
           - if announcement.noticed_audiences_count == 0
             아직 확인 전입니다.
           - else
             확인했습니다.
+
+  - restart_or_stop_buttons = capture do
+    - if !announcement.stopped? && can?(:stop, announcement)
+      = link_to stop_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'font-size-xxs btn btn-sm btn-outline-danger pull-right' do
+        필독 요청 중지하기
+    - if announcement.stopped? && can?(:restart, announcement)
+      = link_to restart_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'font-size-xxs btn btn-sm btn-outline-important pull-right' do
+        필독 요청 다시 시작하기
+    - if can?(:announce, announcement.post.issue)
+      .font-size-xxs.btn.btn-sm.btn-outline-important.pull-right.cursor-pointer.mr-1{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_announcement_front_post_path(announcement.post) } }
+        필독 수정하기
+  - if restart_or_stop_buttons.present?
+    %hr
+      .clearfix
+        = restart_or_stop_buttons

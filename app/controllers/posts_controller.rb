@@ -25,8 +25,8 @@ class PostsController < ApplicationController
       head 200 and return
     end
 
-    service = PostCreateService.new(post: @post, current_user: current_user)
-    unless service.call
+    outcome = CreatePost.run(post: @post, current_user: current_user)
+    unless outcome.valid?
       errors_to_flash(@post)
       if helpers.explict_front_namespace?
         render_500 and return
@@ -36,6 +36,11 @@ class PostsController < ApplicationController
     if helpers.explict_front_namespace?
       if @post.errors.blank?
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
+      end
+
+      if outcome.result && outcome.result[:announcePostOutcome].present?
+        not_member_users_message = announce_post_interaction_not_member_users_message(outcome.result[:announcePostOutcome])
+        flash[:alert] = not_member_users_message if not_member_users_message.present?
       end
 
       if @post.wiki.blank? || params[:button] == 'after_close'
@@ -88,25 +93,13 @@ class PostsController < ApplicationController
     saved = false
     ActiveRecord::Base.transaction do
       saved = @post.save
-      if saved && @post.announcement.present?
+      if saved && can?(:announce, @post.issue) && @post.announcement.present?
         if @post.has_announcement != 'true'
           @post.announcement.destroy
-        elsif @post.announcement.announcing_mode.direct?
-          direct_announced_users = User.parse_nicknames(@post.announcement.direct_announced_user_nicknames)
-
-          newbie_members = @post.issue.group.members.joins("LEFT OUTER JOIN audiences ON audiences.announcement_id = #{@post.announcement&.id || 0} AND audiences.member_id = members.id", )
-            .where('audiences.id IS NULL')
-            .where('members.user_id in (?)', direct_announced_users)
-
-          newbie_members.each do |member|
-            @post.announcement.audiences.create(member: member)
-          end
-
-          direct_audiences_ids = @post.issue.group.members.where(user: direct_announced_users).select(:id)
-          retired_audiences = @post.announcement.audiences
-          .where('audiences.member_id not in (?)', direct_audiences_ids)
-          .where('audiences.noticed_at IS NULL')
-          retired_audiences.destroy_all
+        else
+          outcome = AnnouncePost.run(post: @post)
+          not_member_users_message = announce_post_interaction_not_member_users_message(outcome)
+          flash[:alert] = not_member_users_message if not_member_users_message.present?
         end
       end
     end
@@ -564,8 +557,10 @@ class PostsController < ApplicationController
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
     survey_attributes = [:duration_days, :multiple_select, :hidden_intermediate_result, :hidden_option_voters, options_attributes: options_attributes] if survey.present?
 
-    announcement = params[:post][:announcement_attributes]
-    announcement_attributes = [:announcing_mode, :direct_announced_user_nicknames] if announcement.present?
+    announcement_attributes = []
+    if can?(:announce, fetch_issue) && params[:post][:announcement_attributes].present?
+      announcement_attributes = [:announcing_mode, :direct_announced_user_nicknames]
+    end
 
     wiki = params[:post][:wiki_attributes]
     wiki_attributes = [:body] if wiki.present?
@@ -598,8 +593,11 @@ class PostsController < ApplicationController
 
   def fetch_issue
     @issue ||= Issue.find_by id: params[:post][:issue_id]
-    @post.issue = @issue.presence || @post.issue
-    @issue = @post.issue
+    if @post.present?
+      @post.issue = @issue.presence || @post.issue
+      @issue = @post.issue
+    end
+    @issue
   end
 
   def crawling_after_updating_post

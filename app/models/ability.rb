@@ -22,6 +22,9 @@ class Ability
       can [:pin, :freeze, :wake], Issue do |issue|
         user.is_organizer?(issue)
       end
+      can [:announce], Issue do |issue|
+        user.is_organizer?(issue)
+      end
       can [:create, :new, :new_post_form], Folder
       can [:destroy, :update, :detach_post, :attach_post, :move_form, :move], [Folder] do |folder|
         folder.issue.present? and folder.issue.try(:postable?, user)
@@ -55,7 +58,6 @@ class Ability
       can [ :unread_until], Post do |post|
         post.issue.present? and post.issue.postable?(user)
       end
-
 
       can_nested [:attend, :absent, :to_be_decided], Event, RollCall do |event|
         event.takable_self_roll_call?(user)

@@ -42,34 +42,40 @@ export default class extends Controller {
   }
 
   setFormEvents(form) {
-    form.addEventListener('submit', this.submit.bind(this))
-    form.addEventListener('ajax:before', this.submit.bind(this))
-    form.addEventListener('dirty-form:submit', this.submit.bind(this))
+    this.submitHandler = this.submit.bind(this)
+    form.addEventListener('submit', this.submitHandler)
+    form.addEventListener('ajax:before', this.submitHandler)
+    form.addEventListener('dirty-form:submit', this.submitHandler)
+
+    this.checkValuesHandler = this.checkValues.bind(this)
 
     form.querySelectorAll("input:not([type=submit]), select").forEach(control => {
-      control.addEventListener('change', this.checkValues.bind(this))
+      control.addEventListener('change', this.checkValuesHandler)
     })
-
     form.querySelectorAll("input:not([type=submit]), textarea").forEach(control => {
       ['keyup', 'keydown', 'blur'].forEach(eventKey => {
-        control.addEventListener(eventKey, this.checkValues.bind(this))
+        control.addEventListener(eventKey, this.checkValuesHandler)
       })
     })
   }
 
   unsetFormEvents(form) {
-    form.removeEventListener('submit', this.submit.bind(this))
-    form.removeEventListener('ajax:before', this.submit.bind(this))
+    if (this.submitHandler) {
+      form.removeEventListener('submit', this.submitHandler)
+      form.removeEventListener('ajax:before', this.submitHandler)
+      form.removeEventListener('dirty-form:submit', this.submitHandler)
+    }
 
-    form.querySelectorAll("input:not([type=submit]), select").forEach(control => {
-      control.removeEventListener('change', this.checkValues.bind(this))
-    })
-
-    form.querySelectorAll("input:not([type=submit]), textarea").forEach(control => {
-      ['keyup', 'keydown', 'blur'].forEach(eventKey => {
-        control.removeEventListener(eventKey, this.checkValues.bind(this))
+    if (this.checkValuesHandler) {
+      form.querySelectorAll("input:not([type=submit]), select").forEach(control => {
+        control.removeEventListener('change', this.checkValuesHandler)
       })
-    })
+      form.querySelectorAll("input:not([type=submit]), textarea").forEach(control => {
+        ['keyup', 'keydown', 'blur'].forEach(eventKey => {
+          control.removeEventListener(eventKey, this.checkValuesHandler)
+        })
+      })
+    }
   }
 
   submit(event) {

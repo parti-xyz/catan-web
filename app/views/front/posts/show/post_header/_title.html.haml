@@ -20,8 +20,8 @@
 - if current_post.wiki.present?
   - moremenu_post_buttons << capture do
     - if current_post.front_wiki?
-      .dropdown-header
-        커뮤니티 가이드 페이지에 게시된 위키입니다.
+      .dropdown-item
+        .text-muted 커뮤니티 가이드 페이지에 게시된 위키입니다.
     - if can?(:coc_wiki, current_group)
       - if current_post.front_wiki?
         = link_to coc_wiki_front_groups_path(post_id: current_post.id, list_nav: @list_nav_params), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
@@ -43,6 +43,9 @@
   - if current_post.pinned?
     .dropdown-header
       고정된 게시글입니다.
+  - if can?(:announce, current_post.issue) && current_post.announcement.blank?
+    .dropdown-item.cursor-pointer{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_announcement_front_post_path(current_post) } }
+      이 게시글을 필독 요청하기
 
 - moremenu_post_buttons << capture do
   - if can?(:move_to_issue, current_post)

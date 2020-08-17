@@ -38,7 +38,10 @@
 @include mq.media("<=phone") {
   .btn-block-phone {
     width: 100%;
-    display:block;
+    display: block;
+    > .btn {
+      width: 100%;
+    }
   }
 }
 
@@ -78,5 +81,21 @@
 .popover-body {
   max-width: 600px;
   max-height: 300px;
-  overflow: scroll;
+  overflow: auto;
+}
+
+.btn-important {
+  @include bootstrap.button-variant(global-variables.$color-gray-500, global-variables.$color-gray-500);
+  color: white;
+}
+
+.btn-white {
+  @include bootstrap.button-variant(#ffffff, #cccccc, #ffffff, #adadad, #ffffff, #adadad);
+}
+
+.btn-outline-important {
+  @include bootstrap.button-outline-variant(global-variables.$color-gray-400, global-variables.$color-gray-400);
+  &:hover {
+    color: white;
+  }
 }

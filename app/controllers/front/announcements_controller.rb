@@ -5,14 +5,12 @@ class Front::AnnouncementsController < Front::BaseController
     @announcement = Announcement.find(params[:id])
     render_404 and return if @announcement.blank? || !@announcement.requested_to_notice?(current_user)
 
-    @member = current_group.member_of(current_user)
-    @audience = @announcement.audiences.find_or_create_by(member: @member)
+    outcome = NoticePost.run(current_group: current_group, current_user: current_user, announcement: @announcement)
 
-    @audience.noticed_at = DateTime.now
-    if @audience.save
+    if outcome.errors.empty?
       flash.now[:notice] = I18n.t('activerecord.successful.messages.checked')
     else
-      Rails.logger.error(@audience.errors.inspect)
+      Rails.logger.error(outcome.errors.inspect)
       flash.now[:alert] = I18n.t('errors.messages.unknown')
     end
 
@@ -69,5 +67,10 @@ class Front::AnnouncementsController < Front::BaseController
     end
 
     render(partial: '/front/posts/show/announcement', locals: { announcement: @announcement })
+  end
+
+  def audiences
+    @announcement = Announcement.find(params[:id])
+    render layout: nil
   end
 end

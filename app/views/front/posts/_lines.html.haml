@@ -13,11 +13,11 @@
             %i.fa.fa-info-circle
             = t('labels.post_blind_info')
         = link_to front_post_path(post, list_nav: list_nav_params), class: 'meta' do
-          - if !is_small_screen? && current_issue.present?
-            - if post.announcement&.need_to_notice?(current_user)
-              .icon.-important<>
-                %i.fa.fa-bullhorn
-                필독 요청
+          - if post.announcement&.need_to_notice?(current_user)
+            .icon.-important<>
+              %i.fa.fa-bullhorn
+              필독 요청
+          - if current_issue.present?
             - if post.poll.present?
               .icon<> 투표
             - if post.survey.present?

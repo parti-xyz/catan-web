@@ -8,6 +8,5 @@
       %select.channels-select-form-control{ name: 'post[issue_id]', data: { controller: 'select2-box', action: 'select2-box:select->select2-box#fieldValue' } }
         != categorized_issue_options_for_select(@issues, @current_post.issue.id)
     .pull-right
-      = f.submit '이동하기', class: 'submit btn btn-primary btn-sm', data: { target: 'post-title-form.submitButton' }
-
+      = f.submit '이동하기', class: 'submit btn btn-primary btn-sm'
 

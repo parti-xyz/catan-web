@@ -19,11 +19,14 @@ export default class extends Controller {
   static targets = ['editorHtml']
 
   connect() {
-    this.element.addEventListener('editor-form:focus', this.clearValidationReport.bind(this))
+    this.clearValidationReportHandler = this.clearValidationReport.bind(this)
+    this.element.addEventListener('editor-form:focus', this.clearValidationReportHandler)
   }
 
   disconnect() {
-    this.element.removeEventListener('editor-form:focus', this.clearValidationReport.bind(this))
+    if (this.clearValidationReportHandler) {
+      this.element.removeEventListener('editor-form:focus', this.clearValidationReportHandler)
+    }
   }
 
   submit(event) {

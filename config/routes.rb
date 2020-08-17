@@ -461,11 +461,13 @@ Rails.application.routes.draw do
       member do
         get :destroyed
         get :edit_title
+        get :edit_announcement
         get :cancel_title_form
         patch :title, action: 'update_title'
         patch :label, action: 'update_label'
         get :edit_channel
         patch :channel, action: 'update_channel'
+        patch :announcement, action: 'update_announcement'
       end
       shallow do
         resources :comments, only: [:create, :update, :destroy], controller: '/comments' do
@@ -506,6 +508,7 @@ Rails.application.routes.draw do
         delete :hold_back
         post :stop
         post :restart
+        get :audiences
       end
     end
 

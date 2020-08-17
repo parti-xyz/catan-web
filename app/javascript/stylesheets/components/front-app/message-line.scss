@@ -1,5 +1,6 @@
 @use '../../global-variables';
 @use '../../bootstrap';
+@use '../../mixin';
 
 /* message 알림 : 리펙토링 팔요 */
 .front-app .message-line {
@@ -83,12 +84,8 @@
     vertical-align: bottom;
   }
   .userimage > .userimagebg {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 9999px;
     border: 1px solid white;
-    background-position: center;
-    background-size: cover;
     background-color: white;
+    @include mixin.background-image-round(1.5rem);
   }
 }

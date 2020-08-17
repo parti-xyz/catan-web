@@ -16,62 +16,54 @@
 
   > .title {
     font-weight: bold;
+    color: global-variables.$color-brand-primary;
+  }
+
+  > .title.-stopped {
     color: global-variables.$color-gray-600;
   }
 
   > .buttons {
     margin-top: 1rem;
-    margin-bottom: 1rem;
+  }
+
+  > .buttons > .dropdown > .toggle {
+    border-top-right-radius: bootstrap.$input-border-radius;
+    border-bottom-right-radius: bootstrap.$input-border-radius;
   }
 
   > .audiences {
     font-size: bootstrap.$font-size-sm;
   }
 
-  > .audiences > .members {
-    margin-top: 2rem;
-    border-top: 1px solid global-variables.$color-gray-300;
-    padding-top: 2rem;
-  }
-
-  > .audiences > .members > .noticed + .need-to-notice {
-    margin-top: 1rem;
-  }
-
-  > .audiences > .members > .noticed > .title,
-  > .audiences > .members > .need-to-notice > .title {
+  > .audiences > .title {
     font-weight: bold;
+    margin-top: 1rem;
     margin-bottom: .5rem;
   }
 
-  > .audiences > .members > .noticed > .title {
-    color: bootstrap.$success;
+  > .audiences > .users {
+    margin-top: .25rem;
   }
 
-  > .audiences > .members > .need-to-notice > .title {
-    color: bootstrap.$danger;
-  }
-
-  > .audiences > .members > .noticed > .users,
-  > .audiences > .members > .need-to-notice > .users {
-    line-height: 1.5rem;
-  }
-
-  > .audiences > .members > .noticed > .users > .user,
-  > .audiences > .members > .need-to-notice > .users > .user {
-    white-space: nowrap;
-    margin-right: 0.25rem;
-  }
-
-  > .audiences > .members > .noticed > .users > .user > .image,
-  > .audiences > .members > .need-to-notice > .users > .user > .image {
-    background-size: cover;
-    background-position: center;
-    width: 1rem;
-    height: 1rem;
+  > .audiences > .users > .user > .image {
+    @include mixin.background-image-round(1rem);
     display: inline-block;
-    vertical-align: middle;
-    border-radius: 9999px;
     background-color: white;
+    vertical-align: middle;
+  }
+
+  > .audiences > .users > .user {
+    margin-right: .5rem;
+    white-space: nowrap;
+  }
+
+  > .audiences > .more,
+  > .audiences > .desc > .more {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-400;
+    margin-top: .5rem;
+    display: inline-block;
+    cursor: pointer;
   }
 }
