@@ -40,7 +40,9 @@ class PostCreateService
           end
         end
       else
-        logger.errors(@post.errors.inspect)
+        error = StandardError.new("DEBUG")
+        error.set_backtrace(caller)
+        ExceptionNotifier.notify_exception(errors, data: { message: @post.errors.inspect })
         return false
       end
     end

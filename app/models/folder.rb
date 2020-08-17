@@ -74,7 +74,7 @@ class Folder < ApplicationRecord
     if parent.blank?
       self.issue.top_folders
     else
-      self.parent.children
+      self.parent.children.sort_by_default
     end
   end
 

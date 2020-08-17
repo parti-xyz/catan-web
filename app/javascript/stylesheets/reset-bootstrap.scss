@@ -75,6 +75,8 @@
   z-index: 11;
 }
 
-.btn-outline-gray-400 {
-  @include bootstrap.button-outline-variant(global-variables.$color-gray-400);
+.popover-body {
+  max-width: 600px;
+  max-height: 300px;
+  overflow: scroll;
 }
