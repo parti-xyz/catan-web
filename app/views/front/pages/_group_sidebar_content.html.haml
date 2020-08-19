@@ -15,6 +15,17 @@
           %span.content
             전체 게시글
 
+- if current_group&.slug == 'butterknifecrew'
+  .channel-listing
+    %ul.channel-lines
+      %li.channel-line
+        = link_to 'https://butterknifecrew.parti.xyz/front/posts/36548', class: ['link'] do
+          .title
+            %span.hash
+              %i.fa.fa-link
+            %span.content
+              전체 일정
+
 - categorised_issues.each_with_index do |(category, issues), index|
   .channel-listing
     .header.clearfix
