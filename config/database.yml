@@ -1,8 +1,11 @@
 <%
-  branch = `git rev-parse --abbrev-ref HEAD`.strip rescue nil
-  branch = branch.gsub('/', '_')
-  branch = branch.gsub('.', '_')
-  local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
+  local_env = {}
+  if Rails.env.development? || Rails.env.test?
+    branch = `git rev-parse --abbrev-ref HEAD`.strip rescue nil
+    branch = branch.gsub('/', '_')
+    branch = branch.gsub('.', '_')
+    local_env = YAML.load_file("#{Rails.root}/local_env.yml").dig(Rails.env) || {}
+  end
 %>
 
 development:
@@ -25,3 +28,15 @@ test:
   database:  catan_test_<%= branch %>
   username:  <%= local_env.dig('database', 'username') %>
   password:  <%= local_env.dig('database', 'password') %>
+
+production:
+  adapter:    mysql2
+  database:   '<%= ENV.fetch("DATABASE_NAME") { "DEFAULT_DATABASE_NAME" } %>'
+  username:   '<%= ENV.fetch("DATABASE_USERNAME") { "DEFAULT_DATABASE_USERNAME" } %>'
+  password:   '<%= ENV.fetch("DATABASE_PASSWORD") { "DEFAULT_DATABASE_PASSWORD" } %>'
+  host:       '<%= ENV.fetch("DATABASE_HOST") { "DEFAULT_DATABASE_HOST" } %>'
+  pool:       <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  encoding:   utf8mb4
+  collation:  utf8mb4_unicode_ci
+  reconnect:  true
+

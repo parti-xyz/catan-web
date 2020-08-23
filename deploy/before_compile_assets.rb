@@ -1,1 +1,0 @@
-run! "cd #{config.release_path} && /usr/bin/yarn"

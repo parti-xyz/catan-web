@@ -94,7 +94,7 @@ class Group < ApplicationRecord
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
-    exclusion: { in: %w(all app new edit index session login logout users admin stylesheets assets javascripts images) },
+    exclusion: { in: %w(all app new edit index session login logout users admin stylesheets assets javascripts images dev dev2 test union) },
     uniqueness: { case_sensitive: false },
     length: { maximum: 20 }
   validate :not_predefined_slug
