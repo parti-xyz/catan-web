@@ -1,0 +1,55 @@
+@use '../../../global-variables';
+@use './one-variables';
+
+.front-app .simple-box-sheet {
+  background-color: global-variables.$color-gray-100;
+  padding: 1rem;
+  text-align: left;
+  border-radius: 2px;
+
+  > .title {
+    font-weight: bold;
+    display: flex;
+    > .link {
+      flex: none;
+      font-weight: normal;
+      color: global-variables.$color-brand-primary;
+    }
+  }
+  > .title + * {
+    margin-top: 0.5rem;
+  }
+
+  > .content {
+    background-color: one-variables.$color-group-brand-a30;
+    color: one-variables.$color-group-secondary;
+    border: 1px solid one-variables.$color-group-important-a30;
+
+    > .head {
+      line-height: 2.25rem;
+      text-align: center;
+      padding: 0 0.5rem;
+      font-weight: bold;
+    }
+    > .body {
+      border-top: 1px solid one-variables.$color-group-important-a30;
+      padding: 1rem;
+      height: 400px;
+      overflow: auto;
+      > ol {
+        margin-left: 1.25rem;
+        margin-bottom: 0;
+      }
+      > .post-wiki.-coc {
+        margin: 0;
+        > .body > .article {
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  & + .simple-box-sheet {
+    margin-top: 1rem;
+  }
+}

@@ -1,0 +1,60 @@
+%section.text-center
+  .container
+    .group-join
+      = image_tag 'groups/one/default-logo.png', class: 'logotitle'
+
+      .simple-box.text-center{ style: 'padding: 5rem 0'}
+        %h4{ style: 'margin-bottom: 2.5rem'}
+          🙌
+          %span.text-nowrap 안녕하세요!
+          %span.text-nowrap 청년기획자플랫폼 일일일일일에
+          %span.text-nowrap 오신 것을 환영합니다.
+
+        = form_with url: front_member_requests_path, local: true do
+          .simple-box-sheet
+            .title.justify-content-between
+              .d-flex.flex-grow-1
+                .flex-grow-n.mr-2 📋
+                .flex-grow-n
+                  설문조사에 참여해야 커뮤니티에 가입할 수 있습니다.
+              = link_to '설문조사 참여하기', '#', target: '_blank', class: 'link'
+
+          - wiki = Post.find_by(id: 36647)&.wiki
+          - if wiki.present?
+            .simple-box-sheet
+              .title
+                .flex-grow-n.mr-2
+                  📜
+                .flex-grow-n
+                  약속문을 읽어주세요.
+              .content
+                .head
+                  약속문
+                .body
+                  .post-wiki.-coc
+                    = render 'front/wikis/card', current_wiki: wiki
+
+          .simple-box-sheet
+            .title
+              .flex-grow-n.mr-2
+                💁‍♀️
+              .flex-grow-n
+                가입 전 잠깐! 아래 질문에 답을 반드시 적어 주세요. 입력한 내용은 운영자만 볼 수 있습니다
+            %textarea{ name: 'statement', class: 'form-control', rows: 10, style: 'padding: 1rem' }
+              :preserve
+                1. 설문조사에 참여하셨나요? 확인을 위해 설문조사 폼에 적은 전화번호를 입력해 주세요. (이 정보는 운영자에게만 보입니다.)
+
+
+
+                2. 약속문을 읽으셨나요? 당신이 가장 인상깊게 읽은 약속 하나를 적어주세요.
+
+          .simple-box-sheet
+            .title
+              .flex-grow-n.mr-2
+                💁‍♀️
+              .flex-grow-n
+                한 줄로 여러분을 소개해주세요.
+            = text_area_tag :description, nil, class: 'form-control', placeholder: '팀명과 성함', rows: 6, style: 'padding: 1rem'
+
+          .form-group.text-right.my-5
+            = submit_tag "가입을 신청합니다", class: 'btn btn-primary btn-block', data: { disable_with: "진행 중..." }

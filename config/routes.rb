@@ -534,7 +534,7 @@ Rails.application.routes.draw do
     resources :members, only: [], controller: '/group/members' do
       delete :cancel
     end
-    resources :members, only: [] do
+    resources :members, only: [:show] do
       collection do
         get 'user/:user_id', action: 'user', as: :user
         get :edit_me

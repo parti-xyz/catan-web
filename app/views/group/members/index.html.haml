@@ -40,7 +40,40 @@
         %ul.request-card-wrapper.list-unstyled.clearfix
           - current_group.member_requests.each do |member_request|
             - user = member_request.user
-            = render 'users/user', user: user, group: current_group, additional_buttons_partial: 'group/member_requests/accept_buttons', chevron_buttons_partial: 'users/chevron_buttons', description: member_request.description
+            -# = render 'users/user', user: user, group: current_group, additional_buttons_partial: 'group/member_requests/accept_buttons', chevron_buttons_partial: , description: member_request.description
+            %li.user-card[user]
+              .user-card__thumb
+                = link_to smart_user_gallery_path(user) do
+                  .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
+                  %p= user.nickname
+                .description.cursor-pointer{ 'data-trigger': 'click', 'data-action': 'parti-popover', 'data-placement': "auto-bottom", 'data-url': "##{dom_id(user)}__member_user", style: 'line-height: 1.9;' }
+                  %i.fa.fa-comment-o
+                  신청 내용 보기
+                .hidden
+                  %div{ id: "#{dom_id(user)}__member_user", style: "max-width: 180px" }
+                    %strong 소개
+                    - if member_request.description.present?
+                      = simple_format h(member_request.description)
+                    - else
+                      %p #{user.nickname}입니다
+                    - if member_request.statement.present?
+                      %strong 가입 전 확인 답변
+                      = simple_format h(member_request.statement)
+              - partial = capture do
+                = render 'group/member_requests/accept_buttons', local_assigns.merge(user: user)
+              - if partial.present?
+                .user-card__additional_buttons
+                  = partial
+              - partial = capture do
+                = render 'users/chevron_buttons', local_assigns.merge(user: user)
+              - if partial.strip.present?
+                .user-card__chevron_buttons
+                  - dropdown_dom_id = user_chevron_dom_id(user)
+                  %span.dropdown.dropdown-xs-actionsheet.js-dropdown-xs-actionsheet
+                    %button.btn.btn-link.btn-sm.dropdown-toggle{ id: dropdown_dom_id, "aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown" }
+                      %i.fa.fa-ellipsis-v
+                    %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
+                      = partial
 
     %section.default-padding-top
       %h4.group-heading

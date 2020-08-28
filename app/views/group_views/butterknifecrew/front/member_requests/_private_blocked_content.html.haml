@@ -2,7 +2,7 @@
   .container
 
     - if current_group.member_requested?(current_user)
-      %h3
+      %h4
         %i.fa.fa-cube
         이제 곧 커뮤니티로 초대드릴게요!
       .simple-box.text-center{ style: 'padding: 2rem 0'}
@@ -17,7 +17,7 @@
 
     - else
       .simple-box.text-center{ style: 'padding: 2rem 0'}
-        %h3
+        %h4
           %i.fa.fa-cube
           안녕하세요,
           %br

@@ -1,0 +1,155 @@
+- content_for :group_style do
+  :scss
+    .group-one.jumbos > .text {
+      color: #214166;
+      > .logo {
+        height: 4.25rem;
+        @media (max-width: 480px) {
+          width: 100%;
+          height: auto;
+          margin-top: 2.5REM;
+        }
+      }
+      > .slogan {
+        .main {
+          font-weight: bold;
+        }
+      }
+      > .sheets {
+        display: flex;
+        margin-right: -.4375rem;
+        margin-left: -.4375rem;
+        @media (max-width: 1200px) {
+          height: auto;
+          flex-direction: column;
+          width: 450px;
+          > .sheet + .sheet {
+            margin-top: 2rem;
+          }
+          > .sheet:nth-child(even) {
+            margin-left: 2rem;
+          }
+          > .sheet:nth-child(odd) {
+            margin-right: 2rem;
+          }
+        }
+        @media (max-width: 480px) {
+          height: auto;
+          flex-direction: column;
+          width: 300px;
+          > .sheet + .sheet {
+            margin-top: 2rem;
+          }
+          > .sheet:nth-child(even) {
+            margin-left: 2rem;
+          }
+          > .sheet:nth-child(odd) {
+            margin-right: 2rem;
+          }
+        }
+        > .sheet {
+          flex: 1;
+          position: relative;
+          margin-right: .4375rem;
+          margin-left: .4375rem;
+          height: 13rem;
+          > .bg {
+            width: 100%;
+            height: 100%;
+          }
+          > .body {
+            display: block;
+            position: absolute;
+            top: 0;
+            padding: 1.125rem 1rem 1.5rem 1.125rem;
+            bottom: 0;
+            color: #214166;
+            > .title {
+              font-size: 1.125rem;
+              font-weight: bold;
+            }
+            > .desc {
+              margin-top: 1.5rem;
+              font-size: 0.875rem;
+            }
+            > .arrow {
+              position: absolute;
+              bottom: 2rem;
+              right: 2rem;
+            }
+          }
+        }
+      }
+    }
+
+.jumbos.group-one
+  .text
+    = image_tag 'groups/one/coc-logo.png', class: 'logo'
+
+    .slogan.mt-4.mb-5
+      .main 남 일 말고 내 일 하자
+      .sub 11111은 청년 기획자들의 성장, 협업 연대를 위한 커뮤니티 플랫폼입니다.
+
+    .sheets
+      .sheet
+        = image_tag 'groups/one/coc-card-bg.png', class: 'bg'
+        = link_to 'https://one.parti.xyz/front/posts/36647', class: 'body' do
+          .title
+            📝
+            &nbsp;
+            커뮤니티 약속문 살펴보기
+          .desc
+            청년 기획자 플랫폼 11111은 생산적이고 건강한 커뮤니티 형성을 위해 우리 모두가 지키고 함께 만드는 약속문을 준수합니다.
+          .arrow
+            = image_tag 'groups/one/coc-arrow.png', class: 'icon'
+
+      .sheet
+        = image_tag 'groups/one/coc-card-bg.png', class: 'bg'
+        = link_to 'https://one.parti.xyz/front/channels/1527', class: 'body' do
+          .title
+            👋🏻
+            &nbsp;
+            자기소개×레퍼런스 공유하기
+          .desc
+            관계망을 형성해나가는 첫 단추! 기획자로서 자신을 공유해주세요. 서로 아는 만큼 가까워질 수 있을테니까요.
+          .arrow
+            = image_tag 'groups/one/coc-arrow.png', class: 'icon'
+
+      .sheet
+        = image_tag 'groups/one/coc-card-bg.png', class: 'bg'
+        = link_to 'https://one.parti.xyz/front/channels/1534', class: 'body' do
+          .title
+            👀
+            &nbsp;
+            설문데이터 읽어보기
+          .desc
+            400명에 가까운 기획자 여러분이 설문인터뷰에 응답해주셨어요. 다른 기획자들의 응답, 궁금하시죠?
+          .arrow
+            = image_tag 'groups/one/coc-arrow.png', class: 'icon'
+
+    -# - if current_group.site_description
+    -#   .subtext
+    -#     = current_group.site_description
+    -# - if is_small_screen?
+    -#   %a.btn.btn-key.btn-sm{ href: front_menu_path }
+    -#     커뮤니티 채널 보기
+%section
+  - if current_group.front_wiki_post.present?
+    - if !current_group.front_wiki_post.private_blocked?(current_user)
+      .post-wiki.-coc
+        = render 'front/wikis/card', current_wiki: current_group.front_wiki_post.wiki
+  - else
+    .alert.alert-secondary.m-4
+      .display-5 커뮤니티 가이드를 준비 중입니다.
+      - if current_group.organized_by?(current_user)
+        .mt-4
+          .display-5.text-danger.small
+            (오거나이저만 볼 수 있는 메시지입니다.)
+            %string 커뮤니티 가이드를 작성하세요.
+            .my-2
+              1. 적당한 채널을 선택하세요. 나중에 변경할 수 있습니다. 편하게 선택하세요.
+              %br
+              2. 위키 쓰기를 버튼을 클릭하고, 커뮤니티 가이드를 작성하세요. 작성된 위키를 저장합니다.
+              %br
+              3. 저장된 위키의 메뉴에서 '커뮤니티 가이드로 설정하기'를 선택하세요.
+

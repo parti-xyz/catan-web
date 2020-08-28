@@ -1,0 +1,31 @@
+%section.text-center
+  .container
+    %h3.text-keepall
+      .userimage{ style: 'width: 2rem; height: 2rem; display: inline-block; vertical-align: bottom;' }
+        .userimagebg{ style: "background-image: url(#{@member.user.image.sm.url}); width: 100%;height: 100%; background-size: cover; background-position: center; border-radius: 999999px;" }
+      #{@member.user.nickname} 프로필
+    .simple-box
+      - if @member.role.present?
+        .card
+          .card-body{ style: 'margin-bottom: -1rem' }
+            %p
+              %strong 그룹에서 맡은 역할이나 소속된 팀 이름
+            = @member.role
+      - if @member.description.present?
+        .card.mt-4
+          .card-body{ style: 'margin-bottom: -1rem' }
+            %p
+              %strong 소개
+            = simple_format h(@member.description)
+      - if user_signed_in? && (@member.user == current_user || current_group.organized_by?(current_user))
+        .card.mt-4
+          .card-body{ style: 'margin-bottom: -1rem' }
+            %p
+              %strong
+                가입 전에 확인한 사항
+              %span.text-muted (오거나이저 혹은 자신만 보이는 정보입니다.)
+            - if @member.statement.present?
+              = simple_format h(@member.statement)
+            - else
+              %p.text-muted
+                확인한 사항이 없습니다.
