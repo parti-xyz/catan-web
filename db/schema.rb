@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_16_000956) do
+ActiveRecord::Schema.define(version: 2020_08_27_224552) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -423,6 +423,7 @@ ActiveRecord::Schema.define(version: 2020_08_16_000956) do
     t.datetime "updated_at", null: false
     t.string "joinable_type", null: false
     t.string "description"
+    t.text "statement"
     t.index ["joinable_id", "joinable_type", "user_id", "active"], name: "unique_member_requests", unique: true
     t.index ["joinable_id", "joinable_type"], name: "index_member_requests_on_joinable_id_and_joinable_type"
     t.index ["user_id"], name: "index_member_requests_on_user_id"
@@ -443,6 +444,7 @@ ActiveRecord::Schema.define(version: 2020_08_16_000956) do
     t.text "description", limit: 16777215
     t.datetime "read_at"
     t.string "role"
+    t.text "statement"
     t.index ["joinable_id", "joinable_type"], name: "index_members_on_joinable_id_and_joinable_type"
     t.index ["joinable_id"], name: "index_members_on_joinable_id"
     t.index ["user_id", "joinable_id", "joinable_type", "active"], name: "index_members_on_user_id_and_joinable_id_and_joinable_type", unique: true

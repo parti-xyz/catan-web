@@ -11,11 +11,15 @@
     = render 'favicons'
 
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    - if current_group.present? and Webpacker.manifest.lookup("groups/#{current_group.slug}.css")
+      = stylesheet_pack_tag "groups/#{current_group.slug}", media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag 'bpplication', media: 'all', 'data-turbolinks-track': 'reload'
 
     - if content_for?(:style)
       %style
         = yield(:style)
+    - if content_for?(:group_style)
+      = yield(:group_style)
 
     %link{href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css", rel: "stylesheet"}
     = javascript_pack_tag 'application', defer: true, 'data-turbolinks-track': 'reload'

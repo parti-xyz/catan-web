@@ -5,6 +5,7 @@ import { isTouchDevice } from '../helpers/device';
 
 export default class extends Controller {
   connect() {
+    this.element.classList.add('cursor-pointer')
     if(!this.binded) {
       let tabIndex = this.element.getAttribute('tabindex')
       if (!tabIndex) {
@@ -14,40 +15,16 @@ export default class extends Controller {
       let options = parseJSON(this.data.get('options')).value
       this.$popoverMe = jQuery(this.element).popover(Object.assign({}, options, {
         content: this.content.bind(this),
-        trigger: (isTouchDevice() ? 'focus' : 'manual'),
+        trigger: 'focus',
         html: true,
         sanitize: false,
         class: this.data.get('className'),
         animation: false,
         placement: 'bottom',
+        delay: { show: 0, hide: 200 },
       }))
-
-      this.$popoverMe.on("mouseenter", () => {
-        setTimeout(() => {
-          if (!this.$popoverMe) { return }
-          if (window.__popover) { return }
-          window.__popover = true
-
-          this.$popoverMe.popover("show")
-          jQuery(".popover").on("mouseleave", this.leave.bind(this))
-        }, 500)
-      }).on("mouseleave", () => {
-        setTimeout(() => {
-          if (!this.$popoverMe) { return }
-          if (!jQuery(".popover:hover").length) {
-            this.leave()
-          }
-        }, 100)
-      })
       this.binded = true
     }
-  }
-
-  leave() {
-    if (!this.$popoverMe) { return }
-    this.$popoverMe.popover('hide')
-    jQuery(".popover").off("mouseleave", this.leave.bind(this))
-    window.__popover = false
   }
 
   disconnect() {

@@ -5,14 +5,14 @@ class Group::MemberRequestsController < Group::BaseController
   def create
     unless current_group.member?(current_user)
       if current_group.private?
-        @member_request.assign_attributes(joinable: current_group, user: current_user, description: params[:description])
+        @member_request.assign_attributes(joinable: current_group, user: current_user, description: params[:description], statement: params[:statement])
         if @member_request.save
           flash[:success] = "#{current_group.title}에 가입을 환영합니다"
           MessageService.new(@member_request, action: :request).call
           MemberRequestMailer.deliver_all_later_on_create(@member_request)
         end
       else
-        @member = MemberGroupService.new(group: current_group, user: current_user, description: params[:description]).call
+        @member = MemberGroupService.new(group: current_group, user: current_user, description: params[:description], statement: params[:statement]).call
 
         if @member.persisted?
           flash[:success] = "#{current_group.title}에 가입을 환영합니다"
@@ -35,7 +35,7 @@ class Group::MemberRequestsController < Group::BaseController
     redirect_to(request.referrer || group_members_path) and return if current_group.member?(@user)
     @member_request = current_group.member_requests.find_by(user: @user)
     render_404 and return if @member_request.blank?
-    @member = MemberGroupService.new(group: current_group, user: @member_request.user, description: @member_request.description).call
+    @member = MemberGroupService.new(group: current_group, user: @member_request.user, description: @member_request.description, statement: @member_request.statement).call
     if @member.persisted?
       MessageService.new(@member_request, sender: current_user, action: :accept).call
       MemberMailer.deliver_all_later_on_create(@member)

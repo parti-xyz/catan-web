@@ -13,6 +13,10 @@
         .form-group
           %label
             #{current_user.nickname}님을 소개해 주세요.
-          = f.text_area :description, class: 'form-control', placeholder: '나는 ...', value: @member.description
+          = f.text_area :description, class: 'form-control', placeholder: '나는 ...', value: @member.description, rows: 4
+        .form-group
+          %label
+            #{current_user.nickname}님이 가입할 때 작성한 신청 내용입니다.
+          = f.text_area :statement, class: 'form-control', placeholder: '나는 ...', value: @member.statement, rows: 8
         .form-group
           = submit_tag '저장', class: 'btn btn-default btn-primary btn-block'
