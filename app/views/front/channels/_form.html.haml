@@ -48,17 +48,17 @@
           = label_tag :category_id, '이외 카테고리', class: 'form-check-label', for: "category-id-nil"
 
   - if current_issue.persisted?
-    .form-group
-      = f.label :telegram_link
-      %span 텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요.
-      = f.text_field :telegram_link, class: 'form-control', placeholder: '예시) https://telegram.me/basic_incomes'
-      %p.form-text.text-muted.small
-        = link_to '텔레그램 슈퍼그룹', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C#%EA%B0%81-%EB%B9%A0%EB%9D%A0%EB%B3%84%EB%A1%9C-%EB%8C%80%ED%99%94%EB%B0%A9%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EC%96%B4%EC%9A%94', target: '_blank'
-        ,&nbsp;
-        = link_to '카카오톡 오픈 채팅', 'http://www.kakao.com/helps?category=105&locale=ko&service=8', target: '_blank'
-        ,&nbsp;
-        = link_to '페이스북 메신저', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
-        링크 만들기
+    -# .form-group
+    -#   = f.label :telegram_link
+    -#   %span 텔레그램 슈퍼그룹, 카카오톡 오픈채팅, 페이스북 메신저 링크 URL 중 하나를 입력해 주세요.
+    -#   = f.text_field :telegram_link, class: 'form-control', placeholder: '예시) https://telegram.me/basic_incomes'
+    -#   %p.form-text.text-muted.small
+    -#     = link_to '텔레그램 슈퍼그룹', 'https://github.com/parti-xyz/catan-web/wiki/%EB%B9%A0%EB%9D%A0-%ED%99%9C%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C#%EA%B0%81-%EB%B9%A0%EB%9D%A0%EB%B3%84%EB%A1%9C-%EB%8C%80%ED%99%94%EB%B0%A9%EC%9D%84-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EC%96%B4%EC%9A%94', target: '_blank'
+    -#     ,&nbsp;
+    -#     = link_to '카카오톡 오픈 채팅', 'http://www.kakao.com/helps?category=105&locale=ko&service=8', target: '_blank'
+    -#     ,&nbsp;
+    -#     = link_to '페이스북 메신저', 'https://www.facebook.com/help/975931839152864?helpref=uf_permalink', target: '_blank'
+    -#     링크 만들기
 
     .form-group
       = f.label :blinds
@@ -67,11 +67,11 @@
         건강하고 유쾌한 #{I18n.t('labels.app_name_human')} 활동을 방해하는 멤버의 글을 숨깁니다. 해당 멤버의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
         %strong 이 기능은 꼭 필요한 경우에만 신중히 사용해 주세요.
 
-  - if current_issue.persisted?
     .form-group
       = f.label :organizer_nicknames
       = f.text_field :organizer_nicknames, value: current_issue.organizer_members.merge_nickname, class: 'form-control'
       %p.form-text.text-muted.small 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 채널의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
+
   - else
     .form-group
       = f.label :organizer_nicknames
