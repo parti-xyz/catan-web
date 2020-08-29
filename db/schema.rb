@@ -22,15 +22,6 @@ ActiveRecord::Schema.define(version: 2020_08_27_224552) do
     t.index ["stat_at"], name: "index_active_issue_stats_on_stat_at"
   end
 
-  create_table "announcements", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.integer "audiences_count", default: 0, null: false
-    t.integer "noticed_audiences_count", default: 0, null: false
-    t.string "announcing_mode", default: "all", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "stopped_at"
-  end
-
   create_table "answers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "question_id", null: false
     t.text "body", limit: 16777215
@@ -53,17 +44,6 @@ ActiveRecord::Schema.define(version: 2020_08_27_224552) do
     t.text "body"
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
     t.index ["source_type", "source_id"], name: "index_articles_on_source_type_and_source_id"
-  end
-
-  create_table "audiences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.bigint "announcement_id", null: false
-    t.bigint "member_id", null: false
-    t.datetime "noticed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["announcement_id", "member_id"], name: "index_audiences_on_announcement_id_and_member_id", unique: true
-    t.index ["announcement_id"], name: "index_audiences_on_announcement_id"
-    t.index ["member_id"], name: "index_audiences_on_member_id"
   end
 
   create_table "beholders", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -640,8 +620,6 @@ ActiveRecord::Schema.define(version: 2020_08_27_224552) do
     t.bigint "pinned_by_id"
     t.bigint "last_title_edited_user_id"
     t.bigint "label_id"
-    t.bigint "announcement_id"
-    t.index ["announcement_id"], name: "index_posts_on_announcement_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["event_id"], name: "index_posts_on_event_id"
     t.index ["folder_id"], name: "index_posts_on_folder_id"
