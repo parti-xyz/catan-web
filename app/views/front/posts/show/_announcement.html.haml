@@ -95,7 +95,7 @@
     - if announcement.stopped? && can?(:restart, announcement)
       = link_to restart_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'font-size-xxs btn btn-sm btn-outline-important pull-right' do
         필독 요청 다시 시작하기
-    - if can?(:announce, announcement.post.issue)
+    - if !announcement.stopped? && can?(:announce, announcement.post.issue)
       .font-size-xxs.btn.btn-sm.btn-outline-important.pull-right.cursor-pointer.mr-1{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_announcement_front_post_path(announcement.post) } }
         필독 수정하기
   - if restart_or_stop_buttons.present?
