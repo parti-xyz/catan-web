@@ -5,14 +5,14 @@
       .body<>
         - unless post.blinded?(current_user)
           .title{ class: ('-purged' if post&.wiki&.purged?) }<>
-            = link_to front_post_path(post, list_nav: list_nav_params), class: 'link' do
+            = link_to front_post_path(post), class: 'link', data: { controller: 'list-nav-kickoff', action: 'list-nav-kickoff#store', 'list-nav-kickoff-post-id': post.id } do
               != post.title
             %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }
         - else
           .title.-blind
             %i.fa.fa-info-circle
             = t('labels.post_blind_info')
-        = link_to front_post_path(post, list_nav: list_nav_params), class: 'meta' do
+        = link_to front_post_path(post), class: 'meta', data: { controller: 'list-nav-kickoff', action: 'list-nav-kickoff#store', 'list-nav-kickoff-post-id': post.id } do
           - if !post.announcement&.stopped? && post.announcement&.need_to_notice?(current_user)
             .icon.-important<>
               %i.fa.fa-bullhorn

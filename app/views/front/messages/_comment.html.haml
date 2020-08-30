@@ -1,4 +1,4 @@
-= link_to front_post_path(comment.post, anchor: dom_id(comment), list_nav: local_assigns[:list_nav_params]) do
+= link_to front_post_path(comment.post, anchor: dom_id(comment)) do
   %strong
     - if comment.mentioned?(message.user)
       %span

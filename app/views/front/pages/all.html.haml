@@ -21,7 +21,7 @@
   = render 'front/share/base_playground_sidebar_content'
 
 - if @all_posts_total_count > 0
-  .channel-box
+  .channel-box{ data: { controller: 'list-nav-reset' } }
     - if @search_q.present?
       .alert-box.my-3
         .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
@@ -49,7 +49,7 @@
                   라벨 검색 취소
 
     - if @posts.any?
-      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
     - else
       .alert-box.my-3
         .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between

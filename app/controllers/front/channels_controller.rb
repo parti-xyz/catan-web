@@ -53,8 +53,6 @@ class Front::ChannelsController < Front::BaseController
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
     @permited_params = params.permit(:id, :folder_id, :sort, :q, filter: [ :condition, :label_id ]).to_h
-
-    @list_nav_params = helpers.list_nav_params(action: 'channel', issue: @current_issue, folder: @current_folder, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end
 
   def new

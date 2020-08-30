@@ -1,17 +1,17 @@
 - content_for :playground_header_content do
-  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post, list_nav_params: @list_nav_params
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
 
-= render 'front/pages/back', back_path: front_post_path(@current_post, list_nav: @list_nav_params)
+= render 'front/pages/back', back_path: front_post_path(@current_post)
 
 .post-form-box
   - if @current_post.wiki.blank?
-    = render 'front/posts/form', current_issue: @current_issue, current_folder: @current_folder, current_post: @current_post, list_nav_params: @list_nav_params
+    = render 'front/posts/form', current_issue: @current_issue, current_folder: @current_folder, current_post: @current_post
   - else
-    = render 'front/wikis/form', current_issue: @current_issue, current_folder: @current_folder, current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
+    = render 'front/wikis/form', current_issue: @current_issue, current_folder: @current_folder, current_wiki: @current_post.wiki
     .post-main
       .post-content{ data: { controller: 'comment-form-new comment-form-sync' } }
         .reactions

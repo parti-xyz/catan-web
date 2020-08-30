@@ -16,7 +16,7 @@ class Message < ApplicationRecord
   scope :unread, -> { where(read_at: nil) }
 
   def post
-    messagable.try(:post)
+    messagable.try(:post_for_message)
   end
 
   def issue

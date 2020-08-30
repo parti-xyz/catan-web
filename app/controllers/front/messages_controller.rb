@@ -29,7 +29,7 @@ class Front::MessagesController < Front::BaseController
 
     message.update(read_at: Time.now)
 
-    render(partial: '/front/messages/message', locals: { message: message, mention_only_page: (params[:mention_only_page] == 'true'), list_nav_params: helpers.list_nav_params() })
+    render(partial: '/front/messages/message', locals: { message: message, mention_only_page: (params[:mention_only_page] == 'true'), list_navable: (params[:list_navable] == 'true') })
   end
 
   def unread
@@ -40,7 +40,7 @@ class Front::MessagesController < Front::BaseController
 
     message.update(read_at: nil)
 
-    render(partial: '/front/messages/message', locals: {message: message, mention_only_page: (params[:mention_only_page] == 'true'), list_nav_params: helpers.list_nav_params() })
+    render(partial: '/front/messages/message', locals: {message: message, mention_only_page: (params[:mention_only_page] == 'true'), list_navable: (params[:list_navable] == 'true') })
   end
 
   def mentions
@@ -57,7 +57,6 @@ class Front::MessagesController < Front::BaseController
     @need_to_read_count = all_mentions.unread.count
     @all_messages_total_count = all_mentions.count
 
-    @list_nav_params = helpers.list_nav_params(action: 'mentions', issue: nil, folder: nil, q: nil, page: params[:page].presence, sort: nil, filter: nil)
     @permited_params = params.permit(:id, filter: [ :condition ]).to_h
   end
 

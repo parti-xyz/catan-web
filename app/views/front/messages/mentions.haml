@@ -17,7 +17,7 @@
 
   - if @messages.any?
     - @messages.each do |message|
-      = render message, mention_only_page: true, list_nav_params: @list_nav_params
+      = render message, mention_only_page: true, list_navable: true
     .mt-4
       = paginate @messages, theme: 'catan'
   - else

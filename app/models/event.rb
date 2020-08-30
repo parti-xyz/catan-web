@@ -94,6 +94,10 @@ class Event < ApplicationRecord
     return false
   end
 
+  def post_for_message
+    self.post
+  end
+
   def issue_for_message
     self.post.issue
   end

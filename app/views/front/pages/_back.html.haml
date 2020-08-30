@@ -1,5 +1,5 @@
 - if local_assigns[:back_path].present?
   - content_for :playground_back_content do
-    = link_to back_path, class: 'back menuitem' do
+    = link_to back_path, class: 'back menuitem', data: { controller: 'list-nav-back', 'list-nav-back-post-id': local_assigns[:post_id] } do
       %span.link
         %i.fa.fa-arrow-left

@@ -1,5 +1,5 @@
 - content_for :playground_header_content do
-  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post, list_nav_params: @list_nav_params
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes{ data: { controller: ('fix-bottom-comments' if is_small_screen?) } }
@@ -45,13 +45,12 @@
             %li.updated-comment-line
               .body
                 .title
-                  = link_to url_for(wiki_history_id: wiki_history.id, list_nav: @list_nav_params), class: 'hover:text-primary' do
+                  = link_to url_for(wiki_history_id: wiki_history.id), class: 'hover:text-primary' do
                     #{static_date_f(wiki_history.created_at)}
                 .footer
                   != wiki_history.activity { |user| user_subject_word(user) }
 
-- back_path = list_nav_back_path(@list_nav_params, front_channel_path(@current_post.issue))
-= render 'front/pages/back', back_path: back_path
+= render 'front/pages/back', back_path: front_channel_path(@current_post.issue), post_id: @current_post.id
 
 .post-box{ data: { controller: 'channel-read-emit' } }
   .post-main{ data: { controller: 'comment-form-new' } }
@@ -117,7 +116,7 @@
       - else
         -# WIKI
         .post-wiki
-          = render 'front/wikis/card', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params, current_wiki_history:  @current_wiki_history
+          = render 'front/wikis/card', current_wiki: @current_post.wiki, current_wiki_history:  @current_wiki_history
 
       .reactions
         .reaction

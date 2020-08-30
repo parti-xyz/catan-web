@@ -28,11 +28,11 @@
 
       .control
         - if @current_issue.postable?(current_user)
-          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, list_nav: @list_nav_params), class: 'btn btn-primary btn-sm' do
+          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id), class: 'btn btn-primary btn-sm', data: { controller: 'list-nav-kickoff', action: 'click->list-nav-kickoff#store' } do
             %i.fa.fa-pencil
             게시글 쓰기
           &nbsp;
-          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki, list_nav: @list_nav_params), class: 'btn btn-primary btn-sm' do
+          = link_to new_front_post_path(issue_id: @current_issue&.id, folder_id: @current_folder&.id, type: :wiki), class: 'btn btn-primary btn-sm', data: { controller: 'list-nav-kickoff', action: 'click->list-nav-kickoff#store' } do
             %i.fa.fa-file-word-o
             위키 쓰기
 
@@ -42,7 +42,7 @@
     = render 'front/channels/supplementary_controls', current_folder: @currnt_folder, current_issue: @current_issue
 
 - if @all_posts_total_count > 0
-  .channel-box{ data: { controller: 'channel-read-emit' } }
+  .channel-box{ data: { controller: 'channel-read-emit list-nav-reset' } }
     - if @search_q.present?
       .alert-box.my-3
         .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
@@ -79,7 +79,7 @@
               = link_to text, url_for(@permited_params.deep_merge(sort: value)), class: 'dropdown-item'
 
     - if @posts.any?
-      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
     - else
       .alert-box.my-3
         .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between

@@ -17,9 +17,6 @@
           %i.fa.fa-arrows-h
           .conflict-insertion
             .contents-header__title 내가 편집 중인 내용
-  - list_nav_params.each do |key, value|
-    - next if value.nil?
-    = hidden_field_tag "nav[#{key}]", value
   = f.hidden_field :issue_id
   = f.hidden_field :has_poll, value: false
   = f.hidden_field :has_survey, value: false

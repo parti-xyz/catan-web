@@ -52,8 +52,6 @@ class Front::PagesController < Front::BaseController
     @group_sidebar_menu_slug = 'all'
 
     @permited_params = params.permit(:sort, :q, filter: [ :condition, :label_id ]).to_h
-
-    @list_nav_params = helpers.list_nav_params(action: 'all', issue: nil, folder: nil, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end
 
   def announcements
@@ -88,8 +86,6 @@ class Front::PagesController < Front::BaseController
     @group_sidebar_menu_slug = 'announcements'
 
     @permited_params = params.permit(:sort, :q, filter: [ :condition, :label_id ]).to_h
-
-    @list_nav_params = helpers.list_nav_params(action: 'announcements', issue: nil, folder: nil, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end
 
   def search

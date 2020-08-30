@@ -11,7 +11,7 @@
   = render 'front/share/base_playground_sidebar_content'
 
 - if @all_posts_total_count > 0
-  .channel-box
+  .channel-box{ data: { controller: 'list-nav-reset' } }
     .pagination-header
       .pages
         = render 'front/share/pagination_header/post_page', posts: @posts, need_to_read_count: 0, need_to_notice_count: @need_to_notice_count, unread_mentions_count: @unread_mentions_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: front_read_all_posts_path(@current_issue)
@@ -33,7 +33,7 @@
                   라벨 검색 취소
 
     - if @posts.any?
-      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue, list_nav_params: @list_nav_params
+      = render 'front/posts/lines', posts: @posts, current_post: @current_post, current_issue: @current_issue
     - else
       .alert-box.my-3
         .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between

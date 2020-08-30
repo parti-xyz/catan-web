@@ -19,16 +19,19 @@
         .message__date.date-wrapper
           &middot;
           = smart_date_tag message.created_at
-      .message__body{ data: { controller: 'message-read-and-go', 'message-read-and-go-url': read_front_message_path(message) } }
+      .message__body{ data: { controller: 'message-read-and-go list-nav-kickoff', 'message-read-and-go-url': read_front_message_path(message), action: ('click->list-nav-kickoff#store' if local_assigns[:list_navable]), 'list-nav-kickoff-post-id': message.post&.id } }
         = render customize_partial_path(message.messagable, ->(model) { "front/messages/#{model.class.model_name.singular}" }), local_assigns.merge(message: message)
-    - toggle_read_url_params = local_assigns.slice(:list_nav_params, :mention_only_page)
+    - toggle_read_url_params = local_assigns.slice(:list_navable, :mention_only_page)
     - toggle_read_url = if message.unread?
       - read_front_message_path(message, toggle_read_url_params)
     - else
       - unread_front_message_path(message, toggle_read_url_params)
 
-    = link_to toggle_read_url, method: :patch, remote: true, data: { 'disable-width': '..', target: 'content-replacement.link', 'message-dropdown-keep-open': true}, class: "message__check" do
+    = link_to toggle_read_url, method: :patch, remote: true, data: { 'disable-width': '..', target: 'content-replacement.link', 'message-dropdown-keep-open': true}, class: "message__check", title: "읽음 여부 : #{ message.unread? ? '읽지 않음' : '읽음' }" do
       %span.fa-stack.fa-fw
-        %i.fa.fa-fw.fa-circle-thin.fa-stack-1x
-        - unless message.unread?
+        - if message.unread?
+          %i.fa.fa-fw.fa-circle.fa-stack-1x.text-secondary
+          %i.fa.fa-fw.fa-circle-thin.fa-stack-1x
+        - else
+          %i.fa.fa-fw.fa-circle-thin.fa-stack-1x
           %i.fa.fa-fw.fa-check.fa-stack-1x{ style: 'font-size: 60%' }
