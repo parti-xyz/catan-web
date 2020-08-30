@@ -13,7 +13,7 @@ import { linkTooltipPlugin } from '../compoments/editor/link_tooltip_plugin'
 import { imageUploadPlugin } from '../compoments/editor/image_upload_plugin'
 import { dirtyPlugin } from '../compoments/editor/dirty_plugin'
 import { buildMenuItems } from '../compoments/editor/menus'
-import { recreateTransform } from '../compoments/editor/recreate'
+import { recreateTransform } from '@technik-sde/prosemirror-recreate-transform'
 import ParamMap from '../helpers/param_map'
 import { resizableImage } from '../compoments/editor/schema'
 import { ImageView } from '../compoments/editor/image_view'
@@ -102,6 +102,25 @@ export default class extends Controller {
 
     div.appendChild(fragment)
 
+    var result = []
+    var node = div.childNodes[0]
+    while (node != null) {
+      if (node.nodeType == 3) { /* Fixed a bug here. Thanks @theazureshadow */
+        node.nodeValue = node.nodeValue.trim().replace(/(\r)?\n/g, ' ').replace(/\s+/g, ' ')
+      }
+
+      if (node.hasChildNodes()) {
+        node = node.firstChild;
+      }
+      else {
+        while (node.nextSibling == null && node != div) {
+          node = node.parentNode;
+        }
+        node = node.nextSibling;
+      }
+    }
+
+    console.log(div.innerHTML)
     return div.innerHTML
   }
 
@@ -162,12 +181,18 @@ export default class extends Controller {
     // recreate transform back to base doc
     let baseDoc = DOMParser.fromSchema(schema).parse(baseSource)
     let conflictDoc = DOMParser.fromSchema(schema).parse(conflictSource)
-    let tr = recreateTransform(conflictDoc, baseDoc, true, true)
+    let tr = recreateTransform(conflictDoc, baseDoc,
+      {
+        complexSteps: true, // Whether step types other than ReplaceStep are allowed.
+        wordDiffs: false, // Whether diffs in text nodes should cover entire words.
+        simplifyDiffs: true // Whether steps should be merged, where possible
+      }
+    )
 
     // create decorations corresponding to the changes
     const decorations = []
     let changeSet = ChangeSet.create(conflictDoc).addSteps(tr.doc, tr.mapping.maps);
-    let changes = simplifyChanges(changeSet.changes, tr.doc);
+    let changes = changeSet.changes;
 
     // deletion
     function findDeleteEndIndex(startIndex) {
@@ -335,12 +360,40 @@ export default class extends Controller {
     // recreate transform back to base doc
     let baseDoc = DOMParser.fromSchema(schema).parse(baseSource)
     let versionDoc = DOMParser.fromSchema(schema).parse(versionSource)
-    let tr = recreateTransform(versionDoc, baseDoc, true, true)
+    let tr = recreateTransform(versionDoc, baseDoc,
+      {
+        complexSteps: true, // Whether step types other than ReplaceStep are allowed.
+        wordDiffs: false, // Whether diffs in text nodes should cover entire words.
+        simplifyDiffs: true // Whether steps should be merged, where possible
+      }
+    )
 
     // create decorations corresponding to the changes
+    let changeSet = ChangeSet.create(versionDoc).addSteps(tr.doc, tr.mapping.maps)
+    let changes = changeSet.changes
+    let marks = tr.steps
+
+    // mark
+    function findMarkEndIndex(startIndex) {
+      for (let i = startIndex; i < marks.length; i++) {
+        // if we are at the end then that's the end index
+        if (i === (marks.length - 1))
+          return i;
+        // if the next change is discontinuous then this is the end index
+        if ((marks[i].to + 1) !== marks[i + 1].from)
+          return i;
+      }
+    }
+
+    let index = 0;
     const decorations = []
-    let changeSet = ChangeSet.create(versionDoc).addSteps(tr.doc, tr.mapping.maps);
-    let changes = simplifyChanges(changeSet.changes, tr.doc);
+    while (index < marks.length) {
+      let endIndex = findMarkEndIndex(index)
+      decorations.push(
+        Decoration.inline(marks[index].from, marks[endIndex].to, { class: 'version-deletion' })
+      )
+      index = endIndex + 1
+    }
 
     // deletion
     function findDeleteEndIndex(startIndex) {
@@ -354,7 +407,7 @@ export default class extends Controller {
       }
     }
 
-    let index = 0;
+    index = 0;
     while (index < changes.length) {
       let endIndex = findDeleteEndIndex(index)
       decorations.push(
@@ -374,6 +427,7 @@ export default class extends Controller {
           return i
       }
     }
+
     index = 0
     while (index < changes.length) {
       let endIndex = findInsertEndIndex(index)
