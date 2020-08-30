@@ -157,6 +157,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'rails/posts/:id/poll_social_card.png', to: 'posts#poll_social_card', as: :poll_social_card_post
+  get 'rails/posts/:id/survey_social_card.png', to: 'posts#survey_social_card', as: :survey_social_card_post
+
   resources :posts, concerns: :upvotable do
     shallow do
       resources :comments, concerns: :upvotable
@@ -164,8 +167,6 @@ Rails.application.routes.draw do
     member do
       get 'move_to_issue_form'
       patch 'move_to_issue'
-      get 'poll_social_card'
-      get 'survey_social_card'
       post 'pin'
       delete 'unpin'
       get 'beholders'
