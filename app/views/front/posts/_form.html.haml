@@ -49,7 +49,7 @@
   .form-group
     %div{ style: 'display: none', data: { target: 'editor-form.source' } }
       != f.object.body
-    = f.hidden_field :body, textrequired: true, class: 'form-control', data: { target: 'post-form.bodyField validate-form.editorHtml', 'value-missing-message': '본문 내용이 비었어요.' }
+    = f.hidden_field :body, class: 'form-control', data: { target: 'post-form.bodyField validate-form.editorHtml', 'value-missing-message': '본문 내용이 비었어요.' }
 
   - if current_issue.folders.any?
     - form_folder = current_post.persisted? ? current_post.folder : current_folder

@@ -375,8 +375,8 @@ ko:
         created: 게시 순
     announcement:
       announcing_mode:
-        all: 모든 멤버
-        direct: 지정한 멤버만
+        all: 모든 멤버에게 필독 요청
+        direct: 지정한 멤버만 필독 요청
   views:
     pin: 고정했습니다.
     unpin: 고정 해제했습니다.

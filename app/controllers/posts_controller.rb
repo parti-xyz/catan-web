@@ -97,7 +97,7 @@ class PostsController < ApplicationController
         if @post.has_announcement != 'true'
           @post.announcement.destroy
         else
-          outcome = AnnouncePost.run(post: @post)
+          outcome = AnnouncePost.run(post: @post, current_user: current_user)
           not_member_users_message = announce_post_interaction_not_member_users_message(outcome)
           flash[:alert] = not_member_users_message if not_member_users_message.present?
         end

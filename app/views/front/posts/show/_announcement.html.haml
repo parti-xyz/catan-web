@@ -30,11 +30,11 @@
       - if announcement.requested_to_notice?(current_user)
         나를 포함
       #{announcement.audiences_count}명에게
-    필독 #{(announcement.stopped? ? '요청 완료' : '요청 중')}
+    필독 #{(announcement.stopped? ? '요청 - 완료됨' : '요청 중')}
     - restart_or_stop_buttons = capture do
       - if !announcement.stopped? && can?(:stop, announcement)
         = link_to stop_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'text-danger' do
-          중지하기
+          완료하기
       - if announcement.stopped? && can?(:restart, announcement)
         = link_to restart_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'text-danger' do
           다시 시작
@@ -71,7 +71,7 @@
       .column
         = notice_button_column
 
-    - if announcement.audiences_count > 1 || announcement.announcing_mode.all?
+    - unless is_solo
       .column
         - if announcement.stopped?
           .audiences
@@ -97,3 +97,12 @@
                   확인한 멤버
                 = preview_noticed_audiences_list
                 = more_link
+    - else
+      - if is_solo && announcement.stopped? && announcement.requested_to_notice?(current_user)
+        .column
+          .audiences
+            .desc
+              - if announcement.need_to_notice?(current_user)
+                확인하지 않았습니다.
+              - else
+                확인했습니다.

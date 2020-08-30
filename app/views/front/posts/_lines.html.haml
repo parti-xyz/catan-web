@@ -16,7 +16,7 @@
           - if !post.announcement&.stopped? && post.announcement&.need_to_notice?(current_user)
             .icon.-important<>
               %i.fa.fa-bullhorn
-              필독 요청
+              필독 미확인
           - if current_issue.present?
             - if post.poll.present?
               .icon<> 투표

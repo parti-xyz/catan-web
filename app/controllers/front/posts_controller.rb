@@ -150,7 +150,7 @@ class Front::PostsController < Front::BaseController
       result = @current_post.announcement.update_attributes(announcement_params[:announcement_attributes])
       raise ActiveRecord::Rollbacks unless result
 
-      outcome = AnnouncePost.run(post: @current_post)
+      outcome = AnnouncePost.run(post: @current_post, current_user: current_user)
       not_member_users_message = announce_post_interaction_not_member_users_message(outcome)
       flash[:alert] = not_member_users_message if not_member_users_message.present?
 

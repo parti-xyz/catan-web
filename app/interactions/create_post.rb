@@ -29,7 +29,7 @@ class CreatePost < ActiveInteraction::Base
     announcePostOutcome = nil
     ActiveRecord::Base.transaction do
       if post.save
-        announcePostOutcome = AnnouncePost.run(post: post)
+        announcePostOutcome = AnnouncePost.run(post: post, current_user: current_user)
       else
         error = StandardError.new("DEBUG")
         error.set_backtrace(caller)

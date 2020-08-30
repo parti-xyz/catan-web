@@ -3,7 +3,7 @@
   %button.close.-sm{ "aria-label": "Close", data: { action: 'click->modal#close' } }
     %span{ "aria-hidden": 'true' } ×
 .modal-body
-  = form_with model: @current_post, url: announcement_front_post_path(@current_post), method: :patch, local: false do |f|
+  = form_with model: @current_post, url: announcement_front_post_path(@current_post), method: :patch, local: false, html: { novalidate: true, data: { controller: 'validate-form', action: 'ajax:before->validate-form#submit' } } do |f|
     = render 'front/posts/form/announcement/form', f: f
     .pull-right
       = f.submit '요청하기', class: 'submit btn btn-primary btn-sm'
