@@ -62,7 +62,7 @@ class Front::PagesController < Front::BaseController
     end
     render_404 and return unless current_group.member?(current_user)
 
-    @posts = current_group_announcement_posts
+    @posts = current_announcement_posts
       .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, announcement: [:current_user_audience], wiki: [ :last_wiki_history] , issue: [ :current_user_issue_reader ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
@@ -77,7 +77,7 @@ class Front::PagesController < Front::BaseController
       @label_q = Label.find_by(id: label_id)
       @posts = @posts.where(label: @label_q)
     end
-    @need_to_notice_count = current_group_need_to_notice_announcement_posts.count
+    @need_to_notice_count = current_need_to_notice_announcement_posts.count
 
     if session[:front_last_visited_post_id].present?
       @current_post = Post.find_by(id: session[:front_last_visited_post_id])
@@ -142,7 +142,7 @@ class Front::PagesController < Front::BaseController
     @issues = current_group.issues.includes(:folders, :current_user_issue_reader, :category).accessible_only(current_user).sort_default
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
 
-    @need_to_notice_count = (current_group.member?(current_user) ? current_group_need_to_notice_announcement_posts.count : 0)
+    @need_to_notice_count = (current_group.member?(current_user) ? current_need_to_notice_announcement_posts.count : 0)
     @unread_mentions_count = (current_group.member?(current_user) ? Message.where(user: current_user).of_group(current_group).where(action: 'mention').unread.count : 0)
   end
 end

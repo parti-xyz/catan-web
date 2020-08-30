@@ -37,7 +37,10 @@
     - else
       .alert-box.my-3
         .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
-          해당 게시글이 없습니다.
+          - if @posts.current_page == 0 || params.dig(:filter, :condition) == 'needtonotice' && user_signed_in?
+            필독할 게시글이 없습니다.
+          - else
+            필독 게시글이 없습니다.
           = link_to url_for(), class: 'btn btn-outline-secondary font-size-xs text-muted p-1' do
             모든 게시글 #{number_to_human(@all_posts_total_count, precision: 1, delimiter: ',', significant: false)}개 보기
 - else

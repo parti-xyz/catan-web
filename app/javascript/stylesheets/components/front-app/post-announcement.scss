@@ -23,47 +23,86 @@
     color: global-variables.$color-gray-600;
   }
 
-  > .buttons {
-    margin-top: 1rem;
-  }
-
-  > .buttons > .dropdown > .toggle {
-    border-top-right-radius: bootstrap.$input-border-radius;
-    border-bottom-right-radius: bootstrap.$input-border-radius;
-  }
-
-  > .audiences {
-    font-size: bootstrap.$font-size-sm;
-  }
-
-  > .audiences > .title {
-    font-weight: bold;
-    margin-top: 1rem;
-    margin-bottom: .5rem;
-  }
-
-  > .audiences > .users {
-    margin-top: .25rem;
-  }
-
-  > .audiences > .users > .user > .image {
-    @include mixin.background-image-round(1rem);
-    display: inline-block;
-    background-color: white;
-    vertical-align: middle;
-  }
-
-  > .audiences > .users > .user {
-    margin-right: .5rem;
-    white-space: nowrap;
-  }
-
-  > .audiences > .more,
-  > .audiences > .desc > .more {
+  > .title > .controls {
+    float: right;
+    font-weight: normal;
     font-size: bootstrap.$font-size-xs;
-    color: global-variables.$color-gray-400;
+  }
+
+  > .columns {
+    display: flex;
     margin-top: .5rem;
-    display: inline-block;
-    cursor: pointer;
+    > .column:first-child {
+      flex: none;
+    }
+    > .column:not(:first-child) {
+      margin-left: 1.25rem;
+      flex: 1;
+    }
+    > .column {
+      > .buttons {
+        height: 100%;
+      }
+      > .buttons > .dropdown {
+        height: 100%;
+      }
+      > .buttons > .dropdown > .toggle,
+      > .buttons > .btn {
+        height: 100%;
+        width: 9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      > .buttons.-solo > .dropdown > .toggle,
+      > .buttons.-solo > .btn {
+        width: auto;
+      }
+      > .buttons > .dropdown > .toggle {
+        border-top-right-radius: bootstrap.$input-border-radius;
+        border-bottom-right-radius: bootstrap.$input-border-radius;
+        text-align: left;
+        > .fa-check-circle-o {
+          flex: 1;
+          font-size: bootstrap.$font-size-lg;
+        }
+        > .noticed,
+        > .fa-angle-down {
+          flex: none;
+        }
+      }
+      > .audiences {
+        font-size: bootstrap.$font-size-sm;
+      }
+      > .audiences > .title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      > .audiences > .users {
+        margin-top: 0.25rem;
+      }
+
+      > .audiences > .users > .user > .image {
+        @include mixin.background-image-round(1rem);
+        display: inline-block;
+        background-color: white;
+        vertical-align: middle;
+      }
+
+      > .audiences > .users > .user {
+        margin-right: 0.5rem;
+        white-space: nowrap;
+      }
+
+      > .audiences > .more,
+      > .audiences > .desc > .more {
+        font-size: bootstrap.$font-size-xs;
+        color: global-variables.$color-gray-400;
+        margin-top: 0.5rem;
+        display: inline-block;
+        cursor: pointer;
+      }
+    }
   }
 }

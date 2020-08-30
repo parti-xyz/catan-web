@@ -68,6 +68,10 @@
     background-color: global-variables.$color-gray-100;
     padding: 0 4px;
     margin-right: .5rem;
+    &.-important {
+      color: global-variables.$color-brand-400;
+      font-weight: bold;
+    }
   }
   &.-active > .body > .meta > .icon {
     background-color: global-variables.$color-gray-200;

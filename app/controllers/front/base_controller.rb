@@ -41,15 +41,16 @@ class Front::BaseController < ApplicationController
     current_group.issues.accessible_only(current_user)
   end
 
-  def current_group_announcement_posts
+  def current_announcement_posts
     current_group_accessible_only_posts
       .left_outer_joins(announcement: [:current_user_audience])
       .where.not(announcement_id: nil)
       .where("announcements.announcing_mode = 'all' or audiences.announcement_id IS NOT NULL")
+      .where("announcements.stopped_at": nil)
   end
 
-  def current_group_need_to_notice_announcement_posts
-    add_condition_need_to_notice_announcement_posts(current_group_announcement_posts)
+  def current_need_to_notice_announcement_posts
+    add_condition_need_to_notice_announcement_posts(current_announcement_posts)
   end
 
   def add_condition_need_to_notice_announcement_posts(post_relations)
