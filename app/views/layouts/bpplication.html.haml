@@ -8,7 +8,7 @@
       %meta{ name: 'turbolinks-root', content: @turbolinks_root }
     %meta{ name: "turbolinks-cache-control", content: "no-preview" }
     = display_meta_tags
-    = render 'favicons'
+    = render 'application/favicons'
 
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     - if current_group.present? and Webpacker.manifest.lookup("groups/#{current_group.slug}.css")
