@@ -8,7 +8,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
     if Rails.env.production?
       :aws
     else
-     :file
+      :file
     end
   end
 
@@ -21,26 +21,27 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
       self.aws_credentials = {
         access_key_id: ENV["PRIVATE_S3_ACCESS_KEY"],
         secret_access_key: ENV["PRIVATE_S3_SECRET_KEY"],
-        region: ENV["PRIVATE_S3_REGION"]
+        region: ENV["PRIVATE_S3_REGION"],
       }
       self.aws_bucket = ENV["PRIVATE_S3_BUCKET"]
-      self.aws_acl = 'private'
+      self.aws_acl = "private"
       self.aws_attributes = {
         expires: 1.week.from_now.httpdate,
-        cache_control: 'max-age=604800'
+        cache_control: "max-age=604800",
       }
       self.aws_authenticated_url_expiration = AWS_AUTHENTICATED_URL_EXPIRATION
     else
       s3 = Aws::S3::Resource.new(
         access_key_id: ENV["PRIVATE_S3_ACCESS_KEY"],
         secret_access_key: ENV["PRIVATE_S3_SECRET_KEY"],
-        region: ENV["PRIVATE_S3_REGION"])
+        region: ENV["PRIVATE_S3_REGION"],
+      )
       @production_s3_bucket = s3.bucket(ENV["PRIVATE_S3_BUCKET"])
     end
   end
 
   def store_dir
-    return '' if Rails.env.test?
+    return "" if Rails.env.test?
 
     if model.blank?
       return "uploads/private_file/#{rand(1..100)}"
@@ -71,12 +72,12 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   # version :thumb do
   #   process :resize_to_fit => [50, 50]
   # end
-  version :xs, if: :image?  do
+  version :xs, if: :image? do
     process resize_to_fit: [80, nil]
   end
 
   version :sm, if: :image? do
-    process resize_to_fit: [200, nil ]
+    process resize_to_fit: [200, nil]
   end
 
   version :md, if: :image? do
@@ -100,7 +101,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   # end
 
   def filename
-     "#{secure_token(10)}.#{file.extension}" if original_filename.present?
+    "#{secure_token(10)}.#{file.extension}" if original_filename.present?
   end
 
   def url
@@ -125,9 +126,9 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
     end
   end
 
-  def production_s3_url super_result
+  def production_s3_url(super_result)
     path_removed_first_slash = super_result[1..-1]
-    @production_s3_bucket.object(path_removed_first_slash).try(:presigned_url, :get, { expires_in: 60*60*24 })
+    @production_s3_bucket.object(path_removed_first_slash).try(:presigned_url, :get, { expires_in: 60 * 60 * 24 })
   end
 
   def fix_exif_rotation
@@ -152,6 +153,7 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   process :store_dimensions
 
   before :cache, :save_original_filename
+
   def save_original_filename(file)
     return if model.blank?
     model.name ||= real_original_filename if real_original_filename and model.respond_to?(:name)
@@ -160,14 +162,14 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
   protected
 
   def image?(new_file)
-    new_file.content_type.try(:start_with?, 'image')
+    new_file&.content_type&.try(:start_with?, "image")
   end
 
-  def secure_token(length=16)
+  def secure_token(length = 16)
     if model.blank?
-      return SecureRandom.hex(length/2)
+      return SecureRandom.hex(length / 2)
     end
     var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length / 2))
   end
 end
