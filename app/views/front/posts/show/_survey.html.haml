@@ -72,7 +72,7 @@
       .helpblock
         제안된 항목이 없습니다.
   - if survey.open? and survey.post.issue.postable?(current_user)
-    = form_with model: [:front, Option.new], local: false, class: 'option', data: { controller: 'option-form', target: 'content-replacement.link' } do |f|
+    = form_with model: [:front, Option.new], local: false, class: 'option', data: { controller: 'option-form', target: 'content-replacement.link', action: 'ajax:before->option-form#submit' } do |f|
       = f.hidden_field :survey_id, value: survey.id
       .checkbox
         %i.fa{ class: class_no_check }
