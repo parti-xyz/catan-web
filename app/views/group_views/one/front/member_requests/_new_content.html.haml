@@ -17,7 +17,7 @@
                 .flex-grow-n.mr-2 📋
                 .flex-grow-n
                   설문조사에 참여해야 커뮤니티에 가입할 수 있습니다.
-              = link_to '설문조사 참여하기', '#', target: '_blank', class: 'link'
+              = link_to '설문조사 참여하기', 'https://youthcheong.typeform.com/to/u7Ulmd76', target: '_blank', class: 'link'
 
           - wiki = Post.find_by(id: 36647)&.wiki
           - if wiki.present?
