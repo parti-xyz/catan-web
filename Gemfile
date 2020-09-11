@@ -147,7 +147,6 @@ gem 'aws-sdk-rails', '~> 2.1'
 
 # monitoring
 gem 'ey_config'
-gem 'skylight'
 
 gem 'rack-mini-profiler', require: false
 

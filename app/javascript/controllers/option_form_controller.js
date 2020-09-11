@@ -6,6 +6,8 @@ export default class extends Controller {
   static targets = ['bodyField']
 
   submit(event) {
+    let valid = true
+
     if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length <= 0) {
       appNoty('제안 내용이 비었어요.', 'warning', true).show()
       valid = false
@@ -19,5 +21,7 @@ export default class extends Controller {
       setTimeout(function () { this.submitButtonTargets.forEach(el => jQuery.rails.enableElement(el)) }.bind(this), 1000)
       return false
     }
+
+    return true
   }
 }
