@@ -155,7 +155,7 @@ class Group < ApplicationRecord
   end
 
   def member_of someone
-    return false if someone.blank?
+    return nil if someone.blank?
     cached_member = someone.cached_group_member(self)
     cached_member.presence || self.members.find_by(user: someone)
   end
