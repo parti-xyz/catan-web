@@ -1,6 +1,7 @@
+
 - issue ||= @issue
 - group ||= current_group
-- member = group.member_of(user)
+- member = group&.member_of(user)
 %li.user-card[user]
   .user-card__thumb
     = link_to smart_user_gallery_path(user) do
