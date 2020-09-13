@@ -117,6 +117,9 @@
         -# WIKI
         .post-wiki
           = render 'front/wikis/card', current_wiki: @current_post.wiki, current_wiki_history:  @current_wiki_history
+        - if @current_post.announcement.present?
+          .mt-4
+          = render 'front/posts/show/announcement', announcement: @current_post.announcement
 
       .reactions
         .reaction

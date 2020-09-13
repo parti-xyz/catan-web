@@ -44,7 +44,7 @@
     .dropdown-header
       고정된 게시글입니다.
   - if can?(:announce, current_post.issue) && current_post.announcement.blank?
-    .dropdown-item.cursor-pointer{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_announcement_front_post_path(current_post) } }
+    = link_to announcement_front_post_path(current_post, post: { announcement_attributes: { announcing_mode: 'all' } }), method: :patch, class: 'dropdown-item' do
       이 게시글을 필독 요청하기
 
 - moremenu_post_buttons << capture do

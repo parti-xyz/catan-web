@@ -154,7 +154,7 @@ class Front::PostsController < Front::BaseController
     end
 
     if result
-      flash[:notice] = I18n.t('activerecord.successful.messages.created')
+      flash[:notice] = '필독 요청되었습니다'
     else
       flash[:alert] = I18n.t('errors.messages.unknown')
     end

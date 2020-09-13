@@ -33,14 +33,14 @@
     필독 #{(announcement.stopped? ? '요청 - 완료됨' : '요청 중')}
     - restart_or_stop_buttons = capture do
       - if !announcement.stopped? && can?(:stop, announcement)
-        = link_to stop_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'text-danger' do
-          완료하기
+        = link_to stop_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'text-muted' do
+          요청 중단하기
       - if announcement.stopped? && can?(:restart, announcement)
-        = link_to restart_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'text-danger' do
-          다시 시작
-      - if !announcement.stopped? && can?(:announce, announcement.post.issue)
-        .d-inline-block.cursor-pointer.ml-2.text-primary{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_announcement_front_post_path(announcement.post) } }
-          수정하기
+        = link_to restart_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'text-muted' do
+          요청 다시 시작
+      -# - if !announcement.stopped? && can?(:announce, announcement.post.issue)
+      -#   .d-inline-block.cursor-pointer.ml-2.text-primary{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_announcement_front_post_path(announcement.post) } }
+      -#     수정하기
     - if restart_or_stop_buttons.present?
       .controls= restart_or_stop_buttons
   .columns

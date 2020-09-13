@@ -23,7 +23,7 @@ class Ability
         user.is_organizer?(issue)
       end
       can [:announce], Issue do |issue|
-        user.is_organizer?(issue)
+        user.is_organizer?(issue.group)
       end
       can [:create, :new, :new_post_form], Folder
       can [:destroy, :update, :detach_post, :attach_post, :move_form, :move], [Folder] do |folder|
@@ -135,7 +135,7 @@ class Ability
       end
 
       can [:stop, :restart], Announcement do |announcement|
-        announcement.post.user == user || announcement.post.issue.organized_by?(user)
+        announcement.post.user == user || announcement.post.issue.group.organized_by?(user)
       end
 
       if user.admin?
