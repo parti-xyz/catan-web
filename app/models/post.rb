@@ -229,8 +229,6 @@ class Post < ApplicationRecord
   before_save :reindex_hashtags
   # blind
   before_save :process_blind
-  # wiki_history
-  after_update :build_wiki_history_for_base_title
 
   def specific_desc_striped_tags(length = 0)
     striped_body = body.try(:strip)
@@ -757,10 +755,5 @@ class Post < ApplicationRecord
     if self.persisted? and self.wiki_id_changed? and !self.wiki_id_was.blank?
       raise "Post #{self.id} : Change Wiki! #{self.wiki_id_was} ==> #{self.wiki_id}"
     end
-  end
-
-  def build_wiki_history_for_base_title
-    return unless self.wiki.present?
-    self.wiki.build_history_after_update
   end
 end
