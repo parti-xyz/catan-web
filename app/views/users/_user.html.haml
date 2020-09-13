@@ -1,17 +1,28 @@
+
 - issue ||= @issue
 - group ||= current_group
+- member = group&.member_of(user)
 %li.user-card[user]
   .user-card__thumb
     = link_to smart_user_gallery_path(user) do
       .thumb.img-circle{style: "background-image: url(#{user.image.md.url});"}
       %p= user.nickname
-      - description_html =capture do
+
+      - intro_html = capture do
         - if local_assigns[:description].present?
           = simple_format h(local_assigns[:description])
         - else
           %p #{user.nickname}입니다
+
+      - description_html = capture do
+        %strong 소개
+        = intro_html
+        - if member.present? && member.statement.present? && (user_signed_in? && (current_user == user || current_group.organized_by?(current_user)))
+          %strong 가입 전 확인 답변
+          = simple_format h(member.statement)
+
       .description{ 'data-trigger': 'click', 'data-action': 'parti-popover', 'data-placement': "auto-bottom", 'data-url': "##{dom_id(user)}__member_user" }
-        = description_html
+        = intro_html
       .hidden
         %div{ id: "#{dom_id(user)}__member_user", style: "max-width: 180px" }
           = description_html
