@@ -65,18 +65,17 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "catan_web_#{Rails.env}"
 
 
-  # TODO 기본 세팅
-  # config.action_mailer.default_url_options = { :host => 'parti.xyz', :protocol => 'https' }
-  # config.action_mailer.asset_host =  'https://parti.xyz'
-  # config.action_mailer.raise_delivery_errors = false
-  # config.action_mailer.delivery_method = :aws_sdk
+  config.action_mailer.default_url_options = { :host => 'parti.xyz', :protocol => 'https' }
+  config.action_mailer.asset_host =  'https://parti.xyz'
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :aws_sdk
 
   # TODO DEPLOYMENT
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :letter_opener_web
-  config.action_mailer.default_url_options = { :host => 'parti.xyz', :protocol => 'https' }
-  config.action_mailer.asset_host =  'http://parti.xyz'
-  config.action_mailer.perform_caching = false
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.delivery_method = :letter_opener_web
+  # config.action_mailer.default_url_options = { :host => 'parti.xyz', :protocol => 'https' }
+  # config.action_mailer.asset_host =  'http://parti.xyz'
+  # config.action_mailer.perform_caching = false
 
 
   # config.action_mailer.delivery_method = :postmark
