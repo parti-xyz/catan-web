@@ -25,8 +25,8 @@ class PostsController < ApplicationController
       head 200 and return
     end
 
-    service = PostCreateService.new(post: @post, current_user: current_user)
-    unless service.call
+    outcome = CreatePost.run(post: @post, current_user: current_user)
+    unless outcome.valid?
       errors_to_flash(@post)
       if helpers.explict_front_namespace?
         render_500 and return
@@ -38,10 +38,15 @@ class PostsController < ApplicationController
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
       end
 
+      if outcome.result && outcome.result[:announcePostOutcome].present?
+        not_member_users_message = announce_post_interaction_not_member_users_message(outcome.result[:announcePostOutcome])
+        flash[:alert] = not_member_users_message if not_member_users_message.present?
+      end
+
       if @post.wiki.blank? || params[:button] == 'after_close'
         turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
       else
-        render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: list_nav_params() }, layout: nil
+        render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
       end
     else
       if @post.errors.blank?
@@ -81,16 +86,30 @@ class PostsController < ApplicationController
       option.user = current_user unless option.persisted?
     end
 
-    if @post.event.present? and !@post.event.persisted?
+    if @post.event.present? && !@post.event.persisted?
       @post.event.roll_calls.build(user: current_user, status: :attend)
     end
 
-    if @post.save
+    saved = false
+    ActiveRecord::Base.transaction do
+      saved = @post.save
+      if saved && can?(:announce, @post.issue) && @post.announcement.present?
+        if @post.has_announcement != 'true'
+          @post.announcement.destroy
+        else
+          outcome = AnnouncePost.run(post: @post, current_user: current_user)
+          not_member_users_message = announce_post_interaction_not_member_users_message(outcome)
+          flash[:alert] = not_member_users_message if not_member_users_message.present?
+        end
+      end
+    end
+
+    if saved
       crawling_after_updating_post
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       if helpers.explict_front_namespace?
-        turbolinks_redirect_to smart_front_post_url(@post, list_nav: list_nav_params())
+        turbolinks_redirect_to smart_front_post_url(@post)
       else
         redirect_to params[:back_url].presence || smart_post_url(@post)
       end
@@ -192,7 +211,7 @@ class PostsController < ApplicationController
         @post.wiki.build_conflict
         if helpers.explict_front_namespace?
           flash[:alert] = t('activerecord.successful.messages.conflicted_wiki')
-          render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: list_nav_params() }, layout: nil
+          render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
         else
           respond_to do |format|
             format.html { render :show }
@@ -208,9 +227,9 @@ class PostsController < ApplicationController
           flash[:notice] = I18n.t('activerecord.successful.messages.created')
 
           if params[:button] == 'after_close'
-            turbolinks_redirect_to smart_front_post_url(@post, list_nav_params: list_nav_params())
+            turbolinks_redirect_to smart_front_post_url(@post)
           else
-            render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, list_nav_params: list_nav_params() }, layout: nil
+            render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
           end
         else
           flash[:success] = I18n.t('activerecord.successful.messages.created')
@@ -234,7 +253,7 @@ class PostsController < ApplicationController
       if helpers.explict_front_namespace?
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
         if params[:button] == 'after_close'
-          turbolinks_redirect_to smart_front_post_url(@post, list_nav_params: list_nav_params())
+          turbolinks_redirect_to smart_front_post_url(@post)
         else
           head 200 and return
         end
@@ -291,7 +310,7 @@ class PostsController < ApplicationController
     PostDestroyService.new(@post).call
 
     if helpers.explict_front_namespace?
-      turbolinks_redirect_to destroyed_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to destroyed_front_post_url(@post)
     else
       respond_to do |format|
         format.js
@@ -312,7 +331,7 @@ class PostsController < ApplicationController
 
     if helpers.explict_front_namespace?
       flash[:notice] = '게시글을 고정했습니다'
-      turbolinks_redirect_to smart_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to smart_front_post_url(@post)
     end
   end
 
@@ -321,7 +340,7 @@ class PostsController < ApplicationController
 
     if helpers.explict_front_namespace?
       flash[:notice] = '게시글 고정을 풀었습니다'
-      turbolinks_redirect_to smart_front_post_url(@post, list_nav: list_nav_params())
+      turbolinks_redirect_to smart_front_post_url(@post)
     end
   end
 
@@ -538,6 +557,11 @@ class PostsController < ApplicationController
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
     survey_attributes = [:duration_days, :multiple_select, :hidden_intermediate_result, :hidden_option_voters, options_attributes: options_attributes] if survey.present?
 
+    announcement_attributes = []
+    if can?(:announce, fetch_issue) && params[:post][:announcement_attributes].present?
+      announcement_attributes = [:announcing_mode, :direct_announced_user_nicknames]
+    end
+
     wiki = params[:post][:wiki_attributes]
     wiki_attributes = [:body] if wiki.present?
 
@@ -548,10 +572,12 @@ class PostsController < ApplicationController
       :location] if event.present?
 
     params.require(:post)
-      .permit(:body, :base_title, :label_id, :issue_id, :folder_id, :has_poll, :has_survey, :has_event,
+      .permit(:body, :base_title, :label_id, :issue_id, :folder_id, :has_poll, :has_survey, :has_announcement, :has_event,
         :is_html_body, :has_decision, :decision, (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: FileSource.require_attrbutes,
-        poll_attributes: poll_attributes, survey_attributes: survey_attributes,
+        poll_attributes: poll_attributes,
+        survey_attributes: survey_attributes,
+        announcement_attributes: announcement_attributes,
         wiki_attributes: wiki_attributes, event_attributes: event_attributes)
 
   end
@@ -561,20 +587,17 @@ class PostsController < ApplicationController
     wiki_attributes = [:body, :is_html_body] if wiki.present?
 
     params.require(:post)
-      .permit(:base_title, :label_id, :has_poll, :has_survey, :has_event, :folder_id,
+      .permit(:base_title, :label_id, :has_poll, :has_survey, :has_announcement, :has_event, :folder_id,
         wiki_attributes: wiki_attributes)
-  end
-
-  def set_current_user_to_options(post)
-    (post.survey.try(:options) || []).each do |option|
-      option.user = current_user
-    end
   end
 
   def fetch_issue
     @issue ||= Issue.find_by id: params[:post][:issue_id]
-    @post.issue = @issue.presence || @post.issue
-    @issue = @post.issue
+    if @post.present?
+      @post.issue = @issue.presence || @post.issue
+      @issue = @post.issue
+    end
+    @issue
   end
 
   def crawling_after_updating_post

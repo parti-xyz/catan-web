@@ -7,7 +7,7 @@ class Event < ApplicationRecord
   attr_accessor :unfixed_location
 
   has_many :roll_calls, dependent: :nullify
-  has_one :post, dependent: :destroy
+  has_one :post, dependent: :nullify
   has_many :messages, as: :messagable, dependent: :destroy
 
   after_find :setup_schedule_accessors
@@ -92,6 +92,10 @@ class Event < ApplicationRecord
       self.will_save_change_to_all_day_long?
     return :rsvp_location if self.will_save_change_to_location?
     return false
+  end
+
+  def post_for_message
+    self.post
   end
 
   def issue_for_message

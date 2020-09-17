@@ -1,26 +1,88 @@
+- moremenu_post_buttons = []
+
+- if current_post.wiki.present?
+  - moremenu_post_buttons << capture do
+    .dropdown-item.cursor-pointer{ data: { action: 'click->comment-form-new#open', mention: current_post.user.nickname } }
+      #{user_subject_word(current_post.user)} 시작한 위키입니다.
+      - if current_post.user != current_user
+        %span.text-nowrap.text-primary 멘션하기
+
+- moremenu_post_buttons << capture do
+  - if !current_post.wiki.present?
+    - if can?(:update, current_post) and current_post.wiki.blank?
+      = link_to '수정', edit_front_post_path(current_post), class: 'dropdown-item'
+    - elsif can?(:front_update_title, current_post)
+      = link_to edit_title_front_post_path(current_post), class: 'dropdown-item', remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' } do
+        제목 편집
+  - if can?(:destroy, current_post)
+    = link_to '삭제', front_post_path(current_post), method: :delete, remote: true, data: { confirm: "정말 삭제하시겠습니까? 다시 복구 할 수 없습니다." }, class: 'dropdown-item'
+
+- if current_post.wiki.present?
+  - moremenu_post_buttons << capture do
+    - if current_post.front_wiki?
+      .dropdown-item
+        .text-muted 커뮤니티 가이드 페이지에 게시된 위키입니다.
+    - if can?(:coc_wiki, current_group)
+      - if current_post.front_wiki?
+        = link_to coc_wiki_front_groups_path(post_id: current_post.id), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
+          커뮤니티 가이드 설정 해제
+      - else
+        = link_to coc_wiki_front_groups_path(post_id: current_post.id), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{current_post.group.front_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !current_post.front_wiki? and current_post.group.front_wiki_post.present?) }, class: 'dropdown-item' do
+          커뮤니티 가이드로 설정하기
+          %br
+          %small TIP. 해당 그룹의 커뮤니티 가이드 페이지에 게시됩니다.
+
+- moremenu_post_buttons << capture do
+  - if can?(:pin, current_post)
+    - if current_post.pinned?
+      = link_to unpin_front_post_path(current_post), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
+        고정 해제하기
+    - else
+      = link_to pin_front_post_path(current_post), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
+        이 게시글을 고정하기
+  - if current_post.pinned?
+    .dropdown-header
+      고정된 게시글입니다.
+  - if can?(:announce, current_post.issue) && current_post.announcement.blank?
+    = link_to announcement_front_post_path(current_post, post: { announcement_attributes: { announcing_mode: 'all' } }), method: :patch, class: 'dropdown-item' do
+      이 게시글을 필독 요청하기
+
+- moremenu_post_buttons << capture do
+  - if can?(:move_to_issue, current_post)
+    .dropdown-item.cursor-pointer{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_channel_front_post_path(current_post) } }
+      다른 채널로 게시물 이동
+
+- post_control = capture do
+  - moremenu_post_buttons.reject! { |button_group| button_group.blank? }
+  - if moremenu_post_buttons.any?
+    %span.dropdown{ data: { controller: 'phone-dropdown' } }
+      %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
+        %i.fa.fa-ellipsis-v
+      .dropdown-menu.dropdown-menu-right
+        - moremenu_post_buttons.each_with_index do |button_group, index|
+          - if index != 0
+            .dropdown-divider
+          = button_group
+
+- wiki_control = capture do
+  - if current_post.wiki.present?
+    - if @current_wiki_history.present?
+      = link_to front_post_path(current_post), class: 'btn btn-light btn-sm', data: { 'turbolinks-action': 'replace' } do
+        현재 버전 보기
+    - else
+      = render 'front/wikis/controls', current_wiki: current_post.wiki
+
 .post-header{ data: { controller: 'content-replacement' }, class: ('-wiki' if current_post.wiki.present?) }
-  - post_title_control = capture do
-    - if !current_post.wiki.present?
-      - if can?(:edit, current_post)
-        = link_to edit_front_post_path(current_post), class: 'btn btn-primary btn-sm' do
-          편집
-      - elsif can?(:front_update_title, current_post)
-        = link_to edit_title_front_post_path(current_post), class: 'btn btn-primary btn-sm', remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' } do
-          편집
-  - post_label_control = capture do
-    - if current_post.label.present?
-      = render 'front/labels/dropdown', current_post: current_post
   %h5.title
     = current_post.title
     - if current_post.last_title_edited_user.present?
       %span.editor
         (편집 @#{ current_post.last_title_edited_user.nickname})
 
-  = post_label_control
-  - if current_post.wiki.present? && (local_assigns[:post_control].present? || local_assigns[:wiki_control].present?)
+  - if current_post.label.present?
+    = render 'front/labels/dropdown', current_post: current_post
+
+  - if wiki_control.present? || post_control.present?
     .moremenu
       = wiki_control
       = post_control
-  - elsif post_title_control.present?
-    .moremenu
-      = post_title_control

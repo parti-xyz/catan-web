@@ -4,14 +4,22 @@ export default class extends Controller {
   static targets = ['form']
 
   connect() {
-    this.alerted = false;
-    document.addEventListener('beforeunload', this.preventLeaving.bind(this))
-    document.addEventListener("turbolinks:before-visit", this.preventVisiting.bind(this))
+    this.alerted = false
+
+    this.preventLeavingHandler = this.preventLeaving.bind(this)
+    document.addEventListener('beforeunload', this.preventLeavingHandler)
+
+    this.preventVisitingHandler = this.preventVisiting.bind(this)
+    document.addEventListener("turbolinks:before-visit", this.preventVisitingHandler)
   }
 
   disconnect() {
-    document.removeEventListener('beforeunload', this.preventLeaving.bind(this))
-    document.removeEventListener("turbolinks:before-visit", this.preventVisiting.bind(this))
+    if (this.preventLeavingHandler) {
+      document.removeEventListener('beforeunload', this.preventLeavingHandler)
+    }
+    if (this.preventVisitingHandler) {
+      document.removeEventListener("turbolinks:before-visit", this.preventVisitingHandler)
+    }
 
     if (!this.alerted && this.anyDirtyForm()) {
       alert('저장되지 않은 변경사항이 있습니다.')

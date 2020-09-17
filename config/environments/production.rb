@@ -58,15 +58,26 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
-  config.cache_store = :file_store, "#{Rails.root}tmp/cache"
+  config.cache_store = :file_store, "#{Rails.root}/tmp/cache"
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "catan_web_#{Rails.env}"
+
+
   config.action_mailer.default_url_options = { :host => 'parti.xyz', :protocol => 'https' }
   config.action_mailer.asset_host =  'https://parti.xyz'
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :aws_sdk
+
+  # TODO DEPLOYMENT
+  # config.action_mailer.raise_delivery_errors = true
+  # config.action_mailer.delivery_method = :letter_opener_web
+  # config.action_mailer.default_url_options = { :host => 'parti.xyz', :protocol => 'https' }
+  # config.action_mailer.asset_host =  'http://parti.xyz'
+  # config.action_mailer.perform_caching = false
+
+
   # config.action_mailer.delivery_method = :postmark
   # config.action_mailer.postmark_settings = {
   #   :api_token => ENV['POSTMARKER_API_KEY']

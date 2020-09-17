@@ -3,7 +3,8 @@ source 'https://rubygems.org'
 # gem 'rails', '4.2.10'
 gem 'rails', '~> 5.2', '>= 5.2.2'
 gem 'unicorn'
-gem 'bundler', '2.0.1'
+gem 'bundler', '2.1.4'
+gem 'puma'
 gem 'bootsnap', require: false
 gem 'railties', '= 5.2.2'
 gem 'turbolinks', '~> 5'
@@ -149,9 +150,9 @@ gem 'aws-sdk-rails', '~> 2.1'
 gem 'ey_config'
 
 gem 'rack-mini-profiler', require: false
+gem 'letter_opener_web'
 
 group :development, :test do
-  gem 'letter_opener_web'
   gem 'byebug'
   gem 'minitest-focus',     '~> 1.1', '>= 1.1.2'
   gem 'guard', '~> 2.13.0'

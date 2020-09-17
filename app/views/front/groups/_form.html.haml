@@ -52,7 +52,7 @@
     .form-group
       = f.label :organizer_nicknames
       = f.text_field :organizer_nicknames, value: local_group.organizer_members.merge_nickname, class: 'form-control'
-      %p.form-text.text-muted.small 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 그룹의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
+      %p.form-text.text-muted.small 오거나이저의 닉네임을 쉼표로 구분해서 넣어주세요. 이 그룹의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
   - else
     .form-group
       = f.label :organizer_nicknames

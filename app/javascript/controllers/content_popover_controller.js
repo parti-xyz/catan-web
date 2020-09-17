@@ -1,6 +1,6 @@
 import { Controller } from "stimulus"
 import parseJSON from '../helpers/json_parse'
-import fetchResponseCheck from '../helpers/fetch_check_response'
+import { smartFetch } from '../helpers/smart_fetch'
 import { isTouchDevice } from '../helpers/device';
 
 export default class extends Controller {
@@ -20,7 +20,7 @@ export default class extends Controller {
         sanitize: false,
         class: this.data.get('className'),
         animation: false,
-        placement: 'auto',
+        placement: 'bottom',
         delay: { show: 0, hide: 200 },
       }))
       this.binded = true
@@ -46,8 +46,7 @@ export default class extends Controller {
   content() {
     if (this.html) { return this.html }
 
-    fetch(this.data.get('url'))
-      .then(fetchResponseCheck)
+    smartFetch(this.data.get('url'))
       .then(response => {
         if (response) {
           return response.text()

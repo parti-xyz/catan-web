@@ -1,4 +1,5 @@
 @use '../../mixin';
+@use '../../global-variables';
 
 .front-app .channel-listings {
   overflow-y: auto;
@@ -8,7 +9,7 @@
       margin-top: .75rem;
       padding-bottom: 0.25rem;
       margin-bottom: 0.25rem;
-      border-bottom: 1px solid #e9ecf0;
+      border-bottom: 1px solid global-variables.$color-gray-200;
     }
   }
 }

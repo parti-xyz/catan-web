@@ -1,0 +1,107 @@
+@use '../../bootstrap';
+@use '../../global-variables';
+@use '../../mixin';
+@use '../../mq';
+
+.front-app .post-announcement {
+  border: 1px solid global-variables.$color-gray-300;
+  border-radius: 2px;
+  background-color: global-variables.$color-gray-100;
+  padding: 2.25rem;
+  font-size: bootstrap.$font-size-sm;
+
+  &:hover {
+    @include mixin.box-shadow;
+  }
+
+  > .title {
+    font-weight: bold;
+    color: global-variables.$color-brand-primary;
+  }
+
+  > .title.-stopped {
+    color: global-variables.$color-gray-600;
+  }
+
+  > .title > .controls {
+    float: right;
+    font-weight: normal;
+    font-size: bootstrap.$font-size-xs;
+  }
+
+  > .columns {
+    display: flex;
+    margin-top: .5rem;
+    > .column:first-child {
+      flex: none;
+    }
+    > .column:not(:first-child) {
+      margin-left: 1.25rem;
+      flex: 1;
+    }
+    > .column {
+      > .buttons {
+        height: 100%;
+      }
+      > .buttons > .dropdown {
+        height: 100%;
+      }
+      > .buttons > .dropdown > .toggle,
+      > .buttons > .btn {
+        height: 100%;
+        width: 9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      > .buttons.-solo > .dropdown > .toggle,
+      > .buttons.-solo > .btn {
+        width: auto;
+      }
+      > .buttons > .dropdown > .toggle {
+        border-top-right-radius: bootstrap.$input-border-radius;
+        border-bottom-right-radius: bootstrap.$input-border-radius;
+        text-align: left;
+        > .fa-check-circle-o {
+          flex: 1;
+          font-size: bootstrap.$font-size-lg;
+        }
+        > .noticed,
+        > .fa-angle-down {
+          flex: none;
+        }
+      }
+      > .audiences {
+        font-size: bootstrap.$font-size-sm;
+      }
+      > .audiences > .title {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      > .audiences > .users {
+        margin-top: 0.25rem;
+      }
+
+      > .audiences > .users > .user > .image {
+        @include mixin.background-image-round(1rem);
+        display: inline-block;
+        background-color: white;
+        vertical-align: middle;
+      }
+
+      > .audiences > .users > .user {
+        margin-right: 0.5rem;
+        white-space: nowrap;
+      }
+
+      > .audiences > .more,
+      > .audiences > .desc > .more {
+        font-size: bootstrap.$font-size-xs;
+        color: global-variables.$color-gray-400;
+        display: inline-block;
+        cursor: pointer;
+      }
+    }
+  }
+}

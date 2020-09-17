@@ -2,10 +2,6 @@
 @use './global-variables';
 @use './mq';
 
-.btn-white {
-  @include bootstrap.button-variant(#ffffff, #cccccc, #ffffff, #adadad, #ffffff, #adadad);
-}
-
 .cursor-pointer {
   cursor: pointer;
 }
@@ -53,11 +49,6 @@ legend.legend-default {
   margin-bottom: 0;
 }
 
-.btn-important {
-  @include bootstrap.button-variant(global-variables.$color-gray-500, global-variables.$color-gray-500);
-  color: white;
-}
-
 .texet-nowrap {
   white-space: nowrap;
 }
@@ -73,6 +64,10 @@ legend.legend-default {
 
 .font-size-xs {
   font-size: bootstrap.$font-size-xs;
+}
+
+.font-size-xxs {
+  font-size: bootstrap.$font-size-xxs;
 }
 
 @include mq.media('<=phone') {

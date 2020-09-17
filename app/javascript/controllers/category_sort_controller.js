@@ -2,7 +2,7 @@ import { Controller } from 'stimulus'
 import Sortable from 'sortablejs'
 import { v4 as uuidv4 } from 'uuid'
 
-import fetchResponseCheck from '../helpers/fetch_check_response'
+import { smartFetch } from '../helpers/smart_fetch'
 
 export default class extends Controller {
   static targets = ['category', 'cardBody']
@@ -25,12 +25,8 @@ export default class extends Controller {
 
   itemEnd(event) {
     let id = event.item.dataset.id
-    let data = new FormData()
-    data.append("position", event.newIndex + 1)
-
-    let headers = new window.Headers()
-    const csrfToken = document.head.querySelector("[name='csrf-token']")
-    if (csrfToken) { headers.append('X-CSRF-Token', csrfToken.content) }
+    let body = new FormData()
+    body.append("position", event.newIndex + 1)
 
     let requestId = uuidv4()
     document.dispatchEvent(new CustomEvent('category-move-submit-begin', {
@@ -38,13 +34,10 @@ export default class extends Controller {
       detail: [requestId],
     }))
 
-    fetch(this.data.get("url").replace(":id", id), {
-      headers: headers,
+    smartFetch(this.data.get("url").replace(":id", id), {
       method: 'PATCH',
-      credentials: 'same-origin',
-      body: data
-    }).then(fetchResponseCheck)
-      .then(response => {
+      body,
+    }).then(response => {
         if (!response) {
           document.dispatchEvent(new CustomEvent('category-move-submit-error', {
             bubbles: true,

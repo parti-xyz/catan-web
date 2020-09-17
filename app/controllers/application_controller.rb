@@ -439,21 +439,12 @@ class ApplicationController < ActionController::Base
     prepare_unobtrusive_flash
   end
 
-  def list_nav_params(action: nil, issue: '', folder: '', page: '', q: '', sort: '', filter: '')
+  def announce_post_interaction_not_member_users_message(outcome)
+    return if outcome.result.blank?
 
-    filter = filter.presence || (filter.nil? ? nil : params.dig(:list_nav, :filter).presence)
-    if filter.present?
-      filter = filter.permit(:condition, :label_id).to_h.compact
+    not_member_users = outcome.result[:not_member_users]
+    if not_member_users.present? && not_member_users.any?
+      "필독 요청한 #{not_member_users.map(&:nickname).join(', ')}님은 그룹 멤버가 아니라 필독 요청할 수 없습니다."
     end
-
-    {
-      action: action.presence || params.dig(:list_nav, :action).presence,
-      issue_id: issue.try(:id) || (issue.nil? ? nil : params.dig(:list_nav, :issue_id)),
-      folder_id: folder.try(:id) || (folder.nil? ? nil : params.dig(:list_nav, :folder_id)),
-      page: page.presence || (page.nil? ? nil : params.dig(:list_nav, :page).presence),
-      q: q.presence || (q.nil? ? nil : params.dig(:list_nav, :q).presence),
-      sort: sort.presence || (sort.nil? ? nil : params.dig(:list_nav, :sort).presence),
-      filter: filter
-    }.compact
   end
 end

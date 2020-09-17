@@ -1,5 +1,6 @@
 @use '../../global-variables';
 @use '../front-variables';
+@use '../../mixin';
 
 .front-app .post-poll-votings-users {
   width: 100%;
@@ -37,13 +38,9 @@
   }
 
   > .choices > .choice > .users > .user > .image {
-    background-size: cover;
-    background-position: center;
-    width: 1rem;
-    height: 1rem;
     display: inline-block;
     vertical-align: middle;
-    border-radius: 9999px;
     background-color: white;
+    @include mixin.background-image-round(1rem);
   }
 }

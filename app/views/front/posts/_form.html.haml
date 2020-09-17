@@ -1,13 +1,12 @@
 - has_no_poll = (current_post.new_record? || current_post.poll.blank? || current_post.poll.new_record?)
 - has_no_survey = (current_post.new_record? || current_post.survey.blank? || current_post.survey.new_record?)
+- has_no_announcement = (current_post.new_record? || current_post.announcement.blank? || current_post.announcement.new_record?)
 
 = form_with(model: [:front, current_post], local: false, html: { class: 'post-form', novalidate: true, data: { controller: 'post-form editor-form dirty-form validate-form', action: "ajax:before->post-form#submit ajax:before->validate-form#submit dirty-form:force-dirty->dirty-form#setForceDirty", target: 'dirty-page.form', 'editor-form-upload-url': editor_assets_path, 'rule-filesize': '10485760' } }) do |f|
-  - list_nav_params.each do |key, value|
-    - next if value.nil?
-    = hidden_field_tag "nav[#{key}]", value
   = f.hidden_field :issue_id
   = f.hidden_field :has_poll, value: !has_no_poll, data: { target: 'post-form.hasPollField' }
   = f.hidden_field :has_survey, value: !has_no_survey, data: { target: 'post-form.hasSurveyField' }
+  = f.hidden_field :has_announcement, value: !has_no_announcement, data: { target: 'post-form.hasAnnouncementField' }
 
   .post-meta
     .userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(current_user), options: h({ container: '.front-app' }.to_json) } } }
@@ -47,7 +46,7 @@
   .form-group
     %div{ style: 'display: none', data: { target: 'editor-form.source' } }
       != f.object.body
-    = f.hidden_field :body, textrequired: true, class: 'form-control', data: { target: 'post-form.bodyField validate-form.editorHtml', 'value-missing-message': '본문 내용이 비었어요.' }
+    = f.hidden_field :body, class: 'form-control', data: { target: 'post-form.bodyField validate-form.editorHtml', 'value-missing-message': '본문 내용이 비었어요.' }
 
   - if current_issue.folders.any?
     - form_folder = current_post.persisted? ? current_post.folder : current_folder
@@ -135,8 +134,9 @@
             = ff.check_box :hidden_voters, class: 'form-check-input'
             = ff.label :hidden_voters, '누가 어디에 투표했는지 익명으로 진행합니다.', class: 'form-check-label'
 
-    .footer
-      .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->post-form#closePollFieldGroup' } } 찬반투표 취소
+    - unless f.object.poll&.persisted?
+      .footer
+        .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->post-form#closePollFieldGroup' } } 찬반투표 취소
 
   .form-group.surveyfield{ data: { target: 'post-form.surveyFieldGroup' }, class: ('-active' if current_post.survey.present?) }
     .header
@@ -185,8 +185,18 @@
           .form-check
             = ff.check_box :hidden_option_voters, class: 'form-check-input'
             = ff.label :hidden_option_voters, '제안에 누가 투표했는지 익명으로 진행합니다.', class: 'form-check-label'
-    .footer
-      .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->post-form#closeSurveyFieldGroup' } } 설문 취소
+    - unless f.object.survey&.persisted?
+      .footer
+        .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->post-form#closeSurveyFieldGroup' } } 설문 취소
+
+  - if can?(:announce, current_issue)
+    .form-group.announcementfield{ data: { target: 'post-form.announcementFieldGroup' }, class: ('-active' if current_post.announcement.present?) }
+      .header
+        필독 요청
+      .main
+        = render 'front/posts/form/announcement/form', f: f
+      .footer
+        .btn.btn-light.btn-sm.text-muted{ data: { action: 'click->post-form#closeAnnouncementFieldGroup' } } 요청 취소
 
   .form-group.gadgetcontrol
     %button.btn.btn-xs.btn-link.btn-sm.-active{ data: { action: 'click->post-form#openFileSourcesFieldGroup', target: 'post-form.fileSourcesOpenButton' } }
@@ -200,6 +210,12 @@
       %button.btn.btn-xs.btn-link.btn-sm{ class: ('-active' if has_no_poll), data: { action: 'click->post-form#openSurveyFieldGroup', target: 'post-form.surveyOpenButton'} }
         %i.fa.fa-list-ul
         = t('labels.new_post_survey_button')
+
+    - if can?(:announce, current_issue)
+      %button.btn.btn-xs.btn-link.btn-sm.-active{ data: { action: 'click->post-form#openAnnouncementFieldGroup', target: 'post-form.announcementOpenButton' } }
+        %i.fa.fa-bullhorn
+        = t('labels.new_post_announcement_button')
+
     - if can?(:pin, f.object)
       .form-check.form-check-inline.pinnedfield
         = f.check_box :pinned, class: 'form-check-input', id: 'pinned'

@@ -1,3 +1,5 @@
+@use '../../mixin';
+
 .front-app .upvoted-users {
   > .user {
     display: flex;
@@ -10,12 +12,8 @@
   }
   > .user > .userimagebg {
     flex: none;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 9999px;
     border: 1px solid white;
-    background-position: center;
-    background-size: cover;
     background-color: white;
+    @include mixin.background-image-round(1rem);
   }
 }

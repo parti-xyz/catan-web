@@ -1,0 +1,30 @@
+- page_text = capture do
+  - if posts.current_page != 1
+    %span.page 중 #{posts.current_page}페이지
+- need_to_read_filter = params.dig(:filter, :condition) == 'needtoread'
+- need_to_notice_filter = params.dig(:filter, :condition) == 'needtonotice'
+- no_filter = !need_to_read_filter && need_to_read_count > 0
+
+%span.all{ class: ('-active' if no_filter) }
+  - if posts.current_page.present?
+    = link_to url_for(permited_params.deep_merge(filter: nil)), class: 'link' do
+      모든 #{local_assigns[:model_name].presence || '게시글'} #{number_to_human(all_posts_total_count, precision: 1, delimiter: ',', significant: false)}개
+      - unless need_to_read_filter
+        = page_text
+- if need_to_read_count > 0 || need_to_read_filter
+  %span.needtoread{ class: ('-active' if need_to_read_filter) }
+    = link_to url_for(permited_params.deep_merge(filter: { condition: 'needtoread' })), class: 'link' do
+      #{local_assigns[:need_to_read_label].presence || '업데이트'} #{number_to_human(need_to_read_count, precision: 1, delimiter: ',', significant: false)}개
+      - if need_to_read_filter
+        = page_text
+  - if need_to_read_count > 0
+    %span.readall
+      = link_to read_all_path, remote: true, method: :patch do
+        %i.fa{ class: local_assigns[:read_all_button_class].presence || 'fa-check-square-o' }
+        전부 읽은 상태로 표시
+- if local_assigns[:need_to_notice_count].present? && need_to_notice_count > 0 || need_to_notice_filter
+  %span.needtonotice{ class: ('-active' if need_to_notice_filter) }
+    = link_to url_for(permited_params.deep_merge(filter: { condition: 'needtonotice' })), class: 'link' do
+      확인할 게시물 #{number_to_human(need_to_notice_count, precision: 1, delimiter: ',', significant: false)}개
+      - if need_to_notice_filter
+        = page_text

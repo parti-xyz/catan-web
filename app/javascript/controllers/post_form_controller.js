@@ -10,8 +10,9 @@ export default class extends Controller {
     'fileSourcesFieldGroup', 'imageFileSourcesContainer', 'docFileSourcesContainer', 'fileSourcesCounter', 'fileSourceFieldTemplate', 'imageFileSourcePreviewTemplate', 'docFileSourcePreviewTemplate', 'addFileSourceFieldButton',
     'pollFieldGroup', 'hasPollField',
     'surveyFieldGroup', 'hasSurveyField', 'surveyOptionTemplate', 'surveyOptions',
+    'announcementFieldGroup', 'hasAnnouncementField',
     'bodyField',
-    'fileSourcesOpenButton', 'pollOpenButton', 'surveyOpenButton',
+    'fileSourcesOpenButton', 'pollOpenButton', 'surveyOpenButton', 'announcementOpenButton',
     'submitButton', 'baseTitleField'
   ]
 
@@ -174,6 +175,21 @@ export default class extends Controller {
 
     const content = this.surveyOptionTemplate.replace(/NEW_RECORD/g, new Date().getTime())
     this.surveyOptionsTarget.insertAdjacentHTML('beforeend', content)
+  }
+
+  openAnnouncementFieldGroup(event) {
+    event.preventDefault()
+    this.announcementFieldGroupTarget.classList.add('-active')
+    this.hasAnnouncementFieldTarget.value = true
+    this.announcementFieldGroupTarget.scrollIntoView({
+      behavior: 'smooth'
+    })
+  }
+
+  closeAnnouncementFieldGroup(event) {
+    event.preventDefault()
+    this.announcementFieldGroupTarget.classList.remove('-active')
+    this.hasAnnouncementFieldTarget.value = false
   }
 
   submit(event) {

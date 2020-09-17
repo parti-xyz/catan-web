@@ -82,6 +82,7 @@ class Post < ApplicationRecord
   belongs_to :last_title_edited_user, optional: true, class_name: 'User'
   belongs_to :poll, optional: true
   belongs_to :survey, optional: true
+  belongs_to :announcement, optional: true
   belongs_to :link_source, optional: true
   belongs_to :wiki, optional: true
   belongs_to :event, optional: true
@@ -103,6 +104,7 @@ class Post < ApplicationRecord
   }
   accepts_nested_attributes_for :poll
   accepts_nested_attributes_for :survey
+  accepts_nested_attributes_for :announcement
   accepts_nested_attributes_for :event
 
   has_many :comments, dependent: :destroy
@@ -215,6 +217,7 @@ class Post < ApplicationRecord
 
   attr_accessor :has_poll
   attr_accessor :has_survey
+  attr_accessor :has_announcement
   attr_accessor :has_event
   attr_accessor :is_html_body
   attr_accessor :conflicted_decision
@@ -226,8 +229,6 @@ class Post < ApplicationRecord
   before_save :reindex_hashtags
   # blind
   before_save :process_blind
-  # wiki_history
-  after_update :build_wiki_history_for_base_title
 
   def specific_desc_striped_tags(length = 0)
     striped_body = body.try(:strip)
@@ -290,6 +291,12 @@ class Post < ApplicationRecord
       result = result.or(User.where(id: survey.feedbacks.select(:user_id)))
       result = result.or(User.where(id: survey.options.select(:user_id)))
     end
+
+    # TODO_ANNOUNCEMENT
+    # if announcement.present?
+    #   result = result.or(User.where(id: survey.feedbacks.select(:user_id)))
+    #   result = result.or(User.where(id: survey.options.select(:user_id)))
+    # end
 
     if wiki.present?
       result = result.or(User.where(id: wiki.authors))
@@ -412,6 +419,14 @@ class Post < ApplicationRecord
       self.survey = Survey.new(params) if self.has_survey == 'true'
     end
     self.survey.try(:setup_expires_at)
+  end
+
+  def build_announcement(params)
+    if self.announcement.try(:persisted?)
+      self.announcement.assign_attributes(params)
+    else
+      self.announcement = Announcement.new(params) if self.has_announcement == 'true'
+    end
   end
 
   def build_event(params)
@@ -733,13 +748,12 @@ class Post < ApplicationRecord
       raise "Post #{self.id} : Change Survey!  #{self.survey_id_was} ==> #{self.survey_id}"
     end
 
+    if self.persisted? and self.announcement_id_changed? and !self.announcement_id_was.blank?
+      raise "Post #{self.id} : Change Announcement!  #{self.announcement_id_was} ==> #{self.announcement_id}"
+    end
+
     if self.persisted? and self.wiki_id_changed? and !self.wiki_id_was.blank?
       raise "Post #{self.id} : Change Wiki! #{self.wiki_id_was} ==> #{self.wiki_id}"
     end
-  end
-
-  def build_wiki_history_for_base_title
-    return unless self.wiki.present?
-    self.wiki.build_history_after_update
   end
 end

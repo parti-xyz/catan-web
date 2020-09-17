@@ -1,6 +1,5 @@
 import { Controller } from "stimulus"
 import parseJSON from '../helpers/json_parse'
-import fetchResponseCheck from '../helpers/fetch_check_response'
 import { isTouchDevice } from '../helpers/device';
 export default class extends Controller {
   static targets = ['template']

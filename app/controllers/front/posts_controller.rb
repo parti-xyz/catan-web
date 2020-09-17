@@ -1,9 +1,9 @@
 class Front::PostsController < Front::BaseController
   def show
-    @current_post = Post.includes(:issue, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, :label, user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
+    @current_post = Post.includes(:survey, :current_user_upvotes, :last_stroked_user, :file_sources, :label, issue: [:group], announcement: [ current_user_audience: [ :member ] ], user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
       .find(params[:id])
 
-    @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
+    @current_issue = Issue.includes(:group, :folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     if user_signed_in?
@@ -55,8 +55,6 @@ class Front::PostsController < Front::BaseController
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
     @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any? || @recent_comments&.any?
-
-    @list_nav_params = list_nav_params()
   end
 
   def new
@@ -67,15 +65,13 @@ class Front::PostsController < Front::BaseController
     @current_folder = @current_issue.folders.find_by(id: params[:folder_id])
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
-
-    @list_nav_params = list_nav_params(folder: @current_folder)
   end
 
   def edit
     render_403 and return unless user_signed_in?
 
     @current_post = Post
-      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, issue: [ :folders ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
+      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, announcement: [:current_user_audience], issue: [ :folders ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:id])
     authorize! :update, (@current_post.wiki.presence || @current_post)
 
@@ -84,8 +80,6 @@ class Front::PostsController < Front::BaseController
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
-
-    @list_nav_params = list_nav_params()
   end
 
   def edit_title
@@ -120,6 +114,52 @@ class Front::PostsController < Front::BaseController
     end
 
     render layout: nil
+  end
+
+  def edit_announcement
+    render_403 and return unless user_signed_in?
+
+    @current_post = Post.includes(:issue, :announcement).find(params[:id])
+    authorize! :announce, @current_post.issue
+
+    render layout: nil
+  end
+
+  def update_announcement
+    render_403 and return unless user_signed_in?
+
+    @current_post = Post.includes(:label, :announcement).find(params[:id])
+    authorize! :announce, @current_post.issue
+
+    announcement_params = params.require(:post).permit(announcement_attributes: [ :announcing_mode, :direct_announced_user_nicknames ])
+
+    result = false
+    ActiveRecord::Base.transaction do
+      if @current_post.announcement.blank?
+        @current_post.announcement = Announcement.create(post: @current_post)
+        result = @current_post.save
+        raise ActiveRecord::Rollbacks unless result
+      end
+
+      result = @current_post.announcement.update_attributes(announcement_params[:announcement_attributes])
+      raise ActiveRecord::Rollbacks unless result
+
+      outcome = AnnouncePost.run(post: @current_post, current_user: current_user)
+      not_member_users_message = announce_post_interaction_not_member_users_message(outcome)
+      flash[:alert] = not_member_users_message if not_member_users_message.present?
+
+      if @current_post.announcement.requested_to_notice?(current_user)
+        NoticePost.run(current_group: current_group, current_user: current_user, announcement: @current_post.announcement)
+      end
+    end
+
+    if result
+      flash[:notice] = '필독 요청되었습니다'
+    else
+      flash[:alert] = I18n.t('errors.messages.unknown')
+    end
+
+    turbolinks_redirect_to smart_front_post_url(@current_post)
   end
 
   def update_label
@@ -158,8 +198,6 @@ class Front::PostsController < Front::BaseController
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
-
-    @list_nav_params = list_nav_params()
   end
 
   def edit_channel

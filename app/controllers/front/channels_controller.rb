@@ -7,7 +7,7 @@ class Front::ChannelsController < Front::BaseController
 
     @posts = @current_issue.posts
       .never_blinded(current_user)
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :issue, :folder, wiki: [ :last_wiki_history ])
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :issue, :folder, announcement: [:current_user_audience], wiki: [ :last_wiki_history ])
       .page(params[:page]).per(10)
     if @current_folder.present?
       @posts = @posts.where(folder: @current_folder)
@@ -53,8 +53,6 @@ class Front::ChannelsController < Front::BaseController
     @supplementary_locals = prepare_channel_supplementary(@current_issue)
 
     @permited_params = params.permit(:id, :folder_id, :sort, :q, filter: [ :condition, :label_id ]).to_h
-
-    @list_nav_params = list_nav_params(action: 'channel', issue: @current_issue, folder: @current_folder, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
   end
 
   def new
@@ -86,6 +84,8 @@ class Front::ChannelsController < Front::BaseController
 
 
     @issues = current_group.issues.includes(:current_user_issue_reader).accessible_only(current_user).includes(:current_user_issue_reader, :group)
+    @need_to_notice_count = (current_group.member?(current_user) ? current_need_to_notice_announcement_posts.count : 0)
+    @unread_mentions_count = (current_group.member?(current_user) ? Message.where(user: current_user).of_group(current_group).where(action: 'mention').unread.count : 0)
     respond_to do |format|
       format.json
     end

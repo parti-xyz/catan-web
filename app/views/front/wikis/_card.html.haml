@@ -2,7 +2,7 @@
   - if local_assigns[:current_wiki_history].present?
     .alert.alert-warning.versioninfo
       .before{ class: ('invisible' unless current_wiki_history.has_previous?) }
-        = link_to url_for(wiki_history_id: current_wiki_history.previous&.id, list_nav: list_nav_params), class: 'btn btn-link btn-sm' do
+        = link_to url_for(wiki_history_id: current_wiki_history.previous&.id), class: 'btn btn-link btn-sm' do
           %i.fa.fa-arrow-left
           이전
       .main
@@ -18,7 +18,7 @@
           .version-insertion
             .contents-header__title @#{current_wiki_history.user.nickname}님이 삭제한 내용
       .after{ class: ('invisible' unless current_wiki_history.has_afterwhile?) }
-        = link_to url_for(wiki_history_id: current_wiki_history.afterwhile&.id, list_nav: list_nav_params), class: 'btn btn-link btn-sm' do
+        = link_to url_for(wiki_history_id: current_wiki_history.afterwhile&.id), class: 'btn btn-link btn-sm' do
           다음
           %i.fa.fa-arrow-right
     .body.-full.-edit{ data: { controller: 'content-replacement' } }
@@ -33,7 +33,7 @@
       .article
         != current_wiki.body
       .buttons
-        = render 'front/wikis/controls', current_wiki: current_wiki, list_nav_params: local_assigns[:list_nav_params]
+        = render 'front/wikis/controls', current_wiki: current_wiki
 
   .authors
     .label 작성

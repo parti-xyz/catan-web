@@ -168,14 +168,14 @@
             = f.label :blinds
             = f.text_field :blinds_nickname, value: @issue.blinds.merge_nickname, class: 'form-control'
             %p.help-block
-              건강하고 유쾌한 #{I18n.t('labels.app_name_human')} 활동을 방해하는 멤버의 글을 숨깁니다. 해당 멤버의 아이디를 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
+              건강하고 유쾌한 #{I18n.t('labels.app_name_human')} 활동을 방해하는 멤버의 글을 숨깁니다. 해당 멤버의 닉네임을 쉼표로 구분해서 넣어주세요. 만일 위에 칸을 비워 놓으면 수정되지 않고 현재 그대로 보존됩니다.
               %strong 이 기능은 꼭 필요한 경우에만 신중히 사용해 주세요.
 
         - if @issue.persisted?
           .form-group{class: ('has-error' if has_error_attr?(@issue, :organizer_nicknames))}
             = f.label :organizer_nicknames
             = f.text_field :organizer_nicknames, value: @issue.organizer_members.merge_nickname, class: 'form-control'
-            %p.help-block 오거나이저의 아이디를 쉼표로 구분해서 넣어주세요. 이 채널의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
+            %p.help-block 오거나이저의 닉네임을 쉼표로 구분해서 넣어주세요. 이 채널의 멤버만 등록됩니다. 만일 위에 칸을 비워 놓으면 오거나이저 목록이 수정되지 않고 현재 그대로 보존됩니다.
         - else
           .form-group
             = f.label :organizer_nicknames

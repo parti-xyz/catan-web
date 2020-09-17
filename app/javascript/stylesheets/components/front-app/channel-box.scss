@@ -4,7 +4,7 @@
   overflow-y: visible;
 
   @include mq.media('<=phone') {
-    > .channel-box-header {
+    > .pagination-header {
       padding-top: .5rem;
       padding-bottom: .5rem;
     }

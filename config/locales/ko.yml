@@ -62,7 +62,7 @@ ko:
       invalid_group_magic_key: 사용이 중지된 그룹 가입 주소입니다. 오거나이저에게 새로운 가입 주소를 요청하세요.
       invitation:
         recipient_codes: 입력하신 이메일이나 닉네임을 확인해 주세요.
-        not_found_recipients: 아래 아이디에 해당되는 계정이 없습니다. 다시 한번 확인해 주세요.
+        not_found_recipients: 아래 닉네임에 해당되는 계정이 없습니다. 다시 한번 확인해 주세요.
         ambiguous_recipients: 아래 이메일을 쓰는 계정이 여럿 있습니다. 이메일 대신 계정의 정확한 닉네임을 입력해 주세요.
       carrierwave_processing_error: "이미지 사이즈 조정에 실패했습니다."
       carrierwave_integrity_error: "이미지 파일이 아닙니다."
@@ -87,7 +87,7 @@ ko:
         attributes:
           email: 이메일
           password: 비밀번호
-          nickname: 아이디
+          nickname: 닉네임
           remember_me: 로그인 상태를 유지
           current_password: 현재 비밀번호
   number:
@@ -115,6 +115,7 @@ ko:
       poll: 찬반투표
       post: 게시글
       survey: 설문
+      announcement: 필독 요청
       group: 그룹
       folder: 폴더
       event: 일정
@@ -161,7 +162,7 @@ ko:
         email: 이메일
         image: 프로필 사진
         password: 비밀번호
-        nickname: 아이디
+        nickname: 닉네임
         password_confirmation: 비밀번호 확인
         remember_me: 로그인 상태를 유지
         current_password: 현재 비밀번호
@@ -198,6 +199,8 @@ ko:
       messages:
         created: 저장되었습니다.
         completed: 적용되었습니다.
+        checked: 확인했습니다.
+        canceled: 취소되었습니다.
         no_changed: 이미 저장되었습니다.
         deleted: 삭제되었습니다.
         released: 해제되었습니다.
@@ -237,9 +240,9 @@ ko:
         user:
           attributes:
             nickname:
-              exclusion: ' 아이디로 입력한 값이 올바르지 않습니다. 예시) users, admin, all 등은 사용할 수 없습니다.'
-              invalid: ' 입력한 아이디 값이 올바르지 않습니다. 한글, 알파벳 소문자, 숫자, _ 만 가능합니다.'
-              too_long: ' 아이디는 20자를 넘을 수 없습니다.'
+              exclusion: ' 닉네임으로 입력한 값이 올바르지 않습니다. 예시) users, admin, all 등은 사용할 수 없습니다.'
+              invalid: ' 입력한 닉네임 값이 올바르지 않습니다. 한글, 알파벳 소문자, 숫자, _ 만 가능합니다.'
+              too_long: ' 닉네임은 20자를 넘을 수 없습니다.'
             password:
               too_short: 비밀번호는 8자 이상 입력해주세요.
             password_confirmation:
@@ -274,6 +277,7 @@ ko:
     new_post_file_source_button: "사진\xB7파일"
     new_post_poll_button: 찬반투표
     new_post_survey_button: 설문
+    new_post_announcement_button: 필독 요청
     new_post_wiki_button: 위키
     new_post_event_button: 일정
     edit_wiki_button: 편집
@@ -369,6 +373,10 @@ ko:
       sort:
         stroked: 업데이트 순
         created: 게시 순
+    announcement:
+      announcing_mode:
+        all: 모든 멤버에게 필독 요청
+        direct: 지정한 멤버만 필독 요청
   views:
     pin: 고정했습니다.
     unpin: 고정 해제했습니다.

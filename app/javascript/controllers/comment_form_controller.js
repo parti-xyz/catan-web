@@ -20,7 +20,7 @@ export default class extends Controller {
     this.fileSourceCounter()
   }
 
-  submit(evnet) {
+  submit(event) {
     let valid = true
     if (!this.bodyFieldTarget.value || this.bodyFieldTarget.value.length < 0) {
       appNoty('댓글 내용을 입력해 주세요', 'warning', true).show()

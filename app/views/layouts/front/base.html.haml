@@ -2,10 +2,10 @@
   = render_scss 'layouts/front/group_style'
 
 - content_for :content do
-  .front-app{ data: { controller: 'dirty-page' } }
+  .front-app{ data: { controller: 'dirty-page back-page' } }
     = render 'layouts/front/header'
 
-    - recommend_to_join = user_signed_in? && !current_group.member?(current_user) && !current_group.private?
+    - recommend_to_join = user_signed_in? && !current_group.member?(current_user) && (!current_group.private? || current_user.admin?)
     .front-main{ class: ('-need-to-join' if recommend_to_join), data: { 'controller': "#{'channel-read-listener' if current_group.member?(current_user)} group-sidebar-listener", action: 'channel-read->channel-read-listener#consume group-sidebar->group-sidebar-listener#consume', 'channel-read-listener': { url: sync_front_channels_path(format: :json), 'refresh-interval': (1000 * 60 * 5).to_s } } }
       - if recommend_to_join
         = render 'layouts/front/joinbar'

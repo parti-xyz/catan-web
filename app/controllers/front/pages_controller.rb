@@ -17,7 +17,7 @@ class Front::PagesController < Front::BaseController
     end
 
     @posts = current_group_accessible_only_posts
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, wiki: [ :last_wiki_history] , issue: [ :current_user_issue_reader ])
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, announcement: [:current_user_audience], wiki: [ :last_wiki_history] , issue: [ :current_user_issue_reader ])
       .order(last_stroked_at: :desc)
       .page(params[:page]).per(10)
 
@@ -52,8 +52,40 @@ class Front::PagesController < Front::BaseController
     @group_sidebar_menu_slug = 'all'
 
     @permited_params = params.permit(:sort, :q, filter: [ :condition, :label_id ]).to_h
+  end
 
-    @list_nav_params = list_nav_params(action: 'all', issue: nil, folder: nil, q: @search_q.presence, page: params[:page].presence, sort: params[:sort].presence, filter: params[:filter].presence)
+  def announcements
+    if user_signed_in?
+      current_user.update_attributes(last_visitable: current_group)
+    end
+    render_404 and return unless current_group.member?(current_user)
+
+    @posts = current_announcement_posts
+      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :folder, :label, announcement: [:current_user_audience], wiki: [ :last_wiki_history] , issue: [ :current_user_issue_reader ])
+      .order(last_stroked_at: :desc)
+      .page(params[:page]).per(10)
+
+    @all_posts_total_count = @posts.total_count
+
+    if params.dig(:filter, :condition) == 'needtonotice' && user_signed_in?
+      @posts = add_condition_need_to_notice_announcement_posts(@posts)
+    end
+    if params.dig(:filter, :label_id).present?
+      label_id = params.dig(:filter, :label_id)
+      @label_q = Label.find_by(id: label_id)
+      @posts = @posts.where(label: @label_q)
+    end
+    @need_to_notice_count = current_need_to_notice_announcement_posts.count
+
+    if session[:front_last_visited_post_id].present?
+      @current_post = Post.find_by(id: session[:front_last_visited_post_id])
+    end
+    @scroll_persistence_id_ext = "announcements-#{current_group.id}"
+    @scroll_persistence_tag = params[:page].presence || 1
+
+    @group_sidebar_menu_slug = 'announcements'
+
+    @permited_params = params.permit(:sort, :q, filter: [ :condition, :label_id ]).to_h
   end
 
   def search
@@ -105,14 +137,8 @@ class Front::PagesController < Front::BaseController
     @current_folder = @current_issue.folders.find(params[:folder_id]) if @current_issue.present? && params[:folder_id].present?
     @issues = current_group.issues.includes(:folders, :current_user_issue_reader, :category).accessible_only(current_user).sort_default
     @categorised_issues = @issues.to_a.group_by{ |issue| issue.category }.sort_by{ |category, issues| Category.default_compare_values(category) }
-  end
 
-  def current_group_accessible_only_posts
-    Post.where(issue: current_group_accessible_only_issues)
-      .never_blinded(current_user)
-  end
-
-  def current_group_accessible_only_issues
-    current_group.issues.accessible_only(current_user)
+    @need_to_notice_count = (current_group.member?(current_user) ? current_need_to_notice_announcement_posts.count : 0)
+    @unread_mentions_count = (current_group.member?(current_user) ? Message.where(user: current_user).of_group(current_group).where(action: 'mention').unread.count : 0)
   end
 end

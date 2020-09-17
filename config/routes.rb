@@ -157,6 +157,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'rails/posts/:id/poll_social_card.png', to: 'posts#poll_social_card', as: :poll_social_card_post
+  get 'rails/posts/:id/survey_social_card.png', to: 'posts#survey_social_card', as: :survey_social_card_post
+
   resources :posts, concerns: :upvotable do
     shallow do
       resources :comments, concerns: :upvotable
@@ -164,8 +167,6 @@ Rails.application.routes.draw do
     member do
       get 'move_to_issue_form'
       patch 'move_to_issue'
-      get 'poll_social_card'
-      get 'survey_social_card'
       post 'pin'
       delete 'unpin'
       get 'beholders'
@@ -424,6 +425,8 @@ Rails.application.routes.draw do
   # front
   namespace :front, defaults: { namespace_slug: 'front' } do
     get :all, to: 'pages#all'
+    get :announcements, to: 'pages#announcements'
+    get :mentions, to: 'messages#mentions'
     patch :read_all_posts, to: 'pages#read_all_posts'
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'
@@ -459,11 +462,13 @@ Rails.application.routes.draw do
       member do
         get :destroyed
         get :edit_title
+        get :edit_announcement
         get :cancel_title_form
         patch :title, action: 'update_title'
         patch :label, action: 'update_label'
         get :edit_channel
         patch :channel, action: 'update_channel'
+        patch :announcement, action: 'update_announcement'
       end
       shallow do
         resources :comments, only: [:create, :update, :destroy], controller: '/comments' do
@@ -495,6 +500,16 @@ Rails.application.routes.draw do
         resources :votings, only: [:create], controller: '/votings' do
           get :users, on: :collection
         end
+      end
+    end
+
+    resources :announcements, only: [] do
+      member do
+        post :notice
+        delete :hold_back
+        post :stop
+        post :restart
+        get :audiences
       end
     end
 
@@ -543,9 +558,15 @@ Rails.application.routes.draw do
     end
 
     resources :messages, only: [] do
+      member do
+        patch :read
+        patch :unread
+      end
       collection do
         get :nav
         patch :read_all
+        patch :read_all_mentions
+        patch :notice
       end
     end
 

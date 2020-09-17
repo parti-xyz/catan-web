@@ -1,7 +1,7 @@
 class Poll < ApplicationRecord
   include Expirable
 
-  has_one :post, dependent: :destroy
+  has_one :post, dependent: :nullify
   has_many :votings, dependent: :destroy
   has_one :current_user_voting,
     -> { where(user_id: Current.user.try(:id)) },

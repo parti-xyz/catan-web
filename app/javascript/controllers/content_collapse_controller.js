@@ -1,5 +1,4 @@
 import { Controller } from "stimulus"
-import store from 'store2'
 
 export default class extends Controller {
   static targets = ['content']
@@ -11,6 +10,14 @@ export default class extends Controller {
 
   toggle(event) {
     this._apply()
+  }
+
+  show(event) {
+    this.contentTarget.classList.add('show')
+  }
+
+  hide(event) {
+    this.contentTarget.classList.remove('show')
   }
 
   _apply() {

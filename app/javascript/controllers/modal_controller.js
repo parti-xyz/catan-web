@@ -1,5 +1,5 @@
 import { Controller } from "stimulus";
-import fetchResponseCheck from '../helpers/fetch_check_response'
+import { smartFetch } from '../helpers/smart_fetch'
 import { v4 as uuidv4 } from 'uuid'
 
 export default class extends Controller {
@@ -33,8 +33,7 @@ export default class extends Controller {
   getContent(url) {
     if (!this.hasContentTarget) { return }
 
-    fetch(url)
-      .then(fetchResponseCheck)
+    smartFetch(url)
       .then(response => {
         if (response && response.ok) {
           return response.text()

@@ -16,6 +16,14 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
+@mixin background-image-round($size) {
+  background-size: cover;
+  background-position: center;
+  width: $size;
+  height: $size;
+  border-radius: 9999px;
+}
+
 @mixin simplebar_x {
   > .simplebar-layout
     > .simplebar-wrapper

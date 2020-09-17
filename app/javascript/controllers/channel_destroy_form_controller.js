@@ -4,7 +4,7 @@ import appNoty from '../helpers/app_noty'
 export default class extends Controller {
   static targets = ['message', 'confirm', 'submitButton']
 
-  submit(evnet) {
+  submit(event) {
     let valid = true
     if (!this.messageTarget.value || this.messageTarget.value.length < 0) {
       appNoty('채널 삭제 메시지가 비었습니다.', 'warning', true).show()

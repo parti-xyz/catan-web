@@ -1,7 +1,7 @@
 class Survey < ApplicationRecord
   include Expirable
 
-  has_one :post, dependent: :destroy
+  has_one :post, dependent: :nullify
   has_many :feedbacks, dependent: :destroy
   has_many :options, dependent: :destroy
   has_many :messages, as: :messagable, dependent: :destroy

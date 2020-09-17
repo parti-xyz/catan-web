@@ -30,7 +30,7 @@ class Issue < ApplicationRecord
   acts_as_unique_paranoid
   acts_as_taggable
 
-  SLUG_OF_PARTI_PARTI = 'parti'
+  SLUG_OF_PARTI_PARTI = "parti"
 
   include Invitable
   # relations
@@ -50,12 +50,12 @@ class Issue < ApplicationRecord
   has_many :member_users, through: :members, source: :user
   has_many :organizer_members, -> { where(is_organizer: true).recent }, as: :joinable, class_name: "Member" do
     def merge_nickname
-      self.map { |m| m.user.nickname }.join(',')
+      self.map { |m| m.user.nickname }.join(",")
     end
   end
   has_many :blinds, dependent: :destroy do
     def merge_nickname
-      self.map { |m| m.user.nickname }.join(',')
+      self.map { |m| m.user.nickname }.join(",")
     end
   end
   has_many :member_requests, as: :joinable, dependent: :destroy
@@ -68,9 +68,9 @@ class Issue < ApplicationRecord
   has_many :active_issue_stats, dependent: :destroy
   has_many :folders, dependent: :destroy
   belongs_to :category, optional: true
-  has_many :issue_post_formats, dependent: :destroy, class_name: 'GroupHomeComponentPreference::IssuePostsFormat'
-  belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
-  has_many :last_visited_users, as: :last_visitable, class_name: 'User', dependent: :nullify
+  has_many :issue_post_formats, dependent: :destroy, class_name: "GroupHomeComponentPreference::IssuePostsFormat"
+  belongs_to :blinded_by, class_name: "User", foreign_key: "blinded_by_id", optional: true
+  has_many :last_visited_users, as: :last_visitable, class_name: "User", dependent: :nullify
   has_many :issue_readers, dependent: :destroy
   has_one :current_user_issue_reader,
     -> { where(user_id: Current.user.try(:id)) },
@@ -88,7 +88,7 @@ class Issue < ApplicationRecord
     presence: true,
     format: { with: VALID_SLUG },
     exclusion: { in: %w(all app new edit index session login logout users admin
-    stylesheets assets javascripts images) },
+                       stylesheets assets javascripts images) },
     uniqueness: { case_sensitive: false, scope: :group_slug },
     length: { maximum: 50 }
   validate :not_parti_parti_slug
@@ -110,12 +110,12 @@ class Issue < ApplicationRecord
   scope :alive, -> { never_blinded.where(freezed_at: nil) }
   scope :dead, -> { never_blinded.where.not(freezed_at: nil) }
   scope :only_public, -> {
-    where.not(private: true).alive
-  }
+          where.not(private: true).alive
+        }
   scope :only_public_in_all_public_groups, -> {
-    only_public.where(group_slug: Group.only_public)
-  }
-  scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(issues.title, 1)) < 128, 1, 0)")).order('issues.title') }
+          only_public.where(group_slug: Group.only_public)
+        }
+  scope :sort_by_name, -> { order(Arel.sql("if(ascii(substring(issues.title, 1)) < 128, 1, 0)")).order("issues.title") }
   scope :sort_default, -> { order(:position).sort_by_name }
   scope :hottest, -> { order(hot_score_datestamp: :desc, hot_score: :desc) }
   scope :this_week_or_hottest, -> { order(Arel.sql("if(issues.created_at < (NOW() - INTERVAL 6 DAY), 1, 0)")).order(hot_score_datestamp: :desc, hot_score: :desc) }
@@ -127,89 +127,89 @@ class Issue < ApplicationRecord
   scope :displayable_in_current_group, ->(group) { never_blinded.where(group_slug: Group.slug_fallback(group)) if group.present? }
   # TODO MEMBER
   scope :deprecated_not_private_blocked, ->(current_user) {
-    alive.where(id: Member.where(user: current_user).where(joinable_type: 'Issue').select('members.joinable_id'))
-    .or(where.not(private: true))
-  }
+          alive.where(id: Member.where(user: current_user).where(joinable_type: "Issue").select("members.joinable_id"))
+            .or(where.not(private: true))
+        }
   scope :notice_only, -> { alive.where(notice_only: true) }
-  scope :only_public_hottest, ->(count){
-    where(group_slug: Group.only_public.select(:slug))
-    .alive
-    .where.not(private: true)
-    .hottest
-    .limit(count)
-  }
+  scope :only_public_hottest, ->(count) {
+          where(group_slug: Group.only_public.select(:slug))
+            .alive
+            .where.not(private: true)
+            .hottest
+            .limit(count)
+        }
   scope :_post_public_group_public_issues, -> {
-    alive.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
-  }
+          alive.where(group_slug: Group.only_public.select(:slug)).where.not(private: true)
+        }
   scope :_public_group_public_issues, -> {
-    _post_public_group_public_issues.or(alive.where(listable_even_private: true))
-  }
+          _post_public_group_public_issues.or(alive.where(listable_even_private: true))
+        }
 
   scope :accessible_only, ->(current_user = nil) {
-    if current_user.present?
-      only_public
-        .or(alive.where(id: current_user.organizing_issues.select("members.joinable_id")))
-    else
-      only_public
-    end
-  }
+          if current_user.present?
+            only_public
+              .or(alive.where(id: current_user.organizing_issues.select("members.joinable_id")))
+          else
+            only_public
+          end
+        }
 
   # TODO MEMBER
   scope :searchable_issues, ->(current_user = nil) {
-    if current_user.present?
-      _public_group_public_issues
-        .or(where(id: current_user.organizing_issues.select("members.joinable_id")))
-        .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
-    else
-      _public_group_public_issues
-    end
-  }
+          if current_user.present?
+            _public_group_public_issues
+              .or(where(id: current_user.organizing_issues.select("members.joinable_id")))
+              .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
+          else
+            _public_group_public_issues
+          end
+        }
   # TODO MEMBER
   scope :post_searchable_issues, ->(current_user = nil) {
-    if current_user.present?
-      _post_public_group_public_issues
-        .or(where(id: current_user.organizing_issues.select("members.joinable_id")))
-        .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
-    else
-      _post_public_group_public_issues
-    end
-  }
+          if current_user.present?
+            _post_public_group_public_issues
+              .or(where(id: current_user.organizing_issues.select("members.joinable_id")))
+              .or(alive.where(id: current_user.member_issues.select("members.joinable_id")))
+          else
+            _post_public_group_public_issues
+          end
+        }
   scope :undiscovered_issues, ->(current_user = nil) {
-    conditions = _post_public_group_public_issues
-    if current_user.present?
-      conditions = conditions.where.not(id: current_user.member_issues.select("members.joinable_id"))
-    end
-    conditions
-  }
+          conditions = _post_public_group_public_issues
+          if current_user.present?
+            conditions = conditions.where.not(id: current_user.member_issues.select("members.joinable_id"))
+          end
+          conditions
+        }
   # TODO MEMBER
   scope :not_joined_issues, ->(current_user) {
-    alive.where.not(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
-  }
+          alive.where.not(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
+        }
   # TODO MEMBER
   scope :joined_issues, ->(current_user) {
-    alive.where(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
-  }
+          alive.where(id: Member.for_issues.where(user: current_user).select("members.joinable_id")) if current_user.present?
+        }
   scope :only_private, -> { alive.where(private: true) }
   scope :not_private, -> { alive.where(private: false) }
   # TODO
   scope :postable, ->(someone) {
-    if someone.present?
-      alive.where(id: someone.organizing_issues).or(where(id: someone.member_issues, notice_only: false))
-    else
-      alive.where(id: nil)
-    end
-  }
+          if someone.present?
+            alive.where(id: someone.organizing_issues).or(where(id: someone.member_issues, notice_only: false))
+          else
+            alive.where(id: nil)
+          end
+        }
 
   # search
   scoped_search on: [:title, :body]
 
   # methods
 
-  def member_email? email
+  def member_email?(email)
     members.joins(:user).exists? 'users.email': email
   end
 
-  def organized_by? someone
+  def organized_by?(someone)
     return false if someone.blank?
     cached_member = someone.cached_channel_member(self)
     return cached_member.is_organizer if cached_member.present?
@@ -217,7 +217,7 @@ class Issue < ApplicationRecord
     organizer_members.exists? user: someone
   end
 
-  def member? someone
+  def member?(someone)
     return false if someone.blank?
     cached_member = someone.cached_channel_member(self)
     return true if cached_member.present?
@@ -225,7 +225,7 @@ class Issue < ApplicationRecord
     members.exists? user: someone
   end
 
-  def member_requested? someone
+  def member_requested?(someone)
     return false if someone.blank?
     member_requests.exists? user: someone
   end
@@ -239,7 +239,7 @@ class Issue < ApplicationRecord
     self.slug = self.title.strip.downcase.gsub(/\s+/, "-")
   end
 
-  def related_with? something
+  def related_with?(something)
     relateds.exists?(target: something)
   end
 
@@ -268,7 +268,7 @@ class Issue < ApplicationRecord
   def compare_title(other)
     self_title = title.strip
     other_title = other.title.strip
-    self_title.split('').each_with_index do |char, i|
+    self_title.split("").each_with_index do |char, i|
       return -1 if other_title[i] == nil
       if self_title[i] != other_title[i]
         if (self_title[i].ascii_only? and other_title[i].ascii_only?) or (!self_title[i].ascii_only? and !other_title[i].ascii_only?)
@@ -285,7 +285,7 @@ class Issue < ApplicationRecord
     Group.subdomain(self.group_slug)
   end
 
-  def postable? someone
+  def postable?(someone)
     return false if someone.blank?
     return false if frozen?
     return false if blind_user?(someone)
@@ -299,7 +299,7 @@ class Issue < ApplicationRecord
     end
   end
 
-  def commentable? someone
+  def commentable?(someone)
     return false if someone.blank?
     return false if frozen?
     return false if blind_user?(someone)
@@ -309,7 +309,7 @@ class Issue < ApplicationRecord
     return true
   end
 
-  def blind_user? someone
+  def blind_user?(someone)
     return false if someone.blank?
     blinds.exists?(user: someone) || Blind.site_wide?(someone)
   end
@@ -331,7 +331,7 @@ class Issue < ApplicationRecord
   end
 
   def self.most_used_tags(limit)
-    ActsAsTaggableOn::Tag.most_used(limit).joins(:taggings).where('taggings.taggable_type = ?', 'Issue').distinct
+    ActsAsTaggableOn::Tag.most_used(limit).joins(:taggings).where("taggings.taggable_type = ?", "Issue").distinct
   end
 
   def self.parti_parti
@@ -355,7 +355,7 @@ class Issue < ApplicationRecord
   end
 
   def fallbackable_organizer_member_users
-    organizer_members.present? ? organizer_members.to_a.map(&:user) : [User.find_by(nickname: 'parti')]
+    organizer_members.present? ? organizer_members.to_a.map(&:user) : [User.find_by(nickname: "parti")]
   end
 
   def strok_by(someone)
@@ -376,10 +376,10 @@ class Issue < ApplicationRecord
   def sync_last_stroked_at!
     first_post = self.posts.never_blinded.order_by_stroked_at.first
     self.last_stroked_at = if first_post.present?
-      first_post.last_stroked_at
-    else
-      first_post.created_at
-    end
+        first_post.last_stroked_at
+      else
+        first_post.created_at
+      end
     self.save
   end
 
@@ -399,10 +399,10 @@ class Issue < ApplicationRecord
     return false unless group.member?(someone)
 
     issue_reader = if someone == Current.user
-      current_user_issue_reader
-    else
-      self.issue_readers.find_by(user: someone)
-    end
+        current_user_issue_reader
+      else
+        self.issue_readers.find_by(user: someone)
+      end
 
     issue_reader.present? && issue_reader.updated_at < self.last_stroked_at
   end
@@ -441,7 +441,7 @@ class Issue < ApplicationRecord
   end
 
   def issue_reader!(someone, new_sort = nil)
-    fallbacked_sort = IssueReader.sort.values.include?(new_sort) ? new_sort : 'stroked'
+    fallbacked_sort = IssueReader.sort.values.include?(new_sort) ? new_sort : "stroked"
 
     if someone.blank? || !group.member?(someone)
       return IssueReader.new(sort: fallbacked_sort)
@@ -461,7 +461,7 @@ class Issue < ApplicationRecord
     return unless group.member?(someone)
 
     issue_reader = issue_reader!(someone)
-    thoch_when = self.posts.need_to_read_only(someone).any? ? DateTime.new(0,1,1) : DateTime.now
+    thoch_when = self.posts.need_to_read_only(someone).any? ? DateTime.new(0, 1, 1) : DateTime.now
 
     issue_reader&.update(updated_at: thoch_when)
   end
@@ -488,7 +488,7 @@ class Issue < ApplicationRecord
   end
 
   def alive?
-    ! frozen?
+    !frozen?
   end
 
   def comments_count
@@ -516,22 +516,22 @@ class Issue < ApplicationRecord
   end
 
   def exists_wiki?
-    posts.exists?(['wiki_id is not ?', nil])
+    posts.exists?(["wiki_id is not ?", nil])
   end
 
-  def movable_to_group? target_group
+  def movable_to_group?(target_group)
     member_users.each do |user|
       return false if !target_group.member?(user)
     end
     true
   end
 
-  def member_of someone
+  def member_of(someone)
     members.find_by(user: someone) if someone.present?
   end
 
   def experimental?
-    group_slug == 'union' and %(xyz).include?(slug)
+    group_slug == "union" and %(xyz).include?(slug)
   end
 
   def rookie?
@@ -560,7 +560,7 @@ class Issue < ApplicationRecord
 
   def top_folders
     if folders.loaded?
-      Folder.array_sort_by_default(self.folders.select{ |f| f.parent_id == nil })
+      Folder.array_sort_by_default(self.folders.select { |f| f.parent_id == nil })
     else
       self.folders.only_top.sort_by_default
     end
@@ -588,7 +588,7 @@ class Issue < ApplicationRecord
 
   def not_parti_parti_slug
     if self.slug == Issue::SLUG_OF_PARTI_PARTI and self.group_slug != Group::SLUG_OF_ACTIVIST
-      errors.add(:slug, I18n.t('errors.messages.taken'))
+      errors.add(:slug, I18n.t("errors.messages.taken"))
     end
   end
 

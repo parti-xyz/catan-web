@@ -1,5 +1,5 @@
 - content_for :playground_header_content do
-  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post, list_nav_params: @list_nav_params
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post
 
 - content_for :playground_sidebar_content do
   .supplementary-boxes{ data: { controller: ('fix-bottom-comments' if is_small_screen?) } }
@@ -45,91 +45,16 @@
             %li.updated-comment-line
               .body
                 .title
-                  = link_to url_for(wiki_history_id: wiki_history.id, list_nav: @list_nav_params), class: 'hover:text-primary' do
+                  = link_to url_for(wiki_history_id: wiki_history.id), class: 'hover:text-primary' do
                     #{static_date_f(wiki_history.created_at)}
                 .footer
                   != wiki_history.activity { |user| user_subject_word(user) }
 
-- if @list_nav_params.present?
-  - back_params = { id: @list_nav_params[:issue_id], folder_id: @list_nav_params[:folder_id], page: @list_nav_params[:page], sort: @list_nav_params[:sort], filter: @list_nav_params[:filter], front_search: { q: @list_nav_params[:q] } }.compact
-  - back_path = if @list_nav_params[:action] == 'channel'
-    - front_channel_path(back_params)
-  - elsif @list_nav_params[:action] == 'all'
-    - front_all_path(back_params)
-- else
-  - back_path = front_channel_path(@current_post.issue)
-= render 'front/pages/back', back_path: back_path
-
-- moremenu_post_buttons = []
-
-- if @current_post.wiki.present?
-  - moremenu_post_buttons << capture do
-    .dropdown-header
-      #{user_subject_word(@current_post.user)} 시작한 위키입니다.
-      - if @current_post.user != current_user
-        %span.text-nowrap.cursor-pointer.text-primary{ data: { action: 'click->comment-form-new#open', mention: @current_post.user.nickname } } 멘션하기
-
-- moremenu_post_buttons << capture do
-  - if can?(:update, @current_post) and @current_post.wiki.blank?
-    = link_to '수정', edit_front_post_path(@current_post, list_nav: @list_nav_params), class: 'dropdown-item'
-  - if can?(:destroy, @current_post)
-    = link_to '삭제', front_post_path(@current_post, list_nav: @list_nav_params), method: :delete, remote: true, data: { confirm: "정말 삭제하시겠습니까? 다시 복구 할 수 없습니다." }, class: 'dropdown-item'
-
-- if @current_post.wiki.present?
-  - moremenu_post_buttons << capture do
-    - if @current_post.front_wiki?
-      .dropdown-header
-        커뮤니티 가이드 페이지에 게시된 위키입니다.
-    - if can?(:coc_wiki, current_group)
-      - if @current_post.front_wiki?
-        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, list_nav: @list_nav_params), method: :delete, remote: true, data: { disable_with: '내리는 중...' }, class: 'dropdown-item' do
-          커뮤니티 가이드 설정 해제
-      - else
-        = link_to coc_wiki_front_groups_path(post_id: @current_post.id, list_nav: @list_nav_params), method: :post, remote: true, data: { disable_with: '게시 중...', confirm: ("이미 '#{@current_post.group.front_wiki_post.title}'게시물이 커뮤니티 가이드로 설정되어 있습니다. 정말 교체하시겠습니까?" if !@current_post.front_wiki? and @current_post.group.front_wiki_post.present?) }, class: 'dropdown-item' do
-          커뮤니티 가이드로 설정하기
-          %br
-          %small TIP. 해당 그룹의 커뮤니티 가이드 페이지에 게시됩니다.
-
-- moremenu_post_buttons << capture do
-  - if can?(:pin, @current_post)
-    - if @current_post.pinned?
-      = link_to unpin_front_post_path(@current_post, list_nav: @list_nav_params), method: :delete, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
-        고정 해제하기
-    - else
-      = link_to pin_front_post_path(@current_post, list_nav: @list_nav_params), method: :post, remote: true, data: { disable_with: '...' }, class: 'dropdown-item' do
-        이 게시글을 고정하기
-  - if @current_post.pinned?
-    .dropdown-header
-      고정된 게시글입니다.
-
-- moremenu_post_buttons << capture do
-  - if can?(:move_to_issue, @current_post)
-    .dropdown-item.cursor-pointer{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_channel_front_post_path(@current_post) } }
-      다른 채널로 게시물 이동
-
-- post_control = capture do
-  - moremenu_post_buttons.reject! { |button_group| button_group.blank? }
-  - if moremenu_post_buttons.any?
-    %span.dropdown{ data: { controller: 'phone-dropdown' } }
-      %button.btn.btn-link.btn-sm{ "data-toggle": "dropdown" }
-        %i.fa.fa-ellipsis-v
-      .dropdown-menu.dropdown-menu-right
-        - moremenu_post_buttons.each_with_index do |button_group, index|
-          - if index != 0
-            .dropdown-divider
-          = button_group
-
-- wiki_control = capture do
-  - if @current_post.wiki.present?
-    - if @current_wiki_history.present?
-      = link_to front_post_path(@current_post, list_nav: @list_nav_params), class: 'btn btn-light btn-sm', data: { 'turbolinks-action': 'replace' } do
-        현재 버전 보기
-    - else
-      = render 'front/wikis/controls', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params
+= render 'front/pages/back', back_path: front_channel_path(@current_post.issue), post_id: @current_post.id
 
 .post-box{ data: { controller: 'channel-read-emit' } }
   .post-main{ data: { controller: 'comment-form-new' } }
-    = render 'front/posts/show/post_header/title', current_post: @current_post, post_control: post_control, wiki_control: wiki_control
+    = render 'front/posts/show/post_header/title', current_post: @current_post
     .post-content{ data: { controller: 'comment-form-sync' } }
       - if @current_post.wiki.blank?
         .post-meta
@@ -141,10 +66,6 @@
               %span.memberrole= @current_post.user.current_group_member&.role
             .createdat
               = smart_date_tag @current_post.created_at
-
-          - if post_control.present?
-            .moremenu
-              = post_control
 
         .post-body
           .body
@@ -190,10 +111,15 @@
           = render 'front/posts/show/poll', poll: @current_post.poll
         - if @current_post.survey.present?
           = render 'front/posts/show/survey', survey: @current_post.survey
+        - if @current_post.announcement.present?
+          = render 'front/posts/show/announcement', announcement: @current_post.announcement
       - else
         -# WIKI
         .post-wiki
-          = render 'front/wikis/card', current_wiki: @current_post.wiki, list_nav_params: @list_nav_params, current_wiki_history:  @current_wiki_history
+          = render 'front/wikis/card', current_wiki: @current_post.wiki, current_wiki_history:  @current_wiki_history
+        - if @current_post.announcement.present?
+          .mt-4
+          = render 'front/posts/show/announcement', announcement: @current_post.announcement
 
       .reactions
         .reaction

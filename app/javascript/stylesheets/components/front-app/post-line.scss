@@ -1,6 +1,7 @@
 @use '../../global-variables';
 @use '../../bootstrap';
 @use '../../mq';
+@use '../../mixin';
 
 .front-app .post-line {
   $boder-width: 1px;
@@ -67,9 +68,13 @@
     background-color: global-variables.$color-gray-100;
     padding: 0 4px;
     margin-right: .5rem;
+    &.-important {
+      color: global-variables.$color-brand-400;
+      font-weight: bold;
+    }
   }
   &.-active > .body > .meta > .icon {
-    background-color: global-variables.$color-gray-200;
+    background-color: white;
   }
   > .body > .meta > time {
     margin-left: .5rem
@@ -118,13 +123,9 @@
     width: 1rem;
   }
   > .footer > .strokedusers > .userimage > .userimagebg {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 9999px;
     border: 1px solid global-variables.$color-gray-300;
-    background-position: center;
-    background-size: cover;
     background-color: white;
+    @include mixin.background-image-round(1.5rem);
   }
   > .footer > .strokedusers > .morecount {
     font-size: bootstrap.$font-size-xs;

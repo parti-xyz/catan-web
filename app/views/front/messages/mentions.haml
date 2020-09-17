@@ -1,0 +1,26 @@
+- content_for :playground_header_content do
+  .playground-header
+    .channel-menu
+      .nav
+        .title.form-inline{ data: { controller: 'select-link' } }
+          .node
+            %i.fa.fa-at
+            멘션
+
+- content_for :playground_sidebar_content do
+  = render 'front/share/base_playground_sidebar_content'
+
+.messages-box
+  .pagination-header
+    .pages
+      = render 'front/share/pagination_header/mentions_page', posts: @messages, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_messages_total_count, read_all_path: read_all_mentions_front_messages_path
+
+  - if @messages.any?
+    - @messages.each do |message|
+      = render message, mention_only_page: true, list_navable: true
+    .mt-4
+      = paginate @messages, theme: 'catan'
+  - else
+    .alert-box.my-3
+      .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+        아직 받은 멘션이 없습니다.

@@ -736,7 +736,7 @@ DEPENDENCIES
   bootswatch-rails
   browser (~> 2.0, >= 2.0.2)
   browsernizer
-  bundler (= 2.0.1)
+  bundler (= 2.1.4)
   by_star (~> 2.2, >= 2.2.1)
   byebug
   cancancan (~> 2.2)
@@ -847,4 +847,4 @@ DEPENDENCIES
   wkhtmltoimage-binary (~> 0.12.2)
 
 BUNDLED WITH
-   2.0.1
+   2.1.4

@@ -1,10 +1,11 @@
 import { Controller } from 'stimulus'
-import fetchResponseCheck from '../helpers/fetch_check_response'
+import { smartFetch } from '../helpers/smart_fetch'
 
 export default class extends Controller {
   static targets = ['toggle', 'circle', 'menu']
   connect() {
-    jQuery(this.element).on('show.bs.dropdown', this.readAll.bind(this))
+    jQuery(this.element).on('show.bs.dropdown', this.handleShow.bind(this))
+    jQuery(this.element).on('hide.bs.dropdown', this.handleHide.bind(this))
 
     this.menuTarget.style.display = ''
     jQuery(this.toggleTarget).dropdown()
@@ -12,24 +13,28 @@ export default class extends Controller {
   }
 
   disconnect() {
-    jQuery(this.element).off('show.bs.dropdown', this.readAll.bind(this))
+    jQuery(this.element).off('show.bs.dropdown', this.handleShow.bind(this))
+    jQuery(this.element).off('hide.bs.dropdown', this.handleHide.bind(this))
     this.dispose()
   }
 
-  readAll(event) {
+  handleHide(event) {
+    if (event.clickEvent.target.closest('[data-message-dropdown-keep-open]')) {
+      return false
+    }
+    return true;
+  }
+
+  handleShow(event) {
     if (!this.hasCircleTarget || !this.circleTarget.dataset.lastMessageId) return
 
-    let headers = new window.Headers()
-    const csrfToken = document.head.querySelector("[name='csrf-token']")
-    if (csrfToken) { headers.append('X-CSRF-Token', csrfToken.content) }
+    let body = new FormData()
+    body.append("last_message_id", this.circleTarget.dataset.lastMessageId)
 
-    fetch(`${this.data.get('url')}?last_message_id=${this.circleTarget.dataset.lastMessageId}`, {
-      headers: headers,
+    smartFetch(this.data.get('url'), {
       method: 'PATCH',
-      credentials: 'same-origin',
-    })
-      .then(fetchResponseCheck)
-      .then(response => {
+      body,
+    }).then(response => {
         if (response && response.ok && this.hasCircleTarget) {
           this.circleTarget.classList.add('collapse')
         }
@@ -50,9 +55,5 @@ export default class extends Controller {
       jQuery(this.toggleTarget).dropdown('toggle')
       this.showAfterMixUp = false
     }
-  }
-
-  stopPropagation(event) {
-    event.stopPropagation();
   }
 }

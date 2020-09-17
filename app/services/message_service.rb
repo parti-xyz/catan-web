@@ -171,6 +171,8 @@ class MessageService
       send_messages(
         sender: @source.post.user, users: users,
         messagable: @source, action: @action)
+    when Announcement
+      # TODO_ANNOUNCEMENT
     when Event
       return if @source.post.blank?
       roll_call = @options[:roll_call]

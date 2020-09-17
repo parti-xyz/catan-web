@@ -44,12 +44,17 @@
   > .post-file-sources-only-doc,
   > .post-video-source,
   > .post-poll,
-  > .post-survey {
+  > .post-survey,
+  > .post-announcement {
     margin-top: .75rem;
   }
 
   > .post-survey {
     padding: 2.25rem;
+  }
+
+  > .post-announcement {
+    padding: 1rem;
   }
 
   > .post-link-source:last-child {
@@ -63,6 +68,10 @@
 
   @include mq.media('<=phone') {
     > .post-survey {
+      padding: 1.5rem;
+    }
+
+    > .post-announcement {
       padding: 1.5rem;
     }
   }

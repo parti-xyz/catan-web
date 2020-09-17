@@ -1,10 +1,10 @@
 import { Controller } from 'stimulus'
 
 import ParamMap from '../helpers/param_map'
-import fetchResponseCheck from '../helpers/fetch_check_response'
+import { smartFetch } from '../helpers/smart_fetch'
 import Timer from '../helpers/timer'
 export default class extends Controller {
-  static targets = ['channel']
+  static targets = ['channel', 'needToNoticeCount', 'unreadMentionsCount']
 
   initialize() {
     this.syncing = false
@@ -29,19 +29,39 @@ export default class extends Controller {
     }
     this.syncing = true
 
-    fetch(this.data.get('url'))
-      .then(fetchResponseCheck)
+    smartFetch(this.data.get('url'))
       .then(response => {
         if (response) {
           return response.json()
         }
       }).then(json => {
         if (json) {
-          json.forEach(item => {
+          json.channels.forEach(item => {
             item.needToRead
               ? this.unread(item.id)
               : this.read(item.id)
           })
+
+          if (this.hasNeedToNoticeCountTarget) {
+            if (json.needToNoticeCount ) {
+              this.needToNoticeCountTarget.classList.add('show')
+              this.needToNoticeCountTarget.textContent = json.needToNoticeCount
+            } else {
+              this.needToNoticeCountTarget.classList.add('hide')
+              this.needToNoticeCountTarget.textContent = ''
+            }
+          }
+
+          if (this.hasUnreadMentionsCountTarget) {
+            if (json.unreadMentionsCount) {
+              this.unreadMentionsCountTarget.classList.add('show')
+              this.unreadMentionsCountTarget.textContent = json.unreadMentionsCount
+            } else {
+              this.unreadMentionsCountTarget.classList.add('hide')
+              this.unreadMentionsCountTarget.textContent = ''
+            }
+          }
+
         }
       }).catch(e => {
         if (this.timer) {

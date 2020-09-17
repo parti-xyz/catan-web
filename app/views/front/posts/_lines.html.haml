@@ -5,20 +5,24 @@
       .body<>
         - unless post.blinded?(current_user)
           .title{ class: ('-purged' if post&.wiki&.purged?) }<>
-            = link_to front_post_path(post, list_nav: list_nav_params), class: 'link' do
+            = link_to front_post_path(post), class: 'link', data: { controller: 'list-nav-kickoff', action: 'list-nav-kickoff#store', 'list-nav-kickoff-post-id': post.id } do
               != post.title
             %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }
         - else
           .title.-blind
             %i.fa.fa-info-circle
             = t('labels.post_blind_info')
-        = link_to front_post_path(post, list_nav: list_nav_params), class: 'meta' do
-          - if !is_small_screen? && current_issue.present?
+        = link_to front_post_path(post), class: 'meta', data: { controller: 'list-nav-kickoff', action: 'list-nav-kickoff#store', 'list-nav-kickoff-post-id': post.id } do
+          - if !post.announcement&.stopped? && post.announcement&.need_to_notice?(current_user)
+            .icon.-important<>
+              %i.fa.fa-bullhorn
+              필독 미확인
+          - if current_issue.present?
             - if post.poll.present?
               .icon<> 투표
-            - elsif post.survey.present?
+            - if post.survey.present?
               .icon<> 설문
-            - elsif post.wiki.present?
+            - if post.wiki.present?
               .icon<> 위키
 
           - last_stroked_text, last_stroked_at = post.last_stroked_activity(with_creation: true) { |user| user_subject_word(user) }
