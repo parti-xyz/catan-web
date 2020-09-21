@@ -54,10 +54,6 @@
         align-items: center;
         justify-content: center;
       }
-      > .buttons.-solo > .dropdown > .toggle,
-      > .buttons.-solo > .btn {
-        width: auto;
-      }
       > .buttons > .dropdown > .toggle {
         border-top-right-radius: bootstrap.$input-border-radius;
         border-bottom-right-radius: bootstrap.$input-border-radius;

@@ -38,11 +38,6 @@ class PostsController < ApplicationController
         flash[:notice] = I18n.t('activerecord.successful.messages.created')
       end
 
-      if outcome.result && outcome.result[:announcePostOutcome].present?
-        not_member_users_message = announce_post_interaction_not_member_users_message(outcome.result[:announcePostOutcome])
-        flash[:alert] = not_member_users_message if not_member_users_message.present?
-      end
-
       if @post.wiki.blank? || params[:button] == 'after_close'
         turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
       else
@@ -90,21 +85,7 @@ class PostsController < ApplicationController
       @post.event.roll_calls.build(user: current_user, status: :attend)
     end
 
-    saved = false
-    ActiveRecord::Base.transaction do
-      saved = @post.save
-      if saved && can?(:announce, @post.issue) && @post.announcement.present?
-        if @post.has_announcement != 'true'
-          @post.announcement.destroy
-        else
-          outcome = AnnouncePost.run(post: @post, current_user: current_user)
-          not_member_users_message = announce_post_interaction_not_member_users_message(outcome)
-          flash[:alert] = not_member_users_message if not_member_users_message.present?
-        end
-      end
-    end
-
-    if saved
+    if @post.save
       crawling_after_updating_post
       @post.perform_messages_with_mentions_async(:update)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
@@ -545,7 +526,7 @@ class PostsController < ApplicationController
     if file_sources.try(:any?)
       index = 0
       file_sources.each do |file_source|
-        params[:post][:file_sources_attributes][file_source[0]]["seq_no"] = index
+        params[:post][:file_sources_attributes][file_source[0]]['seq_no'] = index
         index += 1
       end
     end
@@ -557,11 +538,6 @@ class PostsController < ApplicationController
     options_attributes = [:id, :body, :_destroy] unless @post.try(:survey).try(:persisted?)
     survey_attributes = [:duration_days, :multiple_select, :hidden_intermediate_result, :hidden_option_voters, options_attributes: options_attributes] if survey.present?
 
-    announcement_attributes = []
-    if can?(:announce, fetch_issue) && params[:post][:announcement_attributes].present?
-      announcement_attributes = [:announcing_mode, :direct_announced_user_nicknames]
-    end
-
     wiki = params[:post][:wiki_attributes]
     wiki_attributes = [:body] if wiki.present?
 
@@ -572,12 +548,13 @@ class PostsController < ApplicationController
       :location] if event.present?
 
     params.require(:post)
-      .permit(:body, :base_title, :label_id, :issue_id, :folder_id, :has_poll, :has_survey, :has_announcement, :has_event,
-        :is_html_body, :has_decision, :decision, (:pinned unless @post.try(:persisted?)),
+      .permit(:body, :base_title, :label_id, :issue_id, :folder_id,
+        :has_poll, :has_survey, :has_event,
+        :is_html_body, :has_decision, :decision,
+        (:pinned unless @post.try(:persisted?)),
         file_sources_attributes: FileSource.require_attrbutes,
         poll_attributes: poll_attributes,
         survey_attributes: survey_attributes,
-        announcement_attributes: announcement_attributes,
         wiki_attributes: wiki_attributes, event_attributes: event_attributes)
 
   end
@@ -587,7 +564,7 @@ class PostsController < ApplicationController
     wiki_attributes = [:body, :is_html_body] if wiki.present?
 
     params.require(:post)
-      .permit(:base_title, :label_id, :has_poll, :has_survey, :has_announcement, :has_event, :folder_id,
+      .permit(:base_title, :label_id, :has_poll, :has_survey, :has_event, :folder_id,
         wiki_attributes: wiki_attributes)
   end
 

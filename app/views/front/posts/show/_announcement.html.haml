@@ -1,4 +1,3 @@
-- is_solo = announcement.audiences_count <= 1 && !announcement.announcing_mode.all?
 - preview_noticed_audiences_limit_count = 12
 - preview_noticed_audiences = announcement.audiences.noticed.limit(preview_noticed_audiences_limit_count)
 - preview_noticed_audiences_list = capture do
@@ -19,17 +18,6 @@
 .post-announcement{ data: { controller: 'content-replacement' } }
   .title.clearfix{ class: ('-stopped' if announcement.stopped?) }
     %i.fa.fa-bullhorn
-    - if announcement.announcing_mode.all?
-      모든 그룹 멤버에게
-    - elsif announcement.audiences_count == 1
-      - if announcement.requested_to_notice?(current_user)
-        나에게
-      - else
-        @#{announcement.audiences.first&.member&.user&.nickname}님에게
-    - elsif announcement.audiences_count > 1
-      - if announcement.requested_to_notice?(current_user)
-        나를 포함
-      #{announcement.audiences_count}명에게
     필독 #{(announcement.stopped? ? '요청 - 완료됨' : '요청 중')}
     - restart_or_stop_buttons = capture do
       - if !announcement.stopped? && can?(:stop, announcement)
@@ -38,71 +26,56 @@
       - if announcement.stopped? && can?(:restart, announcement)
         = link_to restart_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' }, class: 'text-muted' do
           요청 다시 시작
-      -# - if !announcement.stopped? && can?(:announce, announcement.post.issue)
-      -#   .d-inline-block.cursor-pointer.ml-2.text-primary{ data: { controller: 'remote-modal-link', action: 'click->remote-modal-link#open', 'remote-modal-link-url': edit_announcement_front_post_path(announcement.post) } }
-      -#     수정하기
     - if restart_or_stop_buttons.present?
       .controls= restart_or_stop_buttons
   .columns
     - notice_button_column = capture do
       - unless announcement.stopped?
         - if announcement.noticed?(current_user)
-          .buttons{ class: ('-solo' if is_solo) }
+          .buttons
             %span.dropdown.btn-group.btn-block-phone{ data: { controller: 'phone-dropdown' } }
               %button.btn.btn-sm.btn-important.toggle.cursor-pointer{ "data-toggle": "dropdown" }
                 %i.fa.fa-fw.fa-check-circle-o
                 %span.noticed
                   이 게시물을
-                  - unless is_solo
-                    %br
+                  %br
                   확인했습니다.
                 %i.fa.fa-fw.fa-angle-down
               .dropdown-menu.dropdown-menu-right
                 = link_to hold_back_front_announcement_path(announcement), method: :delete, remote: true, data: { 'disable-with': '확인 표시 삭제 중...', target: 'content-replacement.link' }, class: 'dropdown-item' do
                   확인을 취소합니다.
         - elsif announcement.need_to_notice?(current_user)
-          .buttons{ class: ('-solo' if is_solo) }
+          .buttons
             = link_to notice_front_announcement_path(announcement), method: :post, remote: true, data: { 'disable-with': '확인 표시 저장 중...', target: 'content-replacement.link' }, class: 'btn btn-sm btn-block-phone btn-primary' do
               이 게시물을
-              - unless is_solo
-                %br
+              %br
               확인합니다.
     - if notice_button_column.present?
       .column
         = notice_button_column
 
-    - unless is_solo
-      .column
-        - if announcement.stopped?
-          .audiences
+    .column
+      - if announcement.stopped?
+        .audiences
+          - if announcement.noticed_audiences_count == 0
+            .desc
+              확인한 멤버가 없습니다.
+              = more_link
+          - else
+            .desc
+              #{announcement.noticed_audiences_count}명이 확인했습니다.
+              = more_link
+      - else
+        .audiences
+          - if announcement.cached_noticed_all?
+            .desc 모두 확인 완료했습니다.
+          - else
             - if announcement.noticed_audiences_count == 0
               .desc
-                확인한 멤버가 없습니다.
+                확인한 멤버가 아직 없습니다.
                 = more_link
             - else
-              .desc
-                #{announcement.noticed_audiences_count}명이 확인했습니다.
-                = more_link
-        - else
-          .audiences
-            - if announcement.noticed_all?
-              .desc 모두 확인 완료했습니다.
-            - else
-              - if announcement.noticed_audiences_count == 0
-                .desc
-                  확인한 멤버가 아직 없습니다.
-                  = more_link
-              - else
-                .title
-                  확인한 멤버
-                = preview_noticed_audiences_list
-                = more_link
-    - else
-      - if is_solo && announcement.stopped? && announcement.requested_to_notice?(current_user)
-        .column
-          .audiences
-            .desc
-              - if announcement.need_to_notice?(current_user)
-                확인하지 않았습니다.
-              - else
-                확인했습니다.
+              .title
+                확인한 멤버
+              = preview_noticed_audiences_list
+              = more_link

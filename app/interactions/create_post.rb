@@ -26,17 +26,13 @@ class CreatePost < ActiveInteraction::Base
       post.pinned_by = current_user
     end
 
-    announcePostOutcome = nil
-    ActiveRecord::Base.transaction do
-      if post.save
-        announcePostOutcome = AnnouncePost.run(post: post, current_user: current_user)
-      else
-        error = StandardError.new("DEBUG")
-        error.set_backtrace(caller)
-        ExceptionNotifier.notify_exception(errors, data: { message: post.errors.inspect })
-        errors.merge!(post.errors)
-        return
-      end
+    saved = post.save
+    unless saved
+      error = StandardError.new("DEBUG")
+      error.set_backtrace(caller)
+      ExceptionNotifier.notify_exception(errors, data: { message: post.errors.inspect })
+      errors.merge!(post.errors)
+      return
     end
 
     post.read!(current_user)
@@ -48,10 +44,6 @@ class CreatePost < ActiveInteraction::Base
     if post.pinned?
       PinJob.perform_async(post.id, current_user.id)
     end
-
-    return {
-      announcePostOutcome: announcePostOutcome
-    }
   end
 
   private

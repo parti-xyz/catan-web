@@ -277,7 +277,6 @@ ko:
     new_post_file_source_button: "사진\xB7파일"
     new_post_poll_button: 찬반투표
     new_post_survey_button: 설문
-    new_post_announcement_button: 필독 요청
     new_post_wiki_button: 위키
     new_post_event_button: 일정
     edit_wiki_button: 편집
@@ -373,10 +372,6 @@ ko:
       sort:
         stroked: 업데이트 순
         created: 게시 순
-    announcement:
-      announcing_mode:
-        all: 모든 멤버에게 필독 요청
-        direct: 지정한 멤버만 필독 요청
   views:
     pin: 고정했습니다.
     unpin: 고정 해제했습니다.

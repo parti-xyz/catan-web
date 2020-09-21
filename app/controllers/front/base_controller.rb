@@ -43,9 +43,8 @@ class Front::BaseController < ApplicationController
 
   def current_announcement_posts
     current_group_accessible_only_posts
-      .left_outer_joins(announcement: [:current_user_audience])
+      .includes(announcement: [:current_user_audience])
       .where.not(announcement_id: nil)
-      .where("announcements.announcing_mode = 'all' or audiences.announcement_id IS NOT NULL")
       .where("announcements.stopped_at": nil)
   end
 

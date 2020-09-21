@@ -5,7 +5,7 @@ class Front::AnnouncementsController < Front::BaseController
     @announcement = Announcement.find(params[:id])
     render_404 and return if @announcement.blank? || !@announcement.requested_to_notice?(current_user)
 
-    outcome = NoticePost.run(current_group: current_group, current_user: current_user, announcement: @announcement)
+    outcome = NoticeAnnouncement.run(current_group: current_group, current_user: current_user, announcement: @announcement)
 
     if outcome.errors.empty?
       flash.now[:notice] = I18n.t('activerecord.successful.messages.checked')

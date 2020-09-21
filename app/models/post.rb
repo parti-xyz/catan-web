@@ -217,7 +217,6 @@ class Post < ApplicationRecord
 
   attr_accessor :has_poll
   attr_accessor :has_survey
-  attr_accessor :has_announcement
   attr_accessor :has_event
   attr_accessor :is_html_body
   attr_accessor :conflicted_decision
@@ -291,12 +290,6 @@ class Post < ApplicationRecord
       result = result.or(User.where(id: survey.feedbacks.select(:user_id)))
       result = result.or(User.where(id: survey.options.select(:user_id)))
     end
-
-    # TODO_ANNOUNCEMENT
-    # if announcement.present?
-    #   result = result.or(User.where(id: survey.feedbacks.select(:user_id)))
-    #   result = result.or(User.where(id: survey.options.select(:user_id)))
-    # end
 
     if wiki.present?
       result = result.or(User.where(id: wiki.authors))
@@ -419,14 +412,6 @@ class Post < ApplicationRecord
       self.survey = Survey.new(params) if self.has_survey == 'true'
     end
     self.survey.try(:setup_expires_at)
-  end
-
-  def build_announcement(params)
-    if self.announcement.try(:persisted?)
-      self.announcement.assign_attributes(params)
-    else
-      self.announcement = Announcement.new(params) if self.has_announcement == 'true'
-    end
   end
 
   def build_event(params)

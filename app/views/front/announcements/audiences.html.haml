@@ -11,11 +11,11 @@
             %span.image{ style: "background-image: url(#{user.image.sm.url});" }
             %span.usernickname= user.nickname
 
-  - if (!@announcement.stopped? || @announcement.announcing_mode != 'all')&& @announcement.smart_need_to_notice_members_count > 0
+  - if !@announcement.stopped? && @announcement.cached_need_to_notice_members_count > 0
     .need-to-notice
       .title
         미확인 멤버
-        (#{@announcement.smart_need_to_notice_members_count})
+        (#{@announcement.cached_need_to_notice_members_count})
       .users
         - @announcement.smart_need_to_notice_members.each do |member|
           - user = member.user

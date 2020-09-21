@@ -462,7 +462,6 @@ Rails.application.routes.draw do
       member do
         get :destroyed
         get :edit_title
-        get :edit_announcement
         get :cancel_title_form
         patch :title, action: 'update_title'
         patch :label, action: 'update_label'

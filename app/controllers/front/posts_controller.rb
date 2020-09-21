@@ -116,22 +116,11 @@ class Front::PostsController < Front::BaseController
     render layout: nil
   end
 
-  def edit_announcement
-    render_403 and return unless user_signed_in?
-
-    @current_post = Post.includes(:issue, :announcement).find(params[:id])
-    authorize! :announce, @current_post.issue
-
-    render layout: nil
-  end
-
   def update_announcement
     render_403 and return unless user_signed_in?
 
     @current_post = Post.includes(:label, :announcement).find(params[:id])
     authorize! :announce, @current_post.issue
-
-    announcement_params = params.require(:post).permit(announcement_attributes: [ :announcing_mode, :direct_announced_user_nicknames ])
 
     result = false
     ActiveRecord::Base.transaction do
@@ -141,15 +130,8 @@ class Front::PostsController < Front::BaseController
         raise ActiveRecord::Rollbacks unless result
       end
 
-      result = @current_post.announcement.update_attributes(announcement_params[:announcement_attributes])
-      raise ActiveRecord::Rollbacks unless result
-
-      outcome = AnnouncePost.run(post: @current_post, current_user: current_user)
-      not_member_users_message = announce_post_interaction_not_member_users_message(outcome)
-      flash[:alert] = not_member_users_message if not_member_users_message.present?
-
       if @current_post.announcement.requested_to_notice?(current_user)
-        NoticePost.run(current_group: current_group, current_user: current_user, announcement: @current_post.announcement)
+        NoticeAnnouncement.run(current_group: current_group, current_user: current_user, announcement: @current_post.announcement)
       end
     end
 

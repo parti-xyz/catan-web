@@ -1,4 +1,4 @@
-class NoticePost < ActiveInteraction::Base
+class NoticeAnnouncement < ActiveInteraction::Base
   object :current_group, class: Group
   object :current_user, class: User
   object :announcement

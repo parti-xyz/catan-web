@@ -15,27 +15,19 @@ class Announcement < ApplicationRecord
   scope :of_group, -> (group) { where(id: Post.of_group(group).select(:announcement_id)) }
 
   extend Enumerize
-  enumerize :announcing_mode, in: [:all, :direct], predicates: true, scope: true
   attr_accessor :direct_announced_user_nicknames
 
-  def smart_audiences_count
-    if announcing_mode.all?
-      post.issue.group.members_count
-    else
-      self.audiences_count
-    end
+  def cached_audiences_count
+    @_cached_audiences_count ||= post.issue.group.members_count
+    @_cached_audiences_count
   end
 
-  def smart_need_to_notice_members_count
-    smart_audiences_count - noticed_audiences_count
+  def cached_need_to_notice_members_count
+    cached_audiences_count - noticed_audiences_count
   end
 
   def smart_need_to_notice_members
-    if announcing_mode.all?
-      post.issue.group.members.where.not(id: audiences.noticed.select('member_id')).includes(:user)
-    else
-      post.issue.group.members.where(id: audiences.need_to_notice.select(:member_id)).includes(:user)
-    end
+    post.issue.group.members.where.not(id: audiences.noticed.select('member_id')).includes(:user)
   end
 
   def post_for_message
@@ -54,8 +46,8 @@ class Announcement < ApplicationRecord
     :of_group
   end
 
-  def noticed_all?
-    smart_audiences_count == noticed_audiences_count
+  def cached_noticed_all?
+    cached_audiences_count == noticed_audiences_count
   end
 
   def need_to_notice? someone
@@ -77,10 +69,7 @@ class Announcement < ApplicationRecord
     group_member = someone.smart_group_member(post.issue.group)
     return false if group_member.blank?
 
-    return true if announcing_mode.all?
-
-    return true if someone == Current.user && current_user_audience.present?
-    audiences.exists?(member: group_member)
+    true
   end
 
   def stopped?
