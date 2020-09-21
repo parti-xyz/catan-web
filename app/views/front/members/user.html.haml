@@ -8,12 +8,13 @@
         = simple_format h(@member.description)
       - else
         %p #{@user.nickname}입니다.
+      - if user_signed_in? && current_group&.organized_by?(current_user)
+        .mt-1
+          = link_to front_member_path(@member), class: 'text-primary' do
+            멤버 상세 보기
+            %i.fa.fa-external-link
     - else
       %i.fa.fa-info-circle
       손님입니다.
-    - if user_signed_in? && current_group&.organized_by?(current_user)
-      .mt-1
-        = link_to front_member_path(@member), class: 'text-primary' do
-          멤버 상세 보기
-          %i.fa.fa-external-link
+
 
