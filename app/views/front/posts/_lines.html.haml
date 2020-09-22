@@ -6,7 +6,7 @@
         - unless post.blinded?(current_user)
           .title{ class: ('-purged' if post&.wiki&.purged?) }<>
             = link_to front_post_path(post), class: 'link', data: { controller: 'list-nav-kickoff', action: 'list-nav-kickoff#store', 'list-nav-kickoff-post-id': post.id } do
-              != post.title
+              = post.title
             %span.unread{ class: ('-active' if post.need_to_read?(current_user)) }
         - else
           .title.-blind

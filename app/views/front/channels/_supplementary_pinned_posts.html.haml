@@ -18,7 +18,7 @@
             - unless post.blinded?(current_user)
               .title
                 = link_to front_post_path(post), class: 'hover:text-primary' do
-                  != post.title
+                  = post.title
             - else
               .title.-blind
                 %i.fa.fa-info-circle
