@@ -20,8 +20,6 @@ class OptionSurveyService
       @option.save! if survey.open?
       if @option.persisted?
         @post = survey.post
-        @post.strok_by!(@current_user, :option)
-        @post.issue.strok_by!(@current_user, @post)
         @post.issue.deprecated_read_if_no_unread_posts!(@current_user)
         MessageService.new(@option).call
       end

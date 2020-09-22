@@ -185,7 +185,6 @@ class PostsController < ApplicationController
 
     if @post.changed? || @post.folder_id_changed? || @post.wiki.changed?
       @post.wiki.format_body
-      @post.strok_by(current_user)
       @post.wiki.last_author = @current_user
 
       if conflict
@@ -201,7 +200,6 @@ class PostsController < ApplicationController
         end
       elsif @post.save
         @post.read!(current_user)
-        @post.issue.strok_by!(current_user, @post)
         @post.issue.deprecated_read_if_no_unread_posts!(current_user)
 
         if helpers.explict_front_namespace?
@@ -257,7 +255,6 @@ class PostsController < ApplicationController
     conflict = (@post.decision_histories.any? and (@post.decision_histories.last.try(:id) != params[:last_decision_history_id].try(:to_i)))
 
     @post.assign_attributes(has_decision: true, decision: params[:post][:decision])
-    @post.strok_by(current_user, :decision)
 
     unless @post.will_save_change_to_decision?
       flash[:success] = I18n.t('activerecord.successful.messages.no_changed')
@@ -270,7 +267,6 @@ class PostsController < ApplicationController
       return
     elsif @post.save
       @post.read!(current_user)
-      @post.issue.strok_by!(current_user, @post)
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
       @decision_history = @post.decision_histories.create(body: @post.decision, user: current_user)
       DecisionNotificationJob.perform_async(current_user.id, @decision_history.id)
@@ -303,10 +299,8 @@ class PostsController < ApplicationController
   def pin
     need_to_notification = @post.pinned_at.blank?
     @post.assign_attributes(pinned: true, pinned_at: DateTime.now, pinned_by: current_user)
-    @post.strok_by(current_user)
     @post.save!
     @post.read!(current_user)
-    @post.issue.strok_by!(current_user, @post)
     @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     PinJob.perform_async(@post.id, current_user.id) if need_to_notification
 

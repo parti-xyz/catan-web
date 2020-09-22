@@ -34,10 +34,7 @@ class FeedbackSurveyService
           end
         end
 
-        if post.generous_strok_by!(current_user, :feedback)
-          post.issue.strok_by!(current_user, post)
-          post.issue.deprecated_read_if_no_unread_posts!(current_user)
-        end
+        post.issue.deprecated_read_if_no_unread_posts!(current_user)
       end
     end
   end

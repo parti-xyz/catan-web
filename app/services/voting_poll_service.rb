@@ -88,10 +88,6 @@ class VotingPollService
 
   def strok_post
     return if self.poll.try(:post).blank?
-
-    if self.poll.post.generous_strok_by!(current_user, :voting)
-      self.poll.post.issue.strok_by!(current_user, self.poll.post)
-      self.poll.post.issue.deprecated_read_if_no_unread_posts!(current_user)
-    end
+    self.poll.post.issue.deprecated_read_if_no_unread_posts!(current_user)
   end
 end

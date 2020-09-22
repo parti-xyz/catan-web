@@ -101,14 +101,12 @@ class Front::PostsController < Front::BaseController
       @current_post.last_title_edited_user = current_user
     end
 
-    @current_post.strok_by(current_user)
     @current_post.base_title = params[:post][:base_title]
     @current_post.label_id = params[:post][:label_id]
     if @current_post.save
       @current_post.read!(current_user)
 
       flash.now[:notice] = I18n.t('activerecord.successful.messages.created')
-      @current_post.issue.strok_by!(current_user, @current_post)
     else
       flash.now[:alert] = I18n.t('errors.messages.unknown')
     end
@@ -150,13 +148,11 @@ class Front::PostsController < Front::BaseController
     @current_post = Post.find(params[:id])
     authorize! :front_update_label, @current_post
 
-    @current_post.strok_by(current_user)
     @current_post.label_id = params[:label_id]
     if @current_post.save
       @current_post.read!(current_user)
 
       flash.now[:notice] = I18n.t('activerecord.successful.messages.created')
-      @current_post.issue.strok_by!(current_user, @current_post)
     else
       flash.now[:alert] = I18n.t('errors.messages.unknown')
     end
@@ -200,7 +196,6 @@ class Front::PostsController < Front::BaseController
 
     redirect_back(fallback_location: smart_front_post_url(@current_post)) and return if @current_post.issue_id.to_s == issue_id.strip
 
-    @current_post.strok_by(current_user)
     @current_post.assign_attributes(issue_id: issue_id, folder: nil)
 
     if @current_post.save

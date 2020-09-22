@@ -14,8 +14,6 @@ class WikisController < ApplicationController
     ActiveRecord::Base.transaction do
       @wiki.update_attributes(last_author: current_user, status: 'active')
       @post = @wiki.post
-      @post.strok_by!(current_user)
-      @post.issue.strok_by!(current_user, @post)
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
@@ -34,8 +32,6 @@ class WikisController < ApplicationController
     ActiveRecord::Base.transaction do
       @wiki.update_attributes(last_author: current_user, status: 'inactive')
       @post = @wiki.post
-      @post.strok_by!(current_user)
-      @post.issue.strok_by!(current_user, @post)
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 
@@ -49,8 +45,6 @@ class WikisController < ApplicationController
     ActiveRecord::Base.transaction do
       @wiki.update_attributes(last_author: current_user, status: 'purge')
       @post = @wiki.post
-      @post.strok_by!(current_user)
-      @post.issue.strok_by!(current_user, @post)
       @post.issue.deprecated_read_if_no_unread_posts!(current_user)
     end
 

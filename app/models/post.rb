@@ -542,16 +542,6 @@ class Post < ApplicationRecord
     result
   end
 
-  def generous_strok_by!(someone, subject)
-    if self.last_stroked_at.blank? or self.last_stroked_at < 12.hours.ago
-      strok_by!(someone, subject)
-      true
-    else
-      StrokedPostUserJob.perform_async(self.id, someone&.id)
-      false
-    end
-  end
-
   def body_html?
     true
   end
