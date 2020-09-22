@@ -1,0 +1,47 @@
+.supplementary-boxes{ data: { controller: ('fix-bottom-comments' if is_small_screen?) } }
+  - unless is_small_screen?
+    = render partial: 'front/channels/supplementary_pinned_posts', locals: local_assigns.merge(default_force: 'hide')
+  - comments = updated_comments&.any? ? updated_comments : recent_comments
+  - if comments&.any?
+    .supplementary-box{ data: { controller: "content-toggle", target: 'fix-bottom-comments.item', 'content-toggle': { id: "updated-comments-box-#{current_post.id}", force: ('show' unless is_small_screen?) } } }
+      .header{ class: ('-active-phone' if updated_comments&.any?), data: { action: 'click->content-toggle#toggle' } }
+        .title
+          - if updated_comments&.any?
+            이 게시물의 새 댓글
+          - else
+            이 게시물의 최근 댓글
+          &nbsp;
+          %i.fa.fa-comment-o.text-muted
+        .count
+          = comments.size
+        .toggler
+          %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
+      %ul.lines{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content fix-bottom-comments.lines' } }
+        - comments.each do |comment|
+          %li.updated-comment-line
+            - next if comment.blinded?(current_user)
+            .body
+              .title
+                = link_to "##{dom_id(comment)}", class: 'hover:text-primary', data: { controller: 'smooth-anchor', action: 'click->smooth-anchor#go' } do
+                  = comment.body.try(:truncate, 100)
+              .footer
+                %span.nickname #{comment.user.nickname}
+                = smart_date_tag(comment.created_at)
+  - if wiki_histories.present?
+    .supplementary-box{ data: { controller: "content-toggle", 'content-toggle': { id: "wiki-histories-box-#{current_post.id}", force: ('show' unless is_small_screen?) } } }
+      .header{ data: { action: 'click->content-toggle#toggle' } }
+        .title
+          위키 이력
+        .count
+          = wiki_histories.total_count
+        .toggler
+          %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
+      %ul.lines{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
+        - wiki_histories.each do |wiki_history|
+          %li.updated-comment-line
+            .body
+              .title
+                = link_to url_for(wiki_history_id: wiki_history.id), class: 'hover:text-primary' do
+                  #{static_date_f(wiki_history.created_at)}
+              .footer
+                != wiki_history.activity { |user| user_subject_word(user) }

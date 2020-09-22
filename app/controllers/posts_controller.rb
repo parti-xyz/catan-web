@@ -41,7 +41,7 @@ class PostsController < ApplicationController
       if @post.wiki.blank? || params[:button] == 'after_close'
         turbolinks_redirect_to smart_front_post_url(@post, folder_id: (params[:folder_id] if @post.folder_id&.to_s == params[:folder_id]))
       else
-        render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
+        render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, continue_editing: true }, layout: nil
       end
     else
       if @post.errors.blank?
@@ -208,7 +208,7 @@ class PostsController < ApplicationController
           if params[:button] == 'after_close'
             turbolinks_redirect_to smart_front_post_url(@post)
           else
-            render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki }, layout: nil
+            render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, continue_editing: true }, layout: nil
           end
         else
           flash[:success] = I18n.t('activerecord.successful.messages.created')
@@ -555,7 +555,7 @@ class PostsController < ApplicationController
 
   def wiki_post_params
     wiki = params[:post][:wiki_attributes]
-    wiki_attributes = [:body, :is_html_body] if wiki.present?
+    wiki_attributes = [:body, :is_html_bod, :continue_editing] if wiki.present?
 
     params.require(:post)
       .permit(:base_title, :label_id, :has_poll, :has_survey, :has_event, :folder_id,

@@ -19,7 +19,7 @@ class Wiki < ApplicationRecord
   # fulltext serch
   after_save :reindex_for_search!
 
-  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_title, :conflicted_body
+  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_title, :conflicted_body, :continue_editing
 
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
@@ -130,7 +130,13 @@ class Wiki < ApplicationRecord
     wiki_history = wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code)
     wiki_authors.find_or_create_by(user: last_author)
 
-    self.update_column(:last_wiki_history_id, wiki_history.id)
+
+    ActiveRecord::Base.transaction do
+      if self.continue_editing && self.last_wiki_history.user == last_author
+        self.last_wiki_history.destroy
+      end
+      self.update_column(:last_wiki_history_id, wiki_history.id)
+    end
   end
 
   def last_activity(&block)

@@ -6,45 +6,13 @@ class Front::PostsController < Front::BaseController
     @current_issue = Issue.includes(:group, :folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
-    if user_signed_in?
-      @post_reader = @current_post.read!(@current_user)
-      @current_issue.read!(@current_user)
+    params_wiki_history_id = params[:wiki_history_id]
 
-      updated_at_previous = @post_reader&.updated_at_previous_change&.first
-      if updated_at_previous.present?
-        @updated_comments = @current_post.comments.to_a.select do |comment|
-          comment.user != current_user && comment.created_at > updated_at_previous
-        end.sort_by do |comment|
-          comment.created_at
-        end
-      end
+    if @current_post.wiki.present? && params_wiki_history_id.present?
+      @current_wiki_history = @current_post.wiki.wiki_histories.find_by(id: params_wiki_history_id)
     end
 
-    if @updated_comments.nil? || @updated_comments&.empty?
-      sorted_comments = @current_post.comments.select do |comment|
-        comment.user != current_user
-      end.sort_by do |comment|
-        comment.created_at
-      end
-
-      last_comment = sorted_comments[-1]
-
-      if last_comment.present?
-        @recent_comments = sorted_comments.select do |comment|
-          comment.created_at > (last_comment.created_at - 1.days)
-        end
-      end
-
-      @recent_comments = [last_comment] if @recent_comments&.count == sorted_comments&.count
-    end
-
-    if @current_post.wiki.present?
-      @wiki_histories = @current_post.wiki.wiki_histories.recent.page(1)
-
-      if params[:wiki_history_id].present?
-        @current_wiki_history = @current_post.wiki.wiki_histories.find_by(id: params[:wiki_history_id])
-      end
-    end
+    @supplementary_locals = prepare_post_supplementary(@current_post, params_wiki_history_id)
 
     session[:front_last_visited_post_id] = @current_post.id
     @scroll_persistence_id_ext = "post-#{@current_post.id}"
@@ -52,9 +20,6 @@ class Front::PostsController < Front::BaseController
     if @current_post.stroked_post_users.empty?
       StrokedPostUserJob.perform_async(@current_post.id)
     end
-
-    @supplementary_locals = prepare_channel_supplementary(@current_issue)
-    @supplementary_locals[:default_force] = 'hide' if @updated_comments&.any? || @recent_comments&.any?
   end
 
   def new
@@ -79,7 +44,7 @@ class Front::PostsController < Front::BaseController
 
     @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
 
-    @supplementary_locals = prepare_channel_supplementary(@current_issue)
+    @supplementary_locals = prepare_post_supplementary(@current_post)
   end
 
   def edit_title

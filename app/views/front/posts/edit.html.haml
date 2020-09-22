@@ -2,9 +2,7 @@
   = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post
 
 - content_for :playground_sidebar_content do
-  .supplementary-boxes
-    = render partial: 'front/channels/supplementary', locals: @supplementary_locals
-
+  = render partial: 'front/posts/supplementary', locals: @supplementary_locals
 = render 'front/pages/back', back_path: front_post_path(@current_post)
 
 .post-form-box

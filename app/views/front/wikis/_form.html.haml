@@ -4,7 +4,7 @@
       %p
         %strong 저장을 계속하기 전에 검토가 필요합니다.
       %p
-        = smart_date_tag(current_wiki.last_history.created_at)
+        #{smart_date_tag(current_wiki.last_history.created_at)}
         @#{current_wiki.last_history.user.nickname}님이 위키를 먼저 업데이트했습니다.
         충돌하는 변경 사항은 없는지 검토한 후에 다시 저장해 주세요.
         두 버전의 다른 점은 아래와 같이 표시해 두었습니다.
@@ -21,15 +21,20 @@
   = f.hidden_field :has_poll, value: false
   = f.hidden_field :has_survey, value: false
   - if current_wiki.persisted?
-    = hidden_field_tag :last_wiki_history_id, current_wiki.wiki_histories.last.try(:id)
+    = hidden_field_tag :last_wiki_history_id, current_wiki.last_history.try(:id)
   - controls = capture do
     - if current_wiki.active?
-      .submitbox
+      .submitbox.text-right
         - if current_wiki.persisted?
           = link_to '닫기', front_post_path(current_wiki.post, params.permit(:folder_id)), class: 'btn btn-link btn-sm btn-block-phone', data: { 'turbolinks-action': 'replace' }
         = f.button '저장하고 닫기', class: 'btn btn-secondary btn-sm btn-block-phone', value: 'after_close', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
         = f.submit '저장하고 계속 편집', class: 'btn btn-primary btn-sm btn-block-phone', data: { disable_with: "저장 중...", target: 'wiki-form.submitButton' }
-
+        - if !current_wiki.conflict? && local_assigns[:continue_editing] && current_wiki.last_history.present? && current_wiki.last_history.user == current_user
+          .help-block.small.text-right.text-muted
+            %i.fa.fa-clock-o
+            #{smart_date_tag(current_wiki.last_history.created_at)}에 업데이트한 위키 이력에 덧붙입니다.
+            = f.fields_for :wiki do |ff|
+              = ff.hidden_field :continue_editing, value: true
   - if controls.present? && current_wiki.too_long?
     .controls.-top
       = controls
