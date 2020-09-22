@@ -63,6 +63,7 @@ export default class extends Controller {
 
     if (this.hasFieldTarget && labelId) {
       this.fieldTarget.value = labelId
+      this.fieldTarget.dispatchEvent(new Event('change'))
     }
   }
 }
