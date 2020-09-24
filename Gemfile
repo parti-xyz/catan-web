@@ -39,7 +39,7 @@ gem 'counter_culture', '~> 2.3'
 gem 'active_interaction', '~> 3.8'
 
 # file upload
-gem 'carrierwave', '~> 1.1'
+gem 'carrierwave', '~> 2.0'
 gem 'mini_magick', ">= 4.9.4"
 gem 'carrierwave-aws'
 gem 'aws-sdk-s3'

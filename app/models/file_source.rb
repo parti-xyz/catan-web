@@ -32,7 +32,7 @@ class FileSource < ApplicationRecord
     !attachment.content_type.try(:start_with?, 'image')
   end
 
-  def url
+  def url(*args)
     image? ? attachment.url : Rails.application.routes.url_helpers.download_file_source_path(self)
   end
 

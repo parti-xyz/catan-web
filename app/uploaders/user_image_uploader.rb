@@ -46,7 +46,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
-  def default_url
+  def default_url(*args)
     Identicon.data_url_for model&.try(:nickname) || 'default', 128, [240, 240, 240]
   end
 
@@ -85,8 +85,8 @@ class UserImageUploader < CarrierWave::Uploader::Base
     "#{secure_token(10)}.#{file.extension}" if original_filename.present?
   end
 
-  def url
-    super_result = super
+  def url(*args)
+    super_result = super(args)
 
     if Rails.env.production?
       return super_result

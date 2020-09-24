@@ -16,7 +16,7 @@ class EditorAssetsController < ApplicationController
 
     render json: {
       image: {
-        url: view_context.image_url(uploader.url)
+        url: view_context.image_url(uploader.lg.url)
       }
     }, content_type: "text/html"
   end

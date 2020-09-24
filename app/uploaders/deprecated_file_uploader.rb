@@ -90,12 +90,12 @@ class DeprecatedFileUploader < CarrierWave::Uploader::Base
      "#{secure_token(10)}.#{file.extension}" if original_filename.present?
   end
 
-  def url
+  def url(*args)
     if Rails.env.test?
-      return super
+      return super(args)
     end
 
-    super_result = super
+    super_result = super(args)
     if Rails.env.production?
       super_result
     elsif self.file.try(:exists?)

@@ -50,7 +50,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   #
   #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
   # end
-  def default_url
+  def default_url(*args)
     if model&.respond_to?(:default_image_pick_up)
       ActionController::Base.helpers.asset_url("default_#{model.class.to_s.underscore}_#{mounted_as}_#{model.default_image_pick_up}.png")
     else
@@ -101,12 +101,12 @@ class ImageUploader < CarrierWave::Uploader::Base
      "#{secure_token(10)}.#{file.extension}" if original_filename.present?
   end
 
-  def url
+  def url(*args)
     if Rails.env.test?
-      return super
+      return super(args)
     end
 
-    super_result = super
+    super_result = super(args)
 
     if Rails.env.production?
       super_result
