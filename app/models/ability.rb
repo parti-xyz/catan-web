@@ -34,7 +34,9 @@ class Ability
       end
 
       can [:pinned, :new], [Post]
-      can [:update, :destroy, :move_to_issue, :move_to_issue_form], [Post], user_id: user.id
+      can [:update, :destroy, :move_to_issue, :move_to_issue_form], [Post] do |post|
+        post.user_id == user.id || user.is_organizer?(post.issue) || post.group.organized_by?(user)
+      end
       can [:create], [Post]
 
       can [:edit_folder, :update_folder, :update_title], [Post] do |post|
