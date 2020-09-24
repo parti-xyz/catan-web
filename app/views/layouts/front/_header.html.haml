@@ -1,4 +1,4 @@
-.front-navbar
+.front-navbar{ data: { controller: ('watermark' unless Rails.env.production?), 'watermark-text': Rails.env } }
 
   - if current_group.private_blocked?(current_user)
     .centermenu.dummy
