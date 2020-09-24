@@ -43,7 +43,7 @@ class Ability
         post.issue.present? and post.issue.try(:postable?, user)
       end
       can [:front_update_title, :front_update_label], [Post] do |post|
-        post.user_id == user.id || user.is_organizer?(post.issue)
+        post.group.member?(user)
       end
       can [:new_wiki, :update_wiki, :wiki], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
