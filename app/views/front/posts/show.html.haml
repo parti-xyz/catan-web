@@ -8,6 +8,12 @@
 
 .post-box{ data: { controller: 'channel-read-emit' } }
   .post-main{ data: { controller: 'comment-form-new' } }
+    - if @current_post.wiki.present? && session[:wiki_update_just_before] == true && @current_post.wiki.last_history.user == current_user
+      %br
+      .alert.alert-secondary.text-keepall
+        방금 중요한 내용을 위키에 업데이트하셨나요? 무엇을 업데이트했는지 댓글로 남겨 보세요.
+        %br
+        %a.btn.btn-secondary.btn-sm{ href: '#', data: { action: 'click->comment-form-new#open' } } 댓글달기
     = render 'front/posts/show/post_header/title', current_post: @current_post
     .post-content{ data: { controller: 'comment-form-sync' } }
       - if @current_post.wiki.blank?
@@ -23,7 +29,7 @@
 
         .post-body
           .body
-            = post_body_format @current_issue, @current_post.body
+            ~ post_body_format @current_issue, @current_post.body
         - if @current_post.file_sources_only_image.any?
           .post-file-sources-only-image{ data: { controller: 'photoswipe justified-gallery' } }
             = render layout: 'layouts/photoswipe', locals: { file_sources: @current_post.file_sources_only_image, title: @current_post.title } do |file_source|
@@ -88,9 +94,13 @@
               = trim_count(@current_post.comments_count)
         = render 'front/posts/show/upvotings/reaction', current_upvotable: @current_post
 
+      - comment_current_wiki_history = nil
+      - comment_current_wiki_history = @current_wiki_history if @current_wiki_history.present?
+      - comment_current_wiki_history = @current_post.wiki.last_history if wiki_update_just_before = @current_post.wiki.present? && session[:wiki_update_just_before] == true && @current_post.wiki.last_history.user == current_user
+
       .comments{ data: { controller: 'comment-hash', target: 'comment-form-sync.commentsContent' } }
-        = render 'front/posts/show/comments', current_issue: @current_issue, current_post: @current_post
+        = render 'front/posts/show/comments', current_issue: @current_issue, current_post: @current_post, comment_current_wiki_history: comment_current_wiki_history
 
-
+- session.delete(:wiki_update_just_before)
 
 

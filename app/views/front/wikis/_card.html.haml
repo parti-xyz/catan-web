@@ -31,7 +31,7 @@
   - else
     .body.-full{ data: { controller: 'content-replacement' } }
       .article
-        != current_wiki.body
+        !~ current_wiki.body
       .buttons
         = render 'front/wikis/controls', current_wiki: current_wiki
 

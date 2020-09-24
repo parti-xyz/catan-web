@@ -11,6 +11,8 @@ class Comment < ApplicationRecord
 
   belongs_to :user
   belongs_to :post, counter_cache: true
+  belongs_to :wiki_history, optional: true
+
   delegate :issue, to: :post
   has_many :messages, as: :messagable, dependent: :destroy
   has_many :mentions, as: :mentionable, dependent: :destroy

@@ -206,6 +206,7 @@ class PostsController < ApplicationController
           flash[:notice] = I18n.t('activerecord.successful.messages.created')
 
           if params[:button] == 'after_close'
+            session[:wiki_update_just_before] = true
             turbolinks_redirect_to smart_front_post_url(@post)
           else
             render partial: 'front/wikis/form', locals: { current_issue: @post.issue, current_folder: @post.folder, current_wiki: @post.wiki, continue_editing: true }, layout: nil

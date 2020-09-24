@@ -5,6 +5,6 @@
 
 - if user_signed_in? && current_issue.commentable?(current_user)
   .post-comment.-form{ data: { target: 'comment-form-new.formContent' } }
-    = render 'front/posts/show/comment/new', current_post: current_post
+    = render 'front/posts/show/comment/new', current_post: current_post, comment_current_wiki_history: local_assigns[:comment_current_wiki_history]
 
 

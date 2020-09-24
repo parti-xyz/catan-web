@@ -32,7 +32,7 @@
         - if !current_wiki.conflict? && local_assigns[:continue_editing] && current_wiki.last_history.present? && current_wiki.last_history.user == current_user
           .help-block.small.text-right.text-muted
             %i.fa.fa-clock-o
-            #{smart_date_tag(current_wiki.last_history.created_at)}에 업데이트한 위키 이력에 덧붙입니다.
+            #{smart_date_tag(current_wiki.last_history.created_at)} 위키 이력에 덧붙입니다.
             = f.fields_for :wiki do |ff|
               = ff.hidden_field :continue_editing, value: true
   - if controls.present? && current_wiki.too_long?

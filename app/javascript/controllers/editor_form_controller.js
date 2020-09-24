@@ -98,7 +98,7 @@ export default class extends Controller {
     const div = document.createElement('div')
     const fragment = DOMSerializer
       .fromSchema(this.editorSchema)
-      .serializeFragment(this.editorState.doc.content)
+      .serializeFragment(this.editorState.doc.content, { preserveWhiteSpace: true })
 
     div.appendChild(fragment)
 
@@ -106,7 +106,7 @@ export default class extends Controller {
     var node = div.childNodes[0]
     while (node != null) {
       if (node.nodeType == 3) { /* Fixed a bug here. Thanks @theazureshadow */
-        node.nodeValue = node.nodeValue.trim().replace(/(\r)?\n/g, ' ').replace(/\s+/g, ' ')
+        node.nodeValue = node.nodeValue.replace(/(\r)?\n/g, ' ').replace(/\s+/g, ' ')
       }
 
       if (node.hasChildNodes()) {
@@ -120,7 +120,6 @@ export default class extends Controller {
       }
     }
 
-    console.log(div.innerHTML)
     return div.innerHTML
   }
 
@@ -209,9 +208,11 @@ export default class extends Controller {
     let index = 0;
     while(index < changes.length) {
       let endIndex = findDeleteEndIndex(index)
-      decorations.push(
-        Decoration.inline(changes[index].fromB, changes[endIndex].toB, { class: 'conflict-deletion' })
-      )
+      if (changes[endIndex].deleted?.length > 0) {
+        decorations.push(
+          Decoration.inline(changes[index].fromB, changes[endIndex].toB, { class: 'conflict-deletion' })
+        )
+      }
       index = endIndex + 1
     }
 
@@ -227,46 +228,51 @@ export default class extends Controller {
       }
     }
     index = 0
+
+    let marks = tr.steps
     while(index < changes.length) {
       let endIndex = findInsertEndIndex(index)
 
-      // apply the insertion
-      let slice = conflictDoc.slice(changes[index].fromA, changes[endIndex].toA)
-      let contentElement = DOMSerializer.fromSchema(schema).serializeFragment(slice.content)
-      if (contentElement.children.length > 0 || contentElement.textContent) {
-        let controlId = uuidv4()
+      if (marks[endIndex].slice?.content?.content?.length > 0) {
 
-        let spanControl = document.createElement('span')
-        spanControl.classList.add('conflict-insertion')
+        // apply the insertion
+        let slice = conflictDoc.slice(changes[index].fromA, changes[endIndex].toA)
+        let contentElement = DOMSerializer.fromSchema(schema).serializeFragment(slice.content)
+        if (contentElement.children.length > 0 || contentElement.textContent) {
+          let controlId = uuidv4()
 
-        let spanContent = document.createElement('span')
-        spanContent.classList.add('content')
-        spanContent.appendChild(contentElement)
-        spanControl.appendChild(spanContent)
+          let spanControl = document.createElement('span')
+          spanControl.classList.add('conflict-insertion')
 
-        let addButton = document.createElement('div')
-        addButton.classList.add('btn', 'btn-primary', 'btn-sm')
-        addButton.textContent = '다시 붙여넣기'
-        addButton.dataset['action'] = 'click->editor-form#applyConflictPlugin'
-        addButton.dataset['editorFormConflictAction'] = 'applyInsertion'
-        addButton.dataset['editorFormConflictControlId'] = controlId
-        spanControl.appendChild(addButton)
+          let spanContent = document.createElement('span')
+          spanContent.classList.add('content')
+          spanContent.appendChild(contentElement)
+          spanControl.appendChild(spanContent)
 
-        let cancelButton = document.createElement('div')
-        cancelButton.classList.add('btn', 'btn-light', 'btn-sm')
-        cancelButton.textContent = '취소'
-        cancelButton.dataset['action'] = 'click->editor-form#applyConflictPlugin'
-        cancelButton.dataset['editorFormConflictAction'] = 'cancelInsertion'
-        cancelButton.dataset['editorFormConflictControlId'] = controlId
-        spanControl.appendChild(cancelButton)
+          let addButton = document.createElement('div')
+          addButton.classList.add('btn', 'btn-primary', 'btn-sm')
+          addButton.textContent = '다시 붙여넣기'
+          addButton.dataset['action'] = 'click->editor-form#applyConflictPlugin'
+          addButton.dataset['editorFormConflictAction'] = 'applyInsertion'
+          addButton.dataset['editorFormConflictControlId'] = controlId
+          spanControl.appendChild(addButton)
 
-        decorations.push(
-          Decoration.widget(changes[index].toB, spanControl, {
-            id: controlId,
-            content: slice.content,
-            danger: true,
-          })
-        )
+          let cancelButton = document.createElement('div')
+          cancelButton.classList.add('btn', 'btn-light', 'btn-sm')
+          cancelButton.textContent = '취소'
+          cancelButton.dataset['action'] = 'click->editor-form#applyConflictPlugin'
+          cancelButton.dataset['editorFormConflictAction'] = 'cancelInsertion'
+          cancelButton.dataset['editorFormConflictControlId'] = controlId
+          spanControl.appendChild(cancelButton)
+
+          decorations.push(
+            Decoration.widget(changes[index].toB, spanControl, {
+              id: controlId,
+              content: slice.content,
+              danger: true,
+            })
+          )
+        }
       }
 
       index = endIndex + 1
@@ -389,9 +395,11 @@ export default class extends Controller {
     const decorations = []
     while (index < marks.length) {
       let endIndex = findMarkEndIndex(index)
-      decorations.push(
-        Decoration.inline(marks[index].from, marks[endIndex].to, { class: 'version-deletion' })
-      )
+      if (marks[endIndex].slice?.content?.content?.length > 0) {
+        decorations.push(
+          Decoration.inline(marks[index].from, marks[endIndex].to, { class: 'version-deletion' })
+        )
+      }
       index = endIndex + 1
     }
 
@@ -410,9 +418,11 @@ export default class extends Controller {
     index = 0;
     while (index < changes.length) {
       let endIndex = findDeleteEndIndex(index)
-      decorations.push(
-        Decoration.inline(changes[index].fromB, changes[endIndex].toB, { class: 'version-deletion' })
-      )
+      if (changes[endIndex].deleted?.length > 0) {
+        decorations.push(
+          Decoration.inline(changes[index].fromB, changes[endIndex].toB, { class: 'version-deletion' })
+        )
+      }
       index = endIndex + 1
     }
 

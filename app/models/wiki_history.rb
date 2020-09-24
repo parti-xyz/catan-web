@@ -1,6 +1,7 @@
 class WikiHistory < ApplicationRecord
   belongs_to :user
   belongs_to :wiki
+  has_many :comments, dependent: :nullify
 
   include Historyable
   def sibling_histories
@@ -33,5 +34,4 @@ class WikiHistory < ApplicationRecord
   def touched_title?
     %w(update_title update_title_and_body).include? code
   end
-
 end
