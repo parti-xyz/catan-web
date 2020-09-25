@@ -27,7 +27,7 @@
     - else
       - unread_front_message_path(message, toggle_read_url_params)
 
-    = link_to toggle_read_url, method: :patch, remote: true, data: { 'disable-width': '..', target: 'content-replacement.link', 'message-dropdown-keep-open': true}, class: "message__check", title: "읽음 여부 : #{ message.unread? ? '읽지 않음' : '읽음' }" do
+    = link_to toggle_read_url, method: :patch, remote: true, data: { 'disable-width': '..', target: 'content-replacement.link', 'message-dropdown-keep-open': true}, class: "message__check", title: "#{ message.unread? ? '읽음으로 표시하기' : '읽지 않음으로 표시하기' }" do
       %span.fa-stack.fa-fw
         - if message.unread?
           %i.fa.fa-fw.fa-circle.fa-stack-1x.text-secondary
