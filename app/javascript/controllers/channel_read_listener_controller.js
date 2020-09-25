@@ -4,7 +4,7 @@ import ParamMap from '../helpers/param_map'
 import { smartFetch } from '../helpers/smart_fetch'
 import Timer from '../helpers/timer'
 export default class extends Controller {
-  static targets = ['channel', 'needToNoticeCount', 'unreadMentionsCount']
+  static targets = ['channel', 'needToNoticeCount', 'unreadMentionsCount', 'announcementsMenu', 'mentionsMenu']
 
   initialize() {
     this.syncing = false
@@ -51,6 +51,7 @@ export default class extends Controller {
               this.needToNoticeCountTarget.textContent = ''
             }
           }
+          this.announcementsMenuTarget.setAttribute('href', json.announcementsMenuUrl)
 
           if (this.hasUnreadMentionsCountTarget) {
             if (json.unreadMentionsCount) {
@@ -60,6 +61,7 @@ export default class extends Controller {
               this.unreadMentionsCountTarget.classList.add('hide')
               this.unreadMentionsCountTarget.textContent = ''
             }
+            this.mentionsMenuTarget.setAttribute('href', json.mentionsMenuUrl)
           }
 
         }
