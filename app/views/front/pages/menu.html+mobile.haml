@@ -1,5 +1,5 @@
 .channel-listings{ id: "front-app-channel-listings-#{current_group.id}", data: { controller: "collection-activation #{'channel-read-listener' if current_group.member?(current_user)}", 'turbolinks-permanent': true, js: 'scroll-persistence', 'scroll-persistence-id': 'front-app-channel-listings', 'scroll-persistence-tag': current_group.id, 'channel-read-listener': { url: sync_front_channels_path(format: :json), 'refresh-interval': (1000 * 60 * 5).to_s, first: 'true' } } }
-  = render 'front/pages/group_sidebar_content', categorised_issues: @categorised_issues, current_issue: @current_issue, current_folder: @current_folder, need_to_notice_count: @need_to_notice_count, unread_mentions_count: @unread_mentions_count
+  = render 'front/pages/group_sidebar_content', categorised_issues: @categorised_issues, current_issue: @current_issue, current_folder: @current_folder, need_to_notice_count: @need_to_notice_count, unread_messages_count: @unread_messages_count, unread_mentions_count: @unread_mentions_count
 
   - my_menu = capture do
     - if current_group.organized_by?(current_user) || current_user&.admin?

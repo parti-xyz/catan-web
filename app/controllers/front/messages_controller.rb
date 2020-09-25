@@ -1,4 +1,21 @@
 class Front::MessagesController < Front::BaseController
+  def index
+    render_404 and return unless user_signed_in?
+
+    all_messages = current_user.messages.of_group(current_group)
+
+    base_message = all_messages
+    if params.dig(:filter, :condition) == 'needtoread'
+      base_message = base_message.unread
+    end
+    @messages = base_message.includes(:user, :sender, :messagable).recent.page(params[:page]).load
+
+    @need_to_read_count = all_messages.unread.count
+    @all_messages_total_count = all_messages.count
+
+    @permited_params = params.permit(:id, filter: [ :condition ]).to_h
+  end
+
   def nav
     render_404 and return unless user_signed_in?
 
@@ -11,6 +28,8 @@ class Front::MessagesController < Front::BaseController
     render_404 and return unless user_signed_in?
 
     current_user.messages.of_group(current_group).unread.update_all(read_at: Time.now)
+
+    turbolinks_redirect_to front_messages_path
   end
 
   def read_all_mentions

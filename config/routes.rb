@@ -427,6 +427,7 @@ Rails.application.routes.draw do
     get :all, to: 'pages#all'
     get :announcements, to: 'pages#announcements'
     get :mentions, to: 'messages#mentions'
+    get :messages, to: 'messages#index'
     patch :read_all_posts, to: 'pages#read_all_posts'
     get :search, to: 'pages#search' #, as: :search
     get :group_sidebar, to: 'pages#group_sidebar'

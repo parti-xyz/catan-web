@@ -5,10 +5,14 @@
 .dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message-dropdown.menu' } }
   .dropdown-header.front-navbar-message-header
     알림
-    .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', 'message-dropdown-keep-open': true } }
+    .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', target: 'message-dropdown.reloadButton', 'message-dropdown-keep-open': true } }
       새로고침
-  - @messages.each do |message|
-    = render message
+  - if @messages.any?
+    .scrollable{ data: { target: 'message-dropdown.messagesContainer' } }
+      - @messages.each do |message|
+        = render message
+    .dropdown-header.front-navbar-message-footer
+      = link_to '더 많은 알림 보기', front_messages_path, class: 'btn btn-link btn-sm px-0'
   - if @messages.empty?
     .dropdown-item
       %i.fa.fa-info-circle

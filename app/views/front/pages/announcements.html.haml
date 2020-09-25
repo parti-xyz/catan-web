@@ -14,7 +14,7 @@
   .channel-box{ data: { controller: 'list-nav-reset' } }
     .pagination-header
       .pages
-        = render 'front/share/pagination_header/post_page', posts: @posts, need_to_read_count: 0, need_to_notice_count: @need_to_notice_count, unread_mentions_count: @unread_mentions_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: front_read_all_posts_path(@current_issue)
+        = render 'front/share/pagination_header/post_page', posts: @posts, need_to_read_count: 0, need_to_notice_count: @need_to_notice_count, unread_messages_count: @unread_messages_count, unread_mentions_count: @unread_mentions_count, permited_params: @permited_params, all_posts_total_count: @all_posts_total_count, read_all_path: front_read_all_posts_path(@current_issue)
 
       - if current_group.labels.present?
         .control
