@@ -10,6 +10,7 @@ gem 'railties', '= 5.2.2'
 gem 'turbolinks', '~> 5'
 gem 'turbolinks_render'
 gem 'webpacker', '~> 4.x'
+gem 'health_check'
 
 # db
 gem 'mysql2', '~> 0.5.3'
