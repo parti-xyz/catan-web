@@ -208,7 +208,7 @@ export default class extends Controller {
     let index = 0;
     while(index < changes.length) {
       let endIndex = findDeleteEndIndex(index)
-      if (changes[endIndex].deleted?.length > 0) {
+      if (changes[endIndex].inserted?.length > 0) {
         decorations.push(
           Decoration.inline(changes[index].fromB, changes[endIndex].toB, { class: 'conflict-deletion' })
         )
@@ -418,7 +418,7 @@ export default class extends Controller {
     index = 0;
     while (index < changes.length) {
       let endIndex = findDeleteEndIndex(index)
-      if (changes[endIndex].deleted?.length > 0) {
+      if (changes[endIndex].inserted?.length > 0) {
         decorations.push(
           Decoration.inline(changes[index].fromB, changes[endIndex].toB, { class: 'version-deletion' })
         )
