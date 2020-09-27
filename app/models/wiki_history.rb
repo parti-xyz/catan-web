@@ -26,6 +26,9 @@ class WikiHistory < ApplicationRecord
     I18n.t("views.wiki.history.#{code}", default: nil, user_word: user_word)
   end
 
+  def trivial?
+    %w[update_body update_title_and_body].include?(code) && trivial_update_body?
+  end
 
   def touched_body?
     %w(update_body update_title_and_body).include? code

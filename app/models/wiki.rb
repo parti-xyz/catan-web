@@ -123,11 +123,10 @@ class Wiki < ApplicationRecord
     if self.post.saved_change_to_base_title? and self.saved_change_to_body?
       return build_history!('update_title_and_body')
     end
-
   end
 
   def build_history!(code)
-    wiki_history = wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code)
+    wiki_history = wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code, trivial_update_body: trivial_update_body)
     wiki_authors.find_or_create_by(user: last_author)
 
 
@@ -137,6 +136,40 @@ class Wiki < ApplicationRecord
       end
       self.update_column(:last_wiki_history_id, wiki_history.id)
     end
+  end
+
+  def trivial_update_body
+    return false if body_before_last_save.blank? || body.blank?
+
+    doc1 = Nokogiri::HTML(self.body_before_last_save)
+    doc2 = Nokogiri::HTML(self.body)
+    diffs = doc1.diff(doc2)
+
+    previous_text_node_diff = nil
+    diffs.each do |change, node|
+      if change == ' '
+        previous_text_node_diff = nil
+        next
+      end
+
+      return false unless node.text?
+
+      if previous_text_node_diff.nil?
+        previous_text_node_diff = [change, node.text]
+        next
+      end
+
+      previous_text_node_diff_change, previous_text_node_diff_text = previous_text_node_diff
+
+      if previous_text_node_diff_change == change
+        previous_text_node_diff = [change, node.text]
+        next
+      end
+
+      return false if previous_text_node_diff_text.gsub(/\s+/, '') != node.text.gsub(/\s+/, '')
+    end
+
+    true
   end
 
   def last_activity(&block)

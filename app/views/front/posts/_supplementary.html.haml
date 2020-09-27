@@ -38,6 +38,7 @@
           %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
       %ul.lines{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
         - wiki_histories.each do |wiki_history|
+          - next if wiki_history.trivial?
           %li.updated-comment-line
             .body
               .title
