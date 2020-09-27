@@ -32,38 +32,27 @@ class Front::BaseController < ApplicationController
 
   def prepare_post_supplementary(current_post, params_wiki_history_id = nil)
     result = { current_post: current_post }
-    current_issue = current_post.issue
-    if user_signed_in?
-      post_reader = current_post.read!(current_user)
-      current_issue.read!(current_user)
 
-      updated_at_previous = post_reader&.updated_at_previous_change&.first
+    updated_comments = Comment.none
+    if user_signed_in?
+      updated_at_previous = current_post.current_user_post_reader&.updated_at
       if updated_at_previous.present?
-        updated_comments = @current_post.comments.to_a.select do |comment|
-          comment.user != current_user && comment.created_at > updated_at_previous
-        end.sort_by do |comment|
-          comment.created_at
-        end
+        updated_comments = current_post.comments.recent.where('created_at > ?', updated_at_previous)
       end
     end
-    result[:updated_comments] = updated_comments
+    result[:updated_comments] = updated_comments.load
 
-    if updated_comments.nil? || updated_comments&.empty?
-      sorted_comments = @current_post.comments.select do |comment|
-        comment.user != current_user
-      end.sort_by do |comment|
-        comment.created_at
+    recent_comments = Comment.none
+    if updated_comments.blank?
+      base_recent_comments = current_post.comments.recent
+      if user_signed_in?
+        base_recent_comments = base_recent_comments.where.not(user: current_user)
       end
 
-      last_comment = sorted_comments[-1]
-
-      if last_comment.present?
-        recent_comments = sorted_comments.select do |comment|
-          comment.created_at > (last_comment.created_at - 1.days)
-        end
+      last_base_recent_comment = base_recent_comments.first
+      if last_base_recent_comment.present?
+        recent_comments = base_recent_comments.by_day(last_base_recent_comment.created_at, field: :created_at)
       end
-
-      recent_comments = [last_comment] if recent_comments&.count == sorted_comments&.count
     end
     result[:recent_comments] = recent_comments
 

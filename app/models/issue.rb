@@ -74,7 +74,7 @@ class Issue < ApplicationRecord
   has_many :issue_readers, dependent: :destroy
   has_one :current_user_issue_reader,
     -> { where(user_id: Current.user.try(:id)) },
-    class_name: "IssueReader"
+    class_name: 'IssueReader'
 
   # validations
   validates :title,
@@ -421,6 +421,8 @@ class Issue < ApplicationRecord
 
   # DEPRECATED
   def deprecated_read_if_no_unread_posts!(someone)
+    read!(someone)
+
     return if someone.blank?
     return unless self.marked_read_at?(someone)
 
@@ -428,7 +430,6 @@ class Issue < ApplicationRecord
     if self.posts.next_of_date(member.read_at).where.not(last_stroked_user_id: someone.id).empty?
       self.deprecated_read!(someone)
     end
-    read!(someone)
   end
 
   def deprecated_unread_post?(someone, last_stroked_at)
@@ -461,9 +462,9 @@ class Issue < ApplicationRecord
     return unless group.member?(someone)
 
     issue_reader = issue_reader!(someone)
-    thoch_when = self.posts.need_to_read_only(someone).any? ? DateTime.new(0, 1, 1) : DateTime.now
-
-    issue_reader&.update(updated_at: thoch_when)
+    if issue_reader&.persisted? && self.posts.need_to_read_only(someone).empty?
+      issue_reader.update(updated_at: DateTime.now)
+    end
   end
 
   # DEPRECATED

@@ -1,6 +1,6 @@
 class Front::PostsController < Front::BaseController
   def show
-    @current_post = Post.includes(:survey, :current_user_bookmark, :current_user_upvotes, :last_stroked_user, :file_sources, :label, issue: [:group], announcement: [ current_user_audience: [ :member ] ], user: [ :current_group_member ], comments: [ :file_sources, :current_user_bookmark, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
+    @current_post = Post.includes(:survey, :current_user_post_reader, :current_user_bookmark, :current_user_upvotes, :last_stroked_user, :file_sources, :label, issue: [:group], announcement: [ current_user_audience: [ :member ] ], user: [ :current_group_member ], comments: [ :file_sources, :current_user_bookmark, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
       .find(params[:id])
 
     @current_issue = Issue.includes(:group, :folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
@@ -13,6 +13,11 @@ class Front::PostsController < Front::BaseController
     end
 
     @supplementary_locals = prepare_post_supplementary(@current_post, params_wiki_history_id)
+
+    if user_signed_in?
+      @current_post.read!(current_user)
+      @current_issue.read!(current_user)
+    end
 
     session[:front_last_visited_post_id] = @current_post.id
     @scroll_persistence_id_ext = "post-#{@current_post.id}"
@@ -70,6 +75,7 @@ class Front::PostsController < Front::BaseController
     @current_post.label_id = params[:post][:label_id]
     if @current_post.save
       @current_post.read!(current_user)
+      @current_post.issue.read!(current_user)
 
       flash.now[:notice] = I18n.t('activerecord.successful.messages.created')
     else
@@ -116,6 +122,7 @@ class Front::PostsController < Front::BaseController
     @current_post.label_id = params[:label_id]
     if @current_post.save
       @current_post.read!(current_user)
+      @current_post.issue.read!(current_user)
 
       flash.now[:notice] = I18n.t('activerecord.successful.messages.created')
     else

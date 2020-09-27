@@ -93,6 +93,9 @@ class Post < ApplicationRecord
   has_one :post_searchable_index, dependent: :destroy, autosave: true
   has_one :front_wiki_group, dependent: :nullify, class_name: "Group", foreign_key: :front_wiki_post_id
   has_many :post_readers, dependent: :destroy
+  has_one :current_user_post_reader,
+    -> { where(user_id: Current.user.try(:id)) },
+    class_name: 'PostReader'
   has_many :stroked_post_users, dependent: :destroy
   has_many :recent_stroked_post_users, -> { recent.limit(5) }, class_name: 'StrokedPostUser'
 

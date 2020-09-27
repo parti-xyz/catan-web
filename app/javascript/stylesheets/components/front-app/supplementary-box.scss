@@ -92,14 +92,18 @@
     margin-bottom: 0;
   }
 
+  .header.-active {
+    color: global-variables.$color-brand-700;
+  }
+
   @include mq.media("<=phone") {
-    .header.-active-phone {
+    .header.-active {
       background-color: global-variables.$color-brand-700;
       color: white;
     }
 
-    .header.-active-phone > .count,
-    .header.-active-phone > .toggler {
+    .header.-active > .count,
+    .header.-active > .toggler {
       color: white;
     }
   }
