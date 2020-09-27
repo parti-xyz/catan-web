@@ -86,7 +86,7 @@ class UserImageUploader < CarrierWave::Uploader::Base
   end
 
   def url(*args)
-    super_result = super(args)
+    super_result = super
 
     if Rails.env.production?
       return super_result

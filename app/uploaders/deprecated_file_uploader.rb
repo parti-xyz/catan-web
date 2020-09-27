@@ -92,10 +92,10 @@ class DeprecatedFileUploader < CarrierWave::Uploader::Base
 
   def url(*args)
     if Rails.env.test?
-      return super(args)
+      return super
     end
 
-    super_result = super(args)
+    super_result = super
     if Rails.env.production?
       super_result
     elsif self.file.try(:exists?)

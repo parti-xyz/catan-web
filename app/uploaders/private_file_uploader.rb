@@ -106,15 +106,15 @@ class PrivateFileUploader < CarrierWave::Uploader::Base
 
   def url(*args)
     if Rails.env.test?
-      return super(args)
+      return super
     end
 
     if self.model&.read_attribute(self.mounted_as.to_sym).blank?
-      super(args)
+      super
     elsif Rails.env.production?
-      super(args)
+      super
     else
-      super_result = super(args)
+      super_result = super
       return super_result if super_result.nil?
       if self.file.try(:exists?) or @production_s3_bucket.blank?
         ActionController::Base.helpers.asset_url(super_result)
