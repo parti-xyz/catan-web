@@ -1,0 +1,26 @@
+- content_for :playground_header_content do
+  .playground-header
+    .channel-menu
+      .nav
+        .title.form-inline{ data: { controller: 'select-link' } }
+          .node
+            %i.fa.fa-bookmark-o
+            북마크
+
+- content_for :playground_sidebar_content do
+  = render 'front/share/base_playground_sidebar_content'
+
+.bookmarks-box
+  .pagination-header
+    .pages
+      = render 'front/share/pagination_header/page', model_name: '북마크', posts: @bookmarks, need_to_read_count: 0, permited_params: {}, all_posts_total_count: @all_bookmarks_total_count
+
+  - if @bookmarks.any?
+    - @bookmarks.each do |bookmark|
+      = render 'front/bookmarks/bookmark', bookmark: bookmark
+    .mt-4
+      = paginate @bookmarks, theme: 'catan'
+  - else
+    .alert-box.my-3
+      .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between
+        아직 북마크가 없습니다.

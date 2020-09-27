@@ -3,14 +3,14 @@ UnobtrusiveFlash.showFlashMessage("<%= t('errors.messages.unknown') %>", {type: 
 <% else %>
 WebuiPopovers.hideAll();
 
-var $bookmarked_post = $('<%= bookmarked_post_dom_selector(@bookmark.post) %>');
-var $bookmark_button = $('<%= bookmark_button_post_dom_selector(@bookmark.post) %>');
+var $bookmarked_post = $('<%= bookmarked_post_dom_selector(@bookmark.bookmarkable) %>');
+var $bookmark_button = $('<%= bookmark_button_post_dom_selector(@bookmark.bookmarkable) %>');
 
-var $new_bookmarked_post = $('<%= j render('posts/post_bookmarked', post: @bookmark.post) %>');
+var $new_bookmarked_post = $('<%= j render('posts/post_bookmarked', post: @bookmark.bookmarkable) %>');
 $bookmarked_post.replaceWith($new_bookmarked_post);
 parti_partial$($new_bookmarked_post);
 
-var $new_bookmark_button = $('<%= j(render 'bookmarks/bookmark_button', post: @bookmark.post) %>');
+var $new_bookmark_button = $('<%= j(render 'bookmarks/bookmark_button', post: @bookmark.bookmarkable) %>');
 $bookmark_button.html($new_bookmark_button);
 parti_partial$($new_bookmark_button);
 <% end %>

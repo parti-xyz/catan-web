@@ -1,7 +1,7 @@
 - return if bookmark.blank?
 - bookmark_tag_form_container_class_name = local_assigns[:container_class_name] || "uid-#{SecureRandom.uuid}"
 
-.bookmark-tags.js-bookmark-tag-show-form-container{ class: "#{bookmark_tags_post_dom_class(bookmark.post)} #{'bookmark-tags-form-visible' if local_assigns[:show_form]} #{bookmark_tag_form_container_class_name}", 'data-no-parti-link': 'no' }
+.bookmark-tags.js-bookmark-tag-show-form-container{ class: "#{bookmark_tags_post_dom_class(bookmark.bookmarkable)} #{'bookmark-tags-form-visible' if local_assigns[:show_form]} #{bookmark_tag_form_container_class_name}", 'data-no-parti-link': 'no' }
   - bookmark.tags.each do |tag|
     .bookmark-tag
       = link_to bookmarks_url(subdomain: nil, tag_names: [tag.name]), class: 'bookmark-tag-name' do

@@ -50,6 +50,7 @@
           - else
             %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 댓글달기
         = render 'front/posts/show/upvotings/reaction', current_upvotable: comment
+        = render 'front/bookmarks/reaction', bookmarkable: comment
 
       - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
         .comment-filesource-listings

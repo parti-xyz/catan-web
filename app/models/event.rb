@@ -121,8 +121,8 @@ class Event < ApplicationRecord
     %i(am_pm hour min).map { |key| diff_hash[key] }.compact.join(' ')
   end
 
-  def self.messagable_group_method
-    :of_group
+  def self.of_group_for_message(group)
+    self.of_group(group)
   end
 
   private

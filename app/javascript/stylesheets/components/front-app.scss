@@ -2,6 +2,9 @@
 @use "../mq";
 
 @forward "./front-app/audiences-popover";
+@forward "./front-app/bookmarks-box";
+@forward "./front-app/bookmark-form";
+@forward "./front-app/bookmark-line";
 @forward "./front-app/category-card";
 @forward "./front-app/channel-box";
 @forward "./front-app/channel-line";

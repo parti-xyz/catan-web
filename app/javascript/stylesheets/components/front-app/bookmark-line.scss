@@ -1,0 +1,62 @@
+@use '../../global-variables';
+@use '../../bootstrap';
+@use '../../mixin';
+
+.front-app .bookmark-line {
+  cursor: pointer;
+  background-color: #fff;
+  border-top: 1px solid global-variables.$color-gray-200;
+  border-bottom: 1px solid global-variables.$color-gray-200;
+  font-size: bootstrap.$font-size-sm;
+  & + .bookmark-line {
+    border-top-width: 0;
+  }
+  &:last-child {
+    border-width: 0;
+  }
+  &:hover {
+    background-color: global-variables.$color-gray-000;
+  }
+  > .content > .main > .meta > .mentioner {
+    display: inline;
+    font-size: bootstrap.$font-size-xs;
+  }
+  > .content > .main > .meta > .channel {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-500;
+    display: inline;
+    a {
+      color: global-variables.$color-gray-500;
+      &:hover{
+        color: global-variables.$color-brand-primary;
+      }
+    }
+  }
+  > .content > .main > .meta > .date.date-wrapper {
+    font-size: bootstrap.$font-size-xs;
+    color: global-variables.$color-gray-500;
+    display: inline-block;
+  }
+  > .content > .main > .body {
+    white-space: normal;
+    word-break: break-all;
+    .post-reference-line {
+      background-color: white;
+      border: 1px solid global-variables.$color-gray-100;
+    }
+  }
+
+  // elements
+  > .content > .userimage {
+    margin-top: .25rem;
+    margin-right: .25rem;
+    margin-left: .25rem;
+    flex: none;
+    vertical-align: bottom;
+  }
+  > .content > .userimage > .userimagebg {
+    border: 1px solid white;
+    background-color: white;
+    @include mixin.background-image-round(1.5rem);
+  }
+}

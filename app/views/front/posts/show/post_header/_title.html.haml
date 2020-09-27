@@ -82,6 +82,9 @@
   - if current_post.label.present?
     = render 'front/labels/dropdown', current_post: current_post
 
+  - if can?(:bookmark, current_post)
+    = render 'front/bookmarks/form', bookmarkable: current_post
+
   - if wiki_control.present? || post_control.present?
     .moremenu
       = wiki_control

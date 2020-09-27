@@ -1,6 +1,6 @@
 class Front::PostsController < Front::BaseController
   def show
-    @current_post = Post.includes(:survey, :current_user_upvotes, :last_stroked_user, :file_sources, :label, issue: [:group], announcement: [ current_user_audience: [ :member ] ], user: [ :current_group_member ], comments: [ :file_sources, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
+    @current_post = Post.includes(:survey, :current_user_bookmark, :current_user_upvotes, :last_stroked_user, :file_sources, :label, issue: [:group], announcement: [ current_user_audience: [ :member ] ], user: [ :current_group_member ], comments: [ :file_sources, :current_user_bookmark, :current_user_upvotes, user: [ :current_group_member ] ], wiki: [ :last_wiki_history ], poll: [ :current_user_voting ] )
       .find(params[:id])
 
     @current_issue = Issue.includes(:group, :folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)

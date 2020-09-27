@@ -1,5 +1,4 @@
 class Front::LabelsController < Front::BaseController
-  # TODO
   def index
     authorize! :labels, current_group
     render layout: 'front/simple'

@@ -5,13 +5,13 @@ class BookmarksController < ApplicationController
   def index
     authenticate_user!
 
-    base_bookmark = Bookmark.where(user: current_user)
+    base_bookmark = Bookmark.where(user: current_user).where(bookmarkable_type: 'Post')
     @search_tag_names = params[:tag_names].presence || []
     if @search_tag_names.any?
       base_bookmark = base_bookmark.tagged_with(@search_tag_names)
     end
 
-    base_bookmarked_posts = Post.where(id: base_bookmark.select(:post_id)).order_by_stroked_at
+    base_bookmarked_posts = Post.where(id: base_bookmark.select(:bookmarkable_id)).order_by_stroked_at
 
     if params[:group_slug].present?
       if params[:group_slug] == 'all'
@@ -47,7 +47,7 @@ class BookmarksController < ApplicationController
   end
 
   def create
-    return if @bookmark.post.bookmarked?(current_user)
+    return if @bookmark.bookmarkable&.bookmarked?(current_user)
 
     @bookmark.user = current_user
     if !@bookmark.save
@@ -57,6 +57,7 @@ class BookmarksController < ApplicationController
 
   def destroy
     @post = Post.find_by(id: params[:post_id])
+    @bookmark = @post.current_user_bookmark
     return if @bookmark.blank?
     if !@bookmark.destroy
       errors_to_flash(@bookmark)
@@ -76,6 +77,6 @@ class BookmarksController < ApplicationController
   private
 
   def bookmark_params
-    params.require(:bookmark).permit(:post_id)
+    params.require(:bookmark).permit(:bookmarkable_id, :bookmarkable_type)
   end
 end

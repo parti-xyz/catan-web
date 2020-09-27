@@ -18,5 +18,5 @@
 
 
   - else
-    = link_to bookmarks_path('bookmark[post_id]': post), method: :post, remote: true, data: { disable_with: '...' }, title: '북마크하기' do
+    = link_to bookmarks_path('bookmark[bookmarkable_id]': post.id, 'bookmark[bookmarkable_type]': 'Post'), method: :post, remote: true, data: { disable_with: '...' }, title: '북마크하기' do
       %i.fa.fa-bookmark-o.fa-fw

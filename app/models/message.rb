@@ -9,7 +9,7 @@ class Message < ApplicationRecord
   scope :of_group, -> (group) {
     condition = none
     all_messagable_types.each do |klass|
-      condition = condition.or(where(messagable_type: klass.to_s).where(messagable_id: klass.send(klass.send(:messagable_group_method), group)))
+      condition = condition.or(where(messagable_type: klass.to_s).where(messagable_id: klass.of_group_for_message(group)))
     end
     condition
   }

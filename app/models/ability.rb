@@ -98,6 +98,14 @@ class Ability
         !bookmark.persisted? or bookmark.user == user
       end
 
+      can [:bookmark], Post do |post|
+        post.group.member?(user)
+      end
+
+      can [:bookmark], Comment do |comment|
+        comment.post&.group&.member?(user)
+      end
+
       can :manage, [Comment, Upvote, Member], user_id: user.id
 
       can [:destroy], Member do |member|

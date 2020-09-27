@@ -592,5 +592,7 @@ Rails.application.routes.draw do
     resources :categories, only: [:create, :update, :destroy], controller: '/group/categories'
 
     resources :labels, only: [:index, :create, :update, :destroy]
+
+    resources :bookmarks, only: [:index, :create, :destroy]
   end
 end

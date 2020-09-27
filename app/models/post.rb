@@ -114,7 +114,10 @@ class Post < ApplicationRecord
 
   has_many :beholders, dependent: :destroy
   belongs_to :folder, optional: true
-  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarks, as: :bookmarkable, dependent: :destroy
+  has_one :current_user_bookmark,
+    -> { where(user_id: Current.user.try(:id)) },
+    class_name: 'Bookmark', as: :bookmarkable
 
   # validations
   validates :issue, presence: true
@@ -486,6 +489,14 @@ class Post < ApplicationRecord
     issue
   end
 
+  def issue_for_bookmark
+    issue
+  end
+
+  def post_for_bookmark
+    self
+  end
+
   def private_blocked?(someone = nil)
     return false if issue.blank?
     issue.private_blocked?(someone) or issue.group.try(:private_blocked?, someone)
@@ -620,8 +631,12 @@ class Post < ApplicationRecord
     bookmarks.find_by(user: someone) if someone.present?
   end
 
-  def self.messagable_group_method
-    :of_group
+  def self.of_group_for_message(group)
+    self.of_group(group)
+  end
+
+  def self.of_group_for_bookmark(group)
+    self.of_group(group)
   end
 
   def build_conflict_decision

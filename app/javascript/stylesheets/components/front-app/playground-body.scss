@@ -8,6 +8,7 @@
   overflow-x: hidden;
   > .channel-box,
   > .messages-box,
+  > .bookmarks-box,
   > .channel-form-box,
   > .group-form-box,
   > .post-form-box,
@@ -21,9 +22,8 @@
     padding-bottom: 1.5rem;
     @include front-variables.playground-body-space-x(padding-right, padding-left);
   }
-  > .channel-box {
-    padding-top: 0;
-  }
+  > .channel-box,
+  > .bookmarks-box,
   > .messages-box {
     padding-top: 0;
   }

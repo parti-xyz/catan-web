@@ -1,0 +1,22 @@
+- bookmarkable = bookmark.bookmarkable
+.bookmark-line.clearfix{ data: { controller: 'content-replacement' } }
+  .media.content.media-overflow-visible
+    .userimage
+      .userimagebg{ style: "background-image: url(#{bookmarkable.user.image.sm.url}); margin-top: 2px;" }
+    .media-body.main
+      .meta
+        .mentioner
+          %strong
+            #{bookmarkable.user.nickname}
+        .channel
+          &middot;
+          = link_to smart_issue_home_url(bookmarkable.issue_for_bookmark) do
+            = issue_tag(bookmarkable.issue_for_bookmark)
+        .date.date-wrapper
+          &middot;
+          = smart_date_tag bookmark.bookmarkable_created_at
+      .body{ data: { controller: 'list-nav-kickoff', action: 'click->list-nav-kickoff#store', 'list-nav-kickoff-post-id': bookmarkable.post_for_bookmark&.id } }
+        = render "front/bookmarks/#{bookmarkable.class.model_name.singular}", bookmark: bookmark, "#{bookmarkable.class.model_name.singular}": bookmarkable
+    .form
+      = render 'front/bookmarks/form', bookmarkable: bookmarkable
+

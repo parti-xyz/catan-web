@@ -21,6 +21,10 @@ class Comment < ApplicationRecord
     attributes['attachment'].blank? and attributes['attachment_cache'].blank? and attributes['id'].blank?
   }
   has_many :comment_readers, dependent: :destroy
+  has_many :bookmarks, as: :bookmarkable, dependent: :destroy
+  has_one :current_user_bookmark,
+    -> { where(user_id: Current.user.try(:id)) },
+    class_name: 'Bookmark', as: :bookmarkable
 
   validates :user, presence: true
   validates :post, presence: true
@@ -94,6 +98,14 @@ class Comment < ApplicationRecord
     self.issue.group
   end
 
+  def issue_for_bookmark
+    self.issue
+  end
+
+  def post_for_bookmark
+    self
+  end
+
   def body_html?
     false
   end
@@ -139,8 +151,17 @@ class Comment < ApplicationRecord
     threads.sort_by! { |thread| thread[0].created_at }
   end
 
-  def self.messagable_group_method
-    :of_group
+  def self.of_group_for_message(group)
+    self.of_group(group)
+  end
+
+  def self.of_group_for_bookmark(group)
+    self.of_group(group)
+  end
+
+  def bookmarked?(someone)
+    return false if someone.blank?
+    bookmarks.exists?(user: someone)
   end
 
   def read!(someone)

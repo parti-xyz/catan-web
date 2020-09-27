@@ -1,0 +1,9 @@
+.front-app .bookmarks-box {
+  overflow-y: visible;
+
+  > .bookmark-line {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    padding-left: .5rem;
+  }
+}
