@@ -24,7 +24,7 @@
 
         - if comment.wiki_history.present?
           .mt-1
-            = link_to front_post_path(comment.post, wiki_history_id: comment.wiki_history.id), class: 'font-size-sm text-muted' do
+            = link_to front_post_path(comment.post, wiki_history_id: comment.wiki_history.id), class: "font-size-sm #{comment.wiki_history == local_assigns[:comment_current_wiki_history] ? 'text-danger' : 'text-muted'}" do
               %i.fa.fa-clock-o
               #{smart_date_tag(comment.wiki_history.created_at)} #{user_subject_word(comment.wiki_history.user)} 업데이트한 위키 이력의 댓글입니다.
 
