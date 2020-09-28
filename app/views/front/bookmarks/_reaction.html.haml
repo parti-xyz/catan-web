@@ -8,4 +8,3 @@
     - else
       = link_to front_bookmarks_path(bookmark: { bookmarkable_id: bookmarkable.id, bookmarkable_type: bookmarkable.class.to_s }, for: 'reaction'), method: :post, remote: true, data: { disable_with: "...", target: 'content-replacement.link' }, class: 'link' do
         북마크
-        %i.fa.fa-bookmark-o
