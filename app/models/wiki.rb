@@ -126,19 +126,28 @@ class Wiki < ApplicationRecord
   end
 
   def build_history!(code)
-    wiki_history = wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code, trivial_update_body: trivial_update_body)
     wiki_authors.find_or_create_by(user: last_author)
 
-
     ActiveRecord::Base.transaction do
-      if self.continue_editing && self.last_wiki_history.user == last_author
-        self.last_wiki_history.destroy
+      wiki_history = if self.continue_editing && self.last_wiki_history.present? && self.last_wiki_history.user == last_author
+        trivial_update_body = self.last_wiki_history.trivial_update_body
+        if trivial_update_body
+          trivial_update_body = check_trivial_update_body
+        end
+        code = 'update_title_and_body' unless code == self.last_wiki_history.code
+
+        self.last_wiki_history.update_attributes(title: self.post.base_title, body: body, code: code, trivial_update_body: trivial_update_body, created_at: DateTime.now)
+
+        self.last_wiki_history
+      else
+        wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code, trivial_update_body: check_trivial_update_body)
       end
+
       self.update_column(:last_wiki_history_id, wiki_history.id)
     end
   end
 
-  def trivial_update_body
+  def check_trivial_update_body
     return false if body_before_last_save.blank? || body.blank?
 
     doc1 = Nokogiri::HTML(self.body_before_last_save)

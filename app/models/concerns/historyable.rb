@@ -11,7 +11,10 @@ module Historyable
 
     def previous
       @previous ||= if self.persisted?
-        self.sibling_histories.recent.where('created_at < ?', self.created_at).where('id < ?', self.id).first
+        previouse = self.sibling_histories.recent.where('created_at < ?', self.created_at).where('id < ?', self.id).first
+        previouse = previouse.significant if self.respond_to?(:significant)
+
+        previouse
       else
         self.sibling_histories.last
       end
@@ -23,7 +26,10 @@ module Historyable
 
     def afterwhile
       @next ||= if self.persisted?
-        self.sibling_histories.recent.where('created_at > ?', self.created_at).where('id > ?', self.id).last
+        afterwhile = self.sibling_histories.recent.where('created_at > ?', self.created_at).where('id > ?', self.id).last
+        afterwhile = afterwhile.significant if self.respond_to?(:significant)
+
+        afterwhile
       else
         self.sibling_histories.first
       end

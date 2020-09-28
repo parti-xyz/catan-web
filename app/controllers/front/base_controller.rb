@@ -56,8 +56,9 @@ class Front::BaseController < ApplicationController
     end
     result[:recent_comments] = recent_comments
 
+    wiki_histories = WikiHistory.none
     if current_post.wiki.present?
-      wiki_histories = current_post.wiki.wiki_histories.recent.page(1)
+      wiki_histories = current_post.wiki.wiki_histories.significant.recent.page(1)
     end
     result[:wiki_histories] = wiki_histories
 
