@@ -1,7 +1,0 @@
-token1:
-  resource_owner_id: <%= ActiveRecord::FixtureSet.identify(:facebook_user1) %>
-  application_id: application1
-  token: 35ac16108ca89376303a88c8d0c2ddfdc9154424b0720ffd00a32f768b286703
-  refresh_token: 2a54eadc6fbe65a974edd2b32439d5a82a4c9da94a12855a279ccbdcfccb975c
-  expires_in: 7200
-  created_at: <%= DateTime.now %>
