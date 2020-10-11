@@ -1,0 +1,9 @@
+alpha:
+  slug: alpha
+  user: one
+  title: '알파'
+  site_title: '알파'
+  head_title: '알파'
+  plan: lite
+  logo: 'a'
+  frontable: true

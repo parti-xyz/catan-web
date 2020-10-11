@@ -1,5 +1,5 @@
 - member = message.messagable
-- if message.action.to_s == 'ban'
+- if ['ban_issue_member', 'ban_group_member'].include? message.action.to_s
   = link_to front_channel_path(member.joinable) do
     %strong
       #{message.sender.nickname}님이 회원님을
@@ -10,7 +10,7 @@
     %br
     = member.ban_message
 
-- elsif message.action.to_s == 'admit'
+- elsif ['admit_issue_member', 'admit_group_member'].include? message.action.to_s
   = link_to front_channel_path(member.joinable) do
     %strong
       #{message.sender.nickname}님이 회원님을
@@ -21,21 +21,21 @@
     %br
     = member.admit_message
 
-- elsif message.action.to_s == 'force_default'
+- elsif message.action.to_s == 'force_default_issue'
   = link_to front_channel_path(member.joinable) do
     %strong
       #{message.sender.nickname}님이
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human}를 자동가입되도록 설정했습니다. 해당 #{member.joinable.model_name.human}에 가입되었습니다.
     = render 'messages/go'
-- elsif message.action.to_s == 'new_organizer'
+- elsif ['assign_issue_organizer', 'assign_group_organizer'].include? message.action.to_s
   = link_to front_channel_path(member.joinable) do
     %strong
       #{message.sender.nickname}님이 회원님께
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human} 오거나이징을 부탁했습니다.
     = render 'messages/go'
-- elsif message.action.to_s == 'welcome_organizer'
+- elsif ['create_issue_organizer', 'create_issue_organizer'].include? message.action.to_s
   = link_to front_channel_path(member.joinable) do
     %strong
       #{message.sender.nickname}님이
@@ -43,7 +43,7 @@
       #{member.joinable.title}
       #{member.joinable.model_name.human} 오거나이징을 부탁했습니다.
     = render 'messages/go'
-- else
+- elsif ['create_issue_member', 'create_group_member'].include? message.action.to_s
   = link_to front_channel_path(member.joinable) do
     %strong
       #{member.user.nickname}님이

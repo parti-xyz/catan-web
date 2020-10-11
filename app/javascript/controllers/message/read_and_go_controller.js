@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import { smartFetch } from '../helpers/smart_fetch'
+import { smartFetch } from '../../helpers/smart_fetch'
 
 export default class extends Controller {
   connect() {

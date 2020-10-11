@@ -12,10 +12,9 @@ class IssueCreateService
       return false
     end
 
-    @issue.strok_by(@current_user)
-    @issue.deprecated_read_if_no_unread_posts!(@current_user)
-
     if @issue.save
+      @issue.strok_by!(@current_user)
+      @issue.deprecated_read_if_no_unread_posts!(@current_user)
       MemberIssueService.new(issue: @issue, user: @current_user, is_organizer: true, need_to_message_organizer: false, is_force: true).call
       if @issue.is_default?
         IssueForceDefaultJob.perform_async(@issue.id, @current_user.id)

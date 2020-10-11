@@ -16,7 +16,7 @@ export default class extends Controller {
 
   disconnect() {
     if (this.modal) {
-      this.modal.parentNode.removeChild(this.modal)
+      this.modal.remove()
     }
   }
 

@@ -88,7 +88,7 @@ export default class extends Controller {
 
   disconnect() {
     if (this.editorElement) {
-      this.editorElement.parentNode.removeChild(this.editorElement)
+      this.editorElement.remove()
     }
   }
 

@@ -53,7 +53,7 @@ class Upvote < ApplicationRecord
   private
 
   def send_message
-    MessageService.new(self).call
+    SendMessage.run(source: self, sender: self.user, action: :upvote)
   end
 
   def set_issue

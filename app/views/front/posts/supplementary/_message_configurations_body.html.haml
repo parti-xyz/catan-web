@@ -1,0 +1,13 @@
+.message-configuration-form{ data: { controller: 'content-replacement' } }
+  - post_observation = MessageConfiguration::PostObservation.of(current_user, current_post)
+  - if post_observation.persisted?
+    = render 'front/message_configurations/observation/form', observation: post_observation
+    %hr
+    게시물 알림 설정을 지우고 채널 알림 설정을 따릅니다.
+    = link_to '게시물 알림 설정 삭제', front_message_configuration_post_observation_path(post_observation, post_id: current_post.id), method: :delete, remote: true, data: { disable_with: '삭제 중...', confirm: '정말 삭제하시겠습니까?', target: 'content-replacement.link' }, class: 'btn btn-white btn-block btn-sm'
+  - else
+    채널 알림 설정에 따라 알림을 받고 있습니다.
+    = link_to '채널 알림 설정으로 이동', front_channel_path(current_post.issue, anchor: :message_configuration), class: 'btn btn-white btn-block btn-sm'
+    %hr
+    이 게시물에 맞춘 알림을 설정합니다.
+    = link_to '게시물 알림 설정 만들기', front_message_configuration_post_observations_path(post_id: current_post.id), remote: true, method: :post, class: 'btn btn-white btn-block btn-sm', data: { disable_with: '생성 중...', target: 'content-replacement.link' }

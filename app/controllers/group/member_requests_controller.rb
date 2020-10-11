@@ -8,7 +8,7 @@ class Group::MemberRequestsController < Group::BaseController
         @member_request.assign_attributes(joinable: current_group, user: current_user, description: params[:description], statement: params[:statement])
         if @member_request.save
           flash[:success] = "#{current_group.title}에 가입을 환영합니다"
-          MessageService.new(@member_request, action: :request).call
+          SendMessage.run(source: @member_request, sender: current_user, action: :create_group_member_request)
           MemberRequestMailer.deliver_all_later_on_create(@member_request)
         end
       else
@@ -16,7 +16,7 @@ class Group::MemberRequestsController < Group::BaseController
 
         if @member.persisted?
           flash[:success] = "#{current_group.title}에 가입을 환영합니다"
-          MessageService.new(@member, sender: current_user).call
+          SendMessage.run(source: @member, sender: current_user, action: :create_group_member)
           MemberMailer.deliver_all_later_on_create(@member)
         end
       end
@@ -37,7 +37,7 @@ class Group::MemberRequestsController < Group::BaseController
     render_404 and return if @member_request.blank?
     @member = MemberGroupService.new(group: current_group, user: @member_request.user, description: @member_request.description, statement: @member_request.statement).call
     if @member.persisted?
-      MessageService.new(@member_request, sender: current_user, action: :accept).call
+      SendMessage.run(source: @member_request, sender: current_user, action: :accept_group_member_request)
       MemberMailer.deliver_all_later_on_create(@member)
       MemberRequestMailer.on_accept(@member_request.id, current_user.id).deliver_later
     end
@@ -61,7 +61,7 @@ class Group::MemberRequestsController < Group::BaseController
       @member_request.destroy
     end
     if @member_request.paranoia_destroyed?
-      MessageService.new(@member_request, sender: current_user, action: :cancel).call
+      SendMessage.run(source: @member_request, sender: current_user, action: :reject_group_member_request)
       MemberRequestMailer.on_reject(@member_request.id, current_user.id).deliver_later
     end
 

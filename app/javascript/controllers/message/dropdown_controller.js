@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus'
-import { smartFetch } from '../helpers/smart_fetch'
+import { smartFetch } from '../../helpers/smart_fetch'
 
 export default class extends Controller {
   static targets = ['toggle', 'circle', 'menu', 'reloadButton', 'messagesContainer']
@@ -21,7 +21,7 @@ export default class extends Controller {
   }
 
   handleHide(event) {
-    if (event.clickEvent && event.clickEvent.target.closest('[data-message-dropdown-keep-open]')) {
+    if (event.clickEvent && event.clickEvent.target.closest('[data-message--dropdown-keep-open]')) {
       return false
     }
     return true;

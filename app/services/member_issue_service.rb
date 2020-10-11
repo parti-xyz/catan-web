@@ -34,7 +34,7 @@ class MemberIssueService
       end
     end
     if @member.persisted? and @need_to_message_organizer
-      MessageService.new(@member).call
+      SendMessage.run(source: @member, sender: @member.user, action: :create_issue_member)
       MemberMailer.deliver_all_later_on_create(@member)
     end
     return @member

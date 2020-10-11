@@ -10,7 +10,7 @@
     .body{ class: ('-hide' if use_content_collapse), data: { target: 'content-toggle.content' } }
       = simple_format h(current_issue.body)
 
-= render partial: 'front/channels/supplementary_pinned_posts', locals: local_assigns
+= render partial: 'front/channels/supplementary/pinned_posts', locals: local_assigns
 
 - if local_assigns[:organizer_members]&.any?
   - organizer_members_force = (local_assigns[:default_force] || nil)
@@ -34,3 +34,13 @@
     .header
       .title
         채널 오거나이저가 없습니다.
+
+- if user_signed_in? && current_group.member?(current_user)
+  .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "channel-message-configuraion-#{current_issue.id}" } } }
+    .header{ data: { action: 'click->content-toggle#toggle' } }
+      .title
+        채널 알림 설정
+      .toggler
+        %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
+    .body.-hide{ data: { target: 'content-toggle.content' } }
+      = render partial: 'front/channels/supplementary/message_configurations_body', locals: local_assigns

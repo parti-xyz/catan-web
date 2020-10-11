@@ -1,0 +1,4 @@
+post1:
+  user: one
+  issue: issue1
+  body: 'post1 body'

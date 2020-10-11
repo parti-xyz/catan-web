@@ -58,7 +58,6 @@ class User < ApplicationRecord
   before_save :downcase_nickname
   before_save :set_uid
   before_validation :strip_whitespace, only: :nickname
-  after_create :default_member_issues
   after_create :check_invitations, if: ->{ email.present? && confirmed_at.present? }
 
   # associations
@@ -114,6 +113,9 @@ class User < ApplicationRecord
   has_many :issue_readers, dependent: :destroy
   has_many :stroked_post_users, dependent: :destroy
   has_many :wiki_authors, dependent: :destroy
+  has_many :group_observations, dependent: :destroy, class_name: 'MessageConfiguration::GroupObservation'
+  has_many :issue_observations, dependent: :destroy, class_name: 'MessageConfiguration::IssueObservation'
+  has_many :post_observations, dependent: :destroy, class_name: 'MessageConfiguration::PostObservation'
 
   ## uploaders
   # mount
@@ -128,6 +130,118 @@ class User < ApplicationRecord
     base
   }
   scope :not_canceled, -> { where(canceled_at: nil) }
+
+  scope :observing_message, -> (messagable, action, payoffs) {
+    group = messagable.group_for_message
+    base_users = User.where(id: group.member_users)
+
+    if group.frontable?
+      default_observable = MessageConfiguration::RootObservation.of(group).observable?(action, payoffs)
+
+      users_with_observations = if MessageObservationConfigurable::ACTIONS_PER_POST.include?(action)
+        post = messagable.post_for_message
+        issue = messagable.issue_for_message
+        base_users
+          .left_outer_joins(:group_observations, :issue_observations, :post_observations)
+          .where('group_observations.group_id': [group.id, nil])
+          .where('issue_observations.issue_id': [issue.id, nil])
+          .where('post_observations.post_id': [post.id, nil])
+          ._condition_observing(action, payoffs, default_observable)
+      elsif MessageObservationConfigurable::ACTIONS_PER_ISSUE.include?(action)
+        issue = messagable.issue_for_message
+        base_users
+          .left_outer_joins(:group_observations, :issue_observations)
+          .where('group_observations.group_id': [group.id, nil])
+          .where('issue_observations.issue_id': [issue.id, nil])
+          ._condition_observing(action, payoffs, default_observable)
+      elsif MessageObservationConfigurable::ACTIONS_PER_GROUP.include?(action)
+        base_users
+          .left_outer_joins(:group_observations)
+          .where('group_observations.group_id': [group.id, nil])
+          .send(:"_condition_observing", action, payoffs, default_observable)
+      else
+        User.all
+      end
+
+      where(id: users_with_observations.select(:id))
+    else
+      if payoffs == MessageObservationConfigurable.all_app_push_payoffs
+        base_users = base_users.where(push_notification_mode: ['on', 'no_sound'])
+      elsif payoffs == MessageObservationConfigurable.all_subscribing_payoffs
+      else
+        abort "Not allowed payoffs #{payoffs.inspect}"
+      end
+
+      issue = messagable.issue_for_message
+
+      # 그룹 알림을 받는 해당 그룹 멤버
+      group_base_users = base_users.where(id: GroupPushNotificationPreference.where(group: group).select(:user_id))
+      # 채널 알림 모드가 highlight인 해당 채널의 멤버
+      # 기본 채널 알림 모드는 detail
+      issue_base_users = issue.present? ?
+        base_users.where(id: issue.member_users).left_outer_joins(:issue_push_notification_preferences)
+          .where('issue_push_notification_preferences.issue_id': issue.id)
+          .where.not('issue_push_notification_preferences.value': 'nothing')
+        : User.none
+
+      users_with_observations = case action.to_sym
+        when :create_issue
+          group_base_users
+        when :mention, :upvote, :update_issue_title
+          issue_base_users
+        when :create_comment, :closed_survey
+          post = messagable.post_for_message
+          # 이 게시물에 메시지를 받은 적이 있거나 상세모드 일 때
+          issue_base_users.where(id: post.messages.select(:user_id)).or(issue_base_users.where('issue_push_notification_preferences.value': ['detail', nil]))
+        when :pin_post, :create_post
+          issue_base_users.where('issue_push_notification_preferences.value': ['compact', 'detail', nil])
+        else
+          User.all
+        end
+
+      where(id: users_with_observations.select(:id))
+    end
+  }
+
+  scope :"_condition_observing", ->(action, payoffs, default_observable) {
+    if MessageObservationConfigurable::ACTIONS_PER_POST.include?(action)
+      where("post_observations.payoff_#{action}": payoffs)
+      .or(
+        where("post_observations.payoff_#{action}": nil)
+        .where("issue_observations.payoff_#{action}": payoffs)
+      )
+      .or(
+        where("post_observations.payoff_#{action}": nil)
+        .where("issue_observations.payoff_#{action}": nil)
+        .where("group_observations.payoff_#{action}": payoffs)
+      )
+      .or(
+        where("post_observations.payoff_#{action}": nil)
+        .where("issue_observations.payoff_#{action}": nil)
+        .where("group_observations.payoff_#{action}": nil)
+        .where('true = ?', default_observable)
+      )
+    elsif MessageObservationConfigurable::ACTIONS_PER_ISSUE.include?(action)
+      where("issue_observations.payoff_#{action}": payoffs)
+        .or(
+          where("issue_observations.payoff_#{action}": nil)
+          .where("group_observations.payoff_#{action}": payoffs)
+        )
+        .or(
+          where("issue_observations.payoff_#{action}": nil)
+          .where("group_observations.payoff_#{action}": nil)
+          .where('true = ?', default_observable)
+        )
+    elsif MessageObservationConfigurable::ACTIONS_PER_GROUP.include?(action)
+      where("group_observations.payoff_#{action}": payoffs)
+        .or(
+          where("group_observations.payoff_#{action}": nil)
+          .where('true = ?', default_observable)
+        )
+    else
+      none
+    end
+  }
 
   def admin?
     @__cache_admin ||= has_role?(:admin)
@@ -416,24 +530,22 @@ class User < ApplicationRecord
     self.uid = self.email if self.provider == 'email' && canceled_at.nil?
   end
 
-  def default_member_issues
-    # issue = Issue.of_slug Issue::SLUG_OF_PARTI_PARTI
-    # MemberIssueService.new(issue: issue, user: self, need_to_message_organizer: false).call if issue.present?
-  end
-
   def check_invitations
     ActiveRecord::Base.transaction do
       invitations = Invitation.where(recipient_email: self.email)
       invitations.each do |invitation|
         if invitation.joinable_type == 'Issue'
           member = MemberIssueService.new(issue: invitation.joinable, user: self, is_force: true).call
+
+          if member.try(:persisted?)
+            SendMessage.run(source: member, sender: invitation.user, action: :admit_issue_member)
+          end
         elsif invitation.joinable_type == 'Group'
           member = MemberGroupService.new(group: invitation.joinable, user: self).call
-        else
-          member = nil
-        end
-        if member.try(:persisted?)
-          MessageService.new(member, sender: invitation.user, action: :admit).call
+
+          if member.try(:persisted?)
+            SendMessage.run(source: member, sender: invitation.user, action: :admit_group_member)
+          end
         end
       end
       invitations.destroy_all

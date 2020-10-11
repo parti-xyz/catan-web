@@ -1,14 +1,14 @@
-.notifications{ data: { toggle: 'dropdown', target: 'message-dropdown.toggle' } }
+.notifications{ data: { toggle: 'dropdown', target: 'message--dropdown.toggle' } }
   %i.fa.fa-bell.fa-fw
   - if @messages.first.present? && (current_user.last_noticed_message_id.blank? || @messages.first.id > current_user.last_noticed_message_id)
-    %i.fa.fa-circle.circle{ data: { target: 'message-dropdown.circle', 'last-message-id': @messages&.first&.id } }
-.dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message-dropdown.menu' } }
+    %i.fa.fa-circle.circle{ data: { target: 'message--dropdown.circle', 'last-message-id': @messages&.first&.id } }
+.dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message--dropdown.menu' } }
   .dropdown-header.front-navbar-message-header
     알림
-    .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', target: 'message-dropdown.reloadButton', 'message-dropdown-keep-open': true } }
+    .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', target: 'message--dropdown.reloadButton', 'message--dropdown-keep-open': true } }
       새로고침
   - if @messages.any?
-    .scrollable{ data: { target: 'message-dropdown.messagesContainer' } }
+    .scrollable{ data: { target: 'message--dropdown.messagesContainer' } }
       - @messages.each do |message|
         = render message
     .dropdown-header.front-navbar-message-footer

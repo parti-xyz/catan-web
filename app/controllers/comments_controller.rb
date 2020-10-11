@@ -28,7 +28,7 @@ class CommentsController < ApplicationController
     end
 
     if @comment.save
-      @comment.perform_messages_with_mentions_async(:create)
+      @comment.perform_messages_with_mentions_async(:create_comment)
     end
     @comments_count = @comment.post.comments_count
     if @comment.errors.any?
@@ -53,7 +53,7 @@ class CommentsController < ApplicationController
     unless params[:cancel]
       @comment.assign_attributes(comment_params)
       if @comment.save
-        @comment.perform_messages_with_mentions_async(:update)
+        @comment.perform_messages_with_mentions_async(:update_comment)
       else
         if @comment.errors.any?
           errors_to_flash(@comment)

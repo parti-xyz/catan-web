@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_27_183446) do
+ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -236,6 +236,33 @@ ActiveRecord::Schema.define(version: 2020_09_27_183446) do
     t.index ["group_id"], name: "index_group_home_components_on_group_id"
   end
 
+  create_table "group_message_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_group_message_settings_on_group_id"
+    t.index ["user_id"], name: "index_group_message_settings_on_user_id"
+  end
+
+  create_table "group_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "group_id", null: false
+    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_closed_survey", default: "ignoring"
+    t.string "payoff_create_post", default: "ignoring"
+    t.string "payoff_pin_post", default: "ignoring"
+    t.string "payoff_mention", default: "subscribing_and_app_push"
+    t.string "payoff_upvote", default: "subscribing_and_app_push"
+    t.string "payoff_create_issue", default: "ignoring"
+    t.string "payoff_update_issue_title", default: "ignoring"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_group_observations_on_group_id"
+    t.index ["user_id", "group_id"], name: "index_group_observations_on_user_id_and_group_id", unique: true
+    t.index ["user_id"], name: "index_group_observations_on_user_id"
+  end
+
   create_table "group_push_notification_preferences", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "group_id", null: false
@@ -303,6 +330,29 @@ ActiveRecord::Schema.define(version: 2020_09_27_183446) do
     t.index ["joinable_id"], name: "index_invitations_on_joinable_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
+  create_table "issue_message_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "issue_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issue_id"], name: "index_issue_message_settings_on_issue_id"
+    t.index ["user_id"], name: "index_issue_message_settings_on_user_id"
+  end
+
+  create_table "issue_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "issue_id", null: false
+    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_closed_survey", default: "ignoring"
+    t.string "payoff_create_post", default: "ignoring"
+    t.string "payoff_pin_post", default: "ignoring"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["issue_id"], name: "index_issue_observations_on_issue_id"
+    t.index ["user_id", "issue_id"], name: "index_issue_observations_on_user_id_and_issue_id", unique: true
+    t.index ["user_id"], name: "index_issue_observations_on_user_id"
   end
 
   create_table "issue_posts_formats", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -490,6 +540,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_183446) do
     t.text "action_params"
     t.integer "sender_id", null: false
     t.datetime "read_at"
+    t.string "bulk_session"
     t.index ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
@@ -584,6 +635,18 @@ ActiveRecord::Schema.define(version: 2020_09_27_183446) do
     t.integer "neutral_votings_count", default: 0, null: false
     t.integer "disagree_votings_count", default: 0, null: false
     t.integer "sure_votings_count", default: 0, null: false
+  end
+
+  create_table "post_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_closed_survey", default: "ignoring"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_post_observations_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_post_observations_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_post_observations_on_user_id"
   end
 
   create_table "post_readers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -715,6 +778,21 @@ ActiveRecord::Schema.define(version: 2020_09_27_183446) do
     t.index ["inviter_id"], name: "index_roll_calls_on_inviter_id"
     t.index ["user_id", "event_id"], name: "index_roll_calls_on_user_id_and_event_id", unique: true
     t.index ["user_id"], name: "index_roll_calls_on_user_id"
+  end
+
+  create_table "root_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "group_id", null: false
+    t.string "payoff_create_comment", default: "ignoring"
+    t.string "payoff_closed_survey", default: "ignoring"
+    t.string "payoff_create_post", default: "ignoring"
+    t.string "payoff_pin_post", default: "ignoring"
+    t.string "payoff_mention", default: "subscribing_and_app_push"
+    t.string "payoff_upvote", default: "subscribing_and_app_push"
+    t.string "payoff_create_issue", default: "ignoring"
+    t.string "payoff_update_issue_title", default: "ignoring"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_root_observations_on_group_id", unique: true
   end
 
   create_table "searches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|

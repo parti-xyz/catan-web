@@ -50,7 +50,7 @@ class MembersController < ApplicationController
         @user.update_attributes(member_issues_changed_at: DateTime.now)
       end
       if @member.paranoia_destroyed?
-        MessageService.new(@member, sender: current_user, action: :ban).call
+        SendMessage.run(source: @member, sender: current_user, action: :ban_issue_member)
         MemberMailer.on_ban(@member.id, current_user.id).deliver_later
       end
     end
@@ -64,8 +64,12 @@ class MembersController < ApplicationController
     @member = @issue.members.find_by user: @user
     @member.update_attributes(is_organizer: request.put?) if @member.present?
     if @member.previous_changes["is_organizer"].present? and @member.is_organizer?
-      MessageService.new(@member, sender: current_user, action: :new_organizer).call
-      MemberMailer.on_new_organizer(@member.id, current_user.id).deliver_later
+      SendMessage.run(source: @member, sender: current_user, action: :create_issue_organizer)
+      SendMessage.run(source: @member, sender: current_user, action: :assign_issue_organizer)
+
+      if @member.user != current_user
+        MemberMailer.on_new_organizer(@member.id, current_user.id).deliver_later
+      end
     end
 
     respond_to do |format|

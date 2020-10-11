@@ -21,7 +21,6 @@ class DecisionNotificationJob < ApplicationJob
     not_sent_histories = histories_chunk.select { |decision_history| decision_history.mailed_at.blank? }
     if histories_chunk.blank? or not_sent_histories.any?
       post = Post.find_by(id: decision_history.post_id)
-      MessageService.new(decision_history.post, sender: decision_user, action: :decision).call(decision_body: decision_history.body)
     end
 
     decision_history.update_columns(mailed_at: DateTime.now)

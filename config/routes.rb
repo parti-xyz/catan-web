@@ -594,5 +594,9 @@ Rails.application.routes.draw do
     resources :labels, only: [:index, :create, :update, :destroy]
 
     resources :bookmarks, only: [:index, :create, :destroy]
+
+    resources :message_configuration_group_observations, only: [:create, :update]
+    resources :message_configuration_issue_observations, only: [:create, :update, :destroy]
+    resources :message_configuration_post_observations, only: [:create, :update, :destroy]
   end
 end

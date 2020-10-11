@@ -1,6 +1,6 @@
 .supplementary-boxes{ data: { controller: ('fix-bottom-comments' if is_small_screen?) } }
   - unless is_small_screen?
-    = render partial: 'front/channels/supplementary_pinned_posts', locals: local_assigns.merge(default_force: 'hide')
+    = render partial: 'front/channels/supplementary/pinned_posts', locals: local_assigns.merge(default_force: 'hide')
   - comments = updated_comments&.any? ? updated_comments : recent_comments
   - if comments&.any?
     .supplementary-box{ data: { controller: "content-toggle", target: 'fix-bottom-comments.item', 'content-toggle': { id: "updated-comments-box-#{current_post.id}", force: ('show' unless is_small_screen?) } } }
@@ -50,3 +50,13 @@
                 - if comments_count > 0
                   %i.fa.fa-comment-o.mx-1
                   #{comments_count}
+
+  - if user_signed_in? && current_group.member?(current_user)
+    .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "post-message-configuraion-#{current_post.id}" } } }
+      .header{ data: { action: 'click->content-toggle#toggle' } }
+        .title
+          이 게시물의 알림 설정
+        .toggler
+          %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
+      .body.-hide{ data: { target: 'content-toggle.content' } }
+        = render partial: 'front/posts/supplementary/message_configurations_body', locals: local_assigns

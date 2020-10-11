@@ -1,26 +1,26 @@
 - member = message.messagable
-- if message.action.to_s == 'ban'
+- if ['ban_issue_member', 'ban_group_member'].include? message.action.to_s
   #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 회원님을
   #{member.joinable.title}
   #{member.joinable.model_name.human}에서
   탈퇴시켰습니다
-- elsif message.action.to_s == 'admit'
+- elsif ['admit_issue_member', 'admit_group_member'].include? message.action.to_s
   #{member.joinable.title}
   #{member.joinable.model_name.human}에
   가입되었습니다
-- elsif message.action.to_s == 'force_default'
+- elsif message.action.to_s == 'force_default_issue'
   #{member.joinable.title}
   #{member.joinable.model_name.human}에
   가입되었습니다
-- elsif message.action.to_s == 'new_organizer'
+- elsif ['assign_issue_organizer', 'assign_group_organizer'].include? message.action.to_s
   회원님은
   #{member.joinable.title}
   #{member.joinable.model_name.human} 오거나이저입니다.
-- elsif message.action.to_s == 'welcome_organizer'
+- elsif ['create_issue_organizer', 'create_issue_organizer'].include? message.action.to_s
   #{message.action_params_hash["new_organizer_user_nickname"]}님은
   #{member.joinable.title}
   #{member.joinable.model_name.human} 오거나이저입니다.
-- else
+- elsif ['create_issue_member', 'create_group_member'].include? message.action.to_s
   #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이
   #{member.joinable.title}
   #{member.joinable.model_name.human}에

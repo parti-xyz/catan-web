@@ -121,7 +121,7 @@ export default class extends Controller {
   clearValidationReport() {
     let messagsTooltips = this.element.querySelectorAll('[data-validate-form-invalid-tooltip]')
     Array.from(messagsTooltips).forEach(messagsTooltip => {
-      messagsTooltip.parentNode.removeChild(messagsTooltip)
+      messagsTooltip.remove()
     })
 
     let wasValidatedElements = this.element.querySelectorAll('.was-validated')
