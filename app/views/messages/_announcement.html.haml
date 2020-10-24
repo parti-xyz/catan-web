@@ -1,0 +1,7 @@
+- annoucement = message.messagable
+- if 'create_announcement' == message.action.to_s
+  = link_to front_post_path(annoucement.post) do
+    %strong
+      %span
+        게시글 필독요청을 받았습니다.
+    %div=annoucement.post.specific_desc_striped_tags(100)

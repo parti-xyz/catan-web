@@ -60,7 +60,7 @@ class Front::BaseController < ApplicationController
     if current_post.wiki.present?
       wiki_histories = current_post.wiki.wiki_histories.significant.recent.page(1)
     end
-    result[:wiki_histories] = wiki_histories
+    result[:wiki_histories] = wiki_histories.includes(:comments)
 
     result
   end

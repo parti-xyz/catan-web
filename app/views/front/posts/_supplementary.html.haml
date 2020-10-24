@@ -46,7 +46,7 @@
                   #{static_date_f(wiki_history.created_at)}
               .footer
                 != wiki_history.activity { |user| user_subject_word(user) }
-                - comments_count = wiki_history.comments.count
+                - comments_count = wiki_history.comments.size
                 - if comments_count > 0
                   %i.fa.fa-comment-o.mx-1
                   #{comments_count}

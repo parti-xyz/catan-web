@@ -71,6 +71,8 @@ class SendMessage < ActiveInteraction::Base
     when :closed_survey
       return if source.post.blank?
       # receivers = receivers
+    when :create_announcement
+      receivers = receivers.where(id: source.smart_need_to_notice_members.select(:user_id))
     else
       error = StandardError.new("BAD MESSAGE ACTION : #{action}")
       error.set_backtrace(caller)
