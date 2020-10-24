@@ -161,7 +161,6 @@ group :development, :test do
   gem 'timecop', '~> 0.8.0'
   gem 'spring'
   gem 'mocha', '~> 1.1'
-  gem 'puma'
   gem 'sassc-rails', '~> 2.1'
   gem 'rails-controller-testing'
 end
