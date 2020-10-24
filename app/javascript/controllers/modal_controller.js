@@ -26,7 +26,7 @@ export default class extends Controller {
     this.element.classList.remove("show")
     let backdrop = document.getElementById(this.uuidBackdrop)
     if (backdrop) {
-      backdrop.parentNode.removeChild(backdrop)
+      backdrop.remove()
     }
   }
 

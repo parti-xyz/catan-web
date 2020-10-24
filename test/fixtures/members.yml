@@ -1,57 +1,6 @@
+member1:
+  user: one
+  joinable: alpha (Group)
 member2:
-  user: recipient
-  joinable: issue1 (Issue)
-member3:
-  user: recipient
-  joinable: issue2 (Issue)
-member4:
-  user: one
-  joinable: issue1 (Issue)
-member5:
-  user: organizer
-  joinable: issue1 (Issue)
-  is_organizer: true
-member6:
-  user: one
-  joinable: issue2 (Issue)
-member7:
-  user: three
-  joinable: issue1 (Issue)
-target_member:
-  user: target_member
-  joinable: merge_target_issue (Issue)
-source_member:
-  user: source_member
-  joinable: merge_source_issue (Issue)
-bat_member1:
-  user: bat_member
-  joinable: merge_target_issue (Issue)
-bat_member2:
-  user: bat_member
-  joinable: merge_source_issue (Issue)
-target_organizer:
-  user: target_organizer
-  joinable: merge_target_issue (Issue)
-  is_organizer: true
-source_organizer:
-  user: source_organizer
-  joinable: merge_source_issue (Issue)
-  is_organizer: true
-bat_organizer1:
-  user: bat_organizer
-  joinable: merge_target_issue (Issue)
-  is_organizer: true
-bat_organizer2:
-  user: bat_organizer
-  joinable: merge_source_issue (Issue)
-  is_organizer: true
-three_of_private_group:
-  user: three
-  joinable: private_group (Group)
-notice_organizer:
-  user: organizer
-  joinable: notice (Issue)
-  is_organizer: true
-notice_one:
-  user: one
-  joinable: notice (Issue)
+  user: two
+  joinable: alpha (Group)

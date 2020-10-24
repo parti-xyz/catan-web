@@ -38,6 +38,8 @@ gem 'chartkick', '>= 3.2.0'
 gem 'moneta'
 gem 'counter_culture', '~> 2.3'
 gem 'active_interaction', '~> 3.8'
+gem 'activerecord-import', '~> 1.0', '>= 1.0.6'
+gem 'after_commit_everywhere'
 
 # file upload
 gem 'carrierwave', '~> 2.0'

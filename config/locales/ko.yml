@@ -315,6 +315,16 @@ ko:
         site_keywords: 태그(선택)
         key_visual_foreground_image: 그룹홈 상단 이미지(선택)
         key_visual_background_image: 그룹홈 상단 배경 이미지(선택)
+    message_observation_configurable:
+      action:
+        mention: 멘션 받을 때
+        upvote: 공감 받을 때
+        create_issue: 새 채널이 열릴 때
+        update_issue_title: 채널의 이름이 바뀔 때
+        create_post: 글이 게시될 때
+        pin_post: 글이 고정될 때
+        create_comment: 댓글이 달릴 때
+        closed_survey: 설문이 있다면 설문이 종료될 때
   enumerize:
     defaults:
       choice:
@@ -322,6 +332,10 @@ ko:
         disagree: 반대
         unsure: 유보
         neutral: 중립
+      payoff:
+        subscribing: 알림 목록에 게시합니다.
+        subscribing_and_app_push: 알림 목록에 게시하고 앱 푸시 알림을 받습니다.
+        ignoring: 무시합니다.
     wiki:
       status:
         active:
@@ -347,9 +361,9 @@ ko:
         'highlight': 아주 중요한 알림만 받기
         'nothing': 알림 받지 않기
       value_desc:
-        'detail': 간략한 알림 사항과 새로운 댓글이 업데이트되면 알림을 받습니다.
-        'compact': 아주 중요한 알림 사항과 내가 가입한 채널에 새 게시글이나 함께하는 결정이 업데이트되면 알림을 받습니다
-        'highlight': 나를 멘션하거나 내가 토론 중인 게시글의 알림을 받습니다
+        'detail': 간략한 알림 사항과 새 댓글이 등록되면 알림을 받습니다.
+        'compact': 아주 중요한 알림 사항과 내가 가입한 채널에 새 게시글이 등록되면 알림을 받습니다
+        'highlight': 멘션과 공감, 내가 토론 중인 게시물의 새 댓글과 설문이 종료될 때 알림을 받습니다
         'nothing': 어떤 알림도 받지 않습니다
       value_issue_header:
         'detail': 자세히

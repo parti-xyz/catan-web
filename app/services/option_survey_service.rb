@@ -21,7 +21,6 @@ class OptionSurveyService
       if @option.persisted?
         @post = survey.post
         @post.issue.deprecated_read_if_no_unread_posts!(@current_user)
-        MessageService.new(@option).call
       end
     end
   end

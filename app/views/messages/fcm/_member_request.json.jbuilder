@@ -1,14 +1,14 @@
 member_request = message.messagable
 joinable = member_request.joinable
-if message.action.to_s == 'request'
+if ['create_issue_member_request', 'create_group_member_request'].include? message.action.to_s
   body = "@#{message.sender.nickname}님이 #{member_request.joinable.title} #{member_request.joinable.model_name.human}에 가입요청합니다."
   url = smart_joinable_members_url(joinable)
 end
-if message.action.to_s == 'accept'
+if ['accept_issue_member_request', 'accept_group_member_request'].include? message.action.to_s
   body = "@#{message.sender.nickname}님이 #{member_request.joinable.title} #{member_request.joinable.model_name.human} 가입요청을 승인합니다."
   url = smart_joinable_url(joinable)
 end
-if message.action.to_s == 'cancel'
+if ['reject_issue_member_request', 'reject_group_member_request'].include? message.action.to_s
   body = "@#{message.sender.nickname}님이 #{member_request.joinable.title} #{member_request.joinable.model_name.human} 가입요청을 거절합니다."
   url = smart_joinable_url(joinable)
 end

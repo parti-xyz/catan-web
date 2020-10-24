@@ -1,5 +1,0 @@
-source_invitation:
-  joinable: merge_source_issue (Issue)
-  user: one
-  recipient: two
-  updated_at: <%= 5.day.ago.to_s(:db) %>

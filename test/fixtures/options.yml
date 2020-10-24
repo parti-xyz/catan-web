@@ -1,8 +1,0 @@
-option1:
-  survey: survey1
-  body: 'option1'
-  user: one
-option2:
-  survey: survey1
-  body: 'option2'
-  user: two

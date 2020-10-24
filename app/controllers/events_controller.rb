@@ -20,7 +20,8 @@ class EventsController < ApplicationController
       messaging_roll_calls = roll_calls.to_a
       roll_calls.update_all(status: :to_be_decided, updated_at: DateTime.now)
       messaging_roll_calls.each do |roll_call|
-        MessageService.new(@event, sender: current_user, action: need_to_rsvp).call(roll_call: roll_call)
+        # TODO
+        # SendMessage.run(source: @event, sender: current_user, action: need_to_rsvp, options: { roll_call: roll_call })
       end
     end
     @event.save

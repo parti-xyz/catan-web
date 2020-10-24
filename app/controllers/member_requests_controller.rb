@@ -8,7 +8,7 @@ class MemberRequestsController < ApplicationController
 
     @member_request.user = current_user
     if @member_request.save
-      MessageService.new(@member_request, action: :request).call
+      SendMessage.run(source: @member_request, sender: curren_user, action: :create_issue_member_request)
       MemberRequestMailer.deliver_all_later_on_create(@member_request)
     end
     respond_to do |format|
@@ -28,7 +28,7 @@ class MemberRequestsController < ApplicationController
     @member = MemberIssueService.new(issue: @issue, user: @member_request.user, need_to_message_organizer: true, is_force: true).call
     if @member.try(:persisted?)
       @member_request.try(:destroy)
-      MessageService.new(@member_request, sender: current_user, action: :accept).call
+      SendMessage.run(source: @member_request, sender: current_user, action: :accept_issue_member_request)
       MemberRequestMailer.on_accept(@member_request.id, current_user.id).deliver_later
     end
 
@@ -51,7 +51,7 @@ class MemberRequestsController < ApplicationController
       @member_request.destroy
     end
     if @member_request.paranoia_destroyed?
-      MessageService.new(@member_request, sender: current_user, action: :cancel).call
+      SendMessage.run(source: @member_request, sender: current_user, action: :reject_issue_member_request)
       MemberRequestMailer.on_reject(@member_request.id, current_user.id).deliver_later
     end
 

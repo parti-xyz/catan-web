@@ -1,2 +1,2 @@
-- if message.action.to_s == 'cancel'
+- if ['reject_issue_member_request', 'reject_group_member_request'].include? message.action.to_s
   = message.try(:messagable).try(:reject_message)

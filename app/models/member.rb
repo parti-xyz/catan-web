@@ -45,7 +45,7 @@ class Member < ApplicationRecord
   end
 
   def group_for_message
-    group
+    group || issue&.group
   end
 
   # DEPRECATED

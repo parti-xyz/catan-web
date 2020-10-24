@@ -8,7 +8,16 @@
             알림
 
 - content_for :playground_sidebar_content do
-  = render 'front/share/base_playground_sidebar_content'
+  - if user_signed_in? and current_group.member?(current_user)
+    .supplementary-boxes
+      .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "group-message-configuraion-#{current_group.id}" } } }
+        .header{ data: { action: 'click->content-toggle#toggle' } }
+          .title
+            그룹 알림 설정
+          .toggler
+            %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
+        .body.-hide{ data: { target: 'content-toggle.content' } }
+          = render 'front/message_configurations/observation/form', observation: MessageConfiguration::GroupObservation.of(current_user, current_group)
 
 .messages-box
   .pagination-header

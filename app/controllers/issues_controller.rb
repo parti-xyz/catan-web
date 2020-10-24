@@ -247,12 +247,19 @@ class IssuesController < ApplicationController
         if @issue.previous_changes["is_default"].present? and @issue.is_default?
           IssueForceDefaultJob.perform_async(@issue.id, current_user.id)
         end
-        MessageService.new(@issue, sender: current_user).call
+
+        if @issue.saved_change_to_attribute?('title')
+          SendMessage.run(source: @issue, sender: current_user, action: :update_issue_title)
+        end
+
         old_organizer_members = @issue.organizer_members.to_a - new_organizer_members
         new_organizer_members.each do |member|
-          next if member.user == current_user
-          MessageService.new(member, sender: current_user, action: :new_organizer).call(old_organizer_members: old_organizer_members)
-          MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
+          SendMessage.run(source: member, sender: current_user, action: :create_issue_organizer, options: { old_organizer_members: old_organizer_members })
+          SendMessage.run(source: member, sender: current_user, action: :assign_issue_organizer)
+
+          if member.user != current_user
+            MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
+          end
         end
         flash[:success] = t('activerecord.successful.messages.created')
 
@@ -369,7 +376,7 @@ class IssuesController < ApplicationController
       if @success
         new_members.each do |member|
           MemberMailer.on_admit(member.id, current_user.id).deliver_later
-          MessageService.new(member, sender: current_user, action: :admit).call
+          SendMessage.run(source: member, sender: current_user, action: :admit_issue_member)
         end
         new_invitations.each do |invitation|
           InvitationMailer.invite(invitation.id).deliver_later

@@ -208,7 +208,7 @@ class Comment < ApplicationRecord
   end
 
   def touch_last_stroked_at_of_issues
-    self.issue.strok_by!(self.user, self.post)
+    self.issue.strok_by!(self.user)
     self.issue.deprecated_read_if_no_unread_posts!(self.user)
   end
 

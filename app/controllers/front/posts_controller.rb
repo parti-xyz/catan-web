@@ -97,6 +97,8 @@ class Front::PostsController < Front::BaseController
         @current_post.announcement = Announcement.create(post: @current_post)
         result = @current_post.save
         raise ActiveRecord::Rollbacks unless result
+
+        SendMessage.run(source: @current_post.announcement, sender: current_user, action: :create_announcement)
       end
 
       if @current_post.announcement.requested_to_notice?(current_user)

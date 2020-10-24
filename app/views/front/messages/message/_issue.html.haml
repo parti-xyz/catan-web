@@ -1,0 +1,19 @@
+- if message.action.to_s == 'update_issue_title'
+  = link_to front_channel_path(issue) do
+    %strong
+      #{message.sender.nickname}님이
+      - if message.action_params_hash["previous_title"] == issue.title
+        #{issue.title} 채널 제목을 현제 제목으로 수정했습니다.
+      - else
+        #{message.action_params_hash["previous_title"]}
+        채널 제목을
+        #{issue.title}
+        채널로 수정했습니다.
+    = render 'messages/go'
+- elsif message.action.to_s == 'create_issue'
+  = link_to front_channel_path(issue) do
+    %strong
+      #{message.sender.nickname}님이
+      #{issue.title}
+      채널을 새로 열었습니다.
+    = render 'messages/go'

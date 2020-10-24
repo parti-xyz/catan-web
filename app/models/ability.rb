@@ -148,6 +148,14 @@ class Ability
         announcement.post.user == user || announcement.post.issue.group.organized_by?(user)
       end
 
+      can [:update], [MessageConfiguration::GroupObservation, MessageConfiguration::IssueObservation, MessageConfiguration::PostObservation] do |observation|
+        observation.user == user
+      end
+
+      can [:update], MessageConfiguration::RootObservation do |observation|
+        observation.group.organized_by?(user)
+      end
+
       if user.admin?
         can :manage, [Folder, Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category, Announcement]
       end

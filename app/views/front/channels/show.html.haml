@@ -39,7 +39,7 @@
 - content_for :playground_sidebar_content do
   .supplementary-boxes
     = render partial: 'front/channels/supplementary', locals: @supplementary_locals
-    = render 'front/channels/supplementary_controls', current_folder: @currnt_folder, current_issue: @current_issue
+    = render 'front/channels/supplementary/controls', current_folder: @currnt_folder, current_issue: @current_issue
 
 - if @all_posts_total_count > 0
   .channel-box{ data: { controller: 'channel-read-emit list-nav-reset' } }

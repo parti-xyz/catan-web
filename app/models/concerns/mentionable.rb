@@ -19,7 +19,7 @@ module Mentionable
 
   def perform_messages_with_mentions_async(action)
     return if self.try(:issue).try(:blind_user?, self.user)
-    MentionJob.perform_async(self.class.model_name, self.id, action)
+    MentionableMessageJob.perform_async(self.class.model_name, self.id, action)
   end
 
   def perform_messages_with_mentions_now(action)
@@ -27,30 +27,22 @@ module Mentionable
 
     # Transaction을 걸지 않습니다
     set_mentions
-    mention_mail_limit = 500
-    send_mention_emails if self.mentions.count <= mention_mail_limit
-    MessageService.new(self, action: action.to_sym).call()
+    # mention 메시지를 먼저 처리합니다
+    SendMessage.run(source: self, sender: self.user, action: :mention)
+    SendMessage.run(source: self, sender: self.user, action: action.to_sym)
   end
 
   private
 
   def set_mentions
-    pervious = self.mentions.destroy_all
+    self.mentions.destroy_all
+
     scan_users.map do |mentioned_user|
       self.mentions.build(user: mentioned_user)
-      self.messages.where(user: mentioned_user).update_all(action: :mention)
     end
     self.save
-  end
 
-  def send_mention_emails
-    return if self.try(:issue).try(:blind_user?, self.user)
-
-    mailing_users = []
-    mailing_users += self.mentions.map(&:user)
-    mailing_users.reject!{ |user| user == self.user }
-    mailing_users.reject!{ |user| self.messages.select(:user_id).map(&:user_id).include?(user.id) }
-    mailing_users.uniq!
+    self.messages.where(user: scan_users).update_all(action: :mention)
   end
 
   def scan_users

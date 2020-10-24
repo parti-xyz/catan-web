@@ -1,8 +1,6 @@
 - post = message.messagable
-- if message.action.to_s == 'pinned'
+- if message.action.to_s == 'pin_post'
   #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 게시글을 고정했습니다.
-- if message.action.to_s == 'decision'
-  #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 게시글 토론을 정리했습니다.
-- else
+- elsif message.action.to_s == 'mention'
   #{link_to post.user.nickname, smart_user_gallery_url(post.user)}님이 게시글에서 나를 멘션했습니다
 

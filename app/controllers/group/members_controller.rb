@@ -42,7 +42,7 @@ class Group::MembersController < Group::BaseController
         end
       end
       if @member.paranoia_destroyed?
-        MessageService.new(@member, sender: current_user, action: :ban).call
+        SendMessage.run(source: @member, sender: current_user, action: :ban_group_member)
         MemberMailer.on_ban(@member.id, current_user.id).deliver_later
       end
     end
@@ -56,8 +56,12 @@ class Group::MembersController < Group::BaseController
     @member = current_group.members.find_by user: @user
     @member.update_attributes(is_organizer: request.put?) if @member.present?
     if @member.previous_changes["is_organizer"].present? and @member.is_organizer?
-      MessageService.new(@member, sender: current_user, action: :new_organizer).call
-      MemberMailer.on_new_organizer(@member.id, current_user.id).deliver_later
+      SendMessage.run(source: @member, sender: current_user, action: :create_group_organizer)
+      SendMessage.run(source: @member, sender: current_user, action: :assign_group_organizer)
+
+      if @member.user != current_user
+        MemberMailer.on_new_organizer(@member.id, current_user.id).deliver_later
+      end
     end
 
     respond_to do |format|
@@ -125,7 +129,7 @@ class Group::MembersController < Group::BaseController
       if @success
         new_members.each do |member|
           MemberMailer.on_admit(member.id, current_user.id).deliver_later
-          MessageService.new(member, sender: current_user, action: :admit).call
+          SendMessage.run(source: member, sender: current_user, action: :admit_group_member)
         end
         new_invitations.each do |invitation|
           InvitationMailer.invite(invitation.id).deliver_later
@@ -179,7 +183,7 @@ class Group::MembersController < Group::BaseController
     @member = MemberGroupService.new(group: current_group, user: current_user).call
     if @member.persisted?
       flash[:success] = t('views.group.welcome')
-      MessageService.new(@member).call
+      SendMessage.run(source: @member, sender: @member.user, action: :create_group_member)
       MemberMailer.deliver_all_later_on_create(@member)
     end
 

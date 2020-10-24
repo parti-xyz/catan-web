@@ -77,11 +77,11 @@ module PartiUrlHelper
   end
 
   def smart_group_url(group, options = {})
-    return root_url(options.merge(subdomain: group.subdomain))
+    root_url(options.merge(subdomain: group.subdomain))
   end
 
   def smart_group_issues_url(group, options = {})
-    return issues_url(options.merge(subdomain: group.subdomain))
+    issues_url(options.merge(subdomain: group.subdomain))
   end
 
   def smart_joinable_members_url(joinable, options = {})
@@ -108,6 +108,10 @@ module PartiUrlHelper
   end
 
   def smart_front_channel_url(issue, options = {})
-    front_channel_url(issue, options.merge(subdomain: issue&.group_subdomain))
+    if issue&.group == try(:current_group)
+      front_channel_path(issue, options.merge(subdomain: issue&.group_subdomain))
+    else
+      front_channel_url(issue, options.merge(subdomain: issue&.group_subdomain))
+    end
   end
 end

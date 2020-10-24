@@ -53,6 +53,7 @@ class Group < ApplicationRecord
   belongs_to :blinded_by, class_name: "User", foreign_key: 'blinded_by_id', optional: true
   has_many :last_visited_users, as: :last_visitable, class_name: 'User', dependent: :nullify
   has_many :labels, dependent: :destroy
+  has_many :group_observation, dependent: :destroy, class_name: 'MessageConfiguration::GroupObservation'
 
   scope :sort_by_name, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(Arel.sql("if(ascii(substring(title, 1)) < 128, 1, 0)")).order(:title) }
   scope :hottest, -> { order(Arel.sql("case when slug = '#{Group::DEFAULT_SLUG}' then 0 else 1 end")).order(hot_score_datestamp: :desc, hot_score: :desc) }
@@ -94,7 +95,7 @@ class Group < ApplicationRecord
   validates :slug,
     presence: true,
     format: { with: VALID_SLUG },
-    exclusion: { in: %w(all app new edit index session login logout users admin stylesheets assets javascripts images dev dev2 test union) },
+    exclusion: { in: %w(all app new edit index session login logout users admin stylesheets assets javascripts images dev dev2 test) },
     uniqueness: { case_sensitive: false },
     length: { maximum: 20 }
   validate :not_predefined_slug
@@ -330,10 +331,6 @@ class Group < ApplicationRecord
         group_home_component.save!
       end
     end
-  end
-
-  def issue_create_messagable_users
-    member_users.where(id: GroupPushNotificationPreference.where(group: self).select(:user_id))
   end
 
   def organization

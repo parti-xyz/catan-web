@@ -75,6 +75,7 @@ class Issue < ApplicationRecord
   has_one :current_user_issue_reader,
     -> { where(user_id: Current.user.try(:id)) },
     class_name: 'IssueReader'
+  has_many :issue_observations, dependent: :destroy, class_name: 'MessageConfiguration::IssueObservation'
 
   # validations
   validates :title,
@@ -366,11 +367,8 @@ class Issue < ApplicationRecord
     self
   end
 
-  def strok_by!(someone, post)
-    return if someone.blank?
-    return if post.blinded?
-
-    update_columns(last_stroked_at: DateTime.now, last_stroked_user_id: someone.id)
+  def strok_by!(someone)
+    strok_by(someone).save
   end
 
   def sync_last_stroked_at!
@@ -399,10 +397,10 @@ class Issue < ApplicationRecord
     return false unless group.member?(someone)
 
     issue_reader = if someone == Current.user
-        current_user_issue_reader
-      else
-        self.issue_readers.find_by(user: someone)
-      end
+      current_user_issue_reader
+    else
+      self.issue_readers.find_by(user: someone)
+    end
 
     issue_reader.present? && issue_reader.updated_at < self.last_stroked_at
   end
@@ -537,22 +535,6 @@ class Issue < ApplicationRecord
 
   def rookie?
     created_at > 1.weeks.ago
-  end
-
-  def compact_messagable_users
-    if self.group.frontable?
-      self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).detail_or_compact_value.select(:user_id))
-    else
-      self.member_users.where.not(id: IssuePushNotificationPreference.where(issue: self).deprecated_not_detail_or_compact_value.select(:user_id))
-    end
-  end
-
-  def detail_messagable_users
-    if self.group.frontable?
-      self.member_users.where(id: IssuePushNotificationPreference.where(issue: self).detail_value.select(:user_id))
-    else
-      self.member_users.where.not(id: IssuePushNotificationPreference.where(issue: self).deprecated_not_detail_value.select(:user_id))
-    end
   end
 
   def self.of_group_for_message(group)

@@ -102,7 +102,7 @@ class Prompt {
       this.closeHandler = null
     }
     if (this.wrapperElement && this.wrapperElement.parentNode) {
-      this.wrapperElement.parentNode.removeChild(this.wrapperElement)
+      this.wrapperElement.remove()
     }
   }
 

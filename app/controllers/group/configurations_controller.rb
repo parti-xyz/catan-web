@@ -60,13 +60,16 @@ class Group::ConfigurationsController < Group::BaseController
       end
 
       if @group.save
-        #그룹 변경 노티 필요
-        #MessageService.new(@group, sender: current_user).call
+        # TODO
+        # 그룹 변경 노티 필요
         old_organizer_members = @group.organizer_members.to_a - new_organizer_members
         new_organizer_members.each do |member|
-          next if member.user == current_user
-          MessageService.new(member, sender: current_user, action: :new_organizer).call(old_organizer_members: old_organizer_members)
-          MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
+          SendMessage.run(source: member, sender: current_user, action: :create_group_organizer, options: { old_organizer_members: old_organizer_members })
+          SendMessage.run(source: member, sender: current_user, action: :assign_group_organizer)
+
+          if member.user != current_user
+            MemberMailer.on_new_organizer(member.id, current_user.id).deliver_later
+          end
         end
 
         if helpers.explict_front_namespace?

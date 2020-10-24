@@ -37,19 +37,19 @@ class Front::BaseController < ApplicationController
     if user_signed_in?
       updated_at_previous = current_post.current_user_post_reader&.updated_at
       if updated_at_previous.present?
-        updated_comments = current_post.comments.recent.where('created_at > ?', updated_at_previous)
+        updated_comments = current_post.comments.sequential.where('created_at > ?', updated_at_previous)
       end
     end
     result[:updated_comments] = updated_comments.load
 
     recent_comments = Comment.none
     if updated_comments.blank?
-      base_recent_comments = current_post.comments.recent
+      base_recent_comments = current_post.comments.sequential
       if user_signed_in?
         base_recent_comments = base_recent_comments.where.not(user: current_user)
       end
 
-      last_base_recent_comment = base_recent_comments.first
+      last_base_recent_comment = base_recent_comments.last
       if last_base_recent_comment.present?
         recent_comments = base_recent_comments.by_day(last_base_recent_comment.created_at, field: :created_at)
       end
@@ -60,7 +60,7 @@ class Front::BaseController < ApplicationController
     if current_post.wiki.present?
       wiki_histories = current_post.wiki.wiki_histories.significant.recent.page(1)
     end
-    result[:wiki_histories] = wiki_histories
+    result[:wiki_histories] = wiki_histories.includes(:comments)
 
     result
   end

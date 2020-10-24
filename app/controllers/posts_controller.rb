@@ -87,7 +87,7 @@ class PostsController < ApplicationController
 
     if @post.save
       crawling_after_updating_post
-      @post.perform_messages_with_mentions_async(:update)
+      @post.perform_messages_with_mentions_async(:update_post)
       flash[:success] = I18n.t('activerecord.successful.messages.created')
       if helpers.explict_front_namespace?
         turbolinks_redirect_to smart_front_post_url(@post)

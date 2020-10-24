@@ -98,6 +98,7 @@ class Post < ApplicationRecord
     class_name: 'PostReader'
   has_many :stroked_post_users, dependent: :destroy
   has_many :recent_stroked_post_users, -> { recent.limit(5) }, class_name: 'StrokedPostUser'
+  has_many :post_observations, dependent: :destroy, class_name: 'MessageConfiguration::PostObservation'
 
   belongs_to :last_stroked_user, class_name: "User", optional: true
   accepts_nested_attributes_for :link_source
@@ -484,6 +485,10 @@ class Post < ApplicationRecord
     poll.try(:unsured_by?, voter)
   end
 
+  def group_for_message
+    self.issue.group
+  end
+
   def post_for_message
     self
   end
@@ -507,7 +512,7 @@ class Post < ApplicationRecord
 
   def notifiy_pinned_now(someone)
     # Transaction을 걸지 않습니다
-    MessageService.new(self, sender: someone, action: :pinned).call()
+    SendMessage.run(source: self, sender: someone, action: :pin_post)
   end
 
   def strok_by(someone, subject = nil)

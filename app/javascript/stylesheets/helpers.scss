@@ -1,6 +1,7 @@
 @use './bootstrap';
 @use './global-variables';
 @use './mq';
+@use './mixin';
 
 .cursor-pointer {
   cursor: pointer;
@@ -81,4 +82,14 @@ legend.legend-default {
 
 .unicode-bidi-plaintext {
   unicode-bidi: plaintext;
+}
+
+@include mixin.keyframes(fade-out) {
+  20% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.fade-out-base {
+  opacity: 1;
+  @include mixin.animation('fade-out 1.5s linear .5s 1')
 }

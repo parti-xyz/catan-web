@@ -1,0 +1,7 @@
+= form_with model: [:front, observation], html: { data: { controller: 'message--configuration-form' } } do |f|
+  - observation.all_configurations.each do |action, payoff|
+    %p
+      %span.mb-1.d-block= t("labels.message_observation_configurable.action.#{action}")
+      - payoff_column_name = MessageObservationConfigurable.payoff_action_to_column_name(action).to_sym
+      %span.d-block{ style: 'height: 2rem; line-height: 2rem;' }
+        = f.select payoff_column_name, options_for_select(observation.class.send(payoff_column_name).options, payoff), {}, class: 'form-control form-control-sm', data: { target: 'message--configuration-form.payoffInput' }

@@ -37,10 +37,10 @@ class CreatePost < ActiveInteraction::Base
 
     post.read!(current_user)
     StrokedPostUserJob.perform_async(post.id, current_user.id)
-    post.issue.strok_by!(current_user, post)
+    post.issue.strok_by!(current_user)
     post.issue.read!(current_user)
     crawling_after_creating_post
-    post.perform_messages_with_mentions_async(:create)
+    post.perform_messages_with_mentions_async(:create_post)
     if post.pinned?
       PinJob.perform_async(post.id, current_user.id)
     end

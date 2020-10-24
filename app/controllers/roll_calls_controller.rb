@@ -30,7 +30,9 @@ class RollCallsController < ApplicationController
       if @roll_call.persisted? and
         @roll_call.status.invite? and
         @roll_call.status_previously_changed?
-        MessageService.new(@event, sender: current_user, action: :invite).call(roll_call: @roll_call)
+
+        # TODO
+        # SendMessage.run(source: @event, sender: current_user, action: :invite, options: { roll_call: @roll_call })
       end
     end
   end
@@ -69,7 +71,8 @@ class RollCallsController < ApplicationController
 
     if @roll_call.update(status: status)
       if @roll_call.inviter.present?
-        MessageService.new(@event, sender: current_user, action: params[:action].to_sym).call(roll_call: @roll_call)
+        # TODO
+        # SendMessage.run(source: @event, sender: current_user, action: params[:action].to_sym, options: { roll_call: @roll_call })
       end
     end
   end
