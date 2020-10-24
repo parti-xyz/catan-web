@@ -4,7 +4,7 @@ class CreateGroups < ActiveRecord::Migration[4.2]
       t.references :user, null: false
       t.string :title, null: false
       t.string :slug, null: false
-      t.text :body
+      t.text :body, limit: 16.megabytes - 1
       t.string :logo
       t.string :cover
       t.datetime :deleted_at

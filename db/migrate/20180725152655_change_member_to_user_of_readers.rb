@@ -1,4 +1,7 @@
 class ChangeMemberToUserOfReaders < ActiveRecord::Migration[5.2]
+  class Reader < ApplicationRecord
+  end
+
   def change
     add_reference :readers, :user, index: true
     rename_column :readers, :member_id, :deprecated_member_id

@@ -19,6 +19,7 @@ class MigrateCategories < ActiveRecord::Migration[4.2]
       }
       map.each do |group, items|
         items.each do |item|
+          next if group.blank?
           category = group.categories.create(name: item[:name])
           group.issues.where(category_slug: item[:slug]).update_all(category_id: category.id)
         end

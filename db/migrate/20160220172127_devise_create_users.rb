@@ -1,4 +1,10 @@
 class DeviseCreateUsers < ActiveRecord::Migration[4.2]
+  class User < ApplicationRecord
+    devise :database_authenticatable, :registerable,
+           :recoverable, :rememberable, :trackable,
+           :confirmable, :omniauthable, :omniauth_providers => [:facebook, :google_oauth2, :twitter]
+  end
+
   def up
     rename_table :users, :old_users
 

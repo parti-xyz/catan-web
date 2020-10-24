@@ -2,8 +2,8 @@ class CreateLinks < ActiveRecord::Migration[4.2]
   def change
     create_table :links do |t|
       t.string :title
-      t.text :body
-      t.text :metadata
+      t.text :body, limit: 16.megabytes - 1
+      t.text :metadata, limit: 16.megabytes - 1
       t.string :image
       t.string :page_type
       t.string :url, length: 1000

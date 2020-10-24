@@ -1,4 +1,9 @@
 class MigrateAritclesToTalks < ActiveRecord::Migration[4.2]
+  class LinkSource < ApplicationRecord
+  end
+  class Article < ApplicationRecord
+  end
+
   def up
     remove_index(:articles, name: :index_article_on_unique_link_source)
     ActiveRecord::Base.transaction do

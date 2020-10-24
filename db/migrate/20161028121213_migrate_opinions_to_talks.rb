@@ -1,4 +1,10 @@
 class MigrateOpinionsToTalks < ActiveRecord::Migration[4.2]
+  class Opinion < ApplicationRecord
+  end
+
+  class Vote < ApplicationRecord
+  end
+
   def up
     create_table :opinion_to_talks do |t|
       t.references :opinion

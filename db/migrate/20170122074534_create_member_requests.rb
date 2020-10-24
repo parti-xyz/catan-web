@@ -5,7 +5,7 @@ class CreateMemberRequests < ActiveRecord::Migration[4.2]
       t.references :user, null: false, index: true
       t.datetime :deleted_at
       t.string :active, default: "on"
-      t.text :cancel_message
+      t.text :cancel_message, limit: 16.megabytes - 1
       t.timestamps null: false
     end
 
