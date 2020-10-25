@@ -124,25 +124,39 @@
   h4,
   h5,
   h6 {
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
     font-weight: 600;
     line-height: 1.25;
   }
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.25rem + 0.125rem * 2;
+    font-weight: 900;
     padding-bottom: 0.3em;
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
-    margin-top: 5rem;
+    border-bottom: 1px solid global-variables.$color-gray-200;
   }
   h2 {
     font-size: 1.25rem;
     padding-bottom: 0.3em;
+    margin-top: 1rem;
     margin-bottom: 0.75rem;
-    margin-top: 3rem;
+    border-bottom: 1px solid global-variables.$color-gray-200;
   }
   h3 {
     font-size: 1.125rem;
+    padding-left: 8px;
+    position: relative;
+    &:before {
+      content: ' ';
+      height: 100%;
+      width: 4px;
+      background-color: global-variables.$color-gray-300;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
   }
   h4 {
     font-size: 1.125rem - 0.125rem;
