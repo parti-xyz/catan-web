@@ -35,7 +35,7 @@
       = link_to member.joinable.title, smart_joinable_url(member.joinable)
       #{member.joinable.model_name.human} 오거나이징을 부탁했습니다.
     = render 'messages/go'
-- elsif ['create_issue_organizer', 'create_issue_organizer'].include? message.action.to_s
+- elsif ['create_issue_organizer', 'create_group_organizer'].include? message.action.to_s
   = link_to front_channel_path(member.joinable) do
     %strong
       #{message.sender.nickname}님이

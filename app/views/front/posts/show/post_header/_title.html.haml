@@ -9,7 +9,7 @@
 
 - moremenu_post_buttons << capture do
   - if !current_post.wiki.present?
-    - if can?(:update, current_post) and current_post.wiki.blank?
+    - if can?(:update, current_post) && current_post.wiki.blank?
       = link_to '수정', edit_front_post_path(current_post), class: 'dropdown-item'
     - elsif can?(:front_update_title, current_post)
       = link_to edit_title_front_post_path(current_post), class: 'dropdown-item', remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' } do

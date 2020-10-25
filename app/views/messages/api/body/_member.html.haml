@@ -15,7 +15,7 @@
   #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이 회원님께
   #{member.joinable.title}
   #{member.joinable.model_name.human} 오거나이징을 부탁했습니다.
-- elsif ['create_issue_organizer', 'create_issue_organizer'].include? message.action.to_s
+- elsif ['create_issue_organizer', 'create_group_organizer'].include? message.action.to_s
   - new_organizer_user = User.find_by id: message.action_params_hash["new_organizer_user_id"]
   #{link_to message.sender.nickname, smart_user_gallery_url(message.sender)}님이
   - if new_organizer_user.present?
