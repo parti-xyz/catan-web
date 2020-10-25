@@ -158,6 +158,9 @@ class Ability
 
       if user.admin?
         can :manage, [Folder, Issue, Related, Blind, Role, Group, MemberRequest, Member, Invitation, Category, Announcement]
+        cannot :update, Post do |post|
+          user != post.user
+        end
       end
     end
   end
