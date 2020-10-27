@@ -62,6 +62,14 @@ class Front::MessagesController < Front::BaseController
     render(partial: '/front/messages/message', locals: {message: message, mention_only_page: (params[:mention_only_page] == 'true'), list_navable: (params[:list_navable] == 'true') })
   end
 
+  def fcm_read
+    url = params[:url].presence || root_url
+    message = Message.find_by(id: params[:id])
+    message.update(read_at: Time.now) if message.present? && message.user == current_user
+
+    redirect_to url
+  end
+
   def mentions
     render_404 and return unless user_signed_in?
 

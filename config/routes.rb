@@ -561,6 +561,7 @@ Rails.application.routes.draw do
       member do
         patch :read
         patch :unread
+        get :fcm_read
       end
       collection do
         get :nav

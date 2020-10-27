@@ -8,6 +8,6 @@ json.data do
   json.title "#{issue.title} #{Issue.model_name.human}"
   json.body body
   json.type "post"
-  json.url smart_post_url(post)
+  json.url fcm_read_front_message_url(id: message.id, url: smart_post_url(post))
   json.param post.id
 end
