@@ -2,49 +2,83 @@
   .container
     .group-join
       = image_tag 'groups/one/default-logo.png', class: 'logotitle'
-      - if current_group.member_requested?(current_user)
-        .simple-box.text-center{ style: 'padding: 5rem 0'}
-          %h4
-            🙌
-            %span.text-nowrap #{current_user.nickname}님의
-            %span.text-nowrap 가입 신청을 운영진이 검토 중입니다.
-          .mt-4.text-center{ style: 'padding: 2rem 0'}
-            %p.lead
-              %p
-                가입 신청을 운영진이 검토 중입니다.
-                %br
-                곧 처리될 예정이니 조금만 기다려 주세요.
-              %p
-                감사합니다.
 
-      - else
-        .simple-box.text-center{ style: 'padding: 5rem 0'}
-          %h4
+      .simple-box{ style: 'padding: 5rem 0'}
+        .text-center
+          %h4{ style: 'margin-bottom: 2.5rem'}
             🙌
             %span.text-nowrap 안녕하세요!
             %span.text-nowrap 청년기획자플랫폼 일일일일일에
             %span.text-nowrap 오신 것을 환영합니다.
-          .mt-4
-            - if user_signed_in?
-              %p
-                청년기획자플랫폼에서 활동하려면
-                %br
-                먼저 가입해야 합니다.
-              %p
-                지금 신청하세요.
-              %p.pt-3
-                = link_to new_front_member_request_path, class: 'btn btn-md btn-primary btn-block' do
-                  청년기획자플랫폼 가입 신청하기
-            - else
-              %p
-                청년기획자플랫폼에서 활동하려면
-                %br
-                빠띠 그룹스 계정을 만들고 청년기획자플랫폼에 가입해야 합니다.
-              %p
-                먼저 계정을 만들어 주세요.
-              %p.pt-3
-                = link_to pre_sign_up_front_users_path, class: 'btn btn-md btn-primary btn-block' do
-                  빠띠 그룹스 계정 만들기
-              %p.text-center
-                이미 빠띠 그룹스 계정이 있으세요?
-                = link_to '로그인', new_user_session_path, class: 'text-primary'
+
+        .mt-4{ style: 'padding: 2rem 0'}
+          %p
+            지금
+            %strong.text-nowrap "커뮤니티 기여전"
+            을 진행 중입니다.
+            커뮤니티 기여전 참여를 위한 플랫폼 가입은
+            %strong.text-keepall
+              %span.text-danger.text-nowrap 10월 27일(화) 23:59
+              까지 가입조건과 가입요청이 완료된 분
+            에 한하여 승인됩니다.
+
+          %p
+            현재는
+            %strong.text-keepall
+              플랫폼 가입이
+              %span.text-nowrap.text-danger 일시중지
+            되었으며,
+            %strong.text-keepall
+              일시중지 기간은
+              %span.text-nowrap.text-danger 10/28(수) 부터 11/17(화)
+            입니다. 해당 기간 이후엔 정상적으로 가입신청과 승인이 진행될 예정입니다.
+
+          %p
+            기타문의
+            %a(href='mailto:platformililililil@gmail.com') platformililililil@gmail.com
+      -# - if current_group.member_requested?(current_user)
+      -#   .simple-box.text-center{ style: 'padding: 5rem 0'}
+      -#     %h4
+      -#       🙌
+      -#       %span.text-nowrap #{current_user.nickname}님의
+      -#       %span.text-nowrap 가입 신청을 운영진이 검토 중입니다.
+      -#     .mt-4.text-center{ style: 'padding: 2rem 0'}
+      -#       %p.lead
+      -#         %p
+      -#           가입 신청을 운영진이 검토 중입니다.
+      -#           %br
+      -#           곧 처리될 예정이니 조금만 기다려 주세요.
+      -#         %p
+      -#           감사합니다.
+
+      -# - else
+      -#   .simple-box.text-center{ style: 'padding: 5rem 0'}
+      -#     %h4
+      -#       🙌
+      -#       %span.text-nowrap 안녕하세요!
+      -#       %span.text-nowrap 청년기획자플랫폼 일일일일일에
+      -#       %span.text-nowrap 오신 것을 환영합니다.
+      -#     .mt-4
+      -#       - if user_signed_in?
+      -#         %p
+      -#           청년기획자플랫폼에서 활동하려면
+      -#           %br
+      -#           먼저 가입해야 합니다.
+      -#         %p
+      -#           지금 신청하세요.
+      -#         %p.pt-3
+      -#           = link_to new_front_member_request_path, class: 'btn btn-md btn-primary btn-block' do
+      -#             청년기획자플랫폼 가입 신청하기
+      -#       - else
+      -#         %p
+      -#           청년기획자플랫폼에서 활동하려면
+      -#           %br
+      -#           빠띠 그룹스 계정을 만들고 청년기획자플랫폼에 가입해야 합니다.
+      -#         %p
+      -#           먼저 계정을 만들어 주세요.
+      -#         %p.pt-3
+      -#           = link_to pre_sign_up_front_users_path, class: 'btn btn-md btn-primary btn-block' do
+      -#             빠띠 그룹스 계정 만들기
+      -#         %p.text-center
+      -#           이미 빠띠 그룹스 계정이 있으세요?
+      -#           = link_to '로그인', new_user_session_path, class: 'text-primary'
