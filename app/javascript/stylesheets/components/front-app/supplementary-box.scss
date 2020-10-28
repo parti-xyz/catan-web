@@ -13,6 +13,7 @@
 
   .header {
     display: flex;
+    align-items: center;
     line-height: 1.25rem;
     text-transform: uppercase;
     color: global-variables.$color-gray-900;

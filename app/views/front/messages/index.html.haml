@@ -12,10 +12,14 @@
     .supplementary-boxes
       .supplementary-box{ data: { controller: 'content-toggle', 'content-toggle': { id: "group-message-configuraion-#{current_group.id}" } } }
         .header{ data: { action: 'click->content-toggle#toggle' } }
-          .title
-            그룹 알림 설정
+          .title.text-keepall
+            @#{current_user.nickname}님의
+            %span.text-nowrap 기본 알림 설정
+            .small.text-muted
+              개별 알림 설정이 없는 채널이나 게시물에 적용됩니다.
           .toggler
             %i.fa{ class: ('-hide' if is_small_screen?), data: { target: 'content-toggle.content' } }
+
         .body.-hide{ data: { target: 'content-toggle.content' } }
           = render 'front/message_configurations/observation/form', observation: MessageConfiguration::GroupObservation.of(current_user, current_group)
 
