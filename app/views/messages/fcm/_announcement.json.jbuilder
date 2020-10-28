@@ -2,7 +2,7 @@ announcement = message.messagable
 post = announcement.post
 issue = post.issue
 if message.action.to_s == 'create_announcement'
-  body = "게시글 필독요청을 받았습니다."
+  body = "게시글 필독요청을 받았습니다. \"#{post.specific_desc_striped_tags(100)}\""
 else
   body = ""
 end
