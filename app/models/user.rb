@@ -133,12 +133,12 @@ class User < ApplicationRecord
 
   scope :observing_message, -> (messagable, action, payoffs) {
     group = messagable.group_for_message
-    base_users = User.where(id: group.member_users)
+    base_users = where(id: group.members.select(:user_id))
 
     if group.frontable?
       default_observable = MessageConfiguration::RootObservation.of(group).observable?(action, payoffs)
 
-      users_with_observations = if MessageObservationConfigurable::ACTIONS_PER_POST.include?(action)
+      if MessageObservationConfigurable::ACTIONS_PER_POST.include?(action)
         post = messagable.post_for_message
         issue = messagable.issue_for_message
         base_users
@@ -162,8 +162,6 @@ class User < ApplicationRecord
       else
         User.all
       end
-
-      where(id: users_with_observations.select(:id))
     else
       if payoffs == MessageObservationConfigurable.all_app_push_payoffs
         base_users = base_users.where(push_notification_mode: ['on', 'no_sound'])
@@ -179,27 +177,27 @@ class User < ApplicationRecord
       # 채널 알림 모드가 highlight인 해당 채널의 멤버
       # 기본 채널 알림 모드는 detail
       issue_base_users = issue.present? ?
-        base_users.where(id: issue.member_users).left_outer_joins(:issue_push_notification_preferences)
-          .where('issue_push_notification_preferences.issue_id': issue.id)
-          .where.not('issue_push_notification_preferences.value': 'nothing')
+        base_users.where(id: issue.member_users)
+          .joins("LEFT OUTER JOIN issue_push_notification_preferences
+            ON `issue_push_notification_preferences`.`user_id` = `users`.`id`
+            AND `issue_push_notification_preferences`.`issue_id` = #{issue.id}")
+          .where("issue_push_notification_preferences.value <> 'nothing' OR issue_push_notification_preferences.value IS NULL")
         : User.none
 
-      users_with_observations = case action.to_sym
-        when :create_issue
-          group_base_users
-        when :mention, :upvote, :update_issue_title
-          issue_base_users
-        when :create_comment, :closed_survey
-          post = messagable.post_for_message
-          # 이 게시물에 메시지를 받은 적이 있거나 상세모드 일 때
-          issue_base_users.where(id: post.messages.select(:user_id)).or(issue_base_users.where('issue_push_notification_preferences.value': ['detail', nil]))
-        when :pin_post, :create_post
-          issue_base_users.where('issue_push_notification_preferences.value': ['compact', 'detail', nil])
-        else
-          User.all
-        end
-
-      where(id: users_with_observations.select(:id))
+      case action.to_sym
+      when :create_issue
+        group_base_users
+      when :mention, :upvote, :update_issue_title
+        issue_base_users
+      when :create_comment, :closed_survey
+        post = messagable.post_for_message
+        # 이 게시물에 메시지를 받은 적이 있거나 상세모드 일 때
+        issue_base_users.where(id: post.messages.select(:user_id)).or(issue_base_users.where('issue_push_notification_preferences.value': ['detail', nil]))
+      when :pin_post, :create_post
+        issue_base_users.where('issue_push_notification_preferences.value': ['compact', 'detail', nil])
+      else
+        User.all
+      end
     end
   }
 
