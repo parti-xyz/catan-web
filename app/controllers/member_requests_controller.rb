@@ -8,7 +8,7 @@ class MemberRequestsController < ApplicationController
 
     @member_request.user = current_user
     if @member_request.save
-      SendMessage.run(source: @member_request, sender: curren_user, action: :create_issue_member_request)
+      SendMessage.run(source: @member_request, sender: current_user, action: :create_issue_member_request)
       MemberRequestMailer.deliver_all_later_on_create(@member_request)
     end
     respond_to do |format|

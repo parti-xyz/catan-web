@@ -260,7 +260,7 @@ Rails.application.routes.draw do
   resources :messages do
     get :mentions, on: :collection
     # NEED_TO_V3
-    get :fcm_read
+    get :fcm_read, on: :member
   end
   get '/front/messages/:message_id/fcm_read', to: redirect(path: '/messages/%{message_id}/fcm_read')
   resources :invitations
