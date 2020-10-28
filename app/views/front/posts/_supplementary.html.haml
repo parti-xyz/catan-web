@@ -22,7 +22,7 @@
             - next if comment.blinded?(current_user)
             .body
               .title
-                = link_to "##{dom_id(comment)}", class: 'hover:text-primary', data: { controller: 'smooth-anchor', action: 'click->smooth-anchor#go' } do
+                = link_to "##{comment_line_anchor_dom_id(comment)}", class: 'hover:text-primary', data: { controller: 'smooth-anchor', action: 'click->smooth-anchor#go' } do
                   = comment.body.try(:truncate, 100)
               .footer
                 %span.nickname #{comment.user.nickname}

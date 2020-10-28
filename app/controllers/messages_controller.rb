@@ -11,6 +11,15 @@ class MessagesController < ApplicationController
     @messages.unread.update_all(read_at: Time.now)
   end
 
+  def fcm_read
+    url = params[:url].presence || root_url
+    message = Message.find_by(id: params[:id])
+    message.update(read_at: Time.now) if message.present? && message.user == current_user
+
+    redirect_to url
+  end
+
+
   def mentions
     fetch_messages(true)
 

@@ -1,6 +1,6 @@
 - is_child = comment.parent.present?
 .post-comment{ class: ('-child' if is_child), data: { controller: 'comment-form-edit ripplet', action: 'ripple->ripplet#run' } }
-  %a[comment]
+  %a{ id: comment_line_anchor_dom_id(comment) }
   .userimage
     .userimagebg{ style: "background-image: url(#{comment.user.image.sm.url})" }
   .post-comment-main{ data: { controller: ('comment-form-new' unless is_child) } }

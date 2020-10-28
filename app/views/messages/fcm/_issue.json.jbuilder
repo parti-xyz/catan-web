@@ -18,6 +18,6 @@ json.data do
   json.body body
   json.type "parti"
   json.param issue.slug
-  json.url (fcm_read_front_message_url(id: message.id, url: smart_issue_home_url(issue)) || '')
+  json.url (fcm_read_message_url(id: message.id, url: smart_issue_home_url(issue)) || '')
 end
 

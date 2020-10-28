@@ -259,7 +259,10 @@ Rails.application.routes.draw do
   resources :relateds
   resources :messages do
     get :mentions, on: :collection
+    # NEED_TO_V3
+    get :fcm_read
   end
+  get '/front/messages/:message_id/fcm_read', to: redirect(path: '/messages/%{message_id}/fcm_read')
   resources :invitations
 
   namespace :group do
@@ -561,7 +564,6 @@ Rails.application.routes.draw do
       member do
         patch :read
         patch :unread
-        get :fcm_read
       end
       collection do
         get :nav

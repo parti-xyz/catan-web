@@ -20,5 +20,5 @@ json.data do
   json.body body
   json.type "post"
   json.param event.post.id
-  json.url fcm_read_front_message_url(id: message.id, url: smart_post_url(event.post))
+  json.url fcm_read_message_url(id: message.id, url: smart_post_url(event.post))
 end
