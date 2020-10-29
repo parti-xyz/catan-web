@@ -4,112 +4,124 @@
       = image_tag 'groups/one/default-logo.png', class: 'logotitle'
 
       .simple-box{ style: 'padding: 5rem 0'}
-        .text-center
-          %h4{ style: 'margin-bottom: 2.5rem'}
-            🙌
-            %span.text-nowrap 안녕하세요!
-            %span.text-nowrap 청년기획자플랫폼 일일일일일에
-            %span.text-nowrap 오신 것을 환영합니다.
+        - if current_user&.nickname != '매미'
 
-        .mt-4{ style: 'padding: 2rem 0'}
-          %p
-            지금
-            %strong.text-nowrap "커뮤니티 기여전"
-            을 진행 중입니다.
-            커뮤니티 기여전 참여를 위한 플랫폼 가입은
-            %strong.text-keepall
-              %span.text-danger.text-nowrap 10월 27일(화) 23:59
-              까지 가입조건과 가입요청이 완료된 분
-            에 한하여 승인됩니다.
+          .text-center
+            %h4{ style: 'margin-bottom: 2.5rem'}
+              🙌
+              %span.text-nowrap 안녕하세요!
+              %span.text-nowrap 청년기획자플랫폼 일일일일일에
+              %span.text-nowrap 오신 것을 환영합니다.
 
-          %p
-            현재는
-            %strong.text-keepall
-              플랫폼 가입이
-              %span.text-nowrap.text-danger 일시중지
-            되었으며,
-            %strong.text-keepall
-              일시중지 기간은
-              %span.text-nowrap.text-danger 10/28(수) 부터 11/17(화)
-            입니다. 해당 기간 이후엔 정상적으로 가입신청과 승인이 진행될 예정입니다.
+          .mt-4{ style: 'padding: 2rem 0'}
+            %p
+              지금
+              %strong.text-nowrap "커뮤니티 기여전"
+              을 진행 중입니다.
+              커뮤니티 기여전 참여를 위한 플랫폼 가입은
+              %strong.text-keepall
+                %span.text-danger.text-nowrap 10월 27일(화) 23:59
+                까지 가입조건과 가입요청이 완료된 분
+              에 한하여 승인됩니다.
 
-          %p
-            기타문의
-            %a(href='mailto:platformililililil@gmail.com') platformililililil@gmail.com
-        -# - if current_user&.nickname !~ /\A[ㄱ-ㅎ가-힣0-9_]+\z/
-        -#   %p
-        -#     커뮤니티의 원활한 의사소통을 위해 한글 닉네임만 사용하기로 약속했습니다.
-        -#     %br
-        -#     가입 신청하시기 전에  닉네임은 한글로 수정 부탁드립니다.
-        -#     %br
-        -#   %p
-        -#     = link_to edit_user_registration_path(subdomain: nil), style: 'text-decoration: underline' do
-        -#       %i.fa.fa-external-link
-        -#       닉네임 수정하러 가기
-        -# - else
-        -#   = form_with url: front_member_requests_path, local: true do
-        -#     .simple-box-sheet
-        -#       .title.justify-content-between
-        -#         .d-flex.flex-grow-1
-        -#           .flex-grow-n.mr-2 📋
-        -#           .flex-grow-n
-        -#             청년기획자들을 위한 설문인터뷰'에 참여하셨나요?
-        -#             %br
-        -#             %br
-        -#             %span{ style: 'font-weight: normal' }
-        -#               아직 응답 전이라면,
-        -#               = link_to 'https://youthcheong.typeform.com/to/u7Ulmd76', target: '_blank', style: 'text-decoration: underline' do
-        -#                 여기로 들어가셔서 설문인터뷰
-        -#               에 응해주세요.
-        -#               %strong 설문인터뷰를 마친 사람만 가입됩니다.
-        -#               = link_to 'https://youthcheong.typeform.com/to/u7Ulmd76', target: '_blank', style: 'margin-top: 1rem;' do
-        -#                 (
-        -#                 %span.text-underline
-        -#                   %i.fa.fa-external-link
-        -#                   지금 설문인터뷰 참여하기
-        -#                 )
-        -#       %br
+            %p
+              현재는
+              %strong.text-keepall
+                플랫폼 가입이
+                %span.text-nowrap.text-danger 일시중지
+              되었으며,
+              %strong.text-keepall
+                일시중지 기간은
+                %span.text-nowrap.text-danger 10/28(수) 부터 11/17(화)
+              입니다. 해당 기간 이후엔 정상적으로 가입신청과 승인이 진행될 예정입니다.
 
-        -#       %textarea{ name: '', class: 'form-control', rows: 3, style: 'padding: 1rem', placeholder: '예/아니오로 답해 주세요.' }
+            %p
+              기타문의
+              %a(href='mailto:platformililililil@gmail.com') platformililililil@gmail.com
 
-        -#     - wiki = Post.find_by(id: 36647)&.wiki
-        -#     - if wiki.present?
-        -#       .simple-box-sheet
-        -#         .title
-        -#           .flex-grow-n.mr-2
-        -#             📜
-        -#           .flex-grow-n
-        -#             약속문을 읽어주세요.
-        -#         .content
-        -#           .head
-        -#             약속문
-        -#           .body
-        -#             .post-wiki.-coc
-        -#               = render 'front/wikis/card', current_wiki: wiki
+        - else
 
-        -#     .simple-box-sheet
-        -#       .title
-        -#         .flex-grow-n.mr-2
-        -#           💁‍♀️
-        -#         .flex-grow-n
-        -#           가입 전 잠깐! 아래 질문에 답을 반드시 적어 주세요. 입력한 내용은 운영자만 볼 수 있습니다
-        -#       %textarea{ name: 'statement', class: 'form-control', rows: 10, style: 'padding: 1rem' }
-        -#         :preserve
-        -#           1. 설문조사에 참여하셨나요? 확인을 위해 설문조사 폼에 적은 전화번호를 입력해 주세요. (이 정보는 운영자에게만 보입니다.)
+          .text-center
+            %h4{ style: 'margin-bottom: 2.5rem'}
+              🙌
+              %span.text-nowrap 안녕하세요!
+              %span.text-nowrap 청년기획자플랫폼 일일일일일에
+              %span.text-nowrap 오신 것을 환영합니다.
+
+          - if current_user&.nickname !~ /\A[ㄱ-ㅎ가-힣0-9_]+\z/
+            %p
+              커뮤니티의 원활한 의사소통을 위해 한글 닉네임만 사용하기로 약속했습니다.
+              %br
+              가입 신청하시기 전에  닉네임은 한글로 수정 부탁드립니다.
+              %br
+            %p
+              = link_to edit_user_registration_path(subdomain: nil), style: 'text-decoration: underline' do
+                %i.fa.fa-external-link
+                닉네임 수정하러 가기
+          - else
+            = form_with url: front_member_requests_path, local: true do
+              .simple-box-sheet
+                .title.justify-content-between
+                  .d-flex.flex-grow-1
+                    .flex-grow-n.mr-2 📋
+                    .flex-grow-n
+                      청년기획자들을 위한 설문인터뷰'에 참여하셨나요?
+                      %br
+                      %br
+                      %span{ style: 'font-weight: normal' }
+                        아직 응답 전이라면,
+                        = link_to 'https://youthcheong.typeform.com/to/u7Ulmd76', target: '_blank', style: 'text-decoration: underline' do
+                          여기로 들어가셔서 설문인터뷰
+                        에 응해주세요.
+                        %strong 설문인터뷰를 마친 사람만 가입됩니다.
+                        = link_to 'https://youthcheong.typeform.com/to/u7Ulmd76', target: '_blank', style: 'margin-top: 1rem;' do
+                          (
+                          %span.text-underline
+                            %i.fa.fa-external-link
+                            지금 설문인터뷰 참여하기
+                          )
+                %br
+
+                %textarea{ name: '', class: 'form-control', rows: 3, style: 'padding: 1rem', placeholder: '예/아니오로 답해 주세요.' }
+
+              - wiki = Post.find_by(id: 36647)&.wiki
+              - if wiki.present?
+                .simple-box-sheet
+                  .title
+                    .flex-grow-n.mr-2
+                      📜
+                    .flex-grow-n
+                      약속문을 읽어주세요.
+                  .content
+                    .head
+                      약속문
+                    .body
+                      .post-wiki.-coc
+                        = render 'front/wikis/card', current_wiki: wiki
+
+              .simple-box-sheet
+                .title
+                  .flex-grow-n.mr-2
+                    💁‍♀️
+                  .flex-grow-n
+                    가입 전 잠깐! 아래 질문에 답을 반드시 적어 주세요. 입력한 내용은 운영자만 볼 수 있습니다
+                %textarea{ name: 'statement', class: 'form-control', rows: 10, style: 'padding: 1rem' }
+                  :preserve
+                    1. 설문조사에 참여하셨나요? 확인을 위해 설문조사 폼에 적은 전화번호를 입력해 주세요. (이 정보는 운영자에게만 보입니다.)
 
 
 
-        -#           2. 약속문을 읽으셨나요? 당신이 가장 인상깊게 읽은 약속 하나를 적어주세요.
+                    2. 약속문을 읽으셨나요? 당신이 가장 인상깊게 읽은 약속 하나를 적어주세요.
 
-        -#     .simple-box-sheet
-        -#       .title
-        -#         .flex-grow-n.mr-2
-        -#           💁‍♀️
-        -#         .flex-grow-n
-        -#           한 줄로 여러분을 소개해주세요.
-        -#       = text_area_tag :description, nil, class: 'form-control', placeholder: '예시) 예술하는 기획자, 서유입니다', rows: 6, style: 'padding: 1rem'
+              .simple-box-sheet
+                .title
+                  .flex-grow-n.mr-2
+                    💁‍♀️
+                  .flex-grow-n
+                    한 줄로 여러분을 소개해주세요.
+                = text_area_tag :description, nil, class: 'form-control', placeholder: '예시) 예술하는 기획자, 서유입니다', rows: 6, style: 'padding: 1rem'
 
-        -#     .form-group
+              .form-group
 
-        -#     .form-group.text-right.my-5
-        -#       = submit_tag "가입을 신청합니다", class: 'btn btn-primary btn-block', data: { disable_with: "진행 중..." }
+              .form-group.text-right.my-5
+                = submit_tag "가입을 신청합니다", class: 'btn btn-primary btn-block', data: { disable_with: "진행 중..." }
