@@ -131,6 +131,45 @@ class User < ApplicationRecord
   }
   scope :not_canceled, -> { where(canceled_at: nil) }
 
+  scope :with_optional_group_observations, ->(group) {
+    joins("
+      LEFT OUTER JOIN group_observations
+      ON group_observations.user_id = users.id
+      AND
+        (
+          group_observations.group_id = #{group.id}
+          OR
+          group_observations.group_id IS NULL
+        )
+    ")
+  }
+
+  scope :with_optional_issue_observations, ->(issue) {
+    joins("
+      LEFT OUTER JOIN issue_observations
+      ON issue_observations.user_id = users.id
+      AND
+        (
+          issue_observations.issue_id = #{issue.id}
+          OR
+          issue_observations.issue_id IS NULL
+        )
+    ")
+  }
+
+  scope :with_optional_post_observations, ->(post) {
+    joins("
+      LEFT OUTER JOIN post_observations
+      ON post_observations.user_id = users.id
+      AND
+        (
+          post_observations.post_id = #{post.id}
+          OR
+          post_observations.post_id IS NULL
+        )
+    ")
+  }
+
   scope :observing_message, -> (messagable, action, payoffs) {
     group = messagable.group_for_message
     base_users = where(id: group.members.select(:user_id))
@@ -142,22 +181,19 @@ class User < ApplicationRecord
         post = messagable.post_for_message
         issue = messagable.issue_for_message
         base_users
-          .left_outer_joins(:group_observations, :issue_observations, :post_observations)
-          .where('group_observations.group_id': [group.id, nil])
-          .where('issue_observations.issue_id': [issue.id, nil])
-          .where('post_observations.post_id': [post.id, nil])
+          .with_optional_group_observations(group)
+          .with_optional_issue_observations(issue)
+          .with_optional_post_observations(post)
           ._condition_observing(action, payoffs, default_observable)
       elsif MessageObservationConfigurable::ACTIONS_PER_ISSUE.include?(action)
         issue = messagable.issue_for_message
         base_users
-          .left_outer_joins(:group_observations, :issue_observations)
-          .where('group_observations.group_id': [group.id, nil])
-          .where('issue_observations.issue_id': [issue.id, nil])
+          .with_optional_group_observations(group)
+          .with_optional_issue_observations(issue)
           ._condition_observing(action, payoffs, default_observable)
       elsif MessageObservationConfigurable::ACTIONS_PER_GROUP.include?(action)
         base_users
-          .left_outer_joins(:group_observations)
-          .where('group_observations.group_id': [group.id, nil])
+          .with_optional_group_observations(group)
           .send(:"_condition_observing", action, payoffs, default_observable)
       else
         User.all
