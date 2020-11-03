@@ -2,7 +2,7 @@
   - comment = upvote.upvotable
   - post = comment.post
 
-  = link_to front_post_path(post, anchor: dom_id(comment)) do
+  = link_to front_post_path(post, anchor: comment_line_anchor_dom_id(comment)) do
     %strong
       #{message.sender.nickname}님이 내 댓글에 공감합니다.
     %div=excerpt(comment.body, length: 100)
