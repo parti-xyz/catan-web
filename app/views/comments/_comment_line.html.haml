@@ -27,7 +27,7 @@
               %ul.dropdown-menu.pull-right{ "aria-labelledby": dropdown_dom_id }
                 = chevron_menu
 
-      - unless comment.almost_deleted?
+      - if !comment.almost_deleted? && !comment.blinded?(current_user)
         - if comment.file_sources.any?
           .file-sources.js-photoswipe
             - single_image_breakpoint = 700

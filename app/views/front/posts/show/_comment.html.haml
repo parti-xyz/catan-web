@@ -22,11 +22,11 @@
         - else
           != comment_format(comment.issue, comment.body)
 
-        - if comment.wiki_history.present?
-          .mt-1
-            = link_to front_post_path(comment.post, wiki_history_id: comment.wiki_history.id), class: "font-size-sm #{comment.wiki_history == local_assigns[:comment_current_wiki_history] ? 'text-danger' : 'text-muted'}" do
-              %i.fa.fa-clock-o
-              #{smart_date_tag(comment.wiki_history.created_at)} #{user_subject_word(comment.wiki_history.user)} 업데이트한 위키 이력의 댓글입니다.
+          - if comment.wiki_history.present?
+            .mt-1
+              = link_to front_post_path(comment.post, wiki_history_id: comment.wiki_history.id), class: "font-size-sm #{comment.wiki_history == local_assigns[:comment_current_wiki_history] ? 'text-danger' : 'text-muted'}" do
+                %i.fa.fa-clock-o
+                #{smart_date_tag(comment.wiki_history.created_at)} #{user_subject_word(comment.wiki_history.user)} 업데이트한 위키 이력의 댓글입니다.
 
       - if !comment.almost_deleted?
         - comment_moremenu = capture do
@@ -43,30 +43,32 @@
               .dropdown-menu.dropdown-menu-right
                 = comment_moremenu
 
-      .reactions
-        .reaction
-          - if user_signed_in?
-            %a.link{ href: '#', data: { action: 'click->comment-form-new#open', mention: (comment.user.nickname if comment.user != current_user) } } 댓글달기
-          - else
-            %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 댓글달기
-        = render 'front/posts/show/upvotings/reaction', current_upvotable: comment
-        = render 'front/bookmarks/reaction', bookmarkable: comment
+      - if !comment.almost_deleted? && !comment.blinded?(current_user)
+        .reactions
+          .reaction
+            - if user_signed_in?
+              %a.link{ href: '#', data: { action: 'click->comment-form-new#open', mention: (comment.user.nickname if comment.user != current_user) } } 댓글달기
+            - else
+              %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 댓글달기
+          = render 'front/posts/show/upvotings/reaction', current_upvotable: comment
+          = render 'front/bookmarks/reaction', bookmarkable: comment
 
-      - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
-        .comment-filesource-listings
-          / comment 이미지
-          - if comment.file_sources_only_image.present?
-            .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
-              = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
-                %img.img{ src: file_source.attachment.sm.url }
-          / comment 파일
-          - if comment.file_sources_only_doc.present?
-            .comment-filesource-doc-listing
-              - comment.file_sources_only_doc.each do |file_source|
-                .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
-                  %i.fa.fa-floppy-o
-                  %span.name= file_source.name
-                  %span.size= number_to_human_size(file_source.file_size)
+        - if comment.file_sources_only_image.present? || comment.file_sources_only_doc.present?
+          .comment-filesource-listings
+            / comment 이미지
+            - if comment.file_sources_only_image.present?
+              .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
+                = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
+                  %img.img{ src: file_source.attachment.sm.url }
+            / comment 파일
+            - if comment.file_sources_only_doc.present?
+              .comment-filesource-doc-listing
+                - comment.file_sources_only_doc.each do |file_source|
+                  .doc{ data: { controller: 'download', download: { url: file_source.url, 'file-source-id': file_source.id, 'file-name': file_source.name }, action: 'click->download#execute' } }
+                    %i.fa.fa-floppy-o
+                    %span.name= file_source.name
+                    %span.size= number_to_human_size(file_source.file_size)
+
     - if can?(:edit, comment)
       .form.collapse{ data: { target: 'comment-form-edit.formContent' } }
         = render 'front/posts/show/comment/form', current_comment: comment, current_post: comment.post

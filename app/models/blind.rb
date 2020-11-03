@@ -6,8 +6,9 @@ class Blind < ApplicationRecord
 
   attr_accessor :nickname
 
-  after_save :process_blind
-  after_destroy :process_unblind
+  after_commit :process_blind, on: :create
+  after_commit :process_blind, on: :update
+  after_commit :process_unblind, on: :destroy
 
   def self.site_wide?(someone)
     if Rails.env.test?
