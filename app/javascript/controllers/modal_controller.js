@@ -51,7 +51,7 @@ export default class extends Controller {
   loading() {
     return `
       <div class="modal-header">
-        <h6 class="modal-title" id="exampleModalLabel">로딩 중...</h6>
+        <h6 class="modal-title">로딩 중...</h6>
         <button type="button" class="close -sm" data-action="click->modal#close" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
