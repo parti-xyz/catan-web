@@ -161,6 +161,9 @@ GEM
       browser (>= 2.0, < 3.0)
     buftok (0.2.0)
     builder (3.2.4)
+    bullet (6.1.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     by_star (2.2.1)
       activesupport
     byebug (11.1.0)
@@ -704,6 +707,7 @@ GEM
     unicorn (5.5.2)
       kgio (~> 2.6)
       raindrops (~> 0.7)
+    uniform_notifier (1.13.0)
     unobtrusive_flash (3.3.1)
       railties
     video_info (2.7.1)
@@ -752,6 +756,7 @@ DEPENDENCIES
   bootswatch-rails
   browser (~> 2.0, >= 2.0.2)
   browsernizer
+  bullet
   bundler (= 2.1.4)
   by_star (~> 2.2, >= 2.2.1)
   byebug

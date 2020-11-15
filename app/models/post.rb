@@ -686,7 +686,7 @@ class Post < ApplicationRecord
 
   def need_to_read?(someone)
     return false if someone.blank?
-    return false unless PostReader::valid_period(self.last_stroked_at)
+    return false unless PostReader.valid_period(self.last_stroked_at)
     return false unless group.member?(someone)
     return false unless IssueReader.exists?(user: someone, issue: self.issue)
 

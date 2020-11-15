@@ -1,13 +1,13 @@
 class Front::ChannelsController < Front::BaseController
   def show
-    @current_issue = Issue.includes(:folders, :current_user_issue_reader, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(params[:id])
+    @current_issue = Issue.includes(:current_user_issue_reader, folders: [ :parent ], posts_pinned: [ :user ], organizer_members: [ user: [ :current_group_member ] ]).find(params[:id])
     render_403 and return if @current_issue&.private_blocked?(current_user)
 
     @current_folder = @current_issue.folders.to_a.find{ |f| f.id == params[:folder_id].to_i } if params[:folder_id].present?
 
     @posts = @current_issue.posts
       .never_blinded(current_user)
-      .includes(:user, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :issue, :folder, announcement: [:current_user_audience], wiki: [ :last_wiki_history ])
+      .includes(:user, :issue, :group, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :folder, recent_stroked_post_users: [ :user ], announcement: [:current_user_audience], wiki: [ last_wiki_history: [ :user ] ])
       .page(params[:page]).per(10)
     if @current_folder.present?
       @posts = @posts.where(folder: @current_folder)

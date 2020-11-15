@@ -62,6 +62,11 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.sass.inline_source_maps = true
+
+  config.after_initialize do
+    Bullet.enable = false
+    Bullet.console = false
+  end
 end
 
 Rails.application.routes.default_url_options[:host] = 'parti.test'
