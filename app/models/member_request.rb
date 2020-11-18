@@ -1,10 +1,10 @@
 class MemberRequest < ApplicationRecord
   include UniqueSoftDeletable
   acts_as_unique_paranoid
+  include Messagable
 
   belongs_to :user
   belongs_to :joinable, polymorphic: true
-  has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true
   validates :joinable, presence: true

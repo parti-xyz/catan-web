@@ -184,12 +184,12 @@
     overflow: auto;
   }
 
-  > .profilemenus > .dropdown > .messages > .scrollable > .message-line {
-    padding: 0.375rem 0.75rem;
+  > .profilemenus > .dropdown > .messages > .scrollable > .message-cluster {
+    padding: 0.75rem;
     clear: both;
   }
 
-  > .profilemenus > .dropdown > .messages > .scrollable > .message-line:first-child {
+  > .profilemenus > .dropdown > .messages > .scrollable > .message-cluster:first-child {
     border-top: none;
   }
 

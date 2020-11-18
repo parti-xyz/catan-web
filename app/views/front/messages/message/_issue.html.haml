@@ -9,6 +9,8 @@
         채널 제목을
         #{issue.title}
         채널로 수정했습니다.
+    %small.text-muted.text.ml-1
+      = date_f message.created_at
     = render 'messages/go'
 - elsif message.action.to_s == 'create_issue'
   = link_to front_channel_path(issue) do
@@ -16,4 +18,5 @@
       #{message.sender.nickname}님이
       #{issue.title}
       채널을 새로 열었습니다.
-    = render 'messages/go'
+    %small.text-muted.text.ml-1
+      = date_f message.created_at

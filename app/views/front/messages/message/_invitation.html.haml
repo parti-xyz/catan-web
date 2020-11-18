@@ -4,4 +4,5 @@
     %strong
       #{invitation.issue.title}
       채널에 초대했습니다.
-    = render 'messages/go'
+    %small.text-muted.text.ml-1
+      = date_f message.created_at

@@ -1,8 +1,9 @@
 class Option < ApplicationRecord
+  include Messagable
+
   belongs_to :user
   belongs_to :survey
   has_many :feedbacks, dependent: :destroy
-  has_many :messages, as: :messagable, dependent: :destroy
   scope :of_group, -> (group) { where(survey_id: Survey.of_group(group)) }
 
   def selected? someone

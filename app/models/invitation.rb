@@ -1,8 +1,9 @@
 class Invitation < ApplicationRecord
+  include Messagable
+
   belongs_to :user
   belongs_to :recipient, class_name: "User", optional: true
   belongs_to :joinable, polymorphic: true
-  has_many :messages, as: :messagable, dependent: :destroy
 
   validates :recipient, uniqueness: { scope: [:joinable_id, :joinable_type] }, if: ->{ recipient.present? }
   validates :joinable, presence: true

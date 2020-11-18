@@ -13,13 +13,16 @@
 .messages-box
   .pagination-header
     .pages
-      = render 'front/share/pagination_header/mentions_page', posts: @messages, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_messages_total_count, read_all_path: read_all_mentions_front_messages_path
+      = render 'front/share/pagination_header/mentions_page', posts: @cluster_owners, need_to_read_count: @need_to_read_count, permited_params: @permited_params, all_posts_total_count: @all_mentions_total_count, read_all_path: read_all_mentions_front_messages_path
 
-  - if @messages.any?
-    - @messages.each do |message|
-      = render message, mention_only_page: true, list_navable: true
+  - if @mention_clusters.any?
+    - @mention_clusters.each do |cluster_owner, messages|
+      .message-cluster
+        = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
+        - messages.each do |message|
+          = render message, list_navable: true, mention_only_page: true
     .mt-4
-      = paginate @messages, theme: 'catan'
+      = paginate @cluster_owners, theme: 'catan'
   - else
     .alert-box.my-3
       .alert.alert-secondary.font-size-sm.d-flex.align-items-center.justify-content-between

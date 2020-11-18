@@ -1,26 +1,41 @@
 .message-line.clearfix{ class: [('-unread' if message.unread?), (class_name if local_assigns[:class_name].present?)], data: { controller: 'content-replacement' } }
-  .media.media-overflow-visible
-    .userimage
-      .userimagebg{style: "background-image: url(#{message.sender.image.sm.url}); margin-top: 2px;"}
+  .box.media.media-overflow-visible
+    .rocket
+      - if local_assigns[:mention_only_page]
+        .userimagebg{style: "background-image: url(#{message.sender.image.sm.url}); margin-top: 2px;"}
+      - else
+        - case message.messagable
+        - when Announcement
+          %i.fa.fa-bullhorn.fa-fw
+        - when Comment
+          - comment = message.messagable
+          - if comment.mentioned?(message.user)
+            %i.fa.fa-at.fa-fw
+          - else
+            %i.fa.fa-comment-o.fa-fw
+        - when Issue
+          %i.fa.fa-hashtag.fa-fw
+        - when Member, MemberRequest
+          %i.fa.fa-user-o.fa-fw
+        - when Post
+          - post = message.messagable
+          - if post.mentioned?(message.user)
+            %i.fa.fa-at.fa-fw
+          - else
+            %i.fa.fa-file-text-o.fa-fw
+        - when Upvote
+          %i.fa.fa-heart-o.fa-fw
+        - else
+          %i.fa.fa-bell-o.fa-fw
     .media-body
       .message__header
         - if local_assigns[:mention_only_page]
           .message__mentioner
             %strong
               #{message.sender.nickname}
-        .message__parti
-          - if local_assigns[:mention_only_page]
-            &middot;
-          - if message.issue.present?
-            = link_to smart_issue_home_url(message.issue) do
-              = issue_tag(message.issue)
-          - elsif message.group.present?
-            = link_to message.group.title_basic_format, smart_group_url(message.group)
-        .message__date.date-wrapper
-          &middot;
-          = smart_date_tag message.created_at
       .message__body{ data: { controller: 'message--read-and-go list-nav-kickoff', 'message--read-and-go-url': read_front_message_path(message), action: ('click->list-nav-kickoff#store' if local_assigns[:list_navable]), 'list-nav-kickoff-post-id': message.post&.id } }
         = render customize_partial_path(message.messagable, ->(model) { "front/messages/message/#{model.class.model_name.singular}" }), local_assigns.merge(message: message)
+
     - toggle_read_url_params = local_assigns.slice(:list_navable, :mention_only_page)
     - toggle_read_url = if message.unread?
       - read_front_message_path(message, toggle_read_url_params)

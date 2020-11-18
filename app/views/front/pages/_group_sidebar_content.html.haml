@@ -4,48 +4,53 @@
       = link_to front_coc_path, class: ['link', ('-active' if params[:menu_slug] == 'coc')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'coc' } do
         .title
           %span.hash
-            %i.fa.fa-book
+            %i.fa.fa-book.fa-fw
           %span.content
             커뮤니티 가이드
     %li.channel-line
       = link_to front_all_path, class: ['link', ('-active' if params[:menu_slug] == 'all')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'all' } do
         .title
           %span.hash
-            %i.fa.fa-cube
+            %i.fa.fa-cube.fa-fw
           %span.content
             전체 게시글
     - if current_group.member?(current_user)
       %li.channel-line
-        = link_to front_announcements_path(filter: { condition: ('needtonotice' if need_to_notice_count > 0) }), class: ['link', ('-active' if params[:menu_slug] == 'announcements')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation channel-read-listener.announcementsMenu', 'group-sidebar-listener-menu-slug': 'announcements' } do
-          .title
+        .link{ class: ('-active' if params[:menu_slug] == 'announcements'), data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation channel-read-listener.announcementsMenu', 'group-sidebar-listener-menu-slug': 'announcements' } }
+          = link_to front_announcements_path, class: 'title' do
             %span.hash
-              %i.fa.fa-bullhorn
+              %i.fa.fa-bullhorn.fa-fw
             %span.content
               필독 게시글
-            %span.badge.badge-dark.ml-1.collapse{ class: (need_to_notice_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.needToNoticeCount' } } #{number_to_human(need_to_notice_count, precision: 1, delimiter: ',', significant: false)}
+          = link_to front_announcements_path(filter: { condition: 'needtonotice' }), class: (%w[badge badge-dark ml-1 collapse] + [(need_to_notice_count > 0 ? 'show' : 'hide')]), data: { target: 'channel-read-listener.needToNoticeCount' } do
+            #{number_to_human(need_to_notice_count, precision: 1, delimiter: ',', significant: false)}
       %li.channel-line
         = link_to front_bookmarks_path, class: ['link', ('-active' if params[:menu_slug] == 'bookmarks')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation', 'group-sidebar-listener-menu-slug': 'bookmarks' } do
           .title
             %span.hash
-              %i.fa.fa-bookmark-o
+              %i.fa.fa-bookmark-o.fa-fw
             %span.content
               북마크
+            %span.badge.badge-dark.ml-1{ class: (bookmarks_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.bookmarksCount' } }
+              #{number_to_human(bookmarks_count, precision: 1, delimiter: ',', significant: false)}
       %li.channel-line
-        = link_to front_messages_path(filter: { condition: ('needtoread' if unread_messages_count > 0) }), class: ['link', ('-active' if params[:menu_slug] == 'messages')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation channel-read-listener.messagesMenu', 'group-sidebar-listener-menu-slug': 'messages' } do
-          .title
+        .link{ class: ('-active' if params[:menu_slug] == 'messages'), data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation channel-read-listener.messagesMenu', 'group-sidebar-listener-menu-slug': 'messages' } }
+          = link_to front_messages_path, class: 'title' do
             %span.hash
-              %i.fa.fa-bell-o
+              %i.fa.fa-bell-o.fa-fw
             %span.content
               알림
-            %span.badge.badge-dark.ml-1.collapse{ class: (unread_messages_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.unreadMessagesCount' } } #{number_to_human(unread_messages_count, precision: 1, delimiter: ',', significant: false)}
+          = link_to front_messages_path(filter: { condition: 'needtoread' }), class: (%w[badge badge-dark ml-1 collapse] + [(unread_messages_count > 0 ? 'show' : 'hide')]), data: { target: 'channel-read-listener.unreadMessagesCount' } do
+            #{number_to_human(unread_messages_count, precision: 1, delimiter: ',', significant: false)}
       %li.channel-line
-        = link_to front_mentions_path(filter: { condition: ('needtoread' if unread_mentions_count > 0) }), class: ['link', ('-active' if params[:menu_slug] == 'mentions')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation channel-read-listener.mentionsMenu', 'group-sidebar-listener-menu-slug': 'mentions' } do
-          .title
+        .link{ class: ['link', ('-active' if params[:menu_slug] == 'mentions')], data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation channel-read-listener.mentionsMenu', 'group-sidebar-listener-menu-slug': 'mentions' } }
+          = link_to front_mentions_path, class: 'title' do
             %span.hash
-              %i.fa.fa-at
+              %i.fa.fa-at.fa-fw
             %span.content
               멘션
-            %span.badge.badge-dark.ml-1.collapse{ class: (unread_mentions_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.unreadMentionsCount' } } #{number_to_human(unread_mentions_count, precision: 1, delimiter: ',', significant: false)}
+          = link_to front_mentions_path(filter: { condition: ('needtoread' if unread_mentions_count > 0) }), class: (%w[badge badge-dark ml-1 collapse] + [(unread_mentions_count > 0 ? 'show' : 'hide')]), data: { target: 'channel-read-listener.unreadMentionsCount' } do
+            #{number_to_human(unread_mentions_count, precision: 1, delimiter: ',', significant: false)}
 
 - if current_group&.slug == 'butterknifecrew'
   .channel-listing
@@ -54,7 +59,7 @@
         = link_to 'https://butterknifecrew.parti.xyz/front/posts/36548', class: ['link'] do
           .title
             %span.hash
-              %i.fa.fa-link
+              %i.fa.fa-link.fa-fw
             %span.content
               전체 일정
 

@@ -33,6 +33,8 @@ class Issue < ApplicationRecord
   SLUG_OF_PARTI_PARTI = "parti"
 
   include Invitable
+  include Messagable
+
   # relations
   belongs_to :last_stroked_user, class_name: "User", optional: true
   has_many :merged_issues, dependent: :destroy
@@ -61,7 +63,6 @@ class Issue < ApplicationRecord
   has_many :member_requests, as: :joinable, dependent: :destroy
   has_many :member_request_users, through: :member_requests, source: :user
   has_many :blind_users, through: :blinds, source: :user
-  has_many :messages, as: :messagable, dependent: :destroy
   has_many :invitations, as: :joinable, dependent: :destroy
   belongs_to :destroyer, class_name: "User", optional: true
   belongs_to :group, foreign_key: :group_slug, primary_key: :slug, counter_cache: true

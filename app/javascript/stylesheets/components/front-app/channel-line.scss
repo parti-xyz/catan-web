@@ -63,7 +63,11 @@
     opacity: 0.5;
     margin-left: .25rem;
   }
-  > .link > .title > .badge {
+  > .link > .title > .badge,
+  > .link > .badge {
     line-height: .8rem;
+    &:hover {
+      box-shadow: 0 0 0 0.2rem global-variables.$color-gray-500;
+    }
   }
 }

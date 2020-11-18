@@ -1,10 +1,10 @@
 class Survey < ApplicationRecord
   include Expirable
+  include Messagable
 
   has_one :post, dependent: :nullify
   has_many :feedbacks, dependent: :destroy
   has_many :options, dependent: :destroy
-  has_many :messages, as: :messagable, dependent: :destroy
   accepts_nested_attributes_for :options, reject_if: proc { |attributes|
     attributes['body'].try(:strip).blank?
   }

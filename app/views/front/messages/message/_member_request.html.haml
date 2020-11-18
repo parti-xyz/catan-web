@@ -5,6 +5,8 @@
       #{member_request.user.nickname}님이
       = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
       #{member_request.joinable.model_name.human}에 가입요청합니다.
+    %small.text-muted.text.ml-1
+      = date_f message.created_at
     = render 'messages/go'
 - if ['accept_issue_member_request', 'accept_group_member_request'].include? message.action.to_s
   = link_to front_channel_path(member_request.joinable) do
@@ -12,14 +14,16 @@
       #{message.sender.nickname}님이
       = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
       #{member_request.joinable.model_name.human} 가입요청을 승인합니다.
-    = render 'messages/go'
+    %small.text-muted.text.ml-1
+      = date_f message.created_at
 - if ['reject_issue_member_request', 'reject_group_member_request'].include? message.action.to_s
   = link_to front_channel_path(member_request.joinable) do
     %strong
       #{message.sender.nickname}님이
       = link_to member_request.joinable.title, smart_joinable_url(member_request.joinable)
       #{member_request.joinable.model_name.human} 가입요청을 거절합니다.
-    = render 'messages/go'
+    %small.text-muted.text.ml-1
+      = date_f message.created_at
   - if member_request.reject_message?
     %br
     = member_request.reject_message

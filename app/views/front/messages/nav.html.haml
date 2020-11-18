@@ -1,19 +1,27 @@
 .notifications{ data: { toggle: 'dropdown', target: 'message--dropdown.toggle' } }
   %i.fa.fa-bell.fa-fw
-  - if @messages.first.present? && (current_user.last_noticed_message_id.blank? || @messages.first.id > current_user.last_noticed_message_id)
-    %i.fa.fa-circle.circle{ data: { target: 'message--dropdown.circle', 'last-message-id': @messages&.first&.id } }
+  - if @first_message.present? && (current_user.last_noticed_message_id.blank? || @first_message.id > current_user.last_noticed_message_id)
+    %i.fa.fa-circle.circle{ data: { target: 'message--dropdown.circle', 'last-message-id': @first_message.id } }
 .dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message--dropdown.menu' } }
   .dropdown-header.front-navbar-message-header
-    알림
+    새 알림
     .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', target: 'message--dropdown.reloadButton', 'message--dropdown-keep-open': true } }
       새로고침
-  - if @messages.any?
+  - if @message_clusters.any?
     .scrollable{ data: { target: 'message--dropdown.messagesContainer' } }
-      - @messages.each do |message|
-        = render message
-    .dropdown-header.front-navbar-message-footer
-      = link_to '더 많은 알림 보기', front_messages_path, class: 'btn btn-link btn-sm px-0'
-  - if @messages.empty?
-    .dropdown-item
+      - @message_clusters.each do |cluster_owner, messages|
+        .message-cluster
+          = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
+          - messages.each do |message|
+            = render message, list_navable: true
+  - else
+    .dropdown-item.my-2.text-center
       %i.fa.fa-info-circle
-      아직 알림이 없습니다.
+      새 알림이 없습니다.
+
+
+  .dropdown-header.front-navbar-message-footer
+    - if @more_messages
+      = link_to '새 알림 더 보기', front_messages_path(filter: { condition: 'needtoread' }), class: 'btn btn-link btn-sm px-0'
+    - else
+      = link_to '모든 알림 보기', front_messages_path, class: 'btn btn-link btn-sm px-0'

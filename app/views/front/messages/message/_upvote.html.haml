@@ -4,7 +4,10 @@
 
   = link_to front_post_path(post, anchor: comment_line_anchor_dom_id(comment)) do
     %strong
-      #{message.sender.nickname}님이 내 댓글에 공감합니다.
+      #{message.sender.nickname}님이
+      내 댓글에 공감합니다.
+    %small.text-muted.text.ml-1
+      = date_f message.created_at
     %div=excerpt(comment.body, length: 100)
 - else
   - post = upvote.upvotable
@@ -12,5 +15,5 @@
   = link_to front_post_path(post) do
     %strong
       #{message.sender.nickname}님이 내 게시글을 공감합니다.
-    %div=upvote.upvotable.specific_desc_striped_tags(120)
-
+    %small.text-muted.text.ml-1
+      = date_f message.created_at

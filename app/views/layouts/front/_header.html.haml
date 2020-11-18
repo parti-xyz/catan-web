@@ -61,9 +61,6 @@
     - if user_signed_in? && current_group&.member?(current_user)
       = render 'layouts/front/messages'
 
-    -# .menuitem.-powered-by
-    -#   .label Powered by
-    -#   = image_tag 'parti_logo_white.png', class: 'parti'
     - if user_signed_in?
       .dropdown{ data: { controller: 'phone-dropdown' } }
         .userimage{ "data-toggle" => "dropdown", :href => "#" }

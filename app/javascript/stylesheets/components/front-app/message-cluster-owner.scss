@@ -1,0 +1,9 @@
+@use '../../bootstrap';
+@use '../../mq';
+
+.front-app .message-cluster-owner {
+  font-size: bootstrap.$font-size-xs;
+  @include mq.media('<=phone') {
+    font-size: bootstrap.$font-size-sm;
+  }
+}

@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_10_075313) do
+ActiveRecord::Schema.define(version: 2020_11_15_025148) do
 
-  create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
     t.date "stat_at", null: false
     t.integer "new_posts_count", default: 0
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "answers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "question_id", null: false
-    t.text "body"
+    t.text "body", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
@@ -47,11 +47,10 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.boolean "hidden", default: false
     t.integer "post_issue_id", null: false
     t.string "active", default: "on"
-    t.string "source_type", null: false
     t.integer "source_id", null: false
+    t.string "source_type", null: false
     t.text "body"
     t.index ["deleted_at"], name: "index_articles_on_deleted_at"
-    t.index ["post_issue_id", "active"], name: "index_articles_on_unique_link_source", unique: true
     t.index ["source_type", "source_id"], name: "index_articles_on_source_type_and_source_id"
   end
 
@@ -66,7 +65,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.index ["member_id"], name: "index_audiences_on_member_id"
   end
 
-  create_table "beholders", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "beholders", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "post_id", null: false
     t.integer "deprecated_member_id"
     t.datetime "created_at", null: false
@@ -78,7 +77,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.index ["user_id"], name: "index_beholders_on_user_id"
   end
 
-  create_table "blinds", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "blinds", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "issue_id"
     t.datetime "created_at", null: false
@@ -164,8 +163,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
   end
 
   create_table "discussions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "body"
+    t.string "title"
+    t.text "body", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
@@ -184,7 +183,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "feedbacks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "feedbacks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "survey_id", null: false
     t.integer "option_id", null: false
@@ -208,8 +207,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.string "attachment", null: false
     t.integer "image_width", default: 0
     t.integer "image_height", default: 0
-    t.string "file_sourceable_type", null: false
     t.integer "file_sourceable_id", null: false
+    t.string "file_sourceable_type", null: false
     t.index ["file_sourceable_type", "file_sourceable_id"], name: "file_sourceable_index"
     t.index ["post_id"], name: "index_file_sources_on_post_id"
   end
@@ -383,13 +382,13 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
   end
 
   create_table "issues", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "body", limit: 16777215
     t.string "logo"
     t.integer "watches_count", default: 0
-    t.string "slug", null: false
+    t.string "slug"
     t.integer "posts_count", default: 0
     t.datetime "deleted_at"
     t.string "active", default: "on"
@@ -440,7 +439,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.string "title"
   end
 
-  create_table "likes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "likes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "post_id", null: false
     t.datetime "created_at", null: false
@@ -457,7 +456,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.string "image"
     t.string "page_type"
     t.string "url", limit: 700
-    t.string "crawling_status", default: "not_yet", null: false
+    t.string "crawling_status", null: false
     t.datetime "crawled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -507,8 +506,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "mentions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "mentionable_type", null: false
     t.integer "mentionable_id", null: false
+    t.string "mentionable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["mentionable_type", "mentionable_id"], name: "index_mentions_on_mentionable_type_and_mentionable_id"
@@ -533,8 +532,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "messages", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "messagable_type", null: false
     t.integer "messagable_id", null: false
+    t.string "messagable_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "action"
@@ -542,6 +541,9 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.integer "sender_id", null: false
     t.datetime "read_at"
     t.string "bulk_session"
+    t.string "cluster_owner_type"
+    t.bigint "cluster_owner_id"
+    t.index ["cluster_owner_type", "cluster_owner_id"], name: "index_messages_on_cluster_owner_type_and_cluster_owner_id"
     t.index ["messagable_type", "messagable_id"], name: "index_messages_on_messagable_type_and_messagable_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
@@ -562,7 +564,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.integer "application_id", null: false
     t.string "token", null: false
     t.integer "expires_in", null: false
-    t.text "redirect_uri", null: false
+    t.text "redirect_uri", limit: 16777215, null: false
     t.datetime "created_at", null: false
     t.datetime "revoked_at"
     t.string "scopes"
@@ -590,7 +592,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.string "name", null: false
     t.string "uid", null: false
     t.string "secret", null: false
-    t.text "redirect_uri", null: false
+    t.text "redirect_uri", limit: 16777215, null: false
     t.string "scopes", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -612,8 +614,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "parti_sso_client_api_keys", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "digest", null: false
-    t.string "client", null: false
+    t.string "digest"
+    t.string "client"
     t.integer "authentication_id", null: false
     t.datetime "expires_at", null: false
     t.datetime "last_access_at", null: false
@@ -670,8 +672,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "posts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
-    t.string "postable_type"
     t.integer "postable_id"
+    t.string "postable_type"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -696,7 +698,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.integer "file_sources_count", default: 0
     t.string "last_stroked_for"
     t.integer "wiki_id"
-    t.text "body_ngram", limit: 4294967295
+    t.text "body_ngram", limit: 16777215
     t.text "decision", limit: 16777215
     t.integer "folder_id"
     t.bigint "event_id"
@@ -726,15 +728,15 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
   end
 
   create_table "questions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "body"
+    t.string "title"
+    t.text "body", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "redactor2_assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id"
-    t.string "data_file_name", null: false
+    t.string "data_file_name"
     t.string "data_content_type"
     t.integer "data_file_size"
     t.integer "assetable_id"
@@ -748,7 +750,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.index ["assetable_type", "type", "assetable_id"], name: "idx_redactor2_assetable_type"
   end
 
-  create_table "relateds", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "relateds", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
     t.integer "target_id", null: false
     t.datetime "created_at", null: false
@@ -760,8 +762,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "roles", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "name"
-    t.string "resource_type"
     t.integer "resource_id"
+    t.string "resource_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
@@ -797,9 +799,9 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
   end
 
   create_table "searches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "searchable_type", null: false
     t.integer "searchable_id", null: false
-    t.text "content"
+    t.string "searchable_type"
+    t.text "content", limit: 16777215
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["searchable_type", "searchable_id"], name: "index_searches_on_searchable_type_and_searchable_id"
@@ -807,7 +809,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.string "var", null: false
-    t.text "value"
+    t.text "value", limit: 16777215
     t.integer "thing_id"
     t.string "thing_type", limit: 30
     t.datetime "created_at"
@@ -841,7 +843,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.index ["user_id"], name: "index_summary_emails_on_user_id"
   end
 
-  create_table "surveys", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "surveys", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "feedbacks_count", default: 0
@@ -855,10 +857,10 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
 
   create_table "taggings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "tag_id"
-    t.string "taggable_type"
     t.integer "taggable_id"
-    t.string "tagger_type"
+    t.string "taggable_type"
     t.integer "tagger_id"
+    t.string "tagger_type"
     t.string "context", limit: 128
     t.datetime "created_at"
     t.index ["context"], name: "index_taggings_on_context"
@@ -882,8 +884,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "upvotable_type", null: false
     t.integer "upvotable_id", null: false
+    t.string "upvotable_type", null: false
     t.integer "issue_id"
     t.index ["issue_id"], name: "index_upvotes_on_issue_id"
     t.index ["user_id", "upvotable_id", "upvotable_type"], name: "index_upvotes_on_user_id_and_upvotable_id_and_upvotable_type", unique: true
@@ -891,8 +893,8 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
   end
 
   create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
+    t.string "email"
+    t.string "encrypted_password"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -905,12 +907,12 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "nickname", null: false
+    t.string "nickname"
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "provider", default: "email", null: false
-    t.string "uid", null: false
+    t.string "provider"
+    t.string "uid"
     t.datetime "deleted_at"
     t.string "active", default: "on"
     t.boolean "enable_mailing_summary", default: true
@@ -937,7 +939,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.index ["reset_password_token", "active"], name: "index_users_on_reset_password_token_and_active", unique: true
   end
 
-  create_table "users_roles", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "users_roles", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
@@ -954,7 +956,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_075313) do
     t.index ["user_id"], name: "index_votings_on_user_id"
   end
 
-  create_table "watches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+  create_table "watches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -32,6 +32,10 @@ module Mentionable
     SendMessage.run(source: self, sender: self.user, action: action.to_sym)
   end
 
+  def mentioned? someone
+    mentions.exists? user: someone
+  end
+
   private
 
   def set_mentions

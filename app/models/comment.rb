@@ -2,6 +2,7 @@ class Comment < ApplicationRecord
   acts_as_paranoid
 
   include Choosable
+  include Messagable
   include Mentionable
   include Upvotable
   mentionable :body
@@ -14,8 +15,6 @@ class Comment < ApplicationRecord
   belongs_to :wiki_history, optional: true
 
   delegate :issue, to: :post
-  has_many :messages, as: :messagable, dependent: :destroy
-  has_many :mentions, as: :mentionable, dependent: :destroy
   has_many :file_sources, dependent: :destroy, as: :file_sourceable
   accepts_nested_attributes_for :file_sources, allow_destroy: true, reject_if: proc { |attributes|
     attributes['attachment'].blank? and attributes['attachment_cache'].blank? and attributes['id'].blank?
@@ -57,10 +56,6 @@ class Comment < ApplicationRecord
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_stroked_at_of_posts
   after_create :touch_last_stroked_at_of_issues
-
-  def mentioned? someone
-    mentions.exists? user: someone
-  end
 
   def blinded? someone
     return false if someone == self.user

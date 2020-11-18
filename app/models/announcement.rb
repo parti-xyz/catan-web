@@ -1,4 +1,6 @@
 class Announcement < ApplicationRecord
+  include Messagable
+
   has_one :post, dependent: :nullify
   has_many :audiences, dependent: :destroy do
     def merge_nickname
@@ -8,7 +10,6 @@ class Announcement < ApplicationRecord
   has_one :current_user_audience,
     -> { where(member_id: Current.group.member_of(Current.user)) },
     class_name: "Audience"
-  has_many :messages, as: :messagable, dependent: :destroy
   accepts_nested_attributes_for :audiences, reject_if: proc { |attributes|
     attributes['member_id'].try(:strip).blank?
   }

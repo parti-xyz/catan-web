@@ -1,8 +1,9 @@
 class Upvote < ApplicationRecord
+  include Messagable
+
   belongs_to :user
   belongs_to :upvotable, polymorphic: true, counter_cache: true
   belongs_to :issue
-  has_many :messages, as: :messagable, dependent: :destroy
 
   validates :user, presence: true
   validates :upvotable, presence: true

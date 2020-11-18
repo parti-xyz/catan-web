@@ -15,7 +15,9 @@
 
 = link_to front_post_path(comment.post) do
   %strong
-    %span= body
+    = body
+  %span.text-muted.ml-1
+    = date_f message.created_at
   - unless %w(accept reject hold).include?(message.action.to_s)
     %span{ 'data-no-parti-link': 'no' }
       = render 'events/card', post: post

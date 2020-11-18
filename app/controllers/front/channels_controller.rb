@@ -87,6 +87,7 @@ class Front::ChannelsController < Front::BaseController
     @need_to_notice_count = (current_group.member?(current_user) ? current_need_to_notice_announcement_posts.count : 0)
     @unread_messages_count = (current_group.member?(current_user) ? Message.where(user: current_user).of_group(current_group).unread.count : 0)
     @unread_mentions_count = (current_group.member?(current_user) ? Message.where(user: current_user).of_group(current_group).where(action: 'mention').unread.count : 0)
+    @bookmarks_count = (current_group.member?(current_user) ? current_user.bookmarks.of_group(current_group).count : 0)
     respond_to do |format|
       format.json
     end

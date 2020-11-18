@@ -1,0 +1,16 @@
+.message-cluster-owner
+  - channel_or_group = capture do
+    - if cluster_owner.try(:issue_for_message).present?
+      = link_to smart_issue_home_url(cluster_owner.issue_for_message) do
+        \#
+        = issue_tag(cluster_owner.issue_for_message)
+    - elsif cluster_owner.try(:group_for_message).present?
+      = link_to cluster_owner.group_for_message.title_basic_format, smart_group_url(cluster_owner.group_for_message)
+  - user_nickname = capture do
+    - if cluster_owner.try(:user).present?
+      @#{cluster_owner.try(:user)&.nickname || message}
+  - meta = capture do
+    != [channel_or_group, user_nickname].reject(&:blank?).join(' &middot; ')
+  - if meta.present?
+    .meta #{meta}
+  = render "front/messages/cluster_owner/#{cluster_owner.class.model_name.singular}", cluster_owner: cluster_owner

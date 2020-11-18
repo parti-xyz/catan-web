@@ -1,4 +1,6 @@
 class Event < ApplicationRecord
+  include Messagable
+
   attr_accessor :start_at_time
   attr_accessor :start_at_date
   attr_accessor :end_at_time
@@ -8,7 +10,6 @@ class Event < ApplicationRecord
 
   has_many :roll_calls, dependent: :nullify
   has_one :post, dependent: :nullify
-  has_many :messages, as: :messagable, dependent: :destroy
 
   after_find :setup_schedule_accessors
   after_find :setup_location_accessors

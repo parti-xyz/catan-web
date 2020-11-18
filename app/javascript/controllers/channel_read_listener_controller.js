@@ -4,7 +4,7 @@ import ParamMap from '../helpers/param_map'
 import { smartFetch } from '../helpers/smart_fetch'
 import Timer from '../helpers/timer'
 export default class extends Controller {
-  static targets = ['channel', 'needToNoticeCount', 'unreadMessagesCount', 'unreadMentionsCount', 'announcementsMenu', 'messagesMenu', 'mentionsMenu']
+  static targets = ['channel', 'needToNoticeCount', 'bookmarksCount', 'unreadMessagesCount', 'unreadMentionsCount', 'announcementsMenu', 'messagesMenu', 'mentionsMenu']
 
   initialize() {
     this.syncing = false
@@ -42,6 +42,16 @@ export default class extends Controller {
               : this.read(item.id)
           })
 
+          if (this.hasBookmarksCountTarget) {
+            if (json.bookmarksCount) {
+              this.bookmarksCountTarget.classList.add('show')
+              this.bookmarksCountTarget.textContent = json.bookmarksCount
+            } else {
+              this.bookmarksCountTarget.classList.add('hide')
+              this.bookmarksCountTarget.textContent = ''
+            }
+          }
+
           if (this.hasNeedToNoticeCountTarget) {
             if (json.needToNoticeCount ) {
               this.needToNoticeCountTarget.classList.add('show')
@@ -51,7 +61,6 @@ export default class extends Controller {
               this.needToNoticeCountTarget.textContent = ''
             }
           }
-          this.announcementsMenuTarget.setAttribute('href', json.announcementsMenuUrl)
 
           if (this.hasUnreadMessagesCountTarget) {
             if (json.unreadMessagesCount) {
@@ -61,7 +70,6 @@ export default class extends Controller {
               this.unreadMessagesCountTarget.classList.add('hide')
               this.unreadMessagesCountTarget.textContent = ''
             }
-            this.messagesMenuTarget.setAttribute('href', json.messagesMenuUrl)
           }
 
           if (this.hasUnreadMentionsCountTarget) {
@@ -72,7 +80,6 @@ export default class extends Controller {
               this.unreadMentionsCountTarget.classList.add('hide')
               this.unreadMentionsCountTarget.textContent = ''
             }
-            this.mentionsMenuTarget.setAttribute('href', json.mentionsMenuUrl)
           }
 
         }

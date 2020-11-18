@@ -2,6 +2,7 @@
 - post = option.survey.post
 = link_to front_post_path(post) do
   %strong
-    %span
-      #{option.user.nickname}님이 게시글에 새로운 제안을 올렸습니다.
+    #{option.user.nickname}님이 게시글에 새로운 제안을 올렸습니다.
+  %small.text-muted.text.ml-1
+    = date_f message.created_at
   %div= excerpt(option.body, length: 100)

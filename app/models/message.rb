@@ -1,7 +1,8 @@
 class Message < ApplicationRecord
   belongs_to :user
-  belongs_to :sender, class_name: "User"
+  belongs_to :sender, class_name: 'User'
   belongs_to :messagable, -> { try(:with_deleted) || all }, polymorphic: true
+  belongs_to :cluster_owner, polymorphic: true, optional: true
 
   scope :recent, -> { order(id: :desc) }
   scope :latest, -> { after(1.day.ago) }
@@ -37,6 +38,20 @@ class Message < ApplicationRecord
 
   def fcm_pushable?
     self.user.pushable_notification?(self)
+  end
+
+  def self.cluster_owners(messages)
+    messages.group(:cluster_owner_id, :cluster_owner_type)
+      .select(:cluster_owner_id, :cluster_owner_type, 'MAX(id) AS max_clustered_message_id')
+      .reorder('').order('max_clustered_message_id desc')
+  end
+
+  def self.cluster_messages(messages, cluster_owners)
+    messages.reorder('').recent
+      .includes(:user, :sender, :messagable, :cluster_owner)
+      .where(cluster_owner: cluster_owners.to_a.map(&:cluster_owner))
+      .to_a
+      .group_by(&:cluster_owner)
   end
 
   def self.all_messagable_types

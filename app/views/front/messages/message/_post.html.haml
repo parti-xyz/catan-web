@@ -1,23 +1,19 @@
 - if message.action.to_s == 'pin_post'
   = link_to front_post_path(post) do
     %strong
-      %span
-        #{message.sender.nickname}님이 게시글을
-      %span
-        고정했습니다
-    %div= post.specific_desc_striped_tags(100)
+      #{message.sender.nickname}님이 게시글을 고정했습니다.
+    %small.text-muted.text.ml-1
+      = date_f message.created_at
 - elsif message.action.to_s == 'create_post'
   = link_to front_post_path(post) do
     %strong
-      %span
-        #{post.user.nickname}님이 게시글을 올렸습니다.
-    %div=post.specific_desc_striped_tags(100)
+      #{post.user.nickname}님이 게시글을 올렸습니다.
+    %small.text-muted.text.ml-1
+      = date_f message.created_at
 - elsif message.action.to_s == 'mention'
   = link_to front_post_path(post) do
     %strong
-      - unless local_assigns[:mention_only_page]
-        %span
-          #{post.user.nickname}님이 게시글에서
-        %span
-          나를 멘션했습니다
-    %div=post.specific_desc_striped_tags(100)
+      #{post.user.nickname}님이 게시글에서
+      나를 멘션했습니다.
+    %small.text-muted.text.ml-1
+      = date_f message.created_at

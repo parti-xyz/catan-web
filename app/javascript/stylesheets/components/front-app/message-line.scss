@@ -6,14 +6,10 @@
 .front-app .message-line {
   cursor: pointer;
   background-color: #fff;
-  border-top: 1px solid global-variables.$color-gray-200;
-  border-bottom: 1px solid global-variables.$color-gray-200;
+  border: 1px solid global-variables.$color-gray-200;
   font-size: bootstrap.$font-size-sm;
   & + .message-line {
     border-top-width: 0;
-  }
-  &:last-child {
-    border-width: 0;
   }
   &:hover {
     background-color: global-variables.$color-gray-000;
@@ -67,7 +63,7 @@
     }
   }
   .message__check {
-    font-size: bootstrap.$font-size-lg;
+    font-size: bootstrap.$font-size-xs;
     color: global-variables.$color-gray-200;
     padding: 0 .5rem;
   }
@@ -76,16 +72,18 @@
   }
 
   // elements
-  .userimage {
-    margin-top: .25rem;
-    margin-right: .25rem;
-    margin-left: .25rem;
-    flex: none;
-    vertical-align: bottom;
-  }
-  .userimage > .userimagebg {
-    border: 1px solid white;
-    background-color: white;
-    @include mixin.background-image-round(1.5rem);
+  > .box {
+    .rocket {
+      margin-right: .25rem;
+      margin-left: .25rem;
+      flex: none;
+      vertical-align: bottom;
+      color: global-variables.$color-gray-400;
+    }
+    .rocket > .userimagebg {
+      border: 1px solid white;
+      background-color: white;
+      @include mixin.background-image-round(1.5rem);
+    }
   }
 }

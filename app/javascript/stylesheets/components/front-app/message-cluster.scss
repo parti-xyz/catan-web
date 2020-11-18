@@ -1,0 +1,10 @@
+.front-app .message-cluster {
+  > .message-cluster-owner {
+    margin-bottom: .5rem;
+  }
+  > .message-line {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    padding-left: .5rem;
+  }
+}
