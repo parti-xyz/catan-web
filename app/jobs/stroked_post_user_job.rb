@@ -25,10 +25,13 @@ class StrokedPostUserJob < ApplicationJob
     old_user_ids = post.stroked_post_users.pluck(:user_id).to_a.uniq
 
     post.stroked_post_users.where(user_id: (old_user_ids - new_user_ids)).delete_all
-    (new_user_ids - old_user_ids).each do |user_id|
-      post.stroked_post_users.create(user_id: user_id)
+    (new_user_ids - old_user_ids).each do |new_user_id|
+      stroked_post_user = post.stroked_post_users.create(user_id: new_user_id)
+      Rails.logger.debug stroked_post_user.inspect
     end
 
+    post.reload
+    post.stroked_post_users.where.not(id: post.stroked_post_users.recent.limit(StrokedPostUser::LIMIT).to_a).delete_all
     post.save
   end
 end

@@ -96,8 +96,7 @@ class Post < ApplicationRecord
   has_one :current_user_post_reader,
     -> { where(user_id: Current.user.try(:id)) },
     class_name: 'PostReader'
-  has_many :stroked_post_users, dependent: :destroy
-  has_many :recent_stroked_post_users, -> { recent.limit(5) }, class_name: 'StrokedPostUser'
+  has_many :stroked_post_users, -> { recent }, dependent: :destroy
   has_many :post_observations, dependent: :destroy, class_name: 'MessageConfiguration::PostObservation'
 
   belongs_to :last_stroked_user, class_name: "User", optional: true

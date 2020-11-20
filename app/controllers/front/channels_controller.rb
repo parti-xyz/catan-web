@@ -7,7 +7,7 @@ class Front::ChannelsController < Front::BaseController
 
     @posts = @current_issue.posts
       .never_blinded(current_user)
-      .includes(:user, :issue, :group, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :folder, recent_stroked_post_users: [ :user ], announcement: [:current_user_audience], wiki: [ last_wiki_history: [ :user ] ])
+      .includes(:user, :issue, :group, :poll, :survey, :current_user_comments, :current_user_upvotes, :last_stroked_user, :label, :folder, stroked_post_users: [ :user ], announcement: [ :current_user_audience ], wiki: [ last_wiki_history: [ :user ] ])
       .page(params[:page]).per(10)
     if @current_folder.present?
       @posts = @posts.where(folder: @current_folder)

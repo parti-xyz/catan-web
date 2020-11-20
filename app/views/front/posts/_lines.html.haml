@@ -60,9 +60,9 @@
             %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(user), options: h({ container: '.front-app' }.to_json) } } }
               .userimagebg{ style: "background-image: url(#{user.image.sm.url})" }
           - else
-            - post.recent_stroked_post_users.each_with_index do |stroked_post_user, index|
+            - post.stroked_post_users.sort_by(&:id).reverse[0..(StrokedPostUser::LIMIT - 1)].each_with_index do |stroked_post_user, index|
               - user = stroked_post_user.user
-              - if index >= 4
+              - if index >= (StrokedPostUser::LIMIT - 1)
                 .morecount
                   %i.fa.fa-ellipsis-h
               - else
