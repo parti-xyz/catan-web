@@ -7,10 +7,10 @@
 
     = render 'favicons'
 
-    = stylesheet_link_tag 'application_default', media: 'all'
-    = stylesheet_link_tag 'vendors', media: 'all'
-    %link{href: "https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.css", rel: "stylesheet"}
-    %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel: "stylesheet"}
+    = stylesheet_pack_tag 'application', media: 'all'
+    -# = stylesheet_link_tag 'application_default', media: 'all'
+    -# = stylesheet_link_tag 'vendors', media: 'all'
+    -# %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel: "stylesheet"}
 
     /[if lt IE 9]
     %script{:src => "https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"}
@@ -18,42 +18,54 @@
 
     = csrf_meta_tags
 
-  %body.js-menu-slideout-lg{ class: body_class, data: {spy: "scroll", target: "#toc", 'root-domain': root_domain } }
+  %body.admin-app{ class: body_class, data: { 'root-domain': root_domain, turbolinks: 'false' } }
     %section.unobtrusive-flash-section
       .container
         .unobtrusive-flash-container
-    = render 'application/modal_placeholder'
-    = render 'application/header'
 
-    %main.main-panel#js-main-panel.large-main-panel.clearfix
-      .sidebar-wrapper
-        = render 'drawer_menu'
-      .content-wrapper
-        %section#admin
-          .container-fluid
-            .row
-              - if content_for?(:sidebar)
-                = yield :sidebar
-              - else
-                .col-sm-2
-                  %ul.nav.nav-stacked.affix(style="background-color: #fff; z-index: 10;")
-                    %li= link_to '관리 홈', admin_root_path, class: "#{current_page?(admin_root_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '랜딩페이지 운영', admin_landing_pages_path, class: "#{current_page?(admin_landing_pages_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '활성 채널 조회', admin_active_issue_stats_path, class: "#{current_page?(admin_active_issue_stats_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '사용자 목록', admin_users_path, class: "#{current_page?(admin_users_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '사용자 이메일 다운로드', all_email_admin_users_path(format: :xlsx)
-                    %li= link_to '사용자 통계', stat_admin_users_path, class: "#{current_page?(stat_admin_users_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '블랙리스트 유저 관리', admin_blinds_path, class: "#{current_page?(admin_blinds_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '그룹 관리', admin_groups_path, class: "#{current_page?(admin_groups_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '채널 관리', admin_issues_path, class: "#{current_page?(admin_issues_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '운영자 관리', admin_roles_path, class: "#{current_page?(admin_roles_path) ? 'text-primary' : 'text-default'}"
-                    %li= link_to '전체 공지 메일 발송', admin_new_notice_email_path, class: "#{current_page?(admin_new_notice_email_path) ? 'text-primary' : 'text-default'}"
-              .col-sm-10
-                = yield
+    %nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+      %a.navbar-brand{href: admin_root_path} 그룹스 운영툴
+      %button.navbar-toggler{"data-target": "#js-site-navbar", "data-toggle": "collapse", type: "button"}
+        %span.navbar-toggler-icon
+      #js-site-navbar.collapse.navbar-collapse
+        %ul.navbar-nav
+          -# %li.nav-item
+          -#   = link_to '관리 홈', admin_root_path, class: "nav-link #{'active' if current_page?(admin_root_path)}"
+          -# %li.nav-item
+          -#   = link_to '랜딩페이지 운영', admin_landing_pages_path, class: "nav-link #{'active' if current_page?(admin_landing_pages_path)}"
+          %li.nav-item
+            = link_to '활성 채널', admin_active_issue_stats_path, class: "nav-link #{'active' if current_page?(admin_active_issue_stats_path)}"
+          %li.nav-item
+            = link_to '사용자 목록', admin_users_path, class: "nav-link #{'active' if current_page?(admin_users_path)}"
+          -# %li= link_to '사용자 이메일 다운로드', all_email_admin_users_path(format: :xlsx)
+          -#       %li= link_to '사용자 통계', stat_admin_users_path, class: "#{current_page?(stat_admin_users_path) ? 'text-primary' : 'text-default'}"
+          %li.nav-item
+            = link_to '블라인드리스트 유저', admin_blinds_path, class: "nav-link #{'active' if current_page?(admin_blinds_path)}"
+          -# %li= link_to '블랙리스트 유저 관리', admin_blinds_path, class: "#{current_page?(admin_blinds_path) ? 'text-primary' : 'text-default'}"
+          %li.nav-item
+            = link_to '그룹', admin_groups_path, class: "nav-link #{'active' if current_page?(admin_groups_path)}"
+          -# %li= link_to '채널 관리', admin_issues_path, class: "#{current_page?(admin_issues_path) ? 'text-primary' : 'text-default'}"
+          %li.nav-item
+            = link_to '운영자', admin_roles_path, class: "nav-link #{'active' if current_page?(admin_roles_path)}"
+          -# %li= link_to '전체 공지 메일 발송', admin_new_notice_email_path, class: "#{current_page?(admin_new_notice_email_path) ? 'text-primary' : 'text-default'}"
+          %li.nav-item
+            = link_to '데이터', admin_exports_path, class: "nav-link #{'active' if current_page?(admin_exports_path)}"
 
-    = render 'application/mobile_app_js'
-    = javascript_include_tag 'application'
-    %script{:src => "https://cdn.rawgit.com/afeld/bootstrap-toc/v0.3.0/dist/bootstrap-toc.min.js"}
+      %ul.navbar-nav.ml-auto
+        %li.nav-item.dropdown
+          %a#site-navbar-dropdown.nav-link.dropdown-toggle{"aria-expanded": "false", "aria-haspopup": "true", "data-toggle": "dropdown", href: "#"}= current_user.nickname
+          .dropdown-menu.dropdown-menu-right{"aria-labelledby": "site-navbar-dropdown"}
+            = link_to '로그아웃', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+
+    %main
+      .container-fluid.mt-4
+        = yield
+
+    - if @use_pack_js
+      = javascript_pack_tag 'application'
+    - else
+      = javascript_include_tag 'application'
+
     = yield :script if content_for?(:script)
 
 

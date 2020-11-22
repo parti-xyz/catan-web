@@ -1,5 +1,6 @@
 import 'whatwg-fetch'
 import elementClosest from 'element-closest'
+import 'url-search-params-polyfill'
 
 const polyfills = (window) => {
   elementClosest(window)

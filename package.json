@@ -44,6 +44,7 @@
     "stimulus": "1.1.1",
     "store2": "2.11.2",
     "turbolinks": "5.2.0",
+    "url-search-params-polyfill": "8.1.0",
     "uuid": "8.1.0",
     "velocity-animate": "2.0.6",
     "waypoints": "4.0.1",
