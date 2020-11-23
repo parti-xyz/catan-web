@@ -18,7 +18,10 @@
 
   .menugroup
     - if user_signed_in? && current_group&.member?(current_user)
-      = render 'layouts/front/messages'
+      .menuitem.notification{ id: 'navbar-messages', data: { controller: 'content-loader', 'content-loader': { 'reload-on-connect': 'true', url: nav_front_messages_path(mobile: 'true'), 'refresh-interval': 15_000.to_s }, 'turbolinks-permanent': true } }
+        = link_to front_messages_path, class: 'icons' do
+          %i.fa.fa-bell.fa-fw
+
     - if user_signed_in?
       .dropdown.menuitem{ data: { controller: 'phone-dropdown' } }
         .userimage{ "data-toggle" => "dropdown", :href => "#" }

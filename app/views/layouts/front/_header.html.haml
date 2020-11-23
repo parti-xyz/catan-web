@@ -59,8 +59,13 @@
 
   .profilemenus
     - if user_signed_in? && current_group&.member?(current_user)
-      = render 'layouts/front/messages'
-
+      .menuitem.dropdown.notification{ id: 'navbar-messages', data: { controller: 'content-loader message--dropdown phone-dropdown', action: 'content-loader:beforeLoaded->message--dropdown#dispose content-loader:afterLoaded->message--dropdown#mixUp', 'content-loader': { 'reload-on-connect': 'true', url: nav_front_messages_path, 'refresh-interval': (1000 * 60 * 5).to_s, 'disable-refresh-jquery-event': 'show.bs.dropdown', 'enable-refresh-jquery-event': 'hide.bs.dropdown' }, 'message--dropdown': { 'url': notice_front_messages_url }, 'turbolinks-permanent': true } }
+        .icons{ data: { toggle: 'dropdown', target: 'message--dropdown.toggle' } }
+          %i.fa.fa-bell.fa-fw
+        .dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message--dropdown.menu' } }
+          .dropdown-item
+            %i.fa.fa-spinner.fa-pulse
+            로딩 중...
     - if user_signed_in?
       .dropdown{ data: { controller: 'phone-dropdown' } }
         .userimage{ "data-toggle" => "dropdown", :href => "#" }

@@ -130,9 +130,9 @@
     overflow: auto;
   }
   > .profilemenus > .menuitem {
-    position: relative;
     margin-left: 1rem;
     margin-right: 1rem;
+    position: relative;
   }
   > .profilemenus > .menuitem.-powered-by {
     border-left: 1px solid rgba(255, 255, 255, .7);
@@ -153,7 +153,7 @@
     left: 50%;
   }
 
-  > .profilemenus > .dropdown > .notifications {
+  > .profilemenus > .notification > .icons {
     width: 1.75rem;
     height: 1.75rem;
     display: inline-block;
@@ -165,7 +165,7 @@
     cursor: pointer;
   }
 
-  > .profilemenus > .dropdown > .notifications > .circle {
+  > .profilemenus > .notification > .icons > .circle {
     position: absolute;
     font-size: 1px;
     right: 4px;
@@ -173,23 +173,23 @@
     color: red;
   }
 
-  > .profilemenus > .dropdown > .messages {
+  > .profilemenus > .notification > .messages {
     max-width: 600px;
     min-width: 400px;
     padding: 0;
   }
 
-  > .profilemenus > .dropdown > .messages > .scrollable {
+  > .profilemenus > .notification > .messages > .scrollable {
     max-height: 350px;
     overflow: auto;
   }
 
-  > .profilemenus > .dropdown > .messages > .scrollable > .message-cluster {
+  > .profilemenus > .notification > .messages > .scrollable > .message-cluster {
     padding: 0.75rem;
     clear: both;
   }
 
-  > .profilemenus > .dropdown > .messages > .scrollable > .message-cluster:first-child {
+  > .profilemenus > .notification > .messages > .scrollable > .message-cluster:first-child {
     border-top: none;
   }
 
@@ -222,16 +222,16 @@
       margin-left: 1rem;
     }
 
-    > .menugroup > .menuitem.dropdown > .notifications > .circle {
+    > .menugroup > .menuitem.notification {
+      position: relative;
+    }
+
+    > .menugroup > .menuitem.notification > .icons > .circle {
       position: absolute;
       font-size: 1px;
       right: 0;
       top: 3px;
       color: red;
-    }
-
-    > .menugroup > .menuitem.dropdown > .messages {
-      overflow: auto;
     }
 
     > .menugroup > .menuitem.dropdown > .userimage > .userimagebg {
