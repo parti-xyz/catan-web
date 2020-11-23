@@ -472,6 +472,8 @@ Rails.application.routes.draw do
 
     resources :posts, only: [:show, :new, :edit] do
       member do
+        patch :transfer_wiki
+        get :edit_wiki
         get :destroyed
         get :edit_title
         get :cancel_title_form

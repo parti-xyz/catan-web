@@ -6,7 +6,7 @@ class Wiki < ApplicationRecord
   has_one :issue, through: :post
   has_many :wiki_histories, dependent: :destroy
   belongs_to :last_wiki_history, class_name: 'WikiHistory', foreign_key: :last_wiki_history_id, optional: true
-  belongs_to :last_author, class_name: "User", foreign_key: :last_author_id, optional: true
+  belongs_to :last_author, class_name: 'User', foreign_key: :last_author_id, optional: true
   has_many :wiki_authors, dependent: :destroy
 
   mount_uploader :thumbnail, PrivateFileUploader
@@ -19,7 +19,7 @@ class Wiki < ApplicationRecord
   # fulltext serch
   after_save :reindex_for_search!
 
-  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_title, :conflicted_body, :continue_editing
+  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_title, :conflicted_body, :continue_editing, :force_created_at
 
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
@@ -90,7 +90,7 @@ class Wiki < ApplicationRecord
   end
 
   def capture_async
-    if !self.skip_capture and (self.read_attribute(:thumbnail).blank? or self.reserved_capture)
+    if !self.skip_capture && (self.read_attribute(:thumbnail).blank? or self.reserved_capture)
       WikiCaptureJob.perform_async(id)
     end
   end
@@ -140,7 +140,11 @@ class Wiki < ApplicationRecord
 
         self.last_wiki_history
       else
-        wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code, trivial_update_body: check_trivial_update_body)
+        wiki_history = wiki_histories.build(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code, trivial_update_body: check_trivial_update_body)
+        wiki_history.created_at = force_created_at if force_created_at.present?
+        self.save!
+
+        wiki_history
       end
 
       self.update_column(:last_wiki_history_id, wiki_history.id)

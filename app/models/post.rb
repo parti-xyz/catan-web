@@ -394,7 +394,7 @@ class Post < ApplicationRecord
     format_body(true)
   end
 
-  def build_wiki(params)
+  def build_wiki(params = {})
     if self.wiki.try(:persisted?)
       self.wiki.assign_attributes(params)
     else

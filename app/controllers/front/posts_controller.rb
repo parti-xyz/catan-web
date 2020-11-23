@@ -43,7 +43,23 @@ class Front::PostsController < Front::BaseController
     @current_post = Post
       .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, announcement: [:current_user_audience], issue: [ :folders ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
       .find(params[:id])
-    authorize! :update, (@current_post.wiki.presence || @current_post)
+    authorize! :update, @current_post
+
+    @current_issue = Issue.includes(:folders, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
+
+    @current_folder = @current_post.folder if @current_post.folder&.id&.to_s == params[:folder_id]
+
+    @supplementary_locals = prepare_post_supplementary(@current_post)
+  end
+
+  def edit_wiki
+    render_403 and return unless user_signed_in?
+
+    @current_post = Post
+      .includes(:user, :survey, :current_user_upvotes, :last_stroked_user, :file_sources, announcement: [:current_user_audience], issue: [ :folders ], comments: [ :user, :file_sources, :current_user_upvotes ], wiki: [ :last_wiki_history], poll: [ :current_user_voting ] )
+      .find(params[:id])
+    authorize! :update_wiki, @current_post
+    render_404 and return if @current_post.wiki.blank?
 
     @current_issue = Issue.includes(:folders, :posts_pinned, organizer_members: [ user: [ :current_group_member ] ]).find(@current_post.issue_id)
 
@@ -83,6 +99,27 @@ class Front::PostsController < Front::BaseController
     end
 
     render layout: nil
+  end
+
+  def transfer_wiki
+    @current_post = Post.includes(:label, :wiki).find(params[:id])
+    authorize! :transfer_wiki, @current_post
+
+    if @current_post.wiki.present?
+      turbolinks_redirect_to edit_front_post_path(@current_post)
+      return
+    end
+
+    @current_post.build_wiki(last_author: @current_post.user, body: @current_post.body, force_created_at: @current_post.created_at)
+    @current_post.body = nil
+    if @current_post.save
+      flash[:notice] = I18n.t('activerecord.successful.messages.created')
+      turbolinks_redirect_to edit_wiki_front_post_path(@current_post)
+    else
+      abort @current_post.errors.inspect
+      flash[:alert] = I18n.t('errors.messages.unknown')
+      turbolinks_redirect_to smart_front_post_url(@current_post)
+    end
   end
 
   def update_announcement

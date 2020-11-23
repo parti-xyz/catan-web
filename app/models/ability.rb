@@ -35,7 +35,7 @@ class Ability
 
       can [:pinned, :new], [Post]
       can [:update, :destroy, :move_to_issue, :move_to_issue_form], [Post] do |post|
-        post.user_id == user.id || user.is_organizer?(post.issue) || post.group.organized_by?(user)
+        post.user_id == user.id || user.is_organizer?(post.issue) || user.is_organizer?(post.group)
       end
       can [:create], [Post]
 
@@ -48,11 +48,14 @@ class Ability
       can [:new_wiki, :update_wiki, :wiki], [Post] do |post|
         post.issue.present? and post.issue.try(:postable?, user)
       end
+      can [:transfer_wiki], [Post] do |post|
+        post.user_id == user.id || user.is_organizer?(post.issue) || user.is_organizer?(post.group)
+      end
       can [:update, :activate, :inactivate, :purge, :histories], Wiki do |wiki|
         wiki.try(:post).issue.try(:postable?, user)
       end
       can [:pin, :unpin], Post do |post|
-        user.is_organizer?(post.issue)
+        user.is_organizer?(post.issue) || user.is_organizer?(post.group)
       end
       can [ :beholders, :unbeholders], Post do |post|
         post.issue.present? and post.issue.try(:postable?, user)
@@ -109,7 +112,7 @@ class Ability
       can :manage, [Comment, Upvote, Member], user_id: user.id
 
       can [:destroy], Member do |member|
-        member.user == user or user.is_organizer?(member.joinable)
+        member.user == user || user.is_organizer?(member.joinable)
       end
       can [:invite_group_issues], User do |invited_user|
         current_group.present? and current_group.try(:member?, user)

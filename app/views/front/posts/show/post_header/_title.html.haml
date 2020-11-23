@@ -8,12 +8,15 @@
         %span.text-nowrap.text-primary 멘션하기
 
 - moremenu_post_buttons << capture do
+  - if can?(:update, current_post)
+    = link_to '수정', edit_front_post_path(current_post), class: 'dropdown-item'
   - if !current_post.wiki.present?
-    - if can?(:update, current_post) && current_post.wiki.blank?
-      = link_to '수정', edit_front_post_path(current_post), class: 'dropdown-item'
-    - elsif can?(:front_update_title, current_post)
+    - if !can?(:update, current_post) && can?(:front_update_title, current_post)
       = link_to edit_title_front_post_path(current_post), class: 'dropdown-item', remote: true, data: { 'disable-with': '...', target: 'content-replacement.link' } do
         제목 편집
+    - if can?(:transfer_wiki, current_post)
+      = link_to transfer_wiki_front_post_path(current_post), method: :patch, class: 'dropdown-item', data: { 'disable-with': '...', target: 'content-replacement.link', confirm: '공동 편집하는 위키로 변경하시겠습니까? 다시 되돌릴 수 없습니다.' } do
+        위키로 변경
   - if can?(:destroy, current_post)
     = link_to '삭제', front_post_path(current_post), method: :delete, remote: true, data: { confirm: "정말 삭제하시겠습니까? 다시 복구 할 수 없습니다." }, class: 'dropdown-item'
 

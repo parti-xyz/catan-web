@@ -1,0 +1,27 @@
+- content_for :playground_header_content do
+  = render 'front/playground_header_content/channel_menu/simple', current_issue: @current_issue, current_post: @current_post
+
+- content_for :playground_sidebar_content do
+  = render partial: 'front/posts/supplementary', locals: @supplementary_locals
+= render 'front/pages/back', back_path: front_post_path(@current_post)
+
+.post-form-box
+  = render 'front/wikis/form', current_issue: @current_issue, current_folder: @current_folder, current_wiki: @current_post.wiki
+  .post-main
+    .post-content{ data: { controller: 'comment-form-new comment-form-sync' } }
+      .reactions
+        .reaction
+          - if user_signed_in?
+            %a.link{ href: '#', data: { action: 'click->comment-form-new#open' }, class: ('-active' if @current_post.commented_by_me?) } 댓글달기
+          - else
+            %a.link{ href: '#', data: { action: 'sign-in-launcher#modal' } } 댓글달기
+
+          - if @current_post.comments_count > 0
+            %a.comments{ class: ('-active' if @current_post.commented_by_me?) }
+              %i.fa{ class: (@current_post.commented_by_me? ? 'fa-comment' : 'fa-comment-o') }
+              = trim_count(@current_post.comments_count)
+        = render 'front/posts/show/upvotings/reaction', current_upvotable: @current_post
+
+      .comments{ data: { target: 'comment-form-sync.commentsContent' } }
+        = render 'front/posts/show/comments', current_issue: @current_issue, current_post: @current_post
+

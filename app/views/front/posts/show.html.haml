@@ -16,20 +16,7 @@
         %a.btn.btn-secondary.btn-sm{ href: '#', data: { action: 'click->comment-form-new#open' } } 댓글달기
     = render 'front/posts/show/post_header/title', current_post: @current_post
     .post-content{ data: { controller: 'comment-form-sync' } }
-      - if @current_post.wiki.blank?
-        .post-meta
-          %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
-            .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
-          .desc
-            %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
-              %span.usernickname= @current_post.user.nickname
-              %span.memberrole= @current_post.user.current_group_member&.role
-            .createdat
-              = smart_date_tag @current_post.created_at
-
-        .post-body
-          .body
-            ~ post_body_format @current_issue, @current_post.body
+      - files_contents = capture do
         - if @current_post.file_sources_only_image.any?
           .post-file-sources-only-image{ data: { controller: 'photoswipe justified-gallery' } }
             = render layout: 'layouts/photoswipe', locals: { file_sources: @current_post.file_sources_only_image, title: @current_post.title } do |file_source|
@@ -45,6 +32,28 @@
                   %span.size= number_to_human_size(file_source.file_size)
                 .button
                   .btn.btn-sm.btn-secondary 다운로드
+      - sub_contents = capture do
+        - if @current_post.poll.present?
+          = render 'front/posts/show/poll', poll: @current_post.poll
+        - if @current_post.survey.present?
+          = render 'front/posts/show/survey', survey: @current_post.survey
+        - if @current_post.announcement.present?
+          = render 'front/posts/show/announcement', announcement: @current_post.announcement
+      - if @current_post.wiki.blank?
+        .post-meta
+          %span.userimage{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
+            .userimagebg{ style: "background-image: url(#{@current_post.user.image.sm.url})" }
+          .desc
+            %span.user{ data: { controller: 'content-popover', 'content-popover': { url: user_front_members_path(@current_post.user), options: h({ container: '.front-app' }.to_json) } } }
+              %span.usernickname= @current_post.user.nickname
+              %span.memberrole= @current_post.user.current_group_member&.role
+            .createdat
+              = smart_date_tag @current_post.created_at
+
+        .post-body
+          .body
+            ~ post_body_format @current_issue, @current_post.body
+        = files_contents
         - if @current_post.link_source.present?
           - if @current_post.video_source?
             .post-video-source
@@ -67,19 +76,17 @@
                   원글보기
 
                   %i.fa.fa-external-link
-        - if @current_post.poll.present?
-          = render 'front/posts/show/poll', poll: @current_post.poll
-        - if @current_post.survey.present?
-          = render 'front/posts/show/survey', survey: @current_post.survey
-        - if @current_post.announcement.present?
-          = render 'front/posts/show/announcement', announcement: @current_post.announcement
+        = sub_contents
       - else
         -# WIKI
         .post-wiki
           = render 'front/wikis/card', current_wiki: @current_post.wiki, current_wiki_history:  @current_wiki_history
-        - if @current_post.announcement.present?
+        - if files_contents.present?
           .mt-4
-          = render 'front/posts/show/announcement', announcement: @current_post.announcement
+          = files_contents
+        - if sub_contents.present?
+          .mt-4
+          = sub_contents
 
       .reactions
         .reaction
