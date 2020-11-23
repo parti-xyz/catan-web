@@ -31,7 +31,7 @@
               %i.fa.fa-bookmark-o.fa-fw
             %span.content
               북마크
-            %span.badge.badge-dark.ml-1{ class: (bookmarks_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.bookmarksCount' } }
+            %span.badge.badge-dark.ml-1.collapse{ class: (bookmarks_count > 0 ? 'show' : 'hide'), data: { target: 'channel-read-listener.bookmarksCount' } }
               #{number_to_human(bookmarks_count, precision: 1, delimiter: ',', significant: false)}
       %li.channel-line
         .link{ class: ('-active' if params[:menu_slug] == 'messages'), data: { action: 'click->collection-activation#toggle group-sidebar-activation->collection-activation#toggle', target: 'collection-activation.item group-sidebar-listener.menuActivation channel-read-listener.messagesMenu', 'group-sidebar-listener-menu-slug': 'messages' } }
