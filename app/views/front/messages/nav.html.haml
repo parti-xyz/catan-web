@@ -1,27 +1,37 @@
-.notifications{ data: { toggle: 'dropdown', target: 'message--dropdown.toggle' } }
-  %i.fa.fa-bell.fa-fw
-  - if @first_message.present? && (current_user.last_noticed_message_id.blank? || @first_message.id > current_user.last_noticed_message_id)
-    %i.fa.fa-circle.circle{ data: { target: 'message--dropdown.circle', 'last-message-id': @first_message.id } }
-.dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message--dropdown.menu' } }
-  .dropdown-header.front-navbar-message-header
-    새 알림
-    .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', target: 'message--dropdown.reloadButton', 'message--dropdown-keep-open': true } }
-      새로고침
-  - if @message_clusters.any?
-    .scrollable{ data: { target: 'message--dropdown.messagesContainer' } }
-      - @message_clusters.each do |cluster_owner, messages|
-        .message-cluster
-          = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
-          - messages.each do |message|
-            = render message, list_navable: true
-  - else
-    .dropdown-item.my-2.text-center
-      %i.fa.fa-info-circle
-      새 알림이 없습니다.
+- is_mobile = params[:mobile] == 'true'
+- has_unread_messages = @first_message.present? && (current_user.last_noticed_message_id.blank? || @first_message.id > current_user.last_noticed_message_id)
 
-
-  .dropdown-header.front-navbar-message-footer
-    - if @more_messages
-      = link_to '새 알림 더 보기', front_messages_path(filter: { condition: 'needtoread' }), class: 'btn btn-link btn-sm px-0'
+- if is_mobile
+  - messages_url = has_unread_messages ? front_messages_path(filter: { condition: 'needtoread' }) : front_messages_path
+  = link_to messages_url, class: 'icons' do
+    %i.fa.fa-bell.fa-fw
+    - if has_unread_messages
+      %i.fa.fa-circle.circle{ data: { target: 'message--dropdown.circle', 'last-message-id': @first_message.id } }
+- else
+  .icons{ data: { toggle: 'dropdown', target: 'message--dropdown.toggle' } }
+    %i.fa.fa-bell.fa-fw
+    - if has_unread_messages
+      %i.fa.fa-circle.circle{ data: { target: 'message--dropdown.circle', 'last-message-id': @first_message.id } }
+  .dropdown-menu.dropdown-menu-right.messages{ data: { target: 'message--dropdown.menu' } }
+    .dropdown-header.front-navbar-message-header
+      새 알림
+      .btn.btn-link.btn-sm{ data: { 'disable-with': '<i class="fa fa-spinner fa-pulse"></i> 로딩 중...', action: 'click->content-loader#reload', target: 'message--dropdown.reloadButton', 'message--dropdown-keep-open': true } }
+        새로고침
+    - if @message_clusters.any?
+      .scrollable{ data: { target: 'message--dropdown.messagesContainer' } }
+        - @message_clusters.each do |cluster_owner, messages|
+          .message-cluster
+            = render 'front/messages/cluster_owner', cluster_owner: cluster_owner
+            - messages.each do |message|
+              = render message, list_navable: true
     - else
-      = link_to '모든 알림 보기', front_messages_path, class: 'btn btn-link btn-sm px-0'
+      .dropdown-item.my-2.text-center
+        %i.fa.fa-info-circle
+        새 알림이 없습니다.
+
+
+    .dropdown-header.front-navbar-message-footer
+      - if @more_messages
+        = link_to '새 알림 더 보기', front_messages_path(filter: { condition: 'needtoread' }), class: 'btn btn-link btn-sm px-0'
+      - else
+        = link_to '모든 알림 보기', front_messages_path, class: 'btn btn-link btn-sm px-0'

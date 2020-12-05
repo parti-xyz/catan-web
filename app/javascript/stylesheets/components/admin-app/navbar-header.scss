@@ -1,0 +1,11 @@
+@use '../../mq';
+
+// brand
+.admin-app .navbar-header {
+  $site-header-brand-image-width: 60px;
+  .navbar-brand {
+    img {
+      width: $site-header-brand-image-width;
+    }
+  }
+}

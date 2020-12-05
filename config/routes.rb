@@ -423,6 +423,14 @@ Rails.application.routes.draw do
     get :fetch_posts, to: 'landing_pages#fetch_posts'
     get :new_notice_email, to: 'notice_email#new'
     post :deliver_notice_email, to: 'notice_email#deliver'
+
+    resources :exports, only: [:index] do
+      collection do
+        post 'group'
+        get 'status'
+        get 'download'
+      end
+    end
   end
 
   # front

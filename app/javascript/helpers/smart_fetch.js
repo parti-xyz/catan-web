@@ -10,6 +10,8 @@ function smartFetch(url, options) {
     if (csrfToken) { smartOptions.headers.append('X-CSRF-Token', csrfToken.content) }
   }
 
+  smartOptions.headers.append('X-Requested-With', 'XMLHttpRequest')
+
   return fetch(url, smartOptions).then(response => {
     if (!response.ok) {
       const event = new CustomEvent('fetch:error', {

@@ -61,16 +61,16 @@ if (window.jQuery) {
       }
     }
 
-    if (reported) { return }
-
-    if(status == 500) {
-      appNoty('뭔가 잘못되었습니다. 곧 고치겠습니다.', 'error', true).show()
-    } else if(status == 400) {
-      appNoty('요청하신 것을 처리할 수 없습니다.', 'error', true).show()
-    } else if(status == 403) {
-      appNoty('권한이 없습니다.', 'error', true).show()
-    } else if(status == 404) {
-      appNoty('어머나! 요청하신 내용이 사라졌어요. 페이지를 새로 고쳐보세요.', 'error', true).show()
+    if (!reported) {
+      if(status == 500) {
+        appNoty('뭔가 잘못되었습니다. 곧 고치겠습니다.', 'error', true).show()
+      } else if(status == 400) {
+        appNoty('요청하신 것을 처리할 수 없습니다.', 'error', true).show()
+      } else if(status == 403) {
+        appNoty('권한이 없습니다.', 'error', true).show()
+      } else if(status == 404) {
+        appNoty('어머나! 요청하신 내용이 사라졌어요. 페이지를 새로 고쳐보세요.', 'error', true).show()
+      }
     }
 
     jQuery.each(jQuery('[data-disable-with]'), function (index, elm) { jQuery.rails.enableElement(elm) })

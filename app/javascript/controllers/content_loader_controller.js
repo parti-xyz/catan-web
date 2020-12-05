@@ -9,6 +9,10 @@ export default class extends Controller {
       if (this.data.has("refreshInterval")) {
         this.startRefreshing()
       }
+    } else {
+      if (this.data.get('reloadOnConnect')) {
+        this.load()
+      }
     }
 
     let self = this

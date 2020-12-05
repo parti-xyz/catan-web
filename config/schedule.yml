@@ -26,3 +26,11 @@ last_stroked_posts_count_job:
   cron: "*/45 * * * * Asia/Seoul"
   class: "LatestIssuesCountJob"
   queue: default
+last_stroked_posts_count_job:
+  cron: "*/45 * * * * Asia/Seoul"
+  class: "LatestIssuesCountJob"
+  queue: default
+clear_old_group_exports_job:
+  cron: "*/5 * * * * Asia/Seoul"
+  class: "ClearOldGroupExportsJob"
+  queue: default

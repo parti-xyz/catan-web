@@ -1,0 +1,11 @@
+%section
+  %h4 데이터 다운로드
+
+  = form_with url: group_admin_exports_path(format: :json), local: false, data: { controller: 'admin--export', action: 'ajax:before->admin--export#submit', 'admin--export-status-url': status_admin_exports_path(format: :json), 'admin--export-download-url': download_admin_exports_path(format: :xlsx) } do |f|
+    .form-group
+      = f.label :group_slug, '그룹 홈 주소 https://'
+      = f.text_field :group_slug
+      %span .parti.xyz
+    .form-group
+      = f.submit '다운로드'
+      .export-status{ 'data-target': 'admin--export.status' }
