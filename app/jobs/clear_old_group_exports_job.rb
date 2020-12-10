@@ -20,7 +20,8 @@ class ClearOldGroupExportsJob < ApplicationJob
     s3_response = s3_client.list_objects(bucket: ENV['PRIVATE_S3_BUCKET'], prefix: "exports/#{Rails.env}/")
     s3_response.contents.each do |s3_object|
       next if (Time.current - s3_object.last_modified) < EXPIRED_TIME
-      s3_object.delete("Expired file: #{s3_object.key}")
+      s3_client.delete_object(bucket: ENV['PRIVATE_S3_BUCKET'], key: s3_object.key)
+      Rails.logger.info("Expired file: #{s3_object.key}")
     end
   end
 
