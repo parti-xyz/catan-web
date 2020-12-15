@@ -67,11 +67,15 @@ module ApplicationHelper
     end
   end
 
-  def comment_format(issue, text, html_options = {}, options = {})
-    options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
-    parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line bodyline'), options).to_str
-    # parsed_text = parse_hashtags(issue, parsed_text)
-    parsed_text = parse_mentions(issue.group, parsed_text)
+  def comment_format(comment, html_options = {}, options = {})
+    options[:wrapper_tag] = 'span' if options[:wrapper_tag].blank?
+
+    parsed_text = if comment.is_html
+      comment.body
+    else
+      simple_format(h(comment.body), html_options.merge(class: 'comment-body-line bodyline'), options).to_str
+    end
+    parsed_text = parse_mentions(comment.issue.group, parsed_text)
     Rinku.auto_link(parsed_text, :all,
       "class='auto_link' target='_blank'",
       nil).html_safe()
@@ -597,5 +601,9 @@ module ApplicationHelper
       }
     })
     raw engine.render
+  end
+
+  def jj(*args)
+    args.join(' ')
   end
 end

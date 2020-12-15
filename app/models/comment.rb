@@ -192,6 +192,15 @@ class Comment < ApplicationRecord
     file_sources.to_a.select &:doc?
   end
 
+  def body_striped_tags
+    return body unless is_html?
+
+    striped_body = body.try(:strip)
+    striped_body = '' if striped_body.nil?
+    sanitize_html(striped_body)
+  end
+
+
   private
 
   def touch_last_commented_at_of_posts
@@ -207,4 +216,7 @@ class Comment < ApplicationRecord
     self.issue.deprecated_read_if_no_unread_posts!(self.user)
   end
 
+  def sanitize_html(text)
+    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
+  end
 end

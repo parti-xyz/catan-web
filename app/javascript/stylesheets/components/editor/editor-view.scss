@@ -22,6 +22,9 @@ body.-pack {
     @include mixin.editor-content;
 
     min-height: 300px;
+    &.-comment {
+      min-height: 100px;
+    }
 
     @include mq.media('<=phone') {
       overflow: scroll;

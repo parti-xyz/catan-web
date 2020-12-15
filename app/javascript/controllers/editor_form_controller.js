@@ -50,7 +50,25 @@ export default class extends Controller {
       schema: currentSchema,
       menuContent: (this.data.get('readOnly') != 'true' ? buildMenuItems(currentSchema, uploadUrl, ruleFileSize) : []),
       mapKeys,
-    }).concat(linkTooltipPlugin, imageUploadPlugin, dirtyPlugin(this.element), keymap(mapKeys))
+    }).concat(
+      linkTooltipPlugin,
+      imageUploadPlugin,
+      dirtyPlugin(this.element),
+      keymap(mapKeys)
+    )
+
+    let editorFormClasses = this.sourceTarget.dataset.editorFormClasses
+    if (editorFormClasses) {
+      plugins.push(
+        new Plugin({
+          props: {
+            attributes: {
+              "class": editorFormClasses,
+            }
+          }
+        })
+      )
+    }
 
     if (this.hasConflictSourceTarget) {
       let diff = this.computeConflictDocument(currentSchema, this.sourceTarget, this.conflictSourceTarget)

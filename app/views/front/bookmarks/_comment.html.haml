@@ -1,9 +1,9 @@
 = link_to front_post_path(comment.post, anchor: comment_line_anchor_dom_id(comment)) do
-  %div= excerpt(comment.body, length: 100)
+  %div= excerpt(comment.body_striped_tags, length: 100)
   .text-muted{ style: 'margin-top: 1em; font-size: 12px;' }
     %strong 게시글
     = comment.post.specific_desc_striped_tags(100)
     - if comment.parent.present?
       %div
         %strong @#{comment.parent.user.nickname}
-        = excerpt(comment.parent.body, length: 100)
+        = excerpt(comment.parent.body_striped_tags, length: 100)

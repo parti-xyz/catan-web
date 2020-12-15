@@ -20,7 +20,7 @@
         - elsif comment.blinded?(current_user)
           %span.screened= t('labels.comment_blind_info')
         - else
-          != comment_format(comment.issue, comment.body)
+          != comment_format(comment)
 
           - if comment.wiki_history.present?
             .mt-1
@@ -58,7 +58,7 @@
             / comment 이미지
             - if comment.file_sources_only_image.present?
               .comment-filesource-image-listing{ data: { controller: 'photoswipe' } }
-                = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body.try(:truncate, 100) } do |file_source|
+                = render layout: 'layouts/photoswipe', locals: { file_sources: comment.file_sources_only_image, title: comment.body_striped_tags.try(:truncate, 100) } do |file_source|
                   %img.img{ src: file_source.attachment.sm.url }
             / comment 파일
             - if comment.file_sources_only_doc.present?

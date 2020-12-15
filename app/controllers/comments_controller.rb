@@ -122,7 +122,7 @@ class CommentsController < ApplicationController
       end
     end
 
-    params.require(:comment).permit(:body, :parent_id, :wiki_history_id, file_sources_attributes: file_sources_attributes,)
+    params.require(:comment).permit(:body, :is_html, :parent_id, :wiki_history_id, file_sources_attributes: file_sources_attributes,)
   end
 
   def set_choice

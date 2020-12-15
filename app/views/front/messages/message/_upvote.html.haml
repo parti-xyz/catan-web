@@ -8,7 +8,7 @@
       내 댓글에 공감합니다.
     %small.text-muted.text.ml-1
       = date_f message.created_at
-    %div=excerpt(comment.body, length: 100)
+    %div=excerpt(comment.body_striped_tags, length: 100)
 - else
   - post = upvote.upvotable
 

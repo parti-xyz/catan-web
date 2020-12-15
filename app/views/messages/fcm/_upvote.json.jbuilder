@@ -4,7 +4,7 @@ issue = message.messagable.issue
 if upvote.upvotable.is_a? Comment
   comment = upvote.upvotable
   post = upvote.upvotable.post
-  body = "@#{message.sender.nickname}님이 내 댓글에 공감합니다. \"#{comment.body.try(:truncate, 120)}\""
+  body = "@#{message.sender.nickname}님이 내 댓글에 공감합니다. \"#{comment.body_striped_tags.try(:truncate, 120)}\""
 
   json.data do
     json.id message.id
