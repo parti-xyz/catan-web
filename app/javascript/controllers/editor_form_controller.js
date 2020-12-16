@@ -8,6 +8,7 @@ import { addListNodes, liftListItem, sinkListItem, wrapInList } from "prosemirro
 import { keymap } from "prosemirror-keymap"
 import { ChangeSet, simplifyChanges } from 'prosemirror-changeset'
 import { v4 as uuidv4 } from 'uuid'
+import scrollIntoView from 'scroll-into-view'
 
 import { linkTooltipPlugin } from '../compoments/editor/link_tooltip_plugin'
 import { imageUploadPlugin } from '../compoments/editor/image_upload_plugin'
@@ -139,6 +140,31 @@ export default class extends Controller {
     }
 
     return div.innerHTML
+  }
+
+  insertText(text) {
+    if (!this.editorView || !this.editorState) { return }
+
+    // const textNode = document.createTextNode(text)
+    // const parser = DOMParser.fromSchema(this.editorSchema)
+    // const newNodes = parser.parse(textNode)
+
+    const { tr } = this.editorState
+    tr.insertText(text, 1)
+    this.editorView.dispatch(tr)
+  }
+
+  focus() {
+    if (!this.editorView) { return }
+
+    this.editorView.focus()
+
+    scrollIntoView(this.editorView.dom, {
+      cancellable: true,
+      align: {
+        topOffset: 100,
+      }
+    })
   }
 
   hasDangerConflict() {

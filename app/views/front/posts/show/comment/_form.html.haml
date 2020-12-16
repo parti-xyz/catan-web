@@ -1,28 +1,34 @@
-- form_model = local_assigns[:current_comment].present? ? [:front, current_comment] : [:front, current_post, Comment.new]
-- is_html = (form_model.last.persisted? ? form_model.last.is_html : true)
+- is_edit_form = local_assigns[:current_comment].present?
+- form_model = is_edit_form ? [:front, current_comment] : [:front, current_post, Comment.new]
 = form_with model: form_model,
             local: false,
             class: 'comment-form',
-            data: { controller: jj('comment-form dirty-form', ('editor-form' if is_html)),
+            data: { controller: 'comment-form dirty-form editor-form',
+                    target: jj('dirty-page.form', (is_edit_form ? 'comment-form-edit.editorForm' : 'comment-form-new.editorForm')),
                     action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update',
-                    'editor-form-upload-url': editor_assets_path,
-                    target: 'dirty-page.form' } do |f|
+                    'editor-form-upload-url': editor_assets_path } do |f|
   - if local_assigns[:parent_comment].present?
     = f.hidden_field :parent_id, value: parent_comment.id
-  = f.hidden_field :is_html, value: is_html
+  = f.hidden_field :is_html, value: true
   .form-group.mb-1.bodyfield
-    - if is_html
-      .d-none{ data: { target: 'editor-form.source', 'editor-form-classes': '-comment' } }
-        != f.object.body
-      = f.hidden_field :body,
-                        data: { target: jj('comment-form.bodyField',
-                                          (f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField')),
-                                'value-missing-message': '본문 내용이 비었어요.' }
-    - else
-      = f.text_area :body, class: "form-control textarea",
-                    placeholder: '댓글을 입력하세요',
-                    data: { controller: 'auto-resize',
-                            target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'focus->comment-form#focusBodyField blur->comment-form#blurBodyField auto-resize:updateView->auto-resize#updateView' }, rows: 1
+    - need_fake_textarea = local_assigns[:parent_comment].blank? && !is_edit_form
+    - if need_fake_textarea
+      .collapse.show.faketextarea{ data: { action: 'click->comment-form-new#open',
+                                           target: 'comment-form-new.fakeTextarea' } }
+        댓글을 입력하세요
+    .collapse{ class: (need_fake_textarea ? 'hide' : 'show'),
+               data: { target: 'comment-form-new.realTextarea' } }
+      .d-none{ data: { target: 'editor-form.source',
+                       'editor-form-classes': '-comment' } }
+        != f.object.is_html? ? f.object.body : simple_format(h(f.object.body))
+    = f.hidden_field :body,
+                      data: { target: 'comment-form.bodyField',
+                              'value-missing-message': '본문 내용이 비었어요.' }
+    -# - else
+    -#   = f.text_area :body, class: "form-control textarea",
+    -#                 placeholder: '댓글을 입력하세요',
+    -#                 data: { controller: 'auto-resize',
+    -#                         target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'focus->comment-form#focusBodyField blur->comment-form#blurBodyField auto-resize:updateView->auto-resize#updateView' }, rows: 1
 
   .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if f.object.file_sources.any?) }
     .header

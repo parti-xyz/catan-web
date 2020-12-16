@@ -200,7 +200,6 @@ class Comment < ApplicationRecord
     sanitize_html(striped_body)
   end
 
-
   private
 
   def touch_last_commented_at_of_posts

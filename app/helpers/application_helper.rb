@@ -73,7 +73,7 @@ module ApplicationHelper
     parsed_text = if comment.is_html
       comment.body
     else
-      simple_format(h(comment.body), html_options.merge(class: 'comment-body-line bodyline'), options).to_str
+      simple_format(h(comment.body), html_options.merge(class: 'comment-body-line'), options).to_str
     end
     parsed_text = parse_mentions(comment.issue.group, parsed_text)
     Rinku.auto_link(parsed_text, :all,
