@@ -20,7 +20,7 @@
         - elsif comment.blinded?(current_user)
           %span.screened= t('labels.comment_blind_info')
         - else
-          .bodyline
+          .bodyline{ class: ('-html' if comment.is_html?) }
             != comment_format(comment)
 
           - if comment.wiki_history.present?

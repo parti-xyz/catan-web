@@ -190,8 +190,7 @@ body.-pack {
     color: global-variables.$color-gray-600;
     padding: .5rem;
     top: 0; left: 0; right: 0;
-    border-bottom: 1px solid global-variables.$color-gray-300;
-    background: white;
+    background-color: global-variables.$color-gray-000;
     z-index: 10;
     -moz-box-sizing: border-box;
     box-sizing: border-box;

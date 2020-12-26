@@ -1,5 +1,6 @@
 @use '../../global-variables';
 @use '../../bootstrap';
+@use '../../mixin';
 
 .front-app .post-comment-main {
   position: relative;
@@ -51,6 +52,9 @@
   > .view > .body > .bodyline a,
   > .view > .body > .bodyline .mention {
     color: global-variables.$color-brand-primary;
+  }
+  > .view > .body > .bodyline.-html {
+    @include mixin.editor-content;
   }
 
   > .view > .moremenu {
