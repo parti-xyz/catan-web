@@ -1,34 +1,36 @@
 - is_edit_form = local_assigns[:current_comment].present?
 - form_model = is_edit_form ? [:front, current_comment] : [:front, current_post, Comment.new]
+- parent_comment = local_assigns[:parent_comment].presence || local_assigns[:current_comment]&.parent
+- need_html_editor = parent_comment.blank?
 = form_with model: form_model,
             local: false,
             class: 'comment-form',
-            data: { controller: 'comment-form dirty-form editor-form',
+            data: { controller: jj('comment-form', 'dirty-form', ('editor-form' if need_html_editor)),
                     target: jj('dirty-page.form', (is_edit_form ? 'comment-form-edit.editorForm' : 'comment-form-new.editorForm')),
                     action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update',
                     'editor-form-upload-url': editor_assets_path } do |f|
-  - if local_assigns[:parent_comment].present?
-    = f.hidden_field :parent_id, value: parent_comment.id
-  = f.hidden_field :is_html, value: true
+  = f.hidden_field :parent_id, value: parent_comment&.id
+  = f.hidden_field :is_html, value: need_html_editor
   .form-group.mb-1.bodyfield
-    - need_fake_textarea = local_assigns[:parent_comment].blank? && !is_edit_form
-    - if need_fake_textarea
-      .collapse.show.faketextarea{ data: { action: 'click->comment-form-new#open',
-                                           target: 'comment-form-new.fakeTextarea' } }
-        댓글을 입력하세요
-    .collapse{ class: (need_fake_textarea ? 'hide' : 'show'),
-               data: { target: 'comment-form-new.realTextarea' } }
-      .d-none{ data: { target: 'editor-form.source',
-                       'editor-form-classes': '-comment' } }
-        != f.object.is_html? ? f.object.body : simple_format(h(f.object.body))
-    = f.hidden_field :body,
-                      data: { target: 'comment-form.bodyField',
-                              'value-missing-message': '본문 내용이 비었어요.' }
-    -# - else
-    -#   = f.text_area :body, class: "form-control textarea",
-    -#                 placeholder: '댓글을 입력하세요',
-    -#                 data: { controller: 'auto-resize',
-    -#                         target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'focus->comment-form#focusBodyField blur->comment-form#blurBodyField auto-resize:updateView->auto-resize#updateView' }, rows: 1
+    - if need_html_editor
+      - need_fake_textarea = parent_comment.blank? && !is_edit_form
+      - if need_fake_textarea
+        .collapse.show.faketextarea{ data: { action: 'click->comment-form-new#open',
+                                            target: 'comment-form-new.fakeTextarea' } }
+          댓글을 입력하세요
+      .collapse{ class: (need_fake_textarea ? 'hide' : 'show'),
+                data: { target: 'comment-form-new.realTextarea' } }
+        .d-none{ data: { target: 'editor-form.source',
+                        'editor-form-classes': '-comment' } }
+          != f.object.is_html? ? f.object.body : simple_format(h(f.object.body))
+      = f.hidden_field :body,
+                        data: { target: 'comment-form.bodyField',
+                                'value-missing-message': '본문 내용이 비었어요.' }
+    - else
+      = f.text_area :body, class: "form-control textarea",
+                    placeholder: '댓글을 입력하세요',
+                    data: { controller: 'auto-resize',
+                            target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'focus->comment-form#focusBodyField blur->comment-form#blurBodyField auto-resize:updateView->auto-resize#updateView' }, rows: 1
 
   .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if f.object.file_sources.any?) }
     .header

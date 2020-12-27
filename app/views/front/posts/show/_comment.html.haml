@@ -72,7 +72,7 @@
 
     - if can?(:edit, comment)
       .form.collapse{ data: { target: 'comment-form-edit.formContent' } }
-        = render 'front/posts/show/comment/form', current_comment: comment, current_post: comment.post
+        = render 'front/posts/show/comment/form', current_comment: comment, current_post: comment.post, parent_comment: comment.parent
 
     - if local_assigns[:child_comments]&.any?
       .post-comments.-children

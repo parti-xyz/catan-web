@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus'
 
 export default class extends Controller {
-  static targets = ['viewContent', 'formContent', 'editorForm']
+  static targets = ['viewContent', 'formContent', 'editorForm', 'bodyField']
 
   open(event) {
     event.preventDefault()
@@ -9,7 +9,14 @@ export default class extends Controller {
     this.viewContentTarget.classList.remove('show')
     this.formContentTarget.classList.add('show')
 
-    this.editorController.focus()
+    if (this.editorController) {
+      this.editorController.focus()
+    } else if (this.hasBodyFieldTarget) {
+      this.bodyFieldTarget.dispatchEvent(new CustomEvent('auto-resize:updateView', {
+        bubbles: false,
+      }))
+      this.bodyFieldTarget.focus()
+    }
   }
 
   get editorController() {
