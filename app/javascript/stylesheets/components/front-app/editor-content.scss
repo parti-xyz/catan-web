@@ -1,0 +1,11 @@
+@use '../../mixin';
+
+.front-app-modal .editor-content {
+  > .body {
+    @include mixin.editor-content;
+    > .editor-view {
+      margin: -.825rem -1rem;
+      border-width: 0;
+    }
+  }
+}

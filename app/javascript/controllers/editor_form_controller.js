@@ -26,6 +26,7 @@ export default class extends Controller {
     if (!this.sourceTarget) { return }
 
     this.editorElement = document.createElement('div')
+    this.editorElement.classList.add('editor-view')
     this.sourceTarget.insertAdjacentElement("afterend", this.editorElement)
     this.sourceTarget.style.display = 'none'
 
