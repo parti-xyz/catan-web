@@ -1,0 +1,19 @@
+.modal-header
+  %h6.modal-title.d-flex
+    - user = @comment_history.user
+    %span.user-byline
+      .image{ style: "background-image: url(#{user.image.sm.url});",
+              title: user.nickname }
+      .nickname= user.nickname
+    %span.ml-1 #{@comment_history.touched_body? ? '편집' : '작성'}
+    %span.ml-3 #{smart_date_tag(@comment_history.created_at)}
+  %button.close.-sm{ "aria-label": "Close", data: { action: 'click->modal#close' } }
+    %span{ "aria-hidden": 'true' } ×
+.modal-body
+  .editor-content
+    .body{ data: { controller: 'editor-form', 'editor-form-read-only': 'true' } }
+      .d-none{ data: { target: 'editor-form.source' } }
+        != comment_format(@comment_history.comment, @comment_history.body)
+      - if @comment_history.has_previous?
+        .d-none{ data: { target: 'editor-form.versionSource' } }
+          != comment_format(@comment_history.comment, @comment_history.previous.body)

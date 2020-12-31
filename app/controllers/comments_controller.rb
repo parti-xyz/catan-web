@@ -21,6 +21,7 @@ class CommentsController < ApplicationController
 
     set_choice
     @comment.user = current_user
+    @comment.last_author = current_user
 
     if 'true' == params[:need_remotipart] and !remotipart_submitted?
       Rails.logger.info "DOUBLE REMOTIPART!!"
@@ -52,6 +53,7 @@ class CommentsController < ApplicationController
   def update
     unless params[:cancel]
       @comment.assign_attributes(comment_params)
+      @comment.last_author = current_user
       if @comment.save
         @comment.perform_messages_with_mentions_async(:update_comment)
       else
@@ -122,7 +124,7 @@ class CommentsController < ApplicationController
       end
     end
 
-    params.require(:comment).permit(:body, :is_html, :parent_id, :wiki_history_id, file_sources_attributes: file_sources_attributes,)
+    params.require(:comment).permit(:body, :is_html, :parent_id, :wiki_history_id, :is_decision, file_sources_attributes: file_sources_attributes,)
   end
 
   def set_choice

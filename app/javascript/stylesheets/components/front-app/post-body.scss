@@ -2,6 +2,7 @@
 @use '../../global-variables';
 @use '../../mixin';
 
+.front-app-modal .editor-content,
 .front-app .post-body {
   > .body {
     @include mixin.editor-content;

@@ -1,25 +1,67 @@
 class Wiki < ApplicationRecord
   acts_as_paranoid
+
   include AutoLinkableBody
+  include HistoryTrackable
+  def code_after_create_for_history_trackable
+    'create'
+  end
+
+  def code_after_update_for_history_trackable
+    return if skip_history
+
+    if self.saved_change_to_status?
+      if self.status == 'active'
+        return 'activate'
+      elsif self.status == 'inactive'
+        return 'inactivate'
+      elsif self.status == 'purge'
+        return 'purge'
+      end
+    end
+
+    if self.post.saved_change_to_base_title? && !self.saved_change_to_body?
+      return 'update_title'
+    end
+
+    if self.saved_change_to_body? && !self.post.saved_change_to_base_title?
+      return 'update_body'
+    end
+
+    if self.post.saved_change_to_base_title? && self.saved_change_to_body?
+      return 'update_title_and_body'
+    end
+
+    nil
+  end
+
+  def merge_code_for_history_trackable(current_code:, before_code:  nil)
+    return 'create' if before_code == 'create'
+    return current_code if before_code.blank? || current_code == before_code
+
+    'update_title_and_body'
+  end
+
+  def title_for_history_trackable
+    self.post.base_title
+  end
+  # End of HistoryTrackable interface methods
 
   has_one :post, dependent: :nullify
   has_one :issue, through: :post
-  has_many :wiki_histories, dependent: :destroy
-  belongs_to :last_wiki_history, class_name: 'WikiHistory', foreign_key: :last_wiki_history_id, optional: true
-  belongs_to :last_author, class_name: "User", foreign_key: :last_author_id, optional: true
-  has_many :wiki_authors, dependent: :destroy
 
   mount_uploader :thumbnail, PrivateFileUploader
 
   after_save :reserve_capture
   after_commit :capture_async
-  after_create ->(obj) {
-    build_history!('create') }
-  after_update :build_history_after_update
+  # after_create ->(obj) {
+  #   build_history!('create') }
+  # after_update :build_history_after_update
+
   # fulltext serch
   after_save :reindex_for_search!
 
-  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_title, :conflicted_body, :continue_editing
+  attr_accessor :skip_capture, :skip_history, :reserved_capture, :conflicted_title, :conflicted_body
 
   extend Enumerize
   enumerize :status, in: [:active, :inactive, :purge], predicates: true, scope: true
@@ -51,7 +93,7 @@ class Wiki < ApplicationRecord
     begin
       self.remove_thumbnail = true
       self.save!
-    rescue => ignored
+    rescue => _
     end
 
     max_try = 5
@@ -90,95 +132,13 @@ class Wiki < ApplicationRecord
   end
 
   def capture_async
-    if !self.skip_capture and (self.read_attribute(:thumbnail).blank? or self.reserved_capture)
+    if !self.skip_capture && (self.read_attribute(:thumbnail).blank? or self.reserved_capture)
       WikiCaptureJob.perform_async(id)
     end
   end
 
   def authors
     self.wiki_authors.map(&:user)
-  end
-
-  def build_history_after_update
-    return if skip_history
-
-    if self.saved_change_to_status?
-      if self.status == 'active'
-        return build_history!('activate')
-      elsif self.status == 'inactive'
-        return build_history!('inactivate')
-      elsif self.status == 'purge'
-        return build_history!('purge')
-      end
-    end
-
-    if self.post.saved_change_to_base_title? and !self.saved_change_to_body?
-      return build_history!('update_title')
-    end
-
-    if self.saved_change_to_body? and !self.post.saved_change_to_base_title?
-      return build_history!('update_body')
-    end
-
-    if self.post.saved_change_to_base_title? and self.saved_change_to_body?
-      return build_history!('update_title_and_body')
-    end
-  end
-
-  def build_history!(code)
-    wiki_authors.find_or_create_by(user: last_author)
-
-    ActiveRecord::Base.transaction do
-      wiki_history = if self.continue_editing && self.last_wiki_history.present? && self.last_wiki_history.user == last_author
-        trivial_update_body = self.last_wiki_history.trivial_update_body
-        if trivial_update_body
-          trivial_update_body = check_trivial_update_body
-        end
-        code = 'update_title_and_body' unless code == self.last_wiki_history.code
-
-        self.last_wiki_history.update_attributes(title: self.post.base_title, body: body, code: code, trivial_update_body: trivial_update_body, created_at: DateTime.now)
-
-        self.last_wiki_history
-      else
-        wiki_histories.create(title: self.post.base_title, body: body, user: last_author, wiki: self, code: code, trivial_update_body: check_trivial_update_body)
-      end
-
-      self.update_column(:last_wiki_history_id, wiki_history.id)
-    end
-  end
-
-  def check_trivial_update_body
-    return false if body_before_last_save.blank? || body.blank?
-
-    doc1 = Nokogiri::HTML(self.body_before_last_save)
-    doc2 = Nokogiri::HTML(self.body)
-    diffs = doc1.diff(doc2)
-
-    previous_text_node_diff = nil
-    diffs.each do |change, node|
-      if change == ' '
-        previous_text_node_diff = nil
-        next
-      end
-
-      return false unless node.text?
-
-      if previous_text_node_diff.nil?
-        previous_text_node_diff = [change, node.text]
-        next
-      end
-
-      previous_text_node_diff_change, previous_text_node_diff_text = previous_text_node_diff
-
-      if previous_text_node_diff_change == change
-        previous_text_node_diff = [change, node.text]
-        next
-      end
-
-      return false if previous_text_node_diff_text.gsub(/\s+/, '') != node.text.gsub(/\s+/, '')
-    end
-
-    true
   end
 
   def last_activity(&block)

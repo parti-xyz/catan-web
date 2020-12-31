@@ -49,6 +49,7 @@ export default class extends Controller {
     let doc
     let plugins = exampleSetup({
       schema: currentSchema,
+      menuBar: (this.data.get('readOnly') == 'true' ? false : true),
       menuContent: (this.data.get('readOnly') != 'true' ? buildMenuItems(currentSchema, uploadUrl, ruleFileSize) : []),
       mapKeys,
     }).concat(

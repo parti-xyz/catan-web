@@ -2,6 +2,7 @@
 @use "../mq";
 
 @forward "./front-app/audiences-popover";
+@forward "./front-app/author-users";
 @forward "./front-app/bookmarks-box";
 @forward "./front-app/bookmark-form";
 @forward "./front-app/bookmark-line";
@@ -76,6 +77,7 @@
 @forward "./front-app/user-navitem";
 @forward "./front-app/upvoted-users";
 @forward "./front-app/updated-comment-line";
+@forward "./front-app/user-byline";
 
 // reset front body
 body.app-front,

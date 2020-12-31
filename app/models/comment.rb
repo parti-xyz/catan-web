@@ -5,6 +5,24 @@ class Comment < ApplicationRecord
   include Messagable
   include Mentionable
   include Upvotable
+  include HistoryTrackable
+  def code_after_create_for_history_trackable
+    'create'
+  end
+
+  def code_after_update_for_history_trackable
+    return if !self.saved_change_to_body?
+    'update_body'
+  end
+
+  def merge_code_for_history_trackable(current_code:, before_code:  nil)
+    return 'create' if before_code == 'create'
+    return current_code if before_code.blank? || current_code == before_code
+
+    'update_body'
+  end
+  # End of HistoryTrackable interface methods
+
   mentionable :body
 
   belongs_to :parent, class_name: "Comment", foreign_key: :parent_id, optional: true, counter_cache: true
@@ -56,6 +74,8 @@ class Comment < ApplicationRecord
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_stroked_at_of_posts
   after_create :touch_last_stroked_at_of_issues
+
+  # attr_accessor :continue_editing
 
   def blinded? someone
     return false if someone == self.user
@@ -198,6 +218,10 @@ class Comment < ApplicationRecord
     striped_body = body.try(:strip)
     striped_body = '' if striped_body.nil?
     sanitize_html(striped_body)
+  end
+
+  def authors
+    self.comment_authors.map(&:user)
   end
 
   private

@@ -9,6 +9,15 @@
     display: none;
   }
 
+  > .view > .decision {
+    display: inline-block;
+    font-size: .875rem;
+    font-weight: bold;
+    color: global-variables.$color-brand-primary;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+  }
+
   > .view > .user > .usernickname {
     font-weight: bold;
     font-size: bootstrap.$font-size-sm;
@@ -55,6 +64,11 @@
   }
   > .view > .body > .bodyline.-html {
     @include mixin.editor-content;
+  }
+
+  > .view > .body > .author-users {
+    margin-top: .5rem;
+    margin-bottom: 1rem;
   }
 
   > .view > .moremenu {

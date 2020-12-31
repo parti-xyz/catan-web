@@ -12,6 +12,6 @@
         %button.btn-more.btn-link{ 'data-action': 'parti-show-more', 'data-more-wrapper': "##{wrapper_id}" } ... 더 보기
       != smart_truncate_html(comment_format(comment), length: 400, ellipsis: more_button)
     %span.original-body{ style: 'display: none;' }
-      = comment_format(comment)
+      != comment_format(comment)
 
 

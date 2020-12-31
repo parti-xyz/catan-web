@@ -109,31 +109,9 @@
   > .body > .buttons > .btn + .btn {
     margin-left: .25rem;
   }
-  > .authors {
-    display: flex;
-    align-items: center;
+
+  > .author-users {
     margin-top: .75rem;
-    font-size: small;
-  }
-
-  > .authors > .label {
-    flex: none;
-    margin-right: .25rem;
-    font-size: bootstrap.$font-size-xs;
-    color: global-variables.$color-gray-600;
-  }
-
-  > .authors > .user {
-    flex: none;
-    display: flex;
-    margin-right: .25rem;
-  }
-
-  > .authors > .user > .image {
-    border: 1px solid white;
-    display: inline-block;
-    background-color: white;
-    @include mixin.background-image-round(1.5rem);
   }
 
   @include mq.media('<=phone') {
@@ -151,7 +129,7 @@
       border: none;
       padding: 0;
     }
-    > .authors {
+    > .author-users {
       display: none;
     }
 

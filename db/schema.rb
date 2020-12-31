@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_14_075313) do
+ActiveRecord::Schema.define(version: 2020_12_30_033258) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -108,6 +108,30 @@ ActiveRecord::Schema.define(version: 2020_12_14_075313) do
     t.index ["group_slug"], name: "index_categories_on_group_slug"
   end
 
+  create_table "comment_authors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comment_authors_on_comment_id"
+    t.index ["user_id", "comment_id"], name: "index_comment_authors_on_user_id_and_comment_id", unique: true
+    t.index ["user_id"], name: "index_comment_authors_on_user_id"
+  end
+
+  create_table "comment_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "comment_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body", limit: 16777215
+    t.string "code", null: false
+    t.integer "diff_body_adds_count", default: 0
+    t.integer "diff_body_removes_count", default: 0
+    t.boolean "trivial_update_body", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comment_histories_on_comment_id"
+    t.index ["user_id"], name: "index_comment_histories_on_user_id"
+  end
+
   create_table "comment_readers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "comment_id", null: false
     t.integer "user_id", null: false
@@ -132,6 +156,10 @@ ActiveRecord::Schema.define(version: 2020_12_14_075313) do
     t.integer "comments_count", default: 0, null: false
     t.bigint "wiki_history_id"
     t.boolean "is_html", default: false
+    t.boolean "is_decision", default: false
+    t.integer "last_comment_history_id"
+    t.integer "comment_histories_count", default: 0
+    t.integer "last_author_id", null: false
     t.index ["deleted_at"], name: "index_comments_on_deleted_at"
     t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["post_id"], name: "index_comments_on_post_id"

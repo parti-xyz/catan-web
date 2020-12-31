@@ -107,6 +107,9 @@ class Ability
       end
 
       can :manage, [Comment, Upvote, Member], user_id: user.id
+      can :update, Comment do |comment|
+        comment.is_decision? && comment&.post&.issue&.group&.member?(user)
+      end
 
       can [:destroy], Member do |member|
         member.user == user or user.is_organizer?(member.joinable)

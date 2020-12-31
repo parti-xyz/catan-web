@@ -113,6 +113,7 @@ class User < ApplicationRecord
   has_many :issue_readers, dependent: :destroy
   has_many :stroked_post_users, dependent: :destroy
   has_many :wiki_authors, dependent: :destroy
+  has_many :comment_authors, dependent: :destroy
   has_many :group_observations, dependent: :destroy, class_name: 'MessageConfiguration::GroupObservation'
   has_many :issue_observations, dependent: :destroy, class_name: 'MessageConfiguration::IssueObservation'
   has_many :post_observations, dependent: :destroy, class_name: 'MessageConfiguration::PostObservation'

@@ -67,13 +67,12 @@ module ApplicationHelper
     end
   end
 
-  def comment_format(comment, html_options = {}, options = {})
-    options[:wrapper_tag] = 'span' if options[:wrapper_tag].blank?
-
+  def comment_format(comment, body = nil)
+    comment_body = body || comment.body
     parsed_text = if comment.is_html
-      comment.body
+      comment_body
     else
-      simple_format(h(comment.body), html_options.merge(class: 'comment-body-line'), options).to_str
+      simple_format(h(comment_body), { class: 'comment-body-line' }, { wrapper_tag: 'span' }).to_str
     end
     parsed_text = parse_mentions(comment.issue.group, parsed_text)
     Rinku.auto_link(parsed_text, :all,

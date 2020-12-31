@@ -1,0 +1,14 @@
+@use '../../mixin';
+
+.user-byline {
+  display: flex;
+  align-items: center;
+
+  > .image {
+    border: 1px solid white;
+    display: inline-block;
+    background-color: white;
+    @include mixin.background-image-round(1.25rem);
+    margin-right: .25rem;
+  }
+}

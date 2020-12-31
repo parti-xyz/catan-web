@@ -2,6 +2,8 @@
 - form_model = is_edit_form ? [:front, current_comment] : [:front, current_post, Comment.new]
 - parent_comment = local_assigns[:parent_comment].presence || local_assigns[:current_comment]&.parent
 - need_html_editor = parent_comment.blank?
+- can_be_decision = parent_comment.blank? && current_post.wiki.blank?
+
 = form_with model: form_model,
             local: false,
             class: 'comment-form',
@@ -74,10 +76,16 @@
       #{smart_date_tag(comment_current_wiki_history.created_at)} #{user_subject_word(comment_current_wiki_history.user)} 업데이트한 위키 이력의 댓글입니다.
   = f.hidden_field :wiki_history_id, value: local_assigns[:comment_current_wiki_history]&.id
 
-  .form-group
+  .form-group.mb-0
     = f.submit '게시', class: 'btn btn-light btn-sm', data: { disable_with: "게시 중...", target: 'comment-form.submitControl' }
     - if f.object.persisted?
       .btn.btn-sm.btn-light{ data: { action: 'click->comment-form-edit#close' } } 취소
     %button.btn.btn-xs.btn-link.btn-sm{ data: { action: 'click->comment-form#openFileSourcesFieldGroup', target: 'comment-form.fileSourcesOpenButton' } }
       %i.fa.fa-cloud-upload
       = t('labels.new_post_file_source_button')
+    - if can_be_decision
+      - is_decision_dom_id = "uid-#{SecureRandom.uuid}"
+      .form-check.d-inline
+        = f.check_box :is_decision, class: 'form-check-input mt-2', id: is_decision_dom_id
+        = f.label :is_decision, '이 댓글로 토론을 정리합니다', class: 'form-check-label user-select-none font-size font-size-sm hover:text-decoration-underline', for: is_decision_dom_id
+
