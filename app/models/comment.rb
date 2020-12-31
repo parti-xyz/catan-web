@@ -213,11 +213,7 @@ class Comment < ApplicationRecord
   end
 
   def body_striped_tags
-    return body unless is_html?
-
-    striped_body = body.try(:strip)
-    striped_body = '' if striped_body.nil?
-    sanitize_html(striped_body)
+    is_html? ? striped_tags(body) : body
   end
 
   def authors
@@ -237,9 +233,5 @@ class Comment < ApplicationRecord
   def touch_last_stroked_at_of_issues
     self.issue.strok_by!(self.user)
     self.issue.deprecated_read_if_no_unread_posts!(self.user)
-  end
-
-  def sanitize_html(text)
-    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
   end
 end

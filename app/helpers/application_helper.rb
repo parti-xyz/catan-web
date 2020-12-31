@@ -36,15 +36,17 @@ module ApplicationHelper
   end
 
   def excerpt(text, options = {})
+    return if text.blank?
+
     options[:length] = 130 unless options.has_key?(:length)
 
     result = text
     if options[:from_html]
-      result = strip_tags(result)
-      result = HTMLEntities.new.decode(result)
+      result = HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(result)
     end
     return result if result.blank?
-    return result.truncate(options[:length], options)
+
+    result.truncate(options[:length], options)
   end
 
   def date_f(date)

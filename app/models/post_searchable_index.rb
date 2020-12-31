@@ -42,8 +42,4 @@ class PostSearchableIndex < ApplicationRecord
     @ngram ||= ::Catan::NGram.new(min_size: 2, word_separator: " ")
     @ngram.parse(data)
   end
-
-  def sanitize_html text
-    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
-  end
 end

@@ -75,9 +75,7 @@ class Wiki < ApplicationRecord
   end
 
   def body_striped_tags
-    striped_body = body.try(:strip)
-    striped_body = '' if striped_body.nil?
-    sanitize_html striped_body
+    striped_tags(body)
   end
 
   def capture!
@@ -148,7 +146,7 @@ class Wiki < ApplicationRecord
   end
 
   def conflict?
-    conflicted_body.present? #or conflicted_title.present?
+    conflicted_body.present? # or conflicted_title.present?
   end
 
   def active?
@@ -189,10 +187,6 @@ class Wiki < ApplicationRecord
 
   def diff_conflicted_body
     self.wiki_histories.last.diff_body(self.conflicted_body)
-  end
-
-  def sanitize_html text
-    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
   end
 
   def too_short?
