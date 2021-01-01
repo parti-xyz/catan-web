@@ -147,10 +147,6 @@ export default class extends Controller {
   insertText(text) {
     if (!this.editorView || !this.editorState) { return }
 
-    // const textNode = document.createTextNode(text)
-    // const parser = DOMParser.fromSchema(this.editorSchema)
-    // const newNodes = parser.parse(textNode)
-
     const { tr } = this.editorState
     tr.insertText(text, 1)
     this.editorView.dispatch(tr)
