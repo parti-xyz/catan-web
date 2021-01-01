@@ -696,6 +696,10 @@ class Post < ApplicationRecord
     issue.frontable?
   end
 
+  def reset_has_decision_comments!
+    self.update_columns(has_decision_comments: comments.exists?(is_decision: true))
+  end
+
   private
 
   def reindex_for_search

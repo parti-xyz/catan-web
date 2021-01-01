@@ -54,9 +54,6 @@ class Wiki < ApplicationRecord
 
   after_save :reserve_capture
   after_commit :capture_async
-  # after_create ->(obj) {
-  #   build_history!('create') }
-  # after_update :build_history_after_update
 
   # fulltext serch
   after_save :reindex_for_search!

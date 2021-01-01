@@ -74,6 +74,7 @@ class Comment < ApplicationRecord
   after_create :touch_last_commented_at_of_posts
   after_create :touch_last_stroked_at_of_posts
   after_create :touch_last_stroked_at_of_issues
+  after_save :reset_has_decision_comments_of_post
 
   # attr_accessor :continue_editing
 
@@ -233,5 +234,9 @@ class Comment < ApplicationRecord
   def touch_last_stroked_at_of_issues
     self.issue.strok_by!(self.user)
     self.issue.deprecated_read_if_no_unread_posts!(self.user)
+  end
+
+  def reset_has_decision_comments_of_post
+    self.post.reset_has_decision_comments!
   end
 end

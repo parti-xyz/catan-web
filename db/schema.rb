@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_30_033258) do
+ActiveRecord::Schema.define(version: 2021_01_01_011210) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -721,6 +721,7 @@ ActiveRecord::Schema.define(version: 2020_12_30_033258) do
     t.bigint "last_title_edited_user_id"
     t.bigint "label_id"
     t.bigint "announcement_id"
+    t.boolean "has_decision_comments", default: false
     t.index ["announcement_id"], name: "index_posts_on_announcement_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["event_id"], name: "index_posts_on_event_id"

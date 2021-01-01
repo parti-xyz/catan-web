@@ -18,6 +18,8 @@
               %i.fa.fa-bullhorn
               필독 미확인
           - if current_issue.present?
+            - if post.has_decision_comments?
+              .icon.-important<> 토론 정리
             - if post.poll.present?
               .icon<> 투표
             - if post.survey.present?
