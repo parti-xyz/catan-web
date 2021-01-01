@@ -85,7 +85,7 @@
       = t('labels.new_post_file_source_button')
     - if can_be_decision
       - is_decision_dom_id = "uid-#{SecureRandom.uuid}"
-      .form-check.d-inline
+      .form-check.d-inline.text-nowrap
         = f.check_box :is_decision, class: 'form-check-input mt-2', id: is_decision_dom_id
         = f.label :is_decision, '이 댓글로 토론을 정리합니다', class: 'form-check-label user-select-none font-size font-size-sm hover:text-decoration-underline', for: is_decision_dom_id
 
