@@ -23,7 +23,7 @@
             .body
               .title
                 = link_to "##{comment_line_anchor_dom_id(comment)}", class: 'hover:text-primary', data: { controller: 'smooth-anchor', action: 'click->smooth-anchor#go' } do
-                  = comment.body.try(:truncate, 100)
+                  = excerpt(comment.body_striped_tags, length: 100)
               .footer
                 %span.nickname #{comment.user.nickname}
                 = smart_date_tag(comment.created_at)
@@ -42,7 +42,7 @@
           %li.updated-comment-line
             .body
               .title
-                = link_to url_for(wiki_history_id: wiki_history.id), class: 'hover:text-primary' do
+                = link_to front_post_url(current_post, wiki_history_id: wiki_history.id), class: 'hover:text-primary' do
                   #{static_date_f(wiki_history.created_at)}
               .footer
                 != wiki_history.activity { |user| user_subject_word(user) }

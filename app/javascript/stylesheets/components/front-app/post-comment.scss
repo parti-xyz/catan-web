@@ -20,17 +20,28 @@
     display: none;
   }
 
+  $margin-right-space: 0.25rem;
   // elements
   > .userimage {
     margin-top: 0.25rem;
-    margin-right: 0.25rem;
+    margin-right: $margin-right-space;
     flex: none;
     vertical-align: bottom;
   }
+
+  $userimage-width: 1.5rem;
   > .userimage > .userimagebg {
     border: 1px solid white;
     background-color: white;
-    @include mixin.background-image-round(1.5rem);
+    @include mixin.background-image-round($userimage-width);
+  }
+  > .decision {
+    $decision-width: 0.25rem;
+    width: $decision-width;
+    background: global-variables.$color-brand-primary;
+    margin-right: $userimage-width + $margin-right-space - $decision-width;
+    text-align: center;
+    font-size: 14px;
   }
   // components
   > .post-comment-main {

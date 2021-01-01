@@ -236,18 +236,13 @@ class Post < ApplicationRecord
   before_save :process_blind
 
   def specific_desc_striped_tags(length = 0)
-    striped_body = body.try(:strip)
-    striped_body = '' if striped_body.nil?
-    sanitized_body = sanitize_html striped_body
-    sanitized_body = nil if sanitized_body.blank?
-
     desc = self.base_title.presence ||
       self.poll.try(:title).presence ||
-      sanitized_body.presence ||
+      striped_tags(body).presence ||
       self.file_sources.first.try(:name).presence ||
       self.link_source.try(:title).presence
 
-    desc = "(요약 없음)" if desc.blank?
+    desc = '(요약 없음)' if desc.blank?
 
     return desc if length <= 0
     return desc.try(:truncate, length)
@@ -433,17 +428,7 @@ class Post < ApplicationRecord
   end
 
   def meta_tag_title
-    body.present? ? "#{sanitize_html(body).truncate(15)} | #{issue.title} 채널" : "#{issue.title} 채널"
-  end
-
-  def meta_tag_description
-    if poll.present?
-      poll.title
-    else
-      strip_body = body.try(:strip)
-      strip_body = '' if strip_body.nil?
-      sanitize_html(strip_body)
-    end
+    "#{self.title} | #{issue.title} 채널"
   end
 
   def meta_tag_image
@@ -711,6 +696,10 @@ class Post < ApplicationRecord
     issue.frontable?
   end
 
+  def reset_has_decision_comments!
+    self.update_columns(has_decision_comments: comments.exists?(is_decision: true))
+  end
+
   private
 
   def reindex_for_search
@@ -730,10 +719,6 @@ class Post < ApplicationRecord
         self.tag_list.add(hashtag.gsub(/\A[[:space:]]+|[[:space:]]+\z/, ''))
       end
     end
-  end
-
-  def sanitize_html text
-    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
   end
 
   def references_check

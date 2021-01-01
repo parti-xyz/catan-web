@@ -8,6 +8,7 @@ import { addListNodes, liftListItem, sinkListItem, wrapInList } from "prosemirro
 import { keymap } from "prosemirror-keymap"
 import { ChangeSet, simplifyChanges } from 'prosemirror-changeset'
 import { v4 as uuidv4 } from 'uuid'
+import scrollIntoView from 'scroll-into-view'
 
 import { linkTooltipPlugin } from '../compoments/editor/link_tooltip_plugin'
 import { imageUploadPlugin } from '../compoments/editor/image_upload_plugin'
@@ -25,6 +26,7 @@ export default class extends Controller {
     if (!this.sourceTarget) { return }
 
     this.editorElement = document.createElement('div')
+    this.editorElement.classList.add('editor-view')
     this.sourceTarget.insertAdjacentElement("afterend", this.editorElement)
     this.sourceTarget.style.display = 'none'
 
@@ -48,9 +50,28 @@ export default class extends Controller {
     let doc
     let plugins = exampleSetup({
       schema: currentSchema,
+      menuBar: (this.data.get('readOnly') == 'true' ? false : true),
       menuContent: (this.data.get('readOnly') != 'true' ? buildMenuItems(currentSchema, uploadUrl, ruleFileSize) : []),
       mapKeys,
-    }).concat(linkTooltipPlugin, imageUploadPlugin, dirtyPlugin(this.element), keymap(mapKeys))
+    }).concat(
+      linkTooltipPlugin,
+      imageUploadPlugin,
+      dirtyPlugin(this.element),
+      keymap(mapKeys)
+    )
+
+    let editorFormClasses = this.sourceTarget.dataset.editorFormClasses
+    if (editorFormClasses) {
+      plugins.push(
+        new Plugin({
+          props: {
+            attributes: {
+              "class": editorFormClasses,
+            }
+          }
+        })
+      )
+    }
 
     if (this.hasConflictSourceTarget) {
       let diff = this.computeConflictDocument(currentSchema, this.sourceTarget, this.conflictSourceTarget)
@@ -121,6 +142,27 @@ export default class extends Controller {
     }
 
     return div.innerHTML
+  }
+
+  insertText(text) {
+    if (!this.editorView || !this.editorState) { return }
+
+    const { tr } = this.editorState
+    tr.insertText(text, 1)
+    this.editorView.dispatch(tr)
+  }
+
+  focus() {
+    if (!this.editorView) { return }
+
+    this.editorView.focus()
+
+    scrollIntoView(this.editorView.dom, {
+      cancellable: true,
+      align: {
+        topOffset: 100,
+      }
+    })
   }
 
   hasDangerConflict() {

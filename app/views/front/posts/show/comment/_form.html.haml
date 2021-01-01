@@ -1,9 +1,38 @@
-- form_model = local_assigns[:current_comment].present? ? [:front, current_comment] : [:front, current_post, Comment.new]
-= form_with model: form_model, local: false, class: 'comment-form', data: { controller: 'comment-form dirty-form', action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update', target: 'dirty-page.form' } do |f|
-  - if local_assigns[:parent_comment].present?
-    = f.hidden_field :parent_id, value: parent_comment.id
+- is_edit_form = local_assigns[:current_comment].present?
+- form_model = is_edit_form ? [:front, current_comment] : [:front, current_post, Comment.new]
+- parent_comment = local_assigns[:parent_comment].presence || local_assigns[:current_comment]&.parent
+- need_html_editor = parent_comment.blank?
+- can_be_decision = parent_comment.blank? && current_post.wiki.blank?
+
+= form_with model: form_model,
+            local: false,
+            class: 'comment-form',
+            data: { controller: jj('comment-form', 'dirty-form', ('editor-form' if need_html_editor)),
+                    target: jj('dirty-page.form', (is_edit_form ? 'comment-form-edit.editorForm' : 'comment-form-new.editorForm')),
+                    action: 'ajax:before->comment-form#submit ajax:success->comment-form-sync#update',
+                    'editor-form-upload-url': editor_assets_path } do |f|
+  = f.hidden_field :parent_id, value: parent_comment&.id
+  = f.hidden_field :is_html, value: need_html_editor
   .form-group.mb-1.bodyfield
-    = f.text_area :body, class: "form-control textarea", placeholder: '댓글을 입력하세요', data: { controller: 'auto-resize', target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'focus->comment-form#focusBodyField blur->comment-form#blurBodyField auto-resize:updateView->auto-resize#updateView' }, rows: 1
+    - if need_html_editor
+      - need_fake_textarea = parent_comment.blank? && !is_edit_form
+      - if need_fake_textarea
+        .collapse.show.faketextarea{ data: { action: 'click->comment-form-new#open',
+                                            target: 'comment-form-new.fakeTextarea' } }
+          댓글을 입력하세요
+      .collapse{ class: (need_fake_textarea ? 'hide' : 'show'),
+                data: { target: 'comment-form-new.realTextarea' } }
+        .d-none{ data: { target: 'editor-form.source',
+                        'editor-form-classes': '-comment' } }
+          != f.object.is_html? ? f.object.body : simple_format(h(f.object.body))
+      = f.hidden_field :body,
+                        data: { target: 'comment-form.bodyField',
+                                'value-missing-message': '본문 내용이 비었어요.' }
+    - else
+      = f.text_area :body, class: "form-control textarea",
+                    placeholder: '댓글을 입력하세요',
+                    data: { controller: 'auto-resize',
+                            target: "comment-form.bodyField #{f.object.new_record? ? 'comment-form-new.bodyField' : 'comment-form-edit.bodyField'}", action: 'focus->comment-form#focusBodyField blur->comment-form#blurBodyField auto-resize:updateView->auto-resize#updateView' }, rows: 1
 
   .form-group.mb-1.filesourcesfield{ data: { target: 'comment-form.fileSourcesFieldGroup' }, class: ('-active' if f.object.file_sources.any?) }
     .header
@@ -47,10 +76,16 @@
       #{smart_date_tag(comment_current_wiki_history.created_at)} #{user_subject_word(comment_current_wiki_history.user)} 업데이트한 위키 이력의 댓글입니다.
   = f.hidden_field :wiki_history_id, value: local_assigns[:comment_current_wiki_history]&.id
 
-  .form-group
+  .form-group.mb-0
     = f.submit '게시', class: 'btn btn-light btn-sm', data: { disable_with: "게시 중...", target: 'comment-form.submitControl' }
     - if f.object.persisted?
       .btn.btn-sm.btn-light{ data: { action: 'click->comment-form-edit#close' } } 취소
     %button.btn.btn-xs.btn-link.btn-sm{ data: { action: 'click->comment-form#openFileSourcesFieldGroup', target: 'comment-form.fileSourcesOpenButton' } }
       %i.fa.fa-cloud-upload
       = t('labels.new_post_file_source_button')
+    - if can_be_decision
+      - is_decision_dom_id = "uid-#{SecureRandom.uuid}"
+      .form-check.d-inline.text-nowrap
+        = f.check_box :is_decision, class: 'form-check-input mt-2', id: is_decision_dom_id
+        = f.label :is_decision, '이 댓글로 토론을 정리합니다', class: 'form-check-label user-select-none font-size font-size-sm hover:text-decoration-underline', for: is_decision_dom_id
+

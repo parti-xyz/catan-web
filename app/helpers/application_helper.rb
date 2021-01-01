@@ -36,15 +36,17 @@ module ApplicationHelper
   end
 
   def excerpt(text, options = {})
+    return if text.blank?
+
     options[:length] = 130 unless options.has_key?(:length)
 
     result = text
     if options[:from_html]
-      result = strip_tags(result)
-      result = HTMLEntities.new.decode(result)
+      result = HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(result)
     end
     return result if result.blank?
-    return result.truncate(options[:length], options)
+
+    result.truncate(options[:length], options)
   end
 
   def date_f(date)
@@ -67,11 +69,14 @@ module ApplicationHelper
     end
   end
 
-  def comment_format(issue, text, html_options = {}, options = {})
-    options.merge!(wrapper_tag: 'span') if options[:wrapper_tag].blank?
-    parsed_text = simple_format(h(text), html_options.merge(class: 'comment-body-line bodyline'), options).to_str
-    # parsed_text = parse_hashtags(issue, parsed_text)
-    parsed_text = parse_mentions(issue.group, parsed_text)
+  def comment_format(comment, body = nil)
+    comment_body = body || comment.body
+    parsed_text = if comment.is_html
+      comment_body
+    else
+      simple_format(h(comment_body), { class: 'comment-body-line' }, { wrapper_tag: 'span' }).to_str
+    end
+    parsed_text = parse_mentions(comment.issue.group, parsed_text)
     Rinku.auto_link(parsed_text, :all,
       "class='auto_link' target='_blank'",
       nil).html_safe()
@@ -597,5 +602,9 @@ module ApplicationHelper
       }
     })
     raw engine.render
+  end
+
+  def jj(*args)
+    args.join(' ')
   end
 end

@@ -94,3 +94,15 @@ legend.legend-default {
   opacity: 1;
   @include mixin.animation('fade-out 1.5s linear .5s 1')
 }
+
+.user-select-none {
+  user-select: none;
+}
+
+.text-decoration-underline {
+  text-decoration: underline;
+}
+
+.hover\:text-decoration-underline:hover {
+  text-decoration: underline;
+}

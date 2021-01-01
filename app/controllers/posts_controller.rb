@@ -360,12 +360,12 @@ class PostsController < ApplicationController
     if @post.poll.present?
       prepare_meta_tags title: @post.issue.title,
         image: @post.meta_tag_image,
-        description: "\"#{@post.meta_tag_description}\" 어떻게 생각하시나요?",
+        description: "\"#{@post.poll.title}\" 어떻게 생각하시나요?",
         twitter_card_type: 'summary_large_image'
     else
       prepare_meta_tags title: @post.meta_tag_title,
         image: @post.meta_tag_image,
-        description: @post.meta_tag_description
+        description: @post.specific_desc_striped_tags(100)
     end
   end
 

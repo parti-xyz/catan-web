@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_15_025148) do
+ActiveRecord::Schema.define(version: 2021_01_01_011210) do
 
   create_table "active_issue_stats", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "issue_id", null: false
@@ -108,6 +108,30 @@ ActiveRecord::Schema.define(version: 2020_11_15_025148) do
     t.index ["group_slug"], name: "index_categories_on_group_slug"
   end
 
+  create_table "comment_authors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comment_authors_on_comment_id"
+    t.index ["user_id", "comment_id"], name: "index_comment_authors_on_user_id_and_comment_id", unique: true
+    t.index ["user_id"], name: "index_comment_authors_on_user_id"
+  end
+
+  create_table "comment_histories", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
+    t.bigint "comment_id", null: false
+    t.bigint "user_id", null: false
+    t.text "body", limit: 16777215
+    t.string "code", null: false
+    t.integer "diff_body_adds_count", default: 0
+    t.integer "diff_body_removes_count", default: 0
+    t.boolean "trivial_update_body", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comment_histories_on_comment_id"
+    t.index ["user_id"], name: "index_comment_histories_on_user_id"
+  end
+
   create_table "comment_readers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.integer "comment_id", null: false
     t.integer "user_id", null: false
@@ -131,6 +155,11 @@ ActiveRecord::Schema.define(version: 2020_11_15_025148) do
     t.datetime "almost_deleted_at"
     t.integer "comments_count", default: 0, null: false
     t.bigint "wiki_history_id"
+    t.boolean "is_html", default: false
+    t.boolean "is_decision", default: false
+    t.integer "last_comment_history_id"
+    t.integer "comment_histories_count", default: 0
+    t.integer "last_author_id", null: false
     t.index ["deleted_at"], name: "index_comments_on_deleted_at"
     t.index ["parent_id"], name: "index_comments_on_parent_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
@@ -236,15 +265,6 @@ ActiveRecord::Schema.define(version: 2020_11_15_025148) do
     t.index ["group_id"], name: "index_group_home_components_on_group_id"
   end
 
-  create_table "group_message_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "group_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_group_message_settings_on_group_id"
-    t.index ["user_id"], name: "index_group_message_settings_on_user_id"
-  end
-
   create_table "group_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "group_id", null: false
@@ -330,15 +350,6 @@ ActiveRecord::Schema.define(version: 2020_11_15_025148) do
     t.index ["joinable_id"], name: "index_invitations_on_joinable_id"
     t.index ["recipient_id"], name: "index_invitations_on_recipient_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
-  end
-
-  create_table "issue_message_settings", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "issue_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["issue_id"], name: "index_issue_message_settings_on_issue_id"
-    t.index ["user_id"], name: "index_issue_message_settings_on_user_id"
   end
 
   create_table "issue_observations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC", force: :cascade do |t|
@@ -710,6 +721,7 @@ ActiveRecord::Schema.define(version: 2020_11_15_025148) do
     t.bigint "last_title_edited_user_id"
     t.bigint "label_id"
     t.bigint "announcement_id"
+    t.boolean "has_decision_comments", default: false
     t.index ["announcement_id"], name: "index_posts_on_announcement_id"
     t.index ["deleted_at"], name: "index_posts_on_deleted_at"
     t.index ["event_id"], name: "index_posts_on_event_id"

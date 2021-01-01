@@ -490,6 +490,11 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :comments, only: [] do
+          shallow do
+            resources :comment_histories, only: [:index, :show]
+          end
+        end
       end
       resources :upvotes, controller: '/upvotes' do
         collection do

@@ -8,4 +8,15 @@ class ApplicationRecord < ActiveRecord::Base
       send(association_name).exists?
     end
   end
+
+  def striped_tags(text)
+    striped_text = text&.strip
+    return '' if striped_text.blank?
+
+    sanitize_html(striped_text)
+  end
+
+  def sanitize_html(text)
+    HTMLEntities.new.decode ::Catan::SpaceSanitizer.new.do(text)
+  end
 end

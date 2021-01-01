@@ -1,0 +1,14 @@
+- @comment_histories.each do |comment_history|
+  .dropdown-item.d-inline-flex.cursor-pointer{ data: { controller: 'remote-modal-link',
+                                                       action: 'click->remote-modal-link#open',
+                                                       'remote-modal-link-url': front_comment_history_path(comment_history),
+                                                       target: 'remote-dropdown.item',
+                                                       'message--dropdown-keep-open': 'true' } }
+
+    - user = comment_history.user
+    %span.user-byline
+      .image{ style: "background-image: url(#{user.image.sm.url});",
+              title: user.nickname }
+      .nickname= user.nickname
+    %span.ml-1 #{comment_history.touched_body? ? '편집' : '작성'}
+    %span.ml-3 #{smart_date_tag(comment_history.created_at)}
